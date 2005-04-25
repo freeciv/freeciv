@@ -23,7 +23,6 @@ flag_offset_x = 0
 flag_offset_y = 2
 
 ; offset the citybar text by this amount (from the city tile origin)
-is_full_citybar = 0
 citybar_offset_y = 27
 
 ; Do not blend hills and mountains together.
@@ -54,6 +53,7 @@ minimap_intro_file = "misc/radar"
 files = 
   "misc/colors.spec",
   "misc/overlays.spec",
+  "misc/citybar.spec",
   "trident/tiles.spec",
   "misc/small.spec",
   "trident/units.spec",

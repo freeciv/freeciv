@@ -353,7 +353,6 @@ struct tileset {
   int flag_offset_x, flag_offset_y;
   int unit_offset_x, unit_offset_y;
 
-  bool is_full_citybar;
   int citybar_offset_y;
 
 #define NUM_CORNER_DIRS 4
@@ -511,16 +510,6 @@ int tileset_full_tile_height(const struct tileset *t)
 int tileset_small_sprite_width(const struct tileset *t)
 {
   return t->small_sprite_width;
-}
-
-/****************************************************************************
-  Return TRUE iff a "full" citybar is to be used.  The full citybar draws
-  the flag and size and occupied sprites as part of the citybar instead of
-  behind the city.
-****************************************************************************/
-bool tileset_is_full_citybar(const struct tileset *t)
-{
-  return t->is_full_citybar;
 }
 
 /****************************************************************************
@@ -1316,8 +1305,6 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   t->unit_offset_y = secfile_lookup_int_default(file, 0,
 						"tilespec.unit_offset_y");
 
-  t->is_full_citybar
-    = secfile_lookup_bool_default(file, FALSE, "tilespec.is_full_citybar");
   t->citybar_offset_y
     = secfile_lookup_int_default(file, t->normal_tile_height,
 				 "tilespec.citybar_offset_y");
@@ -1979,26 +1966,24 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     }
   }
 
-  if (t->is_full_citybar) {
-    SET_SPRITE(citybar.shields, "citybar.shields");
-    SET_SPRITE(citybar.food, "citybar.food");
-    SET_SPRITE(citybar.occupied, "citybar.occupied");
-    SET_SPRITE(citybar.background, "citybar.background");
-    sprite_vector_init(&t->sprites.citybar.occupancy);
-    for (i = 0; ; i++) {
-      struct sprite *sprite;
+  SET_SPRITE(citybar.shields, "citybar.shields");
+  SET_SPRITE(citybar.food, "citybar.food");
+  SET_SPRITE(citybar.occupied, "citybar.occupied");
+  SET_SPRITE(citybar.background, "citybar.background");
+  sprite_vector_init(&t->sprites.citybar.occupancy);
+  for (i = 0; ; i++) {
+    struct sprite *sprite;
 
-      my_snprintf(buffer, sizeof(buffer), "citybar.occupancy_%d", i);
-      sprite = load_sprite(t, buffer);
-      if (!sprite) {
-	break;
-      }
-      sprite_vector_append(&t->sprites.citybar.occupancy, &sprite);
+    my_snprintf(buffer, sizeof(buffer), "citybar.occupancy_%d", i);
+    sprite = load_sprite(t, buffer);
+    if (!sprite) {
+      break;
     }
-    if (t->sprites.citybar.occupancy.size < 2) {
-      freelog(LOG_FATAL, "Missing necessary citybar.occupancy_N sprites.");
-      exit(EXIT_FAILURE);
-    }
+    sprite_vector_append(&t->sprites.citybar.occupancy, &sprite);
+  }
+  if (t->sprites.citybar.occupancy.size < 2) {
+    freelog(LOG_FATAL, "Missing necessary citybar.occupancy_N sprites.");
+    exit(EXIT_FAILURE);
   }
 
   SET_SPRITE(city.disorder, "city.disorder");
@@ -3869,13 +3854,13 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_CITY1:
     /* City.  Some city sprites are drawn later. */
     if (pcity && draw_cities) {
-      if (!t->is_full_citybar && !solid_color_behind_units) {
+      if (!draw_full_citybar && !solid_color_behind_units) {
 	ADD_SPRITE(get_city_flag_sprite(t, pcity), TRUE,
 		   FULL_TILE_X_OFFSET + t->flag_offset_x,
 		   FULL_TILE_Y_OFFSET + t->flag_offset_y);
       }
       ADD_SPRITE_FULL(get_city_sprite(t, pcity));
-      if (!t->is_full_citybar && pcity->client.occupied) {
+      if (!draw_full_citybar && pcity->client.occupied) {
 	ADD_SPRITE_FULL(get_city_occupied_sprite(t, pcity));
       }
       if (!t->is_isometric && city_got_citywalls(pcity)) {
@@ -3909,7 +3894,7 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_CITY2:
     /* City size.  Drawing this under fog makes it hard to read. */
-    if (pcity && draw_cities && !t->is_full_citybar) {
+    if (pcity && draw_cities && !draw_full_citybar) {
       if (pcity->size >= 10) {
 	ADD_SPRITE(t->sprites.city.size_tens[pcity->size / 10],
 		   FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
@@ -4255,9 +4240,7 @@ void tileset_free_tiles(struct tileset *t)
 
   sprite_vector_free(&t->sprites.explode.unit);
   sprite_vector_free(&t->sprites.nation_flag);
-  if (t->is_full_citybar) {
-    sprite_vector_free(&t->sprites.citybar.occupancy);
-  }
+  sprite_vector_free(&t->sprites.citybar.occupancy);
 }
 
 /**************************************************************************
@@ -4428,7 +4411,7 @@ struct sprite *get_nuke_explode_sprite(const struct tileset *t)
 **************************************************************************/
 const struct citybar_sprites *get_citybar_sprites(const struct tileset *t)
 {
-  if (t->is_full_citybar) {
+  if (draw_full_citybar) {
     return &t->sprites.citybar;
   } else {
     return NULL;

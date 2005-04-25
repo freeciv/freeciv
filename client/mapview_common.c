@@ -1488,7 +1488,7 @@ static void show_city_desc(struct canvas *pcanvas,
 			   int canvas_x, int canvas_y,
 			   struct city *pcity, int *width, int *height)
 {
-  if (tileset_is_full_citybar(tileset)) {
+  if (draw_full_citybar) {
     show_full_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);
   } else {
     show_small_citybar(pcanvas, canvas_x, canvas_y, pcity, width, height);

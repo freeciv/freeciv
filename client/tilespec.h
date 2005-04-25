@@ -232,7 +232,6 @@ int tileset_full_tile_width(const struct tileset *t);
 int tileset_full_tile_height(const struct tileset *t);
 int tileset_small_sprite_width(const struct tileset *t);
 int tileset_small_sprite_height(const struct tileset *t);
-bool tileset_is_full_citybar(const struct tileset *t);
 int tileset_citybar_offset_y(const struct tileset *t);
 const char *tileset_main_intro_filename(const struct tileset *t);
 const char *tileset_mini_intro_filename(const struct tileset *t);

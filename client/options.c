@@ -160,6 +160,11 @@ static client_option common_options[] = {
 		  N_("If this option is disabled them combat animation "
 		     "between units on the mapview will be turned off."),
 		  COC_GRAPHICS),
+  GEN_BOOL_OPTION(draw_full_citybar, N_("Draw a larger citybar"),
+		  N_("If this option is set then instead of just the city "
+		     "name and attributes, a large amount of data will be "
+		     "drawn beneach each city in the 'citybar'."),
+		  COC_GRAPHICS),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
 		  N_("If this option is disabled, then you will not have "
 		     "to press the turn done button manually when watching "
@@ -228,6 +233,7 @@ bool draw_units = TRUE;
 bool draw_focus_unit = FALSE;
 bool draw_fog_of_war = TRUE;
 bool draw_borders = TRUE;
+bool draw_full_citybar = TRUE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }

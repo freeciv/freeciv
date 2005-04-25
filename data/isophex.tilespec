@@ -34,7 +34,6 @@ unit_offset_x = 21
 unit_offset_y = 13
 
 ; offset the citybar text by this amount (from the city tile origin)
-is_full_citybar = 0
 citybar_offset_y = 20
 
 ; Hex data.
@@ -63,6 +62,7 @@ minimap_intro_file = "misc/radar"
 files = 
   "misc/colors.spec",
   "misc/overlays.spec",
+  "misc/citybar.spec",
   "isophex/terrain1.spec",
   "isophex/terrain2.spec",
   "isophex/darkness.spec",
