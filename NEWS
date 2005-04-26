@@ -2,13 +2,21 @@
 Welcome to Freeciv 2.0
 ======================
 
-This is release 2.0.
+This is release 2.0.1.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+
+WHAT'S CHANGED SINCE 2.0.0
+ - Fix a bug causing easy and novice AIs to be much harder than they were
+   supposed to be.
+ - New behavior of the /start command in multi-player mode.
+ - Minor translation updates.
+ - Other minor bugfixes.
 
 WHAT'S CHANGED SINCE 1.14.2
  - Research cost has doubled, effects of science buildings doubled. SETI
