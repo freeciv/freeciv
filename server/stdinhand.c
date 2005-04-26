@@ -3671,7 +3671,6 @@ static bool start_command(struct connection *caller, char *name, bool check)
       return TRUE;
     } else {
       int started = 0, notstarted = 0;
-      const int percent_required = 100;
 
       /* Note this is called even if the player has pressed /start once
        * before.  This is a good thing given that no other code supports
@@ -3690,12 +3689,13 @@ static bool start_command(struct connection *caller, char *name, bool check)
 	  }
 	}
       } players_iterate_end;
-      if (started * 100 < (started + notstarted) * percent_required) {
+      if (notstarted > 0) {
 	notify_player(NULL, _("Waiting to start game: %d out of %d players "
 			      "are ready to start."),
 		      started, started + notstarted);
 	return TRUE;
       }
+      notify_player(NULL, _("All players are ready; starting game."));
       start_game();
       return TRUE;
     }
