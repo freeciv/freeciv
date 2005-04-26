@@ -521,6 +521,7 @@ static void begin_phase(bool is_new_phase)
   phase_players_iterate(pplayer) {
     pplayer->phase_done = FALSE;
   } phase_players_iterate_end;
+  send_player_info(NULL, NULL);
 
   send_start_phase_to_clients();
 
