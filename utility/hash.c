@@ -61,20 +61,13 @@
      the key is available to be freed (or can just be freed as part of
      deleting the "object").  (This is done in registry hsec, but the
      allocation is still via sbuffer.)
+   - Specify key free function pointers upon hash table creation which
+     handle the freeing.
    - Keep another hash from object pointers to key pointers?!  Seems a
      bit too perverse...
 
-   Possible implementation changes to avoid/reduce this problem:
-
-   - As noted above, could restrict key type (e.g., strings), or pass
-     in more function pointers and user data to allow duplicating and
-     freeing keys within hash table code.
-   - Have some mechanism to allow external access to the key pointers
-     in the hash table, especially when deleting/replacing elements
-     -- and when freeing the hash table?
-
-   Actually, there are some potential problems with memory management
-   of the user-data pointers too:
+   There are some potential problems with memory management of the
+   user-data pointers too:
    
    - If may have multiple keys pointing to the same data, cannot just
      free the data when deleted/replaced from hash.  (Eg, tilespec;
@@ -86,6 +79,7 @@
 
    - Don't have hash table as only access to user-data.
    - Allocate user-data using sbuffer.
+   - Specify user-data free function pointers upon hash table creation.
 
    
 ***************************************************************************/
@@ -121,6 +115,8 @@ struct hash_table {
   struct hash_bucket *buckets;
   hash_val_fn_t fval;
   hash_cmp_fn_t fcmp;
+  hash_free_fn_t free_key_func;
+  hash_free_fn_t free_data_func;
   unsigned int num_buckets;
   unsigned int num_entries;	/* does not included deleted entries */
   unsigned int num_deleted;
@@ -149,6 +145,8 @@ static void zero_htable(struct hash_table *h)
   h->buckets = NULL;
   h->fval = NULL;
   h->fcmp = NULL;
+  h->free_key_func = NULL;
+  h->free_data_func = NULL;
   h->num_buckets = h->num_entries = h->num_deleted = 0;
   h->frozen = FALSE;
 }
@@ -183,7 +181,7 @@ int hash_fcmp_int(const void *vkey1, const void *vkey2)
 unsigned int hash_fval_string(const void *vkey, unsigned int num_buckets)
 {
   const char *key = (const char*)vkey;
-  unsigned long result=0;
+  unsigned long result = 0;
 
   for (; *key != '\0'; key++) {
     result *= 5; 
@@ -256,8 +254,8 @@ static const unsigned long ht_sizes[] =
 **************************************************************************/
 static unsigned int calc_appropriate_nbuckets(unsigned int num_entries)
 {
-  const unsigned long *pframe=&ht_sizes[0], *pmid;
-  int fsize=NSIZES-1, lpart;
+  const unsigned long *pframe = &ht_sizes[0], *pmid;
+  int fsize = NSIZES - 1, lpart;
 
   num_entries <<= 1; /* breathing room */
 
@@ -275,10 +273,15 @@ static unsigned int calc_appropriate_nbuckets(unsigned int num_entries)
 }
 
 /**************************************************************************
-  Internal constructor, specifying exact number of buckets:
+  Internal constructor, specifying exact number of buckets.
+  Allows to specify functions to free the memory allocated for the key and
+  user-data that get called when removing the bucket from the hash table or
+  changing key/user-data values.
 **************************************************************************/
 static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
 					    hash_cmp_fn_t fcmp,
+					    hash_free_fn_t free_key_func,
+					    hash_free_fn_t free_data_func,
 					    unsigned int nbuckets)
 {
   struct hash_table *h;
@@ -293,14 +296,32 @@ static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
   h->num_entries = 0;
   h->fval = fval;
   h->fcmp = fcmp;
+  h->free_key_func = free_key_func;
+  h->free_data_func = free_data_func;
 
   h->buckets = (struct hash_bucket *)
       	       fc_malloc(h->num_buckets*sizeof(struct hash_bucket));
 
-  for(i=0; i<h->num_buckets; i++) {
+  for(i = 0; i < h->num_buckets; i++) {
     zero_hbucket(&h->buckets[i]);
   }
   return h;
+}
+
+/**************************************************************************
+  Constructor specifying number of entries.
+  Allows to specify functions to free the memory allocated for the key and
+  user-data that get called when removing the bucket from the hash table or
+  changing key/user-data values.
+**************************************************************************/
+struct hash_table *hash_new_nentries_full(hash_val_fn_t fval,
+					  hash_cmp_fn_t fcmp,
+					  hash_free_fn_t free_key_func,
+					  hash_free_fn_t free_data_func,
+					  unsigned int nentries)
+{
+  return hash_new_nbuckets(fval, fcmp, free_key_func, free_data_func,
+			   calc_appropriate_nbuckets(nentries));
 }
 
 /**************************************************************************
@@ -309,7 +330,21 @@ static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
 struct hash_table *hash_new_nentries(hash_val_fn_t fval, hash_cmp_fn_t fcmp,
 				     unsigned int nentries)
 {
-  return hash_new_nbuckets(fval, fcmp, calc_appropriate_nbuckets(nentries));
+  return hash_new_nentries_full(fval, fcmp, NULL, NULL, nentries);
+}
+
+/**************************************************************************
+  Constructor with unspecified number of entries.
+  Allows to specify functions to free the memory allocated for the key and
+  user-data that get called when removing the bucket from the hash table or
+  changing key/user-data values.
+**************************************************************************/
+struct hash_table *hash_new_full(hash_val_fn_t fval,
+			         hash_cmp_fn_t fcmp,
+			         hash_free_fn_t free_key_func,
+			         hash_free_fn_t free_data_func)
+{
+  return hash_new_nentries_full(fval, fcmp, NULL, NULL, 0);
 }
 
 /**************************************************************************
@@ -317,7 +352,7 @@ struct hash_table *hash_new_nentries(hash_val_fn_t fval, hash_cmp_fn_t fcmp,
 **************************************************************************/
 struct hash_table *hash_new(hash_val_fn_t fval, hash_cmp_fn_t fcmp)
 {
-  return hash_new_nentries(fval, fcmp, 0);
+  return hash_new_full(fval, fcmp, NULL, NULL);
 }
 
 /**************************************************************************
@@ -328,7 +363,7 @@ static void hash_free_contents(struct hash_table *h)
 {
   unsigned i;
 
-  for(i=0; i<h->num_buckets; i++) {
+  for(i = 0; i < h->num_buckets; i++) {
     zero_hbucket(&h->buckets[i]);
   }
   free(h->buckets);
@@ -341,6 +376,18 @@ static void hash_free_contents(struct hash_table *h)
 **************************************************************************/
 void hash_free(struct hash_table *h)
 {
+  unsigned i;
+
+  for(i = 0; i < h->num_buckets; i++) {
+    struct hash_bucket *bucket = &h->buckets[i];
+
+    if (h->free_key_func) {
+      h->free_key_func((void*)bucket->key);
+    }
+    if (h->free_data_func) {
+      h->free_data_func((void*)bucket->data);
+    }
+  }
   hash_free_contents(h);
   free(h);
 }
@@ -356,7 +403,9 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
 
   assert(new_nbuckets >= h->num_entries);
 
-  h_new = hash_new_nbuckets(h->fval, h->fcmp, new_nbuckets);
+  h_new = hash_new_nbuckets(h->fval, h->fcmp,
+			    h->free_key_func, h->free_data_func,
+			    new_nbuckets);
   h_new->frozen = TRUE;
   
   for(i=0; i<h->num_buckets; i++) {
@@ -441,8 +490,8 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
     case BUCKET_UNUSED:
       return deleted ? deleted : bucket;
     case BUCKET_USED:
-      if (bucket->hash_val==hash_val
-	  && h->fcmp(bucket->key, key)==0) { /* match */
+      if (bucket->hash_val == hash_val
+	  && h->fcmp(bucket->key, key) == 0) { /* match */
 	return bucket;
       }
       break;
@@ -455,10 +504,10 @@ static struct hash_bucket *internal_lookup(const struct hash_table *h,
       die("Bad value %d in switch(bucket->used)", (int) bucket->used);
     }
     i++;
-    if (i==h->num_buckets) {
-      i=0;
+    if (i == h->num_buckets) {
+      i = 0;
     }
-  } while (i!=hash_val);	/* catch loop all the way round  */
+  } while (i != hash_val);	/* catch loop all the way round  */
 
   if (deleted) {
     return deleted;
@@ -486,8 +535,16 @@ bool hash_insert(struct hash_table *h, const void *key, const void *data)
     assert(h->num_deleted>0);
     h->num_deleted--;
   }
+
+  if (h->free_key_func) {
+    h->free_key_func((void*)bucket->key);
+  }
   bucket->key = key;
+  if (h->free_data_func) {
+    h->free_data_func((void*)bucket->data);
+  }
   bucket->data = data;
+
   bucket->used = BUCKET_USED;
   bucket->hash_val = hash_val;
   h->num_entries++;
@@ -519,8 +576,16 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
     h->num_entries++;
     bucket->used = BUCKET_USED;
   }
+
+  if (h->free_key_func) {
+    h->free_key_func((void*)bucket->key);
+  }
   bucket->key = key;
+  if (h->free_data_func) {
+    h->free_data_func((void*)bucket->data);
+  }
   bucket->data = data;
+
   bucket->hash_val = hash_val;
   return (void*)ret;
 }
@@ -537,10 +602,16 @@ void *hash_delete_entry(struct hash_table *h, const void *key)
   bucket = internal_lookup(h, key, HASH_VAL(h,key));
   if (bucket->used == BUCKET_USED) {
     const void *ret = bucket->data;
+    if (h->free_key_func) {
+      h->free_key_func((void*)bucket->key);
+    }
+    if (h->free_data_func) {
+      h->free_data_func((void*)bucket->data);
+    }
     zero_hbucket(bucket);
     bucket->used = BUCKET_DELETED;
     h->num_deleted++;
-    assert(h->num_entries>0);
+    assert(h->num_entries > 0);
     h->num_entries--;
     return (void*) ret;
   } else {
@@ -567,14 +638,47 @@ bool hash_key_exists(const struct hash_table *h, const void *key)
 }
 
 /**************************************************************************
-  Lookup: return user-data, or NULL.
+  Lookup: looks up a key in the hash table returning the original key, and
+  the associated user-data, and a boolean which is TRUE if the key was
+  found.
+  (This is useful if you need to free the memory allocated for the
+  original key, for example before calling hash_delete_entry.)
+**************************************************************************/
+bool hash_lookup(const struct hash_table *h, const void *key,
+                 const void **pkey, const void **pdata)
+{
+  struct hash_bucket *bucket = internal_lookup(h, key, HASH_VAL(h,key));
+
+  if (bucket->used == BUCKET_USED) {
+    if (pkey) {
+      *pkey = bucket->key;
+    }
+    if (pdata) {
+      *pdata = bucket->data;
+    }
+    return TRUE;
+  } else {
+    if (pkey) {
+      *pkey = NULL;
+    }
+    if (pdata) {
+      *pdata = NULL;
+    }
+    return FALSE;
+  }
+}
+
+/**************************************************************************
+  Lookup data: return user-data, or NULL.
   (Note that in other respects NULL is treated as a valid value, this is
   merely intended as a convenience when caller never uses NULL as value.)
 **************************************************************************/
 void *hash_lookup_data(const struct hash_table *h, const void *key)
 {
-  struct hash_bucket *bucket = internal_lookup(h, key, HASH_VAL(h,key));
-  return ((bucket->used == BUCKET_USED) ? (void*)bucket->data : NULL);
+  const void *data;
+
+  hash_lookup(h, key, NULL, &data);
+  return (void*)data;
 }
 
 /**************************************************************************

@@ -25,6 +25,7 @@ struct hash_table;		/* opaque */
 /* Function typedefs: */
 typedef unsigned int (*hash_val_fn_t)(const void *, unsigned int);
 typedef int (*hash_cmp_fn_t)(const void *, const void *);
+typedef void (*hash_free_fn_t)(void *);
 
 /* Supplied functions (matching above typedefs) appropriate for
    keys being normal nul-terminated strings: */
@@ -42,8 +43,17 @@ int hash_fcmp_keyval(const void *vkey1, const void *vkey2);
 
 /* General functions: */
 struct hash_table *hash_new(hash_val_fn_t fval, hash_cmp_fn_t fcmp);
+struct hash_table *hash_new_full(hash_val_fn_t fval,
+			         hash_cmp_fn_t fcmp,
+			         hash_free_fn_t free_key_func,
+			         hash_free_fn_t free_data_func);
 struct hash_table *hash_new_nentries(hash_val_fn_t fval, hash_cmp_fn_t fcmp,
 				     unsigned int nentries);
+struct hash_table *hash_new_nentries_full(hash_val_fn_t fval,
+					  hash_cmp_fn_t fcmp,
+					  hash_free_fn_t free_key_func,
+					  hash_free_fn_t free_data_func,
+					  unsigned int nentries);
 
 void hash_free(struct hash_table *h);
 
@@ -51,6 +61,8 @@ bool hash_insert(struct hash_table *h, const void *key, const void *data);
 void *hash_replace(struct hash_table *h, const void *key, const void *data);
 
 bool hash_key_exists(const struct hash_table *h, const void *key);
+bool hash_lookup(const struct hash_table *h, const void *key,
+                 const void **pkey, const void **pdata);
 void *hash_lookup_data(const struct hash_table *h, const void *key);
 
 void *hash_delete_entry(struct hash_table *h, const void *key);
