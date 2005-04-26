@@ -3630,6 +3630,9 @@ static bool start_command(struct connection *caller, char *name, bool check)
     } else if (!caller) {
       start_game();
       return TRUE;
+    } else if (!caller->player || !caller->player->is_connected) {
+      /* A detached or observer player can't do /start. */
+      return TRUE;
     } else {
       int started = 0, notstarted = 0;
       const int percent_required = 100;
