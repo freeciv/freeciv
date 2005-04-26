@@ -1511,7 +1511,10 @@ bool server_handle_packet(enum packet_type type, void *packet,
                 b=", "+b
             if p.handle_via_packet:
                 f.write('struct %s;\n'%p.name)
-                f.write('void handle_%s(struct player *pplayer, struct %s *packet);\n'%(a,p.name))
+                if p.handle_per_conn:
+                    f.write('void handle_%s(struct connection *pc, struct %s *packet);\n'%(a,p.name))
+                else:
+                    f.write('void handle_%s(struct player *pplayer, struct %s *packet);\n'%(a,p.name))
             else:
                 if p.handle_per_conn:
                     f.write('void handle_%s(struct connection *pc%s);\n'%(a,b))
