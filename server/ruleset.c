@@ -1560,6 +1560,19 @@ static void load_ruleset_terrain(struct section_file *file)
 	}
       }
       free(slist);
+
+      for (j = 0; j < MG_LAST; j++) {
+	const char *mg_names[] = {
+	  "mountainous", "green", "foliage",
+	  "tropical", "temperate", "cold", "frozen",
+	  "wet", "dry", "ocean_depth"
+	};
+	assert(ARRAY_SIZE(mg_names) == MG_LAST);
+
+	t->property[j] = secfile_lookup_int_default(file, 0,
+						    "%s.property_%s",
+						    sec[i], mg_names[j]);
+      }
       
       t->helptext = lookup_helptext(file, sec[i]);
   } terrain_type_iterate_end;

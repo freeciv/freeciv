@@ -96,6 +96,24 @@ enum known_type {
 
 BV_DEFINE(bv_terrain_flags, TER_MAX);
 
+enum mapgen_terrain_property {
+  MG_MOUNTAINOUS,
+  MG_GREEN,
+  MG_FOLIAGE,
+
+  MG_TROPICAL,
+  MG_TEMPERATE,
+  MG_COLD,
+  MG_FROZEN,
+
+  MG_WET,
+  MG_DRY,
+
+  MG_OCEAN_DEPTH,
+
+  MG_LAST
+};
+
 /*
  * This struct gives data about each terrain type.  There are many ways
  * it could be extended.
@@ -146,6 +164,15 @@ struct tile_type {
   Terrain_type_id warmer_wetter_result, warmer_drier_result;
   Terrain_type_id cooler_wetter_result, cooler_drier_result;
 
+  /* These are special properties of the terrain used by mapgen.  Generally
+   * for each property, if a tile is deemed to have that property then
+   * the value gives the wieghted amount of tiles that will be assigned
+   * this terrain.
+   *
+   * For instance if mountains have 70 and hills have 30 of MG_MOUNTAINOUS
+   * then 70% of 'mountainous' tiles will be given mountains. */
+  int property[MG_LAST];
+
   bv_terrain_flags flags;
 
   char *helptext;
@@ -167,6 +194,9 @@ bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t);
 int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
 			    Terrain_type_id t);
+int count_terrain_property_near_tile(const struct tile *ptile,
+				     bool cardinal_only, bool percentage,
+				     enum mapgen_terrain_property prop);
 
 /* General special accessor functions. */
 enum tile_special_type get_special_by_name(const char * name);

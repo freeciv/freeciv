@@ -192,6 +192,28 @@ int count_terrain_near_tile(const struct tile *ptile,
   return count;
 }
 
+/****************************************************************************
+  Return the number of adjacent tiles that have the given terrain property.
+****************************************************************************/
+int count_terrain_property_near_tile(const struct tile *ptile,
+				     bool cardinal_only, bool percentage,
+				     enum mapgen_terrain_property prop)
+{
+  int count = 0, total = 0;
+
+  variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
+    if (get_tile_type(adjc_tile->terrain)->property[prop] > 0) {
+      count++;
+    }
+    total++;
+  } variable_adjc_iterate_end;
+
+  if (percentage) {
+    count = count * 100 / total;
+  }
+  return count;
+}
+
 /* Names of specials.
  * (These must correspond to enum tile_special_type.)
  */

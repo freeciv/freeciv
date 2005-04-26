@@ -180,6 +180,18 @@ fallout_trade_penalty=50
 ;                        units.  Most terrain improvements can only be built
 ;                        on land.  Oceanic terrain has no zones of control.
 ;                        The list goes on.
+; property_*           = specific property % values used by mapgen.  Most
+;                        terrains will have 0 for most values.
+;  - mountainous       = degree to which this terrain is mountainous
+;  - green             = how much life this terrain has
+;  - foliage           = how much thick undergrowth the terrain has 
+;  - tropical          = how "tropical" the terrain is (high temperature)
+;  - temperate         = how "temperate" the terrain is (med temperature)
+;  - cold              = how "cold" the terrain is (low temperature)
+;  - frozen            = how "frozen" the terrain is (very low temperature)
+;  - wet               = how "wet" the terrain is (moisture)
+;  - dry               = how "dry" the terrain is (moisture)
+;  - ocean_depth       = the depth of an ocean, as a percentage
 ; helptext	       = optional help text string; should escape all raw 
 ;		         newlines so that xgettext parsing works
 
@@ -225,6 +237,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 flags                = "NoBarbs", "CanHaveRiver", "UnsafeCoast", "Unsafe"
+property_frozen      = 100
 helptext	     = _("\
 Glaciers are found only in the most northerly or southerly\
  reaches of the world.  They are very cold, and hence difficult to\
@@ -273,6 +286,8 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 flags                = "CanHaveRiver"
+property_dry         = 100
+property_tropical    = 50
 helptext	     = _("\
 Deserts are regions of extreme dryness, making agriculture and\
  trade very difficult.\
@@ -320,6 +335,8 @@ warmer_drier_result  = "Desert"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 flags                = "Starter","CanHaveRiver"
+property_temperate   = 50
+property_foliage     = 50
 helptext	     = _("\
 Forests are densely wooded, making agriculture somewhat\
  problematic.\
@@ -367,6 +384,8 @@ warmer_drier_result  = "Desert"
 cooler_wetter_result = "Desert"
 cooler_drier_result  = "Tundra"
 flags                = "Starter", "CanHaveRiver"
+property_temperate   = 50
+property_green       = 50
 helptext	     = _("\
 Grasslands afford exceptional agricultural opportunities.\
 ")
@@ -413,6 +432,8 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 flags                = "Starter", "CanHaveRiver"
+property_green       = 50
+property_mountainous = 30
 helptext	     = _("\
 In addition to being amenable to agriculture, Hills are frequently\
  rich in resources.\
@@ -460,6 +481,9 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Desert"
 cooler_drier_result  = "Tundra"
 flags                = "CanHaveRiver"
+property_tropical    = 50
+property_foliage     = 50
+property_wet         = 50
 helptext	     = _("\
 Jungles are densely overgrown, making agriculture somewhat\
  problematic.\
@@ -507,6 +531,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 flags                = "CanHaveRiver"
+property_mountainous = 70
 helptext	     = _("\
 Mountains are regions of extreme altitude, making agriculture and\
  trade very difficult.\
@@ -554,6 +579,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 flags                = "Oceanic", "NoPollution", "UnsafeCoast", "NoCities"
+property_ocean_depth = 10
 helptext	     = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
@@ -603,6 +629,8 @@ warmer_drier_result  = "Desert"
 cooler_wetter_result = "Desert"
 cooler_drier_result  = "Tundra"
 flags                = "Starter", "CanHaveRiver"
+property_green       = 50
+property_temperate   = 50
 helptext	     = _("\
 Plains are very broad, sparse regions, which makes trade slightly\
  inconvenient.\
@@ -650,6 +678,8 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Desert"
 cooler_drier_result  = "Tundra"
 flags                = "CanHaveRiver"
+property_wet         = 100
+property_foliage     = 10
 helptext	     = _("\
 Swamps suffer from an over-abundance of water, making agriculture\
  somewhat problematic.\
@@ -697,6 +727,7 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Glacier"
 cooler_drier_result  = "Glacier"
 flags                = "Starter", "NoBarbs", "CanHaveRiver"
+property_cold        = 50
 helptext	     = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
  else.\
