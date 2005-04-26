@@ -14,6 +14,7 @@ civmanual_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
       ../server/userdb/libuserdb.a ../client/helpdata.o \
+      ../dependencies/lua/src/liblua.a ../dependencies/lua/src/lib/liblualib.a \
       ../server/generator/libgenerator.a
 civmanual_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \
@@ -22,6 +23,7 @@ civmanual_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../utility/libcivutility.a ../server/libcivserver.a \
       ../server/userdb/libuserdb.a \
       ../utility/libcivutility.a \
+      ../dependencies/lua/src/liblua.a ../dependencies/lua/src/lib/liblualib.a \
       ../common/aicore/libaicore.a \
       ../server/generator/libgenerator.a \
       $(SERVER_LIBS)

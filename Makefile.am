@@ -7,7 +7,7 @@ CSUBDIRS =
 endif
 
 if SERVER
-SSUBDIRS = ai server
+SSUBDIRS = ai dependencies server
 else
 SSUBDIRS =
 endif

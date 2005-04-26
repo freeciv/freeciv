@@ -664,6 +664,11 @@ AC_CONFIG_FILES([Makefile
 	  data/history/Makefile 
 	  utility/Makefile
 	  utility/ftwl/Makefile
+	  dependencies/Makefile
+	  dependencies/lua/Makefile
+	  dependencies/tolua/Makefile
+	  dependencies/lua/src/Makefile
+	  dependencies/lua/src/lib/Makefile
 	  common/Makefile 
 	  common/aicore/Makefile 
 	  ai/Makefile 
