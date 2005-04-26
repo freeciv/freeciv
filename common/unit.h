@@ -209,6 +209,17 @@ struct unit {
   } \
 }
 
+/* Iterates over the types of unit activity. */
+#define activity_type_iterate(act)					    \
+{									    \
+  Activity_type_id act;			         			    \
+									    \
+  for (act = 0; act < ACTIVITY_LAST; act++) {
+
+#define activity_type_iterate_end     					    \
+  }									    \
+}
+
 struct unit *unit_list_find(const struct unit_list *This, int id);
 
 void unit_list_sort_ord_map(struct unit_list *This);

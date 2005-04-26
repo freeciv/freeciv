@@ -861,9 +861,6 @@ static int evaluate_improvements(struct unit *punit,
   generate_warmap(mycity, punit);
 
   city_list_iterate(pplayer->cities, pcity) {
-#ifdef REALLY_DEBUG_THIS
-    freelog(LOG_DEBUG, "Evaluating improvements for %s...", pcity->name);
-#endif
     /* try to work near the city */
     city_map_checked_iterate(pcity->tile, i, j, ptile) {
       if (get_worker_city(pcity, i, j) == C_TILE_UNAVAILABLE
@@ -886,93 +883,52 @@ static int evaluate_improvements(struct unit *punit,
 
 	/* now, consider various activities... */
 
-	time = mv_turns
-	  + get_turns_for_activity_at(punit, ACTIVITY_IRRIGATE, ptile);
-	consider_settler_action(pplayer, ACTIVITY_IRRIGATE, -1,
-				pcity->ai.irrigate[i][j], oldv, in_use, time,
-				&best_newv, &best_oldv, best_act, best_tile,
-				ptile);
+	activity_type_iterate(act) {
 
-	if (unit_flag(punit, F_TRANSFORM)) {
-	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_TRANSFORM, ptile);
-	  consider_settler_action(pplayer, ACTIVITY_TRANSFORM, -1,
-				  pcity->ai.transform[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, best_tile,
-				  ptile);
-	}
+	  if(pcity->ai.act_value[act][i][j] >= 0 &&
+	     can_unit_do_activity_targeted_at(punit, act, 
+					      S_NO_SPECIAL, ptile)) {
+	    int extra = 0;
+	    int base_value = pcity->ai.act_value[act][i][j];
+	    time = mv_turns + get_turns_for_activity_at(punit, act, ptile);
+	    if(act == ACTIVITY_ROAD) {
+	      extra = road_bonus(ptile, S_ROAD) * 5;
+	      if (can_rr) {
+		/* if we can make railroads eventually, consider making
+		 * road here, and set extras and time to to consider
+		 * railroads in main consider_settler_action call */
+		consider_settler_action(pplayer, ACTIVITY_ROAD,
+					extra,
+					pcity->ai.act_value[ACTIVITY_ROAD][i][j], 
+					oldv, in_use, time,
+					&best_newv, &best_oldv, 
+					best_act, best_tile,
+					ptile);
 
-	time = mv_turns
-	  + get_turns_for_activity_at(punit, ACTIVITY_MINE, ptile);
-	consider_settler_action(pplayer, ACTIVITY_MINE, -1,
-				pcity->ai.mine[i][j], oldv, in_use, time,
-				&best_newv, &best_oldv, best_act, best_tile,
-				ptile);
+		base_value = pcity->ai.act_value[ACTIVITY_RAILROAD][i][j];
 
-	if (!tile_has_special(ptile, S_ROAD)) {
-	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_ROAD, ptile);
-	  consider_settler_action(pplayer, ACTIVITY_ROAD,
-				  road_bonus(ptile, S_ROAD) * 5,
-				  pcity->ai.road[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv, best_act, best_tile,
-				  ptile);
+		/* Count road time plus rail time. */
+		time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 
+						  ptile);
+	      }
+	    } else if (act == ACTIVITY_RAILROAD) {
+	      extra = road_bonus(ptile, S_RAILROAD) * 3;
+	    } else if (act == ACTIVITY_FALLOUT) {
+	      extra = pplayer->ai.frost;
+	    } else if (act == ACTIVITY_POLLUTION) {
+	      extra = pplayer->ai.warmth;
+	    }    
 
-	  if (can_rr) {
-	    /* Count road time plus rail time. */
-	    time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, ptile);
-	    consider_settler_action(pplayer, ACTIVITY_ROAD,
-				    road_bonus(ptile, S_RAILROAD) * 3,
-				    pcity->ai.railroad[i][j], oldv,
+	    consider_settler_action(pplayer, act,
+				    extra, 
+				    base_value, oldv, 
 				    in_use, time,
 				    &best_newv, &best_oldv,
 				    best_act, best_tile,
 				    ptile);
-	  }
-	} else if (!tile_has_special(ptile, S_RAILROAD)
-		   && can_rr) {
-	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, ptile);
-	  consider_settler_action(pplayer, ACTIVITY_RAILROAD,
-				  road_bonus(ptile, S_RAILROAD) * 3,
-				  pcity->ai.railroad[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv,
-				  best_act, best_tile,
-				  ptile);
-	} /* end S_ROAD else */
-
-	if (tile_has_special(ptile, S_POLLUTION)) {
-	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_POLLUTION, ptile);
-	  consider_settler_action(pplayer, ACTIVITY_POLLUTION,
-				  pplayer->ai.warmth,
-				  pcity->ai.detox[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv,
-				  best_act, best_tile,
-				  ptile);
-	}
-      
-	if (tile_has_special(ptile, S_FALLOUT)) {
-	  time = mv_turns
-	    + get_turns_for_activity_at(punit, ACTIVITY_FALLOUT, ptile);
-	  consider_settler_action(pplayer, ACTIVITY_FALLOUT,
-				  pplayer->ai.frost,
-				  pcity->ai.derad[i][j], oldv, in_use, time,
-				  &best_newv, &best_oldv,
-				  best_act, best_tile,
-				  ptile);
-	}
-
-#ifdef REALLY_DEBUG_THIS
-	freelog(LOG_DEBUG,
-		"(%d %d) I=%+-4d O=%+-4d M=%+-4d R=%+-4d RR=%+-4d P=%+-4d N=%+-4d",
-		i, j,
-		pcity->ai.irrigate[i][j], pcity->ai.transform[i][j],
-		pcity->ai.mine[i][j], pcity->ai.road[i][j],
-		pcity->ai.railroad[i][j], pcity->ai.detox[i][j],
-		pcity->ai.derad[i][j]);
-#endif
-      } /* end if we are a legal destination */
+	  } /* endif: can the worker perform this action */
+	} activity_type_iterate_end;
+      } /* endif: are we travelling to a legal destination? */
     } city_map_checked_iterate_end;
   } city_list_iterate_end;
 
@@ -1168,13 +1124,9 @@ void initialize_infrastructure_cache(struct player *pplayer)
     int best = best_worker_tile_value(pcity);
 
     city_map_iterate(city_x, city_y) {
-      pcity->ai.detox[city_x][city_y] = -1;
-      pcity->ai.derad[city_x][city_y] = -1;
-      pcity->ai.mine[city_x][city_y] = -1;
-      pcity->ai.irrigate[city_x][city_y] = -1;
-      pcity->ai.transform[city_x][city_y] = -1;
-      pcity->ai.road[city_x][city_y] = -1;
-      pcity->ai.railroad[city_x][city_y] = -1;
+      activity_type_iterate(act) {
+	pcity->ai.act_value[act][city_x][city_y] = -1;
+      } activity_type_iterate_end;
     } city_map_iterate_end;
 
     city_map_checked_iterate(pcity->tile,
@@ -1184,24 +1136,24 @@ void initialize_infrastructure_cache(struct player *pplayer)
       enum tile_special_type old_special = ptile->special;
 #endif
 
-      pcity->ai.detox[city_x][city_y]
+      pcity->ai.act_value[ACTIVITY_POLLUTION][city_x][city_y] 
 	= ai_calc_pollution(pcity, city_x, city_y, best, ptile);
-      pcity->ai.derad[city_x][city_y] =
-	ai_calc_fallout(pcity, pplayer, city_x, city_y, best, ptile);
-      pcity->ai.mine[city_x][city_y]
+      pcity->ai.act_value[ACTIVITY_FALLOUT][city_x][city_y]
+	= ai_calc_fallout(pcity, pplayer, city_x, city_y, best, ptile);
+      pcity->ai.act_value[ACTIVITY_MINE][city_x][city_y]
 	= ai_calc_mine(pcity, city_x, city_y, ptile);
-      pcity->ai.irrigate[city_x][city_y]
+      pcity->ai.act_value[ACTIVITY_IRRIGATE][city_x][city_y]
         = ai_calc_irrigate(pcity, pplayer, city_x, city_y, ptile);
-      pcity->ai.transform[city_x][city_y]
+      pcity->ai.act_value[ACTIVITY_TRANSFORM][city_x][city_y]
 	= ai_calc_transform(pcity, city_x, city_y, ptile);
 
       /* road_bonus() is handled dynamically later; it takes into
        * account settlers that have already been assigned to building
        * roads this turn. */
-      pcity->ai.road[city_x][city_y]
+      pcity->ai.act_value[ACTIVITY_ROAD][city_x][city_y]
 	= ai_calc_road(pcity, pplayer, city_x, city_y, ptile);
-      pcity->ai.railroad[city_x][city_y] =
-	ai_calc_railroad(pcity, pplayer, city_x, city_y, ptile);
+      pcity->ai.act_value[ACTIVITY_RAILROAD][city_x][city_y]
+	= ai_calc_railroad(pcity, pplayer, city_x, city_y, ptile);
 
       /* Make sure nothing was accidentally changed by these calculations. */
       assert(old_terrain == ptile->terrain && old_special == ptile->special);

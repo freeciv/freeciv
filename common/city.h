@@ -180,16 +180,9 @@ struct ai_city {
                                    avoiding paradox */
   bool celebrate;               /* try to celebrate in this city */
 
-  /* Used for caching when settlers evalueate which tile to improve,
-     and when we place workers. */
-  signed short int detox[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  signed short int derad[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  signed short int mine[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  signed short int irrigate[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  signed short int road[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  signed short int railroad[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  signed short int transform[CITY_MAP_SIZE][CITY_MAP_SIZE];
-  signed short int tile_value[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  /* Used for caching change in value from a worker performing
+   * a particular activity on a particular tile. */
+  int act_value[ACTIVITY_LAST][CITY_MAP_SIZE][CITY_MAP_SIZE];
 
   /* so we can contemplate with warmap fresh and decide later */
   /* These values are for builder (F_SETTLERS) and founder (F_CITIES) units.
