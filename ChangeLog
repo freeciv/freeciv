@@ -1,3 +1,97 @@
+Tue Apr 26 18:20:59 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/version.h, doc/BUGS, doc/README, version.in:
+
+	Bump version to 2.0.1.
+
+Tue Apr 26 18:06:09 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* NEWS:
+
+	Update NEWS for 2.0.1.
+
+Tue Apr 26 17:38:58 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* NEWS:
+
+	Remove incorrect NEWS entry.
+
+Tue Apr 26 17:37:30 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* doc/PEOPLE:
+
+	Remove accidental 'FIXME' artifacts.
+
+Tue Apr 26 17:16:51 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/stdinhand.c:
+
+	Backport: fix a crash when a detached player does /start.
+
+	Crash from pubserver in PR#12900.
+
+Tue Apr 26 06:36:37 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* po/ca.po, po/cs.po:
+
+	Update po files after 'make dist'.
+
+Mon Apr 25 18:38:51 2005  Genevieve Gracian <ggracian@free.fr>:
+
+	* po/fr.po:
+
+	updated new fuzzy
+
+Sat Apr 23 22:38:06 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* po/ca.po, po/cs.po, po/da.po, po/de.po:
+
+	Updated po files after 'make dist'.
+
+Sat Apr 23 17:21:21 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* ai/advdomestic.c:
+
+	Backport: fix a bug causing the AI difficulty level
+	expansion-want modifier to be ignored. This meant even on easy
+	and novice the AI would fully value expansion.
+
+	Patch by me in PR#12852.
+
+Sat Apr 23 17:18:08 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/mapview_common.c:
+
+	Backport: avoid a potential near-infinite loop in
+	decrease_unit_hp_smooth.
+
+	Patch by me in PR#12857.
+
+Wed Apr 20 16:55:04 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/stdinhand.c:
+
+	Backport: avoid a crash in the start command when run from the
+	command line.
+
+	See PR#12855.
+
+Tue Apr 19 22:05:57 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/player.c, common/player.h, server/commands.c,
+	server/stdinhand.c:
+
+	Add new behavior of the /start command. Now start is INFO level
+	but the game will not start until all players choose to start.
+
+	See PR#12838.
+
+Sat Apr 16 09:16:14 2005  Dusan Hokuv,cs Translator <dusan@mirc.cz>:
+
+	* po/cs.po:
+
+	small fixes
+
 Sat Apr 16 07:15:24 2005  Jason Short <jdorje@users.sourceforge.net>:
 
 	* common/version.h, version.in:
