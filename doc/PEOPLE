@@ -456,7 +456,6 @@ contributions to the Freeciv project.
 
   Graphics:
 
-     ***FIXME***
      Daniel L Speyer <dspeyer@wam.umd.edu> (isotrident tileset)
      Tim Smith <yoohootim@hotmail.com> (HiRes tileset)
      Thue Janus Kristensen <thue@diku.dk> (misc HiRes fixes)
@@ -628,7 +627,6 @@ contributions to the Freeciv project.
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (new metaserver)
 
   Bug reports since 1.14.2 release:
-     ***FIXME***
      Jacob Nevins <jacobn+freecivrt@chiark.greenend.org.uk>
      Carol Smith <lawndart@users.easynews.com>
      <abudhabi2@go2.pl>
