@@ -1588,7 +1588,11 @@ bool server_handle_packet(enum packet_type type, void *packet,
             b=",\n      "+b
 
         if p.handle_via_packet:
-            args="pplayer, packet"
+             if p.handle_per_conn:
+                 args="pconn, packet"
+             else:
+                 args="pplayer, packet"
+
         else:
             if p.handle_per_conn:
                 args="pconn"+b
