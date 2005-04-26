@@ -675,23 +675,10 @@ double real_timer_callback(void)
     return time_until_next_call;
   }
 
-  if (game.player_ptr->is_connected && game.player_ptr->is_alive &&
-      !game.player_ptr->phase_done) {
-    int is_waiting = 0, is_moving = 0;
+  {
+    double blink_time = blink_turn_done_button();
 
-    players_iterate(pplayer) {
-      if (pplayer->is_alive && pplayer->is_connected) {
-	if (pplayer->phase_done) {
-	  is_waiting++;
-	} else {
-	  is_moving++;
-	}
-      }
-    } players_iterate_end;
-
-    if (is_moving == 1 && is_waiting > 0) {
-      update_turn_done_button(FALSE);	/* stress the slow player! */
-    }
+    time_until_next_call = MIN(time_until_next_call, blink_time);
   }
 
   if (get_unit_in_focus()) {

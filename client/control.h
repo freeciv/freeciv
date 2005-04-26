@@ -113,6 +113,7 @@ void update_unit_focus(void);
 struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 double blink_active_unit(void);
+double blink_turn_done_button(void);
 void update_unit_pix_label(struct unit *punit);
 
 void process_caravan_arrival(struct unit *punit);

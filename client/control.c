@@ -440,6 +440,41 @@ double blink_active_unit(void)
   return blink_time;
 }
 
+/****************************************************************************
+  Blink the turn done button (if necessary).  Return the time until the next
+  blink (in seconds).
+****************************************************************************/
+double blink_turn_done_button(void)
+{
+  static struct timer *blink_timer = NULL;
+  const double blink_time = 0.5; /* half-second blink interval */
+
+  if (game.player_ptr->is_connected && game.player_ptr->is_alive
+      && !game.player_ptr->phase_done) {
+    if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
+      int is_waiting = 0, is_moving = 0;
+
+      players_iterate(pplayer) {
+	if (pplayer->is_alive && pplayer->is_connected) {
+	  if (pplayer->phase_done) {
+	    is_waiting++;
+	  } else {
+	    is_moving++;
+	  }
+	}
+      } players_iterate_end;
+
+      if (is_moving == 1 && is_waiting > 0) {
+	update_turn_done_button(FALSE);	/* stress the slow player! */
+      }
+      blink_timer = renew_timer_start(blink_timer, TIMER_USER, TIMER_ACTIVE);
+    }
+    return blink_time - read_timer_seconds(blink_timer);
+  }
+
+  return blink_time;
+}
+
 /**************************************************************************
   Update unit icons (and arrow) in the information display, for specified
   punit as the active unit and other units on the same square.  In practice
