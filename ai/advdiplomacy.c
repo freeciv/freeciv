@@ -362,9 +362,6 @@ static int ai_goldequiv_clause(struct player *pplayer,
          || pplayer_get_diplstate(aplayer, ai->diplomacy.alliance_leader)->type
             == DS_PEACE)
         && pclause->type == CLAUSE_CEASEFIRE) {
-        notify(aplayer, _("*%s (AI)* %s recommended that I give you a ceasefire."
-               " This is your lucky day."), pplayer->name,
-               ai->diplomacy.alliance_leader->name);
         if (ai->diplomacy.target == aplayer) {
           /* Damn, we lost our target, too! Stupid boss! */
           /* FIXME: We shouldn't do this here - the other player may not
