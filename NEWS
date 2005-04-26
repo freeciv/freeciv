@@ -24,8 +24,7 @@ WHAT'S CHANGED SINCE 1.14.2
    buildings have much higher incite cost.
  - Killing a defending diplomat now costs you 1 movement point.
  - Units now have multiple, configurable veteran levels.
- - Team mates now pool their research. You may opt out and research
-   individually by cancelling the 'Team' treaty.
+ - Team mates now pool their research.
  - Server has voting on commands and options. You need over 50% of votes.
  - When moving a unit from a transport on an ocean tile to a land tile,
    you lose all movement points.
