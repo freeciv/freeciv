@@ -1644,6 +1644,7 @@ void srv_main(void)
   game_init();
   stdinhand_init();
   diplhand_init();
+  load_rulesets(); /* May be reloaded later if the rulesetdir is changed. */
 
   /* init network */  
   init_connections(); 
@@ -1742,11 +1743,6 @@ static void srv_loop(void)
   }
 
   (void) send_server_info_to_metaserver(META_INFO);
-
-  if (game.is_new_game) {
-    load_rulesets();
-    /* otherwise rulesets were loaded when savegame was loaded */
-  }
 
   nations_available
     = fc_realloc(nations_available,
@@ -1959,6 +1955,5 @@ void server_game_free()
     player_map_free(pplayer);
   } players_iterate_end;
   game_free();
-  ruleset_cache_free();
   BV_CLR_ALL(srvarg.draw);
 }

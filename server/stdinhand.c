@@ -3273,6 +3273,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
     cmd_reply(CMD_RULESETDIR, caller, C_OK, 
               _("Ruleset directory set to \"%s\""), str);
     sz_strlcpy(game.rulesetdir, str);
+    load_rulesets();
   }
   return TRUE;
 }

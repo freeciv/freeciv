@@ -2059,6 +2059,7 @@ static void load_ruleset_nations(struct section_file *file)
     group = add_new_nation_group(name);
     group->match = secfile_lookup_int_default(file, 0, "%s.match", groups[i]);
   }
+  free(groups);
 
   sec = secfile_get_secnames_prefix(file, "nation", &nval);
 
@@ -2071,6 +2072,7 @@ static void load_ruleset_nations(struct section_file *file)
     for (j = 0; j < dim; j++) {
       pl->groups[j] = add_new_nation_group(groups[j]);
     }
+    free(groups);
 
     /* nation leaders */
 
@@ -3081,7 +3083,9 @@ static void send_ruleset_game(struct conn_list *dest)
 }
 
 /**************************************************************************
-...  
+  Loads the ruleset currently given in game.rulesetdir.
+
+  This may be called more than once and it will free any stale data.
 **************************************************************************/
 void load_rulesets(void)
 {
@@ -3089,6 +3093,8 @@ void load_rulesets(void)
   struct section_file cityfile, nationfile, effectfile;
 
   freelog(LOG_NORMAL, _("Loading rulesets"));
+
+  ruleset_data_free();
 
   openload_ruleset_file(&techfile, "techs");
   load_tech_names(&techfile);

@@ -351,6 +351,7 @@ void ruleset_data_free()
   improvements_free();
   city_styles_free();
   tile_types_free();
+  ruleset_cache_free();
 }
 
 /***************************************************************

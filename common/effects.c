@@ -375,7 +375,7 @@ void ruleset_cache_free(void)
   }
 
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.effects); i++) {
-    struct effect_list *plist = get_effects(i);
+    struct effect_list *plist = ruleset_cache.effects[i];
 
     if (plist) {
       effect_list_unlink_all(plist);
@@ -385,11 +385,7 @@ void ruleset_cache_free(void)
   }
 
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.buildings); i++) {
-    struct req_source source = {
-      .type = REQ_BUILDING,
-      .value = {.building = i}
-    };
-    struct effect_list *plist = get_req_source_effects(&source);
+    struct effect_list *plist = ruleset_cache.reqs.buildings[i];
 
     if (plist) {
       effect_list_unlink_all(plist);
