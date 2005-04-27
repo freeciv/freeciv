@@ -723,7 +723,7 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity==ACTIVITY_POLLUTION) {
     if (total_activity (punit->tile, ACTIVITY_POLLUTION)
-	>= map_clean_pollution_time(punit->tile)) {
+	>= tile_activity_time(ACTIVITY_POLLUTION, punit->tile)) {
       tile_clear_special(punit->tile, S_POLLUTION);
       unit_activity_done = TRUE;
     }
@@ -731,7 +731,7 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity==ACTIVITY_FALLOUT) {
     if (total_activity (punit->tile, ACTIVITY_FALLOUT)
-	>= map_clean_fallout_time(punit->tile)) {
+	>= tile_activity_time(ACTIVITY_FALLOUT, punit->tile)) {
       tile_clear_special(punit->tile, S_FALLOUT);
       unit_activity_done = TRUE;
     }
@@ -739,7 +739,7 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity==ACTIVITY_FORTRESS) {
     if (total_activity (punit->tile, ACTIVITY_FORTRESS)
-	>= map_build_fortress_time(punit->tile)) {
+	>= tile_activity_time(ACTIVITY_FORTRESS, punit->tile)) {
       tile_set_special(punit->tile, S_FORTRESS);
       unit_activity_done = TRUE;
       /* watchtower becomes effective */
@@ -760,15 +760,15 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity==ACTIVITY_AIRBASE) {
     if (total_activity (punit->tile, ACTIVITY_AIRBASE)
-	>= map_build_airbase_time(punit->tile)) {
+	>= tile_activity_time(ACTIVITY_AIRBASE, punit->tile)) {
       tile_set_special(punit->tile, S_AIRBASE);
       unit_activity_done = TRUE;
     }
   }
   
   if (activity==ACTIVITY_IRRIGATE) {
-    if (total_activity (punit->tile, ACTIVITY_IRRIGATE) >=
-        map_build_irrigation_time(punit->tile)) {
+    if (total_activity (punit->tile, ACTIVITY_IRRIGATE)
+        >= tile_activity_time(ACTIVITY_IRRIGATE, punit->tile)) {
       Terrain_type_id old = tile_get_terrain(punit->tile);
       map_irrigate_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
@@ -778,8 +778,8 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity==ACTIVITY_ROAD) {
     if (total_activity (punit->tile, ACTIVITY_ROAD)
-	+ total_activity (punit->tile, ACTIVITY_RAILROAD) >=
-        map_build_road_time(punit->tile)) {
+	+ total_activity (punit->tile, ACTIVITY_RAILROAD)
+        >= tile_activity_time(ACTIVITY_ROAD, punit->tile)) {
       tile_set_special(punit->tile, S_ROAD);
       unit_activity_done = TRUE;
     }
@@ -787,15 +787,15 @@ static void update_unit_activity(struct unit *punit)
 
   if (activity==ACTIVITY_RAILROAD) {
     if (total_activity (punit->tile, ACTIVITY_RAILROAD)
-	>= map_build_rail_time(punit->tile)) {
+	>= tile_activity_time(ACTIVITY_RAILROAD, punit->tile)) {
       tile_set_special(punit->tile, S_RAILROAD);
       unit_activity_done = TRUE;
     }
   }
   
   if (activity==ACTIVITY_MINE) {
-    if (total_activity (punit->tile, ACTIVITY_MINE) >=
-        map_build_mine_time(punit->tile)) {
+    if (total_activity (punit->tile, ACTIVITY_MINE)
+        >= tile_activity_time(ACTIVITY_MINE, punit->tile)) {
       Terrain_type_id old = tile_get_terrain(punit->tile);
       map_mine_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
@@ -805,8 +805,8 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity==ACTIVITY_TRANSFORM) {
-    if (total_activity (punit->tile, ACTIVITY_TRANSFORM) >=
-        map_transform_time(punit->tile)) {
+    if (total_activity (punit->tile, ACTIVITY_TRANSFORM)
+        >= tile_activity_time(ACTIVITY_TRANSFORM, punit->tile)) {
       Terrain_type_id old = tile_get_terrain(punit->tile);
       map_transform_tile(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);

@@ -16,6 +16,7 @@
 
 #include "fc_types.h"
 #include "terrain.h"
+#include "unit.h"
 
 /* Convenience macro for accessing tile coordinates.  This should only be
  * used for debugging. */
@@ -64,5 +65,12 @@ void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 void tile_set_continent(struct tile *ptile, Continent_id val);
 Continent_id tile_get_continent(const struct tile *ptile);
+
+/* An arbitrary somewhat integer value.  Activity times are multiplied by
+ * this amount, and divided by them later before being used.  This may
+ * help to avoid rounding errors; however it should probably be removed. */
+#define ACTIVITY_FACTOR 10
+int tile_activity_time(enum unit_activity activity,
+		       const struct tile *ptile);
 
 #endif /* FC__TILE_H */

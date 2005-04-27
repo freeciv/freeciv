@@ -477,7 +477,7 @@ int get_turns_for_activity_at(const struct unit *punit,
   /* FIXME: This is just an approximation since we don't account for
    * get_activity_rate_this_turn. */
   int speed = get_activity_rate(punit);
-  int time = map_activity_time(activity, ptile);
+  int time = tile_activity_time(activity, ptile);
 
   if (time >= 0 && speed >= 0) {
     return (time - 1) / speed + 1; /* round up */

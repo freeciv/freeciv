@@ -290,17 +290,6 @@ void map_mine_tile(struct tile *ptile);
 void change_terrain(struct tile *ptile, Terrain_type_id type);
 void map_transform_tile(struct tile *ptile);
 
-int map_build_road_time(const struct tile *ptile);
-int map_build_irrigation_time(const struct tile *ptile);
-int map_build_mine_time(const struct tile *ptile);
-int map_transform_time(const struct tile *ptile);
-int map_build_rail_time(const struct tile *ptile);
-int map_build_airbase_time(const struct tile *ptile);
-int map_build_fortress_time(const struct tile *ptile);
-int map_clean_pollution_time(const struct tile *ptile);
-int map_clean_fallout_time(const struct tile *ptile);
-int map_activity_time(enum unit_activity activity, const struct tile *ptile);
-
 bool can_channel_land(const struct tile *ptile);
 bool can_reclaim_ocean(const struct tile *ptile);
 
@@ -577,10 +566,5 @@ static inline bool is_border_tile(const struct tile *ptile, int dist)
 	  || ptile->nat_x >= map.xsize - xdist
 	  || ptile->nat_y >= map.ysize - ydist);
 }
-
-/* An arbitrary somewhat integer value.  Activity times are multiplied by
- * this amount, and divided by them later before being used.  This may
- * help to avoid rounding errors; however it should probably be removed. */
-#define ACTIVITY_FACTOR 10
 
 #endif  /* FC__MAP_H */

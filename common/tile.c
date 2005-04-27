@@ -138,3 +138,32 @@ void tile_set_continent(struct tile *ptile, Continent_id val)
 {
   ptile->continent = val;
 }
+
+/****************************************************************************
+  Time to complete the given activity on the given tile.
+****************************************************************************/
+int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
+{
+  switch (activity) {
+  case ACTIVITY_POLLUTION:
+    return tile_types[ptile->terrain].clean_pollution_time * ACTIVITY_FACTOR;
+  case ACTIVITY_ROAD:
+    return tile_types[ptile->terrain].road_time * ACTIVITY_FACTOR;
+  case ACTIVITY_MINE:
+    return tile_types[ptile->terrain].mining_time * ACTIVITY_FACTOR;
+  case ACTIVITY_IRRIGATE:
+    return tile_types[ptile->terrain].irrigation_time * ACTIVITY_FACTOR;
+  case ACTIVITY_FORTRESS:
+    return tile_types[ptile->terrain].fortress_time * ACTIVITY_FACTOR;
+  case ACTIVITY_RAILROAD:
+    return tile_types[ptile->terrain].rail_time * ACTIVITY_FACTOR;
+  case ACTIVITY_TRANSFORM:
+    return tile_types[ptile->terrain].transform_time * ACTIVITY_FACTOR;
+  case ACTIVITY_AIRBASE:
+    return tile_types[ptile->terrain].airbase_time * ACTIVITY_FACTOR;
+  case ACTIVITY_FALLOUT:
+    return tile_types[ptile->terrain].clean_fallout_time * ACTIVITY_FACTOR;
+  default:
+    return 0;
+  }
+}

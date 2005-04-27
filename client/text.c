@@ -330,7 +330,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
       if (num_activities > 0) {
 	add("/");
       }
-      remains = map_activity_time(i, ptile) - activity_total[i];
+      remains = tile_activity_time(i, ptile) - activity_total[i];
       if (remains > 0) {
 	turns = 1 + (remains + activity_units[i] - 1) / activity_units[i];
       } else {
