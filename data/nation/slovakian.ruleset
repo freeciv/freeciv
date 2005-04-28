@@ -1,0 +1,62 @@
+[nation_slovak]
+
+name=_("Slovakian")
+plural=_("?plural:Slovakians")
+groups=_("Medieval"), _("Modern"), _("European")
+legend=_("Slovakia is a country in the heart of Europe. Formerly part of Czechoslovakia, until 1918 part of the Austro-Hungarian Empire.")
+leader="Ľudevít Velislav Štúr", "Rastislav Štefánik", "Samo",
+       "Mojmír", "Pribina", "Koceľ", "Svätopluk", 
+       "Rastislav", "Matúš Čák Trenčiansky"
+leader_sex="Male", "Male", "Male",
+           "Male", "Male", "Male", "Male",
+           "Male", "Male"
+flag="f.slovakia"
+flag_alt = "-" ;former CzechoSlovakia has the same flag as Czech - the blue triangle in it means Slovakia
+city_style = "European"
+ruler_titles = { "government",      "male_title",        "female_title"
+                  "Despotism",       _("Leader"),         _("Leader")
+                  "Monarchy",        _("King"),           _("Qween")
+                  "Republic",       _("President"),       _("President")
+                  "Democracy",       _("Prime Minister"), _("Prime Minister")
+                  "Fundamentalism",  _("Pope"),           _("Priestess")
+                  "Communism",     _("General Secretary"), _("General Secretary")
+                }
+
+init_techs=""
+init_buildings=""
+
+tech_goals = "Monarchy", "Iron Working", "Gunpowder", "Explosives",
+             "Flight"
+wonder= "Leonardo's Workshop"
+government="Democracy"
+civilwar_nations="hungarian"
+
+cities =
+"Bratislava", "Košice", "Banská Bystrica", "Žilina", "Prešov", "Trnava", "Trenčín"
+; "Nitra", "Piešťany", "Martin", "Banská Štiavnica", "Poprad -Tatry", "Zvolen",
+; "Ružomberok", "Rimavská Sobota", "Pezinok", "Nové Zámky", "Myjava", "Kremnica",
+; "Galanta", "Brezno nad Hronom", "Stupava", "Lučenec", "Liptovský Mikuláš", "Levoča",
+; "Komárno", "Dunajská Streda", "Dolný Kubín", "Detva", "Bojnice", "Bojnice",
+; "Vranov nad Topľou", "Tvrdošín", "Šaľa", "Svätý Jur", "Snina", "Skalica",
+; "Nové Mesto nad Váhom", "Levice", "Humenné", "Gabčíkovo", "Čadca", "Bardejov",
+; "Zlaté Moravce", "Východná", "Veľký Krtíš", "Turčianske Teplice", "Štúrovo", "Svidník",
+; "Stropkov", "Stará Ľubovňa", "Senica", "Poltár", "Michalovce", "Medzilaborce", "Malacky",
+; "Kysucké Nové Mesto", "Kežmarok", "Giraltovce", "Brezno", "Žiar nad Hronom", "Žarnovica",
+; "Vráble", "Trenčianske Teplice", "Trebišov", "Topoľčany", "Terchová",
+; "Tatranská Lomnica", "Stará Turá", "Sliač", "Sereď", "Sabinov", "Revúca",
+; "Rajecké Teplice", "Rajec", "Púchov", "Prievidza", "Považská Bystrica", "Partizánske",
+; "Osrblie", "Námestovo", "Moravany nad Váhom", "Modra", "Krupina", "Krompachy", "Ilava",
+; "Holíč", "Hlohovec", "Handlová", "Čierny Balog", "Čachtice", "Bytča", "Borinka",
+; "Ždiar", "Zuberec", "Zlatá Idka", "Závažná Poruba", "Záhorská Bystrica", "Veľký Šariš",
+; "Veľká Lomnica", "Važec", "Topolčianky", "Štós", "Strážske", "Spišské Podhradie",
+; "Spišská Nová Ves", "Spišská Belá", "Sobrance", "Smolenice", "Smižany",
+; "Sklené Teplice", "Skalka nad Váhom", "Senec", "Ružbachy", "Ružbachy", "Rožňava",
+; "Polomka", "Palárikovo", "Nová Dubnica", "Muráň", "Močenok", "Mariánka", "Machulince",
+; "Ľubica", "Lozorno", "Lipany", "Kunerad", "Konská", "Kľačany", "Kamenná Poruba",
+; "Jelka", "Jasov", "Hrušov", "Hriňová", "Horné Plachtince", "Hontianske Moravce",
+; "Herľany", "Herľany", "Harmanec", "Hanušovce nad Topľou", "Habovka", "Gelnica",
+; "Fiľakovo", "Dudince", "Drahovce", "Dobrá voda", "Čičmany", "Betliar", "Beckov",
+; "Bánovce nad Bebravou", "Žehra", "Vrbové", "Tisovec", "Svit", "Slovenský Grob",
+; "Podolínec", "Partizánska Ľupča", "Oravský Podzámok", "Nová Baňa", "Myslava",
+; "Liptovský Hrádok", "Liptovské Revúce", "Limbach", "Kolonica", "Jelšava",
+; "Horné Zelenice", "Halič", "Bernolákovo"

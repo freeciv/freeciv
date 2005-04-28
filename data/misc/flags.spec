@@ -106,6 +106,7 @@ sprites =
 		"f.serbia", "flags/serbia"
 		"f.silesia", "flags/silesia"
 		"f.singapore", "flags/singapore"
+		"f.slovakia", "flags/slovakia"
 		"f.slovenia", "flags/slovenia"
 		"f.south_africa", "flags/south_africa"	; for Zulus
 		"f.soviet", "flags/soviet"

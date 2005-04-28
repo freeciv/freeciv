@@ -114,6 +114,7 @@ match=2
 *include "nation/chilean.ruleset"
 *include "nation/catalan.ruleset"
 *include "nation/croatian.ruleset"
+*include "nation/slovakian.ruleset"
 *include "nation/slovenian.ruleset"
 *include "nation/serbian.ruleset"
 *include "nation/ethiopian.ruleset"
