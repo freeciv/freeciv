@@ -165,12 +165,12 @@ client_option gui_options[] = {
 		     "be shown as separate tabs rather than in popup "
 		     "dialogs."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(better_fog,
-		  N_("Better fog-of-war drawing"),
-		  N_("If this is enabled then a better method is used for "
-		     "drawing fog-of-war.  It is not any slower but will "
-		     "consume about twice as much memory."),
-		  COC_GRAPHICS)
+  GEN_BOOL_OPTION_CB(better_fog,
+		     N_("Better fog-of-war drawing"),
+		     N_("If this is enabled then a better method is used "
+			"for drawing fog-of-war.  It is not any slower but "
+			"will consume about twice as much memory."),
+		     COC_GRAPHICS, mapview_redraw_callback)
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 

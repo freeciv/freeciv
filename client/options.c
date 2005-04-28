@@ -35,6 +35,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "cma_fec.h"
+#include "mapview_common.h"
 #include "plrdlg_common.h"
 #include "tilespec.h"
 
@@ -131,12 +132,12 @@ static client_option common_options[] = {
 		 COC_GRAPHICS,
 		 get_tileset_list, tilespec_reread_callback),
 
-  GEN_BOOL_OPTION(solid_color_behind_units,
-		  N_("Solid unit background color"),
-		  N_("Setting this option will cause units on the map "
-		     "view to be drawn with a solid background color "
-		     "instead of the flag backdrop."),
-		  COC_GRAPHICS),
+  GEN_BOOL_OPTION_CB(solid_color_behind_units,
+		     N_("Solid unit background color"),
+		     N_("Setting this option will cause units on the map "
+			"view to be drawn with a solid background color "
+			"instead of the flag backdrop."),
+		     COC_GRAPHICS, mapview_redraw_callback),
   GEN_BOOL_OPTION(sound_bell_at_new_turn, N_("Sound bell at new turn"),
 		  N_("Set this option to have a \"bell\" event be generated "
 		     "at the start of a new turn.  You can control the "
@@ -160,11 +161,11 @@ static client_option common_options[] = {
 		  N_("If this option is disabled them combat animation "
 		     "between units on the mapview will be turned off."),
 		  COC_GRAPHICS),
-  GEN_BOOL_OPTION(draw_full_citybar, N_("Draw a larger citybar"),
-		  N_("If this option is set then instead of just the city "
-		     "name and attributes, a large amount of data will be "
-		     "drawn beneach each city in the 'citybar'."),
-		  COC_GRAPHICS),
+  GEN_BOOL_OPTION_CB(draw_full_citybar, N_("Draw a larger citybar"),
+		     N_("If this option is set then instead of just the "
+			"city name and attributes, a large amount of data "
+			"will be drawn beneach each city in the 'citybar'."),
+		     COC_GRAPHICS, mapview_redraw_callback),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
 		  N_("If this option is disabled, then you will not have "
 		     "to press the turn done button manually when watching "
@@ -903,4 +904,12 @@ bool is_city_event(enum event_type event)
   default:
     return TRUE;
   }
+}
+
+/****************************************************************************
+  Callback when a mapview graphics option is changed (redraws the canvas).
+****************************************************************************/
+void mapview_redraw_callback(struct client_option *option)
+{
+  update_map_canvas_visible();
 }

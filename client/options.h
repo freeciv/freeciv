@@ -93,8 +93,10 @@ extern client_option *options;
   { #oname, desc, help, category, COT_INT,				    \
       &oname, NULL, NULL, 0, NULL, NULL, NULL }
 #define GEN_BOOL_OPTION(oname, desc, help, category)	                    \
+  GEN_BOOL_OPTION_CB(oname, desc, help, category, NULL)
+#define GEN_BOOL_OPTION_CB(oname, desc, help, category, callback)	    \
   { #oname, desc, help, category, COT_BOOL,				    \
-      NULL, &oname, NULL, 0, NULL, NULL, NULL }
+      NULL, &oname, NULL, 0, callback, NULL, NULL }
 #define GEN_STR_OPTION(oname, desc, help, category, str_defaults, callback) \
   { #oname, desc, help, category, COT_STR,			    \
       NULL, NULL, oname, sizeof(oname), callback, str_defaults, NULL }
@@ -165,5 +167,8 @@ void load_ruleset_specific_options(void);
 void save_options(void);
 const char *get_sound_tag_for_event(enum event_type event);
 bool is_city_event(enum event_type event);
+
+/* Callback functions for changing options. */
+void mapview_redraw_callback(struct client_option *option);
 
 #endif  /* FC__OPTIONS_H */
