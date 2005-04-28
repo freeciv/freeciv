@@ -273,6 +273,18 @@ static enum unit_orders char2order(char order)
   case 'a':
   case 'A':
     return ORDER_ACTIVITY;
+  case 'd':
+  case 'D':
+    return ORDER_DISBAND;
+  case 'u':
+  case 'U':
+    return ORDER_BUILD_WONDER;
+  case 't':
+  case 'T':
+    return ORDER_TRADEROUTE;
+  case 'h':
+  case 'H':
+    return ORDER_HOMECITY;
   }
 
   /* This can happen if the savegame is invalid. */
@@ -293,6 +305,14 @@ static char order2char(enum unit_orders order)
     return 'a';
   case ORDER_BUILD_CITY:
     return 'b';
+  case ORDER_DISBAND:
+    return 'd';
+  case ORDER_BUILD_WONDER:
+    return 'u';
+  case ORDER_TRADEROUTE:
+    return 't';
+  case ORDER_HOMECITY:
+    return 'h';
   case ORDER_LAST:
     break;
   }
@@ -2694,6 +2714,10 @@ static void player_save(struct player *plr, int plrno,
 	  break;
 	case ORDER_FULL_MP:
 	case ORDER_BUILD_CITY:
+	case ORDER_DISBAND:
+	case ORDER_BUILD_WONDER:
+	case ORDER_TRADEROUTE:
+	case ORDER_HOMECITY:
 	case ORDER_LAST:
 	  break;
 	}

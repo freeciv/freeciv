@@ -37,7 +37,9 @@ enum unit_activity {
 /* Changing this enum will break network compatability. */
 enum unit_orders {
   ORDER_MOVE, ORDER_ACTIVITY,
-  ORDER_FULL_MP, ORDER_BUILD_CITY, /* and plenty more for later... */
+  ORDER_FULL_MP, ORDER_BUILD_CITY, ORDER_DISBAND, ORDER_BUILD_WONDER,
+  ORDER_TRADEROUTE, ORDER_HOMECITY,
+  /* and plenty more for later... */
   ORDER_LAST
 };
 

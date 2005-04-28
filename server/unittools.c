@@ -3254,6 +3254,46 @@ bool execute_orders(struct unit *punit)
       }
 
       break;
+    case ORDER_DISBAND:
+      freelog(LOG_DEBUG, "  orders: disbanding");
+      handle_unit_disband(pplayer, unitid);
+      return FALSE;
+    case ORDER_HOMECITY:
+      freelog(LOG_DEBUG, "  orders: changing homecity");
+      if (punit->tile->city) {
+	handle_unit_change_homecity(pplayer, unitid, punit->tile->city->id);
+      } else {
+	cancel_orders(punit, "  no homecity");
+	notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS,
+			 _("Attempt to change homecity for %s failed."),
+			 unit_name(punit->type));
+	return TRUE;
+      }
+      break;
+    case ORDER_TRADEROUTE:
+      freelog(LOG_DEBUG, "  orders: establishing trade route.");
+      handle_unit_establish_trade(pplayer, unitid);
+      if (player_find_unit_by_id(pplayer, unitid)) {
+	cancel_orders(punit, "  no trade route city");
+	notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS,
+			 _("Attempt to establish trade route for %s failed."),
+			 unit_name(punit->type));
+	return TRUE;
+      } else {
+	return FALSE;
+      }
+    case ORDER_BUILD_WONDER:
+      freelog(LOG_DEBUG, "  orders: building wonder");
+      handle_unit_help_build_wonder(pplayer, unitid);
+      if (player_find_unit_by_id(pplayer, unitid)) {
+	cancel_orders(punit, "  no wonder city");
+	notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS,
+			 _("Attempt to build wonder for %s failed."),
+			 unit_name(punit->type));
+	return TRUE;
+      } else {
+	return FALSE;
+      }
     case ORDER_LAST:
       cancel_orders(punit, "  client sent invalid order!");
       notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS,

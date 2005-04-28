@@ -1637,6 +1637,10 @@ void handle_unit_orders(struct player *pplayer,
       break;
     case ORDER_FULL_MP:
     case ORDER_BUILD_CITY:
+    case ORDER_DISBAND:
+    case ORDER_BUILD_WONDER:
+    case ORDER_TRADEROUTE:
+    case ORDER_HOMECITY:
       break;
     case ORDER_LAST:
       /* An invalid order.  This is handled in execute_orders. */
