@@ -132,6 +132,7 @@ match=2
 *include "nation/malaysian.ruleset"
 *include "nation/martian.ruleset"
 *include "nation/mexican.ruleset"
+*include "nation/newzealand.ruleset"
 *include "nation/nigerian.ruleset"
 *include "nation/quebecois.ruleset"
 *include "nation/sumerian.ruleset"
