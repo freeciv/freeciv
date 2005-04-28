@@ -3703,8 +3703,8 @@ int fill_sprite_array(struct tileset *t,
 		      const struct unit *punit, const struct city *pcity,
 		      const struct city *citymode)
 {
-  Terrain_type_id ttype, ttype_near[8];
-  enum tile_special_type tspecial, tspecial_near[8];
+  Terrain_type_id ttype = T_UNKNOWN, ttype_near[8];
+  enum tile_special_type tspecial = S_NO_SPECIAL, tspecial_near[8];
   int tileno, dir;
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;

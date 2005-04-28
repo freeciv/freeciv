@@ -465,7 +465,7 @@ static int tile_type_num_tiles(const struct cm_tile_type *type)
   Note this isn't the same as the number of *tiles* that are better.  There
   may be more than one tile of each type (see tile_type_num_tiles).
 ****************************************************************************/
-static const int tile_type_num_prereqs(const struct cm_tile_type *ptype)
+static int tile_type_num_prereqs(const struct cm_tile_type *ptype)
 {
   return ptype->better_types.size;
 }

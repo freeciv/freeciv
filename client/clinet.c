@@ -810,9 +810,9 @@ int begin_lanserver_scan(void)
 struct server_list *get_lan_server_list(void) {
 
 # if defined(__VMS) && !defined(_DECC_V4_SOURCE)
-    size_t fromlen;
+  size_t fromlen;
 # else
-    int fromlen;
+  unsigned int fromlen;
 # endif
   union my_sockaddr fromend;
   struct hostent *from;

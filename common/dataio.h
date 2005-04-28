@@ -33,11 +33,11 @@ struct data_out {
 };
 
 /* network string conversion */
-typedef unsigned char *(*DIO_PUT_CONV_FUN) (const char *src, size_t *length);
+typedef char *(*DIO_PUT_CONV_FUN) (const char *src, size_t *length);
 void dio_set_put_conv_callback(DIO_PUT_CONV_FUN fun);
 
 typedef bool(*DIO_GET_CONV_FUN) (char *dst, size_t ndst,
-				 const unsigned char *src, size_t nsrc);
+				 const char *src, size_t nsrc);
 void dio_set_get_conv_callback(DIO_GET_CONV_FUN fun);
 
 /* General functions */

@@ -158,9 +158,9 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	PACKET_PROCESSING_FINISHED || packet_type == PACKET_THAW_HINT) {
       pc->compression.frozen_level--;
       if (pc->compression.frozen_level == 0) {
-	unsigned long int compressed_size = 12 + pc->compression.queue.size * 1.001;
+	uLongf compressed_size = 12 + pc->compression.queue.size * 1.001;
 	int error;
-	unsigned char compressed[compressed_size];
+	Bytef compressed[compressed_size];
 
 	error =
 	    compress2(compressed, &compressed_size,
