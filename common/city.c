@@ -721,12 +721,20 @@ static int base_get_output_tile(const struct tile *ptile,
 {
   const struct tile_type *ptype = get_tile_type(ptile->terrain);
   struct tile tile;
-  int prod = get_tile_output_base(ptile, otype);
+  int prod;
   const bool auto_water = (pcity && is_city_center(city_x, city_y)
 			   && ptile->terrain == ptype->irrigation_result
 			   && terrain_control.may_irrigate);
 
   assert(otype >= 0 && otype < O_LAST);
+
+  if (tile_has_special(ptile, S_SPECIAL_1)) {
+    prod = tile_types[ptile->terrain].special[0].output[otype];
+  } else if (tile_has_special(ptile, S_SPECIAL_2)) {
+    prod = tile_types[ptile->terrain].special[1].output[otype];
+  } else {
+    prod = tile_types[ptile->terrain].output[otype];
+  }
 
   /* create dummy tile which has the city center bonuses. */
   tile.terrain = tile_get_terrain(ptile);

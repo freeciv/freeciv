@@ -279,7 +279,6 @@ int map_move_cost(struct unit *punit, const struct tile *ptile);
 int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1);
 bool is_safe_ocean(const struct tile *ptile);
 bool is_cardinally_adj_to_ocean(const struct tile *ptile);
-int get_tile_output_base(const struct tile *ptile, Output_type_id output);
 enum tile_special_type get_tile_infrastructure_set(const struct tile *ptile);
 const char *map_get_infrastructure_text(enum tile_special_type spe);
 enum tile_special_type map_get_infrastructure_prerequisite(enum tile_special_type spe);
