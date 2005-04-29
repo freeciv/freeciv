@@ -5,8 +5,8 @@ plural=_("?plural:Dutch")
 groups=_("Modern"), _("Medieval"), _("European")
 leader="Willem", "Maurits", "Emma", "Wilhelmina", "Juliana", "Beatrix"
 leader_sex="Male", "Male", "Female", "Female", "Female", "Female"
-flag="f.netherlands"
-flag_alt = "f.holland"
+flag="netherlands"
+flag_alt = "holland"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")

@@ -10,7 +10,7 @@ leader="Ľudevít Velislav Štúr", "Rastislav Štefánik", "Samo",
 leader_sex="Male", "Male", "Male",
            "Male", "Male", "Male", "Male",
            "Male", "Male"
-flag="f.slovakia"
+flag="slovakia"
 flag_alt = "-" ;former CzechoSlovakia has the same flag as Czech - the blue triangle in it means Slovakia
 city_style = "European"
 ruler_titles = { "government",      "male_title",        "female_title"

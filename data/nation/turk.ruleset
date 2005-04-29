@@ -11,7 +11,7 @@ leader="Kemal Atatürk", "Süleyman", "Osman", "Murat",
        "Selim", "Mehmet"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
-flag="f.turkey"
+flag="turkey"
 flag_alt = "-"
 city_style = "European"
 

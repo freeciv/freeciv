@@ -11,7 +11,7 @@ leader="Viriato", "Recaredo I", "Alfonso X", "Fernando V", "Isabel I",
        "Carlos I", "Felipe II", "Carlos III", "Franco", "Mortadelo"
 leader_sex="Male", "Male", "Male", "Male", "Female",
            "Male", "Male", "Male", "Male", "Male"
-flag="f.spain"
+flag="spain"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",     "male_title",        "female_title"

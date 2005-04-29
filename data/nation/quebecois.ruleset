@@ -6,7 +6,7 @@ groups= _("American")
 leader="Champlain", "Frontenac", "Montcalm", "Papineau",
        "Rene Levesque"
 leader_sex="Male", "Male", "Male", "Male", "Male"
-flag = "f.quebec"
+flag = "quebec"
 flag_alt = "-"
 city_style = "European"
 

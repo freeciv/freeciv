@@ -29,7 +29,7 @@ leader_sex = "Male", "Male", "Female",
  "Male", "Male", "Male", "Male", "Male",
  "Female", "Female", "Female", "Female",
  "Male", "Male"
-flag="f.ireland"
+flag="ireland"
 flag_alt = "-"
 city_style = "European"
 

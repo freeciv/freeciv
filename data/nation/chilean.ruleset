@@ -10,7 +10,7 @@ leader="Pedro de Valdivia", "Bernardo O'Higgins", "José Miguel Carrera",
 leader_sex="Male", "Male", "Male",
            "Male", "Male", "Male",
            "Male", "Male"
-flag="f.chile"
+flag="chile"
 flag_alt = "-"
 city_style = "European"
 

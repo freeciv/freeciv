@@ -7,7 +7,7 @@ leader="Don Afonso", "Diego Xelmírez", "Hermerico", "Pedro Pardo de Cela",
        "Rosalía de Castro", "Don Manuel"
 leader_sex="Male", "Male", "Male", "Male",
            "Female", "Male"
-flag="f.galicia"
+flag="galicia"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",          "female_title"

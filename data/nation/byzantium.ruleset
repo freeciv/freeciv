@@ -12,8 +12,8 @@ legend=_("At the time of the decline of the old Roman empire, the Emperor\
  Africa, Italy and parts of Spain.")
 leader="Justinian I", "Heraclius I", "Michael VIII Paleologus", "Maurice", "Basil II Bulgaroctonus"
 leader_sex="Male", "Male", "Male", "Male", "Male"
-flag="f.byzantium"
-flag_alt = "f.greek"
+flag="byzantium"
+flag_alt = "greek"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Imperator"), _("Imperatrix")

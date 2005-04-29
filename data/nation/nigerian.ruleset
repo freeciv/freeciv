@@ -5,7 +5,7 @@ plural=_("?plural:Nigerians")
 groups=_("Modern"), _("African")
 leader="Balewa", "Obasanjo"
 leader_sex="Male", "Male"
-flag="f.nigeria"
+flag="nigeria"
 flag_alt = "-"
 city_style = "European"
 

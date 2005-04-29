@@ -4,7 +4,7 @@ name=_("Observer")
 plural=_("?plural:Observers")
 leader="None"
 leader_sex="Male"
-flag="f.observer"
+flag="observer"
 flag_alt = "-"
 city_style = "Classical"
 

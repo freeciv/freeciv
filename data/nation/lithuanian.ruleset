@@ -8,7 +8,7 @@ Sea, northeast of Poland.  Lithuanian is the most archaic and complex of \
 the northern Indo-European languages")
 leader="Gediminas", "Mindaugas", "Vytautas", "Antanas Smetona"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.lithuania"
+flag="lithuania"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",         "female_title"

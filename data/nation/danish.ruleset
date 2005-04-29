@@ -19,7 +19,7 @@ leader_sex=
   "Male", "Male", "Male", "Male", "Male",
   "Male", "Male", "Male",
   "Male", "Female", "Male", "Male"
-flag="f.denmark"
+flag="denmark"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"

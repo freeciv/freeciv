@@ -7,8 +7,8 @@ legend=_("The Welsh at one time controlled all of what is now England \
 until being driven into the mountainous western reaches by invading Saxons.")
 leader="Llywelyn ap Gruffudd", "Hywel Dda", "Owain Glyndwr"
 leader_sex="Male", "Male", "Male"
-flag="f.wales"
-flag_alt = "f.united_kingdom"
+flag="wales"
+flag_alt = "united_kingdom"
 city_style = "European"
 
 ;names = "Yr Ymerodreath Gymreig"          "empire"            (depotism)

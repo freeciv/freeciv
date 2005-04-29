@@ -5,7 +5,7 @@ groups=_("Ancient"), _("Medieval"), _("Modern"), _("Asian")
 plural=_("?plural:Indians")
 leader="Gandhi", "Ashoka", "Chandragupta", "Indira Gandhi"
 leader_sex="Male", "Male", "Male", "Female"
-flag="f.india"
+flag="india"
 flag_alt = "-"
 city_style = "Asian"
 

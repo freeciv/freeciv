@@ -25,8 +25,8 @@ leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male", "Female", "Male",
            "Male"
            
-flag="f.norway"
-flag_alt = "f.denmark"  ; Now used by Danish
+flag="norway"
+flag_alt = "denmark"  ; Now used by Danish
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")

@@ -5,7 +5,7 @@ plural=_("?plural:Columbians")
 groups=_("Modern"), _("American")
 leader="S. Bolívar", "G.J. Quesada"
 leader_sex="Male", "Male"
-flag="f.columbia"
+flag="columbia"
 flag_alt = "-"
 city_style = "European"
 

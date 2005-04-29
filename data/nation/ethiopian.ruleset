@@ -7,8 +7,8 @@ leader="Zara Yakob", "Menelik II", "Haile Selassies", "Zoskales", "Gedara",
    "Lalibela", "Yekuno Amlak", "Tewodros II"
 leader_sex="Male", "Male", "Male", "Male", "Male",
   "Male", "Male", "Male"
-flag="f.ethiopia"
-flag_alt = "f.italy"
+flag="ethiopia"
+flag_alt = "italy"
 city_style = "Classical"
 ruler_titles = { "government",      "male_title",       "female_title"
                  "Monarchy",       _("Emporer"),    _("Emporer")

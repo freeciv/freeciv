@@ -11,7 +11,7 @@ leader= "Jacobus Pretorius", "Louis Botha", "Wessel Pretorius",
 	"Paulus Krüger", "Piet Retief", "Jan Smuts"
 leader_sex= "Male", "Male", "Male",
 	    "Male", "Male", "Male"
-flag="f.boer"
+flag="boer"
 flag_alt = "-"
 city_style = "European"
 

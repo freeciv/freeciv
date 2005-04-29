@@ -16,7 +16,7 @@ leader="Mieszko I",
        "Józef Piłsudski"
 leader_sex="Male", "Male", "Male", "Male", "Female",
            "Male", "Male", "Male", "Male", "Male", "Male"
-flag="f.poland"
+flag="poland"
 flag_alt = "-"
 city_style = "European"
 

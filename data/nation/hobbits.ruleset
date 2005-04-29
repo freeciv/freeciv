@@ -10,7 +10,7 @@ groups=_("Fictional")
 leader="Will Whitfoot", "Samwise Gamgee", "Tolman Cotton",
        "Peregrin Took", "Meriadoc Brandybuck"
 leader_sex="Male", "Male", "Male", "Male", "Male"
-flag="f.hobbits"
+flag="hobbits"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",            "female_title"

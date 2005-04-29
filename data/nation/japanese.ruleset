@@ -6,7 +6,7 @@ groups=_("Medieval"), _("Modern"), _("Asian")
 leader="Jimmu Tenno", "Mutsuhito", "Hirohito",
        "Oda Nobunaga", "Tokugawa Ieyasu"
 leader_sex="Male", "Male", "Male", "Male", "Male"
-flag="f.japan"
+flag="japan"
 flag_alt = "-"
 city_style = "Asian"
 

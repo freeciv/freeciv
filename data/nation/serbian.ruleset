@@ -12,7 +12,7 @@ leader="Vlastimir", "Caslav", "Vojislav", "Mihailo", "Bodin", "Nemanja",
        "Stefan Supljikac", "Milan II Obrenovic", "Petar Karadordevic"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
-flag="f.serbia"
+flag="serbia"
 flag_alt = "-"
 city_style = "European"
 

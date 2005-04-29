@@ -10,7 +10,7 @@ leader="Afonso Henriques", "Sancho I", "Dinis", "Afonso IV",
        "João I", "João II", "Manuel I", "João IV", "Maria II", "Salazar"
 leader_sex="Male", "Male", "Male", "Male",
 	   "Male", "Male", "Male", "Male", "Female", "Male"
-flag="f.portugal"
+flag="portugal"
 flag_alt = "-"
 city_style = "European"
 

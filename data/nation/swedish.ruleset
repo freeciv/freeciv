@@ -9,7 +9,7 @@ leader=
   "Christine"
 
 leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
-flag="f.sweden"
+flag="sweden"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"

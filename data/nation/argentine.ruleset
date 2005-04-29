@@ -10,7 +10,7 @@ leader="José de San Martín", "Juan Manuel de Rosas", "Justo Urquiza",
 leader_sex="Male", "Male", "Male",
            "Male", "Male", "Male",
            "Female", "Male"
-flag="f.argentina"
+flag="argentina"
 flag_alt = "-"
 city_style = "European"
 

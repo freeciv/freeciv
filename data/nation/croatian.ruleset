@@ -15,7 +15,7 @@ leader="Ljudevit Posavski", "Borna", "Trpimir", "Domagoj", "Branimir",
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Male"
-flag="f.croatia"
+flag="croatia"
 flag_alt = "-"
 city_style = "European"
 

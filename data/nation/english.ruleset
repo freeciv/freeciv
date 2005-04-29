@@ -11,8 +11,8 @@ leader="Elizabeth", "Alfred of Wessex", "William the Conqueror",
        "Victoria", "Winston Churchill", "John Lackland"
 leader_sex="Female", "Male", "Male", "Male", "Male",
            "Male", "Female", "Male", "Male"
-flag="f.england"
-flag_alt = "f.united_kingdom"
+flag="england"
+flag_alt = "united_kingdom"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")

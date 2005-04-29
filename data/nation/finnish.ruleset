@@ -10,7 +10,7 @@ leader="C.G.E. Mannerheim", "Urho Kekkonen", "Martti Ahtisaari",
        "Tarja Halonen", "Linus Torvalds"
 leader_sex="Male", "Male", "Male",
            "Female", "Male"
-flag="f.finland"
+flag="finland"
 flag_alt = "-"
 city_style = "European"
 

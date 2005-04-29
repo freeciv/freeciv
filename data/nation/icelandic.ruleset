@@ -10,8 +10,8 @@ leader= "Jón Sigurdsson",
 
 leader_sex="Male", "Male", "Male", "Male"
 
-flag="f.iceland"
-flag_alt = "f.norway"
+flag="iceland"
+flag_alt = "norway"
 city_style = "Classical"
 ruler_titles = { "government",      "male_title",       "female_title"
        "Democracy",   _("President"),      _("President")

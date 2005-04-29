@@ -21,7 +21,7 @@ leader="Tengku Long", "Stamford Raffles", "W.A. Pickering", "Ong Teng Cheong",
   "S.R. Nathan", "Lee Kuan Yew", "Yusof bin Ishak", "Ah Beng", "Ah Lian"
 leader_sex="Male", "Male", "Male", "Male",
   "Male", "Male", "Male", "Male", "Female"
-flag="f.singapore"
+flag="singapore"
 flag_alt = "-"
 city_style = "Asian"
 

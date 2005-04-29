@@ -7,7 +7,7 @@ leader="Karlis Ulmanis", "Guntis Ulmanis",
   "Vaira Vike Freiberga", "Namejs"
 leader_sex="Male", "Male", 
   "Female", "Male"
-flag="f.latvia"
+flag="latvia"
 flag_alt = "-"
 city_style = "European"
 

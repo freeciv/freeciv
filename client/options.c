@@ -166,6 +166,11 @@ static client_option common_options[] = {
 			"city name and attributes, a large amount of data "
 			"will be drawn beneach each city in the 'citybar'."),
 		     COC_GRAPHICS, mapview_redraw_callback),
+  GEN_BOOL_OPTION_CB(draw_unit_shields, N_("Draw shield graphics for units"),
+		     N_("If set, then special shield graphics will be drawn "
+			"as the flags on units.  If unset, the full flag will "
+			"be drawn."),
+		     COC_GRAPHICS, mapview_redraw_callback),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
 		  N_("If this option is disabled, then you will not have "
 		     "to press the turn done button manually when watching "
@@ -235,6 +240,7 @@ bool draw_focus_unit = FALSE;
 bool draw_fog_of_war = TRUE;
 bool draw_borders = TRUE;
 bool draw_full_citybar = TRUE;
+bool draw_unit_shields = TRUE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }

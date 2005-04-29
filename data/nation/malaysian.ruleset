@@ -5,7 +5,7 @@ plural=_("?plural:Malaysians")
 groups=_("Modern")
 leader="Mahathir", "Anwar Ibrahim"
 leader_sex="Male", "Male"
-flag="f.malaysia"
+flag="malaysia"
 flag_alt = "-"
 city_style = "European"
 

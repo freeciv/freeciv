@@ -20,8 +20,8 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male"
-flag="f.south_africa"
-flag_alt = "f.rwanda"  ; used previously
+flag="south_africa"
+flag_alt = "rwanda"  ; used previously
 city_style = "Tropical"
 
 init_techs=""

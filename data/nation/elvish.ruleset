@@ -13,7 +13,7 @@ leader="Ingwë", "Fëanor", "Fingolfin", "Fingon", "Turgon",
    "Celeborn", "Elrond"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female",
    "Male", "Male", "Male", "Male"
-flag="f.elves"
+flag="elves"
 flag_alt = "-"
 city_style = "European"
 ; Melian was the Queen of Doriath

@@ -5,7 +5,7 @@ plural=_("?plural:Koreans")
 groups=_("Modern"), _("Medieval"), _("Asian")
 leader="T'aejong", "Kim Ir Sen", "Pak Dzonghyi", "Wang Gon"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.korea"
+flag="korea"
 flag_alt = "-"
 city_style = "Asian"
 

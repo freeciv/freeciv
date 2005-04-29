@@ -5,7 +5,7 @@ plural=_("?plural:Mexicans")
 groups=_("Modern"), _("American")
 leader="B. Juárez", "Cárdenas"
 leader_sex="Male", "Male"
-flag="f.mexico"
+flag="mexico"
 flag_alt = "-"
 city_style = "European"
 

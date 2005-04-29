@@ -8,7 +8,7 @@ leader=	"Wilhelm Tell", "Arnold von Winkelried", "Gessler", "General Guisan",
 	"Christoph Blocher"
 leader_sex="Male", "Male", "Male", "Male", "Male",
   "Female", "Male", "Male"
-flag="f.switzerland"
+flag="switzerland"
 flag_alt = "-"
 city_style = "European"
 

@@ -16,7 +16,7 @@ leader = "Arminius", "Alarich", "Karl der Große", "Otto I.",
 leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", 
              "Male", "Male", "Male", "Male", "Male", "Male"
 
-flag         = "f.germany"
+flag         = "germany"
 flag_alt     = "-"
 city_style   = "European"
 ruler_titles = { "government",      "male_title",       "female_title"

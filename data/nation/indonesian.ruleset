@@ -5,7 +5,7 @@ plural=_("?plural:Indonesians")
 groups=_("Modern")
 leader="Sukarno", "Suharto", "Habibie", "Wahid"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.indonesia"
+flag="indonesia"
 flag_alt = "-"
 city_style = "Classical"
 

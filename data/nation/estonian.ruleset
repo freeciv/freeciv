@@ -10,7 +10,7 @@ leader="Kalevipoeg", "Lembitu", "Carl Robert Jakobson", "Konstantin Päts",
   "Tunne Kelam", "Lennart Meri", "Mart Laar"
 leader_sex="Male", "Male", "Male", "Male",
   "Male", "Male", "Male"
-flag="f.estonia"
+flag="estonia"
 flag_alt = "-"
 city_style = "European"
 

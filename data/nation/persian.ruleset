@@ -7,7 +7,7 @@ legend=_("The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; \
 the second (Sassanid) from 226AD to 642AD.")
 leader="Cyrus", "Darius", "Xerxes", "Ardashir"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.iran"
+flag="iran"
 flag_alt = "-"
 city_style = "Classical"
 

@@ -9,7 +9,7 @@ leader="Guifré el Pilós", "Ramon Berenguer IV", "Jaume I", "Pere II",
        "Lluis Companys", "Josep Tarradellas"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
-flag="f.catalan"
+flag="catalan"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",          "female_title"

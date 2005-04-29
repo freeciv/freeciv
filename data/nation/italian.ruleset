@@ -11,7 +11,7 @@ leader = "Giuseppe Garibaldi", "Giuseppe Mazzini", "Palmiro Togliatti",
          "Giacomo Matteotti"
 leader_sex = "Male", "Male", "Male",
              "Male"
-flag = "f.italy"
+flag = "italy"
 flag_alt = "-"
 city_style = "European"
 

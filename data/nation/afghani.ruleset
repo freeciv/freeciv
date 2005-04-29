@@ -7,7 +7,7 @@ leader="Kanishka", "Mahmud Ghazni", "Timour-i-Lang", "Ahmad Shah",
   "Zahir Shah", "Daoud Khan"
 leader_sex="Male", "Male", "Male", "Male",
   "Male", "Male"
-flag="f.afghanistan"
+flag="afghanistan"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",       "female_title"

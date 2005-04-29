@@ -9,7 +9,7 @@ during the 15th century AD, reviving the practice of human sacrifice.  \
 They were conquered by the Spanish under Cortez in 1524.")
 leader="Montezuma", "Cuahtemoc", "Itzcoatl", "Axayacatl"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.mexico"
+flag="mexico"
 flag_alt = "-"
 city_style = "Tropical"
 

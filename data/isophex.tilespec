@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec3 +Freeciv.Devel.2005.Apr.8"
+options = "+tilespec3 +Freeciv.Devel.2005.Apr.27"
 
 ; A simple name for the tileset specified by this file:
 name = "isophex"
@@ -74,6 +74,7 @@ files =
   "trident/units.spec",
   "isotrident/unitextras.spec",
   "misc/flags.spec",
+  "misc/shields.spec",
   "misc/cursors.spec",
   "misc/space.spec",
   "misc/treaty.spec",

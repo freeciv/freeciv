@@ -10,7 +10,7 @@ timing to do it just a few decades before the Spanish conquistadores \
 arrived in their part of the world in the mid-1500s AD.")
 leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.peru"
+flag="peru"
 flag_alt = "-"
 city_style = "Tropical"
 

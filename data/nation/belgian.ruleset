@@ -9,7 +9,7 @@ to a federal one. This is the result of the Flemish and the \
 Walloon's nationalist (almost) peaceful fights.")
 leader="Leopold", "Albert", "Boudewijn", "Baudouin"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.belgium"
+flag="belgium"
 flag_alt = "-"
 city_style = "European"
 

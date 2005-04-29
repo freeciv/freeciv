@@ -6,7 +6,7 @@ groups=_("Ancient"), _("Asian")
 leader="Ashurbanipal", "Tiglat Pileser III", "Ashurnasirpal II", "Shamiram",
        "Agha Petros", "Naoum Faik"
 leader_sex="Male", "Male", "Male", "Female", "Male", "Male"
-flag = "f.assyria"
+flag = "assyria"
 flag_alt = "-"
 city_style = "Classical"
 

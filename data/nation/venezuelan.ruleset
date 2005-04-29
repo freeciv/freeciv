@@ -9,7 +9,7 @@ leader="Ambrosio Alfinger", "El Libertador Simón Bolivar",
        "Rómulo Betancourt", "Gral. Marcos Pérez Jiménez"
 leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male"
-flag="f.venezuela"
+flag="venezuela"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",     "male_title",        "female_title"

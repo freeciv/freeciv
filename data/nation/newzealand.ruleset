@@ -5,8 +5,8 @@ plural=_("?plural:New Zealanders")
 groups=_("Modern")
 leader="Helen Clark", "Norm Kirk", "Dick Seddon", "Rob Muldoon", "David Lange"
 leader_sex="Female", "Male", "Male", "Male", "Male"
-flag="f.newzealand"
-flag_alt = "f.australia"
+flag="newzealand"
+flag_alt = "australia"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"

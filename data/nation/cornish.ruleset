@@ -8,8 +8,8 @@ traditionally the home of the legendary King Arthur.")
 leader = "Arthur", "Jonathen Trelawny", "Thomas Flamank", "Michael Joseph",
 	"William Bligh"
 leader_sex = "Male", "Male", "Male", "Male", "Male"
-flag = "f.cornwall"
-flag_alt = "f.england"
+flag = "cornwall"
+flag_alt = "england"
 city_style = "European"
 
 init_techs=""

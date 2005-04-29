@@ -5,7 +5,7 @@ plural=_("?plural:Sioux")
 groups=_("Medieval"), _("American")
 leader="Sitting Bull", "Crazy Horse", "Little Crow", "Red Cloud"
 leader_sex="Male", "Male", "Male", "Male"
-flag="f.cheyenne"
+flag="cheyenne"
 flag_alt = "-"
 city_style = "European"
 

@@ -14,7 +14,7 @@ leader="Qin Shihuang", "Liu Bang", "Liu Bei", "Li Shimin", "Wu Zetian",
        "Qianlong", "Cixi", "Sun Yat-Sen", "Mao Zedong", "Deng Xiaoping" 
 leader_sex="Male", "Male", "Male", "Male", "Female",
            "Male", "Female", "Male", "Male", "Male"
-flag="f.china"
+flag="china"
 flag_alt = "-"
 city_style = "Asian"
 ruler_titles = { "government",      "male_title",      "female_title"

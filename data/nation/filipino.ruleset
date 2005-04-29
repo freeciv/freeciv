@@ -8,7 +8,7 @@ Americans in 1898. They attained home rule in 1935 and independence in 1946.")
 leader="Ramon Magsagay","Jose Rizal", "Luis Taruc", "Sergio Osmena", 
 		"Ferdinand Marcos", "Corazon Aquino"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
-flag="f.philippines"
+flag="philippines"
 flag_alt = "-"
 city_style = "Asian"
 

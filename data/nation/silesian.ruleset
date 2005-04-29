@@ -13,7 +13,7 @@ leader = "Władysław Wygnaniec",
          "Jan Kustos",
          "Wojciech Korfanty"
 leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male"
-flag="f.silesia"
+flag="silesia"
 flag_alt = "-"
 city_style = "European"
 

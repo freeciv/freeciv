@@ -134,6 +134,7 @@ struct named_sprites {
   struct sprite *unittype[U_LAST];
 
   struct sprite_vector nation_flag;
+  struct sprite_vector nation_shield;
 
   struct citizen_graphic {
     /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
@@ -383,7 +384,7 @@ struct tileset {
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Apr.8"
+#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Apr.27"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -2221,6 +2222,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   t->sprites.city.tile_wall = NULL;
   t->sprites.city.tile = NULL;
   sprite_vector_init(&t->sprites.nation_flag);
+  sprite_vector_init(&t->sprites.nation_shield);
 }
 
 /**************************************************************************
@@ -2572,21 +2574,30 @@ void tileset_setup_nation_flag(struct tileset *t, int id)
   struct nation_type *nation = get_nation_by_idx(id);
   char *tags[] = {nation->flag_graphic_str,
 		  nation->flag_graphic_alt,
-		  "f.unknown", NULL};
+		  "unknown", NULL};
   int i;
-  struct sprite *sprite = NULL;
+  struct sprite *flag = NULL, *shield = NULL;
+  char buf[1024];
 
-  for (i = 0; tags[i] && !sprite; i++) {
-    sprite = load_sprite(t, tags[i]);
+  for (i = 0; tags[i] && !flag; i++) {
+    my_snprintf(buf, sizeof(buf), "f.%s", tags[i]);
+    flag = load_sprite(t, buf);
   }
-  if (!sprite) {
+  for (i = 0; tags[i] && !shield; i++) {
+    my_snprintf(buf, sizeof(buf), "f.shield.%s", tags[i]);
+    shield = load_sprite(t, buf);
+  }
+  if (!flag || !shield) {
     /* Should never get here because of the f.unknown fallback. */
     freelog(LOG_FATAL, "No national flag for %s.", nation->name);
     exit(EXIT_FAILURE);
   }
 
   sprite_vector_reserve(&t->sprites.nation_flag, game.nation_count);
-  t->sprites.nation_flag.p[id] = sprite;
+  t->sprites.nation_flag.p[id] = flag;
+
+  sprite_vector_reserve(&t->sprites.nation_shield, game.nation_count);
+  t->sprites.nation_shield.p[id] = shield;
 }
 
 /**********************************************************************
@@ -2604,7 +2615,13 @@ struct sprite *get_city_flag_sprite(const struct tileset *t,
 static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 						  const struct unit *punit)
 {
-  return get_nation_flag_sprite(t, unit_owner(punit)->nation);
+  Nation_Type_id nation = unit_owner(punit)->nation;
+
+  if (draw_unit_shields) {
+    return t->sprites.nation_shield.p[nation];
+  } else {
+    return t->sprites.nation_flag.p[nation];
+  }
 }
 
 /**************************************************************************

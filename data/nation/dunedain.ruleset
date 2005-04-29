@@ -12,7 +12,7 @@ leader="Elros", "Tar-Ancalimë", "Míriel", "Elendil", "Isildur", "Aragorn",
 	"Tarannon Falastur", "Thorongil", "Ar-Pharazon", "Beruthiel"
 leader_sex="Male", "Female", "Female", "Male", "Male", "Male",
 	"Male", "Male", "Male", "Female"
-flag = "f.dunedain"
+flag = "dunedain"
 flag_alt = "-"
 city_style = "Classical"
 

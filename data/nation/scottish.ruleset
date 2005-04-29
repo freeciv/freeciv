@@ -9,8 +9,8 @@ leader="Henry McLeish", "Donald Dewar", "Charles", "James",
        "Robert the Bruce", "William Wallace", "Mary Stuart"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male", "Female"
-flag="f.scotland"
-flag_alt = "f.united_kingdom"
+flag="scotland"
+flag_alt = "united_kingdom"
 city_style = "European"
 
 ruler_titles = { "government",  "male_title",         "female_title"

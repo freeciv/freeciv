@@ -6,7 +6,7 @@ groups=_("Medieval"), _("Modern"), _("European")
 leader="Árpád", "Szent István", "Károly Róbert",
        "Hunyadi Mátyás", "Mária Terézia", "Batthyány"
 leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
-flag="f.hungary"
+flag="hungary"
 flag_alt = "-"
 city_style = "European"
 

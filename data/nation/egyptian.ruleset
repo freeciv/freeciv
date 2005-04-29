@@ -10,7 +10,7 @@ leader="Rameses", "Cleopatra", "Tutankhamun", "Narmer", "Thutmose",
        "Hatshepsut", "Nefertiti", "Cheops", "Akhenaten"
 leader_sex="Male", "Female", "Male", "Male", "Male",
         "Female", "Female", "Male", "Male"
-flag="f.egypt"
+flag="egypt"
 flag_alt = "-"
 city_style = "Classical"
 

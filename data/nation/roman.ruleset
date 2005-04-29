@@ -11,8 +11,8 @@ leader="Caesar", "Augustus", "Vespasian", "Nero", "Trajan", "Marcus Aurelius",
        "Livia", "Messalina"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Female", "Female"
-flag = "f.rome"
-flag_alt = "f.italy"
+flag = "rome"
+flag_alt = "italy"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"

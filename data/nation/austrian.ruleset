@@ -5,7 +5,7 @@ plural=_("?plural:Austrians")
 groups=_("Modern"), _("European")
 leader="Maria Theresia", "Franz Joseph", "Luitpold" 
 leader_sex="Female", "Male", "Male"
-flag="f.austria"
+flag="austria"
 flag_alt = "-"
 city_style = "European"
 

@@ -8,7 +8,7 @@ former Soviet Union. It includes some of the most fertile black-soil \
 cropland on Earth.")
 leader = "Bohdan Khmelnitskyi", "Simon Petlura", "Basil Kapnist"
 leader_sex = "Male", "Male", "Male"
-flag="f.ukraine"
+flag="ukraine"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",         "female_title"

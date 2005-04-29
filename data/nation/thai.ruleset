@@ -10,7 +10,7 @@ leader = "Rama Thibodi", "Chao Phya Chakri", "Maha Mongkut", "Chulalongkorn",
          "Pibul Songgram", "Seni Pramoya"
 leader_sex = "Male", "Male", "Male", "Male",
              "Male", "Male"
-flag="f.thailand"
+flag="thailand"
 flag_alt = "-"
 city_style = "Asian"
 

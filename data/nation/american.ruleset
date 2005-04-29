@@ -57,7 +57,7 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Female"
-flag="f.usa"
+flag="usa"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
