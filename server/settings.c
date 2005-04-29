@@ -354,7 +354,7 @@ struct settings_s settings[] = {
 	  GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 
   GEN_INT("specials", map.riches,
-	  SSET_MAP_ADD, SSET_ECOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+	  SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Amount of \"special\" resource squares"), 
 	  N_("Special resources improve the basic terrain type they "
 	     "are on. The server variable's scale is parts per "
