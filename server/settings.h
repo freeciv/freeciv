@@ -51,7 +51,6 @@ enum sset_to_client {
  */
 enum sset_category {
   SSET_GEOLOGY,
-  SSET_ECOLOGY,
   SSET_SOCIOLOGY,
   SSET_ECONOMICS,
   SSET_MILITARY,
