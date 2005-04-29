@@ -98,12 +98,12 @@ struct requirement req_from_values(int type, int range,
 
 bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
-		   Impr_Type_id target_building,
+		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
 		   const struct requirement *req);
 bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
-		     Impr_Type_id target_building,
+		     const struct impr_type *target_building,
 		     const struct tile *target_tile,
 		     const struct requirement *reqs, int num_reqs);
 

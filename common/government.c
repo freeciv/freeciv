@@ -204,7 +204,7 @@ bool can_change_to_government(struct player *pplayer, int government)
     return TRUE;
   }
 
-  return are_reqs_active(pplayer, NULL, B_LAST, NULL,
+  return are_reqs_active(pplayer, NULL, NULL, NULL,
 			 gov->req, MAX_NUM_REQS);
 }
 

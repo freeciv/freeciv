@@ -56,6 +56,7 @@ struct nation_type;
 struct player;
 struct tile;
 struct unit;
+struct impr_type;
 
 /* Changing these will break network compatibility. */
 #define SP_MAX 20

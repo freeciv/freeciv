@@ -467,7 +467,7 @@ static int num_city_buildings(const struct city *pcity, Impr_Type_id id)
 ****************************************************************************/
 static int count_buildings_in_range(const struct player *target_player,
 				    const struct city *target_city,
-				    Impr_Type_id target_building,
+				    const struct impr_type * target_building,
 				    enum req_range range, bool survives,
 				    Impr_Type_id source)
 {
@@ -504,7 +504,7 @@ static int count_buildings_in_range(const struct player *target_player,
   case REQ_RANGE_CITY:
     return target_city ? num_city_buildings(target_city, source) : 0;
   case REQ_RANGE_LOCAL:
-    if (target_building != B_LAST && target_building == source) {
+    if (target_building && target_building->index == source) {
       return num_city_buildings(target_city, source);
     } else {
       /* TODO: other local targets */
@@ -641,7 +641,7 @@ static bool is_nation_in_range(const struct player *target_player,
 ****************************************************************************/
 bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
-		   Impr_Type_id target_building,
+		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
 		   const struct requirement *req)
 {
@@ -705,7 +705,7 @@ bool is_req_active(const struct player *target_player,
 ****************************************************************************/
 bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
-		     Impr_Type_id target_building,
+		     const struct impr_type *target_building,
 		     const struct tile *target_tile,
 		     const struct requirement *reqs, int num_reqs)
 {

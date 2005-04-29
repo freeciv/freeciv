@@ -587,7 +587,7 @@ bool can_eventually_build_improvement(const struct city *pcity,
       break;
     }
     if (is_req_unchanging(&building->req[r])
-	&& !is_req_active(city_owner(pcity), pcity, B_LAST, pcity->tile,
+	&& !is_req_active(city_owner(pcity), pcity, NULL, pcity->tile,
 			  &building->req[r])) {
       return FALSE;
     }
@@ -665,7 +665,7 @@ bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type)
 {
-  return are_reqs_active(city_owner(pcity), pcity, B_LAST, NULL,
+  return are_reqs_active(city_owner(pcity), pcity, NULL, NULL,
 			 game.rgame.specialists[type].req, MAX_NUM_REQS);
 }
 
@@ -1255,7 +1255,7 @@ int get_player_city_style(const struct player *plr)
 
   while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
-    if (are_reqs_active(plr, NULL, B_LAST, NULL,
+    if (are_reqs_active(plr, NULL, NULL, NULL,
 			city_styles[replace].req, MAX_NUM_REQS)) {
       style = replace;
     }
