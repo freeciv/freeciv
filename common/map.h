@@ -284,11 +284,6 @@ const char *map_get_infrastructure_text(enum tile_special_type spe);
 enum tile_special_type map_get_infrastructure_prerequisite(enum tile_special_type spe);
 enum tile_special_type get_preferred_pillage(enum tile_special_type pset);
 
-void map_irrigate_tile(struct tile *ptile);
-void map_mine_tile(struct tile *ptile);
-void change_terrain(struct tile *ptile, Terrain_type_id type);
-void map_transform_tile(struct tile *ptile);
-
 bool can_channel_land(const struct tile *ptile);
 bool can_reclaim_ocean(const struct tile *ptile);
 

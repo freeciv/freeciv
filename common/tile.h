@@ -73,4 +73,9 @@ Continent_id tile_get_continent(const struct tile *ptile);
 int tile_activity_time(enum unit_activity activity,
 		       const struct tile *ptile);
 
+void tile_change_terrain(struct tile *ptile, Terrain_type_id type);
+void tile_irrigate(struct tile *ptile);
+void tile_mine(struct tile *ptile);
+void tile_transform(struct tile *ptile);
+
 #endif /* FC__TILE_H */

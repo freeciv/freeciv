@@ -167,3 +167,109 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
     return 0;
   }
 }
+
+/****************************************************************************
+  Clear all infrastructure (man-made specials) from the tile.
+****************************************************************************/
+static void tile_clear_infrastructure(struct tile *ptile)
+{
+  tile_clear_special(ptile, S_INFRASTRUCTURE_MASK);
+}
+
+/****************************************************************************
+  Clear all "dirtiness" (pollution and fallout) from the tile.
+****************************************************************************/
+static void tile_clear_dirtiness(struct tile *ptile)
+{
+  tile_clear_special(ptile, S_POLLUTION);
+  tile_clear_special(ptile, S_FALLOUT);
+}
+
+/****************************************************************************
+  Change the terrain to the given type.  This does secondary tile updates to
+  the tile (as will happen when mining/irrigation/transforming changes the
+  tile's terrain).
+****************************************************************************/
+void tile_change_terrain(struct tile *ptile, Terrain_type_id type)
+{
+  tile_set_terrain(ptile, type);
+  if (is_ocean(type)) {
+    tile_clear_infrastructure(ptile);
+    tile_clear_dirtiness(ptile);
+
+    /* FIXME: When rest of code can handle
+     * rivers in oceans, then maybe we can leave it in place. */
+    tile_clear_special(ptile, S_RIVER);
+  }
+
+  /* Clear mining/irrigation if resulting terrain type cannot support
+   * that feature. */
+  
+  if (tile_types[type].mining_result != type) {
+    tile_clear_special(ptile, S_MINE);
+  }
+
+  if (tile_types[type].irrigation_result != type) {
+    tile_clear_special(ptile, S_IRRIGATION);
+    tile_clear_special(ptile, S_FARMLAND);
+  }
+}
+
+/****************************************************************************
+  Build irrigation on the tile.  This may change the specials of the tile
+  or change the terrain type itself.
+****************************************************************************/
+void tile_irrigate(struct tile *ptile)
+{
+  Terrain_type_id now, result;
+  
+  now = ptile->terrain;
+  result = tile_types[now].irrigation_result;
+
+  if (now == result) {
+    if (tile_has_special(ptile, S_IRRIGATION)) {
+      tile_set_special(ptile, S_FARMLAND);
+    } else {
+      tile_set_special(ptile, S_IRRIGATION);
+    }
+    tile_clear_special(ptile, S_MINE);
+  } else if (result != T_NONE) {
+    tile_change_terrain(ptile, result);
+  }
+}
+
+/****************************************************************************
+  Build a mine on the tile.  This may change the specials of the tile
+  or change the terrain type itself.
+****************************************************************************/
+void tile_mine(struct tile *ptile)
+{
+  Terrain_type_id now, result;
+  
+  now = ptile->terrain;
+  result = tile_types[now].mining_result;
+  
+  if (now == result) {
+    tile_set_special(ptile, S_MINE);
+    tile_clear_special(ptile, S_FARMLAND);
+    tile_clear_special(ptile, S_IRRIGATION);
+  } else if (result != T_NONE) {
+    tile_change_terrain(ptile, result);
+  }
+}
+
+/****************************************************************************
+  Transform (ACTIVITY_TRANSFORM) the tile.  This usually changes the tile's
+  terrain type.
+****************************************************************************/
+void tile_transform(struct tile *ptile)
+{
+  Terrain_type_id now, result;
+  
+  now = ptile->terrain;
+  result = tile_types[now].transform_result;
+  
+  if (result != T_NONE) {
+    tile_change_terrain(ptile, result);
+  }
+}

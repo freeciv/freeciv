@@ -221,7 +221,7 @@ void global_warming(int effect)
     }
     if (new != T_NONE && old != new) {
       effect--;
-      change_terrain(ptile, new);
+      tile_change_terrain(ptile, new);
       update_tile_knowledge(ptile);
       unit_list_iterate(ptile->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
@@ -263,7 +263,7 @@ void nuclear_winter(int effect)
     }
     if (new != T_NONE && old != new) {
       effect--;
-      change_terrain(ptile, new);
+      tile_change_terrain(ptile, new);
       update_tile_knowledge(ptile);
       unit_list_iterate(ptile->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {

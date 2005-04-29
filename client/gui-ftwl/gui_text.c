@@ -172,15 +172,15 @@ static void calc_effect(enum unit_activity activity, struct tile *ptile,
     tile_set_special(ptile, S_RAILROAD);
     break;
   case ACTIVITY_MINE:
-    map_mine_tile(ptile);
+    tile_mine(ptile);
     break;
 
   case ACTIVITY_IRRIGATE:
-    map_irrigate_tile(ptile);
+    tile_irrigate(ptile);
     break;
 
   case ACTIVITY_TRANSFORM:
-    map_transform_tile(ptile);
+    tile_transform(ptile);
     break;
   default:
     assert(0);

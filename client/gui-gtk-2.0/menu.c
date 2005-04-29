@@ -1171,19 +1171,19 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   case ACTIVITY_IRRIGATE:
     assert(ptype->irrigation_result != ptile->terrain
 	   && ptype->irrigation_result != T_NONE);
-    map_irrigate_tile(ptile);
+    tile_irrigate(ptile);
     break;
 
   case ACTIVITY_MINE:
     assert(ptype->mining_result != ptile->terrain
 	   && ptype->mining_result != T_NONE);
-    map_mine_tile(ptile);
+    tile_mine(ptile);
     break;
 
   case ACTIVITY_TRANSFORM:
     assert(ptype->transform_result != ptile->terrain
 	   && ptype->transform_result != T_NONE);
-    map_transform_tile(ptile);
+    tile_transform(ptile);
     break;
 
   default:

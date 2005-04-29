@@ -770,7 +770,7 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity (punit->tile, ACTIVITY_IRRIGATE)
         >= tile_activity_time(ACTIVITY_IRRIGATE, punit->tile)) {
       Terrain_type_id old = tile_get_terrain(punit->tile);
-      map_irrigate_tile(punit->tile);
+      tile_irrigate(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
     }
@@ -797,7 +797,7 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity (punit->tile, ACTIVITY_MINE)
         >= tile_activity_time(ACTIVITY_MINE, punit->tile)) {
       Terrain_type_id old = tile_get_terrain(punit->tile);
-      map_mine_tile(punit->tile);
+      tile_mine(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
@@ -808,7 +808,7 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity (punit->tile, ACTIVITY_TRANSFORM)
         >= tile_activity_time(ACTIVITY_TRANSFORM, punit->tile)) {
       Terrain_type_id old = tile_get_terrain(punit->tile);
-      map_transform_tile(punit->tile);
+      tile_transform(punit->tile);
       solvency = check_terrain_ocean_land_change(punit->tile, old);
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
