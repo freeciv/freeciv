@@ -391,12 +391,14 @@ static void try_summon_barbarians(void)
   }
 
   if (!is_ocean(tile_get_terrain(utile))) {
+    int rand_factor = myrand(3);
+
     /* land (disembark) barbarians */
     barbarians = create_barbarian_player(TRUE);
     if (city_list_size(victim->cities) > UPRISE_CIV_MOST) {
       uprise = 3;
     }
-    for (i = 0; i < myrand(3) + uprise * game.barbarianrate; i++) {
+    for (i = 0; i < rand_factor + uprise * game.barbarianrate; i++) {
       unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
       (void) create_unit(barbarians, utile, unit, 0, 0, -1);
       freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
