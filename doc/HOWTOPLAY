@@ -232,10 +232,7 @@ Q. How do I get _____ tech?
 Look the tech up in the online help.  It will show you the
 technologies you need to get first.
 
-Alternatively, you could download David Pfitzner's "techtree" map,
-from http://msowww.anu.edu.au/~dwp/freeciv/.
-
-Failing that, you could read the technology ruleset in 
+You could read the technology ruleset in 
 'data/default/techs.ruleset'.  It shows a list of all the techs,
 and what techs are necessary to get them.
 
