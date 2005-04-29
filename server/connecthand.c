@@ -112,6 +112,8 @@ static void establish_new_connection(struct connection *pconn)
     }
   } conn_list_iterate_end;
 
+  send_rulesets(dest);
+
   /* a player has already been created for this user, reconnect him */
   if ((pplayer = find_player_by_user(pconn->username))) {
     attach_connection_to_player(pconn, pplayer);
@@ -120,7 +122,6 @@ static void establish_new_connection(struct connection *pconn)
       /* Player and other info is only updated when the game is running.
        * See the comment in lost_connection_to_client(). */
       send_packet_freeze_hint(pconn);
-      send_rulesets(dest);
       send_all_info(dest);
       send_game_state(dest, CLIENT_GAME_RUNNING_STATE);
       send_player_info(NULL,NULL);

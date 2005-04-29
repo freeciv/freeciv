@@ -3129,6 +3129,12 @@ void load_rulesets(void)
   load_ruleset_effects(&effectfile);
   load_ruleset_game();
   translate_data_names();
+
+  if (game.all_connections) {
+    /* Now that the rulesets are loaded we immediately send updates to any
+     * connected clients. */
+    send_rulesets(game.all_connections);
+  }
 }
 
 /**************************************************************************

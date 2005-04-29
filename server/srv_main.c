@@ -1750,8 +1750,6 @@ static void srv_loop(void)
 
 main_start_players:
 
-  send_rulesets(game.game_connections);
-
   if (map.num_start_positions > 0) {
     start_nations = TRUE;
 

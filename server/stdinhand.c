@@ -2777,12 +2777,6 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
-  /* if we want to switch players, reset the client */
-  if (pconn->player && server_state == RUN_GAME_STATE) {
-    send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
-    send_conn_info(game.est_connections,  pconn->self);
-  }
-
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
   if (pconn->player) {
@@ -2811,7 +2805,6 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   if (server_state == RUN_GAME_STATE) {
     send_packet_freeze_hint(pconn);
-    send_rulesets(pconn->self);
     send_all_info(pconn->self);
     send_game_state(pconn->self, CLIENT_GAME_RUNNING_STATE);
     send_player_info(NULL, NULL);
@@ -2923,6 +2916,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   /* if we want to switch players, reset the client if the game is running */
   if (pconn->player && server_state == RUN_GAME_STATE) {
     send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
+    send_rulesets(pconn->self);
     send_player_info_c(NULL, pconn->self);
     send_conn_info(game.est_connections,  pconn->self);
   }
@@ -2933,6 +2927,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
     if (!aconn->observer) {
       if (server_state == RUN_GAME_STATE) {
         send_game_state(aconn->self, CLIENT_PRE_GAME_STATE);
+	send_rulesets(aconn->self);
       }
       notify_conn(aconn->self, _("being detached from %s."), pplayer->name);
       unattach_connection_from_player(aconn);
@@ -2973,7 +2968,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   if (server_state == RUN_GAME_STATE) {
     send_packet_freeze_hint(pconn);
-    send_rulesets(pconn->self);
     send_all_info(pconn->self);
     send_game_state(pconn->self, CLIENT_GAME_RUNNING_STATE);
     send_player_info(NULL, NULL);
@@ -3073,6 +3067,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   /* if we want to detach while the game is running, reset the client */
   if (server_state == RUN_GAME_STATE) {
     send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
+    send_rulesets(pconn->self);
     send_game_info(pconn->self);
     send_player_info_c(NULL, pconn->self);
     send_conn_info(game.est_connections, pconn->self);
@@ -3144,9 +3139,6 @@ static void send_load_game_info(bool load_successful)
 
   if (load_successful) {
     int i = 0;
-
-    /* We have to send ruleset info before sending the nations, below. */
-    send_rulesets(game.est_connections);
 
     players_iterate(pplayer) {
       if (game.nation_count && is_barbarian(pplayer)) {
