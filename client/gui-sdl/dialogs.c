@@ -919,7 +919,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
       if (get_tile_infrastructure_set(pTile))
       {
 	cat_snprintf(cBuf, sizeof(cBuf), _("\nInfrastructure: %s"),
-				map_get_infrastructure_text(pTile->special));
+				get_infrastructure_text(pTile->special));
       }
     }
     
@@ -3426,7 +3426,7 @@ void popup_pillage_dialog(struct unit *pUnit,
     w = MAX(w, pBuf->size.w);
     h += pBuf->size.h;
         
-    may_pillage &= (~(what | map_get_infrastructure_prerequisite(what)));
+    may_pillage &= (~(what | get_infrastructure_prereq(what)));
   }
   pPillage_Dlg->pBeginWidgetList = pBuf;
   

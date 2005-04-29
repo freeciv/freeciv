@@ -363,3 +363,98 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
   }
   return count;
 }
+
+/****************************************************************************
+  Return a (static) string with special(s) name(s):
+    eg: "Mine"
+    eg: "Road/Farmland"
+  This only includes "infrastructure", i.e., man-made specials.
+****************************************************************************/
+const char *get_infrastructure_text(enum tile_special_type spe)
+{
+  static char s[256];
+  char *p;
+  
+  s[0] = '\0';
+
+  /* Since railroad requires road, Road/Railroad is redundant */
+  if (contains_special(spe, S_RAILROAD)) {
+    cat_snprintf(s, sizeof(s), "%s/", _("Railroad"));
+  } else if (contains_special(spe, S_ROAD)) {
+    cat_snprintf(s, sizeof(s), "%s/", _("Road"));
+  }
+
+  /* Likewise for farmland on irrigation */
+  if (contains_special(spe, S_FARMLAND)) {
+    cat_snprintf(s, sizeof(s), "%s/", _("Farmland"));
+  } else if (contains_special(spe, S_IRRIGATION)) {
+    cat_snprintf(s, sizeof(s), "%s/", _("Irrigation"));
+  }
+
+  if (contains_special(spe, S_MINE)) {
+    cat_snprintf(s, sizeof(s), "%s/", _("Mine"));
+  }
+
+  if (contains_special(spe, S_FORTRESS)) {
+    cat_snprintf(s, sizeof(s), "%s/", _("Fortress"));
+  }
+
+  if (contains_special(spe, S_AIRBASE)) {
+    cat_snprintf(s, sizeof(s), "%s/", _("Airbase"));
+  }
+
+  p = s + strlen(s) - 1;
+  if (*p == '/') {
+    *p = '\0';
+  }
+
+  return s;
+}
+
+/****************************************************************************
+  Return the prerequesites needed before building the given infrastructure.
+****************************************************************************/
+enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
+{
+  enum tile_special_type prereq = S_NO_SPECIAL;
+
+  if (contains_special(spe, S_RAILROAD)) {
+    prereq |= S_ROAD;
+  }
+  if (contains_special(spe, S_FARMLAND)) {
+    prereq |= S_IRRIGATION;
+  }
+
+  return prereq;
+}
+
+/****************************************************************************
+  Returns the highest-priority (best) infrastructure (man-made special) to
+  be pillaged from the terrain set.  May return S_NO_SPECIAL if nothing
+  better is available.
+****************************************************************************/
+enum tile_special_type get_preferred_pillage(enum tile_special_type pset)
+{
+  if (contains_special(pset, S_FARMLAND)) {
+    return S_FARMLAND;
+  }
+  if (contains_special(pset, S_IRRIGATION)) {
+    return S_IRRIGATION;
+  }
+  if (contains_special(pset, S_MINE)) {
+    return S_MINE;
+  }
+  if (contains_special(pset, S_FORTRESS)) {
+    return S_FORTRESS;
+  }
+  if (contains_special(pset, S_AIRBASE)) {
+    return S_AIRBASE;
+  }
+  if (contains_special(pset, S_RAILROAD)) {
+    return S_RAILROAD;
+  }
+  if (contains_special(pset, S_ROAD)) {
+    return S_ROAD;
+  }
+  return S_NO_SPECIAL;
+}

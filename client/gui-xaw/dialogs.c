@@ -1311,12 +1311,12 @@ void popup_pillage_dialog(struct unit *punit,
       XtVaCreateManagedWidget ("button", commandWidgetClass, form,
 			       XtNfromVert, prev,
 			       XtNlabel,
-			         (XtArgVal)(map_get_infrastructure_text (what)),
+			         (XtArgVal)(get_infrastructure_text (what)),
 			       NULL);
     XtAddCallback(button, XtNcallback, pillage_callback,
 		  INT_TO_XTPOINTER(what));
     prev = button;
-    may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+    may_pillage &= (~(what | get_infrastructure_prereq(what)));
   }
   button =
     I_L(XtVaCreateManagedWidget("closebutton", commandWidgetClass, form,

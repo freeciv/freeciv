@@ -128,7 +128,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
       if (get_tile_infrastructure_set(ptile))
       {
 	sz_strlcpy(s, _("Infrastructure: "));
-	sz_strlcat(s, map_get_infrastructure_text(ptile->special));
+	sz_strlcat(s, get_infrastructure_text(ptile->special));
 	text_obj = TextObject, MUIA_Text_Contents, s, End;
 	DoMethod(group, OM_ADDMEMBER, text_obj);
       }

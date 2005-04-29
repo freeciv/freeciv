@@ -1678,9 +1678,9 @@ void popup_pillage_dialog(struct unit *punit,
     while(may_pillage != S_NO_SPECIAL) {
       enum tile_special_type what = get_preferred_pillage(may_pillage);
 
-      fcwin_box_add_button(vbox,map_get_infrastructure_text(what),
+      fcwin_box_add_button(vbox,get_infrastructure_text(what),
 			   ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
-      may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+      may_pillage &= (~(what | get_infrastructure_prereq(what)));
     }
     fcwin_box_add_button(vbox,_("Cancel"),IDCANCEL,0,TRUE,FALSE,5);
     fcwin_set_box(dlg,vbox);

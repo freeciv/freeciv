@@ -606,7 +606,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 		  unit_activity_text(pUnit),
 		  sdl_map_get_tile_info_text(pTile),
 		  infrastructure ?
-		  map_get_infrastructure_text(infrastructure) : "",
+		  get_infrastructure_text(infrastructure) : "",
 		  infrastructure ? "\n" : "", pCity ? pCity->name : _("NONE"));
 
       copy_chars_to_string16(pStr, buffer);

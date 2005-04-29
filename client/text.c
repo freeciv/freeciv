@@ -229,7 +229,7 @@ const char *popup_info_text(struct tile *ptile)
   } 
   if (get_tile_infrastructure_set(ptile)) {
     add_line(_("Infrastructure: %s"),
-	     map_get_infrastructure_text(ptile->special));
+	     get_infrastructure_text(ptile->special));
   }
   activity_text = concat_tile_activity_text(ptile);
   if (strlen(activity_text) > 0) {
@@ -564,7 +564,7 @@ const char *get_unit_info_label_text2(struct unit *punit)
 
     add_line("%s", map_get_tile_info_text(punit->tile));
     if (infrastructure) {
-      add_line("%s", map_get_infrastructure_text(infrastructure));
+      add_line("%s", get_infrastructure_text(infrastructure));
     } else {
       add_line(" ");
     }

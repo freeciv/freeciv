@@ -1104,10 +1104,10 @@ void popup_pillage_dialog(struct unit *punit,
     while (may_pillage != S_NO_SPECIAL) {
       enum tile_special_type what = get_preferred_pillage(may_pillage);
 
-      message_dialog_add(shl, map_get_infrastructure_text(what),
+      message_dialog_add(shl, get_infrastructure_text(what),
 			 G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
 
-      may_pillage &= (~(what | map_get_infrastructure_prerequisite(what)));
+      may_pillage &= (~(what | get_infrastructure_prereq(what)));
     }
 
     message_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0);

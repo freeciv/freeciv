@@ -1437,7 +1437,7 @@ static void handle_unit_activity_dependencies(struct unit *punit,
     case ACTIVITY_PILLAGE: 
       {
         enum tile_special_type prereq =
-	  map_get_infrastructure_prerequisite(old_target);
+	  get_infrastructure_prereq(old_target);
         if (prereq != S_NO_SPECIAL) {
           unit_list_iterate (punit->tile->units, punit2)
             if ((punit2->activity == ACTIVITY_PILLAGE) &&

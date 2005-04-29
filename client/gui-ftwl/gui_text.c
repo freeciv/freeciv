@@ -144,7 +144,7 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
   add_line("%s", map_get_tile_info_text(ptile));
   if (infrastructure) {
     add_line("%s",
-	     map_get_infrastructure_text(infrastructure));
+	     get_infrastructure_text(infrastructure));
   }
   RETURN;
 }
@@ -412,7 +412,7 @@ const char *mapview_get_terrain_info_text(struct tile *ptile)
   }
   if (get_tile_infrastructure_set(ptile)) {
     add_line(_("Infrastructure: %s"),
-	     map_get_infrastructure_text(ptile->special));
+	     get_infrastructure_text(ptile->special));
   }
   if (strlen(activity_text)) {
     add_line(_("Activity: %s"), activity_text);

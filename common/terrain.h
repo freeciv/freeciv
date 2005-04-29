@@ -218,6 +218,11 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
 				 bool cardinal_only, bool percentage,
 				 enum terrain_flag_id flag);
 
+/* Special helper functions */
+const char *get_infrastructure_text(enum tile_special_type spe);
+enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
+enum tile_special_type get_preferred_pillage(enum tile_special_type pset);
+
 /* Terrain-specific functions. */
 #define is_ocean(x) (terrain_has_flag((x), TER_OCEANIC))
 #define is_ocean_near_tile(ptile) \

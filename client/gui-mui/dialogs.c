@@ -1080,7 +1080,7 @@ void popup_pillage_dialog(struct unit *punit,
     {
       enum tile_special_type what = get_preferred_pillage(may_pillage);
 
-      may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+      may_pillage &= (~(what | get_infrastructure_prereq(what)));
       count++;
     }
 
@@ -1100,11 +1100,11 @@ void popup_pillage_dialog(struct unit *punit,
 	{
 	  enum tile_special_type what = get_preferred_pillage (may_pillage);
 	
-          msg_dlg[i].label = mystrdup(map_get_infrastructure_text(what));
+          msg_dlg[i].label = mystrdup(get_infrastructure_text(what));
           msg_dlg[i].function = (APTR)pillage_button;
           msg_dlg[i].data = (APTR)what;
 	
-          may_pillage &= (~(what | map_get_infrastructure_prerequisite (what)));
+          may_pillage &= (~(what | get_infrastructure_prereq(what)));
         }
 	
         msg_dlg[i].label = _("_Cancel");

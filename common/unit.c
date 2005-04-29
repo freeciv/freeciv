@@ -1029,7 +1029,7 @@ const char *unit_activity_text(const struct unit *punit)
      } else {
        my_snprintf(text, sizeof(text), "%s: %s",
 		   get_activity_text (punit->activity),
-		   map_get_infrastructure_text(punit->activity_target));
+		   get_infrastructure_text(punit->activity_target));
        return (text);
      }
    default:

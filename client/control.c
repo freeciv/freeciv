@@ -1119,7 +1119,7 @@ void request_unit_pillage(struct unit *punit)
   enum tile_special_type what =
       get_preferred_pillage(pspresent & (~psworking));
   enum tile_special_type would =
-      what | map_get_infrastructure_prerequisite(what);
+      what | get_infrastructure_prereq(what);
 
   if ((game.rgame.pillage_select) &&
       ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
