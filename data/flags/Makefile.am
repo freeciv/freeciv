@@ -70,6 +70,7 @@ flag_files =				\
 		mordor.png		\
 		nato.png		\
 		netherlands.png		\
+		newzealand.png		\
 		nigeria.png		\
 		norway.png		\
 		observer.png		\
@@ -177,6 +178,7 @@ shield_files =					\
 		mordor-shield.png		\
 		nato-shield.png			\
 		netherlands-shield.png		\
+		newzealand-shield.png		\
 		nigeria-shield.png		\
 		norway-shield.png		\
 		observer-shield.png		\
@@ -284,6 +286,7 @@ svg_files = 				\
 		mordor.svg		\
 		nato.svg		\
 		netherlands.svg		\
+		newzealand.svg		\
 		nigeria.svg		\
 		norway.svg		\
 		observer.svg		\
