@@ -136,6 +136,12 @@ extern int city_tiles;
 }
 
 
+struct output_type {
+  int index;
+  const char *name; /* Untranslated name */
+  const char *id; /* Identifier string (for rulesets, etc.) */
+};
+
 enum choice_type { CT_NONE = 0, CT_BUILDING = 0, CT_NONMIL, CT_ATTACKER,
                    CT_DEFENDER, CT_LAST };
 
@@ -326,6 +332,7 @@ struct citystyle {
 
 extern struct citystyle *city_styles;
 extern const Output_type_id num_output_types;
+extern struct output_type output_types[];
 
 /* get 'struct city_list' and related functions: */
 #define SPECLIST_TAG city

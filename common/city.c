@@ -41,7 +41,18 @@ struct iter_index *city_map_iterate_outwards_indices;
 struct citystyle *city_styles = NULL;
 
 int city_tiles;
+
+/* One day these values may be read in from the ruleset.  In the meantime
+ * they're just an easy way to access information about each output type. */
 const Output_type_id num_output_types = O_LAST;
+struct output_type output_types[O_LAST] = {
+  {O_FOOD, "Food", "food"},
+  {O_SHIELD, "Shield", "shield"},
+  {O_TRADE, "Trade", "trade"},
+  {O_GOLD, "Gold", "gold"},
+  {O_LUXURY, "Luxury", "luxury"},
+  {O_SCIENCE, "Science", "science"}
+};
 
 /**************************************************************************
   Return TRUE if the given city coordinate pair is "valid"; that is, if it
@@ -223,24 +234,11 @@ void generate_city_map_indices(void)
 *****************************************************************************/
 const char *get_output_identifier(Output_type_id output)
 {
-  switch (output) {
-  case O_FOOD:
-    return "food";
-  case O_SHIELD:
-    return "shield";
-  case O_TRADE:
-    return "trade";
-  case O_GOLD:
-    return "gold";
-  case O_LUXURY:
-    return "luxury";
-  case O_SCIENCE:
-    return "science";
-  case O_LAST:
-    break;
+  if (output < 0 || output >= O_LAST) {
+    assert(0);
+    return NULL;
   }
-  die("Unknown output type in get_output_id: %d", output);
-  return NULL;
+  return output_types[output].id;
 }
 
 /****************************************************************************
@@ -249,24 +247,11 @@ const char *get_output_identifier(Output_type_id output)
 *****************************************************************************/
 const char *get_output_name(Output_type_id output)
 {
-  switch (output) {
-  case O_FOOD:
-    return _("Food");
-  case O_SHIELD:
-    return _("Shield");
-  case O_TRADE:
-    return _("Trade");
-  case O_GOLD:
-    return _("Gold");
-  case O_LUXURY:
-    return _("Luxury");
-  case O_SCIENCE:
-    return _("Science");
-  case O_LAST:
-    break;
+  if (output < 0 || output >= O_LAST) {
+    assert(0);
+    return NULL;
   }
-  die("Unknown output type in get_output_name: %d", output);
-  return NULL;
+  return _(output_types[output].name);
 }
 
 /**************************************************************************

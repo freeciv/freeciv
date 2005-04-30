@@ -35,7 +35,7 @@
 #define MAX_LEN_VET_SHORT_NAME 8
 #define MAX_VET_LEVELS 10
 
-enum output_type {
+enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };
 #define O_COUNT num_output_types
@@ -45,7 +45,7 @@ typedef signed short Continent_id;
 typedef int Terrain_type_id;
 typedef int Specialist_type_id;
 typedef int Impr_Type_id;
-typedef enum output_type Output_type_id;
+typedef enum output_type_id Output_type_id;
 typedef enum unit_activity Activity_type_id;
 typedef int Nation_Type_id;
 typedef int Team_Type_id;
@@ -57,6 +57,7 @@ struct player;
 struct tile;
 struct unit;
 struct impr_type;
+struct output_type;
 
 /* Changing these will break network compatibility. */
 #define SP_MAX 20
