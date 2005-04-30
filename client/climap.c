@@ -34,7 +34,7 @@
 *************************************************************************/
 enum known_type tile_get_known(const struct tile *ptile)
 {
-  return (enum known_type) ptile->known;
+  return map_get_known(ptile, game.player_ptr);
 }
 
 /**************************************************************************

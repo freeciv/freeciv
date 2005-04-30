@@ -15,6 +15,7 @@
 #define FC__TILE_H
 
 #include "fc_types.h"
+#include "player.h"
 #include "terrain.h"
 #include "unit.h"
 
@@ -31,9 +32,7 @@ struct tile {
   enum tile_special_type special;
   struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
-  unsigned int known;   /* A bitvector on the server side, an
-			   enum known_type on the client side.
-			   Player_no is index */
+  bv_player tile_known, tile_seen;
   int assigned; /* these can save a lot of CPU usage -- Syela */
   struct city *worked;      /* city working tile, or NULL if none */
   Continent_id continent;

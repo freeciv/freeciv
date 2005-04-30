@@ -36,7 +36,7 @@
 struct claim_cell {
   int when;
   int whom;
-  int know;
+  bv_player know;
   int cities;
 };
 
@@ -197,7 +197,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       nextedge++;
       pcmap->player_landarea[owner]++;
       pcmap->player_owndarea[owner]++;
-      pclaim->know = ptile->known;
+      pclaim->know = ptile->tile_known;
     } else if (ptile->worked) {
       owner = ptile->worked->owner;
       pclaim->when = turn + 1;
@@ -206,7 +206,7 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       nextedge++;
       pcmap->player_landarea[owner]++;
       pcmap->player_owndarea[owner]++;
-      pclaim->know = ptile->known;
+      pclaim->know = ptile->tile_known;
     } else if (unit_list_size(ptile->units) > 0) {
       owner = (unit_list_get(ptile->units, 0))->owner;
       pclaim->when = turn + 1;
@@ -217,11 +217,11 @@ static void build_landarea_map_turn_0(struct claim_map *pcmap)
       if (TEST_BIT(pclaim->cities, owner)) {
 	pcmap->player_owndarea[owner]++;
       }
-      pclaim->know = ptile->known;
+      pclaim->know = ptile->tile_known;
     } else {
       /* pclaim->when = 0; */
       pclaim->whom = no_owner;
-      pclaim->know = ptile->known;
+      pclaim->know = ptile->tile_known;
     }
   } whole_map_iterate_end;
 
@@ -258,7 +258,7 @@ static void build_landarea_map_expand(struct claim_map *pcmap)
 	  int j = tile1->index;
 	  struct claim_cell *pclaim = &pcmap->claims[j];
 
-	  if (TEST_BIT(pclaim->know, owner)) {
+	  if (BV_ISSET(pclaim->know, owner)) {
 	    if (pclaim->when == 0) {
 	      pclaim->when = turn + 1;
 	      pclaim->whom = owner;

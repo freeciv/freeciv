@@ -1895,7 +1895,7 @@ This was once very ugly...
 void handle_tile_info(struct packet_tile_info *packet)
 {
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
-  enum known_type old_known = ptile->known;
+  enum known_type old_known = tile_get_known(ptile);
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
 
@@ -1920,10 +1920,25 @@ void handle_tile_info(struct packet_tile_info *packet)
       tile_changed = TRUE;
     }
   }
-  if (ptile->known != packet->known) {
+  if (old_known != packet->known) {
     known_changed = TRUE;
   }
-  ptile->known = packet->known;
+  BV_CLR(ptile->tile_known, game.player_idx);
+  BV_CLR(ptile->tile_seen, game.player_idx);
+  switch (packet->known) {
+  case TILE_KNOWN:
+    BV_SET(ptile->tile_known, game.player_idx);
+    BV_SET(ptile->tile_seen, game.player_idx);
+    break;
+  case TILE_KNOWN_FOGGED:
+    BV_SET(ptile->tile_known, game.player_idx);
+    break;
+  case TILE_UNKNOWN:
+    break;
+  default:
+    freelog(LOG_NORMAL, "Unknown tile value %d.", packet->known);
+    break;
+  }
 
   if (packet->spec_sprite[0] != '\0') {
     if (!ptile->spec_sprite
@@ -1942,7 +1957,8 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  if (ptile->known <= TILE_KNOWN_FOGGED && old_known == TILE_KNOWN) {
+  if (tile_get_known(ptile) <= TILE_KNOWN_FOGGED
+      && old_known == TILE_KNOWN) {
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
@@ -1974,9 +1990,9 @@ void handle_tile_info(struct packet_tile_info *packet)
      * A tile can only change if it was known before and is still
      * known. In the other cases the tile is new or removed.
      */
-    if (known_changed && ptile->known == TILE_KNOWN) {
+    if (known_changed && tile_get_known(ptile) == TILE_KNOWN) {
       agents_tile_new(ptile);
-    } else if (known_changed && ptile->known == TILE_KNOWN_FOGGED) {
+    } else if (known_changed && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
       agents_tile_remove(ptile);
     } else {
       agents_tile_changed(ptile);
@@ -1986,7 +2002,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* refresh tiles */
   if (can_client_change_view()) {
     /* the tile itself (including the necessary parts of adjacent tiles) */
-    if (tile_changed || old_known!=ptile->known) {
+    if (tile_changed || old_known != tile_get_known(ptile)) {
       refresh_tile_mapcanvas(ptile, TRUE, FALSE);
     }
   }

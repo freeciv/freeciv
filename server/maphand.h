@@ -40,7 +40,7 @@ struct dumb_city{
 struct player_tile {
   Terrain_type_id terrain;
   enum tile_special_type special;
-  unsigned short seen;
+  unsigned short seen_count;
   unsigned short own_seen;
   /* If you build a city with an unknown square within city radius
      the square stays unknown. However, we still have to keep count

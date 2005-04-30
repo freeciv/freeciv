@@ -252,7 +252,6 @@ struct tile *index_to_tile(int index);
 bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);
 
-/* implemented in server/maphand.c and client/climisc.c */
 enum known_type map_get_known(const struct tile *ptile,
 			      const struct player *pplayer);
 

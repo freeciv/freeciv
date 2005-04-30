@@ -336,7 +336,8 @@ static void tile_init(struct tile *ptile)
 {
   ptile->terrain  = T_UNKNOWN;
   ptile->special  = S_NO_SPECIAL;
-  ptile->known    = 0;
+  BV_CLR_ALL(ptile->tile_known);
+  BV_CLR_ALL(ptile->tile_seen);
   ptile->continent = 0;
   ptile->city     = NULL;
   ptile->units    = unit_list_new();
@@ -796,6 +797,23 @@ int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
 int map_move_cost(struct unit *punit, const struct tile *ptile)
 {
   return tile_move_cost_ptrs(punit, punit->tile, ptile);
+}
+
+/*************************************************************************
+  Return a known_type enumeration value for the tile.
+
+  Note that the client only knows known data about game.player_ptr.
+*************************************************************************/
+enum known_type map_get_known(const struct tile *ptile,
+			      const struct player *pplayer)
+{
+  if (!BV_ISSET(ptile->tile_known, pplayer->player_no)) {
+    return TILE_UNKNOWN;
+  } else if (!BV_ISSET(ptile->tile_seen, pplayer->player_no)) {
+    return TILE_KNOWN_FOGGED;
+  } else {
+    return TILE_KNOWN;
+  }
 }
 
 /***************************************************************

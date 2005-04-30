@@ -650,36 +650,48 @@ static void map_load(struct section_file *file)
 		ptile->special |= ascii_hex2bin(ch, 3));
 
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
+    int known[MAP_INDEX_SIZE];
 
     /* get 4-bit segments of the first half of the 32-bit "known" field */
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.a%03d", nat_y),
-		  ptile->known = ascii_hex2bin(ch, 0));
+		  known[ptile->index] = ascii_hex2bin(ch, 0));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.b%03d", nat_y),
-		  ptile->known |= ascii_hex2bin(ch, 1));
+		  known[ptile->index] |= ascii_hex2bin(ch, 1));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.c%03d", nat_y),
-		  ptile->known |= ascii_hex2bin(ch, 2));
+		  known[ptile->index] |= ascii_hex2bin(ch, 2));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "map.d%03d", nat_y),
-		  ptile->known |= ascii_hex2bin(ch, 3));
+		  known[ptile->index] |= ascii_hex2bin(ch, 3));
 
     if (has_capability("known32fix", savefile_options)) {
       /* get 4-bit segments of the second half of the 32-bit "known" field */
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.e%03d", nat_y),
-		    ptile->known |= ascii_hex2bin(ch, 4));
+		    known[ptile->index] |= ascii_hex2bin(ch, 4));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.g%03d", nat_y),
-		    ptile->known |= ascii_hex2bin(ch, 5));
+		    known[ptile->index] |= ascii_hex2bin(ch, 5));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.h%03d", nat_y),
-		    ptile->known |= ascii_hex2bin(ch, 6));
+		    known[ptile->index] |= ascii_hex2bin(ch, 6));
       LOAD_MAP_DATA(ch, nat_y, ptile,
 		    secfile_lookup_str(file, "map.i%03d", nat_y),
-		    ptile->known |= ascii_hex2bin(ch, 7));
+		    known[ptile->index] |= ascii_hex2bin(ch, 7));
     }
+
+    /* HACK: we read the known data from hex into a 32-bit integer, and
+     * now we convert it to bv_player. */
+    whole_map_iterate(ptile) {
+      BV_CLR_ALL(ptile->tile_known);
+      players_iterate(pplayer) {
+	if (known[ptile->index] & (1u << pplayer->player_no)) {
+	  BV_SET(ptile->tile_known, pplayer->player_no);
+	}
+      } players_iterate_end;
+    } whole_map_iterate_end;
   }
 
 
@@ -752,27 +764,40 @@ static void map_save(struct section_file *file)
 
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
+    int known[MAP_INDEX_SIZE];
+
     /* put the top 4 bits (bits 12-15) of special flags */
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.f%03d",
 			 bin2ascii_hex(ptile->special, 3));
 
+    /* HACK: we convert the data into a 32-bit integer, and then save it as
+     * hex. */
+    memset(known, 0, sizeof(known));
+    whole_map_iterate(ptile) {
+      players_iterate(pplayer) {
+	if (map_is_known(ptile, pplayer)) {
+	  known[ptile->index] |= (1u << pplayer->player_no);
+	}
+      } players_iterate_end;
+    } whole_map_iterate_end;
+
     /* put 4-bit segments of the 32-bit "known" field */
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.a%03d",
-			 bin2ascii_hex(ptile->known, 0));
+			 bin2ascii_hex(known[ptile->index], 0));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.b%03d",
-			 bin2ascii_hex(ptile->known, 1));
+			 bin2ascii_hex(known[ptile->index], 1));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.c%03d",
-			 bin2ascii_hex(ptile->known, 2));
+			 bin2ascii_hex(known[ptile->index], 2));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.d%03d",
-			 bin2ascii_hex(ptile->known, 3));
+			 bin2ascii_hex(known[ptile->index], 3));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.e%03d",
-			 bin2ascii_hex(ptile->known, 4));
+			 bin2ascii_hex(known[ptile->index], 4));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.g%03d",
-			 bin2ascii_hex(ptile->known, 5));
+			 bin2ascii_hex(known[ptile->index], 5));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.h%03d",
-			 bin2ascii_hex(ptile->known, 6));
+			 bin2ascii_hex(known[ptile->index], 6));
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.i%03d",
-			 bin2ascii_hex(ptile->known, 7));
+			 bin2ascii_hex(known[ptile->index], 7));
   }
 }
 

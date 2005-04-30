@@ -83,11 +83,17 @@ static void check_fow(void)
     players_iterate(pplayer) {
       struct player_tile *plr_tile = map_get_player_tile(ptile, pplayer);
       /* underflow of unsigned int */
-      SANITY_CHECK(plr_tile->seen < 60000);
+      SANITY_CHECK(plr_tile->seen_count < 60000);
       SANITY_CHECK(plr_tile->own_seen < 60000);
       SANITY_CHECK(plr_tile->pending_seen < 60000);
 
-      SANITY_CHECK(plr_tile->own_seen <= plr_tile->seen);
+      if (plr_tile->seen_count > 0) {
+	SANITY_CHECK(BV_ISSET(ptile->tile_seen, pplayer->player_no));
+      } else {
+	SANITY_CHECK(!BV_ISSET(ptile->tile_seen, pplayer->player_no));
+      }
+
+      SANITY_CHECK(plr_tile->own_seen <= plr_tile->seen_count);
       if (map_is_known(ptile, pplayer)) {
 	SANITY_CHECK(plr_tile->pending_seen == 0);
       }

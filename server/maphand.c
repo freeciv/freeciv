@@ -942,7 +942,7 @@ void show_area(struct player *pplayer, struct tile *ptile, int len)
 ****************************************************************************/
 bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 {
-  return TEST_BIT(ptile->known, pplayer->player_no);
+  return BV_ISSET(ptile->tile_known, pplayer->player_no);
 }
 
 /***************************************************************
@@ -950,8 +950,10 @@ bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 ***************************************************************/
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer)
 {
-  return TEST_BIT(ptile->known, pplayer->player_no)
-      && ((pplayer->private_map + ptile->index)->seen != 0);
+  assert(BV_ISSET(ptile->tile_seen, pplayer->player_no)
+	 == (map_get_player_tile(ptile, pplayer)->seen_count > 0));
+  return (BV_ISSET(ptile->tile_known, pplayer->player_no)
+	  && BV_ISSET(ptile->tile_seen, pplayer->player_no));
 }
 
 /****************************************************************************
@@ -964,7 +966,9 @@ bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer)
 static int map_get_seen(const struct tile *ptile,
 			const struct player *pplayer)
 {
-  return map_get_player_tile(ptile, pplayer)->seen;
+  assert(BV_ISSET(ptile->tile_seen, pplayer->player_no)
+	 == (map_get_player_tile(ptile, pplayer)->seen_count > 0));
+  return map_get_player_tile(ptile, pplayer)->seen_count;
 }
 
 /***************************************************************
@@ -972,10 +976,16 @@ static int map_get_seen(const struct tile *ptile,
 ***************************************************************/
 void map_change_seen(struct tile *ptile, struct player *pplayer, int change)
 {
-  map_get_player_tile(ptile, pplayer)->seen += change;
+  struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+
+  plrtile->seen_count += change;
+  if (plrtile->seen_count != 0) {
+    BV_SET(ptile->tile_seen, pplayer->player_no);
+  } else {
+    BV_CLR(ptile->tile_seen, pplayer->player_no);
+  }
   freelog(LOG_DEBUG, "%d,%d, p: %d, change %d, result %d\n", TILE_XY(ptile),
-	  pplayer->player_no, change, map_get_player_tile(ptile,
-							 pplayer)->seen);
+	  pplayer->player_no, change, plrtile->seen_count);
 }
 
 /***************************************************************
@@ -1004,7 +1014,7 @@ static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
 ***************************************************************/
 void map_set_known(struct tile *ptile, struct player *pplayer)
 {
-  ptile->known |= (1u<<pplayer->player_no);
+  BV_SET(ptile->tile_known, pplayer->player_no);
 }
 
 /***************************************************************
@@ -1012,7 +1022,7 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 ***************************************************************/
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
-  ptile->known &= ~(1u<<pplayer->player_no);
+  BV_CLR(ptile->tile_known, pplayer->player_no);
 }
 
 /***************************************************************
@@ -1092,18 +1102,20 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   plrtile->special = S_NO_SPECIAL;
   plrtile->city = NULL;
 
-  plrtile->seen = 0;
+  plrtile->seen_count = 0;
   plrtile->pending_seen = 0;
+  BV_CLR(ptile->tile_seen, pplayer->player_no);
   if (!game.fogofwar_old) {
     if (map_is_known(ptile, pplayer)) {
-      plrtile->seen = 1;
+      plrtile->seen_count = 1;
+      BV_SET(ptile->tile_seen, pplayer->player_no);
     } else {
       plrtile->pending_seen = 1;
     }
   }
 
   plrtile->last_updated = GAME_START_YEAR;
-  plrtile->own_seen = plrtile->seen;
+  plrtile->own_seen = plrtile->seen_count;
 }
  
 /****************************************************************************
@@ -1389,26 +1401,6 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 
   if (server_state == RUN_GAME_STATE) {
     send_player_info(pfrom, NULL);
-  }
-}
-
-/***************************************************************************
-  Return a known_type for the given tile for the player.
-
-  FIXME: This function is used by the common code, but separate
-  implementations are provided by server and client.
-***************************************************************************/
-enum known_type map_get_known(const struct tile *ptile,
-			      const struct player *pplayer)
-{
-  if (map_is_known(ptile, pplayer)) {
-    if (map_get_seen(ptile, pplayer) > 0) {
-      return TILE_KNOWN;
-    } else {
-      return TILE_KNOWN_FOGGED;
-    }
-  } else {
-    return TILE_UNKNOWN;
   }
 }
 

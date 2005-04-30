@@ -58,6 +58,8 @@ enum handicap_type {
   H_REVOLUTION = 4096 /* Cannot skip anarchy */
 };
 
+BV_DEFINE(bv_player, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+
 struct player_economic {
   int gold;
   int tax;

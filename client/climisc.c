@@ -1019,19 +1019,6 @@ void reports_force_thaw(void)
   output_window_force_thaw();
 }
 
-/***************************************************************************
-  Return a known_type for the given tile for the player.
-
-  FIXME: This function is used by the common code, but separate
-  implementations are provided by server and client.
-***************************************************************************/
-enum known_type map_get_known(const struct tile *ptile,
-			      const struct player *pplayer)
-{
-  assert(pplayer == game.player_ptr);
-  return tile_get_known(ptile);
-}
-
 /**************************************************************************
   Find city nearest to given unit and optionally return squared city
   distance Parameter sq_dist may be NULL. Returns NULL only if no city is

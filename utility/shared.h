@@ -169,6 +169,7 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
 #define BV_ARE_EQUAL(vec1, vec2) \
   bv_are_equal((vec1).vec, (vec2).vec, sizeof((vec1).vec), sizeof((vec2).vec))
 
+/* Used to make a BV typedef.  Such types are usually called "bv_foo". */
 #define BV_DEFINE(name, bits) \
   typedef struct { unsigned char vec[_BV_BYTES(bits)]; } name
 
