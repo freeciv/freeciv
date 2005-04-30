@@ -170,7 +170,7 @@ static void button_release_event_callback(GtkWidget *widget,
 {
   struct reqtree *tree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int x = event->x, y = event->y;
-  Tech_Type_id tech = get_tech_on_reqtree(tree, x, y);
+  Tech_type_id tech = get_tech_on_reqtree(tree, x, y);
 
   if (tech == A_NONE) {
     return;
@@ -1075,7 +1075,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
 /****************************************************************
 ...
 *****************************************************************/
-static struct unit *find_nearest_unit(Unit_Type_id type, struct tile *ptile)
+static struct unit *find_nearest_unit(Unit_type_id type, struct tile *ptile)
 {
   struct unit *best_candidate;
   int best_dist = 99999;

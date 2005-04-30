@@ -32,7 +32,7 @@
 #include "aitech.h"
 
 struct ai_tech_choice {
-  Tech_Type_id choice;   /* The id of the most needed tech */
+  Tech_type_id choice;   /* The id of the most needed tech */
   int want;              /* Want of the most needed tech */
   int current_want;      /* Want of the tech which currenlty researched 
 			  * or is our current goal */
@@ -56,7 +56,7 @@ static void ai_select_tech(struct player *pplayer,
 			   struct ai_tech_choice *choice,
 			   struct ai_tech_choice *goal)
 {
-  Tech_Type_id newtech, newgoal;
+  Tech_type_id newtech, newgoal;
   int num_cities_nonzero = MAX(1, city_list_size(pplayer->cities));
   int values[A_LAST];
   int goal_values[A_LAST];
@@ -204,26 +204,26 @@ void ai_manage_tech(struct player *pplayer)
   wants for techs to get better units with given role, but only for the
   cheapest to research "next" unit up the "chain".
 **************************************************************************/
-Unit_Type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
+Unit_type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
                                 int role, int want)
 {
   int i, n;
-  Tech_Type_id best_tech = A_NONE;
+  Tech_type_id best_tech = A_NONE;
   int best_cost = FC_INFINITY;
-  Unit_Type_id best_unit = U_LAST;
-  Unit_Type_id build_unit = U_LAST;
+  Unit_type_id best_unit = U_LAST;
+  Unit_type_id build_unit = U_LAST;
 
   n = num_role_units(role);
   for (i = n - 1; i >= 0; i--) {
-    Unit_Type_id iunit = get_role_unit(role, i);
-    Tech_Type_id itech = get_unit_type(iunit)->tech_requirement;
+    Unit_type_id iunit = get_role_unit(role, i);
+    Tech_type_id itech = get_unit_type(iunit)->tech_requirement;
 
     if (can_build_unit(pcity, iunit)) {
       build_unit = iunit;
       break;
     } else if (can_eventually_build_unit(pcity, iunit)) {
       int cost = 0;
-      Impr_Type_id iimpr = get_unit_type(iunit)->impr_requirement;
+      Impr_type_id iimpr = get_unit_type(iunit)->impr_requirement;
 
       if (itech != A_LAST && get_invention(pplayer, itech) != TECH_KNOWN) {
         /* See if we want to invent this. */

@@ -107,7 +107,7 @@ static void change_vision_range(struct player *pplayer, struct tile *ptile,
   It is an error if there are no available units.  This function will
   always return a valid unit.
 **************************************************************************/
-Unit_Type_id find_a_unit_type(enum unit_role_id role,
+Unit_type_id find_a_unit_type(enum unit_role_id role,
 			      enum unit_role_id role_tech)
 {
   int which[U_LAST];
@@ -115,7 +115,7 @@ Unit_Type_id find_a_unit_type(enum unit_role_id role,
 
   if (role_tech != -1) {
     for(i=0; i<num_role_units(role_tech); i++) {
-      Unit_Type_id iunit = get_role_unit(role_tech, i);
+      Unit_type_id iunit = get_role_unit(role_tech, i);
       const int minplayers = 2;
       int players = 0;
 
@@ -268,7 +268,7 @@ static void do_upgrade_effects(struct player *pplayer)
      * available candidates. */
     int candidate_to_upgrade = myrand(unit_list_size(candidates));
     struct unit *punit = unit_list_get(candidates, candidate_to_upgrade);
-    Unit_Type_id upgrade_type = can_upgrade_unittype(pplayer, punit->type);
+    Unit_type_id upgrade_type = can_upgrade_unittype(pplayer, punit->type);
 
     notify_player(pplayer,
 		  _("%s was upgraded for free to %s%s."),
@@ -1385,7 +1385,7 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
 ...
 **************************************************************************/
 bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
-			     Unit_Type_id type, bool unit_is_on_tile)
+			     Unit_type_id type, bool unit_is_on_tile)
 {
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
@@ -1419,7 +1419,7 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 
   Note that this function is strongly tied to unit.c:test_unit_upgrade().
 **************************************************************************/
-void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
+void upgrade_unit(struct unit *punit, Unit_type_id to_unit, bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
   int range;
@@ -1465,7 +1465,7 @@ void upgrade_unit(struct unit *punit, Unit_Type_id to_unit, bool is_free)
   Wrapper of the below
 *************************************************************************/
 struct unit *create_unit(struct player *pplayer, struct tile *ptile, 
-                         Unit_Type_id type, int veteran_level, 
+                         Unit_type_id type, int veteran_level, 
                          int homecity_id, int moves_left)
 {
   return create_unit_full(pplayer, ptile, type, veteran_level, homecity_id, 
@@ -1477,7 +1477,7 @@ struct unit *create_unit(struct player *pplayer, struct tile *ptile,
   lists.
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
-			      Unit_Type_id type, int veteran_level, 
+			      Unit_type_id type, int veteran_level, 
                               int homecity_id, int moves_left, int hp_left,
 			      struct unit *ptrans)
 {
@@ -2287,7 +2287,7 @@ static void hut_get_tech(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   int res_ed, res_ing;
-  Tech_Type_id new_tech;
+  Tech_type_id new_tech;
   const char *tech_name;
   
   /* Save old values, choose tech, then restore old values: */
@@ -2347,7 +2347,7 @@ static bool hut_get_barbarians(struct unit *punit)
   } else {
     /* save coords and type in case unit dies */
     struct tile *unit_tile = punit->tile;
-    Unit_Type_id type = punit->type;
+    Unit_type_id type = punit->type;
 
     ok = unleash_barbarians(unit_tile);
 

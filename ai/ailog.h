@@ -71,7 +71,7 @@ enum ai_timer_activity  {
   TIMER_START, TIMER_STOP
 };
 
-void TECH_LOG(int level, struct player *pplayer, Tech_Type_id id,
+void TECH_LOG(int level, struct player *pplayer, Tech_type_id id,
               const char *msg, ...)
      fc__attribute((format (printf, 4, 5)));
 void DIPLO_LOG(int level, struct player *pplayer, struct ai_data *ai,

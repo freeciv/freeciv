@@ -33,7 +33,7 @@
 ****************************************************************************/
 struct tree_node {
   bool is_dummy;
-  Tech_Type_id tech;
+  Tech_type_id tech;
 
   int nrequire;
   struct tree_node **require;
@@ -824,7 +824,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 /****************************************************************************
   Return the tech ID at the given position of the reqtree (or A_NONE).
 ****************************************************************************/
-Tech_Type_id get_tech_on_reqtree(struct reqtree *tree, int x, int y)
+Tech_type_id get_tech_on_reqtree(struct reqtree *tree, int x, int y)
 {
   int i;
 
@@ -847,7 +847,7 @@ Tech_Type_id get_tech_on_reqtree(struct reqtree *tree, int x, int y)
   Return the position of the given tech on the reqtree.  Return TRUE iff
   it was found.
 ****************************************************************************/
-bool find_tech_on_reqtree(struct reqtree *tree, Tech_Type_id tech,
+bool find_tech_on_reqtree(struct reqtree *tree, Tech_type_id tech,
 			  int *x, int *y, int *w, int *h)
 {
   int i;

@@ -353,18 +353,18 @@ void gamelog(int level, ...)
                   "<n1>%d</n1><n2>%d</n2><name>%s</name>"
                   "<m>%s %s %s from the %s</m>",
                   pplayer->player_no, pplayer2->player_no,
-                  get_tech_name(pplayer, (Tech_Type_id) num),
+                  get_tech_name(pplayer, (Tech_type_id) num),
                   get_nation_name_plural(pplayer->nation), word,
-                  get_tech_name(pplayer, (Tech_Type_id) num),
+                  get_tech_name(pplayer, (Tech_type_id) num),
                   get_nation_name_plural(pplayer2->nation));
     } else {
       my_snprintf(buf, sizeof(buf),
                   "<n1>%d</n1><name>%s</name>"
                   "<m>%s discover %s</m>",
                   pplayer->player_no,
-                  get_tech_name(pplayer, (Tech_Type_id) num),
+                  get_tech_name(pplayer, (Tech_type_id) num),
                   get_nation_name_plural(pplayer->nation),
-                  get_tech_name(pplayer, (Tech_Type_id) num));
+                  get_tech_name(pplayer, (Tech_type_id) num));
     }
     gamelog_put_prefix(buf, sizeof(buf), "tech");
     break;

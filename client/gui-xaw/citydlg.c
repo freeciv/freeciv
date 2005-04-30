@@ -115,7 +115,7 @@ struct city_dialog {
   Widget rename_input;
   Widget worklist_shell;
   
-  Impr_Type_id sell_id;
+  Impr_type_id sell_id;
   
   int support_unit_base;
   int present_unit_base;

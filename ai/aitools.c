@@ -1148,7 +1148,7 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 			 struct ai_choice *choice, int role, int want)
 {
-  Unit_Type_id iunit = ai_wants_role_unit(pplayer, pcity, role, want);
+  Unit_type_id iunit = ai_wants_role_unit(pplayer, pcity, role, want);
 
   if (iunit != U_LAST) {
     choice->choice = iunit;
@@ -1163,7 +1163,7 @@ void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 **************************************************************************/
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
 {
-  Impr_Type_id id = B_LAST;
+  Impr_type_id id = B_LAST;
   int want = 0;
   struct player *plr = city_owner(pcity);
 

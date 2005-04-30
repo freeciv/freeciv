@@ -350,7 +350,7 @@ void req_get_values(struct requirement *req,
   Returns the number of total world buildings (this includes buildings
   that have been destroyed).
 ****************************************************************************/
-static int num_world_buildings_total(Impr_Type_id building)
+static int num_world_buildings_total(Impr_type_id building)
 {
   if (is_great_wonder(building)) {
     return (great_wonder_was_built(building) ? 1 : 0);
@@ -365,7 +365,7 @@ static int num_world_buildings_total(Impr_Type_id building)
 /****************************************************************************
   Returns the number of buildings of a certain type in the world.
 ****************************************************************************/
-static int num_world_buildings(Impr_Type_id id)
+static int num_world_buildings(Impr_type_id id)
 {
   if (is_great_wonder(id)) {
     return (find_city_from_great_wonder(id) ? 1 : 0);
@@ -381,7 +381,7 @@ static int num_world_buildings(Impr_Type_id id)
   Returns the player city with the given wonder.
 **************************************************************************/
 static struct city *player_find_city_from_wonder(const struct player *plr,
-						 Impr_Type_id id)
+						 Impr_type_id id)
 {
   int city_id;
   struct city *pcity;
@@ -406,7 +406,7 @@ static struct city *player_find_city_from_wonder(const struct player *plr,
   Returns the number of buildings of a certain type owned by plr.
 ****************************************************************************/
 static int num_player_buildings(const struct player *pplayer,
-				Impr_Type_id building)
+				Impr_type_id building)
 {
   if (is_wonder(building)) {
     return (player_find_city_from_wonder(pplayer, building) ? 1 : 0);
@@ -422,7 +422,7 @@ static int num_player_buildings(const struct player *pplayer,
   Returns the number of buildings of a certain type on a continent.
 ****************************************************************************/
 static int num_continent_buildings(const struct player *pplayer,
-				   int continent, Impr_Type_id building)
+				   int continent, Impr_type_id building)
 {
   if (is_wonder(building)) {
     const struct city *pcity;
@@ -442,7 +442,7 @@ static int num_continent_buildings(const struct player *pplayer,
 /****************************************************************************
   Returns the number of buildings of a certain type in a city.
 ****************************************************************************/
-static int num_city_buildings(const struct city *pcity, Impr_Type_id id)
+static int num_city_buildings(const struct city *pcity, Impr_type_id id)
 {
   return (city_got_building(pcity, id) ? 1 : 0);
 }
@@ -469,7 +469,7 @@ static int count_buildings_in_range(const struct player *target_player,
 				    const struct city *target_city,
 				    const struct impr_type * target_building,
 				    enum req_range range, bool survives,
-				    Impr_Type_id source)
+				    Impr_type_id source)
 {
   if (improvement_obsolete(target_player, source)) {
     return 0;
@@ -524,7 +524,7 @@ static int count_buildings_in_range(const struct player *target_player,
 ****************************************************************************/
 static bool is_tech_in_range(const struct player *target_player,
 			     enum req_range range,
-			     Tech_Type_id tech)
+			     Tech_type_id tech)
 {
   switch (range) {
   case REQ_RANGE_PLAYER:
@@ -603,7 +603,7 @@ static bool is_terrain_in_range(const struct tile *target_tile,
 ****************************************************************************/
 static bool is_nation_in_range(const struct player *target_player,
 			       enum req_range range, bool survives,
-			       Nation_Type_id nation)
+			       Nation_type_id nation)
 {
   switch (range) {
   case REQ_RANGE_PLAYER:

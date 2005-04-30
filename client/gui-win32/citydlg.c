@@ -94,7 +94,7 @@ struct city_dialog {
   int pop_x; /* also supported_x and present_x */
   int supported_y;
   int present_y;
-  Impr_Type_id sell_id;
+  Impr_type_id sell_id;
   
   int support_unit_ids[NUM_UNITS_SHOWN];
   int present_unit_ids[NUM_UNITS_SHOWN];

@@ -379,20 +379,20 @@ bool city_rapture_grow(const struct city *pcity);
 
 /* city related improvement and unit functions */
 
-int improvement_upkeep(const struct city *pcity, Impr_Type_id i); 
-bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id);
-bool can_build_improvement(const struct city *pcity, Impr_Type_id id);
+int improvement_upkeep(const struct city *pcity, Impr_type_id i); 
+bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id);
+bool can_build_improvement(const struct city *pcity, Impr_type_id id);
 bool can_eventually_build_improvement(const struct city *pcity,
-				      Impr_Type_id id);
-bool can_build_unit(const struct city *pcity, Unit_Type_id id);
-bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id);
-bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id);
+				      Impr_type_id id);
+bool can_build_unit(const struct city *pcity, Unit_type_id id);
+bool can_build_unit_direct(const struct city *pcity, Unit_type_id id);
+bool can_eventually_build_unit(const struct city *pcity, Unit_type_id id);
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type);
-bool city_got_building(const struct city *pcity,  Impr_Type_id id); 
+bool city_got_building(const struct city *pcity,  Impr_type_id id); 
 bool is_capital(const struct city *pcity);
 bool city_got_citywalls(const struct city *pcity);
-bool building_replaced(const struct city *pcity, Impr_Type_id id);
+bool building_replaced(const struct city *pcity, Impr_type_id id);
 int city_change_production_penalty(const struct city *pcity,
 				   int target, bool is_unit);
 int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
@@ -402,7 +402,7 @@ bool city_can_grow_to(const struct city *pcity, int pop_size);
 
 /* textual representation of buildings */
 
-const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id);
+const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id);
 
 /* city map functions */
 
@@ -492,8 +492,8 @@ bool city_exists_within_city_radius(const struct tile *ptile,
 /* granary size as a function of city size */
 int city_granary_size(int city_size);
 
-void city_add_improvement(struct city *pcity, Impr_Type_id impr);
-void city_remove_improvement(struct city *pcity, Impr_Type_id impr);
+void city_add_improvement(struct city *pcity, Impr_type_id impr);
+void city_remove_improvement(struct city *pcity, Impr_type_id impr);
 
 /* city update functions */
 void generic_city_refresh(struct city *pcity,

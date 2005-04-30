@@ -2066,7 +2066,7 @@ int send_packet_nation_select_req(struct connection *pc, const struct packet_nat
   }
 }
 
-int dsend_packet_nation_select_req(struct connection *pc, Nation_Type_id nation_no, bool is_male, const char *name, int city_style)
+int dsend_packet_nation_select_req(struct connection *pc, Nation_type_id nation_no, bool is_male, const char *name, int city_style)
 {
   struct packet_nation_select_req packet, *real_packet = &packet;
 
@@ -15709,7 +15709,7 @@ int send_packet_unit_type_upgrade(struct connection *pc, const struct packet_uni
   }
 }
 
-int dsend_packet_unit_type_upgrade(struct connection *pc, Unit_Type_id type)
+int dsend_packet_unit_type_upgrade(struct connection *pc, Unit_type_id type)
 {
   struct packet_unit_type_upgrade packet, *real_packet = &packet;
 

@@ -67,9 +67,9 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 static bool city_build_building(struct player *pplayer, struct city *pcity);
 static bool city_build_unit(struct player *pplayer, struct city *pcity);
 static bool city_build_stuff(struct player *pplayer, struct city *pcity);
-static Impr_Type_id building_upgrades_to(struct city *pcity, Impr_Type_id b);
+static Impr_type_id building_upgrades_to(struct city *pcity, Impr_type_id b);
 static void upgrade_building_prod(struct city *pcity);
-static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id);
+static Unit_type_id unit_upgrades_to(struct city *pcity, Unit_type_id id);
 static void upgrade_unit_prod(struct city *pcity);
 static void pay_for_buildings(struct player *pplayer, struct city *pcity);
 
@@ -659,7 +659,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	target = new_target;
       }
     } else if (!is_unit && !can_build_improvement(pcity, target)) {
-      Impr_Type_id new_target = building_upgrades_to(pcity, target);
+      Impr_type_id new_target = building_upgrades_to(pcity, target);
 
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {
@@ -844,9 +844,9 @@ static void choose_build_target(struct player *pplayer,
   we can build.  Returns -1 if we can't upgrade at all (including if the
   original building is unbuildable).
 **************************************************************************/
-static Impr_Type_id building_upgrades_to(struct city *pcity, Impr_Type_id id)
+static Impr_type_id building_upgrades_to(struct city *pcity, Impr_type_id id)
 {
-  Impr_Type_id check = id, latest_ok = id;
+  Impr_type_id check = id, latest_ok = id;
 
   if (!can_build_improvement_direct(pcity, check)) {
     return -1;
@@ -869,7 +869,7 @@ static Impr_Type_id building_upgrades_to(struct city *pcity, Impr_Type_id id)
 static void upgrade_building_prod(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  Impr_Type_id upgrades_to = building_upgrades_to(pcity,
+  Impr_type_id upgrades_to = building_upgrades_to(pcity,
 						  pcity->currently_building);
 
   if (can_build_improvement(pcity, upgrades_to)) {
@@ -890,9 +890,9 @@ static void upgrade_building_prod(struct city *pcity)
 
   FIXME: this function is a duplicate of can_upgrade_unittype.
 **************************************************************************/
-static Unit_Type_id unit_upgrades_to(struct city *pcity, Unit_Type_id id)
+static Unit_type_id unit_upgrades_to(struct city *pcity, Unit_type_id id)
 {
-  Unit_Type_id check = id, latest_ok = id;
+  Unit_type_id check = id, latest_ok = id;
 
   if (!can_build_unit_direct(pcity, check)) {
     return U_NOT_OBSOLETED;
@@ -989,7 +989,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
   bool space_part;
   int mod;
-  Impr_Type_id id = pcity->currently_building;
+  Impr_type_id id = pcity->currently_building;
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     assert(pcity->surplus[O_SHIELD] >= 0);
@@ -1069,7 +1069,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		    get_improvement_name(id), mod);
 
       for (i = 0; i < mod; i++) {
-	Tech_Type_id tech = pplayer->research->researching;
+	Tech_type_id tech = pplayer->research->researching;
 
 	if (tech == A_UNSET) {
 	  choose_random_tech(pplayer);

@@ -53,7 +53,7 @@ struct packet_server_shutdown {
 };
 
 struct packet_nation_unavailable {
-  Nation_Type_id nation;
+  Nation_type_id nation;
 };
 
 struct packet_select_races {
@@ -61,7 +61,7 @@ struct packet_select_races {
 };
 
 struct packet_nation_select_req {
-  Nation_Type_id nation_no;
+  Nation_type_id nation_no;
   bool is_male;
   char name[MAX_LEN_NAME];
   int city_style;
@@ -318,7 +318,7 @@ struct packet_player_info {
   int target_government;
   int embassy;
   int city_style;
-  Nation_Type_id nation;
+  Nation_type_id nation;
   int team;
   bool phase_done;
   int nturns_idle;
@@ -394,7 +394,7 @@ struct packet_unit_info {
   bool paradropped;
   bool transported;
   bool done_moving;
-  Unit_Type_id type;
+  Unit_type_id type;
   int transported_by;
   int movesleft;
   int hp;
@@ -422,7 +422,7 @@ struct packet_unit_short_info {
   int owner;
   int x;
   int y;
-  Unit_Type_id type;
+  Unit_type_id type;
   int veteran;
   bool occupied;
   bool goes_out_of_sight;
@@ -532,7 +532,7 @@ struct packet_unit_bribe_info {
 };
 
 struct packet_unit_type_upgrade {
-  Unit_Type_id type;
+  Unit_type_id type;
 };
 
 struct packet_unit_diplomat_action {
@@ -693,7 +693,7 @@ struct packet_spaceship_info {
 };
 
 struct packet_ruleset_unit {
-  Unit_Type_id id;
+  Unit_type_id id;
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -769,7 +769,7 @@ struct packet_ruleset_game {
 struct packet_ruleset_government_ruler_title {
   int gov;
   int id;
-  Nation_Type_id nation;
+  Nation_type_id nation;
   char male_title[MAX_LEN_NAME];
   char female_title[MAX_LEN_NAME];
 };
@@ -841,7 +841,7 @@ struct packet_ruleset_terrain_control {
 };
 
 struct packet_ruleset_nation {
-  Nation_Type_id id;
+  Nation_type_id id;
   char name[MAX_LEN_NAME];
   char name_plural[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
@@ -871,7 +871,7 @@ struct packet_ruleset_city {
 };
 
 struct packet_ruleset_building {
-  Impr_Type_id id;
+  Impr_type_id id;
   enum impr_genus_id genus;
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
@@ -881,7 +881,7 @@ struct packet_ruleset_building {
   int req_value[MAX_NUM_REQS];
   bool req_survives[MAX_NUM_REQS];
   int obsolete_by;
-  Impr_Type_id replaced_by;
+  Impr_type_id replaced_by;
   int build_cost;
   int upkeep;
   int sabotage;
@@ -965,7 +965,7 @@ struct packet_game_load {
   char load_filename[MAX_LEN_PACKET];
   char name[MAX_NUM_PLAYERS][MAX_LEN_NAME];
   char username[MAX_NUM_PLAYERS][MAX_LEN_NAME];
-  Nation_Type_id nations[MAX_NUM_PLAYERS];
+  Nation_type_id nations[MAX_NUM_PLAYERS];
   bool is_alive[MAX_NUM_PLAYERS];
   bool is_ai[MAX_NUM_PLAYERS];
 };
@@ -1167,7 +1167,7 @@ void lsend_packet_select_races(struct conn_list *dest);
 
 struct packet_nation_select_req *receive_packet_nation_select_req(struct connection *pc, enum packet_type type);
 int send_packet_nation_select_req(struct connection *pc, const struct packet_nation_select_req *packet);
-int dsend_packet_nation_select_req(struct connection *pc, Nation_Type_id nation_no, bool is_male, const char *name, int city_style);
+int dsend_packet_nation_select_req(struct connection *pc, Nation_type_id nation_no, bool is_male, const char *name, int city_style);
 
 struct packet_nation_select_ok *receive_packet_nation_select_ok(struct connection *pc, enum packet_type type);
 int send_packet_nation_select_ok(struct connection *pc);
@@ -1407,7 +1407,7 @@ int dsend_packet_unit_bribe_info(struct connection *pc, int unit_id, int cost);
 
 struct packet_unit_type_upgrade *receive_packet_unit_type_upgrade(struct connection *pc, enum packet_type type);
 int send_packet_unit_type_upgrade(struct connection *pc, const struct packet_unit_type_upgrade *packet);
-int dsend_packet_unit_type_upgrade(struct connection *pc, Unit_Type_id type);
+int dsend_packet_unit_type_upgrade(struct connection *pc, Unit_type_id type);
 
 struct packet_unit_diplomat_action *receive_packet_unit_diplomat_action(struct connection *pc, enum packet_type type);
 int send_packet_unit_diplomat_action(struct connection *pc, const struct packet_unit_diplomat_action *packet);

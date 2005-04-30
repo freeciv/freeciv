@@ -915,7 +915,7 @@ const char* old_civ2_governments[] =
   unit_type_id.  This function tries to find the correct _old_ id for the
   unit's type.  It is used when the unit is saved.
 ****************************************************************************/
-static int old_unit_type_id(Unit_Type_id type)
+static int old_unit_type_id(Unit_type_id type)
 {
   const char** types;
   int num_types, i;
@@ -970,7 +970,7 @@ static const char* old_unit_type_name(int id)
   Impr_type_id.  This function tries to find the correct _old_ id for the
   improvements's type.  It is used when the improvement is saved.
 ****************************************************************************/
-static int old_impr_type_id(Impr_Type_id type)
+static int old_impr_type_id(Impr_type_id type)
 {
   int i;
 
@@ -1022,7 +1022,7 @@ static void init_old_improvement_bitvector(char* bitvector)
   bitvector string according to the 1.14.1 improvement ordering.
 ****************************************************************************/
 static void add_improvement_into_old_bitvector(char* bitvector,
-                                               Impr_Type_id id)
+                                               Impr_type_id id)
 {
   int old_id;
 
@@ -1038,7 +1038,7 @@ static void add_improvement_into_old_bitvector(char* bitvector,
   This function tries to find the correct _old_ id for the
   technology. It is used when the technology is saved.
 ****************************************************************************/
-static int old_tech_id(Tech_Type_id tech)
+static int old_tech_id(Tech_type_id tech)
 {
   const char* technology_name;
   int i;
@@ -1125,7 +1125,7 @@ static void init_old_technology_bitvector(char* bitvector)
   to the 1.14.1 technology ordering.
 ****************************************************************************/
 static void add_technology_into_old_bitvector(char* bitvector,
-                                              Tech_Type_id id)
+                                              Tech_type_id id)
 {
   int old_id;
 
@@ -1141,7 +1141,7 @@ static void add_technology_into_old_bitvector(char* bitvector,
   Load technology from path_name and if doesn't exist (because savegame
   is too old) load from path.
 *****************************************************************************/
-static Tech_Type_id load_technology(struct section_file *file,
+static Tech_type_id load_technology(struct section_file *file,
                                     const char* path, int plrno)
 {
   char path_with_name[128];
@@ -1184,7 +1184,7 @@ static Tech_Type_id load_technology(struct section_file *file,
   compatibility in path(by number).
 *****************************************************************************/
 static void save_technology(struct section_file *file,
-                            const char* path, int plrno, Tech_Type_id tech)
+                            const char* path, int plrno, Tech_type_id tech)
 {
   char path_with_name[128];
   const char* name;
@@ -1303,7 +1303,7 @@ static void worklist_load(struct section_file *file,
       name = secfile_lookup_str_default(file, NULL, namepath, plrno, wlinx, i);
 
       if (pwl->wlefs[i] == WEF_UNIT) {
-	Unit_Type_id type;
+	Unit_type_id type;
 
 	if (!name) {
 	    /* before 1.15.0 unit types used to be saved by id */
@@ -1319,7 +1319,7 @@ static void worklist_load(struct section_file *file,
 	}
 	pwl->wlids[i] = type;
       } else if (pwl->wlefs[i] == WEF_IMPR) {
-	Impr_Type_id type;
+	Impr_type_id type;
 
 	if (!name) {
 	  name = old_impr_type_name(secfile_lookup_int(file, idpath,
@@ -1407,7 +1407,7 @@ static void load_player_units(struct player *plr, int plrno,
     struct city *pcity;
     int nat_x, nat_y;
     const char* type_name;
-    Unit_Type_id type;
+    Unit_type_id type;
     
     type_name = secfile_lookup_str_default(file, NULL, 
                                            "player%d.u%d.type_by_name",

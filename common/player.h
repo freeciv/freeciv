@@ -190,8 +190,8 @@ struct player {
   bool is_male;
   int government;
   int target_government;
-  Nation_Type_id nation;
-  Team_Type_id team;
+  Nation_type_id nation;
+  Team_type_id team;
   bool is_started; /* Did the player click "start" yet? */
   bool phase_done;
   int nturns_idle;

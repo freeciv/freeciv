@@ -17,7 +17,7 @@
 
 #include "fc_types.h"
 
-typedef int Unit_Type_id;
+typedef int Unit_type_id;
 /*
   Above typedef replaces old "enum unit_type_id" (since no longer
   enumerate the unit types); keep as typedef to help code be
@@ -29,7 +29,7 @@ typedef int Unit_Type_id;
   fit in 8-bit unsigned int for packets; and normal values are always
   non-negative.  But note sometimes use (-1) for obsoleted_by and some
   related uses, though these use already plain int rather than
-  Unit_Type_id?  (Ideally, these should probably have used U_LAST as
+  Unit_type_id?  (Ideally, these should probably have used U_LAST as
   the flag value instead of (-1).)
   
   Decided to just use 'int' for several reasons:
@@ -42,7 +42,7 @@ typedef int Unit_Type_id;
 #define U_LAST MAX_NUM_ITEMS
 /*
   U_LAST is a value which is guaranteed to be larger than all
-  actual Unit_Type_id values.  It is used as a flag value;
+  actual Unit_type_id values.  It is used as a flag value;
   it can also be used for fixed allocations to ensure able
   to hold full number of unit types.
 */
@@ -185,13 +185,13 @@ struct unit_type {
   int defense_strength;
   int move_rate;
   int tech_requirement;
-  int impr_requirement;		/* should be Impr_Type_id */
+  int impr_requirement;		/* should be Impr_type_id */
   int gov_requirement;
   int vision_range;
   int transport_capacity;
   int hp;
   int firepower;
-#define U_NOT_OBSOLETED ((Unit_Type_id)(-1))
+#define U_NOT_OBSOLETED ((Unit_type_id)(-1))
   int obsoleted_by;
   int fuel;
 
@@ -218,52 +218,52 @@ struct unit_type {
 extern struct unit_type unit_types[U_LAST];
 #define CHECK_UNIT_TYPE(ut) (assert((ut) >= 0 && (ut) < game.num_unit_types))
 
-struct unit_type *get_unit_type(Unit_Type_id id);
+struct unit_type *get_unit_type(Unit_type_id id);
 struct unit_type *unit_type(const struct unit *punit);
 
-bool unit_type_flag(Unit_Type_id id, int flag);
+bool unit_type_flag(Unit_type_id id, int flag);
 bool unit_flag(const struct unit *punit, enum unit_flag_id flag);
-bool unit_has_role(Unit_Type_id id, int role);
+bool unit_has_role(Unit_type_id id, int role);
 
-int unit_build_shield_cost(Unit_Type_id id);
-int unit_buy_gold_cost(Unit_Type_id id, int shields_in_stock);
-int unit_disband_shields(Unit_Type_id id);
-int unit_pop_value(Unit_Type_id id);
+int unit_build_shield_cost(Unit_type_id id);
+int unit_buy_gold_cost(Unit_type_id id, int shields_in_stock);
+int unit_disband_shields(Unit_type_id id);
+int unit_pop_value(Unit_type_id id);
 
-const char *unit_name(Unit_Type_id id);
-const char *unit_name_orig(Unit_Type_id id);
+const char *unit_name(Unit_type_id id);
+const char *unit_name_orig(Unit_type_id id);
 const char *unit_class_name(Unit_Class_id id);
 
-const char *get_unit_name(Unit_Type_id id);
+const char *get_unit_name(Unit_type_id id);
 const char *get_units_with_flag_string(int flag);
 
 int utype_upkeep_cost(const struct unit_type *ut,
 		      const struct government *gov, Output_type_id otype);
 int utype_happy_cost(const struct unit_type *ut, const struct government *g);
 
-int can_upgrade_unittype(const struct player *pplayer, Unit_Type_id id);
+int can_upgrade_unittype(const struct player *pplayer, Unit_type_id id);
 int unit_upgrade_price(const struct player *pplayer,
-		       Unit_Type_id from, Unit_Type_id to);
+		       Unit_type_id from, Unit_type_id to);
 
-Unit_Type_id find_unit_type_by_name(const char *name);
-Unit_Type_id find_unit_type_by_name_orig(const char *name_orig);
+Unit_type_id find_unit_type_by_name(const char *name);
+Unit_type_id find_unit_type_by_name_orig(const char *name_orig);
 
 Unit_Class_id unit_class_from_str(const char *s);
 enum unit_flag_id unit_flag_from_str(const char *s);
 enum unit_role_id unit_role_from_str(const char *s);
 
-bool can_player_build_unit_direct(const struct player *p, Unit_Type_id id);
-bool can_player_build_unit(const struct player *p, Unit_Type_id id);
+bool can_player_build_unit_direct(const struct player *p, Unit_type_id id);
+bool can_player_build_unit(const struct player *p, Unit_type_id id);
 bool can_player_eventually_build_unit(const struct player *p,
-				      Unit_Type_id id);
+				      Unit_type_id id);
 
 void role_unit_precalcs(void);
 int num_role_units(int role);
-Unit_Type_id get_role_unit(int role, int index);
-Unit_Type_id best_role_unit(const struct city *pcity, int role);
-Unit_Type_id best_role_unit_for_player(const struct player *pplayer,
+Unit_type_id get_role_unit(int role, int index);
+Unit_type_id best_role_unit(const struct city *pcity, int role);
+Unit_type_id best_role_unit_for_player(const struct player *pplayer,
 				       int role);
-Unit_Type_id first_role_unit_for_player(const struct player *pplayer,
+Unit_type_id first_role_unit_for_player(const struct player *pplayer,
 					int role);
 
 void unit_types_init(void);
@@ -271,7 +271,7 @@ void unit_types_free(void);
 
 #define unit_type_iterate(m_i)                                                \
 {                                                                             \
-  Unit_Type_id m_i;                                                           \
+  Unit_type_id m_i;                                                           \
   for (m_i = 0; m_i < game.num_unit_types; m_i++) {
 
 #define unit_type_iterate_end                                                 \

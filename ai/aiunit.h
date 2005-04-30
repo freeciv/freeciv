@@ -45,7 +45,7 @@
 struct ai_choice;
 struct pf_path;
 
-extern Unit_Type_id simple_ai_types[U_LAST];
+extern Unit_type_id simple_ai_types[U_LAST];
 
 void ai_manage_units(struct player *pplayer); 
 void ai_manage_unit(struct player *pplayer, struct unit *punit);
@@ -55,25 +55,25 @@ int could_unit_move_to_tile(struct unit *punit, struct tile *dst_tile);
 int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity);
 
-int turns_to_enemy_city(Unit_Type_id our_type, struct city *acity,
+int turns_to_enemy_city(Unit_type_id our_type, struct city *acity,
                         int speed, bool go_by_boat, 
-                        struct unit *boat, Unit_Type_id boattype);
-int turns_to_enemy_unit(Unit_Type_id our_type, int speed, struct tile *ptile, 
-                        Unit_Type_id enemy_type);
+                        struct unit *boat, Unit_type_id boattype);
+int turns_to_enemy_unit(Unit_type_id our_type, int speed, struct tile *ptile, 
+                        Unit_type_id enemy_type);
 int find_something_to_kill(struct player *pplayer, struct unit *punit, 
 			   struct tile **ptile);
 
-int build_cost_balanced(Unit_Type_id type);
-int unittype_att_rating(Unit_Type_id type, int veteran,
+int build_cost_balanced(Unit_type_id type);
+int unittype_att_rating(Unit_type_id type, int veteran,
                         int moves_left, int hp);
 int unit_att_rating(struct unit *punit);
 int unit_def_rating_basic(struct unit *punit);
 int unit_def_rating_basic_sq(struct unit *punit);
-int unittype_def_rating_sq(Unit_Type_id att_type, Unit_Type_id def_type,
+int unittype_def_rating_sq(Unit_type_id att_type, Unit_type_id def_type,
                            struct tile *ptile, bool fortified, int veteran);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 
-bool is_on_unit_upgrade_path(Unit_Type_id test, Unit_Type_id base);
+bool is_on_unit_upgrade_path(Unit_type_id test, Unit_type_id base);
 
 void update_simple_ai_types(void);
 
@@ -81,7 +81,7 @@ void update_simple_ai_types(void);
 {                                                                             \
   int m_c;                                                                    \
   for (m_c = 0;; m_c++) {                                                     \
-    Unit_Type_id m_i = simple_ai_types[m_c];                                  \
+    Unit_type_id m_i = simple_ai_types[m_c];                                  \
     if (m_i == U_LAST) {                                                      \
       break;                                                                  \
     }

@@ -192,12 +192,12 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
 struct sprite *get_city_flag_sprite(const struct tileset *t,
 				    const struct city *pcity);
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
-				      Nation_Type_id nation);
-struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech);
-struct sprite *get_building_sprite(const struct tileset *t, Impr_Type_id b);
+				      Nation_type_id nation);
+struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech);
+struct sprite *get_building_sprite(const struct tileset *t, Impr_type_id b);
 struct sprite *get_government_sprite(const struct tileset *t,
 				     const struct government *gov);
-struct sprite *get_unittype_sprite(const struct tileset *t, Unit_Type_id id);
+struct sprite *get_unittype_sprite(const struct tileset *t, Unit_type_id id);
 struct sprite *get_sample_city_sprite(const struct tileset *t,
 				      int city_style);
 struct sprite *get_arrow_sprite(const struct tileset *t);

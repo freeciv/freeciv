@@ -482,7 +482,7 @@ void create_players_dialog(void)
 /**************************************************************************
  Builds the flag pixmap.
 **************************************************************************/
-GdkPixbuf *get_flag(Nation_Type_id nation)
+GdkPixbuf *get_flag(Nation_type_id nation)
 {
   int x0, y0, x1, y1, w, h;
   GdkPixbuf *im, *im2;

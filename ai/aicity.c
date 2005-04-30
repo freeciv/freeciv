@@ -179,7 +179,7 @@ static inline int city_want(struct player *pplayer, struct city *acity,
   measuring the effect.
 **************************************************************************/
 static int base_want(struct player *pplayer, struct city *pcity, 
-                     Impr_Type_id id)
+                     Impr_type_id id)
 {
   struct ai_data *ai = ai_data_get(pplayer);
   int final_want = 0;
@@ -233,7 +233,7 @@ static int base_want(struct player *pplayer, struct city *pcity,
   for wonders below for better wonder placements.
 **************************************************************************/
 static void adjust_building_want_by_effects(struct city *pcity, 
-                                            Impr_Type_id id)
+                                            Impr_type_id id)
 {
   struct player *pplayer = city_owner(pcity);
   struct impr_type *pimpr = get_improvement_type(id);
@@ -631,7 +631,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 **************************************************************************/
 static void calculate_city_clusters(struct player *pplayer)
 {
-  Unit_Type_id unittype;
+  Unit_type_id unittype;
   struct unit *ghost;
   int range;
 
@@ -686,7 +686,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
 {
   struct pf_map *map;
   struct pf_parameter parameter;
-  Unit_Type_id unittype;
+  Unit_type_id unittype;
   struct unit *ghost;
   int maxrange;
   struct city *wonder_city = find_city_by_id(ai->wonder_city);
@@ -857,12 +857,12 @@ void ai_manage_buildings(struct player *pplayer)
 static void ai_barbarian_choose_build(struct player *pplayer, 
 				      struct ai_choice *choice)
 {
-  Unit_Type_id bestunit = -1;
+  Unit_type_id bestunit = -1;
   int i, bestattack = 0;
 
   /* Choose the best unit among the basic ones */
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
-    Unit_Type_id iunit = get_role_unit(L_BARBARIAN_BUILD, i);
+    Unit_type_id iunit = get_role_unit(L_BARBARIAN_BUILD, i);
 
     if (get_unit_type(iunit)->attack_strength > bestattack) {
       bestunit = iunit;
@@ -872,7 +872,7 @@ static void ai_barbarian_choose_build(struct player *pplayer,
 
   /* Choose among those made available through other civ's research */
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
-    Unit_Type_id iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
+    Unit_type_id iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
     if (game.global_advances[get_unit_type(iunit)->tech_requirement] != 0
 	&& get_unit_type(iunit)->attack_strength > bestattack) {
@@ -1247,7 +1247,7 @@ void ai_manage_cities(struct player *pplayer)
 /**************************************************************************
 ... 
 **************************************************************************/
-static bool building_unwanted(struct player *plr, Impr_Type_id i)
+static bool building_unwanted(struct player *plr, Impr_type_id i)
 {
   return (ai_wants_no_science(plr)
           && building_has_effect(i, EFT_SCIENCE_BONUS));

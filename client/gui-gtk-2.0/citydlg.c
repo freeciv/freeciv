@@ -166,7 +166,7 @@ struct city_dialog {
   GtkWidget *show_units_command;
   GtkWidget *prev_command, *next_command;
 
-  Impr_Type_id sell_id;
+  Impr_type_id sell_id;
 
   int cwidth;
 };
@@ -247,7 +247,7 @@ static void draw_map_canvas(struct city_dialog *pdialog);
 static void buy_callback(GtkWidget * w, gpointer data);
 static void change_production_callback(GtkWidget* w, struct city_dialog*);
 
-static void sell_callback(Impr_Type_id id, gpointer data);
+static void sell_callback(Impr_type_id id, gpointer data);
 static void sell_callback_response(GtkWidget *w, gint response, gpointer data);
 
 static void impr_callback(GtkTreeView *view, GtkTreePath *path,
@@ -2482,7 +2482,7 @@ static void change_production_callback(GtkWidget* w,
 /****************************************************************
 ...
 *****************************************************************/
-static void sell_callback(Impr_Type_id id, gpointer data)
+static void sell_callback(Impr_type_id id, gpointer data)
 {
   struct city_dialog *pdialog = (struct city_dialog *) data;
   GtkWidget *shl;

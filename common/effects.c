@@ -483,7 +483,7 @@ void send_ruleset_cache(struct conn_list *dest)
   Note: this function is an inefficient hack to be used by the old AI.  It
   will never find wonders, since that's not what the AI wants.
 **************************************************************************/
-Impr_Type_id ai_find_source_building(struct player *pplayer,
+Impr_type_id ai_find_source_building(struct player *pplayer,
 				     enum effect_type effect_type)
 {
   /* FIXME: this just returns the first building. it should return the best
@@ -491,7 +491,7 @@ Impr_Type_id ai_find_source_building(struct player *pplayer,
   effect_list_iterate(get_effects(effect_type), peffect) {
     requirement_list_iterate(peffect->reqs, preq) {
       if (preq->source.type == REQ_BUILDING) {
-	Impr_Type_id id = preq->source.value.building;
+	Impr_type_id id = preq->source.value.building;
 
 	if (can_player_build_improvement(pplayer, id)
 	    && !improvement_obsolete(pplayer, id)
@@ -507,7 +507,7 @@ Impr_Type_id ai_find_source_building(struct player *pplayer,
 /**************************************************************************
   Get a building which grants this effect. Returns B_LAST if there is none.
 **************************************************************************/
-Impr_Type_id get_building_for_effect(enum effect_type effect_type)
+Impr_type_id get_building_for_effect(enum effect_type effect_type)
 {
   effect_list_iterate(get_effects(effect_type), peffect) {
     requirement_list_iterate(peffect->reqs, preq) {
@@ -527,7 +527,7 @@ Impr_Type_id get_building_for_effect(enum effect_type effect_type)
   effect range and may take longer.  This function should only be used
   in situations where the range doesn't matter.
 **************************************************************************/
-bool building_has_effect(Impr_Type_id id, enum effect_type effect)
+bool building_has_effect(Impr_type_id id, enum effect_type effect)
 {
   struct req_source source;
   struct effect_list *plist;
@@ -626,7 +626,7 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct city *target_city,
 		      const struct impr_type *target_building,
 		      const struct tile *target_tile,
-		      Impr_Type_id source, const struct effect *peffect)
+		      Impr_type_id source, const struct effect *peffect)
 {
   if (is_effect_disabled(target_player, target_city,
 			 target_building, target_tile, peffect)) {
@@ -649,7 +649,7 @@ bool is_effect_useful(const struct player *target_player,
   Returns TRUE if a building is replaced.  To be replaced, all its effects
   must be made redundant by groups that it is in.
 **************************************************************************/
-bool is_building_replaced(const struct city *pcity, Impr_Type_id building)
+bool is_building_replaced(const struct city *pcity, Impr_type_id building)
 {
   struct req_source source;
   struct effect_list *plist;
@@ -761,7 +761,7 @@ int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 /**************************************************************************
   Returns the effect bonus at a building.
 **************************************************************************/
-int get_building_bonus(const struct city *pcity, Impr_Type_id id,
+int get_building_bonus(const struct city *pcity, Impr_type_id id,
 		       enum effect_type effect_type)
 {
   assert(pcity != NULL && id != B_LAST);
@@ -813,7 +813,7 @@ int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type)
 {
   if (!pcity->is_building_unit) {
-    Impr_Type_id id = pcity->currently_building;
+    Impr_type_id id = pcity->currently_building;
     int power = 0;
 
     struct req_source source = {

@@ -110,7 +110,7 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
      to protect us. If we see an enemy diplomat and we don't have diplomat
      tech... race it! */
   if (def != 0 && pcity->ai.diplomat_threat && !pcity->ai.has_diplomat) {
-    Unit_Type_id u = best_role_unit(pcity, F_DIPLOMAT);
+    Unit_type_id u = best_role_unit(pcity, F_DIPLOMAT);
 
     if (u < U_LAST) {
        freelog(LOG_DIPLOMAT_BUILD, 
@@ -125,7 +125,7 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
               "A defensive diplomat is wanted badly in city %s.", pcity->name);
       u = get_role_unit(F_DIPLOMAT, 0);
       if (u != U_LAST) {
-        Tech_Type_id tech_req = get_unit_type(u)->tech_requirement;
+        Tech_type_id tech_req = get_unit_type(u)->tech_requirement;
 
         pplayer->ai.tech_want[tech_req] += DIPLO_DEFENSE_WANT;
         TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s in diplo defense",
@@ -143,7 +143,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
                                   struct city *pcity,
                                   struct ai_choice *choice)
 {
-  Unit_Type_id u = best_role_unit(pcity, F_DIPLOMAT);
+  Unit_type_id u = best_role_unit(pcity, F_DIPLOMAT);
   struct ai_data *ai = ai_data_get(pplayer);
 
   if (u >= U_LAST) {
@@ -376,7 +376,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 **************************************************************************/
 static struct city *ai_diplomat_defend(struct player *pplayer,
                                        struct unit *punit,
-                                       Unit_Type_id utype, struct pf_map *map)
+                                       Unit_type_id utype, struct pf_map *map)
 {
   int best_dist = 30; /* any city closer than this is better than none */
   int best_urgency = 0;

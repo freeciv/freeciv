@@ -470,7 +470,7 @@ const char *science_dialog_text(void)
 /****************************************************************************
   Set the science-goal-label text as if we're researching the given goal.
 ****************************************************************************/
-const char *get_science_goal_text(Tech_Type_id goal)
+const char *get_science_goal_text(Tech_type_id goal)
 {
   int steps = num_unknown_techs_for_goal(game.player_ptr, goal);
   int bulbs = total_bulbs_required_for_goal(game.player_ptr, goal);

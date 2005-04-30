@@ -34,8 +34,8 @@ static const char *move_type_names[] = {
 };
 
 
-static bool can_unit_type_transport(Unit_Type_id transporter,
-                                    Unit_Type_id transported);
+static bool can_unit_type_transport(Unit_type_id transporter,
+                                    Unit_type_id transported);
 
 /****************************************************************************
   This function calculates the move rate of the unit, taking into 
@@ -144,7 +144,7 @@ bool is_ground_unit(const struct unit *punit)
 /****************************************************************************
   Return TRUE iff this unit type is a sailing/naval/sea/water unit type.
 ****************************************************************************/
-bool is_sailing_unittype(Unit_Type_id id)
+bool is_sailing_unittype(Unit_type_id id)
 {
   return (unit_types[id].move_type == SEA_MOVING);
 }
@@ -153,7 +153,7 @@ bool is_sailing_unittype(Unit_Type_id id)
 /****************************************************************************
   Return TRUE iff this unit type is an air unit type (including missiles).
 ****************************************************************************/
-bool is_air_unittype(Unit_Type_id id)
+bool is_air_unittype(Unit_type_id id)
 {
   return (unit_types[id].move_type == AIR_MOVING);
 }
@@ -162,7 +162,7 @@ bool is_air_unittype(Unit_Type_id id)
 /****************************************************************************
   Return TRUE iff this unit type is a helicopter unit type.
 ****************************************************************************/
-bool is_heli_unittype(Unit_Type_id id)
+bool is_heli_unittype(Unit_type_id id)
 {
   return (unit_types[id].move_type == HELI_MOVING);
 }
@@ -171,7 +171,7 @@ bool is_heli_unittype(Unit_Type_id id)
 /****************************************************************************
   Return TRUE iff this unit type is a ground/land/normal unit type.
 ****************************************************************************/
-bool is_ground_unittype(Unit_Type_id id)
+bool is_ground_unittype(Unit_type_id id)
 {
   return (unit_types[id].move_type == LAND_MOVING);
 }
@@ -272,7 +272,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
     5. You're moving from an ocean square (from a boat)
     6. The spot you're moving from or to is in your ZOC
 ****************************************************************************/
-bool can_step_taken_wrt_to_zoc(Unit_Type_id type,
+bool can_step_taken_wrt_to_zoc(Unit_type_id type,
                                const struct player *unit_owner,
                                const struct tile *src_tile,
                                const struct tile *dst_tile)
@@ -354,7 +354,7 @@ bool can_unit_move_to_tile(const struct unit *punit,
     8) There is not a peaceful but un-allied city on the target tile.
     9) There is no non-allied unit blocking (zoc) [or igzoc is true].
 **************************************************************************/
-enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
+enum unit_move_result test_unit_move_to_tile(Unit_type_id type,
 					     const struct player *unit_owner,
 					     enum unit_activity activity,
 					     const struct tile *src_tile,
@@ -458,8 +458,8 @@ bool can_unit_transport(const struct unit *transporter,
 /**************************************************************************
   Return TRUE iff transporter type has ability to transport transported type.
 **************************************************************************/
-static bool can_unit_type_transport(Unit_Type_id transporter,
-                                    Unit_Type_id transported)
+static bool can_unit_type_transport(Unit_type_id transporter,
+                                    Unit_type_id transported)
 {
   if (get_unit_type(transporter)->transport_capacity <= 0) {
     return FALSE;

@@ -1457,7 +1457,7 @@ Object *nations_styles_cycle;
  Get the nation id of the nation selected in the nations
  listview
 *****************************************************************/
-Nation_Type_id get_active_nation(void)
+Nation_type_id get_active_nation(void)
 {
   char *nationname;
 
@@ -1475,7 +1475,7 @@ static void nations_nation_active(void)
   int i, leader_count;
   struct leader *leaders;
   Object *list = (Object*)xget(nations_leader_poplist,MUIA_Popobject_Object);
-  Nation_Type_id nation = get_active_nation();
+  Nation_type_id nation = get_active_nation();
 
   set(nations_flag_sprite, MUIA_Sprite_Sprite, get_nation_by_idx(nation)->flag_sprite);
 
@@ -1538,7 +1538,7 @@ static void nations_disconnect(void)
 HOOKPROTONH(nations_obj2str, void, Object *list, Object *str)
 {
   char *x;
-  Nation_Type_id nation = get_active_nation();
+  Nation_type_id nation = get_active_nation();
   DoMethod(list,MUIM_List_GetEntry,MUIV_List_GetEntry_Active,&x);
   set(str,MUIA_String_Contents,x);
   if(x) set(nations_sex_radio, MUIA_Radio_Active, get_nation_leader_sex(nation,x)?0:1);

@@ -50,7 +50,7 @@ static const char *flag_names[] = {
 ...
 **************************************************************************/
 enum tech_state get_invention(const struct player *pplayer,
-			      Tech_Type_id tech)
+			      Tech_type_id tech)
 {
   assert(tech >= 0 || tech < game.num_tech_types);
 
@@ -60,7 +60,7 @@ enum tech_state get_invention(const struct player *pplayer,
 /**************************************************************************
 ...
 **************************************************************************/
-void set_invention(struct player *pplayer, Tech_Type_id tech,
+void set_invention(struct player *pplayer, Tech_type_id tech,
 		   enum tech_state value)
 {
   if (pplayer->research->inventions[tech].state == value) {
@@ -78,8 +78,8 @@ void set_invention(struct player *pplayer, Tech_Type_id tech,
   Returns if the given tech has to be researched to reach the
   goal. The goal itself isn't a requirement of itself.
 **************************************************************************/
-bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_Type_id tech,
-			    Tech_Type_id goal)
+bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
+			    Tech_type_id goal)
 {
   if (tech == goal) {
     return FALSE;
@@ -93,8 +93,8 @@ bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_Type_id tech,
   pplayer->research->inventions[goal].required_techs. Works recursive.
 **************************************************************************/
 static void build_required_techs_helper(struct player *pplayer,
-					Tech_Type_id tech,
-					Tech_Type_id goal)
+					Tech_type_id tech,
+					Tech_type_id goal)
 {
   /* The is_tech_a_req_for_goal condition is true if the tech is
    * already marked */
@@ -123,7 +123,7 @@ static void build_required_techs_helper(struct player *pplayer,
   Updates required_techs, num_required_techs and bulbs_required in
   pplayer->research->inventions[goal].
 **************************************************************************/
-static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
+static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 {
   int counter;
 
@@ -168,7 +168,7 @@ static void build_required_techs(struct player *pplayer, Tech_Type_id goal)
   Returns TRUE iff the given tech is ever reachable by the given player
   by checking tech tree limitations.
 **************************************************************************/
-bool tech_is_available(const struct player *pplayer, Tech_Type_id id)
+bool tech_is_available(const struct player *pplayer, Tech_type_id id)
 {
   if (!tech_exists(id)) {
     return FALSE;
@@ -227,9 +227,9 @@ void update_research(struct player *pplayer)
   Return the next tech we should research to advance towards our goal.
   Returns A_UNSET if nothing is available or the goal is already known.
 **************************************************************************/
-Tech_Type_id get_next_tech(const struct player *pplayer, Tech_Type_id goal)
+Tech_type_id get_next_tech(const struct player *pplayer, Tech_type_id goal)
 {
-  Tech_Type_id sub_goal;
+  Tech_type_id sub_goal;
 
   if (!tech_is_available(pplayer, goal)
       || get_invention(pplayer, goal) == TECH_KNOWN) {
@@ -254,7 +254,7 @@ A tech doesn't exist if one of:
   to A_LAST (this function returns 0 if either req is A_LAST, rather
   than both, to be on the safe side)
 **************************************************************************/
-bool tech_exists(Tech_Type_id id)
+bool tech_exists(Tech_type_id id)
 {
   if (id < 0 || id >= game.num_tech_types) {
     return FALSE;
@@ -267,7 +267,7 @@ bool tech_exists(Tech_Type_id id)
 Does a linear search of advances[].name
 Returns A_LAST if none match.
 **************************************************************************/
-Tech_Type_id find_tech_by_name(const char *s)
+Tech_type_id find_tech_by_name(const char *s)
 {
   tech_type_iterate(i) {
     if (strcmp(advances[i].name, s) == 0) {
@@ -281,7 +281,7 @@ Tech_Type_id find_tech_by_name(const char *s)
   Does a linear search of advances[].name_orig
   Returns A_LAST if none match.
 **************************************************************************/
-Tech_Type_id find_tech_by_name_orig(const char *s)
+Tech_type_id find_tech_by_name_orig(const char *s)
 {
   tech_type_iterate(i) {
     if (mystrcasecmp(advances[i].name_orig, s) == 0) {
@@ -294,7 +294,7 @@ Tech_Type_id find_tech_by_name_orig(const char *s)
 /**************************************************************************
  Return TRUE if the tech has this flag otherwise FALSE
 **************************************************************************/
-bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag)
+bool tech_flag(Tech_type_id tech, enum tech_flag_id flag)
 {
   assert(flag >= 0 && flag < TF_LAST);
   return TEST_BIT(advances[tech].flags, flag);
@@ -322,9 +322,9 @@ enum tech_flag_id tech_flag_from_str(const char *s)
  Search for a tech with a given flag starting at index
  Returns A_LAST if no tech has been found
 **************************************************************************/
-Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag)
+Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag)
 {
-  Tech_Type_id i;
+  Tech_type_id i;
   for(i=index;i<game.num_tech_types;i++)
   {
     if(tech_flag(i,flag)) return i;
@@ -368,7 +368,7 @@ int total_bulbs_required(const struct player *pplayer)
      players (human and AI) which already know the tech.
 **************************************************************************/
 int base_total_bulbs_required(const struct player *pplayer,
-			      Tech_Type_id tech)
+			      Tech_type_id tech)
 {
   int cost, tech_cost_style = game.rgame.tech_cost_style;
 
@@ -491,7 +491,7 @@ int base_total_bulbs_required(const struct player *pplayer,
  are only counted once.
 **************************************************************************/
 int num_unknown_techs_for_goal(const struct player *pplayer,
-			       Tech_Type_id goal)
+			       Tech_type_id goal)
 {
   return pplayer->research->inventions[goal].num_required_techs;
 }
@@ -502,7 +502,7 @@ int num_unknown_techs_for_goal(const struct player *pplayer,
  technology itself.
 **************************************************************************/
 int total_bulbs_required_for_goal(const struct player *pplayer,
-				  Tech_Type_id goal)
+				  Tech_type_id goal)
 {
   return pplayer->research->inventions[goal].bulbs_required;
 }
@@ -511,7 +511,7 @@ int total_bulbs_required_for_goal(const struct player *pplayer,
  Returns number of requirements for the given tech. To not count techs
  double a memory (the counted array) is needed.
 **************************************************************************/
-static int precalc_tech_data_helper(Tech_Type_id tech, bool *counted)
+static int precalc_tech_data_helper(Tech_type_id tech, bool *counted)
 {
   if (tech == A_NONE || !tech_exists(tech) || counted[tech]) {
     return 0;
@@ -548,7 +548,7 @@ void precalc_tech_data()
 /**************************************************************************
  Is the given tech a future tech.
 **************************************************************************/
-bool is_future_tech(Tech_Type_id tech)
+bool is_future_tech(Tech_type_id tech)
 {
   return tech == A_FUTURE;
 }
@@ -561,7 +561,7 @@ bool is_future_tech(Tech_Type_id tech)
  Return the name of the given tech. You don't have to free the return
  pointer.
 **************************************************************************/
-const char *get_tech_name(const struct player *pplayer, Tech_Type_id tech)
+const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
 {
   static struct string_vector future;
   int i;
@@ -631,7 +631,7 @@ void techs_init(void)
 /***************************************************************
  De-allocate resources associated with the given tech.
 ***************************************************************/
-static void tech_free(Tech_Type_id tech)
+static void tech_free(Tech_type_id tech)
 {
   struct advance *p = &advances[tech];
 
@@ -649,7 +649,7 @@ static void tech_free(Tech_Type_id tech)
 ***************************************************************/
 void techs_free(void)
 {
-  Tech_Type_id i;
+  Tech_type_id i;
 
   for (i = A_FIRST; i < game.num_tech_types; i++) {
     tech_free(i);

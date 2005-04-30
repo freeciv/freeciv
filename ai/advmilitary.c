@@ -49,9 +49,9 @@ static unsigned int assess_danger(struct city *pcity);
 /**************************************************************************
   Choose the best unit the city can build to defend against attacker v.
 **************************************************************************/
-Unit_Type_id ai_choose_defender_versus(struct city *pcity, Unit_Type_id v)
+Unit_type_id ai_choose_defender_versus(struct city *pcity, Unit_type_id v)
 {
-  Unit_Type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
+  Unit_type_id bestid = 0; /* ??? Zero is legal value! (Settlers by default) */
   int j, m;
   int best = 0;
 
@@ -89,10 +89,10 @@ void military_advisor_choose_tech(struct player *pplayer,
   desirability without regard to cost, unless costs are equal. This is
   very wrong. FIXME, use amortize on time to build.
 **************************************************************************/
-static Unit_Type_id ai_choose_attacker(struct city *pcity,
+static Unit_type_id ai_choose_attacker(struct city *pcity,
                                        enum unit_move_type which)
 {
-  Unit_Type_id bestid = -1;
+  Unit_type_id bestid = -1;
   int best = -1;
   int cur;
 
@@ -121,11 +121,11 @@ static Unit_Type_id ai_choose_attacker(struct city *pcity,
   We should only be passed with L_DEFEND_GOOD role for now, since this
   is the only role being considered worthy of bodyguarding in findjob.
 **************************************************************************/
-static Unit_Type_id ai_choose_bodyguard(struct city *pcity,
+static Unit_type_id ai_choose_bodyguard(struct city *pcity,
                                         enum unit_move_type move_type,
                                         enum unit_role_id role)
 {
-  Unit_Type_id bestid = -1;
+  Unit_type_id bestid = -1;
   int j, best = 0;
 
   simple_ai_unit_type_iterate(i) {
@@ -600,7 +600,7 @@ static unsigned int assess_danger(struct city *pcity)
   How much we would want that unit to defend a city? (Do not use this 
   function to find bodyguards for ships or air units.)
 **************************************************************************/
-int ai_unit_defence_desirability(Unit_Type_id i)
+int ai_unit_defence_desirability(Unit_type_id i)
 {
   int desire = get_unit_type(i)->hp;
   int attack = get_unit_type(i)->attack_strength;
@@ -629,7 +629,7 @@ int ai_unit_defence_desirability(Unit_Type_id i)
 /************************************************************************** 
   How much we would want that unit to attack with?
 **************************************************************************/
-int ai_unit_attack_desirability(Unit_Type_id i)
+int ai_unit_attack_desirability(Unit_type_id i)
 {
   int desire = get_unit_type(i)->hp;
   int attack = get_unit_type(i)->attack_strength;
@@ -673,7 +673,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   int tech_desire[U_LAST];
   /* Our favourite unit. */
   int best = -1;
-  Unit_Type_id best_unit_type = 0; /* zero is settler but not a problem */
+  Unit_type_id best_unit_type = 0; /* zero is settler but not a problem */
 
   memset(tech_desire, 0, sizeof(tech_desire));
   
@@ -758,7 +758,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   /* Update tech_want for appropriate techs for units we want to build. */
   simple_ai_unit_type_iterate (unit_type) {
     if (tech_desire[unit_type] > 0) {
-      Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
+      Tech_type_id tech_req = unit_types[unit_type].tech_requirement;
       /* TODO: Document or fix the algorithm below. I have no idea why
        * it is written this way, and the results seem strange to me. - Per */
       int desire = tech_desire[unit_type]
@@ -794,10 +794,10 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   consider units of the same move_type as best_choice
 **************************************************************************/
 static void process_attacker_want(struct city *pcity,
-                                  int value, Unit_Type_id victim_unit_type,
+                                  int value, Unit_type_id victim_unit_type,
                                   int veteran, struct tile *ptile,
                                   struct ai_choice *best_choice,
-                                  struct unit *boat, Unit_Type_id boattype)
+                                  struct unit *boat, Unit_type_id boattype)
 {
   struct player *pplayer = city_owner(pcity);
   /* The enemy city.  acity == NULL means stray enemy unit */
@@ -823,7 +823,7 @@ static void process_attacker_want(struct city *pcity,
   }
 
   simple_ai_unit_type_iterate (unit_type) {
-    Tech_Type_id tech_req = unit_types[unit_type].tech_requirement;
+    Tech_type_id tech_req = unit_types[unit_type].tech_requirement;
     int move_type = unit_types[unit_type].move_type;
     int tech_dist;
     
@@ -957,7 +957,7 @@ static void process_attacker_want(struct city *pcity,
 	    /* Building this unit requires a specific type of improvement.
 	     * So we build this improvement instead.  This may not be the
 	     * best behavior. */
-            Impr_Type_id id = get_unit_type(unit_type)->impr_requirement;
+            Impr_type_id id = get_unit_type(unit_type)->impr_requirement;
 
             CITY_LOG(LOG_DEBUG, pcity, "building %s to build %s",
                      get_improvement_type(id)->name,
@@ -993,7 +993,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   /* Benefit from fighting the target */
   int benefit;
   /* Enemy defender type */
-  Unit_Type_id def_type;
+  Unit_type_id def_type;
   /* Target coordinates */
   struct tile *ptile;
   /* Our transport */
@@ -1003,7 +1003,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   /* Defender of the target city/tile */
   struct unit *pdef; 
   /* Type of the boat (real or a future one) */
-  Unit_Type_id boattype = U_LAST;
+  Unit_type_id boattype = U_LAST;
   bool go_by_boat;
   /* Is the defender veteran? */
   int def_vet;
@@ -1171,7 +1171,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     if want is 0 this advisor doesn't want anything
 ***********************************************************************/
 static void ai_unit_consider_bodyguard(struct city *pcity,
-                                       Unit_Type_id unit_type,
+                                       Unit_type_id unit_type,
                                        struct ai_choice *choice)
 {
   struct unit *virtualunit;
@@ -1206,7 +1206,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
 {
   enum unit_move_type move_type;
   struct player *pplayer = city_owner(pcity);
-  Impr_Type_id id;
+  Impr_type_id id;
 
   /* Sanity */
   if (!is_unit_choice_type(choice->type)) return;
@@ -1251,7 +1251,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  Unit_Type_id unit_type;
+  Unit_type_id unit_type;
   unsigned int our_def, urgency;
   struct tile *ptile = pcity->tile;
   struct unit *virtualunit;

@@ -2256,7 +2256,7 @@ void free_auxiliary_tech_icons(void)
   FREESURFACE(pFuture_Tech_Icon);
 }
 
-SDL_Surface * get_tech_icon(Tech_Type_id tech)
+SDL_Surface * get_tech_icon(Tech_type_id tech)
 {
   switch(tech)
   {
@@ -2273,7 +2273,7 @@ SDL_Surface * get_tech_icon(Tech_Type_id tech)
   return NULL;
 }
 
-SDL_Color * get_tech_color(Tech_Type_id tech_id)
+SDL_Color * get_tech_color(Tech_type_id tech_id)
 {
   if (tech_is_available(game.player_ptr, tech_id))
   {
@@ -2292,7 +2292,7 @@ SDL_Color * get_tech_color(Tech_Type_id tech_id)
   return get_game_colorRGB(COLOR_STD_RED);
 }
 
-SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_Type_id tech_id, enum tech_info_mode mode)
+SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id, enum tech_info_mode mode)
 {
   struct impr_type *pImpr = NULL;
   struct unit_type *pUnit = NULL;

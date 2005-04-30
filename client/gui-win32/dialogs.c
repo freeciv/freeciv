@@ -873,7 +873,7 @@ void races_toggles_set_sensitive(bool *nations_used)
   }
 
   for (i = 0; i < game.playable_nation_count; i++) {
-    Nation_Type_id nation = i;
+    Nation_type_id nation = i;
 
     if (!nations_used[i]) {
       continue;

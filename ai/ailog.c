@@ -40,7 +40,7 @@ static int recursion[AIT_LAST];
 /**************************************************************************
   Log player tech messages.
 **************************************************************************/
-void TECH_LOG(int level, struct player *pplayer, Tech_Type_id id,
+void TECH_LOG(int level, struct player *pplayer, Tech_type_id id,
               const char *msg, ...)
 {
   char buffer[500];

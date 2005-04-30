@@ -62,7 +62,7 @@ static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
                                 struct player *receiver,
                                 enum plr_info_level min_info_level);
-static Nation_Type_id pick_available_nation(Nation_Type_id *choices);
+static Nation_type_id pick_available_nation(Nation_type_id *choices);
 static void tech_researched(struct player* plr);
 static bool choose_goal_tech(struct player *plr);
 static enum plr_info_level player_info_level(struct player *plr,
@@ -686,7 +686,7 @@ void init_tech(struct player *plr, int tech)
 **************************************************************************/
 void get_a_tech(struct player *pplayer, struct player *target)
 {
-  Tech_Type_id stolen_tech;
+  Tech_type_id stolen_tech;
   int j=0;
 
   tech_type_iterate(i) {
@@ -1837,7 +1837,7 @@ struct player *shuffled_player(int i)
   NO_NATION_SELECTED-terminated choices list. If no available nations in this
   file were found, return a random nation. If no nations are available, die.
 ****************************************************************************/
-static Nation_Type_id pick_available_nation(Nation_Type_id *choices)
+static Nation_type_id pick_available_nation(Nation_type_id *choices)
 {
   int *nations_used, i, num_nations_avail = game.playable_nation_count, pick;
   int looking_for, pref_nations_avail = 0; 
@@ -1902,7 +1902,7 @@ static struct player *split_player(struct player *pplayer)
 {
   int newplayer = game.nplayers;
   struct player *cplayer = &game.players[newplayer];
-  Nation_Type_id *civilwar_nations = get_nation_civilwar(pplayer->nation);
+  Nation_type_id *civilwar_nations = get_nation_civilwar(pplayer->nation);
 
   /* make a new player */
   server_player_init(cplayer, TRUE);

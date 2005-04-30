@@ -16,9 +16,9 @@
 
 #include "helpdlg_g.h"
 
-void popup_tech_info(Tech_Type_id tech);
-void popup_impr_info(Impr_Type_id impr);
-void popup_unit_info(Unit_Type_id unit_id);
+void popup_tech_info(Tech_type_id tech);
+void popup_impr_info(Impr_type_id impr);
+void popup_unit_info(Unit_type_id unit_id);
 void popup_gov_info(int gov);
 
 #endif				/* FC__HELPDLG_H */

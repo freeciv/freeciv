@@ -105,10 +105,10 @@ void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 /**************************************************************************
  Upgrade all units of a given type.
 **************************************************************************/
-void handle_unit_type_upgrade(struct player *pplayer, Unit_Type_id type)
+void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id type)
 {
-  const Unit_Type_id from_unittype = type;
-  const Unit_Type_id to_unittype = can_upgrade_unittype(pplayer,
+  const Unit_type_id from_unittype = type;
+  const Unit_type_id to_unittype = can_upgrade_unittype(pplayer,
 							from_unittype);
   int number_of_upgraded_units = 0;
 
@@ -164,8 +164,8 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
   }
 
   if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
-    Unit_Type_id from_unit = punit->type;
-    Unit_Type_id to_unit = can_upgrade_unittype(pplayer, punit->type);
+    Unit_type_id from_unit = punit->type;
+    Unit_type_id to_unit = can_upgrade_unittype(pplayer, punit->type);
     int cost = unit_upgrade_price(pplayer, punit->type, to_unit);
 
     upgrade_unit(punit, to_unit, FALSE);

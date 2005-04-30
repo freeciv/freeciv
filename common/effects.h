@@ -167,9 +167,9 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct city *target_pcity,
 		      const struct impr_type *target_building,
 		      const struct tile *target_tile,
-		      Impr_Type_id source, const struct effect *effect);
+		      Impr_type_id source, const struct effect *effect);
 
-bool is_building_replaced(const struct city *pcity, Impr_Type_id building);
+bool is_building_replaced(const struct city *pcity, Impr_type_id building);
 
 /* functions to know the bonuses a certain effect is granting */
 int get_world_bonus(enum effect_type effect_type);
@@ -177,7 +177,7 @@ int get_player_bonus(const struct player *plr, enum effect_type effect_type);
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type);
 int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 			enum effect_type effect_type);
-int get_building_bonus(const struct city *pcity, Impr_Type_id building,
+int get_building_bonus(const struct city *pcity, Impr_type_id building,
 		       enum effect_type effect_type);
 
 /* miscellaneous auxiliary effects functions */
@@ -193,14 +193,14 @@ int get_player_bonus_effects(struct effect_list *plist,
 int get_city_bonus_effects(struct effect_list *plist,
     const struct city *pcity, enum effect_type effect_type);
 
-bool building_has_effect(Impr_Type_id building,
+bool building_has_effect(Impr_type_id building,
 			 enum effect_type effect_type);
 int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type);
 
-Impr_Type_id ai_find_source_building(struct player *pplayer,
+Impr_type_id ai_find_source_building(struct player *pplayer,
 				     enum effect_type effect_type);
-Impr_Type_id get_building_for_effect(enum effect_type effect_type);
+Impr_type_id get_building_for_effect(enum effect_type effect_type);
 
 #endif  /* FC__EFFECTS_H */
 

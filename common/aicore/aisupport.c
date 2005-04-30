@@ -109,7 +109,7 @@ int city_gold_worth(struct city *pcity)
   worth = pcity->size * 150; /* reasonable base cost */
   unit_list_iterate(pcity->units_supported, punit) {
     if (same_pos(punit->tile, pcity->tile)) {
-      Unit_Type_id id = unit_type(punit)->obsoleted_by;
+      Unit_type_id id = unit_type(punit)->obsoleted_by;
 
       if (id >= 0 && can_build_unit_direct(pcity, id)) {
         worth += unit_disband_shields(punit->type) / 2; /* obsolete */

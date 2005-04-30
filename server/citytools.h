@@ -32,7 +32,7 @@
 #define COOLING_FACTOR WARMING_FACTOR
 
 int build_points_left(struct city *pcity);
-int do_make_unit_veteran(struct city *pcity, Unit_Type_id id);
+int do_make_unit_veteran(struct city *pcity, Unit_type_id id);
 
 void transfer_city_units(struct player *pplayer, struct player *pvictim, 
 			 struct unit_list *units, struct city *pcity,
@@ -67,8 +67,8 @@ void establish_trade_route(struct city *pc1, struct city *pc2);
 void remove_trade_route(struct city *pc1, struct city *pc2);
 
 void do_sell_building(struct player *pplayer, struct city *pcity,
-		      Impr_Type_id id);
-void building_lost(struct city *pcity, Impr_Type_id id);
+		      Impr_type_id id);
+void building_lost(struct city *pcity, Impr_type_id id);
 void change_build_target(struct player *pplayer, struct city *pcity,
 			 int target, bool is_unit, enum event_type event);
 

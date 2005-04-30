@@ -179,7 +179,7 @@ static void redraw_impr_info_dlg(void)
 }
 
 
-void popup_impr_info(Impr_Type_id impr)
+void popup_impr_info(Impr_type_id impr)
 { 
   struct GUI *pBuf, *pHelpText = NULL;
   struct GUI *pDock;
@@ -534,7 +534,7 @@ static void redraw_unit_info_dlg(void)
 }
 
 
-void popup_unit_info(Unit_Type_id type_id)
+void popup_unit_info(Unit_type_id type_id)
 { 
   struct GUI *pBuf;
   struct GUI *pDock;
@@ -971,7 +971,7 @@ static void redraw_tech_info_dlg(void)
   flush_rect(pWindow->size);
 }
 
-static struct GUI * create_tech_info(Tech_Type_id tech, int width, struct GUI *pWindow, struct TECHS_BUTTONS *pStore)
+static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *pWindow, struct TECHS_BUTTONS *pStore)
 {
   struct GUI *pBuf;
   struct GUI *pLast, *pBudynki;
@@ -1518,7 +1518,7 @@ static int toggle_full_tree_mode_in_help_dlg_callback(struct GUI *pWidget)
 }
 
 
-static struct GUI * create_tech_tree(Tech_Type_id tech, int width, struct GUI *pWindow, struct TECHS_BUTTONS *pStore)
+static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *pWindow, struct TECHS_BUTTONS *pStore)
 {
   int i, w, h, req_count , targets_count, sub_req_count, sub_targets_count;
   struct GUI *pBuf;
@@ -1778,7 +1778,7 @@ static struct GUI * create_tech_tree(Tech_Type_id tech, int width, struct GUI *p
   return pBuf;
 }
 
-void popup_tech_info(Tech_Type_id tech)
+void popup_tech_info(Tech_type_id tech)
 { 
   struct GUI *pBuf;
   struct GUI *pDock;

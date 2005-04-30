@@ -16,7 +16,7 @@
 #include "shared.h"		/* bool type */
 
 #include "fc_types.h"
-#include "nation.h"		/* Nation_Type_id */
+#include "nation.h"		/* Nation_type_id */
 #include "terrain.h"		/* enum tile_special_type */
 
 struct packet_nations_selected_info;

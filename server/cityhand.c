@@ -166,7 +166,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
 ...
 **************************************************************************/
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
-			     Impr_Type_id id)
+			     Impr_type_id id)
 {  
   if (pcity->did_sell) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT, 

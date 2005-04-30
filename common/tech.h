@@ -16,13 +16,13 @@
 #include "shared.h"
 
 #include "fc_types.h"
-#include "nation.h" /* Nation_Type_id */
+#include "nation.h" /* Nation_type_id */
 
-typedef int Tech_Type_id;
+typedef int Tech_type_id;
 /*
   Above typedef replaces old "enum tech_type_id"; see comments about
-  Unit_Type_id in unit.h, since mainly apply here too, except don't
-  use Tech_Type_id very widely, and don't use (-1) flag values. (?)
+  Unit_type_id in unit.h, since mainly apply here too, except don't
+  use Tech_type_id very widely, and don't use (-1) flag values. (?)
 */
 
 #define A_NONE 0
@@ -84,8 +84,8 @@ struct advance {
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
-  Tech_Type_id req[2];
-  Tech_Type_id root_req;		/* A_NONE means unrestricted */
+  Tech_type_id req[2];
+  Tech_type_id root_req;		/* A_NONE means unrestricted */
   unsigned int flags;
   char *helptext;
 
@@ -110,34 +110,34 @@ struct advance {
 BV_DEFINE(tech_vector, A_LAST);
 
 enum tech_state get_invention(const struct player *pplayer,
-			      Tech_Type_id tech);
-void set_invention(struct player *pplayer, Tech_Type_id tech,
+			      Tech_type_id tech);
+void set_invention(struct player *pplayer, Tech_type_id tech,
 		   enum tech_state value);
 void update_research(struct player *pplayer);
-Tech_Type_id get_next_tech(const struct player *pplayer, Tech_Type_id goal);
+Tech_type_id get_next_tech(const struct player *pplayer, Tech_type_id goal);
 
-bool tech_is_available(const struct player *pplayer, Tech_Type_id id);
-bool tech_exists(Tech_Type_id id);
-Tech_Type_id find_tech_by_name(const char *s);
-Tech_Type_id find_tech_by_name_orig(const char *s);
+bool tech_is_available(const struct player *pplayer, Tech_type_id id);
+bool tech_exists(Tech_type_id id);
+Tech_type_id find_tech_by_name(const char *s);
+Tech_type_id find_tech_by_name_orig(const char *s);
 
-bool tech_flag(Tech_Type_id tech, enum tech_flag_id flag);
+bool tech_flag(Tech_type_id tech, enum tech_flag_id flag);
 enum tech_flag_id tech_flag_from_str(const char *s);
-Tech_Type_id find_tech_by_flag(int index, enum tech_flag_id flag);
+Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag);
 
 int total_bulbs_required(const struct player *pplayer);
 int base_total_bulbs_required(const struct player *pplayer,
-			      Tech_Type_id tech);
+			      Tech_type_id tech);
 bool techs_have_fixed_costs(void);
 
 int num_unknown_techs_for_goal(const struct player *pplayer,
-			       Tech_Type_id goal);
+			       Tech_type_id goal);
 int total_bulbs_required_for_goal(const struct player *pplayer,
-				  Tech_Type_id goal);
-bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_Type_id tech,
-			    Tech_Type_id goal);
-bool is_future_tech(Tech_Type_id tech);
-const char *get_tech_name(const struct player *pplayer, Tech_Type_id tech);
+				  Tech_type_id goal);
+bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
+			    Tech_type_id goal);
+bool is_future_tech(Tech_type_id tech);
+const char *get_tech_name(const struct player *pplayer, Tech_type_id tech);
 
 void precalc_tech_data(void);
 
@@ -150,7 +150,7 @@ extern struct advance advances[];
  * and non-existent technologies, but not A_FUTURE. */
 #define tech_type_iterate(tech_id)                                          \
 {                                                                           \
-  Tech_Type_id tech_id;                                                     \
+  Tech_type_id tech_id;                                                     \
   for (tech_id = A_NONE; tech_id < game.num_tech_types; tech_id++) {
 
 #define tech_type_iterate_end                                               \

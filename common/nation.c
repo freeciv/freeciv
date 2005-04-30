@@ -43,7 +43,7 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
   If returning 0, prints log message with given loglevel
   quoting given func name, explaining problem.
 ***************************************************************/
-static bool bounds_check_nation_id(Nation_Type_id nid, int loglevel,
+static bool bounds_check_nation_id(Nation_type_id nid, int loglevel,
 				  const char *func_name)
 {
   if (game.nation_count==0) {
@@ -61,7 +61,7 @@ static bool bounds_check_nation_id(Nation_Type_id nid, int loglevel,
 /***************************************************************
 Find nation by (translated) name
 ***************************************************************/
-Nation_Type_id find_nation_by_name(const char *name)
+Nation_type_id find_nation_by_name(const char *name)
 {
   int i;
 
@@ -75,7 +75,7 @@ Nation_Type_id find_nation_by_name(const char *name)
 /***************************************************************
 Find nation by (untranslated) original name
 ***************************************************************/
-Nation_Type_id find_nation_by_name_orig(const char *name)
+Nation_type_id find_nation_by_name_orig(const char *name)
 {
   int i;
 
@@ -89,7 +89,7 @@ Nation_Type_id find_nation_by_name_orig(const char *name)
 /***************************************************************
 Returns (translated) name of the nation
 ***************************************************************/
-const char *get_nation_name(Nation_Type_id nation)
+const char *get_nation_name(Nation_type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name")) {
     return "";
@@ -100,7 +100,7 @@ const char *get_nation_name(Nation_Type_id nation)
 /***************************************************************
 Returns (untranslated) original name of the nation
 ***************************************************************/
-const char *get_nation_name_orig(Nation_Type_id nation)
+const char *get_nation_name_orig(Nation_type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name_orig")) {
     return "";
@@ -112,7 +112,7 @@ const char *get_nation_name_orig(Nation_Type_id nation)
 Returns pointer to the array of the nation leader names, and
 sets dim to number of leaders.
 ***************************************************************/
-struct leader *get_nation_leaders(Nation_Type_id nation, int *dim)
+struct leader *get_nation_leaders(Nation_type_id nation, int *dim)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_leader_names")) {
     die("wrong nation %d", nation);
@@ -125,7 +125,7 @@ struct leader *get_nation_leaders(Nation_Type_id nation, int *dim)
   Returns pointer to the preferred set of nations that can fork from the
   nation.  The array is terminated by a NO_NATION_SELECTED value.
 ****************************************************************************/
-Nation_Type_id* get_nation_civilwar(Nation_Type_id nation)
+Nation_type_id* get_nation_civilwar(Nation_type_id nation)
 {
   return nations[nation].civilwar_nations;
 }
@@ -134,7 +134,7 @@ Nation_Type_id* get_nation_civilwar(Nation_Type_id nation)
 Returns sex of given leader name. If names is not found,
 return 1 (meaning male).
 ***************************************************************/
-bool get_nation_leader_sex(Nation_Type_id nation, const char *name)
+bool get_nation_leader_sex(Nation_type_id nation, const char *name)
 {
   int i;
   
@@ -152,7 +152,7 @@ bool get_nation_leader_sex(Nation_Type_id nation, const char *name)
 /***************************************************************
 checks if given leader name exist for given nation.
 ***************************************************************/
-bool check_nation_leader_name(Nation_Type_id nation, const char *name)
+bool check_nation_leader_name(Nation_type_id nation, const char *name)
 {
   int i;
   
@@ -170,7 +170,7 @@ bool check_nation_leader_name(Nation_Type_id nation, const char *name)
 /***************************************************************
 Returns plural name of the nation.
 ***************************************************************/
-const char *get_nation_name_plural(Nation_Type_id nation)
+const char *get_nation_name_plural(Nation_type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_ERROR, "get_nation_name_plural")) {
     return "";
@@ -193,7 +193,7 @@ struct nation_type *get_nation_by_plr(const struct player *plr)
 /***************************************************************
   ...
 ***************************************************************/
-struct nation_type *get_nation_by_idx(Nation_Type_id nation)
+struct nation_type *get_nation_by_idx(Nation_type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_by_idx")) {
     die("wrong nation %d", nation);
@@ -222,7 +222,7 @@ void nations_alloc(int num)
 /***************************************************************
  De-allocate resources associated with the given nation.
 ***************************************************************/
-static void nation_free(Nation_Type_id nation)
+static void nation_free(Nation_type_id nation)
 {
   int i;
   struct nation_type *p = get_nation_by_idx(nation);
@@ -265,7 +265,7 @@ static void nation_free(Nation_Type_id nation)
 ***************************************************************/
 void nations_free()
 {
-  Nation_Type_id nation;
+  Nation_type_id nation;
 
   if (!nations) {
     return;
@@ -305,7 +305,7 @@ void nation_city_names_free(struct city_name *city_names)
 /***************************************************************
 Returns nation's city style
 ***************************************************************/
-int get_nation_city_style(Nation_Type_id nation)
+int get_nation_city_style(Nation_type_id nation)
 {
   if (!bounds_check_nation_id(nation, LOG_FATAL, "get_nation_city_style")) {
     die("wrong nation %d", nation);
@@ -317,7 +317,7 @@ int get_nation_city_style(Nation_Type_id nation)
   Returns the id of a team given its name, or TEAM_NONE if 
   not found.
 ***************************************************************/
-Team_Type_id team_find_by_name(const char *team_name)
+Team_type_id team_find_by_name(const char *team_name)
 {
   assert(team_name != NULL);
 
@@ -333,7 +333,7 @@ Team_Type_id team_find_by_name(const char *team_name)
 /***************************************************************
   Returns pointer to a team given its id
 ***************************************************************/
-struct team *team_get_by_id(Team_Type_id id)
+struct team *team_get_by_id(Team_type_id id)
 {
   assert(id == TEAM_NONE || (id < MAX_NUM_TEAMS && id >= 0));
   if (id == TEAM_NONE) {
@@ -345,7 +345,7 @@ struct team *team_get_by_id(Team_Type_id id)
 /***************************************************************
   Count living members of given team
 ***************************************************************/
-int team_count_members_alive(Team_Type_id id)
+int team_count_members_alive(Team_type_id id)
 {
   struct team *pteam = team_get_by_id(id);
   int count = 0;
@@ -368,7 +368,7 @@ int team_count_members_alive(Team_Type_id id)
 ***************************************************************/
 void team_add_player(struct player *pplayer, const char *team_name)
 {
-  Team_Type_id team_id, i;
+  Team_type_id team_id, i;
 
   assert(pplayer != NULL && team_name != NULL);
 
@@ -427,7 +427,7 @@ void team_remove_player(struct player *pplayer)
 ***************************************************************/
 void team_init()
 {
-  Team_Type_id i;
+  Team_type_id i;
 
   assert(TEAM_NONE < 0 || TEAM_NONE >= MAX_NUM_TEAMS);
 

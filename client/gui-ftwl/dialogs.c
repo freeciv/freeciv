@@ -36,7 +36,7 @@ static struct sw_widget *nations_window;
 static struct sw_widget *nations_list;
 static struct sw_widget *leaders_list;
 static struct sw_widget *leaders_sex_list;
-static Nation_Type_id selected_nation;
+static Nation_type_id selected_nation;
 #endif
 
 /**************************************************************************

@@ -21,7 +21,7 @@ struct connection;
 struct conn_list;
 
 void really_handle_city_sell(struct player *pplayer, struct city *pcity,
-			     Impr_Type_id id);
+			     Impr_type_id id);
 void really_handle_city_buy(struct player *pplayer, struct city *pcity);
 
 #endif  /* FC__CITYHAND_H */

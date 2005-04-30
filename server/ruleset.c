@@ -61,7 +61,7 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
 static int lookup_unit_type(struct section_file *file, const char *prefix,
 			    const char *entry, bool required, const char *filename,
 			    const char *description);
-static Impr_Type_id lookup_impr_type(struct section_file *file, const char *prefix,
+static Impr_type_id lookup_impr_type(struct section_file *file, const char *prefix,
 				     const char *entry, bool required,
 				     const char *filename, const char *description);
 static int lookup_government(struct section_file *file, const char *entry,
@@ -314,7 +314,7 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
   }
   for (i = 0; i < nval; i++) {
     char *sval = slist[i];
-    Unit_Type_id uid = find_unit_type_by_name(sval);
+    Unit_type_id uid = find_unit_type_by_name(sval);
 
     if (uid == U_LAST) {
       freelog(LOG_FATAL, "For %s %s (%d) couldn't match unit \"%s\" (%s)",
@@ -470,17 +470,17 @@ static int lookup_unit_type(struct section_file *file, const char *prefix,
 
 /**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
- Impr_Type_id.  If (!required), return B_LAST if match "None" or can't match.
+ Impr_type_id.  If (!required), return B_LAST if match "None" or can't match.
  If (required), die if can't match.
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass impr->name instead of prefix="imprs2.b27")
 **************************************************************************/
-static Impr_Type_id lookup_impr_type(struct section_file *file, const char *prefix,
+static Impr_type_id lookup_impr_type(struct section_file *file, const char *prefix,
 				     const char *entry, bool required,
 				     const char *filename, const char *description)
 {
   char *sval;
-  Impr_Type_id id;
+  Impr_type_id id;
 
   if (required) {
     sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
@@ -1822,7 +1822,7 @@ This checks if nations[pos] leader names are not already defined in any
 previous nation, or twice in its own leader name table.
 If not return NULL, if yes return pointer to name which is repeated.
 **************************************************************************/
-static char *check_leader_names(Nation_Type_id nation)
+static char *check_leader_names(Nation_type_id nation)
 {
   int k;
   struct nation_type *pnation = get_nation_by_idx(nation);
@@ -1830,7 +1830,7 @@ static char *check_leader_names(Nation_Type_id nation)
   for (k = 0; k < pnation->leader_count; k++) {
     char *leader = pnation->leaders[k].name;
     int i;
-    Nation_Type_id nation2;
+    Nation_type_id nation2;
 
     for (i = 0; i < k; i++) {
       if (0 == strcmp(leader, pnation->leaders[i].name)) {
@@ -2192,7 +2192,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     civilwar_nations = secfile_lookup_str_vec(file, &dim,
 					      "%s.civilwar_nations", sec[i]);
-    pl->civilwar_nations = fc_malloc(sizeof(Nation_Type_id) * (dim + 1));
+    pl->civilwar_nations = fc_malloc(sizeof(Nation_type_id) * (dim + 1));
 
     for (j = 0, k = 0; k < dim; j++, k++) {
       /* HACK: At this time, all the names are untranslated and the name_orig
@@ -2239,7 +2239,7 @@ static void load_ruleset_nations(struct section_file *file)
 
   /* Calculate parent nations.  O(n^2) algorithm. */
   for (i = 0; i < game.nation_count; i++) {
-    Nation_Type_id parents[game.nation_count];
+    Nation_type_id parents[game.nation_count];
     int count = 0;
 
     pl = get_nation_by_idx(i);

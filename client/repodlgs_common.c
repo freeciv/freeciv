@@ -309,7 +309,7 @@ void handle_options_settable(struct packet_options_settable *packet)
   The "message" string will be filled with a GUI-friendly message about
   what was sold.
 ****************************************************************************/
-void sell_all_improvements(Impr_Type_id impr, bool obsolete_only,
+void sell_all_improvements(Impr_type_id impr, bool obsolete_only,
 			   char *message, size_t message_sz)
 {
   int count = 0, gold = 0;
@@ -346,7 +346,7 @@ void sell_all_improvements(Impr_Type_id impr, bool obsolete_only,
   The "message" string will be filled with a GUI-friendly message about
   what was sold.
 ****************************************************************************/
-void disband_all_units(Unit_Type_id type, bool in_cities_only,
+void disband_all_units(Unit_type_id type, bool in_cities_only,
 		       char *message, size_t message_sz)
 {
   int count = 0;

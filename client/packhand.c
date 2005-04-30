@@ -316,7 +316,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
   the existing improvement status was changed by this call.
 **************************************************************************/
 static void update_improvement_from_packet(struct city *pcity,
-					   Impr_Type_id impr, bool have_impr,
+					   Impr_type_id impr, bool have_impr,
 					   bool *impr_changed)
 {
   if (have_impr && pcity->improvements[impr] == I_NONE) {
@@ -2027,7 +2027,7 @@ static bool *nations_used;
 /**************************************************************************
   Mark a nation as unavailable, after we've entered the select-race state.
 **************************************************************************/
-void handle_nation_unavailable(Nation_Type_id nation)
+void handle_nation_unavailable(Nation_type_id nation)
 {
   if (get_client_state() == CLIENT_SELECT_RACE_STATE
       && nation >= 0 && nation < game.playable_nation_count) {

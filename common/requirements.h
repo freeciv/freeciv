@@ -48,12 +48,12 @@ struct req_source {
   enum req_source_type type;            /* source type */
 
   union {
-    Tech_Type_id tech;                  /* source tech */
+    Tech_type_id tech;                  /* source tech */
     int gov;                            /* source government */
-    Impr_Type_id building;              /* source building */
+    Impr_type_id building;              /* source building */
     enum tile_special_type special;     /* source special */
     Terrain_type_id terrain;            /* source terrain type */
-    Nation_Type_id nation;              /* source nation type */
+    Nation_type_id nation;              /* source nation type */
     int minsize;                        /* source minsize type */
   } value;                              /* source value */
 };

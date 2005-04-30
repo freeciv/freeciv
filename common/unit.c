@@ -1294,7 +1294,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 /**************************************************************************
   Takes into account unit move_type as well as IGZOC
 **************************************************************************/
-bool unit_type_really_ignores_zoc(Unit_Type_id type)
+bool unit_type_really_ignores_zoc(Unit_type_id type)
 {
   return (!is_ground_unittype(type)) || (unit_type_flag(type, F_IGZOC));
 }
@@ -1415,7 +1415,7 @@ bool is_build_or_clean_activity(enum unit_activity activity)
   to set x, y and homecity yourself.
 **************************************************************************/
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
-                                 Unit_Type_id type, int veteran_level)
+                                 Unit_type_id type, int veteran_level)
 {
   struct unit *punit = fc_calloc(1, sizeof(struct unit));
 
@@ -1536,7 +1536,7 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 					   bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  Unit_Type_id to_unittype = can_upgrade_unittype(pplayer, punit->type);
+  Unit_type_id to_unittype = can_upgrade_unittype(pplayer, punit->type);
   struct city *pcity;
   int cost;
 
@@ -1581,8 +1581,8 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
   struct player *pplayer = unit_owner(punit);
   enum unit_upgrade_result result = test_unit_upgrade(punit, FALSE);
   int upgrade_cost;
-  Unit_Type_id from_unittype = punit->type;
-  Unit_Type_id to_unittype = can_upgrade_unittype(pplayer,
+  Unit_type_id from_unittype = punit->type;
+  Unit_type_id to_unittype = can_upgrade_unittype(pplayer,
 						  punit->type);
 
   switch (result) {

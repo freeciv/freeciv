@@ -620,7 +620,7 @@ const struct help_item *help_iter_next(void)
 
   user_text, if non-NULL, will be appended to the text.
 **************************************************************************/
-char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
+char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
 			const char *user_text)
 {
   struct impr_type *imp;
@@ -651,8 +651,8 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
 
   if (building_has_effect(which, EFT_ENABLE_NUKE)
       && num_role_units(F_NUCLEAR) > 0) {
-    Unit_Type_id u;
-    Tech_Type_id t;
+    Unit_type_id u;
+    Tech_type_id t;
 
     u = get_role_unit(F_NUCLEAR, 0);
     assert(u < game.num_unit_types);
@@ -691,7 +691,7 @@ char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
 
 #define techs_with_flag_iterate(flag, tech_id)				    \
 {									    \
-  Tech_Type_id tech_id = 0;						    \
+  Tech_type_id tech_id = 0;						    \
 									    \
   while ((tech_id = find_tech_by_flag(tech_id, (flag))) != A_LAST) {
 
@@ -970,8 +970,8 @@ void helptext_unit(char *buf, int i, const char *user_text)
 	    _("* May become veteran through training or combat.\n"));
   }
   if (unit_type_flag(i, F_TRIREME)) {
-    Tech_Type_id tech1 = find_tech_by_flag(0, TF_REDUCE_TRIREME_LOSS1);
-    Tech_Type_id tech2 = find_tech_by_flag(0, TF_REDUCE_TRIREME_LOSS2);
+    Tech_type_id tech1 = find_tech_by_flag(0, TF_REDUCE_TRIREME_LOSS1);
+    Tech_type_id tech2 = find_tech_by_flag(0, TF_REDUCE_TRIREME_LOSS2);
     sprintf(buf + strlen(buf),
 	    _("* Must end turn in a city or next to land,"
 	      " or has a 50%% risk of being lost at sea.\n"));
@@ -998,7 +998,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
 
     n = num_role_units(F_CARRIER);
     for (j = 0; j < n; j++) {
-      Unit_Type_id id = get_role_unit(F_CARRIER, j);
+      Unit_type_id id = get_role_unit(F_CARRIER, j);
 
       mystrlcpy(allowed_units[num_allowed_units],
 		unit_name(id), sizeof(allowed_units[num_allowed_units]));
@@ -1010,7 +1010,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
       n = num_role_units(F_MISSILE_CARRIER);
 
       for (j = 0; j < n; j++) {
-	Unit_Type_id id = get_role_unit(F_MISSILE_CARRIER, j);
+	Unit_type_id id = get_role_unit(F_MISSILE_CARRIER, j);
 
 	if (get_unit_type(id)->transport_capacity > 0) {
 	  mystrlcpy(allowed_units[num_allowed_units],

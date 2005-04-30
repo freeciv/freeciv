@@ -450,7 +450,7 @@ bool is_worker_here(const struct city *pcity, int city_x, int city_y)
 /**************************************************************************
   Return the extended name of the building.
 **************************************************************************/
-const char *get_impr_name_ex(const struct city *pcity, Impr_Type_id id)
+const char *get_impr_name_ex(const struct city *pcity, Impr_type_id id)
 {
   static char buffer[256];
   const char *state = NULL;
@@ -508,7 +508,7 @@ struct player *city_owner(const struct city *pcity)
   Return whether given city can build given building, ignoring whether
   it is obsolete.
 **************************************************************************/
-bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id)
+bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id)
 {
   const struct impr_type *building = get_improvement_type(id);
   int i;
@@ -538,7 +538,7 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_Type_id id)
   Return whether given city can build given building; returns FALSE if
   the building is obsolete.
 **************************************************************************/
-bool can_build_improvement(const struct city *pcity, Impr_Type_id id)
+bool can_build_improvement(const struct city *pcity, Impr_type_id id)
 {  
   if (!can_build_improvement_direct(pcity, id)) {
     return FALSE;
@@ -554,7 +554,7 @@ bool can_build_improvement(const struct city *pcity, Impr_Type_id id)
   returns FALSE if improvement can never possibly be built in this city.
 **************************************************************************/
 bool can_eventually_build_improvement(const struct city *pcity,
-				      Impr_Type_id id)
+				      Impr_type_id id)
 {
   int r;
   struct impr_type *building;
@@ -585,9 +585,9 @@ bool can_eventually_build_improvement(const struct city *pcity,
   Return whether given city can build given unit, ignoring whether unit 
   is obsolete.
 **************************************************************************/
-bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id)
+bool can_build_unit_direct(const struct city *pcity, Unit_type_id id)
 {
-  Impr_Type_id impr_req;
+  Impr_type_id impr_req;
 
   if (!can_player_build_unit_direct(city_owner(pcity), id)) {
     return FALSE;
@@ -611,7 +611,7 @@ bool can_build_unit_direct(const struct city *pcity, Unit_Type_id id)
   Return whether given city can build given unit; returns 0 if unit is 
   obsolete.
 **************************************************************************/
-bool can_build_unit(const struct city *pcity, Unit_Type_id id)
+bool can_build_unit(const struct city *pcity, Unit_type_id id)
 {  
   if (!can_build_unit_direct(pcity, id)) {
     return FALSE;
@@ -628,7 +628,7 @@ bool can_build_unit(const struct city *pcity, Unit_Type_id id)
   Return whether player can eventually build given unit in the city;
   returns 0 if unit can never possibly be built in this city.
 **************************************************************************/
-bool can_eventually_build_unit(const struct city *pcity, Unit_Type_id id)
+bool can_eventually_build_unit(const struct city *pcity, Unit_type_id id)
 {
   /* Can the _player_ ever build this unit? */
   if (!can_player_eventually_build_unit(city_owner(pcity), id)) {
@@ -666,7 +666,7 @@ int city_population(const struct city *pcity)
 /**************************************************************************
   Return TRUE if the city has this building in it.
 **************************************************************************/
-bool city_got_building(const struct city *pcity, Impr_Type_id id) 
+bool city_got_building(const struct city *pcity, Impr_type_id id) 
 {
   if (!improvement_exists(id)) {
     return FALSE;
@@ -679,7 +679,7 @@ bool city_got_building(const struct city *pcity, Impr_Type_id id)
   Return the upkeep (gold) needed each turn to upkeep the given improvement
   in the given city.
 **************************************************************************/
-int improvement_upkeep(const struct city *pcity, Impr_Type_id i) 
+int improvement_upkeep(const struct city *pcity, Impr_type_id i) 
 {
   if (!improvement_exists(i))
     return 0;
@@ -2434,7 +2434,7 @@ const char *specialists_string(const int *specialists)
 /**************************************************************************
  Adds an improvement (and its effects) to a city.
 **************************************************************************/
-void city_add_improvement(struct city *pcity, Impr_Type_id impr)
+void city_add_improvement(struct city *pcity, Impr_type_id impr)
 {
   pcity->improvements[impr] = I_ACTIVE;
 }
@@ -2442,7 +2442,7 @@ void city_add_improvement(struct city *pcity, Impr_Type_id impr)
 /**************************************************************************
  Removes an improvement (and its effects) from a city.
 **************************************************************************/
-void city_remove_improvement(struct city *pcity, Impr_Type_id impr)
+void city_remove_improvement(struct city *pcity, Impr_type_id impr)
 {
   freelog(LOG_DEBUG,"Improvement %s removed from city %s",
           improvement_types[impr].name, pcity->name);

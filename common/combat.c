@@ -355,7 +355,7 @@ int get_attack_power(const struct unit *punit)
  status. Set moves_left to SINGLE_MOVE to disable the reduction of
  power caused by tired units.
 **************************************************************************/
-int base_get_attack_power(Unit_Type_id type, int veteran, int moves_left)
+int base_get_attack_power(Unit_type_id type, int veteran, int moves_left)
 {
   int power;
 
@@ -415,8 +415,8 @@ int get_total_attack_power(const struct unit *attacker,
 May be called with a non-existing att_type to avoid any unit type
 effects.
 **************************************************************************/
-static int defense_multiplication(Unit_Type_id att_type,
-				  Unit_Type_id def_type,
+static int defense_multiplication(Unit_type_id att_type,
+				  Unit_type_id def_type,
 				  const struct tile *ptile,
 				  int defensepower, bool fortified)
 {
@@ -479,7 +479,7 @@ static int defense_multiplication(Unit_Type_id att_type,
  May be called with a non-existing att_type to avoid any effects which
  depend on the attacker.
 **************************************************************************/
-int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
+int get_virtual_defense_power(Unit_type_id att_type, Unit_type_id def_type,
 			      const struct tile *ptile,
 			      bool fortified, int veteran)
 {

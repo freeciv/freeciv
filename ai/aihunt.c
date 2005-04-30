@@ -62,10 +62,10 @@ static struct unit *ai_hunter_find(struct player *pplayer,
 /**************************************************************************
   Guess best hunter unit type.
 **************************************************************************/
-static Unit_Type_id ai_hunter_guess_best(struct city *pcity,
+static Unit_type_id ai_hunter_guess_best(struct city *pcity,
                                          enum unit_move_type umt)
 {
-  Unit_Type_id bestid = -1;
+  Unit_type_id bestid = -1;
   int best = 0;
 
   unit_type_iterate(i) {

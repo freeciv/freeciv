@@ -48,12 +48,12 @@ struct city *sdi_defense_close(const struct player *owner,
 			       const struct tile *ptile);
 
 int get_attack_power(const struct unit *punit);
-int base_get_attack_power(Unit_Type_id type, int veteran, int moves_left);
+int base_get_attack_power(Unit_type_id type, int veteran, int moves_left);
 int base_get_defense_power(const struct unit *punit);
 int get_defense_power(const struct unit *punit);
 int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender);
-int get_virtual_defense_power(Unit_Type_id att_type, Unit_Type_id def_type,
+int get_virtual_defense_power(Unit_type_id att_type, Unit_type_id def_type,
 			      const struct tile *ptile,
 			      bool fortified, int veteran);
 int get_total_attack_power(const struct unit *attacker,

@@ -133,7 +133,7 @@ static enum diplstate_type pact_clause_to_diplstate_type(enum clause_type type)
 /********************************************************************** 
   How much is a tech worth to player measured in gold
 ***********************************************************************/
-static int ai_goldequiv_tech(struct player *pplayer, Tech_Type_id tech)
+static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
 {
   int bulbs, tech_want, worth;
   struct ai_data *ai = ai_data_get(pplayer);

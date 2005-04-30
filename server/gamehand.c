@@ -62,7 +62,7 @@ static void init_game_id(void)
 static void place_starting_unit(struct tile *ptile, struct player *pplayer,
 				char crole)
 {
-  Unit_Type_id utype;
+  Unit_type_id utype;
   enum unit_flag_id role;
 
   assert(!is_non_allied_unit_tile(ptile, pplayer));
@@ -178,7 +178,7 @@ void init_new_game(void)
   /* First set up some data fields. */
   freelog(LOG_VERBOSE, "Placing players at start positions.");
   for (i = 0; i < map.num_start_positions; i++) {
-    Nation_Type_id n = map.start_positions[i].nation;
+    Nation_type_id n = map.start_positions[i].nation;
 
     pos_used[i] = FALSE;
     freelog(LOG_VERBOSE, "%3d : (%2d,%2d) : %d : %s",

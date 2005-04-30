@@ -2615,7 +2615,7 @@ struct sprite *get_city_flag_sprite(const struct tileset *t,
 static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 						  const struct unit *punit)
 {
-  Nation_Type_id nation = unit_owner(punit)->nation;
+  Nation_type_id nation = unit_owner(punit)->nation;
 
   if (draw_unit_shields) {
     return t->sprites.nation_shield.p[nation];
@@ -4296,7 +4296,7 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
   Return the sprite for the nation.
 **************************************************************************/
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
-				      Nation_Type_id nation)
+				      Nation_type_id nation)
 {
   if (nation < 0 || nation >= game.nation_count) {
     assert(0);
@@ -4308,7 +4308,7 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 /**************************************************************************
   Return the sprite for the technology/advance.
 **************************************************************************/
-struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech)
+struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
 {
   if (tech < 0 || tech >= game.num_tech_types) {
     assert(0);
@@ -4320,7 +4320,7 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_Type_id tech)
 /**************************************************************************
   Return the sprite for the building/improvement.
 **************************************************************************/
-struct sprite *get_building_sprite(const struct tileset *t, Impr_Type_id b)
+struct sprite *get_building_sprite(const struct tileset *t, Impr_type_id b)
 {
   if (b < 0 || b >= B_LAST || b >= game.num_impr_types) {
     assert(0);
@@ -4345,7 +4345,7 @@ struct sprite *get_government_sprite(const struct tileset *t,
 /****************************************************************************
   Return the sprite for the unit type (the base "unit" sprite).
 ****************************************************************************/
-struct sprite *get_unittype_sprite(const struct tileset *t, Unit_Type_id id)
+struct sprite *get_unittype_sprite(const struct tileset *t, Unit_type_id id)
 {
   if (id < 0 || id >= game.num_unit_types) {
     assert(0);

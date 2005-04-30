@@ -44,11 +44,11 @@ enum output_type_id {
 typedef signed short Continent_id;
 typedef int Terrain_type_id;
 typedef int Specialist_type_id;
-typedef int Impr_Type_id;
+typedef int Impr_type_id;
 typedef enum output_type_id Output_type_id;
 typedef enum unit_activity Activity_type_id;
-typedef int Nation_Type_id;
-typedef int Team_Type_id;
+typedef int Nation_type_id;
+typedef int Team_type_id;
 
 struct city;
 struct government;

@@ -118,7 +118,7 @@ void improvements_init(void)
 /**************************************************************************
   Frees the memory associated with this improvement.
 **************************************************************************/
-static void improvement_free(Impr_Type_id id)
+static void improvement_free(Impr_type_id id)
 {
   struct impr_type *p = get_improvement_type(id);
 
@@ -145,7 +145,7 @@ An improvement_type doesn't exist if one of:
 - it is a space part, and the spacerace is not enabled.
 Arguably this should be called improvement_type_exists, but that's too long.
 **************************************************************************/
-bool improvement_exists(Impr_Type_id id)
+bool improvement_exists(Impr_type_id id)
 {
   if (id<0 || id>=B_LAST || id>=game.num_impr_types)
     return FALSE;
@@ -164,7 +164,7 @@ bool improvement_exists(Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-struct impr_type *get_improvement_type(Impr_Type_id id)
+struct impr_type *get_improvement_type(Impr_type_id id)
 {
   return &improvement_types[id];
 }
@@ -172,7 +172,7 @@ struct impr_type *get_improvement_type(Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-const char *get_improvement_name(Impr_Type_id id)
+const char *get_improvement_name(Impr_type_id id)
 {
   return get_improvement_type(id)->name; 
 }
@@ -180,7 +180,7 @@ const char *get_improvement_name(Impr_Type_id id)
 /****************************************************************************
   Get the original (untranslated) improvement name.
 ****************************************************************************/
-const char *get_improvement_name_orig(Impr_Type_id id)
+const char *get_improvement_name_orig(Impr_type_id id)
 {
   return get_improvement_type(id)->name_orig; 
 }
@@ -188,7 +188,7 @@ const char *get_improvement_name_orig(Impr_Type_id id)
 /****************************************************************************
   Returns the number of shields it takes to build this improvement.
 ****************************************************************************/
-int impr_build_shield_cost(Impr_Type_id id)
+int impr_build_shield_cost(Impr_type_id id)
 {
   return improvement_types[id].build_cost;
 }
@@ -196,7 +196,7 @@ int impr_build_shield_cost(Impr_Type_id id)
 /****************************************************************************
   Returns the amount of gold it takes to rush this improvement.
 ****************************************************************************/
-int impr_buy_gold_cost(Impr_Type_id id, int shields_in_stock)
+int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock)
 {
   int cost = 0, missing =
       improvement_types[id].build_cost - shields_in_stock;
@@ -222,7 +222,7 @@ int impr_buy_gold_cost(Impr_Type_id id, int shields_in_stock)
 /****************************************************************************
   Returns the amount of gold received when this improvement is sold.
 ****************************************************************************/
-int impr_sell_gold(Impr_Type_id id)
+int impr_sell_gold(Impr_type_id id)
 {
   return improvement_types[id].build_cost;
 }
@@ -230,7 +230,7 @@ int impr_sell_gold(Impr_Type_id id)
 /**************************************************************************
 ...
 **************************************************************************/
-bool is_wonder(Impr_Type_id id)
+bool is_wonder(Impr_type_id id)
 {
   return (is_great_wonder(id) || is_small_wonder(id));
 }
@@ -239,7 +239,7 @@ bool is_wonder(Impr_Type_id id)
 Does a linear search of improvement_types[].name
 Returns B_LAST if none match.
 **************************************************************************/
-Impr_Type_id find_improvement_by_name(const char *s)
+Impr_type_id find_improvement_by_name(const char *s)
 {
   impr_type_iterate(i) {
     if (strcmp(improvement_types[i].name, s)==0)
@@ -254,7 +254,7 @@ Impr_Type_id find_improvement_by_name(const char *s)
   improvement that matches the given original (untranslated) name.  Returns
   B_LAST if none match.
 ****************************************************************************/
-Impr_Type_id find_improvement_by_name_orig(const char *s)
+Impr_type_id find_improvement_by_name_orig(const char *s)
 {
   impr_type_iterate(i) {
     if (mystrcasecmp(improvement_types[i].name_orig, s) == 0) {
@@ -268,7 +268,7 @@ Impr_Type_id find_improvement_by_name_orig(const char *s)
 /**************************************************************************
  Returns 1 if the improvement is obsolete, now also works for wonders
 **************************************************************************/
-bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id) 
+bool improvement_obsolete(const struct player *pplayer, Impr_type_id id) 
 {
   struct impr_type *impr = get_improvement_type(id);
 
@@ -290,7 +290,7 @@ bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id)
    is obsolete.
 **************************************************************************/
 bool can_player_build_improvement_direct(const struct player *p,
-					 Impr_Type_id id)
+					 Impr_type_id id)
 {
   struct impr_type *impr;
   bool space_part = FALSE;
@@ -354,7 +354,7 @@ bool can_player_build_improvement_direct(const struct player *p,
   returns TRUE if building is available with current tech OR will be
   available with future tech.  Returns FALSE if building is obsolete.
 **************************************************************************/
-bool can_player_build_improvement(const struct player *p, Impr_Type_id id)
+bool can_player_build_improvement(const struct player *p, Impr_type_id id)
 {
   if (!can_player_build_improvement_direct(p, id)) {
     return FALSE;
@@ -371,7 +371,7 @@ bool can_player_build_improvement(const struct player *p, Impr_Type_id id)
   available with future tech.  Returns FALSE if building is obsolete.
 **************************************************************************/
 bool can_player_eventually_build_improvement(const struct player *p,
-					     Impr_Type_id id)
+					     Impr_type_id id)
 {
   int r;
   struct impr_type *building;
@@ -405,7 +405,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
 /**************************************************************************
   Is this building a great wonder?
 **************************************************************************/
-bool is_great_wonder(Impr_Type_id id)
+bool is_great_wonder(Impr_type_id id)
 {
   return (improvement_types[id].genus == IG_GREAT_WONDER);
 }
@@ -413,7 +413,7 @@ bool is_great_wonder(Impr_Type_id id)
 /**************************************************************************
   Is this building a small wonder?
 **************************************************************************/
-bool is_small_wonder(Impr_Type_id id)
+bool is_small_wonder(Impr_type_id id)
 {
   return (improvement_types[id].genus == IG_SMALL_WONDER);
 }
@@ -421,7 +421,7 @@ bool is_small_wonder(Impr_Type_id id)
 /**************************************************************************
   Is this building a regular improvement?
 **************************************************************************/
-bool is_improvement(Impr_Type_id id)
+bool is_improvement(Impr_type_id id)
 {
   return (improvement_types[id].genus == IG_IMPROVEMENT);
 }
@@ -429,7 +429,7 @@ bool is_improvement(Impr_Type_id id)
 /**************************************************************************
   Get the world city with this great wonder.
 **************************************************************************/
-struct city *find_city_from_great_wonder(Impr_Type_id id)
+struct city *find_city_from_great_wonder(Impr_type_id id)
 {
   return (find_city_by_id(game.great_wonders[id]));
 }
@@ -438,7 +438,7 @@ struct city *find_city_from_great_wonder(Impr_Type_id id)
   Get the player city with this small wonder.
 **************************************************************************/
 struct city *find_city_from_small_wonder(const struct player *pplayer,
-					 Impr_Type_id id)
+					 Impr_type_id id)
 {
   return (player_find_city_by_id(pplayer, pplayer->small_wonders[id]));
 }
@@ -446,7 +446,7 @@ struct city *find_city_from_small_wonder(const struct player *pplayer,
 /**************************************************************************
   Was this great wonder built?
 **************************************************************************/
-bool great_wonder_was_built(Impr_Type_id id)
+bool great_wonder_was_built(Impr_type_id id)
 {
   return (game.great_wonders[id] != 0);
 }
@@ -454,7 +454,7 @@ bool great_wonder_was_built(Impr_Type_id id)
 /**************************************************************************
   Return TRUE iff the improvement can be sold.
 **************************************************************************/
-bool can_sell_building(Impr_Type_id id)
+bool can_sell_building(Impr_type_id id)
 {
   return is_improvement(id);
 }
@@ -462,7 +462,7 @@ bool can_sell_building(Impr_Type_id id)
 /****************************************************************************
   Return TRUE iff the city can sell the given improvement.
 ****************************************************************************/
-bool can_city_sell_building(struct city *pcity, Impr_Type_id id)
+bool can_city_sell_building(struct city *pcity, Impr_type_id id)
 {
   return (city_got_building(pcity, id) ? can_sell_building(id) : FALSE);
 }

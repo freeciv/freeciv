@@ -696,10 +696,10 @@ static int ai_calc_railroad(struct city *pcity, struct player *pplayer,
   ground_unit_transporter_capacity will return negative.
   TODO: Kill me.  There is a reliable version of this, find_ferry.
 **************************************************************************/
-Unit_Type_id find_boat(struct player *pplayer, struct tile **ptile, int cap)
+Unit_type_id find_boat(struct player *pplayer, struct tile **ptile, int cap)
 {
   int best = 22; /* arbitrary maximum distance, I will admit! */
-  Unit_Type_id id = 0;
+  Unit_type_id id = 0;
   unit_list_iterate(pplayer->units, aunit)
     if (is_ground_units_transport(aunit)) {
       if (WARMAP_COST(aunit->tile) < best &&
@@ -1367,7 +1367,7 @@ void contemplate_new_city(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   struct unit *virtualunit;
-  Unit_Type_id unit_type = best_role_unit(pcity, F_CITIES); 
+  Unit_type_id unit_type = best_role_unit(pcity, F_CITIES); 
 
   if (unit_type == U_LAST) {
     freelog(LOG_DEBUG, "No F_CITIES role unit available");
@@ -1415,7 +1415,7 @@ void contemplate_terrain_improvements(struct city *pcity)
   enum unit_activity best_act;
   struct tile *ptile = pcity->tile;
   struct ai_data *ai = ai_data_get(pplayer);
-  Unit_Type_id unit_type = best_role_unit(pcity, F_SETTLERS);
+  Unit_type_id unit_type = best_role_unit(pcity, F_SETTLERS);
 
   if (unit_type == U_LAST) {
     freelog(LOG_DEBUG, "No F_SETTLERS role unit available");

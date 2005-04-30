@@ -815,7 +815,7 @@ bool city_can_buy(const struct city *pcity)
 /**************************************************************************
   Change the production of a given city.  Return the request ID.
 **************************************************************************/
-int city_sell_improvement(struct city *pcity, Impr_Type_id sell_id)
+int city_sell_improvement(struct city *pcity, Impr_type_id sell_id)
 {
   return dsend_packet_city_sell(&aconnection, pcity->id, sell_id);
 }

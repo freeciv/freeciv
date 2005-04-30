@@ -174,8 +174,8 @@ struct civ_game {
   char rulesetdir[MAX_LEN_NAME];
   int firepower_factor;		/* See README.rulesets */
 
-  Impr_Type_id palace_building;
-  Impr_Type_id land_defend_building;
+  Impr_type_id palace_building;
+  Impr_type_id land_defend_building;
 
   struct {
     int u_partisan;		/* convenience: tech_req for first

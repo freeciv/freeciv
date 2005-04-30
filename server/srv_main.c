@@ -111,7 +111,7 @@ static void end_turn(void);
 static bool is_game_over(void);
 static void save_game_auto(const char *save_reason);
 static void generate_ai_players(void);
-static void mark_nation_as_used(Nation_Type_id nation);
+static void mark_nation_as_used(Nation_type_id nation);
 static void announce_ai_player(struct player *pplayer);
 static void send_select_nation(struct player *pplayer);
 static void srv_loop(void);
@@ -1072,7 +1072,7 @@ void check_for_full_turn_done(void)
   particular player.
 **************************************************************************/
 static bool is_default_nation_name(const char *name,
-				   Nation_Type_id nation_id)
+				   Nation_type_id nation_id)
 {
   const struct nation_type *nation = get_nation_by_idx(nation_id);
 
@@ -1092,7 +1092,7 @@ static bool is_default_nation_name(const char *name,
   (a translated string to be sent to the client) if not.
 **************************************************************************/
 static bool is_allowed_player_name(struct player *pplayer,
-				   Nation_Type_id nation,
+				   Nation_type_id nation,
 				   const char *name,
 				   char *error_buf, size_t bufsz)
 {
@@ -1157,7 +1157,7 @@ static bool is_allowed_player_name(struct player *pplayer,
 ...
 **************************************************************************/
 void handle_nation_select_req(struct player *pplayer,
-			      Nation_Type_id nation_no, bool is_male,
+			      Nation_type_id nation_no, bool is_male,
 			      char *name, int city_style)
 {
   int nation_used_count;
@@ -1233,7 +1233,7 @@ void handle_nation_select_req(struct player *pplayer,
 static void send_select_nation(struct player *pplayer)
 {
   struct packet_nation_unavailable packet;
-  Nation_Type_id nation;
+  Nation_type_id nation;
 
   lsend_packet_select_races(pplayer->connections);
 
@@ -1264,9 +1264,9 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2)
 /**************************************************************************
   Select a random available nation.
 **************************************************************************/
-static Nation_Type_id select_random_nation()
+static Nation_type_id select_random_nation()
 {
-  Nation_Type_id i, available[game.playable_nation_count];
+  Nation_type_id i, available[game.playable_nation_count];
   int count = 0;
   int V[game.playable_nation_count];
   int sum = 0;
@@ -1320,7 +1320,7 @@ generate_ai_players() - Selects a nation for players created with
 **************************************************************************/
 static void generate_ai_players(void)
 {
-  Nation_Type_id nation;
+  Nation_type_id nation;
   char player_name[MAX_LEN_NAME];
   struct player *pplayer;
   int i, old_nplayers;
@@ -1464,7 +1464,7 @@ static bool good_name(char *ptry, char *buf) {
      is found.
  newname should point to a buffer of size at least MAX_LEN_NAME.
 *************************************************************************/
-void pick_ai_player_name(Nation_Type_id nation, char *newname) 
+void pick_ai_player_name(Nation_type_id nation, char *newname) 
 {
    int i, names_count;
    struct leader *leaders;
@@ -1496,7 +1496,7 @@ void pick_ai_player_name(Nation_Type_id nation, char *newname)
 /*************************************************************************
   Simply mark the nation as unavailable.
 *************************************************************************/
-static void mark_nation_as_used (Nation_Type_id nation) 
+static void mark_nation_as_used (Nation_type_id nation) 
 {
   assert(nations_available[nation]);
   nations_available[nation] = FALSE;

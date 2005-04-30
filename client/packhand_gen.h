@@ -22,7 +22,7 @@ void handle_thaw_hint(void);
 void handle_server_join_reply(bool you_can_join, char *message, char *capability, char *challenge_file, int conn_id);
 void handle_authentication_req(enum authentication_type type, char *message);
 void handle_server_shutdown(void);
-void handle_nation_unavailable(Nation_Type_id nation);
+void handle_nation_unavailable(Nation_type_id nation);
 void handle_select_races(void);
 void handle_nation_select_ok(void);
 void handle_game_state(int value);

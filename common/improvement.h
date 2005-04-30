@@ -19,12 +19,12 @@
 
 #include "effects.h"
 #include "fc_types.h"
-#include "tech.h"		/* Tech_Type_id */
+#include "tech.h"		/* Tech_type_id */
 #include "terrain.h"		/* Terrain_type_id etc */
-#include "unittype.h"		/* Unit_Class_id, Unit_Type_id */
+#include "unittype.h"		/* Unit_Class_id, Unit_type_id */
 
 /* B_LAST is a value which is guaranteed to be larger than all
- * actual Impr_Type_id values.  It is used as a flag value;
+ * actual Impr_type_id values.  It is used as a flag value;
  * it can also be used for fixed allocations to ensure ability
  * to hold full number of improvement types.  */
 #define B_LAST MAX_NUM_ITEMS
@@ -38,7 +38,7 @@ typedef unsigned char Impr_Status;
 
 
 /* B_LAST is a value which is guaranteed to be larger than all
- * actual Impr_Type_id values.  It is used as a flag value;
+ * actual Impr_type_id values.  It is used as a flag value;
  * it can also be used for fixed allocations to ensure ability
  * to hold full number of improvement types.  */
 #define B_LAST MAX_NUM_ITEMS
@@ -72,8 +72,8 @@ struct impr_type {
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement req[MAX_NUM_REQS];
-  Tech_Type_id obsolete_by;		/* A_LAST = never obsolete */
-  Impr_Type_id replaced_by;		/* B_LAST = never replaced */
+  Tech_type_id obsolete_by;		/* A_LAST = never obsolete */
+  Impr_type_id replaced_by;		/* B_LAST = never replaced */
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
@@ -95,51 +95,51 @@ enum impr_genus_id impr_genus_from_str(const char *s);
 /* improvement functions */
 void improvements_init(void);
 void improvements_free(void);
-struct impr_type *get_improvement_type(Impr_Type_id id);
-bool improvement_exists(Impr_Type_id id);
+struct impr_type *get_improvement_type(Impr_type_id id);
+bool improvement_exists(Impr_type_id id);
 
-int impr_build_shield_cost(Impr_Type_id id);
-int impr_buy_gold_cost(Impr_Type_id id, int shields_in_stock);
-int impr_sell_gold(Impr_Type_id id);
+int impr_build_shield_cost(Impr_type_id id);
+int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock);
+int impr_sell_gold(Impr_type_id id);
 
-bool is_wonder(Impr_Type_id id);
-const char *get_improvement_name(Impr_Type_id id);
-const char *get_improvement_name_orig(Impr_Type_id id);
+bool is_wonder(Impr_type_id id);
+const char *get_improvement_name(Impr_type_id id);
+const char *get_improvement_name_orig(Impr_type_id id);
 
-bool improvement_obsolete(const struct player *pplayer, Impr_Type_id id);
-Impr_Type_id find_improvement_by_name(const char *s);
-Impr_Type_id find_improvement_by_name_orig(const char *s);
+bool improvement_obsolete(const struct player *pplayer, Impr_type_id id);
+Impr_type_id find_improvement_by_name(const char *s);
+Impr_type_id find_improvement_by_name_orig(const char *s);
 
 /* player related improvement and unit functions */
 bool can_player_build_improvement_direct(const struct player *p,
-					 Impr_Type_id id);
-bool can_player_build_improvement(const struct player *p, Impr_Type_id id);
+					 Impr_type_id id);
+bool can_player_build_improvement(const struct player *p, Impr_type_id id);
 bool can_player_eventually_build_improvement(const struct player *p,
-					     Impr_Type_id id);
+					     Impr_type_id id);
 
 /* Iterates over all improvements. Creates a new variable names m_i
- * with type Impr_Type_id which holds the id of the current improvement. */
+ * with type Impr_type_id which holds the id of the current improvement. */
 #define impr_type_iterate(m_i)                                                \
 {                                                                             \
-  Impr_Type_id m_i;                                                           \
+  Impr_type_id m_i;                                                           \
   for (m_i = 0; m_i < game.num_impr_types; m_i++) {
 
 #define impr_type_iterate_end                                                 \
   }                                                                           \
 }
 
-bool is_great_wonder(Impr_Type_id id);
-bool is_small_wonder(Impr_Type_id id);
-bool is_improvement(Impr_Type_id id);
+bool is_great_wonder(Impr_type_id id);
+bool is_small_wonder(Impr_type_id id);
+bool is_improvement(Impr_type_id id);
 
-struct city *find_city_from_great_wonder(Impr_Type_id id);
+struct city *find_city_from_great_wonder(Impr_type_id id);
 struct city *find_city_from_small_wonder(const struct player *pplayer,
-					 Impr_Type_id id);
+					 Impr_type_id id);
 
-bool great_wonder_was_built(Impr_Type_id id);
+bool great_wonder_was_built(Impr_type_id id);
 
-bool can_sell_building(Impr_Type_id id);
-bool can_city_sell_building(struct city *pcity, Impr_Type_id id);
+bool can_sell_building(Impr_type_id id);
+bool can_city_sell_building(struct city *pcity, Impr_type_id id);
 
 #endif  /* FC__IMPROVEMENT_H */
 

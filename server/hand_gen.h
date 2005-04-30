@@ -20,7 +20,7 @@ struct connection;
 bool server_handle_packet(enum packet_type type, void *packet,
 			  struct player *pplayer, struct connection *pconn);
 
-void handle_nation_select_req(struct player *pplayer, Nation_Type_id nation_no, bool is_male, char *name, int city_style);
+void handle_nation_select_req(struct player *pplayer, Nation_type_id nation_no, bool is_male, char *name, int city_style);
 void handle_chat_msg_req(struct connection *pc, char *message);
 void handle_city_sell(struct player *pplayer, int city_id, int build_id);
 void handle_city_buy(struct player *pplayer, int city_id);
@@ -59,7 +59,7 @@ void handle_unit_nuke(struct player *pplayer, int unit_id);
 void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int x, int y);
 void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id);
 void handle_unit_bribe_inq(struct connection *pc, int unit_id);
-void handle_unit_type_upgrade(struct player *pplayer, Unit_Type_id type);
+void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id type);
 void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id, enum diplomat_actions action_type, int target_id, int value);
 void handle_unit_change_activity(struct player *pplayer, int unit_id, enum unit_activity activity, enum tile_special_type activity_target);
 void handle_diplomacy_init_meeting_req(struct player *pplayer, int counterpart);

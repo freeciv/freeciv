@@ -345,7 +345,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 {
   int i = 0, j;
   bool nations_selected[game.nation_count];
-  Nation_Type_id nation_list[game.nation_count], n;
+  Nation_type_id nation_list[game.nation_count], n;
   int queue_size;
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
@@ -388,7 +388,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
       {
 	/* Pick a random nation from the queue. */
 	const int which = i + myrand(queue_size - i);
-	const Nation_Type_id tmp = nation_list[i];
+	const Nation_type_id tmp = nation_list[i];
 
 	nation_list[i] = nation_list[which];
 	nation_list[which] = tmp;
@@ -463,7 +463,7 @@ int build_points_left(struct city *pcity)
 /**************************************************************************
   Will unit of this type be created as veteran?
 **************************************************************************/
-int do_make_unit_veteran(struct city *pcity, Unit_Type_id id)
+int do_make_unit_veteran(struct city *pcity, Unit_type_id id)
 {
   /* we current don't have any wonder or building that have influence on 
      settler/worker units */
@@ -1724,7 +1724,7 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
   I guess the player should always be the city owner?
 ****************************************************************************/
 void do_sell_building(struct player *pplayer, struct city *pcity,
-		      Impr_Type_id id)
+		      Impr_type_id id)
 {
   if (can_city_sell_building(pcity, id)) {
     pplayer->economic.gold += impr_sell_gold(id);
@@ -1736,7 +1736,7 @@ void do_sell_building(struct player *pplayer, struct city *pcity,
   Destroy the improvement in the city straight-out.  Note that this is
   different from selling a building.
 ****************************************************************************/
-void building_lost(struct city *pcity, Impr_Type_id id)
+void building_lost(struct city *pcity, Impr_type_id id)
 {
   struct player *owner = city_owner(pcity);
   bool was_capital = is_capital(pcity);

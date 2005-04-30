@@ -15,7 +15,7 @@
 
 #include <stddef.h>		/* size_t */
 
-#include "improvement.h" 	/* Impr_Type_id */
+#include "improvement.h" 	/* Impr_type_id */
 
 #include "helpdlg_g.h"		/* enum help_page_type */
 
@@ -38,7 +38,7 @@ const struct help_item *get_help_item_spec(const char *name,
 void help_iter_start(void);
 const struct help_item *help_iter_next(void);
 
-char *helptext_building(char *buf, size_t bufsz, Impr_Type_id which,
+char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
 			const char *user_text);
 void helptext_unit(char *buf, int i, const char *user_text);
 void helptext_tech(char *buf, int i, const char *user_text);

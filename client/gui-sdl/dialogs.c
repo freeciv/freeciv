@@ -1242,7 +1242,7 @@ static int paradrop_here_callback(struct GUI *pWidget)
 **************************************************************************/
 static int unit_help_callback(struct GUI *pWidget)
 {
-  Unit_Type_id unit_id = MAX_ID - pWidget->ID;
+  Unit_type_id unit_id = MAX_ID - pWidget->ID;
     
   popdown_advanced_terrain_dialog();
   popup_unit_info(unit_id);
@@ -3661,7 +3661,7 @@ static int disconnect_callback(struct GUI *pButton);
 static int next_name_callback(struct GUI *pNext_Button);
 static int prev_name_callback(struct GUI *pPrev_Button);
 static int change_sex_callback(struct GUI *pSex);
-static void select_random_leader(Nation_Type_id nation);
+static void select_random_leader(Nation_type_id nation);
 static void change_nation_label(void);
 
 /**************************************************************************
@@ -4038,7 +4038,7 @@ static void change_nation_label(void)
   Selectes a leader and the appropriate sex. Updates the gui elements
   and the selected_* variables.
 **************************************************************************/
-static void select_random_leader(Nation_Type_id nation)
+static void select_random_leader(Nation_type_id nation)
 {
   int dim;
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
@@ -4443,7 +4443,7 @@ void popdown_races_dialog(void)
 void races_toggles_set_sensitive(bool *nations_used)
 {
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-  Nation_Type_id nation;
+  Nation_type_id nation;
   bool change = FALSE;
   struct GUI *pNat;
 
