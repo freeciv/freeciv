@@ -632,7 +632,7 @@ static void update_unit_activity(struct unit *punit)
     /* settler may become veteran when doing something useful */
     if (activity != ACTIVITY_FORTIFYING && activity != ACTIVITY_SENTRY
        && maybe_settler_become_veteran(punit)) {
-      notify_player_ex(pplayer, punit->tile, E_UNIT_BECAME_VET,
+      notify_player_ex(pplayer, ptile, E_UNIT_BECAME_VET,
 	_("Your %s became more experienced!"), unit_name(punit->type));
     }
     
@@ -667,11 +667,11 @@ static void update_unit_activity(struct unit *punit)
       if (punit->activity_count >= 1) {
 	enum tile_special_type what =
 	  get_preferred_pillage(
-	       get_tile_infrastructure_set(punit->tile));
+	       get_tile_infrastructure_set(ptile));
 
 	if (what != S_NO_SPECIAL) {
-	  tile_clear_special(punit->tile, what);
-	  update_tile_knowledge(punit->tile);
+	  tile_clear_special(ptile, what);
+	  update_tile_knowledge(ptile);
 	  set_unit_activity(punit, ACTIVITY_IDLE);
 	  check_adjacent_units = TRUE;
 	}
@@ -680,7 +680,7 @@ static void update_unit_activity(struct unit *punit)
 	if (what == S_FORTRESS) {
 	  freelog(LOG_VERBOSE, "Watchtower pillaged!");
 	  /* This could be a helper function. */
-	  unit_list_iterate(punit->tile->units, punit2) {
+	  unit_list_iterate(ptile->units, punit2) {
             struct player *owner = unit_owner(punit2);
 
             if (is_ground_unit(punit2)
@@ -694,30 +694,30 @@ static void update_unit_activity(struct unit *punit)
 	}
       }
     }
-    else if (total_activity_targeted(punit->tile, ACTIVITY_PILLAGE, 
+    else if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
 
-      tile_clear_special(punit->tile, what_pillaged);
-      unit_list_iterate (punit->tile->units, punit2) {
+      tile_clear_special(ptile, what_pillaged);
+      unit_list_iterate (ptile->units, punit2) {
         if ((punit2->activity == ACTIVITY_PILLAGE) &&
 	    (punit2->activity_target == what_pillaged)) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	  send_unit_info(NULL, punit2);
 	}
       } unit_list_iterate_end;
-      update_tile_knowledge(punit->tile);
+      update_tile_knowledge(ptile);
       
       /* If a watchtower has been pillaged, reduce sight to normal */
       if (what_pillaged == S_FORTRESS) {
 	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
 	/* This could be a helper function. */
-	unit_list_iterate(punit->tile->units, punit2) {
+	unit_list_iterate(ptile->units, punit2) {
           struct player *owner = unit_owner(punit2);
 
           if (is_ground_unit(punit2)
               && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-            change_vision_range(owner, punit->tile,
+            change_vision_range(owner, ptile,
 				get_watchtower_vision(punit2),
                                 unit_type(punit2)->vision_range);
           }
@@ -727,26 +727,26 @@ static void update_unit_activity(struct unit *punit)
     }
   }
 
-  if (activity==ACTIVITY_POLLUTION) {
-    if (total_activity (punit->tile, ACTIVITY_POLLUTION)
-	>= tile_activity_time(ACTIVITY_POLLUTION, punit->tile)) {
-      tile_clear_special(punit->tile, S_POLLUTION);
+  if (activity == ACTIVITY_POLLUTION) {
+    if (total_activity(ptile, ACTIVITY_POLLUTION)
+	>= tile_activity_time(ACTIVITY_POLLUTION, ptile)) {
+      tile_clear_special(ptile, S_POLLUTION);
       unit_activity_done = TRUE;
     }
   }
 
-  if (activity==ACTIVITY_FALLOUT) {
-    if (total_activity (punit->tile, ACTIVITY_FALLOUT)
-	>= tile_activity_time(ACTIVITY_FALLOUT, punit->tile)) {
-      tile_clear_special(punit->tile, S_FALLOUT);
+  if (activity == ACTIVITY_FALLOUT) {
+    if (total_activity(ptile, ACTIVITY_FALLOUT)
+	>= tile_activity_time(ACTIVITY_FALLOUT, ptile)) {
+      tile_clear_special(ptile, S_FALLOUT);
       unit_activity_done = TRUE;
     }
   }
 
-  if (activity==ACTIVITY_FORTRESS) {
-    if (total_activity (punit->tile, ACTIVITY_FORTRESS)
-	>= tile_activity_time(ACTIVITY_FORTRESS, punit->tile)) {
-      tile_set_special(punit->tile, S_FORTRESS);
+  if (activity == ACTIVITY_FORTRESS) {
+    if (total_activity (ptile, ACTIVITY_FORTRESS)
+	>= tile_activity_time(ACTIVITY_FORTRESS, ptile)) {
+      tile_set_special(ptile, S_FORTRESS);
       unit_activity_done = TRUE;
       /* watchtower becomes effective */
       /* This could be a helper function. */
@@ -755,7 +755,7 @@ static void update_unit_activity(struct unit *punit)
 
         if (is_ground_unit(punit)
             && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-          change_vision_range(pplayer, punit->tile,
+          change_vision_range(pplayer, ptile,
 			      unit_type(punit)->vision_range,
                               get_watchtower_vision(punit));
         }
@@ -764,66 +764,68 @@ static void update_unit_activity(struct unit *punit)
     }
   }
 
-  if (activity==ACTIVITY_AIRBASE) {
-    if (total_activity (punit->tile, ACTIVITY_AIRBASE)
-	>= tile_activity_time(ACTIVITY_AIRBASE, punit->tile)) {
-      tile_set_special(punit->tile, S_AIRBASE);
+  if (activity == ACTIVITY_AIRBASE) {
+    if (total_activity (ptile, ACTIVITY_AIRBASE)
+	>= tile_activity_time(ACTIVITY_AIRBASE, ptile)) {
+      tile_set_special(ptile, S_AIRBASE);
       unit_activity_done = TRUE;
     }
   }
   
-  if (activity==ACTIVITY_IRRIGATE) {
-    if (total_activity (punit->tile, ACTIVITY_IRRIGATE)
-        >= tile_activity_time(ACTIVITY_IRRIGATE, punit->tile)) {
-      Terrain_type_id old = tile_get_terrain(punit->tile);
-      tile_irrigate(punit->tile);
-      solvency = check_terrain_ocean_land_change(punit->tile, old);
+  if (activity == ACTIVITY_IRRIGATE) {
+    if (total_activity (ptile, ACTIVITY_IRRIGATE)
+        >= tile_activity_time(ACTIVITY_IRRIGATE, ptile)) {
+      Terrain_type_id old = tile_get_terrain(ptile);
+      tile_irrigate(ptile);
+      solvency = check_terrain_ocean_land_change(ptile, old);
       unit_activity_done = TRUE;
     }
   }
 
-  if (activity==ACTIVITY_ROAD) {
-    if (total_activity (punit->tile, ACTIVITY_ROAD)
-	+ total_activity (punit->tile, ACTIVITY_RAILROAD)
-        >= tile_activity_time(ACTIVITY_ROAD, punit->tile)) {
-      tile_set_special(punit->tile, S_ROAD);
+  if (activity == ACTIVITY_ROAD) {
+    if (total_activity (ptile, ACTIVITY_ROAD)
+	+ total_activity (ptile, ACTIVITY_RAILROAD)
+        >= tile_activity_time(ACTIVITY_ROAD, ptile)) {
+      tile_set_special(ptile, S_ROAD);
       unit_activity_done = TRUE;
     }
   }
 
-  if (activity==ACTIVITY_RAILROAD) {
-    if (total_activity (punit->tile, ACTIVITY_RAILROAD)
-	>= tile_activity_time(ACTIVITY_RAILROAD, punit->tile)) {
-      tile_set_special(punit->tile, S_RAILROAD);
+  if (activity == ACTIVITY_RAILROAD) {
+    if (total_activity (ptile, ACTIVITY_RAILROAD)
+	>= tile_activity_time(ACTIVITY_RAILROAD, ptile)) {
+      tile_set_special(ptile, S_RAILROAD);
       unit_activity_done = TRUE;
     }
   }
   
-  if (activity==ACTIVITY_MINE) {
-    if (total_activity (punit->tile, ACTIVITY_MINE)
-        >= tile_activity_time(ACTIVITY_MINE, punit->tile)) {
-      Terrain_type_id old = tile_get_terrain(punit->tile);
-      tile_mine(punit->tile);
-      solvency = check_terrain_ocean_land_change(punit->tile, old);
+  if (activity == ACTIVITY_MINE) {
+    if (total_activity (ptile, ACTIVITY_MINE)
+        >= tile_activity_time(ACTIVITY_MINE, ptile)) {
+      Terrain_type_id old = tile_get_terrain(ptile);
+
+      tile_mine(ptile);
+      solvency = check_terrain_ocean_land_change(ptile, old);
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
     }
   }
 
-  if (activity==ACTIVITY_TRANSFORM) {
-    if (total_activity (punit->tile, ACTIVITY_TRANSFORM)
-        >= tile_activity_time(ACTIVITY_TRANSFORM, punit->tile)) {
-      Terrain_type_id old = tile_get_terrain(punit->tile);
-      tile_transform(punit->tile);
-      solvency = check_terrain_ocean_land_change(punit->tile, old);
+  if (activity == ACTIVITY_TRANSFORM) {
+    if (total_activity (ptile, ACTIVITY_TRANSFORM)
+        >= tile_activity_time(ACTIVITY_TRANSFORM, ptile)) {
+      Terrain_type_id old = tile_get_terrain(ptile);
+
+      tile_transform(ptile);
+      solvency = check_terrain_ocean_land_change(ptile, old);
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
     }
   }
 
   if (unit_activity_done) {
-    update_tile_knowledge(punit->tile);
-    unit_list_iterate (punit->tile->units, punit2) {
+    update_tile_knowledge(ptile);
+    unit_list_iterate (ptile->units, punit2) {
       if (punit2->activity == activity) {
 	set_unit_activity(punit2, ACTIVITY_IDLE);
 	send_unit_info(NULL, punit2);
@@ -833,7 +835,7 @@ static void update_unit_activity(struct unit *punit)
 
   /* Some units nearby can not continue irrigating */
   if (check_adjacent_units) {
-    adjc_iterate(punit->tile, ptile2) {
+    adjc_iterate(ptile, ptile2) {
       unit_list_iterate(ptile2->units, punit2) {
         if (!can_unit_continue_current_activity(punit2)) {
           handle_unit_activity_request(punit2, ACTIVITY_IDLE);
@@ -859,14 +861,16 @@ UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
     return;
   }
 
-  if (unit_has_orders(punit)) {
+  if (find_unit_by_id(id) && unit_has_orders(punit)) {
     if (!execute_orders(punit)) {
       /* Unit died. */
       return;
     }
   }
 
-  send_unit_info(NULL, punit);
+  if (find_unit_by_id(id)) {
+    send_unit_info(NULL, punit);
+  }
 
   unit_list_iterate(ptile->units, punit2) {
     if (!can_unit_continue_current_activity(punit2))
@@ -900,7 +904,7 @@ UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
     unit_list_iterate(ptile->units, punit2) {
       if (is_ground_unit(punit2)) {
 	/* look for nearby land */
-	adjc_iterate(punit->tile, ptile2) {
+	adjc_iterate(ptile, ptile2) {
 	  if (!is_ocean(ptile2->terrain)
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2) > 0)
@@ -920,7 +924,7 @@ UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
 	  }
 	} adjc_iterate_end;
 	/* look for nearby transport */
-	adjc_iterate(punit->tile, ptile2) {
+	adjc_iterate(ptile, ptile2) {
 	  if (is_ocean(ptile2->terrain)
 	      && ground_unit_transporter_capacity(ptile2,
 						  unit_owner(punit2)) > 0) {
@@ -958,7 +962,7 @@ UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
     unit_list_iterate(ptile->units, punit2) {
       if (is_sailing_unit(punit2)) {
 	/* look for nearby water */
-	adjc_iterate(punit->tile, ptile2) {
+	adjc_iterate(ptile, ptile2) {
 	  if (is_ocean(ptile2->terrain)
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2) > 0)
@@ -978,7 +982,7 @@ UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
 	  }
 	} adjc_iterate_end;
 	/* look for nearby port */
-	adjc_iterate(punit->tile, ptile2) {
+	adjc_iterate(ptile, ptile2) {
 	  if (is_allied_city_tile(ptile2, unit_owner(punit2))
 	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
 	    if (get_transporter_capacity(punit2) > 0)
@@ -1989,6 +1993,8 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   if (!dest) {
     dest = game.game_connections;
   }
+
+  CHECK_UNIT(punit);
 
   package_unit(punit, &info);
   package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, FALSE, FALSE);

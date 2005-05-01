@@ -490,7 +490,7 @@ int do_make_unit_veteran(struct city *pcity, Unit_type_id id)
 }
 
 /*********************************************************************
-Note: the old unit is not wiped here.
+  Change home city of a unit with verbose output.
 ***********************************************************************/
 static void transfer_unit(struct unit *punit, struct city *tocity,
 			  bool verbose)
@@ -527,14 +527,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
       }
     }
   }
-
-  /* FIXME: Creating a new unit and deleting the old one is a gross hack.
-   * instead we should make the change on the existing unit, even though
-   * it's more work. */
-  (void) create_unit_full(to_player, punit->tile, punit->type,
-			  punit->veteran, tocity->id, punit->moves_left,
-			  punit->hp,
-			  find_unit_by_id(punit->transported_by));
+  real_unit_change_homecity(punit, tocity);
 }
 
 /*********************************************************************
@@ -569,7 +562,6 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       /* Don't transfer units already owned by new city-owner --wegge */ 
       if (unit_owner(vunit) == pvictim) {
 	transfer_unit(vunit, pcity, verbose);
-	wipe_unit(vunit);
 	unit_list_unlink(units, vunit);
       } else if (!pplayers_allied(pplayer, unit_owner(vunit))) {
         /* the owner of vunit is allied to pvictim but not to pplayer */
@@ -603,13 +595,8 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 			 _("%s lost along with control of %s."),
 			 unit_name(vunit->type), pcity->name);
       }
+      wipe_unit(vunit);
     }
-
-    /* not deleting cargo as it may be carried by units transferred later.
-       no cargo deletion => no trouble with "units" list.
-       In cases where the cargo can be left without transport the calling
-       function should take that into account. */
-    wipe_unit(vunit);
   } unit_list_iterate_safe_end;
 }
 
@@ -1035,38 +1022,22 @@ void remove_city(struct city *pcity)
     city_remove_improvement(pcity, i);
   } built_impr_iterate_end;
 
-  /* This is cutpasted with modifications from transfer_city_units. Yes, it is ugly.
-     But I couldn't see a nice way to make them use the same code */
+  /* Rehome units in other cities */
   unit_list_iterate_safe(pcity->units_supported, punit) {
     struct city *new_home_city = tile_get_city(punit->tile);
-    ptile = punit->tile;
 
     if (new_home_city
 	&& new_home_city != pcity
 	&& city_owner(new_home_city) == pplayer) {
-      /* unit is in another city: make that the new homecity,
-	 unless that city is actually the same city (happens if disbanding) */
-      freelog(LOG_VERBOSE, "Changed homecity of %s in %s",
-	      unit_name(punit->type), new_home_city->name);
-      notify_player(pplayer, _("Changed homecity of %s in %s."),
-		    unit_name(punit->type), new_home_city->name);
-      (void) create_unit_full(city_owner(new_home_city), ptile,
-			      punit->type, punit->veteran, new_home_city->id,
-			      punit->moves_left, punit->hp, NULL);
+      transfer_unit(punit, new_home_city, TRUE);
     }
-
-    wipe_unit(punit);
   } unit_list_iterate_safe_end;
 
-  ptile = pcity->tile;
-
   /* make sure ships are not left on land when city is removed. */
- MOVE_SEA_UNITS:
   unit_list_iterate_safe(ptile->units, punit) {
     bool moved;
-    if (!punit
-	|| !same_pos(punit->tile, ptile)
-	|| !is_sailing_unit(punit)) {
+
+    if (!is_sailing_unit(punit)) {
       continue;
     }
 
@@ -1081,12 +1052,10 @@ void remove_city(struct city *pcity)
 			     _("Moved %s out of disbanded city %s "
 			       "to avoid being landlocked."),
 			     unit_type(punit)->name, pcity->name);
-	    goto OUT;
 	  }
 	}
       }
     } adjc_iterate_end;
-  OUT:
     if (!moved) {
       notify_player_ex(unit_owner(punit), NULL, E_NOEVENT,
 		       _("When %s was disbanded your %s could not "
@@ -1094,9 +1063,22 @@ void remove_city(struct city *pcity)
 		       pcity->name, unit_type(punit)->name);
       wipe_unit(punit);
     }
-    /* We just messed with the unit list. Avoid trouble by starting over.
-       Note that the problem is reduced by one unit, so no loop trouble. */
-    goto MOVE_SEA_UNITS;
+  } unit_list_iterate_safe_end;
+
+  /* Destroy final ineligible units (land units in ocean city) */
+  unit_list_iterate_safe(ptile->units, punit) {
+    if (is_ocean(tile_get_terrain(ptile)) && is_ground_unit(punit)) {
+      notify_player_ex(unit_owner(punit), NULL, E_NOEVENT,
+		       _("When %s was disbanded your %s could not "
+			 "get out, and it was therefore stranded."),
+		       pcity->name, unit_type(punit)->name);
+      wipe_unit(punit);
+    }
+  } unit_list_iterate_safe_end;
+
+  /* Any remaining supported units are destroyed */
+  unit_list_iterate_safe(pcity->units_supported, punit) {
+    wipe_unit(punit);
   } unit_list_iterate_safe_end;
 
   for (o = 0; o < NUM_TRADEROUTES; o++) {

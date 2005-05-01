@@ -281,14 +281,38 @@ void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
 }
 
 /**************************************************************************
+  Transfer a unit from one homecity to another.
+**************************************************************************/
+void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
+{
+  struct city *old_pcity = find_city_by_id(punit->homecity);
+
+  unit_list_prepend(new_pcity->units_supported, punit);
+  if (old_pcity) {
+    unit_list_unlink(old_pcity->units_supported, punit);
+  }
+
+  punit->homecity = new_pcity->id;
+  punit->owner = unit_owner(punit)->player_no;
+  send_unit_info(unit_owner(punit), punit);
+
+  city_refresh(new_pcity);
+  send_city_info(city_owner(new_pcity), new_pcity);
+
+  if (old_pcity) {
+    city_refresh(old_pcity);
+    send_city_info(city_owner(old_pcity), old_pcity);
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 				 int city_id)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct city *old_pcity, *new_pcity =
-      player_find_city_by_id(pplayer, city_id);
+  struct city *new_pcity = player_find_city_by_id(pplayer, city_id);
 
   if (!punit || !new_pcity || city_id == punit->homecity) {
     return;
@@ -303,24 +327,7 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
             new_pcity->tile->y);
     return;
   }
-
-  old_pcity = player_find_city_by_id(pplayer, punit->homecity);
-
-  unit_list_prepend(new_pcity->units_supported, punit);
-  if (old_pcity) {
-    unit_list_unlink(old_pcity->units_supported, punit);
-  }
-
-  punit->homecity = new_pcity->id;
-  send_unit_info(pplayer, punit);
-
-  city_refresh(new_pcity);
-  send_city_info(pplayer, new_pcity);
-
-  if (old_pcity) {
-    city_refresh(old_pcity);
-    send_city_info(pplayer, old_pcity);
-  }
+  real_unit_change_homecity(punit, new_pcity);
 }
 
 /**************************************************************************
