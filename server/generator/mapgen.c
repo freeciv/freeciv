@@ -842,27 +842,27 @@ static void make_rivers(void)
 	   it. */
 	&& (count_terrain_near_tile(ptile, TRUE, TRUE, T_HILLS)
 	    + count_terrain_near_tile(ptile, TRUE, TRUE, T_MOUNTAINS) < 90
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 5)
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 5)
 
 	/* Don't start a river on hills unless it is hard to find
 	   somewhere else to start it. */
 	&& (map_get_terrain(ptile) != T_HILLS
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 6)
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 6)
 
 	/* Don't start a river on mountains unless it is hard to find
 	   somewhere else to start it. */
 	&& (map_get_terrain(ptile) != T_MOUNTAINS
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 7)
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 7)
 
 	/* Don't start a river on arctic unless it is hard to find
 	   somewhere else to start it. */
 	&& (map_get_terrain(ptile) != T_ARCTIC
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 8)
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 8)
 
 	/* Don't start a river on desert unless it is hard to find
 	   somewhere else to start it. */
 	&& (map_get_terrain(ptile) != T_DESERT
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 9)) {
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 9)) {
 
       /* Reset river_map before making a new river. */
       for (i = 0; i < map.xsize * map.ysize; i++) {
