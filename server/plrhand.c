@@ -1453,6 +1453,7 @@ static void package_player_common(struct player *plr,
   packet->is_male=plr->is_male;
   packet->is_observer=plr->is_observer;
   packet->team = plr->team;
+  packet->is_started = plr->is_started;
   packet->city_style=plr->city_style;
 
   packet->is_alive=plr->is_alive;
@@ -1612,6 +1613,9 @@ static void package_player_info(struct player *plr,
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver)
 {
+  if (server_state < RUN_GAME_STATE) {
+    return INFO_MINIMUM;
+  }
   if (plr == receiver) {
     return INFO_FULL;
   }

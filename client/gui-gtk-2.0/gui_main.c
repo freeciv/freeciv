@@ -1229,8 +1229,13 @@ void update_conn_list_dialog(void)
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     gtk_list_store_clear(conn_model);
     conn_list_iterate(game.est_connections, pconn) {
+      bool is_started = pconn->player ? pconn->player->is_started : FALSE;
+
       gtk_list_store_append(conn_model, &it);
-      gtk_list_store_set(conn_model, &it, 0, pconn->username, -1);
+      gtk_list_store_set(conn_model, &it,
+			 0, pconn->username,
+			 1, is_started,
+			 -1);
     } conn_list_iterate_end;
   }
 }

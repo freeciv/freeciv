@@ -1545,6 +1545,8 @@ void handle_player_info(struct packet_player_info *pinfo)
     city_report_dialog_update();
   }
 
+  pplayer->is_started = pinfo->is_started;
+
   if (pplayer == game.player_ptr
       && pplayer->phase_done != pinfo->phase_done) {
     update_turn_done_button_state();
@@ -1594,6 +1596,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* Just about any changes above require an update to the intelligence
    * dialog. */
   update_intel_dialog(pplayer);
+  update_conn_list_dialog();
 }
 
 /**************************************************************************

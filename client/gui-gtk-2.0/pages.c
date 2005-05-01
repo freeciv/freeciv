@@ -1035,15 +1035,22 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_list_store_new(1, G_TYPE_STRING); 
+  conn_model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_BOOLEAN); 
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
   g_object_unref(conn_model);
-  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
 
   rend = gtk_cell_renderer_text_new();
-    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-	-1, NULL, rend, "text", 0, NULL);
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+					      -1, _("Name"), rend,
+					      "text", 0, NULL);
+
+  /* FIXME: should change to always be minimum-width. */
+  rend = gtk_cell_renderer_toggle_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+					      -1, _("Ready"), rend,
+					      "active", 1, NULL);
 
   g_signal_connect(view, "button-press-event",
 		   G_CALLBACK(show_conn_popup), NULL);

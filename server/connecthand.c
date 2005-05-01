@@ -183,6 +183,7 @@ static void establish_new_connection(struct connection *pconn)
   send_conn_info(dest, game.est_connections);
   conn_list_append(game.est_connections, pconn);
   send_conn_info(game.est_connections, dest);
+  send_player_info_c(NULL, dest);
   (void) send_server_info_to_metaserver(META_INFO);
 }
 

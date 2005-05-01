@@ -3632,6 +3632,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
        * than once to remind other people to start (which is a good thing
        * until somebody does it too much and it gets labeled as spam). */
       caller->player->is_started = TRUE;
+      send_player_info(caller->player, NULL);
       players_iterate(pplayer) {
 	if (pplayer->is_connected) {
 	  if (pplayer->is_started) {

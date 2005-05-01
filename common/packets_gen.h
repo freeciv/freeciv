@@ -320,6 +320,7 @@ struct packet_player_info {
   int city_style;
   Nation_type_id nation;
   int team;
+  bool is_started;
   bool phase_done;
   int nturns_idle;
   bool is_alive;
