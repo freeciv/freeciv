@@ -555,7 +555,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   BOOL is_male;
   GOVERNMENT government;
   GOVERNMENT target_government;
-  UINT32 embassy;
+  BOOL embassy[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   UINT8 city_style;
   NATION nation;
   TEAM team;

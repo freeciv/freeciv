@@ -1478,7 +1478,12 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.luxury=pinfo->luxury;
   pplayer->government=pinfo->government;
   pplayer->target_government = pinfo->target_government;
-  pplayer->embassy=pinfo->embassy;
+  BV_CLR_ALL(pplayer->embassy);
+  players_iterate(pother) {
+    if (pinfo->embassy[pother->player_no]) {
+      BV_SET(pplayer->embassy, pother->player_no);
+    }
+  } players_iterate_end;
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->city_style=pinfo->city_style;
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {

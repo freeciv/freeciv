@@ -1880,7 +1880,7 @@ main_start_players:
           && pplayer->player_no != pdest->player_no) {
         pplayer->diplstates[pdest->player_no].type = DS_TEAM;
         give_shared_vision(pplayer, pdest);
-        pplayer->embassy |= (1 << pdest->player_no);
+	BV_SET(pplayer->embassy, pdest->player_no);
       }
     } players_iterate_end;
    } players_iterate_end;

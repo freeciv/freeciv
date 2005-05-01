@@ -479,7 +479,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 void establish_embassy(struct player *pplayer, struct player *aplayer)
 {
   /* Establish the embassy. */
-  pplayer->embassy |= (1 << aplayer->player_no);
+  BV_SET(pplayer->embassy, aplayer->player_no);
   send_player_info(pplayer, pplayer);
   send_player_info(pplayer, aplayer);  /* update player dialog with embassy */
   send_player_info(aplayer, pplayer);  /* INFO_EMBASSY level info */

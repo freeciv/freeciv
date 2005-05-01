@@ -9375,11 +9375,13 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
     }
   }
   if (BV_ISSET(fields, 6)) {
-    {
-      int readin;
     
-      dio_get_uint32(&din, &readin);
-      real_packet->embassy = readin;
+    {
+      int i;
+    
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+        dio_get_bool8(&din, &real_packet->embassy[i]);
+      }
     }
   }
   if (BV_ISSET(fields, 7)) {
@@ -9646,7 +9648,19 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (old->embassy != real_packet->embassy);
+
+    {
+      differ = (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS != MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+      if(!differ) {
+        int i;
+        for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+          if (old->embassy[i] != real_packet->embassy[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
@@ -9820,7 +9834,14 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
     dio_put_uint8(&dout, real_packet->target_government);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_uint32(&dout, real_packet->embassy);
+  
+    {
+      int i;
+
+      for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+        dio_put_bool8(&dout, real_packet->embassy[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->city_style);

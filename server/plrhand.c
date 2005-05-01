@@ -1504,7 +1504,11 @@ static void package_player_info(struct player *plr,
   if (info_level >= INFO_EMBASSY
       || receiver->diplstates[plr->player_no].contact_turns_left > 0) {
     packet->target_government = plr->target_government;
-    packet->embassy = plr->embassy;
+    memset(&packet->embassy, 0, sizeof(packet->embassy));
+    players_iterate(pother) {
+      packet->embassy[pother->player_no]
+	= BV_ISSET(plr->embassy, pother->player_no);
+    } players_iterate_end;
     packet->gives_shared_vision = plr->gives_shared_vision;
     for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
       packet->diplstates[i].type       = plr->diplstates[i].type;
@@ -1515,10 +1519,9 @@ static void package_player_info(struct player *plr,
     }
   } else {
     packet->target_government = packet->government;
-    if (!receiver || !player_has_embassy(plr, receiver)) {
-      packet->embassy  = 0;
-    } else {
-      packet->embassy  = 1 << receiver->player_no;
+    memset(&packet->embassy, 0, sizeof(packet->embassy));
+    if (receiver && player_has_embassy(plr, receiver)) {
+      packet->embassy[receiver->player_no] = TRUE;
     }
     if (!receiver || !gives_shared_vision(plr, receiver)) {
       packet->gives_shared_vision = 0;
@@ -1940,7 +1943,7 @@ struct player *create_global_observer(void)
   pplayer->is_observer = TRUE;
   pplayer->capital = TRUE;	/* is this necessary? maybe for client... */
   pplayer->phase_done = TRUE;
-  pplayer->embassy = 0;		/* no embassies */
+  BV_CLR_ALL(pplayer->embassy);		/* no embassies */
   pplayer->is_alive = FALSE;
   pplayer->was_created = FALSE;	/* doesn't really matter */
 
@@ -2039,7 +2042,7 @@ static struct player *split_player(struct player *pplayer)
   } tech_type_iterate_end;
   cplayer->phase_done = TRUE; /* Have other things to think
 				 about - paralysis */
-  cplayer->embassy = 0;   /* all embassies destroyed */
+  BV_CLR_ALL(cplayer->embassy);   /* all embassies destroyed */
 
   /* Do the ai */
 
@@ -2061,7 +2064,7 @@ static struct player *split_player(struct player *pplayer)
     pplayer->revolution_finishes = game.turn + 1;
   }
   pplayer->research->bulbs_researched = 0;
-  pplayer->embassy = 0; /* all embassies destroyed */
+  BV_CLR_ALL(pplayer->embassy);   /* all embassies destroyed */
 
   /* give splitted player the embassies to his team mates back, if any */
   if (pplayer->team != TEAM_NONE) {

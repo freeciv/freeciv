@@ -183,7 +183,7 @@
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent worklists2 map_editor known32fix turn " \
 "attributes watchtower rulesetdir client_worklists orders " \
-"startunits turn_last_built improvement_order technology_order"
+"startunits turn_last_built improvement_order technology_order embassies"
 
 static const char hex_chars[] = "0123456789abcdef";
 
@@ -1757,7 +1757,26 @@ static void player_load(struct player *plr, int plrno,
     plr->target_government = plr->government;
   }
 
-  plr->embassy=secfile_lookup_int(file, "player%d.embassy", plrno);
+  BV_CLR_ALL(plr->embassy);
+  if (has_capability("embassies", savefile_options)) {
+    players_iterate(pother) {
+      if (secfile_lookup_bool(file, "player%d.embassy%d",
+			      plrno, pother->player_no)) {
+	BV_SET(plr->embassy, pother->player_no);
+      }
+    } players_iterate_end;
+  } else {
+    /* Required for 2.0 and earlier savegames.  Remove eventually and make
+     * the cap check manditory. */
+    int embassy = secfile_lookup_int(file, "player%d.embassy", plrno);
+
+    players_iterate(pother) {
+      if (embassy & (1 << pother->player_no)) {
+	BV_SET(plr->embassy, pother->player_no);
+      }
+    } players_iterate_end;
+
+  }
 
   p = secfile_lookup_str_default(file, NULL, "player%d.city_style_by_name",
                                  plrno);
@@ -2502,8 +2521,14 @@ static void player_save(struct player *plr, int plrno,
   gov = get_government(plr->target_government);
   secfile_insert_str(file, gov->name_orig,
 		     "player%d.target_government_name", plrno);
-  
-  secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
+
+  players_iterate(pother) {
+    secfile_insert_bool(file, BV_ISSET(plr->embassy, pother->player_no),
+			"player%d.embassy%d", plrno, pother->player_no);
+  } players_iterate_end;
+
+  /* Required for 2.0 and earlier servers.  Remove eventually. */
+  secfile_insert_int(file, 0, "player%d.embassy", plrno);
 
   /* This field won't be used; it's kept only for forward compatibility. 
    * City styles are specified by name since CVS 12/01-04. */

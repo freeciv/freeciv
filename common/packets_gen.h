@@ -316,7 +316,7 @@ struct packet_player_info {
   bool is_male;
   int government;
   int target_government;
-  int embassy;
+  bool embassy[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;
   Nation_type_id nation;
   int team;

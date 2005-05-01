@@ -205,7 +205,7 @@ struct player {
   int revolution_finishes;
 
   bool capital; /* used to give player init_buildings in first city. */
-  int embassy;
+  bv_player embassy;
   int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;

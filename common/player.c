@@ -64,7 +64,7 @@ bool pplayer_can_ally(const struct player *p1, const struct player *p2)
 bool player_has_embassy(const struct player *pplayer,
 			const struct player *pplayer2)
 {
-  return (TEST_BIT(pplayer->embassy, pplayer2->player_no)
+  return (BV_ISSET(pplayer->embassy, pplayer2->player_no)
           || (pplayer == pplayer2)
           || (get_player_bonus(pplayer, EFT_HAVE_EMBASSIES) > 0
               && !is_barbarian(pplayer2)));
@@ -121,7 +121,7 @@ void player_init(struct player *plr)
   plr->was_created = FALSE;
   plr->is_alive=TRUE;
   plr->is_dying = FALSE;
-  plr->embassy=0;
+  BV_CLR_ALL(plr->embassy);
   plr->reputation=GAME_DEFAULT_REPUTATION;
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = DS_NO_CONTACT;
