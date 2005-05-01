@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-15 23:21-0400\n"
+"POT-Creation-Date: 2005-05-01 15:50+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -154,114 +154,114 @@ msgstr ""
 "wybrać inny serwer. No to cześć!"
 
 # TO NIE SĄ DOSŁOWNE TŁUMACZENIA, STARAM SIĘ JEDYNIE UTWORZYĆ JAKIEŚ SENSOWNE STOPNIOWANIE
-#: common/player.c:535
+#: common/player.c:536
 msgid "?attitude:Genocidal"
 msgstr "?attitude:Nienawiść"
 
-#: common/player.c:537
+#: common/player.c:538
 msgid "?attitude:Belligerent"
 msgstr "?attitude:Obrzydzenie"
 
-#: common/player.c:539
+#: common/player.c:540
 msgid "?attitude:Hostile"
 msgstr "?attitude:Wrogość"
 
-#: common/player.c:541
+#: common/player.c:542
 msgid "?attitude:Uncooperative"
 msgstr "?attitude:Niechęć"
 
-#: common/player.c:543
+#: common/player.c:544
 msgid "?attitude:Uneasy"
 msgstr "?attitude:Niepokój"
 
-#: common/player.c:545
+#: common/player.c:546
 msgid "?attitude:Neutral"
 msgstr "?nation:Obojętność"
 
-#: common/player.c:547
+#: common/player.c:548
 msgid "?attitude:Respectful"
 msgstr "?attitude:Uprzejmość"
 
-#: common/player.c:549
+#: common/player.c:550
 msgid "?attitude:Helpful"
 msgstr "?attitude:Zadowolenie"
 
-#: common/player.c:551
+#: common/player.c:552
 msgid "?attitude:Enthusiastic"
 msgstr "?attitude:Wdzięczność"
 
-#: common/player.c:553
+#: common/player.c:554
 msgid "?attitude:Admiring"
 msgstr "?attitude:Przyjaźń"
 
-#: common/player.c:556
+#: common/player.c:557
 msgid "?attitude:Worshipful"
 msgstr "?attitude:Harmonia"
 
-#: common/player.c:568
+#: common/player.c:569
 msgid "Spotless"
 msgstr "Nieskazitelna"
 
-#: common/player.c:570
+#: common/player.c:571
 msgid "Excellent"
 msgstr "Wspaniała"
 
-#: common/player.c:572
+#: common/player.c:573
 msgid "Honorable"
 msgstr "Honorowa"
 
-#: common/player.c:574
+#: common/player.c:575
 msgid "Questionable"
 msgstr "Wątpliwa"
 
-#: common/player.c:576
+#: common/player.c:577
 msgid "Dishonorable"
 msgstr "Niehonorowa"
 
-#: common/player.c:578
+#: common/player.c:579
 msgid "Poor"
 msgstr "Kiepska"
 
-#: common/player.c:580
+#: common/player.c:581
 msgid "Despicable"
 msgstr "Zła"
 
-#: common/player.c:582
+#: common/player.c:583
 msgid "Atrocious"
 msgstr "Podła"
 
-#: common/player.c:592
+#: common/player.c:593
 msgid "?diplomatic_state:Neutral"
 msgstr "?diplomatic_state:Neutralność"
 
-#: common/player.c:593
+#: common/player.c:594
 msgid "?diplomatic_state:War"
 msgstr "?diplomatic_state:Wojna"
 
-#: common/player.c:594 client/gui-gtk-2.0/diplodlg.c:343
+#: common/player.c:595 client/gui-gtk-2.0/diplodlg.c:343
 #: client/gui-gtk/diplodlg.c:485 client/gui-mui/diplodlg.c:633
 #: client/gui-win32/diplodlg.c:306 client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?diplomatic_state:Zawieszenie broni"
 
-#: common/player.c:595 client/gui-gtk-2.0/diplodlg.c:348
+#: common/player.c:596 client/gui-gtk-2.0/diplodlg.c:348
 #: client/gui-gtk/diplodlg.c:490 client/gui-mui/diplodlg.c:637
 #: client/gui-win32/diplodlg.c:307 client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
 msgstr "?diplomatic_state:Pokój"
 
-#: common/player.c:596 client/gui-gtk-2.0/diplodlg.c:353
+#: common/player.c:597 client/gui-gtk-2.0/diplodlg.c:353
 #: client/gui-gtk/diplodlg.c:495 client/gui-mui/diplodlg.c:641
 #: client/gui-win32/diplodlg.c:308 client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Sojusz"
 
 #
-#: common/player.c:597
+#: common/player.c:598
 msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:Brak kontaktu"
 
-#: common/player.c:598
+#: common/player.c:599
 msgid "?diplomatic_state:Team"
 msgstr "?diplomatic_state:Zespół"
 
@@ -1446,7 +1446,6 @@ msgstr ""
 "polecenia. Po 'start' gracze wybiorą narody i gra się rozpocznie. Jeżeli gra "
 "została wczytana, to komenda 'start' jest konieczna do kontynuowania gry."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:42
 msgid ""
 "help\n"
@@ -1518,7 +1517,6 @@ msgstr ""
 "ma na niego wpływu. Uwaga: jako argumentu używamy nazwy połączenia, a nie "
 "imienia uczestnika."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:80
 msgid ""
 "explain\n"
@@ -1542,7 +1540,6 @@ msgstr ""
 "zgodności z wcześniejszymi wersjami.  Bez argumentów działa jak 'help "
 "options' a z argumentem jak 'help <nazwa-opcji>'."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:90
 msgid ""
 "show\n"
@@ -1603,7 +1600,6 @@ msgid "Cast a vote."
 msgstr "Oddaje głos."
 
 #: server/commands.c:114
-#, no-c-format
 msgid ""
 "A player with info level access issuing a control level command starts a new "
 "vote for the command.  The /vote command followed by \"yes\" or \"no\", and "
@@ -1838,7 +1834,6 @@ msgstr ""
 "Powoduje przejęcie kontroli nad twoją cywilizacją przez AI, tak aby komputer "
 "nie wykonywał jednak za dużo zmian."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:224
 msgid ""
 "novice\n"
@@ -1861,7 +1856,6 @@ msgstr ""
 "domyślny poziom dla graczy AI na 'novice'.  Gdy podane jest imię gracza(jako "
 "argument) ustawia poziom 'novice' tylko dla tego gracza."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:233
 msgid ""
 "easy\n"
@@ -1884,7 +1878,6 @@ msgstr ""
 "domyślny poziom dla graczy AI na 'easy' (łatwy).  Gdy podane jest imię "
 "gracza (jako argument) ustawia poziom 'easy' tylko dla tego gracza."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:242
 msgid ""
 "normal\n"
@@ -1907,7 +1900,6 @@ msgstr ""
 "domyślny poziom dla graczy AI na 'normal'.  Gdy podane jest imię gracza(jako "
 "argument) ustawia poziom 'normal' tylko dla tego gracza."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:251
 msgid ""
 "hard\n"
@@ -1930,7 +1922,6 @@ msgstr ""
 "domyślny poziom dla graczy AI na 'hard' (trudny).  Gdy podane jest imię "
 "gracza(jako argument) ustawia poziom 'hard' tylko dla tego gracza."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:260
 msgid ""
 "experimental\n"
@@ -1956,7 +1947,6 @@ msgstr ""
 "OPCJA SŁUŻY JEDYNIE TESTOWANIU KODU AI! Nie ma ona zastosowania dla zwykłych "
 "serwerów."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:271
 msgid ""
 "cmdlevel\n"
@@ -2078,7 +2068,6 @@ msgstr ""
 "CAŁKOWICIE usuwa gracza z gry, także jego miasta i jednostki. Używaj z "
 "rozwagą!"
 
-#. TRANS: translate text between <> only
 #: server/commands.c:327
 msgid ""
 "save\n"
@@ -2106,7 +2095,6 @@ msgstr ""
 "    --file <nazwa-pliku>\n"
 "oraz użyć komendy 'start' po ponownym przyłączeniu się graczy."
 
-#. TRANS: translate text between <> only
 #: server/commands.c:339
 msgid ""
 "load\n"
@@ -3589,7 +3577,6 @@ msgstr "Zasady nie zawierają żadnego terenu (%s)"
 msgid "Terrains %s and %s have the same identifier."
 msgstr "Tereny %s i %s mają te same nazwy."
 
-#. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1629
 #, c-format
 msgid "'%c' cannot be used as a terrain identifier; it is reserved."
@@ -3832,7 +3819,6 @@ msgstr ""
 msgid "Map topology index"
 msgstr "Topologia mapy"
 
-#. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:207
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
@@ -4631,7 +4617,7 @@ msgid "Chance in diplomat/spy contests"
 msgstr "Szansa na powodzenie działalności dyplomatycznej/szpiegowskiej"
 
 #: server/settings.c:756
-#, no-c-format
+#, c-format
 msgid ""
 "A diplomatic unit acting against a city which has one or more defending "
 "diplomatic units has a diplchance (percent) chance to defeat each such "
@@ -5579,7 +5565,7 @@ msgstr "Dynamiczny timer ustawiony na %d %d %d %d"
 msgid "Option:"
 msgstr "Opcja:"
 
-#: server/stdinhand.c:1505 server/stdinhand.c:3759
+#: server/stdinhand.c:1505 server/stdinhand.c:3791
 msgid "Description:"
 msgstr "Opis:"
 
@@ -6004,18 +5990,18 @@ msgstr "odłączam od gracza %s."
 msgid "%s now controls %s (%s, %s)"
 msgstr "użytkownik %s kontroluje teraz gracza %s (%s, %s)"
 
-#: server/stdinhand.c:2959 server/stdinhand.c:3973
+#: server/stdinhand.c:2959 server/stdinhand.c:4005
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbarzyński"
 
-#: server/stdinhand.c:2960 server/stdinhand.c:3975 client/plrdlg_common.c:228
+#: server/stdinhand.c:2960 server/stdinhand.c:4007 client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk/plrdlg.c:141
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:2960 server/stdinhand.c:3977
+#: server/stdinhand.c:2960 server/stdinhand.c:4009
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk-2.0/pages.c:1480
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/connectdlg.c:208
 msgid "Human"
@@ -6144,27 +6130,32 @@ msgstr "Nie mogę zakończyć gry: jeszcze nie rozpoczęta."
 msgid "Not enough players, game will not start."
 msgstr "Brak graczy, gra nie wystartuje."
 
-#: server/stdinhand.c:3637
+#: server/stdinhand.c:3658
+#, c-format
+msgid "Waiting to start game: %d out of %d players are ready to start."
+msgstr "Oczekiwanie na rozpoczęcie gry: %d z %d graczy jest gotowych."
+
+#: server/stdinhand.c:3669
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "Nie można rozpocząć gry: program czeka na rozłączenie się wszystkich "
 "użytkowników."
 
-#: server/stdinhand.c:3643
+#: server/stdinhand.c:3675
 msgid "Cannot start the game: it has already been started."
 msgstr "Nie mogę wystartować gry: jest już włączona."
 
-#: server/stdinhand.c:3648
+#: server/stdinhand.c:3680
 msgid "Cannot start the game: it is already running."
 msgstr "Nie mogę wystartować gry: jest już włączona."
 
-#: server/stdinhand.c:3677
+#: server/stdinhand.c:3709
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Przerywam połączenie %s."
 
-#: server/stdinhand.c:3696
+#: server/stdinhand.c:3728
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6202,71 +6193,71 @@ msgstr ""
 "  save   -  aby zapisać grę\n"
 "  quit   -  aby zakończyć program"
 
-#: server/stdinhand.c:3731 server/stdinhand.c:3734
+#: server/stdinhand.c:3763 server/stdinhand.c:3766
 msgid "Command:"
 msgstr "Komenda:"
 
-#: server/stdinhand.c:3738
+#: server/stdinhand.c:3770
 msgid "Synopsis: "
 msgstr "Składnia: "
 
-#: server/stdinhand.c:3747
+#: server/stdinhand.c:3779
 #, c-format
 msgid "Level: %s"
 msgstr "Poziom: %s"
 
-#: server/stdinhand.c:3750
+#: server/stdinhand.c:3782
 #, c-format
 msgid "Pregame level: %s"
 msgstr "Poziom przed grą: %s"
 
-#: server/stdinhand.c:3776
+#: server/stdinhand.c:3808
 msgid "The following server commands are available:"
 msgstr "Poniższe komendy serwera są dostępne:"
 
-#: server/stdinhand.c:3851
+#: server/stdinhand.c:3883
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Argument pomocy '%s' jest dwuznaczny."
 
-#: server/stdinhand.c:3856
+#: server/stdinhand.c:3888
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Nieprawidłowy argument '%s'."
 
-#: server/stdinhand.c:3915
+#: server/stdinhand.c:3947
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Zły argument komendy list: '%s'.  Spróbuj '%shelp list'."
 
-#: server/stdinhand.c:3947
+#: server/stdinhand.c:3979
 msgid "List of players:"
 msgstr "Lista graczy:"
 
-#: server/stdinhand.c:3952
+#: server/stdinhand.c:3984
 msgid "<no players>"
 msgstr "<brak graczy>"
 
-#: server/stdinhand.c:3969
+#: server/stdinhand.c:4001
 #, c-format
 msgid "user %s, "
 msgstr "użytkownik %s, "
 
-#: server/stdinhand.c:3980
+#: server/stdinhand.c:4012
 msgid ", Dead"
 msgstr ", Martwy"
 
-#: server/stdinhand.c:3983
+#: server/stdinhand.c:4015
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", poziom trudności %s"
 
-#: server/stdinhand.c:3987
+#: server/stdinhand.c:4019
 #, c-format
 msgid ", nation %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:3999
+#: server/stdinhand.c:4031
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -6274,20 +6265,20 @@ msgstr[0] " %d połączenie:"
 msgstr[1] " %d połączenia:"
 msgstr[2] " %d połączeń:"
 
-#: server/stdinhand.c:4005
+#: server/stdinhand.c:4037
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s z %s (poziom dostępu do operacji: %s), bufor=%dKB"
 
-#: server/stdinhand.c:4010
+#: server/stdinhand.c:4042
 msgid " (observer mode)"
 msgstr " (tryb obserwatora)"
 
-#: server/stdinhand.c:4026
+#: server/stdinhand.c:4058
 msgid "List of connections to server:"
 msgstr "Lista połączeń z serwerem:"
 
-#: server/stdinhand.c:4030
+#: server/stdinhand.c:4062
 msgid "<no connections>"
 msgstr "<brak połączeń>"
 
@@ -7806,8 +7797,6 @@ msgstr[0] "* Może transportować %d jednostkę lądową.\n"
 msgstr[1] "* Może transportować %d jednostki lądowe.\n"
 msgstr[2] "* Może transportować %d jednostek lądowych.\n"
 
-#. TRANS: "Manhattan" distance is the distance along gridlines, with
-#. * no diagonals allowed.
 #: client/helpdata.c:694
 #, c-format
 msgid ""
@@ -22772,5 +22761,3 @@ msgstr ""
 "zachodniej Afryki na podbój południowej części kontynentu, gdzie starł się z "
 "Europejskimi osadnikami."
 
-#~ msgid "Game: Your %s has been eliminated defending against a %s in %s."
-#~ msgstr "Gra: Twój %s został wyeliminowany broniąc się przed %s w m. %s."
