@@ -253,6 +253,7 @@ data/nation/martian.ruleset
 data/nation/mexican.ruleset
 data/nation/mongol.ruleset
 data/nation/mordor.ruleset
+data/nation/newzealand.ruleset
 data/nation/nigerian.ruleset
 data/nation/observer.ruleset
 data/nation/persian.ruleset
@@ -268,6 +269,7 @@ data/nation/silesian.ruleset
 data/nation/singaporean.ruleset
 data/nation/sioux.ruleset
 data/nation/slovenian.ruleset
+data/nation/slovakian.ruleset
 data/nation/spanish.ruleset
 data/nation/sumerian.ruleset
 data/nation/swedish.ruleset
