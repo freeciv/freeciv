@@ -45,6 +45,7 @@
 #include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "script_signal.h"
 #include "sernet.h"
 #include "settlers.h"
 #include "srv_main.h"
@@ -2452,6 +2453,9 @@ static bool unit_enter_hut(struct unit *punit)
     hut_get_city(punit);
     break;
   }
+
+  script_signal_emit("hut_enter", 1, API_TYPE_UNIT, punit);
+
   send_player_info(pplayer, pplayer);       /* eg, gold */
   return ok;
 }

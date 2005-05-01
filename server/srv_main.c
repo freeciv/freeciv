@@ -87,6 +87,7 @@
 #include "sanitycheck.h"
 #include "savegame.h"
 #include "score.h"
+#include "script_signal.h"
 #include "sernet.h"
 #include "settlers.h"
 #include "spacerace.h"

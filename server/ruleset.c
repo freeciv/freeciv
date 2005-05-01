@@ -38,6 +38,7 @@
 #include "unit.h"
 
 #include "citytools.h"
+#include "script.h"
 
 #include "aiunit.h"		/* update_simple_ai_types */
 
@@ -108,30 +109,40 @@ static void send_ruleset_game(struct conn_list *dest);
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
 **************************************************************************/
-static char *valid_ruleset_filename(const char *subdir, const char *whichset)
+static char *valid_ruleset_filename(const char *subdir,
+				    const char *name, const char *extension)
 {
   char filename[512], *dfilename;
 
-  assert(subdir && whichset);
+  assert(subdir && name && extension);
 
-  my_snprintf(filename, sizeof(filename), "%s/%s.ruleset", subdir, whichset);
+  my_snprintf(filename, sizeof(filename), "%s/%s.%s", subdir, name, extension);
   dfilename = datafilename(filename);
-  if (dfilename)
+  if (dfilename) {
     return dfilename;
+  }
 
   freelog(LOG_VERBOSE, "Trying to load file from default ruleset directory "
 	  "instead.");
-  my_snprintf(filename, sizeof(filename), "default/%s.ruleset", whichset);
+  my_snprintf(filename, sizeof(filename), "default/%s.%s", name, extension);
   dfilename = datafilename(filename);
-  if (dfilename)
+  if (dfilename) {
     return dfilename;
+  }
 
   /* TRANS: message for an obscure ruleset error. */
   freelog(LOG_ERROR, _("Trying alternative ruleset filename syntax."));
-  my_snprintf(filename, sizeof(filename), "%s_%s.ruleset", subdir, whichset);
+  my_snprintf(filename, sizeof(filename), "%s_%s.%s", subdir, name, extension);
   dfilename = datafilename(filename);
-  if (dfilename)
+  if (dfilename) {
     return dfilename;
+  } else {
+    freelog(LOG_FATAL,
+	    /* TRANS: message for an obscure ruleset error. */
+	    _("Could not find a readable \"%s.%s\" ruleset file."),
+	    name, extension);
+    exit(EXIT_FAILURE);
+  }
 
   return(NULL);
 }
@@ -141,17 +152,12 @@ static char *valid_ruleset_filename(const char *subdir, const char *whichset)
   "whichset" = "techs", "units", "buildings", "terrain", ...
   Calls exit(EXIT_FAILURE) on failure.
 **************************************************************************/
-static void openload_ruleset_file(struct section_file *file, const char *whichset)
+static void openload_ruleset_file(struct section_file *file,
+			          const char *whichset)
 {
   char sfilename[512];
-  char *dfilename = valid_ruleset_filename(game.rulesetdir, whichset);
-
-  if (!dfilename) {
-    freelog(LOG_FATAL,
-	    /* TRANS: message for an obscure ruleset error. */
-	    _("Could not find a readable \"%s\" ruleset file."), whichset);
-    exit(EXIT_FAILURE);
-  }
+  char *dfilename = valid_ruleset_filename(game.rulesetdir,
+					   whichset, "ruleset");
 
   /* Need to save a copy of the filename for following message, since
      section_file_load() may call datafilename() for includes. */
@@ -162,6 +168,23 @@ static void openload_ruleset_file(struct section_file *file, const char *whichse
     freelog(LOG_FATAL,
 	    /* TRANS: message for an obscure ruleset error. */
 	    _("Could not load ruleset file \"%s\"."), sfilename);
+    exit(EXIT_FAILURE);
+  }
+}
+
+/**************************************************************************
+  Parse script file.
+  Calls exit(EXIT_FAILURE) on failure.
+**************************************************************************/
+static void openload_script_file(const char *whichset)
+{
+  char *dfilename = valid_ruleset_filename(game.rulesetdir,
+					   whichset, "lua");
+
+  if (!script_do_file(dfilename)) {
+    freelog(LOG_FATAL,
+	    /* TRANS: message for an obscure script error. */
+	    _("Could not load ruleset script file \"%s\"."), dfilename);
     exit(EXIT_FAILURE);
   }
 }
@@ -3129,6 +3152,11 @@ void load_rulesets(void)
   load_ruleset_effects(&effectfile);
   load_ruleset_game();
   translate_data_names();
+
+  script_free();
+
+  script_init();
+  openload_script_file("events");
 
   if (game.all_connections) {
     /* Now that the rulesets are loaded we immediately send updates to any

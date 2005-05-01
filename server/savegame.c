@@ -43,6 +43,8 @@
 #include "aidata.h"
 #include "aiunit.h"
 
+#include "script.h"
+
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
@@ -3662,7 +3664,7 @@ void game_load(struct section_file *file)
     calc_civ_score(pplayer);
   } players_iterate_end;
 
-  return;
+  script_state_load(file);
 }
 
 /***************************************************************
@@ -3919,4 +3921,6 @@ void game_save(struct section_file *file, const char *save_reason)
 			 "game.shuffled_player_%d", i);
     }
   }
+
+  script_state_save(file);
 }

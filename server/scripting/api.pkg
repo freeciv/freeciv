@@ -1,0 +1,168 @@
+/**********************************************************************
+ Freeciv - Copyright (C) 2005 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+
+$#ifdef HAVE_CONFIG_H
+$#include <config.h>
+$#endif
+
+$#include "api_types.h"
+$#include "api_find.h"
+$#include "api_intl.h"
+$#include "api_notify.h"
+$#include "script.h"
+
+/* Classes. */
+struct Player {
+  const char *name;
+  const int nation @ nation_id;
+
+  const int player_no @ id;
+};
+
+struct City {
+  const char *name;
+  const int owner @ owner_id;
+  const Tile *tile;
+
+  const int id;
+};
+
+struct Unit {
+  const int type @ type_id;
+  const int owner @ owner_id;
+  const int homecity @ homecity_id;
+  const Tile *tile;
+
+  const int id;
+};
+
+struct Tile {
+  const int nat_x;
+  const int nat_y;
+
+  const int index @ id;
+};
+
+struct Impr_Type {
+  const char *name;
+
+  const char *name_orig;
+
+  const int index @ id;
+};
+
+struct Nation_Type {
+  const char *name;
+  const char *name_plural;
+
+  const char *name_orig;
+  const char *name_plural_orig;
+
+  const int index @ id;
+};
+
+struct Unit_Type {
+  const char *name;
+
+  const char *name_orig;
+
+  const int index @ id;
+};
+
+$[
+-- Player methods.
+function Player:nation()
+  return find.nation(self.nation_id)
+end
+
+-- City methods.
+function City:owner()
+  return find.player(self.owner_id)
+end
+
+-- Unit methods.
+function Unit:type()
+  return find.unit_type(self.type_id)
+end
+
+function Unit:owner()
+  return find.player(self.owner_id)
+end
+
+function Unit:homecity()
+  return find.city(self:owner(), self.homecity_id)
+end
+$]
+
+/* Object find module. */
+module find {
+  Player *api_find_player @ player (int player_id);
+  City *api_find_city @ city (Player *pplayer, int city_id);
+  Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
+  Tile *api_find_tile @ tile (int nat_x, int nat_y);
+
+  Impr_Type *api_find_impr_type @ impr_type (int impr_type_id);
+  Nation_Type *api_find_nation_type @ nation_type (int nation_type_id);
+  Unit_Type *api_find_unit_type @ unit_type (int unit_type_id);
+}
+
+$[
+-- Dump the state of user scalar variables to a Lua code string.
+function _freeciv_state_dump()
+  local res = ''
+
+  for k, v in pairs(_G) do
+    if k == '_VERSION' then
+      -- ignore _VERSION variable.
+    elseif type(v) == 'boolean'
+	or type(v) == 'number'
+	or type(v) == 'string' then
+      local rvalue = string.format('%q', v)
+
+      res = res .. k .. '=' .. rvalue .. '\n'
+    elseif type(v) == 'userdata' then
+      local method = string.lower(tolua.type(v))
+
+      res = res .. k .. '=find.' .. method
+      if method == 'city' or method == 'unit' then
+         res = res .. '(nil,' .. v.id .. ')'
+      else
+         res = res .. '(' .. v.id .. ')'
+      end
+
+      res = res .. '\n'
+    end
+  end
+
+  return res
+end
+$]
+
+/* Signal module. */
+module signal {
+  void script_signal_connect @ connect(const char *signal_name, const char *callback_name);
+}
+
+/* Intl module. */
+const char *api_intl__ @ _ (const char *string);
+const char *api_intl_N_ @ N_ (const char *string);
+const char *api_intl_Q_ @ Q_ (const char *string);
+const char *api_intl_PL_ @ PL_ (const char *string1, const char *string2, int n);
+
+/* Notify module. */
+module notify {
+void api_notify_all @ all (const char *message);
+void api_notify_player @ player (Player *pplayer, const char *message);
+void api_notify_embassies @ embassies (Player *pplayer, const char *message);
+void api_notify_event @ event (Player *pplayer, Tile *ptile, enum event_type event, const char *message);
+}

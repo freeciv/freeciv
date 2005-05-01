@@ -685,6 +685,7 @@ AC_CONFIG_FILES([Makefile
 	  server/Makefile 
 	  server/generator/Makefile
 	  server/userdb/Makefile
+	  server/scripting/Makefile
 	  manual/Makefile
 	  intl/Makefile
 	  po/Makefile.in

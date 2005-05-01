@@ -1,0 +1,5 @@
+/Makefile
+/Makefile.in
+/api_gen.c
+/api_gen.h
+/.deps

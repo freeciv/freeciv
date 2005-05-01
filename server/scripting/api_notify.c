@@ -1,0 +1,55 @@
+/**********************************************************************
+ Freeciv - Copyright (C) 2005 - The Freeciv Project
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+***********************************************************************/
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include "plrhand.h"
+
+#include "api_notify.h"
+
+
+/**************************************************************************
+  Notify all players with the given message.
+**************************************************************************/
+void api_notify_all(const char *message)
+{
+  notify_player(NULL, "%s", message);
+}
+
+/**************************************************************************
+  Notify this pplayer with the given message.
+**************************************************************************/
+void api_notify_player(Player *pplayer, const char *message)
+{
+  notify_player(pplayer, "%s", message);
+}
+
+/**************************************************************************
+  Notify players which have embassies with pplayer with the given message.
+**************************************************************************/
+void api_notify_embassies(Player *pplayer, const char *message)
+{
+  notify_embassies(pplayer, NULL, "%s", message);
+}
+
+/**************************************************************************
+  Notify pplayer of a complex event.
+**************************************************************************/
+void api_notify_event(Player *pplayer, Tile *ptile, enum event_type event,
+		      const char *message)
+{
+  notify_player_ex(pplayer, ptile, event, "%s", message);
+}
+

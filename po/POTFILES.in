@@ -177,6 +177,7 @@ data/civ2/buildings.ruleset
 data/civ1/buildings.ruleset
 data/history/buildings.ruleset
 data/default/cities.ruleset
+data/default/events.lua
 data/default/governments.ruleset
 data/civ2/governments.ruleset
 data/civ1/governments.ruleset
