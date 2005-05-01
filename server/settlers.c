@@ -48,6 +48,14 @@
 
 #include "settlers.h"
 
+/* This factor is multiplied on when calculating the want.  This is done
+ * to avoid rounding errors in comparisons when looking for the best
+ * possible work.  However before returning the final want we have to
+ * divide by it again.  This loses accuracy but is needed since the want
+ * values are used for comparison by the AI in trying to calculate the
+ * goodness of building worker units. */
+#define WORKER_FACTOR 1024
+
 BV_DEFINE(nearness, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 static nearness *territory;
 #define TERRITORY(ptile) territory[(ptile)->index]
@@ -756,14 +764,13 @@ static void consider_settler_action(struct player *pplayer,
 
   /* find the present value of the future benefit of this action */
   if (consider) {
-    const int FACTOR = 1024;
 
     base_value = new_tile_value - old_tile_value;
-    total_value = base_value * FACTOR;
+    total_value = base_value * WORKER_FACTOR;
     if (!in_use) {
       total_value /= 2;
     }
-    total_value += extra * FACTOR;
+    total_value += extra * WORKER_FACTOR;
 
     /* use factor to prevent rounding errors */
     total_value = amortize(total_value, delay);
@@ -931,6 +938,8 @@ static int evaluate_improvements(struct unit *punit,
       } /* endif: are we travelling to a legal destination? */
     } city_map_checked_iterate_end;
   } city_list_iterate_end;
+
+  best_newv /= WORKER_FACTOR;
 
   best_newv = (best_newv - food_upkeep * FOOD_WEIGHTING) * 100 / (40 + food_cost);
   if (best_newv < 0)
