@@ -2701,49 +2701,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
   /* if we have no pplayer, it means that we want to be a global observer */
   if (!pplayer) {
-    /* check if a global  observer has already been created */
-    players_iterate(aplayer) {
-      if (aplayer->is_observer) {
-        pplayer = aplayer;
-        break;
-      }
-    } players_iterate_end;
-
-    /* we need to create a new player */
-    if (!pplayer) {
-      if (game.nplayers >= MAX_NUM_PLAYERS) {
-        notify_player(NULL, _("A global observer cannot be created: too "
-                              "many regular players."));
-        goto end;
-      }
-
-      pplayer = &game.players[game.nplayers];
-      server_player_init(pplayer, 
-                         (server_state == RUN_GAME_STATE) || !game.is_new_game);
-      sz_strlcpy(pplayer->name, OBSERVER_NAME);
-      sz_strlcpy(pplayer->username, ANON_USER_NAME);
-
-      pplayer->is_connected = FALSE;
-      pplayer->is_observer = TRUE;
-      pplayer->capital = TRUE;
-      pplayer->phase_done = TRUE;
-      pplayer->embassy = 0;   /* no embassys */
-      pplayer->is_alive = FALSE;
-      pplayer->was_created = FALSE;
-
-      if ((server_state == RUN_GAME_STATE) || !game.is_new_game) {
-        pplayer->nation = OBSERVER_NATION;
-        init_tech(pplayer, 0);
-        map_know_and_see_all(pplayer);
-      }
-
-      game.nplayers++;
-
-      /* tell everyone that game.nplayers has been updated */
-      send_game_info(NULL);
-      send_player_info(pplayer, NULL);
-
-      notify_player(NULL, _("A global observer has been created"));
+    if (!(pplayer = create_global_observer())) {
+      goto end; /* couldn't create an observer */ 
     }
   }
 

@@ -1892,6 +1892,74 @@ static Nation_type_id pick_available_nation(Nation_type_id *choices)
   return i;
 }
 
+/****************************************************************************
+  Create a player with is_observer = TRUE and return it.
+  If a global observer has already been created, return that player.
+  If there are no player slots available return NULL.
+
+  (Could be called ensure_global_observer instead.)
+****************************************************************************/
+struct player *create_global_observer(void)
+{
+  struct player *pplayer = NULL;
+
+  /* Check if a global observer already exists. If so, return it.  Note the
+   * observer may exist at any position in the array. */
+  players_iterate(aplayer) {
+    if (aplayer->is_observer) {
+      return aplayer;
+    }
+  } players_iterate_end
+
+  /* If we're here we couldn't find an observer, so check if we have
+   * a slot available to create one.  Observers are taken from the slots of
+   * normal civs (barbarians are reserved separately). */
+  if (game.nplayers - game.nbarbarians >= MAX_NUM_PLAYERS) {
+    notify_player(NULL, _("A global observer cannot be created: too "
+                          "many regular players."));
+    return NULL;
+  }
+
+  /* alright, we can create an observer. go for it. */
+  pplayer = &game.players[game.nplayers];
+
+  /* only allocate a player map is the game is running or a game is loaded
+   * in pregame. This is because a game map might not be created otherwise.
+   *
+   * FIXME: could we use map_is_empty here? */
+  server_player_init(pplayer,
+                     (server_state == RUN_GAME_STATE || !game.is_new_game));
+
+  sz_strlcpy(pplayer->name, OBSERVER_NAME);
+  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  pplayer->is_connected = FALSE;
+  pplayer->is_observer = TRUE;
+  pplayer->capital = TRUE;	/* is this necessary? maybe for client... */
+  pplayer->phase_done = TRUE;
+  pplayer->embassy = 0;		/* no embassies */
+  pplayer->is_alive = FALSE;
+  pplayer->was_created = FALSE;	/* doesn't really matter */
+
+  /* don't do this otherwise, because a game map might
+   * not have been created.
+   *
+   * FIXME: could we use map_is_empty here? */
+  if (server_state == RUN_GAME_STATE || !game.is_new_game) {
+    pplayer->nation = OBSERVER_NATION;
+    init_tech(pplayer, 0);
+    map_know_and_see_all(pplayer);
+  }
+
+  game.nplayers++;
+
+  /* tell everyone that game.nplayers has been updated */
+  send_game_info(NULL);
+  send_player_info(pplayer, NULL);
+  notify_player(NULL, _("A global observer has been created"));
+
+  return pplayer;
+}
+
 /**********************************************************************
 This function creates a new player and copies all of it's science
 research etc.  Players are both thrown into anarchy and gold is

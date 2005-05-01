@@ -81,6 +81,7 @@ void do_conquer_cost(struct player *pplayer);
 void shuffle_players(void);
 void set_shuffled_players(int *shuffled_players);
 struct player *shuffled_player(int i);
+struct player *create_global_observer(void);
 
 #define shuffled_players_iterate(pplayer)                                   \
 {                                                                           \
