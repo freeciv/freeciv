@@ -17,6 +17,8 @@
 
 #include <assert.h>
 
+#include "support.h"
+
 #include "tile.h"
 
 /****************************************************************************
@@ -272,4 +274,72 @@ void tile_transform(struct tile *ptile)
   if (result != T_NONE) {
     tile_change_terrain(ptile, result);
   }
+}
+
+/****************************************************************************
+  Return a (static) string with tile name describing terrain and specials.
+
+  Examples:
+    "Hills"
+    "Hills (Coals)"
+    "Hills (Coals) [Pollution]"
+****************************************************************************/
+const char *tile_get_info_text(const struct tile *ptile)
+{
+  static char s[256];
+  bool first;
+
+  sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
+  if (tile_has_special(ptile, S_RIVER)) {
+    sz_strlcat(s, "/");
+    sz_strlcat(s, get_special_name(S_RIVER));
+  }
+
+  first = TRUE;
+  if (tile_has_special(ptile, S_SPECIAL_1)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, " (");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, tile_types[ptile->terrain].special[0].name);
+  }
+  if (tile_has_special(ptile, S_SPECIAL_2)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, " (");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, tile_types[ptile->terrain].special[1].name);
+  }
+  if (!first) {
+    sz_strlcat(s, ")");
+  }
+
+  first = TRUE;
+  if (tile_has_special(ptile, S_POLLUTION)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, " [");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, get_special_name(S_POLLUTION));
+  }
+  if (tile_has_special(ptile, S_FALLOUT)) {
+    if (first) {
+      first = FALSE;
+      sz_strlcat(s, " [");
+    } else {
+      sz_strlcat(s, "/");
+    }
+    sz_strlcat(s, get_special_name(S_FALLOUT));
+  }
+  if (!first) {
+    sz_strlcat(s, "]");
+  }
+
+  return s;
 }

@@ -141,7 +141,7 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
   add_line(_("Location: (%d, %d) [%d]"),
 	   ptile->x, ptile->y, ptile->continent);
 #endif
-  add_line("%s", map_get_tile_info_text(ptile));
+  add_line("%s", tile_get_info_text(ptile));
   if (infrastructure) {
     add_line("%s",
 	     get_infrastructure_text(infrastructure));
@@ -381,9 +381,9 @@ const char *mapview_get_terrain_info_text(struct tile *ptile)
   INIT;
 
   add_line(_("Terrain: %s"),
-	   map_get_tile_info_text(ptile));
+	   tile_get_info_text(ptile));
   add_line(_("Food/Prod/Trade: %s"),
-	   map_get_tile_fpt_text(ptile));
+	   get_tile_output_text(ptile));
   if (tile_has_special(ptile, S_HUT)) {
     add_line(_("Minor Tribe Village"));
   }

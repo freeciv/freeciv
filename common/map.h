@@ -117,9 +117,6 @@ void map_init_topology(bool set_sizes);
 void map_allocate(void);
 void map_free(void);
 
-const char *map_get_tile_info_text(const struct tile *ptile);
-const char *map_get_tile_fpt_text(const struct tile *ptile);
-
 int map_vector_to_real_distance(int dx, int dy);
 int map_vector_to_sq_distance(int dx, int dy);
 int map_distance(const struct tile *tile0, const struct tile *tile1);

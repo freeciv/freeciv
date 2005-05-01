@@ -1004,7 +1004,7 @@ static void auto_settler_findwork(struct player *pplayer, struct unit *punit)
       if (same_pos(punit->tile, ptile)) {
         if (!ai_do_build_city(pplayer, punit)) {
           UNIT_LOG(LOG_ERROR, punit, "could not make city on %s",
-                   map_get_tile_info_text(punit->tile));
+                   tile_get_info_text(punit->tile));
           ai_unit_new_role(punit, AIUNIT_NONE, NULL);
         } else {
           return; /* We came, we saw, we built... */

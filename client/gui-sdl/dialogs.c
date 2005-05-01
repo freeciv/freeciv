@@ -907,7 +907,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   
     my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n%s"),
 		sdl_map_get_tile_info_text(pTile),
-		map_get_tile_fpt_text(x, y),
+		get_tile_output_text(x, y),
     		sdl_get_tile_defense_info_text(pTile));
         
     if (tile_has_special(pTile, S_HUT))

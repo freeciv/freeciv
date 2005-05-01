@@ -708,7 +708,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 		
 	if (pInfo_Window->size.h > 4 * h + DEFAULT_UNITS_H || right) {
           cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
-				map_get_tile_fpt_text(pUnit->x, pUnit->y));
+				get_tile_output_text(pUnit->x, pUnit->y));
 	}
 	
 	copy_chars_to_string16(pStr, buffer);

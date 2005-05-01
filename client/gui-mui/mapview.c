@@ -245,7 +245,7 @@ void update_unit_info_label(struct unit *punit)
     settextf(main_unitname_text, "%s%s", unit_type(punit)->name,
 	     (punit->veteran) ? _(" (veteran)") : "");
     settext(main_moves_text, (hover_unit == punit->id) ? _("Select destination") : unit_activity_text(punit));
-    settext(main_terrain_text, map_get_tile_info_text(punit->tile));
+    settext(main_terrain_text, tile_get_info_text(punit->tile));
     settext(main_hometown_text, pcity ? pcity->name : "");
 
 

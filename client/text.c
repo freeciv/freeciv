@@ -126,6 +126,21 @@ static void real_add(char **buffer, size_t * buffer_size, const char *format,
 }
 
 /****************************************************************************
+  Return a (static) string with a tile's food/prod/trade
+****************************************************************************/
+const char *get_tile_output_text(const struct tile *ptile)
+{
+  INIT;
+  
+  add_line("%d/%d/%d",
+	   get_output_tile(ptile, O_FOOD),
+	   get_output_tile(ptile, O_SHIELD),
+	   get_output_tile(ptile, O_TRADE));
+
+  RETURN;
+}
+
+/****************************************************************************
   Text to popup on a middle-click in the mapview.
 ****************************************************************************/
 const char *popup_info_text(struct tile *ptile)
@@ -149,9 +164,9 @@ const char *popup_info_text(struct tile *ptile)
   add_line(_("Location: (%d, %d) [%d]"), 
 	   ptile->x, ptile->y, ptile->continent); 
 #endif /*DEBUG*/
-  add_line(_("Terrain: %s"),  map_get_tile_info_text(ptile));
+  add_line(_("Terrain: %s"),  tile_get_info_text(ptile));
   add_line(_("Food/Prod/Trade: %s"),
-	   map_get_tile_fpt_text(ptile));
+	   get_tile_output_text(ptile));
   if (tile_has_special(ptile, S_HUT)) {
     add_line(_("Minor Tribe Village"));
   }
@@ -562,7 +577,7 @@ const char *get_unit_info_label_text2(struct unit *punit)
       add_line("%s", unit_activity_text(punit));
     }
 
-    add_line("%s", map_get_tile_info_text(punit->tile));
+    add_line("%s", tile_get_info_text(punit->tile));
     if (infrastructure) {
       add_line("%s", get_infrastructure_text(infrastructure));
     } else {

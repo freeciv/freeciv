@@ -99,7 +99,7 @@ static ULONG TilePopWindow_New(struct IClass *cl, Object * o, struct opSet *msg)
     if (obj)
     {
       Object *text_obj;
-      my_snprintf(s, sizeof(s), _("Terrain: %s"), map_get_tile_info_text(xtile, ytile));
+      my_snprintf(s, sizeof(s), _("Terrain: %s"), tile_get_info_text(xtile, ytile));
       text_obj = TextObject, MUIA_Text_Contents, s, End;
       DoMethod(group, OM_ADDMEMBER, text_obj);
 
@@ -1634,7 +1634,7 @@ static ULONG Map_ContextMenuBuild(struct IClass * cl, Object * o, struct MUIP_Co
 	else if (punit)
 	  my_snprintf(title, sizeof(title), _("Unit %s"), unit_name(punit->type));
 	else
-	  my_snprintf(title, sizeof(title), _("Tile %s"), map_get_tile_info_text(x, y));
+	  my_snprintf(title, sizeof(title), _("Tile %s"), tile_get_info_text(x, y));
 
 	context_menu = MenustripObject,
 	  Child, menu_title = MenuObjectT(title),

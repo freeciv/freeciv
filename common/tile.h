@@ -77,4 +77,6 @@ void tile_irrigate(struct tile *ptile);
 void tile_mine(struct tile *ptile);
 void tile_transform(struct tile *ptile);
 
+const char *tile_get_info_text(const struct tile *ptile);
+
 #endif /* FC__TILE_H */

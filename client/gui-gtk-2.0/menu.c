@@ -1191,7 +1191,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
     return "-";
   }
 
-  text = map_get_tile_info_text(ptile);
+  text = tile_get_info_text(ptile);
 
   /* Restore the original state of the tile. */
   ptile->terrain = old_terrain;
