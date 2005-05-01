@@ -192,9 +192,12 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
     gx = gy = -1;
   }
   
-  my_snprintf(buffer, sizeof(buffer), "%s's %s[%d] (%d,%d)->(%d,%d){%d,%d} ",
+  my_snprintf(buffer, sizeof(buffer),
+	      "%s's %s[%d] (%s) (%d,%d)->(%d,%d){%d,%d} ",
               unit_owner(punit)->name, unit_type(punit)->name,
-              punit->id, punit->tile->x, punit->tile->y,
+              punit->id,
+	      get_activity_text(punit->activity),
+	      punit->tile->x, punit->tile->y,
 	      gx, gy,
               punit->ai.bodyguard, punit->ai.ferryboat);
 

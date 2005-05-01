@@ -389,18 +389,27 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
   struct pf_map *map = NULL;
   struct pf_path *path = NULL;
 
+  UNIT_LOG(LOG_DEBUG, punit, "constrained goto to %d,%d",
+	   ptile->x, ptile->y);
+
   ptile = immediate_destination(punit, ptile);
+
+  UNIT_LOG(LOG_DEBUG, punit, "constrained goto: let's go to %d,%d",
+	   ptile->x, ptile->y);
 
   if (same_pos(punit->tile, ptile)) {
     /* Not an error; sometimes immediate_destination instructs the unit
      * to stay here. For example, to refuel.*/
+    UNIT_LOG(LOG_DEBUG, punit, "constrained goto: already there!");
     send_unit_info(NULL, punit);
     return TRUE;
   } else if (!goto_is_sane(punit, ptile, FALSE)) {
+    UNIT_LOG(LOG_DEBUG, punit, "constrained goto: 'insane' goto!");
     punit->activity = ACTIVITY_IDLE;
     send_unit_info(NULL, punit);
     return TRUE;
   } else if(punit->moves_left == 0) {
+    UNIT_LOG(LOG_DEBUG, punit, "constrained goto: no moves left!");
     send_unit_info(NULL, punit);
     return TRUE;
   }
@@ -410,6 +419,7 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
 
   if (path) {
     ai_log_path(punit, path, parameter);
+    UNIT_LOG(LOG_DEBUG, punit, "constrained goto: following path.");
     alive = ai_follow_path(punit, path, ptile);
   } else {
     UNIT_LOG(LOG_DEBUG, punit, "no path to destination");
@@ -739,6 +749,7 @@ bool ai_unit_goto(struct unit *punit, struct tile *ptile)
   struct pf_parameter parameter;
   struct ai_risk_cost risk_cost;
 
+  UNIT_LOG(LOG_DEBUG, punit, "ai_unit_goto to %d,%d", ptile->x, ptile->y);
   ai_fill_unit_param(&parameter, &risk_cost, punit, ptile);
   return ai_unit_goto_constrained(punit, ptile, &parameter);
 }

@@ -273,7 +273,10 @@ bool ai_manage_explorer(struct unit *punit)
   double logDF = log(DIST_FACTOR);
   double logBPS = log(BEST_POSSIBLE_SCORE);
 
+  UNIT_LOG(LOG_DEBUG, punit, "auto-exploring.");
+
   if (pplayer->ai.control && unit_flag(punit, F_GAMELOSS)) {
+    UNIT_LOG(LOG_DEBUG, punit, "exploration too dangerous!");
     return FALSE; /* too dangerous */
   }
 
@@ -355,6 +358,7 @@ bool ai_manage_explorer(struct unit *punit)
       /* Died?  Strange... */
       return FALSE;
     }
+    UNIT_LOG(LOG_DEBUG, punit, "exploration GOTO succeeded");
     if (punit->moves_left > 0) {
       /* We can still move on... */
       if (punit->moves_left < init_moves) {
@@ -362,6 +366,7 @@ bool ai_manage_explorer(struct unit *punit)
          * Let's do more exploring. 
          * (Checking only whether our position changed is unsafe: can allow
          * yoyoing on a RR) */
+	UNIT_LOG(LOG_DEBUG, punit, "recursively exploring...");
 	return ai_manage_explorer(punit);          
       } else {
 	/* Something went wrong. What to do but return?
@@ -374,11 +379,14 @@ bool ai_manage_explorer(struct unit *punit)
             && (punit->moves_left != unit_move_rate(punit))) {
           /* we're a trireme with non-full complement of movement points,
            * so wait until next turn. */
+	  UNIT_LOG(LOG_DEBUG, punit, "done exploring (had to hold)...");
           return TRUE;
         }
+	UNIT_LOG(LOG_DEBUG, punit, "done exploring (all finished)...");
 	return FALSE;
       }
     }
+    UNIT_LOG(LOG_DEBUG, punit, "done exploring (but more go go)...");
     return TRUE;
   } else {
     /* Didn't find anything. */
