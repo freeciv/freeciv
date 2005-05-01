@@ -648,9 +648,15 @@ static void update_unit_activity(struct unit *punit)
       return;
     }
 
-    assert(punit->activity == ACTIVITY_EXPLORE); 
-    if (!more_to_explore) {
+    /* ai_manage_explorer isn't supposed to change the activity but we
+     * don't count on this. */
+    if (punit->activity != ACTIVITY_EXPLORE || !more_to_explore) {
       handle_unit_activity_request(punit, ACTIVITY_IDLE);
+
+      /* FIXME: When the ai_manage_explorer call changes the activity from
+       * EXPLORE to IDLE, then for some reason the ai.control value gets left
+       * set.  We reset it here.  See PR#12931. */
+      punit->ai.control = FALSE;
     }
     send_unit_info(NULL, punit);
     return;
