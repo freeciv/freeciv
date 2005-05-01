@@ -942,22 +942,22 @@ static void make_rivers(void)
 	   it. */
 	&& (count_terrain_property_near_tile(ptile, TRUE, TRUE,
 					     MG_MOUNTAINOUS) < 90
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 5)
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 5)
 
 	/* Don't start a river on hills unless it is hard to find
 	   somewhere else to start it. */
 	&& (get_tile_type(ptile->terrain)->property[MG_MOUNTAINOUS] == 0
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 6)
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 6)
 
 	/* Don't start a river on arctic unless it is hard to find
 	   somewhere else to start it. */
 	&& (get_tile_type(ptile->terrain)->property[MG_FROZEN] == 0
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 8)
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 8)
 
 	/* Don't start a river on desert unless it is hard to find
 	   somewhere else to start it. */
 	&& (get_tile_type(ptile->terrain)->property[MG_DRY] == 0
-	    || iteration_counter == RIVERS_MAXTRIES / 10 * 9)) {
+	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 9)) {
 
       /* Reset river_map before making a new river. */
       memset(river_map, 0, MAP_INDEX_SIZE * sizeof(*river_map));
