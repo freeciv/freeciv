@@ -96,10 +96,9 @@ static void ai_manage_spaceship(struct player *pplayer)
 static void ai_manage_taxes(struct player *pplayer) 
 {
   int maxrate = (ai_handicap(pplayer, H_RATES) 
-                 ? get_government_max_rate(pplayer->government) : 100);
+                 ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
   bool celebrate = TRUE;
   int can_celebrate = 0, total_cities = 0;
-  struct government *g = get_gov_pplayer(pplayer);
   int trade = 0; /* total amount of trade generated */
   int expenses = 0; /* total amount of gold upkeep */
 
@@ -169,7 +168,8 @@ static void ai_manage_taxes(struct player *pplayer)
   /* TODO: In the future, we should check if we should 
    * celebrate for other reasons than growth. Currently 
    * this is ignored. Maybe we need ruleset AI hints. */
-  if (government_has_flag(g, G_RAPTURE_CITY_GROWTH)) {
+  /* TODO: Allow celebrate individual cities? No modpacks use this yet. */
+  if (get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0) {
     int luxrate = pplayer->economic.luxury;
     int scirate = pplayer->economic.science;
     struct cm_parameter cmp;
@@ -196,7 +196,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
       if (cmr.found_a_valid
           && pcity->surplus[O_FOOD] > 0
-          && pcity->size >= g->rapture_size
+          && pcity->size >= game.celebratesize
 	  && city_can_grow_to(pcity, pcity->size + 1)) {
         pcity->ai.celebrate = TRUE;
         can_celebrate++;
@@ -311,25 +311,13 @@ void ai_best_government(struct player *pplayer)
       /* Bonuses for non-economic abilities. We increase val by
        * a very small amount here to choose govt in cases where
        * we have no cities yet. */
-      if (government_has_flag(gov, G_BUILD_VETERAN_DIPLOMAT)) {
-        bonus += 3; /* WAG */
-      }
-      if (government_has_flag(gov, G_REVOLUTION_WHEN_UNHAPPY)) {
-        bonus -= 3; /* Not really a problem for us */ /* WAG */
-      }
-      if (government_has_flag(gov, G_UNBRIBABLE)) {
-        bonus += 5; /* WAG */
-      }
-      if (government_has_flag(gov, G_INSPIRES_PARTISANS)) {
-        bonus += 3; /* WAG */
-      }
-      if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
-        bonus += 5; /* WAG */
-        val += 1;
-      }
-      if (government_has_flag(gov, G_FANATIC_TROOPS)) {
-        bonus += 3; /* WAG */
-      }
+      bonus += get_player_bonus(pplayer, EFT_VETERAN_DIPLOMATS) ? 3 : 0;
+      bonus -= get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) ? 3 : 0;
+      bonus += get_player_bonus(pplayer, EFT_NO_INCITE) ? 4 : 0;
+      bonus += get_player_bonus(pplayer, EFT_UNBRIBABLE_UNITS) ? 2 : 0;
+      bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) ? 3 : 0;
+      bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) ? 2 : 0;
+      bonus += get_player_bonus(pplayer, EFT_FANATICS) ? 3 : 0;
       output_type_iterate(o) {
 	val += gov->output_inc_tile[o];
       } output_type_iterate_end;

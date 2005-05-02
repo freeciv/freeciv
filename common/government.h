@@ -18,26 +18,10 @@
 #include "fc_types.h"
 #include "requirements.h"
 
-#define G_MAGIC (127)		/* magic constant, used as flag value */
+#define G_MAGIC (127)		/* magic constant */
 
 /* special values for free_* fields -- SKi */
 #define G_CITY_SIZE_FREE          G_MAGIC
-
-/* Changing these will break network compatibility. */
-enum government_flag_id {
-  G_BUILD_VETERAN_DIPLOMAT=0,	/* and Spies (in general: all F_DIPLOMAT) */
-  G_REVOLUTION_WHEN_UNHAPPY,
-  G_HAS_SENATE,			/* not implemented */
-  G_UNBRIBABLE,
-  G_INSPIRES_PARTISANS,
-  G_RAPTURE_CITY_GROWTH,        /* allows city to grow by celebrating */
-  G_FANATIC_TROOPS,             /* for building troops with F_FANATIC flag */
-  G_NO_UNHAPPY_CITIZENS,        /* no unhappy citizen, needed by
-				   fundamentism */
-  G_CONVERT_TITHES_TO_MONEY,    /* tithes to money, needed by fundamentalism */
-  G_LAST_FLAG
-};
-#define G_FIRST_FLAG G_BUILD_VETERAN_DIPLOMAT
 
 /* each government has a list of ruler titles, where at least
  * one entry should have nation=DEFAULT_TITLE.
@@ -72,22 +56,6 @@ struct government
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;
 
-  int   max_rate;		/* max individual Tax/Lux/Sci rate  */
-  int   civil_war;              /* chance (from 100) of civil war in
-				   right conditions */
-  int   martial_law_max;	/* maximum number of units which can
-				   enforce martial law */
-  int   martial_law_per;        /* number of unhappy citizens made
-				   content by each enforcer unit */
-  int   empire_size_mod;	/* (signed) offset to game.cityfactor to
-				   give city count when number of naturally
-				   content citizens is decreased */
-  int   empire_size_inc;	/* if non-zero, reduce one content citizen for
-				   every empire_size_inc cities once #cities
-				   exceeds game.cityfactor + empire_size_mod */
-  int   rapture_size;		/* minimum city size for rapture; if 255,
-				   rapture is (practically) impossible */
-
   /* unit cost modifiers */
   int unit_happy_cost_factor;
   int unit_upkeep_factor[O_MAX];
@@ -116,10 +84,6 @@ struct government
     int max_distance_cap;
   } waste[O_MAX];
 
-  /* other flags: bits in enum government_flag_id order,
-     use government_has_flag() to access */
-  int   flags;
-
   char *helptext;
 };
 
@@ -132,12 +96,6 @@ struct government *get_gov_pcity(const struct city *pcity);
 struct government *find_government_by_name(const char *name);
 struct government *find_government_by_name_orig(const char *name);
 
-enum government_flag_id government_flag_from_str(const char *s);
-bool government_has_flag(const struct government *gov,
-			enum government_flag_id flag);
-
-int get_government_max_rate(int type);
-int get_government_civil_war_prob(int type);
 const char *get_government_name(int type);
 const char *get_ruler_title(int gov, bool male, int nation);
 

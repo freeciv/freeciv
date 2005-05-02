@@ -124,8 +124,24 @@ static const char *effect_type_names[EFT_LAST] = {
   "No_Incite",
   "Regen_Reputation",
   "Gain_AI_Love",
-  "Slow_Down_Timeline"
+  "Slow_Down_Timeline",
+  "Civil_War_Chance",
+  "Empire_Size_Mod",
+  "Empire_Size_Step",
+  "Max_Rates",
+  "Martial_Law_Each",
+  "Martial_Law_Max",
+  "Rapture_Grow",
+  "Unbribable_Units",
+  "Veteran_Diplomats",
+  "Revolution_When_Unhappy",
+  "Has_Senate",
+  "Inspire_Partisans",
+  "Happiness_To_Gold",
+  "Fanatics"
 };
+
+static bool initialized = FALSE;
 
 /**************************************************************************
   Convert effect type names to enum; case insensitive;
@@ -345,6 +361,8 @@ void effect_req_append(struct effect *peffect, bool neg,
 void ruleset_cache_init(void)
 {
   int i;
+
+  initialized = TRUE;
 
   ruleset_cache.tracker = effect_list_new();
 
@@ -719,6 +737,10 @@ static int get_target_bonus_effects(struct effect_list *plist,
 **************************************************************************/
 int get_world_bonus(enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   return get_target_bonus_effects(NULL,
 				  NULL, NULL, NULL, NULL, effect_type);
 }
@@ -729,7 +751,10 @@ int get_world_bonus(enum effect_type effect_type)
 int get_player_bonus(const struct player *pplayer,
 		     enum effect_type effect_type)
 {
-  assert(pplayer != NULL);
+  if (!initialized) {
+    return 0;
+  }
+
   return get_target_bonus_effects(NULL,
 			  	  pplayer, NULL, NULL, NULL,
 				  effect_type);
@@ -740,7 +765,10 @@ int get_player_bonus(const struct player *pplayer,
 **************************************************************************/
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 {
-  assert(pcity != NULL);
+  if (!initialized) {
+    return 0;
+  }
+
   return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity, NULL, NULL,
 				  effect_type);

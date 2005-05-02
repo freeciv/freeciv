@@ -25,6 +25,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "effects.h"
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
@@ -379,7 +380,7 @@ static void try_summon_barbarians(void)
   if ((int)myrand(UPRISE_CIV_MORE) >
            (int)city_list_size(victim->cities) -
                 UPRISE_CIV_SIZE/(game.barbarianrate-1)
-      || myrand(100) > get_gov_pcity(pc)->civil_war) {
+      || myrand(100) > get_player_bonus(victim, EFT_CIVIL_WAR_CHANCE)) {
     return;
   }
   freelog(LOG_DEBUG, "Barbarians are willing to fight");

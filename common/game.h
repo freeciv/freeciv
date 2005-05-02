@@ -95,6 +95,7 @@ struct civ_game {
   int civilwarsize;
   int contactturns;
   int rapturedelay;
+  int celebratesize; /* size limit for cities before they can celebrate */
   int min_players, max_players, nplayers;
   int aifill;
   int notradesize, fulltradesize;
@@ -176,17 +177,6 @@ struct civ_game {
 
   Impr_type_id palace_building;
   Impr_type_id land_defend_building;
-
-  struct {
-    int u_partisan;		/* convenience: tech_req for first
-				   Partisan unit */
-    /* Following tech list is A_LAST terminated if shorter than
-       max len, and the techs listed are guaranteed to exist;
-       this could be better implemented as a new field in the
-       units.ruleset
-    */
-    int partisan_req[MAX_NUM_TECH_LIST];       /* all required for uprisings */
-  } rtech;
 
   /* values from game.ruleset */
   struct {
@@ -389,6 +379,8 @@ extern bool is_server;
 #define GAME_DEFAULT_CONTACTTURNS    20
 #define GAME_MIN_CONTACTTURNS        0
 #define GAME_MAX_CONTACTTURNS        100
+
+#define GAME_DEFAULT_CELEBRATESIZE    3
 
 #define GAME_DEFAULT_RAPTUREDELAY    1
 #define GAME_MIN_RAPTUREDELAY        1

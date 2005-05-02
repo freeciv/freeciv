@@ -2108,11 +2108,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.notradesize = packet->notradesize;
   game.fulltradesize = packet->fulltradesize;
   
-  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    game.rtech.partisan_req[i]  = packet->rtech_partisan_req[i];
-    freelog(LOG_DEBUG, "techl %d: %d", i, game.rtech.partisan_req[i]);
-  }
-
   game.government_when_anarchy = packet->government_when_anarchy;
   game.default_government = packet->default_government;
 
@@ -2310,14 +2305,6 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 				  p->req_survives[j], p->req_value[j]);
   }
 
-  gov->max_rate          = p->max_rate;
-  gov->civil_war         = p->civil_war;
-  gov->martial_law_max   = p->martial_law_max;
-  gov->martial_law_per   = p->martial_law_per;
-  gov->empire_size_mod   = p->empire_size_mod;
-  gov->empire_size_inc   = p->empire_size_inc;
-  gov->rapture_size      = p->rapture_size;
-  
   gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;
   gov->free_happy          = p->free_happy;
 
@@ -2337,7 +2324,6 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
     gov->waste[o].max_distance_cap = p->waste_max_distance_cap[o];
   } output_type_iterate_end;
   
-  gov->flags               = p->flags;
   gov->num_ruler_titles    = p->num_ruler_titles;
     
   sz_strlcpy(gov->name_orig, p->name);
@@ -2535,6 +2521,8 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 {
   int i;
 
+  game.rapturedelay = packet->rapturedelay;
+  game.celebratesize = packet->celebratesize;
   /* Must set num_specialist_types before iterating over them. */
   game.rgame.num_specialist_types = packet->num_specialist_types;
   game.rgame.default_specialist = packet->default_specialist;

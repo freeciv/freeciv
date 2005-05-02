@@ -1172,25 +1172,12 @@ static void place_partisans(struct city *pcity, int count)
 **************************************************************************/
 void make_partisans(struct city *pcity)
 {
-  struct player *pplayer;
-  int i, partisans;
+  int partisans;
 
-  if (num_role_units(L_PARTISAN)==0)
+  if (num_role_units(L_PARTISAN) <= 0
+      || pcity->original != pcity->owner
+      || get_city_bonus(pcity, EFT_INSPIRE_PARTISANS) <= 0) {
     return;
-  if (!tech_exists(game.rtech.u_partisan)
-      || game.global_advances[game.rtech.u_partisan] == 0
-      || pcity->original != pcity->owner)
-    return;
-
-  if (!government_has_flag(get_gov_pcity(pcity), G_INSPIRES_PARTISANS))
-    return;
-  
-  pplayer = city_owner(pcity);
-  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    int tech = game.rtech.partisan_req[i];
-    if (tech == A_LAST) break;
-    if (get_invention(pplayer, tech) != TECH_KNOWN) return;
-    /* Was A_COMMUNISM and A_GUNPOWDER */
   }
   
   partisans = myrand(1 + pcity->size/2) + 1;

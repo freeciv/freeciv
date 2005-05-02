@@ -1263,6 +1263,7 @@ void helptext_government(char *buf, int i, const char *user_text)
   for (j = 0; j < MAX_NUM_REQS; j++) {
     insert_requirement(gov->req + j, buf, bufsz);
   }
+#if 0
   if (gov->max_rate < 100 && game.rgame.changable_tax) {
     sprintf(buf + strlen(buf), 
             _("The maximum rate you can set for science, "
@@ -1313,6 +1314,7 @@ void helptext_government(char *buf, int i, const char *user_text)
               gov->free_happy);
     }
   }
+#endif
   output_type_iterate(ot) {
     if (gov->free_upkeep[ot] == G_CITY_SIZE_FREE) {
       sprintf(buf + strlen(buf),
@@ -1406,6 +1408,7 @@ void helptext_government(char *buf, int i, const char *user_text)
 				   "waste.\n"), get_output_name(ot));
     }
   } output_type_iterate_end;
+#if 0
   if (government_has_flag(gov, G_RAPTURE_CITY_GROWTH)) {
     sprintf(buf + strlen(buf),
 	    _("* You may grow your cities by "
@@ -1465,6 +1468,7 @@ void helptext_government(char *buf, int i, const char *user_text)
 	    _("* Buildings that normally confer "
 	      "bonuses against unhappiness will instead give gold.\n"));
   }
+#endif
   unit_type_iterate(ut) {
     struct unit_type *utype = get_unit_type(ut);
 

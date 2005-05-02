@@ -939,7 +939,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 
   if (pcity->surplus[O_SHIELD] < 0) {
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      if (utype_upkeep_cost(unit_type(punit), g, O_SHIELD) > 0
+      if (utype_upkeep_cost(unit_type(punit), pplayer, g, O_SHIELD) > 0
 	  && pcity->surplus[O_SHIELD] < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	notify_player_ex(pplayer, pcity->tile, E_UNIT_LOST,
@@ -957,7 +957,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
      * it! If we make it here all normal units are already disbanded, so only
      * undisbandable ones remain. */
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      int upkeep = utype_upkeep_cost(unit_type(punit), g, O_SHIELD);
+      int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, g, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
 	assert(unit_flag(punit, F_UNDISBANDABLE));
@@ -1266,9 +1266,6 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   struct city *capital;
   int dist, size, cost;
 
-  if (government_has_flag(get_gov_pcity(pcity), G_UNBRIBABLE)) {
-    return INCITE_IMPOSSIBLE_COST;
-  }
   if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {
     return INCITE_IMPOSSIBLE_COST;
   }
@@ -1450,7 +1447,8 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
     check_pollution(pcity);
 
     send_city_info(NULL, pcity);
-    if (pcity->anarchy>2 && government_has_flag(g, G_REVOLUTION_WHEN_UNHAPPY)) {
+    if (pcity->anarchy>2 
+        && get_player_bonus(pplayer, EFT_REVOLUTION_WHEN_UNHAPPY) > 0) {
       notify_player_ex(pplayer, pcity->tile, E_ANARCHY,
 		       _("The people have overthrown your %s, "
 			 "your country is in turmoil."),

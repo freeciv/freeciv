@@ -1144,9 +1144,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     free(slist);
   } unit_type_iterate_end;
 
-  lookup_tech_list(file, "u_specials", "partisan_req",
-		   game.rtech.partisan_req, filename);
-
   /* Some more consistency checking: */
   unit_type_iterate(i) {
     u = &unit_types[i];
@@ -1208,16 +1205,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   if (num_role_units(L_BARBARIAN_SEA) == 0 && game.barbarianrate > 0) {
     freelog(LOG_FATAL, "No role=sea raider barbarian units? (%s)", filename);
     exit(EXIT_FAILURE);
-  }
-
-  /* pre-calculate game.rtech.u_partisan
-     (tech for first partisan unit, or A_LAST */
-  if (num_role_units(L_PARTISAN)==0) {
-    game.rtech.u_partisan = A_LAST;
-  } else {
-    j = get_role_unit(L_PARTISAN, 0);
-    j = game.rtech.u_partisan = get_unit_type(j)->tech_requirement;
-    freelog(LOG_DEBUG, "partisan tech is %s", advances[j].name);
   }
 
   update_simple_ai_types();
@@ -1646,8 +1633,8 @@ static void load_government_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_governments(struct section_file *file)
 {
-  int j, nval;
-  char **sec, **slist;
+  int nval;
+  char **sec;
   const char *filename = secfile_filename(file);
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
@@ -1688,15 +1675,6 @@ static void load_ruleset_governments(struct section_file *file)
 	       secfile_lookup_str(file, "%s.graphic", sec[i]));
     sz_strlcpy(g->graphic_alt,
 	       secfile_lookup_str(file, "%s.graphic_alt", sec[i]));
-    
-    g->martial_law_max = secfile_lookup_int(file, "%s.martial_law_max", sec[i]);
-    g->martial_law_per = secfile_lookup_int(file, "%s.martial_law_per", sec[i]);
-    g->max_rate = secfile_lookup_int(file, "%s.max_single_rate", sec[i]);
-    g->civil_war = secfile_lookup_int(file, "%s.civil_war_chance", sec[i]);
-    g->empire_size_mod = secfile_lookup_int(file, "%s.empire_size_mod", sec[i]);
-    g->empire_size_inc =
-      secfile_lookup_int_default(file, 0, "%s.empire_size_inc", sec[i]);
-    g->rapture_size = secfile_lookup_int(file, "%s.rapture_size", sec[i]);
     
     g->free_happy
       = lookup_city_cost(file, sec[i], "unit_free_unhappy", filename);
@@ -1757,26 +1735,6 @@ static void load_ruleset_governments(struct section_file *file)
   } government_iterate_end;
 
   
-  /* flags: */
-  government_iterate(g) {
-    g->flags = 0;
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[g->index]);
-    for(j=0; j<nval; j++) {
-      char *sval = slist[j];
-      enum government_flag_id flag = government_flag_from_str(sval);
-      if (strcmp(sval, "-") == 0) {
-        continue;
-      }
-      if (flag == G_LAST_FLAG) {
-        freelog(LOG_FATAL, "government %s has unknown flag %s", g->name, sval);
-        exit(EXIT_FAILURE);
-      } else {
-        g->flags |= (1<<flag);
-      }
-    }
-    free(slist);
-  } government_iterate_end;
-
   /* titles */
   government_iterate(g) {
     int i = g->index;
@@ -1812,10 +1770,6 @@ static void send_ruleset_control(struct conn_list *dest)
   packet.add_to_size_limit = game.add_to_size_limit;
   packet.notradesize = game.notradesize;
   packet.fulltradesize = game.fulltradesize;
-
-  for(i=0; i<MAX_NUM_TECH_LIST; i++) {
-    packet.rtech_partisan_req[i] = game.rtech.partisan_req[i];
-  }
 
   packet.government_count = game.government_count;
   packet.government_when_anarchy = game.government_when_anarchy;
@@ -2382,6 +2336,10 @@ static void load_ruleset_cities(struct section_file *file)
   game.rgame.num_specialist_types = nval;
   free(specialist_names);
 
+  game.celebratesize = 
+    secfile_lookup_int_default(file, GAME_DEFAULT_CELEBRATESIZE,
+                               "parameters.celebratesize");
+
   game.rgame.changable_tax = 
     secfile_lookup_bool_default(file, TRUE, "specialist.changable_tax");
   game.rgame.forced_science = 
@@ -2902,14 +2860,6 @@ static void send_ruleset_governments(struct conn_list *dest)
 		     &gov.req_survives[j], &gov.req_value[j]);
     }
 
-    gov.max_rate         = g->max_rate;
-    gov.civil_war        = g->civil_war;
-    gov.martial_law_max  = g->martial_law_max;
-    gov.martial_law_per  = g->martial_law_per;
-    gov.empire_size_mod  = g->empire_size_mod;
-    gov.empire_size_inc  = g->empire_size_inc;
-    gov.rapture_size     = g->rapture_size;
-    
     gov.unit_happy_cost_factor  = g->unit_happy_cost_factor;
     gov.free_happy  = g->free_happy;
 
@@ -2929,7 +2879,6 @@ static void send_ruleset_governments(struct conn_list *dest)
       gov.waste_max_distance_cap[o] = g->waste[o].max_distance_cap;
     } output_type_iterate_end;
         
-    gov.flags = g->flags;
     gov.num_ruler_titles = g->num_ruler_titles;
 
     sz_strlcpy(gov.name, g->name_orig);
@@ -3066,6 +3015,8 @@ static void send_ruleset_game(struct conn_list *dest)
 		     &misc_p.specialist_req_value[index]);
     }
   } specialist_type_iterate_end;
+  misc_p.rapturedelay = game.rapturedelay;
+  misc_p.celebratesize = game.celebratesize;
   misc_p.changable_tax = game.rgame.changable_tax;
   misc_p.forced_science = game.rgame.forced_science;
   misc_p.forced_luxury = game.rgame.forced_luxury;

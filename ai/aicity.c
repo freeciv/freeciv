@@ -346,7 +346,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_MAKE_HAPPY:
 	  v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;
           if (city_list_size(pplayer->cities)
-                > game.cityfactor + gov->empire_size_mod) {
+                > game.cityfactor + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
             v += c * amount; /* offset large empire size */
           }
           v += c * amount;
@@ -359,16 +359,17 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  break;
 	case EFT_FORCE_CONTENT:
 	case EFT_MAKE_CONTENT:
-	  if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
+	  if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
             int factor = 2;
 
 	    v += MIN(amount, pcity->ppl_unhappy[4] + get_entertainers(pcity)) * 35;
 
             /* Try to build wonders to offset empire size unhappiness */
             if (city_list_size(pplayer->cities) 
-                > game.cityfactor + gov->empire_size_mod) {
-              if (gov->empire_size_mod > 0) {
-                factor += city_list_size(pplayer->cities) / gov->empire_size_inc;
+                > game.cityfactor + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
+              if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD) > 0) {
+                factor += city_list_size(pplayer->cities) 
+                          / get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
               }
               factor += 2;
             }
@@ -376,14 +377,14 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  }
 	  break;
 	case EFT_MAKE_CONTENT_MIL_PER:
-	  if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
+          if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
 	    v += MIN(pcity->ppl_unhappy[4] + get_entertainers(pcity),
 		     amount) * 25;
 	    v += MIN(amount, 5) * c;
 	  }
 	  break;
 	case EFT_MAKE_CONTENT_MIL:
-	  if (!government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
+          if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
 	    v += pcity->ppl_unhappy[4] * amount
 	      * MAX(unit_list_size(pcity->units_supported)
 		  - gov->free_happy, 0) * 2;
@@ -564,7 +565,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  v += (1 + ai->threats.invasions + !ai->threats.igwall) * c;
 	  break;
 	case EFT_NO_INCITE:
-	  if (!government_has_flag(gov, G_UNBRIBABLE)) {
+	  if (get_city_bonus(pcity, EFT_NO_INCITE) <= 0) {
 	    v += MAX((game.diplchance * 2 - game.incite_cost.total_factor) / 2
 		- game.incite_cost.improvement_factor * 5
 		- game.incite_cost.unit_factor * 5, 0);
@@ -586,6 +587,22 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    }
 	  } players_iterate_end;
 	  break;
+        /* Currently not supported for building AI - wait for modpack users */
+        case EFT_CIVIL_WAR_CHANCE:
+        case EFT_EMPIRE_SIZE_MOD:
+        case EFT_EMPIRE_SIZE_STEP:
+        case EFT_MAX_RATES:
+        case EFT_MARTIAL_LAW_EACH:
+        case EFT_MARTIAL_LAW_MAX:
+        case EFT_RAPTURE_GROW:
+        case EFT_UNBRIBABLE_UNITS:
+        case EFT_VETERAN_DIPLOMATS:
+        case EFT_REVOLUTION_WHEN_UNHAPPY:
+        case EFT_HAS_SENATE:
+        case EFT_INSPIRE_PARTISANS:
+        case EFT_HAPPINESS_TO_GOLD:
+        case EFT_FANATICS:
+          break;
 	case EFT_LAST:
 	  freelog(LOG_ERROR, "Bad effect type.");
 	  break;

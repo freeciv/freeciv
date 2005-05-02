@@ -237,8 +237,8 @@ const char *unit_class_name(Unit_Class_id id);
 const char *get_unit_name(Unit_type_id id);
 const char *get_units_with_flag_string(int flag);
 
-int utype_upkeep_cost(const struct unit_type *ut,
-		      const struct government *gov, Output_type_id otype);
+int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
+                      const struct government *g, Output_type_id otype);
 int utype_happy_cost(const struct unit_type *ut, const struct government *g);
 
 int can_upgrade_unittype(const struct player *pplayer, Unit_type_id id);

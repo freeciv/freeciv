@@ -1835,6 +1835,3 @@ The AWACS (Airborne Warning and Control System) is an airplane with an \
 advanced radar that can determine the location of enemy units over a \
 wide area.\
 ")
-
-[u_specials]
-partisan_req = "Gunpowder","Communism"

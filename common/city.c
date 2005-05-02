@@ -1104,9 +1104,10 @@ bool city_got_citywalls(const struct city *pcity)
 **************************************************************************/
 bool city_happy(const struct city *pcity)
 {
-  return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2 &&
-	  pcity->ppl_unhappy[4] == 0 && pcity->ppl_angry[4] == 0) &&
-          pcity->size >= get_gov_pcity(pcity)->rapture_size;
+  return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2
+	  && pcity->ppl_unhappy[4] == 0
+          && pcity->ppl_angry[4] == 0
+          && pcity->size >= game.celebratesize);
 }
 
 /**************************************************************************
@@ -1125,8 +1126,7 @@ bool city_unhappy(const struct city *pcity)
 **************************************************************************/
 bool base_city_celebrating(const struct city *pcity)
 {
-  return (pcity->size >= get_gov_pcity(pcity)->rapture_size
-	  && pcity->was_happy);
+  return (pcity->size >= game.celebratesize && pcity->was_happy);
 }
 
 /**************************************************************************
@@ -1143,11 +1143,9 @@ called after .was_happy was updated.
 **************************************************************************/
 bool city_rapture_grow(const struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
-
   return (pcity->rapture > 0 && pcity->surplus[O_FOOD] > 0
 	  && (pcity->rapture % game.rapturedelay) == 0
-	  && government_has_flag(g, G_RAPTURE_CITY_GROWTH));
+          && get_city_bonus(pcity, EFT_RAPTURE_GROW) > 0);
 }
 
 /**************************************************************************
@@ -1559,8 +1557,8 @@ static int content_citizens(const struct player *pplayer)
 {
   int cities = city_list_size(pplayer->cities);
   int content = game.unhappysize;
-  int basis = game.cityfactor + get_gov_pplayer(pplayer)->empire_size_mod;
-  int step = get_gov_pplayer(pplayer)->empire_size_inc;
+  int basis = game.cityfactor + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD);
+  int step = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
 
   if (cities > basis) {
     content--;
@@ -1599,8 +1597,7 @@ int get_city_tithes_bonus(const struct city *pcity)
 {
   int tithes_bonus = 0;
 
-  if (!government_has_flag(get_gov_pcity(pcity), 
-                           G_CONVERT_TITHES_TO_MONEY)) {
+  if (!get_city_bonus(pcity, EFT_HAPPINESS_TO_GOLD)) {
     return 0;
   }
 
@@ -1946,8 +1943,7 @@ static inline void citizen_happy_wonders(struct city *pcity, int *happy,
   }
   /* The rest falls through and lets unhappy people become content. */
 
-  if (get_city_bonus(pcity, EFT_NO_UNHAPPY) > 0
-      || government_has_flag(get_gov_pcity(pcity), G_NO_UNHAPPY_CITIZENS)) {
+  if (get_city_bonus(pcity, EFT_NO_UNHAPPY) > 0) {
     *content += *unhappy + *angry;
     *unhappy = 0;
     *angry = 0;
@@ -2103,6 +2099,7 @@ static inline void city_support(struct city *pcity,
 	 		        void (*send_unit_info) (struct player *pplayer,
 						        struct unit *punit))
 {
+  struct player *plr = city_owner(pcity);
   struct government *g = get_gov_pcity(pcity);
 
   int free_happy = citygov_free_happy(pcity, g);
@@ -2136,15 +2133,15 @@ static inline void city_support(struct city *pcity,
   /* military units in this city (need _not_ be home city) can make
      unhappy citizens content
    */
-  if (g->martial_law_max > 0) {
+  if (get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX) > 0) {
     unit_list_iterate(pcity->tile->units, punit) {
-      if (pcity->martial_law < g->martial_law_max
+      if (pcity->martial_law < get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX)
 	  && is_military_unit(punit)
 	  && punit->owner == pcity->owner) {
 	pcity->martial_law++;
       }
     } unit_list_iterate_end;
-    pcity->martial_law *= g->martial_law_per;
+    pcity->martial_law *= get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH);
   }
 
   /* loop over units, subtracting appropriate amounts of food, shields,
@@ -2159,7 +2156,7 @@ static inline void city_support(struct city *pcity,
     int old_unhappiness = this_unit->unhappiness;
 
     output_type_iterate(o) {
-      upkeep_cost[o] = utype_upkeep_cost(ut, g, o);
+      upkeep_cost[o] = utype_upkeep_cost(ut, plr, g, o);
       old_upkeep[o] = this_unit->upkeep[o];
     } output_type_iterate_end;
 

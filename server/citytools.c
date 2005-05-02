@@ -472,11 +472,8 @@ int do_make_unit_veteran(struct city *pcity, Unit_type_id id)
   }
   
   if (unit_type_flag(id, F_DIPLOMAT)) {
-    return (government_has_flag(get_gov_pcity(pcity), 
-                                G_BUILD_VETERAN_DIPLOMAT) ? 1 : 0);
-  }
-    
-  if (is_ground_unittype(id)) {
+    return (get_city_bonus(pcity, EFT_VETERAN_DIPLOMATS) ? 1 : 0);
+  } else if (is_ground_unittype(id)) {
     return (get_city_bonus(pcity, EFT_LAND_VETERAN) > 0) ? 1 : 0;
   } else {
     if (is_sailing_unittype(id)) {

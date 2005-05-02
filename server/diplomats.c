@@ -420,12 +420,10 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Check for unit from a bribable government. */
-  if (government_has_flag(get_gov_pplayer(unit_owner(pvictim)),
-			  G_UNBRIBABLE)) {
+  if (get_player_bonus(uplayer, EFT_UNBRIBABLE_UNITS)) {
     notify_player_ex(pplayer, pdiplomat->tile,
 		     E_MY_DIPLOMAT_FAILED,
 		     _("You can't bribe a unit from this nation."));
-    freelog (LOG_DEBUG, "bribe-unit: unit's government is unbribable");
     return;
   }
 
@@ -742,14 +740,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
     return;
 
   freelog (LOG_DEBUG, "incite: unit: %d", pdiplomat->id);
-
-  /* Check for city from a bribable government. */
-  if (government_has_flag (get_gov_pcity (pcity), G_UNBRIBABLE)) {
-    notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-		     _("You can't subvert a city from this nation."));
-    freelog (LOG_DEBUG, "incite: city's government is unbribable");
-    return;
-  }
 
   /* See if the city is subvertable. */
   if (get_city_bonus(pcity, EFT_NO_INCITE) > 0) {

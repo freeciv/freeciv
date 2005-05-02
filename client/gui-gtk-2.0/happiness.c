@@ -221,11 +221,11 @@ static void happiness_dialog_update_cities(struct happiness_dialog
 
   struct city *pcity = pdialog->pcity;
   struct player *pplayer = &game.players[pcity->owner];
-  struct government *g = get_gov_pcity(pcity);
   int cities = city_list_size(pplayer->cities);
   int content = game.unhappysize;
-  int basis = game.cityfactor + g->empire_size_mod;
-  int step = g->empire_size_inc;
+  int basis = game.cityfactor 
+              + get_player_bonus(game.player_ptr, EFT_EMPIRE_SIZE_MOD);
+  int step = get_player_bonus(game.player_ptr, EFT_EMPIRE_SIZE_STEP);
   int excess = cities - basis;
   int penalty = 0;
 
@@ -287,7 +287,7 @@ static void happiness_dialog_update_units(struct happiness_dialog *pdialog)
   int nleft = sizeof(buf);
   struct city *pcity = pdialog->pcity;
   struct government *g = get_gov_pcity(pcity);
-  int mlmax = g->martial_law_max;
+  int mlmax = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
   int uhcfac = g->unit_happy_cost_factor;
 
   my_snprintf(bptr, nleft, _("Units: "));
@@ -304,7 +304,8 @@ static void happiness_dialog_update_units(struct happiness_dialog *pdialog)
 				   "%d units maximum, ", mlmax), mlmax);
     bptr = end_of_strn(bptr, &nleft);
 
-    my_snprintf(bptr, nleft, _("%d per unit). "), g->martial_law_per);
+    my_snprintf(bptr, nleft, _("%d per unit). "), 
+                get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH));
   } 
   else if (uhcfac > 0) {
     my_snprintf(bptr, nleft,

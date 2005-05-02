@@ -439,7 +439,10 @@ void player_limit_to_government_rates(struct player *pplayer)
     return;
   }
 
-  maxrate = get_government_max_rate(pplayer->government);
+  maxrate = get_player_bonus(pplayer, EFT_MAX_RATES);
+  if (maxrate == 0) {
+    maxrate = 100; /* effects not initialized yet */
+  }
   surplus = 0;
   if (pplayer->economic.luxury > maxrate) {
     surplus += pplayer->economic.luxury - maxrate;

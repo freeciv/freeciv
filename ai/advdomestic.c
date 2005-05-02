@@ -149,7 +149,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       && (pcity->id != ai->wonder_city
           || get_unit_type(unit_type)->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(get_unit_type(unit_type),
-			 	                    gov, O_FOOD)) {
+			 	                    pplayer, gov, O_FOOD)) {
     /* The settler want is calculated in settlers.c called from
      * ai_manage_cities.  The expand value is the % that the AI should
      * value expansion (basically to handicap easier difficutly levels)
@@ -181,7 +181,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       && (pcity->id != ai->wonder_city
           || get_unit_type(unit_type)->pop_cost == 0)
       && pcity->surplus[O_FOOD] >= utype_upkeep_cost(get_unit_type(unit_type),
-				                     gov, O_FOOD)) {
+				                     pplayer, gov, O_FOOD)) {
     /* founder_want calculated in settlers.c, called from ai_manage_cities(). */
     int want = pcity->ai.founder_want;
 

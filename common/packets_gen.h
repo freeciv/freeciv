@@ -760,6 +760,8 @@ struct packet_ruleset_game {
   int tech_cost_double_year;
   int tech_leakage;
   int global_init_techs[MAX_NUM_TECH_LIST];
+  int rapturedelay;
+  int celebratesize;
   int autoupgrade_veteran_loss;
   bool killstack;
   int trireme_loss_chance[MAX_VET_LEVELS];
@@ -794,13 +796,6 @@ struct packet_ruleset_government {
   int req_range[MAX_NUM_REQS];
   int req_value[MAX_NUM_REQS];
   bool req_survives[MAX_NUM_REQS];
-  int max_rate;
-  int civil_war;
-  int martial_law_max;
-  int martial_law_per;
-  int empire_size_mod;
-  int empire_size_inc;
-  int rapture_size;
   int unit_happy_cost_factor;
   int unit_upkeep_factor[O_MAX];
   int free_happy;
@@ -814,7 +809,6 @@ struct packet_ruleset_government {
   int waste_distance_factor[O_MAX];
   int extra_waste_distance[O_MAX];
   int waste_max_distance_cap[O_MAX];
-  int flags;
   int num_ruler_titles;
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
@@ -933,7 +927,6 @@ struct packet_ruleset_control {
   int num_unit_types;
   int num_impr_types;
   int num_tech_types;
-  int rtech_partisan_req[MAX_NUM_TECH_LIST];
   int government_when_anarchy;
   int default_government;
   int government_count;

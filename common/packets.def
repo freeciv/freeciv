@@ -1014,6 +1014,8 @@ PACKET_RULESET_GAME=97;sc,lsend
   YEAR tech_cost_double_year;
   UINT8 tech_leakage;
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
+  UINT8 rapturedelay;
+  UINT8 celebratesize;
 
   UINT8 autoupgrade_veteran_loss;
   BOOL killstack;
@@ -1050,14 +1052,6 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT32 req_value[MAX_NUM_REQS];
   BOOL req_survives[MAX_NUM_REQS];
 
-  UINT8 max_rate;
-  UINT8 civil_war;
-  UINT8 martial_law_max;
-  UINT8 martial_law_per;
-  SINT8 empire_size_mod;
-  UINT8 empire_size_inc;
-  UINT8 rapture_size;
-      
   UINT8 unit_happy_cost_factor;
   UINT8 unit_upkeep_factor[O_MAX];
       
@@ -1074,8 +1068,6 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT8 waste_distance_factor[O_MAX];
   UINT8 extra_waste_distance[O_MAX];
   UINT8 waste_max_distance_cap[O_MAX];
-      
-  UINT16 flags;
       
   UINT8 num_ruler_titles;
        
@@ -1221,7 +1213,6 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 num_unit_types;
   UINT8 num_impr_types;
   UINT8 num_tech_types;
-  TECH_LIST rtech_partisan_req[MAX_NUM_TECH_LIST]; 
   UINT8 government_when_anarchy;
   UINT8 default_government;
   UINT8 government_count;

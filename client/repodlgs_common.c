@@ -99,8 +99,8 @@ void get_economy_report_units_data(struct unit_entry *entries,
 
   unit_type_iterate(utype) {
     unittype = get_unit_type(utype);
-    cost = utype_upkeep_cost(unittype, get_gov_pplayer(game.player_ptr),
-			     O_GOLD);
+    cost = utype_upkeep_cost(unittype, game.player_ptr,
+                             get_gov_pplayer(game.player_ptr), O_GOLD);
 
     if (cost == 0) {
       /* Short-circuit all of the following checks. */

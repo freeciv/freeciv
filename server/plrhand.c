@@ -768,7 +768,7 @@ void handle_player_rates(struct player *pplayer,
       || science > 100) {
     return;
   }
-  maxrate = get_government_max_rate (pplayer->government);
+  maxrate = get_player_bonus(pplayer, EFT_MAX_RATES);
   if (tax > maxrate || luxury > maxrate || science > maxrate) {
     const char *rtype;
 
@@ -871,7 +871,7 @@ static void finish_revolution(struct player *pplayer)
 
   if (!pplayer->ai.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
-    int max = get_government_max_rate(pplayer->government);
+    int max = get_player_bonus(pplayer, EFT_MAX_RATES);
 
     pplayer->economic.science
       = MIN(100 - pplayer->economic.luxury, max);
@@ -1087,7 +1087,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 
   old_type = pplayer->diplstates[other_player_id].type;
   pplayer2 = get_player(other_player_id);
-  has_senate = government_has_flag(get_gov_pplayer(pplayer), G_HAS_SENATE);
+  has_senate = (get_player_bonus(pplayer, EFT_HAS_SENATE) > 0);
 
   /* can't break a pact with yourself */
   if (pplayer == pplayer2) {
@@ -2125,7 +2125,7 @@ bool civil_war_triggered(struct player *pplayer)
   /* Get base probabilities */
 
   int dice = myrand(100); /* Throw the dice */
-  int prob = get_government_civil_war_prob(pplayer->government);
+  int prob = get_player_bonus(pplayer, EFT_CIVIL_WAR_CHANCE);
 
   /* Now compute the contribution of the cities. */
   

@@ -85,11 +85,11 @@ struct unit_type *unit_type(const struct unit *punit)
 /**************************************************************************
   Returns the upkeep of a unit of this type under the given government.
 **************************************************************************/
-int utype_upkeep_cost(const struct unit_type *ut,
+int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
 		      const struct government *g, Output_type_id otype)
 {
-  if (government_has_flag(g, G_FANATIC_TROOPS) &&
-      BV_ISSET(ut->flags, F_FANATIC)) {
+  if (get_player_bonus(pplayer, EFT_FANATICS)
+      && BV_ISSET(ut->flags, F_FANATIC)) {
     /* Special case: fanatics have no upkeep under fanaticism. */
     return 0;
   }
@@ -408,10 +408,6 @@ bool can_player_build_unit_direct(const struct player *p, Unit_type_id id)
   }
   if (unit_types[id].gov_requirement != G_MAGIC
       && unit_types[id].gov_requirement != p->government) {
-    return FALSE;
-  }
-  if (unit_type_flag(id, F_FANATIC)
-      && !government_has_flag(get_gov_pplayer(p), G_FANATIC_TROOPS)) {
     return FALSE;
   }
   if (get_invention(p,unit_types[id].tech_requirement) != TECH_KNOWN) {

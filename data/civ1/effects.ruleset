@@ -16,6 +16,272 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+[effect_civil_war_0]
+name    = "Civil_War_Chance"
+value   = 90
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Anarchy",   "Player"
+    }
+
+[effect_civil_war_1]
+name    = "Civil_War_Chance"
+value   = 80
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Despotism", "Player"
+    }
+
+[effect_civil_war_2]
+name    = "Civil_War_Chance"
+value   = 70
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Monarchy",  "Player"
+    }
+
+[effect_civil_war_3]
+name    = "Civil_War_Chance"
+value   = 50
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_civil_war_4]
+name    = "Civil_War_Chance"
+value   = 40
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Republic",  "Player"
+    }
+
+[effect_civil_war_5]
+name    = "Civil_War_Chance"
+value   = 30
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+    }
+
+[effect_empire_size_mod_0]
+; base value
+name    = "Empire_Size_Mod"
+value   = -5
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Anarchy",   "Player"
+    }
+
+[effect_empire_size_mod_1]
+name    = "Empire_Size_Mod"
+value   = -4
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Despotism", "Player"
+    }
+
+[effect_empire_size_mod_2]
+name    = "Empire_Size_Mod"
+value   = -3
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Monarchy",  "Player"
+    }
+
+[effect_empire_size_mod_3]
+name    = "Empire_Size_Mod"
+value   = -2
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_empire_size_mod_4]
+name    = "Empire_Size_Mod"
+value   = -1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Republic",  "Player"
+    }
+
+[effect_max_rates_0]
+name    = "Max_Rates"
+value   = 100
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Anarchy",   "Player"
+    }
+
+[effect_max_rates_1]
+name    = "Max_Rates"
+value   = 60
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Despotism", "Player"
+    }
+
+[effect_max_rates_2]
+name    = "Max_Rates"
+value   = 70
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Monarchy",  "Player"
+    }
+
+[effect_max_rates_3]
+name    = "Max_Rates"
+value   = 80
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_max_rates_4]
+name    = "Max_Rates"
+value   = 80
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Republic",  "Player"
+    }
+
+[effect_max_rates_5]
+name    = "Max_Rates"
+value   = 100
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+    }
+
+[effect_martial_law_each_0]
+name    = "Martial_Law_Each"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Anarchy",   "Player"
+    }
+
+[effect_martial_law_each_1]
+name    = "Martial_Law_Each"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Despotism", "Player"
+    }
+
+[effect_martial_law_each_2]
+name    = "Martial_Law_Each"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Monarchy",  "Player"
+    }
+
+[effect_martial_law_each_3]
+name    = "Martial_Law_Each"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_martial_law_max_0]
+name    = "Martial_Law_Max"
+value   = 100
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Anarchy",   "Player"
+    }
+
+[effect_martial_law_max_1]
+name    = "Martial_Law_Max"
+value   = 100
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Despotism", "Player"
+    }
+
+[effect_martial_law_max_2]
+name    = "Martial_Law_Max"
+value   = 3
+reqs    =
+
+    { "type",       "name",      "range"
+      "Gov", "Monarchy",  "Player"
+    }
+
+[effect_martial_law_max_3]
+name    = "Martial_Law_Max"
+value   = 100
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_rapture_grow_0]
+name    = "Rapture_Grow"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Republic",  "Player"
+    }
+
+[effect_rapture_grow_1]
+name    = "Rapture_Grow"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+    }
+
+[effect_democracy_0]
+name    = "Unbribable_Units"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+    }
+
+[effect_democracy_1]
+name    = "No_Incite"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+    }
+
+[effect_communism_0]
+name    = "Veteran_Diplomats"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_revolution_0]
+name    = "Revolution_When_Unhappy"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+    }
+
+[effect_senate_0]
+name    = "Has_Senate"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Republic",  "Player"
+    }
+
+[effect_senate_1]
+name    = "Has_Senate"
+value   = 1
+reqs    =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+    }
+
 ; Base max city size of 10
 [effect_aqueduct_size]
 name    = "Size_Adj"

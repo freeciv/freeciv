@@ -214,6 +214,7 @@ void game_init(void)
   game.civilwarsize= GAME_DEFAULT_CIVILWARSIZE;
   game.contactturns= GAME_DEFAULT_CONTACTTURNS;
   game.rapturedelay= GAME_DEFAULT_RAPTUREDELAY;
+  game.celebratesize= GAME_DEFAULT_CELEBRATESIZE;
   game.savepalace  = GAME_DEFAULT_SAVEPALACE;
   game.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
   game.unhappysize = GAME_DEFAULT_UNHAPPYSIZE;
