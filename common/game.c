@@ -453,6 +453,7 @@ void game_remove_player(struct player *pplayer)
   city_list_free(pplayer->cities);
 
   if (is_barbarian(pplayer)) game.nbarbarians--;
+  free(pplayer->research);
 }
 
 /***************************************************************
