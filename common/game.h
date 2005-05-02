@@ -353,8 +353,8 @@ extern bool is_server;
 #define GAME_MAX_DIPLOMACY           4
 
 #define GAME_DEFAULT_DIPLCHANCE      80
-#define GAME_MIN_DIPLCHANCE          1
-#define GAME_MAX_DIPLCHANCE          99
+#define GAME_MIN_DIPLCHANCE          40
+#define GAME_MAX_DIPLCHANCE          100
 
 #define GAME_DEFAULT_FREECOST        0
 #define GAME_MIN_FREECOST            0

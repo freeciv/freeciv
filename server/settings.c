@@ -721,17 +721,11 @@ struct settings_s settings[] = {
 
   GEN_INT("diplchance", game.diplchance,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Chance in diplomat/spy contests"),
+	  N_("Base chance for diplomats and spies to succeed."),
 	  /* xgettext:no-c-format */
-	  N_("A diplomatic unit acting against a city which has one or "
-	     "more defending diplomatic units has a diplchance "
-	     "(percent) chance to defeat each such defender. Also, the "
-	     "chance of a spy returning from a successful mission is "
-	     "diplchance percent (diplomats never return).  This value is "
-	     "also the basic chance of success for diplomats and spies. "
-	     "Defending spies are generally twice as capable as "
-	     "diplomats; veteran units are 50% more capable than "
-	     "non-veteran ones."), NULL, 
+	  N_("The chance of a spy returning from a successful mission and "
+	     "the base chance of success for diplomats and spies."),
+          NULL,
 	  GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE)
 
   GEN_BOOL("spacerace", game.spacerace,

@@ -564,10 +564,17 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     }
   }
   if (count > 0) {
-    notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-		     _("Your %s was caught in the attempt of"
-		       " stealing technology from %s."),
-		     unit_name(pdiplomat->type), pcity->name);
+    if (pcity->steal > 0 && !unit_flag (pdiplomat, F_SPY)) {
+      notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
+		       _("%s was expecting your attempt to steal technology "
+                         "again. Your %s was caught and executed."),
+		       pcity->name, unit_name(pdiplomat->type));
+    } else {
+      notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
+		       _("Your %s was caught in the attempt of"
+		         " stealing technology from %s."),
+		       unit_name(pdiplomat->type), pcity->name);
+    }
     notify_player_ex(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_FAILED,
 		     _("%s's %s failed to steal technology from %s."),
 		     pplayer->name, unit_name(pdiplomat->type), pcity->name);
@@ -1078,44 +1085,38 @@ static void diplomat_charge_movement (struct unit *pdiplomat, struct tile *ptile
 /**************************************************************************
   This determines if a diplomat/spy succeeds against some defender,
   who is also a diplomat or spy.
-  (Note: This is weird in order to try to conform to Civ2 rules.)
 
-  - Depends entirely upon game.diplchance and the defender:
-    - Spies are much better.
-    - Veterans are somewhat better.
-
-  - Return TRUE if the "attacker" succeeds.
+  Return TRUE if the "attacker" succeeds.
 **************************************************************************/
 static bool diplomat_success_vs_defender (struct unit *pattacker, 
 	struct unit *pdefender, struct tile *pdefender_tile)
 {
-  int att = game.diplchance;
-  int def = 100 - game.diplchance;
+  int chance = 50; /* Base 50% chance */
 
   if (unit_flag(pdefender, F_SUPERSPY)) {
     return TRUE;
   }
   if (unit_flag (pattacker, F_SPY)) {
-    att *= 2;
+    chance += 25;
   }
   if (unit_flag (pdefender, F_SPY)) {
-    def *= 2;
+    chance -= 25;
   }
 
-  att += (att/5.0) * pattacker->veteran;
-  def += (def/5.0) * pdefender->veteran;
+  chance += 15 * pattacker->veteran;
+  chance -= 15 * pdefender->veteran;
 
   if (pdefender_tile->city) {
-    def = def * (100 + get_city_bonus(pdefender_tile->city,
-				      EFT_SPY_RESISTANT)) / 100;
+    chance -= chance * get_city_bonus(pdefender_tile->city,
+                                      EFT_SPY_RESISTANT) / 100;
   } else {
     if (tile_has_special(pdefender_tile, S_FORTRESS)
        || tile_has_special(pdefender_tile, S_AIRBASE)) {
-	def = (def * 5) / 4;/* +25% */ 
+	chance -= chance * 25 / 100; /* 25% penalty */
     }
   }
   
-  return myrand(att) > myrand(def);
+  return myrand(100) > chance;
 }
 
 /**************************************************************************
