@@ -408,7 +408,9 @@ You impose limited but efficient martial law under Communism.  Each\
 [government_fundamentalism]
 
 name        = _("Fundamentalism")
-tech_req    = "Fundamentalism"
+reqs = { "type", "name", "range"
+         "tech", "Fundamentalism", "Player"
+       }
 graphic     = "gov.fundamentalism"
 graphic_alt = "-"
 flags       = "No_Unhappy_Citizens", "Convert_Tithes_To_Money", 
