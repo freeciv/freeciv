@@ -169,7 +169,8 @@ static void ai_manage_taxes(struct player *pplayer)
    * celebrate for other reasons than growth. Currently 
    * this is ignored. Maybe we need ruleset AI hints. */
   /* TODO: Allow celebrate individual cities? No modpacks use this yet. */
-  if (get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0) {
+  if (get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0
+      && !ai_handicap(pplayer, H_AWAY)) {
     int luxrate = pplayer->economic.luxury;
     int scirate = pplayer->economic.science;
     struct cm_parameter cmp;
