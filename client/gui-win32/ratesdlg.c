@@ -58,7 +58,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   lux_lock=IsDlgButtonChecked(ratesdlg,ID_RATES_LUXURYLOCK);
   sci_lock=IsDlgButtonChecked(ratesdlg,ID_RATES_SCIENCELOCK);
   
-  maxrate=get_government_max_rate(game.player_ptr->government);
+  maxrate = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
   /* This's quite a simple-minded "double check".. */     
   tax=MIN(tax, maxrate);
   lux=MIN(lux, maxrate);
@@ -330,7 +330,7 @@ popup_rates_dialog(void)
   
     my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
 		get_government_name(game.player_ptr->government),
-		get_government_max_rate(game.player_ptr->government)); 
+		get_player_bonus(game.player_ptr, EFT_MAX_RATES));
     SetWindowText(GetDlgItem(ratesdlg,ID_RATES_MAX),buf);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_TAX),0,10,TRUE);
     ScrollBar_SetRange(GetDlgItem(ratesdlg,ID_RATES_LUXURY),0,10,TRUE);
