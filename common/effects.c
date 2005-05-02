@@ -411,6 +411,8 @@ void ruleset_cache_free(void)
       ruleset_cache.reqs.buildings[i] = NULL;
     }
   }
+
+  initialized = FALSE;
 }
 
 /**************************************************************************
