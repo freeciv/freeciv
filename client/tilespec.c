@@ -48,7 +48,7 @@
 #include "mapview_g.h"		/* for update_map_canvas_visible */
 
 #include "civclient.h"		/* for get_client_state() */
-#include "climap.h"		/* for tile_get_known() */
+#include "climap.h"		/* for client_tile_get_known() */
 #include "control.h"		/* for fill_xxx */
 #include "goto.h"
 #include "options.h"		/* for fill_xxx */
@@ -2710,7 +2710,7 @@ static void build_tile_data(const struct tile *ptile,
   for (dir = 0; dir < 8; dir++) {
     struct tile *tile1 = mapstep(ptile, dir);
 
-    if (tile1 && tile_get_known(tile1) != TILE_UNKNOWN) {
+    if (tile1 && client_tile_get_known(tile1) != TILE_UNKNOWN) {
       tspecial_near[dir] = tile_get_special(tile1);
       ttype_near[dir] = tile_get_terrain(tile1);
     } else {
@@ -3190,7 +3190,7 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
   int city_x, city_y;
   const int NUM_CITY_COLORS = t->sprites.city.worked_tile_overlay.size;
 
-  if (!ptile || tile_get_known(ptile) == TILE_UNKNOWN) {
+  if (!ptile || client_tile_get_known(ptile) == TILE_UNKNOWN) {
     return 0;
   }
 
@@ -3273,7 +3273,7 @@ static int fill_blending_sprite_array(const struct tileset *t,
       Terrain_type_id other = ttype_near[DIR4_TO_DIR8[dir]];
 
       if (!tile1
-	  || tile_get_known(tile1) == TILE_UNKNOWN
+	  || client_tile_get_known(tile1) == TILE_UNKNOWN
 	  || other == ttype
 	  || !t->sprites.terrain[other]->is_blended) {
 	continue;
@@ -3299,7 +3299,7 @@ static int fill_fog_sprite_array(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
 
   if (t->fogstyle == FOG_SPRITE && draw_fog_of_war
-      && ptile && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
+      && ptile && client_tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
     /* With FOG_AUTO, fog is done this way. */
     ADD_SPRITE_SIMPLE(t->sprites.tx.fog);
   }
@@ -3314,7 +3314,7 @@ static int fill_fog_sprite_array(const struct tileset *t,
       if (!pcorner->tile[i]) {
 	value = fogged;
       } else {
-	switch (tile_get_known(pcorner->tile[i])) {
+	switch (client_tile_get_known(pcorner->tile[i])) {
 	case TILE_KNOWN:
 	  value = known;
 	  break;
@@ -3486,7 +3486,7 @@ static int fill_terrain_sprite_array(struct tileset *t,
   if (l == 0) {
 #define UNKNOWN(dir)                                        \
     ((adjc_tile = mapstep(ptile, (dir)))		    \
-     && tile_get_known(adjc_tile) == TILE_UNKNOWN)
+     && client_tile_get_known(adjc_tile) == TILE_UNKNOWN)
 
     switch (t->darkness_style) {
     case DARKNESS_NONE:
@@ -3562,7 +3562,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       struct player *powner = tile ? tile_get_owner(tile) : NULL;
       int dummy_x, dummy_y;
 
-      known[i] = tile && tile_get_known(tile) != TILE_UNKNOWN;
+      known[i] = tile && client_tile_get_known(tile) != TILE_UNKNOWN;
       unit[i] = tile && pfocus && unit_flag(pfocus, F_CITIES)
 	&& city_can_be_built_here(pfocus->tile, pfocus)
 	&& base_map_to_city_map(&dummy_x, &dummy_y, pfocus->tile, tile);
@@ -3639,7 +3639,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
 	}
       }
     }
-  } else if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+  } else if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
     int cx, cy;
     enum city_tile_type ttype;
     struct city *dummy;
@@ -3763,7 +3763,7 @@ int fill_sprite_array(struct tileset *t,
     }
   }
 
-  if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+  if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
     build_tile_data(ptile,
 		    &ttype, &tspecial, ttype_near, tspecial_near);
   }
@@ -3789,7 +3789,7 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_TERRAIN2:
     /* Terrain and specials.  These are drawn in multiple layers so that
      * upper layers will cover layers underneath. */
-    if (ptile && !solid_bg && tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (ptile && !solid_bg && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       assert(MAX_NUM_LAYERS == 2);
       sprs += fill_terrain_sprite_array(t, sprs,
 					(layer == LAYER_TERRAIN1) ? 0 : 1,
@@ -3798,7 +3798,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_WATER:
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (is_ocean(ttype) && draw_terrain && !solid_bg) {
 	for (dir = 0; dir < 4; dir++) {
 	  if (contains_special(tspecial_near[DIR4_TO_DIR8[dir]], S_RIVER)) {
@@ -3829,14 +3829,14 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_ROADS:
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       sprs += fill_road_rail_sprite_array(t, sprs,
 					  tspecial, tspecial_near, pcity);
     }
     break;
 
   case LAYER_SPECIAL1:
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_specials) {
 	if (contains_special(tspecial, S_SPECIAL_1)) {
 	  ADD_SPRITE_SIMPLE(t->sprites.terrain[ttype]->special[0]);
@@ -3891,7 +3891,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_SPECIAL2:
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_fortress_airbase && contains_special(tspecial, S_AIRBASE)) {
 	ADD_SPRITE_FULL(t->sprites.tx.airbase);
       }
@@ -3940,7 +3940,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_SPECIAL3:
-    if (ptile && tile_get_known(ptile) != TILE_UNKNOWN) {
+    if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (t->is_isometric && draw_fortress_airbase
 	  && contains_special(tspecial, S_FORTRESS)) {
 	/* Draw fortress front in iso-view (non-iso view only has a fortress

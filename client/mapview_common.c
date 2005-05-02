@@ -925,7 +925,7 @@ void put_one_element(struct canvas *pcanvas, enum mapview_layer layer,
 				ptile, pedge, pcorner,
 				punit, pcity, citymode);
   bool fog = (ptile && draw_fog_of_war
-	      && tile_get_known(ptile) == TILE_KNOWN_FOGGED);
+	      && client_tile_get_known(ptile) == TILE_KNOWN_FOGGED);
 
   /*** Draw terrain and specials ***/
   put_drawn_sprites(pcanvas, canvas_x, canvas_y, count, tile_sprs, fog);
@@ -1092,7 +1092,7 @@ static void put_one_tile(struct canvas *pcanvas, enum mapview_layer layer,
 			 struct tile *ptile, int canvas_x, int canvas_y,
 			 const struct city *citymode)
 {
-  if (tile_get_known(ptile) != TILE_UNKNOWN) {
+  if (client_tile_get_known(ptile) != TILE_UNKNOWN) {
     put_one_element(pcanvas, layer, ptile, NULL, NULL,
 		    get_drawable_unit(tileset, ptile, citymode),
 		    ptile->city, canvas_x, canvas_y, citymode);

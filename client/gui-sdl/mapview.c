@@ -2283,7 +2283,7 @@ static SDL_Surface * create_iso_city_map(struct city *pCity)
     for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
         if (is_valid_city_coords(city_x, city_y)
 	  && city_map_to_map(&map_x, &map_y, pCity, city_x, city_y)
-	  && tile_get_known(map_x, map_y)
+	  && client_tile_get_known(map_x, map_y)
 	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
 	  draw_map_cell(pDest, canvas_x,
 		  canvas_y + HALF_tileset_tile_height(tileset), map_x, map_y, 1);
@@ -2367,7 +2367,7 @@ static SDL_Surface * create_noiso_city_map(struct city *pCity)
     for (city_y = 0; city_y<CITY_MAP_SIZE; city_y++) {
         if (is_valid_city_coords(city_x, city_y)
 	  && city_map_to_map(&map_x, &map_y, pCity, city_x, city_y)
-	  && tile_get_known(map_x, map_y)
+	  && client_tile_get_known(map_x, map_y)
 	  && city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y)) {
 	put_one_tile(&store, map_x, map_y,  canvas_x, canvas_y, 1);
 	if (get_worker_city(pCity, city_x, city_y) == C_TILE_UNAVAILABLE)

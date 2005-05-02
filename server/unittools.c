@@ -2938,7 +2938,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       /* We're only concerned with known, unfogged tiles which may contain
        * hidden units that are no longer visible.  These units will not
        * have been handled by the fog code, above. */
-      if (map_get_known(tile1, pplayer) == TILE_KNOWN) {
+      if (tile_get_known(tile1, pplayer) == TILE_KNOWN) {
         unit_list_iterate(tile1->units, punit2) {
           if (punit2 != punit && !can_player_see_unit(pplayer, punit2)) {
 	    unit_goes_out_of_sight(pplayer, punit2);

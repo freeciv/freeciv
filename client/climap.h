@@ -19,7 +19,7 @@
 
 #define map_exists() (map.xsize != 0)
 
-enum known_type tile_get_known(const struct tile *ptile);
+enum known_type client_tile_get_known(const struct tile *ptile);
 
 enum direction8 gui_to_map_dir(enum direction8 gui_dir);
 enum direction8 map_to_gui_dir(enum direction8 map_dir);

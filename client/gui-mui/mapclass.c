@@ -2142,7 +2142,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       city_map_checked_iterate(pcity->tile, x, y, map_x, map_y) {
 	int canvas_x, canvas_y;
 
-	if (tile_get_known(map_x, map_y)
+	if (client_tile_get_known(map_x, map_y)
 	    && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)) {
 	  put_one_tile_full(_rp(o), map_x, map_y, canvas_x + _mleft(o),
 			    canvas_y + _mtop(o), 1);
@@ -2153,7 +2153,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       city_map_checked_iterate(pcity->tile, x, y, map_x, map_y) {
 	int canvas_x, canvas_y;
 
-	if (tile_get_known(map_x, map_y)
+	if (client_tile_get_known(map_x, map_y)
 	    && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	    && pcity->city_map[x][y]==C_TILE_WORKER) {
 	  put_city_output_tile(_rp(o),
@@ -2171,7 +2171,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
       city_map_checked_iterate(pcity->tile, x, y, map_x, map_y) {
 	int canvas_x, canvas_y;
 
-	if (tile_get_known(map_x, map_y)
+	if (client_tile_get_known(map_x, map_y)
 	    && city_to_canvas_pos(&canvas_x, &canvas_y, x, y)
 	    && pcity->city_map[x][y]==C_TILE_UNAVAILABLE) {
 	  canvas_x += _mleft(o);
@@ -2215,7 +2215,7 @@ static ULONG CityMap_Draw(struct IClass * cl, Object * o, struct MUIP_Draw * msg
 	    int tilex, tiley;
 
 	    if (city_map_to_map(&tilex, &tiley, pcity, x, y)
-		&& tile_get_known(tilex, tiley)) {
+		&& client_tile_get_known(tilex, tiley)) {
 	      put_tile(_rp(o), tilex, tiley, x1, y1, 1);
 
 	      if (pcity->city_map[x][y] == C_TILE_WORKER) {

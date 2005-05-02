@@ -119,7 +119,7 @@ static void popit(GdkEventButton *event, struct tile *ptile)
   struct unit *punit;
   bool is_orders;
 
-  if (tile_get_known(ptile) >= TILE_KNOWN_FOGGED) {
+  if (client_tile_get_known(ptile) >= TILE_KNOWN_FOGGED) {
     p=gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_app_paintable(p, TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);

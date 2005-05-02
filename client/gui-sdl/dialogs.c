@@ -29,7 +29,7 @@
 
 #include <SDL/SDL.h>
 
-#include "climap.h" /* for tile_get_known() */
+#include "climap.h" /* for client_tile_get_known() */
 #include "combat.h"
 #include "fcintl.h"
 #include "log.h"
@@ -903,7 +903,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   pTerrain_Info_Dlg->pEndWidgetList = pWindow;
   /* ---------- */
   
-  if(tile_get_known(x, y) >= TILE_KNOWN_FOGGED) {
+  if(client_tile_get_known(x, y) >= TILE_KNOWN_FOGGED) {
   
     my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n%s"),
 		sdl_map_get_tile_info_text(pTile),

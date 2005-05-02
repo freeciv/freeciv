@@ -1281,7 +1281,7 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 
       if (pcity 
           && (pcity->client.occupied 
-              || map_get_known(ptile, pplayer) == TILE_KNOWN_FOGGED)) {
+              || tile_get_known(ptile, pplayer) == TILE_KNOWN_FOGGED)) {
         /* If the city is fogged, we assume it's occupied */
         return FALSE;
       }

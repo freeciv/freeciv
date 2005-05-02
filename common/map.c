@@ -719,23 +719,6 @@ int map_move_cost(struct unit *punit, const struct tile *ptile)
   return tile_move_cost_ptrs(punit, punit->tile, ptile);
 }
 
-/*************************************************************************
-  Return a known_type enumeration value for the tile.
-
-  Note that the client only knows known data about game.player_ptr.
-*************************************************************************/
-enum known_type map_get_known(const struct tile *ptile,
-			      const struct player *pplayer)
-{
-  if (!BV_ISSET(ptile->tile_known, pplayer->player_no)) {
-    return TILE_UNKNOWN;
-  } else if (!BV_ISSET(ptile->tile_seen, pplayer->player_no)) {
-    return TILE_KNOWN_FOGGED;
-  } else {
-    return TILE_KNOWN;
-  }
-}
-
 /***************************************************************
 ...
 ***************************************************************/

@@ -469,7 +469,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   int activity_time, move_cost, moves_left;
   int total_cost, total_extra;
 
-  if (map_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
+  if (tile_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
     return -1;
   }
 
@@ -569,7 +569,7 @@ static int get_connect_irrig(const struct tile *src_tile,
 {
   int activity_time, move_cost, moves_left, total_cost;
 
-  if (map_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
+  if (tile_get_known(dest_tile, param->owner) == TILE_UNKNOWN) {
     return -1;
   }
 

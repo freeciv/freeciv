@@ -200,7 +200,7 @@ static void init_node(struct pf_map *pf_map, struct pf_node * node,
   if (params->omniscience) {
     node->node_known_type = TILE_KNOWN;
   } else {
-    node->node_known_type = map_get_known(ptile, params->owner);
+    node->node_known_type = tile_get_known(ptile, params->owner);
   }
 
   /* Establish the tile behavior */

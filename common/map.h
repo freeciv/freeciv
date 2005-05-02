@@ -249,9 +249,6 @@ struct tile *index_to_tile(int index);
 bool is_real_map_pos(int x, int y);
 bool is_normal_map_pos(int x, int y);
 
-enum known_type map_get_known(const struct tile *ptile,
-			      const struct player *pplayer);
-
 bool is_singular_tile(const struct tile *ptile, int dist);
 bool normalize_map_pos(int *x, int *y);
 struct tile *nearest_real_tile(int x, int y);

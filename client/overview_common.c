@@ -105,7 +105,7 @@ static enum color_std overview_tile_color(struct tile *ptile)
   struct unit *punit;
   struct city *pcity;
 
-  if (tile_get_known(ptile) == TILE_UNKNOWN) {
+  if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
     return COLOR_STD_BLACK;
   } else if ((pcity = tile_get_city(ptile))) {
     if (pcity->owner == game.player_idx) {
@@ -120,13 +120,13 @@ static enum color_std overview_tile_color(struct tile *ptile)
       return COLOR_STD_RED;
     }
   } else if (is_ocean(ptile->terrain)) {
-    if (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
+    if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
       return COLOR_STD_RACE4;
     } else {
       return COLOR_STD_OCEAN;
     }
   } else {
-    if (tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
+    if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
       return COLOR_STD_BACKGROUND;
     } else {
       return COLOR_STD_GROUND;

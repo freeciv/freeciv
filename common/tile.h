@@ -64,6 +64,8 @@ void tile_clear_special(struct tile *ptile, enum tile_special_type spe);
 void tile_clear_all_specials(struct tile *ptile);
 void tile_set_continent(struct tile *ptile, Continent_id val);
 Continent_id tile_get_continent(const struct tile *ptile);
+enum known_type tile_get_known(const struct tile *ptile,
+			      const struct player *pplayer);
 
 /* An arbitrary somewhat integer value.  Activity times are multiplied by
  * this amount, and divided by them later before being used.  This may

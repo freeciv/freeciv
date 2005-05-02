@@ -425,7 +425,7 @@ void center_on_something(void)
      * a misuse of map.xsize and map.ysize (which are native dimensions),
      * it should give a sufficiently large radius. */
     iterate_outward(ctile, map.xsize + map.ysize, ptile) {
-      if (tile_get_known(ptile) != TILE_UNKNOWN) {
+      if (client_tile_get_known(ptile) != TILE_UNKNOWN) {
 	ctile = ptile;
 	break;
       }

@@ -32,9 +32,9 @@
  uses the stock tilespec.c file, this function serves as a wrapper.
 
 *************************************************************************/
-enum known_type tile_get_known(const struct tile *ptile)
+enum known_type client_tile_get_known(const struct tile *ptile)
 {
-  return map_get_known(ptile, game.player_ptr);
+  return tile_get_known(ptile, game.player_ptr);
 }
 
 /**************************************************************************

@@ -1870,7 +1870,7 @@ void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
     {
       if (is_valid_city_coords(city_x, city_y)
 	&& city_map_to_map(&map_x, &map_y, pCity, city_x, city_y)
-	&& tile_get_known(map_x, map_y)
+	&& client_tile_get_known(map_x, map_y)
 	&& sdl_city_to_canvas_pos(&canvas_x, &canvas_y, city_x, city_y))
       {
         dest.x = canvas_x;

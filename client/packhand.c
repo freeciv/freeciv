@@ -1903,7 +1903,7 @@ This was once very ugly...
 void handle_tile_info(struct packet_tile_info *packet)
 {
   struct tile *ptile = map_pos_to_tile(packet->x, packet->y);
-  enum known_type old_known = tile_get_known(ptile);
+  enum known_type old_known = client_tile_get_known(ptile);
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
 
@@ -1965,7 +1965,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     }
   }
 
-  if (tile_get_known(ptile) <= TILE_KNOWN_FOGGED
+  if (client_tile_get_known(ptile) <= TILE_KNOWN_FOGGED
       && old_known == TILE_KNOWN) {
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
@@ -1998,9 +1998,9 @@ void handle_tile_info(struct packet_tile_info *packet)
      * A tile can only change if it was known before and is still
      * known. In the other cases the tile is new or removed.
      */
-    if (known_changed && tile_get_known(ptile) == TILE_KNOWN) {
+    if (known_changed && client_tile_get_known(ptile) == TILE_KNOWN) {
       agents_tile_new(ptile);
-    } else if (known_changed && tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
+    } else if (known_changed && client_tile_get_known(ptile) == TILE_KNOWN_FOGGED) {
       agents_tile_remove(ptile);
     } else {
       agents_tile_changed(ptile);
@@ -2010,7 +2010,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   /* refresh tiles */
   if (can_client_change_view()) {
     /* the tile itself (including the necessary parts of adjacent tiles) */
-    if (tile_changed || old_known != tile_get_known(ptile)) {
+    if (tile_changed || old_known != client_tile_get_known(ptile)) {
       refresh_tile_mapcanvas(ptile, TRUE, FALSE);
     }
   }

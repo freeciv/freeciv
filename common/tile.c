@@ -142,6 +142,23 @@ void tile_set_continent(struct tile *ptile, Continent_id val)
 }
 
 /****************************************************************************
+  Return a known_type enumeration value for the tile.
+
+  Note that the client only knows known data about game.player_ptr.
+****************************************************************************/
+enum known_type tile_get_known(const struct tile *ptile,
+			       const struct player *pplayer)
+{
+  if (!BV_ISSET(ptile->tile_known, pplayer->player_no)) {
+    return TILE_UNKNOWN;
+  } else if (!BV_ISSET(ptile->tile_seen, pplayer->player_no)) {
+    return TILE_KNOWN_FOGGED;
+  } else {
+    return TILE_KNOWN;
+  }
+}
+
+/****************************************************************************
   Time to complete the given activity on the given tile.
 ****************************************************************************/
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
