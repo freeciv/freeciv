@@ -632,20 +632,6 @@ static void gamelog_status(char *buffer, int len) {
     }
   } players_iterate_end;
 
-  /* Draws and team victories */
-  count = 0;
-  players_iterate(pplayer) {
-    if (!is_barbarian(pplayer)) {
-      if ((BV_ISSET_ANY(srvarg.draw)
-           && BV_ISSET(srvarg.draw, pplayer->player_no))
-          || players_on_same_team(pplayer, highest_plr)) {
-        /* We win a shared victory, so equal the score. */
-        rank[count].value = highest;
-      }
-      count++;
-    }
-  } players_iterate_end;
-
   buffer[0] = '\0';
   qsort(rank, count, sizeof(struct player_score_entry), secompare1);
 

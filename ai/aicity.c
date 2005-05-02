@@ -239,9 +239,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   struct impr_type *pimpr = get_improvement_type(id);
   int v = 0;
   int cities[REQ_RANGE_LAST];
-  int nplayers = game.nplayers
-                 - game.nbarbarians
-                 - team_count_members_alive(pplayer->team);
+  int nplayers = game.nplayers - game.nbarbarians;
   struct ai_data *ai = ai_data_get(pplayer);
   struct tile *ptile = pcity->tile;
   bool capital = is_capital(pcity);
@@ -250,6 +248,15 @@ static void adjust_building_want_by_effects(struct city *pcity,
     .type = REQ_BUILDING,
     .value = {.building = id}
   };
+
+  /* Remove team members from the equation */
+  players_iterate(aplayer) {
+    if (aplayer->team != TEAM_NONE
+        && aplayer->team == pplayer->team
+        && aplayer != pplayer) {
+      nplayers--;
+    }
+  } players_iterate_end;
 
   /* Base want is calculated above using a more direct approach. */
   v += base_want(pplayer, pcity, id);

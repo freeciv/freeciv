@@ -129,7 +129,6 @@ Team_type_id team_find_by_name(const char *team_name);
 struct team *team_get_by_id(Team_type_id id);
 void team_add_player(struct player *pplayer, const char *team_name);
 void team_remove_player(struct player *pplayer);
-int team_count_members_alive(Team_type_id id);
 
 struct nation_group* add_new_nation_group(const char* name);
 int get_nation_groups_count(void);

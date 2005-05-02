@@ -310,12 +310,18 @@ const struct command commands[] = {
       "to <turn> and multiply <value> by <valuemult>.  Use this command in "
       "concert with the option \"timeout\". Defaults are 0 0 0 1")
   },
-  {"endgame",	ALLOW_CTRL,
+  {"endgame",	ALLOW_HACK,
    /* TRANS: translate text between <> only */
-   N_("endgame <player1 player2 player3 ...>"),
-   N_("End the game.  If players are listed, these win the game."),
-   N_("This command ends the game immediately and credits the given players, "
-      "if any, with winning it.")
+   N_("endgame"),
+   N_("End the game immediately in a draw."), NULL,
+  },
+  {"surrender",	ALLOW_INFO,
+   /* TRANS: translate text between <> only */
+   N_("surrender"),
+   N_("Concede the game."),
+   N_("This tells everyone else that you concede the game, and if all "
+      "but one player (or one team) have conceded the game in this way "
+      "then the game ends."),
   },
   {"remove",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */

@@ -200,6 +200,7 @@ struct player {
   bool is_alive;
   bool is_observer; /* is the player a global observer */ 
   bool is_dying; /* set once the player is in the process of dying */
+  bool surrendered; /* has indicated willingness to surrender */
 
   /* Turn in which the player's revolution is over; see update_revolution. */
   int revolution_finishes;

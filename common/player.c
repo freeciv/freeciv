@@ -121,6 +121,7 @@ void player_init(struct player *plr)
   plr->was_created = FALSE;
   plr->is_alive=TRUE;
   plr->is_dying = FALSE;
+  plr->surrendered = FALSE;
   BV_CLR_ALL(plr->embassy);
   plr->reputation=GAME_DEFAULT_REPUTATION;
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {

@@ -343,26 +343,6 @@ struct team *team_get_by_id(Team_type_id id)
 }
 
 /***************************************************************
-  Count living members of given team
-***************************************************************/
-int team_count_members_alive(Team_type_id id)
-{
-  struct team *pteam = team_get_by_id(id);
-  int count = 0;
-
-  if (pteam == NULL) {
-    return 0;
-  }
-  assert(pteam->id < MAX_NUM_TEAMS && pteam->id != TEAM_NONE);
-  players_iterate(pplayer) {
-    if (pplayer->is_alive && pplayer->team == pteam->id) {
-      count++;
-    }
-  } players_iterate_end;
-  return count;
-}
-
-/***************************************************************
   Set a player to a team. Removes previous team affiliation,
   creates a new team if it does not exist.
 ***************************************************************/

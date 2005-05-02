@@ -93,6 +93,7 @@ static bool take_command(struct connection *caller, char *name, bool check);
 static bool detach_command(struct connection *caller, char *name, bool check);
 static bool start_command(struct connection *caller, char *name, bool check);
 static bool end_command(struct connection *caller, char *str, bool check);
+static bool surrender_command(struct connection *caller, char *str, bool check);
 
 enum vote_type {
   VOTE_NONE, VOTE_YES, VOTE_NO
@@ -3501,6 +3502,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return start_command(caller, arg, check);
   case CMD_END_GAME:
     return end_command(caller, arg, check);
+  case CMD_SURRENDER:
+    return surrender_command(caller, arg, check);
   case CMD_NUM:
   case CMD_UNRECOGNIZED:
   case CMD_AMBIGUOUS:
@@ -3512,60 +3515,52 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
 }
 
 /**************************************************************************
-  End the game and accord victory to the listed players, if any.
+  End the game immediately in a draw.
 **************************************************************************/
 static bool end_command(struct connection *caller, char *str, bool check)
 {
   if (server_state == RUN_GAME_STATE) {
-    char *arg[MAX_NUM_PLAYERS];
-    int ntokens = 0, i;
-    enum m_pre_result plr_result;
-    bool result = TRUE;
-    char buf[MAX_LEN_CONSOLE_LINE];
-
-    if (str != NULL || strlen(str) > 0) {
-      sz_strlcpy(buf, str);
-      ntokens = get_tokens(buf, arg, MAX_NUM_PLAYERS, TOKEN_DELIMITERS);
-    }
-    /* Ensure players exist */
-    for (i = 0; i < ntokens; i++) {
-      struct player *pplayer = find_player_by_name_prefix(arg[i], &plr_result);
-
-      if (!pplayer) {
-        cmd_reply_no_such_player(CMD_TEAM, caller, arg[i], plr_result);
-        result = FALSE;
-        goto cleanup;
-      } else if (pplayer->is_alive == FALSE) {
-        cmd_reply(CMD_END_GAME, caller, C_FAIL, _("But %s is dead!"),
-                  pplayer->name);
-        result = FALSE;
-        goto cleanup;
-      }
-    }
     if (check) {
-      goto cleanup;
+      return TRUE;
     }
-    if (ntokens > 0) {
-      /* Mark players for victory. */
-      for (i = 0; i < ntokens; i++) {
-        BV_SET(srvarg.draw, 
-               find_player_by_name_prefix(arg[i], &plr_result)->player_no);
-      }
-    }
+    notify_conn_ex(game.est_connections, NULL, E_GAME_END,
+                   _("Game ended in a draw."));
+    gamelog(GAMELOG_JUDGE, GL_DRAW,
+            "Game ended in a draw by /endgame.");
     server_state = GAME_OVER_STATE;
     force_end_of_sniff = TRUE;
     cmd_reply(CMD_END_GAME, caller, C_OK,
               _("Ending the game. The server will restart once all clients "
               "have disconnected."));
-
-    cleanup:
-    for (i = 0; i < ntokens; i++) {
-      free(arg[i]);
-    }
     return TRUE;
   } else {
     cmd_reply(CMD_END_GAME, caller, C_FAIL, 
               _("Cannot end the game: no game running."));
+    return FALSE;
+  }
+}
+
+/**************************************************************************
+  Concede the game.  You still continue playing until all but one player
+  or team remains un-conceded.
+**************************************************************************/
+static bool surrender_command(struct connection *caller, char *str, bool check)
+{
+  if (server_state == RUN_GAME_STATE && caller && caller->player) {
+    if (check) {
+      return TRUE;
+    }
+    notify_conn_ex(game.est_connections, NULL, E_GAME_END,
+                   _("%s has conceded the game and can no longer win."),
+                   caller->player->name);
+    caller->player->surrendered = TRUE;
+    if (is_game_over()) {
+      server_state = GAME_OVER_STATE;
+      force_end_of_sniff = TRUE;
+    }
+    return TRUE;
+  } else {
+    cmd_reply(CMD_END_GAME, caller, C_FAIL, _("You cannot surrender now."));
     return FALSE;
   }
 }

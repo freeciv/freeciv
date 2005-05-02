@@ -43,8 +43,6 @@ struct server_arguments {
   int quitidle;
   /* exit the server on game ending */
   bool exit_on_end;
-  /* what kind of end game we should use */
-  bv_draw draw;
   /* authentication options */
   bool auth_enabled;            /* defaults to FALSE */
   bool auth_allow_guests;       /* defaults to TRUE */
@@ -55,6 +53,8 @@ void init_game_seed(void);
 void srv_init(void);
 void srv_main(void);
 void server_quit(void);
+
+bool is_game_over(void);
 
 bool handle_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);

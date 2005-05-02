@@ -75,6 +75,7 @@ enum command_id {
 
   /* potentially harmful: */
   CMD_END_GAME,
+  CMD_SURRENDER, /* not really harmful, info level */
   CMD_REMOVE,
   CMD_SAVE,
   CMD_LOAD,

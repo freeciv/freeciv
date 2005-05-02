@@ -109,7 +109,6 @@
 
 
 static void end_turn(void);
-static bool is_game_over(void);
 static void save_game_auto(const char *save_reason);
 static void generate_ai_players(void);
 static void mark_nation_as_used(Nation_type_id nation);
@@ -188,7 +187,6 @@ void srv_init(void)
   srvarg.saves_pathname = "";
 
   srvarg.quitidle = 0;
-  BV_CLR_ALL(srvarg.draw);
 
   srvarg.auth_enabled = FALSE;
   srvarg.auth_allow_guests = FALSE;
@@ -213,7 +211,7 @@ void srv_init(void)
 /**************************************************************************
   Returns TRUE if any one game end condition is fulfilled, FALSE otherwise
 **************************************************************************/
-static bool is_game_over(void)
+bool is_game_over(void)
 {
   int barbs = 0, alive = 0, observers = 0;
   bool all_allied;
@@ -238,22 +236,37 @@ static bool is_game_over(void)
     }
   } players_iterate_end;
 
-  /* the game does not quit if we are playing solo */
-  if (game.nplayers == (observers + barbs + 1)) {
-    return FALSE;
-  } 
-
   /* count the living */
   players_iterate(pplayer) {
-    if (pplayer->is_alive && !is_barbarian(pplayer)) {
+    if (pplayer->is_alive
+        && !is_barbarian(pplayer)
+        && !pplayer->surrendered) {
       alive++;
       victor = pplayer;
     }
   } players_iterate_end;
 
+  /* the game does not quit if we are playing solo */
+  if (game.nplayers == (observers + barbs + 1)
+      && alive >= 1) {
+    return FALSE;
+  }
+
   /* quit if we have team victory */
   team_iterate(pteam) {
-    if (team_count_members_alive(pteam->id) == alive) {
+    bool win = TRUE; /* optimistic */
+
+    /* If there are any players alive and unconceded outside our
+     * team, we have not yet won. */
+    players_iterate(pplayer) {
+      if (pplayer->is_alive
+          && !pplayer->surrendered
+          && pplayer->team != pteam->id) {
+        win = FALSE;
+        break;
+      }
+    } players_iterate_end;
+    if (win) {
       notify_conn_ex(game.est_connections, NULL, E_GAME_END,
 		     _("Team victory to %s"), pteam->name);
       gamelog(GAMELOG_JUDGE, GL_TEAMWIN, pteam);
@@ -277,11 +290,12 @@ static bool is_game_over(void)
   /* quit if all remaining players are allied to each other */
   all_allied = TRUE;
   players_iterate(pplayer) {
-    if (!pplayer->is_alive) {
-      continue;
-    }
     players_iterate(aplayer) {
-      if (!pplayers_allied(pplayer, aplayer) && aplayer->is_alive) {
+      if (!pplayers_allied(pplayer, aplayer)
+          && pplayer->is_alive
+          && aplayer->is_alive
+          && !pplayer->surrendered
+          && !aplayer->surrendered) {
         all_allied = FALSE;
         break;
       }
@@ -1604,7 +1618,7 @@ static void main_loop(void)
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     (void) send_server_info_to_metaserver(META_REFRESH);
 
-    if (is_game_over()) {
+    if (server_state != GAME_OVER_STATE && is_game_over()) {
       server_state=GAME_OVER_STATE;
     }
   }
@@ -1954,5 +1968,4 @@ void server_game_free()
     player_map_free(pplayer);
   } players_iterate_end;
   game_free();
-  BV_CLR_ALL(srvarg.draw);
 }
