@@ -3847,6 +3847,8 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.borders, "game.borders");
   secfile_insert_bool(file, game.happyborders, "game.happyborders");
   secfile_insert_int(file, game.diplomacy, "game.diplomacy");
+  /* watchtower_vision is required by 2.0 servers. */
+  secfile_insert_int(file, 0, "game.watchtower_vision");
   secfile_insert_int(file, game.watchtower_extra_vision, "game.watchtower_extra_vision");
   secfile_insert_int(file, game.allowed_city_names, "game.allowed_city_names");
 
