@@ -656,6 +656,7 @@ AC_CONFIG_FILES([Makefile
 	  data/trident/Makefile 
 	  data/isophex/Makefile 
 	  data/isotrident/Makefile 
+	  data/stdsounds/Makefile 
 	  data/default/Makefile 
 	  data/civ1/Makefile 
 	  data/civ2/Makefile 
