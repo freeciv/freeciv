@@ -510,45 +510,62 @@ player.  This could be changed/improved in future.
 ***************************************************************/
 static void map_startpos_load(struct section_file *file)
 {
-  int i;
-
-  for (i = 0; secfile_lookup_int_default(file, -1, "map.r%dsx", i) != -1;
-       i++) {
+  int savegame_start_positions;
+  int i, j;
+  int nation_id;
+  int nat_x, nat_y;
+  
+  for (savegame_start_positions = 0;
+       secfile_lookup_int_default(file, -1, "map.r%dsx",
+                                  savegame_start_positions) != -1;
+       savegame_start_positions++) {
     /* Nothing. */
   }
+  
+  
+  {
+    struct start_position start_positions[savegame_start_positions];
+    
+    for (i = j = 0; i < savegame_start_positions; i++) {
+      char *nation = secfile_lookup_str_default(file, NULL, "map.r%dsnation",
+                                                i);
 
-  map.num_start_positions = i;
-  if (map.num_start_positions == 0) {
-    /* This scenario has no preset start positions. */
-    return;
-  }
+      if (nation == NULL) {
+        /* Starting positions in normal games are saved without nation.
+	   Just ignore it */
+	continue;
+      }
+      
+      nation_id = find_nation_by_name_orig(nation);
+      if (nation_id == NO_NATION_SELECTED) {
+	freelog(LOG_NORMAL,
+	        _("Warning: Unknown nation %s for starting position no %d"),
+		nation,
+		i);
+	continue;
+      }
+      
+      nat_x = secfile_lookup_int(file, "map.r%dsx", i);
+      nat_y = secfile_lookup_int(file, "map.r%dsy", i);
 
-  map.start_positions = fc_realloc(map.start_positions,
-				   map.num_start_positions
-				   * sizeof(*map.start_positions));
-  for (i = 0; i < map.num_start_positions; i++) {
-    int nat_x, nat_y;
-    char *nation = secfile_lookup_str_default(file, NULL, "map.r%dsnation",
-					      i);
-
-    nat_x = secfile_lookup_int(file, "map.r%dsx", i);
-    nat_y = secfile_lookup_int(file, "map.r%dsy", i);
-
-    map.start_positions[i].tile = native_pos_to_tile(nat_x, nat_y);
-
-    if (nation) {
-      /* This will fall back to NO_NATION_SELECTED if the string doesn't
-       * match any nation. */
-      map.start_positions[i].nation = find_nation_by_name_orig(nation);
-    } else {
-      /* Old-style nation ordering is useless to us because the nations
-       * have been reordered.  Just ignore it and order the nations
-       * randomly. */
-      map.start_positions[i].nation = NO_NATION_SELECTED;
+      start_positions[j].tile = native_pos_to_tile(nat_x, nat_y);
+      start_positions[j].nation = nation_id;
+      j++;
+    }
+    map.num_start_positions = j;
+    if (map.num_start_positions > 0) {
+      map.start_positions = fc_realloc(map.start_positions,
+  	                               map.num_start_positions
+				       * sizeof(*map.start_positions));
+      for (i = 0; i < j; i++) {
+        map.start_positions[i] = start_positions[i];
+      }
     }
   }
+  
 
-  if (map.num_start_positions < game.max_players) {
+  if (map.num_start_positions
+      && map.num_start_positions < game.max_players) {
     freelog(LOG_VERBOSE,
 	    _("Number of starts (%d) are lower than max_players (%d),"
 	      " lowering max_players."),
