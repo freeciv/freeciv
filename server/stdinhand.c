@@ -4000,8 +4000,15 @@ void show_players(struct connection *caller)
 		     get_nation_name_plural(pplayer->nation));
       }
       if (pplayer->team != TEAM_NONE) {
-        cat_snprintf(buf2, sizeof(buf2), (", team %s"),
+        cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
                      team_get_by_id(pplayer->team)->name);
+      }
+      if (server_state == PRE_GAME_STATE && pplayer->is_connected) {
+	if (pplayer->is_started) {
+	  cat_snprintf(buf2, sizeof(buf2), _(", ready"));
+	} else {
+	  cat_snprintf(buf2, sizeof(buf2), _(", not ready"));
+	}
       }
       my_snprintf(buf, sizeof(buf), "%s (%s)", pplayer->name, buf2);
       
