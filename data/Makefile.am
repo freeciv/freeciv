@@ -6,6 +6,7 @@ COMMON_CLIENT_FILES =			\
 	isotrident.tilespec		\
 	trident.tilespec		\
 	trident_shields.tilespec	\
+	stdsounds.soundspec		\
 	helpdata.txt
 if CLIENT_GUI_XAW
 CLIENT_EXTRA_FILES = Freeciv
@@ -39,6 +40,7 @@ EXTRA_DIST = \
 	isotrident.tilespec \
 	trident.tilespec	\
 	trident_shields.tilespec	\
+	stdsounds.soundspec	\
 	helpdata.txt	\
 	civ1.serv	\
 	civ2.serv	\
@@ -46,7 +48,7 @@ EXTRA_DIST = \
 	history.serv
 
 if CLIENT
-CLIENTDATADIRS = misc flags isotrident trident isophex
+CLIENTDATADIRS = misc flags isotrident trident isophex stdsounds
 else
 CLIENTDATADIRS = 
 endif
