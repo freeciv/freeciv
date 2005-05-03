@@ -69,6 +69,15 @@ Impr_Type *api_find_impr_type(int impr_type_id)
 }
 
 /**************************************************************************
+  Return the improvement type with the given name_orig.
+**************************************************************************/
+Impr_Type *api_find_impr_type_by_name(const char *name_orig)
+{
+  Impr_type_id id = find_improvement_by_name_orig(name_orig);
+  return api_find_impr_type(id);
+}
+
+/**************************************************************************
   Return the nation type with the given nation_type_id index.
 **************************************************************************/
 Nation_Type *api_find_nation_type(int nation_type_id)
@@ -77,10 +86,45 @@ Nation_Type *api_find_nation_type(int nation_type_id)
 }
 
 /**************************************************************************
+  Return the nation type with the given name_orig.
+**************************************************************************/
+Nation_Type *api_find_nation_type_by_name(const char *name_orig)
+{
+  Nation_type_id id = find_nation_by_name_orig(name_orig);
+  return api_find_nation_type(id);
+}
+
+/**************************************************************************
   Return the unit type with the given unit_type_id index.
 **************************************************************************/
 Unit_Type *api_find_unit_type(int unit_type_id)
 {
   return get_unit_type(unit_type_id);
+}
+
+/**************************************************************************
+  Return the unit type with the given name_orig.
+**************************************************************************/
+Unit_Type *api_find_unit_type_by_name(const char *name_orig)
+{
+  Unit_type_id id = find_unit_type_by_name_orig(name_orig);
+  return api_find_unit_type(id);
+}
+
+/**************************************************************************
+  Return the tech type with the given tech_type_id index.
+**************************************************************************/
+Tech_Type *api_find_tech_type(int tech_type_id)
+{
+  return &advances[tech_type_id];
+}
+
+/**************************************************************************
+  Return the tech type with the given name_orig.
+**************************************************************************/
+Tech_Type *api_find_tech_type_by_name(const char *name_orig)
+{
+  Tech_type_id id = find_tech_by_name_orig(name_orig);
+  return api_find_tech_type(id);
 }
 

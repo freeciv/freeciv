@@ -16,32 +16,34 @@ $#include <config.h>
 $#endif
 
 $#include "api_types.h"
+$#include "api_actions.h"
 $#include "api_find.h"
 $#include "api_intl.h"
 $#include "api_notify.h"
+$#include "api_utilities.h"
 $#include "script.h"
 
 /* Classes. */
 struct Player {
   const char *name;
-  const int nation @ nation_id;
+  int nation @ nation_id;
 
   const int player_no @ id;
 };
 
 struct City {
   const char *name;
-  const int owner @ owner_id;
-  const Tile *tile;
+  int owner @ owner_id;
+  Tile *tile;
 
   const int id;
 };
 
 struct Unit {
-  const int type @ type_id;
-  const int owner @ owner_id;
-  const int homecity @ homecity_id;
-  const Tile *tile;
+  int type @ type_id;
+  int owner @ owner_id;
+  int homecity @ homecity_id;
+  Tile *tile;
 
   const int id;
 };
@@ -72,6 +74,14 @@ struct Nation_Type {
 };
 
 struct Unit_Type {
+  const char *name;
+
+  const char *name_orig;
+
+  const int index @ id;
+};
+
+struct Tech_Type {
   const char *name;
 
   const char *name_orig;
@@ -111,9 +121,22 @@ module find {
   Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
   Tile *api_find_tile @ tile (int nat_x, int nat_y);
 
-  Impr_Type *api_find_impr_type @ impr_type (int impr_type_id);
-  Nation_Type *api_find_nation_type @ nation_type (int nation_type_id);
-  Unit_Type *api_find_unit_type @ unit_type (int unit_type_id);
+  Impr_Type *
+    api_find_impr_type_by_name @ impr_type (const char *name_orig);
+  Impr_Type *
+    api_find_impr_type @ impr_type (int impr_type_id);
+  Nation_Type *
+    api_find_nation_type_by_name @ nation_type (const char *name_orig);
+  Nation_Type *
+    api_find_nation_type @ nation_type (int nation_type_id);
+  Unit_Type *
+    api_find_unit_type_by_name @ unit_type (const char *name_orig);
+  Unit_Type *
+    api_find_unit_type @ unit_type (int unit_type_id);
+  Tech_Type *
+    api_find_tech_type_by_name @ tech_type (const char *name_orig);
+  Tech_Type *
+    api_find_tech_type @ tech_type (int tech_type_id);
 }
 
 $[
@@ -150,19 +173,165 @@ $]
 
 /* Signal module. */
 module signal {
-  void script_signal_connect @ connect(const char *signal_name, const char *callback_name);
+  void script_signal_connect @ connect(const char *signal_name,
+				       const char *callback_name);
 }
 
 /* Intl module. */
 const char *api_intl__ @ _ (const char *string);
 const char *api_intl_N_ @ N_ (const char *string);
 const char *api_intl_Q_ @ Q_ (const char *string);
-const char *api_intl_PL_ @ PL_ (const char *string1, const char *string2, int n);
+const char *api_intl_PL_ @ PL_ (const char *string1, const char *string2,
+				int n);
 
 /* Notify module. */
 module notify {
-void api_notify_all @ all (const char *message);
-void api_notify_player @ player (Player *pplayer, const char *message);
-void api_notify_embassies @ embassies (Player *pplayer, const char *message);
-void api_notify_event @ event (Player *pplayer, Tile *ptile, enum event_type event, const char *message);
+  void api_notify_embassies_msg @ embassies_msg (Player *pplayer,
+						 const char *message);
+  void api_notify_event_msg @ event_msg (Player *pplayer, Tile *ptile,
+					 int event, const char *message);
 }
+
+/* Notify events module. */
+module E {
+  enum event_type {
+    E_NOEVENT @ NOEVENT = -1,
+    E_CITY_CANTBUILD @ CITY_CANTBUILD,
+    E_CITY_LOST @ CITY_LOST,
+    E_CITY_LOVE @ CITY_LOVE,
+    E_CITY_DISORDER @ CITY_DISORDER,
+    E_CITY_FAMINE @ CITY_FAMINE,
+    E_CITY_FAMINE_FEARED @ CITY_FAMINE_FEARED,
+    E_CITY_GROWTH @ CITY_GROWTH,
+    E_CITY_MAY_SOON_GROW @ CITY_MAY_SOON_GROW,
+    E_CITY_AQUEDUCT @ CITY_AQUEDUCT,
+    E_CITY_AQ_BUILDING @ CITY_AQ_BUILDING,
+    E_CITY_NORMAL @ CITY_NORMAL,
+    E_CITY_NUKED @ CITY_NUKED,
+    E_CITY_CMA_RELEASE @ CITY_CMA_RELEASE,
+    E_CITY_GRAN_THROTTLE @ CITY_GRAN_THROTTLE,
+    E_CITY_TRANSFER @ CITY_TRANSFER,
+    E_CITY_BUILD @ CITY_BUILD,
+    E_WORKLIST @ WORKLIST,
+    E_UPRISING @ UPRISING,
+    E_CIVIL_WAR @ CIVIL_WAR,
+    E_ANARCHY @ ANARCHY,
+    E_FIRST_CONTACT @ FIRST_CONTACT,
+    E_NEW_GOVERNMENT @ NEW_GOVERNMENT,
+    E_LOW_ON_FUNDS @ LOW_ON_FUNDS,
+    E_POLLUTION @ POLLUTION,
+    E_REVOLT_DONE @ REVOLT_DONE,
+    E_REVOLT_START @ REVOLT_START,
+    E_SPACESHIP @ SPACESHIP,
+    E_MY_DIPLOMAT_BRIBE @ MY_DIPLOMAT_BRIBE,
+    E_DIPLOMATIC_INCIDENT @ DIPLOMATIC_INCIDENT,
+    E_MY_DIPLOMAT_ESCAPE @ MY_DIPLOMAT_ESCAPE,
+    E_MY_DIPLOMAT_EMBASSY @ MY_DIPLOMAT_EMBASSY,
+    E_MY_DIPLOMAT_FAILED @ MY_DIPLOMAT_FAILED,
+    E_MY_DIPLOMAT_INCITE @ MY_DIPLOMAT_INCITE,
+    E_MY_DIPLOMAT_POISON @ MY_DIPLOMAT_POISON,
+    E_MY_DIPLOMAT_SABOTAGE @ MY_DIPLOMAT_SABOTAGE,
+    E_MY_DIPLOMAT_THEFT @ MY_DIPLOMAT_THEFT,
+    E_ENEMY_DIPLOMAT_BRIBE @ ENEMY_DIPLOMAT_BRIBE,
+    E_ENEMY_DIPLOMAT_EMBASSY @ ENEMY_DIPLOMAT_EMBASSY,
+    E_ENEMY_DIPLOMAT_FAILED @ ENEMY_DIPLOMAT_FAILED,
+    E_ENEMY_DIPLOMAT_INCITE @ ENEMY_DIPLOMAT_INCITE,
+    E_ENEMY_DIPLOMAT_POISON @ ENEMY_DIPLOMAT_POISON,
+    E_ENEMY_DIPLOMAT_SABOTAGE @ ENEMY_DIPLOMAT_SABOTAGE,
+    E_ENEMY_DIPLOMAT_THEFT @ ENEMY_DIPLOMAT_THEFT,
+    E_BROADCAST_REPORT @ BROADCAST_REPORT,
+    E_GAME_END @ GAME_END,
+    E_GAME_START @ GAME_START,
+    E_MESSAGE_WALL @ MESSAGE_WALL,
+    E_NATION_SELECTED @ NATION_SELECTED,
+    E_DESTROYED @ DESTROYED,
+    E_REPORT @ REPORT,
+    E_TURN_BELL @ TURN_BELL,
+    E_NEXT_YEAR @ NEXT_YEAR,
+    E_GLOBAL_ECO @ GLOBAL_ECO,
+    E_NUKE @ NUKE,
+    E_HUT_BARB @ HUT_BARB,
+    E_HUT_CITY @ HUT_CITY,
+    E_HUT_GOLD @ HUT_GOLD,
+    E_HUT_BARB_KILLED @ HUT_BARB_KILLED,
+    E_HUT_MERC @ HUT_MERC,
+    E_HUT_SETTLER @ HUT_SETTLER,
+    E_HUT_TECH @ HUT_TECH,
+    E_HUT_BARB_CITY_NEAR @ HUT_BARB_CITY_NEAR,
+    E_IMP_BUY @ IMP_BUY,
+    E_IMP_BUILD @ IMP_BUILD,
+    E_IMP_AUCTIONED @ IMP_AUCTIONED,
+    E_IMP_AUTO @ IMP_AUTO,
+    E_IMP_SOLD @ IMP_SOLD,
+    E_TECH_GAIN @ TECH_GAIN,
+    E_TECH_LEARNED @ TECH_LEARNED,
+    E_TREATY_ALLIANCE @ TREATY_ALLIANCE,
+    E_TREATY_BROKEN @ TREATY_BROKEN,
+    E_TREATY_CEASEFIRE @ TREATY_CEASEFIRE,
+    E_TREATY_PEACE @ TREATY_PEACE,
+    E_TREATY_SHARED_VISION @ TREATY_SHARED_VISION,
+    E_UNIT_LOST_ATT @ UNIT_LOST_ATT,
+    E_UNIT_WIN_ATT @ UNIT_WIN_ATT,
+    E_UNIT_BUY @ UNIT_BUY,
+    E_UNIT_BUILT @ UNIT_BUILT,
+    E_UNIT_LOST @ UNIT_LOST,
+    E_UNIT_WIN @ UNIT_WIN,
+    E_UNIT_BECAME_VET @ UNIT_BECAME_VET,
+    E_UNIT_UPGRADED @ UNIT_UPGRADED,
+    E_UNIT_RELOCATED @ UNIT_RELOCATED,
+    E_UNIT_ORDERS @ UNIT_ORDERS,
+    E_WONDER_BUILD @ WONDER_BUILD,
+    E_WONDER_OBSOLETE @ WONDER_OBSOLETE,
+    E_WONDER_STARTED @ WONDER_STARTED,
+    E_WONDER_STOPPED @ WONDER_STOPPED,
+    E_WONDER_WILL_BE_BUILT @ WONDER_WILL_BE_BUILT,
+    E_DIPLOMACY @ DIPLOMACY,
+    E_CITY_PRODUCTION_CHANGED @ CITY_PRODUCTION_CHANGED,
+    E_TREATY_EMBASSY @ TREATY_EMBASSY,
+    /* 
+     * Note: If you add a new event, make sure you make a similar change
+     * to the events array in client/options.c using GEN_EV and to
+     * data/stdsounds.spec.
+     */
+    E_LAST @ LAST
+  };
+}
+
+$[
+-- Notify module implementation.
+
+function notify.all(...)
+  notify.event_msg(nil, nil, E.NOEVENT, string.format(unpack(arg)))
+end
+
+function notify.player(player, ...)
+  notify.event_msg(player, nil, E.NOEVENT, string.format(unpack(arg)))
+end
+
+function notify.event(player, tile, event, ...)
+  notify.event_msg(player, tile, event, string.format(unpack(arg)))
+end
+
+function notify.embassies(player, ...)
+  notify.embassies_msg(player, string.format(unpack(arg)))
+end
+$]
+
+/* Utilities module. */
+module utilities {
+  unsigned api_utilities_random @ random (unsigned min, unsigned max);
+}
+
+/* Actions module. */
+module actions {
+  Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
+					       Unit_Type *ptype,
+					       int veteran_level,
+					       City *homecity, int moves_left);
+  void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
+					      const char *name);
+  void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
+  bool api_actions_give_technology @ give_technology (Player *pplayer,
+						      Tech_Type *ptech);
+}
+

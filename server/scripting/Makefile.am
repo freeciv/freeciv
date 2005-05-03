@@ -9,6 +9,8 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/tolua
 
 libscripting_a_SOURCES = \
+		api_actions.c	\
+		api_actions.h	\
 		api_find.c	\
 		api_find.h	\
 		api_gen.c	\
@@ -17,6 +19,8 @@ libscripting_a_SOURCES = \
 		api_intl.h	\
 		api_notify.c	\
 		api_notify.h	\
+		api_utilities.c	\
+		api_utilities.h	\
 		api_types.h	\
 		script.c	\
 		script.h	\

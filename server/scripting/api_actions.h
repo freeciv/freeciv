@@ -11,29 +11,17 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__API_TYPES_H
-#define FC__API_TYPES_H
+#ifndef FC__API_ACTIONS_H
+#define FC__API_ACTIONS_H
 
-#include "player.h"
-#include "city.h"
-#include "unit.h"
-#include "map.h"
-#include "improvement.h"
-#include "nation.h"
-#include "tech.h"
-#include "unittype.h"
+#include "api_types.h"
 
-#include "events.h"
-
-/* Classes. */
-typedef struct player Player;
-typedef struct city City;
-typedef struct unit Unit;
-typedef struct tile Tile;
-typedef struct impr_type Impr_Type;
-typedef struct nation_type Nation_Type;
-typedef struct unit_type Unit_Type;
-typedef struct advance Tech_Type;
+Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
+		  	      int veteran_level, City *homecity,
+			      int moves_left);
+void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name);
+void api_actions_change_gold(Player *pplayer, int amount);
+bool api_actions_give_technology(Player *pplayer, Tech_Type *ptech);
 
 #endif
 

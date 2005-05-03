@@ -11,29 +11,10 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__API_TYPES_H
-#define FC__API_TYPES_H
+#ifndef FC__API_UTILITIES_H
+#define FC__API_UTILITIES_H
 
-#include "player.h"
-#include "city.h"
-#include "unit.h"
-#include "map.h"
-#include "improvement.h"
-#include "nation.h"
-#include "tech.h"
-#include "unittype.h"
-
-#include "events.h"
-
-/* Classes. */
-typedef struct player Player;
-typedef struct city City;
-typedef struct unit Unit;
-typedef struct tile Tile;
-typedef struct impr_type Impr_Type;
-typedef struct nation_type Nation_Type;
-typedef struct unit_type Unit_Type;
-typedef struct advance Tech_Type;
+unsigned api_utilities_random(unsigned min, unsigned max);
 
 #endif
 
