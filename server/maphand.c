@@ -978,6 +978,8 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change)
 {
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
+  assert(0 <= change || -change <= plrtile->seen_count); /* else underflow */
+
   plrtile->seen_count += change;
   if (plrtile->seen_count != 0) {
     BV_SET(ptile->tile_seen, pplayer->player_no);

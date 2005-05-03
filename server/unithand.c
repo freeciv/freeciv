@@ -281,32 +281,59 @@ void handle_unit_diplomat_action(struct player *pplayer, int diplomat_id,
 }
 
 /**************************************************************************
-  Transfer a unit from one homecity to another.
+  Transfer a unit from one homecity to another. If unit is not presently
+  in its new homecity, it will be moved there. This new homecity must
+  be valid for this unit.
 **************************************************************************/
 void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 {
   struct city *old_pcity = find_city_by_id(punit->homecity);
+  struct player *old_owner = unit_owner(punit);
+  struct player *new_owner = city_owner(new_pcity);
+
+  if (!same_pos(punit->tile, new_pcity->tile)) {
+    assert(can_unit_exist_at_tile(punit, new_pcity->tile));
+    move_unit(punit, new_pcity->tile, 0); /* teleport to location */
+  }
 
   unit_list_prepend(new_pcity->units_supported, punit);
   if (old_pcity) {
     unit_list_unlink(old_pcity->units_supported, punit);
   }
+  if (old_owner != new_owner) {
+    remove_unit_sight_points(punit);
+
+    unit_list_unlink(old_owner->units, punit);
+    unit_list_prepend(new_owner->units, punit);
+    punit->owner = new_owner->player_no;
+
+    if (tile_has_special(punit->tile, S_FORTRESS)
+        && unit_profits_of_watchtower(punit)) {
+      unfog_area(new_owner, punit->tile, get_watchtower_vision(punit));
+    } else {
+      unfog_area(new_owner, punit->tile, unit_type(punit)->vision_range);
+    }
+
+    conceal_hidden_units(old_owner, punit->tile);
+    reveal_hidden_units(new_owner, punit->tile);
+  }
 
   punit->homecity = new_pcity->id;
-  punit->owner = unit_owner(punit)->player_no;
   send_unit_info(unit_owner(punit), punit);
 
   city_refresh(new_pcity);
-  send_city_info(city_owner(new_pcity), new_pcity);
+  send_city_info(new_owner, new_pcity);
 
   if (old_pcity) {
+    assert(city_owner(old_pcity) == old_owner);
     city_refresh(old_pcity);
-    send_city_info(city_owner(old_pcity), old_pcity);
+    send_city_info(old_owner, old_pcity);
   }
 }
 
 /**************************************************************************
-...
+  Change a unit's home city. The unit must be present in the city to 
+  be set as its new home city.
 **************************************************************************/
 void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 				 int city_id)

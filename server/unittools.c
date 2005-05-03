@@ -1270,7 +1270,7 @@ void bounce_unit(struct unit *punit, bool verbose)
   struct city *pcity = find_closest_owned_city(pplayer, punit->tile,
                                                is_sailing_unit(punit), NULL);
 
-  if (pcity) {
+  if (pcity && can_unit_exist_at_tile(punit, pcity->tile)) {
     (void) teleport_unit_to_city(punit, pcity, 0, verbose);
   } else {
     /* remove it */

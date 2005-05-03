@@ -513,7 +513,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 		      unit_name(punit->type), in_city->name,
 		      from_player->name, to_player->name);
       }
-    } else {
+    } else if (can_unit_exist_at_tile(punit, tocity->tile)) {
       freelog(LOG_VERBOSE, "Transfered %s from %s to %s",
 	      unit_name(punit->type),
 	      from_player->name, to_player->name);
@@ -522,6 +522,17 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 		      unit_name(punit->type),
 		      from_player->name, to_player->name);
       }
+    } else {
+      freelog(LOG_VERBOSE, "Could not transfer %s from %s to %s",
+	      unit_name(punit->type),
+	      from_player->name, to_player->name);
+      if (verbose) {
+	notify_player(from_player, _("%s from %s lost in transfer "
+                      "to %s's %s"), unit_name(punit->type),
+		      from_player->name, to_player->name, tocity->name);
+      }
+      wipe_unit(punit);
+      return;
     }
   }
   real_unit_change_homecity(punit, tocity);

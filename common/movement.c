@@ -201,13 +201,12 @@ enum unit_move_type unit_move_type_from_str(const char *s)
   Return TRUE iff the unit can "exist" at this location.  This means it can
   physically be present on the tile (without the use of a transporter).  See
   also can_unit_survive_at_tile.
-
-  (This function could be renamed as unit_needs_transporter.)
 ****************************************************************************/
 bool can_unit_exist_at_tile(const struct unit *punit,
                             const struct tile *ptile)
 {
-  if (ptile->city) {
+  if (ptile->city && !(is_sailing_unit(punit)
+      && !is_ocean_near_tile(ptile))) {
     return TRUE;
   }
 
