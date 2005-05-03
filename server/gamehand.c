@@ -407,6 +407,23 @@ int update_timeout(void)
   return game.timeout;
 }
 
+/**************************************************************************
+  adjusts game.turn_start when enemy moves an unit, we see it and the 
+  remaining timeout is smaller than the option
+  It's possible to use a simular function to do that per player.
+**************************************************************************/
+void increase_timeout_because_unit_moved(void)
+{
+  if (game.timeout != 0){
+    int seconds_to_turndone = game.turn_start + game.timeout - time(NULL);
+
+    if (seconds_to_turndone < game.timeoutaddenemymove){
+      game.turn_start = time(NULL) - game.timeout + game.timeoutaddenemymove;
+      send_game_info(NULL);
+    }	
+  }
+}
+
 /************************************************************************** 
   generate challenge filename for this connection, cannot fail.
 **************************************************************************/

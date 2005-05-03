@@ -877,6 +877,13 @@ struct settings_s settings[] = {
 	     "\"timeoutincrease\" to have a dynamic timer."), NULL, 
 	   GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
+  GEN_INT("timeaddenemymove", game.timeoutaddenemymove,
+        SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
+	  N_("Timeout at least n seconds when enemy moved"),
+	  N_("Any time a unit moves when in sight of an enemy player, "
+	     "the remaining timeout is set to this value if it was lower."),
+	  NULL, 0, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUTADDEMOVE)
+  
   GEN_INT("nettimeout", game.tcptimeout,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Seconds to let a client's network connection block"),

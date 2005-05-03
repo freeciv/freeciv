@@ -48,6 +48,7 @@
 #include "settlers.h"
 #include "srv_main.h"
 #include "unithand.h"
+#include "gamehand.h"
 
 #include "aiexplorer.h"
 #include "aitools.h"
@@ -1940,11 +1941,15 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 {
   struct packet_unit_info info;
   struct packet_unit_short_info sinfo;
-  
+  bool new_information_for_enemy = FALSE;
+
   if (!dest) {
     dest = &game.game_connections;
   }
 
+/* maybe the wrong position for that, but this is the lowlevel function
+ * where we check if we have to increase timeout, or remove_turn_done */
+  
   package_unit(punit, &info);
   package_short_unit(punit, &sinfo, UNIT_INFO_IDENTITY, FALSE, FALSE);
             
@@ -1958,6 +1963,11 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
       if (can_player_see_unit_at(pplayer, punit, punit->tile)
 	  || can_player_see_unit_at(pplayer, punit, ptile)) {
 	send_packet_unit_short_info(pconn, &sinfo);
+	if (pplayers_at_war(pplayer,unit_owner(punit))
+	    && !pplayer->ai.control) {
+	  /* increase_timeout_because_unit_moved(pplayer) possible here */
+	   new_information_for_enemy = TRUE;
+	}
       } else {
 	if (remove_unseen) {
 	  dsend_packet_unit_remove(pconn, punit->id);
@@ -1965,6 +1975,11 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
       }
     }
   } conn_list_iterate_end;
+  
+  if (game.timeout != 0 && new_information_for_enemy){
+    increase_timeout_because_unit_moved();
+  }
+
 }
 
 /**************************************************************************

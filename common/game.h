@@ -71,6 +71,7 @@ struct civ_game {
   int timeoutincmult; /* ... and multiply timeoutinc by this amount ... */
   int timeoutintinc;  /* ... and increase timeoutint by this amount */
   int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
+  int timeoutaddenemymove; /* increase to, when enemy move seen */
   int tcptimeout;
   int netwait;
   time_t last_ping;
@@ -424,6 +425,7 @@ extern bool is_server;
 #define GAME_DEFAULT_TIMEOUTINTINC   0
 #define GAME_DEFAULT_TIMEOUTINC      0
 #define GAME_DEFAULT_TIMEOUTINCMULT  1
+#define GAME_DEFAULT_TIMEOUTADDEMOVE 0
 
 #ifndef NDEBUG
 #define GAME_MIN_TIMEOUT             -1
