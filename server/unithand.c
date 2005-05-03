@@ -546,6 +546,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
        * idle autosettlers behave correctly when selected --dwp
      */
     punit->ai.control = FALSE;
+    punit->goto_tile = NULL;
     handle_unit_activity_request_targeted(punit, activity, activity_target);
 
     /* Exploring is handled here explicitly, since the player expects to
