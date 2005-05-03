@@ -277,7 +277,7 @@ static void thaw(void)
   }
   frozen_level--;
   assert(frozen_level >= 0);
-  if (frozen_level == 0) {
+  if (frozen_level == 0 && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     call_handle_methods();
   }
 }
@@ -459,6 +459,7 @@ void agents_game_joined(void)
 void agents_game_start(void)
 {
   freelog(META_CALLBACKS_LOGLEVEL, "agents_game_start()");
+  call_handle_methods();
 }
 
 /***********************************************************************
