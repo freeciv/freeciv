@@ -318,20 +318,16 @@ end
 $]
 
 /* Utilities module. */
-module utilities {
-  unsigned api_utilities_random @ random (unsigned min, unsigned max);
-}
+int api_utilities_random @ random (int min, int max);
 
 /* Actions module. */
-module actions {
-  Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
-					       Unit_Type *ptype,
-					       int veteran_level,
-					       City *homecity, int moves_left);
-  void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
-					      const char *name);
-  void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
-  bool api_actions_give_technology @ give_technology (Player *pplayer,
-						      Tech_Type *ptech);
-}
+Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
+					     Unit_Type *ptype,
+					     int veteran_level,
+					     City *homecity, int moves_left);
+void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
+					    const char *name);
+void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
+bool api_actions_give_technology @ give_technology (Player *pplayer,
+						    Tech_Type *ptech);
 

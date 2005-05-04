@@ -15,12 +15,16 @@
 #include <config.h>
 #endif
 
+#include <math.h>
+
 #include "rand.h"
 
 #include "api_utilities.h"
 
-unsigned api_utilities_random(unsigned min, unsigned max)
+int api_utilities_random(int min, int max)
 {
-  return (min + myrand(max - min));
+  double roll = (double)(myrand(MAX_UINT32) % MAX_UINT32) / (double)MAX_UINT32;
+
+  return (min + floor(roll * (max - min + 1)));
 }
 

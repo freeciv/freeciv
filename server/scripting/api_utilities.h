@@ -14,7 +14,7 @@
 #ifndef FC__API_UTILITIES_H
 #define FC__API_UTILITIES_H
 
-unsigned api_utilities_random(unsigned min, unsigned max);
+int api_utilities_random(int min, int max);
 
 #endif
 
