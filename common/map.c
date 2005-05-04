@@ -262,7 +262,6 @@ static void tile_init(struct tile *ptile)
   ptile->city     = NULL;
   ptile->units    = unit_list_new();
   ptile->worked   = NULL; /* pointer to city working tile */
-  ptile->assigned = 0; /* bitvector */
   ptile->owner    = NULL; /* Tile not claimed by any nation. */
   ptile->spec_sprite = NULL;
 }
