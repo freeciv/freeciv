@@ -190,6 +190,7 @@ A Cathedral makes 3 unhappy citizens content in a city, making it\
 [building_city_walls]
 name		= _("City Walls")
 genus           = "Improvement"
+flags		= "VisibleByOthers"
 reqs	=
     { "type", "name", "range"
       "Tech", "Masonry", "Player"
@@ -516,6 +517,7 @@ Adds 1 extra shield resource on all Ocean squares in a city.  The\
 [building_palace]
 name		= _("Palace")
 genus           = "SmallWonder"
+flags		= "SaveSmallWonder"
 reqs	=
     { "type", "name", "range"
       "Tech", "Masonry", "Player"

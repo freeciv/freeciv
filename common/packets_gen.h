@@ -202,7 +202,7 @@ struct packet_city_info {
   int caravan_shields;
   int last_turns_shield_surplus;
   struct worklist worklist;
-  char improvements[B_LAST+1];
+  bv_imprs improvements;
   enum city_tile_type city_map[CITY_MAP_SIZE * CITY_MAP_SIZE];
   bool did_buy;
   bool did_sell;
@@ -222,8 +222,7 @@ struct packet_city_short_info {
   int size;
   bool happy;
   bool unhappy;
-  bool capital;
-  bool walls;
+  bv_imprs improvements;
   bool occupied;
   int tile_trade;
 };
@@ -301,7 +300,7 @@ struct packet_city_name_suggestion_info {
 struct packet_city_sabotage_list {
   int diplomat_id;
   int city_id;
-  char improvements[B_LAST+1];
+  bv_imprs improvements;
 };
 
 struct packet_player_remove {
@@ -880,6 +879,7 @@ struct packet_ruleset_building {
   int build_cost;
   int upkeep;
   int sabotage;
+  int flags;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
   char helptext[MAX_LEN_PACKET];

@@ -43,15 +43,11 @@ typedef unsigned char Impr_Status;
  * to hold full number of improvement types.  */
 #define B_LAST MAX_NUM_ITEMS
 
-/* Range of equivalence (used in equiv_range fields)
- * These must correspond to impr_range_names[] in improvement.c. */
-enum impr_range {
-  IR_NONE,
-  IR_CITY,
-  IR_ISLAND,
-  IR_PLAYER,
-  IR_WORLD,
-  IR_LAST      /* keep this last */
+/* Changing these breaks network compatibility. */
+enum impr_flag_id {
+  IF_VISIBLE_BY_OTHERS, /* improvement should be visible to others without spying */
+  IF_SAVE_SMALL_WONDER, /* this small wonder is moved to another city if game.savepalace is on. */
+  IF_LAST
 };
 
 enum impr_genus_id {
@@ -62,6 +58,7 @@ enum impr_genus_id {
   IG_LAST
 };
 
+BV_DEFINE(bv_imprs, B_LAST);
 
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
@@ -77,6 +74,7 @@ struct impr_type {
   int build_cost;			/* Use wrappers to access this. */
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
+  unsigned int flags;
   char *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
@@ -84,10 +82,6 @@ struct impr_type {
 
 
 extern struct impr_type improvement_types[B_LAST];
-
-/* impr range id/string converters */
-enum impr_range impr_range_from_str(const char *str);
-const char *impr_range_name(enum impr_range id);
 
 /* impr genus id/string converters */
 enum impr_genus_id impr_genus_from_str(const char *s);
@@ -105,6 +99,11 @@ int impr_sell_gold(Impr_type_id id);
 bool is_wonder(Impr_type_id id);
 const char *get_improvement_name(Impr_type_id id);
 const char *get_improvement_name_orig(Impr_type_id id);
+
+bool impr_flag(Impr_type_id id, enum impr_flag_id flag);
+enum impr_flag_id impr_flag_from_str(const char *s);
+
+bool is_improvement_visible(Impr_type_id id);
 
 bool improvement_obsolete(const struct player *pplayer, Impr_type_id id);
 Impr_type_id find_improvement_by_name(const char *s);

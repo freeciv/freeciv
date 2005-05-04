@@ -2463,26 +2463,6 @@ static void load_ruleset_effects(struct section_file *file)
 
   section_file_check_unused(file, filename);
   section_file_free(file);
-
-  /*
-   * Hack to allow code that explicitly checks for Palace or City Walls
-   * to work.
-   */
-  game.palace_building = get_building_for_effect(EFT_CAPITAL_CITY);
-  if (game.palace_building == B_LAST) {
-    freelog(LOG_FATAL,
-	    /* TRANS: Obscure ruleset error */
-	    _("Cannot find any palace building"));
-    exit(EXIT_FAILURE);
-  }
-
-  game.land_defend_building = get_building_for_effect(EFT_LAND_DEFEND);
-  if (game.land_defend_building == B_LAST) {
-    freelog(LOG_FATAL,
-	    /* TRANS: Obscure ruleset error */
-	    _("Cannot find any land defend building"));
-    exit(EXIT_FAILURE);
-  }
 }
 
 /**************************************************************************
@@ -2758,6 +2738,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.build_cost = b->build_cost;
     packet.upkeep = b->upkeep;
     packet.sabotage = b->sabotage;
+    packet.flags = b->flags;
     sz_strlcpy(packet.soundtag, b->soundtag);
     sz_strlcpy(packet.soundtag_alt, b->soundtag_alt);
 

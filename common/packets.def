@@ -437,7 +437,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
   
   WORKLIST worklist;
 
-  BIT_STRING improvements[B_LAST+1];
+  bitvector(bv_imprs) improvements;
   CITY_MAP city_map[CITY_MAP_SIZE * CITY_MAP_SIZE];
 
   BOOL did_buy, did_sell, was_happy, airlift, diplomat_investigate;
@@ -455,8 +455,7 @@ PACKET_CITY_SHORT_INFO=22; is-info,sc,lsend
   UINT8 size;
   BOOL happy;
   BOOL unhappy;
-  BOOL capital;
-  BOOL walls;
+  bitvector(bv_imprs) improvements;
   BOOL occupied;
   UINT16 tile_trade;
 end
@@ -537,7 +536,7 @@ end
 PACKET_CITY_SABOTAGE_LIST=37;sc,lsend
   UNIT diplomat_id;
   CITY city_id;
-  BIT_STRING improvements[B_LAST+1];
+  bitvector(bv_imprs) improvements;
 end
 
 /************** Player packets **********************/
@@ -1148,6 +1147,7 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   IMPROVEMENT replaced_by;
   UINT16 build_cost;
   UINT8 upkeep, sabotage;
+  UINT16 flags;
   STRING soundtag[MAX_LEN_NAME];
   STRING soundtag_alt[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];

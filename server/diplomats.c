@@ -206,16 +206,14 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
 			   struct city *pcity)
 {
   struct packet_city_sabotage_list packet;
-  char *p;
 
   /* Send city improvements info to player. */
-  p = packet.improvements;
+  BV_CLR_ALL(packet.improvements);
 
   impr_type_iterate(i) {
-    *p++=city_got_building(pcity,i)?'1':'0';
+    BV_SET(packet.improvements, city_got_building(pcity, i));
   } impr_type_iterate_end;
 
-  *p='\0';
   packet.diplomat_id = pdiplomat->id;
   packet.city_id = pcity->id;
   lsend_packet_city_sabotage_list(player_reply_dest(pplayer), &packet);

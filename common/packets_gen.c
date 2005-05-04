@@ -5464,7 +5464,7 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
     dio_get_worklist(&din, &real_packet->worklist);
   }
   if (BV_ISSET(fields, 32)) {
-    dio_get_bit_string(&din, real_packet->improvements, sizeof(real_packet->improvements));
+    DIO_BV_GET(&din, real_packet->improvements);
   }
   if (BV_ISSET(fields, 33)) {
     
@@ -5820,7 +5820,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 31);}
 
-  differ = (strcmp(old->improvements, real_packet->improvements) != 0);
+  differ = !BV_ARE_EQUAL(old->improvements, real_packet->improvements);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 32);}
 
@@ -6059,7 +6059,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
     dio_put_worklist(&dout, &real_packet->worklist);
   }
   if (BV_ISSET(fields, 32)) {
-    dio_put_bit_string(&dout, real_packet->improvements);
+  DIO_BV_PUT(&dout, packet->improvements);
   }
   if (BV_ISSET(fields, 33)) {
   
@@ -6180,7 +6180,7 @@ static int cmp_packet_city_short_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_city_short_info_100_fields, 11);
+BV_DEFINE(packet_city_short_info_100_fields, 10);
 
 static struct packet_city_short_info *receive_packet_city_short_info_100(struct connection *pc, enum packet_type type)
 {
@@ -6251,10 +6251,11 @@ static struct packet_city_short_info *receive_packet_city_short_info_100(struct 
   }
   real_packet->happy = BV_ISSET(fields, 5);
   real_packet->unhappy = BV_ISSET(fields, 6);
-  real_packet->capital = BV_ISSET(fields, 7);
-  real_packet->walls = BV_ISSET(fields, 8);
-  real_packet->occupied = BV_ISSET(fields, 9);
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 7)) {
+    DIO_BV_GET(&din, real_packet->improvements);
+  }
+  real_packet->occupied = BV_ISSET(fields, 8);
+  if (BV_ISSET(fields, 9)) {
     {
       int readin;
     
@@ -6324,21 +6325,17 @@ static int send_packet_city_short_info_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(packet->unhappy) {BV_SET(fields, 6);}
 
-  differ = (old->capital != real_packet->capital);
+  differ = !BV_ARE_EQUAL(old->improvements, real_packet->improvements);
   if(differ) {different++;}
-  if(packet->capital) {BV_SET(fields, 7);}
-
-  differ = (old->walls != real_packet->walls);
-  if(differ) {different++;}
-  if(packet->walls) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 7);}
 
   differ = (old->occupied != real_packet->occupied);
   if(differ) {different++;}
-  if(packet->occupied) {BV_SET(fields, 9);}
+  if(packet->occupied) {BV_SET(fields, 8);}
 
   differ = (old->tile_trade != real_packet->tile_trade);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 9);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -6364,10 +6361,11 @@ static int send_packet_city_short_info_100(struct connection *pc, const struct p
   }
   /* field 5 is folded into the header */
   /* field 6 is folded into the header */
-  /* field 7 is folded into the header */
+  if (BV_ISSET(fields, 7)) {
+  DIO_BV_PUT(&dout, packet->improvements);
+  }
   /* field 8 is folded into the header */
-  /* field 9 is folded into the header */
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint16(&dout, real_packet->tile_trade);
   }
 
@@ -8977,7 +8975,7 @@ static struct packet_city_sabotage_list *receive_packet_city_sabotage_list_100(s
     }
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_bit_string(&din, real_packet->improvements, sizeof(real_packet->improvements));
+    DIO_BV_GET(&din, real_packet->improvements);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -9021,7 +9019,7 @@ static int send_packet_city_sabotage_list_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (strcmp(old->improvements, real_packet->improvements) != 0);
+  differ = !BV_ARE_EQUAL(old->improvements, real_packet->improvements);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
@@ -9038,7 +9036,7 @@ static int send_packet_city_sabotage_list_100(struct connection *pc, const struc
     dio_put_uint16(&dout, real_packet->city_id);
   }
   if (BV_ISSET(fields, 2)) {
-    dio_put_bit_string(&dout, real_packet->improvements);
+  DIO_BV_PUT(&dout, packet->improvements);
   }
 
 
@@ -24807,7 +24805,7 @@ void lsend_packet_ruleset_city(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_building_100 cmp_const
 
-BV_DEFINE(packet_ruleset_building_100_fields, 17);
+BV_DEFINE(packet_ruleset_building_100_fields, 18);
 
 static struct packet_ruleset_building *receive_packet_ruleset_building_100(struct connection *pc, enum packet_type type)
 {
@@ -24952,12 +24950,20 @@ static struct packet_ruleset_building *receive_packet_ruleset_building_100(struc
     }
   }
   if (BV_ISSET(fields, 14)) {
-    dio_get_string(&din, real_packet->soundtag, sizeof(real_packet->soundtag));
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->flags = readin;
+    }
   }
   if (BV_ISSET(fields, 15)) {
-    dio_get_string(&din, real_packet->soundtag_alt, sizeof(real_packet->soundtag_alt));
+    dio_get_string(&din, real_packet->soundtag, sizeof(real_packet->soundtag));
   }
   if (BV_ISSET(fields, 16)) {
+    dio_get_string(&din, real_packet->soundtag_alt, sizeof(real_packet->soundtag_alt));
+  }
+  if (BV_ISSET(fields, 17)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -25098,17 +25104,21 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
-  differ = (strcmp(old->soundtag, real_packet->soundtag) != 0);
+  differ = (old->flags != real_packet->flags);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 14);}
 
-  differ = (strcmp(old->soundtag_alt, real_packet->soundtag_alt) != 0);
+  differ = (strcmp(old->soundtag, real_packet->soundtag) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 15);}
 
-  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
+  differ = (strcmp(old->soundtag_alt, real_packet->soundtag_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 16);}
+
+  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 17);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -25187,12 +25197,15 @@ static int send_packet_ruleset_building_100(struct connection *pc, const struct 
     dio_put_uint8(&dout, real_packet->sabotage);
   }
   if (BV_ISSET(fields, 14)) {
-    dio_put_string(&dout, real_packet->soundtag);
+    dio_put_uint16(&dout, real_packet->flags);
   }
   if (BV_ISSET(fields, 15)) {
-    dio_put_string(&dout, real_packet->soundtag_alt);
+    dio_put_string(&dout, real_packet->soundtag);
   }
   if (BV_ISSET(fields, 16)) {
+    dio_put_string(&dout, real_packet->soundtag_alt);
+  }
+  if (BV_ISSET(fields, 17)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 

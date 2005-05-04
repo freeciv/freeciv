@@ -42,7 +42,7 @@ struct packet_city_short_info;
 void handle_city_short_info(struct packet_city_short_info *packet);
 void handle_city_incite_info(int city_id, int cost);
 void handle_city_name_suggestion_info(int unit_id, char *name);
-void handle_city_sabotage_list(int diplomat_id, int city_id, char *improvements);
+void handle_city_sabotage_list(int diplomat_id, int city_id, bv_imprs improvements);
 void handle_player_remove(int player_id);
 struct packet_player_info;
 void handle_player_info(struct packet_player_info *packet);

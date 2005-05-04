@@ -27,20 +27,15 @@
 
 #include "improvement.h"
 
-/* Names of impr ranges.
- * (These must correspond to enum impr_range_id in improvement.h.)
- * do not change these unless you know what you're doing! */
-static const char *impr_range_names[] = {
-  "None",
-  "City",
-  "Island",
-  "Player",
-  "World"
-};
-
 static const char *genus_names[IG_LAST] = {
   "GreatWonder", "SmallWonder", "Improvement", "Special"
 };
+
+static const char *flag_names[] = {
+  "VisibleByOthers", "SaveSmallWonder"
+};
+/* Note that these strings must correspond with the enums in impr_flag_id,
+   in common/improvement.h */
 
 /**************************************************************************
 All the city improvements:
@@ -50,39 +45,6 @@ The improvement_types array is now setup in:
    client/packhand.c (for the client)
 **************************************************************************/
 struct impr_type improvement_types[B_LAST];
-
-/**************************************************************************
-  Convert impr range names to enum; case insensitive;
-  returns IR_LAST if can't match.
-**************************************************************************/
-enum impr_range impr_range_from_str(const char *str)
-{
-  enum impr_range ret_id;
-
-  assert(ARRAY_SIZE(impr_range_names) == IR_LAST);
-
-  for (ret_id = 0; ret_id < IR_LAST; ret_id++) {
-    if (0 == mystrcasecmp(impr_range_names[ret_id], str)) {
-      return ret_id;
-    }
-  }
-
-  return IR_LAST;
-}
-
-/**************************************************************************
-  Return impr range name; NULL if bad id.
-**************************************************************************/
-const char *impr_range_name(enum impr_range id)
-{
-  assert(ARRAY_SIZE(impr_range_names) == IR_LAST);
-
-  if (id < IR_LAST) {
-    return impr_range_names[id];
-  } else {
-    return NULL;
-  }
-}
 
 /**************************************************************************
   Convert impr genus names to enum; case insensitive;
@@ -263,6 +225,41 @@ Impr_type_id find_improvement_by_name_orig(const char *s)
   } impr_type_iterate_end;
 
   return B_LAST;
+}
+
+/**************************************************************************
+ Return TRUE if the impr has this flag otherwise FALSE
+**************************************************************************/
+bool impr_flag(Impr_type_id id, enum impr_flag_id flag)
+{
+  assert(flag >= 0 && flag < IF_LAST);
+  return TEST_BIT(improvement_types[id].flags, flag);
+}
+
+/**************************************************************************
+ Convert flag names to enum; case insensitive;
+ returns IF_LAST if can't match.
+**************************************************************************/
+enum impr_flag_id impr_flag_from_str(const char *s)
+{
+  enum impr_flag_id i;
+
+  assert(ARRAY_SIZE(flag_names) == IF_LAST);
+  
+  for(i = 0; i < IF_LAST; i++) {
+    if (mystrcasecmp(flag_names[i], s) == 0) {
+      return i;
+    }
+  }
+  return IF_LAST;
+}
+
+/**************************************************************************
+ Return TRUE if the improvement should be visible to others without spying
+**************************************************************************/
+bool is_improvement_visible(Impr_type_id id)
+{
+  return (is_wonder(id) || impr_flag(id, IF_VISIBLE_BY_OTHERS));
 }
 
 /**************************************************************************

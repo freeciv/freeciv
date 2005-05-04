@@ -312,24 +312,18 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 /**************************************************************************
   Updates a city's list of improvements from packet data. "impr" identifies
   the improvement, and "have_impr" specifies whether the improvement should
-  be added (TRUE) or removed (FALSE). "impr_changed" is set TRUE only if
-  the existing improvement status was changed by this call.
+  be added (TRUE) or removed (FALSE).
 **************************************************************************/
 static void update_improvement_from_packet(struct city *pcity,
-					   Impr_type_id impr, bool have_impr,
-					   bool *impr_changed)
+					   Impr_type_id impr, bool have_impr)
 {
-  if (have_impr && pcity->improvements[impr] == I_NONE) {
-    city_add_improvement(pcity, impr);
-
-    if (impr_changed) {
-      *impr_changed = TRUE;
+  if (have_impr) {
+    if (pcity->improvements[impr] == I_NONE) {
+      city_add_improvement(pcity, impr);
     }
-  } else if (!have_impr && pcity->improvements[impr] != I_NONE) {
-    city_remove_improvement(pcity, impr);
-
-    if (impr_changed) {
-      *impr_changed = TRUE;
+  } else {
+    if (pcity->improvements[impr] != I_NONE) {
+      city_remove_improvement(pcity, impr);
     }
   }
 }
@@ -382,7 +376,7 @@ void handle_game_state(int value)
 void handle_city_info(struct packet_city_info *packet)
 {
   int i;
-  bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
+  bool city_is_new, city_has_changed_owner = FALSE;
   bool need_units_dialog_update = FALSE;
   struct city *pcity;
   bool popup, update_descriptions = FALSE, name_changed = FALSE;
@@ -507,13 +501,14 @@ void handle_city_info(struct packet_city_info *packet)
   }
   
   impr_type_iterate(i) {
-    if (pcity->improvements[i] == I_NONE && packet->improvements[i] == '1'
+    if (pcity->improvements[i] == I_NONE
+	&& BV_ISSET(packet->improvements, i)
 	&& !city_is_new) {
       audio_play_sound(get_improvement_type(i)->soundtag,
 		       get_improvement_type(i)->soundtag_alt);
     }
-    update_improvement_from_packet(pcity, i, packet->improvements[i] == '1',
-                                   &need_effect_update);
+    update_improvement_from_packet(pcity, i,
+				   BV_ISSET(packet->improvements, i));
   } impr_type_iterate_end;
 
   /* We should be able to see units in the city.  But for a diplomat
@@ -632,7 +627,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 void handle_city_short_info(struct packet_city_short_info *packet)
 {
   struct city *pcity;
-  bool city_is_new, city_has_changed_owner = FALSE, need_effect_update = FALSE;
+  bool city_is_new, city_has_changed_owner = FALSE;
   bool update_descriptions = FALSE;
 
   pcity=find_city_by_id(packet->id);
@@ -696,10 +691,10 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     }
   }
 
-  update_improvement_from_packet(pcity, game.palace_building,
-				 packet->capital, &need_effect_update);
-  update_improvement_from_packet(pcity, game.land_defend_building,
-				 packet->walls, &need_effect_update);
+  impr_type_iterate(i) {
+    update_improvement_from_packet(pcity, i,
+				   BV_ISSET(packet->improvements, i));
+  } impr_type_iterate_end;
 
   /* This sets dumb values for everything else. This is not really required,
      but just want to be at the safe side. */
@@ -1362,20 +1357,6 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.coolinglevel = pinfo->coolinglevel;
 
   if (!can_client_change_view()) {
-    /*
-     * Hack to allow code that explicitly checks for Palace or City Walls
-     * to work.
-     */
-    game.palace_building = get_building_for_effect(EFT_CAPITAL_CITY);
-    if (game.palace_building == B_LAST) {
-      freelog(LOG_FATAL, "Cannot find any palace building");
-    }
-
-    game.land_defend_building = get_building_for_effect(EFT_LAND_DEFEND);
-    if (game.land_defend_building == B_LAST) {
-      freelog(LOG_FATAL, "Cannot find any land defend building");
-    }
-
     game.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.player_idx];
   }
@@ -2254,6 +2235,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
+  b->flags = p->flags;
   b->helptext = mystrdup(p->helptext);
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
@@ -2646,14 +2628,14 @@ void handle_unit_diplomat_popup_dialog(int diplomat_id, int target_id)
 ...
 **************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
-			       char *improvements)
+			       bv_imprs improvements)
 {
   struct unit *punit = player_find_unit_by_id(game.player_ptr, diplomat_id);
   struct city *pcity = find_city_by_id(city_id);
 
   if (punit && pcity) {
     impr_type_iterate(i) {
-      pcity->improvements[i] = (improvements[i]=='1') ? I_ACTIVE : I_NONE;
+      pcity->improvements[i] = BV_ISSET(improvements, i) ? I_ACTIVE : I_NONE;
     } impr_type_iterate_end;
 
     popup_sabotage_dialog(pcity);

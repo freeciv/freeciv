@@ -693,38 +693,43 @@ static void reestablish_city_trade_routes(struct city *pcity, int cities[])
 /**************************************************************************
 Create a palace in a random city. Used when the capital was conquered.
 **************************************************************************/
-static void build_free_palace(struct player *pplayer,
-			       const char *const old_capital_name)
+static void build_free_small_wonders(struct player *pplayer,
+				     const char *const old_capital_name,
+				     bv_imprs *had_small_wonders)
 {
   int size = city_list_size(pplayer->cities);
-  struct city *pnew_capital;
 
   if (size == 0) {
     /* The last city was removed or transferred to the enemy. R.I.P. */
     return;
   }
 
-  assert(find_palace(pplayer) == NULL);
+  impr_type_iterate(id) {
+    if (BV_ISSET(*had_small_wonders, id)) {
+      struct city *pnew_city;
 
-  pnew_capital = city_list_get(pplayer->cities, myrand(size));
+      assert(find_city_from_small_wonder(pplayer, id) == NULL);
 
-  city_add_improvement(pnew_capital, game.palace_building);
+      pnew_city = city_list_get(pplayer->cities, myrand(size));
 
-  /*
-   * send_player_cities will recalculate all cities and send them to
-   * the client.
-   */
-  send_player_cities(pplayer);
+      city_add_improvement(pnew_city, id);
 
-  notify_player(pplayer, _("You lost your capital %s. A new palace "
-			   "was built in %s."), old_capital_name,
-		pnew_capital->name);
+      /*
+       * send_player_cities will recalculate all cities and send them to
+       * the client.
+       */
+      send_player_cities(pplayer);
 
-  /* 
-   * The enemy want to see the new capital in his intelligence
-   * report. 
-   */
-  send_city_info(NULL, pnew_capital);
+      notify_player(pplayer, _("You lost %s. A new %s was built in %s."),
+		    old_capital_name, get_improvement_name(id),
+		    pnew_city->name);
+      /* 
+       * The enemy want to see the new capital in his intelligence
+       * report. 
+       */
+      send_city_info(NULL, pnew_city);
+    }
+  } impr_type_iterate_end;
 }
 
 /**********************************************************************
@@ -741,7 +746,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   struct unit_list *old_city_units = unit_list_new();
   struct player *pgiver = city_owner(pcity);
   int old_trade_routes[NUM_TRADEROUTES];
-  bool had_palace = is_capital(pcity);
+  bv_imprs had_small_wonders;
   char old_city_name[MAX_LEN_NAME];
 
   assert(pgiver != ptaker);
@@ -760,9 +765,13 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Remove all global improvement effects that this city confers (but
      then restore the local improvement list - we need this to restore the
      global effects for the new city owner) */
+  BV_CLR_ALL(had_small_wonders);
   built_impr_iterate(pcity, i) {
     city_remove_improvement(pcity, i);
-    if (!is_small_wonder(i)) {
+
+    if (is_small_wonder(i)) {
+      BV_SET(had_small_wonders, i);
+    } else {
       pcity->improvements[i] = I_ACTIVE;
     }
   } built_impr_iterate_end;
@@ -879,8 +888,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
-  if (had_palace && game.savepalace) {
-    build_free_palace(pgiver, pcity->name);
+  if (game.savepalace) {
+    build_free_small_wonders(pgiver, pcity->name, &had_small_wonders);
   }
 
   sanity_check_city(pcity);
@@ -1023,11 +1032,16 @@ void remove_city(struct city *pcity)
   int o;
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
-  bool had_palace = is_capital(pcity);
+  bv_imprs had_small_wonders;
   char *city_name = mystrdup(pcity->name);
 
+  BV_CLR_ALL(had_small_wonders);
   built_impr_iterate(pcity, i) {
     city_remove_improvement(pcity, i);
+
+    if (is_small_wonder(i)) {
+      BV_SET(had_small_wonders, i);
+    }
   } built_impr_iterate_end;
 
   /* Rehome units in other cities */
@@ -1130,8 +1144,8 @@ void remove_city(struct city *pcity)
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
-  if (had_palace && game.savepalace) {
-    build_free_palace(pplayer, city_name);
+  if (game.savepalace) {
+    build_free_small_wonders(pplayer, city_name, &had_small_wonders);
   }
 
   free(city_name);
@@ -1273,13 +1287,6 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 
   packet->size = pdcity->size;
 
-  if (pcity && pcity->id == pdcity->id && is_capital(pcity)) {
-    packet->capital = TRUE;
-  } else {
-    packet->capital = FALSE;
-  }
-
-  packet->walls = pdcity->has_walls;
   packet->occupied = pdcity->occupied;
   packet->happy = pdcity->happy;
   packet->unhappy = pdcity->unhappy;
@@ -1289,6 +1296,8 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   } else {
     packet->tile_trade = 0;
   }
+
+  packet->improvements = pdcity->improvements;
 }
 
 /**************************************************************************
@@ -1501,7 +1510,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 		  bool dipl_invest)
 {
   int x, y, i;
-  char *p;
+
   packet->id=pcity->id;
   packet->owner=pcity->owner;
   packet->x = pcity->tile->x;
@@ -1565,13 +1574,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     }
   }
 
-  p = packet->improvements;
-
+  BV_CLR_ALL(packet->improvements);
   impr_type_iterate(i) {
-    *p++ = (city_got_building(pcity, i)) ? '1' : '0';
+    if (city_got_building(pcity, i)) {
+      BV_SET(packet->improvements, i);
+    }
   } impr_type_iterate_end;
-
-  *p = '\0';
 }
 
 /**************************************************************************
@@ -1594,16 +1602,24 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   bool occupied =
     (unit_list_size(pcity->tile->units) > 0);
   bool happy = city_happy(pcity), unhappy = city_unhappy(pcity);
- 
+  bv_imprs improvements;
+
+  BV_CLR_ALL(improvements);
+  impr_type_iterate(i) {
+    if (is_improvement_visible(i) && city_got_building(pcity, i)) {
+      BV_SET(improvements, i);
+    }
+  } impr_type_iterate_end;
+
   if (pdcity
       && pdcity->id == pcity->id
       && strcmp(pdcity->name, pcity->name) == 0
       && pdcity->size == pcity->size
-      && pdcity->has_walls == city_got_citywalls(pcity)
       && pdcity->occupied == occupied
       && pdcity->happy == happy
       && pdcity->unhappy == unhappy
-      && pdcity->owner == pcity->owner) {
+      && pdcity->owner == pcity->owner
+      && BV_ARE_EQUAL(pdcity->improvements, improvements)) {
     return FALSE;
   }
 
@@ -1619,11 +1635,11 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   }
   sz_strlcpy(pdcity->name, pcity->name);
   pdcity->size = pcity->size;
-  pdcity->has_walls = city_got_citywalls(pcity);
   pdcity->occupied = occupied;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;
   pdcity->owner = pcity->owner;
+  pdcity->improvements = improvements;
 
   return TRUE;
 }

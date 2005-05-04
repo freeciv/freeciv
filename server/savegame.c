@@ -2334,7 +2334,9 @@ static void player_load(struct player *plr, int plrno,
 The private map for fog of war
 ***********************************************************************/
 static void player_map_load(struct player *plr, int plrno,
-			    struct section_file *file)
+			    struct section_file *file,
+			    char** improvement_order,
+			    int improvement_order_size)
 {
   int i;
 
@@ -2404,6 +2406,8 @@ static void player_map_load(struct player *plr, int plrno,
       for (j = 0; j < i; j++) {
 	int nat_x, nat_y;
 	struct tile *ptile;
+	int k, id;
+	const char *p;
 
 	nat_x = secfile_lookup_int(file, "player%d.dc%d.x", plrno, j);
 	nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
@@ -2413,7 +2417,6 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->id = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
 	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
-	pdcity->has_walls = secfile_lookup_bool(file, "player%d.dc%d.has_walls", plrno, j);    
 	pdcity->occupied = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.occupied", plrno, j);
 	pdcity->happy = secfile_lookup_bool_default(file, FALSE,
@@ -2421,6 +2424,25 @@ static void player_map_load(struct player *plr, int plrno,
 	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.unhappy", plrno, j);
 	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
+
+	/* Initialise list of improvements */
+	BV_CLR_ALL(pdcity->improvements);
+
+	p = secfile_lookup_str_default(file, NULL,
+				       "player%d.dc%d.improvements", plrno, j);
+	if (!p) {
+	  /* old savegames */
+	} else {
+	  for (k = 0; k < improvement_order_size && p[k]; k++) {
+	    if (p[k] == '1') {
+	      id = find_improvement_by_name_orig(improvement_order[k]);
+	      if (id != -1) {
+		BV_SET(pdcity->improvements, id);
+	      }
+	    }
+	  }
+	}
+
 	map_get_player_tile(ptile, plr)->city = pdcity;
 	alloc_id(pdcity->id);
       }
@@ -3001,6 +3023,7 @@ static void player_save(struct player *plr, int plrno,
     if (TRUE) {
       struct dumb_city *pdcity;
       i = 0;
+      char impr_buf[MAX_NUM_ITEMS + 1];
       
       whole_map_iterate(ptile) {
 	if ((pdcity = map_get_player_tile(ptile, plr)->city)) {
@@ -3014,8 +3037,8 @@ static void player_save(struct player *plr, int plrno,
 			     plrno, i);
 	  secfile_insert_int(file, pdcity->size, "player%d.dc%d.size",
 			     plrno, i);
-	  secfile_insert_bool(file, pdcity->has_walls,
-			     "player%d.dc%d.has_walls", plrno, i);
+	  secfile_insert_bool(file, FALSE,
+			      "player%d.dc%d.has_walls", plrno, i);
 	  secfile_insert_bool(file, pdcity->occupied,
 			      "player%d.dc%d.occupied", plrno, i);
 	  secfile_insert_bool(file, pdcity->happy,
@@ -3024,6 +3047,18 @@ static void player_save(struct player *plr, int plrno,
 			      "player%d.dc%d.unhappy", plrno, i);
 	  secfile_insert_int(file, pdcity->owner, "player%d.dc%d.owner",
 			     plrno, i);
+
+	  /* Save improvement list as bitvector. Note that improvement order
+	   * is saved in savefile.improvement_order.
+	   */
+	  impr_type_iterate(id) {
+	    impr_buf[id] = BV_ISSET(pdcity->improvements, id) ? '1' : '0';
+	  } impr_type_iterate_end;
+	  impr_buf[game.num_impr_types] = '\0';
+	  assert(strlen(impr_buf) < sizeof(impr_buf));
+	  secfile_insert_str(file, impr_buf,
+			     "player%d.dc%d.improvements", plrno, i);    
+
 	  i++;
 	}
       } whole_map_iterate_end;
@@ -3612,7 +3647,8 @@ void game_load(struct section_file *file)
     /* Since the cities must be placed on the map to put them on the
        player map we do this afterwards */
     for(i=0; i<game.nplayers; i++) {
-      player_map_load(&game.players[i], i, file); 
+      player_map_load(&game.players[i], i, file, improvement_order,
+		      improvement_order_size); 
     }
 
     /* We do this here since if the did it in player_load, player 1
