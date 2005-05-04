@@ -135,11 +135,19 @@ extern int city_tiles;
   } city_map_checked_iterate_end;                                 \
 }
 
+/* How much this output type is penalized for unhappy cities: not at all,
+ * surplus knocked down to 0, or all production removed. */
+enum output_unhappy_penalty {
+  UNHAPPY_PENALTY_NONE,
+  UNHAPPY_PENALTY_SURPLUS,
+  UNHAPPY_PENALTY_ALL_PRODUCTION
+};
 
 struct output_type {
   int index;
   const char *name; /* Untranslated name */
   const char *id; /* Identifier string (for rulesets, etc.) */
+  enum output_unhappy_penalty unhappy_penalty;
 };
 
 enum choice_type { CT_NONE = 0, CT_BUILDING = 0, CT_NONMIL, CT_ATTACKER,

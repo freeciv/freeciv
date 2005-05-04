@@ -46,12 +46,12 @@ int city_tiles;
  * they're just an easy way to access information about each output type. */
 const Output_type_id num_output_types = O_LAST;
 struct output_type output_types[O_LAST] = {
-  {O_FOOD, N_("Food"), "food"},
-  {O_SHIELD, N_("Shield"), "shield"},
-  {O_TRADE, N_("Trade"), "trade"},
-  {O_GOLD, N_("Gold"), "gold"},
-  {O_LUXURY, N_("Luxury"), "luxury"},
-  {O_SCIENCE, N_("Science"), "science"}
+  {O_FOOD, N_("Food"), "food", UNHAPPY_PENALTY_SURPLUS},
+  {O_SHIELD, N_("Shield"), "shield", UNHAPPY_PENALTY_SURPLUS},
+  {O_TRADE, N_("Trade"), "trade", UNHAPPY_PENALTY_NONE},
+  {O_GOLD, N_("Gold"), "gold", UNHAPPY_PENALTY_ALL_PRODUCTION},
+  {O_LUXURY, N_("Luxury"), "luxury", UNHAPPY_PENALTY_NONE},
+  {O_SCIENCE, N_("Science"), "science", UNHAPPY_PENALTY_ALL_PRODUCTION}
 };
 
 /**************************************************************************
@@ -1972,15 +1972,19 @@ static inline void citizen_happy_wonders(struct city *pcity, int *happy,
 static inline void unhappy_city_check(struct city *pcity)
 {
   if (city_unhappy(pcity)) {
-    pcity->unhappy_penalty[O_FOOD]
-      = MAX(pcity->prod[O_FOOD] - pcity->usage[O_FOOD], 0);
-    pcity->unhappy_penalty[O_SHIELD]
-      = MAX(pcity->prod[O_SHIELD] - pcity->usage[O_SHIELD], 0);
-    pcity->unhappy_penalty[O_GOLD] = pcity->prod[O_GOLD];
-    pcity->unhappy_penalty[O_SCIENCE] = pcity->prod[O_SCIENCE];
-    /* Trade and luxury are unaffected. */
-
     output_type_iterate(o) {
+      switch (output_types[o].unhappy_penalty) {
+      case UNHAPPY_PENALTY_NONE:
+	pcity->unhappy_penalty[o] = 0;
+	break;
+      case UNHAPPY_PENALTY_SURPLUS:
+	pcity->unhappy_penalty[o] = MAX(pcity->prod[o] - pcity->usage[o], 0);
+	break;
+      case UNHAPPY_PENALTY_ALL_PRODUCTION:
+	pcity->unhappy_penalty[o] = pcity->prod[o];
+	break;
+      }
+
       pcity->prod[o] -= pcity->unhappy_penalty[o];
     } output_type_iterate_end;
   } else {
