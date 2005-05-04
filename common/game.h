@@ -296,7 +296,7 @@ extern bool is_server;
 #define GAME_MIN_GOLD            0
 #define GAME_MAX_GOLD            5000
 
-#define GAME_DEFAULT_START_UNITS  "ccx"
+#define GAME_DEFAULT_START_UNITS  "ccwwx"
 
 #define GAME_DEFAULT_DISPERSION  0
 #define GAME_MIN_DISPERSION      0
