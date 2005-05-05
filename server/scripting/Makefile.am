@@ -27,9 +27,9 @@ libscripting_a_SOURCES = \
 		script_signal.c	\
 		script_signal.h
 
-BUILT_SOURCES = api_gen.c api_gen.h
-CLEANFILES = api_gen.c api_gen.h
+BUILT_SOURCES = $(srcdir)/api_gen.c $(srcdir)/api_gen.h
+CLEANFILES = $(srcdir)/api_gen.c $(srcdir)/api_gen.h
 
-api_gen.c api_gen.h: api.pkg
-	$(top_srcdir)/dependencies/tolua/tolua -o api_gen.c -H api_gen.h api.pkg
+$(srcdir)/api_gen.c $(srcdir)/api_gen.h: $(srcdir)/api.pkg
+	$(top_builddir)/dependencies/tolua/tolua -n api -o $(srcdir)/api_gen.c -H $(srcdir)/api_gen.h $(srcdir)/api.pkg
 
