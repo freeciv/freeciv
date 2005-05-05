@@ -621,7 +621,7 @@ static void gamelog_status(char *buffer, int len) {
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {
-      rank[count].value = get_civ_score(pplayer);
+      rank[count].value = pplayer->score.game;
       rank[count].idx = pplayer->player_no;
       size[count].value = total_player_citizens(pplayer);
       size[count].idx = pplayer->player_no;

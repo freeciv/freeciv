@@ -1416,6 +1416,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
   pplayer->team = pinfo->team;
+  pplayer->score.game = pinfo->score;
 
   pplayer->economic.gold=pinfo->gold;
   pplayer->economic.tax=pinfo->tax;

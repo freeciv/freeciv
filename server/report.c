@@ -1064,40 +1064,6 @@ void make_history_report(void)
 }
 
 /**************************************************************************
- Inform clients about player scores during a game.
-**************************************************************************/
-void report_progress_scores(void)
-{
-  int i, j = 0;
-  char buffer[4096];
-  struct player_score_entry size[game.info.nplayers];
-
-  players_iterate(pplayer) {
-    if (GOOD_PLAYER(pplayer)) {
-      size[j].value = get_civ_score(pplayer);
-      size[j].player = pplayer;
-      j++;
-    }
-  } players_iterate_end;
-
-  qsort(size, j, sizeof(struct player_score_entry), secompare);
-  buffer[0] = '\0';
-
-  for (i = 0; i < j; i++) {
-    cat_snprintf(buffer, sizeof(buffer),
-		 PL_("%2d: The %s %s scored %d point\n",
-		     "%2d: The %s %s scored %d points\n",
-		     size[i].value),
-		 i + 1, _(greatness[i]),
-		 get_nation_name_plural(size[i].player->nation),
-		 size[i].value);
-  }
-  page_conn(game.game_connections,
-	    _("Progress Scores:"),
-	    _("The Greatest Civilizations in the world."), buffer);
-}
-
-/**************************************************************************
   Inform clients about player scores and statistics when the game ends.
 **************************************************************************/
 void report_final_scores(void)
@@ -1108,7 +1074,7 @@ void report_final_scores(void)
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)) {
-      size[j].value = get_civ_score(pplayer);
+      size[j].value = pplayer->score.game;
       size[j].player = pplayer;
       j++;
     }

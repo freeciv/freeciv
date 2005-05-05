@@ -780,6 +780,23 @@ const char *get_ping_time_text(const struct player *pplayer)
 }
 
 /****************************************************************************
+  Return text giving the score of the player. This should only be used 
+  in playerdlg_common.c.
+****************************************************************************/
+const char *get_score_text(const struct player *pplayer)
+{
+  INIT;
+
+  if (pplayer->score.game > 0 || pplayer == game.player_ptr) {
+    add("%d", pplayer->score.game);
+  } else {
+    add("?");
+  }
+
+  RETURN;
+}
+
+/****************************************************************************
   Get the title for a "report".  This may include the city, economy,
   military, trade, player, etc., reports.  Some clients may generate the
   text themselves to get a better GUI layout.

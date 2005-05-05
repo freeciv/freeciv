@@ -26,6 +26,7 @@
 #include "score.h"
 #include "unit.h"
 
+static int get_civ_score(const struct player *pplayer);
 
 /**************************************************************************
   Allocates, fills and returns a land area claim map.
@@ -453,12 +454,14 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.spaceship += (int)(100 * pplayer->spaceship.habitation
 				      * pplayer->spaceship.success_rate);
   }
+
+  pplayer->score.game = get_civ_score(pplayer);
 }
 
 /**************************************************************************
   Return the civilization score (a numerical value) for the player.
 **************************************************************************/
-int get_civ_score(const struct player *pplayer)
+static int get_civ_score(const struct player *pplayer)
 {
   /* We used to count pplayer->score.happy here too, but this is too easily
    * manipulated by players at the endyear. */

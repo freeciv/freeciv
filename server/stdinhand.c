@@ -3458,17 +3458,6 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return team_command(caller, arg, check);
   case CMD_RULESETDIR:
     return set_rulesetdir(caller, arg, check);
-  case CMD_SCORE:
-    if (server_state == RUN_GAME_STATE || server_state == GAME_OVER_STATE) {
-      if (!check) {
-        report_progress_scores();
-      }
-      return TRUE;
-    } else {
-      cmd_reply(cmd, caller, C_SYNTAX,
-		_("The game must be running before you can see the score."));
-      return FALSE;
-    }
   case CMD_WALL:
     return wall(arg, check);
   case CMD_VOTE:

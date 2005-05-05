@@ -44,7 +44,6 @@ enum command_id {
   /* completely non-harmful: */
   CMD_EXPLAIN,
   CMD_SHOW,
-  CMD_SCORE,
   CMD_WALL,
   CMD_VOTE,
   

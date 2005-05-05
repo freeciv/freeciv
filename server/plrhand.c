@@ -1483,6 +1483,13 @@ static void package_player_info(struct player *plr,
   packet->gold            = plr->economic.gold;
   packet->government      = plr->government;
 
+  /* Only send score if we have contact */
+  if (info_level >= INFO_MEETING) {
+    packet->score = plr->score.game;
+  } else {
+    packet->score = 0;
+  }
+
   /* Send diplomatic status of the player to everyone they are in
    * contact with. */
   if (info_level >= INFO_EMBASSY

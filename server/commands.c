@@ -95,12 +95,6 @@ const struct command commands[] = {
       "used by clients).  With an argument, show only the named option, "
       "or options with that prefix.")
   },
-  {"score",	ALLOW_CTRL,
-   "score",
-   N_("Show current scores."),
-   N_("For each connected client, pops up a window showing the current "
-      "player scores.")
-  },
   {"wall",	ALLOW_HACK,
    N_("wall <message>"),
    N_("Send message to all connections."),

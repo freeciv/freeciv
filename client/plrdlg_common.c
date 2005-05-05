@@ -219,6 +219,7 @@ struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_FLAG, N_("Flag"), NULL, NULL, "flag"},
   {TRUE, COL_TEXT, N_("Nation"), col_nation, NULL, "nation"},
   {TRUE, COL_COLOR, N_("Border"), NULL, NULL, "border"},
+  {TRUE, COL_TEXT, N_("Score"), get_score_text, NULL, "score"},
   {TRUE, COL_TEXT, N_("Team"), col_team, NULL, "team"},
   {TRUE, COL_BOOLEAN, N_("AI"), NULL, col_ai, "ai"},
   {TRUE, COL_TEXT, N_("Attitude"), col_love, NULL, "attitude"},

@@ -125,6 +125,7 @@ struct player_score {
   int bnp;
   int mfg;
   int spaceship;
+  int game;             /* total score you get in player dialog */
 };
 
 struct player_ai {

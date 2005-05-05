@@ -480,8 +480,9 @@ static void begin_turn(bool is_new_turn)
   send_game_info(game.game_connections);
 
   if (is_new_turn) {
-    /* We build scores at the beginning and end of every turn.  We have to
-     * build them at the beginning so that the AI can use the data. */
+    /* We build scores at the beginning of every turn.  We have to
+     * build them at the beginning so that the AI can use the data,
+     * and we are sure to have it when we need it. */
     players_iterate(pplayer) {
       calc_civ_score(pplayer);
     } players_iterate_end;
@@ -664,12 +665,6 @@ static void end_turn(void)
       gamelog(GAMELOG_INFO, pplayer);
     } players_iterate_end;
   }
-
-  /* We build scores at the beginning and end of every turn.  We have to
-   * build them at the end so that the history report can be built. */
-  players_iterate(pplayer) {
-    calc_civ_score(pplayer);
-  } players_iterate_end;
 
   freelog(LOG_DEBUG, "Season of native unrests");
   summon_barbarians(); /* wild guess really, no idea where to put it, but
