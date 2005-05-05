@@ -376,7 +376,7 @@ struct settings_s settings[] = {
    * (Actually, mirules.nplayers does also affect reloads: you can't start a
    * reload game until enough players have connected (or are AI).)
    */
-  GEN_INT("mirules.nplayers", game.info.min_players,
+  GEN_INT("minplayers", game.info.min_players,
 	  SSET_PLAYERS, SSET_INTERNAL, SSET_VITAL,
           SSET_TO_CLIENT,
 	  N_("Minimum number of players"),
