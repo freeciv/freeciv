@@ -581,11 +581,6 @@ static void adjust_building_want_by_effects(struct city *pcity,
 		- game.info.incite_unit_factor * 5, 0);
 	  }
 	  break;
-	case EFT_REGEN_REPUTATION:
-	  v += (GAME_MAX_REPUTATION - pplayer->reputation) * 50 / 
-		  GAME_MAX_REPUTATION + 
-		amount * 4;
-	  break;
 	case EFT_GAIN_AI_LOVE:
 	  players_iterate(aplayer) {
 	    if (aplayer->ai.control) {

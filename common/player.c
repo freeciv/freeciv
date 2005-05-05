@@ -123,7 +123,6 @@ void player_init(struct player *plr)
   plr->is_dying = FALSE;
   plr->surrendered = FALSE;
   BV_CLR_ALL(plr->embassy);
-  plr->reputation=GAME_DEFAULT_REPUTATION;
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     plr->diplstates[i].type = DS_NO_CONTACT;
     plr->diplstates[i].has_reason_to_cancel = 0;
@@ -563,31 +562,6 @@ const char *love_text(const int love)
     assert(love > MAX_AI_LOVE * 90 / 100);
     return Q_("?attitude:Worshipful");
   }
-}
-
-/**************************************************************************
-Return a reputation level as a human-readable string
-**************************************************************************/
-const char *reputation_text(const int rep)
-{
-  if (rep == -1)
-    return "-";
-  else if (rep > GAME_MAX_REPUTATION * 0.95)
-    return _("Spotless");
-  else if (rep > GAME_MAX_REPUTATION * 0.85)
-    return _("Excellent");
-  else if (rep > GAME_MAX_REPUTATION * 0.75)
-    return _("Honorable");
-  else if (rep > GAME_MAX_REPUTATION * 0.55)
-    return _("Questionable");
-  else if (rep > GAME_MAX_REPUTATION * 0.30)
-    return _("Dishonorable");
-  else if (rep > GAME_MAX_REPUTATION * 0.15)
-    return _("Poor");
-  else if (rep > GAME_MAX_REPUTATION * 0.07)
-    return _("Despicable");
-  else
-    return _("Atrocious");
 }
 
 /**************************************************************************

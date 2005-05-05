@@ -323,19 +323,6 @@ static int ai_goldequiv_clause(struct player *pplayer,
       break;
     }
 
-    /* Check if we can trust this guy. If we have to crash spacerace leader,
-     * we don't care, though. */
-    if (ai->diplomacy.acceptable_reputation > aplayer->reputation
-        && ai->diplomacy.strategy != WIN_CAPITAL
-	&& (pclause->type != CLAUSE_CEASEFIRE
-	    || ai->diplomacy.acceptable_reputation_for_ceasefire > 
-	       aplayer->reputation)) {
-      notify(aplayer, _("*%s (AI)* Begone scoundrel, we all know that"
-             " you cannot be trusted!"), pplayer->name);
-      worth = -BIG_NUMBER;
-      break;
-    }
-
     /* Reduce treaty level?? */
     {
       enum diplstate_type ds = pplayer_get_diplstate(pplayer, aplayer)->type;
@@ -1124,8 +1111,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   /*** If we are greviously insulted, go to war immediately. ***/
 
   players_iterate(aplayer) {
-    if (ai->diplomacy.acceptable_reputation > aplayer->reputation
-        && pplayer->ai.love[aplayer->player_no] < 0
+    if (pplayer->ai.love[aplayer->player_no] < 0
         && pplayer->diplstates[aplayer->player_no].has_reason_to_cancel >= 2) {
       DIPLO_LOG(LOG_DIPL2, pplayer, ai, "Declaring war on %s in revenge",
                  target->name);

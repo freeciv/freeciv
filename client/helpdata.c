@@ -1456,9 +1456,9 @@ void helptext_government(char *buf, int i, const char *user_text)
   }
   if (government_has_flag(gov, G_HAS_SENATE)) {
     sprintf(buf + strlen(buf),
-	    _("* Has a senate that may throw "
-	      "the government into anarchy if war is declared while "
-	      "reputation is low.\n"));
+	    _("* Has a senate that will throw "
+	      "the government into anarchy if war is declared without "
+	      "good reason.\n"));
   }
   if (government_has_flag(gov, G_NO_UNHAPPY_CITIZENS)) {
     sprintf(buf + strlen(buf), _("* Has no unhappy citizens.\n"));

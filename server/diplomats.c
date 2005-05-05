@@ -1302,11 +1302,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     die("No victim in call to maybe_cause_incident()");
   }
 
-  if (!pplayers_at_war(offender, victim_player) &&
-      (myrand(GAME_MAX_REPUTATION) - offender->reputation >
-       GAME_MAX_REPUTATION/2 - victim_player->reputation)) {
-    enum diplstate_type ds = pplayer_get_diplstate(offender, victim_player)->type;
-    int punishment = 0;
+  if (!pplayers_at_war(offender, victim_player)) {
     switch (action) {
     case DIPLOMAT_BRIBE:
       notify_player_ex(offender, victim_tile, E_DIPLOMATIC_INCIDENT,
@@ -1351,29 +1347,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
  	 get inside this "if" */
       die("Bug in maybe_cause_incident()");
     }
-    switch (ds) {
-    case DS_WAR:
-    case DS_NO_CONTACT:
-      freelog(LOG_VERBOSE,"Trying to cause an incident between players at war");
-      punishment = 0;
-      break;
-    case DS_NEUTRAL:
-      punishment = GAME_MAX_REPUTATION/20;
-      break;
-    case DS_CEASEFIRE:
-    case DS_PEACE:
-      punishment = GAME_MAX_REPUTATION/10;
-      break;
-    case DS_ALLIANCE:
-      punishment = GAME_MAX_REPUTATION/5;
-      break;
-    default:
-      die("Illegal diplstate in maybe_cause_incident.");
-    }
-    offender->reputation = MAX(offender->reputation - punishment, 0);
     victim_player->diplstates[offender->player_no].has_reason_to_cancel = 2;
-    /* FIXME: Maybe we should try to cause a revolution is the offender's
-       government has a senate */
     send_player_info(offender, NULL);
     send_player_info(victim_player, NULL);
   }

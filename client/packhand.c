@@ -1445,8 +1445,6 @@ void handle_player_info(struct packet_player_info *pinfo)
     pplayer->diplstates[i].has_reason_to_cancel =
       pinfo->diplstates[i].has_reason_to_cancel;
   }
-  pplayer->reputation = pinfo->reputation;
-
   pplayer->is_connected = pinfo->is_connected;
 
   for (i = 0; i < B_LAST/*game.control.num_impr_types*/; i++) {

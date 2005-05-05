@@ -622,7 +622,6 @@ PACKET_PLAYER_INFO=39; is-info,sc
   TURN nturns_idle;
   BOOL is_alive;
 
-  UINT32 reputation;
   diplstate(struct player_diplstate) diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   
   GOLD gold;

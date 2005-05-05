@@ -379,7 +379,6 @@ struct packet_player_info {
   bool phase_done;
   int nturns_idle;
   bool is_alive;
-  int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int gold;
   int tax;

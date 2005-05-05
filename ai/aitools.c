@@ -110,9 +110,9 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 
 /**********************************************************************
   There are some signs that a player might be dangerous: We are at 
-  war with him, he has lousy reputation, he has done lots of ignoble 
-  things to us, he is an ally of one of our enemies (a ticking bomb
-  to be sure), or he is our war target.
+  war with him, he has done lots of ignoble things to us, he is an 
+  ally of one of our enemies (a ticking bomb to be sure), or he is 
+  our war target.
 ***********************************************************************/
 bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 {
@@ -120,13 +120,10 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
   int reason = pplayer->diplstates[aplayer->player_no].has_reason_to_cancel;
 
-  /* Have to check if aplayer == pplayer explicitly because our reputation
-   * can be so low that we'd fear being stabbed in the back by ourselves */ 
   return (pplayer != aplayer
           && (pplayers_at_war(pplayer, aplayer)
               || ai->diplomacy.target == aplayer
               || reason != 0
-              || ai->diplomacy.acceptable_reputation > aplayer->reputation
               || adip->is_allied_with_enemy));
 }
 

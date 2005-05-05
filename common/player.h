@@ -207,7 +207,6 @@ struct player {
 
   bool capital; /* used to give player init_buildings in first city. */
   bv_player embassy;
-  int reputation;
   struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int city_style;
   struct unit_list *units;
@@ -280,7 +279,6 @@ struct city *find_palace(const struct player *pplayer);
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype);
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
 
-const char *reputation_text(const int rep);
 const char *diplstate_text(const enum diplstate_type type);
 const char *love_text(const int love);
 

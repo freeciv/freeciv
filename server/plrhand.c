@@ -1079,7 +1079,6 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   enum diplstate_type old_type;
   enum diplstate_type new_type;
   struct player *pplayer2;
-  int reppenalty = 0;
   bool has_senate, repeat = FALSE;
 
   if (!is_valid_player_id(other_player_id)) {
@@ -1114,8 +1113,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   /* else, breaking a treaty */
 
 repeat_break_treaty:
-  /* check what the new status will be, and what will happen to our
-     reputation */
+  /* check what the new status will be */
   switch(old_type) {
   case DS_NO_CONTACT: /* possible if someone declares war on our ally */
   case DS_NEUTRAL:
@@ -1123,15 +1121,12 @@ repeat_break_treaty:
     break;
   case DS_CEASEFIRE:
     new_type = DS_NEUTRAL;
-    reppenalty += GAME_MAX_REPUTATION/6;
     break;
   case DS_PEACE:
     new_type = DS_NEUTRAL;
-    reppenalty += GAME_MAX_REPUTATION/5;
     break;
   case DS_ALLIANCE:
     new_type = DS_PEACE;
-    reppenalty += GAME_MAX_REPUTATION/4;
     break;
   default:
     freelog(LOG_ERROR, "non-pact diplstate in handle_player_cancel_pact");
@@ -1177,23 +1172,12 @@ repeat_break_treaty:
                          "constant provocations of the %s."),
                        get_nation_name_plural(pplayer2->nation));
     }
-  }
-  /* no reason to cancel, apply penalty (and maybe suffer a revolution) */
-  /* FIXME: according to civII rules, republics and democracies
-     have different chances of revolution; maybe we need to
-     extend the govt rulesets to mimic this -- pt */
-  else {
-    pplayer->reputation = MAX(pplayer->reputation - reppenalty, 0);
-    notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
-                     _("Your reputation is now %s."),
-                     reputation_text(pplayer->reputation));
+  } else {
     if (has_senate && pplayer->revolution_finishes < 0) {
-      if (myrand(GAME_MAX_REPUTATION) > pplayer->reputation) {
         notify_player_ex(pplayer, NULL, E_ANARCHY,
                          _("The senate decides to dissolve "
                          "rather than support your actions any longer."));
 	handle_player_change_government(pplayer, pplayer->government);
-      }
     }
   }
 
@@ -1464,7 +1448,6 @@ static void package_player_common(struct player *plr,
     packet->love[i] = plr->ai.love[i];
   }
   packet->barbarian_type = plr->ai.barbarian_type;
-  packet->reputation=plr->reputation;
 
   packet->phase_done = plr->phase_done;
   packet->nturns_idle=plr->nturns_idle;

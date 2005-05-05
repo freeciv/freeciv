@@ -165,14 +165,6 @@ static const char *col_vision(const struct player *player)
 }
 
 /******************************************************************
-  Returns a translated string telling the player's reputation.
-*******************************************************************/
-static const char *col_reputation(const struct player *player)
-{
-  return reputation_text(player->reputation);
-}
-
-/******************************************************************
   Returns a translated string giving the player's "state".
 
   FIXME: These terms aren't very intuitive for new players.
@@ -233,7 +225,6 @@ struct player_dlg_column player_dlg_columns[] = {
   {TRUE, COL_TEXT, N_("Embassy"), col_embassy, NULL, "embassy"},
   {TRUE, COL_TEXT, N_("Dipl.State"), col_diplstate, NULL, "diplstate"},
   {TRUE, COL_TEXT, N_("Vision"), col_vision, NULL, "vision"},
-  {TRUE, COL_TEXT, N_("Reputation"), col_reputation, NULL, "reputation"},
   {TRUE, COL_TEXT, N_("State"), col_state, NULL, "state"},
   {FALSE, COL_TEXT, N_("?Player_dlg:Host"), col_host, NULL, "host"},
   {FALSE, COL_RIGHT_TEXT, N_("?Player_dlg:Idle"), col_idle, NULL, "idle"},

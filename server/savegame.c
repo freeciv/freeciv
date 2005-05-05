@@ -1952,8 +1952,6 @@ static void player_load(struct player *plr, int plrno,
 
   update_research(plr);
 
-  plr->reputation=secfile_lookup_int_default(file, GAME_DEFAULT_REPUTATION,
-					     "player%d.reputation", plrno);
   for (i = 0; i < game.info.nplayers; i++) {
     plr->diplstates[i].type = 
       secfile_lookup_int_default(file, DS_WAR,
@@ -2664,7 +2662,6 @@ static void player_save(struct player *plr, int plrno,
   invs[game.control.num_tech_types] = '\0';
   secfile_insert_str(file, invs, "player%d.invs_new", plrno);
 
-  secfile_insert_int(file, plr->reputation, "player%d.reputation", plrno);
   for (i = 0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
     secfile_insert_int(file, plr->diplstates[i].type,
 		       "player%d.diplstate%d.type", plrno, i);

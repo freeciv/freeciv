@@ -2128,18 +2128,13 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 
 /**************************************************************************
   Nuke all the squares in a 3x3 square around the center of the explosion
-  pplayer is the player that caused the explosion. You lose reputation
-  each time.
+  pplayer is the player that caused the explosion.
 **************************************************************************/
 void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 {
   square_iterate(ptile, 1, ptile1) {
     do_nuke_tile(pplayer, ptile1);
   } square_iterate_end;
-
-  /* Give reputation penalty to nuke users */
-  pplayer->reputation = MAX(pplayer->reputation - REPUTATION_LOSS_NUKE, 0);
-  send_player_info(pplayer, NULL);
 
   notify_conn_ex(game.game_connections, ptile, E_NUKE,
 		 _("%s detonated a nuke!"), pplayer->name);

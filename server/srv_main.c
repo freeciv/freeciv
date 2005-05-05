@@ -406,8 +406,7 @@ static void update_environmental_upset(enum tile_special_type cause,
 }
 
 /**************************************************************************
- check for cease-fires running out; update reputation; update cancelling
- reasons
+ check for cease-fires running out; update cancelling reasons
 **************************************************************************/
 static void update_diplomatics(void)
 {
@@ -443,11 +442,6 @@ static void update_diplomatics(void)
   	}
         }
     } players_iterate_end;
-    player1->reputation = 
-      MIN((get_player_bonus(player1, EFT_REGEN_REPUTATION) * 
-           GAME_MAX_REPUTATION / 1000) + 
-	  player1->reputation + GAME_REPUTATION_INCR,
-          GAME_MAX_REPUTATION);
   } players_iterate_end;
 }
 
