@@ -1,5 +1,5 @@
 /********************************************************************** 
- Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+ Freeciv - Copyright (C) 2005 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -28,26 +28,14 @@
 #include "shared.h"
 #include "support.h"
 
-#ifdef AMIGA
-#include "audio_amiga.h"
-#endif
-#ifdef ESD
-#include "audio_esd.h"
-#endif
 #include "audio_none.h"
 #ifdef SDL
 #include "audio_sdl.h"
 #endif
-#ifdef WINMM
-#include "audio_winmm.h"
-#endif
-#ifdef ALSA
-#include "audio_alsa.h"
-#endif
 
 #include "audio.h"
 
-#define MAX_NUM_PLUGINS		4
+#define MAX_NUM_PLUGINS		2
 #define SNDSPEC_SUFFIX		".soundspec"
 
 /* keep it open throughout */
@@ -154,20 +142,8 @@ void audio_init()
   assert(num_plugins_used == 1);
   selected_plugin = 0;
 
-#ifdef ESD
-  audio_esd_init();
-#endif
 #ifdef SDL
   audio_sdl_init();
-#endif
-#ifdef ALSA
-  audio_alsa_init();
-#endif
-#ifdef WINMM
-  audio_winmm_init();
-#endif
-#ifdef AMIGA
-  audio_amiga_init();
 #endif
 }
 
@@ -221,10 +197,8 @@ void audio_real_init(const char *const spec_name,
     freelog(LOG_NORMAL, _("No real audio plugin present, "
       "proceeding with sound support disabled"));
     freelog(LOG_NORMAL,
-      _("For sound support, install either esound or SDL_mixer"));
-    freelog(LOG_NORMAL, 
-      _("Esound: http://www.tux.org/~ricdude/EsounD.html"));
-    freelog(LOG_NORMAL, _("SDL_mixer: http://www.libsdl.org/"
+      _("For sound support, install SDL_mixer"));
+    freelog(LOG_NORMAL, _("http://www.libsdl.org/"
       "projects/SDL_mixer/index.html"));
     tagfile = NULL;
     return;
@@ -278,18 +252,6 @@ void audio_real_init(const char *const spec_name,
 
 #ifdef SDL
   if (audio_select_plugin("sdl")) return; 
-#endif
-#ifdef ESD
-  if (audio_select_plugin("esd")) return; 
-#endif
-#ifdef ALSA
-  if (audio_select_plugin("alsa")) return;
-#endif
-#ifdef WINMM
-  if (audio_select_plugin("winmm")) return;
-#endif
-#ifdef AMIGA
-  if (audio_select_plugin("amiga")) return;
 #endif
   freelog(LOG_ERROR,
     _("No real audio subsystem managed to initialize!"));
@@ -367,6 +329,22 @@ void audio_play_music(const char *const tag, char *const alt_tag)
 void audio_stop()
 {
   plugins[selected_plugin].stop();
+}
+
+/**************************************************************************
+  Stop looping sound. Music should die down in a few seconds.
+**************************************************************************/
+double audio_get_volume()
+{
+  return plugins[selected_plugin].get_volume();
+}
+
+/**************************************************************************
+  Stop looping sound. Music should die down in a few seconds.
+**************************************************************************/
+void audio_set_volume(double volume)
+{
+  plugins[selected_plugin].set_volume(volume);
 }
 
 /**************************************************************************

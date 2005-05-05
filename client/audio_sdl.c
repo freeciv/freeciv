@@ -34,6 +34,25 @@ struct sample {
 
 static Mix_Music *mus = NULL;
 static struct sample samples[MIX_CHANNELS];
+static double my_volume;
+
+/**************************************************************************
+  Set the volume.
+**************************************************************************/
+static void my_set_volume(double volume)
+{
+  Mix_VolumeMusic(volume * MIX_MAX_VOLUME);
+  Mix_Volume(-1, volume * MIX_MAX_VOLUME);
+  my_volume = volume;
+}
+
+/**************************************************************************
+  Get the volume.
+**************************************************************************/
+static double my_get_volume(void)
+{
+  return my_volume;
+}
 
 /**************************************************************************
   Play sound
@@ -206,7 +225,7 @@ static bool my_init(void)
     samples[i].wave = NULL;
   }
   /* sanity check, for now; add volume controls later */
-  Mix_Volume(-1, MIX_MAX_VOLUME);
+  my_set_volume(my_volume);
   return TRUE;
 }
 
@@ -225,5 +244,8 @@ void audio_sdl_init(void)
   self.stop = my_stop;
   self.wait = my_wait;
   self.play = my_play;
+  self.set_volume = my_set_volume;
+  self.get_volume = my_get_volume;
   audio_add_plugin(&self);
+  my_volume = 1.0;
 }

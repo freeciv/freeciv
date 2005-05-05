@@ -415,7 +415,7 @@ if test x$client != xno; then
     AC_MSG_ERROR(could not guess which client to compile)
   fi
 
-  dnl Check for sound support, sets SOUND_CFLAGS, SOUND_LIBS, ESD, SDL & WINMM
+  dnl Check for sound support, sets SOUND_CFLAGS, SOUND_LIBS, SDL
   FC_CHECK_SOUND()
 
   gui_sources="gui-$client"
@@ -429,10 +429,7 @@ AC_SUBST(SOUND_CFLAGS)
 AC_SUBST(SOUND_LIBS)
 AC_SUBST(VERSION_WITHOUT_LABEL)
 AC_SUBST(VERSION_LABEL)
-AM_CONDITIONAL(ESD, test "x$ESD" = "xyes")
 AM_CONDITIONAL(SDL, test "x$SDL_mixer" = "xyes")
-AM_CONDITIONAL(ALSA, test "x$ALSA" = "xyes")
-AM_CONDITIONAL(WINMM, test "x$WINMM" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_SDL, test "$gui_sources" = "gui-sdl")
 AM_CONDITIONAL(CLIENT_GUI_GTK_2_0, test "$gui_sources" = "gui-gtk-2.0")
 AM_CONDITIONAL(CLIENT_GUI_XAW, test "$gui_sources" = "gui-xaw")

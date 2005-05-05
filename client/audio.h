@@ -25,6 +25,8 @@ struct audio_plugin {
   void (*shutdown) (void);
   void (*stop) (void);
   void (*wait) (void);
+  double (*get_volume) (void);
+  void (*set_volume) (double volume);
   bool (*play) (const char *const tag, const char *const path, bool repeat);
 };
 
@@ -40,6 +42,9 @@ void audio_stop(void);
 
 void audio_play_sound(const char *const tag, char *const alt_tag);
 void audio_play_music(const char *const tag, char *const alt_tag);
+
+double audio_get_volume(void);
+void audio_set_volume(double volume);
 
 bool audio_select_plugin(const char *const name);
 const char *audio_get_all_plugin_names(void);
