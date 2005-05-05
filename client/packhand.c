@@ -948,7 +948,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool ret = FALSE;
   
   punit = player_find_unit_by_id(get_player(packet_unit->owner),
-				 packet_unit->id);
+                                 packet_unit->id);
+  if (!punit && find_unit_by_id(packet_unit->id)) {
+    /* This means unit has changed owner. We deal with this here
+     * by simply deleting the old one and creating a new one. */
+    handle_unit_remove(packet_unit->id);
+  }
 
   if (punit) {
     const int old_transported_by = punit->transported_by;
