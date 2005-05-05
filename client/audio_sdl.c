@@ -32,6 +32,15 @@ struct sample {
   const char *tag;
 };
 
+/* Sounds don't sound good on Windows unless the buffer size is 4k,
+ * but this seems to cause strange behaviour on other systems,
+ * such as a delay before playing the sound. */
+#ifdef WIN32_NATIVE
+const size_t buf_size = 4096;
+#else
+const size_t buf_size = 1024;
+#endif
+
 static Mix_Music *mus = NULL;
 static struct sample samples[MIX_CHANNELS];
 static double my_volume;
@@ -213,7 +222,7 @@ static bool my_init(void)
     return FALSE;
   }
 
-  if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, 4096) < 0) {
+  if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, buf_size) < 0) {
     freelog(LOG_ERROR, "Error calling Mix_OpenAudio");
     /* try something else */
     quit_sdl_audio();
