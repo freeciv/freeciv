@@ -35,6 +35,18 @@
 #define MAX_LEN_VET_SHORT_NAME 8
 #define MAX_VET_LEVELS 10
 
+/* Changing these will probably break network compatability. */
+#define MAX_LEN_DEMOGRAPHY 16
+#define MAX_LEN_ALLOW_TAKE 16
+#define MAX_ID_LEN 33
+#define MAX_GRANARY_INIS 24
+#define MAX_LEN_STARTUNIT (20+1)
+
+/* Server setting types.  Changing these will break network compatability. */
+enum sset_type {
+  SSET_BOOL, SSET_INT, SSET_STRING
+};
+
 enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };
@@ -75,5 +87,29 @@ enum unit_move_type {
   HELI_MOVING,
   AIR_MOVING
 };
+
+/* The direction8 gives the 8 possible directions.  These may be used in
+ * a number of ways, for instance as an index into the DIR_DX/DIR_DY
+ * arrays.  Not all directions may be valid; see is_valid_dir and
+ * is_cardinal_dir. */
+enum direction8 {
+  /* The DIR8/direction8 naming system is used to avoid conflict with
+   * DIR4/direction4 in client/tilespec.h
+   *
+   * Changing the order of the directions will break network compatability.
+   *
+   * Some code assumes that the first 4 directions are the reverses of the
+   * last 4 (in no particular order).  See client/goto.c. */
+  DIR8_NORTHWEST = 0,
+  DIR8_NORTH = 1,
+  DIR8_NORTHEAST = 2,
+  DIR8_WEST = 3,
+  DIR8_EAST = 4,
+  DIR8_SOUTHWEST = 5,
+  DIR8_SOUTH = 6,
+  DIR8_SOUTHEAST = 7
+};
+#define DIR8_LAST 8
+#define DIR8_COUNT DIR8_LAST
 
 #endif /* FC__FC_TYPES_H */

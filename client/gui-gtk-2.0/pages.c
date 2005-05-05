@@ -1441,7 +1441,7 @@ static void update_nation_page(struct packet_game_load *packet)
 {
   int i;
 
-  game.nplayers = packet->nplayers;
+  game.info.nplayers = packet->nplayers;
 
   gtk_list_store_clear(nation_store);
 

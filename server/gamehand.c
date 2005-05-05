@@ -21,6 +21,7 @@
 #include "capability.h"
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "improvement.h"
 #include "log.h"
 #include "mem.h"
@@ -79,7 +80,7 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
   }
 
   /* Expose visible area. */
-  circle_iterate(ptile, game.rgame.init_vis_radius_sq, ctile) {
+  circle_iterate(ptile, game.info.init_vis_radius_sq, ctile) {
     show_area(pplayer, ctile, 0);
   } circle_iterate_end;
 
@@ -150,8 +151,10 @@ static struct tile *find_dispersed_position(struct player *pplayer,
   int x, y;
 
   do {
-    x = p->tile->x + myrand(2 * game.dispersion + 1) - game.dispersion;
-    y = p->tile->y + myrand(2 * game.dispersion + 1) - game.dispersion;
+    x = p->tile->x + myrand(2 * game.info.dispersion + 1) 
+        - game.info.dispersion;
+    y = p->tile->y + myrand(2 * game.info.dispersion + 1)
+        - game.info.dispersion;
   } while (!((ptile = map_pos_to_tile(x, y))
              && tile_get_continent(p->tile) == tile_get_continent(ptile)
              && !is_ocean(tile_get_terrain(ptile))
@@ -166,7 +169,7 @@ static struct tile *find_dispersed_position(struct player *pplayer,
 void init_new_game(void)
 {
   const int NO_START_POS = -1;
-  int start_pos[game.nplayers];
+  int start_pos[game.info.nplayers];
   bool pos_used[map.num_start_positions];
   int i, num_used = 0;
 
@@ -240,7 +243,7 @@ void init_new_game(void)
     }
 
     /* Place the first unit. */
-    place_starting_unit(pos.tile, pplayer, game.start_units[0]);
+    place_starting_unit(pos.tile, pplayer, game.info.start_units[0]);
   } players_iterate_end;
 
   /* Place all other units. */
@@ -257,11 +260,11 @@ void init_new_game(void)
     }
 
     /* Place global start units */
-    for (i = 1; i < strlen(game.start_units); i++) {
+    for (i = 1; i < strlen(game.info.start_units); i++) {
       ptile = find_dispersed_position(pplayer, &p);
 
       /* Create the unit of an appropriate type. */
-      place_starting_unit(ptile, pplayer, game.start_units[i]);
+      place_starting_unit(ptile, pplayer, game.info.start_units[i]);
     }
 
     /* Place nation specific start units (not role based!) */
@@ -278,12 +281,12 @@ void init_new_game(void)
 
 /**************************************************************************
   This is called once at the start of each phase to alert the clients to
-  the new phase.  game.phase should be incremented before calling it.
+  the new phase.  game.info.phase should be incremented before calling it.
 **************************************************************************/
 void send_start_phase_to_clients(void)
 {
   /* This function is so simple it could probably be dropped... */
-  dlsend_packet_start_phase(game.game_connections, game.phase);
+  dlsend_packet_start_phase(game.game_connections, game.info.phase);
 }
 
 /**************************************************************************
@@ -295,13 +298,13 @@ void send_year_to_clients(int year)
   struct packet_new_year apacket;
   int i;
   
-  for(i=0; i<game.nplayers; i++) {
+  for(i=0; i<game.info.nplayers; i++) {
     struct player *pplayer = &game.players[i];
     pplayer->nturns_idle++;
   }
 
   apacket.year = year;
-  apacket.turn = game.turn;
+  apacket.turn = game.info.turn;
   lsend_packet_new_year(game.game_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
@@ -327,53 +330,20 @@ void send_game_state(struct conn_list *dest, int state)
 void send_game_info(struct conn_list *dest)
 {
   struct packet_game_info ginfo;
-  int i;
 
   if (!dest) {
     dest = game.game_connections;
   }
 
-  ginfo.gold = game.gold;
-  ginfo.tech = game.tech;
-  ginfo.researchcost = game.researchcost;
-  ginfo.skill_level = game.skill_level;
-  ginfo.timeout = game.timeout;
-  ginfo.end_year = game.end_year;
-  ginfo.year = game.year;
-  ginfo.turn = game.turn;
-  ginfo.phase = game.phase;
-  ginfo.simultaneous_phases = game.simultaneous_phases_now;
-  ginfo.num_phases = game.num_phases;
-  ginfo.min_players = game.min_players;
-  ginfo.max_players = game.max_players;
-  ginfo.nplayers = game.nplayers;
-  ginfo.globalwarming = game.globalwarming;
-  ginfo.heating = game.heating;
-  ginfo.warminglevel = game.warminglevel;
-  ginfo.nuclearwinter = game.nuclearwinter;
-  ginfo.cooling = game.cooling;
-  ginfo.coolinglevel = game.coolinglevel;
-  ginfo.diplomacy = game.diplomacy;
-  ginfo.techpenalty = game.techpenalty;
-  ginfo.foodbox = game.foodbox;
-  ginfo.spacerace = game.spacerace;
-  ginfo.unhappysize = game.unhappysize;
-  ginfo.angrycitizen = game.angrycitizen;
-  ginfo.diplcost = game.diplcost;
-  ginfo.freecost = game.freecost;
-  ginfo.conquercost = game.conquercost;
-  ginfo.cityfactor = game.cityfactor;
-  for (i = 0; i < A_LAST /*game.num_tech_types */ ; i++)
-    ginfo.global_advances[i] = game.global_advances[i];
-  for (i = 0; i < B_LAST /*game.num_impr_types */ ; i++)
-    ginfo.great_wonders[i] = game.great_wonders[i];
+  ginfo = game.info;
+
   /* the following values are computed every
      time a packet_game_info packet is created */
-  if (game.timeout > 0 && game.phase_timer) {
+  if (game.info.timeout > 0 && game.phase_timer) {
     /* Sometimes this function is called before the phase_timer is
      * initialized.  In that case we want to send the dummy value. */
     ginfo.seconds_to_phasedone
-      = game.seconds_to_phase_done - read_timer_seconds(game.phase_timer);
+      = game.info.seconds_to_phasedone - read_timer_seconds(game.phase_timer);
   } else {
     /* unused but at least initialized */
     ginfo.seconds_to_phasedone = -1.0;
@@ -388,43 +358,43 @@ void send_game_info(struct conn_list *dest)
 }
 
 /**************************************************************************
-  adjusts game.timeout based on various server options
+  adjusts game.info.timeout based on various server options
 
-  timeoutint: adjust game.timeout every timeoutint turns
-  timeoutinc: adjust game.timeout by adding timeoutinc to it.
-  timeoutintinc: every time we adjust game.timeout, we add timeoutintinc
+  timeoutint: adjust game.info.timeout every timeoutint turns
+  timeoutinc: adjust game.info.timeout by adding timeoutinc to it.
+  timeoutintinc: every time we adjust game.info.timeout, we add timeoutintinc
                  to timeoutint.
-  timeoutincmult: every time we adjust game.timeout, we multiply timeoutinc
+  timeoutincmult: every time we adjust game.info.timeout, we multiply timeoutinc
                   by timeoutincmult
 **************************************************************************/
 int update_timeout(void)
 {
   /* if there's no timer or we're doing autogame, do nothing */
-  if (game.timeout < 1 || game.timeoutint == 0) {
-    return game.timeout;
+  if (game.info.timeout < 1 || game.timeoutint == 0) {
+    return game.info.timeout;
   }
 
   if (game.timeoutcounter >= game.timeoutint) {
-    game.timeout += game.timeoutinc;
+    game.info.timeout += game.timeoutinc;
     game.timeoutinc *= game.timeoutincmult;
 
     game.timeoutcounter = 1;
     game.timeoutint += game.timeoutintinc;
 
-    if (game.timeout > GAME_MAX_TIMEOUT) {
+    if (game.info.timeout > GAME_MAX_TIMEOUT) {
       notify_conn_ex(game.game_connections, NULL, E_NOEVENT,
 		     _("The turn timeout has exceeded its maximum value, "
 		       "fixing at its maximum"));
-      freelog(LOG_DEBUG, "game.timeout exceeded maximum value");
-      game.timeout = GAME_MAX_TIMEOUT;
+      freelog(LOG_DEBUG, "game.info.timeout exceeded maximum value");
+      game.info.timeout = GAME_MAX_TIMEOUT;
       game.timeoutint = 0;
       game.timeoutinc = 0;
-    } else if (game.timeout < 0) {
+    } else if (game.info.timeout < 0) {
       notify_conn_ex(game.game_connections, NULL, E_NOEVENT,
 		     _("The turn timeout is smaller than zero, "
 		       "fixing at zero."));
-      freelog(LOG_DEBUG, "game.timeout less than zero");
-      game.timeout = 0;
+      freelog(LOG_DEBUG, "game.info.timeout less than zero");
+      game.info.timeout = 0;
     }
   } else {
     game.timeoutcounter++;
@@ -432,11 +402,11 @@ int update_timeout(void)
 
   freelog(LOG_DEBUG, "timeout=%d, inc=%d incmult=%d\n   "
 	  "int=%d, intinc=%d, turns till next=%d",
-	  game.timeout, game.timeoutinc, game.timeoutincmult,
+	  game.info.timeout, game.timeoutinc, game.timeoutincmult,
 	  game.timeoutint, game.timeoutintinc,
 	  game.timeoutint - game.timeoutcounter);
 
-  return game.timeout;
+  return game.info.timeout;
 }
 
 /**************************************************************************
@@ -449,12 +419,12 @@ int update_timeout(void)
 **************************************************************************/
 void increase_timeout_because_unit_moved(void)
 {
-  if (game.timeout > 0 && game.timeoutaddenemymove > 0) {
+  if (game.info.timeout > 0 && game.timeoutaddenemymove > 0) {
     double maxsec = (read_timer_seconds(game.phase_timer)
 		     + (double)game.timeoutaddenemymove);
 
-    if (maxsec > game.seconds_to_phase_done) {
-      game.seconds_to_phase_done = maxsec;
+    if (maxsec > game.info.seconds_to_phasedone) {
+      game.info.seconds_to_phasedone = maxsec;
       send_game_info(NULL);
     }	
   }

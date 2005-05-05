@@ -273,7 +273,7 @@ static struct reqtree *create_dummy_reqtree(void)
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   struct advance *advance;
   int j;
-  struct tree_node *nodes[game.num_tech_types];
+  struct tree_node *nodes[game.control.num_tech_types];
 
   tech_type_iterate(tech) {
     if (!tech_exists(tech) || tech == A_NONE) {
@@ -307,7 +307,7 @@ static struct reqtree *create_dummy_reqtree(void)
     }
   } tech_type_iterate_end;
 
-  tree->nodes = fc_malloc(game.num_tech_types * sizeof(*tree->nodes));
+  tree->nodes = fc_malloc(game.control.num_tech_types * sizeof(*tree->nodes));
   j = 0;
   tech_type_iterate(tech) {
     if (nodes[tech]) {

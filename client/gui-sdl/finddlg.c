@@ -112,7 +112,7 @@ void popup_find_dialog(void)
   /* check that there are any cities to find */
   h = 0;
   i = 0;    
-  while(!h && i<game.nplayers) {
+  while(!h && i<game.info.nplayers) {
     h = city_list_size(&game.players[i++].cities);
   }
   
@@ -152,7 +152,7 @@ void popup_find_dialog(void)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
   
-  for(i=0; i<game.nplayers; i++) {
+  for(i=0; i<game.info.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pCity) {
     
       my_snprintf(cBuf , sizeof(cBuf), "%s (%d)",pCity->name, pCity->size);

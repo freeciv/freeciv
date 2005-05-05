@@ -323,7 +323,7 @@ void popup_players_dialog(void)
   }
   
   n = 0;
-  for(i=0; i<game.nplayers; i++) {
+  for(i=0; i<game.info.nplayers; i++) {
     if(is_barbarian(get_player(i))) {
       continue;
     }
@@ -404,7 +404,7 @@ void popup_players_dialog(void)
   } 
   /* ---------- */
   
-  for(i=0; i<game.nplayers; i++) {
+  for(i=0; i<game.info.nplayers; i++) {
     pPlayer = get_player(i);
       
     if(is_barbarian(pPlayer)) {
@@ -640,7 +640,7 @@ void popup_players_nations_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ---------- */
   
-  for(i=0; i<game.nplayers; i++) {
+  for(i=0; i<game.info.nplayers; i++) {
     if(i != game.player_idx) {
       pPlayer = get_player(i);
       

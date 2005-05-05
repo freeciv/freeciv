@@ -101,12 +101,12 @@ void player_init(struct player *plr)
 {
   int i;
 
-  plr->player_no=plr-game.players;
+  plr->player_no = plr - game.players;
 
   sz_strlcpy(plr->name, ANON_PLAYER_NAME);
   sz_strlcpy(plr->username, ANON_USER_NAME);
   plr->is_male = TRUE;
-  plr->government=game.default_government;
+  plr->government = game.control.default_government;
   plr->nation = NO_NATION_SELECTED;
   plr->team = TEAM_NONE;
   plr->is_started = FALSE;
@@ -199,7 +199,7 @@ struct player *find_player_by_name_prefix(const char *name,
 {
   int ind;
 
-  *result = match_prefix(pname_accessor, game.nplayers, MAX_LEN_NAME-1,
+  *result = match_prefix(pname_accessor, game.info.nplayers, MAX_LEN_NAME-1,
 			 mystrncasecmp, name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {

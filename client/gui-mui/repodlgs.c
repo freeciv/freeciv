@@ -109,7 +109,7 @@ static void science_goal(ULONG * newgoal)
   if (game.player_ptr->research->tech_goal == A_UNSET)
     if (help_goal_entries[*newgoal] == (STRPTR) advances[A_NONE].name)
       to = 0;
-  for (i = A_FIRST; i < game.num_tech_types; i++)
+  for (i = A_FIRST; i < game.control.num_tech_types; i++)
   {
     if (help_goal_entries[*newgoal] == (STRPTR) advances[i].name)
       to = i;
@@ -140,7 +140,7 @@ static void science_research(ULONG * newresearch)
   int i;
   int to = -1;
 
-  for (i = A_FIRST; i < game.num_tech_types; i++)
+  for (i = A_FIRST; i < game.control.num_tech_types; i++)
   {
     if (help_research_entries[*newresearch] == (STRPTR) advances[i].name)
       to = i;
@@ -193,7 +193,7 @@ void popup_science_dialog(bool make_modal)
   }
 
   if (!is_future_tech(game.player_ptr->research.researching)) {
-    for (i = A_FIRST, j = 0; i < game.num_tech_types; i++)
+    for (i = A_FIRST, j = 0; i < game.control.num_tech_types; i++)
     {
       if (get_invention(game.player_ptr, i) != TECH_REACHABLE)
 	continue;
@@ -204,7 +204,7 @@ void popup_science_dialog(bool make_modal)
     {
       if ((help_research_entries = (STRPTR *) malloc((j + 1) * sizeof(STRPTR))))
       {
-	for (i = A_FIRST, j = 0; i < game.num_tech_types; i++)
+	for (i = A_FIRST, j = 0; i < game.control.num_tech_types; i++)
 	{
 	  if (get_invention(game.player_ptr, i) != TECH_REACHABLE)
 	    continue;
@@ -220,7 +220,7 @@ void popup_science_dialog(bool make_modal)
   }
 
 
-  for (i = A_FIRST, j = 0; i < game.num_tech_types; i++)
+  for (i = A_FIRST, j = 0; i < game.control.num_tech_types; i++)
   {
     if (tech_is_available(game.player_ptr, i)
 	&& get_invention(game.player_ptr, i) != TECH_KNOWN &&
@@ -241,7 +241,7 @@ void popup_science_dialog(bool make_modal)
 	help_goal_entries[j++] = advances[A_NONE].name;
       }
 
-      for (i = A_FIRST; i < game.num_tech_types; i++)
+      for (i = A_FIRST; i < game.control.num_tech_types; i++)
       {
 	if (get_invention(game.player_ptr, i) != TECH_KNOWN &&
 	    advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST &&
@@ -359,7 +359,7 @@ void popup_science_dialog(bool make_modal)
     DoMethod(science_researched_group, MUIM_Group_InitChange);
     DoMethod(science_researched_group, MUIM_AutoGroup_DisposeChilds);
 
-    for (i = A_FIRST; i < game.num_tech_types; i++)
+    for (i = A_FIRST; i < game.control.num_tech_types; i++)
     {
       if ((get_invention(game.player_ptr, i) == TECH_KNOWN))
       {

@@ -273,8 +273,8 @@ void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity)
     }
   }
 
-  if (game.turn != turn) {
-    turn = game.turn;
+  if (game.info.turn != turn) {
+    turn = game.info.turn;
     for (i = 0; i < AIT_LAST; i++) {
       clear_timer(aitimer[i][0]);
     }

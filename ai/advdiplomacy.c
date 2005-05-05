@@ -142,7 +142,7 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
-  tech_want = MAX(pplayer->ai.tech_want[tech], 0) / MAX(game.turn, 1);
+  tech_want = MAX(pplayer->ai.tech_want[tech], 0) / MAX(game.info.turn, 1);
   worth = bulbs + tech_want;
   if (get_invention(pplayer, tech) == TECH_REACHABLE) {
     worth /= 2;
@@ -554,7 +554,7 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
     if (pclause->type != CLAUSE_GOLD && pclause->type != CLAUSE_MAP
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
-            || game.rgame.tech_cost_style != 0
+            || game.info.tech_cost_style != 0
             || pclause->value == pplayer->research->tech_goal
             || pclause->value == pplayer->research->researching
             || is_tech_a_req_for_goal(pplayer, pclause->value, 
@@ -978,7 +978,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
 static void suggest_tech_exchange(struct player* player1,
                                   struct player* player2)
 {
-  int worth[game.num_tech_types];
+  int worth[game.control.num_tech_types];
   bool is_dangerous;
     
   tech_type_iterate(tech) {
@@ -1048,7 +1048,7 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
 
   /* Only share techs with team mates */
   if (players_on_same_team(pplayer, aplayer)) {
-    for (index = A_FIRST; index < game.num_tech_types; index++) {
+    for (index = A_FIRST; index < game.control.num_tech_types; index++) {
       if ((get_invention(pplayer, index) != TECH_KNOWN)
           && (get_invention(aplayer, index) == TECH_KNOWN)) {
        ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_ADVANCE, index);

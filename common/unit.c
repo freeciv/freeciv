@@ -342,7 +342,8 @@ bool is_hiding_unit(const struct unit *punit)
 **************************************************************************/
 bool kills_citizen_after_attack(const struct unit *punit)
 {
-  return TEST_BIT(game.killcitizen, (int) (unit_type(punit)->move_type) - 1);
+  return TEST_BIT(game.info.killcitizen, 
+                  (int) (unit_type(punit)->move_type) - 1);
 }
 
 /**************************************************************************
@@ -409,7 +410,7 @@ enum add_build_city_result test_unit_add_or_build_city(const struct unit *
   assert(unit_pop_value(punit->type) > 0);
   new_pop = pcity->size + unit_pop_value(punit->type);
 
-  if (new_pop > game.add_to_size_limit)
+  if (new_pop > game.info.add_to_size_limit)
     return AB_TOO_BIG;
   if (pcity->owner != punit->owner)
     return AB_NOT_OWNER;
@@ -866,7 +867,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	  } else {
 	    return ((pspresent & (~psworking)) != S_NO_SPECIAL);
 	  }
-	} else if (!game.rgame.pillage_select
+	} else if (!game.info.pillage_select
 		   && target != get_preferred_pillage(pspresent)) {
 	  return FALSE;
 	} else {
@@ -1376,8 +1377,8 @@ bool unit_being_aggressive(const struct unit *punit)
   if (tile_get_city(punit->tile)) {
     return FALSE;
   }
-  if (game.borders > 0
-      && game.happyborders
+  if (game.info.borders > 0
+      && game.info.happyborders
       && tile_get_owner(punit->tile) == unit_owner(punit)) {
     return FALSE;
   }

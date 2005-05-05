@@ -109,10 +109,10 @@ Arguably this should be called improvement_type_exists, but that's too long.
 **************************************************************************/
 bool improvement_exists(Impr_type_id id)
 {
-  if (id<0 || id>=B_LAST || id>=game.num_impr_types)
+  if (id < 0 || id >= B_LAST || id>= game.control.num_impr_types)
     return FALSE;
 
-  if (!game.spacerace
+  if (!game.info.spacerace
       && (building_has_effect(id, EFT_SS_STRUCTURAL)
 	  || building_has_effect(id, EFT_SS_COMPONENT)
 	  || building_has_effect(id, EFT_SS_MODULE))) {
@@ -276,7 +276,7 @@ bool improvement_obsolete(const struct player *pplayer, Impr_type_id id)
   if (is_great_wonder(id)) {
     /* a great wonder is obsolete, as soon as *any* player researched the
        obsolete tech */
-   return game.global_advances[impr->obsolete_by] != 0;
+   return game.info.global_advances[impr->obsolete_by] != 0;
   }
 
   return (get_invention(pplayer, impr->obsolete_by) == TECH_KNOWN);
@@ -428,7 +428,7 @@ bool is_improvement(Impr_type_id id)
 **************************************************************************/
 struct city *find_city_from_great_wonder(Impr_type_id id)
 {
-  return (find_city_by_id(game.great_wonders[id]));
+  return (find_city_by_id(game.info.great_wonders[id]));
 }
 
 /**************************************************************************
@@ -445,7 +445,7 @@ struct city *find_city_from_small_wonder(const struct player *pplayer,
 **************************************************************************/
 bool great_wonder_was_built(Impr_type_id id)
 {
-  return (game.great_wonders[id] != 0);
+  return (game.info.great_wonders[id] != 0);
 }
 
 /**************************************************************************

@@ -19,6 +19,7 @@
 
 #include "fcintl.h"
 
+#include "game.h"
 #include "map.h"
 #include "mem.h"		/* free */
 #include "rand.h"

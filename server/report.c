@@ -164,7 +164,7 @@ static void historian_generic(enum historian_type which_news)
   int i, j = 0, rank = 0;
   char buffer[4096];
   char title[1024];
-  struct player_score_entry size[game.nplayers];
+  struct player_score_entry size[game.info.nplayers];
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)) {
@@ -732,7 +732,7 @@ void report_demographics(struct connection *pconn)
   my_snprintf(civbuf, sizeof(civbuf), _("The %s of the %s (%s)"),
 	      get_government_name(pplayer->government),
 	      get_nation_name_plural(pplayer->nation),
-	      textyear(game.year));
+	      textyear(game.info.year));
 
   buffer[0] = '\0';
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
@@ -847,7 +847,7 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
     return FALSE;
   }
 
-  if (*last_turn + 1 != game.turn) {
+  if (*last_turn + 1 != game.info.turn) {
     freelog(LOG_ERROR, "Scorelog doesn't match savegame!");
     return FALSE;
   }
@@ -923,7 +923,7 @@ static void log_civ_score(void)
   }
 
   if (!fp) {
-    if (game.year == GAME_START_YEAR) {
+    if (game.info.year == GAME_START_YEAR) {
       oper = SL_CREATE;
     } else {
       fp = fopen(logname, "r");
@@ -972,14 +972,15 @@ static void log_civ_score(void)
     }
   }
 
-  if (game.turn > last_turn) {
-    fprintf(fp, "turn %d %d %s\n", game.turn, game.year, textyear(game.year));
-    last_turn = game.turn;
+  if (game.info.turn > last_turn) {
+    fprintf(fp, "turn %d %d %s\n", game.info.turn, game.info.year, 
+            textyear(game.info.year));
+    last_turn = game.info.turn;
   }
 
   for (i = 0; i < ARRAY_SIZE(player_names); i++) {
     if (strlen(player_names[i]) > 0 && !GOOD_PLAYER(get_player(i))) {
-      fprintf(fp, "delplayer %d %d\n", game.turn - 1, i);
+      fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, i);
       player_names[i][0] = '\0';
     }
   }
@@ -987,7 +988,7 @@ static void log_civ_score(void)
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)
 	&& strlen(player_names[pplayer->player_no]) == 0) {
-      fprintf(fp, "addplayer %d %d %s\n", game.turn, pplayer->player_no,
+      fprintf(fp, "addplayer %d %d %s\n", game.info.turn, pplayer->player_no,
 	      pplayer->name);
       mystrlcpy(player_name_ptrs[pplayer->player_no], pplayer->name,
 		MAX_LEN_NAME);
@@ -997,8 +998,8 @@ static void log_civ_score(void)
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)
 	&& strcmp(player_names[pplayer->player_no], pplayer->name) != 0) {
-      fprintf(fp, "delplayer %d %d\n", game.turn - 1, pplayer->player_no);
-      fprintf(fp, "addplayer %d %d %s\n", game.turn, pplayer->player_no,
+      fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, pplayer->player_no);
+      fprintf(fp, "addplayer %d %d %s\n", game.info.turn, pplayer->player_no,
 	      pplayer->name);
       mystrlcpy(player_names[pplayer->player_no], pplayer->name,
 		MAX_LEN_NAME);
@@ -1011,7 +1012,7 @@ static void log_civ_score(void)
 	continue;
       }
 
-      fprintf(fp, "data %d %d %d %d\n", game.turn, i, pplayer->player_no,
+      fprintf(fp, "data %d %d %d %d\n", game.info.turn, i, pplayer->player_no,
 	      score_tags[i].get_value(pplayer));
     } players_iterate_end;
   }
@@ -1042,7 +1043,7 @@ void make_history_report(void)
     log_civ_score();
   }
 
-  if (game.nplayers == 1) {
+  if (game.info.nplayers == 1) {
     return;
   }
 
@@ -1069,7 +1070,7 @@ void report_progress_scores(void)
 {
   int i, j = 0;
   char buffer[4096];
-  struct player_score_entry size[game.nplayers];
+  struct player_score_entry size[game.info.nplayers];
 
   players_iterate(pplayer) {
     if (GOOD_PLAYER(pplayer)) {
@@ -1102,7 +1103,7 @@ void report_progress_scores(void)
 void report_final_scores(void)
 {
   int i, j = 0;
-  struct player_score_entry size[game.nplayers];
+  struct player_score_entry size[game.info.nplayers];
   struct packet_endgame_report packet;
 
   players_iterate(pplayer) {

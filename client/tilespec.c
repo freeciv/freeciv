@@ -829,7 +829,7 @@ void tilespec_reread(const char *new_tileset_name)
    * We free all old data in preparation for re-reading it.
    */
   tileset_free_tiles(tileset);
-  tileset_free_city_tiles(tileset, game.styles_count);
+  tileset_free_city_tiles(tileset, game.control.styles_count);
   tileset_free_toplevel(tileset);
 
   /* Step 2:  Read.
@@ -872,7 +872,7 @@ void tilespec_reread(const char *new_tileset_name)
   government_iterate(gov) {
     tileset_setup_government(tileset, gov->index);
   } government_iterate_end;
-  for (id = 0; id < game.nation_count; id++) {
+  for (id = 0; id < game.control.nation_count; id++) {
     tileset_setup_nation_flag(tileset, id);
   }
   impr_type_iterate(imp_id) {
@@ -887,8 +887,8 @@ void tilespec_reread(const char *new_tileset_name)
 
   /* tilespec_load_tiles reverts the city tile pointers to 0.  This
      is a workaround. */
-  tileset_alloc_city_tiles(tileset, game.styles_count);
-  for (id = 0; id < game.styles_count; id++) {
+  tileset_alloc_city_tiles(tileset, game.control.styles_count);
+  for (id = 0; id < game.control.styles_count; id++) {
     tileset_setup_city_tiles(tileset, id);
   }
 
@@ -2311,7 +2311,7 @@ void tileset_setup_impr_type(struct tileset *t, int id)
 {
   struct impr_type *pimpr = get_improvement_type(id);
 
-  assert(id >= 0 && id < game.num_impr_types);
+  assert(id >= 0 && id < game.control.num_impr_types);
   t->sprites.building[id] = lookup_sprite_tag_alt(t, pimpr->graphic_str,
 						  pimpr->graphic_alt,
 						  FALSE, "impr_type",
@@ -2593,10 +2593,10 @@ void tileset_setup_nation_flag(struct tileset *t, int id)
     exit(EXIT_FAILURE);
   }
 
-  sprite_vector_reserve(&t->sprites.nation_flag, game.nation_count);
+  sprite_vector_reserve(&t->sprites.nation_flag, game.control.nation_count);
   t->sprites.nation_flag.p[id] = flag;
 
-  sprite_vector_reserve(&t->sprites.nation_shield, game.nation_count);
+  sprite_vector_reserve(&t->sprites.nation_shield, game.control.nation_count);
   t->sprites.nation_shield.p[id] = shield;
 }
 
@@ -3624,7 +3624,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       }
     }
 
-    if (draw_borders && game.borders > 0 && known[0] && known[1]) {
+    if (draw_borders && game.info.borders > 0 && known[0] && known[1]) {
       struct player *owner0 = tile_get_owner(pedge->tile[0]);
       struct player *owner1 = tile_get_owner(pedge->tile[1]);
 
@@ -4186,7 +4186,7 @@ struct unit *get_drawable_unit(const struct tileset *t,
   if (!punit)
     return NULL;
 
-  if (citymode && punit->owner == game.player_idx)
+  if (citymode && punit->owner == game.info.player_idx)
     return NULL;
 
   if (punit != pfocus
@@ -4298,7 +4298,7 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
 				      Nation_type_id nation)
 {
-  if (nation < 0 || nation >= game.nation_count) {
+  if (nation < 0 || nation >= game.control.nation_count) {
     assert(0);
     return NULL;
   }
@@ -4310,7 +4310,7 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 **************************************************************************/
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
 {
-  if (tech < 0 || tech >= game.num_tech_types) {
+  if (tech < 0 || tech >= game.control.num_tech_types) {
     assert(0);
     return NULL;
   }
@@ -4322,7 +4322,7 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
 **************************************************************************/
 struct sprite *get_building_sprite(const struct tileset *t, Impr_type_id b)
 {
-  if (b < 0 || b >= B_LAST || b >= game.num_impr_types) {
+  if (b < 0 || b >= B_LAST || b >= game.control.num_impr_types) {
     assert(0);
     return NULL;
   }
@@ -4335,7 +4335,7 @@ struct sprite *get_building_sprite(const struct tileset *t, Impr_type_id b)
 struct sprite *get_government_sprite(const struct tileset *t,
 				     const struct government *gov)
 {
-  if (!gov || gov->index < 0 || gov->index >= game.government_count) {
+  if (!gov || gov->index < 0 || gov->index >= game.control.government_count) {
     assert(0);
     return NULL;
   }
@@ -4347,7 +4347,7 @@ struct sprite *get_government_sprite(const struct tileset *t,
 ****************************************************************************/
 struct sprite *get_unittype_sprite(const struct tileset *t, Unit_type_id id)
 {
-  if (id < 0 || id >= game.num_unit_types) {
+  if (id < 0 || id >= game.control.num_unit_types) {
     assert(0);
     return NULL;
   }

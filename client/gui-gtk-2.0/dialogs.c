@@ -487,7 +487,7 @@ static void create_advances_list(struct player *pplayer,
     GtkTreeIter it;
     GValue value = { 0, };
 
-    for(i=A_FIRST; i<game.num_tech_types; i++) {
+    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
       if(get_invention(pvictim, i)==TECH_KNOWN && 
 	 (get_invention(pplayer, i)==TECH_UNKNOWN || 
 	  get_invention(pplayer, i)==TECH_REACHABLE)) {
@@ -510,7 +510,7 @@ static void create_advances_list(struct player *pplayer,
       g_value_set_static_string(&value, _("At Spy's Discretion"));
       gtk_list_store_set_value(store, &it, 0, &value);
       g_value_unset(&value);
-      gtk_list_store_set(store, &it, 1, game.num_tech_types, -1);
+      gtk_list_store_set(store, &it, 1, game.control.num_tech_types, -1);
     }
   }
 
@@ -1380,7 +1380,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
       struct unit *pmyunit = NULL;
 
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_idx == punit->owner) {
+        if (game.info.player_idx == punit->owner) {
           pmyunit = punit;
 
           /* Activate this unit. */
@@ -1405,7 +1405,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
   case SELECT_UNIT_SENTRY:
     {
       unit_list_iterate(ptile->units, punit) {
-        if (game.player_idx == punit->owner) {
+        if (game.info.player_idx == punit->owner) {
           if ((punit->activity == ACTIVITY_IDLE) &&
               !punit->ai.control &&
               can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
@@ -1596,7 +1596,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, in
   g_object_set(render, "style", PANGO_STYLE_ITALIC, NULL);
 
   /* Populate nation list store. */
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     struct nation_type *nation;
     struct sprite *s;
     GdkPixbuf *img;
@@ -1803,7 +1803,7 @@ static void create_races_dialog(void)
   gtk_table_set_row_spacing(GTK_TABLE(table), 1, 12);
 
   /* Populate city style store. */
-  for (i = 0; i < game.styles_count; i++) {
+  for (i = 0; i < game.control.styles_count; i++) {
     GdkPixbuf *img;
     struct sprite *s;
     GtkTreeIter it;
@@ -1967,13 +1967,13 @@ static void select_random_race(void)
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[0]));
 
   /* This has a possibility of infinite loop in case
-   * game.playable_nation_count < game.nplayers. */
+   * game.control.playable_nation_count < game.info.nplayers. */
   while (TRUE) {
     GtkTreePath *path;
     GtkTreeIter it;
     int nation;
 
-    nation = myrand(game.playable_nation_count);
+    nation = myrand(game.control.playable_nation_count);
 
     path = gtk_tree_path_new();
     gtk_tree_path_append_index(path, nation);
@@ -2095,7 +2095,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
       
       /* Select city style for chosen nation. */
       cs = get_nation_city_style(selected_nation);
-      for (i = 0, j = 0; i < game.styles_count; i++) {
+      for (i = 0, j = 0; i < game.control.styles_count; i++) {
         if (city_style_has_requirements(&city_styles[i])) {
 	  continue;
 	}

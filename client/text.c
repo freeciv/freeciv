@@ -170,7 +170,7 @@ const char *popup_info_text(struct tile *ptile)
   if (tile_has_special(ptile, S_HUT)) {
     add_line(_("Minor Tribe Village"));
   }
-  if (game.borders > 0 && !pcity) {
+  if (game.info.borders > 0 && !pcity) {
     struct player *owner = tile_get_owner(ptile);
     struct player_diplstate *ds = game.player_ptr->diplstates;
 
@@ -525,14 +525,14 @@ const char *get_info_label_text(void)
 
   add_line(_("Population: %s"),
 	     population_to_text(civ_population(game.player_ptr)));
-  add_line(_("Year: %s (T%d)"), textyear(game.year), game.turn);
+  add_line(_("Year: %s (T%d)"), textyear(game.info.year), game.info.turn);
   add_line(_("Gold: %d (%+d)"), game.player_ptr->economic.gold,
 	   player_get_expected_income(game.player_ptr));
   add_line(_("Tax: %d Lux: %d Sci: %d"), game.player_ptr->economic.tax,
 	   game.player_ptr->economic.luxury,
 	   game.player_ptr->economic.science);
-  if (!game.simultaneous_phases_now) {
-    add_line(_("Moving: %s"), get_player(game.phase)->name);
+  if (!game.info.simultaneous_phases) {
+    add_line(_("Moving: %s"), get_player(game.info.phase)->name);
   }
   RETURN;
 }
@@ -625,9 +625,9 @@ const char *get_global_warming_tooltip(void)
   /* This mirrors the logic in update_environmental_upset. */
   add_line(_("Shows the progress of global warming:"));
   add_line(_("Pollution rate: %d%%"),
-	   DIVIDE(game.heating - game.warminglevel + 1, 2));
+	   DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
   add_line(_("Chance of catastrophic warming each turn: %d%%"),
-	   CLIP(0, (game.globalwarming + 1) / 2, 100));
+	   CLIP(0, (game.info.globalwarming + 1) / 2, 100));
   RETURN;
 }
 
@@ -642,9 +642,9 @@ const char *get_nuclear_winter_tooltip(void)
   /* This mirrors the logic in update_environmental_upset. */
   add_line(_("Shows the progress of nuclear winter:"));
   add_line(_("Fallout rate: %d%%"),
-	   DIVIDE(game.heating - game.warminglevel + 1, 2));
+	   DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
   add_line(_("Chance of catastrophic winter each turn: %d%%"),
-	   CLIP(0, (game.globalwarming + 1) / 2, 100));
+	   CLIP(0, (game.info.globalwarming + 1) / 2, 100));
   RETURN;
 }
 
@@ -721,7 +721,7 @@ const char *get_timeout_label_text(void)
 {
   INIT;
 
-  if (game.timeout <= 0) {
+  if (game.info.timeout <= 0) {
     add("%s", Q_("?timeout:off"));
   } else {
     add("%s", format_duration(get_seconds_to_turndone()));
@@ -799,7 +799,7 @@ const char *get_report_title(const char *report_name)
 	   get_ruler_title(game.player_ptr->government,
 			   game.player_ptr->is_male,
 			   game.player_ptr->nation), game.player_ptr->name,
-	   textyear(game.year));
+	   textyear(game.info.year));
   RETURN;
 }
 

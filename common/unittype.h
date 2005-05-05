@@ -216,7 +216,8 @@ struct unit_type {
 
 
 extern struct unit_type unit_types[U_LAST];
-#define CHECK_UNIT_TYPE(ut) (assert((ut) >= 0 && (ut) < game.num_unit_types))
+#define CHECK_UNIT_TYPE(ut) (assert((ut) >= 0 && (ut) \
+                             < game.control.num_unit_types))
 
 struct unit_type *get_unit_type(Unit_type_id id);
 struct unit_type *unit_type(const struct unit *punit);
@@ -272,7 +273,7 @@ void unit_types_free(void);
 #define unit_type_iterate(m_i)                                                \
 {                                                                             \
   Unit_type_id m_i;                                                           \
-  for (m_i = 0; m_i < game.num_unit_types; m_i++) {
+  for (m_i = 0; m_i < game.control.num_unit_types; m_i++) {
 
 #define unit_type_iterate_end                                                 \
   }                                                                           \

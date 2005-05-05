@@ -270,7 +270,7 @@ void flush_packets(void)
   (void) time(&start);
 
   for(;;) {
-    tv.tv_sec=(game.netwait - (time(NULL) - start));
+    tv.tv_sec = (game.info.netwait - (time(NULL) - start));
     tv.tv_usec=0;
 
     if (tv.tv_sec < 0)
@@ -309,8 +309,8 @@ void flush_packets(void)
 	    if(FD_ISSET(pconn->sock, &writefs)) {
 	      flush_connection_send_buffer_all(pconn);
 	    } else {
-	      if(game.tcptimeout != 0 && pconn->last_write != 0
-		 && (time(NULL)>pconn->last_write + game.tcptimeout)) {
+	      if (game.info.tcptimeout != 0 && pconn->last_write != 0
+		 && (time(NULL)>pconn->last_write + game.info.tcptimeout)) {
 	        freelog(LOG_NORMAL, "cut connection %s due to lagging player",
 			conn_description(pconn));
 		close_socket_callback(pconn);
@@ -443,9 +443,9 @@ int sniff_packets(void)
   }
 #endif /* HAVE_LIBREADLINE */
 
-  if (year != game.year) {
+  if (year != game.info.year) {
     if (server_state == RUN_GAME_STATE) {
-      year = game.year;
+      year = game.info.year;
     }
   }
   
@@ -495,15 +495,15 @@ int sniff_packets(void)
     }
 
     /* Pinging around for statistics */
-    if (time(NULL) > (game.last_ping + game.pingtime)) {
+    if (time(NULL) > (game.last_ping + game.info.pingtime)) {
       /* send data about the previous run */
       send_ping_times_to_all();
 
       conn_list_iterate(game.all_connections, pconn) {
 	if ((timer_list_size(pconn->server.ping_timers) > 0
-	     &&
-	     read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
-	     > game.pingtimeout) || pconn->ping_time > game.pingtimeout) {
+	     && read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
+	        > game.info.pingtimeout) 
+            || pconn->ping_time > game.info.pingtimeout) {
 	  /* cut mute players, except for hack-level ones */
 	  if (pconn->access_level == ALLOW_HACK) {
 	    freelog(LOG_NORMAL,
@@ -531,7 +531,7 @@ int sniff_packets(void)
     } conn_list_iterate_end
 
     /* Don't wait if timeout == -1 (i.e. on auto games) */
-    if (server_state != PRE_GAME_STATE && game.timeout == -1) {
+    if (server_state != PRE_GAME_STATE && game.info.timeout == -1) {
       (void) send_server_info_to_metaserver(META_REFRESH);
       return 0;
     }
@@ -572,11 +572,11 @@ int sniff_packets(void)
     if (select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv) == 0) {
       /* timeout */
       (void) send_server_info_to_metaserver(META_REFRESH);
-      if (game.timeout > 0
+      if (game.info.timeout > 0
 	  && server_state == RUN_GAME_STATE
 	  && game.phase_timer
 	  && (read_timer_seconds(game.phase_timer)
-	      > game.seconds_to_phase_done)) {
+	      > game.info.seconds_to_phasedone)) {
 	con_prompt_off();
 	return 0;
       }
@@ -698,8 +698,8 @@ int sniff_packets(void)
 	  if (FD_ISSET(pconn->sock, &writefs)) {
 	    flush_connection_send_buffer_all(pconn);
 	  } else {
-	    if (game.tcptimeout != 0 && pconn->last_write != 0
-		&& (time(NULL) > pconn->last_write + game.tcptimeout)) {
+	    if (game.info.tcptimeout != 0 && pconn->last_write != 0
+		&& (time(NULL) > pconn->last_write + game.info.tcptimeout)) {
 	      freelog(LOG_NORMAL, "cut connection %s due to lagging player",
 		      conn_description(pconn));
 	      close_socket_callback(pconn);
@@ -712,10 +712,10 @@ int sniff_packets(void)
   }
   con_prompt_off();
 
-  if (game.timeout > 0
+  if (game.info.timeout > 0
       && server_state == RUN_GAME_STATE
       && game.phase_timer
-      && read_timer_seconds(game.phase_timer) > game.seconds_to_phase_done) {
+      && read_timer_seconds(game.phase_timer) > game.info.seconds_to_phasedone) {
     return 0;
   }
   return 1;

@@ -189,7 +189,7 @@ static void select_random_race(void)
 {
   /* try to find a free nation */
   while (1) {
-    int race_toggle_index = myrand(game.playable_nation_count);
+    int race_toggle_index = myrand(game.control.playable_nation_count);
 
     if (XtIsSensitive(races_toggles[race_toggle_index])) {
       x_simulate_button_click(races_toggles[race_toggle_index]);
@@ -733,7 +733,7 @@ static int create_advances_list(struct player *pplayer,
   advance_type[j] = -1;
 
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
-    for(i=A_FIRST; i<game.num_tech_types; i++) {
+    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
       if(get_invention(pvictim, i)==TECH_KNOWN && 
          (get_invention(pplayer, i)==TECH_UNKNOWN || 
           get_invention(pplayer, i)==TECH_REACHABLE)) {
@@ -744,7 +744,7 @@ static int create_advances_list(struct player *pplayer,
     }
     if(j > 0) {
       advances_can_steal[j] = _("At Spy's Discretion");
-      advance_type[j++] = game.num_tech_types;
+      advance_type[j++] = game.control.num_tech_types;
     }
   }
 
@@ -1627,7 +1627,7 @@ void create_races_dialog(void)
   XtWidgetGeometry geom;
 
   maxracelen = 0;
-  for(i=0; i<game.playable_nation_count; i++) {
+  for(i=0; i<game.control.playable_nation_count; i++) {
     len = strlen(get_nation_name(i));
     maxracelen = MAX(maxracelen, len);
   }
@@ -1653,11 +1653,11 @@ void create_races_dialog(void)
 					       NULL);   
 
   free(races_toggles);
-  races_toggles = fc_calloc(game.playable_nation_count,sizeof(Widget));
+  races_toggles = fc_calloc(game.control.playable_nation_count,sizeof(Widget));
   free(races_toggles_to_nations);
-  races_toggles_to_nations = fc_calloc(game.playable_nation_count,sizeof(int));
+  races_toggles_to_nations = fc_calloc(game.control.playable_nation_count,sizeof(int));
 
-  for( i = 0; i < ((game.playable_nation_count-1)/per_row)+1; i++) {
+  for( i = 0; i < ((game.control.playable_nation_count-1)/per_row)+1; i++) {
     index = i * per_row;
     my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
     if( i == 0 ) {
@@ -1682,7 +1682,7 @@ void create_races_dialog(void)
 
     for( j = 1; j < per_row; j++) {
       index = i * per_row + j;
-      if( index >= game.playable_nation_count ) break;
+      if( index >= game.control.playable_nation_count ) break;
       my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
       if( i == 0 ) {
 	races_toggles[index] =
@@ -1768,7 +1768,7 @@ void create_races_dialog(void)
 
   /* find out styles that can be used at the game beginning */
   /* Limit of 64 city_styles should be deleted. -ev */
-  for (i = 0, b_s_num = 0; i < game.styles_count && i < 64; i++) {
+  for (i = 0, b_s_num = 0; i < game.control.styles_count && i < 64; i++) {
     if (!city_style_has_requirements(&city_styles[i])) {
       city_style_idx[b_s_num] = i;
       city_style_ridx[i] = b_s_num;
@@ -1878,7 +1878,7 @@ void create_races_dialog(void)
 		races_quit_command_callback, NULL);
 
 
-  for(i=0; i<game.playable_nation_count; i++) {
+  for(i=0; i<game.control.playable_nation_count; i++) {
     XtAddCallback(races_toggles[i], XtNcallback,
 		  races_toggles_callback, INT_TO_XTPOINTER(i));
   }
@@ -1892,7 +1892,7 @@ void create_races_dialog(void)
 
   XtRealizeWidget(races_dialog_shell);
 
-  for(i=0; i<game.playable_nation_count; i++) {
+  for(i=0; i<game.control.playable_nation_count; i++) {
     races_toggles_to_nations[i] = i;
   }
   qsort(races_toggles_to_nations, i, sizeof(int), races_indirect_compare);
@@ -1900,12 +1900,12 @@ void create_races_dialog(void)
   /* Build nation_to_race_toggle */
   free(nation_to_race_toggle);
   nation_to_race_toggle =
-      fc_calloc(game.playable_nation_count, sizeof(int));
-  for (i = 0; i < game.playable_nation_count; i++) {
+      fc_calloc(game.control.playable_nation_count, sizeof(int));
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     nation_to_race_toggle[races_toggles_to_nations[i]] = i;
   }
 
-  for(i=0; i<game.playable_nation_count; i++) {
+  for(i=0; i<game.control.playable_nation_count; i++) {
     XtVaSetValues (races_toggles[i],
 		   XtNlabel, (XtArgVal)get_nation_name(races_toggles_to_nations[i]),
 		   NULL);
@@ -1936,11 +1936,11 @@ void races_toggles_set_sensitive(bool *nations_used)
 {
   int i;
 
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     XtSetSensitive(races_toggles[nation_to_race_toggle[i]], TRUE);
   }
 
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     int nation = i, selected_nation = -1;
 
     if (!nations_used[i]) {
@@ -2044,13 +2044,13 @@ int races_buttons_get_current(void)
   int i;
   XtPointer dp, yadp;
 
-  if((game.playable_nation_count)==1)
+  if((game.control.playable_nation_count)==1)
     return 0;
 
   if(!(dp=XawToggleGetCurrent(races_toggles[0])))
     return -1;
 
-  for(i=0; i<game.playable_nation_count; i++) {
+  for(i=0; i<game.control.playable_nation_count; i++) {
     XtVaGetValues(races_toggles[i], XtNradioData, &yadp, NULL);
     if(dp==yadp)
       return i;

@@ -637,7 +637,7 @@ static int seconds_shown_to_turndone;
 **************************************************************************/
 void set_seconds_to_turndone(double seconds)
 {
-  if (game.timeout > 0) {
+  if (game.info.timeout > 0) {
     seconds_to_turndone = seconds;
     turndone_timer = renew_timer_start(turndone_timer, TIMER_USER,
 				       TIMER_ACTIVE);
@@ -650,11 +650,11 @@ void set_seconds_to_turndone(double seconds)
 
 /**************************************************************************
   Return the number of seconds until turn-done.  Don't call this unless
-  game.timeout != 0.
+  game.info.timeout != 0.
 **************************************************************************/
 int get_seconds_to_turndone(void)
 {
-  if (game.timeout > 0) {
+  if (game.info.timeout > 0) {
     return seconds_shown_to_turndone;
   } else {
     /* This shouldn't happen. */
@@ -687,9 +687,9 @@ double real_timer_callback(void)
     time_until_next_call = MIN(time_until_next_call, blink_time);
   }
 
-  /* It is possible to have game.timeout > 0 but !turndone_timer, in the
+  /* It is possible to have game.info.timeout > 0 but !turndone_timer, in the
    * first moments after the timeout is set. */
-  if (game.timeout > 0 && turndone_timer) {
+  if (game.info.timeout > 0 && turndone_timer) {
     double seconds = seconds_to_turndone - read_timer_seconds(turndone_timer);
     int iseconds = ceil(seconds) + 0.1; /* Turn should end right on 0. */
 

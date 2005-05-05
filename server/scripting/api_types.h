@@ -14,6 +14,7 @@
 #ifndef FC__API_TYPES_H
 #define FC__API_TYPES_H
 
+#include "game.h"
 #include "player.h"
 #include "city.h"
 #include "unit.h"

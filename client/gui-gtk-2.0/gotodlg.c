@@ -246,8 +246,8 @@ static void update_goto_dialog(GtkToggleButton *button)
 
   gtk_list_store_clear(store);
 
-  for(i = 0, j = 0; i < game.nplayers; i++) {
-    if (!all_cities && i != game.player_idx)
+  for(i = 0, j = 0; i < game.info.nplayers; i++) {
+    if (!all_cities && i != game.info.player_idx)
       continue;
 
     city_list_iterate(game.players[i].cities, pcity) {

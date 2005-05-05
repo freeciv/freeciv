@@ -21,6 +21,7 @@
 #include "capstr.h"
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
@@ -127,13 +128,13 @@ static void establish_new_connection(struct connection *pconn)
       send_player_info(NULL,NULL);
       send_diplomatic_meetings(pconn);
       send_packet_thaw_hint(pconn);
-      dsend_packet_start_phase(pconn, game.phase);
+      dsend_packet_start_phase(pconn, game.info.phase);
     }
 
     /* This must be done after the above info is sent, because it will
      * generate a player-packet which can't be sent until (at least)
      * rulesets are sent. */
-    if (game.auto_ai_toggle && pplayer->ai.control) {
+    if (game.info.auto_ai_toggle && pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
     }
 
@@ -161,8 +162,8 @@ static void establish_new_connection(struct connection *pconn)
                 pconn->username, pconn->player->name);
   }
 
-  /* if need be, tell who we're waiting on to end the game turn */
-  if (server_state == RUN_GAME_STATE && game.turnblock) {
+  /* if need be, tell who we're waiting on to end the game.info.turn */
+  if (server_state == RUN_GAME_STATE && game.info.turnblock) {
     players_iterate(cplayer) {
       if (cplayer->is_alive
           && !cplayer->ai.control
@@ -584,7 +585,7 @@ void lost_connection_to_client(struct connection *pconn)
           || server_state == SELECT_RACES_STATE)) {
     server_remove_player(pplayer);
   } else {
-    if (game.auto_ai_toggle
+    if (game.info.auto_ai_toggle
         && !pplayer->ai.control
         && !pplayer->is_connected /* eg multiple controllers */) {
       toggle_ai_player_direct(NULL, pplayer);
@@ -668,12 +669,12 @@ bool attach_connection_to_player(struct connection *pconn,
 {
   /* if pplayer is NULL, attach to first non-connected player slot */
   if (!pplayer) {
-    if (game.nplayers > game.max_players 
-        || game.nplayers > MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
+    if (game.info.nplayers > game.info.max_players 
+        || game.info.nplayers > MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS) {
       return FALSE; 
     } else {
-      pplayer = &game.players[game.nplayers];
-      game.nplayers++;
+      pplayer = &game.players[game.info.nplayers];
+      game.info.nplayers++;
     }
   }
 

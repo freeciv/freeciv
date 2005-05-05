@@ -183,7 +183,7 @@ static const char *col_state(const struct player *plr)
     return _("R.I.P");
   } else if (!plr->is_connected) {
     return "";
-  } else if (!is_player_phase(plr, game.phase)) {
+  } else if (!is_player_phase(plr, game.info.phase)) {
     return _("waiting");
   } else if (plr->phase_done) {
     return _("done");

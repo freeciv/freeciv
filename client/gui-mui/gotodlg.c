@@ -134,7 +134,7 @@ void update_goto_dialog(void)
   set(goto_cities_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(goto_cities_listview, MUIM_NList_Clear);
 
-  for (i = 0; i < game.nplayers; i++)
+  for (i = 0; i < game.info.nplayers; i++)
   {
     city_list_iterate(game.players[i].cities, pcity)
       DoMethod(goto_cities_listview, MUIM_NList_InsertSingle, pcity, MUIV_NList_Insert_Bottom);

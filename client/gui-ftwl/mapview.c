@@ -1103,7 +1103,7 @@ static const char *info_get_value(const char *id)
   }
 
   if (strcmp(id, "year") == 0) {
-    return textyear(game.year);
+    return textyear(game.info.year);
   } else if (strcmp(id, "gold") == 0) {
     my_snprintf(buffer, sizeof(buffer),
 		"%d", game.player_ptr->economic.gold);
@@ -1119,7 +1119,7 @@ static const char *info_get_value(const char *id)
 		"Gold %d\n"
 		"Tax: %d Lux: %d Sci: %d"),
 	      population_to_text(civ_population(game.player_ptr)),
-	      textyear(game.year), game.player_ptr->economic.gold,
+	      textyear(game.info.year), game.player_ptr->economic.gold,
 	      game.player_ptr->economic.tax,
 	      game.player_ptr->economic.luxury,
 	      game.player_ptr->economic.science);
@@ -1133,7 +1133,7 @@ static const char *info_get_value(const char *id)
 		"Gold %d "
 		"Tax: %d Lux: %d Sci: %d"),
 	      population_to_text(civ_population(game.player_ptr)),
-	      textyear(game.year), game.player_ptr->economic.gold,
+	      textyear(game.info.year), game.player_ptr->economic.gold,
 	      game.player_ptr->economic.tax,
 	      game.player_ptr->economic.luxury,
 	      game.player_ptr->economic.science);

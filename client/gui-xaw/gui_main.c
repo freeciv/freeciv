@@ -732,7 +732,7 @@ void main_show_info_popup(XEvent *event)
 		  "Researching %s: %d/%d\n"
 		  "Government: %s"),
 		population_to_text(civ_population(game.player_ptr)),
-		textyear(game.year), game.turn,
+		textyear(game.info.year), game.info.turn,
 		game.player_ptr->economic.gold,
 		player_get_expected_income(game.player_ptr),
 		game.player_ptr->economic.tax,

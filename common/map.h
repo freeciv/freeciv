@@ -18,7 +18,6 @@
 
 #include "fc_types.h"
 
-#include "game.h"
 #include "player.h"
 #include "terrain.h"
 #include "tile.h"
@@ -36,30 +35,6 @@
 miscellaneous terrain information
 *****************************************************************/
 #define terrain_misc packet_ruleset_terrain_control
-
-/* The direction8 gives the 8 possible directions.  These may be used in
- * a number of ways, for instance as an index into the DIR_DX/DIR_DY
- * arrays.  Not all directions may be valid; see is_valid_dir and
- * is_cardinal_dir. */
-enum direction8 {
-  /* The DIR8/direction8 naming system is used to avoid conflict with
-   * DIR4/direction4 in client/tilespec.h
-   *
-   * Changing the order of the directions will break network compatability.
-   *
-   * Some code assumes that the first 4 directions are the reverses of the
-   * last 4 (in no particular order).  See client/goto.c. */
-  DIR8_NORTHWEST = 0,
-  DIR8_NORTH = 1,
-  DIR8_NORTHEAST = 2,
-  DIR8_WEST = 3,
-  DIR8_EAST = 4,
-  DIR8_SOUTHWEST = 5,
-  DIR8_SOUTH = 6,
-  DIR8_SOUTHEAST = 7
-};
-#define DIR8_LAST 8
-#define DIR8_COUNT DIR8_LAST
 
 struct civ_map {
   int topology_id;

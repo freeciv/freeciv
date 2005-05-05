@@ -217,7 +217,7 @@ void auto_arrange_workers(struct city *pcity)
    * are on a different scale.  Later the ai may wish to adjust its
    * priorities - this should be done via a separate set of variables. */
   if (pcity->size > 1) {
-    if (pcity->size <= game.notradesize) {
+    if (pcity->size <= game.info.notradesize) {
       cmp.factor[O_FOOD] = 15;
     } else {
       cmp.factor[O_FOOD] = 10;
@@ -474,7 +474,7 @@ static void city_increase_size(struct city *pcity)
     }
     /* Granary can only hold so much */
     new_food = (city_granary_size(pcity->size)
-		* (100 * 100 - game.aqueductloss * (100 - savings_pct))
+		* (100 * 100 - game.info.aqueductloss * (100 - savings_pct))
 		/ (100 * 100));
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return;
@@ -1031,10 +1031,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     }
     pcity->before_change_shields -= impr_build_shield_cost(id);
     pcity->shield_stock -= impr_build_shield_cost(id);
-    pcity->turn_last_built = game.turn;
+    pcity->turn_last_built = game.info.turn;
     /* to eliminate micromanagement */
     if (is_great_wonder(id)) {
-      game.great_wonders[id] = pcity->id;
+      game.info.great_wonders[id] = pcity->id;
 
       notify_player_ex(NULL, pcity->tile, E_WONDER_BUILD,
 		       _("The %s have finished building %s in %s."),
@@ -1145,7 +1145,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     assert(pop_cost == 0 || pcity->size >= pop_cost);
 
     /* don't update turn_last_built if we returned above */
-    pcity->turn_last_built = game.turn;
+    pcity->turn_last_built = game.info.turn;
 
     (void) create_unit(pplayer, pcity->tile, pcity->currently_building,
 		       do_make_unit_veteran(pcity, pcity->currently_building),
@@ -1206,7 +1206,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   built_impr_iterate(pcity, i) {
     if (can_city_sell_building(pcity, i)
-	&& pplayer->government != game.government_when_anarchy) {
+	&& pplayer->government != game.info.government_when_anarchy) {
       if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
 	notify_player_ex(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Can't afford to maintain %s in %s, "
@@ -1275,16 +1275,16 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
 
   unit_list_iterate(pcity->tile->units, punit) {
     cost += (unit_build_shield_cost(punit->type)
-	     * game.incite_cost.unit_factor);
+	     * game.info.incite_unit_factor);
   } unit_list_iterate_end;
 
   /* Buildings */
   built_impr_iterate(pcity, i) {
-    cost += impr_build_shield_cost(i) * game.incite_cost.improvement_factor;
+    cost += impr_build_shield_cost(i) * game.info.incite_improvement_factor;
   } built_impr_iterate_end;
 
   /* Stability bonuses */
-  if (g->index != game.government_when_anarchy) {
+  if (g->index != game.info.government_when_anarchy) {
     if (!city_unhappy(pcity)) {
       cost *= 2;
     }
@@ -1326,7 +1326,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
                 - pcity->ppl_unhappy[4]
                 - pcity->ppl_angry[4] * 3);
   cost *= size;
-  cost *= game.incite_cost.total_factor;
+  cost *= game.info.incite_total_factor;
   cost = cost / (dist + 3);
   cost /= 100;
 

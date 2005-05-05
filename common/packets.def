@@ -351,7 +351,10 @@ PACKET_GAME_INFO=15; sc
   BOOL simultaneous_phases;
   UINT32 num_phases;
 
-  PLAYER min_players, max_players, nplayers, player_idx;
+  PLAYER min_players;
+  PLAYER max_players;
+  PLAYER nplayers;
+  PLAYER player_idx;
 
   UINT32 globalwarming, heating, warminglevel;
   UINT32 nuclearwinter, cooling, coolinglevel;
@@ -363,9 +366,70 @@ PACKET_GAME_INFO=15; sc
   UINT8 techpenalty;
   UINT8 foodbox;
   UINT8 diplomacy;
-
+  UINT8 dispersion;
+  UINT16 tcptimeout;
+  UINT16 netwait;
+  UINT16 pingtimeout;
+  UINT16 pingtime;
+  UINT8 diplchance;
+  UINT8 citymindist;
+  UINT8 civilwarsize;
+  UINT8 contactturns;
+  UINT8 rapturedelay;
+  UINT8 celebratesize; /* size limit for cities before they can celebrate */
+  UINT8 barbarianrate;
+  UINT8 onsetbarbarian;
+  UINT8 occupychance;
+  BOOL autoattack;
   BOOL spacerace;
+  UINT8 aqueductloss;
+  UINT8 killcitizen;
+  UINT8 razechance;
+  BOOL savepalace;
+  BOOL natural_city_names;
+  BOOL turnblock;
+  BOOL fixedlength;
+  BOOL auto_ai_toggle;
+  BOOL fogofwar;  
+  UINT8 borders;
+  UINT8 nbarbarians;
+  BOOL happyborders;
+  BOOL slow_invasions;
+  UINT8 add_to_size_limit;
+  UINT8 notradesize, fulltradesize;
+  UINT8 watchtower_extra_vision;
+  UINT8 allowed_city_names;
+  UINT8 firepower_factor;
+  IMPROVEMENT palace_building;
+  IMPROVEMENT land_defend_building;
+  BOOL changable_tax;
+  UINT8 forced_science;
+  UINT8 forced_luxury;
+  UINT8 forced_gold;
+  UINT8 min_city_center_output[O_MAX];
+  UINT8 min_dist_bw_cities;
+  UINT8 init_vis_radius_sq;
+  UINT8 hut_overflight;
+  BOOL pillage_select;
+  UINT8 nuke_contamination;
+  UINT8 granary_food_ini[MAX_GRANARY_INIS];
+  UINT8 granary_num_inis;
+  UINT8 granary_food_inc;
+  UINT8 tech_cost_style;
+  UINT8 tech_leakage;
+  YEAR tech_cost_double_year;
+  BOOL killstack;
+  UINT8 autoupgrade_veteran_loss;
+  UINT16 incite_improvement_factor;
+  UINT16 incite_unit_factor;
+  UINT16 incite_total_factor;
+  GOVERNMENT government_when_anarchy;
+  UINT8 revolution_length;
 
+  UINT8 save_nturns;
+  UINT8 save_compress_level;
+
+  STRING start_units[MAX_LEN_STARTUNIT];
   UINT8 global_advances[A_LAST]; diff
   UINT16 great_wonders[B_LAST]; diff
 end
@@ -985,6 +1049,7 @@ PACKET_RULESET_UNIT=96;sc,lsend
   bitvector(bv_roles) roles;
 end
 
+/* stuff that does not fit yet in game_info */
 PACKET_RULESET_GAME=97;sc,lsend
   UINT8 default_specialist, num_specialist_types;
   UINT8 bonus_array_size; # Hack to get around limitations of packgen
@@ -996,29 +1061,7 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 specialist_req_range[SP_MAX * MAX_NUM_REQS:req_array_size];
   UINT32 specialist_req_value[SP_MAX * MAX_NUM_REQS:req_array_size];
   BOOL specialist_req_survives[SP_MAX * MAX_NUM_REQS:req_array_size];
-  BOOL changable_tax;
-  UINT8 forced_science;
-  UINT8 forced_luxury;
-  UINT8 forced_gold;
-  UINT8 min_city_center_output[O_MAX];
-  UINT8 min_dist_bw_cities;
-  UINT8 init_vis_radius_sq;
-  UINT8 hut_overflight;
-  BOOL pillage_select;
-  UINT8 nuke_contamination;
-  UINT8 granary_food_ini[MAX_GRANARY_INIS];
-  UINT8 granary_num_inis;
-  UINT8 granary_food_inc;
-  UINT8 tech_cost_style;
-  YEAR tech_cost_double_year;
-  UINT8 tech_leakage;
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
-  UINT8 rapturedelay;
-  UINT8 celebratesize;
-
-  UINT8 autoupgrade_veteran_loss;
-  BOOL killstack;
-
   UINT8 trireme_loss_chance[MAX_VET_LEVELS];
   UINT8 work_veteran_chance[MAX_VET_LEVELS];
   UINT8 veteran_chance[MAX_VET_LEVELS];
@@ -1208,21 +1251,15 @@ end
   info for its own "control" packet, done separately.)
 *********************************************************/
 PACKET_RULESET_CONTROL=106;sc,lsend
-  UINT8 add_to_size_limit;
-  UINT8 notradesize, fulltradesize;
   UINT8 num_unit_types;
   UINT8 num_impr_types;
   UINT8 num_tech_types;
-  UINT8 government_when_anarchy;
-  UINT8 default_government;
+  GOVERNMENT default_government;
   UINT8 government_count;
   UINT8 nation_count;
   UINT8 playable_nation_count;
-  UINT8 style_count;
+  UINT8 styles_count;
   UINT8 terrain_count;
-  UINT8 borders;
-  BOOL happyborders;
-  BOOL slow_invasions;
 
   STRING team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 end

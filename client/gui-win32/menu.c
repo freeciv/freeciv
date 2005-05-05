@@ -1027,7 +1027,7 @@ update_menus(void)
 
     /* add new government entries. */
     for (i = 0; i < game.government_count; i++) {
-      if (i != game.government_when_anarchy) {
+      if (i != game.info.government_when_anarchy) {
 	AppendMenu(govts, MF_STRING, IDM_GOVERNMENT_CHANGE_FIRST + i,
 		   governments[i].name);
 	my_enable_menu(menu, IDM_GOVERNMENT_CHANGE_FIRST + i, 
@@ -1048,7 +1048,7 @@ update_menus(void)
     }
 
     if (can_client_issue_orders()) {
-      my_enable_menu(menu, IDM_GOVERNMENT_TAX_RATE, game.rgame.changable_tax);
+      my_enable_menu(menu, IDM_GOVERNMENT_TAX_RATE, game.rgame.info.changable_tax);
       my_enable_menu(menu, IDM_GOVERNMENT_WORKLISTS, TRUE);
       my_enable_menu(menu, IDM_GOVERNMENT_REVOLUTION, TRUE);
     }
@@ -1058,7 +1058,7 @@ update_menus(void)
 		   (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     my_check_menu(menu, IDM_VIEW_MAP_GRID, draw_map_grid);
-    my_enable_menu(menu, IDM_VIEW_NATIONAL_BORDERS, game.borders > 0);
+    my_enable_menu(menu, IDM_VIEW_NATIONAL_BORDERS, game.info.borders > 0);
     my_check_menu(menu, IDM_VIEW_NATIONAL_BORDERS, draw_borders);
     my_check_menu(menu, IDM_VIEW_CITY_NAMES, draw_city_names);
     my_enable_menu(menu, IDM_VIEW_CITY_GROWTH, draw_city_names);

@@ -254,7 +254,7 @@ static int fill_diplomacy_tech_menu(Object *menu_title, struct Diplomacy_dialog 
   int i, flag;
   Object *entry;
 
-  for(i=1, flag=0; i<game.num_tech_types; i++)
+  for(i=1, flag=0; i<game.control.num_tech_types; i++)
   {
     if (get_invention(plr0, i) == TECH_KNOWN 
         && (get_invention(plr1, i) == TECH_UNKNOWN

@@ -923,7 +923,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
       }
     }
     
-    if (game.borders > 0 && !pTile->city) {
+    if (game.info.borders > 0 && !pTile->city) {
       struct player_diplstate *ds = game.player_ptr->diplstates;
       const char *diplo_nation_plural_adjectives[DS_LAST] =
     			{Q_("?nation:Neutral"), Q_("?nation:Hostile"),
@@ -2112,7 +2112,7 @@ static int spy_steal_popup(struct GUI *pWidget)
   }
   
   count = 0;
-  for(i=A_FIRST; i<game.num_tech_types; i++) {
+  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
       && get_invention(pVictim, i)==TECH_KNOWN
       && (get_invention(game.player_ptr, i)==TECH_UNKNOWN
@@ -2127,7 +2127,7 @@ static int spy_steal_popup(struct GUI *pWidget)
     int target_id = pVcity->id;
 
     remove_locked_buffer();
-    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, game.num_tech_types);
+    request_diplomat_action(DIPLOMAT_STEAL, id, target_id, game.control.num_tech_types);
     return -1;
   }
     
@@ -2192,7 +2192,7 @@ static int spy_steal_popup(struct GUI *pWidget)
   
   count = 0;
   h = col * max_row;
-  for(i=A_FIRST; i<game.num_tech_types; i++) {
+  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
       && get_invention(pVictim, i)==TECH_KNOWN
       && (get_invention(game.player_ptr, i)==TECH_UNKNOWN
@@ -2227,7 +2227,7 @@ static int spy_steal_popup(struct GUI *pWidget)
   pBuf->action = spy_steal_callback;
   pBuf->data.cont = pCont;
     
-  add_to_gui_list(MAX_ID - game.num_tech_types, pBuf);
+  add_to_gui_list(MAX_ID - game.control.num_tech_types, pBuf);
   count++;
   
   /* --------------------------------------------------------- */
@@ -4124,7 +4124,7 @@ void popup_races_dialog(void)
 
   /* fill list */
   pText_Class = NULL;
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     
     struct nation_type *pNation = get_nation_by_idx(i);
     
@@ -4193,7 +4193,7 @@ void popup_races_dialog(void)
   pNationDlg->pBeginActiveWidgetList = pWidget;
   pNationDlg->pBeginWidgetList = pWidget;
     
-  if(game.playable_nation_count > TARGETS_ROW * TARGETS_COL) {
+  if(game.control.playable_nation_count > TARGETS_ROW * TARGETS_COL) {
       pNationDlg->pActiveWidgetList = pNationDlg->pEndActiveWidgetList;
       create_vertical_scrollbar(pNationDlg,
 		    		TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
@@ -4203,7 +4203,7 @@ void popup_races_dialog(void)
     
   /* nation name */
   
-  pSetup->nation = myrand(game.playable_nation_count);
+  pSetup->nation = myrand(game.control.playable_nation_count);
   pSetup->nation_city_style = get_nation_city_style(pSetup->nation);
   
   copy_chars_to_string16(pStr, get_nation_by_idx(pSetup->nation)->name_plural);
@@ -4264,7 +4264,7 @@ void popup_races_dialog(void)
 
   /* ---------------------------------------------------------- */
   i = 0;
-  while (i < game.styles_count) {
+  while (i < game.control.styles_count) {
     if (city_styles[i].techreq == A_NONE) {
       pWidget = create_icon2(GET_SURF(sprites.city.tile[i][2]),
 			pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
@@ -4283,7 +4283,7 @@ void popup_races_dialog(void)
 
   len += 3;
 
-  for (; (i < game.styles_count && i < 64); i++) {
+  for (; (i < game.control.styles_count && i < 64); i++) {
     if (city_styles[i].techreq == A_NONE) {
       pWidget = create_icon2(GET_SURF(sprites.city.tile[i][2]),
 				pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
@@ -4447,7 +4447,7 @@ void races_toggles_set_sensitive(bool *nations_used)
   bool change = FALSE;
   struct GUI *pNat;
 
-  for (nation = 0; nation < game.playable_nation_count; nation++) {
+  for (nation = 0; nation < game.control.playable_nation_count; nation++) {
     if (nations_used[nation]) {
       freelog(LOG_DEBUG,"  [%d]: %d = %s", nation, nations_used[nation],
 	      get_nation_name(nation));
@@ -4463,7 +4463,7 @@ void races_toggles_set_sensitive(bool *nations_used)
   
   if (change) {
     do {
-      pSetup->nation = myrand(game.playable_nation_count);
+      pSetup->nation = myrand(game.control.playable_nation_count);
       pNat = get_widget_pointer_form_main_list(MAX_ID - pSetup->nation);
     } while(get_wstate(pNat) == FC_WS_DISABLED);
     if (get_wstate(pSetup->pName_Edit) == FC_WS_PRESSED) {

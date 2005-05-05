@@ -204,7 +204,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     loss = unit_build_shield_cost(u) * SHIELD_WEIGHTING;
 
     /* Probability to succeed, assuming no defending diplomat */
-    p_success = game.diplchance;
+    p_success = game.info.diplchance;
     /* Probability to lose our unit */
     p_failure = (unit_type_flag(u, F_SPY) ? 100 - p_success : 100);
 

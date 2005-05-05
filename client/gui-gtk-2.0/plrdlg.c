@@ -152,7 +152,7 @@ static void update_players_menu(void)
     default:
       gtk_widget_set_sensitive(players_war_command,
 			       can_client_issue_orders()
-			       && game.player_idx != plrno);
+			       && game.info.player_idx != plrno);
     }
 
     gtk_widget_set_sensitive(players_vision_command,
@@ -584,11 +584,11 @@ static void build_row(GtkTreeIter *it, int i)
 void update_players_dialog(void)
 {
   if (players_dialog_shell && !is_plrdlg_frozen()) {
-    gboolean exists[game.nplayers];
+    gboolean exists[game.info.nplayers];
     gint i;
     GtkTreeIter it, it_next;
 
-    for (i = 0; i < game.nplayers; i++) {
+    for (i = 0; i < game.info.nplayers; i++) {
       exists[i] = FALSE;
     }
 

@@ -747,7 +747,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   create_help_page(HELP_IMPROVEMENT);
   
-  if (which<game.num_impr_types) {
+  if (which<game.control.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     int i;
     char req_buf[512];
@@ -796,7 +796,7 @@ static void help_update_wonder(const struct help_item *pitem,
   
   create_help_page(HELP_WONDER);
 
-  if (which<game.num_impr_types) {
+  if (which<game.control.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     int i;
     char req_buf[512];
@@ -834,7 +834,7 @@ static void help_update_wonder(const struct help_item *pitem,
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
     xaw_set_label(help_wonder_obsolete_data, _("None"));
-    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3); 
+    create_tech_tree(help_tech_tree, 0, game.control.num_tech_types, 3); 
   }
   set_title_topic(pitem);
   helptext_building(buf, sizeof(buf), which, pitem->text);
@@ -850,7 +850,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   char *buf = &long_buffer[0];
   
   create_help_page(HELP_UNIT);
-  if (i<game.num_unit_types) {
+  if (i<game.control.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
     sprintf(buf, "%d ", unit_build_shield_cost(i));
     xaw_set_label(help_unit_cost_data, buf);
@@ -893,7 +893,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_hp_data, "0 ");
     xaw_set_label(help_unit_visrange_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
-    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
+    create_tech_tree(help_tech_tree, 0, game.control.num_tech_types, 3);
     xaw_set_label(help_wonder_obsolete_data, _("None"));
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
@@ -947,7 +947,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 		get_unit_type(j)->name);
     } unit_type_iterate_end;
 
-    for (j = 0; j < game.num_tech_types; j++) {
+    for (j = 0; j < game.control.num_tech_types; j++) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE)
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"), 
@@ -968,7 +968,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
   }
   else {
     create_help_page(HELP_TECH);
-    create_tech_tree(help_tech_tree, 0, game.num_tech_types, 3);
+    create_tech_tree(help_tech_tree, 0, game.control.num_tech_types, 3);
     strcpy(buf, pitem->text);
   }
   wordwrap_string(buf, 68);

@@ -1214,7 +1214,7 @@ void update_menus(void) /* from menu.c */
     int any_cities = FALSE;
     punit = get_unit_in_focus();
 
-    for (i = 0; i < game.nplayers; i++)
+    for (i = 0; i < game.info.nplayers; i++)
     {
       if (city_list_size(&game.players[i].cities))
       {

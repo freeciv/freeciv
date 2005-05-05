@@ -185,7 +185,7 @@ static void update_goto_dialog(HWND list)
   ListBox_ResetContent(list);
   Button_SetState(GetDlgItem(goto_dialog,ID_ALL),show_all_cities);
 
-  for(i=0; i<game.nplayers; i++) {
+  for(i=0; i<game.info.nplayers; i++) {
     if(!show_all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
       sz_strlcpy(name, pcity->name);

@@ -26,13 +26,7 @@
 #include "fc_types.h"
 #include "improvement.h"	/* Impr_Status */
 #include "player.h"
-
-/* Changing these will probably break network compatability. */
-#define MAX_LEN_DEMOGRAPHY 16
-#define MAX_LEN_ALLOW_TAKE 16
-#define MAX_ID_LEN 33
-#define MAX_GRANARY_INIS 24
-#define MAX_LEN_STARTUNIT (20+1)
+#include "packets.h"
 
 enum server_states { 
   PRE_GAME_STATE, 
@@ -57,125 +51,40 @@ enum client_states {
 #define CONTAMINATION_FALLOUT   2
 
 struct civ_game {
+  struct packet_game_info info;
+  struct packet_ruleset_control control;
   bool is_new_game;		/* 1 for games never started */
   int version;
   char id[MAX_ID_LEN];		/* server only */
-  int gold;
-  char start_units[MAX_LEN_STARTUNIT];
-  int dispersion;
-  int tech;
-  int skill_level;
-  int timeout;
   int timeoutint;     /* increase timeout every N turns... */
   int timeoutinc;     /* ... by this amount ... */
   int timeoutincmult; /* ... and multiply timeoutinc by this amount ... */
   int timeoutintinc;  /* ... and increase timeoutint by this amount */
   int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
   int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
-  int tcptimeout;
-  int netwait;
   time_t last_ping;
-  int pingtimeout;
-  int pingtime;
-  double seconds_to_phase_done; /* Set at start of each phase. */
   struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
-  int end_year;
-  int year;
-  int turn;
-  /* The simultaneous_phases_now value indicates the phase mode currently in
+  /* The .info.simultaneous_phases value indicates the phase mode currently in
    * use.  The "stored" value is a value the player can change; it won't
    * take effect until the next turn. */
-  bool simultaneous_phases_now, simultaneous_phases_stored;
-  int phase, num_phases;
-  int researchcost; /* Multiplier on cost of new research */
-  int diplcost, freecost, conquercost;
-  int diplchance;
-  int cityfactor;
-  int citymindist;
-  int civilwarsize;
-  int contactturns;
-  int rapturedelay;
-  int celebratesize; /* size limit for cities before they can celebrate */
-  int min_players, max_players, nplayers;
+  bool simultaneous_phases_stored;
   int aifill;
-  int notradesize, fulltradesize;
-  int barbarianrate;
-  int onsetbarbarian;
-  int nbarbarians;
-  int occupychance;
-  bool autoattack;
-  int unhappysize;
-  bool angrycitizen;
   char *startmessage;
-  int player_idx;
   struct player *player_ptr;
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct conn_list *all_connections;        /* including not yet established */
   struct conn_list *est_connections;        /* all established client conns */
   struct conn_list *game_connections;       /* involved in game; send map etc */
-  int global_advances[A_LAST];             /* a counter */
-  int great_wonders[B_LAST];              /* contains city id's */
-         /* great_wonders[] may also be (-1), or the id of a city
-	    which no longer exists, if the wonder has been destroyed */
-
-  int heating; /* Number of polluted squares. */
-  int globalwarming; /* Total damage done. (counts towards a warming event.) */
-  int warminglevel; /* If globalwarming is higher than this number there is
-		       a chance of a warming event. */
-
-  int cooling; /* Number of irradiated squares. */
-  int nuclearwinter; /* Total damage done. (counts towards a cooling event.) */
-  int coolinglevel; /* If nuclearwinter is higher than this number there is
-		       a chance of a cooling event. */
-
   char save_name[MAX_LEN_NAME];
-  int save_nturns;
-  int save_compress_level;
-  int foodbox;
-  int aqueductloss;
-  int killcitizen;
-  int techpenalty;
-  int razechance;
   bool scorelog;
   int seed;
-  int add_to_size_limit;
-  bool savepalace;
-  bool natural_city_names;
-  bool spacerace;
-  bool turnblock;
-  bool fixedlength;
-  bool auto_ai_toggle;
-  bool fogofwar;
   bool fogofwar_old;	/* as the fog_of_war bit get changed by setting
 			   the server we need to remember the old setting */
-
-  int num_unit_types;
-  int num_impr_types;
-  int num_tech_types;  /* including A_NONE */
-
-  int government_count;
-  int default_government;
-  int government_when_anarchy;
   int ai_goal_government;	/* kludge */
 
-  int nation_count;
-  int playable_nation_count;
-  int styles_count;
-
-  int terrain_count;
-
-  int watchtower_extra_vision;
-  int allowed_city_names;
-
-  int borders;		/* distance of border from city; 0=disabled. */
-  bool happyborders;
-  int diplomacy;        /* who can do it */
-  bool slow_invasions;  /* land units lose all movement landing on shores */
-
   char rulesetdir[MAX_LEN_NAME];
-  int firepower_factor;		/* See README.rulesets */
 
-  /* values from game.ruleset */
+  /* values from game.info.t */
   struct {
     int num_specialist_types;
     int default_specialist;
@@ -187,38 +96,12 @@ struct civ_game {
     } specialists[SP_MAX];
 #define SP_COUNT game.rgame.num_specialist_types
 #define DEFAULT_SPECIALIST game.rgame.default_specialist
-    bool changable_tax;
-    int forced_science; /* only relevant if !changable_tax */
-    int forced_luxury;
-    int forced_gold;
-    int min_city_center_output[O_MAX];
-    int min_dist_bw_cities;
-    int init_vis_radius_sq;
-    int hut_overflight;
-    bool pillage_select;
-    int nuke_contamination;
-    int granary_food_ini[MAX_GRANARY_INIS];
-    int granary_num_inis;
-    int granary_food_inc;
-    int tech_cost_style;
-    int tech_leakage;
-    int tech_cost_double_year;
 
     /* Items given to all players at game start.  Server only. */
     int global_init_techs[MAX_NUM_TECH_LIST];
     int global_init_buildings[MAX_NUM_BUILDING_LIST];
-
-    int autoupgrade_veteran_loss;
-
-    bool killstack;
   } rgame;
   
-  struct {
-    int improvement_factor;
-    int unit_factor;
-    int total_factor;
-  } incite_cost;
-
   char demography[MAX_LEN_DEMOGRAPHY];
   char allow_take[MAX_LEN_ALLOW_TAKE];
 
@@ -234,22 +117,11 @@ struct civ_game {
   int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
-  int revolution_length; /* 0=> random length, else the fixated length */
 
   struct {
     /* Function to be called in game_remove_unit when a unit is deleted. */
     void (*unit_deallocate)(int unit_id);
   } callbacks;
-};
-
-/* Unused? */
-struct lvldat {
-  int advspeed;
-};
-
-/* Server setting types.  Changing these will break network compatability. */
-enum sset_type {
-  SSET_BOOL, SSET_INT, SSET_STRING
 };
 
 void game_init(void);

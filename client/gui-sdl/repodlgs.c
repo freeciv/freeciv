@@ -2794,7 +2794,7 @@ static int change_research(struct GUI *pWidget)
     return -1;
   }
     
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
     if (!tech_is_available(game.player_ptr, i)
        || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
       continue;
@@ -2859,7 +2859,7 @@ static int change_research(struct GUI *pWidget)
   
   count = 0;
   h = col * max_row;
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
     if (!tech_is_available(game.player_ptr, i)
        || get_invention(game.player_ptr, i) != TECH_REACHABLE) {
       continue;
@@ -2976,7 +2976,7 @@ static int change_research_goal(struct GUI *pWidget)
   /* collect all techs which are reachable in under 11 steps
    * hist will hold afterwards the techid of the current choice
    */
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
@@ -3046,7 +3046,7 @@ static int change_research_goal(struct GUI *pWidget)
    */
   count = 0;
   h = col * max_row;
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
@@ -3185,7 +3185,7 @@ void popup_science_dialog(bool make_modal)
   /* ------ */
 
   count = 0;
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST) {

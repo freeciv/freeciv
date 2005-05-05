@@ -214,7 +214,7 @@ void update_players_dialog(void)
     static char namelist_text[MAX_NUM_PLAYERS][256];
     const struct player_diplstate *pds;
 
-    for(i=0,j=0; i<game.nplayers; i++) {
+    for(i=0,j=0; i<game.info.nplayers; i++) {
       char idlebuf[32], statebuf[32], namebuf[32], dsbuf[32], repbuf[32];
       
       /* skip barbarians */

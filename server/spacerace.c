@@ -178,7 +178,7 @@ void handle_spaceship_launch(struct player *pplayer)
   }
 
   ship->state = SSHIP_LAUNCHED;
-  ship->launch_year = game.year;
+  ship->launch_year = game.info.year;
   arrival = ship->launch_year + (int) ship->travel_time;
 
   notify_player_ex(NULL, NULL, E_SPACESHIP,
@@ -355,7 +355,7 @@ void check_spaceship_arrivals(void)
     
     if (ship->state == SSHIP_LAUNCHED) {
       arrival = ship->launch_year + ship->travel_time;
-      if (game.year >= (int)arrival
+      if (game.info.year >= (int)arrival
 	  && (!best_pplayer || arrival < best_arrival)) {
 	best_arrival = arrival;
 	best_pplayer = pplayer;

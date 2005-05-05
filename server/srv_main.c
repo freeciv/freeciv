@@ -218,7 +218,7 @@ bool is_game_over(void)
   struct player *victor = NULL;
 
   /* quit if we are past the year limit */
-  if (game.year > game.end_year) {
+  if (game.info.year > game.info.end_year) {
     notify_conn_ex(game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw as end year exceeded"));
     gamelog(GAMELOG_JUDGE, GL_DRAW, 
@@ -247,7 +247,7 @@ bool is_game_over(void)
   } players_iterate_end;
 
   /* the game does not quit if we are playing solo */
-  if (game.nplayers == (observers + barbs + 1)
+  if (game.info.nplayers == (observers + barbs + 1)
       && alive >= 1) {
     return FALSE;
   }
@@ -482,12 +482,12 @@ static void begin_turn(bool is_new_turn)
 
   /* Reset this each turn. */
   if (is_new_turn) {
-    game.simultaneous_phases_now = game.simultaneous_phases_stored;
+    game.info.simultaneous_phases = game.simultaneous_phases_stored;
   }
-  if (game.simultaneous_phases_now) {
-    game.num_phases = 1;
+  if (game.info.simultaneous_phases) {
+    game.info.num_phases = 1;
   } else {
-    game.num_phases = game.nplayers;
+    game.info.num_phases = game.info.nplayers;
   }
   send_game_info(game.game_connections);
 
@@ -500,8 +500,8 @@ static void begin_turn(bool is_new_turn)
   }
 
   /* See if the value of fog of war has changed */
-  if (is_new_turn && game.fogofwar != game.fogofwar_old) {
-    if (game.fogofwar) {
+  if (is_new_turn && game.info.fogofwar != game.fogofwar_old) {
+    if (game.info.fogofwar) {
       enable_fog_of_war();
       game.fogofwar_old = TRUE;
     } else {
@@ -510,13 +510,13 @@ static void begin_turn(bool is_new_turn)
     }
   }
 
-  if (is_new_turn && game.simultaneous_phases_now) {
+  if (is_new_turn && game.info.simultaneous_phases) {
     freelog(LOG_DEBUG, "Shuffleplayers");
     shuffle_players();
   }
 
   if (is_new_turn) {
-    game.phase = 0;
+    game.info.phase = 0;
   }
 
   sanity_check();
@@ -584,7 +584,7 @@ static void begin_phase(bool is_new_phase)
 
   sanity_check();
 
-  game.seconds_to_phase_done = (double)game.timeout;
+  game.info.seconds_to_phasedone = (double)game.info.timeout;
   game.phase_timer = renew_timer_start(game.phase_timer,
 				       TIMER_USER, TIMER_ACTIVE);
   send_game_info(NULL);
@@ -671,7 +671,7 @@ static void end_turn(void)
   freelog(LOG_DEBUG, "Endturn");
 
   /* Output some ranking and AI debugging info here. */
-  if (game.turn % 10 == 0) {
+  if (game.info.turn % 10 == 0) {
     players_iterate(pplayer) {
       gamelog(GAMELOG_INFO, pplayer);
     } players_iterate_end;
@@ -687,11 +687,11 @@ static void end_turn(void)
   summon_barbarians(); /* wild guess really, no idea where to put it, but
 			  I want to give them chance to move their units */
 
-  update_environmental_upset(S_POLLUTION, &game.heating,
-			     &game.globalwarming, &game.warminglevel,
+  update_environmental_upset(S_POLLUTION, &game.info.heating,
+			     &game.info.globalwarming, &game.info.warminglevel,
 			     global_warming);
-  update_environmental_upset(S_FALLOUT, &game.cooling,
-			     &game.nuclearwinter, &game.coolinglevel,
+  update_environmental_upset(S_FALLOUT, &game.info.cooling,
+			     &game.info.nuclearwinter, &game.info.coolinglevel,
 			     nuclear_winter);
   update_diplomatics();
   make_history_report();
@@ -713,14 +713,14 @@ static void end_turn(void)
   send_game_info(NULL);
 
   freelog(LOG_DEBUG, "Sendyeartoclients");
-  send_year_to_clients(game.year);
+  send_year_to_clients(game.info.year);
 }
 
 /**************************************************************************
 Unconditionally save the game, with specified filename.
 Always prints a message: either save ok, or failed.
 
-Note that if !HAVE_LIBZ, then game.save_compress_level should never
+Note that if !HAVE_LIBZ, then game.info.save_compress_level should never
 become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 **************************************************************************/
 void save_game(char *orig_filename, const char *save_reason)
@@ -741,10 +741,10 @@ void save_game(char *orig_filename, const char *save_reason)
     *dot = '\0';
   }
 
-  /* If orig_filename is NULL or empty, use "civgame<year>m". */
+  /* If orig_filename is NULL or empty, use "civgame.info.year>m". */
   if (filename[0] == '\0'){
     my_snprintf(filename, sizeof(filename),
-	"%s%+05dm", game.save_name, game.year);
+	"%s%+05dm", game.save_name, game.info.year);
   }
   
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -756,7 +756,7 @@ void save_game(char *orig_filename, const char *save_reason)
   /* Append ".sav" to filename. */
   sz_strlcat(filename, ".sav");
 
-  if (game.save_compress_level > 0) {
+  if (game.info.save_compress_level > 0) {
     /* Append ".gz" to filename. */
     sz_strlcat(filename, ".gz");
   }
@@ -775,7 +775,7 @@ void save_game(char *orig_filename, const char *save_reason)
     sz_strlcpy(filename, tmpname);
   }
 
-  if(!section_file_save(&file, filename, game.save_compress_level))
+  if(!section_file_save(&file, filename, game.info.save_compress_level))
     con_write(C_FAIL, _("Failed saving game as %s"), filename);
   else
     con_write(C_OK, _("Game saved as %s"), filename);
@@ -797,7 +797,7 @@ static void save_game_auto(const char *save_reason)
   assert(strlen(game.save_name)<256);
   
   my_snprintf(filename, sizeof(filename),
-	      "%s%+05d.sav", game.save_name, game.year);
+	      "%s%+05d.sav", game.save_name, game.info.year);
   save_game(filename, save_reason);
   gamelog(GAMELOG_STATUS);
 }
@@ -1048,7 +1048,7 @@ void check_for_full_turn_done(void)
   bool connected = FALSE;
 
   /* fixedlength is only applicable if we have a timeout set */
-  if (game.fixedlength && game.timeout != 0) {
+  if (game.info.fixedlength && game.info.timeout != 0) {
     return;
   }
 
@@ -1067,7 +1067,7 @@ void check_for_full_turn_done(void)
   }
 
   phase_players_iterate(pplayer) {
-    if (game.turnblock && !pplayer->ai.control && pplayer->is_alive
+    if (game.info.turnblock && !pplayer->ai.control && pplayer->is_alive
 	&& !pplayer->phase_done) {
       /* If turnblock is enabled check for human players, connected
        * or not. */
@@ -1185,8 +1185,8 @@ void handle_nation_select_req(struct player *pplayer,
   }  
   
   /* check sanity of the packet sent by client */
-  if (nation_no < 0 || nation_no >= game.nation_count
-      || city_style < 0 || city_style >= game.styles_count
+  if (nation_no < 0 || nation_no >= game.control.nation_count
+      || city_style < 0 || city_style >= game.control.styles_count
       || city_style_has_requirements(&city_styles[city_style])
       || !nations_available[nation_no]) {
     return;
@@ -1229,7 +1229,7 @@ void handle_nation_select_req(struct player *pplayer,
   mark_nation_as_used(nation_no);
 
   /* if there's no nation left, reject remaining players, sorry */
-  if( nation_used_count == game.playable_nation_count ) {   /* barb */
+  if( nation_used_count == game.control.playable_nation_count ) {   /* barb */
     players_iterate(other_player) {
       if (other_player->nation == NO_NATION_SELECTED) {
 	freelog(LOG_NORMAL, _("No nations left: Removing player %s."),
@@ -1252,7 +1252,7 @@ static void send_select_nation(struct player *pplayer)
 
   lsend_packet_select_races(pplayer->connections);
 
-  for (nation = 0; nation < game.playable_nation_count; nation++) {
+  for (nation = 0; nation < game.control.playable_nation_count; nation++) {
     if (!nations_available[nation]) {
       packet.nation = nation;
       lsend_packet_nation_unavailable(pplayer->connections, &packet);
@@ -1281,14 +1281,14 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2)
 **************************************************************************/
 static Nation_type_id select_random_nation()
 {
-  Nation_type_id i, available[game.playable_nation_count];
+  Nation_type_id i, available[game.control.playable_nation_count];
   int count = 0;
-  int V[game.playable_nation_count];
+  int V[game.control.playable_nation_count];
   int sum = 0;
   int x;
   
   /* Determine which nations are available. */
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     if (nations_available[i]) {
       available[count] = i;
       
@@ -1325,7 +1325,7 @@ generate_ai_players() - Selects a nation for players created with
 
    After that, we check to see if the server option "aifill" is greater
    than the number of players currently connected.  If so, we create the
-   appropriate number of players (game.aifill - game.nplayers) from
+   appropriate number of players (game.aifill - game.info.nplayers) from
    scratch, choosing a random nation and appropriate name for each.
    
    If the AI player name is one of the leader names for the AI player's
@@ -1343,7 +1343,7 @@ static void generate_ai_players(void)
   /* Select nations for AI players generated with server
    * 'create <name>' command
    */
-  for (i=0; i<game.nplayers; i++) {
+  for (i = 0; i < game.info.nplayers; i++) {
     pplayer = &game.players[i];
     
     if (pplayer->nation != NO_NATION_SELECTED) {
@@ -1351,7 +1351,7 @@ static void generate_ai_players(void)
     }
 
     /* See if the AI player matches a known leader name. */
-    for (nation = 0; nation < game.playable_nation_count; nation++) {
+    for (nation = 0; nation < game.control.playable_nation_count; nation++) {
       if (check_nation_leader_name(nation, pplayer->name)
 	  && nations_available[nation]) {
 	mark_nation_as_used(nation);
@@ -1373,7 +1373,7 @@ static void generate_ai_players(void)
       server_remove_player(pplayer); 
       /*
        * Below decrement loop index 'i' so that the loop is redone with
-       * the current index (if 'i' is still less than new game.nplayers).
+       * the current index (if 'i' is still less than new game.info.nplayers).
        * This is because subsequent players in list will have been shifted
        * down one spot by the remove, and may need handling.
        */
@@ -1393,18 +1393,18 @@ static void generate_ai_players(void)
    * total number of players to equal game.aifill
    */
 
-  if (game.playable_nation_count < game.aifill) {
-    game.aifill = game.playable_nation_count;
+  if (game.control.playable_nation_count < game.aifill) {
+    game.aifill = game.control.playable_nation_count;
     freelog(LOG_NORMAL,
 	     _("Nation count smaller than aifill; aifill reduced to %d."),
-             game.playable_nation_count);
+             game.control.playable_nation_count);
   }
 
-  if (game.max_players < game.aifill) {
-    game.aifill = game.max_players;
+  if (game.info.max_players < game.aifill) {
+    game.aifill = game.info.max_players;
     freelog(LOG_NORMAL,
 	     _("Maxplayers smaller than aifill; aifill reduced to %d."),
-             game.max_players);
+             game.info.max_players);
   }
 
   /* we don't want aifill to count global observers unless 
@@ -1419,28 +1419,28 @@ static void generate_ai_players(void)
     i = 0;
   }
 
-  for(;game.nplayers < game.aifill + i;) {
+  for(;game.info.nplayers < game.aifill + i;) {
     nation = select_random_nation();
     assert(nation != NO_NATION_SELECTED);
     mark_nation_as_used(nation);
     pick_ai_player_name(nation, player_name);
 
-    old_nplayers = game.nplayers;
+    old_nplayers = game.info.nplayers;
     pplayer = get_player(old_nplayers);
      
     sz_strlcpy(pplayer->name, player_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
-    pplayer->ai.skill_level = game.skill_level;
+    pplayer->ai.skill_level = game.info.skill_level;
     freelog(LOG_NORMAL, _("%s has been added as %s level AI-controlled player."),
             player_name, name_of_skill_level(pplayer->ai.skill_level));
     notify_player(NULL,
                   _("%s has been added as %s level AI-controlled player."),
                   player_name, name_of_skill_level(pplayer->ai.skill_level));
 
-    game.nplayers++;
+    game.info.nplayers++;
 
-    if (!((game.nplayers == old_nplayers+1)
+    if (!((game.info.nplayers == old_nplayers+1)
 	  && strcmp(player_name, pplayer->name)==0)) {
       con_write(C_FAIL, _("Error creating new AI player: %s\n"),
 		player_name);
@@ -1562,9 +1562,9 @@ static void main_loop(void)
      * movement and AI diplomacy). */
     begin_turn(is_new_turn);
 
-    for (; game.phase < game.num_phases; game.phase++) {
-      freelog(LOG_DEBUG, "Starting phase %d/%d.", game.phase,
-	      game.num_phases);
+    for (; game.info.phase < game.info.num_phases; game.info.phase++) {
+      freelog(LOG_DEBUG, "Starting phase %d/%d.", game.info.phase,
+	      game.info.num_phases);
       begin_phase(is_new_turn);
       is_new_turn = TRUE;
 
@@ -1584,8 +1584,8 @@ static void main_loop(void)
        * saves, from the point of view of restarting and AI players.
        * Post-increment so we don't count the first loop.
        */
-      if (game.phase == 0) {
-	if (save_counter >= game.save_nturns && game.save_nturns > 0) {
+      if (game.info.phase == 0) {
+	if (save_counter >= game.info.save_nturns && game.info.save_nturns > 0) {
 	  save_counter = 0;
 	  save_game_auto("Autosave");
 	}
@@ -1697,7 +1697,7 @@ void srv_main(void)
     notify_player(NULL, _("The game is over..."));
     gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
-    if (game.save_nturns > 0) {
+    if (game.info.save_nturns > 0) {
       save_game_auto("Game over");
     }
     gamelog(GAMELOG_END);
@@ -1707,7 +1707,7 @@ void srv_main(void)
       (void) sniff_packets();
     }
 
-    if (game.timeout == -1 || srvarg.exit_on_end) {
+    if (game.info.timeout == -1 || srvarg.exit_on_end) {
       /* For autogames or if the -e option is specified, exit the server. */
       server_quit();
     }
@@ -1731,11 +1731,11 @@ static void final_ruleset_adjustments()
 
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     if (game.players[i].government == G_MAGIC) {
-      game.players[i].government = game.default_government;
+      game.players[i].government = game.control.default_government;
     }
   }
 
-  if (game.default_government == game.government_when_anarchy) {
+  if (game.control.default_government == game.info.government_when_anarchy) {
     players_iterate(pplayer) {
       /* If we do not do this, an assert will trigger. This enables us to
        * select a valid government on game start. */
@@ -1761,7 +1761,7 @@ static void srv_loop(void)
 
   nations_available
     = fc_realloc(nations_available,
-		 game.playable_nation_count * sizeof(*nations_available));
+		 game.control.playable_nation_count * sizeof(*nations_available));
 
 main_start_players:
 
@@ -1779,7 +1779,7 @@ main_start_players:
   }
 
   if (start_nations) {
-    for (i = 0; i < game.playable_nation_count; i++) {
+    for (i = 0; i < game.control.playable_nation_count; i++) {
       nations_available[i] = FALSE;
     }
     for (i = 0; i < map.num_start_positions; i++) {
@@ -1787,12 +1787,12 @@ main_start_players:
     }
     
   } else {
-    for (i = 0; i < game.playable_nation_count; i++) {
+    for (i = 0; i < game.control.playable_nation_count; i++) {
       nations_available[i] = TRUE;
     }
   }
 
-  if (game.auto_ai_toggle) {
+  if (game.info.auto_ai_toggle) {
     players_iterate(pplayer) {
       if (!pplayer->is_connected && !pplayer->ai.control) {
 	toggle_ai_player_direct(NULL, pplayer);
@@ -1828,7 +1828,7 @@ main_start_players:
     } players_iterate_end;
 
     if (!flag) {
-      if (game.nplayers > 0) {
+      if (game.info.nplayers > 0) {
 	server_state = RUN_GAME_STATE;
       } else {
 	con_write(C_COMMENT,
@@ -1870,19 +1870,19 @@ main_start_players:
 
   if(game.is_new_game) {
     /* Before the player map is allocated (and initiailized)! */
-    game.fogofwar_old = game.fogofwar;
+    game.fogofwar_old = game.info.fogofwar;
 
     players_iterate(pplayer) {
       player_map_allocate(pplayer);
-      init_tech(pplayer, game.tech);
+      init_tech(pplayer, game.info.tech);
       player_limit_to_government_rates(pplayer);
-      pplayer->economic.gold = game.gold;
+      pplayer->economic.gold = game.info.gold;
     } players_iterate_end;
     if(game.is_new_game) {
-      /* If we're starting a new game, reset the max_players to be the
+      /* If we're starting a new game, reset the rules.max_players to be the
        * number of players currently in the game.  But when loading a game
        * we don't want to change it. */
-      game.max_players = game.nplayers;
+      game.info.max_players = game.info.nplayers;
     }
   }
 

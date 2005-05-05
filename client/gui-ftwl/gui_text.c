@@ -387,7 +387,7 @@ const char *mapview_get_terrain_info_text(struct tile *ptile)
   if (tile_has_special(ptile, S_HUT)) {
     add_line(_("Minor Tribe Village"));
   }
-  if (game.borders > 0) {
+  if (game.info.borders > 0) {
     struct player *owner = tile_get_owner(ptile);
     struct player_diplstate *ds = game.player_ptr->diplstates;
 

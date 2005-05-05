@@ -1162,12 +1162,12 @@ void map_fractal_generate(bool autosize)
     if (map.generator == 2) {
       make_pseudofractal1_hmap(1 + ((map.startpos == 0
 				     || map.startpos == 3)
-				    ? 0 : game.nplayers));
+				    ? 0 : game.info.nplayers));
     }
 
     if (map.generator == 1) {
       make_random_hmap(MAX(1, 1 + get_sqsize() 
-			   - (map.startpos ? game.nplayers / 4 : 0)));
+			   - (map.startpos ? game.info.nplayers / 4 : 0)));
     }
 
     /* if hmap only generator make anything else */
@@ -1845,7 +1845,7 @@ static void mapgenerator2(void)
 
   pstate->totalmass = ((map.ysize - 6 - spares) * map.landpercent 
                        * (map.xsize - spares)) / 100;
-  totalweight = 100 * game.nplayers;
+  totalweight = 100 * game.info.nplayers;
 
   assert(!placed_map_is_initialized());
 
@@ -1860,7 +1860,7 @@ static void mapgenerator2(void)
     initworld(pstate);
     
     /* Create one big island for each player. */
-    for (i = game.nplayers; i > 0; i--) {
+    for (i = game.info.nplayers; i > 0; i--) {
       if (!make_island(bigfrac * pstate->totalmass / totalweight,
                       1, pstate, 95)) {
 	/* we couldn't make an island at least 95% as big as we wanted,
@@ -1896,10 +1896,10 @@ static void mapgenerator2(void)
 
   /* Now place smaller islands, but don't worry if they're small,
    * or even non-existent. One medium and one small per player. */
-  for (i = game.nplayers; i > 0; i--) {
+  for (i = game.info.nplayers; i > 0; i--) {
     make_island(midfrac * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
-  for (i = game.nplayers; i > 0; i--) {
+  for (i = game.info.nplayers; i > 0; i--) {
     make_island(smallfrac * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
 
@@ -1936,11 +1936,11 @@ static void mapgenerator3(void)
       ((map.ysize - 6 - spares) * map.landpercent * (map.xsize - spares)) /
       100;
 
-  bigislands= game.nplayers;
+  bigislands= game.info.nplayers;
 
   landmass = (map.xsize * (map.ysize - 6) * map.landpercent)/100;
   /* subtracting the arctics */
-  if (landmass > 3 * map.ysize + game.nplayers * 3){
+  if (landmass > 3 * map.ysize + game.info.nplayers * 3){
     landmass -= 3 * map.ysize;
   }
 
@@ -1949,7 +1949,7 @@ static void mapgenerator3(void)
   if (islandmass < 4 * maxmassdiv6) {
     islandmass = (landmass)/(2 * bigislands);
   }
-  if (islandmass < 3 * maxmassdiv6 && game.nplayers * 2 < landmass) {
+  if (islandmass < 3 * maxmassdiv6 && game.info.nplayers * 2 < landmass) {
     islandmass= (landmass)/(bigislands);
   }
 
@@ -1994,7 +1994,7 @@ static void mapgenerator3(void)
         size=2;
       }
 
-      make_island(size, (pstate->isleindex - 2 <= game.nplayers) ? 1 : 0,
+      make_island(size, (pstate->isleindex - 2 <= game.info.nplayers) ? 1 : 0,
 		  pstate, DMSIS);
   }
 
@@ -2025,7 +2025,7 @@ static void mapgenerator4(void)
 
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
-  if (game.nplayers < 2 || map.landpercent > 80) {
+  if (game.info.nplayers < 2 || map.landpercent > 80) {
     map.generator = 3;
     return;
   }
@@ -2045,12 +2045,12 @@ static void mapgenerator4(void)
       100;
 
   /*!PS: The weights NEED to sum up to totalweight (dammit) */
-  totalweight = (30 + bigweight) * game.nplayers;
+  totalweight = (30 + bigweight) * game.info.nplayers;
 
   initworld(pstate);
 
-  i = game.nplayers / 2;
-  if ((game.nplayers % 2) == 1) {
+  i = game.info.nplayers / 2;
+  if ((game.info.nplayers % 2) == 1) {
     make_island(bigweight * 3 * pstate->totalmass / totalweight, 3, 
 		pstate, DMSIS);
   } else {
@@ -2060,10 +2060,10 @@ static void mapgenerator4(void)
     make_island(bigweight * 2 * pstate->totalmass / totalweight, 2,
 		pstate, DMSIS);
   }
-  for (i = game.nplayers; i > 0; i--) {
+  for (i = game.info.nplayers; i > 0; i--) {
     make_island(20 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
-  for (i = game.nplayers; i > 0; i--) {
+  for (i = game.info.nplayers; i > 0; i--) {
     make_island(10 * pstate->totalmass / totalweight, 0, pstate, DMSIS);
   }
   make_plains();  

@@ -1247,7 +1247,7 @@ void update_menus(void)
 
       /* add new government entries. */
       government_iterate(g) {
-        if (g->index != game.government_when_anarchy) {
+        if (g->index != game.info.government_when_anarchy) {
           GtkWidget *item, *image;
           struct sprite *gsprite;
 	  char buf[256];
@@ -1280,7 +1280,7 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Orders", can_client_issue_orders());
 
     menus_set_sensitive("<main>/_Government/_Tax Rates",
-			game.rgame.changable_tax
+			game.info.changable_tax
                         && can_client_issue_orders());
     menus_set_sensitive("<main>/_Government/_Worklists",
 			can_client_issue_orders());
@@ -1292,7 +1292,7 @@ void update_menus(void)
 
     menus_set_active("<main>/_View/City Outlines", draw_city_outlines);
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
-    menus_set_sensitive("<main>/_View/National _Borders", game.borders > 0);
+    menus_set_sensitive("<main>/_View/National _Borders", game.info.borders > 0);
     menus_set_active("<main>/_View/National _Borders", draw_borders);
     menus_set_active("<main>/_View/City _Names", draw_city_names);
     menus_set_sensitive("<main>/_View/City G_rowth", draw_city_names);

@@ -42,7 +42,7 @@ void update_info_label(void)
 		"Gold %d\n"
 		"Tax: %d Lux: %d Sci: %d"),
 	      population_to_text(civ_population(game.player_ptr)),
-	      textyear(game.year), game.player_ptr->economic.gold,
+	      textyear(game.info.year), game.player_ptr->economic.gold,
 	      game.player_ptr->economic.tax,
 	      game.player_ptr->economic.luxury,
 	      game.player_ptr->economic.science);

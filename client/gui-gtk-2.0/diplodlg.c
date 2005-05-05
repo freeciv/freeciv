@@ -234,7 +234,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
     menu = gtk_menu_new();
 
-    for (i = 1, flag = FALSE; i < game.num_tech_types; i++) {
+    for (i = 1, flag = FALSE; i < game.control.num_tech_types; i++) {
       if (get_invention(plr0, i) == TECH_KNOWN
 	  && (get_invention(plr1, i) == TECH_UNKNOWN
 	      || get_invention(plr1, i) == TECH_REACHABLE)
@@ -655,7 +655,7 @@ static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int tech = choice & 0xffff;
 
-  if (giver == game.player_idx) {
+  if (giver == game.info.player_idx) {
     other = dest;
   } else {
     other = giver;
@@ -675,7 +675,7 @@ static void diplomacy_dialog_city_callback(GtkWidget * w, gpointer data)
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int city = choice & 0xffff;
 
-  if (giver == game.player_idx) {
+  if (giver == game.info.player_idx) {
     other = dest;
   } else {
     other = giver;

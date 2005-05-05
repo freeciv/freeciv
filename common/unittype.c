@@ -69,7 +69,7 @@ static const char *unit_class_names[] = {
 **************************************************************************/
 struct unit_type *get_unit_type(Unit_type_id id)
 {
-  assert(id >= 0 && id < U_LAST && id < game.num_unit_types);
+  assert(id >= 0 && id < U_LAST && id < game.control.num_unit_types);
   return &unit_types[id];
 }
 

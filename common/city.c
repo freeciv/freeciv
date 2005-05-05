@@ -805,7 +805,7 @@ static int base_get_output_tile(const struct tile *ptile,
   }
 
   if (pcity && is_city_center(city_x, city_y)) {
-    prod = MAX(prod, game.rgame.min_city_center_output[otype]);
+    prod = MAX(prod, game.info.min_city_center_output[otype]);
   }
 
   return prod;
@@ -878,8 +878,8 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
     }
   }
 
-  /* game.rgame.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
-  square_iterate(ptile, game.rgame.min_dist_bw_cities - 1, ptile1) {
+  /* game.info.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
+  square_iterate(ptile, game.info.min_dist_bw_cities - 1, ptile1) {
     if (ptile1->city) {
       return FALSE;
     }
@@ -1107,7 +1107,7 @@ bool city_happy(const struct city *pcity)
   return (pcity->ppl_happy[4] >= (pcity->size + 1) / 2
 	  && pcity->ppl_unhappy[4] == 0
           && pcity->ppl_angry[4] == 0
-          && pcity->size >= game.celebratesize);
+          && pcity->size >= game.info.celebratesize);
 }
 
 /**************************************************************************
@@ -1126,7 +1126,7 @@ bool city_unhappy(const struct city *pcity)
 **************************************************************************/
 bool base_city_celebrating(const struct city *pcity)
 {
-  return (pcity->size >= game.celebratesize && pcity->was_happy);
+  return (pcity->size >= game.info.celebratesize && pcity->was_happy);
 }
 
 /**************************************************************************
@@ -1144,7 +1144,7 @@ called after .was_happy was updated.
 bool city_rapture_grow(const struct city *pcity)
 {
   return (pcity->rapture > 0 && pcity->surplus[O_FOOD] > 0
-	  && (pcity->rapture % game.rapturedelay) == 0
+	  && (pcity->rapture % game.info.rapturedelay) == 0
           && get_city_bonus(pcity, EFT_RAPTURE_GROW) > 0);
 }
 
@@ -1253,12 +1253,12 @@ int get_style_by_name(const char *style_name)
 {
   int i;
 
-  for (i = 0; i < game.styles_count; i++) {
+  for (i = 0; i < game.control.styles_count; i++) {
     if (strcmp(style_name, city_styles[i].name) == 0) {
       break;
     }
   }
-  if (i < game.styles_count) {
+  if (i < game.control.styles_count) {
     return i;
   } else {
     return -1;
@@ -1272,12 +1272,12 @@ int get_style_by_name_orig(const char *style_name)
 {
   int i;
 
-  for (i = 0; i < game.styles_count; i++) {
+  for (i = 0; i < game.control.styles_count; i++) {
     if (strcmp(style_name, city_styles[i].name_orig) == 0) {
       break;
     }
   }
-  if (i < game.styles_count) {
+  if (i < game.control.styles_count) {
     return i;
   } else {
     return -1;
@@ -1537,16 +1537,16 @@ bool city_exists_within_city_radius(const struct tile *ptile,
 ****************************************************************************/
 int city_granary_size(int city_size)
 {
-  int food_inis = game.rgame.granary_num_inis;
-  int food_inc = game.rgame.granary_food_inc;
+  int food_inis = game.info.granary_num_inis;
+  int food_inc = game.info.granary_food_inc;
 
   /* Granary sizes for the first food_inis citizens are given directly.
    * After that we increase the granary size by food_inc per citizen. */
   if (city_size > food_inis) {
-    return (game.rgame.granary_food_ini[food_inis - 1] * game.foodbox +
-	    food_inc * (city_size - food_inis) * game.foodbox / 100) ;
+    return (game.info.granary_food_ini[food_inis - 1] * game.info.foodbox
+	    + food_inc * (city_size - food_inis) * game.info.foodbox / 100);
   } else {
-    return game.rgame.granary_food_ini[city_size - 1] * game.foodbox;
+    return game.info.granary_food_ini[city_size - 1] * game.info.foodbox;
   }
 }
 
@@ -1556,8 +1556,9 @@ int city_granary_size(int city_size)
 static int content_citizens(const struct player *pplayer)
 {
   int cities = city_list_size(pplayer->cities);
-  int content = game.unhappysize;
-  int basis = game.cityfactor + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD);
+  int content = game.info.unhappysize;
+  int basis = game.info.cityfactor + get_player_bonus(pplayer, 
+                                                       EFT_EMPIRE_SIZE_MOD);
   int step = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
 
   if (cities > basis) {
@@ -1616,18 +1617,18 @@ void add_tax_income(const struct player *pplayer, int trade, int *output)
   const int SCIENCE = 0, TAX = 1, LUXURY = 2;
   int rates[3], result[3];
 
-  if (game.rgame.changable_tax) {
+  if (game.info.changable_tax) {
     rates[SCIENCE] = pplayer->economic.science;
     rates[LUXURY] = pplayer->economic.luxury;
     rates[TAX] = 100 - rates[SCIENCE] - rates[LUXURY];
   } else {
-    rates[SCIENCE] = game.rgame.forced_science;
-    rates[LUXURY] = game.rgame.forced_luxury;
-    rates[TAX] = game.rgame.forced_gold;
+    rates[SCIENCE] = game.info.forced_science;
+    rates[LUXURY] = game.info.forced_luxury;
+    rates[TAX] = game.info.forced_gold;
   }
   
   /* ANARCHY */
-  if (get_gov_pplayer(pplayer)->index == game.government_when_anarchy) {
+  if (get_gov_pplayer(pplayer)->index == game.info.government_when_anarchy) {
     rates[SCIENCE] = 0;
     rates[LUXURY] = 100;
     rates[TAX] = 0;
@@ -1646,7 +1647,7 @@ void add_tax_income(const struct player *pplayer, int trade, int *output)
 **************************************************************************/
 bool city_built_last_turn(const struct city *pcity)
 {
-  return pcity->turn_last_built + 1 >= game.turn;
+  return pcity->turn_last_built + 1 >= game.info.turn;
 }
 
 /****************************************************************************
@@ -1784,7 +1785,7 @@ static void citizen_base_mood(struct player *pplayer, int specialists,
 
   /* Create angry citizens only if we have a negative number of possible
    * content citizens. This happens when empires grow really big. */
-  if (game.angrycitizen == FALSE) {
+  if (game.info.angrycitizen == FALSE) {
     *angry = 0;
   } else {
     *angry = MIN(MAX(0, -base_content), size - specialists);
@@ -2329,8 +2330,8 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
      *
      * If notradesize and fulltradesize are equal then the city gets no
      * trade at that size. */
-    int notradesize = MIN(game.notradesize, game.fulltradesize);
-    int fulltradesize = MAX(game.notradesize, game.fulltradesize);
+    int notradesize = MIN(game.info.notradesize, game.info.fulltradesize);
+    int fulltradesize = MAX(game.info.notradesize, game.info.fulltradesize);
 
     if (pcity->size <= notradesize) {
       penalty = total;
@@ -2483,7 +2484,7 @@ bool is_city_option_set(const struct city *pcity, enum city_options option)
 void city_styles_alloc(int num)
 {
   city_styles = fc_calloc(num, sizeof(struct citystyle));
-  game.styles_count = num;
+  game.control.styles_count = num;
 }
 
 /**************************************************************************
@@ -2493,7 +2494,7 @@ void city_styles_free(void)
 {
   free(city_styles);
   city_styles = NULL;
-  game.styles_count = 0;
+  game.control.styles_count = 0;
 }
 
 /**************************************************************************
@@ -2572,12 +2573,12 @@ struct city *create_city_virtual(const struct player *pplayer,
       assert(found);
     }
   }
-  pcity->turn_founded = game.turn;
+  pcity->turn_founded = game.info.turn;
   pcity->did_buy = TRUE;
   pcity->did_sell = FALSE;
   pcity->airlift = FALSE;
 
-  pcity->turn_last_built = game.turn;
+  pcity->turn_last_built = game.info.turn;
   pcity->changed_from_id = pcity->currently_building;
   pcity->changed_from_is_unit = pcity->is_building_unit;
   pcity->before_change_shields = 0;

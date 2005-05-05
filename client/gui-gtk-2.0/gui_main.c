@@ -1373,7 +1373,7 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 
   punit = find_unit_by_id(unit_ids[i]);
   if(punit) { /* should always be true at this point */
-    if (punit->owner == game.player_idx) {  /* may be non-true if alliance */
+    if (punit->owner == game.info.player_idx) {  /* may be non-true if alliance */
       set_unit_focus(punit);
     }
   }
@@ -1418,7 +1418,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
 	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/%d\nGovernment: %s"),
 	    population_to_text(civ_population(game.player_ptr)),
-	    textyear(game.year), game.turn,
+	    textyear(game.info.year), game.info.turn,
 	    game.player_ptr->economic.gold,
 	    player_get_expected_income(game.player_ptr),
 	    game.player_ptr->economic.tax,

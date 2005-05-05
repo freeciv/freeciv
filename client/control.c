@@ -307,7 +307,7 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   int best_dist = 99999;
   struct tile *ptile;
 
-  if (!is_player_phase(game.player_ptr, game.phase)) {
+  if (!is_player_phase(game.player_ptr, game.info.phase)) {
     /* No focus unit wanted. */
     return NULL;
   }
@@ -850,7 +850,7 @@ void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 void wakeup_sentried_units(struct tile *ptile)
 {
   unit_list_iterate(ptile->units, punit) {
-    if(punit->activity==ACTIVITY_SENTRY && game.player_idx==punit->owner) {
+    if(punit->activity==ACTIVITY_SENTRY && game.info.player_idx==punit->owner) {
       request_new_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
@@ -1121,7 +1121,7 @@ void request_unit_pillage(struct unit *punit)
   enum tile_special_type would =
       what | get_infrastructure_prereq(what);
 
-  if ((game.rgame.pillage_select) &&
+  if ((game.info.pillage_select) &&
       ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
     popup_pillage_dialog(punit, (pspresent & (~psworking)));
   } else {
@@ -1422,7 +1422,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   unit_list_unlink(ptile->units, punit);
 
-  if (game.player_idx == punit->owner
+  if (game.info.player_idx == punit->owner
       && auto_center_on_unit
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
@@ -1515,7 +1515,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   else if (unit_list_size(ptile->units) == 1
       && !unit_list_get(ptile->units, 0)->occupy) {
     struct unit *punit=unit_list_get(ptile->units, 0);
-    if(game.player_idx==punit->owner) {
+    if(game.info.player_idx==punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
         maybe_goto = keyboardless_goto;
 	set_unit_focus_and_select(punit);
@@ -1561,7 +1561,7 @@ static struct unit *quickselect(struct tile *ptile,
     return NULL;
   } else if (listsize == 1) {
     struct unit *punit = unit_list_get(ptile->units, 0);
-    return (game.player_idx == punit->owner) ? punit : NULL;
+    return (game.info.player_idx == punit->owner) ? punit : NULL;
   }
 
   /*  Quickselect priorities. Units with moves left
@@ -1578,7 +1578,7 @@ static struct unit *quickselect(struct tile *ptile,
    */
 
     unit_list_iterate(ptile->units, punit)  {
-  if(game.player_idx != punit->owner || punit == punit_focus) {
+  if(game.info.player_idx != punit->owner || punit == punit_focus) {
     continue;
   }
   if (qtype == SELECT_SEA) {

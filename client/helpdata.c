@@ -655,9 +655,9 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     Tech_type_id t;
 
     u = get_role_unit(F_NUCLEAR, 0);
-    assert(u < game.num_unit_types);
+    assert(u < game.control.num_unit_types);
     t = get_unit_type(u)->tech_requirement;
-    assert(t < game.num_tech_types);
+    assert(t < game.control.num_tech_types);
 
     cat_snprintf(buf, bufsz,
 		 _("* Allows all players with knowledge of %s "
@@ -809,7 +809,7 @@ void helptext_unit(char *buf, int i, const char *user_text)
   if (unit_type_flag(i, F_ADD_TO_CITY)) {
     sprintf(buf + strlen(buf), _("* Can add on %d population to "
 				 "cities of no more than size %d.\n"),
-	    unit_pop_value(i), game.add_to_size_limit - unit_pop_value(i));
+	    unit_pop_value(i), game.info.add_to_size_limit - unit_pop_value(i));
   }
   if (unit_type_flag(i, F_SETTLERS)) {
     char buf2[1024];
@@ -1251,7 +1251,7 @@ void helptext_government(char *buf, int i, const char *user_text)
   
   buf[0] = '\0';
 
-  if (i < 0 || i >= game.government_count) {
+  if (i < 0 || i >= game.control.government_count) {
     freelog(LOG_ERROR, "Unknown government %d.", i);
     return;
   }
@@ -1264,11 +1264,11 @@ void helptext_government(char *buf, int i, const char *user_text)
     insert_requirement(gov->req + j, buf, bufsz);
   }
 #if 0
-  if (gov->max_rate < 100 && game.rgame.changable_tax) {
+  if (gov->max_rate < 100 && game.info.changable_tax) {
     sprintf(buf + strlen(buf), 
             _("The maximum rate you can set for science, "
 	      "gold, or luxuries is %d%%.\n\n"), gov->max_rate);
-  } else if (game.rgame.changable_tax) {
+  } else if (game.info.changable_tax) {
     sprintf(buf + strlen(buf), 
             _("Has unlimited science/gold/luxuries rates.\n\n"));
   }
@@ -1279,7 +1279,7 @@ void helptext_government(char *buf, int i, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("The first unhappy citizen in each city "
 	      "due to civilization size will appear when you have %d "
-	      "cities."), game.cityfactor + gov->empire_size_mod);
+	      "cities."), game.info.cityfactor + gov->empire_size_mod);
     sprintf(buf + strlen(buf),
 	    _("  Every %d cities after this will "
 	      "result in one more unhappy citizen in each city."),
@@ -1288,7 +1288,7 @@ void helptext_government(char *buf, int i, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("One unhappy citizen in each city due "
 	      "to civilization size will appear when you have %d cities."),
-            game.cityfactor + gov->empire_size_mod);
+            game.info.cityfactor + gov->empire_size_mod);
   }
 
   sprintf(buf + strlen(buf), _("\n\nFeatures:\n"));

@@ -51,7 +51,7 @@ void update_find_dialog(void)
   set(find_cities_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(find_cities_listview, MUIM_NList_Clear);
 
-  for (i = 0; i < game.nplayers; i++)
+  for (i = 0; i < game.info.nplayers; i++)
   {
     city_list_iterate(game.players[i].cities, pcity)
       DoMethod(find_cities_listview, MUIM_NList_InsertSingle, pcity->name, MUIV_NList_Insert_Bottom);

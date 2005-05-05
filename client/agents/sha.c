@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include "game.h"
 #include "log.h"
 #include "map.h"
 #include "support.h"

@@ -781,7 +781,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     cmd_reply(CMD_AITOGGLE, caller, C_OK,
 	      _("%s is now under AI control."), pplayer->name);
     if (pplayer->ai.skill_level==0) {
-      pplayer->ai.skill_level = game.skill_level;
+      pplayer->ai.skill_level = game.info.skill_level;
     }
     /* Set the skill level explicitly, because eg: the player skill
        level could have been set as AI, then toggled, then saved,
@@ -832,7 +832,7 @@ static bool toggle_ai_player(struct connection *caller, char *arg, bool check)
 }
 
 /****************************************************************************
-  Return the number of non-observer players.  game.nplayers includes
+  Return the number of non-observer players.  game.info.nplayers includes
   observers so in some places this function should be called instead.
 ****************************************************************************/
 static int get_num_nonobserver_players(void)
@@ -863,10 +863,10 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  /* game.max_players is a limit on the number of non-observer players.
+  /* game.info.max_players is a limit on the number of non-observer players.
    * MAX_NUM_PLAYERS is a limit on all players. */
-  if (get_num_nonobserver_players() >= game.max_players
-      || game.nplayers >= MAX_NUM_PLAYERS) {
+  if (get_num_nonobserver_players() >= game.info.max_players
+      || game.info.nplayers >= MAX_NUM_PLAYERS) {
     cmd_reply(CMD_CREATE, caller, C_FAIL,
 	      _("Can't add more players, server is full."));
     return FALSE;
@@ -906,13 +906,13 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     return TRUE;
   }
 
-  pplayer = &game.players[game.nplayers];
+  pplayer = &game.players[game.info.nplayers];
   server_player_init(pplayer, FALSE);
   sz_strlcpy(pplayer->name, arg);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
 
-  game.nplayers++;
+  game.info.nplayers++;
 
   notify_player(NULL, _("%s has been added as an AI-controlled player."),
                 arg);
@@ -926,7 +926,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   }
 
   pplayer->ai.control = TRUE;
-  set_ai_level_directer(pplayer, game.skill_level);
+  set_ai_level_directer(pplayer, game.info.skill_level);
   (void) send_server_info_to_metaserver(META_INFO);
   return TRUE;
 }
@@ -1047,11 +1047,11 @@ static void write_init_script(char *script_filename)
 	cmdlevel_name(first_access_level));
 
     fprintf(script_file, "%s\n",
-        (game.skill_level == 1) ?       "away" :
-	(game.skill_level == 2) ?	"novice" :
-	(game.skill_level == 3) ?	"easy" :
-	(game.skill_level == 5) ?	"medium" :
-	(game.skill_level < 10) ?	"hard" :
+        (game.info.skill_level == 1) ?       "away" :
+	(game.info.skill_level == 2) ?	"novice" :
+	(game.info.skill_level == 3) ?	"easy" :
+	(game.info.skill_level == 5) ?	"medium" :
+	(game.info.skill_level < 10) ?	"hard" :
 					"experimental");
 
     if (*srvarg.metaserver_addr != '\0' &&
@@ -1826,7 +1826,7 @@ static bool set_ai_level(struct connection *caller, char *name,
 		pplayer->name, name_of_skill_level(level));
       }
     } players_iterate_end;
-    game.skill_level = level;
+    game.info.skill_level = level;
     cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Default AI skill level set to '%s'."),
 		name_of_skill_level(level));
@@ -2770,7 +2770,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
-    dsend_packet_start_phase(pconn, game.phase);
+    dsend_packet_start_phase(pconn, game.info.phase);
   }
 
   cmd_reply(CMD_OBSERVE, caller, C_OK, _("%s now observes %s"),
@@ -2933,11 +2933,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
     send_player_info(NULL, NULL);
     send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
-    dsend_packet_start_phase(pconn, game.phase);
+    dsend_packet_start_phase(pconn, game.info.phase);
   }
 
   /* aitoggle the player back to human if necessary. */
-  if (pplayer->ai.control && game.auto_ai_toggle) {
+  if (pplayer->ai.control && game.info.auto_ai_toggle) {
     toggle_ai_player_direct(NULL, pplayer);
   }
 
@@ -3056,12 +3056,12 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     /* actually do the removal */
     game_remove_player(pplayer);
     game_renumber_players(pplayer->player_no);
-    player_init(&game.players[game.nplayers]);
+    player_init(&game.players[game.info.nplayers]);
   }
 
   if (!pplayer->is_connected) {
     /* aitoggle the player if no longer connected. */
-    if (game.auto_ai_toggle && !pplayer->ai.control) {
+    if (game.info.auto_ai_toggle && !pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
     }
     /* reset username if in pregame. */
@@ -3101,13 +3101,13 @@ static void send_load_game_info(bool load_successful)
     int i = 0;
 
     players_iterate(pplayer) {
-      if (game.nation_count && is_barbarian(pplayer)) {
+      if (game.control.nation_count && is_barbarian(pplayer)) {
 	continue;
       }
 
       sz_strlcpy(packet.name[i], pplayer->name);
       sz_strlcpy(packet.username[i], pplayer->username);
-      if (game.nation_count) {
+      if (game.control.nation_count) {
 	packet.nations[i] = pplayer->nation;
       } else { /* No nations picked */
 	packet.nations[i] = NO_NATION_SELECTED;
@@ -3575,24 +3575,24 @@ static bool start_command(struct connection *caller, char *name, bool check)
     /* Sanity check scenario */
     if (game.is_new_game && !check) {
       if (map.num_start_positions > 0
-	  && game.max_players > map.num_start_positions) {
+	  && game.info.max_players > map.num_start_positions) {
 	/* If we load a pre-generated map (i.e., a scenario) it is possible
 	 * to increase the number of players beyond the number supported by
 	 * the scenario.  The solution is a hack: cut the extra players
 	 * when the game starts. */
 	freelog(LOG_VERBOSE, "Reduced maxplayers from %i to %i to fit "
 	        "to the number of start positions.",
-		game.max_players, map.num_start_positions);
-	game.max_players = map.num_start_positions;
+		game.info.max_players, map.num_start_positions);
+	game.info.max_players = map.num_start_positions;
       }
 
-      if (get_num_nonobserver_players() > game.max_players) {
+      if (get_num_nonobserver_players() > game.info.max_players) {
 	/* Because of the way player ids are renumbered during
 	   server_remove_player() this is correct */
-        while (get_num_nonobserver_players() > game.max_players) {
+        while (get_num_nonobserver_players() > game.info.max_players) {
 	  /* This may erronously remove observer players sometimes.  This
 	   * is a bug but non-fatal. */
-	  server_remove_player(get_player(game.max_players));
+	  server_remove_player(get_player(game.info.max_players));
         }
 
 	freelog(LOG_VERBOSE,
@@ -3604,7 +3604,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
     }
 
     /* check min_players */
-    if (get_num_nonobserver_players() < game.min_players) {
+    if (get_num_nonobserver_players() < game.info.min_players) {
       cmd_reply(CMD_START_GAME, caller, C_FAIL,
 		_("Not enough players, game will not start."));
       return FALSE;
@@ -3960,7 +3960,7 @@ void show_players(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
 
-  if (game.nplayers == 0)
+  if (game.info.nplayers == 0)
     cmd_reply(CMD_LIST, caller, C_WARNING, _("<no players>"));
   else
   {
@@ -4147,7 +4147,7 @@ static const char *playername_accessor(int idx)
 }
 static char *player_generator(const char *text, int state)
 {
-  return generic_generator(text, state, game.nplayers, playername_accessor);
+  return generic_generator(text, state, game.info.nplayers, playername_accessor);
 }
 
 /**************************************************************************

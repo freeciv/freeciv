@@ -133,7 +133,7 @@ static void update_find_dialog(GtkListStore *store)
 
   gtk_list_store_clear(store);
 
-  for(i = 0; i < game.nplayers; i++) {
+  for(i = 0; i < game.info.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) {
 	GValue value = { 0, };
 

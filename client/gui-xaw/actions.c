@@ -275,7 +275,7 @@ static void xaw_key_open_revolution(Widget w, XEvent *event,
 {
   if (can_client_change_view()
       && is_menu_item_active(MENU_GOVERNMENT, MENU_GOVERNMENT_REVOLUTION)) {
-    popup_revolution_dialog(game.government_when_anarchy);
+    popup_revolution_dialog(game.info.government_when_anarchy);
   }
 }
 

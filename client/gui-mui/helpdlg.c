@@ -610,7 +610,7 @@ static void help_update_improvement(const struct help_item *pitem,
 
   create_help_page(HELP_IMPROVEMENT);
 
-  if (which < game.num_impr_types)
+  if (which < game.control.num_impr_types)
   {
     struct impr_type *imp = &improvement_types[which];
 
@@ -635,7 +635,7 @@ static void help_update_wonder(const struct help_item *pitem,
 
   create_help_page(HELP_WONDER);
 
-  if (which < game.num_impr_types)
+  if (which < game.control.num_impr_types)
   {
     struct impr_type *imp = &improvement_types[which];
 
@@ -666,7 +666,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
   create_help_page(HELP_UNIT);
 
-  if (i < game.num_unit_types)
+  if (i < game.control.num_unit_types)
   {
     ULONG bg_color;
     struct unit_type *utype = get_unit_type(i);
@@ -780,7 +780,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	} unit_type_iterate_end;
 
 
-	for (j = 0; j < game.num_tech_types; j++) {
+	for (j = 0; j < game.control.num_tech_types; j++) {
 	  Object *o, *button;
 	  if (i == advances[j].req[0])
 	  {

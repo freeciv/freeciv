@@ -148,7 +148,7 @@ static void intel_create_dialog(struct player *p)
 
     settextf(capital_text, _("Capital: %s"), (pcity == NULL) ? _("(Unknown)") : pcity->name);
 
-    for (i = 1; i < game.num_tech_types; i++)
+    for (i = 1; i < game.control.num_tech_types; i++)
     {
       if (get_invention(p, i) == TECH_KNOWN)
       {

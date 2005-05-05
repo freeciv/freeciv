@@ -140,7 +140,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * it elewhere because this localizes everything to this
    * function, even though it's a bit inefficient.
    */
-  if (!game.natural_city_names) {
+  if (!game.info.natural_city_names) {
     return default_priority;
   }
 
@@ -260,7 +260,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
   struct connection *pconn;
 
   /* Mode 1: A city name has to be unique for each player. */
-  if (game.allowed_city_names == 1 &&
+  if (game.info.allowed_city_names == 1 &&
       city_list_find_name(pplayer->cities, city_name)) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz, _("You already have a city called %s."),
@@ -270,7 +270,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
   }
 
   /* Modes 2,3: A city name has to be globally unique. */
-  if ((game.allowed_city_names == 2 || game.allowed_city_names == 3)
+  if ((game.info.allowed_city_names == 2 
+       || game.info.allowed_city_names == 3)
       && game_find_city_by_name(city_name)) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz,
@@ -289,7 +290,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *city_name,
    * player's default city names.  Note the name will already have been
    * allowed if it is in this player's default city names list.
    */
-  if (game.allowed_city_names == 3) {
+  if (game.info.allowed_city_names == 3) {
     struct player *pother = NULL;
 
     players_iterate(player2) {
@@ -344,8 +345,8 @@ by caller.
 char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 {
   int i = 0, j;
-  bool nations_selected[game.nation_count];
-  Nation_type_id nation_list[game.nation_count], n;
+  bool nations_selected[game.control.nation_count];
+  Nation_type_id nation_list[game.control.nation_count], n;
   int queue_size;
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
@@ -380,7 +381,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
   nation_list[0] = pplayer->nation;
   nations_selected[pplayer->nation] = TRUE;
 
-  while (i < game.nation_count) {
+  while (i < game.control.nation_count) {
     for (; i < queue_size; i++) {
       struct nation_type *nation;
       char *name;
@@ -427,7 +428,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
     }
 
     /* Append all remaining nations. */
-    for (n = 0; n < game.nation_count; n++) {
+    for (n = 0; n < game.control.nation_count; n++) {
       if (!nations_selected[n]) {
 	nation_list[queue_size] = n;
 	nations_selected[n] = TRUE;
@@ -638,12 +639,12 @@ struct city *find_closest_owned_city(struct player *pplayer, struct tile *ptile,
 
 /**************************************************************************
   called when a player conquers a city, remove buildings (not wonders and 
-  always palace) with game.razechance% chance, barbarians destroy more
+  always palace) with game.info.razechance% chance, barbarians destroy more
   set the city's shield stock to 0
 **************************************************************************/
 static void raze_city(struct city *pcity)
 {
-  int razechance = game.razechance;
+  int razechance = game.info.razechance;
 
   /* land barbarians are more likely to destroy city improvements */
   if (is_land_barbarian(city_owner(pcity)))
@@ -780,7 +781,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   map_unfog_pseudo_city_area(ptaker, pcity->tile);
 
   sz_strlcpy(old_city_name, pcity->name);
-  if (game.allowed_city_names == 1
+  if (game.info.allowed_city_names == 1
       && city_list_find_name(ptaker->cities, pcity->name)) {
     sz_strlcpy(pcity->name,
 	       city_name_suggestion(ptaker, pcity->tile));
@@ -888,7 +889,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
-  if (game.savepalace) {
+  if (game.info.savepalace) {
     build_free_small_wonders(pgiver, pcity->name, &had_small_wonders);
   }
 
@@ -1144,7 +1145,7 @@ void remove_city(struct city *pcity)
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
-  if (game.savepalace) {
+  if (game.info.savepalace) {
     build_free_small_wonders(pplayer, city_name, &had_small_wonders);
   }
 
@@ -1183,9 +1184,9 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   }
   
   if (is_capital(pcity)
-      && city_list_size(cplayer->cities) >= game.civilwarsize
-      && game.nplayers < game.playable_nation_count
-      && game.civilwarsize < GAME_MAX_CIVILWARSIZE
+      && city_list_size(cplayer->cities) >= game.info.civilwarsize
+      && game.info.nplayers < game.control.playable_nation_count
+      && game.info.civilwarsize < GAME_MAX_CIVILWARSIZE
       && get_num_human_and_ai_players() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
     do_civil_war = TRUE;

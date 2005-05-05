@@ -843,7 +843,7 @@ static void load_global_worklist(struct section_file *file, const char *path,
 
       if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
           (pwl->wlefs[i] == WEF_UNIT
-	   && (pwl->wlids[i] < 0 || pwl->wlids[i] >= game.num_unit_types))
+	   && (pwl->wlids[i] < 0 || pwl->wlids[i] >= game.control.num_unit_types))
 	   || ((pwl->wlefs[i] == WEF_IMPR)
 	       && !improvement_exists(pwl->wlids[i]))) {
         pwl->wlefs[i] = WEF_END;

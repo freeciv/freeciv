@@ -368,7 +368,7 @@ void update_players_dialog(void)
 
   set(player_players_listview, MUIA_NList_Quiet, TRUE);
   DoMethod(player_players_listview, MUIM_NList_Clear);
-  for (i = 0; i < game.nplayers; i++)
+  for (i = 0; i < game.info.nplayers; i++)
   {
     if(is_barbarian(&game.players[i]))
       continue;

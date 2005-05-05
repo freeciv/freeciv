@@ -149,13 +149,13 @@ void update_find_dialog(Widget find_list)
 {
   int i, j;
 
-  for(i = 0, ncities_total = 0; i < game.nplayers; i++) {
+  for(i = 0, ncities_total = 0; i < game.info.nplayers; i++) {
     ncities_total += city_list_size(game.players[i].cities);
   }
 
   city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   
-  for(i=0, j=0; i<game.nplayers; i++) {
+  for(i=0, j=0; i<game.info.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity) 
       *(city_name_ptrs+j++)=mystrdup(pcity->name);
     city_list_iterate_end;

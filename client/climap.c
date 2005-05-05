@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include "game.h"
 #include "map.h"
 #include "shared.h"
 

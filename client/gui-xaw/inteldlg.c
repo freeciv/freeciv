@@ -267,7 +267,7 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  XtNlabel, buf,
 			  NULL);
 
-  for(i=A_FIRST, j=0; i<game.num_tech_types; i++)
+  for(i=A_FIRST, j=0; i<game.control.num_tech_types; i++)
     if (get_invention(pdialog->pplayer, i) == TECH_KNOWN) {
       if(get_invention(game.player_ptr, i)==TECH_KNOWN) {
 	sz_strlcpy(tech_list_names[j], advances[i].name);

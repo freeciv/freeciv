@@ -609,7 +609,7 @@ void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
   }
 
   if (!is_tiles_adjacent(punit->tile, ptile)
-      || !is_player_phase(unit_owner(punit), game.phase)) {
+      || !is_player_phase(unit_owner(punit), game.info.phase)) {
     return;
   }
   (void) handle_unit_move_request(punit, ptile, FALSE, FALSE);
@@ -929,7 +929,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
    * multiple defenders and unstacked combat). Note that this could mean 
    * capturing (or destroying) a city. */
 
-  if (pwinner == punit && myrand(100) < game.occupychance &&
+  if (pwinner == punit && myrand(100) < game.info.occupychance &&
       !is_non_allied_unit_tile(def_tile,
 			       unit_owner(punit))) {
 
@@ -1723,7 +1723,7 @@ void handle_unit_orders(struct player *pplayer,
   }
 #endif
 
-  if (!is_player_phase(unit_owner(punit), game.phase)
+  if (!is_player_phase(unit_owner(punit), game.info.phase)
       || execute_orders(punit)) {
     /* Looks like the unit survived. */
     send_unit_info(NULL, punit);

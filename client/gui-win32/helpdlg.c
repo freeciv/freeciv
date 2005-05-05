@@ -475,7 +475,7 @@ static void help_update_improvement(const struct help_item *pitem,
  
   create_help_page(HELP_IMPROVEMENT);
  
-  if (which < game.num_impr_types) {
+  if (which < game.control.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     int i;
     char req_buf[512];
@@ -500,7 +500,7 @@ static void help_update_improvement(const struct help_item *pitem,
     SetWindowText(help_ilabel[1], "0");
     SetWindowText(help_ilabel[3], "0");
     SetWindowText(help_ilabel[5], _("(Never)"));
-/*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3);*/
   }
   helptext_building(buf, sizeof(buf), which, pitem->text);
   set_help_text(buf);
@@ -516,7 +516,7 @@ static void help_update_wonder(const struct help_item *pitem,
  
   create_help_page(HELP_WONDER);
  
-  if (which < game.num_impr_types) {
+  if (which < game.control.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     int i;
     char req_buf[512];
@@ -542,7 +542,7 @@ static void help_update_wonder(const struct help_item *pitem,
     SetWindowText(help_ilabel[1], "0");
     SetWindowText(help_ilabel[3], _("(Never)"));
     SetWindowText(help_ilabel[5], _("None"));
-/*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3); */
+/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3); */
   }
  
   helptext_building(buf, sizeof(buf), which, pitem->text);
@@ -677,7 +677,7 @@ static void help_draw_unit(HDC hdc,int i)
   FillRect(hdc,&rc,brush_std[bg_color]);
   
   /* Put a picture of the unit in the tile */
-  if (i < game.num_unit_types) {
+  if (i < game.control.num_unit_types) {
     struct sprite *sprite = get_unittype_sprite(tileset, i);
     draw_sprite(sprite, hdc, unitpos.x, unitpos.y);
   }
@@ -693,7 +693,7 @@ static void help_update_unit_type(const struct help_item *pitem,
   char *buf = &long_buffer[0];
   create_help_page(HELP_UNIT);
   unit_num=i;
-  if (i<game.num_unit_types) {
+  if (i<game.control.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
     sprintf(buf, "%d", unit_build_shield_cost(i));
     SetWindowText(help_ulabel[0][1], buf);
@@ -804,7 +804,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 			   0,FALSE,FALSE,5);
     } unit_type_iterate_end;
 
-    for (j = 0; j < game.num_tech_types; j++) {
+    for (j = 0; j < game.control.num_tech_types; j++) {
       if(i==advances[j].req[0]) {
         if(advances[j].req[1]==A_NONE) {
 	  hbox=fcwin_hbox_new(helpdlg_win,FALSE);

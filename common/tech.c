@@ -52,7 +52,7 @@ static const char *flag_names[] = {
 enum tech_state get_invention(const struct player *pplayer,
 			      Tech_type_id tech)
 {
-  assert(tech >= 0 || tech < game.num_tech_types);
+  assert(tech >= 0 || tech < game.control.num_tech_types);
 
   return pplayer->research->inventions[tech].state;
 }
@@ -70,7 +70,7 @@ void set_invention(struct player *pplayer, Tech_type_id tech,
   pplayer->research->inventions[tech].state = value;
 
   if (value == TECH_KNOWN) {
-    game.global_advances[tech]++;
+    game.info.global_advances[tech]++;
   }
 }
 
@@ -256,7 +256,7 @@ A tech doesn't exist if one of:
 **************************************************************************/
 bool tech_exists(Tech_type_id id)
 {
-  if (id < 0 || id >= game.num_tech_types) {
+  if (id < 0 || id >= game.control.num_tech_types) {
     return FALSE;
   } else {
     return advances[id].req[0] != A_LAST && advances[id].req[1] != A_LAST;
@@ -325,7 +325,7 @@ enum tech_flag_id tech_flag_from_str(const char *s)
 Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag)
 {
   Tech_type_id i;
-  for(i=index;i<game.num_tech_types;i++)
+  for(i = index;i < game.control.num_tech_types; i++)
   {
     if(tech_flag(i,flag)) return i;
   }
@@ -347,10 +347,10 @@ int total_bulbs_required(const struct player *pplayer)
 
 /**************************************************************************
  Function to determine cost for technology. Equation is determined
- from game.rgame.tech_cost_style and game.rgame.tech_leakage.
+ from game.info.tech_cost_style and game.info.tech_leakage.
 
  tech_cost_style:
- 0 - Civ (I|II) style. Every new tech add game.researchcost to the
+ 0 - Civ (I|II) style. Every new tech add game.info.researchcost to the
      cost of the next tech.
  1 - Cost of technology is 
        MAX((1 + parents) * (researchcost / 2) * sqrt(1 + parents), researchcost)
@@ -370,7 +370,7 @@ int total_bulbs_required(const struct player *pplayer)
 int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech)
 {
-  int cost, tech_cost_style = game.rgame.tech_cost_style;
+  int cost, tech_cost_style = game.info.tech_cost_style;
 
   if (!is_future_tech(tech) && get_invention(pplayer, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */
@@ -389,28 +389,28 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   switch (tech_cost_style) {
   case 0:
-    cost = pplayer->research->techs_researched * game.researchcost;
+    cost = pplayer->research->techs_researched * game.info.researchcost;
     break;
   case 1:
     cost = techcoststyle1[tech];
     break;
   case 2:
-    cost = (advances[tech].preset_cost * game.researchcost) /
+    cost = (advances[tech].preset_cost * game.info.researchcost) /
 	GAME_DEFAULT_RESEARCHCOST;
     break;
   default:
-    die("Invalid tech_cost_style %d %d", game.rgame.tech_cost_style,
+    die("Invalid tech_cost_style %d %d", game.info.tech_cost_style,
 	tech_cost_style);
     cost = 0;
   }
 
   /* Research becomes more expensive this year and after. */
-  if (game.rgame.tech_cost_double_year != 0
-      && game.year >= game.rgame.tech_cost_double_year) {
+  if (game.info.tech_cost_double_year != 0
+      && game.info.year >= game.info.tech_cost_double_year) {
     cost *= 2;
   }
 
-  switch (game.rgame.tech_leakage) {
+  switch (game.info.tech_leakage) {
   case 0:
     /* no change */
     break;
@@ -465,7 +465,7 @@ int base_total_bulbs_required(const struct player *pplayer,
     break;
 
   default:
-    die("Invalid tech_leakage %d", game.rgame.tech_leakage);
+    die("Invalid tech_leakage %d", game.info.tech_leakage);
   }
 
   /* Assign a science penalty to the AI at easier skill levels.  This code
@@ -539,9 +539,9 @@ void precalc_tech_data()
   tech_type_iterate(tech) {
     const int style1_cost = ((advances[tech].num_reqs + 1)
 			     * sqrt(advances[tech].num_reqs + 1)
-			     * (game.researchcost / 2));
+			     * (game.info.researchcost / 2));
 
-    techcoststyle1[tech] = MAX(style1_cost, game.researchcost);
+    techcoststyle1[tech] = MAX(style1_cost, game.info.researchcost);
   } tech_type_iterate_end;
 }
 
@@ -608,9 +608,9 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
 **************************************************************************/
 bool techs_have_fixed_costs()
 {
-  return ((game.rgame.tech_cost_style == 1
-	   || game.rgame.tech_cost_style == 2)
-	  && game.rgame.tech_leakage == 0);
+  return ((game.info.tech_cost_style == 1
+	   || game.info.tech_cost_style == 2)
+	  && game.info.tech_leakage == 0);
 }
 
 /****************************************************************************
@@ -651,7 +651,7 @@ void techs_free(void)
 {
   Tech_type_id i;
 
-  for (i = A_FIRST; i < game.num_tech_types; i++) {
+  for (i = A_FIRST; i < game.control.num_tech_types; i++) {
     tech_free(i);
   }
 }

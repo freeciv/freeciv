@@ -209,7 +209,7 @@ void update_goto_dialog(Widget goto_list)
   cleanup_goto_list();
 
   if(all_cities) {
-    for(i=0, ncities_total=0; i<game.nplayers; i++) {
+    for(i=0, ncities_total=0; i<game.info.nplayers; i++) {
       ncities_total += city_list_size(game.players[i].cities);
     }
   } else {
@@ -218,7 +218,7 @@ void update_goto_dialog(Widget goto_list)
 
   city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   
-  for(i=0, j=0; i<game.nplayers; i++) {
+  for(i=0, j=0; i<game.info.nplayers; i++) {
     if(!all_cities && i!=game.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
       char name[MAX_LEN_NAME+3];

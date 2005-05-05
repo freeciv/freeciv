@@ -110,7 +110,7 @@ void governments_free(void);
 {                                                                           \
   int GI_index;                                                             \
                                                                             \
-  for (GI_index = 0; GI_index < game.government_count; GI_index++) {        \
+  for (GI_index = 0; GI_index < game.control.government_count; GI_index++) {\
     struct government *gov = get_government(GI_index);                      \
     {
 

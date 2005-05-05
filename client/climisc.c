@@ -327,12 +327,12 @@ struct sprite *client_warming_sprite(void)
   if (can_client_change_view() && game.player_ptr) {
     int index;
 
-    if ((game.globalwarming <= 0) &&
-	(game.heating < (NUM_TILES_PROGRESS / 2))) {
-      index = MAX(0, game.heating);
+    if ((game.info.globalwarming <= 0) &&
+	(game.info.heating < (NUM_TILES_PROGRESS / 2))) {
+      index = MAX(0, game.info.heating);
     } else {
       index = MIN(NUM_TILES_PROGRESS,
-		  (MAX(0, 4 + game.globalwarming) / 5) +
+		  (MAX(0, 4 + game.info.globalwarming) / 5) +
 		  ((NUM_TILES_PROGRESS / 2) - 1));
     }
 
@@ -352,12 +352,12 @@ struct sprite *client_cooling_sprite(void)
   if (can_client_change_view()) {
     int index;
 
-    if ((game.nuclearwinter <= 0) &&
-	(game.cooling < (NUM_TILES_PROGRESS / 2))) {
-      index = MAX(0, game.cooling);
+    if ((game.info.nuclearwinter <= 0) &&
+	(game.info.cooling < (NUM_TILES_PROGRESS / 2))) {
+      index = MAX(0, game.info.cooling);
     } else {
       index = MIN(NUM_TILES_PROGRESS,
-		  (MAX(0, 4 + game.nuclearwinter) / 5) +
+		  (MAX(0, 4 + game.info.nuclearwinter) / 5) +
 		  ((NUM_TILES_PROGRESS / 2) - 1));
     }
 
@@ -374,7 +374,7 @@ struct sprite *client_cooling_sprite(void)
 **************************************************************************/
 struct sprite *client_government_sprite(void)
 {
-  if (can_client_change_view() && game.government_count > 0) {
+  if (can_client_change_view() && game.control.government_count > 0) {
     struct government *gov = get_government(game.player_ptr->government);
 
     return get_government_sprite(tileset, gov);
@@ -680,7 +680,7 @@ int collect_cids1(cid * dest_cids, struct city **selected_cities,
 		  bool (*test_func) (struct city *, int))
 {
   cid first = append_units ? B_LAST : 0;
-  cid last = append_units ? game.num_unit_types + B_LAST : B_LAST;
+  cid last = append_units ? game.control.num_unit_types + B_LAST : B_LAST;
   cid cid;
   int items_used = 0;
 
@@ -882,7 +882,7 @@ int num_supported_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (pcity->owner != game.player_idx) {
+  if (pcity->owner != game.info.player_idx) {
     plist = pcity->info_units_supported;
   } else {
     plist = pcity->units_supported;
@@ -898,7 +898,7 @@ int num_present_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (pcity->owner != game.player_idx) {
+  if (pcity->owner != game.info.player_idx) {
     plist = pcity->info_units_present;
   } else {
     plist = pcity->tile->units;

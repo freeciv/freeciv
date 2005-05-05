@@ -267,7 +267,7 @@ static void update_radio_buttons(int id)
 		   ID_RACESDLG_STYLE_BASE+b_s_num-1,selected_style);
   if (id!=(selected_nation+ID_RACESDLG_NATION_BASE)) 
     CheckRadioButton(races_dlg,ID_RACESDLG_NATION_BASE,
-		     ID_RACESDLG_NATION_BASE+game.playable_nation_count-1,
+		     ID_RACESDLG_NATION_BASE+game.control.playable_nation_count-1,
 		     selected_nation+ID_RACESDLG_NATION_BASE);   
 }
 
@@ -301,7 +301,7 @@ static void update_nation_info()
 **************************************************************************/
 static void select_random_race(HWND hWnd)
 {
-  selected_nation=myrand(game.playable_nation_count);
+  selected_nation=myrand(game.control.playable_nation_count);
   update_nation_info();
   update_radio_buttons(0);
 }
@@ -415,7 +415,7 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	    selected_style=id;
 	    update_radio_buttons(id);
 	  } else if ((id>=ID_RACESDLG_NATION_BASE)&&
-		     (id<ID_RACESDLG_NATION_BASE+game.playable_nation_count)) {
+		     (id<ID_RACESDLG_NATION_BASE+game.control.playable_nation_count)) {
 	    selected_nation=id-ID_RACESDLG_NATION_BASE;
 	    update_nation_info();
 	    if (!name_edited) {
@@ -456,7 +456,7 @@ static void add_nations(struct fcwin_box *vbox)
   struct genlist *nation_list;
   struct genlist_link *myiter;
   nation_list = genlist_new();
-  for(i=0; i<game.playable_nation_count; i++) { 
+  for(i=0; i<game.control.playable_nation_count; i++) { 
     /* Don't use a NULL pointer */
     genlist_prepend(nation_list, (void *)(i + ID_RACESDLG_NATION_BASE));
   }
@@ -536,7 +536,7 @@ void popup_races_dialog(void)
   fcwin_box_add_groupbox(vbox,_("Select your city style"),grp_box,WS_GROUP,
 			 FALSE,FALSE,5);
   hbox=fcwin_hbox_new(races_dlg,TRUE);
-  for(i=0,b_s_num=0; i<game.styles_count && i<64; i++) {
+  for(i=0,b_s_num=0; i<game.control.styles_count && i<64; i++) {
     if (!city_style_has_requirements(&city_styles[i])) {
       city_style_idx[b_s_num] = i;
       city_style_ridx[i] = b_s_num;
@@ -868,11 +868,11 @@ void races_toggles_set_sensitive(bool *nations_used)
 {
   int i;
 
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + i), TRUE);
   }
 
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     Nation_type_id nation = i;
 
     if (!nations_used[i]) {
@@ -918,7 +918,7 @@ static void revolution_callback_no(HWND w, void * data)
 *****************************************************************/
 void popup_revolution_dialog(int government)
 {
-  if (game.player_ptr->revolution_finishes < game.turn) {
+  if (game.player_ptr->revolution_finishes < game.info.turn) {
     popup_message_dialog(NULL, _("Revolution!"),
 			 _("You say you wanna revolution?"),
 			 _("_Yes"),revolution_callback_yes, government,
@@ -1118,7 +1118,7 @@ static void create_advances_list(struct player *pplayer,
   
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
     
-    for(i=A_FIRST; i<game.num_tech_types; i++) {
+    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
       if(get_invention(pvictim, i)==TECH_KNOWN && 
          (get_invention(pplayer, i)==TECH_UNKNOWN || 
           get_invention(pplayer, i)==TECH_REACHABLE)) {
@@ -1129,7 +1129,7 @@ static void create_advances_list(struct player *pplayer,
     
     if(j > 0) {
       ListBox_AddString(lb,_("At Spy's Discretion"));
-      advance_type[j++] = game.num_tech_types;
+      advance_type[j++] = game.control.num_tech_types;
     }
   }
   if(j == 0) {

@@ -314,7 +314,7 @@ void clean_players_research(void);
 {                                                                             \
   struct player *PI_player;                                                   \
   int PI_p_itr;                                                               \
-  for (PI_p_itr = 0; PI_p_itr < game.nplayers; PI_p_itr++) {                  \
+  for (PI_p_itr = 0; PI_p_itr < game.info.nplayers; PI_p_itr++) {            \
     PI_player = get_player(PI_p_itr);
 
 #define players_iterate_end                                                   \

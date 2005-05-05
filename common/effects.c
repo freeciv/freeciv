@@ -275,7 +275,7 @@ struct effect_list *get_req_source_effects(struct req_source *psource)
 
   switch (type) {
   case REQ_BUILDING:
-    if (value >= 0 && value < game.num_impr_types) {
+    if (value >= 0 && value < game.control.num_impr_types) {
       return ruleset_cache.reqs.buildings[value];
     } else {
       return NULL;

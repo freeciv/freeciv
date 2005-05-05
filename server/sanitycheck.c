@@ -112,9 +112,9 @@ static void check_misc(void)
       nbarbs++;
     }
   } players_iterate_end;
-  SANITY_CHECK(nbarbs == game.nbarbarians);
+  SANITY_CHECK(nbarbs == game.info.nbarbarians);
 
-  SANITY_CHECK(game.nplayers <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  SANITY_CHECK(game.info.nplayers <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 }
 
 /**************************************************************************
@@ -208,7 +208,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  "empty but occupied by an enemy unit!",
 		  pcity->name, TILE_XY(ptile));
 	}
-	if (game.borders > 0
+	if (game.info.borders > 0
 	    && owner && owner->player_no != pcity->owner) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "empty but in enemy territory!",
@@ -232,7 +232,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 		  "worked but occupied by an enemy unit!",
 		  pcity->name, TILE_XY(ptile));
 	}
-	if (game.borders > 0
+	if (game.info.borders > 0
 	    && owner && owner->player_no != pcity->owner) {
 	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
 		  "worked but in enemy territory!",
@@ -425,13 +425,13 @@ static void check_players(void)
     } players_iterate_end;
 
     if (pplayer->revolution_finishes == -1) {
-      if (pplayer->government == game.government_when_anarchy) {
+      if (pplayer->government == game.info.government_when_anarchy) {
         freelog(LOG_FATAL, "%s's government is anarchy but does not finish",
                 pplayer->name);
       }
-      SANITY_CHECK(pplayer->government != game.government_when_anarchy);
-    } else if (pplayer->revolution_finishes > game.turn) {
-      SANITY_CHECK(pplayer->government == game.government_when_anarchy);
+      SANITY_CHECK(pplayer->government != game.info.government_when_anarchy);
+    } else if (pplayer->revolution_finishes > game.info.turn) {
+      SANITY_CHECK(pplayer->government == game.info.government_when_anarchy);
     } else {
       /* Things may vary in this case depending on when the sanity_check
        * call is made.  No better check is possible. */

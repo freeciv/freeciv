@@ -64,8 +64,8 @@ struct government *find_government_by_name_orig(const char *name)
 ****************************************************************************/
 struct government *get_government(int gov)
 {
-  assert(game.government_count > 0 && gov >= 0
-	 && gov < game.government_count);
+  assert(game.control.government_count > 0 && gov >= 0
+	 && gov < game.control.government_count);
   assert(governments[gov].index == gov);
   return &governments[gov];
 }
@@ -123,7 +123,7 @@ const char *get_ruler_title(int gov, bool male, int nation)
 ***************************************************************/
 const char *get_government_name(int type)
 {
-  if(type >= 0 && type < game.government_count)
+  if(type >= 0 && type < game.control.government_count)
     return governments[type].name;
   return "";
 }
@@ -138,7 +138,7 @@ bool can_change_to_government(struct player *pplayer, int government)
 {
   struct government *gov = &governments[government];
 
-  if (government < 0 || government >= game.government_count) {
+  if (government < 0 || government >= game.control.government_count) {
     assert(0);
     return FALSE;
   }
@@ -183,7 +183,7 @@ void governments_alloc(int num)
   int index;
 
   governments = fc_calloc(num, sizeof(struct government));
-  game.government_count = num;
+  game.control.government_count = num;
 
   for (index = 0; index < num; index++) {
     governments[index].index = index;
@@ -212,5 +212,5 @@ void governments_free(void)
   } government_iterate_end;
   free(governments);
   governments = NULL;
-  game.government_count = 0;
+  game.control.government_count = 0;
 }

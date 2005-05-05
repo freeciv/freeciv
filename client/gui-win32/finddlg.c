@@ -43,7 +43,7 @@ static void update_find_dialog()
   int i,id;
   ListBox_ResetContent(GetDlgItem(finddialog,ID_FINDCITY_LIST));
    
-  for(i=0; i<game.nplayers; i++) {
+  for(i=0; i<game.info.nplayers; i++) {
     city_list_iterate(game.players[i].cities, pcity);
     id=ListBox_AddString(GetDlgItem(finddialog,ID_FINDCITY_LIST),pcity->name);
     ListBox_SetItemData(GetDlgItem(finddialog,ID_FINDCITY_LIST),id,i);

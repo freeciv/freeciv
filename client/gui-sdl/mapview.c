@@ -477,7 +477,7 @@ void update_info_label(void)
 		"Gold %d Tax: %d Lux: %d Sci: %d "),
 	      get_nation_name(game.player_ptr->nation),
 	      population_to_text(civ_population(game.player_ptr)),
-	      textyear(game.year),
+	      textyear(game.info.year),
 	      game.player_ptr->economic.gold,
 	      game.player_ptr->economic.tax,
 	      game.player_ptr->economic.luxury,
@@ -620,7 +620,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 				sdl_get_tile_defense_info_text(pTile));
 	
         if (pInfo_Window->size.h > 2 * h + DEFAULT_UNITS_H || right) {
-	  if (game.borders > 0 && !pTile->city) {
+	  if (game.info.borders > 0 && !pTile->city) {
 	    const char *diplo_nation_plural_adjectives[DS_LAST] =
                         {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      			"" /* unused, DS_CEASEFIRE*/,
@@ -646,7 +646,7 @@ void redraw_unit_info_label(struct unit *pUnit)
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
               }
 	    }
-          } /* game.borders > 0 && !pTile->city */
+          } /* game.info.borders > 0 && !pTile->city */
 	  
           if (pTile->city) {
             /* Look at city owner, not tile owner (the two should be the same, if
@@ -1812,7 +1812,7 @@ static void draw_map_cell(SDL_Surface *pDest, Sint16 map_x, Sint16 map_y,
   }
 
   /* Draw national borders */
-  if (draw_borders && (game.borders != 0)) {
+  if (draw_borders && (game.info.borders != 0)) {
     struct tile *pBorder_Tile;
     struct player *this_owner = pTile->owner;
     int x1, y1;

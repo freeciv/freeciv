@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "game.h"
 #include "improvement.h"
 #include "map.h"
 #include "mem.h"
@@ -109,7 +110,7 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
   if (turn == 0) {
     printf("Player Info...\n");
 
-    for (p = 0; p < game.nplayers; p++) {
+    for (p = 0; p < game.info.nplayers; p++) {
       printf(".know (%d)\n  ", p);
       WRITE_MAP_DATA("%c",
 		     TEST_BIT(pcmap->claims[map_pos_to_index(x, y)].know,
@@ -147,11 +148,11 @@ static void build_landarea_map_new(struct claim_map *pcmap)
 
   pcmap->claims = fc_calloc(MAP_INDEX_SIZE, sizeof(*pcmap->claims));
 
-  nbytes = game.nplayers * sizeof(int);
+  nbytes = game.info.nplayers * sizeof(int);
   pcmap->player_landarea = fc_malloc(nbytes);
   memset(pcmap->player_landarea, 0, nbytes);
 
-  nbytes = game.nplayers * sizeof(int);
+  nbytes = game.info.nplayers * sizeof(int);
   pcmap->player_owndarea = fc_malloc(nbytes);
   memset(pcmap->player_owndarea, 0, nbytes);
 
@@ -417,7 +418,7 @@ void calc_civ_score(struct player *pplayer)
   } city_list_iterate_end;
 
   /* rebuild map only once per turn */
-  if (game.turn != turn) {
+  if (game.info.turn != turn) {
     free_landarea_map(&cmap);
     build_landarea_map(&cmap);
   }

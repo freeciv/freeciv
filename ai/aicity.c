@@ -196,8 +196,8 @@ static int base_want(struct player *pplayer, struct city *pcity,
   /* Add the improvement */
   city_add_improvement(pcity, id);
   if (is_great_wonder(id)) {
-    great_wonders_tmp = game.great_wonders[id];
-    game.great_wonders[id] = pcity->id;
+    great_wonders_tmp = game.info.great_wonders[id];
+    game.info.great_wonders[id] = pcity->id;
   } else if (is_small_wonder(id)) {
     small_wonders_tmp = pplayer->small_wonders[id];
     pplayer->small_wonders[id] = pcity->id;
@@ -211,7 +211,7 @@ static int base_want(struct player *pplayer, struct city *pcity,
   /* Restore */
   city_remove_improvement(pcity, id);
   if (is_great_wonder(id)) {
-    game.great_wonders[id] = great_wonders_tmp;
+    game.info.great_wonders[id] = great_wonders_tmp;
   } else if (is_small_wonder(id)) {
     pplayer->small_wonders[id] = small_wonders_tmp;
   }
@@ -239,7 +239,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
   struct impr_type *pimpr = get_improvement_type(id);
   int v = 0;
   int cities[REQ_RANGE_LAST];
-  int nplayers = game.nplayers - game.nbarbarians;
+  int nplayers = game.info.nplayers - game.info.nbarbarians;
   struct ai_data *ai = ai_data_get(pplayer);
   struct tile *ptile = pcity->tile;
   bool capital = is_capital(pcity);
@@ -353,7 +353,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_MAKE_HAPPY:
 	  v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;
           if (city_list_size(pplayer->cities)
-                > game.cityfactor + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
+                > game.info.cityfactor 
+                  + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
             v += c * amount; /* offset large empire size */
           }
           v += c * amount;
@@ -373,7 +374,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
 
             /* Try to build wonders to offset empire size unhappiness */
             if (city_list_size(pplayer->cities) 
-                > game.cityfactor + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
+                > game.info.cityfactor 
+                  + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
               if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD) > 0) {
                 factor += city_list_size(pplayer->cities) 
                           / get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
@@ -399,7 +401,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  }
 	  break;
 	case EFT_TECH_PARASITE:
-	  v += (total_bulbs_required(pplayer) * (100 - game.freecost)
+	  v += (total_bulbs_required(pplayer) * (100 - game.info.freecost)
 	      * (nplayers - amount)) / (nplayers * amount * 100);
 	  break;
 	case EFT_GROWTH_FOOD:
@@ -421,7 +423,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  v += 20 + ai->stats.units[UCL_MISSILE] * 5;
 	  break;
 	case EFT_ENABLE_SPACE:
-	  if (game.spacerace) {
+	  if (game.info.spacerace) {
 	    v += 5;
 	    if (ai->diplomacy.production_leader == pplayer) {
 	      v += 100;
@@ -430,7 +432,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  break;
 	case EFT_GIVE_IMM_TECH:
 	  v += ((total_bulbs_required(pplayer) * amount 
-		+ game.researchcost)
+		+ game.info.researchcost)
 	      * TRADE_WEIGHTING - pplayer->research->bulbs_researched 
 	      * TRADE_WEIGHTING) / MORT;
 	  break;
@@ -476,7 +478,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_SS_STRUCTURAL:
 	case EFT_SS_COMPONENT:
 	case EFT_SS_MODULE:
-	  if (game.spacerace
+	  if (game.info.spacerace
 	      /* If someone has started building spaceship already or
 	       * we have chance to win a spacerace */
 	      && (ai->diplomacy.spacerace_leader
@@ -573,9 +575,10 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  break;
 	case EFT_NO_INCITE:
 	  if (get_city_bonus(pcity, EFT_NO_INCITE) <= 0) {
-	    v += MAX((game.diplchance * 2 - game.incite_cost.total_factor) / 2
-		- game.incite_cost.improvement_factor * 5
-		- game.incite_cost.unit_factor * 5, 0);
+	    v += MAX((game.info.diplchance * 2 
+                      - game.info.incite_total_factor) / 2
+		- game.info.incite_improvement_factor * 5
+		- game.info.incite_unit_factor * 5, 0);
 	  }
 	  break;
 	case EFT_REGEN_REPUTATION:
@@ -631,7 +634,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
            && !is_wonder(id))
        || (!is_wonder(pcity->currently_building)
            && is_wonder(id)))
-      && pcity->turn_last_built != game.turn) {
+      && pcity->turn_last_built != game.info.turn) {
     v -= (pcity->shield_stock / 2) * (SHIELD_WEIGHTING / 2);
   }
 
@@ -844,7 +847,7 @@ void ai_manage_buildings(struct player *pplayer)
         /* Only wonder city should build wonders! */
         continue;
       }
-      if (pplayer->ai.control && pcity->ai.next_recalc > game.turn) {
+      if (pplayer->ai.control && pcity->ai.next_recalc > game.info.turn) {
         continue; /* do not recalc yet */
       } else {
         pcity->ai.building_want[id] = 0; /* do recalc */
@@ -862,10 +865,11 @@ void ai_manage_buildings(struct player *pplayer)
 
   /* Reset recalc counter */
   city_list_iterate(pplayer->cities, pcity) {
-    if (pcity->ai.next_recalc <= game.turn) {
+    if (pcity->ai.next_recalc <= game.info.turn) {
       /* This will spread recalcs out so that no one turn end is 
        * much longer than others */
-      pcity->ai.next_recalc = game.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
+      pcity->ai.next_recalc = game.info.turn + myrand(RECALC_SPEED) 
+                              + RECALC_SPEED;
     }
   } city_list_iterate_end;
 }
@@ -898,7 +902,7 @@ static void ai_barbarian_choose_build(struct player *pplayer,
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
     Unit_type_id iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
-    if (game.global_advances[get_unit_type(iunit)->tech_requirement] != 0
+    if (game.info.global_advances[get_unit_type(iunit)->tech_requirement] != 0
 	&& get_unit_type(iunit)->attack_strength > bestattack) {
       bestunit = iunit;
       bestattack = get_unit_type(iunit)->attack_strength;
@@ -1252,11 +1256,12 @@ void ai_manage_cities(struct player *pplayer)
     TIMING_LOG(AIT_CITY_TERRAIN, TIMER_STOP);
 
     TIMING_LOG(AIT_CITY_SETTLERS, TIMER_START);
-    if (pcity->ai.next_founder_want_recalc <= game.turn) {
+    if (pcity->ai.next_founder_want_recalc <= game.info.turn) {
       /* Will record its findings in pcity->founder_want */ 
       contemplate_new_city(pcity);
       /* Avoid recalculating all the time.. */
-      pcity->ai.next_founder_want_recalc = game.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
+      pcity->ai.next_founder_want_recalc = 
+        game.info.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
     }
     TIMING_LOG(AIT_CITY_SETTLERS, TIMER_STOP);
   } city_list_iterate_end;

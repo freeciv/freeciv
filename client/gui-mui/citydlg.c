@@ -2193,8 +2193,8 @@ static void refresh_happiness_dialog(struct city_dialog *pdialog)
   struct player *pplayer = &game.players[pcity->owner];
   struct government *g = get_gov_pcity(pcity);
   int cities = city_list_size(&pplayer->cities);
-  int content = game.unhappysize;
-  int basis = game.cityfactor + g->empire_size_mod;
+  int content = game.info.unhappysize;
+  int basis = game.info.cityfactor + g->empire_size_mod;
   int step = g->empire_size_inc;
   int excess = cities - basis;
   int penalty = 0;

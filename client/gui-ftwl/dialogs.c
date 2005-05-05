@@ -85,7 +85,7 @@ static void select_random_nation(void)
 {
   /* try to find a free nation */
   while (1) {
-    int index = myrand(game.playable_nation_count);
+    int index = myrand(game.control.playable_nation_count);
 
     if (sw_list_is_row_enabled(nations_list, index)) {
       sw_list_set_selected_row(nations_list, index, TRUE);
@@ -213,7 +213,7 @@ void popup_races_dialog(void)
   label = sw_label_create_text(root_window, string);
   sw_list_set_item(leaders_sex_list, 0, 1, label);
 
-  for (i = 0; i < game.playable_nation_count; i++) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
     struct nation_type *nation = get_nation_by_idx(i);
 
     button = sw_button_create(nations_window, NULL,

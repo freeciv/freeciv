@@ -273,7 +273,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	tile_visible_mapcanvas(punit1->tile)) {
       show_combat = TRUE;
     } else if (auto_center_on_combat) {
-      if (punit0->owner == game.player_idx)
+      if (punit0->owner == game.info.player_idx)
 	center_tile_mapcanvas(punit0->tile);
       else
 	center_tile_mapcanvas(punit1->tile);
@@ -524,7 +524,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->client.unhappy = city_unhappy(pcity);
 
   popup = (city_is_new && can_client_change_view()
-           && pcity->owner == game.player_idx && popup_new_cities)
+           && pcity->owner == game.info.player_idx && popup_new_cities)
           || packet->diplomat_investigate;
 
   if (city_is_new && !city_has_changed_owner) {
@@ -569,17 +569,17 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     pcity->info_units_present = unit_list_new();
     city_list_prepend(city_owner(pcity)->cities, pcity);
     tile_set_city(pcity->tile, pcity);
-    if(pcity->owner==game.player_idx)
+    if(pcity->owner==game.info.player_idx)
       city_report_dialog_update();
 
-    for(i=0; i<game.nplayers; i++) {
+    for(i=0; i<game.info.nplayers; i++) {
       unit_list_iterate(game.players[i].units, punit) 
 	if(punit->homecity==pcity->id)
 	  unit_list_prepend(pcity->units_supported, punit);
       unit_list_iterate_end;
     }
   } else {
-    if(pcity->owner == game.player_idx) {
+    if(pcity->owner == game.info.player_idx) {
       city_report_dialog_update_city(pcity);
     }
   }
@@ -601,7 +601,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     }
   }
 
-  if (!is_new && (pcity->owner==game.player_idx
+  if (!is_new && (pcity->owner==game.info.player_idx
 		  || popup)) {
     refresh_city_dialog(pcity);
   }
@@ -750,11 +750,11 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 **************************************************************************/
 void handle_new_year(int year, int turn)
 {
-  game.year = year;
+  game.info.year = year;
   /*
    * The turn was increased in handle_before_new_year()
    */
-  assert(game.turn == turn);
+  assert(game.info.turn == turn);
   update_info_label();
 
   update_unit_focus();
@@ -763,7 +763,7 @@ void handle_new_year(int year, int turn)
   update_unit_info_label(get_unit_in_focus());
   update_menus();
 
-  set_seconds_to_turndone(game.timeout);
+  set_seconds_to_turndone(game.info.timeout);
 
 #if 0
   /* This information shouldn't be needed, but if it is this is the only
@@ -776,7 +776,7 @@ void handle_new_year(int year, int turn)
 
   if (sound_bell_at_new_turn &&
       (!game.player_ptr->ai.control || ai_manual_turn_done)) {
-    create_event(NULL, E_TURN_BELL, _("Start of turn %d"), game.turn);
+    create_event(NULL, E_TURN_BELL, _("Start of turn %d"), game.info.turn);
   }
 
   agents_new_turn();
@@ -791,14 +791,14 @@ void handle_end_phase(void)
 {
   clear_notify_window();
   /*
-   * The local idea of the game turn is increased here since the
+   * The local idea of the game.info.turn is increased here since the
    * client will get unit updates (reset of move points for example)
    * between handle_before_new_year() and handle_new_year(). These
    * unit updates will look like they did take place in the old turn
    * which is incorrect. If we get the authoritative information about
-   * the game turn in handle_new_year() we will check it.
+   * the game.info.turn in handle_new_year() we will check it.
    */
-  game.turn++;
+  game.info.turn++;
   agents_before_new_turn();
 }
 
@@ -808,7 +808,7 @@ void handle_end_phase(void)
 **************************************************************************/
 void handle_start_phase(int phase)
 {
-  game.phase = phase;
+  game.info.phase = phase;
 
   if (is_player_phase(game.player_ptr, phase)) {
     /* HACK: this is updated by the player packet too; we update it here
@@ -905,7 +905,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 {
   struct unit *punit;
 
-  if (packet->owner != game.player_idx ) {
+  if (packet->owner != game.info.player_idx ) {
     freelog(LOG_ERROR, "Got packet_unit_info for unit of %s.",
             game.players[packet->owner].name);
   }
@@ -990,10 +990,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* Wakeup Focus */
       if (wakeup_focus 
           && !game.player_ptr->ai.control
-          && punit->owner == game.player_idx
+          && punit->owner == game.info.player_idx
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
-	  && is_player_phase(game.player_ptr, game.phase)
+	  && is_player_phase(game.player_ptr, game.info.phase)
           && (!get_unit_in_focus()
               /* only 1 wakeup focus per tile is useful */
               || !same_pos(packet_unit->tile, get_unit_in_focus()->tile))) {
@@ -1023,7 +1023,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->orders.list = packet_unit->orders.list;
       packet_unit->orders.list = NULL;
 
-      if (punit->owner == game.player_idx) {
+      if (punit->owner == game.info.player_idx) {
         refresh_unit_city_dialogs(punit);
       }
     } /*** End of Change in activity or activity's target. ***/
@@ -1142,7 +1142,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	
         if((unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER))
 	   && (!game.player_ptr->ai.control)
-	   && punit->owner==game.player_idx
+	   && punit->owner==game.info.player_idx
 	   && !unit_has_orders(punit)
 	   && (unit_can_help_build_wonder_here(punit)
 	       || unit_can_est_traderoute_here(punit))) {
@@ -1230,7 +1230,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
   if ((check_focus || get_unit_in_focus() == NULL)
       && !game.player_ptr->ai.control
-      && is_player_phase(game.player_ptr, game.phase)) {
+      && is_player_phase(game.player_ptr, game.info.phase)) {
     update_unit_focus();
   }
 
@@ -1293,7 +1293,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     return;
   }
 
-  if (packet->owner == game.player_idx ) {
+  if (packet->owner == game.info.player_idx ) {
     freelog(LOG_ERROR, "Got packet_short_unit for own unit.");
   }
 
@@ -1330,60 +1330,25 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 **************************************************************************/
 void handle_game_info(struct packet_game_info *pinfo)
 {
-  int i;
   bool boot_help;
 
-  game.gold=pinfo->gold;
-  game.tech=pinfo->tech;
-  game.researchcost=pinfo->researchcost;
-  game.skill_level=pinfo->skill_level;
-  game.timeout=pinfo->timeout;
-  game.diplomacy = pinfo->diplomacy;
-
-  game.end_year=pinfo->end_year;
-  game.year=pinfo->year;
-  game.turn=pinfo->turn;
-  game.phase = pinfo->phase;
-  game.simultaneous_phases_now = pinfo->simultaneous_phases;
-  game.num_phases = pinfo->num_phases;
-  game.min_players=pinfo->min_players;
-  game.max_players=pinfo->max_players;
-  game.nplayers=pinfo->nplayers;
-  game.globalwarming=pinfo->globalwarming;
-  game.heating=pinfo->heating;
-  game.warminglevel = pinfo->warminglevel;
-  game.nuclearwinter=pinfo->nuclearwinter;
-  game.cooling=pinfo->cooling;
-  game.coolinglevel = pinfo->coolinglevel;
+  game.info = *pinfo;
 
   if (!can_client_change_view()) {
-    game.player_idx = pinfo->player_idx;
-    game.player_ptr = &game.players[game.player_idx];
+    game.info.player_idx = pinfo->player_idx;
+    game.player_ptr = &game.players[game.info.player_idx];
   }
-  for(i=0; i<A_LAST/*game.num_tech_types*/; i++)
-    game.global_advances[i]=pinfo->global_advances[i];
-  for(i=0; i<B_LAST/*game.num_impr_types*/; i++) {
-     game.great_wonders[i]=pinfo->great_wonders[i];
-  }
-
   if (get_client_state() == CLIENT_SELECT_RACE_STATE) {
     popdown_races_dialog();
   }
-  game.techpenalty=pinfo->techpenalty;
-  game.foodbox=pinfo->foodbox;
-  game.unhappysize = pinfo->unhappysize;
-  game.cityfactor = pinfo->cityfactor;
-
   boot_help = (can_client_change_view()
-	       && game.spacerace != pinfo->spacerace);
-  game.spacerace=pinfo->spacerace;
-  if (game.timeout != 0 && pinfo->seconds_to_phasedone >= 0) {
+	       && game.info.spacerace != pinfo->spacerace);
+  if (game.info.timeout != 0 && pinfo->seconds_to_phasedone >= 0) {
     set_seconds_to_turndone(pinfo->seconds_to_phasedone);
   }
   if (boot_help) {
     boot_help_texts();		/* reboot, after setting game.spacerace */
   }
-
   update_unit_focus();
 }
 
@@ -1433,7 +1398,7 @@ void set_government_choice(int government)
 void start_revolution(void)
 {
   dsend_packet_player_change_government(&aconnection,
-					game.government_when_anarchy);
+					game.info.government_when_anarchy);
 }
 
 /**************************************************************************
@@ -1485,7 +1450,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->is_connected = pinfo->is_connected;
 
-  for (i = 0; i < B_LAST/*game.num_impr_types*/; i++) {
+  for (i = 0; i < B_LAST/*game.control.num_impr_types*/; i++) {
      pplayer->small_wonders[i] = pinfo->small_wonders[i];
   }
   
@@ -1912,15 +1877,15 @@ void handle_tile_info(struct packet_tile_info *packet)
   if (old_known != packet->known) {
     known_changed = TRUE;
   }
-  BV_CLR(ptile->tile_known, game.player_idx);
-  BV_CLR(ptile->tile_seen, game.player_idx);
+  BV_CLR(ptile->tile_known, game.info.player_idx);
+  BV_CLR(ptile->tile_seen, game.info.player_idx);
   switch (packet->known) {
   case TILE_KNOWN:
-    BV_SET(ptile->tile_known, game.player_idx);
-    BV_SET(ptile->tile_seen, game.player_idx);
+    BV_SET(ptile->tile_known, game.info.player_idx);
+    BV_SET(ptile->tile_seen, game.info.player_idx);
     break;
   case TILE_KNOWN_FOGGED:
-    BV_SET(ptile->tile_known, game.player_idx);
+    BV_SET(ptile->tile_known, game.info.player_idx);
     break;
   case TILE_UNKNOWN:
     break;
@@ -2035,7 +2000,7 @@ static bool *nations_used;
 void handle_nation_unavailable(Nation_type_id nation)
 {
   if (get_client_state() == CLIENT_SELECT_RACE_STATE
-      && nation >= 0 && nation < game.playable_nation_count) {
+      && nation >= 0 && nation < game.control.playable_nation_count) {
     if (!nations_used[nation]) {
       nations_used[nation] = TRUE;
       races_toggles_set_sensitive(nations_used);
@@ -2058,10 +2023,10 @@ void handle_select_races(void)
     /* Then clear the nations used.  They are filled by a
      * PACKET_NATION_UNAVAILABLE packet that follows. */
     nations_used = fc_realloc(nations_used,
-			      game.playable_nation_count
+			      game.control.playable_nation_count
 			      * sizeof(nations_used));
     memset(nations_used, 0,
-	   game.playable_nation_count * sizeof(nations_used));
+	   game.control.playable_nation_count * sizeof(nations_used));
 
     if (!client_is_observer()) {
       /* Now close the conndlg and popup the races dialog. */
@@ -2080,36 +2045,17 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
   int i;
 
-  tileset_free_city_tiles(tileset, game.styles_count);
+  tileset_free_city_tiles(tileset, game.control.styles_count);
   ruleset_data_free();
 
   ruleset_cache_init();
 
-  game.add_to_size_limit = packet->add_to_size_limit;
-  game.notradesize = packet->notradesize;
-  game.fulltradesize = packet->fulltradesize;
-  
-  game.government_when_anarchy = packet->government_when_anarchy;
-  game.default_government = packet->default_government;
-
-  game.num_unit_types = packet->num_unit_types;
-  game.num_impr_types = packet->num_impr_types;
-  game.num_tech_types = packet->num_tech_types;
-
-  game.borders = packet->borders;
-  game.happyborders = packet->happyborders;
-  game.slow_invasions = packet->slow_invasions;
-
+  game.control = *packet;
   governments_alloc(packet->government_count);
-
   nations_alloc(packet->nation_count);
-  game.playable_nation_count = packet->playable_nation_count;
-
-  city_styles_alloc(packet->style_count);
-  tileset_alloc_city_tiles(tileset, game.styles_count);
-
-  game.terrain_count = packet->terrain_count;
-
+  game.control.playable_nation_count = packet->playable_nation_count;
+  city_styles_alloc(packet->styles_count);
+  tileset_alloc_city_tiles(tileset, game.control.styles_count);
   for(i = 0; i < MAX_NUM_TEAMS; i++) {
     mystrlcpy(team_get_by_id(i)->name, packet->team_name[i],
               MAX_LEN_NAME);
@@ -2124,7 +2070,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   struct unit_type *u;
   int i;
 
-  if(p->id < 0 || p->id >= game.num_unit_types || p->id >= U_LAST) {
+  if(p->id < 0 || p->id >= game.control.num_unit_types || p->id >= U_LAST) {
     freelog(LOG_ERROR, "Received bad unit_type id %d in handle_ruleset_unit()",
 	    p->id);
     return;
@@ -2184,7 +2130,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 {
   struct advance *a;
 
-  if(p->id < 0 || p->id >= game.num_tech_types || p->id >= A_LAST) {
+  if(p->id < 0 || p->id >= game.control.num_tech_types || p->id >= A_LAST) {
     freelog(LOG_ERROR, "Received bad advance id %d in handle_ruleset_tech()",
 	    p->id);
     return;
@@ -2214,7 +2160,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   struct impr_type *b;
   int i;
 
-  if(p->id < 0 || p->id >= game.num_impr_types || p->id >= B_LAST) {
+  if(p->id < 0 || p->id >= game.control.num_impr_types || p->id >= B_LAST) {
     freelog(LOG_ERROR,
 	    "Received bad building id %d in handle_ruleset_building()",
 	    p->id);
@@ -2241,7 +2187,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
 #ifdef DEBUG
-  if(p->id == game.num_impr_types-1) {
+  if(p->id == game.control.num_impr_types-1) {
     impr_type_iterate(id) {
       b = &improvement_types[id];
       freelog(LOG_DEBUG, "Impr: %s...",
@@ -2272,7 +2218,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   struct government *gov;
   int j;
 
-  if (p->id < 0 || p->id >= game.government_count) {
+  if (p->id < 0 || p->id >= game.control.government_count) {
     freelog(LOG_ERROR,
 	    "Received bad government id %d in handle_ruleset_government",
 	    p->id);
@@ -2326,7 +2272,7 @@ void handle_ruleset_government_ruler_title
 {
   struct government *gov;
 
-  if(p->gov < 0 || p->gov >= game.government_count) {
+  if(p->gov < 0 || p->gov >= game.control.government_count) {
     freelog(LOG_ERROR, "Received bad government num %d for title", p->gov);
     return;
   }
@@ -2426,7 +2372,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   int i;
   struct nation_type *pl;
 
-  if (p->id < 0 || p->id >= game.nation_count) {
+  if (p->id < 0 || p->id >= game.control.nation_count) {
     freelog(LOG_ERROR, "Received bad nation id %d in handle_ruleset_nation()",
 	    p->id);
     return;
@@ -2471,7 +2417,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   struct citystyle *cs;
 
   id = packet->style_id;
-  if (id < 0 || id >= game.styles_count) {
+  if (id < 0 || id >= game.control.styles_count) {
     freelog(LOG_ERROR, "Received bad citystyle id %d in handle_ruleset_city()",
 	    id);
     return;
@@ -2503,8 +2449,6 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
 {
   int i;
 
-  game.rapturedelay = packet->rapturedelay;
-  game.celebratesize = packet->celebratesize;
   /* Must set num_specialist_types before iterating over them. */
   game.rgame.num_specialist_types = packet->num_specialist_types;
   game.rgame.default_specialist = packet->default_specialist;
@@ -2530,29 +2474,6 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
     }
   } specialist_type_iterate_end;
   tileset_setup_specialist_types(tileset);
-
-  game.rgame.changable_tax = packet->changable_tax;
-  game.rgame.forced_science = packet->forced_science;
-  game.rgame.forced_luxury = packet->forced_luxury;
-  game.rgame.forced_gold = packet->forced_gold;
-  output_type_iterate(o) {
-    game.rgame.min_city_center_output[o] = packet->min_city_center_output[o];
-  } output_type_iterate_end;
-  game.rgame.min_dist_bw_cities = packet->min_dist_bw_cities;
-  game.rgame.init_vis_radius_sq = packet->init_vis_radius_sq;
-  game.rgame.hut_overflight = packet->hut_overflight;
-  game.rgame.pillage_select = packet->pillage_select;
-  game.rgame.nuke_contamination = packet->nuke_contamination;
-  for (i = 0; i < MAX_GRANARY_INIS; i++) {
-    game.rgame.granary_food_ini[i] = packet->granary_food_ini[i];
-  }
-  game.rgame.granary_num_inis = packet->granary_num_inis;
-  game.rgame.granary_food_inc = packet->granary_food_inc;
-  game.rgame.tech_cost_style = packet->tech_cost_style;
-  game.rgame.tech_leakage = packet->tech_leakage;
-  game.rgame.tech_cost_double_year = packet->tech_cost_double_year;
-  game.rgame.autoupgrade_veteran_loss = packet->autoupgrade_veteran_loss;
-  game.rgame.killstack = packet->killstack;
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
     game.trireme_loss_chance[i] = packet->trireme_loss_chance[i];

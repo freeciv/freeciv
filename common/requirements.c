@@ -17,6 +17,7 @@
 #include <assert.h>
 
 #include "fcintl.h"
+#include "game.h"
 #include "log.h"
 #include "support.h"
 
@@ -387,7 +388,7 @@ static struct city *player_find_city_from_wonder(const struct player *plr,
   struct city *pcity;
 
   if (is_great_wonder(id)) {
-    city_id = game.great_wonders[id];
+    city_id = game.info.great_wonders[id];
   } else if (is_small_wonder(id)) {
     city_id = plr->small_wonders[id];
   } else {
@@ -531,7 +532,7 @@ static bool is_tech_in_range(const struct player *target_player,
     return (target_player
 	    && get_invention(target_player, tech) == TECH_KNOWN);
   case REQ_RANGE_WORLD:
-    return game.global_advances[tech] > 0;
+    return game.info.global_advances[tech] > 0;
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:

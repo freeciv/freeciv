@@ -1000,7 +1000,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   pDock = pBuf;
   
   targets_count = 0;
-  for(i=A_FIRST; i<game.num_tech_types; i++)
+  for(i=A_FIRST; i<game.control.num_tech_types; i++)
   {
     if ((targets_count<6)
       && (advances[i].req[0] == tech || advances[i].req[1] == tech))
@@ -1596,7 +1596,7 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
   }
   
   targets_count = 0;
-  for(i=A_FIRST; i<game.num_tech_types; i++)
+  for(i=A_FIRST; i<game.control.num_tech_types; i++)
   {
     if ((targets_count<6)
       && (advances[i].req[0] == tech || advances[i].req[1] == tech))
@@ -1836,7 +1836,7 @@ void popup_tech_info(Tech_type_id tech)
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
     h = 0;
-    for(i=A_FIRST; i<game.num_tech_types; i++)
+    for(i=A_FIRST; i<game.control.num_tech_types; i++)
     {
       if (tech_exists(i))
       {

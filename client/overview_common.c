@@ -108,13 +108,13 @@ static enum color_std overview_tile_color(struct tile *ptile)
   if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
     return COLOR_STD_BLACK;
   } else if ((pcity = tile_get_city(ptile))) {
-    if (pcity->owner == game.player_idx) {
+    if (pcity->owner == game.info.player_idx) {
       return COLOR_STD_WHITE;
     } else {
       return COLOR_STD_CYAN;
     }
   } else if ((punit = find_visible_unit(ptile))) {
-    if (punit->owner == game.player_idx) {
+    if (punit->owner == game.info.player_idx) {
       return COLOR_STD_YELLOW;
     } else {
       return COLOR_STD_RED;

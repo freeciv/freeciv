@@ -46,13 +46,13 @@ static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
 static bool bounds_check_nation_id(Nation_type_id nid, int loglevel,
 				  const char *func_name)
 {
-  if (game.nation_count==0) {
+  if (game.control.nation_count==0) {
     freelog(loglevel, "%s before nations setup", func_name);
     return FALSE;
   }
-  if (nid < 0 || nid >= game.nation_count) {
+  if (nid < 0 || nid >= game.control.nation_count) {
     freelog(loglevel, "Bad nation id %d (count %d) in %s",
-	    nid, game.nation_count, func_name);
+	    nid, game.control.nation_count, func_name);
     return FALSE;
   }
   return TRUE;
@@ -65,7 +65,7 @@ Nation_type_id find_nation_by_name(const char *name)
 {
   int i;
 
-  for(i=0; i<game.nation_count; i++)
+  for (i = 0; i < game.control.nation_count; i++)
      if(mystrcasecmp(name, get_nation_name (i)) == 0)
 	return i;
 
@@ -79,7 +79,7 @@ Nation_type_id find_nation_by_name_orig(const char *name)
 {
   int i;
 
-  for(i=0; i<game.nation_count; i++)
+  for(i = 0; i < game.control.nation_count; i++)
      if(mystrcasecmp(name, get_nation_name_orig (i)) == 0)
 	return i;
 
@@ -209,7 +209,7 @@ void nations_alloc(int num)
   int i;
 
   nations = fc_calloc(num, sizeof(nations[0]));
-  game.nation_count = num;
+  game.control.nation_count = num;
 
   for (i = 0; i < num; i++) {
     /* HACK: this field is declared const to keep anyone from changing
@@ -271,13 +271,13 @@ void nations_free()
     return;
   }
 
-  for (nation = 0; nation < game.nation_count; nation++) {
+  for (nation = 0; nation < game.control.nation_count; nation++) {
     nation_free(nation);
   }
 
   free(nations);
   nations = NULL;
-  game.nation_count = 0;
+  game.control.nation_count = 0;
   num_nation_groups = 0;
 }
 

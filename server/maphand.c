@@ -205,7 +205,7 @@ void global_warming(int effect)
 {
   int k;
 
-  freelog(LOG_NORMAL, "Global warming: %d", game.heating);
+  freelog(LOG_NORMAL, "Global warming: %d", game.info.heating);
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
@@ -247,7 +247,7 @@ void nuclear_winter(int effect)
 {
   int k;
 
-  freelog(LOG_NORMAL, "Nuclear winter: %d", game.cooling);
+  freelog(LOG_NORMAL, "Nuclear winter: %d", game.info.cooling);
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
@@ -1184,7 +1184,7 @@ void update_tile_knowledge(struct tile *ptile)
 ***************************************************************/
 void update_player_tile_last_seen(struct player *pplayer, struct tile *ptile)
 {
-  map_get_player_tile(ptile, pplayer)->last_updated = game.year;
+  map_get_player_tile(ptile, pplayer)->last_updated = game.info.year;
 }
 
 /***************************************************************
@@ -1593,7 +1593,7 @@ static bool is_claimed_ocean(struct tile *ptile, Continent_id *contp)
   works for water bases in SMAC mode, and allows coastal cities
   to claim one square of ocean. Inland lakes and long inlets act in
   the same way as the surrounding continent's land tiles. If no cities
-  are within game.borders distance, returns NULL.
+  are within game.info.borders distance, returns NULL.
 
   NOTE: The behaviour of this function will eventually depend
   upon some planned ruleset options.
@@ -1606,7 +1606,7 @@ static struct city *map_get_closest_city(struct tile *ptile)
   if (!closest) {
     int distsq;		/* Squared distance to city */
     /* integer arithmetic equivalent of (borders+0.5)**2 */
-    int cldistsq = game.borders * (game.borders + 1);
+    int cldistsq = game.info.borders * (game.info.borders + 1);
     Continent_id cont = tile_get_continent(ptile);
 
     if (!is_ocean(tile_get_terrain(ptile)) || is_claimed_ocean(ptile, &cont)) {
@@ -1648,8 +1648,8 @@ static void tile_update_owner(struct tile *ptile)
 *************************************************************************/
 static void map_update_borders_recalculate_position(struct tile *ptile)
 {
-  if (game.borders > 0) {
-    iterate_outward(ptile, game.borders, tile1) {
+  if (game.info.borders > 0) {
+    iterate_outward(ptile, game.info.borders, tile1) {
       struct city *pccity = map_get_closest_city(tile1);
       struct player *new_owner = pccity ? get_player(pccity->owner) : NULL;
 
@@ -1712,11 +1712,11 @@ static void map_calculate_territory(void)
   /* Clear any old territorial claims. */
   map_clear_borders();
 
-  if (game.borders > 0) {
+  if (game.info.borders > 0) {
     /* Loop over all cities and claim territory. */
     cities_iterate(pcity) {
       /* Loop over all map tiles within this city's sphere of influence. */
-      iterate_outward(pcity->tile, game.borders, ptile) {
+      iterate_outward(pcity->tile, game.info.borders, ptile) {
 	struct city *pccity = map_get_closest_city(ptile);
 
 	if (pccity) {
@@ -1735,7 +1735,7 @@ static void map_calculate_territory(void)
 *************************************************************************/
 void map_calculate_borders(void)
 {
-  if (game.borders > 0) {
+  if (game.info.borders > 0) {
     map_calculate_territory();
 
     /* Fix tile worker states. */

@@ -24,6 +24,7 @@
 #include "combat.h"
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "government.h"
 #include "idex.h"
 #include "log.h"
@@ -284,7 +285,7 @@ static void do_upgrade_effects(struct player *pplayer)
       punit->veteran = 0;
     } else {
       punit->veteran = MAX(punit->veteran
-			   - game.rgame.autoupgrade_veteran_loss, 0);
+			   - game.info.autoupgrade_veteran_loss, 0);
     }
     assert(test_unit_upgrade(punit, TRUE) == UR_OK);
     upgrade_unit(punit, upgrade_type, TRUE);
@@ -2031,7 +2032,7 @@ void send_all_known_units(struct conn_list *dest)
     if (!pconn->player && !pconn->observer) {
       continue;
     }
-    for(p=0; p<game.nplayers; p++) { /* send the players units */
+    for(p=0; p<game.info.nplayers; p++) { /* send the players units */
       struct player *unitowner = &game.players[p];
       unit_list_iterate(unitowner->units, punit) {
 	if (!pplayer
@@ -2111,7 +2112,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   }
 
   if (!is_ocean(tile_get_terrain(ptile)) && myrand(2) == 1) {
-    if (game.rgame.nuke_contamination == CONTAMINATION_POLLUTION) {
+    if (game.info.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!tile_has_special(ptile, S_POLLUTION)) {
 	tile_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);
@@ -2393,14 +2394,14 @@ static bool unit_enter_hut(struct unit *punit)
   bool ok = TRUE;
   int hut_chance = myrand(12);
   
-  if (game.rgame.hut_overflight==OVERFLIGHT_NOTHING && is_air_unit(punit)) {
+  if (game.info.hut_overflight == OVERFLIGHT_NOTHING && is_air_unit(punit)) {
     return ok;
   }
 
   tile_clear_special(punit->tile, S_HUT);
   update_tile_knowledge(punit->tile);
 
-  if (game.rgame.hut_overflight==OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
+  if (game.info.hut_overflight == OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
     notify_player_ex(pplayer, punit->tile, E_NOEVENT,
 		     _("Your overflight frightens the tribe;"
 		       " they scatter in terror."));
@@ -2536,7 +2537,7 @@ static bool unit_survive_autoattack(struct unit *punit)
             pplayer_get_diplstate(unit_owner(punit), enemyplayer)->type;
 
       if (((enemyplayer->ai.control && ai_handicap(enemyplayer, H_EXPERIMENTAL))
-           || game.autoattack)
+           || game.info.autoattack)
           && penemy->moves_left > 0
           && ds == DS_WAR
           && can_unit_attack_unit_at_tile(penemy, punit, punit->tile)) {
@@ -2957,7 +2958,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   conn_list_do_unbuffer(pplayer->connections);
 
-  if (game.timeout != 0 && game.timeoutaddenemymove > 0) {
+  if (game.info.timeout != 0 && game.timeoutaddenemymove > 0) {
     bool new_information_for_enemy = FALSE;
 
     phase_players_iterate(penemy) {
@@ -3325,7 +3326,7 @@ bool execute_orders(struct unit *punit)
 **************************************************************************/
 int get_watchtower_vision(struct unit *punit)
 {
-  return (unit_type(punit)->vision_range + game.watchtower_extra_vision);
+  return (unit_type(punit)->vision_range + game.info.watchtower_extra_vision);
 }
 
 /**************************************************************************

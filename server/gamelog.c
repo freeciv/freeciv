@@ -97,7 +97,7 @@ static void gamelog_put_prefix(char *buf, int len, const char *element)
   char buf2[5000];
 
   my_snprintf(buf2, sizeof(buf2), "<%s y=\"%d\" t=\"%d\">%s</%s>", element,
-              game.year, game.turn, buf, element);
+              game.info.year, game.info.turn, buf, element);
   
   mystrlcpy(buf, buf2, len);
 }
@@ -489,7 +489,7 @@ void gamelog(int level, ...)
                 pplayer->player_no, pplayer->username,
                 pplayer->is_connected ? 1 : 0,
                 pplayer->ai.control ? 
-                  name_of_skill_level(pplayer->ai.skill_level) : "",
+                name_of_skill_level(pplayer->ai.skill_level) : "",
                 get_nation_name_plural(pplayer->nation), pplayer->name);
     gamelog_put_prefix(buf, sizeof(buf), "player");
     break;
@@ -616,7 +616,8 @@ static void gamelog_status(char *buffer, int len) {
 
   int i, count = 0, highest = -1;
   struct player *highest_plr = NULL;
-  struct player_score_entry size[game.nplayers], rank[game.nplayers];
+  struct player_score_entry size[game.info.nplayers];
+  struct player_score_entry rank[game.info.nplayers];
 
   players_iterate(pplayer) {
     if (!is_barbarian(pplayer)) {

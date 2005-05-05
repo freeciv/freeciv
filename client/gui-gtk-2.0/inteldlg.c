@@ -332,7 +332,7 @@ void update_intel_dialog(struct player *p)
     /* techs tab. */
     gtk_list_store_clear(pdialog->techs);
 
-    for(i=A_FIRST; i<game.num_tech_types; i++)
+    for(i=A_FIRST; i<game.control.num_tech_types; i++)
       if(get_invention(p, i)==TECH_KNOWN) {
 	GtkTreeIter it;
 

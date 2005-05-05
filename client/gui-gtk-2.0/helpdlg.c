@@ -683,7 +683,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   create_help_page(HELP_IMPROVEMENT);
   
-  if (which<game.num_impr_types) {
+  if (which<game.control.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     int i;
     char req_buf[512];
@@ -708,7 +708,7 @@ static void help_update_improvement(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ilabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[5]), _("(Never)"));
-/*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3);*/
+/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3);*/
   }
   gtk_widget_show(help_itable);
 
@@ -727,7 +727,7 @@ static void help_update_wonder(const struct help_item *pitem,
 
   create_help_page(HELP_WONDER);
 
-  if (which<game.num_impr_types) {
+  if (which<game.control.num_impr_types) {
     struct impr_type *imp = &improvement_types[which];
     int i;
     char req_buf[512];
@@ -757,7 +757,7 @@ static void help_update_wonder(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_wlabel[3]), _("(Never)"));
     gtk_label_set_text(GTK_LABEL(help_wlabel[5]), _("None"));
-/*    create_tech_tree(help_improvement_tree, 0, game.num_tech_types, 3); */
+/*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3); */
   }
   gtk_widget_show(help_wtable);
 
@@ -776,7 +776,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
   create_help_page(HELP_UNIT);
 
-  if (i<game.num_unit_types) {
+  if (i<game.control.num_unit_types) {
     struct unit_type *utype = get_unit_type(i);
     sprintf(buf, "%d", unit_build_shield_cost(i));
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), buf);
@@ -955,7 +955,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_widget_show_all(hbox);
     } unit_type_iterate_end;
 
-    for (j = 0; j < game.num_tech_types; j++) {
+    for (j = 0; j < game.control.num_tech_types; j++) {
       if(i==advances[j].req[0]) {
 	if(advances[j].req[1]==A_NONE) {
           hbox = gtk_hbox_new(FALSE, 0);

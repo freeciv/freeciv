@@ -87,7 +87,7 @@ struct player *create_global_observer(void);
 {                                                                           \
   struct player *pplayer;                                                   \
   int i;                                                                    \
-  for (i = 0; i < game.nplayers; i++) {                                     \
+  for (i = 0; i < game.info.nplayers; i++) {                               \
     pplayer = shuffled_player(i);                                           \
     {
 
@@ -98,7 +98,7 @@ struct player *create_global_observer(void);
 
 #define phase_players_iterate(pplayer) \
   shuffled_players_iterate(pplayer) { \
-    if (is_player_phase(pplayer, game.phase)) {
+    if (is_player_phase(pplayer, game.info.phase)) {
 
 #define phase_players_iterate_end		\
     }						\

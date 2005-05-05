@@ -116,8 +116,8 @@ void refresh_spaceship_dialog(struct player *pplayer)
 
   pship=&(pdialog->pplayer->spaceship);
 
-  if(game.spacerace
-     && pplayer->player_no == game.player_idx
+  if (game.info.spacerace
+     && pplayer->player_no == game.info.player_idx
      && pship->state == SSHIP_STARTED
      && pship->success_rate > 0.0) {
     gui_dialog_set_response_sensitive(pdialog->shell,

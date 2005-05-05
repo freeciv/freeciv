@@ -215,8 +215,8 @@ void ai_data_movemap_recalculate(void)
       continue;
     }
     /* Check all ferries that can land on this spot. */
-    for (r = 0; r < MOVEMAP_RANGE - game.slow_invasions; r++) {
-      const unsigned int delay = r + game.slow_invasions;
+    for (r = 0; r < MOVEMAP_RANGE - game.info.slow_invasions; r++) {
+      const unsigned int delay = r + game.info.slow_invasions;
 
       movemap_vector_iterate(MOVEMAP(ptile).range[r], id) {
 	movemap_check_ferry(ptile, id, delay);
@@ -728,10 +728,10 @@ void ai_data_init(struct player *pplayer)
 
   ai->govt_reeval = 0;
   ai->government_want = fc_realloc(ai->government_want,
-				   ((game.government_count + 1)
+				   ((game.control.government_count + 1)
 				    * sizeof(*ai->government_want)));
   memset(ai->government_want, 0,
-	 (game.government_count + 1) * sizeof(*ai->government_want));
+	 (game.control.government_count + 1) * sizeof(*ai->government_want));
 
   ai->wonder_city = 0;
   ai->diplomacy.target = NULL;

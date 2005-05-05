@@ -69,7 +69,7 @@ enum tile_special_type {
 /* The first terrain value and number of base terrains.  This is used in
  * loops.  T_COUNT may eventually be turned into a variable. */
 #define T_FIRST 0
-#define T_COUNT (game.terrain_count)
+#define T_COUNT (game.control.terrain_count)
 
 /* A hard limit on the number of terrains; useful for static arrays. */
 #define MAX_NUM_TERRAINS MAX_NUM_ITEMS

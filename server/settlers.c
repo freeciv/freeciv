@@ -1241,16 +1241,16 @@ void auto_settlers_player(struct player *pplayer)
    * Aside from that it's more or less a WAG that simply grows incredibly
    * large as an environmental disaster approaches. */
   pplayer->ai.warmth
-    = (WARMING_FACTOR * game.heating / ((game.warminglevel + 1) / 2)
-       + game.globalwarming);
+    = (WARMING_FACTOR * game.info.heating / ((game.info.warminglevel + 1) / 2)
+       + game.info.globalwarming);
   pplayer->ai.frost
-    = (COOLING_FACTOR * game.cooling / ((game.coolinglevel + 1) / 2)
-       + game.nuclearwinter);
+    = (COOLING_FACTOR * game.info.cooling / ((game.info.coolinglevel + 1) / 2)
+       + game.info.nuclearwinter);
 
   freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
-	  pplayer->ai.warmth, game.globalwarming);
+	  pplayer->ai.warmth, game.info.globalwarming);
   freelog(LOG_DEBUG, "Frost = %d, game.nuclearwinter=%d",
-	  pplayer->ai.warmth, game.nuclearwinter);
+	  pplayer->ai.warmth, game.info.nuclearwinter);
 
   /* Auto-settle with a settler unit if it's under AI control (e.g. human
    * player auto-settler mode) or if the player is an AI.  But don't

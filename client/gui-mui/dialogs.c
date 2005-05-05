@@ -295,7 +295,7 @@ HOOKPROTONH(advance_display, void, char **array, APTR msg)
   if(which)
   {
     int tech = which-100;
-    if (tech == game.num_tech_types) *array = _("At Spy's Discretion");
+    if (tech == game.control.num_tech_types) *array = _("At Spy's Discretion");
     else *array = advances[which-100].name;
   }
   else
@@ -341,7 +341,7 @@ static void create_advances_list(struct player *pplayer,
     {
       /* you don't want to know what lag can do -- Syela */
       int any_tech = FALSE;
-      for(i=A_FIRST; i<game.num_tech_types; i++)
+      for(i=A_FIRST; i<game.control.num_tech_types; i++)
       {
         if(get_invention(pvictim, i)==TECH_KNOWN && (get_invention(pplayer, i)==TECH_UNKNOWN || get_invention(pplayer, i)==TECH_REACHABLE))
         {
@@ -351,7 +351,7 @@ static void create_advances_list(struct player *pplayer,
       }
 
       if (any_tech)
-	DoMethod(listview, MUIM_NList_InsertSingle, 100+game.num_tech_types,MUIV_NList_Insert_Bottom);
+	DoMethod(listview, MUIM_NList_InsertSingle, 100+game.control.num_tech_types,MUIV_NList_Insert_Bottom);
     }
 
     DoMethod(wnd,MUIM_Notify, MUIA_Window_CloseRequest, TRUE, app, 5, MUIM_CallHook, &civstandard_hook, spy_close, wnd, listview);
@@ -1596,7 +1596,7 @@ void popup_races_dialog(void)
 
     styles_basic_nums = 0;
 
-    for(i=0;i<game.styles_count && i<64;i++)
+    for(i=0;i<game.control.styles_count && i<64;i++)
     {
       if(city_styles[i].techreq == A_NONE)
       {
@@ -1664,7 +1664,7 @@ void popup_races_dialog(void)
     if(nations_wnd)
     {
       DoMethod(nations_nation_listview, MUIM_List_Clear);
-      for(i=0;i<game.playable_nation_count && i<64;i++)
+      for(i=0;i<game.control.playable_nation_count && i<64;i++)
 	DoMethod(nations_nation_listview, MUIM_List_InsertSingle, get_nation_name(i), MUIV_List_Insert_Sorted);
 
       DoMethod(nations_nation_listview, MUIM_Notify, MUIA_List_Active, MUIV_EveryTime, app, 3, MUIM_CallHook, &civstandard_hook, nations_nation_active);

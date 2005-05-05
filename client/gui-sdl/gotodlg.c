@@ -114,7 +114,7 @@ static void update_goto_dialog(void)
   
   pLast = pAdd_Dock;
   
-  for(i = 0; i < game.nplayers; i++) {
+  for(i = 0; i < game.info.nplayers; i++) {
     
     if (!TEST_BIT(all_players, game.players[i].player_no)) {
       continue;
@@ -249,7 +249,7 @@ static void popup_goto_airlift_dialog(void)
   
   col = 0;
   /* --------------------------------------------- */
-  for(i = 0; i < game.nplayers; i++) {
+  for(i = 0; i < game.info.nplayers; i++) {
     if(i != game.player_idx
       && pplayer_get_diplstate(
     		game.player_ptr, &game.players[i])->type == DS_NO_CONTACT) {

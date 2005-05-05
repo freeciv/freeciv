@@ -174,7 +174,7 @@ void popup_intel_dialog(struct player *pPlayer)
   col = w / (GET_SURF(advances[A_FIRST].sprite)->w + 4);
   n = 0;
   pLast = pBuf;
-  for(i = A_FIRST; i<game.num_tech_types; i++) {
+  for(i = A_FIRST; i<game.control.num_tech_types; i++) {
     if(get_invention(pPlayer, i) == TECH_KNOWN &&
       tech_is_available(game.player_ptr, i) &&
       get_invention(game.player_ptr, i) != TECH_KNOWN) {

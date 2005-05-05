@@ -411,7 +411,7 @@ static void game_focused_unit_anim(void)
 	&& !game.player_ptr->turn_done) {
       int i, is_waiting, is_moving;
 
-      for (i = 0, is_waiting = 0, is_moving = 0; i < game.nplayers; i++)
+      for (i = 0, is_waiting = 0, is_moving = 0; i < game.info.nplayers; i++)
 	if (game.players[i].is_alive && game.players[i].is_connected) {
 	  if (game.players[i].turn_done) {
 	    is_waiting++;

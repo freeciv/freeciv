@@ -705,7 +705,7 @@ static bool ai_military_rampage(struct unit *punit, int thresh_adj,
 
   assert(thresh_adj <= thresh_move);
   /* This teaches the AI about the dangers inherent in occupychance. */
-  thresh_adj += ((thresh_move - thresh_adj) * game.occupychance / 100);
+  thresh_adj += ((thresh_move - thresh_adj) * game.info.occupychance / 100);
 
   while (count-- > 0 && punit->moves_left > 0
          && (path = find_rampage_target(punit, thresh_adj, thresh_move))) {

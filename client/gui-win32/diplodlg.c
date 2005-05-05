@@ -172,7 +172,7 @@ static void popup_tech_menu(struct Diplomacy_dialog *pdialog,int plr)
   plr0=plr?pdialog->treaty.plr1:pdialog->treaty.plr0;
   plr1=plr?pdialog->treaty.plr0:pdialog->treaty.plr1;
   menu=CreatePopupMenu();
-  for(i=1, flag=0; i<game.num_tech_types; i++) {
+  for(i=1, flag=0; i<game.control.num_tech_types; i++) {
     if (get_invention(plr0, i) == TECH_KNOWN
         && (get_invention(plr1, i) == TECH_UNKNOWN  
             || get_invention(plr1, i) == TECH_REACHABLE)

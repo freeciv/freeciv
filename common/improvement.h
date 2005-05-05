@@ -121,7 +121,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
 #define impr_type_iterate(m_i)                                                \
 {                                                                             \
   Impr_type_id m_i;                                                           \
-  for (m_i = 0; m_i < game.num_impr_types; m_i++) {
+  for (m_i = 0; m_i < game.control.num_impr_types; m_i++) {
 
 #define impr_type_iterate_end                                                 \
   }                                                                           \

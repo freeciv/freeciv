@@ -23,6 +23,7 @@
 #include "city.h"
 #include "events.h"
 #include "fcintl.h"
+#include "game.h"
 #include "idex.h"
 #include "log.h"
 #include "map.h"
@@ -198,7 +199,7 @@ void handle_city_sell(struct player *pplayer, int city_id, int build_id)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
-  if (!pcity || build_id >= game.num_impr_types) {
+  if (!pcity || build_id >= game.control.num_impr_types) {
     return;
   }
   really_handle_city_sell(pplayer, pcity, build_id);
@@ -216,7 +217,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   assert(pcity && player_owns_city(pplayer, pcity));
  
-  if (pcity->turn_founded == game.turn) {
+  if (pcity->turn_founded == game.info.turn) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
 		  _("Cannot buy in city created this turn."));
     return;

@@ -229,7 +229,7 @@ void cityresult_fill(struct player *pplayer,
     /* Corruption and waste of a size one city deducted. Notice that we
      * don't do this if 'fulltradesize' is changed, since then we'd
      * never make cities. */
-    if (game.fulltradesize == 1) {
+    if (game.info.fulltradesize == 1) {
       result->corruption = ai->science_priority
 	* city_waste(pcity, O_TRADE,
 		     result->citymap[result->o_x][result->o_y].trade
@@ -392,7 +392,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
   }
 
   /* Check if another settler has taken a spot within mindist */
-  square_iterate(ptile, game.rgame.min_dist_bw_cities-1, tile1) {
+  square_iterate(ptile, game.info.min_dist_bw_cities-1, tile1) {
     if (citymap_is_reserved(tile1)) {
       return;
     }
@@ -403,7 +403,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
   }
 
   if (pcity && (pcity->size + unit_pop_value(punit->type)
-		> game.add_to_size_limit)) {
+		> game.info.add_to_size_limit)) {
     /* Can't exceed population limit. */
     return;
   }
@@ -486,7 +486,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
        * likelihood go away next turn, or even in a few nanoseconds. */
       continue;
     }
-    if (game.borders > 0
+    if (game.info.borders > 0
         && ptile->owner != NULL
         && ptile->owner != pplayer
         && pplayers_in_peace(ptile->owner, pplayer)) {
@@ -524,7 +524,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
      * further step away. */
     if (best->result > RESULT_IS_ENOUGH
         && turns > parameter->move_rate /* sic -- yeah what an explanation! */
-        && best_turn < turns /*+ game.rgame.min_dist_bw_cities*/) {
+        && best_turn < turns /*+ game.info.min_dist_bw_cities*/) {
       break;
     }
   } pf_iterator_end;

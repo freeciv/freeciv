@@ -90,7 +90,7 @@ science_dialog_update(void)
   sz_strlcat(text, science_dialog_text());
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_TOP),text);
   ListBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_LIST));
-  for (i=A_FIRST;i<game.num_tech_types;i++)
+  for (i=A_FIRST;i<game.control.num_tech_types;i++)
     {
       if ((get_invention(game.player_ptr,i)==TECH_KNOWN))
 	{
@@ -116,7 +116,7 @@ science_dialog_update(void)
   }
 
   if (!is_future_tech(game.player_ptr->research->researching)) {
-    for (i = A_FIRST; i < game.num_tech_types; i++) {
+    for (i = A_FIRST; i < game.control.num_tech_types; i++) {
       if (get_invention(game.player_ptr, i) != TECH_REACHABLE) {
 	continue;
       }
@@ -135,7 +135,7 @@ science_dialog_update(void)
   }
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_GOAL));
     hist=0;
-  for(i=A_FIRST; i<game.num_tech_types; i++) {
+  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST

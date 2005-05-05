@@ -70,7 +70,7 @@
 **************************************************************************/
 static void ai_manage_spaceship(struct player *pplayer)
 {
-  if (game.spacerace) {
+  if (game.info.spacerace) {
     if (pplayer->spaceship.state == SSHIP_STARTED) {
       ai_spaceship_autoplace(pplayer, &pplayer->spaceship);
       /* if we have built the best possible spaceship  -- AJS 19990610 */
@@ -102,11 +102,11 @@ static void ai_manage_taxes(struct player *pplayer)
   int trade = 0; /* total amount of trade generated */
   int expenses = 0; /* total amount of gold upkeep */
 
-  if (!game.rgame.changable_tax) {
+  if (!game.info.changable_tax) {
     return; /* This ruleset does not support changing tax rates. */
   }
 
-  if (get_gov_pplayer(pplayer)->index == game.government_when_anarchy) {
+  if (get_gov_pplayer(pplayer)->index == game.info.government_when_anarchy) {
     return; /* This government does not support changing tax rates. */
   }
 
@@ -197,7 +197,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
       if (cmr.found_a_valid
           && pcity->surplus[O_FOOD] > 0
-          && pcity->size >= game.celebratesize
+          && pcity->size >= game.info.celebratesize
 	  && city_can_grow_to(pcity, pcity->size + 1)) {
         pcity->ai.celebrate = TRUE;
         can_celebrate++;
@@ -291,7 +291,7 @@ void ai_best_government(struct player *pplayer)
       int val = 0;
       int dist, i;
 
-      if (gov->index == game.government_when_anarchy) {
+      if (gov->index == game.info.government_when_anarchy) {
         continue; /* pointless */
       }
       if (gov->ai_better != G_MAGIC
@@ -402,10 +402,10 @@ static void ai_manage_government(struct player *pplayer)
      * that we are sufficiently forward-looking. */
     int want = MAX(ai->goal.govt.val, 100);
 
-    if (pplayer->government == game.default_government) {
+    if (pplayer->government == game.control.default_government) {
       /* Default government is the crappy one we start in (like Despotism).
        * We want something better pretty soon! */
-      want += 25 * game.turn;
+      want += 25 * game.info.turn;
     }
     pplayer->ai.tech_want[ai->goal.govt.req] += want;
     TECH_LOG(LOG_DEBUG, pplayer, ai->goal.govt.req, "+ %d for %s in "

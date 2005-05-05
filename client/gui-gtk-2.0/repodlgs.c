@@ -396,7 +396,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
     a_str = get_tech_name(game.player_ptr, a);
   } else {
     my_snprintf(text_a,sizeof(text_a), _("Future Tech. %d"),
-		a - game.num_tech_types);
+		a - game.control.num_tech_types);
     a_str=text_a;
   }
 
@@ -404,7 +404,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
     b_str = get_tech_name(game.player_ptr, b);
   } else {
     my_snprintf(text_b,sizeof(text_b), _("Future Tech. %d"),
-		b - game.num_tech_types);
+		b - game.control.num_tech_types);
     b_str=text_b;
   }
 
@@ -433,7 +433,7 @@ void science_dialog_update(void)
   gtk_label_set_text(GTK_LABEL(science_label), science_dialog_text());
   
   /* collect all researched techs in sorting_list */
-  for(i=A_FIRST; i<game.num_tech_types; i++) {
+  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
     if ((get_invention(game.player_ptr, i)==TECH_KNOWN)) {
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
@@ -475,7 +475,7 @@ void science_dialog_update(void)
    */
   hist=0;
   if (!is_future_tech(game.player_ptr->research->researching)) {
-    for(i=A_FIRST; i<game.num_tech_types; i++) {
+    for(i=A_FIRST; i<game.control.num_tech_types; i++) {
       if(get_invention(game.player_ptr, i)!=TECH_REACHABLE)
 	continue;
 
@@ -485,7 +485,7 @@ void science_dialog_update(void)
     }
   } else {
     sorting_list = g_list_prepend(sorting_list,
-				 GINT_TO_POINTER(game.num_tech_types + 1 +
+				 GINT_TO_POINTER(game.control.num_tech_types + 1 +
 						 game.player_ptr->
 						 future_tech));
   }
@@ -496,13 +496,13 @@ void science_dialog_update(void)
     const gchar *data;
 
     if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) <
-	game.num_tech_types) {
+	game.control.num_tech_types) {
       data = get_tech_name(game.player_ptr,
 			GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)));
     } else {
       my_snprintf(text, sizeof(text), _("Future Tech. %d"),
 		  GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))
-		  - game.num_tech_types);
+		  - game.control.num_tech_types);
       data=text;
     }
 
@@ -540,7 +540,7 @@ void science_dialog_update(void)
    * hist will hold afterwards the techid of the current choice
    */
   hist=0;
-  for(i=A_FIRST; i<game.num_tech_types; i++) {
+  for(i=A_FIRST; i<game.control.num_tech_types; i++) {
     if (tech_is_available(game.player_ptr, i)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST

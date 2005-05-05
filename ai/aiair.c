@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "combat.h"
+#include "game.h"
 #include "log.h"
 #include "map.h"
 #include "movement.h"

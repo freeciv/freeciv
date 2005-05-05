@@ -289,7 +289,7 @@ void update_menus(void)
 
     punit=get_unit_in_focus();
 
-    for(i=0; i<game.nplayers; i++) {
+    for(i=0; i<game.info.nplayers; i++) {
       if (city_list_size(game.players[i].cities)) {
 	any_cities = TRUE;
 	break;
@@ -319,7 +319,7 @@ void update_menus(void)
     government_iterate(gov) {
       Widget w;
 
-      if (gov->index == game.government_when_anarchy) {
+      if (gov->index == game.info.government_when_anarchy) {
 	continue;
       }
 
@@ -557,7 +557,7 @@ static void government_menu_callback(Widget w, XtPointer client_data,
     popup_worklists_dialog(game.player_ptr);
     break;
   case MENU_GOVERNMENT_REVOLUTION:
-    popup_revolution_dialog(game.government_when_anarchy);
+    popup_revolution_dialog(game.info.government_when_anarchy);
     break;
   }
 }
