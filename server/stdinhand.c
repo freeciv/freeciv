@@ -754,11 +754,7 @@ Save the game, with filename=arg, provided server state is ok.
 **************************************************************************/
 static bool save_command(struct connection *caller, char *arg, bool check)
 {
-  if (server_state==SELECT_RACES_STATE) {
-    cmd_reply(CMD_SAVE, caller, C_SYNTAX,
-	      _("The game cannot be saved before it is started."));
-    return FALSE;
-  } else if (!check) {
+  if (!check) {
     save_game(arg, "User request");
   }
   return TRUE;
@@ -948,8 +944,7 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
-			     server_state==SELECT_RACES_STATE))) {
+  if (!(game.is_new_game && server_state == PRE_GAME_STATE)) {
     cmd_reply(CMD_REMOVE, caller, C_FAIL,
 	      _("Players cannot be removed once the game has started."));
     return FALSE;
@@ -2645,9 +2640,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];  
-  bool is_newgame = (server_state == PRE_GAME_STATE || 
-                     server_state == SELECT_RACES_STATE) && game.is_new_game;
-  
+  bool is_newgame = server_state == PRE_GAME_STATE && game.is_new_game;
   enum m_pre_result result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
@@ -2797,9 +2790,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];
-  bool is_newgame = (server_state == PRE_GAME_STATE || 
-                     server_state == SELECT_RACES_STATE) && game.is_new_game;
-
+  bool is_newgame = server_state == PRE_GAME_STATE && game.is_new_game;
   enum m_pre_result match_result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
@@ -2971,8 +2962,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   enum m_pre_result match_result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
-  bool is_newgame = (server_state == PRE_GAME_STATE || 
-                     server_state == SELECT_RACES_STATE) && game.is_new_game;
+  bool is_newgame = server_state == PRE_GAME_STATE && game.is_new_game;
   bool one_obs_among_many = FALSE, res = FALSE;
 
   sz_strlcpy(buf, str);
@@ -3224,7 +3214,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
   if (!check) {
     cmd_reply(CMD_RULESETDIR, caller, C_OK, 
               _("Ruleset directory set to \"%s\""), str);
-    sz_strlcpy(game.rulesetdir, str);
+    sz_strlcpy(game.rulesetdir, str);    
     load_rulesets();
   }
   return TRUE;
@@ -3652,11 +3642,6 @@ static bool start_command(struct connection *caller, char *name, bool check)
     cmd_reply(CMD_START_GAME, caller, C_FAIL,
               _("Cannot start the game: the game is waiting for all clients "
               "to disconnect."));
-    return FALSE;
-  case SELECT_RACES_STATE:
-    /* TRANS: given when /start is invoked during nation selection. */
-    cmd_reply(CMD_START_GAME, caller, C_FAIL,
-              _("Cannot start the game: it has already been started."));
     return FALSE;
   case RUN_GAME_STATE:
     /* TRANS: given when /start is invoked while the game is running. */

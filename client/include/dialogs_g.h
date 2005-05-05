@@ -31,7 +31,7 @@ void popdown_races_dialog(void);
 
 void popup_unit_select_dialog(struct tile *ptile);
 
-void races_toggles_set_sensitive(bool *nations_used);
+void races_toggles_set_sensitive(void);
 
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity);

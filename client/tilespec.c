@@ -859,7 +859,7 @@ void tilespec_reread(const char *new_tileset_name)
    * doesn't mess up too badly if we change tilesets while not connected
    * to a server.
    */
-  if (state < CLIENT_SELECT_RACE_STATE) {
+  if (state < CLIENT_GAME_RUNNING_STATE) {
     /* The ruleset data is not sent until this point. */
     return;
   }

@@ -54,17 +54,11 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_server_shutdown();
     return TRUE;
 
-  case PACKET_NATION_UNAVAILABLE:
-    handle_nation_unavailable(
-      ((struct packet_nation_unavailable *)packet)->nation);
-    return TRUE;
-
-  case PACKET_SELECT_RACES:
-    handle_select_races();
-    return TRUE;
-
-  case PACKET_NATION_SELECT_OK:
-    handle_nation_select_ok();
+  case PACKET_NATION_AVAILABLE:
+    handle_nation_available(
+      ((struct packet_nation_available *)packet)->id,
+      ((struct packet_nation_available *)packet)->is_unavailable,
+      ((struct packet_nation_available *)packet)->is_used);
     return TRUE;
 
   case PACKET_GAME_STATE:

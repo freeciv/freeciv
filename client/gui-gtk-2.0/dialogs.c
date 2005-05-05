@@ -1691,7 +1691,7 @@ static void create_races_dialog(void)
     gtk_dialog_new_with_buttons(_("What Nation Will You Be?"),
 				NULL,
 				0,
-				_("_Disconnect"),
+				_("Random Nation"),
 				GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK,
 				GTK_RESPONSE_ACCEPT,
@@ -1701,12 +1701,6 @@ static void create_races_dialog(void)
 
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_default_size(GTK_WINDOW(shell), -1, 310);
-
-  cmd = gtk_dialog_add_button(GTK_DIALOG(shell),
-      GTK_STOCK_QUIT, GTK_RESPONSE_CLOSE);
-  gtk_button_box_set_child_secondary(
-      GTK_BUTTON_BOX(GTK_DIALOG(shell)->action_area), cmd, TRUE);
-  gtk_widget_show(cmd);
 
   frame = gtk_frame_new(_("Select a nation"));
   gtk_container_add(GTK_CONTAINER(GTK_DIALOG(shell)->vbox), frame);
@@ -1998,7 +1992,7 @@ static void select_random_race(void)
 /**************************************************************************
   ...
  **************************************************************************/
-void races_toggles_set_sensitive(bool *nations_used)
+void races_toggles_set_sensitive(void)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
@@ -2015,11 +2009,14 @@ void races_toggles_set_sensitive(bool *nations_used)
     model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[i]));
     if (gtk_tree_model_get_iter_first(model, &it)) {
       do {
-        int nation;
+        int nation_no;
+	struct nation_type *nation;
 
-        gtk_tree_model_get(model, &it, 0, &nation, -1);
+        gtk_tree_model_get(model, &it, 0, &nation_no, -1);
+	nation = get_nation_by_idx(nation_no);
 
-        chosen = nations_used[nation];
+        chosen = nation->is_unavailable || nation->is_used;
+
         gtk_list_store_set(GTK_LIST_STORE(model), &it, 1, chosen, -1);
 
       } while (gtk_tree_model_iter_next(model, &it));
@@ -2210,13 +2207,11 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
 
     dsend_packet_nation_select_req(&aconnection, selected_nation,
 				   selected_sex, s, selected_city_style);
-  } else if (response == GTK_RESPONSE_CLOSE) {
-    ui_exit();
-  } else {
-    popdown_races_dialog();
-    disconnect_from_server();
-    client_kill_server();
+  } else if (response == GTK_RESPONSE_CANCEL) {
+    dsend_packet_nation_select_req(&aconnection, NO_NATION_SELECTED,
+				   FALSE, "", 0);
   }
+  popdown_races_dialog();
 }
 
 

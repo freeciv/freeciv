@@ -502,8 +502,7 @@ void set_client_state(enum client_states newstate)
        select dialog.)
     */
     if (client_state==CLIENT_PRE_GAME_STATE
-	&& (newstate==CLIENT_SELECT_RACE_STATE
-	    || newstate==CLIENT_GAME_RUNNING_STATE)) {
+	&& newstate == CLIENT_GAME_RUNNING_STATE) {
       translate_data_names();
       audio_stop();		/* stop intro sound loop */
     }

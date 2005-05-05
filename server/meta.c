@@ -204,9 +204,6 @@ static bool send_to_metaserver(enum meta_flag flag)
   case PRE_GAME_STATE:
     sz_strlcpy(state, "Pregame");
     break;
-  case SELECT_RACES_STATE:
-    sz_strlcpy(state, "Nation Select");
-    break;
   case RUN_GAME_STATE:
     sz_strlcpy(state, "Running");
     break;

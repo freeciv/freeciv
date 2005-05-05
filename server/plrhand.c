@@ -1663,8 +1663,7 @@ void server_player_init(struct player *pplayer, bool initmap)
 void server_remove_player(struct player *pplayer)
 {
   /* Not allowed after a game has started */
-  if (!(game.is_new_game && (server_state==PRE_GAME_STATE ||
-			     server_state==SELECT_RACES_STATE))) {
+  if (!(game.is_new_game && server_state == PRE_GAME_STATE)) {
     die("You can't remove players after the game has started!");
   }
 
@@ -1986,7 +1985,7 @@ static struct player *split_player(struct player *pplayer)
   /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
   cplayer->nation = pick_available_nation(civilwar_nations);
-  pick_ai_player_name(cplayer->nation, cplayer->name);
+  pick_random_player_name(cplayer->nation, cplayer->name);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;

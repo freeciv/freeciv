@@ -96,7 +96,8 @@ static struct player *create_barbarian_player(bool land)
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
         barbarians->is_dying = FALSE;
-        pick_ai_player_name(game.control.nation_count - 1, barbarians->name);
+        pick_random_player_name(game.control.nation_count - 1,
+				barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
@@ -119,7 +120,7 @@ static struct player *create_barbarian_player(bool land)
   server_player_init(barbarians, TRUE);
 
   barbarians->nation = game.control.nation_count - 1;
-  pick_ai_player_name(game.control.nation_count - 1, barbarians->name);
+  pick_random_player_name(game.control.nation_count - 1, barbarians->name);
 
   game.info.nplayers++;
   game.info.nbarbarians++;

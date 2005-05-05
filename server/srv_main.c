@@ -110,10 +110,7 @@
 
 static void end_turn(void);
 static void save_game_auto(const char *save_reason);
-static void generate_ai_players(void);
-static void mark_nation_as_used(Nation_type_id nation);
-static void announce_ai_player(struct player *pplayer);
-static void send_select_nation(struct player *pplayer);
+static void announce_player(struct player *pplayer);
 static void srv_loop(void);
 
 
@@ -133,9 +130,6 @@ bool nocity_send = FALSE;
    force end-of-tick asap
 */
 bool force_end_of_sniff;
-
-/* List of which nations are available. */
-static bool *nations_available;
 
 /* this counter creates all the id numbers used */
 /* use get_next_id_number()                     */
@@ -814,7 +808,7 @@ void start_game(void)
 
   con_puts(C_OK, _("Starting game."));
 
-  server_state=SELECT_RACES_STATE; /* loaded ??? */
+  server_state = RUN_GAME_STATE; /* loaded ??? */
   force_end_of_sniff = TRUE;
 }
 
@@ -1168,6 +1162,64 @@ static bool is_allowed_player_name(struct player *pplayer,
   return TRUE;
 }
 
+/****************************************************************************
+  Send unavailable/used information for this nation out to everyone.
+****************************************************************************/
+static void send_nation_available(struct nation_type *nation)
+{
+  struct packet_nation_available packet;
+
+  packet.id = nation->index;
+  packet.is_unavailable = nation->is_unavailable;
+  packet.is_used = nation->is_used;
+
+  lsend_packet_nation_available(game.est_connections, &packet);
+}
+
+/****************************************************************************
+  Initialize the list of available nations.
+
+  Call this on server start, or when loading a scenario.
+****************************************************************************/
+static void init_available_nations(void)
+{
+  bool start_nations;
+  int i;
+
+  if (map.num_start_positions > 0) {
+    start_nations = TRUE;
+
+    for (i = 0; i < map.num_start_positions; i++) {
+      if (map.start_positions[i].nation == NO_NATION_SELECTED) {
+	start_nations = FALSE;
+	break;
+      }
+    }
+  } else {
+    start_nations = FALSE;
+  }
+
+  if (start_nations) {
+    nations_iterate(nation) {
+      nation->is_unavailable = TRUE;
+    } nations_iterate_end;
+    for (i = 0; i < map.num_start_positions; i++) {
+      Nation_type_id nation_no = map.start_positions[i].nation;
+      struct nation_type *nation = get_nation_by_idx(nation_no);
+
+      nation->is_unavailable = FALSE;
+    }
+  } else {
+    nations_iterate(nation) {
+      nation->is_unavailable = FALSE;
+    } nations_iterate_end;
+  }
+  nations_iterate(nation) {
+    nation->is_used = FALSE;
+    send_nation_available(nation);
+  } nations_iterate_end;
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1175,91 +1227,71 @@ void handle_nation_select_req(struct player *pplayer,
 			      Nation_type_id nation_no, bool is_male,
 			      char *name, int city_style)
 {
-  int nation_used_count;
-  char message[1024];
+  const Nation_type_id old_nation_no = pplayer->nation;
 
-  if (server_state != SELECT_RACES_STATE) {
-    freelog(LOG_ERROR, _("Trying to alloc nation outside "
-			 "of SELECT_RACES_STATE!"));
-    return;
-  }  
-  
-  /* check sanity of the packet sent by client */
-  if (nation_no < 0 || nation_no >= game.control.nation_count
-      || city_style < 0 || city_style >= game.control.styles_count
-      || city_style_has_requirements(&city_styles[city_style])
-      || !nations_available[nation_no]) {
+  if (server_state != PRE_GAME_STATE) {
+    freelog(LOG_ERROR, _("Trying to alloc nation outside of pregame!"));
     return;
   }
 
-  remove_leading_trailing_spaces(name);
+  if (nation_no != NO_NATION_SELECTED) {
+    char message[1024];
+    struct nation_type *nation;
 
-  if (!is_allowed_player_name(pplayer, nation_no, name,
-			      message, sizeof(message))) {
-    notify_player(pplayer, "%s", message);
-    send_select_nation(pplayer);
-    return;
+    /* check sanity of the packet sent by client */
+    if (nation_no < 0 || nation_no >= game.control.nation_count
+	|| city_style < 0 || city_style >= game.control.styles_count
+	|| city_style_has_requirements(&city_styles[city_style])) {
+      return;
+    }
+
+    nation = get_nation_by_idx(nation_no);
+    if (nation->is_unavailable) {
+      notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
+		     _("%s nation is not available in this scenario."),
+		     nation->name);
+      return;
+    }
+    if (nation->is_unavailable) {
+      notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
+		     _("%s nation is already in use."),
+		     nation->name);
+      return;
+    }
+
+    remove_leading_trailing_spaces(name);
+
+    if (!is_allowed_player_name(pplayer, nation_no, name,
+				message, sizeof(message))) {
+      notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
+		     "%s", message);
+      return;
+    }
+
+    name[0] = my_toupper(name[0]);
+
+    notify_conn_ex(game.game_connections, NULL, E_NATION_SELECTED,
+		   _("%s is the %s ruler %s."), pplayer->username,
+		   get_nation_name(nation_no), name);
+
+    sz_strlcpy(pplayer->name, name);
+    pplayer->is_male = is_male;
+    pplayer->city_style = city_style;
+
+    nation->is_used = TRUE;
+    send_nation_available(nation);
   }
-
-  name[0] = my_toupper(name[0]);
-
-  notify_conn_ex(game.game_connections, NULL, E_NATION_SELECTED,
-		 _("%s is the %s ruler %s."), pplayer->username,
-		 get_nation_name(nation_no), name);
-
-  /* inform player his choice was ok */
-  lsend_packet_nation_select_ok(pplayer->connections);
 
   pplayer->nation = nation_no;
-  sz_strlcpy(pplayer->name, name);
-  pplayer->is_male = is_male;
-  pplayer->city_style = city_style;
+  send_player_info_c(pplayer, game.est_connections);
 
-  /* tell the other players, that the nation is now unavailable */
-  nation_used_count = 0;
+  if (old_nation_no != NO_NATION_SELECTED) {
+    struct nation_type *old_nation = get_nation_by_idx(old_nation_no);
 
-  players_iterate(other_player) {
-    if (other_player->nation == NO_NATION_SELECTED) {
-      send_select_nation(other_player);
-    } else {
-      nation_used_count++;	/* count used nations */
-    }
-  } players_iterate_end;
-
-  mark_nation_as_used(nation_no);
-
-  /* if there's no nation left, reject remaining players, sorry */
-  if( nation_used_count == game.control.playable_nation_count ) {   /* barb */
-    players_iterate(other_player) {
-      if (other_player->nation == NO_NATION_SELECTED) {
-	freelog(LOG_NORMAL, _("No nations left: Removing player %s."),
-		other_player->name);
-	notify_player(other_player,
-		      _("Sorry, there are no nations left."));
-	server_remove_player(other_player);
-      }
-    } players_iterate_end;
+    old_nation->is_used = FALSE;
+    send_nation_available(old_nation);
   }
 }
-
-/**************************************************************************
- Sends the currently collected selected nations to the given player.
-**************************************************************************/
-static void send_select_nation(struct player *pplayer)
-{
-  struct packet_nation_unavailable packet;
-  Nation_type_id nation;
-
-  lsend_packet_select_races(pplayer->connections);
-
-  for (nation = 0; nation < game.control.playable_nation_count; nation++) {
-    if (!nations_available[nation]) {
-      packet.nation = nation;
-      lsend_packet_nation_unavailable(pplayer->connections, &packet);
-    }
-  }
-}
-
 
 /**************************************************************************
   Returns how much two nations looks good in the same game
@@ -1289,7 +1321,9 @@ static Nation_type_id select_random_nation()
   
   /* Determine which nations are available. */
   for (i = 0; i < game.control.playable_nation_count; i++) {
-    if (nations_available[i]) {
+    struct nation_type *nation = get_nation_by_idx(i);
+
+    if (!nation->is_unavailable && !nation->is_used) {
       available[count] = i;
       
       /* Increase the probablity of selecting those which have higher
@@ -1333,28 +1367,28 @@ generate_ai_players() - Selects a nation for players created with
    is chosen randomly.  (So if English are ruled by Elisabeth, she is
    female, but if "Player 1" rules English, may be male or female.)
 **************************************************************************/
-static void generate_ai_players(void)
+static void generate_players(void)
 {
   Nation_type_id nation;
   char player_name[MAX_LEN_NAME];
-  struct player *pplayer;
   int i, old_nplayers;
 
   /* Select nations for AI players generated with server
    * 'create <name>' command
    */
-  for (i = 0; i < game.info.nplayers; i++) {
-    pplayer = &game.players[i];
+  players_iterate(pplayer) {
+    ai_data_analyze_rulesets(pplayer);
     
     if (pplayer->nation != NO_NATION_SELECTED) {
       continue;
     }
 
-    /* See if the AI player matches a known leader name. */
+    /* See if the player name matches a known leader name. */
     for (nation = 0; nation < game.control.playable_nation_count; nation++) {
+      struct nation_type *n = get_nation_by_idx(nation);
+
       if (check_nation_leader_name(nation, pplayer->name)
-	  && nations_available[nation]) {
-	mark_nation_as_used(nation);
+	  && !n->is_unavailable && !n->is_used) {
 	pplayer->nation = nation;
 	pplayer->city_style = get_nation_city_style(nation);
 	pplayer->is_male = get_nation_leader_sex(nation, pplayer->name);
@@ -1366,28 +1400,19 @@ static void generate_ai_players(void)
     }
 
     nation = select_random_nation();
-    if (nation == NO_NATION_SELECTED) {
-      freelog(LOG_NORMAL,
-	      _("Ran out of nations.  AI controlled player %s not created."),
-	      pplayer->name);
-      server_remove_player(pplayer); 
-      /*
-       * Below decrement loop index 'i' so that the loop is redone with
-       * the current index (if 'i' is still less than new game.info.nplayers).
-       * This is because subsequent players in list will have been shifted
-       * down one spot by the remove, and may need handling.
-       */
-      i--;  
-      continue;
-    } else {
-      mark_nation_as_used(nation);
-      pplayer->nation = nation;
-      pplayer->city_style = get_nation_city_style(nation);
-      pplayer->is_male = (myrand(2) == 1);
+    assert(nation != NO_NATION_SELECTED);
+
+    get_nation_by_idx(nation)->is_used = TRUE;
+    pplayer->nation = nation;
+    pplayer->city_style = get_nation_city_style(nation);
+
+    pplayer->is_male = (myrand(2) == 1);
+    if (pplayer->is_connected) {
+      /* FIXME: need to generate a leader name. */
     }
 
-    announce_ai_player(pplayer);
-  }
+    announce_player(pplayer);
+  } players_iterate_end;
   
   /* Create and pick nation and name for AI players needed to bring the
    * total number of players to equal game.aifill
@@ -1420,10 +1445,12 @@ static void generate_ai_players(void)
   }
 
   for(;game.info.nplayers < game.aifill + i;) {
+    struct player *pplayer;
+
     nation = select_random_nation();
     assert(nation != NO_NATION_SELECTED);
-    mark_nation_as_used(nation);
-    pick_ai_player_name(nation, player_name);
+    get_nation_by_idx(nation)->is_used = TRUE;
+    pick_random_player_name(nation, player_name);
 
     old_nplayers = game.info.nplayers;
     pplayer = get_player(old_nplayers);
@@ -1461,7 +1488,7 @@ static void generate_ai_players(void)
 }
 
 /*************************************************************************
- Used in pick_ai_player_name() below; buf has size at least MAX_LEN_NAME;
+ Used in pick_random_player_name() below; buf has size at least MAX_LEN_NAME;
 *************************************************************************/
 static bool good_name(char *ptry, char *buf) {
   if (!(find_player_by_name(ptry) || find_player_by_user(ptry))) {
@@ -1472,14 +1499,14 @@ static bool good_name(char *ptry, char *buf) {
 }
 
 /*************************************************************************
- pick_ai_player_name() - Returns a random ruler name picked from given nation
+  Returns a random ruler name picked from given nation
      ruler names, given that nation's number. If that player name is already 
      taken, iterates through all leader names to find unused one. If it fails
      it iterates through "Player 1", "Player 2", ... until an unused name
      is found.
  newname should point to a buffer of size at least MAX_LEN_NAME.
 *************************************************************************/
-void pick_ai_player_name(Nation_type_id nation, char *newname) 
+void pick_random_player_name(Nation_type_id nation, char *newname) 
 {
    int i, names_count;
    struct leader *leaders;
@@ -1509,21 +1536,13 @@ void pick_ai_player_name(Nation_type_id nation, char *newname)
 }
 
 /*************************************************************************
-  Simply mark the nation as unavailable.
-*************************************************************************/
-static void mark_nation_as_used (Nation_type_id nation) 
-{
-  assert(nations_available[nation]);
-  nations_available[nation] = FALSE;
-}
-
-/*************************************************************************
 ...
 *************************************************************************/
-static void announce_ai_player (struct player *pplayer) {
-   freelog(LOG_NORMAL, _("AI is controlling the %s ruled by %s."),
-                    get_nation_name_plural(pplayer->nation),
-                    pplayer->name);
+static void announce_player (struct player *pplayer)
+{
+   freelog(LOG_NORMAL,
+	   _("%s rules the %s."), pplayer->name,
+	   get_nation_name_plural(pplayer->nation));
 
   players_iterate(other_player) {
     notify_player(other_player,
@@ -1749,8 +1768,7 @@ static void final_ruleset_adjustments()
 **************************************************************************/
 static void srv_loop(void)
 {
-  int i;
-  bool start_nations;
+  init_available_nations();
 
   freelog(LOG_NORMAL, _("Now accepting new client connections."));
   while(server_state == PRE_GAME_STATE) {
@@ -1759,87 +1777,12 @@ static void srv_loop(void)
 
   (void) send_server_info_to_metaserver(META_INFO);
 
-  nations_available
-    = fc_realloc(nations_available,
-		 game.control.playable_nation_count * sizeof(*nations_available));
-
-main_start_players:
-
-  if (map.num_start_positions > 0) {
-    start_nations = TRUE;
-
-    for (i = 0; i < map.num_start_positions; i++) {
-      if (map.start_positions[i].nation == NO_NATION_SELECTED) {
-	start_nations = FALSE;
-	break;
-      }
-    }
-  } else {
-    start_nations = FALSE;
-  }
-
-  if (start_nations) {
-    for (i = 0; i < game.control.playable_nation_count; i++) {
-      nations_available[i] = FALSE;
-    }
-    for (i = 0; i < map.num_start_positions; i++) {
-      nations_available[map.start_positions[i].nation] = TRUE;
-    }
-    
-  } else {
-    for (i = 0; i < game.control.playable_nation_count; i++) {
-      nations_available[i] = TRUE;
-    }
-  }
-
   if (game.info.auto_ai_toggle) {
     players_iterate(pplayer) {
       if (!pplayer->is_connected && !pplayer->ai.control) {
 	toggle_ai_player_direct(NULL, pplayer);
       }
     } players_iterate_end;
-  }
-
-  /* Allow players to select a nation (case new game).
-   * AI players may not yet have a nation; these will be selected
-   * in generate_ai_players() later
-   */
-  server_state = RUN_GAME_STATE;
-  players_iterate(pplayer) {
-    ai_data_analyze_rulesets(pplayer);
-    if (pplayer->is_observer) {
-      pplayer->nation = OBSERVER_NATION;
-    } else if (pplayer->nation == NO_NATION_SELECTED && !pplayer->ai.control) {
-      send_select_nation(pplayer);
-      server_state = SELECT_RACES_STATE;
-    }
-  } players_iterate_end;
-
-  while(server_state == SELECT_RACES_STATE) {
-    bool flag = FALSE;
-
-    sniff_packets();
-
-    players_iterate(pplayer) {
-      if (pplayer->nation == NO_NATION_SELECTED && !pplayer->ai.control) {
-	flag = TRUE;
-	break;
-      }
-    } players_iterate_end;
-
-    if (!flag) {
-      if (game.info.nplayers > 0) {
-	server_state = RUN_GAME_STATE;
-      } else {
-	con_write(C_COMMENT,
-		  _("Last player has disconnected: will need to restart."));
-	server_state = PRE_GAME_STATE;
-	while(server_state == PRE_GAME_STATE) {
-	  sniff_packets();
-	}
-	goto main_start_players;
-      }
-    }
   }
 
   init_game_seed();
@@ -1852,7 +1795,7 @@ main_start_players:
 #endif
 
   if (game.is_new_game) {
-    generate_ai_players();
+    generate_players();
   }
   final_ruleset_adjustments();
    

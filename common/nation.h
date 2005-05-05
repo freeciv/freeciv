@@ -101,6 +101,10 @@ struct nation_type {
   /* Groups which this nation is assigned to */
   int num_groups;
   struct nation_group **groups;
+
+  /* Unavailable nations aren't allowed in the scenario.  Used nations are
+   * those in use by another player. */
+  bool is_unavailable, is_used;
 };
 
 struct team {
@@ -135,6 +139,19 @@ int get_nation_groups_count(void);
 struct nation_group* get_nation_group_by_id(int id);
 
 bool nation_in_group(struct nation_type* nation, const char* group_name);
+
+#define nations_iterate(nation)						    \
+{									    \
+  int NI_index;								    \
+									    \
+  for (NI_index = 0;							    \
+       NI_index < game.control.playable_nation_count;			    \
+       NI_index++) {							    \
+    struct nation_type *nation = get_nation_by_idx(NI_index);
+
+#define nations_iterate_end						    \
+  }									    \
+}
 
 #define team_iterate(PI_team)                                                 \
 {                                                                             \

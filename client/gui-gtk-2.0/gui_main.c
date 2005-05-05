@@ -1230,11 +1230,26 @@ void update_conn_list_dialog(void)
     gtk_list_store_clear(conn_model);
     conn_list_iterate(game.est_connections, pconn) {
       bool is_started = pconn->player ? pconn->player->is_started : FALSE;
+      const char *nation;
+      const char *leader;
+
+      if (!pconn->player) {
+	nation = "";
+	leader = "";
+      } else if (pconn->player->nation == NO_NATION_SELECTED) {
+	nation = _("Random");
+	leader = "";
+      } else {
+	nation = get_nation_name(pconn->player->nation);
+	leader = pconn->player->name;
+      }
 
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,
 			 0, pconn->username,
 			 1, is_started,
+			 2, leader,
+			 3, nation,
 			 -1);
     } conn_list_iterate_end;
   }

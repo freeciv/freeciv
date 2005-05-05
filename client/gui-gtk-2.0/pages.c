@@ -36,6 +36,8 @@
 #include "connectdlg_common.h"
 #include "packhand.h"
 
+#include "dialogs_g.h"
+
 #include "chatline.h"
 #include "connectdlg.h"
 #include "graphics.h"
@@ -928,6 +930,14 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+  Called when "pick nation" is clicked.
+**************************************************************************/
+static void pick_nation_callback(GtkWidget *w, gpointer data)
+{
+  popup_races_dialog();
+}
+
+/**************************************************************************
   update the start page.
 **************************************************************************/
 static void update_start_page(void)
@@ -1035,7 +1045,8 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_BOOLEAN); 
+  conn_model = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_BOOLEAN,
+				  G_TYPE_STRING, G_TYPE_STRING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
   g_object_unref(conn_model);
@@ -1051,6 +1062,16 @@ GtkWidget *create_start_page(void)
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
 					      -1, _("Ready"), rend,
 					      "active", 1, NULL);
+
+  rend = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+					      -1, _("Leader"), rend,
+					      "text", 2, NULL);
+
+  rend = gtk_cell_renderer_text_new();
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+					      -1, _("Nation"), rend,
+					      "text", 3, NULL);
 
   g_signal_connect(view, "button-press-event",
 		   G_CALLBACK(show_conn_popup), NULL);
@@ -1099,6 +1120,11 @@ GtkWidget *create_start_page(void)
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
       G_CALLBACK(main_callback), NULL);
+
+  button = gtk_stockbutton_new(GTK_STOCK_PROPERTIES, _("Pick _Nation"));
+  g_signal_connect(button, "clicked",
+		   G_CALLBACK(pick_nation_callback), NULL);
+  gtk_container_add(GTK_CONTAINER(bbox), button);
 
   button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Start"));
   g_signal_connect(button, "clicked",

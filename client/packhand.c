@@ -335,9 +335,8 @@ void handle_game_state(int value)
 {
   bool changed = (get_client_state() != value);
 
-  if (get_client_state() == CLIENT_SELECT_RACE_STATE
-      && value == CLIENT_GAME_RUNNING_STATE
-      && game.player_ptr->nation == NO_NATION_SELECTED) {
+  if (get_client_state() == CLIENT_PRE_GAME_STATE
+      && value == CLIENT_GAME_RUNNING_STATE) {
     popdown_races_dialog();
   }
   
@@ -1338,7 +1337,7 @@ void handle_game_info(struct packet_game_info *pinfo)
     game.info.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.info.player_idx];
   }
-  if (get_client_state() == CLIENT_SELECT_RACE_STATE) {
+  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     popdown_races_dialog();
   }
   boot_help = (can_client_change_view()
@@ -1979,60 +1978,26 @@ void handle_player_remove(int player_id)
 }
 
 /**************************************************************************
-...
+  Mark a nation as available or unavailable, in pregame.
 **************************************************************************/
-void handle_nation_select_ok(void)
+void handle_nation_available(Nation_type_id nation_no,
+			     bool is_unavailable, bool is_used)
 {
-  if (get_client_state() == CLIENT_SELECT_RACE_STATE) {
-    set_client_state(CLIENT_WAITING_FOR_GAME_START_STATE);
-    popdown_races_dialog();
-  } else {
-    freelog(LOG_ERROR,
-	    "got a select nation packet in an incompatible state");
-  }
-}
+  if (get_client_state() == CLIENT_PRE_GAME_STATE
+      && nation_no >= 0 && nation_no < game.control.playable_nation_count) {
+    struct nation_type *nation = get_nation_by_idx(nation_no);
+    const bool changed = (nation->is_unavailable != is_unavailable
+			  || nation->is_used != is_used);
 
-static bool *nations_used;
+    nation->is_unavailable = is_unavailable;
+    nation->is_used = is_used;
 
-/**************************************************************************
-  Mark a nation as unavailable, after we've entered the select-race state.
-**************************************************************************/
-void handle_nation_unavailable(Nation_type_id nation)
-{
-  if (get_client_state() == CLIENT_SELECT_RACE_STATE
-      && nation >= 0 && nation < game.control.playable_nation_count) {
-    if (!nations_used[nation]) {
-      nations_used[nation] = TRUE;
-      races_toggles_set_sensitive(nations_used);
+    if (changed) {
+      races_toggles_set_sensitive();
     }
   } else {
     freelog(LOG_ERROR,
 	    "got a select nation packet in an incompatible state");
-  }
-}
-
-/**************************************************************************
-  Enter the select races state.
-**************************************************************************/
-void handle_select_races(void)
-{
-  if (get_client_state() == CLIENT_PRE_GAME_STATE) {
-    /* First set the state. */
-    set_client_state(CLIENT_SELECT_RACE_STATE);
-
-    /* Then clear the nations used.  They are filled by a
-     * PACKET_NATION_UNAVAILABLE packet that follows. */
-    nations_used = fc_realloc(nations_used,
-			      game.control.playable_nation_count
-			      * sizeof(nations_used));
-    memset(nations_used, 0,
-	   game.control.playable_nation_count * sizeof(nations_used));
-
-    if (!client_is_observer()) {
-      /* Now close the conndlg and popup the races dialog. */
-      really_close_connection_dialog();
-      popup_races_dialog();
-    }
   }
 }
 

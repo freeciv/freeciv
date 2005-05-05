@@ -71,17 +71,11 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_SERVER_SHUTDOWN:
     return receive_packet_server_shutdown(pc, type);
 
-  case PACKET_NATION_UNAVAILABLE:
-    return receive_packet_nation_unavailable(pc, type);
-
-  case PACKET_SELECT_RACES:
-    return receive_packet_select_races(pc, type);
+  case PACKET_NATION_AVAILABLE:
+    return receive_packet_nation_available(pc, type);
 
   case PACKET_NATION_SELECT_REQ:
     return receive_packet_nation_select_req(pc, type);
-
-  case PACKET_NATION_SELECT_OK:
-    return receive_packet_nation_select_ok(pc, type);
 
   case PACKET_GAME_STATE:
     return receive_packet_game_state(pc, type);
@@ -428,17 +422,11 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_SERVER_SHUTDOWN:
     return "PACKET_SERVER_SHUTDOWN";
 
-  case PACKET_NATION_UNAVAILABLE:
-    return "PACKET_NATION_UNAVAILABLE";
-
-  case PACKET_SELECT_RACES:
-    return "PACKET_SELECT_RACES";
+  case PACKET_NATION_AVAILABLE:
+    return "PACKET_NATION_AVAILABLE";
 
   case PACKET_NATION_SELECT_REQ:
     return "PACKET_NATION_SELECT_REQ";
-
-  case PACKET_NATION_SELECT_OK:
-    return "PACKET_NATION_SELECT_OK";
 
   case PACKET_GAME_STATE:
     return "PACKET_GAME_STATE";
@@ -1645,42 +1633,63 @@ void lsend_packet_server_shutdown(struct conn_list *dest)
   } conn_list_iterate_end;
 }
 
-#define hash_packet_nation_unavailable_100 hash_const
-
-#define cmp_packet_nation_unavailable_100 cmp_const
-
-BV_DEFINE(packet_nation_unavailable_100_fields, 1);
-
-static struct packet_nation_unavailable *receive_packet_nation_unavailable_100(struct connection *pc, enum packet_type type)
+static unsigned int hash_packet_nation_available_100(const void *vkey, unsigned int num_buckets)
 {
-  packet_nation_unavailable_100_fields fields;
-  struct packet_nation_unavailable *old;
+  const struct packet_nation_available *key = (const struct packet_nation_available *) vkey;
+
+  return ((key->id) % num_buckets);
+}
+
+static int cmp_packet_nation_available_100(const void *vkey1, const void *vkey2)
+{
+  const struct packet_nation_available *key1 = (const struct packet_nation_available *) vkey1;
+  const struct packet_nation_available *key2 = (const struct packet_nation_available *) vkey2;
+  int diff;
+
+  diff = key1->id - key2->id;
+  if (diff != 0) {
+    return diff;
+  }
+
+  return 0;
+}
+
+BV_DEFINE(packet_nation_available_100_fields, 2);
+
+static struct packet_nation_available *receive_packet_nation_available_100(struct connection *pc, enum packet_type type)
+{
+  packet_nation_available_100_fields fields;
+  struct packet_nation_available *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_nation_unavailable *clone;
-  RECEIVE_PACKET_START(packet_nation_unavailable, real_packet);
+  struct packet_nation_available *clone;
+  RECEIVE_PACKET_START(packet_nation_available, real_packet);
 
   DIO_BV_GET(&din, fields);
+  {
+    int readin;
+  
+    dio_get_sint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_nation_unavailable_100, cmp_packet_nation_unavailable_100);
+    *hash = hash_new(hash_packet_nation_available_100, cmp_packet_nation_available_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
   if (old) {
     *real_packet = *old;
   } else {
+    Nation_type_id id = real_packet->id;
+
     memset(real_packet, 0, sizeof(*real_packet));
+
+    real_packet->id = id;
   }
 
-  if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_sint16(&din, &readin);
-      real_packet->nation = readin;
-    }
-  }
+  real_packet->is_unavailable = BV_ISSET(fields, 0);
+  real_packet->is_used = BV_ISSET(fields, 1);
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -1692,18 +1701,18 @@ static struct packet_nation_unavailable *receive_packet_nation_unavailable_100(s
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_nation_unavailable_100(struct connection *pc, const struct packet_nation_unavailable *packet)
+static int send_packet_nation_available_100(struct connection *pc, const struct packet_nation_available *packet)
 {
-  const struct packet_nation_unavailable *real_packet = packet;
-  packet_nation_unavailable_100_fields fields;
-  struct packet_nation_unavailable *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_NATION_UNAVAILABLE];
+  const struct packet_nation_available *real_packet = packet;
+  packet_nation_available_100_fields fields;
+  struct packet_nation_available *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = FALSE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_NATION_AVAILABLE];
   int different = 0;
-  SEND_PACKET_START(PACKET_NATION_UNAVAILABLE);
+  SEND_PACKET_START(PACKET_NATION_AVAILABLE);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_nation_unavailable_100, cmp_packet_nation_unavailable_100);
+    *hash = hash_new(hash_packet_nation_available_100, cmp_packet_nation_available_100);
   }
   BV_CLR_ALL(fields);
 
@@ -1715,19 +1724,23 @@ static int send_packet_nation_unavailable_100(struct connection *pc, const struc
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->nation != real_packet->nation);
+  differ = (old->is_unavailable != real_packet->is_unavailable);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 0);}
+  if(packet->is_unavailable) {BV_SET(fields, 0);}
+
+  differ = (old->is_used != real_packet->is_used);
+  if(differ) {different++;}
+  if(packet->is_used) {BV_SET(fields, 1);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
 
   DIO_BV_PUT(&dout, fields);
+  dio_put_sint16(&dout, real_packet->id);
 
-  if (BV_ISSET(fields, 0)) {
-    dio_put_sint16(&dout, real_packet->nation);
-  }
+  /* field 0 is folded into the header */
+  /* field 1 is folded into the header */
 
 
   if (old_from_hash) {
@@ -1741,11 +1754,11 @@ static int send_packet_nation_unavailable_100(struct connection *pc, const struc
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_nation_unavailable(struct connection *pc)
+static void ensure_valid_variant_packet_nation_available(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_NATION_UNAVAILABLE] != -1) {
+  if(pc->phs.variant[PACKET_NATION_AVAILABLE] != -1) {
     return;
   }
 
@@ -1755,10 +1768,10 @@ static void ensure_valid_variant_packet_nation_unavailable(struct connection *pc
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_NATION_UNAVAILABLE] = variant;
+  pc->phs.variant[PACKET_NATION_AVAILABLE] = variant;
 }
 
-struct packet_nation_unavailable *receive_packet_nation_unavailable(struct connection *pc, enum packet_type type)
+struct packet_nation_available *receive_packet_nation_available(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -1768,17 +1781,17 @@ struct packet_nation_unavailable *receive_packet_nation_unavailable(struct conne
   }
   assert(pc->phs.variant != NULL);
   if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_nation_unavailable at the server.");
+    freelog(LOG_ERROR, "Receiving packet_nation_available at the server.");
   }
-  ensure_valid_variant_packet_nation_unavailable(pc);
+  ensure_valid_variant_packet_nation_available(pc);
 
-  switch(pc->phs.variant[PACKET_NATION_UNAVAILABLE]) {
-    case 100: return receive_packet_nation_unavailable_100(pc, type);
+  switch(pc->phs.variant[PACKET_NATION_AVAILABLE]) {
+    case 100: return receive_packet_nation_available_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_nation_unavailable(struct connection *pc, const struct packet_nation_unavailable *packet)
+int send_packet_nation_available(struct connection *pc, const struct packet_nation_available *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -1788,97 +1801,20 @@ int send_packet_nation_unavailable(struct connection *pc, const struct packet_na
   }
   assert(pc->phs.variant != NULL);
   if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_nation_unavailable from the client.");
+    freelog(LOG_ERROR, "Sending packet_nation_available from the client.");
   }
-  ensure_valid_variant_packet_nation_unavailable(pc);
+  ensure_valid_variant_packet_nation_available(pc);
 
-  switch(pc->phs.variant[PACKET_NATION_UNAVAILABLE]) {
-    case 100: return send_packet_nation_unavailable_100(pc, packet);
+  switch(pc->phs.variant[PACKET_NATION_AVAILABLE]) {
+    case 100: return send_packet_nation_available_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-void lsend_packet_nation_unavailable(struct conn_list *dest, const struct packet_nation_unavailable *packet)
+void lsend_packet_nation_available(struct conn_list *dest, const struct packet_nation_available *packet)
 {
   conn_list_iterate(dest, pconn) {
-    send_packet_nation_unavailable(pconn, packet);
-  } conn_list_iterate_end;
-}
-
-static struct packet_select_races *receive_packet_select_races_100(struct connection *pc, enum packet_type type)
-{
-  RECEIVE_PACKET_START(packet_select_races, real_packet);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_select_races_100(struct connection *pc)
-{
-  SEND_PACKET_START(PACKET_SELECT_RACES);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_select_races(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_SELECT_RACES] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_SELECT_RACES] = variant;
-}
-
-struct packet_select_races *receive_packet_select_races(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_select_races at the server.");
-  }
-  ensure_valid_variant_packet_select_races(pc);
-
-  switch(pc->phs.variant[PACKET_SELECT_RACES]) {
-    case 100: return receive_packet_select_races_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_select_races(struct connection *pc)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_select_races from the client.");
-  }
-  ensure_valid_variant_packet_select_races(pc);
-
-  switch(pc->phs.variant[PACKET_SELECT_RACES]) {
-    case 100: return send_packet_select_races_100(pc);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-void lsend_packet_select_races(struct conn_list *dest)
-{
-  conn_list_iterate(dest, pconn) {
-    send_packet_select_races(pconn);
+    send_packet_nation_available(pconn, packet);
   } conn_list_iterate_end;
 }
 
@@ -2076,83 +2012,6 @@ int dsend_packet_nation_select_req(struct connection *pc, Nation_type_id nation_
   real_packet->city_style = city_style;
   
   return send_packet_nation_select_req(pc, real_packet);
-}
-
-static struct packet_nation_select_ok *receive_packet_nation_select_ok_100(struct connection *pc, enum packet_type type)
-{
-  RECEIVE_PACKET_START(packet_nation_select_ok, real_packet);
-
-  RECEIVE_PACKET_END(real_packet);
-}
-
-static int send_packet_nation_select_ok_100(struct connection *pc)
-{
-  SEND_PACKET_START(PACKET_NATION_SELECT_OK);
-  SEND_PACKET_END;
-}
-
-static void ensure_valid_variant_packet_nation_select_ok(struct connection *pc)
-{
-  int variant = -1;
-
-  if(pc->phs.variant[PACKET_NATION_SELECT_OK] != -1) {
-    return;
-  }
-
-  if(FALSE) {
-  } else if(TRUE) {
-    variant = 100;
-  } else {
-    die("unknown variant");
-  }
-  pc->phs.variant[PACKET_NATION_SELECT_OK] = variant;
-}
-
-struct packet_nation_select_ok *receive_packet_nation_select_ok(struct connection *pc, enum packet_type type)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %s",
-	    conn_description(pc));
-    return NULL;
-  }
-  assert(pc->phs.variant != NULL);
-  if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_nation_select_ok at the server.");
-  }
-  ensure_valid_variant_packet_nation_select_ok(pc);
-
-  switch(pc->phs.variant[PACKET_NATION_SELECT_OK]) {
-    case 100: return receive_packet_nation_select_ok_100(pc, type);
-    default: die("unknown variant"); return NULL;
-  }
-}
-
-int send_packet_nation_select_ok(struct connection *pc)
-{
-  if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %s",
-	    conn_description(pc));
-    return -1;
-  }
-  assert(pc->phs.variant != NULL);
-  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_nation_select_ok from the client.");
-  }
-  ensure_valid_variant_packet_nation_select_ok(pc);
-
-  switch(pc->phs.variant[PACKET_NATION_SELECT_OK]) {
-    case 100: return send_packet_nation_select_ok_100(pc);
-    default: die("unknown variant"); return -1;
-  }
-}
-
-void lsend_packet_nation_select_ok(struct conn_list *dest)
-{
-  conn_list_iterate(dest, pconn) {
-    send_packet_nation_select_ok(pconn);
-  } conn_list_iterate_end;
 }
 
 #define hash_packet_game_state_100 hash_const
@@ -24564,11 +24423,28 @@ void lsend_packet_ruleset_terrain_control(struct conn_list *dest, const struct p
   } conn_list_iterate_end;
 }
 
-#define hash_packet_ruleset_nation_100 hash_const
+static unsigned int hash_packet_ruleset_nation_100(const void *vkey, unsigned int num_buckets)
+{
+  const struct packet_ruleset_nation *key = (const struct packet_ruleset_nation *) vkey;
 
-#define cmp_packet_ruleset_nation_100 cmp_const
+  return ((key->id) % num_buckets);
+}
 
-BV_DEFINE(packet_ruleset_nation_100_fields, 13);
+static int cmp_packet_ruleset_nation_100(const void *vkey1, const void *vkey2)
+{
+  const struct packet_ruleset_nation *key1 = (const struct packet_ruleset_nation *) vkey1;
+  const struct packet_ruleset_nation *key2 = (const struct packet_ruleset_nation *) vkey2;
+  int diff;
+
+  diff = key1->id - key2->id;
+  if (diff != 0) {
+    return diff;
+  }
+
+  return 0;
+}
+
+BV_DEFINE(packet_ruleset_nation_100_fields, 12);
 
 static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct connection *pc, enum packet_type type)
 {
@@ -24579,6 +24455,12 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
   RECEIVE_PACKET_START(packet_ruleset_nation, real_packet);
 
   DIO_BV_GET(&din, fields);
+  {
+    int readin;
+  
+    dio_get_sint16(&din, &readin);
+    real_packet->id = readin;
+  }
 
 
   if (!*hash) {
@@ -24589,33 +24471,29 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
   if (old) {
     *real_packet = *old;
   } else {
+    Nation_type_id id = real_packet->id;
+
     memset(real_packet, 0, sizeof(*real_packet));
+
+    real_packet->id = id;
   }
 
   if (BV_ISSET(fields, 0)) {
-    {
-      int readin;
-    
-      dio_get_sint16(&din, &readin);
-      real_packet->id = readin;
-    }
-  }
-  if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
-  if (BV_ISSET(fields, 2)) {
+  if (BV_ISSET(fields, 1)) {
     dio_get_string(&din, real_packet->name_plural, sizeof(real_packet->name_plural));
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 2)) {
     dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 4)) {
     dio_get_string(&din, real_packet->legend, sizeof(real_packet->legend));
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 5)) {
     {
       int readin;
     
@@ -24623,10 +24501,10 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       real_packet->city_style = readin;
     }
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_get_tech_list(&din, real_packet->init_techs);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     {
       int readin;
     
@@ -24634,7 +24512,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       real_packet->leader_count = readin;
     }
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     
     {
       int i;
@@ -24648,7 +24526,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       }
     }
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
     
     {
       int i;
@@ -24662,7 +24540,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       }
     }
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
     {
       int readin;
     
@@ -24670,7 +24548,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       real_packet->group_count = readin;
     }
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
     
     {
       int i;
@@ -24700,7 +24578,7 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
   const struct packet_ruleset_nation *real_packet = packet;
   packet_ruleset_nation_100_fields fields;
   struct packet_ruleset_nation *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  bool differ, old_from_hash, force_send_of_unchanged = FALSE;
   struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_NATION];
   int different = 0;
   SEND_PACKET_START(PACKET_RULESET_NATION);
@@ -24718,33 +24596,29 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->id != real_packet->id);
+  differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (strcmp(old->name, real_packet->name) != 0);
+  differ = (strcmp(old->name_plural, real_packet->name_plural) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (strcmp(old->name_plural, real_packet->name_plural) != 0);
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
+  differ = (strcmp(old->legend, real_packet->legend) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (strcmp(old->legend, real_packet->legend) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
   differ = (old->city_style != real_packet->city_style);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
+  if(differ) {BV_SET(fields, 5);}
 
 
     {
@@ -24760,11 +24634,11 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 6);}
 
   differ = (old->leader_count != real_packet->leader_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 7);}
 
 
     {
@@ -24780,7 +24654,7 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 8);}
 
 
     {
@@ -24796,11 +24670,11 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 9);}
 
   differ = (old->group_count != real_packet->group_count);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 10);}
 
 
     {
@@ -24816,42 +24690,40 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 11);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
 
   DIO_BV_PUT(&dout, fields);
+  dio_put_sint16(&dout, real_packet->id);
 
   if (BV_ISSET(fields, 0)) {
-    dio_put_sint16(&dout, real_packet->id);
-  }
-  if (BV_ISSET(fields, 1)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 2)) {
+  if (BV_ISSET(fields, 1)) {
     dio_put_string(&dout, real_packet->name_plural);
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 2)) {
     dio_put_string(&dout, real_packet->graphic_str);
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
     dio_put_string(&dout, real_packet->graphic_alt);
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_string(&dout, real_packet->legend);
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 5)) {
     dio_put_uint8(&dout, real_packet->city_style);
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_tech_list(&dout, real_packet->init_techs);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->leader_count);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
   
     {
       int i;
@@ -24861,7 +24733,7 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     } 
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 9)) {
   
     {
       int i;
@@ -24871,10 +24743,10 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
       }
     } 
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_uint8(&dout, real_packet->group_count);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
   
     {
       int i;

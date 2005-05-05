@@ -38,6 +38,7 @@
 #include "unit.h"
 
 #include "citytools.h"
+#include "plrhand.h"
 #include "script.h"
 
 #include "aiunit.h"		/* update_simple_ai_types */
@@ -2189,6 +2190,9 @@ static void load_ruleset_nations(struct section_file *file)
     if (check_strlen(pl->legend, MAX_LEN_MSG, "Legend '%s' is too long")) {
       pl->legend[MAX_LEN_MSG - 1] = '\0';
     }
+
+    pl->is_unavailable = FALSE;
+    pl->is_used = FALSE;
   }
 
   /* Calculate parent nations.  O(n^2) algorithm. */
@@ -2989,6 +2993,19 @@ static void send_ruleset_game(struct conn_list *dest)
   lsend_packet_ruleset_game(dest, &misc_p);
 }
 
+/****************************************************************************
+  HACK: reset any nations that have been set so far.
+
+  FIXME: this should be moved into nationhand.c.
+****************************************************************************/
+static void reset_player_nations(void)
+{
+  players_iterate(pplayer) {
+    pplayer->nation = NO_NATION_SELECTED;
+  } players_iterate_end;
+  send_player_info_c(NULL, game.est_connections);
+}
+
 /**************************************************************************
   Loads the ruleset currently given in game.rulesetdir.
 
@@ -3002,6 +3019,7 @@ void load_rulesets(void)
   freelog(LOG_NORMAL, _("Loading rulesets"));
 
   ruleset_data_free();
+  reset_player_nations();
 
   openload_ruleset_file(&techfile, "techs");
   load_tech_names(&techfile);
