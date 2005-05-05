@@ -6,7 +6,9 @@ EXTRA_DIST= \
 noinst_PROGRAMS = tolua
 noinst_LIBRARIES = libtolua.a
 
-AM_CPPFLAGS = -I../lua/src -I. -I../lua/include -I../lua/src/lib
+AM_CPPFLAGS = -I$(top_srcdir)/dependencies/lua/src \
+	-I$(top_srcdir)/dependencies/lua/include \
+	-I$(top_srcdir)/dependencies/lua/src/lib
 
 tolua_SOURCES = \
 	tolua.c \
