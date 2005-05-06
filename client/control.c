@@ -810,8 +810,7 @@ void request_unit_return(struct unit *punit)
   if ((path = path_to_nearest_allied_city(punit))) {
     int turns = pf_last_position(path)->turn;
 
-    if (punit->hp + turns * get_player_bonus(game.player_ptr,
-					     EFT_UNIT_RECOVER)
+    if (punit->hp + turns * get_unit_bonus(punit, EFT_UNIT_RECOVER)
 	< unit_type(punit)->hp) {
       struct unit_order order;
 

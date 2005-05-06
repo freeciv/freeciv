@@ -65,7 +65,7 @@
 /* We need this global variable for our sort algorithm */
 static struct tile *autoattack_target;
 
-static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit);
+static void unit_restore_hitpoints(struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
 static void wakeup_neighbor_sentries(struct unit *punit);
@@ -163,13 +163,10 @@ bool maybe_make_veteran(struct unit *punit)
       || unit_flag(punit, F_NO_VETERAN)) {
     return FALSE;
   } else {
-    struct player *plr;
     int mod = 100;
 
-    plr = get_player(punit->owner);
-
     if (is_ground_unittype(punit->type)) {
-      mod += get_player_bonus(plr, EFT_LAND_VET_COMBAT);
+      mod += get_unit_bonus(punit, EFT_LAND_VET_COMBAT);
     }
 
     /* The modification is tacked on as a multiplier to the base chance.
@@ -353,7 +350,7 @@ void player_restore_units(struct player *pplayer)
   unit_list_iterate_safe(pplayer->units, punit) {
 
     /* 2) Modify unit hitpoints. Helicopters can even lose them. */
-    unit_restore_hitpoints(pplayer, punit);
+    unit_restore_hitpoints(punit);
 
     /* 3) Check that unit has hitpoints */
     if (punit->hp<=0) {
@@ -469,7 +466,7 @@ void player_restore_units(struct player *pplayer)
   Units which have moved don't gain hp, except the United Nations and
   helicopter effects still occur.
 *****************************************************************************/
-static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
+static void unit_restore_hitpoints(struct unit *punit)
 {
   bool was_lower;
 
@@ -480,7 +477,7 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
   }
 
   /* Bonus recovery HP (traditionally from the United Nations) */
-  punit->hp += get_player_bonus(pplayer, EFT_UNIT_RECOVER);
+  punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
 
   if(is_heli_unit(punit)) {
     struct city *pcity = tile_get_city(punit->tile);

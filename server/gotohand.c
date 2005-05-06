@@ -931,8 +931,7 @@ static int find_a_direction(struct unit *punit,
   struct unit *passenger;
   struct player *pplayer = unit_owner(punit);
   bool afraid_of_sinking = (unit_flag(punit, F_TRIREME)
-			    && get_player_bonus(pplayer,
-						EFT_NO_SINK_DEEP) == 0);
+			    && get_unit_bonus(punit, EFT_NO_SINK_DEEP) == 0);
 
   /* 
    * If the destination is one step away, look around first or just go

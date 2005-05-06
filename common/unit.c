@@ -1341,7 +1341,7 @@ int unit_loss_pct(const struct player *pplayer, const struct tile *ptile,
 int base_trireme_loss_pct(const struct player *pplayer,
 			  const struct unit *punit)
 {
-  if (get_player_bonus(pplayer, EFT_NO_SINK_DEEP) > 0) {
+  if (get_unit_bonus(punit, EFT_NO_SINK_DEEP) > 0) {
     return 0;
   } else if (player_knows_techs_with_flag(pplayer, TF_REDUCE_TRIREME_LOSS2)) {
     return game.trireme_loss_chance[punit->veteran] / 4;

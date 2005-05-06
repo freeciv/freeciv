@@ -102,8 +102,8 @@ static bool is_likely_coastline(struct tile *ptile, struct player *pplayer)
 Is there a chance that a trireme would be lost, given information that 
 the player actually has.
 ***************************************************************/
-static bool is_likely_trireme_loss(struct player *pplayer,
-				   struct tile *ptile)
+static bool is_likely_trireme_loss(struct tile *ptile, struct player *pplayer, 
+                             	   struct unit *punit)
 {
   /*
    * If we are in a city or next to land, we have no chance of losing
@@ -112,7 +112,7 @@ static bool is_likely_trireme_loss(struct player *pplayer,
    */
   if ((likely_ocean(ptile, pplayer) < 50) || 
       is_likely_coastline(ptile, pplayer) ||
-      get_player_bonus(pplayer, EFT_NO_SINK_DEEP) > 0) {
+      get_unit_bonus(punit, EFT_NO_SINK_DEEP) > 0) {
     return FALSE;
   } else {
     return TRUE;
@@ -176,7 +176,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
    * tile is on a different continent, or if we're a barbarian and
    * the tile has a hut, don't go there. */
   if ((unit_flag(punit, F_TRIREME) && 
-       is_likely_trireme_loss(pplayer, ptile))
+       is_likely_trireme_loss(ptile, pplayer, punit))
       || tile_get_city(ptile)
       || (is_barbarian(pplayer) && tile_has_special(ptile, S_HUT))) {
     return 0;
