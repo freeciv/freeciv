@@ -1957,6 +1957,22 @@ struct player *create_global_observer(void)
   return pplayer;
 }
 
+/****************************************************************************
+  Called when something is changed; this resets everyone's readiness.
+****************************************************************************/
+void reset_all_start_commands(void)
+{
+  if (server_state != PRE_GAME_STATE) {
+    return;
+  }
+  players_iterate(pplayer) {
+    if (pplayer->is_started) {
+      pplayer->is_started = FALSE;
+      send_player_info_c(pplayer, game.est_connections);
+    }
+  } players_iterate_end;
+}
+
 /**********************************************************************
 This function creates a new player and copies all of it's science
 research etc.  Players are both thrown into anarchy and gold is

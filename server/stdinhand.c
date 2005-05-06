@@ -923,6 +923,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   pplayer->ai.control = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
+  reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
   return TRUE;
 }
@@ -2529,6 +2530,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   if (!check && do_update) {
+    reset_all_start_commands();
     send_server_info_to_metaserver(META_INFO);
     /* 
      * send any modified game parameters to the clients -- if sent
@@ -3047,6 +3049,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     game_remove_player(pplayer);
     game_renumber_players(pplayer->player_no);
     player_init(&game.players[game.info.nplayers]);
+    reset_all_start_commands();
   }
 
   if (!pplayer->is_connected) {
