@@ -1026,7 +1026,7 @@ update_menus(void)
     govts = GetSubMenu(GetSubMenu(menu, 1), 5); 
 
     /* add new government entries. */
-    for (i = 0; i < game.government_count; i++) {
+    for (i = 0; i < game.control.government_count; i++) {
       if (i != game.info.government_when_anarchy) {
 	AppendMenu(govts, MF_STRING, IDM_GOVERNMENT_CHANGE_FIRST + i,
 		   governments[i].name);
@@ -1048,7 +1048,7 @@ update_menus(void)
     }
 
     if (can_client_issue_orders()) {
-      my_enable_menu(menu, IDM_GOVERNMENT_TAX_RATE, game.rgame.info.changable_tax);
+      my_enable_menu(menu, IDM_GOVERNMENT_TAX_RATE, game.info.changable_tax);
       my_enable_menu(menu, IDM_GOVERNMENT_WORKLISTS, TRUE);
       my_enable_menu(menu, IDM_GOVERNMENT_REVOLUTION, TRUE);
     }

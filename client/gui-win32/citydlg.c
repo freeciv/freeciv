@@ -197,7 +197,7 @@ void refresh_city_dialog(struct city *pcity)
     refresh_happiness_box(pdialog->happiness);
     resize_city_dialog(pdialog);
   }
-  if (pcity->owner==game.player_idx) {
+  if (pcity->owner==game.info.player_idx) {
     city_report_dialog_update_city(pcity);
     economy_report_dialog_update();   
     if (pdialog != NULL) {
@@ -299,7 +299,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog)
   store.wnd = NULL;
   store.tmp = NULL;
  
-  if(pdialog->pcity->owner != game.player_idx) {
+  if(pdialog->pcity->owner != game.info.player_idx) {
     plist = pdialog->pcity->info_units_present;
   } else {
     plist = pdialog->pcity->tile->units;
@@ -346,7 +346,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
   store.wnd = NULL;
   store.tmp = NULL;
 
-  if(pdialog->pcity->owner != game.player_idx) {
+  if(pdialog->pcity->owner != game.info.player_idx) {
     plist = pdialog->pcity->info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;

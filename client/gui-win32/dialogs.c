@@ -659,7 +659,7 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	    {
 	      struct unit *punit=player_find_unit_by_id(game.player_ptr,
 							unit_select_ids[id]);
-	      if(punit && punit->owner == game.player_idx) {
+	      if(punit && punit->owner == game.info.player_idx) {
 		set_unit_focus(punit);
 	      }   
 	    }
@@ -864,29 +864,33 @@ popup_unit_select_dialog(struct tile *ptile)
 /**************************************************************************
 
 **************************************************************************/
-void races_toggles_set_sensitive(bool *nations_used)
+void races_toggles_set_sensitive(void)
 {
   int i;
+  BOOL changed;
 
   for (i = 0; i < game.control.playable_nation_count; i++) {
     EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + i), TRUE);
   }
 
-  for (i = 0; i < game.control.playable_nation_count; i++) {
-    Nation_type_id nation = i;
+  changed = FALSE;
 
-    if (!nations_used[i]) {
+  for (i = 0; i < game.control.playable_nation_count; i++) {
+    struct nation_type *nation;
+    nation = get_nation_by_idx(i);
+
+    if (!(nation->is_unavailable || nation->is_used)) {
       continue;
     }
 
-    freelog(LOG_DEBUG, "  [%d]: %d", i, nation);
-
-    EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + nation),
+    EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + i),
 		 FALSE);
 
-    if (nation == selected_nation) {
-      select_random_race(races_dlg);
-    }
+    changed = TRUE;
+  }
+
+  if (changed) {
+    select_random_race(races_dlg);
   }
 }
 
