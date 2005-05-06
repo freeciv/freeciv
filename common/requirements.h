@@ -27,6 +27,7 @@ enum req_source_type {
   REQ_SPECIAL,
   REQ_TERRAIN,
   REQ_NATION,
+  REQ_UNITTYPE,
   REQ_MINSIZE, /* Minimum size: at city range means city size */
   REQ_LAST
 };
@@ -54,6 +55,7 @@ struct req_source {
     enum tile_special_type special;     /* source special */
     Terrain_type_id terrain;            /* source terrain type */
     Nation_type_id nation;              /* source nation type */
+    Unit_type_id unittype;              /* source unittype */
     int minsize;                        /* source minsize type */
   } value;                              /* source value */
 };
@@ -100,11 +102,13 @@ bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
 		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
+		   const struct unit *target_unit,
 		   const struct requirement *req);
 bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
 		     const struct impr_type *target_building,
 		     const struct tile *target_tile,
+		     const struct unit *target_unit,
 		     const struct requirement *reqs, int num_reqs);
 
 bool is_req_unchanging(const struct requirement *req);

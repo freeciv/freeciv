@@ -180,6 +180,7 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct city *target_pcity,
 		      const struct impr_type *target_building,
 		      const struct tile *target_tile,
+		      const struct unit *target_unit,
 		      Impr_type_id source, const struct effect *effect);
 
 bool is_building_replaced(const struct city *pcity, Impr_type_id building);
@@ -192,6 +193,7 @@ int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
 			enum effect_type effect_type);
 int get_building_bonus(const struct city *pcity, Impr_type_id building,
 		       enum effect_type effect_type);
+int get_unit_bonus(const struct unit *punit, enum effect_type effect_type);
 
 /* miscellaneous auxiliary effects functions */
 struct effect_list *get_req_source_effects(struct req_source *psource);
@@ -199,6 +201,7 @@ bool is_effect_disabled(const struct player *target_player,
 		        const struct city *target_city,
 		        const struct impr_type *target_building,
 		        const struct tile *target_tile,
+			const struct unit *target_unit,
 		        const struct effect *peffect);
 
 int get_player_bonus_effects(struct effect_list *plist,

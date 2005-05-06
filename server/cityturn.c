@@ -693,7 +693,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	  if (req->source.type == REQ_NONE) {
 	    break;
 	  }
-	  if (!is_req_active(pplayer, pcity, 0, NULL, req)) {
+	  if (!is_req_active(pplayer, pcity, NULL, NULL, NULL, req)) {
 	    known = TRUE;
 	    switch (req->source.type) {
 	    case REQ_TECH:
@@ -747,6 +747,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
 			       get_nation_name(req->source.value.nation));
+	      break;
+	    case REQ_UNITTYPE:
+	      /* Will only happen with a bogus ruleset. */
 	      break;
 	    case REQ_MINSIZE:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,

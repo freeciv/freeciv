@@ -61,7 +61,7 @@ int unit_move_rate(const struct unit *punit)
 
     /* Add on effects bonus (Magellan's Expedition, Lighthouse,
      * Nuclear Power). */
-    move_rate += (get_player_bonus(unit_owner(punit), EFT_SEA_MOVE)
+    move_rate += (get_unit_bonus(punit, EFT_SEA_MOVE)
 		  * SINGLE_MOVE);
 
     /* Don't let the move_rate be less than 2 unless the base_move_rate is

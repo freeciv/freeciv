@@ -186,6 +186,10 @@ static void insert_requirement(struct requirement *req,
     cat_snprintf(buf, bufsz, _("Requires the %s nation.\n\n"),
 		 get_nation_name(req->source.value.nation));
     return;
+  case REQ_UNITTYPE:
+    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
+		 unit_name(req->source.value.unittype));
+    return;
   case REQ_MINSIZE:
     cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n\n"),
 		 req->source.value.minsize);
