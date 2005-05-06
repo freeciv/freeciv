@@ -253,6 +253,8 @@ Unit_Class_id unit_class_from_str(const char *s);
 enum unit_flag_id unit_flag_from_str(const char *s);
 enum unit_role_id unit_role_from_str(const char *s);
 
+const char *get_unit_flag_name(enum unit_flag_id id);
+
 bool can_player_build_unit_direct(const struct player *p, Unit_type_id id);
 bool can_player_build_unit(const struct player *p, Unit_type_id id);
 bool can_player_eventually_build_unit(const struct player *p,

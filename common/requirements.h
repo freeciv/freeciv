@@ -16,6 +16,7 @@
 
 #include "fc_types.h"
 #include "tech.h"
+#include "unittype.h"
 
 /* The type of a requirement source.  This must correspond to req_type_names[]
  * in requirements.c. */
@@ -28,6 +29,7 @@ enum req_source_type {
   REQ_TERRAIN,
   REQ_NATION,
   REQ_UNITTYPE,
+  REQ_UNITFLAG,
   REQ_MINSIZE, /* Minimum size: at city range means city size */
   REQ_LAST
 };
@@ -56,6 +58,7 @@ struct req_source {
     Terrain_type_id terrain;            /* source terrain type */
     Nation_type_id nation;              /* source nation type */
     Unit_type_id unittype;              /* source unittype */
+    enum unit_flag_id unitflag;         /* source unit flag */
     int minsize;                        /* source minsize type */
   } value;                              /* source value */
 };

@@ -187,6 +187,7 @@ const char *unit_name_orig(Unit_type_id id)
 {
   return unit_types[id].name_orig;
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -369,6 +370,14 @@ enum unit_flag_id unit_flag_from_str(const char *s)
     }
   }
   return F_LAST;
+}
+
+/**************************************************************************
+  Return the original (untranslated) name of the unit flag.
+**************************************************************************/
+const char *get_unit_flag_name(enum unit_flag_id id)
+{
+  return flag_names[id];
 }
 
 /**************************************************************************

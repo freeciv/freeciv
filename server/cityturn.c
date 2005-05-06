@@ -749,6 +749,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       get_nation_name(req->source.value.nation));
 	      break;
 	    case REQ_UNITTYPE:
+	    case REQ_UNITFLAG:
 	      /* Will only happen with a bogus ruleset. */
 	      break;
 	    case REQ_MINSIZE:

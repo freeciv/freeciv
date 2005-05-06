@@ -37,6 +37,7 @@ static const char *req_source_type_names[] = {
   "Terrain",
   "Nation",
   "UnitType",
+  "UnitFlag",
   "MinSize"
 };
 
@@ -143,6 +144,12 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_UNITFLAG:
+    source.value.unitflag = unit_flag_from_str(value);
+    if (source.value.unitflag != F_LAST) {
+      return source;
+    }
+    break;
   case REQ_MINSIZE:
     source.value.minsize = atoi(value);
     if (source.value.minsize > 0) {
@@ -192,6 +199,9 @@ struct req_source req_source_from_values(int type, int value)
   case REQ_UNITTYPE:
     source.value.unittype = value;
     return source;
+  case REQ_UNITFLAG:
+    source.value.unitflag = value;
+    return source;
   case REQ_MINSIZE:
     source.value.minsize = value;
     return source;
@@ -238,6 +248,9 @@ void req_source_get_values(struct req_source *source, int *type, int *value)
   case REQ_UNITTYPE:
     *value = source->value.unittype;
     return;
+  case REQ_UNITFLAG:
+    *value = source->value.unitflag;
+    return;
   case REQ_MINSIZE:
     *value = source->value.minsize;
     return;
@@ -277,6 +290,7 @@ struct requirement req_from_str(const char *type,
     case REQ_SPECIAL:
     case REQ_TERRAIN:
     case REQ_UNITTYPE:
+    case REQ_UNITFLAG:
       req.range = REQ_RANGE_LOCAL;
       break;
     case REQ_MINSIZE:
@@ -320,6 +334,7 @@ struct requirement req_from_str(const char *type,
 	       && req.range != REQ_RANGE_WORLD);
     break;
   case REQ_UNITTYPE:
+  case REQ_UNITFLAG:
     invalid = (req.range != REQ_RANGE_LOCAL);
     break;
   case REQ_NONE:
@@ -659,6 +674,18 @@ static bool is_unittype_in_range(const struct unit *target_unit,
 }
 
 /****************************************************************************
+  Is there a unit with the given flag within range of the target?
+****************************************************************************/
+static bool is_unitflag_in_range(const struct unit *target_unit,
+				 enum req_range range, bool survives,
+				 enum unit_flag_id unitflag)
+{
+  return (range == REQ_RANGE_LOCAL
+	  && target_unit
+	  && unit_flag(target_unit, unitflag));
+}
+
+/****************************************************************************
   Checks the requirement to see if it is active on the given target.
 
   target gives the type of the target
@@ -714,6 +741,10 @@ bool is_req_active(const struct player *target_player,
     return is_unittype_in_range(target_unit,
 				req->range, req->survives,
 				req->source.value.unittype);
+  case REQ_UNITFLAG:
+    return is_unitflag_in_range(target_unit,
+				req->range, req->survives,
+				req->source.value.unitflag);
   case REQ_MINSIZE:
     return target_city && target_city->size >= req->source.value.minsize;
   case REQ_LAST:
@@ -781,6 +812,7 @@ bool is_req_unchanging(const struct requirement *req)
   case REQ_BUILDING:
   case REQ_MINSIZE:
   case REQ_UNITTYPE: /* Not sure about this one */
+  case REQ_UNITFLAG: /* Not sure about this one */
     return FALSE;
   case REQ_SPECIAL:
   case REQ_TERRAIN:
@@ -823,6 +855,8 @@ bool are_req_sources_equal(const struct req_source *psource1,
     return psource1->value.nation == psource2->value.nation;
   case REQ_UNITTYPE:
     return psource1->value.unittype == psource2->value.unittype;
+  case REQ_UNITFLAG:
+    return psource1->value.unitflag == psource2->value.unitflag;
   case REQ_MINSIZE:
     return psource1->value.minsize == psource2->value.minsize;
   case REQ_LAST:
@@ -865,8 +899,13 @@ char *get_req_source_text(const struct req_source *psource,
   case REQ_UNITTYPE:
     mystrlcat(buf, unit_name(psource->value.unittype), bufsz);
     break;
+  case REQ_UNITFLAG:
+    cat_snprintf(buf, bufsz, _("%s units"),
+		 get_unit_flag_name(psource->value.unitflag));
+    break;
   case REQ_MINSIZE:
-    cat_snprintf(buf, bufsz, "Size %d", psource->value.minsize);
+    cat_snprintf(buf, bufsz, _("Size %d"),
+		 psource->value.minsize);
     break;
   case REQ_LAST:
     assert(0);
