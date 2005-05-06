@@ -3058,7 +3058,7 @@ void load_rulesets(void)
   script_free();
 
   script_init();
-  openload_script_file("events");
+  openload_script_file("script");
 
   if (game.all_connections) {
     /* Now that the rulesets are loaded we immediately send updates to any

@@ -7,7 +7,7 @@ pkgdata_DATA =          \
 	buildings.ruleset \
 	cities.ruleset	\
 	effects.ruleset	\
-	events.lua	\
+	script.lua	\
 	game.ruleset	\
 	governments.ruleset \
 	nations.ruleset	\
