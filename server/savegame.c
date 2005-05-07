@@ -3019,8 +3019,9 @@ static void player_save(struct player *plr, int plrno,
 
     if (TRUE) {
       struct dumb_city *pdcity;
-      i = 0;
       char impr_buf[MAX_NUM_ITEMS + 1];
+
+      i = 0;
       
       whole_map_iterate(ptile) {
 	if ((pdcity = map_get_player_tile(ptile, plr)->city)) {
