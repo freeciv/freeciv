@@ -632,8 +632,10 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
 			const char *user_text)
 {
   struct impr_type *imp;
-  struct req_source source = {.type = REQ_BUILDING,
-			      .value.building = which};
+  struct req_source source = {
+    .type = REQ_BUILDING,
+    .value = {.building = which}
+  };
 
   assert(buf);
   buf[0] = '\0';
