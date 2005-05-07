@@ -260,7 +260,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
 **************************************************************************/
-void races_toggles_set_sensitive(bool *nations_used)
+void races_toggles_set_sensitive(void)
 {
   /* PORTME */
 }

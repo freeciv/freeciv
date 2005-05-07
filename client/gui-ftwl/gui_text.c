@@ -192,7 +192,6 @@ static void calc_effect(enum unit_activity activity, struct tile *ptile,
 
   ptile->terrain = backup.terrain;
   ptile->special = backup.special;
-  reset_move_costs(ptile);
   /* hopefully everything is now back in place */
 
   diff[0] = stats_after[0] - stats_before[0];
@@ -487,7 +486,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     char tmp[64] = { 0 };
     struct unit_type *ptype = unit_type(punit);
 
-    if (punit->owner == game.player_idx) {
+    if (punit->owner == game.info.player_idx) {
       struct city *pcity =
 	  player_find_city_by_id(game.player_ptr, punit->homecity);
 
@@ -497,7 +496,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     }
     add_line(_("Unit: %s(%s%s)"), ptype->name,
 	     get_nation_name(unit_owner(punit)->nation), tmp);
-    if (punit->owner != game.player_idx) {
+    if (punit->owner != game.info.player_idx) {
       struct unit *apunit = get_unit_in_focus();
 
       if (apunit) {

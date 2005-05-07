@@ -143,6 +143,17 @@ static struct {
 
 struct ct_string *text_templates[FONT_COUNT];
 
+/****************************************************************************
+  Return the dimensions of the area (container widget; maximum size) for
+  the overview.
+****************************************************************************/
+void get_overview_area_dimensions(int *width, int *height)
+{
+ /* Hack */
+  *width = 120;
+  *height = 80;
+}
+
 /**************************************************************************
   Typically an info box is provided to tell the player about the state
   of their civilization.  This function is called when the label is
@@ -246,7 +257,7 @@ static void overview_mouse_press_callback(struct sw_widget *widget,
 /**************************************************************************
   ...
 **************************************************************************/
-void map_size_changed(void)
+void overview_size_changed(void)
 {
   if (overview_window) {
     sw_widget_destroy(overview_window);
@@ -640,7 +651,7 @@ static void update_focus_tile_list2(void)
 
   ptile = get_focus_tile();
   unit_list_iterate(ptile->units, aunit) {
-    if (game.player_idx == aunit->owner) {
+    if (game.info.player_idx == aunit->owner) {
       set_unit_focus(aunit);
       break;
     }
