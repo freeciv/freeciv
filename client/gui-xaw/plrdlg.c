@@ -215,7 +215,7 @@ void update_players_dialog(void)
     const struct player_diplstate *pds;
 
     for(i=0,j=0; i<game.info.nplayers; i++) {
-      char idlebuf[32], statebuf[32], namebuf[32], dsbuf[32], repbuf[32];
+      char idlebuf[32], statebuf[32], namebuf[32], dsbuf[32];
       
       /* skip barbarians */
       if(is_barbarian(&game.players[i]))
@@ -253,7 +253,7 @@ void update_players_dialog(void)
       namebuf[16] = '\0';
 
       /* text for diplstate type and turns -- not applicable if this is me */
-      if (i == game.player_idx) {
+      if (i == game.info.player_idx) {
 	strcpy(dsbuf, "-");
       } else {
 	pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
@@ -266,19 +266,14 @@ void update_players_dialog(void)
 	}
       }
 
-      /* text for reputation */
-      my_snprintf(repbuf, sizeof(repbuf),
-		  reputation_text(game.players[i].reputation));
-
       /* assemble the whole lot */
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
-	      "%-16s %-12s %-8s %-15s %-8s %-13s %-6s   %-15s%s", 
+	      "%-16s %-12s %-8s %-15s %-8s %-6s   %-15s%s", 
 	      namebuf,
 	      get_nation_name(game.players[i].nation), 
 	      get_embassy_status(game.player_ptr, &game.players[i]),
 	      dsbuf,
 	      get_vision_status(game.player_ptr, &game.players[i]),
-	      repbuf,
 	      statebuf,
 	      player_addr_hack(&game.players[i]),  /* Fixme for multi-conn */
 	      idlebuf);

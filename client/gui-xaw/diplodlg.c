@@ -681,7 +681,7 @@ void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 }
 
 /****************************************************************
-...
+  Callback for trading techs
 *****************************************************************/
 void diplomacy_dialog_tech_callback(Widget w, XtPointer client_data,
 				    XtPointer call_data)
@@ -690,7 +690,7 @@ void diplomacy_dialog_tech_callback(Widget w, XtPointer client_data,
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int tech = choice & 0xffff;
 
-  if (giver == game.player_idx) {
+  if (giver == game.info.player_idx) {
     other = dest;
   } else {
     other = giver;
@@ -711,7 +711,7 @@ void diplomacy_dialog_city_callback(Widget w, XtPointer client_data,
   int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
   int city = choice & 0xffff;
 
-  if (giver == game.player_idx) {
+  if (giver == game.info.player_idx) {
     other = dest;
   } else {
     other = giver;
@@ -749,7 +749,7 @@ void diplomacy_dialog_erase_clause_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
-...
+  Callback for trading map
 *****************************************************************/
 void diplomacy_dialog_map_callback(Widget w, XtPointer client_data,
 				   XtPointer call_data)
@@ -766,7 +766,7 @@ void diplomacy_dialog_map_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
-...
+  Callback for trading seamap
 *****************************************************************/
 void diplomacy_dialog_seamap_callback(Widget w, XtPointer client_data,
 				      XtPointer call_data)

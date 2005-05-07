@@ -219,7 +219,7 @@ void update_goto_dialog(Widget goto_list)
   city_name_ptrs=fc_malloc(ncities_total*sizeof(char*));
   
   for(i=0, j=0; i<game.info.nplayers; i++) {
-    if(!all_cities && i!=game.player_idx) continue;
+    if (!all_cities && i != game.info.player_idx) continue;
     city_list_iterate(game.players[i].cities, pcity) {
       char name[MAX_LEN_NAME+3];
       sz_strlcpy(name, pcity->name);

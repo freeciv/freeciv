@@ -90,8 +90,8 @@ void popup_rates_dialog(void)
   XtVaSetValues(rates_dialog_shell, XtNx, x, XtNy, y, NULL);
 
   my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
-	  get_government_name(game.player_ptr->government),
-	  get_government_max_rate(game.player_ptr->government));
+	      get_government_name(game.player_ptr->government),
+	      get_player_bonus(game.player_ptr, EFT_MAX_RATES));
   xaw_set_label(rates_gov_label, buf);
   
   XtPopup(rates_dialog_shell, XtGrabNone);
@@ -254,7 +254,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   XtVaGetValues(rates_lux_toggle, XtNstate, &lux_lock, NULL);
   XtVaGetValues(rates_sci_toggle, XtNstate, &sci_lock, NULL);
   
-  maxrate=get_government_max_rate(game.player_ptr->government);
+  maxrate = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
   /* This's quite a simple-minded "double check".. */
   tax=MIN(tax, maxrate);
   lux=MIN(lux, maxrate);
