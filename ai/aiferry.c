@@ -28,6 +28,7 @@
 #include "unittools.h"
 
 #include "aidata.h"
+#include "aiguard.h"
 #include "aiexplorer.h"
 #include "ailog.h"
 #include "aitools.h"
@@ -604,7 +605,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 
     /* Check if we are the passenger-in-charge */
     if (is_boat_free(ferryboat, punit, 0)) {
-      struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
+      struct unit *bodyguard = aiguard_guard_of(punit);
 
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, 
 	       "got boat[%d](moves left: %d), going (%d,%d)",
@@ -618,7 +619,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
         if (!goto_is_sane(bodyguard, punit->tile, TRUE)
             || !ai_unit_goto(bodyguard, punit->tile)) {
           /* Bodyguard can't get there or died en route */
-          punit->ai.bodyguard = BODYGUARD_WANTED;
+          aiguard_request_guard(punit);
           bodyguard = NULL;
         } else if (bodyguard->moves_left <= 0) {
           /* Wait for me, I'm cooooming!! */
@@ -628,7 +629,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
         } else {
           /* Crap bodyguard. Got stuck somewhere. Ditch it! */
           UNIT_LOG(LOGLEVEL_GOBYBOAT, punit, "ditching useless bodyguard");
-          punit->ai.bodyguard = BODYGUARD_WANTED;
+          aiguard_request_guard(punit);
           ai_unit_new_role(bodyguard, AIUNIT_NONE, NULL);
           bodyguard = NULL;
         }

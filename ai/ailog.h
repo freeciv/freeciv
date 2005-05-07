@@ -81,7 +81,7 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
      fc__attribute((format (printf, 3, 4)));
 void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
      fc__attribute((format (printf, 3, 4)));
-void BODYGUARD_LOG(int level, struct unit *punit, const char *msg);
+void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg);
 void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity);
 void TIMING_RESULTS(void);
 

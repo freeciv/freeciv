@@ -54,6 +54,7 @@
 #include "aidiplomat.h"
 #include "aiexplorer.h"
 #include "aiferry.h"
+#include "aiguard.h"
 #include "aihand.h"
 #include "aihunt.h"
 #include "ailog.h"
@@ -729,14 +730,18 @@ static bool ai_military_rampage(struct unit *punit, int thresh_adj,
 **************************************************************************/
 static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
 {
-  struct unit *aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
-  struct city *acity = find_city_by_id(punit->ai.charge);
+  struct unit *aunit = aiguard_charge_unit(punit);
+  struct city *acity = aiguard_charge_city(punit);
   struct tile *ptile;
 
   CHECK_UNIT(punit);
+  CHECK_GUARD(punit);
 
   if (aunit && aunit->owner == punit->owner) {
     /* protect a unit */
+    /* FIXME: different behaviour for sailing units is silly;
+     * should choose behaviour based on relative positions and
+     * movement rates */
     if (is_sailing_unit(aunit)) {
       ptile = aunit->goto_tile;
     } else {
@@ -747,28 +752,22 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
     ptile = acity->tile;
   } else {
     /* should be impossible */
-    UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "we lost our charge");
+    BODYGUARD_LOG(LOG_DEBUG, punit, "we lost our charge");
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
     return;
   }
 
-  if (aunit) {
-    UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "to meet charge %s#%d@(%d,%d){%d}",
-             unit_type(aunit)->name, aunit->id, aunit->tile->x,
-	     aunit->tile->y,
-             aunit->ai.bodyguard);
-  } else if (acity) {
-    UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "to guard %s", acity->name);
-  }
-
-  if (!same_pos(punit->tile, ptile)) {
+  if (same_pos(punit->tile, ptile)) {
+    BODYGUARD_LOG(LOG_DEBUG, punit, "at RV");
+  } else {
     if (goto_is_sane(punit, ptile, TRUE)) {
+      BODYGUARD_LOG(LOG_DEBUG, punit, "meeting charge");
       if (!ai_gothere(pplayer, punit, ptile)) {
         /* We died */
         return;
       }
     } else {
-      /* can't possibly get there to help */
+      BODYGUARD_LOG(LOG_DEBUG, punit, "can not meet charge");
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
     }
   }
@@ -869,7 +868,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
 
   /* Unit bodyguard */
   unit_list_iterate(pplayer->units, buddy) {
-    if (buddy->ai.bodyguard != BODYGUARD_WANTED
+    if (!aiguard_wanted(buddy)
         || !goto_is_sane(punit, buddy->tile, TRUE)
         || unit_move_rate(buddy) > unit_move_rate(punit)
         || DEFENCE_POWER(buddy) >= DEFENCE_POWER(punit)
@@ -880,6 +879,8 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
     }
     if (punit->tile->city
         && punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
+      /* FIXME: Not even if it is an allied city?
+       * And why is this *inside* the loop ?*/
       continue; /* Do not run away from defense duty! */
     }
     dist = unit_move_turns(punit, buddy->tile);
@@ -960,15 +961,19 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     return;
   }
 
-  /* I am a bodyguard, check if I do my job! */
-  if (punit->ai.charge != BODYGUARD_NONE
+  /* If I am a bodyguard, check whether I can do my job. */
+  if (punit->ai.ai_role == AIUNIT_ESCORT
+      || punit->ai.ai_role == AIUNIT_DEFEND_HOME) {
+    aiguard_update_charge(punit);
+  }
+  if (aiguard_has_charge(punit)
       && punit->ai.ai_role == AIUNIT_ESCORT) {
-    struct unit *aunit = player_find_unit_by_id(pplayer, punit->ai.charge);
-    struct city *acity = find_city_by_id(punit->ai.charge);
+    struct unit *aunit = aiguard_charge_unit(punit);
+    struct city *acity = aiguard_charge_city(punit);
 
     /* Check if the city we are on our way to rescue is still in danger,
      * or the unit we should protect is still alive... */
-    if ((aunit && aunit->ai.bodyguard != BODYGUARD_NONE 
+    if ((aunit && (aiguard_has_guard(aunit) || aiguard_wanted(aunit))
          && unit_def_rating_basic(punit) > unit_def_rating_basic(aunit)) 
         || (acity && acity->owner == punit->owner && acity->ai.urgency != 0 
             && acity->ai.danger > assess_defense_quadratic(acity))) {
@@ -1003,11 +1008,11 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
     val = look_for_charge(pplayer, punit, &aunit, &acity);
     if (acity) {
       ai_unit_new_role(punit, AIUNIT_ESCORT, acity->tile);
-      punit->ai.charge = acity->id;
+      aiguard_assign_guard_city(acity, punit);
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend city");
     } else if (aunit) {
       ai_unit_new_role(punit, AIUNIT_ESCORT, aunit->tile);
-      punit->ai.charge = aunit->id;
+      aiguard_assign_guard_unit(aunit, punit);
       BODYGUARD_LOG(LOG_DEBUG, punit, "going to defend unit");
     }
   }
@@ -1025,13 +1030,14 @@ static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 ***********************************************************************/
 static void ai_military_defend(struct player *pplayer,struct unit *punit)
 {
-  struct city *pcity = find_city_by_id(punit->ai.charge);
+  struct city *pcity = aiguard_charge_city(punit);
 
   CHECK_UNIT(punit);
 
   if (!pcity || pcity->owner != pplayer->player_no) {
     pcity = punit->tile->city;
-    punit->ai.charge = 0; /* clear duty */
+    /* Do not stay defending an allied city forever */
+    aiguard_clear_charge(punit);
   }
 
   if (!pcity) {
@@ -2055,7 +2061,7 @@ static bool unit_can_be_retired(struct unit *punit)
 **************************************************************************/
 void ai_manage_unit(struct player *pplayer, struct unit *punit)
 {
-  struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
+  struct unit *bodyguard = aiguard_guard_of(punit);
 
   CHECK_UNIT(punit);
 
@@ -2078,9 +2084,9 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   /* Check if we have lost our bodyguard. If we never had one, all
    * fine. If we had one and lost it, ask for a new one. */
-  if (!bodyguard && punit->ai.bodyguard > BODYGUARD_NONE) {
+  if (!bodyguard && aiguard_has_guard(punit)) {
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "lost bodyguard, asking for new");
-    punit->ai.bodyguard = BODYGUARD_WANTED;
+    aiguard_request_guard(punit);
   }  
 
   if (punit->moves_left <= 0) {

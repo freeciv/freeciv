@@ -50,6 +50,7 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "aiferry.h"
+#include "aiguard.h"
 #include "ailog.h"
 #include "aitech.h"
 #include "aiunit.h"
@@ -188,10 +189,11 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   unsigned int danger = 0;
   struct city *dcity;
   struct tile *ptile;
+  struct unit *guard = aiguard_guard_of(punit);
   
   if (is_barbarian(unit_owner(punit))) {
     /* barbarians must have more courage (ie less brains) */
-    punit->ai.bodyguard = BODYGUARD_NONE;
+    aiguard_clear_guard(punit);
     return;
   }
 
@@ -211,7 +213,9 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   }
   danger *= POWER_DIVIDER;
 
-  /* If we are fast, there is less danger. */
+  /* If we are fast, there is less danger.
+   * FIXME: that assumes that most units have move_rate == SINGLE_MOVE;
+   * not true for all rule-sets */
   danger /= (unit_type(punit)->move_rate / SINGLE_MOVE);
   if (unit_flag(punit, F_IGTER)) {
     danger /= 1.5;
@@ -219,7 +223,7 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 
   ptile = punit->tile;
   /* We look for the bodyguard where we stand. */
-  if (!unit_list_find(ptile->units, punit->ai.bodyguard)) {
+  if (guard == NULL || guard->tile != punit->tile) {
     int my_def = (punit->hp 
                   * unit_type(punit)->veteran[punit->veteran].power_fact
 		  * unit_type(punit)->defense_strength
@@ -229,9 +233,9 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
       UNIT_LOG(LOGLEVEL_BODYGUARD, punit, 
                "want bodyguard @(%d, %d) danger=%d, my_def=%d", 
                TILE_XY(dest_tile), danger, my_def);
-      punit->ai.bodyguard = BODYGUARD_WANTED;
+      aiguard_request_guard(punit);
     } else {
-      punit->ai.bodyguard = BODYGUARD_NONE;
+      aiguard_clear_guard(punit);
     }
   }
 
@@ -761,8 +765,7 @@ bool ai_unit_goto(struct unit *punit, struct tile *ptile)
 void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 		      struct tile *ptile)
 {
-  struct unit *charge = find_unit_by_id(punit->ai.charge);
-  struct unit *bodyguard = find_unit_by_id(punit->ai.bodyguard);
+  struct unit *bodyguard = aiguard_guard_of(punit);
 
   /* If the unit is under (human) orders we shouldn't control it. */
   assert(!unit_has_orders(punit));
@@ -795,15 +798,10 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     }
   }
 
-  if (charge && (charge->ai.bodyguard == punit->id)) {
-    /* ensure we don't let the unit believe we bodyguard it */
-    charge->ai.bodyguard = BODYGUARD_NONE;
-  }
-  punit->ai.charge = BODYGUARD_NONE;
-
+  aiguard_clear_charge(punit);
   /* Record the city to defend; our goto may be to transport. */
   if (task == AIUNIT_DEFEND_HOME && ptile && ptile->city) {
-    punit->ai.charge = ptile->city->id;
+    aiguard_assign_guard_city(ptile->city, punit);
   }
 
   punit->ai.ai_role = task;
@@ -874,24 +872,23 @@ bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
 
 /**************************************************************************
   Move a bodyguard along with another unit. We assume that unit has already
-  been moved to (x, y) which is a valid, safe coordinate, and that our
+  been moved to ptile which is a valid, safe tile, and that our
   bodyguard has not. This is an ai_unit_* auxiliary function, do not use 
   elsewhere.
 **************************************************************************/
-static void ai_unit_bodyguard_move(int unitid, struct tile *ptile)
+static void ai_unit_bodyguard_move(struct unit *bodyguard, struct tile *ptile)
 {
-  struct unit *bodyguard = find_unit_by_id(unitid);
   struct unit *punit;
   struct player *pplayer;
 
   assert(bodyguard != NULL);
   pplayer = unit_owner(bodyguard);
   assert(pplayer != NULL);
-  punit = find_unit_by_id(bodyguard->ai.charge);
+  punit = aiguard_charge_unit(bodyguard);
   assert(punit != NULL);
 
-  assert(punit->ai.bodyguard == bodyguard->id);
-  assert(bodyguard->ai.charge == punit->id);
+  CHECK_GUARD(bodyguard);
+  CHECK_CHARGE_UNIT(punit);
 
   if (!is_tiles_adjacent(ptile, bodyguard->tile)) {
     return;
@@ -908,33 +905,11 @@ static void ai_unit_bodyguard_move(int unitid, struct tile *ptile)
 }
 
 /**************************************************************************
-  Check if we have a bodyguard with sanity checking and error recovery.
-  Repair incompletely referenced bodyguards. When the rest of the bodyguard
-  mess is cleaned up, this repairing should be replaced with an assert.
-**************************************************************************/
-static bool has_bodyguard(struct unit *punit)
-{
-  struct unit *guard;
-  if (punit->ai.bodyguard > BODYGUARD_NONE) {
-    if ((guard = find_unit_by_id(punit->ai.bodyguard))) {
-      if (guard->ai.charge != punit->id) {
-        BODYGUARD_LOG(LOG_VERBOSE, guard, "my charge didn't know about me!");
-      }
-      guard->ai.charge = punit->id; /* ensure sanity */
-      return TRUE;
-    } else {
-      punit->ai.bodyguard = BODYGUARD_NONE;
-      UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "bodyguard disappeared!");
-    }
-  }
-  return FALSE;
-}
-
-/**************************************************************************
   Move and attack with an ai unit. We do not wait for server reply.
 **************************************************************************/
 bool ai_unit_attack(struct unit *punit, struct tile *ptile)
 {
+  struct unit *bodyguard = aiguard_guard_of(punit);
   int sanity = punit->id;
   bool alive;
 
@@ -947,8 +922,8 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
   alive = (find_unit_by_id(sanity) != NULL);
 
   if (alive && same_pos(ptile, punit->tile)
-      && has_bodyguard(punit)) {
-    ai_unit_bodyguard_move(punit->ai.bodyguard, ptile);
+      && bodyguard != NULL) {
+    ai_unit_bodyguard_move(bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
     alive = (find_unit_by_id(sanity) != NULL);
   }
@@ -989,8 +964,8 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   }
 
   /* don't leave bodyguard behind */
-  if (is_ai && has_bodyguard(punit)
-      && (bodyguard = find_unit_by_id(punit->ai.bodyguard))
+  if (is_ai
+      && (bodyguard = aiguard_guard_of(punit))
       && same_pos(punit->tile, bodyguard->tile)
       && bodyguard->moves_left == 0) {
     UNIT_LOG(LOGLEVEL_BODYGUARD, punit, "does not want to leave "
@@ -1013,8 +988,9 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
 
   /* handle the results */
   if (find_unit_by_id(sanity) && same_pos(ptile, punit->tile)) {
-    if (is_ai && has_bodyguard(punit)) {
-      ai_unit_bodyguard_move(punit->ai.bodyguard, ptile);
+    struct unit *bodyguard = aiguard_guard_of(punit);
+    if (is_ai && bodyguard != NULL) {
+      ai_unit_bodyguard_move(bodyguard, ptile);
     }
     return TRUE;
   }

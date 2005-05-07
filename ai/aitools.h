@@ -40,11 +40,6 @@ struct pft_amphibious;
 #define CHECK_UNIT(punit) assert(TRUE)
 #endif
 
-enum bodyguard_enum {
-  BODYGUARD_WANTED=-1,
-  BODYGUARD_NONE
-};
-
 /*
  * Initialise using ai_avoid_risks()
  */

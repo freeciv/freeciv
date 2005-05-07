@@ -45,6 +45,7 @@
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
+#include "aiguard.h"
 #include "aihand.h"
 #include "ailog.h"
 #include "aitools.h"
@@ -628,7 +629,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 
     if (ctarget) {
       task = AIUNIT_ATTACK;
-      punit->ai.bodyguard = -1; /* want one */
+      aiguard_request_guard(punit);
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
     } else if ((ctarget = ai_diplomat_defend(pplayer, punit,
                                              punit->type, map)) != NULL) {

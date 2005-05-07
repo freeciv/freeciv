@@ -217,14 +217,16 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
     2: ai4's bodyguard Mech. Inf.[485] (38,22){Riflemen:574@37,23} was ...
   note that these messages are likely to wrap if long.
 **************************************************************************/
-void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
+void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
 {
   char buffer[500];
   int minlevel = MIN(LOGLEVEL_BODYGUARD, level);
-  struct unit *pcharge;
-  struct city *pcity;
+  const struct unit *pcharge;
+  const struct city *pcity;
   int id = -1;
-  struct tile *ptile = NULL;
+  int charge_x = -1;
+  int charge_y = -1;
+  const char *type = "guard";
   const char *s = "none";
 
   if (punit->debug) {
@@ -236,19 +238,25 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
   pcity = find_city_by_id(punit->ai.charge);
   pcharge = find_unit_by_id(punit->ai.charge);
   if (pcharge) {
-    ptile = pcharge->tile;
+    charge_x = pcharge->tile->x;
+    charge_y = pcharge->tile->y;
     id = pcharge->id;
+    type = "bodyguard";
     s = unit_type(pcharge)->name;
   } else if (pcity) {
-    ptile = pcity->tile;
+    charge_x = pcity->tile->x;
+    charge_y = pcity->tile->y;
     id = pcity->id;
+    type = "cityguard";
     s = pcity->name;
   }
+  /* else perhaps the charge died */
+
   my_snprintf(buffer, sizeof(buffer),
-              "%s's bodyguard %s[%d] (%d,%d){%s:%d@%d,%d} ",
-              unit_owner(punit)->name, unit_type(punit)->name,
+              "%s's %s %s[%d] (%d,%d){%s:%d@%d,%d} ",
+              unit_owner(punit)->name, type, unit_type(punit)->name,
               punit->id, punit->tile->x, punit->tile->y,
-	      s, id, ptile->x, ptile->y);
+	      s, id, charge_x, charge_y);
   cat_snprintf(buffer, sizeof(buffer), msg);
   if (punit->debug) {
     notify_conn(game.est_connections, buffer);
