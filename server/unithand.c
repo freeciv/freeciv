@@ -329,6 +329,7 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
     city_refresh(old_pcity);
     send_city_info(old_owner, old_pcity);
   }
+  assert(unit_owner(punit) == city_owner(new_pcity));
 }
 
 /**************************************************************************

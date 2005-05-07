@@ -607,6 +607,11 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       wipe_unit(vunit);
     }
   } unit_list_iterate_safe_end;
+
+  unit_list_iterate(pcity->units_supported, punit) {
+    assert(punit->homecity == pcity->id);
+    assert(unit_owner(punit) == pplayer);
+  } unit_list_iterate_end;
 }
 
 /**********************************************************************
