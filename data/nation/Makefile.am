@@ -72,6 +72,7 @@ pkgdata_DATA = \
 		polish.ruleset \
 		portuguese.ruleset \
 		quebecois.ruleset \
+		romanian.ruleset	\
 		roman.ruleset \
 		russian.ruleset \
 		scottish.ruleset \

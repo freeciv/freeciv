@@ -81,6 +81,7 @@ flag_files =				\
 		poland.png		\
 		portugal.png		\
 		quebec.png		\
+		romania.png		\
 		rome.png		\
 		russia.png		\
 		rwanda.png		\
@@ -189,6 +190,7 @@ shield_files =					\
 		poland-shield.png		\
 		portugal-shield.png		\
 		quebec-shield.png		\
+		romania-shield.png		\
 		rome-shield.png			\
 		russia-shield.png		\
 		rwanda-shield.png		\
@@ -297,6 +299,7 @@ svg_files = 				\
 		poland.svg		\
 		portugal.svg		\
 		quebec.svg		\
+		romania.svg		\
 		rome.svg		\
 		russia.svg		\
 		rwanda.svg		\

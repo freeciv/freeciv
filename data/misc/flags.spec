@@ -100,6 +100,7 @@ sprites =
 		"f.poland", "flags/poland"
 		"f.portugal", "flags/portugal"
 		"f.quebec", "flags/quebec"
+		"f.romania", "flags/romania"
 		"f.rome", "flags/rome"			; Roman republic flag
 		"f.russia", "flags/russia"
 		"f.rwanda", "flags/rwanda"		; Alternate Zulu

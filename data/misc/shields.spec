@@ -91,6 +91,7 @@ sprites =
 		"f.shield.poland", "flags/poland-shield"
 		"f.shield.portugal", "flags/portugal-shield"
 		"f.shield.quebec", "flags/quebec-shield"
+		"f.shield.romania", "flags/romania-shield"
 		"f.shield.rome", "flags/rome-shield"	; Roman republic flag
 		"f.shield.russia", "flags/russia-shield"
 		"f.shield.rwanda", "flags/rwanda-shield"; Alternate Zulu
