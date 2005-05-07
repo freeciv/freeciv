@@ -448,7 +448,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
 
     if (!offer || offer->owner != giver) {
       /* City destroyed or taken during negotiations */
-      notify(aplayer, _("*%s (AI)* You don't have the offered city!"),
+      notify(aplayer, _("*%s (AI)* I do not know the city you mention."),
              pplayer->name);
       worth = 0;
     } else if (give) {
