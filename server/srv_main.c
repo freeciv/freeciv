@@ -1663,10 +1663,9 @@ void srv_main(void)
   
   con_flush();
 
-  game_init();
+  server_game_init();
   stdinhand_init();
   diplhand_init();
-  load_rulesets(); /* May be reloaded later if the rulesetdir is changed. */
 
   /* init network */  
   init_connections(); 
@@ -1721,7 +1720,7 @@ void srv_main(void)
 
     /* Reset server */
     server_game_free();
-    game_init();
+    server_game_init();
     game.is_new_game = TRUE;
     server_state = PRE_GAME_STATE;
   }
@@ -1885,6 +1884,18 @@ static void srv_loop(void)
 
   /* Clean up some AI game data. */
   ai_data_movemap_done();
+}
+
+/**************************************************************************
+  Initialize game data for the server (corresponds to server_game_free).
+**************************************************************************/
+void server_game_init(void)
+{
+  game_init();
+
+  /* Rulesets are loaded on game initialization, but may be changed later
+   * if /load or /rulesetdir is done. */
+  load_rulesets();
 }
 
 /**************************************************************************

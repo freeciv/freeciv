@@ -66,6 +66,7 @@ void check_for_full_turn_done(void);
 void dealloc_id(int id);
 void alloc_id(int id);
 int get_next_id_number(void);
+void server_game_init(void);
 void server_game_free(void);
 void check_for_full_turn_done(void);
 
