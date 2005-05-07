@@ -1405,13 +1405,11 @@ void request_unit_move_done(void)
 **************************************************************************/
 void do_move_unit(struct unit *punit, struct unit *target_unit)
 {
-  struct tile *ptile;
+  struct tile *src_tile = punit->tile, *dst_tile = target_unit->tile;
   bool was_teleported, do_animation;
 
-  was_teleported = !is_tiles_adjacent(punit->tile, target_unit->tile);
+  was_teleported = !is_tiles_adjacent(src_tile, dst_tile);
   do_animation = (!was_teleported && smooth_move_unit_msec > 0);
-
-  ptile = punit->tile;
 
   if (!was_teleported
       && punit->activity != ACTIVITY_SENTRY
@@ -1420,37 +1418,49 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 		     unit_type(punit)->sound_move_alt);
   }
 
-  unit_list_unlink(ptile->units, punit);
+  unit_list_unlink(src_tile->units, punit);
 
   if (game.info.player_idx == punit->owner
       && auto_center_on_unit
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
       && punit->activity != ACTIVITY_SENTRY
-      && !tile_visible_and_not_on_border_mapcanvas(target_unit->tile)) {
-    center_tile_mapcanvas(target_unit->tile);
+      && !tile_visible_and_not_on_border_mapcanvas(dst_tile)) {
+    center_tile_mapcanvas(dst_tile);
   }
 
   /* Set the tile before the movement animation is done, so that everything
    * drawn there will be up-to-date. */
-  punit->tile = target_unit->tile;
+  punit->tile = dst_tile;
 
   if (punit->transported_by == -1) {
     /* We have to refresh the tile before moving.  This will draw
      * the tile without the unit (because it was unlinked above). */
-    refresh_unit_mapcanvas(punit, ptile, TRUE, FALSE);
+    refresh_unit_mapcanvas(punit, src_tile, TRUE, FALSE);
 
     if (do_animation) {
       int dx, dy;
 
       /* For the duration of the animation the unit exists at neither
        * tile. */
-      map_distance_vector(&dx, &dy, ptile, target_unit->tile);
-      move_unit_map_canvas(punit, ptile, dx, dy);
+      map_distance_vector(&dx, &dy, src_tile, dst_tile);
+      move_unit_map_canvas(punit, src_tile, dx, dy);
     }
   }
 
-  unit_list_prepend(punit->tile->units, punit);
+  unit_list_prepend(dst_tile->units, punit);
+
+  /* With the "full" citybar we have to update the citybar when units move
+   * into or out of a city.  For foreign cities this is handled separately,
+   * via the occupied field of the short-city packet. */
+  if (src_tile->city
+      && can_player_see_units_in_city(game.player_ptr, src_tile->city)) {
+    update_city_description(src_tile->city);
+  }
+  if (dst_tile->city
+      && can_player_see_units_in_city(game.player_ptr, dst_tile->city)) {
+    update_city_description(dst_tile->city);
+  }
 
   if (punit_focus == punit) update_menus();
 }

@@ -1121,6 +1121,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	  if (pcity->client.occupied != new_occupied) {
 	    pcity->client.occupied = new_occupied;
 	    refresh_city_mapcanvas(pcity, pcity->tile, FALSE, FALSE);
+	    update_city_description(pcity);
 	  }
 	}
 
