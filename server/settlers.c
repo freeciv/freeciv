@@ -56,12 +56,16 @@
  * goodness of building worker units. */
 #define WORKER_FACTOR 1024
 
-BV_DEFINE(nearness, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-static nearness *territory;
-#define TERRITORY(ptile) territory[(ptile)->index]
+/* if an enemy unit gets within this many turns of a worker, the worker
+ * flees */
+#define WORKER_FEAR_FACTOR 2
 
-BV_DEFINE(enemy_mask, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-static enemy_mask enemies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+struct settlermap {
+
+  int enroute; /* unit ID of settler en route to this tile */
+  int eta; /* estimated number of turns until enroute arrives */
+
+};
 
 /**************************************************************************
   Build a city and initialize AI infrastructure cache.
@@ -109,19 +113,6 @@ int amortize(int benefit, int delay)
   /* Note there's no rounding here.  We could round but it would probably
    * be better just to return (and take) a double for the benefit. */
   return benefit * pow(discount, delay);
-}
-
-/**************************************************************************
-  Initialize the territory map. 
-
-  TODO: Add borders support.
-**************************************************************************/
-void init_settlers(void)
-{
-  /* (Re)allocate map arrays.  Note that the server may run more than one
-   * game so the realloc() is necessary. */
-  territory = fc_realloc(territory,
-                         MAP_INDEX_SIZE * sizeof(*territory));
 }
 
 /**************************************************************************
@@ -820,17 +811,16 @@ static int unit_food_upkeep(struct unit *punit)
   completion_time is the time that would be taken by punit to travel to
   and complete work at best_tile
 
-  tile_inbound is, for each tile, the unit id of the worker en route
-  tile_inbound_time is the eta of this worker (if any).  This information
+  state contains, for each tile, the unit id of the worker en route,
+  and the eta of this worker (if any).  This information
   is used to possibly displace this previously assigned worker.
-  if these two arrays are NULL, workers are never displaced.
+  if this array is NULL, workers are never displaced.
 ****************************************************************************/
 static int evaluate_improvements(struct unit *punit,
 				 enum unit_activity *best_act,
 				 struct tile **best_tile,
 				 int *travel_time,
-				 int *tile_inbound,
-				 int *tile_inbound_time)
+				 struct settlermap *state)
 {
   struct city *mycity = tile_get_city(punit->tile);
   struct player *pplayer = unit_owner(punit);
@@ -848,10 +838,9 @@ static int evaluate_improvements(struct unit *punit,
   bool can_rr = player_knows_techs_with_flag(pplayer, TF_RAILROAD);
 
   int best_newv = 0;
-  enemy_mask my_enemies = enemies[pplayer->player_no]; /* optimalization */
 
   /* closest worker, if any, headed towards target tile */
-  struct unit *inbound = NULL;
+  struct unit *enroute = NULL;
 
   generate_warmap(mycity, punit);
   
@@ -876,26 +865,25 @@ static int evaluate_improvements(struct unit *punit,
       } unit_list_iterate_end;
 
       in_use = (get_worker_city(pcity, cx, cy) == C_TILE_WORKER);
-      if (tile_inbound) {
-	inbound = player_find_unit_by_id(pplayer,
-					 tile_inbound[ptile->index]);
+      if (state) {
+	enroute = player_find_unit_by_id(pplayer,
+					 state[ptile->index].enroute);
       }
       if (consider 
 	  && tile_get_continent(ptile) == ucont
-	  && WARMAP_COST(ptile) <= THRESHOLD * mv_rate
-	  && !BV_CHECK_MASK(TERRITORY(ptile), my_enemies)) {
+	  && WARMAP_COST(ptile) <= THRESHOLD * mv_rate) {
 	int eta = FC_INFINITY, inbound_distance = FC_INFINITY, time;
 
-	if (inbound) {
-	  eta = tile_inbound_time[ptile->index];
-	  inbound_distance = real_map_distance(ptile, inbound->tile);
+	if (enroute) {
+	  eta = state[ptile->index].eta;
+	  inbound_distance = real_map_distance(ptile, enroute->tile);
 	}
 	mv_turns = WARMAP_COST(ptile) / mv_rate;
 	oldv = city_tile_value(pcity, cx, cy, 0, 0);
 
 	/* only consider this tile if we are closer in time and space to
 	 * it than our other worker (if any) travelling to the site */
-	if ((inbound && inbound->id == punit->id)
+	if ((enroute && enroute->id == punit->id)
 	    || mv_turns < eta
 	    || (mv_turns == eta
 		&& (real_map_distance(ptile, punit->tile)
@@ -988,8 +976,7 @@ static int evaluate_improvements(struct unit *punit,
 #define LOG_SETTLER LOG_DEBUG
 static void auto_settler_findwork(struct player *pplayer, 
 				  struct unit *punit,
-				  int *tile_inbound,
-				  int *tile_inbound_time)
+				  struct settlermap *state)
 {
   struct cityresult result;
   int best_impr = 0;            /* best terrain improvement we can do */
@@ -1052,8 +1039,7 @@ static void auto_settler_findwork(struct player *pplayer,
   if (unit_flag(punit, F_SETTLERS)) {
     TIMING_LOG(AIT_WORKERS, TIMER_START);
     best_impr = evaluate_improvements(punit, &best_act, &best_tile, 
-				      &completion_time, tile_inbound,
-				      tile_inbound_time);
+				      &completion_time, state);
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
@@ -1104,15 +1090,14 @@ static void auto_settler_findwork(struct player *pplayer,
     /* Mark the square as taken. */
     if (best_tile) {
       struct unit *displaced
-	= player_find_unit_by_id(pplayer, tile_inbound[best_tile->index]);
+	= player_find_unit_by_id(pplayer, state[best_tile->index].enroute);
 
-      tile_inbound[best_tile->index] = punit->id;
-      tile_inbound_time[best_tile->index] = completion_time;
+      state[best_tile->index].enroute = punit->id;
+      state[best_tile->index].eta = completion_time;
       
       if (displaced) {
 	displaced->goto_tile = NULL;
-	auto_settler_findwork(pplayer, displaced, 
-			      tile_inbound, tile_inbound_time);
+	auto_settler_findwork(pplayer, displaced, state);
       }
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "giving up trying to improve terrain");
@@ -1134,8 +1119,7 @@ static void auto_settler_findwork(struct player *pplayer,
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY
       && punit->moves_left > 0) {
-    auto_settler_findwork(pplayer, punit,
-			  tile_inbound, tile_inbound_time);
+    auto_settler_findwork(pplayer, punit, state);
   }
 }
 #undef LOG_SETTLER
@@ -1218,8 +1202,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
 void auto_settlers_player(struct player *pplayer) 
 {
   static struct timer *t = NULL;      /* alloc once, never free */
-  int tile_inbound[MAP_INDEX_SIZE];
-  int tile_inbound_time[MAP_INDEX_SIZE];
+  struct settlermap state[MAP_INDEX_SIZE];
   
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
@@ -1229,8 +1212,8 @@ void auto_settlers_player(struct player *pplayer)
   }
 
   whole_map_iterate(ptile) {
-    tile_inbound[ptile->index] = -1;
-    tile_inbound_time[ptile->index] = FC_INFINITY;
+    state[ptile->index].enroute = -1;
+    state[ptile->index].eta = FC_INFINITY;    
   } whole_map_iterate_end;
 
   /* Initialize the infrastructure cache, which is used shortly. */
@@ -1271,8 +1254,7 @@ void auto_settlers_player(struct player *pplayer)
         handle_unit_activity_request(punit, ACTIVITY_IDLE);
       }
       if (punit->activity == ACTIVITY_IDLE) {
-        auto_settler_findwork(pplayer, punit,
-			      tile_inbound, tile_inbound_time);
+        auto_settler_findwork(pplayer, punit, state);
       }
     }
   } unit_list_iterate_end;
@@ -1281,101 +1263,6 @@ void auto_settlers_player(struct player *pplayer)
     freelog(LOG_VERBOSE, "%s's autosettlers consumed %g milliseconds.",
  	    pplayer->name, 1000.0*read_timer_seconds(t));
   }
-}
-
-/************************************************************************** 
-  Assign a region of the map as belonging to a certain player for keeping
-  autosettlers out of enemy territory.
-**************************************************************************/
-static void assign_region(struct tile *ptile, int player_no,
-			  int distance, int s)
-{
-  square_iterate(ptile, distance, tile1) {
-    if (s == 0 || is_ocean_near_tile(tile1)) {
-      BV_SET(TERRITORY(tile1), player_no);
-    }
-  } square_iterate_end;
-}
-
-/**************************************************************************
-  Try to keep autosettlers out of enemy territory. We assign blocks of
-  territory to the enemy based on the location of his units and their
-  movement.
-
-  FIXME: We totally ignore the possibility of enemies getting to us
-  by road or rail. Whatever Syela says, this is just so broken.
-
-  NOTE: Having units with extremely high movement in the game will
-  effectively make autosettlers run and hide and never come out again. 
-  The cowards.
-**************************************************************************/
-static void assign_territory_player(struct player *pplayer)
-{
-  int n = pplayer->player_no;
-  unit_list_iterate(pplayer->units, punit)
-    if (unit_type(punit)->attack_strength != 0) {
-/* I could argue that phalanxes aren't really a threat, but ... */
-      if (is_sailing_unit(punit)) {
-        assign_region(punit->tile, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 1);
-      } else if (is_ground_unit(punit)) {
-        assign_region(punit->tile, n, 1 + unit_type(punit)->move_rate /
-             (unit_flag(punit, F_IGTER) ? 1 : 3), 0);
-/* I realize this is not the most accurate, but I don't want to iterate
-road networks 100 times/turn, and I can't justifiably abort when I encounter
-already assigned territory.  If anyone has a reasonable alternative that won't
-noticeably slow the game, feel free to replace this else{}  -- Syela */
-      } else {
-        assign_region(punit->tile, n, 1 + unit_type(punit)->move_rate / SINGLE_MOVE, 0);
-      } 
-    }
-  unit_list_iterate_end;
-  city_list_iterate(pplayer->cities, pcity)
-    assign_region(pcity->tile, n, 3, 0);
-  city_list_iterate_end;
-}
-
-/**************************************************************************
-  This function is supposed to keep settlers out of enemy territory
-   -- Syela
-**************************************************************************/
-static void assign_territory(void)
-{
-  memset(territory, 0, MAP_INDEX_SIZE * sizeof(*territory));
-
-  players_iterate(pplayer) {
-    assign_territory_player(pplayer);
-  } players_iterate_end;
-  /* An actual territorial assessment a la AI algorithms for go might be
-   * appropriate here.  I'm not sure it's necessary, so it's not here yet.
-   *  -- Syela
-   */
-}  
-
-/**************************************************************************
-  Recalculate enemies[] table
-**************************************************************************/
-static void recount_enemy_masks(void)
-{
-  players_iterate(player1) {
-    BV_CLR_ALL(enemies[player1->player_no]);
-    players_iterate(player2) {
-      if (!pplayers_allied(player1, player2))
-        BV_SET(enemies[player1->player_no], player2->player_no);
-    } players_iterate_end;
-  } players_iterate_end;
-}
-
-/**************************************************************************
-  Initialize autosettler code.
-**************************************************************************/
-void auto_settlers_init(void)
-{
-  /* We used to keep track of settler assignments here too, but now that's
-   * tracked directly on the stack later on.  This means workers are
-   * reassigned each turn.  This is okay since we always give optimal
-   * assignments now (no first-come-first-serve). */
-  assign_territory();
-  recount_enemy_masks();
 }
 
 /**************************************************************************
@@ -1447,7 +1334,7 @@ void contemplate_terrain_improvements(struct city *pcity)
   virtualunit->tile = pcity->tile;
   want = evaluate_improvements(virtualunit, &best_act,
 			       &best_tile, &completion_time,
-			       NULL, NULL);
+			       NULL);
   free(virtualunit);
 
   /* Massage our desire based on available statistics to prevent

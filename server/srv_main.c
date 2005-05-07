@@ -610,7 +610,6 @@ static void end_phase(void)
   nocity_send = TRUE;
 
   /* AI end of turn activities */
-  auto_settlers_init();
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
       punit->ai.hunted = 0;
@@ -1850,7 +1849,6 @@ static void srv_loop(void)
     gamelog(GAMELOG_TEAM, pteam);
   } team_iterate_end;
 
-  init_settlers(); /* create minimap and other settlers.c data */
   ai_data_movemap_init();
 
   if (!game.is_new_game) {
