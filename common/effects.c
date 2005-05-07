@@ -524,21 +524,6 @@ Impr_type_id ai_find_source_building(struct player *pplayer,
 }
 
 /**************************************************************************
-  Get a building which grants this effect. Returns B_LAST if there is none.
-**************************************************************************/
-Impr_type_id get_building_for_effect(enum effect_type effect_type)
-{
-  effect_list_iterate(get_effects(effect_type), peffect) {
-    requirement_list_iterate(peffect->reqs, preq) {
-      if (preq->source.type == REQ_BUILDING) {
-	return preq->source.value.building;
-      }
-    } requirement_list_iterate_end;
-  } effect_list_iterate_end;
-  return B_LAST;
-}
-
-/**************************************************************************
   Returns TRUE if the building has any effect bonuses of the given type.
 
   Note that this function returns a boolean rather than an integer value
