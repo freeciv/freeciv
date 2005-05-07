@@ -3215,6 +3215,11 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
     return FALSE;
   }
   if (!check) {
+    if (strcmp(str, game.rulesetdir) == 0) {
+      cmd_reply(CMD_RULESETDIR, caller, C_OK,
+		_("Ruleset directory is already \"%s\""), str);
+      return TRUE;
+    }
     cmd_reply(CMD_RULESETDIR, caller, C_OK, 
               _("Ruleset directory set to \"%s\""), str);
     sz_strlcpy(game.rulesetdir, str);    
