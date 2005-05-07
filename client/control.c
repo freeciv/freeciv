@@ -770,8 +770,6 @@ void request_unit_unload_all(struct unit *punit)
     return;
   }
 
-  request_unit_wait(punit);    /* RP: unfocus the ship */
-
   unit_list_iterate(ptile->units, pcargo) {
     if (pcargo->transported_by == punit->id) {
       request_unit_unload(pcargo);
@@ -785,8 +783,11 @@ void request_unit_unload_all(struct unit *punit)
   } unit_list_iterate_end;
 
   if (plast) {
-    /* If the above unloading failed this focus will still happen.  That's
-     * probably a feature. */
+    /* Unfocus the ship, and advance the focus to the last unloaded unit.
+     * If there is no unit unloaded (which shouldn't happen, but could if
+     * the caller doesn't check if the transporter is loaded), the we
+     * don't do anything. */
+    punit->focus_status = FOCUS_WAIT;
     set_unit_focus(plast);
   }
 }
