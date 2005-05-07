@@ -83,32 +83,39 @@ science_dialog_update(void)
 {
  
   char text[512];
-  int i, hist, id, steps;
+
+  Tech_Type_id tech_id;
+  int hist, id, steps;
 
   if (!science_dlg) return;            
   sz_strlcpy(text, get_report_title(_("Science")));
   sz_strlcat(text, science_dialog_text());
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_TOP),text);
   ListBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_LIST));
-  for (i=A_FIRST;i<game.num_tech_types;i++)
-    {
-      if ((get_invention(game.player_ptr,i)==TECH_KNOWN))
-	{
-	  id=ListBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_LIST),
-			       advances[i].name);
-	  ListBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_LIST),
-			      id,i);
-	}
-    }
+
+  SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_TOP), text);
+  ListBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_LIST));
+
+  tech_type_iterate(tech_id) {
+    if (get_invention(game.player_ptr, tech_id) == TECH_KNOWN
+	&& tech_id != A_NONE) {
+      id = ListBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_LIST),
+			     get_tech_name(game.player_ptr, tech_id));
+      ListBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_LIST), id,
+			  tech_id);
+     }
+  } tech_type_iterate_end;
+
   my_snprintf(text, sizeof(text), "%d/%d",
               game.player_ptr->research.bulbs_researched,
 	      total_bulbs_required(game.player_ptr));
-  SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_PROG),text);
-  ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_RESEARCH));
+
+  SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_PROG), text);
+  ComboBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH));
 
   if (game.player_ptr->research.researching == A_UNSET) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			    advances[A_NONE].name);
+			    get_tech_name(game.player_ptr, A_NONE));
     ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			 id, A_NONE);
     ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
@@ -116,41 +123,59 @@ science_dialog_update(void)
   }
 
   if (!is_future_tech(game.player_ptr->research.researching)) {
-    for (i = A_FIRST; i < game.num_tech_types; i++) {
-      if (get_invention(game.player_ptr, i) != TECH_REACHABLE) {
+    tech_type_iterate(tech_id) {
+      if (get_invention(game.player_ptr, tech_id) != TECH_REACHABLE) {
 	continue;
       }
 
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			      advances[i].name);
+			      get_tech_name(game.player_ptr, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
-			   id, i);
-      if (i == game.player_ptr->research.researching) {
+			   id, tech_id);
+      if (tech_id == game.player_ptr->research.researching) {
 	ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id);
       }
-    }
+    } tech_type_iterate_end;
   } else {
     /* FIXME future tech */
+      tech_id = game.num_tech_types + 1 + game.player_ptr->future_tech;
+      id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
+			      get_tech_name(game.player_ptr, tech_id));
+      ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
+			   id, tech_id);
+      ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
+			 id);
   }
   ComboBox_ResetContent(GetDlgItem(science_dlg,ID_SCIENCE_GOAL));
     hist=0;
-  for(i=A_FIRST; i<game.num_tech_types; i++) {
-    if (tech_is_available(game.player_ptr, i)
-        && get_invention(game.player_ptr, i) != TECH_KNOWN
-        && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
-        && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == game.player_ptr->ai.tech_goal)) {
-      id=ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
-			    advances[i].name);
+  tech_type_iterate(tech_id) {
+    if (tech_is_available(game.player_ptr, tech_id)
+        && get_invention(game.player_ptr, tech_id) != TECH_KNOWN
+        && advances[tech_id].req[0] != A_LAST
+	&& advances[tech_id].req[1] != A_LAST
+        && (num_unknown_techs_for_goal(game.player_ptr, tech_id) < 11
+	    || tech_id == game.player_ptr->ai.tech_goal)) {
+      id = ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
+			      get_tech_name(game.player_ptr, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
-			 id,i);
-      if (i==game.player_ptr->ai.tech_goal)
+			 id, tech_id);
+      if (tech_id == game.player_ptr->ai.tech_goal)
 	ComboBox_SetCurSel(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			   id);
       
     }
+  } tech_type_iterate_end;
+
+  if (game.player_ptr->ai.tech_goal == A_UNSET) {
+    id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
+			    get_tech_name(game.player_ptr, A_NONE));
+    ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
+			 id, A_NONE);
+    ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
+		       id);
   }
+
   steps = num_unknown_techs_for_goal(game.player_ptr,
                                      game.player_ptr->ai.tech_goal);
   my_snprintf(text, sizeof(text),
