@@ -1518,67 +1518,45 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
 ****************************************************************************/
 static void init_min_production(struct cm_state *state)
 {
-  int x = CITY_MAP_RADIUS, y = CITY_MAP_RADIUS;
-  int usage[O_COUNT];
   struct city *pcity = state->pcity;
   bool is_celebrating = base_city_celebrating(pcity);
-  struct city backup;
 
-  /* make sure the city's numbers make sense (sometimes they don't,
-   * somehow) */
-  memcpy(&backup, pcity, sizeof(*pcity));
-  generic_city_refresh(pcity, FALSE, NULL);
+  /* We used to call generic_city_refresh here, but that's no longer
+   * necessary since it's called at the start of cm_query_result. */
 
   memset(state->min_production, 0, sizeof(state->min_production));
+  output_type_iterate(o) {
+    /* Calculate minimum output.  This assumes no waste.  Pruning
+     * is done mainly based on minimum production, so we want to find the
+     * absolute highest minimum possible.  However if the minimum we find
+     * here is incorrectly too high, then the algorithm will fail. */
+    int min;
 
-  /* If the city is content, then we know the food usage is just
-   * prod-surplus; otherwise, we know it's at least 2*size but we
-   * can't easily compute the settlers. */
-  if (!city_unhappy(pcity)) {
-    usage[O_FOOD] = pcity->prod[O_FOOD] - pcity->surplus[O_FOOD];
-  } else {
-    usage[O_FOOD] = pcity->size * 2;
-  }
-  state->min_production[O_FOOD] = usage[O_FOOD]
-    + state->parameter.minimal_surplus[O_FOOD]
-    - base_city_get_output_tile(x, y, pcity, is_celebrating, O_FOOD);
+    if (o != O_SHIELD && o != O_FOOD) {
+      /* min-production calculations are only possible for food and
+       * shields.  The others depend on complex trade calculations
+       * that cannot be accounted for since the bonus from trade
+       * routes depends on the amount of trade in an unpredictable way. */
+      continue;
+    }
 
-  /* surplus = (factories-waste) * production - shield_usage, so:
-   *   production = (surplus + shield_usage)/(factories-waste)
-   * waste >= 0, so:
-   *   production >= (surplus + usage)/factories
-   * Solving with surplus >= min_surplus, we get:
-   *   production >= (min_surplus + usage)/factories
-   * 'factories' is the pcity->bonus[O_SHIELD]/100.  Increase it a bit to avoid
-   * rounding errors.
-   *
-   * pcity->prod[O_SHIELD] = (factories-waste) * production.
-   * Therefore, shield_usage = pcity->prod[O_SHIELD] - pcity->shield_surplus
-   */
-  if (!city_unhappy(pcity)) {
-    double sbonus;
+    /* 1.  Calculate the minimum final production that is needed.
+     * 2.  Divide by the bonus (rounding down) to get the minimum citizen
+     *     production that is needed.
+     * 3.  Subtract off any "free" production (trade routes, tithes, and
+     *     city-center). */
+    min = pcity->usage[o] + state->parameter.minimal_surplus[o];
+    min = min * 100 / pcity->bonus[o];
+    city_map_iterate(x, y) {
+      if (is_free_worked_tile(x, y)) {
+	min -= base_city_get_output_tile(x, y, pcity, is_celebrating, o);
+      }
+    } city_map_iterate_end;
+    state->min_production[o] = MAX(min, 0);
+  } output_type_iterate_end;
 
-    usage[O_SHIELD] = pcity->prod[O_SHIELD] - pcity->surplus[O_SHIELD];
-
-    sbonus = ((double)pcity->bonus[O_SHIELD]) / 100.0;
-    sbonus += .1;
-    state->min_production[O_SHIELD]
-      = ((usage[O_SHIELD] + state->parameter.minimal_surplus[O_SHIELD])
-	 / sbonus);
-    state->min_production[O_SHIELD]
-      -= base_city_get_output_tile(x, y, pcity, is_celebrating, O_SHIELD);
-  } else {
-    /* Dunno what the usage is, so it's pointless to set the
-     * min_production */
-    usage[O_SHIELD] = 0;
-    state->min_production[O_SHIELD] = 0;
-  }
-
-  /* we should be able to get a min_production on gold and trade, too;
-     also, lux, if require_happy, but not otherwise */
-
-  /* undo any effects from the refresh */
-  memcpy(pcity, &backup, sizeof(*pcity));
+  /* We could get a minimum on luxury if we knew how many luxuries were
+   * needed to make us content. */
 }
 
 /****************************************************************************
