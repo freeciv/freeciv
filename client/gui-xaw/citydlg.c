@@ -367,7 +367,7 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->cma_command, True);
     XtSetSensitive(pdialog->cityopt_command, True);
   }
-  if(pcity->owner == game.player_idx)  {
+  if (city_owner(pcity) == game.player_ptr) {
     city_report_dialog_update_city(pcity);
     economy_report_dialog_update();
   } else {
@@ -1644,7 +1644,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   int i, j, adj_base;
   Widget pixcomm;
 
-  if(pdialog->pcity->owner != game.player_idx) {
+  if (city_owner(pdialog->pcity) != game.player_ptr) {
     plist = pdialog->pcity->info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;
@@ -1704,7 +1704,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   int i, j, adj_base;
   Widget pixcomm;
 
-  if(pdialog->pcity->owner != game.player_idx) {
+  if (city_owner(pdialog->pcity) != game.player_ptr) {
     plist = pdialog->pcity->info_units_present;
   } else {
     plist = pdialog->pcity->tile->units;
