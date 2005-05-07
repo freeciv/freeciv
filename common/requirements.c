@@ -38,6 +38,7 @@ static const char *req_source_type_names[] = {
   "Nation",
   "UnitType",
   "UnitFlag",
+  "OutputType",
   "MinSize"
 };
 
@@ -150,6 +151,12 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_OUTPUTTYPE:
+    source.value.outputtype = find_output_type_by_identifier(value);
+    if (source.value.outputtype != O_LAST) {
+      return source;
+    }
+    break;
   case REQ_MINSIZE:
     source.value.minsize = atoi(value);
     if (source.value.minsize > 0) {
@@ -202,6 +209,9 @@ struct req_source req_source_from_values(int type, int value)
   case REQ_UNITFLAG:
     source.value.unitflag = value;
     return source;
+  case REQ_OUTPUTTYPE:
+    source.value.outputtype = value;
+    return source;
   case REQ_MINSIZE:
     source.value.minsize = value;
     return source;
@@ -251,6 +261,9 @@ void req_source_get_values(struct req_source *source, int *type, int *value)
   case REQ_UNITFLAG:
     *value = source->value.unitflag;
     return;
+  case REQ_OUTPUTTYPE:
+    *value = source->value.outputtype;
+    return;
   case REQ_MINSIZE:
     *value = source->value.minsize;
     return;
@@ -291,6 +304,7 @@ struct requirement req_from_str(const char *type,
     case REQ_TERRAIN:
     case REQ_UNITTYPE:
     case REQ_UNITFLAG:
+    case REQ_OUTPUTTYPE:
       req.range = REQ_RANGE_LOCAL;
       break;
     case REQ_MINSIZE:
@@ -335,6 +349,9 @@ struct requirement req_from_str(const char *type,
     break;
   case REQ_UNITTYPE:
   case REQ_UNITFLAG:
+    invalid = (req.range != REQ_RANGE_LOCAL);
+    break;
+  case REQ_OUTPUTTYPE:
     invalid = (req.range != REQ_RANGE_LOCAL);
     break;
   case REQ_NONE:
@@ -701,6 +718,7 @@ bool is_req_active(const struct player *target_player,
 		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
 		   const struct unit *target_unit,
+		   const struct output_type *target_output,
 		   const struct requirement *req)
 {
   /* Note the target may actually not exist.  In particular, effects that
@@ -745,6 +763,9 @@ bool is_req_active(const struct player *target_player,
     return is_unitflag_in_range(target_unit,
 				req->range, req->survives,
 				req->source.value.unitflag);
+  case REQ_OUTPUTTYPE:
+    return (target_output
+	    && target_output->index == req->source.value.outputtype);
   case REQ_MINSIZE:
     return target_city && target_city->size >= req->source.value.minsize;
   case REQ_LAST:
@@ -774,6 +795,7 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct impr_type *target_building,
 		     const struct tile *target_tile,
 		     const struct unit *target_unit,
+		     const struct output_type *target_output,
 		     const struct requirement *reqs, int num_reqs)
 {
   int i;
@@ -781,8 +803,8 @@ bool are_reqs_active(const struct player *target_player,
   for (i = 0; i < num_reqs; i++) {
     if (reqs[i].source.type == REQ_NONE) {
       break; /* Short-circuit any more checks. */
-    } else if (!is_req_active(target_player, target_city,
-			      target_building, target_tile, target_unit,
+    } else if (!is_req_active(target_player, target_city, target_building,
+			      target_tile, target_unit, target_output,
 			      &reqs[i])) {
       return FALSE;
     }
@@ -806,6 +828,7 @@ bool is_req_unchanging(const struct requirement *req)
   switch (req->source.type) {
   case REQ_NATION:
   case REQ_NONE:
+  case REQ_OUTPUTTYPE:
     return TRUE;
   case REQ_TECH:
   case REQ_GOV:
@@ -857,6 +880,8 @@ bool are_req_sources_equal(const struct req_source *psource1,
     return psource1->value.unittype == psource2->value.unittype;
   case REQ_UNITFLAG:
     return psource1->value.unitflag == psource2->value.unitflag;
+  case REQ_OUTPUTTYPE:
+    return psource1->value.outputtype == psource2->value.outputtype;
   case REQ_MINSIZE:
     return psource1->value.minsize == psource2->value.minsize;
   case REQ_LAST:
@@ -902,6 +927,9 @@ char *get_req_source_text(const struct req_source *psource,
   case REQ_UNITFLAG:
     cat_snprintf(buf, bufsz, _("%s units"),
 		 get_unit_flag_name(psource->value.unitflag));
+    break;
+  case REQ_OUTPUTTYPE:
+    mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz);
     break;
   case REQ_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),

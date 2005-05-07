@@ -289,23 +289,15 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_MAKE_CONTENT_PCT:
       case EFT_MAKE_HAPPY:
 #endif
-      case EFT_LUXURY_BONUS:
-      case EFT_SCIENCE_BONUS:
-      case EFT_TAX_BONUS:
       case EFT_CAPITAL_CITY:
-      case EFT_CORRUPT_PCT:
-      case EFT_FOOD_ADD_TILE:
-      case EFT_FOOD_INC_TILE:
-      case EFT_FOOD_PER_TILE:
       case EFT_POLLU_POP_PCT:
       case EFT_POLLU_PROD_PCT:
-      case EFT_PROD_ADD_TILE:
-      case EFT_PROD_BONUS:
-      case EFT_PROD_INC_TILE:
-      case EFT_PROD_PER_TILE:
-      case EFT_TRADE_ADD_TILE:
-      case EFT_TRADE_INC_TILE:
-      case EFT_TRADE_PER_TILE:
+      case EFT_OUTPUT_BONUS:
+      case EFT_OUTPUT_BONUS_2:
+      case EFT_OUTPUT_ADD_TILE:
+      case EFT_OUTPUT_PER_TILE:
+      case EFT_OUTPUT_INC_TILE:
+      case EFT_OUTPUT_WASTE_PCT:
       case EFT_UPKEEP_FREE:
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (preq->source.type == REQ_BUILDING

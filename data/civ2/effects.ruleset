@@ -342,11 +342,12 @@ reqs    =
     }
 
 [effect_fundamentalism]
-name    = "Science_Bonus_2"
+name    = "Output_Bonus_2"
 value   = -50
 reqs    =
     { "type", "name", "range"
       "Gov", "Fundamentalism", "Player"
+      "OutputType", "science", "local"
     }
 
 ; Nuclear power gives +1 moves to sea units
@@ -396,21 +397,23 @@ reqs	=
     }
 
 [effect_bank]
-name	= "Tax_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Marketplace", "City"
       "Building", "Bank", "City"
+      "OutputType", "gold", "local"
     }
 
 [effect_bank_1]
-name	= "Luxury_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Marketplace", "City"
       "Building", "Bank", "City"
+      "OutputType", "luxury", "local"
     }
 
 [effect_barracks]
@@ -545,11 +548,12 @@ reqs	=
     }
 
 [effect_courthouse]
-name	= "Corrupt_Pct"
+name	= "Output_Waste_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Courthouse", "City"
+      "OutputType", "trade", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -557,11 +561,12 @@ nreqs	=
     }
 
 [effect_courthouse_1]
-name	= "Waste_Pct"
+name	= "Output_Waste_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Courthouse", "City"
+      "OutputType", "shield", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -586,11 +591,12 @@ reqs	=
     }
 
 [effect_factory]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Factory", "City"
+      "OutputType", "shield", "local"
     }
 
 [effect_granary]
@@ -606,21 +612,23 @@ nreqs   =
     }
 
 [effect_harbour]
-name	= "Food_Add_Tile"
+name	= "Output_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
       "Terrain", "Ocean", "Local"
       "Building", "Harbour", "City"
+      "OutputType", "food", "local"
     }
 
 [effect_hydro_plant]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Factory", "City"
       "Building", "Hydro Plant", "City"
+      "OutputType", "shield", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -629,12 +637,13 @@ nreqs	=
     }
 
 [effect_hydro_plant_1]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Mfg. Plant", "City"
       "Building", "Hydro Plant", "City"
+      "OutputType", "shield", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -657,27 +666,30 @@ nreqs	=
     }
 
 [effect_library]
-name	= "Science_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Library", "City"
+      "OutputType", "science", "local"
     }
 
 [effect_marketplace]
-name	= "Tax_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Marketplace", "City"
+      "OutputType", "gold", "local"
     }
 
 [effect_marketplace_1]
-name	= "Luxury_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Marketplace", "City"
+      "OutputType", "luxury", "local"
     }
 
 [effect_mass_transit]
@@ -689,21 +701,23 @@ reqs	=
     }
 
 [effect_mfg_plant]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Factory", "City"
       "Building", "Mfg. Plant", "City"
+      "OutputType", "shield", "local"
     }
 
 [effect_nuclear_plant]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Factory", "City"
       "Building", "Nuclear Plant", "City"
+      "OutputType", "shield", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -711,12 +725,13 @@ nreqs	=
     }
 
 [effect_nuclear_plant_1]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Mfg. Plant", "City"
       "Building", "Nuclear Plant", "City"
+      "OutputType", "shield", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -737,28 +752,31 @@ nreqs	=
     }
 
 [effect_offshore_platform]
-name	= "Prod_Add_Tile"
+name	= "Output_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
       "Terrain", "Ocean", "Local"
       "Building", "Offshore Platform", "City"
+      "OutputType", "shield", "local"
     }
 
 [effect_palace]
-name	= "Corrupt_Pct"
+name	= "Output_Waste_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Palace", "City"
+      "OutputType", "trade", "local"
     }
 
 [effect_palace_1]
-name	= "Waste_Pct"
+name	= "Output_Waste_Pct"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Palace", "City"
+      "OutputType", "shield", "local"
     }
 
 [effect_palace_2]
@@ -828,12 +846,13 @@ reqs	=
     }
 
 [effect_power_plant]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Factory", "City"
       "Building", "Power Plant", "City"
+      "OutputType", "shield", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -843,12 +862,13 @@ nreqs	=
     }
 
 [effect_power_plant_1]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Mfg. Plant", "City"
       "Building", "Power Plant", "City"
+      "OutputType", "shield", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -866,12 +886,13 @@ reqs	=
     }
 
 [effect_research_lab]
-name	= "Science_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Library", "City"
       "Building", "Research Lab", "City"
+      "OutputType", "science", "local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -936,39 +957,43 @@ reqs	=
     }
 
 [effect_stock_exchange]
-name	= "Tax_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Bank", "City"
       "Building", "Stock Exchange", "City"
+      "OutputType", "gold", "local"
     }
 
 [effect_stock_exchange_1]
-name	= "Luxury_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Bank", "City"
       "Building", "Stock Exchange", "City"
+      "OutputType", "luxury", "local"
     }
 
 [effect_super_highways]
-name	= "Trade_Per_Tile"
+name	= "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Special", "Road", "Local"
       "Building", "Super Highways", "City"
+      "OutputType", "trade", "local"
     }
 
 [effect_supermarket]
-name	= "Food_Per_Tile"
+name	= "Output_Per_Tile"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Special", "Farmland", "Local"
       "Building", "Supermarket", "City"
+      "OutputType", "food", "local"
     }
 
 [effect_temple]
@@ -989,12 +1014,13 @@ reqs	=
     }
 
 [effect_university]
-name	= "Science_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Library", "City"
       "Building", "University", "City"
+      "OutputType", "science", "local"
     }
 
 [effect_apollo_program]
@@ -1022,19 +1048,21 @@ reqs	=
     }
 
 [effect_colossus]
-name	= "Trade_Inc_Tile"
+name	= "Output_Inc_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "Colossus", "City"
+      "OutputType", "trade", "local"
     }
 
 [effect_copernicus_observatory]
-name	= "Science_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Copernicus' Observatory", "City"
+      "OutputType", "science", "local"
     }
 
 [effect_cure_for_cancer]
@@ -1094,21 +1122,23 @@ reqs	=
     }
 
 [effect_hoover_dam]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Factory", "City"
       "Building", "Hoover Dam", "Player"
+      "OutputType", "shield", "local"
     }
 
 [effect_hoover_dam_1]
-name	= "Prod_Bonus"
+name	= "Output_Bonus"
 value	= 25
 reqs	=
     { "type", "name", "range"
       "Building", "Mfg. Plant", "City"
       "Building", "Hoover Dam", "Player"
+      "OutputType", "shield", "local"
     }
 
 [effect_hoover_dam_2]
@@ -1124,11 +1154,12 @@ nreqs	=
     }
 
 [effect_isaac_newtons_college]
-name	= "Science_Bonus"
+name	= "Output_Bonus"
 value	= 100
 reqs	=
     { "type", "name", "range"
       "Building", "Isaac Newton's College", "City"
+      "OutputType", "science", "local"
     }
 
 [effect_js_bachs_cathedral]
@@ -1140,11 +1171,12 @@ reqs	=
     }
 
 [effect_king_richards_crusade]
-name	= "Prod_Add_Tile"
+name	= "Output_Add_Tile"
 value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "King Richard's Crusade", "City"
+      "OutputType", "shield", "local"
     }
 
 [effect_leonardos_workshop]
@@ -1247,12 +1279,13 @@ reqs	=
     }
 
 [effect_seti_program]
-name	= "Science_Bonus"
+name	= "Output_Bonus"
 value	= 50
 reqs	=
     { "type", "name", "range"
       "Building", "Library", "City"
       "Building", "SETI Program", "Player"
+      "OutputType", "science", "local"
     }
 
 [effect_shakespeares_theatre]

@@ -278,7 +278,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
     struct requirement *mypreq;
     bool useful;
 
-    if (is_effect_disabled(pplayer, pcity, pimpr, NULL, NULL, peffect)) {
+    if (is_effect_disabled(pplayer, pcity, pimpr,
+			   NULL, NULL, NULL,
+			   peffect)) {
       CITY_LOG(LOG_DEBUG, pcity, "%s has a disabled effect: %s", 
                get_improvement_name(id), effect_type_name(peffect->type));
       continue;
@@ -294,7 +296,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	mypreq = preq;
         continue;
       }
-      if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, preq)) {
+      if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, NULL, preq)) {
 	useful = FALSE;
 	break;
       }
@@ -315,29 +317,12 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_UPKEEP_FREE:
 	case EFT_POLLU_POP_PCT:
 	case EFT_POLLU_PROD_PCT:
-	case EFT_TRADE_PER_TILE:
-	case EFT_TRADE_INC_TILE:
-	case EFT_FOOD_INC_TILE:
-	case EFT_TRADE_ADD_TILE:
-	case EFT_PROD_INC_TILE:
-	case EFT_PROD_PER_TILE:
-	case EFT_PROD_ADD_TILE:
-	case EFT_FOOD_PER_TILE:
-	case EFT_FOOD_ADD_TILE:
-      case EFT_FOOD_BONUS:
-	case EFT_PROD_BONUS:
-      case EFT_TRADE_BONUS:
-	case EFT_TAX_BONUS:
-	case EFT_SCIENCE_BONUS:
-	case EFT_LUXURY_BONUS:
-      case EFT_FOOD_BONUS_2:
-      case EFT_PROD_BONUS_2:
-      case EFT_TRADE_BONUS_2:
-      case EFT_TAX_BONUS_2:
-      case EFT_SCIENCE_BONUS_2:
-      case EFT_LUXURY_BONUS_2:
-	case EFT_CORRUPT_PCT:
-	case EFT_WASTE_PCT:
+      case EFT_OUTPUT_BONUS:
+      case EFT_OUTPUT_BONUS_2:
+      case EFT_OUTPUT_ADD_TILE:
+      case EFT_OUTPUT_INC_TILE:
+      case EFT_OUTPUT_PER_TILE:
+      case EFT_OUTPUT_WASTE_PCT:
 	  break;
 
       case EFT_SLOW_DOWN_TIMELINE:
@@ -1273,8 +1258,11 @@ void ai_manage_cities(struct player *pplayer)
 **************************************************************************/
 static bool building_unwanted(struct player *plr, Impr_type_id i)
 {
+#if 0 /* This check will become more complicated now. */ 
   return (ai_wants_no_science(plr)
           && building_has_effect(i, EFT_SCIENCE_BONUS));
+#endif
+  return FALSE;
 }
 
 /**************************************************************************

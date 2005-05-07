@@ -194,6 +194,10 @@ static void insert_requirement(struct requirement *req,
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
                 get_unit_flag_name(req->source.value.unitflag));
     return;
+  case REQ_OUTPUTTYPE:
+    cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
+		 get_output_name(req->source.value.outputtype));
+    return;
   case REQ_MINSIZE:
     cat_snprintf(buf, bufsz, _("Requires a minimum size of %d.\n\n"),
 		 req->source.value.minsize);

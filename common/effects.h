@@ -28,22 +28,19 @@ enum effect_type {
   EFT_AIRLIFT,
   EFT_ANY_GOVERNMENT,
   EFT_CAPITAL_CITY,
-  EFT_CORRUPT_PCT,
-  EFT_WASTE_PCT,
   EFT_ENABLE_NUKE,
   EFT_ENABLE_SPACE,
-  EFT_FOOD_ADD_TILE,
-  EFT_FOOD_BONUS,
-  /*TODO: EFT_FOOD_PCT, */
-  EFT_FOOD_INC_TILE,
-  EFT_FOOD_PER_TILE,
+  EFT_OUTPUT_BONUS,
+  EFT_OUTPUT_BONUS_2,
+  EFT_OUTPUT_ADD_TILE,
+  EFT_OUTPUT_INC_TILE,
+  EFT_OUTPUT_PER_TILE,
+  EFT_OUTPUT_WASTE_PCT,
   EFT_FORCE_CONTENT,
   /* TODO: EFT_FORCE_CONTENT_PCT, */
   EFT_GIVE_IMM_TECH,
   EFT_GROWTH_FOOD,
   EFT_HAVE_EMBASSIES,
-  EFT_LUXURY_BONUS,
-  /* TODO: EFT_LUXURY_PCT, */
   EFT_MAKE_CONTENT,
   EFT_MAKE_CONTENT_MIL,
   EFT_MAKE_CONTENT_MIL_PER,
@@ -58,37 +55,18 @@ enum effect_type {
   EFT_POLLU_POP_PCT,
   /* TODO: EFT_POLLU_PROD_ADJ, */
   EFT_POLLU_PROD_PCT,
-  EFT_PROD_ADD_TILE,
-  EFT_PROD_BONUS,
   /* TODO: EFT_PROD_PCT, */
-  EFT_PROD_INC_TILE,
-  EFT_PROD_PER_TILE,
   EFT_PROD_TO_GOLD,
   EFT_REVEAL_CITIES,
   EFT_REVEAL_MAP,
   /* TODO: EFT_INCITE_DIST_ADJ, */
   EFT_INCITE_DIST_PCT,
-  EFT_SCIENCE_BONUS,
-  /* TODO: EFT_SCIENCE_PCT, */
   EFT_SIZE_ADJ,
   EFT_SIZE_UNLIMIT,
   EFT_SS_STRUCTURAL,
   EFT_SS_COMPONENT,
   EFT_SS_MODULE,
   EFT_SPY_RESISTANT,
-  EFT_TAX_BONUS,
-  /* TODO: EFT_TAX_PCT, */
-  EFT_TRADE_ADD_TILE,
-  EFT_TRADE_BONUS,
-  /* TODO: EFT_TRADE_PCT, */
-  EFT_TRADE_INC_TILE,
-  EFT_TRADE_PER_TILE,
-  EFT_FOOD_BONUS_2,
-  EFT_PROD_BONUS_2,
-  EFT_TRADE_BONUS_2,
-  EFT_TAX_BONUS_2,
-  EFT_LUXURY_BONUS_2,
-  EFT_SCIENCE_BONUS_2,
   EFT_SEA_MOVE,
   EFT_UNIT_NO_LOSE_POP,
   EFT_UNIT_RECOVER,
@@ -181,6 +159,7 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct impr_type *target_building,
 		      const struct tile *target_tile,
 		      const struct unit *target_unit,
+		      const struct output_type *target_output,
 		      Impr_type_id source, const struct effect *effect);
 
 bool is_building_replaced(const struct city *pcity, Impr_type_id building);
@@ -189,8 +168,10 @@ bool is_building_replaced(const struct city *pcity, Impr_type_id building);
 int get_world_bonus(enum effect_type effect_type);
 int get_player_bonus(const struct player *plr, enum effect_type effect_type);
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type);
-int get_city_tile_bonus(const struct city *pcity, const struct tile *ptile,
-			enum effect_type effect_type);
+int get_city_tile_output_bonus(const struct city *pcity,
+			       const struct tile *ptile,
+			       const struct output_type *poutput,
+			       enum effect_type effect_type);
 int get_building_bonus(const struct city *pcity, Impr_type_id building,
 		       enum effect_type effect_type);
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type);
@@ -202,12 +183,15 @@ bool is_effect_disabled(const struct player *target_player,
 		        const struct impr_type *target_building,
 		        const struct tile *target_tile,
 			const struct unit *target_unit,
+			const struct output_type *target_output,
 		        const struct effect *peffect);
 
 int get_player_bonus_effects(struct effect_list *plist,
     const struct player *pplayer, enum effect_type effect_type);
 int get_city_bonus_effects(struct effect_list *plist,
-    const struct city *pcity, enum effect_type effect_type);
+			   const struct city *pcity,
+			   const struct output_type *poutput,
+			   enum effect_type effect_type);
 
 bool building_has_effect(Impr_type_id building,
 			 enum effect_type effect_type);

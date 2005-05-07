@@ -386,6 +386,7 @@ void get_city_dialog_output_text(const struct city *pcity,
   int total = 0;
   int priority;
   int tax[O_COUNT];
+  struct output_type *output = &output_types[otype];
 
   buf[0] = '\0';
 
@@ -430,13 +431,13 @@ void get_city_dialog_output_text(const struct city *pcity,
   }
 
   for (priority = 0; priority < 2; priority++) {
-    enum effect_type eft = get_output_bonus_effect(otype, priority);
+    enum effect_type eft[] = {EFT_OUTPUT_BONUS, EFT_OUTPUT_BONUS_2};
 
-    if (eft != EFT_LAST) {
+    {
       int base = total, bonus = 100;
       struct effect_list *plist = effect_list_new();
 
-      (void) get_city_bonus_effects(plist, pcity, eft);
+      (void) get_city_bonus_effects(plist, pcity, output, eft[priority]);
 
       effect_list_iterate(plist, peffect) {
 	char buf2[512];

@@ -832,7 +832,7 @@ const char *get_happiness_buildings(const struct city *pcity)
 
   add_line(_("Buildings: "));
 
-  get_city_bonus_effects(plist, pcity, EFT_MAKE_CONTENT);
+  get_city_bonus_effects(plist, pcity, NULL, EFT_MAKE_CONTENT);
 
   effect_list_iterate(plist, peffect) {
     if (faces != 0) {
@@ -865,9 +865,9 @@ const char *get_happiness_wonders(const struct city *pcity)
   INIT;
 
   add_line(_("Wonders: "));
-  get_city_bonus_effects(plist, pcity, EFT_MAKE_HAPPY);
-  get_city_bonus_effects(plist, pcity, EFT_FORCE_CONTENT);
-  get_city_bonus_effects(plist, pcity, EFT_NO_UNHAPPY);
+  get_city_bonus_effects(plist, pcity, NULL, EFT_MAKE_HAPPY);
+  get_city_bonus_effects(plist, pcity, NULL, EFT_FORCE_CONTENT);
+  get_city_bonus_effects(plist, pcity, NULL, EFT_NO_UNHAPPY);
 
   effect_list_iterate(plist, peffect) {
     if (faces != 0) {
