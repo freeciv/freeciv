@@ -1729,25 +1729,23 @@ void srv_main(void)
 }
 
 /**************************************************************************
-  Server loop, run to set up one game.
+  Apply some final adjustments from the ruleset on to the game state.
+  We cannot do this during ruleset loading, since some players may be
+  added later than that.
 **************************************************************************/
 static void final_ruleset_adjustments()
 {
-  int i;
+  players_iterate(pplayer) {
+    struct nation_type *pnation = get_nation_by_plr(pplayer);
 
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    if (game.players[i].government == G_MAGIC) {
-      game.players[i].government = game.control.default_government;
-    }
-  }
+    pplayer->government = pnation->init_government;
 
-  if (game.control.default_government == game.info.government_when_anarchy) {
-    players_iterate(pplayer) {
+    if (pnation->init_government == game.info.government_when_anarchy) {
       /* If we do not do this, an assert will trigger. This enables us to
        * select a valid government on game start. */
       pplayer->revolution_finishes = 0;
-    } players_iterate_end;
-  }
+    }
+  } players_iterate_end;
 }
 
 /**************************************************************************

@@ -17,8 +17,8 @@ init_techs=""
 init_buildings=""
 
 
-tech_goals = "The Republic", "Navigation", "Metallurgy", "Steam Engine",
-             "Railroad", "Tactics", "Steel"
+init_government="Despotism"
+init_units=""
 wonder="Women's Suffrage"
 government="Republic"
 

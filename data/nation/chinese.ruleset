@@ -25,8 +25,8 @@ ruler_titles = { "government",      "male_title",      "female_title"
 init_techs=""
 init_buildings=""
 
-tech_goals = "Monarchy", "Trade", "Philosophy", "Bridge Building",
-             "Railroad", "Communism"
+init_government="Despotism"
+init_units=""
 wonder="Great Wall"
 government="Communism"
 civilwar_nations = "vietnamese", "japanese", "korean"

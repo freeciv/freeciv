@@ -1642,9 +1642,6 @@ static void load_ruleset_governments(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, "government_", &nval);
 
-  game.control.default_government
-    = lookup_government(file, "governments.default", filename);
-  
   game.info.government_when_anarchy
     = lookup_government(file, "governments.when_anarchy", filename);
 
@@ -2019,6 +2016,8 @@ static void load_ruleset_nations(struct section_file *file)
   sec = secfile_get_secnames_prefix(file, "nation", &nval);
 
   for (i = 0; i < game.control.nation_count; i++) {
+    char tmp[200] = "\0";
+
     pl = get_nation_by_idx(i);
     
     groups = secfile_lookup_str_vec(file, &dim, "%s.groups", sec[i]);
@@ -2180,6 +2179,9 @@ static void load_ruleset_nations(struct section_file *file)
 			 filename);
     lookup_unit_list(file, sec[i], "init_units", pl->init_units, filename,
                      FALSE);
+    mystrlcat(tmp, sec[i], 200);
+    mystrlcat(tmp, ".init_government", 200);
+    pl->init_government = lookup_government(file, tmp, filename);
 
     /* read "normal" city names */
 
@@ -2897,6 +2899,11 @@ static void send_ruleset_nations(struct conn_list *dest)
     }
     packet.city_style = n->city_style;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
+    memcpy(packet.init_buildings, n->init_buildings, 
+           sizeof(packet.init_buildings));
+    memcpy(packet.init_units, n->init_units, 
+           sizeof(packet.init_units));
+    packet.init_government = n->init_government;
 
     sz_strlcpy(packet.legend, n->legend);
 

@@ -15,8 +15,8 @@ city_style = "European"
 
 init_techs=""
 init_buildings=""
-tech_goals = "Warrior Code", "Monarchy", "Democracy", "Gunpowder",
-             "Guerilla Warfare"
+init_government="Despotism"
+init_units=""
 wonder= "Cure for Cancer"
 government = "Monarchy"
 

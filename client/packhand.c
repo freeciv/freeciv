@@ -2363,6 +2363,13 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
   pl->city_style = p->city_style;
 
+  memcpy(pl->init_techs, p->init_techs, sizeof(pl->init_techs));
+  memcpy(pl->init_buildings, p->init_buildings, 
+         sizeof(pl->init_buildings));
+  memcpy(pl->init_units, p->init_units, 
+         sizeof(pl->init_units));
+  pl->init_government = p->init_government;
+
   if (p->legend[0] != '\0') {
     pl->legend = mystrdup(_(p->legend));
   } else {

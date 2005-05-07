@@ -42,8 +42,8 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-tech_goals = "Ceremonial Burial", "Literacy", "The Republic", "Engineering",
- "Monotheism", "Gunpowder", "Railroad", "Explosives", "Computers"
+init_government="Despotism"
+init_units=""
 wonder = "Marco Polo's Embassy"
 government = "Democracy"
 civilwar_nations = "cornish", "english", "scottish", "welsh"

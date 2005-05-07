@@ -19,7 +19,8 @@ civilized=2
 advisors=100,100,100,100,100,100,100
 init_techs=""
 
-tech_goals = "Alphabet", "Trade", "Seafaring", "Navigation"
+init_government="Despotism"
+init_units=""
 
 init_techs=""
 init_buildings=""

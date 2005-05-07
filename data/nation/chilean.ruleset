@@ -24,8 +24,8 @@ ruler_titles = { "government",      "male_title",          "female_title"
 init_techs=""
 init_buildings=""
 
-tech_goals="Iron Working", "Trade", "Navigation", "The Republic",
-           "Railroad", "Steel", "Industrialization"
+init_government="Despotism"
+init_units=""
 wonder="Hoover Dam"
 government="Democracy"
 civilwar_nations = "argentine"

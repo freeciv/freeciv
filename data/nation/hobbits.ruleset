@@ -20,8 +20,8 @@ ruler_titles = { "government",      "male_title",            "female_title"
 init_techs=""
 init_buildings=""
 
-tech_goals = "Map Making", "The Republic", "Trade", "Navigation",
-  "Economics", "Democracy"
+init_government="Despotism"
+init_units=""
 ; Hanging Gardens: as Samwise used his gift from Galadriel, all plants grew fast, and the first year was called 'the year of Plenty'
 wonder="Hanging Gardens"
 government="Monarchy"

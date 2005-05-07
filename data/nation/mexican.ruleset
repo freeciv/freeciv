@@ -11,8 +11,8 @@ city_style = "European"
 
 init_techs=""
 init_buildings=""
-tech_goals = "Warrior Code", "The Republic", "Gunpowder", "Explosives",
-             "Guerilla Warfare"
+init_government="Despotism"
+init_units=""
 wonder= "Statue of Liberty"
 government = "The Republic"
 

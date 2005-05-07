@@ -879,6 +879,9 @@ struct packet_ruleset_nation {
   char legend[MAX_LEN_MSG];
   int city_style;
   int init_techs[MAX_NUM_TECH_LIST];
+  Unit_type_id init_units[MAX_NUM_UNIT_LIST];
+  Impr_type_id init_buildings[MAX_NUM_BUILDING_LIST];
+  int init_government;
   int leader_count;
   char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
   bool leader_sex[MAX_NUM_LEADERS];
@@ -960,7 +963,6 @@ struct packet_ruleset_control {
   int num_unit_types;
   int num_impr_types;
   int num_tech_types;
-  int default_government;
   int government_count;
   int nation_count;
   int playable_nation_count;

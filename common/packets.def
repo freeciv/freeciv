@@ -1148,6 +1148,9 @@ PACKET_RULESET_NATION=102;sc,lsend,is-info
 
   UINT8 city_style;
   TECH_LIST init_techs[MAX_NUM_TECH_LIST];
+  UNIT_TYPE init_units[MAX_NUM_UNIT_LIST];
+  IMPROVEMENT init_buildings[MAX_NUM_BUILDING_LIST];
+  GOVERNMENT init_government;
 
   UINT8 leader_count;
   STRING leader_name[MAX_NUM_LEADERS:leader_count][MAX_LEN_NAME];
@@ -1249,7 +1252,6 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 num_unit_types;
   UINT8 num_impr_types;
   UINT8 num_tech_types;
-  GOVERNMENT default_government;
   UINT8 government_count;
   UINT8 nation_count;
   UINT8 playable_nation_count;

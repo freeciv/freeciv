@@ -15,8 +15,8 @@ city_style = "Classical"
 init_techs=""
 init_buildings=""
 
-tech_goals = "Monarchy","Philosophy","Mathematics","Chivalry",
-             "Theology","Monotheism"
+init_government="Despotism"
+init_units=""
 wonder="Hanging Gardens"
 government="Monarchy"
 civilwar_nations = "israeli", "persian", "arab"

@@ -30,11 +30,9 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
+init_units=""
+init_government="Despotism"
 
-tech_goals = "Monarchy",  "Chivalry", "Trade", "Monotheism", "Theology",
-             "Navigation", "Democracy", "Railroad"
-wonder="Marco Polo's Embassy"
-government="Democracy"
 civilwar_nations = "hungarian", "serbian", "ukrainian"
 
 cities =

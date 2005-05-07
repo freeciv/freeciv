@@ -23,6 +23,7 @@
 #include "government.h"
 #include "log.h"
 #include "map.h"
+#include "nation.h"
 #include "packets.h"
 #include "player.h"
 #include "shared.h"
@@ -401,8 +402,9 @@ static void ai_manage_government(struct player *pplayer)
     /* We have few cities in the beginning, compensate for this to ensure
      * that we are sufficiently forward-looking. */
     int want = MAX(ai->goal.govt.val, 100);
+    struct nation_type *pnation = get_nation_by_plr(pplayer);
 
-    if (pplayer->government == game.control.default_government) {
+    if (pplayer->government == pnation->init_government) {
       /* Default government is the crappy one we start in (like Despotism).
        * We want something better pretty soon! */
       want += 25 * game.info.turn;

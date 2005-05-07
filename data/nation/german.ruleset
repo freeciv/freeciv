@@ -29,8 +29,8 @@ ruler_titles = { "government",      "male_title",       "female_title"
 init_techs = ""
 init_buildings=""
 
-tech_goals = "The Republic", "Iron Working", "Gunpowder", "Explosives",
-             "Flight"
+init_government="Despotism"
+init_units=""
 wonder     = "J.S. Bach's Cathedral"
 government = "Republic"
 civilwar_nations = "french", "italian"

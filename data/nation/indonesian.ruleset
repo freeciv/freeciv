@@ -11,7 +11,8 @@ city_style = "Classical"
 
 init_techs=""
 init_buildings=""
-tech_goals = "Monarchy", "Feudalism", "Navigation", "Flight", "Rocketry"
+init_government="Despotism"
+init_units=""
 wonder= "Magellan's Expedition"
 government = "Despotism"
 

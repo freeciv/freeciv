@@ -15,8 +15,8 @@ city_style = "European"
 init_techs=""
 init_buildings=""
 
-tech_goals = "Democracy", "Iron Working", "Trade", "Engineering",
-             "Railroad", "Bridge Building", "Banking"
+init_government="Despotism"
+init_units=""
 wonder="United Nations"
 government="Democracy"
 
