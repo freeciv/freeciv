@@ -80,11 +80,12 @@ AM_CONDITIONAL(CLIENT, test x$client != xno)
 
 dnl You MUST build ftwl to use the ftwl client
 AC_ARG_ENABLE(ftwl,
-[  --enable-ftwl[=no/x11/sdl]
+[  --enable-ftwl[=no/x11/sdl/opengl]
                           compile ftwl [default=no]],
 [case "${enableval}" in
   x11)	  ftwl=x11 ;;
   sdl)    ftwl=sdl ;;
+  opengl) ftwl=opengl ;;
   *)	  AC_MSG_ERROR(bad value ${enableval} for --enable-ftwl) ;;
 esac], [ftwl=no])
 AM_CONDITIONAL(FTWL, test x$ftwl != xno)
@@ -350,6 +351,11 @@ if test "$ftwl" = sdl ; then
      FTWL_LIBS=`sdl-config --libs`" -lpng "`freetype-config --libs`
 fi
 
+if test "$ftwl" = opengl ; then
+     FTWL_CFLAGS=`sdl-config --cflags`" "`freetype-config --cflags`
+     FTWL_LIBS=`sdl-config --libs`" -lpng "`freetype-config --libs -lGL -lGLU`
+fi
+
 dnl Check and choose clients
 if test x$client != xno; then
 
@@ -440,6 +446,7 @@ AM_CONDITIONAL(CLIENT_GUI_FTWL, test "$gui_sources" = "gui-ftwl")
 AM_CONDITIONAL(FTWL, test "$ftwl" != "no")
 AM_CONDITIONAL(FTWL_X11, test "$ftwl" = "x11")
 AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
+AM_CONDITIONAL(FTWL_OPENGL, test "$ftwl" = "opengl")
 
 dnl Checks for additional server libraries:
 if test x$server = xtrue; then

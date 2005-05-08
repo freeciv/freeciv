@@ -12,11 +12,22 @@ AM_CPPFLAGS = -I. -I$(top_srcdir)/utility  -I../../intl -I/usr/include/freetype2
 
 BACKEND_COMMON_FILES=			\
 	be_common_24.c		\
-	be_common_24.h		\
-	be_common_24_sprite.c
+	be_common_24.h
 
-ALL_BACKEND_X11_FILES=$(BACKEND_COMMON_FILES) be_x11_ximage.c
-ALL_BACKEND_SDL_FILES=$(BACKEND_COMMON_FILES) be_sdl.c
+ALL_BACKEND_X11_FILES=		\
+	$(BACKEND_COMMON_FILES) \
+	be_x11_ximage.c 	\
+	be_common_pixels.c
+ALL_BACKEND_SDL_FILES=		\
+	$(BACKEND_COMMON_FILES)	\
+	be_sdl.c 		\
+	be_common_pixels.c	\
+	be_sdl_pixels.c
+ALL_BACKEND_SDL_OPENGL_FILES=	\
+	$(BACKEND_COMMON_FILES)	\
+	be_common_opengl.c	\
+	be_sdl_opengl.c		\
+	be_sdl.c
 ALL_OTHER_FILES=	\
 	back_end.h	\
 	common_types.c	\

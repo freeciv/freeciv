@@ -26,15 +26,12 @@ struct image {
   struct ct_rect full_rect;
 };
 
-struct sprite {
-  struct image *image;
-};
-
-struct osda {
-  int magic;
-  struct image *image;
-  bool has_transparent_pixels;
-};
+void draw_mono_bitmap(struct image *image, be_color color,
+                      const struct ct_point *position,
+                      struct FT_Bitmap_ *bitmap);
+void draw_alpha_bitmap(struct image *image, be_color color_,
+                       const struct ct_point *position,
+                       struct FT_Bitmap_ *bitmap);
 
 struct image *image_create(int width, int height);
 void image_destroy(struct image *image);
@@ -42,8 +39,14 @@ struct image *image_clone_sub(struct image *src, const struct ct_point *pos,
 			      const struct ct_size *size);
 void image_copy_full(struct image *src, struct image *dest,
 		     struct ct_rect *region);
+void image_copy(struct image *dest, struct image *src,
+                const struct ct_size *size, const struct ct_point *dest_pos,
+                const struct ct_point *src_pos);
 void image_set_alpha(const struct image *image, const struct ct_rect *rect,
 		     unsigned char alpha);
+void image_multiply_alphas(struct image *dest, const struct image *src,
+                           const struct ct_point *src_pos);
+struct image *image_load_gfxfile(const char *filename);
 
 #define IMAGE_GET_ADDRESS(image, x, y) ((image)->data + (image)->pitch * (y) + 4 * (x))
 
