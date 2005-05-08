@@ -729,6 +729,8 @@ int base_city_get_output_tile(int city_x, int city_y,
 **************************************************************************/
 bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
 {
+  int citymindist;
+
   if (terrain_has_flag(ptile->terrain, TER_NO_CITIES)) {
     /* No cities on this terrain. */
     return FALSE;
@@ -747,7 +749,11 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
   }
 
   /* game.info.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
-  square_iterate(ptile, game.info.min_dist_bw_cities - 1, ptile1) {
+  citymindist = game.info.citymindist;
+  if (citymindist == 0) {
+    citymindist = game.info.min_dist_bw_cities;
+  }
+  square_iterate(ptile, citymindist - 1, ptile1) {
     if (ptile1->city) {
       return FALSE;
     }

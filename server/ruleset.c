@@ -2470,18 +2470,13 @@ static void load_ruleset_game(void)
 				   get_output_identifier(o));
   } output_type_iterate_end;
 
-  /* if the server variable citymindist is set (!= 0) the ruleset
-     setting is overwritten by citymindist */
-  if (game.info.citymindist == 0) {
-    game.info.min_dist_bw_cities =
-	secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
-    if (game.info.min_dist_bw_cities < 1) {
-      freelog(LOG_ERROR, "Bad value %i for min_dist_bw_cities. Using 2.",
-	      game.info.min_dist_bw_cities);
-      game.info.min_dist_bw_cities = 2;
-    }
-  } else {
-    game.info.min_dist_bw_cities = game.info.citymindist;
+  /* This only takes effect if citymindist is set to 0. */
+  game.info.min_dist_bw_cities
+    = secfile_lookup_int(&file, "civstyle.min_dist_bw_cities");
+  if (game.info.min_dist_bw_cities < 1) {
+    freelog(LOG_ERROR, "Bad value %i for min_dist_bw_cities. Using 2.",
+	    game.info.min_dist_bw_cities);
+    game.info.min_dist_bw_cities = 2;
   }
 
   game.info.init_vis_radius_sq =
