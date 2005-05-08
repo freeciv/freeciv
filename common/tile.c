@@ -238,7 +238,7 @@ void tile_change_terrain(struct tile *ptile, Terrain_type_id type)
   Build irrigation on the tile.  This may change the specials of the tile
   or change the terrain type itself.
 ****************************************************************************/
-void tile_irrigate(struct tile *ptile)
+static void tile_irrigate(struct tile *ptile)
 {
   Terrain_type_id now, result;
   
@@ -261,7 +261,7 @@ void tile_irrigate(struct tile *ptile)
   Build a mine on the tile.  This may change the specials of the tile
   or change the terrain type itself.
 ****************************************************************************/
-void tile_mine(struct tile *ptile)
+static void tile_mine(struct tile *ptile)
 {
   Terrain_type_id now, result;
   
@@ -281,7 +281,7 @@ void tile_mine(struct tile *ptile)
   Transform (ACTIVITY_TRANSFORM) the tile.  This usually changes the tile's
   terrain type.
 ****************************************************************************/
-void tile_transform(struct tile *ptile)
+static void tile_transform(struct tile *ptile)
 {
   Terrain_type_id now, result;
   
@@ -292,6 +292,75 @@ void tile_transform(struct tile *ptile)
     tile_change_terrain(ptile, result);
   }
 }
+
+/****************************************************************************
+  Apply an activity (Activity_type_id, e.g., ACTIVITY_TRANSFORM) to a tile.
+  Return false if there was a error or if the activity is not implemented
+  by this function.
+****************************************************************************/
+bool tile_apply_activity(struct tile *ptile, Activity_type_id act) 
+{
+  /* FIXME: for irrigate, mine, and transform we always return TRUE
+   * even if the activity fails. */
+  switch(act) {
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_FALLOUT: 
+    tile_clear_dirtiness(ptile);
+    return TRUE;
+    
+  case ACTIVITY_MINE:
+    tile_mine(ptile);
+    return TRUE;
+
+  case ACTIVITY_IRRIGATE: 
+    tile_irrigate(ptile);
+    return TRUE;
+
+  case ACTIVITY_ROAD: 
+    if (!is_ocean(ptile->terrain)
+	&& !tile_has_special(ptile, S_ROAD)) {
+      tile_set_special(ptile, S_ROAD);
+      return TRUE;
+    }
+    return FALSE;
+
+  case ACTIVITY_RAILROAD:
+    if (!is_ocean(ptile->terrain)
+	&& !tile_has_special(ptile, S_RAILROAD)
+	&& tile_has_special(ptile, S_ROAD)) {
+      tile_set_special(ptile, S_RAILROAD);
+      return TRUE;
+    }
+    return FALSE;
+
+  case ACTIVITY_TRANSFORM:
+    tile_transform(ptile);
+    return TRUE;
+    
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_PILLAGE: 
+  case ACTIVITY_AIRBASE:   
+    /* do nothing  - not implemented */
+    return FALSE;
+
+  case ACTIVITY_IDLE:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_SENTRY:
+  case ACTIVITY_GOTO:
+  case ACTIVITY_EXPLORE:
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_FORTIFYING:
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_LAST:
+    /* do nothing - these activities have no effect
+       on terrain type or tile specials */
+    return FALSE;
+  }
+  assert(0);
+  return FALSE;
+}
+
+
 
 /****************************************************************************
   Return a (static) string with tile name describing terrain and specials.

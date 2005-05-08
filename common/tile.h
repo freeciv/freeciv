@@ -74,9 +74,7 @@ int tile_activity_time(enum unit_activity activity,
 		       const struct tile *ptile);
 
 void tile_change_terrain(struct tile *ptile, Terrain_type_id type);
-void tile_irrigate(struct tile *ptile);
-void tile_mine(struct tile *ptile);
-void tile_transform(struct tile *ptile);
+bool tile_apply_activity(struct tile *ptile, Activity_type_id act);
 
 const char *tile_get_info_text(const struct tile *ptile);
 

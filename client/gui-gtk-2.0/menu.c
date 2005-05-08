@@ -1161,34 +1161,16 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 {
   Terrain_type_id old_terrain = ptile->terrain;
   enum tile_special_type old_special = ptile->special;
-#ifndef NDEBUG
-  struct tile_type *ptype = get_tile_type(ptile->terrain);
-#endif
   const char *text;
 
-  /* Change the terrain manually to avoid any side effects. */
-  switch (activity) {
-  case ACTIVITY_IRRIGATE:
-    assert(ptype->irrigation_result != ptile->terrain
-	   && ptype->irrigation_result != T_NONE);
-    tile_irrigate(ptile);
-    break;
-
-  case ACTIVITY_MINE:
-    assert(ptype->mining_result != ptile->terrain
-	   && ptype->mining_result != T_NONE);
-    tile_mine(ptile);
-    break;
-
-  case ACTIVITY_TRANSFORM:
-    assert(ptype->transform_result != ptile->terrain
-	   && ptype->transform_result != T_NONE);
-    tile_transform(ptile);
-    break;
-
-  default:
+  if(!(activity == ACTIVITY_IRRIGATE
+       || activity == ACTIVITY_MINE
+       || activity == ACTIVITY_TRANSFORM)) {
     assert(0);
     return "-";
+  }
+  else {
+    tile_apply_activity(ptile, activity);
   }
 
   text = tile_get_info_text(ptile);

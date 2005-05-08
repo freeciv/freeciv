@@ -55,7 +55,7 @@ static int get_tile_value(struct tile *ptile)
   old_special = ptile->special;
 
   tile_set_special(ptile, S_ROAD);
-  tile_irrigate(ptile);
+  tile_apply_activity(ptile, ACTIVITY_IRRIGATE);
   irrig_bonus = -value;
   output_type_iterate(o) {
     irrig_bonus += get_output_tile(ptile, o);
@@ -64,7 +64,7 @@ static int get_tile_value(struct tile *ptile)
   ptile->terrain = old_terrain;
   ptile->special = old_special;
   tile_set_special(ptile, S_ROAD);
-  tile_mine(ptile);
+  tile_apply_activity(ptile, ACTIVITY_MINE);
   mine_bonus = -value;
   output_type_iterate(o) {
     mine_bonus += get_output_tile(ptile, o);

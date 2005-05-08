@@ -166,21 +166,11 @@ static void calc_effect(enum unit_activity activity, struct tile *ptile,
 
   switch (activity) {
   case ACTIVITY_ROAD:
-    tile_set_special(ptile, S_ROAD);
-    break;
   case ACTIVITY_RAILROAD:
-    tile_set_special(ptile, S_RAILROAD);
-    break;
   case ACTIVITY_MINE:
-    tile_mine(ptile);
-    break;
-
   case ACTIVITY_IRRIGATE:
-    tile_irrigate(ptile);
-    break;
-
   case ACTIVITY_TRANSFORM:
-    tile_transform(ptile);
+    tile_apply_activity(ptile, activity);
     break;
   default:
     assert(0);
