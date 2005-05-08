@@ -759,13 +759,19 @@ int get_city_bonus(const struct city *pcity, enum effect_type effect_type)
 
 /**************************************************************************
   Returns the effect bonus at a city tile.
+
+  FIXME: this is now used both for tile bonuses, tile-output bonuses,
+  and city-output bonuses.  Thus ptile or poutput may be NULL for
+  certain callers.  This could be changed by adding 2 new functions to
+  the interface but they'd be almost identical and their likely names
+  would conflict with functions already in city.c.
 **************************************************************************/
 int get_city_tile_output_bonus(const struct city *pcity,
 			       const struct tile *ptile,
 			       const struct output_type *poutput,
 			       enum effect_type effect_type)
 {
-  assert(pcity != NULL && ptile != NULL);
+  assert(pcity != NULL);
   return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity, NULL,
 				  ptile, NULL, poutput,
