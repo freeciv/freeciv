@@ -661,6 +661,7 @@ static void help_draw_unit(HDC hdc,int i)
 {
   enum color_std bg_color;
   RECT rc;
+  HBRUSH brush;
   rc.top=unitpos.y;
   rc.left=unitpos.x;
   rc.bottom=unitpos.y+tileset_full_tile_height(tileset);
@@ -674,7 +675,12 @@ static void help_draw_unit(HDC hdc,int i)
   case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
   default:          bg_color = COLOR_STD_BLACK;  break;
   }
-  FillRect(hdc,&rc,brush_std[bg_color]);
+
+  brush = brush_alloc(get_color(bg_color));
+
+  FillRect(hdc, &rc, brush);
+
+  brush_free(brush);
   
   /* Put a picture of the unit in the tile */
   if (i < game.control.num_unit_types) {

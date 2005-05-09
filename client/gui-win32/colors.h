@@ -15,8 +15,13 @@
 
 #include "colors_g.h"
 
-extern HPEN pen_std[COLOR_STD_LAST];
-extern HBRUSH brush_std[COLOR_STD_LAST];
-extern LONG rgb_std[COLOR_STD_LAST];
+struct color {
+  LONG rgb;
+};
+
+HPEN pen_alloc(struct color *color);
+void pen_free(HPEN pen);
+HBRUSH brush_alloc(struct color *color);
+void brush_free(HBRUSH brush);
 
 #endif  /* FC__COLORS_H */

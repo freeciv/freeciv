@@ -216,7 +216,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   rc.right++;
   rc.top--;
   rc.bottom--;
-  SetTextColor(hdc, rgb_std[color]);
+  SetTextColor(hdc, get_color(color)->rgb);
   DrawText(hdc, text, strlen(text), &rc, DT_NOCLIP);
 
   SelectObject(hdc, temp);
@@ -300,13 +300,18 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 {
   HDC hdc = canvas_get_hdc(pcanvas);
   RECT rect;
+  HBRUSH brush;
 
   /* FillRect doesn't fill bottom and right edges, however canvas_x + width
    * and canvas_y + height are each 1 larger than necessary. */
   SetRect(&rect, canvas_x, canvas_y, canvas_x + width,
 		 canvas_y + height);
 
-  FillRect(hdc, &rect, brush_std[color]);
+  brush = brush_alloc(get_color(color));
+
+  FillRect(hdc, &rect, brush);
+
+  brush_free(brush);
 
   canvas_release_hdc(pcanvas);
 }
@@ -328,13 +333,15 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
 		     int dx, int dy)
 {
   HDC hdc = canvas_get_hdc(pcanvas);
-  HPEN old_pen;
+  HPEN old_pen, pen;
 
   /* FIXME: set line type (size). */
-  old_pen = SelectObject(hdc, pen_std[color]);
+  pen = pen_alloc(get_color(color));
+  old_pen = SelectObject(hdc, pen);
   MoveToEx(hdc, start_x, start_y, NULL);
   LineTo(hdc, start_x + dx, start_y + dy);
   SelectObject(hdc, old_pen);
+  pen_free(pen);
 
   canvas_release_hdc(pcanvas);
 }
