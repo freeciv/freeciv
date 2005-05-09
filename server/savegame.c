@@ -3472,6 +3472,8 @@ void game_load(struct section_file *file)
     load_rulesets();
   }
 
+  script_state_load(file);
+
   {
     if (game.version >= 10300) {
       {
@@ -3741,8 +3743,6 @@ void game_load(struct section_file *file)
   players_iterate(pplayer) {
     calc_civ_score(pplayer);
   } players_iterate_end;
-
-  script_state_load(file);
 }
 
 /***************************************************************

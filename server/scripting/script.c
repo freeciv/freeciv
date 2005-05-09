@@ -62,15 +62,11 @@ int script_error(const char *fmt, ...)
 /**************************************************************************
   Invoke the 'callback_name' Lua function.
 **************************************************************************/
-void script_callback_invoke(const char *callback_name,
-    			    bool *stop_emission, bool *remove_callback,
+bool script_callback_invoke(const char *callback_name,
 			    int nargs, va_list args)
 {
   int i, nres;
   bool res;
-
-  *stop_emission = FALSE;
-  *remove_callback = FALSE;
 
   /* The function name */
   lua_getglobal(state, callback_name);
@@ -142,39 +138,25 @@ void script_callback_invoke(const char *callback_name,
 
   /* Call the function with nargs arguments, return 2 results */
   if (lua_pcall(state, nargs, 2, 0) != 0) {
-    return;
+    return FALSE;
   }
 
   nres = lua_gettop(state);
 
-  switch (nres) {
-    case 2:
-      if (lua_isboolean(state, -1)) {
-	res = lua_toboolean(state, -1);
-	lua_pop(state, 1);
+  if (nres == 1) {
+    if (lua_isboolean(state, -1)) {
+      res = lua_toboolean(state, -1);
+      lua_pop(state, 1);
 
-        /* Shall we remove this callback? */
-	if (res) {
-	  *remove_callback = TRUE;
-	}
+      /* Shall we stop the emission of this signal? */
+      if (res) {
+	return TRUE;
       }
-    case 1:
-      if (lua_isboolean(state, -1)) {
-	res = lua_toboolean(state, -1);
-	lua_pop(state, 1);
-
-        /* Shall we stop the emission of this signal? */
-	if (res) {
-	  *stop_emission = TRUE;
-	}
-      }
-      break;
-    case 0:
-      break;
-    default:
-      lua_pop(state, nres);
-      break;
+    }
   }
+
+  lua_pop(state, nres);
+  return FALSE;
 }
 
 /**************************************************************************
@@ -333,10 +315,6 @@ void script_state_load(struct section_file *file)
   /* Variables must be loaded after code is loaded and executed,
    * so we restore their saved state properly */
   script_vars_load(file);
-
-  /* Signals must be loaded last,
-   * so we restore their state properly */
-  script_signals_load(file);
 }
 
 /**************************************************************************
@@ -346,7 +324,5 @@ void script_state_save(struct section_file *file)
 {
   script_code_save(file);
   script_vars_save(file);
-
-  script_signals_save(file);
 }
 

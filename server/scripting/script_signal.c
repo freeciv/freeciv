@@ -67,8 +67,6 @@ struct signal_callback;
 **************************************************************************/
 struct signal {
   int nargs;				  /* number of arguments to pass */
-
-  bool enabled;				  /* reserved for future use */
   struct signal_callback_list *callbacks; /* connected callbacks */
 };
 
@@ -77,8 +75,6 @@ struct signal {
 **************************************************************************/
 struct signal_callback {
   char *name;				  /* callback function name */
-
-  bool enabled;				  /* reserved for future use */
 };
 
 /**************************************************************************
@@ -104,7 +100,6 @@ internal_signal_callback_append(struct signal_callback_list *list,
 
   callback = fc_malloc(sizeof(*callback));
   callback->name = mystrdup(callback_name);
-  callback->enabled = TRUE;
 
   signal_callback_list_append(list, callback);
   return callback;
@@ -138,7 +133,6 @@ static void internal_signal_create(const char *signal_name,
 
     signal = fc_malloc(sizeof(*signal));
     signal->nargs = nargs;
-    signal->enabled = TRUE;
     signal->callbacks = signal_callback_list_new();
 
     hash_insert(signals, name, signal);
@@ -190,16 +184,8 @@ static void internal_signal_invoke_valist(const char *signal_name,
 	      "Signal \"%s\" requires %d args, was passed %d on invoke.",
 	      signal_name, signal->nargs, nargs);
     } else {
-      bool stop_emission, remove_callback;
-
       signal_callback_list_iterate(signal->callbacks, pcallback) {
-	script_callback_invoke(pcallback->name,
-			       &stop_emission, &remove_callback,
-			       nargs, args);
-        if (remove_callback) {
-	  internal_signal_callback_remove(signal->callbacks, pcallback);
-	}
-	if (stop_emission) {
+	if (script_callback_invoke(pcallback->name, nargs, args)) {
 	  break;
 	}
       } signal_callback_list_iterate_end;
@@ -314,78 +300,6 @@ void script_signals_free(void)
     }
     hash_free(signals);
     signals = NULL;
-  }
-}
-
-/**************************************************************************
-  Load script signal callbacks state from file.
-**************************************************************************/
-void script_signals_load(struct section_file *file)
-{
-  unsigned int n1, i;
-
-  /* free existent data, load new data. */
-  script_signals_free();
-  script_signals_init();
-
-  n1 = secfile_lookup_int_default(file, 0, "script.nsignals");
-
-  for (i = 0; i < n1; i++) {
-    unsigned int n2, j;
-    char *signal_name, *callback_name;
-    bool signal_enabled, callback_enabled;
-
-    signal_name = secfile_lookup_str(file, "script_signal%d.name", i);
-    signal_enabled = secfile_lookup_bool(file, "script_signal%d.enabled", i);
-    n2 = secfile_lookup_int(file, "script_signal%d.ncallbacks", i);
-
-    signal_name = mystrdup(signal_name);
-
-    for (j = 0; j < n2; j++) {
-      callback_name = secfile_lookup_str(file,
-	  "script_signal%d.callback%d.name", i, j);
-      callback_enabled = secfile_lookup_bool(file,
-	  "script_signal%d.callback%d.enabled", i, j);
-
-      script_signal_connect(signal_name, callback_name);
-    }
-
-    free(signal_name);
-  }
-}
-
-/**************************************************************************
-  Save script signal callbacks state to file.
-**************************************************************************/
-void script_signals_save(struct section_file *file)
-{
-  if (signals) {
-    unsigned int n1 = hash_num_entries(signals), n2, i, j;
-
-    secfile_insert_int(file, n1, "script.nsignals");
-
-    for (i = 0; i < n1; i++) {
-      const char *name;
-      const struct signal *signal;
-
-      name = hash_key_by_number(signals, i);
-      signal = hash_value_by_number(signals, i);
-
-      n2 = signal_callback_list_size(signal->callbacks);
-
-      secfile_insert_str(file, name, "script_signal%d.name", i);
-      secfile_insert_bool(file, signal->enabled, "script_signal%d.enabled", i);
-      secfile_insert_int(file, n2, "script_signal%d.ncallbacks", i);
-
-      j = 0;
-      signal_callback_list_iterate(signal->callbacks, pcallback) {
-	secfile_insert_str(file, pcallback->name,
-			   "script_signal%d.callback%d.name", i, j);
-	secfile_insert_bool(file, pcallback->enabled,
-			    "script_signal%d.callback%d.enabled", i, j);
-	j++;
-      } signal_callback_list_iterate_end;
-    }
   }
 }
 

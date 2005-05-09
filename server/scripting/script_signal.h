@@ -42,8 +42,5 @@ void script_signal_connect(const char *signal_name, const char *callback_name);
 void script_signals_init(void);
 void script_signals_free(void);
 
-void script_signals_load(struct section_file *file);
-void script_signals_save(struct section_file *file);
-
 #endif
 

@@ -22,8 +22,7 @@ struct section_file;
 int script_error(const char *fmt, ...);
 
 /* callback invocation function. */
-void script_callback_invoke(const char *callback_name,
-    			    bool *stop_emission, bool *remove_callback,
+bool script_callback_invoke(const char *callback_name,
 			    int nargs, va_list args);
 
 /* script functions. */
