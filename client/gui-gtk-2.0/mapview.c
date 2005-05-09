@@ -650,7 +650,7 @@ void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
   if (fog) {
     gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(ssprite));
-    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_foreground(fill_tile_gc, &get_color(COLOR_STD_BLACK)->color);
     gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_stipple(fill_tile_gc, black50);
 
@@ -741,7 +741,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
   GdkPoint points[5];
 
-  gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_YELLOW]);
+  gdk_gc_set_foreground(civ_gc, &get_color(COLOR_STD_YELLOW)->color);
 
   /* gdk_draw_rectangle() must start top-left.. */
   points[0].x = canvas_x;

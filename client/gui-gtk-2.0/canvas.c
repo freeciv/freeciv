@@ -171,7 +171,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 			  enum color_std color,
 			  int canvas_x, int canvas_y, int width, int height)
 {
-  GdkColor *col = colors_standard[color];
+  GdkColor *col = &get_color(color)->color;
 
   switch (pcanvas->type) {
     case CANVAS_PIXMAP:
@@ -202,7 +202,7 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
   if (pcanvas->type == CANVAS_PIXMAP) {
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_bg_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_bg_gc, colors_standard[color]);
+    gdk_gc_set_foreground(fill_bg_gc, &get_color(color)->color);
 
     gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
 		       canvas_x, canvas_y, psprite->width, psprite->height);
@@ -220,7 +220,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
   if (pcanvas->type == CANVAS_PIXMAP) {
     gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+    gdk_gc_set_foreground(fill_tile_gc, &get_color(COLOR_STD_BLACK)->color);
     gdk_gc_set_stipple(fill_tile_gc, black50);
     gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
 
@@ -256,7 +256,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
       break;
     }
 
-    gdk_gc_set_foreground(gc, colors_standard[color]);
+    gdk_gc_set_foreground(gc, &get_color(color)->color);
     gdk_draw_line(pcanvas->v.pixmap, gc,
 		  start_x, start_y, start_x + dx, start_y + dy);
   }
@@ -316,7 +316,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
     layout = pango_layout_new(gdk_pango_context_get());
   }
 
-  gdk_gc_set_foreground(civ_gc, colors_standard[color]);
+  gdk_gc_set_foreground(civ_gc, &get_color(color)->color);
   pango_layout_set_font_description(layout, *fonts[font].font);
   pango_layout_set_text(layout, text, -1);
 

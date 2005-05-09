@@ -26,54 +26,6 @@
 
 #include "colors.h"
 
-static struct rgbtriple {
-  int r, g, b;
-} colors_standard_rgb[COLOR_STD_LAST] = {
-  {  0,   0,   0},  /* Black */
-  {255, 255, 255},  /* White */
-  {255,   0,   0},  /* Red */
-  {255, 255,   0},  /* Yellow */
-  {  0, 255, 200},  /* Cyan */
-  {  0, 200,   0},  /* Ground (green) */
-  {  0,   0, 200},  /* Ocean (blue) */
-  { 86,  86,  86},  /* Background (gray) */
-  {128,   0,   0},  /* race0 */
-  {128, 255, 255},  /* race1 */
-  {255,   0,   0},  /* race2 */
-  {255,   0, 128},  /* race3 */
-  {  0,   0, 128},  /* race4 */
-  {255,   0, 255},  /* race5 */
-  {255, 128,   0},  /* race6 */
-  {255, 255, 128},  /* race7 */
-  {255, 128, 128},  /* race8 */
-  {  0,   0, 255},  /* race9 */
-  {  0, 255,   0},  /* race10 */
-  {  0, 128, 128},  /* race11 */
-  {  0,  64,  64},  /* race12 */
-  {198, 198, 198},  /* race13 */
-};
-
-GdkColor *colors_standard [COLOR_STD_LAST];
-
-/*************************************************************
-...
-*************************************************************/
-static void alloc_standard_colors (void)
-{
-  GdkColormap *cmap;
-  int i;
-
-  for (i=0, cmap=gtk_widget_get_default_colormap (); i<COLOR_STD_LAST; i++) {
-    colors_standard[i]       = fc_malloc(sizeof(GdkColor));
-
-    colors_standard[i]->red  = colors_standard_rgb[i].r<<8;
-    colors_standard[i]->green= colors_standard_rgb[i].g<<8;
-    colors_standard[i]->blue = colors_standard_rgb[i].b<<8;
-  
-    gdk_rgb_find_color(cmap, colors_standard[i]);
-  }
-}
-
 /*************************************************************
 ...
 *************************************************************/
@@ -102,22 +54,27 @@ enum Display_color_type get_visual(void)
   return COLOR_DISPLAY;
 }
 
-/*************************************************************
-...
-*************************************************************/
-void init_color_system(void)
+/****************************************************************************
+  Allocate a color (adjusting it for our colormap if necessary on paletted
+  systems) and return a pointer to it.
+****************************************************************************/
+struct color *color_alloc(int r, int g, int b)
 {
-  alloc_standard_colors();
+  struct color *color = fc_malloc(sizeof(*color));
+  GdkColormap *cmap = gtk_widget_get_default_colormap();
+
+  color->color.red = r << 8;
+  color->color.green = g << 8;
+  color->color.blue = b << 8;
+  gdk_rgb_find_color(cmap, &color->color);
+
+  return color;
 }
 
-/*************************************************************
-...
-*************************************************************/
-void free_color_system(void)
+/****************************************************************************
+  Free a previously allocated color.  See color_alloc.
+****************************************************************************/
+void color_free(struct color *color)
 {
-  int i;
-
-  for (i = 0; i < COLOR_STD_LAST; i++) {
-    free(colors_standard[i]);
-  }
+  free(color);
 }

@@ -20,6 +20,10 @@
 struct sprite;
 struct canvas;			/* opaque type, real type is gui-dep */
 
+enum line_type {
+  LINE_NORMAL, LINE_BORDER, LINE_TILE_FRAME, LINE_GOTO
+};
+
 /* Creator and destructor */
 struct canvas *canvas_create(int width, int height);
 void canvas_free(struct canvas *store);

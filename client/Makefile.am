@@ -141,6 +141,8 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 	climap.h	\
 	clinet.c	\
 	clinet.h	\
+	colors_common.c		\
+	colors_common.h		\
 	control.c	\
 	control.h	\
 	goto.c		\

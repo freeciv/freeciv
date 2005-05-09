@@ -683,7 +683,7 @@ void gui_dialog_present(struct gui_dialog *dlg)
 	GtkWidget *label = dlg->v.tab.label;
 
 	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE,
-	    colors_standard[COLOR_STD_RED]);
+			     &get_color(COLOR_STD_RED)->color);
       }
     }
     break;
@@ -731,7 +731,7 @@ void gui_dialog_alert(struct gui_dialog *dlg)
 	GtkWidget *label = dlg->v.tab.label;
 
 	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE,
-	    colors_standard[COLOR_STD_RACE9]);
+			     &get_color(COLOR_STD_RACE9)->color);
       }
     }
     break;

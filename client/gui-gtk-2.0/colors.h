@@ -17,6 +17,14 @@
 
 #include "colors_g.h"
 
-extern GdkColor *colors_standard[COLOR_STD_LAST];
+struct color {
+  GdkColor color;
+};
+
+enum Display_color_type {
+  BW_DISPLAY, GRAYSCALE_DISPLAY, COLOR_DISPLAY
+};
+
+enum Display_color_type get_visual(void);
 
 #endif  /* FC__COLORS_H */

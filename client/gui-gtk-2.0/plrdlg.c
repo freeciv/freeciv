@@ -110,10 +110,10 @@ static GdkPixbuf *create_player_icon(struct player *plr)
 
   pixmap = gdk_pixmap_new(root_window, width, height, -1);
 
-  gdk_gc_set_foreground(civ_gc, colors_standard[COLOR_STD_BLACK]);
+  gdk_gc_set_foreground(civ_gc, &get_color(COLOR_STD_BLACK)->color);
   gdk_draw_rectangle(pixmap, civ_gc, TRUE, 0, 0, width, height);
 
-  gdk_gc_set_foreground(civ_gc, colors_standard[player_color(plr)]);
+  gdk_gc_set_foreground(civ_gc, &get_color(player_color(plr))->color);
   gdk_draw_rectangle(pixmap, civ_gc, TRUE, 1, 1, width - 2, height - 2);
 
   tmp = gdk_pixbuf_get_from_drawable(NULL, pixmap, NULL, 
