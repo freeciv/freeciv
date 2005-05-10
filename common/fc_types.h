@@ -70,6 +70,7 @@ struct tile;
 struct unit;
 struct impr_type;
 struct output_type;
+struct specialist;
 
 /* Changing these will break network compatibility. */
 #define SP_MAX 20

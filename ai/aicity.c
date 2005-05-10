@@ -98,7 +98,7 @@ static int get_entertainers(const struct city *pcity)
   int providers = 0;
 
   specialist_type_iterate(i) {
-    if (get_specialist(i)->bonus[O_LUXURY] >= HAPPY_COST) {
+    if (get_specialist_output(pcity, i, O_LUXURY) >= HAPPY_COST) {
       providers += pcity->specialists[i];
     }
   } specialist_type_iterate_end;
@@ -279,7 +279,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
     bool useful;
 
     if (is_effect_disabled(pplayer, pcity, pimpr,
-			   NULL, NULL, NULL,
+			   NULL, NULL, NULL, NULL,
 			   peffect)) {
       CITY_LOG(LOG_DEBUG, pcity, "%s has a disabled effect: %s", 
                get_improvement_name(id), effect_type_name(peffect->type));
@@ -296,7 +296,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	mypreq = preq;
         continue;
       }
-      if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, NULL, preq)) {
+      if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, NULL, NULL,
+			 preq)) {
 	useful = FALSE;
 	break;
       }
@@ -323,6 +324,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
       case EFT_OUTPUT_INC_TILE:
       case EFT_OUTPUT_PER_TILE:
       case EFT_OUTPUT_WASTE_PCT:
+      case EFT_SPECIALIST_OUTPUT:
 	  break;
 
       case EFT_SLOW_DOWN_TIMELINE:

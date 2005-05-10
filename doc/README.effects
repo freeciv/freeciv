@@ -115,6 +115,11 @@ cumulative.  For many effects this is undesirable.
 "Trade_Per_Tile" - increases trade generated on each worked tile
 		  by AMOUNT percent
 
+"Specialist_Output" - increases specialist output (food, luxuries, etc.) by
+                  AMOUNT.  This is generally only useful in conjunction with
+                  a Specialist and an OutputType requirement, each at
+                  local range.  See the default ruleset for examples.
+
 "Food_Bonus"	- city's production is increased by AMOUNT percent
 "Prod_Bonus"
 "Trade_Bonus"

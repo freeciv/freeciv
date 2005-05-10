@@ -2074,7 +2074,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 
 	  if (req->source.type == REQ_TERRAIN
 	      && !is_req_active(city_owner(pcity), pcity, NULL,
-				NULL, NULL, NULL,
+				NULL, NULL, NULL, NULL,
 				req)) {
           do_sell_building(pplayer, pcity, impr);
           notify_player_ex(pplayer, tile1, E_IMP_SOLD,

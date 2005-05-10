@@ -2266,7 +2266,6 @@ static void load_ruleset_cities(struct section_file *file)
   for (i = 0; i < nval; i++) {
     const char *name = specialist_names[i], *short_name;
     struct specialist *s = &specialists[i];
-    int *bonus = s->bonus;
     int j;
 
     sz_strlcpy(s->name, name);
@@ -2274,12 +2273,6 @@ static void load_ruleset_cities(struct section_file *file)
       = secfile_lookup_str_default(file, name,
 				   "specialist.%s_short_name", name);
     sz_strlcpy(s->short_name, short_name);
-
-    output_type_iterate(o) {
-      bonus[o] = secfile_lookup_int_default(file, 0,
-					    "specialist.%s_bonus_%s",
-					    name, get_output_identifier(o));
-    } output_type_iterate_end;
 
     for (j = 0; j < MAX_NUM_REQS; j++) {
       const char *type
@@ -2958,15 +2951,10 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.default_specialist = DEFAULT_SPECIALIST;
   specialist_type_iterate(sp) {
     struct specialist *s = get_specialist(sp);
-    int *bonus = s->bonus;
     int j;
 
     sz_strlcpy(misc_p.specialist_name[sp], s->name);
     sz_strlcpy(misc_p.specialist_short_name[sp], s->short_name);
-
-    output_type_iterate(o) {
-      misc_p.specialist_bonus[sp * O_COUNT + o] = bonus[o];
-    } output_type_iterate_end;
 
     for (j = 0; j < MAX_NUM_REQS; j++) {
       int index = sp * MAX_NUM_REQS + j;

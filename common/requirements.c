@@ -39,6 +39,7 @@ static const char *req_source_type_names[] = {
   "UnitType",
   "UnitFlag",
   "OutputType",
+  "Specialist",
   "MinSize"
 };
 
@@ -157,6 +158,11 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_SPECIALIST:
+    source.value.specialist = find_specialist_by_name(value);
+    if (source.value.specialist != SP_MAX) {
+      return source;
+    }
   case REQ_MINSIZE:
     source.value.minsize = atoi(value);
     if (source.value.minsize > 0) {
@@ -212,6 +218,9 @@ struct req_source req_source_from_values(int type, int value)
   case REQ_OUTPUTTYPE:
     source.value.outputtype = value;
     return source;
+  case REQ_SPECIALIST:
+    source.value.specialist = value;
+    return source;
   case REQ_MINSIZE:
     source.value.minsize = value;
     return source;
@@ -264,6 +273,9 @@ void req_source_get_values(struct req_source *source, int *type, int *value)
   case REQ_OUTPUTTYPE:
     *value = source->value.outputtype;
     return;
+  case REQ_SPECIALIST:
+    *value = source->value.specialist;
+    return;
   case REQ_MINSIZE:
     *value = source->value.minsize;
     return;
@@ -305,6 +317,7 @@ struct requirement req_from_str(const char *type,
     case REQ_UNITTYPE:
     case REQ_UNITFLAG:
     case REQ_OUTPUTTYPE:
+    case REQ_SPECIALIST:
       req.range = REQ_RANGE_LOCAL;
       break;
     case REQ_MINSIZE:
@@ -349,9 +362,8 @@ struct requirement req_from_str(const char *type,
     break;
   case REQ_UNITTYPE:
   case REQ_UNITFLAG:
-    invalid = (req.range != REQ_RANGE_LOCAL);
-    break;
   case REQ_OUTPUTTYPE:
+  case REQ_SPECIALIST:
     invalid = (req.range != REQ_RANGE_LOCAL);
     break;
   case REQ_NONE:
@@ -719,6 +731,7 @@ bool is_req_active(const struct player *target_player,
 		   const struct tile *target_tile,
 		   const struct unit *target_unit,
 		   const struct output_type *target_output,
+		   const struct specialist *target_specialist,
 		   const struct requirement *req)
 {
   /* Note the target may actually not exist.  In particular, effects that
@@ -766,6 +779,9 @@ bool is_req_active(const struct player *target_player,
   case REQ_OUTPUTTYPE:
     return (target_output
 	    && target_output->index == req->source.value.outputtype);
+  case REQ_SPECIALIST:
+    return (target_specialist
+	    && target_specialist->index == req->source.value.specialist);
   case REQ_MINSIZE:
     return target_city && target_city->size >= req->source.value.minsize;
   case REQ_LAST:
@@ -796,6 +812,7 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct tile *target_tile,
 		     const struct unit *target_unit,
 		     const struct output_type *target_output,
+		     const struct specialist *target_specialist,
 		     const struct requirement *reqs, int num_reqs)
 {
   int i;
@@ -805,6 +822,7 @@ bool are_reqs_active(const struct player *target_player,
       break; /* Short-circuit any more checks. */
     } else if (!is_req_active(target_player, target_city, target_building,
 			      target_tile, target_unit, target_output,
+			      target_specialist,
 			      &reqs[i])) {
       return FALSE;
     }
@@ -829,6 +847,7 @@ bool is_req_unchanging(const struct requirement *req)
   case REQ_NATION:
   case REQ_NONE:
   case REQ_OUTPUTTYPE:
+  case REQ_SPECIALIST: /* Only so long as it's at local range only */
     return TRUE;
   case REQ_TECH:
   case REQ_GOV:
@@ -882,6 +901,8 @@ bool are_req_sources_equal(const struct req_source *psource1,
     return psource1->value.unitflag == psource2->value.unitflag;
   case REQ_OUTPUTTYPE:
     return psource1->value.outputtype == psource2->value.outputtype;
+  case REQ_SPECIALIST:
+    return psource1->value.specialist == psource2->value.specialist;
   case REQ_MINSIZE:
     return psource1->value.minsize == psource2->value.minsize;
   case REQ_LAST:
@@ -930,6 +951,9 @@ char *get_req_source_text(const struct req_source *psource,
     break;
   case REQ_OUTPUTTYPE:
     mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz);
+    break;
+  case REQ_SPECIALIST:
+    mystrlcat(buf, get_specialist(psource->value.specialist)->name, bufsz);
     break;
   case REQ_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),

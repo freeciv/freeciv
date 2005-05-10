@@ -30,6 +30,7 @@ enum effect_type {
   EFT_CAPITAL_CITY,
   EFT_ENABLE_NUKE,
   EFT_ENABLE_SPACE,
+  EFT_SPECIALIST_OUTPUT,
   EFT_OUTPUT_BONUS,
   EFT_OUTPUT_BONUS_2,
   EFT_OUTPUT_ADD_TILE,
@@ -160,6 +161,7 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct tile *target_tile,
 		      const struct unit *target_unit,
 		      const struct output_type *target_output,
+		      const struct specialist *target_specialist,
 		      Impr_type_id source, const struct effect *effect);
 
 bool is_building_replaced(const struct city *pcity, Impr_type_id building);
@@ -168,6 +170,10 @@ bool is_building_replaced(const struct city *pcity, Impr_type_id building);
 int get_world_bonus(enum effect_type effect_type);
 int get_player_bonus(const struct player *plr, enum effect_type effect_type);
 int get_city_bonus(const struct city *pcity, enum effect_type effect_type);
+int get_city_specialist_output_bonus(const struct city *pcity,
+				     const struct specialist *pspecialist,
+				     const struct output_type *poutput,
+				     enum effect_type effect_type);
 int get_city_tile_output_bonus(const struct city *pcity,
 			       const struct tile *ptile,
 			       const struct output_type *poutput,
@@ -184,6 +190,7 @@ bool is_effect_disabled(const struct player *target_player,
 		        const struct tile *target_tile,
 			const struct unit *target_unit,
 			const struct output_type *target_output,
+			const struct specialist *target_specialist,
 		        const struct effect *peffect);
 
 int get_player_bonus_effects(struct effect_list *plist,

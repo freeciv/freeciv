@@ -254,6 +254,18 @@ const char *get_output_name(Output_type_id output)
   return _(output_types[output].name);
 }
 
+/****************************************************************************
+  Return the output type for this index.
+****************************************************************************/
+struct output_type *get_output_type(Output_type_id output)
+{
+  if (output < 0 || output >= O_LAST) {
+    assert(0);
+    return NULL;
+  }
+  return &output_types[output];
+}
+
 /**************************************************************************
   Find the output type for this output identifier.
 **************************************************************************/
@@ -397,7 +409,7 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id)
       break;
     }
     if (!is_req_active(city_owner(pcity), pcity, NULL,
-		       pcity->tile, NULL, NULL,
+		       pcity->tile, NULL, NULL, NULL,
 		       &building->req[i])) {
       return FALSE;
     }
@@ -445,7 +457,7 @@ bool can_eventually_build_improvement(const struct city *pcity,
     }
     if (is_req_unchanging(&building->req[r])
 	&& !is_req_active(city_owner(pcity), pcity, NULL,
-			  pcity->tile, NULL, NULL,
+			  pcity->tile, NULL, NULL, NULL,
 			  &building->req[r])) {
       return FALSE;
     }
@@ -523,7 +535,8 @@ bool can_eventually_build_unit(const struct city *pcity, Unit_type_id id)
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type)
 {
-  return are_reqs_active(city_owner(pcity), pcity, NULL, NULL, NULL, NULL,
+  return are_reqs_active(city_owner(pcity), pcity, NULL,
+			 NULL, NULL, NULL, NULL,
 			 get_specialist(type)->req, MAX_NUM_REQS);
 }
 
@@ -1112,7 +1125,7 @@ int get_player_city_style(const struct player *plr)
 
   while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
-    if (are_reqs_active(plr, NULL, NULL, NULL, NULL, NULL,
+    if (are_reqs_active(plr, NULL, NULL, NULL, NULL, NULL, NULL,
 			city_styles[replace].req, MAX_NUM_REQS)) {
       style = replace;
     }
@@ -1546,11 +1559,12 @@ static inline void add_specialist_output(const struct city *pcity,
 					 int *output)
 {
   specialist_type_iterate(sp) {
-    int *bonus = get_specialist(sp)->bonus;
     int count = pcity->specialists[sp];
 
     output_type_iterate(stat) {
-      output[stat] += count * bonus[stat];
+      int amount = get_specialist_output(pcity, sp, stat);
+
+      output[stat] += count * amount;
     } output_type_iterate_end;
   } specialist_type_iterate_end;
 }
@@ -2266,13 +2280,15 @@ Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity)
 {
   int best = DEFAULT_SPECIALIST;
-  int val = get_specialist(best)->bonus[otype];
+  int val = get_specialist_output(pcity, best, otype);
 
   specialist_type_iterate(i) {
     if (!pcity || city_can_use_specialist(pcity, i)) {
-      if (get_specialist(i)->bonus[otype] > val) {
+      int val2 = get_specialist_output(pcity, i, otype);
+
+      if (val2 > val) {
 	best = i;
-	val = get_specialist(i)->bonus[otype];
+	val = val2;
       }
     }
   } specialist_type_iterate_end;

@@ -2431,14 +2431,10 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   DEFAULT_SPECIALIST = packet->default_specialist;
   specialist_type_iterate(sp) {
     struct specialist *s = get_specialist(sp);
-    int *bonus = s->bonus;
     int j;
 
     sz_strlcpy(s->name, packet->specialist_name[sp]);
     sz_strlcpy(s->short_name, packet->specialist_short_name[sp]);
-    output_type_iterate(o) {
-      bonus[o] = packet->specialist_bonus[sp * O_COUNT + o];
-    } output_type_iterate_end;
 
     for (j = 0; j < MAX_NUM_REQS; j++) {
       int index = sp * MAX_NUM_REQS + j;

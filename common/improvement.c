@@ -305,7 +305,7 @@ bool can_player_build_improvement_direct(const struct player *p,
       break;
     }
     if (impr->req[i].range >= REQ_RANGE_PLAYER
-	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL,
+	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL,
 			  &impr->req[i])) {
       return FALSE;
     }
@@ -390,7 +390,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
     }
     if (building->req[r].range >= REQ_RANGE_PLAYER
 	&& is_req_unchanging(&building->req[r])
-	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL,
+	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL,
 			  &building->req[r])) {
       return FALSE;
     }

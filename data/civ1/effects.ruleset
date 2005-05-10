@@ -16,6 +16,37 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+
+; Specialist output bonuses
+
+[effect_elvis]
+name    = "Specialist_Output"
+value   = 2
+reqs    =
+    { "type", "name", "range"
+      "Specialist", "elvis", "Local"
+      "OutputType", "luxury", "Local"
+    }
+
+[effect_scientist]
+name    = "Specialist_Output"
+value   = 2
+reqs    =
+    { "type", "name", "range"
+      "Specialist", "scientist", "Local"
+      "OutputType", "science", "Local"
+    }
+
+[effect_taxman]
+name    = "Specialist_Output"
+value   = 2
+reqs    =
+    { "type", "name", "range"
+      "Specialist", "taxman", "Local"
+      "OutputType", "gold", "Local"
+    }
+
+
 [effect_civil_war_0]
 name    = "Civil_War_Chance"
 value   = 90

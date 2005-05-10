@@ -369,6 +369,7 @@ static inline bool is_free_worked_tile(int city_x, int city_y);
 
 const char *get_output_identifier(Output_type_id output);
 const char *get_output_name(Output_type_id output);
+struct output_type *get_output_type(Output_type_id output);
 Output_type_id find_output_type_by_identifier(const char *id);
 
 /* properties */

@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include "city.h"
+#include "effects.h"
 #include "specialist.h"
 
 struct specialist specialists[SP_MAX];
@@ -42,6 +44,21 @@ struct specialist *get_specialist(Specialist_type_id spec)
 }
 
 /****************************************************************************
+  Return the specialist type with the given (untranslated!) name, or SP_MAX
+  if none is found.
+****************************************************************************/
+Specialist_type_id find_specialist_by_name(const char *name)
+{
+  specialist_type_iterate(sp) {
+    if (strcmp(specialists[sp].name, name) == 0) {
+      return sp;
+    }
+  } specialist_type_iterate_end;
+
+  return SP_MAX;
+}
+
+/****************************************************************************
   Return a string showing the number of specialists in the array.
 
   For instance with a city with (0,3,1) specialists call
@@ -63,4 +80,17 @@ const char *specialists_string(const int *specialists)
   } specialist_type_iterate_end;
 
   return buf;
+}
+
+/****************************************************************************
+  Return the output for the specialist type with this output type.
+****************************************************************************/
+int get_specialist_output(const struct city *pcity,
+			  Specialist_type_id sp, Output_type_id otype)
+{
+  struct specialist *pspecialist = &specialists[sp];
+  struct output_type *poutput = get_output_type(otype);
+
+  return get_city_specialist_output_bonus(pcity, pspecialist, poutput,
+					  EFT_SPECIALIST_OUTPUT);
 }

@@ -23,7 +23,6 @@ struct specialist {
   int index;
   char name[MAX_LEN_NAME];
   char short_name[MAX_LEN_NAME];
-  int bonus[O_MAX];
   struct requirement req[MAX_NUM_REQS];
 };
 
@@ -36,8 +35,12 @@ extern int default_specialist;
 
 void specialists_init(void);
 struct specialist *get_specialist(Specialist_type_id spec);
+Specialist_type_id find_specialist_by_name(const char *name);
 
 const char *specialists_string(const int *specialists);
+
+int get_specialist_output(const struct city *pcity,
+			  Specialist_type_id sp, Output_type_id otype);
 
 #define specialist_type_iterate(sp)					    \
 {									    \
