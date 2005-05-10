@@ -1152,7 +1152,7 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    *
    * Of course it's necessary to draw to the whole area to cover up any old
    * drawing that was done there. */
-  canvas_put_rectangle(mapview.store, COLOR_STD_BLACK,
+  canvas_put_rectangle(mapview.store, get_color(COLOR_STD_BLACK),
 		       canvas_x, canvas_y, width, height);
 
   mapview_layer_iterate(layer) {
@@ -2277,8 +2277,8 @@ bool map_canvas_resized(int width, int height)
       canvas_free(mapview.tmp_store);
     }
     mapview.store = canvas_create(full_width, full_height);
-    canvas_put_rectangle(mapview.store, COLOR_STD_BLACK, 0, 0,
-			 full_width, full_height);
+    canvas_put_rectangle(mapview.store, get_color(COLOR_STD_BLACK),
+			 0, 0, full_width, full_height);
 
     mapview.tmp_store = canvas_create(full_width, full_height);
   }
@@ -2341,7 +2341,8 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   sprite = get_spaceship_sprite(t, SPACESHIP_HABITATION);
   get_sprite_dimensions(sprite, &w, &h);
 
-  canvas_put_rectangle(pcanvas, COLOR_STD_BLACK, 0, 0, w * 7, h * 7);
+  canvas_put_rectangle(pcanvas, get_color(COLOR_STD_BLACK),
+		       0, 0, w * 7, h * 7);
 
   for (i = 0; i < NUM_SS_MODULES; i++) {
     const int j = i / 3;

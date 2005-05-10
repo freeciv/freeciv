@@ -802,7 +802,8 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	canvas_put_text(pcanvas,
 			startx + (width - text_w) / 2,
 			starty + (height - text_h) / 2,
-			FONT_REQTREE_TEXT, COLOR_STD_BLACK, text);
+			FONT_REQTREE_TEXT, get_color(COLOR_STD_BLACK),
+			text);
       }
 
       /* Draw all outgoing edges */
@@ -814,7 +815,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	endx = dest_node->node_x;
 	endy = dest_node->node_y + dest_node->node_height / 2;
 
-	canvas_put_line(pcanvas, COLOR_STD_BLACK, LINE_NORMAL,
+	canvas_put_line(pcanvas, get_color(COLOR_STD_BLACK), LINE_NORMAL,
 			startx, starty, endx - startx, endy - starty);
       }
     }
