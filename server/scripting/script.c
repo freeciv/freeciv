@@ -138,7 +138,22 @@ bool script_callback_invoke(const char *callback_name,
 
   /* Call the function with nargs arguments, return 1 results */
   if (lua_pcall(state, nargs, 1, 0) != 0) {
-    freelog(LOG_ERROR, "Error in script function \"%s\"", callback_name);
+    freelog(LOG_ERROR, "Error in script function \"%s\":", callback_name);
+
+    nres = lua_gettop(state);
+
+    /* Output error message. */
+    if (nres == 1) {
+      if (lua_isstring(state, -1)) {
+	const char *msg;
+
+	msg = lua_tostring(state, -1);
+
+	freelog(LOG_ERROR, "%s", msg);
+      }
+    }
+
+    lua_pop(state, nres);
     return FALSE;
   }
 
