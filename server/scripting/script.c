@@ -136,8 +136,9 @@ bool script_callback_invoke(const char *callback_name,
     }
   }
 
-  /* Call the function with nargs arguments, return 2 results */
-  if (lua_pcall(state, nargs, 2, 0) != 0) {
+  /* Call the function with nargs arguments, return 1 results */
+  if (lua_pcall(state, nargs, 1, 0) != 0) {
+    freelog(LOG_ERROR, "Error in script function \"%s\"", callback_name);
     return FALSE;
   }
 
@@ -146,7 +147,6 @@ bool script_callback_invoke(const char *callback_name,
   if (nres == 1) {
     if (lua_isboolean(state, -1)) {
       res = lua_toboolean(state, -1);
-      lua_pop(state, 1);
 
       /* Shall we stop the emission of this signal? */
       if (res) {
