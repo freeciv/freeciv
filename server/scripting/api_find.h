@@ -30,6 +30,8 @@ Unit_Type *api_find_unit_type(int unit_type_id);
 Unit_Type *api_find_unit_type_by_name(const char *name_orig);
 Tech_Type *api_find_tech_type(int tech_type_id);
 Tech_Type *api_find_tech_type_by_name(const char *name_orig);
+Terrain *api_find_terrain(int terrain_id);
+Terrain *api_find_terrain_by_name(const char *name_orig);
 
 #endif
 

@@ -23,6 +23,7 @@
 #include "nation.h"
 #include "tech.h"
 #include "unittype.h"
+#include "terrain.h"
 
 #include "events.h"
 
@@ -35,6 +36,7 @@ typedef struct impr_type Impr_Type;
 typedef struct nation_type Nation_Type;
 typedef struct unit_type Unit_Type;
 typedef struct advance Tech_Type;
+typedef struct tile_type Terrain;
 
 #endif
 

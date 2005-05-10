@@ -128,3 +128,20 @@ Tech_Type *api_find_tech_type_by_name(const char *name_orig)
   return api_find_tech_type(id);
 }
 
+/**************************************************************************
+  Return the terrain with the given terrain_id index.
+**************************************************************************/
+Terrain *api_find_terrain(int terrain_id)
+{
+  return get_tile_type(terrain_id);
+}
+
+/**************************************************************************
+  Return the tech type with the given name_orig.
+**************************************************************************/
+Terrain *api_find_terrain_by_name(const char *name_orig)
+{
+  Terrain_type_id id =  get_terrain_by_name(name_orig);
+  return api_find_terrain(id);
+}
+

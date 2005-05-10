@@ -52,41 +52,38 @@ struct Tile {
   const int nat_x;
   const int nat_y;
 
+  int terrain @ terrain_id;
+
   const int index @ id;
 };
 
 struct Impr_Type {
-  const char *name;
-
-  const char *name_orig;
+  const char *name_orig @ name;
 
   const int index @ id;
 };
 
 struct Nation_Type {
-  const char *name;
-  const char *name_plural;
-
-  const char *name_orig;
-  const char *name_plural_orig;
+  const char *name_orig @ name;
+  const char *name_plural_orig @ name_plural;
 
   const int index @ id;
 };
 
 struct Unit_Type {
-  const char *name;
-
-  const char *name_orig;
+  const char *name_orig @ name;
 
   const int index @ id;
 };
 
 struct Tech_Type {
-  const char *name;
-
-  const char *name_orig;
+  const char *name_orig @ name;
 
   const int index @ id;
+};
+
+struct Terrain {
+  const char *terrain_name_orig @ name;
 };
 
 $[
@@ -111,6 +108,11 @@ end
 
 function Unit:homecity()
   return find.city(self:owner(), self.homecity_id)
+end
+
+-- Tile methods.
+function Tile:terrain()
+  return find.terrain(self.terrain_id)
 end
 $]
 
@@ -137,6 +139,10 @@ module find {
     api_find_tech_type_by_name @ tech_type (const char *name_orig);
   Tech_Type *
     api_find_tech_type @ tech_type (int tech_type_id);
+  Terrain *
+    api_find_terrain_by_name @ terrain (const char *name_orig);
+  Terrain *
+    api_find_terrain @ terrain(int terrain_id);
 }
 
 $[
