@@ -2942,6 +2942,10 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   } square_iterate_end;
 
   handle_unit_move_consequences(punit, psrctile, pdesttile);
+  script_signal_emit("unit_moved", 3,
+		     API_TYPE_UNIT, punit,
+		     API_TYPE_TILE, psrctile,
+		     API_TYPE_TILE, pdesttile);
   wakeup_neighbor_sentries(punit);
   if (!unit_survive_autoattack(punit)) {
     return FALSE;

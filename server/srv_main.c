@@ -480,6 +480,12 @@ static void begin_turn(bool is_new_turn)
   send_game_info(game.game_connections);
 
   if (is_new_turn) {
+    script_signal_emit("turn_started", 2,
+		       API_TYPE_INT, game.info.turn,
+		       API_TYPE_INT, game.info.year);
+  }
+
+  if (is_new_turn) {
     /* We build scores at the beginning of every turn.  We have to
      * build them at the beginning so that the AI can use the data,
      * and we are sure to have it when we need it. */

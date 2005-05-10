@@ -308,5 +308,8 @@ void script_signals_free(void)
 **************************************************************************/
 static void signals_create(void)
 {
+  script_signal_create("turn_started", 2, API_TYPE_INT, API_TYPE_INT);
+  script_signal_create("unit_moved",
+		       3, API_TYPE_UNIT, API_TYPE_TILE, API_TYPE_TILE);
   script_signal_create("hut_enter", 1, API_TYPE_UNIT);
 }
