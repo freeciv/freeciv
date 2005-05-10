@@ -90,9 +90,17 @@ static struct hash_table *signals;
 static const char *api_type_names[] = {
   NULL, NULL, NULL,
 
-  "Player", "City", "Unit", "Tile",
+  "Player",
+  "City",
+  "Unit",
+  "Tile",
 
-  "Building_Type", "Nation_Type", "Unit_Type", "Tech_Type", "Terrain"
+  "Government",
+  "Building_Type",
+  "Nation_Type",
+  "Unit_Type",
+  "Tech_Type",
+  "Terrain"
 };
 
 /**************************************************************************

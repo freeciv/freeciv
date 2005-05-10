@@ -64,7 +64,7 @@ struct Tile {
   const int index @ id;
 };
 
-struct Building_Type {
+struct Government {
   const char *name_orig @ name;
 
   const int index @ id;
@@ -77,8 +77,18 @@ struct Nation_Type {
   const int index @ id;
 };
 
+struct Building_Type {
+  const char *name_orig @ name;
+
+  int build_cost;
+
+  const int index @ id;
+};
+
 struct Unit_Type {
   const char *name_orig @ name;
+
+  int build_cost;
 
   const int index @ id;
 };
@@ -131,8 +141,17 @@ function Tile:terrain()
   return find.terrain(self.terrain_id)
 end
 
--- UnitType methods.
-function UnitType:has_role(role)
+-- Building_Type methods.
+function Building_Type:build_shield_cost()
+  return self.build_cost
+end
+
+-- Unit_Type methods.
+function Unit_Type:build_shield_cost()
+  return self.build_cost
+end
+
+function Unit_Type:has_role(role)
   return methods_unit_type_has_role(self, role)
 end
 $]
@@ -144,26 +163,30 @@ module find {
   Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
   Tile *api_find_tile @ tile (int nat_x, int nat_y);
 
-  Building_Type *
-    api_find_building_type_by_name @ building_type (const char *name_orig);
-  Building_Type *
-    api_find_building_type @ building_type (int building_type_id);
-  Nation_Type *
-    api_find_nation_type_by_name @ nation_type (const char *name_orig);
-  Nation_Type *
-    api_find_nation_type @ nation_type (int nation_type_id);
-  Unit_Type *
-    api_find_unit_type_by_name @ unit_type (const char *name_orig);
-  Unit_Type *
-    api_find_unit_type @ unit_type (int unit_type_id);
-  Tech_Type *
-    api_find_tech_type_by_name @ tech_type (const char *name_orig);
-  Tech_Type *
-    api_find_tech_type @ tech_type (int tech_type_id);
-  Terrain *
-    api_find_terrain_by_name @ terrain (const char *name_orig);
-  Terrain *
-    api_find_terrain @ terrain(int terrain_id);
+  Government *api_find_government
+		@ government (int government_id);
+  Government *api_find_government_by_name
+		@ government (const char *name_orig);
+  Nation_Type *api_find_nation_type_by_name
+		@ nation_type (const char *name_orig);
+  Nation_Type *api_find_nation_type
+		@ nation_type (int nation_type_id);
+  Building_Type *api_find_building_type_by_name
+		@ building_type (const char *name_orig);
+  Building_Type *api_find_building_type
+		@ building_type (int building_type_id);
+  Unit_Type *api_find_unit_type_by_name
+		@ unit_type (const char *name_orig);
+  Unit_Type *api_find_unit_type
+		@ unit_type (int unit_type_id);
+  Tech_Type *api_find_tech_type_by_name
+		@ tech_type (const char *name_orig);
+  Tech_Type *api_find_tech_type
+		@ tech_type (int tech_type_id);
+  Terrain *api_find_terrain_by_name
+		@ terrain (const char *name_orig);
+  Terrain *api_find_terrain
+		@ terrain (int terrain_id);
 }
 
 $[

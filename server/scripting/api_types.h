@@ -18,9 +18,10 @@
 #include "player.h"
 #include "city.h"
 #include "unit.h"
-#include "map.h"
-#include "improvement.h"
+#include "tile.h"
+#include "government.h"
 #include "nation.h"
+#include "improvement.h"
 #include "tech.h"
 #include "unittype.h"
 #include "terrain.h"
@@ -33,8 +34,9 @@ typedef struct player_ai Player_ai;
 typedef struct city City;
 typedef struct unit Unit;
 typedef struct tile Tile;
-typedef struct impr_type Building_Type;
+typedef struct government Government;
 typedef struct nation_type Nation_Type;
+typedef struct impr_type Building_Type;
 typedef struct unit_type Unit_Type;
 typedef struct advance Tech_Type;
 typedef struct tile_type Terrain;
