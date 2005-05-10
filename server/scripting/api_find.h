@@ -22,8 +22,8 @@ City *api_find_city(Player *pplayer, int city_id);
 Unit *api_find_unit(Player *pplayer, int unit_id);
 Tile *api_find_tile(int nat_x, int nat_y);
 
-Impr_Type *api_find_impr_type(int impr_type_id);
-Impr_Type *api_find_impr_type_by_name(const char *name_orig);
+Building_Type *api_find_building_type(int building_type_id);
+Building_Type *api_find_building_type_by_name(const char *name_orig);
 Nation_Type *api_find_nation_type(int nation_type_id);
 Nation_Type *api_find_nation_type_by_name(const char *name_orig);
 Unit_Type *api_find_unit_type(int unit_type_id);

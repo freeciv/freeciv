@@ -92,7 +92,7 @@ static const char *api_type_names[] = {
 
   "Player", "City", "Unit", "Tile",
 
-  "Impr_Type", "Nation_Type", "Unit_Type", "Tech_Type", "Terrain"
+  "Building_Type", "Nation_Type", "Unit_Type", "Tech_Type", "Terrain"
 };
 
 /**************************************************************************

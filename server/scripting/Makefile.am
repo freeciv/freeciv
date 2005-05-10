@@ -17,6 +17,8 @@ libscripting_a_SOURCES = \
 		api_gen.h	\
 		api_intl.c	\
 		api_intl.h	\
+		api_methods.c	\
+		api_methods.h	\
 		api_notify.c	\
 		api_notify.h	\
 		api_utilities.c	\

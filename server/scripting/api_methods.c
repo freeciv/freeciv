@@ -11,33 +11,22 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-#ifndef FC__API_TYPES_H
-#define FC__API_TYPES_H
-
-#include "game.h"
-#include "player.h"
-#include "city.h"
-#include "unit.h"
-#include "map.h"
-#include "improvement.h"
-#include "nation.h"
-#include "tech.h"
-#include "unittype.h"
-#include "terrain.h"
-
-#include "events.h"
-
-/* Classes. */
-typedef struct player Player;
-typedef struct player_ai Player_ai;
-typedef struct city City;
-typedef struct unit Unit;
-typedef struct tile Tile;
-typedef struct impr_type Building_Type;
-typedef struct nation_type Nation_Type;
-typedef struct unit_type Unit_Type;
-typedef struct advance Tech_Type;
-typedef struct tile_type Terrain;
-
+#ifdef HAVE_CONFIG_H
+#include <config.h>
 #endif
+
+#include "api_methods.h"
+#include "script.h"
+
+bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
+{
+  enum unit_role_id id = unit_role_from_str(role);
+
+  if (id != L_LAST) {
+    return unit_has_role(punit_type->index, id);
+  } else {
+    script_error("Unit role \"%s\" does not exist", role);
+    return FALSE;
+  }
+}
 

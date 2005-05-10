@@ -63,18 +63,18 @@ Tile *api_find_tile(int nat_x, int nat_y)
 /**************************************************************************
   Return the improvement type with the given impr_type_id index.
 **************************************************************************/
-Impr_Type *api_find_impr_type(int impr_type_id)
+Building_Type *api_find_building_type(int building_type_id)
 {
-  return get_improvement_type(impr_type_id);
+  return get_improvement_type(building_type_id);
 }
 
 /**************************************************************************
   Return the improvement type with the given name_orig.
 **************************************************************************/
-Impr_Type *api_find_impr_type_by_name(const char *name_orig)
+Building_Type *api_find_building_type_by_name(const char *name_orig)
 {
   Impr_type_id id = find_improvement_by_name_orig(name_orig);
-  return api_find_impr_type(id);
+  return api_find_building_type(id);
 }
 
 /**************************************************************************
