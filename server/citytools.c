@@ -36,6 +36,8 @@
 #include "tech.h"
 #include "unit.h"
 
+#include "script.h"
+
 #include "barbarian.h"
 #include "cityturn.h"
 #include "gamelog.h"
@@ -1027,6 +1029,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   } unit_list_iterate_end;
   sanity_check_city(pcity);
 
+  script_signal_emit("city_built", 1, API_TYPE_CITY, pcity);
   gamelog(GAMELOG_FOUNDCITY, pcity);
 }
 

@@ -5,7 +5,7 @@ function turn_callback(turn, year)
     notify.event(nil, nil, E.TUTORIAL,
 _('Welcome to Freeciv.  You lead a civilization.  Your\\n\
 task is to conquer the world!  You should start by\\n\
-exploring the land around you with your explorers,\\n\
+exploring the land around you with your explorer,\\n\
 and using your settlers to find a good place to build\\n\
 a city.'))
   end
@@ -13,17 +13,177 @@ end
 signal.connect('turn_started', 'turn_callback')
 
 function unit_moved_callback(unit, src_tile, dst_tile)
-  if unit:type().name == 'Settlers'
-    and (dst_tile:terrain().name == 'Grassland'
-         or dst_tile:terrain().name == 'Plains') then  
-    notify.event(unit:owner(), dst_tile, E.TUTORIAL,
+  if unit:owner():is_human() then
+    if citiesbuilt == 0
+      and unit:type().name == 'Settlers'
+      and (dst_tile:terrain().name == 'Grassland'
+           or dst_tile:terrain().name == 'Plains') then  
+      notify.event(unit:owner(), dst_tile, E.TUTORIAL,
 _('This looks like a good place to build a city.  The next time this\\n\
-unit gets a chance to move, press (b) to found a city.'))
+unit gets a chance to move, press (b) to found a city.\\n\
+\\n\
+In general you want to build cities on open ground near water.  Food\\n\
+is the most important resource for any city.  Grassland and plains\\n\
+provide plenty of food.'))
+    end
   end
 end
 signal.connect('unit_moved', 'unit_moved_callback')
 
-print 'Loading scenario events.'
+function city_built_callback(city)
+  if city:owner():is_human() then
+    if citiesbuilt == 0 then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('Now you have built your first city.  The city window should have\\n\
+opened automatically; if not click on the city to open it.  Cities are\\n\
+a fundamental concept in Freeciv, so you should familiarize yourself\\n\
+with them by playing around in the window.  See the help menu for more.\\n\
+\\n\
+You probably want to build some settlers first, so as to expand your\\n\
+civilization further.  Click on the production tab, then click on the\\n\
+settler unit from the list of possible productions, then click on the\\n\
+Change button to begin building it before closing the city dialog.  If\\n\
+all goes well the city should display the settler production on the\\n\
+map view.'))
+    elseif citiesbuilt == 1 then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('Congratulations, you have founded your second city.  This city will\\n\
+behave almost exactly like the first one - it will be slightly different\\n\
+because of the terrain it is built around.  You probably want to build\\n\
+settlers here too.'))
+    elseif citiesbuilt == 2 then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('You have built your third city!  Your civilization seems to be\\n\
+thriving.  It might be time to think about a military.  Pick one of\\n\
+the cities that has a high production, and convert it into a military\\n\
+base. Build a Barracks there first, then start work on a military\\n\
+unit.  Pick the best unit you have available - at the beginning of\\n\
+the game, Warriors will be the only choice, but soon you willll have \\n\
+plenty of options.\\n\
+\\n\
+This might also be a good time to use the worklist feature of the\\n\
+city dialog production report.  Click on Barracks, then click Change\\n\
+to begin building them.  Then double-click on a military unit to\\n\
+append it to the worklist.  As soon as the Barracks are complete the\\n\
+city will automatically switch over to producing the unit.'))
+    end
+    citiesbuilt = citiesbuilt + 1
+  end
+end
+citiesbuilt = 0
+signal.connect('city_built', 'city_built_callback')
+
+function city_growth_callback(city, size)
+  if city:owner():is_human() then
+    if size == 2 and not growth2msg then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('Your city has grown!  As a city grows, more citizens become\\n\
+available that can be put to work in the fields or dedicated as\\n\
+citizen specialists.  A city of size two or more may also build\\n\
+settlers, which costs one unit of population.\\n\
+\\n\
+If your city is building settlers, you should consider buying them\\n\
+now.  Open the city dialog and click on the Buy button.  This trades\\n\
+in gold (if you have enough of it) to instantly complete the\\n\
+ production.'))
+      growth2msg = true
+    elseif size == 3 and not growth3msg then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('Your city has grown again!  Now with three citizens you have\\n\
+a fair amount of choice over where the city should focuse its\\n\
+resources.  A city with three citizens gets to work three\\n\
+different tiles, in addition to its center tile which is worked\\n\
+for free.  In the city dialog, the map shows which tiles are working\\n\
+and how much food, shields, and trade each provides.  Food is used\\n\
+to grow your city, shields are used for production of buildings\\n\
+and units, while trade provides taxable revenue that can be\\n\
+turned into science research, gold, or luxuries.\\n\
+\\n\
+Click on a worked tile to remove the citizen from that tile.  Then\\n\
+click on an unworked tile to place a worker there.  You may place\\n\
+up to three workers, of course.  The remaining citizens are all\\n\
+specialists - right now they are all entertainers which provide\\n\
+only luxuries (which will not be useful until later).'))
+      growth3msg = true
+    elseif size == 5 and not growth5msg then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('Now your city has grown to size five.  As cities get larger unrest\\n\
+becomes a problem.  A city of this size will usually have one unhappy\\n\
+citizen unless pacifying effects are used; meaning one entertainer\\n\
+specialist is required to keep your citzens content.  This is basically\\n\
+a wasted citizen.\\n\
+\\n\
+There are several things that can be done about this.  One quick fix\\n\
+is to build a temple (or other cultural building) that will make an\\n\
+unhappy citizen content (see the help on buildings for specs\\n\
+on each building type).  As you get more large cities, it may pay off\\n\
+to change your tax rates (by pressing shift-T) to dedicate some of\\n\
+your taxes directly to luxuries (every two luxuries will pacify one\\n\
+citizen).  Building a marketplace enhances the benefit from this\\n\
+by providing +50% luxuries to the city.'))
+      growth5msg = true
+    elseif size == 8 and not growth8msg then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('Finally you have grown a city to size eight.  A size eight city can\\n\
+provide substantial output provided you have enough luxuries to keep\\n\
+your population content.\\n\
+\\n\
+To grow a city beyond size eight requires an aqueduct.  If your city is\\n\
+going to continue to grow you should start building one soon.  Building\\n\
+an aqueduct requires the Construction technology.'))
+      growth8msg = true
+    elseif size == 12 and not growth12msg then
+      notify.event(city:owner(), city.tile, E.TUTORIAL,
+_('You have grown a city to size twelve.  To grow\\n\
+it larger, however, you will need to build a Sewer System.  This\\n\
+requires the Sanitation technology.'))
+      growth12msg = true
+    elseif size == 13 and not growth13msg then
+      notify.event(city:owner(), city.tile, E.TUTURIAL,
+_('Congratulations; you have grown a city to size 13.  A city this\\n\
+large can provide a tremendous amount of output if properly upgraded.\\n\
+Make sure you have enough taxes and cultural buildings to keep your\\n\
+citizens content.  You should also make sure the city is upgraded\\n\
+with buildings that provide bonuses to its output.  Library, Marketplace,\\n\
+Factory, and Offshore Platform are four good buildings that provide a\\n\
+large bonus to big cities.  Consider how much benefit each building\\n\
+will provide and weigh this against its cost - for very large cities\\n\
+almost all buildings are worthwhile.  Such large cities will also\\n\
+provide enough taxable revenue (gold) to allow you to purchase some\\n\
+buildings to accelerate their productions.'))
+      growth13msg = true
+    end
+  end
+end
+growth2msg = false
+growth3msg = false
+growth5msg = false
+growth8msg = false
+growth12msg = false
+growth13msg = false
+signal.connect('city_growth', 'city_growth_callback')
+
+function unit_built_callback(unit)
+  if not settlermsg and unit:type().name == 'Settlers' then
+    notify.event(unit:owner(), unit.tile, E.TUTORIAL,
+_('You have built a settler unit.  Settlers are best used to build \\n\
+new cities, so as to expand your civilization.  Move your settler\\n\
+away from your existing cities to find a spot for a new city.\\n\
+\\n\
+Again, cities are best built on open ground near water.  Grassland\\n\
+and plains provide food for the city.  Forests and hills provide\\n\
+the resources (shields) needed for building things.  Rivers and ocean\\n\
+give trade bonuses that provide civilization-wide benefits.  Desert,\\n\
+tundra, and mountains generally provide little output and are not\\n\
+of much use to small cities.  See the help on terrain and specials\\n\
+for more information about terrain specs.'))
+    settlermsg = true
+  end
+end
+settlermsg = false
+signal.connect('unit_built', 'unit_built_callback')
+
+print 'Loading tutorial events.'
 "
 
 [game]
@@ -76,7 +236,7 @@ razechance=20
 civstyle=2
 save_nturns=10
 save_name="civgame"
-aifill=3
+aifill=2
 ; Should set "novice" as well.
 scorelog=0
 id=""
@@ -122,8 +282,8 @@ swampsize=5
 deserts=5
 riverlength=5
 forestsize=20
-topology_id=1
-size=4
+topology_id=5
+size=1
 width=8
 height=8
 seed=0
@@ -132,7 +292,7 @@ riches=250
 wetness=50
 steepness=30
 huts=50
-generator=1
+generator=3
 have_huts=0
 temperature=50
 alltemperate=0

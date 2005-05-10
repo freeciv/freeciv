@@ -35,6 +35,8 @@
 #include "tech.h"
 #include "unit.h"
 
+#include "script.h"
+
 #include "citytools.h"
 #include "gamelog.h"
 #include "maphand.h"
@@ -513,6 +515,8 @@ static void city_increase_size(struct city *pcity)
 
   notify_player_ex(powner, pcity->tile, E_CITY_GROWTH,
                    _("%s grows to size %d."), pcity->name, pcity->size);
+  script_signal_emit("city_growth", 2,
+		      API_TYPE_CITY, pcity, API_TYPE_INT, pcity->size);
 
   sanity_check_city(pcity);
   sync_cities();
@@ -1135,6 +1139,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   if (pcity->shield_stock
       >= unit_build_shield_cost(pcity->currently_building)) {
     int pop_cost = unit_pop_value(pcity->currently_building);
+    struct unit *punit;
 
     /* Should we disband the city? -- Massimo */
     if (pcity->size == pop_cost
@@ -1154,9 +1159,10 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     /* don't update turn_last_built if we returned above */
     pcity->turn_last_built = game.info.turn;
 
-    (void) create_unit(pplayer, pcity->tile, pcity->currently_building,
-		       do_make_unit_veteran(pcity, pcity->currently_building),
-		       pcity->id, 0);
+    punit = create_unit(pplayer, pcity->tile, pcity->currently_building,
+			do_make_unit_veteran(pcity,
+					     pcity->currently_building),
+			pcity->id, 0);
 
     /* After we created the unit remove the citizen. This will also
        rearrange the worker to take into account the extra resources
@@ -1178,6 +1184,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		     pcity->name,
 		     unit_types[pcity->currently_building].name);
 
+    script_signal_emit("unit_built",
+		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
     gamelog(GAMELOG_BUILD, pcity);
 
     /* Done building this unit; time to move on to the next. */

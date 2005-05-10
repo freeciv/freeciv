@@ -311,5 +311,14 @@ static void signals_create(void)
   script_signal_create("turn_started", 2, API_TYPE_INT, API_TYPE_INT);
   script_signal_create("unit_moved",
 		       3, API_TYPE_UNIT, API_TYPE_TILE, API_TYPE_TILE);
+
+  /* Includes all newly-built cities. */
+  script_signal_create("city_built", 1, API_TYPE_CITY);
+
+  script_signal_create("city_growth", 2, API_TYPE_CITY, API_TYPE_INT);
+
+  /* Only includes units built in cities, for now. */
+  script_signal_create("unit_built", 2, API_TYPE_UNIT, API_TYPE_CITY);
+
   script_signal_create("hut_enter", 1, API_TYPE_UNIT);
 }
