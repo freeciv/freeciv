@@ -185,9 +185,9 @@ extern bool is_server;
 #define GAME_MIN_AIFILL              0
 #define GAME_MAX_AIFILL              GAME_MAX_MAX_PLAYERS
 
-#define GAME_DEFAULT_RESEARCHCOST	   20
-#define GAME_MIN_RESEARCHCOST	       4
-#define GAME_MAX_RESEARCHCOST        100
+#define GAME_DEFAULT_SCIENCEBOX 100
+#define GAME_MIN_SCIENCEBOX 1
+#define GAME_MAX_SCIENCEBOX 10000
 
 #define GAME_DEFAULT_DIPLCOST        0
 #define GAME_MIN_DIPLCOST            0

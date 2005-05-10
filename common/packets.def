@@ -334,7 +334,6 @@ end
 PACKET_GAME_INFO=15; sc
   GOLD gold;
   UINT32 tech;
-  UINT8 researchcost;
   UINT32 skill_level;
 
   FLOAT seconds_to_phasedone;
@@ -360,6 +359,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 angrycitizen;
   UINT8 techpenalty;
   UINT8 foodbox;
+  UINT32 sciencebox;
   UINT8 diplomacy;
   UINT8 dispersion;
   UINT16 tcptimeout;

@@ -3276,9 +3276,16 @@ void game_load(struct section_file *file)
 
     
     game.info.end_year      = secfile_lookup_int(file, "game.end_year");
-    game.info.researchcost  = secfile_lookup_int_default(file, 0, "game.researchcost");
-    if (game.info.researchcost == 0) {
-      game.info.researchcost = secfile_lookup_int(file, "game.techlevel");
+    game.info.sciencebox
+      = secfile_lookup_int_default(file, 0, "game.box_science");
+    if (game.info.sciencebox == 0) {
+      /* Researchcost was used for 2.0 and earlier servers. */
+      game.info.sciencebox
+	= secfile_lookup_int_default(file, 0, "game.researchcost");
+      if (game.info.sciencebox == 0) {
+	/* With even earlier servers (?) techlevel was used for this info. */
+	game.info.sciencebox = secfile_lookup_int(file, "game.techlevel");
+      }
     }
 
     game.info.year          = secfile_lookup_int(file, "game.year");
@@ -3832,7 +3839,6 @@ void game_save(struct section_file *file, const char *save_reason)
 		      "game.simultaneous_phases_now");
   secfile_insert_bool(file, game.simultaneous_phases_stored,
 		      "game.simultaneous_phases_stored");
-  secfile_insert_int(file, game.info.researchcost, "game.researchcost");
   secfile_insert_int(file, game.info.min_players, "game.min_players");
   secfile_insert_int(file, game.info.max_players, "game.max_players");
   secfile_insert_int(file, game.info.nplayers, "game.nplayers");
@@ -3855,6 +3861,11 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.freecost, "game.freecost");
   secfile_insert_int(file, game.info.conquercost, "game.conquercost");
   secfile_insert_int(file, game.info.foodbox, "game.foodbox");
+  secfile_insert_int(file, game.info.sciencebox, "game.box_science");
+  {
+    /* These values are for compatibility with 2.0 and previous servers. */
+    secfile_insert_int(file, game.info.sciencebox / 5, "game.researchcost.");
+  }
   secfile_insert_int(file, game.info.techpenalty, "game.techpenalty");
   secfile_insert_int(file, game.info.razechance, "game.razechance");
 

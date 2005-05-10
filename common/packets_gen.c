@@ -3304,19 +3304,11 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->researchcost = readin;
-    }
-  }
-  if (BV_ISSET(fields, 3)) {
-    {
-      int readin;
-    
       dio_get_uint32(&din, &readin);
       real_packet->skill_level = readin;
     }
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
     {
       int tmp;
       
@@ -3324,7 +3316,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->seconds_to_phasedone = (float)(tmp) / 10000.0;
     }
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 4)) {
     {
       int readin;
     
@@ -3332,7 +3324,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->timeout = readin;
     }
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 5)) {
     {
       int readin;
     
@@ -3340,7 +3332,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->turn = readin;
     }
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     {
       int readin;
     
@@ -3348,7 +3340,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->phase = readin;
     }
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     {
       int readin;
     
@@ -3356,7 +3348,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->year = readin;
     }
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     {
       int readin;
     
@@ -3364,8 +3356,8 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->end_year = readin;
     }
   }
-  real_packet->simultaneous_phases = BV_ISSET(fields, 10);
-  if (BV_ISSET(fields, 11)) {
+  real_packet->simultaneous_phases = BV_ISSET(fields, 9);
+  if (BV_ISSET(fields, 10)) {
     {
       int readin;
     
@@ -3373,7 +3365,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->num_phases = readin;
     }
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
     {
       int readin;
     
@@ -3381,7 +3373,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->min_players = readin;
     }
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 12)) {
     {
       int readin;
     
@@ -3389,7 +3381,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->max_players = readin;
     }
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 13)) {
     {
       int readin;
     
@@ -3397,7 +3389,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->nplayers = readin;
     }
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     {
       int readin;
     
@@ -3405,7 +3397,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->player_idx = readin;
     }
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 15)) {
     {
       int readin;
     
@@ -3413,7 +3405,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->globalwarming = readin;
     }
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 16)) {
     {
       int readin;
     
@@ -3421,7 +3413,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->heating = readin;
     }
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 17)) {
     {
       int readin;
     
@@ -3429,7 +3421,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->warminglevel = readin;
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     {
       int readin;
     
@@ -3437,7 +3429,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->nuclearwinter = readin;
     }
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 19)) {
     {
       int readin;
     
@@ -3445,7 +3437,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->cooling = readin;
     }
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 20)) {
     {
       int readin;
     
@@ -3453,7 +3445,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->coolinglevel = readin;
     }
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 21)) {
     {
       int readin;
     
@@ -3461,7 +3453,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->cityfactor = readin;
     }
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 22)) {
     {
       int readin;
     
@@ -3469,7 +3461,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->diplcost = readin;
     }
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 23)) {
     {
       int readin;
     
@@ -3477,7 +3469,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->freecost = readin;
     }
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 24)) {
     {
       int readin;
     
@@ -3485,7 +3477,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->conquercost = readin;
     }
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 25)) {
     {
       int readin;
     
@@ -3493,7 +3485,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->unhappysize = readin;
     }
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 26)) {
     {
       int readin;
     
@@ -3501,7 +3493,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->angrycitizen = readin;
     }
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 27)) {
     {
       int readin;
     
@@ -3509,12 +3501,20 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       real_packet->techpenalty = readin;
     }
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 28)) {
     {
       int readin;
     
       dio_get_uint8(&din, &readin);
       real_packet->foodbox = readin;
+    }
+  }
+  if (BV_ISSET(fields, 29)) {
+    {
+      int readin;
+    
+      dio_get_uint32(&din, &readin);
+      real_packet->sciencebox = readin;
     }
   }
   if (BV_ISSET(fields, 30)) {
@@ -4031,115 +4031,115 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->researchcost != real_packet->researchcost);
+  differ = (old->skill_level != real_packet->skill_level);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->skill_level != real_packet->skill_level);
+  differ = (old->seconds_to_phasedone != real_packet->seconds_to_phasedone);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (old->seconds_to_phasedone != real_packet->seconds_to_phasedone);
+  differ = (old->timeout != real_packet->timeout);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->timeout != real_packet->timeout);
+  differ = (old->turn != real_packet->turn);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (old->turn != real_packet->turn);
+  differ = (old->phase != real_packet->phase);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
-  differ = (old->phase != real_packet->phase);
+  differ = (old->year != real_packet->year);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 7);}
 
-  differ = (old->year != real_packet->year);
+  differ = (old->end_year != real_packet->end_year);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 8);}
 
-  differ = (old->end_year != real_packet->end_year);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
-
   differ = (old->simultaneous_phases != real_packet->simultaneous_phases);
   if(differ) {different++;}
-  if(packet->simultaneous_phases) {BV_SET(fields, 10);}
+  if(packet->simultaneous_phases) {BV_SET(fields, 9);}
 
   differ = (old->num_phases != real_packet->num_phases);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->min_players != real_packet->min_players);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->max_players != real_packet->max_players);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 12);}
 
   differ = (old->nplayers != real_packet->nplayers);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 13);}
 
   differ = (old->player_idx != real_packet->player_idx);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 14);}
 
   differ = (old->globalwarming != real_packet->globalwarming);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->heating != real_packet->heating);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 16);}
 
   differ = (old->warminglevel != real_packet->warminglevel);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->nuclearwinter != real_packet->nuclearwinter);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 18);}
 
   differ = (old->cooling != real_packet->cooling);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 19);}
 
   differ = (old->coolinglevel != real_packet->coolinglevel);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 20);}
 
   differ = (old->cityfactor != real_packet->cityfactor);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 21);}
 
   differ = (old->diplcost != real_packet->diplcost);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 22);}
 
   differ = (old->freecost != real_packet->freecost);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
+  if(differ) {BV_SET(fields, 23);}
 
   differ = (old->conquercost != real_packet->conquercost);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 24);}
 
   differ = (old->unhappysize != real_packet->unhappysize);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
+  if(differ) {BV_SET(fields, 25);}
 
   differ = (old->angrycitizen != real_packet->angrycitizen);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
+  if(differ) {BV_SET(fields, 26);}
 
   differ = (old->techpenalty != real_packet->techpenalty);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
+  if(differ) {BV_SET(fields, 27);}
 
   differ = (old->foodbox != real_packet->foodbox);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 28);}
+
+  differ = (old->sciencebox != real_packet->sciencebox);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 29);}
 
@@ -4468,86 +4468,86 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint32(&dout, real_packet->tech);
   }
   if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->researchcost);
-  }
-  if (BV_ISSET(fields, 3)) {
     dio_put_uint32(&dout, real_packet->skill_level);
   }
-  if (BV_ISSET(fields, 4)) {
+  if (BV_ISSET(fields, 3)) {
     dio_put_uint32(&dout, (int)(real_packet->seconds_to_phasedone * 10000));
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_uint32(&dout, real_packet->timeout);
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 5)) {
     dio_put_sint16(&dout, real_packet->turn);
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_sint16(&dout, real_packet->phase);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_sint16(&dout, real_packet->year);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_sint16(&dout, real_packet->end_year);
   }
-  /* field 10 is folded into the header */
-  if (BV_ISSET(fields, 11)) {
+  /* field 9 is folded into the header */
+  if (BV_ISSET(fields, 10)) {
     dio_put_uint32(&dout, real_packet->num_phases);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint8(&dout, real_packet->min_players);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_uint8(&dout, real_packet->max_players);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->nplayers);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_uint8(&dout, real_packet->player_idx);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_uint32(&dout, real_packet->globalwarming);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_uint32(&dout, real_packet->heating);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 17)) {
     dio_put_uint32(&dout, real_packet->warminglevel);
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint32(&dout, real_packet->nuclearwinter);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 19)) {
     dio_put_uint32(&dout, real_packet->cooling);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 20)) {
     dio_put_uint32(&dout, real_packet->coolinglevel);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 21)) {
     dio_put_uint8(&dout, real_packet->cityfactor);
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 22)) {
     dio_put_uint8(&dout, real_packet->diplcost);
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 23)) {
     dio_put_uint8(&dout, real_packet->freecost);
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 24)) {
     dio_put_uint8(&dout, real_packet->conquercost);
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 25)) {
     dio_put_uint8(&dout, real_packet->unhappysize);
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 26)) {
     dio_put_uint8(&dout, real_packet->angrycitizen);
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 27)) {
     dio_put_uint8(&dout, real_packet->techpenalty);
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 28)) {
     dio_put_uint8(&dout, real_packet->foodbox);
+  }
+  if (BV_ISSET(fields, 29)) {
+    dio_put_uint32(&dout, real_packet->sciencebox);
   }
   if (BV_ISSET(fields, 30)) {
     dio_put_uint8(&dout, real_packet->diplomacy);

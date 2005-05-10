@@ -197,7 +197,6 @@ void game_init(void)
   game.info.diplchance    = GAME_DEFAULT_DIPLCHANCE;
   game.info.freecost      = GAME_DEFAULT_FREECOST;
   game.info.conquercost   = GAME_DEFAULT_CONQUERCOST;
-  game.info.researchcost  = GAME_DEFAULT_RESEARCHCOST;
   game.info.dispersion    = GAME_DEFAULT_DISPERSION;
   game.info.cityfactor    = GAME_DEFAULT_CITYFACTOR;
   game.info.citymindist   = GAME_DEFAULT_CITYMINDIST;
@@ -210,6 +209,7 @@ void game_init(void)
   game.info.unhappysize   = GAME_DEFAULT_UNHAPPYSIZE;
   game.info.angrycitizen  = GAME_DEFAULT_ANGRYCITIZEN;
   game.info.foodbox       = GAME_DEFAULT_FOODBOX;
+  game.info.sciencebox = GAME_DEFAULT_SCIENCEBOX;
   game.info.aqueductloss  = GAME_DEFAULT_AQUEDUCTLOSS;
   game.info.killcitizen   = GAME_DEFAULT_KILLCITIZEN;
   game.info.techpenalty   = GAME_DEFAULT_TECHPENALTY;

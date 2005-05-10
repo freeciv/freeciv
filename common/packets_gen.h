@@ -101,7 +101,6 @@ struct packet_tile_info {
 struct packet_game_info {
   int gold;
   int tech;
-  int researchcost;
   int skill_level;
   float seconds_to_phasedone;
   int timeout;
@@ -129,6 +128,7 @@ struct packet_game_info {
   int angrycitizen;
   int techpenalty;
   int foodbox;
+  int sciencebox;
   int diplomacy;
   int dispersion;
   int tcptimeout;

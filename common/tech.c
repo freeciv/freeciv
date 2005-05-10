@@ -35,7 +35,9 @@ struct advance advances[A_LAST];
    server/ruleset.c (for the server)
    client/packhand.c (for the client) */
 
-static int techcoststyle1[A_LAST];
+/* Precalculated costs according to techcost style 1.  These do not include
+ * the sciencebox multiplier. */
+static double techcoststyle1[A_LAST];
 
 static const char *flag_names[] = {
   "Bonus_Tech", "Bridge", "Railroad", "Fortress",
@@ -370,7 +372,8 @@ int total_bulbs_required(const struct player *pplayer)
 int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech)
 {
-  int cost, tech_cost_style = game.info.tech_cost_style;
+  int tech_cost_style = game.info.tech_cost_style;
+  double base_cost;
 
   if (!is_future_tech(tech) && get_invention(pplayer, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */
@@ -389,25 +392,24 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   switch (tech_cost_style) {
   case 0:
-    cost = pplayer->research->techs_researched * game.info.researchcost;
+    base_cost = pplayer->research->techs_researched * 20;
     break;
   case 1:
-    cost = techcoststyle1[tech];
+    base_cost = techcoststyle1[tech];
     break;
   case 2:
-    cost = (advances[tech].preset_cost * game.info.researchcost) /
-	GAME_DEFAULT_RESEARCHCOST;
+    base_cost = advances[tech].preset_cost;
     break;
   default:
     die("Invalid tech_cost_style %d %d", game.info.tech_cost_style,
 	tech_cost_style);
-    cost = 0;
+    base_cost = 0.0;
   }
 
   /* Research becomes more expensive this year and after. */
   if (game.info.tech_cost_double_year != 0
       && game.info.year >= game.info.tech_cost_double_year) {
-    cost *= 2;
+    base_cost *= 2.0;
   }
 
   switch (game.info.tech_leakage) {
@@ -427,7 +429,8 @@ int base_total_bulbs_required(const struct player *pplayer,
 	}
       } players_iterate_end;
 
-      cost = ((players - players_with_tech_and_embassy) * cost) / players;
+      base_cost *= (double)(players - players_with_tech_and_embassy);
+      base_cost /= (double)players;
     }
     break;
 
@@ -442,7 +445,8 @@ int base_total_bulbs_required(const struct player *pplayer,
 	}
       } players_iterate_end;
 
-      cost = ((players - players_with_tech) * cost) / players;
+      base_cost *= (double)(players - players_with_tech);
+      base_cost /= (double)players;
     }
     break;
 
@@ -460,7 +464,8 @@ int base_total_bulbs_required(const struct player *pplayer,
 	}
       } players_iterate_end;
 
-      cost = ((players - players_with_tech) * cost) / players;
+      base_cost *= (double)(players - players_with_tech);
+      base_cost /= (double)players;
     }
     break;
 
@@ -474,15 +479,12 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   if (pplayer->ai.control) {
     assert(pplayer->ai.science_cost > 0);
-    cost = (cost * pplayer->ai.science_cost) / 100;
+    base_cost *= (double)pplayer->ai.science_cost / 100.0;
   }
 
-  /* If we have many players, tech cost may drop to 0.  */
-  if (cost == 0) {
-    cost = 1;
-  }
+  base_cost *= (double)game.info.sciencebox / 100.0;
 
-  return cost;
+  return MAX(base_cost, 1);
 }
 
 /**************************************************************************
@@ -537,11 +539,10 @@ void precalc_tech_data()
   } tech_type_iterate_end;
 
   tech_type_iterate(tech) {
-    const int style1_cost = ((advances[tech].num_reqs + 1)
-			     * sqrt(advances[tech].num_reqs + 1)
-			     * (game.info.researchcost / 2));
+    double reqs = advances[tech].num_reqs + 1;
+    const double cost = 10.0 * reqs * sqrt(reqs);
 
-    techcoststyle1[tech] = MAX(style1_cost, game.info.researchcost);
+    techcoststyle1[tech] = MAX(cost, 20.0);
   } tech_type_iterate_end;
 }
 

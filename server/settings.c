@@ -450,14 +450,15 @@ struct settings_s settings[] = {
              "techs really expensive."), NULL,
 	  GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL)
 
-  GEN_INT("researchcost", game.info.researchcost,
+  GEN_INT("sciencebox", game.info.sciencebox,
 	  SSET_RULES, SSET_SCIENCE, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Points required to gain a new tech"),
+	  N_("Technology cost multiplier percentage"),
 	  N_("This affects how quickly players can research new "
-	     "technology. Doubling its value will make all technologies "
-	     "take twice as long to research."), NULL,
-	  GAME_MIN_RESEARCHCOST, GAME_MAX_RESEARCHCOST, 
-	  GAME_DEFAULT_RESEARCHCOST)
+	     "technology. All tech costs are multiplied by this amount "
+	     "(as a percentage). The base tech costs are determined by "
+	     "the ruleset or other game settings."),
+	  NULL, GAME_MIN_SCIENCEBOX, GAME_MAX_SCIENCEBOX, 
+	  GAME_DEFAULT_SCIENCEBOX)
 
   GEN_INT("techpenalty", game.info.techpenalty,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
