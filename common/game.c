@@ -279,6 +279,7 @@ void game_init(void)
   improvements_init();
   techs_init();
   unit_types_init();
+  specialists_init();
   idex_init();
   cm_init();
   

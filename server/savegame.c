@@ -2063,7 +2063,7 @@ static void player_load(struct player *plr, int plrno,
     specialist_type_iterate(sp) {
       pcity->specialists[sp]
 	= secfile_lookup_int(file, "player%d.c%d.n%s", plrno, i,
-			     game.rgame.specialists[sp].name);
+			     get_specialist(sp)->name);
     } specialist_type_iterate_end;
 
     for (j = 0; j < NUM_TRADEROUTES; j++)
@@ -2856,7 +2856,7 @@ static void player_save(struct player *plr, int plrno,
     specialist_type_iterate(sp) {
       secfile_insert_int(file, pcity->specialists[sp],
 			 "player%d.c%d.n%s", plrno, i,
-			 game.rgame.specialists[sp].name);
+			 get_specialist(sp)->name);
     } specialist_type_iterate_end;
 
     for (j = 0; j < NUM_TRADEROUTES; j++)

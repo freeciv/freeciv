@@ -98,7 +98,7 @@ static int get_entertainers(const struct city *pcity)
   int providers = 0;
 
   specialist_type_iterate(i) {
-    if (game.rgame.specialists[i].bonus[O_LUXURY] >= HAPPY_COST) {
+    if (get_specialist(i)->bonus[O_LUXURY] >= HAPPY_COST) {
       providers += pcity->specialists[i];
     }
   } specialist_type_iterate_end;

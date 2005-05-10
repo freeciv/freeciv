@@ -126,10 +126,9 @@ static const char *cr_entry_specialist(const struct city *pcity,
 				       const void *data)
 {
   static char buf[8];
-  const struct specialist *sp_data = data;
-  Specialist_type_id sp = sp_data - game.rgame.specialists;
+  const struct specialist *sp = data;
 
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[sp]);
+  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[sp->index]);
   return buf;
 }
 
@@ -551,13 +550,13 @@ void init_city_report_game_data(void)
     p->width = 2;
     p->space = 1;
     p->title1 = Q_("?specialist:S");
-    p->title2 = Q_(game.rgame.specialists[sp].short_name);
+    p->title2 = Q_(get_specialist(sp)->short_name);
     my_snprintf(explanation[sp], sizeof(explanation[sp]),
-		_("Specialists: %s"), _(game.rgame.specialists[sp].name));
+		_("Specialists: %s"), _(get_specialist(sp)->name));
     p->explanation = explanation[sp];
-    p->data = &game.rgame.specialists[sp];
+    p->data = get_specialist(sp);
     p->func = cr_entry_specialist;
-    p->tagname = game.rgame.specialists[sp].name;
+    p->tagname = get_specialist(sp)->name;
 
     i++;
   } specialist_type_iterate_end;

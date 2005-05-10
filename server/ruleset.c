@@ -2265,14 +2265,15 @@ static void load_ruleset_cities(struct section_file *file)
 
   for (i = 0; i < nval; i++) {
     const char *name = specialist_names[i], *short_name;
-    int *bonus = game.rgame.specialists[i].bonus;
+    struct specialist *s = &specialists[i];
+    int *bonus = s->bonus;
     int j;
 
-    sz_strlcpy(game.rgame.specialists[i].name, name);
+    sz_strlcpy(s->name, name);
     short_name
       = secfile_lookup_str_default(file, name,
 				   "specialist.%s_short_name", name);
-    sz_strlcpy(game.rgame.specialists[i].short_name, short_name);
+    sz_strlcpy(s->short_name, short_name);
 
     output_type_iterate(o) {
       bonus[o] = secfile_lookup_int_default(file, 0,
@@ -2303,20 +2304,19 @@ static void load_ruleset_cities(struct section_file *file)
 	req.source.type = REQ_NONE;
       }
 
-      game.rgame.specialists[i].req[j] = req;
+      s->req[j] = req;
     }
 
-    if (game.rgame.specialists[i].req[0].source.type == REQ_NONE
-	&& game.rgame.default_specialist == -1) {
-      game.rgame.default_specialist = i;
+    if (s->req[0].source.type == REQ_NONE && DEFAULT_SPECIALIST == -1) {
+      DEFAULT_SPECIALIST = i;
     }
   }
-  if (game.rgame.default_specialist == -1) {
+  if (DEFAULT_SPECIALIST == -1) {
     freelog(LOG_FATAL, "You must give a min_size of 0 for at least one "
 	    "specialist type (in %s).", filename);
     exit(EXIT_FAILURE);
   }
-  game.rgame.num_specialist_types = nval;
+  SP_COUNT = nval;
   free(specialist_names);
 
   game.info.celebratesize = 
@@ -2957,12 +2957,12 @@ static void send_ruleset_game(struct conn_list *dest)
   misc_p.req_array_size = SP_COUNT * MAX_NUM_REQS;
   misc_p.default_specialist = DEFAULT_SPECIALIST;
   specialist_type_iterate(sp) {
-    int *bonus = game.rgame.specialists[sp].bonus;
+    struct specialist *s = get_specialist(sp);
+    int *bonus = s->bonus;
     int j;
 
-    sz_strlcpy(misc_p.specialist_name[sp], game.rgame.specialists[sp].name);
-    sz_strlcpy(misc_p.specialist_short_name[sp],
-	       game.rgame.specialists[sp].short_name);
+    sz_strlcpy(misc_p.specialist_name[sp], s->name);
+    sz_strlcpy(misc_p.specialist_short_name[sp], s->short_name);
 
     output_type_iterate(o) {
       misc_p.specialist_bonus[sp * O_COUNT + o] = bonus[o];
@@ -2971,7 +2971,7 @@ static void send_ruleset_game(struct conn_list *dest)
     for (j = 0; j < MAX_NUM_REQS; j++) {
       int index = sp * MAX_NUM_REQS + j;
 
-      req_get_values(&game.rgame.specialists[sp].req[j],
+      req_get_values(&s->req[j],
 		     &misc_p.specialist_req_type[index],
 		     &misc_p.specialist_req_range[index],
 		     &misc_p.specialist_req_survives[index],

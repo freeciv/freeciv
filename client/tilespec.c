@@ -1526,7 +1526,7 @@ static const char *get_citizen_name(struct citizen_type citizen)
    * translate. */
   switch (citizen.type) {
   case CITIZEN_SPECIALIST:
-    return game.rgame.specialists[citizen.spec_type].name;
+    return get_specialist(citizen.spec_type)->name;
   case CITIZEN_HAPPY:
     return "happy";
   case CITIZEN_CONTENT:

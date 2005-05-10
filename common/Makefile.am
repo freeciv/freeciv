@@ -51,6 +51,8 @@ libcivcommon_a_SOURCES = \
 		requirements.h	\
 		spaceship.c	\
 		spaceship.h	\
+		specialist.c	\
+		specialist.h	\
 		tech.c		\
 		tech.h		\
 		terrain.c	\

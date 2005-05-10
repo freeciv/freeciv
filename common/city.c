@@ -524,7 +524,7 @@ bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type)
 {
   return are_reqs_active(city_owner(pcity), pcity, NULL, NULL, NULL, NULL,
-			 game.rgame.specialists[type].req, MAX_NUM_REQS);
+			 get_specialist(type)->req, MAX_NUM_REQS);
 }
 
 /**************************************************************************
@@ -1546,7 +1546,7 @@ static inline void add_specialist_output(const struct city *pcity,
 					 int *output)
 {
   specialist_type_iterate(sp) {
-    int *bonus = game.rgame.specialists[sp].bonus;
+    int *bonus = get_specialist(sp)->bonus;
     int count = pcity->specialists[sp];
 
     output_type_iterate(stat) {
@@ -2266,42 +2266,18 @@ Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity)
 {
   int best = DEFAULT_SPECIALIST;
-  int val = game.rgame.specialists[DEFAULT_SPECIALIST].bonus[otype];
+  int val = get_specialist(best)->bonus[otype];
 
   specialist_type_iterate(i) {
     if (!pcity || city_can_use_specialist(pcity, i)) {
-      if (game.rgame.specialists[i].bonus[otype] > val) {
+      if (get_specialist(i)->bonus[otype] > val) {
 	best = i;
-	val = game.rgame.specialists[i].bonus[otype];
+	val = get_specialist(i)->bonus[otype];
       }
     }
   } specialist_type_iterate_end;
 
   return best;
-}
-
-/**************************************************************************
-  Return a string showing the number of specialists in the array.
-
-  For instance with a city with (0,3,1) specialists call
-
-    specialists_string(pcity->specialists);
-
-  and you'll get "0/3/1".
-**************************************************************************/
-const char *specialists_string(const int *specialists)
-{
-  static char buf[5 * SP_MAX];
-
-  buf[0] = '\0';
-
-  specialist_type_iterate(sp) {
-    char *separator = (buf[0] == '\0') ? "" : "/";
-
-    cat_snprintf(buf, sizeof(buf), "%s%d", separator, specialists[sp]);
-  } specialist_type_iterate_end;
-
-  return buf;
 }
 
 /**************************************************************************

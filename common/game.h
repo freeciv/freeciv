@@ -27,6 +27,7 @@
 #include "improvement.h"	/* Impr_Status */
 #include "player.h"
 #include "packets.h"
+#include "specialist.h"
 
 enum server_states { 
   PRE_GAME_STATE, 
@@ -84,17 +85,6 @@ struct civ_game {
 
   /* values from game.info.t */
   struct {
-    int num_specialist_types;
-    int default_specialist;
-    struct specialist {
-      char name[MAX_LEN_NAME];
-      char short_name[MAX_LEN_NAME];
-      int bonus[O_MAX];
-      struct requirement req[MAX_NUM_REQS];
-    } specialists[SP_MAX];
-#define SP_COUNT game.rgame.num_specialist_types
-#define DEFAULT_SPECIALIST game.rgame.default_specialist
-
     /* Items given to all players at game start.  Server only. */
     int global_init_techs[MAX_NUM_TECH_LIST];
     int global_init_buildings[MAX_NUM_BUILDING_LIST];
@@ -368,15 +358,5 @@ extern bool is_server;
 #define GAME_MAX_REVOLUTION_LENGTH 10
 
 #define GAME_START_YEAR -4000
-
-#define specialist_type_iterate(sp)					    \
-{									    \
-  int sp;                                                                   \
-                                                                            \
-  for (sp = 0; sp < SP_COUNT; sp++) {
-
-#define specialist_type_iterate_end                                         \
-  }                                                                         \
-}
 
 #endif  /* FC__GAME_H */
