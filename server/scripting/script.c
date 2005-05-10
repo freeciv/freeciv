@@ -60,16 +60,11 @@ int script_error(const char *fmt, ...)
 }
 
 /**************************************************************************
-  Invoke the 'callback_name' Lua function.
+  Push callback arguments into the Lua stack.
 **************************************************************************/
-bool script_callback_invoke(const char *callback_name,
-			    int nargs, va_list args)
+static void script_callback_push_args(int nargs, va_list args)
 {
-  int i, nres;
-  bool res;
-
-  /* The function name */
-  lua_getglobal(state, callback_name);
+  int i;
 
   for (i = 0; i < nargs; i++) {
     int type;
@@ -101,40 +96,38 @@ bool script_callback_invoke(const char *callback_name,
 	  tolua_pushstring(state, arg);
 	}
 	break;
-      case API_TYPE_PLAYER:
+      default:
 	{
-	  Player *arg;
+	  const char *name;
+	  void *arg;
 
-	  arg = va_arg(args, Player*);
-	  tolua_pushusertype(state, (void*)arg, "Player");
-	}
-	break;
-      case API_TYPE_CITY:
-	{
-	  City *arg;
+	  name = get_api_type_name(type);
+	  if (!name) {
+	    assert(0);
+	    return;
+	  }
 
-	  arg = va_arg(args, City*);
-	  tolua_pushusertype(state, (void*)arg, "City");
-	}
-	break;
-      case API_TYPE_UNIT:
-	{
-	  Unit *arg;
-
-	  arg = va_arg(args, Unit*);
-	  tolua_pushusertype(state, (void*)arg, "Unit");
-	}
-	break;
-      case API_TYPE_TILE:
-	{
-	  Tile *arg;
-
-	  arg = va_arg(args, Tile*);
-	  tolua_pushusertype(state, (void*)arg, "Tile");
+	  arg = va_arg(args, void*);
+	  tolua_pushusertype(state, arg, name);
 	}
 	break;
     }
   }
+}
+
+/**************************************************************************
+  Invoke the 'callback_name' Lua function.
+**************************************************************************/
+bool script_callback_invoke(const char *callback_name,
+			    int nargs, va_list args)
+{
+  int nres;
+  bool res;
+
+  /* The function name */
+  lua_getglobal(state, callback_name);
+
+  script_callback_push_args(nargs, args);
 
   /* Call the function with nargs arguments, return 1 results */
   if (lua_pcall(state, nargs, 1, 0) != 0) {

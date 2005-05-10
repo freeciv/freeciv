@@ -24,10 +24,20 @@ enum api_types {
   API_TYPE_PLAYER,
   API_TYPE_CITY,
   API_TYPE_UNIT,
-  API_TYPE_TILE
+  API_TYPE_TILE,
+
+  API_TYPE_IMPR_TYPE,
+  API_TYPE_NATION_TYPE,
+  API_TYPE_UNIT_TYPE,
+  API_TYPE_TECH_TYPE,
+  API_TYPE_TERRAIN,
+
+  API_TYPE_LAST
 };
 
 struct section_file;
+
+const char *get_api_type_name(enum api_types id);
 
 void script_signal_emit_valist(const char *signal_name,
 			       int nargs, va_list args);

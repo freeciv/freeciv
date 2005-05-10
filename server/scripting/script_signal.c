@@ -42,6 +42,8 @@
 #include <config.h>
 #endif
 
+#include <assert.h>
+
 #include "hash.h"
 #include "log.h"
 #include "registry.h"
@@ -78,16 +80,52 @@ struct signal_callback {
 };
 
 /**************************************************************************
-  Signal and callback state datastructure.
+  Signal datastructure.
 **************************************************************************/
 static struct hash_table *signals;
 
+/**************************************************************************
+  Api type names.
+**************************************************************************/
+static const char *api_type_names[] = {
+  NULL, NULL, NULL,
+
+  "Player", "City", "Unit", "Tile",
+
+  "Impr_Type", "Nation_Type", "Unit_Type", "Tech_Type", "Terrain"
+};
 
 /**************************************************************************
-  Prototypes.
+  Api type names.
 **************************************************************************/
-static void signals_create(void);
+const char *get_api_type_name(enum api_types id)
+{
+  if (id >= 0 && id < API_TYPE_LAST) {
+    return api_type_names[id];
+  } else {
+    return NULL;
+  }
+}
 
+/**************************************************************************
+  Declare any new signal types you need here.
+**************************************************************************/
+static void signals_create(void)
+{
+  script_signal_create("turn_started", 2, API_TYPE_INT, API_TYPE_INT);
+  script_signal_create("unit_moved",
+		       3, API_TYPE_UNIT, API_TYPE_TILE, API_TYPE_TILE);
+
+  /* Includes all newly-built cities. */
+  script_signal_create("city_built", 1, API_TYPE_CITY);
+
+  script_signal_create("city_growth", 2, API_TYPE_CITY, API_TYPE_INT);
+
+  /* Only includes units built in cities, for now. */
+  script_signal_create("unit_built", 2, API_TYPE_UNIT, API_TYPE_CITY);
+
+  script_signal_create("hut_enter", 1, API_TYPE_UNIT);
+}
 
 /**************************************************************************
   Connects a callback function to a certain signal (internal).
@@ -280,6 +318,8 @@ void script_signals_init(void)
   if (!signals) {
     signals = hash_new(hash_fval_string, hash_fcmp_string);
 
+    assert(ARRAY_SIZE(api_type_names) == API_TYPE_LAST);
+
     signals_create();
   }
 }
@@ -301,24 +341,4 @@ void script_signals_free(void)
     hash_free(signals);
     signals = NULL;
   }
-}
-
-/**************************************************************************
-  Declare any new signal types you need here.
-**************************************************************************/
-static void signals_create(void)
-{
-  script_signal_create("turn_started", 2, API_TYPE_INT, API_TYPE_INT);
-  script_signal_create("unit_moved",
-		       3, API_TYPE_UNIT, API_TYPE_TILE, API_TYPE_TILE);
-
-  /* Includes all newly-built cities. */
-  script_signal_create("city_built", 1, API_TYPE_CITY);
-
-  script_signal_create("city_growth", 2, API_TYPE_CITY, API_TYPE_INT);
-
-  /* Only includes units built in cities, for now. */
-  script_signal_create("unit_built", 2, API_TYPE_UNIT, API_TYPE_CITY);
-
-  script_signal_create("hut_enter", 1, API_TYPE_UNIT);
 }
