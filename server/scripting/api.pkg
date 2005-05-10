@@ -24,9 +24,15 @@ $#include "api_utilities.h"
 $#include "script.h"
 
 /* Classes. */
+struct Player_ai {
+   bool control;
+};
+
 struct Player {
   const char *name;
   int nation @ nation_id;
+
+  Player_ai ai;
 
   const int player_no @ id;
 };
@@ -88,6 +94,10 @@ struct Terrain {
 
 $[
 -- Player methods.
+function Player:is_human()
+  return not self.ai.control
+end
+
 function Player:nation()
   return find.nation(self.nation_id)
 end

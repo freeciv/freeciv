@@ -29,6 +29,7 @@
 
 /* Classes. */
 typedef struct player Player;
+typedef struct player_ai Player_ai;
 typedef struct city City;
 typedef struct unit Unit;
 typedef struct tile Tile;
