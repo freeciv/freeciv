@@ -168,10 +168,10 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 ****************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas,
-			  enum color_std color,
+			  struct color *pcolor,
 			  int canvas_x, int canvas_y, int width, int height)
 {
-  GdkColor *col = &get_color(color)->color;
+  GdkColor *col = &pcolor->color;
 
   switch (pcanvas->type) {
     case CANVAS_PIXMAP:
@@ -196,13 +196,14 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct sprite *psprite, enum color_std color,
+			     struct sprite *psprite,
+			     struct color *pcolor,
 			     int canvas_x, int canvas_y)
 {
   if (pcanvas->type == CANVAS_PIXMAP) {
     gdk_gc_set_clip_origin(fill_bg_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_bg_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_bg_gc, &get_color(color)->color);
+    gdk_gc_set_foreground(fill_bg_gc, &pcolor->color);
 
     gdk_draw_rectangle(pcanvas->v.pixmap, fill_bg_gc, TRUE,
 		       canvas_x, canvas_y, psprite->width, psprite->height);
@@ -234,7 +235,8 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 /****************************************************************************
   Draw a colored line onto the mapview or citydialog canvas.
 ****************************************************************************/
-void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+void canvas_put_line(struct canvas *pcanvas,
+		     struct color *pcolor,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
@@ -256,7 +258,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
       break;
     }
 
-    gdk_gc_set_foreground(gc, &get_color(color)->color);
+    gdk_gc_set_foreground(gc, &pcolor->color);
     gdk_draw_line(pcanvas->v.pixmap, gc,
 		  start_x, start_y, start_x + dx, start_y + dy);
   }
@@ -304,7 +306,8 @@ void get_text_size(int *width, int *height,
   take care of this manually.  The text will not be NULL but may be empty.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, enum color_std color,
+		     enum client_font font,
+		     struct color *pcolor,
 		     const char *text)
 {
   PangoRectangle rect;
@@ -316,7 +319,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
     layout = pango_layout_new(gdk_pango_context_get());
   }
 
-  gdk_gc_set_foreground(civ_gc, &get_color(color)->color);
+  gdk_gc_set_foreground(civ_gc, &pcolor->color);
   pango_layout_set_font_description(layout, *fonts[font].font);
   pango_layout_set_text(layout, text, -1);
 

@@ -1366,42 +1366,42 @@ static void show_full_citybar(struct canvas *pcanvas,
   owner_color = player_color(city_owner(pcity));
   if (line1) {
     canvas_put_sprite_full(pcanvas, flag_rect.x, flag_rect.y, flag);
-    canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+    canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
 		    flag_rect.x + flag_rect.w - 1, canvas_y,
 		    0, height1);
     canvas_put_sprite_full(pcanvas, occupy_rect.x, occupy_rect.y, occupy);
     canvas_put_text(pcanvas, name_rect.x, name_rect.y,
-		    FONT_CITY_NAME, COLOR_STD_WHITE, name);
+		    FONT_CITY_NAME, get_color(COLOR_STD_WHITE), name);
 
-    canvas_put_rectangle(pcanvas, owner_color,
+    canvas_put_rectangle(pcanvas, get_color(owner_color),
 			 size_rect.x - border / 2, canvas_y,
 			 size_rect.w + border, height1);
     canvas_put_text(pcanvas, size_rect.x, size_rect.y,
-		    FONT_CITY_NAME, COLOR_STD_WHITE, size);
+		    FONT_CITY_NAME, get_color(COLOR_STD_WHITE), size);
   }
   if (line2) {
     canvas_put_sprite_full(pcanvas, shield_rect.x, shield_rect.y,
 			   citybar->shields);
     canvas_put_text(pcanvas, prod_rect.x, prod_rect.y,
-		    FONT_CITY_PROD, COLOR_STD_WHITE, prod);
+		    FONT_CITY_PROD, get_color(COLOR_STD_WHITE), prod);
     canvas_put_sprite_full(pcanvas, food_rect.x, food_rect.y, citybar->food);
     canvas_put_text(pcanvas, growth_rect.x, growth_rect.y,
-		      FONT_CITY_PROD, growth_color, growth);
+		    FONT_CITY_PROD, get_color(growth_color), growth);
   }
-  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y,
 		  *width, 0);
-  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y,
 		  0, *height);
-  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y + *height - 1,
 		  *width, 0);
-  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
 		  canvas_x - *width / 2 + *width, canvas_y,
 		  0, *height);
   if (line1 && line2) {
-    canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
+    canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
 		    canvas_x - *width / 2, canvas_y + height1 - 1,
 		    *width, 0);
   }
@@ -1443,13 +1443,13 @@ static void show_small_citybar(struct canvas *pcanvas,
     total_width = name_rect.w + extra_width + growth_rect.w;
     total_height = MAX(name_rect.h, growth_rect.h);
     canvas_put_text(pcanvas,
-                   canvas_x - total_width / 2, canvas_y,
-                   FONT_CITY_NAME, COLOR_STD_WHITE, name);
+		    canvas_x - total_width / 2, canvas_y,
+		    FONT_CITY_NAME, get_color(COLOR_STD_WHITE), name);
     if (growth[0] != '\0') {
       canvas_put_text(pcanvas,
-                     canvas_x - total_width / 2 + name_rect.w + extra_width,
-                     canvas_y + total_height - growth_rect.h,
-                     FONT_CITY_PROD, growth_color, growth);
+		      canvas_x - total_width / 2 + name_rect.w + extra_width,
+		      canvas_y + total_height - growth_rect.h,
+		      FONT_CITY_PROD, get_color(growth_color), growth);
     }
     canvas_y += total_height + 3;
 
@@ -1464,7 +1464,7 @@ static void show_small_citybar(struct canvas *pcanvas,
     total_height = prod_rect.h;
 
     canvas_put_text(pcanvas, canvas_x - total_width / 2, canvas_y,
-                   FONT_CITY_PROD, COLOR_STD_WHITE, prod);
+		    FONT_CITY_PROD, get_color(COLOR_STD_WHITE), prod);
 
     canvas_y += total_height;
     *width = MAX(*width, total_width);
@@ -1610,7 +1610,7 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
   map_to_gui_vector(tileset, &canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
 
   /* Draw the segment. */
-  canvas_put_line(mapview.store, COLOR_STD_CYAN, LINE_GOTO,
+  canvas_put_line(mapview.store, get_color(COLOR_STD_CYAN), LINE_GOTO,
 		  canvas_x, canvas_y, canvas_dx, canvas_dy);
 
   /* The actual area drawn will extend beyond the base rectangle, since

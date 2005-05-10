@@ -176,7 +176,7 @@ static void redraw_overview(void)
     int dst_x = x[(i + 1) % 4];
     int dst_y = y[(i + 1) % 4];
 
-    canvas_put_line(overview.window, COLOR_STD_WHITE, LINE_NORMAL,
+    canvas_put_line(overview.window, get_color(COLOR_STD_WHITE), LINE_NORMAL,
 		    src_x, src_y, dst_x - src_x, dst_y - src_y);
   }
 
@@ -332,7 +332,7 @@ void overview_update_tile(struct tile *ptile)
 	  /* This tile is shown half on the left and half on the right
 	   * side of the overview.  So we have to draw it in two parts. */
 	  canvas_put_rectangle(overview.map,
-			       overview_tile_color(ptile),
+			       get_color(overview_tile_color(ptile)),
 			       overview_x - overview.width, overview_y,
 			       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT); 
 	}     
@@ -344,7 +344,7 @@ void overview_update_tile(struct tile *ptile)
     } 
 
     canvas_put_rectangle(overview.map,
-			 overview_tile_color(ptile),
+			 get_color(overview_tile_color(ptile)),
 			 overview_x, overview_y,
 			 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 
@@ -394,7 +394,7 @@ void calculate_overview_dimensions(void)
   }
   overview.map = canvas_create(overview.width, overview.height);
   overview.window = canvas_create(overview.width, overview.height);
-  canvas_put_rectangle(overview.map, COLOR_STD_BLACK,
+  canvas_put_rectangle(overview.map, get_color(COLOR_STD_BLACK),
 		       0, 0, overview.width, overview.height);
   update_map_canvas_scrollbars_size();
 

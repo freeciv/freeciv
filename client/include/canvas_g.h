@@ -15,9 +15,9 @@
 
 #include "shared.h"		/* bool type */
 
-#include "colors_g.h"
-
+struct color;
 struct sprite;
+
 struct canvas;			/* opaque type, real type is gui-dep */
 
 enum line_type {
@@ -43,14 +43,16 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 			      struct sprite *psprite,
 			      bool fog, int fog_x, int fog_y);
 void canvas_put_rectangle(struct canvas *pcanvas,
-			  enum color_std color,
+			  struct color *pcolor,
 			  int canvas_x, int canvas_y, int width, int height);
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct sprite *psprite, enum color_std color,
+			     struct sprite *psprite,
+			     struct color *pcolor,
 			     int canvas_x, int canvas_y);
 void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 			    int canvas_x, int canvas_y);
-void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+void canvas_put_line(struct canvas *pcanvas,
+		     struct color *pcolor,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy);
 
@@ -64,7 +66,8 @@ enum client_font {
 void get_text_size(int *width, int *height,
 		   enum client_font font, const char *text);
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, enum color_std color,
+		     enum client_font font,
+		     struct color *pcolor,
 		     const char *text);
 
 #endif  /* FC__CANVAS_G_H */

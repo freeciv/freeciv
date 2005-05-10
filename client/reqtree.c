@@ -786,7 +786,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       width = node->node_width;
       height = node->node_height;
 
-      canvas_put_rectangle(pcanvas, COLOR_STD_BLACK,
+      canvas_put_rectangle(pcanvas, get_color(COLOR_STD_BLACK),
 			   startx, starty, width, height);
 
       if (!node->is_dummy) {
@@ -794,7 +794,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	int text_w, text_h;
 
 	/* Print color rectangle with text inside. */
-	canvas_put_rectangle(pcanvas, node_color(node),
+	canvas_put_rectangle(pcanvas, get_color(node_color(node)),
 			     startx + 1, starty + 1,
 			     width - 2, height - 2);
 	get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
