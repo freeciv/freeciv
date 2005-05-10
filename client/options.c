@@ -332,6 +332,7 @@ static struct {
   GEN_EV(N_("Enemy Diplomat: Poison"),              E_ENEMY_DIPLOMAT_POISON),
   GEN_EV(N_("Enemy Diplomat: Sabotage"),            E_ENEMY_DIPLOMAT_SABOTAGE),
   GEN_EV(N_("Enemy Diplomat: Theft"),               E_ENEMY_DIPLOMAT_THEFT),
+  GEN_EV(N_("Tutorial message"), E_TUTORIAL),
   GEN_EV(N_("Broadcast Report"),                E_BROADCAST_REPORT),
   GEN_EV(N_("Game Ended"),                      E_GAME_END),
   GEN_EV(N_("Game Started"),                    E_GAME_START),
@@ -439,7 +440,7 @@ void init_messages_where(void)
 		     E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR,
 		     E_CITY_PRODUCTION_CHANGED,
 		     E_CITY_MAY_SOON_GROW, E_WORKLIST};
-  int all[] = { E_MESSAGE_WALL };
+  int all[] = { E_MESSAGE_WALL, E_TUTORIAL };
   int i;
 
   for(i=0; i<E_LAST; i++) {
