@@ -32,6 +32,8 @@
 #include "support.h"
 #include "tech.h"
 
+#include "script.h"
+
 #include "citytools.h"
 #include "cityturn.h"
 #include "connecthand.h"
@@ -157,6 +159,10 @@ void do_tech_parasite_effect(struct player *pplayer)
 	notify_player_ex(pplayer, NULL, E_TECH_GAIN,
 			 _("%s acquired from %s!"),
 			 get_tech_name(pplayer, i), buf);
+	script_signal_emit("tech_researched", 3,
+			   API_TYPE_TECH_TYPE, &advances[i],
+			   API_TYPE_PLAYER, pplayer,
+			   API_TYPE_STRING, "stolen");
         gamelog(GAMELOG_TECH, pplayer, NULL, i, "steal");
 	notify_embassies(pplayer, NULL,
 			 _("The %s have acquired %s from %s."),
@@ -500,6 +506,8 @@ Player has researched a new technology
 static void tech_researched(struct player* plr)
 {
   /* plr will be notified when new tech is chosen */
+  Tech_type_id tech_id = plr->research->researching;
+  struct advance *tech = &advances[tech_id];
 
   if (!is_future_tech(plr->research->researching)) {
     notify_embassies(plr, NULL,
@@ -514,6 +522,9 @@ static void tech_researched(struct player* plr)
 		     plr->future_tech);
   
   }
+  script_signal_emit("tech_researched", 3,
+		     API_TYPE_TECH_TYPE, tech, API_TYPE_PLAYER, plr,
+		     API_TYPE_STRING, "researched");
   gamelog(GAMELOG_TECH, plr, NULL, plr->research->researching);
 
   /* Deduct tech cost */
@@ -722,6 +733,10 @@ void get_a_tech(struct player *pplayer, struct player *target)
     } tech_type_iterate_end;
     assert(stolen_tech != A_NONE);
   }
+  script_signal_emit("tech_researched", 3,
+		     API_TYPE_TECH_TYPE, &advances[stolen_tech],
+		     API_TYPE_PLAYER, pplayer,
+		     API_TYPE_STRING, "stolen");
   gamelog(GAMELOG_TECH, pplayer, target, stolen_tech, "steal");
 
   notify_player_ex(pplayer, NULL, E_TECH_GAIN,

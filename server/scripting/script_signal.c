@@ -131,6 +131,25 @@ static void signals_create(void)
 
   /* Only includes units built in cities, for now. */
   script_signal_create("unit_built", 2, API_TYPE_UNIT, API_TYPE_CITY);
+  script_signal_create("building_built",
+		       2, API_TYPE_BUILDING_TYPE, API_TYPE_CITY);
+
+  /* These can happen for various reasons; the third argument gives the
+   * reason (a simple string identifier).  Example identifiers:
+   * "pop_cost", "need_tech", "need_building", "need_special",
+   * "need_terrain", "need_government", "need_nation", "never",
+   * "unavailable". */
+  script_signal_create("unit_cant_be_built",
+		       3, API_TYPE_UNIT_TYPE, API_TYPE_CITY, API_TYPE_STRING);
+  script_signal_create("building_cant_be_built",
+		       3, API_TYPE_BUILDING_TYPE, API_TYPE_CITY,
+		       API_TYPE_STRING);
+
+  /* The third argument contains the source: "researched", "traded",
+   * "stolen", "hut". */
+  script_signal_create("tech_researched",
+		       3, API_TYPE_TECH_TYPE, API_TYPE_PLAYER,
+		       API_TYPE_STRING);
 
   script_signal_create("hut_enter", 1, API_TYPE_UNIT);
 }

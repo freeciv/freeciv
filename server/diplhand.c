@@ -29,6 +29,8 @@
 #include "player.h"
 #include "unit.h"
 
+#include "script.h"
+
 #include "citytools.h"
 #include "cityturn.h"
 #include "gamelog.h"
@@ -358,6 +360,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 get_tech_name(pdest, pclause->value),
 			 get_nation_name_plural(pgiver->nation));
 
+	script_signal_emit("tech_researched", 3,
+			   API_TYPE_TECH_TYPE, &advances[pclause->value],
+			   API_TYPE_PLAYER, pdest,
+			   API_TYPE_STRING, "traded");
         gamelog(GAMELOG_TECH, pdest, pgiver, pclause->value, "acquire");
         gamelog(GAMELOG_TREATY, GL_TECH, pgiver, pdest);
 	do_dipl_cost(pdest);

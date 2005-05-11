@@ -625,7 +625,8 @@ static bool worklist_change_build_target(struct player *pplayer,
     /* Sanity checks */
     if (is_unit &&
 	!can_build_unit(pcity, target)) {
-      int new_target = unit_upgrades_to(pcity, target);
+      struct unit_type *ptarget = get_unit_type(target);
+      Unit_type_id new_target = unit_upgrades_to(pcity, target);
 
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (new_target == U_NOT_OBSOLETED) {
@@ -635,6 +636,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   "tech not yet available.  Postponing..."),
 			 pcity->name,
 			 get_unit_type(target)->name);
+	script_signal_emit("unit_cant_be_built", 3,
+			   API_TYPE_UNIT_TYPE, ptarget,
+			   API_TYPE_CITY, pcity,
+			   API_TYPE_STRING, "need_tech");
 	continue;
       } else if (!can_eventually_build_unit(pcity, new_target)) {
 	/* If the city can never build this unit or its descendants,
@@ -647,6 +652,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			    in the worklist, not its obsolete-closure
 			    new_target. */
 			 get_unit_type(target)->name);
+	script_signal_emit("unit_cant_be_built", 3,
+			   API_TYPE_UNIT_TYPE, ptarget,
+			   API_TYPE_CITY, pcity,
+			   API_TYPE_STRING, "never");
 	/* Purge this worklist item. */
 	worklist_remove(&pcity->worklist, i-1);
 	/* Reset i to index to the now-next element. */
@@ -664,6 +673,7 @@ static bool worklist_change_build_target(struct player *pplayer,
       }
     } else if (!is_unit && !can_build_improvement(pcity, target)) {
       Impr_type_id new_target = building_upgrades_to(pcity, target);
+      struct impr_type *ptarget = get_improvement_type(target);
 
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {
@@ -673,6 +683,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   "Purging..."),
 			 pcity->name,
 			 get_impr_name_ex(pcity, target));
+	script_signal_emit("building_cant_be_built", 3,
+			   API_TYPE_BUILDING_TYPE, ptarget,
+			   API_TYPE_CITY, pcity,
+			   API_TYPE_STRING, "never");
 
 	/* Purge this worklist item. */
 	worklist_remove(&pcity->worklist, i-1);
@@ -703,6 +717,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       get_impr_name_ex(pcity, target),
 			       get_tech_name(pplayer,
 					     preq->source.value.tech));
+	      script_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, building,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_tech");
 	      break;
 	    case REQ_BUILDING:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -712,6 +730,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       get_impr_name_ex(pcity, target),
 			       get_impr_name_ex(pcity,
 						preq->source.value.building));
+	      script_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, building,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_building");
 	      break;
 	    case REQ_GOV:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -720,6 +742,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
 			       get_government_name(preq->source.value.gov));
+	      script_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, building,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_government");
 	      break;
 	    case REQ_SPECIAL:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -728,6 +754,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
 			       get_special_name(preq->source.value.special));
+	      script_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, building,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_special");
 	      break;
 	    case REQ_TERRAIN:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -736,6 +766,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
 			       get_terrain_name(preq->source.value.terrain));
+	      script_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, building,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_terrain");
 	      break;
 	    case REQ_NATION:
 	      /* FIXME: we should skip rather than postpone, since we'll
@@ -746,6 +780,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
 			       get_nation_name(preq->source.value.nation));
+	      script_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, building,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_nation");
 	      break;
 	    case REQ_UNITTYPE:
 	    case REQ_UNITFLAG:
@@ -759,6 +797,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "city must be of size %d.  Postponing..."),
 			       pcity->name, get_impr_name_ex(pcity, target),
 			       preq->source.value.minsize);
+	      script_signal_emit("building_cant_be_built", 3,
+				 API_TYPE_BUILDING_TYPE, building,
+				 API_TYPE_CITY, pcity,
+				 API_TYPE_STRING, "need_minsize");
 	      break;
 	    case REQ_NONE:
 	    case REQ_LAST:
@@ -995,6 +1037,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   bool space_part;
   int mod;
   Impr_type_id id = pcity->currently_building;
+  struct impr_type *building = get_improvement_type(id);
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     assert(pcity->surplus[O_SHIELD] >= 0);
@@ -1011,6 +1054,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		     _("%s is building %s, which "
 		       "is no longer available."),
 		     pcity->name, get_impr_name_ex(pcity, id));
+    script_signal_emit("building_cant_be_built", 3,
+		       API_TYPE_BUILDING_TYPE, building,
+		       API_TYPE_CITY, pcity,
+		       API_TYPE_STRING, "unavailable");
     return TRUE;
   }
   if (pcity->shield_stock >= impr_build_shield_cost(id)) {
@@ -1061,6 +1108,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     notify_player_ex(pplayer, pcity->tile, E_IMP_BUILD,
 		     _("%s has finished building %s."), pcity->name,
 		     get_improvement_name(id));
+    script_signal_emit("building_built", 2,
+		       API_TYPE_BUILDING_TYPE, get_improvement_type(id),
+		       API_TYPE_CITY, pcity);
 
 
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH))) {
@@ -1116,7 +1166,10 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static bool city_build_unit(struct player *pplayer, struct city *pcity)
 {
+  struct unit_type *utype;
+
   upgrade_unit_prod(pcity);
+  utype = get_unit_type(pcity->currently_building);
 
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
@@ -1126,6 +1179,10 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
         _("%s is building %s, which is no longer available."),
         pcity->name, unit_name(pcity->currently_building));
+    script_signal_emit("unit_cant_be_built", 3,
+		       API_TYPE_UNIT_TYPE, utype,
+		       API_TYPE_CITY, pcity,
+		       API_TYPE_STRING, "unavailable");
     freelog(LOG_VERBOSE, _("%s's %s tried build %s, which is not available"),
             pplayer->name, pcity->name, unit_name(pcity->currently_building));            
     return TRUE;
@@ -1145,6 +1202,10 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
       notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 		       _("%s can't build %s yet."),
 		       pcity->name, unit_name(pcity->currently_building));
+      script_signal_emit("unit_cant_be_built", 3,
+			 API_TYPE_UNIT_TYPE, utype,
+			 API_TYPE_CITY, pcity,
+			 API_TYPE_STRING, "pop_cost");
       return TRUE;
     }
 
@@ -1476,6 +1537,7 @@ static bool disband_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
   struct city *rcity=NULL;
+  struct unit_type *utype = get_unit_type(pcity->currently_building);
 
   /* find closest city other than pcity */
   rcity = find_closest_owned_city(pplayer, ptile, FALSE, pcity);
@@ -1486,6 +1548,10 @@ static bool disband_city(struct city *pcity)
 		     _("%s can't build %s yet, "
 		     "and we can't disband our only city."),
 		     pcity->name, unit_name(pcity->currently_building));
+    script_signal_emit("unit_cant_be_built", 3,
+		       API_TYPE_UNIT_TYPE, utype,
+		       API_TYPE_CITY, pcity,
+		       API_TYPE_STRING, "pop_cost");
     return FALSE;
   }
 

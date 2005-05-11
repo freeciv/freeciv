@@ -2297,6 +2297,10 @@ static void hut_get_tech(struct unit *punit)
   notify_player_ex(pplayer, punit->tile, E_HUT_TECH,
 		   _("You found %s in ancient scrolls of wisdom."),
 		   tech_name);
+  script_signal_emit("tech_researched", 3,
+		     API_TYPE_TECH_TYPE, &advances[new_tech],
+		     API_TYPE_PLAYER, pplayer,
+		     API_TYPE_STRING, "hut");
   gamelog(GAMELOG_TECH, pplayer, NULL, new_tech);
   notify_embassies(pplayer, NULL, _("The %s have acquired %s"
 				    " from ancient scrolls of wisdom."),
@@ -2406,6 +2410,8 @@ static bool unit_enter_hut(struct unit *punit)
     hut_chance = 0;
   }
 
+  script_signal_emit("hut_enter", 1, API_TYPE_UNIT, punit);
+
   switch (hut_chance) {
   case 0:
     hut_get_gold(punit, 25);
@@ -2433,8 +2439,6 @@ static bool unit_enter_hut(struct unit *punit)
     hut_get_city(punit);
     break;
   }
-
-  script_signal_emit("hut_enter", 1, API_TYPE_UNIT, punit);
 
   send_player_info(pplayer, pplayer);       /* eg, gold */
   return ok;
