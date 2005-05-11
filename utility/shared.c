@@ -726,30 +726,23 @@ char *user_home_dir(void)
   Gets value once, and then caches result.
   Note the caller should not mess with returned string.
 ***************************************************************************/
-const char *user_username(void)
+char *user_username(char *buf, size_t bufsz)
 {
-  static char username[MAX_LEN_NAME];
-
   /* This function uses a number of different methods to try to find a
-   * username.  This username then has to be truncated to MAX_LEN_NAME
+   * username.  This username then has to be truncated to bufsz
    * characters (including terminator) and checked for sanity.  Note that
    * truncating a sane name can leave you with an insane name under some
    * charsets. */
-
-  if (username[0] != '\0') {
-    /* Username is already known; just return it. */
-    return username;
-  }
 
   /* If the environment variable $USER is present and sane, use it. */
   {
     char *env = getenv("USER");
 
     if (env) {
-      sz_strlcpy(username, env);
-      if (is_ascii_name(username)) {
-	freelog(LOG_VERBOSE, "USER username is %s", username);
-	return username;
+      mystrlcpy(buf, env, bufsz);
+      if (is_ascii_name(buf)) {
+	freelog(LOG_VERBOSE, "USER username is %s", buf);
+	return buf;
       }
     }
   }
@@ -761,10 +754,10 @@ const char *user_username(void)
     struct passwd *pwent = getpwuid(getuid());
 
     if (pwent) {
-      sz_strlcpy(username, pwent->pw_name);
-      if (is_ascii_name(username)) {
-	freelog(LOG_VERBOSE, "getpwuid username is %s", username);
-	return username;
+      mystrlcpy(buf, pwent->pw_name, bufsz);
+      if (is_ascii_name(buf)) {
+	freelog(LOG_VERBOSE, "getpwuid username is %s", buf);
+	return buf;
       }
     }
   }
@@ -777,23 +770,23 @@ const char *user_username(void)
     DWORD length = sizeof(name);
 
     if (GetUserName(name, &length)) {
-      sz_strlcpy(username, name);
-      if (is_ascii_name(username)) {
-	freelog(LOG_VERBOSE, "GetUserName username is %s", username);
-	return username;
+      mystrlcpy(buf, name, bufsz);
+      if (is_ascii_name(bufsz)) {
+	freelog(LOG_VERBOSE, "GetUserName username is %s", buf);
+	return buf;
       }
     }
   }
 #endif
 
 #ifdef ALWAYS_ROOT
-  sz_strlcpy(username, "name");
+  mystrlcpy(buf, "name", bufsz);
 #else
-  my_snprintf(username, MAX_LEN_NAME, "name%d", (int)getuid());
+  my_snprintf(buf, bufsz, "name%d", (int)getuid());
 #endif
-  freelog(LOG_VERBOSE, "fake username is %s", username);
-  assert(is_ascii_name(username));
-  return username;
+  freelog(LOG_VERBOSE, "fake username is %s", buf);
+  assert(is_ascii_name(buf));
+  return buf;
 }
 
 /***************************************************************************

@@ -36,6 +36,7 @@
 #define MAX_VET_LEVELS 10
 
 /* Changing these will probably break network compatability. */
+#define MAX_LEN_NAME     32
 #define MAX_LEN_DEMOGRAPHY 16
 #define MAX_LEN_ALLOW_TAKE 16
 #define MAX_ID_LEN 33

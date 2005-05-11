@@ -55,7 +55,6 @@ typedef unsigned int fc_bool;
 #define fc__attribute(x)
 #endif
 
-#define MAX_LEN_NAME     32
 #define MAX_LEN_ADDR     256	/* see also MAXHOSTNAMELEN and RFC 1123 2.1 */
 #define MAX_LEN_PATH 4095
 
@@ -225,7 +224,7 @@ struct datafile {
 #define datafile_list_iterate_end LIST_ITERATE_END
                                                                                
 char *user_home_dir(void);
-const char *user_username(void);
+char *user_username(char *buf, size_t bufsz);
 char **datafilelist(const char *suffix);
 struct datafile_list *datafilelist_infix(const char *subpath,
                                          const char *infix, bool nodups);

@@ -290,7 +290,7 @@ int main(int argc, char *argv[])
 
   /* after log_init: */
 
-  sz_strlcpy(default_user_name, user_username());
+  (void)user_username(default_user_name, MAX_LEN_NAME);
   if (!is_valid_username(default_user_name)) {
     char buf[sizeof(default_user_name)];
 
