@@ -218,8 +218,6 @@ void refresh_unit_mapcanvas(struct unit *punit, struct tile *ptile,
 void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
 			    bool full_refresh, bool write_to_screen);
 
-enum color_std get_grid_color(const struct tile *ptile, enum direction8 dir);
-
 void map_to_gui_vector(const struct tileset *t,
 		       int *gui_dx, int *gui_dy, int map_dx, int map_dy);
 bool tile_to_canvas_pos(int *canvas_x, int *canvas_y, struct tile *ptile);

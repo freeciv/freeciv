@@ -117,39 +117,6 @@ void refresh_city_mapcanvas(struct city *pcity, struct tile *ptile,
   }
 }
 
-/**************************************************************************
-Returns the color the grid should have between tile (x1,y1) and
-(x2,y2).
-**************************************************************************/
-enum color_std get_grid_color(const struct tile *tile1, enum direction8 dir)
-{
-  enum city_tile_type city_tile_type1, city_tile_type2;
-  struct city *dummy_pcity;
-  bool pos1_is_in_city_radius;
-  bool pos2_is_in_city_radius = FALSE;
-  struct tile *tile2;
-
-  if (!(tile2 = mapstep(tile1, dir))) {
-    return COLOR_STD_BLACK;
-  }
-
-  pos1_is_in_city_radius = player_in_city_radius(game.player_ptr, tile1);
-  pos2_is_in_city_radius = player_in_city_radius(game.player_ptr, tile2);
-
-  if (!pos1_is_in_city_radius && !pos2_is_in_city_radius) {
-    return COLOR_STD_BLACK;
-  }
-
-  get_worker_on_map_position(tile1, &city_tile_type1, &dummy_pcity);
-  get_worker_on_map_position(tile2, &city_tile_type2, &dummy_pcity);
-
-  if (city_tile_type1 == C_TILE_WORKER || city_tile_type2 == C_TILE_WORKER) {
-    return COLOR_STD_RED;
-  } else {
-    return COLOR_STD_WHITE;
-  }
-}
-
 /****************************************************************************
   Translate from a cartesian system to the GUI system.  This function works
   on vectors, meaning it can be passed a (dx,dy) pair and will return the
