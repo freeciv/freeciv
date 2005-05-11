@@ -105,8 +105,25 @@ struct Terrain {
 
 
 /* Class methods. */
+int api_methods_player_num_cities
+	@ methods_player_num_cities (Player *pplayer);
+int api_methods_player_num_units
+	@ methods_player_num_units (Player *pplayer);
+
+bool api_methods_unit_type_has_flag
+	@ methods_unit_type_has_flag (Unit_Type *punit_type, const char *flag);
 bool api_methods_unit_type_has_role
-	@ methods_unit_type_has_role(Unit_Type *punit_type, const char *role);
+	@ methods_unit_type_has_role (Unit_Type *punit_type, const char *role);
+
+bool api_methods_building_type_is_wonder
+	@ methods_building_type_is_wonder (Building_Type *pbuilding);
+bool api_methods_building_type_is_great_wonder
+	@ methods_building_type_is_great_wonder (Building_Type *pbuilding);
+bool api_methods_building_type_is_small_wonder
+	@ methods_building_type_is_small_wonder (Building_Type *pbuilding);
+bool api_methods_building_type_is_improvement
+	@ methods_building_type_is_improvement (Building_Type *pbuilding);
+
 
 $[
 -- Player methods.
@@ -116,6 +133,14 @@ end
 
 function Player:nation()
   return find.nation(self.nation_id)
+end
+
+function Player:num_cities()
+  return methods_player_num_cities(self)
+end
+
+function Player:num_units()
+  return methods_player_num_units(self)
 end
 
 -- City methods.
@@ -146,9 +171,29 @@ function Building_Type:build_shield_cost()
   return self.build_cost
 end
 
+function Building_Type:is_wonder()
+  return methods_building_type_is_wonder(self)
+end
+
+function Building_Type:is_great_wonder()
+  return methods_building_type_is_great_wonder(self)
+end
+
+function Building_Type:is_small_wonder()
+  return methods_building_type_is_small_wonder(self)
+end
+
+function Building_Type:is_improvement()
+  return methods_building_type_is_improvement(self)
+end
+
 -- Unit_Type methods.
 function Unit_Type:build_shield_cost()
   return self.build_cost
+end
+
+function Unit_Type:has_flag(flag)
+  return methods_unit_type_has_flag(self, flag)
 end
 
 function Unit_Type:has_role(role)

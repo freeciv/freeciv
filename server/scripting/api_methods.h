@@ -16,7 +16,16 @@
 
 #include "api_types.h"
 
+int api_methods_player_num_cities(Player *pplayer);
+int api_methods_player_num_units(Player *pplayer);
+
+bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag);
 bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role);
+
+bool api_methods_building_type_is_wonder(Building_Type *pbuilding);
+bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding);
+bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding);
+bool api_methods_building_type_is_improvement(Building_Type *pbuilding);
 
 #endif
 
