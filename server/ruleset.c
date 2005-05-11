@@ -2621,6 +2621,31 @@ static void send_ruleset_units(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send the specialists ruleset information (all individual specialist
+  types) to the specified connections.
+**************************************************************************/
+static void send_ruleset_specialists(struct conn_list *dest)
+{
+  struct packet_ruleset_specialist packet;
+
+  specialist_type_iterate(spec_id) {
+    struct specialist *s = get_specialist(spec_id);
+    int j;
+
+    packet.id = spec_id;
+    sz_strlcpy(packet.name, s->name);
+    sz_strlcpy(packet.short_name, s->short_name);
+    j = 0;
+    requirement_vector_iterate(&s->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
+
+    lsend_packet_ruleset_specialist(dest, &packet);
+  } specialist_type_iterate_end;
+}
+
+/**************************************************************************
   Send the techs ruleset information (all individual advances) to the
   specified connections.
 **************************************************************************/
@@ -2910,28 +2935,6 @@ static void send_ruleset_cities(struct conn_list *dest)
 static void send_ruleset_game(struct conn_list *dest)
 {
   struct packet_ruleset_game misc_p;
-  int i;
-
-  misc_p.num_specialist_types = SP_COUNT;
-  misc_p.bonus_array_size = SP_COUNT * O_COUNT;
-  misc_p.default_specialist = DEFAULT_SPECIALIST;
-  i = 0;
-  specialist_type_iterate(sp) {
-    struct specialist *s = get_specialist(sp);
-    int j;
-
-    sz_strlcpy(misc_p.specialist_name[sp], s->name);
-    sz_strlcpy(misc_p.specialist_short_name[sp], s->short_name);
-
-    j = 0;
-    requirement_vector_iterate(&s->reqs, preq) {
-      misc_p.specialist_reqs[i + j] = *preq;
-      j++;
-    } requirement_vector_iterate_end;
-    i += j;
-    misc_p.specialist_reqs_count[sp] = j;
-  } specialist_type_iterate_end;
-  misc_p.specialist_reqs_size = i;
 
   memcpy(misc_p.trireme_loss_chance, game.trireme_loss_chance, 
          sizeof(game.trireme_loss_chance));
@@ -3036,6 +3039,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_units(dest);
+  send_ruleset_specialists(dest);
   send_ruleset_terrain(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);

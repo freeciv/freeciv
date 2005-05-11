@@ -228,7 +228,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 115.
+The last used packet number is 116.
 ****************************************************/
 
 
@@ -1045,19 +1045,21 @@ PACKET_RULESET_UNIT=96;sc,lsend
   bitvector(bv_roles) roles;
 end
 
-/* stuff that does not fit yet in game_info */
 PACKET_RULESET_GAME=97;sc,lsend
-  UINT8 default_specialist, num_specialist_types;
-  UINT8 bonus_array_size; # Hack to get around limitations of packgen
-  STRING specialist_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
-  STRING specialist_short_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
-  UINT16 specialist_reqs_size;
-  UINT8 specialist_reqs_count[SP_MAX:num_specialist_types];
-  REQUIREMENT specialist_reqs[SP_MAX * MAX_NUM_REQS:specialist_reqs_size];
+  UINT8 default_specialist;
+
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
   UINT8 trireme_loss_chance[MAX_VET_LEVELS];
   UINT8 work_veteran_chance[MAX_VET_LEVELS];
   UINT8 veteran_chance[MAX_VET_LEVELS];
+end
+
+PACKET_RULESET_SPECIALIST=116;sc,lsend
+  SPECIALIST id;
+  STRING name[MAX_LEN_NAME];
+  STRING short_name[MAX_LEN_NAME];
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
 end
 
 PACKET_RULESET_GOVERNMENT_RULER_TITLE=98;sc,lsend
@@ -1249,6 +1251,7 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 playable_nation_count;
   UINT8 styles_count;
   UINT8 terrain_count;
+  UINT8 num_specialist_types;
 
   STRING team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 end

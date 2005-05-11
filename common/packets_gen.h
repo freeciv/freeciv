@@ -788,17 +788,18 @@ struct packet_ruleset_unit {
 
 struct packet_ruleset_game {
   int default_specialist;
-  int num_specialist_types;
-  int bonus_array_size;
-  char specialist_name[SP_MAX][MAX_LEN_NAME];
-  char specialist_short_name[SP_MAX][MAX_LEN_NAME];
-  int specialist_reqs_size;
-  int specialist_reqs_count[SP_MAX];
-  struct requirement specialist_reqs[SP_MAX * MAX_NUM_REQS];
   int global_init_techs[MAX_NUM_TECH_LIST];
   int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
+};
+
+struct packet_ruleset_specialist {
+  Specialist_type_id id;
+  char name[MAX_LEN_NAME];
+  char short_name[MAX_LEN_NAME];
+  int reqs_count;
+  struct requirement reqs[MAX_NUM_REQS];
 };
 
 struct packet_ruleset_government_ruler_title {
@@ -959,6 +960,7 @@ struct packet_ruleset_control {
   int playable_nation_count;
   int styles_count;
   int terrain_count;
+  int num_specialist_types;
   char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 };
 
@@ -1134,6 +1136,7 @@ enum packet_type {
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
   PACKET_RULESET_CHOICES = 115,
+  PACKET_RULESET_SPECIALIST,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
 
@@ -1538,6 +1541,10 @@ void lsend_packet_ruleset_unit(struct conn_list *dest, const struct packet_rules
 struct packet_ruleset_game *receive_packet_ruleset_game(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_game(struct connection *pc, const struct packet_ruleset_game *packet);
 void lsend_packet_ruleset_game(struct conn_list *dest, const struct packet_ruleset_game *packet);
+
+struct packet_ruleset_specialist *receive_packet_ruleset_specialist(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_specialist(struct connection *pc, const struct packet_ruleset_specialist *packet);
+void lsend_packet_ruleset_specialist(struct conn_list *dest, const struct packet_ruleset_specialist *packet);
 
 struct packet_ruleset_government_ruler_title *receive_packet_ruleset_government_ruler_title(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_government_ruler_title(struct connection *pc, const struct packet_ruleset_government_ruler_title *packet);

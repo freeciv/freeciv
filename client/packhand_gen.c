@@ -262,6 +262,10 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_ruleset_game(packet);
     return TRUE;
 
+  case PACKET_RULESET_SPECIALIST:
+    handle_ruleset_specialist(packet);
+    return TRUE;
+
   case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
     handle_ruleset_government_ruler_title(packet);
     return TRUE;

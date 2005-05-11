@@ -2425,31 +2425,40 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   int i;
 
   /* Must set num_specialist_types before iterating over them. */
-  SP_COUNT = packet->num_specialist_types;
   DEFAULT_SPECIALIST = packet->default_specialist;
-  i = 0;
-  specialist_type_iterate(sp) {
-    struct specialist *s = get_specialist(sp);
-    int j;
-
-    sz_strlcpy(s->name, packet->specialist_name[sp]);
-    sz_strlcpy(s->short_name, packet->specialist_short_name[sp]);
-
-    for (j = 0; j < packet->specialist_reqs_count[sp]; j++) {
-      requirement_vector_append(&s->reqs, &packet->specialist_reqs[i + j]);
-    }
-    assert(s->reqs.size == packet->specialist_reqs_count[sp]);
-    i += j;
-  } specialist_type_iterate_end;
-  tileset_setup_specialist_types(tileset);
-
-  assert(packet->specialist_reqs_size == i);
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
     game.trireme_loss_chance[i] = packet->trireme_loss_chance[i];
     game.work_veteran_chance[i] = packet->work_veteran_chance[i];
     game.veteran_chance[i] = packet->work_veteran_chance[i];
   }
+}
+
+/**************************************************************************
+   Handle info about a single specialist.
+**************************************************************************/
+void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
+{
+  int j;
+  struct specialist *s;
+
+  if (p->id < 0 || p->id >= game.control.num_specialist_types) {
+    freelog(LOG_ERROR,
+	    "Received bad specialistd id %d in handle_ruleset_specialist",
+	    p->id);
+  }
+
+  s = get_specialist(p->id);
+
+  sz_strlcpy(s->name, p->name);
+  sz_strlcpy(s->short_name, p->short_name);
+
+  for (j = 0; j < p->reqs_count; j++) {
+    requirement_vector_append(&s->reqs, &p->reqs[j]);
+  }
+  assert(s->reqs.size == p->reqs_count);
+
+  tileset_setup_specialist_type(tileset, p->id);
 }
 
 /**************************************************************************

@@ -883,7 +883,9 @@ void tilespec_reread(const char *new_tileset_name)
       tileset_setup_tech_type(tileset, tech_id);
     }
   } tech_type_iterate_end;
-  tileset_setup_specialist_types(tileset);
+  specialist_type_iterate(sp) {
+    tileset_setup_specialist_type(tileset, sp);
+  } specialist_type_iterate_end;
 
   /* tilespec_load_tiles reverts the city tile pointers to 0.  This
      is a workaround. */
@@ -1703,28 +1705,26 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 /****************************************************************************
   Setup the graphics for specialist types.
 ****************************************************************************/
-void tileset_setup_specialist_types(struct tileset *t)
+void tileset_setup_specialist_type(struct tileset *t, Specialist_type_id id)
 {
   /* Load the specialist sprite graphics. */
-  specialist_type_iterate(i) {
-    struct citizen_type c = {.type = CITIZEN_SPECIALIST, .spec_type = i};
-    const char *name = get_citizen_name(c);
-    char buffer[512];
-    int j;
+  struct citizen_type c = {.type = CITIZEN_SPECIALIST, .spec_type = id};
+  const char *name = get_citizen_name(c);
+  char buffer[512];
+  int j;
 
-    for (j = 0; j < NUM_TILES_CITIZEN; j++) {
-      my_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
-      t->sprites.specialist[i].sprite[j] = load_sprite(t, buffer);
-      if (!t->sprites.specialist[i].sprite[j]) {
-	break;
-      }
+  for (j = 0; j < NUM_TILES_CITIZEN; j++) {
+    my_snprintf(buffer, sizeof(buffer), "specialist.%s_%d", name, j);
+    t->sprites.specialist[id].sprite[j] = load_sprite(t, buffer);
+    if (!t->sprites.specialist[id].sprite[j]) {
+      break;
     }
-    t->sprites.specialist[i].count = j;
-    if (j == 0) {
-      freelog(LOG_NORMAL, _("No graphics for specialist %s."), name);
-      exit(EXIT_FAILURE);
-    }
-  } specialist_type_iterate_end;
+  }
+  t->sprites.specialist[id].count = j;
+  if (j == 0) {
+    freelog(LOG_NORMAL, _("No graphics for specialist %s."), name);
+    exit(EXIT_FAILURE);
+  }
 }
 
 /****************************************************************************

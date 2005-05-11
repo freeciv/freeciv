@@ -17,10 +17,10 @@
 
 #include "city.h"
 #include "effects.h"
+#include "game.h"
 #include "specialist.h"
 
 struct specialist specialists[SP_MAX];
-int num_specialist_types;
 int default_specialist;
 
 /****************************************************************************

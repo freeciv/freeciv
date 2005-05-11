@@ -73,6 +73,8 @@ struct packet_ruleset_unit;
 void handle_ruleset_unit(struct packet_ruleset_unit *packet);
 struct packet_ruleset_game;
 void handle_ruleset_game(struct packet_ruleset_game *packet);
+struct packet_ruleset_specialist;
+void handle_ruleset_specialist(struct packet_ruleset_specialist *packet);
 struct packet_ruleset_government_ruler_title;
 void handle_ruleset_government_ruler_title(struct packet_ruleset_government_ruler_title *packet);
 struct packet_ruleset_tech;

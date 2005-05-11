@@ -26,11 +26,10 @@ struct specialist {
   struct requirement_vector reqs;
 };
 
-#define SP_COUNT num_specialist_types
+#define SP_COUNT game.control.num_specialist_types
 #define DEFAULT_SPECIALIST default_specialist
 
 extern struct specialist specialists[SP_MAX];
-extern int num_specialist_types;
 extern int default_specialist;
 
 void specialists_init(void);

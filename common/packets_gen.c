@@ -332,6 +332,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_RULESET_GAME:
     return receive_packet_ruleset_game(pc, type);
 
+  case PACKET_RULESET_SPECIALIST:
+    return receive_packet_ruleset_specialist(pc, type);
+
   case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
     return receive_packet_ruleset_government_ruler_title(pc, type);
 
@@ -682,6 +685,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_RULESET_GAME:
     return "PACKET_RULESET_GAME";
+
+  case PACKET_RULESET_SPECIALIST:
+    return "PACKET_RULESET_SPECIALIST";
 
   case PACKET_RULESET_GOVERNMENT_RULER_TITLE:
     return "PACKET_RULESET_GOVERNMENT_RULER_TITLE";
@@ -21989,7 +21995,7 @@ void lsend_packet_ruleset_unit(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_game_100 cmp_const
 
-BV_DEFINE(packet_ruleset_game_100_fields, 12);
+BV_DEFINE(packet_ruleset_game_100_fields, 5);
 
 static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connection *pc, enum packet_type type)
 {
@@ -22022,94 +22028,9 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
     }
   }
   if (BV_ISSET(fields, 1)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->num_specialist_types = readin;
-    }
-  }
-  if (BV_ISSET(fields, 2)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->bonus_array_size = readin;
-    }
-  }
-  if (BV_ISSET(fields, 3)) {
-    
-    {
-      int i;
-    
-      if(real_packet->num_specialist_types > SP_MAX) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->num_specialist_types = SP_MAX;
-      }
-      for (i = 0; i < real_packet->num_specialist_types; i++) {
-        dio_get_string(&din, real_packet->specialist_name[i], sizeof(real_packet->specialist_name[i]));
-      }
-    }
-  }
-  if (BV_ISSET(fields, 4)) {
-    
-    {
-      int i;
-    
-      if(real_packet->num_specialist_types > SP_MAX) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->num_specialist_types = SP_MAX;
-      }
-      for (i = 0; i < real_packet->num_specialist_types; i++) {
-        dio_get_string(&din, real_packet->specialist_short_name[i], sizeof(real_packet->specialist_short_name[i]));
-      }
-    }
-  }
-  if (BV_ISSET(fields, 5)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->specialist_reqs_size = readin;
-    }
-  }
-  if (BV_ISSET(fields, 6)) {
-    
-    {
-      int i;
-    
-      if(real_packet->num_specialist_types > SP_MAX) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->num_specialist_types = SP_MAX;
-      }
-      for (i = 0; i < real_packet->num_specialist_types; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->specialist_reqs_count[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 7)) {
-    
-    {
-      int i;
-    
-      if(real_packet->specialist_reqs_size > SP_MAX * MAX_NUM_REQS) {
-        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->specialist_reqs_size = SP_MAX * MAX_NUM_REQS;
-      }
-      for (i = 0; i < real_packet->specialist_reqs_size; i++) {
-        dio_get_requirement(&din, &real_packet->specialist_reqs[i]);
-      }
-    }
-  }
-  if (BV_ISSET(fields, 8)) {
     dio_get_tech_list(&din, real_packet->global_init_techs);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 2)) {
     
     {
       int i;
@@ -22124,7 +22045,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 3)) {
     
     {
       int i;
@@ -22139,7 +22060,7 @@ static struct packet_ruleset_game *receive_packet_ruleset_game_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 4)) {
     
     {
       int i;
@@ -22192,82 +22113,6 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->num_specialist_types != real_packet->num_specialist_types);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 1);}
-
-  differ = (old->bonus_array_size != real_packet->bonus_array_size);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
-
-
-    {
-      differ = (old->num_specialist_types != real_packet->num_specialist_types);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->num_specialist_types; i++) {
-          if (strcmp(old->specialist_name[i], real_packet->specialist_name[i]) != 0) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
-
-
-    {
-      differ = (old->num_specialist_types != real_packet->num_specialist_types);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->num_specialist_types; i++) {
-          if (strcmp(old->specialist_short_name[i], real_packet->specialist_short_name[i]) != 0) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
-
-  differ = (old->specialist_reqs_size != real_packet->specialist_reqs_size);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
-
-
-    {
-      differ = (old->num_specialist_types != real_packet->num_specialist_types);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->num_specialist_types; i++) {
-          if (old->specialist_reqs_count[i] != real_packet->specialist_reqs_count[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
-
-
-    {
-      differ = (old->specialist_reqs_size != real_packet->specialist_reqs_size);
-      if(!differ) {
-        int i;
-        for (i = 0; i < real_packet->specialist_reqs_size; i++) {
-          if (!are_requirements_equal(&old->specialist_reqs[i], &real_packet->specialist_reqs[i])) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
-
 
     {
       differ = (MAX_NUM_TECH_LIST != MAX_NUM_TECH_LIST);
@@ -22282,7 +22127,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 1);}
 
 
     {
@@ -22298,7 +22143,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 2);}
 
 
     {
@@ -22314,7 +22159,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 3);}
 
 
     {
@@ -22330,7 +22175,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 4);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22342,58 +22187,9 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
     dio_put_uint8(&dout, real_packet->default_specialist);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->num_specialist_types);
-  }
-  if (BV_ISSET(fields, 2)) {
-    dio_put_uint8(&dout, real_packet->bonus_array_size);
-  }
-  if (BV_ISSET(fields, 3)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->num_specialist_types; i++) {
-        dio_put_string(&dout, real_packet->specialist_name[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 4)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->num_specialist_types; i++) {
-        dio_put_string(&dout, real_packet->specialist_short_name[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 5)) {
-    dio_put_uint16(&dout, real_packet->specialist_reqs_size);
-  }
-  if (BV_ISSET(fields, 6)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->num_specialist_types; i++) {
-        dio_put_uint8(&dout, real_packet->specialist_reqs_count[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 7)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < real_packet->specialist_reqs_size; i++) {
-        dio_put_requirement(&dout, &real_packet->specialist_reqs[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 8)) {
     dio_put_tech_list(&dout, real_packet->global_init_techs);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 2)) {
   
     {
       int i;
@@ -22403,7 +22199,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 3)) {
   
     {
       int i;
@@ -22413,7 +22209,7 @@ static int send_packet_ruleset_game_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 4)) {
   
     {
       int i;
@@ -22497,6 +22293,241 @@ void lsend_packet_ruleset_game(struct conn_list *dest, const struct packet_rules
 {
   conn_list_iterate(dest, pconn) {
     send_packet_ruleset_game(pconn, packet);
+  } conn_list_iterate_end;
+}
+
+#define hash_packet_ruleset_specialist_100 hash_const
+
+#define cmp_packet_ruleset_specialist_100 cmp_const
+
+BV_DEFINE(packet_ruleset_specialist_100_fields, 5);
+
+static struct packet_ruleset_specialist *receive_packet_ruleset_specialist_100(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_specialist_100_fields fields;
+  struct packet_ruleset_specialist *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_specialist *clone;
+  RECEIVE_PACKET_START(packet_ruleset_specialist, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_specialist_100, cmp_packet_ruleset_specialist_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->id = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_get_string(&din, real_packet->short_name, sizeof(real_packet->short_name));
+  }
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->reqs_count = readin;
+    }
+  }
+  if (BV_ISSET(fields, 4)) {
+    
+    {
+      int i;
+    
+      if(real_packet->reqs_count > MAX_NUM_REQS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->reqs_count = MAX_NUM_REQS;
+      }
+      for (i = 0; i < real_packet->reqs_count; i++) {
+        dio_get_requirement(&din, &real_packet->reqs[i]);
+      }
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_specialist_100(struct connection *pc, const struct packet_ruleset_specialist *packet)
+{
+  const struct packet_ruleset_specialist *real_packet = packet;
+  packet_ruleset_specialist_100_fields fields;
+  struct packet_ruleset_specialist *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_SPECIALIST];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_SPECIALIST);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_specialist_100, cmp_packet_ruleset_specialist_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->id != real_packet->id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (strcmp(old->name, real_packet->name) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  differ = (strcmp(old->short_name, real_packet->short_name) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->reqs_count != real_packet->reqs_count);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
+
+    {
+      differ = (old->reqs_count != real_packet->reqs_count);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->reqs_count; i++) {
+          if (!are_requirements_equal(&old->reqs[i], &real_packet->reqs[i])) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_string(&dout, real_packet->name);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_string(&dout, real_packet->short_name);
+  }
+  if (BV_ISSET(fields, 3)) {
+    dio_put_uint8(&dout, real_packet->reqs_count);
+  }
+  if (BV_ISSET(fields, 4)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->reqs_count; i++) {
+        dio_put_requirement(&dout, &real_packet->reqs[i]);
+      }
+    } 
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_ruleset_specialist(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_RULESET_SPECIALIST] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_RULESET_SPECIALIST] = variant;
+}
+
+struct packet_ruleset_specialist *receive_packet_ruleset_specialist(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_ruleset_specialist at the server.");
+  }
+  ensure_valid_variant_packet_ruleset_specialist(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_SPECIALIST]) {
+    case 100: return receive_packet_ruleset_specialist_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_ruleset_specialist(struct connection *pc, const struct packet_ruleset_specialist *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_ruleset_specialist from the client.");
+  }
+  ensure_valid_variant_packet_ruleset_specialist(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_SPECIALIST]) {
+    case 100: return send_packet_ruleset_specialist_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_ruleset_specialist(struct conn_list *dest, const struct packet_ruleset_specialist *packet)
+{
+  conn_list_iterate(dest, pconn) {
+    send_packet_ruleset_specialist(pconn, packet);
   } conn_list_iterate_end;
 }
 
@@ -26003,7 +26034,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 9);
+BV_DEFINE(packet_ruleset_control_100_fields, 10);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -26092,6 +26123,14 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
     }
   }
   if (BV_ISSET(fields, 8)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_specialist_types = readin;
+    }
+  }
+  if (BV_ISSET(fields, 9)) {
     
     {
       int i;
@@ -26167,6 +26206,10 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 7);}
 
+  differ = (old->num_specialist_types != real_packet->num_specialist_types);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 8);}
+
 
     {
       differ = (MAX_NUM_TEAMS != MAX_NUM_TEAMS);
@@ -26181,7 +26224,7 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 9);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26214,6 +26257,9 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->terrain_count);
   }
   if (BV_ISSET(fields, 8)) {
+    dio_put_uint8(&dout, real_packet->num_specialist_types);
+  }
+  if (BV_ISSET(fields, 9)) {
   
     {
       int i;
