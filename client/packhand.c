@@ -2146,6 +2146,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&b->reqs, &p->reqs[i]);
   }
+  assert(b->reqs.size == p->reqs_count);
   b->obsolete_by = p->obsolete_by;
   b->build_cost = p->build_cost;
   b->upkeep = p->upkeep;
@@ -2200,6 +2201,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   for (j = 0; j < p->reqs_count; j++) {
     requirement_vector_append(&gov->reqs, &p->reqs[j]);
   }
+  assert(gov->reqs.size == p->reqs_count);
 
   gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;
   gov->free_happy          = p->free_happy;
@@ -2402,6 +2404,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   for (j = 0; j < packet->reqs_count; j++) {
     requirement_vector_append(&cs->reqs, &packet->reqs[j]);
   }
+  assert(cs->reqs.size == packet->reqs_count);
   cs->replaced_by = packet->replaced_by;
 
   sz_strlcpy(cs->name_orig, packet->name);
@@ -2435,6 +2438,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
     for (j = 0; j < packet->specialist_reqs_count[sp]; j++) {
       requirement_vector_append(&s->reqs, &packet->specialist_reqs[i + j]);
     }
+    assert(s->reqs.size == packet->specialist_reqs_count[sp]);
     i += j;
   } specialist_type_iterate_end;
   tileset_setup_specialist_types(tileset);
