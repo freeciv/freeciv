@@ -342,6 +342,7 @@ void game_free(void)
 ***************************************************************/
 void ruleset_data_free()
 {
+  specialists_free();
   techs_free();
   governments_free();
   nations_free();

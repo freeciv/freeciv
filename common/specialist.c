@@ -31,7 +31,25 @@ void specialists_init(void)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(specialists); i++) {
-    specialists[i].index = i;
+    struct specialist *p = &specialists[i];
+
+    p->index = i;
+
+    requirement_vector_init(&p->reqs);
+  }
+}
+
+/****************************************************************************
+  Free data for specialists.
+****************************************************************************/
+void specialists_free(void)
+{
+  int i;
+
+  for (i = 0; i < ARRAY_SIZE(specialists); i++) {
+    struct specialist *p = &specialists[i];
+
+    requirement_vector_free(&p->reqs);
   }
 }
 

@@ -697,11 +697,14 @@ static void help_update_improvement(const struct help_item *pitem,
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+    i = 0;
+    requirement_vector_iterate(&imp->reqs, preq) {
       gtk_label_set_text(GTK_LABEL(help_ilabel[5 + i]),
-			 get_req_source_text(&imp->req[i].source,
+			 get_req_source_text(&preq->source,
 					     req_buf, sizeof(req_buf)));
-    }
+      i++;
+      break;
+    } requirement_vector_iterate_end;
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
@@ -739,11 +742,14 @@ static void help_update_wonder(const struct help_item *pitem,
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+    i = 0;
+    requirement_vector_iterate(&imp->reqs, preq) {
       gtk_label_set_text(GTK_LABEL(help_ilabel[3 + i]),
-			 get_req_source_text(&imp->req[i].source,
+			 get_req_source_text(&preq->source,
 					     req_buf, sizeof(req_buf)));
-    }
+      i++;
+      break;
+    } requirement_vector_iterate_end;
     if (tech_exists(imp->obsolete_by)) {
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
 			 get_tech_name(game.player_ptr, imp->obsolete_by));
@@ -910,28 +916,22 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_widget_show(w);
 
     impr_type_iterate(j) {
-      int k;
-
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
-      for (k = 0; k < MAX_NUM_REQS; k++) {
-	struct requirement *req = &improvement_types[j].req[k];
-
-	if (req->source.type == REQ_NONE) {
-	  break;
-	} else if (req->source.type == REQ_BUILDING
-		   && req->source.value.building == i) {
+      requirement_vector_iterate(&improvement_types[j].reqs, preq) {
+	if (preq->source.type == REQ_BUILDING
+	    && preq->source.value.building == i) {
 	  hbox = gtk_hbox_new(FALSE, 0);
 	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
 	  w = gtk_label_new(_("Allows"));
 	  gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
 	  w = help_slink_new(improvement_types[j].name,
-			     is_great_wonder(j) ? HELP_WONDER
-			     : HELP_IMPROVEMENT);
+	      is_great_wonder(j) ? HELP_WONDER
+	      : HELP_IMPROVEMENT);
 	  gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
 	  gtk_widget_show_all(hbox);
 	}
-      }
+      } requirement_vector_iterate_end;
       if(i==improvement_types[j].obsolete_by) {
         hbox = gtk_hbox_new(FALSE, 0);
         gtk_container_add(GTK_CONTAINER(help_vbox), hbox);

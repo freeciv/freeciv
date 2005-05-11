@@ -790,9 +790,10 @@ struct packet_ruleset_game {
   int default_specialist;
   int num_specialist_types;
   int bonus_array_size;
-  int req_array_size;
   char specialist_name[SP_MAX][MAX_LEN_NAME];
   char specialist_short_name[SP_MAX][MAX_LEN_NAME];
+  int specialist_reqs_size;
+  int specialist_reqs_count[SP_MAX];
   struct requirement specialist_reqs[SP_MAX * MAX_NUM_REQS];
   int global_init_techs[MAX_NUM_TECH_LIST];
   int trireme_loss_chance[MAX_VET_LEVELS];
@@ -823,6 +824,7 @@ struct packet_ruleset_tech {
 
 struct packet_ruleset_government {
   int id;
+  int reqs_count;
   struct requirement reqs[MAX_NUM_REQS];
   int unit_happy_cost_factor;
   int unit_upkeep_factor[O_MAX];
@@ -887,6 +889,7 @@ struct packet_ruleset_city {
   char name[MAX_LEN_NAME];
   char citizens_graphic[MAX_LEN_NAME];
   char citizens_graphic_alt[MAX_LEN_NAME];
+  int reqs_count;
   struct requirement reqs[MAX_NUM_REQS];
   char graphic[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
@@ -899,6 +902,7 @@ struct packet_ruleset_building {
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
+  int reqs_count;
   struct requirement reqs[MAX_NUM_REQS];
   int obsolete_by;
   Impr_type_id replaced_by;

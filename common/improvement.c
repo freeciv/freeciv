@@ -70,10 +70,14 @@ void improvements_init(void)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(improvement_types); i++) {
+    struct impr_type *p = get_improvement_type(i);
+
     /* HACK: this field is declared const to keep anyone from changing
      * them.  But we have to set it somewhere!  This should be the only
      * place. */
-    *(int *)&improvement_types[i].index = i;
+    *(int *)&p->index = i;
+
+    requirement_vector_init(&p->reqs);
   }
 }
 
@@ -86,6 +90,8 @@ static void improvement_free(Impr_type_id id)
 
   free(p->helptext);
   p->helptext = NULL;
+
+  requirement_vector_free(&p->reqs);
 }
 
 /***************************************************************
@@ -291,7 +297,6 @@ bool can_player_build_improvement_direct(const struct player *p,
 {
   struct impr_type *impr;
   bool space_part = FALSE;
-  int i;
 
   /* This also checks if tech req is Never */
   if (!improvement_exists(id)) {
@@ -300,16 +305,12 @@ bool can_player_build_improvement_direct(const struct player *p,
 
   impr = get_improvement_type(id);
 
-  for (i = 0; i < MAX_NUM_REQS; i++) {
-    if (impr->req[i].source.type == REQ_NONE) {
-      break;
-    }
-    if (impr->req[i].range >= REQ_RANGE_PLAYER
-	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL,
-			  &impr->req[i])) {
+  requirement_vector_iterate(&impr->reqs, preq) {
+    if (preq->range >= REQ_RANGE_PLAYER
+        && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq)) {
       return FALSE;
     }
-  }
+  } requirement_list_iterate_end;
 
   /* Check for space part construction.  This assumes that space parts have
    * no other effects. */
@@ -371,7 +372,6 @@ bool can_player_build_improvement(const struct player *p, Impr_type_id id)
 bool can_player_eventually_build_improvement(const struct player *p,
 					     Impr_type_id id)
 {
-  int r;
   struct impr_type *building;
 
   if (!improvement_exists(id)) {
@@ -384,17 +384,13 @@ bool can_player_eventually_build_improvement(const struct player *p,
   /* Check for requirements that aren't met and that are unchanging (so
    * they can never be met). */
   building = get_improvement_type(id);
-  for (r = 0; r < MAX_NUM_REQS; r++) {
-    if (building->req[r].source.type == REQ_NONE) {
-      break;
-    }
-    if (building->req[r].range >= REQ_RANGE_PLAYER
-	&& is_req_unchanging(&building->req[r])
-	&& !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL,
-			  &building->req[r])) {
+  requirement_vector_iterate(&building->reqs, preq) {
+    if (preq->range >= REQ_RANGE_PLAYER
+	&& is_req_unchanging(preq)
+        && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq)) {
       return FALSE;
     }
-  }
+  } requirement_list_iterate_end;
   /* FIXME: should check some "unchanging" reqs here - like if there's
    * a nation requirement, we can go ahead and check it now. */
 

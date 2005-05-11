@@ -1261,7 +1261,7 @@ static void load_building_names(struct section_file *file)
 static void load_ruleset_buildings(struct section_file *file)
 {
   char **sec, *item;
-  int i, j, nval;
+  int i, nval;
   struct impr_type *b;
   const char *filename = secfile_filename(file);
 
@@ -1283,14 +1283,7 @@ static void load_ruleset_buildings(struct section_file *file)
       exit(EXIT_FAILURE);
     }
 
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      if (reqs->size > j) {
-	b->req[j] = reqs->p[j];
-      } else {
-	memset(&b->req[j], 0, sizeof(b->req[j]));
-	b->req[j].source.type = REQ_NONE;
-      }
-    }
+    requirement_vector_copy(&b->reqs, reqs);
 
     b->obsolete_by = lookup_tech(file, sec[i], "obsolete_by",
 				 FALSE, filename, b->name);
@@ -1649,7 +1642,7 @@ static void load_ruleset_governments(struct section_file *file)
 
   /* easy ones: */
   government_iterate(g) {
-    int i = g->index, j;
+    int i = g->index;
     const char *waste_name[] = {NULL, "waste", "corruption",
 				NULL, NULL, NULL};
     struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
@@ -1662,14 +1655,7 @@ static void load_ruleset_governments(struct section_file *file)
     } else {
       g->ai_better = G_MAGIC;
     }
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      if (reqs->size > j) {
-	g->req[j] = reqs->p[j];
-      } else {
-	g->req[j].source.type = REQ_NONE;
-	memset(&g->req[j], 0, sizeof(g->req[j]));
-      }
-    }
+    requirement_vector_copy(&g->reqs, reqs);
     
     sz_strlcpy(g->graphic_str,
 	       secfile_lookup_str(file, "%s.graphic", sec[i]));
@@ -2256,7 +2242,7 @@ Load cities.ruleset file
 static void load_ruleset_cities(struct section_file *file)
 {
   char **styles, *replacement;
-  int i, nval, j;
+  int i, nval;
   const char *filename = secfile_filename(file);
   char **specialist_names;
 
@@ -2268,7 +2254,6 @@ static void load_ruleset_cities(struct section_file *file)
   for (i = 0; i < nval; i++) {
     const char *name = specialist_names[i], *short_name;
     struct specialist *s = &specialists[i];
-    int j;
     struct requirement_vector *reqs;
     char sub[MAX_LEN_NAME + 4];
 
@@ -2281,17 +2266,9 @@ static void load_ruleset_cities(struct section_file *file)
     my_snprintf(sub, sizeof(sub), "%s_req", name);
     reqs = lookup_req_list(file, "specialist", sub);
 
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      struct requirement req = req_from_str(NULL, "", FALSE, FALSE, ""); 
-      s->req[j] = req;
-    }
+    requirement_vector_copy(&s->reqs, reqs);
 
-    j = 0;
-    requirement_vector_iterate(reqs, req) {
-      s->req[j++] = *req;
-    } requirement_vector_iterate_end;
-
-    if (s->req[0].source.type == REQ_NONE && DEFAULT_SPECIALIST == -1) {
+    if (requirement_vector_size(&s->reqs) == 0 && DEFAULT_SPECIALIST == -1) {
       DEFAULT_SPECIALIST = i;
     }
   }
@@ -2352,14 +2329,7 @@ static void load_ruleset_cities(struct section_file *file)
 	    		"%s.citizens_graphic_alt", styles[i]));
 
     reqs = lookup_req_list(file, styles[i], "reqs");
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      if (reqs->size > j) {
-	city_styles[i].req[j] = reqs->p[j];
-      } else {
-	city_styles[i].req[j].source.type = REQ_NONE;
-	memset(&city_styles[i].req[j], 0, sizeof(city_styles[i].req[j]));
-      }
-    }
+    requirement_vector_copy(&city_styles[i].reqs, reqs);
 
     replacement = secfile_lookup_str(file, "%s.replaced_by", styles[i]);
     if( strcmp(replacement, "-") == 0) {
@@ -2690,9 +2660,11 @@ static void send_ruleset_buildings(struct conn_list *dest)
     sz_strlcpy(packet.name, b->name_orig);
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      packet.reqs[j] = b->req[j];
-    }
+    j = 0;
+    requirement_vector_iterate(&b->reqs, preq) {
+      packet.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.reqs_count = j;
     packet.obsolete_by = b->obsolete_by;
     packet.replaced_by = b->replaced_by;
     packet.build_cost = b->build_cost;
@@ -2795,9 +2767,11 @@ static void send_ruleset_governments(struct conn_list *dest)
     /* send one packet_government */
     gov.id                 = g->index;
 
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      gov.reqs[j] = g->req[j];
-    }
+    j = 0;
+    requirement_vector_iterate(&g->reqs, preq) {
+      gov.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    gov.reqs_count = j;
 
     gov.unit_happy_cost_factor  = g->unit_happy_cost_factor;
     gov.free_happy  = g->free_happy;
@@ -2905,9 +2879,11 @@ static void send_ruleset_cities(struct conn_list *dest)
     city_p.style_id = k;
     city_p.replaced_by = city_styles[k].replaced_by;
 
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      city_p.reqs[j] = city_styles[k].req[j];
-    }
+    j = 0;
+    requirement_vector_iterate(&city_styles[k].reqs, preq) {
+      city_p.reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    city_p.reqs_count = j;
 
     sz_strlcpy(city_p.name, city_styles[k].name_orig);
     sz_strlcpy(city_p.graphic, city_styles[k].graphic);
@@ -2927,11 +2903,12 @@ static void send_ruleset_cities(struct conn_list *dest)
 static void send_ruleset_game(struct conn_list *dest)
 {
   struct packet_ruleset_game misc_p;
+  int i;
 
   misc_p.num_specialist_types = SP_COUNT;
   misc_p.bonus_array_size = SP_COUNT * O_COUNT;
-  misc_p.req_array_size = SP_COUNT * MAX_NUM_REQS;
   misc_p.default_specialist = DEFAULT_SPECIALIST;
+  i = 0;
   specialist_type_iterate(sp) {
     struct specialist *s = get_specialist(sp);
     int j;
@@ -2939,12 +2916,15 @@ static void send_ruleset_game(struct conn_list *dest)
     sz_strlcpy(misc_p.specialist_name[sp], s->name);
     sz_strlcpy(misc_p.specialist_short_name[sp], s->short_name);
 
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      int index = sp * MAX_NUM_REQS + j;
-
-      misc_p.specialist_reqs[index] = s->req[j];
-    }
+    j = 0;
+    requirement_vector_iterate(&s->reqs, preq) {
+      misc_p.specialist_reqs[i + j] = *preq;
+      j++;
+    } requirement_vector_iterate_end;
+    i += j;
+    misc_p.specialist_reqs_count[sp] = j;
   } specialist_type_iterate_end;
+  misc_p.specialist_reqs_size = i;
 
   memcpy(misc_p.trireme_loss_chance, game.trireme_loss_chance, 
          sizeof(game.trireme_loss_chance));

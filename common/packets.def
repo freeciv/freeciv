@@ -1049,10 +1049,11 @@ end
 PACKET_RULESET_GAME=97;sc,lsend
   UINT8 default_specialist, num_specialist_types;
   UINT8 bonus_array_size; # Hack to get around limitations of packgen
-  UINT8 req_array_size; # Another hack to get around limitations of packgen
   STRING specialist_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
   STRING specialist_short_name[SP_MAX:num_specialist_types][MAX_LEN_NAME];
-  REQUIREMENT specialist_reqs[SP_MAX * MAX_NUM_REQS:req_array_size];
+  UINT16 specialist_reqs_size;
+  UINT8 specialist_reqs_count[SP_MAX:num_specialist_types];
+  REQUIREMENT specialist_reqs[SP_MAX * MAX_NUM_REQS:specialist_reqs_size];
   TECH_LIST global_init_techs[MAX_NUM_TECH_LIST];
   UINT8 trireme_loss_chance[MAX_VET_LEVELS];
   UINT8 work_veteran_chance[MAX_VET_LEVELS];
@@ -1081,7 +1082,8 @@ end
 PACKET_RULESET_GOVERNMENT=100;sc,lsend
   GOVERNMENT id;
 
-  REQUIREMENT reqs[MAX_NUM_REQS];
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
 
   UINT8 unit_happy_cost_factor;
   UINT8 unit_upkeep_factor[O_MAX];
@@ -1159,7 +1161,8 @@ PACKET_RULESET_CITY=103;sc,lsend
   STRING name[MAX_LEN_NAME];
   STRING citizens_graphic[MAX_LEN_NAME];
   STRING citizens_graphic_alt[MAX_LEN_NAME];
-  REQUIREMENT reqs[MAX_NUM_REQS];
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   STRING graphic[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
   SINT8 replaced_by;
@@ -1171,7 +1174,8 @@ PACKET_RULESET_BUILDING=104;sc,lsend
   STRING name[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
-  REQUIREMENT reqs[MAX_NUM_REQS];
+  UINT8 reqs_count;
+  REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
   TECH obsolete_by;
   IMPROVEMENT replaced_by;
   UINT16 build_cost;

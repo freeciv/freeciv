@@ -127,7 +127,7 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct unit *target_unit,
 		     const struct output_type *target_output,
 		     const struct specialist *target_specialist,
-		     const struct requirement *reqs, int num_reqs);
+		     const struct requirement_vector *reqs);
 
 bool is_req_unchanging(const struct requirement *req);
 

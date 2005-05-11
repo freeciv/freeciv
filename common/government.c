@@ -149,7 +149,7 @@ bool can_change_to_government(struct player *pplayer, int government)
   }
 
   return are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL,
-			 gov->req, MAX_NUM_REQS);
+			 &gov->reqs);
 }
 
 /***************************************************************
@@ -186,7 +186,10 @@ void governments_alloc(int num)
   game.control.government_count = num;
 
   for (index = 0; index < num; index++) {
-    governments[index].index = index;
+    struct government *gov = &governments[index];
+
+    gov->index = index;
+    requirement_vector_init(&gov->reqs);
   }
 }
 
@@ -200,6 +203,8 @@ static void government_free(struct government *gov)
 
   free(gov->helptext);
   gov->helptext = NULL;
+
+  requirement_vector_free(&gov->reqs);
 }
 
 /***************************************************************

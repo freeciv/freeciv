@@ -231,18 +231,13 @@ Unit_type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
       }
       if (iimpr != B_LAST 
           && !can_player_build_improvement_direct(pplayer, iimpr)) {
-	int j;
 	struct impr_type *building = get_improvement_type(iimpr);
 
-	for (j = 0; j < MAX_NUM_REQS; j++) {
-	  struct requirement *req = &building->req[j];
-
-	  if (req->source.type == REQ_NONE) {
-	    break;
-	  } else if (req->source.type == REQ_TECH
-		     && (get_invention(pplayer, req->source.value.tech)
-			 != TECH_KNOWN)) {
-	    int iimprtech = req->source.value.tech;
+	requirement_vector_iterate(&building->reqs, preq) {
+	  if (preq->source.type == REQ_TECH
+	      && (get_invention(pplayer, preq->source.value.tech)
+		!= TECH_KNOWN)) {
+	    int iimprtech = preq->source.value.tech;
 	    int imprcost = total_bulbs_required_for_goal(pplayer, iimprtech);
 
 	    if (imprcost < cost || cost == 0) {
@@ -254,7 +249,7 @@ Unit_type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
 	    }
 	    cost += imprcost;
 	  }
-	}
+	} requirement_list_iterate_end;
       }
 
       if (cost < best_cost) {

@@ -49,7 +49,7 @@ struct government
   char  name_orig[MAX_LEN_NAME]; /* untranslated copy */
   char  graphic_str[MAX_LEN_NAME];
   char  graphic_alt[MAX_LEN_NAME];
-  struct requirement req[MAX_NUM_REQS];
+  struct requirement_vector reqs;
 
   int ai_better;		/* govt AI prefers to this one (hint) */
 

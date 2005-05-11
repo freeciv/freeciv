@@ -755,62 +755,80 @@ bool is_req_active(const struct player *target_player,
 		   const struct specialist *target_specialist,
 		   const struct requirement *req)
 {
+  bool eval = FALSE;
+
   /* Note the target may actually not exist.  In particular, effects that
    * have a REQ_SPECIAL or REQ_TERRAIN may often be passed to this function
    * with a city as their target.  In this case the requirement is simply
    * not met. */
   switch (req->source.type) {
   case REQ_NONE:
-    return TRUE;
+    eval = TRUE;
+    break;
   case REQ_TECH:
     /* The requirement is filled if the player owns the tech. */
-    return is_tech_in_range(target_player, req->range,
+    eval = is_tech_in_range(target_player, req->range,
 			    req->source.value.tech);
+    break;
   case REQ_GOV:
     /* The requirement is filled if the player is using the government. */
-    return (target_player
+    eval = (target_player
 	    && (target_player->government == req->source.value.gov));
+    break;
   case REQ_BUILDING:
     /* The requirement is filled if there's at least one of the building
      * in the city.  (This is a slightly nonstandard use of
      * count_sources_in_range.) */
-    return (count_buildings_in_range(target_player, target_city,
+    eval = (count_buildings_in_range(target_player, target_city,
 				     target_building,
 				     req->range, req->survives,
 				     req->source.value.building) > 0);
+    break;
   case REQ_SPECIAL:
-    return is_special_in_range(target_tile,
+    eval = is_special_in_range(target_tile,
 			       req->range, req->survives,
 			       req->source.value.special);
+    break;
   case REQ_TERRAIN:
-    return is_terrain_in_range(target_tile,
+    eval = is_terrain_in_range(target_tile,
 			       req->range, req->survives,
 			       req->source.value.terrain);
+    break;
   case REQ_NATION:
-    return is_nation_in_range(target_player, req->range, req->survives,
+    eval = is_nation_in_range(target_player, req->range, req->survives,
 			      req->source.value.nation);
+    break;
   case REQ_UNITTYPE:
-    return is_unittype_in_range(target_unit,
+    eval = is_unittype_in_range(target_unit,
 				req->range, req->survives,
 				req->source.value.unittype);
+    break;
   case REQ_UNITFLAG:
-    return is_unitflag_in_range(target_unit,
+    eval = is_unitflag_in_range(target_unit,
 				req->range, req->survives,
 				req->source.value.unitflag);
-  case REQ_OUTPUTTYPE:
-    return (target_output
-	    && target_output->index == req->source.value.outputtype);
-  case REQ_SPECIALIST:
-    return (target_specialist
-	    && target_specialist->index == req->source.value.specialist);
-  case REQ_MINSIZE:
-    return target_city && target_city->size >= req->source.value.minsize;
-  case REQ_LAST:
     break;
+  case REQ_OUTPUTTYPE:
+    eval = (target_output
+	    && target_output->index == req->source.value.outputtype);
+    break;
+  case REQ_SPECIALIST:
+    eval = (target_specialist
+	    && target_specialist->index == req->source.value.specialist);
+    break;
+  case REQ_MINSIZE:
+    eval = target_city && target_city->size >= req->source.value.minsize;
+    break;
+  case REQ_LAST:
+    assert(0);
+    return FALSE;
   }
 
-  assert(0);
-  return FALSE;
+  if (req->negated) {
+    return !eval;
+  } else {
+    return eval;
+  }
 }
 
 /****************************************************************************
@@ -819,9 +837,8 @@ bool is_req_active(const struct player *target_player,
   target gives the type of the target
   (player,city,building,tile) give the exact target
 
-  reqs gives the requirement array; num_reqs is the size of the array.  This
-  array may be REQ_NONE-terminated, otherwise all requirements in it will
-  be checked.  The function returns TRUE only if all requirements are active.
+  reqs gives the requirement vector.
+  The function returns TRUE only if all requirements are active.
 
   Make sure you give all aspects of the target when calling this function:
   for instance if you have TARGET_CITY pass the city's owner as the target
@@ -834,21 +851,16 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct unit *target_unit,
 		     const struct output_type *target_output,
 		     const struct specialist *target_specialist,
-		     const struct requirement *reqs, int num_reqs)
+		     const struct requirement_vector *reqs)
 {
-  int i;
-
-  for (i = 0; i < num_reqs; i++) {
-    if (reqs[i].source.type == REQ_NONE) {
-      break; /* Short-circuit any more checks. */
-    } else if (!is_req_active(target_player, target_city, target_building,
-			      target_tile, target_unit, target_output,
-			      target_specialist,
-			      &reqs[i])) {
+  requirement_vector_iterate(reqs, preq) {
+    if (!is_req_active(target_player, target_city, target_building,
+		       target_tile, target_unit, target_output,
+		       target_specialist,
+		       preq)) {
       return FALSE;
     }
-  }
-
+  } requirement_list_iterate_end;
   return TRUE;
 }
 

@@ -331,7 +331,7 @@ struct citystyle {
   char graphic_alt[MAX_LEN_NAME];
   char citizens_graphic[MAX_LEN_NAME];
   char citizens_graphic_alt[MAX_LEN_NAME];
-  struct requirement req[MAX_NUM_REQS];
+  struct requirement_vector reqs;
   int replaced_by;              /* index to replacing style          */
                                 /* client side-only:                 */
   int tresh[MAX_CITY_TILES];    /* treshholds - what city size to use a tile */

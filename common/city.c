@@ -394,7 +394,6 @@ struct player *city_owner(const struct city *pcity)
 bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id)
 {
   const struct impr_type *building = get_improvement_type(id);
-  int i;
 
   if (!can_player_build_improvement_direct(city_owner(pcity), id)) {
     return FALSE;
@@ -404,18 +403,9 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id)
     return FALSE;
   }
 
-  for (i = 0; i < MAX_NUM_REQS; i++) {
-    if (building->req[i].source.type == REQ_NONE) {
-      break;
-    }
-    if (!is_req_active(city_owner(pcity), pcity, NULL,
-		       pcity->tile, NULL, NULL, NULL,
-		       &building->req[i])) {
-      return FALSE;
-    }
-  }
-
-  return TRUE;
+  return are_reqs_active(city_owner(pcity), pcity, NULL,
+			 pcity->tile, NULL, NULL, NULL,
+			 &building->reqs);
 }
 
 /**************************************************************************
@@ -440,8 +430,7 @@ bool can_build_improvement(const struct city *pcity, Impr_type_id id)
 bool can_eventually_build_improvement(const struct city *pcity,
 				      Impr_type_id id)
 {
-  int r;
-  struct impr_type *building;
+  const struct impr_type *building = get_improvement_type(id);
 
   /* Can the _player_ ever build this improvement? */
   if (!can_player_eventually_build_improvement(city_owner(pcity), id)) {
@@ -450,19 +439,13 @@ bool can_eventually_build_improvement(const struct city *pcity,
 
   /* Check for requirements that aren't met and that are unchanging (so
    * they can never be met). */
-  building = get_improvement_type(id);
-  for (r = 0; r < MAX_NUM_REQS; r++) {
-    if (building->req[r].source.type == REQ_NONE) {
-      break;
-    }
-    if (is_req_unchanging(&building->req[r])
+  requirement_vector_iterate(&building->reqs, preq) {
+    if (is_req_unchanging(preq)
 	&& !is_req_active(city_owner(pcity), pcity, NULL,
-			  pcity->tile, NULL, NULL, NULL,
-			  &building->req[r])) {
+	  		  pcity->tile, NULL, NULL, NULL, preq)) {
       return FALSE;
     }
-  }
-
+  } requirement_list_iterate_end;
   return TRUE;
 }
 
@@ -537,7 +520,7 @@ bool city_can_use_specialist(const struct city *pcity,
 {
   return are_reqs_active(city_owner(pcity), pcity, NULL,
 			 NULL, NULL, NULL, NULL,
-			 get_specialist(type)->req, MAX_NUM_REQS);
+			 &get_specialist(type)->reqs);
 }
 
 /**************************************************************************
@@ -1126,7 +1109,7 @@ int get_player_city_style(const struct player *plr)
   while ((replace = city_styles[prev].replaced_by) != -1) {
     prev = replace;
     if (are_reqs_active(plr, NULL, NULL, NULL, NULL, NULL, NULL,
-			city_styles[replace].req, MAX_NUM_REQS)) {
+			&city_styles[replace].reqs)) {
       style = replace;
     }
   }
@@ -1194,7 +1177,7 @@ char* get_city_style_name_orig(int style)
 ****************************************************************************/
 bool city_style_has_requirements(const struct citystyle *style)
 {
-  return style->req[0].source.type != REQ_NONE;
+  return (requirement_vector_size(&style->reqs) > 0);
 }
 
 /**************************************************************************
@@ -2346,8 +2329,14 @@ bool is_city_option_set(const struct city *pcity, enum city_options option)
 **************************************************************************/
 void city_styles_alloc(int num)
 {
+  int i;
+
   city_styles = fc_calloc(num, sizeof(struct citystyle));
   game.control.styles_count = num;
+
+  for (i = 0; i < game.control.styles_count; i++) {
+    requirement_vector_init(&city_styles[i].reqs);
+  }
 }
 
 /**************************************************************************
@@ -2355,6 +2344,12 @@ void city_styles_alloc(int num)
 **************************************************************************/
 void city_styles_free(void)
 {
+  int i;
+
+  for (i = 0; i < game.control.styles_count; i++) {
+    requirement_vector_free(&city_styles[i].reqs);
+  }
+
   free(city_styles);
   city_styles = NULL;
   game.control.styles_count = 0;

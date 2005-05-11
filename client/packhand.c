@@ -2143,8 +2143,8 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->name = b->name_orig;
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
-  for (i = 0; i < MAX_NUM_REQS; i++) {
-    b->req[i] = p->reqs[i];
+  for (i = 0; i < p->reqs_count; i++) {
+    requirement_vector_append(&b->reqs, &p->reqs[i]);
   }
   b->obsolete_by = p->obsolete_by;
   b->build_cost = p->build_cost;
@@ -2197,8 +2197,8 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
 
   gov->index             = p->id;
 
-  for (j = 0; j < MAX_NUM_REQS; j++) {
-    gov->req[j] = p->reqs[j];
+  for (j = 0; j < p->reqs_count; j++) {
+    requirement_vector_append(&gov->reqs, &p->reqs[j]);
   }
 
   gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;
@@ -2399,8 +2399,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   }
   cs = &city_styles[id];
   
-  for (j = 0; j < MAX_NUM_REQS; j++) {
-    cs->req[j] = packet->reqs[j];
+  for (j = 0; j < packet->reqs_count; j++) {
+    requirement_vector_append(&cs->reqs, &packet->reqs[j]);
   }
   cs->replaced_by = packet->replaced_by;
 
@@ -2424,6 +2424,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
   /* Must set num_specialist_types before iterating over them. */
   SP_COUNT = packet->num_specialist_types;
   DEFAULT_SPECIALIST = packet->default_specialist;
+  i = 0;
   specialist_type_iterate(sp) {
     struct specialist *s = get_specialist(sp);
     int j;
@@ -2431,13 +2432,14 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
     sz_strlcpy(s->name, packet->specialist_name[sp]);
     sz_strlcpy(s->short_name, packet->specialist_short_name[sp]);
 
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      int index = sp * MAX_NUM_REQS + j;
-
-      s->req[j] = packet->specialist_reqs[index];
+    for (j = 0; j < packet->specialist_reqs_count[sp]; j++) {
+      requirement_vector_append(&s->reqs, &packet->specialist_reqs[i + j]);
     }
+    i += j;
   } specialist_type_iterate_end;
   tileset_setup_specialist_types(tileset);
+
+  assert(packet->specialist_reqs_size == i);
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
     game.trireme_loss_chance[i] = packet->trireme_loss_chance[i];

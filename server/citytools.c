@@ -2063,19 +2063,15 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 
       /* Sell all buildings (but not Wonders) that must be next to the ocean */
       built_impr_iterate(pcity, impr) {
-	int r;
-
         if (!can_city_sell_building(pcity, impr)) {
           continue;
         }
 
-	for (r = 0; r < MAX_NUM_REQS; r++) {
-	  struct requirement *req = &get_improvement_type(impr)->req[r];
-
-	  if (req->source.type == REQ_TERRAIN
+	requirement_vector_iterate(&get_improvement_type(impr)->reqs, preq) {
+	  if (preq->source.type == REQ_TERRAIN
 	      && !is_req_active(city_owner(pcity), pcity, NULL,
 				NULL, NULL, NULL, NULL,
-				req)) {
+				preq)) {
           do_sell_building(pplayer, pcity, impr);
           notify_player_ex(pplayer, tile1, E_IMP_SOLD,
                            _("You sell %s in %s (now landlocked)"
@@ -2083,7 +2079,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
                            get_improvement_name(impr), pcity->name,
                            impr_sell_gold(impr)); 
 	  }
-	}
+	} requirement_list_iterate_end;
       } built_impr_iterate_end;
     }
   } adjc_iterate_end;

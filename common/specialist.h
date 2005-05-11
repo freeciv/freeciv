@@ -23,7 +23,7 @@ struct specialist {
   int index;
   char name[MAX_LEN_NAME];
   char short_name[MAX_LEN_NAME];
-  struct requirement req[MAX_NUM_REQS];
+  struct requirement_vector reqs;
 };
 
 #define SP_COUNT num_specialist_types
@@ -34,6 +34,7 @@ extern int num_specialist_types;
 extern int default_specialist;
 
 void specialists_init(void);
+void specialists_free(void);
 struct specialist *get_specialist(Specialist_type_id spec);
 Specialist_type_id find_specialist_by_name(const char *name);
 

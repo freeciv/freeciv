@@ -223,8 +223,6 @@ static void insert_requirement(struct requirement *req,
 static void insert_allows(struct req_source *psource,
 			  char *buf, size_t bufsz)
 {
-  int r1, r2;
-
   buf[0] = '\0';
 
   /* FIXME: show other data like range and survives. */
@@ -237,23 +235,18 @@ static void insert_allows(struct req_source *psource,
   impr_type_iterate(impr_id) {
     struct impr_type *building = get_improvement_type(impr_id);
 
-    for (r1 = 0; r1 < MAX_NUM_REQS; r1++) {
-      struct requirement *req = building->req + r1;
-
+    requirement_vector_iterate(&building->reqs, req) {
       if (are_req_sources_equal(psource, &req->source)) {
 	char coreq_buf[512] = "";
 
-	for (r2 = 0; r2 < MAX_NUM_REQS; r2++) {
-	  struct requirement *coreq = building->req + r2;
-
-	  if (coreq->source.type != REQ_NONE
-	      && !are_req_sources_equal(psource, &coreq->source)) {
+	requirement_vector_iterate(&building->reqs, coreq) {
+	  if (!are_req_sources_equal(psource, &coreq->source)) {
 	    char buf2[512];
 
 	    COREQ_APPEND(get_req_source_text(&coreq->source,
 					     buf2, sizeof(buf2)));
 	  }
-	}
+	} requirement_vector_iterate_end;
 
 	if (coreq_buf[0] == '\0') {
 	  cat_snprintf(buf, bufsz, _("Allows %s."), building->name);
@@ -263,7 +256,7 @@ static void insert_allows(struct req_source *psource,
 	}
 	cat_snprintf(buf, bufsz, "\n");
       }
-    }
+    } requirement_vector_iterate_end;
   } impr_type_iterate_end;
 
 #undef COREQ_APPEND
@@ -1120,16 +1113,13 @@ void helptext_tech(char *buf, int i, const char *user_text)
   }
 
   government_iterate(g) {
-    int j;
-
     /* FIXME: this should tell the other requirements. */
-    for (j = 0; j < MAX_NUM_REQS; j++) {
-      if (g->req[j].source.type == REQ_TECH
-	  && g->req[j].source.value.tech == i) {
+    requirement_vector_iterate(&g->reqs, preq) {
+      if (preq->source.type == REQ_TECH && preq->source.value.tech == i) {
 	sprintf(buf + strlen(buf), _("* Allows changing government to %s.\n"),
 		g->name);
       }
-    }
+    } requirement_vector_iterate_end;
   } government_iterate_end;
   if (tech_flag(i, TF_BONUS_TECH)) {
     sprintf(buf + strlen(buf), _("* The first player to research %s gets "
@@ -1253,7 +1243,6 @@ void helptext_government(char *buf, int i, const char *user_text)
 {
   struct government *gov;
   bool active_types[O_MAX];
-  int j;
   const size_t bufsz = 64000; /* FIXME: should be passed in */
 
   /* Try to guess which output types that are active in this 
@@ -1278,9 +1267,9 @@ void helptext_government(char *buf, int i, const char *user_text)
   if (gov->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(gov->helptext));
   }
-  for (j = 0; j < MAX_NUM_REQS; j++) {
-    insert_requirement(gov->req + j, buf, bufsz);
-  }
+  requirement_vector_iterate(&gov->reqs, preq) {
+    insert_requirement(preq, buf, bufsz);
+  } requirement_vector_iterate_end;
 #if 0
   if (gov->max_rate < 100 && game.info.changable_tax) {
     sprintf(buf + strlen(buf), 

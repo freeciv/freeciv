@@ -686,21 +686,15 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
       if (new_target == target) {
-	int j;
 	struct impr_type *building = get_improvement_type(target);
 	bool known = FALSE;
 
 	/* Nope, no use.  *sigh*  */
-	for (j = 0; j < MAX_NUM_REQS; j++) {
-	  struct requirement *req = &building->req[j];
-
-	  if (req->source.type == REQ_NONE) {
-	    break;
-	  }
+	requirement_vector_iterate(&building->reqs, preq) {
 	  if (!is_req_active(pplayer, pcity, NULL, NULL, NULL, NULL, NULL,
-			     req)) {
+			     preq)) {
 	    known = TRUE;
-	    switch (req->source.type) {
+	    switch (preq->source.type) {
 	    case REQ_TECH:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
@@ -708,7 +702,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
 			       get_tech_name(pplayer,
-					     req->source.value.tech));
+					     preq->source.value.tech));
 	      break;
 	    case REQ_BUILDING:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -717,7 +711,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
 			       get_impr_name_ex(pcity,
-						req->source.value.building));
+						preq->source.value.building));
 	      break;
 	    case REQ_GOV:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -725,7 +719,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "it needs %s government.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
-			       get_government_name(req->source.value.gov));
+			       get_government_name(preq->source.value.gov));
 	      break;
 	    case REQ_SPECIAL:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -733,7 +727,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "%s special is required.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
-			       get_special_name(req->source.value.special));
+			       get_special_name(preq->source.value.special));
 	      break;
 	    case REQ_TERRAIN:
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
@@ -741,7 +735,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "%s terrain is required.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
-			       get_terrain_name(req->source.value.terrain));
+			       get_terrain_name(preq->source.value.terrain));
 	      break;
 	    case REQ_NATION:
 	      /* FIXME: we should skip rather than postpone, since we'll
@@ -751,7 +745,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 				 "only %s may build this.  Postponing..."),
 			       pcity->name,
 			       get_impr_name_ex(pcity, target),
-			       get_nation_name(req->source.value.nation));
+			       get_nation_name(preq->source.value.nation));
 	      break;
 	    case REQ_UNITTYPE:
 	    case REQ_UNITFLAG:
@@ -764,7 +758,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       _("%s can't build %s from the worklist; "
 				 "city must be of size %d.  Postponing..."),
 			       pcity->name, get_impr_name_ex(pcity, target),
-			       req->source.value.minsize);
+			       preq->source.value.minsize);
 	      break;
 	    case REQ_NONE:
 	    case REQ_LAST:
@@ -773,7 +767,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    }
 	    break;
 	  }
-	}
+	} requirement_list_iterate_end;
 	if (!known) {
 	  /* This shouldn't happen...
 	     FIXME: make can_build_improvement() return a reason enum. */
