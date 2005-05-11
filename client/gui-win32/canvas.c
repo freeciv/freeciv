@@ -191,7 +191,7 @@ void get_text_size(int *width, int *height,
   take care of this manually.  The text will not be NULL but may be empty.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, enum color_std color,
+		     enum client_font font, struct color *pcolor,
 		     const char *text)
 {
   RECT rc;
@@ -216,7 +216,7 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
   rc.right++;
   rc.top--;
   rc.bottom--;
-  SetTextColor(hdc, get_color(color)->rgb);
+  SetTextColor(hdc, pcolor->rgb);
   DrawText(hdc, text, strlen(text), &rc, DT_NOCLIP);
 
   SelectObject(hdc, temp);
@@ -294,8 +294,7 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
 /**************************************************************************
   Draw a filled-in colored rectangle onto the canvas.
 **************************************************************************/
-void canvas_put_rectangle(struct canvas *pcanvas,
-			  enum color_std color,
+void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
 			  int canvas_x, int canvas_y, int width, int height)
 {
   HDC hdc = canvas_get_hdc(pcanvas);
@@ -307,7 +306,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   SetRect(&rect, canvas_x, canvas_y, canvas_x + width,
 		 canvas_y + height);
 
-  brush = brush_alloc(get_color(color));
+  brush = brush_alloc(pcolor);
 
   FillRect(hdc, &rect, brush);
 
@@ -328,7 +327,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the canvas.
 **************************************************************************/
-void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
@@ -336,7 +335,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
   HPEN old_pen, pen;
 
   /* FIXME: set line type (size). */
-  pen = pen_alloc(get_color(color));
+  pen = pen_alloc(pcolor);
   old_pen = SelectObject(hdc, pen);
   MoveToEx(hdc, start_x, start_y, NULL);
   LineTo(hdc, start_x + dx, start_y + dy);
