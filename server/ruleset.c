@@ -1747,6 +1747,13 @@ static void load_ruleset_governments(struct section_file *file)
 /**************************************************************************
   Send information in packet_ruleset_control (numbers of units etc, and
   other miscellany) to specified connections.
+
+  The client assumes that exactly one ruleset control packet is sent as
+  a part of each ruleset send.  So after sending this packet we have to
+  resend every other part of the rulesets (and none of them should be
+  is-info in the network code!).  The client frees ruleset data when
+  receiving this packet and then re-initializes as it receives the
+  individual ruleset packets.  See packhand.c.
 **************************************************************************/
 static void send_ruleset_control(struct conn_list *dest)
 {
