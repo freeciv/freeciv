@@ -83,7 +83,7 @@ static void create_messageopt_dialog(void)
      G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_INT);
   }
 
-  for (i=0; i<E_LAST; i++)  {
+  sorted_event_iterate(ev) {
     GtkTreeIter it;
     GValue value = { 0, };
 
@@ -92,17 +92,16 @@ static void create_messageopt_dialog(void)
     gtk_list_store_append(model[n], &it);
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, get_message_text(sorted_events[i]));
+    g_value_set_static_string(&value, get_event_message_text(ev));
     gtk_list_store_set_value(model[n], &it, 3, &value);
     g_value_unset(&value);
 
-    gtk_list_store_set(model[n], &it, 4, sorted_events[i], -1);
+    gtk_list_store_set(model[n], &it, 4, ev, -1);
 
     for (j=0; j<NUM_MW; j++) {
-      gtk_list_store_set(model[n], &it,
-        j, messages_where[sorted_events[i]] & (1<<j), -1);
+      gtk_list_store_set(model[n], &it, j, messages_where[ev] & (1<<j), -1);
     }
-  }
+  } sorted_event_iterate_end;
 
   for (n=0; n<NUM_LISTS; n++) {
     GtkWidget *view, *sw;

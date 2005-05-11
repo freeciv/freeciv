@@ -13,6 +13,8 @@
 #ifndef FC__EVENTS_H
 #define FC__EVENTS_H
 
+#include "shared.h"          /* bool type */
+
 enum event_type {
   E_NOEVENT = -1,
   E_CITY_CANTBUILD,
@@ -116,4 +118,30 @@ enum event_type {
   E_LAST
 };
 
+extern int sorted_events[];	        /* [E_LAST], sorted by the
+					   translated message text */
+
+const char *get_event_message_text(enum event_type event);
+const char *get_event_sound_tag(enum event_type event);
+
+bool is_city_event(enum event_type event);
+
+void events_init(void);
+void events_free(void);
+
+
+/* Iterates over all events, sorted by the message text string. */
+#define sorted_event_iterate(event)                                           \
+{                                                                             \
+  enum event_type _event, event;                                              \
+  for (_event = 0; _event < E_LAST; _event++) {                               \
+    event = sorted_events[_event];                                            \
+    {
+
+#define sorted_event_iterate_end                                              \
+    }                                                                         \
+  }                                                                           \
+}
+
 #endif /* FC__EVENTS_H */
+

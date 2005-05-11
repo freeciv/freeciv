@@ -23,6 +23,7 @@ libcivcommon_a_SOURCES = \
 		diptreaty.h	\
 		effects.c	\
 		effects.h	\
+		events.c	\
 		events.h	\
 		fc_types.h	\
 		game.c		\

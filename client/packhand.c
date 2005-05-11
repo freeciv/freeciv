@@ -843,7 +843,7 @@ void handle_start_phase(int phase)
 **************************************************************************/
 void play_sound_for_event(enum event_type type)
 {
-  const char *sound_tag = get_sound_tag_for_event(type);
+  const char *sound_tag = get_event_sound_tag(type);
 
   if (sound_tag) {
     audio_play_sound(sound_tag, NULL);

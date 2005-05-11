@@ -313,7 +313,7 @@ int main(int argc, char *argv[])
   charsets_init();
   my_init_network();
   chatline_common_init();
-  init_messages_where();
+  message_options_init();
   init_player_dlg_common();
   settable_options_init();
 
@@ -371,6 +371,7 @@ void ui_exit(void)
   tileset_free(tileset);
   control_done();
   chatline_common_done();
+  message_options_free();
   client_game_free();
 
   helpdata_done(); /* ui_exit() unlinks help text list */

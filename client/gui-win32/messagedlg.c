@@ -145,7 +145,7 @@ static void fillin_message_dlg(HWND win, int start, int stop)
   for(i=start;i<stop;i++) {
     int is_col1 = (i-start)<((stop-start)/2);
     fcwin_box_add_static(table_vboxes[is_col1?0:4],
-			 get_message_text(sorted_events[i]),
+			 get_event_message_text(sorted_events[i]),
 			 0,SS_LEFT,TRUE,TRUE,0);
     for(j=0; j<NUM_MW; j++) {
       messageopt_toggles[sorted_events[i]][j]=
@@ -191,7 +191,7 @@ static void create_messageopt_dialog()
   for (i = 0; i<num_pages; i++) {
     titles[i] = titles_buf + i * 5;
     strncpy(titles[i], 
-	    get_message_text(sorted_events[i * OPTIONS_PER_PAGE]),
+	    get_event_message_text(sorted_events[i * OPTIONS_PER_PAGE]),
 	    4);
     titles_buf[i * 5 + 4] = 0;
     wndprocs[i] = messageopt_page_proc;
