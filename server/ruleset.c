@@ -2248,31 +2248,27 @@ Load cities.ruleset file
 **************************************************************************/
 static void load_ruleset_cities(struct section_file *file)
 {
-  char **styles, *replacement;
+  char **styles, **sec, *replacement;
   int i, nval;
   const char *filename = secfile_filename(file);
-  char **specialist_names;
+  char *item;
 
   (void) check_ruleset_capabilities(file, "+1.9", filename);
 
   /* Specialist options */
-  specialist_names = secfile_lookup_str_vec(file, &nval, "specialist.types");
+  sec = secfile_get_secnames_prefix(file, "specialist_", &nval);
 
   for (i = 0; i < nval; i++) {
-    const char *name = specialist_names[i], *short_name;
     struct specialist *s = &specialists[i];
     struct requirement_vector *reqs;
-    char sub[MAX_LEN_NAME + 4];
 
-    sz_strlcpy(s->name, name);
-    short_name
-      = secfile_lookup_str_default(file, name,
-				   "specialist.%s_short_name", name);
-    sz_strlcpy(s->short_name, short_name);
+    item = secfile_lookup_str(file, "%s.name", sec[i]);
+    sz_strlcpy(s->name, item);
 
-    my_snprintf(sub, sizeof(sub), "%s_req", name);
-    reqs = lookup_req_list(file, "specialist", sub);
+    item = secfile_lookup_str_default(file, s->name, "%s.short_name", sec[i]);
+    sz_strlcpy(s->short_name, item);
 
+    reqs = lookup_req_list(file, sec[i], "reqs");
     requirement_vector_copy(&s->reqs, reqs);
 
     if (requirement_vector_size(&s->reqs) == 0 && DEFAULT_SPECIALIST == -1) {
@@ -2285,36 +2281,31 @@ static void load_ruleset_cities(struct section_file *file)
     exit(EXIT_FAILURE);
   }
   SP_COUNT = nval;
-  free(specialist_names);
+  free(sec);
+
+  /* City Parameters */
 
   game.info.celebratesize = 
     secfile_lookup_int_default(file, GAME_DEFAULT_CELEBRATESIZE,
                                "parameters.celebratesize");
-
+  game.info.add_to_size_limit =
+    secfile_lookup_int_default(file, 9, "parameters.add_to_size_limit");
+  game.info.angrycitizen =
+    secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN,
+                                "parameters.angry_citizens");
   game.info.changable_tax = 
-    secfile_lookup_bool_default(file, TRUE, "specialist.changable_tax");
+    secfile_lookup_bool_default(file, TRUE, "parameters.changable_tax");
   game.info.forced_science = 
-    secfile_lookup_int_default(file, 0, "specialist.forced_science");
+    secfile_lookup_int_default(file, 0, "parameters.forced_science");
   game.info.forced_luxury = 
-    secfile_lookup_int_default(file, 100, "specialist.forced_luxury");
+    secfile_lookup_int_default(file, 100, "parameters.forced_luxury");
   game.info.forced_gold = 
-    secfile_lookup_int_default(file, 0, "specialist.forced_gold");
+    secfile_lookup_int_default(file, 0, "parameters.forced_gold");
   if (game.info.forced_science + game.info.forced_luxury
       + game.info.forced_gold != 100) {
     freelog(LOG_FATAL, "Forced taxes do not add up in ruleset!");
     exit(EXIT_FAILURE);
   }
-
-  /* City Parameters */
-
-  game.info.add_to_size_limit =
-    secfile_lookup_int_default(file, 9, "parameters.add_to_size_limit");
-
-  /* Angry citizens */
-
-  game.info.angrycitizen =
-    secfile_lookup_bool_default(file, GAME_DEFAULT_ANGRYCITIZEN,
-                                "parameters.angry_citizens");
 
   /* City Styles ... */
 

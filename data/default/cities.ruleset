@@ -11,43 +11,54 @@
 description="Cities data for Freeciv"
 options="1.9"
 
-; Configure the effect of specialists. Each specialist contributes
-; the given amount of its special kind of value (luxury for elvis,
-; research for scientist and gold for taxman). You can set
-; changable_tax to zero to disallow players setting the taxrate
-; for themselves. In this case, the values in the forced_ fields
-; apply instead, modified by government restrictions. The min_size
-; fields restrict setting specialists to this type before the
-; the city is of a certain size.
-[specialist]
+; A specialist is a city citizen who is not a tile worker.  Usually the
+; player can control what specialist each citizen is, so long as the
+; requirements for that specialist are met.
+;
+; Below are the entries for the specialists, one per specialist type.
+; The tag name (in [specialist_*]) doesn't matter so long as it's unique.
+; For each specialist the following fields may be set:
+;
+; 
+; name		= name as seen by user 
+; short_name    = one-character "short name" used (for instance) in cityrep
+; reqs		= requirements to have the specialist pick (see
+;		  effects.ruleset and README.effects for help on requirements)
 
-types = _("elvis"), _("scientist"), _("taxman")
-elvis_short_name = _("?Elvis:E")
-elvis_req	=
+[specialist_elvis]
+name		= _("elvis")
+short_name	= _("?Elvis:E")
+reqs		=
     { "type", "name", "range"
 ; Nothing
     }
-scientist_short_name = _("?Scientist:S")
-scientist_req	=
+
+[specialist_scientist]
+name		= _("scientist")
+short_name	= _("?Scientist:S")
+reqs		=
     { "type", "name", "range"
       "MinSize", "5", "City"
     }
 
-taxman_short_name = _("?Taxman:T")
-taxman_req	=
+[specialist_taxman]
+name		= _("taxman")
+short_name	= _("?Taxman:T")
+reqs		=
     { "type", "name", "range"
       "MinSize", "5", "City"
     }
-
-changable_tax = 1
-;forced_science = 0
-;forced_luxury = 100
-;forced_gold = 0
 
 [parameters]
 add_to_size_limit  = 8		; cities >= this cannot be added to.
 angry_citizens = 1              ; set to zero to disable angry citizens
 celebrate_size_limit = 3        ; cities >= can celebrate
+
+changable_tax = 1		; set to zero to disallow changing of tax rates
+
+;forced_science = 0		; set these fields when changeable_tax is turned off
+;forced_luxury = 100
+;forced_gold = 0
 
 ;
 ; City styles define the way cities are drawn
