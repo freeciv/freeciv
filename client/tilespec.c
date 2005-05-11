@@ -4120,22 +4120,6 @@ void tileset_free_city_tiles(struct tileset *t, int count)
   t->sprites.city.tile = NULL;
 }
 
-/**********************************************************************
-  Not sure which module to put this in...
-  It used to be that each nation had a color, when there was
-  fixed number of nations.  Now base on player number instead,
-  since still limited to less than 14.  Could possibly improve
-  to allow players to choose their preferred color etc.
-  A hack added to avoid returning more that COLOR_STD_RACE13.
-  But really there should be more colors available -- jk.
-***********************************************************************/
-enum color_std player_color(const struct player *pplayer)
-{
-  return COLOR_STD_RACE0 +
-    (pplayer->player_no %
-     (COLOR_STD_RACE13 - COLOR_STD_RACE0 + 1));
-}
-
 /****************************************************************************
   Return the amount of time between calls to toggle_focus_unit_state.
   The main loop needs to call toggle_focus_unit_state about this often

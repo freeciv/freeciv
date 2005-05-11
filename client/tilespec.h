@@ -21,7 +21,6 @@
 #include "fc_types.h"
 
 #include "citydlg_common.h"	/* enum citizen_type */
-#include "colors_g.h"
 #include "options.h"
 
 struct sprite;			/* opaque; gui-dep */
@@ -132,8 +131,6 @@ int fill_sprite_array(struct tileset *t,
 		      const struct tile_corner *pcorner,
 		      const struct unit *punit, const struct city *pcity,
 		      const struct city *citymode);
-
-enum color_std player_color(const struct player *pplayer);
 
 double get_focus_unit_toggle_timeout(const struct tileset *t);
 void reset_focus_unit_state(struct tileset *t);

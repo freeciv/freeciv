@@ -1251,7 +1251,8 @@ static void show_full_citybar(struct canvas *pcanvas,
   const bool line2 = ((draw_city_productions || draw_city_growth)
 		      && pcity->owner == game.info.player_idx);
   static char name[512], growth[32], prod[512], size[32];
-  enum color_std growth_color, owner_color;
+  enum color_std growth_color;
+  struct color *owner_color;
   struct {
     int x, y, w, h;
   } name_rect = {0, 0, 0, 0}, growth_rect = {0, 0, 0, 0},
@@ -1363,17 +1364,17 @@ static void show_full_citybar(struct canvas *pcanvas,
 			bg, 0, 0, *width - x, *height - y);
     }
   }
-  owner_color = player_color(city_owner(pcity));
+  owner_color = get_player_color(city_owner(pcity));
   if (line1) {
     canvas_put_sprite_full(pcanvas, flag_rect.x, flag_rect.y, flag);
-    canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
+    canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		    flag_rect.x + flag_rect.w - 1, canvas_y,
 		    0, height1);
     canvas_put_sprite_full(pcanvas, occupy_rect.x, occupy_rect.y, occupy);
     canvas_put_text(pcanvas, name_rect.x, name_rect.y,
 		    FONT_CITY_NAME, get_color(COLOR_STD_WHITE), name);
 
-    canvas_put_rectangle(pcanvas, get_color(owner_color),
+    canvas_put_rectangle(pcanvas, owner_color,
 			 size_rect.x - border / 2, canvas_y,
 			 size_rect.w + border, height1);
     canvas_put_text(pcanvas, size_rect.x, size_rect.y,
@@ -1388,20 +1389,20 @@ static void show_full_citybar(struct canvas *pcanvas,
     canvas_put_text(pcanvas, growth_rect.x, growth_rect.y,
 		    FONT_CITY_PROD, get_color(growth_color), growth);
   }
-  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y,
 		  *width, 0);
-  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y,
 		  0, *height);
-  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y + *height - 1,
 		  *width, 0);
-  canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
+  canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		  canvas_x - *width / 2 + *width, canvas_y,
 		  0, *height);
   if (line1 && line2) {
-    canvas_put_line(pcanvas, get_color(owner_color), LINE_NORMAL,
+    canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		    canvas_x - *width / 2, canvas_y + height1 - 1,
 		    *width, 0);
   }

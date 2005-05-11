@@ -14,6 +14,8 @@
 #ifndef FC__COLORS_COMMON_H
 #define FC__COLORS_COMMON_H
 
+#include "fc_types.h"
+
 /* The color system is designed on the assumption that almost, but
  * not quite, all displays will be truecolor. */
 
@@ -37,5 +39,6 @@ void init_color_system(void);
 void color_free_system(void);
 
 struct color *get_color(enum color_std color);
+struct color *get_player_color(const struct player *pplayer);
 
 #endif /* FC__COLORS_COMMON_H */
