@@ -2144,8 +2144,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   for (i = 0; i < MAX_NUM_REQS; i++) {
-    b->req[i] = req_from_values(p->req_type[i], p->req_range[i],
-				p->req_survives[i], p->req_value[i]);
+    b->req[i] = p->reqs[i];
   }
   b->obsolete_by = p->obsolete_by;
   b->build_cost = p->build_cost;
@@ -2199,8 +2198,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->index             = p->id;
 
   for (j = 0; j < MAX_NUM_REQS; j++) {
-    gov->req[j] = req_from_values(p->req_type[j], p->req_range[j],
-				  p->req_survives[j], p->req_value[j]);
+    gov->req[j] = p->reqs[j];
   }
 
   gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;
@@ -2402,10 +2400,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   cs = &city_styles[id];
   
   for (j = 0; j < MAX_NUM_REQS; j++) {
-    cs->req[j] = req_from_values(packet->req_type[j],
-				 packet->req_range[j],
-				 packet->req_survives[j],
-				 packet->req_value[j]);
+    cs->req[j] = packet->reqs[j];
   }
   cs->replaced_by = packet->replaced_by;
 
@@ -2439,10 +2434,7 @@ void handle_ruleset_game(struct packet_ruleset_game *packet)
     for (j = 0; j < MAX_NUM_REQS; j++) {
       int index = sp * MAX_NUM_REQS + j;
 
-      s->req[j] = req_from_values(packet->specialist_req_type[index],
-				  packet->specialist_req_range[index],
-				  packet->specialist_req_survives[index],
-				  packet->specialist_req_value[index]);
+      s->req[j] = packet->specialist_reqs[index];
     }
   } specialist_type_iterate_end;
   tileset_setup_specialist_types(tileset);

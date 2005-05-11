@@ -241,7 +241,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 					 sec, sub, j));
       j++) {
     char *range;
-    bool survives;
+    bool survives, negated;
     struct requirement req;
 
     name = secfile_lookup_str(file, "%s.%s%d.name", sec, sub, j);
@@ -249,8 +249,10 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
     survives = secfile_lookup_bool_default(file, FALSE,
 	"%s.%s%d.survives", sec, sub, j);
+    negated = secfile_lookup_bool_default(file, FALSE,
+	"%s.%s%d.negated", sec, sub, j);
 
-    req = req_from_str(type, range, survives, name);
+    req = req_from_str(type, range, survives, negated, name);
     if (req.source.type == REQ_LAST) {
       /* Error.  Log it, clear the req and continue. */
       freelog(LOG_ERROR,
@@ -2267,6 +2269,8 @@ static void load_ruleset_cities(struct section_file *file)
     const char *name = specialist_names[i], *short_name;
     struct specialist *s = &specialists[i];
     int j;
+    struct requirement_vector *reqs;
+    char sub[MAX_LEN_NAME + 4];
 
     sz_strlcpy(s->name, name);
     short_name
@@ -2274,31 +2278,18 @@ static void load_ruleset_cities(struct section_file *file)
 				   "specialist.%s_short_name", name);
     sz_strlcpy(s->short_name, short_name);
 
+    my_snprintf(sub, sizeof(sub), "%s_req", name);
+    reqs = lookup_req_list(file, "specialist", sub);
+
     for (j = 0; j < MAX_NUM_REQS; j++) {
-      const char *type
-	= secfile_lookup_str_default(file, NULL, "specialist.%s_req%d.type",
-				     name, j);
-      const char *range
-	= secfile_lookup_str_default(file, "", "specialist.%s_req%d.range",
-				     name, j);
-      bool survives
-	= secfile_lookup_bool_default(file, FALSE,
-				      "specialist.%s_req%d.survives",
-				      name, j);
-      const char *value
-	= secfile_lookup_str_default(file, "", "specialist.%s_req%d.name",
-				     name, j);
-      struct requirement req = req_from_str(type, range, survives, value); 
-
-      if (req.source.type == REQ_LAST) {
-	freelog(LOG_ERROR,
-		"Specialist %s has unknown req: \"%s\" \"%s\" \"%s\" %d (%s)",
-		name, type, range, value, survives, filename);
-	req.source.type = REQ_NONE;
-      }
-
+      struct requirement req = req_from_str(NULL, "", FALSE, FALSE, ""); 
       s->req[j] = req;
     }
+
+    j = 0;
+    requirement_vector_iterate(reqs, req) {
+      s->req[j++] = *req;
+    } requirement_vector_iterate_end;
 
     if (s->req[0].source.type == REQ_NONE && DEFAULT_SPECIALIST == -1) {
       DEFAULT_SPECIALIST = i;
@@ -2700,9 +2691,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, b->graphic_str);
     sz_strlcpy(packet.graphic_alt, b->graphic_alt);
     for (j = 0; j < MAX_NUM_REQS; j++) {
-      req_get_values(&b->req[j],
-		     &packet.req_type[j], &packet.req_range[j],
-		     &packet.req_survives[j], &packet.req_value[j]);
+      packet.reqs[j] = b->req[j];
     }
     packet.obsolete_by = b->obsolete_by;
     packet.replaced_by = b->replaced_by;
@@ -2807,9 +2796,7 @@ static void send_ruleset_governments(struct conn_list *dest)
     gov.id                 = g->index;
 
     for (j = 0; j < MAX_NUM_REQS; j++) {
-      req_get_values(&g->req[j],
-		     &gov.req_type[j], &gov.req_range[j],
-		     &gov.req_survives[j], &gov.req_value[j]);
+      gov.reqs[j] = g->req[j];
     }
 
     gov.unit_happy_cost_factor  = g->unit_happy_cost_factor;
@@ -2919,11 +2906,7 @@ static void send_ruleset_cities(struct conn_list *dest)
     city_p.replaced_by = city_styles[k].replaced_by;
 
     for (j = 0; j < MAX_NUM_REQS; j++) {
-      req_get_values(&city_styles[k].req[j],
-		     &city_p.req_type[j],
-		     &city_p.req_range[j],
-		     &city_p.req_survives[j],
-		     &city_p.req_value[j]);
+      city_p.reqs[j] = city_styles[k].req[j];
     }
 
     sz_strlcpy(city_p.name, city_styles[k].name_orig);
@@ -2959,11 +2942,7 @@ static void send_ruleset_game(struct conn_list *dest)
     for (j = 0; j < MAX_NUM_REQS; j++) {
       int index = sp * MAX_NUM_REQS + j;
 
-      req_get_values(&s->req[j],
-		     &misc_p.specialist_req_type[index],
-		     &misc_p.specialist_req_range[index],
-		     &misc_p.specialist_req_survives[index],
-		     &misc_p.specialist_req_value[index]);
+      misc_p.specialist_reqs[index] = s->req[j];
     }
   } specialist_type_iterate_end;
 

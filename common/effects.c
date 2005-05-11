@@ -414,7 +414,7 @@ void recv_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
     struct requirement req, *preq;
 
     req = req_from_values(packet->source_type, packet->range, packet->survives,
-	packet->source_value);
+	packet->negated, packet->source_value);
 
     preq = fc_malloc(sizeof(*preq));
     *preq = req;
@@ -441,9 +441,9 @@ void send_ruleset_cache(struct conn_list *dest)
     requirement_list_iterate(peffect->reqs, preq) {
       struct packet_ruleset_effect_req packet;
       int type, range, value;
-      bool survives;
+      bool survives, negated;
 
-      req_get_values(preq, &type, &range, &survives, &value);
+      req_get_values(preq, &type, &range, &survives, &negated, &value);
       packet.effect_id = id;
       packet.neg = FALSE;
       packet.source_type = type;
@@ -457,9 +457,9 @@ void send_ruleset_cache(struct conn_list *dest)
     requirement_list_iterate(peffect->nreqs, preq) {
       struct packet_ruleset_effect_req packet;
       int type, range, value;
-      bool survives;
+      bool survives, negated;
 
-      req_get_values(preq, &type, &range, &survives, &value);
+      req_get_values(preq, &type, &range, &survives, &negated, &value);
       packet.effect_id = id;
       packet.neg = TRUE;
       packet.source_type = type;

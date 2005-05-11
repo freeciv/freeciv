@@ -47,6 +47,7 @@
 #include "log.h"
 #include "mem.h"
 #include "player.h"
+#include "requirements.h"
 #include "support.h"
 #include "tech.h"
 #include "worklist.h"
@@ -712,3 +713,38 @@ void dio_put_diplstate(struct data_out *dout,
   dio_put_uint16(dout, pds->contact_turns_left);
   dio_put_uint8(dout, pds->has_reason_to_cancel);
 }
+
+/**************************************************************************
+  De-serialize a requirement.
+**************************************************************************/
+void dio_get_requirement(struct data_in *din, struct requirement *preq)
+{
+  int type, range, value;
+  bool survives, negated;
+
+  dio_get_uint8(din, &type);
+  dio_get_sint32(din, &value);
+  dio_get_uint8(din, &range);
+  dio_get_bool8(din, &survives);
+  dio_get_bool8(din, &negated);
+
+  *preq = req_from_values(type, range, survives, negated, value);
+}
+
+/**************************************************************************
+  Serialize a requirement.
+**************************************************************************/
+void dio_put_requirement(struct data_out *dout, const struct requirement *preq)
+{
+  int type, range, value;
+  bool survives, negated;
+
+  req_get_values(preq, &type, &range, &survives, &negated, &value);
+
+  dio_put_uint8(dout, type);
+  dio_put_sint32(dout, value);
+  dio_put_uint8(dout, range);
+  dio_put_bool8(dout, survives);
+  dio_put_bool8(dout, negated);
+}
+

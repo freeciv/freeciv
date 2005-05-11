@@ -76,6 +76,7 @@ struct requirement {
   struct req_source source;		/* requirement source */
   enum req_range range;			/* requirement range */
   bool survives; /* set if destroyed sources satisfy the req*/
+  bool negated;	 /* set if the requirement is to be negated */
 };
 
 #define SPECLIST_TAG requirement
@@ -94,16 +95,22 @@ struct requirement {
 
 struct req_source req_source_from_str(const char *type, const char *value);
 struct req_source req_source_from_values(int type, int value);
-void req_source_get_values(struct req_source *source, int *type, int *value);
+void req_source_get_values(const struct req_source *source,
+			   int *type, int *value);
 
 enum req_range req_range_from_str(const char *str);
 struct requirement req_from_str(const char *type, const char *range,
-				bool survives, const char *value);
+				bool survives, bool negated,
+				const char *value);
 
-void req_get_values(struct requirement *req,
-		    int *type, int *range, bool *survives, int *value);
+void req_get_values(const struct requirement *req, int *type,
+		    int *range, bool *survives, bool *negated,
+		    int *value);
 struct requirement req_from_values(int type, int range,
-				   bool survives, int value);
+				   bool survives, bool negated, int value);
+
+bool are_requirements_equal(const struct requirement *req1,
+			    const struct requirement *req2);
 
 bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,

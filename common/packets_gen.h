@@ -793,10 +793,7 @@ struct packet_ruleset_game {
   int req_array_size;
   char specialist_name[SP_MAX][MAX_LEN_NAME];
   char specialist_short_name[SP_MAX][MAX_LEN_NAME];
-  int specialist_req_type[SP_MAX * MAX_NUM_REQS];
-  int specialist_req_range[SP_MAX * MAX_NUM_REQS];
-  int specialist_req_value[SP_MAX * MAX_NUM_REQS];
-  bool specialist_req_survives[SP_MAX * MAX_NUM_REQS];
+  struct requirement specialist_reqs[SP_MAX * MAX_NUM_REQS];
   int global_init_techs[MAX_NUM_TECH_LIST];
   int trireme_loss_chance[MAX_VET_LEVELS];
   int work_veteran_chance[MAX_VET_LEVELS];
@@ -826,10 +823,7 @@ struct packet_ruleset_tech {
 
 struct packet_ruleset_government {
   int id;
-  int req_type[MAX_NUM_REQS];
-  int req_range[MAX_NUM_REQS];
-  int req_value[MAX_NUM_REQS];
-  bool req_survives[MAX_NUM_REQS];
+  struct requirement reqs[MAX_NUM_REQS];
   int unit_happy_cost_factor;
   int unit_upkeep_factor[O_MAX];
   int free_happy;
@@ -893,10 +887,7 @@ struct packet_ruleset_city {
   char name[MAX_LEN_NAME];
   char citizens_graphic[MAX_LEN_NAME];
   char citizens_graphic_alt[MAX_LEN_NAME];
-  int req_type[MAX_NUM_REQS];
-  int req_range[MAX_NUM_REQS];
-  int req_value[MAX_NUM_REQS];
-  bool req_survives[MAX_NUM_REQS];
+  struct requirement reqs[MAX_NUM_REQS];
   char graphic[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   int replaced_by;
@@ -908,10 +899,7 @@ struct packet_ruleset_building {
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
-  int req_type[MAX_NUM_REQS];
-  int req_range[MAX_NUM_REQS];
-  int req_value[MAX_NUM_REQS];
-  bool req_survives[MAX_NUM_REQS];
+  struct requirement reqs[MAX_NUM_REQS];
   int obsolete_by;
   Impr_type_id replaced_by;
   int build_cost;
@@ -1027,6 +1015,7 @@ struct packet_ruleset_effect_req {
   int source_value;
   enum req_range range;
   bool survives;
+  bool negated;
 };
 
 enum packet_type {

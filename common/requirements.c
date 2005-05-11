@@ -238,7 +238,8 @@ struct req_source req_source_from_values(int type, int value)
   is for serialization of req sources and is the opposite of
   req_source_from_values().
 **************************************************************************/
-void req_source_get_values(struct req_source *source, int *type, int *value)
+void req_source_get_values(const struct req_source *source,
+			   int *type, int *value)
 {
   *type = source->type;
 
@@ -294,8 +295,8 @@ void req_source_get_values(struct req_source *source, int *type, int *value)
 
   Pass this some values like "Building", "Factory".
 ****************************************************************************/
-struct requirement req_from_str(const char *type,
-				const char *range, bool survives,
+struct requirement req_from_str(const char *type, const char *range,
+				bool survives, bool negated,
 				const char *value)
 {
   struct requirement req;
@@ -332,6 +333,7 @@ struct requirement req_from_str(const char *type,
   }
 
   req.survives = survives;
+  req.negated = negated;
 
   /* These checks match what combinations are supported inside
    * is_req_active(). */
@@ -373,8 +375,10 @@ struct requirement req_from_str(const char *type,
     break;
   }
   if (invalid) {
-    freelog(LOG_ERROR, "Invalid requirement %s | %s | %s | %s",
-	    type, range, survives ? "survives" : "", value);
+    freelog(LOG_ERROR, "Invalid requirement %s | %s | %s | %s | %s",
+	    type, range,
+	    survives ? "survives" : "",
+	    negated ? "negated" : "", value);
     req.source.type = REQ_LAST;
   }
 
@@ -386,13 +390,15 @@ struct requirement req_from_str(const char *type,
   of req_get_values.
 ****************************************************************************/
 struct requirement req_from_values(int type, int range,
-				   bool survives, int value)
+				   bool survives, bool negated,
+				   int value)
 {
   struct requirement req;
 
   req.source = req_source_from_values(type, value);
   req.range = range;
   req.survives = survives;
+  req.negated = negated;
   return req;
 }
 
@@ -400,12 +406,27 @@ struct requirement req_from_values(int type, int range,
   Return the value of a req as a serializable integer.  This is the opposite
   of req_set_value.
 ****************************************************************************/
-void req_get_values(struct requirement *req,
-		    int *type, int *range, bool *survives, int *value)
+void req_get_values(const struct requirement *req,
+		    int *type, int *range,
+		    bool *survives, bool *negated,
+		    int *value)
 {
   req_source_get_values(&req->source, type, value);
   *range = req->range;
   *survives = req->survives;
+  *negated = req->negated;
+}
+
+/****************************************************************************
+  Returns TRUE if req1 and req2 are equal.
+****************************************************************************/
+bool are_requirements_equal(const struct requirement *req1,
+			    const struct requirement *req2)
+{
+  return (are_req_sources_equal(&req1->source, &req2->source)
+	  && req1->range == req2->range
+	  && req1->survives == req2->survives
+	  && req1->negated == req2->negated);
 }
 
 /****************************************************************************
