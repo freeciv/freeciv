@@ -165,15 +165,16 @@ const char *get_event_message_text(enum event_type event)
 **************************************************************************/
 static int compar_event_message_texts(const void *i1, const void *i2)
 {
-  int j1 = *(const int*)i1;
-  int j2 = *(const int*)i2;
+  const int *j1 = i1;
+  const int *j2 = i2;
   
-  return mystrcasecmp(get_event_message_text(j1), get_event_message_text(j2));
+  return mystrcasecmp(get_event_message_text(*j1),
+		      get_event_message_text(*j2));
 }
 
-/****************************************************************
-... 
-*****************************************************************/
+/****************************************************************************
+  Returns a string for the sound to be used for this message type.
+****************************************************************************/
 const char *get_event_sound_tag(enum event_type event)
 {
   if (event == E_NOEVENT) {
@@ -189,10 +190,10 @@ const char *get_event_sound_tag(enum event_type event)
   return NULL;
 }
 
-/****************************************************************
+/****************************************************************************
  If is_city_event is FALSE this event doesn't effect a city even if
  there is a city at the event location.
-*****************************************************************/
+****************************************************************************/
 bool is_city_event(enum event_type event)
 {
   switch (event) {
@@ -226,10 +227,10 @@ bool is_city_event(enum event_type event)
   }
 }
 
-/****************************************************************
+/****************************************************************************
   Initialize events. 
   Now also initialise sorted_events[].
-*****************************************************************/
+****************************************************************************/
 void events_init(void)
 {
   int i;
@@ -256,15 +257,16 @@ void events_init(void)
 	    events[i].descr_orig, events[i].descr);
   }
 
-  for(i=0;i<E_LAST;i++)  {
+  for (i = 0; i < E_LAST; i++)  {
     sorted_events[i] = i;
   }
-  qsort(sorted_events, E_LAST, sizeof(int), compar_event_message_texts);
+  qsort(sorted_events, E_LAST, sizeof(*sorted_events),
+	compar_event_message_texts);
 }
 
-/****************************************************************
+/****************************************************************************
   Free events. 
-*****************************************************************/
+****************************************************************************/
 void events_free(void)
 {
 }
