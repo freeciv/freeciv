@@ -489,11 +489,13 @@ static void help_update_improvement(const struct help_item *pitem,
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+    i = 0;
+    requirement_vector_iterate(&imp->reqs, preq) {
       SetWindowText(help_ilabel[5 + i],
-		    get_req_source_text(&imp->req[i].source, req_buf,
+		    get_req_source_text(&preq->source, req_buf,
 		    sizeof(req_buf)));
-    }			 
+      i++;
+    } requirement_vector_iterate_end;
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
@@ -530,11 +532,13 @@ static void help_update_wonder(const struct help_item *pitem,
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+    i = 0;
+    requirement_vector_iterate(&imp->reqs, preq) {
       SetWindowText(help_ilabel[5 + i],
-		    get_req_source_text(&imp->req[i].source, req_buf,
+		    get_req_source_text(&preq->source, req_buf,
 		    sizeof(req_buf)));
-    }
+      i++;
+    } requirement_vector_iterate_end;
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
@@ -768,13 +772,9 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
 
     impr_type_iterate(j) {
-      int k;
-
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
-      for (k = 0; k < MAX_NUM_REQS; k++) {
-	struct requirement *req = &improvement_types[j].req[k];
-
+     requirement_vector_iterate(&improvement_types[j].reqs, req) {
 	if (req->source.type == REQ_NONE) {
 	  break;
 	} else if (req->source.type == REQ_BUILDING
@@ -797,7 +797,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 			     is_great_wonder(j)?
 			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
 			     0,FALSE,FALSE,5);
-      }
+      } requirement_vector_iterate_end;
     } impr_type_iterate_end;
 
     unit_type_iterate(j) {
