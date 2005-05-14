@@ -106,30 +106,30 @@ static enum color_std overview_tile_color(struct tile *ptile)
   struct city *pcity;
 
   if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
-    return COLOR_STD_BLACK;
+    return COLOR_OVERVIEW_UNKNOWN;
   } else if ((pcity = tile_get_city(ptile))) {
     if (pcity->owner == game.info.player_idx) {
-      return COLOR_STD_WHITE;
+      return COLOR_OVERVIEW_MY_CITY;
     } else {
-      return COLOR_STD_CYAN;
+      return COLOR_OVERVIEW_ENEMY_CITY;
     }
   } else if ((punit = find_visible_unit(ptile))) {
     if (punit->owner == game.info.player_idx) {
-      return COLOR_STD_YELLOW;
+      return COLOR_OVERVIEW_MY_UNIT;
     } else {
-      return COLOR_STD_RED;
+      return COLOR_OVERVIEW_ENEMY_UNIT;
     }
   } else if (is_ocean(ptile->terrain)) {
     if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      return COLOR_STD_RACE4;
+      return COLOR_OVERVIEW_FOGGED_OCEAN;
     } else {
-      return COLOR_STD_OCEAN;
+      return COLOR_OVERVIEW_OCEAN;
     }
   } else {
     if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      return COLOR_STD_BACKGROUND;
+      return COLOR_OVERVIEW_FOGGED_LAND;
     } else {
-      return COLOR_STD_GROUND;
+      return COLOR_OVERVIEW_LAND;
     }
   }
 }
@@ -176,7 +176,8 @@ static void redraw_overview(void)
     int dst_x = x[(i + 1) % 4];
     int dst_y = y[(i + 1) % 4];
 
-    canvas_put_line(overview.window, get_color(COLOR_STD_WHITE), LINE_NORMAL,
+    canvas_put_line(overview.window, get_color(COLOR_OVERVIEW_VIEWRECT),
+		    LINE_NORMAL,
 		    src_x, src_y, dst_x - src_x, dst_y - src_y);
   }
 
@@ -394,7 +395,7 @@ void calculate_overview_dimensions(void)
   }
   overview.map = canvas_create(overview.width, overview.height);
   overview.window = canvas_create(overview.width, overview.height);
-  canvas_put_rectangle(overview.map, get_color(COLOR_STD_BLACK),
+  canvas_put_rectangle(overview.map, get_color(COLOR_OVERVIEW_UNKNOWN),
 		       0, 0, overview.width, overview.height);
   update_map_canvas_scrollbars_size();
 

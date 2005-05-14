@@ -173,7 +173,7 @@ void city_dialog_redraw_map(struct city *pcity,
 			    struct canvas *pcanvas)
 {
   /* First make it all black. */
-  canvas_put_rectangle(pcanvas, get_color(COLOR_STD_BLACK), 0, 0,
+  canvas_put_rectangle(pcanvas, get_color(COLOR_MAPVIEW_UNKNOWN), 0, 0,
 		       get_citydlg_canvas_width(),
 		       get_citydlg_canvas_height());
 

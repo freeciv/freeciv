@@ -943,9 +943,9 @@ static void setup_widgets(void)
 
   for (i = 0; i < 5; i++) {
     gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
-			 &get_color(COLOR_STD_BLACK)->color);
+			 &get_color(COLOR_OVERVIEW_UNKNOWN)->color);
     gtk_widget_modify_bg(GTK_WIDGET(map_canvas), i,
-			 &get_color(COLOR_STD_BLACK)->color);
+			 &get_color(COLOR_MAPVIEW_UNKNOWN)->color);
   }
 
   gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK

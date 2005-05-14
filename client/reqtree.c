@@ -735,30 +735,30 @@ static enum color_std node_color(struct tree_node *node)
 {
   if (!node->is_dummy) {
     if (game.player_ptr->research->researching == node->tech) {
-      return COLOR_STD_CYAN;
+      return COLOR_REQTREE_RESEARCHING;
     }
     
     if (get_invention(game.player_ptr, node->tech) == TECH_KNOWN) {
-      return COLOR_STD_GROUND;
+      return COLOR_REQTREE_KNOWN;
     }
 
     if (is_tech_a_req_for_goal(game.player_ptr, node->tech,
 			       game.player_ptr->research->tech_goal)
 	|| node->tech == game.player_ptr->research->tech_goal) {
       if (get_invention(game.player_ptr, node->tech) == TECH_REACHABLE) {
-	return COLOR_STD_RACE8;
+	return COLOR_REQTREE_REACHABLE_GOAL;
       } else {
-	return COLOR_STD_RACE3;
+	return COLOR_REQTREE_UNREACHABLE_GOAL;
       }
     }
 
     if (get_invention(game.player_ptr, node->tech) == TECH_REACHABLE) {
-      return COLOR_STD_YELLOW;
+      return COLOR_REQTREE_REACHABLE;
     }
 
-    return COLOR_STD_RED;
+    return COLOR_REQTREE_UNREACHABLE;
   } else {
-    return COLOR_STD_BLACK;
+    return COLOR_REQTREE_BACKGROUND;
   }
 
 }
@@ -786,7 +786,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       width = node->node_width;
       height = node->node_height;
 
-      canvas_put_rectangle(pcanvas, get_color(COLOR_STD_BLACK),
+      canvas_put_rectangle(pcanvas, get_color(COLOR_REQTREE_BACKGROUND),
 			   startx, starty, width, height);
 
       if (!node->is_dummy) {
@@ -802,7 +802,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	canvas_put_text(pcanvas,
 			startx + (width - text_w) / 2,
 			starty + (height - text_h) / 2,
-			FONT_REQTREE_TEXT, get_color(COLOR_STD_BLACK),
+			FONT_REQTREE_TEXT, get_color(COLOR_REQTREE_TEXT),
 			text);
       }
 
@@ -815,7 +815,8 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	endx = dest_node->node_x;
 	endy = dest_node->node_y + dest_node->node_height / 2;
 
-	canvas_put_line(pcanvas, get_color(COLOR_STD_BLACK), LINE_NORMAL,
+	canvas_put_line(pcanvas, get_color(COLOR_REQTREE_BACKGROUND),
+			LINE_NORMAL,
 			startx, starty, endx - startx, endy - starty);
       }
     }

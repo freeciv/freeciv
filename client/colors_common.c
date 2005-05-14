@@ -29,31 +29,40 @@ struct rgbtriple {
   int r, g, b;
 };
 
-struct rgbtriple colors_standard_rgb[COLOR_STD_LAST] = {
-  {  0,   0,   0},  /* Black */
-  {255, 255, 255},  /* White */
-  {255,   0,   0},  /* Red */
-  {255, 255,   0},  /* Yellow */
-  {  0, 255, 200},  /* Cyan */
-  {  0, 200,   0},  /* Ground (green) */
-  {  0,   0, 200},  /* Ocean (blue) */
-  { 86,  86,  86},  /* Background (gray) */
+struct rgbtriple colors_standard_rgb[] = {
 
-  /* TODO: Rename these appropriately. */
-  {128,   0,   0},  /* race0 */
-  {128, 255, 255},  /* race1 */
-  {255,   0,   0},  /* race2 */
-  {255,   0, 128},  /* race3 */
-  {  0,   0, 128},  /* race4 */
-  {255,   0, 255},  /* race5 */
-  {255, 128,   0},  /* race6 */
-  {255, 255, 128},  /* race7 */
-  {255, 128, 128},  /* race8 */
-  {  0,   0, 255},  /* race9 */
-  {  0, 255,   0},  /* race10 */
-  {  0, 128, 128},  /* race11 */
-  {  0,  64,  64},  /* race12 */
-  {198, 198, 198},  /* race13 */
+  /* Mapview */
+  {  0,   0,   0},  /* unknown */
+  {255, 255, 255},  /* citytext */
+  {255,   0,   0},  /* citytext/blocked growth */
+  {  0, 255, 200},  /* goto */
+  {255, 255,   0},  /* selection */
+
+  /* Spaceship */
+  {  0,   0,   0},  /* background */
+
+  /* Overview */
+  {  0,   0,   0},  /* unknown */
+  {255, 255, 255},  /* my city */
+  {  0, 255, 200},  /* enemy city */
+  {255, 255,   0},  /* my unit */
+  {255,   0,   0},  /* enemy unit */
+  {  0,   0, 200},  /* ocean */
+  {  0,   0, 128},  /* fogged ocean */
+  {  0, 200,   0},  /* ground */
+  { 86,  86,  86},  /* fogged ground */
+  {255, 255, 255},  /* viewrect */
+
+  /* Reqtree */
+  {  0, 255, 200},  /* researching */
+  {  0, 200,   0},  /* known */
+  {255, 128, 128},  /* reachable goal */
+  {255,   0, 128},  /* unreachable goal */
+  {255, 255,   0},  /* reachable */
+  {255,   0,   0},  /* unreachable */
+  {  0,   0,   0},  /* background */
+  {  0,   0,   0},  /* text */
+
 };
 
 struct rgbtriple colors_player_rgb[] = {
@@ -73,7 +82,7 @@ struct rgbtriple colors_player_rgb[] = {
   {198, 198, 198},  /* race13 */
 };
 
-static struct color *colors[COLOR_STD_LAST];
+static struct color *colors[COLOR_LAST];
 static struct color *player_colors[ARRAY_SIZE(colors_player_rgb)];
 
 static bool initted = FALSE;
@@ -91,7 +100,8 @@ void init_color_system(void)
   assert(!initted);
   initted = TRUE;
 
-  for (i = 0; i < COLOR_STD_LAST; i++) {
+  assert(ARRAY_SIZE(colors) == COLOR_LAST);
+  for (i = 0; i < COLOR_LAST; i++) {
     colors[i] = color_alloc(colors_standard_rgb[i].r,
 			    colors_standard_rgb[i].g,
 			    colors_standard_rgb[i].b);
@@ -114,7 +124,7 @@ void color_free_system(void)
   assert(initted);
   initted = FALSE;
 
-  for (i = 0; i < COLOR_STD_LAST; i++) {
+  for (i = 0; i < COLOR_LAST; i++) {
     color_free(colors[i]);
   }
   for (i = 0; i < ARRAY_SIZE(player_colors); i++) {

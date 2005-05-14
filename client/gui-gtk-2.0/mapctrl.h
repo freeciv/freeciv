@@ -30,7 +30,4 @@ gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);
 void center_on_unit(void);
 void popupinfo_popdown_callback(GtkWidget *w, gpointer data);
 
-/* Color to use to display the workers */
-extern int city_workers_color;
-
 #endif  /* FC__MAPCTRL_H */

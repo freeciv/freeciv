@@ -48,9 +48,6 @@
 
 #include "mapctrl.h"
 
-/* Color to use to display the workers */
-int city_workers_color=COLOR_STD_WHITE;
-
 struct tmousepos { int x, y; };
 
 /**************************************************************************

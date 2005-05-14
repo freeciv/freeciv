@@ -187,7 +187,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   GValue        value = { 0, };
 
   if (advances[tech].req[0] == A_LAST && advances[tech].req[1] == A_LAST) {
-    bg = COLOR_STD_RED;
+    bg = COLOR_REQTREE_UNREACHABLE;
 
     gtk_tree_store_append(tstore, &l, parent);
     help_advances[tech] = TRUE;
@@ -205,11 +205,17 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
     return;
   }
 
+  bg = COLOR_REQTREE_BACKGROUND;
   switch (get_invention(game.player_ptr, tech)) {
-  case TECH_UNKNOWN:	      bg = COLOR_STD_RED;	      break;
-  case TECH_KNOWN:	      bg = COLOR_STD_GROUND;	      break;
-  case TECH_REACHABLE:        bg = COLOR_STD_YELLOW;	      break;
-  default:		      bg = COLOR_STD_WHITE;	      break;
+  case TECH_UNKNOWN:
+    bg = COLOR_REQTREE_UNREACHABLE;
+    break;
+  case TECH_KNOWN:
+    bg = COLOR_REQTREE_KNOWN;
+    break;
+  case TECH_REACHABLE:
+    bg = COLOR_REQTREE_REACHABLE;
+    break;
   }
   turns_to_tech = num_unknown_techs_for_goal(game.player_ptr, tech);
 

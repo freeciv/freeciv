@@ -681,9 +681,11 @@ void gui_dialog_present(struct gui_dialog *dlg)
 
       if (current != n) {
 	GtkWidget *label = dlg->v.tab.label;
+	GdkColormap *cmap = gtk_widget_get_default_colormap();
+	GdkColor color = {.red = 255 << 8, .green = 0, .blue = 0};
 
-	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE,
-			     &get_color(COLOR_STD_RED)->color);
+	gdk_rgb_find_color(cmap, &color);
+	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
       }
     }
     break;
@@ -729,9 +731,11 @@ void gui_dialog_alert(struct gui_dialog *dlg)
 
       if (current != n) {
 	GtkWidget *label = dlg->v.tab.label;
+	GdkColormap *cmap = gtk_widget_get_default_colormap();
+	GdkColor color = {.red = 0, .green = 0, .blue = 255 << 8};
 
-	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE,
-			     &get_color(COLOR_STD_RACE9)->color);
+	gdk_rgb_find_color(cmap, &color);
+	gtk_widget_modify_fg(label, GTK_STATE_ACTIVE, &color);
       }
     }
     break;

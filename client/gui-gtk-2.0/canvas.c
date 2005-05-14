@@ -221,7 +221,8 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
   if (pcanvas->type == CANVAS_PIXMAP) {
     gdk_gc_set_clip_origin(fill_tile_gc, canvas_x, canvas_y);
     gdk_gc_set_clip_mask(fill_tile_gc, sprite_get_mask(psprite));
-    gdk_gc_set_foreground(fill_tile_gc, &get_color(COLOR_STD_BLACK)->color);
+    gdk_gc_set_foreground(fill_tile_gc,
+			  &get_color(COLOR_MAPVIEW_UNKNOWN)->color);
     gdk_gc_set_stipple(fill_tile_gc, black50);
     gdk_gc_set_ts_origin(fill_tile_gc, canvas_x, canvas_y);
 
