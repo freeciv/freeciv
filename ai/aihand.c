@@ -333,7 +333,7 @@ void ai_best_government(struct player *pplayer)
 	  dist += MAX(1, num_unknown_techs_for_goal(pplayer,
 						    preq->source.value.tech));
 	}
-      } requirement_list_iterate_end;
+      } requirement_vector_iterate_end;
       val = amortize(val, dist);
       ai->government_want[gov->index] = val; /* Save want */
     } government_iterate_end;
@@ -366,7 +366,7 @@ void ai_best_government(struct player *pplayer)
 	  ai->goal.govt.req = preq->source.value.tech;
 	  break;
 	}
-      } requirement_list_iterate_end;
+      } requirement_vector_iterate_end;
     }
   } government_iterate_end;
   /* Goodness of the ideal gov is calculated relative to the goodness of the

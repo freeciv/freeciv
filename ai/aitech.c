@@ -249,7 +249,7 @@ Unit_type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
 	    }
 	    cost += imprcost;
 	  }
-	} requirement_list_iterate_end;
+	} requirement_vector_iterate_end;
       }
 
       if (cost < best_cost) {
