@@ -809,7 +809,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    }
 	    break;
 	  }
-	} requirement_list_iterate_end;
+	} requirement_vector_iterate_end;
 	if (!known) {
 	  /* This shouldn't happen...
 	     FIXME: make can_build_improvement() return a reason enum. */

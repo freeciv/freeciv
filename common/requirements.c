@@ -860,7 +860,7 @@ bool are_reqs_active(const struct player *target_player,
 		       preq)) {
       return FALSE;
     }
-  } requirement_list_iterate_end;
+  } requirement_vector_iterate_end;
   return TRUE;
 }
 

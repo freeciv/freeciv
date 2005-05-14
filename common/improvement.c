@@ -310,7 +310,7 @@ bool can_player_build_improvement_direct(const struct player *p,
         && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq)) {
       return FALSE;
     }
-  } requirement_list_iterate_end;
+  } requirement_vector_iterate_end;
 
   /* Check for space part construction.  This assumes that space parts have
    * no other effects. */
@@ -390,7 +390,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
         && !is_req_active(p, NULL, NULL, NULL, NULL, NULL, NULL, preq)) {
       return FALSE;
     }
-  } requirement_list_iterate_end;
+  } requirement_vector_iterate_end;
   /* FIXME: should check some "unchanging" reqs here - like if there's
    * a nation requirement, we can go ahead and check it now. */
 

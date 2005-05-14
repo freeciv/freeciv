@@ -2079,7 +2079,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
                            get_improvement_name(impr), pcity->name,
                            impr_sell_gold(impr)); 
 	  }
-	} requirement_list_iterate_end;
+	} requirement_vector_iterate_end;
       } built_impr_iterate_end;
     }
   } adjc_iterate_end;
