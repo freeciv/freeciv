@@ -431,12 +431,12 @@ void send_ruleset_cache(struct conn_list *dest)
   unsigned id = 0;
 
   effect_list_iterate(ruleset_cache.tracker, peffect) {
-    struct packet_ruleset_effect packet;
+    struct packet_ruleset_effect effect_packet;
 
-    packet.effect_type = peffect->type;
-    packet.effect_value = peffect->value;
+    effect_packet.effect_type = peffect->type;
+    effect_packet.effect_value = peffect->value;
 
-    lsend_packet_ruleset_effect(dest, &packet);
+    lsend_packet_ruleset_effect(dest, &effect_packet);
 
     requirement_list_iterate(peffect->reqs, preq) {
       struct packet_ruleset_effect_req packet;
@@ -450,6 +450,7 @@ void send_ruleset_cache(struct conn_list *dest)
       packet.source_value = value;
       packet.range = range;
       packet.survives = survives;
+      packet.negated = FALSE;
 
       lsend_packet_ruleset_effect_req(dest, &packet);
     } requirement_list_iterate_end;
@@ -466,6 +467,7 @@ void send_ruleset_cache(struct conn_list *dest)
       packet.source_value = value;
       packet.range = range;
       packet.survives = survives;
+      packet.negated = FALSE;
 
       lsend_packet_ruleset_effect_req(dest, &packet);
     } requirement_list_iterate_end;
