@@ -445,7 +445,7 @@ bool can_eventually_build_improvement(const struct city *pcity,
 	  		  pcity->tile, NULL, NULL, NULL, preq)) {
       return FALSE;
     }
-  } requirement_list_iterate_end;
+  } requirement_vector_iterate_end;
   return TRUE;
 }
 
