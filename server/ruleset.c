@@ -2940,6 +2940,9 @@ static void send_ruleset_game(struct conn_list *dest)
 	 ARRAY_SIZE(game.rgame.global_init_techs));
   memcpy(misc_p.global_init_techs, game.rgame.global_init_techs,
 	 sizeof(misc_p.global_init_techs));
+
+  misc_p.default_specialist = DEFAULT_SPECIALIST;
+
   lsend_packet_ruleset_game(dest, &misc_p);
 }
 
