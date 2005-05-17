@@ -54,6 +54,8 @@ libcivcommon_a_SOURCES = \
 		spaceship.h	\
 		specialist.c	\
 		specialist.h	\
+		team.c		\
+		team.h		\
 		tech.c		\
 		tech.h		\
 		terrain.c	\

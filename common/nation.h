@@ -32,9 +32,6 @@
  */
 #define MAX_NUM_LEADERS MAX_NUM_ITEMS
 
-#define MAX_NUM_TEAMS MAX_NUM_PLAYERS
-#define TEAM_NONE 255
-
 #define MAX_NUM_NATION_GROUPS 128
 
 /*
@@ -108,11 +105,6 @@ struct nation_type {
   bool is_unavailable, is_used;
 };
 
-struct team {
-  char name[MAX_LEN_NAME];
-  Team_type_id id; /* equal to array index if active, else TEAM_NONE */
-};
-
 Nation_type_id find_nation_by_name(const char *name);
 Nation_type_id find_nation_by_name_orig(const char *name);
 const char *get_nation_name(Nation_type_id nation);
@@ -128,12 +120,6 @@ void nations_alloc(int num);
 void nations_free(void);
 void nation_city_names_free(struct city_name *city_names);
 int get_nation_city_style(Nation_type_id nation);
-
-void team_init(void);
-Team_type_id team_find_by_name(const char *team_name);
-struct team *team_get_by_id(Team_type_id id);
-void team_add_player(struct player *pplayer, const char *team_name);
-void team_remove_player(struct player *pplayer);
 
 struct nation_group* add_new_nation_group(const char* name);
 int get_nation_groups_count(void);
@@ -152,20 +138,6 @@ bool nation_in_group(struct nation_type* nation, const char* group_name);
 
 #define nations_iterate_end						    \
   }									    \
-}
-
-#define team_iterate(PI_team)                                                 \
-{                                                                             \
-  struct team *PI_team;                                                       \
-  Team_type_id PI_p_itr;                                                      \
-  for (PI_p_itr = 0; PI_p_itr < MAX_NUM_TEAMS; PI_p_itr++) {                  \
-    PI_team = team_get_by_id(PI_p_itr);                                       \
-    if (PI_team->id == TEAM_NONE) {                                           \
-      continue;                                                               \
-    }
-
-#define team_iterate_end                                                      \
-  }                                                                           \
 }
 
 #endif  /* FC__NATION_H */
