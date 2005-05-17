@@ -771,7 +771,7 @@ char *user_username(char *buf, size_t bufsz)
 
     if (GetUserName(name, &length)) {
       mystrlcpy(buf, name, bufsz);
-      if (is_ascii_name(bufsz)) {
+      if (is_ascii_name(buf)) {
 	freelog(LOG_VERBOSE, "GetUserName username is %s", buf);
 	return buf;
       }

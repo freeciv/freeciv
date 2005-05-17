@@ -671,13 +671,14 @@ static void help_draw_unit(HDC hdc,int i)
   rc.bottom=unitpos.y+tileset_full_tile_height(tileset);
   rc.right=unitpos.x+tileset_full_tile_width(tileset);
   
-  /* Give tile a background color, based on the type of unit */
+  /* Give tile a background color, based on the type of unit
+   * FIXME: make a new set of colors for this.               */
   switch (get_unit_type(i)->move_type) {
-  case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
-  case SEA_MOVING:  bg_color = COLOR_STD_OCEAN;  break;
-  case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
-  case AIR_MOVING:  bg_color = COLOR_STD_CYAN;   break;
-  default:          bg_color = COLOR_STD_BLACK;  break;
+  case LAND_MOVING: bg_color = COLOR_OVERVIEW_LAND;       break;
+  case SEA_MOVING:  bg_color = COLOR_OVERVIEW_OCEAN;      break;
+  case HELI_MOVING: bg_color = COLOR_OVERVIEW_MY_UNIT;    break;
+  case AIR_MOVING:  bg_color = COLOR_OVERVIEW_ENEMY_CITY; break;
+  default:          bg_color = COLOR_OVERVIEW_UNKNOWN;    break;
   }
 
   brush = brush_alloc(get_color(bg_color));
