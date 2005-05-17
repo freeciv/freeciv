@@ -74,12 +74,17 @@ libcivcommon_a_SOURCES = \
 BUILT_SOURCES = packets_gen.c packets_gen.h
 
 # ./generate_packets makes both packets_gen.[ch]
+#
 # Feed the dependence through a fake intermediate file to avoid
 # a race condition in a parallel build (like make -j2).
+#
+# Currently we run the generation directly into the source directory.
+# Ideally we'd generate the new files into the build directory but first we'd
+# have to resolve conflicts (since there could then be 2 copies).
 packets_gen.h packets_gen.c: packets_generate
 .INTERMEDIATE: packets_generate
 packets_generate: packets.def generate_packets.py
-	./generate_packets.py
+	cd $(srcdir) && ./generate_packets.py
 	touch packets_generate
 
 #libcivcommon_a_DEPENDENCIES = ../utility/libcivutility.a
