@@ -62,6 +62,9 @@ struct rgbtriple colors_standard_rgb[] = {
   {255,   0,   0},  /* unreachable */
   {  0,   0,   0},  /* background */
   {  0,   0,   0},  /* text */
+  
+  /* Player dialog */
+  {  0,   0,   0},  /* player color background */
 
 };
 
