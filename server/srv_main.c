@@ -1787,8 +1787,8 @@ static void srv_loop(void)
 
   if (game.is_new_game) {
     generate_players();
+    final_ruleset_adjustments();
   }
-  final_ruleset_adjustments();
    
   /* If we have a tile map, and map.generator==0, call map_fractal_generate
    * anyway to make the specials, huts and continent numbers. */
