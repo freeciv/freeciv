@@ -31,6 +31,7 @@
 
 enum server_states { 
   PRE_GAME_STATE, 
+  UNUSED_STATE, /* Have to keep this around for savegame compatibility. */
   RUN_GAME_STATE,
   GAME_OVER_STATE
 };

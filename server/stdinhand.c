@@ -3641,6 +3641,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
               "to disconnect."));
     return FALSE;
   case RUN_GAME_STATE:
+  case UNUSED_STATE:
     /* TRANS: given when /start is invoked while the game is running. */
     cmd_reply(CMD_START_GAME, caller, C_FAIL,
               _("Cannot start the game: it is already running."));
