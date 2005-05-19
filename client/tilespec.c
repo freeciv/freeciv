@@ -1659,6 +1659,28 @@ static void unload_sprite(struct tileset *t, const char *tag_name)
   }
 }
 
+/****************************************************************************
+  Insert a generated sprite into the existing sprite hash with a given
+  name.
+
+  This means the sprite can now be accessed via the tag, and will be
+  automatically freed along with the tileset.  In other words, you should
+  only do this with sprites you've just allocated, and only on tags that
+  are unused!
+****************************************************************************/
+static void insert_sprite(struct tileset *t, const char *tag_name,
+			  struct sprite *sprite)
+{
+  struct small_sprite *ss = fc_calloc(sizeof(*ss), 1);
+
+  assert(load_sprite(t, tag_name) == 0);
+  ss->ref_count = 1;
+  ss->sprite = sprite;
+  if (!hash_insert(t->sprite_hash, mystrdup(tag_name), ss)) {
+    freelog(LOG_ERROR, "warning: already have a sprite for %s", tag_name);
+  }
+}
+
 /**************************************************************************
   Return TRUE iff the specified sprite exists in the tileset (whether
   or not it is currently loaded).
@@ -2119,13 +2141,20 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 	SET_SPRITE(grid.borders[i][j], buffer);
 
 	for (p = 0; p < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; p++) {
-	  if (t->sprites.colors.player[p] && t->sprites.grid.borders[i][j]) {
-	    s = crop_sprite(t->sprites.colors.player[p],
-			    0, 0,
-			    t->normal_tile_width, t->normal_tile_height,
-			    t->sprites.grid.borders[i][j], 0, 0);
-	  } else {
-	    s = t->sprites.grid.borders[i][j];
+	  my_snprintf(buffer, sizeof(buffer), "grid.borders.%c.%d",
+		      name[i][j], p);
+	  s = load_sprite(t, buffer);
+
+	  if (!s) {
+	    if (t->sprites.colors.player[p] && t->sprites.grid.borders[i][j]) {
+	      s = crop_sprite(t->sprites.colors.player[p],
+			      0, 0,
+			      t->normal_tile_width, t->normal_tile_height,
+			      t->sprites.grid.borders[i][j], 0, 0);
+	      insert_sprite(t, buffer, s);
+	    } else {
+	      s = t->sprites.grid.borders[i][j];
+	    }
 	  }
 	  t->sprites.grid.player_borders[p][i][j] = s;
 	}
