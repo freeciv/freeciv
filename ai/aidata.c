@@ -370,6 +370,41 @@ void ai_data_analyze_rulesets(struct player *pplayer)
 }
 
 /**************************************************************************
+  This function is called each turn to initialize pplayer->ai.stats.units.
+**************************************************************************/
+static void count_my_units(struct player *pplayer)
+{
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  memset(&ai->stats.units, 0, sizeof(ai->stats.units));
+
+  unit_list_iterate(pplayer->units, punit) {
+    switch (unit_type(punit)->move_type) {
+    case LAND_MOVING:
+      ai->stats.units.land++;
+      break;
+    case SEA_MOVING:
+      ai->stats.units.sea++;
+      break;
+    case HELI_MOVING:
+    case AIR_MOVING:
+      ai->stats.units.air++;
+      break;
+    }
+
+    if (unit_flag(punit, F_TRIREME)) {
+      ai->stats.units.triremes++;
+    }
+    if (unit_flag(punit, F_MISSILE)) {
+      ai->stats.units.missiles++;
+    }
+    if (can_upgrade_unittype(pplayer, punit->type) >= 0) {
+      ai->stats.units.upgradeable++;
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
   Make and cache lots of calculations needed for other functions.
 
   Note: We use map.num_continents here rather than pplayer->num_continents
@@ -650,6 +685,8 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   } else {
     ai->wants_no_science = FALSE;
   }
+
+  count_my_units(pplayer);
 
   TIMING_LOG(AIT_AIDATA, TIMER_STOP);
 

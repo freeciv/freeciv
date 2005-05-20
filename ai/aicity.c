@@ -397,7 +397,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_AIRLIFT:
 	  /* FIXME: We need some smart algorithm here. The below is 
 	   * totally braindead. */
-	  v += c + MIN(ai->stats.units[UCL_LAND], 13);
+	  v += c + MIN(ai->stats.units.land, 13);
 	  break;
 	case EFT_ANY_GOVERNMENT:
 	  if (!can_change_to_government(pplayer, ai->goal.govt.idx)) {
@@ -407,7 +407,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  break;
 	case EFT_ENABLE_NUKE:
 	  /* Treat nuke as a Cruise Missile upgrade */
-	  v += 20 + ai->stats.units[UCL_MISSILE] * 5;
+	  v += 20 + ai->stats.units.missiles * 5;
 	  break;
 	case EFT_ENABLE_SPACE:
 	  if (game.info.spacerace) {
@@ -429,7 +429,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_NO_ANARCHY:
 	  break;  /* Useless for AI */
 	case EFT_NO_SINK_DEEP:
-	  v += 15 + ai->stats.triremes * 5;
+	  v += 15 + ai->stats.units.triremes * 5;
 	  break;
 	case EFT_NUKE_PROOF:
 	  if (ai->threats.nuclear) {
@@ -476,34 +476,34 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  /* Uhm, problem: City Wall has -50% here!! */
 	  break;
 	case EFT_SEA_MOVE:
-	  v += ai->stats.units[UCL_SEA] * 8 * amount;
+	  v += ai->stats.units.sea * 8 * amount;
 	  break;
 	case EFT_UNIT_NO_LOSE_POP:
 	  v += unit_list_size(ptile->units) * 2;
 	  break;
 	case EFT_LAND_REGEN:
-	  v += 5 * c + ai->stats.units[UCL_LAND] * 3;
+	  v += 5 * c + ai->stats.units.land * 3;
 	  break;
 	case EFT_SEA_REGEN:
-	  v += 5 * c + ai->stats.units[UCL_SEA] * 3;
+	  v += 5 * c + ai->stats.units.sea * 3;
 	  break;
 	case EFT_AIR_REGEN:
-	  v += 5 * c + ai->stats.units[UCL_AIR] * 3;
+	  v += 5 * c + ai->stats.units.air * 3;
 	  break;
 	case EFT_LAND_VET_COMBAT:
-	  v += 2 * c + ai->stats.units[UCL_LAND] * 2;
+	  v += 2 * c + ai->stats.units.land * 2;
 	  break;
 	case EFT_LAND_VETERAN:
-	  v += 3 * c + ai->stats.units[UCL_LAND];
+	  v += 3 * c + ai->stats.units.land;
 	  break;
 	case EFT_SEA_VETERAN:
-	  v += 5 * c + ai->stats.units[UCL_SEA];
+	  v += 5 * c + ai->stats.units.sea;
 	  break;
 	case EFT_AIR_VETERAN:
-	  v += 5 * c + ai->stats.units[UCL_AIR];
+	  v += 5 * c + ai->stats.units.air;
 	  break;
 	case EFT_UPGRADE_UNIT:
-	  v += ai->stats.units[UCL_LAST];
+	  v += ai->stats.units.upgradeable;
 	  if (amount == 1) {
 	    v *= 2;
 	  } else if (amount == 2) {
