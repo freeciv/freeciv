@@ -101,8 +101,17 @@ struct ai_data {
   /* This struct is used for statistical unit building, eg to ensure
    * that we don't build too few or too many units of a given type. */
   struct {
-    int triremes;
-    int units[UCL_LAST + 1]; /* no. units by class */
+    /* Counts of specific types of units. */
+    struct {
+      /* Unit-flag counts. */
+      int triremes, missiles;
+
+      /* Move-type counts (air includes helicoptor here). */
+      int land, sea, air;
+
+      /* Upgradeable units */
+      int upgradeable;
+    } units;
     int *workers;     /* cities to workers on continent*/
     int *cities;      /* number of cities on continent */
     int passengers;   /* number of passengers waiting for boats */
