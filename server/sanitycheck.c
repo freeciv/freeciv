@@ -403,6 +403,12 @@ static void check_players(void)
   players_iterate(pplayer) {
     int found_palace = 0;
 
+    if (!pplayer->is_alive) {
+      /* Don't do these checks.  Note there are some dead-players
+       * sanity checks below. */
+      continue;
+    }
+
     city_list_iterate(pplayer->cities, pcity) {
       if (is_capital(pcity)) {
 	found_palace++;
