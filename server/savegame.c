@@ -3273,10 +3273,10 @@ void game_load(struct section_file *file)
     if (game.info.sciencebox == 0) {
       /* Researchcost was used for 2.0 and earlier servers. */
       game.info.sciencebox
-	= secfile_lookup_int_default(file, 0, "game.researchcost");
+	= 5 * secfile_lookup_int_default(file, 0, "game.researchcost");
       if (game.info.sciencebox == 0) {
 	/* With even earlier servers (?) techlevel was used for this info. */
-	game.info.sciencebox = secfile_lookup_int(file, "game.techlevel");
+	game.info.sciencebox = 5 * secfile_lookup_int(file, "game.techlevel");
       }
     }
 
@@ -3856,7 +3856,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.sciencebox, "game.box_science");
   {
     /* These values are for compatibility with 2.0 and previous servers. */
-    secfile_insert_int(file, game.info.sciencebox / 5, "game.researchcost.");
+    secfile_insert_int(file, game.info.sciencebox / 5, "game.researchcost");
   }
   secfile_insert_int(file, game.info.techpenalty, "game.techpenalty");
   secfile_insert_int(file, game.info.razechance, "game.razechance");
