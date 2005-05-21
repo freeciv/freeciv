@@ -107,7 +107,7 @@ void player_init(struct player *plr)
   sz_strlcpy(plr->username, ANON_USER_NAME);
   plr->is_male = TRUE;
   plr->nation = NO_NATION_SELECTED;
-  plr->team = TEAM_NONE;
+  plr->team = NULL;
   plr->is_started = FALSE;
   plr->revolution_finishes = -1;
   plr->capital = FALSE;
@@ -666,10 +666,7 @@ bool pplayers_non_attack(const struct player *pplayer,
 bool players_on_same_team(const struct player *pplayer1,
                           const struct player *pplayer2)
 {
-  if (pplayer1->team == TEAM_NONE) {
-    return FALSE;
-  }
-  return (pplayer1->team == pplayer2->team);
+  return (pplayer1->team && pplayer1->team == pplayer2->team);
 }
 
 bool is_barbarian(const struct player *pplayer)

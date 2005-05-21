@@ -1730,15 +1730,9 @@ static void player_load(struct player *plr, int plrno,
   init_tech(plr, 0);
 
   /* not all players have teams */
-  if (section_file_lookup(file, "player%d.team", plrno)) {
-    char tmp[MAX_LEN_NAME];
+  id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
+  plr->team = team_get_by_id(id);
 
-    sz_strlcpy(tmp, secfile_lookup_str(file, "player%d.team", plrno));
-    team_add_player(plr, tmp);
-    plr->team = team_find_by_name(tmp);
-  } else {
-    plr->team = TEAM_NONE;
-  }
   if (is_barbarian(plr)) {
     plr->nation = game.control.nation_count - 1;
   }
@@ -2543,10 +2537,8 @@ static void player_save(struct player *plr, int plrno,
    * This field is kept only for forward compatibility
    * Nations can't be saved correctly because race must be < 62 */
   secfile_insert_int(file, plrno, "player%d.race", plrno);
-  if (plr->team != TEAM_NONE) {
-    secfile_insert_str(file, (char *) team_get_by_id(plr->team)->name, 
-                       "player%d.team", plrno);
-  }
+
+  secfile_insert_int(file, plr->team->index, "player%d.team_no", plrno);
 
   gov = get_government(plr->government);
   secfile_insert_str(file, gov->name_orig, "player%d.government_name", plrno);

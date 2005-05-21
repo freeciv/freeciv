@@ -280,6 +280,7 @@ void game_init(void)
   techs_init();
   unit_types_init();
   specialists_init();
+  teams_init();
   idex_init();
   cm_init();
   

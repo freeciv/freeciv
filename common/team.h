@@ -16,19 +16,22 @@
 
 #include "fc_types.h"
 
-#define MAX_NUM_TEAMS MAX_NUM_PLAYERS
-#define TEAM_NONE 255
+#define MAX_NUM_TEAMS (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
 
 struct team {
-  Team_type_id id; /* equal to array index if active, else TEAM_NONE */
+  Team_type_id index;
   char name[MAX_LEN_NAME];
+
+  int players; /* # of players on the team */
 };
 
-void team_init(void);
-Team_type_id team_find_by_name(const char *team_name);
+void teams_init(void);
+struct team *team_find_by_name(const char *team_name);
 struct team *team_get_by_id(Team_type_id id);
-void team_add_player(struct player *pplayer, const char *team_name);
+void team_add_player(struct player *pplayer, struct team *pteam);
 void team_remove_player(struct player *pplayer);
+
+struct team *find_empty_team(void);
 
 #define team_iterate(pteam)                                                 \
 {                                                                           \
@@ -37,7 +40,7 @@ void team_remove_player(struct player *pplayer);
 									    \
   for (PI_p_itr = 0; PI_p_itr < MAX_NUM_TEAMS; PI_p_itr++) {                \
     pteam = team_get_by_id(PI_p_itr);                                       \
-    if (pteam->id == TEAM_NONE) {                                           \
+    if (pteam->players == 0) {						    \
       continue;                                                             \
     }
 

@@ -497,9 +497,9 @@ void gamelog(int level, ...)
     pteam = va_arg(args, struct team *);
 
     my_snprintf(buf, sizeof(buf), "<id>%d</id><name>%s</name>",
-                                  pteam->id, pteam->name);
+                                  pteam->index, pteam->name);
     players_iterate(aplayer) {
-      if (aplayer->team == pteam->id) {
+      if (aplayer->team == pteam) {
         cat_snprintf(buf, sizeof(buf), "<n>%d</n>", aplayer->player_no);
       }
     } players_iterate_end;
@@ -546,7 +546,7 @@ void gamelog(int level, ...)
       pteam = va_arg(args, struct team *);
       my_snprintf(buf, sizeof(buf), "<type>%s</type>", endgame_strings[num]);
       players_iterate(aplayer) {
-        if (aplayer->team == pteam->id) {
+        if (aplayer->team == pteam) {
           cat_snprintf(buf, sizeof(buf), "<n>%d</n>", aplayer->player_no);
         }
       } players_iterate_end;

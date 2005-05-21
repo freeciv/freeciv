@@ -1421,7 +1421,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->is_observer = pinfo->is_observer;
   pplayer->nation=pinfo->nation;
   pplayer->is_male=pinfo->is_male;
-  pplayer->team = pinfo->team;
+  team_add_player(pplayer, team_get_by_id(pinfo->team));
   pplayer->score.game = pinfo->score;
 
   pplayer->economic.gold=pinfo->gold;
@@ -2013,8 +2013,6 @@ void handle_nation_available(Nation_type_id nation_no,
 **************************************************************************/
 void handle_ruleset_control(struct packet_ruleset_control *packet)
 {
-  int i;
-
   tileset_free_city_tiles(tileset, game.control.styles_count);
   ruleset_data_free();
 
@@ -2026,10 +2024,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.control.playable_nation_count = packet->playable_nation_count;
   city_styles_alloc(packet->styles_count);
   tileset_alloc_city_tiles(tileset, game.control.styles_count);
-  for(i = 0; i < MAX_NUM_TEAMS; i++) {
-    mystrlcpy(team_get_by_id(i)->name, packet->team_name[i],
-              MAX_LEN_NAME);
-  }
 }
 
 /**************************************************************************

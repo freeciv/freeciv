@@ -57,9 +57,10 @@ const struct command commands[] = {
   {"list",	ALLOW_INFO,
    "list\n"
    "list players\n"
+   "list teams\n"
    "list connections",
-   N_("Show a list of players or connections."),
-   N_("Show a list of players, or a list of connections to the server.  "
+   N_("Show a list of players, teams, or connections."),
+   N_("Show a list of players, of teams, or of connections to the server.  "
       "The argument may be abbreviated, and defaults to 'players' if absent.")
   },
   {"quit",	ALLOW_HACK,

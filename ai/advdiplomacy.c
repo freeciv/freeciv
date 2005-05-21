@@ -160,7 +160,7 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
 static bool shared_vision_is_safe(struct player* pplayer,
                                   struct player* aplayer)
 {
-  if (pplayer->team != TEAM_NONE && pplayer->team == aplayer->team) {
+  if (pplayer->team && pplayer->team == aplayer->team) {
     return TRUE;
   }
   players_iterate(eplayer) {

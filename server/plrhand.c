@@ -220,7 +220,7 @@ void kill_player(struct player *pplayer) {
   cancel_all_meetings(pplayer);
 
   /* Show entire map for players who are *not* in a team. */
-  if (pplayer->team == TEAM_NONE) {
+  if (pplayer->team) {
     map_know_and_see_all(pplayer);
   }
 
@@ -1452,7 +1452,7 @@ static void package_player_common(struct player *plr,
   packet->nation=plr->nation;
   packet->is_male=plr->is_male;
   packet->is_observer=plr->is_observer;
-  packet->team = plr->team;
+  packet->team = plr->team->index;
   packet->is_started = plr->is_started;
   packet->city_style=plr->city_style;
 
@@ -1658,6 +1658,7 @@ void server_player_init(struct player *pplayer, bool initmap)
     player_map_allocate(pplayer);
   }
   pplayer->player_no = pplayer - game.players;
+  team_add_player(pplayer, find_empty_team());
   ai_data_init(pplayer);
 }
 
@@ -1687,6 +1688,7 @@ void server_remove_player(struct player *pplayer)
     }
   } conn_list_iterate_end;
 
+  team_remove_player(pplayer);
   game_remove_player(pplayer);
   game_renumber_players(pplayer->player_no);
 }
@@ -2088,7 +2090,7 @@ static struct player *split_player(struct player *pplayer)
   BV_CLR_ALL(pplayer->embassy);   /* all embassies destroyed */
 
   /* give splitted player the embassies to his team mates back, if any */
-  if (pplayer->team != TEAM_NONE) {
+  if (pplayer->team) {
     players_iterate(pdest) {
       if (pplayer->team == pdest->team
           && pplayer != pdest) {

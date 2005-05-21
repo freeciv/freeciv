@@ -186,9 +186,6 @@ void srv_init(void)
   srvarg.auth_allow_guests = FALSE;
   srvarg.auth_allow_newusers = FALSE;
 
-  /* initialize teams */
-  team_init();
-
   /* mark as initialized */
   has_been_srv_init = TRUE;
 
@@ -255,7 +252,7 @@ bool is_game_over(void)
     players_iterate(pplayer) {
       if (pplayer->is_alive
           && !pplayer->surrendered
-          && pplayer->team != pteam->id) {
+          && pplayer->team != pteam) {
         win = FALSE;
         break;
       }
@@ -1365,7 +1362,7 @@ static void generate_players(void)
 {
   Nation_type_id nation;
   char player_name[MAX_LEN_NAME];
-  int i, old_nplayers;
+  int i;
 
   /* Select nations for AI players generated with server
    * 'create <name>' command
@@ -1439,16 +1436,16 @@ static void generate_players(void)
   }
 
   for(;game.info.nplayers < game.aifill + i;) {
-    struct player *pplayer;
+    const int old_nplayers = game.info.nplayers;
+    struct player *pplayer = get_player(old_nplayers);
+
+    server_player_init(pplayer, FALSE);
 
     nation = select_random_nation();
     assert(nation != NO_NATION_SELECTED);
     get_nation_by_idx(nation)->is_used = TRUE;
     pick_random_player_name(nation, player_name);
 
-    old_nplayers = game.info.nplayers;
-    pplayer = get_player(old_nplayers);
-     
     sz_strlcpy(pplayer->name, player_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
 

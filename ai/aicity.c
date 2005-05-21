@@ -251,7 +251,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 
   /* Remove team members from the equation */
   players_iterate(aplayer) {
-    if (aplayer->team != TEAM_NONE
+    if (aplayer->team
         && aplayer->team == pplayer->team
         && aplayer != pplayer) {
       nplayers--;

@@ -26034,7 +26034,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_control_100_fields, 10);
+BV_DEFINE(packet_ruleset_control_100_fields, 9);
 
 static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct connection *pc, enum packet_type type)
 {
@@ -26130,16 +26130,6 @@ static struct packet_ruleset_control *receive_packet_ruleset_control_100(struct 
       real_packet->num_specialist_types = readin;
     }
   }
-  if (BV_ISSET(fields, 9)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < MAX_NUM_TEAMS; i++) {
-        dio_get_string(&din, real_packet->team_name[i], sizeof(real_packet->team_name[i]));
-      }
-    }
-  }
 
   clone = fc_malloc(sizeof(*clone));
   *clone = *real_packet;
@@ -26210,22 +26200,6 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 8);}
 
-
-    {
-      differ = (MAX_NUM_TEAMS != MAX_NUM_TEAMS);
-      if(!differ) {
-        int i;
-        for (i = 0; i < MAX_NUM_TEAMS; i++) {
-          if (strcmp(old->team_name[i], real_packet->team_name[i]) != 0) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
-
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -26258,16 +26232,6 @@ static int send_packet_ruleset_control_100(struct connection *pc, const struct p
   }
   if (BV_ISSET(fields, 8)) {
     dio_put_uint8(&dout, real_packet->num_specialist_types);
-  }
-  if (BV_ISSET(fields, 9)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < MAX_NUM_TEAMS; i++) {
-        dio_put_string(&dout, real_packet->team_name[i]);
-      }
-    } 
   }
 
 

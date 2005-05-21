@@ -961,7 +961,6 @@ struct packet_ruleset_control {
   int styles_count;
   int terrain_count;
   int num_specialist_types;
-  char team_name[MAX_NUM_TEAMS][MAX_LEN_NAME];
 };
 
 struct packet_single_want_hack_req {

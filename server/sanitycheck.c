@@ -459,6 +459,27 @@ static void check_players(void)
   }
 }
 
+/****************************************************************************
+  Sanity checking on teams.
+****************************************************************************/
+static void check_teams(void)
+{
+  int count[MAX_NUM_TEAMS], i;
+
+  memset(count, 0, sizeof(count));
+  players_iterate(pplayer) {
+    /* For the moment, all players (including observers) have teams. */
+    SANITY_CHECK(pplayer->team != NULL);
+    if (pplayer->team) {
+      count[pplayer->team->index]++;
+    }
+  } players_iterate_end;
+
+  for (i = 0; i < MAX_NUM_TEAMS; i++) {
+    SANITY_CHECK(team_get_by_id(i)->players == count[i]);
+  }
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -475,6 +496,7 @@ void sanity_check(void)
   }
   check_misc();
   check_players();
+  check_teams();
 }
 
 #endif /* SANITY_CHECKING */

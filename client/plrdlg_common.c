@@ -97,11 +97,7 @@ static const char *col_nation(const struct player *player)
 *******************************************************************/
 static const char *col_team(const struct player *player)
 {
-  if (player->team != TEAM_NONE) {
-    return team_get_by_id(player->team)->name;
-  } else {
-    return "";
-  }
+  return _(player->team->name);
 }
 
 /******************************************************************

@@ -80,6 +80,7 @@ static bool cut_client_connection(struct connection *caller, char *name,
                                   bool check);
 static bool show_help(struct connection *caller, char *arg);
 static bool show_list(struct connection *caller, char *arg);
+static void show_teams(struct connection *caller);
 static void show_connections(struct connection *caller);
 static bool set_ai_level(struct connection *caller, char *name, int level, 
                          bool check);
@@ -955,7 +956,6 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
   }
 
   sz_strlcpy(name, pplayer->name);
-  team_remove_player(pplayer);
   server_remove_player(pplayer);
   if (!caller || caller->used) {     /* may have removed self */
     cmd_reply(CMD_REMOVE, caller, C_OK,
@@ -2047,6 +2047,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   char *arg[2];
   int ntokens = 0, i;
   bool res = FALSE;
+  struct team *pteam;
 
   if (server_state != PRE_GAME_STATE) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
@@ -2058,9 +2059,9 @@ static bool team_command(struct connection *caller, char *str, bool check)
     sz_strlcpy(buf, str);
     ntokens = get_tokens(buf, arg, 2, TOKEN_DELIMITERS);
   }
-  if (ntokens > 2 || ntokens < 1) {
+  if (ntokens != 2) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
-	      _("Undefined argument.  Usage: team <player> [team]."));
+	      _("Undefined argument.  Usage: team <player> <team>."));
     goto cleanup;
   }
 
@@ -2070,34 +2071,30 @@ static bool team_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
 
-  if (!check && pplayer->team != TEAM_NONE) {
-    team_remove_player(pplayer);
-  }
+  pteam = team_find_by_name(arg[1]);
+  if (!pteam) {
+    int teamno;
 
-  if (ntokens == 1) {
-    /* Remove from team */
-    if (!check) {
-      cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s is made teamless."), 
-          pplayer->name);
+    if (sscanf(arg[1], "%d", &teamno) == 1) {
+      pteam = team_get_by_id(teamno);
     }
-    res = TRUE;
+  }
+  if (!pteam) {
+    cmd_reply(CMD_TEAM, caller, C_SYNTAX,
+	      _("No such team %s.  Please give a "
+		"valid team name or number."), arg[1]);
     goto cleanup;
   }
 
-  if (!is_ascii_name(arg[1])) {
-    cmd_reply(CMD_TEAM, caller, C_SYNTAX,
-	      _("Only ASCII characters are allowed for team names."));
-    goto cleanup;
-  }
   if (is_barbarian(pplayer)) {
     /* This can happen if we change team settings on a loaded game. */
     cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Cannot team a barbarian."));
     goto cleanup;
   }
   if (!check) {
-    team_add_player(pplayer, arg[1]);
+    team_add_player(pplayer, pteam);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
-	      pplayer->name, team_get_by_id(pplayer->team)->name);
+	      pplayer->name, _(pteam->name));
   }
   res = TRUE;
 
@@ -3884,10 +3881,14 @@ static bool show_help(struct connection *caller, char *arg)
 /**************************************************************************
   'list' arguments
 **************************************************************************/
-enum LIST_ARGS { LIST_PLAYERS, LIST_CONNECTIONS,
-		 LIST_ARG_NUM /* Must be last */ };
+enum LIST_ARGS {
+  LIST_PLAYERS,
+  LIST_TEAMS,
+  LIST_CONNECTIONS,
+  LIST_ARG_NUM /* Must be last */
+};
 static const char * const list_args[] = {
-  "players", "connections", NULL
+  "players", "teams", "connections", NULL
 };
 static const char *listarg_accessor(int i) {
   return list_args[i];
@@ -3899,11 +3900,13 @@ static const char *listarg_accessor(int i) {
 static bool show_list(struct connection *caller, char *arg)
 {
   enum m_pre_result match_result;
-  int ind;
+  int ind_int;
+  enum LIST_ARGS ind;
 
   remove_leading_trailing_spaces(arg);
   match_result = match_prefix(listarg_accessor, LIST_ARG_NUM, 0,
-			      mystrncasecmp, arg, &ind);
+			      mystrncasecmp, arg, &ind_int);
+  ind = ind_int;
 
   if (match_result > M_PRE_EMPTY) {
     cmd_reply(CMD_LIST, caller, C_SYNTAX,
@@ -3920,15 +3923,20 @@ static bool show_list(struct connection *caller, char *arg)
   case LIST_PLAYERS:
     show_players(caller);
     return TRUE;
+  case LIST_TEAMS:
+    show_teams(caller);
+    return TRUE;
   case LIST_CONNECTIONS:
     show_connections(caller);
     return TRUE;
-  default:
-    cmd_reply(CMD_LIST, caller, C_FAIL,
-	      "Internal error: ind %d in show_list", ind);
-    freelog(LOG_ERROR, "Internal error: ind %d in show_list", ind);
-    return FALSE;
+  case LIST_ARG_NUM:
+    break;
   }
+
+  cmd_reply(CMD_LIST, caller, C_FAIL,
+	    "Internal error: ind %d in show_list", ind);
+  freelog(LOG_ERROR, "Internal error: ind %d in show_list", ind);
+  return FALSE;
 }
 
 /**************************************************************************
@@ -3982,10 +3990,8 @@ void show_players(struct connection *caller)
 	cat_snprintf(buf2, sizeof(buf2), _(", nation %s"),
 		     get_nation_name_plural(pplayer->nation));
       }
-      if (pplayer->team != TEAM_NONE) {
-        cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
-                     team_get_by_id(pplayer->team)->name);
-      }
+      cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
+		   pplayer->team->name);
       if (server_state == PRE_GAME_STATE && pplayer->is_connected) {
 	if (pplayer->is_started) {
 	  cat_snprintf(buf2, sizeof(buf2), _(", ready"));
@@ -4015,6 +4021,55 @@ void show_players(struct connection *caller)
       } conn_list_iterate_end;
     } players_iterate_end;
   }
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/**************************************************************************
+  Show a list of teams on the command line.
+**************************************************************************/
+static void show_teams(struct connection *caller)
+{
+  Team_type_id team_no;
+
+  /* Currently this just lists all teams (typically 32 of them) with their
+   * names and # of players on the team.  This could probably be improved. */
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of teams:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+  for (team_no = 0; team_no < MAX_NUM_TEAMS; team_no++) {
+    struct team *pteam = team_get_by_id(team_no);
+
+    if (pteam->players > 1) {
+      /* PL_() is needed here because some languages may differentiate
+       * between 2 and 3 (although English does not). */
+      cmd_reply(CMD_LIST, caller, C_COMMENT,
+		/* TRANS: There will always be at least 2 players here. */
+		PL_("%2d : '%s' : %d player",
+		    "%2d : '%s' : %d players",
+		    pteam->players),
+		team_no, _(pteam->name), pteam->players);
+      players_iterate(pplayer) {
+	if (pplayer->team == pteam) {
+	  cmd_reply(CMD_LIST, caller, C_COMMENT, "  %s", pplayer->name);
+	}
+      } players_iterate_end;
+    } else if (pteam->players == 1) {
+      struct player *teamplayer = NULL;
+
+      players_iterate(pplayer) {
+	if (pplayer->team == pteam) {
+	  teamplayer = pplayer;
+	  break;
+	}
+      } players_iterate_end;
+
+      cmd_reply(CMD_LIST, caller, C_COMMENT,
+		_("%2d : '%s' : 1 player : %s"),
+		team_no, _(pteam->name), teamplayer->name);
+    }
+  }
+  cmd_reply(CMD_LIST, caller, C_COMMENT, " ");
+  cmd_reply(CMD_LIST, caller, C_COMMENT,
+	    _("Empty team: %s"), find_empty_team()->name);
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
