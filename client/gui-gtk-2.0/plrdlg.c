@@ -256,6 +256,16 @@ static void toggle_view(GtkCheckMenuItem* item, gpointer data)
   update_views();
 }
 
+/*************************************************************************
+  Called whenever player toggles the 'Show/Dead Players' menu item
+*************************************************************************/
+static void toggle_dead_players(GtkCheckMenuItem* item, gpointer data)
+{
+  player_dlg_show_dead_players = 
+    gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(item));
+  update_players_dialog();
+}
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -263,9 +273,9 @@ static GtkWidget* create_show_menu(void)
 {
   int i;
   GtkWidget *menu = gtk_menu_new();
-
+  GtkWidget *item;    
+  
   for (i = 1; i < num_player_dlg_columns; i++) {
-    GtkWidget *item;    
     struct player_dlg_column *pcol;
     
     pcol = &player_dlg_columns[i];
@@ -274,6 +284,16 @@ static GtkWidget* create_show_menu(void)
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
     g_signal_connect(item, "toggled", G_CALLBACK(toggle_view), pcol);
   }
+  
+  item = gtk_separator_menu_item_new();
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  
+  item = gtk_check_menu_item_new_with_label(Q_("?show:Dead Players"));
+  gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item),
+                                 player_dlg_show_dead_players);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect(item, "toggled", G_CALLBACK(toggle_dead_players), NULL);
+  
   return menu;
 }
 
@@ -578,6 +598,15 @@ static void build_row(GtkTreeIter *it, int i)
        -1);
 }
 
+/**************************************************************************
+...
+**************************************************************************/
+static bool player_should_be_shown(int plrno) {
+  return is_valid_player_id(plrno)
+	 && (player_dlg_show_dead_players
+	     || game.players[plrno].is_alive)
+	 && (!is_barbarian(&game.players[plrno]));
+}
 
 /**************************************************************************
 ...
@@ -605,11 +634,11 @@ void update_players_dialog(void)
 
 	/*
 	 * The nation already had a row in the player report. In that
-	 * case we just update the row.
+	 * case we just update the row. If player is dead we remove him
+	 * if necessary.
 	 */
-	if (is_valid_player_id(plrno)) {
+	if (player_should_be_shown(plrno)) {
 	  exists[plrno] = TRUE;
-
 	  build_row(&it, plrno);
 	} else {
 	  gtk_list_store_remove(store, &it);
@@ -620,7 +649,7 @@ void update_players_dialog(void)
 
     players_iterate(pplayer) {
       /* skip barbarians */
-      if (!is_barbarian(pplayer)) {
+      if (player_should_be_shown(pplayer->player_no)) {
 	if (!exists[pplayer->player_no]) {
 	  /* 
 	   * A nation is not in the player report yet. This happens when

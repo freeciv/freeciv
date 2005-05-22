@@ -240,6 +240,7 @@ bool draw_fog_of_war = TRUE;
 bool draw_borders = TRUE;
 bool draw_full_citybar = TRUE;
 bool draw_unit_shields = TRUE;
+bool player_dlg_show_dead_players = TRUE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }
@@ -263,6 +264,7 @@ view_option view_options[] = {
   VIEW_OPTION(draw_focus_unit),
   VIEW_OPTION(draw_fog_of_war),
   VIEW_OPTION(draw_borders),
+  VIEW_OPTION(player_dlg_show_dead_players),
   VIEW_OPTION_TERMINATOR
 };
 
@@ -456,12 +458,13 @@ void load_general_options(void)
 
   message_options_load(&sf, prefix);
   
+  /* Players dialog */
   for(i = 1; i < num_player_dlg_columns; i++) {
     bool *show = &(player_dlg_columns[i].show);
     *show = secfile_lookup_bool_default(&sf, *show, "%s.player_dlg_%s", prefix,
                                         player_dlg_columns[i].tagname);
   }
-
+  
   /* Load cma presets. If cma.number_of_presets doesn't exist, don't load 
    * any, the order here should be reversed to keep the order the same */
   num = secfile_lookup_int_default(&sf, -1, "cma.number_of_presets");
@@ -568,12 +571,13 @@ void save_options(void)
 		       city_report_spec_tagname(i));
   }
   
+  /* Players dialog */
   for (i = 1; i < num_player_dlg_columns; i++) {
     secfile_insert_bool(&sf, player_dlg_columns[i].show,
                         "client.player_dlg_%s",
                         player_dlg_columns[i].tagname);
   }
-
+  
   /* insert global worklists */
   for(i = 0; i < MAX_NUM_WORKLISTS; i++){
     if (game.player_ptr->worklists[i].is_valid) {

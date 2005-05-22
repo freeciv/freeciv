@@ -142,6 +142,8 @@ extern bool draw_borders;
 extern bool draw_full_citybar;
 extern bool draw_unit_shields;
 
+extern bool player_dlg_show_dead_players;
+
 typedef struct {
   const char *name;
   bool *p_value;
