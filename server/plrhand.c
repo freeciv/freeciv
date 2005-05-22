@@ -393,7 +393,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
 	my_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
 		    get_tech_name(plr, plr->research->researching));
-	plr->future_tech++;
+	plr->research->future_tech++;
 	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
 		    get_tech_name(plr, plr->research->researching));
 	notify_player_ex(plr, NULL, E_TECH_LEARNED, "%s%s", buffer1,
@@ -496,7 +496,7 @@ notification is not done here as it depends on how the tech came.
 **************************************************************************/
 void found_new_future_tech(struct player *pplayer)
 {
-  pplayer->future_tech++;
+  pplayer->research->future_tech++;
   pplayer->research->techs_researched++;
 }
 
@@ -519,7 +519,7 @@ static void tech_researched(struct player* plr)
     notify_embassies(plr, NULL,
 		     _("The %s have researched Future Tech. %d."), 
 		     get_nation_name_plural(plr->nation),
-		     plr->future_tech);
+		     plr->research->future_tech);
   
   }
   script_signal_emit("tech_researched", 3,
@@ -709,9 +709,10 @@ void get_a_tech(struct player *pplayer, struct player *target)
   } tech_type_iterate_end;
   if (j == 0)  {
     /* we've moved on to future tech */
-    if (target->future_tech > pplayer->future_tech) {
+    if (target->research->future_tech > pplayer->research->future_tech) {
       found_new_future_tech(pplayer);
-      stolen_tech = game.control.num_tech_types + pplayer->future_tech;
+      stolen_tech
+	= game.control.num_tech_types + pplayer->research->future_tech;
     } else {
       return; /* nothing to learn here, move on */
     }
@@ -1575,7 +1576,7 @@ static void package_player_info(struct player *plr,
     packet->bulbs_researched= plr->research->bulbs_researched;
     packet->techs_researched= plr->research->techs_researched;
     packet->researching     = plr->research->researching;
-    packet->future_tech     = plr->future_tech;
+    packet->future_tech     = plr->research->future_tech;
     packet->revolution_finishes = plr->revolution_finishes;
   } else {
     for (i = A_FIRST; i < game.control.num_tech_types; i++) {

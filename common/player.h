@@ -68,21 +68,31 @@ struct player_economic {
 };
 
 struct player_research {
-  int bulbs_researched;   /* # bulbs reseached for the current tech */    
-  int techs_researched;   /* # techs the player has researched/acquired */
-  /* 
-   * Invention being researched in. Valid values for researching are:
+  /* The number of techs and future techs the player has
+   * researched/acquired. */
+  int techs_researched, future_tech;
+
+  /* Invention being researched in. Valid values for researching are:
    *  - any existing tech but not A_NONE or
    *  - A_FUTURE.
    * In addition A_NOINFO is allowed at the client for enemies.
-   */
-  int researching;        
-  int changed_from;       /* if the player changed techs, which one
-			     changed from */
-  int bulbs_researched_before;  /* if the player changed techs, how
-				   many points they had before the
-				   change */
-  bool got_tech; /* if he can change research without penalty */
+   *
+   * bulbs_researched tracks how many bulbs have been accumulated toward
+   * this research target. */
+  Tech_type_id researching;        
+  int bulbs_researched;
+
+  /* If the player changes his research target in a turn, he loses some or
+   * all of the bulbs he's accumulated toward that target.  We save the
+   * original info from the start of the turn so that if he changes back
+   * he will get the bulbs back. */
+  Tech_type_id changed_from;
+  int bulbs_researched_before;
+
+  /* If the player completed a research this turn, this value is turned on
+   * and changing targets may be done without penalty. */
+  bool got_tech;
+
   struct {
     /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_REACHABLE. */
     enum tech_state state;
@@ -98,7 +108,7 @@ struct player_research {
 
   /* Tech goal (similar to worklists; when one tech is researched the next
    * tech toward the goal will be chosen).  May be A_NONE. */
-  int tech_goal;
+  Tech_type_id tech_goal;
 
   /*
    * Cached values. Updated by update_research.
@@ -217,7 +227,6 @@ struct player {
   struct player_research* research;
   int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
-  int future_tech;
   struct player_ai ai;
   bool was_created;                    /* if the player was /created */
   bool is_connected;		       /* observers don't count */

@@ -134,7 +134,6 @@ void player_init(struct player *plr)
   plr->ai.fuzzy = 0;
   plr->ai.expand = 100;
   plr->ai.barbarian_type = NOT_A_BARBARIAN;
-  plr->future_tech=0;
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;

@@ -1475,7 +1475,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->research->bulbs_researched = pinfo->bulbs_researched;
   pplayer->research->techs_researched = pinfo->techs_researched;
   pplayer->research->researching=pinfo->researching;
-  pplayer->future_tech=pinfo->future_tech;
+  pplayer->research->future_tech = pinfo->future_tech;
   pplayer->research->tech_goal=pinfo->tech_goal;
   
   if (can_client_change_view() && pplayer == game.player_ptr) {

@@ -484,10 +484,10 @@ void science_dialog_update(void)
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   } else {
-    sorting_list = g_list_prepend(sorting_list,
-				 GINT_TO_POINTER(game.control.num_tech_types + 1 +
-						 game.player_ptr->
-						 future_tech));
+    int value = (game.control.num_tech_types
+		 + game.player_ptr->research->future_tech + 1);
+
+    sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(value));
   }
 
   /* sort the list and build from it the menu */

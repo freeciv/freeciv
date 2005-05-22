@@ -433,7 +433,7 @@ void calc_civ_score(struct player *pplayer)
       pplayer->score.techs++;
     }
   } tech_type_iterate_end;
-  pplayer->score.techs += pplayer->future_tech * 5 / 2;
+  pplayer->score.techs += pplayer->research->future_tech * 5 / 2;
   
   unit_list_iterate(pplayer->units, punit) {
     if (is_military_unit(punit)) {

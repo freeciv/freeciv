@@ -173,7 +173,8 @@ static void historian_generic(enum historian_type which_news)
 	size[j].value = pplayer->economic.gold;
 	break;
       case HISTORIAN_ADVANCED:
-	size[j].value = (pplayer->score.techs + pplayer->future_tech);
+	size[j].value
+	  = pplayer->score.techs + pplayer->research->future_tech;
 	break;
       case HISTORIAN_MILITARY:
 	size[j].value = pplayer->score.units;

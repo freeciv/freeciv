@@ -580,19 +580,19 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
     return _("None");
   case A_FUTURE:
     /* pplayer->future_tech == 0 means "Future Tech. 1". */
-    for (i = future.size; i <= pplayer->future_tech; i++) {
+    for (i = future.size; i <= pplayer->research->future_tech; i++) {
       char *ptr = NULL;
 
       string_vector_append(&future, &ptr);
     }
-    if (!future.p[pplayer->future_tech]) {
+    if (!future.p[pplayer->research->future_tech]) {
       char buffer[1024];
 
       my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
-		  pplayer->future_tech + 1);
-      future.p[pplayer->future_tech] = mystrdup(buffer);
+		  pplayer->research->future_tech + 1);
+      future.p[pplayer->research->future_tech] = mystrdup(buffer);
     }
-    return future.p[pplayer->future_tech];
+    return future.p[pplayer->research->future_tech];
   default:
     /* Includes A_NONE */
     if (!tech_exists(tech)) {

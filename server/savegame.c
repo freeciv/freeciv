@@ -1867,7 +1867,8 @@ static void player_load(struct player *plr, int plrno,
   plr->economic.luxury=secfile_lookup_int(file, "player%d.luxury", plrno);
 
   /* how many future techs were researched already by player */
-  plr->future_tech = secfile_lookup_int(file, "player%d.futuretech", plrno);
+  plr->research->future_tech
+    = secfile_lookup_int(file, "player%d.futuretech", plrno);
 
   /* We use default values for bulbs_researched_before, changed_from
    * and got_tech to preserve backwards-compatibility with save files
@@ -2601,7 +2602,8 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->economic.science, "player%d.science", plrno);
   secfile_insert_int(file, plr->economic.luxury, "player%d.luxury", plrno);
 
-  secfile_insert_int(file,plr->future_tech,"player%d.futuretech", plrno);
+  secfile_insert_int(file, plr->research->future_tech,
+		     "player%d.futuretech", plrno);
 
   secfile_insert_int(file, plr->research->bulbs_researched, 
 		     "player%d.researched", plrno);
