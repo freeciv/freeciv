@@ -689,6 +689,9 @@ bool attach_connection_to_player(struct connection *pconn,
   conn_list_append(pplayer->connections, pconn);
   conn_list_append(game.game_connections, pconn);
 
+  send_game_info(NULL);
+  send_player_info(pplayer, NULL);
+
   return TRUE;
 }
   

@@ -924,6 +924,8 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   pplayer->ai.control = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
+  send_game_info(NULL);
+  send_player_info(pplayer, NULL);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
   return TRUE;

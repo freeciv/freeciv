@@ -2114,6 +2114,9 @@ static struct player *split_player(struct player *pplayer)
     assess_danger_player(pplayer);
   }
 
+  send_game_info(NULL);
+  send_player_info(cplayer, NULL);
+
   gamelog(GAMELOG_PLAYER, cplayer);
   
   return cplayer;
