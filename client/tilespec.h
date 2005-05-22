@@ -218,6 +218,9 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      Output_type_id otype,
 				      const struct unit *punit);
 
+struct color_system;
+struct color_system *get_color_system(const struct tileset *t);
+
 /* Tileset accessor functions. */
 const char *tileset_get_name(const struct tileset *t);
 bool tileset_is_isometric(const struct tileset *t);

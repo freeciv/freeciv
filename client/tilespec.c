@@ -380,11 +380,13 @@ struct tileset {
   struct hash_table *terrain_hash;
 
   struct named_sprites sprites;
+
+  struct color_system *color_system;
 };
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Apr.27"
+#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.May.21"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -579,6 +581,9 @@ void tileset_free(struct tileset *t)
 {
   specfile_list_free(t->specfiles);
   small_sprite_list_free(t->small_sprites);
+  if (t->color_system) {
+    color_system_free(t->color_system);
+  }
   free(t);
 }
 
@@ -1509,6 +1514,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     specfile_list_prepend(t->specfiles, sf);
   }
   free(spec_filenames);
+
+  t->color_system = color_system_read(file);
 
   section_file_check_unused(file, fname);
   
@@ -4535,4 +4542,12 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
   } else {
     return NULL;
   }
+}
+
+/****************************************************************************
+  Return the tileset's color system.
+****************************************************************************/
+struct color_system *get_color_system(const struct tileset *t)
+{
+  return t->color_system;
 }

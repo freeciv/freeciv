@@ -14,6 +14,7 @@ pkgdata_DATA =          \
 	civicon.png	\
 	colors.png	\
 	colors.spec	\
+	colors.tilespec \
 	cursors.png	\
 	cursors.spec	\
 	flags.spec	\

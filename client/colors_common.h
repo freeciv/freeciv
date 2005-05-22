@@ -14,12 +14,16 @@
 #ifndef FC__COLORS_COMMON_H
 #define FC__COLORS_COMMON_H
 
+#include "registry.h"
+
 #include "fc_types.h"
 
 /* The color system is designed on the assumption that almost, but
  * not quite, all displays will be truecolor. */
 
 struct color;
+struct color_system;
+struct tileset;
 
 enum color_std {
   /* Mapview colors */
@@ -60,10 +64,12 @@ enum color_std {
   COLOR_LAST
 };
 
-void init_color_system(void);
-void color_free_system(void);
+struct color *get_color(const struct tileset *t, enum color_std color);
+struct color *get_player_color(const struct tileset *t,
+			       const struct player *pplayer);
 
-struct color *get_color(enum color_std color);
-struct color *get_player_color(const struct player *pplayer);
+/* Functions used by the tileset to allocate the color system. */
+struct color_system *color_system_read(struct section_file *file);
+void color_system_free(struct color_system *colors);
 
 #endif /* FC__COLORS_COMMON_H */

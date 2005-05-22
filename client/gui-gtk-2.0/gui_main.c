@@ -943,9 +943,9 @@ static void setup_widgets(void)
 
   for (i = 0; i < 5; i++) {
     gtk_widget_modify_bg(GTK_WIDGET(overview_canvas), i,
-			 &get_color(COLOR_OVERVIEW_UNKNOWN)->color);
+			 &get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color);
     gtk_widget_modify_bg(GTK_WIDGET(map_canvas), i,
-			 &get_color(COLOR_MAPVIEW_UNKNOWN)->color);
+			 &get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color);
   }
 
   gtk_widget_add_events(map_canvas, GDK_EXPOSURE_MASK
@@ -1111,7 +1111,6 @@ void ui_main(int argc, char **argv)
 
 
   display_color_type = get_visual();
-  init_color_system();
 
   civ_gc = gdk_gc_new(root_window);
 
@@ -1215,7 +1214,6 @@ void ui_main(int argc, char **argv)
   happiness_dialog_done();
   diplomacy_dialog_done();
   cma_fe_done();
-  color_free_system();
   tileset_free_tiles(tileset);
 }
 

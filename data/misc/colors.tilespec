@@ -1,0 +1,104 @@
+[colors]
+
+; Player colors should match those in colors.spec
+player = {"r", "g", "b"
+  128,   0,   0  ; race0
+  128, 255, 255  ; race1
+  255,   0,   0  ; race2
+  255,   0, 128  ; race3
+    0,   0, 128  ; race4
+  255,   0, 255  ; race5
+  255, 128,   0  ; race6
+  255, 255, 128  ; race7
+  255, 128, 128  ; race8
+    0,   0, 255  ; race9
+    0, 255,   0  ; race10
+    0, 128, 128  ; race11
+    0,  64,  64  ; race12
+  198, 198, 198  ; race13
+}
+
+; Mapview
+mapview_unknown = {"r", "g", "b"
+    0,     0,   0
+}
+mapview_citytext = {"r", "g", "b"
+    255, 255, 255
+}
+mapview_cityblocked = {"r", "g", "b"
+    255,   0,   0
+}
+mapview_goto = {"r", "g", "b"
+    0,   255, 200
+}
+mapview_selection = {"r", "g", "b"
+    255, 255,   0
+}
+
+; Spaceship
+spaceship_background = {"r", "g", "b"
+    0,   0,   0
+}
+
+; Overview
+overview_unknown = {"r", "g", "b"
+    0,     0,   0
+}
+overview_mycity = {"r", "g", "b"
+    255, 255, 255
+}
+overview_enemycity = {"r", "g", "b"
+    0,   255, 200
+}
+overview_myunit = {"r", "g", "b"
+    255, 255,   0
+}
+overview_enemyunit = {"r", "g", "b"
+    255,   0,   0
+}
+overview_ocean = {"r", "g", "b"
+    0,     0, 200
+}
+overview_foggedocean = {"r", "g", "b"
+    0,     0, 128
+}
+overview_ground = {"r", "g", "b"
+    0,   200,   0
+}
+overview_foggedground = {"r", "g", "b"
+    86,   86,  86
+}
+overview_viewrect = {"r", "g", "b"
+    255, 255, 255
+}
+
+; Reqtree
+reqtree_researching = {"r", "g", "b"
+    0, 255, 200
+}
+reqtree_known = {"r", "g", "b"
+    0, 200,   0
+}
+reqtree_reachablegoal = {"r", "g", "b"
+    255, 128, 128
+}
+reqtree_unreachablegoal = {"r", "g", "b"
+    255,   0, 128
+}
+reqtree_reachable = {"r", "g", "b"
+    255, 255,   0
+}
+reqtree_unreachable = {"r", "g", "b"
+    255,   0,   0
+}
+reqtree_background = {"r", "g", "b"
+    0,   0,   0
+}
+reqtree_text = {"r", "g", "b"
+    0,   0,   0
+}
+  
+; Player dialog
+playerdlg_background = {"r", "g", "b"
+    0,   0,   0
+}

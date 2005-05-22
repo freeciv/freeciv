@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec3 +Freeciv.Devel.2005.Apr.27"
+options = "+tilespec3 +Freeciv.Devel.2005.May.21"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident"
@@ -68,6 +68,8 @@ files =
   "trident/cities.spec",
   "trident/explosions.spec"
 
+; Include color definitions
+*include "misc/colors.tilespec"
 
 ; Terrain info - see README.graphics
 

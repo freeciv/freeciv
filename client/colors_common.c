@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+#include "log.h"
 #include "shared.h"
 
 #include "player.h"
@@ -24,71 +25,59 @@
 #include "colors_g.h"
 
 #include "colors_common.h"
+#include "tilespec.h"
 
-struct rgbtriple {
+/* An RGBcolor contains the R,G,B bitvalues for a color.  The color itself
+ * holds the color structure for this color but may be NULL (it's allocated
+ * on demand at runtime). */
+struct rgbcolor {
   int r, g, b;
+  struct color *color;
 };
 
-struct rgbtriple colors_standard_rgb[] = {
+struct color_system {
+  struct rgbcolor colors[COLOR_LAST];
 
+  int num_player_colors;
+  struct rgbcolor *player_colors;
+};
+
+char *color_names[] = {
   /* Mapview */
-  {  0,   0,   0},  /* unknown */
-  {255, 255, 255},  /* citytext */
-  {255,   0,   0},  /* citytext/blocked growth */
-  {  0, 255, 200},  /* goto */
-  {255, 255,   0},  /* selection */
+  "mapview_unknown",
+  "mapview_citytext",
+  "mapview_cityblocked",
+  "mapview_goto",
+  "mapview_selection",
 
   /* Spaceship */
-  {  0,   0,   0},  /* background */
+  "spaceship_background",
 
   /* Overview */
-  {  0,   0,   0},  /* unknown */
-  {255, 255, 255},  /* my city */
-  {  0, 255, 200},  /* enemy city */
-  {255, 255,   0},  /* my unit */
-  {255,   0,   0},  /* enemy unit */
-  {  0,   0, 200},  /* ocean */
-  {  0,   0, 128},  /* fogged ocean */
-  {  0, 200,   0},  /* ground */
-  { 86,  86,  86},  /* fogged ground */
-  {255, 255, 255},  /* viewrect */
+  "overview_unknown",
+  "overview_mycity",
+  "overview_enemycity",
+  "overview_myunit",
+  "overview_enemyunit",
+  "overview_ocean",
+  "overview_foggedocean",
+  "overview_ground",
+  "overview_foggedground",
+  "overview_viewrect",
 
   /* Reqtree */
-  {  0, 255, 200},  /* researching */
-  {  0, 200,   0},  /* known */
-  {255, 128, 128},  /* reachable goal */
-  {255,   0, 128},  /* unreachable goal */
-  {255, 255,   0},  /* reachable */
-  {255,   0,   0},  /* unreachable */
-  {  0,   0,   0},  /* background */
-  {  0,   0,   0},  /* text */
-  
+  "reqtree_researching",
+  "reqtree_known",
+  "reqtree_reachablegoal",
+  "reqtree_unreachablegoal",
+  "reqtree_reachable",
+  "reqtree_unreachable",
+  "reqtree_background",
+  "reqtree_text",
+
   /* Player dialog */
-  {  0,   0,   0},  /* player color background */
-
+  "playerdlg_background"
 };
-
-struct rgbtriple colors_player_rgb[] = {
-  {128,   0,   0},  /* race0 */
-  {128, 255, 255},  /* race1 */
-  {255,   0,   0},  /* race2 */
-  {255,   0, 128},  /* race3 */
-  {  0,   0, 128},  /* race4 */
-  {255,   0, 255},  /* race5 */
-  {255, 128,   0},  /* race6 */
-  {255, 255, 128},  /* race7 */
-  {255, 128, 128},  /* race8 */
-  {  0,   0, 255},  /* race9 */
-  {  0, 255,   0},  /* race10 */
-  {  0, 128, 128},  /* race11 */
-  {  0,  64,  64},  /* race12 */
-  {198, 198, 198},  /* race13 */
-};
-
-static struct color *colors[COLOR_LAST];
-static struct color *player_colors[ARRAY_SIZE(colors_player_rgb)];
-
-static bool initted = FALSE;
 
 /****************************************************************************
   Called when the client first starts to allocate the default colors.
@@ -96,51 +85,90 @@ static bool initted = FALSE;
   Currently this must be called in ui_main, generally after UI
   initialization.
 ****************************************************************************/
-void init_color_system(void)
+struct color_system *color_system_read(struct section_file *file)
 {
   int i;
+  struct color_system *colors = fc_malloc(sizeof(*colors));
 
-  assert(!initted);
-  initted = TRUE;
-
-  assert(ARRAY_SIZE(colors) == COLOR_LAST);
+  assert(ARRAY_SIZE(color_names) == COLOR_LAST);
   for (i = 0; i < COLOR_LAST; i++) {
-    colors[i] = color_alloc(colors_standard_rgb[i].r,
-			    colors_standard_rgb[i].g,
-			    colors_standard_rgb[i].b);
+    colors->colors[i].r
+      = secfile_lookup_int(file, "colors.%s0.r", color_names[i]);
+    colors->colors[i].g
+      = secfile_lookup_int(file, "colors.%s0.g", color_names[i]);
+    colors->colors[i].b
+      = secfile_lookup_int(file, "colors.%s0.b", color_names[i]);
+    colors->colors[i].color = NULL;
   }
 
-  for (i = 0; i < ARRAY_SIZE(player_colors); i++) {
-    player_colors[i] = color_alloc(colors_player_rgb[i].r,
-				   colors_player_rgb[i].g,
-				   colors_player_rgb[i].b);
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    if (!section_file_lookup(file, "colors.player%d.r", i)) {
+      break;
+    }
   }
+  colors->num_player_colors = MAX(i, 1);
+  colors->player_colors = fc_malloc(colors->num_player_colors
+				    * sizeof(*colors->player_colors));
+  if (i == 0) {
+    /* Use a simple fallback. */
+    freelog(LOG_ERROR,
+	    "Missing colors.player.  See misc/colors.tilespec.");
+    colors->player_colors[0].r = 128;
+    colors->player_colors[0].g = 0;
+    colors->player_colors[0].b = 0;
+    colors->player_colors[0].color = NULL;
+  } else {
+    for (i = 0; i < colors->num_player_colors; i++) {
+      struct rgbcolor *rgb = &colors->player_colors[i];
+
+      rgb->r = secfile_lookup_int(file, "colors.player%d.r", i);
+      rgb->g = secfile_lookup_int(file, "colors.player%d.g", i);
+      rgb->b = secfile_lookup_int(file, "colors.player%d.b", i);
+      rgb->color = NULL;
+    }
+  }
+
+  return colors;
 }
 
 /****************************************************************************
   Called when the client first starts to free any allocated colors.
 ****************************************************************************/
-void color_free_system(void)
+void color_system_free(struct color_system *colors)
 {
   int i;
 
-  assert(initted);
-  initted = FALSE;
-
   for (i = 0; i < COLOR_LAST; i++) {
-    color_free(colors[i]);
+    if (colors->colors[i].color) {
+      color_free(colors->colors[i].color);
+    }
   }
-  for (i = 0; i < ARRAY_SIZE(player_colors); i++) {
-    color_free(player_colors[i]);
+  for (i = 0; i < colors->num_player_colors; i++) {
+    if (colors->player_colors[i].color) {
+      color_free(colors->player_colors[i].color);
+    }
   }
+  free(colors->player_colors);
+  free(colors);
+}
+
+/****************************************************************************
+  Return the RGB color, allocating it if necessary.
+****************************************************************************/
+static struct color *ensure_color(struct rgbcolor *rgb)
+{
+  if (!rgb->color) {
+    rgb->color = color_alloc(rgb->r, rgb->g, rgb->b);
+  }
+  return rgb->color;
 }
 
 /****************************************************************************
   Return a pointer to the given "standard" color.
 ****************************************************************************/
-struct color *get_color(enum color_std color)
+struct color *get_color(const struct tileset *t, enum color_std color)
 {
-  return colors[color];
+  return ensure_color(&get_color_system(t)->colors[color]);
 }
 
 /**********************************************************************
@@ -152,14 +180,16 @@ struct color *get_color(enum color_std color)
   A hack added to avoid returning more that COLOR_STD_RACE13.
   But really there should be more colors available -- jk.
 ***********************************************************************/
-struct color *get_player_color(const struct player *pplayer)
+struct color *get_player_color(const struct tileset *t,
+			       const struct player *pplayer)
 {
   if (pplayer) {
+    struct color_system *colors = get_color_system(t);
     int index = pplayer->player_no;
 
-    assert(index >= 0);
-    index %= ARRAY_SIZE(player_colors);
-    return player_colors[index];
+    assert(index >= 0 && colors->num_player_colors > 0);
+    index %= colors->num_player_colors;
+    return ensure_color(&colors->player_colors[index]);
   } else {
     assert(0);
     return NULL;

@@ -200,7 +200,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
     gtk_tree_store_set(tstore, &l,
 		       1, -1,
 		       2, tech,
-		       3, &get_color(bg)->color
+		       3, &get_color(tileset, bg)->color
 		       -1);
     return;
   }
@@ -233,7 +233,7 @@ static void create_tech_tree(int tech, int levels, GtkTreeIter *parent)
   gtk_tree_store_set(tstore, &l,
 		     1, turns_to_tech,
 		     2, tech,
-		     3, &get_color(bg)->color,
+		     3, &get_color(tileset, bg)->color,
 		     -1);
 
   if (--levels <= 0)

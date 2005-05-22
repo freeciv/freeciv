@@ -26,6 +26,7 @@
 #include "colors_g.h"
 
 #include "reqtree.h"
+#include "tilespec.h"
 
 /****************************************************************************
   This structure desribes a node in a technology tree diagram.
@@ -786,7 +787,8 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       width = node->node_width;
       height = node->node_height;
 
-      canvas_put_rectangle(pcanvas, get_color(COLOR_REQTREE_BACKGROUND),
+      canvas_put_rectangle(pcanvas,
+			   get_color(tileset, COLOR_REQTREE_BACKGROUND),
 			   startx, starty, width, height);
 
       if (!node->is_dummy) {
@@ -794,7 +796,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	int text_w, text_h;
 
 	/* Print color rectangle with text inside. */
-	canvas_put_rectangle(pcanvas, get_color(node_color(node)),
+	canvas_put_rectangle(pcanvas, get_color(tileset, node_color(node)),
 			     startx + 1, starty + 1,
 			     width - 2, height - 2);
 	get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
@@ -802,7 +804,8 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	canvas_put_text(pcanvas,
 			startx + (width - text_w) / 2,
 			starty + (height - text_h) / 2,
-			FONT_REQTREE_TEXT, get_color(COLOR_REQTREE_TEXT),
+			FONT_REQTREE_TEXT,
+			get_color(tileset, COLOR_REQTREE_TEXT),
 			text);
       }
 
@@ -815,7 +818,8 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	endx = dest_node->node_x;
 	endy = dest_node->node_y + dest_node->node_height / 2;
 
-	canvas_put_line(pcanvas, get_color(COLOR_REQTREE_BACKGROUND),
+	canvas_put_line(pcanvas,
+			get_color(tileset, COLOR_REQTREE_BACKGROUND),
 			LINE_NORMAL,
 			startx, starty, endx - startx, endy - starty);
       }

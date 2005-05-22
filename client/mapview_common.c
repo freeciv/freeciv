@@ -1119,7 +1119,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
    *
    * Of course it's necessary to draw to the whole area to cover up any old
    * drawing that was done there. */
-  canvas_put_rectangle(mapview.store, get_color(COLOR_MAPVIEW_UNKNOWN),
+  canvas_put_rectangle(mapview.store,
+		       get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
 		       canvas_x, canvas_y, width, height);
 
   mapview_layer_iterate(layer) {
@@ -1331,7 +1332,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 			bg, 0, 0, *width - x, *height - y);
     }
   }
-  owner_color = get_player_color(city_owner(pcity));
+  owner_color = get_player_color(tileset, city_owner(pcity));
   if (line1) {
     canvas_put_sprite_full(pcanvas, flag_rect.x, flag_rect.y, flag);
     canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
@@ -1339,22 +1340,27 @@ static void show_full_citybar(struct canvas *pcanvas,
 		    0, height1);
     canvas_put_sprite_full(pcanvas, occupy_rect.x, occupy_rect.y, occupy);
     canvas_put_text(pcanvas, name_rect.x, name_rect.y,
-		    FONT_CITY_NAME, get_color(COLOR_MAPVIEW_CITYTEXT), name);
+		    FONT_CITY_NAME,
+		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT),
+		    name);
 
     canvas_put_rectangle(pcanvas, owner_color,
 			 size_rect.x - border / 2, canvas_y,
 			 size_rect.w + border, height1);
     canvas_put_text(pcanvas, size_rect.x, size_rect.y,
-		    FONT_CITY_NAME, get_color(COLOR_MAPVIEW_CITYTEXT), size);
+		    FONT_CITY_NAME,
+		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), size);
   }
   if (line2) {
     canvas_put_sprite_full(pcanvas, shield_rect.x, shield_rect.y,
 			   citybar->shields);
     canvas_put_text(pcanvas, prod_rect.x, prod_rect.y,
-		    FONT_CITY_PROD, get_color(COLOR_MAPVIEW_CITYTEXT), prod);
+		    FONT_CITY_PROD,
+		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), prod);
     canvas_put_sprite_full(pcanvas, food_rect.x, food_rect.y, citybar->food);
     canvas_put_text(pcanvas, growth_rect.x, growth_rect.y,
-		    FONT_CITY_PROD, get_color(growth_color), growth);
+		    FONT_CITY_PROD,
+		    get_color(tileset, growth_color), growth);
   }
   canvas_put_line(pcanvas, owner_color, LINE_NORMAL,
 		  canvas_x - *width / 2, canvas_y,
@@ -1412,12 +1418,14 @@ static void show_small_citybar(struct canvas *pcanvas,
     total_height = MAX(name_rect.h, growth_rect.h);
     canvas_put_text(pcanvas,
 		    canvas_x - total_width / 2, canvas_y,
-		    FONT_CITY_NAME, get_color(COLOR_MAPVIEW_CITYTEXT), name);
+		    FONT_CITY_NAME,
+		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
     if (growth[0] != '\0') {
       canvas_put_text(pcanvas,
 		      canvas_x - total_width / 2 + name_rect.w + extra_width,
 		      canvas_y + total_height - growth_rect.h,
-		      FONT_CITY_PROD, get_color(growth_color), growth);
+		      FONT_CITY_PROD,
+		      get_color(tileset, growth_color), growth);
     }
     canvas_y += total_height + 3;
 
@@ -1432,7 +1440,8 @@ static void show_small_citybar(struct canvas *pcanvas,
     total_height = prod_rect.h;
 
     canvas_put_text(pcanvas, canvas_x - total_width / 2, canvas_y,
-		    FONT_CITY_PROD, get_color(COLOR_MAPVIEW_CITYTEXT), prod);
+		    FONT_CITY_PROD,
+		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), prod);
 
     canvas_y += total_height;
     *width = MAX(*width, total_width);
@@ -1578,7 +1587,8 @@ void draw_segment(struct tile *src_tile, enum direction8 dir)
   map_to_gui_vector(tileset, &canvas_dx, &canvas_dy, DIR_DX[dir], DIR_DY[dir]);
 
   /* Draw the segment. */
-  canvas_put_line(mapview.store, get_color(COLOR_MAPVIEW_GOTO), LINE_GOTO,
+  canvas_put_line(mapview.store,
+		  get_color(tileset, COLOR_MAPVIEW_GOTO), LINE_GOTO,
 		  canvas_x, canvas_y, canvas_dx, canvas_dy);
 
   /* The actual area drawn will extend beyond the base rectangle, since
@@ -2245,7 +2255,8 @@ bool map_canvas_resized(int width, int height)
       canvas_free(mapview.tmp_store);
     }
     mapview.store = canvas_create(full_width, full_height);
-    canvas_put_rectangle(mapview.store, get_color(COLOR_MAPVIEW_UNKNOWN),
+    canvas_put_rectangle(mapview.store,
+			 get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
 			 0, 0, full_width, full_height);
 
     mapview.tmp_store = canvas_create(full_width, full_height);
@@ -2309,7 +2320,8 @@ void put_spaceship(struct canvas *pcanvas, int canvas_x, int canvas_y,
   sprite = get_spaceship_sprite(t, SPACESHIP_HABITATION);
   get_sprite_dimensions(sprite, &w, &h);
 
-  canvas_put_rectangle(pcanvas, get_color(COLOR_SPACESHIP_BACKGROUND),
+  canvas_put_rectangle(pcanvas,
+		       get_color(tileset, COLOR_SPACESHIP_BACKGROUND),
 		       0, 0, w * 7, h * 7);
 
   for (i = 0; i < NUM_SS_MODULES; i++) {
