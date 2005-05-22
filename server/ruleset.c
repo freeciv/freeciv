@@ -1443,8 +1443,6 @@ static void load_ruleset_terrain(struct section_file *file)
 				   "parameters.fallout_%s_penalty",
 				   get_output_identifier(o));
   } output_type_iterate_end;
-  terrain_control.farmland_supermarket_food_bonus =
-    secfile_lookup_int_default(file, 50, "parameters.farmland_supermarket_food_bonus");
 
   sec = secfile_get_secnames_prefix(file, "terrain_", &nval);
 

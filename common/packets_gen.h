@@ -861,7 +861,6 @@ struct packet_ruleset_terrain_control {
   int fortress_defense_bonus;
   int road_superhighway_trade_bonus;
   int rail_tile_bonus[O_MAX];
-  int farmland_supermarket_food_bonus;
   int pollution_tile_penalty[O_MAX];
   int fallout_tile_penalty[O_MAX];
 };

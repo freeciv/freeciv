@@ -64,9 +64,6 @@ rail_shield_bonus=50
 ; percent added to trade production if square has railroad
 rail_trade_bonus=50
 
-; percent added to food production if farmland and city has supermarket
-farmland_supermarket_food_bonus=0
-
 ; percent subtracted from food production if square is polluted
 pollution_food_penalty=50
 

@@ -23797,7 +23797,7 @@ void lsend_packet_ruleset_government(struct conn_list *dest, const struct packet
 
 #define cmp_packet_ruleset_terrain_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_terrain_control_100_fields, 16);
+BV_DEFINE(packet_ruleset_terrain_control_100_fields, 15);
 
 static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control_100(struct connection *pc, enum packet_type type)
 {
@@ -23900,14 +23900,6 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
     }
   }
   if (BV_ISSET(fields, 13)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->farmland_supermarket_food_bonus = readin;
-    }
-  }
-  if (BV_ISSET(fields, 14)) {
     
     {
       int i;
@@ -23922,7 +23914,7 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
       }
     }
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
     
     {
       int i;
@@ -24035,10 +24027,6 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
 
-  differ = (old->farmland_supermarket_food_bonus != real_packet->farmland_supermarket_food_bonus);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
-
 
     {
       differ = (O_MAX != O_MAX);
@@ -24053,7 +24041,7 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 13);}
 
 
     {
@@ -24069,7 +24057,7 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 14);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -24116,9 +24104,6 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
     } 
   }
   if (BV_ISSET(fields, 13)) {
-    dio_put_uint16(&dout, real_packet->farmland_supermarket_food_bonus);
-  }
-  if (BV_ISSET(fields, 14)) {
   
     {
       int i;
@@ -24128,7 +24113,7 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
       }
     } 
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 14)) {
   
     {
       int i;
