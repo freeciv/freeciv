@@ -1214,16 +1214,25 @@ static void init_available_nations(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_nation_select_req(struct player *pplayer,
+void handle_nation_select_req(struct player *requestor,
+			      int player_no,
 			      Nation_type_id nation_no, bool is_male,
 			      char *name, int city_style)
 {
-  const Nation_type_id old_nation_no = pplayer->nation;
+  Nation_type_id old_nation_no;
+  struct player *pplayer = get_player(player_no);
 
-  if (server_state != PRE_GAME_STATE) {
-    freelog(LOG_ERROR, _("Trying to alloc nation outside of pregame!"));
+  if (server_state != PRE_GAME_STATE
+      || !pplayer) {
     return;
   }
+
+  if (pplayer != requestor
+      && requestor->current_conn->access_level <= ALLOW_INFO) {
+    return;
+  }
+
+  old_nation_no = pplayer->nation;
 
   if (nation_no != NO_NATION_SELECTED) {
     char message[1024];

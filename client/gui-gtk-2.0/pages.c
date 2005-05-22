@@ -47,7 +47,9 @@
 #include "plrdlg.h" /* for get_flag() */
 
 GtkWidget *start_message_area;
-GtkListStore *conn_model;       
+
+GtkListStore *conn_model;
+GtkTreeViewColumn *nation_col;
 
 static GtkWidget *start_options_table;
 
@@ -934,7 +936,7 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void pick_nation_callback(GtkWidget *w, gpointer data)
 {
-  popup_races_dialog();
+  popup_races_dialog(game.player_ptr);
 }
 
 /**************************************************************************
@@ -944,6 +946,49 @@ static void update_start_page(void)
 {
   /* Default to aifill 5. */
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin), 5);
+}
+
+/**************************************************************************
+  Called on a button event on the pregame player list.
+**************************************************************************/
+static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
+				 gpointer data)
+{
+  GtkTreeView *tree = GTK_TREE_VIEW(widget);
+  GtkTreeModel *model = gtk_tree_view_get_model(tree);
+  GtkTreeIter iter;
+  GtkTreePath *path = NULL;
+  GtkTreeViewColumn *column = NULL;
+  char *username;
+  struct player *pplayer;
+
+  if (event->type != GDK_BUTTON_PRESS
+      || !gtk_tree_view_get_path_at_pos(tree,
+					event->x, event->y,
+					&path, &column, NULL, NULL)) {
+    return FALSE;
+  }
+
+  if (column != nation_col) {
+    return show_conn_popup(widget, event, data);
+  }
+
+  gtk_tree_model_get_iter(model, &iter, path);
+  gtk_tree_path_free(path);
+  gtk_tree_model_get(model, &iter, 0, &username, -1);
+#if 0
+  /* This doesn't work because game.info.nplayers is 0 for some reason. */
+  pplayer = find_player_by_user(username);
+#else
+  pplayer = find_conn_by_user(username)->player;
+#endif
+  if (!pplayer) {
+    freelog(LOG_NORMAL, "No player for '%s'.", username);
+    return FALSE;
+  }
+
+  popup_races_dialog(pplayer);
+  return TRUE;
 }
 
 /**************************************************************************
@@ -1069,12 +1114,13 @@ GtkWidget *create_start_page(void)
 					      "text", 2, NULL);
 
   rend = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-					      -1, _("Nation"), rend,
-					      "text", 3, NULL);
+  nation_col = gtk_tree_view_column_new_with_attributes(_("Nation"),
+							rend,
+							"text", 3, NULL);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), nation_col, -1);
 
   g_signal_connect(view, "button-press-event",
-		   G_CALLBACK(show_conn_popup), NULL);
+		   G_CALLBACK(playerlist_event), NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),

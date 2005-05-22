@@ -1828,7 +1828,7 @@ void lsend_packet_nation_available(struct conn_list *dest, const struct packet_n
 
 #define cmp_packet_nation_select_req_100 cmp_const
 
-BV_DEFINE(packet_nation_select_req_100_fields, 4);
+BV_DEFINE(packet_nation_select_req_100_fields, 5);
 
 static struct packet_nation_select_req *receive_packet_nation_select_req_100(struct connection *pc, enum packet_type type)
 {
@@ -1856,15 +1856,23 @@ static struct packet_nation_select_req *receive_packet_nation_select_req_100(str
     {
       int readin;
     
+      dio_get_uint8(&din, &readin);
+      real_packet->player_no = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    {
+      int readin;
+    
       dio_get_sint16(&din, &readin);
       real_packet->nation_no = readin;
     }
   }
-  real_packet->is_male = BV_ISSET(fields, 1);
-  if (BV_ISSET(fields, 2)) {
+  real_packet->is_male = BV_ISSET(fields, 2);
+  if (BV_ISSET(fields, 3)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 4)) {
     {
       int readin;
     
@@ -1906,21 +1914,25 @@ static int send_packet_nation_select_req_100(struct connection *pc, const struct
     force_send_of_unchanged = TRUE;
   }
 
-  differ = (old->nation_no != real_packet->nation_no);
+  differ = (old->player_no != real_packet->player_no);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
+  differ = (old->nation_no != real_packet->nation_no);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
   differ = (old->is_male != real_packet->is_male);
   if(differ) {different++;}
-  if(packet->is_male) {BV_SET(fields, 1);}
+  if(packet->is_male) {BV_SET(fields, 2);}
 
   differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 2);}
+  if(differ) {BV_SET(fields, 3);}
 
   differ = (old->city_style != real_packet->city_style);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 3);}
+  if(differ) {BV_SET(fields, 4);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -1929,13 +1941,16 @@ static int send_packet_nation_select_req_100(struct connection *pc, const struct
   DIO_BV_PUT(&dout, fields);
 
   if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->player_no);
+  }
+  if (BV_ISSET(fields, 1)) {
     dio_put_sint16(&dout, real_packet->nation_no);
   }
-  /* field 1 is folded into the header */
-  if (BV_ISSET(fields, 2)) {
+  /* field 2 is folded into the header */
+  if (BV_ISSET(fields, 3)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 3)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_uint8(&dout, real_packet->city_style);
   }
 
@@ -2008,10 +2023,11 @@ int send_packet_nation_select_req(struct connection *pc, const struct packet_nat
   }
 }
 
-int dsend_packet_nation_select_req(struct connection *pc, Nation_type_id nation_no, bool is_male, const char *name, int city_style)
+int dsend_packet_nation_select_req(struct connection *pc, int player_no, Nation_type_id nation_no, bool is_male, const char *name, int city_style)
 {
   struct packet_nation_select_req packet, *real_packet = &packet;
 
+  real_packet->player_no = player_no;
   real_packet->nation_no = nation_no;
   real_packet->is_male = is_male;
   sz_strlcpy(real_packet->name, name);

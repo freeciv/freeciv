@@ -65,6 +65,7 @@ void message_dialog_set_hide(GtkWidget *dshell, gboolean setting);
 
 /******************************************************************/
 static GtkWidget  *races_shell;
+struct player *races_player;
 static GtkWidget  *races_nation_list[MAX_NUM_NATION_GROUPS + 1];
 static GtkWidget  *races_leader;
 static GList      *races_leader_list;
@@ -92,7 +93,7 @@ static struct tile *unit_select_ptile;
 
 static void select_random_race(void);
   
-static void create_races_dialog(void);
+static void create_races_dialog(struct player *pplayer);
 static void races_destroy_callback(GtkWidget *w, gpointer data);
 static void races_response(GtkWidget *w, gint response, gpointer data);
 static void races_nation_callback(GtkTreeSelection *select, gpointer data);
@@ -1668,7 +1669,7 @@ static GtkWidget* create_nation_selection_list(void)
 /****************************************************************
 ...
 *****************************************************************/
-static void create_races_dialog(void)
+static void create_races_dialog(struct player *pplayer)
 {
   GtkWidget *shell;
   GtkWidget *cmd;
@@ -1697,6 +1698,7 @@ static void create_races_dialog(void)
 				GTK_RESPONSE_ACCEPT,
 				NULL);
   races_shell = shell;
+  races_player = pplayer;
   setup_dialog(shell, toplevel);
 
   gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
@@ -1860,12 +1862,14 @@ static void create_races_dialog(void)
 /****************************************************************
   popup the dialog 10% inside the main-window 
  *****************************************************************/
-void popup_races_dialog(void)
+void popup_races_dialog(struct player *pplayer)
 {
-  create_races_dialog();
-  gtk_window_present(GTK_WINDOW(races_shell));
+  if (!races_shell) {
+    create_races_dialog(pplayer);
+    gtk_window_present(GTK_WINDOW(races_shell));
 
-  select_random_race();
+    select_random_race();
+  }
 }
 
 /****************************************************************
@@ -2205,10 +2209,13 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
       return;
     }
 
-    dsend_packet_nation_select_req(&aconnection, selected_nation,
+    dsend_packet_nation_select_req(&aconnection,
+				   races_player->player_no, selected_nation,
 				   selected_sex, s, selected_city_style);
   } else if (response == GTK_RESPONSE_CANCEL) {
-    dsend_packet_nation_select_req(&aconnection, NO_NATION_SELECTED,
+    dsend_packet_nation_select_req(&aconnection,
+				   races_player->player_no,
+				   NO_NATION_SELECTED,
 				   FALSE, "", 0);
   }
   popdown_races_dialog();

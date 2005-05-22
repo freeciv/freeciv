@@ -59,6 +59,7 @@ struct packet_nation_available {
 };
 
 struct packet_nation_select_req {
+  int player_no;
   Nation_type_id nation_no;
   bool is_male;
   char name[MAX_LEN_NAME];
@@ -1179,7 +1180,7 @@ void lsend_packet_nation_available(struct conn_list *dest, const struct packet_n
 
 struct packet_nation_select_req *receive_packet_nation_select_req(struct connection *pc, enum packet_type type);
 int send_packet_nation_select_req(struct connection *pc, const struct packet_nation_select_req *packet);
-int dsend_packet_nation_select_req(struct connection *pc, Nation_type_id nation_no, bool is_male, const char *name, int city_style);
+int dsend_packet_nation_select_req(struct connection *pc, int player_no, Nation_type_id nation_no, bool is_male, const char *name, int city_style);
 
 struct packet_game_state *receive_packet_game_state(struct connection *pc, enum packet_type type);
 int send_packet_game_state(struct connection *pc, const struct packet_game_state *packet);
