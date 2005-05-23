@@ -681,7 +681,7 @@ static void help_draw_unit(HDC hdc,int i)
   default:          bg_color = COLOR_OVERVIEW_UNKNOWN;    break;
   }
 
-  brush = brush_alloc(get_color(bg_color));
+  brush = brush_alloc(get_color(tileset, bg_color));
 
   FillRect(hdc, &rc, brush);
 

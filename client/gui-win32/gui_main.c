@@ -548,8 +548,6 @@ static void create_main_window(void)
   /* Need to set these so the version number shows up properly */
   overview_win_width = 160;
   overview_win_height = 100;
-
-  init_color_system();
 }
 
 /**************************************************************************

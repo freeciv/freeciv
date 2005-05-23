@@ -137,7 +137,7 @@ science_dialog_update(void)
     } tech_type_iterate_end;
   } else {
       tech_id = game.control.num_tech_types + 1
-		+ game.player_ptr->future_tech;
+		+ game.player_ptr->research->future_tech;
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			      get_tech_name(game.player_ptr, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),

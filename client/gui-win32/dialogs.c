@@ -98,6 +98,7 @@ struct message_dialog {
 };
 
 static HWND races_dlg;
+struct player *races_player;
 static HWND races_class;
 static HWND races_legend;
 int selected_leader_sex;
@@ -349,8 +350,8 @@ static void do_select(HWND hWnd)
     append_output_window(_("You must type a legal name."));
     return;
   }
-  dsend_packet_nation_select_req(&aconnection, selected_nation, is_male,
-				 name, city_style);
+  dsend_packet_nation_select_req(&aconnection, races_player->player_no,
+				 selected_nation, is_male, name, city_style);
 }
 
 
@@ -485,12 +486,14 @@ static void add_nations(struct fcwin_box *vbox)
 /**************************************************************************
 
 **************************************************************************/
-void popup_races_dialog(void)
+void popup_races_dialog(struct player *pplayer)
 {
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
   struct fcwin_box *grp_box;
   int i;
+
+  races_player = pplayer;
   races_dlg=fcwin_create_layouted_window(racesdlg_proc,
 					 _("What nation will you be?"),
 					 WS_OVERLAPPEDWINDOW,
