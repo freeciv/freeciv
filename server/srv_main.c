@@ -1448,7 +1448,7 @@ static void generate_players(void)
     const int old_nplayers = game.info.nplayers;
     struct player *pplayer = get_player(old_nplayers);
 
-    server_player_init(pplayer, FALSE);
+    server_player_init(pplayer, FALSE, TRUE);
 
     nation = select_random_nation();
     assert(nation != NO_NATION_SELECTED);

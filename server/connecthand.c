@@ -675,7 +675,7 @@ bool attach_connection_to_player(struct connection *pconn,
       return FALSE; 
     } else {
       pplayer = &game.players[game.info.nplayers];
-      server_player_init(pplayer, FALSE);
+      server_player_init(pplayer, FALSE, TRUE);
       game.info.nplayers++;
     }
   }

@@ -1677,8 +1677,9 @@ static void player_load(struct player *plr, int plrno,
   struct government *gov;
   int id;
   int target_no;
+  struct team *pteam;
 
-  server_player_init(plr, TRUE);
+  server_player_init(plr, TRUE, FALSE);
   ai = ai_data_get(plr);
 
   plr->ai.barbarian_type = secfile_lookup_int_default(file, 0, "player%d.ai.is_barbarian",
@@ -1731,7 +1732,11 @@ static void player_load(struct player *plr, int plrno,
 
   /* not all players have teams */
   id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
-  plr->team = team_get_by_id(id);
+  pteam = team_get_by_id(id);
+  if (pteam) {
+    /* Players with no team will be assigned to an empty team later. */
+    team_add_player(plr, pteam);
+  }
 
   if (is_barbarian(plr)) {
     plr->nation = game.control.nation_count - 1;
@@ -2539,7 +2544,8 @@ static void player_save(struct player *plr, int plrno,
    * Nations can't be saved correctly because race must be < 62 */
   secfile_insert_int(file, plrno, "player%d.race", plrno);
 
-  secfile_insert_int(file, plr->team->index, "player%d.team_no", plrno);
+  secfile_insert_int(file, plr->team ? plr->team->index : -1,
+		     "player%d.team_no", plrno);
 
   gov = get_government(plr->government);
   secfile_insert_str(file, gov->name_orig, "player%d.government_name", plrno);
@@ -3630,6 +3636,13 @@ void game_load(struct section_file *file)
 		  improvement_order_size, technology_order,
 		  technology_order_size); 
     }
+
+    /* Assign players with no team listed onto an empty team. */
+    players_iterate(pplayer) {
+      if (!pplayer->team) {
+	team_add_player(pplayer, find_empty_team());
+      }
+    } players_iterate_end;
 
     /* Update all city information.  This must come after all cities are
      * loaded (in player_load) but before player (dumb) cities are loaded

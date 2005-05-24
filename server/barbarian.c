@@ -117,7 +117,7 @@ static struct player *create_barbarian_player(bool land)
 
   /* make a new player */
 
-  server_player_init(barbarians, TRUE);
+  server_player_init(barbarians, TRUE, TRUE);
 
   barbarians->nation = game.control.nation_count - 1;
   pick_random_player_name(game.control.nation_count - 1, barbarians->name);

@@ -904,7 +904,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   }
 
   pplayer = &game.players[game.info.nplayers];
-  server_player_init(pplayer, FALSE);
+  server_player_init(pplayer, FALSE, TRUE);
   sz_strlcpy(pplayer->name, arg);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */

@@ -1453,7 +1453,7 @@ static void package_player_common(struct player *plr,
   packet->nation=plr->nation;
   packet->is_male=plr->is_male;
   packet->is_observer=plr->is_observer;
-  packet->team = plr->team->index;
+  packet->team = plr->team ? plr->team->index : -1;
   packet->is_started = plr->is_started;
   packet->city_style=plr->city_style;
 
@@ -1649,17 +1649,26 @@ struct conn_list *player_reply_dest(struct player *pplayer)
 	  pplayer->connections);
 }
 
-/********************************************************************** 
-The initmap option is used because we don't want to initialize the map
-before the x and y sizes have been determined
-***********************************************************************/
-void server_player_init(struct player *pplayer, bool initmap)
+/****************************************************************************
+  Initialize ANY newly-created player on the server.
+
+  The initmap option is used because we don't want to initialize the map
+  before the x and y sizes have been determined.  This should generally
+  be FALSE in pregame.
+
+  The needs_team options should be set for players who should be assigned
+  a team.  They will be put on their own newly-created team.
+****************************************************************************/
+void server_player_init(struct player *pplayer,
+			bool initmap, bool needs_team)
 {
   if (initmap) {
     player_map_allocate(pplayer);
   }
   pplayer->player_no = pplayer - game.players;
-  team_add_player(pplayer, find_empty_team());
+  if (needs_team) {
+    team_add_player(pplayer, find_empty_team());
+  }
   ai_data_init(pplayer);
 }
 
@@ -1943,7 +1952,8 @@ struct player *create_global_observer(void)
    *
    * FIXME: could we use map_is_empty here? */
   server_player_init(pplayer,
-                     (server_state == RUN_GAME_STATE || !game.is_new_game));
+                     (server_state == RUN_GAME_STATE || !game.is_new_game),
+		     TRUE);
 
   sz_strlcpy(pplayer->name, OBSERVER_NAME);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
@@ -2004,7 +2014,7 @@ static struct player *split_player(struct player *pplayer)
   Nation_type_id *civilwar_nations = get_nation_civilwar(pplayer->nation);
 
   /* make a new player */
-  server_player_init(cplayer, TRUE);
+  server_player_init(cplayer, TRUE, TRUE);
 
   /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
