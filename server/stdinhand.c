@@ -1852,6 +1852,10 @@ static bool set_away(struct connection *caller, char *name, bool check)
   } else if (name && strlen(name) > 0) {
     notify_conn(&caller->self, _("Usage: away"));
     return FALSE;
+  } else if (!caller->player || caller->observer) {
+    /* This happens for detached or observer connections. */
+    notify_conn(&caller->self, _("Only players may use the away command."));
+    return FALSE;
   } else if (!caller->player->ai.control && !check) {
     notify_conn(&game.est_connections, _("%s set to away mode."), 
                 caller->player->name);
