@@ -118,6 +118,11 @@ void set_unit_focus(struct unit *punit)
 {
   struct unit *punit_old_focus = punit_focus;
 
+  if (punit && punit->owner != game.player_idx) {
+    freelog(LOG_ERROR, "Trying to focus on another player's unit!");
+    return;
+  }
+
   if (punit != punit_focus) {
     store_focus();
   }
@@ -711,7 +716,9 @@ void request_unit_unload_all(struct unit *punit)
 	request_new_unit_activity(pcargo, ACTIVITY_IDLE);
       }
 
-      plast = pcargo;
+      if (pcargo->owner == game.player_idx) {
+	plast = pcargo;
+      }
     }
   } unit_list_iterate_end;
 
