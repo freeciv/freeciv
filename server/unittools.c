@@ -2963,8 +2963,11 @@ bool execute_orders(struct unit *punit)
     if (moves_made == punit->orders.length) {
       /* For repeating orders, don't repeat more than once per turn. */
       freelog(LOG_DEBUG, "  stopping because we ran a round");
+      punit->done_moving = TRUE;
+      send_unit_info(NULL, punit);
       return TRUE;
     }
+    moves_made++;
 
     last_order = (!punit->orders.repeat
 		  && punit->orders.index + 1 == punit->orders.length);
