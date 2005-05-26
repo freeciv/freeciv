@@ -138,17 +138,23 @@ void auto_center_on_focus_unit(void)
 }
 
 /**************************************************************************
-note: punit can be NULL
-We make sure that the previous focus unit is refreshed, if necessary,
-_after_ setting the new focus unit (otherwise if the previous unit is
-in a city, the refresh code draws the previous unit instead of the city).
+  Sets the focus unit directly.  The unit given will be given the
+  focus; if NULL the focus will be cleared.
 
- This function can be called directly from packhand.c as a result of
- Wakeup Focus (when a unit goes from Sentried to Idle in the server).
+  This function is called for several reasons.  Sometimes a fast-focus
+  happens immediately as a result of a client action.  Other times it
+  happens because of a server-sent packet that wakes up a unit.
 **************************************************************************/
 void set_unit_focus(struct unit *punit)
 {
   struct unit *punit_old_focus = punit_focus;
+
+  if (punit && punit->owner != game.info.player_idx) {
+    /* Callers should make sure this never happens. */
+    freelog(LOG_ERROR, "Trying to focus on another player's unit!");
+    assert(0);
+    return;
+  }
 
   if (punit != punit_focus) {
     store_focus();
@@ -183,7 +189,8 @@ void set_unit_focus(struct unit *punit)
     }
   }
   
-  /* avoid the old focus unit disappearing: */
+  /* Redraw the old focus unit (to fix blinking or remove the selection
+   * circle). */
   if (punit_old_focus
       && (!punit || !same_pos(punit_old_focus->tile, punit->tile))) {
     refresh_unit_mapcanvas(punit_old_focus, punit_old_focus->tile,
@@ -778,7 +785,9 @@ void request_unit_unload_all(struct unit *punit)
 	request_new_unit_activity(pcargo, ACTIVITY_IDLE);
       }
 
-      plast = pcargo;
+      if (pcargo->owner == game.info.player_idx) {
+	plast = pcargo;
+      }
     }
   } unit_list_iterate_end;
 
