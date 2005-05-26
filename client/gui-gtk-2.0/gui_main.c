@@ -1225,29 +1225,53 @@ void update_conn_list_dialog(void)
   GtkTreeIter it;
   
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
-    gtk_list_store_clear(conn_model);
-    conn_list_iterate(game.est_connections, pconn) {
-      bool is_started = pconn->player ? pconn->player->is_started : FALSE;
-      const char *nation;
-      const char *leader;
+    bool is_started;
+    const char *name, *nation, *leader;
 
-      if (!pconn->player) {
-	nation = "";
-	leader = "";
-      } else if (pconn->player->nation == NO_NATION_SELECTED) {
+    gtk_list_store_clear(conn_model);
+    players_iterate(pplayer) {
+      if (pplayer->is_observer) {
+	continue; /* Connections are listed individually. */
+      }
+      if (pplayer->ai.control) {
+	name = _("<AI>");
+      } else {
+	name = pplayer->username;
+      }
+      is_started = pplayer->ai.control ? TRUE: pplayer->is_started;
+      if (pplayer->nation == NO_NATION_SELECTED) {
 	nation = _("Random");
 	leader = "";
       } else {
-	nation = get_nation_name(pconn->player->nation);
-	leader = pconn->player->name;
+	nation = get_nation_name(pplayer->nation);
+	leader = pplayer->name;
       }
 
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,
-			 0, pconn->username,
+			 0, name,
 			 1, is_started,
 			 2, leader,
 			 3, nation,
+			 4, pplayer->player_no,
+			 -1);
+    } players_iterate_end;
+    conn_list_iterate(game.est_connections, pconn) {
+      if (pconn->player && !pconn->observer && !pconn->player->is_observer) {
+	continue; /* Already listed above. */
+      }
+      name = pconn->username;
+      is_started = FALSE;
+      nation = "";
+      leader = "";
+
+      gtk_list_store_append(conn_model, &it);
+      gtk_list_store_set(conn_model, &it,
+			 0, name,
+			 1, is_started,
+			 2, leader,
+			 3, nation,
+			 4, -1,
 			 -1);
     } conn_list_iterate_end;
   }
@@ -1275,6 +1299,10 @@ gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data)
 
   gtk_tree_model_get(GTK_TREE_MODEL(conn_model), &it, 0, &name, -1);
   pconn = find_conn_by_user(name);
+
+  if (!pconn) {
+    return FALSE;
+  }
 
   /* Show popup. */
   popup = gtk_window_new(GTK_WINDOW_POPUP);

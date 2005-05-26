@@ -959,7 +959,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
   GtkTreeViewColumn *column = NULL;
-  char *username;
+  int player_no;
   struct player *pplayer;
 
   if (event->type != GDK_BUTTON_PRESS
@@ -975,15 +975,9 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
 
   gtk_tree_model_get_iter(model, &iter, path);
   gtk_tree_path_free(path);
-  gtk_tree_model_get(model, &iter, 0, &username, -1);
-#if 0
-  /* This doesn't work because game.info.nplayers is 0 for some reason. */
-  pplayer = find_player_by_user(username);
-#else
-  pplayer = find_conn_by_user(username)->player;
-#endif
+  gtk_tree_model_get(model, &iter, 4, &player_no, -1);
+  pplayer = get_player(player_no);
   if (!pplayer) {
-    freelog(LOG_NORMAL, "No player for '%s'.", username);
     return FALSE;
   }
 
@@ -1090,8 +1084,8 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_BOOLEAN,
-				  G_TYPE_STRING, G_TYPE_STRING);
+  conn_model = gtk_list_store_new(5, G_TYPE_STRING, G_TYPE_BOOLEAN,
+				  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
   g_object_unref(conn_model);
