@@ -296,6 +296,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   assert(tech_is_available(plr, tech_found) || tech_found == A_FUTURE);
 
   plr->research->got_tech = TRUE;
+  plr->research->changed_from = -1;
   plr->research->techs_researched++;
   was_first = (game.info.global_advances[tech_found] == 0);
 
