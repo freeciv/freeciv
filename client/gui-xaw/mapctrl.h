@@ -17,7 +17,6 @@
 
 #include "mapctrl_g.h"
 
-
 void mapctrl_key_city_workers(XEvent *event);
 
 void mapctrl_btn_mapcanvas(XEvent *event);
@@ -25,7 +24,5 @@ void mapctrl_btn_overviewcanvas(XEvent *event);
 void mapctrl_btn_wakeup(XEvent *event);
 
 void center_on_unit(void);
-
-extern int city_workers_color;
 
 #endif  /* FC__MAPCTRL_H */

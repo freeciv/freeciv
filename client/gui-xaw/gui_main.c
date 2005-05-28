@@ -343,8 +343,6 @@ void ui_main(int argc, char *argv[])
     /*    exit(EXIT_FAILURE); */
   }
 
-  init_color_system();
-
   {
     XGCValues values;
     char **missing_charset_list_return;
@@ -372,8 +370,8 @@ void ui_main(int argc, char *argv[])
       freelog(LOG_ERROR, _("Font for charset %s is lacking"),
 	  missing_charset_list_return[i]);
     }
-    values.foreground = colors_standard[COLOR_STD_WHITE];
-    values.background = colors_standard[COLOR_STD_BLACK];
+    values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
+    values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
     font_gc= XCreateGC(display, root_window, 
 		       GCForeground|GCBackground|GCGraphicsExposures, 
 		       &values);
@@ -391,8 +389,8 @@ void ui_main(int argc, char *argv[])
       freelog(LOG_ERROR, _("Font for charset %s is lacking"),
 	  missing_charset_list_return[i]);
     }
-    values.foreground = colors_standard[COLOR_STD_WHITE];
-    values.background = colors_standard[COLOR_STD_BLACK];
+    values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
+    values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
     prod_font_gc= XCreateGC(display, root_window,
 			    GCForeground|GCBackground|GCGraphicsExposures,
 			    &values);

@@ -95,7 +95,7 @@ void load_intro_gfx(void)
      XAllocColor(display, cmap, &face)) {
     have_face = TRUE;
   } else {
-    face.pixel = colors_standard[COLOR_STD_WHITE];
+    face.pixel = get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel;
     have_face = FALSE;
   }
 
@@ -122,12 +122,14 @@ void load_intro_gfx(void)
       1.5 * (exts->max_logical_extent.height + exts->max_logical_extent.y));
 
   w = XmbTextEscapement(main_font_set, word_version(), strlen(word_version()));
-  XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
+  XSetForeground(display, font_gc,
+		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
       	      main_font_set, font_gc, 
 	      (tot/2-w/2)+1, y+1, 
 	      word_version(), strlen(word_version()));
-  XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
+  XSetForeground(display, font_gc,
+		 get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
       	      main_font_set, font_gc, 
 	      tot/2-w/2, y, 
@@ -139,11 +141,13 @@ void load_intro_gfx(void)
 	      MAJOR_VERSION, MINOR_VERSION,
 	      PATCH_VERSION, VERSION_LABEL);
   w = XmbTextEscapement(main_font_set, s, strlen(s));
-  XSetForeground(display, font_gc, colors_standard[COLOR_STD_BLACK]);
+  XSetForeground(display, font_gc,
+		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
       	      main_font_set, font_gc, 
 	      (tot/2-w/2)+1, y+1, s, strlen(s));
-  XSetForeground(display, font_gc, colors_standard[COLOR_STD_WHITE]);
+  XSetForeground(display, font_gc,
+		 get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
       	      main_font_set, font_gc, 
 	      tot/2-w/2, y, s, strlen(s));
@@ -227,8 +231,8 @@ void load_cursors(void)
   struct sprite *sprite;
   int hot_x, hot_y;
 
-  white.pixel = colors_standard[COLOR_STD_WHITE];
-  black.pixel = colors_standard[COLOR_STD_BLACK];
+  white.pixel = get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel;
+  black.pixel = get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel;
   XQueryColor(display, cmap, &white);
   XQueryColor(display, cmap, &black);
 
@@ -329,6 +333,9 @@ struct sprite *load_gfxfile(const char *filename)
   struct sprite *mysprite;
   XImage *xi;
   int has_mask;
+  png_byte color_type;
+  png_byte alpha;
+  bool pixel;
 
   fp = fopen(filename, "rb");
   if (!fp) {
@@ -361,45 +368,59 @@ struct sprite *load_gfxfile(const char *filename)
   png_read_info(pngp, infop);
   width = png_get_image_width(pngp, infop);
   height = png_get_image_height(pngp, infop);
+  color_type = png_get_color_type(pngp, infop);
 
-  if (png_get_PLTE(pngp, infop, &palette, &npalette)) {
-    int i;
-    XColor *mycolors;
+  if (color_type == PNG_COLOR_TYPE_PALETTE) {
+    if (png_get_PLTE(pngp, infop, &palette, &npalette)) {
+      int i;
+      XColor *mycolors;
 
-    pcolorarray = fc_malloc(npalette * sizeof(*pcolorarray));
+      pcolorarray = fc_malloc(npalette * sizeof(*pcolorarray));
 
-    mycolors = fc_malloc(npalette * sizeof(*mycolors));
+      mycolors = fc_malloc(npalette * sizeof(*mycolors));
 
-    for (i = 0; i < npalette; i++) {
-      mycolors[i].red  = palette[i].red << 8;
-      mycolors[i].green = palette[i].green << 8;
-      mycolors[i].blue = palette[i].blue << 8;
+      for (i = 0; i < npalette; i++) {
+	mycolors[i].red  = palette[i].red << 8;
+	mycolors[i].green = palette[i].green << 8;
+	mycolors[i].blue = palette[i].blue << 8;
+      }
+
+      alloc_colors(mycolors, npalette);
+
+      for (i = 0; i < npalette; i++) {
+	pcolorarray[i] = mycolors[i].pixel;
+      }
+
+      free(mycolors);
+    } else {
+      freelog(LOG_FATAL, _("PNG file has no palette: %s"), filename);
+      exit(EXIT_FAILURE);
     }
 
-    alloc_colors(mycolors, npalette);
+    has_mask = png_get_tRNS(pngp, infop, &trans, &ntrans, NULL);
 
-    for (i = 0; i < npalette; i++) {
-      pcolorarray[i] = mycolors[i].pixel;
+    if (has_mask) {
+      int i;
+
+      ptransarray = fc_calloc(npalette, sizeof(*ptransarray));
+
+      for (i = 0; i < ntrans; i++) {
+	ptransarray[trans[i]] = TRUE;
+      }
+    } else {
+      ptransarray = NULL;
     }
 
-    free(mycolors);
   } else {
-    freelog(LOG_FATAL, _("PNG file has no palette: %s"), filename);
-    exit(EXIT_FAILURE);
-  }
-
-  has_mask = png_get_tRNS(pngp, infop, &trans, &ntrans, NULL);
-
-  if (has_mask) {
-    int i;
-
-    ptransarray = fc_calloc(npalette, sizeof(*ptransarray));
-
-    for (i = 0; i < ntrans; i++) {
-      ptransarray[trans[i]] = TRUE;
-    }
-  } else {
+    pcolorarray = NULL;
     ptransarray = NULL;
+    npalette = 0;
+    if (color_type == PNG_COLOR_TYPE_RGB_ALPHA) {
+      has_mask = 1;
+    } else {
+      has_mask = 0;
+    }
+    ntrans = 0;
   }
 
   png_read_update_info(pngp, infop);
@@ -434,7 +455,12 @@ struct sprite *load_gfxfile(const char *filename)
   pb = buf;
   for (y = 0; y < height; y++) {
     for (x = 0; x < width; x++) {
-      XPutPixel(xi, x, y, pcolorarray[pb[x]]);
+      if (pcolorarray) {
+	XPutPixel(xi, x, y, pcolorarray[pb[x]]);
+      } else {
+	XPutPixel(xi, x, y,
+		  (pb[4 * x] << 16) + (pb[4 * x + 1] << 8) + pb[4 * x + 2]);
+      }
     }
     pb += stride;
   }
@@ -451,7 +477,35 @@ struct sprite *load_gfxfile(const char *filename)
     pb = buf;
     for (y = 0; y < height; y++) {
       for (x = 0; x < width; x++) {
-	XPutPixel(xm, x, y, !ptransarray[pb[x]]);
+	if (ptransarray) {
+	  XPutPixel(xm, x, y, !ptransarray[pb[x]]);
+	} else {
+	  alpha = pb[4 * x + 3];
+	  if (alpha > 204) {
+	    pixel = FALSE;
+	  } else if (alpha > 153) {
+	    if ((y + x * 2) % 4 == 0) {
+	      pixel = TRUE;
+	    } else {
+	      pixel = FALSE;
+	    }
+	  } else if (alpha > 102) {
+	    if ((y + x) % 2 == 0) {
+	      pixel = TRUE;
+	    } else {
+	      pixel = FALSE;
+	    }
+	  } else if (alpha > 51) {
+	    if ((y + x * 2) % 4 == 0) {
+	      pixel = FALSE;
+	    } else {
+	      pixel = TRUE;
+	    }
+	  } else {
+	    pixel = TRUE;
+	  }
+	  XPutPixel(xm, x, y, !pixel);
+	}
       }
       pb += stride;
     }
@@ -501,14 +555,16 @@ Pixmap create_overlay_unit(int i)
 		   tileset_full_tile_width(tileset), tileset_full_tile_height(tileset), display_depth);
 
   /* Give tile a background color, based on the type of unit */
+  /* Should there be colors like COLOR_MAPVIEW_LAND etc? -ev */
   switch (get_unit_type(i)->move_type) {
-    case LAND_MOVING: bg_color = COLOR_STD_GROUND; break;
-    case SEA_MOVING:  bg_color = COLOR_STD_OCEAN; break;
-    case HELI_MOVING: bg_color = COLOR_STD_YELLOW; break;
-    case AIR_MOVING:  bg_color = COLOR_STD_CYAN; break;
-    default:          bg_color = COLOR_STD_BLACK; break;
+    case LAND_MOVING: bg_color = COLOR_OVERVIEW_LAND; break;
+    case SEA_MOVING:  bg_color = COLOR_OVERVIEW_OCEAN; break;
+    case HELI_MOVING: bg_color = COLOR_OVERVIEW_MY_UNIT; break;
+    case AIR_MOVING:  bg_color = COLOR_OVERVIEW_ENEMY_CITY; break;
+    default:          bg_color = COLOR_OVERVIEW_UNKNOWN; break;
   }
-  XSetForeground(display, fill_bg_gc, colors_standard[bg_color]);
+  XSetForeground(display, fill_bg_gc,
+		 get_color(tileset, bg_color)->color.pixel);
   XFillRectangle(display, pm, fill_bg_gc, 0,0, 
 		 tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
 

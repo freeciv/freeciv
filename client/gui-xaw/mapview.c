@@ -435,10 +435,10 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas,
-			  enum color_std color,
+			  struct color *pcolor,
 			  int canvas_x, int canvas_y, int width, int height)
 {
-  XSetForeground(display, fill_bg_gc, colors_standard[color]);
+  XSetForeground(display, fill_bg_gc, pcolor->color.pixel);
   XFillRectangle(display, pcanvas->pixmap, fill_bg_gc,
 		 canvas_x, canvas_y, width, height);
 }
@@ -447,14 +447,15 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-			     struct sprite *psprite, enum color_std color,
+			     struct sprite *psprite,
+			     struct color *pcolor,
 			     int canvas_x, int canvas_y)
 {
   if (psprite->has_mask) {
     XSetClipOrigin(display, fill_tile_gc, canvas_x, canvas_y);
     XSetClipMask(display, fill_tile_gc, psprite->mask);
   }
-  XSetForeground(display, fill_tile_gc, colors_standard[color]);
+  XSetForeground(display, fill_tile_gc, pcolor->color.pixel);
 
   XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
 		 canvas_x, canvas_y, psprite->width, psprite->height);
@@ -476,7 +477,8 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
   }
   XSetStipple(display, fill_tile_gc, gray50);
   XSetTSOrigin(display, fill_tile_gc, canvas_x, canvas_y);
-  XSetForeground(display, fill_tile_gc, colors_standard[COLOR_STD_BLACK]);
+  XSetForeground(display, fill_tile_gc,
+		 get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel);
 
   XFillRectangle(display, pcanvas->pixmap, fill_tile_gc,
 		 canvas_x, canvas_y, psprite->width, psprite->height);
@@ -489,7 +491,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
@@ -509,7 +511,7 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
     break;
   }
 
-  XSetForeground(display, gc, colors_standard[color]);
+  XSetForeground(display, gc, pcolor->color.pixel);
   XDrawLine(display, pcanvas->pixmap, gc,
 	    start_x, start_y, start_x + dx, start_y + dy);
 }
@@ -657,19 +659,19 @@ Draw at x = left of string, y = top of string.
 **************************************************************************/
 static void draw_shadowed_string(struct canvas *pcanvas,
 				 XFontSet fontset, GC font_gc,
-				 enum color_std foreground,
-				 enum color_std shadow,
+				 struct color *foreground,
+				 struct color *shadow,
 				 int x, int y, const char *string)
 {
   size_t len = strlen(string);
 
   y -= XExtentsOfFontSet(fontset)->max_logical_extent.y;
 
-  XSetForeground(display, font_gc, colors_standard[shadow]);
+  XSetForeground(display, font_gc, shadow->color.pixel);
   XmbDrawString(display, pcanvas->pixmap, fontset, font_gc,
       x + 1, y + 1, string, len);
 
-  XSetForeground(display, font_gc, colors_standard[foreground]);
+  XSetForeground(display, font_gc, foreground->color.pixel);
   XmbDrawString(display, pcanvas->pixmap, fontset, font_gc,
       x, y, string, len);
 }
@@ -700,11 +702,11 @@ void get_text_size(int *width, int *height,
   take care of this manually.  The text will not be NULL but may be empty.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, enum color_std color,
+		     enum client_font font, struct color *pcolor,
 		     const char *text)
 {
   draw_shadowed_string(pcanvas, *fonts[font], *font_gcs[font],
-		       color, COLOR_STD_BLACK,
+		       pcolor, get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
 		       canvas_x, canvas_y, text);
 }
 
@@ -719,9 +721,12 @@ void put_unit_pixmap_city_overlays(struct unit *punit, Pixmap pm)
   struct canvas store = {pm};
  
   /* wipe the slate clean */
-  XSetForeground(display, fill_bg_gc, colors_standard[COLOR_STD_WHITE]);
+  XSetForeground(display, fill_bg_gc,
+		 get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel);
   XFillRectangle(display, pm, fill_bg_gc, 0, tileset_tile_width(tileset), 
-		 tileset_tile_height(tileset), tileset_tile_height(tileset)+tileset_small_sprite_height(tileset));
+		 tileset_tile_height(tileset),
+		 tileset_tile_height(tileset)
+		 + tileset_small_sprite_height(tileset));
 
   put_unit_city_overlays(punit, &store, 0, tileset_tile_height(tileset));
 }

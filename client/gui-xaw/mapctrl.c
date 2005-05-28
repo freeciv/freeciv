@@ -60,9 +60,6 @@
 
 #include "mapctrl.h"
 
-/* Color to use to display the workers */
-int city_workers_color=COLOR_STD_WHITE;
-
 static void popupinfo_popdown_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 /**************************************************************************

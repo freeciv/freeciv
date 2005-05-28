@@ -45,35 +45,38 @@ Colormap cmap;
    "DirectColor"
 };
 */
-struct rgbtriple {
-  int r, g, b;
-} colors_standard_rgb[COLOR_STD_LAST] = {
-  {  0,   0,   0},  /* Black */
-  {255, 255, 255},  /* White */
-  {255,   0,   0},  /* Red */
-  {255, 255,   0},  /* Yellow */
-  {  0, 255, 200},  /* Cyan */
-  {  0, 200,   0},  /* Ground (green) */
-  {  0,   0, 200},  /* Ocean (blue) */
-  { 86,  86,  86},  /* Background (gray) */
-  {128,   0,   0},  /* race0 */
-  {128, 255, 255},  /* race1 */
-  {255,   0,   0},  /* race2 */
-  {255,   0, 128},  /* race3 */
-  {  0,   0, 128},  /* race4 */
-  {255,   0, 255},  /* race5 */
-  {255, 128,   0},  /* race6 */
-  {255, 255, 128},  /* race7 */
-  {255, 128, 128},  /* race8 */
-  {  0,   0, 255},  /* race9 */
-  {  0, 255,   0},  /* race10 */
-  {  0, 128, 128},  /* race11 */
-  {  0,  64,  64},  /* race12 */
-  {198, 198, 198},  /* race13 */
-};
 
-unsigned long colors_standard[COLOR_STD_LAST];
+void alloc_color_for_colormap(XColor *color);
 
+/****************************************************************************
+  Allocate a color (adjusting it for our colormap if necessary on paletted
+  systems) and return a pointer to it.
+****************************************************************************/
+struct color *color_alloc(int r, int g, int b)
+{
+  XColor mycolor;
+  struct color *color = fc_malloc(sizeof(*color));
+
+  mycolor.red = r << 8;
+  mycolor.green = g << 8;
+  mycolor.blue = b << 8;
+
+  alloc_color_for_colormap(&mycolor);
+
+  color->color.pixel = mycolor.pixel;
+  return color;
+}
+
+/****************************************************************************
+  Free a previously allocated color.  See color_alloc.
+****************************************************************************/
+void color_free(struct color *color)
+{
+  free(color);
+}
+
+
+#if 0
 /*************************************************************
 ...
 *************************************************************/
@@ -94,6 +97,7 @@ static void alloc_standard_colors(void)
     colors_standard[i] = mycolors[i].pixel;
   }
 }
+#endif
 
 /*************************************************************
 ...
@@ -155,7 +159,7 @@ enum Display_color_type get_visual(void)
 }
 
 
-
+#if 0
 /*************************************************************
 ...
 *************************************************************/
@@ -165,6 +169,7 @@ void init_color_system(void)
 
   alloc_standard_colors();
 }
+#endif
 
 /*************************************************************
   Allocate all needed colors given in the array.
@@ -172,6 +177,10 @@ void init_color_system(void)
 void alloc_colors(XColor *colors, int ncols)
 {
   int i;
+
+  if (!cmap) {
+    cmap = DefaultColormap(display, screen_number);
+  }
 
   for (i = 0; i < ncols; i++) {
     if (!XAllocColor(display, cmap, &colors[i])) {
@@ -227,6 +236,66 @@ void alloc_colors(XColor *colors, int ncols)
     }
   }
 }
+
+/*************************************************************
+  Alloc given color for our colormap.
+*************************************************************/
+void alloc_color_for_colormap(XColor *color)
+{
+  if (!cmap) {
+    cmap = DefaultColormap(display, screen_number);
+  }
+
+  if (!XAllocColor(display, cmap, color)) {
+    /* We're out of colors.  For the rest of the palette, just
+     * find the closest match and use it.  We could instead try
+     * to use a private colormap, but this is ugly, takes extra
+     * code, and has no guarantee of getting better performance
+     * unless we do a lot of work to optimize the colormap. */
+    XColor *cells;
+    int ncells, j;
+    int best = INT_MAX;
+    unsigned long pixel = 0;
+
+    ncells = DisplayCells(display, screen_number);
+    cells = fc_malloc(sizeof(XColor) * ncells);
+
+    for (j = 0; j < ncells; j++) {
+      cells[j].pixel = j;
+    }
+
+    /* We need to lock the server so that the colors don't change
+     * while we're searching through them. */
+    XGrabServer(display);
+
+    XQueryColors(display, cmap, cells, ncells);
+
+    /* Find the best match among all available colors. */
+    for (j = 0; j < ncells; j++) {
+      int rd, gd, bd, dist;
+
+      rd = (cells[j].red - color->red) >> 8;
+      gd = (cells[j].green - color->green) >> 8;
+      bd = (cells[j].blue - color->blue) >> 8;
+      dist = rd * rd + gd * gd + bd * bd;
+
+      if (dist < best) {
+	best = dist;
+	pixel = j;
+      }
+    }
+
+    XAllocColor(display, cmap, &cells[pixel]);
+    color->pixel = pixel;
+
+    /* Unlock the server, since we're done querying it. */
+    XUngrabServer(display);
+
+    free(cells);
+  }
+}
+
+
 
 /*************************************************************
 ...

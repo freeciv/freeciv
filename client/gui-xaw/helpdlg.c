@@ -767,15 +767,18 @@ static void help_update_improvement(const struct help_item *pitem,
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+    i = 0;
+    requirement_vector_iterate(&imp->reqs, preq) {
       xaw_set_label(help_improvement_req_data,
-                   get_req_source_text(&imp->req[i].source,
-                                       req_buf, sizeof(req_buf)));
-    }
-    create_tech_tree(help_tech_tree, 0, 
+		    get_req_source_text(&preq->source,
+					req_buf, sizeof(req_buf)));
+      i++;
+      break;
+    } requirement_vector_iterate_end;
+/*    create_tech_tree(help_tech_tree, 0,
                      imp->req[0].source.value.tech, 3);
-  }
-  else {
+*/
+  } else {
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_upkeep_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
@@ -814,11 +817,14 @@ static void help_update_wonder(const struct help_item *pitem,
       * Currently it's limited to 1 req but this code is partially prepared
       * to be extended.  Remember MAX_NUM_REQS is a compile-time
       * definition. */
-    for (i = 0; i < MIN(MAX_NUM_REQS, 1); i++) {
+    i = 0;
+    requirement_vector_iterate(&imp->reqs, preq) {
       xaw_set_label(help_improvement_req_data,
-                   get_req_source_text(&imp->req[i].source,
+                   get_req_source_text(&preq->source,
                                        req_buf, sizeof(req_buf)));
-    }
+      i++;
+      break;
+    } requirement_vector_iterate_end;
 
     if (tech_exists(imp->obsolete_by)) {
       xaw_set_label(help_wonder_obsolete_data,
@@ -826,10 +832,10 @@ static void help_update_wonder(const struct help_item *pitem,
     } else {
       xaw_set_label(help_wonder_obsolete_data, _("(Never)"));
     }
-    create_tech_tree(help_tech_tree, 0, 
+/*    create_tech_tree(help_tech_tree, 0, 
                      imp->req[0].source.value.tech, 3);
-  }
-  else {
+*/
+  } else {
     /* can't find wonder */
     xaw_set_label(help_improvement_cost_data, "0 ");
     xaw_set_label(help_improvement_req_data, _("(Never)"));
@@ -921,21 +927,16 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		improvement_types[j].name);
       */
-       int k;
- 
+
        /* FIXME: need a more general mechanism for this, since this
         * helptext needs to be shown in all possible req source types. */
-       for (k = 0; k < MAX_NUM_REQS; k++) {
- 	struct requirement *req = &improvement_types[j].req[k];
- 
- 	if (req->source.type == REQ_NONE) {
- 	  break;
- 	} else if (req->source.type == REQ_BUILDING
- 		   && req->source.value.building == i) {
+      requirement_vector_iterate(&improvement_types[j].reqs, preq) {
+	if (preq->source.type == REQ_BUILDING
+	    && preq->source.value.building == i) {
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"),
-                  improvement_types[j].name);
+		  improvement_types[j].name);
         }
-       }
+      } requirement_vector_iterate_end;
       if(i==improvement_types[j].obsolete_by)
 	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
 		improvement_types[j].name);

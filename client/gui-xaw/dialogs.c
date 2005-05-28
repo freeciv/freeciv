@@ -74,13 +74,14 @@ static Widget races_form, races_toggles_form, races_label;
 static Widget *races_toggles=NULL;
 static int *races_toggles_to_nations=NULL;
 static int *nation_to_race_toggle = NULL;
+struct player *races_player;
 static Widget races_leader_form, races_leader;
 static Widget races_leader_pick_popupmenu, races_leader_pick_menubutton;
 static Widget races_sex_toggles[2], races_sex_form, races_sex_label;
 static Widget races_style_form, races_style_label;
 static Widget *races_style_toggles=NULL;
 static Widget races_action_form;
-static Widget races_ok_command, races_disconnect_command, races_quit_command;
+static Widget races_ok_command, races_random_command, races_quit_command;
 
 /******************************************************************/
 static Widget spy_tech_shell;
@@ -122,7 +123,7 @@ void create_help_dialog(Widget *shell);
 
 
 /******************************************************************/
-static void create_races_dialog(void);
+static void create_races_dialog(struct player *pplayer);
 static void races_leader_set_values(int race, int lead);
 static int races_buttons_get_current(void);
 static int races_sex_buttons_get_current(void);
@@ -137,7 +138,7 @@ static void races_leader_pick_callback(Widget w, XtPointer client_data,
 				       XtPointer call_data);
 static void races_ok_command_callback(Widget w, XtPointer client_data, 
 				      XtPointer call_data);
-static void races_disconnect_command_callback(Widget w, XtPointer client_data, 
+static void races_random_command_callback(Widget w, XtPointer client_data, 
 					      XtPointer call_data);
 static void races_quit_command_callback(Widget w, XtPointer client_data, 
 					XtPointer call_data);
@@ -1583,14 +1584,16 @@ void unit_select_callback(Widget w, XtPointer client_data,
 /****************************************************************
 popup the dialog 5% inside the main-window 
 *****************************************************************/
-void popup_races_dialog(void)
+void popup_races_dialog(struct player *pplayer)
 {
   Position x, y;
   Dimension width, height;
 
   XtSetSensitive(main_form, FALSE);
 
-  create_races_dialog();
+  if (!races_dialog_shell) {
+    create_races_dialog(pplayer);
+  }
 
   XtVaGetValues(toplevel, XtNwidth, &width, XtNheight, &height, NULL);
 
@@ -1617,7 +1620,7 @@ void popdown_races_dialog(void)
 /****************************************************************
 ...
 *****************************************************************/
-void create_races_dialog(void)
+void create_races_dialog(struct player *pplayer)
 {
   int per_row = 5;
   int i, j, len, maxracelen, index;
@@ -1858,7 +1861,7 @@ void create_races_dialog(void)
 				races_action_form,
 				NULL));
 
-  races_disconnect_command =
+  races_random_command =
     I_L(XtVaCreateManagedWidget("racesdisconnectcommand",
 				commandWidgetClass,
 				races_action_form,
@@ -1869,11 +1872,11 @@ void create_races_dialog(void)
     I_L(XtVaCreateManagedWidget("racesquitcommand",
 				commandWidgetClass,
 				races_action_form,
-				XtNfromHoriz, races_disconnect_command,
+				XtNfromHoriz, races_random_command,
 				NULL));
 
-  XtAddCallback(races_disconnect_command, XtNcallback,
-		races_disconnect_command_callback, NULL);
+  XtAddCallback(races_random_command, XtNcallback,
+		races_random_command_callback, NULL);
   XtAddCallback(races_quit_command, XtNcallback,
 		races_quit_command_callback, NULL);
 
@@ -2169,6 +2172,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
   }
 
   dsend_packet_nation_select_req(&aconnection,
+				 races_player->player_no,
 				 races_toggles_to_nations[selected_index],
 				 selected_sex ? FALSE : TRUE,
 				 dp, city_style_idx[selected_style]);
@@ -2177,11 +2181,11 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
 /**************************************************************************
 ...
 **************************************************************************/
-void races_disconnect_command_callback(Widget w, XtPointer client_data, 
+void races_random_command_callback(Widget w, XtPointer client_data, 
 				       XtPointer call_data)
 {
   popdown_races_dialog();
-  disconnect_from_server();
+/*  disconnect_from_server();*/
 }
 
 /**************************************************************************
