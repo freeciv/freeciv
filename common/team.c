@@ -66,32 +66,37 @@ struct team *team_get_by_id(Team_type_id id)
 ****************************************************************************/
 void team_add_player(struct player *pplayer, struct team *pteam)
 {
-  assert(pplayer != NULL && pteam != NULL);
-  assert(&teams[pteam->index] == pteam);
+  assert(pplayer != NULL);
+  assert(!pteam || &teams[pteam->index] == pteam);
 
   /* Remove the player from the old team, if any.  The player's team should
    * only be NULL for a few instants after the player was created; after
    * that they should automatically be put on a team.  So although we
    * check for a NULL case here this is only needed for that one
    * situation. */
-  if (pplayer->team) {
-    team_remove_player(pplayer);
-  }
+  team_remove_player(pplayer);
 
   /* Put the player on the new team. */
   pplayer->team = pteam;
-  pteam->players++;
-  assert(pteam->players <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  if (pteam) {
+    pteam->players++;
+    assert(pteam->players <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  }
 }
 
 /****************************************************************************
   Remove the player from the team.  This should only be called when deleting
   a player; since every player must always be on a team.
+
+  Note in some very rare cases a player may not be on a team.  It's safe
+  to call this function anyway.
 ****************************************************************************/
 void team_remove_player(struct player *pplayer)
 {
-  pplayer->team->players--;
-  assert(pplayer->team->players >= 0);
+  if (pplayer->team) {
+    pplayer->team->players--;
+    assert(pplayer->team->players >= 0);
+  }
   pplayer->team = NULL;
 }
 
