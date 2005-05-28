@@ -5,7 +5,6 @@ COMMON_CLIENT_FILES =			\
 	isophex.tilespec		\
 	isotrident.tilespec		\
 	trident.tilespec		\
-	trident_shields.tilespec	\
 	stdsounds.soundspec		\
 	helpdata.txt
 if CLIENT_GUI_XAW
@@ -39,7 +38,6 @@ EXTRA_DIST = \
 	isophex.tilespec	\
 	isotrident.tilespec \
 	trident.tilespec	\
-	trident_shields.tilespec	\
 	stdsounds.soundspec	\
 	helpdata.txt	\
 	civ1.serv	\

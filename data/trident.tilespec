@@ -54,6 +54,7 @@ files =
   "trident/tiles.spec",
   "misc/small.spec",
   "trident/units.spec",
+  "trident/select.spec",
   "misc/flags.spec",
   "misc/shields.spec",
   "misc/cursors.spec",
