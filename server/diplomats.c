@@ -212,7 +212,9 @@ void spy_get_sabotage_list(struct player *pplayer, struct unit *pdiplomat,
   BV_CLR_ALL(packet.improvements);
 
   impr_type_iterate(i) {
-    BV_SET(packet.improvements, city_got_building(pcity, i));
+    if (city_got_building(pcity, i)) {
+      BV_SET(packet.improvements, i);
+    }
   } impr_type_iterate_end;
 
   packet.diplomat_id = pdiplomat->id;
