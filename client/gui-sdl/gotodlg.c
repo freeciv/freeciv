@@ -80,7 +80,7 @@ static int goto_city_callback(struct GUI *pWidget)
     struct unit *pUnit = get_unit_in_focus();
     if (pUnit) {
       if(GOTO) {
-        send_goto_unit(pUnit, pDestcity->x, pDestcity->y);
+        send_goto_tile(pUnit, pDestcity->x, pDestcity->y);
       } else {
 	request_unit_airlift(pUnit, pDestcity);
       }

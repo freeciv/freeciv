@@ -33,11 +33,13 @@
 #include "clinet.h"
 #include "civclient.h"
 #include "control.h"
+#include "goto.h"
+#include "options.h"
+
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "options.h"
 
 #include "gotodlg.h"
 
@@ -97,7 +99,7 @@ static void goto_cmd_callback(GtkWidget *dlg, gint arg)
         struct unit *punit = get_unit_in_focus();
 
         if (punit) {
-          send_goto_unit(punit, pdestcity->tile);
+          send_goto_tile(punit, pdestcity->tile);
         }
       }
     }

@@ -1806,7 +1806,7 @@ static ULONG Map_ContextMenuChoice(struct IClass * cl, Object * o, struct MUIP_C
       struct unit *punit = UNPACK_UNIT(udata);
       if (punit)
       {
-	send_goto_unit(punit, data->click.x, data->click.y);
+	send_goto_tile(punit, data->click.x, data->click.y);
       }
     }
     break;

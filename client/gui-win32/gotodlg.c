@@ -99,7 +99,7 @@ static LONG CALLBACK goto_dialog_proc(HWND dlg,UINT message,
 	    if (pdestcity) {
 	      struct unit *punit=get_unit_in_focus();
 	      if (punit) {
-		send_goto_unit(punit, pdestcity->tile);
+		send_goto_tile(punit, pdestcity->tile);
 		DestroyWindow(dlg);
 	      }
 	    }

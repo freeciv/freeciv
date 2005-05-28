@@ -859,6 +859,35 @@ void send_goto_path(struct unit *punit, struct pf_path *path,
   send_path_orders(punit, path, FALSE, FALSE, final_order);
 }
 
+/****************************************************************************
+  Send orders for the unit to move it to the arbitrary tile.  Returns
+  FALSE if no path is found.
+****************************************************************************/
+bool send_goto_tile(struct unit *punit, struct tile *ptile)
+{
+  struct pf_parameter parameter;
+  struct pf_map *map;
+  struct pf_path *path = NULL;
+
+  fill_client_goto_parameter(punit, &parameter);
+  map = pf_create_map(&parameter);
+
+  pf_iterator(map, pos) {
+    if (pos.tile == ptile) {
+      path = pf_next_get_path(map);
+      break;
+    }
+  } pf_iterator_end;
+
+  pf_destroy_map(map);
+  if (path) {
+    send_goto_path(punit, path, NULL);
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 /**************************************************************************
   Send the current patrol route (i.e., the one generated via HOVER_STATE)
   to the server.

@@ -1197,7 +1197,7 @@ static int goto_here_callback(struct GUI *pWidget)
   popdown_advanced_terrain_dialog();
   
   /* may not work */
-  send_goto_unit(get_unit_in_focus(), x, y);
+  send_goto_tile(get_unit_in_focus(), x, y);
   return -1;
 }
 
