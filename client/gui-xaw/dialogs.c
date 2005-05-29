@@ -1629,6 +1629,7 @@ void create_races_dialog(struct player *pplayer)
   int space;
   XtWidgetGeometry geom;
 
+  races_player = pplayer;
   maxracelen = 0;
   for(i=0; i<game.control.playable_nation_count; i++) {
     len = strlen(get_nation_name(i));
@@ -1939,6 +1940,9 @@ void races_toggles_set_sensitive(void)
 {
   int i;
 
+  if (!races_dialog_shell) {
+    return;
+  }
   for (i = 0; i < game.control.playable_nation_count; i++) {
     XtSetSensitive(races_toggles[nation_to_race_toggle[i]], TRUE);
   }
@@ -2176,6 +2180,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
 				 races_toggles_to_nations[selected_index],
 				 selected_sex ? FALSE : TRUE,
 				 dp, city_style_idx[selected_style]);
+  popdown_races_dialog();
 }
 
 /**************************************************************************

@@ -15,9 +15,43 @@
 #include <config.h>
 #endif
 
+#include <X11/Intrinsic.h>
+#include <X11/StringDefs.h>
+#include <X11/Xaw/Form.h>
+#include <X11/Xaw/Label.h>
+#include <X11/Xaw/SimpleMenu.h>
+#include <X11/Xaw/Command.h>
+#include <X11/Xaw/List.h>
+
+#include "game.h"
+
+#include "fcintl.h"
+#include "support.h"
+
+#include "civclient.h"
 #include "connectdlg_g.h"
+#include "dialogs_g.h"
+
+#include "chatline.h" /* for send_chat() */
+#include "gui_main.h"
+#include "gui_stuff.h" /* for xaw_set_relative_position() */
 
 #include "pages.h"
+
+static Widget start_page_shell;
+static Widget start_page_form;
+static Widget start_page_label;
+static Widget start_page_players_list;
+static Widget start_page_cancel_command;
+static Widget start_page_nation_command;
+static Widget start_page_start_command;
+void start_page_cancel_callback(Widget w, XtPointer client_data,
+				XtPointer call_data);
+void start_page_nation_callback(Widget w, XtPointer client_data,
+				XtPointer call_data);
+void start_page_start_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data);
+
 
 /**************************************************************************
   Sets the "page" that the client should show.  See documentation in
@@ -26,6 +60,9 @@
 void set_client_page(enum client_pages page)
 {
   /* PORTME */
+  if (page == PAGE_START) {
+    popup_start_page();
+  }
 }
 
 /****************************************************************************
@@ -36,4 +73,193 @@ void set_client_page(enum client_pages page)
 void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   /* PORTME */
+}
+
+/**************************************************************************
+                                  START PAGE
+**************************************************************************/
+
+/**************************************************************************
+  Popup start page.
+**************************************************************************/
+void popup_start_page(void)
+{
+  if (!start_page_shell) {
+    create_start_page();
+  }
+
+  xaw_set_relative_position(toplevel, start_page_shell, 5, 25);
+  XtPopup(start_page_shell, XtGrabNone);
+}
+
+/**************************************************************************
+  Close start page.
+**************************************************************************/
+void popdown_start_page(void)
+{
+  if (start_page_shell) {
+    XtDestroyWidget(start_page_shell);
+    start_page_shell = 0;
+  }
+}
+
+/**************************************************************************
+  Create start page.
+**************************************************************************/
+void create_start_page(void)
+{
+  start_page_shell =
+    I_IN(I_T(XtCreatePopupShell("startpage",
+				topLevelShellWidgetClass,
+				toplevel, NULL, 0)));
+
+  start_page_form = XtVaCreateManagedWidget("startpageform",
+				       formWidgetClass,
+				       start_page_shell, NULL);
+
+  start_page_label = I_L(XtVaCreateManagedWidget("startpagelabel",
+					labelWidgetClass,
+					start_page_form, NULL));
+
+  start_page_players_list =
+    XtVaCreateManagedWidget("startpageplayerslist",
+			    listWidgetClass,
+			    start_page_form,
+			    NULL);
+
+  start_page_cancel_command =
+    I_L(XtVaCreateManagedWidget("startpagecancelcommand",
+				commandWidgetClass,
+				start_page_form, NULL));
+
+  start_page_nation_command =
+    I_L(XtVaCreateManagedWidget("startpagenationcommand",
+				commandWidgetClass,
+				start_page_form,
+				NULL));
+
+  start_page_start_command =
+    I_L(XtVaCreateManagedWidget("startpagestartcommand",
+				commandWidgetClass,
+				start_page_form,
+				NULL));
+
+/*
+  XtAddCallback(start_page_players_list, XtNcallback,
+		start_page_players_list_callback,
+		NULL);
+*/
+  XtAddCallback(start_page_cancel_command, XtNcallback,
+		start_page_cancel_callback,
+		NULL);
+
+  XtAddCallback(start_page_nation_command, XtNcallback,
+		start_page_nation_callback,
+		NULL);
+
+  XtAddCallback(start_page_start_command, XtNcallback,
+		start_page_start_callback,
+		NULL);
+
+  update_start_page();
+
+  XtRealizeWidget(start_page_shell);
+  
+  XSetWMProtocols(display, XtWindow(start_page_shell),
+		  &wm_delete_window, 1);
+  XtOverrideTranslations(start_page_shell,
+    XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-start-page()"));
+}
+
+void update_start_page(void)
+{
+  if (!start_page_shell) {
+    return;
+  }
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    bool is_started;
+    const char *name, *nation, *leader;
+    static char *namelist_ptrs[MAX_NUM_PLAYERS];
+    static char namelist_text[MAX_NUM_PLAYERS][256];
+    int j;
+    Dimension width;
+
+    j = 0;
+    players_iterate(pplayer) {
+      if (pplayer->is_observer) {
+	continue; /* Connections are listed individually. */
+      }
+      if (pplayer->ai.control) {
+	name = _("<AI>");
+      } else {
+	name = pplayer->username;
+      }
+      is_started = pplayer->ai.control ? TRUE: pplayer->is_started;
+      if (pplayer->nation == NO_NATION_SELECTED) {
+	nation = _("Random");
+	leader = "";
+      } else {
+	nation = get_nation_name(pplayer->nation);
+	leader = pplayer->name;
+      }
+
+      my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
+		  "%-16s %-5s %-16s %-16s %4d",
+		  name,
+		  is_started ? " Yes " : " No  ",
+		  leader,
+		  nation,
+		  pplayer->player_no);
+
+      namelist_ptrs[j]=namelist_text[j];
+      j++;
+    } players_iterate_end;
+    conn_list_iterate(game.est_connections, pconn) {
+      if (pconn->player && !pconn->observer && !pconn->player->is_observer) {
+	continue; /* Already listed above. */
+      }
+      name = pconn->username;
+      nation = "";
+      leader = "";
+
+      my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
+		  "%-16s %-5s %-16s %-16s %4d",
+		  name,
+		  " No   ",
+		  leader,
+		  nation,
+		  -1);
+
+      namelist_ptrs[j]=namelist_text[j];
+      j++;
+    } conn_list_iterate_end;
+    XawListChange(start_page_players_list, namelist_ptrs, j, 0, True);
+
+    XtVaGetValues(start_page_players_list, XtNwidth, &width, NULL);
+    XtVaSetValues(start_page_label, XtNwidth, width, NULL); 
+  }
+}
+
+void start_page_cancel_callback(Widget w, XtPointer client_data,
+				XtPointer call_data)
+{
+  popdown_start_page();
+}
+
+void start_page_nation_callback(Widget w, XtPointer client_data,
+				XtPointer call_data)
+{
+  popup_races_dialog(game.player_ptr);
+}
+
+void start_page_start_callback(Widget w, XtPointer client_data,
+			       XtPointer call_data)
+{
+  popdown_start_page();
+  send_chat("/start");
+}
+
+void start_page_msg_close(Widget w)
+{
+  popdown_start_page();
 }

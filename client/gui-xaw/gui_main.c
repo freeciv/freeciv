@@ -46,12 +46,15 @@
 #include "support.h"
 #include "version.h"
 
-#include "actions.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
-#include "colors.h"
 #include "control.h"
+#include "options.h"
+#include "tilespec.h"
+
+#include "actions.h"
+#include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_stuff.h"		/* I_SW() */
@@ -59,9 +62,8 @@
 #include "mapview.h"
 #include "menu.h"
 #include "optiondlg.h"
-#include "options.h"
+#include "pages.h"
 #include "resources.h"
-#include "tilespec.h"
 
 #include "gui_main.h"
 
@@ -771,6 +773,7 @@ void main_show_info_popup(XEvent *event)
 void update_conn_list_dialog(void)
 {
   /* PORTME */
+  update_start_page();
 }
 
 /**************************************************************************

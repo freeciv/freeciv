@@ -3333,3 +3333,61 @@ Freeciv*meswinpopcitycommand.top:             chainBottom
 Freeciv*meswinpopcitycommand.bottom:          chainBottom
 Freeciv*meswinpopcitycommand.left:            chainLeft
 Freeciv*meswinpopcitycommand.right:           chainLeft
+
+!
+! start page shell
+!
+Freeciv*startpage.title:  _("Pregame")
+Freeciv*startpage.iconName:   _("Pregame")
+Freeciv*startpage.allowShellResize: True
+
+Freeciv*startpageform.resizable:           true
+Freeciv*startpageform.top:                 chainTop
+Freeciv*startpageform.bottom:              chainBottom
+Freeciv*startpageform.left:                chainLeft
+Freeciv*startpageform.right:               chainRight
+
+Freeciv*startpagelabel.resizable:          true
+Freeciv*startpagelabel.justify:            left
+Freeciv*startpagelabel.borderWidth:        1
+Freeciv*startpagelabel.top:                chainTop
+Freeciv*startpagelabel.bottom:             chainTop
+Freeciv*startpagelabel.left:               chainLeft
+Freeciv*startpagelabel.right:              chainRight
+Freeciv*startpagelabel.label: _("\
+Name              Ready Leader          Nation          ")
+
+Freeciv*startpageplayerslist.fromVert:        startpagelabel
+Freeciv*startpageplayerslist.forceColumns:    true
+Freeciv*startpageplayerslist.defaultColumns:  1
+Freeciv*startpageplayerslist.verticalList:    true
+Freeciv*startpageplayerslist.resizable:       true
+Freeciv*startpageplayerslist.top:             chainTop
+Freeciv*startpageplayerslist.bottom:          chainBottom
+Freeciv*startpageplayerslist.left:            chainLeft
+Freeciv*startpageplayerslist.right:           chainRight
+Freeciv*startpageplayerslist.background:      white
+
+Freeciv*startpagecancelcommand.label:         _("Cancel")
+Freeciv*startpagecancelcommand.fromVert:      startpageplayerslist
+Freeciv*startpagecancelcommand.top:           chainBottom
+Freeciv*startpagecancelcommand.bottom:        chainBottom
+Freeciv*startpagecancelcommand.left:          chainLeft
+Freeciv*startpagecancelcommand.right:         chainLeft
+
+Freeciv*startpagenationcommand.label:         _("Pick Nation")
+Freeciv*startpagenationcommand.fromHoriz:     startpagecancelcommand
+Freeciv*startpagenationcommand.fromVert:      startpageplayerslist
+Freeciv*startpagenationcommand.top:           chainBottom
+Freeciv*startpagenationcommand.bottom:        chainBottom
+Freeciv*startpagenationcommand.left:          chainLeft
+Freeciv*startpagenationcommand.right:         chainLeft
+
+Freeciv*startpagestartcommand.label:          _("Start")
+Freeciv*startpagestartcommand.fromHoriz:      startpagenationcommand
+Freeciv*startpagestartcommand.fromVert:       startpageplayerslist
+Freeciv*startpagestartcommand.top:            chainBottom
+Freeciv*startpagestartcommand.bottom:         chainBottom
+Freeciv*startpagestartcommand.left:           chainLeft
+Freeciv*startpagestartcommand.right:          chainLeft
+

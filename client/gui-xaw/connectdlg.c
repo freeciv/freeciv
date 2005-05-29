@@ -43,6 +43,7 @@
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "packhand.h"
+#include "pages.h"
 
 #include "connectdlg.h"
 
@@ -286,6 +287,7 @@ void connect_callback(Widget w, XtPointer client_data,
       }
 
       XtSetSensitive(toplevel, True);
+      popup_start_page();
       return;
     } else {
       append_output_window(errbuf);

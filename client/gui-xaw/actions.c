@@ -34,6 +34,7 @@
 #include "mapctrl.h"
 #include "menu.h"
 #include "messagewin.h"
+#include "pages.h"
 #include "plrdlg.h"
 #include "inteldlg.h"
 #include "ratesdlg.h"
@@ -717,6 +718,11 @@ static void xaw_msg_close_units_report(Widget w, XEvent *event, String *argv, Ca
   activeunits_msg_close(w);
 }
 
+static void xaw_msg_close_start_page(Widget w, XEvent *event, String *argv, Cardinal *argc)
+{
+  start_page_msg_close(w);
+}
+
 static void xaw_msg_quit_freeciv(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   xaw_ui_exit();
@@ -820,6 +826,7 @@ static XtActionsRec Actions[] = {
   { "msg-close-science-report", xaw_msg_close_science_report },
   { "msg-close-spaceship", xaw_msg_close_spaceship },
   { "msg-close-units-report", xaw_msg_close_units_report },
+  { "msg-close-start-page", xaw_msg_close_start_page },
   { "msg-quit-freeciv", xaw_msg_quit_freeciv }
 };
 

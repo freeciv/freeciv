@@ -13,6 +13,14 @@
 #ifndef FC__PAGES_H
 #define FC__PAGES_H
 
+#include <X11/Intrinsic.h>
+
 #include "pages_g.h"
+
+void popup_start_page(void);
+void popdown_start_page(void);
+void create_start_page(void);
+void update_start_page(void);
+void start_page_msg_close(Widget w);
 
 #endif  /* FC__PAGES_H */
