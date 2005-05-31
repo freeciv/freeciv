@@ -35,6 +35,7 @@
 #include "unit.h"
 
 #include "barbarian.h"
+#include "caravan.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
@@ -63,6 +64,8 @@
 #include "aiunit.h"
 
 #define LOGLEVEL_RECOVERY LOG_DEBUG
+#define LOG_CARAVAN       LOG_DEBUG
+#define LOG_CARAVAN2      LOG_DEBUG
 
 static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 static void ai_manage_barbarian_leader(struct player *pplayer,
@@ -308,24 +311,6 @@ int build_cost_balanced(Unit_type_id type)
 
   return 2 * unit_build_shield_cost(type) * ptype->attack_strength /
       (ptype->attack_strength + ptype->defense_strength);
-}
-
-
-/**************************************************************************
-  Return first city that contains a wonder being built on the given
-  continent.
-**************************************************************************/
-static struct city *wonder_on_continent(struct player *pplayer, 
-					Continent_id cont)
-{
-  city_list_iterate(pplayer->cities, pcity) 
-    if (!(pcity->is_building_unit) 
-        && is_wonder(pcity->currently_building)
-        && tile_get_continent(pcity->tile) == cont) {
-      return pcity;
-  }
-  city_list_iterate_end;
-  return NULL;
 }
 
 /**************************************************************************
@@ -1781,73 +1766,100 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   }
 }
 
+
 /*************************************************************************
-  Use caravans for building wonders, or send caravans to establish
-  trade with a city on the same continent, owned by yourself or an
-  ally.
+  Send the caravan to the specified city, or make it help the wonder /
+  trade, if it's already there.  After this call, the unit may no longer
+  exist (it might have been used up, or may have died travelling).
 **************************************************************************/
-static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
+static void ai_caravan_goto(struct player *pplayer,
+                            struct unit *punit,
+                            const struct city *pcity,
+                            bool help_wonder)
 {
-  struct city *pcity;
-  int tradeval, best_city = -1, best=0;
-  struct ai_data *ai = ai_data_get(pplayer);
+  bool alive = TRUE;
+  assert(pcity);
 
-  CHECK_UNIT(punit);
+  /* if we're not there yet, and we can move, move. */
+  if (!same_pos(pcity->tile, punit->tile) && punit->moves_left != 0) {
+    freelog(LOG_CARAVAN, "%s's caravan %d going to %s in %s",
+            pplayer->name, punit->id,
+            help_wonder ? "help a wonder" : "trade", pcity->name);
+    alive = ai_unit_goto(punit, pcity->tile); 
+  }
 
-  if (punit->ai.ai_role == AIUNIT_NONE) {
-    if ((pcity = wonder_on_continent(pplayer, 
-                                     tile_get_continent(punit->tile))) 
-        && unit_flag(punit, F_HELP_WONDER)
-        && build_points_left(pcity) > (pcity->surplus[O_SHIELD] * 2)) {
-      if (!same_pos(pcity->tile, punit->tile)) {
-        if (punit->moves_left == 0) {
-          return;
-        }
-        (void) ai_unit_goto(punit, pcity->tile);
-      } else {
+  /* if moving didn't kill us, and we got to the destination, handle it. */
+  if (alive && same_pos(pcity->tile, punit->tile)) {
+    if (help_wonder) {
         /*
          * We really don't want to just drop all caravans in immediately.
          * Instead, we want to aggregate enough caravans to build instantly.
          * -AJS, 990704
          */
+      freelog(LOG_CARAVAN, "%s's caravan %d helps build wonder in %s",
+          pplayer->name, punit->id, pcity->name);
 	handle_unit_help_build_wonder(pplayer, punit->id);
-      }
     } else {
-       /* A caravan without a home?  Kinda strange, but it might happen.  */
-       pcity=player_find_city_by_id(pplayer, punit->homecity);
-       players_iterate(aplayer) {
-         if (HOSTILE_PLAYER(pplayer, ai, aplayer)) {
-           continue;
-         }
-         city_list_iterate(pplayer->cities,pdest) {
-           if (pcity
-	       && can_cities_trade(pcity, pdest)
-	       && can_establish_trade_route(pcity, pdest)
-               && tile_get_continent(pcity->tile) 
-                                == tile_get_continent(pdest->tile)) {
-             tradeval=trade_between_cities(pcity, pdest);
-             if (tradeval != 0) {
-               if (best < tradeval) {
-                 best=tradeval;
-                 best_city=pdest->id;
-               }
+      freelog(LOG_CARAVAN, "%s's caravan %d creates trade route in %s",
+          pplayer->name, punit->id, pcity->name);
+      handle_unit_establish_trade(pplayer, punit->id);
              }
+  } else {
            }
-         } city_list_iterate_end;
-       } players_iterate_end;
-       pcity = player_find_city_by_id(pplayer, best_city);
+}
 
-       if (pcity) {
-         if (!same_pos(pcity->tile, punit->tile)) {
-           if (punit->moves_left == 0) {
+/*************************************************************************
+  For debugging, print out information about every city we come to when
+  optimizing the caravan.
+ *************************************************************************/
+static void caravan_optimize_callback(const struct caravan_result *result,
+                                      void *data)
+{
+  const struct unit *caravan = data;
+
+  freelog(LOG_CARAVAN2, "%s caravan %d(%s): %s %s worth %g",
+      get_player(caravan->owner)->name, caravan->id, result->src->name,
+      result->help_wonder ? "wonder in" : "trade to",
+      result->dest->name, result->value);
+}
+
+/*************************************************************************
+  Use caravans for building wonders, or send caravans to establish
+  trade with a city on the same continent, owned by yourself or an
+  ally.
+
+  TODO list
+  - use ferries.
+**************************************************************************/
+static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
+{
+  struct caravan_parameter parameter;
+  struct caravan_result result;
+
+  CHECK_UNIT(punit);
+
+  if (punit->ai.ai_role != AIUNIT_NONE) {
              return;
            }
-           (void) ai_unit_goto(punit, pcity->tile);
-         } else {
-           handle_unit_establish_trade(pplayer, punit->id);
+
+  if (unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER)) {
+    caravan_parameter_init_from_unit(&parameter, punit);
+    if (fc_log_level >= LOG_CARAVAN2) {
+      parameter.callback = caravan_optimize_callback;
+      parameter.callback_data = punit;
         }
+    caravan_find_best_destination(punit, &parameter, &result);
       }
+
+  if (result.dest != NULL) {
+    ai_caravan_goto(pplayer, punit, result.dest, result.help_wonder);
+    return; /* that may have clobbered the unit */
     }
+  else {
+    /*
+     * We have nowhere to go!
+     * Should we become a defensive unit?
+     */
   }
 }
 
