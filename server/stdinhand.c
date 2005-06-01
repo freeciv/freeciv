@@ -3607,34 +3607,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
       /* A detached or observer player can't do /start. */
       return TRUE;
     } else {
-      int started = 0, notstarted = 0;
-
-      /* Note this is called even if the player has pressed /start once
-       * before.  This is a good thing given that no other code supports
-       * is_started yet.  For instance if a player leaves everyone left
-       * might have pressed /start already but the start won't happen
-       * until someone presses it again.  Also you can press start more
-       * than once to remind other people to start (which is a good thing
-       * until somebody does it too much and it gets labeled as spam). */
-      caller->player->is_started = TRUE;
-      send_player_info(caller->player, NULL);
-      players_iterate(pplayer) {
-	if (pplayer->is_connected) {
-	  if (pplayer->is_started) {
-	    started++;
-	  } else {
-	    notstarted++;
-	  }
-	}
-      } players_iterate_end;
-      if (notstarted > 0) {
-	notify_player(NULL, _("Waiting to start game: %d out of %d players "
-			      "are ready to start."),
-		      started, started + notstarted);
-	return TRUE;
-      }
-      notify_player(NULL, _("All players are ready; starting game."));
-      start_game();
+      handle_player_ready(caller->player, caller->player->player_no, TRUE);
       return TRUE;
     }
   case GAME_OVER_STATE:
@@ -3999,7 +3972,7 @@ void show_players(struct connection *caller)
       cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
 		   pplayer->team->name);
       if (server_state == PRE_GAME_STATE && pplayer->is_connected) {
-	if (pplayer->is_started) {
+	if (pplayer->is_ready) {
 	  cat_snprintf(buf2, sizeof(buf2), _(", ready"));
 	} else {
 	  cat_snprintf(buf2, sizeof(buf2), _(", not ready"));

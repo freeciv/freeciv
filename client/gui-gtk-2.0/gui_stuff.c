@@ -78,8 +78,11 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
 
   label = gtk_label_new_with_mnemonic(label_text);
   gtk_label_set_mnemonic_widget(GTK_LABEL(label), button);
+  g_object_set_data(G_OBJECT(button), "label", label);
 
   image = gtk_image_new_from_stock(stock, GTK_ICON_SIZE_BUTTON);
+  g_object_set_data(G_OBJECT(button), "image", image);
+
   hbox = gtk_hbox_new(FALSE, 2);
 
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
@@ -91,6 +94,18 @@ GtkWidget *gtk_stockbutton_new(const gchar *stock, const gchar *label_text)
   gtk_container_add(GTK_CONTAINER(align), hbox);
   gtk_widget_show_all(align);
   return button;
+}
+
+/**************************************************************************
+  Changes the lable (with mnemonic) on an existing stockbutton.  See
+  gtk_stockbutton_new.
+**************************************************************************/
+void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text)
+{
+  GtkWidget *label;
+
+  label = g_object_get_data(G_OBJECT(button), "label");
+  gtk_label_set_markup_with_mnemonic(GTK_LABEL(label), label_text);
 }
 
 /**************************************************************************

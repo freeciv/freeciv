@@ -1223,9 +1223,32 @@ void ui_main(int argc, char **argv)
 void update_conn_list_dialog(void)
 {
   GtkTreeIter it;
+  char *text;
+
+  if (game.player_ptr->is_ready) {
+    text = _("Not _ready");
+  } else {
+    int num_unready = 0;
+
+    players_iterate(pplayer) {
+      if (!pplayer->ai.control && !pplayer->is_ready) {
+	num_unready++;
+      }
+    } players_iterate_end;
+
+    if (num_unready > 1) {
+      text = _("_Ready");
+    } else {
+      /* We are the last unready player so clicking here will
+       * immediately start the game. */
+      text = _("_Start");
+    }
+  }
+
+  gtk_stockbutton_set_label(ready_button, text);
   
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
-    bool is_started;
+    bool is_ready;
     const char *name, *nation, *leader;
 
     gtk_list_store_clear(conn_model);
@@ -1238,7 +1261,7 @@ void update_conn_list_dialog(void)
       } else {
 	name = pplayer->username;
       }
-      is_started = pplayer->ai.control ? TRUE: pplayer->is_started;
+      is_ready = pplayer->ai.control ? TRUE: pplayer->is_ready;
       if (pplayer->nation == NO_NATION_SELECTED) {
 	nation = _("Random");
 	leader = "";
@@ -1250,7 +1273,7 @@ void update_conn_list_dialog(void)
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,
 			 0, name,
-			 1, is_started,
+			 1, is_ready,
 			 2, leader,
 			 3, nation,
 			 4, pplayer->player_no,
@@ -1261,14 +1284,14 @@ void update_conn_list_dialog(void)
 	continue; /* Already listed above. */
       }
       name = pconn->username;
-      is_started = FALSE;
+      is_ready = FALSE;
       nation = "";
       leader = "";
 
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,
 			 0, name,
-			 1, is_started,
+			 1, is_ready,
 			 2, leader,
 			 3, nation,
 			 4, -1,

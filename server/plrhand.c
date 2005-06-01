@@ -1455,7 +1455,7 @@ static void package_player_common(struct player *plr,
   packet->is_male=plr->is_male;
   packet->is_observer=plr->is_observer;
   packet->team = plr->team ? plr->team->index : -1;
-  packet->is_started = plr->is_started;
+  packet->is_ready = plr->is_ready;
   packet->city_style=plr->city_style;
 
   packet->is_alive=plr->is_alive;
@@ -1995,8 +1995,8 @@ void reset_all_start_commands(void)
     return;
   }
   players_iterate(pplayer) {
-    if (pplayer->is_started) {
-      pplayer->is_started = FALSE;
+    if (pplayer->is_ready) {
+      pplayer->is_ready = FALSE;
       send_player_info_c(pplayer, game.est_connections);
     }
   } players_iterate_end;

@@ -66,6 +66,11 @@ struct packet_nation_select_req {
   int city_style;
 };
 
+struct packet_player_ready {
+  int player_no;
+  bool is_ready;
+};
+
 struct packet_game_state {
   int value;
 };
@@ -377,7 +382,7 @@ struct packet_player_info {
   int city_style;
   Nation_type_id nation;
   int team;
-  bool is_started;
+  bool is_ready;
   bool phase_done;
   int nturns_idle;
   bool is_alive;
@@ -1129,6 +1134,7 @@ enum packet_type {
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
   PACKET_RULESET_CHOICES = 115,
+  PACKET_PLAYER_READY,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
 
@@ -1174,6 +1180,10 @@ void lsend_packet_nation_available(struct conn_list *dest, const struct packet_n
 struct packet_nation_select_req *receive_packet_nation_select_req(struct connection *pc, enum packet_type type);
 int send_packet_nation_select_req(struct connection *pc, const struct packet_nation_select_req *packet);
 int dsend_packet_nation_select_req(struct connection *pc, int player_no, Nation_type_id nation_no, bool is_male, const char *name, int city_style);
+
+struct packet_player_ready *receive_packet_player_ready(struct connection *pc, enum packet_type type);
+int send_packet_player_ready(struct connection *pc, const struct packet_player_ready *packet);
+int dsend_packet_player_ready(struct connection *pc, int player_no, bool is_ready);
 
 struct packet_game_state *receive_packet_game_state(struct connection *pc, enum packet_type type);
 int send_packet_game_state(struct connection *pc, const struct packet_game_state *packet);

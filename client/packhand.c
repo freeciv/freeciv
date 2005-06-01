@@ -1500,7 +1500,7 @@ void handle_player_info(struct packet_player_info *pinfo)
     city_report_dialog_update();
   }
 
-  pplayer->is_started = pinfo->is_started;
+  pplayer->is_ready = pinfo->is_ready;
 
   if (pplayer == game.player_ptr
       && pplayer->phase_done != pinfo->phase_done) {

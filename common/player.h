@@ -205,7 +205,7 @@ struct player {
   int target_government;
   Nation_type_id nation;
   struct team *team;
-  bool is_started; /* Did the player click "start" yet? */
+  bool is_ready; /* Did the player click "start" yet? */
   bool phase_done;
   int nturns_idle;
   bool is_alive;

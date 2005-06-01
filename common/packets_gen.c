@@ -77,6 +77,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_NATION_SELECT_REQ:
     return receive_packet_nation_select_req(pc, type);
 
+  case PACKET_PLAYER_READY:
+    return receive_packet_player_ready(pc, type);
+
   case PACKET_GAME_STATE:
     return receive_packet_game_state(pc, type);
 
@@ -427,6 +430,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_NATION_SELECT_REQ:
     return "PACKET_NATION_SELECT_REQ";
+
+  case PACKET_PLAYER_READY:
+    return "PACKET_PLAYER_READY";
 
   case PACKET_GAME_STATE:
     return "PACKET_GAME_STATE";
@@ -2028,6 +2034,175 @@ int dsend_packet_nation_select_req(struct connection *pc, int player_no, Nation_
   real_packet->city_style = city_style;
   
   return send_packet_nation_select_req(pc, real_packet);
+}
+
+#define hash_packet_player_ready_100 hash_const
+
+#define cmp_packet_player_ready_100 cmp_const
+
+BV_DEFINE(packet_player_ready_100_fields, 2);
+
+static struct packet_player_ready *receive_packet_player_ready_100(struct connection *pc, enum packet_type type)
+{
+  packet_player_ready_100_fields fields;
+  struct packet_player_ready *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_player_ready *clone;
+  RECEIVE_PACKET_START(packet_player_ready, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_player_ready_100, cmp_packet_player_ready_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->player_no = readin;
+    }
+  }
+  real_packet->is_ready = BV_ISSET(fields, 1);
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_player_ready_100(struct connection *pc, const struct packet_player_ready *packet)
+{
+  const struct packet_player_ready *real_packet = packet;
+  packet_player_ready_100_fields fields;
+  struct packet_player_ready *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_PLAYER_READY];
+  int different = 0;
+  SEND_PACKET_START(PACKET_PLAYER_READY);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_player_ready_100, cmp_packet_player_ready_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->player_no != real_packet->player_no);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->is_ready != real_packet->is_ready);
+  if(differ) {different++;}
+  if(packet->is_ready) {BV_SET(fields, 1);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->player_no);
+  }
+  /* field 1 is folded into the header */
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_player_ready(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_PLAYER_READY] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_PLAYER_READY] = variant;
+}
+
+struct packet_player_ready *receive_packet_player_ready(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_player_ready at the client.");
+  }
+  ensure_valid_variant_packet_player_ready(pc);
+
+  switch(pc->phs.variant[PACKET_PLAYER_READY]) {
+    case 100: return receive_packet_player_ready_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_player_ready(struct connection *pc, const struct packet_player_ready *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_player_ready from the server.");
+  }
+  ensure_valid_variant_packet_player_ready(pc);
+
+  switch(pc->phs.variant[PACKET_PLAYER_READY]) {
+    case 100: return send_packet_player_ready_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+int dsend_packet_player_ready(struct connection *pc, int player_no, bool is_ready)
+{
+  struct packet_player_ready packet, *real_packet = &packet;
+
+  real_packet->player_no = player_no;
+  real_packet->is_ready = is_ready;
+  
+  return send_packet_player_ready(pc, real_packet);
 }
 
 #define hash_packet_game_state_100 hash_const
@@ -10158,7 +10333,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->team = readin;
     }
   }
-  real_packet->is_started = BV_ISSET(fields, 11);
+  real_packet->is_ready = BV_ISSET(fields, 11);
   real_packet->phase_done = BV_ISSET(fields, 12);
   if (BV_ISSET(fields, 13)) {
     {
@@ -10422,9 +10597,9 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 10);}
 
-  differ = (old->is_started != real_packet->is_started);
+  differ = (old->is_ready != real_packet->is_ready);
   if(differ) {different++;}
-  if(packet->is_started) {BV_SET(fields, 11);}
+  if(packet->is_ready) {BV_SET(fields, 11);}
 
   differ = (old->phase_done != real_packet->phase_done);
   if(differ) {different++;}

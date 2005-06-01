@@ -49,9 +49,10 @@
 GtkWidget *start_message_area;
 
 GtkListStore *conn_model;
-GtkTreeViewColumn *nation_col;
+static GtkTreeViewColumn *nation_col, *ready_col;
 
 static GtkWidget *start_options_table;
+GtkWidget *ready_button;
 
 static GtkListStore *load_store, *scenario_store,
   *nation_store, *meta_store, *lan_store; 
@@ -928,7 +929,8 @@ static void ai_fill_callback(GtkWidget *w, gpointer data)
 static void start_start_callback(GtkWidget *w, gpointer data)
 {
   really_close_connection_dialog();
-  send_chat("/start");
+  dsend_packet_player_ready(&aconnection, game.info.player_idx,
+			    !game.player_ptr->is_ready);
 }
 
 /**************************************************************************
@@ -969,20 +971,31 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
     return FALSE;
   }
 
-  if (column != nation_col) {
-    return show_conn_popup(widget, event, data);
-  }
-
   gtk_tree_model_get_iter(model, &iter, path);
   gtk_tree_path_free(path);
   gtk_tree_model_get(model, &iter, 4, &player_no, -1);
   pplayer = get_player(player_no);
-  if (!pplayer) {
-    return FALSE;
-  }
 
-  popup_races_dialog(pplayer);
-  return TRUE;
+  if (column == nation_col) {
+    if (!pplayer) {
+      return FALSE;
+    }
+
+    popup_races_dialog(pplayer);
+    return TRUE;
+  } else if (column == ready_col) {
+    gboolean is_ready;
+
+    if (!pplayer) {
+      return FALSE;
+    }
+
+    gtk_tree_model_get(model, &iter, 1, &is_ready, -1);
+    dsend_packet_player_ready(&aconnection, pplayer->player_no, !is_ready);
+    return TRUE;
+  } else {
+    return show_conn_popup(widget, event, data);
+  }
 }
 
 /**************************************************************************
@@ -1098,9 +1111,10 @@ GtkWidget *create_start_page(void)
 
   /* FIXME: should change to always be minimum-width. */
   rend = gtk_cell_renderer_toggle_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-					      -1, _("Ready"), rend,
-					      "active", 1, NULL);
+  ready_col = gtk_tree_view_column_new_with_attributes(_("Ready"),
+						       rend,
+						       "active", 1, NULL);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), ready_col, -1);
 
   rend = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
@@ -1166,10 +1180,10 @@ GtkWidget *create_start_page(void)
 		   G_CALLBACK(pick_nation_callback), NULL);
   gtk_container_add(GTK_CONTAINER(bbox), button);
 
-  button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Start"));
-  g_signal_connect(button, "clicked",
+  ready_button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Ready"));
+  g_signal_connect(ready_button, "clicked",
       G_CALLBACK(start_start_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
+  gtk_container_add(GTK_CONTAINER(bbox), ready_button);
 
   return box;
 }

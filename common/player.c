@@ -108,7 +108,7 @@ void player_init(struct player *plr)
   plr->is_male = TRUE;
   plr->nation = NO_NATION_SELECTED;
   plr->team = NULL;
-  plr->is_started = FALSE;
+  plr->is_ready = FALSE;
   plr->revolution_finishes = -1;
   plr->capital = FALSE;
   plr->units = unit_list_new();

@@ -29,6 +29,12 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_nation_select_req *)packet)->city_style);
     return TRUE;
 
+  case PACKET_PLAYER_READY:
+    handle_player_ready(pplayer,
+      ((struct packet_player_ready *)packet)->player_no,
+      ((struct packet_player_ready *)packet)->is_ready);
+    return TRUE;
+
   case PACKET_CHAT_MSG_REQ:
     handle_chat_msg_req(pconn,
       ((struct packet_chat_msg_req *)packet)->message);

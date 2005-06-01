@@ -986,6 +986,7 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 
   if (server_state != RUN_GAME_STATE
       && type != PACKET_NATION_SELECT_REQ
+      && type != PACKET_PLAYER_READY
       && type != PACKET_CONN_PONG
       && type != PACKET_REPORT_REQ) {
     if (server_state == GAME_OVER_STATE) {
@@ -1017,7 +1018,13 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
 	    type, conn_description(pconn));
   }
 
-  if (server_state == RUN_GAME_STATE) {
+  if (server_state == RUN_GAME_STATE
+      && type != PACKET_PLAYER_READY) {
+    /* HACK: the player-ready packet puts the server into RUN_GAME_STATE
+     * but doesn't actually start the game.  The game isn't started until
+     * the main loop is re-entered, so kill_dying_players would think
+     * all players are dead.  This should be solved by adding a new
+     * game state GAME_GENERATION_STATE. */
     kill_dying_players();
   }
 
@@ -1290,6 +1297,60 @@ void handle_nation_select_req(struct player *requestor,
 
     old_nation->is_used = FALSE;
     send_nation_available(old_nation);
+  }
+}
+
+/****************************************************************************
+  Handle a player-ready packet.
+****************************************************************************/
+void handle_player_ready(struct player *requestor,
+			 int player_no,
+			 bool is_ready)
+{
+  struct player *pplayer = get_player(player_no);
+  bool old_ready;
+
+  if (server_state != PRE_GAME_STATE
+      || !pplayer) {
+    return;
+  }
+
+  if (pplayer != requestor) {
+    /* Currently you can only change your own readiness. */
+    return;
+  }
+
+  old_ready = pplayer->is_ready;
+  pplayer->is_ready = is_ready;
+  send_player_info(pplayer, NULL);
+
+  /* Note this is called even if the player has pressed /start once
+   * before.  This is a good thing given that no other code supports
+   * is_started yet.  For instance if a player leaves everyone left
+   * might have pressed /start already but the start won't happen
+   * until someone presses it again.  Also you can press start more
+   * than once to remind other people to start (which is a good thing
+   * until somebody does it too much and it gets labeled as spam). */
+  if (is_ready) {
+    int num_ready = 0, num_unready = 0;
+
+    players_iterate(pplayer) {
+      if (pplayer->is_connected) {
+	if (pplayer->is_ready) {
+	  num_ready++;
+	} else {
+	  num_unready++;
+	}
+      }
+    } players_iterate_end;
+    if (num_unready > 0) {
+      notify_player(NULL, _("Waiting to start game: %d out of %d players "
+			    "are ready to start."),
+		    num_ready, num_ready + num_unready);
+    } else {
+      notify_player(NULL, _("All players are ready; starting game."));
+      start_game();
+    }
   }
 }
 
