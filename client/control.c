@@ -59,9 +59,6 @@ int hover_unit = 0; /* id of unit hover_state applies to */
 enum cursor_hover_state hover_state = HOVER_NONE;
 enum unit_activity connect_activity;
 enum unit_orders goto_last_order; /* Last order for goto */
-/* This may only be here until client goto is fully implemented.
-   It is reset each time the hower_state is reset. */
-bool draw_goto_line = TRUE;
 
 /* units involved in current combat */
 static struct unit *punit_attacking = NULL;
@@ -115,7 +112,6 @@ void set_hover_state(struct unit *punit, enum cursor_hover_state state,
   assert(punit != NULL || state == HOVER_NONE);
   assert(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
   assert(state == HOVER_GOTO || order == ORDER_LAST);
-  draw_goto_line = TRUE;
   if (punit)
     hover_unit = punit->id;
   else
@@ -1690,18 +1686,14 @@ void do_unit_goto(struct tile *ptile)
     return;
 
   if (punit) {
-    if (!draw_goto_line) {
-      send_goto_unit(punit, ptile);
-    } else {
-      struct tile *dest_tile;
+    struct tile *dest_tile;
 
-      draw_line(ptile);
-      dest_tile = get_line_dest();
-      if (ptile == dest_tile) {
-	send_goto_route(punit);
-      } else {
-	append_output_window(_("Didn't find a route to the destination!"));
-      }
+    draw_line(ptile);
+    dest_tile = get_line_dest();
+    if (ptile == dest_tile) {
+      send_goto_route(punit);
+    } else {
+      append_output_window(_("Didn't find a route to the destination!"));
     }
   }
 
@@ -1777,9 +1769,9 @@ void key_cancel_action(void)
 
   cancel_tile_hiliting();
 
-  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL)
-    if (draw_goto_line)
-      popped = goto_pop_waypoint();
+  if (hover_state == HOVER_GOTO || hover_state == HOVER_PATROL) {
+    popped = goto_pop_waypoint();
+  }
 
   if (hover_state != HOVER_NONE && !popped) {
     struct unit *punit = player_find_unit_by_id(game.player_ptr, hover_unit);

@@ -36,7 +36,6 @@ extern int hover_unit; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;
 extern enum unit_orders goto_last_order;
-extern bool draw_goto_line;
 extern bool non_ai_unit_focus;
 
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);

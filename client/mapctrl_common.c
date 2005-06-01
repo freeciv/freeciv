@@ -606,10 +606,9 @@ void update_turn_done_button_state()
 **************************************************************************/
 void update_line(int canvas_x, int canvas_y)
 {
-  if ((hover_state == HOVER_GOTO
-       || hover_state == HOVER_PATROL
-       || hover_state == HOVER_CONNECT)
-      && draw_goto_line) {
+  if (hover_state == HOVER_GOTO
+      || hover_state == HOVER_PATROL
+      || hover_state == HOVER_CONNECT) {
     struct tile *ptile, *old_tile;
 
     ptile = canvas_pos_to_tile(canvas_x, canvas_y);
@@ -629,10 +628,9 @@ void update_line(int canvas_x, int canvas_y)
 ****************************************************************************/
 void overview_update_line(int overview_x, int overview_y)
 {
-  if ((hover_state == HOVER_GOTO
-       || hover_state == HOVER_PATROL
-       || hover_state == HOVER_CONNECT)
-      && draw_goto_line) {
+  if (hover_state == HOVER_GOTO
+      || hover_state == HOVER_PATROL
+      || hover_state == HOVER_CONNECT) {
     struct tile *ptile, *old_tile;
     int x, y;
 
