@@ -228,7 +228,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 116.
+The last used packet number is 115.
 ****************************************************/
 
 
@@ -764,12 +764,6 @@ PACKET_UNIT_HELP_BUILD_WONDER=57;cs,dsend
   UNIT unit_id;
 end
 
-# used for server-side goto (air units only)
-PACKET_UNIT_GOTO=58;cs,dsend
-  UNIT unit_id;
-  COORD x, y;
-end
-
 # used for client orders: currently client-side goto and patrol
 PACKET_UNIT_ORDERS=59;cs
   UNIT unit_id;
@@ -1055,7 +1049,7 @@ PACKET_RULESET_GAME=97;sc,lsend
   UINT8 veteran_chance[MAX_VET_LEVELS];
 end
 
-PACKET_RULESET_SPECIALIST=116;sc,lsend
+PACKET_RULESET_SPECIALIST=58;sc,lsend
   SPECIALIST id;
   STRING name[MAX_LEN_NAME];
   STRING short_name[MAX_LEN_NAME];

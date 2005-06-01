@@ -435,15 +435,6 @@ void send_turn_done(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void send_goto_unit(struct unit *punit, struct tile *dest_tile)
-{
-  dsend_packet_unit_goto(&aconnection, punit->id,
-			 dest_tile->x, dest_tile->y);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void send_report_request(enum report_type type)
 {
   dsend_packet_report_req(&aconnection, type);

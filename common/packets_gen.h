@@ -528,12 +528,6 @@ struct packet_unit_help_build_wonder {
   int unit_id;
 };
 
-struct packet_unit_goto {
-  int unit_id;
-  int x;
-  int y;
-};
-
 struct packet_unit_orders {
   int unit_id;
   int length;
@@ -1080,7 +1074,7 @@ enum packet_type {
   PACKET_UNIT_CHANGE_HOMECITY,
   PACKET_UNIT_ESTABLISH_TRADE,
   PACKET_UNIT_HELP_BUILD_WONDER,
-  PACKET_UNIT_GOTO,
+  PACKET_RULESET_SPECIALIST,
   PACKET_UNIT_ORDERS,
   PACKET_UNIT_AUTO,                      /* 60 */
   PACKET_UNIT_UNLOAD,
@@ -1135,7 +1129,6 @@ enum packet_type {
   PACKET_OPTIONS_SETTABLE_CONTROL,
   PACKET_OPTIONS_SETTABLE,
   PACKET_RULESET_CHOICES = 115,
-  PACKET_RULESET_SPECIALIST,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
 
@@ -1370,10 +1363,6 @@ int dsend_packet_unit_establish_trade(struct connection *pc, int unit_id);
 struct packet_unit_help_build_wonder *receive_packet_unit_help_build_wonder(struct connection *pc, enum packet_type type);
 int send_packet_unit_help_build_wonder(struct connection *pc, const struct packet_unit_help_build_wonder *packet);
 int dsend_packet_unit_help_build_wonder(struct connection *pc, int unit_id);
-
-struct packet_unit_goto *receive_packet_unit_goto(struct connection *pc, enum packet_type type);
-int send_packet_unit_goto(struct connection *pc, const struct packet_unit_goto *packet);
-int dsend_packet_unit_goto(struct connection *pc, int unit_id, int x, int y);
 
 struct packet_unit_orders *receive_packet_unit_orders(struct connection *pc, enum packet_type type);
 int send_packet_unit_orders(struct connection *pc, const struct packet_unit_orders *packet);

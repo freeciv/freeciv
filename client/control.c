@@ -905,7 +905,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
 			   dest_tile->x, dest_tile->y);
   } else {
     /* Initiate a "goto" with direction keys for exhausted units. */
-    send_goto_unit(punit, dest_tile);
+    send_goto_tile(punit, dest_tile);
   }
 }
 

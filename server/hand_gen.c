@@ -174,13 +174,6 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_unit_help_build_wonder *)packet)->unit_id);
     return TRUE;
 
-  case PACKET_UNIT_GOTO:
-    handle_unit_goto(pplayer,
-      ((struct packet_unit_goto *)packet)->unit_id,
-      ((struct packet_unit_goto *)packet)->x,
-      ((struct packet_unit_goto *)packet)->y);
-    return TRUE;
-
   case PACKET_UNIT_ORDERS:
     handle_unit_orders(pplayer, packet);
     return TRUE;

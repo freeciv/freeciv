@@ -48,7 +48,6 @@ void handle_unit_disband(struct player *pplayer, int unit_id);
 void handle_unit_change_homecity(struct player *pplayer, int unit_id, int city_id);
 void handle_unit_establish_trade(struct player *pplayer, int unit_id);
 void handle_unit_help_build_wonder(struct player *pplayer, int unit_id);
-void handle_unit_goto(struct player *pplayer, int unit_id, int x, int y);
 struct packet_unit_orders;
 void handle_unit_orders(struct player *pplayer, struct packet_unit_orders *packet);
 void handle_unit_auto(struct player *pplayer, int unit_id);

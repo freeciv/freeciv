@@ -70,28 +70,6 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile);
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_goto(struct player *pplayer, int unit_id, int x, int y)
-{
-  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
-  struct tile *ptile = map_pos_to_tile(x, y);
-
-  if (!ptile || !punit) {
-    return;
-  }
-
-  free_unit_orders(punit); /* This may reset punit->goto_tile also. */
-
-  punit->goto_tile = ptile;
-  set_unit_activity(punit, ACTIVITY_GOTO);
-
-  send_unit_info(NULL, punit);
-
-  (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
