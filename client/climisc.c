@@ -40,19 +40,20 @@ used throughout the client.
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
+#include "dialogs_g.h"
+#include "gui_main_g.h"
+#include "mapview_g.h"
+
 #include "civclient.h"
 #include "climap.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "control.h"
-#include "dialogs_g.h"
-#include "mapview_g.h"
 #include "messagewin_common.h"
 #include "packhand.h"
 #include "plrdlg_common.h"
 #include "repodlgs_common.h"
 #include "tilespec.h"
-
-#include "climisc.h"
 
 /**************************************************************************
 ...
@@ -61,6 +62,7 @@ void client_remove_player(int plrno)
 {
   game_remove_player(get_player(plrno));
   game_renumber_players(plrno);
+  update_conn_list_dialog();
 }
 
 /**************************************************************************
