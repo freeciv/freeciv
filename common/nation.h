@@ -127,6 +127,9 @@ struct nation_group* get_nation_group_by_id(int id);
 
 bool nation_in_group(struct nation_type* nation, const char* group_name);
 
+bool can_conn_edit_players_nation(const struct connection *pconn,
+				  const struct player *pplayer);
+
 #define nations_iterate(nation)						    \
 {									    \
   int NI_index;								    \

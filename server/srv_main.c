@@ -1234,8 +1234,7 @@ void handle_nation_select_req(struct player *requestor,
     return;
   }
 
-  if (pplayer != requestor
-      && requestor->current_conn->access_level <= ALLOW_INFO) {
+  if (!can_conn_edit_players_nation(requestor->current_conn, pplayer)) {
     return;
   }
 

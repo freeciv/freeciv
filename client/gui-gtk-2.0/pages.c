@@ -977,7 +977,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   pplayer = get_player(player_no);
 
   if (column == nation_col) {
-    if (!pplayer) {
+    if (!pplayer || !can_conn_edit_players_nation(&aconnection, pplayer)) {
       return FALSE;
     }
 

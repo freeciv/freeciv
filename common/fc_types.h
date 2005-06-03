@@ -64,6 +64,7 @@ typedef int Nation_type_id;
 typedef int Team_type_id;
 
 struct city;
+struct connection;
 struct government;
 struct nation_type;
 struct player;

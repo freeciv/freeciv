@@ -21,16 +21,16 @@
 
 #include <assert.h>
 
+#include "connection.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "log.h"
 #include "mem.h"
+#include "nation.h"
 #include "player.h"
 #include "support.h"
 #include "tech.h"
-
-#include "nation.h"
 
 static struct nation_type *nations = NULL;
 
@@ -359,3 +359,13 @@ bool nation_in_group(struct nation_type* nation, const char* group_name)
   return FALSE;
 }
 
+/****************************************************************************
+  Return TRUE iff the editor is allowed to edit the player's nation in
+  pregame.
+****************************************************************************/
+bool can_conn_edit_players_nation(const struct connection *pconn,
+				  const struct player *pplayer)
+{
+  return ((!pconn->observer && pconn->player == pplayer)
+	  || pconn->access_level >= ALLOW_CTRL);
+}
