@@ -956,11 +956,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   }
 
   if (punit) {
-    const int old_transported_by = punit->transported_by;
-
     ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
-    punit->occupy = packet_unit->occupy;
     if (punit->ai.control != packet_unit->ai.control) {
       punit->ai.control = packet_unit->ai.control;
       repaint_unit = TRUE;
@@ -973,6 +970,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     if (punit->activity != packet_unit->activity
 	|| punit->activity_target != packet_unit->activity_target
+	|| punit->transported_by != packet_unit->transported_by
+	|| punit->occupy != packet_unit->occupy
 	|| punit->has_orders != packet_unit->has_orders
 	|| punit->orders.repeat != packet_unit->orders.repeat
 	|| punit->orders.vigilant != packet_unit->orders.vigilant
@@ -1014,6 +1013,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->activity = packet_unit->activity;
       punit->activity_target = packet_unit->activity_target;
 
+      punit->transported_by = packet_unit->transported_by;
+      punit->occupy = packet_unit->occupy;
+    
       punit->has_orders = packet_unit->has_orders;
       punit->orders.length = packet_unit->orders.length;
       punit->orders.index = packet_unit->orders.index;
@@ -1032,21 +1034,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       }
     } /*** End of Change in activity or activity's target. ***/
 
-    punit->transported_by = packet_unit->transported_by;
-    if (old_transported_by != packet_unit->transported_by) {
-      struct unit *ptrans;
-
-      if (old_transported_by != -1
-	  && (ptrans = find_unit_by_id(old_transported_by))) {
-	refresh_unit_city_dialogs(ptrans);
-      }
-
-      if (packet_unit->transported_by != -1
-          && (ptrans = find_unit_by_id(packet_unit->transported_by))) {
-	refresh_unit_city_dialogs(ptrans);
-      }
-    }
-    
     /* These two lines force the menus to be updated as appropriate when
      * the focus unit changes. */
     if (punit == get_unit_in_focus()) {
