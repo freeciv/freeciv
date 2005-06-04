@@ -3725,7 +3725,7 @@ static int fill_goto_sprite_array(const struct tileset *t,
 
     ADD_SPRITE_SIMPLE(t->sprites.path.turns[units]);
     if (tens > 0) {
-      ADD_SPRITE_SIMPLE(t->sprites.path.turns[tens]);
+      ADD_SPRITE_SIMPLE(t->sprites.path.turns_tens[tens]);
     }
   }
 
