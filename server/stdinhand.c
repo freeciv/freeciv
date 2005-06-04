@@ -2099,6 +2099,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   }
   if (!check) {
     team_add_player(pplayer, pteam);
+    send_player_info(pplayer, NULL);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
 	      pplayer->name, _(pteam->name));
   }

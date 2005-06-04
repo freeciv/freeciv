@@ -49,7 +49,7 @@
 GtkWidget *start_message_area;
 
 GtkListStore *conn_model;
-static GtkTreeViewColumn *nation_col, *ready_col;
+static GtkTreeViewColumn *nation_col, *ready_col, *team_col;
 
 static GtkWidget *start_options_table;
 GtkWidget *ready_button;
@@ -950,6 +950,63 @@ static void update_start_page(void)
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin), 5);
 }
 
+static struct player *team_menu_player;
+
+/****************************************************************************
+  Callback for when a team is chosen from the team menu.
+****************************************************************************/
+static void team_menu_entry_chosen(GtkMenuItem *menuitem, gpointer data)
+{
+  struct team *pteam = data;
+  char buf[1024];
+
+  if (pteam != team_menu_player->team) {
+    my_snprintf(buf, sizeof(buf), "/team \"%s\" \"%s\"",
+		team_menu_player->name, pteam->name);
+    send_chat(buf);
+  }
+}
+
+/****************************************************************************
+  Called when you click on a player's team; this function pops up a menu
+  to allow changing the team.
+****************************************************************************/
+static GtkWidget *create_team_menu(struct player *pplayer)
+{
+  GtkWidget *menu;
+  GtkWidget *entry;
+  const int count = pplayer->team ? pplayer->team->players : 0;
+  bool need_empty_team = (count != 1);
+  int index;
+
+  menu = gtk_menu_new();
+
+  /* Can't use team_iterate here since it skips empty teams. */
+  for (index = 0; index < MAX_NUM_TEAMS; index++) {
+    struct team *pteam = team_get_by_id(index);
+
+    if (pteam->players == 0) {
+      if (!need_empty_team) {
+	continue;
+      }
+      need_empty_team = FALSE;
+    }
+
+    entry = gtk_menu_item_new_with_label(_(pteam->name));
+    g_object_set_data_full(G_OBJECT(menu), pteam->name, entry,
+			   (GtkDestroyNotify) gtk_widget_unref);
+    gtk_widget_show(entry);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+		     GTK_SIGNAL_FUNC(team_menu_entry_chosen),
+		     pteam);
+  }
+
+  team_menu_player = pplayer;
+
+  return menu;
+}
+
 /**************************************************************************
   Called on a button event on the pregame player list.
 **************************************************************************/
@@ -973,7 +1030,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
 
   gtk_tree_model_get_iter(model, &iter, path);
   gtk_tree_path_free(path);
-  gtk_tree_model_get(model, &iter, 4, &player_no, -1);
+  gtk_tree_model_get(model, &iter, 0, &player_no, -1);
   pplayer = get_player(player_no);
 
   if (column == nation_col) {
@@ -990,9 +1047,18 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
       return FALSE;
     }
 
-    gtk_tree_model_get(model, &iter, 1, &is_ready, -1);
+    gtk_tree_model_get(model, &iter, 2, &is_ready, -1);
     dsend_packet_player_ready(&aconnection, pplayer->player_no, !is_ready);
     return TRUE;
+  } else if (column == team_col) {
+    if (pplayer) {
+      GtkWidget *menu = create_team_menu(pplayer);
+
+      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL,
+		     event->button, 0);
+      return TRUE;
+    }
+    return FALSE;
   } else {
     return show_conn_popup(widget, event, data);
   }
@@ -1097,8 +1163,10 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_list_store_new(5, G_TYPE_STRING, G_TYPE_BOOLEAN,
-				  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT);
+  conn_model = gtk_list_store_new(6, G_TYPE_INT,
+				  G_TYPE_STRING, G_TYPE_BOOLEAN,
+				  G_TYPE_STRING, G_TYPE_STRING,
+				  G_TYPE_STRING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
   g_object_unref(conn_model);
@@ -1107,25 +1175,31 @@ GtkWidget *create_start_page(void)
   rend = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
 					      -1, _("Name"), rend,
-					      "text", 0, NULL);
+					      "text", 1, NULL);
 
   /* FIXME: should change to always be minimum-width. */
   rend = gtk_cell_renderer_toggle_new();
   ready_col = gtk_tree_view_column_new_with_attributes(_("Ready"),
 						       rend,
-						       "active", 1, NULL);
+						       "active", 2, NULL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(view), ready_col, -1);
 
   rend = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
 					      -1, _("Leader"), rend,
-					      "text", 2, NULL);
+					      "text", 3, NULL);
 
   rend = gtk_cell_renderer_text_new();
   nation_col = gtk_tree_view_column_new_with_attributes(_("Nation"),
 							rend,
-							"text", 3, NULL);
+							"text", 4, NULL);
   gtk_tree_view_insert_column(GTK_TREE_VIEW(view), nation_col, -1);
+
+  rend = gtk_cell_renderer_text_new();
+  team_col = gtk_tree_view_column_new_with_attributes(_("Team"),
+						      rend,
+						      "text", 5, NULL);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), team_col, -1);
 
   g_signal_connect(view, "button-press-event",
 		   G_CALLBACK(playerlist_event), NULL);

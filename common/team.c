@@ -38,13 +38,18 @@ static struct team teams[MAX_NUM_TEAMS];
 ****************************************************************************/
 struct team *team_find_by_name(const char *team_name)
 {
+  int index;
+
   assert(team_name != NULL);
 
-  team_iterate(pteam) {
+  /* Can't use team_iterate here since it skips empty teams. */
+  for (index = 0; index < MAX_NUM_TEAMS; index++) {
+    struct team *pteam = team_get_by_id(index);
+
     if (mystrcasecmp(team_name, pteam->name) == 0) {
       return pteam;
     }
-  } team_iterate_end;
+  }
 
   return NULL;
 }

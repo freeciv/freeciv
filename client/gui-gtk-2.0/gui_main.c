@@ -1249,7 +1249,7 @@ void update_conn_list_dialog(void)
   
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     bool is_ready;
-    const char *name, *nation, *leader;
+    const char *name, *nation, *leader, *team;
 
     gtk_list_store_clear(conn_model);
     players_iterate(pplayer) {
@@ -1269,14 +1269,16 @@ void update_conn_list_dialog(void)
 	nation = get_nation_name(pplayer->nation);
 	leader = pplayer->name;
       }
+      team = pplayer->team ? _(pplayer->team->name) : "";
 
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,
-			 0, name,
-			 1, is_ready,
-			 2, leader,
-			 3, nation,
-			 4, pplayer->player_no,
+			 0, pplayer->player_no,
+			 1, name,
+			 2, is_ready,
+			 3, leader,
+			 4, nation,
+			 5, team,
 			 -1);
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
@@ -1287,14 +1289,16 @@ void update_conn_list_dialog(void)
       is_ready = FALSE;
       nation = "";
       leader = "";
+      team = "";
 
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,
-			 0, name,
-			 1, is_ready,
-			 2, leader,
-			 3, nation,
-			 4, -1,
+			 0, -1,
+			 1, name,
+			 2, is_ready,
+			 3, leader,
+			 4, nation,
+			 5, team,
 			 -1);
     } conn_list_iterate_end;
   }
@@ -1320,7 +1324,7 @@ gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data)
   gtk_tree_model_get_iter(GTK_TREE_MODEL(conn_model), &it, path);
   gtk_tree_path_free(path);
 
-  gtk_tree_model_get(GTK_TREE_MODEL(conn_model), &it, 0, &name, -1);
+  gtk_tree_model_get(GTK_TREE_MODEL(conn_model), &it, 1, &name, -1);
   pconn = find_conn_by_user(name);
 
   if (!pconn) {
