@@ -495,7 +495,8 @@ const char *get_science_goal_text(Tech_type_id goal)
   INIT;
 
   if (is_tech_a_req_for_goal(game.player_ptr,
-			     game.player_ptr->research->researching, goal)) {
+			     game.player_ptr->research->researching, goal)
+      || game.player_ptr->research->researching == goal) {
     bulbs_needed -= game.player_ptr->research->bulbs_researched;
   }
 
