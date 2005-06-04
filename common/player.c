@@ -85,7 +85,7 @@ bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 /***************************************************************
  Fill the structure with some sane values
 ***************************************************************/
-static void player_research_init(struct player_research* research)
+void player_research_init(struct player_research* research)
 {
   memset(research, 0, sizeof(struct player_research));
   research->tech_goal = A_UNSET;

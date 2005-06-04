@@ -428,9 +428,11 @@ void game_advance_year(void)
   game.info.turn++;
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Reset a player's data to its initial state.  No further initialization
+  should be needed before reusing this player (no separate call to
+  player_init is needed).
+****************************************************************************/
 void game_remove_player(struct player *pplayer)
 {
   if (pplayer->attribute_block.data) {
@@ -438,21 +440,23 @@ void game_remove_player(struct player *pplayer)
     pplayer->attribute_block.data = NULL;
   }
 
+  /* Unlink all the lists, but don't free them (they can be used later). */
   conn_list_unlink_all(pplayer->connections);
-  conn_list_free(pplayer->connections);
 
-  unit_list_iterate(pplayer->units, punit) 
+  unit_list_iterate(pplayer->units, punit) {
     game_remove_unit(punit);
-  unit_list_iterate_end;
-  unit_list_free(pplayer->units);
+  } unit_list_iterate_end;
+  assert(unit_list_size(pplayer->units) == 0);
+  unit_list_unlink_all(pplayer->units);
 
-  city_list_iterate(pplayer->cities, pcity) 
+  city_list_iterate(pplayer->cities, pcity) {
     game_remove_city(pcity);
-  city_list_iterate_end;
-  city_list_free(pplayer->cities);
+  } city_list_iterate_end;
+  assert(city_list_size(pplayer->cities) == 0);
+  city_list_unlink_all(pplayer->cities);
 
   if (is_barbarian(pplayer)) game.info.nbarbarians--;
-  free(pplayer->research);
+  player_research_init(pplayer->research);
 }
 
 /***************************************************************

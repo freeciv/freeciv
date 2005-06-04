@@ -246,6 +246,7 @@ struct player {
   bv_debug debug;
 };
 
+void player_research_init(struct player_research* research);
 void player_init(struct player *plr);
 struct player *find_player_by_name(const char *name);
 struct player *find_player_by_name_prefix(const char *name,
