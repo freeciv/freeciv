@@ -474,7 +474,7 @@ static void begin_turn(bool is_new_turn)
   } else {
     game.info.num_phases = game.info.nplayers;
   }
-  send_game_info(game.game_connections);
+  send_game_info(NULL);
 
   if (is_new_turn) {
     script_signal_emit("turn_started", 2,
