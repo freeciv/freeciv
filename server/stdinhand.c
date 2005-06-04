@@ -803,8 +803,8 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
     cancel_all_meetings(pplayer);
   }
 
+  send_player_info(pplayer, NULL);
   if (server_state == RUN_GAME_STATE) {
-    send_player_info(pplayer, NULL);
     gamelog(GAMELOG_PLAYER, pplayer);
   }
 }
