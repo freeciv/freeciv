@@ -492,7 +492,11 @@ get_player() - Return player struct pointer corresponding to player_id.
 **************************************************************************/
 struct player *get_player(int player_id)
 {
-    return &game.players[player_id];
+  if (player_id < 0 || player_id >= ARRAY_SIZE(game.players)) {
+    assert(player_id >= 0 && player_id < ARRAY_SIZE(game.players));
+    return NULL;
+  }
+  return &game.players[player_id];
 }
 
 bool is_valid_player_id(int player_id)
