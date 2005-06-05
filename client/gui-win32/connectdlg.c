@@ -89,6 +89,7 @@ enum new_game_dlg_ids {
   ID_NEWGAMEDLG_AISKILL,
   ID_NEWGAMEDLG_AIFILL,
   ID_NEWGAMEDLG_OPTIONS,
+  ID_NEWGAMEDLG_NATIONS,
   ID_OK=IDOK,
   ID_CANCEL=IDCANCEL
 };
@@ -847,6 +848,8 @@ static void set_new_game_params(HWND win)
   my_snprintf(aifill_str, sizeof(aifill_str), "/set aifill %d", aifill);
   send_chat(aifill_str);
 
+  really_close_connection_dialog();
+
   send_chat("/start");
 }
 
@@ -870,6 +873,9 @@ static LONG CALLBACK new_game_proc(HWND win, UINT message,
 	{
 	case ID_NEWGAMEDLG_OPTIONS:
 	  send_report_request(REPORT_SERVER_OPTIONS2);
+	  break;
+        case ID_NEWGAMEDLG_NATIONS:
+	  popup_races_dialog(game.player_ptr);
 	  break;
 	case ID_CANCEL:
 	  client_kill_server();
@@ -1060,7 +1066,9 @@ void gui_server_connect()
 
   fcwin_box_add_button(hbox, _("Game Options"), ID_NEWGAMEDLG_OPTIONS, 0, 
 		       TRUE, TRUE, 5);
-  fcwin_box_add_button(hbox, _("OK"), ID_OK, 0, TRUE, TRUE, 5);
+  fcwin_box_add_button(hbox, _("Pick Nation"), ID_NEWGAMEDLG_NATIONS, 0, 
+		       TRUE, TRUE, 5);
+  fcwin_box_add_button(hbox, _("Start Game"), ID_OK, 0, TRUE, TRUE, 5);
   fcwin_box_add_button(hbox, _("Cancel"), ID_CANCEL, 0, TRUE, TRUE, 5);
 
   fcwin_box_add_box(newgame_vbox, hbox, TRUE, FALSE, 5);

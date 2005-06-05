@@ -352,6 +352,8 @@ static void do_select(HWND hWnd)
   }
   dsend_packet_nation_select_req(&aconnection, races_player->player_no,
 				 selected_nation, is_male, name, city_style);
+
+  popdown_races_dialog();
 }
 
 
