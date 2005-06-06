@@ -981,12 +981,14 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 {
   struct city *pcity;
   struct unit *punit;
+  bool need_update_menus = FALSE;
   bool repaint_unit = FALSE;
   bool repaint_city = FALSE;	/* regards unit's homecity */
   struct tile *old_tile = NULL;
   bool check_focus = FALSE;     /* conservative focus change */
   bool moved = FALSE;
   bool ret = FALSE;
+  struct unit *focus_unit = get_unit_in_focus();
   
   punit = player_find_unit_by_id(get_player(packet_unit->owner),
 				 packet_unit->id);
@@ -1049,6 +1051,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->activity_target = packet_unit->activity_target;
 
       punit->occupy = packet_unit->occupy;
+      if (punit->occupy != packet_unit->occupy
+	  && focus_unit && focus_unit->tile == packet_unit->tile) {
+	/* Special case: (un)loading a unit in a transporter on the
+	 * same tile as the focus unit may (dis)allow the focus unit to be
+	 * loaded.  Thus the orders->(un)load menu item needs updating. */
+	need_update_menus = TRUE;
+      }
       punit->transported_by = packet_unit->transported_by;
 
       punit->has_orders = packet_unit->has_orders;
@@ -1072,7 +1081,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     /* These two lines force the menus to be updated as appropriate when
      * the focus unit changes. */
     if (punit == get_unit_in_focus()) {
-      update_menus();
+      need_update_menus = TRUE;
     }
 
     if (punit->homecity != packet_unit->homecity) {
@@ -1108,7 +1117,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       }
       if(punit == get_unit_in_focus()) {
         /* Update the orders menu -- the unit might have new abilities */
-        update_menus();
+	need_update_menus = TRUE;
       }
     }
 
@@ -1274,6 +1283,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   if ((check_focus || get_unit_in_focus() == NULL) &&
       !game.player_ptr->ai.control) {
     update_unit_focus();
+  }
+
+  if (need_update_menus) {
+    update_menus();
   }
 
   return ret;
