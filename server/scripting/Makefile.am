@@ -8,13 +8,11 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/lua/include \
 	-I$(top_srcdir)/dependencies/tolua
 
-libscripting_a_SOURCES = \
+dist_libscripting_a_SOURCES = \
 		api_actions.c	\
 		api_actions.h	\
 		api_find.c	\
 		api_find.h	\
-		api_gen.c	\
-		api_gen.h	\
 		api_intl.c	\
 		api_intl.h	\
 		api_methods.c	\
@@ -28,6 +26,10 @@ libscripting_a_SOURCES = \
 		script.h	\
 		script_signal.c	\
 		script_signal.h
+
+nodist_libscripting_a_SOURCES =	\
+		api_gen.c	\
+		api_gen.h
 
 BUILT_SOURCES = $(srcdir)/api_gen.c $(srcdir)/api_gen.h
 CLEANFILES = $(srcdir)/api_gen.c $(srcdir)/api_gen.h
