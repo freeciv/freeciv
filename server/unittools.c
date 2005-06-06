@@ -1252,6 +1252,9 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 		       unit_name(punit->type), pcity->name);
     }
 
+    /* Silently free orders since they won't be applicable anymore. */
+    free_unit_orders(punit);
+
     if (move_cost == -1)
       move_cost = punit->moves_left;
     return move_unit(punit, dst_tile, move_cost);
@@ -2808,6 +2811,10 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
       unfog_area(unit_owner(pcargo), pdesttile, unit_type(pcargo)->vision_range);
+
+      /* Silently free orders since they won't be applicable anymore. */
+      free_unit_orders(pcargo);
+
       pcargo->tile = pdesttile;
 
       unit_list_prepend(pdesttile->units, pcargo);
