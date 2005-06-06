@@ -143,7 +143,12 @@ void popup_science_dialog(bool raise)
     create_science_dialog(FALSE);
   }
 
-  gui_dialog_present(science_dialog_shell);
+  if (game.player_ptr->research->tech_goal == A_UNSET
+      && game.player_ptr->research->researching == A_UNSET) {
+    gui_dialog_alert(science_dialog_shell);
+  } else {
+    gui_dialog_present(science_dialog_shell);
+  }
 
   if (raise) {
     gui_dialog_raise(science_dialog_shell);
