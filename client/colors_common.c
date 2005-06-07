@@ -56,8 +56,10 @@ char *color_names[] = {
   /* Overview */
   "overview_unknown",
   "overview_mycity",
+  "overview_alliedcity",
   "overview_enemycity",
   "overview_myunit",
+  "overview_alliedunit",
   "overview_enemyunit",
   "overview_ocean",
   "overview_foggedocean",

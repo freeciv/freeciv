@@ -47,11 +47,17 @@ overview_unknown = {"r", "g", "b"
 overview_mycity = {"r", "g", "b"
     255, 255, 255
 }
+overview_alliedcity = {"r", "g", "b"
+    255, 255, 255
+}
 overview_enemycity = {"r", "g", "b"
     0,   255, 200
 }
 overview_myunit = {"r", "g", "b"
     255, 255,   0
+}
+overview_alliedunit = {"r", "g", "b"
+    255, 255, 255
 }
 overview_enemyunit = {"r", "g", "b"
     255,   0,   0

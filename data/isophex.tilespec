@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec3 +Freeciv.Devel.2005.May.21"
+options = "+tilespec3 +Freeciv.Devel.2005.Jun.6"
 
 ; A simple name for the tileset specified by this file:
 name = "isophex"

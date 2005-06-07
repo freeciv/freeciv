@@ -39,8 +39,10 @@ enum color_std {
   /* Overview colors */
   COLOR_OVERVIEW_UNKNOWN, /* Black */
   COLOR_OVERVIEW_MY_CITY, /* white */
+  COLOR_OVERVIEW_ALLIED_CITY,
   COLOR_OVERVIEW_ENEMY_CITY, /* cyan */
   COLOR_OVERVIEW_MY_UNIT, /* yellow */
+  COLOR_OVERVIEW_ALLIED_UNIT,
   COLOR_OVERVIEW_ENEMY_UNIT, /* red */
   COLOR_OVERVIEW_OCEAN, /* ocean/blue */
   COLOR_OVERVIEW_FOGGED_OCEAN, /* race4/dark blue */

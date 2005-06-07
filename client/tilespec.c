@@ -386,7 +386,7 @@ struct tileset {
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.May.21"
+#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Jun.6"
 /*
  * Tilespec capabilities acceptable to this program:
  *
