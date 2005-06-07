@@ -29,6 +29,17 @@
 
 struct tile_type tile_types[MAX_NUM_TERRAINS];
 
+enum tile_special_type infrastructure_specials[] = {
+  S_ROAD,
+  S_RAILROAD,
+  S_IRRIGATION,
+  S_FARMLAND,
+  S_MINE,
+  S_FORTRESS,
+  S_AIRBASE,
+  S_LAST
+};
+
 /***************************************************************
 ...
 ***************************************************************/
@@ -236,24 +247,22 @@ static const char *tile_special_type_names[] =
 };
 
 /****************************************************************************
-  Return the special with the given name, or S_NO_SPECIAL.
+  Return the special with the given name, or S_LAST.
 
   FIXME: should be find_special_by_name().
 ****************************************************************************/
 enum tile_special_type get_special_by_name(const char *name)
 {
-  int i;
-  enum tile_special_type st = 1;
+  enum tile_special_type i;
 
-  for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
+  assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
+  for (i = 0; i < S_LAST; i++) {
     if (0 == strcmp(name, tile_special_type_names[i])) {
-      return st;
+      return i;
     }
-      
-    st <<= 1;
   }
 
-  return S_NO_SPECIAL;
+  return S_LAST;
 }
 
 /****************************************************************************
@@ -261,35 +270,45 @@ enum tile_special_type get_special_by_name(const char *name)
 ****************************************************************************/
 const char *get_special_name(enum tile_special_type type)
 {
-  int i;
-
-  for (i = 0; i < ARRAY_SIZE(tile_special_type_names); i++) {
-    if ((type & 0x1) == 1) {
-      return _(tile_special_type_names[i]);
-    }
-    type >>= 1;
-  }
-
-  return NULL;
+  assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
+  assert(type >= 0 && type < S_LAST);
+  return _(tile_special_type_names[type]);
 }
 
-/***************************************************************
+/****************************************************************************
+  Add the given special to the set.
+****************************************************************************/
+void set_special(bv_special *set, enum tile_special_type to_set)
+{
+  assert(to_set >= 0 && to_set < S_LAST);
+  BV_SET(*set, to_set);
+}
+
+/****************************************************************************
+  Remove the given special from the set.
+****************************************************************************/
+void clear_special(bv_special *set, enum tile_special_type to_clear)
+{
+  assert(to_clear >= 0 && to_clear < S_LAST);
+  BV_CLR(*set, to_clear);
+}
+
+/****************************************************************************
+  Clear all specials from the set.
+****************************************************************************/
+void clear_all_specials(bv_special *set)
+{
+  BV_CLR_ALL(*set);
+}
+
+/****************************************************************************
  Returns TRUE iff the given special is found in the given set.
-***************************************************************/
-bool contains_special(enum tile_special_type set,
+****************************************************************************/
+bool contains_special(bv_special set,
 		      enum tile_special_type to_test_for)
 {
-  enum tile_special_type masked = set & to_test_for;
-
-  assert(0 == (int) S_NO_SPECIAL);
-
-  /*
-   * contains_special should only be called with one S_* in
-   * to_test_for.
-   */
-  assert(masked == S_NO_SPECIAL || masked == to_test_for);
-
-  return masked == to_test_for;
+  assert(to_test_for >= 0 && to_test_for < S_LAST);
+  return BV_ISSET(set, to_test_for);
 }
 
 /****************************************************************************
@@ -371,7 +390,7 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
     eg: "Road/Farmland"
   This only includes "infrastructure", i.e., man-made specials.
 ****************************************************************************/
-const char *get_infrastructure_text(enum tile_special_type spe)
+const char *get_infrastructure_text(bv_special spe)
 {
   static char s[256];
   char *p;
@@ -417,16 +436,13 @@ const char *get_infrastructure_text(enum tile_special_type spe)
 ****************************************************************************/
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
 {
-  enum tile_special_type prereq = S_NO_SPECIAL;
-
-  if (contains_special(spe, S_RAILROAD)) {
-    prereq |= S_ROAD;
+  if (spe == S_RAILROAD) {
+    return S_ROAD;
+  } else if (spe == S_FARMLAND) {
+    return S_IRRIGATION;
+  } else {
+    return S_LAST;
   }
-  if (contains_special(spe, S_FARMLAND)) {
-    prereq |= S_IRRIGATION;
-  }
-
-  return prereq;
 }
 
 /****************************************************************************
@@ -434,7 +450,7 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe)
   be pillaged from the terrain set.  May return S_NO_SPECIAL if nothing
   better is available.
 ****************************************************************************/
-enum tile_special_type get_preferred_pillage(enum tile_special_type pset)
+enum tile_special_type get_preferred_pillage(bv_special pset)
 {
   if (contains_special(pset, S_FARMLAND)) {
     return S_FARMLAND;
@@ -457,5 +473,5 @@ enum tile_special_type get_preferred_pillage(enum tile_special_type pset)
   if (contains_special(pset, S_ROAD)) {
     return S_ROAD;
   }
-  return S_NO_SPECIAL;
+  return S_LAST;
 }

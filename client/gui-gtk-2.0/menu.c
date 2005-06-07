@@ -1159,27 +1159,10 @@ static void government_callback(GtkMenuItem *item, gpointer data)
 static const char *get_tile_change_menu_text(struct tile *ptile,
 					     enum unit_activity activity)
 {
-  Terrain_type_id old_terrain = ptile->terrain;
-  enum tile_special_type old_special = ptile->special;
-  const char *text;
+  struct tile newtile = *ptile;
 
-  if(!(activity == ACTIVITY_IRRIGATE
-       || activity == ACTIVITY_MINE
-       || activity == ACTIVITY_TRANSFORM)) {
-    assert(0);
-    return "-";
-  }
-  else {
-    tile_apply_activity(ptile, activity);
-  }
-
-  text = tile_get_info_text(ptile);
-
-  /* Restore the original state of the tile. */
-  ptile->terrain = old_terrain;
-  ptile->special = old_special;
-
-  return text;
+  tile_apply_activity(&newtile, activity);
+  return tile_get_info_text(ptile);
 }
 
 /****************************************************************

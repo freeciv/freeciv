@@ -29,7 +29,7 @@ struct tile {
   const int nat_x, nat_y; /* Native coordinates of the tile. */
   const int index; /* Index coordinate of the tile. */
   Terrain_type_id terrain;
-  enum tile_special_type special;
+  bv_special special;
   struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
   bv_player tile_known, tile_seen;
@@ -55,7 +55,7 @@ struct city *tile_get_city(const struct tile *ptile);
 void tile_set_city(struct tile *ptile, struct city *pcity);
 Terrain_type_id tile_get_terrain(const struct tile *ptile);
 void tile_set_terrain(struct tile *ptile, Terrain_type_id ter);
-enum tile_special_type tile_get_special(const struct tile *ptile);
+bv_special tile_get_special(const struct tile *ptile);
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
 void tile_set_special(struct tile *ptile, enum tile_special_type spe);

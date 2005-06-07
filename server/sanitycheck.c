@@ -56,7 +56,7 @@ static void check_specials(void)
 {
   whole_map_iterate(ptile) {
     Terrain_type_id terrain = tile_get_terrain(ptile);
-    enum tile_special_type special = tile_get_special(ptile);
+    bv_special special = tile_get_special(ptile);
 
     if (contains_special(special, S_RAILROAD))
       SANITY_CHECK(contains_special(special, S_ROAD));

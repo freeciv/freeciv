@@ -629,10 +629,68 @@ static void map_rivers_overlay_load(struct section_file *file)
 {
   /* Get the bits of the special flags which contain the river special
      and extract the rivers overlay from them. */
+  assert(S_LAST <= 32);
   LOAD_MAP_DATA(ch, line, ptile,
 		secfile_lookup_str_default(file, NULL, "map.n%03d", line),
-		ptile->special |= (ascii_hex2bin(ch, 2) & S_RIVER));
+		((ascii_hex2bin(ch, 2) & (1 << S_RIVER))
+		 ? tile_set_special(ptile, S_RIVER) : (void)0));
   map.have_rivers_overlay = TRUE;
+}
+
+/****************************************************************************
+  Complicated helper function for loading specials from a savegame.
+
+  'ch' gives the character loaded from the savegame.  Specials are packed
+  in four to a character in hex notation.  'which' specifies which set
+  of specials are included in this character.
+****************************************************************************/
+static void set_savegame_special(bv_special *specials,
+				 char ch, int which)
+{
+  int i, bin;
+  char *pch = strchr(hex_chars, ch);
+
+  if (!pch || ch == '\0') {
+    freelog(LOG_ERROR, "Unknown hex value: '%c' %d", ch, ch);
+    bin = 0;
+  } else {
+    bin = pch - hex_chars;
+  }
+
+  for (i = 0; i < 4; i++) {
+    enum tile_special_type sp = 4 * which + i;
+
+    if (sp >= S_LAST) {
+      break;
+    }
+    if (bin & (1 << i)) {
+      set_special(specials, sp);
+    }
+  }
+}
+
+/****************************************************************************
+  Complicated helper function for saving specials into a savegame.
+
+  Specials are packed in four to a character in hex notation.  'which'
+  specifies which set of specials are included in this character.
+****************************************************************************/
+static char get_savegame_special(bv_special specials, int which)
+{
+  int i, bin = 0;
+
+  for (i = 0; i < 4; i++) {
+    enum tile_special_type sp = i + 4 * which;
+
+    if (sp >= S_LAST) {
+      break;
+    }
+    if (contains_special(specials, sp)) {
+      bin |= (1 << i);
+    }
+  }
+
+  return hex_chars[bin];
 }
 
 /***************************************************************
@@ -657,16 +715,16 @@ static void map_load(struct section_file *file)
   /* get 4-bit segments of 16-bit "special" field. */
   LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str(file, "map.l%03d", nat_y),
-		ptile->special = ascii_hex2bin(ch, 0));
+		set_savegame_special(&ptile->special, ch, 0));
   LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str(file, "map.u%03d", nat_y),
-		ptile->special |= ascii_hex2bin(ch, 1));
+		set_savegame_special(&ptile->special, ch, 1));
   LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str_default(file, NULL, "map.n%03d", nat_y),
-		ptile->special |= ascii_hex2bin(ch, 2));
+		set_savegame_special(&ptile->special, ch, 2));
   LOAD_MAP_DATA(ch, nat_y, ptile,
 		secfile_lookup_str_default(file, NULL, "map.f%03d", nat_y),
-		ptile->special |= ascii_hex2bin(ch, 3));
+		set_savegame_special(&ptile->special, ch, 3));
 
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
     int known[MAP_INDEX_SIZE];
@@ -768,18 +826,18 @@ static void map_save(struct section_file *file)
 
       /* bits 8-11 of special flags field */
       SAVE_NORMAL_MAP_DATA(ptile, file, "map.n%03d",
-			   bin2ascii_hex(ptile->special, 2));
+			   get_savegame_special(ptile->special, 2));
     }
     return;
   }
 
   /* put 4-bit segments of 12-bit "special flags" field */
   SAVE_NORMAL_MAP_DATA(ptile, file, "map.l%03d",
-		       bin2ascii_hex(ptile->special, 0));
+		       get_savegame_special(ptile->special, 0));
   SAVE_NORMAL_MAP_DATA(ptile, file, "map.u%03d",
-		       bin2ascii_hex(ptile->special, 1));
+		       get_savegame_special(ptile->special, 1));
   SAVE_NORMAL_MAP_DATA(ptile, file, "map.n%03d",
-		       bin2ascii_hex(ptile->special, 2));
+		       get_savegame_special(ptile->special, 2));
 
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
@@ -787,7 +845,7 @@ static void map_save(struct section_file *file)
 
     /* put the top 4 bits (bits 12-15) of special flags */
     SAVE_NORMAL_MAP_DATA(ptile, file, "map.f%03d",
-			 bin2ascii_hex(ptile->special, 3));
+			 get_savegame_special(ptile->special, 3));
 
     /* HACK: we convert the data into a 32-bit integer, and then save it as
      * hex. */
@@ -1520,7 +1578,7 @@ static void load_player_units(struct player *plr, int plrno,
 					       "player%d.u%d.activity_count",
 					       plrno, i);
     punit->activity_target
-      = secfile_lookup_int_default(file, (int) S_NO_SPECIAL,
+      = secfile_lookup_int_default(file, S_LAST,
 				   "player%d.u%d.activity_target", plrno, i);
 
     punit->done_moving = secfile_lookup_bool_default(file,
@@ -2362,18 +2420,18 @@ static void player_map_load(struct player *plr, int plrno,
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "player%d.map_l%03d",
 				     plrno, nat_y),
-		  map_get_player_tile(ptile, plr)->special =
-		  ascii_hex2bin(ch, 0));
+	set_savegame_special(&map_get_player_tile(ptile, plr)->special,
+			     ch, 0));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "player%d.map_u%03d",
 				     plrno, nat_y),
-		  map_get_player_tile(ptile, plr)->special |=
-		  ascii_hex2bin(ch, 1));
+	set_savegame_special(&map_get_player_tile(ptile, plr)->special,
+			     ch, 1));
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str_default
 		  (file, NULL, "player%d.map_n%03d", plrno, nat_y),
-		  map_get_player_tile(ptile, plr)->special |=
-		  ascii_hex2bin(ch, 2));
+	set_savegame_special(&map_get_player_tile(ptile, plr)->special,
+			     ch, 2));
 
     /* get 4-bit segments of 16-bit "updated" field */
     LOAD_MAP_DATA(ch, nat_y, ptile,
@@ -2994,14 +3052,11 @@ static void player_save(struct player *plr, int plrno,
 
     /* put 4-bit segments of 12-bit "special flags" field */
     SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_l%03d", plrno,
-			 bin2ascii_hex(map_get_player_tile(ptile, plr)->
-				       special, 0));
+			 get_savegame_special(map_get_player_tile(ptile, plr)->special, 0));
     SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_u%03d", plrno,
-			 bin2ascii_hex(map_get_player_tile(ptile, plr)->
-				       special, 1));
+			 get_savegame_special(map_get_player_tile(ptile, plr)->special, 1));
     SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_n%03d", plrno,
-			 bin2ascii_hex(map_get_player_tile(ptile, plr)->
-				       special, 2));
+			 get_savegame_special(map_get_player_tile(ptile, plr)->special, 2));
 
     /* put 4-bit segments of 16-bit "updated" field */
     SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_ua%03d", plrno,

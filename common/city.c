@@ -597,10 +597,10 @@ static int base_get_output_tile(const struct tile *ptile,
 
   if (auto_water) {
     /* The center tile is auto-irrigated. */
-    tile.special |= S_IRRIGATION;
+    tile_set_special(&tile, S_IRRIGATION);
 
     if (player_knows_techs_with_flag(city_owner(pcity), TF_FARMLAND)) {
-      tile.special |= S_FARMLAND;
+      tile_set_special(&tile, S_FARMLAND);
     }
   }
 

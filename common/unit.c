@@ -682,7 +682,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
   bool result;
 
   punit->activity = ACTIVITY_IDLE;
-  punit->activity_target = S_NO_SPECIAL;
+  punit->activity_target = S_LAST;
 
   result = can_unit_do_activity_targeted(punit, current2, target);
 
@@ -702,7 +702,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
 bool can_unit_do_activity(const struct unit *punit,
 			  enum unit_activity activity)
 {
-  return can_unit_do_activity_targeted(punit, activity, S_NO_SPECIAL);
+  return can_unit_do_activity_targeted(punit, activity, S_LAST);
 }
 
 /**************************************************************************
@@ -851,27 +851,35 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_PILLAGE:
     {
-      enum tile_special_type pspresent = get_tile_infrastructure_set(ptile);
-      enum tile_special_type psworking;
+      int numpresent;
+      bv_special pspresent = get_tile_infrastructure_set(ptile, &numpresent);
 
-      if (pspresent != S_NO_SPECIAL && is_ground_unit(punit)) {
-	psworking = get_unit_tile_pillage_set(ptile);
-	if (ptile->city && (contains_special(target, S_ROAD)
-			    || contains_special(target, S_RAILROAD))) {
+      if (numpresent > 0 && is_ground_unit(punit)) {
+	bv_special psworking;
+	int i;
+
+	if (ptile->city && (target == S_ROAD || target == S_RAILROAD)) {
 	  return FALSE;
 	}
-	if (target == S_NO_SPECIAL) {
-	  if (ptile->city) {
-	    return ((pspresent & (~(psworking | S_ROAD | S_RAILROAD)))
-		    != S_NO_SPECIAL);
-	  } else {
-	    return ((pspresent & (~psworking)) != S_NO_SPECIAL);
+	psworking = get_unit_tile_pillage_set(ptile);
+	if (target == S_LAST) {
+	  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
+	    enum tile_special_type spe = infrastructure_specials[i];
+
+	    if (ptile->city && (spe == S_ROAD || spe == S_RAILROAD)) {
+	      /* Can't pillage this. */
+	      continue;
+	    }
+	    if (BV_ISSET(pspresent, spe) && !BV_ISSET(psworking, spe)) {
+	      /* Can pillage this! */
+	      return TRUE;
+	    }
 	  }
 	} else if (!game.info.pillage_select
 		   && target != get_preferred_pillage(pspresent)) {
 	  return FALSE;
 	} else {
-	  return ((pspresent & (~psworking) & target) != S_NO_SPECIAL);
+	  return BV_ISSET(pspresent, target) && !BV_ISSET(psworking, target);
 	}
       } else {
 	return FALSE;
@@ -913,7 +921,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 {
   punit->activity=new_activity;
   punit->activity_count=0;
-  punit->activity_target = S_NO_SPECIAL;
+  punit->activity_target = S_LAST;
   if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
     /* No longer done. */
     punit->done_moving = FALSE;
@@ -949,13 +957,15 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
   Return a mask of the specials which may be pillaged at the given
   tile.
 **************************************************************************/
-enum tile_special_type get_unit_tile_pillage_set(const struct tile *ptile)
+bv_special get_unit_tile_pillage_set(const struct tile *ptile)
 {
-  enum tile_special_type tgt_ret = S_NO_SPECIAL;
+  bv_special tgt_ret;
 
+  BV_CLR_ALL(tgt_ret);
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE) {
-      tgt_ret |= punit->activity_target;
+      assert(punit->activity_target < S_LAST);
+      BV_SET(tgt_ret, punit->activity_target);
     }
   } unit_list_iterate_end;
   return tgt_ret;
@@ -1025,12 +1035,16 @@ const char *unit_activity_text(const struct unit *punit)
    case ACTIVITY_EXPLORE:
      return get_activity_text (punit->activity);
    case ACTIVITY_PILLAGE:
-     if(punit->activity_target == S_NO_SPECIAL) {
+     if (punit->activity_target == S_LAST) {
        return get_activity_text (punit->activity);
      } else {
+       bv_special pset;
+
+       BV_CLR_ALL(pset);
+       BV_SET(pset, punit->activity_target);
        my_snprintf(text, sizeof(text), "%s: %s",
 		   get_activity_text (punit->activity),
-		   get_infrastructure_text(punit->activity_target));
+		   get_infrastructure_text(pset));
        return (text);
      }
    default:

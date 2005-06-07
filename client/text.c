@@ -158,6 +158,8 @@ const char *popup_info_text(struct tile *ptile)
      "" /*unused, DS_CEASEFIRE */,
      Q_("?city:Peaceful"), Q_("?city:Friendly"), Q_("?city:Mysterious"),
      Q_("?city:Friendly(team)")};
+  int infracount;
+  bv_special infra;
   INIT;
 
 #ifdef DEBUG
@@ -241,8 +243,9 @@ const char *popup_info_text(struct tile *ptile)
 		 hcity->name, trade_between_cities(hcity, pcity));
       }
     } 
-  } 
-  if (get_tile_infrastructure_set(ptile)) {
+  }
+  infra = get_tile_infrastructure_set(ptile, &infracount);
+  if (infracount > 0) {
     add_line(_("Infrastructure: %s"),
 	     get_infrastructure_text(ptile->special));
   }
@@ -569,8 +572,9 @@ const char *get_unit_info_label_text2(struct unit *punit)
   if (punit) {
     struct city *pcity =
 	player_find_city_by_id(game.player_ptr, punit->homecity);
-    int infrastructure =
-	get_tile_infrastructure_set(punit->tile);
+    int infracount;
+    bv_special infrastructure =
+      get_tile_infrastructure_set(punit->tile, &infracount);
 
     if (hover_unit == punit->id) {
       add_line(_("Turns to target: %d"), get_goto_turns());
@@ -579,7 +583,7 @@ const char *get_unit_info_label_text2(struct unit *punit)
     }
 
     add_line("%s", tile_get_info_text(punit->tile));
-    if (infrastructure) {
+    if (infracount > 0) {
       add_line("%s", get_infrastructure_text(infrastructure));
     } else {
       add_line(" ");

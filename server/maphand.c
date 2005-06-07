@@ -465,13 +465,17 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->player;
+    enum tile_special_type spe;
+
     if (!pplayer && !pconn->observer) {
       continue;
     }
     if (!pplayer || map_is_known_and_seen(ptile, pplayer)) {
       info.known = TILE_KNOWN;
       info.type = ptile->terrain;
-      info.special = ptile->special;
+      for (spe = 0; spe < S_LAST; spe++) {
+	info.special[spe] = BV_ISSET(ptile->special, spe);
+      }
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
@@ -480,7 +484,9 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
       info.known = TILE_KNOWN_FOGGED;
       info.type = plrtile->terrain;
-      info.special = plrtile->special;
+      for (spe = 0; spe < S_LAST; spe++) {
+	info.special[spe] = BV_ISSET(plrtile->special, spe);
+      }
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     }
@@ -502,6 +508,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
 {
   struct packet_tile_info info;
   struct player_tile *plrtile;
+  enum tile_special_type spe;
 
   info.x = ptile->x;
   info.y = ptile->y;
@@ -516,7 +523,9 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
     /* Observer sees all. */
     info.known=TILE_KNOWN;
     info.type = ptile->terrain;
-    info.special = ptile->special;
+    for (spe = 0; spe < S_LAST; spe++) {
+      info.special[spe] = BV_ISSET(ptile->special, spe);
+    }
     info.continent = ptile->continent;
   } else if (map_is_known(ptile, pplayer)) {
     if (map_get_seen(ptile, pplayer) != 0) {
@@ -528,13 +537,17 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
     }
     plrtile = map_get_player_tile(ptile, pplayer);
     info.type = plrtile->terrain;
-    info.special = plrtile->special;
+    for (spe = 0; spe < S_LAST; spe++) {
+      info.special[spe] = BV_ISSET(plrtile->special, spe);
+    }
     info.continent = ptile->continent;
   } else {
     /* Unknown (the client needs these sometimes to draw correctly). */
     info.known = TILE_UNKNOWN;
     info.type = ptile->terrain;
-    info.special = ptile->special;
+    for (spe = 0; spe < S_LAST; spe++) {
+      info.special[spe] = BV_ISSET(ptile->special, spe);
+    }
     info.continent = ptile->continent;
   }
   lsend_packet_tile_info(dest, &info);
@@ -1101,7 +1114,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
     map_get_player_tile(ptile, pplayer);
 
   plrtile->terrain = T_UNKNOWN;
-  plrtile->special = S_NO_SPECIAL;
+  BV_CLR_ALL(plrtile->special);
   plrtile->city = NULL;
 
   plrtile->seen_count = 0;
@@ -1144,7 +1157,8 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
   if (plrtile->terrain != ptile->terrain
-      || plrtile->special != ptile->special) {
+      || memcmp(&plrtile->special, &ptile->special,
+		sizeof(plrtile->special)) != 0) {
     plrtile->terrain = ptile->terrain;
     plrtile->special = ptile->special;
     return TRUE;

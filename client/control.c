@@ -919,7 +919,7 @@ void request_new_unit_activity(struct unit *punit, enum unit_activity act)
   }
 
   dsend_packet_unit_change_activity(&aconnection, punit->id, act,
-				    S_NO_SPECIAL);
+				    S_LAST);
 }
 
 /**************************************************************************
@@ -995,7 +995,7 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans)
     /* Sentry the unit.  Don't request_unit_sentry since this can give a
      * recursive loop. */
     dsend_packet_unit_change_activity(&aconnection, pcargo->id,
-				      ACTIVITY_SENTRY, S_NO_SPECIAL);
+				      ACTIVITY_SENTRY, S_LAST);
   }
 }
 
@@ -1015,7 +1015,7 @@ void request_unit_unload(struct unit *pcargo)
 
     /* Activate the unit. */
     dsend_packet_unit_change_activity(&aconnection, pcargo->id,
-				      ACTIVITY_IDLE, S_NO_SPECIAL);
+				      ACTIVITY_IDLE, S_LAST);
   }
 }
 
@@ -1118,18 +1118,25 @@ void request_unit_fortify(struct unit *punit)
 void request_unit_pillage(struct unit *punit)
 {
   struct tile *ptile = punit->tile;
-  enum tile_special_type pspresent = get_tile_infrastructure_set(ptile);
-  enum tile_special_type psworking =
-      get_unit_tile_pillage_set(punit->tile);
-  enum tile_special_type what =
-      get_preferred_pillage(pspresent & (~psworking));
-  enum tile_special_type would =
-      what | get_infrastructure_prereq(what);
+  bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
+  bv_special psworking = get_unit_tile_pillage_set(punit->tile);
+  bv_special pspossible;
+  int count = 0;
+  enum tile_special_type spe;
 
-  if ((game.info.pillage_select) &&
-      ((pspresent & (~(psworking | would))) != S_NO_SPECIAL)) {
-    popup_pillage_dialog(punit, (pspresent & (~psworking)));
+  BV_CLR_ALL(pspossible);
+  for (spe = 0; spe < S_LAST; spe++) {
+    if (BV_ISSET(pspresent, spe) && !BV_ISSET(psworking, spe)) {
+      BV_SET(pspossible, spe);
+      count++;
+    }
+  }
+
+  if (count > 1) {
+    popup_pillage_dialog(punit, pspossible);
   } else {
+    enum tile_special_type what = get_preferred_pillage(pspossible);
+
     request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, what);
   }
 }

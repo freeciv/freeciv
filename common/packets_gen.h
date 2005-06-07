@@ -98,7 +98,7 @@ struct packet_tile_info {
   int y;
   Terrain_type_id type;
   int known;
-  enum tile_special_type special;
+  bool special[S_LAST];
   int owner;
   Continent_id continent;
   char spec_sprite[MAX_LEN_NAME];

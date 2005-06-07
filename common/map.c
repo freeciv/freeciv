@@ -59,11 +59,23 @@ const int DIR_DY[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 /****************************************************************************
   Return a bitfield of the specials on the tile that are infrastructure.
 ****************************************************************************/
-enum tile_special_type get_tile_infrastructure_set(const struct tile *ptile)
+bv_special get_tile_infrastructure_set(const struct tile *ptile,
+					  int *pcount)
 {
-  return (ptile->special
-	  & (S_ROAD | S_RAILROAD | S_IRRIGATION | S_FARMLAND | S_MINE
-	     | S_FORTRESS | S_AIRBASE));
+  bv_special pspresent;
+  int i, count = 0;
+
+  BV_CLR_ALL(pspresent);
+  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
+    if (tile_has_special(ptile, infrastructure_specials[i])) {
+      BV_SET(pspresent, infrastructure_specials[i]);
+      count++;
+    }
+  }
+  if (pcount) {
+    *pcount = count;
+  }
+  return pspresent;
 }
 
 /***************************************************************
@@ -256,7 +268,7 @@ void map_init_topology(bool set_sizes)
 static void tile_init(struct tile *ptile)
 {
   ptile->terrain  = T_UNKNOWN;
-  ptile->special  = S_NO_SPECIAL;
+  BV_CLR_ALL(ptile->special);
   BV_CLR_ALL(ptile->tile_known);
   BV_CLR_ALL(ptile->tile_seen);
   ptile->continent = 0;

@@ -1090,9 +1090,10 @@ static void pillage_destroy_callback(GtkWidget *w, gpointer data)
 ...
 *****************************************************************/
 void popup_pillage_dialog(struct unit *punit,
-			  enum tile_special_type may_pillage)
+			  bv_special may_pillage)
 {
   GtkWidget *shl;
+  enum tile_special_type what, prereq;
 
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;
@@ -1102,13 +1103,19 @@ void popup_pillage_dialog(struct unit *punit,
 			       _("What To Pillage"),
 			       _("Select what to pillage:"));
 
-    while (may_pillage != S_NO_SPECIAL) {
-      enum tile_special_type what = get_preferred_pillage(may_pillage);
+    while ((what = get_preferred_pillage(may_pillage)) != S_LAST) {
+      bv_special what_bv;
 
-      message_dialog_add(shl, get_infrastructure_text(what),
+      BV_CLR_ALL(what_bv);
+      BV_SET(what_bv, what);
+      message_dialog_add(shl, get_infrastructure_text(what_bv),
 			 G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
 
-      may_pillage &= (~(what | get_infrastructure_prereq(what)));
+      clear_special(&may_pillage, what);
+      prereq = get_infrastructure_prereq(what);
+      if (prereq != S_LAST) {
+	clear_special(&may_pillage, prereq);
+      }
     }
 
     message_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0);

@@ -22,45 +22,26 @@ enum special_river_move {
 };
 
 enum tile_special_type {
-  S_NO_SPECIAL =    0,
-  S_SPECIAL_1  =    1,
-  S_ROAD       =    2,
-  S_IRRIGATION =    4,
-  S_RAILROAD   =    8,
-  S_MINE       =   16,
-  S_POLLUTION  =   32,
-  S_HUT        =   64,
-  S_FORTRESS   =  128,
-  S_SPECIAL_2  =  256,
-  S_RIVER      =  512,
-  S_FARMLAND   = 1024,
-  S_AIRBASE    = 2048,
-  S_FALLOUT    = 4096
+  S_SPECIAL_1,
+  S_ROAD,
+  S_IRRIGATION,
+  S_RAILROAD,
+  S_MINE,
+  S_POLLUTION,
+  S_HUT,
+  S_FORTRESS,
+  S_SPECIAL_2,
+  S_RIVER,
+  S_FARMLAND,
+  S_AIRBASE,
+  S_FALLOUT,
+  S_LAST
 };
 
-#define S_ALL    \
- (  S_SPECIAL_1  \
-  | S_ROAD       \
-  | S_IRRIGATION \
-  | S_RAILROAD   \
-  | S_MINE       \
-  | S_POLLUTION  \
-  | S_HUT        \
-  | S_FORTRESS   \
-  | S_SPECIAL_2  \
-  | S_RIVER      \
-  | S_FARMLAND   \
-  | S_AIRBASE    \
-  | S_FALLOUT)
+/* S_LAST-terminated */
+extern enum tile_special_type infrastructure_specials[];
 
-#define S_INFRASTRUCTURE_MASK \
-  (S_ROAD                   \
-   | S_RAILROAD             \
-   | S_IRRIGATION           \
-   | S_FARMLAND             \
-   | S_MINE                 \
-   | S_FORTRESS             \
-   | S_AIRBASE)
+BV_DEFINE(bv_special, S_LAST);
 
 #define T_NONE (-3) /* A special flag meaning no terrain type. */
 #define T_ANY (-2) /* A special flag that matches "any" terrain type. */
@@ -201,7 +182,10 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 /* General special accessor functions. */
 enum tile_special_type get_special_by_name(const char * name);
 const char *get_special_name(enum tile_special_type type);
-bool contains_special(enum tile_special_type all,
+void set_special(bv_special *set, enum tile_special_type to_set);
+void clear_special(bv_special *set, enum tile_special_type to_clear);
+void clear_all_specials(bv_special *set);
+bool contains_special(bv_special all,
 		      enum tile_special_type to_test_for);
 
 /* Functions to operate on a terrain special. */
@@ -219,9 +203,9 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
 				 enum terrain_flag_id flag);
 
 /* Special helper functions */
-const char *get_infrastructure_text(enum tile_special_type spe);
+const char *get_infrastructure_text(bv_special pset);
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
-enum tile_special_type get_preferred_pillage(enum tile_special_type pset);
+enum tile_special_type get_preferred_pillage(bv_special pset);
 
 /* Terrain-specific functions. */
 #define is_ocean(x) (terrain_has_flag((x), TER_OCEANIC))

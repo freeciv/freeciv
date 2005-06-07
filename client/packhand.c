@@ -1856,14 +1856,24 @@ void handle_tile_info(struct packet_tile_info *packet)
   enum known_type old_known = client_tile_get_known(ptile);
   bool tile_changed = FALSE;
   bool known_changed = FALSE;
+  enum tile_special_type spe;
 
   if (ptile->terrain != packet->type) { /*terrain*/
     tile_changed = TRUE;
     ptile->terrain = packet->type;
   }
-  if (ptile->special != packet->special) { /*add-on*/
-    tile_changed = TRUE;
-    ptile->special = packet->special;
+  for (spe = 0; spe < S_LAST; spe++) {
+    if (packet->special[spe]) {
+      if (!tile_has_special(ptile, spe)) {
+	tile_set_special(ptile, spe);
+	tile_changed = TRUE;
+      }
+    } else {
+      if (tile_has_special(ptile, spe)) {
+	tile_clear_special(ptile, spe);
+	tile_changed = TRUE;
+      }
+    }
   }
   if (packet->owner == MAP_TILE_OWNER_NULL) {
     if (ptile->owner) {

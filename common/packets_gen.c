@@ -3260,11 +3260,13 @@ static struct packet_tile_info *receive_packet_tile_info_100(struct connection *
     }
   }
   if (BV_ISSET(fields, 2)) {
-    {
-      int readin;
     
-      dio_get_uint16(&din, &readin);
-      real_packet->special = readin;
+    {
+      int i;
+    
+      for (i = 0; i < S_LAST; i++) {
+        dio_get_bool8(&din, &real_packet->special[i]);
+      }
     }
   }
   if (BV_ISSET(fields, 3)) {
@@ -3328,7 +3330,19 @@ static int send_packet_tile_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (old->special != real_packet->special);
+
+    {
+      differ = (S_LAST != S_LAST);
+      if(!differ) {
+        int i;
+        for (i = 0; i < S_LAST; i++) {
+          if (old->special[i] != real_packet->special[i]) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
@@ -3359,7 +3373,14 @@ static int send_packet_tile_info_100(struct connection *pc, const struct packet_
     dio_put_uint8(&dout, real_packet->known);
   }
   if (BV_ISSET(fields, 2)) {
-    dio_put_uint16(&dout, real_packet->special);
+  
+    {
+      int i;
+
+      for (i = 0; i < S_LAST; i++) {
+        dio_put_bool8(&dout, real_packet->special[i]);
+      }
+    } 
   }
   if (BV_ISSET(fields, 3)) {
     dio_put_uint8(&dout, real_packet->owner);

@@ -662,13 +662,12 @@ static void update_unit_activity(struct unit *punit)
   }
 
   if (activity==ACTIVITY_PILLAGE) {
-    if (punit->activity_target == S_NO_SPECIAL) { /* case for old save files */
+    if (punit->activity_target == S_LAST) { /* case for old save files */
       if (punit->activity_count >= 1) {
-	enum tile_special_type what =
-	  get_preferred_pillage(
-	       get_tile_infrastructure_set(ptile));
+	enum tile_special_type what
+	  = get_preferred_pillage(get_tile_infrastructure_set(ptile, NULL));
 
-	if (what != S_NO_SPECIAL) {
+	if (what != S_LAST) {
 	  tile_clear_special(ptile, what);
 	  update_tile_knowledge(ptile);
 	  set_unit_activity(punit, ACTIVITY_IDLE);

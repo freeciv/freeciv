@@ -269,7 +269,7 @@ int get_turns_for_activity_at(const struct unit *punit,
 bool can_unit_do_auto(const struct unit *punit); 
 bool is_unit_activity_on_tile(enum unit_activity activity,
 			      const struct tile *ptile);
-enum tile_special_type get_unit_tile_pillage_set(const struct tile *ptile);
+bv_special get_unit_tile_pillage_set(const struct tile *ptile);
 bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool is_diplomat_unit(const struct unit *punit);

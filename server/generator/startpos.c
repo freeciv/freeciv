@@ -42,7 +42,7 @@ static int *islands_index;
 static int get_tile_value(struct tile *ptile)
 {
   Terrain_type_id old_terrain;
-  enum tile_special_type old_special;
+  bv_special old_special;
   int value, irrig_bonus, mine_bonus;
 
   /* Give one point for each food / shield / trade produced. */

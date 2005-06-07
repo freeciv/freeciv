@@ -76,7 +76,7 @@ void tile_set_terrain(struct tile *ptile, Terrain_type_id ter)
   Note that this returns a mask of _all_ the specials on the tile.  To
   check a specific special use tile_has_special.
 ****************************************************************************/
-enum tile_special_type tile_get_special(const struct tile *ptile)
+bv_special tile_get_special(const struct tile *ptile)
 {
   return ptile->special;
 }
@@ -100,7 +100,7 @@ bool tile_has_special(const struct tile *ptile,
 ****************************************************************************/
 void tile_set_special(struct tile *ptile, enum tile_special_type spe)
 {
-  ptile->special |= spe;
+  set_special(&ptile->special, spe);
 }
 
 /****************************************************************************
@@ -111,7 +111,7 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe)
 ****************************************************************************/
 void tile_clear_special(struct tile *ptile, enum tile_special_type spe)
 {
-  ptile->special &= ~spe;
+  clear_special(&ptile->special, spe);
 }
 
 /****************************************************************************
@@ -119,8 +119,7 @@ void tile_clear_special(struct tile *ptile, enum tile_special_type spe)
 ****************************************************************************/
 void tile_clear_all_specials(struct tile *ptile)
 {
-  assert((int)S_NO_SPECIAL == 0);
-  ptile->special = S_NO_SPECIAL;
+  clear_all_specials(&ptile->special);
 }
 
 /****************************************************************************
@@ -192,7 +191,11 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 ****************************************************************************/
 static void tile_clear_infrastructure(struct tile *ptile)
 {
-  tile_clear_special(ptile, S_INFRASTRUCTURE_MASK);
+  int i;
+
+  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
+    tile_clear_special(ptile, infrastructure_specials[i]);
+  }
 }
 
 /****************************************************************************

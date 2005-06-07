@@ -2733,9 +2733,9 @@ static struct sprite *get_city_occupied_sprite(const struct tileset *t,
 **************************************************************************/
 static void build_tile_data(const struct tile *ptile,
 			    Terrain_type_id *ttype,
-			    enum tile_special_type *tspecial,
+			    bv_special *tspecial,
 			    Terrain_type_id *ttype_near,
-			    enum tile_special_type *tspecial_near)
+			    bv_special *tspecial_near)
 {
   enum direction8 dir;
 
@@ -2752,7 +2752,7 @@ static void build_tile_data(const struct tile *ptile,
     } else {
       /* We draw the edges of the (known) map as if the same terrain just
        * continued off the edge of the map. */
-      tspecial_near[dir] = S_NO_SPECIAL;
+      BV_CLR_ALL(tspecial_near[dir]);
       ttype_near[dir] = *ttype;
     }
   }
@@ -2976,8 +2976,8 @@ static int fill_rail_corner_sprites(const struct tileset *t,
 **************************************************************************/
 static int fill_road_rail_sprite_array(const struct tileset *t,
 				       struct drawn_sprite *sprs,
-				       enum tile_special_type tspecial,
-				       enum tile_special_type *tspecial_near,
+				       bv_special tspecial,
+				       bv_special *tspecial_near,
 				       const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
@@ -3163,7 +3163,7 @@ static int fill_road_rail_sprite_array(const struct tileset *t,
   this).
 **************************************************************************/
 static int get_irrigation_index(const struct tileset *t,
-				enum tile_special_type *tspecial_near)
+				bv_special *tspecial_near)
 {
   int tileno = 0, i;
 
@@ -3184,8 +3184,8 @@ static int get_irrigation_index(const struct tileset *t,
 **************************************************************************/
 static int fill_irrigation_sprite_array(const struct tileset *t,
 					struct drawn_sprite *sprs,
-					enum tile_special_type tspecial,
-					enum tile_special_type *tspecial_near,
+					bv_special tspecial,
+					bv_special *tspecial_near,
 					const struct city *pcity)
 {
   struct drawn_sprite *saved_sprs = sprs;
@@ -3757,7 +3757,7 @@ int fill_sprite_array(struct tileset *t,
 		      const struct city *citymode)
 {
   Terrain_type_id ttype = T_UNKNOWN, ttype_near[8];
-  enum tile_special_type tspecial = S_NO_SPECIAL, tspecial_near[8];
+  bv_special tspecial, tspecial_near[8];
   int tileno, dir;
   struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;

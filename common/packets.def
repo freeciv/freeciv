@@ -329,7 +329,7 @@ PACKET_TILE_INFO=14; is-info,sc,lsend
 
   TERRAIN type;
   UINT8 known;
-  SPECIAL special;
+  BOOL special[S_LAST];
   PLAYER owner;
   CONTINENT continent;
   STRING spec_sprite[MAX_LEN_NAME];
