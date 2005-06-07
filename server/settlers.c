@@ -1355,5 +1355,4 @@ void contemplate_terrain_improvements(struct city *pcity)
            ai->stats.cities[ptile->continent]);
   assert(want >= 0);
   pcity->ai.settler_want = want;
-  freelog(LOG_NORMAL, "Settler want set to %d.", want);
 }
