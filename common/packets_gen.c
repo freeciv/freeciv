@@ -10952,16 +10952,99 @@ int send_packet_player_info(struct connection *pc, const struct packet_player_in
   }
 }
 
+#define hash_packet_player_phase_done_100 hash_const
+
+#define cmp_packet_player_phase_done_100 cmp_const
+
+BV_DEFINE(packet_player_phase_done_100_fields, 1);
+
 static struct packet_player_phase_done *receive_packet_player_phase_done_100(struct connection *pc, enum packet_type type)
 {
+  packet_player_phase_done_100_fields fields;
+  struct packet_player_phase_done *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_player_phase_done *clone;
   RECEIVE_PACKET_START(packet_player_phase_done, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_player_phase_done_100, cmp_packet_player_phase_done_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_sint16(&din, &readin);
+      real_packet->turn = readin;
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
 
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_player_phase_done_100(struct connection *pc)
+static int send_packet_player_phase_done_100(struct connection *pc, const struct packet_player_phase_done *packet)
 {
+  const struct packet_player_phase_done *real_packet = packet;
+  packet_player_phase_done_100_fields fields;
+  struct packet_player_phase_done *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_PLAYER_PHASE_DONE];
+  int different = 0;
   SEND_PACKET_START(PACKET_PLAYER_PHASE_DONE);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_player_phase_done_100, cmp_packet_player_phase_done_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->turn != real_packet->turn);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_sint16(&dout, real_packet->turn);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
   SEND_PACKET_END;
 }
 
@@ -11002,7 +11085,7 @@ struct packet_player_phase_done *receive_packet_player_phase_done(struct connect
   }
 }
 
-int send_packet_player_phase_done(struct connection *pc)
+int send_packet_player_phase_done(struct connection *pc, const struct packet_player_phase_done *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -11017,9 +11100,18 @@ int send_packet_player_phase_done(struct connection *pc)
   ensure_valid_variant_packet_player_phase_done(pc);
 
   switch(pc->phs.variant[PACKET_PLAYER_PHASE_DONE]) {
-    case 100: return send_packet_player_phase_done_100(pc);
+    case 100: return send_packet_player_phase_done_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
+}
+
+int dsend_packet_player_phase_done(struct connection *pc, int turn)
+{
+  struct packet_player_phase_done packet, *real_packet = &packet;
+
+  real_packet->turn = turn;
+  
+  return send_packet_player_phase_done(pc, real_packet);
 }
 
 #define hash_packet_player_rates_100 hash_const

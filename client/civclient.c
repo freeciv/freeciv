@@ -427,7 +427,7 @@ void send_turn_done(void)
 
   attribute_flush();
 
-  send_packet_player_phase_done(&aconnection);
+  dsend_packet_player_phase_done(&aconnection, game.info.turn);
 
   update_turn_done_button_state();
 }

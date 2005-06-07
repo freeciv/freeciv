@@ -409,7 +409,7 @@ struct packet_player_info {
 };
 
 struct packet_player_phase_done {
-  char __dummy;			/* to avoid malloc(0); */
+  int turn;
 };
 
 struct packet_player_rates {
@@ -1308,7 +1308,8 @@ struct packet_player_info *receive_packet_player_info(struct connection *pc, enu
 int send_packet_player_info(struct connection *pc, const struct packet_player_info *packet);
 
 struct packet_player_phase_done *receive_packet_player_phase_done(struct connection *pc, enum packet_type type);
-int send_packet_player_phase_done(struct connection *pc);
+int send_packet_player_phase_done(struct connection *pc, const struct packet_player_phase_done *packet);
+int dsend_packet_player_phase_done(struct connection *pc, int turn);
 
 struct packet_player_rates *receive_packet_player_rates(struct connection *pc, enum packet_type type);
 int send_packet_player_rates(struct connection *pc, const struct packet_player_rates *packet);

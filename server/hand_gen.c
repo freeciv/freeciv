@@ -113,7 +113,8 @@ bool server_handle_packet(enum packet_type type, void *packet,
     return TRUE;
 
   case PACKET_PLAYER_PHASE_DONE:
-    handle_player_phase_done(pplayer);
+    handle_player_phase_done(pplayer,
+      ((struct packet_player_phase_done *)packet)->turn);
     return TRUE;
 
   case PACKET_PLAYER_RATES:

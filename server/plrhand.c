@@ -2305,8 +2305,15 @@ void handle_player_attribute_block(struct player *pplayer)
 ...
 (Hmm, how should "turn done" work for multi-connected non-observer players?)
 **************************************************************************/
-void handle_player_phase_done(struct player *pplayer)
+void handle_player_phase_done(struct player *pplayer,
+			      int turn)
 {
+  if (turn != game.info.turn) {
+    /* If this happens then the player actually pressed turn-done on a
+     * previous turn but we didn't receive it until now.  The player
+     * probably didn't actually mean to end their turn! */
+    return;
+  }
   pplayer->phase_done = TRUE;
 
   check_for_full_turn_done();
