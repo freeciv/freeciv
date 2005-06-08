@@ -1287,9 +1287,10 @@ static void pillage_callback(Widget w, XtPointer client_data,
 ...
 *****************************************************************/
 void popup_pillage_dialog(struct unit *punit,
-			  enum tile_special_type may_pillage)
+			  bv_special may_pillage)
 {
   Widget shell, form, dlabel, button, prev;
+  enum tile_special_type what, prereq;
 
   if (is_showing_pillage_dialog) {
     return;
@@ -1305,19 +1306,25 @@ void popup_pillage_dialog(struct unit *punit,
   dlabel = I_L(XtVaCreateManagedWidget("dlabel", labelWidgetClass, form, NULL));
 
   prev = dlabel;
-  while (may_pillage) {
-    enum tile_special_type what = get_preferred_pillage(may_pillage);
+  while ((what = get_preferred_pillage(may_pillage)) != S_LAST) {
+    bv_special what_bv;
 
+    BV_CLR_ALL(what_bv);
+    BV_SET(what_bv, what);
     button =
       XtVaCreateManagedWidget ("button", commandWidgetClass, form,
 			       XtNfromVert, prev,
 			       XtNlabel,
-			         (XtArgVal)(get_infrastructure_text (what)),
+			       (XtArgVal)(get_infrastructure_text(what_bv)),
 			       NULL);
     XtAddCallback(button, XtNcallback, pillage_callback,
 		  INT_TO_XTPOINTER(what));
     prev = button;
-    may_pillage &= (~(what | get_infrastructure_prereq(what)));
+    clear_special(&may_pillage, what);
+    prereq = get_infrastructure_prereq(what);
+    if (prereq != S_LAST) {
+      clear_special(&may_pillage, prereq);
+    }
   }
   button =
     I_L(XtVaCreateManagedWidget("closebutton", commandWidgetClass, form,

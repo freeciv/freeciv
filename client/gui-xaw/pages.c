@@ -177,7 +177,7 @@ void update_start_page(void)
     return;
   }
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
-    bool is_started;
+    bool is_ready;
     const char *name, *nation, *leader;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
@@ -194,7 +194,7 @@ void update_start_page(void)
       } else {
 	name = pplayer->username;
       }
-      is_started = pplayer->ai.control ? TRUE: pplayer->is_started;
+      is_ready = pplayer->ai.control ? TRUE: pplayer->is_ready;
       if (pplayer->nation == NO_NATION_SELECTED) {
 	nation = _("Random");
 	leader = "";
@@ -206,7 +206,7 @@ void update_start_page(void)
       my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
 		  "%-16s %-5s %-16s %-16s %4d",
 		  name,
-		  is_started ? " Yes " : " No  ",
+		  is_ready ? " Yes " : " No  ",
 		  leader,
 		  nation,
 		  pplayer->player_no);
