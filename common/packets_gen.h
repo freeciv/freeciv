@@ -170,7 +170,6 @@ struct packet_game_info {
   int fulltradesize;
   int watchtower_extra_vision;
   int allowed_city_names;
-  int firepower_factor;
   Impr_type_id palace_building;
   Impr_type_id land_defend_building;
   bool changable_tax;

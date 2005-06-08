@@ -401,7 +401,6 @@ PACKET_GAME_INFO=15; sc
   UINT8 notradesize, fulltradesize;
   UINT8 watchtower_extra_vision;
   UINT8 allowed_city_names;
-  UINT8 firepower_factor;
   IMPROVEMENT palace_building;
   IMPROVEMENT land_defend_building;
   BOOL changable_tax;
