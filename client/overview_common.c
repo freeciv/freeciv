@@ -100,42 +100,42 @@ static void gui_to_overview_pos(const struct tileset *t,
 /****************************************************************************
   Return color for overview map tile.
 ****************************************************************************/
-static enum color_std overview_tile_color(struct tile *ptile)
+static struct color *overview_tile_color(struct tile *ptile)
 {
   struct unit *punit;
   struct city *pcity;
 
   if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
-    return COLOR_OVERVIEW_UNKNOWN;
+    return get_color(tileset, COLOR_OVERVIEW_UNKNOWN);
   } else if ((pcity = tile_get_city(ptile))) {
     if (pcity->owner == game.info.player_idx) {
-      return COLOR_OVERVIEW_MY_CITY;
+      return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
     } else if (pplayers_allied(city_owner(pcity), game.player_ptr)) {
       /* Includes teams. */
-      return COLOR_OVERVIEW_ALLIED_CITY;
+      return get_color(tileset, COLOR_OVERVIEW_ALLIED_CITY);
     } else {
-      return COLOR_OVERVIEW_ENEMY_CITY;
+      return get_color(tileset, COLOR_OVERVIEW_ENEMY_CITY);
     }
   } else if ((punit = find_visible_unit(ptile))) {
     if (punit->owner == game.info.player_idx) {
-      return COLOR_OVERVIEW_MY_UNIT;
+      return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
     } else if (pplayers_allied(unit_owner(punit), game.player_ptr)) {
       /* Includes teams. */
-      return COLOR_OVERVIEW_ALLIED_UNIT;
+      return get_color(tileset, COLOR_OVERVIEW_ALLIED_UNIT);
     } else {
-      return COLOR_OVERVIEW_ENEMY_UNIT;
+      return get_color(tileset, COLOR_OVERVIEW_ENEMY_UNIT);
     }
   } else if (is_ocean(ptile->terrain)) {
     if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      return COLOR_OVERVIEW_FOGGED_OCEAN;
+      return get_color(tileset, COLOR_OVERVIEW_FOGGED_OCEAN);
     } else {
-      return COLOR_OVERVIEW_OCEAN;
+      return get_color(tileset, COLOR_OVERVIEW_OCEAN);
     }
   } else {
     if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      return COLOR_OVERVIEW_FOGGED_LAND;
+      return get_color(tileset, COLOR_OVERVIEW_FOGGED_LAND);
     } else {
-      return COLOR_OVERVIEW_LAND;
+      return get_color(tileset, COLOR_OVERVIEW_LAND);
     }
   }
 }
@@ -340,8 +340,7 @@ void overview_update_tile(struct tile *ptile)
 	  /* This tile is shown half on the left and half on the right
 	   * side of the overview.  So we have to draw it in two parts. */
 	  canvas_put_rectangle(overview.map,
-			       get_color(tileset,
-					 overview_tile_color(ptile)),
+			       overview_tile_color(ptile),
 			       overview_x - overview.width, overview_y,
 			       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT); 
 	}     
@@ -352,8 +351,7 @@ void overview_update_tile(struct tile *ptile)
       }
     } 
 
-    canvas_put_rectangle(overview.map,
-			 get_color(tileset, overview_tile_color(ptile)),
+    canvas_put_rectangle(overview.map, overview_tile_color(ptile),
 			 overview_x, overview_y,
 			 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 
