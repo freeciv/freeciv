@@ -330,8 +330,13 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   set_invention(plr, tech_found, TECH_KNOWN);
   update_research(plr);
   remove_obsolete_buildings(plr);
-  if (tech_flag(tech_found,TF_RAILROAD)) {
-    upgrade_city_rails(plr, was_discovery);
+
+  if (tech_flag(tech_found, TF_RAILROAD)) {
+    players_iterate(aplayer) {
+      if (players_on_same_team(aplayer, plr)) {
+        upgrade_city_rails(plr, was_discovery);
+      }
+    } players_iterate_end;
   }
 
   government_iterate(gov) {
