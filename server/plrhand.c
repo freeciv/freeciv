@@ -1420,7 +1420,9 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
 	} else if (pconn->player) {
 	  /* Players (including regular observers) */
 	  package_player_info(pplayer, &info, pconn->player, INFO_MINIMUM);
-	} 
+	} else {
+	  package_player_info(pplayer, &info, NULL, INFO_MINIMUM);
+	}
 
         send_packet_player_info(pconn, &info);
       } conn_list_iterate_end;
@@ -1473,6 +1475,9 @@ static void package_player_common(struct player *plr,
     packet->small_wonders[i] = plr->small_wonders[i];
   }
   packet->science_cost = plr->ai.science_cost;
+
+  packet->gold = plr->economic.gold;
+  packet->government = plr->government;
 }
 
 /**************************************************************************
@@ -1481,8 +1486,8 @@ static void package_player_common(struct player *plr,
   to plr, we send a little to players we are in contact with and almost
   nothing to everyone else.
 
- Note: if reciever is NULL and info < INFO_EMBASSY the info related to the
-       receiving player are not set correctly.
+  Receiver may be NULL in which cases dummy values are sent for some
+  fields.
 **************************************************************************/
 static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
@@ -1492,13 +1497,12 @@ static void package_player_info(struct player *plr,
   int i;
   enum plr_info_level info_level;
 
-  info_level = player_info_level(plr, receiver);
-  if (info_level < min_info_level) {
+  if (receiver) {
+    info_level = player_info_level(plr, receiver);
+    info_level = MAX(min_info_level, info_level);
+  } else {
     info_level = min_info_level;
   }
-
-  packet->gold            = plr->economic.gold;
-  packet->government      = plr->government;
 
   /* Only send score if we have contact */
   if (info_level >= INFO_MEETING) {
@@ -1510,7 +1514,8 @@ static void package_player_info(struct player *plr,
   /* Send diplomatic status of the player to everyone they are in
    * contact with. */
   if (info_level >= INFO_EMBASSY
-      || receiver->diplstates[plr->player_no].contact_turns_left > 0) {
+      || (receiver
+	  && receiver->diplstates[plr->player_no].contact_turns_left > 0)) {
     packet->target_government = plr->target_government;
     memset(&packet->embassy, 0, sizeof(packet->embassy));
     players_iterate(pother) {
@@ -1558,7 +1563,8 @@ static void package_player_info(struct player *plr,
 
   /* Make absolutely sure - in case you lose your embassy! */
   if (info_level >= INFO_EMBASSY 
-      || pplayer_get_diplstate(plr, receiver)->type == DS_TEAM) {
+      || (receiver
+	  && pplayer_get_diplstate(plr, receiver)->type == DS_TEAM)) {
     packet->bulbs_last_turn = plr->bulbs_last_turn;
   } else {
     packet->bulbs_last_turn = 0;
@@ -1599,7 +1605,8 @@ static void package_player_info(struct player *plr,
   packet->inventions[A_NONE] = plr->research->inventions[A_NONE].state + '0';
 
   if (info_level >= INFO_FULL
-      || plr->diplstates[receiver->player_no].type == DS_TEAM) {
+      || (receiver
+	  && plr->diplstates[receiver->player_no].type == DS_TEAM)) {
     packet->tech_goal       = plr->research->tech_goal;
   } else {
     packet->tech_goal       = A_UNSET;
