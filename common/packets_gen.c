@@ -10239,7 +10239,7 @@ static int cmp_packet_player_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_player_info_100_fields, 35);
+BV_DEFINE(packet_player_info_100_fields, 36);
 
 static struct packet_player_info *receive_packet_player_info_100(struct connection *pc, enum packet_type type)
 {
@@ -10463,10 +10463,18 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->barbarian_type = readin;
+      real_packet->ai_skill_level = readin;
     }
   }
   if (BV_ISSET(fields, 31)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->barbarian_type = readin;
+    }
+  }
+  if (BV_ISSET(fields, 32)) {
     {
       int readin;
     
@@ -10474,10 +10482,10 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       real_packet->gives_shared_vision = readin;
     }
   }
-  if (BV_ISSET(fields, 32)) {
+  if (BV_ISSET(fields, 33)) {
     dio_get_bit_string(&din, real_packet->inventions, sizeof(real_packet->inventions));
   }
-  if (BV_ISSET(fields, 33)) {
+  if (BV_ISSET(fields, 34)) {
     
     {
       int i;
@@ -10492,7 +10500,7 @@ static struct packet_player_info *receive_packet_player_info_100(struct connecti
       }
     }
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 35)) {
     
     for (;;) {
       int i;
@@ -10691,17 +10699,21 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(packet->ai) {BV_SET(fields, 29);}
 
-  differ = (old->barbarian_type != real_packet->barbarian_type);
+  differ = (old->ai_skill_level != real_packet->ai_skill_level);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 30);}
 
-  differ = (old->gives_shared_vision != real_packet->gives_shared_vision);
+  differ = (old->barbarian_type != real_packet->barbarian_type);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 31);}
 
-  differ = (strcmp(old->inventions, real_packet->inventions) != 0);
+  differ = (old->gives_shared_vision != real_packet->gives_shared_vision);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 32);}
+
+  differ = (strcmp(old->inventions, real_packet->inventions) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 33);}
 
 
     {
@@ -10717,7 +10729,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 33);}
+  if(differ) {BV_SET(fields, 34);}
 
 
     {
@@ -10733,7 +10745,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 34);}
+  if(differ) {BV_SET(fields, 35);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -10833,15 +10845,18 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
   }
   /* field 29 is folded into the header */
   if (BV_ISSET(fields, 30)) {
-    dio_put_uint8(&dout, real_packet->barbarian_type);
+    dio_put_uint8(&dout, real_packet->ai_skill_level);
   }
   if (BV_ISSET(fields, 31)) {
-    dio_put_uint32(&dout, real_packet->gives_shared_vision);
+    dio_put_uint8(&dout, real_packet->barbarian_type);
   }
   if (BV_ISSET(fields, 32)) {
-    dio_put_bit_string(&dout, real_packet->inventions);
+    dio_put_uint32(&dout, real_packet->gives_shared_vision);
   }
   if (BV_ISSET(fields, 33)) {
+    dio_put_bit_string(&dout, real_packet->inventions);
+  }
+  if (BV_ISSET(fields, 34)) {
   
     {
       int i;
@@ -10851,7 +10866,7 @@ static int send_packet_player_info_100(struct connection *pc, const struct packe
       }
     } 
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 35)) {
   
     {
       int i;

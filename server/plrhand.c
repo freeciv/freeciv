@@ -1468,6 +1468,7 @@ static void package_player_common(struct player *plr,
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;
   packet->ai=plr->ai.control;
+  packet->ai_skill_level = plr->ai.control ? plr->ai.skill_level : 0;
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     packet->love[i] = plr->ai.love[i];
   }

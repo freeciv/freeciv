@@ -645,6 +645,7 @@ PACKET_PLAYER_INFO=39; is-info,sc
   BOOL is_connected;
   TURN revolution_finishes;
   BOOL ai;
+  UINT8 ai_skill_level;
   UINT8 barbarian_type;
   uint32(unsigned int) gives_shared_vision;
   BIT_STRING inventions[A_LAST+1];

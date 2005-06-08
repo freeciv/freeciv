@@ -400,6 +400,7 @@ struct packet_player_info {
   bool is_connected;
   int revolution_finishes;
   bool ai;
+  int ai_skill_level;
   int barbarian_type;
   unsigned int gives_shared_vision;
   char inventions[A_LAST+1];

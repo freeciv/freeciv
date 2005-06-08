@@ -1521,6 +1521,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       append_output_window(msg);
     }
   }
+  pplayer->ai.skill_level = pinfo->ai_skill_level;
 
   update_players_dialog();
   update_worklist_report_dialog();

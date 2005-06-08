@@ -1779,6 +1779,7 @@ static enum command_id cmd_of_level(int level)
 void set_ai_level_direct(struct player *pplayer, int level)
 {
   set_ai_level_directer(pplayer,level);
+  send_player_info(pplayer, NULL);
   cmd_reply(cmd_of_level(level), NULL, C_OK,
 	_("Player '%s' now has AI skill level '%s'."),
 	pplayer->name, name_of_skill_level(level));
@@ -1804,6 +1805,7 @@ static bool set_ai_level(struct connection *caller, char *name,
         return TRUE;
       }
       set_ai_level_directer(pplayer, level);
+      send_player_info(pplayer, NULL);
       cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
 		pplayer->name, name_of_skill_level(level));
@@ -1819,6 +1821,7 @@ static bool set_ai_level(struct connection *caller, char *name,
     players_iterate(pplayer) {
       if (pplayer->ai.control) {
 	set_ai_level_directer(pplayer, level);
+	send_player_info(pplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
 		pplayer->name, name_of_skill_level(level));
@@ -1853,6 +1856,7 @@ static bool set_away(struct connection *caller, char *name, bool check)
   } else if (!caller->player->ai.control && !check) {
     notify_conn(game.est_connections, _("%s set to away mode."), 
                 caller->player->name);
+    send_player_info(caller->player, NULL);
     set_ai_level_directer(caller->player, 1);
     caller->player->ai.control = TRUE;
     cancel_all_meetings(caller->player);

@@ -1257,7 +1257,21 @@ void update_conn_list_dialog(void)
 	continue; /* Connections are listed individually. */
       }
       if (pplayer->ai.control) {
-	name = _("<AI>");
+	name = _("<AI>");	
+	switch (pplayer->ai.skill_level) {
+	case 2:
+	  name = _("<Novice AI>");
+	  break;
+	case 3:
+	  name = _("<Easy AI>");
+	  break;
+	case 5:
+	  name = _("<Normal AI>");
+	  break;
+	case 7:
+	  name = _("<Hard AI>");
+	  break;
+	}
       } else {
 	name = pplayer->username;
       }
