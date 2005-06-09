@@ -334,6 +334,7 @@ struct small_sprite {
 
 struct tileset {
   char name[512];
+  int priority;
 
   bool is_isometric;
   int hex_width, hex_height;
@@ -780,20 +781,29 @@ static void tileset_free_toplevel(struct tileset *t)
 void tilespec_try_read(const char *tileset_name)
 {
   if (!(tileset = tileset_read_toplevel(tileset_name))) {
-    const char *tileset_default;
+    char **list = datafilelist(TILESPEC_SUFFIX);
+    int i;
 
-    if (isometric_view_supported()) {
-      tileset_default = "isotrident"; /* Do not i18n! --dwp */
-    } else {
-      tileset_default = "trident";    /* Do not i18n! --dwp */
+    for (i = 0; list[i]; i++) {
+      struct tileset *t = tileset_read_toplevel(list[i]);
+
+      if (t) {
+	if (!tileset || t->priority > tileset->priority) {
+	  tileset = t;
+	} else {
+	  tileset_free(t);
+	}
+      }
+      free(list[i]);
     }
+    free(list);
 
-    freelog(LOG_ERROR, _("Trying \"%s\" tileset."), tileset_default);
-
-    if (!(tileset = tileset_read_toplevel(tileset_default))) {
+    if (!tileset) {
       freelog(LOG_FATAL, _("No usable default tileset found, aborting!"));
       exit(EXIT_FAILURE);
     }
+
+    freelog(LOG_NORMAL, _("Trying \"%s\" tileset."), tileset->name);
   }
   sz_strlcpy(default_tileset_name, tileset_get_name(tileset));
 }
@@ -1212,6 +1222,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   (void) section_file_lookup(file, "tilespec.name"); /* currently unused */
 
   sz_strlcpy(t->name, tileset_name);
+  t->priority = secfile_lookup_int_default(file, 0, "tilespec.priority");
 
   t->is_isometric = secfile_lookup_bool_default(file, FALSE,
 						"tilespec.is_isometric");

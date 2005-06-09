@@ -6,6 +6,7 @@ options = "+tilespec3 +Freeciv.Devel.2005.Jun.6"
 
 ; A simple name for the tileset specified by this file:
 name = "Trident"
+priority = 5
 
 ; TODO: add more overall information fields on tiles, 
 ; eg, description, authors, colors, etc.
