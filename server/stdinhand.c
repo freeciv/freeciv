@@ -926,6 +926,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   set_ai_level_directer(pplayer, game.info.skill_level);
   send_game_info(NULL);
   send_player_info(pplayer, NULL);
+  aifill(game.aifill);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
   return TRUE;
@@ -963,6 +964,7 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
     cmd_reply(CMD_REMOVE, caller, C_OK,
 	      _("Removed player %s from the game."), name);
   }
+  aifill(game.aifill);
   return TRUE;
 }
 

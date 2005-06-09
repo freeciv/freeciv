@@ -24,6 +24,7 @@
 #include "gamelog.h"
 #include "report.h"
 #include "settings.h"
+#include "srv_main.h"
 #include "stdinhand.h"
 
 /* Category names must match the values in enum sset_category. */
@@ -156,6 +157,16 @@ static bool maxplayers_callback(int value, const char **error_string)
     return FALSE;
   }
 
+  error_string = NULL;
+  return TRUE;
+}
+
+/*************************************************************************
+  Create/remove players when aifill is set.
+*************************************************************************/
+static bool aifill_callback(int value, const char **error_string)
+{
+  aifill(value);
   error_string = NULL;
   return TRUE;
 }
@@ -397,10 +408,9 @@ struct settings_s settings[] = {
   GEN_INT("aifill", game.aifill,
 	  SSET_PLAYERS, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Total number of players (including AI players)"),
-	  N_("If there are fewer than this many players when the "
-	     "game starts, extra AI players will be created to "
-	     "increase the total number of players to the value of "
-	     "this option."), NULL, 
+	  N_("If set to a positive value, then AI players will be "
+	     "automatically created or removed to keep the total "
+	     "number of players at this amount."), aifill_callback,
 	  GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL)
 
   /* Game initialization parameters (only affect the first start of the game,

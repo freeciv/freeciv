@@ -1409,6 +1409,75 @@ static Nation_type_id select_random_nation()
   return available[i];
 }
 
+/****************************************************************************
+  Fill or remove players to meet the given aifill.
+****************************************************************************/
+void aifill(int amount)
+{
+  int observers = 0, remove;
+  int filled = 0;
+
+  if (amount == 0) {
+    /* Special case for value 0: do nothing. */
+    return;
+  }
+
+  amount = MIN(amount, game.info.max_players);
+
+  /* we don't want aifill to count global observers unless 
+   * aifill = MAX_NUM_PLAYERS */
+  players_iterate(pplayer) {
+    if (pplayer->is_observer) {
+      observers++;
+    }
+  } players_iterate_end;
+  if (amount == game.info.max_players) {
+    observers = 0;
+  }
+
+  while (game.info.nplayers < amount + observers) {
+    const int old_nplayers = game.info.nplayers;
+    struct player *pplayer = get_player(old_nplayers);
+    char player_name[ARRAY_SIZE(pplayer->name)];
+
+    server_player_init(pplayer, FALSE, TRUE);
+    pplayer->nation = NO_NATION_SELECTED;
+    do {
+      my_snprintf(player_name, sizeof(player_name),
+		  "AI%d", ++filled);
+    } while (find_player_by_name(player_name));
+    sz_strlcpy(pplayer->name, player_name);
+    sz_strlcpy(pplayer->username, ANON_USER_NAME);
+    pplayer->ai.skill_level = game.info.skill_level;
+    pplayer->ai.control = TRUE;
+    set_ai_level_directer(pplayer, game.info.skill_level);
+
+    freelog(LOG_NORMAL,
+	    _("%s has been added as %s level AI-controlled player."),
+            pplayer->name,
+	    name_of_skill_level(pplayer->ai.skill_level));
+    notify_player(NULL,
+                  _("%s has been added as %s level AI-controlled player."),
+		  pplayer->name,
+		  name_of_skill_level(pplayer->ai.skill_level));
+
+    game.info.nplayers++;
+
+    send_game_info(NULL);
+    send_player_info(pplayer, NULL);
+  }
+
+  remove = game.info.nplayers - 1;
+  while (game.info.nplayers > amount + observers && remove > 0) {
+    struct player *pplayer = get_player(remove);
+
+    if (!pplayer->is_observer && !pplayer->is_connected) {
+      server_remove_player(pplayer);
+    }
+    remove--;
+  }
+}
+
 /**************************************************************************
 generate_ai_players() - Selects a nation for players created with
    server's "create <PlayerName>" command.  If <PlayerName> matches
@@ -1417,11 +1486,6 @@ generate_ai_players() - Selects a nation for players created with
    nation the Zulus if the Zulus have not been chosen by anyone else.
    If they have, then we pick an available nation at random.)
 
-   After that, we check to see if the server option "aifill" is greater
-   than the number of players currently connected.  If so, we create the
-   appropriate number of players (game.aifill - game.info.nplayers) from
-   scratch, choosing a random nation and appropriate name for each.
-   
    If the AI player name is one of the leader names for the AI player's
    nation, the player sex is set to the sex for that leader, else it
    is chosen randomly.  (So if English are ruled by Elisabeth, she is
@@ -1430,8 +1494,6 @@ generate_ai_players() - Selects a nation for players created with
 static void generate_players(void)
 {
   Nation_type_id nation;
-  char player_name[MAX_LEN_NAME];
-  int i;
 
   /* Select nations for AI players generated with server
    * 'create <name>' command
@@ -1473,77 +1535,7 @@ static void generate_players(void)
 
     announce_player(pplayer);
   } players_iterate_end;
-  
-  /* Create and pick nation and name for AI players needed to bring the
-   * total number of players to equal game.aifill
-   */
 
-  if (game.control.playable_nation_count < game.aifill) {
-    game.aifill = game.control.playable_nation_count;
-    freelog(LOG_NORMAL,
-	     _("Nation count smaller than aifill; aifill reduced to %d."),
-             game.control.playable_nation_count);
-  }
-
-  if (game.info.max_players < game.aifill) {
-    game.aifill = game.info.max_players;
-    freelog(LOG_NORMAL,
-	     _("Maxplayers smaller than aifill; aifill reduced to %d."),
-             game.info.max_players);
-  }
-
-  /* we don't want aifill to count global observers unless 
-   * aifill = MAX_NUM_PLAYERS */
-  i = 0;
-  players_iterate(pplayer) {
-    if (pplayer->is_observer) {
-      i++;
-    }
-  } players_iterate_end;
-  if (game.aifill == MAX_NUM_PLAYERS) {
-    i = 0;
-  }
-
-  for(;game.info.nplayers < game.aifill + i;) {
-    const int old_nplayers = game.info.nplayers;
-    struct player *pplayer = get_player(old_nplayers);
-
-    server_player_init(pplayer, FALSE, TRUE);
-
-    nation = select_random_nation();
-    assert(nation != NO_NATION_SELECTED);
-    get_nation_by_idx(nation)->is_used = TRUE;
-    pick_random_player_name(nation, player_name);
-
-    sz_strlcpy(pplayer->name, player_name);
-    sz_strlcpy(pplayer->username, ANON_USER_NAME);
-
-    pplayer->ai.skill_level = game.info.skill_level;
-    freelog(LOG_NORMAL, _("%s has been added as %s level AI-controlled player."),
-            player_name, name_of_skill_level(pplayer->ai.skill_level));
-    notify_player(NULL,
-                  _("%s has been added as %s level AI-controlled player."),
-                  player_name, name_of_skill_level(pplayer->ai.skill_level));
-
-    game.info.nplayers++;
-
-    if (!((game.info.nplayers == old_nplayers+1)
-	  && strcmp(player_name, pplayer->name)==0)) {
-      con_write(C_FAIL, _("Error creating new AI player: %s\n"),
-		player_name);
-      break;			/* don't loop forever */
-    }
-      
-    pplayer->nation = nation;
-    pplayer->city_style = get_nation_city_style(nation);
-    pplayer->ai.control = TRUE;
-    if (check_nation_leader_name(nation, player_name)) {
-      pplayer->is_male = get_nation_leader_sex(nation, player_name);
-    } else {
-      pplayer->is_male = (myrand(2) == 1);
-    }
-    set_ai_level_directer(pplayer, pplayer->ai.skill_level);
-  }
   (void) send_server_info_to_metaserver(META_INFO);
 }
 

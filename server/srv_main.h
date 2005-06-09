@@ -69,6 +69,7 @@ int get_next_id_number(void);
 void server_game_init(void);
 void server_game_free(void);
 void check_for_full_turn_done(void);
+void aifill(int amount);
 
 extern struct server_arguments srvarg;
 
