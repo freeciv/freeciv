@@ -1494,6 +1494,7 @@ generate_ai_players() - Selects a nation for players created with
 static void generate_players(void)
 {
   Nation_type_id nation;
+  char player_name[MAX_LEN_NAME];
 
   /* Select nations for AI players generated with server
    * 'create <name>' command
@@ -1502,6 +1503,7 @@ static void generate_players(void)
     ai_data_analyze_rulesets(pplayer);
     
     if (pplayer->nation != NO_NATION_SELECTED) {
+      announce_player(pplayer);
       continue;
     }
 
@@ -1518,6 +1520,7 @@ static void generate_players(void)
       }
     }
     if (pplayer->nation != NO_NATION_SELECTED) {
+      announce_player(pplayer);
       continue;
     }
 
@@ -1528,9 +1531,13 @@ static void generate_players(void)
     pplayer->nation = nation;
     pplayer->city_style = get_nation_city_style(nation);
 
-    pplayer->is_male = (myrand(2) == 1);
-    if (pplayer->is_connected) {
-      /* FIXME: need to generate a leader name. */
+    pick_random_player_name(nation, player_name);
+    sz_strlcpy(pplayer->name, player_name);
+
+    if (check_nation_leader_name(nation, player_name)) {
+      pplayer->is_male = get_nation_leader_sex(nation, player_name);
+    } else {
+      pplayer->is_male = (myrand(2) == 1);
     }
 
     announce_player(pplayer);
