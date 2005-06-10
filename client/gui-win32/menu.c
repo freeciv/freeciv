@@ -980,6 +980,21 @@ HMENU create_mainmenu(void)
   return my_create_menu(&items);
 }
 
+/****************************************************************************
+  Return the text for the tile, changed by the activity.
+
+  Should only be called for irrigation, mining, or transformation, and
+  only when the activity changes the base terrain type.
+****************************************************************************/
+static const char *get_tile_change_menu_text(struct tile *ptile,
+					     enum unit_activity activity)
+{
+  struct tile newtile = *ptile;
+
+  tile_apply_activity(&newtile, activity);
+  return tile_get_info_text(ptile);
+}
+
 /**************************************************************************
   Update the status and names of all menu items.
 **************************************************************************/
@@ -1202,7 +1217,8 @@ update_menus(void)
       if (tinfo->irrigation_result != T_NONE
 	  && tinfo->irrigation_result != ttype) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
-		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
+		    get_tile_change_menu_text(punit->tile,
+					      ACTIVITY_IRRIGATE));
       } else if (tile_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
@@ -1211,12 +1227,13 @@ update_menus(void)
       if (tinfo->mining_result != T_NONE
 	  && tinfo->mining_result != ttype) {
 	my_snprintf(mintext, sizeof(mintext), minfmt,
-		    (get_tile_type(tinfo->mining_result))->terrain_name);
+		    get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
       }
       if (tinfo->transform_result != T_NONE
 	  && tinfo->transform_result != ttype) {
 	my_snprintf(transtext, sizeof(transtext), transfmt,
-		    (get_tile_type(tinfo->transform_result))->terrain_name);
+		    get_tile_change_menu_text(punit->tile,
+					      ACTIVITY_TRANSFORM));
       }
 
       my_rename_menu(menu, IDM_ORDERS_IRRIGATE, irrtext);

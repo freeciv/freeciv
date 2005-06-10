@@ -1668,10 +1668,12 @@ static LONG CALLBACK pillage_proc(HWND dlg,UINT message,
 
 **************************************************************************/
 void popup_pillage_dialog(struct unit *punit,
-			  enum tile_special_type may_pillage)
+			  bv_special may_pillage)
 {
   HWND dlg;
   struct fcwin_box *vbox;
+  enum tile_special_type what, prereq;
+
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;   
     unit_to_use_to_pillage = punit->id;
@@ -1684,12 +1686,20 @@ void popup_pillage_dialog(struct unit *punit,
     vbox=fcwin_vbox_new(dlg,FALSE);
     fcwin_box_add_static(vbox,_("Select what to pillage:"),0,SS_LEFT,
 			 FALSE,FALSE,10);
-    while(may_pillage != S_NO_SPECIAL) {
-      enum tile_special_type what = get_preferred_pillage(may_pillage);
+    while ((what = get_preferred_pillage(may_pillage)) != S_LAST) {
+      bv_special what_bv;
 
-      fcwin_box_add_button(vbox,get_infrastructure_text(what),
+      BV_CLR_ALL(what_bv);
+      BV_SET(what_bv, what);
+
+      fcwin_box_add_button(vbox, get_infrastructure_text(what_bv),
 			   ID_PILLAGE_BASE+what,0,TRUE,FALSE,5);
-      may_pillage &= (~(what | get_infrastructure_prereq(what)));
+
+      clear_special(&may_pillage, what);
+      prereq = get_infrastructure_prereq(what);
+      if (prereq != S_LAST) {
+	clear_special(&may_pillage, prereq);
+      }
     }
     fcwin_box_add_button(vbox,_("Cancel"),IDCANCEL,0,TRUE,FALSE,5);
     fcwin_set_box(dlg,vbox);
