@@ -3376,7 +3376,12 @@ void game_load(struct section_file *file)
       game.info.diplcost    = secfile_lookup_int(file, "game.diplcost");
       game.info.freecost    = secfile_lookup_int(file, "game.freecost");
       game.info.conquercost = secfile_lookup_int(file, "game.conquercost");
-      game.info.foodbox     = secfile_lookup_int(file, "game.foodbox");
+      game.info.foodbox
+	= secfile_lookup_int_default(file, 0, "game.box_food");
+      if (game.info.foodbox == 0) {
+	/* foodbox was used for 2.0 and earlier servers. */
+	game.info.foodbox = 10 * secfile_lookup_int(file, "game.foodbox");
+      }
       game.info.techpenalty = secfile_lookup_int(file, "game.techpenalty");
       game.info.razechance  = secfile_lookup_int(file, "game.razechance");
 
@@ -3922,11 +3927,12 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.diplcost, "game.diplcost");
   secfile_insert_int(file, game.info.freecost, "game.freecost");
   secfile_insert_int(file, game.info.conquercost, "game.conquercost");
-  secfile_insert_int(file, game.info.foodbox, "game.foodbox");
+  secfile_insert_int(file, game.info.foodbox, "game.box_food");
   secfile_insert_int(file, game.info.sciencebox, "game.box_science");
   {
     /* These values are for compatibility with 2.0 and previous servers. */
     secfile_insert_int(file, game.info.sciencebox / 5, "game.researchcost");
+  secfile_insert_int(file, game.info.foodbox / 10, "game.foodbox");
   }
   secfile_insert_int(file, game.info.techpenalty, "game.techpenalty");
   secfile_insert_int(file, game.info.razechance, "game.razechance");

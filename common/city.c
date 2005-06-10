@@ -1409,15 +1409,18 @@ int city_granary_size(int city_size)
 {
   int food_inis = game.info.granary_num_inis;
   int food_inc = game.info.granary_food_inc;
+  int base_value;
 
   /* Granary sizes for the first food_inis citizens are given directly.
    * After that we increase the granary size by food_inc per citizen. */
   if (city_size > food_inis) {
-    return (game.info.granary_food_ini[food_inis - 1] * game.info.foodbox
-	    + food_inc * (city_size - food_inis) * game.info.foodbox / 100);
+    base_value = game.info.granary_food_ini[food_inis - 1];
+    base_value += food_inc * (city_size - food_inis);
   } else {
-    return game.info.granary_food_ini[city_size - 1] * game.info.foodbox;
+    base_value = game.info.granary_food_ini[city_size - 1];
   }
+
+  return MAX(base_value * game.info.foodbox / 100, 1);
 }
 
 /**************************************************************************

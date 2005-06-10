@@ -48,12 +48,12 @@ nuke_contamination	= "Fallout"
 
 ; Parameters used to generalize the calculation of city granary size:
 ;   if city_size <= num_inis:
-;     city_granary_size = (granary_food_ini[city_size] * foodbox)
+;     city_granary_size = (granary_food_ini[city_size] * foodbox / 100)
 ;   if city_size > num_inis;
-;     city_granary_size = (granary_food_ini[num_inis] * foodbox) +
-;        (granary_food_inc * (city_size - num_inis)) * foodbox / 100
-granary_food_ini	= 2
-granary_food_inc	= 100
+;     city_granary_size = (granary_food_ini[num_inis] +
+;        granary_food_inc * (city_size - num_inis)) * foodbox / 100
+granary_food_ini	= 20
+granary_food_inc	= 10
 
 ; Method of calculating technology costs
 ;   0 - Civ (I|II) style. Every new tech add researchcost to cost of next tech.

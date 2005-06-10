@@ -3717,7 +3717,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_uint32(&din, &readin);
       real_packet->foodbox = readin;
     }
   }
@@ -4744,7 +4744,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint8(&dout, real_packet->techpenalty);
   }
   if (BV_ISSET(fields, 28)) {
-    dio_put_uint8(&dout, real_packet->foodbox);
+    dio_put_uint32(&dout, real_packet->foodbox);
   }
   if (BV_ISSET(fields, 29)) {
     dio_put_uint32(&dout, real_packet->sciencebox);

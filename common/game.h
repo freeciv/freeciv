@@ -186,6 +186,10 @@ extern bool is_server;
 #define GAME_MIN_AIFILL              0
 #define GAME_MAX_AIFILL              GAME_MAX_MAX_PLAYERS
 
+#define GAME_DEFAULT_FOODBOX         100
+#define GAME_MIN_FOODBOX             1
+#define GAME_MAX_FOODBOX             10000
+
 #define GAME_DEFAULT_SCIENCEBOX 100
 #define GAME_MIN_SCIENCEBOX 1
 #define GAME_MAX_SCIENCEBOX 10000
@@ -247,10 +251,6 @@ extern bool is_server;
 #define GAME_DEFAULT_SAVEPALACE      TRUE
 
 #define GAME_DEFAULT_NATURALCITYNAMES TRUE
-
-#define GAME_DEFAULT_FOODBOX         10
-#define GAME_MIN_FOODBOX             5
-#define GAME_MAX_FOODBOX             30
 
 #define GAME_DEFAULT_AQUEDUCTLOSS    0
 #define GAME_MIN_AQUEDUCTLOSS        0
