@@ -817,19 +817,13 @@ void handle_player_rates(struct player *pplayer,
 **************************************************************************/
 void handle_player_research(struct player *pplayer, int tech)
 {
-  choose_tech(pplayer, tech);
-  send_player_info(pplayer, pplayer);
-
-  /* Notify Team members.  Note that the the player may not necessarily
-   * be researching the tech that has been set: if there were enough
-   * research points then research will finish immediately and the
-   * player will start researching the "next" tech (probably A_NONE). */
+  /* choose_tech and send update for all players on the team. */
   players_iterate(aplayer) {
-    if (pplayer != aplayer
-	&& aplayer->research.researching != pplayer->research.researching
-       && pplayer->diplstates[aplayer->player_no].type == DS_TEAM
-       && aplayer->is_alive) {
-      handle_player_research(aplayer, pplayer->research.researching);
+    if (pplayer == aplayer
+	|| (pplayer->diplstates[aplayer->player_no].type == DS_TEAM
+	    && aplayer->is_alive)) {
+      choose_tech(aplayer, tech);
+      send_player_info(aplayer, aplayer);
     }
   } players_iterate_end;
 }
