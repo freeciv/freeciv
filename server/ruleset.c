@@ -303,6 +303,40 @@ static int lookup_tech(struct section_file *file, const char *prefix,
 }
 
 /**************************************************************************
+ Lookup a string prefix.entry in the file and return the corresponding
+ buildings id.  If (!required), return A_LAST if match "Never" or can't match.
+ If (required), die if can't match.  Note the first tech should have
+ name "None" so that will always match.
+ If description is not NULL, it is used in the warning message
+ instead of prefix (eg pass unit->name instead of prefix="units2.u27")
+**************************************************************************/
+static int lookup_building(struct section_file *file, const char *prefix,
+			   const char *entry, bool required,
+			   const char *filename, const char *description)
+{
+  char *sval;
+  int i;
+  
+  sval = secfile_lookup_str_default(file, NULL, "%s.%s", prefix, entry);
+  if ((!required && !sval) || strcmp(sval, "None") == 0) {
+    i = B_LAST;
+  } else {
+    i = find_improvement_by_name(sval);
+    if (i == B_LAST) {
+      freelog((required ? LOG_FATAL : LOG_ERROR),
+	   "for %s %s couldn't match building \"%s\" (%s)",
+	   (description ? description : prefix), entry, sval, filename);
+      if (required) {
+	exit(EXIT_FAILURE);
+      } else {
+	i = B_LAST;
+      }
+    }
+  }
+  return i;
+}
+
+/**************************************************************************
  Lookup a prefix.entry string vector in the file and fill in the
  array, which should hold MAX_NUM_UNIT_LIST items. The output array is
  either U_LAST terminated or full (contains MAX_NUM_UNIT_LIST
@@ -1027,9 +1061,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   unit_type_iterate(i) {
     u = &unit_types[i];
 
-    u->impr_requirement =
-      find_improvement_by_name(secfile_lookup_str_default(file, "None", 
-					"%s.impr_req", sec[i]));
+    u->impr_requirement = lookup_building(file, sec[i], "impr_req",
+					  FALSE, filename, u->name);
 
     sval = secfile_lookup_str(file, "%s.move_type", sec[i]);
     ival = unit_move_type_from_str(sval);
