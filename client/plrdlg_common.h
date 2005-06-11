@@ -15,6 +15,8 @@
 
 #include "shared.h"		/* bool type */
 
+#include "player.h"
+
 #include "fc_types.h"
 
 void plrdlg_freeze(void);
@@ -30,12 +32,16 @@ enum player_dlg_column_type {
   COL_RIGHT_TEXT    /* right aligned text */
 };
 
+typedef int (*plr_dlg_sort_func)(const struct player* p1,
+                                 const struct player* p2);
+
 struct player_dlg_column {
   bool show;
   enum player_dlg_column_type type;
   const char *title;				/* already translated */
   const char *(*func)(const struct player *);	/* if type = COL_*TEXT */
   bool (*bool_func)(const struct player *);	/* if type = COL_BOOLEAN */
+  plr_dlg_sort_func sort_func;
   const char *tagname;				/* for save_options */
 };
 

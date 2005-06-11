@@ -214,6 +214,30 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
 /**************************************************************************
 ...
 **************************************************************************/
+static gint plrdlg_sort_func(GtkTreeModel *model,
+			      GtkTreeIter *a, GtkTreeIter *b, gpointer data)
+{
+  GValue value = { 0, };
+  struct player *player1;
+  struct player *player2;
+  gint n;
+
+  n = GPOINTER_TO_INT(data);
+
+  gtk_tree_model_get_value(model, a, num_player_dlg_columns + 2, &value);
+  player1 = &game.players[g_value_get_int(&value)];
+  g_value_unset(&value);
+  
+  gtk_tree_model_get_value(model, b, num_player_dlg_columns + 2, &value);
+  player2 = &game.players[g_value_get_int(&value)];
+  g_value_unset(&value);
+  
+  return player_dlg_columns[n].sort_func(player1, player2);
+}
+
+/**************************************************************************
+...
+**************************************************************************/
 static void create_store(void)
 {
   GType model_types[num_player_dlg_columns + 3];
@@ -244,6 +268,14 @@ static void create_store(void)
   ncolumns = i;
   store = gtk_list_store_newv(ncolumns, model_types);  
   model = GTK_TREE_MODEL(store);
+  
+  /* Set sort order */
+  for (i = 0; i < num_player_dlg_columns; i++) {
+    if (player_dlg_columns[i].sort_func != NULL) {
+        gtk_tree_sortable_set_sort_func(GTK_TREE_SORTABLE(model), i,
+	plrdlg_sort_func, GINT_TO_POINTER(i), NULL);
+    }
+  }
 }
 
 /**************************************************************************
