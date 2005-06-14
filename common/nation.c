@@ -366,6 +366,7 @@ bool nation_in_group(struct nation_type* nation, const char* group_name)
 bool can_conn_edit_players_nation(const struct connection *pconn,
 				  const struct player *pplayer)
 {
-  return ((!pconn->observer && pconn->player == pplayer)
-	  || pconn->access_level >= ALLOW_CTRL);
+  return (game.is_new_game
+	  && ((!pconn->observer && pconn->player == pplayer)
+	      || pconn->access_level >= ALLOW_CTRL));
 }

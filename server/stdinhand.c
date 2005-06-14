@@ -2061,7 +2061,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   bool res = FALSE;
   struct team *pteam;
 
-  if (server_state != PRE_GAME_STATE) {
+  if (server_state != PRE_GAME_STATE || !game.is_new_game) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
               _("Cannot change teams once game has begun."));
     return FALSE;

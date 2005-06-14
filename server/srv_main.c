@@ -1417,6 +1417,10 @@ void aifill(int amount)
   int observers = 0, remove;
   int filled = 0;
 
+  if (server_state != PRE_GAME_STATE || !game.is_new_game) {
+    return;
+  }
+
   if (amount == 0) {
     /* Special case for value 0: do nothing. */
     return;
