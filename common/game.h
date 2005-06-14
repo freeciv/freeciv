@@ -53,7 +53,6 @@ enum client_states {
 struct civ_game {
   struct packet_game_info info;
   struct packet_ruleset_control control;
-  bool is_new_game;		/* 1 for games never started */
   int version;
   char id[MAX_ID_LEN];		/* server only */
   int timeoutint;     /* increase timeout every N turns... */

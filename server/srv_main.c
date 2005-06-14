@@ -1417,7 +1417,7 @@ void aifill(int amount)
   int observers = 0, remove;
   int filled = 0;
 
-  if (server_state != PRE_GAME_STATE || !game.is_new_game) {
+  if (server_state != PRE_GAME_STATE || !game.info.is_new_game) {
     return;
   }
 
@@ -1621,10 +1621,10 @@ static void main_loop(void)
 {
   struct timer *eot_timer;	/* time server processing at end-of-turn */
   int save_counter = 0;
-  bool is_new_turn = game.is_new_game;
+  bool is_new_turn = game.info.is_new_game;
 
   /* We may as well reset is_new_game now. */
-  game.is_new_game = FALSE;
+  game.info.is_new_game = FALSE;
 
   eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
 
@@ -1796,7 +1796,7 @@ void srv_main(void)
     /* Reset server */
     server_game_free();
     server_game_init();
-    game.is_new_game = TRUE;
+    game.info.is_new_game = TRUE;
     server_state = PRE_GAME_STATE;
   }
 
@@ -1854,14 +1854,14 @@ static void srv_loop(void)
   test_random1(200000);
 #endif
 
-  if (game.is_new_game) {
+  if (game.info.is_new_game) {
     generate_players();
     final_ruleset_adjustments();
   }
    
   /* If we have a tile map, and map.generator==0, call map_fractal_generate
    * anyway to make the specials, huts and continent numbers. */
-  if (map_is_empty() || (map.generator == 0 && game.is_new_game)) {
+  if (map_is_empty() || (map.generator == 0 && game.info.is_new_game)) {
     map_fractal_generate(TRUE);
   }
 
@@ -1871,7 +1871,7 @@ static void srv_loop(void)
   server_state = RUN_GAME_STATE;
   (void) send_server_info_to_metaserver(META_INFO);
 
-  if(game.is_new_game) {
+  if(game.info.is_new_game) {
     /* Before the player map is allocated (and initiailized)! */
     game.fogofwar_old = game.info.fogofwar;
 
@@ -1881,7 +1881,7 @@ static void srv_loop(void)
       player_limit_to_government_rates(pplayer);
       pplayer->economic.gold = game.info.gold;
     } players_iterate_end;
-    if(game.is_new_game) {
+    if(game.info.is_new_game) {
       /* If we're starting a new game, reset the rules.max_players to be the
        * number of players currently in the game.  But when loading a game
        * we don't want to change it. */
@@ -1890,7 +1890,7 @@ static void srv_loop(void)
   }
 
   /* Set up alliances based on team selections */
-  if (game.is_new_game) {
+  if (game.info.is_new_game) {
    players_iterate(pplayer) {
      players_iterate(pdest) {
       if (players_on_same_team(pplayer, pdest)
@@ -1923,7 +1923,7 @@ static void srv_loop(void)
 
   ai_data_movemap_init();
 
-  if (!game.is_new_game) {
+  if (!game.info.is_new_game) {
     players_iterate(pplayer) {
       if (pplayer->ai.control) {
 	set_ai_level_direct(pplayer, pplayer->ai.skill_level);
@@ -1939,7 +1939,7 @@ static void srv_loop(void)
   send_all_info(game.game_connections);
   lsend_packet_thaw_hint(game.game_connections);
   
-  if(game.is_new_game) {
+  if(game.info.is_new_game) {
     init_new_game();
 
     /* give global observers the entire map */

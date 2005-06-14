@@ -795,7 +795,7 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 	      _("%s is now under human control."), pplayer->name);
 
     /* because the hard AI `cheats' with government rates but humans shouldn't */
-    if (!game.is_new_game) {
+    if (!game.info.is_new_game) {
       check_player_government_rates(pplayer);
     }
     /* Remove hidden dialogs from clients. This way the player can initiate
@@ -949,7 +949,7 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  if (!(game.is_new_game && server_state == PRE_GAME_STATE)) {
+  if (!(game.info.is_new_game && server_state == PRE_GAME_STATE)) {
     cmd_reply(CMD_REMOVE, caller, C_FAIL,
 	      _("Players cannot be removed once the game has started."));
     return FALSE;
@@ -2061,7 +2061,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   bool res = FALSE;
   struct team *pteam;
 
-  if (server_state != PRE_GAME_STATE || !game.is_new_game) {
+  if (server_state != PRE_GAME_STATE || !game.info.is_new_game) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
               _("Cannot change teams once game has begun."));
     return FALSE;
@@ -2563,7 +2563,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
   const char *allow;
 
   if (pplayer->is_observer) {
-    if (!(allow = strchr(game.allow_take, (game.is_new_game ? 'O' : 'o')))) {
+    if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'O' : 'o')))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe globally in this game."),
                   MAX_LEN_MSG);
@@ -2597,7 +2597,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       return FALSE;
     }
   } else if (pplayer->ai.control) {
-    if (!(allow = strchr(game.allow_take, (game.is_new_game ? 'A' : 'a')))) {
+    if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'A' : 'a')))) {
       if (will_obs) {
         mystrlcpy(msg, _("Sorry, one can't observe AI players in this game."),
                   MAX_LEN_MSG);
@@ -2608,7 +2608,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       return FALSE;
     }
   } else { 
-    if (!(allow = strchr(game.allow_take, (game.is_new_game ? 'H' : 'h')))) {
+    if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'H' : 'h')))) {
       if (will_obs) {
         mystrlcpy(msg, 
                   _("Sorry, one can't observe human players in this game."),
@@ -2652,7 +2652,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];  
-  bool is_newgame = server_state == PRE_GAME_STATE && game.is_new_game;
+  bool is_newgame = server_state == PRE_GAME_STATE && game.info.is_new_game;
   enum m_pre_result result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
@@ -2802,7 +2802,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];
-  bool is_newgame = server_state == PRE_GAME_STATE && game.is_new_game;
+  bool is_newgame = server_state == PRE_GAME_STATE && game.info.is_new_game;
   enum m_pre_result match_result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
@@ -2974,7 +2974,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   enum m_pre_result match_result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
-  bool is_newgame = server_state == PRE_GAME_STATE && game.is_new_game;
+  bool is_newgame = server_state == PRE_GAME_STATE && game.info.is_new_game;
   bool one_obs_among_many = FALSE, res = FALSE;
 
   sz_strlcpy(buf, str);
@@ -3570,7 +3570,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
   switch (server_state) {
   case PRE_GAME_STATE:
     /* Sanity check scenario */
-    if (game.is_new_game && !check) {
+    if (game.info.is_new_game && !check) {
       if (map.num_start_positions > 0
 	  && game.info.max_players > map.num_start_positions) {
 	/* If we load a pre-generated map (i.e., a scenario) it is possible
@@ -3972,7 +3972,7 @@ void show_players(struct connection *caller)
 	cat_snprintf(buf2, sizeof(buf2), _(", difficulty level %s"),
 		     name_of_skill_level(pplayer->ai.skill_level));
       }
-      if (!game.is_new_game) {
+      if (!game.info.is_new_game) {
 	cat_snprintf(buf2, sizeof(buf2), _(", nation %s"),
 		     get_nation_name_plural(pplayer->nation));
       }

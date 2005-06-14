@@ -1033,7 +1033,7 @@ bool sset_is_changeable(int idx)
      * or if we do have a map but its a scenario one (ie, the game has
      * never actually been started).
      */
-    return (map_is_empty() || game.is_new_game);
+    return (map_is_empty() || game.info.is_new_game);
   case SSET_RULES_FLEXIBLE:
   case SSET_META:
     /* These can always be changed: */

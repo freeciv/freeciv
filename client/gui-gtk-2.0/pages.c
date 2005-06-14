@@ -1051,7 +1051,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
     dsend_packet_player_ready(&aconnection, pplayer->player_no, !is_ready);
     return TRUE;
   } else if (column == team_col) {
-    if (pplayer && game.is_new_game) {
+    if (pplayer && game.info.is_new_game) {
       GtkWidget *menu = create_team_menu(pplayer);
 
       gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL,

@@ -3658,12 +3658,12 @@ void game_load(struct section_file *file)
   }
 
 
-  game.is_new_game = !secfile_lookup_bool_default(file, TRUE,
+  game.info.is_new_game = !secfile_lookup_bool_default(file, TRUE,
 						  "game.save_players");
 
   map_load(file);
 
-  if (!game.is_new_game) {
+  if (!game.info.is_new_game) {
     /* destroyed wonders: */
     string = secfile_lookup_str_default(file, NULL,
                                         "game.destroyed_wonders_new");
@@ -3836,7 +3836,7 @@ void game_save(struct section_file *file, const char *save_reason)
    * started the first time), it should always be considered a running
    * game for savegame purposes:
    */
-  secfile_insert_int(file, (int) (game.is_new_game ? server_state :
+  secfile_insert_int(file, (int) (game.info.is_new_game ? server_state :
 				  RUN_GAME_STATE), "game.server_state");
   
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
@@ -3845,7 +3845,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
   
   sz_strlcpy(options, SAVEFILE_OPTIONS);
-  if (game.is_new_game) {
+  if (game.info.is_new_game) {
     if (map.num_start_positions>0) {
       sz_strlcat(options, " startpos");
     }
@@ -4036,7 +4036,7 @@ void game_save(struct section_file *file, const char *save_reason)
     map_save(file);
   }
   
-  if ((server_state == PRE_GAME_STATE) && game.is_new_game) {
+  if ((server_state == PRE_GAME_STATE) && game.info.is_new_game) {
     return; /* want to save scenarios as well */
   }
 

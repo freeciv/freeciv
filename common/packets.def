@@ -343,6 +343,7 @@ PACKET_GAME_INFO=15; sc
   UINT32 tech;
   UINT32 skill_level;
 
+  BOOL is_new_game;   # TRUE only in pregame for "new" (not loaded) games
   FLOAT seconds_to_phasedone;
   UINT32 timeout;
   TURN turn;

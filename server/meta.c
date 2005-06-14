@@ -298,10 +298,10 @@ static bool send_to_metaserver(enum meta_flag flag)
         } else if (!plr->is_alive && !strchr(game.allow_take, 'd')) {
           is_player_available = FALSE;
         } else if (plr->ai.control
-            && !strchr(game.allow_take, (game.is_new_game ? 'A' : 'a'))) {
+            && !strchr(game.allow_take, (game.info.is_new_game ? 'A' : 'a'))) {
           is_player_available = FALSE;
         } else if (!plr->ai.control
-            && !strchr(game.allow_take, (game.is_new_game ? 'H' : 'h'))) {
+            && !strchr(game.allow_take, (game.info.is_new_game ? 'H' : 'h'))) {
           is_player_available = FALSE;
         }
 

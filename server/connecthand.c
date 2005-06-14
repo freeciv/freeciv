@@ -140,7 +140,7 @@ static void establish_new_connection(struct connection *pconn)
 
     gamelog(GAMELOG_PLAYER, pplayer);
 
-  } else if (server_state == PRE_GAME_STATE && game.is_new_game) {
+  } else if (server_state == PRE_GAME_STATE && game.info.is_new_game) {
     if (!attach_connection_to_player(pconn, NULL)) {
       notify_conn(dest, _("Couldn't attach your connection to new player."));
       freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
@@ -579,7 +579,7 @@ void lost_connection_to_client(struct connection *pconn)
     } players_iterate_end;
   }
 
-  if (game.is_new_game
+  if (game.info.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */
       && !pplayer->ai.control    /* eg created AI player */
       && server_state == PRE_GAME_STATE) {

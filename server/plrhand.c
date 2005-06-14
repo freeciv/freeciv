@@ -1693,7 +1693,7 @@ void server_player_init(struct player *pplayer,
 void server_remove_player(struct player *pplayer)
 {
   /* Not allowed after a game has started */
-  if (!(game.is_new_game && server_state == PRE_GAME_STATE)) {
+  if (!(game.info.is_new_game && server_state == PRE_GAME_STATE)) {
     die("You can't remove players after the game has started!");
   }
 
@@ -1966,7 +1966,7 @@ struct player *create_global_observer(void)
    *
    * FIXME: could we use map_is_empty here? */
   server_player_init(pplayer,
-                     (server_state == RUN_GAME_STATE || !game.is_new_game),
+                     (server_state == RUN_GAME_STATE || !game.info.is_new_game),
 		     TRUE);
 
   sz_strlcpy(pplayer->name, OBSERVER_NAME);
@@ -1983,7 +1983,7 @@ struct player *create_global_observer(void)
    * not have been created.
    *
    * FIXME: could we use map_is_empty here? */
-  if (server_state == RUN_GAME_STATE || !game.is_new_game) {
+  if (server_state == RUN_GAME_STATE || !game.info.is_new_game) {
     pplayer->nation = OBSERVER_NATION;
     init_tech(pplayer, 0);
     map_know_and_see_all(pplayer);
