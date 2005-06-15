@@ -9,7 +9,7 @@ and gives information about reporting new bugs.
 
 This lists only the most obvious bugs.  For a complete list, see:
 
-    http://rt.freeciv.org/
+    http://bugs.freeciv.org/
 
 KNOWN BUGS:
 ===========
@@ -96,15 +96,15 @@ Here's what to do:
 
  - Check the Freeciv Bug Tracking System at:
 
-        http://rt.freeciv.org/
+        http://bugs.freeciv.org/
 
    to see if the bug has already been reported.
 
  - Submit a bug report!
 
    You can submit a bug report either by sending email to
-   <bugs@freeciv.freeciv.org>, or via the web at
-   <http://rt.freeciv.org/>.
+   <bugs@freeciv.org>, or via the web at
+   <http://bugs.freeciv.org/>.
 
    Or, if you want to send the Freeciv developers some comments
    but don't want to lodge a bug report, you can sent email to
@@ -117,7 +117,7 @@ Here's what to do:
 
    ) please restart your client and append "-- --g-fatal-warnings" to
    the command line. Unfortunately this only works with a current CVS
-   or with version 1.15 or better. You will get a core dump this
+   or with version 2.0.0 or better. You will get a core dump this
    way. Please include in your bug report the "stack trace" of this
    core dump.
 
