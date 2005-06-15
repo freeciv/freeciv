@@ -903,6 +903,15 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     len = strlen(buf);
     my_chomp(buf, len);
 
+    if (get_tech_sprite(tileset, i)) {
+      GdkPixbuf *pixbuf = sprite_get_pixbuf(get_tech_sprite(tileset, i));
+
+      w = gtk_image_new_from_pixbuf(pixbuf);
+      gtk_widget_set_name(w, "help tech image");
+      gtk_box_pack_start(GTK_BOX(help_vbox), w, FALSE, FALSE, 0);
+      gtk_widget_show(w);
+    }
+
     w = gtk_text_view_new();
     gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(w), FALSE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(w), GTK_WRAP_WORD);
