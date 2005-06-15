@@ -1431,7 +1431,7 @@ char *get_multicast_group(void)
 {
   static bool init = FALSE;
   static char *group = NULL;
-  static char *default_multicast_group = "225.0.0.1";
+  static char *default_multicast_group = "225.1.1.1";
   
   if (!init) {
     char *env = getenv("FREECIV_MULTICAST_GROUP");
