@@ -442,7 +442,14 @@ struct sprite *load_gfxfile(const char *filename)
     fclose(fp);
 
     free(row_pointers);
-    png_destroy_read_struct(&pngp, &infop, NULL);
+    if (infop != NULL) {
+      png_destroy_read_struct(&pngp, &infop, (png_infopp)NULL);
+    } else {
+      freelog(LOG_ERROR,
+	      "Error: PNG info struct is NULL (non-fatal). File: %s",
+	      filename);
+      png_destroy_read_struct(&pngp, (png_infopp)NULL, (png_infopp)NULL);
+    }
   }
 
   mysprite = fc_malloc(sizeof(*mysprite));
@@ -519,7 +526,7 @@ struct sprite *load_gfxfile(const char *filename)
   mysprite->pcolorarray = pcolorarray;
   mysprite->ncols = npalette;
 
-  if (has_mask) {
+  if (ptransarray) {
     free(ptransarray);
   }
   free(buf);

@@ -38,6 +38,8 @@
 
 #include "pages.h"
 
+static enum client_pages old_page;
+
 static Widget start_page_shell;
 static Widget start_page_form;
 static Widget start_page_label;
@@ -60,9 +62,17 @@ void start_page_start_callback(Widget w, XtPointer client_data,
 void set_client_page(enum client_pages page)
 {
   /* PORTME */
-  if (page == PAGE_START) {
-    popup_start_page();
+  if (page == PAGE_GAME) {
+    if (old_page == PAGE_START) {
+      popdown_start_page();
+    }
+  } else {
+    if (page == PAGE_START) {
+      popup_start_page();
+    }
   }
+
+  old_page = page;
 }
 
 /****************************************************************************
@@ -171,6 +181,9 @@ void create_start_page(void)
     XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-start-page()"));
 }
 
+/**************************************************************************
+  Update start page players list.
+**************************************************************************/
 void update_start_page(void)
 {
   if (!start_page_shell) {
@@ -240,25 +253,37 @@ void update_start_page(void)
   }
 }
 
+/**************************************************************************
+  Callback for start page "Cancel" button
+**************************************************************************/
 void start_page_cancel_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
   popdown_start_page();
 }
 
+/**************************************************************************
+  Called when "Pick Nation" is clicked.
+**************************************************************************/
 void start_page_nation_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
   popup_races_dialog(game.player_ptr);
 }
 
+/**************************************************************************
+  Callback for start page "Start" button
+**************************************************************************/
 void start_page_start_callback(Widget w, XtPointer client_data,
 			       XtPointer call_data)
 {
-  popdown_start_page();
+  /* popdown_start_page(); */
   send_chat("/start");
 }
 
+/**************************************************************************
+  Callback for start page window (x) button
+**************************************************************************/
 void start_page_msg_close(Widget w)
 {
   popdown_start_page();
