@@ -276,12 +276,8 @@ void aiguard_update_charge(struct unit *guard)
     guard->ai.charge = BODYGUARD_NONE;
     BODYGUARD_LOG(LOGLEVEL_BODYGUARD, guard, "charge was destroyed");
   }
-  if (charge_owner && pplayers_at_war(charge_owner, guard_owner)) {
-    BODYGUARD_LOG(LOGLEVEL_BODYGUARD, guard, "charge became an enemy");
-    aiguard_clear_charge(guard);
-  } else if (charge_owner && charge_owner != guard_owner
-             && !pplayers_allied(charge_owner, guard_owner)) {
-    BODYGUARD_LOG(LOGLEVEL_BODYGUARD, guard, "charge is not allied");
+  if (charge_owner && charge_owner != guard_owner) {
+    BODYGUARD_LOG(LOGLEVEL_BODYGUARD, guard, "charge transferred, dismiss");
     aiguard_clear_charge(guard);
   }
 
