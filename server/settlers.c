@@ -711,9 +711,10 @@ struct unit *other_passengers(struct unit *punit)
 static void consider_settler_action(struct player *pplayer, 
                                     enum unit_activity act, int extra, 
                                     int new_tile_value, int old_tile_value,
-				    bool in_use, int delay,
+				    bool in_use, int move_turns, int delay,
 				    int *best_value,
 				    int *best_old_tile_value,
+				    int *best_move_turns,
 				    enum unit_activity *best_act,
 				    struct tile **best_tile,
                                     struct tile *ptile)
@@ -756,6 +757,7 @@ static void consider_settler_action(struct player *pplayer,
     *best_old_tile_value = old_tile_value;
     *best_act = act;
     *best_tile = ptile;
+    *best_move_turns = move_turns;
   }
 }
 
@@ -890,6 +892,15 @@ static int evaluate_improvements(struct unit *punit,
 		&& (real_map_distance(ptile, punit->tile)
 		    < inbound_distance))) {
 
+	  if (enroute) {
+	    UNIT_LOG(LOG_DEBUG, punit,
+		     "Considering %d,%d because we're closer "
+		     "(%d,%d) than %d (%d,%d)",
+		     TILE_XY(ptile), mv_turns,
+		     real_map_distance(ptile, punit->tile),
+		     enroute->id, eta, inbound_distance);
+	  }
+
 	  /* now, consider various activities... */
 	  activity_type_iterate(act) {
 	    if (pcity->ai.act_value[act][cx][cy] >= 0
@@ -897,7 +908,6 @@ static int evaluate_improvements(struct unit *punit,
 						    S_LAST, ptile)) {
 	      int extra = 0;
 	      int base_value = pcity->ai.act_value[act][cx][cy];
-	      int old_best_value = best_newv;
 
 	      time = mv_turns + get_turns_for_activity_at(punit, act, ptile);
 	      
@@ -910,8 +920,8 @@ static int evaluate_improvements(struct unit *punit,
 		  consider_settler_action(pplayer, ACTIVITY_ROAD,
 				extra,
 				pcity->ai.act_value[ACTIVITY_ROAD][cx][cy], 
-				oldv, in_use, time,
-				&best_newv, &best_oldv, 
+				oldv, in_use, mv_turns, time,
+				&best_newv, &best_oldv, travel_time,
 				best_act, best_tile,
 				ptile);
 		  
@@ -933,15 +943,11 @@ static int evaluate_improvements(struct unit *punit,
 	      consider_settler_action(pplayer, act,
 				      extra, 
 				      base_value, oldv, 
-				      in_use, time,
-				      &best_newv, &best_oldv,
+				      in_use,
+				      mv_turns, time,
+				      &best_newv, &best_oldv, travel_time,
 				      best_act, best_tile,
 				      ptile);
-	      
-	      if (best_newv > old_best_value) {
-		*travel_time = mv_turns;
-	      }
-
 	      
 	    } /* endif: can the worker perform this action */
 	  } activity_type_iterate_end;
@@ -977,7 +983,8 @@ static int evaluate_improvements(struct unit *punit,
 #define LOG_SETTLER LOG_DEBUG
 static void auto_settler_findwork(struct player *pplayer, 
 				  struct unit *punit,
-				  struct settlermap *state)
+				  struct settlermap *state,
+				  int recursion)
 {
   struct cityresult result;
   int best_impr = 0;            /* best terrain improvement we can do */
@@ -987,6 +994,14 @@ static void auto_settler_findwork(struct player *pplayer,
 
   /* time it will take worker to complete its given task */
   int completion_time = 0;
+
+  if (recursion > unit_list_size(pplayer->units)) {
+    assert(recursion <= unit_list_size(pplayer->units));
+    ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+    set_unit_activity(punit, ACTIVITY_IDLE);
+    send_unit_info(NULL, punit);
+    return; /* avoid further recursion. */
+  }
 
   CHECK_UNIT(punit);
 
@@ -1093,12 +1108,27 @@ static void auto_settler_findwork(struct player *pplayer,
       struct unit *displaced
 	= player_find_unit_by_id(pplayer, state[best_tile->index].enroute);
 
+      if (displaced) {
+	assert(state[best_tile->index].enroute == displaced->id);
+	assert(state[best_tile->index].eta > completion_time
+	       || (state[best_tile->index].eta == completion_time
+		   && (real_map_distance(best_tile, punit->tile)
+		       < real_map_distance(best_tile, displaced->tile))));
+	UNIT_LOG(LOG_DEBUG, punit,
+		 "%d (%d,%d) has displaced %d (%d,%d) on %d,%d",
+		punit->id, completion_time,
+		real_map_distance(best_tile, punit->tile),
+		displaced->id, state[best_tile->index].eta,
+		real_map_distance(best_tile, displaced->tile),
+		TILE_XY(best_tile));
+      }
+
       state[best_tile->index].enroute = punit->id;
       state[best_tile->index].eta = completion_time;
       
       if (displaced) {
 	displaced->goto_tile = NULL;
-	auto_settler_findwork(pplayer, displaced, state);
+	auto_settler_findwork(pplayer, displaced, state, recursion + 1);
       }
     } else {
       UNIT_LOG(LOG_DEBUG, punit, "giving up trying to improve terrain");
@@ -1120,7 +1150,7 @@ static void auto_settler_findwork(struct player *pplayer,
 
   if (punit->ai.ai_role == AIUNIT_BUILD_CITY
       && punit->moves_left > 0) {
-    auto_settler_findwork(pplayer, punit, state);
+    auto_settler_findwork(pplayer, punit, state, recursion + 1);
   }
 }
 #undef LOG_SETTLER
@@ -1257,7 +1287,7 @@ void auto_settlers_player(struct player *pplayer)
         handle_unit_activity_request(punit, ACTIVITY_IDLE);
       }
       if (punit->activity == ACTIVITY_IDLE) {
-        auto_settler_findwork(pplayer, punit, state);
+        auto_settler_findwork(pplayer, punit, state, 0);
       }
     }
   } unit_list_iterate_end;
