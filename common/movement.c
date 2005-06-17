@@ -407,7 +407,8 @@ enum unit_move_result test_unit_move_to_tile(Unit_type_id type,
     /* 6) */
     if (!is_ocean(dst_tile->terrain)
 	&& dst_tile->terrain != T_UNKNOWN
-	&& !is_allied_city_tile(dst_tile, unit_owner)) {
+	&& (!is_allied_city_tile(dst_tile, unit_owner)
+	    || !is_ocean_near_tile(dst_tile))) {
       /* Naval units can't move onto land, except into (allied) cities.
        *
        * The check for T_UNKNOWN here is probably unnecessary.  Since the
