@@ -1558,7 +1558,8 @@ enum unit_move_result test_unit_move_to_tile(Unit_Type_id type,
     /* 7) */
     if (!is_ocean(ptotile->terrain)
 	&& ptotile->terrain != T_UNKNOWN
-	&& !is_allied_city_tile(ptotile, unit_owner)) {
+	&& (!is_allied_city_tile(ptotile, unit_owner)
+	    || !is_ocean_near_tile(ptotile))) {
       return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY;
     }
   }
