@@ -953,21 +953,23 @@ bool is_unit_activity_on_tile(enum unit_activity activity,
   return FALSE;
 }
 
-/**************************************************************************
-  Return a mask of the specials which may be pillaged at the given
-  tile.
-**************************************************************************/
+/****************************************************************************
+  Return a mask of the specials which are actively (currently) being
+  pillaged on the given tile.
+****************************************************************************/
 bv_special get_unit_tile_pillage_set(const struct tile *ptile)
 {
   bv_special tgt_ret;
 
   BV_CLR_ALL(tgt_ret);
   unit_list_iterate(ptile->units, punit) {
-    if (punit->activity == ACTIVITY_PILLAGE) {
+    if (punit->activity == ACTIVITY_PILLAGE
+	&& punit->activity_target != S_LAST) {
       assert(punit->activity_target < S_LAST);
       BV_SET(tgt_ret, punit->activity_target);
     }
   } unit_list_iterate_end;
+
   return tgt_ret;
 }
 
