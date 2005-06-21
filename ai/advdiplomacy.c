@@ -542,10 +542,10 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
             || game.info.tech_cost_style != 0
-            || pclause->value == pplayer->research->tech_goal
-            || pclause->value == pplayer->research->researching
+            || pclause->value == get_player_research(pplayer)->tech_goal
+            || pclause->value == get_player_research(pplayer)->researching
             || is_tech_a_req_for_goal(pplayer, pclause->value, 
-                                      pplayer->research->tech_goal))) {
+				get_player_research(pplayer)->tech_goal))) {
       /* We accept the above list of clauses as gifts, even if we are
        * at war. We do not accept tech or cities since these can be used
        * against us, unless we know that we want this tech anyway, or
@@ -690,8 +690,8 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
   } city_list_iterate_end;
 
   /* Tech lead is worrisome */
-  kill_desire += MAX(aplayer->research->techs_researched -
-                     pplayer->research->techs_researched, 0);
+  kill_desire += MAX(get_player_research(aplayer)->techs_researched
+                     - get_player_research(pplayer)->techs_researched, 0);
 
   /* Spacerace loss we will not allow! */
   if (ship->state >= SSHIP_STARTED) {

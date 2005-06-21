@@ -1367,10 +1367,11 @@ static bool read_player_info_techs(struct player *pplayer,
   bool need_effect_update = FALSE;
 
   tech_type_iterate(i) {
-    enum tech_state oldstate = pplayer->research->inventions[i].state;
+    enum tech_state oldstate
+      = get_player_research(pplayer)->inventions[i].state;
     enum tech_state newstate = inventions[i] - '0';
 
-    pplayer->research->inventions[i].state = newstate;
+    get_player_research(pplayer)->inventions[i].state = newstate;
     if (newstate != oldstate
 	&& (newstate == TECH_KNOWN || oldstate == TECH_KNOWN)) {
       need_effect_update = TRUE;
@@ -1416,6 +1417,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   bool poptechup, new_tech = FALSE;
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
+  struct player_research* research = get_player_research(pplayer);
 
   sz_strlcpy(pplayer->name, pinfo->name);
 
@@ -1470,14 +1472,14 @@ void handle_player_info(struct packet_player_info *pinfo)
    * game is running. */
   new_tech = read_player_info_techs(pplayer, pinfo->inventions);
 
-  poptechup = (pplayer->research->researching != pinfo->researching
-               || pplayer->research->tech_goal != pinfo->tech_goal);
+  poptechup = (research->researching != pinfo->researching
+               || research->tech_goal != pinfo->tech_goal);
   pplayer->bulbs_last_turn = pinfo->bulbs_last_turn;
-  pplayer->research->bulbs_researched = pinfo->bulbs_researched;
-  pplayer->research->techs_researched = pinfo->techs_researched;
-  pplayer->research->researching=pinfo->researching;
-  pplayer->research->future_tech = pinfo->future_tech;
-  pplayer->research->tech_goal=pinfo->tech_goal;
+  research->bulbs_researched = pinfo->bulbs_researched;
+  research->techs_researched = pinfo->techs_researched;
+  research->researching=pinfo->researching;
+  research->future_tech = pinfo->future_tech;
+  research->tech_goal=pinfo->tech_goal;
   
   if (can_client_change_view() && pplayer == game.player_ptr) {
     if (poptechup || new_tech) {

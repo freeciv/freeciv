@@ -136,13 +136,15 @@ static void ai_select_tech(struct player *pplayer,
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;
     choice->current_want = 
-      values[pplayer->research->researching] / num_cities_nonzero;
+      values[get_player_research(pplayer)->researching] / num_cities_nonzero;
   }
 
   if (goal) {
     goal->choice = newgoal;
     goal->want = goal_values[newgoal] / num_cities_nonzero;
-    goal->current_want = goal_values[pplayer->research->tech_goal] / num_cities_nonzero;
+    goal->current_want
+      = (goal_values[get_player_research(pplayer)->tech_goal]
+	 / num_cities_nonzero);
     freelog(LOG_DEBUG,
 	    "Goal->choice = %s, goal->want = %d, goal_value = %d, "
 	    "num_cities_nonzero = %d",
@@ -160,8 +162,9 @@ static void ai_select_tech(struct player *pplayer,
 void ai_manage_tech(struct player *pplayer)
 {
   struct ai_tech_choice choice, goal;
+  struct player_research *research = get_player_research(pplayer);
   /* Penalty for switching research */
-  int penalty = (pplayer->research->got_tech ? 0 : pplayer->research->bulbs_researched);
+  int penalty = (research->got_tech ? 0 : research->bulbs_researched);
 
   /* If there are humans in our team, they will choose the techs */
   players_iterate(aplayer) {
@@ -173,14 +176,14 @@ void ai_manage_tech(struct player *pplayer)
   } players_iterate_end;
 
   ai_select_tech(pplayer, &choice, &goal);
-  if (choice.choice != pplayer->research->researching) {
+  if (choice.choice != research->researching) {
     /* changing */
     if ((choice.want - choice.current_want) > penalty &&
-	penalty + pplayer->research->bulbs_researched <=
+	penalty + research->bulbs_researched <=
 	total_bulbs_required(pplayer)) {
       TECH_LOG(LOG_DEBUG, pplayer, choice.choice, "new research, was %s, "
                "penalty was %d", 
-               get_tech_name(pplayer, pplayer->research->researching),
+               get_tech_name(pplayer, research->researching),
                penalty);
       choose_tech(pplayer, choice.choice);
     }
@@ -189,9 +192,9 @@ void ai_manage_tech(struct player *pplayer)
   /* crossing my fingers on this one! -- Syela (seems to have worked!) */
   /* It worked, in particular, because the value it sets (research->tech_goal)
    * is practically never used, see the comment for ai_next_tech_goal */
-  if (goal.choice != pplayer->research->tech_goal) {
+  if (goal.choice != research->tech_goal) {
     freelog(LOG_DEBUG, "%s change goal from %s (want=%d) to %s (want=%d)",
-	    pplayer->name, get_tech_name(pplayer, pplayer->research->tech_goal), 
+	    pplayer->name, get_tech_name(pplayer, research->tech_goal), 
 	    goal.current_want, get_tech_name(pplayer, goal.choice),
 	    goal.want);
     choose_tech_goal(pplayer, goal.choice);

@@ -605,7 +605,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
      * Either only future-tech or nothing to steal:
      * If nothing to steal, say so, deduct movement cost and return.
      */
-    if (cplayer->research->future_tech > pplayer->research->future_tech) {
+    if (get_player_research(cplayer)->future_tech
+        > get_player_research(pplayer)->future_tech) {
       target = -1;
       freelog (LOG_DEBUG, "steal-tech: targeted future-tech: %d", target);
     } else {
@@ -670,14 +671,15 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_THEFT,
 		     _("Your %s stole Future Tech. %d from %s."),
 		     unit_name(pdiplomat->type),
-		     pplayer->research->future_tech, cplayer->name);
+		     get_player_research(pplayer)->future_tech,
+		     cplayer->name);
     notify_player_ex(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_THEFT,
 		     _("Future Tech. %d stolen by %s %s from %s."),
-		     pplayer->research->future_tech,
+		     get_player_research(pplayer)->future_tech,
 		     get_nation_name(pplayer->nation),
 		     unit_name(pdiplomat->type), pcity->name);
     freelog(LOG_DEBUG, "steal-tech: stole future-tech %d",
-	    pplayer->research->future_tech);
+	    get_player_research(pplayer)->future_tech);
   } else {
     /* Steal a technology. */
 

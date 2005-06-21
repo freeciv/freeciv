@@ -317,6 +317,8 @@ bool is_barbarian(const struct player *pplayer);
 
 bool gives_shared_vision(const struct player *me, const struct player *them);
 
+struct player_research *get_player_research(const struct player *p1);
+
 void merge_players_research(struct player* p1, struct player* p2);
 void clean_players_research(void);
 #define players_iterate(PI_player)                                            \

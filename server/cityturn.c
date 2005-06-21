@@ -1124,14 +1124,15 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		    get_improvement_name(id), mod);
 
       for (i = 0; i < mod; i++) {
-	Tech_type_id tech = pplayer->research->researching;
+	Tech_type_id tech = get_player_research(pplayer)->researching;
 
 	if (tech == A_UNSET) {
 	  choose_random_tech(pplayer);
-	  tech = pplayer->research->researching;
+	  tech = get_player_research(pplayer)->researching;
 	}
 	do_free_cost(pplayer);
-	found_new_tech(pplayer, pplayer->research->researching, TRUE, TRUE, 
+	found_new_tech(pplayer,
+	               get_player_research(pplayer)->researching, TRUE, TRUE, 
 		       A_NONE);
 
 	notify_embassies(pplayer, NULL,

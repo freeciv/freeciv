@@ -56,7 +56,7 @@ enum tech_state get_invention(const struct player *pplayer,
 {
   assert(tech >= 0 || tech < game.control.num_tech_types);
 
-  return pplayer->research->inventions[tech].state;
+  return get_player_research(pplayer)->inventions[tech].state;
 }
 
 /**************************************************************************
@@ -65,11 +65,13 @@ enum tech_state get_invention(const struct player *pplayer,
 void set_invention(struct player *pplayer, Tech_type_id tech,
 		   enum tech_state value)
 {
-  if (pplayer->research->inventions[tech].state == value) {
+  struct player_research *research = get_player_research(pplayer);
+
+  if (research->inventions[tech].state == value) {
     return;
   }
 
-  pplayer->research->inventions[tech].state = value;
+  research->inventions[tech].state = value;
 
   if (value == TECH_KNOWN) {
     game.info.global_advances[tech]++;
@@ -86,7 +88,9 @@ bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
   if (tech == goal) {
     return FALSE;
   } else {
-    return BV_ISSET(pplayer->research->inventions[goal].required_techs, tech);
+    return
+      BV_ISSET(get_player_research(pplayer)->inventions[goal].required_techs,
+               tech);
   }
 }
 
@@ -107,7 +111,7 @@ static void build_required_techs_helper(struct player *pplayer,
   }
 
   /* Mark the tech as required for the goal */
-  BV_SET(pplayer->research->inventions[goal].required_techs, tech);
+  BV_SET(get_player_research(pplayer)->inventions[goal].required_techs, tech);
 
   if (advances[tech].req[0] == goal || advances[tech].req[1] == goal) {
     /* TRANS: Obscure ruleset error */
@@ -128,21 +132,22 @@ static void build_required_techs_helper(struct player *pplayer,
 static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 {
   int counter;
+  struct player_research *research = get_player_research(pplayer);
 
-  BV_CLR_ALL(pplayer->research->inventions[goal].required_techs);
-
+  BV_CLR_ALL(research->inventions[goal].required_techs);
+  
   if (get_invention(pplayer, goal) == TECH_KNOWN) {
-    pplayer->research->inventions[goal].num_required_techs = 0;
-    pplayer->research->inventions[goal].bulbs_required = 0;
+    research->inventions[goal].num_required_techs = 0;
+    research->inventions[goal].bulbs_required = 0;
     return;
   }
   
   build_required_techs_helper(pplayer, goal, goal);
 
   /* Include the goal tech */
-  pplayer->research->inventions[goal].bulbs_required =
+  research->inventions[goal].bulbs_required =
       base_total_bulbs_required(pplayer, goal);
-  pplayer->research->inventions[goal].num_required_techs = 1;
+  research->inventions[goal].num_required_techs = 1;
 
   counter = 0;
   tech_type_iterate(i) {
@@ -154,16 +159,16 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
      * This is needed to get a correct result for the
      * base_total_bulbs_required call.
      */
-    pplayer->research->techs_researched++;
+    research->techs_researched++;
     counter++;
 
-    pplayer->research->inventions[goal].num_required_techs++;
-    pplayer->research->inventions[goal].bulbs_required +=
+    research->inventions[goal].num_required_techs++;
+    research->inventions[goal].bulbs_required +=
 	base_total_bulbs_required(pplayer, i);
   } tech_type_iterate_end;
 
   /* Undo the changes made above */
-  pplayer->research->techs_researched -= counter;
+  research->techs_researched -= counter;
 }
 
 /**************************************************************************
@@ -215,11 +220,11 @@ void update_research(struct player *pplayer)
   } tech_type_iterate_end;
 
   for (flag = 0; flag < TF_LAST; flag++) {
-    pplayer->research->num_known_tech_with_flag[flag] = 0;
+    get_player_research(pplayer)->num_known_tech_with_flag[flag] = 0;
 
     tech_type_iterate(i) {
       if (get_invention(pplayer, i) == TECH_KNOWN && tech_flag(i, flag)) {
-	pplayer->research->num_known_tech_with_flag[flag]++;
+	get_player_research(pplayer)->num_known_tech_with_flag[flag]++;
       }
     } tech_type_iterate_end;
   }
@@ -344,7 +349,8 @@ Tech_type_id find_tech_by_flag(int index, enum tech_flag_id flag)
 **************************************************************************/
 int total_bulbs_required(const struct player *pplayer)
 {
-  return base_total_bulbs_required(pplayer, pplayer->research->researching);
+  return base_total_bulbs_required(pplayer,
+    get_player_research(pplayer)->researching);
 }
 
 /****************************************************************************
@@ -394,7 +400,7 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   switch (tech_cost_style) {
   case 0:
-    base_cost = pplayer->research->techs_researched * 20;
+    base_cost = get_player_research(pplayer)->techs_researched * 20;
     break;
   case 1:
     base_cost = techcoststyle1[tech];
@@ -497,7 +503,7 @@ int base_total_bulbs_required(const struct player *pplayer,
 int num_unknown_techs_for_goal(const struct player *pplayer,
 			       Tech_type_id goal)
 {
-  return pplayer->research->inventions[goal].num_required_techs;
+  return get_player_research(pplayer)->inventions[goal].num_required_techs;
 }
 
 /**************************************************************************
@@ -508,7 +514,7 @@ int num_unknown_techs_for_goal(const struct player *pplayer,
 int total_bulbs_required_for_goal(const struct player *pplayer,
 				  Tech_type_id goal)
 {
-  return pplayer->research->inventions[goal].bulbs_required;
+  return get_player_research(pplayer)->inventions[goal].bulbs_required;
 }
 
 /**************************************************************************
@@ -568,6 +574,7 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
 {
   static struct string_vector future;
   int i;
+  struct player_research *research = get_player_research(pplayer);
 
   /* We don't return a static buffer because that would break anything that
    * needed to work with more than one name at a time. */
@@ -580,19 +587,19 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
     return _("None");
   case A_FUTURE:
     /* pplayer->future_tech == 0 means "Future Tech. 1". */
-    for (i = future.size; i <= pplayer->research->future_tech; i++) {
+    for (i = future.size; i <= research->future_tech; i++) {
       char *ptr = NULL;
 
       string_vector_append(&future, &ptr);
     }
-    if (!future.p[pplayer->research->future_tech]) {
+    if (!future.p[research->future_tech]) {
       char buffer[1024];
 
       my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
-		  pplayer->research->future_tech + 1);
-      future.p[pplayer->research->future_tech] = mystrdup(buffer);
+		  research->future_tech + 1);
+      future.p[research->future_tech] = mystrdup(buffer);
     }
-    return future.p[pplayer->research->future_tech];
+    return future.p[research->future_tech];
   default:
     /* Includes A_NONE */
     if (!tech_exists(tech)) {

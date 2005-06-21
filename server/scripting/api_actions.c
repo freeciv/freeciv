@@ -62,10 +62,10 @@ bool api_actions_give_technology(Player *pplayer, Tech_Type *ptech)
   if (ptech) {
     id = ptech->index;
   } else {
-    if (pplayer->research->researching == A_UNSET) {
+    if (get_player_research(pplayer)->researching == A_UNSET) {
       choose_random_tech(pplayer);
     }
-    id = pplayer->research->researching;
+    id = get_player_research(pplayer)->researching;
   }
 
   if (get_invention(pplayer, id) != TECH_KNOWN) {

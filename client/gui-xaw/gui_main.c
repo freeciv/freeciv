@@ -718,6 +718,7 @@ void xaw_ui_exit(void)
 void main_show_info_popup(XEvent *event)
 {
   XButtonEvent *ev=(XButtonEvent *)event;
+  struct player_research* research = get_player_research(game.player_ptr);
   if(ev->button==Button1) {
     Widget  p;
     Position x, y;
@@ -739,10 +740,10 @@ void main_show_info_popup(XEvent *event)
 		game.player_ptr->economic.tax,
 		game.player_ptr->economic.luxury,
 		game.player_ptr->economic.science,
-		(game.player_ptr->research->researching == A_UNSET) ?
+		(research->researching == A_UNSET) ?
 		  advances[A_NONE].name :
-		  advances[game.player_ptr->research->researching].name,
-		game.player_ptr->research->bulbs_researched,
+		  advances[research->researching].name,
+		research->bulbs_researched,
 		total_bulbs_required(game.player_ptr),
 		get_government_name(game.player_ptr->government));
 

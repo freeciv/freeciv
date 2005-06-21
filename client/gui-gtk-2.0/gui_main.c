@@ -1495,6 +1495,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
   if(ev->button == 1) {
     GtkWidget *p;
     char buf[512];
+    struct player_research* research = get_player_research(game.player_ptr);
     
     my_snprintf(buf, sizeof(buf),
 	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
@@ -1508,8 +1509,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 	    game.player_ptr->economic.science,
 
 	    get_tech_name(game.player_ptr,
-			  game.player_ptr->research->researching),
-	    game.player_ptr->research->bulbs_researched,
+			  research->researching),
+	    research->bulbs_researched,
 	    total_bulbs_required(game.player_ptr),
 	    get_government_name(game.player_ptr->government));
     

@@ -735,7 +735,8 @@ void get_reqtree_dimensions(struct reqtree *reqtree,
 static enum color_std node_color(struct tree_node *node)
 {
   if (!node->is_dummy) {
-    if (game.player_ptr->research->researching == node->tech) {
+    struct player_research* research = get_player_research(game.player_ptr);
+    if (research->researching == node->tech) {
       return COLOR_REQTREE_RESEARCHING;
     }
     
@@ -744,8 +745,8 @@ static enum color_std node_color(struct tree_node *node)
     }
 
     if (is_tech_a_req_for_goal(game.player_ptr, node->tech,
-			       game.player_ptr->research->tech_goal)
-	|| node->tech == game.player_ptr->research->tech_goal) {
+			       research->tech_goal)
+	|| node->tech == research->tech_goal) {
       if (get_invention(game.player_ptr, node->tech) == TECH_REACHABLE) {
 	return COLOR_REQTREE_REACHABLE_GOAL;
       } else {

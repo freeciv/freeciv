@@ -373,15 +373,17 @@ void update_intel_dialog(struct player *p)
 	  case LABEL_LUXURY:
 	    my_snprintf(buf, sizeof(buf), "%d%%", p->economic.luxury);
 	    break;
-	  case LABEL_RESEARCHING:
-	    if (p->research->researching != A_NOINFO) {
+	  case LABEL_RESEARCHING: {
+	    struct player_research* research = get_player_research(p);
+	    if (research->researching != A_NOINFO) {
 	      my_snprintf(buf, sizeof(buf), "%s(%d/%d)",
-		  get_tech_name(p, p->research->researching),
-		  p->research->bulbs_researched, total_bulbs_required(p));
+		  get_tech_name(p, research->researching),
+		  research->bulbs_researched, total_bulbs_required(p));
 	    } else {
 	      my_snprintf(buf, sizeof(buf), _("(Unknown)"));
 	    }
 	    break;
+	  }
 	  default:
 	    buf[0] = '\0';
 	    break;

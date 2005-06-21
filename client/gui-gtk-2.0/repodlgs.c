@@ -143,8 +143,8 @@ void popup_science_dialog(bool raise)
     create_science_dialog(FALSE);
   }
 
-  if (game.player_ptr->research->tech_goal == A_UNSET
-      && game.player_ptr->research->researching == A_UNSET) {
+  if (get_player_research(game.player_ptr)->tech_goal == A_UNSET
+      && get_player_research(game.player_ptr)->researching == A_UNSET) {
     gui_dialog_alert(science_dialog_shell);
   } else {
     gui_dialog_present(science_dialog_shell);
@@ -250,7 +250,8 @@ static GtkWidget *create_reqtree_diagram(void)
   adjustment = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw));
   
   /* Center on currently researched node */
-  if (find_tech_on_reqtree(reqtree, game.player_ptr->research->researching,
+  if (find_tech_on_reqtree(reqtree,
+                           get_player_research(game.player_ptr)->researching,
 			   &x, NULL, NULL, NULL)) {
     /* FIXME: this is just an approximation */
     gtk_adjustment_set_value(adjustment, x - 100);
@@ -346,14 +347,15 @@ void science_change_callback(GtkWidget *widget, gpointer data)
     science_dialog_update();
   } else {
     gdouble pct;
+    struct player_research *research = get_player_research(game.player_ptr);
 
     gtk_widget_set_sensitive(science_change_menu_button,
 			     can_client_issue_orders());
     my_snprintf(text, sizeof(text), "%d/%d",
-		game.player_ptr->research->bulbs_researched,
+		research->bulbs_researched,
 		total_bulbs_required(game.player_ptr));
-    pct=CLAMP((gdouble) game.player_ptr->research->bulbs_researched /
-		total_bulbs_required(game.player_ptr), 0.0, 1.0);
+    pct = CLAMP((gdouble) research->bulbs_researched
+		/ total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
     gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label),
@@ -428,6 +430,7 @@ void science_dialog_update(void)
   GList *sorting_list = NULL, *it;
   gdouble pct;
   GtkSizeGroup *group1, *group2;
+  struct player_research *research = get_player_research(game.player_ptr);
 
   if (is_report_dialogs_frozen()) {
     return;
@@ -457,11 +460,11 @@ void science_dialog_update(void)
 			   can_client_issue_orders());
 
   my_snprintf(text, sizeof(text), "%d/%d",
-	      game.player_ptr->research->bulbs_researched,
+	      research->bulbs_researched,
 	      total_bulbs_required(game.player_ptr));
 
-  pct=CLAMP((gdouble) game.player_ptr->research->bulbs_researched /
-	    total_bulbs_required(game.player_ptr), 0.0, 1.0);
+  pct = CLAMP((gdouble) research->bulbs_researched
+	      / total_bulbs_required(game.player_ptr), 0.0, 1.0);
 
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
@@ -469,7 +472,7 @@ void science_dialog_update(void)
   /* work around GTK+ refresh bug. */
   gtk_widget_queue_resize(science_current_label);
  
-  if (game.player_ptr->research->researching == A_UNSET) {
+  if (research->researching == A_UNSET) {
     item = gtk_menu_item_new_with_label(get_tech_name(game.player_ptr,
 						      A_NONE));
     gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
@@ -479,18 +482,18 @@ void science_dialog_update(void)
    * hist will hold afterwards the techid of the current choice
    */
   hist=0;
-  if (!is_future_tech(game.player_ptr->research->researching)) {
+  if (!is_future_tech(research->researching)) {
     for(i=A_FIRST; i<game.control.num_tech_types; i++) {
       if(get_invention(game.player_ptr, i)!=TECH_REACHABLE)
 	continue;
 
-      if (i==game.player_ptr->research->researching)
+      if (i == research->researching)
 	hist=i;
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   } else {
     int value = (game.control.num_tech_types
-		 + game.player_ptr->research->future_tech + 1);
+		 + research->future_tech + 1);
 
     sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(value));
   }
@@ -533,9 +536,10 @@ void science_dialog_update(void)
 			   can_client_issue_orders());
   
   gtk_label_set_text(GTK_LABEL(science_goal_label),
-		get_science_goal_text(game.player_ptr->research->tech_goal));
+		get_science_goal_text(
+		  research->tech_goal));
 
-  if (game.player_ptr->research->tech_goal == A_UNSET) {
+  if (research->tech_goal == A_UNSET) {
     item = gtk_menu_item_new_with_label(get_tech_name(game.player_ptr,
 						      A_NONE));
     gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
@@ -550,9 +554,10 @@ void science_dialog_update(void)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
         && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == game.player_ptr->research->tech_goal)) {
-      if (i==game.player_ptr->research->tech_goal)
-	hist=i;
+	    || i == research->tech_goal)) {
+      if (i == research->tech_goal) {
+	hist = i;
+      }
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   }

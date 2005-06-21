@@ -495,12 +495,13 @@ const char *get_science_goal_text(Tech_type_id goal)
   int bulbs_needed = bulbs, turns;
   int perturn = get_bulbs_per_turn(NULL, NULL);
   char buf1[256], buf2[256], buf3[256];
+  struct player_research* research = get_player_research(game.player_ptr);
   INIT;
 
   if (is_tech_a_req_for_goal(game.player_ptr,
-			     game.player_ptr->research->researching, goal)
-      || game.player_ptr->research->researching == goal) {
-    bulbs_needed -= game.player_ptr->research->bulbs_researched;
+			     research->researching, goal)
+      || research->researching == goal) {
+    bulbs_needed -= research->bulbs_researched;
   }
 
   my_snprintf(buf1, sizeof(buf1),
@@ -613,8 +614,8 @@ const char *get_bulb_tooltip(void)
   add(_("Shows your progress in researching "
 	"the current technology.\n%s: %d/%d."),
       get_tech_name(game.player_ptr,
-		    game.player_ptr->research->researching),
-      game.player_ptr->research->bulbs_researched,
+		    get_player_research(game.player_ptr)->researching),
+      get_player_research(game.player_ptr)->bulbs_researched,
       total_bulbs_required(game.player_ptr));
   RETURN;
 }

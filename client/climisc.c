@@ -309,7 +309,7 @@ struct sprite *client_research_sprite(void)
 {
   if (can_client_change_view() && game.player_ptr) {
     int index = (NUM_TILES_PROGRESS
-		 * game.player_ptr->research->bulbs_researched)
+		 * get_player_research(game.player_ptr)->bulbs_researched)
       / (total_bulbs_required(game.player_ptr) + 1);
 
     /* This clipping can be necessary since we can end up with excess

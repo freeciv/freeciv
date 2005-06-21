@@ -203,23 +203,24 @@ void create_science_dialog(bool make_modal)
   char current_text[512];
   char goal_text[512];
   const char *report_title;
+  struct player_research* research = get_player_research(game.player_ptr);
   
-  if (game.player_ptr->research->researching == A_UNSET) {
+  if (research->researching == A_UNSET) {
     my_snprintf(current_text, sizeof(current_text),
 		_("Researching %s: %d/%d"),
 		advances[A_NONE].name,
-		game.player_ptr->research->bulbs_researched,
+		research->bulbs_researched,
 		total_bulbs_required(game.player_ptr));
   } else {
     my_snprintf(current_text, sizeof(current_text),
 		_("Researching %s: %d/%d"),
 		get_tech_name(game.player_ptr,
-			      game.player_ptr->research->researching),
-		game.player_ptr->research->bulbs_researched,
+			      research->researching),
+		research->bulbs_researched,
 		total_bulbs_required(game.player_ptr));
   }
 
-  if (game.player_ptr->research->tech_goal == A_UNSET) {
+  if (research->tech_goal == A_UNSET) {
     my_snprintf(goal_text, sizeof(goal_text),
 		_("Goal: %s (%d steps)"),
 		advances[A_NONE].name,
@@ -227,9 +228,9 @@ void create_science_dialog(bool make_modal)
   } else {
     my_snprintf(goal_text, sizeof(goal_text),
 		_("Goal: %s (%d steps)"),
-		advances[game.player_ptr->research->tech_goal].name,
+		advances[research->tech_goal].name,
 		num_unknown_techs_for_goal(game.player_ptr,
-					   game.player_ptr->research->tech_goal));
+					   research->tech_goal));
   }
   
   for(i=A_FIRST, j=0; i<game.control.num_tech_types; i++)
@@ -335,7 +336,7 @@ void create_science_dialog(bool make_modal)
         && get_invention(game.player_ptr, i) != TECH_KNOWN
         && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
         && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	    || i == game.player_ptr->research->tech_goal)) {
+	    || i == research->tech_goal)) {
       Widget entry=
       XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 			      goalmenu, NULL);
@@ -383,6 +384,7 @@ void science_change_callback(Widget w, XtPointer client_data,
   char current_text[512];
   size_t to = (size_t) client_data;
   Boolean b;
+  struct player_research* research = get_player_research(game.player_ptr);
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE) {
@@ -390,7 +392,7 @@ void science_change_callback(Widget w, XtPointer client_data,
   } else {
     my_snprintf(current_text, sizeof(current_text),
 		_("Researching %s: %d/%d"),
-		advances[to].name, game.player_ptr->research->bulbs_researched,
+		advances[to].name, research->bulbs_researched,
 		total_bulbs_required(game.player_ptr));
 
     XtVaSetValues(science_current_label, XtNlabel, current_text, NULL);
@@ -475,29 +477,30 @@ void science_dialog_update(void)
     int j, flag;
     size_t i;
     const char *report_title;
+    struct player_research* research = get_player_research(game.player_ptr);
     
     report_title = get_report_title_plus(_("Science"), science_dialog_text());
     xaw_set_label(science_label, report_title);
     free((void *) report_title);
 
-    if (game.player_ptr->research->researching == A_UNSET) {
+    if (research->researching == A_UNSET) {
       my_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%d"),
 		  advances[A_NONE].name,
-		  game.player_ptr->research->bulbs_researched,
+		  research->bulbs_researched,
 		  total_bulbs_required(game.player_ptr));
     } else {
       my_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%d"),
 		  get_tech_name(game.player_ptr,
-				game.player_ptr->research->researching),
-		  game.player_ptr->research->bulbs_researched,
+				research->researching),
+		  research->bulbs_researched,
 		  total_bulbs_required(game.player_ptr));
     }
 
     xaw_set_label(science_current_label, text);
 
-    if (game.player_ptr->research->tech_goal == A_UNSET) {
+    if (research->tech_goal == A_UNSET) {
       my_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
 		  advances[A_NONE].name,
@@ -505,9 +508,9 @@ void science_dialog_update(void)
     } else {
       my_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
-		  advances[game.player_ptr->research->tech_goal].name,
+		  advances[research->tech_goal].name,
 		  num_unknown_techs_for_goal(game.player_ptr,
-					    game.player_ptr->research->tech_goal));
+					     research->tech_goal));
     }
 
     xaw_set_label(science_goal_label, text);
@@ -554,7 +557,7 @@ void science_dialog_update(void)
 	  && get_invention(game.player_ptr, i) != TECH_KNOWN
 	  && advances[i].req[0] != A_LAST && advances[i].req[1] != A_LAST
 	  && (num_unknown_techs_for_goal(game.player_ptr, i) < 11
-	      || i == game.player_ptr->research->tech_goal)) {
+	      || i == research->tech_goal)) {
 	Widget entry=
 	  XtVaCreateManagedWidget(advances[i].name, smeBSBObjectClass, 
 				  goalmenu, NULL);

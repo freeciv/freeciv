@@ -383,7 +383,7 @@ bool player_in_city_radius(const struct player *pplayer,
 int num_known_tech_with_flag(const struct player *pplayer,
 			     enum tech_flag_id flag)
 {
-  return pplayer->research->num_known_tech_with_flag[flag];
+  return get_player_research(pplayer)->num_known_tech_with_flag[flag];
 }
 
 /**************************************************************************
@@ -774,4 +774,13 @@ void clean_players_research()
     aplayer->research = fc_malloc(sizeof (struct player_research));
     player_research_init(aplayer->research);
   } players_iterate_end;
+}
+
+/****************************************************************************
+  Returns player_research struct of the given player. Note that team
+  members share research
+****************************************************************************/
+struct player_research *get_player_research(const struct player *p1)
+{
+  return p1->research;
 }

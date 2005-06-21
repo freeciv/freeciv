@@ -603,7 +603,7 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (pplayer->research->researching == A_UNSET) {
+    if (get_player_research(pplayer)->researching == A_UNSET) {
       choose_random_tech(pplayer);
       update_tech(pplayer, 0);
     }
@@ -630,14 +630,14 @@ static void end_phase(void)
 
   /* Refresh cities */
   phase_players_iterate(pplayer) {
-    pplayer->research->got_tech = FALSE;
+    get_player_research(pplayer)->got_tech = FALSE;
   } phase_players_iterate_end;
   
   phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
-    pplayer->research->changed_from=-1;
+    get_player_research(pplayer)->changed_from=-1;
     flush_packets();
   } phase_players_iterate_end;
 

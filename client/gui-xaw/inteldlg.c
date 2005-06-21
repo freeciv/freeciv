@@ -239,16 +239,16 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  XtNlabel, buf,
 			  NULL);
 
-  if (pdialog->pplayer->research->researching == A_UNSET) {
+  if (get_player_research(pdialog->pplayer)->researching == A_UNSET) {
     my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		advances[A_NONE].name,
-		pdialog->pplayer->research->bulbs_researched,
+		get_player_research(pdialog->pplayer)->bulbs_researched,
 		total_bulbs_required(pdialog->pplayer));
   } else {
     my_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		get_tech_name(pdialog->pplayer,
-			      pdialog->pplayer->research->researching),
-		pdialog->pplayer->research->bulbs_researched,
+			get_player_research(pdialog->pplayer)->researching),
+		get_player_research(pdialog->pplayer)->bulbs_researched,
 		total_bulbs_required(pdialog->pplayer));
   }
 
