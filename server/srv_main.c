@@ -1179,7 +1179,7 @@ static void send_nation_available(struct nation_type *nation)
 
   Call this on server start, or when loading a scenario.
 ****************************************************************************/
-static void init_available_nations(void)
+void init_available_nations(void)
 {
   bool start_nations;
   int i;

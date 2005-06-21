@@ -78,4 +78,5 @@ extern bool nocity_send;
 
 extern bool force_end_of_sniff;
 
+void init_available_nations(void);
 #endif /* FC__SRV_MAIN_H */

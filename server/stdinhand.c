@@ -3177,6 +3177,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
   sz_strlcpy(srvarg.load_filename, arg);
 
   game_load(&file);
+  init_available_nations();
   section_file_check_unused(&file, arg);
   section_file_free(&file);
 
