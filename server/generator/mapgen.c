@@ -2026,7 +2026,7 @@ static void mapgenerator4(void)
   /* no islands with mass >> sqr(min(xsize,ysize)) */
 
   if (game.info.nplayers < 2 || map.landpercent > 80) {
-    map.generator = 3;
+    map.startpos = 1;
     return;
   }
 
