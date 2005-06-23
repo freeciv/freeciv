@@ -476,6 +476,7 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   bool has_treaty = FALSE;
   bool only_gifts = TRUE;
   struct ai_data *ai = ai_data_get(pplayer);
+  int given_cities = 0;
 
   assert(!is_barbarian(pplayer));
 
@@ -484,6 +485,9 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
     total_balance += ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE);
     if (is_pact_clause(pclause->type)) {
       has_treaty = TRUE;
+    }
+    if (pclause->type == CLAUSE_CITY && pclause->from == pplayer) {
+	given_cities++;
     }
     if (pclause->type != CLAUSE_GOLD && pclause->type != CLAUSE_MAP
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
@@ -503,6 +507,13 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
    * it is just gifts, in which case we gratefully accept. */
   if (pplayers_at_war(pplayer, aplayer) && !has_treaty && !only_gifts) {
     return;
+  }
+
+  if (given_cities > 0) {
+    /* alway keep at least two cities */
+    if (city_list_size(&pplayer->cities) - given_cities <= 2) {
+      return;
+    }
   }
 
   /* Accept if balance is good */
@@ -562,7 +573,6 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
     int balance = ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE);
-
     total_balance += balance;
     gift = (gift && (balance >= 0));
     ai_treaty_react(pplayer, aplayer, pclause);
