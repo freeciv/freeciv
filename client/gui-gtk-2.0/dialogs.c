@@ -1607,6 +1607,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, in
   for (i = 0; i < game.control.playable_nation_count; i++) {
     struct nation_type *nation;
     struct sprite *s;
+    bool used;
     GdkPixbuf *img;
     GtkTreeIter it;
     GValue value = { 0, };
@@ -1621,7 +1622,8 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, in
 
     s = crop_blankspace(get_nation_flag_sprite(tileset, i));
     img = sprite_get_pixbuf(s);
-    gtk_list_store_set(store, &it, 0, i, 1, FALSE, 2, img, -1);
+    used = nation->is_unavailable || nation->is_used;
+    gtk_list_store_set(store, &it, 0, i, 1, used, 2, img, -1);
     free_sprite(s);
 
     g_value_init(&value, G_TYPE_STRING);
