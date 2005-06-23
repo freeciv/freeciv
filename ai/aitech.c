@@ -24,6 +24,7 @@
 #include "tech.h"
 
 #include "plrhand.h"
+#include "techtools.h"
 
 #include "advmilitary.h"
 #include "ailog.h"

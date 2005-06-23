@@ -74,6 +74,8 @@ libcivserver_a_SOURCES = \
 		srv_main.h	\
 		stdinhand.c	\
 		stdinhand.h	\
+		techtools.h	\
+		techtools.c	\
 		unithand.c	\
 		unithand.h	\
 		unittools.c	\

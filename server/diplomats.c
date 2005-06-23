@@ -31,6 +31,7 @@
 #include "gamelog.h"
 #include "gotohand.h"
 #include "plrhand.h"
+#include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
 

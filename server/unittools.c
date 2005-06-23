@@ -51,6 +51,7 @@
 #include "settlers.h"
 #include "srv_main.h"
 #include "unithand.h"
+#include "techtools.h"
 #include "gamehand.h"
 
 #include "aiexplorer.h"

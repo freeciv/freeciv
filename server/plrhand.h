@@ -35,7 +35,7 @@ void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
-void do_tech_parasite_effect(struct player *pplayer);
+
 void check_player_government_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2,
 		  struct tile *ptile);
@@ -62,16 +62,6 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 		      fc__attribute((format (printf, 3, 4)));
 
 struct conn_list *player_reply_dest(struct player *pplayer);
-
-void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
-                    bool saving_bulbs, int next_tech);
-void found_new_future_tech(struct player *pplayer);
-void update_tech(struct player *plr, int bulbs);
-void init_tech(struct player *plr, int tech);
-void choose_random_tech(struct player *plr);
-void choose_tech(struct player *plr, int tech);
-void choose_tech_goal(struct player *plr, int tech);
-void get_a_tech(struct player *pplayer, struct player *target);
 
 void send_player_turn_notifications(struct conn_list *dest);
 

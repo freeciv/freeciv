@@ -92,6 +92,7 @@
 #include "settlers.h"
 #include "spacerace.h"
 #include "stdinhand.h"
+#include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
 

@@ -48,6 +48,7 @@
 #include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
+#include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
 

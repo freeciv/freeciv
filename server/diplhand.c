@@ -37,6 +37,7 @@
 #include "maphand.h"
 #include "plrhand.h"
 #include "settlers.h"
+#include "techtools.h"
 #include "unittools.h"
 
 #include "advdiplomacy.h"

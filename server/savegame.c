@@ -58,6 +58,7 @@
 #include "spacerace.h"
 #include "srv_main.h"
 #include "stdinhand.h"
+#include "techtools.h"
 #include "unittools.h"
 
 /* 

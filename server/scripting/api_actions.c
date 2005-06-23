@@ -17,6 +17,7 @@
 
 #include "plrhand.h"
 #include "citytools.h"
+#include "techtools.h"
 #include "unittools.h"
 
 #include "api_actions.h"

@@ -45,6 +45,7 @@
 #include "plrhand.h"
 #include "srv_main.h"
 #include "stdinhand.h"
+#include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
 
