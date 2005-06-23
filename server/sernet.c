@@ -577,12 +577,10 @@ int sniff_packets(void)
       char buf[BUF_SIZE+1];
       char *buf_internal;
       
-      if((didget=read(0, buf, BUF_SIZE))==-1) {
-	die("read from stdin failed");
-      }
-
-      if(didget==0) {
+      didget = read(0, buf, BUF_SIZE);
+      if (didget <= 0) {
         handle_stdin_close();
+	didget = 0; /* Avoid buffer underrun below. */
       }
 
       *(buf+didget)='\0';
