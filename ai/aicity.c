@@ -884,7 +884,7 @@ static void ai_barbarian_choose_build(struct player *pplayer,
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
     Unit_type_id iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
-    if (game.info.global_advances[get_unit_type(iunit)->tech_requirement] != 0
+    if (game.info.global_advances[get_unit_type(iunit)->tech_requirement]
 	&& get_unit_type(iunit)->attack_strength > bestattack) {
       bestunit = iunit;
       bestattack = get_unit_type(iunit)->attack_strength;

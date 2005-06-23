@@ -160,24 +160,31 @@ void do_tech_parasite_effect(struct player *pplayer)
 
     tech_type_iterate(i) {
       if (get_invention(pplayer, i) != TECH_KNOWN
-	  && tech_is_available(pplayer, i)
-	  && game.info.global_advances[i] >= mod) {
-	notify_player_ex(pplayer, NULL, E_TECH_GAIN,
-			 _("%s acquired from %s!"),
-			 get_tech_name(pplayer, i), buf);
-	script_signal_emit("tech_researched", 3,
-			   API_TYPE_TECH_TYPE, &advances[i],
-			   API_TYPE_PLAYER, pplayer,
-			   API_TYPE_STRING, "stolen");
-        gamelog(GAMELOG_TECH, pplayer, NULL, i, "steal");
-	notify_embassies(pplayer, NULL,
-			 _("The %s have acquired %s from %s."),
-			 get_nation_name_plural(pplayer->nation),
-			 get_tech_name(pplayer, i), buf);
+	  && tech_is_available(pplayer, i)) {
+	int num_players = 0;
+	players_iterate(aplayer) {
+	  if (get_invention(aplayer, i) == TECH_KNOWN) {
+	    num_players++;
+	  }
+	} players_iterate_end;
+	if (num_players >= mod) {
+	  notify_player_ex(pplayer, NULL, E_TECH_GAIN,
+			   _("%s acquired from %s!"),
+			   get_tech_name(pplayer, i), buf);
+	  script_signal_emit("tech_researched", 3,
+			     API_TYPE_TECH_TYPE, &advances[i],
+			     API_TYPE_PLAYER, pplayer,
+			     API_TYPE_STRING, "stolen");
+          gamelog(GAMELOG_TECH, pplayer, NULL, i, "steal");
+	  notify_embassies(pplayer, NULL,
+			   _("The %s have acquired %s from %s."),
+			   get_nation_name_plural(pplayer->nation),
+			   get_tech_name(pplayer, i), buf);
 
-	do_free_cost(pplayer);
-	found_new_tech(pplayer, i, FALSE, TRUE, A_NONE);
-	break;
+	  do_free_cost(pplayer);
+	  found_new_tech(pplayer, i, FALSE, TRUE, A_NONE);
+	  break;
+	}
       }
     } tech_type_iterate_end;
   }
@@ -305,7 +312,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
   research->got_tech = TRUE;
   research->changed_from = -1;
   research->techs_researched++;
-  was_first = (game.info.global_advances[tech_found] == 0);
+  was_first = (!game.info.global_advances[tech_found]);
 
   if (was_first) {
     /* We used to have a gamelog() for first-researched, but not anymore. */

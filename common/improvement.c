@@ -282,7 +282,7 @@ bool improvement_obsolete(const struct player *pplayer, Impr_type_id id)
   if (is_great_wonder(id)) {
     /* a great wonder is obsolete, as soon as *any* player researched the
        obsolete tech */
-   return game.info.global_advances[impr->obsolete_by] != 0;
+   return game.info.global_advances[impr->obsolete_by];
   }
 
   return (get_invention(pplayer, impr->obsolete_by) == TECH_KNOWN);

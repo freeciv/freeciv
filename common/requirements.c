@@ -614,7 +614,7 @@ static bool is_tech_in_range(const struct player *target_player,
     return (target_player
 	    && get_invention(target_player, tech) == TECH_KNOWN);
   case REQ_RANGE_WORLD:
-    return game.info.global_advances[tech] > 0;
+    return game.info.global_advances[tech];
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:

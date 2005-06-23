@@ -287,7 +287,7 @@ void game_init(void)
   for(i=0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++)
     player_init(&game.players[i]);
   for (i=0; i<A_LAST; i++)      /* game.num_tech_types = 0 here */
-    game.info.global_advances[i]=0;
+    game.info.global_advances[i]=FALSE;
   for (i=0; i<B_LAST; i++)      /* game.num_impr_types = 0 here */
     game.info.great_wonders[i]=0;
   game.info.player_idx = 0;

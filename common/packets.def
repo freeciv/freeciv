@@ -432,7 +432,9 @@ PACKET_GAME_INFO=15; sc
   UINT8 save_compress_level;
 
   STRING start_units[MAX_LEN_STARTUNIT];
-  UINT8 global_advances[A_LAST]; diff
+  
+  /* True if at least one civilization has researched a tech */
+  BOOL global_advances[A_LAST]; diff
   UINT16 great_wonders[B_LAST]; diff
 end
 

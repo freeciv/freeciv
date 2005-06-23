@@ -74,7 +74,7 @@ void set_invention(struct player *pplayer, Tech_type_id tech,
   research->inventions[tech].state = value;
 
   if (value == TECH_KNOWN) {
-    game.info.global_advances[tech]++;
+    game.info.global_advances[tech] = TRUE;
   }
 }
 
