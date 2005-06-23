@@ -4164,12 +4164,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       if(i > A_LAST) {
         freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
       } else {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->global_advances[i] = readin;
-    }
+        dio_get_bool8(&din, &real_packet->global_advances[i]);
       }
     }
   }
@@ -4942,7 +4937,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       for (i = 0; i < A_LAST; i++) {
         if(old->global_advances[i] != real_packet->global_advances[i]) {
           dio_put_uint8(&dout, i);
-          dio_put_uint8(&dout, real_packet->global_advances[i]);
+          dio_put_bool8(&dout, real_packet->global_advances[i]);
         }
       }
       dio_put_uint8(&dout, 255);

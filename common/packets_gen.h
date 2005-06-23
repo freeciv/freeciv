@@ -199,7 +199,7 @@ struct packet_game_info {
   int save_nturns;
   int save_compress_level;
   char start_units[MAX_LEN_STARTUNIT];
-  int global_advances[A_LAST];
+  bool global_advances[A_LAST];
   int great_wonders[B_LAST];
 };
 
