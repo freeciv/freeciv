@@ -120,7 +120,7 @@ cd $SRCDIR
 # the original autoconf 2.13 version; we must suppose 2.52 by default here
 cp m4/x.252 m4/x.m4
 
-version_check 1 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 52 || DIE=1
+version_check 1 "autoconf" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 55 || DIE=1
 version_check 1 "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 6 || DIE=1
 if [ "$FC_USE_NLS" = "yes" ]; then
   DIE2=0
