@@ -38,40 +38,28 @@
 **************************************************************************/
 static int likely_ocean(struct tile *ptile, struct player *pplayer)
 {
-  int sum;
-
+  int ocean = 0;
+  int land = 0;
+  
+  /* We do not check H_MAP here, it should be done by map_is_known() */
   if (map_is_known(ptile, pplayer)) {
     /* we've seen the tile already. */
     return (is_ocean(tile_get_terrain(ptile)) ? 100 : 0);
   }
-  
-  /* Now we're going to do two things at once. We're going to see if
-   * we know any cardinally adjacent tiles, since knowing one will
-   * give a guaranteed value for the centre tile. Also, we're going
-   * to count the non-cardinal (diagonal) tiles, and see how many
-   * of them are ocean, which gives a guess for the ocean-ness of 
-   * the centre tile. */
-  sum = 50;
+
+  /* The central tile is likely to be the same as the
+   * nearby tiles. */
   adjc_dir_iterate(ptile, ptile1, dir) {
     if (map_is_known(ptile1, pplayer)) {
-      if (is_cardinal_dir(dir)) {
-	/* If a tile is cardinally adjacent, we can tell if the 
-	 * central tile is ocean or not by the appearance of
-	 * the adjacent tile. So, given that we can tell, 
-	 * it's fair to look at the actual tile. */
-        return (is_ocean(tile_get_terrain(ptile)) ? 100 : 0);
+      if(is_ocean(tile_get_terrain(ptile1))) {
+        ocean++;
       } else {
-	/* We're diagonal to the tile in question. So we can't
-	 * be sure what the central tile is, but the central
-	 * tile is likely to be the same as the nearby tiles. 
-	 * If all 4 are water, return 90; if all 4 are land, 
-	 * return 10. */
-        sum += (is_ocean(tile_get_terrain(ptile1)) ? 10 : -10);
+        land++;
       }
     }
   } adjc_dir_iterate_end;
 
-  return sum;
+  return 50 + (50 / map.num_valid_dirs * (ocean - land));
 }
 
 /***************************************************************
@@ -91,7 +79,7 @@ static bool is_likely_coastline(struct tile *ptile, struct player *pplayer)
      * ie are unlikely to be ocean, the tile is likely to be coastline, so
      * likely will approach 100. If all approach 100, likely will 
      * approach zero. */
-    likely += (50 - t) / 8;
+    likely += (50 - t) / map.num_valid_dirs;
     
   } adjc_iterate_end;
 
