@@ -1473,10 +1473,11 @@ void aifill(int amount)
   }
 
   remove = game.info.nplayers - 1;
-  while (game.info.nplayers > amount + observers && remove > 0) {
+  while (game.info.nplayers > amount + observers && remove >= 0) {
     struct player *pplayer = get_player(remove);
 
-    if (!pplayer->is_observer && !pplayer->is_connected) {
+    if (!pplayer->is_observer && !pplayer->is_connected
+	&& !pplayer->was_created) {
       server_remove_player(pplayer);
     }
     remove--;
