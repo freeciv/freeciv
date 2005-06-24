@@ -16,6 +16,10 @@
 #include "player.h"
 #include "tech.h"
 
+void do_dipl_cost(struct player *pplayer);
+void do_free_cost(struct player *pplayer);
+void do_conquer_cost(struct player *pplayer);
+
 void do_tech_parasite_effect(struct player *pplayer);
 void found_new_tech(struct player *plr, Tech_type_id tech_found,
 		    bool was_discovery, bool saving_bulbs,

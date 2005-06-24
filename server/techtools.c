@@ -41,6 +41,42 @@
 #include "techtools.h"
 #include "unittools.h"
 
+/**************************************************************************
+...
+**************************************************************************/
+void do_dipl_cost(struct player *pplayer)
+{
+  struct player_research * research = get_player_research(pplayer);
+
+  research->bulbs_researched
+    -= (total_bulbs_required(pplayer) * game.info.diplcost) / 100;
+  research->changed_from = -1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void do_free_cost(struct player *pplayer)
+{
+  struct player_research * research = get_player_research(pplayer);
+
+  research->bulbs_researched
+    -= (total_bulbs_required(pplayer) * game.info.freecost) / 100;
+  research->changed_from = -1;
+}
+
+/**************************************************************************
+...
+**************************************************************************/
+void do_conquer_cost(struct player *pplayer)
+{
+  struct player_research * research = get_player_research(pplayer);  
+
+  research->bulbs_researched
+    -= (total_bulbs_required(pplayer) * game.info.conquercost) / 100;
+  research->changed_from = -1;
+}
+
 /****************************************************************************
   Called to find and choose (pick) a research target on the way to the
   player's goal.  Return TRUE iff the tech is set.

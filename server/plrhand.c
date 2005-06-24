@@ -69,42 +69,6 @@ static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver);
 
 /**************************************************************************
-...
-**************************************************************************/
-void do_dipl_cost(struct player *pplayer)
-{
-  struct player_research * research = get_player_research(pplayer);
-
-  research->bulbs_researched
-    -= (total_bulbs_required(pplayer) * game.info.diplcost) / 100;
-  research->changed_from = -1;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void do_free_cost(struct player *pplayer)
-{
-  struct player_research * research = get_player_research(pplayer);
-
-  research->bulbs_researched
-    -= (total_bulbs_required(pplayer) * game.info.freecost) / 100;
-  research->changed_from = -1;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void do_conquer_cost(struct player *pplayer)
-{
-  struct player_research * research = get_player_research(pplayer);  
-
-  research->bulbs_researched
-    -= (total_bulbs_required(pplayer) * game.info.conquercost) / 100;
-  research->changed_from = -1;
-}
-
-/**************************************************************************
   Send end-of-turn notifications relevant to specified dests.
   If dest is NULL, do all players, sending to pplayer->connections.
 **************************************************************************/

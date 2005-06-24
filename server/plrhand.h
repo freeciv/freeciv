@@ -65,10 +65,6 @@ struct conn_list *player_reply_dest(struct player *pplayer);
 
 void send_player_turn_notifications(struct conn_list *dest);
 
-void do_dipl_cost(struct player *pplayer);
-void do_free_cost(struct player *pplayer);
-void do_conquer_cost(struct player *pplayer);
-
 void shuffle_players(void);
 void set_shuffled_players(int *shuffled_players);
 struct player *shuffled_player(int i);
