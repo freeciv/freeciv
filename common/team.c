@@ -19,6 +19,7 @@
 #include <stdlib.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "shared.h"
 #include "support.h"
 
@@ -74,6 +75,10 @@ void team_add_player(struct player *pplayer, struct team *pteam)
   assert(pplayer != NULL);
   assert(!pteam || &teams[pteam->index] == pteam);
 
+  freelog(LOG_DEBUG, "Adding player %d/%s to team %s.",
+	  pplayer->player_no, pplayer->username,
+	  pteam ? pteam->name : "(none)");
+
   /* Remove the player from the old team, if any.  The player's team should
    * only be NULL for a few instants after the player was created; after
    * that they should automatically be put on a team.  So although we
@@ -99,6 +104,10 @@ void team_add_player(struct player *pplayer, struct team *pteam)
 void team_remove_player(struct player *pplayer)
 {
   if (pplayer->team) {
+    freelog(LOG_DEBUG, "Removing player %d/%s from team %s (%d)",
+	    pplayer->player_no, pplayer->username,
+	    pplayer->team ? pplayer->team->name : "(none)",
+	    pplayer->team ? pplayer->team->players : 0);
     pplayer->team->players--;
     assert(pplayer->team->players >= 0);
   }

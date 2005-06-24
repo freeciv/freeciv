@@ -482,12 +482,22 @@ void game_renumber_players(int plrno)
   game.info.nplayers--;
 
   /* a bit of cleanup to keep connections sane */
+  /* FIXME: this code is potentially quite buggy because it introduces
+   * a second place where we have to "initialize" players.  We should
+   * probably instead either use player_init on the removed player or
+   * copy the removed player directly from the middle of the array to
+   * the end.  However it's likely that neither will work without fixing
+   * some things elsewhere.
+   *
+   * Secondary FIXME: this code leaks memory because the conn_list is
+   * never freed.  See FIXME above... */
   game.players[game.info.nplayers].connections = conn_list_new();
   game.players[game.info.nplayers].is_connected = FALSE;
   game.players[game.info.nplayers].was_created = FALSE;
   game.players[game.info.nplayers].ai.control = FALSE;
   sz_strlcpy(game.players[game.info.nplayers].name, ANON_PLAYER_NAME);
   sz_strlcpy(game.players[game.info.nplayers].username, ANON_USER_NAME);
+  game.players[game.info.nplayers].team = NULL;
 }
 
 /**************************************************************************
