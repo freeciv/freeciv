@@ -814,6 +814,14 @@ void handle_player_rates(struct player *pplayer,
 **************************************************************************/
 void handle_player_research(struct player *pplayer, int tech)
 {
+  if (tech != A_FUTURE && !tech_exists(tech)) {
+    return;
+  }
+  
+  if (tech != A_FUTURE && get_invention(pplayer, tech) != TECH_REACHABLE) {
+    return;
+  }
+
   /* choose_tech and send update for all players on the team. */
   players_iterate(aplayer) {
     if (pplayer == aplayer
@@ -830,6 +838,14 @@ void handle_player_research(struct player *pplayer, int tech)
 **************************************************************************/
 void handle_player_tech_goal(struct player *pplayer, int tech)
 {
+  if (tech != A_FUTURE && !tech_exists(tech)) {
+    return;
+  }
+  
+  if (tech != A_FUTURE && !tech_is_available(pplayer, tech)) {
+    return;
+  }
+
   choose_tech_goal(pplayer, tech);
   send_player_info(pplayer, pplayer);
 
