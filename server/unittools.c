@@ -2678,8 +2678,8 @@ static void handle_unit_move_consequences(struct unit *punit,
   struct city *homecity = NULL;
   struct player *pplayer = unit_owner(punit);
   /*  struct government *g = get_gov_pplayer(pplayer);*/
-  bool senthome = FALSE;
-
+  bool refresh_homecity = FALSE;
+  
   if (punit->homecity != 0)
     homecity = find_city_by_id(punit->homecity);
 
@@ -2700,44 +2700,39 @@ static void handle_unit_move_consequences(struct unit *punit,
 	  send_city_info(pplayer, tocity);
 	}
       }
-
       if (homecity) {
-	city_refresh(homecity);
-	send_city_info(pplayer, homecity);
+        refresh_homecity = TRUE;
       }
-      senthome = TRUE;
     }
 
     if (fromcity) { /* leaving a city */
-      if (!senthome && homecity) {
-	city_refresh(homecity);
-	send_city_info(pplayer, homecity);
+      if (homecity) {
+	refresh_homecity = TRUE;
       }
       if (fromcity != homecity && fromcity->owner == punit->owner) {
 	city_refresh(fromcity);
 	send_city_info(pplayer, fromcity);
       }
-      senthome = TRUE;
     }
 
-    /* entering/leaving a fortress */
-    if (tile_has_special(dst_tile, S_FORTRESS)
-	&& homecity
-	&& is_friendly_city_near(unit_owner(punit), dst_tile)
-	&& !senthome) {
-      city_refresh(homecity);
-      send_city_info(pplayer, homecity);
+    /* entering/leaving a fortress or friendly territory */
+    if (homecity) {
+      if ((src_tile->owner != dst_tile->owner)
+          ||
+	  (tile_has_special(dst_tile, S_FORTRESS)
+	   && is_friendly_city_near(unit_owner(punit), dst_tile))
+	  ||
+          (tile_has_special(src_tile, S_FORTRESS) 
+	   && is_friendly_city_near(unit_owner(punit), src_tile))) {
+        refresh_homecity = TRUE;
+      }
     }
-
-    if (tile_has_special(src_tile, S_FORTRESS)
-	&& homecity
-	&& is_friendly_city_near(unit_owner(punit), src_tile)
-	&& !senthome) {
+    
+    if (refresh_homecity) {
       city_refresh(homecity);
       send_city_info(pplayer, homecity);
     }
   }
-
 
   /* The unit block different tiles of adjacent enemy cities before and
      after. Update the relevant cities. */
