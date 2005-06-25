@@ -2717,7 +2717,7 @@ static void handle_unit_move_consequences(struct unit *punit,
 
     /* entering/leaving a fortress or friendly territory */
     if (homecity) {
-      if ((src_tile->owner != dst_tile->owner)
+      if ((game.info.happyborders > 0 && src_tile->owner != dst_tile->owner)
           ||
 	  (tile_has_special(dst_tile, S_FORTRESS)
 	   && is_friendly_city_near(unit_owner(punit), dst_tile))
