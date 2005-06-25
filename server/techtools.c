@@ -190,6 +190,80 @@ void do_tech_parasite_effect(struct player *pplayer)
 }
 
 /****************************************************************************
+  Update all player specific stuff after the tech_found was discovered.
+  could_switch_to_government holds information about which 
+  government the player could switch to before the tech was reached
+****************************************************************************/
+static void update_player_after_tech_researched(struct player* plr,
+                                         Tech_type_id tech_found,
+					 bool was_discovery,
+					 bool* could_switch_to_government)
+{
+  update_research(plr);
+
+  remove_obsolete_buildings(plr);
+  
+  /* Give free rails in every city */
+  if (tech_flag(tech_found, TF_RAILROAD)) {
+    upgrade_city_rails(plr, was_discovery);  
+  }
+  
+  /* Enhance vision of units inside a fortress */
+  if (tech_flag(tech_found, TF_WATCHTOWER)) {
+    unit_list_iterate(plr->units, punit) {
+      if (tile_has_special(punit->tile, S_FORTRESS)
+	  && is_ground_unit(punit)) {
+	unfog_area(plr, punit->tile, get_watchtower_vision(punit));
+	fog_area(plr, punit->tile,
+		 unit_type(punit)->vision_range);
+      }
+    }
+    unit_list_iterate_end;
+  }
+
+  /* Notify a player about new governments available */
+  government_iterate(gov) {
+    if (!could_switch_to_government[gov->index]
+	&& can_change_to_government(plr, gov->index)) {
+      notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
+		       _("Discovery of %s makes the government form %s"
+			 " available. You may want to start a revolution."),
+		       get_tech_name(plr, tech_found), gov->name);
+    }
+  } government_iterate_end;
+
+  /*
+   * Inform player about his new tech.
+   */
+  send_player_info(plr, plr);
+}
+
+/****************************************************************************
+  Fill the array which contains information about which government
+  the player can switch to.
+****************************************************************************/
+static void fill_can_switch_to_government_array(struct player* plr, bool* can_switch)
+{
+  government_iterate(gov) {
+    /* We do it this way so all requirements are checked, including
+     * statue-of-liberty effects. */
+    can_switch[gov->index] = can_change_to_government(plr, gov->index);
+  } government_iterate_end;
+} 
+
+/****************************************************************************
+  Fill the array which contains information about value of the
+  EFT_HAVE_EMBASSIES effect for each player
+****************************************************************************/
+static void fill_have_embassies_array(int* have_embassies)
+{
+  players_iterate(aplr) {
+    have_embassies[aplr->player_no]
+      = get_player_bonus(aplr, EFT_HAVE_EMBASSIES);
+  } players_iterate_end;
+}
+
+/****************************************************************************
   Player has a new technology (from somewhere). was_discovery is passed 
   on to upgrade_city_rails. Logging & notification is not done here as 
   it depends on how the tech came. If next_tech is other than A_NONE, this 
@@ -201,15 +275,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 {
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
-  bool had_embassy[MAX_NUM_PLAYERS];
+  int had_embassies[MAX_NUM_PLAYERS];
   struct city *pcity;
-  bool can_switch[game.control.government_count];
+  bool can_switch[MAX_NUM_PLAYERS][game.control.government_count];
   struct player_research *research = get_player_research(plr);
-
-  players_iterate(aplr) {
-    had_embassy[aplr->player_no]
-      = (get_player_bonus(aplr, EFT_HAVE_EMBASSIES) > 0);
-  } players_iterate_end;
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
    * or may not be the correct thing to do.  For these sanity checks we
@@ -241,50 +310,37 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     } impr_type_iterate_end;
   }
 
-  government_iterate(gov) {
-    /* We do it this way so all requirements are checked, including
-     * statue-of-liberty effects. */
-    can_switch[gov->index] = can_change_to_government(plr, gov->index);
-  } government_iterate_end;
-
   if (tech_flag(tech_found, TF_BONUS_TECH) && was_first) {
     bonus_tech_hack = TRUE;
   }
+  
+  /* Count EFT_HAVE_EMBASSIES effect for each player.
+   * We will check what has changed later */
+  fill_have_embassies_array(had_embassies);
 
+  /* Memorize some values before the tech is marked as researched.
+   * They will be used to notify a player about a change */
+  players_iterate(aplayer) {
+    if (!players_on_same_team(aplayer, plr)) {
+      continue;
+    }
+    fill_can_switch_to_government_array(aplayer,
+                                        can_switch[aplayer->player_no]);
+  } players_iterate_end;
+
+
+  /* Mark the tech as known in the research struct and update
+   * global_advances array */
   set_invention(plr, tech_found, TECH_KNOWN);
-  update_research(plr);
-  remove_obsolete_buildings(plr);
 
-  if (tech_flag(tech_found, TF_RAILROAD)) {
-    players_iterate(aplayer) {
-      if (players_on_same_team(aplayer, plr)) {
-        upgrade_city_rails(plr, was_discovery);
-      }
-    } players_iterate_end;
-  }
-
-  government_iterate(gov) {
-    if (!can_switch[gov->index]
-	&& can_change_to_government(plr, gov->index)) {
-      notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
-		       _("Discovery of %s makes the government form %s"
-			 " available. You may want to start a revolution."),
-		       get_tech_name(plr, tech_found), gov->name);
+  /* Make proper changes for all players sharing the research */  
+  players_iterate(aplayer) {
+    if (!players_on_same_team(aplayer, plr)) {
+      continue;
     }
-  } government_iterate_end;
-
-  /* enhance vision of units inside a fortress */
-  if (tech_flag(tech_found, TF_WATCHTOWER)) {
-    unit_list_iterate(plr->units, punit) {
-      if (tile_has_special(punit->tile, S_FORTRESS)
-	  && is_ground_unit(punit)) {
-	unfog_area(plr, punit->tile, get_watchtower_vision(punit));
-	fog_area(plr, punit->tile,
-		 unit_type(punit)->vision_range);
-      }
-    }
-    unit_list_iterate_end;
-  }
+    update_player_after_tech_researched(aplayer, tech_found, was_discovery,
+                                        can_switch[aplayer->player_no]);
+  } players_iterate_end;
 
   if (tech_found == research->tech_goal) {
     research->tech_goal = A_UNSET;
@@ -365,11 +421,6 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   send_game_info(NULL);
 
   /*
-   * Inform player about his new tech.
-   */
-  send_player_info(plr, plr);
-
-  /*
    * Update all cities in case the tech changed some effects. This is
    * inefficient; it could be optimized if it's found to be a problem.  But
    * techs aren't researched that often.
@@ -378,44 +429,18 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
   } cities_iterate_end;
-
+  
   /*
    * Send all player an updated info of the owner of the Marco Polo
    * Wonder if this wonder has become obsolete.
    */
   players_iterate(owner) {
-    if (had_embassy[owner->player_no]
+    if (had_embassies[owner->player_no]  > 0
 	&& get_player_bonus(owner, EFT_HAVE_EMBASSIES) == 0) {
       players_iterate(other_player) {
 	send_player_info(owner, other_player);
       } players_iterate_end;
     }
-  } players_iterate_end;
-
-  /* Update Team */
-  if (next_tech > A_NONE) {
-    /* Avoid unnecessary recursion. */
-    return;
-  }
-  players_iterate(aplayer) {
-    if (plr != aplayer
-        && plr->diplstates[aplayer->player_no].type == DS_TEAM
-        && aplayer->is_alive
-        && get_invention(aplayer, tech_found) != TECH_KNOWN) {
-      if (tech_exists(research->researching)) {
-        notify_player_ex(aplayer, NULL, E_TECH_LEARNED,
-                         _("Learned %s in cooperation with %s. "
-                           "Scientists choose to research %s."),
-                         get_tech_name(aplayer, tech_found), plr->name,
-                         get_tech_name(plr, research->researching));
-      } else {
-        notify_player_ex(aplayer, NULL, E_TECH_LEARNED,
-                         _("Learned %s in cooperation with %s. "
-                           "Scientists do not know what to research next."),
-                         get_tech_name(aplayer, tech_found), plr->name);
-      }
-    }
-    send_player_info(aplayer, NULL);
   } players_iterate_end;
 }
 
