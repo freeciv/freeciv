@@ -684,6 +684,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 }
 
 /****************************************************************************
+  Handle incoming player_research packet. Need to check correctness
   Set the player to be researching the given tech.
 
   If there are enough accumulated research points, the tech may be
@@ -691,6 +692,14 @@ void get_a_tech(struct player *pplayer, struct player *target)
 ****************************************************************************/
 void handle_player_research(struct player *pplayer, int tech)
 {
+  if (tech != A_FUTURE && !tech_exists(tech)) {
+    return;
+  }
+  
+  if (tech != A_FUTURE && get_invention(pplayer, tech) != TECH_REACHABLE) {
+    return;
+  }
+  
   choose_tech(pplayer, tech);
   send_player_info(pplayer, pplayer);
 
@@ -707,10 +716,19 @@ void handle_player_research(struct player *pplayer, int tech)
 }
 
 /****************************************************************************
+  Handle incoming player_tech_goal packet
   Called from the network or AI code to set the player's tech goal.
 ****************************************************************************/
 void handle_player_tech_goal(struct player *pplayer, int tech_goal)
 {
+  if (tech_goal != A_FUTURE && !tech_exists(tech_goal)) {
+    return;
+  }
+  
+  if (tech_goal != A_FUTURE && !tech_is_available(pplayer, tech_goal)) {
+    return;
+  }
+  
   choose_tech_goal(pplayer, tech_goal);
   send_player_info(pplayer, pplayer);
 
