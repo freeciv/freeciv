@@ -41,9 +41,9 @@
  * therefore requires it's own map.
  */
 struct part {
-  int start_moves_left;
+  int start_moves_left, start_fuel_left;
   struct tile *start_tile, *end_tile;
-  int end_moves_left;
+  int end_moves_left, end_fuel_left;
   int time;
   struct pf_path *path;
   struct pf_map *map;
@@ -192,6 +192,7 @@ static void update_last_part(struct tile *ptile)
   p->path = new_path;
   p->end_tile = ptile;
   p->end_moves_left = pf_last_position(p->path)->moves_left;
+  p->end_fuel_left = pf_last_position(p->path)->fuel_left;
 
   if (hover_state == HOVER_CONNECT) {
     int move_rate = goto_map.template.move_rate;
@@ -248,19 +249,21 @@ static void add_part(void)
     struct unit *punit = find_unit_by_id(goto_map.unit_id);
 
     p->start_tile = punit->tile;
-    p->start_moves_left = punit->moves_left;
+    p->start_moves_left = parameter.moves_left_initially;
+    p->start_fuel_left = parameter.fuel_left_initially;
   } else {
     struct part *prev = &goto_map.parts[goto_map.num_parts - 2];
 
     p->start_tile = prev->end_tile;
     p->start_moves_left = prev->end_moves_left;
+    p->start_fuel_left = prev->end_fuel_left;
     parameter.moves_left_initially = p->start_moves_left;
+    parameter.fuel_left_initially = p->start_fuel_left;
   }
   p->path = NULL;
   p->end_tile = p->start_tile;
   p->time = 0;
   parameter.start_tile = p->start_tile;
-  parameter.moves_left_initially = p->start_moves_left;
   p->map = pf_create_map(&parameter);
 }
 
@@ -905,6 +908,8 @@ void send_patrol_route(struct unit *punit)
   parameter.start_tile = goto_map.parts[goto_map.num_parts - 1].end_tile;
   parameter.moves_left_initially
     = goto_map.parts[goto_map.num_parts - 1].end_moves_left;
+  parameter.fuel_left_initially
+    = goto_map.parts[goto_map.num_parts - 1].end_fuel_left;
   map = pf_create_map(&parameter);
   return_path = pf_get_path(map, goto_map.parts[0].start_tile);
   if (!return_path) {

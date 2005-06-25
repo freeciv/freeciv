@@ -782,6 +782,13 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   parameter->start_tile = punit->tile;
   parameter->moves_left_initially = punit->moves_left;
   parameter->move_rate = unit_move_rate(punit);
+  if (is_air_unit(punit)) {
+    parameter->fuel_left_initially = punit->fuel;
+    parameter->fuel = unit_type(punit)->fuel;
+  } else {
+    parameter->fuel = 1;
+    parameter->fuel_left_initially = 1;
+  }
   parameter->owner = unit_owner(punit);
   parameter->unit_flags = unit_type(punit)->flags;
 
