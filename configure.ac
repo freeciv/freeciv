@@ -139,6 +139,7 @@ dnl Checks for programs.
 AC_PROG_AWK
 AC_PROG_CC
 AC_PROG_CPP
+AC_PROG_CXX
 AC_PROG_LN_S
 AC_PROG_RANLIB
 AC_CHECK_TOOL(AR, ar)
@@ -271,10 +272,13 @@ gettext package. We recommend you versions >= 0.10.38. Or use
 fi
 
 EXTRA_GCC_DEBUG_CFLAGS=""
+EXTRA_GCC_DEBUG_CXXFLAGS=""
 
 if test -n "$GCC"; then
    EXTRA_GCC_DEBUG_CFLAGS="$CFLAGS"
+   EXTRA_GCC_DEBUG_CXXFLAGS="$CXXFLAGS"
    CFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-declarations"
+   CXXFLAGS="-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes"
 fi
 
 FC_DEBUG
@@ -429,6 +433,7 @@ fi
 
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
+AC_SUBST(CLIENT_CXXFLAGS)
 AC_SUBST(CLIENT_LIBS)
 AC_SUBST(CLIENT_LDFLAGS)
 AC_SUBST(SOUND_CFLAGS)
@@ -640,18 +645,20 @@ AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
 
 if test -n "$GCC"; then
   CFLAGS="$EXTRA_GCC_DEBUG_CFLAGS $CFLAGS"
+  CXXFLAGS="$EXTRA_GCC_DEBUG_CXXFLAGS $CXXFLAGS"
 fi
 
 dnl Rebuild 'configure' whenever version.in changes, if maintainer mode enabled.
 AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/version.in"])
 
-dnl Make sure that config.h changes when ever CPPFLAGS or CFLAGS
+dnl Make sure that config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
 dnl change so everything gets rebuilt. LDFLAGS is not handled here
 dnl since change in it should not cause recompilation, only relinking.
 dnl Note: Variables are named FC_STORE_* instead of FC_*_STORE in order to make them
 dnl       appear next to each other in config.h.
 AC_DEFINE_UNQUOTED([FC_STORE_CPPFLAGS], ["$CPPFLAGS"], [These are the CPPFLAGS used in compilation])
 AC_DEFINE_UNQUOTED([FC_STORE_CFLAGS], ["$CFLAGS"], [These are the CFLAGS used in compilation])
+AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ["$CXXFLAGS"], [These are the CXXFLAGS used in compilation])
 
 AC_CONFIG_FILES([Makefile
           data/Makefile 
