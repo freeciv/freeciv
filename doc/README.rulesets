@@ -152,8 +152,6 @@ units.ruleset:
       - "Barbarian"
       - "BarbarianTech"
 
-    - Flag "Cities" does not work for move_type "Air" or "Heli" units
-
 nations.ruleset:
 
   Unused entries:

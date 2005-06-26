@@ -732,16 +732,10 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
     return FALSE;
   }
 
-  if (punit) {
-    enum unit_move_type move_type = unit_type(punit)->move_type;
-    Terrain_type_id t = ptile->terrain;
-
+  if (punit && !can_unit_exist_at_tile(punit, ptile)) {
     /* We allow land units to build land cities and sea units to build
-     * ocean cities. */
-    if ((move_type == LAND_MOVING && is_ocean(t))
-	|| (move_type == SEA_MOVING && !is_ocean(t))) {
-      return FALSE;
-    }
+     * ocean cities. Air units can build cities anywhere. */
+    return FALSE;
   }
 
   /* game.info.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
