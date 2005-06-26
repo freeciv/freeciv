@@ -270,7 +270,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 {
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
-  bool had_embassy[MAX_NUM_PLAYERS];
+  bool had_embassy[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct city *pcity;
 
   players_iterate(aplr) {
