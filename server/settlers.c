@@ -836,8 +836,6 @@ static int evaluate_improvements(struct unit *punit,
   int best_oldv = 9999;		/* oldv of best target so far; compared if
 				   newv==best_newv; not initialized to zero,
 				   so that newv=0 activities are not chosen */
-  int food_upkeep        = unit_food_upkeep(punit);
-  int food_cost          = unit_foodbox_cost(punit);
   bool can_rr = player_knows_techs_with_flag(pplayer, TF_RAILROAD);
 
   int best_newv = 0;
@@ -958,8 +956,6 @@ static int evaluate_improvements(struct unit *punit,
 
   best_newv /= WORKER_FACTOR;
 
-  best_newv = (best_newv
-	       - food_upkeep * FOOD_WEIGHTING) * 100 / (40 + food_cost);
   best_newv = MAX(best_newv, 0); /* sanity */
 
   if (best_newv > 0) {
@@ -1368,6 +1364,8 @@ void contemplate_terrain_improvements(struct city *pcity)
   want = evaluate_improvements(virtualunit, &best_act,
 			       &best_tile, &completion_time,
 			       NULL);
+  want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100
+         / (40 + unit_foodbox_cost(virtualunit));
   free(virtualunit);
 
   /* Massage our desire based on available statistics to prevent
@@ -1375,7 +1373,8 @@ void contemplate_terrain_improvements(struct city *pcity)
    * the ruleset */
   want /= MAX(1, ai->stats.workers[ptile->continent]
                  / (ai->stats.cities[ptile->continent] + 1));
-  want -= MIN(ai->stats.workers[ptile->continent], want);
+  want -= ai->stats.workers[ptile->continent];
+  want = MAX(want, 0);
 
   CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
            "we have %d workers and %d cities on the continent",
