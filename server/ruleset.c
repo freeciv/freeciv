@@ -103,6 +103,7 @@ static void send_ruleset_buildings(struct conn_list *dest);
 static void send_ruleset_terrain(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_nations(struct conn_list *dest);
+static void send_ruleset_nations_availability(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
 
@@ -2921,6 +2922,22 @@ static void send_ruleset_nations(struct conn_list *dest)
 }
 
 /**************************************************************************
+  Send nations availability information
+**************************************************************************/
+static void send_ruleset_nations_availability(struct conn_list *dest)
+{
+  int i;
+  for (i = 0; i < game.control.nation_count; i++) {
+    struct nation_type *nation = get_nation_by_idx(i);
+    struct packet_nation_available packet;
+    packet.id = i;
+    packet.is_unavailable = nation->is_unavailable;
+    packet.is_used = nation->is_used;
+    lsend_packet_nation_available(dest, &packet);
+  }
+}
+
+/**************************************************************************
   Send the city-style ruleset information (each style) to the specified
   connections.
 **************************************************************************/
@@ -3068,6 +3085,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_terrain(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
+  send_ruleset_nations_availability(dest);
   send_ruleset_cities(dest);
   send_ruleset_cache(dest);
 
