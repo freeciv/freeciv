@@ -275,9 +275,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 {
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
-  int had_embassies[MAX_NUM_PLAYERS];
+  int had_embassies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct city *pcity;
-  bool can_switch[MAX_NUM_PLAYERS][game.control.government_count];
+  bool can_switch[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS]
+                 [game.control.government_count];
   struct player_research *research = get_player_research(plr);
 
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
