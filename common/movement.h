@@ -32,6 +32,8 @@ bool is_ground_unittype(Unit_type_id id);
 
 enum unit_move_type unit_move_type_from_str(const char *s);
 
+bool is_native_terrain(const struct unit *punit,
+                       const struct tile *ptile);
 bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);
 bool can_unit_survive_at_tile(const struct unit *punit,
 			      const struct tile *ptile);
