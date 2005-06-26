@@ -366,7 +366,6 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Electronics", "Player"
       "Building", "Factory", "City"
-      "Terrain", "Mountains", "Adjacent"
       "Special", "River", "Adjacent"
     }
 graphic	= "b.hydro_plant"
