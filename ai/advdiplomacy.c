@@ -1170,7 +1170,8 @@ void ai_diplomacy_actions(struct player *pplayer)
     ai->diplomacy.countdown = 0; /* cosmetic */
   }
   if (target && !pplayers_at_war(pplayer, target)
-      && ai->diplomacy.countdown <= 0) {
+      && ai->diplomacy.countdown <= 0
+      && !ai_handicap(pplayer, H_AWAY)) {
     if (pplayers_allied(pplayer, target)) {
       DIPLO_LOG(LOG_DEBUG, pplayer, ai, "Went to war against %s, who is "
                  "an ally!", target->name); /* Oh, my. */
