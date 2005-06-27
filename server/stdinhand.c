@@ -103,7 +103,6 @@ struct voting {
   char command[MAX_LEN_CONSOLE_LINE]; /* [0] == \0 if none in action */
   enum vote_type votes_cast[MAX_NUM_PLAYERS]; /* see enum above */
   int vote_no; /* place in the queue */
-  bool full_turn; /* has a full turn begun for this vote yet? */
   int yes, no;
 };
 static struct voting votes[MAX_NUM_PLAYERS];
@@ -186,7 +185,6 @@ void stdinhand_init(void)
     votes[i].command[0] = '\0';
     memset(votes[i].votes_cast, 0, sizeof(votes[i].votes_cast));
     votes[i].vote_no = -1;
-    votes[i].full_turn = FALSE;
   }
   last_vote = -1;
 }
@@ -199,8 +197,6 @@ void stdinhand_init(void)
   Criteria:
     Accepted immediately if: > 50% of votes for
     Rejected immediately if: >= 50% of votes against
-    Accepted on conclusion iff: More than half eligible voters voted for,
-                                or none against.
 **************************************************************************/
 static void check_vote(struct voting *vote)
 {
@@ -226,16 +222,14 @@ static void check_vote(struct voting *vote)
   /* Check if we should resolve the vote */
   if (vote->command[0] != '\0'
       && num_voters > 0
-      && (vote->full_turn == TRUE
-          || (vote->yes > num_voters / 2)
-          || (vote->no >= (num_voters + 1) / 2))) {
+      && (vote->yes > num_voters / 2
+          || vote->no >= (num_voters + 1) / 2)) {
     /* Yep, resolve this one */
     vote->vote_no = -1;
-    vote->full_turn = FALSE;
     if (last_vote == vote->vote_no) {
       last_vote = -1;
     }
-    if (vote->yes > num_voters / 2 || vote->no == 0) {
+    if (vote->yes > num_voters / 2) {
       /* Do it! */
       notify_player(NULL, _("Vote \"%s\" is passed %d to %d with %d "
                     "abstentions."), vote->command, vote->yes, vote->no,
@@ -261,11 +255,6 @@ void stdinhand_turn(void)
   /* Check if any votes have passed */
   for (i = 0; i < MAX_NUM_PLAYERS; i++) {
     check_vote(&votes[i]);
-  }
-
-  /* Update full turn info */
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
-    votes[i].full_turn = TRUE;
   }
 }
 
@@ -2135,7 +2124,7 @@ static bool vote_command(struct connection *caller, char *str,
   if (caller == NULL || caller->player == NULL) {
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("This command is client only."));
     return FALSE;
-  } else if (caller->player->is_observer) {
+  } else if (caller->player->is_observer || caller->observer) {
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("Observers cannot vote."));
     return FALSE;
   } else if (!str || strlen(str) == 0) {
@@ -3372,7 +3361,6 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
                     caller->player->name, full_command);
       sz_strlcpy(votes[idx].command, full_command);
       votes[idx].vote_no = last_vote;
-      votes[idx].full_turn = FALSE; /* just to be sure */
       memset(votes[idx].votes_cast, VOTE_NONE, sizeof(votes[idx].votes_cast));
       votes[idx].votes_cast[idx] = VOTE_YES; /* vote on your own suggestion */
       check_vote(&votes[idx]); /* update vote numbers, maybe auto-accept */
