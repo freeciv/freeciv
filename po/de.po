@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-18 10:24+0200\n"
+"POT-Creation-Date: 2005-06-27 18:00+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -519,13 +519,13 @@ msgstr "Handel"
 msgid "Gold"
 msgstr "Gold"
 
-#: common/aicore/cm.c:1862 server/plrhand.c:793
+#: common/aicore/cm.c:1862 server/plrhand.c:790
 #: client/gui-gtk-2.0/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:261
 #: client/gui-mui/citydlg.c:1613 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "Luxus"
 
-#: common/aicore/cm.c:1864 server/plrhand.c:795
+#: common/aicore/cm.c:1864 server/plrhand.c:792
 #: client/gui-gtk-2.0/gamedlgs.c:282 client/gui-gtk-2.0/repodlgs.c:183
 #: client/gui-gtk/gamedlgs.c:281 client/gui-gtk/repodlgs.c:174
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
@@ -761,33 +761,33 @@ msgstr ""
 "*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir Karteneinsicht zu "
 "geben."
 
-#: ai/advdiplomacy.c:528
+#: ai/advdiplomacy.c:539
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (KI)* Willkommen in unserer Allianz, %s!"
 
-#: ai/advdiplomacy.c:531
+#: ai/advdiplomacy.c:542
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s"
 msgstr "*%s (KI)* Ja, mögen wir für immer verbunden sein, %s"
 
-#: ai/advdiplomacy.c:536
+#: ai/advdiplomacy.c:547
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (KI)* Ja, wir brauchen Frieden!"
 
-#: ai/advdiplomacy.c:540
+#: ai/advdiplomacy.c:551
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s"
 msgstr "*%s (KI)* Einverstanden. Keine Feindseligkeiten mehr, %s"
 
-#: ai/advdiplomacy.c:964
+#: ai/advdiplomacy.c:974
 #, c-format
 msgid "*%s (AI)* I will NOT accept such behaviour! This means WAR!"
 msgstr ""
 "*%s (KI)* Ich werde solches Verhalten nicht dulden! Das bedeutet Krieg!"
 
-#: ai/advdiplomacy.c:987
+#: ai/advdiplomacy.c:997
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
@@ -796,7 +796,7 @@ msgstr ""
 "*%s (KI)* Dein Versuch, allein den Weltraum zu erobern, zeigt Deine wahren "
 "Absichten. Unsere Allianz ist beendet!"
 
-#: ai/advdiplomacy.c:1000
+#: ai/advdiplomacy.c:1010
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -805,7 +805,7 @@ msgstr ""
 "*%s (KI)* Dein Versuch, einseitig den Weltraum zu beherrschen, ist äußerst "
 "bedrohlich."
 
-#: ai/advdiplomacy.c:1002
+#: ai/advdiplomacy.c:1012
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -814,12 +814,12 @@ msgstr ""
 "*%s (KI)* Wenn Du nicht den Raumschiffbau beendest, könnte ich gezwungen "
 "sein zu reagieren!"
 
-#: ai/advdiplomacy.c:1026
+#: ai/advdiplomacy.c:1036
 #, c-format
 msgid "*%s (AI)* Your despicable actions will not go unpunished!"
 msgstr "*%s (KI)* Deine schäbigen Taten werden nicht unbestraft bleiben!"
 
-#: ai/advdiplomacy.c:1030
+#: ai/advdiplomacy.c:1040
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -828,25 +828,25 @@ msgstr ""
 "*%s (KI)* Endlich kriege ich Dich! Dachtest Du wirklich, Du könntest mit "
 "Deinen Verbrechen davonkommen?"
 
-#: ai/advdiplomacy.c:1035
+#: ai/advdiplomacy.c:1045
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time"
 msgstr "*%s (KI)* Frieden ... vielleicht ein anderes Mal."
 
-#: ai/advdiplomacy.c:1052
+#: ai/advdiplomacy.c:1062
 #, c-format
 msgid "*%s (AI)* Your aggression against my allies was your last mistake!"
 msgstr ""
 "*%s (KI)* Deine Aggression gegen meine Verbündeten war Dein letzter Fehler!"
 
-#: ai/advdiplomacy.c:1074
+#: ai/advdiplomacy.c:1084
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (KI)* Tut mir leid, es ist mir zu gefährlich, Dir länger Karteneinsicht "
 "zu geben"
 
-#: ai/advdiplomacy.c:1142
+#: ai/advdiplomacy.c:1152
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally, we call upon you to destroy "
@@ -855,7 +855,7 @@ msgstr ""
 "*%s (KI)* Sei gegrüßt, ehrenwerter Verbündeter, wir rufen Dich auf, unseren "
 "Feind %s zu vernichten."
 
-#: ai/advdiplomacy.c:1147
+#: ai/advdiplomacy.c:1157
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -865,7 +865,7 @@ msgstr ""
 "keinen Krieg gegen unseren Feind %s. Warum müssen wir Dich an Deine "
 "Versprechen erinnern?"
 
-#: ai/advdiplomacy.c:1152
+#: ai/advdiplomacy.c:1162
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -876,14 +876,14 @@ msgstr ""
 "und immer noch bist Du im Frieden mit unserem Todfeind %s! Das ist "
 "unakzeptabel, unsere Allianz ist beendet!"
 
-#: ai/advdiplomacy.c:1181
+#: ai/advdiplomacy.c:1191
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest a joint campaign against %s?"
 msgstr ""
 "*%s (KI)* Sei gegrüßt, Freund, dürfen wir Dir eine gemeinsame Kampagne gegen "
 "%s vorschlagen?"
 
-#: ai/advdiplomacy.c:1196
+#: ai/advdiplomacy.c:1206
 #, c-format
 msgid ""
 "*%s (AI)* Greetings neighbour, may we suggest a joint campaign against %s?"
@@ -891,7 +891,7 @@ msgstr ""
 "*%s (KI)* Sei gegrüßt, Nachbar, dürfen wir Dir eine gemeinsame Kampagne "
 "gegen %s vorschlagen?"
 
-#: ai/advdiplomacy.c:1210
+#: ai/advdiplomacy.c:1220
 #, c-format
 msgid ""
 "*%s (AI)* %s is threatening us both, may we suggest a cessation of "
@@ -2691,7 +2691,7 @@ msgstr "Spiel: %s hat %s von %s gestohlen."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spiel: %ss %s hat %s von %s gestohlen."
 
-#: server/diplomats.c:690 server/plrhand.c:753
+#: server/diplomats.c:690 server/plrhand.c:750
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spiel: Die %s haben %s von den %s gestohlen."
@@ -3112,72 +3112,72 @@ msgstr "Spiel: Die %s haben %s erforscht."
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Spiel: Die %s haben Zukunftstechnologie %d erforscht."
 
-#: server/plrhand.c:644
+#: server/plrhand.c:641
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Spiel: Entwicklungsziel ist %s."
 
-#: server/plrhand.c:743
+#: server/plrhand.c:740
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Spiel: %s von den %s gestohlen."
 
-#: server/plrhand.c:748
+#: server/plrhand.c:745
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Spiel: Die %s haben %s gestohlen!"
 
-#: server/plrhand.c:775
+#: server/plrhand.c:772
 msgid "Game: Cannot change rates before game start."
 msgstr "Spiel: Die Quoten können nicht vor Spielbeginn geändert werden."
 
-#: server/plrhand.c:791 client/gui-gtk-2.0/gamedlgs.c:242
+#: server/plrhand.c:788 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-gtk/gamedlgs.c:241 client/gui-win32/ratesdlg.c:309
 msgid "Tax"
 msgstr "Steuern"
 
-#: server/plrhand.c:798
+#: server/plrhand.c:795
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr ""
 "Spiel: Die Quote für %s übersteigt die für eine %s geltende Höchstgrenze."
 
-#: server/plrhand.c:876
+#: server/plrhand.c:889
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spiel: %s regiert die %s jetzt als %s."
 
-#: server/plrhand.c:927
+#: server/plrhand.c:940
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spiel: Die %s haben ihre Regierung gestürzt!"
 
-#: server/plrhand.c:1028
+#: server/plrhand.c:1041
 msgid "You should choose a new government from the government menu."
 msgstr "Bitte wählen Sie eine neue Regierung im Menü Regierung."
 
-#: server/plrhand.c:1055
+#: server/plrhand.c:1068
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Steuerquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:1061
+#: server/plrhand.c:1074
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Spiel: Die Forschungsquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:1067
+#: server/plrhand.c:1080
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spiel: Die Luxusquote übersteigt die Höchstgrenze für %s; angepaßt."
 
-#: server/plrhand.c:1119
+#: server/plrhand.c:1132
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s läßt uns nicht mehr in die Karte sehen!"
 
-#: server/plrhand.c:1186
+#: server/plrhand.c:1199
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -3185,12 +3185,12 @@ msgstr ""
 "Aufgrund der ständigen Provokationen durch die %s stimmt der Senat der "
 "Vorlage zu."
 
-#: server/plrhand.c:1198
+#: server/plrhand.c:1211
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spiel: Ihre Reputation ist jetzt %s."
 
-#: server/plrhand.c:1203
+#: server/plrhand.c:1216
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -3198,12 +3198,12 @@ msgstr ""
 "Spiel: Der Senat beschließt seine Selbstauflösung,\n"
 "       um Ihre Maßnahmen nicht länger unterstützen zu müssen."
 
-#: server/plrhand.c:1234
+#: server/plrhand.c:1247
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spiel: Die %s und die %s haben jetzt %s."
 
-#: server/plrhand.c:1240
+#: server/plrhand.c:1253
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -3212,7 +3212,7 @@ msgstr ""
 "Spiel: Die %s haben das Abkommen gekündigt! Zwischen den %s und den %s "
 "herrscht nun %s."
 
-#: server/plrhand.c:1257
+#: server/plrhand.c:1270
 #, c-format
 msgid ""
 "Game: %s has attacked your ally %s! You cancel your alliance to the "
@@ -3221,7 +3221,7 @@ msgstr ""
 "Spiel: %s hat Ihren Alliierten %s angegriffen! Sie beenden ihre Allianz mit "
 "dem Angreifer!"
 
-#: server/plrhand.c:1268
+#: server/plrhand.c:1281
 #, c-format
 msgid ""
 "Game: Your team mate %s declared war on %s. You are obligated to cancel "
@@ -3230,31 +3230,31 @@ msgstr ""
 "Spiel: Ihr Teampartner %s hat den %s den Krieg erklärt. Sie sind "
 "verpflichtet, Ihre Allianz mit %s zu beenden."
 
-#: server/plrhand.c:1677
+#: server/plrhand.c:1690
 #, c-format
 msgid "Removing player %s."
 msgstr "Spieler %s wird entfernt."
 
-#: server/plrhand.c:1678
+#: server/plrhand.c:1691
 msgid "Game: You've been removed from the game!"
 msgstr "Spiel: Sie wurden aus dem Spiel entfernt."
 
-#: server/plrhand.c:1681
+#: server/plrhand.c:1694
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spiel: %s wurde aus dem Spiel entfernt."
 
-#: server/plrhand.c:1724 server/plrhand.c:1728
+#: server/plrhand.c:1737 server/plrhand.c:1741
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spiel: Die %s entdeckt. Ihr Herrscher ist %s."
 
-#: server/plrhand.c:2120
+#: server/plrhand.c:2133
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Bürgerkrieg der %s ist nicht möglich - zu viele Spieler"
 
-#: server/plrhand.c:2142
+#: server/plrhand.c:2155
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -3263,12 +3263,12 @@ msgstr ""
 "Spiel: Die Nation wird vom Bürgerkrieg gespalten. %s ist der Anführer der "
 "revoltierenden Provinzen."
 
-#: server/plrhand.c:2162
+#: server/plrhand.c:2175
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spiel: %s erklärt ihre Loyalität zu %s."
 
-#: server/plrhand.c:2176
+#: server/plrhand.c:2189
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -3706,7 +3706,12 @@ msgstr "Reason: line too short (expected %d got %lu"
 msgid "Unknown terrain identifier '%c' in savegame."
 msgstr "Unknown terrain identifier '%c' in savegame."
 
-#: server/savegame.c:525
+#: server/savegame.c:514
+#, c-format
+msgid "Warning: Unknown nation %s for starting position no %d"
+msgstr "Warnung: Unbekannte Nation %s an Startposition %d"
+
+#: server/savegame.c:542
 #, c-format
 msgid ""
 "Number of starts (%d) are lower than max_players (%d), lowering max_players."
@@ -3715,84 +3720,84 @@ msgstr ""
 "Anzahl der Spieler wird verkleinert."
 
 # CK: TECHNICAL
-#: server/savegame.c:917 server/savegame.c:923 server/savegame.c:929
+#: server/savegame.c:934 server/savegame.c:940 server/savegame.c:946
 #, c-format
 msgid "Wrong unit type id value (%d)"
 msgstr "Wrong unit type id value (%d)"
 
 # CK: TECHNICAL
-#: server/savegame.c:963
+#: server/savegame.c:980
 #, c-format
 msgid "Wrong improvement type id value (%d)"
 msgstr "Wrong improvement type id value (%d)"
 
 # CK: TECHNICAL
-#: server/savegame.c:1062
+#: server/savegame.c:1079
 #, c-format
 msgid "Wrong tech type id value (%d)"
 msgstr "Wrong tech type id value (%d)"
 
 # CK: TECHNICAL
-#: server/savegame.c:1144
+#: server/savegame.c:1161
 #, c-format
 msgid "Unknown technology (%s)"
 msgstr "Unknown technology (%s)"
 
 # CK: TECHNICAL
-#: server/savegame.c:1220 server/savegame.c:1226 server/savegame.c:1232
+#: server/savegame.c:1237 server/savegame.c:1243 server/savegame.c:1249
 #, c-format
 msgid "Wrong government type id value (%d)"
 msgstr "Wrong government type id value (%d)"
 
 # CK: TECHNICAL
-#: server/savegame.c:1284
+#: server/savegame.c:1301
 #, c-format
 msgid "Unknown unit type '%s' in worklist"
 msgstr "Unbekannte Einheit '%s' in der Arbeitsliste"
 
 # CK: TECHNICAL
-#: server/savegame.c:1299
+#: server/savegame.c:1316
 #, c-format
 msgid "Unknown improvement type '%s' in worklist"
 msgstr "Unbekannte Stadterweiterung '%s' in der Arbeitsliste"
 
 # CK: TECHNICAL
-#: server/savegame.c:1388
+#: server/savegame.c:1405
 #, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
 msgstr "Wrong player%d.u%d.type value (%d)"
 
 # CK: TECHNICAL
-#: server/savegame.c:1398
+#: server/savegame.c:1415
 #, c-format
 msgid "Unknown unit type '%s' in player%d section"
 msgstr "Unknown unit type '%s' in player%d section"
 
 # CK: TECHNICAL
-#: server/savegame.c:1520
+#: server/savegame.c:1537
 msgid "Savegame error: invalid unit orders."
 msgstr "Fehler in Spielstandsdatei: Ungültige Befehle für Einheiten."
 
 # CK: TECHNICAL
-#: server/savegame.c:1640
+#: server/savegame.c:1657
 #, c-format
 msgid "Nation %s (used by %s) isn't available."
 msgstr "Die Nation %s (verwendet von %s) ist nicht verfügbar."
 
 # CK: TECHNICAL
-#: server/savegame.c:1672
+#: server/savegame.c:1689
 #, c-format
 msgid "Unsupported government found (%s)"
 msgstr "Unsupported government found (%s)"
 
 # CK: TECHNICAL
-#: server/savegame.c:1707
+#: server/savegame.c:1724
 #, c-format
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr "Stadtbild in player%d Sektion kann nicht angezeigt werden, wähle %s"
 
 # CK: TECHNICAL
-#: server/savegame.c:1881
+#: server/savegame.c:1898
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -3801,18 +3806,18 @@ msgstr ""
 "Verbotene Allianzstruktur festgestellt: Die Allianz zwischen %s und %s wird "
 "zu einem Frieden zurückgestuft."
 
-#: server/savegame.c:3046
+#: server/savegame.c:3063
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 
-#: server/savegame.c:3235
+#: server/savegame.c:3252
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Das im abgespeicherten Spiel benutzte 'terrain ruleset' wird nicht mehr "
 "unterstützt."
 
-#: server/savegame.c:3244
+#: server/savegame.c:3261
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -5108,7 +5113,7 @@ msgstr ""
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Server cannot read standard input. Ignoring input."
 
-#: server/sernet.c:816
+#: server/sernet.c:814
 #, c-format
 msgid "Server: bad address: [%s:%d]."
 msgstr "Server: Die Adresse [%s:%d] ist ungültig."
@@ -5397,7 +5402,7 @@ msgstr ""
 msgid "(ambiguous)"
 msgstr "(mehrdeutig)"
 
-#: server/stdinhand.c:371 client/packhand.c:1246
+#: server/stdinhand.c:371 client/packhand.c:1247
 msgid "(unknown)"
 msgstr "(unbekannt)"
 
@@ -6945,45 +6950,45 @@ msgstr ""
 "Spiel: Durch den Überflug wurden die Eingeborenen so erschreckt,\n"
 "       daß sie in alle Himmelsrichtungen flohen."
 
-#: server/unittools.c:2848
+#: server/unittools.c:2845
 #, c-format
 msgid "Game: %s aborted GOTO as there are units in the way."
 msgstr "Spiel: %s brach GOTO ab, da Einheiten im Weg sind."
 
-#: server/unittools.c:2891
+#: server/unittools.c:2888
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
 msgstr "Spiel: %s-Patrouille abgebrochen, da fremde Einheit entdeckt."
 
-#: server/unittools.c:2964
+#: server/unittools.c:2961
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr ""
 "Spiel: %s konnte Befehl nicht ausführen, da Einheiten in der Nähe sind."
 
-#: server/unittools.c:3013
+#: server/unittools.c:3010
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Spiel: Befehle für %s verworfen, Auftrag unmöglich."
 
-#: server/unittools.c:3027
+#: server/unittools.c:3024
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr "Spiel: Befehle für %s verworfen, das Ziel ist ungültig."
 
-#: server/unittools.c:3037
+#: server/unittools.c:3034
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr "Spiel: %s konnte Befehl nicht ausführen, da Einheiten im Weg sind."
 
-#: server/unittools.c:3063
+#: server/unittools.c:3060
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr ""
 "Spiel: Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
 
-#: server/unittools.c:3096
+#: server/unittools.c:3093
 #, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Spiel: Befehle für %s sind ungültig."
@@ -8904,20 +8909,20 @@ msgstr "Server capability string: %s"
 msgid "Start of turn %d"
 msgstr "Beginn des %d. Zugs"
 
-#: client/packhand.c:1620
+#: client/packhand.c:1621
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "KI Modus: %s."
 
-#: client/packhand.c:1621
+#: client/packhand.c:1622
 msgid "ON"
 msgstr "AN"
 
-#: client/packhand.c:1621
+#: client/packhand.c:1622
 msgid "OFF"
 msgstr "AUS"
 
-#: client/packhand.c:2614
+#: client/packhand.c:2615
 msgid "Other"
 msgstr "Andere"
 
