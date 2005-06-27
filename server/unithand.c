@@ -1412,7 +1412,14 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     }
   }
   
-  send_player_info(pplayer, pplayer);
+  /* The research has changed, we have to update all
+   * players sharing it */
+  players_iterate(aplayer) {
+    if (!players_on_same_team(pplayer, aplayer)) {
+      continue;
+    }
+    send_player_info(aplayer, aplayer);
+  } players_iterate_end;
   conn_list_do_unbuffer(pplayer->connections);
   return TRUE;
 }

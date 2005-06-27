@@ -456,8 +456,10 @@ void found_new_future_tech(struct player *pplayer)
 }
 
 /****************************************************************************
-  Called from each city to update the research; it adds the given number of
-  bulbs into the player's tech and (if necessary) completes the research.
+  Adds the given number of  bulbs into the player's tech and 
+  (if necessary) completes the research.
+  The caller is responsible for sending updated player information.
+  This is called from each city every turn and from caravan revenue
 ****************************************************************************/
 void update_tech(struct player *plr, int bulbs)
 {
