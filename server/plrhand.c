@@ -585,13 +585,16 @@ void choose_random_tech(struct player *plr)
 {
   int chosen, researchable = 0;
 
+  if (plr->research.bulbs_researched >0) {
+    plr->research.bulbs_researched = 0;
+  }
   tech_type_iterate(i) {
     if (get_invention(plr, i) == TECH_REACHABLE) {
       researchable++;
     }
   } tech_type_iterate_end;
   if (researchable == 0) {
-    choose_tech(plr, A_FUTURE);
+    plr->research.researching = A_FUTURE;
     return;
   }
   chosen = myrand(researchable) + 1;
@@ -600,7 +603,7 @@ void choose_random_tech(struct player *plr)
     if (get_invention(plr, i) == TECH_REACHABLE) {
       chosen--;
       if (chosen == 0) {
-	choose_tech(plr, i);
+	plr->research.researching = i;
 	break;
       }
     }
