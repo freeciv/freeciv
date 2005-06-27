@@ -98,7 +98,7 @@ static int get_entertainers(const struct city *pcity)
   int providers = 0;
 
   specialist_type_iterate(i) {
-    if (get_specialist_output(pcity, i, O_LUXURY) >= HAPPY_COST) {
+    if (get_specialist_output(pcity, i, O_LUXURY) >= game.info.happy_cost) {
       providers += pcity->specialists[i];
     }
   } specialist_type_iterate_end;

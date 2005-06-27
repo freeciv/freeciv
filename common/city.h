@@ -83,12 +83,6 @@ enum city_options {
 #define city_map_iterate(x, y) city_map_iterate_outwards(x, y)
 #define city_map_iterate_end city_map_iterate_outwards_end
 
-/* Cost in luxuries to make one citizen happier by one level. */
-#define HAPPY_COST 2
-
-/* Cost in food to feed one citizen. */
-#define FOOD_COST 2
-
 /* Iterate a city map, from the center (the city) outwards */
 extern struct iter_index {
   int dx, dy, dist;

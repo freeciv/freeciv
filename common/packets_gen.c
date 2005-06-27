@@ -3472,7 +3472,7 @@ void lsend_packet_tile_info(struct conn_list *dest, const struct packet_tile_inf
 
 #define cmp_packet_game_info_100 cmp_const
 
-BV_DEFINE(packet_game_info_100_fields, 96);
+BV_DEFINE(packet_game_info_100_fields, 103);
 
 static struct packet_game_info *receive_packet_game_info_100(struct connection *pc, enum packet_type type)
 {
@@ -4137,8 +4137,8 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->save_nturns = readin;
+      dio_get_sint16(&din, &readin);
+      real_packet->base_pollution = readin;
     }
   }
   if (BV_ISSET(fields, 92)) {
@@ -4146,13 +4146,69 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->save_compress_level = readin;
+      real_packet->happy_cost = readin;
     }
   }
   if (BV_ISSET(fields, 93)) {
-    dio_get_string(&din, real_packet->start_units, sizeof(real_packet->start_units));
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->food_cost = readin;
+    }
   }
   if (BV_ISSET(fields, 94)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->base_bribe_cost = readin;
+    }
+  }
+  if (BV_ISSET(fields, 95)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->base_incite_cost = readin;
+    }
+  }
+  if (BV_ISSET(fields, 96)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->base_tech_cost = readin;
+    }
+  }
+  if (BV_ISSET(fields, 97)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->ransom_gold = readin;
+    }
+  }
+  if (BV_ISSET(fields, 98)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->save_nturns = readin;
+    }
+  }
+  if (BV_ISSET(fields, 99)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->save_compress_level = readin;
+    }
+  }
+  if (BV_ISSET(fields, 100)) {
+    dio_get_string(&din, real_packet->start_units, sizeof(real_packet->start_units));
+  }
+  if (BV_ISSET(fields, 101)) {
     
     for (;;) {
       int i;
@@ -4168,7 +4224,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 95)) {
+  if (BV_ISSET(fields, 102)) {
     
     for (;;) {
       int i;
@@ -4611,17 +4667,45 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 90);}
 
-  differ = (old->save_nturns != real_packet->save_nturns);
+  differ = (old->base_pollution != real_packet->base_pollution);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 91);}
 
-  differ = (old->save_compress_level != real_packet->save_compress_level);
+  differ = (old->happy_cost != real_packet->happy_cost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 92);}
 
-  differ = (strcmp(old->start_units, real_packet->start_units) != 0);
+  differ = (old->food_cost != real_packet->food_cost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 93);}
+
+  differ = (old->base_bribe_cost != real_packet->base_bribe_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 94);}
+
+  differ = (old->base_incite_cost != real_packet->base_incite_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 95);}
+
+  differ = (old->base_tech_cost != real_packet->base_tech_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 96);}
+
+  differ = (old->ransom_gold != real_packet->ransom_gold);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 97);}
+
+  differ = (old->save_nturns != real_packet->save_nturns);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 98);}
+
+  differ = (old->save_compress_level != real_packet->save_compress_level);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 99);}
+
+  differ = (strcmp(old->start_units, real_packet->start_units) != 0);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 100);}
 
 
     {
@@ -4637,7 +4721,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 94);}
+  if(differ) {BV_SET(fields, 101);}
 
 
     {
@@ -4653,7 +4737,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 95);}
+  if(differ) {BV_SET(fields, 102);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -4919,15 +5003,36 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint8(&dout, real_packet->revolution_length);
   }
   if (BV_ISSET(fields, 91)) {
-    dio_put_uint8(&dout, real_packet->save_nturns);
+    dio_put_sint16(&dout, real_packet->base_pollution);
   }
   if (BV_ISSET(fields, 92)) {
-    dio_put_uint8(&dout, real_packet->save_compress_level);
+    dio_put_uint8(&dout, real_packet->happy_cost);
   }
   if (BV_ISSET(fields, 93)) {
-    dio_put_string(&dout, real_packet->start_units);
+    dio_put_uint8(&dout, real_packet->food_cost);
   }
   if (BV_ISSET(fields, 94)) {
+    dio_put_uint16(&dout, real_packet->base_bribe_cost);
+  }
+  if (BV_ISSET(fields, 95)) {
+    dio_put_uint16(&dout, real_packet->base_incite_cost);
+  }
+  if (BV_ISSET(fields, 96)) {
+    dio_put_uint8(&dout, real_packet->base_tech_cost);
+  }
+  if (BV_ISSET(fields, 97)) {
+    dio_put_uint16(&dout, real_packet->ransom_gold);
+  }
+  if (BV_ISSET(fields, 98)) {
+    dio_put_uint8(&dout, real_packet->save_nturns);
+  }
+  if (BV_ISSET(fields, 99)) {
+    dio_put_uint8(&dout, real_packet->save_compress_level);
+  }
+  if (BV_ISSET(fields, 100)) {
+    dio_put_string(&dout, real_packet->start_units);
+  }
+  if (BV_ISSET(fields, 101)) {
   
     {
       int i;
@@ -4943,7 +5048,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       dio_put_uint8(&dout, 255);
     } 
   }
-  if (BV_ISSET(fields, 95)) {
+  if (BV_ISSET(fields, 102)) {
   
     {
       int i;

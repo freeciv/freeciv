@@ -851,8 +851,6 @@ restart:
     }
   } tech_type_iterate_end;
 
-  precalc_tech_data();
-
   free(sec);
   section_file_check_unused(file, filename);
   section_file_free(file);
@@ -2447,6 +2445,19 @@ static void load_ruleset_game(void)
   (void) check_ruleset_capabilities(&file, "+1.11.1", filename);
   (void) section_file_lookup(&file, "datafile.description");	/* unused */
 
+  game.info.base_pollution = 
+        secfile_lookup_int_default(&file, -20, "civstyle.base_pollution");
+  game.info.happy_cost =
+        secfile_lookup_int_default(&file, 2, "civstyle.happy_cost");
+  game.info.food_cost =
+        secfile_lookup_int_default(&file, 2, "civstyle.food_cost");
+  game.info.base_bribe_cost =
+        secfile_lookup_int_default(&file, 750, "civstyle.base_bribe_cost");
+  game.info.ransom_gold =
+        secfile_lookup_int_default(&file, 100, "civstyle.ransom_gold");
+  game.info.base_tech_cost =
+        secfile_lookup_int_default(&file, 20, "civstyle.base_tech_cost");
+
   output_type_iterate(o) {
     game.info.min_city_center_output[o]
       = secfile_lookup_int_default(&file, 0,
@@ -2558,6 +2569,8 @@ static void load_ruleset_game(void)
   }
     
   /* City incite cost */
+  game.info.base_incite_cost =
+    secfile_lookup_int_default(&file, 1000, "incite_cost.base_incite_cost");
   game.info.incite_improvement_factor = 
     secfile_lookup_int_default(&file, 1, "incite_cost.improvement_factor");
   game.info.incite_unit_factor = 
@@ -3055,6 +3068,8 @@ void load_rulesets(void)
   load_ruleset_effects(&effectfile);
   load_ruleset_game();
   translate_data_names();
+
+  precalc_tech_data();
 
   script_free();
 

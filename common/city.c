@@ -1674,30 +1674,30 @@ static inline void citizen_luxury_happy(const struct city *pcity, int *luxuries,
                                         int *angry, int *unhappy, int *happy, 
                                         int *content)
 {
-  while (*luxuries >= HAPPY_COST && *angry > 0) {
+  while (*luxuries >= game.info.happy_cost && *angry > 0) {
     /* Upgrade angry to unhappy: costs HAPPY_COST each. */
     (*angry)--;
     (*unhappy)++;
-    *luxuries -= HAPPY_COST;
+    *luxuries -= game.info.happy_cost;
   }
-  while (*luxuries >= HAPPY_COST && *content > 0) {
+  while (*luxuries >= game.info.happy_cost && *content > 0) {
     /* Upgrade content to happy: costs HAPPY_COST each. */
     (*content)--;
     (*happy)++;
-    *luxuries -= HAPPY_COST;
+    *luxuries -= game.info.happy_cost;
   }
-  while (*luxuries >= 2 * HAPPY_COST && *unhappy > 0) {
+  while (*luxuries >= 2 * game.info.happy_cost && *unhappy > 0) {
     /* Upgrade unhappy to happy.  Note this is a 2-level upgrade with
      * double the cost. */
     (*unhappy)--;
     (*happy)++;
-    *luxuries -= 2 * HAPPY_COST;
+    *luxuries -= 2 * game.info.happy_cost;
   }
-  if (*luxuries >= HAPPY_COST && *unhappy > 0) {
+  if (*luxuries >= game.info.happy_cost && *unhappy > 0) {
     /* Upgrade unhappy to content: costs HAPPY_COST each. */
     (*unhappy)--;
     (*content)++;
-    *luxuries -= HAPPY_COST;
+    *luxuries -= game.info.happy_cost;
   }
 }
 
@@ -1877,8 +1877,8 @@ int city_pollution_types(const struct city *pcity, int shield_total,
 	 * num_known_tech_with_flag(pplayer, TF_POPULATION_POLLUTION_INC)
 	 * MAX(pop, 0)) / (4 * 100);
 
-  /* Then there's a base -20 pollution. */
-  mod = -20;
+  /* Then there is base pollution (usually a negative number). */
+  mod = game.info.base_pollution;
 
   if (pollu_prod) {
     *pollu_prod = prod;
@@ -1988,7 +1988,7 @@ static inline void city_support(struct city *pcity,
 
   /* Add base amounts for building upkeep and citizen consumption. */
   pcity->usage[O_GOLD] += city_building_upkeep(pcity, O_GOLD);
-  pcity->usage[O_FOOD] += FOOD_COST * pcity->size;
+  pcity->usage[O_FOOD] += game.info.food_cost * pcity->size;
 
   /*
    * If you modify anything here these places might also need updating:

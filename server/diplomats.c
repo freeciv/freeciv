@@ -1377,7 +1377,7 @@ int unit_bribe_cost(struct unit *punit)
   int dist;
   int default_hp = unit_type(punit)->hp;
 
-  cost = unit_owner(punit)->economic.gold + 750;
+  cost = unit_owner(punit)->economic.gold * game.info.base_bribe_cost;
   capital = find_palace(unit_owner(punit));
   if (capital) {
     int tmp = map_distance(capital->tile, punit->tile);

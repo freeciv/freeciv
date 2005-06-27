@@ -427,6 +427,13 @@ PACKET_GAME_INFO=15; sc
   UINT16 incite_total_factor;
   GOVERNMENT government_when_anarchy;
   UINT8 revolution_length;
+  SINT16 base_pollution;
+  UINT8 happy_cost;
+  UINT8 food_cost;
+  UINT16 base_bribe_cost;
+  UINT16 base_incite_cost;
+  UINT8 base_tech_cost;
+  UINT16 ransom_gold;
 
   UINT8 save_nturns;
   UINT8 save_compress_level;

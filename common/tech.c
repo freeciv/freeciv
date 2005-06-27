@@ -358,7 +358,7 @@ int total_bulbs_required(const struct player *pplayer)
   from game.info.tech_cost_style and game.info.tech_leakage.
 
   tech_cost_style:
-  0 - Civ (I|II) style. Every new tech adds 20 to the cost of the next tech.
+  0 - Civ (I|II) style. Every new tech adds N to the cost of the next tech.
   1 - Cost of technology is 
         (1 + parents) * 10 * sqrt(1 + parents)
       where num_parents == number of requirement for tech (recursive).
@@ -400,7 +400,8 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   switch (tech_cost_style) {
   case 0:
-    base_cost = get_player_research(pplayer)->techs_researched * 20;
+    base_cost = get_player_research(pplayer)->techs_researched 
+                * game.info.base_tech_cost;
     break;
   case 1:
     base_cost = techcoststyle1[tech];
@@ -548,9 +549,10 @@ void precalc_tech_data()
 
   tech_type_iterate(tech) {
     double reqs = advances[tech].num_reqs + 1;
-    const double cost = 10.0 * reqs * sqrt(reqs);
+    const double base = game.info.base_tech_cost / 2;
+    const double cost = base * reqs * sqrt(reqs);
 
-    techcoststyle1[tech] = MAX(cost, 20.0);
+    techcoststyle1[tech] = MAX(cost, game.info.base_tech_cost);
   } tech_type_iterate_end;
 }
 

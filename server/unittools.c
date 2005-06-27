@@ -1761,7 +1761,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   if( is_barbarian(pplayer) && unit_has_role(punit->type, L_BARBARIAN_LEADER)
       && (unit_list_size(punit->tile->units) == 1)
       && (is_ground_unit(pkiller) || is_heli_unit(pkiller)) ) {
-    ransom = (pplayer->economic.gold >= 100)?100:pplayer->economic.gold;
+    ransom = (pplayer->economic.gold >= game.info.ransom_gold) 
+             ? game.info.ransom_gold : pplayer->economic.gold;
     notify_player_ex(destroyer, pkiller->tile, E_UNIT_WIN_ATT,
 		     _("Barbarian leader captured, %d gold ransom paid."),
                      ransom);

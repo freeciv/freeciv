@@ -1343,7 +1343,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* Gold factor */
-  cost = city_owner(pcity)->economic.gold + 1000;
+  cost = city_owner(pcity)->economic.gold + game.info.base_incite_cost;
 
   unit_list_iterate(pcity->tile->units, punit) {
     cost += (unit_build_shield_cost(punit->type)

@@ -19,6 +19,25 @@ global_init_techs=""
 global_init_buildings="Palace"
 
 [civstyle]
+; Value added to city pollution
+base_pollution   = -20
+
+; Cost in luxuries of making one citizen happier
+happy_cost       = 2
+
+; Cost in food of upkeeping a single citizen
+food_cost        = 2
+
+; A base bribe cost, modified heavily by other factors
+base_bribe_cost  = 750
+
+; Barbarian leader ransom in gold
+ransom_gold      = 100
+
+; Base research cost for tech styles 1 & 2
+base_tech_cost   = 20
+
+; City center minimum outputs
 min_city_center_food	= 1
 min_city_center_shield	= 1
 min_city_center_trade	= 0
@@ -80,11 +99,12 @@ tech_cost_double_year = 0
 
 ; city_incite_cost = 
 ; total_factor * (city_size) *
-; (base + (units_cost) * unit_factor + 
+; (base_incite_cost + (units_cost) * unit_factor + 
 ;   (improvements_cost) * improvement_factor) 
 ;  / (distance * 100)
 ; See city_incite_cost() for more details
 [incite_cost]
+base_incite_cost = 1000
 improvement_factor = 1
 unit_factor = 2
 total_factor = 100

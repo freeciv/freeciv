@@ -196,6 +196,13 @@ struct packet_game_info {
   int incite_total_factor;
   int government_when_anarchy;
   int revolution_length;
+  int base_pollution;
+  int happy_cost;
+  int food_cost;
+  int base_bribe_cost;
+  int base_incite_cost;
+  int base_tech_cost;
+  int ransom_gold;
   int save_nturns;
   int save_compress_level;
   char start_units[MAX_LEN_STARTUNIT];
