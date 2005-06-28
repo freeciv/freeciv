@@ -1304,7 +1304,7 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
 
 /**************************************************************************
   For each pplayer's unit, check if we stack illegally, if so,
-  bounce both players' units. If on ocean tile, bounce everyone
+  bounce both players' units. If on ocean tile, bounce everyone but ships
   to avoid drowning. This function assumes that cities are clean.
 
   If verbose is true, the unit owner gets messages about where each
@@ -1320,7 +1320,7 @@ static void resolve_stack_conflicts(struct player *pplayer,
       unit_list_iterate_safe(ptile->units, aunit) {
         if (unit_owner(aunit) == pplayer
             || unit_owner(aunit) == aplayer
-            || is_ocean(ptile->terrain)) {
+            || !can_unit_survive_at_tile(aunit, ptile)) {
           bounce_unit(aunit, verbose);
         }
       } unit_list_iterate_safe_end;
