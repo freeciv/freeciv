@@ -723,7 +723,7 @@ static int techs_with_flag_string(enum tech_flag_id flag,
   assert(bufsz > 0);
   buf[0] = '\0';
   techs_with_flag_iterate(flag, tech_id) {
-    const char *name = get_tech_name(NULL, tech_id);
+    const char *name = get_tech_name(game.player_ptr, tech_id);
 
     if (buf[0] == '\0') {
       cat_snprintf(buf, bufsz, "%s", name);
