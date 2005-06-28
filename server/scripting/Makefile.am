@@ -27,6 +27,9 @@ dist_libscripting_a_SOURCES = \
 		script_signal.c	\
 		script_signal.h
 
+EXTRA_DIST = \
+		api.pkg
+
 nodist_libscripting_a_SOURCES =	\
 		api_gen.c	\
 		api_gen.h
