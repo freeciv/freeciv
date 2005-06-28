@@ -1639,6 +1639,12 @@ static void tile_update_owner(struct tile *ptile)
 *************************************************************************/
 static void map_update_borders_recalculate_position(struct tile *ptile)
 {
+  struct city_list cities_to_refresh;
+  
+  if (game.happyborders > 0) {
+    city_list_init(&cities_to_refresh);
+  }
+  
   if (game.borders > 0) {
     iterate_outward(ptile, game.borders, tile1) {
       struct city *pccity = map_get_closest_city(tile1);
@@ -1651,8 +1657,41 @@ static void map_update_borders_recalculate_position(struct tile *ptile)
 	 * before; it's not stored in the playermap. */
 	send_tile_info(NULL, tile1);
 	tile_update_owner(tile1);
+	/* Update happiness */
+	if (game.happyborders > 0) {
+	  unit_list_iterate(tile1->units, unit) {
+	    struct city* homecity = find_city_by_id(unit->homecity);
+	    bool already_listed = FALSE;
+	    
+	    if (!homecity) {
+	      continue;
+	    }
+	    
+	    city_list_iterate(cities_to_refresh, city2) {
+	      if (city2 == homecity) {
+	        already_listed = TRUE;
+		break;
+	      }
+	    } city_list_iterate_end;
+	    
+	    if (!already_listed) {
+	      city_list_insert(&cities_to_refresh, homecity);
+	    }
+
+	  } unit_list_iterate_end;
+	}
       }
     } iterate_outward_end;
+  }
+ 
+  /* Update happiness in all homecities we have collected */ 
+  if (game.happyborders > 0) {
+    city_list_iterate(cities_to_refresh, to_refresh) {
+      city_refresh(to_refresh);
+      send_city_info(city_owner(to_refresh), to_refresh);
+    } city_list_iterate_end;
+    
+    city_list_unlink_all(&cities_to_refresh);
   }
 }
 
