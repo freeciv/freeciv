@@ -31,7 +31,7 @@ bool is_heli_unittype(Unit_type_id id);
 bool is_ground_unittype(Unit_type_id id);
 
 bool is_native_terrain(const struct unit *punit,
-                       const struct tile *ptile);
+                       Terrain_type_id terrain);
 bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);
 bool can_unit_survive_at_tile(const struct unit *punit,
 			      const struct tile *ptile);

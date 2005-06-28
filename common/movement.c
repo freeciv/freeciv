@@ -186,7 +186,7 @@ bool can_unit_exist_at_tile(const struct unit *punit,
     return TRUE;
   }
 
-  return is_native_terrain(punit, ptile);
+  return is_native_terrain(punit, ptile->terrain);
 }
 
 /****************************************************************************
@@ -194,13 +194,13 @@ bool can_unit_exist_at_tile(const struct unit *punit,
   even on native terrain. All terrains are native to air units.
 ****************************************************************************/
 bool is_native_terrain(const struct unit *punit,
-                       const struct tile *ptile)
+                       Terrain_type_id terrain)
 {
   switch (unit_types[punit->type].move_type) {
   case LAND_MOVING:
-    return !is_ocean(ptile->terrain);
+    return !is_ocean(terrain);
   case SEA_MOVING:
-    return is_ocean(ptile->terrain);
+    return is_ocean(terrain);
   default:
     return TRUE;
   }

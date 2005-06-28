@@ -144,7 +144,6 @@ units.ruleset:
     - These flags and roles work only for move_type "Land" units:
       - "Diplomat"
       - "Partisan"
-      - "Paratroopers"
       - "Settler"
       - "IgTer"
       - "Marines"

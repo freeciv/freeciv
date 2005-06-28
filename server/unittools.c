@@ -2203,11 +2203,12 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
-  if (is_ocean(map_get_player_tile(ptile, pplayer)->terrain)
-      && is_ground_unit(punit)) {
+  /* Safe terrain according to player map? */
+  if (!is_native_terrain(punit, map_get_player_tile(ptile, pplayer)->terrain)) {
     notify_player_ex(pplayer, ptile, E_NOEVENT,
-                     _("This unit cannot paradrop into ocean."));
-    return FALSE;    
+                     _("This unit cannot paradrop into %s."),
+                       get_terrain_name(map_get_player_tile(ptile, pplayer)->terrain));
+    return FALSE;
   }
 
   if (map_is_known_and_seen(ptile, pplayer)
@@ -2231,16 +2232,16 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     }
   }
 
-  if (is_ocean(tile_get_terrain(ptile))
-      && is_ground_unit(punit)) {
+  /* Safe terrain, really? Not transformed since player last saw it. */
+  if (!can_unit_exist_at_tile(punit, ptile)) {
     int srange = unit_type(punit)->vision_range;
 
     show_area(pplayer, ptile, srange);
 
     notify_player_ex(pplayer, ptile, E_UNIT_LOST,
-                     _("Your %s paradropped into the ocean "
+                     _("Your %s paradropped into the %s "
                        "and was lost."),
-                     unit_type(punit)->name);
+                     unit_type(punit)->name, get_terrain_name(ptile->terrain));
     server_remove_unit(punit);
     return TRUE;
   }
