@@ -615,11 +615,15 @@ void choose_random_tech(struct player *plr)
 **************************************************************************/
 void choose_tech(struct player *plr, int tech)
 {
-  if (plr->research.researching==tech)
-    return;
-  if (get_invention(plr, tech)!=TECH_REACHABLE) { /* can't research this */
+  if (plr->research.researching == tech) {
     return;
   }
+
+  if (tech != A_FUTURE && get_invention(plr, tech) != TECH_REACHABLE) { 
+    /* can't research this */
+    return;
+  }
+  
   if (!plr->got_tech && plr->research.changed_from == -1) {
     plr->research.bulbs_researched_before = plr->research.bulbs_researched;
     plr->research.changed_from = plr->research.researching;
