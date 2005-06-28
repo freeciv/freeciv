@@ -61,7 +61,7 @@ veteran_move_bonus = 0, 0
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
-; move_type     = "Land" or "Sea" or "Air" or "Heli"
+; class         = "Land", "Sea", "Air", "Heli", "Missile" or "Nuclear"
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
 ; fuel          = number of turns air units can fly before they crash. For
 ;                 barbarians this is used as lifetime instead
@@ -95,7 +95,7 @@ veteran_move_bonus = 0, 0
 
 [unit_settlers]
 name          = _("Settlers")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "None"
 obsolete_by   = "None"
 graphic       = "u.settlers"
@@ -139,7 +139,7 @@ Settlers may work together to decrease the amount of\
 
 [unit_militia]
 name          = _("Militia")        ; Civ2 Warriors
-move_type     = "Land"
+class         = "Land"
 tech_req      = "None"
 obsolete_by   = "Musketeers"
 graphic       = "u.warriors"
@@ -171,7 +171,7 @@ This unit may be built from the start of the game.  It is the\
 
 [unit_phalanx]
 name          = _("Phalanx")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Bronze Working"
 obsolete_by   = "Musketeers"
 graphic       = "u.phalanx"
@@ -199,7 +199,7 @@ roles         = "DefendGood", "FirstBuild"
 
 [unit_legion]
 name          = _("Legion")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Iron Working"
 obsolete_by   = "Musketeers"
 graphic       = "u.legion"
@@ -227,7 +227,7 @@ roles         = "DefendOk", "Hut", "BarbarianBuild", "BarbarianSea"
 
 [unit_musketeers]
 name          = _("Musketeers")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Gunpowder"
 obsolete_by   = "Riflemen"
 graphic       = "u.musketeers"
@@ -256,7 +256,7 @@ roles         = "DefendGood", "FirstBuild", "HutTech",
 
 [unit_riflemen]
 name          = _("Riflemen")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Conscription"
 obsolete_by   = "None"
 graphic       = "u.riflemen"
@@ -284,7 +284,7 @@ roles         = "DefendGood", "FirstBuild"
 
 [unit_mech_inf]
 name          = _("Mech. Inf.")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Labor Union"
 obsolete_by   = "None"
 graphic       = "u.mech_inf"
@@ -317,7 +317,7 @@ Mechanized Infantry; this unit has the strongest defence strength\
 
 [unit_cavalry]
 name          = _("Cavalry")          ; Civ2 Horsemen
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Horseback Riding"
 obsolete_by   = "Musketeers"
 graphic       = "u.horsemen"
@@ -345,7 +345,7 @@ roles         = "AttackFast", "Hut", "Barbarian"
 
 [unit_chariot]
 name          = _("Chariot")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "The Wheel"
 obsolete_by   = "Knights"
 graphic       = "u.chariot"
@@ -373,7 +373,7 @@ roles         = "AttackFast", "Hut"
 
 [unit_knights]
 name          = _("Knights")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Chivalry"
 obsolete_by   = "Armor"
 graphic       = "u.knights"
@@ -402,7 +402,7 @@ roles         = "AttackFast", "HutTech", "BarbarianTech",
 
 [unit_armor]
 name          = _("Armor")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Automobile"
 obsolete_by   = "None"
 graphic       = "u.armor"
@@ -430,7 +430,7 @@ roles         = "AttackFast"
 
 [unit_catapult]
 name          = _("Catapult")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Mathematics"
 obsolete_by   = "Cannon"
 graphic       = "u.catapult"
@@ -458,7 +458,7 @@ roles         = "AttackStrong"
 
 [unit_cannon]
 name          = _("Cannon")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Metallurgy"
 obsolete_by   = "Artillery"
 graphic       = "u.cannon"
@@ -486,7 +486,7 @@ roles         = "AttackStrong", "BarbarianTech", "BarbarianBuildTech"
 
 [unit_artillery]
 name          = _("Artillery")        ; Civ2 Howitzer
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Robotics"
 obsolete_by   = "None"
 graphic       = "u.howitzer"
@@ -514,7 +514,7 @@ roles         = "AttackStrong"
 
 [unit_fighter]
 name          = _("Fighter")
-move_type     = "Air"
+class         = "Air"
 tech_req      = "Flight"
 obsolete_by   = "None"
 graphic       = "u.fighter"
@@ -542,7 +542,7 @@ roles         = ""
 
 [unit_bomber]
 name          = _("Bomber")
-move_type     = "Air"
+class         = "Air"
 tech_req      = "Advanced Flight"
 obsolete_by   = "None"
 graphic       = "u.bomber"
@@ -570,7 +570,7 @@ roles         = ""
 
 [unit_trireme]
 name          = _("Trireme")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Map Making"
 obsolete_by   = "Sail"
 graphic       = "u.trireme"
@@ -598,7 +598,7 @@ roles         = "Ferryboat"
 
 [unit_sail]
 name          = _("Sail")         ; Civ2 Caravel
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Navigation"
 obsolete_by   = "Frigate"
 graphic       = "u.caravel"
@@ -626,7 +626,7 @@ roles         = "Ferryboat", "BarbarianBoat"
 
 [unit_frigate]
 name          = _("Frigate")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Magnetism"
 obsolete_by   = "Transport"
 graphic       = "u.frigate"
@@ -654,7 +654,7 @@ roles         = "Ferryboat"
 
 [unit_ironclad]
 name          = _("Ironclad")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Steam Engine"
 obsolete_by   = "Cruiser"
 graphic       = "u.ironclad"
@@ -682,7 +682,7 @@ roles         = ""
 
 [unit_cruiser]
 name          = _("Cruiser")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Combustion"
 obsolete_by   = "None"
 graphic       = "u.cruiser"
@@ -710,7 +710,7 @@ roles         = ""
 
 [unit_battleship]
 name          = _("Battleship")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Steel"
 obsolete_by   = "None"
 graphic       = "u.battleship"
@@ -738,7 +738,7 @@ roles         = ""
 
 [unit_submarine]
 name          = _("Submarine")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Mass Production"
 obsolete_by   = "None"
 graphic       = "u.submarine"
@@ -770,7 +770,7 @@ Submarines have a very high strategic value, but have a weak\
 
 [unit_carrier]
 name          = _("Carrier")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Advanced Flight"
 obsolete_by   = "None"
 graphic       = "u.carrier"
@@ -803,7 +803,7 @@ TIP:  Guard Carriers with a handful of fast-moving ships and a\
 
 [unit_transport]
 name          = _("Transport")
-move_type     = "Sea"
+class         = "Sea"
 tech_req      = "Industrialization"
 obsolete_by   = "None"
 graphic       = "u.transport"
@@ -831,7 +831,7 @@ roles         = "Ferryboat"
 
 [unit_nuclear]
 name          = _("Nuclear")
-move_type     = "Air"
+class         = "Nuclear"
 tech_req      = "Rocketry"
 obsolete_by   = "None"
 graphic       = "u.nuclear"
@@ -878,7 +878,7 @@ TIP 2:  You may be involved in a situation where you've invaded an\
 
 [unit_diplomat]
 name          = _("Diplomat")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Writing"
 obsolete_by   = "None"
 graphic       = "u.diplomat"
@@ -924,7 +924,7 @@ helptext      = _("\
 
 [unit_caravan]
 name          = _("Caravan")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "Trade"
 obsolete_by   = "None"
 graphic       = "u.caravan"
@@ -960,7 +960,7 @@ TIP:  You can stockpile a stack of Caravans in advance and bring\
 
 [unit_barbarian_leader]
 name          = _("Barbarian Leader")
-move_type     = "Land"
+class         = "Land"
 tech_req      = "None"
 obsolete_by   = "None"
 graphic       = "u.barbarian_leader"

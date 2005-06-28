@@ -29,10 +29,6 @@
 #include "unittype.h"
 #include "terrain.h"
 
-static const char *move_type_names[] = {
-  "Land", "Sea", "Heli", "Air"
-};
-
 
 static bool can_unit_type_transport(Unit_type_id transporter,
                                     Unit_type_id transported);
@@ -174,26 +170,6 @@ bool is_heli_unittype(Unit_type_id id)
 bool is_ground_unittype(Unit_type_id id)
 {
   return (unit_types[id].move_type == LAND_MOVING);
-}
-
-
-/****************************************************************************
-  Convert unit_move_type names to enum; case insensitive;
-  returns 0 if can't match.
-****************************************************************************/
-enum unit_move_type unit_move_type_from_str(const char *s)
-{
-  enum unit_move_type i;
-
-  /* A compile-time check would be nicer, but this will do: */
-  assert(ARRAY_SIZE(move_type_names) == (AIR_MOVING - LAND_MOVING + 1));
-
-  for (i = LAND_MOVING; i <= AIR_MOVING; i++) {
-    if (mystrcasecmp(move_type_names[i - LAND_MOVING], s) == 0) {
-      return i;
-    }
-  }
-  return 0;
 }
 
 

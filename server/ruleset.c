@@ -1063,14 +1063,24 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     u->impr_requirement = lookup_building(file, sec[i], "impr_req",
 					  FALSE, filename, u->name);
 
-    sval = secfile_lookup_str(file, "%s.move_type", sec[i]);
-    ival = unit_move_type_from_str(sval);
-    if (ival==0) {
-      freelog(LOG_FATAL, "for unit_type \"%s\": bad move_type %s (%s)",
-	   u->name, sval, filename);
+    sval = secfile_lookup_str(file, "%s.class", sec[i]);
+    ival = unit_class_from_str(sval);
+    if (ival == UCL_LAST) {
+      freelog(LOG_FATAL, "for unit_type \"%s\": bad class %s (%s)",
+              u->name, sval, filename);
       exit(EXIT_FAILURE);
     }
-    u->move_type = ival;
+    u->class = ival;
+    switch (ival)
+    {
+    case UCL_MISSILE:
+    case UCL_NUCLEAR:
+      u->move_type = AIR_MOVING;
+      break;
+    default:
+      u->move_type = ival;
+      break;
+    }
     
     sz_strlcpy(u->sound_move,
 	       secfile_lookup_str_default(file, "-", "%s.sound_move",

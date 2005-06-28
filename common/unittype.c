@@ -56,12 +56,12 @@ static const char *role_names[] = {
   "GameLoss", "Diplomat", "Hunter"
 };
 static const char *unit_class_names[] = {
-  "Air",
-  "Helicopter",
-  "Land",
   "Missile",
+  "Land",
+  "Sea",
+  "Helicopter",
+  "Air",
   "Nuclear",
-  "Sea"
 };
 
 /**************************************************************************

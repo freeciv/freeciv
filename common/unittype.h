@@ -47,21 +47,6 @@ typedef int Unit_type_id;
   to hold full number of unit types.
 */
 
-/* Classes for unit types.
- * (These must correspond to unit_class_names[] in unit.c.)
- */
-enum unit_class_id {
-  UCL_AIR,
-  UCL_HELICOPTER,
-  UCL_LAND,
-  UCL_MISSILE,
-  UCL_NUCLEAR,
-  UCL_SEA,
-  UCL_LAST	/* keep this last */
-};
-
-typedef enum unit_class_id Unit_Class_id;
-
 /* Unit "special effects" flags:
    Note this is now an enumerated type, and not power-of-two integers
    for bits, though unit_type.flags is still a bitfield, and code
@@ -210,6 +195,8 @@ struct unit_type {
 
   /* Values for bombardment */
   int bombard_rate;
+
+  Unit_Class_id class;
   
   char *helptext;
 };
