@@ -2284,21 +2284,11 @@ static void hut_get_gold(struct unit *punit, int cred)
 static void hut_get_tech(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int res_ed, res_ing;
   Tech_type_id new_tech;
-  const char *tech_name;
-  struct player_research* research = get_player_research(pplayer);
+  const char* tech_name;
   
-  /* Save old values, choose tech, then restore old values: */
-  res_ed = research->bulbs_researched;
-  res_ing = research->researching;
+  new_tech = give_random_free_tech(pplayer);
   
-  choose_random_tech(pplayer);
-  new_tech = research->researching;
-  
-  research->bulbs_researched = res_ed;
-  research->researching = res_ing;
-
   tech_name = get_tech_name(pplayer, new_tech);
   notify_player_ex(pplayer, punit->tile, E_HUT_TECH,
 		   _("You found %s in ancient scrolls of wisdom."),
@@ -2311,13 +2301,6 @@ static void hut_get_tech(struct unit *punit)
   notify_embassies(pplayer, NULL, _("The %s have acquired %s"
 				    " from ancient scrolls of wisdom."),
 		   get_nation_name_plural(pplayer->nation), tech_name);
-
-  do_free_cost(pplayer);
-  if (!is_future_tech(new_tech)) {
-    found_new_tech(pplayer, new_tech, FALSE, TRUE, A_NONE);
-  } else {
-    found_new_future_tech(pplayer);
-  }
 }
 
 /**************************************************************************

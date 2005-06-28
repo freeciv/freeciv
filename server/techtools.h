@@ -27,10 +27,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 void found_new_future_tech(struct player *pplayer);
 void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, int tech_count);
+Tech_type_id pick_random_tech(struct player* plr);
 void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, Tech_type_id tech);
 void choose_tech_goal(struct player *plr, Tech_type_id tech);
 void get_a_tech(struct player *pplayer, struct player *target);
 
+Tech_type_id give_random_free_tech(struct player *pplayer);
+Tech_type_id give_immediate_free_tech(struct player *pplayer);
 #endif
 

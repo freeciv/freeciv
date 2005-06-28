@@ -483,10 +483,10 @@ void update_tech(struct player *plr, int bulbs)
 }
 
 /****************************************************************************
-  Finds and chooses (sets) a random research target from among all those
-  available.
+  Returns random researchable tech or A_FUTURE.
+  No side effects
 ****************************************************************************/
-void choose_random_tech(struct player *plr)
+Tech_type_id pick_random_tech(struct player* plr) 
 {
   int chosen, researchable = 0;
 
@@ -496,8 +496,7 @@ void choose_random_tech(struct player *plr)
     }
   } tech_type_iterate_end;
   if (researchable == 0) {
-    choose_tech(plr, A_FUTURE);
-    return;
+    return A_FUTURE;
   }
   chosen = myrand(researchable) + 1;
   
@@ -505,11 +504,29 @@ void choose_random_tech(struct player *plr)
     if (get_invention(plr, i) == TECH_REACHABLE) {
       chosen--;
       if (chosen == 0) {
-	choose_tech(plr, i);
-	break;
+        return i;
       }
     }
   } tech_type_iterate_end;
+  assert(0);
+  return A_FUTURE;
+}
+
+/****************************************************************************
+  Finds and chooses (sets) a random research target from among all those
+  available until plr->research->researching != A_UNSET.
+  Player may research more than one tech in this function.
+  Possible reasons:
+  - techpenalty < 100
+  - research.got_tech = TRUE and enough bulbs was saved
+  - research.researching = A_UNSET and enough bulbs was saved
+****************************************************************************/
+void choose_random_tech(struct player *plr)
+{
+  struct player_research* research = get_player_research(plr);
+  do {
+    choose_tech(plr, pick_random_tech(plr));
+  } while (research->researching == A_UNSET);
 }
 
 /****************************************************************************
@@ -744,4 +761,33 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
       handle_player_tech_goal(aplayer, tech_goal);
     }
   } players_iterate_end;
+}
+
+/****************************************************************************
+  Gives a player random tech, which he hasn't researched yet. Applies freecost
+  Returns the tech.
+****************************************************************************/
+Tech_type_id give_random_free_tech(struct player* pplayer)
+{
+  Tech_type_id tech;
+  
+  tech = pick_random_tech(pplayer);
+  do_free_cost(pplayer);
+  found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
+  return tech;
+}
+
+/****************************************************************************
+  Gives a player immediate free tech. Applies freecost
+****************************************************************************/
+Tech_type_id give_immediate_free_tech(struct player* pplayer)
+{
+  Tech_type_id tech;
+  if (get_player_research(pplayer)->researching == A_UNSET) {
+    return give_random_free_tech(pplayer);
+  }
+  tech = get_player_research(pplayer)->researching;
+  do_free_cost(pplayer);
+  found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
+  return tech;
 }
