@@ -527,7 +527,7 @@ void choose_tech(struct player *plr, Tech_type_id tech)
   if (research->researching == tech) {
     return;
   }
-  if (get_invention(plr, tech) != TECH_REACHABLE) {
+  if (tech != A_FUTURE && get_invention(plr, tech) != TECH_REACHABLE) {
     /* can't research this */
     return;
   }
