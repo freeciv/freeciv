@@ -142,6 +142,7 @@ match=2
 *include "nation/byzantium.ruleset"
 *include "nation/venezuelan.ruleset"
 *include "nation/romanian.ruleset"
+*include "nation/bulgarian.ruleset"
 ;
 ; observer and barbarians MUST go last in THIS order
 ;
