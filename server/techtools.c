@@ -749,6 +749,14 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
     return;
   }
   
+  if (tech_goal == A_NONE) {
+    /* A_NONE "exists" but is not allowed as a tech goal.  A_UNSET should
+     * be used instead.  However the above checks may prevent the client from
+     * ever setting the goal to A_UNSET, meaning once a goal is set it
+     * can't be removed. */
+    return;
+  }
+
   choose_tech_goal(pplayer, tech_goal);
   send_player_info(pplayer, pplayer);
 
