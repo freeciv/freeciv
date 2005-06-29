@@ -335,7 +335,7 @@ struct sprite *load_gfxfile(const char *filename)
   int has_mask;
   png_byte color_type;
   png_byte alpha;
-  bool pixel;
+  bool pixel, reported;
 
   fp = fopen(filename, "rb");
   if (!fp) {
@@ -404,8 +404,16 @@ struct sprite *load_gfxfile(const char *filename)
 
       ptransarray = fc_calloc(npalette, sizeof(*ptransarray));
 
+      reported = FALSE;
       for (i = 0; i < ntrans; i++) {
-	ptransarray[trans[i]] = TRUE;
+	if (trans[i] < npalette) {
+	  ptransarray[trans[i]] = TRUE;
+	} else if (!reported) {
+	  freelog(LOG_VERBOSE,
+		  "PNG: Trasparent array entry is out of palette. File: %s",
+		  filename);
+	  reported = TRUE;
+	}
       }
     } else {
       ptransarray = NULL;
