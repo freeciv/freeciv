@@ -351,7 +351,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     /* try to pick new tech to research */
 
     if (choose_goal_tech(plr)) {
-      notify_player_ex(plr, NULL, E_TECH_LEARNED,
+      notify_team_ex(plr, NULL, E_TECH_LEARNED,
 		       _("Learned %s.  "
 			 "Our scientists focus on %s, goal is %s."),
 		       get_tech_name(plr, tech_found),
@@ -369,7 +369,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       if (research->researching != A_UNSET 
           && (!is_future_tech(research->researching)
 	      || !is_future_tech(tech_found))) {
-	notify_player_ex(plr, NULL, E_TECH_LEARNED,
+	notify_team_ex(plr, NULL, E_TECH_LEARNED,
 			 _("Learned %s.  Scientists "
 			   "choose to research %s."),
 			 get_tech_name(plr, tech_found),
@@ -382,10 +382,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 	research->future_tech++;
 	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
 		    get_tech_name(plr, research->researching));
-	notify_player_ex(plr, NULL, E_TECH_LEARNED, "%s%s", buffer1,
+	notify_team_ex(plr, NULL, E_TECH_LEARNED, "%s%s", buffer1,
 			 buffer2);
       } else {
-	notify_player_ex(plr, NULL, E_TECH_LEARNED,
+	notify_team_ex(plr, NULL, E_TECH_LEARNED,
 			 _("Learned %s.  Scientists "
 			   "do not know what to research next."),
 			 get_tech_name(plr, tech_found));
@@ -405,10 +405,12 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       notify_player(plr, _("%s"),
 		    _(advances[tech_found].bonus_message));
     } else {
-      notify_player(plr, _("Great scientists from all the "
-			   "world join your civilization: you get "
-			   "an immediate advance."));
+      notify_team_ex(plr, NULL, E_TECH_GAIN,
+                     _("Great scientists from all the "
+		       "world join your civilization: you get "
+		       "an immediate advance."));
     }
+    
     if (research->researching == A_UNSET) {
       choose_random_tech(plr);
     }

@@ -781,6 +781,26 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 }
 
 /**************************************************************************
+  Sends a message to all players on pplayer's team
+**************************************************************************/
+void notify_team_ex(struct player* pplayer,
+                    struct tile *ptile, enum event_type event,
+		    const char* format, ...)
+{
+  va_list args;
+
+  va_start(args, format);
+  players_iterate(other_player) {
+    if (!players_on_same_team(pplayer, other_player)) {
+      continue;
+    }
+    vnotify_conn_ex(other_player->connections, ptile, event, format, args);
+  } players_iterate_end;
+  va_end(args);
+}
+
+
+/**************************************************************************
   Send information about player src, or all players if src is NULL,
   to specified clients dest (dest may not be NULL).
 
