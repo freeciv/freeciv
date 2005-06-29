@@ -1054,6 +1054,8 @@ static bool is_allowed_player_name(struct player *pplayer,
 				   const char *name,
 				   char *error_buf, size_t bufsz)
 {
+  struct connection *pconn = find_conn_by_user(pplayer->username);
+
   /* An empty name is surely not allowed. */
   if (strlen(name) == 0) {
     if (error_buf) {
@@ -1099,8 +1101,10 @@ static bool is_allowed_player_name(struct player *pplayer,
   /* To prevent abuse, only players with HACK access (usually local
    * connections) can use non-ascii names.  Otherwise players could use
    * confusing garbage names in multi-player games. */
+    /* FIXME: is there a better way to determine if a *player* has hack
+     * access? */
   if (!is_ascii_name(name)
-      && find_conn_by_user(pplayer->username)->access_level != ALLOW_HACK) {
+      && (!pconn || pconn->access_level != ALLOW_HACK)) {
     if (error_buf) {
       my_snprintf(error_buf, bufsz, _("Please choose a name containing "
 				      "only ASCII characters."));
