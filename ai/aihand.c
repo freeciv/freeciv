@@ -390,7 +390,8 @@ static void ai_manage_government(struct player *pplayer)
   }
 
   /* Crank up tech want */
-  if (get_invention(pplayer, ai->goal.govt.req) == TECH_KNOWN) {
+  if (ai->goal.govt.req == A_UNSET
+      || get_invention(pplayer, ai->goal.govt.req) == TECH_KNOWN) {
     return; /* already got it! */
   } else if (ai->goal.govt.val > 0) {
     /* We have few cities in the beginning, compensate for this to ensure

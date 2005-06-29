@@ -49,12 +49,15 @@ static const char *flag_names[] = {
    in common/tech.h */
 
 /**************************************************************************
-...
+  Returns state of the tech for current pplayer.
+  This can be: TECH_KNOW, TECH_UNKNOWN or TECH_REACHABLE
+  Should be called with existing techs or A_FUTURE
 **************************************************************************/
 enum tech_state get_invention(const struct player *pplayer,
 			      Tech_type_id tech)
 {
-  assert(tech >= 0 || tech < game.control.num_tech_types);
+  assert(tech == A_FUTURE
+         || (tech >= 0 && tech < game.control.num_tech_types));
 
   return get_player_research(pplayer)->inventions[tech].state;
 }
@@ -191,12 +194,17 @@ bool tech_is_available(const struct player *pplayer, Tech_type_id id)
 }
 
 /**************************************************************************
-  Marks reachable techs. Calls build_required_techs to update the
-  cache of requirements.
+  Mark as TECH_REACHABLE each tech which is available, not known and
+  which has all requirements fullfiled.
+  If there is no such a tech mark A_FUTURE as researchable.
+  
+  Recalculate research->num_known_tech_with_flag
+  Should be called always after set_invention()
 **************************************************************************/
 void update_research(struct player *pplayer)
 {
   enum tech_flag_id flag;
+  int researchable = 0;
 
   tech_type_iterate(i) {
     if (i == A_NONE) {
@@ -214,10 +222,16 @@ void update_research(struct player *pplayer)
 	  && get_invention(pplayer, advances[i].req[0]) == TECH_KNOWN
 	  && get_invention(pplayer, advances[i].req[1]) == TECH_KNOWN) {
 	set_invention(pplayer, i, TECH_REACHABLE);
+	researchable++;
       }
     }
     build_required_techs(pplayer, i);
   } tech_type_iterate_end;
+  
+  /* No techs we can research? Mark A_FUTURE as researchable */
+  if (researchable == 0) {
+    set_invention(pplayer, A_FUTURE, TECH_REACHABLE);
+  }
 
   for (flag = 0; flag < TF_LAST; flag++) {
     get_player_research(pplayer)->num_known_tech_with_flag[flag] = 0;
