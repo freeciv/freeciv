@@ -1497,7 +1497,8 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
     char buf[512];
     struct player_research* research = get_player_research(game.player_ptr);
     
-    my_snprintf(buf, sizeof(buf),
+    if (get_player_research(game.player_ptr)->researching != A_UNSET) {
+      my_snprintf(buf, sizeof(buf),
 	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
 	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/%d\nGovernment: %s"),
 	    population_to_text(civ_population(game.player_ptr)),
@@ -1513,7 +1514,24 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 	    research->bulbs_researched,
 	    total_bulbs_required(game.player_ptr),
 	    get_government_name(game.player_ptr->government));
-    
+    } else {
+      my_snprintf(buf, sizeof(buf),
+	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
+	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/-\nGovernment: %s"),
+	    population_to_text(civ_population(game.player_ptr)),
+	    textyear(game.info.year), game.info.turn,
+	    game.player_ptr->economic.gold,
+	    player_get_expected_income(game.player_ptr),
+	    game.player_ptr->economic.tax,
+	    game.player_ptr->economic.luxury,
+	    game.player_ptr->economic.science,
+
+	    get_tech_name(game.player_ptr,
+			  research->researching),
+	    research->bulbs_researched,
+	    get_government_name(game.player_ptr->government));
+    }
+        
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_app_paintable(p, TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
