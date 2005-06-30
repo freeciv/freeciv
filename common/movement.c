@@ -44,17 +44,17 @@ int unit_move_rate(const struct unit *punit)
   int move_rate = 0;
   int base_move_rate = unit_type(punit)->move_rate 
     + unit_type(punit)->veteran[punit->veteran].move_bonus;
+  struct unit_class *pclass = get_unit_class(punit->type);
 
-  switch (unit_type(punit)->move_type) {
-  case LAND_MOVING:
+  move_rate = base_move_rate;
+
+  if (pclass->move.damage_slows) {
     /* Scale the MP based on how many HP the unit has. */
-    move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
-    break;
+    move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
+  }
 
-  case SEA_MOVING:
-    /* Scale the MP based on how many MP the unit has. */
-    move_rate = (base_move_rate * punit->hp) / unit_type(punit)->hp;
-
+  /* TODO: These effects should not be hardcoded to unit class enumeration */
+  if (pclass->id == UCL_SEA) {
     /* Add on effects bonus (Magellan's Expedition, Lighthouse,
      * Nuclear Power). */
     move_rate += (get_unit_bonus(punit, EFT_SEA_MOVE)
@@ -65,17 +65,6 @@ int unit_move_rate(const struct unit *punit)
     if (move_rate < 2 * SINGLE_MOVE) {
       move_rate = MIN(2 * SINGLE_MOVE, base_move_rate);
     }
-    break;
-
-  case HELI_MOVING:
-  case AIR_MOVING:
-    /* No modifiers for air or helicoptor units. */
-    move_rate = base_move_rate;
-    break;
-
-  default:
-    die("In %s:unit_move_rate: illegal move type %d",
-	__FILE__, unit_type(punit)->move_type);
   }
 
   /* Don't let any unit get less than 1 MP. */

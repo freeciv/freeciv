@@ -47,6 +47,16 @@ typedef int Unit_type_id;
   to hold full number of unit types.
 */
 
+struct move_params {
+  bool terrain_affects; /* Move rate is subject to terrain and improvement effects */
+  bool damage_slows;    /* Damaged unit is slowed down */
+};
+
+struct unit_class {
+  Unit_Class_id id;
+  struct move_params move;
+};
+
 /* Unit "special effects" flags:
    Note this is now an enumerated type, and not power-of-two integers
    for bits, though unit_type.flags is still a bitfield, and code
@@ -218,6 +228,7 @@ int unit_buy_gold_cost(Unit_type_id id, int shields_in_stock);
 int unit_disband_shields(Unit_type_id id);
 int unit_pop_value(Unit_type_id id);
 
+struct unit_class *get_unit_class(Unit_type_id type);
 const char *unit_name(Unit_type_id id);
 const char *unit_name_orig(Unit_type_id id);
 const char *unit_class_name(Unit_Class_id id);

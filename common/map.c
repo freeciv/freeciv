@@ -14,7 +14,6 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-
 #include <assert.h>
 #include <string.h>		/* strlen */
 
@@ -629,6 +628,13 @@ static int tile_move_cost_ptrs(struct unit *punit,
 			       const struct tile *t1, const struct tile *t2)
 {
   bool cardinal_move;
+  struct unit_class *pclass = NULL;
+  bool native = TRUE;
+
+  if (punit) {
+    pclass = get_unit_class(punit->type);
+    native = is_native_terrain(punit, t2->terrain);
+  }
 
   if (game.info.slow_invasions
       && punit 
@@ -639,15 +645,28 @@ static int tile_move_cost_ptrs(struct unit *punit,
      * if "slowinvasions" server option is turned on. */
     return punit->moves_left;
   }
-  if (punit && !is_ground_unit(punit))
+
+  if (punit && !pclass->move.terrain_affects) {
     return SINGLE_MOVE;
-  if (tile_has_special(t1, S_RAILROAD) && tile_has_special(t2, S_RAILROAD))
+  }
+
+  /* Railroad check has to be before F_IGTER check so that F_IGTER
+   * units are not penalized. F_IGTER affects also entering and
+   * leaving ships, so F_IGTER check has to be before native terrain
+   * check. We want to give railroad bonus only to native units. */
+  if (tile_has_special(t1, S_RAILROAD) && tile_has_special(t2, S_RAILROAD)
+      && native) {
     return MOVE_COST_RAIL;
-/* return (unit_move_rate(punit)/RAIL_MAX) */
-  if (punit && unit_flag(punit, F_IGTER))
+  }
+  if (punit && unit_flag(punit, F_IGTER)) {
     return SINGLE_MOVE/3;
-  if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD))
+  }
+  if (!native) {
+    return SINGLE_MOVE;
+  }
+  if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD)) {
     return MOVE_COST_ROAD;
+  }
 
   if (tile_has_special(t1, S_RIVER) && tile_has_special(t2, S_RIVER)) {
     cardinal_move = is_move_cardinal(t1, t2);

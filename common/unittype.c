@@ -64,6 +64,15 @@ static const char *unit_class_names[] = {
   "Nuclear",
 };
 
+struct unit_class unit_classes[] = {
+  { UCL_MISSILE,    { FALSE, FALSE }},
+  { UCL_LAND,       { TRUE,  TRUE  }},
+  { UCL_SEA,        { TRUE,  TRUE  }},
+  { UCL_HELICOPTER, { FALSE, FALSE }},
+  { UCL_AIR,        { FALSE, FALSE }},
+  { UCL_NUCLEAR,    { FALSE, FALSE }}
+};
+
 /**************************************************************************
   Return a pointer for the unit type struct for the given unit type id.
 **************************************************************************/
@@ -667,4 +676,12 @@ void unit_types_free(void)
   unit_type_iterate(i) {
     unit_type_free(i);
   } unit_type_iterate_end;
+}
+
+/***************************************************************
+ Returns unit class structure
+***************************************************************/
+struct unit_class *get_unit_class(Unit_type_id type)
+{
+  return &unit_classes[get_unit_type(type)->class];
 }
