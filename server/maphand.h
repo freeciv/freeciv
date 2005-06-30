@@ -41,6 +41,7 @@ struct dumb_city{
 struct player_tile {
   Terrain_type_id terrain;
   bv_special special;
+  signed char owner;
   unsigned short seen_count;
   unsigned short own_seen;
   /* If you build a city with an unknown square within city radius
