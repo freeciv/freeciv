@@ -429,9 +429,8 @@ void game_advance_year(void)
 }
 
 /****************************************************************************
-  Reset a player's data to its initial state.  No further initialization
-  should be needed before reusing this player (no separate call to
-  player_init is needed).
+  Reset a player's data to its initial state.  After calling this you
+  must call player_init before the player can be used again.
 ****************************************************************************/
 void game_remove_player(struct player *pplayer)
 {
@@ -440,28 +439,42 @@ void game_remove_player(struct player *pplayer)
     pplayer->attribute_block.data = NULL;
   }
 
-  /* Unlink all the lists, but don't free them (they can be used later). */
+  assert(conn_list_size(pplayer->connections) == 0);
   conn_list_unlink_all(pplayer->connections);
+  conn_list_free(pplayer->connections);
+  pplayer->connections = NULL;
 
   unit_list_iterate(pplayer->units, punit) {
     game_remove_unit(punit);
   } unit_list_iterate_end;
   assert(unit_list_size(pplayer->units) == 0);
   unit_list_unlink_all(pplayer->units);
+  unit_list_free(pplayer->units);
+  pplayer->units = NULL;
 
   city_list_iterate(pplayer->cities, pcity) {
     game_remove_city(pcity);
   } city_list_iterate_end;
   assert(city_list_size(pplayer->cities) == 0);
   city_list_unlink_all(pplayer->cities);
+  city_list_free(pplayer->cities);
+  pplayer->cities = NULL;
+
+  free(pplayer->research);
+  pplayer->research = NULL;
 
   if (is_barbarian(pplayer)) game.info.nbarbarians--;
-  player_research_init(get_player_research(pplayer));
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  After calling game_remove_player, you should always call this function to
+  renumber players to fill in the gap left by the empty player.
+
+  FIXME: maybe this should be called directly by game_remove_player?
+
+  FIXME: this cannot be called once the game is started.  You can't remove
+  players of a running game.
+****************************************************************************/
 void game_renumber_players(int plrno)
 {
   int i;
@@ -469,9 +482,14 @@ void game_renumber_players(int plrno)
   for (i = plrno; i < game.info.nplayers - 1; i++) {
     game.players[i]=game.players[i+1];
     game.players[i].player_no=i;
-    conn_list_iterate(game.players[i].connections, pconn)
+    conn_list_iterate(game.players[i].connections, pconn) {
       pconn->player = &game.players[i];
-    conn_list_iterate_end;
+    } conn_list_iterate_end;
+
+    /* We could renumber players in-game if we updated the unit and
+     * city owners.  But for now we just make sure these lists are empty. */
+    assert(unit_list_size(game.players[i].units) == 0);
+    assert(city_list_size(game.players[i].cities) == 0);
   }
 
   if(game.info.player_idx > plrno) {
@@ -481,23 +499,7 @@ void game_renumber_players(int plrno)
 
   game.info.nplayers--;
 
-  /* a bit of cleanup to keep connections sane */
-  /* FIXME: this code is potentially quite buggy because it introduces
-   * a second place where we have to "initialize" players.  We should
-   * probably instead either use player_init on the removed player or
-   * copy the removed player directly from the middle of the array to
-   * the end.  However it's likely that neither will work without fixing
-   * some things elsewhere.
-   *
-   * Secondary FIXME: this code leaks memory because the conn_list is
-   * never freed.  See FIXME above... */
-  game.players[game.info.nplayers].connections = conn_list_new();
-  game.players[game.info.nplayers].is_connected = FALSE;
-  game.players[game.info.nplayers].was_created = FALSE;
-  game.players[game.info.nplayers].ai.control = FALSE;
-  sz_strlcpy(game.players[game.info.nplayers].name, ANON_PLAYER_NAME);
-  sz_strlcpy(game.players[game.info.nplayers].username, ANON_USER_NAME);
-  game.players[game.info.nplayers].team = NULL;
+  player_init(&game.players[game.info.nplayers]);
 }
 
 /**************************************************************************
