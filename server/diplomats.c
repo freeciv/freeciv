@@ -666,7 +666,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     /* Steal a future-tech. */
 
     /* Do it. */
-    found_new_future_tech(pplayer);
+    found_new_tech(pplayer, A_FUTURE, FALSE, TRUE, A_NONE);	
 
     /* Report it. */
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_THEFT,

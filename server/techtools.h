@@ -24,12 +24,10 @@ void do_tech_parasite_effect(struct player *pplayer);
 void found_new_tech(struct player *plr, Tech_type_id tech_found,
 		    bool was_discovery, bool saving_bulbs,
 		    Tech_type_id next_tech);
-void found_new_future_tech(struct player *pplayer);
 void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, int tech_count);
-Tech_type_id pick_random_tech(struct player* plr);
-void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, Tech_type_id tech);
+void choose_random_tech(struct player* plr);
 void choose_tech_goal(struct player *plr, Tech_type_id tech);
 void get_a_tech(struct player *pplayer, struct player *target);
 

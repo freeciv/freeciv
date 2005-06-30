@@ -41,6 +41,8 @@
 #include "techtools.h"
 #include "unittools.h"
 
+static Tech_type_id pick_random_tech(struct player* plr);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -448,16 +450,6 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 }
 
 /****************************************************************************
-  Player has a new future technology (from somewhere). Logging &
-  notification is not done here as it depends on how the tech came.
-****************************************************************************/
-void found_new_future_tech(struct player *pplayer)
-{
-  get_player_research(pplayer)->future_tech++;
-  get_player_research(pplayer)->techs_researched++;
-}
-
-/****************************************************************************
   Adds the given number of  bulbs into the player's tech and 
   (if necessary) completes the research.
   The caller is responsible for sending updated player information.
@@ -488,7 +480,7 @@ void update_tech(struct player *plr, int bulbs)
   Returns random researchable tech or A_FUTURE.
   No side effects
 ****************************************************************************/
-Tech_type_id pick_random_tech(struct player* plr) 
+static Tech_type_id pick_random_tech(struct player* plr) 
 {
   int chosen, researchable = 0;
 
@@ -654,7 +646,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     /* we've moved on to future tech */
     if (get_player_research(target)->future_tech
         > get_player_research(pplayer)->future_tech) {
-      found_new_future_tech(pplayer);
+      found_new_tech(pplayer, A_FUTURE, FALSE, TRUE, A_NONE);	
       stolen_tech
 	= game.control.num_tech_types
 	  + get_player_research(pplayer)->future_tech;
