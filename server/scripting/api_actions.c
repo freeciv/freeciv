@@ -70,11 +70,10 @@ bool api_actions_give_technology(Player *pplayer, Tech_Type *ptech)
   }
 
   if (get_invention(pplayer, id) != TECH_KNOWN) {
-    do_free_cost(pplayer);
+    do_free_cost(pplayer, id);
     found_new_tech(pplayer, id, FALSE, TRUE, A_NONE);
     return TRUE;
   } else {
     return FALSE;
   }
 }
-

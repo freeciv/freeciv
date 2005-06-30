@@ -46,36 +46,36 @@ static Tech_type_id pick_random_tech(struct player* plr);
 /**************************************************************************
 ...
 **************************************************************************/
-void do_dipl_cost(struct player *pplayer)
+void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
 {
   struct player_research * research = get_player_research(pplayer);
 
   research->bulbs_researched
-    -= (total_bulbs_required(pplayer) * game.info.diplcost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech) * game.info.diplcost) / 100;
   research->changed_from = -1;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void do_free_cost(struct player *pplayer)
+void do_free_cost(struct player *pplayer, Tech_type_id tech)
 {
   struct player_research * research = get_player_research(pplayer);
 
   research->bulbs_researched
-    -= (total_bulbs_required(pplayer) * game.info.freecost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech) * game.info.freecost) / 100;
   research->changed_from = -1;
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void do_conquer_cost(struct player *pplayer)
+void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
 {
   struct player_research * research = get_player_research(pplayer);  
 
   research->bulbs_researched
-    -= (total_bulbs_required(pplayer) * game.info.conquercost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech) * game.info.conquercost) / 100;
   research->changed_from = -1;
 }
 
@@ -180,7 +180,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 			   get_nation_name_plural(pplayer->nation),
 			   get_tech_name(pplayer, i), buf);
 
-	  do_free_cost(pplayer);
+	  do_free_cost(pplayer, i);
 	  found_new_tech(pplayer, i, FALSE, TRUE, A_NONE);
 	  break;
 	}
@@ -700,7 +700,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		   get_tech_name(pplayer, stolen_tech),
 		   get_nation_name_plural(target->nation));
 
-  do_conquer_cost(pplayer);
+  do_conquer_cost(pplayer, stolen_tech);
   found_new_tech(pplayer, stolen_tech, FALSE, TRUE, A_NONE);
 }
 
@@ -781,7 +781,7 @@ Tech_type_id give_random_free_tech(struct player* pplayer)
   Tech_type_id tech;
   
   tech = pick_random_tech(pplayer);
-  do_free_cost(pplayer);
+  do_free_cost(pplayer, tech);
   found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
   return tech;
 }
@@ -796,7 +796,7 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
     return give_random_free_tech(pplayer);
   }
   tech = get_player_research(pplayer)->researching;
-  do_free_cost(pplayer);
+  do_free_cost(pplayer, tech);
   found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
   return tech;
 }
