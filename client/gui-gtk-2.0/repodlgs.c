@@ -332,12 +332,38 @@ void create_science_dialog(bool make_modal)
   gtk_widget_grab_focus(science_change_menu_button);
 }
 
+/****************************************************************************
+  Called to set several texts in the science dialog.
+****************************************************************************/
+static void update_science_text(void)
+{
+  char text[512];
+  gdouble pct;
+  struct player_research *research = get_player_research(game.player_ptr);
+
+  if (research->researching == A_UNSET) {
+    my_snprintf(text, sizeof(text), "%d/-", research->bulbs_researched);
+    pct = 0.0;
+  } else {
+    my_snprintf(text, sizeof(text), "%d/%d",
+		research->bulbs_researched,
+		total_bulbs_required(game.player_ptr));
+    pct = CLAMP((gdouble) research->bulbs_researched
+		/ total_bulbs_required(game.player_ptr), 0.0, 1.0);
+  }
+
+  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
+
+  /* work around GTK+ refresh bug. */
+  gtk_widget_queue_resize(science_current_label);
+}
+
 /****************************************************************
 ...
 *****************************************************************/
 void science_change_callback(GtkWidget *widget, gpointer data)
 {
-  char text[512];
   size_t to = (size_t) data;
 
   if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
@@ -346,24 +372,11 @@ void science_change_callback(GtkWidget *widget, gpointer data)
      * there may be a better way to do this?  --dwp */
     science_dialog_update();
   } else {
-    gdouble pct;
-    struct player_research *research = get_player_research(game.player_ptr);
 
     gtk_widget_set_sensitive(science_change_menu_button,
 			     can_client_issue_orders());
-    my_snprintf(text, sizeof(text), "%d/%d",
-		research->bulbs_researched,
-		total_bulbs_required(game.player_ptr));
-    pct = CLAMP((gdouble) research->bulbs_researched
-		/ total_bulbs_required(game.player_ptr), 0.0, 1.0);
-
-    gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
-    gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label),
-	pct);
+    update_science_text();
     
-    /* work around GTK+ refresh bug. */
-    gtk_widget_queue_resize(science_current_label);
-
     dsend_packet_player_research(&aconnection, to);
   }
 }
@@ -428,7 +441,6 @@ void science_dialog_update(void)
   char text[512];
   GtkWidget *item;
   GList *sorting_list = NULL, *it;
-  gdouble pct;
   GtkSizeGroup *group1, *group2;
   struct player_research *research = get_player_research(game.player_ptr);
 
@@ -459,16 +471,8 @@ void science_dialog_update(void)
   gtk_widget_set_sensitive(science_change_menu_button,
 			   can_client_issue_orders());
 
-  my_snprintf(text, sizeof(text), "%d/%d",
-	      research->bulbs_researched,
-	      total_bulbs_required(game.player_ptr));
+  update_science_text();
 
-  pct = CLAMP((gdouble) research->bulbs_researched
-	      / total_bulbs_required(game.player_ptr), 0.0, 1.0);
-
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
- 
   /* work around GTK+ refresh bug. */
   gtk_widget_queue_resize(science_current_label);
  

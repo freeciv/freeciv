@@ -93,6 +93,7 @@ static const char *area_to_text(int value);
 static const char *percent_to_text(int value);
 static const char *production_to_text(int value);
 static const char *economics_to_text(int value);
+static const char *science_to_text(int value);
 static const char *mil_service_to_text(int value);
 static const char *pollution_to_text(int value);
 
@@ -111,7 +112,7 @@ static struct dem_row {
   {'N', N_("Population"),       get_population,  population_to_text,  TRUE },
   {'A', N_("Land Area"),        get_landarea,    area_to_text,        TRUE },
   {'S', N_("Settled Area"),     get_settledarea, area_to_text,        TRUE },
-  {'R', N_("Research Speed"),   get_research,    percent_to_text,     TRUE },
+  {'R', N_("Research Speed"),   get_research,    science_to_text,     TRUE },
   {'L', N_("Literacy"),         get_literacy,    percent_to_text,     TRUE },
   {'P', N_("Production"),       get_production,  production_to_text,  TRUE },
   {'E', N_("Economics"),        get_economics,   economics_to_text,   TRUE },
@@ -353,7 +354,7 @@ static int get_settledarea(struct player *pplayer)
 
 static int get_research(struct player *pplayer)
 {
-  return (pplayer->score.techout * 100) / total_bulbs_required(pplayer);
+  return pplayer->score.techout;
 }
 
 static int get_literacy(struct player *pplayer)
@@ -558,6 +559,11 @@ static const char *production_to_text(int value)
 static const char *economics_to_text(int value)
 {
   return value_units(value, _(" M goods"));
+}
+
+static const char *science_to_text(int value)
+{
+  return value_units(value, _(" bulbs"));
 }
 
 static const char *mil_service_to_text(int value)

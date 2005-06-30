@@ -308,9 +308,13 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 struct sprite *client_research_sprite(void)
 {
   if (can_client_change_view() && game.player_ptr) {
-    int index = (NUM_TILES_PROGRESS
-		 * get_player_research(game.player_ptr)->bulbs_researched)
-      / (total_bulbs_required(game.player_ptr) + 1);
+    int index = 0;
+
+    if (get_player_research(game.player_ptr)->researching != A_UNSET) {
+      index = (NUM_TILES_PROGRESS
+	       * get_player_research(game.player_ptr)->bulbs_researched)
+	/ (total_bulbs_required(game.player_ptr) + 1);
+    }
 
     /* This clipping can be necessary since we can end up with excess
      * research */

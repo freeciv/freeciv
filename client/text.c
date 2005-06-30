@@ -467,6 +467,15 @@ const char *science_dialog_text(void)
     RETURN;
   }
   assert(ours >= 0 && theirs >= 0);
+  if (get_player_research(plr)->researching == A_UNSET) {
+    if (theirs == 0) {
+      add(_("Progress: no research target (%d pts/turn)"), ours);
+    } else {
+      add(_("Progress: no research target "
+	    "(%d pts/turn, %d pts/turn from team)"), ours, theirs);
+    }
+    RETURN;
+  }
   turns_to_advance = (total_bulbs_required(plr) + ours + theirs - 1)
                      / (ours + theirs);
   if (theirs == 0) {
@@ -611,12 +620,17 @@ const char *get_bulb_tooltip(void)
 {
   INIT;
 
-  add(_("Shows your progress in researching "
-	"the current technology.\n%s: %d/%d."),
-      get_tech_name(game.player_ptr,
-		    get_player_research(game.player_ptr)->researching),
-      get_player_research(game.player_ptr)->bulbs_researched,
-      total_bulbs_required(game.player_ptr));
+  add_line(_("Shows your progress in researching the current technology."));
+  if (get_player_research(game.player_ptr)->researching == A_UNSET) {
+    add_line(_("no research target."));
+  } else {
+    /* TRANS: <tech>: <amount>/<total bulbs> */
+    add_line(_("%s: %d/%d."),
+	     get_tech_name(game.player_ptr,
+			   get_player_research(game.player_ptr)->researching),
+	     get_player_research(game.player_ptr)->bulbs_researched,
+	     total_bulbs_required(game.player_ptr));
+  }
   RETURN;
 }
 
