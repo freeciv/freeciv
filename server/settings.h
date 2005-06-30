@@ -68,7 +68,8 @@ enum sset_level {
   SSET_ALL,
   SSET_VITAL,
   SSET_SITUATIONAL,
-  SSET_RARE
+  SSET_RARE,
+  SSET_CHANGED
 };
 
 extern const char *sset_level_names[];

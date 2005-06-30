@@ -41,7 +41,8 @@ const char *sset_level_names[] = {N_("None"),
 				  N_("All"),
 				  N_("Vital"),
 				  N_("Situational"),
-				  N_("Rare")};
+				  N_("Rare"),
+				  N_("Changed")};
 const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
 
 

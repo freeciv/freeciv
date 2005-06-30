@@ -1431,7 +1431,7 @@ static enum sset_level lookup_option_level(const char *name)
 {
   enum sset_level i;
 
-  for (i = SSET_ALL; i <= SSET_RARE; i++) {
+  for (i = SSET_ALL; i <= SSET_CHANGED; i++) {
     if (0 == mystrcasecmp(name, sset_level_names[i])) {
       return i;
     }
@@ -1872,6 +1872,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 {
   char buf[MAX_LEN_CONSOLE_LINE];
   char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
+  bool is_changed;
   int cmd,i,len1;
   enum sset_level level = SSET_VITAL;
   size_t clen = 0;
@@ -1923,6 +1924,9 @@ static bool show_command(struct connection *caller, char *str, bool check)
   switch(level) {
     case SSET_NONE:
       break;
+    case SSET_CHANGED:
+      cmd_reply_show(_("All options with non-default values"));
+      break;
     case SSET_ALL:
       cmd_reply_show(_("All options"));
       break;
@@ -1950,25 +1954,34 @@ static bool show_command(struct connection *caller, char *str, bool check)
   buf[0] = '\0';
 
   for (i = 0; settings[i].name; i++) {
-    if (may_view_option(caller, i)
-	&& (cmd == -1 || cmd == -3 || cmd == i
-	    || (cmd == -2
-		&& mystrncasecmp(settings[i].name, command, clen) == 0))) {
+   is_changed = FALSE;
+   if (may_view_option(caller, i)
+	&& (cmd == -1 || cmd == -3 || level == SSET_CHANGED || cmd == i 
+	|| (cmd == -2 && mystrncasecmp(settings[i].name, command, clen) == 0))) {
       /* in the cmd==i case, this loop is inefficient. never mind - rp */
       struct settings_s *op = &settings[i];
       int len = 0;
 
-      if (level == SSET_ALL || op->level == level || cmd >= 0) {
-        switch (op->type) {
-        case SSET_BOOL:
+ 
+   if ((level == SSET_ALL || op->level == level || cmd >= 0 
+     || level == SSET_CHANGED))  {
+   switch (op->type) {
+        case SSET_BOOL: 
+	  if (*op->bool_value != op->bool_default_value) {
+	    is_changed = TRUE;
+	  }
 	  len = my_snprintf(buf, sizeof(buf),
 			    "%-*s %c%c%-5d (0,1)", OPTION_NAME_SPACE, op->name,
 			    may_set_option_now(caller, i) ? '+' : ' ',
 			    ((*op->bool_value == op->bool_default_value) ?
 			     '=' : ' '), (*op->bool_value) ? 1 : 0);
+
 	  break;
 
-        case SSET_INT:
+        case SSET_INT: 
+	  if (*op->int_value != op->int_default_value) {
+	    is_changed = TRUE;
+	  }
 	  len = my_snprintf(buf, sizeof(buf),
 			    "%-*s %c%c%-5d (%d,%d)", OPTION_NAME_SPACE,
 			    op->name, may_set_option_now(caller,
@@ -1976,16 +1989,19 @@ static bool show_command(struct connection *caller, char *str, bool check)
 			    ((*op->int_value == op->int_default_value) ?
 			     '=' : ' '),
 			    *op->int_value, op->int_min_value,
-			    op->int_max_value);
+			    op->int_max_value); 
 	  break;
 
         case SSET_STRING:
+	  if (strcmp(op->string_value, op->string_default_value) != 0) {
+	    is_changed = TRUE; 
+	  }
 	  len = my_snprintf(buf, sizeof(buf),
 			    "%-*s %c%c\"%s\"", OPTION_NAME_SPACE, op->name,
 			    may_set_option_now(caller, i) ? '+' : ' ',
 			    ((strcmp(op->string_value,
 				     op->string_default_value) == 0) ?
-			     '=' : ' '), op->string_value);
+			     '=' : ' '), op->string_value); 
 	  break;
         }
         if (len == -1) {
@@ -1998,14 +2014,18 @@ static bool show_command(struct connection *caller, char *str, bool check)
           sz_strlcat(buf, " ");
         }
         sz_strlcat(buf, _(op->short_help));
-        cmd_reply_show(buf);
+        if ((is_changed) || (level != SSET_CHANGED)) {
+	  cmd_reply_show(buf);
+	}
       }
     }
   }
   cmd_reply_show(horiz_line);
   if (level == SSET_VITAL) {
     cmd_reply_show(_("Try 'show situational' or 'show rare' to show "
-		     "more options"));
+		     "more options.\n"
+		     "Try 'show changed' to show settings with "
+		     "non-default values."));
     cmd_reply_show(horiz_line);
   }
   return TRUE;
