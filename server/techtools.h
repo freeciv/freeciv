@@ -22,8 +22,7 @@ void do_conquer_cost(struct player *pplayer, Tech_type_id tech);
 
 void do_tech_parasite_effect(struct player *pplayer);
 void found_new_tech(struct player *plr, Tech_type_id tech_found,
-		    bool was_discovery, bool saving_bulbs,
-		    Tech_type_id next_tech);
+		    bool was_discovery, bool saving_bulbs);
 void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr, int tech_count);
 void choose_tech(struct player *plr, Tech_type_id tech);

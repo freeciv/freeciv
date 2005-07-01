@@ -130,7 +130,7 @@ static void tech_researched(struct player *plr)
       MAX(research->bulbs_researched - total_bulbs_required(plr), 0);
 
   /* do all the updates needed after finding new tech */
-  found_new_tech(plr, research->researching, TRUE, TRUE, A_NONE);
+  found_new_tech(plr, research->researching, TRUE, TRUE);
 }
 
 /****************************************************************************
@@ -181,7 +181,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 			   get_tech_name(pplayer, i), buf);
 
 	  do_free_cost(pplayer, i);
-	  found_new_tech(pplayer, i, FALSE, TRUE, A_NONE);
+	  found_new_tech(pplayer, i, FALSE, TRUE);
 	  break;
 	}
       }
@@ -272,8 +272,7 @@ static void fill_have_embassies_array(int* have_embassies)
   is the next tech to research.
 ****************************************************************************/
 void found_new_tech(struct player *plr, Tech_type_id tech_found,
-		    bool was_discovery, bool saving_bulbs,
-		    Tech_type_id next_tech)
+		    bool was_discovery, bool saving_bulbs)
 {
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
@@ -349,7 +348,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
     research->tech_goal = A_UNSET;
   }
 
-  if (tech_found == research->researching && next_tech == A_NONE) {
+  if (tech_found == research->researching) {
     /* try to pick new tech to research */
 
     if (choose_goal_tech(plr)) {
@@ -393,9 +392,6 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 			 get_tech_name(plr, tech_found));
       }
     }
-  } else if (tech_found == research->researching && next_tech > A_NONE) {
-    /* Next target already determined. We always save bulbs. */
-    research->researching = next_tech;
   }
 
   if (!saving_bulbs && research->bulbs_researched > 0) {
@@ -653,7 +649,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     /* we've moved on to future tech */
     if (get_player_research(target)->future_tech
         > get_player_research(pplayer)->future_tech) {
-      found_new_tech(pplayer, A_FUTURE, FALSE, TRUE, A_NONE);	
+      found_new_tech(pplayer, A_FUTURE, FALSE, TRUE);	
       stolen_tech
 	= game.control.num_tech_types
 	  + get_player_research(pplayer)->future_tech;
@@ -701,7 +697,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
 		   get_nation_name_plural(target->nation));
 
   do_conquer_cost(pplayer, stolen_tech);
-  found_new_tech(pplayer, stolen_tech, FALSE, TRUE, A_NONE);
+  found_new_tech(pplayer, stolen_tech, FALSE, TRUE);
 }
 
 /****************************************************************************
@@ -782,7 +778,7 @@ Tech_type_id give_random_free_tech(struct player* pplayer)
   
   tech = pick_random_tech(pplayer);
   do_free_cost(pplayer, tech);
-  found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
+  found_new_tech(pplayer, tech, FALSE, TRUE);
   return tech;
 }
 
@@ -797,6 +793,6 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
   }
   tech = get_player_research(pplayer)->researching;
   do_free_cost(pplayer, tech);
-  found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
+  found_new_tech(pplayer, tech, FALSE, TRUE);
   return tech;
 }
