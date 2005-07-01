@@ -28,10 +28,10 @@
 #define MINOR_VERSION		0
 #endif
 #ifndef PATCH_VERSION
-#define PATCH_VERSION		2
+#define PATCH_VERSION		3
 #endif
 #ifndef VERSION_LABEL
-#define VERSION_LABEL		""
+#define VERSION_LABEL		"-beta"
 #endif
 #ifndef IS_DEVEL_VERSION
 #define IS_DEVEL_VERSION	0
@@ -42,12 +42,12 @@
 
 /* This is only used if IS_BETA_VERSION is true. */
 #ifndef NEXT_STABLE_VERSION
-#define NEXT_STABLE_VERSION	"2.0.0"
+#define NEXT_STABLE_VERSION	"2.0.3"
 #endif
 /* This is only used in version.c, and only if IS_BETA_VERSION is true.
    The month[] array is defined in version.c (index: 1==Jan, 2==Feb, ...). */
 #ifndef NEXT_RELEASE_MONTH
-#define NEXT_RELEASE_MONTH	(month[4])
+#define NEXT_RELEASE_MONTH	(month[7])
 #endif
 
 #ifndef VERSION_STRING
