@@ -2003,7 +2003,7 @@ void handle_nation_available(Nation_type_id nation_no,
 			     bool is_unavailable, bool is_used)
 {
   if (get_client_state() == CLIENT_PRE_GAME_STATE
-      && nation_no >= 0 && nation_no < game.control.playable_nation_count) {
+      && nation_no >= 0 && nation_no < game.control.nation_count) {
     struct nation_type *nation = get_nation_by_idx(nation_no);
     const bool changed = (nation->is_unavailable != is_unavailable
 			  || nation->is_used != is_used);
