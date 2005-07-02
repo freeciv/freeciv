@@ -439,7 +439,12 @@ void game_remove_player(struct player *pplayer)
     pplayer->attribute_block.data = NULL;
   }
 
+#if 0
   assert(conn_list_size(pplayer->connections) == 0);
+  /* FIXME: Connections that are unlinked here are left dangling.  It's up to
+   * the caller to fix them.  This happens when /loading a game while a
+   * client is connected. */
+#endif
   conn_list_unlink_all(pplayer->connections);
   conn_list_free(pplayer->connections);
   pplayer->connections = NULL;
