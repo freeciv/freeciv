@@ -478,7 +478,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   enum diplstate_type old_type;
   enum diplstate_type new_type;
   struct player *pplayer2;
-  bool has_senate, repeat = FALSE;
+  bool repeat = FALSE;
 
   if (!is_valid_player_id(other_player_id)) {
     return;
@@ -486,7 +486,6 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 
   old_type = pplayer->diplstates[other_player_id].type;
   pplayer2 = get_player(other_player_id);
-  has_senate = (get_player_bonus(pplayer, EFT_HAS_SENATE) > 0);
 
   /* can't break a pact with yourself */
   if (pplayer == pplayer2) {
@@ -510,8 +509,23 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   }
 
   /* else, breaking a treaty */
-
 repeat_break_treaty:
+
+  /* The senate may not allow you to break the treaty.  In this case you
+   * must first dissolve the senate then you can break it.  This is waived
+   * if you have statue of liberty since you could easily just dissolve and
+   * then recreate it. */
+  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel <= 0
+      && get_player_bonus(pplayer, EFT_HAS_SENATE) > 0
+      && get_player_bonus(pplayer, EFT_ANY_GOVERNMENT) == 0) {
+    notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
+		     _("The senate will not allow you to break treaty "
+		       "with the %s.  You must either dissolve the senate "
+		       "or wait until a more timely moment."),
+		     get_nation_name_plural(pplayer2->nation));
+    return;
+  }
+
   /* check what the new status will be */
   switch(old_type) {
   case DS_NO_CONTACT: /* possible if someone declares war on our ally */
@@ -563,22 +577,23 @@ repeat_break_treaty:
   }
 
   /* if there's a reason to cancel the pact, do it without penalty */
-  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
-    pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
-    if (has_senate && !repeat) {
+  /* FIXME: in the current implementation if you break more than one
+   * treaty simultaneously it may partially succed: the first treaty-breaking
+   * will happen but the second one will fail. */
+  if (get_player_bonus(pplayer, EFT_HAS_SENATE) > 0 && !repeat) {
+    if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
       notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
-                       _("The senate passes your bill because of the "
-                         "constant provocations of the %s."),
-                       get_nation_name_plural(pplayer2->nation));
-    }
-  } else {
-    if (has_senate && pplayer->revolution_finishes < 0) {
-        notify_player_ex(pplayer, NULL, E_ANARCHY,
-                         _("The senate decides to dissolve "
-                         "rather than support your actions any longer."));
-	handle_player_change_government(pplayer, pplayer->government);
+		       _("The senate passes your bill because of the "
+			 "constant provocations of the %s."),
+		       get_nation_name_plural(pplayer2->nation));
+    } else {
+      notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
+		       _("The senate refuses to break treaty with the %s, "
+			 "but you have no trouble finding a new senate."),
+		       get_nation_name_plural(pplayer2->nation));
     }
   }
+  pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
 
   send_player_info(pplayer, NULL);
   send_player_info(pplayer2, NULL);
