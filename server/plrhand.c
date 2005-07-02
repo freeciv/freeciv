@@ -719,7 +719,7 @@ void get_a_tech(struct player *pplayer, struct player *target)
     /* we've moved on to future tech */
     if (target->future_tech > pplayer->future_tech) {
       found_new_future_tech(pplayer);
-      stolen_tech = game.num_tech_types + pplayer->future_tech;
+      stolen_tech = A_FUTURE;
     } else {
       return; /* nothing to learn here, move on */
     }
