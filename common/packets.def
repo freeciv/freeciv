@@ -90,18 +90,6 @@ Syntax:
      function is the player. handle-per-conn changes this to the
      connection the packet came from.
 
-     add-cap: only transfer this field if the given capability is
-     available at runtime. If you have a capability named
-     "new_version" a field line may look like this:
-       COORD x; add-cap(new_version)
-     when making an optional capability manditory, go through and remove
-     the add-cap flag for it while leaving the field intact.
-
-     remove-cap: don't transfer this field if the given capability is
-     available at runtime.  When making an optional capability manditory,
-     go through and remove entirely any fields marked as remove-cap with
-     that capability.
-
      dsend: request the creation of a dsend_packet_* function.  This is
      similar to a send function but instead of taking a packet struct
      as a parameter, it takes the fields of the packet as parameters.
@@ -145,6 +133,18 @@ Syntax:
 
       diff: use the array-diff feature. This will reduce the amount of
       traffic for large arrays in which only a few elements change.
+
+      add-cap: only transfer this field if the given capability is
+      available at runtime. If you have a capability named
+      "new_version" a field line may look like this:
+        COORD x; add-cap(new_version)
+      when making an optional capability mandatory, go through and remove
+      the add-cap flag for it while leaving the field intact.
+
+      remove-cap: don't transfer this field if the given capability is
+      available at runtime.  When making an optional capability manditory,
+      go through and remove entirely any fields marked as remove-cap with
+      that capability.
 */
 
 # typedefs for numbers
