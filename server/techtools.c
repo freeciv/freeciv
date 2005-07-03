@@ -629,75 +629,85 @@ void init_tech(struct player *plr, int tech_count)
 }
 
 /****************************************************************************
-  If target has more techs than pplayer, pplayer will get a random of
-  these, the clients will both be notified and the conquer cost
+  If victim has a tech which pplayer doesn't have, pplayer will get it.
+  The clients will both be notified and the conquer cost
   penalty applied. Used for diplomats and city conquest.
+  If preferred is A_UNSET one random tech will be choosen.
+  Returns the stolen tech or A_NONE if no tech was found.
 ****************************************************************************/
-void get_a_tech(struct player *pplayer, struct player *target)
+Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
+            	        Tech_type_id preferred)
 {
-  Tech_type_id stolen_tech;
-  int j = 0;
-
-  tech_type_iterate(i) {
-    if (get_invention(pplayer, i) != TECH_KNOWN
-	&& get_invention(target, i) == TECH_KNOWN
-	&& tech_is_available(pplayer, i)) {
-      j++;
-    }
-  } tech_type_iterate_end;
-  if (j == 0)  {
-    /* we've moved on to future tech */
-    if (get_player_research(target)->future_tech
-        > get_player_research(pplayer)->future_tech) {
-      found_new_tech(pplayer, A_FUTURE, FALSE, TRUE);	
-      stolen_tech
-	= game.control.num_tech_types
-	  + get_player_research(pplayer)->future_tech;
-    } else {
-      return; /* nothing to learn here, move on */
-    }
-    return;
-  } else {
-    /* pick random tech */
-    j = myrand(j) + 1;
-    stolen_tech = A_NONE; /* avoid compiler warning */
+  Tech_type_id stolen_tech = A_NONE;
+  
+  if (preferred == A_UNSET) {
+    int j = 0;
     tech_type_iterate(i) {
       if (get_invention(pplayer, i) != TECH_KNOWN
-	  && get_invention(target, i) == TECH_KNOWN
+	  && get_invention(victim, i) == TECH_KNOWN
 	  && tech_is_available(pplayer, i)) {
-	j--;
-      }
-      if (j == 0) {
-	stolen_tech = i;
-	break;
+        j++;
       }
     } tech_type_iterate_end;
-    assert(stolen_tech != A_NONE);
+  
+    if (j == 0)  {
+      /* we've moved on to future tech */
+      if (get_player_research(victim)->future_tech
+        > get_player_research(pplayer)->future_tech) {
+        found_new_tech(pplayer, A_FUTURE, FALSE, TRUE);	
+        stolen_tech = A_FUTURE;
+      } else {
+        return A_NONE;
+      }
+    } else {
+      /* pick random tech */
+      j = myrand(j) + 1;
+      stolen_tech = A_NONE; /* avoid compiler warning */
+      tech_type_iterate(i) {
+        if (get_invention(pplayer, i) != TECH_KNOWN
+	    && get_invention(victim, i) == TECH_KNOWN
+	    && tech_is_available(pplayer, i)) {
+	  j--;
+        }
+        if (j == 0) {
+	  stolen_tech = i;
+	  break;
+        }
+      } tech_type_iterate_end;
+      assert(stolen_tech != A_NONE);
+    }
+  } else { /* preferred != A_UNSET */
+    assert((preferred == A_FUTURE
+            && get_invention(victim, A_FUTURE) == TECH_REACHABLE)
+	   || (tech_exists(preferred)
+	       && get_invention(victim, preferred) == TECH_KNOWN));
+    stolen_tech = preferred;
   }
   script_signal_emit("tech_researched", 3,
 		     API_TYPE_TECH_TYPE, &advances[stolen_tech],
 		     API_TYPE_PLAYER, pplayer,
 		     API_TYPE_STRING, "stolen");
-  gamelog(GAMELOG_TECH, pplayer, target, stolen_tech, "steal");
+  gamelog(GAMELOG_TECH, pplayer, victim, stolen_tech, "steal");
 
   notify_player_ex(pplayer, NULL, E_TECH_GAIN,
 		   _("You steal %s from the %s."),
 		   get_tech_name(pplayer, stolen_tech),
-		   get_nation_name_plural(target->nation));
+		   get_nation_name_plural(victim->nation));
 
-  notify_player_ex(target, NULL, E_ENEMY_DIPLOMAT_THEFT,
+  notify_player_ex(victim, NULL, E_ENEMY_DIPLOMAT_THEFT,
                    _("The %s stole %s from you!"),
 		   get_nation_name_plural(pplayer->nation),
 		   get_tech_name(pplayer, stolen_tech));
 
-  notify_embassies(pplayer, target,
+  notify_embassies(pplayer, victim,
 		   _("The %s have stolen %s from the %s."),
 		   get_nation_name_plural(pplayer->nation),
 		   get_tech_name(pplayer, stolen_tech),
-		   get_nation_name_plural(target->nation));
+		   get_nation_name_plural(victim->nation));
 
   do_conquer_cost(pplayer, stolen_tech);
   found_new_tech(pplayer, stolen_tech, FALSE, TRUE);
+  return stolen_tech;
 }
 
 /****************************************************************************

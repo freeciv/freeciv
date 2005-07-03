@@ -16,9 +16,9 @@
 #include "player.h"
 #include "tech.h"
 
-void do_dipl_cost(struct player *pplayer, Tech_type_id tech);
 void do_free_cost(struct player *pplayer, Tech_type_id tech);
 void do_conquer_cost(struct player *pplayer, Tech_type_id tech);
+void do_dipl_cost(struct player *pplayer, Tech_type_id tech);
 
 void do_tech_parasite_effect(struct player *pplayer);
 void found_new_tech(struct player *plr, Tech_type_id tech_found,
@@ -28,7 +28,8 @@ void init_tech(struct player *plr, int tech_count);
 void choose_tech(struct player *plr, Tech_type_id tech);
 void choose_random_tech(struct player* plr);
 void choose_tech_goal(struct player *plr, Tech_type_id tech);
-void get_a_tech(struct player *pplayer, struct player *target);
+Tech_type_id steal_a_tech(struct player *pplayer, struct player *target,
+                Tech_type_id preferred);
 
 Tech_type_id give_random_free_tech(struct player *pplayer);
 Tech_type_id give_immediate_free_tech(struct player *pplayer);

@@ -374,7 +374,7 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
     request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
-			    diplomat_target_id, 0);
+			    diplomat_target_id, A_UNSET);
   }
   gtk_widget_destroy(diplomat_dialog);
 }
@@ -425,7 +425,7 @@ static void create_advances_list(struct player *pplayer,
 				 struct player *pvictim)
 {  
   GtkWidget *sw, *label, *vbox, *view;
-  int i, j;
+  int i;
   GtkListStore *store;
   GtkCellRenderer *rend;
   GtkTreeViewColumn *col;
@@ -482,8 +482,6 @@ static void create_advances_list(struct player *pplayer,
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   /* Now populate the list */
-  j = 0;
-
   if (pvictim) { /* you don't want to know what lag can do -- Syela */
     GtkTreeIter it;
     GValue value = { 0, };
@@ -500,19 +498,16 @@ static void create_advances_list(struct player *pplayer,
 	gtk_list_store_set_value(store, &it, 0, &value);
 	g_value_unset(&value);
 	gtk_list_store_set(store, &it, 1, i, -1);
-        j++;
       }
     }
 
-    if(j > 0) {
-      gtk_list_store_append(store, &it);
+    gtk_list_store_append(store, &it);
 
-      g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, _("At Spy's Discretion"));
-      gtk_list_store_set_value(store, &it, 0, &value);
-      g_value_unset(&value);
-      gtk_list_store_set(store, &it, 1, game.control.num_tech_types, -1);
-    }
+    g_value_init(&value, G_TYPE_STRING);
+    g_value_set_static_string(&value, _("At Spy's Discretion"));
+    gtk_list_store_set_value(store, &it, 0, &value);
+    g_value_unset(&value);
+    gtk_list_store_set(store, &it, 1, A_UNSET, -1);
   }
 
   gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),

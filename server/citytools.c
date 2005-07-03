@@ -1247,7 +1247,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "liberated");
   }
 
-  get_a_tech(pplayer, cplayer);
+  steal_a_tech(pplayer, cplayer, A_UNSET);
   make_partisans(pcity);
 
   /* We transfer the city first so that it is in a consistent state when

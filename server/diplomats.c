@@ -498,7 +498,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
 /****************************************************************************
   Try to steal a technology from an enemy city.
-  If "technology" is game.control.num_tech_types, steal a random technology.
+  If "technology" is A_UNSET, steal a random technology.
   Otherwise, steal the technology whose ID is "technology".
   (Note: Only Spies can select what to steal.)
 
@@ -509,7 +509,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   - If a technology has already been stolen from this city at any time:
     - Diplomats will be caught and executed.
     - Spies will have an increasing chance of being caught and executed.
-  - Determine target, given arguments and constraints.
   - Steal technology!
 
   - The thief may be captured and executed, or escape to its home town.
@@ -518,23 +517,52 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   not at war with
 ****************************************************************************/
 void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat, 
-		       struct city  *pcity, int technology)
+		       struct city  *pcity, Tech_type_id technology)
 {
   struct player *cplayer;
-  int count, which, target;
+  int count;
 
-  /* Fetch target civilization's player.  Sanity checks. */
-  if (!pcity)
+  /* We have to check arguments. They are sent to us by a client,
+     so we cannot trust them */
+  if (!pcity) {
     return;
+  }
+  
   cplayer = city_owner (pcity);
-  if ((cplayer == pplayer) || !cplayer)
+  if ((cplayer == pplayer) || !cplayer) {
     return;
+  }
+  
+  if (technology < 0 || technology == A_NONE || technology >= A_LAST) {
+    return;
+  }
+  
+  if (technology != A_FUTURE && technology != A_UNSET
+      && !tech_exists(technology)) {
+    return;
+  }
+  
+  if (technology == A_FUTURE) {
+    if (get_invention(pplayer, A_FUTURE) != TECH_REACHABLE
+        || get_player_research(pplayer)->future_tech >= 
+	   get_player_research(pplayer)->future_tech) {
+      return;
+    }
+  } else if (technology != A_UNSET) {
+    if (get_invention(pplayer, technology) == TECH_KNOWN) {
+      return;
+    }
+    if (get_invention(cplayer, technology) != TECH_KNOWN) {
+      return;
+    }
+  }
 
   freelog (LOG_DEBUG, "steal-tech: unit: %d", pdiplomat->id);
 
   /* If not a Spy, do something random. */
-  if (!unit_flag (pdiplomat, F_SPY))
-    technology = game.control.num_tech_types;
+  if (!unit_flag (pdiplomat, F_SPY)) {
+    technology = A_UNSET;
+  }
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 
@@ -547,14 +575,16 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if ((pcity->steal > 0) && (!unit_flag (pdiplomat, F_SPY))) {
+  if (pcity->steal > 0 && !unit_flag (pdiplomat, F_SPY)) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     freelog (LOG_DEBUG, "steal-tech: difficulty: impossible");
   } else {
     /* Determine difficulty. */
     count = 1;
-    if (technology < game.control.num_tech_types) count++;
+    if (technology != A_UNSET) {
+      count++;
+    }
     count += pcity->steal;
     freelog (LOG_DEBUG, "steal-tech: difficulty: %d", count);
     /* Determine success or failure. */
@@ -565,6 +595,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
       count--;
     }
   }
+  
   if (count > 0) {
     if (pcity->steal > 0 && !unit_flag (pdiplomat, F_SPY)) {
       notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
@@ -584,132 +615,22 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);
     wipe_unit(pdiplomat);
     return;
+  } 
+
+  Tech_type_id tech_stolen = steal_a_tech(pplayer, cplayer, technology);
+
+  if (tech_stolen == A_NONE) {
+    notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
+                     _("No new technology found in %s."),
+		     pcity->name);
+    diplomat_charge_movement (pdiplomat, pcity->tile);
+    send_unit_info (pplayer, pdiplomat);
+    return;
   }
-
-  freelog (LOG_DEBUG, "steal-tech: succeeded");
-
-  /* Examine the civilization for technologies to steal. */
-  count = 0;
-  tech_type_iterate(index) {
-    if (get_invention(pplayer, index) != TECH_KNOWN
-	&& get_invention(cplayer, index) == TECH_KNOWN
-	&& tech_is_available(pplayer, index)) {
-      count++;
-    }
-  } tech_type_iterate_end;
-
-  freelog (LOG_DEBUG, "steal-tech: count of technologies: %d", count);
-
-  /* Determine the target (-1 is future tech). */
-  if (count == 0) {
-    /*
-     * Either only future-tech or nothing to steal:
-     * If nothing to steal, say so, deduct movement cost and return.
-     */
-    if (get_player_research(cplayer)->future_tech
-        > get_player_research(pplayer)->future_tech) {
-      target = -1;
-      freelog (LOG_DEBUG, "steal-tech: targeted future-tech: %d", target);
-    } else {
-      notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-		       _("No new technology found in %s."),
-		       pcity->name);
-      diplomat_charge_movement (pdiplomat, pcity->tile);
-      send_unit_info (pplayer, pdiplomat);
-      freelog (LOG_DEBUG, "steal-tech: nothing to steal");
-      return;
-    }
-  } else if (technology >= game.control.num_tech_types) {
-    /* Pick random technology to steal. */
-    target = -1;
-    which = myrand (count);
-    tech_type_iterate(index) {
-      if (get_invention(pplayer, index) != TECH_KNOWN
-	  && get_invention(cplayer, index) == TECH_KNOWN
-	  && tech_is_available(pplayer, index)) {
-	if (which > 0) {
-	  which--;
-	} else {
-	  target = index;
-	  break;
-	}
-      }
-    } tech_type_iterate_end;
-    freelog(LOG_DEBUG, "steal-tech: random: targeted technology: %d (%s)",
-	    target, get_tech_name(pplayer, target));
-  } else {
-    /*
-     * Told which technology to steal:
-     * If not available, say so, deduct movement cost and return.
-     */
-    if ((get_invention (pplayer, technology) != TECH_KNOWN) &&
-	(get_invention (cplayer, technology) == TECH_KNOWN)) {
-	target = technology;
-	freelog(LOG_DEBUG, "steal-tech: specified target technology: %d (%s)",
-		target, get_tech_name(pplayer, target));
-    } else {
-      notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
-		       _("Your %s could not find the %s technology"
-			 " to steal in %s."),
-		       unit_name(pdiplomat->type),
-		       get_tech_name(pplayer, technology), pcity->name);
-      diplomat_charge_movement (pdiplomat, pcity->tile);
-      send_unit_info (pplayer, pdiplomat);
-      freelog(LOG_DEBUG, "steal-tech: target technology not found: %d (%s)",
-	      technology, get_tech_name(pplayer, technology));
-      return;
-    }
-  }
-
-  /* Now, the fun stuff!  Steal some technology! */
-  if (target < 0) {
-    /* Steal a future-tech. */
-
-    /* Do it. */
-    found_new_tech(pplayer, A_FUTURE, FALSE, TRUE);	
-
-    /* Report it. */
-    notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_THEFT,
-		     _("Your %s stole Future Tech. %d from %s."),
-		     unit_name(pdiplomat->type),
-		     get_player_research(pplayer)->future_tech,
-		     cplayer->name);
-    notify_player_ex(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_THEFT,
-		     _("Future Tech. %d stolen by %s %s from %s."),
-		     get_player_research(pplayer)->future_tech,
-		     get_nation_name(pplayer->nation),
-		     unit_name(pdiplomat->type), pcity->name);
-    freelog(LOG_DEBUG, "steal-tech: stole future-tech %d",
-	    get_player_research(pplayer)->future_tech);
-  } else {
-    /* Steal a technology. */
-
-    /* Do it. */
-    do_conquer_cost (pplayer, target);
-    found_new_tech (pplayer, target, FALSE, TRUE);
-    /* Report it. */
-    notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_THEFT,
-		     _("Your %s stole %s from %s."),
-		     unit_name(pdiplomat->type),
-		     get_tech_name(pplayer, target), cplayer->name);
-    notify_player_ex(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_THEFT,
-		     _("%s's %s stole %s from %s."),
-		     pplayer->name, unit_name(pdiplomat->type),
-		     get_tech_name(cplayer, target), pcity->name);
-    notify_embassies(pplayer, cplayer,
-		     _("The %s have stolen %s from the %s."),
-		     get_nation_name_plural(pplayer->nation),
-		     get_tech_name(cplayer, target),
-		     get_nation_name_plural(cplayer->nation));
-    freelog(LOG_DEBUG, "steal-tech: stole %s",
-	    get_tech_name(cplayer, target));
-  }
-
-  gamelog(GAMELOG_TECH, pplayer, cplayer, target, "steal");
 
   /* Update stealing player's science progress and research fields */
   send_player_info(pplayer, pplayer);
-
+ 
   /* Record the theft. */
   (pcity->steal)++;
 
@@ -822,7 +743,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   nullify_prechange_production(pcity);
 
   /* You get a technology advance, too! */
-  get_a_tech (pplayer, cplayer);
+  steal_a_tech (pplayer, cplayer, A_UNSET);
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_INCITE, pplayer, NULL, pcity);

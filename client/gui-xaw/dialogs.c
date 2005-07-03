@@ -562,7 +562,7 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
     request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
-			    diplomat_target_id, 0);
+			    diplomat_target_id, A_UNSET);
   }
 
   process_diplomat_arrival(NULL, 0);
@@ -743,10 +743,8 @@ static int create_advances_list(struct player *pplayer,
         advance_type[j++] = i;
       }
     }
-    if(j > 0) {
-      advances_can_steal[j] = _("At Spy's Discretion");
-      advance_type[j++] = game.control.num_tech_types;
-    }
+    advances_can_steal[j] = _("At Spy's Discretion");
+    advance_type[j++] = A_UNSET;
   }
 
   if(j == 0) j++;
