@@ -1032,8 +1032,8 @@ static void help_update_terrain(const struct help_item *pitem,
   if (i < T_COUNT) {
     sprintf(buf, "%d/%d.%d",
 	    tile_types[i].movement_cost,
-	    (int)(tile_types[i].defense_bonus/10),
-	    tile_types[i].defense_bonus%10);
+	    (int)((tile_types[i].defense_bonus + 100) / 100),
+	    (tile_types[i].defense_bonus + 100) % 100 / 10);
     gtk_label_set_text(GTK_LABEL(help_tlabel[0][1]), buf);
 
     sprintf(buf, "%d/%d/%d",

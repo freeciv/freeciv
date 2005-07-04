@@ -24063,7 +24063,7 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->river_defense_bonus = readin;
     }
   }
@@ -24082,7 +24082,7 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->fortress_defense_bonus = readin;
     }
   }
@@ -24289,7 +24289,7 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
     dio_put_uint8(&dout, real_packet->river_move_mode);
   }
   if (BV_ISSET(fields, 7)) {
-    dio_put_uint16(&dout, real_packet->river_defense_bonus);
+    dio_put_sint16(&dout, real_packet->river_defense_bonus);
   }
   if (BV_ISSET(fields, 8)) {
     dio_put_uint16(&dout, real_packet->river_trade_incr);
@@ -24298,7 +24298,7 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
     dio_put_string(&dout, real_packet->river_help_text);
   }
   if (BV_ISSET(fields, 10)) {
-    dio_put_uint16(&dout, real_packet->fortress_defense_bonus);
+    dio_put_sint16(&dout, real_packet->fortress_defense_bonus);
   }
   if (BV_ISSET(fields, 11)) {
     dio_put_uint16(&dout, real_packet->road_superhighway_trade_bonus);
@@ -25637,7 +25637,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
+      dio_get_sint8(&din, &readin);
       real_packet->defense_bonus = readin;
     }
   }
@@ -26050,7 +26050,7 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->movement_cost);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_uint8(&dout, real_packet->defense_bonus);
+    dio_put_sint8(&dout, real_packet->defense_bonus);
   }
   if (BV_ISSET(fields, 7)) {
   

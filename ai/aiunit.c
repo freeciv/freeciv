@@ -799,7 +799,7 @@ static bool find_beachhead(struct unit *punit, struct tile *dest_tile,
 
       if (ok > 0) {
 	/* accessible beachhead with zoc-ok water tile nearby */
-        ok = get_tile_type(t)->defense_bonus;
+        ok = 10 + get_tile_type(t)->defense_bonus / 10;
 	if (tile_has_special(tile1, S_RIVER))
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
         if (get_tile_type(t)->movement_cost * SINGLE_MOVE <

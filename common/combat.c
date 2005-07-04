@@ -385,7 +385,7 @@ int get_defense_power(const struct unit *punit)
 {
   int db, power = base_get_defense_power(punit);
 
-  db = get_tile_type(punit->tile->terrain)->defense_bonus;
+  db = 10 + get_tile_type(punit->tile->terrain)->defense_bonus / 10;
   if (tile_has_special(punit->tile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
@@ -493,7 +493,7 @@ int get_virtual_defense_power(Unit_type_id att_type, Unit_type_id def_type,
     return 0;
   }
 
-  db = get_tile_type(t)->defense_bonus;
+  db = 10 + get_tile_type(t)->defense_bonus / 10;
   if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }

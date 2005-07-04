@@ -478,7 +478,7 @@ static double chance_killed_at(const struct tile *ptile,
   double p = is_ocean(ptile->terrain)? 0.05: 0.15;
 
   /* If we are on defensive terrain, we are more likely to survive */
-  db = get_tile_type(ptile->terrain)->defense_bonus;
+  db = 10 + get_tile_type(ptile->terrain)->defense_bonus / 10;
   if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }

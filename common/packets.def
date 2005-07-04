@@ -1134,11 +1134,11 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   UINT8 land_channel_requirement_pct; /* # adjacent ocean tiles for channel */
   RIVER_MOVE river_move_mode;
 
-  UINT16 river_defense_bonus;           /* % added to defense if Civ2 river */
+  SINT16 river_defense_bonus;           /* % added to defense if Civ2 river */
   UINT16 river_trade_incr;              /* added to trade if Civ2 river */
   STRING river_help_text[MAX_LEN_PACKET]; # help for Civ2-style rivers
 
-  UINT16 fortress_defense_bonus;        /* % added to defense if fortress */
+  SINT16 fortress_defense_bonus;        /* % added to defense if fortress */
   UINT16 road_superhighway_trade_bonus;  # % added to trade if road/s-highway
   UINT16 rail_tile_bonus[O_MAX];        /* % added to output if railroad */
   UINT8 pollution_tile_penalty[O_MAX]; /* % taken from output if polluted */
@@ -1208,7 +1208,7 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   STRING graphic_alt[MAX_LEN_NAME];
 
   UINT8 movement_cost;
-  UINT8 defense_bonus;
+  SINT8 defense_bonus;
 
   UINT8 output[O_MAX];
 

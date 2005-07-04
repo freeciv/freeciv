@@ -994,7 +994,8 @@ static void help_update_terrain(const struct help_item *pitem,
     {
       sprintf (buf, "%d/%d.%d",
 	       tile_types[i].movement_cost,
-	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
+	       (int)((tile_types[i].defense_bonus + 100) / 100),
+	       (tile_types[i].defense_bonus + 100) % 100 / 10);
       xaw_set_label (help_terrain_movement_defense_data, buf);
 
       sprintf (buf, "%d/%d/%d",

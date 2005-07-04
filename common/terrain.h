@@ -110,7 +110,7 @@ struct tile_type {
 #define UNKNOWN_TERRAIN_IDENTIFIER 'u'
 
   int movement_cost;
-  int defense_bonus; /* Bonus multiplier as a per-deca (20 means 2x) */
+  int defense_bonus; /* % defense bonus - defaults to zero */
 
   int output[O_MAX];
 
