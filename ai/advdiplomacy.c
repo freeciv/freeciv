@@ -264,7 +264,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
 {
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
-  int giver;
+  struct player *giver;
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
   bool is_dangerous;
 
@@ -272,7 +272,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
   
   diplomacy_verbose = verbose;
 
-  giver = pclause->from->player_no;
+  giver = pclause->from;
 
   switch (pclause->type) {
   case CLAUSE_ADVANCE:
@@ -459,7 +459,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       } else {
         worth *= 15;
       }
-      if (aplayer->player_no == offer->original) {
+      if (aplayer == offer->original) {
         /* Let them buy back their own city cheaper. */
         worth /= 2;
       }

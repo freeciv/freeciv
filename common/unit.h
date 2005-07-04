@@ -126,7 +126,7 @@ struct unit_ai {
 struct unit {
   Unit_type_id type;
   int id;
-  int owner;
+  struct player *owner; /* Cannot be NULL. */
   struct tile *tile;
   int homecity;
   int moves_left;

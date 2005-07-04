@@ -2111,12 +2111,15 @@ static void player_load(struct player *plr, int plrno,
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
     idex_register_city(pcity);
-    
-    if (section_file_lookup(file, "player%d.c%d.original", plrno, i))
-      pcity->original = secfile_lookup_int(file, "player%d.c%d.original", 
-					   plrno,i);
-    else 
-      pcity->original = plrno;
+
+    id = secfile_lookup_int_default(file, -1,
+				    "player%d.c%d.original", plrno, i);
+    if (id >= 0 && id < game.info.nplayers) {
+      pcity->original = get_player(id);
+    } else {
+      pcity->original = get_player(plrno);
+    }
+
     pcity->size=secfile_lookup_int(file, "player%d.c%d.size", plrno, i);
 
     pcity->steal=secfile_lookup_int(file, "player%d.c%d.steal", plrno, i);
@@ -2506,7 +2509,8 @@ static void player_map_load(struct player *plr, int plrno,
 					"player%d.dc%d.happy", plrno, j);
 	pdcity->unhappy = secfile_lookup_bool_default(file, FALSE,
 					"player%d.dc%d.unhappy", plrno, j);
-	pdcity->owner = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
+	id = secfile_lookup_int(file, "player%d.dc%d.owner", plrno, j);
+	pdcity->owner = get_player(id);
 
 	/* Initialise list of improvements */
 	BV_CLR_ALL(pdcity->improvements);
@@ -2934,8 +2938,8 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->tile->nat_x, "player%d.c%d.x", plrno, i);
     secfile_insert_int(file, pcity->tile->nat_y, "player%d.c%d.y", plrno, i);
     secfile_insert_str(file, pcity->name, "player%d.c%d.name", plrno, i);
-    secfile_insert_int(file, pcity->original, "player%d.c%d.original", 
-		       plrno, i);
+    secfile_insert_int(file, pcity->original->player_no,
+		       "player%d.c%d.original", plrno, i);
     secfile_insert_int(file, pcity->size, "player%d.c%d.size", plrno, i);
     secfile_insert_int(file, pcity->steal, "player%d.c%d.steal", plrno, i);
     specialist_type_iterate(sp) {
@@ -3133,8 +3137,8 @@ static void player_save(struct player *plr, int plrno,
 			      "player%d.dc%d.happy", plrno, i);
 	  secfile_insert_bool(file, pdcity->unhappy,
 			      "player%d.dc%d.unhappy", plrno, i);
-	  secfile_insert_int(file, pdcity->owner, "player%d.dc%d.owner",
-			     plrno, i);
+	  secfile_insert_int(file, pdcity->owner->player_no,
+			     "player%d.dc%d.owner", plrno, i);
 
 	  /* Save improvement list as bitvector. Note that improvement order
 	   * is saved in savefile.improvement_order.

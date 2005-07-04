@@ -1680,7 +1680,7 @@ static void map_update_borders_recalculate_position(struct tile *ptile)
   if (game.info.borders > 0) {
     iterate_outward(ptile, game.info.borders, tile1) {
       struct city *pccity = map_get_closest_city(tile1);
-      struct player *new_owner = pccity ? get_player(pccity->owner) : NULL;
+      struct player *new_owner = pccity ? pccity->owner : NULL;
 
       if (new_owner != tile_get_owner(tile1)) {
 	tile_set_owner(tile1, new_owner);
@@ -1780,7 +1780,7 @@ static void map_calculate_territory(void)
 	struct city *pccity = map_get_closest_city(ptile);
 
 	if (pccity) {
-	  tile_set_owner(ptile, get_player(pccity->owner));
+	  tile_set_owner(ptile, pccity->owner);
 	}
       } iterate_outward_end;
     } cities_iterate_end;

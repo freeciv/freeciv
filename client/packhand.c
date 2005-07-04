@@ -273,7 +273,7 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 	tile_visible_mapcanvas(punit1->tile)) {
       show_combat = TRUE;
     } else if (auto_center_on_combat) {
-      if (punit0->owner == game.info.player_idx)
+      if (punit0->owner == game.player_ptr)
 	center_tile_mapcanvas(punit0->tile);
       else
 	center_tile_mapcanvas(punit1->tile);
@@ -383,7 +383,7 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity=find_city_by_id(packet->id);
 
-  if (pcity && (pcity->owner != packet->owner)) {
+  if (pcity && (pcity->owner->player_no != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
@@ -422,7 +422,7 @@ void handle_city_info(struct packet_city_info *packet)
     assert(pcity->id == packet->id);
   }
   
-  pcity->owner=packet->owner;
+  pcity->owner = get_player(packet->owner);
   pcity->tile = map_pos_to_tile(packet->x, packet->y);
   sz_strlcpy(pcity->name, packet->name);
   
@@ -523,7 +523,7 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->client.unhappy = city_unhappy(pcity);
 
   popup = (city_is_new && can_client_change_view()
-           && pcity->owner == game.info.player_idx && popup_new_cities)
+           && pcity->owner == game.player_ptr && popup_new_cities)
           || packet->diplomat_investigate;
 
   if (city_is_new && !city_has_changed_owner) {
@@ -568,8 +568,9 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     pcity->info_units_present = unit_list_new();
     city_list_prepend(city_owner(pcity)->cities, pcity);
     tile_set_city(pcity->tile, pcity);
-    if(pcity->owner==game.info.player_idx)
+    if (pcity->owner == game.player_ptr) {
       city_report_dialog_update();
+    }
 
     for(i=0; i<game.info.nplayers; i++) {
       unit_list_iterate(game.players[i].units, punit) 
@@ -578,7 +579,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
       unit_list_iterate_end;
     }
   } else {
-    if(pcity->owner == game.info.player_idx) {
+    if (pcity->owner == game.player_ptr) {
       city_report_dialog_update_city(pcity);
     }
   }
@@ -600,8 +601,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     }
   }
 
-  if (!is_new && (pcity->owner==game.info.player_idx
-		  || popup)) {
+  if (!is_new && (pcity->owner==game.player_ptr || popup)) {
     refresh_city_dialog(pcity);
   }
 
@@ -631,7 +631,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
   pcity=find_city_by_id(packet->id);
 
-  if (pcity && (pcity->owner != packet->owner)) {
+  if (pcity && (pcity->owner->player_no != packet->owner)) {
     client_remove_city(pcity);
     pcity = NULL;
     city_has_changed_owner = TRUE;
@@ -653,7 +653,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
       update_descriptions = TRUE;
     }
 
-    pcity->owner=packet->owner;
+    pcity->owner = get_player(packet->owner);
     sz_strlcpy(pcity->name, packet->name);
     
     assert(pcity->id == packet->id);
@@ -904,7 +904,7 @@ void handle_unit_info(struct packet_unit_info *packet)
 {
   struct unit *punit;
 
-  if (packet->owner != game.info.player_idx ) {
+  if (packet->owner != game.info.player_idx) {
     freelog(LOG_ERROR, "Got packet_unit_info for unit of %s.",
             game.players[packet->owner].name);
   }
@@ -949,8 +949,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool ret = FALSE;
   struct unit *focus_unit = get_unit_in_focus();
   
-  punit = player_find_unit_by_id(get_player(packet_unit->owner),
-                                 packet_unit->id);
+  punit = player_find_unit_by_id(packet_unit->owner, packet_unit->id);
   if (!punit && find_unit_by_id(packet_unit->id)) {
     /* This means unit has changed owner. We deal with this here
      * by simply deleting the old one and creating a new one. */
@@ -995,7 +994,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* Wakeup Focus */
       if (wakeup_focus 
           && !game.player_ptr->ai.control
-          && punit->owner == game.info.player_idx
+          && punit->owner == game.player_ptr
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
 	  && is_player_phase(game.player_ptr, game.info.phase)
@@ -1038,7 +1037,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->orders.list = packet_unit->orders.list;
       packet_unit->orders.list = NULL;
 
-      if (punit->owner == game.info.player_idx) {
+      if (punit->owner == game.player_ptr) {
         refresh_unit_city_dialogs(punit);
       }
     } /*** End of Change in activity or activity's target. ***/
@@ -1143,7 +1142,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	
         if((unit_flag(punit, F_TRADE_ROUTE) || unit_flag(punit, F_HELP_WONDER))
 	   && (!game.player_ptr->ai.control)
-	   && punit->owner==game.info.player_idx
+	   && punit->owner == game.player_ptr
 	   && !unit_has_orders(punit)
 	   && can_client_issue_orders()
 	   && (unit_can_help_build_wonder_here(punit)
@@ -1194,7 +1193,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     punit = packet_unit;
     idex_register_unit(punit);
 
-    unit_list_prepend(get_player(punit->owner)->units, punit);
+    unit_list_prepend(punit->owner->units, punit);
     unit_list_prepend(punit->tile->units, punit);
 
     if((pcity=find_city_by_id(punit->homecity))) {
@@ -1299,7 +1298,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     return;
   }
 
-  if (packet->owner == game.info.player_idx ) {
+  if (packet->owner == game.info.player_idx) {
     freelog(LOG_ERROR, "Got packet_short_unit for own unit.");
   }
 

@@ -888,7 +888,7 @@ int num_supported_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (pcity->owner != game.info.player_idx) {
+  if (pcity->owner != game.player_ptr) {
     plist = pcity->info_units_supported;
   } else {
     plist = pcity->units_supported;
@@ -904,7 +904,7 @@ int num_present_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (pcity->owner != game.info.player_idx) {
+  if (pcity->owner != game.player_ptr) {
     plist = pcity->info_units_present;
   } else {
     plist = pcity->tile->units;

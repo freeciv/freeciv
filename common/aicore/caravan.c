@@ -243,13 +243,14 @@ static double windfall_benefit(const struct city *src,
   How much does the city benefit from the new trade route?
   How much does the former partner lose?
  ***************************************************************************/
-static int one_city_trade_benefit(const struct city *pcity, int playerid,
+static int one_city_trade_benefit(const struct city *pcity,
+				  const struct player *pplayer,
                                   bool countloser, int newtrade) {
   int losttrade = 0;
 
   /* if the city is owned by someone else, we don't benefit from the
      new trade (but we might still lose from a broken trade route) */
-  if (pcity->owner != playerid) {
+  if (pcity->owner != pplayer) {
     newtrade = 0;
   }
 
@@ -263,13 +264,13 @@ static int one_city_trade_benefit(const struct city *pcity, int playerid,
 
     /* if we own the city, the trade benefit is only by how much
        better we are than the old trade route */
-    if (pcity->owner == playerid) {
+    if (pcity->owner == pplayer) {
       newtrade -= oldtrade;
     }
 
     /* if the city that lost a trade route is one of ours, and if we
        care about accounting for the lost trade, count it. */
-    if (countloser && losercity->owner == playerid) {
+    if (countloser && losercity->owner == pplayer) {
       losttrade = oldtrade;
     }
   }
@@ -283,7 +284,7 @@ static int one_city_trade_benefit(const struct city *pcity, int playerid,
   This yields the total benefit in terms of trade per turn of establishing
   a route from src to dest.
  ***************************************************************************/
-static double trade_benefit(int caravan_owner,
+static double trade_benefit(const struct player *caravan_owner,
                             const struct city *src,
                             const struct city *dest,
                             const struct caravan_parameter *param) {
@@ -603,12 +604,11 @@ static void caravan_optimize_notransit(const struct unit *caravan,
                                        const struct caravan_parameter *param,
                                        struct caravan_result *best)
 {
-  struct player *player;
+  struct player *player = caravan->owner;
 
   /* Iterate over all cities we own (since the caravan could change its
    * home city); iterate over all cities we know about (places the caravan
    * can go to); pick out the best trade route. */
-  player = get_player(caravan->owner);
   city_list_iterate(player->cities, src) {
     cities_iterate(dest) {
       struct caravan_result current;

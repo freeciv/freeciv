@@ -284,7 +284,7 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 
     unit_list_unlink(old_owner->units, punit);
     unit_list_prepend(new_owner->units, punit);
-    punit->owner = new_owner->player_no;
+    punit->owner = new_owner;
 
     if (tile_has_special(punit->tile, S_FORTRESS)
         && unit_profits_of_watchtower(punit)) {
@@ -621,13 +621,13 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
     if (map_is_known_and_seen(pattacker->tile, other_player)
 	|| map_is_known_and_seen(pdefender->tile, other_player)) {
       if (!can_player_see_unit(other_player, pattacker)) {
-	assert(other_player->player_no != pattacker->owner);
+	assert(other_player != pattacker->owner);
 	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_att_short_packet);
       }
 
       if (!can_player_see_unit(other_player, pdefender)) {
-	assert(other_player->player_no != pdefender->owner);
+	assert(other_player != pdefender->owner);
 	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_def_short_packet);
       }
@@ -1565,8 +1565,7 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
 
   /* You are allowed to unload a unit if it is yours or if the transporter
    * is yours. */
-  if (pcargo->owner != pplayer->player_no
-      && ptrans->owner != pplayer->player_no) {
+  if (pcargo->owner != pplayer && ptrans->owner != pplayer) {
     return;
   }
 

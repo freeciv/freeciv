@@ -800,7 +800,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Has to follow the unfog call above. */
   city_list_unlink(pgiver->cities, pcity);
-  pcity->owner = ptaker->player_no;
+  pcity->owner = ptaker;
   city_list_prepend(ptaker->cities, pcity);
 
   /* Update the national borders. */
@@ -1223,7 +1223,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   pplayer->economic.gold += coins;
   cplayer->economic.gold -= coins;
   send_player_info(cplayer, cplayer);
-  if (pcity->original != pplayer->player_no) {
+  if (pcity->original != pplayer) {
     notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
 		     _("You conquer %s, your lootings accumulate"
 		       " to %d gold!"), 
@@ -1289,7 +1289,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   struct city *pcity = tile_get_city(ptile);
 
   packet->id = pdcity->id;
-  packet->owner = pdcity->owner;
+  packet->owner = pdcity->owner->player_no;
   packet->x = ptile->x;
   packet->y = ptile->y;
   sz_strlcpy(packet->name, pdcity->name);
@@ -1521,7 +1521,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   int x, y, i;
 
   packet->id=pcity->id;
-  packet->owner=pcity->owner;
+  packet->owner = pcity->owner->player_no;
   packet->x = pcity->tile->x;
   packet->y = pcity->tile->y;
   sz_strlcpy(packet->name, pcity->name);
@@ -1878,7 +1878,7 @@ bool city_can_work_tile(struct city *pcity, int city_x, int city_y)
     return FALSE;
   }
 
-  if (ptile->owner && ptile->owner->player_no != pcity->owner) {
+  if (ptile->owner && ptile->owner != pcity->owner) {
     return FALSE;
   }
 

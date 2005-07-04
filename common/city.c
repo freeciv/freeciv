@@ -384,7 +384,7 @@ int city_buy_cost(const struct city *pcity)
 **************************************************************************/
 struct player *city_owner(const struct city *pcity)
 {
-  return (&game.players[pcity->owner]);
+  return pcity->owner;
 }
 
 /**************************************************************************
@@ -2356,7 +2356,7 @@ void city_styles_free(void)
   Create virtual skeleton for a city.  It does not register the city so 
   the id is set to 0.  All other values are more or less sane defaults.
 **************************************************************************/
-struct city *create_city_virtual(const struct player *pplayer,
+struct city *create_city_virtual(struct player *pplayer,
 		                 struct tile *ptile, const char *name)
 {
   int i;
@@ -2365,7 +2365,8 @@ struct city *create_city_virtual(const struct player *pplayer,
   pcity = fc_malloc(sizeof(struct city));
 
   pcity->id = 0;
-  pcity->owner = pplayer->player_no;
+  assert(pplayer != NULL); /* No unowned cities! */
+  pcity->owner = pplayer;
   pcity->tile = ptile;
   sz_strlcpy(pcity->name, name);
   pcity->size = 1;
@@ -2385,7 +2386,7 @@ struct city *create_city_virtual(const struct player *pplayer,
   }
   pcity->food_stock = 0;
   pcity->shield_stock = 0;
-  pcity->original = pplayer->player_no;
+  pcity->original = pplayer;
 
   /* Initialise improvements list */
   for (i = 0; i < ARRAY_SIZE(pcity->improvements); i++) {

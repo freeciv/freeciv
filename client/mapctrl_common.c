@@ -144,7 +144,7 @@ static void define_tiles_within_rectangle(void)
 
       /*  Tile passed all tests; process it.
        */
-      if (ptile->city && ptile->city->owner == game.info.player_idx) {
+      if (ptile->city && ptile->city->owner == game.player_ptr) {
         map_deco[ptile->index].hilite = HILITE_CITY;
         tiles_hilited_cities = TRUE;
       }
@@ -286,7 +286,7 @@ void toggle_tile_hilite(struct tile *ptile)
       toggle_city_hilite(pcity, FALSE); /* cityrep.c */
     }
   }
-  else if (pcity && pcity->owner == game.info.player_idx) {
+  else if (pcity && pcity->owner == game.player_ptr) {
     map_deco[ptile->index].hilite = HILITE_CITY;
     tiles_hilited_cities = TRUE;
     toggle_city_hilite(pcity, TRUE);
@@ -327,7 +327,7 @@ void clipboard_copy_production(struct tile *ptile)
   struct city *pcity = ptile->city;
 
   if (pcity) {
-    if (pcity->owner != game.info.player_idx)  {
+    if (pcity->owner != game.player_ptr)  {
       return;
     }
     clipboard = pcity->currently_building;
@@ -370,7 +370,7 @@ void clipboard_paste_production(struct city *pcity)
     return;
   }
   if (!tiles_hilited_cities) {
-    if (pcity && pcity->owner == game.info.player_idx) {
+    if (pcity && pcity->owner == game.player_ptr) {
       clipboard_send_production_packet(pcity);
     }
     return;

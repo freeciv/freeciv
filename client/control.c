@@ -145,7 +145,7 @@ void set_unit_focus(struct unit *punit)
 {
   struct unit *punit_old_focus = punit_focus;
 
-  if (punit && punit->owner != game.info.player_idx) {
+  if (punit && punit->owner != game.player_ptr) {
     /* Callers should make sure this never happens. */
     freelog(LOG_ERROR, "Trying to focus on another player's unit!");
     assert(0);
@@ -781,7 +781,7 @@ void request_unit_unload_all(struct unit *punit)
 	request_new_unit_activity(pcargo, ACTIVITY_IDLE);
       }
 
-      if (pcargo->owner == game.info.player_idx) {
+      if (pcargo->owner == game.player_ptr) {
 	plast = pcargo;
       }
     }
@@ -855,7 +855,8 @@ void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 void wakeup_sentried_units(struct tile *ptile)
 {
   unit_list_iterate(ptile->units, punit) {
-    if(punit->activity==ACTIVITY_SENTRY && game.info.player_idx==punit->owner) {
+    if (punit->activity == ACTIVITY_SENTRY
+	&& game.player_ptr == punit->owner) {
       request_new_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
@@ -1432,7 +1433,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   unit_list_unlink(src_tile->units, punit);
 
-  if (game.info.player_idx == punit->owner
+  if (game.player_ptr == punit->owner
       && auto_center_on_unit
       && !unit_has_orders(punit)
       && punit->activity != ACTIVITY_GOTO
@@ -1537,7 +1538,8 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   else if (unit_list_size(ptile->units) == 1
       && !unit_list_get(ptile->units, 0)->occupy) {
     struct unit *punit=unit_list_get(ptile->units, 0);
-    if(game.info.player_idx==punit->owner) {
+
+    if (game.player_ptr == punit->owner) {
       if(can_unit_do_activity(punit, ACTIVITY_IDLE)) {
         maybe_goto = keyboardless_goto;
 	set_unit_focus_and_select(punit);
@@ -1583,7 +1585,7 @@ static struct unit *quickselect(struct tile *ptile,
     return NULL;
   } else if (listsize == 1) {
     struct unit *punit = unit_list_get(ptile->units, 0);
-    return (game.info.player_idx == punit->owner) ? punit : NULL;
+    return (game.player_ptr == punit->owner) ? punit : NULL;
   }
 
   /*  Quickselect priorities. Units with moves left
@@ -1600,7 +1602,7 @@ static struct unit *quickselect(struct tile *ptile,
    */
 
     unit_list_iterate(ptile->units, punit)  {
-  if(game.info.player_idx != punit->owner || punit == punit_focus) {
+  if (game.player_ptr != punit->owner || punit == punit_focus) {
     continue;
   }
   if (qtype == SELECT_SEA) {

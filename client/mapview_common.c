@@ -1217,7 +1217,7 @@ static void show_full_citybar(struct canvas *pcanvas,
   const struct citybar_sprites *citybar = get_citybar_sprites(tileset);
   const bool line1 = draw_city_names;
   const bool line2 = ((draw_city_productions || draw_city_growth)
-		      && pcity->owner == game.info.player_idx);
+		      && pcity->owner == game.player_ptr);
   static char name[512], growth[32], prod[512], size[32];
   enum color_std growth_color;
   struct color *owner_color;
@@ -1432,7 +1432,7 @@ static void show_small_citybar(struct canvas *pcanvas,
     *width = MAX(*width, total_width);
     *height += total_height + 3;
   }
-  if (draw_city_productions && pcity->owner == game.info.player_idx) {
+  if (draw_city_productions && pcity->owner == game.player_ptr) {
     get_city_mapview_production(pcity, prod, sizeof(prod));
     get_text_size(&prod_rect.w, &prod_rect.h, FONT_CITY_PROD, prod);
 
@@ -1803,7 +1803,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
   }
 
   if (pcity) {
-    if (pcity->owner == game.info.player_idx) {
+    if (pcity->owner == game.player_ptr) {
       /* rule a */
       return pcity;
     } else {
@@ -1817,7 +1817,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 
   city_map_checked_iterate(ptile, city_x, city_y, tile1) {
     pcity = tile_get_city(tile1);
-    if (pcity && pcity->owner == game.info.player_idx
+    if (pcity && pcity->owner == game.player_ptr
 	&& get_worker_city(pcity, CITY_MAP_SIZE - 1 - city_x,
 			   CITY_MAP_SIZE - 1 - city_y) == C_TILE_EMPTY) {
       /*
@@ -1847,7 +1847,7 @@ struct city *find_city_or_settler_near_tile(const struct tile *ptile,
 
     if (tile1) {
       unit_list_iterate(tile1->units, psettler) {
-	if (psettler->owner == game.info.player_idx
+	if (psettler->owner == game.player_ptr
 	    && unit_flag(psettler, F_CITIES)
 	    && city_can_be_built_here(psettler->tile, psettler)) {
 	  if (!closest_settler) {
@@ -2100,7 +2100,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 {
   my_snprintf(name_buffer, name_buffer_len, pcity->name);
 
-  if (pcity->owner == game.info.player_idx) {
+  if (pcity->owner == game.player_ptr) {
     int turns = city_turns_to_grow(pcity);
 
     if (turns == 0) {

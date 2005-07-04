@@ -40,7 +40,7 @@ struct Player {
 
 struct City {
   const char *name;
-  int owner @ owner_id;
+  Player *owner;
   Tile *tile;
 
   const int id;
@@ -48,7 +48,7 @@ struct City {
 
 struct Unit {
   int type @ type_id;
-  int owner @ owner_id;
+  Player *owner;
   int homecity @ homecity_id;
   Tile *tile;
 

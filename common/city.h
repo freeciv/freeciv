@@ -209,7 +209,7 @@ struct ai_city {
 
 struct city {
   int id;
-  int owner;
+  struct player *owner; /* Cannot be NULL. */
   struct tile *tile;
   char name[MAX_LEN_NAME];
 
@@ -290,7 +290,7 @@ struct city {
   int rapture;                /* rapture rounds count */ 
   bool was_happy;
   bool airlift;
-  int original;			/* original owner */
+  struct player *original;	/* original owner - cannot be NULL */
   int city_options;		/* bitfield; positions as enum city_options */
 
   /* server variable. indicates if the city map is synced with the client. */
@@ -511,7 +511,7 @@ int get_city_output_bonus(const struct city *pcity, Output_type_id otype);
 bool city_built_last_turn(const struct city *pcity);
 
 /* city creation / destruction */
-struct city *create_city_virtual(const struct player *pplayer,
+struct city *create_city_virtual(struct player *pplayer,
 				 struct tile *ptile, const char *name);
 void remove_city_virtual(struct city *pcity);
 

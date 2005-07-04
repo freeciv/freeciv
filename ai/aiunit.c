@@ -1019,7 +1019,7 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  if (!pcity || pcity->owner != pplayer->player_no) {
+  if (!pcity || pcity->owner != pplayer) {
     pcity = punit->tile->city;
     /* Do not stay defending an allied city forever */
     aiguard_clear_charge(punit);
@@ -1818,9 +1818,9 @@ static void caravan_optimize_callback(const struct caravan_result *result,
   const struct unit *caravan = data;
 
   freelog(LOG_CARAVAN2, "%s caravan %d(%s): %s %s worth %g",
-      get_player(caravan->owner)->name, caravan->id, result->src->name,
-      result->help_wonder ? "wonder in" : "trade to",
-      result->dest->name, result->value);
+	  caravan->owner->name, caravan->id, result->src->name,
+	  result->help_wonder ? "wonder in" : "trade to",
+	  result->dest->name, result->value);
 }
 
 /*************************************************************************
@@ -2184,7 +2184,7 @@ static void ai_set_defenders(struct player *pplayer)
       unit_list_iterate(pcity->tile->units, punit) {
        if ((punit->ai.ai_role == AIUNIT_NONE || emergency)
            && punit->ai.ai_role != AIUNIT_DEFEND_HOME
-           && punit->owner == pplayer->player_no) {
+           && punit->owner == pplayer) {
           int want = assess_defense_unit(pcity, punit, FALSE);
 
           if (want > best_want) {

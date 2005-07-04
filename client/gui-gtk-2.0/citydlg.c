@@ -865,7 +865,7 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
   GtkTreeModel *model;
   GtkTreePath *path;
 
-  if (pdialog->pcity->owner != game.info.player_idx) {
+  if (pdialog->pcity->owner != game.player_ptr) {
     gtk_drag_finish(context, FALSE, FALSE, time);
   }
     
@@ -1240,13 +1240,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   create_and_append_worklist_page(pdialog);
 
   /* only create these tabs if not a spy */
-  if (pcity->owner == game.info.player_idx) {
-
+  if (pcity->owner == game.player_ptr) {
     create_and_append_happiness_page(pdialog);
     create_and_append_cma_page(pdialog);
   }
 
-  if (pcity->owner == game.info.player_idx) {
+  if (pcity->owner == game.player_ptr) {
     create_and_append_settings_page(pdialog);
   } else {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(pdialog->notebook),
@@ -1280,7 +1279,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
 			       pdialog->next_command, 2);
   
-  if (pcity->owner != game.info.player_idx) {
+  if (pcity->owner != game.player_ptr) {
     gtk_widget_set_sensitive(pdialog->prev_command, FALSE);
     gtk_widget_set_sensitive(pdialog->next_command, FALSE);
   }
@@ -1630,7 +1629,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   int n, m, i;
   char buf[30];
 
-  if (pdialog->pcity->owner != game.info.player_idx) {
+  if (pdialog->pcity->owner != game.player_ptr) {
     units = pdialog->pcity->info_units_supported;
   } else {
     units = pdialog->pcity->units_supported;
@@ -1716,7 +1715,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 	  G_CALLBACK(supported_unit_middle_callback),
 	  GINT_TO_POINTER(punit->id));
 
-      if (pdialog->pcity->owner != game.info.player_idx) {
+      if (pdialog->pcity->owner != game.player_ptr) {
 	gtk_widget_set_sensitive(cmd, FALSE);
       } else {
 	gtk_widget_set_sensitive(cmd, TRUE);
@@ -1745,7 +1744,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   int n, m, i;
   char buf[30];
 
-  if (pdialog->pcity->owner != game.info.player_idx) {
+  if (pdialog->pcity->owner != game.player_ptr) {
     units = pdialog->pcity->info_units_present;
   } else {
     units = pdialog->pcity->tile->units;
@@ -1826,7 +1825,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 	  G_CALLBACK(present_unit_middle_callback),
 	  GINT_TO_POINTER(punit->id));
 
-      if (pdialog->pcity->owner != game.info.player_idx) {
+      if (pdialog->pcity->owner != game.player_ptr) {
 	gtk_widget_set_sensitive(cmd, FALSE);
       } else {
 	gtk_widget_set_sensitive(cmd, TRUE);
@@ -1860,7 +1859,7 @@ static void city_dialog_update_prev_next()
   /* the first time, we see if all the city dialogs are open */
 
   dialog_list_iterate(dialog_list, pdialog) {
-    if (pdialog->pcity->owner == game.info.player_idx)
+    if (pdialog->pcity->owner == game.player_ptr)
       count++;
   }
   dialog_list_iterate_end;
@@ -1873,7 +1872,7 @@ static void city_dialog_update_prev_next()
     dialog_list_iterate_end;
   } else {
     dialog_list_iterate(dialog_list, pdialog) {
-      if (pdialog->pcity->owner == game.info.player_idx) {
+      if (pdialog->pcity->owner == game.player_ptr) {
 	gtk_widget_set_sensitive(pdialog->prev_command, TRUE);
 	gtk_widget_set_sensitive(pdialog->next_command, TRUE);
       }
@@ -2491,8 +2490,8 @@ static void sell_callback(Impr_type_id id, gpointer data)
     return;
   }
 
-  if (pdialog->pcity->did_buy || pdialog->pcity->did_sell ||
-      pdialog->pcity->owner != game.info.player_idx) {
+  if (pdialog->pcity->did_buy || pdialog->pcity->did_sell
+      || pdialog->pcity->owner != game.player_ptr) {
     return;
   }
   
@@ -2728,7 +2727,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
 
   gtk_widget_hide(pdialog->shell);
 
-  if (pdialog->pcity->owner == game.info.player_idx) {
+  if (pdialog->pcity->owner == game.player_ptr) {
     close_happiness_dialog(pdialog->pcity);
     close_cma_dialog(pdialog->pcity);
   }
@@ -2802,7 +2801,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 
   assert(city_dialogs_have_been_initialised);
   assert(size >= 1);
-  assert(pdialog->pcity->owner == game.info.player_idx);
+  assert(pdialog->pcity->owner == game.player_ptr);
 
   if (size == 1) {
     return;

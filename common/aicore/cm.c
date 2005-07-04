@@ -1570,7 +1570,7 @@ static void init_min_production(struct cm_state *state)
 static double estimate_fitness(const struct cm_state *state,
 			       const int production[]) {
   const struct city *pcity = state->pcity;
-  const struct player *pplayer = get_player(pcity->owner);
+  const struct player *pplayer = pcity->owner;
   double estimates[O_COUNT];
   double sum = 0;
 

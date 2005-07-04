@@ -419,7 +419,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
   }
 
   /* If (x, y) is an existing city, consider immigration */
-  if (pcity && pcity->owner == pplayer->player_no) {
+  if (pcity && pcity->owner == pplayer) {
     return;
   }
 

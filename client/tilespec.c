@@ -4217,7 +4217,7 @@ struct unit *get_drawable_unit(const struct tileset *t,
   if (!punit)
     return NULL;
 
-  if (citymode && punit->owner == game.info.player_idx)
+  if (citymode && punit->owner == game.player_ptr)
     return NULL;
 
   if (punit != pfocus

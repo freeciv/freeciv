@@ -707,7 +707,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
   if (wonder_city == NULL) {
     return;
   }
-  if (wonder_city->owner != pplayer->player_no) {
+  if (wonder_city->owner != pplayer) {
     ai->wonder_city = 0;
     return;
   }
@@ -750,7 +750,7 @@ void ai_manage_buildings(struct player *pplayer)
   struct ai_data *ai = ai_data_get(pplayer);
   struct city *wonder_city = find_city_by_id(ai->wonder_city);
 
-  if (wonder_city && wonder_city->owner != pplayer->player_no) {
+  if (wonder_city && wonder_city->owner != pplayer) {
     /* We lost it to the enemy! */
     ai->wonder_city = 0;
     wonder_city = NULL;

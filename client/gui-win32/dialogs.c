@@ -664,7 +664,7 @@ static LONG APIENTRY unitselect_proc(HWND hWnd, UINT message,
 	    {
 	      struct unit *punit=player_find_unit_by_id(game.player_ptr,
 							unit_select_ids[id]);
-	      if(punit && punit->owner == game.info.player_idx) {
+	      if (punit && punit->owner == game.player_ptr) {
 		set_unit_focus(punit);
 	      }   
 	    }

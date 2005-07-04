@@ -583,7 +583,7 @@ void activate_all_units(struct tile *ptile)
   struct unit *pmyunit = NULL;
 
   unit_list_iterate(punit_list, punit) {
-    if (game.info.player_idx == punit->owner) {
+    if (game.player_ptr == punit->owner) {
       /* Activate this unit. */
       pmyunit = punit;
       request_new_unit_activity(punit, ACTIVITY_IDLE);
@@ -806,7 +806,7 @@ bool city_can_buy(const struct city *pcity)
    * buying; that's handled separately (and with an error message). */
   return (can_client_issue_orders()
 	  && pcity
-	  && pcity->owner == game.info.player_idx
+	  && pcity->owner == game.player_ptr
 	  && pcity->turn_founded != game.info.turn
 	  && !pcity->did_buy
 	  && get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) <= 0

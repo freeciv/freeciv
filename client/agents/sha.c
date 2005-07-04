@@ -68,8 +68,7 @@ static void sha_unit_change(int id)
 static void sha_unit_new(int id)
 {
   struct unit *punit = find_unit_by_id(id);
-  struct unit *pold_unit = create_unit_virtual(get_player(punit->owner),
-					       NULL, 0, 0);
+  struct unit *pold_unit = create_unit_virtual(punit->owner, NULL, 0, 0);
 
   freelog(LOG_DEBUG, "sha got unit: %d", id);
 

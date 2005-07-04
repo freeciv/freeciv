@@ -33,7 +33,7 @@ struct dumb_city{
   bool happy, unhappy;
   char name[MAX_LEN_NAME];
   unsigned short size;
-  unsigned char owner;
+  struct player *owner; /* City owner - cannot be NULL. */
 
   bv_imprs improvements;
 };

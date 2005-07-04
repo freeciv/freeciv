@@ -1121,9 +1121,7 @@ void unit_list_sort_ord_city(struct unit_list *This)
 **************************************************************************/
 struct player *unit_owner(const struct unit *punit)
 {
-  /* FIXME: if punit->owner were a player pointer then this function couldn't
-   * have a const parameter. */
-  return (&game.players[punit->owner]);
+  return punit->owner;
 }
 
 /****************************************************************************
@@ -1437,7 +1435,8 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   struct unit *punit = fc_calloc(1, sizeof(struct unit));
 
   punit->type = type;
-  punit->owner = pplayer->player_no;
+  assert(pplayer != NULL); /* No unowned units! */
+  punit->owner = pplayer;
   if (pcity) {
     punit->tile = pcity->tile;
     punit->homecity = pcity->id;

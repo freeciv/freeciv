@@ -1798,10 +1798,11 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     }
 
     /* count killed units */
-    unit_list_iterate(punit->tile->units, vunit)
-      if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit)))
-	num_killed[vunit->owner]++;
-    unit_list_iterate_end;
+    unit_list_iterate(punit->tile->units, vunit) {
+      if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit))) {
+	num_killed[vunit->owner->player_no]++;
+      }
+    } unit_list_iterate_end;
 
     /* inform the owners */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
@@ -1842,7 +1843,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 void package_unit(struct unit *punit, struct packet_unit_info *packet)
 {
   packet->id = punit->id;
-  packet->owner = punit->owner;
+  packet->owner = punit->owner->player_no;
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->homecity = punit->homecity;
@@ -1921,7 +1922,7 @@ void package_short_unit(struct unit *punit,
   packet->info_city_id = info_city_id;
 
   packet->id = punit->id;
-  packet->owner = punit->owner;
+  packet->owner = punit->owner->player_no;
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->veteran = punit->veteran;
@@ -1992,8 +1993,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   conn_list_iterate(dest, pconn) {
     struct player *pplayer = pconn->player;
     
-    if ((!pplayer && pconn->observer) 
-	|| pplayer->player_no == punit->owner) {
+    if ((!pplayer && pconn->observer) || pplayer == punit->owner) {
       send_packet_unit_info(pconn, &info);
     } else {
       if (can_player_see_unit_at(pplayer, punit, punit->tile)
@@ -3022,7 +3022,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
     struct dumb_city *pdcity = map_get_player_tile(ptile, pplayer)->city;
 
     if ((penemy && can_player_see_unit(pplayer, penemy))
-	|| (pdcity && !pplayers_allied(pplayer, get_player(pdcity->owner))
+	|| (pdcity && !pplayers_allied(pplayer, pdcity->owner)
 	    && pdcity->occupied)) {
       cancel = TRUE;
       break;

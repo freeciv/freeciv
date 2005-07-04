@@ -31,11 +31,12 @@ struct pft_amphibious;
 #define NORMAL_STACKING_FEARFULNESS ((double)PF_TURN_FACTOR / 36.0)
 
 #ifdef DEBUG
-#define CHECK_UNIT(punit)                                        \
- (assert(punit != NULL),                                         \
-  assert(punit->type < U_LAST),                                  \
-  assert(punit->owner < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS),   \
-  assert(find_unit_by_id(punit->id) != NULL))
+#define CHECK_UNIT(punit)                                                   \
+  (assert(punit != NULL),						    \
+   assert(punit->type < U_LAST),					    \
+   assert(punit->owner != NULL),					    \
+   assert(&game.players[punit->owner->player_no] == punit->owner),	    \
+   assert(find_unit_by_id(punit->id) != NULL))
 #else
 #define CHECK_UNIT(punit) assert(TRUE)
 #endif

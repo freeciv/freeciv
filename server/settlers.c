@@ -858,7 +858,7 @@ static int evaluate_improvements(struct unit *punit,
 
       /* do not go to tiles that already have workers there */
       unit_list_iterate(ptile->units, aunit) {
-	if (aunit->owner == pplayer->player_no
+	if (aunit->owner == pplayer
 	    && aunit->id != punit->id
 	    && unit_flag(aunit, F_SETTLERS)) {
 	  consider = FALSE;

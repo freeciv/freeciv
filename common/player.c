@@ -75,11 +75,7 @@ bool player_has_embassy(const struct player *pplayer,
 ****************************************************************************/
 bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 {
-  if (!pcity || !pplayer) {
-    /* better safe than sorry */
-    return FALSE;
-  }
-  return (pcity->owner==pplayer->player_no);
+  return (pcity && pplayer && pcity->owner == pplayer);
 }
 
 /***************************************************************
@@ -335,12 +331,8 @@ struct city *player_find_city_by_id(const struct player *pplayer,
 				    int city_id)
 {
   struct city *pcity = idex_lookup_city(city_id);
-  
-  if(pcity && (pcity->owner==pplayer->player_no)) {
-    return pcity;
-  } else {
-    return NULL;
-  }
+
+  return (pcity && pcity->owner == pplayer) ? pcity : NULL;
 }
 
 /***************************************************************
@@ -352,12 +344,8 @@ struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id)
 {
   struct unit *punit = idex_lookup_unit(unit_id);
-  
-  if(punit && (punit->owner==pplayer->player_no)) {
-    return punit;
-  } else {
-    return NULL;
-  }
+
+  return (punit && punit->owner == pplayer) ? punit : NULL;
 }
 
 /*************************************************************************
@@ -366,11 +354,12 @@ Return 1 if x,y is inside any of the player's city radii.
 bool player_in_city_radius(const struct player *pplayer,
 			   const struct tile *ptile)
 {
-  struct city *pcity;
   map_city_radius_iterate(ptile, ptile1) {
-    pcity = tile_get_city(ptile1);
-    if (pcity && (pcity->owner == pplayer->player_no))
+    struct city *pcity = tile_get_city(ptile1);
+
+    if (pcity && pcity->owner == pplayer) {
       return TRUE;
+    }
   } map_city_radius_iterate_end;
   return FALSE;
 }
