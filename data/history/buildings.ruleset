@@ -468,8 +468,8 @@ build_cost	= 60
 upkeep		= 1
 sabotage	= 100
 effect		=
-    { "name"
-      "Growth_Food"
+    { "name", "value"
+      "Growth_Food", 50
     }
 sound		= "b_granary"
 sound_alt	= "b_generic"
