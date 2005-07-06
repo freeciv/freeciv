@@ -322,6 +322,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct player *pgiver = pclause->from;
       struct player *pdest = (pplayer == pgiver) ? pother : pplayer;
+      enum diplstate_type old_diplstate = 
+        pgiver->diplstates[pdest->player_no].type;
 
       switch (pclause->type) {
       case CLAUSE_EMBASSY:
@@ -416,6 +418,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 _("Game: You agree on a cease-fire with %s."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_CEASEFIRE, pgiver, pdest);
+	if (old_diplstate == DS_ALLIANCE) {
+	  update_players_after_alliance_breakup(pgiver, pdest);
+	}
 	check_city_workers(pplayer);
 	check_city_workers(pother);
 	break;
@@ -429,6 +434,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 _("Game: You agree on a peace treaty with %s."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_PEACE, pgiver, pdest);
+	if (old_diplstate == DS_ALLIANCE) {
+	  update_players_after_alliance_breakup(pgiver, pdest);
+	}
 	check_city_workers(pplayer);
 	check_city_workers(pother);
 	break;

@@ -98,4 +98,6 @@ struct player *shuffled_player(int i);
 bool civil_war_triggered(struct player *pplayer);
 void civil_war(struct player *pplayer);
 
+void update_players_after_alliance_breakup(struct player* pplayer,
+                                          struct player* pplayer2);
 #endif  /* FC__PLRHAND_H */
