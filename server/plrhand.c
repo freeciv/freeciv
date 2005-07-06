@@ -462,6 +462,25 @@ void check_player_government_rates(struct player *pplayer)
 }
 
 /**************************************************************************
+  After the alliance is breaken, we need to do two things:
+  - Inform clients that they cannot see units inside the former's ally
+    cities
+  - Remove units stacked together
+**************************************************************************/
+void update_players_after_alliance_breakup(struct player* pplayer,
+                                          struct player* pplayer2)
+{
+  /* The client needs updated diplomatic state, because it is used
+   * during calculation of new states of occupied flags in cities */
+   send_player_info(pplayer, NULL);
+   send_player_info(pplayer2, NULL);
+   remove_allied_visibility(pplayer, pplayer2);
+   remove_allied_visibility(pplayer2, pplayer);    
+   resolve_unit_stacks(pplayer, pplayer2, TRUE);
+}
+
+
+/**************************************************************************
   Handles a player cancelling a "pact" with another player.
 
   packet.id is id of player we want to cancel a pact with
@@ -558,13 +577,7 @@ repeat_break_treaty:
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {
-    /* The client needs updated diplomatic state, because it is used
-     * during calculation of new states of occupied flags in cities */
-    send_player_info(pplayer, NULL);
-    send_player_info(pplayer2, NULL);
-    remove_allied_visibility(pplayer, pplayer2);
-    remove_allied_visibility(pplayer2, pplayer);    
-    resolve_unit_stacks(pplayer, pplayer2, TRUE);
+    update_players_after_alliance_breakup(pplayer, pplayer2);
   }
 
   /* We want to go all the way to war, whatever the cost! 
