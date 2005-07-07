@@ -188,6 +188,10 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     if (ai->wonder_city == pcity->id) {
       want /= 5;
     }
+    
+    if (ai->max_num_cities >= city_list_size(pplayer->cities)) {
+      want /= 100;
+    }
 
     if (want > choice->want) {
       CITY_LOG(LOG_DEBUG, pcity, "desires founders with passion %d", want);

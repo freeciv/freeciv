@@ -55,7 +55,8 @@ enum handicap_type {
   H_NOPLANES = 512,   /* Doesn't build air units */
   H_MAP = 1024,       /* Only knows map_is_known tiles */
   H_DIPLOMACY = 2048, /* Not very good at diplomacy */
-  H_REVOLUTION = 4096 /* Cannot skip anarchy */
+  H_REVOLUTION = 4096, /* Cannot skip anarchy */
+  H_EXPANSION = 8192 /* Don't like being much larger than human */
 };
 
 BV_DEFINE(bv_player, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);

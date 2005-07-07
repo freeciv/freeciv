@@ -679,10 +679,10 @@ static int handicap_of_skill_level(int level)
                         | H_REVOLUTION,
  /* novice */   H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
                         | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE
-			| H_DIPLOMACY | H_REVOLUTION,
+			| H_DIPLOMACY | H_REVOLUTION | H_EXPANSION,
  /* easy */	H_RATES | H_TARGETS | H_HUTS | H_NOPLANES 
                         | H_DIPLOMAT | H_LIMITEDHUTS | H_DEFENSIVE
-                        | H_REVOLUTION,
+                        | H_REVOLUTION | H_EXPANSION,
 		H_NONE,
  /* medium */	H_RATES | H_TARGETS | H_HUTS | H_DIPLOMAT,
 		H_NONE,

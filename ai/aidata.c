@@ -685,6 +685,26 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   } else {
     ai->wants_no_science = FALSE;
   }
+  
+  /* max num cities
+   * The idea behind this code is that novice players don't understand that
+   * expansion is critical and find it very annoying.
+   * With the following code AI players will try to be only a bit better 
+   * than the best human players. This should lead to more exciting games
+   * for the beginners.
+   */
+  if (ai_handicap(pplayer, H_EXPANSION)) {
+    ai->max_num_cities = 3;
+    players_iterate(aplayer) {
+      if (aplayer == pplayer || aplayer->ai.control) {
+        continue;
+      }
+      ai->max_num_cities = MAX(ai->max_num_cities,
+                               city_list_size(aplayer->cities) + 3);
+    } players_iterate_end;
+  } else {
+    ai->max_num_cities = MAP_INDEX_SIZE;
+  }
 
   count_my_units(pplayer);
 
@@ -776,4 +796,5 @@ void ai_data_init(struct player *pplayer)
     ai->diplomacy.player_intel[i].warned_about_space = 0;
   }
   ai->wants_no_science = FALSE;
+  ai->max_num_cities = 10000;
 }

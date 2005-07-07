@@ -170,6 +170,9 @@ struct ai_data {
   
   /* If the ai doesn't want/need any research */
   bool wants_no_science;
+  
+  /* AI doesn't like having more than this number of cities */
+  int max_num_cities;
 };
 
 void ai_data_init(struct player *pplayer);
