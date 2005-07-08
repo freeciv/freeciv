@@ -79,7 +79,7 @@ enum tech_state {
 };
 
 struct advance {
-  const int index; /* Tech index in tech array. */
+  int index; /* Tech index in tech array. */
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];	/* which named sprite to use */

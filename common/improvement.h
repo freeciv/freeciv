@@ -62,7 +62,7 @@ BV_DEFINE(bv_imprs, B_LAST);
 
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
-  const int index;  /* Index in improvement_types array */
+  int index;  /* Index in improvement_types array */
   enum impr_genus_id genus;		/* genus; e.g. GreatWonder */
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];		/* untranslated */

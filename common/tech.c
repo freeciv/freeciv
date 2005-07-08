@@ -647,10 +647,7 @@ void techs_init(void)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(advances); i++) {
-    /* HACK: this field is declared const to keep anyone from changing
-     * them.  But we have to set it somewhere!  This should be the only
-     * place. */
-    *(int *)&advances[i].index = i;
+    advances[i].index = i;
   }
 }
 

@@ -25,9 +25,9 @@
                        ((ptile) ? (ptile)->y : -1)
 
 struct tile {
-  const int x, y; /* Cartesian (map) coordinates of the tile. */
-  const int nat_x, nat_y; /* Native coordinates of the tile. */
-  const int index; /* Index coordinate of the tile. */
+  int x, y; /* Cartesian (map) coordinates of the tile. */
+  int nat_x, nat_y; /* Native coordinates of the tile. */
+  int index; /* Index coordinate of the tile. */
   Terrain_type_id terrain;
   bv_special special;
   struct city *city;        /* city standing on the tile, NULL if none */

@@ -211,10 +211,7 @@ void nations_alloc(int num)
   game.control.nation_count = num;
 
   for (i = 0; i < num; i++) {
-    /* HACK: this field is declared const to keep anyone from changing
-     * them.  But we have to set it somewhere!  This should be the only
-     * place. */
-    *(int *)&nations[i].index = i;
+    nations[i].index = i;
   }
 }
 

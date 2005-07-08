@@ -100,6 +100,7 @@ enum mapgen_terrain_property {
  * it could be extended.
  */
 struct tile_type {
+  int index;
   const char *terrain_name; /* Translated string - doesn't need freeing. */
   char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
   char graphic_str[MAX_LEN_NAME];
@@ -160,6 +161,9 @@ struct tile_type {
 };
 
 extern struct tile_type tile_types[MAX_NUM_TERRAINS];
+
+/* Terrain allocation functions. */
+void terrains_init(void);
 
 /* General terrain accessor functions. */
 struct tile_type *get_tile_type(Terrain_type_id type);

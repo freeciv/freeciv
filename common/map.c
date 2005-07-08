@@ -393,24 +393,17 @@ void map_allocate(void)
 
   assert(map.tiles == NULL);
   map.tiles = fc_malloc(MAP_INDEX_SIZE * sizeof(*map.tiles));
+
+  /* Note this use of whole_map_iterate may be a bit sketchy, since the
+   * tile values (ptile->index, etc.) haven't been set yet.  It might be
+   * better to do a manual loop here. */
   whole_map_iterate(ptile) {
-    int index, nat_x, nat_y, map_x, map_y;
-
-    index = ptile - map.tiles;
-    index_to_native_pos(&nat_x, &nat_y, index);
-    index_to_map_pos(&map_x, &map_y, index);
-    CHECK_INDEX(index);
-    CHECK_MAP_POS(map_x, map_y);
-    CHECK_NATIVE_POS(nat_x, nat_y);
-
-    /* HACK: these fields are declared const to keep anyone from changing
-     * them.  But we have to set them somewhere!  This should be the only
-     * place. */
-    *(int *)&ptile->index = index;
-    *(int *)&ptile->x = map_x;
-    *(int *)&ptile->y = map_y;
-    *(int *)&ptile->nat_x = nat_x;
-    *(int *)&ptile->nat_y = nat_y;
+    ptile->index = ptile - map.tiles;
+    index_to_map_pos(&ptile->x, &ptile->y, ptile->index);
+    index_to_native_pos(&ptile->nat_x, &ptile->nat_y, ptile->index);
+    CHECK_INDEX(ptile->index);
+    CHECK_MAP_POS(ptile->x, ptile->y);
+    CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
 
     tile_init(ptile);
   } whole_map_iterate_end;

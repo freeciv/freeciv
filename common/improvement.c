@@ -72,11 +72,7 @@ void improvements_init(void)
   for (i = 0; i < ARRAY_SIZE(improvement_types); i++) {
     struct impr_type *p = get_improvement_type(i);
 
-    /* HACK: this field is declared const to keep anyone from changing
-     * them.  But we have to set it somewhere!  This should be the only
-     * place. */
-    *(int *)&p->index = i;
-
+    p->index = i;
     requirement_vector_init(&p->reqs);
   }
 }

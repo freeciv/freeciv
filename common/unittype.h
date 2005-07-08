@@ -164,7 +164,7 @@ struct veteran_type {
 };
 
 struct unit_type {
-  const int index;
+  int index;
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
   char graphic_str[MAX_LEN_NAME];

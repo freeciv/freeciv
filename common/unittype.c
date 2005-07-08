@@ -650,10 +650,7 @@ void unit_types_init(void)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
-    /* HACK: this field is declared const to keep anyone from changing
-     * them.  But we have to set it somewhere!  This should be the only
-     * place. */
-    *(int *)&unit_types[i].index = i;
+    unit_types[i].index = i;
   }
 }
 
