@@ -1107,7 +1107,7 @@ update_menus(void)
       char irrtext[128], mintext[128], transtext[128];
       char *roadtext;
       Terrain_type_id  ttype;
-      struct tile_type *tinfo;
+      struct terrain *tinfo;
 
       sz_strlcpy(irrtext, N_("Build Irrigation") "\tI");
       sz_strlcpy(mintext, N_("Build Mine") "\tM");
@@ -1213,7 +1213,7 @@ update_menus(void)
       }
 
       ttype = punit->tile->terrain;
-      tinfo = get_tile_type(ttype);
+      tinfo = get_terrain(ttype);
       if (tinfo->irrigation_result != T_NONE
 	  && tinfo->irrigation_result != ttype) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,

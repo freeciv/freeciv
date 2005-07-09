@@ -1028,7 +1028,7 @@ void update_menus(void)
 	case T_JUNGLE:  
 	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 			_("Cut Down to"),
-			tile_types[tile_types[terrain].irrigation_result
+			terrains[terrains[terrain].irrigation_result
 				].terrain_name
 			," (I)", time , PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->theme = pTheme->OCutDownForest_Icon;
@@ -1036,7 +1036,7 @@ void update_menus(void)
 	case T_SWAMP:
 	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 			_("Irrigate to"),
-			tile_types[tile_types[terrain].irrigation_result
+			terrains[terrains[terrain].irrigation_result
 				].terrain_name
 			," (I)", time , PL_("turn", "turns", time));
 	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
@@ -1062,7 +1062,7 @@ void update_menus(void)
 	case T_FOREST:
 	  my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 			_("Irrigate to"),
-			tile_types[tile_types[terrain].mining_result
+			terrains[terrains[terrain].mining_result
 				].terrain_name
 			," (M)", time , PL_("turn", "turns", time));
 	  pOrder_Mine_Button->theme = pTheme->OIrrigation_Icon;
@@ -1095,7 +1095,7 @@ void update_menus(void)
 	time = map_transform_time(pUnit->x, pUnit->y);
 	my_snprintf(cBuf, sizeof(cBuf),"%s %s%s %d %s",
 	  _("Transform to"),
-	  tile_types[tile_types[terrain].transform_result].terrain_name,
+	  terrains[terrains[terrain].transform_result].terrain_name,
 			" (M)", time , 
 			PL_("turn", "turns", time));
 	copy_chars_to_string16(pOrder_Transform_Button->string16, cBuf);

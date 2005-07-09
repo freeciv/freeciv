@@ -1205,7 +1205,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
   }
 
   /* Calculate how well we can defend at (x,y) */
-  db = 10 + get_tile_type(tile_get_terrain(ptile))->defense_bonus / 10;
+  db = 10 + get_terrain(tile_get_terrain(ptile))->defense_bonus / 10;
   if (tile_has_special(ptile, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_def_rating_basic_sq(punit) * db;

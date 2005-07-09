@@ -164,23 +164,23 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
 {
   switch (activity) {
   case ACTIVITY_POLLUTION:
-    return tile_types[ptile->terrain].clean_pollution_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].clean_pollution_time * ACTIVITY_FACTOR;
   case ACTIVITY_ROAD:
-    return tile_types[ptile->terrain].road_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].road_time * ACTIVITY_FACTOR;
   case ACTIVITY_MINE:
-    return tile_types[ptile->terrain].mining_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].mining_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
-    return tile_types[ptile->terrain].irrigation_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].irrigation_time * ACTIVITY_FACTOR;
   case ACTIVITY_FORTRESS:
-    return tile_types[ptile->terrain].fortress_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].fortress_time * ACTIVITY_FACTOR;
   case ACTIVITY_RAILROAD:
-    return tile_types[ptile->terrain].rail_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].rail_time * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSFORM:
-    return tile_types[ptile->terrain].transform_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_AIRBASE:
-    return tile_types[ptile->terrain].airbase_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].airbase_time * ACTIVITY_FACTOR;
   case ACTIVITY_FALLOUT:
-    return tile_types[ptile->terrain].clean_fallout_time * ACTIVITY_FACTOR;
+    return terrains[ptile->terrain].clean_fallout_time * ACTIVITY_FACTOR;
   default:
     return 0;
   }
@@ -227,11 +227,11 @@ void tile_change_terrain(struct tile *ptile, Terrain_type_id type)
   /* Clear mining/irrigation if resulting terrain type cannot support
    * that feature. */
   
-  if (tile_types[type].mining_result != type) {
+  if (terrains[type].mining_result != type) {
     tile_clear_special(ptile, S_MINE);
   }
 
-  if (tile_types[type].irrigation_result != type) {
+  if (terrains[type].irrigation_result != type) {
     tile_clear_special(ptile, S_IRRIGATION);
     tile_clear_special(ptile, S_FARMLAND);
   }
@@ -246,7 +246,7 @@ static void tile_irrigate(struct tile *ptile)
   Terrain_type_id now, result;
   
   now = ptile->terrain;
-  result = tile_types[now].irrigation_result;
+  result = terrains[now].irrigation_result;
 
   if (now == result) {
     if (tile_has_special(ptile, S_IRRIGATION)) {
@@ -269,7 +269,7 @@ static void tile_mine(struct tile *ptile)
   Terrain_type_id now, result;
   
   now = ptile->terrain;
-  result = tile_types[now].mining_result;
+  result = terrains[now].mining_result;
   
   if (now == result) {
     tile_set_special(ptile, S_MINE);
@@ -289,7 +289,7 @@ static void tile_transform(struct tile *ptile)
   Terrain_type_id now, result;
   
   now = ptile->terrain;
-  result = tile_types[now].transform_result;
+  result = terrains[now].transform_result;
   
   if (result != T_NONE) {
     tile_change_terrain(ptile, result);
@@ -378,7 +378,7 @@ const char *tile_get_info_text(const struct tile *ptile)
   static char s[256];
   bool first;
 
-  sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
+  sz_strlcpy(s, terrains[ptile->terrain].terrain_name);
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));
@@ -392,7 +392,7 @@ const char *tile_get_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[ptile->terrain].special[0].name);
+    sz_strlcat(s, terrains[ptile->terrain].special[0].name);
   }
   if (tile_has_special(ptile, S_SPECIAL_2)) {
     if (first) {
@@ -401,7 +401,7 @@ const char *tile_get_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[ptile->terrain].special[1].name);
+    sz_strlcat(s, terrains[ptile->terrain].special[1].name);
   }
   if (!first) {
     sz_strlcat(s, ")");

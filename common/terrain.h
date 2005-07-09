@@ -99,7 +99,7 @@ enum mapgen_terrain_property {
  * This struct gives data about each terrain type.  There are many ways
  * it could be extended.
  */
-struct tile_type {
+struct terrain {
   int index;
   const char *terrain_name; /* Translated string - doesn't need freeing. */
   char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
@@ -160,19 +160,19 @@ struct tile_type {
   char *helptext;
 };
 
-extern struct tile_type tile_types[MAX_NUM_TERRAINS];
+extern struct terrain terrains[MAX_NUM_TERRAINS];
 
 /* Terrain allocation functions. */
 void terrains_init(void);
 
 /* General terrain accessor functions. */
-struct tile_type *get_tile_type(Terrain_type_id type);
+struct terrain *get_terrain(Terrain_type_id type);
 Terrain_type_id get_terrain_by_name(const char * name);
 const char *get_terrain_name(Terrain_type_id type);
 enum terrain_flag_id terrain_flag_from_str(const char *s);
-#define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
+#define terrain_has_flag(terr, flag) BV_ISSET(terrains[(terr)].flags, flag)
 Terrain_type_id get_flag_terrain(enum terrain_flag_id flag);
-void tile_types_free(void);
+void terrains_free(void);
 
 /* Functions to operate on a general terrain type. */
 bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t);

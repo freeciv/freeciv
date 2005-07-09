@@ -573,7 +573,7 @@ static int base_get_output_tile(const struct tile *ptile,
 				int city_x, int city_y, bool is_celebrating,
 				Output_type_id otype)
 {
-  const struct tile_type *ptype = get_tile_type(ptile->terrain);
+  const struct terrain *ptype = get_terrain(ptile->terrain);
   struct tile tile;
   int prod;
   const bool auto_water = (pcity && is_city_center(city_x, city_y)
@@ -584,11 +584,11 @@ static int base_get_output_tile(const struct tile *ptile,
   assert(otype >= 0 && otype < O_LAST);
 
   if (tile_has_special(ptile, S_SPECIAL_1)) {
-    prod = tile_types[ptile->terrain].special[0].output[otype];
+    prod = terrains[ptile->terrain].special[0].output[otype];
   } else if (tile_has_special(ptile, S_SPECIAL_2)) {
-    prod = tile_types[ptile->terrain].special[1].output[otype];
+    prod = terrains[ptile->terrain].special[1].output[otype];
   } else {
-    prod = tile_types[ptile->terrain].output[otype];
+    prod = terrains[ptile->terrain].output[otype];
   }
 
   /* create dummy tile which has the city center bonuses. */

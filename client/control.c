@@ -697,7 +697,7 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
 {
   struct player *pplayer = unit_owner(punit);
   Terrain_type_id terrain = tile_get_terrain(punit->tile);
-  struct tile_type *ttype = get_tile_type(terrain);
+  struct terrain *ttype = get_terrain(terrain);
 
   /* HACK: This code duplicates that in
    * can_unit_do_activity_targeted_at(). The general logic here is that

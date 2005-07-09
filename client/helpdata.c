@@ -122,24 +122,24 @@ static void insert_generated_table(const char* name, char* outbuf)
     strcat(outbuf, "---------------------------------------------------"
 	   "------------\n");
     for (i = T_FIRST; i < T_COUNT; i++) {
-      if (*(tile_types[i].terrain_name) != '\0') {
+      if (*(terrains[i].terrain_name) != '\0') {
 	outbuf = strchr(outbuf, '\0');
 	sprintf(outbuf,
 		"%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
-		tile_types[i].terrain_name,
-		tile_types[i].road_time,
-		tile_types[i].irrigation_time,
-		((tile_types[i].irrigation_result == i
-		  || tile_types[i].irrigation_result == T_NONE) ? ""
-		 : tile_types[tile_types[i].irrigation_result].terrain_name),
-		tile_types[i].mining_time,
-		((tile_types[i].mining_result == i
-		  || tile_types[i].mining_result == T_NONE) ? ""
-		 : tile_types[tile_types[i].mining_result].terrain_name),
-		tile_types[i].transform_time,
-		((tile_types[i].transform_result == i
-		 || tile_types[i].transform_result == T_NONE) ? ""
-		 : tile_types[tile_types[i].transform_result].terrain_name));
+		terrains[i].terrain_name,
+		terrains[i].road_time,
+		terrains[i].irrigation_time,
+		((terrains[i].irrigation_result == i
+		  || terrains[i].irrigation_result == T_NONE) ? ""
+		 : terrains[terrains[i].irrigation_result].terrain_name),
+		terrains[i].mining_time,
+		((terrains[i].mining_result == i
+		  || terrains[i].mining_result == T_NONE) ? ""
+		 : terrains[terrains[i].mining_result].terrain_name),
+		terrains[i].transform_time,
+		((terrains[i].transform_result == i
+		 || terrains[i].transform_result == T_NONE) ? ""
+		 : terrains[terrains[i].transform_result].terrain_name));
       }
     }
     strcat(outbuf, "\n");
@@ -388,10 +388,10 @@ void boot_help_texts(void)
 	  } tech_type_iterate_end;
 	} else if (current_type == HELP_TERRAIN) {
 	  for (i = T_FIRST; i < T_COUNT; i++) {
-	    if (*(tile_types[i].terrain_name) != '\0') {
+	    if (*(terrains[i].terrain_name) != '\0') {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  tile_types[i].terrain_name);
+			  terrains[i].terrain_name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
@@ -1186,7 +1186,7 @@ void helptext_tech(char *buf, int i, const char *user_text)
 *****************************************************************/
 void helptext_terrain(char *buf, int i, const char *user_text)
 {
-  struct tile_type *pt;
+  struct terrain *pt;
   
   buf[0] = '\0';
   
@@ -1194,7 +1194,7 @@ void helptext_terrain(char *buf, int i, const char *user_text)
     freelog(LOG_ERROR, "Unknown terrain %d.", i);
     return;
   }
-  pt = &tile_types[i];
+  pt = &terrains[i];
 
   if (terrain_has_flag(i, TER_NO_POLLUTION)) {
     sprintf(buf + strlen(buf),

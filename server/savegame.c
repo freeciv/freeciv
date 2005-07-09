@@ -226,7 +226,7 @@ static int ascii_hex2bin(char ch, int halfbyte)
 }
 
 /****************************************************************************
-  Dereferences the terrain character.  See tile_types[].identifier
+  Dereferences the terrain character.  See terrains[].identifier
     example: char2terrain('a') => T_ARCTIC
 ****************************************************************************/
 static Terrain_type_id char2terrain(char ch)
@@ -235,7 +235,7 @@ static Terrain_type_id char2terrain(char ch)
     return T_UNKNOWN;
   }
   terrain_type_iterate(id) {
-    if (tile_types[id].identifier == ch) {
+    if (terrains[id].identifier == ch) {
       return id;
     }
   } terrain_type_iterate_end;
@@ -246,7 +246,7 @@ static Terrain_type_id char2terrain(char ch)
 }
 
 /****************************************************************************
-  References the terrain character.  See tile_types[].identifier
+  References the terrain character.  See terrains[].identifier
     example: terrain2char(T_ARCTIC) => 'a'
 ****************************************************************************/
 static char terrain2char(Terrain_type_id terr)
@@ -255,7 +255,7 @@ static char terrain2char(Terrain_type_id terr)
     return UNKNOWN_TERRAIN_IDENTIFIER;
   } else {
     assert(terr >= T_FIRST && terr < T_COUNT);
-    return tile_types[terr].identifier;
+    return terrains[terr].identifier;
   }
 }
 

@@ -149,7 +149,7 @@ Tech_Type *api_find_tech_type_by_name(const char *name_orig)
 **************************************************************************/
 Terrain *api_find_terrain(int terrain_id)
 {
-  return get_tile_type(terrain_id);
+  return get_terrain(terrain_id);
 }
 
 /**************************************************************************

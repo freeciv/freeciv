@@ -27,7 +27,7 @@
 #include "support.h"
 #include "terrain.h"
 
-struct tile_type tile_types[MAX_NUM_TERRAINS];
+struct terrain terrains[MAX_NUM_TERRAINS];
 
 enum tile_special_type infrastructure_specials[] = {
   S_ROAD,
@@ -47,8 +47,8 @@ void terrains_init(void)
 {
   int i;
 
-  for (i = 0; i < ARRAY_SIZE(tile_types); i++) {
-    struct tile_type *t = get_tile_type(i);
+  for (i = 0; i < ARRAY_SIZE(terrains); i++) {
+    struct terrain *t = get_terrain(i);
 
     t->index = i;
   }
@@ -57,9 +57,9 @@ void terrains_init(void)
 /***************************************************************
 ...
 ***************************************************************/
-struct tile_type *get_tile_type(Terrain_type_id type)
+struct terrain *get_terrain(Terrain_type_id type)
 {
-  return &tile_types[type];
+  return &terrains[type];
 }
 
 /****************************************************************************
@@ -70,7 +70,7 @@ Terrain_type_id get_terrain_by_name(const char *name)
   Terrain_type_id tt;
 
   for (tt = T_FIRST; tt < T_COUNT; tt++) {
-    if (0 == strcmp (tile_types[tt].terrain_name, name)) {
+    if (0 == strcmp (terrains[tt].terrain_name, name)) {
       return tt;
     }
   }
@@ -84,7 +84,7 @@ Terrain_type_id get_terrain_by_name(const char *name)
 const char *get_terrain_name(Terrain_type_id type)
 {
   assert(type < T_COUNT);
-  return tile_types[type].terrain_name;
+  return terrains[type].terrain_name;
 }
 
 /****************************************************************************
@@ -148,10 +148,10 @@ Terrain_type_id get_flag_terrain(enum terrain_flag_id flag)
 /****************************************************************************
   Free memory which is associated with terrain types.
 ****************************************************************************/
-void tile_types_free(void)
+void terrains_free(void)
 {
   terrain_type_iterate(t) {
-    struct tile_type *p = get_tile_type(t);
+    struct terrain *p = get_terrain(t);
 
     free(p->helptext);
     p->helptext = NULL;
@@ -228,7 +228,7 @@ int count_terrain_property_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (get_tile_type(adjc_tile->terrain)->property[prop] > 0) {
+    if (get_terrain(adjc_tile->terrain)->property[prop] > 0) {
       count++;
     }
     total++;

@@ -137,7 +137,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;
     } else {
-      move_cost = get_tile_type(terrain1)->movement_cost * SINGLE_MOVE;
+      move_cost = get_terrain(terrain1)->movement_cost * SINGLE_MOVE;
     }
   } else {
     move_cost = map_move_cost_ai(ptile, ptile1);
@@ -170,7 +170,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
         && !is_non_allied_city_tile(tgt_tile, param->owner)) {
       move_cost 
-        = get_tile_type(tgt_tile->terrain)->movement_cost * SINGLE_MOVE;
+        = get_terrain(tgt_tile->terrain)->movement_cost * SINGLE_MOVE;
     } else if (BV_ISSET(param->unit_flags, F_MARINES)) {
       /* Can attack!! */
       move_cost = SINGLE_MOVE;
@@ -223,7 +223,7 @@ static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
   if (is_ocean(terrain1)) {
     move_cost = SINGLE_MOVE;
   } else if (is_ocean(ptile->terrain)) {
-    move_cost = get_tile_type(terrain1)->movement_cost * SINGLE_MOVE;
+    move_cost = get_terrain(terrain1)->movement_cost * SINGLE_MOVE;
   } else {
     move_cost = map_move_cost_ai(ptile, ptile1);
   }
@@ -247,7 +247,7 @@ static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
   if (is_ocean(terrain1)) {
     if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
       /* Landing */
-      move_cost = get_tile_type(terrain0)->movement_cost * SINGLE_MOVE;
+      move_cost = get_terrain(terrain0)->movement_cost * SINGLE_MOVE;
     } else {
       /* Nothing to land from */
       move_cost = PF_IMPOSSIBLE_MC;

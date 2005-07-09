@@ -293,23 +293,23 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
   } else {
 #if 0
   ttype = punit->tile->terrain;
-  tinfo = get_tile_type(ttype);
+  tinfo = get_terrain(ttype);
   if ((tinfo->irrigation_result != T_LAST)
       && (tinfo->irrigation_result != ttype)) {
     my_snprintf(irrtext, sizeof(irrtext), irrfmt,
-		(get_tile_type(tinfo->irrigation_result))->terrain_name);
+		(get_terrain(tinfo->irrigation_result))->terrain_name);
   } else if (tile_has_special(punit->tile, S_IRRIGATION)
 	     && player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
     sz_strlcpy(irrtext, _("Bu_ild Farmland"));
   }
   if ((tinfo->mining_result != T_LAST) && (tinfo->mining_result != ttype)) {
     my_snprintf(mintext, sizeof(mintext), minfmt,
-		(get_tile_type(tinfo->mining_result))->terrain_name);
+		(get_terrain(tinfo->mining_result))->terrain_name);
   }
   if ((tinfo->transform_result != T_LAST)
       && (tinfo->transform_result != ttype)) {
     my_snprintf(transtext, sizeof(transtext), transfmt,
-		(get_tile_type(tinfo->transform_result))->terrain_name);
+		(get_terrain(tinfo->transform_result))->terrain_name);
   }
 
   menus_rename("<main>/_Orders/Build _Irrigation", irrtext);

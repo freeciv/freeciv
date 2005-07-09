@@ -226,7 +226,7 @@ static bool manual_command(void)
       fprintf(doc, _("<th>Transform to</th>"));
       fprintf(doc, "</tr>\n");
       terrain_type_iterate(id) {
-	struct tile_type *ptype = get_tile_type(id);
+	struct terrain *ptype = get_terrain(id);
 	int s;
 
 	if (ptype->defense_bonus == 0) {
@@ -268,7 +268,7 @@ static bool manual_command(void)
       fprintf(doc, _("<th>Transform</th></tr>\n"));
       terrain_type_iterate(id) {
 	const char *name = get_terrain_name(id);
-	struct tile_type *ptype = get_tile_type(id);
+	struct terrain *ptype = get_terrain(id);
 
 	if (ptype->terrain_name[0] == '\0') {
 	  /* Must be a disabled piece of terrain */

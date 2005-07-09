@@ -295,7 +295,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
   int goodness;
   Terrain_type_id old_terrain = ptile->terrain;
   bv_special old_special = ptile->special;
-  struct tile_type *type = get_tile_type(old_terrain);
+  struct terrain *type = get_terrain(old_terrain);
   Terrain_type_id new_terrain = type->irrigation_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
@@ -360,7 +360,7 @@ static int ai_calc_mine(struct city *pcity,
   int goodness;
   Terrain_type_id old_terrain = ptile->terrain;
   bv_special old_special = ptile->special;
-  struct tile_type *type = get_tile_type(old_terrain);
+  struct terrain *type = get_terrain(old_terrain);
   Terrain_type_id new_terrain = type->mining_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
@@ -412,7 +412,7 @@ static int ai_calc_transform(struct city *pcity,
   int goodness;
   Terrain_type_id old_terrain = ptile->terrain;
   bv_special old_special = ptile->special;
-  struct tile_type *type = get_tile_type(old_terrain);
+  struct terrain *type = get_terrain(old_terrain);
   Terrain_type_id new_terrain = type->transform_result;
 
   if (old_terrain == new_terrain || new_terrain == T_NONE) {
@@ -436,10 +436,10 @@ static int ai_calc_transform(struct city *pcity,
 
   ptile->terrain = new_terrain;
 
-  if (get_tile_type(new_terrain)->mining_result != new_terrain) {
+  if (get_terrain(new_terrain)->mining_result != new_terrain) {
     tile_clear_special(ptile, S_MINE);
   }
-  if (get_tile_type(new_terrain)->irrigation_result != new_terrain) {
+  if (get_terrain(new_terrain)->irrigation_result != new_terrain) {
     tile_clear_special(ptile, S_FARMLAND);
     tile_clear_special(ptile, S_IRRIGATION);
   }
@@ -476,7 +476,7 @@ static int road_bonus(struct tile *ptile, enum tile_special_type special)
       has_road[i] = FALSE;
       is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
-      struct tile_type *ptype = get_tile_type(tile1->terrain);
+      struct terrain *ptype = get_terrain(tile1->terrain);
 
       has_road[i] = tile_has_special(tile1, special);
 

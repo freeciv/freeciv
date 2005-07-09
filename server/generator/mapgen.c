@@ -244,15 +244,15 @@ static Terrain_type_id pick_terrain(enum mapgen_terrain_property target,
 
   /* Find the total weight. */
   terrain_type_iterate(terrain) {
-    if (avoid != MG_LAST && get_tile_type(terrain)->property[avoid] > 0) {
+    if (avoid != MG_LAST && get_terrain(terrain)->property[avoid] > 0) {
       continue;
     }
-    if (prefer != MG_LAST && get_tile_type(terrain)->property[prefer] == 0) {
+    if (prefer != MG_LAST && get_terrain(terrain)->property[prefer] == 0) {
       continue;
     }
 
     if (target != MG_LAST) {
-      sum += get_tile_type(terrain)->property[target];
+      sum += get_terrain(terrain)->property[target];
     } else {
       sum++;
     }
@@ -265,15 +265,15 @@ static Terrain_type_id pick_terrain(enum mapgen_terrain_property target,
   terrain_type_iterate(terrain) {
     int property;
 
-    if (avoid != MG_LAST && get_tile_type(terrain)->property[avoid] > 0) {
+    if (avoid != MG_LAST && get_terrain(terrain)->property[avoid] > 0) {
       continue;
     }
-    if (prefer != MG_LAST && get_tile_type(terrain)->property[prefer] == 0) {
+    if (prefer != MG_LAST && get_terrain(terrain)->property[prefer] == 0) {
       continue;
     }
 
     if (target != MG_LAST) {
-      property = get_tile_type(terrain)->property[target];
+      property = get_terrain(terrain)->property[target];
     } else {
       property = 1;
     }
@@ -301,11 +301,11 @@ static Terrain_type_id pick_ocean(int depth)
 {
   Terrain_type_id best_terrain = get_flag_terrain(TER_OCEANIC);
   int best_match
-    = abs(depth - get_tile_type(best_terrain)->property[MG_OCEAN_DEPTH]);
+    = abs(depth - get_terrain(best_terrain)->property[MG_OCEAN_DEPTH]);
 
   terrain_type_iterate(t) {
     if (terrain_has_flag(t, TER_OCEANIC)) {
-      int match = abs(depth - get_tile_type(t)->property[MG_OCEAN_DEPTH]);
+      int match = abs(depth - get_terrain(t)->property[MG_OCEAN_DEPTH]);
 
       if (match < best_match) {
 	best_match = match;
@@ -584,7 +584,7 @@ static int river_test_rivergrid(struct tile *ptile)
 *********************************************************************/
 static int river_test_highlands(struct tile *ptile)
 {
-  return get_tile_type(ptile->terrain)->property[MG_MOUNTAINOUS];
+  return get_terrain(ptile->terrain)->property[MG_MOUNTAINOUS];
 }
 
 /*********************************************************************
@@ -611,7 +611,7 @@ static int river_test_adjacent_highlands(struct tile *ptile)
   int sum = 0;
 
   adjc_iterate(ptile, ptile2) {
-    sum += get_tile_type(ptile2->terrain)->property[MG_MOUNTAINOUS];
+    sum += get_terrain(ptile2->terrain)->property[MG_MOUNTAINOUS];
   } adjc_iterate_end;
 
   return sum;
@@ -622,7 +622,7 @@ static int river_test_adjacent_highlands(struct tile *ptile)
 *********************************************************************/
 static int river_test_swamp(struct tile *ptile)
 {
-  return FC_INFINITY - get_tile_type(ptile->terrain)->property[MG_WET];
+  return FC_INFINITY - get_terrain(ptile->terrain)->property[MG_WET];
 }
 
 /*********************************************************************
@@ -633,7 +633,7 @@ static int river_test_adjacent_swamp(struct tile *ptile)
   int sum = 0;
 
   adjc_iterate(ptile, ptile2) {
-    sum += get_tile_type(ptile2->terrain)->property[MG_WET];
+    sum += get_terrain(ptile2->terrain)->property[MG_WET];
   } adjc_iterate_end;
 
   return FC_INFINITY - sum;
@@ -792,7 +792,7 @@ static bool make_river(struct tile *ptile)
     /* We arbitrarily make rivers end at the poles. */
     if (count_special_near_tile(ptile, TRUE, TRUE, S_RIVER) > 0
 	|| count_ocean_near_tile(ptile, TRUE, TRUE) > 0
-        || (get_tile_type(ptile->terrain)->property[MG_FROZEN] > 0
+        || (get_terrain(ptile->terrain)->property[MG_FROZEN] > 0
 	    && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) { 
 
       freelog(LOG_DEBUG,
@@ -946,17 +946,17 @@ static void make_rivers(void)
 
 	/* Don't start a river on hills unless it is hard to find
 	   somewhere else to start it. */
-	&& (get_tile_type(ptile->terrain)->property[MG_MOUNTAINOUS] == 0
+	&& (get_terrain(ptile->terrain)->property[MG_MOUNTAINOUS] == 0
 	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 6)
 
 	/* Don't start a river on arctic unless it is hard to find
 	   somewhere else to start it. */
-	&& (get_tile_type(ptile->terrain)->property[MG_FROZEN] == 0
+	&& (get_terrain(ptile->terrain)->property[MG_FROZEN] == 0
 	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 8)
 
 	/* Don't start a river on desert unless it is hard to find
 	   somewhere else to start it. */
-	&& (get_tile_type(ptile->terrain)->property[MG_DRY] == 0
+	&& (get_terrain(ptile->terrain)->property[MG_DRY] == 0
 	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 9)) {
 
       /* Reset river_map before making a new river. */
@@ -1048,7 +1048,7 @@ static bool is_tiny_island(struct tile *ptile)
 {
   Terrain_type_id t = tile_get_terrain(ptile);
 
-  if (is_ocean(t) || get_tile_type(t)->property[MG_FROZEN] > 0) {
+  if (is_ocean(t) || get_terrain(t)->property[MG_FROZEN] > 0) {
     /* The arctic check is needed for iso-maps: the poles may not have
      * any cardinally adjacent land tiles, but that's okay. */
     return FALSE;
@@ -1328,20 +1328,20 @@ static void add_specials(int prob)
     if (!is_ocean(ttype)
 	&& !is_special_close(ptile) 
 	&& myrand(1000) < prob) {
-      if (tile_types[ttype].special[0].name[0] != '\0'
-	  && (tile_types[ttype].special[1].name[0] == '\0'
+      if (terrains[ttype].special[0].name[0] != '\0'
+	  && (terrains[ttype].special[1].name[0] == '\0'
 	      || (myrand(100) < 50))) {
 	tile_set_special(ptile, S_SPECIAL_1);
-      } else if (tile_types[ttype].special[1].name[0] != '\0') {
+      } else if (terrains[ttype].special[1].name[0] != '\0') {
 	tile_set_special(ptile, S_SPECIAL_2);
       }
     } else if (is_ocean(ttype) && near_safe_tiles(ptile) 
 	       && myrand(1000) < prob && !is_special_close(ptile)) {
-      if (tile_types[ttype].special[0].name[0] != '\0'
-	  && (tile_types[ttype].special[1].name[0] == '\0'
+      if (terrains[ttype].special[0].name[0] != '\0'
+	  && (terrains[ttype].special[1].name[0] == '\0'
 	      || (myrand(100) < 50))) {
         tile_set_special(ptile, S_SPECIAL_1);
-      } else if (tile_types[ttype].special[1].name[0] != '\0') {
+      } else if (terrains[ttype].special[1].name[0] != '\0') {
 	tile_set_special(ptile, S_SPECIAL_2);
       }
     }

@@ -1241,7 +1241,7 @@ void update_menus(void) /* from menu.c */
       static char mintext[64];
       static char transtext[64];
       Terrain_type_id ttype;
-      struct tile_type *tinfo;
+      struct terrain *tinfo;
 
       set(main_menu, MUIA_Window_Menustrip, NULL);
 
@@ -1295,11 +1295,11 @@ void update_menus(void) /* from menu.c */
       }
 
       ttype = map_get_tile(punit->tile)->terrain;
-      tinfo = get_tile_type(ttype);
+      tinfo = get_terrain(ttype);
       if ((tinfo->irrigation_result != T_NONE)
 	  && (tinfo->irrigation_result != ttype)) {
 	my_snprintf(irrtext, sizeof(irrtext), chgfmt,
-		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
+		    (get_terrain(tinfo->irrigation_result))->terrain_name);
       } else if (tile_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
@@ -1311,7 +1311,7 @@ void update_menus(void) /* from menu.c */
       if ((tinfo->mining_result != T_NONE)
 	  && (tinfo->mining_result != ttype)) {
 	my_snprintf(mintext, sizeof(mintext), chgfmt,
-		    (get_tile_type(tinfo->mining_result))->terrain_name);
+		    (get_terrain(tinfo->mining_result))->terrain_name);
       } else {
         sz_strlcpy(mintext, _("Build Mine"));
       }
@@ -1319,7 +1319,7 @@ void update_menus(void) /* from menu.c */
       if ((tinfo->transform_result != T_NONE)
 	  && (tinfo->transform_result != ttype)) {
 	my_snprintf(transtext, sizeof(transtext), chgfmt,
-		    (get_tile_type(tinfo->transform_result))->terrain_name);
+		    (get_terrain(tinfo->transform_result))->terrain_name);
       } else {
         sz_strlcpy(transtext, _("Transform Terrain"));
       }

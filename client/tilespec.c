@@ -2392,7 +2392,7 @@ void tileset_setup_tech_type(struct tileset *t, int id)
 ***********************************************************************/
 void tileset_setup_tile_type(struct tileset *t, Terrain_type_id terrain)
 {
-  struct tile_type *tt = get_tile_type(terrain);
+  struct terrain *tt = get_terrain(terrain);
   struct terrain_drawing_data *draw;
   char buffer1[MAX_LEN_NAME + 20];
   int i, l;

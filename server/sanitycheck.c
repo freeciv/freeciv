@@ -66,9 +66,9 @@ static void check_specials(void)
       SANITY_CHECK(!contains_special(special,  S_SPECIAL_2));
 
     if (contains_special(special, S_MINE))
-      SANITY_CHECK(get_tile_type(terrain)->mining_result == terrain);
+      SANITY_CHECK(get_terrain(terrain)->mining_result == terrain);
     if (contains_special(special, S_IRRIGATION))
-      SANITY_CHECK(get_tile_type(terrain)->irrigation_result == terrain);
+      SANITY_CHECK(get_terrain(terrain)->irrigation_result == terrain);
 
     SANITY_CHECK(terrain >= T_FIRST && terrain < T_COUNT);
   } whole_map_iterate_end;

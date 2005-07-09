@@ -682,7 +682,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
     }
   }
 
-  return(get_tile_type(t2->terrain)->movement_cost*SINGLE_MOVE);
+  return(get_terrain(t2->terrain)->movement_cost*SINGLE_MOVE);
 }
 
 /****************************************************************************

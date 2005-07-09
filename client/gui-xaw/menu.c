@@ -364,10 +364,10 @@ void update_menus(void)
 
     if (punit && can_client_issue_orders()) {
       Terrain_type_id  ttype;
-      struct tile_type *      tinfo;
+      struct terrain *      tinfo;
 
       ttype = punit->tile->terrain;
-      tinfo = get_tile_type(ttype);
+      tinfo = get_terrain(ttype);
 
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_CITY,
 			   can_unit_add_or_build_city(punit));
@@ -449,7 +449,7 @@ void update_menus(void)
 	  && (tinfo->irrigation_result != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
-			  (get_tile_type(tinfo->irrigation_result))->terrain_name);
+			  (get_terrain(tinfo->irrigation_result))->terrain_name);
       }
       else if (tile_has_special(punit->tile, S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
@@ -464,7 +464,7 @@ void update_menus(void)
 	  && (tinfo->mining_result != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_CHANGE_TO,
-			  (get_tile_type(tinfo->mining_result))->terrain_name);
+			  (get_terrain(tinfo->mining_result))->terrain_name);
       } else {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_MINE, NULL);
@@ -474,7 +474,7 @@ void update_menus(void)
 	  && (tinfo->transform_result != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TRANSFORM_TO,
-			  (get_tile_type(tinfo->transform_result))->terrain_name);
+			  (get_terrain(tinfo->transform_result))->terrain_name);
       } else {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TERRAIN, NULL);

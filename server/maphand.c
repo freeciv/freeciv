@@ -215,9 +215,9 @@ void global_warming(int effect)
     ptile = rand_map_pos();
     old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
-      new = get_tile_type(old)->warmer_wetter_result;
+      new = get_terrain(old)->warmer_wetter_result;
     } else {
-      new = get_tile_type(old)->warmer_drier_result;
+      new = get_terrain(old)->warmer_drier_result;
     }
     if (new != T_NONE && old != new) {
       effect--;
@@ -257,9 +257,9 @@ void nuclear_winter(int effect)
     ptile = rand_map_pos();
     old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
-      new = get_tile_type(old)->cooler_wetter_result;
+      new = get_terrain(old)->cooler_wetter_result;
     } else {
-      new = get_tile_type(old)->cooler_drier_result;
+      new = get_terrain(old)->cooler_drier_result;
     }
     if (new != T_NONE && old != new) {
       effect--;

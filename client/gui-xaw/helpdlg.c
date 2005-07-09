@@ -993,57 +993,57 @@ static void help_update_terrain(const struct help_item *pitem,
   if (i < T_COUNT)
     {
       sprintf (buf, "%d/%d.%d",
-	       tile_types[i].movement_cost,
-	       (int)((tile_types[i].defense_bonus + 100) / 100),
-	       (tile_types[i].defense_bonus + 100) % 100 / 10);
+	       terrains[i].movement_cost,
+	       (int)((terrains[i].defense_bonus + 100) / 100),
+	       (terrains[i].defense_bonus + 100) % 100 / 10);
       xaw_set_label (help_terrain_movement_defense_data, buf);
 
       sprintf (buf, "%d/%d/%d",
-	       tile_types[i].output[O_FOOD],
-	       tile_types[i].output[O_SHIELD],
-	       tile_types[i].output[O_TRADE]);
+	       terrains[i].output[O_FOOD],
+	       terrains[i].output[O_SHIELD],
+	       terrains[i].output[O_TRADE]);
       xaw_set_label (help_terrain_food_shield_trade_data, buf);
 
-      if (*(tile_types[i].special[0].name))
+      if (*(terrains[i].special[0].name))
 	{
 	  sprintf (buf, _("%s F/R/T:"),
-		   tile_types[i].special[0].name);
+		   terrains[i].special[0].name);
 	  xaw_set_label (help_terrain_special_1, buf);
 	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].special[0].output[O_FOOD],
-		   tile_types[i].special[0].output[O_SHIELD],
-		   tile_types[i].special[0].output[O_TRADE]);
+		   terrains[i].special[0].output[O_FOOD],
+		   terrains[i].special[0].output[O_SHIELD],
+		   terrains[i].special[0].output[O_TRADE]);
 	  xaw_set_label (help_terrain_special_1_data, buf);
 	} else {
 	  xaw_set_label (help_terrain_special_1, "");
 	  xaw_set_label (help_terrain_special_1_data, "");
 	}
 
-      if (*(tile_types[i].special[1].name))
+      if (*(terrains[i].special[1].name))
 	{
 	  sprintf (buf, _("%s F/R/T:"),
-		   tile_types[i].special[1].name);
+		   terrains[i].special[1].name);
 	  xaw_set_label (help_terrain_special_2, buf);
 	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].special[1].output[O_FOOD],
-		   tile_types[i].special[1].output[O_SHIELD],
-		   tile_types[i].special[1].output[O_TRADE]);
+		   terrains[i].special[1].output[O_FOOD],
+		   terrains[i].special[1].output[O_SHIELD],
+		   terrains[i].special[1].output[O_TRADE]);
 	  xaw_set_label (help_terrain_special_2_data, buf);
 	} else {
 	  xaw_set_label (help_terrain_special_2, "");
 	  xaw_set_label (help_terrain_special_2_data, "");
 	}
 
-      if (tile_types[i].road_trade_incr > 0)
+      if (terrains[i].road_trade_incr > 0)
 	{
 	  sprintf (buf, _("+%d Trade / %d"),
-		   tile_types[i].road_trade_incr,
-		   tile_types[i].road_time);
+		   terrains[i].road_trade_incr,
+		   terrains[i].road_time);
 	}
-      else if (tile_types[i].road_time > 0)
+      else if (terrains[i].road_time > 0)
 	{
 	  sprintf (buf, _("no extra / %d"),
-		   tile_types[i].road_time);
+		   terrains[i].road_time);
 	}
       else
 	{
@@ -1052,46 +1052,46 @@ static void help_update_terrain(const struct help_item *pitem,
       xaw_set_label (help_terrain_road_result_time_data, buf);
 
       strcpy (buf, _("n/a"));
-      if (tile_types[i].irrigation_result == i)
+      if (terrains[i].irrigation_result == i)
 	{
-	  if (tile_types[i].irrigation_food_incr > 0)
+	  if (terrains[i].irrigation_food_incr > 0)
 	    {
 	      sprintf (buf, _("+%d Food / %d"),
-		       tile_types[i].irrigation_food_incr,
-		       tile_types[i].irrigation_time);
+		       terrains[i].irrigation_food_incr,
+		       terrains[i].irrigation_time);
 	    }
 	}
-      else if (tile_types[i].irrigation_result != T_NONE)
+      else if (terrains[i].irrigation_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].irrigation_result].terrain_name,
-		   tile_types[i].irrigation_time);
+		   terrains[terrains[i].irrigation_result].terrain_name,
+		   terrains[i].irrigation_time);
 	}
       xaw_set_label (help_terrain_irrigation_result_time_data, buf);
 
       strcpy (buf, _("n/a"));
-      if (tile_types[i].mining_result == i)
+      if (terrains[i].mining_result == i)
 	{
-	  if (tile_types[i].mining_shield_incr > 0)
+	  if (terrains[i].mining_shield_incr > 0)
 	    {
 	      sprintf (buf, _("+%d Res. / %d"),
-		       tile_types[i].mining_shield_incr,
-		       tile_types[i].mining_time);
+		       terrains[i].mining_shield_incr,
+		       terrains[i].mining_time);
 	    }
 	}
-      else if (tile_types[i].mining_result != T_NONE)
+      else if (terrains[i].mining_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].mining_result].terrain_name,
-		   tile_types[i].mining_time);
+		   terrains[terrains[i].mining_result].terrain_name,
+		   terrains[i].mining_time);
 	}
       xaw_set_label (help_terrain_mining_result_time_data, buf);
 
-      if (tile_types[i].transform_result != T_NONE)
+      if (terrains[i].transform_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].transform_result].terrain_name,
-		   tile_types[i].transform_time);
+		   terrains[terrains[i].transform_result].terrain_name,
+		   terrains[i].transform_time);
 	} else {
 	  strcpy (buf, _("n/a"));
 	}

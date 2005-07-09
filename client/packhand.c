@@ -2273,7 +2273,7 @@ void handle_ruleset_government_ruler_title
 **************************************************************************/
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
-  struct tile_type *t;
+  struct terrain *t;
 
   if (p->id < T_FIRST || p->id >= T_COUNT) {
     freelog(LOG_ERROR,
@@ -2281,7 +2281,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 	    p->id);
     return;
   }
-  t = &(tile_types[p->id]);
+  t = &(terrains[p->id]);
 
   sz_strlcpy(t->terrain_name_orig, p->terrain_name);
   t->terrain_name = t->terrain_name_orig;

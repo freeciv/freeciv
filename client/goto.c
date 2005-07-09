@@ -390,7 +390,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
 static int get_activity_time(const struct tile *ptile,
 			     struct player *pplayer)
 {
-  struct tile_type *ttype = get_tile_type(ptile->terrain);
+  struct terrain *ttype = get_terrain(ptile->terrain);
   int activity_mc = 0;
 
   assert(hover_state == HOVER_CONNECT);

@@ -802,7 +802,7 @@ static int exit_terrain_info_dialog(struct GUI *pButton)
 const char *sdl_get_tile_defense_info_text(struct tile *pTile)
 {
   static char buffer[64];
-  int bonus = (tile_types[pTile->terrain].defense_bonus - 10) * 10;
+  int bonus = (terrains[pTile->terrain].defense_bonus - 10) * 10;
   
   if((pTile->special & S_RIVER) == S_RIVER) {
     bonus += terrain_control.river_defense_bonus;
@@ -827,7 +827,7 @@ const char *sdl_map_get_tile_info_text(struct tile *pTile)
   static char s[128];
   bool first;
     
-  my_snprintf(s, sizeof(s), "%s", tile_types[pTile->terrain].terrain_name);
+  my_snprintf(s, sizeof(s), "%s", terrains[pTile->terrain].terrain_name);
   if((pTile->special & S_RIVER) == S_RIVER) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));
@@ -836,7 +836,7 @@ const char *sdl_map_get_tile_info_text(struct tile *pTile)
   first = TRUE;
   if ((pTile->special & S_SPECIAL_1) == S_SPECIAL_1) {
     first = FALSE;
-    cat_snprintf(s, sizeof(s), " (%s", tile_types[pTile->terrain].special_1_name);
+    cat_snprintf(s, sizeof(s), " (%s", terrains[pTile->terrain].special_1_name);
   }
   if ((pTile->special & S_SPECIAL_2) == S_SPECIAL_2) {
     if (first) {
@@ -845,7 +845,7 @@ const char *sdl_map_get_tile_info_text(struct tile *pTile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[pTile->terrain].special_2_name);
+    sz_strlcat(s, terrains[pTile->terrain].special_2_name);
   }
   if (!first) {
     sz_strlcat(s, ")");

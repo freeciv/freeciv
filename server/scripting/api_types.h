@@ -39,7 +39,7 @@ typedef struct nation_type Nation_Type;
 typedef struct impr_type Building_Type;
 typedef struct unit_type Unit_Type;
 typedef struct advance Tech_Type;
-typedef struct tile_type Terrain;
+typedef struct terrain Terrain;
 
 #endif
 

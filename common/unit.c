@@ -731,7 +731,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      const struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
-  struct tile_type *type = get_tile_type(ptile->terrain);
+  struct terrain *type = get_terrain(ptile->terrain);
 
   switch(activity) {
   case ACTIVITY_IDLE:

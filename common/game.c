@@ -351,7 +351,7 @@ void ruleset_data_free()
   unit_types_free();
   improvements_free();
   city_styles_free();
-  tile_types_free();
+  terrains_free();
   ruleset_cache_free();
 }
 
@@ -573,7 +573,7 @@ void translate_data_names(void)
   } impr_type_iterate_end;
 
   terrain_type_iterate(i) {
-    struct tile_type *tthis = &tile_types[i];
+    struct terrain *tthis = &terrains[i];
 
     tthis->terrain_name = ((strcmp(tthis->terrain_name_orig, "") != 0)
 			   ? Q_(tthis->terrain_name_orig) : "");

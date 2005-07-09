@@ -852,12 +852,12 @@ static void help_update_terrain(const struct help_item *pitem,
 
   if (i < T_COUNT)
   {
-    struct tile_type *tile = get_tile_type(i);
+    struct terrain *tile = get_terrain(i);
     char buf[256];
     Object *o,*g;
 
-    settextf(help_terrain_move_text, _("Movecost: %ld"), tile_types[i].movement_cost);
-    settextf(help_terrain_defense_text, _("Defense: %ld.%ld"), (tile_types[i].defense_bonus / 10), tile_types[i].defense_bonus % 10);
+    settextf(help_terrain_move_text, _("Movecost: %ld"), terrains[i].movement_cost);
+    settextf(help_terrain_defense_text, _("Defense: %ld.%ld"), (terrains[i].defense_bonus / 10), terrains[i].defense_bonus % 10);
 
     DoMethod(help_right_group, MUIM_Group_InitChange);
     DoMethod(help_page_group, MUIM_Group_InitChange);
