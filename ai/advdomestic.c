@@ -189,7 +189,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       want /= 5;
     }
     
-    if (ai->max_num_cities >= city_list_size(pplayer->cities)) {
+    if (ai->max_num_cities <= city_list_size(pplayer->cities)) {
       want /= 100;
     }
 

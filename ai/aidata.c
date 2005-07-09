@@ -694,14 +694,19 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
    * for the beginners.
    */
   if (ai_handicap(pplayer, H_EXPANSION)) {
+    bool found_human = FALSE;
     ai->max_num_cities = 3;
     players_iterate(aplayer) {
-      if (aplayer == pplayer || aplayer->ai.control) {
+      if (aplayer == pplayer || aplayer->ai.control || !aplayer->is_alive) {
         continue;
       }
       ai->max_num_cities = MAX(ai->max_num_cities,
                                city_list_size(aplayer->cities) + 3);
+      found_human = TRUE;
     } players_iterate_end;
+    if (!found_human) {
+      ai->max_num_cities = MAP_INDEX_SIZE;
+    }
   } else {
     ai->max_num_cities = MAP_INDEX_SIZE;
   }
