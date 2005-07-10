@@ -800,7 +800,8 @@ static void map_save(struct section_file *file)
       secfile_insert_int(file, ptile->nat_y, "map.r%dsy", i);
 
       if (map.start_positions[i].nation != NO_NATION_SELECTED) {
-	const char *nation = get_nation_name(map.start_positions[i].nation);
+	const char *nation = 
+	  get_nation_name_orig(map.start_positions[i].nation);
 
 	secfile_insert_str(file, nation, "map.r%dsnation", i);
       }
