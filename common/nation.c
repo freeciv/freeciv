@@ -107,6 +107,19 @@ const char *get_nation_name_orig(Nation_type_id nation)
   return nations[nation].name_orig;
 }
 
+/****************************************************************************
+  Return whether a nation is "playable"; i.e., whether a human player can
+  choose this nation.  Barbarian and observer nations are not playable.
+
+  This does not check whether a nation is "used" or "available".
+****************************************************************************/
+bool is_nation_playable(Nation_type_id nation)
+{
+  /* Currently the nation index tells whether it's playable - barbarian
+   * and observer nations come at the end. */
+  return nation < game.control.playable_nation_count;
+}
+
 /***************************************************************
 Returns pointer to the array of the nation leader names, and
 sets dim to number of leaders.

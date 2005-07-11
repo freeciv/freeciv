@@ -110,6 +110,7 @@ Nation_type_id find_nation_by_name_orig(const char *name);
 const char *get_nation_name(Nation_type_id nation);
 const char *get_nation_name_plural(Nation_type_id nation);
 const char *get_nation_name_orig(Nation_type_id nation);
+bool is_nation_playable(Nation_type_id nation);
 struct leader *get_nation_leaders(Nation_type_id nation, int *dim);
 Nation_type_id *get_nation_civilwar(Nation_type_id nation);
 bool get_nation_leader_sex(Nation_type_id nation, const char *name);
@@ -130,12 +131,14 @@ bool nation_in_group(struct nation_type* nation, const char* group_name);
 bool can_conn_edit_players_nation(const struct connection *pconn,
 				  const struct player *pplayer);
 
+/* Iterate over nations.  This iterates over all nations, including
+ * unplayable ones (use is_nation_playable to filter if necessary). */
 #define nations_iterate(nation)						    \
 {									    \
   int NI_index;								    \
 									    \
   for (NI_index = 0;							    \
-       NI_index < game.control.playable_nation_count;			    \
+       NI_index < game.control.nation_count;				    \
        NI_index++) {							    \
     struct nation_type *nation = get_nation_by_idx(NI_index);
 

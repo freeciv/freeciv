@@ -1214,7 +1214,8 @@ void init_available_nations(void)
     }
   } else {
     nations_iterate(nation) {
-      nation->is_unavailable = FALSE;
+      /* We preemptively mark unplayable nations as unavailable. */
+      nation->is_unavailable = !is_nation_playable(nation->index);
     } nations_iterate_end;
   }
   nations_iterate(nation) {
