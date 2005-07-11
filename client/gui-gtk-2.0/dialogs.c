@@ -256,7 +256,6 @@ static void bribe_response(GtkWidget *w, gint response)
 			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(w);
-  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -267,6 +266,7 @@ static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
   if (find_unit_by_id(diplomat_id) && find_unit_by_id(diplomat_target_id)) {
     dsend_packet_unit_bribe_inq(&aconnection, diplomat_target_id);
   }
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -336,8 +336,6 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
   request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id,
 			  diplomat_target_id, 0);
-
-  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -392,8 +390,6 @@ static void spy_advances_response(GtkWidget *w, gint response, gpointer data)
   }
   gtk_widget_destroy(spy_tech_shell);
   spy_tech_shell = NULL;
-
-  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -538,8 +534,6 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
   }
   gtk_widget_destroy(spy_sabotage_shell);
   spy_sabotage_shell = NULL;
-
-  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -674,6 +668,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
     create_advances_list(game.player_ptr, pvictim);
     gtk_window_present(GTK_WINDOW(spy_tech_shell));
   }
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -687,6 +682,7 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
     request_diplomat_action(SPY_GET_SABOTAGE_LIST, diplomat_id,
 			    diplomat_target_id, 0);
   }
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -709,6 +705,7 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
   if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
     dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
   }
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
@@ -721,7 +718,6 @@ static void incite_response(GtkWidget *w, gint response)
 			    diplomat_target_id, 0);
   }
   gtk_widget_destroy(w);
-  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
