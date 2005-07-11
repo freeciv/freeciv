@@ -199,6 +199,7 @@ void dio_put_uint8(struct data_out *dout, int value)
   if (enough_space(dout, 1)) {
     unsigned char x = value;
 
+    assert(sizeof(x) == 1);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 1);
     dout->current++;
   }
@@ -212,6 +213,7 @@ void dio_put_uint16(struct data_out *dout, int value)
   if (enough_space(dout, 2)) {
     unsigned short x = htons(value);
 
+    assert(sizeof(x) == 2);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 2);
     dout->current += 2;
   }
@@ -223,8 +225,9 @@ void dio_put_uint16(struct data_out *dout, int value)
 void dio_put_uint32(struct data_out *dout, int value)
 {
   if (enough_space(dout, 4)) {
-    unsigned long x = htonl(value);
+    unsigned int x = htonl(value);
 
+    assert(sizeof(x) == 4);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
     dout->current += 4;
   }
@@ -406,6 +409,7 @@ void dio_get_uint8(struct data_in *din, int *dest)
     if (dest) {
       unsigned char x;
 
+      assert(sizeof(x) == 1);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 1);
       *dest = x;
     }
@@ -422,6 +426,7 @@ void dio_get_uint16(struct data_in *din, int *dest)
     if (dest) {
       unsigned short x;
 
+      assert(sizeof(x) == 2);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 2);
       *dest = ntohs(x);
     }
@@ -436,8 +441,9 @@ void dio_get_uint32(struct data_in *din, int *dest)
 {
   if (enough_data(din, 4)) {
     if (dest) {
-      unsigned long x;
+      unsigned int x;
 
+      assert(sizeof(x) == 4);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 4);
       *dest = ntohl(x);
     }
