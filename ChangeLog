@@ -1,3 +1,260 @@
+Tue Jul 12 04:17:06 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* doc/PEOPLE:
+
+	Update PEOPLE for 2.0.3.
+
+Tue Jul 12 04:02:19 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* NEWS, common/version.h, doc/BUGS, version.in:
+
+	Update NEWS for 2.0.3.
+
+Mon Jul 11 15:09:23 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/dataio.c:
+
+	Backport: fix a glitch where "long" was assumed to be a 32-bit
+	value; this broke the network code on some 64-bit machines. Also
+	add assertions to catch (at runtime) other such errors.
+
+	Reported by Michael Lorenz <macallan@netbsd.org> in PR#13416.
+
+Mon Jul 11 07:38:30 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/gui-gtk-2.0/dialogs.c:
+
+	Backport: If a diplomat is killed and a user presses the Incite
+	button, the diplomat dialog is hidden and no new diplomat dialog
+	will ever be opened. Reported by David Tansey
+	<djtansey@gmail.com>. Patch by me in PR#13443
+
+Sun Jul 10 16:04:55 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/savegame.c:
+
+	Backport: Save nations on starting positions by untranslated
+	name. Patch by me in PR#13440
+
+Wed Jul 06 08:17:33 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/diplhand.c, server/plrhand.c, server/plrhand.h:
+
+	Backport: Properly handle alliance breakup in a pact reduction
+	treaty. Patch by me in PR#13413
+
+Mon Jul 04 06:52:06 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* data/civ2/buildings.ruleset, data/history/buildings.ruleset:
+
+	Fix granary in civ2 and history ruleset. Reported by John Soltow
+	in PR#13399
+
+Sun Jul 03 06:43:10 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/gui-gtk-2.0/dialogs.c:
+
+	Fix problems with spies when not having an embassy. Patch by me
+	in PR#13393
+
+Sat Jul 02 07:33:05 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c:
+
+	Properly handle future techs in get_a_tech.diff. Patch by me in
+	PR#13392
+
+Fri Jul 01 22:26:51 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/version.h, version.in:
+
+	Bump version to 2.0.3-beta.
+
+Wed Jun 29 08:30:29 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* common/tech.c:
+
+	Backport: Clean up get_invention(). Specify that it can be called
+	only with real techs or A_FUTURE. Make update_research() mark
+	A_FUTURE as TECH_REACHABLE when a player cannot research any
+	other tech. Patch by me in PR#13366. Assertion is not so much
+	restrictive as it is in the HEAD branch - probably this won't
+	cause any new bug. Suggestions by Jason.
+
+Wed Jun 29 03:32:43 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/plrhand.c:
+
+	Backport: avoid a crash if the client requests the tech goal be
+	changed to A_NONE.
+
+	Patch by me in PR#13350.
+
+Wed Jun 29 02:17:54 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/citytools.c, server/srv_main.c:
+
+	Backport: fix a potential crash when an anonymous player picks
+	their nation.
+
+	Patch by me in PR#13343.
+
+Tue Jun 28 18:12:31 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/gui-gtk-2.0/mapctrl.c:
+
+	Backport: fix a possible crash in the GTK2 overview code.
+
+	Reported by Benoit Hudson in PR#13356. Patch by me.
+
+Tue Jun 28 17:50:03 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/maphand.c:
+
+	Backport: If tile ownership changes, update homecities of all
+	units standing on that tile. This is needed because of the
+	happyborders rule. Patch by me in PR#13340
+
+Tue Jun 28 10:21:22 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c:
+
+	Backport: Allow A_FUTURE in choose_tech. Patch by me in PR#13360.
+	Reported by pubserver
+
+Tue Jun 28 07:26:20 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/helpdata.c:
+
+	Fix a crash in helpdata. Patch by White Raven
+	<whraven@worldnet.att.net> in PR#13352
+
+Mon Jun 27 19:31:54 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/plrhand.c:
+
+	Backport: revert the choose_random_tech() patch in PR#13198.
+
+	See PR#13342.
+
+Mon Jun 27 18:06:57 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* ai/advdiplomacy.c:
+
+	Backport: Don't allow away AI players declare war against it's
+	war target. Patch by me in PR#13349. Reported by Thomas Moler
+
+Mon Jun 27 15:56:41 2005  Christian Knoke <chrisk@cknoke.de>:
+
+	* po/de.po:
+
+	update
+
+Mon Jun 27 14:27:13 2005  Per I. Mathisen <per@leftist.net>:
+
+	* server/stdinhand.c:
+
+	Do not allow observers to vote. Fixes bug reported by Thomas
+	Müller <lists@elfstone.de> in PR#13008. Fix from patch in
+	PR#12604 (backported).
+
+Sun Jun 26 11:15:08 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c, server/unittools.c:
+
+	Increase the had_embassy[] array size. Patch by me in #13338
+
+Sat Jun 25 08:30:41 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c:
+
+	Commit: Check incoming player_research and player_tech_goal
+	packets. We cannot trust the client. Patch by me in PR#13326
+
+Sat Jun 25 08:19:31 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/plrhand.c:
+
+	Backport: fix a bug where bulbs are lost when the server changes
+	the player's research from NONE to a new tech chosen from the
+	player's goal.
+
+	Patch by Thomas Muller <lists@elfstone.de> in PR#13198 with
+	changes by me.
+
+Sat Jun 25 08:08:32 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/savegame.c:
+
+	Backport 12953: When a savagame contains unknown nation at
+	starting position ignore that position istead of ignoring all
+	nation restrictions
+
+Thu Jun 23 20:35:46 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/sernet.c:
+
+	Backport: fix a bug where if the server was compiled without
+	readline, and stdin had been closed, it would crash when a client
+	connected.
+
+	Patch by me in PR#13307.
+
+Thu Jun 23 15:34:29 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/generator/mapgen.c:
+
+	When server map generation fails with generator=3 startpos=3 and
+	landmass=85 fallback to proper generator. Reported by pubserver.
+	Patch by me in PR#13315
+
+Thu Jun 23 07:20:36 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* ai/advdiplomacy.c:
+
+	Backport: #10997 Never sell last two cities. This was reported by
+	many. Patch by me
+
+Tue Jun 21 09:11:03 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/packhand.c:
+
+	Backport: Don't popup the caravan dialog in front of the observer
+	dialog. Patch by me in PR#13265
+
+Sat Jun 18 08:41:47 2005  Christian Knoke <chrisk@cknoke.de>:
+
+	* po/de.po:
+
+	updated.
+
+Fri Jun 17 22:11:31 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/unit.c:
+
+	Backport: don't allow naval units to move into inland cities,
+	even if they happen to be illegally adjacent to one.
+
+	Reported by Marko Lindqvist <marko.lindqvist@pp5.inet.fi> in
+	PR#13194.
+
+Thu Jun 16 16:52:58 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* data/civ1/buildings.ruleset:
+
+	Fix the granary effect bonus.
+
+	Patch by Mateusz Stefek in PR#13266.
+
+Tue Jun 14 18:30:48 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/stdinhand.c:
+
+	Backport: don't allow changing of teams in pregame when it's not
+	a new game.
+
+	Reported by Mateusz Stefek in PR#13246.
+
 Mon Jun 13 04:29:47 2005  Jason Short <jdorje@users.sourceforge.net>:
 
 	* NEWS, doc/BUGS:
