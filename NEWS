@@ -2,7 +2,7 @@
 Welcome to Freeciv 2.0
 ======================
 
-This is release 2.0.2.
+This is release 2.0.3.
 
 Thanks again to all our developers, who continue to work so hard.
 
@@ -10,6 +10,28 @@ This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
 
+
+WHAT'S CHANGED SINCE 2.0.2
+
+ - Fix some bugs that show up on 64-bit machines.
+ - Fix some bugs with future techs in some situations.
+ - Fix some bugs that allowed naval units onto land.
+ - Fix a bug that could crash the server when a player picked their nation.
+ - Fix a bug with player info not being updated after an alliance is broken.
+ - Fix a bug with happiness of a unit's home city when borders change.
+ - Fix a bug with happiness of a unit's home city when the unit moves.
+ - Fix some bugs with nation starting positions in scenarios.
+ - Fix a bug when running the server without stdin input.
+ - Don't allow teams to be changed when loading a game.
+ - Don't allow observers to vote.
+ - Fix a bug with the fallback when generator 3, startpos 3 fails.
+ - Fix a crash in the help dialog (when looking at Engineers).
+ - Don't popup the caravan dialogs when in observer mode.
+ - Fix a crash in goto mode when the mouse is near the map overview window.
+ - Fix a bug when a diplomat is killed while the diplomat dialog window is
+   in the process of opening.
+ - Fix a bug with the diplomat dialog window for spies when you don't have
+   an embassy.
 
 WHAT'S CHANGED SINCE 2.0.1
  - Fix an AI bug causing the AI to miscalculate the value of some wonders
