@@ -377,6 +377,38 @@ static bool is_ascii(char ch)
   return ch >= ' ' && ch <= '~';
 }
 
+/****************************************************************************
+  Check if the name is safe security-wise.  This is intended to be used to
+  make sure an untrusted filename is safe to be used.  We disallow filename
+  extensions since we assume these will be appended automatically after
+  this function is called.
+****************************************************************************/
+bool is_safe_filename(const char *name)
+{
+  int i;
+
+  /* must not be NULL or empty */
+  if (!name || *name == '\0') {
+    return FALSE; 
+  }
+
+  /* Accept only alphanumerics and '-', '_'.  '.' is not allowed so
+   * the untrusted source cannot provide a filename extension (this must
+   * be done by the caller). */
+  for (i = 0; name[i]; i++) {
+    if (!((name[i] <= 'z' && name[i] >= 'a')
+          || (name[i] <= 'Z' && name[i] >= 'A')
+          || (name[i] <= '9' && name[i] >= '0')
+          || name[i] == '-'
+          || name[i] == '_')) {
+      return FALSE;
+    }
+  }
+
+  /* Otherwise, it is okay... */
+  return TRUE;
+}
+
 /***************************************************************
   This is used in sundry places to make sure that names of cities,
   players etc. do not contain yucky characters of various sorts.
