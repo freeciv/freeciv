@@ -521,6 +521,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 {
   struct player *cplayer;
   int count;
+  Tech_type_id tech_stolen;
 
   /* We have to check arguments. They are sent to us by a client,
      so we cannot trust them */
@@ -617,7 +618,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     return;
   } 
 
-  Tech_type_id tech_stolen = steal_a_tech(pplayer, cplayer, technology);
+  tech_stolen = steal_a_tech(pplayer, cplayer, technology);
 
   if (tech_stolen == A_NONE) {
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
