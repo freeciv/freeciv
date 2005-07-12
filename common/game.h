@@ -333,6 +333,7 @@ extern bool is_server;
 #define GAME_DEFAULT_RULESETDIR      "default"
 
 #define GAME_DEFAULT_SAVE_NAME       "civgame"
+#define GAME_DEFAULT_SAVETURNS       10
 
 #define GAME_DEFAULT_SKILL_LEVEL 3      /* easy */
 #define GAME_OLD_DEFAULT_SKILL_LEVEL 5  /* normal; for old save games */

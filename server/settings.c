@@ -952,7 +952,7 @@ struct settings_s settings[] = {
 	  N_("Turns per auto-save"),
 	  N_("The game will be automatically saved per this number of "
 	     "turns. Zero means never auto-save."), NULL, 
-	  0, 200, 10)
+	  0, 200, GAME_DEFAULT_SAVETURNS)
 
   /* Could undef entire option if !HAVE_LIBZ, but this way users get to see
    * what they're missing out on if they didn't compile with zlib?  --dwp

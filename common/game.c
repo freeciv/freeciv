@@ -233,7 +233,7 @@ void game_init(void)
   game.info.cooling       = 0;
   game.info.watchtower_extra_vision = GAME_DEFAULT_WATCHTOWER_EXTRA_VISION;
   game.info.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;
-  game.info.save_nturns   = 10;
+  game.info.save_nturns   = GAME_DEFAULT_SAVETURNS;
 #ifdef HAVE_LIBZ
   game.info.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
 #else
