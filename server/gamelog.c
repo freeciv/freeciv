@@ -70,11 +70,14 @@ const char *endgame_strings[] = {
 /**************************************************************************
   Filename can be NULL, which means no logging.
 **************************************************************************/
-void gamelog_init(char *filename)
+void gamelog_init(const char *filename)
 {
   gamelog_level = GAMELOG_FULL;
+  if (gamelog_filename) {
+    free(gamelog_filename);
+  }
   if (filename && strlen(filename) > 0) {
-    gamelog_filename = filename;
+    gamelog_filename = strdup(filename);
   } else {
     gamelog_filename = NULL;
   }

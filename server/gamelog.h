@@ -69,7 +69,7 @@ enum {
   GL_VISION
 };
 
-void gamelog_init(char *filename);
+void gamelog_init(const char *filename);
 void gamelog_set_level(int level);
 void gamelog(int level, ...);
 
