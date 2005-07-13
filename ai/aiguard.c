@@ -32,6 +32,10 @@ enum bodyguard_enum {
 /**************************************************************************
   Do sanity checks on a guard, reporting error messages to the log
   if necessary.
+
+  Inconsistent references do not always indicate an error, because units
+  can change owners (for example, because of civil war) outside the control
+  the the AI code.
 **************************************************************************/
 void aiguard_check_guard(const struct unit *guard)
 {
@@ -50,14 +54,15 @@ void aiguard_check_guard(const struct unit *guard)
   }
 
   if (charge_unit && charge_unit->ai.bodyguard != guard->id) {
-    BODYGUARD_LOG(LOG_ERROR, guard, "inconsistent guard references");
+    BODYGUARD_LOG(LOG_DEBUG, guard, "inconsistent guard references");
   } else if (!charge_unit && !charge_city && 0 < guard->ai.charge) {
-    BODYGUARD_LOG(LOG_ERROR, guard, "dangling guard reference");
+    BODYGUARD_LOG(LOG_DEBUG, guard, "dangling guard reference");
   }
   if (charge_owner && pplayers_at_war(charge_owner, guard_owner)) {
-    BODYGUARD_LOG(LOG_ERROR, guard, "enemy charge");
+    /* Probably due to civil war */
+    BODYGUARD_LOG(LOG_DEBUG, guard, "enemy charge");
   } else if (charge_owner && charge_owner != guard_owner) {
-    /* peculiar, but not always an error */
+    /* Probably sold a city with its supported units. */
     BODYGUARD_LOG(LOG_DEBUG, guard, "foreign charge");
   }
 }
@@ -65,6 +70,10 @@ void aiguard_check_guard(const struct unit *guard)
 /**************************************************************************
   Do sanity checks on a charge, reporting error messages to the log
   if necessary.
+
+  Inconsistent references do not always indicate an error, because units
+  can change owners (for example, because of civil war) outside the control
+  the the AI code.
 **************************************************************************/
 void aiguard_check_charge_unit(const struct unit *charge)
 {
@@ -74,11 +83,11 @@ void aiguard_check_charge_unit(const struct unit *charge)
  
  if (guard && guard->ai.charge != charge->id) {
     /* FIXME: UNIT_LOG should take a const struct * */
-    UNIT_LOG(LOG_ERROR, (struct unit *)charge,
+    UNIT_LOG(LOG_DEBUG, (struct unit *)charge,
              "inconsistent guard references");
   } else if (guard && unit_owner(guard) != charge_owner) {
     /* FIXME: UNIT_LOG should take a const struct * */
-    UNIT_LOG(LOG_ERROR, (struct unit *)charge, "foreign guard");
+    UNIT_LOG(LOG_DEBUG, (struct unit *)charge, "foreign guard");
   }
 }
 

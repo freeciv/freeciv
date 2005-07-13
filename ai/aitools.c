@@ -922,7 +922,7 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
   alive = (find_unit_by_id(sanity) != NULL);
 
   if (alive && same_pos(ptile, punit->tile)
-      && bodyguard != NULL) {
+      && bodyguard != NULL  && bodyguard->ai.charge == punit->id) {
     ai_unit_bodyguard_move(bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
     alive = (find_unit_by_id(sanity) != NULL);
@@ -989,7 +989,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   /* handle the results */
   if (find_unit_by_id(sanity) && same_pos(ptile, punit->tile)) {
     struct unit *bodyguard = aiguard_guard_of(punit);
-    if (is_ai && bodyguard != NULL) {
+    if (is_ai && bodyguard != NULL && bodyguard->ai.charge == punit->id) {
       ai_unit_bodyguard_move(bodyguard, ptile);
     }
     return TRUE;
@@ -1234,3 +1234,24 @@ bool ai_wants_no_science(struct player *pplayer)
 {
   return ai_data_get(pplayer)->wants_no_science;
 }
+
+/**************************************************************************
+  Clear all the AI information for a unit, placing the unit in a blank
+  state.
+
+  This is a suitable action for when a unit is about to change owners;
+  the new owner can not use (and should not know) what the previous owner was
+  using the unit for.
+**************************************************************************/
+void ai_reinit(struct unit *punit)
+{
+  punit->ai.control = false;
+  punit->ai.ai_role = AIUNIT_NONE;
+  aiguard_clear_charge(punit);
+  aiguard_clear_guard(punit);
+  aiferry_clear_boat(punit);
+  punit->ai.target = 0;
+  punit->ai.hunted = 0;
+  punit->ai.done = FALSE;
+}
+

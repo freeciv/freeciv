@@ -281,6 +281,7 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
   }
   if (old_owner != new_owner) {
     remove_unit_sight_points(punit);
+    ai_reinit(punit);
 
     unit_list_unlink(old_owner->units, punit);
     unit_list_prepend(new_owner->units, punit);
