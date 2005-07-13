@@ -1193,11 +1193,17 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   
   if (is_capital(pcity)
       && city_list_size(cplayer->cities) >= game.info.civilwarsize
-      && game.info.nplayers < game.control.playable_nation_count
       && game.info.civilwarsize < GAME_MAX_CIVILWARSIZE
       && get_num_human_and_ai_players() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
-    do_civil_war = TRUE;
+    /* Do a civil war only if there's an available unused nation. */
+    nations_iterate(pnation) {
+      if (is_nation_playable(pnation->index)
+	  && !pnation->is_unavailable && !pnation->is_used) {
+	do_civil_war = TRUE;
+	break;
+      }
+    } nations_iterate_end;
   }
 
   /* 

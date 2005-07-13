@@ -36,6 +36,8 @@ void kill_player(struct player *pplayer);
 void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
 
+Nation_type_id pick_available_nation(Nation_type_id *choices);
+
 void check_player_government_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2,
 		  struct tile *ptile);

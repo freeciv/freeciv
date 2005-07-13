@@ -2034,7 +2034,6 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.control = *packet;
   governments_alloc(packet->government_count);
   nations_alloc(packet->nation_count);
-  game.control.playable_nation_count = packet->playable_nation_count;
   city_styles_alloc(packet->styles_count);
   tileset_alloc_city_tiles(tileset, game.control.styles_count);
 }

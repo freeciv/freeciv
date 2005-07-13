@@ -64,7 +64,6 @@ static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
                                 struct player *receiver,
                                 enum plr_info_level min_info_level);
-static Nation_type_id pick_available_nation(Nation_type_id *choices);
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver);
 
@@ -1296,64 +1295,93 @@ struct player *shuffled_player(int i)
   }
 }
 
+/**************************************************************************
+  Returns how much two nations looks good in the same game
+**************************************************************************/
+static int nations_match(struct nation_type* n1, struct nation_type* n2)
+{
+  int i, sum = 0;
+
+  for (i = 0; i < n1->num_groups; i++) {
+    if (nation_in_group(n2, n1->groups[i]->name)) {
+      sum += n1->groups[i]->match;
+    }
+  }
+  return sum;
+}
+
 /****************************************************************************
   This function return one of the nations available from the
   NO_NATION_SELECTED-terminated choices list. If no available nations in this
   file were found, return a random nation. If no nations are available, die.
+
+  choices may be NULL; if so it's ignored.
 ****************************************************************************/
-static Nation_type_id pick_available_nation(Nation_type_id *choices)
+Nation_type_id pick_available_nation(Nation_type_id *choices)
 {
-  int *nations_used, i, num_nations_avail = game.control.playable_nation_count;
-  int pick, looking_for, pref_nations_avail = 0; 
+  enum {
+    UNAVAILABLE, AVAILABLE, PREFERRED
+  } nations_used[game.control.nation_count], looking_for;
+  int match[game.control.nation_count], pick;
+  int num_nations_avail = 0, pref_nations_avail = 0;
 
   /* Values of nations_used: 
    * 0: not available
    * 1: available
    * 2: preferred choice */
-  nations_used = fc_calloc(game.control.playable_nation_count, sizeof(int));
+  nations_iterate(pnation) {
+    if (!is_nation_playable(pnation->index)
+	|| pnation->is_used || pnation->is_unavailable) {
+      /* Nation is unplayable or already used: don't consider it. */
+      nations_used[pnation->index] = UNAVAILABLE;
+      match[pnation->index] = 0;
+      continue;
+    }
 
-  for (i = 0; i < game.control.playable_nation_count; i++) {
-    nations_used[i] = 1; /* Available (for now) */
+    nations_used[pnation->index] = AVAILABLE;
+
+    match[pnation->index] = 1;
+    players_iterate(pplayer) {
+      if (pplayer->nation != NO_NATION_SELECTED) {
+	struct nation_type *pnation2 = get_nation_by_idx(pplayer->nation);
+
+	match[pnation->index] += nations_match(pnation2, pnation) * 100;
+      }
+    } players_iterate_end;
+
+    num_nations_avail += match[pnation->index];
+  } nations_iterate_end;
+
+  for (; choices && *choices != NO_NATION_SELECTED; choices++) {
+    if (nations_used[*choices] == AVAILABLE) {
+      pref_nations_avail += match[*choices];
+      nations_used[*choices] = PREFERRED;
+    }
   }
-
-  for (i = 0; choices[i] != NO_NATION_SELECTED; i++) {
-    pref_nations_avail++;
-    nations_used[choices[i]] = 2; /* Preferred */
-  }
-
-  players_iterate(other_player) {
-    if (other_player->nation < game.control.playable_nation_count) {
-      if (nations_used[other_player->nation] == 2) {
-	pref_nations_avail--;
-      } 
-      nations_used[other_player->nation] = 0; /* Unavailable */
-      num_nations_avail--;
-    } 
-  } players_iterate_end;
 
   assert(num_nations_avail > 0);
   assert(pref_nations_avail >= 0);
 
   if (pref_nations_avail == 0) {
     pick = myrand(num_nations_avail);
-    looking_for = 1; /* Use any available nation. */
+    looking_for = AVAILABLE; /* Use any available nation. */
   } else {
     pick = myrand(pref_nations_avail);
-    looking_for = 2; /* Use a preferred nation only. */
+    looking_for = PREFERRED; /* Use a preferred nation only. */
   }
 
-  for (i = 0; i < game.control.playable_nation_count; i++){ 
-    if (nations_used[i] == looking_for) {
-      pick--;
-      
+  nations_iterate(pnation) {
+    if (nations_used[pnation->index] == looking_for) {
+      pick -= match[pnation->index];
+
       if (pick < 0) {
-	break;
+	return pnation->index;
       }
     }
-  }
+  } nations_iterate_end;
 
-  free(nations_used);
-  return i;
+  assert(0);
+  return NO_NATION_SELECTED;
 }
 
 /****************************************************************************

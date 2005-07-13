@@ -1359,62 +1359,6 @@ void handle_player_ready(struct player *requestor,
   }
 }
 
-/**************************************************************************
-  Returns how much two nations looks good in the same game
-**************************************************************************/
-static int nations_match(struct nation_type* n1, struct nation_type* n2)
-{
-  int i;
-  int sum = 0;
-  for (i = 0; i < n1->num_groups; i++) {
-    if (nation_in_group(n2, n1->groups[i]->name)) {
-      sum += n1->groups[i]->match;
-    }
-  }
-  return sum;
-}
-
-/**************************************************************************
-  Select a random available nation.
-**************************************************************************/
-static Nation_type_id select_random_nation()
-{
-  Nation_type_id i, available[game.control.playable_nation_count];
-  int count = 0;
-  int V[game.control.playable_nation_count];
-  int sum = 0;
-  int x;
-  
-  /* Determine which nations are available. */
-  for (i = 0; i < game.control.playable_nation_count; i++) {
-    struct nation_type *nation = get_nation_by_idx(i);
-
-    if (!nation->is_unavailable && !nation->is_used) {
-      available[count] = i;
-      
-      /* Increase the probablity of selecting those which have higher
-       * values of nations_match() */
-      players_iterate(aplayer) {
-        if (aplayer->nation == NO_NATION_SELECTED) {
-	  continue;
-	}
-	sum+= nations_match(get_nation_by_idx(aplayer->nation),
-	                    get_nation_by_idx(i)) * 100;
-      } players_iterate_end;
-      sum++;
-      V[count] = sum;
-      count++;
-    }
-  }
-
-  /* Then pick one */  
-  x = myrand(sum);
-  for (i = 0; i < count; i++) {
-    if (V[i] >= x) break;
-  }
-  return available[i];
-}
-
 /****************************************************************************
   Fill or remove players to meet the given aifill.
 ****************************************************************************/
@@ -1504,7 +1448,6 @@ generate_ai_players() - Selects a nation for players created with
 **************************************************************************/
 static void generate_players(void)
 {
-  Nation_type_id nation;
   char player_name[MAX_LEN_NAME];
 
   /* Select nations for AI players generated with server
@@ -1519,34 +1462,33 @@ static void generate_players(void)
     }
 
     /* See if the player name matches a known leader name. */
-    for (nation = 0; nation < game.control.playable_nation_count; nation++) {
-      struct nation_type *n = get_nation_by_idx(nation);
-
-      if (check_nation_leader_name(nation, pplayer->name)
-	  && !n->is_unavailable && !n->is_used) {
-	pplayer->nation = nation;
-	pplayer->city_style = get_nation_city_style(nation);
-	pplayer->is_male = get_nation_leader_sex(nation, pplayer->name);
+    nations_iterate(pnation) {
+      if (is_nation_playable(pnation->index)
+	  && !pnation->is_unavailable && !pnation->is_used
+	  && check_nation_leader_name(pnation->index, pplayer->name)) {
+	pplayer->nation = pnation->index;
+	pplayer->city_style = get_nation_city_style(pnation->index);
+	pplayer->is_male = get_nation_leader_sex(pnation->index,
+						 pplayer->name);
 	break;
       }
-    }
+    } nations_iterate_end;
     if (pplayer->nation != NO_NATION_SELECTED) {
       announce_player(pplayer);
       continue;
     }
 
-    nation = select_random_nation();
-    assert(nation != NO_NATION_SELECTED);
+    pplayer->nation = pick_available_nation(NULL);
+    assert(pplayer->nation != NO_NATION_SELECTED);
 
-    get_nation_by_idx(nation)->is_used = TRUE;
-    pplayer->nation = nation;
-    pplayer->city_style = get_nation_city_style(nation);
+    get_nation_by_idx(pplayer->nation)->is_used = TRUE;
+    pplayer->city_style = get_nation_city_style(pplayer->nation);
 
-    pick_random_player_name(nation, player_name);
+    pick_random_player_name(pplayer->nation, player_name);
     sz_strlcpy(pplayer->name, player_name);
 
-    if (check_nation_leader_name(nation, player_name)) {
-      pplayer->is_male = get_nation_leader_sex(nation, player_name);
+    if (check_nation_leader_name(pplayer->nation, player_name)) {
+      pplayer->is_male = get_nation_leader_sex(pplayer->nation, player_name);
     } else {
       pplayer->is_male = (myrand(2) == 1);
     }

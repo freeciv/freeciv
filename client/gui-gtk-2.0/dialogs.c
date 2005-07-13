@@ -91,8 +91,6 @@ static GtkWidget *unit_select_view;
 static GtkTreePath *unit_select_path;
 static struct tile *unit_select_ptile;
 
-static void select_random_race(void);
-  
 static void create_races_dialog(struct player *pplayer);
 static void races_destroy_callback(GtkWidget *w, gpointer data);
 static void races_response(GtkWidget *w, gint response, gpointer data);
@@ -1548,19 +1546,16 @@ void popup_unit_select_dialog(struct tile *ptile)
   Inserts apropriate gtk_tree_view into races_nation_list[i]
   If group == NULL, create a list of all nations
 +****************************************************************/
-static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, int index)
+static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
+						  int index)
 {
   GtkWidget *sw;
   GtkListStore *store;
   GtkWidget *list;
-
   GtkTreeSelection *select;
-  
   GtkCellRenderer *render;
   GtkTreeViewColumn *column;
 
-  int i;
-  
   store = gtk_list_store_new(5, G_TYPE_INT, G_TYPE_BOOLEAN,
       GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
@@ -1595,33 +1590,34 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group, in
   g_object_set(render, "style", PANGO_STYLE_ITALIC, NULL);
 
   /* Populate nation list store. */
-  for (i = 0; i < game.control.playable_nation_count; i++) {
-    struct nation_type *nation;
+  nations_iterate(pnation) {
     struct sprite *s;
     bool used;
     GdkPixbuf *img;
     GtkTreeIter it;
     GValue value = { 0, };
 
-    nation = get_nation_by_idx(i);
-    
-    if (group != NULL && !nation_in_group(nation, group->name)) {
+    if (!is_nation_playable(pnation->index) || pnation->is_unavailable) {
+      continue;
+    }
+
+    if (group != NULL && !nation_in_group(pnation, group->name)) {
       continue;
     }
 
     gtk_list_store_append(store, &it);
 
-    s = crop_blankspace(get_nation_flag_sprite(tileset, i));
+    s = crop_blankspace(get_nation_flag_sprite(tileset, pnation->index));
     img = sprite_get_pixbuf(s);
-    used = nation->is_unavailable || nation->is_used;
-    gtk_list_store_set(store, &it, 0, i, 1, used, 2, img, -1);
+    used = pnation->is_used;
+    gtk_list_store_set(store, &it, 0, pnation->index, 1, used, 2, img, -1);
     free_sprite(s);
 
     g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, nation->name);
+    g_value_set_static_string(&value, pnation->name);
     gtk_list_store_set_value(store, &it, 3, &value);
     g_value_unset(&value);
-  }  
+  } nations_iterate_end;
   return sw;
 }
 
@@ -1867,8 +1863,6 @@ void popup_races_dialog(struct player *pplayer)
   if (!races_shell) {
     create_races_dialog(pplayer);
     gtk_window_present(GTK_WINDOW(races_shell));
-
-    select_random_race();
   }
 }
 
@@ -1954,45 +1948,6 @@ static void select_random_leader(void)
   g_free(name);
 }
 
-/****************************************************************
-  Selectes a random race and the appropriate city style.
-  Updates the gui elements and the selected_* variables.
- *****************************************************************/
-static void select_random_race(void)
-{
-  GtkTreeModel *model;
-
-  model = gtk_tree_view_get_model(GTK_TREE_VIEW(races_nation_list[0]));
-
-  /* This has a possibility of infinite loop in case
-   * game.control.playable_nation_count < game.info.nplayers. */
-  while (TRUE) {
-    GtkTreePath *path;
-    GtkTreeIter it;
-    int nation;
-
-    nation = myrand(game.control.playable_nation_count);
-
-    path = gtk_tree_path_new();
-    gtk_tree_path_append_index(path, nation);
-
-    if (gtk_tree_model_get_iter(model, &it, path)) {
-      gboolean chosen;
-
-      gtk_tree_model_get(model, &it, 1, &chosen, -1);
-
-      if (!chosen) {
-	gtk_tree_view_set_cursor(GTK_TREE_VIEW(races_nation_list[0]), path,
-	    NULL, FALSE);
-	gtk_tree_path_free(path);
-	return;
-      }
-    }
-
-    gtk_tree_path_free(path);
-  }
-}
-
 /**************************************************************************
   ...
  **************************************************************************/
@@ -2044,9 +1999,6 @@ void races_toggles_set_sensitive(void)
       gtk_tree_path_free(path);
     }
   }
-  if (changed) {
-  	select_random_race();
-  }
 }
 
 /**************************************************************************
@@ -2064,9 +2016,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
     gtk_tree_model_get(model, &it, 0, &selected_nation, 1, &chosen, -1);
     nation = get_nation_by_idx(selected_nation);
 
-    if (chosen) {
-      select_random_race();
-    } else {
+    if (!chosen) {
       int cs, i, j;
       GtkTreePath *path;
      
@@ -2186,7 +2136,11 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     const char *s;
 
     if (selected_nation == -1) {
-      append_output_window(_("You must select a nation."));
+      dsend_packet_nation_select_req(&aconnection,
+				     races_player->player_no,
+				     NO_NATION_SELECTED,
+				     FALSE, "", 0);
+      popdown_races_dialog();
       return;
     }
 
