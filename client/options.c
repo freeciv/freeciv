@@ -64,6 +64,7 @@ bool ai_manual_turn_done = TRUE;
 bool auto_center_on_unit = TRUE;
 bool auto_center_on_combat = FALSE;
 bool wakeup_focus = TRUE;
+bool goto_into_unknown = TRUE;
 bool center_when_popup_city = TRUE;
 bool concise_city_production = FALSE;
 bool auto_turn_done = FALSE;
@@ -188,6 +189,11 @@ static client_option common_options[] = {
   GEN_BOOL_OPTION(wakeup_focus,             N_("Focus on Awakened Units"),
 		  N_("Set this option to have newly awoken units be "
 		     "focused automatically."),
+		  COC_INTERFACE),
+  GEN_BOOL_OPTION(goto_into_unknown, N_("Allow goto into the unknown"),
+		  N_("If this option is set then goto will consider moving "
+		     "into unknown tiles.  If not, then goto routes will "
+		     "detour around or be blocked by unknown tiles."),
 		  COC_INTERFACE),
   GEN_BOOL_OPTION(center_when_popup_city,   N_("Center map when Popup city"),
 		  N_("If this option is set then when a city dialog is "

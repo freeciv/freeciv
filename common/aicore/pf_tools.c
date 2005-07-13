@@ -20,6 +20,7 @@
 
 #include "mem.h"
 
+#include "game.h"
 #include "movement.h"
 
 #include "pf_tools.h"
@@ -514,6 +515,11 @@ static bool trireme_is_pos_dangerous(const struct tile *ptile,
 				     enum known_type known,
 				     struct pf_parameter *param)
 {
+  /* Assume that unknown tiles are unsafe. */
+  if (known == TILE_UNKNOWN) {
+    return TRUE;
+  }
+
   /* We test TER_UNSAFE even though under the current ruleset there is no
    * way for a trireme to be on a TER_UNSAFE tile. */
   /* Unsafe or unsafe-ocean tiles without cities are dangerous. */
@@ -772,6 +778,19 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 					    struct unit *punit)
 {
   parameter->turn_mode = TM_CAPPED;
+  if (is_air_unit(punit) || is_heli_unit(punit)) {
+    parameter->unknown_MC = SINGLE_MOVE;
+  } else if (is_sailing_unit(punit)) {
+    parameter->unknown_MC = 2 * SINGLE_MOVE;
+  } else {
+    assert(is_ground_unit(punit));
+    parameter->unknown_MC = SINGLE_MOVE;
+    terrain_type_iterate(t) {
+      int mr = 2 * get_terrain(t)->movement_cost;
+
+      parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
+    } terrain_type_iterate_end;
+  }
   parameter->get_TB = NULL;
   parameter->get_EC = NULL;
   parameter->is_pos_dangerous = NULL;
