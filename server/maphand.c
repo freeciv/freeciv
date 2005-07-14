@@ -65,7 +65,11 @@ static void assign_continent_flood(struct tile *ptile, bool is_land,
   if (tile_get_continent(ptile) != 0) {
     return;
   }
-  
+
+  if (ptile->terrain == T_UNKNOWN) {
+    return;
+  }
+
   if (skip_unsafe && terrain_has_flag(tile_get_terrain(ptile), TER_UNSAFE)) {
     /* FIXME: This should check a specialized flag, not the TER_UNSAFE
      * flag which may not even be present. */
@@ -103,7 +107,7 @@ static void recalculate_lake_surrounders(void)
   
   whole_map_iterate(ptile) {
     Continent_id cont = tile_get_continent(ptile);
-    if (!is_ocean(tile_get_terrain(ptile))) {
+    if (ptile->terrain != T_UNKNOWN && !is_ocean(tile_get_terrain(ptile))) {
       adjc_iterate(ptile, tile2) {
         Continent_id cont2 = tile_get_continent(tile2);
 	if (is_ocean(tile_get_terrain(tile2))) {
@@ -150,15 +154,19 @@ void assign_continent_numbers(bool skip_unsafe)
 
   /* Assign new numbers */
   whole_map_iterate(ptile) {
-    const Terrain_type_id ter = tile_get_terrain(ptile);
+    const struct terrain *pterrain = tile_get_terrain(ptile);
 
     if (tile_get_continent(ptile) != 0) {
       /* Already assigned. */
       continue;
     }
 
-    if (!skip_unsafe || !terrain_has_flag(ter, TER_UNSAFE)) {
-      if (!is_ocean(ter)) {
+    if (ptile->terrain == T_UNKNOWN) {
+      continue; /* Can't assign this. */
+    }
+
+    if (!skip_unsafe || !terrain_has_flag(pterrain, TER_UNSAFE)) {
+      if (!is_ocean(pterrain)) {
 	map.num_continents++;
 	assert(map.num_continents < MAP_NCONT);
 	assign_continent_flood(ptile, TRUE, map.num_continents, skip_unsafe);
@@ -209,15 +217,15 @@ void global_warming(int effect)
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
-    Terrain_type_id old, new;
+    struct terrain *old, *new;
     struct tile *ptile;
 
     ptile = rand_map_pos();
     old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
-      new = get_terrain(old)->warmer_wetter_result;
+      new = old->warmer_wetter_result;
     } else {
-      new = get_terrain(old)->warmer_drier_result;
+      new = old->warmer_drier_result;
     }
     if (new != T_NONE && old != new) {
       effect--;
@@ -251,15 +259,15 @@ void nuclear_winter(int effect)
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
-    Terrain_type_id old, new;
+    struct terrain *old, *new;
     struct tile *ptile;
 
     ptile = rand_map_pos();
     old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
-      new = get_terrain(old)->cooler_wetter_result;
+      new = old->cooler_wetter_result;
     } else {
-      new = get_terrain(old)->cooler_drier_result;
+      new = old->cooler_drier_result;
     }
     if (new != T_NONE && old != new) {
       effect--;
@@ -471,7 +479,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
     }
     if (!pplayer || map_is_known_and_seen(ptile, pplayer)) {
       info.known = TILE_KNOWN;
-      info.type = ptile->terrain;
+      info.type = ptile->terrain->index;
       for (spe = 0; spe < S_LAST; spe++) {
 	info.special[spe] = BV_ISSET(ptile->special, spe);
       }
@@ -481,8 +489,9 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
+
       info.known = TILE_KNOWN_FOGGED;
-      info.type = plrtile->terrain;
+      info.type = plrtile->terrain->index;
       info.owner = plrtile->owner >= 0 ? plrtile->owner : MAP_TILE_OWNER_NULL;
       for (spe = 0; spe < S_LAST; spe++) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
@@ -522,7 +531,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
   if (!pplayer) {
     /* Observer sees all. */
     info.known=TILE_KNOWN;
-    info.type = ptile->terrain;
+    info.type = ptile->terrain->index;
     for (spe = 0; spe < S_LAST; spe++) {
       info.special[spe] = BV_ISSET(ptile->special, spe);
     }
@@ -536,7 +545,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
       info.known = TILE_KNOWN_FOGGED;
     }
     plrtile = map_get_player_tile(ptile, pplayer);
-    info.type = plrtile->terrain;
+    info.type = plrtile->terrain->index;
     for (spe = 0; spe < S_LAST; spe++) {
       info.special[spe] = BV_ISSET(plrtile->special, spe);
     }
@@ -544,7 +553,7 @@ static void send_tile_info_always(struct player *pplayer, struct conn_list *dest
   } else {
     /* Unknown (the client needs these sometimes to draw correctly). */
     info.known = TILE_UNKNOWN;
-    info.type = ptile->terrain;
+    info.type = ptile->terrain->index;
     for (spe = 0; spe < S_LAST; spe++) {
       info.special[spe] = BV_ISSET(ptile->special, spe);
     }
@@ -1514,9 +1523,9 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
   continent numbers.
 **************************************************************************/
 enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
-                                                Terrain_type_id oldter)
+                                                struct terrain *oldter)
 {
-  Terrain_type_id newter = tile_get_terrain(ptile);
+  struct terrain *newter = tile_get_terrain(ptile);
   enum ocean_land_change change_type = OLC_NONE;
 
   if (is_ocean(oldter) && !is_ocean(newter)) {

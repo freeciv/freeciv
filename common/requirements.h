@@ -57,7 +57,7 @@ struct req_source {
     int gov;                            /* source government */
     Impr_type_id building;              /* source building */
     enum tile_special_type special;     /* source special */
-    Terrain_type_id terrain;            /* source terrain type */
+    struct terrain *terrain;            /* source terrain type */
     Nation_type_id nation;              /* source nation type */
     Unit_type_id unittype;              /* source unittype */
     enum unit_flag_id unitflag;         /* source unit flag */

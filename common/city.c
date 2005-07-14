@@ -573,22 +573,22 @@ static int base_get_output_tile(const struct tile *ptile,
 				int city_x, int city_y, bool is_celebrating,
 				Output_type_id otype)
 {
-  const struct terrain *ptype = get_terrain(ptile->terrain);
+  const struct terrain *pterrain = ptile->terrain;
   struct tile tile;
   int prod;
   const bool auto_water = (pcity && is_city_center(city_x, city_y)
-			   && ptile->terrain == ptype->irrigation_result
+			   && ptile->terrain == pterrain->irrigation_result
 			   && terrain_control.may_irrigate);
   const struct output_type *output = &output_types[otype];
 
   assert(otype >= 0 && otype < O_LAST);
 
   if (tile_has_special(ptile, S_SPECIAL_1)) {
-    prod = terrains[ptile->terrain].special[0].output[otype];
+    prod = pterrain->special[0].output[otype];
   } else if (tile_has_special(ptile, S_SPECIAL_2)) {
-    prod = terrains[ptile->terrain].special[1].output[otype];
+    prod = pterrain->special[1].output[otype];
   } else {
-    prod = terrains[ptile->terrain].output[otype];
+    prod = pterrain->output[otype];
   }
 
   /* create dummy tile which has the city center bonuses. */
@@ -607,12 +607,12 @@ static int base_get_output_tile(const struct tile *ptile,
   switch (otype) {
   case O_SHIELD:
     if (contains_special(tile.special, S_MINE)) {
-      prod += ptype->mining_shield_incr;
+      prod += pterrain->mining_shield_incr;
     }
     break;
   case O_FOOD:
     if (contains_special(tile.special, S_IRRIGATION)) {
-      prod += ptype->irrigation_food_incr;
+      prod += pterrain->irrigation_food_incr;
     }
     break;
   case O_TRADE:
@@ -620,7 +620,7 @@ static int base_get_output_tile(const struct tile *ptile,
       prod += terrain_control.river_trade_incr;
     }
     if (contains_special(tile.special, S_ROAD)) {
-      prod += ptype->road_trade_incr;
+      prod += pterrain->road_trade_incr;
     }
     break;
   case O_GOLD:

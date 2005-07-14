@@ -128,7 +128,6 @@ static int evaluate_city_name_priority(struct tile *ptile,
   /* Lower values mean higher priority. */
   float priority = (float)default_priority;
   int goodness;
-  Terrain_type_id type;
 
   /* Increasing this value will increase the difference caused by
      (non-)matching terrain.  A matching terrain is mult_factor
@@ -183,16 +182,18 @@ static int evaluate_city_name_priority(struct tile *ptile,
     priority *= mult_factor;
   }
 
-  for (type = T_FIRST; type < T_COUNT; type++) {
+  terrain_type_iterate(pterrain) {
     /* Now we do the same for every available terrain. */
-    goodness = is_terrain_near_tile(ptile, type) ?
-		 city_name->terrain[type] : -city_name->terrain[type];
+    goodness
+      = is_terrain_near_tile(ptile, pterrain)
+      ? city_name->terrain[pterrain->index]
+      : -city_name->terrain[pterrain->index];
     if (goodness > 0) {
       priority /= mult_factor;
     } else if (goodness < 0) {
       priority *= mult_factor;
     }
-  }
+  } terrain_type_iterate_end;
 
   return (int)priority;	
 }

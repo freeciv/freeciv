@@ -157,7 +157,8 @@ Terrain *api_find_terrain(int terrain_id)
 **************************************************************************/
 Terrain *api_find_terrain_by_name(const char *name_orig)
 {
-  Terrain_type_id id =  get_terrain_by_name(name_orig);
-  return api_find_terrain(id);
+  struct terrain *pterrain = get_terrain_by_name(name_orig);
+
+  return pterrain;
 }
 

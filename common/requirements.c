@@ -204,7 +204,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.special = value;
     return source;
   case REQ_TERRAIN:
-    source.value.terrain = value;
+    source.value.terrain = get_terrain(value);
     return source;
   case REQ_NATION:
     source.value.nation = value;
@@ -260,7 +260,7 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.special;
     return;
   case REQ_TERRAIN:
-    *value = source->value.terrain;
+    *value = source->value.terrain->index;
     return;
   case REQ_NATION:
     *value = source->value.nation;
@@ -657,7 +657,7 @@ static bool is_special_in_range(const struct tile *target_tile,
 ****************************************************************************/
 static bool is_terrain_in_range(const struct tile *target_tile,
 				enum req_range range, bool survives,
-				Terrain_type_id terrain)
+				const struct terrain *pterrain)
 {
   if (!target_tile) {
     return FALSE;
@@ -666,9 +666,9 @@ static bool is_terrain_in_range(const struct tile *target_tile,
   switch (range) {
   case REQ_RANGE_LOCAL:
     /* The requirement is filled if the tile has the terrain. */
-    return target_tile->terrain == terrain;
+    return pterrain && target_tile->terrain == pterrain;
   case REQ_RANGE_ADJACENT:
-    return is_terrain_near_tile(target_tile, terrain);
+    return pterrain && is_terrain_near_tile(target_tile, pterrain);
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:

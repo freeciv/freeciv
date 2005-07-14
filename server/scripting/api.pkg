@@ -59,7 +59,7 @@ struct Tile {
   const int nat_x;
   const int nat_y;
 
-  int terrain @ terrain_id;
+  Terrain *terrain;
 
   const int index @ id;
 };

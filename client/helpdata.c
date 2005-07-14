@@ -115,33 +115,31 @@ void free_help_texts(void)
 static void insert_generated_table(const char* name, char* outbuf)
 {
   if (0 == strcmp (name, "TerrainAlterations")) {
-    int i;
-
     strcat(outbuf, _("Terrain     Road   Irrigation     Mining         "
 		      "Transform\n"));
     strcat(outbuf, "---------------------------------------------------"
 	   "------------\n");
-    for (i = T_FIRST; i < T_COUNT; i++) {
-      if (*(terrains[i].terrain_name) != '\0') {
+    terrain_type_iterate(pterrain) {
+      if (*(pterrain->terrain_name) != '\0') {
 	outbuf = strchr(outbuf, '\0');
 	sprintf(outbuf,
 		"%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
-		terrains[i].terrain_name,
-		terrains[i].road_time,
-		terrains[i].irrigation_time,
-		((terrains[i].irrigation_result == i
-		  || terrains[i].irrigation_result == T_NONE) ? ""
-		 : terrains[terrains[i].irrigation_result].terrain_name),
-		terrains[i].mining_time,
-		((terrains[i].mining_result == i
-		  || terrains[i].mining_result == T_NONE) ? ""
-		 : terrains[terrains[i].mining_result].terrain_name),
-		terrains[i].transform_time,
-		((terrains[i].transform_result == i
-		 || terrains[i].transform_result == T_NONE) ? ""
-		 : terrains[terrains[i].transform_result].terrain_name));
+		pterrain->terrain_name,
+		pterrain->road_time,
+		pterrain->irrigation_time,
+		((pterrain->irrigation_result == pterrain
+		  || pterrain->irrigation_result == T_NONE) ? ""
+		 : pterrain->irrigation_result->terrain_name),
+		pterrain->mining_time,
+		((pterrain->mining_result == pterrain
+		  || pterrain->mining_result == T_NONE) ? ""
+		 : pterrain->mining_result->terrain_name),
+		pterrain->transform_time,
+		((pterrain->transform_result == pterrain
+		 || pterrain->transform_result == T_NONE) ? ""
+		 : pterrain->transform_result->terrain_name));
       }
-    }
+    } terrain_type_iterate_end;
     strcat(outbuf, "\n");
     strcat(outbuf, _("(Railroads and fortresses require 3 turns, "
 		     "regardless of terrain.)"));
@@ -387,16 +385,16 @@ void boot_help_texts(void)
 	    }
 	  } tech_type_iterate_end;
 	} else if (current_type == HELP_TERRAIN) {
-	  for (i = T_FIRST; i < T_COUNT; i++) {
-	    if (*(terrains[i].terrain_name) != '\0') {
+	  terrain_type_iterate(pterrain) {
+	    if (*(pterrain->terrain_name) != '\0') {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  terrains[i].terrain_name);
+			  pterrain->terrain_name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
 	    }
-	  }
+	  } terrain_type_iterate_end;
 	  /* Add special Civ2-style river help text if it's supplied. */
 	  if (terrain_control.river_help_text) {
 	    pitem = new_help_item(HELP_TEXT);
@@ -1184,50 +1182,48 @@ void helptext_tech(char *buf, int i, const char *user_text)
 /****************************************************************
   Append text for terrain.
 *****************************************************************/
-void helptext_terrain(char *buf, int i, const char *user_text)
+void helptext_terrain(char *buf, const struct terrain *pterrain,
+		      const char *user_text)
 {
-  struct terrain *pt;
-  
   buf[0] = '\0';
   
-  if (i < 0 || i >= T_COUNT) {
-    freelog(LOG_ERROR, "Unknown terrain %d.", i);
+  if (!pterrain) {
+    freelog(LOG_ERROR, "Unknown terrain!");
     return;
   }
-  pt = &terrains[i];
 
-  if (terrain_has_flag(i, TER_NO_POLLUTION)) {
+  if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
     sprintf(buf + strlen(buf),
 	    _("* Pollution cannot be generated on this terrain."));
     strcat(buf, "\n");
   }
-  if (terrain_has_flag(i, TER_NO_CITIES)) {
+  if (terrain_has_flag(pterrain, TER_NO_CITIES)) {
     sprintf(buf + strlen(buf),
 	    _("* You cannot build cities on this terrain."));
     strcat(buf, "\n");
   }
-  if (terrain_has_flag(i, TER_UNSAFE_COAST)
-      && !is_ocean(i)) {
+  if (terrain_has_flag(pterrain, TER_UNSAFE_COAST)
+      && !is_ocean(pterrain)) {
     sprintf(buf + strlen(buf),
 	    _("* The coastline of this terrain is unsafe."));
     strcat(buf, "\n");
   }
-  if (terrain_has_flag(i, TER_UNSAFE)) {
+  if (terrain_has_flag(pterrain, TER_UNSAFE)) {
     sprintf(buf + strlen(buf),
 	    _("* This terrain is unsafe for units to travel on."));
     strcat(buf, "\n");
   }
-  if (terrain_has_flag(i, TER_OCEANIC)) {
+  if (terrain_has_flag(pterrain, TER_OCEANIC)) {
     sprintf(buf + strlen(buf),
 	    _("* Land units cannot travel on oceanic terrains."));
     strcat(buf, "\n");
   }
 
-  if (pt->helptext[0] != '\0') {
+  if (pterrain->helptext[0] != '\0') {
     if (buf[0] != '\0') {
       strcat(buf, "\n");
     }
-    sprintf(buf + strlen(buf), "%s", _(pt->helptext));
+    sprintf(buf + strlen(buf), "%s", _(pterrain->helptext));
   }
   if (user_text && user_text[0] != '\0') {
     strcat(buf, "\n\n");

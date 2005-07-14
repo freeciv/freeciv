@@ -115,7 +115,8 @@ void tileset_setup_specialist_type(struct tileset *t, int id);
 void tileset_setup_unit_type(struct tileset *t, int id);
 void tileset_setup_impr_type(struct tileset *t, int id);
 void tileset_setup_tech_type(struct tileset *t, int id);
-void tileset_setup_tile_type(struct tileset *t, Terrain_type_id terrain);
+void tileset_setup_tile_type(struct tileset *t,
+			     const struct terrain *pterrain);
 void tileset_setup_government(struct tileset *t, int id);
 void tileset_setup_nation_flag(struct tileset *t, int id);
 void tileset_setup_city_tiles(struct tileset *t, int style);

@@ -540,13 +540,7 @@ int map_distance(const struct tile *tile0, const struct tile *tile1)
 *************************************************************************/
 bool is_cardinally_adj_to_ocean(const struct tile *ptile)
 {
-  cardinal_adjc_iterate(ptile, tile1) {
-    if (is_ocean(tile_get_terrain(tile1))) {
-      return TRUE;
-    }
-  } cardinal_adjc_iterate_end;
-
-  return FALSE;
+  return count_terrain_flag_near_tile(ptile, TRUE, FALSE, TER_OCEANIC) > 0;
 }
 
 /****************************************************************************
@@ -554,14 +548,8 @@ bool is_cardinally_adj_to_ocean(const struct tile *ptile)
 ****************************************************************************/
 bool is_safe_ocean(const struct tile *ptile)
 {
-  adjc_iterate(ptile, tile1) {
-    Terrain_type_id ter = tile_get_terrain(tile1);
-    if (!terrain_has_flag(ter, TER_UNSAFE_COAST) && ter != T_UNKNOWN) {
-      return TRUE;
-    }
-  } adjc_iterate_end;
-
-  return FALSE;
+  return count_terrain_flag_near_tile(ptile, FALSE, TRUE,
+				      TER_UNSAFE_COAST) < 100;
 }
 
 /***************************************************************
@@ -569,16 +557,20 @@ bool is_safe_ocean(const struct tile *ptile)
 ***************************************************************/
 bool is_water_adjacent_to_tile(const struct tile *ptile)
 {
-  if (is_ocean(ptile->terrain)
-      || tile_has_special(ptile, S_RIVER)
-      || tile_has_special(ptile, S_IRRIGATION))
+  if (ptile->terrain != T_UNKNOWN
+      && (is_ocean(ptile->terrain)
+	  || tile_has_special(ptile, S_RIVER)
+	  || tile_has_special(ptile, S_IRRIGATION))) {
     return TRUE;
+  }
 
   cardinal_adjc_iterate(ptile, tile1) {
-    if (is_ocean(tile1->terrain)
-	|| tile_has_special(tile1, S_RIVER)
-	|| tile_has_special(tile1, S_IRRIGATION))
+    if (ptile->terrain != T_UNKNOWN
+	&& (is_ocean(tile1->terrain)
+	    || tile_has_special(tile1, S_RIVER)
+	    || tile_has_special(tile1, S_IRRIGATION))) {
       return TRUE;
+    }
   } cardinal_adjc_iterate_end;
 
   return FALSE;
@@ -682,7 +674,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
     }
   }
 
-  return(get_terrain(t2->terrain)->movement_cost*SINGLE_MOVE);
+  return t2->terrain->movement_cost * SINGLE_MOVE;
 }
 
 /****************************************************************************

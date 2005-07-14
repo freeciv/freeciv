@@ -27,7 +27,7 @@
 #include "support.h"
 #include "terrain.h"
 
-struct terrain terrains[MAX_NUM_TERRAINS];
+static struct terrain civ_terrains[MAX_NUM_TERRAINS];
 
 enum tile_special_type infrastructure_specials[] = {
   S_ROAD,
@@ -40,6 +40,12 @@ enum tile_special_type infrastructure_specials[] = {
   S_LAST
 };
 
+/* T_UNKNOWN isn't allowed here. */
+#define SANITY_CHECK_TERRAIN(pterrain)					    \
+  assert((pterrain)->index >= 0						    \
+	 && (pterrain)->index < game.control.terrain_count		    \
+	 && &civ_terrains[(pterrain)->index] == (pterrain))
+
 /****************************************************************************
   Inialize terrain structures.
 ****************************************************************************/
@@ -47,44 +53,45 @@ void terrains_init(void)
 {
   int i;
 
-  for (i = 0; i < ARRAY_SIZE(terrains); i++) {
-    struct terrain *t = get_terrain(i);
-
-    t->index = i;
+  for (i = 0; i < ARRAY_SIZE(civ_terrains); i++) {
+    /* Can't use get_terrain here because it does a bounds check. */
+    civ_terrains[i].index = i;
   }
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Return the terrain for the given terrain index.
+****************************************************************************/
 struct terrain *get_terrain(Terrain_type_id type)
 {
-  return &terrains[type];
+  if (type < 0 || type >= game.control.terrain_count) {
+    /* This isn't an error; some T_UNKNOWN callers depend on it. */
+    return NULL;
+  }
+  return &civ_terrains[type];
 }
 
 /****************************************************************************
   Return the terrain type matching the name, or T_UNKNOWN if none matches.
 ****************************************************************************/
-Terrain_type_id get_terrain_by_name(const char *name)
+struct terrain *get_terrain_by_name(const char *name)
 {
-  Terrain_type_id tt;
-
-  for (tt = T_FIRST; tt < T_COUNT; tt++) {
-    if (0 == strcmp (terrains[tt].terrain_name, name)) {
-      return tt;
+  terrain_type_iterate(pterrain) {
+    if (0 == strcmp(pterrain->terrain_name, name)) {
+      return pterrain;
     }
-  }
+  } terrain_type_iterate_end;
 
   return T_UNKNOWN;
 }
 
-/***************************************************************
-...
-***************************************************************/
-const char *get_terrain_name(Terrain_type_id type)
+/****************************************************************************
+  Return the name of the terrain.
+****************************************************************************/
+const char *get_terrain_name(const struct terrain *pterrain)
 {
-  assert(type < T_COUNT);
-  return terrains[type].terrain_name;
+  SANITY_CHECK_TERRAIN(pterrain);
+  return pterrain->terrain_name;
 }
 
 /****************************************************************************
@@ -118,31 +125,32 @@ enum terrain_flag_id terrain_flag_from_str(const char *s)
 }
 
 /****************************************************************************
-  Return a random terrain that has the specified flag.
+  Return a random terrain that has the specified flag.  Returns T_UNKNOWN if
+  there is no matching terrain.
 ****************************************************************************/
-Terrain_type_id get_flag_terrain(enum terrain_flag_id flag)
+struct terrain *get_flag_terrain(enum terrain_flag_id flag)
 {
   bool has_flag[T_COUNT];
   int count = 0;
 
-  terrain_type_iterate(t) {
-    if ((has_flag[t] = terrain_has_flag(t, flag))) {
+  terrain_type_iterate(pterrain) {
+    if ((has_flag[pterrain->index] = terrain_has_flag(pterrain, flag))) {
       count++;
     }
   } terrain_type_iterate_end;
 
   count = myrand(count);
-  terrain_type_iterate(t) {
-    if (has_flag[t]) {
+  terrain_type_iterate(pterrain) {
+    if (has_flag[pterrain->index]) {
       if (count == 0) {
-       return t;
+	return pterrain;
       }
       count--;
     }
   } terrain_type_iterate_end;
 
   die("Reached end of get_flag_terrain!");
-  return T_NONE;
+  return T_UNKNOWN;
 }
 
 /****************************************************************************
@@ -150,11 +158,9 @@ Terrain_type_id get_flag_terrain(enum terrain_flag_id flag)
 ****************************************************************************/
 void terrains_free(void)
 {
-  terrain_type_iterate(t) {
-    struct terrain *p = get_terrain(t);
-
-    free(p->helptext);
-    p->helptext = NULL;
+  terrain_type_iterate(pterrain) {
+    free(pterrain->helptext);
+    pterrain->helptext = NULL;
   } terrain_type_iterate_end;
 }
 
@@ -185,10 +191,11 @@ void terrains_free(void)
 /****************************************************************************
   Returns TRUE iff any adjacent tile contains the given terrain.
 ****************************************************************************/
-bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t)
+bool is_terrain_near_tile(const struct tile *ptile,
+			  const struct terrain *pterrain)
 {
   adjc_iterate(ptile, adjc_tile) {
-    if (adjc_tile->terrain == t) {
+    if (pterrain && adjc_tile->terrain == pterrain) {
       return TRUE;
     }
   } adjc_iterate_end;
@@ -201,12 +208,12 @@ bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t)
 ****************************************************************************/
 int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
-			    Terrain_type_id t)
+			    const struct terrain *pterrain)
 {
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (tile_get_terrain(adjc_tile) == t) {
+    if (pterrain && tile_get_terrain(adjc_tile) == pterrain) {
       count++;
     }
     total++;
@@ -228,7 +235,7 @@ int count_terrain_property_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (get_terrain(adjc_tile->terrain)->property[prop] > 0) {
+    if (adjc_tile->terrain->property[prop] > 0) {
       count++;
     }
     total++;
@@ -386,7 +393,8 @@ int count_terrain_flag_near_tile(const struct tile *ptile,
   int count = 0, total = 0;
 
   variable_adjc_iterate(ptile, adjc_tile, cardinal_only) {
-    if (terrain_has_flag(tile_get_terrain(adjc_tile), flag)) {
+    if (adjc_tile->terrain != T_UNKNOWN
+	&& terrain_has_flag(adjc_tile->terrain, flag)) {
       count++;
     }
     total++;

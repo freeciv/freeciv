@@ -72,8 +72,7 @@ static int lookup_city_cost(struct section_file *file, const char *prefix,
 			    const char *entry, const char *filename);
 static char *lookup_helptext(struct section_file *file, char *prefix);
 
-static Terrain_type_id lookup_terrain(char *name, 
-                                             Terrain_type_id tthis);
+static struct terrain *lookup_terrain(char *name, struct terrain *tthis);
 
 static void load_tech_names(struct section_file *file);
 static void load_unit_names(struct section_file *file);
@@ -646,11 +645,8 @@ static char *lookup_helptext(struct section_file *file, char *prefix)
 /**************************************************************************
   Look up a terrain name in the tile_types array and return its index.
 **************************************************************************/
-static Terrain_type_id lookup_terrain(char *name, 
-                                             Terrain_type_id tthis)
+static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
 {
-  Terrain_type_id i;
-
   if (*name == '\0' || (0 == strcmp(name, "none")) 
       || (0 == strcmp(name, "no"))) {
     return T_NONE;
@@ -658,15 +654,15 @@ static Terrain_type_id lookup_terrain(char *name,
     return (tthis);
   }
 
-  for (i = T_FIRST; i < T_COUNT; i++) {
-    if (0 == strcmp(name, terrains[i].terrain_name)) {
-      return i;
+  terrain_type_iterate(pterrain) {
+    if (0 == strcmp(name, pterrain->terrain_name)) {
+      return pterrain;
     }
-  }
+  } terrain_type_iterate_end;
 
   /* TRANS: message for an obscure ruleset error. */
   freelog(LOG_ERROR, _("Unknown terrain %s in entry %s."),
-	  name, terrains[tthis].terrain_name);
+	  name, tthis->terrain_name);
   return T_NONE;
 }
 
@@ -1402,14 +1398,15 @@ static void load_terrain_names(struct section_file *file)
   }
   game.control.terrain_count = nval;
 
-  terrain_type_iterate(i) {
-    char *name = secfile_lookup_str(file, "%s.terrain_name", sec[i]);
+  terrain_type_iterate(pterrain) {
+    char *name = secfile_lookup_str(file, "%s.terrain_name",
+				    sec[pterrain->index]);
 
-    name_strlcpy(terrains[i].terrain_name_orig, name);
-    if (0 == strcmp(terrains[i].terrain_name_orig, "unused")) {
-      terrains[i].terrain_name_orig[0] = '\0';
+    name_strlcpy(pterrain->terrain_name_orig, name);
+    if (0 == strcmp(pterrain->terrain_name_orig, "unused")) {
+      pterrain->terrain_name_orig[0] = '\0';
     }
-    terrains[i].terrain_name = terrains[i].terrain_name_orig;
+    pterrain->terrain_name = pterrain->terrain_name_orig;
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1490,137 +1487,147 @@ static void load_ruleset_terrain(struct section_file *file)
 
   /* terrain details */
 
-  terrain_type_iterate(i) {
-      struct terrain *t = &(terrains[i]);
-      char **slist;
+  terrain_type_iterate(pterrain) {
+    char **slist;
+    const int i = pterrain->index;
 
-      sz_strlcpy(t->graphic_str,
-		 secfile_lookup_str(file,"%s.graphic", sec[i]));
-      sz_strlcpy(t->graphic_alt,
-		 secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
+    sz_strlcpy(pterrain->graphic_str,
+	       secfile_lookup_str(file,"%s.graphic", sec[i]));
+    sz_strlcpy(pterrain->graphic_alt,
+	       secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
 
-      t->identifier = secfile_lookup_str(file, "%s.identifier", sec[i])[0];
-      for (j = T_FIRST; j < i; j++) {
-	if (t->identifier == terrains[j].identifier) {
-	  freelog(LOG_FATAL,
-		  /* TRANS: message for an obscure ruleset error. */
-		  _("Terrains %s and %s have the same identifier."),
-		  t->terrain_name, terrains[j].terrain_name);
-	  exit(EXIT_FAILURE);
-	}
-      }
-      if (t->identifier == UNKNOWN_TERRAIN_IDENTIFIER) {
-	/* TRANS: message for an obscure ruleset error. */
-	freelog(LOG_FATAL, _("'%c' cannot be used as a terrain identifier; "
-			     "it is reserved."), UNKNOWN_TERRAIN_IDENTIFIER);
+    pterrain->identifier
+      = secfile_lookup_str(file, "%s.identifier", sec[i])[0];
+    for (j = T_FIRST; j < i; j++) {
+      if (pterrain->identifier == get_terrain(j)->identifier) {
+	freelog(LOG_FATAL,
+		/* TRANS: message for an obscure ruleset error. */
+		_("Terrains %s and %s have the same identifier."),
+		pterrain->terrain_name, get_terrain(j)->terrain_name);
 	exit(EXIT_FAILURE);
       }
+    }
+    if (pterrain->identifier == UNKNOWN_TERRAIN_IDENTIFIER) {
+      /* TRANS: message for an obscure ruleset error. */
+      freelog(LOG_FATAL, _("'%c' cannot be used as a terrain identifier; "
+			   "it is reserved."), UNKNOWN_TERRAIN_IDENTIFIER);
+      exit(EXIT_FAILURE);
+    }
 
-      t->movement_cost = secfile_lookup_int(file, "%s.movement_cost", sec[i]);
-      t->defense_bonus = secfile_lookup_int(file, "%s.defense_bonus", sec[i]);
+    pterrain->movement_cost
+      = secfile_lookup_int(file, "%s.movement_cost", sec[i]);
+    pterrain->defense_bonus
+      = secfile_lookup_int(file, "%s.defense_bonus", sec[i]);
 
+    output_type_iterate(o) {
+      pterrain->output[o]
+	= secfile_lookup_int_default(file, 0, "%s.%s", sec[i],
+				     get_output_identifier(o));
+    } output_type_iterate_end;
+
+    for (j = 0; j < MAX_NUM_SPECIALS; j++) {
+      char *name = secfile_lookup_str(file, "%s.special_%d_name",
+				      sec[i], j + 1);
+
+      name_strlcpy(pterrain->special[j].name_orig, name);
+      if (0 == strcmp(pterrain->special[j].name_orig, "none")) {
+	pterrain->special[j].name_orig[0] = '\0';
+      }
+      pterrain->special[j].name = pterrain->special[j].name_orig;
       output_type_iterate(o) {
-	t->output[o] = secfile_lookup_int_default(file, 0, "%s.%s", sec[i],
-						  get_output_identifier(o));
+	pterrain->special[j].output[o]
+	  = secfile_lookup_int_default(file, 0, "%s.%s_special_%d", sec[i],
+				       get_output_identifier(o), j + 1);
       } output_type_iterate_end;
 
-      for (j = 0; j < MAX_NUM_SPECIALS; j++) {
-	char *name = secfile_lookup_str(file, "%s.special_%d_name",
-					sec[i], j + 1);
+      sz_strlcpy(pterrain->special[j].graphic_str,
+		 secfile_lookup_str(file,"%s.graphic_special_%d",
+				    sec[i], j+1));
+      sz_strlcpy(pterrain->special[j].graphic_alt,
+		 secfile_lookup_str(file,"%s.graphic_special_%da",
+				    sec[i], j+1));
+    }
 
-	name_strlcpy(t->special[j].name_orig, name);
-	if (0 == strcmp(t->special[j].name_orig, "none")) {
-	  t->special[j].name_orig[0] = '\0';
-	}
-	t->special[j].name = t->special[j].name_orig;
-	output_type_iterate(o) {
-	  t->special[j].output[o]
-	    = secfile_lookup_int_default(file, 0, "%s.%s_special_%d", sec[i],
-					 get_output_identifier(o), j + 1);
-	} output_type_iterate_end;
+    pterrain->road_trade_incr
+      = secfile_lookup_int(file, "%s.road_trade_incr", sec[i]);
+    pterrain->road_time = secfile_lookup_int(file, "%s.road_time", sec[i]);
 
-	sz_strlcpy(t->special[j].graphic_str,
-		   secfile_lookup_str(file,"%s.graphic_special_%d",
-				      sec[i], j+1));
-	sz_strlcpy(t->special[j].graphic_alt,
-		   secfile_lookup_str(file,"%s.graphic_special_%da",
-				      sec[i], j+1));
+    pterrain->irrigation_result
+      = lookup_terrain(secfile_lookup_str(file, "%s.irrigation_result",
+					  sec[i]), pterrain);
+    pterrain->irrigation_food_incr
+      = secfile_lookup_int(file, "%s.irrigation_food_incr", sec[i]);
+    pterrain->irrigation_time
+      = secfile_lookup_int(file, "%s.irrigation_time", sec[i]);
+
+    pterrain->mining_result
+      = lookup_terrain(secfile_lookup_str(file, "%s.mining_result",
+					  sec[i]), pterrain);
+    pterrain->mining_shield_incr
+      = secfile_lookup_int(file, "%s.mining_shield_incr", sec[i]);
+    pterrain->mining_time
+      = secfile_lookup_int(file, "%s.mining_time", sec[i]);
+
+    pterrain->transform_result
+      = lookup_terrain(secfile_lookup_str(file, "%s.transform_result",
+					    sec[i]), pterrain);
+    pterrain->transform_time
+      = secfile_lookup_int(file, "%s.transform_time", sec[i]);
+    pterrain->rail_time
+      = secfile_lookup_int_default(file, 3, "%s.rail_time", sec[i]);
+    pterrain->airbase_time
+      = secfile_lookup_int_default(file, 3, "%s.airbase_time", sec[i]);
+    pterrain->fortress_time
+      = secfile_lookup_int_default(file, 3, "%s.fortress_time", sec[i]);
+    pterrain->clean_pollution_time
+      = secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", sec[i]);
+    pterrain->clean_fallout_time
+      = secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", sec[i]);
+
+    pterrain->warmer_wetter_result
+      = lookup_terrain(secfile_lookup_str(file, "%s.warmer_wetter_result",
+					  sec[i]), pterrain);
+    pterrain->warmer_drier_result
+      = lookup_terrain(secfile_lookup_str(file, "%s.warmer_drier_result",
+					  sec[i]), pterrain);
+    pterrain->cooler_wetter_result
+      = lookup_terrain(secfile_lookup_str(file, "%s.cooler_wetter_result",
+					  sec[i]), pterrain);
+    pterrain->cooler_drier_result
+      = lookup_terrain(secfile_lookup_str(file, "%s.cooler_drier_result",
+					  sec[i]), pterrain);
+
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
+    BV_CLR_ALL(pterrain->flags);
+    for (j = 0; j < nval; j++) {
+      const char *sval = slist[j];
+      enum terrain_flag_id flag = terrain_flag_from_str(sval);
+
+      if (flag == TER_LAST) {
+	/* TRANS: message for an obscure ruleset error. */
+	freelog(LOG_FATAL, _("Terrain %s has unknown flag %s"),
+		pterrain->terrain_name, sval);
+	exit(EXIT_FAILURE);
+      } else {
+	BV_SET(pterrain->flags, flag);
       }
+    }
+    free(slist);
 
-      t->road_trade_incr =
-	secfile_lookup_int(file, "%s.road_trade_incr", sec[i]);
-      t->road_time = secfile_lookup_int(file, "%s.road_time", sec[i]);
+    for (j = 0; j < MG_LAST; j++) {
+      const char *mg_names[] = {
+	"mountainous", "green", "foliage",
+	"tropical", "temperate", "cold", "frozen",
+	"wet", "dry", "ocean_depth"
+      };
+      assert(ARRAY_SIZE(mg_names) == MG_LAST);
 
-      t->irrigation_result =
-	lookup_terrain(secfile_lookup_str(file, "%s.irrigation_result", sec[i]), i);
-      t->irrigation_food_incr =
-	secfile_lookup_int(file, "%s.irrigation_food_incr", sec[i]);
-      t->irrigation_time = secfile_lookup_int(file, "%s.irrigation_time", sec[i]);
+      pterrain->property[j] = secfile_lookup_int_default(file, 0,
+							 "%s.property_%s",
+							 sec[i], mg_names[j]);
+    }
 
-      t->mining_result =
-	lookup_terrain(secfile_lookup_str(file, "%s.mining_result", sec[i]), i);
-      t->mining_shield_incr =
-	secfile_lookup_int(file, "%s.mining_shield_incr", sec[i]);
-      t->mining_time = secfile_lookup_int(file, "%s.mining_time", sec[i]);
-
-      t->transform_result =
-	lookup_terrain(secfile_lookup_str(file, "%s.transform_result", sec[i]), i);
-      t->transform_time = secfile_lookup_int(file, "%s.transform_time", sec[i]);
-      t->rail_time = 
-          secfile_lookup_int_default(file, 3, "%s.rail_time", sec[i]);
-      t->airbase_time = 
-          secfile_lookup_int_default(file, 3, "%s.airbase_time", sec[i]);
-      t->fortress_time = 
-          secfile_lookup_int_default(file, 3, "%s.fortress_time", sec[i]);
-      t->clean_pollution_time = 
-         secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", sec[i]);
-      t->clean_fallout_time = 
-          secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", sec[i]);
-
-      t->warmer_wetter_result
-	= lookup_terrain(secfile_lookup_str(file, "%s.warmer_wetter_result",
-					    sec[i]), i);
-      t->warmer_drier_result
-	= lookup_terrain(secfile_lookup_str(file, "%s.warmer_drier_result",
-					    sec[i]), i);
-      t->cooler_wetter_result
-	= lookup_terrain(secfile_lookup_str(file, "%s.cooler_wetter_result",
-					    sec[i]), i);
-      t->cooler_drier_result
-	= lookup_terrain(secfile_lookup_str(file, "%s.cooler_drier_result",
-					    sec[i]), i);
-
-      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
-      BV_CLR_ALL(t->flags);
-      for (j = 0; j < nval; j++) {
-	const char *sval = slist[j];
-	enum terrain_flag_id flag = terrain_flag_from_str(sval);
-
-	if (flag == TER_LAST) {
-	  /* TRANS: message for an obscure ruleset error. */
-	  freelog(LOG_FATAL, _("Terrain %s has unknown flag %s"),
-		  t->terrain_name, sval);
-	  exit(EXIT_FAILURE);
-	} else {
-	  BV_SET(t->flags, flag);
-	}
-      }
-      free(slist);
-
-      for (j = 0; j < MG_LAST; j++) {
-	const char *mg_names[] = {
-	  "mountainous", "green", "foliage",
-	  "tropical", "temperate", "cold", "frozen",
-	  "wet", "dry", "ocean_depth"
-	};
-	assert(ARRAY_SIZE(mg_names) == MG_LAST);
-
-	t->property[j] = secfile_lookup_int_default(file, 0,
-						    "%s.property_%s",
-						    sec[i], mg_names[j]);
-      }
-      
-      t->helptext = lookup_helptext(file, sec[i]);
+    pterrain->helptext = lookup_helptext(file, sec[i]);
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1979,9 +1986,8 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	  } else {
 	    /* "handled" tracks whether we find a match (for error handling) */
 	    bool handled = FALSE;
-	    Terrain_type_id type;
-	
-	    for (type = T_FIRST; type < T_COUNT && !handled; type++) {
+
+	    terrain_type_iterate(pterrain) {
               /*
                * Note that at this time (before a call to
                * translate_data_names) the terrain_name fields contains an
@@ -1989,11 +1995,12 @@ static struct city_name* load_city_name_list(struct section_file *file,
                * However this is not a problem because we take care of rivers
                * separately.
                */
-	      if (mystrcasecmp(name, terrains[type].terrain_name) == 0) {
-	        city_names[j].terrain[type] = setting;
+	      if (mystrcasecmp(name, pterrain->terrain_name) == 0) {
+	        city_names[j].terrain[pterrain->index] = setting;
 	        handled = TRUE;
+		break;
 	      }
-	    }
+	    } terrain_type_iterate_end;
 	    if (!handled) {
 	      freelog(LOG_ERROR, "Unreadable terrain description %s "
 	              "in city name ruleset \"%s%s\" - skipping it.",
@@ -2772,61 +2779,68 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
   lsend_packet_ruleset_terrain_control(dest, &terrain_control);
 
-  terrain_type_iterate(i) {
-      struct terrain *t = &(terrains[i]);
+  terrain_type_iterate(pterrain) {
+    const int i = pterrain->index;
 
-      packet.id = i;
+    packet.id = i;
 
-      sz_strlcpy(packet.terrain_name, t->terrain_name_orig);
-      sz_strlcpy(packet.graphic_str, t->graphic_str);
-      sz_strlcpy(packet.graphic_alt, t->graphic_alt);
+    sz_strlcpy(packet.terrain_name, pterrain->terrain_name_orig);
+    sz_strlcpy(packet.graphic_str, pterrain->graphic_str);
+    sz_strlcpy(packet.graphic_alt, pterrain->graphic_alt);
 
-      packet.movement_cost = t->movement_cost;
-      packet.defense_bonus = t->defense_bonus;
+    packet.movement_cost = pterrain->movement_cost;
+    packet.defense_bonus = pterrain->defense_bonus;
 
-      output_type_iterate(o) {
-	packet.output[o] = t->output[o];
-	packet.output_special_1[o] = t->special[0].output[o];
-	packet.output_special_2[o] = t->special[1].output[o];
-      } output_type_iterate_end;
+    output_type_iterate(o) {
+      packet.output[o] = pterrain->output[o];
+      packet.output_special_1[o] = pterrain->special[0].output[o];
+      packet.output_special_2[o] = pterrain->special[1].output[o];
+    } output_type_iterate_end;
 
-      sz_strlcpy(packet.special_1_name, t->special[0].name_orig);
-      sz_strlcpy(packet.special_2_name, t->special[1].name_orig);
+    sz_strlcpy(packet.special_1_name, pterrain->special[0].name_orig);
+    sz_strlcpy(packet.special_2_name, pterrain->special[1].name_orig);
 
-      sz_strlcpy(packet.graphic_str_special_1, t->special[0].graphic_str);
-      sz_strlcpy(packet.graphic_alt_special_1, t->special[0].graphic_alt);
+    sz_strlcpy(packet.graphic_str_special_1,
+	       pterrain->special[0].graphic_str);
+    sz_strlcpy(packet.graphic_alt_special_1,
+	       pterrain->special[0].graphic_alt);
 
-      sz_strlcpy(packet.graphic_str_special_2, t->special[1].graphic_str);
-      sz_strlcpy(packet.graphic_alt_special_2, t->special[1].graphic_alt);
+    sz_strlcpy(packet.graphic_str_special_2,
+	       pterrain->special[1].graphic_str);
+    sz_strlcpy(packet.graphic_alt_special_2,
+	       pterrain->special[1].graphic_alt);
 
-      packet.road_trade_incr = t->road_trade_incr;
-      packet.road_time = t->road_time;
+    packet.road_trade_incr = pterrain->road_trade_incr;
+    packet.road_time = pterrain->road_time;
 
-      packet.irrigation_result = t->irrigation_result;
-      packet.irrigation_food_incr = t->irrigation_food_incr;
-      packet.irrigation_time = t->irrigation_time;
+    packet.irrigation_result = (pterrain->irrigation_result
+				? pterrain->irrigation_result->index : -1);
+    packet.irrigation_food_incr = pterrain->irrigation_food_incr;
+    packet.irrigation_time = pterrain->irrigation_time;
 
-      packet.mining_result = t->mining_result;
-      packet.mining_shield_incr = t->mining_shield_incr;
-      packet.mining_time = t->mining_time;
+    packet.mining_result = (pterrain->mining_result
+			    ? pterrain->mining_result->index : -1);
+    packet.mining_shield_incr = pterrain->mining_shield_incr;
+    packet.mining_time = pterrain->mining_time;
 
-      packet.transform_result = t->transform_result;
-      packet.transform_time = t->transform_time;
-      packet.rail_time = t->rail_time;
-      packet.airbase_time = t->airbase_time;
-      packet.fortress_time = t->fortress_time;
-      packet.clean_pollution_time = t->clean_pollution_time;
-      packet.clean_fallout_time = t->clean_fallout_time;
+    packet.transform_result = (pterrain->transform_result
+			       ? pterrain->transform_result->index : -1);
+    packet.transform_time = pterrain->transform_time;
+    packet.rail_time = pterrain->rail_time;
+    packet.airbase_time = pterrain->airbase_time;
+    packet.fortress_time = pterrain->fortress_time;
+    packet.clean_pollution_time = pterrain->clean_pollution_time;
+    packet.clean_fallout_time = pterrain->clean_fallout_time;
 
-      packet.flags = t->flags;
+    packet.flags = pterrain->flags;
 
-      if (t->helptext) {
-	sz_strlcpy(packet.helptext, t->helptext);
-      } else {
-	packet.helptext[0] = '\0';
-      }
-      
-      lsend_packet_ruleset_terrain(dest, &packet);
+    if (pterrain->helptext) {
+      sz_strlcpy(packet.helptext, pterrain->helptext);
+    } else {
+      packet.helptext[0] = '\0';
+    }
+
+    lsend_packet_ruleset_terrain(dest, &packet);
   } terrain_type_iterate_end;
 }
 

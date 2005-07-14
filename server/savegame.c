@@ -229,14 +229,14 @@ static int ascii_hex2bin(char ch, int halfbyte)
   Dereferences the terrain character.  See terrains[].identifier
     example: char2terrain('a') => T_ARCTIC
 ****************************************************************************/
-static Terrain_type_id char2terrain(char ch)
+static struct terrain *char2terrain(char ch)
 {
   if (ch == UNKNOWN_TERRAIN_IDENTIFIER) {
     return T_UNKNOWN;
   }
-  terrain_type_iterate(id) {
-    if (terrains[id].identifier == ch) {
-      return id;
+  terrain_type_iterate(pterrain) {
+    if (pterrain->identifier == ch) {
+      return pterrain;
     }
   } terrain_type_iterate_end;
 
@@ -249,13 +249,12 @@ static Terrain_type_id char2terrain(char ch)
   References the terrain character.  See terrains[].identifier
     example: terrain2char(T_ARCTIC) => 'a'
 ****************************************************************************/
-static char terrain2char(Terrain_type_id terr)
+static char terrain2char(const struct terrain *pterrain)
 {
-  if (terr == T_UNKNOWN) {
+  if (pterrain == T_UNKNOWN) {
     return UNKNOWN_TERRAIN_IDENTIFIER;
   } else {
-    assert(terr >= T_FIRST && terr < T_COUNT);
-    return terrains[terr].identifier;
+    return pterrain->identifier;
   }
 }
 

@@ -774,7 +774,8 @@ static void update_unit_activity(struct unit *punit)
   if (activity == ACTIVITY_IRRIGATE) {
     if (total_activity (ptile, ACTIVITY_IRRIGATE)
         >= tile_activity_time(ACTIVITY_IRRIGATE, ptile)) {
-      Terrain_type_id old = tile_get_terrain(ptile);
+      struct terrain *old = tile_get_terrain(ptile);
+
       tile_apply_activity(ptile, ACTIVITY_IRRIGATE);
       solvency = check_terrain_ocean_land_change(ptile, old);
       unit_activity_done = TRUE;
@@ -801,7 +802,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity == ACTIVITY_MINE) {
     if (total_activity (ptile, ACTIVITY_MINE)
         >= tile_activity_time(ACTIVITY_MINE, ptile)) {
-      Terrain_type_id old = tile_get_terrain(ptile);
+      struct terrain *old = tile_get_terrain(ptile);
 
       tile_apply_activity(ptile, ACTIVITY_MINE);
       solvency = check_terrain_ocean_land_change(ptile, old);
@@ -813,7 +814,7 @@ static void update_unit_activity(struct unit *punit)
   if (activity == ACTIVITY_TRANSFORM) {
     if (total_activity (ptile, ACTIVITY_TRANSFORM)
         >= tile_activity_time(ACTIVITY_TRANSFORM, ptile)) {
-      Terrain_type_id old = tile_get_terrain(ptile);
+      struct terrain *old = tile_get_terrain(ptile);
 
       tile_apply_activity(ptile, ACTIVITY_TRANSFORM);
       solvency = check_terrain_ocean_land_change(ptile, old);
@@ -1205,7 +1206,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
   }
 
   /* Calculate how well we can defend at (x,y) */
-  db = 10 + get_terrain(tile_get_terrain(ptile))->defense_bonus / 10;
+  db = 10 + tile_get_terrain(ptile)->defense_bonus / 10;
   if (tile_has_special(ptile, S_RIVER))
     db += (db * terrain_control.river_defense_bonus) / 100;
   d = unit_def_rating_basic_sq(punit) * db;
@@ -2611,7 +2612,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
     unit_list_iterate(ptile->units, penemy) {
       int range;
       enum unit_move_type move_type = unit_type(penemy)->move_type;
-      Terrain_type_id terrain = tile_get_terrain(ptile);
+      struct terrain *pterrain = tile_get_terrain(ptile);
 
       if (tile_has_special(ptile, S_FORTRESS)
 	  && unit_profits_of_watchtower(penemy))
@@ -2624,7 +2625,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
 	  && range >= real_map_distance(punit->tile, ptile)
 	  && can_player_see_unit(unit_owner(penemy), punit)
 	  /* on board transport; don't awaken */
-	  && !(move_type == LAND_MOVING && is_ocean(terrain))) {
+	  && !(move_type == LAND_MOVING && is_ocean(pterrain))) {
 	set_unit_activity(penemy, ACTIVITY_IDLE);
 	send_unit_info(NULL, penemy);
       }

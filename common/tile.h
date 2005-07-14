@@ -28,7 +28,7 @@ struct tile {
   int x, y; /* Cartesian (map) coordinates of the tile. */
   int nat_x, nat_y; /* Native coordinates of the tile. */
   int index; /* Index coordinate of the tile. */
-  Terrain_type_id terrain;
+  struct terrain *terrain; /* May be NULL for unknown tiles. */
   bv_special special;
   struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
@@ -53,8 +53,8 @@ struct player *tile_get_owner(const struct tile *ptile);
 void tile_set_owner(struct tile *ptile, struct player *pplayer);
 struct city *tile_get_city(const struct tile *ptile);
 void tile_set_city(struct tile *ptile, struct city *pcity);
-Terrain_type_id tile_get_terrain(const struct tile *ptile);
-void tile_set_terrain(struct tile *ptile, Terrain_type_id ter);
+struct terrain *tile_get_terrain(const struct tile *ptile);
+void tile_set_terrain(struct tile *ptile, struct terrain *pterrain);
 bv_special tile_get_special(const struct tile *ptile);
 bool tile_has_special(const struct tile *ptile,
 		      enum tile_special_type to_test_for);
@@ -73,7 +73,7 @@ enum known_type tile_get_known(const struct tile *ptile,
 int tile_activity_time(enum unit_activity activity,
 		       const struct tile *ptile);
 
-void tile_change_terrain(struct tile *ptile, Terrain_type_id type);
+void tile_change_terrain(struct tile *ptile, struct terrain *pterrain);
 bool tile_apply_activity(struct tile *ptile, Activity_type_id act);
 
 const char *tile_get_info_text(const struct tile *ptile);

@@ -225,38 +225,37 @@ static bool manual_command(void)
       fprintf(doc, _("<th>Irrigation +food</th><th>Mining +shields</th>\n"));
       fprintf(doc, _("<th>Transform to</th>"));
       fprintf(doc, "</tr>\n");
-      terrain_type_iterate(id) {
-	struct terrain *ptype = get_terrain(id);
+      terrain_type_iterate(pterrain) {
 	int s;
 
-	if (ptype->defense_bonus == 0) {
+	if (pterrain->defense_bonus == 0) {
 	  /* Must be a disabled piece of terrain */
 	  continue;
 	}
 
 	fprintf(doc, "<tr><td>%s%s%s %s</td>", IMAGE_BEGIN,
-		ptype->graphic_str,
-		IMAGE_END, get_terrain_name(id));
+		pterrain->graphic_str,
+		IMAGE_END, get_terrain_name(pterrain));
 	fprintf(doc, "<td>%d / %d / %d</td>",
-		ptype->output[O_FOOD], ptype->output[O_SHIELD],
-		ptype->output[O_TRADE]);
+		pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
+		pterrain->output[O_TRADE]);
 
 	for (s = 0; s < MAX_NUM_SPECIALS; s++) {
 	  fprintf(doc, "<td>%s%s%s %s</td>", IMAGE_BEGIN,
-		  ptype->special[s].graphic_str, IMAGE_END,
-		  ptype->special[s].name);
+		  pterrain->special[s].graphic_str, IMAGE_END,
+		  pterrain->special[s].name);
 	  fprintf(doc, "<td>%d / %d / %d</td>",
-		  ptype->special[s].output[O_FOOD],
-		  ptype->special[s].output[O_SHIELD],
-		  ptype->special[s].output[O_TRADE]);
+		  pterrain->special[s].output[O_FOOD],
+		  pterrain->special[s].output[O_SHIELD],
+		  pterrain->special[s].output[O_TRADE]);
 	}
 
-	fprintf(doc, "<td>%d</td>\n", ptype->movement_cost);
+	fprintf(doc, "<td>%d</td>\n", pterrain->movement_cost);
 	fprintf(doc, "<td>%d0%%</td><td>%d</td><td>%d</td><td>%d</td>\n",
-		ptype->defense_bonus, ptype->road_trade_incr,
-		ptype->irrigation_food_incr, ptype->mining_shield_incr);
+		pterrain->defense_bonus, pterrain->road_trade_incr,
+		pterrain->irrigation_food_incr, pterrain->mining_shield_incr);
 	fprintf(doc, "<td>%s</td></tr>\n\n",
-		get_terrain_name(ptype->transform_result));
+		get_terrain_name(pterrain->transform_result));
       } terrain_type_iterate_end;
       fprintf(doc, _("</table><br><br><br><table border=1>"));
       fprintf(doc, _("<caption>Time to perform action</caption>"));
@@ -266,24 +265,23 @@ static bool manual_command(void)
       fprintf(doc, _("<th>Airbase</th><th>Fortress</th>\n"));
       fprintf(doc, _("<th>Clean pollution</th><th>Clean fallout</th>\n"));
       fprintf(doc, _("<th>Transform</th></tr>\n"));
-      terrain_type_iterate(id) {
-	const char *name = get_terrain_name(id);
-	struct terrain *ptype = get_terrain(id);
+      terrain_type_iterate(pterrain) {
+	const char *name = get_terrain_name(pterrain);
 
-	if (ptype->terrain_name[0] == '\0') {
+	if (pterrain->terrain_name[0] == '\0') {
 	  /* Must be a disabled piece of terrain */
 	  continue;
 	}
 
 	fprintf(doc, "<tr><td>%s%s%s %s</td><td>%d</td>\n",
-		IMAGE_BEGIN, ptype->graphic_str, IMAGE_END, name,
-		ptype->road_time);
+		IMAGE_BEGIN, pterrain->graphic_str, IMAGE_END, name,
+		pterrain->road_time);
 	fprintf(doc, "<td>%d</td><td>%d</td><td>%d</td><td>%d</td>\n",
-		ptype->irrigation_time, ptype->mining_time,
-		ptype->rail_time, ptype->airbase_time);
+		pterrain->irrigation_time, pterrain->mining_time,
+		pterrain->rail_time, pterrain->airbase_time);
 	fprintf(doc, "<td>%d</td><td>%d</td><td>%d</td><td>%d</td>\n",
-		ptype->fortress_time, ptype->clean_pollution_time,
-		ptype->clean_fallout_time, ptype->transform_time);
+		pterrain->fortress_time, pterrain->clean_pollution_time,
+		pterrain->clean_fallout_time, pterrain->transform_time);
 	fprintf(doc, "</tr>\n\n");
       } terrain_type_iterate_end;
 

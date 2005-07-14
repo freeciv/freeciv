@@ -232,15 +232,12 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 **************************************************************************/
 static bool is_wet(struct player *pplayer, struct tile *ptile)
 {
-  Terrain_type_id terrain;
-
   /* FIXME: this should check a handicap. */
   if (!pplayer->ai.control && !map_is_known(ptile, pplayer)) {
     return FALSE;
   }
 
-  terrain = tile_get_terrain(ptile);
-  if (is_ocean(terrain)) {
+  if (is_ocean(ptile->terrain)) {
     /* TODO: perhaps salt water should not be usable for irrigation? */
     return TRUE;
   }
@@ -293,10 +290,9 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 			    int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
-  Terrain_type_id old_terrain = ptile->terrain;
+  struct terrain *old_terrain = ptile->terrain;
   bv_special old_special = ptile->special;
-  struct terrain *type = get_terrain(old_terrain);
-  Terrain_type_id new_terrain = type->irrigation_result;
+  struct terrain *new_terrain = old_terrain->irrigation_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
     /* Irrigation would change the terrain type, clearing the mine
@@ -358,10 +354,9 @@ static int ai_calc_mine(struct city *pcity,
 			int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
-  Terrain_type_id old_terrain = ptile->terrain;
+  struct terrain *old_terrain = ptile->terrain;
   bv_special old_special = ptile->special;
-  struct terrain *type = get_terrain(old_terrain);
-  Terrain_type_id new_terrain = type->mining_result;
+  struct terrain *new_terrain = old_terrain->mining_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
     /* Mining would change the terrain type, clearing the irrigation
@@ -410,10 +405,9 @@ static int ai_calc_transform(struct city *pcity,
 			     int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
-  Terrain_type_id old_terrain = ptile->terrain;
+  struct terrain *old_terrain = ptile->terrain;
   bv_special old_special = ptile->special;
-  struct terrain *type = get_terrain(old_terrain);
-  Terrain_type_id new_terrain = type->transform_result;
+  struct terrain *new_terrain = old_terrain->transform_result;
 
   if (old_terrain == new_terrain || new_terrain == T_NONE) {
     return -1;
@@ -436,10 +430,10 @@ static int ai_calc_transform(struct city *pcity,
 
   ptile->terrain = new_terrain;
 
-  if (get_terrain(new_terrain)->mining_result != new_terrain) {
+  if (new_terrain->mining_result != new_terrain) {
     tile_clear_special(ptile, S_MINE);
   }
-  if (get_terrain(new_terrain)->irrigation_result != new_terrain) {
+  if (new_terrain->irrigation_result != new_terrain) {
     tile_clear_special(ptile, S_FARMLAND);
     tile_clear_special(ptile, S_IRRIGATION);
   }
@@ -476,14 +470,14 @@ static int road_bonus(struct tile *ptile, enum tile_special_type special)
       has_road[i] = FALSE;
       is_slow[i] = FALSE; /* FIXME: should be TRUE? */
     } else {
-      struct terrain *ptype = get_terrain(tile1->terrain);
+      struct terrain *pterrain = tile1->terrain;
 
       has_road[i] = tile_has_special(tile1, special);
 
       /* If TRUE, this value indicates that this tile does not need
        * a road connector.  This is set for terrains which cannot have
        * road or where road takes "too long" to build. */
-      is_slow[i] = (ptype->road_time == 0 || ptype->road_time > 5);
+      is_slow[i] = (pterrain->road_time == 0 || pterrain->road_time > 5);
 
       if (!has_road[i]) {
 	unit_list_iterate(tile1->units, punit) {
@@ -1193,7 +1187,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
     city_map_checked_iterate(pcity->tile,
 			     city_x, city_y, ptile) {
 #ifndef NDEBUG
-      Terrain_type_id old_terrain = ptile->terrain;
+      struct terrain *old_terrain = ptile->terrain;
       bv_special old_special = ptile->special;
 #endif
 

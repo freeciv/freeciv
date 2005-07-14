@@ -20,7 +20,6 @@
 #include "effects.h"
 #include "fc_types.h"
 #include "tech.h"		/* Tech_type_id */
-#include "terrain.h"		/* Terrain_type_id etc */
 #include "unittype.h"		/* Unit_Class_id, Unit_type_id */
 
 /* B_LAST is a value which is guaranteed to be larger than all

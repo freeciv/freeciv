@@ -296,7 +296,7 @@ static int defense_bonus(struct cityresult *result, struct ai_data *ai)
 {
   /* Defense modification (as tie breaker mostly) */
   int defense_bonus = 
-    10 + get_terrain(tile_get_terrain(result->tile))->defense_bonus / 10;
+    10 + tile_get_terrain(result->tile)->defense_bonus / 10;
   if (tile_has_special(result->tile, S_RIVER)) {
     defense_bonus +=
         (defense_bonus * terrain_control.river_defense_bonus) / 100;

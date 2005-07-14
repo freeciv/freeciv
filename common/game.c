@@ -572,9 +572,7 @@ void translate_data_names(void)
     tthis->name = Q_(tthis->name_orig);
   } impr_type_iterate_end;
 
-  terrain_type_iterate(i) {
-    struct terrain *tthis = &terrains[i];
-
+  terrain_type_iterate(tthis) {
     tthis->terrain_name = ((strcmp(tthis->terrain_name_orig, "") != 0)
 			   ? Q_(tthis->terrain_name_orig) : "");
 

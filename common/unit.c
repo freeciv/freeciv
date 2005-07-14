@@ -731,7 +731,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 				      const struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
-  struct terrain *type = get_terrain(ptile->terrain);
+  struct terrain *pterrain = ptile->terrain;
 
   switch(activity) {
   case ACTIVITY_IDLE:
@@ -750,7 +750,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return (terrain_control.may_road
 	    && unit_flag(punit, F_SETTLERS)
 	    && !tile_has_special(ptile, S_ROAD)
-	    && type->road_time != 0
+	    && pterrain->road_time != 0
 	    && (!tile_has_special(ptile, S_RIVER)
 		|| player_knows_techs_with_flag(pplayer, TF_BRIDGE)));
 
@@ -759,17 +759,17 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
      * *Do* allow it if they're transforming - the mine may survive */
     if (terrain_control.may_mine
 	&& unit_flag(punit, F_SETTLERS)
-	&& ((ptile->terrain == type->mining_result
+	&& ((ptile->terrain == pterrain->mining_result
 	     && !tile_has_special(ptile, S_MINE))
-	    || (ptile->terrain != type->mining_result
-		&& type->mining_result != T_NONE
+	    || (ptile->terrain != pterrain->mining_result
+		&& pterrain->mining_result != T_NONE
 		&& (!is_ocean(ptile->terrain)
-		    || is_ocean(type->mining_result)
+		    || is_ocean(pterrain->mining_result)
 		    || can_reclaim_ocean(ptile))
 		&& (is_ocean(ptile->terrain)
-		    || !is_ocean(type->mining_result)
+		    || !is_ocean(pterrain->mining_result)
 		    || can_channel_land(ptile))
-		&& (!is_ocean(type->mining_result)
+		&& (!is_ocean(pterrain->mining_result)
 		    || !tile_get_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_IRRIGATE) {
@@ -789,17 +789,17 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 	&& (!tile_has_special(ptile, S_IRRIGATION)
 	    || (!tile_has_special(ptile, S_FARMLAND)
 		&& player_knows_techs_with_flag(pplayer, TF_FARMLAND)))
-	&& ((ptile->terrain == type->irrigation_result
+	&& ((ptile->terrain == pterrain->irrigation_result
 	     && is_water_adjacent_to_tile(ptile))
-	    || (ptile->terrain != type->irrigation_result
-		&& type->irrigation_result != T_NONE
+	    || (ptile->terrain != pterrain->irrigation_result
+		&& pterrain->irrigation_result != T_NONE
 		&& (!is_ocean(ptile->terrain)
-		    || is_ocean(type->irrigation_result)
+		    || is_ocean(pterrain->irrigation_result)
 		    || can_reclaim_ocean(ptile))
 		&& (is_ocean(ptile->terrain)
-		    || !is_ocean(type->irrigation_result)
+		    || !is_ocean(pterrain->irrigation_result)
 		    || can_channel_land(ptile))
-		&& (!is_ocean(type->irrigation_result)
+		&& (!is_ocean(pterrain->irrigation_result)
 		    || !tile_get_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_MINE) {
@@ -891,15 +891,15 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_TRANSFORM:
     return (terrain_control.may_transform
-	    && type->transform_result != T_NONE
-	    && ptile->terrain != type->transform_result
+	    && pterrain->transform_result != T_NONE
+	    && ptile->terrain != pterrain->transform_result
 	    && (!is_ocean(ptile->terrain)
-		|| is_ocean(type->transform_result)
+		|| is_ocean(pterrain->transform_result)
 		|| can_reclaim_ocean(ptile))
 	    && (is_ocean(ptile->terrain)
-		|| !is_ocean(type->transform_result)
+		|| !is_ocean(pterrain->transform_result)
 		|| can_channel_land(ptile))
-	    && (!terrain_has_flag(type->transform_result, TER_NO_CITIES)
+	    && (!terrain_has_flag(pterrain->transform_result, TER_NO_CITIES)
 		|| !(tile_get_city(ptile)))
 	    && unit_flag(punit, F_TRANSFORM));
 

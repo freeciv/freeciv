@@ -43,9 +43,8 @@ extern enum tile_special_type infrastructure_specials[];
 
 BV_DEFINE(bv_special, S_LAST);
 
-#define T_NONE (-3) /* A special flag meaning no terrain type. */
-#define T_ANY (-2) /* A special flag that matches "any" terrain type. */
-#define T_UNKNOWN (-1) /* An unknown terrain. */
+#define T_NONE (NULL) /* A special flag meaning no terrain type. */
+#define T_UNKNOWN (NULL) /* An unknown terrain. */
 
 /* The first terrain value and number of base terrains.  This is used in
  * loops.  T_COUNT may eventually be turned into a variable. */
@@ -127,15 +126,15 @@ struct terrain {
   int road_trade_incr;
   int road_time;
 
-  Terrain_type_id irrigation_result;
+  struct terrain *irrigation_result;
   int irrigation_food_incr;
   int irrigation_time;
 
-  Terrain_type_id mining_result;
+  struct terrain *mining_result;
   int mining_shield_incr;
   int mining_time;
 
-  Terrain_type_id transform_result;
+  struct terrain *transform_result;
   int transform_time;
   int rail_time;
   int airbase_time;
@@ -143,8 +142,9 @@ struct terrain {
   int clean_pollution_time;
   int clean_fallout_time;
 
-  Terrain_type_id warmer_wetter_result, warmer_drier_result;
-  Terrain_type_id cooler_wetter_result, cooler_drier_result;
+  /* May be NULL if the transformation is impossible. */
+  struct terrain *warmer_wetter_result, *warmer_drier_result;
+  struct terrain *cooler_wetter_result, *cooler_drier_result;
 
   /* These are special properties of the terrain used by mapgen.  Generally
    * for each property, if a tile is deemed to have that property then
@@ -160,25 +160,24 @@ struct terrain {
   char *helptext;
 };
 
-extern struct terrain terrains[MAX_NUM_TERRAINS];
-
 /* Terrain allocation functions. */
 void terrains_init(void);
 
 /* General terrain accessor functions. */
 struct terrain *get_terrain(Terrain_type_id type);
-Terrain_type_id get_terrain_by_name(const char * name);
-const char *get_terrain_name(Terrain_type_id type);
+struct terrain *get_terrain_by_name(const char *name);
+const char *get_terrain_name(const struct terrain *pterrain);
 enum terrain_flag_id terrain_flag_from_str(const char *s);
-#define terrain_has_flag(terr, flag) BV_ISSET(terrains[(terr)].flags, flag)
-Terrain_type_id get_flag_terrain(enum terrain_flag_id flag);
+#define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
+struct terrain *get_flag_terrain(enum terrain_flag_id flag);
 void terrains_free(void);
 
 /* Functions to operate on a general terrain type. */
-bool is_terrain_near_tile(const struct tile *ptile, Terrain_type_id t);
+bool is_terrain_near_tile(const struct tile *ptile,
+			  const struct terrain *pterrain);
 int count_terrain_near_tile(const struct tile *ptile,
 			    bool cardinal_only, bool percentage,
-			    Terrain_type_id t);
+			    const struct terrain *pterrain);
 int count_terrain_property_near_tile(const struct tile *ptile,
 				     bool cardinal_only, bool percentage,
 				     enum mapgen_terrain_property prop);
@@ -212,17 +211,20 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
 enum tile_special_type get_preferred_pillage(bv_special pset);
 
 /* Terrain-specific functions. */
-#define is_ocean(x) (terrain_has_flag((x), TER_OCEANIC))
+#define is_ocean(pterrain) (terrain_has_flag((pterrain), TER_OCEANIC))
 #define is_ocean_near_tile(ptile) \
   is_terrain_flag_near_tile(ptile, TER_OCEANIC)
 #define count_ocean_near_tile(ptile, cardinal_only, percentage)		\
   count_terrain_flag_near_tile(ptile, cardinal_only, percentage, TER_OCEANIC)
 
 /* This iterator iterates over all terrain types. */
-#define terrain_type_iterate(id)                                            \
+#define terrain_type_iterate(pterrain)					    \
 {                                                                           \
-  Terrain_type_id id;                                                \
-  for (id = T_FIRST; id < T_COUNT; id++) {
+  Terrain_type_id _index;						    \
+									    \
+  for (_index = T_FIRST; _index < T_COUNT; _index++) {			    \
+    struct terrain *pterrain = get_terrain(_index);
+    
 
 #define terrain_type_iterate_end                                            \
   }                                                                         \

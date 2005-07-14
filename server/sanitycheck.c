@@ -55,7 +55,7 @@
 static void check_specials(void)
 {
   whole_map_iterate(ptile) {
-    Terrain_type_id terrain = tile_get_terrain(ptile);
+    const struct terrain *pterrain = tile_get_terrain(ptile);
     bv_special special = tile_get_special(ptile);
 
     if (contains_special(special, S_RAILROAD))
@@ -65,12 +65,14 @@ static void check_specials(void)
     if (contains_special(special, S_SPECIAL_1))
       SANITY_CHECK(!contains_special(special,  S_SPECIAL_2));
 
-    if (contains_special(special, S_MINE))
-      SANITY_CHECK(get_terrain(terrain)->mining_result == terrain);
-    if (contains_special(special, S_IRRIGATION))
-      SANITY_CHECK(get_terrain(terrain)->irrigation_result == terrain);
+    if (contains_special(special, S_MINE)) {
+      SANITY_CHECK(pterrain->mining_result == pterrain);
+    }
+    if (contains_special(special, S_IRRIGATION)) {
+      SANITY_CHECK(pterrain->irrigation_result == pterrain);
+    }
 
-    SANITY_CHECK(terrain >= T_FIRST && terrain < T_COUNT);
+    SANITY_CHECK(pterrain->index >= T_FIRST && pterrain->index < T_COUNT);
   } whole_map_iterate_end;
 }
 

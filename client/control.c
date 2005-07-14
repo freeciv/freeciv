@@ -696,8 +696,7 @@ static bool is_activity_on_tile(struct tile *ptile,
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity) 
 {
   struct player *pplayer = unit_owner(punit);
-  Terrain_type_id terrain = tile_get_terrain(punit->tile);
-  struct terrain *ttype = get_terrain(terrain);
+  struct terrain *pterrain = tile_get_terrain(punit->tile);
 
   /* HACK: This code duplicates that in
    * can_unit_do_activity_targeted_at(). The general logic here is that
@@ -711,7 +710,7 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
     return terrain_control.may_road
       && unit_flag(punit, F_SETTLERS)
       && (tile_has_special(punit->tile, S_ROAD)
-	  || (ttype->road_time != 0
+	  || (pterrain->road_time != 0
 	      && (!tile_has_special(punit->tile, S_RIVER)
 		  || player_knows_techs_with_flag(pplayer, TF_BRIDGE))));
   case ACTIVITY_RAILROAD:
@@ -727,7 +726,7 @@ bool can_unit_do_connect(struct unit *punit, enum unit_activity activity)
     return (terrain_control.may_irrigate
 	    && unit_flag(punit, F_SETTLERS)
 	    && (tile_has_special(punit->tile, S_IRRIGATION)
-		|| (terrain == ttype->irrigation_result
+		|| (pterrain == pterrain->irrigation_result
 		    && is_water_adjacent_to_tile(punit->tile)
 		    && !is_activity_on_tile(punit->tile, ACTIVITY_MINE))));
   default:

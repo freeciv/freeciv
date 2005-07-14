@@ -393,7 +393,7 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
 static int get_activity_time(const struct tile *ptile,
 			     struct player *pplayer)
 {
-  struct terrain *ttype = get_terrain(ptile->terrain);
+  struct terrain *pterrain = ptile->terrain;
   int activity_mc = 0;
 
   assert(hover_state == HOVER_CONNECT);
@@ -401,7 +401,7 @@ static int get_activity_time(const struct tile *ptile,
  
   switch (connect_activity) {
   case ACTIVITY_IRRIGATE:
-    if (ttype->irrigation_time == 0) {
+    if (pterrain->irrigation_time == 0) {
       return -1;
     }
     if (tile_has_special(ptile, S_MINE)) {
@@ -413,24 +413,24 @@ static int get_activity_time(const struct tile *ptile,
       break;
     }
 
-    activity_mc = ttype->irrigation_time;
+    activity_mc = pterrain->irrigation_time;
     break;
   case ACTIVITY_RAILROAD:
   case ACTIVITY_ROAD:
     if (!tile_has_special(ptile, S_ROAD)) {
-      if (ttype->road_time == 0
+      if (pterrain->road_time == 0
 	  || (tile_has_special(ptile, S_RIVER)
 	      && !player_knows_techs_with_flag(pplayer, TF_BRIDGE))) {
 	/* 0 means road is impossible here (??) */
 	return -1;
       }
-      activity_mc += ttype->road_time;
+      activity_mc += pterrain->road_time;
     }
     if (connect_activity == ACTIVITY_ROAD 
         || tile_has_special(ptile, S_RAILROAD)) {
       break;
     }
-    activity_mc += ttype->rail_time;
+    activity_mc += pterrain->rail_time;
     /* No break */
     break;
   default:

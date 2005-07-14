@@ -1862,9 +1862,9 @@ void handle_tile_info(struct packet_tile_info *packet)
   bool known_changed = FALSE;
   enum tile_special_type spe;
 
-  if (ptile->terrain != packet->type) { /*terrain*/
+  if (!ptile->terrain || ptile->terrain->index != packet->type) {
     tile_changed = TRUE;
-    ptile->terrain = packet->type;
+    ptile->terrain = get_terrain(packet->type);
   }
   for (spe = 0; spe < S_LAST; spe++) {
     if (packet->special[spe]) {
@@ -2273,62 +2273,61 @@ void handle_ruleset_government_ruler_title
 **************************************************************************/
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
-  struct terrain *t;
+  struct terrain *pterrain = get_terrain(p->id);
 
-  if (p->id < T_FIRST || p->id >= T_COUNT) {
+  if (!pterrain) {
     freelog(LOG_ERROR,
 	    "Received bad terrain id %d in handle_ruleset_terrain",
 	    p->id);
     return;
   }
-  t = &(terrains[p->id]);
 
-  sz_strlcpy(t->terrain_name_orig, p->terrain_name);
-  t->terrain_name = t->terrain_name_orig;
-  sz_strlcpy(t->graphic_str, p->graphic_str);
-  sz_strlcpy(t->graphic_alt, p->graphic_alt);
-  t->movement_cost = p->movement_cost;
-  t->defense_bonus = p->defense_bonus;
+  sz_strlcpy(pterrain->terrain_name_orig, p->terrain_name);
+  pterrain->terrain_name = pterrain->terrain_name_orig;
+  sz_strlcpy(pterrain->graphic_str, p->graphic_str);
+  sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
+  pterrain->movement_cost = p->movement_cost;
+  pterrain->defense_bonus = p->defense_bonus;
 
   output_type_iterate(o) {
-    t->output[o] = p->output[o];
-    t->special[0].output[o] = p->output_special_1[o];
-    t->special[1].output[o] = p->output_special_2[o];
+    pterrain->output[o] = p->output[o];
+    pterrain->special[0].output[o] = p->output_special_1[o];
+    pterrain->special[1].output[o] = p->output_special_2[o];
   } output_type_iterate_end;
 
-  sz_strlcpy(t->special[0].name_orig, p->special_1_name);
-  t->special[0].name = t->special[0].name_orig;
+  sz_strlcpy(pterrain->special[0].name_orig, p->special_1_name);
+  pterrain->special[0].name = pterrain->special[0].name_orig;
 
-  sz_strlcpy(t->special[1].name_orig, p->special_2_name);
-  t->special[1].name = t->special[1].name_orig;
+  sz_strlcpy(pterrain->special[1].name_orig, p->special_2_name);
+  pterrain->special[1].name = pterrain->special[1].name_orig;
 
-  sz_strlcpy(t->special[0].graphic_str, p->graphic_str_special_1);
-  sz_strlcpy(t->special[0].graphic_alt, p->graphic_alt_special_1);
+  sz_strlcpy(pterrain->special[0].graphic_str, p->graphic_str_special_1);
+  sz_strlcpy(pterrain->special[0].graphic_alt, p->graphic_alt_special_1);
 
-  sz_strlcpy(t->special[1].graphic_str, p->graphic_str_special_2);
-  sz_strlcpy(t->special[1].graphic_alt, p->graphic_alt_special_2);
+  sz_strlcpy(pterrain->special[1].graphic_str, p->graphic_str_special_2);
+  sz_strlcpy(pterrain->special[1].graphic_alt, p->graphic_alt_special_2);
 
-  t->road_time = p->road_time;
-  t->road_trade_incr = p->road_trade_incr;
-  t->irrigation_result = p->irrigation_result;
-  t->irrigation_food_incr = p->irrigation_food_incr;
-  t->irrigation_time = p->irrigation_time;
-  t->mining_result = p->mining_result;
-  t->mining_shield_incr = p->mining_shield_incr;
-  t->mining_time = p->mining_time;
-  t->transform_result = p->transform_result;
-  t->transform_time = p->transform_time;
-  t->rail_time = p->rail_time;
-  t->airbase_time = p->airbase_time;
-  t->fortress_time = p->fortress_time;
-  t->clean_pollution_time = p->clean_pollution_time;
-  t->clean_fallout_time = p->clean_fallout_time;
+  pterrain->road_time = p->road_time;
+  pterrain->road_trade_incr = p->road_trade_incr;
+  pterrain->irrigation_result = get_terrain(p->irrigation_result);
+  pterrain->irrigation_food_incr = p->irrigation_food_incr;
+  pterrain->irrigation_time = p->irrigation_time;
+  pterrain->mining_result = get_terrain(p->mining_result);
+  pterrain->mining_shield_incr = p->mining_shield_incr;
+  pterrain->mining_time = p->mining_time;
+  pterrain->transform_result = get_terrain(p->transform_result);
+  pterrain->transform_time = p->transform_time;
+  pterrain->rail_time = p->rail_time;
+  pterrain->airbase_time = p->airbase_time;
+  pterrain->fortress_time = p->fortress_time;
+  pterrain->clean_pollution_time = p->clean_pollution_time;
+  pterrain->clean_fallout_time = p->clean_fallout_time;
   
-  t->flags = p->flags;
+  pterrain->flags = p->flags;
 
-  t->helptext = mystrdup(p->helptext);
+  pterrain->helptext = mystrdup(p->helptext);
   
-  tileset_setup_tile_type(tileset, p->id);
+  tileset_setup_tile_type(tileset, pterrain);
 }
 
 /**************************************************************************

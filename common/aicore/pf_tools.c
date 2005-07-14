@@ -123,7 +123,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
 			    const struct tile *ptile1,
 			    struct pf_parameter *param)
 {
-  Terrain_type_id terrain1 = ptile1->terrain;
+  struct terrain *terrain1 = ptile1->terrain;
   int move_cost;
 
   if (is_ocean(terrain1)) {
@@ -138,7 +138,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;
     } else {
-      move_cost = get_terrain(terrain1)->movement_cost * SINGLE_MOVE;
+      move_cost = terrain1->movement_cost * SINGLE_MOVE;
     }
   } else {
     move_cost = map_move_cost_ai(ptile, ptile1);
@@ -170,8 +170,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
     /* Sea-to-Land. */
     if (!is_non_allied_unit_tile(tgt_tile, param->owner)
         && !is_non_allied_city_tile(tgt_tile, param->owner)) {
-      move_cost 
-        = get_terrain(tgt_tile->terrain)->movement_cost * SINGLE_MOVE;
+      move_cost = tgt_tile->terrain->movement_cost * SINGLE_MOVE;
     } else if (BV_ISSET(param->unit_flags, F_MARINES)) {
       /* Can attack!! */
       move_cost = SINGLE_MOVE;
@@ -218,13 +217,13 @@ static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
 			     const struct tile *ptile1,
 			     struct pf_parameter *param)
 {
-  Terrain_type_id terrain1 = ptile1->terrain;
+  struct terrain *terrain1 = ptile1->terrain;
   int move_cost;
 
   if (is_ocean(terrain1)) {
     move_cost = SINGLE_MOVE;
   } else if (is_ocean(ptile->terrain)) {
-    move_cost = get_terrain(terrain1)->movement_cost * SINGLE_MOVE;
+    move_cost = terrain1->movement_cost * SINGLE_MOVE;
   } else {
     move_cost = map_move_cost_ai(ptile, ptile1);
   }
@@ -241,14 +240,14 @@ static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
 			     const struct tile *ptile,
 			     struct pf_parameter *param)
 {
-  int terrain0 = tile_get_terrain(tile0);
-  int terrain1 = ptile->terrain;
+  struct terrain *terrain0 = tile0->terrain;
+  struct terrain *terrain1 = ptile->terrain;
   int move_cost = PF_IMPOSSIBLE_MC;
 
   if (is_ocean(terrain1)) {
     if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
       /* Landing */
-      move_cost = get_terrain(terrain0)->movement_cost * SINGLE_MOVE;
+      move_cost = terrain0->movement_cost * SINGLE_MOVE;
     } else {
       /* Nothing to land from */
       move_cost = PF_IMPOSSIBLE_MC;
@@ -306,14 +305,14 @@ static int reverse_igter_move_unit(const struct tile *tile0,
 {
   int move_cost;
 
-  if (is_ocean(tile_get_terrain(ptile))) {
+  if (is_ocean(ptile->terrain)) {
     if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
       /* Landing */
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
-  } else if (is_ocean(tile_get_terrain(tile0))) {
+  } else if (is_ocean(tile0->terrain)) {
     /* Boarding */
     move_cost = MOVE_COST_ROAD;
   } else {
@@ -379,7 +378,7 @@ static int afraid_of_dark_forest(const struct tile *ptile,
 				 enum known_type known,
 				 struct pf_parameter *param)
 {
-  if (tile_get_terrain(ptile) == T_FOREST) {
+  if (ptile->terrain->index == T_FOREST) {
     /* Willing to spend extra 2 turns to go around a forest tile */
     return PF_TURN_FACTOR * 2;
   }
@@ -785,8 +784,8 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
   } else {
     assert(is_ground_unit(punit));
     parameter->unknown_MC = SINGLE_MOVE;
-    terrain_type_iterate(t) {
-      int mr = 2 * get_terrain(t)->movement_cost;
+    terrain_type_iterate(pterrain) {
+      int mr = 2 * pterrain->movement_cost;
 
       parameter->unknown_MC = MAX(mr, parameter->unknown_MC);
     } terrain_type_iterate_end;

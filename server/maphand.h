@@ -39,7 +39,7 @@ struct dumb_city{
 };
 
 struct player_tile {
-  Terrain_type_id terrain;
+  struct terrain *terrain; /* May be NULL for unknown tiles. */
   bv_special special;
   signed char owner;
   unsigned short seen_count;
@@ -108,7 +108,7 @@ void map_update_borders_landmass_change(struct tile *ptile);
 void map_calculate_borders(void);
 
 enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
-                                              Terrain_type_id oldter);
+                                              struct terrain *oldter);
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
 

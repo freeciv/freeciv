@@ -81,8 +81,8 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
 				  const struct unit *pdefender,
                                   const struct tile *dest_tile)
 {
-  Terrain_type_id fromtile = punit->tile->terrain;
-  Terrain_type_id totile = dest_tile->terrain;
+  struct terrain *fromtile = punit->tile->terrain;
+  struct terrain *totile = dest_tile->terrain;
   struct city *pcity = dest_tile->city;
 
   /* 1. Can we attack _anything_ ? */
@@ -385,7 +385,7 @@ int get_defense_power(const struct unit *punit)
 {
   int db, power = base_get_defense_power(punit);
 
-  db = 10 + get_terrain(punit->tile->terrain)->defense_bonus / 10;
+  db = 10 + punit->tile->terrain->defense_bonus / 10;
   if (tile_has_special(punit->tile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
@@ -485,15 +485,15 @@ int get_virtual_defense_power(Unit_type_id att_type, Unit_type_id def_type,
 			      bool fortified, int veteran)
 {
   int defensepower = unit_types[def_type].defense_strength;
-  Terrain_type_id t = tile_get_terrain(ptile);
   int db;
 
-  if (unit_types[def_type].move_type == LAND_MOVING && is_ocean(t)) {
+  if (unit_types[def_type].move_type == LAND_MOVING
+      && is_ocean(ptile->terrain)) {
     /* Ground units on ship doesn't defend. */
     return 0;
   }
 
-  db = 10 + get_terrain(t)->defense_bonus / 10;
+  db = 10 + ptile->terrain->defense_bonus / 10;
   if (tile_has_special(ptile, S_RIVER)) {
     db += (db * terrain_control.river_defense_bonus) / 100;
   }

@@ -42,7 +42,8 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
 			const char *user_text);
 void helptext_unit(char *buf, int i, const char *user_text);
 void helptext_tech(char *buf, int i, const char *user_text);
-void helptext_terrain(char *buf, int i, const char *user_text);
+void helptext_terrain(char *buf, const struct terrain *pterrain,
+		      const char *user_text);
 void helptext_government(char *buf, int i, const char *user_text);
 
 char *helptext_unit_upkeep_str(int i);

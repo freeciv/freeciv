@@ -775,14 +775,14 @@ static bool find_beachhead(struct unit *punit, struct tile *dest_tile,
 			   struct tile **beachhead_tile)
 {
   int ok, best = 0;
-  Terrain_type_id t;
 
   CHECK_UNIT(punit);
 
   adjc_iterate(dest_tile, tile1) {
+    struct terrain *pterrain = tile_get_terrain(tile1);
+
     ok = 0;
-    t = tile_get_terrain(tile1);
-    if (WARMAP_SEACOST(tile1) <= 6 * THRESHOLD && !is_ocean(t)) {
+    if (WARMAP_SEACOST(tile1) <= 6 * THRESHOLD && !is_ocean(pterrain)) {
       /* accessible beachhead */
       adjc_iterate(tile1, tile2) {
 	if (is_ocean(tile_get_terrain(tile2))
@@ -799,10 +799,10 @@ static bool find_beachhead(struct unit *punit, struct tile *dest_tile,
 
       if (ok > 0) {
 	/* accessible beachhead with zoc-ok water tile nearby */
-        ok = 10 + get_terrain(t)->defense_bonus / 10;
+        ok = 10 + pterrain->defense_bonus / 10;
 	if (tile_has_special(tile1, S_RIVER))
 	  ok += (ok * terrain_control.river_defense_bonus) / 100;
-        if (get_terrain(t)->movement_cost * SINGLE_MOVE <
+        if (pterrain->movement_cost * SINGLE_MOVE <
             unit_move_rate(punit))
 	  ok *= 8;
         ok += (6 * THRESHOLD - WARMAP_SEACOST(tile1));
