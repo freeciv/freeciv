@@ -593,8 +593,9 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
     city_workers_display=NULL;
   }
 
-  if (popup &&
-      (!game.player_ptr->ai.control)) {
+  if (popup
+      && (!game.player_ptr->ai.control)
+      && can_client_issue_orders()) {
     update_menus();
     if (!city_dialog_is_open(pcity)) {
       popup_city_dialog(pcity);
