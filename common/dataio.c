@@ -25,6 +25,7 @@
 
 #include <assert.h>
 #include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -197,7 +198,7 @@ size_t dio_input_remaining(struct data_in *din)
 void dio_put_uint8(struct data_out *dout, int value)
 {
   if (enough_space(dout, 1)) {
-    unsigned char x = value;
+    uint8_t x = value;
 
     assert(sizeof(x) == 1);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 1);
@@ -211,7 +212,7 @@ void dio_put_uint8(struct data_out *dout, int value)
 void dio_put_uint16(struct data_out *dout, int value)
 {
   if (enough_space(dout, 2)) {
-    unsigned short x = htons(value);
+    uint16_t x = htons(value);
 
     assert(sizeof(x) == 2);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 2);
@@ -225,7 +226,7 @@ void dio_put_uint16(struct data_out *dout, int value)
 void dio_put_uint32(struct data_out *dout, int value)
 {
   if (enough_space(dout, 4)) {
-    unsigned int x = htonl(value);
+    uint32_t x = htonl(value);
 
     assert(sizeof(x) == 4);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
@@ -407,7 +408,7 @@ void dio_get_uint8(struct data_in *din, int *dest)
 {
   if (enough_data(din, 1)) {
     if (dest) {
-      unsigned char x;
+      uint8_t x;
 
       assert(sizeof(x) == 1);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 1);
@@ -424,7 +425,7 @@ void dio_get_uint16(struct data_in *din, int *dest)
 {
   if (enough_data(din, 2)) {
     if (dest) {
-      unsigned short x;
+      uint16_t x;
 
       assert(sizeof(x) == 2);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 2);
@@ -441,7 +442,7 @@ void dio_get_uint32(struct data_in *din, int *dest)
 {
   if (enough_data(din, 4)) {
     if (dest) {
-      unsigned int x;
+      uint32_t x;
 
       assert(sizeof(x) == 4);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 4);
