@@ -1460,7 +1460,17 @@ void handle_player_info(struct packet_player_info *pinfo)
   for (i = 0; i < B_LAST/*game.control.num_impr_types*/; i++) {
      pplayer->small_wonders[i] = pinfo->small_wonders[i];
   }
-  
+
+  /* We need to set ai.control before read_player_info_techs */
+  if(pplayer->ai.control!=pinfo->ai)  {
+    pplayer->ai.control=pinfo->ai;
+    if(pplayer==game.player_ptr)  {
+      my_snprintf(msg, sizeof(msg), _("AI Mode is now %s."),
+		  game.player_ptr->ai.control?_("ON"):_("OFF"));
+      append_output_window(msg);
+    }
+  }
+
   pplayer->ai.science_cost = pinfo->science_cost;
 
   /* If the server sends out player information at the wrong time, it is
@@ -1516,14 +1526,6 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->ai.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution_finishes = pinfo->revolution_finishes;
-  if(pplayer->ai.control!=pinfo->ai)  {
-    pplayer->ai.control=pinfo->ai;
-    if(pplayer==game.player_ptr)  {
-      my_snprintf(msg, sizeof(msg), _("AI Mode is now %s."),
-		  game.player_ptr->ai.control?_("ON"):_("OFF"));
-      append_output_window(msg);
-    }
-  }
   pplayer->ai.skill_level = pinfo->ai_skill_level;
 
   update_players_dialog();
