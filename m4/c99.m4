@@ -79,3 +79,16 @@ AC_DEFUN([AC_C99_INITIALIZERS],
     AC_MSG_ERROR([A compiler supporting C99 initializers is required])
   fi
 ])
+
+# Check C99-style stdint.h (required)
+AC_DEFUN([AC_C99_STDINT_H],
+[
+  AC_CHECK_HEADERS([stdint.h])
+  dnl Check for C99 stdint.h
+  AC_CACHE_CHECK([for C99 stdint.h],
+    [ac_cv_c99_stdint_h],
+    [ac_cv_c99_stdint_h=$ac_cv_header_stdint_h])
+  if test "${ac_cv_c99_stdint_h}" != "yes"; then
+    AC_MSG_ERROR([A compiler supporting C99's stdint.h is required])
+  fi
+])

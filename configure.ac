@@ -285,6 +285,7 @@ FC_DEBUG
 AC_C99_VARIADIC_MACROS
 AC_C99_VARIABLE_ARRAYS
 AC_C99_INITIALIZERS
+AC_C99_STDINT_H
 
 if test "$CVS_DEPS" = "maybe"; then
    dnl Should also check for gmake?
