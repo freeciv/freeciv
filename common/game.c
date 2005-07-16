@@ -511,16 +511,24 @@ void game_renumber_players(int plrno)
 /**************************************************************************
 get_player() - Return player struct pointer corresponding to player_id.
                Eg: player_id = punit->owner, or pcity->owner
+
+  You can retrieve players that are no in the game (with IDs larger than
+  game.info.nplayers).  An out-of-range player request will return NULL.
 **************************************************************************/
 struct player *get_player(int player_id)
 {
   if (player_id < 0 || player_id >= ARRAY_SIZE(game.players)) {
-    assert(player_id >= 0 && player_id < ARRAY_SIZE(game.players));
+    /* This isn't an error; some callers rely on this behavior. */
     return NULL;
   }
+  assert(game.players[player_id].player_no == player_id);
   return &game.players[player_id];
 }
 
+/**************************************************************************
+  Return TRUE iff the player ID refers to an in-game player.  Unlike
+  get_player any index larger than nplayers is not considered "valid".
+**************************************************************************/
 bool is_valid_player_id(int player_id)
 {
   return player_id >= 0 && player_id < game.info.nplayers;
