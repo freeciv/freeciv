@@ -237,7 +237,9 @@ static void init_node(struct pf_map *pf_map, struct pf_node * node,
   }
 
   if (params->get_zoc) {
-    bool my_zoc = (ptile->city || is_ocean(ptile->terrain)
+    bool my_zoc = (ptile->city
+		   || ptile->terrain == T_UNKNOWN
+		   || is_ocean(ptile->terrain)
 		   || params->get_zoc(params->owner, ptile));
     /* ZoC rules cannot prevent us from moving into/attacking an occupied 
      * tile.  Other rules can, but we don't care about them here. */ 

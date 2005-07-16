@@ -211,7 +211,8 @@ enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);
 enum tile_special_type get_preferred_pillage(bv_special pset);
 
 /* Terrain-specific functions. */
-#define is_ocean(pterrain) (terrain_has_flag((pterrain), TER_OCEANIC))
+#define is_ocean(pterrain) ((pterrain) != T_UNKNOWN			    \
+			    && terrain_has_flag((pterrain), TER_OCEANIC))
 #define is_ocean_near_tile(ptile) \
   is_terrain_flag_near_tile(ptile, TER_OCEANIC)
 #define count_ocean_near_tile(ptile, cardinal_only, percentage)		\

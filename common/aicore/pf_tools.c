@@ -574,7 +574,8 @@ static bool is_pos_dangerous(const struct tile *ptile, enum known_type known,
 			     struct pf_parameter *param)
 {
   /* Unsafe tiles without cities are dangerous. */
-  return (terrain_has_flag(ptile->terrain, TER_UNSAFE)
+  return (ptile->terrain != T_UNKNOWN
+	  && terrain_has_flag(ptile->terrain, TER_UNSAFE)
 	  && ptile->city == NULL);
 }
 
