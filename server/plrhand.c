@@ -1385,6 +1385,21 @@ Nation_type_id pick_available_nation(Nation_type_id *choices)
 }
 
 /****************************************************************************
+  Return an available observer nation.  This simply returns the first
+  such nation.  If no nation is available NO_NATION_SELECTED is returned.
+****************************************************************************/
+static Nation_type_id pick_observer_nation(void)
+{
+  nations_iterate(pnation) {
+    if (is_nation_observer(pnation->index) && !pnation->is_used) {
+      return pnation->index;
+    }
+  } nations_iterate_end;
+
+  return NO_NATION_SELECTED;
+}
+
+/****************************************************************************
   Create a player with is_observer = TRUE and return it.
   If a global observer has already been created, return that player.
   If there are no player slots available return NULL.
@@ -1394,6 +1409,7 @@ Nation_type_id pick_available_nation(Nation_type_id *choices)
 struct player *create_global_observer(void)
 {
   struct player *pplayer = NULL;
+  Nation_type_id nation;
 
   /* Check if a global observer already exists. If so, return it.  Note the
    * observer may exist at any position in the array. */
@@ -1409,6 +1425,13 @@ struct player *create_global_observer(void)
   if (game.info.nplayers - game.info.nbarbarians >= MAX_NUM_PLAYERS) {
     notify_player(NULL, _("A global observer cannot be created: too "
                           "many regular players."));
+    return NULL;
+  }
+
+  nation = pick_observer_nation();
+  if (nation == NO_NATION_SELECTED) {
+    notify_player(NULL, _("A global observer cannot be created: there's "
+			  "no observer nation in the ruleset."));
     return NULL;
   }
 
@@ -1438,7 +1461,7 @@ struct player *create_global_observer(void)
    *
    * FIXME: could we use map_is_empty here? */
   if (server_state == RUN_GAME_STATE || !game.info.is_new_game) {
-    pplayer->nation = OBSERVER_NATION;
+    pplayer->nation = nation;
     init_tech(pplayer, 0);
     map_know_and_see_all(pplayer);
   }

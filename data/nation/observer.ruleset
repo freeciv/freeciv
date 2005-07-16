@@ -18,4 +18,8 @@ government = "Anarchy"
 
 cities = "Nowhere"
 
+is_playable = 0
+is_observer = 1
+is_barbarian = 0
+
 ; nothing more needed for observer

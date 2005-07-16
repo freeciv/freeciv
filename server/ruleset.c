@@ -1855,16 +1855,6 @@ static void load_nation_names(struct section_file *file)
   (void) section_file_lookup(file, "datafile.description");	/* unused */
 
   sec = secfile_get_secnames_prefix(file, "nation", &game.control.nation_count);
-  game.control.playable_nation_count = game.control.nation_count - 2;
-  freelog(LOG_VERBOSE, "There are %d nations defined", 
-          game.control.playable_nation_count);
-
-  if (game.control.playable_nation_count < 0) {
-    freelog(LOG_FATAL,
-	    "There must be at least one nation defined; number is %d",
-	    game.control.playable_nation_count);
-    exit(EXIT_FAILURE);
-  }
   nations_alloc(game.control.nation_count);
 
   for (i = 0; i < game.control.nation_count; i++) {
@@ -2122,6 +2112,13 @@ static void load_ruleset_nations(struct section_file *file)
       }
     }
     free(leaders);
+
+    pl->is_playable = secfile_lookup_bool_default(file, TRUE,
+						  "%s.is_playable", sec[i]);
+    pl->is_observer = secfile_lookup_bool_default(file, FALSE,
+						  "%s.is_observer", sec[i]);
+    pl->is_barbarian = secfile_lookup_bool_default(file, FALSE,
+						  "%s.is_barbarian", sec[i]);
 
     /* Flags */
 
@@ -2939,6 +2936,9 @@ static void send_ruleset_nations(struct conn_list *dest)
       packet.leader_sex[i] = n->leaders[i].is_male;
     }
     packet.city_style = n->city_style;
+    packet.is_playable = n->is_playable;
+    packet.is_observer = n->is_observer;
+    packet.is_barbarian = n->is_barbarian;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
     memcpy(packet.init_buildings, n->init_buildings, 
            sizeof(packet.init_buildings));

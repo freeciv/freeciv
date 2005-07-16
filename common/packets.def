@@ -1163,6 +1163,8 @@ PACKET_RULESET_NATION=102;sc,lsend
   UINT8 leader_count;
   STRING leader_name[MAX_NUM_LEADERS:leader_count][MAX_LEN_NAME];
   BOOL leader_sex[MAX_NUM_LEADERS:leader_count];
+
+  BOOL is_playable, is_observer, is_barbarian;
   
   UINT8 group_count;
   STRING group_name[MAX_NUM_NATION_GROUPS:group_count][MAX_LEN_NAME];
@@ -1258,7 +1260,6 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 num_tech_types;
   UINT8 government_count;
   UINT8 nation_count;
-  UINT8 playable_nation_count;
   UINT8 styles_count;
   UINT8 terrain_count;
   UINT8 num_specialist_types;

@@ -115,9 +115,38 @@ const char *get_nation_name_orig(Nation_type_id nation)
 ****************************************************************************/
 bool is_nation_playable(Nation_type_id nation)
 {
-  /* Currently the nation index tells whether it's playable - barbarian
-   * and observer nations come at the end. */
-  return nation < game.control.playable_nation_count;
+  if (!bounds_check_nation_id(nation, LOG_FATAL, "is_nation_playable")) {
+    die("wrong nation %d", nation);
+  }
+  return nations[nation].is_playable;
+}
+
+/****************************************************************************
+  Return whether a nation is usable as an observer.  If true then observers
+  can use this nation.
+
+  This does not check whether a nation is "used" or "available".
+****************************************************************************/
+bool is_nation_observer(Nation_type_id nation)
+{
+  if (!bounds_check_nation_id(nation, LOG_FATAL, "is_nation_observer")) {
+    die("wrong nation %d", nation);
+  }
+  return nations[nation].is_observer;
+}
+
+/****************************************************************************
+  Return whether a nation is usable as a barbarian.  If true then barbarians
+  can use this nation.
+
+  This does not check whether a nation is "used" or "available".
+****************************************************************************/
+bool is_nation_barbarian(Nation_type_id nation)
+{
+  if (!bounds_check_nation_id(nation, LOG_FATAL, "is_nation_barbarian")) {
+    die("wrong nation %d", nation);
+  }
+  return nations[nation].is_barbarian;
 }
 
 /***************************************************************

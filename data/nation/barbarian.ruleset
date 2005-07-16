@@ -18,4 +18,8 @@ government = "Despotism"
 
 cities = "Nowhere"
 
+is_playable = 0
+is_observer = 0
+is_barbarian = 1
+
 ; nothing more needed for barbarians

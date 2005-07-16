@@ -24,8 +24,6 @@
 /* Changing this value will break network compatibility. */
 #define NO_NATION_SELECTED (Nation_type_id)(-1)
 
-#define OBSERVER_NATION (game.control.nation_count - 2)
-
 /* 
  * Purpose of this constant is to catch invalid ruleset and network
  * data and to allow static allocation of the nation_info packet.
@@ -80,6 +78,8 @@ struct nation_type {
   struct city_name *city_names;		/* The default city names. */
   char *legend;				/* may be empty */
 
+  bool is_playable, is_barbarian, is_observer;
+
   /* civilwar_nations is a NO_NATION_SELECTED-terminated list of index of
    * the nations that can fork from this one.  parent_nations is the inverse
    * of this array.  Server only. */
@@ -111,6 +111,8 @@ const char *get_nation_name(Nation_type_id nation);
 const char *get_nation_name_plural(Nation_type_id nation);
 const char *get_nation_name_orig(Nation_type_id nation);
 bool is_nation_playable(Nation_type_id nation);
+bool is_nation_observer(Nation_type_id nation);
+bool is_nation_barbarian(Nation_type_id nation);
 struct leader *get_nation_leaders(Nation_type_id nation, int *dim);
 Nation_type_id *get_nation_civilwar(Nation_type_id nation);
 bool get_nation_leader_sex(Nation_type_id nation, const char *name);

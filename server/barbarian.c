@@ -78,6 +78,30 @@ static bool is_sea_barbarian(struct player *pplayer)
   return (pplayer->ai.barbarian_type == SEA_BARBARIAN);
 }
 
+/****************************************************************************
+  Return an available barbarian nation.  This simply returns the first
+  available nation, or the first nation already in use by another barbarian
+  player.
+****************************************************************************/
+static Nation_type_id pick_barbarian_nation(void)
+{
+  nations_iterate(pnation) {
+    if (is_nation_barbarian(pnation->index) && !pnation->is_used) {
+      return pnation->index;
+    }
+  } nations_iterate_end;
+
+  players_iterate(pplayer) {
+    if (is_barbarian(pplayer)) {
+      assert(is_nation_barbarian(pplayer->nation));
+      return pplayer->nation;
+    }
+  } players_iterate_end;
+
+  assert(0);
+  return NO_NATION_SELECTED;
+}
+
 /**************************************************************************
   Creates the land/sea barbarian player and inits some stuff. If 
   barbarian player already exists, return player pointer. If barbarians 
@@ -89,6 +113,7 @@ static struct player *create_barbarian_player(bool land)
 {
   int newplayer = game.info.nplayers;
   struct player *barbarians;
+  Nation_type_id nation = pick_barbarian_nation();
 
   players_iterate(barbarians) {
     if ((land && is_land_barbarian(barbarians))
@@ -97,8 +122,7 @@ static struct player *create_barbarian_player(bool land)
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
         barbarians->is_dying = FALSE;
-        pick_random_player_name(game.control.nation_count - 1,
-				barbarians->name);
+        pick_random_player_name(nation, barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
 	whole_map_iterate(ptile) {
@@ -120,8 +144,8 @@ static struct player *create_barbarian_player(bool land)
 
   server_player_init(barbarians, TRUE, TRUE);
 
-  barbarians->nation = game.control.nation_count - 1;
-  pick_random_player_name(game.control.nation_count - 1, barbarians->name);
+  barbarians->nation = nation;
+  pick_random_player_name(nation, barbarians->name);
 
   game.info.nplayers++;
   game.info.nbarbarians++;
@@ -213,10 +237,12 @@ bool unleash_barbarians(struct tile *ptile)
     return FALSE;
   }
 
-  unit_cnt = 3 + myrand(4);
-
   barbarians = create_barbarian_player(TRUE);
+  if (!barbarians) {
+    return FALSE;
+  }
 
+  unit_cnt = 3 + myrand(4);
   for (i = 0; i < unit_cnt; i++) {
     unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
     (void) create_unit(barbarians, ptile, unit, 0, 0, -1);

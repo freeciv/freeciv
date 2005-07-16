@@ -888,6 +888,9 @@ struct packet_ruleset_nation {
   int leader_count;
   char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
   bool leader_sex[MAX_NUM_LEADERS];
+  bool is_playable;
+  bool is_observer;
+  bool is_barbarian;
   int group_count;
   char group_name[MAX_NUM_NATION_GROUPS][MAX_LEN_NAME];
 };
@@ -964,7 +967,6 @@ struct packet_ruleset_control {
   int num_tech_types;
   int government_count;
   int nation_count;
-  int playable_nation_count;
   int styles_count;
   int terrain_count;
   int num_specialist_types;

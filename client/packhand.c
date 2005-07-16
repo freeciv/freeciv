@@ -2371,6 +2371,10 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
   pl->city_style = p->city_style;
 
+  pl->is_playable = p->is_playable;
+  pl->is_observer = p->is_observer;
+  pl->is_barbarian = p->is_barbarian;
+
   memcpy(pl->init_techs, p->init_techs, sizeof(pl->init_techs));
   memcpy(pl->init_buildings, p->init_buildings, 
          sizeof(pl->init_buildings));
