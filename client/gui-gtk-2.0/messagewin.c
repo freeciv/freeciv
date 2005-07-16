@@ -50,7 +50,8 @@ static void meswin_row_activated_callback(GtkTreeView *view,
 					  GtkTreePath *path,
 					  GtkTreeViewColumn *col,
 					  gpointer data);
-static void meswin_response_callback(struct gui_dialog *dlg, int response);
+static void meswin_response_callback(struct gui_dialog *dlg, int response,
+                                     gpointer data);
 
 enum {
   CMD_GOTO = 1, CMD_POPCITY
@@ -150,7 +151,7 @@ static void create_meswin_dialog(void)
   GtkTreeViewColumn *col;
   GtkWidget *view, *sw, *cmd;
 
-  gui_dialog_new(&meswin_shell, GTK_NOTEBOOK(bottom_notebook));
+  gui_dialog_new(&meswin_shell, GTK_NOTEBOOK(bottom_notebook), NULL);
   gui_dialog_set_title(meswin_shell, _("Messages"));
 
   meswin_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_BOOLEAN);
@@ -276,7 +277,8 @@ static void meswin_row_activated_callback(GtkTreeView *view,
 /**************************************************************************
 ...
 **************************************************************************/
-static void meswin_response_callback(struct gui_dialog *dlg, int response)
+static void meswin_response_callback(struct gui_dialog *dlg, int response,
+                                     gpointer data)
 {
   switch (response) {
   case CMD_GOTO:

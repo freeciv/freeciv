@@ -186,7 +186,8 @@ static void spaceship_destroy_callback(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void spaceship_response(struct gui_dialog *dlg, int response)
+static void spaceship_response(struct gui_dialog *dlg, int response,
+                               gpointer data)
 {
   switch (response) {
   case GTK_RESPONSE_ACCEPT:
@@ -213,7 +214,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   pdialog=fc_malloc(sizeof(struct spaceship_dialog));
   pdialog->pplayer=pplayer;
 
-  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(pdialog->shell, pplayer->name);
 
   gui_dialog_add_button(pdialog->shell,

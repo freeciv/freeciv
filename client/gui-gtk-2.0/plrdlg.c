@@ -339,7 +339,7 @@ void create_players_dialog(void)
   GtkWidget *sep, *sw;
   GtkWidget *menubar, *menu, *item, *vbox;
 
-  gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&players_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(players_dialog_shell, _("Players"));
 
   gui_dialog_add_button(players_dialog_shell,

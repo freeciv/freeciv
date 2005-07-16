@@ -34,7 +34,8 @@ static struct gui_dialog *shell;
 static GtkListStore *model[NUM_LISTS];
 
 static void create_messageopt_dialog(void);
-static void messageopt_response(struct gui_dialog *dlg, int response);
+static void messageopt_response(struct gui_dialog *dlg, int response,
+                                gpointer data);
 static void item_toggled(GtkCellRendererToggle *cell,
 			 gchar *spath, gpointer data);
 
@@ -57,7 +58,7 @@ static void create_messageopt_dialog(void)
   GtkWidget *form, *explanation;
   int n, i, j;
   
-  gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(shell, _("Message Options"));
 
   gui_dialog_set_default_size(shell, -1, 450);
@@ -158,7 +159,8 @@ static void create_messageopt_dialog(void)
 /**************************************************************************
 ...
 **************************************************************************/
-static void messageopt_response(struct gui_dialog *dlg, int response)
+static void messageopt_response(struct gui_dialog *dlg, int response,
+                                gpointer data)
 {
   if (response == GTK_RESPONSE_OK) {
     ITree it;

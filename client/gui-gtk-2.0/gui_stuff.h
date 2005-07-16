@@ -60,7 +60,7 @@ enum gui_dialog_type {
 
 struct gui_dialog;
 
-typedef void (*GUI_DIALOG_RESPONSE_FUN)(struct gui_dialog *, int);
+typedef void (*GUI_DIALOG_RESPONSE_FUN)(struct gui_dialog *, int, gpointer);
 
 struct gui_dialog
 {
@@ -83,11 +83,12 @@ struct gui_dialog
   struct gui_dialog **source;
 
   GUI_DIALOG_RESPONSE_FUN response_callback;
+  gpointer user_data;
 
   GtkSizeGroup *gui_button;
 };
 
-void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook);
+void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook, gpointer user_data);
 void gui_dialog_set_default_response(struct gui_dialog *dlg, int response);
 GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
     const char *text, int response);

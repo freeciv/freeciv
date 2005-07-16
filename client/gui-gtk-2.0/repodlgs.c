@@ -73,7 +73,8 @@ enum {
 };
 
 static void create_economy_report_dialog(bool make_modal);
-static void economy_command_callback(struct gui_dialog *dlg, int response);
+static void economy_command_callback(struct gui_dialog *dlg, int response,
+                                     gpointer data);
 static void economy_selection_callback(GtkTreeSelection *selection,
 				       gpointer data);
 struct economy_row {
@@ -91,7 +92,8 @@ static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
 static void create_activeunits_report_dialog(bool make_modal);
-static void activeunits_command_callback(struct gui_dialog *dlg, int response);
+static void activeunits_command_callback(struct gui_dialog *dlg, int response,
+                                         gpointer data);
 static void activeunits_selection_callback(GtkTreeSelection *selection,
 					   gpointer data);
 static struct gui_dialog *activeunits_dialog_shell = NULL;
@@ -268,7 +270,7 @@ void create_science_dialog(bool make_modal)
   GtkWidget *frame, *hbox, *w;
   GtkWidget *science_diagram;
 
-  gui_dialog_new(&science_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&science_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(science_dialog_shell, _("Science"));
 
   gui_dialog_add_button(science_dialog_shell,
@@ -667,7 +669,7 @@ void create_economy_report_dialog(bool make_modal)
 
   model_types[0] = GDK_TYPE_PIXBUF;
 
-  gui_dialog_new(&economy_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&economy_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(economy_dialog_shell, _("Economy"));
 
   align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
@@ -787,7 +789,8 @@ static void economy_selection_callback(GtkTreeSelection *selection,
 /****************************************************************
 ...
 *****************************************************************/
-static void economy_command_callback(struct gui_dialog *dlg, int response)
+static void economy_command_callback(struct gui_dialog *dlg, int response,
+                                     gpointer callback)
 {
   int i, is_impr;
   gint row;
@@ -972,7 +975,7 @@ void create_activeunits_report_dialog(bool make_modal)
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
-  gui_dialog_new(&activeunits_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&activeunits_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(activeunits_dialog_shell, _("Units"));
 
   align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
@@ -1117,7 +1120,8 @@ static struct unit *find_nearest_unit(Unit_type_id type, struct tile *ptile)
 /****************************************************************
 ...
 *****************************************************************/
-static void activeunits_command_callback(struct gui_dialog *dlg, int response)
+static void activeunits_command_callback(struct gui_dialog *dlg, int response,
+                                         gpointer data)
 {
   int           ut1, ut2;
   GtkTreeModel *model;
@@ -1321,7 +1325,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
 
   intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
 
-  gui_dialog_new(&endgame_report_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&endgame_report_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(endgame_report_shell, _("Score"));
   gui_dialog_add_button(endgame_report_shell, GTK_STOCK_CLOSE,
       GTK_RESPONSE_CLOSE);

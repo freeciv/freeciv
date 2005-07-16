@@ -45,9 +45,8 @@
 
 struct Diplomacy_dialog {
   struct Treaty treaty;
+  struct gui_dialog* dialog;
   
-  GtkWidget *shell;
-
   GtkWidget *menu0;
   GtkWidget *menu1;
 
@@ -71,7 +70,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 struct player *plr1);
 
 static struct Diplomacy_dialog *find_diplomacy_dialog(int other_player_id);
-static void popup_diplomacy_dialog(int other_player_id);
+static void popup_diplomacy_dialog(int other_player_id, int initiated_from);
 static void diplomacy_dialog_map_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_seamap_callback(GtkWidget *w, gpointer data);
 static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data);
@@ -84,6 +83,8 @@ static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data);
 static void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog);
 static void diplo_dialog_returnkey(GtkWidget *w, gpointer data);
+
+#define RESPONSE_CANCEL_MEETING 100
 
 /****************************************************************
 ...
@@ -101,6 +102,7 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
   pdialog->treaty.accept1 = other_accepted;
 
   update_diplomacy_dialog(pdialog);
+  gui_dialog_alert(pdialog->dialog);
 }
 
 /****************************************************************
@@ -108,7 +110,7 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
 *****************************************************************/
 void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 {
-  popup_diplomacy_dialog(counterpart);
+  popup_diplomacy_dialog(counterpart, initiated_from);
 }
 
 
@@ -140,6 +142,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
 
   add_clause(&pdialog->treaty, get_player(giver), type, value);
   update_diplomacy_dialog(pdialog);
+  gui_dialog_alert(pdialog->dialog);  
 }
 
 /****************************************************************
@@ -156,12 +159,13 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 
   remove_clause(&pdialog->treaty, get_player(giver), type, value);
   update_diplomacy_dialog(pdialog);
+  gui_dialog_alert(pdialog->dialog);
 }
 
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-static void popup_diplomacy_dialog(int other_player_id)
+static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(other_player_id);
 
@@ -175,7 +179,11 @@ static void popup_diplomacy_dialog(int other_player_id)
 				get_player(other_player_id));
   }
 
-  gtk_window_present(GTK_WINDOW(pdialog->shell));
+  gui_dialog_present(pdialog->dialog);
+  /* We initated the meeting - Make the tab active */
+  if (initiated_from == game.player_ptr->player_no) {
+    gui_dialog_raise(pdialog->dialog);
+  }
 }
 
 /****************************************************************
@@ -392,10 +400,9 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomacy_destroy(GtkWidget *w, gpointer data)
+static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
 {
-  struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
-
+  gui_dialog_destroy(pdialog->dialog);
   dialog_list_unlink(dialog_list, pdialog);
   free(pdialog);
 }
@@ -403,7 +410,8 @@ static void diplomacy_destroy(GtkWidget *w, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-static void diplomacy_response(GtkWidget *w, gint response, gpointer data)
+static void diplomacy_response(struct gui_dialog *dlg, int response,
+                               gpointer data)
 {
   struct Diplomacy_dialog *pdialog = (struct Diplomacy_dialog *)data;
 
@@ -415,12 +423,11 @@ static void diplomacy_response(GtkWidget *w, gint response, gpointer data)
 					     pdialog->treaty.plr1->
 					     player_no);
     break;
-
   default:
     dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
 					      pdialog->treaty.plr1->
 					      player_no);
-    gtk_widget_destroy(w);
+    diplomacy_destroy(pdialog);
     break; 
   }
 }
@@ -431,7 +438,7 @@ static void diplomacy_response(GtkWidget *w, gint response, gpointer data)
 static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0, 
 							struct player *plr1)
 {
-  GtkWidget *shell, *vbox, *bottom, *hbox, *table;
+  GtkWidget *vbox, *bottom, *hbox, *table;
   GtkWidget *label, *sw, *view, *image, *spin;
   GtkWidget *menubar, *menuitem, *menu;
   GtkListStore *store;
@@ -445,23 +452,21 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   dialog_list_prepend(dialog_list, pdialog);
   init_treaty(&pdialog->treaty, plr0, plr1);
 
-  shell = gtk_dialog_new_with_buttons(_("Diplomacy meeting"),
-				      NULL,
-				      0,
-				      NULL);
-  pdialog->shell = shell;
-  setup_dialog(shell, toplevel);
-  g_signal_connect(shell, "destroy",
-		   G_CALLBACK(diplomacy_destroy), pdialog);
-  g_signal_connect(shell, "response",
-		   G_CALLBACK(diplomacy_response), pdialog);
+  gui_dialog_new(&(pdialog->dialog), GTK_NOTEBOOK(top_notebook), pdialog);
+  
+  my_snprintf(buf, sizeof(buf),
+              _("Diplomacy: %s"),
+	      get_nation_name_plural(plr1->nation));
 
-  gtk_dialog_add_button(GTK_DIALOG(shell), _("_Cancel meeting"),
-			GTK_RESPONSE_CANCEL);
-  gtk_dialog_add_button(GTK_DIALOG(shell), _("Accept _treaty"),
+  gui_dialog_set_title(pdialog->dialog, buf);
+  gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
+
+  gui_dialog_add_button(pdialog->dialog, _("_Cancel meeting"),
+		        RESPONSE_CANCEL_MEETING);
+  gui_dialog_add_button(pdialog->dialog, _("Accept _treaty"),
 			GTK_RESPONSE_ACCEPT);
 
-  vbox = GTK_DIALOG(shell)->vbox;
+  vbox = pdialog->dialog->vbox;
 
 
   /* clauses. */
@@ -609,6 +614,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), menuitem);
   g_object_set_data(G_OBJECT(menu), "plr", plr1);
+  
   g_signal_connect(menu, "show", G_CALLBACK(popup_add_menu), pdialog);
   
   gtk_widget_show_all(bottom);
@@ -616,6 +622,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   g_signal_connect(view, "row_activated", G_CALLBACK(row_callback), pdialog);
 
   update_diplomacy_dialog(pdialog);
+  gui_dialog_show_all(pdialog->dialog);
 
   return pdialog;
 }
@@ -790,7 +797,7 @@ static void diplomacy_dialog_embassy_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
-  gtk_widget_destroy(pdialog->shell);
+  diplomacy_destroy(pdialog);
 }
 
 /*****************************************************************

@@ -66,7 +66,8 @@ static void city_model_init(void);
 static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
 				    GtkTreeViewColumn *col, gpointer data);
 
-static void city_command_callback(struct gui_dialog *dlg, int response);
+static void city_command_callback(struct gui_dialog *dlg, int response,
+                                  gpointer data);
 
 static void city_selection_changed_callback(GtkTreeSelection *selection);
 
@@ -782,7 +783,7 @@ static void create_city_report_dialog(bool make_modal)
   GtkWidget *w, *sw, *menubar;
   int i;
 
-  gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook));
+  gui_dialog_new(&city_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(city_dialog_shell, _("Cities"));
 
   gui_dialog_set_default_size(city_dialog_shell, -1, 420);
@@ -1034,7 +1035,8 @@ static void popup_iterate(GtkTreeModel *model, GtkTreePath *path,
 /****************************************************************
 ...
 *****************************************************************/
-static void city_command_callback(struct gui_dialog *dlg, int response)
+static void city_command_callback(struct gui_dialog *dlg, int response,
+                                  gpointer data)
 {
   switch (response) {
   case CITY_CENTER:
