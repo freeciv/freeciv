@@ -1597,7 +1597,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     GtkTreeIter it;
     GValue value = { 0, };
 
-    if (!is_nation_playable(pnation->index) || pnation->is_unavailable) {
+    if (!is_nation_playable(pnation) || pnation->is_unavailable) {
       continue;
     }
 
@@ -1607,7 +1607,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
 
     gtk_list_store_append(store, &it);
 
-    s = crop_blankspace(get_nation_flag_sprite(tileset, pnation->index));
+    s = crop_blankspace(get_nation_flag_sprite(tileset, pnation));
     img = sprite_get_pixbuf(s);
     used = pnation->is_used;
     gtk_list_store_set(store, &it, 0, pnation->index, 1, used, 2, img, -1);
@@ -1924,7 +1924,8 @@ static void select_random_leader(void)
     unique = TRUE;
   }
 
-  leaders = get_nation_leaders(selected_nation, &nleaders);
+  leaders
+    = get_nation_leaders(get_nation_by_idx(selected_nation), &nleaders);
   for (i = 0; i < nleaders; i++) {
     items = g_list_prepend(items, leaders[i].name);
   }
@@ -2045,7 +2046,7 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
       select_random_leader();
       
       /* Select city style for chosen nation. */
-      cs = get_nation_city_style(selected_nation);
+      cs = get_nation_city_style(get_nation_by_idx(selected_nation));
       for (i = 0, j = 0; i < game.control.styles_count; i++) {
         if (city_style_has_requirements(&city_styles[i])) {
 	  continue;
@@ -2082,8 +2083,9 @@ static void races_leader_callback(void)
 
   name = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(races_leader)->entry));
 
-  if (check_nation_leader_name(selected_nation, name)) {
-    selected_sex = get_nation_leader_sex(selected_nation, name);
+  if (check_nation_leader_name(get_nation_by_idx(selected_nation), name)) {
+    selected_sex = get_nation_leader_sex(get_nation_by_idx(selected_nation),
+					 name);
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[selected_sex]),
 				 TRUE);
   }
@@ -2138,8 +2140,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     if (selected_nation == -1) {
       dsend_packet_nation_select_req(&aconnection,
 				     races_player->player_no,
-				     NO_NATION_SELECTED,
-				     FALSE, "", 0);
+				     -1, FALSE, "", 0);
       popdown_races_dialog();
       return;
     }
@@ -2169,8 +2170,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
   } else if (response == GTK_RESPONSE_CANCEL) {
     dsend_packet_nation_select_req(&aconnection,
 				   races_player->player_no,
-				   NO_NATION_SELECTED,
-				   FALSE, "", 0);
+				   -1, FALSE, "", 0);
   }
   popdown_races_dialog();
 }

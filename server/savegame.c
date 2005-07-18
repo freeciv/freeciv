@@ -45,6 +45,7 @@
 
 #include "script.h"
 
+#include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
@@ -513,7 +514,6 @@ static void map_startpos_load(struct section_file *file)
 {
   int savegame_start_positions;
   int i, j;
-  int nation_id;
   int nat_x, nat_y;
   
   for (savegame_start_positions = 0;
@@ -528,21 +528,21 @@ static void map_startpos_load(struct section_file *file)
     struct start_position start_positions[savegame_start_positions];
     
     for (i = j = 0; i < savegame_start_positions; i++) {
-      char *nation = secfile_lookup_str_default(file, NULL, "map.r%dsnation",
-                                                i);
+      char *nation_name = secfile_lookup_str_default(file, NULL,
+						     "map.r%dsnation", i);
+      struct nation_type *pnation;
 
-      if (nation == NULL) {
+      if (!nation_name) {
         /* Starting positions in normal games are saved without nation.
 	   Just ignore it */
 	continue;
       }
-      
-      nation_id = find_nation_by_name_orig(nation);
-      if (nation_id == NO_NATION_SELECTED) {
+
+      pnation = find_nation_by_name_orig(nation_name);
+      if (pnation == NO_NATION_SELECTED) {
 	freelog(LOG_NORMAL,
 	        _("Warning: Unknown nation %s for starting position no %d"),
-		nation,
-		i);
+		nation_name, i);
 	continue;
       }
       
@@ -550,7 +550,7 @@ static void map_startpos_load(struct section_file *file)
       nat_y = secfile_lookup_int(file, "map.r%dsy", i);
 
       start_positions[j].tile = native_pos_to_tile(nat_x, nat_y);
-      start_positions[j].nation = nation_id;
+      start_positions[j].nation = pnation;
       j++;
     }
     map.num_start_positions = j;
@@ -1799,8 +1799,8 @@ static void player_load(struct player *plr, int plrno,
     team_add_player(plr, pteam);
   }
 
-  if (is_barbarian(plr)) {
-    plr->nation = game.control.nation_count - 1;
+  if (is_barbarian(plr) && plr->nation == NO_NATION_SELECTED) {
+    plr->nation = pick_barbarian_nation();
   }
 
   /* government */

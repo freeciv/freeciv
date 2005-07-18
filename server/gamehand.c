@@ -181,13 +181,14 @@ void init_new_game(void)
   /* First set up some data fields. */
   freelog(LOG_VERBOSE, "Placing players at start positions.");
   for (i = 0; i < map.num_start_positions; i++) {
-    Nation_type_id n = map.start_positions[i].nation;
+    struct nation_type *n = map.start_positions[i].nation;
 
     pos_used[i] = FALSE;
     freelog(LOG_VERBOSE, "%3d : (%2d,%2d) : %d : %s",
 	    i, map.start_positions[i].tile->x,
 	    map.start_positions[i].tile->y,
-	    n, (n >= 0 ? get_nation_name(n) : ""));
+	    n ? n->index : -1,
+	    n ? n->name : "");
   }
   players_iterate(pplayer) {
     start_pos[pplayer->player_no] = NO_START_POS;

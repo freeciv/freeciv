@@ -18,6 +18,6 @@
 void popdown_players_dialog(void);
 
 /* Misc helper functions */
-GdkPixbuf *get_flag(Nation_type_id nation);
+GdkPixbuf *get_flag(const struct nation_type *pnation);
 
 #endif  /* FC__PLRDLG_H */

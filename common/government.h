@@ -26,11 +26,11 @@
 /* each government has a list of ruler titles, where at least
  * one entry should have nation=DEFAULT_TITLE.
  */
-#define DEFAULT_TITLE  MAX_NUM_ITEMS
+#define DEFAULT_TITLE NULL
 
 struct ruler_title
 {
-  int  nation;
+  struct nation_type *nation;
   const char *male_title; /* Translated string - doesn't need freeing. */
   const char *female_title; /* Translated string - doesn't need freeing. */
   
@@ -97,11 +97,12 @@ struct government *find_government_by_name(const char *name);
 struct government *find_government_by_name_orig(const char *name);
 
 const char *get_government_name(int type);
-const char *get_ruler_title(int gov, bool male, int nation);
+const char *get_ruler_title(int gov, bool male,
+			    const struct nation_type *pnation);
 
 bool can_change_to_government(struct player *pplayer, int government);
 
-void set_ruler_title(struct government *gov, int nation, 
+void set_ruler_title(struct government *gov, struct nation_type *pnation,
                      const char *male, const char *female);
 void governments_alloc(int num);
 void governments_free(void);

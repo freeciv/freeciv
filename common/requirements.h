@@ -16,6 +16,7 @@
 
 #include "fc_types.h"
 #include "tech.h"
+#include "terrain.h"
 #include "unittype.h"
 
 /* The type of a requirement source.  This must correspond to req_type_names[]
@@ -58,7 +59,7 @@ struct req_source {
     Impr_type_id building;              /* source building */
     enum tile_special_type special;     /* source special */
     struct terrain *terrain;            /* source terrain type */
-    Nation_type_id nation;              /* source nation type */
+    struct nation_type *nation;         /* source nation type */
     Unit_type_id unittype;              /* source unittype */
     enum unit_flag_id unitflag;         /* source unit flag */
     Output_type_id outputtype;          /* source output type */

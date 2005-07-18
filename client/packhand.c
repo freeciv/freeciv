@@ -1422,7 +1422,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   sz_strlcpy(pplayer->name, pinfo->name);
 
   pplayer->is_observer = pinfo->is_observer;
-  pplayer->nation=pinfo->nation;
+  pplayer->nation = get_nation_by_idx(pinfo->nation);
   pplayer->is_male=pinfo->is_male;
   team_add_player(pplayer, team_get_by_id(pinfo->team));
   pplayer->score.game = pinfo->score;
@@ -2261,7 +2261,7 @@ void handle_ruleset_government_ruler_title
 	    p->id, gov->name);
     return;
   }
-  gov->ruler_titles[p->id].nation = p->nation;
+  gov->ruler_titles[p->id].nation = get_nation_by_idx(p->nation);
   sz_strlcpy(gov->ruler_titles[p->id].male_title_orig, p->male_title);
   gov->ruler_titles[p->id].male_title
     = gov->ruler_titles[p->id].male_title_orig;

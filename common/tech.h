@@ -16,7 +16,6 @@
 #include "shared.h"
 
 #include "fc_types.h"
-#include "nation.h" /* Nation_type_id */
 
 typedef int Tech_type_id;
 /*

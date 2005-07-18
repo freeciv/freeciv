@@ -83,11 +83,11 @@ static bool is_sea_barbarian(struct player *pplayer)
   available nation, or the first nation already in use by another barbarian
   player.
 ****************************************************************************/
-static Nation_type_id pick_barbarian_nation(void)
+struct nation_type *pick_barbarian_nation(void)
 {
   nations_iterate(pnation) {
-    if (is_nation_barbarian(pnation->index) && !pnation->is_used) {
-      return pnation->index;
+    if (is_nation_barbarian(pnation) && !pnation->is_used) {
+      return pnation;
     }
   } nations_iterate_end;
 
@@ -113,7 +113,7 @@ static struct player *create_barbarian_player(bool land)
 {
   int newplayer = game.info.nplayers;
   struct player *barbarians;
-  Nation_type_id nation = pick_barbarian_nation();
+  struct nation_type *nation = pick_barbarian_nation();
 
   players_iterate(barbarians) {
     if ((land && is_land_barbarian(barbarians))

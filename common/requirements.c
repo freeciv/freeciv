@@ -207,7 +207,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.terrain = get_terrain(value);
     return source;
   case REQ_NATION:
-    source.value.nation = value;
+    source.value.nation = get_nation_by_idx(value);
     return source;
   case REQ_UNITTYPE:
     source.value.unittype = value;
@@ -263,7 +263,7 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.terrain->index;
     return;
   case REQ_NATION:
-    *value = source->value.nation;
+    *value = source->value.nation->index;
     return;
   case REQ_UNITTYPE:
     *value = source->value.unittype;
@@ -686,7 +686,7 @@ static bool is_terrain_in_range(const struct tile *target_tile,
 ****************************************************************************/
 static bool is_nation_in_range(const struct player *target_player,
 			       enum req_range range, bool survives,
-			       Nation_type_id nation)
+			       const struct nation_type *nation)
 {
   switch (range) {
   case REQ_RANGE_PLAYER:

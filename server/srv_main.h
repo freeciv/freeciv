@@ -59,7 +59,8 @@ bool is_game_over(void);
 bool handle_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);
 void save_game(char *orig_filename, const char *save_reason);
-void pick_random_player_name(Nation_type_id nation, char *newname);
+void pick_random_player_name(const struct nation_type *pnation,
+			     char *newname);
 void send_all_info(struct conn_list *dest);
 void check_for_full_turn_done(void);
 

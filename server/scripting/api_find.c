@@ -89,8 +89,7 @@ Nation_Type *api_find_nation_type(int nation_type_id)
 **************************************************************************/
 Nation_Type *api_find_nation_type_by_name(const char *name_orig)
 {
-  Nation_type_id id = find_nation_by_name_orig(name_orig);
-  return api_find_nation_type(id);
+  return find_nation_by_name_orig(name_orig);
 }
 
 /**************************************************************************

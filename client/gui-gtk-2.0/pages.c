@@ -1602,11 +1602,12 @@ static void update_nation_page(struct packet_game_load *packet)
   for (i = 0; i < packet->nplayers; i++) {
     GtkTreeIter iter;
     const char *nation_name;
+    struct nation_type *pnation = get_nation_by_idx(packet->nations[i]);
 
-    if (packet->nations[i] == NO_NATION_SELECTED) {
+    if (pnation == NO_NATION_SELECTED) {
       nation_name = "";
     } else {
-      nation_name = get_nation_name(packet->nations[i]);
+      nation_name = get_nation_name(pnation);
     }
 
     gtk_list_store_append(nation_store, &iter);
@@ -1617,8 +1618,8 @@ static void update_nation_page(struct packet_game_load *packet)
 	4, packet->is_ai[i] ? _("AI") : _("Human"), -1);
 
     /* set flag if we've got one to set. */
-    if (packet->nations[i] != NO_NATION_SELECTED) {
-      GdkPixbuf *flag = get_flag(packet->nations[i]);
+    if (pnation != NO_NATION_SELECTED) {
+      GdkPixbuf *flag = get_flag(pnation);
 
       if (flag) {
 	gtk_list_store_set(nation_store, &iter, 1, flag, -1);

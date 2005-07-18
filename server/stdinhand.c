@@ -3118,10 +3118,10 @@ static void send_load_game_info(bool load_successful)
 
       sz_strlcpy(packet.name[i], pplayer->name);
       sz_strlcpy(packet.username[i], pplayer->username);
-      if (game.control.nation_count) {
-	packet.nations[i] = pplayer->nation;
+      if (pplayer->nation != NO_NATION_SELECTED) {
+	packet.nations[i] = pplayer->nation->index;
       } else { /* No nations picked */
-	packet.nations[i] = NO_NATION_SELECTED;
+	packet.nations[i] = -1;
       }
       packet.is_alive[i] = pplayer->is_alive;
       packet.is_ai[i] = pplayer->ai.control;

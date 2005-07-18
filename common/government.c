@@ -92,7 +92,8 @@ struct government *get_gov_pcity(const struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
-const char *get_ruler_title(int gov, bool male, int nation)
+const char *get_ruler_title(int gov, bool male,
+			    const struct nation_type *nation)
 {
   struct government *g = get_government(gov);
   struct ruler_title *best_match = NULL;
@@ -100,6 +101,7 @@ const char *get_ruler_title(int gov, bool male, int nation)
 
   for(i=0; i<g->num_ruler_titles; i++) {
     struct ruler_title *title = &g->ruler_titles[i];
+
     if (title->nation == DEFAULT_TITLE && !best_match) {
       best_match = title;
     } else if (title->nation == nation) {
@@ -113,7 +115,7 @@ const char *get_ruler_title(int gov, bool male, int nation)
   } else {
     freelog(LOG_ERROR,
 	    "get_ruler_title: found no title for government %d (%s) nation %d",
-	    gov, g->name, nation);
+	    gov, g->name, nation->index);
     return male ? "Mr." : "Ms.";
   }
 }
@@ -155,7 +157,7 @@ bool can_change_to_government(struct player *pplayer, int government)
 /***************************************************************
 ...
 ***************************************************************/
-void set_ruler_title(struct government *gov, int nation,
+void set_ruler_title(struct government *gov, struct nation_type *pnation,
                      const char *male, const char *female)
 {
   struct ruler_title *title;
@@ -166,7 +168,7 @@ void set_ruler_title(struct government *gov, int nation,
       gov->num_ruler_titles*sizeof(struct ruler_title));
   title = &(gov->ruler_titles[gov->num_ruler_titles-1]);
 
-  title->nation = nation;
+  title->nation = pnation; /* A valid nation or DEFAULT_NATION */
 
   sz_strlcpy(title->male_title_orig, male);
   title->male_title = title->male_title_orig;

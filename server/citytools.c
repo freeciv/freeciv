@@ -349,7 +349,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 {
   int i = 0, j;
   bool nations_selected[game.control.nation_count];
-  Nation_type_id nation_list[game.control.nation_count], n;
+  struct nation_type *nation_list[game.control.nation_count];
   int queue_size;
 
   static const int num_tiles = MAP_MAX_WIDTH * MAP_MAX_HEIGHT; 
@@ -382,23 +382,23 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
   queue_size = 1;
   nation_list[0] = pplayer->nation;
-  nations_selected[pplayer->nation] = TRUE;
+  nations_selected[pplayer->nation->index] = TRUE;
 
   while (i < game.control.nation_count) {
     for (; i < queue_size; i++) {
-      struct nation_type *nation;
       char *name;
+      struct nation_type *nation;
 
       {
 	/* Pick a random nation from the queue. */
 	const int which = i + myrand(queue_size - i);
-	const Nation_type_id tmp = nation_list[i];
+	struct nation_type *tmp = nation_list[i];
 
 	nation_list[i] = nation_list[which];
 	nation_list[which] = tmp;
       }
 
-      nation = get_nation_by_idx(nation_list[i]);
+      nation = nation_list[i];
       name = search_for_city_name(ptile, nation->city_names, pplayer);
 
       freelog(LOG_DEBUG, "Looking through %s.", nation->name);
@@ -409,36 +409,38 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 
       /* Append the nation's parent nations into the search tree. */
       for (j = 0; nation->parent_nations[j] != NO_NATION_SELECTED; j++) {
-	n = nation->parent_nations[j];
-	if (!nations_selected[n]) {
+	struct nation_type *n = nation->parent_nations[j];
+
+	if (!nations_selected[n->index]) {
 	  nation_list[queue_size] = n;
-	  nations_selected[n] = TRUE;
+	  nations_selected[n->index] = TRUE;
 	  queue_size++;
-	  freelog(LOG_DEBUG, "Parent %s.", get_nation_by_idx(n)->name);
+	  freelog(LOG_DEBUG, "Parent %s.", n->name);
 	}
       }
 
       /* Append the nation's civil war nations into the search tree. */
       for (j = 0; nation->civilwar_nations[j] != NO_NATION_SELECTED; j++) {
-	n = nation->civilwar_nations[j];
-	if (!nations_selected[n]) {
+	struct nation_type *n = nation->civilwar_nations[j];
+
+	if (!nations_selected[n->index]) {
 	  nation_list[queue_size] = n;
-	  nations_selected[n] = TRUE;
+	  nations_selected[n->index] = TRUE;
 	  queue_size++;
-	  freelog(LOG_DEBUG, "Child %s.", get_nation_by_idx(n)->name);
+	  freelog(LOG_DEBUG, "Child %s.", n->name);
 	}
       }
     }
 
     /* Append all remaining nations. */
-    for (n = 0; n < game.control.nation_count; n++) {
-      if (!nations_selected[n]) {
+    nations_iterate(n) {
+      if (!nations_selected[n->index]) {
 	nation_list[queue_size] = n;
-	nations_selected[n] = TRUE;
+	nations_selected[n->index] = TRUE;
 	queue_size++;
-	freelog(LOG_DEBUG, "Misc nation %s.", get_nation_by_idx(n)->name);
+	freelog(LOG_DEBUG, "Misc nation %s.", n->name);
       }
-    }
+    } nations_iterate_end;
   }
 
   for (i = 1; i <= num_tiles; i++ ) {
@@ -1199,7 +1201,7 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
       && civil_war_triggered(cplayer)) {
     /* Do a civil war only if there's an available unused nation. */
     nations_iterate(pnation) {
-      if (is_nation_playable(pnation->index)
+      if (is_nation_playable(pnation)
 	  && !pnation->is_unavailable && !pnation->is_used) {
 	do_civil_war = TRUE;
 	break;

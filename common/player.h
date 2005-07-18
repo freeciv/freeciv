@@ -204,7 +204,7 @@ struct player {
   bool is_male;
   int government;
   int target_government;
-  Nation_type_id nation;
+  struct nation_type *nation;
   struct team *team;
   bool is_ready; /* Did the player click "start" yet? */
   bool phase_done;

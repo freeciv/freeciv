@@ -67,7 +67,7 @@ struct civ_map {
   /* Only used by server. */
   struct start_position {
     struct tile *tile;
-    Nation_type_id nation; /* May be NO_NATION_SELECTED. */
+    struct nation_type *nation; /* May be NO_NATION_SELECTED. */
   } *start_positions;	/* allocated at runtime */
 };
 

@@ -881,7 +881,7 @@ static void package_player_common(struct player *plr,
   packet->playerno=plr->player_no;
   sz_strlcpy(packet->name, plr->name);
   sz_strlcpy(packet->username, plr->username);
-  packet->nation=plr->nation;
+  packet->nation = plr->nation ? plr->nation->index : -1;
   packet->is_male=plr->is_male;
   packet->is_observer=plr->is_observer;
   packet->team = plr->team ? plr->team->index : -1;
@@ -1317,7 +1317,7 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2)
 
   choices may be NULL; if so it's ignored.
 ****************************************************************************/
-Nation_type_id pick_available_nation(Nation_type_id *choices)
+struct nation_type *pick_available_nation(struct nation_type **choices)
 {
   enum {
     UNAVAILABLE, AVAILABLE, PREFERRED
@@ -1330,7 +1330,7 @@ Nation_type_id pick_available_nation(Nation_type_id *choices)
    * 1: available
    * 2: preferred choice */
   nations_iterate(pnation) {
-    if (!is_nation_playable(pnation->index)
+    if (!is_nation_playable(pnation)
 	|| pnation->is_used || pnation->is_unavailable) {
       /* Nation is unplayable or already used: don't consider it. */
       nations_used[pnation->index] = UNAVAILABLE;
@@ -1343,9 +1343,8 @@ Nation_type_id pick_available_nation(Nation_type_id *choices)
     match[pnation->index] = 1;
     players_iterate(pplayer) {
       if (pplayer->nation != NO_NATION_SELECTED) {
-	struct nation_type *pnation2 = get_nation_by_idx(pplayer->nation);
-
-	match[pnation->index] += nations_match(pnation2, pnation) * 100;
+	match[pnation->index]
+	  += nations_match(pplayer->nation, pnation) * 100;
       }
     } players_iterate_end;
 
@@ -1353,9 +1352,9 @@ Nation_type_id pick_available_nation(Nation_type_id *choices)
   } nations_iterate_end;
 
   for (; choices && *choices != NO_NATION_SELECTED; choices++) {
-    if (nations_used[*choices] == AVAILABLE) {
-      pref_nations_avail += match[*choices];
-      nations_used[*choices] = PREFERRED;
+    if (nations_used[(*choices)->index] == AVAILABLE) {
+      pref_nations_avail += match[(*choices)->index];
+      nations_used[(*choices)->index] = PREFERRED;
     }
   }
 
@@ -1375,7 +1374,7 @@ Nation_type_id pick_available_nation(Nation_type_id *choices)
       pick -= match[pnation->index];
 
       if (pick < 0) {
-	return pnation->index;
+	return pnation;
       }
     }
   } nations_iterate_end;
@@ -1388,11 +1387,11 @@ Nation_type_id pick_available_nation(Nation_type_id *choices)
   Return an available observer nation.  This simply returns the first
   such nation.  If no nation is available NO_NATION_SELECTED is returned.
 ****************************************************************************/
-static Nation_type_id pick_observer_nation(void)
+static struct nation_type *pick_observer_nation(void)
 {
   nations_iterate(pnation) {
-    if (is_nation_observer(pnation->index) && !pnation->is_used) {
-      return pnation->index;
+    if (is_nation_observer(pnation) && !pnation->is_used) {
+      return pnation;
     }
   } nations_iterate_end;
 
@@ -1409,7 +1408,7 @@ static Nation_type_id pick_observer_nation(void)
 struct player *create_global_observer(void)
 {
   struct player *pplayer = NULL;
-  Nation_type_id nation;
+  struct nation_type *nation;
 
   /* Check if a global observer already exists. If so, return it.  Note the
    * observer may exist at any position in the array. */
@@ -1502,7 +1501,8 @@ static struct player *split_player(struct player *pplayer)
 {
   int newplayer = game.info.nplayers;
   struct player *cplayer = &game.players[newplayer];
-  Nation_type_id *civilwar_nations = get_nation_civilwar(pplayer->nation);
+  struct nation_type **civilwar_nations
+    = get_nation_civilwar(pplayer->nation);
   struct player_research *new_research, *old_research;
 
   /* make a new player */

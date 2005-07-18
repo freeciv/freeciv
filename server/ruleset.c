@@ -1873,8 +1873,10 @@ static void load_nation_names(struct section_file *file)
 
     /* Check if nation name is already defined. */
     for(j = 0; j < i; j++) {
-      if (0 == strcmp(get_nation_name(j), pl->name)
-	  || 0 == strcmp(get_nation_name_plural(j), pl->name_plural)) {
+      struct nation_type *n2 = get_nation_by_idx(j);
+
+      if (0 == strcmp(get_nation_name(n2), pl->name)
+	  || 0 == strcmp(get_nation_name_plural(n2), pl->name_plural)) {
         freelog(LOG_FATAL,
 		"Nation %s (the %s) defined twice; "
 		"in section nation%d and section nation%d",
@@ -2146,7 +2148,7 @@ static void load_ruleset_nations(struct section_file *file)
 	check_name(male_name);
 	check_name(female_name);
 	/* Truncation is handled by set_ruler_title(). */
-	set_ruler_title(gov, i, male_name, female_name);
+	set_ruler_title(gov, pl, male_name, female_name);
       } else {
 	/* LOG_VERBOSE rather than LOG_ERROR so that can use single nation
 	   ruleset file with variety of government ruleset files: */
@@ -2237,27 +2239,24 @@ static void load_ruleset_nations(struct section_file *file)
   }
 
   /* Calculate parent nations.  O(n^2) algorithm. */
-  for (i = 0; i < game.control.nation_count; i++) {
-    Nation_type_id parents[game.control.nation_count];
+  nations_iterate(pl) {
+    struct nation_type *parents[game.control.nation_count];
     int count = 0;
 
-    pl = get_nation_by_idx(i);
-    for (j = 0; j < game.control.nation_count; j++) {
-      struct nation_type *p2 = get_nation_by_idx(j);
-
+    nations_iterate(p2) {
       for (k = 0; p2->civilwar_nations[k] != NO_NATION_SELECTED; k++) {
-	if (p2->civilwar_nations[k] == i) {
-	  parents[count] = j;
+	if (p2->civilwar_nations[k] == pl) {
+	  parents[count] = p2;
 	  count++;
 	}
       }
-    }
+    } nations_iterate_end;
 
     assert(sizeof(parents[0]) == sizeof(*pl->parent_nations));
     pl->parent_nations = fc_malloc((count + 1) * sizeof(parents[0]));
     memcpy(pl->parent_nations, parents, count * sizeof(parents[0]));
     pl->parent_nations[count] = NO_NATION_SELECTED;
-  }
+  } nations_iterate_end;
 
   free(sec);
   section_file_check_unused(file, filename);
@@ -2901,7 +2900,7 @@ static void send_ruleset_governments(struct conn_list *dest)
 
       title.gov = g->index;
       title.id = j;
-      title.nation = p_title->nation;
+      title.nation = p_title->nation ? p_title->nation->index : -1;
       sz_strlcpy(title.male_title, p_title->male_title);
       sz_strlcpy(title.female_title, p_title->female_title);
     

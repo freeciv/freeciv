@@ -31,7 +31,7 @@ struct Player_ai {
 
 struct Player {
   const char *name;
-  int nation @ nation_id;
+  Nation_Type *nation;
 
   Player_ai ai;
 
@@ -129,10 +129,6 @@ $[
 -- Player methods.
 function Player:is_human()
   return not self.ai.control
-end
-
-function Player:nation()
-  return find.nation(self.nation_id)
 end
 
 function Player:num_cities()

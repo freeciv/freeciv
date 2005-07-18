@@ -2663,12 +2663,12 @@ struct sprite *get_city_flag_sprite(const struct tileset *t,
 static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 						  const struct unit *punit)
 {
-  Nation_type_id nation = unit_owner(punit)->nation;
+  struct nation_type *pnation = unit_owner(punit)->nation;
 
   if (draw_unit_shields) {
-    return t->sprites.nation_shield.p[nation];
+    return t->sprites.nation_shield.p[pnation->index];
   } else {
-    return t->sprites.nation_flag.p[nation];
+    return t->sprites.nation_flag.p[pnation->index];
   }
 }
 
@@ -4329,13 +4329,9 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
   Return the sprite for the nation.
 **************************************************************************/
 struct sprite *get_nation_flag_sprite(const struct tileset *t,
-				      Nation_type_id nation)
+				      const struct nation_type *pnation)
 {
-  if (nation < 0 || nation >= game.control.nation_count) {
-    assert(0);
-    return NULL;
-  }
-  return t->sprites.nation_flag.p[nation];
+  return t->sprites.nation_flag.p[pnation->index];
 }
 
 /**************************************************************************

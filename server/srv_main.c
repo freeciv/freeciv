@@ -1080,10 +1080,8 @@ void check_for_full_turn_done(void)
   particular player.
 **************************************************************************/
 static bool is_default_nation_name(const char *name,
-				   Nation_type_id nation_id)
+				   const struct nation_type *nation)
 {
-  const struct nation_type *nation = get_nation_by_idx(nation_id);
-
   int choice;
 
   for (choice = 0; choice < nation->leader_count; choice++) {
@@ -1100,7 +1098,7 @@ static bool is_default_nation_name(const char *name,
   (a translated string to be sent to the client) if not.
 **************************************************************************/
 static bool is_allowed_player_name(struct player *pplayer,
-				   Nation_type_id nation,
+				   const struct nation_type *nation,
 				   const char *name,
 				   char *error_buf, size_t bufsz)
 {
@@ -1207,15 +1205,14 @@ void init_available_nations(void)
       nation->is_unavailable = TRUE;
     } nations_iterate_end;
     for (i = 0; i < map.num_start_positions; i++) {
-      Nation_type_id nation_no = map.start_positions[i].nation;
-      struct nation_type *nation = get_nation_by_idx(nation_no);
-
-      nation->is_unavailable = FALSE;
+      map.start_positions[i].nation->is_unavailable = FALSE;
     }
   } else {
     nations_iterate(nation) {
       /* We preemptively mark unplayable nations as unavailable. */
-      nation->is_unavailable = !is_nation_playable(nation->index);
+      /* FIXME: this may not be right since barbarians need them to be
+       * available (for instance). */
+      nation->is_unavailable = !is_nation_playable(nation);
     } nations_iterate_end;
   }
   nations_iterate(nation) {
@@ -1232,11 +1229,10 @@ void handle_nation_select_req(struct player *requestor,
 			      Nation_type_id nation_no, bool is_male,
 			      char *name, int city_style)
 {
-  Nation_type_id old_nation_no;
+  struct nation_type *old_nation, *new_nation;
   struct player *pplayer = get_player(player_no);
 
-  if (server_state != PRE_GAME_STATE
-      || !pplayer) {
+  if (server_state != PRE_GAME_STATE || !pplayer) {
     return;
   }
 
@@ -1244,36 +1240,34 @@ void handle_nation_select_req(struct player *requestor,
     return;
   }
 
-  old_nation_no = pplayer->nation;
+  old_nation = pplayer->nation;
+  new_nation = get_nation_by_idx(nation_no);
 
-  if (nation_no != NO_NATION_SELECTED) {
+  if (new_nation != NO_NATION_SELECTED) {
     char message[1024];
-    struct nation_type *nation;
 
     /* check sanity of the packet sent by client */
-    if (nation_no < 0 || nation_no >= game.control.nation_count
-	|| city_style < 0 || city_style >= game.control.styles_count
+    if (city_style < 0 || city_style >= game.control.styles_count
 	|| city_style_has_requirements(&city_styles[city_style])) {
       return;
     }
 
-    nation = get_nation_by_idx(nation_no);
-    if (nation->is_unavailable) {
+    if (new_nation->is_unavailable) {
       notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
 		     _("%s nation is not available in this scenario."),
-		     nation->name);
+		     new_nation->name);
       return;
     }
-    if (nation->is_unavailable) {
+    if (new_nation->is_unavailable) {
       notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
 		     _("%s nation is already in use."),
-		     nation->name);
+		     new_nation->name);
       return;
     }
 
     remove_leading_trailing_spaces(name);
 
-    if (!is_allowed_player_name(pplayer, nation_no, name,
+    if (!is_allowed_player_name(pplayer, new_nation, name,
 				message, sizeof(message))) {
       notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
 		     "%s", message);
@@ -1284,22 +1278,20 @@ void handle_nation_select_req(struct player *requestor,
 
     notify_conn_ex(game.game_connections, NULL, E_NATION_SELECTED,
 		   _("%s is the %s ruler %s."), pplayer->username,
-		   get_nation_name(nation_no), name);
+		   new_nation->name, name);
 
     sz_strlcpy(pplayer->name, name);
     pplayer->is_male = is_male;
     pplayer->city_style = city_style;
 
-    nation->is_used = TRUE;
-    send_nation_available(nation);
+    new_nation->is_used = TRUE;
+    send_nation_available(new_nation);
   }
 
-  pplayer->nation = nation_no;
+  pplayer->nation = new_nation; /* May be NULL (NO_NATION_SELECTED) */
   send_player_info_c(pplayer, game.est_connections);
 
-  if (old_nation_no != NO_NATION_SELECTED) {
-    struct nation_type *old_nation = get_nation_by_idx(old_nation_no);
-
+  if (old_nation != NO_NATION_SELECTED) {
     old_nation->is_used = FALSE;
     send_nation_available(old_nation);
   }
@@ -1463,13 +1455,12 @@ static void generate_players(void)
 
     /* See if the player name matches a known leader name. */
     nations_iterate(pnation) {
-      if (is_nation_playable(pnation->index)
+      if (is_nation_playable(pnation)
 	  && !pnation->is_unavailable && !pnation->is_used
-	  && check_nation_leader_name(pnation->index, pplayer->name)) {
-	pplayer->nation = pnation->index;
-	pplayer->city_style = get_nation_city_style(pnation->index);
-	pplayer->is_male = get_nation_leader_sex(pnation->index,
-						 pplayer->name);
+	  && check_nation_leader_name(pnation, pplayer->name)) {
+	pplayer->nation = pnation;
+	pplayer->city_style = get_nation_city_style(pnation);
+	pplayer->is_male = get_nation_leader_sex(pnation, pplayer->name);
 	break;
       }
     } nations_iterate_end;
@@ -1481,7 +1472,7 @@ static void generate_players(void)
     pplayer->nation = pick_available_nation(NULL);
     assert(pplayer->nation != NO_NATION_SELECTED);
 
-    get_nation_by_idx(pplayer->nation)->is_used = TRUE;
+    pplayer->nation->is_used = TRUE;
     pplayer->city_style = get_nation_city_style(pplayer->nation);
 
     pick_random_player_name(pplayer->nation, player_name);
@@ -1518,7 +1509,7 @@ static bool good_name(char *ptry, char *buf) {
      is found.
  newname should point to a buffer of size at least MAX_LEN_NAME.
 *************************************************************************/
-void pick_random_player_name(Nation_type_id nation, char *newname) 
+void pick_random_player_name(const struct nation_type *nation, char *newname) 
 {
    int i, names_count;
    struct leader *leaders;
