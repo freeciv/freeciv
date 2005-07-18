@@ -57,6 +57,10 @@ Syntax:
     Packet flags is a comma seperated list of:
 
      is-info: a second packet with the same content can be discarded
+              WARNING: this flag is dangerous and should not be used for
+              a packet that contains information that may be changed in
+              the client outside of the reception of that packet, or for
+              any packet with side effects at the client.
 
      pre-send:
      post-recv: 
@@ -280,7 +284,7 @@ end
 PACKET_SERVER_SHUTDOWN=8;sc,lsend
 end
 
-PACKET_NATION_AVAILABLE=9;sc,lsend,is-info
+PACKET_NATION_AVAILABLE=9;sc,lsend
   NATION id; key
 
   BOOL is_unavailable;
@@ -324,7 +328,7 @@ end
 
 /************** Info packets **********************/
 
-PACKET_TILE_INFO=14; is-info,sc,lsend
+PACKET_TILE_INFO=14; sc,lsend
   COORD x, y; key
 
   TERRAIN type;
@@ -445,7 +449,7 @@ PACKET_GAME_INFO=15; sc
   UINT16 great_wonders[B_LAST]; diff
 end
 
-PACKET_MAP_INFO=16; is-info,sc,lsend
+PACKET_MAP_INFO=16; sc,lsend
   XYSIZE xsize;
   XYSIZE ysize;
   UINT8 topology_id;
@@ -474,7 +478,7 @@ PACKET_CITY_REMOVE=20;sc,dsend,lsend
   CITY city_id;
 end
 
-PACKET_CITY_INFO=21; is-info,sc,lsend
+PACKET_CITY_INFO=21; sc,lsend
   CITY id; key
   PLAYER owner;
   COORD x,y;
@@ -521,7 +525,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
   TURN turn_founded;
 end
 
-PACKET_CITY_SHORT_INFO=22; is-info,sc,lsend
+PACKET_CITY_SHORT_INFO=22; sc,lsend
   CITY id;key
   PLAYER owner;
   COORD x;
@@ -620,7 +624,7 @@ PACKET_PLAYER_REMOVE=38; sc,dsend,lsend
   PLAYER player_id;
 end
 
-PACKET_PLAYER_INFO=39; is-info,sc
+PACKET_PLAYER_INFO=39; sc
   PLAYER playerno; key 
   STRING name[MAX_LEN_NAME];
   STRING username[MAX_LEN_NAME];
@@ -699,7 +703,7 @@ PACKET_UNIT_REMOVE=48;sc,dsend,lsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_INFO=49; is-info,sc,lsend
+PACKET_UNIT_INFO=49; sc,lsend
   UNIT id; key
   PLAYER owner;
   COORD x,y;
@@ -725,7 +729,7 @@ PACKET_UNIT_INFO=49; is-info,sc,lsend
   ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
 end
 
-PACKET_UNIT_SHORT_INFO=50; is-info,sc,lsend
+PACKET_UNIT_SHORT_INFO=50; sc,lsend
   UNIT id; key
   PLAYER owner;
   COORD x,y;
@@ -926,7 +930,7 @@ end
 # For telling clients information about other connections to server.
 # Clients may not use all info, but supply now to avoid unnecessary
 # protocol changes later.
-PACKET_CONN_INFO=86; is-info,sc,lsend
+PACKET_CONN_INFO=86; sc,lsend
   CONNECTION id; key
 
   # 0 means client should forget its
@@ -989,7 +993,7 @@ PACKET_SPACESHIP_PLACE=94;cs,dsend
   UINT8 num;
 end
 
-PACKET_SPACESHIP_INFO=95; is-info,sc,lsend
+PACKET_SPACESHIP_INFO=95; sc,lsend
   PLAYER player_num; key
   UINT8 sship_state;
   UINT8 structurals;
