@@ -375,7 +375,12 @@ bool is_terrain_flag_near_tile(const struct tile *ptile,
 			       enum terrain_flag_id flag)
 {
   adjc_iterate(ptile, adjc_tile) {
-    if (terrain_has_flag(tile_get_terrain(adjc_tile), flag)) {
+    struct terrain* pterrain = tile_get_terrain(adjc_tile);
+    if (pterrain == NULL) {
+      continue;
+    }
+    
+    if (terrain_has_flag(pterrain, flag)) {
       return TRUE;
     }
   } adjc_iterate_end;
