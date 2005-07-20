@@ -529,12 +529,8 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 repeat_break_treaty:
 
   /* The senate may not allow you to break the treaty.  In this case you
-   * must first dissolve the senate then you can break it.  This is waived
-   * if you have statue of liberty since you could easily just dissolve and
-   * then recreate it. */
-  if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel <= 0
-      && get_player_bonus(pplayer, EFT_HAS_SENATE) > 0
-      && get_player_bonus(pplayer, EFT_ANY_GOVERNMENT) == 0) {
+   * must first dissolve the senate then you can break it. */
+  if (!pplayer_can_declare_war(pplayer, pplayer2)) {
     notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
 		     _("The senate will not allow you to break treaty "
 		       "with the %s.  You must either dissolve the senate "

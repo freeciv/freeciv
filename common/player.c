@@ -34,6 +34,22 @@
 #include "player.h"
 
 /***************************************************************
+  Returns true iff p1 can declare war on p2.
+
+  The senate may not allow you to break the treaty.  In this 
+  case you must first dissolve the senate then you can break 
+  it.  This is waived if you have statue of liberty since you 
+  could easily just dissolve and then recreate it. 
+***************************************************************/
+bool pplayer_can_declare_war(const struct player *p1, 
+                             const struct player *p2)
+{
+  return (p1->diplstates[p2->player_no].has_reason_to_cancel > 0
+          || get_player_bonus(p1, EFT_HAS_SENATE) == 0
+          || get_player_bonus(p1, EFT_ANY_GOVERNMENT) > 0);
+}
+
+/***************************************************************
   Returns true iff p1 can ally p2. There is only one condition:
   We are not at war with any of p2's allies. Note that for an
   alliance to be made, we need to check this both ways.
