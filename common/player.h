@@ -68,55 +68,6 @@ struct player_economic {
   int luxury;
 };
 
-struct player_research {
-  /* The number of techs and future techs the player has
-   * researched/acquired. */
-  int techs_researched, future_tech;
-
-  /* Invention being researched in. Valid values for researching are:
-   *  - any existing tech but not A_NONE or
-   *  - A_FUTURE.
-   * In addition A_NOINFO is allowed at the client for enemies.
-   *
-   * bulbs_researched tracks how many bulbs have been accumulated toward
-   * this research target. */
-  Tech_type_id researching;        
-  int bulbs_researched;
-
-  /* If the player changes his research target in a turn, he loses some or
-   * all of the bulbs he's accumulated toward that target.  We save the
-   * original info from the start of the turn so that if he changes back
-   * he will get the bulbs back. */
-  Tech_type_id changed_from;
-  int bulbs_researched_before;
-
-  /* If the player completed a research this turn, this value is turned on
-   * and changing targets may be done without penalty. */
-  bool got_tech;
-
-  struct {
-    /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_REACHABLE. */
-    enum tech_state state;
-
-    /* 
-     * required_techs, num_required_techs and bulbs_required are
-     * cached values. Updated from build_required_techs (which is
-     * called by update_research).
-     */
-    tech_vector required_techs;
-    int num_required_techs, bulbs_required;
-  } inventions[A_LAST];
-
-  /* Tech goal (similar to worklists; when one tech is researched the next
-   * tech toward the goal will be chosen).  May be A_NONE. */
-  Tech_type_id tech_goal;
-
-  /*
-   * Cached values. Updated by update_research.
-   */
-  int num_known_tech_with_flag[TF_LAST];
-};
-
 struct player_score {
   int happy;
   int content;
@@ -225,7 +176,7 @@ struct player {
   struct city_list *cities;
   struct player_score score;
   struct player_economic economic;
-  struct player_research* research;
+
   int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
   struct player_ai ai;
@@ -247,7 +198,6 @@ struct player {
   bv_debug debug;
 };
 
-void player_research_init(struct player_research* research);
 void player_init(struct player *plr);
 struct player *find_player_by_name(const char *name);
 struct player *find_player_by_name_prefix(const char *name,
@@ -320,8 +270,6 @@ bool gives_shared_vision(const struct player *me, const struct player *them);
 
 struct player_research *get_player_research(const struct player *p1);
 
-void merge_players_research(struct player* p1, struct player* p2);
-void clean_players_research(void);
 #define players_iterate(PI_player)                                            \
 {                                                                             \
   struct player *PI_player;                                                   \

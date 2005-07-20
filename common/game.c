@@ -331,7 +331,6 @@ static void game_remove_all_players(void)
 ***************************************************************/
 void game_free(void)
 {
-  clean_players_research();
   game_remove_all_players();
   map_free();
   idex_free();
@@ -465,9 +464,6 @@ void game_remove_player(struct player *pplayer)
   city_list_unlink_all(pplayer->cities);
   city_list_free(pplayer->cities);
   pplayer->cities = NULL;
-
-  free(pplayer->research);
-  pplayer->research = NULL;
 
   if (is_barbarian(pplayer)) game.info.nbarbarians--;
 }

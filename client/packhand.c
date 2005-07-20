@@ -1417,7 +1417,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   bool poptechup, new_tech = FALSE;
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
-  struct player_research* research = get_player_research(pplayer);
+  struct player_research* research;
 
   sz_strlcpy(pplayer->name, pinfo->name);
 
@@ -1481,6 +1481,8 @@ void handle_player_info(struct packet_player_info *pinfo)
    * only send the player info out at appropriate times - e.g., while the
    * game is running. */
   new_tech = read_player_info_techs(pplayer, pinfo->inventions);
+  
+  research = get_player_research(pplayer);
 
   poptechup = (research->researching != pinfo->researching
                || research->tech_goal != pinfo->tech_goal);
@@ -2174,7 +2176,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       if (tech_exists(b->obsolete_by)) {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/%s",
 		b->obsolete_by,
-		get_tech_name(game.player_ptr, b->obsolete_by));
+		get_normal_tech_name(b->obsolete_by));
       } else {
 	freelog(LOG_DEBUG, "  obsolete_by %2d/Never", b->obsolete_by);
       }

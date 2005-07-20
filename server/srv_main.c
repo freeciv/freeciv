@@ -1843,14 +1843,6 @@ static void srv_loop(void)
    } players_iterate_end;
   }
   
-  players_iterate(pplayer) {
-    players_iterate(pdest) {
-      if (players_on_same_team(pplayer, pdest)
-          && pplayer->player_no != pdest->player_no) {
-    	merge_players_research(pplayer, pdest);
-      }
-    } players_iterate_end;
-  } players_iterate_end;
   /* tell the gamelog about the players */
   players_iterate(pplayer) {
     gamelog(GAMELOG_PLAYER, pplayer);

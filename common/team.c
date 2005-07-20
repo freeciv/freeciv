@@ -73,7 +73,7 @@ struct team *team_get_by_id(Team_type_id id)
 void team_add_player(struct player *pplayer, struct team *pteam)
 {
   assert(pplayer != NULL);
-  assert(!pteam || &teams[pteam->index] == pteam);
+  assert(pteam != NULL && &teams[pteam->index] == pteam);
 
   freelog(LOG_DEBUG, "Adding player %d/%s to team %s.",
 	  pplayer->player_no, pplayer->username,
@@ -88,10 +88,9 @@ void team_add_player(struct player *pplayer, struct team *pteam)
 
   /* Put the player on the new team. */
   pplayer->team = pteam;
-  if (pteam) {
-    pteam->players++;
-    assert(pteam->players <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
-  }
+  
+  pteam->players++;
+  assert(pteam->players <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
 }
 
 /****************************************************************************
@@ -187,5 +186,6 @@ void teams_init(void)
     sz_strlcpy(teams[i].name, names[i]);
 
     teams[i].players = 0;
+    player_research_init(&(teams[i].research));
   }
 }

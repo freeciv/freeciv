@@ -629,6 +629,16 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
 }
 
 /**************************************************************************
+ Return the name of the given tech. You don't have to free the return
+ pointer.
+**************************************************************************/
+const char *get_normal_tech_name(Tech_type_id tech)
+{
+  assert(tech_exists(tech));
+  return advances[tech].name;
+}
+
+/**************************************************************************
  Returns true if the costs for the given technology will stay constant
  during the game. False otherwise.
 **************************************************************************/
@@ -677,4 +687,14 @@ void techs_free(void)
   for (i = A_FIRST; i < game.control.num_tech_types; i++) {
     tech_free(i);
   }
+}
+
+/***************************************************************
+ Fill the structure with some sane values
+***************************************************************/
+void player_research_init(struct player_research* research)
+{
+  memset(research, 0, sizeof(struct player_research));
+  research->tech_goal = A_UNSET;
+  research->changed_from = -1;
 }

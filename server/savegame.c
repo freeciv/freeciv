@@ -1738,7 +1738,18 @@ static void player_load(struct player *plr, int plrno,
   int id;
   int target_no;
   struct team *pteam;
-  struct player_research *research = get_player_research(plr);
+  struct player_research *research;
+
+  /* not all players have teams */
+  id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
+  pteam = team_get_by_id(id);
+  if (pteam == NULL) {
+    pteam = find_empty_team();
+  }
+  
+  team_add_player(plr, pteam);
+  
+  research = get_player_research(plr);
 
   server_player_init(plr, TRUE, FALSE);
   ai = ai_data_get(plr);
@@ -1790,14 +1801,6 @@ static void player_load(struct player *plr, int plrno,
 
   /* Add techs from game and nation, but ignore game.info.tech. */
   init_tech(plr, 0);
-
-  /* not all players have teams */
-  id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
-  pteam = team_get_by_id(id);
-  if (pteam) {
-    /* Players with no team will be assigned to an empty team later. */
-    team_add_player(plr, pteam);
-  }
 
   if (is_barbarian(plr) && plr->nation == NO_NATION_SELECTED) {
     plr->nation = pick_barbarian_nation();
@@ -3398,7 +3401,7 @@ void game_load(struct section_file *file)
 
     game.info.min_players   = secfile_lookup_int(file, "game.min_players");
     game.info.max_players   = secfile_lookup_int(file, "game.max_players");
-    game.info.nplayers      = secfile_lookup_int(file, "game.nplayers");
+
     game.info.heating = secfile_lookup_int_default(file, 0, "game.heating");
     game.info.globalwarming = secfile_lookup_int(file, "game.globalwarming");
     game.info.warminglevel  = secfile_lookup_int(file, "game.warminglevel");
@@ -3490,6 +3493,7 @@ void game_load(struct section_file *file)
 	game.info.diplchance = 100 - (10 * (game.info.diplchance - 1));
       }
     }
+
     game.info.aqueductloss = secfile_lookup_int_default(file, game.info.aqueductloss,
 						   "game.aqueductloss");
     game.info.killcitizen = secfile_lookup_int_default(file, game.info.killcitizen,
@@ -3577,6 +3581,9 @@ void game_load(struct section_file *file)
 
     load_rulesets();
   }
+
+  game.info.nplayers      = secfile_lookup_int(file, "game.nplayers");
+
 
   script_state_load(file);
 

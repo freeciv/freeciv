@@ -79,16 +79,6 @@ bool player_owns_city(const struct player *pplayer, const struct city *pcity)
 }
 
 /***************************************************************
- Fill the structure with some sane values
-***************************************************************/
-void player_research_init(struct player_research* research)
-{
-  memset(research, 0, sizeof(struct player_research));
-  research->tech_goal = A_UNSET;
-  research->changed_from = -1;
-}
-
-/***************************************************************
   In the server you must use server_player_init.  Note that
   this function is matched by game_remove_player() in game.c,
   there is no corresponding player_free() in this file.
@@ -133,8 +123,7 @@ void player_init(struct player *plr)
   plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
   plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
   plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;
-  plr->research = fc_malloc(sizeof(struct player_research));
-  player_research_init(plr->research);
+
   player_limit_to_government_rates(plr);
   spaceship_init(&plr->spaceship);
 
@@ -725,51 +714,11 @@ bool is_valid_username(const char *name)
 }
 
 /****************************************************************************
-  Merges research of two players. This is used by teams
-****************************************************************************/
-void merge_players_research(struct player* p1, struct player* p2)
-{
-  struct player_research* old_research;
-  if (p1->research == p2->research) {
-    return;
-  }
-  old_research = p1->research;
-  players_iterate(aplayer) {
-    if (aplayer->research == old_research) {
-      aplayer->research = p2->research;
-    }
-  } players_iterate_end;
-  free(old_research);
-}
-
-/****************************************************************************
-****************************************************************************/
-void clean_players_research()
-{
-  players_iterate(aplayer) {
-    if (aplayer->research) {
-      players_iterate(bplayer) {
-        if (aplayer == bplayer || aplayer->research != bplayer->research) {
-	  continue;
-	}
-	bplayer->research = NULL;
-      } players_iterate_end;
-      free(aplayer->research);
-      aplayer->research = NULL;
-    }
-  } players_iterate_end;
-  
-  players_iterate(aplayer) {
-    aplayer->research = fc_malloc(sizeof (struct player_research));
-    player_research_init(aplayer->research);
-  } players_iterate_end;
-}
-
-/****************************************************************************
   Returns player_research struct of the given player. Note that team
   members share research
 ****************************************************************************/
-struct player_research *get_player_research(const struct player *p1)
+struct player_research *get_player_research(const struct player *plr)
 {
-  return p1->research;
+  assert((plr != NULL) && (plr->team != NULL));
+  return &(plr->team->research);
 }

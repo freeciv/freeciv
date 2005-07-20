@@ -2378,7 +2378,7 @@ void tileset_setup_tech_type(struct tileset *t, int id)
       = lookup_sprite_tag_alt(t, advances[id].graphic_str,
 			      advances[id].graphic_alt,
 			      FALSE, "tech_type",
-			      get_tech_name(game.player_ptr, id));
+			      get_normal_tech_name(id));
 
     /* should maybe do something if NULL, eg generic default? */
   } else {

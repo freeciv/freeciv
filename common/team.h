@@ -16,11 +16,15 @@
 
 #include "fc_types.h"
 
+#include "tech.h"
+
 #define MAX_NUM_TEAMS (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
 
 struct team {
   Team_type_id index;
   char name[MAX_LEN_NAME];
+  
+  struct player_research research;
 
   int players; /* # of players on the team */
 };
