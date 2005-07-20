@@ -802,6 +802,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
         && pplayer->diplstates[a].has_reason_to_cancel == 0
         && !adip->is_allied_with_enemy
         && !adip->at_war_with_ally
+        && aplayer != ai->diplomacy.target
         && adip->ally_patience >= 0) {
       pplayer->ai.love[aplayer->player_no] += ai->diplomacy.love_incr;
       DIPLO_LOG(LOG_DEBUG, pplayer, ai, "Increased love for %s (now %d)",
@@ -1077,7 +1078,13 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
     remove_shared_vision(pplayer, target);
   }
 
-  /* will take us straight to war */
+  /* Check for Senate obstruction.  If so, dissolve it. */
+  if (!pplayer_can_declare_war(pplayer, target)) {
+    handle_player_change_government(pplayer, 
+                                    game.info.government_when_anarchy);
+  }
+
+  /* This will take us straight to war. */
   handle_diplomacy_cancel_pact(pplayer, target->player_no, CLAUSE_LAST);
 
   /* Continue war at least in this arbitrary number of turns to show 
