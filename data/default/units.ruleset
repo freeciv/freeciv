@@ -7,14 +7,6 @@
 ; command "rulesetdir <mysubdir>" in the server to have freeciv
 ; use your new customized file.
 ;
-; The AI does not know the value of Partial_Invis, nor does this
-; work against the AI, since it knows all. It does not know anything 
-; about air units at all. It does not build No_Land_Attack, Missile 
-; or Nuclear units. It values GameLoss units at 1/10th its usual value
-; and therefore would not easily build it, but if it does, it does not 
-; protect it from harm. NoHome units are likely to be given a homecity
-; by the AI, because it is rather stupid in this regard.
-;
 ; You should sort role units from worst to better, as often the best
 ; available role unit of a given sort will be picked by choosing
 ; the first available (not obsolete) such unit, or by picking the last
