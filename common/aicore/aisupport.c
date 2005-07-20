@@ -104,9 +104,18 @@ int player_distance_to_player(struct player *pplayer, struct player *target)
 int city_gold_worth(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  int worth;
+  int worth = 0, i;
+  Unit_type_id u = best_role_unit_for_player(city_owner(pcity), F_CITIES);
 
-  worth = pcity->size * 150; /* reasonable base cost */
+  if (u != U_LAST) {
+    worth += unit_buy_gold_cost(u, 0); /* cost of settler */
+  }
+  for (i = 1; i < pcity->size; i++) {
+    worth += city_granary_size(i); /* cost of growing city */
+  }
+  output_type_iterate(o) {
+    worth += pcity->prod[o] * 10;
+  } output_type_iterate_end;
   unit_list_iterate(pcity->units_supported, punit) {
     if (same_pos(punit->tile, pcity->tile)) {
       Unit_type_id id = unit_type(punit)->obsoleted_by;
@@ -119,10 +128,10 @@ int city_gold_worth(struct city *pcity)
     }
   } unit_list_iterate_end;
   built_impr_iterate(pcity, impr) {
-    if (is_wonder(impr) && !improvement_obsolete(pplayer, impr)) {
-      worth += impr_sell_gold(impr);
-   } else {
+    if (improvement_obsolete(pplayer, impr)) {
       worth += impr_sell_gold(impr) / 4;
+   } else {
+      worth += impr_sell_gold(impr);
     }
   } built_impr_iterate_end;
   if (city_unhappy(pcity)) {
