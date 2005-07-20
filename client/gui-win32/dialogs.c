@@ -266,10 +266,13 @@ static void update_radio_buttons(int id)
   /*  if (id!=selected_style) */
   CheckRadioButton(races_dlg,ID_RACESDLG_STYLE_BASE,
 		   ID_RACESDLG_STYLE_BASE+b_s_num-1,selected_style);
+#if 0
+/* FIXME!!! */
   if (id!=(selected_nation+ID_RACESDLG_NATION_BASE)) 
     CheckRadioButton(races_dlg,ID_RACESDLG_NATION_BASE,
 		     ID_RACESDLG_NATION_BASE+game.control.playable_nation_count-1,
 		     selected_nation+ID_RACESDLG_NATION_BASE);   
+#endif
 }
 
 
@@ -281,7 +284,7 @@ static void update_nation_info()
 {
   int i;
   char buf[255];
-  struct nation_type *nation= get_nation_by_idx(selected_nation);
+  struct nation_type *nation = get_nation_by_idx(selected_nation);
  
   buf[0] = '\0';
 
@@ -302,9 +305,12 @@ static void update_nation_info()
 **************************************************************************/
 static void select_random_race(HWND hWnd)
 {
+#if 0
+/* FIXME!!! */
   selected_nation=myrand(game.control.playable_nation_count);
   update_nation_info();
   update_radio_buttons(0);
+#endif
 }
 
 /**************************************************************************
@@ -313,7 +319,8 @@ static void select_random_race(HWND hWnd)
 static void select_random_leader(HWND hWnd)
 {
   int j,leader_num;
-  struct leader *leaders = get_nation_leaders(selected_nation, &leader_num);
+  struct leader *leaders 
+    = get_nation_leaders(get_nation_by_idx(selected_nation), &leader_num);
 
   ComboBox_ResetContent(GetDlgItem(hWnd,ID_RACESDLG_LEADER));
   for (j = 0; j < leader_num; j++) {
@@ -417,7 +424,10 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	      (id<ID_RACESDLG_STYLE_BASE+b_s_num)) {
 	    selected_style=id;
 	    update_radio_buttons(id);
-	  } else if ((id>=ID_RACESDLG_NATION_BASE)&&
+	  }
+#if 0
+/* FIXME!!! */
+ else if ((id>=ID_RACESDLG_NATION_BASE)&&
 		     (id<ID_RACESDLG_NATION_BASE+game.control.playable_nation_count)) {
 	    selected_nation=id-ID_RACESDLG_NATION_BASE;
 	    update_nation_info();
@@ -427,7 +437,7 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	    update_radio_buttons(id);
     
 	  }
-
+#endif
 	  break;
 	}
       break;
@@ -443,8 +453,8 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 *****************************************************************/
 static int cmp_func(const void * a_p, const void * b_p)
 {
-  return strcmp(get_nation_name((*(int *)a_p)-ID_RACESDLG_NATION_BASE),
-                get_nation_name((*(int *)b_p)-ID_RACESDLG_NATION_BASE));
+  return strcmp(get_nation_name(get_nation_by_idx((*(int *)a_p)-ID_RACESDLG_NATION_BASE)),
+                get_nation_name(get_nation_by_idx((*(int *)b_p)-ID_RACESDLG_NATION_BASE)));
 }
 
 #define NATIONS_PER_ROW 5
@@ -453,6 +463,8 @@ static int cmp_func(const void * a_p, const void * b_p)
 **************************************************************************/
 static void add_nations(struct fcwin_box *vbox)
 {
+#if 0
+/* FIXME!!! */
   int i;
   struct fcwin_box *hbox;
   struct fcwin_box *vboxes[NATIONS_PER_ROW];
@@ -483,6 +495,31 @@ static void add_nations(struct fcwin_box *vbox)
   for(i=0;i<NATIONS_PER_ROW;i++)
     fcwin_box_add_box(hbox,vboxes[i],TRUE,TRUE,10);
   fcwin_box_add_box(vbox,hbox,TRUE,TRUE,10);
+#endif
+}
+
+/****************************************************************
+...
+*****************************************************************/
+static void create_races_dialog(struct player *pplayer)
+{
+  HWND shell, frame;
+  struct fcwin_box *vbox, *hbox;
+
+  shell =
+    fcwin_create_layouted_window(racesdlg_proc, _("What nation will you be?"),
+				 WS_OVERLAPPEDWINDOW, CW_USEDEFAULT,
+				 CW_USEDEFAULT, root_window, NULL,
+				 REAL_CHILD, NULL);
+
+  races_dlg = shell;
+  races_player = pplayer;
+
+  hbox = fcwin_hbox_new(shell, FALSE);
+  vbox = fcwin_hbox_new(shell, FALSE);
+  
+  frame = fcwin_box_add_groupbox(hbox, _("Select a nation"), vbox, 0, FALSE,
+				 FALSE, 0);
 }
 
 /**************************************************************************
@@ -490,6 +527,11 @@ static void add_nations(struct fcwin_box *vbox)
 **************************************************************************/
 void popup_races_dialog(struct player *pplayer)
 {
+  if (!races_dlg) {
+    create_races_dialog(pplayer);
+    SetFocus(races_dlg);
+  }
+#if 0
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
   struct fcwin_box *grp_box;
@@ -573,6 +615,7 @@ void popup_races_dialog(struct player *pplayer)
   select_random_race(races_dlg);
   select_random_leader(races_dlg);
   ShowWindow(races_dlg,SW_SHOWNORMAL);
+#endif
 }
 
 /**************************************************************************
@@ -581,8 +624,11 @@ void popup_races_dialog(struct player *pplayer)
 void
 popdown_races_dialog(void)
 {
-  DestroyWindow(races_dlg);
-  SetFocus(root_window);
+  if (races_dlg) {
+    DestroyWindow(races_dlg);
+    races_dlg = NULL;
+    SetFocus(root_window);
+  }
 }
 
 /**************************************************************************
@@ -871,6 +917,8 @@ popup_unit_select_dialog(struct tile *ptile)
 **************************************************************************/
 void races_toggles_set_sensitive(void)
 {
+#if 0
+/* FIXME!! */
   int i;
   BOOL changed;
 
@@ -897,6 +945,7 @@ void races_toggles_set_sensitive(void)
   if (changed) {
     select_random_race(races_dlg);
   }
+#endif
 }
 
 /****************************************************************

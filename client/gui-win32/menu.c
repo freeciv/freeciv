@@ -1106,8 +1106,7 @@ update_menus(void)
       const char *transfmt = N_("Transform to %s") "\tO";
       char irrtext[128], mintext[128], transtext[128];
       char *roadtext;
-      Terrain_type_id  ttype;
-      struct terrain *tinfo;
+      struct terrain *pterrain;
 
       sz_strlcpy(irrtext, N_("Build Irrigation") "\tI");
       sz_strlcpy(mintext, N_("Build Mine") "\tM");
@@ -1212,10 +1211,9 @@ update_menus(void)
 	my_rename_menu(menu, IDM_ORDERS_ROAD, N_("Build Road") "\tR");
       }
 
-      ttype = punit->tile->terrain;
-      tinfo = get_terrain(ttype);
-      if (tinfo->irrigation_result != T_NONE
-	  && tinfo->irrigation_result != ttype) {
+      pterrain = punit->tile->terrain;
+      if (pterrain->irrigation_result != T_NONE
+	  && pterrain->irrigation_result != pterrain) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		    get_tile_change_menu_text(punit->tile,
 					      ACTIVITY_IRRIGATE));
@@ -1224,13 +1222,13 @@ update_menus(void)
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, N_("Build Farmland") "\tI");
       }
-      if (tinfo->mining_result != T_NONE
-	  && tinfo->mining_result != ttype) {
+      if (pterrain->mining_result != T_NONE
+	  && pterrain->mining_result != pterrain) {
 	my_snprintf(mintext, sizeof(mintext), minfmt,
 		    get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
       }
-      if (tinfo->transform_result != T_NONE
-	  && tinfo->transform_result != ttype) {
+      if (pterrain->transform_result != T_NONE
+	  && pterrain->transform_result != pterrain) {
 	my_snprintf(transtext, sizeof(transtext), transfmt,
 		    get_tile_change_menu_text(punit->tile,
 					      ACTIVITY_TRANSFORM));

@@ -557,104 +557,104 @@ static void help_update_wonder(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
-				char *title, int i)
+				char *title, struct terrain *pterrain)
 {
   char *buf = &long_buffer[0];
   
   create_help_page(HELP_TERRAIN);
 
-  if (i < T_COUNT) {
+  if (pterrain) {
     sprintf(buf, "%d/%d.%d",
-	    terrains[i].movement_cost,
-	    (int)((terrains[i].defense_bonus + 100) / 100),
-	    (terrains[i].defense_bonus + 100) % 100 / 10);
+	    pterrain->movement_cost,
+	    (int)((pterrain->defense_bonus + 100) / 100),
+	    (pterrain->defense_bonus + 100) % 100 / 10);
     SetWindowText (help_tlabel[0][1], buf);
 
     sprintf(buf, "%d/%d/%d",
-	    terrains[i].output[O_FOOD],
-	    terrains[i].output[O_SHIELD],
-	    terrains[i].output[O_TRADE]);
+	    pterrain->output[O_FOOD],
+	    pterrain->output[O_SHIELD],
+	    pterrain->output[O_TRADE]);
     SetWindowText(help_tlabel[0][4], buf);
 
-    if (*(terrains[i].special[0].name)) {
+    if (*(pterrain->special[0].name)) {
       sprintf(buf, _("%s F/R/T:"),
-	      terrains[i].special[0].name);
+	      pterrain->special[0].name);
       SetWindowText(help_tlabel[1][0], buf);
       sprintf(buf, "%d/%d/%d",
-	      terrains[i].special[0].output[O_FOOD],
-	      terrains[i].special[0].output[O_SHIELD],
-	      terrains[i].special[0].output[O_TRADE]);
+	      pterrain->special[0].output[O_FOOD],
+	      pterrain->special[0].output[O_SHIELD],
+	      pterrain->special[0].output[O_TRADE]);
       SetWindowText(help_tlabel[1][1], buf);
     } else {
       SetWindowText(help_tlabel[1][0], " ");
       SetWindowText(help_tlabel[1][1], " ");
     }
 
-    if (*(terrains[i].special[1].name)) {
+    if (*(pterrain->special[1].name)) {
       sprintf(buf, _("%s F/R/T:"),
-	      terrains[i].special[1].name);
+	      pterrain->special[1].name);
       SetWindowText(help_tlabel[1][3], buf);
       sprintf(buf, "%d/%d/%d",
-	      terrains[i].special[1].output[O_FOOD],
-	      terrains[i].special[1].output[O_SHIELD],
-	      terrains[i].special[1].output[O_TRADE]);
+	      pterrain->special[1].output[O_FOOD],
+	      pterrain->special[1].output[O_SHIELD],
+	      pterrain->special[1].output[O_TRADE]);
       SetWindowText(help_tlabel[1][4], buf);
     } else {
       SetWindowText(help_tlabel[1][3], " ");
       SetWindowText(help_tlabel[1][4], " ");
     }
 
-    if (terrains[i].road_trade_incr > 0) {
+    if (pterrain->road_trade_incr > 0) {
       sprintf(buf, _("+%d Trade / %d"),
-	      terrains[i].road_trade_incr,
-	      terrains[i].road_time);
-    } else if (terrains[i].road_time > 0) {
+	      pterrain->road_trade_incr,
+	      pterrain->road_time);
+    } else if (pterrain->road_time > 0) {
       sprintf(buf, _("no extra / %d"),
-	      terrains[i].road_time);
+	      pterrain->road_time);
     } else {
       strcpy(buf, _("n/a"));
     }
     SetWindowText(help_tlabel[2][1], buf);
 
     strcpy(buf, _("n/a"));
-    if (terrains[i].irrigation_result == i) {
-      if (terrains[i].irrigation_food_incr > 0) {
+    if (pterrain->irrigation_result == pterrain) {
+      if (pterrain->irrigation_food_incr > 0) {
 	sprintf(buf, _("+%d Food / %d"),
-		terrains[i].irrigation_food_incr,
-		terrains[i].irrigation_time);
+		pterrain->irrigation_food_incr,
+		pterrain->irrigation_time);
       }
-    } else if (terrains[i].irrigation_result != T_NONE) {
+    } else if (pterrain->irrigation_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      terrains[terrains[i].irrigation_result].terrain_name,
-	      terrains[i].irrigation_time);
+	      pterrain->irrigation_result->terrain_name,
+	      pterrain->irrigation_time);
     }
     SetWindowText(help_tlabel[2][4], buf);
 
     strcpy(buf, _("n/a"));
-    if (terrains[i].mining_result == i) {
-      if (terrains[i].mining_shield_incr > 0) {
+    if (pterrain->mining_result == pterrain) {
+      if (pterrain->mining_shield_incr > 0) {
 	sprintf(buf, _("+%d Res. / %d"),
-		terrains[i].mining_shield_incr,
-		terrains[i].mining_time);
+		pterrain->mining_shield_incr,
+		pterrain->mining_time);
       }
-    } else if (terrains[i].mining_result != T_NONE) {
+    } else if (pterrain->mining_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      terrains[terrains[i].mining_result].terrain_name,
-	      terrains[i].mining_time);
+	      pterrain->mining_result->terrain_name,
+	      pterrain->mining_time);
     }
     SetWindowText(help_tlabel[3][1], buf);
 
-    if (terrains[i].transform_result != T_NONE) {
+    if (pterrain->transform_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      terrains[terrains[i].transform_result].terrain_name,
-	      terrains[i].transform_time);
+	      pterrain->transform_result->terrain_name,
+	      pterrain->transform_time);
     } else {
       strcpy(buf, "n/a");
     }
     SetWindowText(help_tlabel[3][4], buf);
   }
 
-  helptext_terrain(buf, i, pitem->text);
+  helptext_terrain(buf, pterrain, pitem->text);
   set_help_text(buf);
 }
 

@@ -184,11 +184,12 @@ void handle_game_load(struct packet_game_load *packet)
 
   for (i = 0; i < packet->nplayers; i++) {
     const char *nation_name;
+    struct nation_type *pnation = get_nation_by_idx(packet->nations[i]);
 
-    if (packet->nations[i] == NO_NATION_SELECTED) {
+    if (pnation == NO_NATION_SELECTED) {
       nation_name = "";
     } else {
-      nation_name = get_nation_name(packet->nations[i]);
+      nation_name = get_nation_name(pnation);
     }
 
     row[0] = packet->name[i];
@@ -1066,8 +1067,13 @@ void gui_server_connect()
 
   fcwin_box_add_button(hbox, _("Game Options"), ID_NEWGAMEDLG_OPTIONS, 0, 
 		       TRUE, TRUE, 5);
+
+  /* Enable this to enable Pick Nation button */
+#if 0
   fcwin_box_add_button(hbox, _("Pick Nation"), ID_NEWGAMEDLG_NATIONS, 0, 
 		       TRUE, TRUE, 5);
+#endif
+
   fcwin_box_add_button(hbox, _("Start Game"), ID_OK, 0, TRUE, TRUE, 5);
   fcwin_box_add_button(hbox, _("Cancel"), ID_CANCEL, 0, TRUE, TRUE, 5);
 
