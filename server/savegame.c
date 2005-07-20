@@ -2020,6 +2020,9 @@ static void player_load(struct player *plr, int plrno,
     plr->diplstates[i].type = 
       secfile_lookup_int_default(file, DS_WAR,
 				 "player%d.diplstate%d.type", plrno, i);
+    plr->diplstates[i].max_state = 
+      secfile_lookup_int_default(file, DS_NEUTRAL,
+				 "player%d.diplstate%d.max_state", plrno, i);
     plr->diplstates[i].turns_left = 
       secfile_lookup_int_default(file, -2,
 				 "player%d.diplstate%d.turns_left", plrno, i);
@@ -2757,6 +2760,8 @@ static void player_save(struct player *plr, int plrno,
   for (i = 0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
     secfile_insert_int(file, plr->diplstates[i].type,
 		       "player%d.diplstate%d.type", plrno, i);
+    secfile_insert_int(file, plr->diplstates[i].max_state,
+		       "player%d.diplstate%d.max_state", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].turns_left,
 		       "player%d.diplstate%d.turns_left", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].has_reason_to_cancel,

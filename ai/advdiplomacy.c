@@ -1384,3 +1384,76 @@ void ai_diplomacy_actions(struct player *pplayer)
     }
   } players_iterate_end;
 }
+
+/* AI attitude call-backs */
+
+/********************************************************************** 
+  Nuclear strike. Victim is whoever's territory was hit, and may be
+  NULL.
+***********************************************************************/
+void ai_incident_nuclear(struct player *violator, struct player *victim)
+{
+  if (violator == victim) {
+    players_iterate(pplayer) {
+      if (pplayer != violator) {
+        pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 20;
+      }
+    } players_iterate_end;
+    return;
+  } else {
+    players_iterate(pplayer) {
+      if (pplayer != violator) {
+        pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 10;
+        if (victim == pplayer) {
+          pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 10;
+        }
+      }
+    } players_iterate_end;
+  }
+}
+
+/********************************************************************** 
+  Diplomat caused an incident.
+***********************************************************************/
+void ai_incident_diplomat(struct player *violator, struct player *victim)
+{
+  players_iterate(pplayer) {
+    if (pplayer != violator) {
+      /* Dislike backstabbing bastards */
+      pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 100;
+      if (victim == pplayer) {
+        pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 7;
+      }
+    }
+  } players_iterate_end;
+}
+
+/********************************************************************** 
+  War declared against a player.  We apply a penalty because this
+  means he is seen as untrustworthy, especially if past relations
+  with the victim have been cordial (betrayal).
+
+  Reasons for war and other mitigating circumstances are checked
+  in calling code.
+***********************************************************************/
+void ai_incident_war(struct player *violator, struct player *victim)
+{
+  players_iterate(pplayer) {
+    if (pplayer != violator) {
+      /* Dislike backstabbing bastards */
+      pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 30;
+      if (violator->diplstates[victim->player_no].max_state == DS_PEACE) {
+        /* Extra penalty if they once had a peace treaty */
+        pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 30;
+      } else if (violator->diplstates[victim->player_no].max_state 
+                 == DS_ALLIANCE) {
+        /* Extra penalty if they once had an alliance */
+        pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 10;
+      }
+      if (victim == pplayer) {
+        pplayer->ai.love[violator->player_no] -= 
+          MIN(pplayer->ai.love[violator->player_no] - MAX_AI_LOVE / 3, -1);
+      }
+    }
+  } players_iterate_end;
+}

@@ -51,6 +51,7 @@
 #include "spacerace.h"
 #include "unittools.h"
 
+#include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aidata.h"
 #include "aihand.h"
@@ -593,7 +594,7 @@ repeat_break_treaty:
 		       _("The senate passes your bill because of the "
 			 "constant provocations of the %s."),
 		       get_nation_name_plural(pplayer2->nation));
-    } else {
+    } else if (new_type == DS_WAR) {
       notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
 		       _("The senate refuses to break treaty with the %s, "
 			 "but you have no trouble finding a new senate."),

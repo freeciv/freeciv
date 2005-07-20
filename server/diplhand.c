@@ -436,6 +436,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       case CLAUSE_PEACE:
 	pgiver->diplstates[pdest->player_no].type=DS_PEACE;
 	pdest->diplstates[pgiver->player_no].type=DS_PEACE;
+	pgiver->diplstates[pdest->player_no].max_state = 
+          MAX(DS_PEACE, pgiver->diplstates[pdest->player_no].max_state);
+	pdest->diplstates[pgiver->player_no].max_state = 
+          MAX(DS_PEACE, pdest->diplstates[pgiver->player_no].max_state);
 	notify_player_ex(pgiver, NULL, E_TREATY_PEACE,
 			 _("You agree on a peace treaty with %s."),
 			 pdest->name);
@@ -452,6 +456,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       case CLAUSE_ALLIANCE:
 	pgiver->diplstates[pdest->player_no].type=DS_ALLIANCE;
 	pdest->diplstates[pgiver->player_no].type=DS_ALLIANCE;
+	pgiver->diplstates[pdest->player_no].max_state = 
+          MAX(DS_ALLIANCE, pgiver->diplstates[pdest->player_no].max_state);
+	pdest->diplstates[pgiver->player_no].max_state = 
+          MAX(DS_ALLIANCE, pdest->diplstates[pgiver->player_no].max_state);
 	notify_player_ex(pgiver, NULL, E_TREATY_ALLIANCE,
 			 _("You agree on an alliance with %s."),
 			 pdest->name);

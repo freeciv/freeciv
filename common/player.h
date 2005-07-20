@@ -133,6 +133,7 @@ enum diplstate_type {
 struct player_diplstate {
   enum diplstate_type type;	/* this player's disposition towards other */
   /* the following are for "pacts" */
+  enum diplstate_type max_state; /* maximum treaty level ever had */
   int turns_left;		/* until pact (e.g., cease-fire) ends */
   int has_reason_to_cancel;	/* 0: no, 1: this turn, 2: this or next turn */
   int contact_turns_left;	/* until contact ends */

@@ -54,6 +54,7 @@
 #include "techtools.h"
 #include "gamehand.h"
 
+#include "advdiplomacy.h"
 #include "aiexplorer.h"
 #include "aitools.h"
 #include "aiunit.h"
@@ -2134,6 +2135,14 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 **************************************************************************/
 void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 {
+  if (ptile->owner) {
+    ai_incident_nuclear(pplayer, ptile->owner);
+  } else if (ptile->city) {
+    ai_incident_nuclear(pplayer, city_owner(ptile->city));
+  } else {
+    ai_incident_nuclear(pplayer, NULL);
+  }
+
   square_iterate(ptile, 1, ptile1) {
     do_nuke_tile(pplayer, ptile1);
   } square_iterate_end;
