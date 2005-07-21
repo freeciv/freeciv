@@ -51,7 +51,7 @@ void handle_unit_establish_trade(struct player *pplayer, int unit_id);
 void handle_unit_help_build_wonder(struct player *pplayer, int unit_id);
 struct packet_unit_orders;
 void handle_unit_orders(struct player *pplayer, struct packet_unit_orders *packet);
-void handle_unit_auto(struct player *pplayer, int unit_id);
+void handle_unit_autosettlers(struct player *pplayer, int unit_id);
 void handle_unit_load(struct player *pplayer, int cargo_id, int transporter_id);
 void handle_unit_unload(struct player *pplayer, int cargo_id, int transporter_id);
 void handle_unit_upgrade(struct player *pplayer, int unit_id);

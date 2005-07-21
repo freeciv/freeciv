@@ -218,8 +218,8 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_UNIT_ORDERS:
     return receive_packet_unit_orders(pc, type);
 
-  case PACKET_UNIT_AUTO:
-    return receive_packet_unit_auto(pc, type);
+  case PACKET_UNIT_AUTOSETTLERS:
+    return receive_packet_unit_autosettlers(pc, type);
 
   case PACKET_UNIT_LOAD:
     return receive_packet_unit_load(pc, type);
@@ -572,8 +572,8 @@ const char *get_packet_name(enum packet_type type)
   case PACKET_UNIT_ORDERS:
     return "PACKET_UNIT_ORDERS";
 
-  case PACKET_UNIT_AUTO:
-    return "PACKET_UNIT_AUTO";
+  case PACKET_UNIT_AUTOSETTLERS:
+    return "PACKET_UNIT_AUTOSETTLERS";
 
   case PACKET_UNIT_LOAD:
     return "PACKET_UNIT_LOAD";
@@ -14971,25 +14971,25 @@ int send_packet_unit_orders(struct connection *pc, const struct packet_unit_orde
   }
 }
 
-#define hash_packet_unit_auto_100 hash_const
+#define hash_packet_unit_autosettlers_100 hash_const
 
-#define cmp_packet_unit_auto_100 cmp_const
+#define cmp_packet_unit_autosettlers_100 cmp_const
 
-BV_DEFINE(packet_unit_auto_100_fields, 1);
+BV_DEFINE(packet_unit_autosettlers_100_fields, 1);
 
-static struct packet_unit_auto *receive_packet_unit_auto_100(struct connection *pc, enum packet_type type)
+static struct packet_unit_autosettlers *receive_packet_unit_autosettlers_100(struct connection *pc, enum packet_type type)
 {
-  packet_unit_auto_100_fields fields;
-  struct packet_unit_auto *old;
+  packet_unit_autosettlers_100_fields fields;
+  struct packet_unit_autosettlers *old;
   struct hash_table **hash = &pc->phs.received[type];
-  struct packet_unit_auto *clone;
-  RECEIVE_PACKET_START(packet_unit_auto, real_packet);
+  struct packet_unit_autosettlers *clone;
+  RECEIVE_PACKET_START(packet_unit_autosettlers, real_packet);
 
   DIO_BV_GET(&din, fields);
 
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_unit_auto_100, cmp_packet_unit_auto_100);
+    *hash = hash_new(hash_packet_unit_autosettlers_100, cmp_packet_unit_autosettlers_100);
   }
   old = hash_delete_entry(*hash, real_packet);
 
@@ -15018,18 +15018,18 @@ static struct packet_unit_auto *receive_packet_unit_auto_100(struct connection *
   RECEIVE_PACKET_END(real_packet);
 }
 
-static int send_packet_unit_auto_100(struct connection *pc, const struct packet_unit_auto *packet)
+static int send_packet_unit_autosettlers_100(struct connection *pc, const struct packet_unit_autosettlers *packet)
 {
-  const struct packet_unit_auto *real_packet = packet;
-  packet_unit_auto_100_fields fields;
-  struct packet_unit_auto *old, *clone;
+  const struct packet_unit_autosettlers *real_packet = packet;
+  packet_unit_autosettlers_100_fields fields;
+  struct packet_unit_autosettlers *old, *clone;
   bool differ, old_from_hash, force_send_of_unchanged = TRUE;
-  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_AUTO];
+  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_AUTOSETTLERS];
   int different = 0;
-  SEND_PACKET_START(PACKET_UNIT_AUTO);
+  SEND_PACKET_START(PACKET_UNIT_AUTOSETTLERS);
 
   if (!*hash) {
-    *hash = hash_new(hash_packet_unit_auto_100, cmp_packet_unit_auto_100);
+    *hash = hash_new(hash_packet_unit_autosettlers_100, cmp_packet_unit_autosettlers_100);
   }
   BV_CLR_ALL(fields);
 
@@ -15067,11 +15067,11 @@ static int send_packet_unit_auto_100(struct connection *pc, const struct packet_
   SEND_PACKET_END;
 }
 
-static void ensure_valid_variant_packet_unit_auto(struct connection *pc)
+static void ensure_valid_variant_packet_unit_autosettlers(struct connection *pc)
 {
   int variant = -1;
 
-  if(pc->phs.variant[PACKET_UNIT_AUTO] != -1) {
+  if(pc->phs.variant[PACKET_UNIT_AUTOSETTLERS] != -1) {
     return;
   }
 
@@ -15081,10 +15081,10 @@ static void ensure_valid_variant_packet_unit_auto(struct connection *pc)
   } else {
     die("unknown variant");
   }
-  pc->phs.variant[PACKET_UNIT_AUTO] = variant;
+  pc->phs.variant[PACKET_UNIT_AUTOSETTLERS] = variant;
 }
 
-struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum packet_type type)
+struct packet_unit_autosettlers *receive_packet_unit_autosettlers(struct connection *pc, enum packet_type type)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -15094,17 +15094,17 @@ struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum pa
   }
   assert(pc->phs.variant != NULL);
   if (!pc->is_server) {
-    freelog(LOG_ERROR, "Receiving packet_unit_auto at the client.");
+    freelog(LOG_ERROR, "Receiving packet_unit_autosettlers at the client.");
   }
-  ensure_valid_variant_packet_unit_auto(pc);
+  ensure_valid_variant_packet_unit_autosettlers(pc);
 
-  switch(pc->phs.variant[PACKET_UNIT_AUTO]) {
-    case 100: return receive_packet_unit_auto_100(pc, type);
+  switch(pc->phs.variant[PACKET_UNIT_AUTOSETTLERS]) {
+    case 100: return receive_packet_unit_autosettlers_100(pc, type);
     default: die("unknown variant"); return NULL;
   }
 }
 
-int send_packet_unit_auto(struct connection *pc, const struct packet_unit_auto *packet)
+int send_packet_unit_autosettlers(struct connection *pc, const struct packet_unit_autosettlers *packet)
 {
   if(!pc->used) {
     freelog(LOG_ERROR,
@@ -15114,23 +15114,23 @@ int send_packet_unit_auto(struct connection *pc, const struct packet_unit_auto *
   }
   assert(pc->phs.variant != NULL);
   if (pc->is_server) {
-    freelog(LOG_ERROR, "Sending packet_unit_auto from the server.");
+    freelog(LOG_ERROR, "Sending packet_unit_autosettlers from the server.");
   }
-  ensure_valid_variant_packet_unit_auto(pc);
+  ensure_valid_variant_packet_unit_autosettlers(pc);
 
-  switch(pc->phs.variant[PACKET_UNIT_AUTO]) {
-    case 100: return send_packet_unit_auto_100(pc, packet);
+  switch(pc->phs.variant[PACKET_UNIT_AUTOSETTLERS]) {
+    case 100: return send_packet_unit_autosettlers_100(pc, packet);
     default: die("unknown variant"); return -1;
   }
 }
 
-int dsend_packet_unit_auto(struct connection *pc, int unit_id)
+int dsend_packet_unit_autosettlers(struct connection *pc, int unit_id)
 {
-  struct packet_unit_auto packet, *real_packet = &packet;
+  struct packet_unit_autosettlers packet, *real_packet = &packet;
 
   real_packet->unit_id = unit_id;
   
-  return send_packet_unit_auto(pc, real_packet);
+  return send_packet_unit_autosettlers(pc, real_packet);
 }
 
 #define hash_packet_unit_load_100 hash_const

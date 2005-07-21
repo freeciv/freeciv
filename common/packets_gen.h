@@ -553,7 +553,7 @@ struct packet_unit_orders {
   int dest_y;
 };
 
-struct packet_unit_auto {
+struct packet_unit_autosettlers {
   int unit_id;
 };
 
@@ -1091,7 +1091,7 @@ enum packet_type {
   PACKET_UNIT_HELP_BUILD_WONDER,
   PACKET_RULESET_SPECIALIST,
   PACKET_UNIT_ORDERS,
-  PACKET_UNIT_AUTO,                      /* 60 */
+  PACKET_UNIT_AUTOSETTLERS,              /* 60 */
   PACKET_UNIT_UNLOAD,
   PACKET_UNIT_UPGRADE,
   PACKET_UNIT_NUKE,
@@ -1388,9 +1388,9 @@ int dsend_packet_unit_help_build_wonder(struct connection *pc, int unit_id);
 struct packet_unit_orders *receive_packet_unit_orders(struct connection *pc, enum packet_type type);
 int send_packet_unit_orders(struct connection *pc, const struct packet_unit_orders *packet);
 
-struct packet_unit_auto *receive_packet_unit_auto(struct connection *pc, enum packet_type type);
-int send_packet_unit_auto(struct connection *pc, const struct packet_unit_auto *packet);
-int dsend_packet_unit_auto(struct connection *pc, int unit_id);
+struct packet_unit_autosettlers *receive_packet_unit_autosettlers(struct connection *pc, enum packet_type type);
+int send_packet_unit_autosettlers(struct connection *pc, const struct packet_unit_autosettlers *packet);
+int dsend_packet_unit_autosettlers(struct connection *pc, int unit_id);
 
 struct packet_unit_load *receive_packet_unit_load(struct connection *pc, enum packet_type type);
 int send_packet_unit_load(struct connection *pc, const struct packet_unit_load *packet);

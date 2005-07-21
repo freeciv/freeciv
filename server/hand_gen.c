@@ -185,9 +185,9 @@ bool server_handle_packet(enum packet_type type, void *packet,
     handle_unit_orders(pplayer, packet);
     return TRUE;
 
-  case PACKET_UNIT_AUTO:
-    handle_unit_auto(pplayer,
-      ((struct packet_unit_auto *)packet)->unit_id);
+  case PACKET_UNIT_AUTOSETTLERS:
+    handle_unit_autosettlers(pplayer,
+      ((struct packet_unit_autosettlers *)packet)->unit_id);
     return TRUE;
 
   case PACKET_UNIT_LOAD:
