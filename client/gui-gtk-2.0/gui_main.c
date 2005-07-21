@@ -1249,31 +1249,40 @@ void update_conn_list_dialog(void)
   
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     bool is_ready;
-    const char *name, *nation, *leader, *team;
+    const char *nation, *leader, *team;
+    char name[MAX_LEN_NAME + 4];
 
     gtk_list_store_clear(conn_model);
     players_iterate(pplayer) {
+      enum cmdlevel_id access_level = ALLOW_NONE;
+
       if (pplayer->is_observer) {
 	continue; /* Connections are listed individually. */
       }
+      conn_list_iterate(pplayer->connections, pconn) {
+        access_level = MAX(pconn->access_level, access_level);
+      } conn_list_iterate_end;
+
       if (pplayer->ai.control) {
-	name = _("<AI>");	
+	sz_strlcpy(name, _("<AI>"));
 	switch (pplayer->ai.skill_level) {
 	case 2:
-	  name = _("<Novice AI>");
+	  sz_strlcpy(name, _("<Novice AI>"));
 	  break;
 	case 3:
-	  name = _("<Easy AI>");
+	  sz_strlcpy(name, _("<Easy AI>"));
 	  break;
 	case 5:
-	  name = _("<Normal AI>");
+	  sz_strlcpy(name, _("<Normal AI>"));
 	  break;
 	case 7:
-	  name = _("<Hard AI>");
+	  sz_strlcpy(name, _("<Hard AI>"));
 	  break;
 	}
+      } else if (access_level <= ALLOW_INFO) {
+	sz_strlcpy(name, pplayer->username);
       } else {
-	name = pplayer->username;
+        my_snprintf(name, sizeof(name), "%s*", pplayer->username);
       }
       is_ready = pplayer->ai.control ? TRUE: pplayer->is_ready;
       if (pplayer->nation == NO_NATION_SELECTED) {
@@ -1299,7 +1308,7 @@ void update_conn_list_dialog(void)
       if (pconn->player && !pconn->observer && !pconn->player->is_observer) {
 	continue; /* Already listed above. */
       }
-      name = pconn->username;
+      sz_strlcpy(name, pconn->username);
       is_ready = FALSE;
       nation = "";
       leader = "";
