@@ -230,7 +230,7 @@ static Terrain_type_id char2terrain(char ch)
     return T_UNKNOWN;
   }
   terrain_type_iterate(id) {
-    if (tile_types[id].identifier == ch) {
+    if (get_tile_type(id)->identifier == ch) {
       return id;
     }
   } terrain_type_iterate_end;
@@ -250,7 +250,7 @@ static char terrain2char(Terrain_type_id terr)
     return UNKNOWN_TERRAIN_IDENTIFIER;
   } else {
     assert(terr >= T_FIRST && terr < T_COUNT);
-    return tile_types[terr].identifier;
+    return get_tile_type(terr)->identifier;
   }
 }
 

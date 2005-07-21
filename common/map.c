@@ -94,8 +94,9 @@ const char *map_get_tile_info_text(const struct tile *ptile)
 {
   static char s[64];
   bool first;
+  struct tile_type *ptype = get_tile_type(ptile->terrain);
 
-  sz_strlcpy(s, tile_types[ptile->terrain].terrain_name);
+  sz_strlcpy(s, ptype->terrain_name);
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));
@@ -109,7 +110,7 @@ const char *map_get_tile_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[ptile->terrain].special_1_name);
+    sz_strlcat(s, ptype->special_1_name);
   }
   if (tile_has_special(ptile, S_SPECIAL_2)) {
     if (first) {
@@ -118,7 +119,7 @@ const char *map_get_tile_info_text(const struct tile *ptile)
     } else {
       sz_strlcat(s, "/");
     }
-    sz_strlcat(s, tile_types[ptile->terrain].special_2_name);
+    sz_strlcat(s, ptype->special_2_name);
   }
   if (!first) {
     sz_strlcat(s, ")");
@@ -728,11 +729,11 @@ bool is_sea_usable(const struct tile *ptile)
 int get_tile_food_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1)) 
-    return tile_types[ptile->terrain].food_special_1;
+    return get_tile_type(ptile->terrain)->food_special_1;
   else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].food_special_2;
+    return get_tile_type(ptile->terrain)->food_special_2;
   else
-    return tile_types[ptile->terrain].food;
+    return get_tile_type(ptile->terrain)->food;
 }
 
 /***************************************************************
@@ -741,11 +742,11 @@ int get_tile_food_base(const struct tile *ptile)
 int get_tile_shield_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].shield_special_1;
+    return get_tile_type(ptile->terrain)->shield_special_1;
   else if(tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].shield_special_2;
+    return get_tile_type(ptile->terrain)->shield_special_2;
   else
-    return tile_types[ptile->terrain].shield;
+    return get_tile_type(ptile->terrain)->shield;
 }
 
 /***************************************************************
@@ -754,11 +755,11 @@ int get_tile_shield_base(const struct tile *ptile)
 int get_tile_trade_base(const struct tile *ptile)
 {
   if (tile_has_special(ptile, S_SPECIAL_1))
-    return tile_types[ptile->terrain].trade_special_1;
+    return get_tile_type(ptile->terrain)->trade_special_1;
   else if (tile_has_special(ptile, S_SPECIAL_2))
-    return tile_types[ptile->terrain].trade_special_2;
+    return get_tile_type(ptile->terrain)->trade_special_2;
   else
-    return tile_types[ptile->terrain].trade;
+    return get_tile_type(ptile->terrain)->trade;
 }
 
 /***************************************************************
@@ -865,7 +866,7 @@ bool is_water_adjacent_to_tile(const struct tile *ptile)
 ***************************************************************/
 int map_build_road_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].road_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->road_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -873,7 +874,7 @@ int map_build_road_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_irrigation_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].irrigation_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->irrigation_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -881,7 +882,7 @@ int map_build_irrigation_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_mine_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].mining_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->mining_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -889,7 +890,7 @@ int map_build_mine_time(const struct tile *ptile)
 ***************************************************************/
 int map_transform_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].transform_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->transform_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -897,7 +898,7 @@ int map_transform_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_rail_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].rail_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->rail_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -905,7 +906,7 @@ int map_build_rail_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_airbase_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].airbase_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->airbase_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -913,7 +914,7 @@ int map_build_airbase_time(const struct tile *ptile)
 ***************************************************************/
 int map_build_fortress_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].fortress_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->fortress_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -921,7 +922,7 @@ int map_build_fortress_time(const struct tile *ptile)
 ***************************************************************/
 int map_clean_pollution_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].clean_pollution_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->clean_pollution_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -929,7 +930,7 @@ int map_clean_pollution_time(const struct tile *ptile)
 ***************************************************************/
 int map_clean_fallout_time(const struct tile *ptile)
 {
-  return tile_types[ptile->terrain].clean_fallout_time * ACTIVITY_FACTOR;
+  return get_tile_type(ptile->terrain)->clean_fallout_time * ACTIVITY_FACTOR;
 }
 
 /***************************************************************
@@ -985,7 +986,7 @@ void map_irrigate_tile(struct tile *ptile)
   Terrain_type_id now, result;
   
   now = ptile->terrain;
-  result = tile_types[now].irrigation_result;
+  result = get_tile_type(now)->irrigation_result;
 
   if (now == result) {
     if (map_has_special(ptile, S_IRRIGATION)) {
@@ -1016,7 +1017,7 @@ void map_mine_tile(struct tile *ptile)
   Terrain_type_id now, result;
   
   now = ptile->terrain;
-  result = tile_types[now].mining_result;
+  result = get_tile_type(now)->mining_result;
   
   if (now == result) {
     map_set_special(ptile, S_MINE);
@@ -1056,10 +1057,10 @@ void change_terrain(struct tile *ptile, Terrain_type_id type)
      but I'm including both cases in the most general form for possible
      future ruleset expansion. -GJW) */
   
-  if (tile_types[type].mining_result != type)
+  if (get_tile_type(type)->mining_result != type)
     map_clear_special(ptile, S_MINE);
 
-  if (tile_types[type].irrigation_result != type)
+  if (get_tile_type(type)->irrigation_result != type)
     map_clear_special(ptile, S_FARMLAND | S_IRRIGATION);
 }
 
@@ -1071,7 +1072,7 @@ void map_transform_tile(struct tile *ptile)
   Terrain_type_id now, result;
   
   now = ptile->terrain;
-  result = tile_types[now].transform_result;
+  result = get_tile_type(now)->transform_result;
   
   if (result != T_NONE) {
     change_terrain(ptile, result);

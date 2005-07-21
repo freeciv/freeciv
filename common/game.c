@@ -547,7 +547,7 @@ void translate_data_names(void)
   } impr_type_iterate_end;
 
   terrain_type_iterate(i) {
-    struct tile_type *tthis = &tile_types[i];
+    struct tile_type *tthis = get_tile_type(i);
 
     tthis->terrain_name = ((strcmp(tthis->terrain_name_orig, "") != 0)
 			   ? Q_(tthis->terrain_name_orig) : "");

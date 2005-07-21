@@ -2520,7 +2520,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 	    p->id);
     return;
   }
-  t = &(tile_types[p->id]);
+  t = get_tile_type(p->id);
 
   sz_strlcpy(t->terrain_name_orig, p->terrain_name);
   t->terrain_name = t->terrain_name_orig;

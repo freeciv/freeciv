@@ -937,6 +937,7 @@ static void help_update_terrain(const struct help_item *pitem,
 				char *title, int i)
 {
   char *buf = &long_buffer[0];
+  struct tile_type *ptype = get_tile_type(i);
 
   create_help_page(HELP_TERRAIN);
   set_title_topic(pitem);
@@ -947,56 +948,56 @@ static void help_update_terrain(const struct help_item *pitem,
   if (i < T_COUNT)
     {
       sprintf (buf, "%d/%d.%d",
-	       tile_types[i].movement_cost,
-	       (int)(tile_types[i].defense_bonus/10), tile_types[i].defense_bonus%10);
+	       ptype->movement_cost,
+	       (int)(ptype->defense_bonus/10), ptype->defense_bonus%10);
       xaw_set_label (help_terrain_movement_defense_data, buf);
 
       sprintf (buf, "%d/%d/%d",
-	       tile_types[i].food,
-	       tile_types[i].shield,
-	       tile_types[i].trade);
+	       ptype->food,
+	       ptype->shield,
+	       ptype->trade);
       xaw_set_label (help_terrain_food_shield_trade_data, buf);
 
-      if (*(tile_types[i].special_1_name))
+      if (*(ptype->special_1_name))
 	{
 	  sprintf (buf, _("%s F/R/T:"),
-		   tile_types[i].special_1_name);
+		   ptype->special_1_name);
 	  xaw_set_label (help_terrain_special_1, buf);
 	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].food_special_1,
-		   tile_types[i].shield_special_1,
-		   tile_types[i].trade_special_1);
+		   ptype->food_special_1,
+		   ptype->shield_special_1,
+		   ptype->trade_special_1);
 	  xaw_set_label (help_terrain_special_1_data, buf);
 	} else {
 	  xaw_set_label (help_terrain_special_1, "");
 	  xaw_set_label (help_terrain_special_1_data, "");
 	}
 
-      if (*(tile_types[i].special_2_name))
+      if (*(ptype->special_2_name))
 	{
 	  sprintf (buf, _("%s F/R/T:"),
-		   tile_types[i].special_2_name);
+		   ptype->special_2_name);
 	  xaw_set_label (help_terrain_special_2, buf);
 	  sprintf (buf, "%d/%d/%d",
-		   tile_types[i].food_special_2,
-		   tile_types[i].shield_special_2,
-		   tile_types[i].trade_special_2);
+		   ptype->food_special_2,
+		   ptype->shield_special_2,
+		   ptype->trade_special_2);
 	  xaw_set_label (help_terrain_special_2_data, buf);
 	} else {
 	  xaw_set_label (help_terrain_special_2, "");
 	  xaw_set_label (help_terrain_special_2_data, "");
 	}
 
-      if (tile_types[i].road_trade_incr > 0)
+      if (ptype->road_trade_incr > 0)
 	{
 	  sprintf (buf, _("+%d Trade / %d"),
-		   tile_types[i].road_trade_incr,
-		   tile_types[i].road_time);
+		   ptype->road_trade_incr,
+		   ptype->road_time);
 	}
-      else if (tile_types[i].road_time > 0)
+      else if (ptype->road_time > 0)
 	{
 	  sprintf (buf, _("no extra / %d"),
-		   tile_types[i].road_time);
+		   ptype->road_time);
 	}
       else
 	{
@@ -1005,46 +1006,46 @@ static void help_update_terrain(const struct help_item *pitem,
       xaw_set_label (help_terrain_road_result_time_data, buf);
 
       strcpy (buf, _("n/a"));
-      if (tile_types[i].irrigation_result == i)
+      if (ptype->irrigation_result == i)
 	{
-	  if (tile_types[i].irrigation_food_incr > 0)
+	  if (ptype->irrigation_food_incr > 0)
 	    {
 	      sprintf (buf, _("+%d Food / %d"),
-		       tile_types[i].irrigation_food_incr,
-		       tile_types[i].irrigation_time);
+		       ptype->irrigation_food_incr,
+		       ptype->irrigation_time);
 	    }
 	}
-      else if (tile_types[i].irrigation_result != T_NONE)
+      else if (ptype->irrigation_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].irrigation_result].terrain_name,
-		   tile_types[i].irrigation_time);
+		   get_tile_type(ptype->irrigation_result)->terrain_name,
+		   ptype->irrigation_time);
 	}
       xaw_set_label (help_terrain_irrigation_result_time_data, buf);
 
       strcpy (buf, _("n/a"));
-      if (tile_types[i].mining_result == i)
+      if (ptype->mining_result == i)
 	{
-	  if (tile_types[i].mining_shield_incr > 0)
+	  if (ptype->mining_shield_incr > 0)
 	    {
 	      sprintf (buf, _("+%d Res. / %d"),
-		       tile_types[i].mining_shield_incr,
-		       tile_types[i].mining_time);
+		       ptype->mining_shield_incr,
+		       ptype->mining_time);
 	    }
 	}
-      else if (tile_types[i].mining_result != T_NONE)
+      else if (ptype->mining_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].mining_result].terrain_name,
-		   tile_types[i].mining_time);
+		   get_tile_type(ptype->mining_result)->terrain_name,
+		   ptype->mining_time);
 	}
       xaw_set_label (help_terrain_mining_result_time_data, buf);
 
-      if (tile_types[i].transform_result != T_NONE)
+      if (ptype->transform_result != T_NONE)
 	{
 	  sprintf (buf, "%s / %d",
-		   tile_types[tile_types[i].transform_result].terrain_name,
-		   tile_types[i].transform_time);
+		   get_tile_type(ptype->transform_result)->terrain_name,
+		   ptype->transform_time);
 	} else {
 	  strcpy (buf, _("n/a"));
 	}

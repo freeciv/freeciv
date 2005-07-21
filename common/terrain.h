@@ -101,7 +101,8 @@ struct tile_type *get_tile_type(Terrain_type_id type);
 Terrain_type_id get_terrain_by_name(const char * name);
 const char *get_terrain_name(Terrain_type_id type);
 enum terrain_flag_id terrain_flag_from_str(const char *s);
-#define terrain_has_flag(terr, flag) BV_ISSET(tile_types[(terr)].flags, flag)
+#define terrain_has_flag(terr, flag)		\
+  BV_ISSET(get_tile_type(terr)->flags, flag)
 Terrain_type_id get_flag_terrain(enum terrain_flag_id flag);
 void tile_types_free(void);
 

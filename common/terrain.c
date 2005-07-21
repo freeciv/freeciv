@@ -24,13 +24,23 @@
 #include "support.h"
 #include "terrain.h"
 
-struct tile_type tile_types[MAX_NUM_TERRAINS];
+static struct tile_type tile_types[MAX_NUM_TERRAINS];
 
 /***************************************************************
 ...
 ***************************************************************/
 struct tile_type *get_tile_type(Terrain_type_id type)
 {
+  if (type < 0 || type >= T_COUNT) {
+    /* HACK: return a dummy tile for out-of-range requests.  This is
+     * designed specifically to fix this problem in 2.0. */
+    static struct tile_type t_void;
+
+#if 0 /* Currently this assertion triggers all the time. */
+    assert(type >= 0 && type < T_COUNT);
+#endif
+    return &t_void;
+  }
   return &tile_types[type];
 }
 
@@ -55,8 +65,7 @@ Terrain_type_id get_terrain_by_name(const char *name)
 ***************************************************************/
 const char *get_terrain_name(Terrain_type_id type)
 {
-  assert(type < T_COUNT);
-  return tile_types[type].terrain_name;
+  return get_tile_type(type)->terrain_name;
 }
 
 /****************************************************************************

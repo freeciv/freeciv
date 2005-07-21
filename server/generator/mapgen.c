@@ -1228,20 +1228,20 @@ static void add_specials(int prob)
     if (!is_ocean(ttype)
 	&& !is_special_close(ptile) 
 	&& myrand(1000) < prob) {
-      if (tile_types[ttype].special_1_name[0] != '\0'
-	  && (tile_types[ttype].special_2_name[0] == '\0'
+      if (get_tile_type(ttype)->special_1_name[0] != '\0'
+	  && (get_tile_type(ttype)->special_2_name[0] == '\0'
 	      || (myrand(100) < 50))) {
 	map_set_special(ptile, S_SPECIAL_1);
-      } else if (tile_types[ttype].special_2_name[0] != '\0') {
+      } else if (get_tile_type(ttype)->special_2_name[0] != '\0') {
 	map_set_special(ptile, S_SPECIAL_2);
       }
     } else if (is_ocean(ttype) && near_safe_tiles(ptile) 
 	       && myrand(1000) < prob && !is_special_close(ptile)) {
-      if (tile_types[ttype].special_1_name[0] != '\0'
-	  && (tile_types[ttype].special_2_name[0] == '\0'
+      if (get_tile_type(ttype)->special_1_name[0] != '\0'
+	  && (get_tile_type(ttype)->special_2_name[0] == '\0'
 	      || (myrand(100) < 50))) {
         map_set_special(ptile, S_SPECIAL_1);
-      } else if (tile_types[ttype].special_2_name[0] != '\0') {
+      } else if (get_tile_type(ttype)->special_2_name[0] != '\0') {
 	map_set_special(ptile, S_SPECIAL_2);
       }
     }

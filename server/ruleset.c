@@ -491,14 +491,14 @@ static Terrain_type_id lookup_terrain(char *name,
   }
 
   for (i = T_FIRST; i < T_COUNT; i++) {
-    if (0 == strcmp(name, tile_types[i].terrain_name)) {
+    if (0 == strcmp(name, get_tile_type(i)->terrain_name)) {
       return i;
     }
   }
 
   /* TRANS: message for an obscure ruleset error. */
   freelog(LOG_ERROR, _("Unknown terrain %s in entry %s."),
-	  name, tile_types[tthis].terrain_name);
+	  name, get_tile_type(tthis)->terrain_name);
   return T_NONE;
 }
 
@@ -1523,11 +1523,11 @@ static void load_terrain_names(struct section_file *file)
   terrain_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.terrain_name", sec[i]);
 
-    name_strlcpy(tile_types[i].terrain_name_orig, name);
-    if (0 == strcmp(tile_types[i].terrain_name_orig, "unused")) {
-      tile_types[i].terrain_name_orig[0] = '\0';
+    name_strlcpy(get_tile_type(i)->terrain_name_orig, name);
+    if (0 == strcmp(get_tile_type(i)->terrain_name_orig, "unused")) {
+      get_tile_type(i)->terrain_name_orig[0] = '\0';
     }
-    tile_types[i].terrain_name = tile_types[i].terrain_name_orig;
+    get_tile_type(i)->terrain_name = get_tile_type(i)->terrain_name_orig;
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1606,7 +1606,7 @@ static void load_ruleset_terrain(struct section_file *file)
   /* terrain details */
 
   terrain_type_iterate(i) {
-      struct tile_type *t = &(tile_types[i]);
+    struct tile_type *t = get_tile_type(i);
       char *s1_name, *s2_name, **slist;
 
       sz_strlcpy(t->graphic_str,
@@ -1616,11 +1616,11 @@ static void load_ruleset_terrain(struct section_file *file)
 
       t->identifier = secfile_lookup_str(file, "%s.identifier", sec[i])[0];
       for (j = T_FIRST; j < i; j++) {
-	if (t->identifier == tile_types[j].identifier) {
+	if (t->identifier == get_tile_type(j)->identifier) {
 	  freelog(LOG_FATAL,
 		  /* TRANS: message for an obscure ruleset error. */
 		  _("Terrains %s and %s have the same identifier."),
-		  t->terrain_name, tile_types[j].terrain_name);
+		  t->terrain_name, get_tile_type(j)->terrain_name);
 	  exit(EXIT_FAILURE);
 	}
       }
@@ -2212,7 +2212,8 @@ static struct city_name* load_city_name_list(struct section_file *file,
                * However this is not a problem because we take care of rivers
                * separately.
                */
-	      if (mystrcasecmp(name, tile_types[type].terrain_name) == 0) {
+	      if (mystrcasecmp(name,
+			       get_tile_type(type)->terrain_name) == 0) {
 	        city_names[j].terrain[type] = setting;
 	        handled = TRUE;
 	      }
@@ -2946,7 +2947,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
   lsend_packet_ruleset_terrain_control(dest, &terrain_control);
 
   terrain_type_iterate(i) {
-      struct tile_type *t = &(tile_types[i]);
+    struct tile_type *t = get_tile_type(i);
 
       packet.id = i;
 

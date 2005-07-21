@@ -106,24 +106,26 @@ static void insert_generated_table(const char* name, char* outbuf)
     strcat(outbuf, "---------------------------------------------------"
 	   "------------\n");
     for (i = T_FIRST; i < T_COUNT; i++) {
-      if (*(tile_types[i].terrain_name) != '\0') {
+      struct tile_type *ptype = get_tile_type(i);
+
+      if (*(ptype->terrain_name) != '\0') {
 	outbuf = strchr(outbuf, '\0');
 	sprintf(outbuf,
 		"%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
-		tile_types[i].terrain_name,
-		tile_types[i].road_time,
-		tile_types[i].irrigation_time,
-		((tile_types[i].irrigation_result == i
-		  || tile_types[i].irrigation_result == T_NONE) ? ""
-		 : tile_types[tile_types[i].irrigation_result].terrain_name),
-		tile_types[i].mining_time,
-		((tile_types[i].mining_result == i
-		  || tile_types[i].mining_result == T_NONE) ? ""
-		 : tile_types[tile_types[i].mining_result].terrain_name),
-		tile_types[i].transform_time,
-		((tile_types[i].transform_result == i
-		 || tile_types[i].transform_result == T_NONE) ? ""
-		 : tile_types[tile_types[i].transform_result].terrain_name));
+		ptype->terrain_name,
+		ptype->road_time,
+		ptype->irrigation_time,
+		((ptype->irrigation_result == i
+		  || ptype->irrigation_result == T_NONE) ? ""
+		 : get_tile_type(ptype->irrigation_result)->terrain_name),
+		ptype->mining_time,
+		((ptype->mining_result == i
+		  || ptype->mining_result == T_NONE) ? ""
+		 : get_tile_type(ptype->mining_result)->terrain_name),
+		ptype->transform_time,
+		((ptype->transform_result == i
+		 || ptype->transform_result == T_NONE) ? ""
+		 : get_tile_type(ptype->transform_result)->terrain_name));
       }
     }
     strcat(outbuf, "\n");
@@ -262,10 +264,12 @@ void boot_help_texts(void)
 	  } tech_type_iterate_end;
 	} else if (current_type == HELP_TERRAIN) {
 	  for (i = T_FIRST; i < T_COUNT; i++) {
-	    if (*(tile_types[i].terrain_name) != '\0') {
+	    struct tile_type *ptype = get_tile_type(i);
+
+	    if (*(ptype->terrain_name) != '\0') {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  tile_types[i].terrain_name);
+			  ptype->terrain_name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_insert_back(&category_nodes, pitem);
@@ -1086,7 +1090,7 @@ void helptext_terrain(char *buf, int i, const char *user_text)
   
   if (i<0 || i>=T_COUNT)
     return;
-  pt = &tile_types[i];
+  pt = get_tile_type(i);
 
   if (terrain_has_flag(i, TER_NO_POLLUTION)) {
     sprintf(buf + strlen(buf),
