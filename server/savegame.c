@@ -961,7 +961,8 @@ static int old_impr_type_id(Impr_Type_id type)
   int i;
 
   for (i = 0; i < ARRAY_SIZE(old_impr_types); i++) {
-    if (mystrcasecmp(unit_name_orig(type), old_impr_types[i]) == 0) {
+    if (mystrcasecmp(get_improvement_name_orig(type),
+                     old_impr_types[i]) == 0) {
       return i;
     }
   }
