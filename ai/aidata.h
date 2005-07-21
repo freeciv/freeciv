@@ -27,23 +27,6 @@
  * start of every turn. 
  */
 
-#define SPECVEC_TAG movemap
-#define SPECVEC_TYPE int
-#include "specvec.h"
-
-/*
- * How far to look ahead for the movemap.
- * The movemap records units that can arrive on a tile with
- * MOVEMAP_RANGE turns of movement.
- */
-#define MOVEMAP_RANGE 3
-
-struct movemap_type {
-  struct movemap_vector range[MOVEMAP_RANGE]; /* range[t] is for turns t+1
-					       * of movement */
-} *movemap;
-#define MOVEMAP(ptile) movemap[map_pos_to_index(ptile->x, ptile->y)]
-
 enum ai_improvement_status {
   AI_IMPR_CALCULATE, /* Calculate exactly its effect */
   AI_IMPR_ESTIMATE,  /* Estimate its effect using wild guesses */
@@ -184,32 +167,4 @@ void ai_data_analyze_rulesets(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
 
-void ai_data_movemap_recalculate(void);
-void ai_data_movemap_init(void);
-void ai_data_movemap_done(void);
-
-unsigned int movemap_turns(struct unit *punit, struct tile *dest);
-
-#define movemap_vector_iterate(movevec, num)             \
-  { \
-    unsigned int num_i; \
-    for(num_i = 0; num_i < movemap_vector_size(&(movevec)); \
-	num_i++) { \
-      int num = *movemap_vector_get(&(movevec), num_i);
-#define movemap_vector_iterate_end                      \
-  }}
-
-#define movemap_iterate(ptile, r, punit)             \
-  movemap_vector_iterate(MOVEMAP(ptile).range[r], miot) {       \
-    struct unit *punit = find_unit_by_id(miot);          \
-    if (punit) {
-#define movemap_iterate_end                      \
-    }                                                     \
-  } movemap_vector_iterate_end
-
-#define movemap_iterate_one_turn(ptile, punit) movemap_iterate(ptile, 0, punit)
-#define movemap_iterate_one_turn_end movemap_iterate_end
-#define movemap_iterate_two_turn(ptile, punit) movemap_iterate(ptile, 1, punit)
-#define movemap_iterate_two_turn_end movemap_iterate_end
-    
 #endif
