@@ -795,7 +795,8 @@ PACKET_UNIT_ORDERS=59;cs
   COORD dest_x, dest_y;
 end
 
-PACKET_UNIT_AUTO=60;cs,dsend
+# Enable autosettlers for a unit.  Only works for settler units naturally.
+PACKET_UNIT_AUTOSETTLERS=60;cs,dsend
   UNIT unit_id;
 end
 

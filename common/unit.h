@@ -266,7 +266,7 @@ int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,
 			      enum unit_activity activity,
 			      const struct tile *ptile);
-bool can_unit_do_auto(const struct unit *punit); 
+bool can_unit_do_autosettlers(const struct unit *punit); 
 bool is_unit_activity_on_tile(enum unit_activity activity,
 			      const struct tile *ptile);
 bv_special get_unit_tile_pillage_set(const struct tile *ptile);

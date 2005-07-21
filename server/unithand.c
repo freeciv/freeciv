@@ -1436,11 +1436,11 @@ void handle_unit_establish_trade(struct player *pplayer, int unit_id)
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_auto(struct player *pplayer, int unit_id)
+void handle_unit_autosettlers(struct player *pplayer, int unit_id)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
 
-  if (!punit || !can_unit_do_auto(punit))
+  if (!punit || !can_unit_do_autosettlers(punit))
     return;
 
   punit->ai.control = TRUE;

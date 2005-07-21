@@ -60,7 +60,7 @@ void request_new_unit_activity_targeted(struct unit *punit,
 					enum tile_special_type tgt);
 void request_unit_load(struct unit *pcargo, struct unit *ptransporter);
 void request_unit_unload(struct unit *pcargo);
-void request_unit_auto(struct unit *punit);
+void request_unit_autosettlers(const struct unit *punit);
 void request_unit_build_city(struct unit *punit);
 void request_unit_caravan_action(struct unit *punit, enum packet_type action);
 void request_unit_change_homecity(struct unit *punit);
@@ -143,7 +143,6 @@ void key_quickselect(enum quickselect_type qtype);
 void key_recall_previous_focus_unit(void);
 void key_unit_move(enum direction8 gui_dir);
 void key_unit_airbase(void);
-void key_unit_auto_attack(void);
 void key_unit_auto_explore(void);
 void key_unit_auto_settle(void);
 void key_unit_build_city(void);

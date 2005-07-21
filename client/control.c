@@ -964,16 +964,16 @@ void request_unit_upgrade(struct unit *punit)
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void request_unit_auto(struct unit *punit)
+/****************************************************************************
+  Call to request (from the server) that the settler unit is put into
+  autosettler mode.
+****************************************************************************/
+void request_unit_autosettlers(const struct unit *punit)
 {
-  if (can_unit_do_auto(punit)) {
-    dsend_packet_unit_auto(&aconnection, punit->id);
+  if (punit && can_unit_do_autosettlers(punit)) {
+    dsend_packet_unit_autosettlers(&aconnection, punit->id);
   } else {
-    append_output_window(_("Only settler units and military units"
-			   " in cities can be put in auto-mode."));
+    append_output_window(_("Only settler units can be put into auto mode."));
   }
 }
 
@@ -1990,17 +1990,6 @@ void key_unit_airbase(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void key_unit_auto_attack(void)
-{
-  if (punit_focus && !unit_flag(punit_focus, F_SETTLERS) &&
-      can_unit_do_auto(punit_focus)) {
-    request_unit_auto(punit_focus);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 void key_unit_auto_explore(void)
 {
   if (punit_focus &&
@@ -2010,13 +1999,13 @@ void key_unit_auto_explore(void)
 }
 
 /**************************************************************************
-...
+  Call to request (from the server) that the focus unit is put into
+  autosettler mode.
 **************************************************************************/
 void key_unit_auto_settle(void)
 {
-  if (punit_focus && unit_flag(punit_focus, F_SETTLERS) &&
-      can_unit_do_auto(punit_focus)) {
-    request_unit_auto(punit_focus);
+  if (punit_focus && can_unit_do_autosettlers(punit_focus)) {
+    request_unit_autosettlers(punit_focus);
   }
 }
 

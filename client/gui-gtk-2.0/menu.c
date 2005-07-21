@@ -472,8 +472,7 @@ static void orders_menu_callback(gpointer callback_data,
     key_unit_wakeup_others();
     break;
    case MENU_ORDER_AUTO_SETTLER:
-    if(get_unit_in_focus())
-      request_unit_auto(get_unit_in_focus());
+     request_unit_autosettlers(get_unit_in_focus());
     break;
    case MENU_ORDER_AUTO_EXPLORE:
     key_unit_auto_explore();
@@ -1343,7 +1342,7 @@ void update_menus(void)
 			  is_unit_activity_on_tile(ACTIVITY_SENTRY,
                                                    punit->tile));
       menus_set_sensitive("<main>/_Orders/_Auto Settler",
-                          can_unit_do_auto(punit));
+                          can_unit_do_autosettlers(punit));
       menus_set_sensitive("<main>/_Orders/Auto E_xplore",
                           can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       menus_set_sensitive("<main>/_Orders/_Connect/_Road",
@@ -1422,12 +1421,6 @@ void update_menus(void)
 	menus_rename("<main>/_Orders/Clean _Pollution", _("_Paradrop"));
       } else {
 	menus_rename("<main>/_Orders/Clean _Pollution", _("Clean _Pollution"));
-      }
-
-      if (!unit_flag(punit, F_SETTLERS)) {
-	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Attack"));
-      } else {
-	menus_rename("<main>/_Orders/_Auto Settler", _("_Auto Settler"));
       }
 
       menus_set_sensitive("<main>/_Orders", TRUE);

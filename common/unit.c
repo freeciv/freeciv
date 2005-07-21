@@ -488,19 +488,17 @@ int get_turns_for_activity_at(const struct unit *punit,
 }
 
 /**************************************************************************
-  Return whether the unit can be put in auto-mode.
-  (Auto-settler for settlers, auto-attack for military units.)
+  Return whether the unit can be put in auto-settler mode.
+
+  NOTE: we used to have "auto" mode including autosettlers and auto-attack.
+  This was bad because the two were indestinguishable even though they
+  are very different.  Now auto-attack is done differently so we just have
+  auto-settlers.  If any new auto modes are introduced they should be
+  handled separately.
 **************************************************************************/
-bool can_unit_do_auto(const struct unit *punit) 
+bool can_unit_do_autosettlers(const struct unit *punit) 
 {
-  if (unit_flag(punit, F_SETTLERS)) {
-    return TRUE;
-  }
-  if (is_military_unit(punit) && is_attack_unit(punit)
-      && tile_get_city(punit->tile)) {
-    return TRUE;
-  }
-  return FALSE;
+  return unit_flag(punit, F_SETTLERS);
 }
 
 /**************************************************************************
