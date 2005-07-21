@@ -576,12 +576,15 @@ static int base_get_output_tile(const struct tile *ptile,
   const struct terrain *pterrain = ptile->terrain;
   struct tile tile;
   int prod;
-  const bool auto_water = (pcity && is_city_center(city_x, city_y)
-			   && ptile->terrain == pterrain->irrigation_result
-			   && terrain_control.may_irrigate);
   const struct output_type *output = &output_types[otype];
 
   assert(otype >= 0 && otype < O_LAST);
+
+  if (ptile->terrain == T_UNKNOWN) {
+    /* Special case for the client.  The server doesn't allow unknown tiles
+     * to be worked but we don't necessarily know what player is involved. */
+    return 0;
+  }
 
   if (tile_has_special(ptile, S_SPECIAL_1)) {
     prod = pterrain->special[0].output[otype];
@@ -595,7 +598,9 @@ static int base_get_output_tile(const struct tile *ptile,
   tile.terrain = tile_get_terrain(ptile);
   tile.special = tile_get_special(ptile);
 
-  if (auto_water) {
+  if (pcity && is_city_center(city_x, city_y)
+      && ptile->terrain == pterrain->irrigation_result
+      && terrain_control.may_irrigate) {
     /* The center tile is auto-irrigated. */
     tile_set_special(&tile, S_IRRIGATION);
 
