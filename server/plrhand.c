@@ -290,21 +290,26 @@ static void finish_revolution(struct player *pplayer)
 **************************************************************************/
 static void start_revolution(struct player *pplayer)
 {
-  pplayer->government = game.info.government_when_anarchy;
+  int turns;
 
   /* Set revolution_finishes value. */
   if (pplayer->revolution_finishes > 0) {
     /* Player already has an active revolution. */
+    assert(pplayer->revolution_finishes > game.info.turn);
+    assert(pplayer->government == game.info.government_when_anarchy);
+    return;
   } else if ((pplayer->ai.control && !ai_handicap(pplayer, H_REVOLUTION))
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
-    pplayer->revolution_finishes = game.info.turn;
+    turns = 0;
   } else if (game.info.revolution_length == 0) {
-    pplayer->revolution_finishes = game.info.turn + myrand(5) + 1;
+    turns = myrand(5) + 1;
   } else {
-    pplayer->revolution_finishes = game.info.turn 
-                                   + game.info.revolution_length;
+    turns = game.info.revolution_length;
   }
+
+  pplayer->government = game.info.government_when_anarchy;
+  pplayer->revolution_finishes = game.info.turn + turns;
 
   freelog(LOG_DEBUG,
 	  "Revolution started for %s.  Target government is %s.  "
@@ -312,8 +317,14 @@ static void start_revolution(struct player *pplayer)
 	  pplayer->name, get_government_name(pplayer->target_government),
 	  pplayer->revolution_finishes, game.info.turn);
   notify_player_ex(pplayer, NULL, E_REVOLT_START,
-		   _("The %s have incited a revolt!"),
-		   get_nation_name_plural(pplayer->nation));
+		   /* TRANS: this is a message event so don't make it
+		    * too long. */
+		   PL_("The %s have incited a revolt! "
+		       "%d turn of anarchy will ensue!",
+		       "The %s have incited a revolt! "
+		       "%d turns of anarchy will ensue!",
+		       turns),
+		   get_nation_name_plural(pplayer->nation), turns);
   gamelog(GAMELOG_REVOLT, pplayer);
 
   /* Now see if the revolution is instantaneous. */
