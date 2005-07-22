@@ -120,24 +120,17 @@ static struct dem_row {
   {'O', N_("Pollution"),        get_pollution,   pollution_to_text,   FALSE }
 };
 
+/* Demographics columns. */
 enum dem_flag {
   DEM_COL_QUANTITY,
   DEM_COL_RANK,
-  DEM_COL_BEST
+  DEM_COL_BEST,
+  DEM_COL_LAST
 };
-
-/*
- * Describes a column.
- */
-static struct dem_col
-{
+BV_DEFINE(bv_cols, DEM_COL_LAST);
+static struct dem_col {
   char key;
-  enum dem_flag flag;
-} coltable[] = {
-    { 'q', DEM_COL_QUANTITY },
-    { 'r', DEM_COL_RANK },
-    { 'b', DEM_COL_BEST }
-};
+} coltable[] = {{'q'}, {'r'}, {'b'}}; /* Corresponds to dem_flag enum */
 
 /**************************************************************************
 ...
@@ -604,14 +597,14 @@ static const char *number_to_ordinal_string(int num)
 **************************************************************************/
 static void dem_line_item(char *outptr, size_t out_size,
 			  struct player *pplayer, struct dem_row *prow,
-			  int selcols)
+			  bv_cols selcols)
 {
-  if (TEST_BIT(selcols, DEM_COL_QUANTITY)) {
+  if (BV_ISSET(selcols, DEM_COL_QUANTITY)) {
       cat_snprintf(outptr, out_size, " %-18s",
 		   prow->to_text(prow->get_value(pplayer)));
   }
 
-  if (TEST_BIT(selcols, DEM_COL_RANK)) {
+  if (BV_ISSET(selcols, DEM_COL_RANK)) {
     int basis = prow->get_value(pplayer);
     int place = 1;
 
@@ -628,7 +621,7 @@ static void dem_line_item(char *outptr, size_t out_size,
     cat_snprintf(outptr, out_size, " %6s", number_to_ordinal_string(place));
   }
 
-  if (TEST_BIT(selcols, DEM_COL_BEST)) {
+  if (BV_ISSET(selcols, DEM_COL_BEST)) {
     struct player *best_player = pplayer;
     int best_value = prow->get_value(pplayer);
 
@@ -670,7 +663,7 @@ bool is_valid_demography(const char *demography, const char **error_string)
     int j;
 
     /* See if the character is a valid column label. */
-    for (j = 0; j < ARRAY_SIZE(coltable); j++) {
+    for (j = 0; j < DEM_COL_LAST; j++) {
       if (demography[i] == coltable[j].key) {
 	found = TRUE;
 	break;
@@ -713,12 +706,15 @@ void report_demographics(struct connection *pconn)
   char buffer[4096];
   unsigned int i;
   bool anyrows;
-  int selcols;
+  bv_cols selcols;
+  int numcols = 0;
 
-  selcols = 0;
-  for (i = 0; i < ARRAY_SIZE(coltable); i++) {
+  BV_CLR_ALL(selcols);
+  assert(ARRAY_SIZE(coltable) == DEM_COL_LAST);
+  for (i = 0; i < DEM_COL_LAST; i++) {
     if (strchr(game.demography, coltable[i].key)) {
-      selcols |= (1u << coltable[i].flag);
+      BV_SET(selcols, i);
+      numcols++;
     }
   }
 
@@ -730,7 +726,7 @@ void report_demographics(struct connection *pconn)
     }
   }
 
-  if (!pplayer || !pplayer->is_alive || !anyrows || selcols == 0) {
+  if (!pplayer || !pplayer->is_alive || !anyrows || numcols == 0) {
     page_conn(pconn->self, _("Demographics Report:"),
 	      _("Sorry, the Demographics report is unavailable."), "");
     return;
