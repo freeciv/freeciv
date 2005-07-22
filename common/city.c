@@ -2323,7 +2323,7 @@ void get_worker_on_map_position(const struct tile *ptile,
 **************************************************************************/
 bool is_city_option_set(const struct city *pcity, enum city_options option)
 {
-  return TEST_BIT(pcity->city_options, option);
+  return BV_ISSET(pcity->city_options, option);
 }
 
 /**************************************************************************
@@ -2448,7 +2448,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->last_turns_shield_surplus = 0;
   pcity->anarchy = 0;
   pcity->rapture = 0;
-  pcity->city_options = CITYOPT_DEFAULT;
+  BV_CLR_ALL(pcity->city_options);
 
   pcity->server.workers_frozen = 0;
   pcity->server.needs_arrange = FALSE;

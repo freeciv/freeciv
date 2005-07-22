@@ -2238,9 +2238,16 @@ static void player_load(struct player *plr, int plrno,
     pcity->airlift = secfile_lookup_bool_default(file, FALSE,
 					"player%d.c%d.airlift", plrno,i);
 
-    pcity->city_options =
-      secfile_lookup_int_default(file, CITYOPT_DEFAULT,
-				 "player%d.c%d.options", plrno, i);
+    /* New city-options form as of freeciv 2.1.  Old (<= 2.0) city options
+     * are lost on upgrade. */
+    BV_CLR_ALL(pcity->city_options);
+    for (j = 0; j < CITYO_LAST; j++) {
+      if (secfile_lookup_bool_default(file, FALSE,
+				      "player%d.c%d.option%d",
+				      plrno, i, j)) {
+	BV_SET(pcity->city_options, j);
+      }
+    }
 
     /* Fix for old buggy savegames. */
     if (!has_capability("known32fix", savefile_options)
@@ -3006,10 +3013,12 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_bool(file, pcity->did_sell, "player%d.c%d.did_sell", plrno,i);
     secfile_insert_bool(file, pcity->airlift, "player%d.c%d.airlift", plrno,i);
 
-    /* for auto_attack */
-    secfile_insert_int(file, pcity->city_options,
-		       "player%d.c%d.options", plrno, i);
-    
+    /* New options format as of Freeciv 2.1. */
+    for (j = 0; j < CITYO_LAST; j++) {
+      secfile_insert_bool(file, BV_ISSET(pcity->city_options, j),
+			  "player%d.c%d.option%d", plrno, i, j);
+    }
+
     j=0;
     for(y=0; y<CITY_MAP_SIZE; y++) {
       for(x=0; x<CITY_MAP_SIZE; x++) {

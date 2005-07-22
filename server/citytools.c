@@ -1564,8 +1564,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->food_stock=pcity->food_stock;
   packet->shield_stock=pcity->shield_stock;
   packet->pollution=pcity->pollution;
-
-  packet->city_options=pcity->city_options;
+  packet->city_options = pcity->city_options;
   
   packet->is_building_unit=pcity->is_building_unit;
   packet->currently_building=pcity->currently_building;

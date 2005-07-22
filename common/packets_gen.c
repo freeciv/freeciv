@@ -6518,12 +6518,7 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
   real_packet->airlift = BV_ISSET(fields, 37);
   real_packet->diplomat_investigate = BV_ISSET(fields, 38);
   if (BV_ISSET(fields, 39)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->city_options = readin;
-    }
+    DIO_BV_GET(&din, real_packet->city_options);
   }
   if (BV_ISSET(fields, 40)) {
     {
@@ -6891,7 +6886,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(packet->diplomat_investigate) {BV_SET(fields, 38);}
 
-  differ = (old->city_options != real_packet->city_options);
+  differ = !BV_ARE_EQUAL(old->city_options, real_packet->city_options);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 39);}
 
@@ -7108,7 +7103,7 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   /* field 37 is folded into the header */
   /* field 38 is folded into the header */
   if (BV_ISSET(fields, 39)) {
-    dio_put_uint8(&dout, real_packet->city_options);
+  DIO_BV_PUT(&dout, packet->city_options);
   }
   if (BV_ISSET(fields, 40)) {
     dio_put_sint16(&dout, real_packet->turn_founded);
@@ -8966,12 +8961,7 @@ static struct packet_city_options_req *receive_packet_city_options_req_100(struc
     }
   }
   if (BV_ISSET(fields, 1)) {
-    {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->value = readin;
-    }
+    DIO_BV_GET(&din, real_packet->options);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -9011,7 +9001,7 @@ static int send_packet_city_options_req_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->value != real_packet->value);
+  differ = !BV_ARE_EQUAL(old->options, real_packet->options);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
@@ -9025,7 +9015,7 @@ static int send_packet_city_options_req_100(struct connection *pc, const struct 
     dio_put_uint16(&dout, real_packet->city_id);
   }
   if (BV_ISSET(fields, 1)) {
-    dio_put_uint8(&dout, real_packet->value);
+  DIO_BV_PUT(&dout, packet->options);
   }
 
 
@@ -9097,12 +9087,12 @@ int send_packet_city_options_req(struct connection *pc, const struct packet_city
   }
 }
 
-int dsend_packet_city_options_req(struct connection *pc, int city_id, int value)
+int dsend_packet_city_options_req(struct connection *pc, int city_id, bv_city_options options)
 {
   struct packet_city_options_req packet, *real_packet = &packet;
 
   real_packet->city_id = city_id;
-  real_packet->value = value;
+  real_packet->options = options;
   
   return send_packet_city_options_req(pc, real_packet);
 }

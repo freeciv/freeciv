@@ -196,6 +196,7 @@ type BV_IMPRS		= bitvector(bv_imprs)
 type BV_FLAGS		= bitvector(bv_flags)
 type BV_ROLES		= bitvector(bv_roles)
 type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
+type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type DIPLSTATE		= diplstate(struct player_diplstate)
 type VISION		= uint32(unsigned int)
 
@@ -528,7 +529,7 @@ PACKET_CITY_INFO=21; sc,lsend
 
   BOOL did_buy, did_sell, was_happy, airlift, diplomat_investigate;
 
-  UINT8 city_options;
+  BV_CITY_OPTIONS city_options;
   TURN turn_founded;
 end
 
@@ -588,7 +589,7 @@ end
 
 PACKET_CITY_OPTIONS_REQ=31;cs,dsend
   CITY city_id;
-  UINT8 value;
+  BV_CITY_OPTIONS options;
 end
 
 PACKET_CITY_REFRESH=32;cs,dsend

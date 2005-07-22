@@ -31,7 +31,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id, int worker
 void handle_city_make_worker(struct player *pplayer, int city_id, int worker_x, int worker_y);
 void handle_city_change_specialist(struct player *pplayer, int city_id, Specialist_type_id from, Specialist_type_id to);
 void handle_city_rename(struct player *pplayer, int city_id, char *name);
-void handle_city_options_req(struct player *pplayer, int city_id, int value);
+void handle_city_options_req(struct player *pplayer, int city_id, bv_city_options options);
 void handle_city_refresh(struct player *pplayer, int city_id);
 void handle_city_incite_inq(struct connection *pc, int city_id);
 void handle_city_name_suggestion_req(struct player *pplayer, int unit_id);

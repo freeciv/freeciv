@@ -91,7 +91,6 @@ enum { OVERVIEW_PAGE, WORKLIST_PAGE,
 enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 
 #define NUM_CITIZENS_SHOWN 25
-#define NUM_CITY_OPTS 5
 #define NUM_INFO_FIELDS 11      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
@@ -153,7 +152,7 @@ struct city_dialog {
   struct {
     GtkWidget *rename_command;
     GtkWidget *new_citizens_radio[3];
-    GtkWidget *city_opts[NUM_CITY_OPTS];
+    GtkWidget *disband_on_settler;
     GtkWidget *whichtab_radio[NUM_PAGES];
     short block_signal;
   } misc;
@@ -1024,13 +1023,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
     N_("Taxmen")
   };
 
-  static const char *city_opts_label[NUM_CITY_OPTS] = {
-    N_("Land units"),
-    N_("Sea units"),
-    N_("Helicopters"),
-    N_("Air units"),
-    N_("Disband if build settler at size 1")
-  };
+  static const char *disband_label = N_("Disband if build settler at size 1");
 
   static const char *misc_whichtab_label[NUM_PAGES] = {
     N_("Overview page"),
@@ -1042,7 +1035,6 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   };
 
   static bool new_citizens_label_done;
-  static bool city_opts_label_done;
   static bool misc_whichtab_label_done;
 
   /* initialize signal_blocker */
@@ -1082,24 +1074,6 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
     g_signal_connect(button, "toggled",
 		     G_CALLBACK(cityopt_callback), pdialog);
     group = gtk_radio_button_get_group(GTK_RADIO_BUTTON(button));
-  }
-  
-  /* auto-attack table */
-  frame = gtk_frame_new(_("Auto attack vs"));
-  gtk_box_pack_start(GTK_BOX(vbox), frame, FALSE, FALSE, 0);
-
-  intl_slist(ARRAY_SIZE(city_opts_label), city_opts_label,
-             &city_opts_label_done);
-
-  vbox2 = gtk_vbox_new(TRUE, 0);
-  gtk_container_add(GTK_CONTAINER(frame), vbox2);
-
-  for (i = 0; i < ARRAY_SIZE(city_opts_label) - 1; i++) {
-    button = gtk_check_button_new_with_mnemonic(city_opts_label[i]);
-    pdialog->misc.city_opts[i] = button;
-    gtk_container_add(GTK_CONTAINER(vbox2), button);
-    g_signal_connect(button, "toggled",
-		     G_CALLBACK(cityopt_callback), pdialog);
   }
 
   /* next is the next-time-open radio group in the right column */
@@ -1141,8 +1115,8 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   gtk_widget_set_sensitive(button, can_client_issue_orders());
   
   /* the disband-if-size-1 button */
-  button = gtk_check_button_new_with_mnemonic(city_opts_label[NUM_CITY_OPTS-1]);
-  pdialog->misc.city_opts[NUM_CITY_OPTS - 1] = button;
+  button = gtk_check_button_new_with_mnemonic(_(disband_label));
+  pdialog->misc.disband_on_settler = button;
   gtk_container_add(GTK_CONTAINER(vbox2), button);
   g_signal_connect(button, "toggled",
 		   G_CALLBACK(cityopt_callback), pdialog);
@@ -2660,18 +2634,20 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
   }
 
   if(!pdialog->misc.block_signal){
-    int i, new_options = 0;
     struct city *pcity = pdialog->pcity;
+    bv_city_options new_options;
 
-    for(i = 0; i < NUM_CITY_OPTS; i++){
-      if(GTK_TOGGLE_BUTTON(pdialog->misc.city_opts[i])->active)
-        new_options |= (1 << i);
+    assert(CITYO_LAST == 3);
+
+    BV_CLR_ALL(new_options);
+    if (GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler)->active) {
+      BV_SET(new_options, CITYO_DISBAND);
     }
-
     if (GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[1])->active) {
-      new_options |= (1 << CITYO_NEW_EINSTEIN);
-    } else if(GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2])->active) {
-      new_options |= (1 << CITYO_NEW_TAXMAN);
+      BV_SET(new_options, CITYO_NEW_EINSTEIN);
+    }
+    if (GTK_TOGGLE_BUTTON(pdialog->misc.new_citizens_radio[2])->active) {
+      BV_SET(new_options, CITYO_NEW_TAXMAN);
     }
 
     dsend_packet_city_options_req(&aconnection, pcity->id,new_options);
@@ -2685,14 +2661,11 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
 static void set_cityopt_values(struct city_dialog *pdialog)
 {
   struct city *pcity = pdialog->pcity;
-  int i;
 
   pdialog->misc.block_signal = 1;
-  for (i = 0; i < NUM_CITY_OPTS; i++) {
-    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON
-				 (pdialog->misc.city_opts[i]),
-				 is_city_option_set(pcity, i));
-  }
+
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler),
+			       is_city_option_set(pcity, CITYO_DISBAND));
 
   if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON

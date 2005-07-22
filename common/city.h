@@ -26,31 +26,18 @@ enum city_tile_type {
   C_TILE_EMPTY, C_TILE_WORKER, C_TILE_UNAVAILABLE
 };
 
+/* Various city options.  These are stored by the server and can be
+ * toggled by the user.  Each one defaults to off.  Adding new ones
+ * will break network compatibility.  Reordering them will break savegame
+ * compatibility.  If you want to remove one you should replace it with
+ * a CITYO_UNUSED entry; new options can just be added at the end.*/
 enum city_options {
-  /* The first 4 are whether to auto-attack versus each unit move_type
-   * from with auto-attack units within this city.  Note that these
-   * should stay the first four, and must stay in the same order as
-   * enum unit_move_type.  
-   *
-   * The next is whether building a settler at size 1 disbands a city.
-   *
-   * The following 2 are what to do of new citizens when the city grows:
-   * make them workers, scientists, or taxmen. Should have only one set,
-   * or if neither is set, that means make workers.
-   *
-   * Any more than 8 options requires a protocol extension, since
-   * we only send 8 bits.
-   */
-  CITYO_ATT_LAND=0, CITYO_ATT_SEA, CITYO_ATT_HELI, CITYO_ATT_AIR,
-  CITYO_DISBAND, CITYO_NEW_EINSTEIN, CITYO_NEW_TAXMAN
+  CITYO_DISBAND,      /* If building a settler at size 1 disbands the city */
+  CITYO_NEW_EINSTEIN, /* If new citizens are science specialists */
+  CITYO_NEW_TAXMAN,   /* If new citizens are gold specialists */
+  CITYO_LAST
 };
-
-/* first four bits are for auto-attack: */
-#define CITYOPT_AUTOATTACK_BITS 0xF
-
-/* for new city: default auto-attack options all on, others off: */
-#define CITYOPT_DEFAULT (CITYOPT_AUTOATTACK_BITS)
-
+BV_DEFINE(bv_city_options, CITYO_LAST);
 
 /* Changing this requires updating CITY_TILES and network capabilities. */
 #define CITY_MAP_RADIUS 2
@@ -291,7 +278,7 @@ struct city {
   bool was_happy;
   bool airlift;
   struct player *original;	/* original owner - cannot be NULL */
-  int city_options;		/* bitfield; positions as enum city_options */
+  bv_city_options city_options;
 
   /* server variable. indicates if the city map is synced with the client. */
   bool synced;

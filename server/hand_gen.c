@@ -94,7 +94,7 @@ bool server_handle_packet(enum packet_type type, void *packet,
   case PACKET_CITY_OPTIONS_REQ:
     handle_city_options_req(pplayer,
       ((struct packet_city_options_req *)packet)->city_id,
-      ((struct packet_city_options_req *)packet)->value);
+      ((struct packet_city_options_req *)packet)->options);
     return TRUE;
 
   case PACKET_CITY_REFRESH:

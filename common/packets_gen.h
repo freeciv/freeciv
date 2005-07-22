@@ -278,7 +278,7 @@ struct packet_city_info {
   bool was_happy;
   bool airlift;
   bool diplomat_investigate;
-  int city_options;
+  bv_city_options city_options;
   int turn_founded;
 };
 
@@ -341,7 +341,7 @@ struct packet_city_rename {
 
 struct packet_city_options_req {
   int city_id;
-  int value;
+  bv_city_options options;
 };
 
 struct packet_city_refresh {
@@ -1280,7 +1280,7 @@ int dsend_packet_city_rename(struct connection *pc, int city_id, const char *nam
 
 struct packet_city_options_req *receive_packet_city_options_req(struct connection *pc, enum packet_type type);
 int send_packet_city_options_req(struct connection *pc, const struct packet_city_options_req *packet);
-int dsend_packet_city_options_req(struct connection *pc, int city_id, int value);
+int dsend_packet_city_options_req(struct connection *pc, int city_id, bv_city_options options);
 
 struct packet_city_refresh *receive_packet_city_refresh(struct connection *pc, enum packet_type type);
 int send_packet_city_refresh(struct connection *pc, const struct packet_city_refresh *packet);

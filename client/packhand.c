@@ -715,7 +715,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->food_stock         = 0;
     pcity->shield_stock       = 0;
     pcity->pollution          = 0;
-    pcity->city_options       = 0;
+    BV_CLR_ALL(pcity->city_options);
     pcity->is_building_unit   = FALSE;
     pcity->currently_building = 0;
     init_worklist(&pcity->worklist);

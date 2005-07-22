@@ -388,10 +388,12 @@ void handle_city_rename(struct player *pplayer, int city_id, char *name)
   send_city_info(NULL, pcity);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void handle_city_options_req(struct player *pplayer, int city_id, int value)
+/****************************************************************************
+  Handles a packet from the client that requests the city options for the
+  given city be changed.
+****************************************************************************/
+void handle_city_options_req(struct player *pplayer, int city_id,
+			     bv_city_options options)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
@@ -399,7 +401,8 @@ void handle_city_options_req(struct player *pplayer, int city_id, int value)
     return;
   }
 
-  pcity->city_options = value;
+  pcity->city_options = options;
+
   send_city_info(pplayer, pcity);
 }
 
