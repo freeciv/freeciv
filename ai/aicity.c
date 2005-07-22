@@ -640,7 +640,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 **************************************************************************/
 static void calculate_city_clusters(struct player *pplayer)
 {
-  Unit_type_id unittype;
+  struct unit_type *punittype;
   struct unit *ghost;
   int range;
 
@@ -652,11 +652,11 @@ static void calculate_city_clusters(struct player *pplayer)
     return; /* ruleset has no help wonder unit */
   }
 
-  unittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
-  if (unittype == U_LAST) {
-    unittype = get_role_unit(F_HELP_WONDER, 0); /* simulate future unit */
+  punittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
+  if (!punittype) {
+    punittype = get_role_unit(F_HELP_WONDER, 0); /* simulate future unit */
   }
-  ghost = create_unit_virtual(pplayer, NULL, unittype, 0);
+  ghost = create_unit_virtual(pplayer, NULL, punittype, 0);
   range = unit_move_rate(ghost) * 4;
 
   city_list_iterate(pplayer->cities, pcity) {
@@ -695,7 +695,7 @@ static void calculate_wonder_helpers(struct player *pplayer,
 {
   struct pf_map *map;
   struct pf_parameter parameter;
-  Unit_type_id unittype;
+  struct unit_type *punittype;
   struct unit *ghost;
   int maxrange;
   struct city *wonder_city = find_city_by_id(ai->wonder_city);
@@ -712,11 +712,11 @@ static void calculate_wonder_helpers(struct player *pplayer,
     return;
   }
 
-  unittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
-  if (unittype == U_LAST) {
+  punittype = best_role_unit_for_player(pplayer, F_HELP_WONDER);
+  if (!punittype) {
     return;
   }
-  ghost = create_unit_virtual(pplayer, wonder_city, unittype, 0);
+  ghost = create_unit_virtual(pplayer, wonder_city, punittype, 0);
   maxrange = unit_move_rate(ghost) * 7;
 
   pft_fill_unit_parameter(&parameter, ghost);
@@ -789,7 +789,7 @@ void ai_manage_buildings(struct player *pplayer)
       /* Downtown is the number of cities within a certain pf range.
        * These may be able to help with caravans. Also look at the whole
        * continent. */
-      if (first_role_unit_for_player(pplayer, F_HELP_WONDER) != U_LAST) {
+      if (first_role_unit_for_player(pplayer, F_HELP_WONDER)) {
         value += pcity->ai.downtown;
         value += ai->stats.cities[pcity->tile->continent] / 8;
       }
@@ -867,33 +867,33 @@ void ai_manage_buildings(struct player *pplayer)
 static void ai_barbarian_choose_build(struct player *pplayer, 
 				      struct ai_choice *choice)
 {
-  Unit_type_id bestunit = -1;
+  struct unit_type *bestunit = NULL;
   int i, bestattack = 0;
 
   /* Choose the best unit among the basic ones */
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD); i++) {
-    Unit_type_id iunit = get_role_unit(L_BARBARIAN_BUILD, i);
+    struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD, i);
 
-    if (get_unit_type(iunit)->attack_strength > bestattack) {
+    if (iunit->attack_strength > bestattack) {
       bestunit = iunit;
-      bestattack = get_unit_type(iunit)->attack_strength;
+      bestattack = iunit->attack_strength;
     }
   }
 
   /* Choose among those made available through other civ's research */
   for(i = 0; i < num_role_units(L_BARBARIAN_BUILD_TECH); i++) {
-    Unit_type_id iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
+    struct unit_type *iunit = get_role_unit(L_BARBARIAN_BUILD_TECH, i);
 
-    if (game.info.global_advances[get_unit_type(iunit)->tech_requirement]
-	&& get_unit_type(iunit)->attack_strength > bestattack) {
+    if (game.info.global_advances[iunit->tech_requirement]
+	&& iunit->attack_strength > bestattack) {
       bestunit = iunit;
-      bestattack = get_unit_type(iunit)->attack_strength;
+      bestattack = iunit->attack_strength;
     }
   }
 
   /* If found anything, put it into the choice */
-  if (bestunit != -1) {
-    choice->choice = bestunit;
+  if (bestunit) {
+    choice->choice = bestunit->index;
     /* FIXME: 101 is the "overriding military emergency" indicator */
     choice->want   = 101;
     choice->type   = CT_ATTACKER;
@@ -939,11 +939,11 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     CITY_LOG(LOG_ERROR, pcity, "Falling back - didn't want to build soldiers,"
 	     " workers, caravans, settlers, or buildings!");
     pcity->ai.choice.want = 1;
-    if (best_role_unit(pcity, F_TRADE_ROUTE) != U_LAST) {
-      pcity->ai.choice.choice = best_role_unit(pcity, F_TRADE_ROUTE);
+    if (best_role_unit(pcity, F_TRADE_ROUTE)) {
+      pcity->ai.choice.choice = best_role_unit(pcity, F_TRADE_ROUTE)->index;
       pcity->ai.choice.type = CT_NONMIL;
-    } else if (best_role_unit(pcity, F_SETTLERS) != U_LAST) {
-      pcity->ai.choice.choice = best_role_unit(pcity, F_SETTLERS);
+    } else if (best_role_unit(pcity, F_SETTLERS)) {
+      pcity->ai.choice.choice = best_role_unit(pcity, F_SETTLERS)->index;
       pcity->ai.choice.type = CT_NONMIL;
     } else {
       CITY_LOG(LOG_ERROR, pcity, "Cannot even build a fallback "
@@ -957,7 +957,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire %d.",
 	     (is_unit_choice_type(pcity->ai.choice.type) ?
-	      unit_name(pcity->ai.choice.choice) :
+	      unit_name(get_unit_type(pcity->ai.choice.choice)) :
 	      get_improvement_name(pcity->ai.choice.choice)),
 	     pcity->ai.choice.want);
     
@@ -1022,8 +1022,10 @@ static void increase_maxbuycost(struct player *pplayer, int new_value)
 static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 {
   struct player *pplayer = city_owner(pcity);
+
   unit_list_iterate(pcity->tile->units, punit) {
-    int id = can_upgrade_unittype(pplayer, punit->type);
+    struct unit_type *punittype = can_upgrade_unittype(pplayer, punit->type);
+
     if (military && (!is_military_unit(punit) || !is_ground_unit(punit))) {
       /* Only upgrade military units this round */
       continue;
@@ -1032,16 +1034,17 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
       /* Only civilians or tranports this round */
       continue;
     }
-    if (id >= 0) {
-      int cost = unit_upgrade_price(pplayer, punit->type, id);
+    if (punittype) {
+      int cost = unit_upgrade_price(pplayer, punit->type, punittype);
       int real_limit = limit;
+
       /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
       if (unit_flag(punit, F_TRIREME)) {
         real_limit = pplayer->ai.est_upkeep;
       }
       if (pplayer->economic.gold - cost > real_limit) {
         CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
-                 unit_type(punit)->name, unit_types[id].name, cost,
+                 unit_type(punit)->name, punittype->name, cost,
                  military ? "military" : "civilian");
         handle_unit_upgrade(city_owner(pcity), punit->id);
       } else {
@@ -1129,7 +1132,7 @@ static void ai_spend_gold(struct player *pplayer)
     }
 
     if (bestchoice.type != CT_BUILDING
-        && unit_type_flag(bestchoice.choice, F_CITIES)) {
+        && unit_type_flag(get_unit_type(bestchoice.choice), F_CITIES)) {
       if (get_city_bonus(pcity, EFT_GROWTH_FOOD) == 0
           && pcity->size == 1
           && city_granary_size(pcity->size)
@@ -1154,7 +1157,8 @@ static void ai_spend_gold(struct player *pplayer)
                 || (pplayer->economic.gold - buycost < limit);
 
     if (bestchoice.type == CT_ATTACKER
-	&& buycost > unit_build_shield_cost(bestchoice.choice) * 2) {
+	&& buycost
+	> unit_build_shield_cost(get_unit_type(bestchoice.choice)) * 2) {
        /* Too expensive for an offensive unit */
        continue;
     }
@@ -1169,7 +1173,8 @@ static void ai_spend_gold(struct player *pplayer)
             || (bestchoice.want > 200 && pcity->ai.urgency > 1))) {
       /* Buy stuff */
       CITY_LOG(LOG_BUY, pcity, "Crash buy of %s for %d (want %d)",
-               bestchoice.type != CT_BUILDING ? unit_name(bestchoice.choice)
+               bestchoice.type != CT_BUILDING
+	       ? unit_name(get_unit_type(bestchoice.choice))
                : get_improvement_name(bestchoice.choice), buycost,
                bestchoice.want);
       really_handle_city_buy(pplayer, pcity);
@@ -1178,7 +1183,8 @@ static void ai_spend_gold(struct player *pplayer)
                && assess_defense(pcity) == 0) {
       /* We have no gold but MUST have a defender */
       CITY_LOG(LOG_BUY, pcity, "must have %s but can't afford it (%d < %d)!",
-	       unit_name(bestchoice.choice), pplayer->economic.gold, buycost);
+	       unit_name(get_unit_type(bestchoice.choice)),
+	       pplayer->economic.gold, buycost);
       try_to_sell_stuff(pplayer, pcity);
       if (pplayer->economic.gold - pplayer->ai.est_upkeep >= buycost) {
         CITY_LOG(LOG_BUY, pcity, "now we can afford it (sold something)");

@@ -124,7 +124,7 @@ struct unit_ai {
 };
 
 struct unit {
-  Unit_type_id type;
+  struct unit_type *type;
   int id;
   struct player *owner; /* Cannot be NULL. */
   struct tile *tile;
@@ -318,12 +318,13 @@ int base_unsafe_terrain_loss_pct(const struct player *pplayer,
 
 bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile);
 bool unit_being_aggressive(const struct unit *punit);
-bool unit_type_really_ignores_zoc(Unit_type_id type);
+bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 
 bool is_build_or_clean_activity(enum unit_activity activity);
 
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
-                                 Unit_type_id type, int veteran_level);
+                                 struct unit_type *punittype,
+				 int veteran_level);
 void destroy_unit_virtual(struct unit *punit);
 void free_unit_orders(struct unit *punit);
 

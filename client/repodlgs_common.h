@@ -27,7 +27,7 @@ struct improvement_entry
 
 struct unit_entry
 {
-  Unit_type_id type;
+  struct unit_type *type;
   int count, cost, total_cost;
 };
 
@@ -75,7 +75,7 @@ void settable_options_free(void);
 
 void sell_all_improvements(Impr_type_id impr, bool obsolete_only,
 			   char *message, size_t message_sz);
-void disband_all_units(Unit_type_id type, bool in_cities_only,
+void disband_all_units(struct unit_type *punittype, bool in_cities_only,
 		       char *message, size_t message_sz);
 
 #endif /* FC__REPODLGS_COMMON_H */

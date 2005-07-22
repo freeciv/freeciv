@@ -14,7 +14,6 @@
 #define FC__DIPLOMATS_H
 
 #include "fc_types.h"
-#include "unit.h"		/* Unit_type_id, enum unit_activity */
 
 #include "gotohand.h"		/* enum goto_move_restriction */
 

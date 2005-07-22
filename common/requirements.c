@@ -142,7 +142,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     break;
   case REQ_UNITTYPE:
     source.value.unittype = find_unit_type_by_name(value);
-    if (source.value.unittype != U_LAST) {
+    if (source.value.unittype) {
       return source;
     }
     break;
@@ -210,7 +210,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.nation = get_nation_by_idx(value);
     return source;
   case REQ_UNITTYPE:
-    source.value.unittype = value;
+    source.value.unittype = get_unit_type(value);
     return source;
   case REQ_UNITFLAG:
     source.value.unitflag = value;
@@ -266,7 +266,7 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.nation->index;
     return;
   case REQ_UNITTYPE:
-    *value = source->value.unittype;
+    *value = source->value.unittype->index;
     return;
   case REQ_UNITFLAG:
     *value = source->value.unitflag;
@@ -716,11 +716,12 @@ static bool is_nation_in_range(const struct player *target_player,
 ****************************************************************************/
 static bool is_unittype_in_range(const struct unit *target_unit,
 				 enum req_range range, bool survives,
-				 Unit_type_id unittype)
+				 struct unit_type *punittype)
 {
   return (range == REQ_RANGE_LOCAL
 	  && target_unit
-	  && target_unit->type == unittype);
+	  && punittype
+	  && target_unit->type == punittype);
 }
 
 /****************************************************************************

@@ -54,6 +54,8 @@ enum output_type_id {
 #define O_COUNT num_output_types
 #define O_MAX O_LAST /* Changing this breaks network compatibility. */
 
+/* Some integers here could be uint8 values perhaps, but this is probably
+ * not worth it.  Storage space is not an issue for these types. */
 typedef signed short Continent_id;
 typedef int Terrain_type_id;
 typedef int Specialist_type_id;
@@ -62,6 +64,7 @@ typedef enum output_type_id Output_type_id;
 typedef enum unit_activity Activity_type_id;
 typedef int Nation_type_id;
 typedef int Team_type_id;
+typedef int Unit_type_id;
 
 struct city;
 struct connection;

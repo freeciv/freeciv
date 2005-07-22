@@ -391,24 +391,27 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
     return FALSE;
   }
 
-  unit_type_iterate(u_type) {
-    if (get_unit_type(u_type)->move_type != AIR_MOVING) continue;
-    if (can_build_unit(pcity, u_type)) {
+  unit_type_iterate(punittype) {
+    if (punittype->move_type != AIR_MOVING) {
+      continue;
+    }
+    if (can_build_unit(pcity, punittype)) {
       struct unit *virtual_unit = 
-	create_unit_virtual(pplayer, pcity, u_type, 
-                            do_make_unit_veteran(pcity, u_type));
+	create_unit_virtual(pplayer, pcity, punittype, 
+                            do_make_unit_veteran(pcity, punittype));
       int profit = find_something_to_bomb(virtual_unit, pcity->tile);
+
       if (profit > choice->want){
 	/* Update choice */
 	choice->want = profit;
-	choice->choice = u_type;
+	choice->choice = punittype->index;
 	choice->type = CT_ATTACKER;
 	want_something = TRUE;
 	freelog(LOG_DEBUG, "%s wants to build %s (want=%d)",
-		pcity->name, get_unit_type(u_type)->name, profit);
+		pcity->name, punittype->name, profit);
       } else {
       freelog(LOG_DEBUG, "%s doesn't want to build %s (want=%d)",
-		pcity->name, get_unit_type(u_type)->name, profit);
+		pcity->name, punittype->name, profit);
       }
       destroy_unit_virtual(virtual_unit);
     }

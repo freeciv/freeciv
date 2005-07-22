@@ -373,9 +373,12 @@ bool can_build_improvement_direct(const struct city *pcity, Impr_type_id id);
 bool can_build_improvement(const struct city *pcity, Impr_type_id id);
 bool can_eventually_build_improvement(const struct city *pcity,
 				      Impr_type_id id);
-bool can_build_unit(const struct city *pcity, Unit_type_id id);
-bool can_build_unit_direct(const struct city *pcity, Unit_type_id id);
-bool can_eventually_build_unit(const struct city *pcity, Unit_type_id id);
+bool can_build_unit(const struct city *pcity,
+		    const struct unit_type *punittype);
+bool can_build_unit_direct(const struct city *pcity,
+			   const struct unit_type *punittype);
+bool can_eventually_build_unit(const struct city *pcity,
+			       const struct unit_type *punittype);
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type);
 bool city_got_building(const struct city *pcity,  Impr_type_id id); 

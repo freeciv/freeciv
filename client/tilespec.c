@@ -881,8 +881,8 @@ void tilespec_reread(const char *new_tileset_name)
   terrain_type_iterate(pterrain) {
     tileset_setup_tile_type(tileset, pterrain);
   } terrain_type_iterate_end;
-  unit_type_iterate(id) {
-    tileset_setup_unit_type(tileset, id);
+  unit_type_iterate(punittype) {
+    tileset_setup_unit_type(tileset, punittype);
   } unit_type_iterate_end;
   government_iterate(gov) {
     tileset_setup_government(tileset, gov->index);
@@ -2339,11 +2339,9 @@ static struct sprite* lookup_sprite_tag_alt(struct tileset *t,
   Set unit_type sprite value; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-void tileset_setup_unit_type(struct tileset *t, int id)
+void tileset_setup_unit_type(struct tileset *t, struct unit_type *ut)
 {
-  struct unit_type *ut = get_unit_type(id);
-
-  t->sprites.unittype[id]
+  t->sprites.unittype[ut->index]
     = lookup_sprite_tag_alt(t, ut->graphic_str, ut->graphic_alt,
 			    TRUE, "unit_type", ut->name);
 
@@ -2791,7 +2789,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  ADD_SPRITE(t->sprites.unittype[punit->type], TRUE,
+  ADD_SPRITE(t->sprites.unittype[punit->type->index], TRUE,
 	     FULL_TILE_X_OFFSET + t->unit_offset_x,
 	     FULL_TILE_Y_OFFSET + t->unit_offset_y);
 
@@ -4374,13 +4372,14 @@ struct sprite *get_government_sprite(const struct tileset *t,
 /****************************************************************************
   Return the sprite for the unit type (the base "unit" sprite).
 ****************************************************************************/
-struct sprite *get_unittype_sprite(const struct tileset *t, Unit_type_id id)
+struct sprite *get_unittype_sprite(const struct tileset *t,
+				   const struct unit_type *punittype)
 {
-  if (id < 0 || id >= game.control.num_unit_types) {
+  if (!punittype) {
     assert(0);
     return NULL;
   }
-  return t->sprites.unittype[id];
+  return t->sprites.unittype[punittype->index];
 }
 
 /**************************************************************************

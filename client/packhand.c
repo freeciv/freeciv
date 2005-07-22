@@ -82,7 +82,8 @@ static int reports_thaw_requests_size = 0;
 static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
   struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
-					   packet->type, packet->veteran);
+					   get_unit_type(packet->type),
+					   packet->veteran);
 
   /* Owner, veteran, and type fields are already filled in by
    * create_unit_virtual. */
@@ -141,7 +142,8 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
 static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 {
   struct unit *punit = create_unit_virtual(get_player(packet->owner), NULL,
-					   packet->type, FALSE);
+					   get_unit_type(packet->type),
+					   FALSE);
 
   /* Owner and type fields are already filled in by create_unit_virtual. */
   punit->id = packet->id;
@@ -2080,7 +2082,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
   u->firepower          = p->firepower;
-  u->obsoleted_by       = p->obsoleted_by;
+  u->obsoleted_by = get_unit_type(p->obsoleted_by);
   u->fuel               = p->fuel;
   u->flags              = p->flags;
   u->roles              = p->roles;
@@ -2101,7 +2103,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
 
   u->helptext = mystrdup(p->helptext);
 
-  tileset_setup_unit_type(tileset, p->id);
+  tileset_setup_unit_type(tileset, u);
 }
 
 /**************************************************************************

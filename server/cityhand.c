@@ -245,7 +245,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   if (pcity->is_building_unit) {
     name = unit_types[pcity->currently_building].name;
-    total = unit_build_shield_cost(pcity->currently_building);
+    total = unit_build_shield_cost(get_unit_type(pcity->currently_building));
   } else {
     name = get_improvement_name(pcity->currently_building);
     total = impr_build_shield_cost(pcity->currently_building);
@@ -347,8 +347,10 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
     return;
   }
 
-   if (is_build_id_unit_id && !can_build_unit(pcity, build_id))
-     return;
+  if (is_build_id_unit_id
+      && !can_build_unit(pcity, get_unit_type(build_id))) {
+    return;
+  }
    if (!is_build_id_unit_id && !can_build_improvement(pcity, build_id))
      return;
   if (pcity->did_buy && pcity->shield_stock > 0) {

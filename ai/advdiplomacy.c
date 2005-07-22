@@ -674,7 +674,8 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
    * enemy expansionism */
   city_list_iterate(pplayer->cities, pcity) {
     if (pcity->is_building_unit 
-        && unit_type_flag(pcity->currently_building, F_CITIES)) {
+        && unit_type_flag(get_unit_type(pcity->currently_building),
+			  F_CITIES)) {
       kill_desire -= 1;
     }
   } city_list_iterate_end;

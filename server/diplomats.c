@@ -930,7 +930,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 
     /* Report it. */
     if (pcity->is_building_unit)
-      prod = unit_name (pcity->currently_building);
+      prod = unit_name(get_unit_type(pcity->currently_building));
     else
       prod = get_improvement_name (pcity->currently_building);
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,

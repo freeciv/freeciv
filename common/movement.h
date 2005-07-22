@@ -25,24 +25,24 @@ bool is_sailing_unit(const struct unit *punit);
 bool is_air_unit(const struct unit *punit);
 bool is_heli_unit(const struct unit *punit);
 bool is_ground_unit(const struct unit *punit);
-bool is_sailing_unittype(Unit_type_id id);
-bool is_air_unittype(Unit_type_id id);
-bool is_heli_unittype(Unit_type_id id);
-bool is_ground_unittype(Unit_type_id id);
+bool is_sailing_unittype(const struct unit_type *punittype);
+bool is_air_unittype(const struct unit_type *punittype);
+bool is_heli_unittype(const struct unit_type *punittype);
+bool is_ground_unittype(const struct unit_type *punittype);
 
 bool is_native_terrain(const struct unit *punit,
                        const struct terrain *pterrain);
 bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);
 bool can_unit_survive_at_tile(const struct unit *punit,
 			      const struct tile *ptile);
-bool can_step_taken_wrt_to_zoc(Unit_type_id type,
+bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
 			       const struct player *unit_owner,
 			       const struct tile *src_tile,
 			       const struct tile *dst_tile);
 bool zoc_ok_move(const struct unit *punit, const struct tile *ptile);
 bool can_unit_move_to_tile(const struct unit *punit, const struct tile *ptile,
 			   bool igzoc);
-enum unit_move_result test_unit_move_to_tile(Unit_type_id type,
+enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 					     const struct player *unit_owner,
 					     enum unit_activity activity,
 					     const struct tile *src_tile,

@@ -95,10 +95,8 @@ void get_economy_report_units_data(struct unit_entry *entries,
 				   int *num_entries_used, int *total_cost)
 {
   int count, cost, partial_cost;
-  struct unit_type *unittype;
 
-  unit_type_iterate(utype) {
-    unittype = get_unit_type(utype);
+  unit_type_iterate(unittype) {
     cost = utype_upkeep_cost(unittype, game.player_ptr,
                              get_gov_pplayer(game.player_ptr), O_GOLD);
 
@@ -113,7 +111,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
     city_list_iterate(game.player_ptr->cities, pcity) {
       unit_list_iterate(pcity->units_supported, punit) {
 
-	if (punit->type == utype) {
+	if (punit->type == unittype) {
 	  count++;
 	  partial_cost += punit->upkeep[O_GOLD];
 	}
@@ -127,7 +125,7 @@ void get_economy_report_units_data(struct unit_entry *entries,
 
     (*total_cost) += partial_cost;
 
-    entries[*num_entries_used].type = utype;
+    entries[*num_entries_used].type = unittype;
     entries[*num_entries_used].count = count;
     entries[*num_entries_used].cost = cost;
     entries[*num_entries_used].total_cost = partial_cost;
@@ -346,7 +344,7 @@ void sell_all_improvements(Impr_type_id impr, bool obsolete_only,
   The "message" string will be filled with a GUI-friendly message about
   what was sold.
 ****************************************************************************/
-void disband_all_units(Unit_type_id type, bool in_cities_only,
+void disband_all_units(struct unit_type *punittype, bool in_cities_only,
 		       char *message, size_t message_sz)
 {
   int count = 0;
@@ -357,9 +355,9 @@ void disband_all_units(Unit_type_id type, bool in_cities_only,
     return;
   }
 
-  if (unit_type_flag(type, F_UNDISBANDABLE)) {
+  if (unit_type_flag(punittype, F_UNDISBANDABLE)) {
     my_snprintf(message, message_sz, _("%s cannot be disbanded."),
-		unit_name(type));
+		unit_name(punittype));
     return;
   }
 
@@ -369,7 +367,7 @@ void disband_all_units(Unit_type_id type, bool in_cities_only,
     unit_list_iterate(pcity->units_supported, punit) {
       struct city *incity = tile_get_city(punit->tile);
 
-      if (punit->type == type
+      if (punit->type == punittype
 	  && (!in_cities_only
 	      || (incity && city_owner(incity) == game.player_ptr))) {
 	count++;
@@ -380,9 +378,9 @@ void disband_all_units(Unit_type_id type, bool in_cities_only,
 
   if (count > 0) {
     my_snprintf(message, message_sz, _("Disbanded %d %s."),
-		count, unit_name(type));
+		count, unit_name(punittype));
   } else {
     my_snprintf(message, message_sz, _("No %s could be disbanded."),
-		unit_name(type));
+		unit_name(punittype));
   }
 }

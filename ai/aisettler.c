@@ -585,15 +585,16 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
           && tile_get_city(punit->tile))) {
     if (!ferry) {
       /* No boat?  Get a virtual one! */
-      Unit_type_id boattype
+      struct unit_type *boattype
         = best_role_unit_for_player(pplayer, L_FERRYBOAT);
 
-      if (boattype == U_LAST) {
+      if (boattype == NULL) {
         /* Sea travel not possible yet. Bump tech want for ferries. */
-        Unit_type_id boattype = get_role_unit(L_FERRYBOAT, 0);
+        struct unit_type *boattype = get_role_unit(L_FERRYBOAT, 0);
 
-        if (boattype != U_LAST) {
-          Tech_type_id tech_req = unit_types[boattype].tech_requirement;
+        if (boattype != NULL) {
+          Tech_type_id tech_req
+	    = unit_types[boattype->index].tech_requirement;
 
           pplayer->ai.tech_want[tech_req] += FERRY_TECH_WANT;
           TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to ferry settler",

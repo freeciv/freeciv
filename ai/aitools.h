@@ -17,7 +17,6 @@
 
 #include "fc_types.h"
 #include "unit.h"		/* enum ai_unit_task */
-#include "unittype.h"		/* Unit_type_id */
 
 struct ai_choice;
 struct pf_path;

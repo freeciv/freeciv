@@ -63,7 +63,7 @@ static void init_game_id(void)
 static void place_starting_unit(struct tile *ptile, struct player *pplayer,
 				char crole)
 {
-  Unit_type_id utype;
+  struct unit_type *utype;
   enum unit_flag_id role;
 
   assert(!is_non_allied_unit_tile(ptile, pplayer));
@@ -123,17 +123,17 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
   /* Create the unit of an appropriate type, if it exists */
   if (num_role_units(role) > 0) {
     utype = first_role_unit_for_player(pplayer, role);
-    if (utype == U_LAST) {
+    if (utype == NULL) {
       utype = get_role_unit(role, 0);
     }
 
     /* We cannot currently handle sea units as start units.
      * TODO: remove this code block when we can. */
-    if (unit_types[utype].move_type == SEA_MOVING) {
+    if (utype->move_type == SEA_MOVING) {
       freelog(LOG_ERROR, _("Sea moving start units are not yet supported, "
-                           "%s not created."), unit_types[utype].name);
+                           "%s not created."), utype->name);
       notify_player(pplayer, _("Sea moving start units are not yet supported. "
-                               "Nobody gets %s."), unit_types[utype].name);
+                               "Nobody gets %s."), utype->name);
       return;
     }
 
@@ -270,7 +270,7 @@ void init_new_game(void)
 
     /* Place nation specific start units (not role based!) */
     i = 0;
-    while (nation->init_units[i] != U_LAST && i < MAX_NUM_UNIT_LIST) {
+    while (nation->init_units[i] != NULL && i < MAX_NUM_UNIT_LIST) {
       ptile = find_dispersed_position(pplayer, &p);
       create_unit(pplayer, ptile, nation->init_units[i], FALSE, 0, 0);
       i++;

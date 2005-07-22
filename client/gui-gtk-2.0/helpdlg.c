@@ -782,15 +782,14 @@ static void help_update_wonder(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
-				  char *title, int i)
+				  char *title, struct unit_type *utype)
 {
   char *buf = &long_buffer[0];
 
   create_help_page(HELP_UNIT);
 
-  if (i<game.control.num_unit_types) {
-    struct unit_type *utype = get_unit_type(i);
-    sprintf(buf, "%d", unit_build_shield_cost(i));
+  if (utype) {
+    sprintf(buf, "%d", unit_build_shield_cost(utype));
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][1]), buf);
     sprintf(buf, "%d", utype->attack_strength);
     gtk_label_set_text(GTK_LABEL(help_ulabel[0][4]), buf);
@@ -802,7 +801,8 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ulabel[2][1]), buf);
     sprintf(buf, "%d", utype->hp);
     gtk_label_set_text(GTK_LABEL(help_ulabel[2][4]), buf);
-    gtk_label_set_text(GTK_LABEL(help_ulabel[3][1]), helptext_unit_upkeep_str(i));
+    gtk_label_set_text(GTK_LABEL(help_ulabel[3][1]),
+		       helptext_unit_upkeep_str(utype));
     sprintf(buf, "%d", utype->vision_range);
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), buf);
     if(utype->tech_requirement==A_LAST) {
@@ -816,10 +816,11 @@ static void help_update_unit_type(const struct help_item *pitem,
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), _("None"));
     } else {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), get_unit_type(utype->obsoleted_by)->name);
+      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]),
+			 utype->obsoleted_by->name);
     }
 
-    helptext_unit(buf, i, pitem->text);
+    helptext_unit(buf, utype, pitem->text);
 
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
@@ -830,7 +831,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 
       store.type = CANVAS_PIXCOMM;
       store.v.pixcomm = GTK_PIXCOMM(unit_tile);
-      create_overlay_unit(&store, i);
+      create_overlay_unit(&store, utype);
     }
     gtk_pixcomm_thaw(GTK_PIXCOMM(unit_tile));
     gtk_widget_show(unit_tile);
@@ -959,8 +960,10 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       }
     } impr_type_iterate_end;
 
-    unit_type_iterate(j) {
-      if(i!=get_unit_type(j)->tech_requirement) continue;
+    unit_type_iterate(punittype) {
+      if (i != punittype->tech_requirement) {
+	continue;
+      }
       hbox = gtk_hbox_new(FALSE, 0);
       gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
       w = gtk_label_new(_("Allows"));

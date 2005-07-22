@@ -1296,9 +1296,9 @@ void contemplate_new_city(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   struct unit *virtualunit;
-  Unit_type_id unit_type = best_role_unit(pcity, F_CITIES); 
+  struct unit_type *unit_type = best_role_unit(pcity, F_CITIES); 
 
-  if (unit_type == U_LAST) {
+  if (unit_type == NULL) {
     freelog(LOG_DEBUG, "No F_CITIES role unit available");
     return;
   }
@@ -1344,10 +1344,10 @@ void contemplate_terrain_improvements(struct city *pcity)
   enum unit_activity best_act;
   struct tile *ptile = pcity->tile;
   struct ai_data *ai = ai_data_get(pplayer);
-  Unit_type_id unit_type = best_role_unit(pcity, F_SETTLERS);
+  struct unit_type *unit_type = best_role_unit(pcity, F_SETTLERS);
   int completion_time;
 
-  if (unit_type == U_LAST) {
+  if (unit_type == NULL) {
     freelog(LOG_DEBUG, "No F_SETTLERS role unit available");
     return;
   }

@@ -219,7 +219,7 @@ void get_city_dialog_production(struct city *pcity,
   stock = pcity->shield_stock;
 
   if (pcity->is_building_unit) {
-    cost = unit_build_shield_cost(pcity->currently_building);
+    cost = unit_build_shield_cost(get_unit_type(pcity->currently_building));
   } else {
     cost = impr_build_shield_cost(pcity->currently_building);
   }
@@ -275,8 +275,8 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
     int cost;
 
     if (is_unit) {
-      name = get_unit_name(id);
-      cost = unit_build_shield_cost(id);
+      name = get_unit_name(get_unit_type(id));
+      cost = unit_build_shield_cost(get_unit_type(id));
     } else {
       name = get_impr_name_ex(pcity, id);
       cost = impr_build_shield_cost(id);
@@ -303,7 +303,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
   if (is_unit) {
     struct unit_type *ptype = get_unit_type(id);
 
-    my_snprintf(buf[0], column_size, unit_name(id));
+    my_snprintf(buf[0], column_size, unit_name(ptype));
 
     /* from unit.h get_unit_name() */
     if (ptype->fuel > 0) {
@@ -315,7 +315,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
       my_snprintf(buf[1], column_size, "%d/%d/%d", ptype->attack_strength,
 		  ptype->defense_strength, ptype->move_rate / 3);
     }
-    my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(id));
+    my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(ptype));
   } else {
     struct player *pplayer = game.player_ptr;
 
@@ -638,7 +638,8 @@ static bool base_city_queue_insert(struct city *pcity, int position,
     bool old_is_unit;
 
     /* Insert as current production. */
-    if (item_is_unit && !can_build_unit_direct(pcity, item_id)) {
+    if (item_is_unit
+	&& !can_build_unit_direct(pcity, get_unit_type(item_id))) {
       return FALSE;
     }
     if (!item_is_unit && !can_build_improvement_direct(pcity, item_id)) {
@@ -655,7 +656,8 @@ static bool base_city_queue_insert(struct city *pcity, int position,
   } else if (position >= 1
 	     && position <= worklist_length(&pcity->worklist)) {
     /* Insert into middle. */
-    if (item_is_unit && !can_eventually_build_unit(pcity, item_id)) {
+    if (item_is_unit
+	&& !can_eventually_build_unit(pcity, get_unit_type(item_id))) {
       return FALSE;
     }
     if (!item_is_unit && !can_eventually_build_improvement(pcity, item_id)) {
@@ -667,7 +669,8 @@ static bool base_city_queue_insert(struct city *pcity, int position,
     }
   } else {
     /* Insert at end. */
-    if (item_is_unit && !can_eventually_build_unit(pcity, item_id)) {
+    if (item_is_unit
+	&& !can_eventually_build_unit(pcity, get_unit_type(item_id))) {
       return FALSE;
     }
     if (!item_is_unit && !can_eventually_build_improvement(pcity, item_id)) {

@@ -60,7 +60,7 @@ struct req_source {
     enum tile_special_type special;     /* source special */
     struct terrain *terrain;            /* source terrain type */
     struct nation_type *nation;         /* source nation type */
-    Unit_type_id unittype;              /* source unittype */
+    struct unit_type *unittype;         /* source unittype */
     enum unit_flag_id unitflag;         /* source unit flag */
     Output_type_id outputtype;          /* source output type */
     Specialist_type_id specialist;      /* specialist type */

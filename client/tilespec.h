@@ -112,7 +112,7 @@ void tilespec_reread(const char *tileset_name);
 void tilespec_reread_callback(struct client_option *option);
 
 void tileset_setup_specialist_type(struct tileset *t, int id);
-void tileset_setup_unit_type(struct tileset *t, int id);
+void tileset_setup_unit_type(struct tileset *t, struct unit_type *punittype);
 void tileset_setup_impr_type(struct tileset *t, int id);
 void tileset_setup_tech_type(struct tileset *t, int id);
 void tileset_setup_tile_type(struct tileset *t,
@@ -195,7 +195,8 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech);
 struct sprite *get_building_sprite(const struct tileset *t, Impr_type_id b);
 struct sprite *get_government_sprite(const struct tileset *t,
 				     const struct government *gov);
-struct sprite *get_unittype_sprite(const struct tileset *t, Unit_type_id id);
+struct sprite *get_unittype_sprite(const struct tileset *t,
+				   const struct unit_type *punittype);
 struct sprite *get_sample_city_sprite(const struct tileset *t,
 				      int city_style);
 struct sprite *get_arrow_sprite(const struct tileset *t);

@@ -356,14 +356,15 @@ int get_attack_power(const struct unit *punit)
  status. Set moves_left to SINGLE_MOVE to disable the reduction of
  power caused by tired units.
 **************************************************************************/
-int base_get_attack_power(Unit_type_id type, int veteran, int moves_left)
+int base_get_attack_power(const struct unit_type *punittype,
+			  int veteran, int moves_left)
 {
   int power;
 
-  power = get_unit_type(type)->attack_strength * POWER_FACTOR;
-  power *= get_unit_type(type)->veteran[veteran].power_fact;
+  power = punittype->attack_strength * POWER_FACTOR;
+  power *= punittype->veteran[veteran].power_fact;
 
-  if (!unit_type_flag(type, F_IGTIRED) && moves_left < SINGLE_MOVE) {
+  if (!unit_type_flag(punittype, F_IGTIRED) && moves_left < SINGLE_MOVE) {
     power = (power * moves_left) / SINGLE_MOVE;
   }
   return power;
@@ -416,8 +417,8 @@ int get_total_attack_power(const struct unit *attacker,
 May be called with a non-existing att_type to avoid any unit type
 effects.
 **************************************************************************/
-static int defense_multiplication(Unit_type_id att_type,
-				  Unit_type_id def_type,
+static int defense_multiplication(const struct unit_type *att_type,
+				  const struct unit_type *def_type,
 				  const struct tile *ptile,
 				  int defensepower, bool fortified)
 {
@@ -426,7 +427,7 @@ static int defense_multiplication(Unit_type_id att_type,
 
   CHECK_UNIT_TYPE(def_type);
 
-  if (att_type != U_LAST) {
+  if (att_type) {
     CHECK_UNIT_TYPE(att_type);
 
     if (unit_type_flag(def_type, F_PIKEMEN)
@@ -480,14 +481,15 @@ static int defense_multiplication(Unit_type_id att_type,
  May be called with a non-existing att_type to avoid any effects which
  depend on the attacker.
 **************************************************************************/
-int get_virtual_defense_power(Unit_type_id att_type, Unit_type_id def_type,
+int get_virtual_defense_power(const struct unit_type *att_type,
+			      const struct unit_type *def_type,
 			      const struct tile *ptile,
 			      bool fortified, int veteran)
 {
-  int defensepower = unit_types[def_type].defense_strength;
+  int defensepower = def_type->defense_strength;
   int db;
 
-  if (unit_types[def_type].move_type == LAND_MOVING
+  if (def_type->move_type == LAND_MOVING
       && is_ocean(ptile->terrain)) {
     /* Ground units on ship doesn't defend. */
     return 0;
@@ -498,7 +500,7 @@ int get_virtual_defense_power(Unit_type_id att_type, Unit_type_id def_type,
     db += (db * terrain_control.river_defense_bonus) / 100;
   }
   defensepower *= db;
-  defensepower *= get_unit_type(def_type)->veteran[veteran].power_fact;
+  defensepower *= def_type->veteran[veteran].power_fact;
 
   return defense_multiplication(att_type, def_type, ptile, defensepower,
 				fortified);

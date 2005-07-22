@@ -469,20 +469,22 @@ int build_points_left(struct city *pcity)
 /**************************************************************************
   Will unit of this type be created as veteran?
 **************************************************************************/
-int do_make_unit_veteran(struct city *pcity, Unit_type_id id)
+int do_make_unit_veteran(struct city *pcity,
+			 const struct unit_type *punittype)
 {
   /* we current don't have any wonder or building that have influence on 
      settler/worker units */
-  if (unit_type_flag(id, F_SETTLERS) || unit_type_flag(id, F_CITIES)) {
+  if (unit_type_flag(punittype, F_SETTLERS)
+      || unit_type_flag(punittype, F_CITIES)) {
     return 0;
   }
   
-  if (unit_type_flag(id, F_DIPLOMAT)) {
+  if (unit_type_flag(punittype, F_DIPLOMAT)) {
     return (get_city_bonus(pcity, EFT_VETERAN_DIPLOMATS) ? 1 : 0);
-  } else if (is_ground_unittype(id)) {
+  } else if (is_ground_unittype(punittype)) {
     return (get_city_bonus(pcity, EFT_LAND_VETERAN) > 0) ? 1 : 0;
   } else {
-    if (is_sailing_unittype(id)) {
+    if (is_sailing_unittype(punittype)) {
       return (get_city_bonus(pcity, EFT_SEA_VETERAN) > 0) ? 1 : 0;
     } else {
       return (get_city_bonus(pcity, EFT_AIR_VETERAN) > 0) ? 1 : 0;
@@ -871,7 +873,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   /* Set production to something valid for pplayer, if not. */
   if ((pcity->is_building_unit
-       && !can_build_unit_direct(pcity, pcity->currently_building))
+       && !can_build_unit_direct(pcity,
+				 get_unit_type(pcity->currently_building)))
       || (!pcity->is_building_unit
           && !can_build_improvement(pcity, pcity->currently_building))) {
     advisor_choose_build(ptaker, pcity);

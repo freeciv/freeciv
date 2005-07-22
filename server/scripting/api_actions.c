@@ -30,7 +30,7 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 		  	      int veteran_level, City *homecity,
 			      int moves_left)
 {
-  return create_unit(pplayer, ptile, ptype->index, veteran_level,
+  return create_unit(pplayer, ptile, ptype, veteran_level,
 		     homecity->id, moves_left);
 }
 

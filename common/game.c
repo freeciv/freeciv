@@ -564,9 +564,7 @@ void translate_data_names(void)
     tthis->name = Q_(tthis->name_orig);
   } tech_type_iterate_end;
 
-  unit_type_iterate(i) {
-    struct unit_type *tthis = &unit_types[i];
-
+  unit_type_iterate(tthis) {
     tthis->name = Q_(tthis->name_orig);
   } unit_type_iterate_end;
 

@@ -340,12 +340,12 @@ void clipboard_copy_production(struct tile *ptile)
     if (!can_player_build_unit_direct(game.player_ptr, punit->type))  {
       my_snprintf(msg, sizeof(msg),
       _("You don't know how to build %s!"),
-        unit_types[punit->type].name);
+		  punit->type->name);
       append_output_window(msg);
       return;
     }
     clipboard_is_unit = TRUE;
-    clipboard = punit->type;
+    clipboard = punit->type->index;
   }
   upgrade_canvas_clipboard();
 
@@ -409,9 +409,11 @@ static void clipboard_send_production_packet(struct city *pcity)
 void upgrade_canvas_clipboard(void)
 {
   if (clipboard_is_unit)  {
-    int u = can_upgrade_unittype(game.player_ptr, clipboard);
-    if (u != -1)  {
-      clipboard = u;
+    struct unit_type *u = can_upgrade_unittype(game.player_ptr,
+					       get_unit_type(clipboard));
+
+    if (u)  {
+      clipboard = u->index;
     }
   }
 }

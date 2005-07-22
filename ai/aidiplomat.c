@@ -111,22 +111,22 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
      to protect us. If we see an enemy diplomat and we don't have diplomat
      tech... race it! */
   if (def != 0 && pcity->ai.diplomat_threat && !pcity->ai.has_diplomat) {
-    Unit_type_id u = best_role_unit(pcity, F_DIPLOMAT);
+    struct unit_type *u = best_role_unit(pcity, F_DIPLOMAT);
 
-    if (u < U_LAST) {
+    if (u) {
        freelog(LOG_DIPLOMAT_BUILD, 
                "A defensive diplomat will be built in city %s.", pcity->name);
        choice->want = 16000; /* diplomat more important than soldiers */
        pcity->ai.urgency = 1;
        choice->type = CT_DEFENDER;
-       choice->choice = u;
+       choice->choice = u->index;
     } else if (num_role_units(F_DIPLOMAT) > 0) {
       /* We don't know diplomats yet... */
       freelog(LOG_DIPLOMAT_BUILD,
               "A defensive diplomat is wanted badly in city %s.", pcity->name);
       u = get_role_unit(F_DIPLOMAT, 0);
-      if (u != U_LAST) {
-        Tech_type_id tech_req = get_unit_type(u)->tech_requirement;
+      if (u) {
+        Tech_type_id tech_req = u->tech_requirement;
 
         pplayer->ai.tech_want[tech_req] += DIPLO_DEFENSE_WANT;
         TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s in diplo defense",
@@ -144,10 +144,10 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
                                   struct city *pcity,
                                   struct ai_choice *choice)
 {
-  Unit_type_id u = best_role_unit(pcity, F_DIPLOMAT);
+  struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
   struct ai_data *ai = ai_data_get(pplayer);
 
-  if (u >= U_LAST) {
+  if (ut) {
     /* We don't know diplomats yet! */
     return;
   }
@@ -161,13 +161,12 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
   {
     struct pf_map *map;
     struct pf_parameter parameter;
-    struct unit_type *ut = get_unit_type(u);
     struct city *acity;
     int want, loss, p_success, p_failure, time_to_dest;
     int gain_incite = 0, gain_theft = 0, gain = 1;
     int incite_cost;
-    struct unit *punit = create_unit_virtual(pplayer, pcity, u,
-                                             do_make_unit_veteran(pcity, u));
+    struct unit *punit = create_unit_virtual(pplayer, pcity, ut,
+                                             do_make_unit_veteran(pcity, ut));
 
     pft_fill_unit_parameter(&parameter, punit);
     map = pf_create_map(&parameter);
@@ -177,7 +176,8 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     pf_destroy_map(map);
     destroy_unit_virtual(punit);
 
-    if (acity == NULL || BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {
+    if (acity == NULL
+	|| BV_ISSET(ai->stats.diplomat_reservations, acity->id)) {
       /* Found no target or city already considered */
       return;
     }
@@ -202,12 +202,12 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       gain_theft = total_bulbs_required(pplayer) * TRADE_WEIGHTING;
     }
     gain = MAX(gain_incite, gain_theft);
-    loss = unit_build_shield_cost(u) * SHIELD_WEIGHTING;
+    loss = unit_build_shield_cost(ut) * SHIELD_WEIGHTING;
 
     /* Probability to succeed, assuming no defending diplomat */
     p_success = game.info.diplchance;
     /* Probability to lose our unit */
-    p_failure = (unit_type_flag(u, F_SPY) ? 100 - p_success : 100);
+    p_failure = (unit_type_flag(ut, F_SPY) ? 100 - p_success : 100);
 
     /* Get the time to dest in turns (minimum 1 turn) */
     time_to_dest = (time_to_dest + ut->move_rate - 1) / ut->move_rate;
@@ -222,7 +222,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     }
 
     want = military_amortize(pplayer, pcity, want, time_to_dest, 
-                             unit_build_shield_cost(u));
+                             unit_build_shield_cost(ut));
 
     if (!player_has_embassy(pplayer, city_owner(acity))
         && want < 99) {
@@ -241,7 +241,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
               gain_theft, time_to_dest);
       choice->want = want;
       choice->type = CT_NONMIL; /* so we don't build barracks for it */
-      choice->choice = u;
+      choice->choice = ut->index;
       BV_SET(ai->stats.diplomat_reservations, acity->id);
     }
   }
@@ -379,7 +379,8 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 **************************************************************************/
 static struct city *ai_diplomat_defend(struct player *pplayer,
                                        struct unit *punit,
-                                       Unit_type_id utype, struct pf_map *map)
+                                       const struct unit_type *utype,
+				       struct pf_map *map)
 {
   int best_dist = 30; /* any city closer than this is better than none */
   int best_urgency = 0;

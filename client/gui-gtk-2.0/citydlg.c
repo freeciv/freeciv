@@ -1490,7 +1490,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
   if (pcity->is_building_unit) {
-    cost = unit_build_shield_cost(pcity->currently_building);
+    cost = unit_build_shield_cost(get_unit_type(pcity->currently_building));
     descr = get_unit_type(pcity->currently_building)->name;
   } else {
     cost = impr_build_shield_cost(pcity->currently_building);;
@@ -1533,8 +1533,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
       cid_decode(items[item].cid, &is_unit, &id);
       if (is_unit) {
-	name = unit_name(id);
-	sprite = get_unittype_sprite(tileset, id);
+	name = unit_name(get_unit_type(id));
+	sprite = get_unittype_sprite(tileset, get_unit_type(id));
       } else {
 	name = get_improvement_name(id);
 	sprite = get_building_sprite(tileset, id);
@@ -2067,7 +2067,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
-    if (can_upgrade_unittype(game.player_ptr, punit->type) == -1) {
+    if (can_upgrade_unittype(game.player_ptr, punit->type) == NULL) {
       gtk_widget_set_sensitive(item, FALSE);
     }
 

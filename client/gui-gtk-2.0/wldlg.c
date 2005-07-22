@@ -972,7 +972,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
       store.type = CANVAS_PIXBUF;
       store.v.pixbuf = pix;
-      create_overlay_unit(&store, id);
+      create_overlay_unit(&store, get_unit_type(id));
 
       g_object_set(rend, "pixbuf", pix, NULL);
       g_object_unref(pix);

@@ -122,8 +122,7 @@ Unit_Type *api_find_unit_type(int unit_type_id)
 **************************************************************************/
 Unit_Type *api_find_unit_type_by_name(const char *name_orig)
 {
-  Unit_type_id id = find_unit_type_by_name_orig(name_orig);
-  return api_find_unit_type(id);
+  return find_unit_type_by_name_orig(name_orig);
 }
 
 /**************************************************************************

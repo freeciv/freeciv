@@ -60,9 +60,11 @@ static int lookup_tech(struct section_file *file, const char *prefix,
 		       const char *description);
 static void lookup_tech_list(struct section_file *file, const char *prefix,
 			     const char *entry, int *output, const char *filename);
-static int lookup_unit_type(struct section_file *file, const char *prefix,
-			    const char *entry, bool required, const char *filename,
-			    const char *description);
+static struct unit_type *lookup_unit_type(struct section_file *file,
+					  const char *prefix,
+					  const char *entry, bool required,
+					  const char *filename,
+					  const char *description);
 static Impr_type_id lookup_impr_type(struct section_file *file, const char *prefix,
 				     const char *entry, bool required,
 				     const char *filename, const char *description);
@@ -344,15 +346,15 @@ static int lookup_building(struct section_file *file, const char *prefix,
  we report it as an error, otherwise we just punt.
 **************************************************************************/
 static void lookup_unit_list(struct section_file *file, const char *prefix,
-			     const char *entry, int *output, 
+			     const char *entry, struct unit_type **output, 
                              const char *filename, bool required)
 {
   char **slist;
   int i, nval;
 
-  /* pre-fill with U_LAST: */
+  /* pre-fill with NULL: */
   for(i = 0; i < MAX_NUM_UNIT_LIST; i++) {
-    output[i] = A_LAST;
+    output[i] = NULL;
   }
   slist = secfile_lookup_str_vec(file, &nval, "%s.%s", prefix, entry);
   if (nval == 0) {
@@ -374,15 +376,16 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
   }
   for (i = 0; i < nval; i++) {
     char *sval = slist[i];
-    Unit_type_id uid = find_unit_type_by_name(sval);
+    struct unit_type *punittype = find_unit_type_by_name(sval);
 
-    if (uid == U_LAST) {
+    if (!punittype) {
       freelog(LOG_FATAL, "For %s %s (%d) couldn't match unit \"%s\" (%s)",
 	      prefix, entry, i, sval, filename);
       exit(EXIT_FAILURE);
     }
-    output[i] = uid;
-    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, uid);
+    output[i] = punittype;
+    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval,
+	    punittype->index);
   }
   free(slist);
   return;
@@ -492,17 +495,19 @@ static void lookup_building_list(struct section_file *file, const char *prefix,
 
 /**************************************************************************
  Lookup a string prefix.entry in the file and return the corresponding
- unit_type id.  If (!required), return -1 if match "None" or can't match.
+ unit_type id.  If (!required), return NULL if match "None" or can't match.
  If (required), die if can't match.
  If description is not NULL, it is used in the warning message
  instead of prefix (eg pass unit->name instead of prefix="units2.u27")
 **************************************************************************/
-static int lookup_unit_type(struct section_file *file, const char *prefix,
-			    const char *entry, bool required, const char *filename,
-			    const char *description)
+static struct unit_type *lookup_unit_type(struct section_file *file,
+					  const char *prefix,
+					  const char *entry, bool required,
+					  const char *filename,
+					  const char *description)
 {
   char *sval;
-  int i;
+  struct unit_type *punittype;
   
   if (required) {
     sval = secfile_lookup_str(file, "%s.%s", prefix, entry);
@@ -511,21 +516,21 @@ static int lookup_unit_type(struct section_file *file, const char *prefix,
   }
 
   if (strcmp(sval, "None")==0) {
-    i = -1;
+    punittype = NULL;
   } else {
-    i = find_unit_type_by_name(sval);
-    if (i==U_LAST) {
+    punittype = find_unit_type_by_name(sval);
+    if (!punittype) {
       freelog((required?LOG_FATAL:LOG_ERROR),
 	   "for %s %s couldn't match unit_type \"%s\" (%s)",
 	   (description?description:prefix), entry, sval, filename);
       if (required) {
 	exit(EXIT_FAILURE);
       } else {
-	i = -1;
+	punittype = NULL;
       }
     }
   }
-  return i;
+  return punittype;
 }
 
 /**************************************************************************
@@ -878,7 +883,8 @@ static void load_unit_names(struct section_file *file)
 
   game.control.num_unit_types = nval;
 
-  unit_type_iterate(i) {
+  unit_type_iterate(punittype) {
+    const int i = punittype->index;
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
     name_strlcpy(unit_types[i].name_orig, name);
@@ -918,8 +924,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   def_vnlist = secfile_lookup_str_vec(file, &vet_levels_default,
 		  		"veteran_system.veteran_names");
 
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
 
     vnlist = secfile_lookup_str_vec(file, &vet_levels,
                                     "%s.veteran_names", sec[i]);
@@ -947,8 +953,9 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   /* power factor */
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_power_fact");
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
+
     vblist = secfile_lookup_int_vec(file, &vet_levels,
                                     "%s.veteran_power_fact", sec[i]);
     CHECK_VETERAN_LIMIT
@@ -1011,8 +1018,9 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   /* move bonus */
   def_vblist = secfile_lookup_int_vec(file, &vet_levels_default,
                                       "veteran_system.veteran_move_bonus");
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
+
     vblist = secfile_lookup_int_vec(file, &vet_levels,
   		  	"%s.veteran_move_bonus", sec[i]);
     CHECK_VETERAN_LIMIT
@@ -1032,8 +1040,9 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   }
 
   /* Tech and Gov requirements */  
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
+
     u->tech_requirement = lookup_tech(file, sec[i], "tech_req",
 				      TRUE, filename, u->name);
     if (section_file_lookup(file, "%s.gov_req", sec[i])) {
@@ -1046,15 +1055,16 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     }
   } unit_type_iterate_end;
   
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
+
     u->obsoleted_by = lookup_unit_type(file, sec[i], "obsolete_by",
 				       FALSE, filename, u->name);
   } unit_type_iterate_end;
 
   /* main stats: */
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
 
     u->impr_requirement = lookup_building(file, sec[i], "impr_req",
 					  FALSE, filename, u->name);
@@ -1141,10 +1151,11 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   } unit_type_iterate_end;
   
   /* flags */
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
+
     BV_CLR_ALL(u->flags);
-    assert(!unit_type_flag(i, F_LAST-1));
+    assert(!unit_type_flag(u, F_LAST-1));
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
     for(j=0; j<nval; j++) {
@@ -1158,14 +1169,15 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 	     u->name, sval, filename);
       }
       BV_SET(u->flags, ival);
-      assert(unit_type_flag(i, ival));
+      assert(unit_type_flag(u, ival));
     }
     free(slist);
   } unit_type_iterate_end;
     
   /* roles */
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
+    const int i = u->index;
+
     BV_CLR_ALL(u->roles);
     
     slist = secfile_lookup_str_vec(file, &nval, "%s.roles", sec[i] );
@@ -1180,14 +1192,13 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 	     u->name, sval, filename);
       }
       BV_SET(u->roles, ival - L_FIRST);
-      assert(unit_has_role(i, ival));
+      assert(unit_has_role(u, ival));
     }
     free(slist);
   } unit_type_iterate_end;
 
   /* Some more consistency checking: */
-  unit_type_iterate(i) {
-    u = &unit_types[i];
+  unit_type_iterate(u) {
     if (!tech_exists(u->tech_requirement)) {
       freelog(LOG_ERROR,
 	      "unit_type \"%s\" depends on removed tech \"%s\" (%s)",
@@ -1236,7 +1247,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     freelog(LOG_FATAL, "No role=barbarian ship units? (%s)", filename);
     exit(EXIT_FAILURE);
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
-    u = &unit_types[get_role_unit(L_BARBARIAN_BOAT,0)];
+    u = get_role_unit(L_BARBARIAN_BOAT,0);
     if(u->move_type != SEA_MOVING) {
       freelog(LOG_FATAL, "Barbarian boat (%s) needs to be a sea unit (%s)",
               u->name, filename);
@@ -2618,10 +2629,8 @@ static void send_ruleset_units(struct conn_list *dest)
   struct packet_ruleset_unit packet;
   int i;
 
-  unit_type_iterate(utype_id) {
-    struct unit_type *u = get_unit_type(utype_id);
-
-    packet.id = u-unit_types;
+  unit_type_iterate(u) {
+    packet.id = u->index;
     sz_strlcpy(packet.name, u->name_orig);
     sz_strlcpy(packet.sound_move, u->sound_move);
     sz_strlcpy(packet.sound_move_alt, u->sound_move_alt);
@@ -2642,7 +2651,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;
     packet.firepower = u->firepower;
-    packet.obsoleted_by = u->obsoleted_by;
+    packet.obsoleted_by = u->obsoleted_by ? u->obsoleted_by->index : -1;
     packet.fuel = u->fuel;
     packet.flags = u->flags;
     packet.roles = u->roles;

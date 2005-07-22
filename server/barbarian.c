@@ -222,8 +222,7 @@ static bool is_free_sea(struct tile *ptile, struct player *who)
 bool unleash_barbarians(struct tile *ptile)
 {
   struct player *barbarians;
-  int unit, unit_cnt, land_cnt = 0, sea_cnt = 0;
-  int boat;
+  int unit_cnt, land_cnt = 0, sea_cnt = 0;
   int i;
   struct tile *utile = NULL;
   bool alive = TRUE;     /* explorer survived */
@@ -244,9 +243,11 @@ bool unleash_barbarians(struct tile *ptile)
 
   unit_cnt = 3 + myrand(4);
   for (i = 0; i < unit_cnt; i++) {
-    unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
-    (void) create_unit(barbarians, ptile, unit, 0, 0, -1);
-    freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
+    struct unit_type *punittype
+      = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
+
+    (void) create_unit(barbarians, ptile, punittype, 0, 0, -1);
+    freelog(LOG_DEBUG, "Created barbarian unit %s", punittype->name);
   }
 
   adjc_iterate(ptile, tile1) {
@@ -286,7 +287,7 @@ bool unleash_barbarians(struct tile *ptile)
               break;
 	    }
 	    if (is_free_sea(utile, barbarians)) {
-              boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
+              struct unit_type *boat = find_a_unit_type(L_BARBARIAN_BOAT, -1);
 	      (void) create_unit(barbarians, utile, boat, 0, 0, -1);
 	      btile = utile;
 	      break;
@@ -364,7 +365,8 @@ static struct tile *find_empty_tile_nearby(struct tile *ptile)
 static void try_summon_barbarians(void)
 {
   struct tile *ptile, *utile;
-  int i, boat, cap, dist, unit;
+  int i, cap, dist;
+  struct unit_type *boat, *unit;
   int uprise = 1;
   struct city *pc;
   struct player *barbarians, *victim;
@@ -427,9 +429,11 @@ static void try_summon_barbarians(void)
       uprise = 3;
     }
     for (i = 0; i < rand_factor + uprise * game.info.barbarianrate; i++) {
-      unit = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
-      (void) create_unit(barbarians, utile, unit, 0, 0, -1);
-      freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
+      struct unit_type *punittype
+	= find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
+
+      (void) create_unit(barbarians, utile, punittype, 0, 0, -1);
+      freelog(LOG_DEBUG, "Created barbarian unit %s", unit->name);
     }
     (void) create_unit(barbarians, utile,
 		       get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0, -1);
@@ -444,7 +448,7 @@ static void try_summon_barbarians(void)
       unit = find_a_unit_type(L_BARBARIAN_SEA,L_BARBARIAN_SEA_TECH);
       (void) create_unit_full(barbarians, utile, unit, 0, 0, -1, -1,
 			      ptrans);
-      freelog(LOG_DEBUG, "Created barbarian unit %s", unit_types[unit].name);
+      freelog(LOG_DEBUG, "Created barbarian unit %s", unit->name);
     }
     (void) create_unit_full(barbarians, utile,
 			    get_role_unit(L_BARBARIAN_LEADER, 0), 0, 0,

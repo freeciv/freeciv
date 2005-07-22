@@ -1019,7 +1019,7 @@ const char* old_civ2_governments[] =
   unit_type_id.  This function tries to find the correct _old_ id for the
   unit's type.  It is used when the unit is saved.
 ****************************************************************************/
-static int old_unit_type_id(Unit_type_id type)
+static Unit_type_id old_unit_type_id(const struct unit_type *type)
 {
   const char** types;
   int num_types, i;
@@ -1040,7 +1040,7 @@ static int old_unit_type_id(Unit_type_id type)
 
   /* It's a new unit. Savegame cannot be forward compatible so we can
    * return anything */
-  return type;
+  return type->index;
 }
 
 /****************************************************************************
@@ -1408,7 +1408,7 @@ static void worklist_load(struct section_file *file,
       name = secfile_lookup_str_default(file, NULL, namepath, plrno, wlinx, i);
 
       if (pwl->wlefs[i] == WEF_UNIT) {
-	Unit_type_id type;
+	struct unit_type *type;
 
 	if (!name) {
 	    /* before 1.15.0 unit types used to be saved by id */
@@ -1417,12 +1417,12 @@ static void worklist_load(struct section_file *file,
 	}
 
 	type = find_unit_type_by_name_orig(name);
-	if (type == U_LAST) {
+	if (!type) {
 	  freelog(LOG_ERROR, _("Unknown unit type '%s' in worklist"),
 		  name);
 	  exit(EXIT_FAILURE);
 	}
-	pwl->wlids[i] = type;
+	pwl->wlids[i] = type->index;
       } else if (pwl->wlefs[i] == WEF_IMPR) {
 	Impr_type_id type;
 
@@ -1478,7 +1478,7 @@ static void worklist_load_old(struct section_file *file,
       } else if (id >= 68) {		/* 68 was offset to unit ids */
 	name = old_unit_type_name(id-68);
 	pwl->wlefs[i] = WEF_UNIT;
-	pwl->wlids[i] = find_unit_type_by_name_orig(name);
+	pwl->wlids[i] = find_unit_type_by_name_orig(name)->index;
 	end = (pwl->wlids[i] < 0 || pwl->wlids[i] >= game.control.num_unit_types);
       } else {				/* must be an improvement id */
 	name = old_impr_type_name(id);
@@ -1512,7 +1512,7 @@ static void load_player_units(struct player *plr, int plrno,
     struct city *pcity;
     int nat_x, nat_y;
     const char* type_name;
-    Unit_type_id type;
+    struct unit_type *type;
     
     type_name = secfile_lookup_str_default(file, NULL, 
                                            "player%d.u%d.type_by_name",
@@ -1531,7 +1531,7 @@ static void load_player_units(struct player *plr, int plrno,
     }
     
     type = find_unit_type_by_name_orig(type_name);
-    if (type == U_LAST) {
+    if (!type) {
       freelog(LOG_ERROR, _("Unknown unit type '%s' in player%d section"),
               type_name, plrno);
       exit(EXIT_FAILURE);
@@ -2166,7 +2166,7 @@ static void player_load(struct player *plr, int plrno,
 				plrno, i);
 	name = old_unit_type_name(id);
       }
-      pcity->currently_building = find_unit_type_by_name_orig(name);
+      pcity->currently_building = find_unit_type_by_name_orig(name)->index;
     } else {
       if (!name) {
 	id = secfile_lookup_int(file, "player%d.c%d.currently_building",
@@ -2196,7 +2196,7 @@ static void player_load(struct player *plr, int plrno,
 				plrno, i);
 	name = old_unit_type_name(id);
       }
-      pcity->changed_from_id = find_unit_type_by_name_orig(name);
+      pcity->changed_from_id = find_unit_type_by_name_orig(name)->index;
     } else {
       if (!name) {
 	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id",
@@ -2600,9 +2600,13 @@ static void worklist_save(struct section_file *file,
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     secfile_insert_int(file, pwl->wlefs[i], efpath, plrno, wlinx, i);
     if (pwl->wlefs[i] == WEF_UNIT) {
-      secfile_insert_int(file, old_unit_type_id(pwl->wlids[i]), idpath,
+      secfile_insert_int(file,
+			 old_unit_type_id(get_unit_type(pwl->wlids[i])),
+			 idpath,
 			 plrno, wlinx, i);
-      secfile_insert_str(file, unit_name_orig(pwl->wlids[i]), namepath, plrno,
+      secfile_insert_str(file,
+			 unit_name_orig(get_unit_type(pwl->wlids[i])),
+			 namepath, plrno,
 			 wlinx, i);
     } else if (pwl->wlefs[i] == WEF_IMPR) {
       secfile_insert_int(file, pwl->wlids[i], idpath, plrno, wlinx, i);
@@ -2977,9 +2981,10 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_bool(file, pcity->changed_from_is_unit,
 		       "player%d.c%d.changed_from_is_unit", plrno, i);
     if (pcity->changed_from_is_unit) {
-      secfile_insert_int(file, old_unit_type_id(pcity->changed_from_id),
+      struct unit_type *punittype = get_unit_type(pcity->changed_from_id);
+      secfile_insert_int(file, old_unit_type_id(punittype),
 		         "player%d.c%d.changed_from_id", plrno, i);
-      secfile_insert_str(file, unit_name_orig(pcity->changed_from_id),
+      secfile_insert_str(file, unit_name_orig(punittype),
                          "player%d.c%d.changed_from_name", plrno, i);
     } else {
       secfile_insert_int(file, old_impr_type_id(pcity->changed_from_id),
@@ -3046,9 +3051,10 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_bool(file, pcity->is_building_unit, 
 		       "player%d.c%d.is_building_unit", plrno, i);
     if (pcity->is_building_unit) {
-      secfile_insert_int(file, old_unit_type_id(pcity->currently_building), 
+      struct unit_type *punittype = get_unit_type(pcity->currently_building);
+      secfile_insert_int(file, old_unit_type_id(punittype),
 		         "player%d.c%d.currently_building", plrno, i);
-      secfile_insert_str(file, unit_name_orig(pcity->currently_building),
+      secfile_insert_str(file, unit_name_orig(punittype),
                          "player%d.c%d.currently_building_name", plrno, i);
     } else {
       secfile_insert_int(file, old_impr_type_id(pcity->currently_building),

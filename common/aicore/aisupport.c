@@ -105,9 +105,10 @@ int city_gold_worth(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   int worth = 0, i;
-  Unit_type_id u = best_role_unit_for_player(city_owner(pcity), F_CITIES);
+  struct unit_type *u
+    = best_role_unit_for_player(city_owner(pcity), F_CITIES);
 
-  if (u != U_LAST) {
+  if (u) {
     worth += unit_buy_gold_cost(u, 0); /* cost of settler */
   }
   for (i = 1; i < pcity->size; i++) {
@@ -118,9 +119,9 @@ int city_gold_worth(struct city *pcity)
   } output_type_iterate_end;
   unit_list_iterate(pcity->units_supported, punit) {
     if (same_pos(punit->tile, pcity->tile)) {
-      Unit_type_id id = unit_type(punit)->obsoleted_by;
+      struct unit_type *punittype = unit_type(punit)->obsoleted_by;
 
-      if (id >= 0 && can_build_unit_direct(pcity, id)) {
+      if (punittype && can_build_unit_direct(pcity, punittype)) {
         worth += unit_disband_shields(punit->type) / 2; /* obsolete */
       } else {
         worth += unit_disband_shields(punit->type); /* good stuff */

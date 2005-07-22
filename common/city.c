@@ -372,7 +372,8 @@ int city_buy_cost(const struct city *pcity)
   int cost, build = pcity->shield_stock;
 
   if (pcity->is_building_unit) {
-    cost = unit_buy_gold_cost(pcity->currently_building, build);
+    cost = unit_buy_gold_cost(get_unit_type(pcity->currently_building),
+			      build);
   } else {
     cost = impr_buy_gold_cost(pcity->currently_building, build);
   }
@@ -453,23 +454,24 @@ bool can_eventually_build_improvement(const struct city *pcity,
   Return whether given city can build given unit, ignoring whether unit 
   is obsolete.
 **************************************************************************/
-bool can_build_unit_direct(const struct city *pcity, Unit_type_id id)
+bool can_build_unit_direct(const struct city *pcity,
+			   const struct unit_type *punittype)
 {
   Impr_type_id impr_req;
 
-  if (!can_player_build_unit_direct(city_owner(pcity), id)) {
+  if (!can_player_build_unit_direct(city_owner(pcity), punittype)) {
     return FALSE;
   }
 
   /* Check to see if the unit has a building requirement. */
-  impr_req = get_unit_type(id)->impr_requirement;
+  impr_req = punittype->impr_requirement;
   assert(impr_req <= B_LAST && impr_req >= 0);
   if (impr_req != B_LAST && !city_got_building(pcity, impr_req)) {
     return FALSE;
   }
 
   /* You can't build naval units inland. */
-  if (!is_ocean_near_tile(pcity->tile) && is_sailing_unittype(id)) {
+  if (!is_ocean_near_tile(pcity->tile) && is_sailing_unittype(punittype)) {
     return FALSE;
   }
   return TRUE;
@@ -479,13 +481,14 @@ bool can_build_unit_direct(const struct city *pcity, Unit_type_id id)
   Return whether given city can build given unit; returns 0 if unit is 
   obsolete.
 **************************************************************************/
-bool can_build_unit(const struct city *pcity, Unit_type_id id)
+bool can_build_unit(const struct city *pcity,
+		    const struct unit_type *punittype)
 {  
-  if (!can_build_unit_direct(pcity, id)) {
+  if (!can_build_unit_direct(pcity, punittype)) {
     return FALSE;
   }
-  while ((id = unit_types[id].obsoleted_by) != U_NOT_OBSOLETED) {
-    if (can_player_build_unit_direct(city_owner(pcity), id)) {
+  while ((punittype = punittype->obsoleted_by) != U_NOT_OBSOLETED) {
+    if (can_player_build_unit_direct(city_owner(pcity), punittype)) {
 	return FALSE;
     }
   }
@@ -496,16 +499,17 @@ bool can_build_unit(const struct city *pcity, Unit_type_id id)
   Return whether player can eventually build given unit in the city;
   returns 0 if unit can never possibly be built in this city.
 **************************************************************************/
-bool can_eventually_build_unit(const struct city *pcity, Unit_type_id id)
+bool can_eventually_build_unit(const struct city *pcity,
+			       const struct unit_type *punittype)
 {
   /* Can the _player_ ever build this unit? */
-  if (!can_player_eventually_build_unit(city_owner(pcity), id)) {
+  if (!can_player_eventually_build_unit(city_owner(pcity), punittype)) {
     return FALSE;
   }
 
   /* Some units can be built only in certain cities -- for instance,
      ships may be built only in cities adjacent to ocean. */
-  if (!is_ocean_near_tile(pcity->tile) && is_sailing_unittype(id)) {
+  if (!is_ocean_near_tile(pcity->tile) && is_sailing_unittype(punittype)) {
     return FALSE;
   }
 
@@ -1257,7 +1261,7 @@ int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
   int city_shield_stock = include_shield_stock ?
       city_change_production_penalty(pcity, id, id_is_unit) : 0;
   int improvement_cost = id_is_unit ?
-    unit_build_shield_cost(id) : impr_build_shield_cost(id);
+    unit_build_shield_cost(get_unit_type(id)) : impr_build_shield_cost(id);
 
   if (include_shield_stock && (city_shield_stock >= improvement_cost)) {
     return 1;
@@ -2402,11 +2406,11 @@ struct city *create_city_virtual(struct player *pplayer,
   init_worklist(&pcity->worklist);
 
   {
-    int u = best_role_unit(pcity, L_FIRSTBUILD);
+    struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);
 
-    if (u < U_LAST && u >= 0) {
+    if (u) {
       pcity->is_building_unit = TRUE;
-      pcity->currently_building = u;
+      pcity->currently_building = u->index;
     } else {
       bool found = FALSE;
 
@@ -2422,11 +2426,11 @@ struct city *create_city_virtual(struct player *pplayer,
       } impr_type_iterate_end;
 
       if (!found) {
-	unit_type_iterate(id) {
-	  if (can_build_unit_direct(pcity, id)) {
+	unit_type_iterate(punittype) {
+	  if (can_build_unit_direct(pcity, punittype)) {
 	    found = TRUE;
 	    pcity->is_building_unit = TRUE;
-	    pcity->currently_building = id;
+	    pcity->currently_building = punittype->index;
 	  }
 	} unit_type_iterate_end;
       }

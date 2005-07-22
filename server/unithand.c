@@ -86,15 +86,18 @@ void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 **************************************************************************/
 void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id type)
 {
-  const Unit_type_id from_unittype = type;
-  const Unit_type_id to_unittype = can_upgrade_unittype(pplayer,
-							from_unittype);
+  struct unit_type *from_unittype = get_unit_type(type), *to_unittype;
   int number_of_upgraded_units = 0;
 
-  if (to_unittype == -1) {
+  if (!from_unittype) {
+    return;
+  }
+
+  to_unittype = can_upgrade_unittype(pplayer, from_unittype);
+  if (!to_unittype) {
     notify_player(pplayer,
 		  _("Illegal packet, can't upgrade %s (yet)."),
-		  unit_types[from_unittype].name);
+		  from_unittype->name);
     return;
   }
 
@@ -121,8 +124,8 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id type)
   if (number_of_upgraded_units > 0) {
     const int cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     notify_player(pplayer, _("%d %s upgraded to %s for %d gold."),
-		  number_of_upgraded_units, unit_types[from_unittype].name,
-		  unit_types[to_unittype].name,
+		  number_of_upgraded_units, from_unittype->name,
+		  to_unittype->name,
 		  cost * number_of_upgraded_units);
     send_player_info(pplayer, pplayer);
   } else {
@@ -143,8 +146,8 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
   }
 
   if (get_unit_upgrade_info(buf, sizeof(buf), punit) == UR_OK) {
-    Unit_type_id from_unit = punit->type;
-    Unit_type_id to_unit = can_upgrade_unittype(pplayer, punit->type);
+    struct unit_type *from_unit = punit->type;
+    struct unit_type *to_unit = can_upgrade_unittype(pplayer, punit->type);
     int cost = unit_upgrade_price(pplayer, punit->type, to_unit);
 
     upgrade_unit(punit, to_unit, FALSE);

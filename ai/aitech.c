@@ -208,26 +208,27 @@ void ai_manage_tech(struct player *pplayer)
   wants for techs to get better units with given role, but only for the
   cheapest to research "next" unit up the "chain".
 **************************************************************************/
-Unit_type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
-                                int role, int want)
+struct unit_type *ai_wants_role_unit(struct player *pplayer,
+				     struct city *pcity,
+				     int role, int want)
 {
   int i, n;
   Tech_type_id best_tech = A_NONE;
   int best_cost = FC_INFINITY;
-  Unit_type_id best_unit = U_LAST;
-  Unit_type_id build_unit = U_LAST;
+  struct unit_type *best_unit = NULL;
+  struct unit_type *build_unit = NULL;
 
   n = num_role_units(role);
   for (i = n - 1; i >= 0; i--) {
-    Unit_type_id iunit = get_role_unit(role, i);
-    Tech_type_id itech = get_unit_type(iunit)->tech_requirement;
+    struct unit_type *iunit = get_role_unit(role, i);
+    Tech_type_id itech = iunit->tech_requirement;
 
     if (can_build_unit(pcity, iunit)) {
       build_unit = iunit;
       break;
     } else if (can_eventually_build_unit(pcity, iunit)) {
       int cost = 0;
-      Impr_type_id iimpr = get_unit_type(iunit)->impr_requirement;
+      Impr_type_id iimpr = iunit->impr_requirement;
 
       if (itech != A_LAST && get_invention(pplayer, itech) != TECH_KNOWN) {
         /* See if we want to invent this. */
@@ -266,7 +267,7 @@ Unit_type_id ai_wants_role_unit(struct player *pplayer, struct city *pcity,
 
   if (best_tech != A_NONE) {
     /* Crank up chosen tech want */
-    if (build_unit != U_LAST) {
+    if (build_unit != NULL) {
       /* We already have a role unit of this kind */
       want /= 2;
     }

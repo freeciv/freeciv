@@ -437,7 +437,7 @@ bool can_unit_change_homecity(const struct unit *punit)
 **************************************************************************/
 int get_activity_rate(const struct unit *punit)
 {
-  int fact = get_unit_type(punit->type)->veteran[punit->veteran].power_fact;
+  int fact = punit->type->veteran[punit->veteran].power_fact;
 
   /* The speed of the settler depends on its base move_rate, not on
    * the number of moves actually remaining or the adjusted move rate.
@@ -1307,9 +1307,10 @@ bool is_my_zoc(const struct player *pplayer, const struct tile *ptile0)
 /**************************************************************************
   Takes into account unit move_type as well as IGZOC
 **************************************************************************/
-bool unit_type_really_ignores_zoc(Unit_type_id type)
+bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
 {
-  return (!is_ground_unittype(type)) || (unit_type_flag(type, F_IGZOC));
+  return (!is_ground_unittype(punittype)
+	  || unit_type_flag(punittype, F_IGZOC));
 }
 
 /**************************************************************************
@@ -1428,11 +1429,13 @@ bool is_build_or_clean_activity(enum unit_activity activity)
   to set x, y and homecity yourself.
 **************************************************************************/
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
-                                 Unit_type_id type, int veteran_level)
+                                 struct unit_type *punittype,
+				 int veteran_level)
 {
   struct unit *punit = fc_calloc(1, sizeof(struct unit));
 
-  punit->type = type;
+  CHECK_UNIT_TYPE(punittype); /* No untyped units! */
+  punit->type = punittype;
   assert(pplayer != NULL); /* No unowned units! */
   punit->owner = pplayer;
   if (pcity) {
@@ -1550,11 +1553,11 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 					   bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  Unit_type_id to_unittype = can_upgrade_unittype(pplayer, punit->type);
+  struct unit_type *to_unittype = can_upgrade_unittype(pplayer, punit->type);
   struct city *pcity;
   int cost;
 
-  if (to_unittype == -1) {
+  if (!to_unittype) {
     return UR_NO_UNITTYPE;
   }
 
@@ -1574,8 +1577,7 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
     }
   }
 
-  if (get_transporter_occupancy(punit) >
-      unit_types[to_unittype].transport_capacity) {
+  if (get_transporter_occupancy(punit) > to_unittype->transport_capacity) {
     /* TODO: allow transported units to be reassigned.  Check for
      * ground_unit_transporter_capacity here and make changes to
      * upgrade_unit. */
@@ -1595,8 +1597,8 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
   struct player *pplayer = unit_owner(punit);
   enum unit_upgrade_result result = test_unit_upgrade(punit, FALSE);
   int upgrade_cost;
-  Unit_type_id from_unittype = punit->type;
-  Unit_type_id to_unittype = can_upgrade_unittype(pplayer,
+  struct unit_type *from_unittype = punit->type;
+  struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
 						  punit->type);
 
   switch (result) {
@@ -1605,20 +1607,20 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
     /* This message is targeted toward the GUI callers. */
     my_snprintf(buf, bufsz, _("Upgrade %s to %s for %d gold?\n"
 			      "Treasury contains %d gold."),
-		unit_types[from_unittype].name, unit_types[to_unittype].name,
+		from_unittype->name, to_unittype->name,
 		upgrade_cost, pplayer->economic.gold);
     break;
   case UR_NO_UNITTYPE:
     my_snprintf(buf, bufsz,
 		_("Sorry, cannot upgrade %s (yet)."),
-		unit_types[from_unittype].name);
+		from_unittype->name);
     break;
   case UR_NO_MONEY:
     upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     my_snprintf(buf, bufsz,
 		_("Upgrading %s to %s costs %d gold.\n"
 		  "Treasury contains %d gold."),
-		unit_types[from_unittype].name, unit_types[to_unittype].name,
+		from_unittype->name, to_unittype->name,
 		upgrade_cost, pplayer->economic.gold);
     break;
   case UR_NOT_IN_CITY:
@@ -1629,7 +1631,7 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
   case UR_NOT_ENOUGH_ROOM:
     my_snprintf(buf, bufsz,
 		_("Upgrading this %s would strand units it transports."),
-		unit_types[from_unittype].name);
+		from_unittype->name);
     break;
   }
 

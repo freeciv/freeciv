@@ -72,7 +72,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity);
 static bool city_build_stuff(struct player *pplayer, struct city *pcity);
 static Impr_type_id building_upgrades_to(struct city *pcity, Impr_type_id b);
 static void upgrade_building_prod(struct city *pcity);
-static Unit_type_id unit_upgrades_to(struct city *pcity, Unit_type_id id);
+static struct unit_type *unit_upgrades_to(struct city *pcity,
+					  struct unit_type *id);
 static void upgrade_unit_prod(struct city *pcity);
 static void pay_for_buildings(struct player *pplayer, struct city *pcity);
 
@@ -625,9 +626,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 
     /* Sanity checks */
     if (is_unit &&
-	!can_build_unit(pcity, target)) {
+	!can_build_unit(pcity, get_unit_type(target))) {
       struct unit_type *ptarget = get_unit_type(target);
-      Unit_type_id new_target = unit_upgrades_to(pcity, target);
+      struct unit_type *new_target = unit_upgrades_to(pcity, ptarget);
 
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (new_target == U_NOT_OBSOLETED) {
@@ -667,10 +668,11 @@ static bool worklist_change_build_target(struct player *pplayer,
 	/* Yep, we can go after new_target instead.  Joy! */
 	notify_player_ex(pplayer, pcity->tile, E_WORKLIST,
 			 _("Production of %s is upgraded to %s in %s."),
-			 get_unit_type(target)->name, 
-			 get_unit_type(new_target)->name,
+			 ptarget->name, 
+			 new_target->name,
 			 pcity->name);
-	target = new_target;
+	ptarget = new_target;
+	target = new_target->index;
       }
     } else if (!is_unit && !can_build_improvement(pcity, target)) {
       Impr_type_id new_target = building_upgrades_to(pcity, target);
@@ -873,7 +875,7 @@ static void choose_build_target(struct player *pplayer,
    * call to change_build_target, so just return. */
   if (pcity->is_building_unit) {
     /* We can build a unit again unless it's unique. */
-    if (!unit_type_flag(pcity->currently_building, F_UNIQUE)) {
+    if (!unit_type_flag(get_unit_type(pcity->currently_building), F_UNIQUE)) {
       return;
     }
   } else if (can_build_improvement(pcity, pcity->currently_building)) {
@@ -938,19 +940,20 @@ static void upgrade_building_prod(struct city *pcity)
 
   FIXME: this function is a duplicate of can_upgrade_unittype.
 **************************************************************************/
-static Unit_type_id unit_upgrades_to(struct city *pcity, Unit_type_id id)
+static struct unit_type *unit_upgrades_to(struct city *pcity,
+					  struct unit_type *punittype)
 {
-  Unit_type_id check = id, latest_ok = id;
+  struct unit_type *check = punittype, *latest_ok = punittype;
 
   if (!can_build_unit_direct(pcity, check)) {
     return U_NOT_OBSOLETED;
   }
-  while ((check = unit_types[check].obsoleted_by) != U_NOT_OBSOLETED) {
+  while ((check = check->obsoleted_by) != U_NOT_OBSOLETED) {
     if (can_build_unit_direct(pcity, check)) {
       latest_ok = check;
     }
   }
-  if (latest_ok == id) {
+  if (latest_ok == punittype) {
     return U_NOT_OBSOLETED; /* Can't upgrade */
   }
 
@@ -963,15 +966,14 @@ static Unit_type_id unit_upgrades_to(struct city *pcity, Unit_type_id id)
 static void upgrade_unit_prod(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  int id = pcity->currently_building;
-  int id2 = unit_upgrades_to(pcity, pcity->currently_building);
+  struct unit_type *id = get_unit_type(pcity->currently_building);
+  struct unit_type *id2 = unit_upgrades_to(pcity, id);
 
-  if (id2 != -1 && can_build_unit_direct(pcity, id2)) {
-    pcity->currently_building = id2;
+  if (id2 && can_build_unit_direct(pcity, id2)) {
+    pcity->currently_building = id2->index;
     notify_player_ex(pplayer, pcity->tile, E_UNIT_UPGRADED, 
 		  _("Production of %s is upgraded to %s in %s."),
-		  get_unit_type(id)->name, 
-		  get_unit_type(id2)->name , 
+		  id->name, id2->name, 
 		  pcity->name);
   }
 }
@@ -1167,22 +1169,21 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
      they build!! - Per */
-  if (!can_build_unit_direct(pcity, pcity->currently_building)
+  if (!can_build_unit_direct(pcity, utype)
       && !is_barbarian(pplayer)) {
     notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
         _("%s is building %s, which is no longer available."),
-        pcity->name, unit_name(pcity->currently_building));
+        pcity->name, unit_name(utype));
     script_signal_emit("unit_cant_be_built", 3,
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
 		       API_TYPE_STRING, "unavailable");
     freelog(LOG_VERBOSE, _("%s's %s tried build %s, which is not available"),
-            pplayer->name, pcity->name, unit_name(pcity->currently_building));            
+            pplayer->name, pcity->name, unit_name(utype));
     return TRUE;
   }
-  if (pcity->shield_stock
-      >= unit_build_shield_cost(pcity->currently_building)) {
-    int pop_cost = unit_pop_value(pcity->currently_building);
+  if (pcity->shield_stock >= unit_build_shield_cost(utype)) {
+    int pop_cost = unit_pop_value(utype);
     struct unit *punit;
 
     /* Should we disband the city? -- Massimo */
@@ -1194,7 +1195,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     if (pcity->size <= pop_cost) {
       notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 		       _("%s can't build %s yet."),
-		       pcity->name, unit_name(pcity->currently_building));
+		       pcity->name, unit_name(utype));
       script_signal_emit("unit_cant_be_built", 3,
 			 API_TYPE_UNIT_TYPE, utype,
 			 API_TYPE_CITY, pcity,
@@ -1207,9 +1208,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     /* don't update turn_last_built if we returned above */
     pcity->turn_last_built = game.info.turn;
 
-    punit = create_unit(pplayer, pcity->tile, pcity->currently_building,
-			do_make_unit_veteran(pcity,
-					     pcity->currently_building),
+    punit = create_unit(pplayer, pcity->tile, utype,
+			do_make_unit_veteran(pcity, utype),
 			pcity->id, 0);
 
     /* After we created the unit remove the citizen. This will also
@@ -1221,16 +1221,14 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     /* to eliminate micromanagement, we only subtract the unit's
        cost */
-    pcity->before_change_shields
-      -= unit_build_shield_cost(pcity->currently_building);
-    pcity->shield_stock
-      -= unit_build_shield_cost(pcity->currently_building);
+    pcity->before_change_shields -= unit_build_shield_cost(utype);
+    pcity->shield_stock -= unit_build_shield_cost(utype);
 
     notify_player_ex(pplayer, pcity->tile, E_UNIT_BUILT,
 		     /* TRANS: <city> is finished building <unit/building>. */
 		     _("%s is finished building %s."),
 		     pcity->name,
-		     unit_types[pcity->currently_building].name);
+		     get_unit_type(pcity->currently_building)->name);
 
     script_signal_emit("unit_built",
 		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
@@ -1417,7 +1415,7 @@ static void define_orig_production_values(struct city *pcity)
 	  "In %s, building %s.  Beg of Turn shields = %d",
 	  pcity->name,
 	  pcity->changed_from_is_unit ?
-	    unit_types[pcity->changed_from_id].name :
+	  get_unit_type(pcity->changed_from_id)->name :
 	    improvement_types[pcity->changed_from_id].name,
 	  pcity->before_change_shields
 	  );
@@ -1540,7 +1538,7 @@ static bool disband_city(struct city *pcity)
     notify_player_ex(pplayer, ptile, E_CITY_CANTBUILD,
 		     _("%s can't build %s yet, "
 		     "and we can't disband our only city."),
-		     pcity->name, unit_name(pcity->currently_building));
+		     pcity->name, unit_name(utype));
     script_signal_emit("unit_cant_be_built", 3,
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
@@ -1548,8 +1546,8 @@ static bool disband_city(struct city *pcity)
     return FALSE;
   }
 
-  (void) create_unit(pplayer, ptile, pcity->currently_building,
-		     do_make_unit_veteran(pcity, pcity->currently_building),
+  (void) create_unit(pplayer, ptile, utype,
+		     do_make_unit_veteran(pcity, utype),
 		     pcity->id, 0);
 
   /* Shift all the units supported by pcity (including the new unit)
@@ -1562,7 +1560,8 @@ static bool disband_city(struct city *pcity)
   notify_player_ex(pplayer, ptile, E_UNIT_BUILT,
 		   /* TRANS: Settler production leads to disbanded city. */
 		   _("%s is disbanded into %s."), 
-		   pcity->name, unit_types[pcity->currently_building].name);
+		   pcity->name,
+		   get_unit_type(pcity->currently_building)->name);
   gamelog(GAMELOG_DISBANDCITY, pcity);
 
   remove_city(pcity);

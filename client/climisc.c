@@ -180,7 +180,7 @@ void client_change_all(cid x, cid y)
 	  !(pcity->is_building_unit) &&
 	  (pcity->currently_building == fr_id))) &&
 	((to_is_unit &&
-	  can_build_unit (pcity, to_id)) ||
+	  can_build_unit (pcity, get_unit_type(to_id))) ||
 	 (!to_is_unit &&
 	  can_build_improvement (pcity, to_id))))
       {
@@ -537,7 +537,7 @@ int wid_id(wid wid)
 bool city_can_build_impr_or_unit(struct city *pcity, cid cid)
 {
   if (cid_is_unit(cid))
-    return can_build_unit(pcity, cid_id(cid));
+    return can_build_unit(pcity, get_unit_type(cid_id(cid)));
   else
     return can_build_improvement(pcity, cid_id(cid));
 }
@@ -548,13 +548,12 @@ bool city_can_build_impr_or_unit(struct city *pcity, cid cid)
 bool city_unit_supported(struct city *pcity, cid cid)
 {
   if (cid_is_unit(cid)) {
-    int unit_type = cid_id(cid);
+    struct unit_type *unit_type = get_unit_type(cid_id(cid));
 
     unit_list_iterate(pcity->units_supported, punit) {
       if (punit->type == unit_type)
 	return TRUE;
-    }
-    unit_list_iterate_end;
+    } unit_list_iterate_end;
   }
   return FALSE;
 }
@@ -565,7 +564,7 @@ bool city_unit_supported(struct city *pcity, cid cid)
 bool city_unit_present(struct city *pcity, cid cid)
 {
   if (cid_is_unit(cid)) {
-    int unit_type = cid_id(cid);
+    struct unit_type *unit_type = get_unit_type(cid_id(cid));
 
     unit_list_iterate(pcity->tile->units, punit) {
       if (punit->type == unit_type)
@@ -598,7 +597,7 @@ static int cid_get_section(cid cid)
   int id = cid_id(cid);
 
   if (is_unit) {
-    if (unit_type_flag(id, F_NONMIL)) {
+    if (unit_type_flag(get_unit_type(id), F_NONMIL)) {
       return 2;
     } else {
       return 3;
@@ -652,8 +651,8 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
     pitem->cid = pcids[i];
 
     if (is_unit) {
-      name = get_unit_name(id);
-      cost = unit_build_shield_cost(id);
+      name = get_unit_name(get_unit_type(id));
+      cost = unit_build_shield_cost(get_unit_type(id));
     } else {
       name = get_impr_name_ex(pcity, id);
       if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
@@ -759,8 +758,10 @@ int collect_cids3(cid * dest_cids)
     }
   } impr_type_iterate_end;
 
-  unit_type_iterate(id) {
-    if (can_player_build_unit(game.player_ptr, id)) {
+  unit_type_iterate(punittype) {
+    const int id = punittype->index;
+
+    if (can_player_build_unit(game.player_ptr, punittype)) {
       dest_cids[cids_used] = cid_encode(TRUE, id);
       cids_used++;
     }
@@ -796,16 +797,17 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
     }
   } impr_type_iterate_end;
 
-  unit_type_iterate(id) {
-    bool can_build = can_player_build_unit(game.player_ptr, id);
+  unit_type_iterate(punittype) {
+    bool can_build = can_player_build_unit(game.player_ptr, punittype);
     bool can_eventually_build =
-	can_player_eventually_build_unit(game.player_ptr, id);
+	can_player_eventually_build_unit(game.player_ptr, punittype);
+    const int id = punittype->index;
 
     /* If there's a city, can the city build the unit? */
     if (pcity) {
-      can_build = can_build && can_build_unit(pcity, id);
+      can_build = can_build && can_build_unit(pcity, punittype);
       can_eventually_build = can_eventually_build &&
-	  can_eventually_build_unit(pcity, id);
+	  can_eventually_build_unit(pcity, punittype);
     }
 
     if ((advanced_tech && can_eventually_build) ||

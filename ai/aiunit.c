@@ -82,7 +82,7 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
 
 static int unit_move_turns(struct unit *punit, struct tile *ptile);
-static bool unit_role_defender(Unit_type_id type);
+static bool unit_role_defender(const struct unit_type *punittype);
 static int unit_def_rating_sq(struct unit *punit, struct unit *pdef);
 
 /*
@@ -97,9 +97,9 @@ static int unit_def_rating_sq(struct unit *punit, struct unit *pdef);
  *
  * Not dealing with planes yet.
  *
- * Terminated by U_LAST.
+ * Terminated by NULL.
  */
-Unit_type_id simple_ai_types[U_LAST];
+struct unit_type *simple_ai_types[U_LAST];
 
 /**************************************************************************
   Move defenders around with airports. Since this expends all our 
@@ -305,22 +305,20 @@ static int unit_move_turns(struct unit *punit, struct tile *ptile)
   the want equation (see, e.g.  find_something_to_kill) instead of
   just build_cost to make AI build more balanced units (with def > 1).
 *********************************************************************/
-int build_cost_balanced(Unit_type_id type)
+int build_cost_balanced(const struct unit_type *punittype)
 {
-  struct unit_type *ptype = get_unit_type(type);
-
-  return 2 * unit_build_shield_cost(type) * ptype->attack_strength /
-      (ptype->attack_strength + ptype->defense_strength);
+  return 2 * unit_build_shield_cost(punittype) * punittype->attack_strength /
+      (punittype->attack_strength + punittype->defense_strength);
 }
 
 /**************************************************************************
   Attack rating of this kind of unit.
 **************************************************************************/
-int unittype_att_rating(Unit_type_id type, int veteran,
+int unittype_att_rating(const struct unit_type *punittype, int veteran,
                         int moves_left, int hp)
 {
-  return base_get_attack_power(type, veteran, moves_left) * hp
-         * get_unit_type(type)->firepower / POWER_DIVIDER;
+  return base_get_attack_power(punittype, veteran, moves_left) * hp
+         * punittype->firepower / POWER_DIVIDER;
 }
 
 /********************************************************************** 
@@ -378,7 +376,7 @@ static int unit_def_rating_sq(struct unit *attacker,
 int unit_def_rating_basic(struct unit *punit)
 {
   return base_get_defense_power(punit) * punit->hp *
-         unit_types[punit->type].firepower / POWER_DIVIDER;
+    punit->type->firepower / POWER_DIVIDER;
 }
 
 /********************************************************************** 
@@ -395,13 +393,14 @@ int unit_def_rating_basic_sq(struct unit *punit)
   See get_virtual_defense_power for the arguments att_type, def_type,
   x, y, fortified and veteran.
 **************************************************************************/
-int unittype_def_rating_sq(Unit_type_id att_type, Unit_type_id def_type,
+int unittype_def_rating_sq(const struct unit_type *att_type,
+			   const struct unit_type *def_type,
                            struct tile *ptile, bool fortified, int veteran)
 {
   int v = get_virtual_defense_power(att_type, def_type, ptile,
-                                    fortified, veteran) *
-          unit_types[def_type].hp *
-          unit_types[def_type].firepower / POWER_DIVIDER;
+                                    fortified, veteran)
+    * def_type->hp * def_type->firepower / POWER_DIVIDER;
+
   return v * v;
 }
 
@@ -820,12 +819,12 @@ static bool find_beachhead(struct unit *punit, struct tile *dest_tile,
 /*************************************************************************
   Does the unit with the id given have the flag L_DEFEND_GOOD?
 **************************************************************************/
-static bool unit_role_defender(Unit_type_id type)
+static bool unit_role_defender(const struct unit_type *punittype)
 {
-  if (unit_types[type].move_type != LAND_MOVING) {
+  if (punittype->move_type != LAND_MOVING) {
     return FALSE; /* temporary kluge */
   }
-  return (unit_has_role(type, L_DEFEND_GOOD));
+  return (unit_has_role(punittype, L_DEFEND_GOOD));
 }
 
 /*************************************************************************
@@ -931,7 +930,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
 ***********************************************************************/
 static void ai_military_findjob(struct player *pplayer,struct unit *punit)
 {
-  struct unit_type *punittype = get_unit_type(punit->type);
+  struct unit_type *punittype = punit->type;
 
   CHECK_UNIT(punit);
 
@@ -1058,14 +1057,14 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
 
  Requires ready warmap(s).  Assumes punit is ground or sailing.
 ***************************************************************************/
-int turns_to_enemy_city(Unit_type_id our_type,  struct city *acity,
+int turns_to_enemy_city(const struct unit_type *our_type, struct city *acity,
                         int speed, bool go_by_boat, 
-                        struct unit *boat, Unit_type_id boattype)
+                        struct unit *boat, const struct unit_type *boattype)
 {
-  switch(unit_types[our_type].move_type) {
+  switch (our_type->move_type) {
   case LAND_MOVING:
     if (go_by_boat) {
-      int boatspeed = unit_types[boattype].move_rate;
+      int boatspeed = boattype->move_rate;
       int move_time = (WARMAP_SEACOST(acity->tile)) / boatspeed;
       
       if (unit_type_flag(boattype, F_TRIREME) && move_time > 2) {
@@ -1105,12 +1104,13 @@ int turns_to_enemy_city(Unit_type_id our_type,  struct city *acity,
 
  Requires precomputed warmap.  Assumes punit is ground or sailing. 
 ************************************************************************/ 
-int turns_to_enemy_unit(Unit_type_id our_type, int speed, struct tile *ptile,
-                        Unit_type_id enemy_type)
+int turns_to_enemy_unit(const struct unit_type *our_type,
+			int speed, struct tile *ptile,
+                        const struct unit_type *enemy_type)
 {
   int dist;
 
-  switch(unit_types[our_type].move_type) {
+  switch (our_type->move_type) {
   case LAND_MOVING:
     dist = WARMAP_COST(ptile);
     break;
@@ -1128,7 +1128,7 @@ int turns_to_enemy_unit(Unit_type_id our_type, int speed, struct tile *ptile,
   /* if dist <= move_rate, we hit the enemy right now */    
   if (dist > speed) { 
     /* Weird attempt to take into account enemy running away... */
-    dist *= unit_types[enemy_type].move_rate;
+    dist *= enemy_type->move_rate;
     if (unit_type_flag(enemy_type, F_IGTER)) {
       dist *= 3;
     }
@@ -1213,7 +1213,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   bool handicap = ai_handicap(pplayer, H_TARGETS);
   struct unit *ferryboat = NULL;
   /* Type of our boat (a future one if ferryboat == NULL) */
-  Unit_type_id boattype = U_LAST;
+  struct unit_type *boattype = NULL;
   bool unhap = FALSE;
   struct city *pcity;
   /* this is a kluge, because if we don't set x and y with !punit->id,
@@ -1326,7 +1326,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                            ferryboat, SEA_MOVING);
   } else {
     boattype = best_role_unit_for_player(pplayer, L_FERRYBOAT);
-    if (boattype == U_LAST) {
+    if (boattype == NULL) {
       /* We pretend that we can have the simplest boat -- to stimulate tech */
       boattype = get_role_unit(L_FERRYBOAT, 0);
     }
@@ -1389,7 +1389,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                                       go_by_boat, ferryboat, boattype);
 
       if (move_time > 1) {
-        Unit_type_id def_type = ai_choose_defender_versus(acity, punit->type);
+        struct unit_type *def_type
+	  = ai_choose_defender_versus(acity, punit->type);
         int v = unittype_def_rating_sq(punit->type, def_type,
                                        acity->tile, FALSE,
                                        do_make_unit_veteran(acity, def_type));
@@ -1872,7 +1873,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_get_city(punit->tile);
   struct city *safe = NULL;
-  struct unit_type *punittype = get_unit_type(punit->type);
+  struct unit_type *punittype = punit->type;
 
   CHECK_UNIT(punit);
 
@@ -2254,15 +2255,16 @@ void ai_manage_units(struct player *pplayer)
  Whether unit_type test is on the "upgrade path" of unit_type base,
  even if we can't upgrade now.
 **************************************************************************/
-bool is_on_unit_upgrade_path(Unit_type_id test, Unit_type_id base)
+bool is_on_unit_upgrade_path(const struct unit_type *test,
+			     const struct unit_type *base)
 {
   /* This is the real function: */
   do {
-    base = unit_types[base].obsoleted_by;
+    base = base->obsoleted_by;
     if (base == test) {
       return TRUE;
     }
-  } while (base != -1);
+  } while (base);
   return FALSE;
 }
 
@@ -2270,7 +2272,8 @@ bool is_on_unit_upgrade_path(Unit_type_id test, Unit_type_id base)
 Barbarian leader tries to stack with other barbarian units, and if it's
 not possible it runs away. When on coast, it may disappear with 33% chance.
 **************************************************************************/
-static void ai_manage_barbarian_leader(struct player *pplayer, struct unit *leader)
+static void ai_manage_barbarian_leader(struct player *pplayer,
+				       struct unit *leader)
 {
   Continent_id con = tile_get_continent(leader->tile);
   int safest = 0;
@@ -2403,16 +2406,16 @@ void update_simple_ai_types(void)
 {
   int i = 0;
 
-  unit_type_iterate(id) {
-    if (!unit_type_flag(id, F_NONMIL)
-	&& !unit_type_flag(id, F_MISSILE)
-	&& !unit_type_flag(id, F_NO_LAND_ATTACK)
-        && get_unit_type(id)->move_type != AIR_MOVING
-	&& get_unit_type(id)->transport_capacity < 8) {
-      simple_ai_types[i] = id;
+  unit_type_iterate(punittype) {
+    if (!unit_type_flag(punittype, F_NONMIL)
+	&& !unit_type_flag(punittype, F_MISSILE)
+	&& !unit_type_flag(punittype, F_NO_LAND_ATTACK)
+        && punittype->move_type != AIR_MOVING
+	&& punittype->transport_capacity < 8) {
+      simple_ai_types[i] = punittype;
       i++;
     }
   } unit_type_iterate_end;
 
-  simple_ai_types[i] = U_LAST;
+  simple_ai_types[i] = NULL;
 }

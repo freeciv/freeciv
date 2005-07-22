@@ -831,7 +831,7 @@ static void economy_command_callback(struct gui_dialog *dlg, int response,
     if (response== ECONOMY_SELL_OBSOLETE) {
       return;
     }
-    disband_all_units(i, FALSE, buf, sizeof(buf));
+    disband_all_units(get_unit_type(i), FALSE, buf, sizeof(buf));
   }
 
   shell = gtk_message_dialog_new(
@@ -898,7 +898,7 @@ void economy_report_dialog_update(void)
       g_value_unset(&value);
     
       economy_row_type[i + nbr_impr].is_impr = FALSE;
-      economy_row_type[i + nbr_impr].type = entries_units[i].type;
+      economy_row_type[i + nbr_impr].type = entries_units[i].type->index;
     }
 
     my_snprintf(economy_total, sizeof(economy_total),
@@ -1057,17 +1057,20 @@ void create_activeunits_report_dialog(bool make_modal)
 static void activeunits_selection_callback(GtkTreeSelection *selection,
 					   gpointer data)
 {
-  int ut;
+  struct unit_type *utype;
   GtkTreeModel *model;
   GtkTreeIter it;
 
-  ut = U_LAST;
+  utype = NULL;
   if (gtk_tree_selection_get_selected(activeunits_selection, &model, &it)) {
+    int ut;
+
     gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
+    utype = get_unit_type(ut);
   }
 
 
-  if (ut == U_LAST) {
+  if (utype == NULL) {
     gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 				      ACTIVEUNITS_NEAREST, FALSE);
 
@@ -1078,7 +1081,7 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
 				      ACTIVEUNITS_NEAREST,
 				      can_client_issue_orders());	
     
-    if (can_upgrade_unittype(game.player_ptr, ut) != -1) {
+    if (can_upgrade_unittype(game.player_ptr, utype) != NULL) {
       gui_dialog_set_response_sensitive(activeunits_dialog_shell,
 					ACTIVEUNITS_UPGRADE,
 					can_client_issue_orders());	
@@ -1092,7 +1095,8 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
 /****************************************************************
 ...
 *****************************************************************/
-static struct unit *find_nearest_unit(Unit_type_id type, struct tile *ptile)
+static struct unit *find_nearest_unit(const struct unit_type *type,
+				      struct tile *ptile)
 {
   struct unit *best_candidate;
   int best_dist = 99999;
@@ -1123,7 +1127,7 @@ static struct unit *find_nearest_unit(Unit_type_id type, struct tile *ptile)
 static void activeunits_command_callback(struct gui_dialog *dlg, int response,
                                          gpointer data)
 {
-  int           ut1, ut2;
+  struct unit_type *utype1 = NULL;
   GtkTreeModel *model;
   GtkTreeIter   it;
 
@@ -1137,19 +1141,21 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response,
   }
 
   /* nearest & upgrade commands. */
-  ut1 = U_LAST;
   if (gtk_tree_selection_get_selected(activeunits_selection, &model, &it)) {
-    gtk_tree_model_get(model, &it, AU_COL + 1, &ut1, -1);
+    int ut;
+
+    gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
+    utype1 = get_unit_type(ut);
   }
 
-  CHECK_UNIT_TYPE(ut1);
+  CHECK_UNIT_TYPE(utype1);
 
   if (response == ACTIVEUNITS_NEAREST) {
     struct tile *ptile;
     struct unit *punit;
 
     ptile = get_center_tile_mapcanvas();
-    if ((punit = find_nearest_unit(ut1, ptile))) {
+    if ((punit = find_nearest_unit(utype1, ptile))) {
       center_tile_mapcanvas(punit->tile);
 
       if (punit->activity == ACTIVITY_IDLE
@@ -1161,8 +1167,7 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response,
     }
   } else {
     GtkWidget *shell;
-
-    ut2 = can_upgrade_unittype(game.player_ptr, ut1);
+    struct unit_type *ut2 = can_upgrade_unittype(game.player_ptr, utype1);
 
     shell = gtk_message_dialog_new(
 	  NULL,
@@ -1170,15 +1175,15 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response,
 	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
 	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 	    "Treasury contains %d gold."),
-	  unit_types[ut1].name, unit_types[ut2].name,
-	  unit_upgrade_price(game.player_ptr, ut1, ut2),
+	  utype1->name, ut2->name,
+	  unit_upgrade_price(game.player_ptr, utype1, ut2),
 	  game.player_ptr->economic.gold);
     setup_dialog(shell, gui_dialog_get_toplevel(dlg));
 
     gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
 
     if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-      dsend_packet_unit_type_upgrade(&aconnection, ut1);
+      dsend_packet_unit_type_upgrade(&aconnection, utype1->index);
     }
 
     gtk_widget_destroy(shell);
@@ -1210,10 +1215,10 @@ void activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {
-      (unitarray[punit->type].active_count)++;
+      (unitarray[punit->type->index].active_count)++;
       if (punit->homecity) {
 	output_type_iterate(o) {
-	  unitarray[punit->type].upkeep[o] += punit->upkeep[o];
+	  unitarray[punit->type->index].upkeep[o] += punit->upkeep[o];
 	} output_type_iterate_end;
       }
     } unit_list_iterate_end;
@@ -1226,33 +1231,35 @@ void activeunits_report_dialog_update(void)
 
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
-    unit_type_iterate(i) {
-    
-      if (unitarray[i].active_count > 0
-	  || unitarray[i].building_count > 0) {
-	can = (can_upgrade_unittype(game.player_ptr, i) != -1);
+    unit_type_iterate(punittype) {
+      if (unitarray[punittype->index].active_count > 0
+	  || unitarray[punittype->index].building_count > 0) {
+	can = (can_upgrade_unittype(game.player_ptr, punittype) != NULL);
 	
         gtk_list_store_append(activeunits_store, &it);
 	gtk_list_store_set(activeunits_store, &it,
 		1, can,
-		2, unitarray[i].building_count,
-		3, unitarray[i].active_count,
-		4, unitarray[i].upkeep[O_SHIELD],
-		5, unitarray[i].upkeep[O_FOOD],
-		6, unitarray[i].upkeep[O_GOLD],
+		2, unitarray[punittype->index].building_count,
+		3, unitarray[punittype->index].active_count,
+		4, unitarray[punittype->index].upkeep[O_SHIELD],
+		5, unitarray[punittype->index].upkeep[O_FOOD],
+		6, unitarray[punittype->index].upkeep[O_GOLD],
 		7, TRUE,
-		8, ((unitarray[i].active_count > 0) ? i : U_LAST), -1);
+		8, ((unitarray[punittype->index].active_count > 0)
+		    ? punittype->index : U_LAST),
+		-1);
 	g_value_init(&value, G_TYPE_STRING);
-	g_value_set_static_string(&value, unit_name(i));
+	g_value_set_static_string(&value, unit_name(punittype));
 	gtk_list_store_set_value(activeunits_store, &it, 0, &value);
 	g_value_unset(&value);
 
 	k++;
-	unittotals.active_count += unitarray[i].active_count;
+	unittotals.active_count += unitarray[punittype->index].active_count;
 	output_type_iterate(o) {
-	  unittotals.upkeep[o] += unitarray[i].upkeep[o];	  
+	  unittotals.upkeep[o] += unitarray[punittype->index].upkeep[o];	  
 	} output_type_iterate_end;
-	unittotals.building_count += unitarray[i].building_count;
+	unittotals.building_count
+	  += unitarray[punittype->index].building_count;
       }
     } unit_type_iterate_end;
 

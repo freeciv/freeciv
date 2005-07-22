@@ -295,7 +295,8 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 
     /* Check for nuke capability */
     for (i = 0; i < nuke_units; i++) {
-      Unit_type_id nuke = get_role_unit(F_NUCLEAR, i);
+      struct unit_type *nuke = get_role_unit(F_NUCLEAR, i);
+
       if (can_player_build_unit_direct(aplayer, nuke)) { 
         ai->threats.nuclear = 1;
       }

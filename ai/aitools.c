@@ -206,10 +206,11 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
   dcity = tile_get_city(dest_tile);
   if (dcity && HOSTILE_PLAYER(pplayer, ai, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
-    int d_type = ai_choose_defender_versus(dcity, punit->type);
+    struct unit_type *d_type = ai_choose_defender_versus(dcity, punit->type);
+
     danger += 
       unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
-                          SINGLE_MOVE, unit_types[d_type].hp);
+                          SINGLE_MOVE, d_type->hp);
   }
   danger *= POWER_DIVIDER;
 
@@ -1132,10 +1133,10 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
 			 struct ai_choice *choice, int role, int want)
 {
-  Unit_type_id iunit = ai_wants_role_unit(pplayer, pcity, role, want);
+  struct unit_type *iunit = ai_wants_role_unit(pplayer, pcity, role, want);
 
-  if (iunit != U_LAST) {
-    choice->choice = iunit;
+  if (iunit != NULL) {
+    choice->choice = iunit->index;
   }
 }
 

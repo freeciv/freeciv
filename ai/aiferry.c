@@ -770,7 +770,8 @@ static bool aiferry_find_interested_city(struct unit *pferry)
     if (pcity && pcity->owner == pferry->owner
         && (pcity->ai.choice.need_boat 
             || (pcity->is_building_unit
-		&& unit_has_role(pcity->currently_building, L_FERRYBOAT)))) {
+		&& unit_has_role(get_unit_type(pcity->currently_building),
+				 L_FERRYBOAT)))) {
       bool really_needed = TRUE;
       int turns = city_turns_to_build(pcity, pcity->currently_building,
                                       pcity->is_building_unit, TRUE);
@@ -779,7 +780,8 @@ static bool aiferry_find_interested_city(struct unit *pferry)
                pcity->name, TILE_XY(pcity->tile));
 
       if (pos.turn > turns && pcity->is_building_unit
-          && unit_has_role(pcity->currently_building, L_FERRYBOAT)) {
+          && unit_has_role(get_unit_type(pcity->currently_building),
+			   L_FERRYBOAT)) {
         UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s is NOT suitable: "
                  "will finish building its own ferry too soon", pcity->name);
         continue;

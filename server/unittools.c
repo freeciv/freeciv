@@ -111,15 +111,15 @@ static void change_vision_range(struct player *pplayer, struct tile *ptile,
   It is an error if there are no available units.  This function will
   always return a valid unit.
 **************************************************************************/
-Unit_type_id find_a_unit_type(enum unit_role_id role,
-			      enum unit_role_id role_tech)
+struct unit_type *find_a_unit_type(enum unit_role_id role,
+				   enum unit_role_id role_tech)
 {
-  int which[U_LAST];
+  struct unit_type *which[U_LAST];
   int i, num=0;
 
   if (role_tech != -1) {
     for(i=0; i<num_role_units(role_tech); i++) {
-      Unit_type_id iunit = get_role_unit(role_tech, i);
+      struct unit_type *iunit = get_role_unit(role_tech, i);
       const int minplayers = 2;
       int players = 0;
 
@@ -269,12 +269,13 @@ static void do_upgrade_effects(struct player *pplayer)
      * available candidates. */
     int candidate_to_upgrade = myrand(unit_list_size(candidates));
     struct unit *punit = unit_list_get(candidates, candidate_to_upgrade);
-    Unit_type_id upgrade_type = can_upgrade_unittype(pplayer, punit->type);
+    struct unit_type *upgrade_type
+      = can_upgrade_unittype(pplayer, punit->type);
 
     notify_player(pplayer,
 		  _("%s was upgraded for free to %s%s."),
 		  unit_type(punit)->name,
-		  get_unit_type(upgrade_type)->name,
+		  upgrade_type->name,
 		  get_location_str_in(pplayer, punit->tile));
 
     /* For historical reasons some veteran status may be lost while
@@ -1111,7 +1112,8 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 /**************************************************************************
 ...
 **************************************************************************/
-static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
+static bool find_a_good_partisan_spot(struct city *pcity,
+				      struct unit_type *u_type,
 				      struct tile **dst_tile)
 {
   int bestvalue = 0;
@@ -1125,7 +1127,7 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
       continue;
     if (unit_list_size(ptile->units) > 0)
       continue;
-    value = get_virtual_defense_power(U_LAST, u_type, ptile, FALSE, 0);
+    value = get_virtual_defense_power(NULL, u_type, ptile, FALSE, 0);
     value *= 10;
 
     if (ptile->continent != tile_get_continent(pcity->tile)) {
@@ -1149,10 +1151,11 @@ static bool find_a_good_partisan_spot(struct city *pcity, int u_type,
 static void place_partisans(struct city *pcity, int count)
 {
   struct tile *ptile = NULL;
-  int u_type = get_role_unit(L_PARTISAN, 0);
+  struct unit_type *u_type = get_role_unit(L_PARTISAN, 0);
 
   while ((count--) > 0 && find_a_good_partisan_spot(pcity, u_type, &ptile)) {
     struct unit *punit;
+
     punit = create_unit(city_owner(pcity), ptile, u_type, 0, 0, -1);
     if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       punit->activity = ACTIVITY_FORTIFIED; /* yes; directly fortified */
@@ -1386,7 +1389,8 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
 ...
 **************************************************************************/
 bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
-			     Unit_type_id type, bool unit_is_on_tile)
+			     const struct unit_type *type,
+			     bool unit_is_on_tile)
 {
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
@@ -1420,7 +1424,8 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 
   Note that this function is strongly tied to unit.c:test_unit_upgrade().
 **************************************************************************/
-void upgrade_unit(struct unit *punit, Unit_type_id to_unit, bool is_free)
+void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
+		  bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
   int range;
@@ -1455,7 +1460,7 @@ void upgrade_unit(struct unit *punit, Unit_type_id to_unit, bool is_free)
       && unit_profits_of_watchtower(punit)) {
     change_vision_range(pplayer, punit->tile, range, get_watchtower_vision(punit));
   } else {
-    change_vision_range(pplayer, punit->tile, range, get_unit_type(to_unit)->vision_range);
+    change_vision_range(pplayer, punit->tile, range, to_unit->vision_range);
   }
 
   send_unit_info(NULL, punit);
@@ -1466,7 +1471,7 @@ void upgrade_unit(struct unit *punit, Unit_type_id to_unit, bool is_free)
   Wrapper of the below
 *************************************************************************/
 struct unit *create_unit(struct player *pplayer, struct tile *ptile, 
-                         Unit_type_id type, int veteran_level, 
+			 struct unit_type *type, int veteran_level, 
                          int homecity_id, int moves_left)
 {
   return create_unit_full(pplayer, ptile, type, veteran_level, homecity_id, 
@@ -1478,7 +1483,7 @@ struct unit *create_unit(struct player *pplayer, struct tile *ptile,
   lists.
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
-			      Unit_type_id type, int veteran_level, 
+			      struct unit_type *type, int veteran_level, 
                               int homecity_id, int moves_left, int hp_left,
 			      struct unit *ptrans)
 {
@@ -1850,7 +1855,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->y = punit->tile->y;
   packet->homecity = punit->homecity;
   packet->veteran = punit->veteran;
-  packet->type = punit->type;
+  packet->type = punit->type->index;
   packet->movesleft = punit->moves_left;
   packet->hp = punit->hp;
   packet->activity = punit->activity;
@@ -1928,7 +1933,7 @@ void package_short_unit(struct unit *punit,
   packet->x = punit->tile->x;
   packet->y = punit->tile->y;
   packet->veteran = punit->veteran;
-  packet->type = punit->type;
+  packet->type = punit->type->index;
   packet->hp = punit->hp;
   packet->occupied = (get_transporter_occupancy(punit) > 0);
   if (punit->activity == ACTIVITY_EXPLORE
@@ -2343,7 +2348,7 @@ static bool hut_get_barbarians(struct unit *punit)
   } else {
     /* save coords and type in case unit dies */
     struct tile *unit_tile = punit->tile;
-    Unit_type_id type = punit->type;
+    struct unit_type *type = punit->type;
 
     ok = unleash_barbarians(unit_tile);
 

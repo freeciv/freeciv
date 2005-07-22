@@ -62,17 +62,16 @@ static struct unit *ai_hunter_find(struct player *pplayer,
 /**************************************************************************
   Guess best hunter unit type.
 **************************************************************************/
-static Unit_type_id ai_hunter_guess_best(struct city *pcity,
-                                         enum unit_move_type umt)
+static struct unit_type *ai_hunter_guess_best(struct city *pcity,
+					      enum unit_move_type umt)
 {
-  Unit_type_id bestid = -1;
+  struct unit_type *bestid = NULL;
   int best = 0;
 
-  unit_type_iterate(i) {
-    struct unit_type *ut = get_unit_type(i);
+  unit_type_iterate(ut) {
     int desire;
 
-    if (ut->move_type != umt || !can_build_unit(pcity, i)
+    if (ut->move_type != umt || !can_build_unit(pcity, ut)
         || ut->attack_strength < ut->transport_capacity) {
       continue;
     }
@@ -83,24 +82,24 @@ static Unit_type_id ai_hunter_guess_best(struct city *pcity,
               * ut->move_rate
               + ut->defense_strength) / MAX(UNITTYPE_COSTS(ut), 1);
 
-    if (unit_type_flag(i, F_CARRIER)
-        || unit_type_flag(i, F_MISSILE_CARRIER)) {
+    if (unit_type_flag(ut, F_CARRIER)
+        || unit_type_flag(ut, F_MISSILE_CARRIER)) {
       desire += desire / 6;
     }
-    if (unit_type_flag(i, F_IGTER)) {
+    if (unit_type_flag(ut, F_IGTER)) {
       desire += desire / 2;
     }
-    if (unit_type_flag(i, F_IGTIRED)) {
+    if (unit_type_flag(ut, F_IGTIRED)) {
       desire += desire / 8;
     }
-    if (unit_type_flag(i, F_PARTIAL_INVIS)) {
+    if (unit_type_flag(ut, F_PARTIAL_INVIS)) {
       desire += desire / 4;
     }
-    if (unit_type_flag(i, F_NO_LAND_ATTACK)) {
+    if (unit_type_flag(ut, F_NO_LAND_ATTACK)) {
       desire -= desire / 4; /* less flexibility */
     }
     /* Causes continual unhappiness */
-    if (unit_type_flag(i, F_FIELDUNIT)) {
+    if (unit_type_flag(ut, F_FIELDUNIT)) {
       desire /= 2;
     }
 
@@ -109,7 +108,7 @@ static Unit_type_id ai_hunter_guess_best(struct city *pcity,
 
     if (desire > best) {
         best = desire;
-        bestid = i;
+        bestid = ut;
     }
   } unit_type_iterate_end;
 
@@ -123,7 +122,8 @@ static void ai_hunter_missile_want(struct player *pplayer,
                                    struct city *pcity,
                                    struct ai_choice *choice)
 {
-  int best = -1, best_unit_type = -1;
+  int best = -1;
+  struct unit_type *best_unit_type = NULL;
   bool have_hunter = FALSE;
 
   unit_list_iterate(pcity->tile->units, punit) {
@@ -141,11 +141,10 @@ static void ai_hunter_missile_want(struct player *pplayer,
     return;
   }
 
-  unit_type_iterate(i) {
-    struct unit_type *ut = get_unit_type(i);
+  unit_type_iterate(ut) {
     int desire;
 
-    if (!BV_ISSET(ut->flags, F_MISSILE) || !can_build_unit(pcity, i)) {
+    if (!BV_ISSET(ut->flags, F_MISSILE) || !can_build_unit(pcity, ut)) {
       continue;
     }
 
@@ -158,7 +157,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
               * ut->move_rate) / UNITTYPE_COSTS(ut) + 1;
 
     /* Causes continual unhappiness */
-    if (unit_type_flag(i, F_FIELDUNIT)) {
+    if (unit_type_flag(ut, F_FIELDUNIT)) {
       desire /= 2;
     }
 
@@ -167,13 +166,13 @@ static void ai_hunter_missile_want(struct player *pplayer,
 
     if (desire > best) {
         best = desire;
-        best_unit_type = i;
+        best_unit_type = ut;
     }
   } unit_type_iterate_end;
 
   if (best > choice->want) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "pri missile w/ want %d", best);
-    choice->choice = best_unit_type;
+    choice->choice = best_unit_type->index;
     choice->want = best;
     choice->type = CT_ATTACKER;
   } else if (best != -1) {
@@ -186,7 +185,8 @@ static void ai_hunter_missile_want(struct player *pplayer,
   Support function for ai_hunter_choice()
 **************************************************************************/
 static void eval_hunter_want(struct player *pplayer, struct city *pcity,
-                             struct ai_choice *choice, int best_type,
+                             struct ai_choice *choice,
+			     struct unit_type *best_type,
                              int veteran)
 {
   struct unit *virtualunit;
@@ -197,7 +197,7 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
   destroy_unit_virtual(virtualunit);
   if (want > choice->want) {
     CITY_LOG(LOGLEVEL_HUNT, pcity, "pri hunter w/ want %d", want);
-    choice->choice = best_type;
+    choice->choice = best_type->index;
     choice->want = want;
     choice->type = CT_ATTACKER;
   }
@@ -209,11 +209,13 @@ static void eval_hunter_want(struct player *pplayer, struct city *pcity,
 void ai_hunter_choice(struct player *pplayer, struct city *pcity,
                       struct ai_choice *choice)
 {
-  int best_land_hunter = ai_hunter_guess_best(pcity, LAND_MOVING);
-  int best_sea_hunter = ai_hunter_guess_best(pcity, SEA_MOVING);
+  struct unit_type *best_land_hunter
+    = ai_hunter_guess_best(pcity, LAND_MOVING);
+  struct unit_type *best_sea_hunter
+    = ai_hunter_guess_best(pcity, SEA_MOVING);
   struct unit *hunter = ai_hunter_find(pplayer, pcity);
 
-  if ((best_land_hunter == -1 && best_sea_hunter == -1)
+  if ((!best_land_hunter && !best_sea_hunter)
       || is_barbarian(pplayer) || !pplayer->is_alive
       || ai_handicap(pplayer, H_TARGETS)) {
     return; /* None available */
@@ -224,11 +226,11 @@ void ai_hunter_choice(struct player *pplayer, struct city *pcity,
     return;
   }
 
-  if (best_sea_hunter >= 0) {
+  if (best_sea_hunter) {
     eval_hunter_want(pplayer, pcity, choice, best_sea_hunter, 
                      do_make_unit_veteran(pcity, best_sea_hunter));
   }
-  if (best_land_hunter >= 0) {
+  if (best_land_hunter) {
     eval_hunter_want(pplayer, pcity, choice, best_land_hunter, 
                      do_make_unit_veteran(pcity, best_land_hunter));
   }
