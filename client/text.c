@@ -19,6 +19,7 @@
 #include <stdarg.h>
 #include <string.h>
 
+#include "astring.h"
 #include "map.h"
 #include "combat.h"
 #include "fcintl.h"
@@ -32,112 +33,20 @@
 #include "goto.h"
 #include "text.h"
 
-/*
- * An individual add(_line) string has to fit into GROW_TMP_SIZE. One buffer
- * of GROW_TMP_SIZE size will be allocated for the entire client.
- */
-#define GROW_TMP_SIZE	(1024)
-
-/* 
- * Initial size of the buffer for each function.  It may later be
- * grown as needed.
- */
-#define START_SIZE	10
-
-static void real_add_line(char **buffer, size_t * buffer_size,
-			  const char *format, ...)
-fc__attribute((format(printf, 3, 4)));
-static void real_add(char **buffer, size_t * buffer_size,
-		     const char *format, ...)
-fc__attribute((format(printf, 3, 4)));
-
-#define add_line(...) real_add_line(&out,&out_size, __VA_ARGS__)
-#define add(...) real_add(&out,&out_size, __VA_ARGS__)
-
-#define INIT			\
-  static char *out = NULL;	\
-  static size_t out_size = 0;	\
-  if (!out) {			\
-    out_size = START_SIZE;	\
-    out = fc_malloc(out_size);	\
-  }				\
-  out[0] = '\0';
-
-#define RETURN	return out;
-
-/****************************************************************************
-  Formats the parameters and appends them. Grows the buffer if
-  required.
-****************************************************************************/
-static void grow_printf(char **buffer, size_t *buffer_size,
-			const char *format, va_list ap)
-{
-  size_t new_len;
-  static char buf[GROW_TMP_SIZE];
-
-  if (my_vsnprintf(buf, sizeof(buf), format, ap) == -1) {
-    die("Formatted string bigger than %lu", (unsigned long)sizeof(buf));
-  }
-
-  new_len = strlen(*buffer) + strlen(buf) + 1;
-
-  if (new_len > *buffer_size) {
-    /* It's important that we grow the buffer geometrically, otherwise the
-     * overhead adds up quickly. */
-    size_t new_size = MAX(new_len, *buffer_size * 2);
-
-    freelog(LOG_VERBOSE, "expand from %lu to %lu to add '%s'",
-	    (unsigned long)*buffer_size, (unsigned long)new_size, buf);
-
-    *buffer_size = new_size;
-    *buffer = fc_realloc(*buffer, *buffer_size);
-  }
-  mystrlcat(*buffer, buf, *buffer_size);
-}
-
-/****************************************************************************
-  Add a full line of text to the buffer.
-****************************************************************************/
-static void real_add_line(char **buffer, size_t * buffer_size,
-			  const char *format, ...)
-{
-  va_list args;
-
-  if ((*buffer)[0] != '\0') {
-    real_add(buffer, buffer_size, "%s", "\n");
-  }
-
-  va_start(args, format);
-  grow_printf(buffer, buffer_size, format, args);
-  va_end(args);
-}
-
-/****************************************************************************
-  Add the text to the buffer.
-****************************************************************************/
-static void real_add(char **buffer, size_t * buffer_size, const char *format,
-		     ...)
-{
-  va_list args;
-
-  va_start(args, format);
-  grow_printf(buffer, buffer_size, format, args);
-  va_end(args);
-}
-
 /****************************************************************************
   Return a (static) string with a tile's food/prod/trade
 ****************************************************************************/
 const char *get_tile_output_text(const struct tile *ptile)
 {
-  INIT;
-  
-  add_line("%d/%d/%d",
-	   get_output_tile(ptile, O_FOOD),
-	   get_output_tile(ptile, O_SHIELD),
-	   get_output_tile(ptile, O_TRADE));
+  static struct astring str = ASTRING_INIT;
 
-  RETURN;
+  astr_clear(&str);
+  astr_add_line(&str, "%d/%d/%d",
+		get_output_tile(ptile, O_FOOD),
+		get_output_tile(ptile, O_SHIELD),
+		get_output_tile(ptile, O_TRADE));
+
+  return str.str;
 }
 
 /****************************************************************************
@@ -160,42 +69,45 @@ const char *popup_info_text(struct tile *ptile)
      Q_("?city:Friendly(team)")};
   int infracount;
   bv_special infra;
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
+  astr_clear(&str);
 #ifdef DEBUG
-  add_line(_("Location: (%d, %d) [%d]"), 
-	   ptile->x, ptile->y, ptile->continent); 
+  astr_add_line(&str, _("Location: (%d, %d) [%d]"), 
+		ptile->x, ptile->y, ptile->continent); 
 #endif /*DEBUG*/
-  add_line(_("Terrain: %s"),  tile_get_info_text(ptile));
-  add_line(_("Food/Prod/Trade: %s"),
-	   get_tile_output_text(ptile));
+  astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile));
+  astr_add_line(&str, _("Food/Prod/Trade: %s"),
+		get_tile_output_text(ptile));
   if (tile_has_special(ptile, S_HUT)) {
-    add_line(_("Minor Tribe Village"));
+    astr_add_line(&str, _("Minor Tribe Village"));
   }
   if (game.info.borders > 0 && !pcity) {
     struct player *owner = tile_get_owner(ptile);
     struct player_diplstate *ds = game.player_ptr->diplstates;
 
     if (owner == game.player_ptr){
-      add_line(_("Our Territory"));
+      astr_add_line(&str, _("Our Territory"));
     } else if (owner) {
       if (ds[owner->player_no].type == DS_CEASEFIRE) {
 	int turns = ds[owner->player_no].turns_left;
 
 	/* TRANS: "Polish territory (5 turn ceasefire)" */
-	add_line(PL_("%s territory (%d turn ceasefire)",
-		     "%s territory (%d turn ceasefire)",
-		     turns),
-		 get_nation_name(owner->nation), turns);
+	astr_add_line(&str, PL_("%s territory (%d turn ceasefire)",
+				"%s territory (%d turn ceasefire)",
+				turns),
+		      get_nation_name(owner->nation), turns);
       } else {
 	/* TRANS: "Territory of the friendly Polish".  See the
 	 * ?nation adjectives. */
-	add_line(_("Territory of the %s %s"),
-		 diplo_nation_plural_adjectives[ds[owner->player_no].type],
-		 get_nation_name_plural(owner->nation));
+	int type = ds[owner->player_no].type;
+
+	astr_add_line(&str, _("Territory of the %s %s"),
+		      diplo_nation_plural_adjectives[type],
+		      get_nation_name_plural(owner->nation));
       }
     } else {
-      add_line(_("Unclaimed territory"));
+      astr_add_line(&str, _("Unclaimed territory"));
     }
   }
   if (pcity) {
@@ -207,29 +119,29 @@ const char *popup_info_text(struct tile *ptile)
 
     if (owner == game.player_ptr){
       /* TRANS: "City: Warsaw (Polish)" */
-      add_line(_("City: %s (%s)"), pcity->name,
-	       get_nation_name(owner->nation));
+      astr_add_line(&str, _("City: %s (%s)"), pcity->name,
+		    get_nation_name(owner->nation));
     } else if (owner) {
       if (ds[owner->player_no].type == DS_CEASEFIRE) {
 	int turns = ds[owner->player_no].turns_left;
 
 	/* TRANS:  "City: Warsaw (Polish, 5 turn ceasefire)" */
-        add_line(PL_("City: %s (%s, %d turn ceasefire)",
-				       "City: %s (%s, %d turn ceasefire)",
-				       turns),
-		 pcity->name,
-		 get_nation_name(owner->nation),
-		 turns);
+        astr_add_line(&str, PL_("City: %s (%s, %d turn ceasefire)",
+				"City: %s (%s, %d turn ceasefire)",
+				turns),
+		      pcity->name,
+		      get_nation_name(owner->nation),
+		      turns);
       } else {
         /* TRANS: "City: Warsaw (Polish,friendly)" */
-        add_line(_("City: %s (%s, %s)"), pcity->name,
-		 get_nation_name(owner->nation),
-		 diplo_city_adjectives[ds[owner->player_no].type]);
+        astr_add_line(&str, _("City: %s (%s, %s)"), pcity->name,
+		      get_nation_name(owner->nation),
+		      diplo_city_adjectives[ds[owner->player_no].type]);
       }
     }
     if (city_got_citywalls(pcity)) {
       /* TRANS: previous lines gave other information about the city. */
-      add(" %s", _("with City Walls"));
+      astr_add(&str, " %s", _("with City Walls"));
     }
 
     if ((apunit = get_unit_in_focus())) {
@@ -239,19 +151,19 @@ const char *popup_info_text(struct tile *ptile)
 	  && can_cities_trade(hcity, pcity)
 	  && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
-	add_line(_("Trade from %s: %d"),
-		 hcity->name, trade_between_cities(hcity, pcity));
+	astr_add_line(&str, _("Trade from %s: %d"),
+		      hcity->name, trade_between_cities(hcity, pcity));
       }
     } 
   }
   infra = get_tile_infrastructure_set(ptile, &infracount);
   if (infracount > 0) {
-    add_line(_("Infrastructure: %s"),
-	     get_infrastructure_text(ptile->special));
+    astr_add_line(&str, _("Infrastructure: %s"),
+		  get_infrastructure_text(ptile->special));
   }
   activity_text = concat_tile_activity_text(ptile);
   if (strlen(activity_text) > 0) {
-    add_line(_("Activity: %s"), activity_text);
+    astr_add_line(&str, _("Activity: %s"), activity_text);
   }
   if (punit && !pcity) {
     struct player *owner = unit_owner(punit);
@@ -267,25 +179,25 @@ const char *popup_info_text(struct tile *ptile)
 	my_snprintf(tmp, sizeof(tmp), "/%s", pcity->name);
       }
       /* TRANS: "Unit: Musketeers (Polish/Warsaw)" */
-      add_line(_("Unit: %s (%s%s)"), ptype->name,
-	  get_nation_name(owner->nation),
-	  tmp);
+      astr_add_line(&str, _("Unit: %s (%s%s)"), ptype->name,
+		    get_nation_name(owner->nation),
+		    tmp);
     } else if (owner) {
       if (ds[owner->player_no].type == DS_CEASEFIRE) {
 	int turns = ds[owner->player_no].turns_left;
 
 	/* TRANS:  "Unit: Musketeers (Polish, 5 turn ceasefire)" */
-        add_line(PL_("Unit: %s (%s, %d turn ceasefire)",
-				       "Unit: %s (%s, %d turn ceasefire)",
-				       turns),
-		 ptype->name,
-		 get_nation_name(owner->nation),
-		 turns);
+        astr_add_line(&str, PL_("Unit: %s (%s, %d turn ceasefire)",
+				"Unit: %s (%s, %d turn ceasefire)",
+				turns),
+		      ptype->name,
+		      get_nation_name(owner->nation),
+		      turns);
       } else {
 	/* TRANS: "Unit: Musketeers (Polish,friendly)" */
-	add_line(_("Unit: %s (%s, %s)"), ptype->name,
-		 get_nation_name(owner->nation),
-		 diplo_city_adjectives[ds[owner->player_no].type]);
+	astr_add_line(&str, _("Unit: %s (%s, %s)"), ptype->name,
+		      get_nation_name(owner->nation),
+		      diplo_city_adjectives[ds[owner->player_no].type]);
       }
     }
 
@@ -299,25 +211,25 @@ const char *popup_info_text(struct tile *ptile)
 	int def_chance = (1.0 - unit_win_chance(punit, apunit)) * 100;
 
 	/* TRANS: "Chance to win: A:95% D:46%" */
-	add_line(_("Chance to win: A:%d%% D:%d%%"),
-		 att_chance, def_chance);
+	astr_add_line(&str, _("Chance to win: A:%d%% D:%d%%"),
+		      att_chance, def_chance);
       }
     }
 
     /* TRANS: A is attack power, D is defense power, FP is firepower,
      * HP is hitpoints (current and max). */
     /* FIXME: veteran status isn't handled properly here. */
-    add_line(_("A:%d D:%d FP:%d HP:%d/%d%s"),
-	     ptype->attack_strength, 
-	     ptype->defense_strength, ptype->firepower, punit->hp, 
-	     ptype->hp, punit->veteran ? _(" V") : "");
+    astr_add_line(&str, _("A:%d D:%d FP:%d HP:%d/%d%s"),
+		  ptype->attack_strength, 
+		  ptype->defense_strength, ptype->firepower, punit->hp, 
+		  ptype->hp, punit->veteran ? _(" V") : "");
     if (owner == game.player_ptr
 	&& unit_list_size(ptile->units) >= 2) {
       /* TRANS: "5 more" units on this tile */
-      add(_("  (%d more)"), unit_list_size(ptile->units) - 1);
+      astr_add(&str, _("  (%d more)"), unit_list_size(ptile->units) - 1);
     }
   } 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -332,7 +244,9 @@ const char *concat_tile_activity_text(struct tile *ptile)
   int activity_units[ACTIVITY_LAST];
   int num_activities = 0;
   int remains, turns, i;
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   memset(activity_total, 0, sizeof(activity_total));
   memset(activity_units, 0, sizeof(activity_units));
@@ -346,7 +260,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
   for (i = 0; i < ACTIVITY_LAST; i++) {
     if (is_build_or_clean_activity(i) && activity_units[i] > 0) {
       if (num_activities > 0) {
-	add("/");
+	astr_add(&str, "/");
       }
       remains = tile_activity_time(i, ptile) - activity_total[i];
       if (remains > 0) {
@@ -355,12 +269,12 @@ const char *concat_tile_activity_text(struct tile *ptile)
 	/* activity will be finished this turn */
 	turns = 1;
       }
-      add("%s(%d)", get_activity_text(i), turns);
+      astr_add(&str, "%s(%d)", get_activity_text(i), turns);
       num_activities++;
     }
   }
 
-  RETURN;
+  return str.str;
 }
 
 #define FAR_CITY_SQUARE_DIST (2*(6*6))
@@ -370,19 +284,21 @@ const char *concat_tile_activity_text(struct tile *ptile)
 ****************************************************************************/
 const char *get_nearest_city_text(struct city *pcity, int sq_dist)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   /* just to be sure */
   if (!pcity) {
     sq_dist = -1;
   }
 
-  add((sq_dist >= FAR_CITY_SQUARE_DIST) ? _("far from %s")
+  astr_add(&str, (sq_dist >= FAR_CITY_SQUARE_DIST) ? _("far from %s")
       : (sq_dist > 0) ? _("near %s")
       : (sq_dist == 0) ? _("in %s")
       : "%s", pcity ? pcity->name : "");
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -395,29 +311,32 @@ const char *unit_description(struct unit *punit)
       player_find_city_by_id(game.player_ptr, punit->homecity);
   struct city *pcity_near = get_nearest_city(punit, &pcity_near_dist);
   struct unit_type *ptype = unit_type(punit);
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
-  add("%s", ptype->name);
+  astr_clear(&str);
+
+  astr_add(&str, "%s", ptype->name);
 
   if (ptype->veteran[punit->veteran].name[0] != '\0') {
-    add(" (%s)", _(ptype->veteran[punit->veteran].name));
+    astr_add(&str, " (%s)", _(ptype->veteran[punit->veteran].name));
   }
-  add("\n");
-  add_line("%s", unit_activity_text(punit));
+  astr_add(&str, "\n");
+  astr_add_line(&str, "%s", unit_activity_text(punit));
 
   if (pcity) {
     /* TRANS: "from Warsaw" */
-    add_line(_("from %s"), pcity->name);
+    astr_add_line(&str, _("from %s"), pcity->name);
   } else {
-    add("\n");
+    astr_add(&str, "\n");
   }
 
-  add_line("%s", get_nearest_city_text(pcity_near, pcity_near_dist));
+  astr_add_line(&str, "%s",
+		get_nearest_city_text(pcity_near, pcity_near_dist));
 #ifdef DEBUG
-  add_line("Unit ID: %d", punit->id);
+  astr_add_line(&str, "Unit ID: %d", punit->id);
 #endif
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -458,40 +377,42 @@ const char *science_dialog_text(void)
   int turns_to_advance;
   struct player *plr = game.player_ptr;
   int ours, theirs;
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   get_bulbs_per_turn(&ours, &theirs);
 
   if (ours == 0 && theirs == 0) {
-    add(_("Progress: no research"));
-    RETURN;
+    astr_add(&str, _("Progress: no research"));
+    return str.str;
   }
   assert(ours >= 0 && theirs >= 0);
   if (get_player_research(plr)->researching == A_UNSET) {
     if (theirs == 0) {
-      add(_("Progress: no research target (%d pts/turn)"), ours);
+      astr_add(&str, _("Progress: no research target (%d pts/turn)"), ours);
     } else {
-      add(_("Progress: no research target "
+      astr_add(&str, _("Progress: no research target "
 	    "(%d pts/turn, %d pts/turn from team)"), ours, theirs);
     }
-    RETURN;
+    return str.str;
   }
   turns_to_advance = (total_bulbs_required(plr) + ours + theirs - 1)
                      / (ours + theirs);
   if (theirs == 0) {
     /* Simple version, no techpool */
-    add(PL_("Progress: %d turn/advance (%d pts/turn)",
+    astr_add(&str, PL_("Progress: %d turn/advance (%d pts/turn)",
 	    "Progress: %d turns/advance (%d pts/turn)",
 	    turns_to_advance), turns_to_advance, ours);
   } else {
     /* Techpool version */
-    add(PL_("Progress: %d turn/advance (%d pts/turn, "
+    astr_add(&str, PL_("Progress: %d turn/advance (%d pts/turn, "
 	    "%d pts/turn from team)",
 	    "Progress: %d turns/advance (%d pts/turn, "
 	    "%d pts/turn from team)",
 	    turns_to_advance), turns_to_advance, ours, theirs);
   }
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -505,7 +426,9 @@ const char *get_science_goal_text(Tech_type_id goal)
   int perturn = get_bulbs_per_turn(NULL, NULL);
   char buf1[256], buf2[256], buf3[256];
   struct player_research* research = get_player_research(game.player_ptr);
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   if (is_tech_a_req_for_goal(game.player_ptr,
 			     research->researching, goal)
@@ -524,9 +447,9 @@ const char *get_science_goal_text(Tech_type_id goal)
   } else {
     my_snprintf(buf3, sizeof(buf3), _("never"));
   }
-  add_line("(%s - %s - %s)", buf1, buf2, buf3);
+  astr_add_line(&str, "(%s - %s - %s)", buf1, buf2, buf3);
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -535,20 +458,24 @@ const char *get_science_goal_text(Tech_type_id goal)
 ****************************************************************************/
 const char *get_info_label_text(void)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
-  add_line(_("Population: %s"),
-	     population_to_text(civ_population(game.player_ptr)));
-  add_line(_("Year: %s (T%d)"), textyear(game.info.year), game.info.turn);
-  add_line(_("Gold: %d (%+d)"), game.player_ptr->economic.gold,
-	   player_get_expected_income(game.player_ptr));
-  add_line(_("Tax: %d Lux: %d Sci: %d"), game.player_ptr->economic.tax,
-	   game.player_ptr->economic.luxury,
-	   game.player_ptr->economic.science);
+  astr_clear(&str);
+
+  astr_add_line(&str, _("Population: %s"),
+		population_to_text(civ_population(game.player_ptr)));
+  astr_add_line(&str, _("Year: %s (T%d)"),
+		textyear(game.info.year), game.info.turn);
+  astr_add_line(&str, _("Gold: %d (%+d)"), game.player_ptr->economic.gold,
+		player_get_expected_income(game.player_ptr));
+  astr_add_line(&str, _("Tax: %d Lux: %d Sci: %d"),
+		game.player_ptr->economic.tax,
+		game.player_ptr->economic.luxury,
+		game.player_ptr->economic.science);
   if (!game.info.simultaneous_phases) {
-    add_line(_("Moving: %s"), get_player(game.info.phase)->name);
+    astr_add_line(&str, _("Moving: %s"), get_player(game.info.phase)->name);
   }
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -558,14 +485,16 @@ const char *get_info_label_text(void)
 ****************************************************************************/
 const char *get_unit_info_label_text1(struct unit *punit)
 {
-  INIT;
-  
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
+
   if (punit) {
     struct unit_type *ptype = unit_type(punit);
 
-    add("%s", ptype->name);
+    astr_add(&str, "%s", ptype->name);
   }
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -575,7 +504,9 @@ const char *get_unit_info_label_text1(struct unit *punit)
 ****************************************************************************/
 const char *get_unit_info_label_text2(struct unit *punit)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   /* This text should always have the same number of lines.  Otherwise the
    * GUI widgets may be confused and try to resize themselves. */
@@ -587,29 +518,29 @@ const char *get_unit_info_label_text2(struct unit *punit)
       get_tile_infrastructure_set(punit->tile, &infracount);
 
     if (hover_unit == punit->id) {
-      add_line(_("Turns to target: %d"), get_goto_turns());
+      astr_add_line(&str, _("Turns to target: %d"), get_goto_turns());
     } else {
-      add_line("%s", unit_activity_text(punit));
+      astr_add_line(&str, "%s", unit_activity_text(punit));
     }
 
-    add_line("%s", tile_get_info_text(punit->tile));
+    astr_add_line(&str, "%s", tile_get_info_text(punit->tile));
     if (infracount > 0) {
-      add_line("%s", get_infrastructure_text(infrastructure));
+      astr_add_line(&str, "%s", get_infrastructure_text(infrastructure));
     } else {
-      add_line(" ");
+      astr_add_line(&str, " ");
     }
     if (pcity) {
-      add_line("%s", pcity->name);
+      astr_add_line(&str, "%s", pcity->name);
     } else {
-      add_line(" ");
+      astr_add_line(&str, " ");
     }
 #ifdef DEBUG
-    add_line("(Unit ID %d)", punit->id);
+    astr_add_line(&str, "(Unit ID %d)", punit->id);
 #endif
   } else {
-    add("\n\n\n");
+    astr_add(&str, "\n\n\n");
   }
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -618,20 +549,24 @@ const char *get_unit_info_label_text2(struct unit *punit)
 ****************************************************************************/
 const char *get_bulb_tooltip(void)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
-  add_line(_("Shows your progress in researching the current technology."));
+  astr_clear(&str);
+
+  astr_add_line(&str, _("Shows your progress in "
+			"researching the current technology."));
   if (get_player_research(game.player_ptr)->researching == A_UNSET) {
-    add_line(_("no research target."));
+    astr_add_line(&str, _("no research target."));
   } else {
     /* TRANS: <tech>: <amount>/<total bulbs> */
-    add_line(_("%s: %d/%d."),
-	     get_tech_name(game.player_ptr,
-			   get_player_research(game.player_ptr)->researching),
-	     get_player_research(game.player_ptr)->bulbs_researched,
-	     total_bulbs_required(game.player_ptr));
+    struct player_research *research = get_player_research(game.player_ptr);
+
+    astr_add_line(&str, _("%s: %d/%d."),
+		  get_tech_name(game.player_ptr, research->researching),
+		  research->bulbs_researched,
+		  total_bulbs_required(game.player_ptr));
   }
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -640,15 +575,17 @@ const char *get_bulb_tooltip(void)
 ****************************************************************************/
 const char *get_global_warming_tooltip(void)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   /* This mirrors the logic in update_environmental_upset. */
-  add_line(_("Shows the progress of global warming:"));
-  add_line(_("Pollution rate: %d%%"),
-	   DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
-  add_line(_("Chance of catastrophic warming each turn: %d%%"),
-	   CLIP(0, (game.info.globalwarming + 1) / 2, 100));
-  RETURN;
+  astr_add_line(&str, _("Shows the progress of global warming:"));
+  astr_add_line(&str, _("Pollution rate: %d%%"),
+		DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
+  astr_add_line(&str, _("Chance of catastrophic warming each turn: %d%%"),
+		CLIP(0, (game.info.globalwarming + 1) / 2, 100));
+  return str.str;
 }
 
 /****************************************************************************
@@ -657,15 +594,17 @@ const char *get_global_warming_tooltip(void)
 ****************************************************************************/
 const char *get_nuclear_winter_tooltip(void)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   /* This mirrors the logic in update_environmental_upset. */
-  add_line(_("Shows the progress of nuclear winter:"));
-  add_line(_("Fallout rate: %d%%"),
-	   DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
-  add_line(_("Chance of catastrophic winter each turn: %d%%"),
-	   CLIP(0, (game.info.globalwarming + 1) / 2, 100));
-  RETURN;
+  astr_add_line(&str, _("Shows the progress of nuclear winter:"));
+  astr_add_line(&str, _("Fallout rate: %d%%"),
+		DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
+  astr_add_line(&str, _("Chance of catastrophic winter each turn: %d%%"),
+		CLIP(0, (game.info.globalwarming + 1) / 2, 100));
+  return str.str;
 }
 
 /****************************************************************************
@@ -674,11 +613,13 @@ const char *get_nuclear_winter_tooltip(void)
 ****************************************************************************/
 const char *get_government_tooltip(void)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
-  add(_("Shows your current government:\n%s."),
+  astr_clear(&str);
+
+  astr_add(&str, _("Shows your current government:\n%s."),
       get_government_name(game.player_ptr->government));
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -688,7 +629,9 @@ const char *get_government_tooltip(void)
 const char *get_spaceship_descr(struct player_spaceship *pship)
 {
   struct player_spaceship ship;
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   if (!pship) {
     pship = &ship;
@@ -696,41 +639,42 @@ const char *get_spaceship_descr(struct player_spaceship *pship)
   }
 
   /* TRANS: spaceship text; should have constant width. */
-  add_line(_("Population:      %5d"), pship->population);
+  astr_add_line(&str, _("Population:      %5d"), pship->population);
 
   /* TRANS: spaceship text; should have constant width. */
-  add_line(_("Support:         %5d %%"),
-	   (int) (pship->support_rate * 100.0));
+  astr_add_line(&str, _("Support:         %5d %%"),
+		(int) (pship->support_rate * 100.0));
 
   /* TRANS: spaceship text; should have constant width. */
-  add_line(_("Energy:          %5d %%"),
-	   (int) (pship->energy_rate * 100.0));
+  astr_add_line(&str, _("Energy:          %5d %%"),
+		(int) (pship->energy_rate * 100.0));
 
   /* TRANS: spaceship text; should have constant width. */
-  add_line(PL_("Mass:            %5d ton",
-	       "Mass:            %5d tons", pship->mass), pship->mass);
+  astr_add_line(&str, PL_("Mass:            %5d ton",
+			  "Mass:            %5d tons",
+			  pship->mass), pship->mass);
 
   if (pship->propulsion > 0) {
     /* TRANS: spaceship text; should have constant width. */
-    add_line(_("Travel time:     %5.1f years"),
-	     (float) (0.1 * ((int) (pship->travel_time * 10.0))));
+    astr_add_line(&str, _("Travel time:     %5.1f years"),
+		  (float) (0.1 * ((int) (pship->travel_time * 10.0))));
   } else {
     /* TRANS: spaceship text; should have constant width. */
-    add_line("%s", _("Travel time:        N/A     "));
+    astr_add_line(&str, "%s", _("Travel time:        N/A     "));
   }
 
   /* TRANS: spaceship text; should have constant width. */
-  add_line(_("Success prob.:   %5d %%"),
-	   (int) (pship->success_rate * 100.0));
+  astr_add_line(&str, _("Success prob.:   %5d %%"),
+		(int) (pship->success_rate * 100.0));
 
   /* TRANS: spaceship text; should have constant width. */
-  add_line(_("Year of arrival: %8s"),
-	   (pship->state ==
-	    SSHIP_LAUNCHED) ? textyear((int) (pship->launch_year +
-					      (int) pship->
-					      travel_time)) : "-   ");
+  astr_add_line(&str, _("Year of arrival: %8s"),
+		(pship->state == SSHIP_LAUNCHED)
+		? textyear((int) (pship->launch_year +
+				  (int) pship->travel_time))
+		: "-   ");
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -739,15 +683,17 @@ const char *get_spaceship_descr(struct player_spaceship *pship)
 ****************************************************************************/
 const char *get_timeout_label_text(void)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   if (game.info.timeout <= 0) {
-    add("%s", Q_("?timeout:off"));
+    astr_add(&str, "%s", Q_("?timeout:off"));
   } else {
-    add("%s", format_duration(get_seconds_to_turndone()));
+    astr_add(&str, "%s", format_duration(get_seconds_to_turndone()));
   }
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -758,25 +704,27 @@ const char *get_timeout_label_text(void)
 ****************************************************************************/
 const char *format_duration(int duration)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   if (duration < 0) {
     duration = 0;
   }
   if (duration < 60) {
-    add(Q_("?seconds:%02ds"), duration);
+    astr_add(&str, Q_("?seconds:%02ds"), duration);
   } else if (duration < 3600) {	/* < 60 minutes */
-    add(Q_("?mins/secs:%02dm %02ds"), duration / 60, duration % 60);
+    astr_add(&str, Q_("?mins/secs:%02dm %02ds"), duration / 60, duration % 60);
   } else if (duration < 360000) {	/* < 100 hours */
-    add(Q_("?hrs/mns:%02dh %02dm"), duration / 3600, (duration / 60) % 60);
+    astr_add(&str, Q_("?hrs/mns:%02dh %02dm"), duration / 3600, (duration / 60) % 60);
   } else if (duration < 8640000) {	/* < 100 days */
-    add(Q_("?dys/hrs:%02dd %02dh"), duration / 86400,
+    astr_add(&str, Q_("?dys/hrs:%02dd %02dh"), duration / 86400,
 	(duration / 3600) % 24);
   } else {
-    add("%s", Q_("?duration:overflow"));
+    astr_add(&str, "%s", Q_("?duration:overflow"));
   }
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -785,18 +733,20 @@ const char *format_duration(int duration)
 ****************************************************************************/
 const char *get_ping_time_text(const struct player *pplayer)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   if (conn_list_size(pplayer->connections) > 0
       && conn_list_get(pplayer->connections, 0)->ping_time != -1.0) {
     double ping_time_in_ms =
 	1000 * conn_list_get(pplayer->connections, 0)->ping_time;
 
-    add(_("%6d.%02d ms"), (int) ping_time_in_ms,
+    astr_add(&str, _("%6d.%02d ms"), (int) ping_time_in_ms,
 	((int) (ping_time_in_ms * 100.0)) % 100);
   }
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -805,15 +755,17 @@ const char *get_ping_time_text(const struct player *pplayer)
 ****************************************************************************/
 const char *get_score_text(const struct player *pplayer)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
 
   if (pplayer->score.game > 0 || pplayer == game.player_ptr) {
-    add("%d", pplayer->score.game);
+    astr_add(&str, "%d", pplayer->score.game);
   } else {
-    add("?");
+    astr_add(&str, "?");
   }
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -823,21 +775,24 @@ const char *get_score_text(const struct player *pplayer)
 ****************************************************************************/
 const char *get_report_title(const char *report_name)
 {
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
-  add_line("%s", report_name);
+  astr_clear(&str);
+
+  astr_add_line(&str, "%s", report_name);
 
   /* TRANS: "Republic of the Polish" */
-  add_line(_("%s of the %s"),
-	   get_government_name(game.player_ptr->government),
-	   get_nation_name_plural(game.player_ptr->nation));
+  astr_add_line(&str, _("%s of the %s"),
+		get_government_name(game.player_ptr->government),
+		get_nation_name_plural(game.player_ptr->nation));
 
-  add_line("%s %s: %s",
-	   get_ruler_title(game.player_ptr->government,
-			   game.player_ptr->is_male,
-			   game.player_ptr->nation), game.player_ptr->name,
-	   textyear(game.info.year));
-  RETURN;
+  astr_add_line(&str, "%s %s: %s",
+		get_ruler_title(game.player_ptr->government,
+				game.player_ptr->is_male,
+				game.player_ptr->nation),
+		game.player_ptr->name,
+		textyear(game.info.year));
+  return str.str;
 }
 
 /****************************************************************************
@@ -848,30 +803,32 @@ const char *get_happiness_buildings(const struct city *pcity)
   int faces = 0;
   struct effect_list *plist = effect_list_new();
   char buf[512];
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
-  add_line(_("Buildings: "));
+  astr_clear(&str);
+
+  astr_add_line(&str, _("Buildings: "));
 
   get_city_bonus_effects(plist, pcity, NULL, EFT_MAKE_CONTENT);
 
   effect_list_iterate(plist, peffect) {
     if (faces != 0) {
-      add(_(", "));
+      astr_add(&str, _(", "));
     }
     get_effect_req_text(peffect, buf, sizeof(buf));
-    add(_("%s"), buf);
+    astr_add(&str, _("%s"), buf);
     faces++;
   } effect_list_iterate_end;
   effect_list_unlink_all(plist);
   effect_list_free(plist);
 
   if (faces == 0) {
-    add(_("None. "));
+    astr_add(&str, _("None. "));
   } else {
-    add(_("."));
+    astr_add(&str, _("."));
   }
 
-  RETURN;
+  return str.str;
 }
 
 /****************************************************************************
@@ -882,19 +839,21 @@ const char *get_happiness_wonders(const struct city *pcity)
   int faces = 0;
   struct effect_list *plist = effect_list_new();
   char buf[512];
-  INIT;
+  static struct astring str = ASTRING_INIT;
 
-  add_line(_("Wonders: "));
+  astr_clear(&str);
+
+  astr_add_line(&str, _("Wonders: "));
   get_city_bonus_effects(plist, pcity, NULL, EFT_MAKE_HAPPY);
   get_city_bonus_effects(plist, pcity, NULL, EFT_FORCE_CONTENT);
   get_city_bonus_effects(plist, pcity, NULL, EFT_NO_UNHAPPY);
 
   effect_list_iterate(plist, peffect) {
     if (faces != 0) {
-      add(_(", "));
+      astr_add(&str, _(", "));
     }
     get_effect_req_text(peffect, buf, sizeof(buf));
-    add(_("%s"), buf);
+    astr_add(&str, _("%s"), buf);
     faces++;
   } effect_list_iterate_end;
 
@@ -902,10 +861,10 @@ const char *get_happiness_wonders(const struct city *pcity)
   effect_list_free(plist);
 
   if (faces == 0) {
-    add(_("None. "));
+    astr_add(&str, _("None. "));
   } else {
-    add(_("."));
+    astr_add(&str, _("."));
   }
 
-  RETURN;
+  return str.str;
 }

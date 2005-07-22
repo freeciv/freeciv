@@ -139,6 +139,22 @@ void astr_add(struct astring *astr, const char *format, ...)
   va_end(args);
 }
 
+/****************************************************************************
+  Add the text to the string in a new line.
+****************************************************************************/
+void astr_add_line(struct astring *astr, const char *format, ...)
+{
+  va_list args;
+
+  if (astr->n > 0 && astr->str[0] != '\0') {
+    astr_add(astr, "\n");
+  }
+
+  va_start(args, format);
+  vadd(astr, format, args);
+  va_end(args);
+}
+
 /**********************************************************************
   Sets the content to the empty string.
 ***********************************************************************/

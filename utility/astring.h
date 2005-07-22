@@ -41,5 +41,7 @@ void astr_free(struct astring *astr);
 void astr_clear(struct astring *astr);
 void astr_add(struct astring *astr, const char *format, ...)
       fc__attribute((format(printf, 2, 3)));
+void astr_add_line(struct astring *astr, const char *format, ...)
+      fc__attribute((format(printf, 2, 3)));
 
 #endif  /* FC__ASTRING_H */
