@@ -5,23 +5,21 @@
 # This file is distributed under the same license as the Freeciv package.
 # Dusan Hokuv <dusan@mirc.cz>, 2004.
 # Mti., 2005.
-#
+# Dusan Hokuv <dusan@mirc.cz>, 2005.
+# 
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: cs\n"
+"Project-Id-Version: freeciv 2.0.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-25 23:42-0400\n"
-"PO-Revision-Date: 2005-04-16 11:12+0100\n"
-"Last-Translator: Dusan Hokuv <dusan@mirc.cz>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2005-07-23 15:37+0200\n"
+"Last-Translator: Dušan Hokův <dusan@mirc.cz>\n"
+"Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Poedit-Language: Czech\n"
-"X-Poedit-Country: CZECH REPUBLIC\n"
-"X-Generator: KBabel 1.3.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: common/city.c:266
 msgid "?redundant:*"
@@ -589,8 +587,7 @@ msgstr "%d n.l."
 
 #: utility/shared.c:828
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr ""
-"Proměnná FREECIV_PATH je nastavena, ale je prázdná; použita výchozí cesta."
+msgstr "Proměnná FREECIV_PATH je nastavena, ale je prázdná; použita výchozí cesta."
 
 #: utility/shared.c:932
 #, c-format
@@ -6093,9 +6090,9 @@ msgid "Not enough players, game will not start."
 msgstr "Nedostatečný počet hráčů, hru nelze zahájit."
 
 #: server/stdinhand.c:3655
-#, fuzzy, c-format
+#, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr "Nelze zahájit hru: hra již běží."
+msgstr "Čekání na start hry: %d z of %d hráčů je připraveno ke hře."
 
 #: server/stdinhand.c:3666
 msgid ""
@@ -16760,10 +16757,8 @@ msgstr ""
 "Mohou tak cestovat libovolně daleko."
 
 #: data/helpdata.txt:1220
-msgid ""
-" - A road may increase the trade resources produced by some types of terrain."
-msgstr ""
-" - Cesta může zvednout zdroje obchodu, produkované některými typy terénu."
+msgid " - A road may increase the trade resources produced by some types of terrain."
+msgstr " - Cesta může zvednout zdroje obchodu, produkované některými typy terénu."
 
 #: data/helpdata.txt:1223
 msgid ""
@@ -17780,8 +17775,7 @@ msgstr "Burza"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr ""
-"Spolu s Tržištěm a Bankou Vám Burza zvedne blahobyt a zisk z daní o 150%"
+msgstr "Spolu s Tržištěm a Bankou Vám Burza zvedne blahobyt a zisk z daní o 150%"
 
 #: data/default/buildings.ruleset:1237 data/civ2/buildings.ruleset:1165
 #: data/history/buildings.ruleset:1183
@@ -17791,10 +17785,8 @@ msgstr "Superdálnice"
 #: data/default/buildings.ruleset:1259 data/civ2/buildings.ruleset:1187
 #: data/history/buildings.ruleset:1205
 #, no-c-format
-msgid ""
-"Increases trade resources by 50% on all squares with roads or railroads."
-msgstr ""
-"Zvyšuje obchodní zdroje o 50% na všech polích s cestami nebo železnicí."
+msgid "Increases trade resources by 50% on all squares with roads or railroads."
+msgstr "Zvyšuje obchodní zdroje o 50% na všech polích s cestami nebo železnicí."
 
 #: data/default/buildings.ruleset:1267 data/civ2/buildings.ruleset:1193
 #: data/history/buildings.ruleset:1213
@@ -18005,8 +17997,7 @@ msgstr "Univerzita Izáka Newtona"
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
-msgstr ""
-"Zvyšuje vědecký výstup o 100% v každém městě, které ovládáme a má univerzitu."
+msgstr "Zvyšuje vědecký výstup o 100% v každém městě, které ovládáme a má univerzitu."
 
 #: data/default/buildings.ruleset:1696 data/civ2/buildings.ruleset:1613
 #: data/civ1/buildings.ruleset:1276 data/history/buildings.ruleset:1636
@@ -18338,10 +18329,8 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1462 data/civ1/buildings.ruleset:1120
 #: data/history/buildings.ruleset:1484
 #, no-c-format
-msgid ""
-"When built, every civilization's attitude toward you is improved by 25%."
-msgstr ""
-"Pokud je postaveno, názor na Vás se zlepší o 25% u všech ostatních národů."
+msgid "When built, every civilization's attitude toward you is improved by 25%."
+msgstr "Pokud je postaveno, názor na Vás se zlepší o 25% u všech ostatních národů."
 
 #: data/civ2/buildings.ruleset:1519 data/civ1/buildings.ruleset:1177
 #: data/history/buildings.ruleset:1541
@@ -18440,8 +18429,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:339
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content."
-msgstr ""
-"Obveselí obyvatele města natolik, že učiní 3 nespokojené lidi spokojenými."
+msgstr "Obveselí obyvatele města natolik, že učiní 3 nespokojené lidi spokojenými."
 
 #: data/civ1/buildings.ruleset:366 data/history/buildings.ruleset:420
 msgid ""
@@ -20147,8 +20135,7 @@ msgstr "Bavlna"
 #: data/default/terrain.ruleset:320 data/civ2/terrain.ruleset:297
 #: data/civ1/terrain.ruleset:288 data/history/terrain.ruleset:312
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
-msgstr ""
-"Lesy jsou oblasti s velkou hustotou stromů, zemědělství je zde problematické."
+msgstr "Lesy jsou oblasti s velkou hustotou stromů, zemědělství je zde problematické."
 
 #: data/default/terrain.ruleset:326 data/civ2/terrain.ruleset:303
 #: data/civ1/terrain.ruleset:294 data/history/terrain.ruleset:318
@@ -20320,8 +20307,7 @@ msgstr "Kožešiny"
 
 #: data/default/terrain.ruleset:697 data/civ2/terrain.ruleset:635
 #: data/civ1/terrain.ruleset:622 data/history/terrain.ruleset:689
-msgid ""
-"Tundra are broad, cold regions, fit for some agriculture and little else."
+msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "Tundra jsou rozsáhlé chladné oblasti, umožňující nějaké zemědělství a pár "
 "dalších činností."
@@ -20460,10 +20446,8 @@ msgstr "Bojovníci"
 
 #: data/default/units.ruleset:347 data/civ2/units.ruleset:200
 #: data/civ1/units.ruleset:195 data/history/units.ruleset:273
-msgid ""
-"This unit may be built from the start of the game.  It is the weakest unit."
-msgstr ""
-"Tato jednotka může být postavena již od začátku hry. Je ovšem taky nejslabší."
+msgid "This unit may be built from the start of the game.  It is the weakest unit."
+msgstr "Tato jednotka může být postavena již od začátku hry. Je ovšem taky nejslabší."
 
 #: data/default/units.ruleset:353 data/civ2/units.ruleset:206
 #: data/civ1/units.ruleset:201 data/history/units.ruleset:279
@@ -20728,8 +20712,7 @@ msgstr "Ponorka"
 #: data/default/units.ruleset:1485 data/civ2/units.ruleset:1344
 #: data/civ1/units.ruleset:1298 data/history/units.ruleset:1411
 msgid "Submarines have a very high strategic value, but have a weak defence."
-msgstr ""
-"Ponorky mají velmi vysokou strategickou hodnotu, ale jsou velmi zranitelné."
+msgstr "Ponorky mají velmi vysokou strategickou hodnotu, ale jsou velmi zranitelné."
 
 #: data/default/units.ruleset:1491 data/civ2/units.ruleset:1350
 #: data/civ1/units.ruleset:1304 data/history/units.ruleset:1417
@@ -20913,8 +20896,7 @@ msgstr "Náklaďák"
 #: data/default/units.ruleset:1786 data/civ2/units.ruleset:1645
 #: data/history/units.ruleset:1712
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr ""
-"Karavany byly postupně nahrazeny náklaďáky, jež se pohybují 2x rychleji."
+msgstr "Karavany byly postupně nahrazeny náklaďáky, jež se pohybují 2x rychleji."
 
 #: data/default/units.ruleset:1791 data/civ2/units.ruleset:1650
 #: data/civ1/units.ruleset:1579 data/history/units.ruleset:1717
@@ -21886,11 +21868,11 @@ msgstr "Válečník"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "Indiánský"
+msgstr "Indický"
 
 #: data/nation/indian.ruleset:5
 msgid "?plural:Indians"
-msgstr "?plural:Indiáni"
+msgstr "?plural:Indové"
 
 #: data/nation/indian.ruleset:13
 msgid "Maharaja"
@@ -22598,3 +22580,4 @@ msgstr ""
 "Zuluové jsou válečnickým národem, který migroval ze západu střední Afriky na "
 "do jižní části začátkem roku 1700, podrobil si původní obyvatele a zápolil s "
 "Evropskými osadníky."
+
