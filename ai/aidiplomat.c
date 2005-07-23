@@ -147,7 +147,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
   struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
   struct ai_data *ai = ai_data_get(pplayer);
 
-  if (ut) {
+  if (!ut) {
     /* We don't know diplomats yet! */
     return;
   }

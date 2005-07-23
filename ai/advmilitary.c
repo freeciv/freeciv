@@ -1400,7 +1400,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   /* Consider making a land bodyguard */
   punittype = ai_choose_bodyguard(pcity, LAND_MOVING, L_DEFEND_GOOD);
-  if (punittype >= 0) {
+  if (punittype) {
     ai_unit_consider_bodyguard(pcity, punittype, choice);
   }
 
@@ -1418,7 +1418,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   /* Consider making a sea bodyguard */
   punittype = ai_choose_bodyguard(pcity, SEA_MOVING, L_DEFEND_GOOD);
-  if (punittype >= 0) {
+  if (punittype) {
     ai_unit_consider_bodyguard(pcity, punittype, choice);
   }
 
@@ -1428,7 +1428,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */
   punittype = ai_choose_attacker(pcity, SEA_MOVING);
-  if (punittype >= 0) {
+  if (punittype) {
     virtualunit = create_unit_virtual(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));
     kill_something_with(pplayer, pcity, virtualunit, choice);
