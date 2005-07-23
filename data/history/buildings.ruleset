@@ -32,6 +32,14 @@ elements	=
       "Cathedral", "City"
     }
 
+[group_granaries]
+name = "Granaries"
+elements =
+    { "building", "range"
+      "Pyramids", "Player"
+      "Granary", "City"
+    }
+
 [group_labs]
 name		= "Labs"
 elements	=
@@ -468,8 +476,8 @@ build_cost	= 60
 upkeep		= 1
 sabotage	= 100
 effect		=
-    { "name", "value"
-      "Growth_Food", 50
+    { "name", "value", "equiv"
+      "Growth_Food", 50, "Granaries"
     }
 sound		= "b_granary"
 sound_alt	= "b_generic"
@@ -1895,8 +1903,8 @@ build_cost	= 200
 upkeep		= 0
 sabotage	= 0
 effect		=
-    { "name", "range"
-      "Growth_Food", "Player"
+    { "name", "value", "range", "equiv"
+      "Growth_Food", 50, "Player", "Granaries"
     }
 sound		= "w_pyramids"
 sound_alt	= "w_generic"
