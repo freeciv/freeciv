@@ -593,8 +593,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
         struct unit_type *boattype = get_role_unit(L_FERRYBOAT, 0);
 
         if (boattype != NULL) {
-          Tech_type_id tech_req
-	    = unit_types[boattype->index].tech_requirement;
+          Tech_type_id tech_req = boattype->tech_requirement;
 
           pplayer->ai.tech_want[tech_req] += FERRY_TECH_WANT;
           TECH_LOG(LOG_DEBUG, pplayer, tech_req, "+ %d for %s to ferry settler",

@@ -244,7 +244,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   }
 
   if (pcity->is_building_unit) {
-    name = unit_types[pcity->currently_building].name;
+    name = get_unit_type(pcity->currently_building)->name;
     total = unit_build_shield_cost(get_unit_type(pcity->currently_building));
   } else {
     name = get_improvement_name(pcity->currently_building);

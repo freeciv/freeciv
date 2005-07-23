@@ -814,7 +814,7 @@ static void process_attacker_want(struct city *pcity,
   /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = tile_get_city(ptile);
   bool shore = is_ocean_near_tile(pcity->tile);
-  int orig_move_type = unit_types[best_choice->choice].move_type;
+  int orig_move_type = get_unit_type(best_choice->choice)->move_type;
   int victim_count = 1;
   int needferry = 0;
   bool unhap = ai_assess_military_unhappiness(pcity,
@@ -1158,19 +1158,20 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     /* We want attacker more than what we have selected before */
     copy_if_better_choice(&best_choice, choice);
     CITY_LOG(LOG_DEBUG, pcity, "ksw: %s has chosen attacker, %s, want=%d",
-            pcity->name, unit_types[choice->choice].name, choice->want);
+	     pcity->name, get_unit_type(choice->choice)->name, choice->want);
 
     if (go_by_boat && !ferryboat) { /* need a new ferry */
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
       assert(is_ground_unit(myunit));
       ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, choice->want);
-      if (SEA_MOVING == unit_types[choice->choice].move_type) {
+      if (SEA_MOVING == get_unit_type(choice->choice)->move_type) {
         struct ai_data *ai = ai_data_get(pplayer);
 
         freelog(LOG_DEBUG,
                 "%s has chosen attacker ferry, %s, want=%d, %d of %d free",
-                pcity->name, unit_types[choice->choice].name, choice->want,
+                pcity->name, get_unit_type(choice->choice)->name,
+		choice->want,
                 ai->stats.available_boats, ai->stats.boats);
       } /* else can not build ferries yet */
     }
@@ -1373,7 +1374,8 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     } else if (danger > 0 && num_defenders <= urgency) {
       /* Consider building defensive units units */
       process_defender_want(pplayer, pcity, danger, choice);
-      if (urgency == 0 && unit_types[choice->choice].defense_strength == 1) {
+      if (urgency == 0
+	  && get_unit_type(choice->choice)->defense_strength == 1) {
         if (get_city_bonus(pcity, EFT_LAND_REGEN) > 0) {
           /* unlikely */
           choice->want = MIN(49, danger);
@@ -1455,7 +1457,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor has no advice");
   } else if (is_unit_choice_type(choice->type)) {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             unit_types[choice->choice].name, choice->want);
+             get_unit_type(choice->choice)->name, choice->want);
   } else {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
              improvement_types[choice->choice].name, choice->want);

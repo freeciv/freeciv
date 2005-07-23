@@ -430,13 +430,13 @@ void gamelog(int level, ...)
                 pcity->is_building_unit ? 1 : 0,
                 (!pcity->is_building_unit 
                  && is_wonder(pcity->currently_building)) ? 1 : 0,
-                pcity->is_building_unit ? 
-                  unit_types[pcity->currently_building].name :
-                  get_impr_name_ex(pcity, pcity->currently_building),
+                pcity->is_building_unit
+		? get_unit_type(pcity->currently_building)->name
+		: get_impr_name_ex(pcity, pcity->currently_building),
                 get_nation_name_plural(city_owner(pcity)->nation),
-                pcity->is_building_unit ? 
-                  unit_types[pcity->currently_building].name :
-                  get_impr_name_ex(pcity, pcity->currently_building),
+                pcity->is_building_unit
+		? get_unit_type(pcity->currently_building)->name
+		: get_impr_name_ex(pcity, pcity->currently_building),
                 pcity->name);
     gamelog_put_prefix(buf, sizeof(buf), "build");
     break;

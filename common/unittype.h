@@ -190,9 +190,8 @@ struct unit_type {
 };
 
 
-extern struct unit_type unit_types[U_LAST];
 #define CHECK_UNIT_TYPE(ut) (assert((ut) != NULL			    \
-				    && (&unit_types[(ut)->index] == (ut))))
+				    && (get_unit_type((ut)->index) == (ut))))
 
 struct unit_type *get_unit_type(Unit_type_id id);
 struct unit_type *unit_type(const struct unit *punit);

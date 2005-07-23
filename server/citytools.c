@@ -1816,7 +1816,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* What's the name of the target? */
   if (is_unit)
-    name = unit_types[pcity->currently_building].name;
+    name = get_unit_type(pcity->currently_building)->name;
   else
     name = improvement_types[pcity->currently_building].name;
 

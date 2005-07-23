@@ -1113,11 +1113,13 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best)
 {
   if (cur->want > best->want) {
     freelog(LOG_DEBUG, "Overriding choice (%s, %d) with (%s, %d)",
-	    (best->type == CT_BUILDING ? 
-	     get_improvement_name(best->choice) : unit_types[best->choice].name), 
+	    (best->type == CT_BUILDING
+	     ?  get_improvement_name(best->choice)
+	     : get_unit_type(best->choice)->name), 
 	    best->want, 
-	    (cur->type == CT_BUILDING ? 
-	     get_improvement_name(cur->choice) : unit_types[cur->choice].name), 
+	    (cur->type == CT_BUILDING
+	     ? get_improvement_name(cur->choice)
+	     : get_unit_type(cur->choice)->name), 
 	    cur->want);
     best->choice =cur->choice;
     best->want = cur->want;

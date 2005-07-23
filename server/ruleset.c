@@ -887,8 +887,8 @@ static void load_unit_names(struct section_file *file)
     const int i = punittype->index;
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
 
-    name_strlcpy(unit_types[i].name_orig, name);
-    unit_types[i].name = unit_types[i].name_orig;
+    name_strlcpy(punittype->name_orig, name);
+    punittype->name = punittype->name_orig;
   } unit_type_iterate_end;
 
   free(sec);

@@ -31,7 +31,7 @@
 
 #include "unittype.h"
 
-struct unit_type unit_types[U_LAST];
+static struct unit_type unit_types[U_LAST];
 /* the unit_types array is now setup in:
    server/ruleset.c (for the server)
    client/packhand.c (for the client)
@@ -75,10 +75,15 @@ struct unit_class unit_classes[] = {
 
 /**************************************************************************
   Return a pointer for the unit type struct for the given unit type id.
+
+  This function returns NULL for invalid unit pointers (some callers
+  rely on this).
 **************************************************************************/
 struct unit_type *get_unit_type(Unit_type_id id)
 {
-  assert(id >= 0 && id < U_LAST && id < game.control.num_unit_types);
+  if (id < 0 || id > game.control.num_unit_types) {
+    return NULL;
+  }
   return &unit_types[id];
 }
 
@@ -657,6 +662,8 @@ void unit_types_init(void)
 {
   int i;
 
+  /* Can't use unit_type_iterate or get_unit_type here because
+   * num_unit_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
     unit_types[i].index = i;
   }

@@ -350,8 +350,8 @@ void clipboard_copy_production(struct tile *ptile)
   upgrade_canvas_clipboard();
 
   my_snprintf(msg, sizeof(msg), _("Copy %s to clipboard."),
-    clipboard_is_unit ? unit_types[clipboard].name :
-    get_improvement_name(clipboard));
+	      clipboard_is_unit ? get_unit_type(clipboard)->name
+	      : get_improvement_name(clipboard));
   append_output_window(msg);
 }
 
