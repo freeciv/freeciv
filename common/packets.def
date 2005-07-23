@@ -389,7 +389,7 @@ PACKET_CITY_REMOVE=20;sc,dsend,lsend
   CITY city_id;
 end
 
-PACKET_CITY_INFO=21; is-info,sc,lsend
+PACKET_CITY_INFO=21; sc,lsend
   CITY id; key
   PLAYER owner;
   COORD x,y;
@@ -433,7 +433,7 @@ PACKET_CITY_INFO=21; is-info,sc,lsend
   TURN turn_founded;
 end
 
-PACKET_CITY_SHORT_INFO=22; is-info,sc,lsend
+PACKET_CITY_SHORT_INFO=22; sc,lsend
   CITY id;key
   PLAYER owner;
   COORD x;
