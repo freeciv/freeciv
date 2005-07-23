@@ -240,7 +240,8 @@ static void unit_upgrade_callback(GtkWidget * w, gpointer data);
 
 static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
 			      gpointer data);
-static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev);
+static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
+				    gpointer data);
 static void draw_map_canvas(struct city_dialog *pdialog);
 
 static void buy_callback(GtkWidget * w, gpointer data);
@@ -846,7 +847,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   /* in terms of structural flow, should be put these above? */
   g_signal_connect(pdialog->overview.map_canvas,
 		   "button_press_event",
-		   G_CALLBACK(button_down_citymap), NULL);
+		   G_CALLBACK(button_down_citymap), pdialog);
 
   gtk_widget_show_all(page);
 }
@@ -973,7 +974,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 		    pdialog->happiness.map_canvas_pixmap);
   g_signal_connect(pdialog->happiness.map_canvas,
 		   "button_press_event",
-		   G_CALLBACK(button_down_citymap), NULL);
+		   G_CALLBACK(button_down_citymap), pdialog);
 
   align = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_container_add(GTK_CONTAINER(vbox), align);
@@ -2323,43 +2324,20 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
 /**************************************************************************
 ...
 **************************************************************************/
-static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev)
+static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
+				    gpointer data)
 {
-  struct city *pcity = NULL;;
+  struct city_dialog *pdialog = data;
+  int xtile, ytile;
 
   if (!can_client_issue_orders()) {
     return FALSE;
   }
 
-  dialog_list_iterate(dialog_list, pdialog) {
-#ifdef DEBUG
-    {
-      gint x, y, width, height, depth;
-
-      gdk_window_get_geometry(pdialog->overview.map_canvas->window, &x, &y,
-			      &width, &height, &depth);
-      freelog(LOG_DEBUG, "%d x %d at (%d,%d)", width, height, x, y);
-
-      gdk_window_get_geometry(pdialog->overview.map_canvas_pixmap->window,
-			      &x, &y, &width, &height, &depth);
-      freelog(LOG_DEBUG, "%d x %d at (%d,%d)", width, height, x, y);
-    }
-#endif
-    if (pdialog->overview.map_canvas == w
-	|| (pdialog->happiness.map_canvas
-            && pdialog->happiness.map_canvas == w)) {
-      pcity = pdialog->pcity;
-      break;
-    }
-  } dialog_list_iterate_end;
-
-  if (pcity) {
-    int xtile, ytile;
-
-    if (canvas_to_city_pos(&xtile, &ytile, ev->x, ev->y)) {
-      city_toggle_worker(pcity, xtile, ytile);
-    }
+  if (canvas_to_city_pos(&xtile, &ytile, ev->x, ev->y)) {
+    city_toggle_worker(pdialog->pcity, xtile, ytile);
   }
+
   return TRUE;
 }
 
