@@ -3666,7 +3666,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
       if (XOR(city[0], city[1])) {
 	ADD_SPRITE_SIMPLE(t->sprites.grid.city[pedge->type]);
       }
-      if (XOR(unit[0], unit[1])) {
+      if (!citymode && XOR(unit[0], unit[1])) {
 	ADD_SPRITE_SIMPLE(t->sprites.grid.worked[pedge->type]);
       }
     }
