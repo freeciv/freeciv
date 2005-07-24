@@ -569,7 +569,7 @@ void translate_data_names(void)
   } unit_type_iterate_end;
 
   impr_type_iterate(i) {
-    struct impr_type *tthis = &improvement_types[i];
+    struct impr_type *tthis = get_improvement_type(i);
 
     tthis->name = Q_(tthis->name_orig);
   } impr_type_iterate_end;

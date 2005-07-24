@@ -79,8 +79,6 @@ struct impr_type {
 };
 
 
-extern struct impr_type improvement_types[B_LAST];
-
 /* impr genus id/string converters */
 enum impr_genus_id impr_genus_from_str(const char *s);
 

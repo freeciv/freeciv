@@ -418,7 +418,7 @@ void boot_help_texts(void)
 	    if (improvement_exists(i) && !is_great_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  improvement_types[i].name);
+			  get_improvement_name(i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
@@ -429,7 +429,7 @@ void boot_help_texts(void)
 	    if (improvement_exists(i) && is_great_wonder(i)) {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  improvement_types[i].name);
+			  get_improvement_name(i));
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);
@@ -644,18 +644,18 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     return buf;
   }
 
-  imp = &improvement_types[which];
+  imp = get_improvement_type(which);
   
   if (imp->helptext && imp->helptext[0] != '\0') {
     cat_snprintf(buf, bufsz, "%s\n\n", _(imp->helptext));
   }
 
-  if (tech_exists(improvement_types[which].obsolete_by)) {
+  if (tech_exists(get_improvement_type(which)->obsolete_by)) {
     cat_snprintf(buf, bufsz,
 		 _("* The discovery of %s will make %s obsolete.\n"),
 		 get_tech_name(game.player_ptr,
-			       improvement_types[which].obsolete_by),
-		 improvement_types[which].name);
+			       get_improvement_type(which)->obsolete_by),
+		 get_improvement_type(which)->name);
   }
 
   if (building_has_effect(which, EFT_ENABLE_NUKE)

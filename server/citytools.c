@@ -1818,7 +1818,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   if (is_unit)
     name = get_unit_type(pcity->currently_building)->name;
   else
-    name = improvement_types[pcity->currently_building].name;
+    name = get_improvement_name(pcity->currently_building);
 
   switch (event) {
     case E_WORKLIST: source = _(" from the worklist"); break;

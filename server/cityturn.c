@@ -336,7 +336,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 			 E_CITY_GRAN_THROTTLE,
 			 _("Suggest throttling growth in %s to use %s "
 			   "(being built) more effectively."), pcity->name,
-			 improvement_types[pcity->currently_building].name);
+		       get_improvement_name(pcity->currently_building));
       }
     }
 
@@ -470,7 +470,7 @@ static void city_increase_size(struct city *pcity)
       notify_player_ex(powner, pcity->tile, E_CITY_AQ_BUILDING,
 		       _("%s needs %s (being built) "
 			 "to grow any further."), pcity->name,
-		       improvement_types[pcity->currently_building].name);
+		       get_improvement_name(pcity->currently_building));
     } else {
       notify_player_ex(powner, pcity->tile, E_CITY_AQUEDUCT,
 		       _("%s needs an improvement to grow any further."),
@@ -901,7 +901,8 @@ static Impr_type_id building_upgrades_to(struct city *pcity, Impr_type_id id)
   if (!can_build_improvement_direct(pcity, check)) {
     return -1;
   }
-  while (improvement_exists(check = improvement_types[check].replaced_by)) {
+  while (improvement_exists(check
+			    = get_improvement_type(check)->replaced_by)) {
     if (can_build_improvement_direct(pcity, check)) {
       latest_ok = check;
     }
@@ -1272,7 +1273,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 	notify_player_ex(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Can't afford to maintain %s in %s, "
 			   "building sold!"),
-			 improvement_types[i].name, pcity->name);
+			 get_improvement_name(i), pcity->name);
 	do_sell_building(pplayer, pcity, i);
 	city_refresh(pcity);
       } else
@@ -1416,7 +1417,7 @@ static void define_orig_production_values(struct city *pcity)
 	  pcity->name,
 	  pcity->changed_from_is_unit ?
 	  get_unit_type(pcity->changed_from_id)->name :
-	    improvement_types[pcity->changed_from_id].name,
+	  get_improvement_name(pcity->changed_from_id),
 	  pcity->before_change_shields
 	  );
 }

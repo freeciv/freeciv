@@ -2140,16 +2140,15 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 **************************************************************************/
 void handle_ruleset_building(struct packet_ruleset_building *p)
 {
-  struct impr_type *b;
+  struct impr_type *b = get_improvement_type(p->id);
   int i;
 
-  if(p->id < 0 || p->id >= game.control.num_impr_types || p->id >= B_LAST) {
+  if (!b) {
     freelog(LOG_ERROR,
 	    "Received bad building id %d in handle_ruleset_building()",
 	    p->id);
     return;
   }
-  b = &improvement_types[p->id];
 
   b->genus = p->genus;
   sz_strlcpy(b->name_orig, p->name);
@@ -2172,7 +2171,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 #ifdef DEBUG
   if(p->id == game.control.num_impr_types-1) {
     impr_type_iterate(id) {
-      b = &improvement_types[id];
+      b = get_improvement_type(id);
       freelog(LOG_DEBUG, "Impr: %s...",
 	      b->name);
       if (tech_exists(b->obsolete_by)) {

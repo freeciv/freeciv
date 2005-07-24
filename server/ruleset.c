@@ -1294,9 +1294,10 @@ static void load_building_names(struct section_file *file)
 
   impr_type_iterate(i) {
     char *name = secfile_lookup_str(file, "%s.name", sec[i]);
+    struct impr_type *b = get_improvement_type(i);
 
-    name_strlcpy(improvement_types[i].name_orig, name);
-    improvement_types[i].name = improvement_types[i].name_orig;
+    name_strlcpy(b->name_orig, name);
+    b->name = b->name_orig;
   } impr_type_iterate_end;
 
   ruleset_cache_init();
@@ -1311,7 +1312,6 @@ static void load_ruleset_buildings(struct section_file *file)
 {
   char **sec, *item;
   int i, nval;
-  struct impr_type *b;
   const char *filename = secfile_filename(file);
 
   (void) check_ruleset_capabilities(file, "+1.10.1", filename);
@@ -1320,8 +1320,7 @@ static void load_ruleset_buildings(struct section_file *file)
 
   for (i = 0; i < nval; i++) {
     struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
-
-    b = &improvement_types[i];
+    struct impr_type *b = get_improvement_type(i);
 
     item = secfile_lookup_str(file, "%s.genus", sec[i]);
     b->genus = impr_genus_from_str(item);
@@ -1370,7 +1369,8 @@ static void load_ruleset_buildings(struct section_file *file)
 
   /* Some more consistency checking: */
   impr_type_iterate(i) {
-    b = &improvement_types[i];
+    struct impr_type *b = get_improvement_type(i);
+
     if (improvement_exists(i)) {
       if (b->obsolete_by != A_LAST
 	  && (b->obsolete_by == A_NONE || !tech_exists(b->obsolete_by))) {
@@ -2741,7 +2741,7 @@ static void send_ruleset_techs(struct conn_list *dest)
 static void send_ruleset_buildings(struct conn_list *dest)
 {
   impr_type_iterate(i) {
-    struct impr_type *b = &improvement_types[i];
+    struct impr_type *b = get_improvement_type(i);
     struct packet_ruleset_building packet;
     int j;
 

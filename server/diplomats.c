@@ -900,7 +900,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       } else {
 	notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 			 _("You cannot sabotage a %s!"),
-			 improvement_types[improvement].name);
+			 get_improvement_name(improvement));
 	diplomat_charge_movement (pdiplomat, pcity->tile);
 	send_unit_info (pplayer, pdiplomat);
 	freelog (LOG_DEBUG, "sabotage: disallowed target improvement: %d (%s)",

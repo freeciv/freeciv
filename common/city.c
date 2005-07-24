@@ -554,16 +554,19 @@ bool city_got_building(const struct city *pcity, Impr_type_id id)
 **************************************************************************/
 int improvement_upkeep(const struct city *pcity, Impr_type_id i) 
 {
+  int upkeep;
+
   if (!improvement_exists(i))
     return 0;
   if (is_wonder(i))
     return 0;
-  if (improvement_types[i].upkeep
-      <= get_building_bonus(pcity, i, EFT_UPKEEP_FREE)) {
+
+  upkeep = get_improvement_type(i)->upkeep;
+  if (upkeep <= get_building_bonus(pcity, i, EFT_UPKEEP_FREE)) {
     return 0;
   }
   
-  return (improvement_types[i].upkeep);
+  return upkeep;
 }
 
 /**************************************************************************
@@ -2299,7 +2302,7 @@ void city_add_improvement(struct city *pcity, Impr_type_id impr)
 void city_remove_improvement(struct city *pcity, Impr_type_id impr)
 {
   freelog(LOG_DEBUG,"Improvement %s removed from city %s",
-          improvement_types[impr].name, pcity->name);
+          get_improvement_name(impr), pcity->name);
   
   pcity->improvements[impr] = I_NONE;
 }

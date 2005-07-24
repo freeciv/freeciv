@@ -1077,7 +1077,7 @@ void cityrep_buy(struct city *pcity)
     assert(!pcity->is_building_unit);
     my_snprintf(buf, sizeof(buf),
 		_("You don't buy %s in %s!"),
-		improvement_types[pcity->currently_building].name,
+		get_improvement_name(pcity->currently_building),
 		pcity->name);
     append_output_window(buf);
     return;

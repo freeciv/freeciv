@@ -44,7 +44,7 @@ The improvement_types array is now setup in:
    server/ruleset.c (for the server)
    client/packhand.c (for the client)
 **************************************************************************/
-struct impr_type improvement_types[B_LAST];
+static struct impr_type improvement_types[B_LAST];
 
 /**************************************************************************
   Convert impr genus names to enum; case insensitive;
@@ -69,8 +69,10 @@ void improvements_init(void)
 {
   int i;
 
+  /* Can't use impr_type_iterate or get_improvement_type here because
+   * num_impr_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(improvement_types); i++) {
-    struct impr_type *p = get_improvement_type(i);
+    struct impr_type *p = &improvement_types[i];
 
     p->index = i;
     requirement_vector_init(&p->reqs);
@@ -126,10 +128,14 @@ bool improvement_exists(Impr_type_id id)
 }
 
 /**************************************************************************
-...
+  Returns the improvement type for the given index/ID.  Returns NULL for
+  an out-of-range index.
 **************************************************************************/
 struct impr_type *get_improvement_type(Impr_type_id id)
 {
+  if (id < 0 || id >= game.control.num_impr_types) {
+    return NULL;
+  }
   return &improvement_types[id];
 }
 
@@ -154,7 +160,7 @@ const char *get_improvement_name_orig(Impr_type_id id)
 ****************************************************************************/
 int impr_build_shield_cost(Impr_type_id id)
 {
-  return improvement_types[id].build_cost;
+  return get_improvement_type(id)->build_cost;
 }
 
 /****************************************************************************
@@ -162,8 +168,9 @@ int impr_build_shield_cost(Impr_type_id id)
 ****************************************************************************/
 int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock)
 {
-  int cost = 0, missing =
-      improvement_types[id].build_cost - shields_in_stock;
+  int cost = 0;
+  const int missing
+    = get_improvement_type(id)->build_cost - shields_in_stock;
 
   if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
     /* Can't buy capitalization. */
@@ -188,7 +195,7 @@ int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock)
 ****************************************************************************/
 int impr_sell_gold(Impr_type_id id)
 {
-  return improvement_types[id].build_cost;
+  return get_improvement_type(id)->build_cost;
 }
 
 /**************************************************************************
@@ -206,7 +213,7 @@ Returns B_LAST if none match.
 Impr_type_id find_improvement_by_name(const char *s)
 {
   impr_type_iterate(i) {
-    if (strcmp(improvement_types[i].name, s)==0)
+    if (strcmp(get_improvement_name(i), s)==0)
       return i;
   } impr_type_iterate_end;
 
@@ -221,7 +228,7 @@ Impr_type_id find_improvement_by_name(const char *s)
 Impr_type_id find_improvement_by_name_orig(const char *s)
 {
   impr_type_iterate(i) {
-    if (mystrcasecmp(improvement_types[i].name_orig, s) == 0) {
+    if (mystrcasecmp(get_improvement_type(i)->name_orig, s) == 0) {
       return i;
     }
   } impr_type_iterate_end;
@@ -235,7 +242,7 @@ Impr_type_id find_improvement_by_name_orig(const char *s)
 bool impr_flag(Impr_type_id id, enum impr_flag_id flag)
 {
   assert(flag >= 0 && flag < IF_LAST);
-  return TEST_BIT(improvement_types[id].flags, flag);
+  return TEST_BIT(get_improvement_type(id)->flags, flag);
 }
 
 /**************************************************************************
@@ -398,7 +405,7 @@ bool can_player_eventually_build_improvement(const struct player *p,
 **************************************************************************/
 bool is_great_wonder(Impr_type_id id)
 {
-  return (improvement_types[id].genus == IG_GREAT_WONDER);
+  return (get_improvement_type(id)->genus == IG_GREAT_WONDER);
 }
 
 /**************************************************************************
@@ -406,7 +413,7 @@ bool is_great_wonder(Impr_type_id id)
 **************************************************************************/
 bool is_small_wonder(Impr_type_id id)
 {
-  return (improvement_types[id].genus == IG_SMALL_WONDER);
+  return (get_improvement_type(id)->genus == IG_SMALL_WONDER);
 }
 
 /**************************************************************************
@@ -414,7 +421,7 @@ bool is_small_wonder(Impr_type_id id)
 **************************************************************************/
 bool is_improvement(Impr_type_id id)
 {
-  return (improvement_types[id].genus == IG_IMPROVEMENT);
+  return (get_improvement_type(id)->genus == IG_IMPROVEMENT);
 }
 
 /**************************************************************************

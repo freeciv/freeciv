@@ -233,7 +233,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     assert(!pcity->is_building_unit);
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
                      _("You don't buy %s!"),
-		     improvement_types[pcity->currently_building].name);
+		     get_improvement_name(pcity->currently_building));
     return;
   }
 

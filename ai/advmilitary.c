@@ -1460,6 +1460,6 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
              get_unit_type(choice->choice)->name, choice->want);
   } else {
     CITY_LOG(LOGLEVEL_BUILD, pcity, "military advisor choice: %s (want %d)",
-             improvement_types[choice->choice].name, choice->want);
+             get_improvement_name(choice->choice), choice->want);
   }
 }
