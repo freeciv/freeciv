@@ -59,6 +59,9 @@
 
 #include "citydlg.h"
 
+#define CITYMAP_WIDTH MIN(300, canvas_width)
+#define CITYMAP_HEIGHT (CITYMAP_WIDTH * canvas_height / canvas_width)
+
 struct city_dialog;
 
 /* get 'struct dialog_list' and related function */
@@ -104,7 +107,8 @@ struct city_dialog {
   GtkWidget *shell;
   GtkWidget *name_label;
   GtkWidget *citizen_pixmap;
-  GdkPixmap *map_canvas_store;
+  GdkPixbuf *map_canvas_store, *map_pixbuf_unscaled;
+  GdkPixmap *map_canvas_store_unscaled;
   GtkWidget *notebook;
 
   GtkTooltips *tips;
@@ -679,8 +683,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(align), pdialog->overview.map_canvas);
   gtk_widget_add_events(pdialog->overview.map_canvas, GDK_BUTTON_PRESS_MASK);
 
-  pdialog->overview.map_canvas_pixmap =
-	gtk_image_new_from_pixmap(pdialog->map_canvas_store, NULL);
+  pdialog->overview.map_canvas_pixmap
+    = gtk_image_new_from_pixbuf(pdialog->map_canvas_store);
   gtk_container_add(GTK_CONTAINER(pdialog->overview.map_canvas),
 		    pdialog->overview.map_canvas_pixmap);
 
@@ -968,8 +972,8 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(align), pdialog->happiness.map_canvas);
   gtk_widget_add_events(pdialog->happiness.map_canvas, GDK_BUTTON_PRESS_MASK);
 
-  pdialog->happiness.map_canvas_pixmap =
-	gtk_image_new_from_pixmap(pdialog->map_canvas_store, NULL);
+  pdialog->happiness.map_canvas_pixmap
+    = gtk_image_new_from_pixbuf(pdialog->map_canvas_store);
   gtk_container_add(GTK_CONTAINER(pdialog->happiness.map_canvas),
 		    pdialog->happiness.map_canvas_pixmap);
   g_signal_connect(pdialog->happiness.map_canvas,
@@ -1165,8 +1169,12 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->rename_shell = NULL;
   pdialog->happiness.map_canvas = NULL;         /* make sure NULL if spy */
   pdialog->happiness.map_canvas_pixmap = NULL;  /* ditto */
-  pdialog->map_canvas_store = gdk_pixmap_new(root_window, canvas_width,
-					     canvas_height, -1);
+  pdialog->map_canvas_store = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+					     CITYMAP_WIDTH, CITYMAP_HEIGHT);
+  pdialog->map_pixbuf_unscaled = NULL;
+  pdialog->map_canvas_store_unscaled
+    = gdk_pixmap_new(root_window, canvas_width, canvas_height, -1);
+
 
 
   pdialog->shell = gtk_dialog_new_with_buttons(pcity->name,
@@ -1444,12 +1452,32 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 *****************************************************************/
 static void city_dialog_update_map(struct city_dialog *pdialog)
 {
-  struct canvas store;
+  struct canvas store = {
+    .type = CANVAS_PIXMAP,
+    .v = {.pixmap = pdialog->map_canvas_store_unscaled}
+  };
 
-  store.type = CANVAS_PIXMAP;
-  store.v.pixmap = pdialog->map_canvas_store;
+  /* The drawing is done in three steps.
+   *   1.  First we render to a pixmap with the appropriate canvas size.
+   *   2.  Then the pixmap is rendered into a pixbuf of equal size.
+   *   3.  Finally this pixbuf is composited and scaled onto the GtkImage's
+   *       target pixbuf.
+   */
 
   city_dialog_redraw_map(pdialog->pcity, &store);
+  pdialog->map_pixbuf_unscaled
+    = gdk_pixbuf_get_from_drawable(pdialog->map_pixbuf_unscaled,
+				   pdialog->map_canvas_store_unscaled,
+				   NULL,
+				   0, 0, 0, 0,
+				   canvas_width, canvas_height);
+  gdk_pixbuf_composite(pdialog->map_pixbuf_unscaled,
+		       pdialog->map_canvas_store,
+		       0, 0, CITYMAP_WIDTH, CITYMAP_HEIGHT,
+		       0.0, 0.0,
+		       (double)CITYMAP_WIDTH / (double)canvas_width,
+		       (double)CITYMAP_HEIGHT / (double)canvas_height,
+		       GDK_INTERP_BILINEAR, 255);
 
   /* draw to real window */
   draw_map_canvas(pdialog);
@@ -2328,14 +2356,17 @@ static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
 				    gpointer data)
 {
   struct city_dialog *pdialog = data;
-  int xtile, ytile;
+  int canvas_x, canvas_y, city_x, city_y;
 
   if (!can_client_issue_orders()) {
     return FALSE;
   }
 
-  if (canvas_to_city_pos(&xtile, &ytile, ev->x, ev->y)) {
-    city_toggle_worker(pdialog->pcity, xtile, ytile);
+  canvas_x = ev->x * (double)canvas_width / (double)CITYMAP_WIDTH;
+  canvas_y = ev->y * (double)canvas_height / (double)CITYMAP_HEIGHT;
+
+  if (canvas_to_city_pos(&city_x, &city_y, canvas_x, canvas_y)) {
+    city_toggle_worker(pdialog->pcity, city_x, city_y);
   }
 
   return TRUE;
