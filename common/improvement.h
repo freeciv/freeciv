@@ -35,12 +35,6 @@ typedef unsigned char Impr_Status;
 #define I_ACTIVE     1   /* Improvement built, and having its effect */
 
 
-/* B_LAST is a value which is guaranteed to be larger than all
- * actual Impr_type_id values.  It is used as a flag value;
- * it can also be used for fixed allocations to ensure ability
- * to hold full number of improvement types.  */
-#define B_LAST MAX_NUM_ITEMS
-
 /* Changing these breaks network compatibility. */
 enum impr_flag_id {
   IF_VISIBLE_BY_OTHERS, /* improvement should be visible to others without spying */
