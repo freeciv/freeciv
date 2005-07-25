@@ -35,6 +35,9 @@
 
 #include "city.h"
 
+/* Define this to add in extra (very slow) assertions for the city code. */
+#undef CITY_DEBUGGING
+
 /* Iterate a city map, from the center (the city) outwards */
 struct iter_index *city_map_iterate_outwards_indices;
 
@@ -1537,6 +1540,13 @@ static inline void get_worked_tile_output(const struct city *pcity,
   city_map_iterate(x, y) {
     if (pcity->city_map[x][y] == C_TILE_WORKER) {
       output_type_iterate(o) {
+#ifdef CITY_DEBUGGING
+	/* This assertion never fails, but it's so slow that we disable
+	 * it by default. */
+	assert(pcity->tile_output[x][y][o]
+	       == base_city_get_output_tile(x, y, pcity,
+					    base_city_celebrating(pcity), o));
+#endif
 	output[o] += pcity->tile_output[x][y][o];
       } output_type_iterate_end;
     }
