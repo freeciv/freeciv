@@ -145,14 +145,14 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
   init_choice(choice);
 
-  /* Find out desire for settlers (terrain improvers) */
+  /* Find out desire for workers (terrain improvers) */
   unit_type = best_role_unit(pcity, F_SETTLERS);
 
-  if (!unit_type
+  if (unit_type
       && (pcity->id != ai->wonder_city || unit_type->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(unit_type,
 			 	                    pplayer, gov, O_FOOD)) {
-    /* The settler want is calculated in settlers.c called from
+    /* The worker want is calculated in settlers.c called from
      * ai_manage_cities.  The expand value is the % that the AI should
      * value expansion (basically to handicap easier difficutly levels)
      * and is set when the difficulty level is changed (stdinhand.c). */
@@ -161,9 +161,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
     if (ai->wonder_city == pcity->id) {
       want /= 5;
     }
-
-    /* Allowing multiple settlers per city now. I think this is correct.
-     * -- Syela */
 
     if (want > 0) {
       CITY_LOG(LOG_DEBUG, pcity, "desires terrain improvers with passion %d", 
@@ -179,12 +176,12 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Basically, copied from above and adjusted. -- jjm */
   unit_type = best_role_unit(pcity, F_CITIES);
 
-  if (!unit_type
+  if (unit_type
       && (pcity->id != ai->wonder_city
           || unit_type->pop_cost == 0)
       && pcity->surplus[O_FOOD] >= utype_upkeep_cost(unit_type,
 				                     pplayer, gov, O_FOOD)) {
-    /* founder_want calculated in settlers.c, called from ai_manage_cities(). */
+    /* founder_want calculated in aisettlers.c */
     int want = pcity->ai.founder_want;
 
     if (ai->wonder_city == pcity->id) {
