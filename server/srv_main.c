@@ -1445,8 +1445,6 @@ static void generate_players(void)
    * 'create <name>' command
    */
   players_iterate(pplayer) {
-    ai_data_analyze_rulesets(pplayer);
-    
     if (pplayer->nation != NO_NATION_SELECTED) {
       announce_player(pplayer);
       continue;
@@ -1852,6 +1850,9 @@ static void srv_loop(void)
     gamelog(GAMELOG_TEAM, pteam);
   } team_iterate_end;
 
+  players_iterate(pplayer) {
+    ai_data_analyze_rulesets(pplayer);
+  } players_iterate_end;
   if (!game.info.is_new_game) {
     players_iterate(pplayer) {
       if (pplayer->ai.control) {

@@ -356,6 +356,7 @@ const char *get_output_identifier(Output_type_id output);
 const char *get_output_name(Output_type_id output);
 struct output_type *get_output_type(Output_type_id output);
 Output_type_id find_output_type_by_identifier(const char *id);
+void add_specialist_output(const struct city *pcity, int *output);
 
 /* properties */
 
@@ -514,7 +515,6 @@ bool is_city_option_set(const struct city *pcity, enum city_options option);
 void city_styles_alloc(int num);
 void city_styles_free(void);
 
-void get_citizen_output(const struct city *pcity, int *output);
 void add_tax_income(const struct player *pplayer, int trade, int *output);
 int get_city_tithes_bonus(const struct city *pcity);
 int city_pollution_types(const struct city *pcity, int shield_total,

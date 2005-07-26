@@ -132,15 +132,35 @@ int ai_eval_calc_city(struct city *pcity, struct ai_data *ai)
 }
 
 /**************************************************************************
-  Calculates city want from some input values.
+  Calculates city want from some input values.  Set id to B_LAST if
+  nothing in the city has changed, and you just want to know the
+  base want of a city.
 **************************************************************************/
 static inline int city_want(struct player *pplayer, struct city *acity, 
-                            struct ai_data *ai)
+                            struct ai_data *ai, int id)
 {
   int want = 0, prod[O_COUNT], bonus[O_COUNT], waste[O_COUNT], i;
 
-  /* The below calculation mostly duplicates set_city_production(). */
-  get_citizen_output(acity, prod); /* this also clears prod[] */
+  memset(prod, 0, O_COUNT * sizeof(*prod));
+  if (id != B_LAST && ai->impr_calc[id] == AI_IMPR_CALCULATE_FULL) {
+    bool celebrating = base_city_celebrating(acity);
+
+    /* The below calculation mostly duplicates get_citizen_output(). 
+     * We do this only for buildings that we know may change tile
+     * outputs. */
+    city_map_checked_iterate(acity->tile, x, y, ptile) {
+      if (acity->city_map[x][y] == C_TILE_WORKER) {
+        output_type_iterate(o) {
+          prod[o] += base_city_get_output_tile(x, y, acity, celebrating, o);
+        } output_type_iterate_end;
+      }
+    } city_map_checked_iterate_end;
+    add_specialist_output(acity, prod);
+  } else {
+    assert(sizeof(*prod) == sizeof(*acity->citizen_base));
+    memcpy(prod, acity->citizen_base, O_COUNT * sizeof(*prod));
+  }
+
   for (i = 0; i < NUM_TRADEROUTES; i++) {
     prod[O_TRADE] += acity->trade_value[i];
   }
@@ -205,7 +225,7 @@ static int base_want(struct player *pplayer, struct city *pcity,
 
   /* Stir, then compare notes */
   city_range_iterate(pcity, pplayer->cities, ai->impr_range[id], acity) {
-    final_want += city_want(pplayer, acity, ai) - acity->ai.worth;
+    final_want += city_want(pplayer, acity, ai, id) - acity->ai.worth;
   } city_range_iterate_end;
 
   /* Restore */
@@ -816,7 +836,7 @@ void ai_manage_buildings(struct player *pplayer)
 
   /* First find current worth of cities and cache this. */
   city_list_iterate(pplayer->cities, acity) {
-    acity->ai.worth = city_want(pplayer, acity, ai);
+    acity->ai.worth = city_want(pplayer, acity, ai, B_LAST);
   } city_list_iterate_end;
 
   impr_type_iterate(id) {

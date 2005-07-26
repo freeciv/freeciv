@@ -29,6 +29,7 @@
 
 enum ai_improvement_status {
   AI_IMPR_CALCULATE, /* Calculate exactly its effect */
+  AI_IMPR_CALCULATE_FULL, /* Calculate including tile changes */
   AI_IMPR_ESTIMATE,  /* Estimate its effect using wild guesses */
   AI_IMPR_LAST
 };

@@ -88,15 +88,27 @@ static void ai_data_city_impr_calc(struct player *pplayer, struct ai_data *ai)
       case EFT_POLLU_PROD_PCT:
       case EFT_OUTPUT_BONUS:
       case EFT_OUTPUT_BONUS_2:
-      case EFT_OUTPUT_ADD_TILE:
-      case EFT_OUTPUT_PER_TILE:
-      case EFT_OUTPUT_INC_TILE:
       case EFT_OUTPUT_WASTE_PCT:
       case EFT_UPKEEP_FREE:
 	requirement_list_iterate(peffect->reqs, preq) {
 	  if (preq->source.type == REQ_BUILDING
 	      && preq->source.value.building == id) {
-	    ai->impr_calc[id] = AI_IMPR_CALCULATE;
+            if (ai->impr_calc[id] != AI_IMPR_CALCULATE_FULL) {
+	      ai->impr_calc[id] = AI_IMPR_CALCULATE;
+            }
+	    if (preq->range > ai->impr_range[id]) {
+	      ai->impr_range[id] = preq->range;
+	    }
+	  }
+	} requirement_list_iterate_end;
+        break;
+      case EFT_OUTPUT_ADD_TILE:
+      case EFT_OUTPUT_PER_TILE:
+      case EFT_OUTPUT_INC_TILE:
+	requirement_list_iterate(peffect->reqs, preq) {
+	  if (preq->source.type == REQ_BUILDING
+	      && preq->source.value.building == id) {
+	    ai->impr_calc[id] = AI_IMPR_CALCULATE_FULL;
 	    if (preq->range > ai->impr_range[id]) {
 	      ai->impr_range[id] = preq->range;
 	    }
