@@ -21,9 +21,14 @@
 #include <string.h>
 
 #include "game.h"
+#include "government.h"
+#include "improvement.h"
 #include "tech.h"
 
+#include "tilespec.h"
+
 #include "colors_g.h"
+#include "sprite_g.h"
 
 #include "reqtree.h"
 #include "tilespec.h"
@@ -109,6 +114,11 @@ static struct tree_node *new_tree_node(void)
 static void node_rectangle_minimum_size(struct tree_node *node,
 					int *width, int *height)
 {
+  int max_icon_height; /* maximal height of icons below the text */
+  int icons_width_sum; /* sum of icons width plus space between them */
+  struct sprite* sprite;
+  int swidth, sheight;
+  
   if (node->is_dummy) {
     *width = *height = 1;
   } else {
@@ -116,6 +126,52 @@ static void node_rectangle_minimum_size(struct tree_node *node,
 		  get_tech_name(game.player_ptr, node->tech));
     *width += 2;
     *height += 8;
+    
+    max_icon_height = 0;
+    icons_width_sum = 5;
+    
+    /* units */
+    unit_type_iterate(unit) {
+      if (unit->tech_requirement != node->tech) {
+        continue;
+      }
+      sprite = get_unittype_sprite(tileset, unit);
+      get_sprite_dimensions(sprite, &swidth, &sheight);
+      max_icon_height = MAX(max_icon_height, sheight);
+      icons_width_sum += swidth + 2;
+    } unit_type_iterate_end;
+    
+    /* buildings */
+    impr_type_iterate(impr_type) {
+      struct impr_type* impr = get_improvement_type(impr_type);
+      requirement_vector_iterate(&(impr->reqs), preq) {
+        if (preq->source.type == REQ_TECH
+	    && preq->source.value.tech == node->tech) {
+	  sprite = get_building_sprite(tileset, impr_type);
+	  get_sprite_dimensions(sprite, &swidth, &sheight);
+          max_icon_height = MAX(max_icon_height, sheight);
+          icons_width_sum += swidth + 2;
+	}
+      } requirement_vector_iterate_end;
+    } impr_type_iterate_end;
+    
+    /* governments */
+    government_iterate(gov) {
+      requirement_vector_iterate(&(gov->reqs), preq) {
+        if (preq->source.type == REQ_TECH
+	    && preq->source.value.tech == node->tech) {
+          sprite = get_government_sprite(tileset, gov);
+	  get_sprite_dimensions(sprite, &swidth, &sheight);
+          max_icon_height = MAX(max_icon_height, sheight);
+          icons_width_sum += swidth + 2;	    
+	}
+      } requirement_vector_iterate_end;
+    } government_iterate_end;
+    
+    *height += max_icon_height;
+    if (*width < icons_width_sum) {
+      *width = icons_width_sum;
+    }
   }
 }
 
@@ -776,6 +832,8 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 		  int tt_x, int tt_y, int w, int h)
 {
   int i, j, k;
+  int swidth, sheight;
+  struct sprite* sprite;
 
   /* draw the diagram */
   for (i = 0; i < tree->num_layers; i++) {
@@ -795,6 +853,7 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       if (!node->is_dummy) {
 	const char *text = get_tech_name(game.player_ptr, node->tech);
 	int text_w, text_h;
+	int icon_startx;
 
 	/* Print color rectangle with text inside. */
 	canvas_put_rectangle(pcanvas, get_color(tileset, node_color(node)),
@@ -804,10 +863,58 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 
 	canvas_put_text(pcanvas,
 			startx + (width - text_w) / 2,
-			starty + (height - text_h) / 2,
+			starty + 4,
 			FONT_REQTREE_TEXT,
 			get_color(tileset, COLOR_REQTREE_TEXT),
 			text);
+ 	icon_startx = startx + 5;
+ 	unit_type_iterate(unit) {
+          if (unit->tech_requirement != node->tech) {
+	    continue;
+	  }
+ 	  sprite = get_unittype_sprite(tileset, unit);
+ 	  get_sprite_dimensions(sprite, &swidth, &sheight);
+ 	  canvas_put_sprite_full(pcanvas,
+ 	                         icon_startx,
+ 				 starty + text_h + 4
+ 				 + (height - text_h - 4 - sheight) / 2,
+ 				 sprite);
+ 	  icon_startx += swidth + 2;
+ 	} unit_type_iterate_end;
+       
+        impr_type_iterate(impr_type) {
+	  struct impr_type* impr = get_improvement_type(impr_type);
+          requirement_vector_iterate(&(impr->reqs), preq) {
+            if (preq->source.type == REQ_TECH
+	        && preq->source.value.tech == node->tech) {
+ 	      sprite = get_building_sprite(tileset, impr_type);
+ 	      get_sprite_dimensions(sprite, &swidth, &sheight);
+ 	      canvas_put_sprite_full(pcanvas,
+ 	                             icon_startx,
+ 				     starty + text_h + 4
+ 				     + (height - text_h - 4 - sheight) / 2,
+ 				     sprite);
+ 	      icon_startx += swidth + 2;
+ 	    }
+ 	  } requirement_vector_iterate_end;
+         } impr_type_iterate_end;
+ 	
+         government_iterate(gov) {
+           requirement_vector_iterate(&(gov->reqs), preq) {
+           if (preq->source.type == REQ_TECH
+	       && preq->source.value.tech == node->tech) {
+               sprite = get_government_sprite(tileset, gov);
+ 	      canvas_put_sprite_full(pcanvas,
+ 	                             icon_startx,
+ 				     starty + text_h + 4
+ 				     + (height - text_h - 4 - sheight) / 2,
+ 	                             sprite);
+ 	      get_sprite_dimensions(sprite, &swidth, &sheight);
+ 	      icon_startx += swidth + 2;
+             }
+           } requirement_vector_iterate_end;
+         } government_iterate_end;	
+			
       }
 
       /* Draw all outgoing edges */
