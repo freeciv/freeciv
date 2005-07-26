@@ -374,11 +374,11 @@ int city_buy_cost(const struct city *pcity)
 {
   int cost, build = pcity->shield_stock;
 
-  if (pcity->is_building_unit) {
-    cost = unit_buy_gold_cost(get_unit_type(pcity->currently_building),
+  if (pcity->production.is_unit) {
+    cost = unit_buy_gold_cost(get_unit_type(pcity->production.value),
 			      build);
   } else {
-    cost = impr_buy_gold_cost(pcity->currently_building, build);
+    cost = impr_buy_gold_cost(pcity->production.value, build);
   }
   return cost;
 }
@@ -2422,8 +2422,8 @@ struct city *create_city_virtual(struct player *pplayer,
     struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);
 
     if (u) {
-      pcity->is_building_unit = TRUE;
-      pcity->currently_building = u->index;
+      pcity->production.is_unit = TRUE;
+      pcity->production.value = u->index;
     } else {
       bool found = FALSE;
 
@@ -2432,8 +2432,8 @@ struct city *create_city_virtual(struct player *pplayer,
       impr_type_iterate(id) {
 	if (can_build_improvement_direct(pcity, id)) {
 	  found = TRUE;
-	  pcity->is_building_unit = FALSE;
-	  pcity->currently_building = id;
+	  pcity->production.is_unit = FALSE;
+	  pcity->production.value = id;
 	  break;
 	}
       } impr_type_iterate_end;
@@ -2442,8 +2442,8 @@ struct city *create_city_virtual(struct player *pplayer,
 	unit_type_iterate(punittype) {
 	  if (can_build_unit_direct(pcity, punittype)) {
 	    found = TRUE;
-	    pcity->is_building_unit = TRUE;
-	    pcity->currently_building = punittype->index;
+	    pcity->production.is_unit = TRUE;
+	    pcity->production.value = punittype->index;
 	  }
 	} unit_type_iterate_end;
       }
@@ -2457,8 +2457,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->airlift = FALSE;
 
   pcity->turn_last_built = game.info.turn;
-  pcity->changed_from_id = pcity->currently_building;
-  pcity->changed_from_is_unit = pcity->is_building_unit;
+  pcity->changed_from_id = pcity->production.value;
+  pcity->changed_from_is_unit = pcity->production.is_unit;
   pcity->before_change_shields = 0;
   pcity->disbanded_shields = 0;
   pcity->caravan_shields = 0;

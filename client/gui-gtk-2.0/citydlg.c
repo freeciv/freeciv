@@ -1518,12 +1518,12 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
-  if (pcity->is_building_unit) {
-    cost = unit_build_shield_cost(get_unit_type(pcity->currently_building));
-    descr = get_unit_type(pcity->currently_building)->name;
+  if (pcity->production.is_unit) {
+    cost = unit_build_shield_cost(get_unit_type(pcity->production.value));
+    descr = get_unit_type(pcity->production.value)->name;
   } else {
-    cost = impr_build_shield_cost(pcity->currently_building);;
-    descr = get_impr_name_ex(pcity, pcity->currently_building);
+    cost = impr_build_shield_cost(pcity->production.value);;
+    descr = get_impr_name_ex(pcity, pcity->production.value);
   }
 
   if (cost > 0) {
@@ -2409,12 +2409,12 @@ static void buy_callback(GtkWidget *w, gpointer data)
 
   pdialog = (struct city_dialog *) data;
 
-  if (pdialog->pcity->is_building_unit) {
-    name = get_unit_type(pdialog->pcity->currently_building)->name;
+  if (pdialog->pcity->production.is_unit) {
+    name = get_unit_type(pdialog->pcity->production.value)->name;
   } else {
     name =
 	get_impr_name_ex(pdialog->pcity,
-			 pdialog->pcity->currently_building);
+			 pdialog->pcity->production.value);
   }
   value = city_buy_cost(pdialog->pcity);
 

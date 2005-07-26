@@ -485,17 +485,17 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
 
     /* ----------- */
-    if(pCity->is_building_unit) {
-      struct unit_type *pUnit = get_unit_type(pCity->currently_building);
+    if(pCity->production.is_unit) {
+      struct unit_type *pUnit = get_unit_type(pCity->production.value);
       pLogo = ResizeSurface(GET_SURF(pUnit->sprite), 36, 24, 1);
       SDL_SetColorKey(pLogo,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pLogo));
-      togrow = unit_build_shield_cost(pCity->currently_building);
+      togrow = unit_build_shield_cost(pCity->production.value);
       pName = pUnit->name;
     } else {
-      struct impr_type *pImprv = get_improvement_type(pCity->currently_building);
+      struct impr_type *pImprv = get_improvement_type(pCity->production.value);
       pLogo = ResizeSurface(GET_SURF(pImprv->sprite), 36, 24, 1);
-      togrow = impr_build_shield_cost(pCity->currently_building);
+      togrow = impr_build_shield_cost(pCity->production.value);
       pName = pImprv->name;
     }
     
@@ -518,7 +518,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     
     togrow = city_turns_to_build(pCity,
-    	pCity->currently_building, pCity->is_building_unit, TRUE);
+    	pCity->production.value, pCity->production.is_unit, TRUE);
     if(togrow == 999)
     {
       my_snprintf(cBuf, sizeof(cBuf), "%s", _("never"));
@@ -1010,17 +1010,17 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
   copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* change production */
-  if(pCity->is_building_unit) {
-    struct unit_type *pUnit = get_unit_type(pCity->currently_building);
+  if(pCity->production.is_unit) {
+    struct unit_type *pUnit = get_unit_type(pCity->production.value);
     pLogo = ResizeSurface(GET_SURF(pUnit->sprite), 36, 24, 1);
     SDL_SetColorKey(pLogo,
 	  SDL_SRCCOLORKEY|SDL_RLEACCEL, get_first_pixel(pLogo));
-    togrow = unit_build_shield_cost(pCity->currently_building);
+    togrow = unit_build_shield_cost(pCity->production.value);
     pName = pUnit->name;
   } else {
-    struct impr_type *pImprv = get_improvement_type(pCity->currently_building);
+    struct impr_type *pImprv = get_improvement_type(pCity->production.value);
     pLogo = ResizeSurface(GET_SURF(pImprv->sprite), 36, 24, 1);
-    togrow = impr_build_shield_cost(pCity->currently_building);
+    togrow = impr_build_shield_cost(pCity->production.value);
     pName = pImprv->name;
   }
     
@@ -1046,7 +1046,7 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
   /* hurry productions */
   pWidget = pWidget->prev;
   togrow = city_turns_to_build(pCity,
-    	pCity->currently_building, pCity->is_building_unit, TRUE);
+    	pCity->production.value, pCity->production.is_unit, TRUE);
   if(togrow == 999)
   {
     my_snprintf(cBuf, sizeof(cBuf), "%s", _("never"));

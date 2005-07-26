@@ -336,18 +336,18 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
   if (strcmp(action, "city_buy") == 0) {
     const char *name;
 
-    if (pcity->is_building_unit) {
-      name = get_unit_type(pcity->currently_building)->name;
+    if (pcity->production.is_unit) {
+      name = get_unit_type(pcity->production.value)->name;
     } else {
-      name = get_impr_name_ex(pcity, pcity->currently_building);
+      name = get_impr_name_ex(pcity, pcity->production.value);
     }
 
     add_line(_("Buy production"));
     add_line(_("Cost: %d (%d in treasury)"),
 	     city_buy_cost(pcity), game.player_ptr->economic.gold);
     add_line(_("Producting: %s (%d turns)"), name,
-	     city_turns_to_build(pcity, pcity->currently_building,
-				 pcity->is_building_unit, TRUE));
+	     city_turns_to_build(pcity, pcity->production.value,
+				 pcity->production.is_unit, TRUE));
   } else {
     add_line("tooltip for action %s isn't written yet", action);
     freelog(LOG_NORMAL,

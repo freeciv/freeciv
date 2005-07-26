@@ -882,8 +882,8 @@ int get_city_bonus_effects(struct effect_list *plist,
 int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type)
 {
-  if (!pcity->is_building_unit) {
-    Impr_type_id id = pcity->currently_building;
+  if (!pcity->production.is_unit) {
+    Impr_type_id id = pcity->production.value;
     int power = 0;
 
     struct req_source source = {

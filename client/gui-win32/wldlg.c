@@ -859,14 +859,14 @@ static void copy_worklist_to_editor(struct worklist *pwl,
 
 
 /****************************************************************
- sets aside the first space for "currently_building" if in city
+ sets aside the first space for "production.value" if in city
 *****************************************************************/
 static void worklist_prep(struct worklist_editor *peditor)
 {
   if (peditor->pcity) {
     peditor->worklist_wids[0] =
-        wid_encode(peditor->pcity->is_building_unit, FALSE,
-                   peditor->pcity->currently_building);
+        wid_encode(peditor->pcity->production.is_unit, FALSE,
+                   peditor->pcity->production.value);
     peditor->worklist_wids[1] = WORKLIST_END;
     copy_worklist_to_editor(&peditor->pcity->worklist, peditor,
                             MAX_LEN_WORKLIST);

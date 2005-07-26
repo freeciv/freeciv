@@ -409,8 +409,8 @@ void handle_city_info(struct packet_city_info *packet)
     if (draw_city_names && name_changed) {
       update_descriptions = TRUE;
     } else if (draw_city_productions
-	       && (pcity->is_building_unit != packet->is_building_unit
-		   || pcity->currently_building != packet->currently_building
+	       && (pcity->production.is_unit != packet->production_is_unit
+		   || pcity->production.value != packet->production_value
 		   || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
 		   || pcity->shield_stock != packet->shield_stock)) {
       update_descriptions = TRUE;
@@ -460,12 +460,12 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->pollution=packet->pollution;
 
   if (city_is_new
-      || pcity->is_building_unit != packet->is_building_unit
-      || pcity->currently_building != packet->currently_building) {
+      || pcity->production.is_unit != packet->production_is_unit
+      || pcity->production.value != packet->production_value) {
     need_units_dialog_update = TRUE;
   }
-  pcity->is_building_unit=packet->is_building_unit;
-  pcity->currently_building=packet->currently_building;
+  pcity->production.is_unit = packet->production_is_unit;
+  pcity->production.value = packet->production_value;
   if (city_is_new) {
     init_worklist(&pcity->worklist);
 
@@ -718,8 +718,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->shield_stock       = 0;
     pcity->pollution          = 0;
     BV_CLR_ALL(pcity->city_options);
-    pcity->is_building_unit   = FALSE;
-    pcity->currently_building = 0;
+    pcity->production.is_unit   = FALSE;
+    pcity->production.value = 0;
     init_worklist(&pcity->worklist);
     pcity->airlift            = FALSE;
     pcity->did_buy            = FALSE;

@@ -174,11 +174,11 @@ void client_change_all(cid x, cid y)
   connection_do_buffer(&aconnection);
   city_list_iterate (game.player_ptr->cities, pcity) {
     if (((fr_is_unit &&
-	  (pcity->is_building_unit) &&
-	  (pcity->currently_building == fr_id)) ||
+	  (pcity->production.is_unit) &&
+	  (pcity->production.value == fr_id)) ||
 	 (!fr_is_unit &&
-	  !(pcity->is_building_unit) &&
-	  (pcity->currently_building == fr_id))) &&
+	  !(pcity->production.is_unit) &&
+	  (pcity->production.value == fr_id))) &&
 	((to_is_unit &&
 	  can_build_unit (pcity, get_unit_type(to_id))) ||
 	 (!to_is_unit &&
@@ -455,7 +455,7 @@ cid cid_encode(bool is_unit, int id)
 **************************************************************************/
 cid cid_encode_from_city(struct city * pcity)
 {
-  return cid_encode(pcity->is_building_unit, pcity->currently_building);
+  return cid_encode(pcity->production.is_unit, pcity->production.value);
 }
 
 /**************************************************************************
@@ -1074,10 +1074,10 @@ void cityrep_buy(struct city *pcity)
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     char buf[512];
 
-    assert(!pcity->is_building_unit);
+    assert(!pcity->production.is_unit);
     my_snprintf(buf, sizeof(buf),
 		_("You don't buy %s in %s!"),
-		get_improvement_name(pcity->currently_building),
+		get_improvement_name(pcity->production.value),
 		pcity->name);
     append_output_window(buf);
     return;
@@ -1089,10 +1089,10 @@ void cityrep_buy(struct city *pcity)
     char buf[512];
     const char *name;
 
-    if (pcity->is_building_unit) {
-      name = get_unit_type(pcity->currently_building)->name;
+    if (pcity->production.is_unit) {
+      name = get_unit_type(pcity->production.value)->name;
     } else {
-      name = get_impr_name_ex(pcity, pcity->currently_building);
+      name = get_impr_name_ex(pcity, pcity->production.value);
     }
 
     my_snprintf(buf, sizeof(buf),

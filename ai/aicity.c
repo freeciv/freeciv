@@ -611,10 +611,10 @@ static void adjust_building_want_by_effects(struct city *pcity,
   v -= pimpr->build_cost / (pcity->surplus[O_SHIELD] * 10 + 1);
 
   /* Would it mean losing shields? */
-  if ((pcity->is_building_unit 
-       || (is_wonder(pcity->currently_building) 
+  if ((pcity->production.is_unit 
+       || (is_wonder(pcity->production.value) 
            && !is_wonder(id))
-       || (!is_wonder(pcity->currently_building)
+       || (!is_wonder(pcity->production.value)
            && is_wonder(id)))
       && pcity->turn_last_built != game.info.turn) {
     v -= (pcity->shield_stock / 2) * (SHIELD_WEIGHTING / 2);
@@ -761,13 +761,13 @@ void ai_manage_buildings(struct player *pplayer)
    * not check out, make a Wonder City. */
   if (!(wonder_city != NULL
         && wonder_city->surplus[O_SHIELD] > 0
-        && !wonder_city->is_building_unit
-        && is_wonder(wonder_city->currently_building)
+        && !wonder_city->production.is_unit
+        && is_wonder(wonder_city->production.value)
         && can_build_improvement(wonder_city, 
-                                 wonder_city->currently_building)
-        && !improvement_obsolete(pplayer, wonder_city->currently_building)
+                                 wonder_city->production.value)
+        && !improvement_obsolete(pplayer, wonder_city->production.value)
         && !is_building_replaced(wonder_city, 
-                                 wonder_city->currently_building))
+                                 wonder_city->production.value))
       || wonder_city == NULL) {
     /* Find a new wonder city! */
     int best_candidate_value = 0;
@@ -961,19 +961,19 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 	      get_improvement_name(pcity->ai.choice.choice)),
 	     pcity->ai.choice.want);
     
-    if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building) 
+    if (!pcity->production.is_unit && is_great_wonder(pcity->production.value) 
 	&& (is_unit_choice_type(pcity->ai.choice.type) 
-	    || pcity->ai.choice.choice != pcity->currently_building))
+	    || pcity->ai.choice.choice != pcity->production.value))
       notify_player_ex(NULL, pcity->tile, E_WONDER_STOPPED,
 		       _("The %s have stopped building The %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
-		       get_impr_name_ex(pcity, pcity->currently_building),
+		       get_impr_name_ex(pcity, pcity->production.value),
 		       pcity->name);
     
     if (pcity->ai.choice.type == CT_BUILDING 
 	&& is_wonder(pcity->ai.choice.choice)
-	&& (pcity->is_building_unit 
-	    || pcity->currently_building != pcity->ai.choice.choice)) {
+	&& (pcity->production.is_unit 
+	    || pcity->production.value != pcity->ai.choice.choice)) {
       if (is_great_wonder(pcity->ai.choice.choice)) {
 	notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
 			 _("The %s have started building The %s in %s."),
@@ -981,11 +981,11 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 			 get_impr_name_ex(pcity, pcity->ai.choice.choice),
 			 pcity->name);
       }
-      pcity->currently_building = pcity->ai.choice.choice;
-      pcity->is_building_unit = is_unit_choice_type(pcity->ai.choice.type);
+      pcity->production.value = pcity->ai.choice.choice;
+      pcity->production.is_unit = is_unit_choice_type(pcity->ai.choice.type);
     } else {
-      pcity->currently_building = pcity->ai.choice.choice;
-      pcity->is_building_unit   = is_unit_choice_type(pcity->ai.choice.type);
+      pcity->production.value = pcity->ai.choice.choice;
+      pcity->production.is_unit   = is_unit_choice_type(pcity->ai.choice.type);
     }
   }
 }

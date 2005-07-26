@@ -1246,12 +1246,12 @@ void worklist_populate_worklist(struct worklist_dialog *pdialog)
   n = 0;
   if (pdialog->pcity) {
     /* First element is the current build target of the city. */
-    id = pdialog->pcity->currently_building;
+    id = pdialog->pcity->production.value;
 
     worklist_id_to_name(pdialog->worklist_names[n],
-			id, pdialog->pcity->is_building_unit, pdialog->pcity);
+			id, pdialog->pcity->production.is_unit, pdialog->pcity);
 
-    if (pdialog->pcity->is_building_unit)
+    if (pdialog->pcity->production.is_unit)
       id += B_LAST;
     pdialog->worklist_names_ptrs[n] = pdialog->worklist_names[n];
     pdialog->worklist_ids[n] = id;

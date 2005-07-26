@@ -104,13 +104,13 @@ static void get_units_report_data(struct units_entry *entries,
   } unit_list_iterate_end;
     
   city_list_iterate(game.player_ptr->cities, pCity) {
-    if (pCity->is_building_unit) {
-      (entries[pCity->currently_building].building_count)++;
+    if (pCity->production.is_unit) {
+      (entries[pCity->production.value].building_count)++;
       (total->building_count)++;
-      entries[pCity->currently_building].soonest_completions =
-	MIN(entries[pCity->currently_building].soonest_completions,
+      entries[pCity->production.value].soonest_completions =
+	MIN(entries[pCity->production.value].soonest_completions,
 	    city_turns_to_build(pCity,
-				pCity->currently_building, TRUE, TRUE));
+				pCity->production.value, TRUE, TRUE));
     }
   } city_list_iterate_end;
 }

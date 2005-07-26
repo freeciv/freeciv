@@ -673,8 +673,8 @@ static int ai_war_desire(struct player *pplayer, struct player *aplayer,
    * while counting all enemy settlers as (worst case) indicators of
    * enemy expansionism */
   city_list_iterate(pplayer->cities, pcity) {
-    if (pcity->is_building_unit 
-        && unit_type_flag(get_unit_type(pcity->currently_building),
+    if (pcity->production.is_unit 
+        && unit_type_flag(get_unit_type(pcity->production.value),
 			  F_CITIES)) {
       kill_desire -= 1;
     }

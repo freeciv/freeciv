@@ -68,8 +68,8 @@ static void ai_choose_help_wonder(struct city *pcity,
   if (pcity == wonder_city 
       || wonder_city == NULL
       || pcity->ai.distance_to_wonder_city <= 0
-      || wonder_city->is_building_unit
-      || !is_wonder(wonder_city->currently_building)) {
+      || wonder_city->production.is_unit
+      || !is_wonder(wonder_city->production.value)) {
     /* A distance of zero indicates we are very far away, possibly
      * on another continent. */
     return;
@@ -84,8 +84,8 @@ static void ai_choose_help_wonder(struct city *pcity,
 
   /* Count caravans being built */
   city_list_iterate(pplayer->cities, acity) {
-    if (acity->is_building_unit
-        && unit_type_flag(get_unit_type(acity->currently_building),
+    if (acity->production.is_unit
+        && unit_type_flag(get_unit_type(acity->production.value),
 			  F_HELP_WONDER)
         && tile_get_continent(acity->tile) == continent) {
       caravans++;
@@ -103,12 +103,12 @@ static void ai_choose_help_wonder(struct city *pcity,
   /* Check if wonder needs a little help. */
   if (build_points_left(wonder_city) 
       > unit_build_shield_cost(unit_type) * caravans) {
-    Impr_type_id wonder = wonder_city->currently_building;
+    Impr_type_id wonder = wonder_city->production.value;
     int want = wonder_city->ai.building_want[wonder];
     int dist = pcity->ai.distance_to_wonder_city /
                unit_type->move_rate;
 
-    assert(!wonder_city->is_building_unit);
+    assert(!wonder_city->production.is_unit);
 
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 

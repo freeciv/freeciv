@@ -2154,26 +2154,26 @@ static void player_load(struct player *plr, int plrno,
     pcity->was_happy = secfile_lookup_bool(file,
 					   "player%d.c%d.was_happy",
 					   plrno, i);
-    pcity->is_building_unit =
+    pcity->production.is_unit =
       secfile_lookup_bool(file, 
-			 "player%d.c%d.is_building_unit", plrno, i);
+			 "player%d.c%d.production.is_unit", plrno, i);
     name = secfile_lookup_str_default(file, NULL,
-				      "player%d.c%d.currently_building_name",
+				      "player%d.c%d.production.value_name",
 				      plrno, i);
-    if (pcity->is_building_unit) {
+    if (pcity->production.is_unit) {
       if (!name) {
-	id = secfile_lookup_int(file, "player%d.c%d.currently_building", 
+	id = secfile_lookup_int(file, "player%d.c%d.production.value", 
 				plrno, i);
 	name = old_unit_type_name(id);
       }
-      pcity->currently_building = find_unit_type_by_name_orig(name)->index;
+      pcity->production.value = find_unit_type_by_name_orig(name)->index;
     } else {
       if (!name) {
-	id = secfile_lookup_int(file, "player%d.c%d.currently_building",
+	id = secfile_lookup_int(file, "player%d.c%d.production.value",
 				plrno, i);
 	name = old_impr_type_name(id);
       }
-      pcity->currently_building = find_improvement_by_name_orig(name);
+      pcity->production.value = find_improvement_by_name_orig(name);
     }
 
     if (has_capability("turn_last_built", savefile_options)) {
@@ -2185,7 +2185,7 @@ static void player_load(struct player *plr, int plrno,
       pcity->turn_last_built = 0;
     }
     pcity->changed_from_is_unit=
-      secfile_lookup_bool_default(file, pcity->is_building_unit,
+      secfile_lookup_bool_default(file, pcity->production.is_unit,
 				 "player%d.c%d.changed_from_is_unit", plrno, i);
     name = secfile_lookup_str_default(file, NULL,
 				      "player%d.c%d.changed_from_name",
@@ -3048,20 +3048,20 @@ static void player_save(struct player *plr, int plrno,
     assert(j < sizeof(citymap_buf));
     secfile_insert_str(file, citymap_buf, "player%d.c%d.workers", plrno, i);
 
-    secfile_insert_bool(file, pcity->is_building_unit, 
-		       "player%d.c%d.is_building_unit", plrno, i);
-    if (pcity->is_building_unit) {
-      struct unit_type *punittype = get_unit_type(pcity->currently_building);
+    secfile_insert_bool(file, pcity->production.is_unit, 
+		       "player%d.c%d.production.is_unit", plrno, i);
+    if (pcity->production.is_unit) {
+      struct unit_type *punittype = get_unit_type(pcity->production.value);
       secfile_insert_int(file, old_unit_type_id(punittype),
-		         "player%d.c%d.currently_building", plrno, i);
+		         "player%d.c%d.production.value", plrno, i);
       secfile_insert_str(file, unit_name_orig(punittype),
-                         "player%d.c%d.currently_building_name", plrno, i);
+                         "player%d.c%d.production.value_name", plrno, i);
     } else {
-      secfile_insert_int(file, old_impr_type_id(pcity->currently_building),
-                         "player%d.c%d.currently_building", plrno, i);
+      secfile_insert_int(file, old_impr_type_id(pcity->production.value),
+                         "player%d.c%d.production.value", plrno, i);
       secfile_insert_str(file, get_improvement_name_orig(
-                                   pcity->currently_building),
-                         "player%d.c%d.currently_building_name", plrno, i);
+                                   pcity->production.value),
+                         "player%d.c%d.production.value_name", plrno, i);
     }
 
     /* 1.14 servers depend on improvement order in ruleset. Here we

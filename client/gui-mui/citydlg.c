@@ -142,15 +142,15 @@ static const char *const get_prod_complete_string(struct city *pcity,
   }
 
   stock = pcity->shield_stock;
-  if (pcity->is_building_unit) {
-    cost = unit_build_shield_cost(pcity->currently_building);
+  if (pcity->production.is_unit) {
+    cost = unit_build_shield_cost(pcity->production.value);
   } else {
-    if (pcity->currently_building == B_CAPITAL) {
+    if (pcity->production.value == B_CAPITAL) {
       my_snprintf(buffer, sizeof(buffer),
-		  get_improvement_type(pcity->currently_building)->name);
+		  get_improvement_type(pcity->production.value)->name);
       return buffer;
     }
-    cost = impr_build_shield_cost(pcity->currently_building);
+    cost = impr_build_shield_cost(pcity->production.value);
   }
 
   stock += surplus;
@@ -827,8 +827,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
     if (!worklist_peek_ith(pwl, &id, &is_unit, k))
       break;
 
-    same_as_current_build = id == pdialog->pcity->currently_building
-	&& is_unit == pdialog->pcity->is_building_unit;
+    same_as_current_build = id == pdialog->pcity->production.value
+	&& is_unit == pdialog->pcity->production.is_unit;
 
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is
@@ -944,13 +944,13 @@ static void city_buy(struct city_dialog **ppdialog)
   char *name;
   char buf[512];
 
-  if (pdialog->pcity->is_building_unit)
+  if (pdialog->pcity->production.is_unit)
   {
-    name = get_unit_type(pdialog->pcity->currently_building)->name;
+    name = get_unit_type(pdialog->pcity->production.value)->name;
   }
   else
   {
-    name = get_impr_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
+    name = get_impr_name_ex(pdialog->pcity, pdialog->pcity->production.value);
   }
 
   value = city_buy_cost(pdialog->pcity);
@@ -1266,7 +1266,7 @@ void popup_city_production_dialog(struct city *pcity)
 
         DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, i + 1, MUIV_NList_Insert_Bottom);
 
-        if (i == pcity->currently_building && !pcity->is_building_unit)
+        if (i == pcity->production.value && !pcity->production.is_unit)
          current = pos++;
 
         pos++;
@@ -1286,7 +1286,7 @@ void popup_city_production_dialog(struct city *pcity)
       {
         DoMethod(pcprod->available_listview, MUIM_NList_InsertSingle, i + 10000, MUIV_NList_Insert_Bottom);
 
-        if(i == pcity->currently_building && pcity->is_building_unit)
+        if(i == pcity->production.value && pcity->production.is_unit)
          current = pos++;
 
         pos++;
@@ -1762,12 +1762,12 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   get_city_dialog_production(pcity, buf, sizeof(buf));
 
   shield = pcity->shield_stock;
-  if (pcity->is_building_unit) {
-    max_shield = unit_build_shield_cost(pcity->currently_building);
-    descr = get_unit_type(pcity->currently_building)->name;
+  if (pcity->production.is_unit) {
+    max_shield = unit_build_shield_cost(pcity->production.value);
+    descr = get_unit_type(pcity->production.value)->name;
   } else {
-    max_shield = impr_build_shield_cost(pcity->currently_building);
-    descr = get_impr_name_ex(pcity, pcity->currently_building);
+    max_shield = impr_build_shield_cost(pcity->production.value);
+    descr = get_impr_name_ex(pcity, pcity->production.value);
   }
 
   if (!worklist_is_empty(&pcity->worklist)) {

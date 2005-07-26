@@ -929,10 +929,10 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     nullify_prechange_production(pcity); /* Make it impossible to recover */
 
     /* Report it. */
-    if (pcity->is_building_unit)
-      prod = unit_name(get_unit_type(pcity->currently_building));
+    if (pcity->production.is_unit)
+      prod = unit_name(get_unit_type(pcity->production.value));
     else
-      prod = get_improvement_name (pcity->currently_building);
+      prod = get_improvement_name (pcity->production.value);
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_SABOTAGE,
 		     _("Your %s succeeded in destroying"
 		       " the production of %s in %s."),

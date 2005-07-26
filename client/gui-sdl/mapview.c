@@ -1204,12 +1204,12 @@ static void put_city_desc_on_surface(SDL_Surface *pDest,
   /* City Production */
   if (draw_city_productions && pCity->owner == game.player_idx) {
     /* set text color */
-    if (pCity->is_building_unit) {
+    if (pCity->production.is_unit) {
       pText->fgcol.r = 255;
       pText->fgcol.g = 255;
       pText->fgcol.b = 0;
     } else {
-      if (get_improvement_type(pCity->currently_building)->is_wonder) {
+      if (get_improvement_type(pCity->production.value)->is_wonder) {
 	pText->fgcol.r = 0xe2;
 	pText->fgcol.g = 0xc2;
 	pText->fgcol.b = 0x1f;

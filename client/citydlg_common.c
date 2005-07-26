@@ -214,14 +214,14 @@ void get_city_dialog_production(struct city *pcity,
     return;
   }
 
-  turns = city_turns_to_build(pcity, pcity->currently_building,
-			      pcity->is_building_unit, TRUE);
+  turns = city_turns_to_build(pcity, pcity->production.value,
+			      pcity->production.is_unit, TRUE);
   stock = pcity->shield_stock;
 
-  if (pcity->is_building_unit) {
-    cost = unit_build_shield_cost(get_unit_type(pcity->currently_building));
+  if (pcity->production.is_unit) {
+    cost = unit_build_shield_cost(get_unit_type(pcity->production.value));
   } else {
-    cost = impr_build_shield_cost(pcity->currently_building);
+    cost = impr_build_shield_cost(pcity->production.value);
   }
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
@@ -646,8 +646,8 @@ static bool base_city_queue_insert(struct city *pcity, int position,
       return FALSE;
     }
 
-    old_id = pcity->currently_building;
-    old_is_unit = pcity->is_building_unit;
+    old_id = pcity->production.value;
+    old_is_unit = pcity->production.is_unit;
     if (!worklist_insert(&pcity->worklist, old_id, old_is_unit, 0)) {
       return FALSE;
     }
@@ -765,8 +765,8 @@ void city_get_queue(struct city *pcity, struct worklist *pqueue)
   /* We want the current production to be in the queue. Always. */
   worklist_remove(pqueue, MAX_LEN_WORKLIST - 1);
 
-  id = pcity->currently_building;
-  is_unit = pcity->is_building_unit;
+  id = pcity->production.value;
+  is_unit = pcity->production.is_unit;
   worklist_insert(pqueue, id, is_unit, 0);
 }
 
@@ -813,7 +813,7 @@ bool city_can_buy(const struct city *pcity)
 	  && pcity->turn_founded != game.info.turn
 	  && !pcity->did_buy
 	  && get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) <= 0
-	  && !(pcity->is_building_unit && pcity->anarchy != 0)
+	  && !(pcity->production.is_unit && pcity->anarchy != 0)
 	  && city_buy_cost(pcity) > 0);
 }
 

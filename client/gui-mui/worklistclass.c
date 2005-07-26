@@ -610,7 +610,7 @@ static void worklist_list_update(struct Worklist_Data *data)
   if (data->embedded_in_city && data->pcity)
   {
      entry.type = 0;
-     entry.wid = wid_encode(data->pcity->is_building_unit, FALSE, data->pcity->currently_building);
+     entry.wid = wid_encode(data->pcity->production.is_unit, FALSE, data->pcity->production.value);
      DoMethod(data->current_listview, MUIM_NList_InsertSingle, &entry, MUIV_NList_Insert_Bottom);
   }
 

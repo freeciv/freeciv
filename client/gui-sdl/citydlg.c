@@ -1193,10 +1193,10 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   
   pHurry_Prod_Dlg = MALLOC(sizeof(struct SMALL_DLG));
   
-  if (pCity->is_building_unit) {
-    name = get_unit_type(pCity->currently_building)->name;
+  if (pCity->production.is_unit) {
+    name = get_unit_type(pCity->production.value)->name;
   } else {
-    name = get_impr_name_ex(pCity, pCity->currently_building);
+    name = get_impr_name_ex(pCity, pCity->production.value);
   }
 
   value = city_buy_cost(pCity);
@@ -3349,9 +3349,9 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
 
   /* draw productions shields progress */
-  if (pCity->is_building_unit) {
-    struct unit_type *pUnit = get_unit_type(pCity->currently_building);
-    cost = unit_build_shield_cost(pCity->currently_building);
+  if (pCity->production.is_unit) {
+    struct unit_type *pUnit = get_unit_type(pCity->production.value);
+    cost = unit_build_shield_cost(pCity->production.value);
     count = cost / 10;
         
     copy_chars_to_string16(pStr, pUnit->name);
@@ -3370,9 +3370,9 @@ static void redraw_city_dialog(struct city *pCity)
 
   } else {
     struct impr_type *pImpr =
-	get_improvement_type(pCity->currently_building);
+	get_improvement_type(pCity->production.value);
 
-    if (pCity->currently_building == B_CAPITAL) {
+    if (pCity->production.value == B_CAPITAL) {
 
       if (pCityDlg->pBuy_Button
 	 && get_wstate(pCityDlg->pBuy_Button) != FC_WS_DISABLED) {
@@ -3391,7 +3391,7 @@ static void redraw_city_dialog(struct city *pCity)
 	redraw_widget(pCityDlg->pBuy_Button);
       }
 
-      cost = impr_build_shield_cost(pCity->currently_building);
+      cost = impr_build_shield_cost(pCity->production.value);
       count = cost / 10;
       
     }
@@ -3441,7 +3441,7 @@ static void redraw_city_dialog(struct city *pCity)
     
     if (pCity->shield_stock < cost) {
       count = city_turns_to_build(pCity,
-    	pCity->currently_building, pCity->is_building_unit, TRUE);
+    	pCity->production.value, pCity->production.is_unit, TRUE);
       if (count == 999) {
         my_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %s!",
 		  		pCity->shield_stock, cost,  _("blocked"));

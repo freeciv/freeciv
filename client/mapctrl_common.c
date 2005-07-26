@@ -330,8 +330,8 @@ void clipboard_copy_production(struct tile *ptile)
     if (pcity->owner != game.player_ptr)  {
       return;
     }
-    clipboard = pcity->currently_building;
-    clipboard_is_unit = pcity->is_building_unit;
+    clipboard = pcity->production.value;
+    clipboard_is_unit = pcity->production.is_unit;
   } else {
     struct unit *punit = find_visible_unit(ptile);
     if (!punit) {

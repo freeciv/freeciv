@@ -294,15 +294,15 @@ void send_global_city_turn_notifications(struct conn_list *dest)
     city_list_iterate(pplayer->cities, pcity) {
       /* can_player_build_improvement() checks whether wonder is build
 	 elsewhere (or destroyed) */
-      if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building)
-	  && (city_turns_to_build(pcity, pcity->currently_building, FALSE, TRUE)
+      if (!pcity->production.is_unit && is_great_wonder(pcity->production.value)
+	  && (city_turns_to_build(pcity, pcity->production.value, FALSE, TRUE)
 	      <= 1)
-	  && can_player_build_improvement(city_owner(pcity), pcity->currently_building)) {
+	  && can_player_build_improvement(city_owner(pcity), pcity->production.value)) {
 	notify_conn_ex(dest, pcity->tile,
 		       E_WONDER_WILL_BE_BUILT,
 		       _("Notice: Wonder %s in %s will be finished"
 			 " next turn."), 
-		       get_improvement_name(pcity->currently_building),
+		       get_improvement_name(pcity->production.value),
 		       pcity->name);
       }
     } city_list_iterate_end;
@@ -326,7 +326,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 	&& get_current_construction_bonus(pcity, EFT_GROWTH_FOOD) > 0
 	&& pcity->surplus[O_SHIELD] > 0) {
       /* From the check above, the surplus must always be positive. */
-      turns_granary = (impr_build_shield_cost(pcity->currently_building)
+      turns_granary = (impr_build_shield_cost(pcity->production.value)
 		       - pcity->shield_stock) / pcity->surplus[O_SHIELD];
       /* if growth and granary completion occur simultaneously, granary
 	 preserves food.  -AJS */
@@ -336,7 +336,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 			 E_CITY_GRAN_THROTTLE,
 			 _("Suggest throttling growth in %s to use %s "
 			   "(being built) more effectively."), pcity->name,
-		       get_improvement_name(pcity->currently_building));
+		       get_improvement_name(pcity->production.value));
       }
     }
 
@@ -470,7 +470,7 @@ static void city_increase_size(struct city *pcity)
       notify_player_ex(powner, pcity->tile, E_CITY_AQ_BUILDING,
 		       _("%s needs %s (being built) "
 			 "to grow any further."), pcity->name,
-		       get_improvement_name(pcity->currently_building));
+		       get_improvement_name(pcity->production.value));
     } else {
       notify_player_ex(powner, pcity->tile, E_CITY_AQUEDUCT,
 		       _("%s needs an improvement to grow any further."),
@@ -873,12 +873,12 @@ static void choose_build_target(struct player *pplayer,
 
   /* Try building the same thing again.  Repeat building doesn't require a
    * call to change_build_target, so just return. */
-  if (pcity->is_building_unit) {
+  if (pcity->production.is_unit) {
     /* We can build a unit again unless it's unique. */
-    if (!unit_type_flag(get_unit_type(pcity->currently_building), F_UNIQUE)) {
+    if (!unit_type_flag(get_unit_type(pcity->production.value), F_UNIQUE)) {
       return;
     }
-  } else if (can_build_improvement(pcity, pcity->currently_building)) {
+  } else if (can_build_improvement(pcity, pcity->production.value)) {
     /* We can build space and coinage again, and possibly others. */
     return;
   }
@@ -921,15 +921,15 @@ static void upgrade_building_prod(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   Impr_type_id upgrades_to = building_upgrades_to(pcity,
-						  pcity->currently_building);
+						  pcity->production.value);
 
   if (can_build_improvement(pcity, upgrades_to)) {
     notify_player_ex(pplayer, pcity->tile, E_UNIT_UPGRADED,
 		     _("Production of %s is upgraded to %s in %s."),
-		     get_improvement_type(pcity->currently_building)->name,
+		     get_improvement_type(pcity->production.value)->name,
 		     get_improvement_type(upgrades_to)->name,
 		     pcity->name);
-    pcity->currently_building = upgrades_to;
+    pcity->production.value = upgrades_to;
   }
 }
 
@@ -967,11 +967,11 @@ static struct unit_type *unit_upgrades_to(struct city *pcity,
 static void upgrade_unit_prod(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
-  struct unit_type *id = get_unit_type(pcity->currently_building);
+  struct unit_type *id = get_unit_type(pcity->production.value);
   struct unit_type *id2 = unit_upgrades_to(pcity, id);
 
   if (id2 && can_build_unit_direct(pcity, id2)) {
-    pcity->currently_building = id2->index;
+    pcity->production.value = id2->index;
     notify_player_ex(pplayer, pcity->tile, E_UNIT_UPGRADED, 
 		  _("Production of %s is upgraded to %s in %s."),
 		  id->name, id2->name, 
@@ -1040,7 +1040,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
   bool space_part;
   int mod;
-  Impr_type_id id = pcity->currently_building;
+  Impr_type_id id = pcity->production.value;
   struct impr_type *building = get_improvement_type(id);
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
@@ -1165,7 +1165,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   struct unit_type *utype;
 
   upgrade_unit_prod(pcity);
-  utype = get_unit_type(pcity->currently_building);
+  utype = get_unit_type(pcity->production.value);
 
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
@@ -1229,7 +1229,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		     /* TRANS: <city> is finished building <unit/building>. */
 		     _("%s is finished building %s."),
 		     pcity->name,
-		     get_unit_type(pcity->currently_building)->name);
+		     get_unit_type(pcity->production.value)->name);
 
     script_signal_emit("unit_built",
 		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
@@ -1254,7 +1254,7 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
   nullify_caravan_and_disband_plus(pcity);
   define_orig_production_values(pcity);
 
-  if (!pcity->is_building_unit) {
+  if (!pcity->production.is_unit) {
     return city_build_building(pplayer, pcity);
   } else {
     return city_build_unit(pplayer, pcity);
@@ -1409,8 +1409,8 @@ static void define_orig_production_values(struct city *pcity)
    * city have been dedicated toward the project that was chosen last turn,
    * so the player shouldn't be penalized if the governor has to pick
    * something different.  See city_change_production_penalty(). */
-  pcity->changed_from_id = pcity->currently_building;
-  pcity->changed_from_is_unit = pcity->is_building_unit;
+  pcity->changed_from_id = pcity->production.value;
+  pcity->changed_from_is_unit = pcity->production.is_unit;
 
   freelog(LOG_DEBUG,
 	  "In %s, building %s.  Beg of Turn shields = %d",
@@ -1529,7 +1529,7 @@ static bool disband_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
   struct city *rcity=NULL;
-  struct unit_type *utype = get_unit_type(pcity->currently_building);
+  struct unit_type *utype = get_unit_type(pcity->production.value);
 
   /* find closest city other than pcity */
   rcity = find_closest_owned_city(pplayer, ptile, FALSE, pcity);
@@ -1562,7 +1562,7 @@ static bool disband_city(struct city *pcity)
 		   /* TRANS: Settler production leads to disbanded city. */
 		   _("%s is disbanded into %s."), 
 		   pcity->name,
-		   get_unit_type(pcity->currently_building)->name);
+		   get_unit_type(pcity->production.value)->name);
   gamelog(GAMELOG_DISBANDCITY, pcity);
 
   remove_city(pcity);

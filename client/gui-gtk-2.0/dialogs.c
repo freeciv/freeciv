@@ -966,7 +966,7 @@ void popup_caravan_dialog(struct unit *punit,
 
   if (unit_can_help_build_wonder(punit, pdestcity)) {
     my_snprintf(wonder, sizeof(wonder), _("Help build _Wonder (%d remaining)"),
-	impr_build_shield_cost(pdestcity->currently_building)
+	impr_build_shield_cost(pdestcity->production.value)
 	- pdestcity->shield_stock);
     can_wonder = TRUE;
   } else {

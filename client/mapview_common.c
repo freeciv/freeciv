@@ -1888,12 +1888,12 @@ struct city *find_city_near_tile(const struct tile *ptile)
 void get_city_mapview_production(struct city *pcity,
                                  char *buffer, size_t buffer_len)
 {
-  int turns = city_turns_to_build(pcity, pcity->currently_building,
-				  pcity->is_building_unit, TRUE);
+  int turns = city_turns_to_build(pcity, pcity->production.value,
+				  pcity->production.is_unit, TRUE);
 				
-  if (pcity->is_building_unit) {
+  if (pcity->production.is_unit) {
     struct unit_type *punit_type =
-		get_unit_type(pcity->currently_building);
+		get_unit_type(pcity->production.value);
     if (turns < 999) {
       my_snprintf(buffer, buffer_len, "%s %d",
                   punit_type->name, turns);
@@ -1903,7 +1903,7 @@ void get_city_mapview_production(struct city *pcity,
     }
   } else {
     struct impr_type *pimprovement_type =
-		get_improvement_type(pcity->currently_building);
+		get_improvement_type(pcity->production.value);
     if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
       my_snprintf(buffer, buffer_len, "%s", pimprovement_type->name);
     } else if (turns < 999) {

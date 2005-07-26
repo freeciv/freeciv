@@ -360,11 +360,11 @@ static const char *cr_entry_building(const struct city *pcity,
 	
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
-		get_impr_name_ex(pcity, pcity->currently_building),
+		get_impr_name_ex(pcity, pcity->production.value),
 		MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
   } else {
-    int turns = city_turns_to_build(pcity, pcity->currently_building,
-				    pcity->is_building_unit, TRUE);
+    int turns = city_turns_to_build(pcity, pcity->production.value,
+				    pcity->production.is_unit, TRUE);
     char time[32];
     const char *name;
     int cost;
@@ -375,12 +375,12 @@ static const char *cr_entry_building(const struct city *pcity,
       my_snprintf(time, sizeof(time), "-");
     }
 
-    if(pcity->is_building_unit) {
-      name = get_unit_type(pcity->currently_building)->name;
-      cost = unit_build_shield_cost(get_unit_type(pcity->currently_building));
+    if(pcity->production.is_unit) {
+      name = get_unit_type(pcity->production.value)->name;
+      cost = unit_build_shield_cost(get_unit_type(pcity->production.value));
     } else {
-      name = get_impr_name_ex(pcity, pcity->currently_building);
-      cost = impr_build_shield_cost(pcity->currently_building);
+      name = get_impr_name_ex(pcity, pcity->production.value);
+      cost = impr_build_shield_cost(pcity->production.value);
     }
 
     my_snprintf(buf, sizeof(buf), "%s (%d/%d/%s/%d)%s", name,

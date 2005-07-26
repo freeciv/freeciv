@@ -461,7 +461,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 **************************************************************************/
 int build_points_left(struct city *pcity)
 {
-  int cost = impr_build_shield_cost(pcity->currently_building);
+  int cost = impr_build_shield_cost(pcity->production.value);
 
   return cost - pcity->shield_stock;
 }
@@ -872,11 +872,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   } built_impr_iterate_end;
 
   /* Set production to something valid for pplayer, if not. */
-  if ((pcity->is_building_unit
+  if ((pcity->production.is_unit
        && !can_build_unit_direct(pcity,
-				 get_unit_type(pcity->currently_building)))
-      || (!pcity->is_building_unit
-          && !can_build_improvement(pcity, pcity->currently_building))) {
+				 get_unit_type(pcity->production.value)))
+      || (!pcity->production.is_unit
+          && !can_build_improvement(pcity, pcity->production.value))) {
     advisor_choose_build(ptaker, pcity);
   } 
 
@@ -1569,8 +1569,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->pollution=pcity->pollution;
   packet->city_options = pcity->city_options;
   
-  packet->is_building_unit=pcity->is_building_unit;
-  packet->currently_building=pcity->currently_building;
+  packet->production_is_unit = pcity->production.is_unit;
+  packet->production_value = pcity->production.value;
 
   packet->turn_last_built=pcity->turn_last_built;
   packet->turn_founded = pcity->turn_founded;
@@ -1787,13 +1787,13 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   const char *source;
 
   /* If the city is already building this thing, don't do anything */
-  if (pcity->is_building_unit == is_unit &&
-      pcity->currently_building == target) {
+  if (pcity->production.is_unit == is_unit &&
+      pcity->production.value == target) {
     return;
   }
 
   /* Is the city no longer building a wonder? */
-  if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building) &&
+  if (!pcity->production.is_unit && is_great_wonder(pcity->production.value) &&
       (event != E_IMP_AUTO && event != E_WORKLIST)) {
     /* If the build target is changed because of an advisor's suggestion or
        because the worklist advances, then the wonder was completed -- 
@@ -1802,7 +1802,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
     notify_player_ex(NULL, pcity->tile, E_WONDER_STOPPED,
 		     _("The %s have stopped building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
-		     get_impr_name_ex(pcity, pcity->currently_building),
+		     get_impr_name_ex(pcity, pcity->production.value),
 		     pcity->name);
   }
 
@@ -1811,14 +1811,14 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   pcity->shield_stock = city_change_production_penalty(pcity, target, is_unit);
 
   /* Change build target. */
-  pcity->currently_building = target;
-  pcity->is_building_unit = is_unit;
+  pcity->production.value = target;
+  pcity->production.is_unit = is_unit;
 
   /* What's the name of the target? */
   if (is_unit)
-    name = get_unit_type(pcity->currently_building)->name;
+    name = get_unit_type(pcity->production.value)->name;
   else
-    name = get_improvement_name(pcity->currently_building);
+    name = get_improvement_name(pcity->production.value);
 
   switch (event) {
     case E_WORKLIST: source = _(" from the worklist"); break;
@@ -1845,11 +1845,11 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */
-  if (!pcity->is_building_unit && is_great_wonder(pcity->currently_building)) {
+  if (!pcity->production.is_unit && is_great_wonder(pcity->production.value)) {
     notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
 		     _("The %s have started building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
-		     get_impr_name_ex(pcity, pcity->currently_building),
+		     get_impr_name_ex(pcity, pcity->production.value),
 		     pcity->name);
   }
 }

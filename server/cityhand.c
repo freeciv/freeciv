@@ -230,25 +230,25 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
   }
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
-    assert(!pcity->is_building_unit);
+    assert(!pcity->production.is_unit);
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
                      _("You don't buy %s!"),
-		     get_improvement_name(pcity->currently_building));
+		     get_improvement_name(pcity->production.value));
     return;
   }
 
-  if (pcity->is_building_unit && pcity->anarchy != 0) {
+  if (pcity->production.is_unit && pcity->anarchy != 0) {
     notify_player_ex(pplayer, pcity->tile, E_NOEVENT, 
 		     _("Can't buy units when city is in disorder."));
     return;
   }
 
-  if (pcity->is_building_unit) {
-    name = get_unit_type(pcity->currently_building)->name;
-    total = unit_build_shield_cost(get_unit_type(pcity->currently_building));
+  if (pcity->production.is_unit) {
+    name = get_unit_type(pcity->production.value)->name;
+    total = unit_build_shield_cost(get_unit_type(pcity->production.value));
   } else {
-    name = get_improvement_name(pcity->currently_building);
-    total = impr_build_shield_cost(pcity->currently_building);
+    name = get_improvement_name(pcity->production.value);
+    total = impr_build_shield_cost(pcity->production.value);
   }
   cost = city_buy_cost(pcity);
   if (cost <= 0) {
@@ -341,8 +341,8 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
     return;
   }
 
-  if (pcity->is_building_unit == is_build_id_unit_id
-      && pcity->currently_building == build_id) {
+  if (pcity->production.is_unit == is_build_id_unit_id
+      && pcity->production.value == build_id) {
     /* The client probably shouldn't send such a packet. */
     return;
   }

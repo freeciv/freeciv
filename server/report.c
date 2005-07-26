@@ -307,7 +307,7 @@ void report_wonders_of_the_world(struct conn_list *dest)
     if (is_great_wonder(i)) {
       players_iterate(pplayer) {
 	city_list_iterate(pplayer->cities, pcity) {
-	  if (pcity->currently_building == i && !pcity->is_building_unit) {
+	  if (pcity->production.value == i && !pcity->production.is_unit) {
 	    cat_snprintf(buffer, sizeof(buffer),
 			 _("(building %s in %s (%s))\n"),
 			 get_improvement_type(i)->name, pcity->name,

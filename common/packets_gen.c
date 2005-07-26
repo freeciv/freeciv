@@ -6433,15 +6433,15 @@ static struct packet_city_info *receive_packet_city_info_100(struct connection *
       real_packet->pollution = readin;
     }
   }
-  if (BV_ISSET(fields, 22)) {
+  real_packet->production_is_unit = BV_ISSET(fields, 22);
+  if (BV_ISSET(fields, 23)) {
     {
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->currently_building = readin;
+      real_packet->production_value = readin;
     }
   }
-  real_packet->is_building_unit = BV_ISSET(fields, 23);
   if (BV_ISSET(fields, 24)) {
     {
       int readin;
@@ -6806,13 +6806,13 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 21);}
 
-  differ = (old->currently_building != real_packet->currently_building);
+  differ = (old->production_is_unit != real_packet->production_is_unit);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(packet->production_is_unit) {BV_SET(fields, 22);}
 
-  differ = (old->is_building_unit != real_packet->is_building_unit);
+  differ = (old->production_value != real_packet->production_value);
   if(differ) {different++;}
-  if(packet->is_building_unit) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 23);}
 
   differ = (old->turn_last_built != real_packet->turn_last_built);
   if(differ) {different++;}
@@ -7058,10 +7058,10 @@ static int send_packet_city_info_100(struct connection *pc, const struct packet_
   if (BV_ISSET(fields, 21)) {
     dio_put_uint16(&dout, real_packet->pollution);
   }
-  if (BV_ISSET(fields, 22)) {
-    dio_put_uint8(&dout, real_packet->currently_building);
+  /* field 22 is folded into the header */
+  if (BV_ISSET(fields, 23)) {
+    dio_put_uint8(&dout, real_packet->production_value);
   }
-  /* field 23 is folded into the header */
   if (BV_ISSET(fields, 24)) {
     dio_put_sint16(&dout, real_packet->turn_last_built);
   }

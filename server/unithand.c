@@ -1197,7 +1197,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
 		   text, /* Must match arguments below. */
 		   unit_name(punit->type),
-		   get_improvement_type(pcity_dest->currently_building)->name,
+		   get_improvement_type(pcity_dest->production.value)->name,
 		   pcity_dest->name, 
 		   abs(build_points_left(pcity_dest)));
 

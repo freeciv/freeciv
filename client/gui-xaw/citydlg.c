@@ -1469,9 +1469,9 @@ void city_dialog_update_building(struct city_dialog *pdialog)
   XtSetSensitive(pdialog->sell_command, !pcity->did_sell);
 
   xaw_set_label(pdialog->building_label,
-		pcity->is_building_unit ?
-		  get_unit_type(pcity->currently_building)->name :
-		  get_impr_name_ex(pcity, pcity->currently_building));
+		pcity->production.is_unit ?
+		  get_unit_type(pcity->production.value)->name :
+		  get_impr_name_ex(pcity, pcity->production.value));
 
   get_contents_of_progress(pdialog, buf, sizeof(buf));
   xaw_set_label(pdialog->progress_label, buf);
@@ -1870,11 +1870,11 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   pdialog=(struct city_dialog *)client_data;
 
-  if(pdialog->pcity->is_building_unit) {
-    name=get_unit_type(pdialog->pcity->currently_building)->name;
+  if(pdialog->pcity->production.is_unit) {
+    name=get_unit_type(pdialog->pcity->production.value)->name;
   }
   else {
-    name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
+    name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->production.value);
   }
   value=city_buy_cost(pdialog->pcity);
  
@@ -2190,8 +2190,8 @@ void commit_city_worklist(struct worklist *pwl, void *data)
     int same_as_current_build;
     if (! worklist_peek_ith(pwl, &id, &is_unit, k))
       break;
-    same_as_current_build = id == pdialog->pcity->currently_building
-      && is_unit == pdialog->pcity->is_building_unit;
+    same_as_current_build = id == pdialog->pcity->production.value
+      && is_unit == pdialog->pcity->production.is_unit;
 
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is

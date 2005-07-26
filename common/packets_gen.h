@@ -261,8 +261,8 @@ struct packet_city_info {
   int trade[NUM_TRADEROUTES];
   int trade_value[NUM_TRADEROUTES];
   int pollution;
-  int currently_building;
-  bool is_building_unit;
+  bool production_is_unit;
+  int production_value;
   int turn_last_built;
   int changed_from_id;
   bool changed_from_is_unit;

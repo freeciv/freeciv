@@ -180,10 +180,10 @@ bool unit_can_help_build_wonder(const struct unit *punit,
 
   return (unit_flag(punit, F_HELP_WONDER)
 	  && punit->owner == pcity->owner
-	  && !pcity->is_building_unit
-	  && is_wonder(pcity->currently_building)
+	  && !pcity->production.is_unit
+	  && is_wonder(pcity->production.value)
 	  && (pcity->shield_stock
-	      < impr_build_shield_cost(pcity->currently_building)));
+	      < impr_build_shield_cost(pcity->production.value)));
 }
 
 

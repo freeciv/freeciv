@@ -394,10 +394,10 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
   
-  if (pcity->is_building_unit) {
-    descr = get_unit_type(pcity->currently_building)->name;
+  if (pcity->production.is_unit) {
+    descr = get_unit_type(pcity->production.value)->name;
   } else {
-    descr = get_impr_name_ex(pcity, pcity->currently_building);
+    descr = get_impr_name_ex(pcity, pcity->production.value);
   }
 
   my_snprintf(buf2, sizeof(buf2), "%s\r\n%s", descr, buf);
@@ -889,11 +889,11 @@ static void buy_callback(struct city_dialog *pdialog)
   int value;
   const char *name;
   char buf[512];    
-   if(pdialog->pcity->is_building_unit) {
-    name=get_unit_type(pdialog->pcity->currently_building)->name;
+   if(pdialog->pcity->production.is_unit) {
+    name=get_unit_type(pdialog->pcity->production.value)->name;
   }
   else {
-    name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->currently_building);
+    name=get_impr_name_ex(pdialog->pcity, pdialog->pcity->production.value);
   }
   value=city_buy_cost(pdialog->pcity);
  
@@ -1146,8 +1146,8 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
     if (!worklist_peek_ith(pwl, &id, &is_unit, k))
       break;
 
-    same_as_current_build = id == pdialog->pcity->currently_building
-        && is_unit == pdialog->pcity->is_building_unit;
+    same_as_current_build = id == pdialog->pcity->production.value
+        && is_unit == pdialog->pcity->production.is_unit;
 
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is

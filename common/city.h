@@ -131,6 +131,11 @@ struct output_type {
   enum output_unhappy_penalty unhappy_penalty;
 };
 
+struct city_production {
+  bool is_unit;
+  int value; /* Unit_type_id or Impr_type_id */
+};
+
 enum choice_type { CT_NONE = 0, CT_BUILDING = 0, CT_NONMIL, CT_ATTACKER,
                    CT_DEFENDER, CT_LAST };
 
@@ -240,10 +245,9 @@ struct city {
   int pollution;
   /* city can't be incited if INCITE_IMPOSSIBLE_COST */
   int incite_revolt_cost;      
-   
-  bool is_building_unit;    /* boolean unit/improvement */
-  int currently_building;
-  
+
+  struct city_production production;
+
   Impr_Status improvements[B_LAST];
 
   struct worklist worklist;

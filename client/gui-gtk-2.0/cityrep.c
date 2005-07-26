@@ -976,11 +976,11 @@ static void city_select_building_callback(GtkMenuItem *item, gpointer data)
     itree_get(&it, 0, &res, -1);
     pcity = res;
 
-    if ( (which == TYPE_UNIT && pcity->is_building_unit)
-         || (which == TYPE_NORMAL_IMPROVEMENT && !pcity->is_building_unit
-             && !is_wonder(pcity->currently_building))
-         || (which == TYPE_WONDER && !pcity->is_building_unit
-             && is_wonder(pcity->currently_building)) ) {
+    if ( (which == TYPE_UNIT && pcity->production.is_unit)
+         || (which == TYPE_NORMAL_IMPROVEMENT && !pcity->production.is_unit
+             && !is_wonder(pcity->production.value))
+         || (which == TYPE_WONDER && !pcity->production.is_unit
+             && is_wonder(pcity->production.value)) ) {
       itree_select(city_selection, &it);
     }
   }
