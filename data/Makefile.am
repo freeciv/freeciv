@@ -33,6 +33,7 @@ pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 # Freeciv.rc was originally for gui-gtk but is also used by gui-sdl
 EXTRA_DIST = \
 	Freeciv	\
+	freeciv-client.png \
 	freeciv.rc	\
 	freeciv.rc-2.0	\
 	isophex.tilespec	\
@@ -56,5 +57,14 @@ SERVERDATADIRS = default civ1 civ2 scenario nation history
 else
 SERVERDATADIRS = 
 endif
+
+if CLIENT
+ICONS = freeciv-client.png
+else
+ICONS = 
+endif
+
+icondir = $(prefix)/share/pixmaps
+icon_DATA=$(ICONS)
 
 SUBDIRS = $(CLIENTDATADIRS) $(SERVERDATADIRS)
