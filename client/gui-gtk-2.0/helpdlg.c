@@ -750,7 +750,7 @@ static void help_update_wonder(const struct help_item *pitem,
      * definition. */
     i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
-      gtk_label_set_text(GTK_LABEL(help_ilabel[3 + i]),
+      gtk_label_set_text(GTK_LABEL(help_wlabel[3 + i]),
 			 get_req_source_text(&preq->source,
 					     req_buf, sizeof(req_buf)));
       i++;
