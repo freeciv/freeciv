@@ -968,7 +968,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
       w = gtk_label_new(_("Allows"));
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
-      w = help_slink_new(get_unit_type(j)->name, HELP_UNIT);
+      w = help_slink_new(punittype->name, HELP_UNIT);
       gtk_box_pack_start(GTK_BOX(hbox), w, FALSE, FALSE, 0);
       gtk_widget_show_all(hbox);
     } unit_type_iterate_end;
