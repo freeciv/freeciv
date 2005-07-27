@@ -2,7 +2,7 @@
 Welcome to Freeciv 2.0
 ======================
 
-This is release 2.0.3.
+This is release 2.0.4.
 
 Thanks again to all our developers, who continue to work so hard.
 
@@ -10,9 +10,20 @@ This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
 
+WHAT'S CHANGED SINCE 2.0.3
+ - Fix some buffer underruns on the terrain array (this bug could have
+   been the cause of arbitrary crashes on some platforms).
+ - Don't automatically pop up the city dialog when in observer mode.
+ - Treat an alt-left click the same as a middle click, to allow two-button
+   mice to work on windows (GTK-2 client).
+ - Fix a bug - when a city was transferred/conquered twice the client
+   sometimes wouldn't get an update about the second exchange.
+ - Fix the behavior of Granary and Pyramids in the Civ2 compatibility ruleset.
+ - Fix Pyramids so they are no longer cumulative with Granary.
+ - Fix a minor bug that prevented 2.0 savegames from working properly with
+   1.14 Freeciv.
 
 WHAT'S CHANGED SINCE 2.0.2
-
  - Fix some bugs that show up on 64-bit machines.
  - Fix some bugs with future techs in some situations.
  - Fix some bugs that allowed naval units onto land.
