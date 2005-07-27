@@ -257,6 +257,10 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     else if (ptile && (ev->state & GDK_SHIFT_MASK)) {
       clipboard_copy_production(ptile);
     }
+    /* <ALT> + LMB: popit (same as middle-click) */
+    else if (ptile && (ev->state & GDK_MOD1_MASK)) {
+      popit(ev, ptile);
+    }
     /* LMB in Area Selection mode. */
     else if(tiles_hilited_cities) {
       if (ptile) {
