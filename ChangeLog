@@ -1,3 +1,101 @@
+Wed Jul 27 20:43:11 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* doc/BUGS:
+
+	Bump version to 2.0.4 in BUGS file.
+
+Wed Jul 27 20:39:10 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* NEWS:
+
+	Update NEWS for 2.0.4.
+
+Wed Jul 27 20:28:03 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/version.h, version.in:
+
+	Bump version to 2.0.4.
+
+Wed Jul 27 20:22:14 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/gui-gtk-2.0/mapctrl.c:
+
+	Backport: treat an alt-left-click the same as a middle-click.
+
+	Patch by me in PR#13542. Bug reported by many on the mailing
+	lists.
+
+Tue Jul 26 09:15:04 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* data/nation/polish.ruleset:
+
+	Backport: Fix spelling
+
+Sat Jul 23 13:46:46 2005  Dusan Hokuv,cs Translator <dusan@mirc.cz>:
+
+	* po/cs.po:
+
+	updates, fixes
+
+Sat Jul 23 07:34:23 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* data/civ2/buildings.ruleset, data/default/buildings.ruleset,
+	data/history/buildings.ruleset:
+
+	Fix granary and pyramids behavior in default, civ2, and history
+	rulesets (previously granary and pyramids were cumulative, and
+	Pyramids simply didn't work in the civ2 and history rulesets).
+
+	Reported by John Soltow <jasoltow@comcast.net> in PR#13399. Patch
+	by me.
+
+Sat Jul 23 07:11:42 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/packets_gen.c:
+
+	Rerun packet generator.
+
+Sat Jul 23 07:06:31 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/packets.def:
+
+	Remove the is-info tags from the two city packets. This could
+	cause bugs when cities were transferred twice since the second
+	update might not be sent.
+
+	Reported by Benoit Hudson in PR#13437. Patch by me.
+
+Thu Jul 21 19:32:05 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/gui-gtk-2.0/helpdlg.c, client/gui-win32/helpdlg.c,
+	client/gui-xaw/helpdlg.c, client/helpdata.c, client/packhand.c,
+	common/game.c, common/map.c, common/map.h, common/terrain.c,
+	common/terrain.h, server/generator/mapgen.c, server/ruleset.c,
+	server/savegame.c:
+
+	Fix bugs with dereferencing of T_UNKNOWN, by changing such
+	dereferences to be harmless: - The tile_types[] array is hidden.
+	All users are changed to use get_tile_type(). - get_tile_type
+	returns a dummy tile_type for T_UNKNOWN references.
+
+	Patch by me in PR#13488.
+
+Thu Jul 21 18:26:16 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/savegame.c:
+
+	Backport: fix a bug in loading of buildings from pre-2.0
+	savegames.
+
+	Reported by me in PR#13489. Patch by Mateusz Stefek.
+
+Thu Jul 14 07:00:29 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/packhand.c:
+
+	Backport: Don't popup city dialog in observer mode when the city
+	is founded or conquered. Patch by me in PR#13466
+
 Tue Jul 12 04:17:06 2005  Jason Short <jdorje@users.sourceforge.net>:
 
 	* doc/PEOPLE:
