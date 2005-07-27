@@ -28,7 +28,7 @@
 #define MINOR_VERSION		0
 #endif
 #ifndef PATCH_VERSION
-#define PATCH_VERSION		3
+#define PATCH_VERSION		4
 #endif
 #ifndef VERSION_LABEL
 #define VERSION_LABEL		""
