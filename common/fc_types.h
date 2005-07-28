@@ -14,6 +14,8 @@
 #ifndef FC__FC_TYPES_H
 #define FC__FC_TYPES_H
 
+#include "shared.h" /* For bool typedef */
+
 /* This file serves to reduce the cross-inclusion of header files which
  * occurs when a type which is defined in one file is needed for a fuction
  * definition in another file.
@@ -53,6 +55,11 @@ enum output_type_id {
 };
 #define O_COUNT num_output_types
 #define O_MAX O_LAST /* Changing this breaks network compatibility. */
+
+struct city_production {
+  bool is_unit;
+  int value; /* Unit_type_id or Impr_type_id */
+};
 
 /* Some integers here could be uint8 values perhaps, but this is probably
  * not worth it.  Storage space is not an issue for these types. */

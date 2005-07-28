@@ -183,7 +183,7 @@
    pre-1.13.0 savegames is broken: startoptions, spacerace2
    and rulesets */
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
-" diplchance_percent worklists2 map_editor known32fix turn " \
+" diplchance_percent map_editor known32fix turn " \
 "attributes watchtower rulesetdir client_worklists orders " \
 "startunits turn_last_built improvement_order technology_order embassies " \
 "owner_player_map"
@@ -1373,124 +1373,6 @@ static const char* old_government_name(int id)
   }
 }
 
-
-/***************************************************************
-Load the worklist elements specified by path, given the arguments
-plrno and wlinx, into the worklist pointed to by pwl.
-***************************************************************/
-static void worklist_load(struct section_file *file,
-			  const char *path, int plrno, int wlinx,
-			  struct worklist *pwl)
-{
-  char efpath[64];
-  char idpath[64];
-  char namepath[64];
-  int i;
-  bool end = FALSE;
-  const char* name;
-
-  sz_strlcpy(efpath, path);
-  sz_strlcat(efpath, ".wlef%d");
-  sz_strlcpy(idpath, path);
-  sz_strlcat(idpath, ".wlid%d");
-  sz_strlcpy(namepath, path);
-  sz_strlcat(namepath, ".wlname%d");
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    if (end) {
-      pwl->wlefs[i] = WEF_END;
-      pwl->wlids[i] = 0;
-      (void) section_file_lookup(file, efpath, plrno, wlinx, i);
-      (void) section_file_lookup(file, idpath, plrno, wlinx, i);
-    } else {
-      pwl->wlefs[i] =
-	secfile_lookup_int_default(file, WEF_END, efpath, plrno, wlinx, i);
-      name = secfile_lookup_str_default(file, NULL, namepath, plrno, wlinx, i);
-
-      if (pwl->wlefs[i] == WEF_UNIT) {
-	struct unit_type *type;
-
-	if (!name) {
-	    /* before 1.15.0 unit types used to be saved by id */
-	    name = old_unit_type_name(secfile_lookup_int(file, idpath,
-							 plrno, wlinx, i));
-	}
-
-	type = find_unit_type_by_name_orig(name);
-	if (!type) {
-	  freelog(LOG_ERROR, _("Unknown unit type '%s' in worklist"),
-		  name);
-	  exit(EXIT_FAILURE);
-	}
-	pwl->wlids[i] = type->index;
-      } else if (pwl->wlefs[i] == WEF_IMPR) {
-	Impr_type_id type;
-
-	if (!name) {
-	  name = old_impr_type_name(secfile_lookup_int(file, idpath,
-						       plrno, wlinx, i));
-	}
-
-	type = find_improvement_by_name_orig(name);
-	if (type == B_LAST) {
-	  freelog(LOG_ERROR, _("Unknown improvement type '%s' in worklist"),
-	           name);
-	}
-	pwl->wlids[i] = type;
-      }
-
-      if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
-	  pwl->wlefs[i] == WEF_UNIT ||
-	  ((pwl->wlefs[i] == WEF_IMPR) && !improvement_exists(pwl->wlids[i]))) {
-	pwl->wlefs[i] = WEF_END;
-	pwl->wlids[i] = 0;
-	end = TRUE;
-      }
-    }
-  }
-}
-
-/***************************************************************
-Load the worklist elements specified by path, given the arguments
-plrno and wlinx, into the worklist pointed to by pwl.
-Assumes original save-file format.  Use for backward compatibility.
-***************************************************************/
-static void worklist_load_old(struct section_file *file,
-			      const char *path, int plrno, int wlinx,
-			      struct worklist *pwl)
-{
-  int i, id;
-  bool end = FALSE;
-  const char* name;
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    if (end) {
-      pwl->wlefs[i] = WEF_END;
-      pwl->wlids[i] = 0;
-      (void) section_file_lookup(file, path, plrno, wlinx, i);
-    } else {
-      id = secfile_lookup_int_default(file, -1, path, plrno, wlinx, i);
-
-      if ((id < 0) || (id >= 284)) { /* 284 was flag value for end of list */
-	pwl->wlefs[i] = WEF_END;
-	pwl->wlids[i] = 0;
-	end = TRUE;
-      } else if (id >= 68) {		/* 68 was offset to unit ids */
-	name = old_unit_type_name(id-68);
-	pwl->wlefs[i] = WEF_UNIT;
-	pwl->wlids[i] = find_unit_type_by_name_orig(name)->index;
-	end = (pwl->wlids[i] < 0 || pwl->wlids[i] >= game.control.num_unit_types);
-      } else {				/* must be an improvement id */
-	name = old_impr_type_name(id);
-	pwl->wlefs[i] = WEF_IMPR;
-	pwl->wlids[i] = find_improvement_by_name_orig(name);
-	end = !improvement_exists(pwl->wlids[i]);
-      }
-    }
-  }
-
-}
-
 /****************************************************************************
   Loads the units for the given player.
 ****************************************************************************/
@@ -2337,12 +2219,7 @@ static void player_load(struct player *plr, int plrno,
     }
 
     init_worklist(&pcity->worklist);
-    if (has_capability("worklists2", savefile_options)) {
-      worklist_load(file, "player%d.c%d", plrno, i, &pcity->worklist);
-    } else {
-      worklist_load_old(file, "player%d.c%d.worklist%d",
-			plrno, i, &pcity->worklist);
-    }
+    worklist_load(file, &pcity->worklist, "player%d.c%d", plrno, i);
 
     /* FIXME: remove this when the urgency is properly recalculated. */
     pcity->ai.urgency = secfile_lookup_int_default(file, 0, 
@@ -2574,59 +2451,6 @@ static void player_map_load(struct player *plr, int plrno,
 	  update_dumb_city(plr, pcity);
       }
     } whole_map_iterate_end;
-  }
-}
-
-/***************************************************************
-Save the worklist elements specified by path, given the arguments
-plrno and wlinx, from the worklist pointed to by pwl.
-***************************************************************/
-static void worklist_save(struct section_file *file,
-			  const char *path, int plrno, int wlinx,
-			  struct worklist *pwl)
-{
-  char efpath[64];
-  char idpath[64];
-  char namepath[64];
-  int i;
-
-  sz_strlcpy(efpath, path);
-  sz_strlcat(efpath, ".wlef%d");
-  sz_strlcpy(idpath, path);
-  sz_strlcat(idpath, ".wlid%d");
-  sz_strlcpy(namepath, path);
-  sz_strlcat(namepath, ".wlname%d");
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    secfile_insert_int(file, pwl->wlefs[i], efpath, plrno, wlinx, i);
-    if (pwl->wlefs[i] == WEF_UNIT) {
-      secfile_insert_int(file,
-			 old_unit_type_id(get_unit_type(pwl->wlids[i])),
-			 idpath,
-			 plrno, wlinx, i);
-      secfile_insert_str(file,
-			 unit_name_orig(get_unit_type(pwl->wlids[i])),
-			 namepath, plrno,
-			 wlinx, i);
-    } else if (pwl->wlefs[i] == WEF_IMPR) {
-      secfile_insert_int(file, pwl->wlids[i], idpath, plrno, wlinx, i);
-      secfile_insert_str(file, get_improvement_name_orig(pwl->wlids[i]),
-			 namepath, plrno, wlinx, i);
-    } else {
-      secfile_insert_int(file, 0, idpath, plrno, wlinx, i);
-      secfile_insert_str(file, "", namepath, plrno, wlinx, i);
-    }
-    if (pwl->wlefs[i] == WEF_END) {
-      break;
-    }
-  }
-
-  /* Fill out remaining worklist entries. */
-  for (i++; i < MAX_LEN_WORKLIST; i++) {
-    /* These values match what worklist_load fills in for unused entries. */
-    secfile_insert_int(file, WEF_END, efpath, plrno, wlinx, i);
-    secfile_insert_int(file, 0, idpath, plrno, wlinx, i);
-    secfile_insert_str(file, "", namepath, plrno, wlinx, i);
   }
 }
 
@@ -3087,7 +2911,7 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_str(file, impr_buf,
 		       "player%d.c%d.improvements_new", plrno, i);    
 
-    worklist_save(file, "player%d.c%d", plrno, i, &pcity->worklist);
+    worklist_save(file, &pcity->worklist, "player%d.c%d", plrno, i);
 
     /* FIXME: remove this when the urgency is properly recalculated. */
     secfile_insert_int(file, pcity->ai.urgency,

@@ -131,11 +131,6 @@ struct output_type {
   enum output_unhappy_penalty unhappy_penalty;
 };
 
-struct city_production {
-  bool is_unit;
-  int value; /* Unit_type_id or Impr_type_id */
-};
-
 enum choice_type { CT_NONE = 0, CT_BUILDING = 0, CT_NONMIL, CT_ATTACKER,
                    CT_DEFENDER, CT_LAST };
 

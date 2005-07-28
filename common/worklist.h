@@ -13,25 +13,20 @@
 #ifndef FC__WORKLIST_H
 #define FC__WORKLIST_H
 
+#include "registry.h"
 #include "shared.h"		/* MAX_LEN_NAME */
+
+#include "fc_types.h"
 
 #define MAX_LEN_WORKLIST 16
 #define MAX_NUM_WORKLISTS 16
 
-/* worklist element flags */
-enum worklist_elem_flag {
-  WEF_END,	/* element is past end of list */
-  WEF_UNIT,	/* element specifies a unit to be built */
-  WEF_IMPR,	/* element specifies an improvement to be built */
-  WEF_LAST	/* leave this last */
-};
-
 /* a worklist */
 struct worklist {
   bool is_valid;
+  int length;
   char name[MAX_LEN_NAME];
-  enum worklist_elem_flag wlefs[MAX_LEN_WORKLIST];
-  int wlids[MAX_LEN_WORKLIST];
+  struct city_production entries[MAX_LEN_WORKLIST];
 };
 
 void init_worklist(struct worklist *pwl);
@@ -49,6 +44,16 @@ bool worklist_append(struct worklist *pwl, int id, bool is_unit);
 bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx);
 bool are_worklists_equal(const struct worklist *wlist1,
 			 const struct worklist *wlist2);
+
+/* Functions to load and save a worklist from a registry file.  The path
+ * is a printf-style string giving the registry prefix (which must be
+ * the same for saving and loading). */
+void worklist_load(struct section_file *file, struct worklist *pwl,
+		   const char *path, ...)
+  fc__attribute((format (printf, 3, 4)));
+void worklist_save(struct section_file *file, struct worklist *pwl,
+		   const char *path, ...)
+  fc__attribute((format (printf, 3, 4)));
 
 /* Iterate over all entries in the worklist.  Note the 'id' parameter
  * comes before the 'is_unit' one. */

@@ -350,13 +350,6 @@ static void save_cma_preset(struct section_file *file, char *name,
 			    int inx);
 static void load_cma_preset(struct section_file *file, int inx);
 
-static void save_global_worklist(struct section_file *file, const char *path, 
-                                 int wlinx, struct worklist *pwl);
-
-static void load_global_worklist(struct section_file *file, const char *path,
-				 int wlinx, struct worklist *pwl);
-
-
 /****************************************************************
  The "options" file handles actual "options", and also view options,
  message options, city report settings, cma settings, and 
@@ -506,14 +499,8 @@ void load_ruleset_specific_options(void)
 
   /* load global worklists */
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    game.player_ptr->worklists[i].is_valid =
-	secfile_lookup_bool_default(&sf, FALSE,
-				    "worklists.worklist%d.is_valid", i);
-    strcpy(game.player_ptr->worklists[i].name,
-           secfile_lookup_str_default(&sf, "",
-                                      "worklists.worklist%d.name", i));
-    load_global_worklist(&sf, "worklists.worklist%d", i, 
-                         &(game.player_ptr->worklists[i]));
+    worklist_load(&sf, &(game.player_ptr->worklists[i]),
+		  "worklists.worklist%d", i);
   }
 
   /* Load city report columns (which include some ruleset data). */
@@ -587,12 +574,8 @@ void save_options(void)
   /* insert global worklists */
   for(i = 0; i < MAX_NUM_WORKLISTS; i++){
     if (game.player_ptr->worklists[i].is_valid) {
-      secfile_insert_bool(&sf, game.player_ptr->worklists[i].is_valid,
-			  "worklists.worklist%d.is_valid", i);
-      secfile_insert_str(&sf, game.player_ptr->worklists[i].name,
-                         "worklists.worklist%d.name", i);
-      save_global_worklist(&sf, "worklists.worklist%d", i, 
-                           &(game.player_ptr->worklists[i]));
+      worklist_save(&sf, &(game.player_ptr->worklists[i]),
+		    "worklists.worklist%d", i);
     }
   }
 
@@ -664,68 +647,6 @@ static void save_cma_preset(struct section_file *file, char *name,
 		      "cma.preset%d.reqhappy", inx);
   secfile_insert_int(file, pparam->happy_factor,
 		     "cma.preset%d.happyfactor", inx);
-}
-
-/****************************************************************
- loads global worklist from rc file
-*****************************************************************/
-static void load_global_worklist(struct section_file *file, const char *path,
-				 int wlinx, struct worklist *pwl)
-{
-  char efpath[64];
-  char idpath[64];
-  int i;
-  bool end = FALSE;
-
-  sz_strlcpy(efpath, path);
-  sz_strlcat(efpath, ".wlef%d");
-  sz_strlcpy(idpath, path);
-  sz_strlcat(idpath, ".wlid%d");
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    if (end) {
-      pwl->wlefs[i] = WEF_END;
-      pwl->wlids[i] = 0;
-      section_file_lookup(file, efpath, wlinx, i);
-      section_file_lookup(file, idpath, wlinx, i);
-    } else {
-      pwl->wlefs[i] =
-        secfile_lookup_int_default(file, WEF_END, efpath, wlinx, i);
-      pwl->wlids[i] =
-        secfile_lookup_int_default(file, 0, idpath,wlinx, i);
-
-      if ((pwl->wlefs[i] <= WEF_END) || (pwl->wlefs[i] >= WEF_LAST) ||
-          (pwl->wlefs[i] == WEF_UNIT
-	   && (pwl->wlids[i] < 0 || pwl->wlids[i] >= game.control.num_unit_types))
-	   || ((pwl->wlefs[i] == WEF_IMPR)
-	       && !improvement_exists(pwl->wlids[i]))) {
-        pwl->wlefs[i] = WEF_END;
-        pwl->wlids[i] = 0;
-        end = TRUE;
-      }
-    }
-  }
-}
-
-/****************************************************************
- saves global worklist to rc file
-*****************************************************************/
-static void save_global_worklist(struct section_file *file, const char *path,
-				 int wlinx, struct worklist *pwl)
-{
-  char efpath[64];
-  char idpath[64];
-  int i;
-
-  sz_strlcpy(efpath, path);
-  sz_strlcat(efpath, ".wlef%d");
-  sz_strlcpy(idpath, path);
-  sz_strlcat(idpath, ".wlid%d");
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    secfile_insert_int(file, pwl->wlefs[i], efpath, wlinx, i);
-    secfile_insert_int(file, pwl->wlids[i], idpath, wlinx, i);
-  }
 }
 
 /****************************************************************************

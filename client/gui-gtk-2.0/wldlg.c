@@ -481,15 +481,11 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
   if (pwl->is_valid) {
     int i;
 
-    for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+    for (i = 0; i < worklist_length(pwl); i++) {
       GtkTreeIter it;
       cid cid;
 
-      if (pwl->wlefs[i] == WEF_END) {
-	break;
-      }
-
-      cid = cid_encode(pwl->wlefs[i] == WEF_UNIT, pwl->wlids[i]);
+      cid = cid_encode(pwl->entries[i].is_unit, pwl->entries[i].value);
 
       gtk_list_store_append(ptr->dst, &it);
       gtk_list_store_set(ptr->dst, &it, 0, (gint) cid, -1);
@@ -1397,14 +1393,10 @@ void refresh_worklist(GtkWidget *editor)
     copy_worklist(&queue, pwl);
   }
 
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
+  for (i = 0; i < worklist_length(&queue); i++) {
     cid cid;
 
-    if (queue.wlefs[i] == WEF_END) {
-      break;
-    }
-
-    cid = cid_encode(queue.wlefs[i] == WEF_UNIT, queue.wlids[i]);
+    cid = cid_encode(queue.entries[i].is_unit, queue.entries[i].value);
 
     if (!exists) {
       gtk_list_store_append(ptr->dst, &it);
@@ -1478,8 +1470,8 @@ static void commit_worklist(struct worklist_data *ptr)
       }
 
       gtk_tree_model_get(model, &it, 0, &cid, -1);
-      queue.wlefs[i] = cid_is_unit(cid) ? WEF_UNIT : WEF_IMPR;
-      queue.wlids[i] = cid_id(cid);
+
+      worklist_append(&queue, cid_id(cid), cid_is_unit(cid));
 
       i++;
     } while (gtk_tree_model_iter_next(model, &it));

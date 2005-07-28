@@ -395,8 +395,8 @@ void dio_put_worklist(struct data_out *dout, const struct worklist *pwl)
 
     dio_put_uint8(dout, length);
     for (i = 0; i < length; i++) {
-      dio_put_uint8(dout, pwl->wlefs[i]);
-      dio_put_uint8(dout, pwl->wlids[i]);
+      dio_put_bool8(dout, pwl->entries[i].is_unit);
+      dio_put_uint8(dout, pwl->entries[i].value);
     }
   }
 }
@@ -646,22 +646,16 @@ void dio_get_worklist(struct data_in *din, struct worklist *pwl)
   if (pwl->is_valid) {
     int i, length;
 
-    strcpy(pwl->name,"xyz");
+    init_worklist(pwl);
 
     dio_get_uint8(din, &length);
-
-    if (length < MAX_LEN_WORKLIST) {
-      pwl->wlefs[length] = WEF_END;
-      pwl->wlids[length] = 0;
-    }
-
-    if (length > MAX_LEN_WORKLIST) {
-      length = MAX_LEN_WORKLIST;
-    }
-
     for (i = 0; i < length; i++) {
-      dio_get_uint8(din, (int *) &pwl->wlefs[i]);
-      dio_get_uint8(din, &pwl->wlids[i]);
+      bool is_unit;
+      int value;
+
+      dio_get_bool8(din, &is_unit);
+      dio_get_uint8(din, &value);
+      worklist_append(pwl, value, is_unit);
     }
   }
 }

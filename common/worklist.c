@@ -15,12 +15,14 @@
 #include <config.h>
 #endif
 
+#include <stdarg.h>
 #include <string.h>
 
-#include "city.h"
 #include "mem.h"
-#include "unit.h"
+#include "support.h"
 
+#include "city.h"
+#include "unit.h"
 #include "worklist.h"
 
 /****************************************************************
@@ -33,11 +35,12 @@ void init_worklist(struct worklist *pwl)
   int i;
 
   pwl->is_valid = TRUE;
+  pwl->length = 0;
   strcpy(pwl->name, "a worklist");
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    pwl->wlefs[i] = WEF_END;
-    pwl->wlids[i] = 0;
+    pwl->entries[i].is_unit = FALSE;
+    pwl->entries[i].value = -1;
   }
 }
 
@@ -48,15 +51,8 @@ void init_worklist(struct worklist *pwl)
 ****************************************************************************/
 int worklist_length(const struct worklist *pwl)
 {
-  int len = 0;
-
-  if (pwl) {
-    while (len < MAX_LEN_WORKLIST && pwl->wlefs[len] != WEF_END) {
-      len++;
-    }
-  }
-
-  return len;
+  assert(pwl->length >= 0 && pwl->length < MAX_LEN_WORKLIST);
+  return pwl->length;
 }
 
 /****************************************************************
@@ -64,7 +60,7 @@ int worklist_length(const struct worklist *pwl)
 ****************************************************************/
 bool worklist_is_empty(const struct worklist *pwl)
 {
-  return !pwl || pwl->wlefs[0] == WEF_END;
+  return !pwl || pwl->length == 0;
 }
 
 /****************************************************************
@@ -87,19 +83,15 @@ bool worklist_peek(const struct worklist *pwl, int *id, bool *is_unit)
 bool worklist_peek_ith(const struct worklist *pwl, int *id, bool *is_unit,
 		      int idx)
 {
-  int i;
-
   /* Out of possible bounds. */
-  if (idx < 0 || MAX_LEN_WORKLIST <= idx)
+  if (idx < 0 || pwl->length <= idx) {
+    *is_unit = FALSE;
+    *id = -1;
     return FALSE;
+  }
 
-  /* Worklist isn't long enough. */
-  for (i = 0; i <= idx; i++)
-    if (pwl->wlefs[i] == WEF_END)
-      return FALSE;
-
-  *is_unit = (pwl->wlefs[idx] == WEF_UNIT);
-  *id = pwl->wlids[idx];
+  *is_unit = pwl->entries[idx].is_unit;
+  *id = pwl->entries[idx].value;
 
   return TRUE;
 }
@@ -125,20 +117,20 @@ void copy_worklist(struct worklist *dst, const struct worklist *src)
 ****************************************************************/
 void worklist_remove(struct worklist *pwl, int idx)
 {
-  /* Don't try to remove something way outside of the worklist. */
-  if (idx < 0 || MAX_LEN_WORKLIST <= idx)
-    return;
+  int i;
 
-  /* Slide everything up one spot. */
-  if (idx < MAX_LEN_WORKLIST-1) {
-    memmove(&pwl->wlefs[idx], &pwl->wlefs[idx+1],
-	    sizeof(enum worklist_elem_flag) * (MAX_LEN_WORKLIST-1-idx));
-    memmove(&pwl->wlids[idx], &pwl->wlids[idx+1],
-	    sizeof(int) * (MAX_LEN_WORKLIST-1-idx));
+  /* Don't try to remove something way outside of the worklist. */
+  if (idx < 0 || pwl->length <= idx) {
+    return;
   }
 
-  pwl->wlefs[MAX_LEN_WORKLIST-1] = WEF_END;
-  pwl->wlids[MAX_LEN_WORKLIST-1] = 0;
+  /* Slide everything up one spot. */
+  for (i = idx; i < pwl->length - 1; i++) {
+    pwl->entries[i] = pwl->entries[i + 1];
+  }
+  pwl->entries[pwl->length - 1].is_unit = FALSE;
+  pwl->entries[pwl->length - 1].value = -1;
+  pwl->length--;
 }
 
 /****************************************************************************
@@ -153,14 +145,10 @@ bool worklist_append(struct worklist *pwl, int id, bool is_unit)
   if (next_index >= MAX_LEN_WORKLIST) {
     return FALSE;
   }
-  
-  pwl->wlefs[next_index] = (is_unit ? WEF_UNIT : WEF_IMPR);
-  pwl->wlids[next_index] = id;
-  
-  if (next_index + 1 < MAX_LEN_WORKLIST) {
-    pwl->wlefs[next_index + 1] = WEF_END;
-    pwl->wlids[next_index + 1] = 0;
-  }
+
+  pwl->entries[next_index].is_unit = is_unit;
+  pwl->entries[next_index].value = id;
+  pwl->length++;
 
   return TRUE;
 }
@@ -173,32 +161,24 @@ bool worklist_append(struct worklist *pwl, int id, bool is_unit)
 ****************************************************************************/
 bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx)
 {
-  int len = worklist_length(pwl);
+  int new_len = MIN(pwl->length + 1, MAX_LEN_WORKLIST), i;
 
-  if (len >= MAX_LEN_WORKLIST || idx > len) {
-    /* NOTE: the insert will fail rather than just dropping the last item. */
+  if (idx < 0 || idx > pwl->length) {
     return FALSE;
   }
 
   /* move all active values down an index to get room for new id
-   * move from [idx .. len - 1] to [idx + 1 .. len].
-   * Don't copy WEF_END (the terminator) because that might end up outside of
-   * the list. */
-  memmove(&pwl->wlefs[idx + 1], &pwl->wlefs[idx],
-	  sizeof(pwl->wlefs[0]) * (len - idx));
-  memmove(&pwl->wlids[idx + 1], &pwl->wlids[idx],
-	  sizeof(pwl->wlids[0]) * (len - idx));
-  
-  pwl->wlefs[idx] = (is_unit ? WEF_UNIT : WEF_IMPR);
-  pwl->wlids[idx] = id;
-  
-  /* Since we don't copy the WEF_END, need to reinsert it at the end
-   * if there is room. */
-  if (len + 1 < MAX_LEN_WORKLIST) {
-    pwl->wlefs[len + 1] = WEF_END;
-    pwl->wlids[len + 1] = 0;
+   * move from [idx .. len - 1] to [idx + 1 .. len].  Any entries at the
+   * end are simply lost. */
+  for (i = new_len - 1; i >= idx; i--) {
+    pwl->entries[i + 1] = pwl->entries[i];
   }
   
+  pwl->entries[idx].is_unit = is_unit;
+  pwl->entries[idx].value = id;
+
+  pwl->length = new_len;
+
   return TRUE;
 }
 
@@ -208,21 +188,119 @@ bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx)
 bool are_worklists_equal(const struct worklist *wlist1,
 			 const struct worklist *wlist2)
 {
-  int i, len = worklist_length(wlist1);
+  int i;
 
   if (wlist1->is_valid != wlist2->is_valid) {
     return FALSE;
   }
-  if (worklist_length(wlist2) != len) {
+  if (wlist1->length != wlist2->length) {
     return FALSE;
   }
 
-  for (i = 0; i < len; i++) {
-    if (wlist1->wlefs[i] != wlist2->wlefs[i] ||
-	wlist1->wlids[i] != wlist2->wlids[i]) {
+  for (i = 0; i < wlist1->length; i++) {
+    if (wlist1->entries[i].is_unit != wlist2->entries[i].is_unit ||
+	wlist1->entries[i].value != wlist2->entries[i].value) {
       return FALSE;
     }
   }
 
   return TRUE;
+}
+
+/****************************************************************************
+  Load the worklist elements specified by path to the worklist pointed to
+  by pwl.
+
+  pwl should be a pointer to an existing worklist.
+
+  path and ... give the prefix to load from, printf-style.
+****************************************************************************/
+void worklist_load(struct section_file *file, struct worklist *pwl,
+		   const char *path, ...)
+{
+  int i;
+  const char* name;
+  char path_str[1024];
+  va_list ap;
+
+  /* The first part of the registry path is taken from the varargs to the
+   * function. */
+  va_start(ap, path);
+  vsnprintf(path_str, sizeof(path_str), path, ap);
+  va_end(ap);
+
+  init_worklist(pwl);
+  pwl->length = secfile_lookup_int_default(file, 0,
+					   "%s.wl_length", path_str);
+  name = secfile_lookup_str_default(file, "a worklist",
+				    "%s.wl_name", path_str);
+  sz_strlcpy(pwl->name, name);
+  pwl->is_valid = secfile_lookup_bool_default(file, FALSE,
+					      "%s.wl_is_valid", path_str);
+
+  for (i = 0; i < pwl->length; i++) {
+    bool is_unit = secfile_lookup_bool_default(file, FALSE, "%s.wl_is_unit%d",
+					       path_str, i);
+
+    /* We lookup the production value by name.  An invalid entry isn't a
+     * fatal error; we just drop the worklist. */
+    name = secfile_lookup_str_default(file, "-", "%s.wl_value%d",
+				      path_str, i);
+    if (is_unit) {
+      struct unit_type *punittype = find_unit_type_by_name_orig(name);
+
+      if (!punittype) {
+	pwl->length = i;
+	break;
+      }
+      pwl->entries[i].value = punittype->index;
+    } else {
+      Impr_type_id building = find_improvement_by_name_orig(name);
+
+      if (building == B_LAST) {
+	pwl->length = i;
+	break;
+      }
+      pwl->entries[i].value = building;
+    }
+    pwl->entries[i].is_unit = is_unit;
+  }
+}
+
+/****************************************************************************
+  Save the worklist elements specified by path from the worklist pointed to
+  by pwl.
+
+  pwl should be a pointer to an existing worklist.
+
+  path and ... give the prefix to load from, printf-style.
+****************************************************************************/
+void worklist_save(struct section_file *file, struct worklist *pwl,
+		   const char *path, ...)
+{
+  char path_str[1024];
+  int i;
+  va_list ap;
+
+  /* The first part of the registry path is taken from the varargs to the
+   * function. */
+  va_start(ap, path);
+  vsnprintf(path_str, sizeof(path_str), path, ap);
+  va_end(ap);
+
+  secfile_insert_int(file, pwl->length, "%s.wl_length", path_str);
+  secfile_insert_str(file, pwl->name, "%s.wl_name", path_str);
+  secfile_insert_bool(file, pwl->is_valid, "%s.wl_is_valid", path_str);
+
+  for (i = 0; i < pwl->length; i++) {
+    struct city_production *entry = pwl->entries + i;
+    const char *name = (entry->is_unit
+			? get_unit_type(entry->value)->name
+			: get_improvement_type(entry->value)->name);
+
+    secfile_insert_bool(file, entry->is_unit,
+			"%s.wl_is_unit%d", path_str, i);
+    secfile_insert_str(file, name,
+		       "%s.wl_value%d", path_str, i);
+  }
 }

@@ -706,12 +706,7 @@ bool city_queue_insert(struct city *pcity, int position,
 **************************************************************************/
 bool city_queue_clear(struct city *pcity)
 {
-  int i;
-
-  for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    pcity->worklist.wlefs[i] = WEF_END;
-    pcity->worklist.wlids[i] = 0;
-  }
+  init_worklist(&pcity->worklist);
 
   return TRUE;
 }
