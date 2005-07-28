@@ -685,7 +685,9 @@ int collect_cids1(cid * dest_cids, struct city **selected_cities,
 		  bool (*test_func) (struct city *, int))
 {
   cid first = append_units ? B_LAST : 0;
-  cid last = append_units ? game.control.num_unit_types + B_LAST : B_LAST;
+  cid last = (append_units
+	      ? game.control.num_unit_types + B_LAST
+	      : game.control.num_impr_types);
   cid cid;
   int items_used = 0;
 
