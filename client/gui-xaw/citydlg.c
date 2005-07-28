@@ -1338,7 +1338,7 @@ void present_units_callback(Widget w, XtPointer client_data,
     if (punit->homecity == pcity->id) {
       XtSetSensitive(XtNameToWidget(wd, "*button5"), FALSE);
     }
-    if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
+    if (can_upgrade_unittype(game.player_ptr, punit->type) == NULL) {
       XtSetSensitive(XtNameToWidget(wd, "*button6"), FALSE);
     }
   }
@@ -2134,9 +2134,9 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
     if(can_build_unit(pdialog->pcity, i)) {
       get_city_dialog_production_full(pdialog->change_list_names[n],
                                       sizeof(pdialog->change_list_names[n]),
-                                      i, TRUE, pdialog->pcity);
+                                      i->index, TRUE, pdialog->pcity);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
-      pdialog->change_list_ids[n++]=i;
+      pdialog->change_list_ids[n++] = i->index;
     }
   } unit_type_iterate_end;
   
@@ -2202,7 +2202,7 @@ void commit_city_worklist(struct worklist *pwl, void *data)
     }
 
     /* If it can be built... */
-    if (( is_unit && can_build_unit(pdialog->pcity, id)) ||
+    if (( is_unit && can_build_unit(pdialog->pcity, get_unit_type(id))) ||
 	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
@@ -2532,18 +2532,26 @@ void cityopt_ok_command_callback(Widget w, XtPointer client_data,
   struct city *pcity = find_city_by_id(cityopt_city_id);
 
   if (pcity) {
-    int i, new_options;
+/*    int i; */
+    bv_city_options new_options;
     Boolean b;
-    
-    new_options = 0;
-    for(i=0; i<NUM_CITYOPT_TOGGLES; i++)  {
+
+    assert(CITYO_LAST == 3);
+
+    BV_CLR_ALL(new_options);
+/*    for(i=0; i<NUM_CITYOPT_TOGGLES; i++)  {
       XtVaGetValues(cityopt_toggles[i], XtNstate, &b, NULL);
       if (b) new_options |= (1<<i);
     }
+*/
+    XtVaGetValues(cityopt_toggles[4], XtNstate, &b, NULL);
+    if (b) {
+      BV_SET(new_options, CITYO_DISBAND);
+    }
     if (newcitizen_index == 1) {
-      new_options |= (1<<CITYO_NEW_EINSTEIN);
+      BV_SET(new_options, CITYO_NEW_EINSTEIN);
     } else if (newcitizen_index == 2) {
-      new_options |= (1<<CITYO_NEW_TAXMAN);
+      BV_SET(new_options, CITYO_NEW_TAXMAN);
     }
     dsend_packet_city_options_req(&aconnection, cityopt_city_id,new_options);
   }

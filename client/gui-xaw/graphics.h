@@ -28,7 +28,7 @@ struct canvas {
   Pixmap pixmap;
 };
 
-Pixmap create_overlay_unit(int i);
+Pixmap create_overlay_unit(const struct unit_type *punittype);
 
 extern struct sprite *intro_gfx_sprite;
 extern struct sprite *radar_gfx_sprite;

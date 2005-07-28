@@ -952,7 +952,8 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 
   may_upgrade =
     ((inx != XAW_LIST_NONE) &&
-     (can_upgrade_unittype (game.player_ptr, activeunits_type[inx]) != -1));
+     (can_upgrade_unittype(game.player_ptr,
+       get_unit_type(activeunits_type[inx])) != NULL));
 
   XtSetSensitive (upgrade_command, may_upgrade);
 }
@@ -983,26 +984,26 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 			 XtPointer call_data)
 {
   char buf[512];
-  int ut1,ut2;
+  struct unit_type *punittype1, *punittype2;
 
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(activeunits_list);
 
   if(ret->list_index!=XAW_LIST_NONE) {
-    ut1 = activeunits_type[ret->list_index];
-    CHECK_UNIT_TYPE(ut1);
+    punittype1 = get_unit_type(activeunits_type[ret->list_index]);
+    CHECK_UNIT_TYPE(punittype1);
 
     /* puts(unit_types[ut1].name); */
 
-    ut2 = can_upgrade_unittype(game.player_ptr,
-			       activeunits_type[ret->list_index]);
+    punittype2 = can_upgrade_unittype(game.player_ptr,
+		   get_unit_type(activeunits_type[ret->list_index]));
 
     my_snprintf(buf, sizeof(buf),
-	    _("Upgrade as many %s to %s as possible for %d gold each?\n"
-	      "Treasury contains %d gold."),
-	    unit_types[ut1].name, unit_types[ut2].name,
-	    unit_upgrade_price(game.player_ptr, ut1, ut2),
-	    game.player_ptr->economic.gold);
+		_("Upgrade as many %s to %s as possible for %d gold each?\n"
+		  "Treasury contains %d gold."),
+		punittype1->name, punittype2->name,
+		unit_upgrade_price(game.player_ptr, punittype1, punittype2),
+		game.player_ptr->economic.gold);
 
     popup_message_dialog(toplevel, "upgradedialog", buf,
 			 upgrade_callback_yes,
@@ -1059,6 +1060,7 @@ void activeunits_report_dialog_update(void)
     struct repoinfo unittotals;
     const char *report_title;
     char activeunits_total[100];
+    Unit_type_id i;
     
     report_title = get_centered_report_title(_("Units"));
     xaw_set_label(activeunits_label, report_title);
@@ -1066,10 +1068,10 @@ void activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {
-      (unitarray[punit->type].active_count)++;
+      (unitarray[punit->type->index].active_count)++;
       if (punit->homecity) {
-	unitarray[punit->type].upkeep_shield += punit->upkeep[O_SHIELD];
-	unitarray[punit->type].upkeep_food += punit->upkeep[O_FOOD];
+	unitarray[punit->type->index].upkeep_shield += punit->upkeep[O_SHIELD];
+	unitarray[punit->type->index].upkeep_food += punit->upkeep[O_FOOD];
 	/* TODO: gold upkeep */
       }
     }
@@ -1083,15 +1085,16 @@ void activeunits_report_dialog_update(void)
 
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
-    unit_type_iterate(i) {
+    unit_type_iterate(punittype) {
+      i = punittype->index;
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
 	my_snprintf
 	  (
 	   activeunits_list_names[k],
 	   sizeof(activeunits_list_names[k]),
 	   "%-27s%c%9d%9d%9d%9d",
-	   unit_name(i),
-	   can_upgrade_unittype(game.player_ptr, i) != -1 ? '*': '-',
+	   unit_name(punittype),
+	   can_upgrade_unittype(game.player_ptr, punittype) != NULL ? '*': '-',
 	   unitarray[i].building_count,
 	   unitarray[i].active_count,
 	   unitarray[i].upkeep_shield,

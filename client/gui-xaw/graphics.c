@@ -561,7 +561,7 @@ void free_sprite(struct sprite *s)
 /***************************************************************************
 ...
 ***************************************************************************/
-Pixmap create_overlay_unit(int i)
+Pixmap create_overlay_unit(const struct unit_type *punittype)
 {
   Pixmap pm;
   enum color_std bg_color;
@@ -571,7 +571,7 @@ Pixmap create_overlay_unit(int i)
 
   /* Give tile a background color, based on the type of unit */
   /* Should there be colors like COLOR_MAPVIEW_LAND etc? -ev */
-  switch (get_unit_type(i)->move_type) {
+  switch (punittype->move_type) {
     case LAND_MOVING: bg_color = COLOR_OVERVIEW_LAND; break;
     case SEA_MOVING:  bg_color = COLOR_OVERVIEW_OCEAN; break;
     case HELI_MOVING: bg_color = COLOR_OVERVIEW_MY_UNIT; break;
@@ -595,15 +595,15 @@ Pixmap create_overlay_unit(int i)
   }
 
   /* Finally, put a picture of the unit in the tile */
-  if(i<game.control.num_unit_types) {
-    struct sprite *s=get_unittype_sprite(tileset,i);
+/*  if(i<game.control.num_unit_types) { */
+    struct sprite *s = get_unittype_sprite(tileset, punittype);
 
     XSetClipOrigin(display,civ_gc,0,0);
     XSetClipMask(display,civ_gc,s->mask);
     XCopyArea(display, s->pixmap, pm, civ_gc,
 	      0,0, s->width,s->height, 0,0 );
     XSetClipMask(display,civ_gc,None);
-  }
+/*  } */
 
   return(pm);
 }

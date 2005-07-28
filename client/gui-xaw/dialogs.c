@@ -72,8 +72,8 @@ static Widget notify_dialog_shell;
 static Widget races_dialog_shell=NULL;
 static Widget races_form, races_toggles_form, races_label;
 static Widget *races_toggles=NULL;
-static int *races_toggles_to_nations=NULL;
-static int *nation_to_race_toggle = NULL;
+static struct nation_type **races_toggles_to_nations = NULL;
+static int *nation_idx_to_race_toggle = NULL;
 struct player *races_player;
 static Widget races_leader_form, races_leader;
 static Widget races_leader_pick_popupmenu, races_leader_pick_menubutton;
@@ -124,7 +124,7 @@ void create_help_dialog(Widget *shell);
 
 /******************************************************************/
 static void create_races_dialog(struct player *pplayer);
-static void races_leader_set_values(int race, int lead);
+static void races_leader_set_values(struct nation_type *race, int lead);
 static int races_buttons_get_current(void);
 static int races_sex_buttons_get_current(void);
 static int races_style_buttons_get_current(void);
@@ -189,9 +189,15 @@ static void notify_command_callback(Widget w, XtPointer client_data,
 static void select_random_race(void)
 {
   /* try to find a free nation */
+  /* FIXME: this code should be done another way. -ev */
   while (1) {
-    int race_toggle_index = myrand(game.control.playable_nation_count);
+    int race_toggle_index = myrand(game.control.nation_count);
 
+    if (!is_nation_playable(get_nation_by_idx(race_toggle_index))
+	|| get_nation_by_idx(race_toggle_index)->is_unavailable
+	|| get_nation_by_idx(race_toggle_index)->is_used) {
+      continue;
+    }
     if (XtIsSensitive(races_toggles[race_toggle_index])) {
       x_simulate_button_click(races_toggles[race_toggle_index]);
       break;
@@ -1628,7 +1634,7 @@ void popdown_races_dialog(void)
 void create_races_dialog(struct player *pplayer)
 {
   int per_row = 5;
-  int i, j, len, maxracelen, index;
+  int i, j, len, maxracelen, index, nat_count;
   char maxracename[MAX_LEN_NAME];
   char namebuf[64];
   int space;
@@ -1636,10 +1642,12 @@ void create_races_dialog(struct player *pplayer)
 
   races_player = pplayer;
   maxracelen = 0;
-  for(i=0; i<game.control.playable_nation_count; i++) {
-    len = strlen(get_nation_name(i));
-    maxracelen = MAX(maxracelen, len);
-  }
+  nations_iterate(pnation) {
+    if (is_nation_playable(pnation)) {
+      len = strlen(get_nation_name(pnation));
+      maxracelen = MAX(maxracelen, len);
+    }
+  } nations_iterate_end;
   maxracelen = MIN(maxracelen, MAX_LEN_NAME-1);
   my_snprintf(maxracename, sizeof(maxracename), "%*s", maxracelen+2, "W");
 
@@ -1662,10 +1670,81 @@ void create_races_dialog(struct player *pplayer)
 					       NULL);   
 
   free(races_toggles);
-  races_toggles = fc_calloc(game.control.playable_nation_count,sizeof(Widget));
+  races_toggles = fc_calloc(game.control.nation_count, sizeof(Widget));
   free(races_toggles_to_nations);
-  races_toggles_to_nations = fc_calloc(game.control.playable_nation_count,sizeof(int));
+  races_toggles_to_nations = fc_calloc(game.control.nation_count,
+				       sizeof(struct nation_type *));
 
+  i = 0;
+  j = 0;
+  index = 0;
+  nations_iterate(pnation) {
+    if (!is_nation_playable(pnation)) {
+      continue;
+    }
+
+    if (j == 0) {
+      index = i * per_row;
+      my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
+      if (i == 0) {
+	races_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_toggles_form,
+				  XtNlabel, maxracename,
+				  NULL);
+      } else {
+	races_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_toggles_form,
+				  XtNradioGroup,
+				  races_toggles[index - 1],
+				  XtNfromVert,
+				  races_toggles[index - per_row],
+				  XtNlabel, maxracename,
+				  NULL);
+      }
+    } else {
+      index = i * per_row + j;
+      my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
+      if (i == 0) {
+	races_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_toggles_form,
+				  XtNradioGroup,
+				  races_toggles[index - 1],
+				  XtNfromHoriz,
+				  races_toggles[index - 1],
+				  XtNlabel, maxracename,
+				  NULL);
+      } else {
+	races_toggles[index] =
+	  XtVaCreateManagedWidget(namebuf,
+				  toggleWidgetClass,
+				  races_toggles_form,
+				  XtNradioGroup,
+				  races_toggles[index - 1],
+				  XtNfromVert,
+				  races_toggles[index - per_row],
+				  XtNfromHoriz,
+				  races_toggles[index - 1],
+				  XtNlabel, maxracename,
+				  NULL);
+      }
+    }
+
+    races_toggles_to_nations[index] = pnation;
+
+    j++;
+    if (j >= per_row) {
+      j = 0;
+      i++;
+    }
+  } nations_iterate_end;
+  nat_count = index + 1;
+/*
   for( i = 0; i < ((game.control.playable_nation_count-1)/per_row)+1; i++) {
     index = i * per_row;
     my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
@@ -1720,7 +1799,7 @@ void create_races_dialog(struct player *pplayer)
       }
     }
   }
-
+*/
   races_leader_form = XtVaCreateManagedWidget("racesleaderform",
 					      formWidgetClass,
 					      races_form,
@@ -1887,9 +1966,11 @@ void create_races_dialog(struct player *pplayer)
 		races_quit_command_callback, NULL);
 
 
-  for(i=0; i<game.control.playable_nation_count; i++) {
-    XtAddCallback(races_toggles[i], XtNcallback,
-		  races_toggles_callback, INT_TO_XTPOINTER(i));
+  for (i = 0; i < game.control.nation_count; i++) {
+    if (races_toggles[i]) {
+      XtAddCallback(races_toggles[i], XtNcallback,
+		    races_toggles_callback, INT_TO_XTPOINTER(i));
+    }
   }
 
 
@@ -1901,23 +1982,33 @@ void create_races_dialog(struct player *pplayer)
 
   XtRealizeWidget(races_dialog_shell);
 
-  for(i=0; i<game.control.playable_nation_count; i++) {
+/*  for(i=0; i<game.control.playable_nation_count; i++) {
     races_toggles_to_nations[i] = i;
   }
-  qsort(races_toggles_to_nations, i, sizeof(int), races_indirect_compare);
+*/
+  qsort(races_toggles_to_nations, nat_count,
+	sizeof(struct nation_type *), races_indirect_compare);
 
   /* Build nation_to_race_toggle */
-  free(nation_to_race_toggle);
-  nation_to_race_toggle =
-      fc_calloc(game.control.playable_nation_count, sizeof(int));
-  for (i = 0; i < game.control.playable_nation_count; i++) {
-    nation_to_race_toggle[races_toggles_to_nations[i]] = i;
+  free(nation_idx_to_race_toggle);
+  nation_idx_to_race_toggle =
+      fc_calloc(game.control.nation_count, sizeof(int));
+  for (i = 0; i < game.control.nation_count; i++) {
+    nation_idx_to_race_toggle[i] = -1;
+  }
+  for (i = 0; i < game.control.nation_count; i++) {
+    if (races_toggles_to_nations[i]) {
+      nation_idx_to_race_toggle[races_toggles_to_nations[i]->index] = i;
+    }
   }
 
-  for(i=0; i<game.control.playable_nation_count; i++) {
-    XtVaSetValues (races_toggles[i],
-		   XtNlabel, (XtArgVal)get_nation_name(races_toggles_to_nations[i]),
-		   NULL);
+  for (i = 0; i < game.control.nation_count; i++) {
+    if (races_toggles[i]) {
+      XtVaSetValues(races_toggles[i],
+		    XtNlabel,
+		      (XtArgVal)get_nation_name(races_toggles_to_nations[i]),
+		    NULL);
+    }
   }
 
   for(i=0; i<b_s_num; i++) {
@@ -1948,15 +2039,20 @@ void races_toggles_set_sensitive(void)
   if (!races_dialog_shell) {
     return;
   }
-  for (i = 0; i < game.control.playable_nation_count; i++) {
-    XtSetSensitive(races_toggles[nation_to_race_toggle[i]], TRUE);
+  for (i = 0; i < game.control.nation_count; i++) {
+    if (nation_idx_to_race_toggle[i] > -1) {
+      XtSetSensitive(races_toggles[nation_idx_to_race_toggle[i]], TRUE);
+    }
   }
 
-  for (i = 0; i < game.control.playable_nation_count; i++) {
+  for (i = 0; i < game.control.nation_count; i++) {
     int nation_no = i, selected_nation = -1;
     struct nation_type *nation;
 
     nation = get_nation_by_idx(i);
+    if (!is_nation_playable(nation)) {
+      continue;
+    }
 
     if (!(nation->is_unavailable || nation->is_used)) {
       continue;
@@ -1964,18 +2060,18 @@ void races_toggles_set_sensitive(void)
 
     if (races_buttons_get_current() != -1) {
       selected_nation =
-	  races_toggles_to_nations[races_buttons_get_current()];
+	  races_toggles_to_nations[races_buttons_get_current()]->index;
     }
 
     freelog(LOG_DEBUG, "  [%d]: %d = %s", i, nation_no,
-	    get_nation_name(nation_no));
+	    get_nation_name(get_nation_by_idx(nation_no)));
 
     if (nation_no == selected_nation) {
       XawToggleUnsetCurrent(races_toggles[0]);
-      XtSetSensitive(races_toggles[nation_to_race_toggle[nation_no]], FALSE);
+      XtSetSensitive(races_toggles[nation_idx_to_race_toggle[nation_no]], FALSE);
       select_random_race();
     } else {
-      XtSetSensitive(races_toggles[nation_to_race_toggle[nation_no]], FALSE);
+      XtSetSensitive(races_toggles[nation_idx_to_race_toggle[nation_no]], FALSE);
     }
   }
 }
@@ -1990,7 +2086,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 			    XtPointer call_data)
 {
   int index = XTPOINTER_TO_INT(client_data);
-  int race = races_toggles_to_nations[index];
+  struct nation_type *race = races_toggles_to_nations[index];
   int j;
   int leader_count;
   struct leader *leaders = get_nation_leaders(race, &leader_count);
@@ -2014,7 +2110,7 @@ void races_toggles_callback(Widget w, XtPointer client_data,
 			      races_leader_pick_popupmenu,
 			      NULL);
     XtAddCallback(entry, XtNcallback, races_leader_pick_callback,
-		  INT_TO_XTPOINTER(nation_count * j + race));
+		  INT_TO_XTPOINTER(nation_count * j + race->index));
   }
 
   races_leader_set_values(race, myrand(leader_count));
@@ -2034,13 +2130,13 @@ void races_leader_pick_callback(Widget w, XtPointer client_data,
   int lead = XTPOINTER_TO_INT(client_data) / nation_count;
   int race = XTPOINTER_TO_INT(client_data) - (nation_count * lead);
 
-  races_leader_set_values(race, lead);
+  races_leader_set_values(get_nation_by_idx(race), lead);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-void races_leader_set_values(int race, int lead)
+void races_leader_set_values(struct nation_type *race, int lead)
 {
   int leader_count;
   struct leader *leaders = get_nation_leaders(race, &leader_count);
@@ -2059,16 +2155,19 @@ int races_buttons_get_current(void)
   int i;
   XtPointer dp, yadp;
 
-  if((game.control.playable_nation_count)==1)
+  if ((game.control.nation_count) == 1) {
     return 0;
+  }
 
   if(!(dp=XawToggleGetCurrent(races_toggles[0])))
     return -1;
 
-  for(i=0; i<game.control.playable_nation_count; i++) {
-    XtVaGetValues(races_toggles[i], XtNradioData, &yadp, NULL);
-    if(dp==yadp)
-      return i;
+  for(i = 0; i < game.control.nation_count; i++) {
+    if (races_toggles[i]) {
+      XtVaGetValues(races_toggles[i], XtNradioData, &yadp, NULL);
+      if(dp==yadp)
+	return i;
+    }
   }
 
   return -1;
@@ -2134,16 +2233,14 @@ void races_sex_buttons_set_current(int i)
 **************************************************************************/
 int races_indirect_compare(const void *first, const void *second)
 {
-  int first_index;
-  int second_index;
   const char *first_string;
   const char *second_string;
 
-  first_index = *((const int *)first);
-  second_index = *((const int *)second);
+  const struct nation_type *first_nation = *(const struct nation_type **)first;
+  const struct nation_type *second_nation = *(const struct nation_type **)second;
 
-  first_string = get_nation_name(first_index);
-  second_string = get_nation_name(second_index);
+  first_string = get_nation_name(first_nation);
+  second_string = get_nation_name(second_nation);
 
   return mystrcasecmp(first_string, second_string);
 }
@@ -2182,7 +2279,7 @@ void races_ok_command_callback(Widget w, XtPointer client_data,
 
   dsend_packet_nation_select_req(&aconnection,
 				 races_player->player_no,
-				 races_toggles_to_nations[selected_index],
+				 races_toggles_to_nations[selected_index]->index,
 				 selected_sex ? FALSE : TRUE,
 				 dp, city_style_idx[selected_style]);
   popdown_races_dialog();

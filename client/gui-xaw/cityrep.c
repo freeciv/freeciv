@@ -347,7 +347,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 
     unit_type_iterate(i) {
       if (can_build_unit(pcity, i)) {
-	cids[cids_used] = cid_encode(TRUE, i);
+	cids[cids_used] = cid_encode(TRUE, i->index);
 	cids_used++;
       }
     } unit_type_iterate_end;

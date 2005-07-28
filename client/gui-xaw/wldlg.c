@@ -584,7 +584,8 @@ void worklist_id_to_name(char buf[], int id, bool is_unit,
 {
   if (is_unit)
     sprintf(buf, "%s (%d)",
-	    get_unit_name(id), unit_build_shield_cost(id));
+	    get_unit_name(get_unit_type(id)),
+	    unit_build_shield_cost(get_unit_type(id)));
   else if (pcity)
     sprintf(buf, "%s (%d)",
 	    get_impr_name_ex(pcity, id), impr_build_shield_cost(id));
@@ -836,8 +837,10 @@ void insert_into_worklist(struct worklist_dialog *pdialog,
      the list of available targets is okay for this city, but a global
      worklist may try to insert an odd-ball unit or target. */
   if (pdialog->pcity &&
-      ((is_unit  && !can_eventually_build_unit(pdialog->pcity, target)) ||
-       (!is_unit && !can_eventually_build_improvement(pdialog->pcity, target))))
+      ((is_unit
+        && !can_eventually_build_unit(pdialog->pcity, get_unit_type(target)))
+      || (!is_unit
+	  && !can_eventually_build_improvement(pdialog->pcity, target))))
     /* Nope, this city can't build this target, ever.  Don't put it into
        the worklist. */
     return;
@@ -1338,9 +1341,9 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
     if (( advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
       worklist_id_to_name(pdialog->worklist_avail_names[n],
-			  i, 1, pdialog->pcity);
+			  i->index, 1, pdialog->pcity);
       pdialog->worklist_avail_names_ptrs[n]=pdialog->worklist_avail_names[n];
-      pdialog->worklist_avail_ids[n++]=i;
+      pdialog->worklist_avail_ids[n++]=i->index;
     }
   } unit_type_iterate_end;
 

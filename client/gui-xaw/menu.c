@@ -364,9 +364,9 @@ void update_menus(void)
 
     if (punit && can_client_issue_orders()) {
       Terrain_type_id  ttype;
-      struct terrain *      tinfo;
+      struct terrain *tinfo;
 
-      ttype = punit->tile->terrain;
+      ttype = punit->tile->terrain->index;
       tinfo = get_terrain(ttype);
 
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_BUILD_CITY,
@@ -409,11 +409,9 @@ void update_menus(void)
 			   is_unit_activity_on_tile(ACTIVITY_SENTRY,
 				punit->tile));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_SETTLER,
-			   (can_unit_do_auto(punit)
+			   (punit && can_unit_do_autosettlers(punit)
 			    && unit_flag(punit, F_SETTLERS)));
-      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_ATTACK, 
-			   (can_unit_do_auto(punit)
-			    && !unit_flag(punit, F_SETTLERS)));
+      menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_ATTACK, false);
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_DISBAND,
 			   !unit_flag(punit, F_UNDISBANDABLE));
       menu_entry_sensitive(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE, 
@@ -446,10 +444,10 @@ void update_menus(void)
       }
 
       if ((tinfo->irrigation_result != T_NONE)
-	  && (tinfo->irrigation_result != ttype)) {
+	  && (tinfo->irrigation_result->index != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
-			  (get_terrain(tinfo->irrigation_result))->terrain_name);
+			  tinfo->irrigation_result->terrain_name);
       }
       else if (tile_has_special(punit->tile, S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
@@ -461,20 +459,20 @@ void update_menus(void)
       }
 
       if ((tinfo->mining_result != T_NONE)
-	  && (tinfo->mining_result != ttype)) {
+	  && (tinfo->mining_result->index != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_CHANGE_TO,
-			  (get_terrain(tinfo->mining_result))->terrain_name);
+			  tinfo->mining_result->terrain_name);
       } else {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_MINE, NULL);
       }
 
       if ((tinfo->transform_result != T_NONE)
-	  && (tinfo->transform_result != ttype)) {
+	  && (tinfo->transform_result->index != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TRANSFORM_TO,
-			  (get_terrain(tinfo->transform_result))->terrain_name);
+			  tinfo->transform_result->terrain_name);
       } else {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TERRAIN, NULL);
@@ -714,9 +712,6 @@ static void orders_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_ORDER_AUTO_SETTLER:
     key_unit_auto_settle();
-    break;
-  case MENU_ORDER_AUTO_ATTACK:
-    key_unit_auto_attack();
     break;
   case MENU_ORDER_AUTO_EXPLORE:
     key_unit_auto_explore();

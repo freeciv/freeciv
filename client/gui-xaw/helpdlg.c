@@ -748,7 +748,7 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
   
   if (which<game.control.num_impr_types) {
-    struct impr_type *imp = &improvement_types[which];
+    struct impr_type *imp = get_improvement_type(which);
     int i;
     char req_buf[512];
 
@@ -800,7 +800,7 @@ static void help_update_wonder(const struct help_item *pitem,
   create_help_page(HELP_WONDER);
 
   if (which<game.control.num_impr_types) {
-    struct impr_type *imp = &improvement_types[which];
+    struct impr_type *imp = get_improvement_type(which);
     int i;
     char req_buf[512];
 
@@ -851,43 +851,45 @@ static void help_update_wonder(const struct help_item *pitem,
 ...
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
-				  char *title, int i)
+				  char *title, struct unit_type *punittype)
 {
   char *buf = &long_buffer[0];
   
   create_help_page(HELP_UNIT);
-  if (i<game.control.num_unit_types) {
-    struct unit_type *utype = get_unit_type(i);
-    sprintf(buf, "%d ", unit_build_shield_cost(i));
+  if (punittype) {
+/*    struct unit_type *punittype = get_unit_type(i);*/
+    sprintf(buf, "%d ", unit_build_shield_cost(punittype));
     xaw_set_label(help_unit_cost_data, buf);
-    sprintf(buf, "%d ", utype->attack_strength);
+    sprintf(buf, "%d ", punittype->attack_strength);
     xaw_set_label(help_unit_attack_data, buf);
-    sprintf(buf, "%d ", utype->defense_strength);
+    sprintf(buf, "%d ", punittype->defense_strength);
     xaw_set_label(help_unit_def_data, buf);
-    sprintf(buf, "%d ", utype->move_rate/3);
+    sprintf(buf, "%d ", punittype->move_rate/3);
     xaw_set_label(help_unit_move_data, buf);
-    sprintf(buf, "%d ", utype->firepower);
+    sprintf(buf, "%d ", punittype->firepower);
     xaw_set_label(help_unit_fp_data, buf);
-    sprintf(buf, "%d ", utype->hp);
+    sprintf(buf, "%d ", punittype->hp);
     xaw_set_label(help_unit_hp_data, buf);
-    sprintf(buf, "%d ", utype->vision_range);
+    sprintf(buf, "%d ", punittype->vision_range);
     xaw_set_label(help_unit_visrange_data, buf);
-    xaw_set_label(help_unit_upkeep_data, helptext_unit_upkeep_str(i));
-    if(utype->tech_requirement==A_LAST) {
+    xaw_set_label(help_unit_upkeep_data,
+		  helptext_unit_upkeep_str(punittype));
+    if (punittype->tech_requirement == A_LAST) {
       xaw_set_label(help_improvement_req_data, _("(Never)"));
     } else {
       xaw_set_label(help_improvement_req_data,
-		    advances[utype->tech_requirement].name);
+		    get_tech_name(game.player_ptr,
+				  punittype->tech_requirement));
     }
-    create_tech_tree(help_tech_tree, 0, utype->tech_requirement, 3);
-    if (utype->obsoleted_by == U_NOT_OBSOLETED) {
+    create_tech_tree(help_tech_tree, 0, punittype->tech_requirement, 3);
+    if (punittype->obsoleted_by == U_NOT_OBSOLETED) {
       xaw_set_label(help_wonder_obsolete_data, _("None"));
     } else {
       xaw_set_label(help_wonder_obsolete_data,
-		    get_unit_type(utype->obsoleted_by)->name);
+		    punittype->obsoleted_by->name);
     }
     /* add text for transport_capacity, fuel, and flags: */
-    helptext_unit(buf, i, pitem->text);
+    helptext_unit(buf, punittype, pitem->text);
     XtVaSetValues(help_text, XtNstring, buf, NULL);
   }
   else {
@@ -903,7 +905,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_wonder_obsolete_data, _("None"));
     XtVaSetValues(help_text, XtNstring, pitem->text, NULL);
   }
-  xaw_set_bitmap(help_unit_tile, create_overlay_unit(i));
+  xaw_set_bitmap(help_unit_tile, create_overlay_unit(punittype));
   set_title_topic(pitem);
 }
 
@@ -922,7 +924,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     create_tech_tree(help_tech_tree, 0, i, 3);
     helptext_tech(buf, i, pitem->text);
 
-    impr_type_iterate(j) {
+    impr_type_iterate(impr_t) {
       /*if(i==improvement_types[j].tech_req) 
 	sprintf(buf+strlen(buf), _("Allows %s.\n"),
 		improvement_types[j].name);
@@ -930,22 +932,21 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
        /* FIXME: need a more general mechanism for this, since this
         * helptext needs to be shown in all possible req source types. */
-      requirement_vector_iterate(&improvement_types[j].reqs, preq) {
+      requirement_vector_iterate(&get_improvement_type(impr_t)->reqs, preq) {
 	if (preq->source.type == REQ_BUILDING
 	    && preq->source.value.building == i) {
 	  sprintf(buf+strlen(buf), _("Allows %s.\n"),
-		  improvement_types[j].name);
+		  get_improvement_name(impr_t));
         }
       } requirement_vector_iterate_end;
-      if(i==improvement_types[j].obsolete_by)
+      if (i == get_improvement_type(impr_t)->obsolete_by)
 	sprintf(buf+strlen(buf), _("Obsoletes %s.\n"),
-		improvement_types[j].name);
+		get_improvement_name(impr_t));
     } impr_type_iterate_end;
 
-    unit_type_iterate(j) {
-      if(i==get_unit_type(j)->tech_requirement) 
-	sprintf(buf+strlen(buf), _("Allows %s.\n"), 
-		get_unit_type(j)->name);
+    unit_type_iterate(punittype) {
+      if (i == punittype->tech_requirement) 
+	sprintf(buf + strlen(buf), _("Allows %s.\n"), punittype->name);
     } unit_type_iterate_end;
 
     for (j = 0; j < game.control.num_tech_types; j++) {
@@ -980,123 +981,103 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 ...
 **************************************************************************/
 static void help_update_terrain(const struct help_item *pitem,
-				char *title, int i)
+				char *title, struct terrain *pterrain)
 {
   char *buf = &long_buffer[0];
 
   create_help_page(HELP_TERRAIN);
   set_title_topic(pitem);
 
-  helptext_terrain(buf, i, pitem->text);
+  helptext_terrain(buf, pterrain, pitem->text);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 
-  if (i < T_COUNT)
-    {
-      sprintf (buf, "%d/%d.%d",
-	       terrains[i].movement_cost,
-	       (int)((terrains[i].defense_bonus + 100) / 100),
-	       (terrains[i].defense_bonus + 100) % 100 / 10);
-      xaw_set_label (help_terrain_movement_defense_data, buf);
+  if (pterrain) {
+    sprintf(buf, "%d/%d.%d",
+	    pterrain->movement_cost,
+	    (int)((pterrain->defense_bonus + 100) / 100),
+	    (pterrain->defense_bonus + 100) % 100 / 10);
+    xaw_set_label(help_terrain_movement_defense_data, buf);
 
-      sprintf (buf, "%d/%d/%d",
-	       terrains[i].output[O_FOOD],
-	       terrains[i].output[O_SHIELD],
-	       terrains[i].output[O_TRADE]);
-      xaw_set_label (help_terrain_food_shield_trade_data, buf);
+    sprintf(buf, "%d/%d/%d",
+	    pterrain->output[O_FOOD],
+	    pterrain->output[O_SHIELD],
+	    pterrain->output[O_TRADE]);
+    xaw_set_label(help_terrain_food_shield_trade_data, buf);
 
-      if (*(terrains[i].special[0].name))
-	{
-	  sprintf (buf, _("%s F/R/T:"),
-		   terrains[i].special[0].name);
-	  xaw_set_label (help_terrain_special_1, buf);
-	  sprintf (buf, "%d/%d/%d",
-		   terrains[i].special[0].output[O_FOOD],
-		   terrains[i].special[0].output[O_SHIELD],
-		   terrains[i].special[0].output[O_TRADE]);
-	  xaw_set_label (help_terrain_special_1_data, buf);
-	} else {
-	  xaw_set_label (help_terrain_special_1, "");
-	  xaw_set_label (help_terrain_special_1_data, "");
-	}
-
-      if (*(terrains[i].special[1].name))
-	{
-	  sprintf (buf, _("%s F/R/T:"),
-		   terrains[i].special[1].name);
-	  xaw_set_label (help_terrain_special_2, buf);
-	  sprintf (buf, "%d/%d/%d",
-		   terrains[i].special[1].output[O_FOOD],
-		   terrains[i].special[1].output[O_SHIELD],
-		   terrains[i].special[1].output[O_TRADE]);
-	  xaw_set_label (help_terrain_special_2_data, buf);
-	} else {
-	  xaw_set_label (help_terrain_special_2, "");
-	  xaw_set_label (help_terrain_special_2_data, "");
-	}
-
-      if (terrains[i].road_trade_incr > 0)
-	{
-	  sprintf (buf, _("+%d Trade / %d"),
-		   terrains[i].road_trade_incr,
-		   terrains[i].road_time);
-	}
-      else if (terrains[i].road_time > 0)
-	{
-	  sprintf (buf, _("no extra / %d"),
-		   terrains[i].road_time);
-	}
-      else
-	{
-	  strcpy (buf, _("n/a"));
-	}
-      xaw_set_label (help_terrain_road_result_time_data, buf);
-
-      strcpy (buf, _("n/a"));
-      if (terrains[i].irrigation_result == i)
-	{
-	  if (terrains[i].irrigation_food_incr > 0)
-	    {
-	      sprintf (buf, _("+%d Food / %d"),
-		       terrains[i].irrigation_food_incr,
-		       terrains[i].irrigation_time);
-	    }
-	}
-      else if (terrains[i].irrigation_result != T_NONE)
-	{
-	  sprintf (buf, "%s / %d",
-		   terrains[terrains[i].irrigation_result].terrain_name,
-		   terrains[i].irrigation_time);
-	}
-      xaw_set_label (help_terrain_irrigation_result_time_data, buf);
-
-      strcpy (buf, _("n/a"));
-      if (terrains[i].mining_result == i)
-	{
-	  if (terrains[i].mining_shield_incr > 0)
-	    {
-	      sprintf (buf, _("+%d Res. / %d"),
-		       terrains[i].mining_shield_incr,
-		       terrains[i].mining_time);
-	    }
-	}
-      else if (terrains[i].mining_result != T_NONE)
-	{
-	  sprintf (buf, "%s / %d",
-		   terrains[terrains[i].mining_result].terrain_name,
-		   terrains[i].mining_time);
-	}
-      xaw_set_label (help_terrain_mining_result_time_data, buf);
-
-      if (terrains[i].transform_result != T_NONE)
-	{
-	  sprintf (buf, "%s / %d",
-		   terrains[terrains[i].transform_result].terrain_name,
-		   terrains[i].transform_time);
-	} else {
-	  strcpy (buf, _("n/a"));
-	}
-      xaw_set_label (help_terrain_transform_result_time_data, buf);
+    if (*(pterrain->special[0].name))	{
+      sprintf(buf, _("%s F/R/T:"), pterrain->special[0].name);
+      xaw_set_label(help_terrain_special_1, buf);
+      sprintf(buf, "%d/%d/%d",
+	      pterrain->special[0].output[O_FOOD],
+	      pterrain->special[0].output[O_SHIELD],
+	      pterrain->special[0].output[O_TRADE]);
+      xaw_set_label(help_terrain_special_1_data, buf);
+    } else {
+      xaw_set_label(help_terrain_special_1, "");
+      xaw_set_label(help_terrain_special_1_data, "");
     }
+
+    if (*(pterrain->special[1].name)) {
+      sprintf(buf, _("%s F/R/T:"), pterrain->special[1].name);
+      xaw_set_label(help_terrain_special_2, buf);
+      sprintf(buf, "%d/%d/%d",
+	      pterrain->special[1].output[O_FOOD],
+	      pterrain->special[1].output[O_SHIELD],
+	      pterrain->special[1].output[O_TRADE]);
+      xaw_set_label(help_terrain_special_2_data, buf);
+    } else {
+      xaw_set_label(help_terrain_special_2, "");
+      xaw_set_label(help_terrain_special_2_data, "");
+    }
+
+    if (pterrain->road_trade_incr > 0) {
+      sprintf(buf, _("+%d Trade / %d"),
+	      pterrain->road_trade_incr,
+	      pterrain->road_time);
+    } else if (pterrain->road_time > 0) {
+      sprintf(buf, _("no extra / %d"), pterrain->road_time);
+    } else {
+      strcpy(buf, _("n/a"));
+    }
+    xaw_set_label(help_terrain_road_result_time_data, buf);
+
+    strcpy(buf, _("n/a"));
+    if (pterrain->irrigation_result == pterrain) {
+      if (pterrain->irrigation_food_incr > 0) {
+	sprintf(buf, _("+%d Food / %d"),
+		pterrain->irrigation_food_incr,
+		pterrain->irrigation_time);
+      }
+    } else if (pterrain->irrigation_result != T_NONE) {
+      sprintf(buf, "%s / %d",
+	      pterrain->irrigation_result->terrain_name,
+	      pterrain->irrigation_time);
+    }
+    xaw_set_label(help_terrain_irrigation_result_time_data, buf);
+
+    strcpy(buf, _("n/a"));
+    if (pterrain->mining_result == pterrain) {
+      if (pterrain->mining_shield_incr > 0) {
+	sprintf(buf, _("+%d Res. / %d"),
+		pterrain->mining_shield_incr,
+		pterrain->mining_time);
+      }
+    } else if (pterrain->mining_result != T_NONE) {
+      sprintf(buf, "%s / %d",
+	      pterrain->mining_result->terrain_name,
+	      pterrain->mining_time);
+    }
+    xaw_set_label (help_terrain_mining_result_time_data, buf);
+
+    if (pterrain->transform_result != T_NONE) {
+      sprintf(buf, "%s / %d",
+	      pterrain->transform_result->terrain_name,
+	      pterrain->transform_time);
+    } else {
+      strcpy(buf, _("n/a"));
+    }
+    xaw_set_label (help_terrain_transform_result_time_data, buf);
+  }
 }
 
 /**************************************************************************

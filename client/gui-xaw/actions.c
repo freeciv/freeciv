@@ -353,41 +353,41 @@ static void xaw_key_unit_airbase(Widget w, XEvent *event,
 }
 
 /****************************************************************************
-  Invoked when the key binding for orders->auto_attack is pressed.
+  Invoked when the key binding for orders->auto_explore is pressed.
 ****************************************************************************/
-static void xaw_key_unit_auto_attack(Widget w, XEvent *event,
-				     String *argv, Cardinal *argc)
-{
-  if (can_client_issue_orders()
-      && is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_ATTACK)) {
-    key_unit_auto_attack();
-  }
-}
-
-static void xaw_key_unit_auto_attack_or_settle(Widget w, XEvent *event, String *argv, Cardinal *argc)
-{
-  struct unit *punit = get_unit_in_focus();
-  if(punit) {
-    if (unit_flag(punit, F_SETTLERS)) {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_SETTLER))
-	key_unit_auto_settle();
-    } else {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_ATTACK))
-	key_unit_auto_attack();
-    }
-  }
-}
-
-static void xaw_key_unit_auto_explore(Widget w, XEvent *event, String *argv, Cardinal *argc)
+static void xaw_key_unit_auto_explore(Widget w, XEvent *event, String *argv,
+				      Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_EXPLORE))
     key_unit_auto_explore();
 }
 
-static void xaw_key_unit_auto_settle(Widget w, XEvent *event, String *argv, Cardinal *argc)
+/****************************************************************************
+  Invoked when the key binding for orders->auto_settle is pressed.
+****************************************************************************/
+static void xaw_key_unit_auto_settle(Widget w, XEvent *event, String *argv,
+				     Cardinal *argc)
 {
   if(is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_SETTLER))
     key_unit_auto_settle();
+}
+
+/****************************************************************************
+  Invoked when the key binding for auto-settle or auto-attack is pressed.
+  Since there is no more auto-attack this function is just like another
+  way of calling key_unit_auto_settle.
+****************************************************************************/
+static void xaw_key_unit_auto_attack_or_settle(Widget w, XEvent *event,
+					       String *argv, Cardinal *argc)
+{
+  struct unit *punit = get_unit_in_focus();
+  if (punit) {
+    /* Since there is no more auto-attack, do nothing if unit nas no settler flag */
+    if (unit_flag(punit, F_SETTLERS)) {
+      if (is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_SETTLER))
+	key_unit_auto_settle();
+    }
+  }
 }
 
 static void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -778,7 +778,6 @@ static XtActionsRec Actions[] = {
   { "key-open-wonders", xaw_key_open_wonders },
   { "key-open-worklists", xaw_key_open_worklists },
   { "key-unit-airbase", xaw_key_unit_airbase },
-  { "key-unit-auto-attack", xaw_key_unit_auto_attack },
   { "key-unit-auto-attack-or-settle", xaw_key_unit_auto_attack_or_settle },
   { "key-unit-auto-explore", xaw_key_unit_auto_explore },
   { "key-unit-auto-settle", xaw_key_unit_auto_settle },
