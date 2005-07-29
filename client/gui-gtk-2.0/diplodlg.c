@@ -512,6 +512,13 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   hbox = gtk_hbox_new(FALSE, 12);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+  
+  /* our flag */
+  image =
+      gtk_image_new_from_pixbuf(sprite_get_pixbuf
+				(get_nation_flag_sprite
+				 (tileset, plr0->nation)));
+  gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);    
 
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -568,6 +575,14 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   hbox = gtk_hbox_new(FALSE, 12);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
+
+  /* Their flag */
+  image =
+      gtk_image_new_from_pixbuf(sprite_get_pixbuf
+				(get_nation_flag_sprite
+				 (tileset, plr1->nation)));
+  gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);    
+
 
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
