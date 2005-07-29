@@ -561,18 +561,16 @@ void update_worklist_report_dialog(void)
 }
 
 /****************************************************************
-
+  Returns an unique id for element in units + buildings sequence
 *****************************************************************/
 int uni_id(struct worklist *pwl, int inx)
 {
-  if ((inx < 0) || (inx >= MAX_LEN_WORKLIST)) {
+  if ((inx < 0) || (inx >= worklist_length(pwl))) {
     return WORKLIST_END;
-  } else if (pwl->wlefs[inx] == WEF_UNIT) {
-    return pwl->wlids[inx] + B_LAST;
-  } else if (pwl->wlefs[inx] == WEF_IMPR) {
-    return pwl->wlids[inx];
+  } else if (pwl->entries[inx].is_unit) {
+    return pwl->entries[inx].value + B_LAST;
   } else {
-    return WORKLIST_END;
+    return pwl->entries[inx].value;
   }
 }
 
@@ -1099,17 +1097,13 @@ void worklist_ok_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     if (pdialog->worklist_ids[i] == WORKLIST_END) {
-      wl.wlefs[i] = WEF_END;
-      wl.wlids[i] = 0;
+      continue;
     } else if (pdialog->worklist_ids[i] >= B_LAST) {
-      wl.wlefs[i] = WEF_UNIT;
-      wl.wlids[i] = pdialog->worklist_ids[i] - B_LAST;
+      worklist_append(&wl, pdialog->worklist_ids[i] - B_LAST, true);
     } else if (pdialog->worklist_ids[i] >= 0) {
-      wl.wlefs[i] = WEF_IMPR;
-      wl.wlids[i] = pdialog->worklist_ids[i];
+      worklist_append(&wl, pdialog->worklist_ids[i], false);
     } else {
-      wl.wlefs[i] = WEF_END;
-      wl.wlids[i] = 0;
+      continue;
     }
   }
   strcpy(wl.name, pdialog->pwl->name);
