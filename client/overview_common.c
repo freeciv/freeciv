@@ -26,7 +26,11 @@
 #include "mapview_g.h"
 
 int OVERVIEW_TILE_SIZE = 2;
-struct overview overview;
+struct overview overview = {
+  .layers = {[OLAYER_BACKGROUND] = TRUE,
+	     [OLAYER_UNITS] = TRUE,
+	     [OLAYER_CITIES] = TRUE}
+};
 
 /*
  * Set to TRUE if the backing store is more recent than the version
@@ -102,42 +106,60 @@ static void gui_to_overview_pos(const struct tileset *t,
 ****************************************************************************/
 static struct color *overview_tile_color(struct tile *ptile)
 {
-  struct unit *punit;
-  struct city *pcity;
+  if (overview.layers[OLAYER_CITIES]) {
+    struct city *pcity = tile_get_city(ptile);
 
-  if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
-    return get_color(tileset, COLOR_OVERVIEW_UNKNOWN);
-  } else if ((pcity = tile_get_city(ptile))) {
-    if (pcity->owner == game.player_ptr) {
-      return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
-    } else if (pplayers_allied(city_owner(pcity), game.player_ptr)) {
-      /* Includes teams. */
-      return get_color(tileset, COLOR_OVERVIEW_ALLIED_CITY);
-    } else {
-      return get_color(tileset, COLOR_OVERVIEW_ENEMY_CITY);
-    }
-  } else if ((punit = find_visible_unit(ptile))) {
-    if (punit->owner == game.player_ptr) {
-      return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
-    } else if (pplayers_allied(unit_owner(punit), game.player_ptr)) {
-      /* Includes teams. */
-      return get_color(tileset, COLOR_OVERVIEW_ALLIED_UNIT);
-    } else {
-      return get_color(tileset, COLOR_OVERVIEW_ENEMY_UNIT);
-    }
-  } else if (is_ocean(ptile->terrain)) {
-    if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      return get_color(tileset, COLOR_OVERVIEW_FOGGED_OCEAN);
-    } else {
-      return get_color(tileset, COLOR_OVERVIEW_OCEAN);
-    }
-  } else {
-    if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED && draw_fog_of_war) {
-      return get_color(tileset, COLOR_OVERVIEW_FOGGED_LAND);
-    } else {
-      return get_color(tileset, COLOR_OVERVIEW_LAND);
+    if (pcity) {
+      if (pcity->owner == game.player_ptr) {
+	return get_color(tileset, COLOR_OVERVIEW_MY_CITY);
+      } else if (pplayers_allied(city_owner(pcity), game.player_ptr)) {
+	/* Includes teams. */
+	return get_color(tileset, COLOR_OVERVIEW_ALLIED_CITY);
+      } else {
+	return get_color(tileset, COLOR_OVERVIEW_ENEMY_CITY);
+      }
     }
   }
+  if (overview.layers[OLAYER_UNITS]) {
+    struct unit *punit = find_visible_unit(ptile);
+
+    if (punit) {
+      if (punit->owner == game.player_ptr) {
+	return get_color(tileset, COLOR_OVERVIEW_MY_UNIT);
+      } else if (pplayers_allied(unit_owner(punit), game.player_ptr)) {
+	/* Includes teams. */
+	return get_color(tileset, COLOR_OVERVIEW_ALLIED_UNIT);
+      } else {
+	return get_color(tileset, COLOR_OVERVIEW_ENEMY_UNIT);
+      }
+    }
+  }
+  if (overview.layers[OLAYER_BORDERS]) {
+    struct player *owner = ptile->owner;
+
+    if (owner) {
+      return get_player_color(tileset, owner);
+    }
+  }
+  if (overview.layers[OLAYER_BACKGROUND] && ptile->terrain != T_UNKNOWN) {
+    if (is_ocean(ptile->terrain)) {
+      if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED
+	  && draw_fog_of_war) {
+	return get_color(tileset, COLOR_OVERVIEW_FOGGED_OCEAN);
+      } else {
+	return get_color(tileset, COLOR_OVERVIEW_OCEAN);
+      }
+    } else {
+      if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED
+	  && draw_fog_of_war) {
+	return get_color(tileset, COLOR_OVERVIEW_FOGGED_LAND);
+      } else {
+	return get_color(tileset, COLOR_OVERVIEW_LAND);
+      }
+    }
+  }
+
+  return get_color(tileset, COLOR_OVERVIEW_UNKNOWN);
 }
 
 /**************************************************************************

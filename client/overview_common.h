@@ -18,6 +18,14 @@
 
 #include "canvas_g.h"
 
+enum overview_layers {
+  OLAYER_BACKGROUND,
+  OLAYER_BORDERS,
+  OLAYER_UNITS,
+  OLAYER_CITIES,
+  OLAYER_COUNT
+};
+
 /* Holds all information about the overview aka minimap. */
 struct overview {
   /* The following fields are controlled by mapview_common.c. */
@@ -29,6 +37,8 @@ struct overview {
 
   /* A backing store for the window itself, wrapped. */
   struct canvas *window;
+
+  bool layers[OLAYER_COUNT];
 };
 
 extern struct overview overview;

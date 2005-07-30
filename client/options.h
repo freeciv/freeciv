@@ -59,6 +59,7 @@ enum client_option_type {
 
 enum client_option_class {
   COC_GRAPHICS,
+  COC_OVERVIEW,
   COC_SOUND,
   COC_INTERFACE,
   COC_NETWORK,

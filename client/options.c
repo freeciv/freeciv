@@ -35,6 +35,7 @@
 #include "clinet.h"
 #include "cma_fec.h"
 #include "mapview_common.h"
+#include "overview_common.h"
 #include "plrdlg_common.h"
 #include "tilespec.h"
 
@@ -81,6 +82,7 @@ bool update_city_text_in_refresh_tile = TRUE;
 
 const char *client_option_class_names[COC_MAX] = {
   N_("Graphics"),
+  N_("Overview"),
   N_("Sound"),
   N_("Interface"),
   N_("Network")
@@ -216,6 +218,23 @@ static client_option common_options[] = {
 		  N_("If this option is set then a newly-founded city will "
 		     "havce its city dialog popped up automatically."),
 		  COC_INTERFACE),
+
+  GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
+		  N_("Background layer"),
+		  N_("The background layer of the overview shows ocean, "
+		     "land, and fog."), COC_OVERVIEW),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_BORDERS],
+		  N_("Borders layer"),
+		  N_("The borders layer of the overview shows which tiles "
+		     "are owned by each player."), COC_OVERVIEW),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_UNITS],
+		  N_("Units layer"),
+		  N_("If enabled then units will be drawn on the overview."),
+		  COC_OVERVIEW),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
+		  N_("Cities layer"),
+		  N_("If enabled then cities will be drawn on the overview."),
+		  COC_OVERVIEW)
 };
 #undef GEN_INT_OPTION
 #undef GEN_BOOL_OPTION
