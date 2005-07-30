@@ -2066,26 +2066,27 @@ static void player_load(struct player *plr, int plrno,
        * way to convert this into a turn value. */
       pcity->turn_last_built = 0;
     }
-    pcity->changed_from_is_unit=
+    pcity->changed_from.is_unit =
       secfile_lookup_bool_default(file, pcity->production.is_unit,
-				 "player%d.c%d.changed_from_is_unit", plrno, i);
+				 "player%d.c%d.changed_from_is_unit",
+				  plrno, i);
     name = secfile_lookup_str_default(file, NULL,
 				      "player%d.c%d.changed_from_name",
 				      plrno, i);
-    if (pcity->changed_from_is_unit) {
+    if (pcity->changed_from.is_unit) {
       if (!name) {
 	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id", 
 				plrno, i);
 	name = old_unit_type_name(id);
       }
-      pcity->changed_from_id = find_unit_type_by_name_orig(name)->index;
+      pcity->changed_from.value = find_unit_type_by_name_orig(name)->index;
     } else {
       if (!name) {
 	id = secfile_lookup_int(file, "player%d.c%d.changed_from_id",
 				plrno, i);
 	name = old_impr_type_name(id);
       }
-      pcity->changed_from_id = find_improvement_by_name_orig(name);
+      pcity->changed_from.value = find_improvement_by_name_orig(name);
     }
 			 
     pcity->before_change_shields=
@@ -2802,19 +2803,20 @@ static void player_save(struct player *plr, int plrno,
 		       plrno, i);
     secfile_insert_int(file, pcity->turn_last_built,
 		       "player%d.c%d.turn_last_built", plrno, i);
-    secfile_insert_bool(file, pcity->changed_from_is_unit,
+    secfile_insert_bool(file, pcity->changed_from.is_unit,
 		       "player%d.c%d.changed_from_is_unit", plrno, i);
-    if (pcity->changed_from_is_unit) {
-      struct unit_type *punittype = get_unit_type(pcity->changed_from_id);
+    if (pcity->changed_from.is_unit) {
+      struct unit_type *punittype = get_unit_type(pcity->changed_from.value);
+
       secfile_insert_int(file, old_unit_type_id(punittype),
 		         "player%d.c%d.changed_from_id", plrno, i);
       secfile_insert_str(file, unit_name_orig(punittype),
                          "player%d.c%d.changed_from_name", plrno, i);
     } else {
-      secfile_insert_int(file, old_impr_type_id(pcity->changed_from_id),
+      secfile_insert_int(file, old_impr_type_id(pcity->changed_from.value),
 		         "player%d.c%d.changed_from_id", plrno, i);    
       secfile_insert_str(file, get_improvement_name_orig(
-                                 pcity->changed_from_id),
+                                 pcity->changed_from.value),
                          "player%d.c%d.changed_from_name", plrno, i);
     }
 

@@ -1409,17 +1409,16 @@ static void define_orig_production_values(struct city *pcity)
    * city have been dedicated toward the project that was chosen last turn,
    * so the player shouldn't be penalized if the governor has to pick
    * something different.  See city_change_production_penalty(). */
-  pcity->changed_from_id = pcity->production.value;
-  pcity->changed_from_is_unit = pcity->production.is_unit;
+  pcity->changed_from.value = pcity->production.value;
+  pcity->changed_from.is_unit = pcity->production.is_unit;
 
   freelog(LOG_DEBUG,
 	  "In %s, building %s.  Beg of Turn shields = %d",
 	  pcity->name,
-	  pcity->changed_from_is_unit ?
-	  get_unit_type(pcity->changed_from_id)->name :
-	  get_improvement_name(pcity->changed_from_id),
-	  pcity->before_change_shields
-	  );
+	  pcity->changed_from.is_unit
+	  ? get_unit_type(pcity->changed_from.value)->name
+	  : get_improvement_name(pcity->changed_from.value),
+	  pcity->before_change_shields);
 }
 
 /**************************************************************************

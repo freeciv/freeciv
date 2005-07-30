@@ -481,8 +481,8 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->turn_last_built=packet->turn_last_built;
   pcity->turn_founded = packet->turn_founded;
-  pcity->changed_from_id=packet->changed_from_id;
-  pcity->changed_from_is_unit=packet->changed_from_is_unit;
+  pcity->changed_from.value = packet->changed_from_id;
+  pcity->changed_from.is_unit = packet->changed_from_is_unit;
   pcity->before_change_shields=packet->before_change_shields;
   pcity->disbanded_shields=packet->disbanded_shields;
   pcity->caravan_shields=packet->caravan_shields;

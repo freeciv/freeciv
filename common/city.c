@@ -1208,12 +1208,13 @@ int city_change_production_penalty(const struct city *pcity,
   enum production_class_type new_class;
   int unpenalized_shields = 0, penalized_shields = 0;
 
-  if (pcity->changed_from_is_unit)
-    orig_class=TYPE_UNIT;
-  else if (is_wonder(pcity->changed_from_id))
-    orig_class=TYPE_WONDER;
-  else
-    orig_class=TYPE_NORMAL_IMPROVEMENT;
+  if (pcity->changed_from.is_unit) {
+    orig_class = TYPE_UNIT;
+  } else if (is_wonder(pcity->changed_from.value)) {
+    orig_class = TYPE_WONDER;
+  } else {
+    orig_class = TYPE_NORMAL_IMPROVEMENT;
+  }
 
   if (is_unit)
     new_class=TYPE_UNIT;
@@ -2448,8 +2449,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->airlift = FALSE;
 
   pcity->turn_last_built = game.info.turn;
-  pcity->changed_from_id = pcity->production.value;
-  pcity->changed_from_is_unit = pcity->production.is_unit;
+  pcity->changed_from.value = pcity->production.value;
+  pcity->changed_from.is_unit = pcity->production.is_unit;
   pcity->before_change_shields = 0;
   pcity->disbanded_shields = 0;
   pcity->caravan_shields = 0;

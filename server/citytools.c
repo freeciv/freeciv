@@ -1574,8 +1574,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
 
   packet->turn_last_built=pcity->turn_last_built;
   packet->turn_founded = pcity->turn_founded;
-  packet->changed_from_id=pcity->changed_from_id;
-  packet->changed_from_is_unit=pcity->changed_from_is_unit;
+  packet->changed_from_id = pcity->changed_from.value;
+  packet->changed_from_is_unit = pcity->changed_from.is_unit;
   packet->before_change_shields=pcity->before_change_shields;
   packet->disbanded_shields=pcity->disbanded_shields;
   packet->caravan_shields=pcity->caravan_shields;
