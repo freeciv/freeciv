@@ -174,7 +174,7 @@ void color_system_setup_terrain(struct color_system *colors,
 				const struct terrain *pterrain)
 {
   struct rgbcolor *rgb
-    = hash_lookup_data(colors->terrain_hash, pterrain->terrain_name);
+    = hash_lookup_data(colors->terrain_hash, pterrain->terrain_name_orig);
 
   if (rgb) {
     colors->terrain_colors[pterrain->index] = *rgb;
