@@ -55,6 +55,9 @@ struct _GtkPixcomm
 
   gint w, h;
   GArray *actions;
+
+  gboolean is_scaled;
+  gdouble scale;
 };
 
 struct _GtkPixcommClass
@@ -65,6 +68,7 @@ struct _GtkPixcommClass
 
 GType	   gtk_pixcomm_get_type	 (void) G_GNUC_CONST;
 GtkWidget *gtk_pixcomm_new	 (gint width, gint height);
+void gtk_pixcomm_set_scale(GtkPixcomm *pixcomm, gdouble scale);
 void gtk_pixcomm_copyto(GtkPixcomm *pixcomm, struct sprite *src,
 			gint x, gint y);
 void       gtk_pixcomm_clear	 (GtkPixcomm *pixcomm);
