@@ -17,6 +17,7 @@
 
 #include <assert.h>
 
+#include "hash.h"
 #include "log.h"
 #include "shared.h"
 
@@ -40,6 +41,13 @@ struct color_system {
 
   int num_player_colors;
   struct rgbcolor *player_colors;
+
+  /* Terrain colors: we have one color per terrain.  These are stored in a
+   * larger-than-necessary array.  There's also a hash that is used to store
+   * all colors; this is created when the tileset toplevel is read and later
+   * used when the rulesets are received. */
+  struct hash_table *terrain_hash;
+  struct rgbcolor terrain_colors[MAX_NUM_TERRAINS];
 };
 
 char *color_names[] = {
@@ -130,7 +138,50 @@ struct color_system *color_system_read(struct section_file *file)
     }
   }
 
+  for (i = 0; i < ARRAY_SIZE(colors->terrain_colors); i++) {
+    struct rgbcolor *rgb = &colors->terrain_colors[i];
+
+    rgb->r = rgb->g = rgb->b = 0;
+    rgb->color = NULL;
+  }
+  colors->terrain_hash = hash_new(hash_fval_string, hash_fcmp_string);
+  for (i = 0; ; i++) {
+    struct rgbcolor *rgb;
+    char *key;
+
+    if (!section_file_lookup(file, "colors.terrains%d.r", i)) {
+      break;
+    }
+    rgb = fc_malloc(sizeof(*rgb));
+    rgb->r = secfile_lookup_int(file, "colors.terrains%d.r", i);
+    rgb->g = secfile_lookup_int(file, "colors.terrains%d.g", i);
+    rgb->b = secfile_lookup_int(file, "colors.terrains%d.b", i);
+    rgb->color = NULL;
+    key = secfile_lookup_str(file, "colors.terrains%d.terrain", i);
+
+    if (!hash_insert(colors->terrain_hash, mystrdup(key), rgb)) {
+      freelog(LOG_ERROR, "warning: already have a color for %s", key);
+    }
+  }
+
   return colors;
+}
+
+/****************************************************************************
+  Called when terrain info is received from the server.
+****************************************************************************/
+void color_system_setup_terrain(struct color_system *colors,
+				const struct terrain *pterrain)
+{
+  struct rgbcolor *rgb
+    = hash_lookup_data(colors->terrain_hash, pterrain->terrain_name);
+
+  if (rgb) {
+    colors->terrain_colors[pterrain->index] = *rgb;
+  } else {
+    freelog(LOG_ERROR, "No color for terrain '%s'", pterrain->terrain_name);
+    /* Fallback: the color remains black. */
+  }
 }
 
 /****************************************************************************
@@ -151,6 +202,17 @@ void color_system_free(struct color_system *colors)
     }
   }
   free(colors->player_colors);
+  for (i = 0; i < ARRAY_SIZE(colors->terrain_colors); i++) {
+    if (colors->terrain_colors[i].color) {
+      color_free(colors->player_colors[i].color);
+    }
+  }
+  while (hash_num_entries(colors->terrain_hash) > 0) {
+    const char *key = hash_key_by_number(colors->terrain_hash, 0);
+
+    hash_delete_entry(colors->terrain_hash, key);
+    free((void *)key);
+  }
   free(colors);
 }
 
@@ -192,6 +254,25 @@ struct color *get_player_color(const struct tileset *t,
     assert(index >= 0 && colors->num_player_colors > 0);
     index %= colors->num_player_colors;
     return ensure_color(&colors->player_colors[index]);
+  } else {
+    assert(0);
+    return NULL;
+  }
+}
+
+/****************************************************************************
+  Return a pointer to the given "terrain" color.
+
+  Each terrain has a color associated.  This is usually used to draw the
+  overview.
+****************************************************************************/
+struct color *get_terrain_color(const struct tileset *t,
+				const struct terrain *pterrain)
+{
+  if (pterrain) {
+    struct color_system *colors = get_color_system(t);
+
+    return ensure_color(&colors->terrain_colors[pterrain->index]);
   } else {
     assert(0);
     return NULL;

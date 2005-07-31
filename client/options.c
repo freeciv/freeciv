@@ -223,6 +223,10 @@ static client_option common_options[] = {
 		  N_("Background layer"),
 		  N_("The background layer of the overview shows ocean, "
 		     "land, and fog."), COC_OVERVIEW),
+  GEN_BOOL_OPTION(overview.layers[OLAYER_RELIEF],
+		  N_("Terrain relief map layer"),
+		  N_("The relief layer shows all terrains on the map."),
+		  COC_OVERVIEW),
   GEN_BOOL_OPTION(overview.layers[OLAYER_BORDERS],
 		  N_("Borders layer"),
 		  N_("The borders layer of the overview shows which tiles "

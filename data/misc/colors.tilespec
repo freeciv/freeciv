@@ -18,6 +18,20 @@ player = {"r", "g", "b"
   198, 198, 198  ; race13
 }
 
+terrains = {"r", "g", "b", "terrain"
+  255, 255, 255, "Glacier"
+   10, 123,   2, "Grassland"
+  138, 168,  60, "Plains"
+   74,  74,  74, "Tundra"
+   44,  64,  44, "Swamp"
+  212, 179, 101, "Desert"
+   54, 162,  38, "Jungle"
+   43, 107,  19, "Forest"
+  142, 121,  63, "Hills"
+  167,  77,  38, "Mountains"
+    0,   0, 200, "Ocean"
+}
+
 ; Mapview
 mapview_unknown = {"r", "g", "b"
     0,     0,   0
@@ -63,6 +77,7 @@ overview_enemyunit = {"r", "g", "b"
     255,   0,   0
 }
 overview_ocean = {"r", "g", "b"
+; Generic ocean, not the same as the Ocean terrain (see "terrains" above)
     0,     0, 200
 }
 overview_foggedocean = {"r", "g", "b"

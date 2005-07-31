@@ -141,6 +141,9 @@ static struct color *overview_tile_color(struct tile *ptile)
       return get_player_color(tileset, owner);
     }
   }
+  if (overview.layers[OLAYER_RELIEF] && ptile->terrain != T_UNKNOWN) {
+    return get_terrain_color(tileset, ptile->terrain);
+  }
   if (overview.layers[OLAYER_BACKGROUND] && ptile->terrain != T_UNKNOWN) {
     if (is_ocean(ptile->terrain)) {
       if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED

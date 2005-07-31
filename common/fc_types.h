@@ -78,6 +78,7 @@ struct connection;
 struct government;
 struct nation_type;
 struct player;
+struct terrain;
 struct tile;
 struct unit;
 struct impr_type;
