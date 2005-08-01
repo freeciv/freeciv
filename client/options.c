@@ -235,7 +235,7 @@ static client_option common_options[] = {
 		  N_("Units layer"),
 		  N_("If enabled then units will be drawn on the overview."),
 		  COC_OVERVIEW),
-  GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
+  GEN_BOOL_OPTION(overview.layers[OLAYER_CITIES],
 		  N_("Cities layer"),
 		  N_("If enabled then cities will be drawn on the overview."),
 		  COC_OVERVIEW)
