@@ -48,7 +48,7 @@
 
 #include "plrdlg.h"
 
-static struct gui_dialog *players_dialog_shell;
+struct gui_dialog *players_dialog_shell;
 static GtkWidget *players_list;
 static GtkTreeSelection *players_selection;
 static GtkWidget *players_int_command;

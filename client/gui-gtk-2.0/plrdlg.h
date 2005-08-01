@@ -20,4 +20,5 @@ void popdown_players_dialog(void);
 /* Misc helper functions */
 GdkPixbuf *get_flag(const struct nation_type *pnation);
 
+extern struct gui_dialog *players_dialog_shell;
 #endif  /* FC__PLRDLG_H */

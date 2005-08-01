@@ -70,6 +70,8 @@ struct gui_dialog
 
   /* private. */
   enum gui_dialog_type type;
+  int id;
+  int return_dialog_id;
 
   union {
     GtkWidget *window;
@@ -110,5 +112,7 @@ void gui_dialog_destroy_all(void);
 GtkWidget *gui_dialog_get_toplevel(struct gui_dialog *dlg);
 void gui_dialog_response_set_callback(struct gui_dialog *dlg,
     GUI_DIALOG_RESPONSE_FUN fun);
+void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
+                                  struct gui_dialog *return_dialog);
 
 #endif  /* FC__GUI_STUFF_H */

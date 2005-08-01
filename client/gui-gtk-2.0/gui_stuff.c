@@ -323,6 +323,18 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
   }
 
   dialog_list = g_list_remove(dialog_list, dlg);
+  
+  /* Raise the return dialog set by gui_dialog_set_return_dialog() */
+  if (dlg->return_dialog_id != -1) {
+    GList *it;
+    for (it = dialog_list; it; it = g_list_next(it)) {
+      struct gui_dialog * adialog = (struct gui_dialog *)it->data;
+      if (adialog->id == dlg->return_dialog_id) {
+        gui_dialog_raise(adialog);
+	break;
+      }
+    }
+  }
   free(dlg);
 }
 
@@ -408,6 +420,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 {
   struct gui_dialog *dlg;
   GtkWidget *vbox, *action_area;
+  static int dialog_id_counter;
 
   dlg = fc_malloc(sizeof(*dlg));
   dialog_list = g_list_prepend(dialog_list, dlg);
@@ -506,6 +519,10 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   dlg->action_area = action_area;
 
   dlg->response_callback = gui_dialog_destroyed;
+  
+  dlg->id = dialog_id_counter;
+  dialog_id_counter++;
+  dlg->return_dialog_id = -1;
 
   g_signal_connect(vbox, "destroy",
       G_CALLBACK(gui_dialog_destroy_handler), dlg);
@@ -850,3 +867,11 @@ void gui_dialog_response_set_callback(struct gui_dialog *dlg,
   dlg->response_callback = fun;
 }
 
+/**************************************************************************
+  When the dlg dialog is destroyed the return_dialog will be raised
+**************************************************************************/
+void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
+                                  struct gui_dialog *return_dialog)
+{
+  dlg->return_dialog_id = return_dialog->id;
+}

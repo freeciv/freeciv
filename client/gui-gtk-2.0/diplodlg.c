@@ -38,6 +38,7 @@
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "options.h"
+#include "plrdlg.h"
 
 #include "diplodlg.h"
 
@@ -183,6 +184,10 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   /* We initated the meeting - Make the tab active */
   if (initiated_from == game.player_ptr->player_no) {
     gui_dialog_raise(pdialog->dialog);
+    
+    if (players_dialog_shell != NULL) {
+      gui_dialog_set_return_dialog(pdialog->dialog, players_dialog_shell);
+    }
   }
 }
 
