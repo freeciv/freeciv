@@ -363,8 +363,7 @@ static const char *cr_entry_building(const struct city *pcity,
 		get_impr_name_ex(pcity, pcity->production.value),
 		MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
   } else {
-    int turns = city_turns_to_build(pcity, pcity->production.value,
-				    pcity->production.is_unit, TRUE);
+    int turns = city_turns_to_build(pcity, pcity->production, TRUE);
     char time[32];
     const char *name;
     int cost;

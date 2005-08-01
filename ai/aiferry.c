@@ -773,8 +773,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
 		&& unit_has_role(get_unit_type(pcity->production.value),
 				 L_FERRYBOAT)))) {
       bool really_needed = TRUE;
-      int turns = city_turns_to_build(pcity, pcity->production.value,
-                                      pcity->production.is_unit, TRUE);
+      int turns = city_turns_to_build(pcity, pcity->production, TRUE);
 
       UNIT_LOG(LOGLEVEL_FERRY, pferry, "%s (%d, %d) looks promising...", 
                pcity->name, TILE_XY(pcity->tile));

@@ -1201,7 +1201,7 @@ bool city_style_has_requirements(const struct citystyle *style)
  original improvement class of this turn, restore lost production.
 **************************************************************************/
 int city_change_production_penalty(const struct city *pcity,
-				   int target, bool is_unit)
+				   struct city_production target)
 {
   int shield_stock_after_adjustment;
   enum production_class_type orig_class;
@@ -1216,12 +1216,13 @@ int city_change_production_penalty(const struct city *pcity,
     orig_class = TYPE_NORMAL_IMPROVEMENT;
   }
 
-  if (is_unit)
-    new_class=TYPE_UNIT;
-  else if (is_wonder(target))
-    new_class=TYPE_WONDER;
-  else
-    new_class=TYPE_NORMAL_IMPROVEMENT;
+  if (target.is_unit) {
+    new_class = TYPE_UNIT;
+  } else if (is_wonder(target.value)) {
+    new_class = TYPE_WONDER;
+  } else {
+    new_class = TYPE_NORMAL_IMPROVEMENT;
+  }
 
   /* Changing production is penalized under certain circumstances. */
   if (orig_class == new_class) {
@@ -1261,23 +1262,23 @@ int city_change_production_penalty(const struct city *pcity,
  Calculates the turns which are needed to build the requested
  improvement in the city.  GUI Independent.
 **************************************************************************/
-int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
+int city_turns_to_build(const struct city *pcity,
+			struct city_production target,
 			bool include_shield_stock)
 {
   int city_shield_surplus = pcity->surplus[O_SHIELD];
   int city_shield_stock = include_shield_stock ?
-      city_change_production_penalty(pcity, id, id_is_unit) : 0;
-  int improvement_cost = id_is_unit ?
-    unit_build_shield_cost(get_unit_type(id)) : impr_build_shield_cost(id);
+      city_change_production_penalty(pcity, target) : 0;
+  int cost = (target.is_unit
+	      ? unit_build_shield_cost(get_unit_type(target.value))
+	      : impr_build_shield_cost(target.value));
 
-  if (include_shield_stock && (city_shield_stock >= improvement_cost)) {
+  if (include_shield_stock && (city_shield_stock >= cost)) {
     return 1;
   } else if (city_shield_surplus > 0) {
-    return
-      (improvement_cost - city_shield_stock + city_shield_surplus - 1) /
-      city_shield_surplus;
+    return (cost - city_shield_stock - 1) / city_shield_surplus + 1;
   } else {
-    return 999;
+    return FC_INFINITY;
   }
 }
 

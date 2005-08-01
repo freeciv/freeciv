@@ -585,7 +585,7 @@ static void change_callback(GtkWidget *w, gpointer data)
 
     gtk_tree_model_get(model, &it, 0, &cid, -1);
 
-    city_change_production(ptr->pcity, cid_is_unit(cid), cid_id(cid));
+    city_change_production(ptr->pcity, cid_production(cid));
   }
 }
 
@@ -950,17 +950,16 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 			     GtkTreeModel *model, GtkTreeIter *it,
 			     gpointer data)
 {
-  gint cid, id;
-  bool is_unit;
+  gint cid;
+  struct city_production target;
 
   gtk_tree_model_get(model, it, 0, &cid, -1);
-  is_unit = cid_is_unit(cid);
-  id = cid_id(cid);
+  target = cid_production(cid);
 
   if (GTK_IS_CELL_RENDERER_PIXBUF(rend)) {
     GdkPixbuf *pix;
 
-    if (is_unit) {
+    if (target.is_unit) {
       struct canvas store;
 
       pix = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
@@ -968,18 +967,18 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
 
       store.type = CANVAS_PIXBUF;
       store.v.pixbuf = pix;
-      create_overlay_unit(&store, get_unit_type(id));
+      create_overlay_unit(&store, get_unit_type(target.value));
 
       g_object_set(rend, "pixbuf", pix, NULL);
       g_object_unref(pix);
     } else {
-      struct sprite *sprite = get_building_sprite(tileset, id);
+      struct sprite *sprite = get_building_sprite(tileset, target.value);
 
       pix = sprite_get_pixbuf(sprite);
       g_object_set(rend, "pixbuf", pix, NULL);
     }
   } else {
-    struct city **pcity;
+    struct city **pcity = data;
     struct player *plr;
     gint column;
     char *row[4];
@@ -987,20 +986,18 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     int   i;
     gboolean useless;
 
-    pcity = (struct city **) data;
-
     for (i = 0; i < ARRAY_SIZE(row); i++) {
       row[i] = buf[i];
     }
     column = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(rend), "column"));
 
-    get_city_dialog_production_row(row, sizeof(buf[0]), id, is_unit, *pcity);
+    get_city_dialog_production_row(row, sizeof(buf[0]), target, *pcity);
     g_object_set(rend, "text", row[column], NULL);
 
-    if (!is_unit && *pcity) {
+    if (!target.is_unit && *pcity) {
       plr = city_owner(*pcity);
-      useless = improvement_obsolete(plr, id)
-	|| is_building_replaced(*pcity, id);
+      useless = improvement_obsolete(plr, target.value)
+	|| is_building_replaced(*pcity, target.value);
       g_object_set(rend, "strikethrough", useless, NULL);
     } else {
       g_object_set(rend, "strikethrough", FALSE, NULL);
@@ -1471,7 +1468,7 @@ static void commit_worklist(struct worklist_data *ptr)
 
       gtk_tree_model_get(model, &it, 0, &cid, -1);
 
-      worklist_append(&queue, cid_id(cid), cid_is_unit(cid));
+      worklist_append(&queue, cid_production(cid));
 
       i++;
     } while (gtk_tree_model_iter_next(model, &it));

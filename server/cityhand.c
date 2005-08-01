@@ -336,6 +336,10 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
 			bool is_build_id_unit_id)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  struct city_production prod = {
+    .is_unit = is_build_id_unit_id,
+    .value = build_id
+  };
 
   if (!pcity) {
     return;
@@ -359,8 +363,7 @@ void handle_city_change(struct player *pplayer, int city_id, int build_id,
     return;
   }
 
-  change_build_target(pplayer, pcity, build_id, is_build_id_unit_id,
-		      E_NOEVENT);
+  change_build_target(pplayer, pcity, prod, E_NOEVENT);
 
   sanity_check_city(pcity);
   city_refresh(pcity);

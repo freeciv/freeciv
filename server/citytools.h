@@ -71,7 +71,8 @@ void do_sell_building(struct player *pplayer, struct city *pcity,
 		      Impr_type_id id);
 void building_lost(struct city *pcity, Impr_type_id id);
 void change_build_target(struct player *pplayer, struct city *pcity,
-			 int target, bool is_unit, enum event_type event);
+			 struct city_production target,
+			 enum event_type event);
 
 bool is_allowed_city_name(struct player *pplayer, const char *city_name,
 			  char *error_buf, size_t bufsz);

@@ -68,30 +68,26 @@ bool worklist_is_empty(const struct worklist *pwl)
   if the worklist is non-empty.  Return 1 iff id and is_unit
   are valid.
 ****************************************************************/
-bool worklist_peek(const struct worklist *pwl, int *id, bool *is_unit)
+bool worklist_peek(const struct worklist *pwl, struct city_production *prod)
 {
-  if (worklist_is_empty(pwl))
-    return FALSE;
-
-  return worklist_peek_ith(pwl, id, is_unit, 0);
+  return worklist_peek_ith(pwl, prod, 0);
 }
 
 /****************************************************************
   Fill in the id and is_unit values for the ith element in the
   worklist.  If the worklist has fewer than i elements, return 0.
 ****************************************************************/
-bool worklist_peek_ith(const struct worklist *pwl, int *id, bool *is_unit,
-		      int idx)
+bool worklist_peek_ith(const struct worklist *pwl,
+		       struct city_production *prod, int idx)
 {
   /* Out of possible bounds. */
   if (idx < 0 || pwl->length <= idx) {
-    *is_unit = FALSE;
-    *id = -1;
+    prod->is_unit = FALSE;
+    prod->value = -1;
     return FALSE;
   }
 
-  *is_unit = pwl->entries[idx].is_unit;
-  *id = pwl->entries[idx].value;
+  *prod = pwl->entries[idx];
 
   return TRUE;
 }
@@ -138,7 +134,7 @@ void worklist_remove(struct worklist *pwl, int idx)
   the unit/building to be produced; is_unit specifies whether it's a unit or
   a building.  Returns TRUE if successful.
 ****************************************************************************/
-bool worklist_append(struct worklist *pwl, int id, bool is_unit)
+bool worklist_append(struct worklist *pwl, struct city_production prod)
 {
   int next_index = worklist_length(pwl);
 
@@ -146,8 +142,7 @@ bool worklist_append(struct worklist *pwl, int id, bool is_unit)
     return FALSE;
   }
 
-  pwl->entries[next_index].is_unit = is_unit;
-  pwl->entries[next_index].value = id;
+  pwl->entries[next_index] = prod;
   pwl->length++;
 
   return TRUE;
@@ -159,7 +154,8 @@ bool worklist_append(struct worklist *pwl, int id, bool is_unit)
   be produced; is_unit tells whether it's a unit or building.  Returns TRUE
   if successful.
 ****************************************************************************/
-bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx)
+bool worklist_insert(struct worklist *pwl,
+		     struct city_production prod, int idx)
 {
   int new_len = MIN(pwl->length + 1, MAX_LEN_WORKLIST), i;
 
@@ -174,9 +170,7 @@ bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx)
     pwl->entries[i + 1] = pwl->entries[i];
   }
   
-  pwl->entries[idx].is_unit = is_unit;
-  pwl->entries[idx].value = id;
-
+  pwl->entries[idx] = prod;
   pwl->length = new_len;
 
   return TRUE;

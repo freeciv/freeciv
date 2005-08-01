@@ -270,8 +270,9 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     GtkWidget *menu_item, *hbox, *label;
     char txt[256];
 
-    get_city_dialog_production_row(row, sizeof(buf[0]), cid_id(cid),
-				   cid_is_unit(cid), NULL);
+    get_city_dialog_production_row(row, sizeof(buf[0]), cid_production(cid),
+				   NULL);
+
 
     menu_item = gtk_menu_item_new();
     hbox = gtk_hbox_new(FALSE, 18);
@@ -323,7 +324,7 @@ static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
 
   gtk_tree_model_get(model, it, 1, &id, -1);
 
-  city_change_production(find_city_by_id(id), cid_is_unit(cid), cid_id(cid));
+  city_change_production(find_city_by_id(id), cid_production(cid));
 }
 
 /****************************************************************
@@ -344,7 +345,7 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  (void) city_queue_insert(pcity, -1, cid_is_unit(cid), cid_id(cid));
+  (void) city_queue_insert(pcity, -1, cid_production(cid));
   /* perhaps should warn the user if not successful? */
 }
 
@@ -368,7 +369,7 @@ static void worklist_first_impr_or_unit_iterate(GtkTreeModel *model,
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  (void) city_queue_insert(pcity, 0, cid_is_unit(cid), cid_id(cid));
+  (void) city_queue_insert(pcity, 0, cid_production(cid));
   /* perhaps should warn the user if not successful? */
 }
 
@@ -390,7 +391,7 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  (void) city_queue_insert(pcity, 1, cid_is_unit(cid), cid_id(cid));
+  (void) city_queue_insert(pcity, 1, cid_production(cid));
   /* perhaps should warn the user if not successful? */
 }
 

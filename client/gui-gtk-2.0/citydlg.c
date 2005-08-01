@@ -880,7 +880,7 @@ target_drag_data_received(GtkWidget *w, GdkDragContext *context,
     if (gtk_tree_model_get_iter(model, &it, path)) {
       cid cid;
       gtk_tree_model_get(model, &it, 0, &cid, -1);
-      city_change_production(pdialog->pcity, cid_is_unit(cid), cid_id(cid));
+      city_change_production(pdialog->pcity, cid_production(cid));
       gtk_drag_finish(context, TRUE, FALSE, time);
     }
     gtk_tree_path_free(path);
@@ -2466,7 +2466,7 @@ static void change_production_callback(GtkWidget* w,
       gtk_tree_model_get(
         GTK_TREE_MODEL(pdial->overview.change_production_store),
         &iter, 2, &cid, -1);
-      city_change_production(pdial->pcity, cid_is_unit(cid), cid_id(cid)); 
+      city_change_production(pdial->pcity, cid_production(cid)); 
     }
 }
 

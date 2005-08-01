@@ -51,10 +51,11 @@ void city_dialog_redraw_map(struct city *pcity,
 void get_city_dialog_production(struct city *pcity,
                                 char *buffer, size_t buffer_len);
 void get_city_dialog_production_full(char *buffer, size_t buffer_len,
-				     int id, bool is_unit,
+				     struct city_production target,
 				     struct city *pcity);
-void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
-				    bool is_unit, struct city *pcity);
+void get_city_dialog_production_row(char *buf[], size_t column_size,
+				    struct city_production target,
+				    struct city *pcity);
 
 void get_city_dialog_output_text(const struct city *pcity,
 				 Output_type_id otype,
@@ -68,10 +69,10 @@ void city_rotate_specialist(struct city *pcity, int citizen_index);
 
 void activate_all_units(struct tile *ptile);
 
-int city_change_production(struct city *pcity, bool is_unit, int build_id);
+int city_change_production(struct city *pcity, struct city_production target);
 int city_set_worklist(struct city *pcity, struct worklist *pworklist);
 bool city_queue_insert(struct city *pcity, int position,
-		       bool item_is_unit, int item_id);
+		       struct city_production target);
 bool city_queue_clear(struct city *pcity);
 bool city_queue_insert_worklist(struct city *pcity, int position,
 				struct worklist *worklist);

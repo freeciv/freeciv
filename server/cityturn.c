@@ -295,8 +295,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
       /* can_player_build_improvement() checks whether wonder is build
 	 elsewhere (or destroyed) */
       if (!pcity->production.is_unit && is_great_wonder(pcity->production.value)
-	  && (city_turns_to_build(pcity, pcity->production.value, FALSE, TRUE)
-	      <= 1)
+	  && (city_turns_to_build(pcity, pcity->production, TRUE) <= 1)
 	  && can_player_build_improvement(city_owner(pcity), pcity->production.value)) {
 	notify_conn_ex(dest, pcity->tile,
 		       E_WONDER_WILL_BE_BUILT,
@@ -582,7 +581,10 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
   /* See what AI has to say */
   ai_advisor_choose_building(pcity, &choice);
   if (choice.choice >= 0 && choice.choice < B_LAST) {
-    change_build_target(pplayer, pcity, choice.choice, FALSE, E_IMP_AUTO);
+    struct city_production target = {.is_unit = FALSE,
+				     .value = choice.choice};
+
+    change_build_target(pplayer, pcity, target, E_IMP_AUTO);
     return;
   }
 
@@ -590,7 +592,9 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
   impr_type_iterate(i) {
     if (can_build_improvement(pcity, i)
 	&& !building_has_effect(i, EFT_CAPITAL_CITY)) {
-      change_build_target(pplayer, pcity, i, FALSE, E_IMP_AUTO);
+      struct city_production target = {.is_unit = FALSE, .value = i};
+
+      change_build_target(pplayer, pcity, target, E_IMP_AUTO);
       return;
     }
   } impr_type_iterate_end;
@@ -614,20 +618,19 @@ static bool worklist_change_build_target(struct player *pplayer,
 
   i = 0;
   while (TRUE) {
-    int target;
-    bool is_unit;
+    struct city_production target;
 
     /* What's the next item in the worklist? */
-    if (!worklist_peek_ith(&pcity->worklist, &target, &is_unit, i))
+    if (!worklist_peek_ith(&pcity->worklist, &target, i))
       /* Nothing more in the worklist.  Ah, well. */
       break;
 
     i++;
 
     /* Sanity checks */
-    if (is_unit &&
-	!can_build_unit(pcity, get_unit_type(target))) {
-      struct unit_type *ptarget = get_unit_type(target);
+    if (target.is_unit &&
+	!can_build_unit(pcity, get_unit_type(target.value))) {
+      struct unit_type *ptarget = get_unit_type(target.value);
       struct unit_type *new_target = unit_upgrades_to(pcity, ptarget);
 
       /* Maybe we can just upgrade the target to what the city /can/ build. */
@@ -636,8 +639,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			 _("%s can't build %s from the worklist; "
 			   "tech not yet available.  Postponing..."),
-			 pcity->name,
-			 get_unit_type(target)->name);
+			 pcity->name, ptarget->name);
 	script_signal_emit("unit_cant_be_built", 3,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
@@ -653,7 +655,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			 /* Yes, warn about the targets that's actually
 			    in the worklist, not its obsolete-closure
 			    new_target. */
-			 get_unit_type(target)->name);
+			 ptarget->name);
 	script_signal_emit("unit_cant_be_built", 3,
 			   API_TYPE_UNIT_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
@@ -672,11 +674,12 @@ static bool worklist_change_build_target(struct player *pplayer,
 			 new_target->name,
 			 pcity->name);
 	ptarget = new_target;
-	target = new_target->index;
+	target.value = new_target->index;
       }
-    } else if (!is_unit && !can_build_improvement(pcity, target)) {
-      Impr_type_id new_target = building_upgrades_to(pcity, target);
-      struct impr_type *ptarget = get_improvement_type(target);
+    } else if (!target.is_unit
+	       && !can_build_improvement(pcity, target.value)) {
+      Impr_type_id new_target = building_upgrades_to(pcity, target.value);
+      struct impr_type *ptarget = get_improvement_type(target.value);
 
       /* If the city can never build this improvement, drop it. */
       if (!can_eventually_build_improvement(pcity, new_target)) {
@@ -685,7 +688,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			 _("%s can't build %s from the worklist.  "
 			   "Purging..."),
 			 pcity->name,
-			 get_impr_name_ex(pcity, target));
+			 get_impr_name_ex(pcity, ptarget->index));
 	script_signal_emit("building_cant_be_built", 3,
 			   API_TYPE_BUILDING_TYPE, ptarget,
 			   API_TYPE_CITY, pcity,
@@ -702,8 +705,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
-      if (new_target == target) {
-	struct impr_type *building = get_improvement_type(target);
+      if (new_target == target.value) {
+	struct impr_type *building = get_improvement_type(target.value);
 	bool known = FALSE;
 
 	/* Nope, no use.  *sigh*  */
@@ -717,7 +720,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       _("%s can't build %s from the worklist; "
 				 "tech %s not yet available.  Postponing..."),
 			       pcity->name,
-			       get_impr_name_ex(pcity, target),
+			       get_impr_name_ex(pcity, building->index),
 			       get_tech_name(pplayer,
 					     preq->source.value.tech));
 	      script_signal_emit("building_cant_be_built", 3,
@@ -730,7 +733,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       _("%s can't build %s from the worklist; "
 				 "need to have %s first.  Postponing..."),
 			       pcity->name,
-			       get_impr_name_ex(pcity, target),
+			       get_impr_name_ex(pcity, building->index),
 			       get_impr_name_ex(pcity,
 						preq->source.value.building));
 	      script_signal_emit("building_cant_be_built", 3,
@@ -743,7 +746,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       _("%s can't build %s from the worklist; "
 				 "it needs %s government.  Postponing..."),
 			       pcity->name,
-			       get_impr_name_ex(pcity, target),
+			       get_impr_name_ex(pcity, building->index),
 			       get_government_name(preq->source.value.gov));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
@@ -755,7 +758,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       _("%s can't build %s from the worklist; "
 				 "%s special is required.  Postponing..."),
 			       pcity->name,
-			       get_impr_name_ex(pcity, target),
+			       get_impr_name_ex(pcity, building->index),
 			       get_special_name(preq->source.value.special));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
@@ -767,7 +770,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       _("%s can't build %s from the worklist; "
 				 "%s terrain is required.  Postponing..."),
 			       pcity->name,
-			       get_impr_name_ex(pcity, target),
+			       get_impr_name_ex(pcity, building->index),
 			       get_name(preq->source.value.terrain));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
@@ -781,7 +784,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 			       _("%s can't build %s from the worklist; "
 				 "only %s may build this.  Postponing..."),
 			       pcity->name,
-			       get_impr_name_ex(pcity, target),
+			       get_impr_name_ex(pcity, building->index),
 			       get_nation_name(preq->source.value.nation));
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
@@ -798,7 +801,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      notify_player_ex(pplayer, pcity->tile, E_CITY_CANTBUILD,
 			       _("%s can't build %s from the worklist; "
 				 "city must be of size %d.  Postponing..."),
-			       pcity->name, get_impr_name_ex(pcity, target),
+			       pcity->name,
+			       get_impr_name_ex(pcity, building->index),
 			       preq->source.value.minsize);
 	      script_signal_emit("building_cant_be_built", 3,
 				 API_TYPE_BUILDING_TYPE, building,
@@ -820,22 +824,22 @@ static bool worklist_change_build_target(struct player *pplayer,
 			   _("%s can't build %s from the worklist; "
 			     "Reason unknown!  Postponing..."),
 			   pcity->name,
-			   get_impr_name_ex(pcity, target));
+			   get_impr_name_ex(pcity, building->index));
 	}
 	continue;
       } else {
 	/* Hey, we can upgrade the improvement!  */
 	notify_player_ex(pplayer, pcity->tile, E_WORKLIST,
 			 _("Production of %s is upgraded to %s in %s."),
-			 get_impr_name_ex(pcity, target), 
+			 get_impr_name_ex(pcity, target.value), 
 			 get_impr_name_ex(pcity, new_target),
 			 pcity->name);
-	target = new_target;
+	target.value = new_target;
       }
     }
 
     /* All okay.  Switch targets. */
-    change_build_target(pplayer, pcity, target, is_unit, E_WORKLIST);
+    change_build_target(pplayer, pcity, target, E_WORKLIST);
 
     success = TRUE;
     break;

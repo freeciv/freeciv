@@ -650,12 +650,11 @@ void dio_get_worklist(struct data_in *din, struct worklist *pwl)
 
     dio_get_uint8(din, &length);
     for (i = 0; i < length; i++) {
-      bool is_unit;
-      int value;
+      struct city_production prod;
 
-      dio_get_bool8(din, &is_unit);
-      dio_get_uint8(din, &value);
-      worklist_append(pwl, value, is_unit);
+      dio_get_bool8(din, &prod.is_unit);
+      dio_get_uint8(din, &prod.value);
+      worklist_append(pwl, prod);
     }
   }
 }

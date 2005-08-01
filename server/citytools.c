@@ -1781,14 +1781,15 @@ void building_lost(struct city *pcity, Impr_type_id id)
   Change the build target.
 **************************************************************************/
 void change_build_target(struct player *pplayer, struct city *pcity,
-			 int target, bool is_unit, enum event_type event)
+			 struct city_production target,
+			 enum event_type event)
 {
   const char *name;
   const char *source;
 
   /* If the city is already building this thing, don't do anything */
-  if (pcity->production.is_unit == is_unit &&
-      pcity->production.value == target) {
+  if (pcity->production.is_unit == target.is_unit &&
+      pcity->production.value == target.value) {
     return;
   }
 
@@ -1808,17 +1809,17 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 
   /* Manage the city change-production penalty.
      (May penalize, restore or do nothing to the shield_stock.) */
-  pcity->shield_stock = city_change_production_penalty(pcity, target, is_unit);
+  pcity->shield_stock = city_change_production_penalty(pcity, target);
 
   /* Change build target. */
-  pcity->production.value = target;
-  pcity->production.is_unit = is_unit;
+  pcity->production = target;
 
   /* What's the name of the target? */
-  if (is_unit)
+  if (target.is_unit) {
     name = get_unit_type(pcity->production.value)->name;
-  else
+  } else {
     name = get_improvement_name(pcity->production.value);
+  }
 
   switch (event) {
     case E_WORKLIST: source = _(" from the worklist"); break;

@@ -158,34 +158,28 @@ could be improvements or units. X and Y are compound ids.
 **************************************************************************/
 void client_change_all(cid x, cid y)
 {
-  int fr_id = cid_id(x), to_id = cid_id(y);
-  bool fr_is_unit = cid_is_unit(x), to_is_unit = cid_is_unit(y);
+  struct city_production from = cid_production(x), to = cid_production(y);
   char buf[512];
   int last_request_id = 0;
 
   my_snprintf(buf, sizeof(buf),
 	      _("Changing production of every %s into %s."),
-	      fr_is_unit ? get_unit_type(fr_id)->name :
-	      get_improvement_name(fr_id),
-	      to_is_unit ? get_unit_type(to_id)->
-	      name : get_improvement_name(to_id));
+	      from.is_unit ? get_unit_type(from.value)->name
+	      : get_improvement_name(from.value),
+	      to.is_unit ? get_unit_type(to.value)->name
+	      : get_improvement_name(to.value));
   append_output_window(buf);
 
   connection_do_buffer(&aconnection);
   city_list_iterate (game.player_ptr->cities, pcity) {
-    if (((fr_is_unit &&
-	  (pcity->production.is_unit) &&
-	  (pcity->production.value == fr_id)) ||
-	 (!fr_is_unit &&
-	  !(pcity->production.is_unit) &&
-	  (pcity->production.value == fr_id))) &&
-	((to_is_unit &&
-	  can_build_unit (pcity, get_unit_type(to_id))) ||
-	 (!to_is_unit &&
-	  can_build_improvement (pcity, to_id))))
-      {
-	last_request_id = city_change_production(pcity, to_is_unit, to_id);
-      }
+    if (from.is_unit == pcity->production.is_unit
+	&& from.value == pcity->production.value
+	&& ((to.is_unit
+	     && can_build_unit(pcity, get_unit_type(to.value)))
+	    || (!to.is_unit
+		&& can_build_improvement(pcity, to.value)))) {
+      last_request_id = city_change_production(pcity, to);
+    }
   } city_list_iterate_end;
 
   connection_do_unbuffer(&aconnection);
@@ -481,6 +475,20 @@ bool cid_is_unit(cid cid)
 int cid_id(cid cid)
 {
   return (cid >= B_LAST) ? (cid - B_LAST) : cid;
+}
+
+/****************************************************************************
+  Return a city_production struct for the given cid.
+
+  This is a temporary sort of measure since hopefully the city_production
+  will someday replace the cid entirely.
+****************************************************************************/
+struct city_production cid_production(cid cid)
+{
+  struct city_production prod = {.is_unit = cid_is_unit(cid),
+				 .value = cid_id(cid)};
+
+  return prod;
 }
 
 /**************************************************************************

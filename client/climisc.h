@@ -56,6 +56,7 @@ cid cid_encode_from_city(struct city *pcity);
 void cid_decode(cid cid, bool *is_unit, int *id);
 bool cid_is_unit(cid cid);
 int cid_id(cid cid);
+struct city_production cid_production(cid cid);
 
 /* 
  * A worklist id (wid) can hold all objects which can be part of a

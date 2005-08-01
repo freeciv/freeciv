@@ -33,15 +33,16 @@ void init_worklist(struct worklist *pwl);
 
 int worklist_length(const struct worklist *pwl);
 bool worklist_is_empty(const struct worklist *pwl);
-bool worklist_peek(const struct worklist *pwl, int *id, bool *is_unit);
-bool worklist_peek_ith(const struct worklist *pwl, int *id, bool *is_unit,
-		      int idx);
+bool worklist_peek(const struct worklist *pwl, struct city_production *prod);
+bool worklist_peek_ith(const struct worklist *pwl,
+		       struct city_production *prod, int idx);
 void worklist_advance(struct worklist *pwl);
 
 void copy_worklist(struct worklist *dst, const struct worklist *src);
 void worklist_remove(struct worklist *pwl, int idx);
-bool worklist_append(struct worklist *pwl, int id, bool is_unit);
-bool worklist_insert(struct worklist *pwl, int id, bool is_unit, int idx);
+bool worklist_append(struct worklist *pwl, struct city_production prod);
+bool worklist_insert(struct worklist *pwl, struct city_production prod,
+		     int idx);
 bool are_worklists_equal(const struct worklist *wlist1,
 			 const struct worklist *wlist2);
 
@@ -55,16 +56,15 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
 		   const char *path, ...)
   fc__attribute((format (printf, 3, 4)));
 
-/* Iterate over all entries in the worklist.  Note the 'id' parameter
- * comes before the 'is_unit' one. */
-#define worklist_iterate(worklist, id, is_unit)				    \
+/* Iterate over all entries in the worklist. */
+#define worklist_iterate(worklist, prod)				    \
 {									    \
   struct worklist *_worklist = (worklist);				    \
-  int id, _iter, _length = worklist_length(_worklist);			    \
-  bool is_unit;								    \
+  int _iter, _length = worklist_length(_worklist);			    \
+  struct city_production prod;						    \
 									    \
   for (_iter = 0; _iter < _length; _iter++) {				    \
-    worklist_peek_ith(_worklist, &id, &is_unit, _iter);
+    worklist_peek_ith(_worklist, &prod, _iter);
 
 #define worklist_iterate_end						    \
   }									    \

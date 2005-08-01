@@ -388,9 +388,10 @@ bool is_capital(const struct city *pcity);
 bool city_got_citywalls(const struct city *pcity);
 bool building_replaced(const struct city *pcity, Impr_type_id id);
 int city_change_production_penalty(const struct city *pcity,
-				   int target, bool is_unit);
-int city_turns_to_build(const struct city *pcity, int id, bool id_is_unit,
-                        bool include_shield_stock );
+				   struct city_production target);
+int city_turns_to_build(const struct city *pcity,
+			struct city_production target,
+                        bool include_shield_stock);
 int city_turns_to_grow(const struct city *pcity);
 bool city_can_grow_to(const struct city *pcity, int pop_size);
 

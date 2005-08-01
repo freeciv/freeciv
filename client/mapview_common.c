@@ -1888,8 +1888,7 @@ struct city *find_city_near_tile(const struct tile *ptile)
 void get_city_mapview_production(struct city *pcity,
                                  char *buffer, size_t buffer_len)
 {
-  int turns = city_turns_to_build(pcity, pcity->production.value,
-				  pcity->production.is_unit, TRUE);
+  int turns = city_turns_to_build(pcity, pcity->production, TRUE);
 				
   if (pcity->production.is_unit) {
     struct unit_type *punit_type =
