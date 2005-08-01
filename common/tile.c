@@ -378,7 +378,7 @@ const char *tile_get_info_text(const struct tile *ptile)
   static char s[256];
   bool first;
 
-  sz_strlcpy(s, ptile->terrain->terrain_name);
+  sz_strlcpy(s, ptile->terrain->name);
   if (tile_has_special(ptile, S_RIVER)) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));

@@ -235,7 +235,7 @@ static bool manual_command(void)
 
 	fprintf(doc, "<tr><td>%s%s%s %s</td>", IMAGE_BEGIN,
 		pterrain->graphic_str,
-		IMAGE_END, get_terrain_name(pterrain));
+		IMAGE_END, get_name(pterrain));
 	fprintf(doc, "<td>%d / %d / %d</td>",
 		pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
 		pterrain->output[O_TRADE]);
@@ -255,7 +255,7 @@ static bool manual_command(void)
 		pterrain->defense_bonus, pterrain->road_trade_incr,
 		pterrain->irrigation_food_incr, pterrain->mining_shield_incr);
 	fprintf(doc, "<td>%s</td></tr>\n\n",
-		get_terrain_name(pterrain->transform_result));
+		get_name(pterrain->transform_result));
       } terrain_type_iterate_end;
       fprintf(doc, _("</table><br><br><br><table border=1>"));
       fprintf(doc, _("<caption>Time to perform action</caption>"));
@@ -266,9 +266,9 @@ static bool manual_command(void)
       fprintf(doc, _("<th>Clean pollution</th><th>Clean fallout</th>\n"));
       fprintf(doc, _("<th>Transform</th></tr>\n"));
       terrain_type_iterate(pterrain) {
-	const char *name = get_terrain_name(pterrain);
+	const char *name = get_name(pterrain);
 
-	if (pterrain->terrain_name[0] == '\0') {
+	if (pterrain->name[0] == '\0') {
 	  /* Must be a disabled piece of terrain */
 	  continue;
 	}

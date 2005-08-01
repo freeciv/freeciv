@@ -77,7 +77,7 @@ struct terrain *get_terrain(Terrain_type_id type)
 struct terrain *get_terrain_by_name(const char *name)
 {
   terrain_type_iterate(pterrain) {
-    if (0 == strcmp(pterrain->terrain_name, name)) {
+    if (0 == strcmp(pterrain->name, name)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -88,10 +88,10 @@ struct terrain *get_terrain_by_name(const char *name)
 /****************************************************************************
   Return the name of the terrain.
 ****************************************************************************/
-const char *get_terrain_name(const struct terrain *pterrain)
+const char *get_name(const struct terrain *pterrain)
 {
   SANITY_CHECK_TERRAIN(pterrain);
-  return pterrain->terrain_name;
+  return pterrain->name;
 }
 
 /****************************************************************************

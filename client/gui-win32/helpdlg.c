@@ -625,7 +625,7 @@ static void help_update_terrain(const struct help_item *pitem,
       }
     } else if (pterrain->irrigation_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      pterrain->irrigation_result->terrain_name,
+	      pterrain->irrigation_result->name,
 	      pterrain->irrigation_time);
     }
     SetWindowText(help_tlabel[2][4], buf);
@@ -639,14 +639,14 @@ static void help_update_terrain(const struct help_item *pitem,
       }
     } else if (pterrain->mining_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      pterrain->mining_result->terrain_name,
+	      pterrain->mining_result->name,
 	      pterrain->mining_time);
     }
     SetWindowText(help_tlabel[3][1], buf);
 
     if (pterrain->transform_result != T_NONE) {
       sprintf(buf, "%s / %d",
-	      pterrain->transform_result->terrain_name,
+	      pterrain->transform_result->name,
 	      pterrain->transform_time);
     } else {
       strcpy(buf, "n/a");

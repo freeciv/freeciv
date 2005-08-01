@@ -100,8 +100,8 @@ enum mapgen_terrain_property {
  */
 struct terrain {
   int index;
-  const char *terrain_name; /* Translated string - doesn't need freeing. */
-  char terrain_name_orig[MAX_LEN_NAME];	/* untranslated copy */
+  const char *name; /* Translated string - doesn't need freeing. */
+  char name_orig[MAX_LEN_NAME];	/* untranslated copy */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
 
@@ -166,7 +166,7 @@ void terrains_init(void);
 /* General terrain accessor functions. */
 struct terrain *get_terrain(Terrain_type_id type);
 struct terrain *get_terrain_by_name(const char *name);
-const char *get_terrain_name(const struct terrain *pterrain);
+const char *get_name(const struct terrain *pterrain);
 enum terrain_flag_id terrain_flag_from_str(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
 struct terrain *get_flag_terrain(enum terrain_flag_id flag);

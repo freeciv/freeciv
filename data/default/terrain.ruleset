@@ -103,7 +103,7 @@ fallout_trade_penalty=50
 ;
 ; Notes:
 ;
-; terrain_name         = name as seen by user; if "unused", it is not used
+; name                 = name as seen by user; if "unused", it is not used
 ; graphic              = preferred base graphics tag in tilespec; must have
 ;                        tags with extensions _n0s0e0e0 etc.
 ; graphic_alt          = alternate graphics tag if preferred is not found;
@@ -193,7 +193,7 @@ fallout_trade_penalty=50
 ;		         newlines so that xgettext parsing works
 
 [terrain_glacier]
-terrain_name         = _("Glacier")
+name                 = _("Glacier")
 graphic              = "arctic"
 graphic_alt	     = "-"
 identifier	     = "a"
@@ -242,7 +242,7 @@ Glaciers are found only in the most northerly or southerly\
 ")
 
 [terrain_desert]
-terrain_name         = _("Desert")
+name                 = _("Desert")
 graphic              = "desert"
 graphic_alt	     = "-"
 identifier	     = "d"
@@ -291,7 +291,7 @@ Deserts are regions of extreme dryness, making agriculture and\
 ")
 
 [terrain_forest]
-terrain_name         = _("Forest")
+name                 = _("Forest")
 graphic              = "forest"
 graphic_alt	     = "-"
 identifier	     = "f"
@@ -340,7 +340,7 @@ Forests are densely wooded, making agriculture somewhat\
 ")
 
 [terrain_grassland]
-terrain_name         = _("Grassland")
+name                 = _("Grassland")
 graphic              = "grassland"
 graphic_alt	     = "-"
 identifier	     = "g"
@@ -388,7 +388,7 @@ Grasslands afford exceptional agricultural opportunities.\
 ")
 
 [terrain_hills]
-terrain_name         = _("Hills")
+name                 = _("Hills")
 graphic              = "hills"
 graphic_alt	     = "-"
 identifier	     = "h"
@@ -437,7 +437,7 @@ In addition to being amenable to agriculture, Hills are frequently\
 ")
 
 [terrain_jungle]
-terrain_name         = _("Jungle")
+name                 = _("Jungle")
 graphic              = "jungle"
 graphic_alt	     = "-"
 identifier	     = "j"
@@ -487,7 +487,7 @@ Jungles are densely overgrown, making agriculture somewhat\
 ")
 
 [terrain_mountains]
-terrain_name         = _("Mountains")
+name                 = _("Mountains")
 graphic              = "mountains"
 graphic_alt	     = "-"
 identifier	     = "m"
@@ -535,7 +535,7 @@ Mountains are regions of extreme altitude, making agriculture and\
 ")
 
 [terrain_ocean]
-terrain_name         = _("Ocean")
+name                 = _("Ocean")
 graphic              = "ocean"
 graphic_alt	     = "-"
 identifier	     = " "
@@ -585,7 +585,7 @@ Ocean squares can never be polluted or subjected to fallout.\
 ")
 
 [terrain_plains]
-terrain_name         = _("Plains")
+name                 = _("Plains")
 graphic              = "plains"
 graphic_alt	     = "-"
 identifier	     = "p"
@@ -634,7 +634,7 @@ Plains are very broad, sparse regions, which makes trade slightly\
 ")
 
 [terrain_swamp]
-terrain_name         = _("Swamp")
+name                 = _("Swamp")
 graphic              = "swamp"
 graphic_alt	     = "-"
 identifier	     = "s"
@@ -683,7 +683,7 @@ Swamps suffer from an over-abundance of water, making agriculture\
 ")
 
 [terrain_tundra]
-terrain_name         = _("Tundra")
+name                 = _("Tundra")
 graphic              = "tundra"
 graphic_alt	     = "-"
 identifier	     = "t"

@@ -827,7 +827,7 @@ const char *sdl_map_get_tile_info_text(struct tile *pTile)
   static char s[128];
   bool first;
     
-  my_snprintf(s, sizeof(s), "%s", terrains[pTile->terrain].terrain_name);
+  my_snprintf(s, sizeof(s), "%s", terrains[pTile->terrain].name);
   if((pTile->special & S_RIVER) == S_RIVER) {
     sz_strlcat(s, "/");
     sz_strlcat(s, get_special_name(S_RIVER));

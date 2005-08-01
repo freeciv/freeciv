@@ -120,24 +120,24 @@ static void insert_generated_table(const char* name, char* outbuf)
     strcat(outbuf, "---------------------------------------------------"
 	   "------------\n");
     terrain_type_iterate(pterrain) {
-      if (*(pterrain->terrain_name) != '\0') {
+      if (*(pterrain->name) != '\0') {
 	outbuf = strchr(outbuf, '\0');
 	sprintf(outbuf,
 		"%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
-		pterrain->terrain_name,
+		pterrain->name,
 		pterrain->road_time,
 		pterrain->irrigation_time,
 		((pterrain->irrigation_result == pterrain
 		  || pterrain->irrigation_result == T_NONE) ? ""
-		 : pterrain->irrigation_result->terrain_name),
+		 : pterrain->irrigation_result->name),
 		pterrain->mining_time,
 		((pterrain->mining_result == pterrain
 		  || pterrain->mining_result == T_NONE) ? ""
-		 : pterrain->mining_result->terrain_name),
+		 : pterrain->mining_result->name),
 		pterrain->transform_time,
 		((pterrain->transform_result == pterrain
 		 || pterrain->transform_result == T_NONE) ? ""
-		 : pterrain->transform_result->terrain_name));
+		 : pterrain->transform_result->name));
       }
     } terrain_type_iterate_end;
     strcat(outbuf, "\n");
@@ -178,7 +178,7 @@ static void insert_requirement(struct requirement *req,
     return;
   case REQ_TERRAIN:
     cat_snprintf(buf, bufsz, _("Requires the %s terrain.\n\n"),
-		 get_terrain_name(req->source.value.terrain));
+		 get_name(req->source.value.terrain));
     return;
   case REQ_NATION:
     cat_snprintf(buf, bufsz, _("Requires the %s nation.\n\n"),
@@ -386,10 +386,10 @@ void boot_help_texts(void)
 	  } tech_type_iterate_end;
 	} else if (current_type == HELP_TERRAIN) {
 	  terrain_type_iterate(pterrain) {
-	    if (*(pterrain->terrain_name) != '\0') {
+	    if (*(pterrain->name) != '\0') {
 	      pitem = new_help_item(current_type);
 	      my_snprintf(name, sizeof(name), " %s",
-			  pterrain->terrain_name);
+			  pterrain->name);
 	      pitem->topic = mystrdup(name);
 	      pitem->text = mystrdup("");
 	      help_list_append(category_nodes, pitem);

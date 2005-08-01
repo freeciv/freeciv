@@ -2287,8 +2287,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
     return;
   }
 
-  sz_strlcpy(pterrain->terrain_name_orig, p->terrain_name);
-  pterrain->terrain_name = pterrain->terrain_name_orig;
+  sz_strlcpy(pterrain->name_orig, p->name_orig);
+  pterrain->name = pterrain->name_orig;
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);
   sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
   pterrain->movement_cost = p->movement_cost;

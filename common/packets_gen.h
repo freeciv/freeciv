@@ -929,7 +929,7 @@ struct packet_ruleset_building {
 struct packet_ruleset_terrain {
   Terrain_type_id id;
   bv_terrain_flags flags;
-  char terrain_name[MAX_LEN_NAME];
+  char name_orig[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   int movement_cost;

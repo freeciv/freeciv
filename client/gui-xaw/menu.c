@@ -447,7 +447,7 @@ void update_menus(void)
 	  && (tinfo->irrigation_result->index != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_IRRIGATE,
 			  TEXT_ORDER_IRRIGATE_CHANGE_TO,
-			  tinfo->irrigation_result->terrain_name);
+			  tinfo->irrigation_result->name);
       }
       else if (tile_has_special(punit->tile, S_IRRIGATION) &&
 	       player_knows_techs_with_flag(game.player_ptr, TF_FARMLAND)) {
@@ -462,7 +462,7 @@ void update_menus(void)
 	  && (tinfo->mining_result->index != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_CHANGE_TO,
-			  tinfo->mining_result->terrain_name);
+			  tinfo->mining_result->name);
       } else {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_MINE,
 			  TEXT_ORDER_MINE_MINE, NULL);
@@ -472,7 +472,7 @@ void update_menus(void)
 	  && (tinfo->transform_result->index != ttype)) {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TRANSFORM_TO,
-			  tinfo->transform_result->terrain_name);
+			  tinfo->transform_result->name);
       } else {
 	menu_entry_rename(MENU_ORDER, MENU_ORDER_TRANSFORM,
 			  TEXT_ORDER_TRANSFORM_TERRAIN, NULL);

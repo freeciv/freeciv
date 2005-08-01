@@ -971,7 +971,7 @@ char *get_req_source_text(const struct req_source *psource,
     mystrlcat(buf, get_special_name(psource->value.special), bufsz);
     break;
   case REQ_TERRAIN:
-    mystrlcat(buf, get_terrain_name(psource->value.terrain), bufsz);
+    mystrlcat(buf, get_name(psource->value.terrain), bufsz);
     break;
   case REQ_NATION:
     mystrlcat(buf, get_nation_name(psource->value.nation), bufsz);

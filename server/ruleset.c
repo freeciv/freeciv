@@ -80,7 +80,7 @@ static void load_tech_names(struct section_file *file);
 static void load_unit_names(struct section_file *file);
 static void load_building_names(struct section_file *file);
 static void load_government_names(struct section_file *file);
-static void load_terrain_names(struct section_file *file);
+static void load_names(struct section_file *file);
 static void load_citystyle_names(struct section_file *file);
 static void load_nation_names(struct section_file *file);
 static struct city_name* load_city_name_list(struct section_file *file,
@@ -660,14 +660,14 @@ static struct terrain *lookup_terrain(char *name, struct terrain *tthis)
   }
 
   terrain_type_iterate(pterrain) {
-    if (0 == strcmp(name, pterrain->terrain_name)) {
+    if (0 == strcmp(name, pterrain->name)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
 
   /* TRANS: message for an obscure ruleset error. */
   freelog(LOG_ERROR, _("Unknown terrain %s in entry %s."),
-	  name, tthis->terrain_name);
+	  name, tthis->name);
   return T_NONE;
 }
 
@@ -1390,7 +1390,7 @@ static void load_ruleset_buildings(struct section_file *file)
 /**************************************************************************
   ...  
 **************************************************************************/
-static void load_terrain_names(struct section_file *file)
+static void load_names(struct section_file *file)
 {
   int nval;
   char **sec;
@@ -1410,14 +1410,14 @@ static void load_terrain_names(struct section_file *file)
   game.control.terrain_count = nval;
 
   terrain_type_iterate(pterrain) {
-    char *name = secfile_lookup_str(file, "%s.terrain_name",
+    char *name = secfile_lookup_str(file, "%s.name",
 				    sec[pterrain->index]);
 
-    name_strlcpy(pterrain->terrain_name_orig, name);
-    if (0 == strcmp(pterrain->terrain_name_orig, "unused")) {
-      pterrain->terrain_name_orig[0] = '\0';
+    name_strlcpy(pterrain->name_orig, name);
+    if (0 == strcmp(pterrain->name_orig, "unused")) {
+      pterrain->name_orig[0] = '\0';
     }
-    pterrain->terrain_name = pterrain->terrain_name_orig;
+    pterrain->name = pterrain->name_orig;
   } terrain_type_iterate_end;
 
   free(sec);
@@ -1514,7 +1514,7 @@ static void load_ruleset_terrain(struct section_file *file)
 	freelog(LOG_FATAL,
 		/* TRANS: message for an obscure ruleset error. */
 		_("Terrains %s and %s have the same identifier."),
-		pterrain->terrain_name, get_terrain(j)->terrain_name);
+		pterrain->name, get_terrain(j)->name);
 	exit(EXIT_FAILURE);
       }
     }
@@ -1617,7 +1617,7 @@ static void load_ruleset_terrain(struct section_file *file)
       if (flag == TER_LAST) {
 	/* TRANS: message for an obscure ruleset error. */
 	freelog(LOG_FATAL, _("Terrain %s has unknown flag %s"),
-		pterrain->terrain_name, sval);
+		pterrain->name, sval);
 	exit(EXIT_FAILURE);
       } else {
 	BV_SET(pterrain->flags, flag);
@@ -1993,12 +1993,12 @@ static struct city_name* load_city_name_list(struct section_file *file,
 	    terrain_type_iterate(pterrain) {
               /*
                * Note that at this time (before a call to
-               * translate_data_names) the terrain_name fields contains an
+               * translate_data_names) the name fields contains an
                * untranslated string.  Note that name of T_RIVER_UNUSED is "".
                * However this is not a problem because we take care of rivers
                * separately.
                */
-	      if (mystrcasecmp(name, pterrain->terrain_name) == 0) {
+	      if (mystrcasecmp(name, pterrain->name) == 0) {
 	        city_names[j].terrain[pterrain->index] = setting;
 	        handled = TRUE;
 		break;
@@ -2789,7 +2789,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     packet.id = i;
 
-    sz_strlcpy(packet.terrain_name, pterrain->terrain_name_orig);
+    sz_strlcpy(packet.name_orig, pterrain->name_orig);
     sz_strlcpy(packet.graphic_str, pterrain->graphic_str);
     sz_strlcpy(packet.graphic_alt, pterrain->graphic_alt);
 
@@ -3080,7 +3080,7 @@ void load_rulesets(void)
   load_unit_names(&unitfile);
 
   openload_ruleset_file(&terrfile, "terrain");
-  load_terrain_names(&terrfile);
+  load_names(&terrfile);
 
   openload_ruleset_file(&cityfile, "cities");
   load_citystyle_names(&cityfile);
