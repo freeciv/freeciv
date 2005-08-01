@@ -540,7 +540,7 @@ void set_client_state(enum client_states newstate)
 		_("There was an error while auto connecting; aborting."));
 	exit(EXIT_FAILURE);
       } else {
-	server_autoconnect();
+	start_autoconnecting_to_server();
 	auto_connect = FALSE;	/* don't try this again */
       }
     } 
@@ -661,6 +661,11 @@ int get_seconds_to_turndone(void)
 double real_timer_callback(void)
 {
   double time_until_next_call = 1.0;
+
+  {
+    double autoconnect_time = try_to_autoconnect();
+    time_until_next_call = MIN(time_until_next_call, autoconnect_time);
+  }
 
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return time_until_next_call;

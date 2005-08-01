@@ -77,4 +77,6 @@ int begin_lanserver_scan(void);
 struct server_list *get_lan_server_list(void); 
 void finish_lanserver_scan(void);
 
+double try_to_autoconnect(void);
+void start_autoconnecting_to_server(void);
 #endif  /* FC__CLINET_H */

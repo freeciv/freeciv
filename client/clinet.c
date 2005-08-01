@@ -909,3 +909,86 @@ void finish_lanserver_scan(void)
   my_closesocket(socklan);
   delete_server_list(lan_servers);
 }
+
+static bool autoconnecting = FALSE;
+/**************************************************************************
+  Make an attempt to autoconnect to the server.
+  It returns number of seconds it should be called again.
+**************************************************************************/
+double try_to_autoconnect(void)
+{
+  char errbuf[512];
+  static int count = 0;
+#ifndef WIN32_NATIVE
+  static int warning_shown = 0;
+#endif
+
+  if (!autoconnecting) {
+    return FC_INFINITY;
+  }
+  
+  count++;
+
+  if (count >= MAX_AUTOCONNECT_ATTEMPTS) {
+    freelog(LOG_FATAL,
+	    _("Failed to contact server \"%s\" at port "
+	      "%d as \"%s\" after %d attempts"),
+	    server_host, server_port, user_name, count);
+    exit(EXIT_FAILURE);
+  }
+
+  switch (try_to_connect(user_name, errbuf, sizeof(errbuf))) {
+  case 0:			/* Success! */
+    /* Don't call me again */
+    autoconnecting = FALSE;
+    return FC_INFINITY;
+#ifndef WIN32_NATIVE
+  /* See PR#4042 for more info on issues with try_to_connect() and errno. */
+  case ECONNREFUSED:		/* Server not available (yet) */
+    if (!warning_shown) {
+      freelog(LOG_NORMAL, _("Connection to server refused. "
+			    "Please start the server."));
+      append_output_window(_("Connection to server refused. "
+			     "Please start the server."));
+      warning_shown = 1;
+    }
+    /* Try again in 0.5 seconds */
+    return 0.001 * AUTOCONNECT_INTERVAL;
+#endif
+  default:			/* All other errors are fatal */
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, user_name, errbuf);
+    exit(EXIT_FAILURE);
+  }
+}
+
+/**************************************************************************
+  Start trying to autoconnect to civserver.  Calls
+  get_server_address(), then arranges for try_to_autoconnect(), which
+  calls try_to_connect(), to be called roughly every
+  AUTOCONNECT_INTERVAL milliseconds, until success, fatal error or
+  user intervention.
+**************************************************************************/
+void start_autoconnecting_to_server(void)
+{
+  char buf[512];
+
+  my_snprintf(buf, sizeof(buf),
+	      _("Auto-connecting to server \"%s\" at port %d "
+		"as \"%s\" every %f second(s) for %d times"),
+	      server_host, server_port, user_name,
+	      0.001 * AUTOCONNECT_INTERVAL,
+	      MAX_AUTOCONNECT_ATTEMPTS);
+  append_output_window(buf);
+
+  if (get_server_address(server_host, server_port, buf, sizeof(buf)) < 0) {
+    freelog(LOG_FATAL,
+	    _("Error contacting server \"%s\" at port %d "
+	      "as \"%s\":\n %s\n"),
+	    server_host, server_port, user_name, buf);
+    exit(EXIT_FAILURE);
+  }
+  autoconnecting = TRUE;
+}
