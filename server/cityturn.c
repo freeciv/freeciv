@@ -1382,7 +1382,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
     /* No capital? Take max penalty! */
     dist = 32;
   }
-  dist -= (dist * get_city_bonus(pcity, EFT_INCITE_DIST_PCT)) / 100;
+
   if (g->waste[O_TRADE].fixed_distance != 0) {
     dist = MIN(g->waste[O_TRADE].fixed_distance, dist);
   }
@@ -1394,6 +1394,8 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   cost *= size;
   cost *= game.info.incite_total_factor;
   cost = cost / (dist + 3);
+  
+  cost += (cost * get_city_bonus(pcity, EFT_INCITE_COST_PCT)) / 100;
   cost /= 100;
 
   return cost;

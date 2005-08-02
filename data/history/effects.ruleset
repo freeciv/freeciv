@@ -279,8 +279,8 @@ reqs	=
     }
 
 [effect_courthouse_3]
-name	= "Incite_Dist_Pct"
-value	= 75
+name	= "Incite_Cost_Pct"
+value	= 300
 reqs	=
     { "type", "name", "range"
       "Building", "Courthouse", "City"

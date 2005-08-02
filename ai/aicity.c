@@ -325,7 +325,6 @@ static void adjust_building_want_by_effects(struct city *pcity,
 
     if (useful) {
       int amount = peffect->value, c = cities[mypreq->range];
-      struct city *palace = find_palace(pplayer);
 
       switch (peffect->type) {
 	case EFT_PROD_TO_GOLD:
@@ -352,10 +351,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	break;
 
 	/* WAG evaluated effects */
-	case EFT_INCITE_DIST_PCT:
-	  if (palace) {
-	    v += real_map_distance(pcity->tile, palace->tile);
-	  }
+	case EFT_INCITE_COST_PCT:
+	  v += c * amount / 100;
 	  break;
 	case EFT_MAKE_HAPPY:
 	  v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;

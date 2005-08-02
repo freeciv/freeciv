@@ -73,7 +73,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Reveal_Cities",
   "Reveal_Map",
   /* TODO: "Incite_Dist_Adj", */
-  "Incite_Dist_Pct",
+  "Incite_Cost_Pct",
   "Size_Adj",
   "Size_Unlimit",
   "SS_Structural",

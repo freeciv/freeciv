@@ -290,8 +290,7 @@ sound_alt	= "b_generic"
 helptext	= _("\
 Reduces the corruption and waste in a city by 50%.  Under a Democracy, a\
  Courthouse makes 1 unhappy citizen content. \
- Also halves the effective distance to the capital, for the purpose\
- of calculating revolt cost.\
+ Also makes the revolt cost of the city 4 times bigger.\
 ")
 
 [building_factory]

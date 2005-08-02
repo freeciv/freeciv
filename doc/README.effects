@@ -86,8 +86,7 @@ cumulative.  For many effects this is undesirable.
 
 "Reveal_Map"	- make entire map known
 
-"Incite_Dist_Pct" - multiplies effective distance to the capital by
-		  AMOUNT percent for purpose of computing revolt cost
+"Incite_Cost_Pct" - increases revolt cost by AMOUNT percent
 
 "Size_Adj"      - Increases maximum city size by AMOUNT
 
