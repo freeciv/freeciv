@@ -55,8 +55,7 @@ bool rectangle_active = FALSE;
 bool tiles_hilited_cities = FALSE;
 
 /* The mapcanvas clipboard */
-static int clipboard = -1;
-static bool clipboard_is_unit;
+struct city_production clipboard = {.value = -1};
 
 /* Goto with drag and drop. */
 bool keyboardless_goto_button_down = FALSE;
@@ -330,8 +329,7 @@ void clipboard_copy_production(struct tile *ptile)
     if (pcity->owner != game.player_ptr)  {
       return;
     }
-    clipboard = pcity->production.value;
-    clipboard_is_unit = pcity->production.is_unit;
+    clipboard = pcity->production;
   } else {
     struct unit *punit = find_visible_unit(ptile);
     if (!punit) {
@@ -344,14 +342,14 @@ void clipboard_copy_production(struct tile *ptile)
       append_output_window(msg);
       return;
     }
-    clipboard_is_unit = TRUE;
-    clipboard = punit->type->index;
+    clipboard.is_unit = TRUE;
+    clipboard.value = punit->type->index;
   }
   upgrade_canvas_clipboard();
 
   my_snprintf(msg, sizeof(msg), _("Copy %s to clipboard."),
-	      clipboard_is_unit ? get_unit_type(clipboard)->name
-	      : get_improvement_name(clipboard));
+	      clipboard.is_unit ? get_unit_type(clipboard.value)->name
+	      : get_improvement_name(clipboard.value));
   append_output_window(msg);
 }
 
@@ -364,7 +362,7 @@ void clipboard_paste_production(struct city *pcity)
   if (!can_client_issue_orders()) {
     return;
   }
-  if (clipboard == -1) {
+  if (clipboard.value == -1) {
     append_output_window(
     _("Clipboard is empty."));
     return;
@@ -391,15 +389,15 @@ void clipboard_paste_production(struct city *pcity)
 **************************************************************************/
 static void clipboard_send_production_packet(struct city *pcity)
 {
-  cid mycid = cid_encode(clipboard_is_unit, clipboard);
+  cid mycid = cid_encode(clipboard.is_unit, clipboard.value);
 
   if (mycid == cid_encode_from_city(pcity)
       || !city_can_build_impr_or_unit(pcity, mycid)) {
     return;
   }
 
-  dsend_packet_city_change(&aconnection, pcity->id, clipboard,
-			   clipboard_is_unit);
+  dsend_packet_city_change(&aconnection, pcity->id, clipboard.value,
+			   clipboard.is_unit);
 }
 
 /**************************************************************************
@@ -408,12 +406,12 @@ static void clipboard_send_production_packet(struct city *pcity)
 **************************************************************************/
 void upgrade_canvas_clipboard(void)
 {
-  if (clipboard_is_unit)  {
-    struct unit_type *u = can_upgrade_unittype(game.player_ptr,
-					       get_unit_type(clipboard));
+  if (clipboard.is_unit)  {
+    struct unit_type *u
+      = can_upgrade_unittype(game.player_ptr, get_unit_type(clipboard.value));
 
     if (u)  {
-      clipboard = u->index;
+      clipboard.value = u->index;
     }
   }
 }
