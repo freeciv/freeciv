@@ -39,6 +39,7 @@ struct overview {
   /* A backing store for the window itself, wrapped. */
   struct canvas *window;
 
+  bool fog;
   bool layers[OLAYER_COUNT];
 };
 

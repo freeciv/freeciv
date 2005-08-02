@@ -221,8 +221,8 @@ static client_option common_options[] = {
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
 		  N_("Background layer"),
-		  N_("The background layer of the overview shows ocean, "
-		     "land, and fog."), COC_OVERVIEW),
+		  N_("The background layer of the overview shows just "
+		     "ocean and land."), COC_OVERVIEW),
   GEN_BOOL_OPTION(overview.layers[OLAYER_RELIEF],
 		  N_("Terrain relief map layer"),
 		  N_("The relief layer shows all terrains on the map."),
@@ -238,6 +238,10 @@ static client_option common_options[] = {
   GEN_BOOL_OPTION(overview.layers[OLAYER_CITIES],
 		  N_("Cities layer"),
 		  N_("If enabled then cities will be drawn on the overview."),
+		  COC_OVERVIEW),
+  GEN_BOOL_OPTION(overview.fog,
+		  N_("Overview fog of war"),
+		  N_("If enabled, fog of war is shown on the overview."),
 		  COC_OVERVIEW)
 };
 #undef GEN_INT_OPTION

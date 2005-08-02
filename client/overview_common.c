@@ -27,6 +27,8 @@
 
 int OVERVIEW_TILE_SIZE = 2;
 struct overview overview = {
+  /* These are the default values.  All others are zeroed automatically. */
+  .fog = TRUE,
   .layers = {[OLAYER_BACKGROUND] = TRUE,
 	     [OLAYER_UNITS] = TRUE,
 	     [OLAYER_CITIES] = TRUE}
@@ -146,19 +148,9 @@ static struct color *overview_tile_color(struct tile *ptile)
   }
   if (overview.layers[OLAYER_BACKGROUND] && ptile->terrain != T_UNKNOWN) {
     if (is_ocean(ptile->terrain)) {
-      if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED
-	  && draw_fog_of_war) {
-	return get_color(tileset, COLOR_OVERVIEW_FOGGED_OCEAN);
-      } else {
-	return get_color(tileset, COLOR_OVERVIEW_OCEAN);
-      }
+      return get_color(tileset, COLOR_OVERVIEW_OCEAN);
     } else {
-      if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED
-	  && draw_fog_of_war) {
-	return get_color(tileset, COLOR_OVERVIEW_FOGGED_LAND);
-      } else {
-	return get_color(tileset, COLOR_OVERVIEW_LAND);
-      }
+      return get_color(tileset, COLOR_OVERVIEW_LAND);
     }
   }
 
@@ -348,6 +340,26 @@ void refresh_overview_canvas(void)
   redraw_overview();
 }
 
+/****************************************************************************
+  Draws the color for this tile onto the given rectangle of the canvas.
+
+  This is just a simple helper function for overview_update_tile, since
+  sometimes a tile may cover more than one rectangle.
+****************************************************************************/
+static void put_overview_tile_area(struct canvas *pcanvas,
+				   struct tile *ptile,
+				   int x, int y, int w, int h)
+{
+  canvas_put_rectangle(pcanvas,
+		       overview_tile_color(ptile),
+		       x, y, w, h);
+  if (client_tile_get_known(ptile) == TILE_KNOWN_FOGGED
+      && overview.fog) {
+    canvas_put_sprite(pcanvas, x, y, get_basic_fog_sprite(tileset),
+		      0, 0, w, h);
+  }
+}
+
 /**************************************************************************
   Redraw the given map position in the overview canvas.
 **************************************************************************/
@@ -364,10 +376,9 @@ void overview_update_tile(struct tile *ptile)
 	if (overview_x > overview.width - OVERVIEW_TILE_WIDTH) {
 	  /* This tile is shown half on the left and half on the right
 	   * side of the overview.  So we have to draw it in two parts. */
-	  canvas_put_rectangle(overview.map,
-			       overview_tile_color(ptile),
-			       overview_x - overview.width, overview_y,
-			       OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT); 
+	  put_overview_tile_area(overview.map, ptile,
+				 overview_x - overview.width, overview_y,
+				 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT); 
 	}     
       } else {
 	/* Clip half tile left and right.
@@ -376,9 +387,9 @@ void overview_update_tile(struct tile *ptile)
       }
     } 
 
-    canvas_put_rectangle(overview.map, overview_tile_color(ptile),
-			 overview_x, overview_y,
-			 OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
+    put_overview_tile_area(overview.map, ptile,
+			   overview_x, overview_y,
+			   OVERVIEW_TILE_WIDTH, OVERVIEW_TILE_HEIGHT);
 
     dirty_overview();
   } do_in_natural_pos_end;

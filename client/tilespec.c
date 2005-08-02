@@ -4555,6 +4555,15 @@ struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 }
 
 /****************************************************************************
+  Return a rectangular sprite containing a fog "color".  This can be used
+  for drawing fog onto arbitrary areas (like the overview).
+****************************************************************************/
+struct sprite *get_basic_fog_sprite(const struct tileset *t)
+{
+  return t->sprites.tx.fog;
+}
+
+/****************************************************************************
   Return the tileset's color system.
 ****************************************************************************/
 struct color_system *get_color_system(const struct tileset *t)

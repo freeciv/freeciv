@@ -70,9 +70,7 @@ char *color_names[] = {
   "overview_alliedunit",
   "overview_enemyunit",
   "overview_ocean",
-  "overview_foggedocean",
   "overview_ground",
-  "overview_foggedground",
   "overview_viewrect",
 
   /* Reqtree */

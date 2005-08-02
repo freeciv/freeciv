@@ -80,14 +80,8 @@ overview_ocean = {"r", "g", "b"
 ; Generic ocean, not the same as the Ocean terrain (see "terrains" above)
     0,     0, 200
 }
-overview_foggedocean = {"r", "g", "b"
-    0,     0, 128
-}
 overview_ground = {"r", "g", "b"
     0,   200,   0
-}
-overview_foggedground = {"r", "g", "b"
-    86,   86,  86
 }
 overview_viewrect = {"r", "g", "b"
     255, 255, 255

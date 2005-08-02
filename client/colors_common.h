@@ -45,9 +45,7 @@ enum color_std {
   COLOR_OVERVIEW_ALLIED_UNIT,
   COLOR_OVERVIEW_ENEMY_UNIT, /* red */
   COLOR_OVERVIEW_OCEAN, /* ocean/blue */
-  COLOR_OVERVIEW_FOGGED_OCEAN, /* race4/dark blue */
   COLOR_OVERVIEW_LAND, /* ground/green */
-  COLOR_OVERVIEW_FOGGED_LAND, /* background/gray */
   COLOR_OVERVIEW_VIEWRECT, /* white */
 
   /* Reqtree colors */

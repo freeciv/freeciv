@@ -219,6 +219,7 @@ struct sprite *get_unit_unhappy_sprite(const struct tileset *t,
 struct sprite *get_unit_upkeep_sprite(const struct tileset *t,
 				      Output_type_id otype,
 				      const struct unit *punit);
+struct sprite *get_basic_fog_sprite(const struct tileset *t);
 
 struct color_system;
 struct color_system *get_color_system(const struct tileset *t);
