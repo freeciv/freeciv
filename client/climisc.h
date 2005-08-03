@@ -21,7 +21,6 @@
 struct Clause;
 
 typedef int cid;
-typedef int wid;
 
 void client_remove_player(int plrno);
 void client_remove_city(struct city *pcity);
@@ -59,24 +58,6 @@ cid cid_encode_from_city(const struct city *pcity);
 struct city_production cid_decode(cid cid);
 #define cid_production cid_decode
 
-/* 
- * A worklist id (wid) can hold all objects which can be part of a
- * city worklist: improvements (with wonders), units and global
- * worklists. This is achieved by seperation the value set: 
- *  - (wid < B_LAST) denotes a improvement (including wonders)
- *  - (B_LAST <= wid < B_LAST + U_LAST) denotes a unit with the
- *  unit_type_id of (wid - B_LAST)
- *  - (B_LAST + U_LAST<= wid) denotes a global worklist with the id of
- *  (wid - (B_LAST + U_LAST))
- */
-
-#define WORKLIST_END (-1)
-
-wid wid_encode(bool is_unit, bool is_worklist, int id);
-bool wid_is_unit(wid wid);
-bool wid_is_worklist(wid wid);
-int wid_id(wid wid);
-
 bool city_can_build_impr_or_unit(const struct city *pcity,
 				 struct city_production target);
 bool city_unit_supported(const struct city *pcity,
@@ -103,8 +84,6 @@ int collect_cids2(cid * dest_cids);
 int collect_cids3(cid * dest_cids);
 int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech);
 int collect_cids5(cid * dest_cids, struct city *pcity);
-int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first, 
-		  bool advanced_tech);
 
 /* the number of units in city */
 int num_present_units_in_city(struct city* pcity);

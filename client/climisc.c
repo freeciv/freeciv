@@ -487,54 +487,6 @@ struct city_production cid_decode(cid cid)
   return target;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-wid wid_encode(bool is_unit, bool is_worklist, int id)
-{
-  assert(!is_unit || !is_worklist);
-
-  if (is_unit)
-    return id + B_LAST;
-  if (is_worklist)
-    return id + B_LAST + U_LAST;
-  return id;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool wid_is_unit(wid wid)
-{
-  assert(wid != WORKLIST_END);
-
-  return (wid >= B_LAST && wid < B_LAST + U_LAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool wid_is_worklist(wid wid)
-{
-  assert(wid != WORKLIST_END);
-
-  return (wid >= B_LAST + U_LAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int wid_id(wid wid)
-{
-  assert(wid != WORKLIST_END);
-
-  if (wid >= B_LAST + U_LAST)
-    return wid - (B_LAST + U_LAST);
-  if (wid >= B_LAST)
-    return wid - B_LAST;
-  return wid;
-}
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -840,53 +792,6 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
   } built_impr_iterate_end;
 
   return cids_used;
-}
-
-/**************************************************************************
- Collect the wids of all possible targets of the given city.
-**************************************************************************/
-int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first, 
-                  bool advanced_tech)
-{
-  cid cids[U_LAST + B_LAST];
-  int item, cids_used, wids_used = 0;
-  struct item items[U_LAST + B_LAST];
-
-  /* Fill in the global worklists now?                      */
-  /* perhaps judicious use of goto would be good here? -mck */
-  if (wl_first && game.player_ptr->worklists[0].is_valid && pcity) {
-    int i;
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-      if (game.player_ptr->worklists[i].is_valid) {
-	dest_wids[wids_used] = wid_encode(FALSE, TRUE, i);
-	wids_used++;
-      }
-    }
-  }
-
-  /* Fill in improvements and units */
-  cids_used = collect_cids4(cids, pcity, advanced_tech);
-  name_and_sort_items(cids, cids_used, items, FALSE, pcity);
-
-  for (item = 0; item < cids_used; item++) {
-    struct city_production target = cid_decode(items[item].cid);
-
-    dest_wids[wids_used] = wid_encode(target.is_unit, FALSE, target.value);
-    wids_used++;
-  }
-
-  /* we didn't fill in the global worklists above */
-  if (!wl_first && game.player_ptr->worklists[0].is_valid && pcity) {
-    int i;
-    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-      if (game.player_ptr->worklists[i].is_valid) {
-        dest_wids[wids_used] = wid_encode(FALSE, TRUE, i);
-        wids_used++;
-      }
-    }
-  }
-
-  return wids_used;
 }
 
 /**************************************************************************
