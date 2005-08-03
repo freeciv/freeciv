@@ -436,59 +436,55 @@ void center_on_something(void)
   can_slide = TRUE;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-cid cid_encode(bool is_unit, int id)
+/****************************************************************************
+  Encode a CID for the target production.
+****************************************************************************/
+cid cid_encode(struct city_production target)
 {
-  return id + (is_unit ? B_LAST : 0);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-cid cid_encode_from_city(struct city * pcity)
-{
-  return cid_encode(pcity->production.is_unit, pcity->production.value);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void cid_decode(cid cid, bool *is_unit, int *id)
-{
-  *is_unit = cid_is_unit(cid);
-  *id = cid_id(cid);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-bool cid_is_unit(cid cid)
-{
-  return (cid >= B_LAST);
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-int cid_id(cid cid)
-{
-  return (cid >= B_LAST) ? (cid - B_LAST) : cid;
+  return target.value + (target.is_unit ? B_LAST : 0);
 }
 
 /****************************************************************************
-  Return a city_production struct for the given cid.
-
-  This is a temporary sort of measure since hopefully the city_production
-  will someday replace the cid entirely.
+  Encode a CID for the target unit type.
 ****************************************************************************/
-struct city_production cid_production(cid cid)
+cid cid_encode_unit(const struct unit_type *punittype)
 {
-  struct city_production prod = {.is_unit = cid_is_unit(cid),
-				 .value = cid_id(cid)};
+  struct city_production target
+    = {.is_unit = TRUE, .value = punittype->index};
 
-  return prod;
+  return cid_encode(target);
+}
+
+/****************************************************************************
+  Encode a CID for the target building.
+****************************************************************************/
+cid cid_encode_building(Impr_type_id building)
+{
+  struct city_production target
+    = {.is_unit = FALSE, .value = building};
+
+  return cid_encode(target);
+}
+
+/****************************************************************************
+  Encode a CID for the target city's production.
+****************************************************************************/
+cid cid_encode_from_city(const struct city *pcity)
+{
+  return cid_encode(pcity->production);
+}
+
+/**************************************************************************
+  Decode the CID into a city_production structure.
+**************************************************************************/
+struct city_production cid_decode(cid cid)
+{
+  struct city_production target = {
+    .value = (cid >= B_LAST) ? (cid - B_LAST) : cid,
+    .is_unit = (cid >= B_LAST)
+  };
+
+  return target;
 }
 
 /**************************************************************************
@@ -542,21 +538,25 @@ int wid_id(wid wid)
 /****************************************************************
 ...
 *****************************************************************/
-bool city_can_build_impr_or_unit(struct city *pcity, cid cid)
+bool city_can_build_impr_or_unit(const struct city *pcity,
+				 struct city_production target)
 {
-  if (cid_is_unit(cid))
-    return can_build_unit(pcity, get_unit_type(cid_id(cid)));
-  else
-    return can_build_improvement(pcity, cid_id(cid));
+  if (target.is_unit) {
+    return can_build_unit(pcity, get_unit_type(target.value));
+  } else {
+    return can_build_improvement(pcity, target.value);
+  }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-bool city_unit_supported(struct city *pcity, cid cid)
+/****************************************************************************
+  Return TRUE if the city supports at least one unit of the given
+  production type (returns FALSE if the production is a building).
+****************************************************************************/
+bool city_unit_supported(const struct city *pcity,
+			 struct city_production target)
 {
-  if (cid_is_unit(cid)) {
-    struct unit_type *unit_type = get_unit_type(cid_id(cid));
+  if (target.is_unit) {
+    struct unit_type *unit_type = get_unit_type(target.value);
 
     unit_list_iterate(pcity->units_supported, punit) {
       if (punit->type == unit_type)
@@ -566,13 +566,15 @@ bool city_unit_supported(struct city *pcity, cid cid)
   return FALSE;
 }
 
-/****************************************************************
-...
-*****************************************************************/
-bool city_unit_present(struct city *pcity, cid cid)
+/****************************************************************************
+  Return TRUE if the city has present at least one unit of the given
+  production type (returns FALSE if the production is a building).
+****************************************************************************/
+bool city_unit_present(const struct city *pcity,
+		       struct city_production target)
 {
-  if (cid_is_unit(cid)) {
-    struct unit_type *unit_type = get_unit_type(cid_id(cid));
+  if (target.is_unit) {
+    struct unit_type *unit_type = get_unit_type(target.value);
 
     unit_list_iterate(pcity->tile->units, punit) {
       if (punit->type == unit_type)
@@ -586,14 +588,10 @@ bool city_unit_present(struct city *pcity, cid cid)
 /****************************************************************************
   A TestCityFunc to tell whether the item is a building and is present.
 ****************************************************************************/
-bool city_building_present(struct city *pcity, cid cid)
+bool city_building_present(const struct city *pcity,
+			   struct city_production target)
 {
-  if (!cid_is_unit(cid)) {
-    int impr_type = cid_id(cid);
-
-    return city_got_building(pcity, impr_type);
-  }
-  return FALSE;
+  return !target.is_unit && city_got_building(pcity, target.value);
 }
 
 /**************************************************************************
@@ -601,19 +599,18 @@ bool city_building_present(struct city *pcity, cid cid)
 **************************************************************************/
 static int cid_get_section(cid cid)
 {
-  bool is_unit = cid_is_unit(cid);
-  int id = cid_id(cid);
+  struct city_production target = cid_decode(cid);
 
-  if (is_unit) {
-    if (unit_type_flag(get_unit_type(id), F_NONMIL)) {
+  if (target.is_unit) {
+    if (unit_type_flag(get_unit_type(target.value), F_NONMIL)) {
       return 2;
     } else {
       return 3;
     }
   } else {
-    if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
+    if (building_has_effect(target.value, EFT_PROD_TO_GOLD)) {
       return 1;
-    } else if (is_great_wonder(id)) {
+    } else if (is_great_wonder(target.value)) {
       return 4;
     } else {
       return 0;
@@ -651,22 +648,22 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
   int i;
 
   for (i = 0; i < num_cids; i++) {
-    bool is_unit = cid_is_unit(pcids[i]);
-    int id = cid_id(pcids[i]), cost;
+    struct city_production target = cid_decode(pcids[i]);
+    int cost;
     struct item *pitem = &items[i];
     const char *name;
 
     pitem->cid = pcids[i];
 
-    if (is_unit) {
-      name = get_unit_name(get_unit_type(id));
-      cost = unit_build_shield_cost(get_unit_type(id));
+    if (target.is_unit) {
+      name = get_unit_name(get_unit_type(target.value));
+      cost = unit_build_shield_cost(get_unit_type(target.value));
     } else {
-      name = get_impr_name_ex(pcity, id);
-      if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
+      name = get_impr_name_ex(pcity, target.value);
+      if (building_has_effect(target.value, EFT_PROD_TO_GOLD)) {
 	cost = -1;
       } else {
-	cost = impr_build_shield_cost(id);
+	cost = impr_build_shield_cost(target.value);
       }
     }
 
@@ -690,7 +687,7 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 int collect_cids1(cid * dest_cids, struct city **selected_cities,
 		  int num_selected_cities, bool append_units,
 		  bool append_wonders, bool change_prod,
-		  bool (*test_func) (struct city *, int))
+		  TestCityFunc test_func)
 {
   cid first = append_units ? B_LAST : 0;
   cid last = (append_units
@@ -701,21 +698,22 @@ int collect_cids1(cid * dest_cids, struct city **selected_cities,
 
   for (cid = first; cid < last; cid++) {
     bool append = FALSE;
-    int id = cid_id(cid);
+    struct city_production target = cid_decode(cid);
 
-    if (!append_units && (append_wonders != is_wonder(id)))
+    if (!append_units && (append_wonders != is_wonder(target.value))) {
       continue;
+    }
 
     if (!change_prod) {
       city_list_iterate(game.player_ptr->cities, pcity) {
-	append |= test_func(pcity, cid);
+	append |= test_func(pcity, cid_decode(cid));
       }
       city_list_iterate_end;
     } else {
       int i;
 
       for (i = 0; i < num_selected_cities; i++) {
-	append |= test_func(selected_cities[i], cid);
+	append |= test_func(selected_cities[i], cid_decode(cid));
       }
     }
 
@@ -763,16 +761,14 @@ int collect_cids3(cid * dest_cids)
 
   impr_type_iterate(id) {
     if (can_player_build_improvement(game.player_ptr, id)) {
-      dest_cids[cids_used] = cid_encode(FALSE, id);
+      dest_cids[cids_used] = cid_encode_building(id);
       cids_used++;
     }
   } impr_type_iterate_end;
 
   unit_type_iterate(punittype) {
-    const int id = punittype->index;
-
     if (can_player_build_unit(game.player_ptr, punittype)) {
-      dest_cids[cids_used] = cid_encode(TRUE, id);
+      dest_cids[cids_used] = cid_encode_unit(punittype);
       cids_used++;
     }
   } unit_type_iterate_end
@@ -802,7 +798,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      dest_cids[cids_used] = cid_encode(FALSE, id);
+      dest_cids[cids_used] = cid_encode_building(id);
       cids_used++;
     }
   } impr_type_iterate_end;
@@ -811,7 +807,6 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
     bool can_build = can_player_build_unit(game.player_ptr, punittype);
     bool can_eventually_build =
 	can_player_eventually_build_unit(game.player_ptr, punittype);
-    const int id = punittype->index;
 
     /* If there's a city, can the city build the unit? */
     if (pcity) {
@@ -822,7 +817,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      dest_cids[cids_used] = cid_encode(TRUE, id);
+      dest_cids[cids_used] = cid_encode_unit(punittype);
       cids_used++;
     }
   } unit_type_iterate_end;
@@ -840,7 +835,7 @@ int collect_cids5(cid * dest_cids, struct city *pcity)
   assert(pcity != NULL);
 
   built_impr_iterate(pcity, id) {
-    dest_cids[cids_used] = cid_encode(FALSE, id);
+    dest_cids[cids_used] = cid_encode_building(id);
     cids_used++;
   } built_impr_iterate_end;
 
@@ -874,8 +869,9 @@ int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
   name_and_sort_items(cids, cids_used, items, FALSE, pcity);
 
   for (item = 0; item < cids_used; item++) {
-    cid cid = items[item].cid;
-    dest_wids[wids_used] = wid_encode(cid_is_unit(cid), FALSE, cid_id(cid));
+    struct city_production target = cid_decode(items[item].cid);
+
+    dest_wids[wids_used] = wid_encode(target.is_unit, FALSE, target.value);
     wids_used++;
   }
 

@@ -186,12 +186,6 @@ void popdown_city_report_dialog(void)
   }
 }
 
-
-/****************************************************************
-...
-*****************************************************************/
-typedef bool (*TestCityFunc)(struct city *, gint);
-
 /****************************************************************
 ...
 *****************************************************************/
@@ -419,7 +413,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       itree_get(&it, 0, &res, -1);
       pcity = res;
 
-      if (test_func(pcity, cid)) {
+      if (test_func(pcity, cid_decode(cid))) {
 	itree_select(city_selection, &it);
       }
     }
@@ -1491,9 +1485,12 @@ static void create_select_menu(GtkWidget *item)
 /****************************************************************
 ...
 *****************************************************************/
-static bool city_building_impr_or_unit(struct city *pcity, cid cid)
+static bool city_building_impr_or_unit(const struct city *pcity,
+				       struct city_production target)
 {
-  return (cid == cid_encode_from_city(pcity));
+  struct city_production target2 = pcity->production;
+
+  return target.is_unit == target2.is_unit && target.value == target2.value;
 }
 
 /****************************************************************

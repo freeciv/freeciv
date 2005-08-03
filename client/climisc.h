@@ -51,12 +51,13 @@ void center_on_something(void);
  * unit_type_id of (cid - B_LAST).
  */
 
-cid cid_encode(bool is_unit, int id);
-cid cid_encode_from_city(struct city *pcity);
-void cid_decode(cid cid, bool *is_unit, int *id);
-bool cid_is_unit(cid cid);
-int cid_id(cid cid);
-struct city_production cid_production(cid cid);
+cid cid_encode(struct city_production target);
+cid cid_encode_unit(const struct unit_type *punittype);
+cid cid_encode_building(Impr_type_id building);
+cid cid_encode_from_city(const struct city *pcity);
+
+struct city_production cid_decode(cid cid);
+#define cid_production cid_decode
 
 /* 
  * A worklist id (wid) can hold all objects which can be part of a
@@ -76,22 +77,28 @@ bool wid_is_unit(wid wid);
 bool wid_is_worklist(wid wid);
 int wid_id(wid wid);
 
-bool city_can_build_impr_or_unit(struct city *pcity, cid cid);
-bool city_unit_supported(struct city *pcity, cid cid);
-bool city_unit_present(struct city *pcity, cid cid);
-bool city_building_present(struct city *pcity, cid cid);
+bool city_can_build_impr_or_unit(const struct city *pcity,
+				 struct city_production target);
+bool city_unit_supported(const struct city *pcity,
+			 struct city_production target);
+bool city_unit_present(const struct city *pcity,
+		       struct city_production target);
+bool city_building_present(const struct city *pcity,
+			   struct city_production target);
 
 struct item {
   cid cid;
   char descr[MAX_LEN_NAME + 40];
 };
 
+typedef bool (*TestCityFunc)(const struct city *, struct city_production);
+
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 			 bool show_cost, struct city *pcity);
 int collect_cids1(cid * dest_cids, struct city **selected_cities,
 		 int num_selected_cities, bool append_units,
 		 bool append_wonders, bool change_prod,
-		 bool (*test_func) (struct city *, int));
+		  TestCityFunc test_func);
 int collect_cids2(cid * dest_cids);
 int collect_cids3(cid * dest_cids);
 int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech);

@@ -485,7 +485,7 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
       GtkTreeIter it;
       cid cid;
 
-      cid = cid_encode(pwl->entries[i].is_unit, pwl->entries[i].value);
+      cid = cid_encode(pwl->entries[i]);
 
       gtk_list_store_append(ptr->dst, &it);
       gtk_list_store_set(ptr->dst, &it, 0, (gint) cid, -1);
@@ -548,19 +548,18 @@ static void help_callback(GtkWidget *w, gpointer data)
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
     gint cid;
-    int id;
-    bool is_unit;
+    struct city_production target = cid_decode(cid);
 
     gtk_tree_model_get(model, &it, 0, &cid, -1);
-    is_unit = cid_is_unit(cid);
-    id = cid_id(cid);
 
-    if (is_unit) {
-      popup_help_dialog_typed(get_unit_type(id)->name, HELP_UNIT);
-    } else if (is_great_wonder(id)) {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_WONDER);
+    if (target.is_unit) {
+      popup_help_dialog_typed(get_unit_type(target.value)->name, HELP_UNIT);
+    } else if (is_great_wonder(target.value)) {
+      popup_help_dialog_typed(get_improvement_name(target.value),
+			      HELP_WONDER);
     } else {
-      popup_help_dialog_typed(get_improvement_name(id), HELP_IMPROVEMENT);
+      popup_help_dialog_typed(get_improvement_name(target.value),
+			      HELP_IMPROVEMENT);
     }
   } else {
     popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
@@ -1391,9 +1390,7 @@ void refresh_worklist(GtkWidget *editor)
   }
 
   for (i = 0; i < worklist_length(&queue); i++) {
-    cid cid;
-
-    cid = cid_encode(queue.entries[i].is_unit, queue.entries[i].value);
+    cid cid = cid_encode(queue.entries[i]);
 
     if (!exists) {
       gtk_list_store_append(ptr->dst, &it);

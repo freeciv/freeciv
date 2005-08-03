@@ -389,10 +389,9 @@ void clipboard_paste_production(struct city *pcity)
 **************************************************************************/
 static void clipboard_send_production_packet(struct city *pcity)
 {
-  cid mycid = cid_encode(clipboard.is_unit, clipboard.value);
-
-  if (mycid == cid_encode_from_city(pcity)
-      || !city_can_build_impr_or_unit(pcity, mycid)) {
+  if ((clipboard.is_unit == pcity->production.is_unit
+       && clipboard.value == pcity->production.value)
+      || !city_can_build_impr_or_unit(pcity, clipboard)) {
     return;
   }
 

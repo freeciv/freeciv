@@ -1555,19 +1555,17 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   name_and_sort_items(cids, cids_used, items, FALSE, pcity);
 
   for (item = 0; item < cids_used; item++) {
-    if (city_can_build_impr_or_unit(pcity, items[item].cid)) {
-      bool is_unit;
-      int id;
+    if (city_can_build_impr_or_unit(pcity, cid_decode(items[item].cid))) {
       const char* name;
       struct sprite* sprite;
+      struct city_production target = cid_decode(items[item].cid);
 
-      cid_decode(items[item].cid, &is_unit, &id);
-      if (is_unit) {
-	name = unit_name(get_unit_type(id));
-	sprite = get_unittype_sprite(tileset, get_unit_type(id));
+      if (target.is_unit) {
+	name = unit_name(get_unit_type(target.value));
+	sprite = get_unittype_sprite(tileset, get_unit_type(target.value));
       } else {
-	name = get_improvement_name(id);
-	sprite = get_building_sprite(tileset, id);
+	name = get_improvement_name(target.value);
+	sprite = get_building_sprite(tileset, target.value);
       }
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, sprite_get_pixbuf(sprite),
@@ -1603,17 +1601,18 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   total = 0;
   for (item = 0; item < cids_used; item++) {
     GtkTreeIter it;
-    int id, upkeep;
+    int upkeep;
     struct sprite *sprite;
-   
-    id = cid_id(items[item].cid);
+    struct city_production target = cid_decode(items[item].cid);
+
+    assert(!target.is_unit);
     /* This takes effects (like Adam Smith's) into account. */
-    upkeep = improvement_upkeep(pdialog->pcity, id);
-    sprite = get_building_sprite(tileset, id);
+    upkeep = improvement_upkeep(pdialog->pcity, target.value);
+    sprite = get_building_sprite(tileset, target.value);
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
-	0, id,
+		       0, target.value,
 		       1, sprite_get_pixbuf(sprite),
 	2, items[item].descr,
 	3, upkeep,
