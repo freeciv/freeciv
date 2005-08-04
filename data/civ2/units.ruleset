@@ -1082,7 +1082,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Trireme"
+flags         = "Trireme", "BadCityDefender"
 roles         = "Ferryboat"
 
 [unit_caravel]
@@ -1110,7 +1110,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
 [unit_galleon]
@@ -1138,7 +1138,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
 [unit_frigate]
@@ -1166,7 +1166,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Hunter"
 
 [unit_ironclad]
@@ -1194,7 +1194,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Hunter"
 
 [unit_destroyer]
@@ -1222,7 +1222,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Hunter"
 helptext      = _("\
 TIP:  A very fast unit, which is very useful for hunting down enemy\
@@ -1254,7 +1254,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = ""
 
 [unit_aegis_cruiser]
@@ -1282,7 +1282,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "AEGIS"
+flags         = "AEGIS", "BadCityDefender"
 roles         = ""
 
 [unit_battleship]
@@ -1310,7 +1310,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = ""
 
 [unit_submarine]
@@ -1338,7 +1338,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Partial_Invis", 
+flags         = "Partial_Invis", "BadCityDefender",
 	        "Missile_Carrier", "No_Land_Attack"
 roles         = "Hunter"
 helptext      = _("\
@@ -1404,7 +1404,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Ferryboat"
 
 [unit_cruise_missile]

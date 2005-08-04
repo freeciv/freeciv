@@ -144,6 +144,11 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                 bombard_rate regulates its number of shots
 ; "CityBuster"  = this unit has double firepower against cities
 ; "NoBuild"     = this unit cannot be built
+; "BadWallAttacker"	= the firepower of this unit is set to 1 if
+;                 attacking a city
+;		  defended by a city wall (or other city building defense)
+; "BadCityDefender"	= if attacked while in a city, firepower is set to 1 and
+;		  attacker's firepower is doubled (the Pearl Harbour rule)
 ;
 ; Following flag strings require extra fields:
 ;  "Paratroopers"
@@ -1134,7 +1139,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Trireme"
+flags         = "Trireme", "BadCityDefender"
 roles         = "Ferryboat"
 
 [unit_caravel]
@@ -1162,7 +1167,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
 [unit_galleon]
@@ -1190,7 +1195,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
 [unit_frigate]
@@ -1218,7 +1223,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Hunter"
 
 [unit_ironclad]
@@ -1246,7 +1251,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Hunter"
 
 [unit_destroyer]
@@ -1274,7 +1279,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Hunter"
 helptext      = _("\
 TIP:  A very fast unit, which is very useful for hunting down enemy\
@@ -1306,7 +1311,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "DefendGood"
 
 [unit_aegis_cruiser]
@@ -1334,7 +1339,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "AEGIS"
+flags         = "AEGIS", "BadCityDefender"
 roles         = "DefendGood"
 
 [unit_battleship]
@@ -1362,7 +1367,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = ""
 
 [unit_submarine]
@@ -1390,7 +1395,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Partial_Invis", 
+flags         = "Partial_Invis", "BadCityDefender",
 	        "Missile_Carrier", "No_Land_Attack"
 roles         = "Hunter"
 helptext      = _("\
@@ -1423,7 +1428,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Carrier"
+flags         = "Carrier", "BadCityDefender"
 roles         = ""
 helptext      = _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
@@ -1456,7 +1461,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = ""
+flags         = "BadCityDefender"
 roles         = "Ferryboat"
 
 [unit_cruise_missile]

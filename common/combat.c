@@ -245,18 +245,26 @@ void get_modified_firepower(const struct unit *attacker,
 			    const struct unit *defender,
 			    int *att_fp, int *def_fp)
 {
+  struct city *pcity = tile_get_city(defender->tile);
+
   *att_fp = unit_type(attacker)->firepower;
   *def_fp = unit_type(defender)->firepower;
 
   /* Check CityBuster flag */
-  if (unit_flag(attacker, F_CITYBUSTER)
-      && tile_get_city(defender->tile)) {
+  if (unit_flag(attacker, F_CITYBUSTER) && pcity) {
     *att_fp *= 2;
+  }
+
+  if (unit_flag(attacker, F_BADWALLATTACKER)
+      && pcity 
+      && get_city_bonus(pcity, EFT_LAND_DEFEND) > 0) {
+    *att_fp = 1;
   }
 
   /* pearl harbour - defender's firepower is reduced to one, 
    *                 attacker's is multiplied by two         */
-  if (is_sailing_unit(defender) && tile_get_city(defender->tile)) {
+  if (unit_flag(defender, F_BADCITYDEFENDER)
+      && tile_get_city(defender->tile)) {
     *att_fp *= 2;
     *def_fp = 1;
   }
