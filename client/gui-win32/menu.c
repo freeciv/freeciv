@@ -768,7 +768,7 @@ void handle_menu(int code)
       break;
     case IDM_ORDERS_AUTO_SETTLER:
       if (get_unit_in_focus()) {
-	request_unit_auto(get_unit_in_focus());
+	request_unit_autosettlers(get_unit_in_focus());
       }
       break;
     case IDM_ORDERS_AUTO_EXPLORE:
@@ -1164,7 +1164,7 @@ update_menus(void)
 		     is_unit_activity_on_tile(ACTIVITY_SENTRY,
 					      punit->tile));
       my_enable_menu(menu, IDM_ORDERS_AUTO_SETTLER,
-		     can_unit_do_auto(punit));
+		     can_unit_do_autosettlers(punit));
       my_enable_menu(menu, IDM_ORDERS_AUTO_EXPLORE,
 		     can_unit_do_activity(punit, ACTIVITY_EXPLORE));
       my_enable_menu(menu, IDM_ORDERS_CONNECT_ROAD,

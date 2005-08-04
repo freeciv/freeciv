@@ -67,7 +67,7 @@ static HWND help_ulabel[5][5];
 static HWND help_tlabel[4][5];
 
 static POINT unitpos;
-static int unit_num=-1;
+static struct unit_type *drawn_unit_type = NULL;
 
 struct fcwin_box *helpdlg_hbox;
 static struct fcwin_box *helpdlg_page_vbox;
@@ -101,7 +101,7 @@ char *help_tlabel_name[4][5] =
     { N_("Mine Rslt/Time:"),"",        "", N_("Trans. Rslt/Time:"),        "" }
 };                                 
 
-static void help_draw_unit(HDC hdc,int i);
+static void help_draw_unit(HDC hdc, struct unit_type *utype);
 
 /**************************************************************************
 
@@ -148,8 +148,8 @@ static LONG APIENTRY HelpdlgWndProc(HWND hWnd,UINT uMsg,
       break;
     case WM_PAINT:
       hdc=BeginPaint(hWnd,(LPPAINTSTRUCT)&ps);
-      if (unit_num>=0)
-	help_draw_unit(hdc,unit_num);
+      if (drawn_unit_type)
+	help_draw_unit(hdc, drawn_unit_type);
       EndPaint(hWnd,(LPPAINTSTRUCT)&ps);
       break;
     case WM_COMMAND:
@@ -389,7 +389,7 @@ static void create_help_page(enum help_page_type type)
   GetClientRect(helpdlg_win,&rc);
   InvalidateRect(helpdlg_win,&rc,TRUE);
   fcwin_box_freeitem(helpdlg_hbox,1);
-  unit_num=-1;
+  drawn_unit_type = NULL;
   helpdlg_page_vbox=fcwin_vbox_new(helpdlg_win,FALSE);
   helpdlg_topic=fcwin_box_add_static(helpdlg_page_vbox,
 				     "",0,SS_LEFT,FALSE,FALSE,5);
@@ -422,7 +422,7 @@ static void create_help_page(enum help_page_type type)
 void create_help_dialog()
 {
   struct fcwin_box *vbox;
-  unit_num=-1;
+  drawn_unit_type = NULL;
   helpdlg_win=fcwin_create_layouted_window(HelpdlgWndProc,
 					   _("Freeciv Help Browser"),
 					   WS_OVERLAPPEDWINDOW,
@@ -476,7 +476,7 @@ static void help_update_improvement(const struct help_item *pitem,
   create_help_page(HELP_IMPROVEMENT);
  
   if (which < game.control.num_impr_types) {
-    struct impr_type *imp = &improvement_types[which];
+    struct impr_type *imp = get_improvement_type(which);
     int i;
     char req_buf[512];
 
@@ -519,7 +519,7 @@ static void help_update_wonder(const struct help_item *pitem,
   create_help_page(HELP_WONDER);
  
   if (which < game.control.num_impr_types) {
-    struct impr_type *imp = &improvement_types[which];
+    struct impr_type *imp = get_improvement_type(which);
     int i;
     char req_buf[512];
 
@@ -661,7 +661,7 @@ static void help_update_terrain(const struct help_item *pitem,
 /*************************************************************************
 
 *************************************************************************/
-static void help_draw_unit(HDC hdc,int i)
+static void help_draw_unit(HDC hdc, struct unit_type *utype)
 {
   enum color_std bg_color;
   RECT rc;
@@ -673,7 +673,7 @@ static void help_draw_unit(HDC hdc,int i)
   
   /* Give tile a background color, based on the type of unit
    * FIXME: make a new set of colors for this.               */
-  switch (get_unit_type(i)->move_type) {
+  switch (utype->move_type) {
   case LAND_MOVING: bg_color = COLOR_OVERVIEW_LAND;       break;
   case SEA_MOVING:  bg_color = COLOR_OVERVIEW_OCEAN;      break;
   case HELI_MOVING: bg_color = COLOR_OVERVIEW_MY_UNIT;    break;
@@ -688,8 +688,8 @@ static void help_draw_unit(HDC hdc,int i)
   brush_free(brush);
   
   /* Put a picture of the unit in the tile */
-  if (i < game.control.num_unit_types) {
-    struct sprite *sprite = get_unittype_sprite(tileset, i);
+  if (utype) {
+    struct sprite *sprite = get_unittype_sprite(tileset, utype);
     draw_sprite(sprite, hdc, unitpos.x, unitpos.y);
   }
   
@@ -699,14 +699,15 @@ static void help_draw_unit(HDC hdc,int i)
 
 **************************************************************************/
 static void help_update_unit_type(const struct help_item *pitem,
-				  char *title, int i)
+				  char *title, struct unit_type *utype)
 {
   char *buf = &long_buffer[0];
   create_help_page(HELP_UNIT);
-  unit_num=i;
-  if (i<game.control.num_unit_types) {
-    struct unit_type *utype = get_unit_type(i);
-    sprintf(buf, "%d", unit_build_shield_cost(i));
+
+  drawn_unit_type = utype;
+
+  if (utype) {
+    sprintf(buf, "%d", unit_build_shield_cost(utype));
     SetWindowText(help_ulabel[0][1], buf);
     sprintf(buf, "%d", utype->attack_strength);
     SetWindowText(help_ulabel[0][4], buf);
@@ -718,7 +719,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     SetWindowText(help_ulabel[2][1], buf);
     sprintf(buf, "%d", utype->hp);
     SetWindowText(help_ulabel[2][4], buf);
-    SetWindowText(help_ulabel[3][1], helptext_unit_upkeep_str(i));
+    SetWindowText(help_ulabel[3][1], helptext_unit_upkeep_str(utype));
     sprintf(buf, "%d", utype->vision_range);
     SetWindowText(help_ulabel[3][4], buf);
     if(utype->tech_requirement==A_LAST) {
@@ -730,10 +731,10 @@ static void help_update_unit_type(const struct help_item *pitem,
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
       SetWindowText(help_ulabel[4][4], _("None"));
     } else {
-      SetWindowText(help_ulabel[4][4], get_unit_type(utype->obsoleted_by)->name);
+      SetWindowText(help_ulabel[4][4], utype->obsoleted_by->name);
     }
 
-    helptext_unit(buf, i, pitem->text);
+    helptext_unit(buf, utype, pitem->text);
     set_help_text(buf);
   }
   else {
@@ -775,7 +776,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     impr_type_iterate(j) {
       /* FIXME: need a more general mechanism for this, since this
        * helptext needs to be shown in all possible req source types. */
-     requirement_vector_iterate(&improvement_types[j].reqs, req) {
+     requirement_vector_iterate(&get_improvement_type(j)->reqs, req) {
 	if (req->source.type == REQ_NONE) {
 	  break;
 	} else if (req->source.type == REQ_BUILDING
@@ -784,17 +785,17 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  fcwin_box_add_box(helpdlg_page_vbox, hbox, FALSE, FALSE, 5);
 	  fcwin_box_add_static(hbox, _("Allows "), 0, SS_LEFT, FALSE, FALSE,
 			       5);
-	  fcwin_box_add_button(hbox, improvement_types[j].name,
+	  fcwin_box_add_button(hbox, get_improvement_type(j)->name,
 			       is_great_wonder(j) ?
 			       ID_HELP_WONDER_LINK : ID_HELP_IMPROVEMENT_LINK,
 			       0 , FALSE, FALSE, 5);
 	}
       }
-      if(i==improvement_types[j].obsolete_by) {
+      if(i==get_improvement_type(j)->obsolete_by) {
 	hbox=fcwin_hbox_new(helpdlg_win,FALSE);
 	fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
 	fcwin_box_add_static(hbox,_("Obsoletes "),0,SS_LEFT,FALSE,FALSE,5);
-	fcwin_box_add_button(hbox,improvement_types[j].name,
+	fcwin_box_add_button(hbox, get_improvement_type(j)->name,
 			     is_great_wonder(j)?
 			     ID_HELP_WONDER_LINK:ID_HELP_IMPROVEMENT_LINK,
 			     0,FALSE,FALSE,5);
@@ -802,11 +803,11 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     } impr_type_iterate_end;
 
     unit_type_iterate(j) {
-      if(i!=get_unit_type(j)->tech_requirement) continue;
+      if (i != j->tech_requirement) continue;
       hbox=fcwin_hbox_new(helpdlg_win,FALSE);
       fcwin_box_add_box(helpdlg_page_vbox,hbox,FALSE,FALSE,5);
       fcwin_box_add_static(hbox,_("Allows "),0,SS_LEFT,FALSE,FALSE,5);
-      fcwin_box_add_button(hbox,get_unit_type(j)->name,
+      fcwin_box_add_button(hbox,j->name,
 			   ID_HELP_UNIT_LINK,
 			   0,FALSE,FALSE,5);
     } unit_type_iterate_end;

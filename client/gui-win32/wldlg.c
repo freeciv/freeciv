@@ -496,23 +496,25 @@ static void global_commit_worklist(struct worklist *pwl, void *data)
 static void copy_editor_to_worklist(struct worklist_editor *peditor,
                                     struct worklist *pwl)
 {
-  int i;
+  int i, n;
 
   /* Fill in this worklist with the parameters set in the worklist dialog. */
   init_worklist(pwl);
 
+  n = 0;
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
     if (peditor->worklist_wids[i] == WORKLIST_END) {
-      pwl->wlefs[i] = WEF_END;
-      pwl->wlids[i] = 0;
       break;
     } else {
+      struct city_production prod;
       wid wid = peditor->worklist_wids[i];
 
       assert(!wid_is_worklist(wid));
 
-      pwl->wlefs[i] = wid_is_unit(wid) ? WEF_UNIT : WEF_IMPR;
-      pwl->wlids[i] = wid_id(wid);
+      prod.is_unit = wid_is_unit(wid);
+      prod.value = wid_id(wid);
+
+      worklist_append(pwl, prod);
     }
   }
   strcpy(pwl->name, peditor->pwl->name);
@@ -899,19 +901,24 @@ static void worklist_really_insert_item(struct worklist_editor *peditor,
                                         int before, wid wid)
 {
   int i, first_free;
-  int target = wid_id(wid);
-  bool is_unit = wid_is_unit(wid);
+  struct city_production target;
 
   assert(!wid_is_worklist(wid));
+
+  target.is_unit = wid_is_unit(wid);
+  target.value = wid_id(wid);
 
   /* If this worklist is a city worklist, double check that the city
      really can (eventually) build the target.  We've made sure that
      the list of available targets is okay for this city, but a global
      worklist may try to insert an odd-ball unit or target. */
-  if (peditor->pcity &&
-      ((is_unit && !can_eventually_build_unit(peditor->pcity, target)) ||
-       (!is_unit
-        && !can_eventually_build_improvement(peditor->pcity, target)))) {
+  if (peditor->pcity
+      && ((target.is_unit
+	   && !can_eventually_build_unit(peditor->pcity,
+					 get_unit_type(target.value)))
+	  || (!target.is_unit
+	      && !can_eventually_build_improvement(peditor->pcity,
+						   target.value)))) {
     /* Nope, this city can't build this target, ever.  Don't put it into
        the worklist. */
     return;
@@ -958,16 +965,16 @@ static void copy_worklist_to_editor(struct worklist *pwl,
   int i;
 
   for (i = 0; i < MAX_LEN_WORKLIST; i++) {
-    int target;
-    bool is_unit;
+    struct city_production target;
 
     /* end of list */
-    if (!worklist_peek_ith(pwl, &target, &is_unit, i)) {
+    if (!worklist_peek_ith(pwl, &target, i)) {
       break;
     }
 
     worklist_really_insert_item(peditor, where,
-                                wid_encode(is_unit, FALSE, target));
+                                wid_encode(target.is_unit, FALSE,
+					   target.value));
     if (where < MAX_LEN_WORKLIST)
       where++;
   }
@@ -1016,13 +1023,18 @@ static void worklist_list_update(struct worklist_editor *peditor)
   for (i = 0; n < MAX_LEN_WORKLIST; i++, n++) {
     wid wid = peditor->worklist_wids[i];
 
+    struct city_production target;
+
     if (wid == WORKLIST_END) {
       break;
     }
+
     assert(!wid_is_worklist(wid));
 
-    get_city_dialog_production_row(row, BUFFER_SIZE,
-                                   wid_id(wid), wid_is_unit(wid),
+    target.is_unit = wid_is_unit(wid);
+    target.value = wid_id(wid);
+
+    get_city_dialog_production_row(row, BUFFER_SIZE, target,
                                    peditor->pcity);
     fcwin_listview_add_row(peditor->worklist,i,COLUMNS,row);
   }
@@ -1077,8 +1089,12 @@ static void targets_list_update(struct worklist_editor *peditor)
       my_snprintf(buf[2], BUFFER_SIZE, "---");
       my_snprintf(buf[3], BUFFER_SIZE, "---");
     } else {
-      get_city_dialog_production_row(row, BUFFER_SIZE,
-                                     wid_id(wid), wid_is_unit(wid),
+      struct city_production target;
+
+      target.is_unit = wid_is_unit(wid);
+      target.value = wid_id(wid);
+
+      get_city_dialog_production_row(row, BUFFER_SIZE, target,
                                      peditor->pcity);
     }
     fcwin_listview_add_row(peditor->avail,i,COLUMNS,row);

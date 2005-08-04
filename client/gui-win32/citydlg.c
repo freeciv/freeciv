@@ -260,19 +260,24 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   total = 0;
   for (item = 0; item < cids_used; item++) {
     char *strings[2];
-    int row,id = cid_id(items[item].cid);
+    int upkeep;
+    int row;
+    struct city_production target = cid_decode(items[item].cid);
+
+    assert (!target.is_unit);
 
     strings[0] = items[item].descr;
     strings[1] = buf;
 
     /* This takes effects (like Adam Smith's) into account. */
-    my_snprintf(buf, sizeof(buf), "%d",
-		improvement_upkeep(pdialog->pcity, id));
+    upkeep = improvement_upkeep(pdialog->pcity, target.value);
+
+    my_snprintf(buf, sizeof(buf), "%d", upkeep);
    
     row=fcwin_listview_add_row(pdialog->buildings_list,
 			   item, 2, strings);
     pdialog->building_cids[row]=items[item].cid;
-    total += improvement_upkeep(pdialog->pcity, id);
+    total += upkeep;
   }
   lvc.mask=LVCF_TEXT;
   lvc.pszText=buf;
@@ -975,10 +980,8 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 				    LPARAM lParam) 
 {
   int sel,i,n,idx;
-  bool is_unit;
   struct city_dialog *pdialog;
   pdialog=(struct city_dialog *)fcwin_get_user_data(hWnd);
-  is_unit=0; /* silence gcc */
   idx=0;     /* silence gcc */
   switch(message)
     {
@@ -997,7 +1000,6 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
       }
       if (sel>=0) {
 	idx=pdialog->change_list_ids[sel];
-	is_unit=(sel >= pdialog->change_list_num_improvements);
       }
       switch(LOWORD(wParam))
 	{
@@ -1007,7 +1009,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	case ID_PRODCHANGE_HELP:
 	  if (sel>=0)
 	    {
-	      if (is_unit) {
+	      if (cid_decode(idx).is_unit) {
 		popup_help_dialog_typed(get_unit_type(idx)->name,
 					HELP_UNIT);
 	      } else if(is_great_wonder(idx)) {
@@ -1026,7 +1028,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	case ID_PRODCHANGE_CHANGE:
 	  if (sel>=0)
 	    {
-	      city_change_production(pdialog->pcity, is_unit, idx);
+	      city_change_production(pdialog->pcity, cid_production(idx));
 	      DestroyWindow(hWnd);
 	    }
 	  break;
@@ -1065,6 +1067,10 @@ static void change_callback(struct city_dialog *pdialog)
       HWND lv;
       LV_COLUMN lvc;
       LV_ITEM lvi;
+      cid cids[U_LAST + B_LAST];
+      struct item items[U_LAST + B_LAST];  
+      int cids_used, item;
+
       vbox=fcwin_vbox_new(dlg,FALSE);
       hbox=fcwin_hbox_new(dlg,TRUE);
       fcwin_box_add_button(hbox,_("Change"),ID_PRODCHANGE_CHANGE,
@@ -1091,27 +1097,23 @@ static void change_callback(struct city_dialog *pdialog)
       lvi.mask=LVIF_TEXT;
       for(i=0; i<4; i++)
 	row[i]=buf[i];
-	
+
+      cids_used = collect_eventually_buildable_targets(cids, pdialog->pcity,
+						       FALSE);  
+      name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
+
       n = 0;
-      impr_type_iterate(i) {
-	if(can_build_improvement(pdialog->pcity, i)) {
-	  get_city_dialog_production_row(row, sizeof(buf[0]), i,
-	                                 FALSE, pdialog->pcity);
+      for (item = 0; item < cids_used; item++) {
+	if (city_can_build_impr_or_unit(pdialog->pcity,
+					cid_decode(items[item].cid))) {
+	  struct city_production target = cid_decode(items[item].cid);
+
+	  get_city_dialog_production_row(row, sizeof(buf[0]), target,
+				       pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
-	  pdialog->change_list_ids[n++]=i;
+	  pdialog->change_list_ids[n++] = items[item].cid;
 	}
-      } impr_type_iterate_end;
-	
-      pdialog->change_list_num_improvements=n;
-      
-      unit_type_iterate(i) {
-	if(can_build_unit(pdialog->pcity, i)) {
-	  get_city_dialog_production_row(row, sizeof(buf[0]), i,
-	                                 TRUE, pdialog->pcity);
-	  fcwin_listview_add_row(lv,n,4,row);
-	  pdialog->change_list_ids[n++]=i;
-	}
-      } unit_type_iterate_end;
+      }
       
       ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
       for(i=1;i<4;i++) {
@@ -1130,8 +1132,7 @@ static void change_callback(struct city_dialog *pdialog)
 static void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct city_dialog *pdialog = data;
-  int k, id;
-  bool is_unit;
+  int k;
 
   /* Update the worklist.  Remember, though -- the current build
      target really isn't in the worklist; don't send it to the server
@@ -1143,27 +1144,28 @@ static void commit_city_worklist(struct worklist *pwl, void *data)
 
   for (k = 0; k < MAX_LEN_WORKLIST; k++) {
     int same_as_current_build;
-    if (!worklist_peek_ith(pwl, &id, &is_unit, k))
+    struct city_production target;
+    if (!worklist_peek_ith(pwl, &target, k))
       break;
 
-    same_as_current_build = id == pdialog->pcity->production.value
-        && is_unit == pdialog->pcity->production.is_unit;
+    same_as_current_build = pdialog->pcity->production.value == target.value
+	&& pdialog->pcity->production.is_unit == target.is_unit;
 
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is
        finished elsewhere, ie unbuildable. */
-    if (k == 0 && !is_unit && is_great_wonder(id) && same_as_current_build) {
+    if (k == 0 && !target.is_unit && is_great_wonder(target.value)
+	&& same_as_current_build) {
       worklist_remove(pwl, k);
       break;
     }
 
     /* If it can be built... */
-    if ((is_unit && can_build_unit(pdialog->pcity, id)) ||
-        (!is_unit && can_build_improvement(pdialog->pcity, id))) {
+    if (city_can_build_impr_or_unit(pdialog->pcity, target)) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
         /* Change the current target */
-	city_change_production(pdialog->pcity, is_unit, id);
+	city_change_production(pdialog->pcity, target);
       }
 
       /* This item is now (and may have always been) the current
@@ -1539,7 +1541,7 @@ static void city_dlg_click_present(struct city_dialog *pdialog, int n)
      if (punit->homecity == pcity->id) {
        message_dialog_button_set_sensitive(wd,5, FALSE);
      }
-     if (can_upgrade_unittype(game.player_ptr,punit->type) == -1) {
+     if (can_upgrade_unittype(game.player_ptr,punit->type) == NULL) {
        message_dialog_button_set_sensitive(wd,6, FALSE);
      }        
    }
@@ -1662,7 +1664,7 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
       for(i=0;i<n;i++) {
 	if (ListView_GetItemState(pdialog->buildings_list,
 				  i, LVIS_SELECTED)) {
-	  pdialog->id_selected = cid_id(pdialog->building_cids[i]);
+	  pdialog->id_selected = cid_production(pdialog->building_cids[i]).value;
 	  break;
 	}
       }
@@ -1959,9 +1961,6 @@ refresh_unit_city_dialogs(struct unit *punit)
     }
 }
 
-/** City options dialog **/
-#define NUM_CITYOPT_TOGGLES 5  
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -1978,7 +1977,6 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
     {
     case WM_CREATE:
       {
-	int i;
 	int ncitizen_idx;
 	struct fcwin_box *vbox;
 	struct city *pcity;
@@ -1997,21 +1995,11 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
 				  0,FALSE,FALSE,5);
 	fcwin_box_add_static_default(vbox," ",-1,SS_LEFT | WS_GROUP);
 	fcwin_box_add_checkbox(vbox,_("Disband if build settler at size 1"),
-				  ID_CITYOPT_TOGGLE+4,0,FALSE,FALSE,5);
-	fcwin_box_add_checkbox(vbox,_("Auto-attack vs land units"),
 				  ID_CITYOPT_TOGGLE,0,FALSE,FALSE,5);
-	fcwin_box_add_checkbox(vbox,_("Auto-attack vs sea units"),
-				  ID_CITYOPT_TOGGLE+1,0,FALSE,FALSE,5);
-	fcwin_box_add_checkbox(vbox,_("Auto-attack vs air units"),
-				  ID_CITYOPT_TOGGLE+3,0,FALSE,FALSE,5);
-	fcwin_box_add_checkbox(vbox,_("Auto-attack vs helicopters"),
-				  ID_CITYOPT_TOGGLE+2,0,FALSE,FALSE,5);
 	fcwin_set_box(hWnd,vbox);
-	for(i=0; i<NUM_CITYOPT_TOGGLES; i++) {
-	  CheckDlgButton(pdialog->cityopt_dialog,
-			 i + ID_CITYOPT_TOGGLE,
-			 is_city_option_set(pcity, i) ? BST_CHECKED : BST_UNCHECKED);
-	}
+	CheckDlgButton(pdialog->cityopt_dialog, ID_CITYOPT_TOGGLE,
+		       is_city_option_set(pcity, CITYO_DISBAND)
+		       ? BST_CHECKED : BST_UNCHECKED);
 	if (is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {
 	  ncitizen_idx = 1;
 	} else if (is_city_option_set(pcity, CITYO_NEW_TAXMAN)) {
@@ -2028,16 +2016,25 @@ LONG APIENTRY citydlg_config_proc(HWND hWnd,
       break;
     case WM_COMMAND:
       if (pdialog) {
-	struct city *pcity=pdialog->pcity;
-	int i,new_options;
-	new_options=0;
-	for(i=0;i<NUM_CITYOPT_TOGGLES;i++)
-	  if (IsDlgButtonChecked(hWnd,ID_CITYOPT_TOGGLE+i))
-	    new_options |= (1<<i);
-	if (IsDlgButtonChecked(hWnd,ID_CITYOPT_RADIO+1))
-	  new_options |= (1<<CITYO_NEW_EINSTEIN); 
-	else if (IsDlgButtonChecked(hWnd,ID_CITYOPT_RADIO+2))
-	  new_options |= (1<<CITYO_NEW_TAXMAN);  
+	struct city *pcity = pdialog->pcity;
+	bv_city_options new_options;
+
+	assert(CITYO_LAST == 3);
+
+	BV_CLR_ALL(new_options);
+
+	if (IsDlgButtonChecked(hWnd, ID_CITYOPT_TOGGLE)) {
+	  BV_SET(new_options, CITYO_DISBAND);
+	}
+
+	if (IsDlgButtonChecked(hWnd, ID_CITYOPT_RADIO + 1)) {
+          BV_SET(new_options, CITYO_NEW_EINSTEIN);
+	}
+	
+	if (IsDlgButtonChecked(hWnd, ID_CITYOPT_RADIO + 2)) {
+          BV_SET(new_options, CITYO_NEW_TAXMAN);
+	}
+
 	dsend_packet_city_options_req(&aconnection, pcity->id, new_options);
       }
       break;

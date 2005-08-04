@@ -58,7 +58,7 @@ extern HINSTANCE freecivhinst;
 extern HWND root_window;
 extern struct connection aconnection;               
 int economy_improvement_type[B_LAST];   
-int activeunits_type[U_LAST]; 
+struct unit_type *activeunits_type[U_LAST];
 
 #define ID_OPTIONS_BASE 1000
 
@@ -537,7 +537,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
       if (sel>=0) {
 	CHECK_UNIT_TYPE(activeunits_type[sel]);
 	if (can_upgrade_unittype(game.player_ptr,
-				 activeunits_type[sel]) != -1) {
+				 activeunits_type[sel]) != NULL) {
 	  EnableWindow(GetDlgItem(activeunits_dlg,ID_MILITARY_UPGRADE),
 		       TRUE);
 	} else {
@@ -560,7 +560,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 	  if (sel>=0)
 	    {
 	      char buf[512];
-	      int ut1,ut2;     
+	      struct unit_type *ut1, *ut2;     
 
 	      ut1 = activeunits_type[sel];
 	      CHECK_UNIT_TYPE(ut1);
@@ -568,7 +568,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 	      my_snprintf(buf, sizeof(buf),
 			  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 			    "Treasury contains %d gold."),
-			  unit_types[ut1].name, unit_types[ut2].name,
+			  ut1->name, ut2->name,
 			  unit_upgrade_price(game.player_ptr, ut1, ut2),
 			  game.player_ptr->economic.gold);    
 	      
@@ -622,10 +622,10 @@ activeunits_report_dialog_update(void)
 
     memset(unitarray, '\0', sizeof(unitarray));
     unit_list_iterate(game.player_ptr->units, punit) {
-      (unitarray[punit->type].active_count)++;
+      (unitarray[punit->type->index].active_count)++;
       if (punit->homecity) {
-        unitarray[punit->type].upkeep_shield += punit->upkeep[O_SHIELD];
-        unitarray[punit->type].upkeep_food += punit->upkeep[O_FOOD];
+        unitarray[punit->type->index].upkeep_shield += punit->upkeep[O_SHIELD];
+        unitarray[punit->type->index].upkeep_food += punit->upkeep[O_FOOD];
 	/* TODO: gold upkeep */
       }
     }
@@ -641,22 +641,26 @@ activeunits_report_dialog_update(void)
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
     unit_type_iterate(i) {
-      if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) 
-{
-        can = (can_upgrade_unittype(game.player_ptr, i) != -1);
+      if ((unitarray[i->index].active_count > 0)
+	  || (unitarray[i->index].building_count > 0)) {
+        can = (can_upgrade_unittype(game.player_ptr, i) != NULL);
         my_snprintf(buf[0], sizeof(buf[0]), "%s", unit_name(i));
         my_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');
-        my_snprintf(buf[2], sizeof(buf[2]), "%3d", unitarray[i].building_count);
-        my_snprintf(buf[3], sizeof(buf[3]), "%3d", unitarray[i].active_count);
-        my_snprintf(buf[4], sizeof(buf[4]), "%3d", unitarray[i].upkeep_shield);
-        my_snprintf(buf[5], sizeof(buf[5]), "%3d", unitarray[i].upkeep_food);
+        my_snprintf(buf[2], sizeof(buf[2]), "%3d",
+				   unitarray[i->index].building_count);
+        my_snprintf(buf[3], sizeof(buf[3]), "%3d",
+				   unitarray[i->index].active_count);
+        my_snprintf(buf[4], sizeof(buf[4]), "%3d",
+				   unitarray[i->index].upkeep_shield);
+        my_snprintf(buf[5], sizeof(buf[5]), "%3d",
+				   unitarray[i->index].upkeep_food);
 	fcwin_listview_add_row(lv,k,AU_COL,row);
-        activeunits_type[k]=(unitarray[i].active_count > 0) ? i : U_LAST;
+        activeunits_type[k]=(unitarray[i->index].active_count > 0) ? i : NULL;
         k++;
-        unittotals.active_count += unitarray[i].active_count;
-        unittotals.upkeep_shield += unitarray[i].upkeep_shield;
-        unittotals.upkeep_food += unitarray[i].upkeep_food;
-        unittotals.building_count += unitarray[i].building_count;
+        unittotals.active_count += unitarray[i->index].active_count;
+        unittotals.upkeep_shield += unitarray[i->index].upkeep_shield;
+        unittotals.upkeep_food += unitarray[i->index].upkeep_food;
+        unittotals.building_count += unitarray[i->index].building_count;
       }
     } unit_type_iterate_end;
 
