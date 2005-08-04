@@ -636,10 +636,10 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 /**************************************************************************
 ...
 **************************************************************************/
-int collect_cids1(cid * dest_cids, struct city **selected_cities,
-		  int num_selected_cities, bool append_units,
-		  bool append_wonders, bool change_prod,
-		  TestCityFunc test_func)
+int collect_production_targets(cid * dest_cids, struct city **selected_cities,
+			       int num_selected_cities, bool append_units,
+			       bool append_wonders, bool change_prod,
+			       TestCityFunc test_func)
 {
   cid first = append_units ? B_LAST : 0;
   cid last = (append_units
@@ -682,7 +682,7 @@ int collect_cids1(cid * dest_cids, struct city **selected_cities,
  Collect the cids of all targets (improvements and units) which are
  currently built in a city.
 **************************************************************************/
-int collect_cids2(cid * dest_cids)
+int collect_currently_building_targets(cid * dest_cids)
 {
   bool mapping[B_LAST + U_LAST];
   int cids_used = 0;
@@ -707,7 +707,7 @@ int collect_cids2(cid * dest_cids)
  Collect the cids of all targets (improvements and units) which can
  be build in a city.
 **************************************************************************/
-int collect_cids3(cid * dest_cids)
+int collect_buildable_targets(cid * dest_cids)
 {
   int cids_used = 0;
 
@@ -732,7 +732,9 @@ int collect_cids3(cid * dest_cids)
  Collect the cids of all targets which can be build by this city or
  in general.
 **************************************************************************/
-int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
+int collect_eventually_buildable_targets(cid * dest_cids,
+					 struct city *pcity,
+					 bool advanced_tech)
 {
   int cids_used = 0;
 
@@ -780,7 +782,7 @@ int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech)
 /**************************************************************************
  Collect the cids of all improvements which are built in the given city.
 **************************************************************************/
-int collect_cids5(cid * dest_cids, struct city *pcity)
+int collect_already_built_targets(cid * dest_cids, struct city *pcity)
 {
   int cids_used = 0;
 

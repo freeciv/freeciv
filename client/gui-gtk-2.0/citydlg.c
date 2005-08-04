@@ -1551,7 +1551,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
                            -1);
   gtk_list_store_clear(store);
 
-  cids_used = collect_cids4(cids, pdialog->pcity, FALSE);  
+  cids_used = collect_eventually_buildable_targets(cids, pdialog->pcity, FALSE);  
   name_and_sort_items(cids, cids_used, items, FALSE, pcity);
 
   for (item = 0; item < cids_used; item++) {
@@ -1593,7 +1593,7 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     gtk_tree_view_get_model(GTK_TREE_VIEW(pdialog->overview.improvement_list));
   store = GTK_LIST_STORE(model);
   
-  cids_used = collect_cids5(cids, pdialog->pcity);
+  cids_used = collect_already_built_targets(cids, pdialog->pcity);
   name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
 
   gtk_list_store_clear(store);  

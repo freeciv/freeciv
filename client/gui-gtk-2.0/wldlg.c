@@ -1360,7 +1360,7 @@ void refresh_worklist(GtkWidget *editor)
   }
   gtk_list_store_clear(ptr->src);
 
-  cids_used = collect_cids4(cids, ptr->pcity, ptr->future);
+  cids_used = collect_eventually_buildable_targets(cids, ptr->pcity, ptr->future);
   name_and_sort_items(cids, cids_used, items, FALSE, ptr->pcity);
 
   path = NULL;

@@ -252,7 +252,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     pdialog->last_improvlist_seen[i] = pdialog->pcity->improvements[i];
   } impr_type_iterate_end;
   
-  cids_used = collect_cids5(cids, pdialog->pcity);
+  cids_used = collect_already_built_targets(cids, pdialog->pcity);
   name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
    
   ListView_DeleteAllItems(pdialog->buildings_list);

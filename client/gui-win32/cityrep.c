@@ -205,7 +205,7 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
     }
   }
 
-  cids_used = collect_cids1(cids, selected_cities,
+  cids_used = collect_production_targets(cids, selected_cities,
 			    num_selected_cities, append_units,
 			    append_wonders, change_prod, test_func);
   if (selected_cities) {
@@ -766,7 +766,7 @@ static void cityrep_changeall(HWND hWnd)
 						 selid));
   }
 
-  cids_used = collect_cids2(cids);
+  cids_used = collect_currently_building_targets(cids);
   name_and_sort_items(cids, cids_used, items, FALSE, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_FROM);
@@ -777,7 +777,7 @@ static void cityrep_changeall(HWND hWnd)
       ListBox_SetCurSel(hLst, id);
   }
 
-  cids_used = collect_cids3(cids);
+  cids_used = collect_buildable_targets(cids);
   name_and_sort_items(cids, cids_used, items, TRUE, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_TO);

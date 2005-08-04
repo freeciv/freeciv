@@ -136,7 +136,7 @@ static int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
   }
 
   /* Fill in improvements and units */
-  cids_used = collect_cids4(cids, pcity, advanced_tech);
+  cids_used = collect_eventually_buildable_targets(cids, pcity, advanced_tech);
   name_and_sort_items(cids, cids_used, items, FALSE, pcity);
 
   for (item = 0; item < cids_used; item++) {

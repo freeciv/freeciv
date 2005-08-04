@@ -76,14 +76,16 @@ typedef bool (*TestCityFunc)(const struct city *, struct city_production);
 
 void name_and_sort_items(int *pcids, int num_cids, struct item *items,
 			 bool show_cost, struct city *pcity);
-int collect_cids1(cid * dest_cids, struct city **selected_cities,
-		 int num_selected_cities, bool append_units,
-		 bool append_wonders, bool change_prod,
-		  TestCityFunc test_func);
-int collect_cids2(cid * dest_cids);
-int collect_cids3(cid * dest_cids);
-int collect_cids4(cid * dest_cids, struct city *pcity, bool advanced_tech);
-int collect_cids5(cid * dest_cids, struct city *pcity);
+int collect_production_targets(cid * dest_cids, struct city **selected_cities,
+			       int num_selected_cities, bool append_units,
+			       bool append_wonders, bool change_prod,
+			       TestCityFunc test_func);
+int collect_currently_building_targets(cid * dest_cids);
+int collect_buildable_targets(cid * dest_cids);
+int collect_eventually_buildable_targets(cid * dest_cids,
+					 struct city *pcity,
+					 bool advanced_tech);
+int collect_already_built_targets(cid * dest_cids, struct city *pcity);
 
 /* the number of units in city */
 int num_present_units_in_city(struct city* pcity);

@@ -237,11 +237,11 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     }
 
     data = (struct city **)g_ptr_array_free(selected, FALSE);
-    cids_used = collect_cids1(cids, data, num_selected, append_units,
+    cids_used = collect_production_targets(cids, data, num_selected, append_units,
         		      append_wonders, TRUE, test_func);
     g_free(data);
   } else {
-    cids_used = collect_cids1(cids, NULL, 0, append_units,
+    cids_used = collect_production_targets(cids, NULL, 0, append_units,
 			      append_wonders, FALSE, test_func);
   }
 
