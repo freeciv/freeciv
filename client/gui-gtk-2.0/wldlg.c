@@ -548,9 +548,10 @@ static void help_callback(GtkWidget *w, gpointer data)
 
   if (gtk_tree_selection_get_selected(selection, &model, &it)) {
     gint cid;
-    struct city_production target = cid_decode(cid);
+    struct city_production target;
 
     gtk_tree_model_get(model, &it, 0, &cid, -1);
+    target = cid_decode(cid);
 
     if (target.is_unit) {
       popup_help_dialog_typed(get_unit_type(target.value)->name, HELP_UNIT);
