@@ -318,6 +318,7 @@ void city_list_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
   struct city *pcity;
+  struct city_production production;
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
@@ -340,14 +341,18 @@ void city_list_callback(Widget w, XtPointer client_data,
 
     impr_type_iterate(i) {
       if (can_build_improvement(pcity, i)) {
-	cids[cids_used] = cid_encode(FALSE, i);
+	production.is_unit = false;
+	production.value = i;
+	cids[cids_used] = cid_encode(production);
 	cids_used++;
       }
     } impr_type_iterate_end;
 
     unit_type_iterate(i) {
       if (can_build_unit(pcity, i)) {
-	cids[cids_used] = cid_encode(TRUE, i->index);
+	production.is_unit = true;
+	production.value = i->index;
+	cids[cids_used] = cid_encode(production);
 	cids_used++;
       }
     } unit_type_iterate_end;
@@ -380,19 +385,15 @@ void city_change_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
   struct city *pcity;
-
-
+  struct city_production production;
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
     cid my_cid = (cid) XTPOINTER_TO_INT(client_data);
-    Boolean unit;
-    int build_nr;
       
-    unit = cid_is_unit(my_cid);
-    build_nr = cid_id(my_cid);
+    production = cid_decode(my_cid);
 
-    city_change_production(pcity, unit, build_nr);
+    city_change_production(pcity, production);
   }
 }
 

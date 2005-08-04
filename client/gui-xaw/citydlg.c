@@ -1963,11 +1963,12 @@ static void change_to_callback(Widget w, XtPointer client_data,
 
   ret=XawListShowCurrent(pdialog->change_list);
 
-  if(ret->list_index!=XAW_LIST_NONE) {
-    bool is_unit = ret->list_index >= pdialog->change_list_num_improvements;
-    int build_id = pdialog->change_list_ids[ret->list_index];
+  if (ret->list_index != XAW_LIST_NONE) {
+    struct city_production target;
+    target.is_unit = ret->list_index >= pdialog->change_list_num_improvements;
+    target.value = pdialog->change_list_ids[ret->list_index];
 
-    city_change_production(pdialog->pcity, is_unit, build_id);
+    city_change_production(pdialog->pcity, target);
   }
   
   XtDestroyWidget(XtParent(XtParent(w)));
@@ -2045,6 +2046,7 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   Position x, y;
   Dimension width, height;
   struct city_dialog *pdialog;
+  struct city_production production;
   int n;
   
   pdialog=(struct city_dialog *)client_data;
@@ -2119,9 +2121,11 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
   n = 0;
   impr_type_iterate(i) {
     if(can_build_improvement(pdialog->pcity, i)) {
+      production.is_unit = false;
+      production.value = i;
       get_city_dialog_production_full(pdialog->change_list_names[n],
                                       sizeof(pdialog->change_list_names[n]),
-                                      i, FALSE, pdialog->pcity);
+                                      production, pdialog->pcity);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++]=i;
     }
@@ -2132,9 +2136,11 @@ void change_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   unit_type_iterate(i) {
     if(can_build_unit(pdialog->pcity, i)) {
+      production.is_unit = true;
+      production.value = i->index;
       get_city_dialog_production_full(pdialog->change_list_names[n],
                                       sizeof(pdialog->change_list_names[n]),
-                                      i->index, TRUE, pdialog->pcity);
+                                      production, pdialog->pcity);
       pdialog->change_list_names_ptrs[n]=pdialog->change_list_names[n];
       pdialog->change_list_ids[n++] = i->index;
     }
@@ -2175,8 +2181,8 @@ void worklist_callback(Widget w, XtPointer client_data, XtPointer call_data)
 void commit_city_worklist(struct worklist *pwl, void *data)
 {
   struct city_dialog *pdialog = data;
-  int k, id;
-  bool is_unit;
+  struct city_production production;
+  int k;
 
   /* Update the worklist.  Remember, though -- the current build 
      target really isn't in the worklist; don't send it to the 
@@ -2188,26 +2194,31 @@ void commit_city_worklist(struct worklist *pwl, void *data)
 
   for (k = 0; k < MAX_LEN_WORKLIST; k++) {
     int same_as_current_build;
-    if (! worklist_peek_ith(pwl, &id, &is_unit, k))
+    if (!worklist_peek_ith(pwl, &production, k)) {
       break;
-    same_as_current_build = id == pdialog->pcity->production.value
-      && is_unit == pdialog->pcity->production.is_unit;
+    }
+    same_as_current_build = 
+      (production.value == pdialog->pcity->production.value)
+      && (production.is_unit == pdialog->pcity->production.is_unit);
 
     /* Very special case: If we are currently building a wonder we
        allow the construction to continue, even if we the wonder is
        finished elsewhere, ie unbuildable. */
-    if (k == 0 && !is_unit && is_great_wonder(id) && same_as_current_build) {
+    if (k == 0 && !production.is_unit && is_great_wonder(production.value)
+	&& same_as_current_build) {
       worklist_remove(pwl, k);
       break;
     }
 
     /* If it can be built... */
-    if (( is_unit && can_build_unit(pdialog->pcity, get_unit_type(id))) ||
-	(!is_unit && can_build_improvement(pdialog->pcity, id))) {
+    if ((production.is_unit
+	 && can_build_unit(pdialog->pcity, get_unit_type(production.value)))
+	|| (!production.is_unit
+	    && can_build_improvement(pdialog->pcity, production.value))) {
       /* ...but we're not yet building it, then switch. */
       if (!same_as_current_build) {
 	/* Change the current target */
-	city_change_production(pdialog->pcity, is_unit, id);
+	city_change_production(pdialog->pcity, production);
       }
 
       /* This item is now (and may have always been) the current
