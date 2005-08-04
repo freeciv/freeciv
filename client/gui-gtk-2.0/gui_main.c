@@ -1325,8 +1325,13 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   int i = GPOINTER_TO_INT(data);
   struct unit *punit;
 
-  if (i == -1)  /* unit currently selected */
+  if (i == -1) {
+    if ((punit = get_unit_in_focus())) {
+      /* Clicking on the currently selected unit will center it. */
+      center_tile_mapcanvas(punit->tile);
+    }
     return TRUE;
+  }
 
   if (unit_ids[i] == 0) /* no unit displayed at this place */
     return TRUE;
