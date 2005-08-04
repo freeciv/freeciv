@@ -107,6 +107,9 @@ static const char *help_tlabel_name[4][5] =
     { N_("Mine Rslt/Time:"),	NULL, NULL, N_("Trans. Rslt/Time:"),	NULL }
 };
 
+#define REQ_NONE _("None")
+#define REQ_NEVER _("(Never)")
+
 /* HACK: we use a static string for convenience. */
 static char long_buffer[64000];
 
@@ -295,8 +298,8 @@ static void help_hyperlink_callback(GtkWidget *w)
   /* May be able to skip, or may need to modify, advances[A_NONE].name
      below, depending on which i18n is done elsewhere.
   */
-  if (strcmp(s, _("(Never)")) != 0
-      && strcmp(s, _("None")) != 0
+  if (strcmp(s, REQ_NEVER) != 0
+      && strcmp(s, REQ_NONE) != 0
       && strcmp(s, advances[A_NONE].name) != 0)
     select_help_item_string(s, type);
 }
@@ -691,7 +694,7 @@ static void help_update_improvement(const struct help_item *pitem,
   
   if (which<game.control.num_impr_types) {
     struct impr_type *imp = get_improvement_type(which);
-    int i;
+    char *req = REQ_NONE;
     char req_buf[512];
 
     sprintf(buf, "%d", impr_build_shield_cost(which));
@@ -703,20 +706,17 @@ static void help_update_improvement(const struct help_item *pitem,
      * Currently it's limited to 1 req but this code is partially prepared
      * to be extended.  Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    i = 0;
     requirement_vector_iterate(&imp->reqs, preq) {
-      gtk_label_set_text(GTK_LABEL(help_ilabel[5 + i]),
-			 get_req_source_text(&preq->source,
-					     req_buf, sizeof(req_buf)));
-      i++;
+      req = get_req_source_text(&preq->source, req_buf, sizeof(req_buf));
       break;
     } requirement_vector_iterate_end;
+    gtk_label_set_text(GTK_LABEL(help_ilabel[5]), req);
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
     gtk_label_set_text(GTK_LABEL(help_ilabel[1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), "0");
-    gtk_label_set_text(GTK_LABEL(help_ilabel[5]), _("(Never)"));
+    gtk_label_set_text(GTK_LABEL(help_ilabel[5]), REQ_NEVER);
 /*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3);*/
   }
   gtk_widget_show(help_itable);
@@ -760,15 +760,15 @@ static void help_update_wonder(const struct help_item *pitem,
       gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
 			 get_tech_name(game.player_ptr, imp->obsolete_by));
     } else {
-      gtk_label_set_text(GTK_LABEL(help_wlabel[5]), _("(Never)"));
+      gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_NEVER);
     }
 /*    create_tech_tree(help_improvement_tree, 0, imp->tech_req, 3);*/
   }
   else {
     /* can't find wonder */
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), "0");
-    gtk_label_set_text(GTK_LABEL(help_wlabel[3]), _("(Never)"));
-    gtk_label_set_text(GTK_LABEL(help_wlabel[5]), _("None"));
+    gtk_label_set_text(GTK_LABEL(help_wlabel[3]), REQ_NEVER);
+    gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_NONE);
 /*    create_tech_tree(help_improvement_tree, 0, game.control.num_tech_types, 3); */
   }
   gtk_widget_show(help_wtable);
@@ -806,7 +806,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     sprintf(buf, "%d", utype->vision_range);
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), buf);
     if(utype->tech_requirement==A_LAST) {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), _("(Never)"));
+      gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_NEVER);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]),
 			 get_tech_name(game.player_ptr,
@@ -814,7 +814,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     }
 /*    create_tech_tree(help_improvement_tree, 0, utype->tech_requirement, 3);*/
     if (utype->obsoleted_by == U_NOT_OBSOLETED) {
-      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), _("None"));
+      gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_NONE);
     } else {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]),
 			 utype->obsoleted_by->name);
@@ -846,9 +846,9 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][1]), "0");
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), "0");
 
-    gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), _("(Never)"));
+    gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_NEVER);
 /*    create_tech_tree(help_improvement_tree, 0, A_LAST, 3);*/
-    gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), _("None"));
+    gtk_label_set_text(GTK_LABEL(help_ulabel[4][4]), REQ_NONE);
 
     gtk_text_buffer_set_text(help_text, buf, -1);
     gtk_widget_show(help_text_sw);
