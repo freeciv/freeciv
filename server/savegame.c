@@ -1619,7 +1619,6 @@ static void player_load(struct player *plr, int plrno,
   struct ai_data *ai;
   struct government *gov;
   int id;
-  int target_no;
   struct team *pteam;
   struct player_research *research;
 
@@ -1770,6 +1769,10 @@ static void player_load(struct player *plr, int plrno,
          = secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
     ai->diplomacy.player_intel[i].spam 
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
+    ai->diplomacy.player_intel[i].countdown
+         = secfile_lookup_int_default(file, -1, "player%d.ai%d.countdown", plrno, i);
+    ai->diplomacy.player_intel[i].war_reason
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.war_reason", plrno, i);
     ai->diplomacy.player_intel[i].ally_patience
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.patience", plrno, i);
     ai->diplomacy.player_intel[i].warned_about_space
@@ -1781,10 +1784,6 @@ static void player_load(struct player *plr, int plrno,
     ai->diplomacy.player_intel[i].asked_about_ceasefire
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire", plrno, i);
   }
-  /* Diplomacy target is saved as player number or -1 if none */ 
-  target_no = secfile_lookup_int_default(file, -1,
-                                         "player%d.ai.target", plrno);
-  ai->diplomacy.target = target_no == -1 ? NULL : &game.players[target_no];
 
   /* Backwards-compatibility: the tech goal value is still stored in the
    * "ai" section even though it was moved into the research struct. */
@@ -2515,6 +2514,10 @@ static void player_save(struct player *plr, int plrno,
                        "player%d.ai%d.love", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].spam, 
                        "player%d.ai%d.spam", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].countdown, 
+                       "player%d.ai%d.countdown", plrno, i);
+    secfile_insert_int(file, ai->diplomacy.player_intel[i].war_reason, 
+                       "player%d.ai%d.war_reason", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].ally_patience, 
                        "player%d.ai%d.patience", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].warned_about_space, 
@@ -2526,10 +2529,6 @@ static void player_save(struct player *plr, int plrno,
     secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_ceasefire, 
                        "player%d.ai%d.ask_ceasefire", plrno, i);
   }
-  secfile_insert_int(file,
-                     ai->diplomacy.target == NULL ? 
-		       -1 : ai->diplomacy.target->player_no,
-		     "player%d.ai.target", plrno);
   save_technology(file, "player%d.ai.tech_goal",
 		  plrno, get_player_research(plr)->tech_goal);
   secfile_insert_int(file, plr->ai.skill_level,

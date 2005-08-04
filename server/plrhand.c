@@ -516,6 +516,10 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   old_type = pplayer->diplstates[other_player_id].type;
   pplayer2 = get_player(other_player_id);
 
+  if (old_type == DS_WAR) {
+    return; /* Duh */
+  }
+
   /* can't break a pact with yourself */
   if (pplayer == pplayer2) {
     return;
@@ -568,6 +572,7 @@ repeat_break_treaty:
     break;
   default:
     freelog(LOG_ERROR, "non-pact diplstate in handle_player_cancel_pact");
+    assert(FALSE);
     return;
   }
 

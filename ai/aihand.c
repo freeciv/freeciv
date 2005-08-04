@@ -242,7 +242,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
   /* Ok, we now have the desired tax and luxury rates. Do we really want
    * science? If not, swap it with tax if it is bigger. */
-  if (ai_wants_no_science(pplayer)
+  if ((ai_wants_no_science(pplayer) || ai_on_war_footing(pplayer))
       && pplayer->economic.science > pplayer->economic.tax) {
     int science = pplayer->economic.science;
     /* Swap science and tax */

@@ -76,37 +76,32 @@ void TECH_LOG(int level, struct player *pplayer, Tech_type_id id,
 
 /**************************************************************************
   Log player messages, they will appear like this
-    2: perrin [ti12 co6 lo5 e]  Increased love for a (now 9)
+    
   where ti is timer, co countdown and lo love for target, who is e.
 **************************************************************************/
-void DIPLO_LOG(int level, struct player *pplayer, struct ai_data *ai, 
+void DIPLO_LOG(int level, struct player *pplayer, struct player *aplayer,
                const char *msg, ...)
 {
-  char targetbuffer[250];
   char buffer[500];
   char buffer2[500];
   va_list ap;
   int minlevel = MIN(LOGLEVEL_PLAYER, level);
+  struct ai_data *ai;
+  struct ai_dip_intel *adip;
 
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
     minlevel = LOG_NORMAL;
   } else if (minlevel > fc_log_level) {
     return;
   }
+  ai = ai_data_get(pplayer);
+  adip = &ai->diplomacy.player_intel[aplayer->player_no];
 
-  if (ai->diplomacy.target) {
-    my_snprintf(targetbuffer, sizeof(targetbuffer), "[ti%d co%d lo%d %s] ",
-                ai->diplomacy.timer, ai->diplomacy.countdown,
-                pplayer->ai.love[ai->diplomacy.target->player_no],
-                ai->diplomacy.target->name);
-  }
-  my_snprintf(buffer, sizeof(buffer), "%s %s%s%s ", pplayer->name,
-              ai->diplomacy.target ? targetbuffer : "",
-              ai->diplomacy.spacerace_leader &&
-              ai->diplomacy.spacerace_leader->player_no == pplayer->player_no ? 
-                "(spacelead) " : "",
-              ai->diplomacy.alliance_leader->player_no == pplayer->player_no ?
-                "(*)" : "");
+  my_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ", 
+              pplayer->name, aplayer->name, 
+              pplayer->ai.love[aplayer->player_no], adip->countdown, 
+              adip->distance, adip->is_allied_with_enemy ? "?" :
+              (adip->at_war_with_ally ? "!" : ""));
 
   va_start(ap, msg);
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);

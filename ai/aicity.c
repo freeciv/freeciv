@@ -930,6 +930,7 @@ static void ai_barbarian_choose_build(struct player *pplayer,
 static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 {
   struct ai_choice newchoice;
+  struct ai_data *ai = ai_data_get(pplayer);
 
   init_choice(&newchoice);
 
@@ -944,7 +945,9 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     ai_barbarian_choose_build(pplayer, &(pcity->ai.choice));
   } else {
     /* FIXME: 101 is the "overriding military emergency" indicator */
-    if (pcity->ai.choice.want <= 100 || pcity->ai.urgency == 0) { 
+    if ((pcity->ai.choice.want <= 100 || pcity->ai.urgency == 0)
+        && !(ai_on_war_footing(pplayer) && pcity->ai.choice.want > 0
+             && pcity->id != ai->wonder_city)) {
       domestic_advisor_choose_build(pplayer, pcity, &newchoice);
       copy_if_better_choice(&newchoice, &(pcity->ai.choice));
     }
@@ -1043,11 +1046,10 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
   unit_list_iterate(pcity->tile->units, punit) {
     struct unit_type *punittype = can_upgrade_unittype(pplayer, punit->type);
 
-    if (military && (!is_military_unit(punit) || !is_ground_unit(punit))) {
+    if (military && !IS_ATTACKER(punit)) {
       /* Only upgrade military units this round */
       continue;
-    } else if (!military && is_military_unit(punit)
-               && unit_type(punit)->transport_capacity == 0) {
+    } else if (!military && IS_ATTACKER(punit)) {
       /* Only civilians or tranports this round */
       continue;
     }
@@ -1078,6 +1080,7 @@ static void ai_spend_gold(struct player *pplayer)
 {
   struct ai_choice bestchoice;
   int cached_limit = ai_gold_reserve(pplayer);
+  bool war_footing = ai_on_war_footing(pplayer);
 
   /* Disband explorers that are at home but don't serve a purpose. 
    * FIXME: This is a hack, and should be removed once we
@@ -1129,6 +1132,7 @@ static void ai_spend_gold(struct player *pplayer)
       } else {
         /* If we have urgent want, spend more */
         int upgrade_limit = limit;
+
         if (pcity->ai.urgency > 1) {
           upgrade_limit = pplayer->ai.est_upkeep;
         }
@@ -1157,10 +1161,12 @@ static void ai_spend_gold(struct player *pplayer)
         /* Don't buy settlers in size 1 cities unless we grow next turn */
         continue;
       } else if (city_list_size(pplayer->cities) > 6) {
-          /* Don't waste precious money buying settlers late game
-           * since this raises taxes, and we want science. Adjust this
-           * again when our tax algorithm is smarter. */
-          continue;
+        /* Don't waste precious money buying settlers late game
+         * since this raises taxes, and we want science. Adjust this
+         * again when our tax algorithm is smarter. */
+        continue;
+      } else if (war_footing) {
+        continue;
       }
     } else {
       /* We are not a settler. Therefore we increase the cash need we
@@ -1174,8 +1180,9 @@ static void ai_spend_gold(struct player *pplayer)
                 || (pplayer->economic.gold - buycost < limit);
 
     if (bestchoice.type == CT_ATTACKER
-	&& buycost
-	> unit_build_shield_cost(get_unit_type(bestchoice.choice)) * 2) {
+	&& buycost 
+           > unit_build_shield_cost(get_unit_type(bestchoice.choice)) * 2
+        && !war_footing) {
        /* Too expensive for an offensive unit */
        continue;
     }
@@ -1211,10 +1218,12 @@ static void ai_spend_gold(struct player *pplayer)
     }
   } while (TRUE);
 
-  /* Civilian upgrades now */
-  city_list_iterate(pplayer->cities, pcity) {
-    ai_upgrade_units(pcity, cached_limit, FALSE);
-  } city_list_iterate_end;
+  if (!war_footing) {
+    /* Civilian upgrades now */
+    city_list_iterate(pplayer->cities, pcity) {
+      ai_upgrade_units(pcity, cached_limit, FALSE);
+    } city_list_iterate_end;
+  }
 
   freelog(LOG_BUY, "%s wants to keep %d in reserve (tax factor %d)", 
           pplayer->name, cached_limit, pplayer->ai.maxbuycost);
@@ -1255,6 +1264,9 @@ void ai_manage_cities(struct player *pplayer)
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_START);
     military_advisor_choose_build(pplayer, pcity, &pcity->ai.choice);
     TIMING_LOG(AIT_CITY_MILITARY, TIMER_STOP);
+    if (ai_on_war_footing(pplayer) && pcity->ai.choice.want > 0) {
+      continue; /* Go, soldiers! */
+    }
     /* Will record its findings in pcity->settler_want */ 
     TIMING_LOG(AIT_CITY_TERRAIN, TIMER_START);
     contemplate_terrain_improvements(pcity);

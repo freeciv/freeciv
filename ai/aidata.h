@@ -21,6 +21,8 @@
 #include "fc_types.h"
 #include "improvement.h"
 
+#include "advdiplomacy.h"
+
 /* 
  * This file and aidata.c contains global data structures for the AI
  * and some of the functions that fill them with useful values at the 
@@ -49,6 +51,8 @@ struct ai_dip_intel {
 
   char spam;      /* timer to avoid spamming a player with chat */
   int distance;   /* average distance to that player's cities */
+  int countdown;  /* we're on a countdown to war declaration */
+  enum war_reason war_reason; /* why we declare war */
   char ally_patience; /* we EXPECT our allies to help us! */
   char asked_about_peace;     /* don't ask again */
   char asked_about_alliance;  /* don't nag! */
@@ -70,14 +74,11 @@ struct ai_data {
     struct ai_dip_intel player_intel[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
     enum winning_strategy strategy;
     int timer; /* pursue our goals with some stubbornness, in turns */
-    int countdown;          /* countdown to we actually declare war */
-    struct player *target;    /* Concentrate on this player */
     char love_coeff;          /* Reduce love with this % each turn */
     char love_incr;           /* Modify love with this fixed amount */
     int req_love_for_peace;
     int req_love_for_alliance;
     int req_love_for_ceasefire;
-    struct player *alliance_leader; /* Who is leading our alliance */
     struct player *spacerace_leader; /* who is leading the space pack */
     struct player *production_leader;
   } diplomacy;

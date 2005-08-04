@@ -226,8 +226,6 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   struct ai_data *ai = &aidata[pplayer->player_no];
   int i, nuke_units = num_role_units(F_NUCLEAR);
   bool danger_of_nukes = FALSE;
-  int ally_strength = -1;
-  struct player *ally_strongest = NULL;
 
   /*** Threats ***/
 
@@ -399,14 +397,6 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
     ai->diplomacy.player_intel[i].at_war_with_ally = NULL;
     ai->diplomacy.player_intel[i].is_allied_with_ally = NULL;
 
-    /* Determine who is the leader of our alliance. That is,
-     * whoever has the more cities. */
-    if (pplayers_allied(pplayer, aplayer)
-        && city_list_size(aplayer->cities) > ally_strength) {
-      ally_strength = city_list_size(aplayer->cities);
-      ally_strongest = aplayer;
-    }
-
     players_iterate(check_pl) {
       if (check_pl == pplayer
           || check_pl == aplayer
@@ -426,9 +416,6 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
         ai->diplomacy.player_intel[i].is_allied_with_ally = check_pl;
       }
     } players_iterate_end;
-  }
-  if (ally_strongest != ai->diplomacy.alliance_leader) {
-    ai->diplomacy.alliance_leader = ally_strongest;
   }
   ai->diplomacy.spacerace_leader = player_leading_spacerace();
   
@@ -586,19 +573,18 @@ void ai_data_init(struct player *pplayer)
 	 (game.control.government_count + 1) * sizeof(*ai->government_want));
 
   ai->wonder_city = 0;
-  ai->diplomacy.target = NULL;
   ai->diplomacy.strategy = WIN_OPEN;
   ai->diplomacy.timer = 0;
-  ai->diplomacy.countdown = 0;
   ai->diplomacy.love_coeff = 4; /* 4% */
-  ai->diplomacy.love_incr = MAX_AI_LOVE * 4 / 100;
-  ai->diplomacy.req_love_for_peace = MAX_AI_LOVE * 8 / 100;
-  ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE * 16 / 100;
+  ai->diplomacy.love_incr = MAX_AI_LOVE * 3 / 100;
+  ai->diplomacy.req_love_for_peace = MAX_AI_LOVE / 8;
+  ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE / 4;
   ai->diplomacy.req_love_for_ceasefire = 0;
-  ai->diplomacy.alliance_leader = pplayer;
 
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     ai->diplomacy.player_intel[i].spam = i % 5; /* pseudorandom */
+    ai->diplomacy.player_intel[i].countdown = -1;
+    ai->diplomacy.player_intel[i].war_reason = WAR_REASON_NONE;
     ai->diplomacy.player_intel[i].distance = 1;
     ai->diplomacy.player_intel[i].ally_patience = 0;
     pplayer->ai.love[i] = 1;

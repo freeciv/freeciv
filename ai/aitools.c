@@ -123,7 +123,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 
   return (pplayer != aplayer
           && (pplayers_at_war(pplayer, aplayer)
-              || ai->diplomacy.target == aplayer
+              || adip->countdown >= 0
               || reason != 0
               || adip->is_allied_with_enemy));
 }
@@ -1159,6 +1159,8 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   choice->want = want;
   choice->choice = id;
   choice->type = CT_BUILDING;
+  CITY_LOG(LOG_DEBUG, pcity, "wants most to build %s at %d",
+           get_improvement_name(id), want);
 }
 
 /**********************************************************************
