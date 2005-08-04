@@ -1960,9 +1960,9 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
     struct player *pplayer = pconn->player;
     
     if ((!pplayer && pconn->observer) 
-	|| pplayer->player_no == punit->owner) {
+	|| (pplayer && pplayer->player_no == punit->owner)) {
       send_packet_unit_info(pconn, &info);
-    } else {
+    } else if (pplayer) {
       if (can_player_see_unit_at(pplayer, punit, punit->tile)
 	  || can_player_see_unit_at(pplayer, punit, ptile)) {
 	send_packet_unit_short_info(pconn, &sinfo);
