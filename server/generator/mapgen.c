@@ -1703,11 +1703,6 @@ static bool make_island(int islemass, int starters,
     /* makes the islands this big */
     islemass = islemass - balance;
 
-    /* don't create continents without a number */
-    if (pstate->isleindex >= MAP_NCONT) {
-      return FALSE;
-    }
-
     if (islemass > lastplaced + 1 + lastplaced / 50) {
       /* don't create big isles we can't place */
       islemass = lastplaced + 1 + lastplaced / 50;
@@ -1989,19 +1984,18 @@ static void mapgenerator3(void)
     islandmass= 2;
   }
 
-  while (pstate->isleindex <= MAP_NCONT - 20 && checkmass > islandmass &&
-         ++j < 1500) {
-      if (j < 1000) {
-	size = myrand((islandmass+1)/2+1)+islandmass/2;
-      } else {
-	size = myrand((islandmass+1)/2+1);
-      }
-      if (size < 2) {
-        size=2;
-      }
+  while (checkmass > islandmass && ++j < 1500) {
+    if (j < 1000) {
+      size = myrand((islandmass+1)/2+1)+islandmass/2;
+    } else {
+      size = myrand((islandmass+1)/2+1);
+    }
+    if (size < 2) {
+      size=2;
+    }
 
-      make_island(size, (pstate->isleindex - 2 <= game.info.nplayers) ? 1 : 0,
-		  pstate, DMSIS);
+    make_island(size, (pstate->isleindex - 2 <= game.info.nplayers) ? 1 : 0,
+		pstate, DMSIS);
   }
 
   make_plains();  

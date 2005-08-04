@@ -41,13 +41,18 @@
 
 #define MAXIMUM_CLAIMED_OCEAN_SIZE (20)
 
-/* Continent which is adjacent to a given ocean. -1 if the ocean is surrounded
-   by more than one continent */
-static Continent_id lake_surrounders[MAP_NCONT];
-/* size of a given continent in tiles */
-static int continent_sizes[MAP_NCONT];
-/* size of a given ocean in tiles */
-static int ocean_sizes[MAP_NCONT];
+/* These arrays are indexed by continent number (or negative of the
+ * ocean number) so the 0th element is unused and the array is 1 element
+ * larger than you'd expect.
+ *
+ * The lake surrounders array tells how many land continents surround each
+ * ocean (or -1 if the ocean touches more than one continent).
+ *
+ * The _sizes arrays give the sizes (in tiles) of each continent and
+ * ocean.
+ */
+static Continent_id *lake_surrounders;
+static int *continent_sizes, *ocean_sizes;
 
 /**************************************************************************
   Number this tile and nearby tiles (recursively) with the specified
@@ -99,11 +104,10 @@ static void assign_continent_flood(struct tile *ptile, bool is_land,
 **************************************************************************/
 static void recalculate_lake_surrounders(void)
 {
-  int i;
+  const size_t size = (map.num_oceans + 1) * sizeof(*lake_surrounders);
 
-  for (i = 1; i <= map.num_oceans; i++) {
-    lake_surrounders[i] = 0;
-  }
+  lake_surrounders = fc_realloc(lake_surrounders, size);
+  memset(lake_surrounders, 0, size);
   
   whole_map_iterate(ptile) {
     Continent_id cont = tile_get_continent(ptile);
@@ -136,13 +140,6 @@ static void recalculate_lake_surrounders(void)
 **************************************************************************/
 void assign_continent_numbers(bool skip_unsafe)
 {
-  int i;
-  
-  /* reset ocean/continent counters */
-  for (i = 0; i < MAP_NCONT; i++) {
-    ocean_sizes[i] = 0;
-    continent_sizes[i] = 0;
-  }
   
   /* Initialize */
   map.num_continents = 0;
@@ -168,11 +165,17 @@ void assign_continent_numbers(bool skip_unsafe)
     if (!skip_unsafe || !terrain_has_flag(pterrain, TER_UNSAFE)) {
       if (!is_ocean(pterrain)) {
 	map.num_continents++;
-	assert(map.num_continents < MAP_NCONT);
+	continent_sizes
+	  = fc_realloc(continent_sizes,
+		       (map.num_continents + 1) * sizeof(*continent_sizes));
+	continent_sizes[map.num_continents] = 0;
 	assign_continent_flood(ptile, TRUE, map.num_continents, skip_unsafe);
       } else {
 	map.num_oceans++;
-	assert(map.num_oceans < MAP_NCONT);
+	ocean_sizes
+	  = fc_realloc(ocean_sizes,
+		       (map.num_oceans + 1) * sizeof(*ocean_sizes));
+	ocean_sizes[map.num_oceans] = 0;
 	assign_continent_flood(ptile, FALSE, -map.num_oceans, skip_unsafe);
       }
     }

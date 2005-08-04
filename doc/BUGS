@@ -72,6 +72,11 @@ KNOWN BUGS:
  - The Xaw client does not work well with the KDE window manager.
    Try using the GTK+ client or another window manager.
 
+ - With sufficiently unusual map parameters it is possible for map generation
+   to fail when the game is started.  The server will exit when this
+   happens.  Try using the same parameters again or switching to more
+   "regular" parameters.
+
 REPORTING A BUG:
 ================
 
