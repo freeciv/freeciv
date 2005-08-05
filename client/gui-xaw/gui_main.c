@@ -905,6 +905,23 @@ void set_unit_icons_more_arrow(bool onoff)
   }
 }
 
+struct callback {
+  void (*callback)(void *data);
+  void *data;
+};
+
+/****************************************************************************
+  A wrapper for the callback called through add_idle_callback.
+****************************************************************************/
+static void idle_callback_wrapper(XtPointer data, XtIntervalId *id)
+{
+  struct callback *cb = data;
+
+  (cb->callback)(cb->data);
+  free(cb);
+  XtRemoveTimeOut(*id);
+}
+
 /****************************************************************************
   Enqueue a callback to be called during an idle moment.  The 'callback'
   function should be called sometimes soon, and passed the 'data' pointer
@@ -912,9 +929,9 @@ void set_unit_icons_more_arrow(bool onoff)
 ****************************************************************************/
 void add_idle_callback(void (callback)(void *), void *data)
 {
-  /* PORTME */
+  struct callback *cb = fc_malloc(sizeof(*cb));
 
-  /* This is a reasonable fallback if it's not ported. */
-  freelog(LOG_ERROR, "Unimplemented add_idle_callback.");
-  (callback)(data);
+  cb->callback = callback;
+  cb->data = data;
+  XtAppAddTimeOut(app_context, 0, idle_callback_wrapper, cb);
 }
