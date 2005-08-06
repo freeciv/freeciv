@@ -181,8 +181,10 @@ static bool filter_starters(const struct tile *ptile, const void *data)
   MT_2or3: 2 players per isle (maybe one isle with 3)
   MT_ALL: all players in asingle isle
   MT_VARIABLE: at least 2 player per isle
+  
+  Returns true on success
 **************************************************************************/
-void create_start_positions(enum start_mode mode)
+bool create_start_positions(enum start_mode mode)
 {
   struct tile *ptile;
   int k, sum;
@@ -192,6 +194,7 @@ void create_start_positions(enum start_mode mode)
   int total_goodies = 0;
   /* this is factor is used to maximize land used in extreme little maps */
   float efactor =  game.info.nplayers / map.size / 4; 
+  bool failure = FALSE;
 
   /* Unsafe terrains separate continents, otherwise small areas of green
    * near the poles could be populated by a civilization if that pole
@@ -355,10 +358,13 @@ void create_start_positions(enum start_mode mode)
     } else {
       data.min_value *= 0.9;
       if (data.min_value <= 10) {
-	die(_("The server appears to have gotten into an infinite loop "
-	      "in the allocation of starting positions, and will abort.\n"
-	      "Maybe the numbers of players/ia is too much for this map.\n"
-	      "Please report this bug at %s."), WEBSITE_URL);
+	freelog(LOG_ERROR,
+	        _("The server appears to have gotten into an infinite loop "
+	          "in the allocation of starting positions.\n"
+	          "Maybe the numbers of players/ia is too much for this map.\n"
+	          "Please report this bug at %s."), WEBSITE_URL);
+	failure = TRUE;
+	break;
       }
     }
   }
@@ -368,4 +374,6 @@ void create_start_positions(enum start_mode mode)
   free(islands_index);
   islands = NULL;
   islands_index = NULL;
+  
+  return !failure;
 }

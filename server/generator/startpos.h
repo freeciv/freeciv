@@ -21,6 +21,6 @@ enum start_mode {
   MT_VARIABLE
 };
 
-void create_start_positions(enum start_mode mode);
+bool create_start_positions(enum start_mode mode);
 
 #endif
