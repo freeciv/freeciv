@@ -1173,8 +1173,8 @@ void notify_if_first_access_level_is_available(void)
 {
   if (first_access_level > default_access_level
       && !first_access_level_is_taken()) {
-    notify_player(NULL, _("Anyone can assume command access level "
-			  "'%s' now by issuing the 'firstlevel' command."),
+    notify_player(NULL, _("Anyone can now become game organizer "
+			  "'%s' by issuing the 'first' command."),
 		  cmdlevel_name(first_access_level));
   }
 }
@@ -1332,7 +1332,7 @@ static bool firstlevel_command(struct connection *caller, bool check)
 {
   if (!caller) {
     cmd_reply(CMD_FIRSTLEVEL, caller, C_FAIL,
-	_("The 'firstlevel' command makes no sense from the server command line."));
+	_("The 'first' command makes no sense from the server command line."));
     return FALSE;
   } else if (caller->access_level >= first_access_level) {
     cmd_reply(CMD_FIRSTLEVEL, caller, C_FAIL,
@@ -1341,15 +1341,13 @@ static bool firstlevel_command(struct connection *caller, bool check)
     return FALSE;
   } else if (first_access_level_is_taken()) {
     cmd_reply(CMD_FIRSTLEVEL, caller, C_FAIL,
-	_("Someone else already has command access level '%s' or better."),
-		cmdlevel_name(first_access_level));
+	_("Someone else already is game organizer."));
     return FALSE;
   } else if (!check) {
     caller->access_level = first_access_level;
     cmd_reply(CMD_FIRSTLEVEL, caller, C_OK,
-	_("Command access level '%s' has been grabbed by connection %s."),
-		cmdlevel_name(first_access_level),
-		caller->username);
+              _("Connection %s has opted to become the game organizer."),
+              caller->username);
   }
   return TRUE;
 }
@@ -2146,6 +2144,11 @@ static bool vote_command(struct connection *caller, char *str,
     return FALSE;
   } else if (caller->player->is_observer || caller->observer) {
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("Observers cannot vote."));
+    return FALSE;
+  } else if (server_state != RUN_GAME_STATE) {
+    cmd_reply(CMD_VOTE, caller, C_FAIL, _("You can only vote in a "
+              "running game.  Use 'first' to become the game organizer "
+              "if there currently is none."));
     return FALSE;
   } else if (!str || strlen(str) == 0) {
     int j = 0;

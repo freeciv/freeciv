@@ -797,6 +797,15 @@ void start_game(void)
     return;
   }
 
+  /* Remove ALLOW_CTRL from whoever has it (gotten from 'first'). */
+  conn_list_iterate(game.game_connections, pconn) {
+    if (pconn->access_level == ALLOW_CTRL) {
+      notify_conn(game.game_connections, _("%s lost control cmdlevel on "
+                  "game start.  Use voting from now on."), pconn->username);
+      pconn->access_level = ALLOW_INFO;
+    }
+  } conn_list_iterate_end;
+
   con_puts(C_OK, _("Starting game."));
 
   server_state = RUN_GAME_STATE; /* loaded ??? */

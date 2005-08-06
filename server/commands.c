@@ -282,7 +282,7 @@ const struct command commands[] = {
       "If 'new' is specified, the level is set for newly connecting clients.\n"
       "If 'first come' is specified, the 'first come' level is set; it will be\n"
       "granted to the first client to connect, or if there are connections\n"
-      "already, the first client to issue the 'firstlevel' command.\n"
+      "already, the first client to issue the 'first' command.\n"
       "If a connection name is specified, the level is set for that "
       "connection only.\n"
       "Command access levels do not persist if a client disconnects, "
@@ -290,12 +290,9 @@ const struct command commands[] = {
       "Note that this command now takes connection names, not player names."
       )
   },
-  {"firstlevel", ALLOW_INFO,  /* Not really "informational", but needs to
-				 be ALLOW_INFO to be useful. */
-   "firstlevel",
-   N_("Grab the 'first come' command access level."),
-   N_("If 'cmdlevel first come' has been used to set a special 'first come'\n"
-      "command access level, this is the command to grab it with.")
+  {"first", ALLOW_INFO, "first",
+   N_("If there is none, become the game organizer with increased permissions."),
+   NULL,
   },
   {"timeoutincrease", ALLOW_CTRL, 
    /* TRANS: translate text between <> only */
