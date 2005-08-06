@@ -617,6 +617,9 @@ repeat_break_treaty:
 		       get_nation_name_plural(pplayer2->nation));
     }
   }
+  if (new_type == DS_WAR) {
+    ai_incident_war(pplayer, pplayer2);
+  }
   pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel = 0;
 
   send_player_info(pplayer, NULL);
