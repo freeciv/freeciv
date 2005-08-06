@@ -1102,26 +1102,53 @@ void map_fractal_generate(bool autosize)
   /* We don't want random start positions in a scenario which already
    * provides them. */
   if (map.num_start_positions == 0) {
+    enum start_mode mode = MT_ALL;
+    bool success;
+    
     switch (map.generator) {
     case 0:
     case 1:
-      create_start_positions(map.startpos);
+      mode = map.startpos;
       break;
     case 2:
       if (map.startpos == 0) {
-	create_start_positions(MT_ALL);
+        mode = MT_ALL;
       } else {
-	create_start_positions(map.startpos);
+        mode = map.startpos;
       }
       break;
     case 3:
       if (map.startpos <= 1 || (map.startpos == 4)) {
-	create_start_positions(MT_SINGLE);
+        mode = MT_SINGLE;
       } else {
-	create_start_positions(MT_2or3);
+	mode = MT_2or3;
       }
       break;
     }
+    
+    for(;;) {
+      success = create_start_positions(mode);
+      if (success) {
+        break;
+      }
+      
+      switch(mode) {
+        case MT_SINGLE:
+	  mode = MT_2or3;
+	  break;
+	case MT_2or3:
+	  mode = MT_ALL;
+	  break;
+	case MT_ALL:
+	  mode = MT_VARIABLE;
+	  break;
+	default:
+	  assert(0);
+	  die("The server couldn't allocate starting positions.");
+      }
+    }
+
+
   }
 
   assign_continent_numbers(FALSE);
