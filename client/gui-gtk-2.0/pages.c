@@ -45,6 +45,7 @@
 #include "gui_stuff.h"
 #include "pages.h"
 #include "plrdlg.h" /* for get_flag() */
+#include "repodlgs.h"
 
 GtkWidget *start_message_area;
 
@@ -876,7 +877,7 @@ static GtkWidget *start_aifill_spin;
 **************************************************************************/
 static void game_options_callback(GtkWidget *w, gpointer data)
 {
-  send_report_request(REPORT_SERVER_OPTIONS2);
+  popup_settable_options_dialog();
 }
 
 /**************************************************************************

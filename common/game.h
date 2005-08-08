@@ -145,6 +145,8 @@ const char *population_to_text(int thousand_citizen);
 extern struct civ_game game;
 extern bool is_server;
 
+bool setting_class_is_changeable(enum sset_class class);
+
 #define GAME_DEFAULT_SEED        0
 #define GAME_MIN_SEED            0
 #define GAME_MAX_SEED            (MAX_UINT32 >> 1)

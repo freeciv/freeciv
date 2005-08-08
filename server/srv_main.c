@@ -810,6 +810,7 @@ void start_game(void)
 
   server_state = RUN_GAME_STATE; /* loaded ??? */
   force_end_of_sniff = TRUE;
+  send_server_settings(NULL);
 }
 
 /**************************************************************************
@@ -831,32 +832,24 @@ void handle_report_req(struct connection *pconn, enum report_type type)
 {
   struct conn_list *dest = pconn->self;
   
-  if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE
-      && type != REPORT_SERVER_OPTIONS1 && type != REPORT_SERVER_OPTIONS2) {
+  if (server_state != RUN_GAME_STATE && server_state != GAME_OVER_STATE) {
     freelog(LOG_ERROR, "Got a report request %d before game start", type);
     return;
   }
 
   switch(type) {
-   case REPORT_WONDERS_OF_THE_WORLD:
+  case REPORT_WONDERS_OF_THE_WORLD:
     report_wonders_of_the_world(dest);
-    break;
-   case REPORT_TOP_5_CITIES:
+    return;
+  case REPORT_TOP_5_CITIES:
     report_top_five_cities(dest);
-    break;
-   case REPORT_DEMOGRAPHIC:
+    return;
+  case REPORT_DEMOGRAPHIC:
     report_demographics(pconn);
-    break;
-  case REPORT_SERVER_OPTIONS1:
-    report_settable_server_options(pconn, 1);
-    break;
-  case REPORT_SERVER_OPTIONS2:
-    report_settable_server_options(pconn, 2);
-    break;
-  case REPORT_SERVER_OPTIONS: /* obsolete */
-  default:
-    notify_conn(dest, _("request for unknown report (type %d)"), type);
+    return;
   }
+
+  notify_conn(dest, _("request for unknown report (type %d)"), type);
 }
 
 /**************************************************************************
@@ -1816,6 +1809,7 @@ static void srv_loop(void)
 
   server_state = RUN_GAME_STATE;
   (void) send_server_info_to_metaserver(META_INFO);
+  send_server_settings(NULL);
 
   if(game.info.is_new_game) {
     /* Before the player map is allocated (and initiailized)! */

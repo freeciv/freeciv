@@ -18,27 +18,6 @@
 
 #include "game.h"
 
-/* The following classes determine what can be changed when.
- * Actually, some of them have the same "changeability", but
- * different types are separated here in case they have
- * other uses.
- * Also, SSET_GAME_INIT/SSET_RULES separate the two sections
- * of server settings sent to the client.
- * See the settings[] array for what these correspond to and
- * explanations.
- */
-enum sset_class {
-  SSET_MAP_SIZE,
-  SSET_MAP_GEN,
-  SSET_MAP_ADD,
-  SSET_PLAYERS,
-  SSET_GAME_INIT,
-  SSET_RULES,
-  SSET_RULES_FLEXIBLE,
-  SSET_META,
-  SSET_LAST
-};
-
 /* Whether settings are sent to the client when the client lists
  * server options; also determines whether clients can set them in principle.
  * Eg, not sent: seeds, saveturns, etc.
@@ -124,6 +103,6 @@ struct settings_s {
 extern struct settings_s settings[];
 extern const int SETTINGS_NUM;
 
-bool sset_is_changeable(int idx);
+bool setting_is_changeable(int setting_id);
 
 #endif				/* FC__SETTINGS_H */

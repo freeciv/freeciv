@@ -230,20 +230,22 @@ void handle_options_settable_control(
 
   settable_options_free();
 
-  options_categories = fc_malloc(packet->ncategories * sizeof(char *));
-  num_options_categories = packet->ncategories;
+  options_categories = fc_malloc(packet->num_categories
+				 * sizeof(*options_categories));
+  num_options_categories = packet->num_categories;
   
   for (i = 0; i < num_options_categories; i++) {
     options_categories[i] = mystrdup(packet->category_names[i]);
   }
 
   /* avoid a malloc of size 0 warning */
-  if (packet->nids == 0) {
+  if (packet->num_settings == 0) {
     return;
   }
 
-  settable_options = fc_malloc(packet->nids * sizeof(struct options_settable));
-  num_settable_options = packet->nids;
+  settable_options = fc_malloc(packet->num_settings
+			       * sizeof(*settable_options));
+  num_settable_options = packet->num_settings;
 
   for (i = 0; i < num_settable_options; i++) {
     settable_options[i].name = NULL;
@@ -269,35 +271,31 @@ void handle_options_settable(struct packet_options_settable *packet)
   settable_options[i].extra_help = mystrdup(packet->extra_help);
 
   settable_options[i].type = packet->type;
+  settable_options[i].class = packet->class;
   settable_options[i].category = packet->category;
 
-  switch (packet->type) {
+  switch (settable_options[i].type) {
   case SSET_BOOL:
     settable_options[i].val = packet->val;
     settable_options[i].min = FALSE;
     settable_options[i].max = TRUE;
     settable_options[i].strval = NULL;
     settable_options[i].default_strval = NULL;
-    break;
+    return;
   case SSET_INT:
     settable_options[i].val = packet->val;
     settable_options[i].min = packet->min;
     settable_options[i].max = packet->max;
     settable_options[i].strval = NULL;
     settable_options[i].default_strval = NULL;
-    break;
+    return;
   case SSET_STRING:
     settable_options[i].strval = mystrdup(packet->strval);
     settable_options[i].default_strval = mystrdup(packet->default_strval);
-    break;
-  default:
-    assert(0);
+    return;
   }
 
-  /* if we've received all the options, pop up the settings dialog */
-  if (i == num_settable_options - 1) {
-    popup_settable_options_dialog();
-  }
+  assert(0);
 }
 
 /****************************************************************************

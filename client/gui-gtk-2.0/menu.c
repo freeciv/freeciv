@@ -80,8 +80,7 @@ enum MenuID {
 #endif
   MENU_GAME_SAVE_OPTIONS_ON_EXIT,
   MENU_GAME_SAVE_OPTIONS,
-  MENU_GAME_SERVER_OPTIONS1,
-  MENU_GAME_SERVER_OPTIONS2,
+  MENU_GAME_SERVER_OPTIONS,
   MENU_GAME_SAVE_GAME,
   MENU_GAME_SAVE_QUICK, 
   MENU_GAME_OUTPUT_LOG,
@@ -222,11 +221,8 @@ static void game_menu_callback(gpointer callback_data,
   case MENU_GAME_SAVE_OPTIONS:
     save_options();
     break;
-  case MENU_GAME_SERVER_OPTIONS1:
-    send_report_request(REPORT_SERVER_OPTIONS1);
-    break;
-  case MENU_GAME_SERVER_OPTIONS2:
-    send_report_request(REPORT_SERVER_OPTIONS2);
+  case MENU_GAME_SERVER_OPTIONS:
+    popup_settable_options_dialog();
     break;
   case MENU_GAME_SAVE_GAME:
     popup_save_dialog();
@@ -681,10 +677,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	game_menu_callback,	MENU_GAME_SAVE_OPTIONS					},
   { "/" N_("Game") "/sep2",				NULL,
 	NULL,			0,					"<Separator>"	},
-  { "/" N_("Game") "/" N_("_Initial Server Options"),NULL,
-	game_menu_callback,	MENU_GAME_SERVER_OPTIONS1				},
   { "/" N_("Game") "/" N_("Server O_ptions"),	NULL,
-	game_menu_callback,	MENU_GAME_SERVER_OPTIONS2				},
+    game_menu_callback,	MENU_GAME_SERVER_OPTIONS},
   { "/" N_("Game") "/sep3",				NULL,
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Game") "/" N_("_Save Game"),		NULL,
@@ -1184,8 +1178,6 @@ void update_menus(void)
 		      && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   menus_set_sensitive("<main>/_Game/Server O_ptions", 
 		      aconnection.established);
-  menus_set_sensitive("<main>/_Game/_Initial Server Options", 
-		      get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   menus_set_sensitive("<main>/_Game/L_eave", aconnection.established);
 
   if (!can_client_change_view()) {

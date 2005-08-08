@@ -114,6 +114,7 @@ static void establish_new_connection(struct connection *pconn)
   } conn_list_iterate_end;
 
   send_rulesets(dest);
+  send_server_settings(dest);
 
   /* a player has already been created for this user, reconnect him */
   if ((pplayer = find_player_by_user(pconn->username))) {

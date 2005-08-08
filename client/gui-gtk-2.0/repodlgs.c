@@ -1467,7 +1467,7 @@ static void create_settable_options_dialog(void)
   }
 
   tips = gtk_tooltips_new();
-  settable_options_dialog_shell = gtk_dialog_new_with_buttons(_("Game Options"),
+  settable_options_dialog_shell = gtk_dialog_new_with_buttons(_("Game Settings"),
       NULL, 0,
       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
       GTK_STOCK_OK, GTK_RESPONSE_OK,
@@ -1495,7 +1495,7 @@ static void create_settable_options_dialog(void)
 
   /* fill each category */
   for (i = 0; i < num_settable_options; i++) {
-    GtkWidget *ebox, *hbox, *ent;
+    GtkWidget *ebox, *hbox, *ent = NULL;
 
     /* create a box for the new option and insert it in the correct page */
     hbox = gtk_hbox_new(FALSE, 0);
@@ -1521,41 +1521,65 @@ static void create_settable_options_dialog(void)
       gtk_tooltips_set_tip(tips, ebox, buf, NULL);
     }
 
-    /* create the proper entry method depending on the type */
-    if (settable_options[i].type == 0) {
-      /* boolean */
-      ent = gtk_check_button_new();
-      gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent),
-                                   settable_options[i].val);
-
-      g_signal_connect(ent, "toggled", 
-                       G_CALLBACK(option_changed_callback), NULL);
-    } else if (settable_options[i].type == 1) {
-      /* integer */
+    if (setting_class_is_changeable(settable_options[i].class)) {
       double step, max, min;
 
-      min = settable_options[i].min;
-      max = settable_options[i].max;
+      /* create the proper entry method depending on the type */
+      switch (settable_options[i].type) {
+      case SSET_BOOL:
+	/* boolean */
+	ent = gtk_check_button_new();
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent),
+				     settable_options[i].val);
+
+	g_signal_connect(ent, "toggled", 
+			 G_CALLBACK(option_changed_callback), NULL);
+	break;
+
+      case SSET_INT:
+	/* integer */
+
+	min = settable_options[i].min;
+	max = settable_options[i].max;
  
-      /* pick a reasonable step size */
-      step = ceil((max - min) / 100.0);
-      if (step > 100.0) {
-	/* this is ridiculous, the bounds must be meaningless */
-	step = 5.0;
+	/* pick a reasonable step size */
+	step = ceil((max - min) / 100.0);
+	if (step > 100.0) {
+	  /* this is ridiculous, the bounds must be meaningless */
+	  step = 5.0;
+	}
+
+	ent = gtk_spin_button_new_with_range(min, max, step);
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent), settable_options[i].val);
+
+	g_signal_connect(ent, "changed", 
+			 G_CALLBACK(option_changed_callback), NULL);
+	break;
+      case SSET_STRING:
+	/* string */
+	ent = gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(ent), settable_options[i].strval);
+
+	g_signal_connect(ent, "changed", 
+			 G_CALLBACK(option_changed_callback), NULL);
+	break;
       }
-
-      ent = gtk_spin_button_new_with_range(min, max, step);
-      gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent), settable_options[i].val);
-
-      g_signal_connect(ent, "changed", 
-                       G_CALLBACK(option_changed_callback), NULL);
     } else {
-      /* string */
-      ent = gtk_entry_new();
-      gtk_entry_set_text(GTK_ENTRY(ent), settable_options[i].strval);
+      char buf[1024];
 
-      g_signal_connect(ent, "changed", 
-                       G_CALLBACK(option_changed_callback), NULL);
+      switch (settable_options[i].type) {
+      case SSET_BOOL:
+	my_snprintf(buf, sizeof(buf), "%s",
+		    settable_options[i].val != 0 ? _("true") : _("false"));
+	break;
+      case SSET_INT:
+	my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
+	break;
+      case SSET_STRING:
+	my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
+	break;
+      }
+      ent = gtk_label_new(buf);
     }
     gtk_box_pack_end(GTK_BOX(hbox), ent, FALSE, FALSE, 0);
 

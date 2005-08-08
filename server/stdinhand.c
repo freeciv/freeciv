@@ -313,7 +313,7 @@ static bool may_set_option(struct connection *caller, int option_idx)
 static bool may_set_option_now(struct connection *caller, int option_idx)
 {
   return (may_set_option(caller, option_idx)
-	  && sset_is_changeable(option_idx));
+	  && setting_is_changeable(option_idx));
 }
 
 /**************************************************************************
@@ -1490,7 +1490,7 @@ static void show_help_option(struct connection *caller,
 		     "  ", "  %s", abuf.str);
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
-	    _("Status: %s"), (sset_is_changeable(id)
+	    _("Status: %s"), (setting_is_changeable(id)
 				  ? _("changeable") : _("fixed")));
   
   if (may_view_option(caller, id)) {
@@ -1599,136 +1599,77 @@ static bool wall(char *str, bool check)
   }
   return TRUE;
 }
-  
-/******************************************************************
-Send a report with server options to specified connections.
-"which" should be one of:
-1: initial options only
-2: ongoing options only 
-(which=0 means all options; this is now obsolete and no longer used.)
-******************************************************************/
-void report_server_options(struct conn_list *dest, int which)
+
+/****************************************************************************
+  Tell the client about just one server setting.  Call this after a setting
+  is saved.
+****************************************************************************/
+static void send_server_setting(struct conn_list *dest, int setting_id)
 {
-  int i, c;
-  char buffer[4096];
-  char title[128];
-  const char *caption;
+  struct packet_options_settable packet;
+  struct settings_s *setting = &settings[setting_id];
 
-  buffer[0] = '\0';
-  my_snprintf(title, sizeof(title), _("%-20svalue  (min , max)"), _("Option"));
-  caption = (which == 1) ?
-    _("Server Options (initial)") :
-    _("Server Options (ongoing)");
-
-  for (c = 0; c < SSET_NUM_CATEGORIES; c++) {
-    cat_snprintf(buffer, sizeof(buffer), "%s:\n", sset_category_names[c]);
-    for (i = 0; settings[i].name; i++) {
-      struct settings_s *op = &settings[i];
-      if (!sset_is_to_client(i)) {
-        continue;
-      }
-      if (which == 1 && op->sclass > SSET_GAME_INIT) {
-        continue;
-      }
-      if (which == 2 && op->sclass <= SSET_GAME_INIT) {
-        continue;
-      }
-      if (op->category != c) {
-        continue;
-      }
-      switch (op->type) {
-      case SSET_BOOL:
-	cat_snprintf(buffer, sizeof(buffer), "%-20s%c%-6d (0,1)\n",
-		     op->name,
-		     (*op->bool_value == op->bool_default_value) ? '*' : ' ',
-		     *op->bool_value);
-	break;
-	
-      case SSET_INT:
-	cat_snprintf(buffer, sizeof(buffer), "%-20s%c%-6d (%d,%d)\n", op->name,
-		     (*op->int_value == op->int_default_value) ? '*' : ' ',
-		     *op->int_value, op->int_min_value, op->int_max_value);
-	break;
-      case SSET_STRING:
-	cat_snprintf(buffer, sizeof(buffer), "%-20s%c\"%s\"\n", op->name,
-		     (strcmp(op->string_value,
-			     op->string_default_value) == 0) ? '*' : ' ',
-		     op->string_value);
-	break;
-      }
-    }
-    cat_snprintf(buffer, sizeof(buffer), "\n");
+  if (!dest) {
+    dest = game.est_connections;
   }
-  freelog(LOG_DEBUG, "report_server_options buffer len %d", i);
-  page_conn(dest, caption, title, buffer);
+
+  memset(&packet, 0, sizeof(packet));
+
+  packet.id = setting_id;
+  sz_strlcpy(packet.name, setting->name);
+  sz_strlcpy(packet.short_help, setting->short_help);
+  sz_strlcpy(packet.extra_help, setting->extra_help);
+
+  packet.category = setting->category;
+  packet.type = setting->type;
+  packet.class = setting->sclass;
+
+  switch (setting->type) {
+  case SSET_STRING:
+    strcpy(packet.strval, setting->string_value);
+    strcpy(packet.default_strval, setting->string_default_value);
+    break;
+  case SSET_BOOL:
+    packet.val = *(setting->bool_value);
+    packet.default_val = setting->bool_default_value;
+    break;
+  case SSET_INT:
+    packet.min = setting->int_min_value;
+    packet.max = setting->int_max_value;
+    packet.val = *(setting->int_value);
+    packet.default_val = setting->int_default_value;
+    break;
+  }
+
+  lsend_packet_options_settable(dest, &packet);
 }
 
-/******************************************************************
-  Deliver options to the client for setting
-
-  which == 1 : REPORT_SERVER_OPTIONS1
-  which == 2 : REPORT_SERVER_OPTIONS2
-******************************************************************/
-void report_settable_server_options(struct connection *dest, int which)
+/****************************************************************************
+  Tell the client about all server settings.
+****************************************************************************/
+void send_server_settings(struct conn_list *dest)
 {
-  static struct packet_options_settable_control control;
-  static struct packet_options_settable packet;
-  int i, s = 0;
+  struct packet_options_settable_control control;
+  int i;
 
-  if (dest->access_level == ALLOW_NONE
-      || (which == 1 && server_state > PRE_GAME_STATE)) {
-    report_server_options(dest->self, which);
-    return;
+  if (!dest) {
+    dest = game.est_connections;
   }
-
-  memset(&control, 0, sizeof(struct packet_options_settable_control));
 
   /* count the number of settings */
-  for (i = 0; settings[i].name; i++) {
-    if (!sset_is_changeable(i)) {
-      continue;
-    }
-    s++;
-  }
-
-  control.nids = s;
+  control.num_settings = SETTINGS_NUM;
 
   /* fill in the category strings */
-  control.ncategories = SSET_NUM_CATEGORIES;
+  control.num_categories = SSET_NUM_CATEGORIES;
   for (i = 0; i < SSET_NUM_CATEGORIES; i++) {
     strcpy(control.category_names[i], sset_category_names[i]);
   }
 
   /* send off the control packet */
-  send_packet_options_settable_control(dest, &control);
+  lsend_packet_options_settable_control(dest, &control);
 
-  for (s = 0, i = 0; settings[i].name; i++) {
-    if (!sset_is_changeable(i)) {
-      continue;
-    }
-
-    packet.id = s++;
-    sz_strlcpy(packet.name, settings[i].name);
-    sz_strlcpy(packet.short_help, settings[i].short_help);
-    sz_strlcpy(packet.extra_help, settings[i].extra_help);
-
-    packet.category = settings[i].category;
-    packet.type = settings[i].type;
-
-    if (settings[i].type == SSET_STRING) {
-      strcpy(packet.strval, settings[i].string_value);
-      strcpy(packet.default_strval, settings[i].string_default_value);
-    } else if (settings[i].type == SSET_BOOL) {
-      packet.val = *(settings[i].bool_value);
-      packet.default_val = settings[i].bool_default_value;
-    } else {
-      packet.min = settings[i].int_min_value;
-      packet.max = settings[i].int_max_value;
-      packet.val = *(settings[i].int_value);
-      packet.default_val = settings[i].int_default_value;
-    }
-
-    send_packet_options_settable(dest, &packet);
+  for (i = 0; i < SETTINGS_NUM; i++) {
+    send_server_setting(dest, i);
   }
 }
 
@@ -2460,7 +2401,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 	       _("You are not allowed to set this option."));
     return FALSE;
   }
-  if (!sset_is_changeable(cmd)) {
+  if (!setting_is_changeable(cmd)) {
     cmd_reply(CMD_SET, caller, C_BOUNCE,
 	      _("This setting can't be modified after the game has started."));
     return FALSE;
@@ -2552,6 +2493,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   if (!check && do_update) {
+    send_server_setting(NULL, cmd);
     reset_all_start_commands();
     send_server_info_to_metaserver(META_INFO);
     /* 
@@ -2892,6 +2834,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   if (pconn->player && server_state == RUN_GAME_STATE) {
     send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
     send_rulesets(pconn->self);
+    send_server_settings(pconn->self);
     send_player_info_c(NULL, pconn->self);
     send_conn_info(game.est_connections,  pconn->self);
   }
@@ -2903,6 +2846,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
       if (server_state == RUN_GAME_STATE) {
         send_game_state(aconn->self, CLIENT_PRE_GAME_STATE);
 	send_rulesets(aconn->self);
+	send_server_settings(aconn->self);
       }
       notify_conn(aconn->self, _("being detached from %s."), pplayer->name);
       unattach_connection_from_player(aconn);
@@ -3042,6 +2986,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   if (server_state == RUN_GAME_STATE) {
     send_game_state(pconn->self, CLIENT_PRE_GAME_STATE);
     send_rulesets(pconn->self);
+    send_server_settings(pconn->self);
     send_game_info(pconn->self);
     send_player_info_c(NULL, pconn->self);
     send_conn_info(game.est_connections, pconn->self);
@@ -3188,6 +3133,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
   sz_strlcpy(srvarg.load_filename, arg);
 
   game_load(&file);
+  send_server_settings(NULL);
   init_available_nations();
   section_file_check_unused(&file, arg);
   section_file_free(&file);

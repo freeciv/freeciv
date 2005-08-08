@@ -146,7 +146,7 @@ static bool manual_command(void)
 	if (op->to_client == SSET_SERVER_ONLY) {
 	  fprintf(doc, _("Can only be used in server console. "));
 	}
-	if (sset_is_changeable(i)) {
+	if (setting_is_changeable(i)) {
 	  fprintf(doc, _("Can be changed during a game. "));
 	} else {
 	  fprintf(doc, _("Can <b>not</b> be changed during a game. "));

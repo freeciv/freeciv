@@ -621,3 +621,37 @@ const char *population_to_text(int thousand_citizen)
   return big_int_to_text(thousand_citizen, 3);
 }
 
+/****************************************************************************
+  Returns whether the specified server setting class can currently
+  be changed.  Does not indicate whether it can be changed by clients.
+****************************************************************************/
+bool setting_class_is_changeable(enum sset_class class)
+{
+  switch (class) {
+  case SSET_MAP_SIZE:
+  case SSET_MAP_GEN:
+    /* Only change map options if we don't yet have a map: */
+    return map_is_empty();
+
+  case SSET_MAP_ADD:
+  case SSET_PLAYERS:
+  case SSET_GAME_INIT:
+  case SSET_RULES:
+    /* Only change start params and most rules if we don't yet have a map,
+     * or if we do have a map but its a scenario one (ie, the game has
+     * never actually been started).
+     */
+    return (map_is_empty() || game.info.is_new_game);
+
+  case SSET_RULES_FLEXIBLE:
+  case SSET_META:
+    /* These can always be changed: */
+    return TRUE;
+
+  case SSET_LAST:
+    break;
+  }
+  freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
+	  class, __FILE__, __LINE__);
+  return FALSE;
+}

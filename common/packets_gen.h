@@ -997,8 +997,8 @@ struct packet_game_load {
 };
 
 struct packet_options_settable_control {
-  int nids;
-  int ncategories;
+  int num_settings;
+  int num_categories;
   char category_names[256][MAX_LEN_NAME];
 };
 
@@ -1008,6 +1008,7 @@ struct packet_options_settable {
   char short_help[MAX_LEN_PACKET];
   char extra_help[MAX_LEN_PACKET];
   enum sset_type type;
+  enum sset_class class;
   int val;
   int default_val;
   int min;
@@ -1607,9 +1608,11 @@ void lsend_packet_game_load(struct conn_list *dest, const struct packet_game_loa
 
 struct packet_options_settable_control *receive_packet_options_settable_control(struct connection *pc, enum packet_type type);
 int send_packet_options_settable_control(struct connection *pc, const struct packet_options_settable_control *packet);
+void lsend_packet_options_settable_control(struct conn_list *dest, const struct packet_options_settable_control *packet);
 
 struct packet_options_settable *receive_packet_options_settable(struct connection *pc, enum packet_type type);
 int send_packet_options_settable(struct connection *pc, const struct packet_options_settable *packet);
+void lsend_packet_options_settable(struct conn_list *dest, const struct packet_options_settable *packet);
 
 struct packet_ruleset_effect *receive_packet_ruleset_effect(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_effect(struct connection *pc, const struct packet_ruleset_effect *packet);

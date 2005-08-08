@@ -14,6 +14,7 @@
 #ifndef FC__REPODLGS_COMMON_H
 #define FC__REPODLGS_COMMON_H
 
+#include "fc_types.h"
 #include "improvement.h"
 #include "unittype.h"
 
@@ -52,7 +53,8 @@ struct options_settable {
   char *name;
   char *short_help;
   char *extra_help;
-  int type;
+  enum sset_type type;
+  enum sset_class class;
   unsigned char category;
 
   int val;
