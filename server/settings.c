@@ -861,7 +861,7 @@ struct settings_s settings[] = {
 	   autotoggle_callback, GAME_DEFAULT_AUTO_AI_TOGGLE)
 
   GEN_INT("endyear", game.end_year,
-	  SSET_META, SSET_SOCIOLOGY, SSET_TO_CLIENT, SSET_VITAL,
+	  SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Year the game ends"), 
 	  N_("The game will end at the end of the given year."), NULL,
 	  GAME_MIN_END_YEAR, GAME_MAX_END_YEAR, GAME_DEFAULT_END_YEAR)
