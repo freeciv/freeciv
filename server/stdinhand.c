@@ -1688,8 +1688,8 @@ void report_server_options(struct conn_list *dest, int which)
 ******************************************************************/
 void report_settable_server_options(struct connection *dest, int which)
 {
-  static struct packet_options_settable_control control;
-  static struct packet_options_settable packet;
+  struct packet_options_settable_control control;
+  struct packet_options_settable packet;
   int i, s = 0;
 
   if (dest->access_level == ALLOW_NONE
@@ -1723,6 +1723,7 @@ void report_settable_server_options(struct connection *dest, int which)
     if (!sset_is_changeable(i)) {
       continue;
     }
+    memset(&packet, 0, sizeof(packet));
 
     packet.id = s++;
     sz_strlcpy(packet.name, settings[i].name);
