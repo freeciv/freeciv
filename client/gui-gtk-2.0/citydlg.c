@@ -1510,9 +1510,9 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
   GtkListStore* store;
   GtkTreeIter iter;
-  cid cids[U_LAST + B_LAST];
-  struct item items[U_LAST + B_LAST];  
-  int cids_used, item;
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
+  int targets_used, item;
 
   gtk_widget_set_sensitive(pdialog->overview.buy_command, sensitive);
   gtk_widget_set_sensitive(pdialog->production.buy_command, sensitive);
@@ -1551,14 +1551,15 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
                            -1);
   gtk_list_store_clear(store);
 
-  cids_used = collect_eventually_buildable_targets(cids, pdialog->pcity, FALSE);  
-  name_and_sort_items(cids, cids_used, items, FALSE, pcity);
+  targets_used
+    = collect_eventually_buildable_targets(targets, pdialog->pcity, FALSE);  
+  name_and_sort_items(targets, targets_used, items, FALSE, pcity);
 
-  for (item = 0; item < cids_used; item++) {
-    if (city_can_build_impr_or_unit(pcity, cid_decode(items[item].cid))) {
+  for (item = 0; item < targets_used; item++) {
+    if (city_can_build_impr_or_unit(pcity, items[item].item)) {
       const char* name;
       struct sprite* sprite;
-      struct city_production target = cid_decode(items[item].cid);
+      struct city_production target = items[item].item;
 
       if (target.is_unit) {
 	name = unit_name(get_unit_type(target.value));
@@ -1569,7 +1570,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
       }
       gtk_list_store_append(store, &iter);
       gtk_list_store_set(store, &iter, 0, sprite_get_pixbuf(sprite),
-                         1, name, 2, (gint)items[item].cid, -1);
+                         1, name, 2, (gint)cid_encode(items[item].item), -1);
     }
   }
 
@@ -1583,9 +1584,9 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
-  int total, item, cids_used;
-  cid cids[U_LAST + B_LAST];
-  struct item items[U_LAST + B_LAST];
+  int total, item, targets_used;
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
   GtkTreeModel *model;
   GtkListStore *store;
 
@@ -1593,17 +1594,17 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     gtk_tree_view_get_model(GTK_TREE_VIEW(pdialog->overview.improvement_list));
   store = GTK_LIST_STORE(model);
   
-  cids_used = collect_already_built_targets(cids, pdialog->pcity);
-  name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
+  targets_used = collect_already_built_targets(targets, pdialog->pcity);
+  name_and_sort_items(targets, targets_used, items, FALSE, pdialog->pcity);
 
   gtk_list_store_clear(store);  
 
   total = 0;
-  for (item = 0; item < cids_used; item++) {
+  for (item = 0; item < targets_used; item++) {
     GtkTreeIter it;
     int upkeep;
     struct sprite *sprite;
-    struct city_production target = cid_decode(items[item].cid);
+    struct city_production target = items[item].item;
 
     assert(!target.is_unit);
     /* This takes effects (like Adam Smith's) into account. */

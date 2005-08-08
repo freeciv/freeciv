@@ -156,9 +156,9 @@ void client_remove_city(struct city *pcity)
 Change all cities building X to building Y, if possible.  X and Y
 could be improvements or units. X and Y are compound ids.
 **************************************************************************/
-void client_change_all(cid x, cid y)
+void client_change_all(struct city_production from,
+		       struct city_production to)
 {
-  struct city_production from = cid_production(x), to = cid_production(y);
   char buf[512];
   int last_request_id = 0;
 
@@ -549,10 +549,8 @@ bool city_building_present(const struct city *pcity,
 /**************************************************************************
   Return the numerical "section" of an item.  This is used for sorting.
 **************************************************************************/
-static int cid_get_section(cid cid)
+static int target_get_section(struct city_production target)
 {
-  struct city_production target = cid_decode(cid);
-
   if (target.is_unit) {
     if (unit_type_flag(get_unit_type(target.value), F_NONMIL)) {
       return 2;
@@ -576,7 +574,8 @@ static int cid_get_section(cid cid)
 static int my_cmp(const void *p1, const void *p2)
 {
   const struct item *i1 = p1, *i2 = p2;
-  int s1 = cid_get_section(i1->cid), s2 = cid_get_section(i2->cid);
+  int s1 = target_get_section(i1->item);
+  int s2 = target_get_section(i2->item);
 
   if (s1 == s2) {
     return mystrcasecmp(i1->descr, i2->descr);
@@ -594,18 +593,19 @@ static int my_cmp(const void *p1, const void *p2)
  section 3: other units
  section 4: wonders
 **************************************************************************/
-void name_and_sort_items(int *pcids, int num_cids, struct item *items,
+void name_and_sort_items(struct city_production *targets, int num_targets,
+			 struct item *items,
 			 bool show_cost, struct city *pcity)
 {
   int i;
 
-  for (i = 0; i < num_cids; i++) {
-    struct city_production target = cid_decode(pcids[i]);
+  for (i = 0; i < num_targets; i++) {
+    struct city_production target = targets[i];
     int cost;
     struct item *pitem = &items[i];
     const char *name;
 
-    pitem->cid = pcids[i];
+    pitem->item = target;
 
     if (target.is_unit) {
       name = get_unit_name(get_unit_type(target.value));
@@ -630,13 +630,14 @@ void name_and_sort_items(int *pcids, int num_cids, struct item *items,
     }
   }
 
-  qsort(items, num_cids, sizeof(struct item), my_cmp);
+  qsort(items, num_targets, sizeof(struct item), my_cmp);
 }
 
 /**************************************************************************
 ...
 **************************************************************************/
-int collect_production_targets(cid * dest_cids, struct city **selected_cities,
+int collect_production_targets(struct city_production *targets,
+			       struct city **selected_cities,
 			       int num_selected_cities, bool append_units,
 			       bool append_wonders, bool change_prod,
 			       TestCityFunc test_func)
@@ -672,7 +673,7 @@ int collect_production_targets(cid * dest_cids, struct city **selected_cities,
     if (!append)
       continue;
 
-    dest_cids[items_used] = cid;
+    targets[items_used] = target;
     items_used++;
   }
   return items_used;
@@ -682,9 +683,9 @@ int collect_production_targets(cid * dest_cids, struct city **selected_cities,
  Collect the cids of all targets (improvements and units) which are
  currently built in a city.
 **************************************************************************/
-int collect_currently_building_targets(cid * dest_cids)
+int collect_currently_building_targets(struct city_production *targets)
 {
-  bool mapping[B_LAST + U_LAST];
+  bool mapping[MAX_NUM_PRODUCTION_TARGETS];
   int cids_used = 0;
   cid cid;
 
@@ -696,7 +697,7 @@ int collect_currently_building_targets(cid * dest_cids)
 
   for (cid = 0; cid < ARRAY_SIZE(mapping); cid++) {
     if (mapping[cid]) {
-      dest_cids[cids_used] = cid;
+      targets[cids_used] = cid_decode(cid);
       cids_used++;
     }
   }
@@ -707,20 +708,22 @@ int collect_currently_building_targets(cid * dest_cids)
  Collect the cids of all targets (improvements and units) which can
  be build in a city.
 **************************************************************************/
-int collect_buildable_targets(cid * dest_cids)
+int collect_buildable_targets(struct city_production *targets)
 {
   int cids_used = 0;
 
   impr_type_iterate(id) {
     if (can_player_build_improvement(game.player_ptr, id)) {
-      dest_cids[cids_used] = cid_encode_building(id);
+      targets[cids_used].is_unit = FALSE;
+      targets[cids_used].value = id;
       cids_used++;
     }
   } impr_type_iterate_end;
 
   unit_type_iterate(punittype) {
     if (can_player_build_unit(game.player_ptr, punittype)) {
-      dest_cids[cids_used] = cid_encode_unit(punittype);
+      targets[cids_used].is_unit = TRUE;
+      targets[cids_used].value = punittype->index;
       cids_used++;
     }
   } unit_type_iterate_end
@@ -732,7 +735,7 @@ int collect_buildable_targets(cid * dest_cids)
  Collect the cids of all targets which can be build by this city or
  in general.
 **************************************************************************/
-int collect_eventually_buildable_targets(cid * dest_cids,
+int collect_eventually_buildable_targets(struct city_production *targets,
 					 struct city *pcity,
 					 bool advanced_tech)
 {
@@ -752,7 +755,8 @@ int collect_eventually_buildable_targets(cid * dest_cids,
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      dest_cids[cids_used] = cid_encode_building(id);
+      targets[cids_used].is_unit = FALSE;
+      targets[cids_used].value = id;
       cids_used++;
     }
   } impr_type_iterate_end;
@@ -771,7 +775,8 @@ int collect_eventually_buildable_targets(cid * dest_cids,
 
     if ((advanced_tech && can_eventually_build) ||
 	(!advanced_tech && can_build)) {
-      dest_cids[cids_used] = cid_encode_unit(punittype);
+      targets[cids_used].is_unit = TRUE;
+      targets[cids_used].value = punittype->index;
       cids_used++;
     }
   } unit_type_iterate_end;
@@ -782,14 +787,16 @@ int collect_eventually_buildable_targets(cid * dest_cids,
 /**************************************************************************
  Collect the cids of all improvements which are built in the given city.
 **************************************************************************/
-int collect_already_built_targets(cid * dest_cids, struct city *pcity)
+int collect_already_built_targets(struct city_production *targets,
+				  struct city *pcity)
 {
   int cids_used = 0;
 
   assert(pcity != NULL);
 
   built_impr_iterate(pcity, id) {
-    dest_cids[cids_used] = cid_encode_building(id);
+    targets[cids_used].is_unit = FALSE;
+    targets[cids_used].value = id;
     cids_used++;
   } built_impr_iterate_end;
 

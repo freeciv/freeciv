@@ -199,9 +199,9 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 					     int size)
 {
   GtkWidget *menu;
-  cid cids[U_LAST + B_LAST];
-  struct item items[U_LAST + B_LAST];
-  int i, item, cids_used;
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
+  int i, item, targets_used;
   char *row[4];
   char buf[4][64];
   
@@ -237,15 +237,18 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     }
 
     data = (struct city **)g_ptr_array_free(selected, FALSE);
-    cids_used = collect_production_targets(cids, data, num_selected, append_units,
-        		      append_wonders, TRUE, test_func);
+    targets_used
+      = collect_production_targets(targets, data, num_selected, append_units,
+				   append_wonders, TRUE, test_func);
     g_free(data);
   } else {
-    cids_used = collect_production_targets(cids, NULL, 0, append_units,
-			      append_wonders, FALSE, test_func);
+    targets_used = collect_production_targets(targets, NULL, 0, append_units,
+					      append_wonders, FALSE,
+					      test_func);
   }
 
-  name_and_sort_items(cids, cids_used, items, city_operation != CO_NONE, NULL);
+  name_and_sort_items(targets, targets_used, items,
+		      city_operation != CO_NONE, NULL);
 
   for (i = 0; i < 4; i++) {
     row[i] = buf[i];
@@ -259,14 +262,12 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
     group[i] = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
   }
   
-  for (item = 0; item < cids_used; item++) {
-    cid cid = items[item].cid;
+  for (item = 0; item < targets_used; item++) {
+    struct city_production target = items[item].item;
     GtkWidget *menu_item, *hbox, *label;
     char txt[256];
 
-    get_city_dialog_production_row(row, sizeof(buf[0]), cid_production(cid),
-				   NULL);
-
+    get_city_dialog_production_row(row, sizeof(buf[0]), target, NULL);
 
     menu_item = gtk_menu_item_new();
     hbox = gtk_hbox_new(FALSE, 18);
@@ -295,7 +296,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
     g_signal_connect(menu_item, "activate", callback,
-		     GINT_TO_POINTER(items[item].cid));
+		     GINT_TO_POINTER(cid_encode(target)));
   }
   
   for (i = 0; i < 3; i++) {
@@ -304,7 +305,7 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
   
   gtk_widget_show_all(menu);
 
-  gtk_widget_set_sensitive(GTK_WIDGET(parent_item), (cids_used > 0));
+  gtk_widget_set_sensitive(GTK_WIDGET(parent_item), (targets_used > 0));
 }
 
 /****************************************************************
@@ -313,12 +314,12 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
 static void impr_or_unit_iterate(GtkTreeModel *model, GtkTreePath *path,
 				 GtkTreeIter *it, gpointer data)
 {
-  cid cid = GPOINTER_TO_INT(data);
+  struct city_production target = cid_decode(GPOINTER_TO_INT(data));
   gint id;
 
   gtk_tree_model_get(model, it, 1, &id, -1);
 
-  city_change_production(find_city_by_id(id), cid_production(cid));
+  city_change_production(find_city_by_id(id), target);
 }
 
 /****************************************************************
@@ -332,14 +333,14 @@ static void worklist_last_impr_or_unit_iterate(GtkTreeModel *model,
 						 GtkTreeIter *it, 
 						 gpointer data)
 {
-  cid cid = GPOINTER_TO_INT(data);
+  struct city_production target = cid_decode(GPOINTER_TO_INT(data));
   gint id;
   struct city *pcity;  
 
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  (void) city_queue_insert(pcity, -1, cid_production(cid));
+  (void) city_queue_insert(pcity, -1, target);
   /* perhaps should warn the user if not successful? */
 }
 
@@ -356,14 +357,14 @@ static void worklist_first_impr_or_unit_iterate(GtkTreeModel *model,
 						 GtkTreeIter *it, 
 						 gpointer data)
 {
-  cid cid = GPOINTER_TO_INT(data);
+  struct city_production target = cid_decode(GPOINTER_TO_INT(data));
   gint id;
   struct city *pcity;  
 
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  (void) city_queue_insert(pcity, 0, cid_production(cid));
+  (void) city_queue_insert(pcity, 0, target);
   /* perhaps should warn the user if not successful? */
 }
 
@@ -380,12 +381,12 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
 {
   struct city *pcity;
   gint id;
-  cid cid = GPOINTER_TO_INT(data);
+  struct city_production target = cid_decode(GPOINTER_TO_INT(data));
 
   gtk_tree_model_get(model, it, 1, &id, -1);
   pcity = find_city_by_id(id);
 
-  (void) city_queue_insert(pcity, 1, cid_production(cid));
+  (void) city_queue_insert(pcity, 1, target);
   /* perhaps should warn the user if not successful? */
 }
 
@@ -394,7 +395,7 @@ static void worklist_next_impr_or_unit_iterate(GtkTreeModel *model,
 *****************************************************************/
 static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 {
-  cid cid = GPOINTER_TO_INT(data);
+  struct city_production target = cid_decode(GPOINTER_TO_INT(data));
   GObject *parent = G_OBJECT(w->parent);
   TestCityFunc test_func = g_object_get_data(parent, "freeciv_test_func");
   enum city_operation_type city_operation = 
@@ -413,7 +414,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
       itree_get(&it, 0, &res, -1);
       pcity = res;
 
-      if (test_func(pcity, cid_decode(cid))) {
+      if (test_func(pcity, target)) {
 	itree_select(city_selection, &it);
       }
     }
@@ -423,21 +424,22 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
     case CO_LAST:
       gtk_tree_selection_selected_foreach(city_selection,
 					  worklist_last_impr_or_unit_iterate,
-					  GINT_TO_POINTER(cid));
+					  GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_CHANGE:
       gtk_tree_selection_selected_foreach(city_selection,
-					  impr_or_unit_iterate, GINT_TO_POINTER(cid));
+					  impr_or_unit_iterate,
+					  GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_FIRST:
       gtk_tree_selection_selected_foreach(city_selection,
 					  worklist_first_impr_or_unit_iterate,
-					  GINT_TO_POINTER(cid));
+					  GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_NEXT:
       gtk_tree_selection_selected_foreach(city_selection,
 					  worklist_next_impr_or_unit_iterate,
-					  GINT_TO_POINTER(cid));
+					  GINT_TO_POINTER(cid_encode(target)));
       break;
     default:
       assert(FALSE); /* should never get here. */

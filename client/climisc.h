@@ -26,7 +26,8 @@ void client_remove_player(int plrno);
 void client_remove_city(struct city *pcity);
 void client_remove_unit(struct unit *punit);
 
-void client_change_all(cid x, cid y);
+void client_change_all(struct city_production from,
+		       struct city_production to);
 
 const char *get_embassy_status(const struct player *me,
 				const struct player *them);
@@ -68,24 +69,28 @@ bool city_building_present(const struct city *pcity,
 			   struct city_production target);
 
 struct item {
-  cid cid;
+  struct city_production item;
   char descr[MAX_LEN_NAME + 40];
 };
 
 typedef bool (*TestCityFunc)(const struct city *, struct city_production);
 
-void name_and_sort_items(int *pcids, int num_cids, struct item *items,
+#define MAX_NUM_PRODUCTION_TARGETS (U_LAST + B_LAST)
+void name_and_sort_items(struct city_production *targets, int num_items,
+			 struct item *items,
 			 bool show_cost, struct city *pcity);
-int collect_production_targets(cid * dest_cids, struct city **selected_cities,
+int collect_production_targets(struct city_production *targets,
+			       struct city **selected_cities,
 			       int num_selected_cities, bool append_units,
 			       bool append_wonders, bool change_prod,
 			       TestCityFunc test_func);
-int collect_currently_building_targets(cid * dest_cids);
-int collect_buildable_targets(cid * dest_cids);
-int collect_eventually_buildable_targets(cid * dest_cids,
+int collect_currently_building_targets(struct city_production *targets);
+int collect_buildable_targets(struct city_production *targets);
+int collect_eventually_buildable_targets(struct city_production *targets,
 					 struct city *pcity,
 					 bool advanced_tech);
-int collect_already_built_targets(cid * dest_cids, struct city *pcity);
+int collect_already_built_targets(struct city_production *targets,
+				  struct city *pcity);
 
 /* the number of units in city */
 int num_present_units_in_city(struct city* pcity);

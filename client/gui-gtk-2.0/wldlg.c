@@ -1332,9 +1332,9 @@ void refresh_worklist(GtkWidget *editor)
   struct worklist_data *ptr;
   struct worklist *pwl, queue;
 
-  cid cids[U_LAST + B_LAST];
-  int i, cids_used;
-  struct item items[U_LAST + B_LAST];
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  int i, targets_used;
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
 
   bool selected;
   gint id;
@@ -1361,15 +1361,15 @@ void refresh_worklist(GtkWidget *editor)
   }
   gtk_list_store_clear(ptr->src);
 
-  cids_used = collect_eventually_buildable_targets(cids, ptr->pcity, ptr->future);
-  name_and_sort_items(cids, cids_used, items, FALSE, ptr->pcity);
+  targets_used = collect_eventually_buildable_targets(targets, ptr->pcity, ptr->future);
+  name_and_sort_items(targets, targets_used, items, FALSE, ptr->pcity);
 
   path = NULL;
-  for (i = 0; i < cids_used; i++) {
+  for (i = 0; i < targets_used; i++) {
     gtk_list_store_append(ptr->src, &it);
-    gtk_list_store_set(ptr->src, &it, 0, (gint) items[i].cid, -1);
+    gtk_list_store_set(ptr->src, &it, 0, (gint) cid_encode(items[i].item), -1);
 
-    if (selected && items[i].cid == id) {
+    if (selected && cid_encode(items[i].item) == id) {
       path = gtk_tree_model_get_path(GTK_TREE_MODEL(ptr->src), &it);
     }
   }
@@ -1391,13 +1391,13 @@ void refresh_worklist(GtkWidget *editor)
   }
 
   for (i = 0; i < worklist_length(&queue); i++) {
-    cid cid = cid_encode(queue.entries[i]);
+    struct city_production target = queue.entries[i];
 
     if (!exists) {
       gtk_list_store_append(ptr->dst, &it);
     }
 
-    gtk_list_store_set(ptr->dst, &it, 0, (gint) cid, -1);
+    gtk_list_store_set(ptr->dst, &it, 0, (gint) cid_encode(target), -1);
 
     if (exists) {
       exists = gtk_tree_model_iter_next(model, &it);
