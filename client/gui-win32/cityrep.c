@@ -185,9 +185,9 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
 				int *selitems,
 				int selcount, int *idcount)
 {
-  cid cids[U_LAST + B_LAST];
-  struct item items[U_LAST + B_LAST];
-  int item, cids_used, num_selected_cities = 0;
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
+  int item, targets_used, num_selected_cities = 0;
   struct city **selected_cities = NULL;
 
   if (change_prod) {
@@ -204,26 +204,26 @@ append_impr_or_unit_to_menu_sub(HMENU menu,
     }
   }
 
-  cids_used = collect_production_targets(cids, selected_cities,
+  targets_used = collect_production_targets(targets, selected_cities,
 			    num_selected_cities, append_units,
 			    append_wonders, change_prod, test_func);
   if (selected_cities) {
     free(selected_cities);
   }
-  name_and_sort_items(cids, cids_used, items, change_prod, NULL);
+  name_and_sort_items(targets, targets_used, items, change_prod, NULL);
 
-  for (item = 0; item < cids_used; item++) {
+  for (item = 0; item < targets_used; item++) {
     MENUITEMINFO iteminfo;
 
     AppendMenu(menu, MF_STRING, (*idcount), items[item].descr);
-    iteminfo.dwItemData = items[item].cid;
+    iteminfo.dwItemData = cid_encode(items[item].item);
     iteminfo.fMask = MIIM_DATA;
     iteminfo.cbSize = sizeof(MENUITEMINFO);
     SetMenuItemInfo(menu, (*idcount), FALSE, &iteminfo);
     (*idcount)++;
   }
 
-  if (cids_used == 0) {
+  if (targets_used == 0) {
     AppendMenu(menu, MF_STRING, -1, nothing_appended_text);
   }
 }
@@ -675,7 +675,7 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	case ID_PRODCHANGE_CHANGE:
 	  {
 	    int id;
-	    cid from, to;
+	    int from, to;
 
 	    id=ListBox_GetCurSel(GetDlgItem(hWnd,ID_PRODCHANGE_FROM));
 	    if (id==LB_ERR)
@@ -698,7 +698,7 @@ static LONG CALLBACK cityrep_changeall_proc(HWND hWnd,
 	      append_output_window(_("That's the same thing!"));
 	      break;
 	    }
-	    client_change_all(from,to);
+	    client_change_all(cid_decode(from), cid_decode(to));
 	    DestroyWindow(hWnd);
 	    hChangeAll=NULL;
 	  }
@@ -720,10 +720,10 @@ static void cityrep_changeall(HWND hWnd)
   struct fcwin_box *vbox;
   struct fcwin_box *hbox;
   int selid;
-  cid cids[B_LAST + U_LAST];
-  int cids_used;
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
+  int targets_used;
   cid selected_cid;
-  struct item items[U_LAST + B_LAST];
   int id,i;
   HWND hDlg;
   HWND hLst;
@@ -764,24 +764,24 @@ static void cityrep_changeall(HWND hWnd)
 						 selid));
   }
 
-  cids_used = collect_currently_building_targets(cids);
-  name_and_sort_items(cids, cids_used, items, FALSE, NULL);
+  targets_used = collect_currently_building_targets(targets);
+  name_and_sort_items(targets, targets_used, items, FALSE, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_FROM);
-  for (i = 0; i < cids_used; i++) {
+  for (i = 0; i < targets_used; i++) {
     id = ListBox_AddString(hLst, items[i].descr);
-    ListBox_SetItemData(hLst, id, items[i].cid);
-    if (items[i].cid == selected_cid)
+    ListBox_SetItemData(hLst, id, cid_encode(items[i].item));
+    if (cid_encode(items[i].item) == selected_cid)
       ListBox_SetCurSel(hLst, id);
   }
 
-  cids_used = collect_buildable_targets(cids);
-  name_and_sort_items(cids, cids_used, items, TRUE, NULL);
+  targets_used = collect_buildable_targets(targets);
+  name_and_sort_items(targets, targets_used, items, TRUE, NULL);
 
   hLst = GetDlgItem(hDlg, ID_PRODCHANGE_TO);
-  for (i = 0; i < cids_used; i++) {
+  for (i = 0; i < targets_used; i++) {
     id = ListBox_AddString(hLst, items[i].descr);
-    ListBox_SetItemData(hLst, id, items[i].cid);
+    ListBox_SetItemData(hLst, id, cid_encode(items[i].item));
   }
 
   fcwin_set_box(hDlg,hbox);

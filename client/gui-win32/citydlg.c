@@ -98,9 +98,9 @@ struct city_dialog {
   
   int support_unit_ids[NUM_UNITS_SHOWN];
   int present_unit_ids[NUM_UNITS_SHOWN];
-  int change_list_ids[B_LAST+1+U_LAST+1];
+  struct city_production change_list_targets[MAX_NUM_PRODUCTION_TARGETS];
   int change_list_num_improvements;
-  cid building_cids[B_LAST+U_LAST];
+  int building_values[B_LAST];
   int is_modal;    
   int id_selected;
   int last_improvlist_seen[B_LAST];
@@ -228,9 +228,9 @@ bool city_dialog_is_open(struct city *pcity)
 void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 {
   LV_COLUMN lvc;
-  int changed, total, item, cids_used;
-  cid cids[U_LAST + B_LAST];
-  struct item items[U_LAST + B_LAST];
+  int changed, total, item, targets_used;
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
   char buf[100];
 
   /* Test if the list improvements of pcity has changed */
@@ -252,17 +252,17 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     pdialog->last_improvlist_seen[i] = pdialog->pcity->improvements[i];
   } impr_type_iterate_end;
   
-  cids_used = collect_already_built_targets(cids, pdialog->pcity);
-  name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
+  targets_used = collect_already_built_targets(targets, pdialog->pcity);
+  name_and_sort_items(targets, targets_used, items, FALSE, pdialog->pcity);
    
   ListView_DeleteAllItems(pdialog->buildings_list);
   
   total = 0;
-  for (item = 0; item < cids_used; item++) {
+  for (item = 0; item < targets_used; item++) {
     char *strings[2];
     int upkeep;
     int row;
-    struct city_production target = cid_decode(items[item].cid);
+    struct city_production target = items[item].item;
 
     assert (!target.is_unit);
 
@@ -276,7 +276,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
    
     row=fcwin_listview_add_row(pdialog->buildings_list,
 			   item, 2, strings);
-    pdialog->building_cids[row]=items[item].cid;
+    pdialog->building_values[row] = target.value;
     total += upkeep;
   }
   lvc.mask=LVCF_TEXT;
@@ -979,10 +979,10 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 				    WPARAM wParam,
 				    LPARAM lParam) 
 {
-  int sel,i,n,idx;
+  int sel,i,n;
+  struct city_production target;
   struct city_dialog *pdialog;
   pdialog=(struct city_dialog *)fcwin_get_user_data(hWnd);
-  idx=0;     /* silence gcc */
   switch(message)
     {
     case WM_CLOSE:
@@ -999,7 +999,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	}
       }
       if (sel>=0) {
-	idx=pdialog->change_list_ids[sel];
+	target = pdialog->change_list_targets[sel];
       }
       switch(LOWORD(wParam))
 	{
@@ -1009,14 +1009,14 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	case ID_PRODCHANGE_HELP:
 	  if (sel>=0)
 	    {
-	      if (cid_decode(idx).is_unit) {
-		popup_help_dialog_typed(get_unit_type(idx)->name,
+	      if (target.is_unit) {
+		popup_help_dialog_typed(get_unit_type(target.value)->name,
 					HELP_UNIT);
-	      } else if(is_great_wonder(idx)) {
-		popup_help_dialog_typed(get_improvement_name(idx),
+	      } else if(is_great_wonder(target.value)) {
+		popup_help_dialog_typed(get_improvement_name(target.value),
 					HELP_WONDER);
 	      } else {
-		popup_help_dialog_typed(get_improvement_name(idx),
+		popup_help_dialog_typed(get_improvement_name(target.value),
 					HELP_IMPROVEMENT);
 	      }                                                                     
 	    }
@@ -1028,7 +1028,7 @@ static LONG CALLBACK changedlg_proc(HWND hWnd,
 	case ID_PRODCHANGE_CHANGE:
 	  if (sel>=0)
 	    {
-	      city_change_production(pdialog->pcity, cid_production(idx));
+	      city_change_production(pdialog->pcity, target);
 	      DestroyWindow(hWnd);
 	    }
 	  break;
@@ -1067,9 +1067,9 @@ static void change_callback(struct city_dialog *pdialog)
       HWND lv;
       LV_COLUMN lvc;
       LV_ITEM lvi;
-      cid cids[U_LAST + B_LAST];
-      struct item items[U_LAST + B_LAST];  
-      int cids_used, item;
+      struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+      struct item items[MAX_NUM_PRODUCTION_TARGETS];
+      int targets_used, item;
 
       vbox=fcwin_vbox_new(dlg,FALSE);
       hbox=fcwin_hbox_new(dlg,TRUE);
@@ -1098,20 +1098,21 @@ static void change_callback(struct city_dialog *pdialog)
       for(i=0; i<4; i++)
 	row[i]=buf[i];
 
-      cids_used = collect_eventually_buildable_targets(cids, pdialog->pcity,
-						       FALSE);  
-      name_and_sort_items(cids, cids_used, items, FALSE, pdialog->pcity);
+      targets_used =
+	 collect_eventually_buildable_targets(targets, pdialog->pcity,
+					      FALSE);  
+      name_and_sort_items(targets, targets_used, items, FALSE,
+			  pdialog->pcity);
 
       n = 0;
-      for (item = 0; item < cids_used; item++) {
-	if (city_can_build_impr_or_unit(pdialog->pcity,
-					cid_decode(items[item].cid))) {
-	  struct city_production target = cid_decode(items[item].cid);
+      for (item = 0; item < targets_used; item++) {
+	if (city_can_build_impr_or_unit(pdialog->pcity, items[item].item)) {
+	  struct city_production target = items[item].item;
 
 	  get_city_dialog_production_row(row, sizeof(buf[0]), target,
 				       pdialog->pcity);
 	  fcwin_listview_add_row(lv,n,4,row);
-	  pdialog->change_list_ids[n++] = items[item].cid;
+	  pdialog->change_list_targets[n++] = target;
 	}
       }
       
@@ -1664,7 +1665,7 @@ static LONG CALLBACK citydlg_overview_proc(HWND win, UINT message,
       for(i=0;i<n;i++) {
 	if (ListView_GetItemState(pdialog->buildings_list,
 				  i, LVIS_SELECTED)) {
-	  pdialog->id_selected = cid_production(pdialog->building_cids[i]).value;
+	  pdialog->id_selected = pdialog->building_values[i];
 	  break;
 	}
       }

@@ -792,7 +792,7 @@ static LONG CALLBACK new_game_proc(HWND win, UINT message,
       switch((enum new_game_dlg_ids)LOWORD(wParam))
 	{
 	case ID_NEWGAMEDLG_OPTIONS:
-	  send_report_request(REPORT_SERVER_OPTIONS2);
+	  popup_settable_options_dialog();
 	  break;
         case ID_NEWGAMEDLG_NATIONS:
 	  popup_races_dialog(game.player_ptr);

@@ -68,8 +68,7 @@ enum MenuID {
   IDM_GAME_LOCAL_OPTIONS,
   IDM_GAME_MESSAGE_OPTIONS,
   IDM_GAME_SAVE_SETTINGS,
-  IDM_GAME_SERVER_OPTIONS1,
-  IDM_GAME_SERVER_OPTIONS2,
+  IDM_GAME_SERVER_OPTIONS,
   IDM_GAME_SAVE_GAME,
   IDM_GAME_SAVE_QUICK,
   IDM_GAME_EXPORT_LOG, 
@@ -305,8 +304,7 @@ static struct my_menu main_menu[] = {
   {N_("_Message Options"),			IDM_GAME_MESSAGE_OPTIONS},
   {N_("Sa_ve Settings"),			IDM_GAME_SAVE_SETTINGS},
   {"", IDM_SEPARATOR},
-  {N_("_Initial Server Options"),		IDM_GAME_SERVER_OPTIONS1},
-  {N_("Server O_ptions"),			IDM_GAME_SERVER_OPTIONS2},
+  {N_("Server O_ptions"),			IDM_GAME_SERVER_OPTIONS},
   {"", IDM_SEPARATOR},
   {N_("_Save Game"),				IDM_GAME_SAVE_QUICK},
   {N_("Save Game _As..."),			IDM_GAME_SAVE_GAME},
@@ -573,12 +571,9 @@ void handle_menu(int code)
     case IDM_GAME_SAVE_SETTINGS:
       save_options();
       break;
-    case IDM_GAME_SERVER_OPTIONS1:
-      send_report_request(REPORT_SERVER_OPTIONS1);
+    case IDM_GAME_SERVER_OPTIONS:
+      popup_settable_options_dialog();
       break;   
-    case IDM_GAME_SERVER_OPTIONS2:
-      send_report_request(REPORT_SERVER_OPTIONS2);
-      break;     
     case IDM_GAME_SAVE_GAME:
       handle_save_load(_("Select Location to Save"), TRUE);
       break;
@@ -1011,9 +1006,7 @@ update_menus(void)
   my_enable_menu(menu, IDM_GAME_SAVE_QUICK,
 		 can_client_access_hack()
 		 && get_client_state() >= CLIENT_GAME_RUNNING_STATE);
-  my_enable_menu(menu, IDM_GAME_SERVER_OPTIONS2,
-		 aconnection.established);
-  my_enable_menu(menu, IDM_GAME_SERVER_OPTIONS1,
+  my_enable_menu(menu, IDM_GAME_SERVER_OPTIONS,
 		 get_client_state() >= CLIENT_GAME_RUNNING_STATE);
   my_enable_menu(menu, IDM_GAME_DISCONNECT,
 		 aconnection.established);

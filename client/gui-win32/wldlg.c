@@ -118,9 +118,9 @@ static int wid_id(wid wid)
 static int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first, 
 			 bool advanced_tech)
 {
-  cid cids[U_LAST + B_LAST];
-  int item, cids_used, wids_used = 0;
-  struct item items[U_LAST + B_LAST];
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
+  int item, targets_used, wids_used = 0;
 
   /* Fill in the global worklists now?                      */
   /* perhaps judicious use of goto would be good here? -mck */
@@ -136,11 +136,11 @@ static int collect_wids1(wid * dest_wids, struct city *pcity, bool wl_first,
   }
 
   /* Fill in improvements and units */
-  cids_used = collect_eventually_buildable_targets(cids, pcity, advanced_tech);
-  name_and_sort_items(cids, cids_used, items, FALSE, pcity);
+  targets_used = collect_eventually_buildable_targets(targets, pcity, advanced_tech);
+  name_and_sort_items(targets, targets_used, items, FALSE, pcity);
 
-  for (item = 0; item < cids_used; item++) {
-    struct city_production target = cid_decode(items[item].cid);
+  for (item = 0; item < targets_used; item++) {
+    struct city_production target = items[item].item;
 
     dest_wids[wids_used] = wid_encode(target.is_unit, FALSE, target.value);
     wids_used++;
