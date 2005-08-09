@@ -913,13 +913,14 @@ struct callback {
 /****************************************************************************
   A wrapper for the callback called through add_idle_callback.
 ****************************************************************************/
-static void idle_callback_wrapper(XtPointer data, XtIntervalId *id)
+static Boolean idle_callback_wrapper(XtPointer data)
 {
   struct callback *cb = data;
 
   (cb->callback)(cb->data);
   free(cb);
-  XtRemoveTimeOut(*id);
+  /* return True if we want to remove WorkProc */
+  return True;
 }
 
 /****************************************************************************
@@ -933,5 +934,5 @@ void add_idle_callback(void (callback)(void *), void *data)
 
   cb->callback = callback;
   cb->data = data;
-  XtAppAddTimeOut(app_context, 0, idle_callback_wrapper, cb);
+  XtAppAddWorkProc(app_context, idle_callback_wrapper, cb);
 }
