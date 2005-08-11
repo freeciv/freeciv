@@ -79,6 +79,10 @@ KNOWN BUGS:
    happens.  Try using the same parameters again or switching to more
    "regular" parameters.
 
+ - Using the CMA in games with a timeout will cause the client to track the
+   time remaining incorrectly.  The result is the turn will end while the
+   client claims there is still time remaining.
+
 REPORTING A BUG:
 ================
 
