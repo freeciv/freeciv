@@ -191,6 +191,10 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_FOODBOX             1
 #define GAME_MAX_FOODBOX             10000
 
+#define GAME_DEFAULT_SHIELDBOX 100
+#define GAME_MIN_SHIELDBOX 1
+#define GAME_MAX_SHIELDBOX 10000
+
 #define GAME_DEFAULT_SCIENCEBOX 100
 #define GAME_MIN_SCIENCEBOX 1
 #define GAME_MAX_SCIENCEBOX 10000

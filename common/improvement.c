@@ -160,7 +160,9 @@ const char *get_improvement_name_orig(Impr_type_id id)
 ****************************************************************************/
 int impr_build_shield_cost(Impr_type_id id)
 {
-  return get_improvement_type(id)->build_cost;
+  int base = get_improvement_type(id)->build_cost;
+
+  return MAX(base * game.info.shieldbox / 100, 1);
 }
 
 /****************************************************************************
@@ -169,8 +171,7 @@ int impr_build_shield_cost(Impr_type_id id)
 int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock)
 {
   int cost = 0;
-  const int missing
-    = get_improvement_type(id)->build_cost - shields_in_stock;
+  const int missing = impr_build_shield_cost(id) - shields_in_stock;
 
   if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
     /* Can't buy capitalization. */
@@ -195,7 +196,7 @@ int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock)
 ****************************************************************************/
 int impr_sell_gold(Impr_type_id id)
 {
-  return get_improvement_type(id)->build_cost;
+  return impr_build_shield_cost(id);
 }
 
 /**************************************************************************

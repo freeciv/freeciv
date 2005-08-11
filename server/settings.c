@@ -531,6 +531,15 @@ struct settings_s settings[] = {
 	  GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, 
 	  GAME_DEFAULT_AQUEDUCTLOSS)
 
+  GEN_INT("shieldbox", game.info.shieldbox,
+	  SSET_RULES, SSET_ECONOMICS, SSET_SITUATIONAL, SSET_TO_CLIENT,
+	  N_("Multiplier percentage for production costs"),
+	  N_("This affects how quickly units and buildings can be "
+	     "produced.  The base costs are multiplied by this value (as "
+	     "a percentage)."),
+	  NULL, GAME_MIN_SHIELDBOX, GAME_MAX_SHIELDBOX,
+	  GAME_DEFAULT_SHIELDBOX)
+
   /* Notradesize and fulltradesize used to have callbacks to prevent them
    * from being set illegally (notradesize > fulltradesize).  However this
    * provided a problem when setting them both through the client's settings

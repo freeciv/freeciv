@@ -151,7 +151,7 @@ bool unit_has_role(const struct unit_type *punittype, int role)
 ****************************************************************************/
 int unit_build_shield_cost(const struct unit_type *punittype)
 {
-  return punittype->build_cost;
+  return MAX(punittype->build_cost * game.info.shieldbox / 100, 1);
 }
 
 /****************************************************************************
@@ -160,7 +160,8 @@ int unit_build_shield_cost(const struct unit_type *punittype)
 int unit_buy_gold_cost(const struct unit_type *punittype,
 		       int shields_in_stock)
 {
-  int cost = 0, missing = punittype->build_cost - shields_in_stock;
+  int cost = 0;
+  const int missing = unit_build_shield_cost(punittype) - shields_in_stock;
 
   if (missing > 0) {
     cost = 2 * missing + (missing * missing) / 20;
@@ -176,7 +177,7 @@ int unit_buy_gold_cost(const struct unit_type *punittype,
 ****************************************************************************/
 int unit_disband_shields(const struct unit_type *punittype)
 {
-  return punittype->build_cost / 2;
+  return unit_build_shield_cost(punittype) / 2;
 }
 
 /**************************************************************************

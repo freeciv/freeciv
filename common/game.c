@@ -209,6 +209,7 @@ void game_init(void)
   game.info.unhappysize   = GAME_DEFAULT_UNHAPPYSIZE;
   game.info.angrycitizen  = GAME_DEFAULT_ANGRYCITIZEN;
   game.info.foodbox       = GAME_DEFAULT_FOODBOX;
+  game.info.shieldbox = GAME_DEFAULT_SHIELDBOX;
   game.info.sciencebox = GAME_DEFAULT_SCIENCEBOX;
   game.info.aqueductloss  = GAME_DEFAULT_AQUEDUCTLOSS;
   game.info.killcitizen   = GAME_DEFAULT_KILLCITIZEN;

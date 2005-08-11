@@ -3219,6 +3219,9 @@ void game_load(struct section_file *file)
 
     
     game.info.end_year      = secfile_lookup_int(file, "game.end_year");
+    game.info.shieldbox
+      = secfile_lookup_int_default(file, GAME_DEFAULT_SHIELDBOX,
+				   "game.box_shield");
     game.info.sciencebox
       = secfile_lookup_int_default(file, 0, "game.box_science");
     if (game.info.sciencebox == 0) {
@@ -3820,6 +3823,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.freecost, "game.freecost");
   secfile_insert_int(file, game.info.conquercost, "game.conquercost");
   secfile_insert_int(file, game.info.foodbox, "game.box_food");
+  secfile_insert_int(file, game.info.shieldbox, "game.box_shield");
   secfile_insert_int(file, game.info.sciencebox, "game.box_science");
   {
     /* These values are for compatibility with 2.0 and previous servers. */

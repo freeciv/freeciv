@@ -380,6 +380,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 angrycitizen;
   UINT8 techpenalty;
   UINT32 foodbox;
+  UINT32 shieldbox;
   UINT32 sciencebox;
   UINT8 diplomacy;
   UINT8 dispersion;

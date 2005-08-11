@@ -135,6 +135,7 @@ struct packet_game_info {
   int angrycitizen;
   int techpenalty;
   int foodbox;
+  int shieldbox;
   int sciencebox;
   int diplomacy;
   int dispersion;
