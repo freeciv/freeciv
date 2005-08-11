@@ -361,7 +361,7 @@ bool create_start_positions(enum start_mode mode)
 	freelog(LOG_ERROR,
 	        _("The server appears to have gotten into an infinite loop "
 	          "in the allocation of starting positions.\n"
-	          "Maybe the numbers of players/ia is too much for this map.\n"
+	          "Maybe the number of players is too high for this map.\n"
 	          "Please report this bug at %s."), WEBSITE_URL);
 	failure = TRUE;
 	break;
