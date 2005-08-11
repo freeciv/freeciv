@@ -625,7 +625,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
   }
 
   /* Adjust by building cost */
-  v -= pimpr->build_cost / (pcity->surplus[O_SHIELD] * 10 + 1);
+  v -= (impr_build_shield_cost(pimpr->index)
+	/ (pcity->surplus[O_SHIELD] * 10 + 1));
 
   /* Would it mean losing shields? */
   if ((pcity->production.is_unit 

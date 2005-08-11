@@ -799,7 +799,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (unit_type_flag(utype, F_HELP_WONDER)) {
     sprintf(buf + strlen(buf),
 	    _("* Can help build wonders (adds %d production).\n"),
-	    utype->build_cost);
+	    unit_build_shield_cost(utype));
   }
   if (unit_type_flag(utype, F_UNDISBANDABLE)) {
     sprintf(buf + strlen(buf), _("* May not be disbanded.\n"));

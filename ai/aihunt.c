@@ -104,7 +104,8 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
     }
 
     desire = amortize(desire,
-		      ut->build_cost / MAX(pcity->surplus[O_SHIELD], 1));
+		      (unit_build_shield_cost(ut)
+		       / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
         best = desire;
@@ -162,7 +163,8 @@ static void ai_hunter_missile_want(struct player *pplayer,
     }
 
     desire = amortize(desire,
-		      ut->build_cost / MAX(pcity->surplus[O_SHIELD], 1));
+		      (unit_build_shield_cost(ut)
+		       / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
         best = desire;
@@ -345,7 +347,7 @@ static void ai_hunter_juiciness(struct player *pplayer, struct unit *punit,
     if (unit_flag(sucker, F_DIPLOMAT)) {
       *stackthreat += 500; /* extra threatening */
     }
-    *stackcost += unit_type(sucker)->build_cost;
+    *stackcost += unit_build_shield_cost(unit_type(sucker));
   } unit_list_iterate_end;
 
   *stackthreat *= 9; /* WAG - reduced by distance later */
@@ -441,9 +443,10 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
        * if any. */
       ai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
       stackcost *= unit_win_chance(punit, get_defender(punit, target->tile));
-      if (stackcost < unit_type(punit)->build_cost) {
+      if (stackcost < unit_build_shield_cost(unit_type(punit))) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)", 
-                 target->id, stackcost, unit_type(punit)->build_cost);
+                 target->id, stackcost,
+		 unit_build_shield_cost(unit_type(punit)));
         continue; /* Too expensive */
       }
       stackthreat /= pos.total_MC + 1;
@@ -454,7 +457,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
                  target->id, original_target->id);
         continue; /* The threat we found originally was worse than this! */
       }
-      if (stackthreat < unit_type(punit)->build_cost) {
+      if (stackthreat < unit_build_shield_cost(unit_type(punit))) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is not worth it", target->id);
         continue; /* Not worth it */
       }
