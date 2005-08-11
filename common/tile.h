@@ -73,7 +73,10 @@ enum known_type tile_get_known(const struct tile *ptile,
 int tile_activity_time(enum unit_activity activity,
 		       const struct tile *ptile);
 
+/* These are higher-level functions that handle side effects on the tile. */
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain);
+void tile_add_special(struct tile *ptile, enum tile_special_type special);
+void tile_remove_special(struct tile *ptile, enum tile_special_type special);
 bool tile_apply_activity(struct tile *ptile, Activity_type_id act);
 
 const char *tile_get_info_text(const struct tile *ptile);

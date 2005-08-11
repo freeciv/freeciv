@@ -238,25 +238,94 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 }
 
 /****************************************************************************
+  Add the special to the tile.  This does secondary tile updates to
+  the tile.
+****************************************************************************/
+void tile_add_special(struct tile *ptile, enum tile_special_type special)
+{
+  tile_add_special(ptile, special);
+
+  switch (special) {
+  case S_FARMLAND:
+    tile_add_special(ptile, S_IRRIGATION);
+    /* Fall through to irrigation */
+  case S_IRRIGATION:
+    tile_clear_special(ptile, S_MINE);
+    break;
+  case S_RAILROAD:
+    tile_add_special(ptile, S_ROAD);
+    break;
+  case S_MINE:
+    tile_clear_special(ptile, S_IRRIGATION);
+    tile_clear_special(ptile, S_FARMLAND);
+    break;
+
+  case S_SPECIAL_1:
+    tile_clear_special(ptile, S_SPECIAL_2);
+    break;
+
+  case S_SPECIAL_2:
+    tile_clear_special(ptile, S_SPECIAL_1);
+    break;
+
+  case S_ROAD:
+  case S_POLLUTION:
+  case S_HUT:
+  case S_FORTRESS:
+  case S_RIVER:
+  case S_AIRBASE:
+  case S_FALLOUT:
+  case S_LAST:
+    break;
+  }
+}
+
+/****************************************************************************
+  Remove the special from the tile.  This does secondary tile updates to
+  the tile.
+****************************************************************************/
+void tile_remove_special(struct tile *ptile, enum tile_special_type special)
+{
+  tile_remove_special(ptile, special);
+
+  switch (special) {
+  case S_IRRIGATION:
+    tile_clear_special(ptile, S_FARMLAND);
+    break;
+  case S_ROAD:
+    tile_clear_special(ptile, S_RAILROAD);
+    break;
+
+  case S_SPECIAL_1:
+  case S_RAILROAD:
+  case S_MINE:
+  case S_POLLUTION:
+  case S_HUT:
+  case S_FORTRESS:
+  case S_SPECIAL_2:
+  case S_RIVER:
+  case S_FARMLAND:
+  case S_AIRBASE:
+  case S_FALLOUT:
+  case S_LAST:
+    break;
+  }
+}
+
+/****************************************************************************
   Build irrigation on the tile.  This may change the specials of the tile
   or change the terrain type itself.
 ****************************************************************************/
 static void tile_irrigate(struct tile *ptile)
 {
-  struct terrain *now, *result;
-  
-  now = ptile->terrain;
-  result = now->irrigation_result;
-
-  if (now == result) {
+  if (ptile->terrain == ptile->terrain->irrigation_result) {
     if (tile_has_special(ptile, S_IRRIGATION)) {
-      tile_set_special(ptile, S_FARMLAND);
+      tile_add_special(ptile, S_FARMLAND);
     } else {
-      tile_set_special(ptile, S_IRRIGATION);
+      tile_add_special(ptile, S_IRRIGATION);
     }
-    tile_clear_special(ptile, S_MINE);
-  } else if (result != T_NONE) {
-    tile_change_terrain(ptile, result);
+  } else if (ptile->terrain->irrigation_result) {
+    tile_change_terrain(ptile, ptile->terrain->irrigation_result);
   }
 }
 
@@ -266,17 +335,12 @@ static void tile_irrigate(struct tile *ptile)
 ****************************************************************************/
 static void tile_mine(struct tile *ptile)
 {
-  struct terrain *now, *result;
-  
-  now = ptile->terrain;
-  result = now->mining_result;
-  
-  if (now == result) {
+  if (ptile->terrain == ptile->terrain->mining_result) {
     tile_set_special(ptile, S_MINE);
     tile_clear_special(ptile, S_FARMLAND);
     tile_clear_special(ptile, S_IRRIGATION);
-  } else if (result != T_NONE) {
-    tile_change_terrain(ptile, result);
+  } else if (ptile->terrain->mining_result) {
+    tile_change_terrain(ptile, ptile->terrain->mining_result);
   }
 }
 
@@ -286,13 +350,8 @@ static void tile_mine(struct tile *ptile)
 ****************************************************************************/
 static void tile_transform(struct tile *ptile)
 {
-  struct terrain *now, *result;
-  
-  now = ptile->terrain;
-  result = now->transform_result;
-  
-  if (result != T_NONE) {
-    tile_change_terrain(ptile, result);
+  if (ptile->terrain->transform_result != T_NONE) {
+    tile_change_terrain(ptile, ptile->terrain->transform_result);
   }
 }
 
