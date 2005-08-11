@@ -243,7 +243,7 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 ****************************************************************************/
 void tile_add_special(struct tile *ptile, enum tile_special_type special)
 {
-  tile_add_special(ptile, special);
+  tile_set_special(ptile, special);
 
   switch (special) {
   case S_FARMLAND:
@@ -286,7 +286,7 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
 ****************************************************************************/
 void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 {
-  tile_remove_special(ptile, special);
+  tile_clear_special(ptile, special);
 
   switch (special) {
   case S_IRRIGATION:
