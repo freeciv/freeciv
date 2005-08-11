@@ -1705,6 +1705,10 @@ void report_settable_server_options(struct connection *dest, int which)
     if (!sset_is_changeable(i)) {
       continue;
     }
+    if (settings[i].to_client == SSET_SERVER_ONLY
+	&& dest->access_level != ALLOW_HACK) {
+      continue;
+    }
     s++;
   }
 
@@ -1721,6 +1725,10 @@ void report_settable_server_options(struct connection *dest, int which)
 
   for (s = 0, i = 0; settings[i].name; i++) {
     if (!sset_is_changeable(i)) {
+      continue;
+    }
+    if (settings[i].to_client == SSET_SERVER_ONLY
+	&& dest->access_level != ALLOW_HACK) {
       continue;
     }
     memset(&packet, 0, sizeof(packet));
