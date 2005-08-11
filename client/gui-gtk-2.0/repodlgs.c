@@ -1521,7 +1521,8 @@ static void create_settable_options_dialog(void)
       gtk_tooltips_set_tip(tips, ebox, buf, NULL);
     }
 
-    if (setting_class_is_changeable(settable_options[i].class)) {
+    if (setting_class_is_changeable(settable_options[i].class)
+	&& settable_options[i].is_visible) {
       double step, max, min;
 
       /* create the proper entry method depending on the type */
@@ -1567,17 +1568,21 @@ static void create_settable_options_dialog(void)
     } else {
       char buf[1024];
 
-      switch (settable_options[i].type) {
-      case SSET_BOOL:
-	my_snprintf(buf, sizeof(buf), "%s",
-		    settable_options[i].val != 0 ? _("true") : _("false"));
-	break;
-      case SSET_INT:
-	my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
-	break;
-      case SSET_STRING:
-	my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
-	break;
+      if (settable_options[i].is_visible) {
+	switch (settable_options[i].type) {
+	case SSET_BOOL:
+	  my_snprintf(buf, sizeof(buf), "%s",
+		      settable_options[i].val != 0 ? _("true") : _("false"));
+	  break;
+	case SSET_INT:
+	  my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
+	  break;
+	case SSET_STRING:
+	  my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
+	  break;
+	}
+      } else {
+	my_snprintf(buf, sizeof(buf), "%s", _("(hidden)"));
       }
       ent = gtk_label_new(buf);
     }

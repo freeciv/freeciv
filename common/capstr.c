@@ -83,7 +83,7 @@ const char * const our_capability = our_capability_internal;
  *     the stable branch for as long as possible.
  */
 /* FIXME: accidental future date - do not regress */
-#define CAPABILITY "+Freeciv.Devel.2005.Aug.12b"
+#define CAPABILITY "+Freeciv.Devel.2005.Aug.12c"
 
 void init_our_capability(void)
 {

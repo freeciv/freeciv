@@ -27607,7 +27607,7 @@ void lsend_packet_options_settable_control(struct conn_list *dest, const struct 
 
 #define cmp_packet_options_settable_100 cmp_const
 
-BV_DEFINE(packet_options_settable_100_fields, 13);
+BV_DEFINE(packet_options_settable_100_fields, 14);
 
 static struct packet_options_settable *receive_packet_options_settable_100(struct connection *pc, enum packet_type type)
 {
@@ -27664,7 +27664,8 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       real_packet->class = readin;
     }
   }
-  if (BV_ISSET(fields, 6)) {
+  real_packet->is_visible = BV_ISSET(fields, 6);
+  if (BV_ISSET(fields, 7)) {
     {
       int readin;
     
@@ -27672,7 +27673,7 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       real_packet->val = readin;
     }
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 8)) {
     {
       int readin;
     
@@ -27680,7 +27681,7 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       real_packet->default_val = readin;
     }
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 9)) {
     {
       int readin;
     
@@ -27688,7 +27689,7 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       real_packet->min = readin;
     }
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 10)) {
     {
       int readin;
     
@@ -27696,13 +27697,13 @@ static struct packet_options_settable *receive_packet_options_settable_100(struc
       real_packet->max = readin;
     }
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_string(&din, real_packet->strval, sizeof(real_packet->strval));
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 12)) {
     dio_get_string(&din, real_packet->default_strval, sizeof(real_packet->default_strval));
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 13)) {
     {
       int readin;
     
@@ -27768,33 +27769,37 @@ static int send_packet_options_settable_100(struct connection *pc, const struct 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (old->val != real_packet->val);
+  differ = (old->is_visible != real_packet->is_visible);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
+  if(packet->is_visible) {BV_SET(fields, 6);}
 
-  differ = (old->default_val != real_packet->default_val);
+  differ = (old->val != real_packet->val);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 7);}
 
-  differ = (old->min != real_packet->min);
+  differ = (old->default_val != real_packet->default_val);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 8);}
 
-  differ = (old->max != real_packet->max);
+  differ = (old->min != real_packet->min);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 9);}
 
-  differ = (strcmp(old->strval, real_packet->strval) != 0);
+  differ = (old->max != real_packet->max);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 10);}
 
-  differ = (strcmp(old->default_strval, real_packet->default_strval) != 0);
+  differ = (strcmp(old->strval, real_packet->strval) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 11);}
 
-  differ = (old->category != real_packet->category);
+  differ = (strcmp(old->default_strval, real_packet->default_strval) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
+
+  differ = (old->category != real_packet->category);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 13);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -27820,25 +27825,26 @@ static int send_packet_options_settable_100(struct connection *pc, const struct 
   if (BV_ISSET(fields, 5)) {
     dio_put_uint8(&dout, real_packet->class);
   }
-  if (BV_ISSET(fields, 6)) {
+  /* field 6 is folded into the header */
+  if (BV_ISSET(fields, 7)) {
     dio_put_sint32(&dout, real_packet->val);
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_sint32(&dout, real_packet->default_val);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_sint32(&dout, real_packet->min);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_sint32(&dout, real_packet->max);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_string(&dout, real_packet->strval);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_string(&dout, real_packet->default_strval);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_uint8(&dout, real_packet->category);
   }
 

@@ -117,6 +117,8 @@ sent to the client.
 *********************************************************************/
 static bool sset_is_to_client(int idx)
 {
+  assert(settings[idx].to_client == SSET_TO_CLIENT
+	 || settings[idx].to_client == SSET_SERVER_ONLY);
   return (settings[idx].to_client == SSET_TO_CLIENT);
 }
 
@@ -1613,35 +1615,41 @@ static void send_server_setting(struct conn_list *dest, int setting_id)
     dest = game.est_connections;
   }
 
-  memset(&packet, 0, sizeof(packet));
+  conn_list_iterate(dest, pconn) {
+    memset(&packet, 0, sizeof(packet));
 
-  packet.id = setting_id;
-  sz_strlcpy(packet.name, setting->name);
-  sz_strlcpy(packet.short_help, setting->short_help);
-  sz_strlcpy(packet.extra_help, setting->extra_help);
+    packet.id = setting_id;
+    sz_strlcpy(packet.name, setting->name);
+    sz_strlcpy(packet.short_help, setting->short_help);
+    sz_strlcpy(packet.extra_help, setting->extra_help);
 
-  packet.category = setting->category;
-  packet.type = setting->type;
-  packet.class = setting->sclass;
+    packet.category = setting->category;
+    packet.type = setting->type;
+    packet.class = setting->sclass;
+    packet.is_visible = (sset_is_to_client(setting_id)
+			 || pconn->access_level == ALLOW_HACK);
 
-  switch (setting->type) {
-  case SSET_STRING:
-    strcpy(packet.strval, setting->string_value);
-    strcpy(packet.default_strval, setting->string_default_value);
-    break;
-  case SSET_BOOL:
-    packet.val = *(setting->bool_value);
-    packet.default_val = setting->bool_default_value;
-    break;
-  case SSET_INT:
-    packet.min = setting->int_min_value;
-    packet.max = setting->int_max_value;
-    packet.val = *(setting->int_value);
-    packet.default_val = setting->int_default_value;
-    break;
-  }
+    if (packet.is_visible) {
+      switch (setting->type) {
+      case SSET_STRING:
+	strcpy(packet.strval, setting->string_value);
+	strcpy(packet.default_strval, setting->string_default_value);
+	break;
+      case SSET_BOOL:
+	packet.val = *(setting->bool_value);
+	packet.default_val = setting->bool_default_value;
+	break;
+      case SSET_INT:
+	packet.min = setting->int_min_value;
+	packet.max = setting->int_max_value;
+	packet.val = *(setting->int_value);
+	packet.default_val = setting->int_default_value;
+	break;
+      }
+    }
 
-  lsend_packet_options_settable(dest, &packet);
+    send_packet_options_settable(pconn, &packet);
+  } conn_list_iterate_end;
 }
 
 /****************************************************************************

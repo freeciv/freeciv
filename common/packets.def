@@ -1319,8 +1319,10 @@ PACKET_OPTIONS_SETTABLE=113;sc,lsend
   STRING name[MAX_LEN_NAME];
   STRING short_help[MAX_LEN_PACKET];
   STRING extra_help[MAX_LEN_PACKET];
+
   SSET_TYPE type;
   SSET_CLASS class;
+  BOOL is_visible;
 
   SINT32 val;					/* value for bool or int */
   SINT32 default_val;				/* default for bool or int */

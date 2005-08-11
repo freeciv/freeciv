@@ -22,9 +22,8 @@
  * server options; also determines whether clients can set them in principle.
  * Eg, not sent: seeds, saveturns, etc.
  */
-enum sset_to_client {
-  SSET_TO_CLIENT, SSET_SERVER_ONLY
-};
+#define SSET_TO_CLIENT TRUE
+#define SSET_SERVER_ONLY FALSE
 
 /* Categories allow options to be usefully organized when presented to the user
  */
@@ -57,7 +56,7 @@ extern const int OLEVELS_NUM;
 struct settings_s {
   const char *name;
   enum sset_class sclass;
-  enum sset_to_client to_client;
+  bool to_client;
 
   /*
    * Sould be less than 42 chars (?), or shorter if the values may

@@ -1010,6 +1010,7 @@ struct packet_options_settable {
   char extra_help[MAX_LEN_PACKET];
   enum sset_type type;
   enum sset_class class;
+  bool is_visible;
   int val;
   int default_val;
   int min;

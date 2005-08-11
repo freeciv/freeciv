@@ -56,6 +56,7 @@ struct options_settable {
   enum sset_type type;
   enum sset_class class;
   unsigned char category;
+  bool is_visible;
 
   int val;
   int default_val;

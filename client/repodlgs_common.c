@@ -273,6 +273,7 @@ void handle_options_settable(struct packet_options_settable *packet)
   settable_options[i].type = packet->type;
   settable_options[i].class = packet->class;
   settable_options[i].category = packet->category;
+  settable_options[i].is_visible = packet->is_visible;
 
   switch (settable_options[i].type) {
   case SSET_BOOL:
