@@ -3,8 +3,14 @@
 name=_("Korean")
 plural=_("?plural:Koreans")
 groups=_("Modern"), _("Medieval"), _("Asian")
-leader="T'aejong", "Kim Ir Sen", "Pak Dzonghyi", "Wang Gon"
-leader_sex="Male", "Male", "Male", "Male"
+legend=_("Go-Joseon, or Old Korea (2333 - 206 BC), was the first Korean \
+kingdom. According to legend, it was founded by Dangun in southern \
+Manchuria in the basins of the Liao and Taedong Rivers. Today the Korean \
+peninsula is divided into two states, North and South Korea as a result \
+of the stalemate after the Korean war in 1953.")
+leader="Kwanggaet'o", "Sŏndŏk", "Wang Gon", "T'aejong", "Sejong",
+ "Kim Il-sung", "Syngman Rhee", "Park Jung Hee"
+leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="korea"
 flag_alt = "-"
 city_style = "Asian"
@@ -16,10 +22,49 @@ init_government="Despotism"
 init_units=""
 wonder="Sun Tzu's War Academy"
 government="Democracy"
-civilwar_nations = "japanese"
+civilwar_nations = "japanese", "mongol"
+
+; /* <-- avoid gettext warnings
+;
+; South Korean names are written according to "Revised romanization"
+; spelling rules, while North Korean names uses "McCune-Reischauer."
+; They are the respective standards of the two countries.
+;
+; */ <-- avoid gettext warnings
 
 cities =
-  "Seoul", "Pyongyang", "Pusan", "Taegu", "Inchon", "Taejon",
-  "Wonsan", "Kosong", "Haeju", "Sunchon", "Kimchaek", "Najin",
-  "Ulsan", "Yosu", "Mokpo", "Pohang", "Masan", "Chinhae",
-  "Sonbong", "Songnim", "Sariwon", "Hamhung"
+ "Seoul (river)",
+ "P'yŏngyang (river)",
+ "Busan (ocean)",
+ "Daegu (hills, river)",
+ "Daejeon (!ocean)",
+ "Hamhŭng (river)",
+ "Wŏnsan (mountains, ocean)",
+ "Incheon (ocean)",
+ "Ch'ŏngjin (ocean)",
+ "Gwangju (river)",
+ "Suncheon (!ocean)",
+ "Kimch'aek (ocean)",
+ "Najin (ocean)",
+ "Ulsan (ocean)",
+ "Yeosu (!ocean)",
+ "Mokpo (ocean)",
+ "Pohang (ocean)",
+ "Masan (ocean)",
+ "Jinhae (ocean)",
+ "Sŏnbong (ocean)",
+ "Songnim (river)",
+ "Sariwŏn (!ocean)",
+ "Jeju (ocean)",
+ "Kosŏng (ocean)",
+ "Haeju (ocean)",
+ "Jeonju (!ocean)",
+ "Cheongju (!ocean)",
+ "Changwon (!ocean)",
+ "Suwon (!ocean)",
+ "Anyang (!ocean)",
+ "Seongnam (!ocean)",
+ "Pocheon (!ocean)",
+ "Kaesŏng (!ocean)",
+ "Namp'o (ocean)",
+ "Kanggye (!ocean)"
