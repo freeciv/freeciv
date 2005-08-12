@@ -110,8 +110,7 @@ static struct MenuEntry game_menu_entries[]={
     { { N_("Message Options"), 0      },      "", MENU_GAME_MSG_OPTIONS, 0 },
     { { N_("Save Settings"), 0        },      "", MENU_GAME_SAVE_SETTINGS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
-    { { N_("Server Opt initial"), 0   },      "", MENU_GAME_SERVER_OPTIONS1, 0 },
-    { { N_("Server Opt ongoing"), 0   },      "", MENU_GAME_SERVER_OPTIONS2, 0 },
+    { { N_("Server Options"), 0       },      "", MENU_GAME_SERVER_OPTIONS, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
     { { N_("Export Log"), 0           },      "", MENU_GAME_OUTPUT_LOG, 0 },
     { { N_("Clear Log"), 0            },      "", MENU_GAME_CLEAR_OUTPUT, 0 },
@@ -277,8 +276,7 @@ void update_menus(void)
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 0);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 0);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SAVE_SETTINGS, 0);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS1, 1);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS2, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OUTPUT_LOG, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_CLEAR_OUTPUT, 1);
   }
@@ -353,8 +351,7 @@ void update_menus(void)
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OPTIONS, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_MSG_OPTIONS, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_SAVE_SETTINGS, 1);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS1, 1);
-    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS2, 1);
+    menu_entry_sensitive(MENU_GAME, MENU_GAME_SERVER_OPTIONS, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_OUTPUT_LOG, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_DISCONNECT, 1);
@@ -515,11 +512,8 @@ static void game_menu_callback(Widget w, XtPointer client_data,
   case MENU_GAME_SAVE_SETTINGS:
     save_options();
     break;
-  case MENU_GAME_SERVER_OPTIONS1:
-    send_report_request(REPORT_SERVER_OPTIONS1);
-    break;
-  case MENU_GAME_SERVER_OPTIONS2:
-    send_report_request(REPORT_SERVER_OPTIONS2);
+  case MENU_GAME_SERVER_OPTIONS:
+    popup_settable_options_dialog();
     break;
   case MENU_GAME_OUTPUT_LOG:
     log_output_window();

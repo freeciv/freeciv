@@ -318,13 +318,12 @@ void city_list_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret=XawListShowCurrent(city_list);
   struct city *pcity;
-  struct city_production production;
 
   if(ret->list_index!=XAW_LIST_NONE && 
      (pcity=cities_in_list[ret->list_index])) {
-    cid cids[U_LAST + B_LAST];
-    struct item items[U_LAST + B_LAST];
-    int cids_used = 0;
+    struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+    struct item items[MAX_NUM_PRODUCTION_TARGETS];
+    int targets_used = 0;
     size_t i;
 
     XtSetSensitive(city_change_command, TRUE);
@@ -339,35 +338,33 @@ void city_list_callback(Widget w, XtPointer client_data,
 				        city_change_command,
 				        NULL);
 
-    impr_type_iterate(i) {
-      if (can_build_improvement(pcity, i)) {
-	production.is_unit = false;
-	production.value = i;
-	cids[cids_used] = cid_encode(production);
-	cids_used++;
+    impr_type_iterate(impr) {
+      if (can_build_improvement(pcity, impr)) {
+	targets[targets_used].is_unit = false;
+	targets[targets_used].value = impr;
+	targets_used++;
       }
     } impr_type_iterate_end;
 
-    unit_type_iterate(i) {
-      if (can_build_unit(pcity, i)) {
-	production.is_unit = true;
-	production.value = i->index;
-	cids[cids_used] = cid_encode(production);
-	cids_used++;
+    unit_type_iterate(punittype) {
+      if (can_build_unit(pcity, punittype)) {
+	targets[targets_used].is_unit = true;
+	targets[targets_used].value = punittype->index;
+	targets_used++;
       }
     } unit_type_iterate_end;
 
-    name_and_sort_items(cids, cids_used, items, TRUE, NULL);
+    name_and_sort_items(targets, targets_used, items, TRUE, NULL);
     
-    for (i = 0; i < cids_used; i++) {
+    for (i = 0; i < targets_used; i++) {
       Widget entry =
 	  XtVaCreateManagedWidget(items[i].descr, smeBSBObjectClass,
 				  city_popupmenu, NULL);
       XtAddCallback(entry, XtNcallback, city_change_callback,
-		    INT_TO_XTPOINTER(items[i].cid));
+		    INT_TO_XTPOINTER(cid_encode(items[i].item)));
     }
 
-    if (cids_used == 0)
+    if (targets_used == 0)
       XtSetSensitive(city_change_command, FALSE);
   } else {
     XtSetSensitive(city_change_command, FALSE);
@@ -1064,8 +1061,8 @@ static void chgall_change_command_callback (Widget w, XtPointer client_data,
       return;
     }
 
-  client_change_all(state->fr_cids[state->fr_index],
-		    state->to_cids[state->to_index]);
+  client_change_all(cid_decode(state->fr_cids[state->fr_index]),
+		    cid_decode(state->to_cids[state->to_index]));
 
   XtDestroyWidget (state->w.shell);
 }
@@ -1079,23 +1076,23 @@ static void chgall_refresh_command_callback(Widget w,
 					    XtPointer call_data)
 {
   struct chgall_data *state = (struct chgall_data *) client_data;
-  cid cids[U_LAST + B_LAST];
-  struct item items[U_LAST + B_LAST];
+  struct city_production targets[MAX_NUM_PRODUCTION_TARGETS];
+  struct item items[MAX_NUM_PRODUCTION_TARGETS];
   int i;
 
-  state->fr_count = collect_currently_building_targets(cids);
-  name_and_sort_items(cids, state->fr_count, items, FALSE, NULL);
+  state->fr_count = collect_currently_building_targets(targets);
+  name_and_sort_items(targets, state->fr_count, items, false, NULL);
   for (i = 0; i < state->fr_count; i++) {
     state->fr_list[i] = mystrdup(items[i].descr);
-    state->fr_cids[i] = items[i].cid;
+    state->fr_cids[i] = cid_encode(items[i].item);
   }
   XawListChange(state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
 
-  state->to_count = collect_buildable_targets(cids);
-  name_and_sort_items(cids, state->to_count, items, TRUE, NULL);
+  state->to_count = collect_buildable_targets(targets);
+  name_and_sort_items(targets, state->to_count, items, TRUE, NULL);
   for (i = 0; i < state->to_count; i++) {
     state->to_list[i] = mystrdup(items[i].descr);
-    state->to_cids[i] = items[i].cid;
+    state->to_cids[i] = cid_encode(items[i].item);
   }
   XawListChange(state->w.to, state->to_list, state->to_count, 0, FALSE);
 
