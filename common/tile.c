@@ -219,9 +219,9 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
     tile_clear_infrastructure(ptile);
     tile_clear_dirtiness(ptile);
 
-    /* FIXME: When rest of code can handle
-     * rivers in oceans, then maybe we can leave it in place. */
+    /* The code can't handle these specials in ocean. */
     tile_clear_special(ptile, S_RIVER);
+    tile_clear_special(ptile, S_HUT);
   }
 
   /* Clear mining/irrigation if resulting terrain type cannot support
