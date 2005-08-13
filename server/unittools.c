@@ -73,8 +73,6 @@ static void update_unit_activity(struct unit *punit);
 static void wakeup_neighbor_sentries(struct unit *punit);
 static void do_upgrade_effects(struct player *pplayer);
 
-static void sentry_transported_idle_units(struct unit *ptrans);
-
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
 static int hp_gain_coord(struct unit *punit);
 
@@ -622,7 +620,6 @@ static void update_unit_activity(struct unit *punit)
   int id = punit->id;
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
-  enum ocean_land_change solvency = OLC_NONE;
   struct tile *ptile = punit->tile;
   bool check_adjacent_units = FALSE;
   
@@ -779,7 +776,7 @@ static void update_unit_activity(struct unit *punit)
       struct terrain *old = tile_get_terrain(ptile);
 
       tile_apply_activity(ptile, ACTIVITY_IRRIGATE);
-      solvency = check_terrain_ocean_land_change(ptile, old);
+      check_terrain_change(ptile, old);
       unit_activity_done = TRUE;
     }
   }
@@ -807,7 +804,7 @@ static void update_unit_activity(struct unit *punit)
       struct terrain *old = tile_get_terrain(ptile);
 
       tile_apply_activity(ptile, ACTIVITY_MINE);
-      solvency = check_terrain_ocean_land_change(ptile, old);
+      check_terrain_change(ptile, old);
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
     }
@@ -819,7 +816,7 @@ static void update_unit_activity(struct unit *punit)
       struct terrain *old = tile_get_terrain(ptile);
 
       tile_apply_activity(ptile, ACTIVITY_TRANSFORM);
-      solvency = check_terrain_ocean_land_change(ptile, old);
+      check_terrain_change(ptile, old);
       unit_activity_done = TRUE;
       check_adjacent_units = TRUE;
     }
@@ -880,144 +877,6 @@ UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
       handle_unit_activity_request(punit2, ACTIVITY_IDLE);
     }
   } unit_list_iterate_end;
-
-  /* Any units that landed in water or boats that landed on land as a
-     result of settlers changing terrain must be moved back into their
-     right environment.
-     We advance the unit_list iterator passed into this routine from
-     update_unit_activities() if we delete the unit it points to.
-     We go to START each time we moved a unit to avoid problems with the
-     tile unit list getting corrupted.
-
-     FIXME:  We shouldn't do this at all!  There seems to be another
-     bug which is expressed when units wind up on the "wrong" terrain;
-     this is the bug that should be fixed.  Also, introduction of the
-     "amphibious" movement category would allow the definition of units
-     that can "safely" change land<->ocean -- in which case all others
-     would (here) be summarily disbanded (suicide to accomplish their
-     task, for the greater good :).   --jjm
-  */
- START:
-  switch (solvency) {
-  case OLC_NONE:
-    break; /* nothing */
-
-  case OLC_LAND_TO_OCEAN:
-    unit_list_iterate(ptile->units, punit2) {
-      if (is_ground_unit(punit2)) {
-	/* look for nearby land */
-	adjc_iterate(ptile, ptile2) {
-	  if (!is_ocean(ptile2->terrain)
-	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
-	    if (get_transporter_capacity(punit2) > 0)
-	      sentry_transported_idle_units(punit2);
-	    freelog(LOG_VERBOSE,
-		    "Moved %s's %s due to changing land to sea at (%d, %d).",
-		    unit_owner(punit2)->name, unit_name(punit2->type),
-		    punit2->tile->x, punit2->tile->y);
-	    notify_player_ex(unit_owner(punit2),
-			     punit2->tile, E_UNIT_RELOCATED,
-			     _("Moved your %s due to changing"
-			       " land to sea."), unit_name(punit2->type));
-	    (void) move_unit(punit2, ptile2, 0);
-	    if (punit2->activity == ACTIVITY_SENTRY)
-	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	    goto START;
-	  }
-	} adjc_iterate_end;
-	/* look for nearby transport */
-	adjc_iterate(ptile, ptile2) {
-	  if (is_ocean(ptile2->terrain)
-	      && ground_unit_transporter_capacity(ptile2,
-						  unit_owner(punit2)) > 0) {
-	    if (get_transporter_capacity(punit2) > 0)
-	      sentry_transported_idle_units(punit2);
-	    freelog(LOG_VERBOSE,
-		    "Embarked %s's %s due to changing land to sea at (%d, %d).",
-		    unit_owner(punit2)->name, unit_name(punit2->type),
-		    punit2->tile->x, punit2->tile->x);
-	    notify_player_ex(unit_owner(punit2),
-			     punit2->tile, E_UNIT_RELOCATED,
-			     _("Embarked your %s due to changing"
-			       " land to sea."), unit_name(punit2->type));
-	    (void) move_unit(punit2, ptile2, 0);
-	    if (punit2->activity == ACTIVITY_SENTRY)
-	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	    goto START;
-	  }
-	} adjc_iterate_end;
-	/* if we get here we could not move punit2 */
-	freelog(LOG_VERBOSE,
-		"Disbanded %s's %s due to changing land to sea at (%d, %d).",
-		unit_owner(punit2)->name, unit_name(punit2->type),
-		punit2->tile->x, punit2->tile->y);
-	notify_player_ex(unit_owner(punit2),
-			 punit2->tile, E_UNIT_LOST,
-			 _("Disbanded your %s due to changing"
-			   " land to sea."), unit_name(punit2->type));
-	wipe_unit_spec_safe(punit2, FALSE);
-	goto START;
-      }
-    } unit_list_iterate_end;
-    break;
-  case OLC_OCEAN_TO_LAND:
-    unit_list_iterate(ptile->units, punit2) {
-      if (is_sailing_unit(punit2)) {
-	/* look for nearby water */
-	adjc_iterate(ptile, ptile2) {
-	  if (is_ocean(ptile2->terrain)
-	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
-	    if (get_transporter_capacity(punit2) > 0)
-	      sentry_transported_idle_units(punit2);
-	    freelog(LOG_VERBOSE,
-		    "Moved %s's %s due to changing sea to land at (%d, %d).",
-		    unit_owner(punit2)->name, unit_name(punit2->type),
-		    punit2->tile->x, punit2->tile->y);
-	    notify_player_ex(unit_owner(punit2),
-			     punit2->tile, E_UNIT_RELOCATED,
-			     _("Moved your %s due to changing"
-			       " sea to land."), unit_name(punit2->type));
-	    (void) move_unit(punit2, ptile2, 0);
-	    if (punit2->activity == ACTIVITY_SENTRY)
-	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	    goto START;
-	  }
-	} adjc_iterate_end;
-	/* look for nearby port */
-	adjc_iterate(ptile, ptile2) {
-	  if (is_allied_city_tile(ptile2, unit_owner(punit2))
-	      && !is_non_allied_unit_tile(ptile2, unit_owner(punit2))) {
-	    if (get_transporter_capacity(punit2) > 0)
-	      sentry_transported_idle_units(punit2);
-	    freelog(LOG_VERBOSE,
-		    "Docked %s's %s due to changing sea to land at (%d, %d).",
-		    unit_owner(punit2)->name, unit_name(punit2->type),
-		    punit2->tile->x, punit2->tile->y);
-	    notify_player_ex(unit_owner(punit2),
-			     punit2->tile, E_UNIT_RELOCATED,
-			     _("Docked your %s due to changing"
-			       " sea to land."), unit_name(punit2->type));
-	    (void) move_unit(punit2, ptile2, 0);
-	    if (punit2->activity == ACTIVITY_SENTRY)
-	      handle_unit_activity_request(punit2, ACTIVITY_IDLE);
-	    goto START;
-	  }
-	} adjc_iterate_end;
-	/* if we get here we could not move punit2 */
-	freelog(LOG_VERBOSE,
-		"Disbanded %s's %s due to changing sea to land at (%d, %d).",
-		unit_owner(punit2)->name, unit_name(punit2->type),
-		punit2->tile->x, punit2->tile->y);
-	notify_player_ex(unit_owner(punit2),
-			 punit2->tile, E_UNIT_LOST,
-			 _("Disbanded your %s due to changing"
-			   " sea to land."), unit_name(punit2->type));
-	wipe_unit_spec_safe(punit2, FALSE);
-	goto START;
-      }
-    } unit_list_iterate_end;
-    break;
-  }
 }
 
 /**************************************************************************
@@ -2056,25 +1915,6 @@ void send_all_known_units(struct conn_list *dest)
   conn_list_iterate_end;
   conn_list_do_unbuffer(dest);
   flush_packets();
-}
-
-
-/**************************************************************************
-For all units which are transported by the given unit and that are
-currently idle, sentry them.
-**************************************************************************/
-static void sentry_transported_idle_units(struct unit *ptrans)
-{
-  struct tile *ptile = ptrans->tile;
-
-  unit_list_iterate(ptile->units, pcargo) {
-    if (pcargo->transported_by == ptrans->id
-	&& pcargo->id != ptrans->id
-	&& pcargo->activity == ACTIVITY_IDLE) {
-      pcargo->activity = ACTIVITY_SENTRY;
-      send_unit_info(unit_owner(pcargo), pcargo);
-    }
-  } unit_list_iterate_end;
 }
 
 /**************************************************************************

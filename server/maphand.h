@@ -20,8 +20,6 @@
 
 #include "hand_gen.h"
 
-enum ocean_land_change { OLC_NONE, OLC_OCEAN_TO_LAND, OLC_LAND_TO_OCEAN };
-
 struct section_file;
 struct conn_list;
 
@@ -104,8 +102,7 @@ void map_update_borders_city_change(struct city *pcity);
 void map_update_borders_landmass_change(struct tile *ptile);
 void map_calculate_borders(void);
 
-enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
-                                              struct terrain *oldter);
+void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
 

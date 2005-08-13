@@ -17,16 +17,18 @@
 
 #include <assert.h>
 
-#include "events.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "nation.h"
-#include "packets.h"
 #include "rand.h"
 #include "support.h"
+
+#include "events.h"
+#include "game.h"
+#include "map.h"
+#include "movement.h"
+#include "nation.h"
+#include "packets.h"
 #include "unit.h"
 
 #include "citytools.h"
@@ -233,6 +235,7 @@ void global_warming(int effect)
     if (new != T_NONE && old != new) {
       effect--;
       tile_change_terrain(ptile, new);
+      check_terrain_change(ptile, old);
       update_tile_knowledge(ptile);
       unit_list_iterate(ptile->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
@@ -275,6 +278,7 @@ void nuclear_winter(int effect)
     if (new != T_NONE && old != new) {
       effect--;
       tile_change_terrain(ptile, new);
+      check_terrain_change(ptile, old);
       update_tile_knowledge(ptile);
       unit_list_iterate(ptile->units, punit) {
 	if (!can_unit_continue_current_activity(punit)) {
@@ -1517,32 +1521,72 @@ static void ocean_to_land_fix_rivers(struct tile *ptile)
   } cardinal_adjc_iterate_end;
 }
 
-/**************************************************************************
-  Checks for terrain change between ocean and land.  Handles side-effects.
-  (Should be called after any potential ocean/land terrain changes.)
-  Also, returns an enum ocean_land_change, describing the change, if any.
+/****************************************************************************
+  A helper function for check_terrain_change that moves units off of invalid
+  terrain after it's been changed.
+****************************************************************************/
+static void bounce_units_on_terrain_change(struct tile *ptile)
+{
+  unit_list_iterate_safe(ptile->units, punit) {
+    if (punit->tile == ptile
+	&& punit->transported_by == -1
+	&& !can_unit_exist_at_tile(punit, ptile)) {
+      /* look for a nearby safe tile */
+      adjc_iterate(ptile, ptile2) {
+	if (can_unit_exist_at_tile(punit, ptile2)
+	    && !is_non_allied_unit_tile(ptile2, unit_owner(punit))) {
+	  freelog(LOG_VERBOSE,
+		  "Moved %s's %s due to changing terrain at %d,%d.",
+		  unit_owner(punit)->name, unit_name(punit->type),
+		  punit->tile->x, punit->tile->y);
+	  notify_player_ex(unit_owner(punit),
+			   punit->tile, E_UNIT_RELOCATED,
+			   _("Moved your %s due to changing terrain."),
+			   unit_name(punit->type));
+	  (void) move_unit(punit, ptile2, 0);
+	  if (punit->activity == ACTIVITY_SENTRY) {
+	    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+	  }
+	  break;
+	}
+      } adjc_iterate_end;
+      if (punit->tile == ptile) {
+	/* if we get here we could not move punit */
+	freelog(LOG_VERBOSE,
+		"Disbanded %s's %s due to changing land to sea at (%d, %d).",
+		unit_owner(punit)->name, unit_name(punit->type),
+		punit->tile->x, punit->tile->y);
+	notify_player_ex(unit_owner(punit),
+			 punit->tile, E_UNIT_LOST,
+			 _("Disbanded your %s due to changing terrain."),
+			 unit_name(punit->type));
+	wipe_unit_spec_safe(punit, FALSE);
+      }
+    }
+  } unit_list_iterate_safe_end;
+}
 
-  if we did a land change, we try to avoid reassigning
-  continent numbers.
-**************************************************************************/
-enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
-                                                struct terrain *oldter)
+/****************************************************************************
+  Handles global side effects for a terrain change.  Call this in the
+  server immediately after calling tile_change_terrain.
+****************************************************************************/
+void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 {
   struct terrain *newter = tile_get_terrain(ptile);
-  enum ocean_land_change change_type = OLC_NONE;
+  bool ocean_toggled = FALSE;
 
   if (is_ocean(oldter) && !is_ocean(newter)) {
     /* ocean to land ... */
     ocean_to_land_fix_rivers(ptile);
     city_landlocked_sell_coastal_improvements(ptile);
-
-    change_type = OLC_OCEAN_TO_LAND;
+    ocean_toggled = TRUE;
   } else if (!is_ocean(oldter) && is_ocean(newter)) {
     /* land to ocean ... */
-    change_type = OLC_LAND_TO_OCEAN;
+    ocean_toggled = TRUE;
   }
 
-  if (change_type != OLC_NONE) {
+  if (ocean_toggled) {
+    bounce_units_on_terrain_change(ptile);
     assign_continent_numbers(FALSE);
 
     /* New continent numbers for all tiles to all players */
@@ -1550,8 +1594,6 @@ enum ocean_land_change check_terrain_ocean_land_change(struct tile *ptile,
     
     map_update_borders_landmass_change(ptile);
   }
-
-  return change_type;
 }
 
 /*************************************************************************
