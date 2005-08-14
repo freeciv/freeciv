@@ -1051,7 +1051,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       punit->activity = packet_unit->activity;
       punit->activity_target = packet_unit->activity_target;
 
-      punit->occupy = packet_unit->occupy;
       if (punit->occupy != packet_unit->occupy
 	  && focus_unit && focus_unit->tile == packet_unit->tile) {
 	/* Special case: (un)loading a unit in a transporter on the
@@ -1059,6 +1058,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 	 * loaded.  Thus the orders->(un)load menu item needs updating. */
 	need_update_menus = TRUE;
       }
+      punit->occupy = packet_unit->occupy;
       punit->transported_by = packet_unit->transported_by;
 
       punit->has_orders = packet_unit->has_orders;
