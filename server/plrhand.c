@@ -285,22 +285,32 @@ static void finish_revolution(struct player *pplayer)
 }
 
 /**************************************************************************
-  Start a revolution.  This can be called even for AI players; it will
-  call finish_revolution immediately if no revolution is needed.
+  Called by the client or AI to change government.
 **************************************************************************/
-static void start_revolution(struct player *pplayer)
+void handle_player_change_government(struct player *pplayer, int government)
 {
   int turns;
 
+  if (government < 0 || government >= game.control.government_count
+      || !can_change_to_government(pplayer, government)) {
+    return;
+  }
+
+  freelog(LOG_DEBUG,
+	  "Government changed for %s.  Target government is %s; "
+	  "old %s.  Revofin %d, Turn %d.",
+	  pplayer->name,
+	  get_government_name(government),
+	  get_government_name(pplayer->government),
+	  pplayer->revolution_finishes, game.info.turn);
+
   /* Set revolution_finishes value. */
   if (pplayer->revolution_finishes > 0) {
-    /* Player already has an active revolution.  Note that on the turn
-     * the revolution finishes the government may be changed out of
-     * anarchy but the revolution counter is not reset until the end
-     * of the turn. */
-    assert(pplayer->revolution_finishes >= game.info.turn);
-    assert(pplayer->revolution_finishes == game.info.turn
-	   || pplayer->government == game.info.government_when_anarchy);
+    /* Player already has an active revolution.  Note that the finish time
+     * may be in the future (we're waiting for it to finish), the current
+     * turn (it just finished - but isn't reset until the end of the turn)
+     * or even in the past (if the player is in anarchy and hasn't chosen
+     * a government). */
     turns = pplayer->revolution_finishes - game.info.turn;
   } else if ((pplayer->ai.control && !ai_handicap(pplayer, H_REVOLUTION))
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
@@ -313,6 +323,7 @@ static void start_revolution(struct player *pplayer)
   }
 
   pplayer->government = game.info.government_when_anarchy;
+  pplayer->target_government = government;
   pplayer->revolution_finishes = game.info.turn + turns;
 
   freelog(LOG_DEBUG,
@@ -320,53 +331,35 @@ static void start_revolution(struct player *pplayer)
 	  "Revofin %d (%d).",
 	  pplayer->name, get_government_name(pplayer->target_government),
 	  pplayer->revolution_finishes, game.info.turn);
-  if (turns > 0) {
+
+  /* Now see if the revolution is instantaneous. */
+  if (turns <= 0
+      && pplayer->target_government != game.info.government_when_anarchy) {
+    finish_revolution(pplayer);
+    return;
+  } else if (turns > 0) {
     notify_player_ex(pplayer, NULL, E_REVOLT_START,
 		     /* TRANS: this is a message event so don't make it
 		      * too long. */
 		     PL_("The %s have incited a revolt! "
-			 "%d turn of anarchy will ensue!",
+			 "%d turn of anarchy will ensue! "
+			 "Target government is %s.",
 			 "The %s have incited a revolt! "
-			 "%d turns of anarchy will ensue!",
+			 "%d turns of anarchy will ensue! "
+			 "Target government is %s.",
 			 turns),
-		     get_nation_name_plural(pplayer->nation), turns);
+		     get_nation_name_plural(pplayer->nation), turns,
+		     get_government_name(pplayer->target_government));
+  } else {
+    assert(pplayer->target_government == game.info.government_when_anarchy);
+    notify_player_ex(pplayer, NULL, E_REVOLT_START,
+		     _("Revolution: returning to anarchy."));
   }
   gamelog(GAMELOG_REVOLT, pplayer);
-
-  /* Now see if the revolution is instantaneous. */
-  if (pplayer->revolution_finishes <= game.info.turn
-      && pplayer->target_government != game.info.government_when_anarchy) {
-    finish_revolution(pplayer);
-    return;
-  }
 
   check_player_government_rates(pplayer);
   global_city_refresh(pplayer);
   send_player_info(pplayer, pplayer);
-}
-
-/**************************************************************************
-  Called by the client or AI to change government.
-**************************************************************************/
-void handle_player_change_government(struct player *pplayer, int government)
-{
-  if (government < 0 || government >= game.control.government_count
-      || !can_change_to_government(pplayer, government)) {
-    return;
-  }
-
-  pplayer->target_government = government;
-
-  freelog(LOG_DEBUG,
-	  "Government changed for %s.  Target government is %s; "
-	  "old %s.  Revofin %d, Turn %d.",
-	  pplayer->name,
-	  get_government_name(pplayer->target_government),
-	  get_government_name(pplayer->government),
-	  pplayer->revolution_finishes, game.info.turn);
-
-  /* Start or continue a revolution. */
-  start_revolution(pplayer);
 
   freelog(LOG_DEBUG,
 	  "Government change complete for %s.  Target government is %s; "
