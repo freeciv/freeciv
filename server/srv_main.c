@@ -110,7 +110,6 @@
 
 
 static void end_turn(void);
-static void save_game_auto(const char *save_reason);
 static void announce_player(struct player *pplayer);
 static void srv_loop(void);
 
@@ -775,7 +774,7 @@ void save_game(char *orig_filename, const char *save_reason)
 /**************************************************************************
 Save game with autosave filename, and call gamelog_save().
 **************************************************************************/
-static void save_game_auto(const char *save_reason)
+void save_game_auto(const char *save_reason)
 {
   char filename[512];
 
@@ -1622,6 +1621,10 @@ static void main_loop(void)
       /* After sniff, re-zero the timer: (read-out above on next loop) */
       clear_timer_start(eot_timer);
 
+      if (server_state == GAME_OVER_STATE) {
+	break;
+      }
+
       conn_list_do_buffer(game.game_connections);
 
       sanity_check();
@@ -1634,6 +1637,9 @@ static void main_loop(void)
       end_phase();
 
       conn_list_do_unbuffer(game.game_connections);
+    }
+    if (server_state == GAME_OVER_STATE) {
+      break;
     }
     end_turn();
     freelog(LOG_DEBUG, "Sendinfotometaserver");
@@ -1717,7 +1723,10 @@ void srv_main(void)
     notify_player(NULL, _("The game is over..."));
     gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
-    if (game.info.save_nturns > 0) {
+    if (game.info.save_nturns > 0
+	&& conn_list_size(game.est_connections) > 0) {
+      /* Save game on game-over, but not when the gameover was caused by
+       * the -q parameter. */
       save_game_auto("Game over");
     }
     gamelog(GAMELOG_END);

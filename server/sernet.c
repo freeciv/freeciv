@@ -467,6 +467,7 @@ int sniff_packets(void)
       if (conn_list_size(game.est_connections) == 0) {
 	if (last_noplayers != 0) {
 	  if (time(NULL) > last_noplayers + srvarg.quitidle) {
+	    save_game_auto("Lost all connections");
 	    set_meta_message_string("restarting for lack of players");
 	    freelog(LOG_NORMAL, get_meta_message_string());
 	    (void) send_server_info_to_metaserver(META_INFO);
@@ -477,6 +478,11 @@ int sniff_packets(void)
               lost_connection_to_client(pconn);
               close_connection(pconn);
             } conn_list_iterate_end;
+
+	    if (srvarg.exit_on_end) {
+	      /* No need for anything more; just quit. */
+	      server_quit();
+	    }
 	  }
 	} else {
           char buf[256];
