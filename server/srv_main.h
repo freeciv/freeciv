@@ -56,6 +56,8 @@ void srv_init(void);
 void srv_main(void);
 void server_quit(void);
 
+void save_game_auto(void);
+
 bool handle_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);
 void save_game(char *orig_filename);

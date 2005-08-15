@@ -112,7 +112,6 @@ static void before_end_year(void);
 static void end_turn(void);
 static void ai_start_turn(void);
 static bool is_game_over(void);
-static void save_game_auto(void);
 static void generate_ai_players(void);
 static void mark_nation_as_used(Nation_Type_id nation);
 static void announce_ai_player(struct player *pplayer);
@@ -754,7 +753,7 @@ void save_game(char *orig_filename)
 /**************************************************************************
 Save game with autosave filename, and call gamelog_save().
 **************************************************************************/
-static void save_game_auto(void)
+void save_game_auto(void)
 {
   char filename[512];
 
