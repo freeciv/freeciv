@@ -50,7 +50,7 @@ the extinction of all other civilizations.\
   Present administrators: \
 "), "\
              Anthony J. Stuckey  - astuckey@imsa.edu\n\
-             Raimar Falke        - rf13@inf.tu-dresden.de\n\
+             Raimar Falke        - rfalke@freeciv.org\n\
              Mike Kaufman        - kaufman@orion.physics.wisc.edu\n\
              Per I. Mathisen     - per@leftist.net\
 ", _("\

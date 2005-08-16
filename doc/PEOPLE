@@ -16,7 +16,7 @@ contributions to the Freeciv project.
   Present administrators:
 
      Tony Stuckey <astuckey@imsa.edu> (since Jul 1999 [from 1.8.1])
-     Raimar Falke <rf13@inf.tu-dresden.de> (since Aug 2001 [from 1.12.0])
+     Raimar Falke <rfalke@freeciv.org> (since Aug 2001 [from 1.12.0])
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt> (since August 2001 [from 1.12.0])
      Mike Kaufman <kaufman@orion.physics.wisc.edu> (since Dec 2001 [from 1.12.0])
      Per I. Mathisen <per@leftist.net> (since April 2002 [from 1.12.0])
@@ -124,7 +124,7 @@ contributions to the Freeciv project.
      Per I. Mathisen <per@leftist.net> (co-admin, AI cleanup, server cleanup)
      Petr Baudis <pasky@pasky.ji.cz> (AI cleanup)
      Raahul Kumar <raahul_da_man@yahoo.com> (ruleset cleanup)
-     Raimar Falke <rf13@inf.tu-dresden.de> (co-admin, dataio, network thaw/freeze, code cleanup)
+     Raimar Falke <rfalke@freeciv.org> (co-admin, dataio, network thaw/freeze, code cleanup)
      Reinier Post <reinpost@win.tue.nl> (server command spy, fix command)
      Ross W. Wetmore <rwetmore@sympatico.ca> (AI cleanup)
      Sami Liedes (fix)
@@ -136,7 +136,7 @@ contributions to the Freeciv project.
 
   Coders since 1.12.0 release:
 
-     Raimar Falke <rf13@inf.tu-dresden.de>
+     Raimar Falke <rfalke@freeciv.org>
   (co-admin, nation limit, code cleanup, CMA, events
   generalisation, bools, gettext fixes, tech and trade
   cleanup, agents)
@@ -233,7 +233,7 @@ contributions to the Freeciv project.
      Kero van Gelder <kero@ipc3799cba.dial.wxs.nl>
   (patches, goto improvement)
      Chris Chittleborough <cchittleborough@yahoo.com.au> (patch)
-     Raimar Falke <rf13@inf.tu-dresden.de> (patch)
+     Raimar Falke <rfalke@freeciv.org> (patch)
      Daniel M Church <dchurch@crossbreed.mbhs.edu> (layer view)
      Joona Kiiski <joona.kiiski@iki.fi> (patches, production fixes)
      Arien Malec <arien_malec@yahoo.com> (patches)
@@ -346,7 +346,7 @@ contributions to the Freeciv project.
      Anders Wegge Jakobsen <wegge@wegge.dk> (bugfix 1.11.0, bugfix 1.10.0)
      Cameron Morland <cjmorlan@uwaterloo.ca> (land/ocean xfm 1.11.0)
      Moses Lei <mlei6@mtmis.com> (patch 1.11.0)
-     Raimar Falke <rf13@inf.tu-dresden.de> (patches 1.11.0)
+     Raimar Falke <rfalke@freeciv.org> (patches 1.11.0)
      Anthony J. Stuckey <stuckey@jaka.ece.uiuc.edu>
   (co-admin 1.11.0-1.8.1, bugfixes 1.11.0, AI diplomats 1.10.0,
   AI spacerace 1.9.0, admin help 1.8.1, patches 1.8.x, 1.7.2, 1.7.1)
