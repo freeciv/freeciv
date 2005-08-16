@@ -416,6 +416,43 @@ const char *science_dialog_text(void)
 }
 
 /****************************************************************************
+  Get the short science-target text.  This is usually shown directly in
+  the progress bar.
+
+     5/28 - 3 turns
+
+  The "percent" value, if given, will be set to the completion percentage
+  of the research target (actually it's a [0,1] scale not a percent).
+****************************************************************************/
+const char *get_science_target_text(double *percent)
+{
+  struct player_research *research = get_player_research(game.player_ptr);
+  static struct astring str = ASTRING_INIT;
+
+  astr_clear(&str);
+  if (research->researching == A_UNSET) {
+    astr_add(&str, _("%d/- (never)"), research->bulbs_researched);
+    if (percent) {
+      *percent = 0.0;
+    }
+  } else {
+    int total = total_bulbs_required(game.player_ptr);
+    int done = research->bulbs_researched;
+    int perturn = get_bulbs_per_turn(NULL, NULL);
+    int turns = (total - done + perturn - 1) / perturn;
+
+    astr_add(&str, PL_("%d/%d (%d turn)", "%d/%d (%d turns)", turns),
+	     done, total, turns);
+    if (percent) {
+      *percent = (double)done / (double)total;
+      *percent = CLIP(0.0, *percent, 1.0);
+    }
+  }
+
+  return str.str;
+}
+
+/****************************************************************************
   Set the science-goal-label text as if we're researching the given goal.
 ****************************************************************************/
 const char *get_science_goal_text(Tech_type_id goal)

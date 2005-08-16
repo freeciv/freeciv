@@ -339,20 +339,8 @@ void create_science_dialog(bool make_modal)
 ****************************************************************************/
 static void update_science_text(void)
 {
-  char text[512];
-  gdouble pct;
-  struct player_research *research = get_player_research(game.player_ptr);
-
-  if (research->researching == A_UNSET) {
-    my_snprintf(text, sizeof(text), "%d/-", research->bulbs_researched);
-    pct = 0.0;
-  } else {
-    my_snprintf(text, sizeof(text), "%d/%d",
-		research->bulbs_researched,
-		total_bulbs_required(game.player_ptr));
-    pct = CLAMP((gdouble) research->bulbs_researched
-		/ total_bulbs_required(game.player_ptr), 0.0, 1.0);
-  }
+  double pct;
+  const char *text = get_science_target_text(&pct);
 
   gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
   gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);

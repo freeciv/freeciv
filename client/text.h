@@ -27,6 +27,7 @@ const char *concat_tile_activity_text(struct tile *ptile);
 const char *get_nearest_city_text(struct city *pcity, int sq_dist);
 const char *unit_description(struct unit *punit);
 const char *science_dialog_text(void);
+const char *get_science_target_text(double *percent);
 const char *get_science_goal_text(Tech_type_id goal);
 const char *get_info_label_text(void);
 const char *get_bulb_tooltip(void);
