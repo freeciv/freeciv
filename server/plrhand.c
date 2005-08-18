@@ -398,7 +398,9 @@ void update_revolution(struct player *pplayer)
   freelog(LOG_DEBUG, "Update revolution for %s.  Current government %s, "
 	  "target %s, revofin %d, turn %d.",
 	  pplayer->name, get_government_name(pplayer->government),
-	  get_government_name(pplayer->target_government),
+	  pplayer->target_government
+	  ? get_government_name(pplayer->target_government)
+	  : "(none)",
 	  pplayer->revolution_finishes, game.info.turn);
   if (pplayer->government == game.government_when_anarchy
       && pplayer->revolution_finishes <= game.info.turn) {
