@@ -68,8 +68,6 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
 static Impr_type_id lookup_impr_type(struct section_file *file, const char *prefix,
 				     const char *entry, bool required,
 				     const char *filename, const char *description);
-static int lookup_government(struct section_file *file, const char *entry,
-			     const char *filename);
 static int lookup_city_cost(struct section_file *file, const char *prefix,
 			    const char *entry, const char *filename);
 static char *lookup_helptext(struct section_file *file, char *prefix);
@@ -574,8 +572,9 @@ static Impr_type_id lookup_impr_type(struct section_file *file, const char *pref
   Lookup entry in the file and return the corresponding government index;
   dies if can't find/match.  filename is for error message.
 **************************************************************************/
-static int lookup_government(struct section_file *file, const char *entry,
-			     const char *filename)
+static struct government *lookup_government(struct section_file *file,
+					    const char *entry,
+					    const char *filename)
 {
   char *sval;
   struct government *gov;
@@ -587,7 +586,7 @@ static int lookup_government(struct section_file *file, const char *entry,
 	    entry, sval, filename);
     exit(EXIT_FAILURE);
   }
-  return gov->index;
+  return gov;
 }
 
 /**************************************************************************
@@ -1051,7 +1050,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       mystrlcat(tmp, ".gov_req", 200);
       u->gov_requirement = lookup_government(file, tmp, filename);
     } else {
-      u->gov_requirement = G_MAGIC; /* no requirement */
+      u->gov_requirement = NULL; /* no requirement */
     }
   } unit_type_iterate_end;
   
@@ -1695,8 +1694,9 @@ static void load_ruleset_governments(struct section_file *file)
 
   sec = secfile_get_secnames_prefix(file, "government_", &nval);
 
-  game.info.government_when_anarchy
+  game.government_when_anarchy
     = lookup_government(file, "governments.when_anarchy", filename);
+  game.info.government_when_anarchy_id = game.government_when_anarchy->index;
 
   /* easy ones: */
   government_iterate(g) {
@@ -1709,9 +1709,9 @@ static void load_ruleset_governments(struct section_file *file)
       char entry[100];
 
       my_snprintf(entry, sizeof(entry), "%s.ai_better", sec[i]);
-      g->ai_better = lookup_government(file, entry, filename);
+      g->ai.better = lookup_government(file, entry, filename);
     } else {
-      g->ai_better = G_MAGIC;
+      g->ai.better = NULL;
     }
     requirement_vector_copy(&g->reqs, reqs);
     
@@ -2646,7 +2646,8 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.move_rate = u->move_rate;
     packet.tech_requirement = u->tech_requirement;
     packet.impr_requirement = u->impr_requirement;
-    packet.gov_requirement = u->gov_requirement;
+    packet.gov_requirement
+      = u->gov_requirement ? u->gov_requirement->index : -1;
     packet.vision_range = u->vision_range;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;
@@ -2952,7 +2953,7 @@ static void send_ruleset_nations(struct conn_list *dest)
            sizeof(packet.init_buildings));
     memcpy(packet.init_units, n->init_units, 
            sizeof(packet.init_units));
-    packet.init_government = n->init_government;
+    packet.init_government = n->init_government->index;
 
     sz_strlcpy(packet.legend, n->legend);
 

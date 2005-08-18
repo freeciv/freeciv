@@ -240,7 +240,7 @@ void game_init(void)
 #else
   game.info.save_compress_level = GAME_NO_COMPRESS_LEVEL;
 #endif
-  game.info.government_when_anarchy = G_MAGIC;   /* flag */
+  game.info.government_when_anarchy_id = G_MAGIC;   /* flag */
 
   game.info.is_new_game   = TRUE;
   game.simultaneous_phases_stored = GAME_DEFAULT_SIMULTANEOUS_PHASES;

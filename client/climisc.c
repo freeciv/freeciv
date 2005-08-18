@@ -375,7 +375,7 @@ struct sprite *client_cooling_sprite(void)
 struct sprite *client_government_sprite(void)
 {
   if (can_client_change_view() && game.control.government_count > 0) {
-    struct government *gov = get_government(game.player_ptr->government);
+    struct government *gov = game.player_ptr->government;
 
     return get_government_sprite(tileset, gov);
   } else {

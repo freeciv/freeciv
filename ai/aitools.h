@@ -87,7 +87,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile);
 struct city *dist_nearest_city(struct player *pplayer, struct tile *ptile,
                                bool everywhere, bool enemy);
 
-void ai_government_change(struct player *pplayer, int gov);
+void ai_government_change(struct player *pplayer, struct government *gov);
 int ai_gold_reserve(struct player *pplayer);
 
 void init_choice(struct ai_choice *choice);

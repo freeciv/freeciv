@@ -746,7 +746,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   }
   
   buf[0] = '\0';
-  if (utype->gov_requirement != G_MAGIC) {
+  if (utype->gov_requirement) {
     sprintf(buf + strlen(buf),
 	    _("* Can only be built with %s as government.\n"), 
             get_government_name(utype->gov_requirement));
@@ -1233,9 +1233,9 @@ void helptext_terrain(char *buf, const struct terrain *pterrain,
 /****************************************************************
   Append text for government.
 *****************************************************************/
-void helptext_government(char *buf, int i, const char *user_text)
+void helptext_government(char *buf, struct government *gov,
+			 const char *user_text)
 {
-  struct government *gov;
   bool active_types[O_MAX];
   const size_t bufsz = 64000; /* FIXME: should be passed in */
 
@@ -1252,12 +1252,6 @@ void helptext_government(char *buf, int i, const char *user_text)
   
   buf[0] = '\0';
 
-  if (i < 0 || i >= game.control.government_count) {
-    freelog(LOG_ERROR, "Unknown government %d.", i);
-    return;
-  }
-
-  gov = get_government(i);
   if (gov->helptext[0] != '\0') {
     sprintf(buf, "%s\n\n", _(gov->helptext));
   }
@@ -1471,7 +1465,7 @@ void helptext_government(char *buf, int i, const char *user_text)
   }
 #endif
   unit_type_iterate(utype) {
-    if (utype->gov_requirement == i) {
+    if (utype->gov_requirement == gov) {
       sprintf(buf + strlen(buf),
 	      _("* Allows you to build %s.\n"), unit_name(utype));
     }

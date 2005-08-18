@@ -226,7 +226,7 @@ static void update_player_after_tech_researched(struct player* plr,
   /* Notify a player about new governments available */
   government_iterate(gov) {
     if (!could_switch_to_government[gov->index]
-	&& can_change_to_government(plr, gov->index)) {
+	&& can_change_to_government(plr, gov)) {
       notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
 		       _("Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
@@ -249,7 +249,7 @@ static void fill_can_switch_to_government_array(struct player* plr, bool* can_sw
   government_iterate(gov) {
     /* We do it this way so all requirements are checked, including
      * statue-of-liberty effects. */
-    can_switch[gov->index] = can_change_to_government(plr, gov->index);
+    can_switch[gov->index] = can_change_to_government(plr, gov);
   } government_iterate_end;
 } 
 

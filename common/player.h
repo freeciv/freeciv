@@ -154,8 +154,8 @@ struct player {
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
   bool is_male;
-  int government;
-  int target_government;
+  struct government *government; /* may be NULL in pregame */
+  struct government *target_government; /* may be NULL */
   struct nation_type *nation;
   struct team *team;
   bool is_ready; /* Did the player click "start" yet? */

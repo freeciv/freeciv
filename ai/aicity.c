@@ -417,7 +417,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  v += c + MIN(ai->stats.units.land, 13);
 	  break;
 	case EFT_ANY_GOVERNMENT:
-	  if (!can_change_to_government(pplayer, ai->goal.govt.idx)) {
+	  if (!can_change_to_government(pplayer, ai->goal.govt.gov)) {
 	    v += MIN(MIN(ai->goal.govt.val, 65),
 		num_unknown_techs_for_goal(pplayer, ai->goal.govt.req) * 10);
 	  }

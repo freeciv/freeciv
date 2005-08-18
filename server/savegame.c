@@ -1701,7 +1701,7 @@ static void player_load(struct player *plr, int plrno,
     freelog(LOG_ERROR, _("Unsupported government found (%s)"), name);
     exit(EXIT_FAILURE);
   }
-  plr->government = gov->index;
+  plr->government = gov;
 
   /* Target government */
   name = secfile_lookup_str_default(file, NULL,
@@ -1713,7 +1713,7 @@ static void player_load(struct player *plr, int plrno,
     gov = NULL;
   }
   if (gov) {
-    plr->target_government = gov->index;
+    plr->target_government = gov;
   } else {
     /* Old servers didn't have this value. */
     plr->target_government = plr->government;
@@ -1882,7 +1882,7 @@ static void player_load(struct player *plr, int plrno,
 						plrno);
 
     if (revolution == 0) {
-      if (plr->government != game.info.government_when_anarchy) {
+      if (plr->government != game.government_when_anarchy) {
         revolution = -1;
       } else {
         /* some old savegames may be buggy */
@@ -2464,7 +2464,6 @@ static void player_save(struct player *plr, int plrno,
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
   struct ai_data *ai = ai_data_get(plr);
-  struct government *gov;
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
@@ -2478,16 +2477,17 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->team ? plr->team->index : -1,
 		     "player%d.team_no", plrno);
 
-  gov = get_government(plr->government);
-  secfile_insert_str(file, gov->name_orig, "player%d.government_name", plrno);
+  secfile_insert_str(file, plr->government->name_orig,
+		     "player%d.government_name", plrno);
   /* 1.15 and later won't use "government" field; it's kept for forward 
    * compatibility */
-  secfile_insert_int(file, old_government_id(gov),
+  secfile_insert_int(file, old_government_id(plr->government),
                      "player%d.government", plrno);
 
-  gov = get_government(plr->target_government);
-  secfile_insert_str(file, gov->name_orig,
-		     "player%d.target_government_name", plrno);
+  if (plr->target_government) {
+    secfile_insert_str(file, plr->target_government->name_orig,
+		       "player%d.target_government_name", plrno);
+  }
 
   players_iterate(pother) {
     secfile_insert_bool(file, BV_ISSET(plr->embassy, pother->player_no),

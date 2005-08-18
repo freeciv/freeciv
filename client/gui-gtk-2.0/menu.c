@@ -276,7 +276,7 @@ static void government_menu_callback(gpointer callback_data,
     popup_worklists_report();
     break;
   case MENU_GOVERNMENT_REVOLUTION:
-    popup_revolution_dialog(-1);
+    popup_revolution_dialog(NULL);
     break;
   }
 }
@@ -1140,7 +1140,9 @@ static void menus_rename(const char *path, const char *s)
 *****************************************************************/
 static void government_callback(GtkMenuItem *item, gpointer data)
 {
-  popup_revolution_dialog(GPOINTER_TO_INT(data));
+  struct government *gov = data;
+
+  popup_revolution_dialog(gov);
 }
 
 /****************************************************************************
@@ -1203,7 +1205,7 @@ void update_menus(void)
 
       /* add new government entries. */
       government_iterate(g) {
-        if (g->index != game.info.government_when_anarchy) {
+        if (g != game.government_when_anarchy) {
           GtkWidget *item, *image;
           struct sprite *gsprite;
 	  char buf[256];
@@ -1218,9 +1220,9 @@ void update_menus(void)
 	  }
 
           g_signal_connect(item, "activate",
-            G_CALLBACK(government_callback), GINT_TO_POINTER(g->index));
+			   G_CALLBACK(government_callback), g);
 
-          if (!can_change_to_government(game.player_ptr, g->index)) {
+          if (!can_change_to_government(game.player_ptr, g)) {
             gtk_widget_set_sensitive(item, FALSE);
 	  }
 

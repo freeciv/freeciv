@@ -502,7 +502,7 @@ static int get_specialists(struct player *pplayer)
 
 static int get_gov(struct player *pplayer)
 {
-  return pplayer->government;
+  return pplayer->government->index;
 }
 
 static int get_corruption(struct player *pplayer)

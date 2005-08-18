@@ -1142,7 +1142,7 @@ static void help_update_government(const struct help_item *pitem,
   if (!gov) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, gov-governments, pitem->text);
+    helptext_government(buf, gov, pitem->text);
   }
   create_help_page(HELP_TEXT);
   gtk_text_buffer_set_text(help_text, buf, -1);

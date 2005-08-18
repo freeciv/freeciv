@@ -29,6 +29,8 @@
 
 struct government *governments = NULL;
 
+#define CHECK_GOVERNMENT(gov) assert(&governments[(gov)->index] == (gov))
+
 /****************************************************************************
   Does a linear search of the governments to find the one that matches the
   given (translated) name.  Returns NULL if none match.
@@ -64,9 +66,9 @@ struct government *find_government_by_name_orig(const char *name)
 ****************************************************************************/
 struct government *get_government(int gov)
 {
-  assert(game.control.government_count > 0 && gov >= 0
-	 && gov < game.control.government_count);
-  assert(governments[gov].index == gov);
+  if (gov < 0 || gov >= game.control.government_count) {
+    return NULL;
+  }
   return &governments[gov];
 }
 
@@ -76,7 +78,7 @@ struct government *get_government(int gov)
 struct government *get_gov_pplayer(const struct player *pplayer)
 {
   assert(pplayer != NULL);
-  return get_government(pplayer->government);
+  return pplayer->government;
 }
 
 /****************************************************************************
@@ -92,12 +94,13 @@ struct government *get_gov_pcity(const struct city *pcity)
 /***************************************************************
 ...
 ***************************************************************/
-const char *get_ruler_title(int gov, bool male,
+const char *get_ruler_title(const struct government *g, bool male,
 			    const struct nation_type *nation)
 {
-  struct government *g = get_government(gov);
   struct ruler_title *best_match = NULL;
   int i;
+
+  CHECK_GOVERNMENT(g);
 
   for(i=0; i<g->num_ruler_titles; i++) {
     struct ruler_title *title = &g->ruler_titles[i];
@@ -115,7 +118,7 @@ const char *get_ruler_title(int gov, bool male,
   } else {
     freelog(LOG_ERROR,
 	    "get_ruler_title: found no title for government %d (%s) nation %d",
-	    gov, g->name, nation->index);
+	    g->index, g->name, nation->index);
     return male ? "Mr." : "Ms.";
   }
 }
@@ -123,11 +126,10 @@ const char *get_ruler_title(int gov, bool male,
 /***************************************************************
 ...
 ***************************************************************/
-const char *get_government_name(int type)
+const char *get_government_name(const struct government *gov)
 {
-  if(type >= 0 && type < game.control.government_count)
-    return governments[type].name;
-  return "";
+  CHECK_GOVERNMENT(gov);
+  return gov->name;
 }
 
 /***************************************************************
@@ -136,14 +138,10 @@ const char *get_government_name(int type)
    - player has required tech
    - we have an appropriate wonder
 ***************************************************************/
-bool can_change_to_government(struct player *pplayer, int government)
+bool can_change_to_government(struct player *pplayer,
+			      const struct government *gov)
 {
-  struct government *gov = &governments[government];
-
-  if (government < 0 || government >= game.control.government_count) {
-    assert(0);
-    return FALSE;
-  }
+  CHECK_GOVERNMENT(gov);
 
   if (get_player_bonus(pplayer, EFT_ANY_GOVERNMENT) > 0) {
     /* Note, this may allow govs that are on someone else's "tech tree". */

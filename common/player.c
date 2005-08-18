@@ -108,6 +108,8 @@ void player_init(struct player *plr)
   sz_strlcpy(plr->name, ANON_PLAYER_NAME);
   sz_strlcpy(plr->username, ANON_USER_NAME);
   plr->is_male = TRUE;
+  plr->government = NULL;
+  plr->target_government = NULL;
   plr->nation = NO_NATION_SELECTED;
   plr->team = NULL;
   plr->is_ready = FALSE;

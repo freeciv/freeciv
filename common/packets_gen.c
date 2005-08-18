@@ -4130,7 +4130,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->government_when_anarchy = readin;
+      real_packet->government_when_anarchy_id = readin;
     }
   }
   if (BV_ISSET(fields, 91)) {
@@ -4671,7 +4671,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 89);}
 
-  differ = (old->government_when_anarchy != real_packet->government_when_anarchy);
+  differ = (old->government_when_anarchy_id != real_packet->government_when_anarchy_id);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 90);}
 
@@ -5012,7 +5012,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_uint16(&dout, real_packet->incite_total_factor);
   }
   if (BV_ISSET(fields, 90)) {
-    dio_put_uint8(&dout, real_packet->government_when_anarchy);
+    dio_put_uint8(&dout, real_packet->government_when_anarchy_id);
   }
   if (BV_ISSET(fields, 91)) {
     dio_put_uint8(&dout, real_packet->revolution_length);

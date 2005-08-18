@@ -436,7 +436,7 @@ bool can_player_build_unit_direct(const struct player *p,
   if (unit_type_flag(punittype, F_NOBUILD)) {
     return FALSE;
   }
-  if (punittype->gov_requirement != G_MAGIC
+  if (punittype->gov_requirement
       && punittype->gov_requirement != p->government) {
     return FALSE;
   }

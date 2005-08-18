@@ -146,11 +146,11 @@ struct ai_data {
   /* Goals */
   struct {
     struct {
-      int idx;        /* Id of the ideal government */
+      struct government *gov;        /* The ideal government */
       int val;        /* Its value (relative to the current gov) */
       int req;        /* The tech requirement for the ideal gov */
     } govt;
-    int revolution;   /* The best gov of the now available */
+    struct government *revolution;   /* The best gov of the now available */
   } goal;
   
   /* If the ai doesn't want/need any research */

@@ -1272,7 +1272,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   built_impr_iterate(pcity, i) {
     if (can_city_sell_building(pcity, i)
-	&& pplayer->government != game.info.government_when_anarchy) {
+	&& pplayer->government != game.government_when_anarchy) {
       if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
 	notify_player_ex(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Can't afford to maintain %s in %s, "
@@ -1350,7 +1350,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   } built_impr_iterate_end;
 
   /* Stability bonuses */
-  if (g->index != game.info.government_when_anarchy) {
+  if (g != game.government_when_anarchy) {
     if (!city_unhappy(pcity)) {
       cost *= 2;
     }
@@ -1519,7 +1519,7 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
       notify_player_ex(pplayer, pcity->tile, E_ANARCHY,
 		       _("The people have overthrown your %s, "
 			 "your country is in turmoil."),
-		       get_government_name(g->index));
+		       get_government_name(g));
       handle_player_change_government(pplayer, g->index);
     }
     sanity_check_city(pcity);

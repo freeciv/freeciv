@@ -1008,10 +1008,10 @@ bool caravan_dialog_is_open(void)
 *****************************************************************/
 static void revolution_response(GtkWidget *w, gint response, gpointer data)
 {
-  int government = GPOINTER_TO_INT(data);
+  struct government *government = data;
 
   if (response == GTK_RESPONSE_YES) {
-    if (government == -1) {
+    if (!government) {
       start_revolution();
     } else {
       set_government_choice(government);
@@ -1025,11 +1025,11 @@ static void revolution_response(GtkWidget *w, gint response, gpointer data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_revolution_dialog(int government)
+void popup_revolution_dialog(struct government *government)
 {
   static GtkWidget *shell = NULL;
 
-  if (game.player_ptr->revolution_finishes == -1) {
+  if (game.player_ptr->revolution_finishes < 0) {
     if (!shell) {
       shell = gtk_message_dialog_new(NULL,
 	  0,
@@ -1043,11 +1043,11 @@ void popup_revolution_dialog(int government)
 	  G_CALLBACK(gtk_widget_destroyed), &shell);
     }
     g_signal_connect(shell, "response",
-	G_CALLBACK(revolution_response), GINT_TO_POINTER(government));
+	G_CALLBACK(revolution_response), government);
 
     gtk_window_present(GTK_WINDOW(shell));
   } else {
-    revolution_response(shell, GTK_RESPONSE_YES, GINT_TO_POINTER(government));
+    revolution_response(shell, GTK_RESPONSE_YES, government);
   }
 }
 

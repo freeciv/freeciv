@@ -1763,7 +1763,7 @@ static void final_ruleset_adjustments()
 
     pplayer->government = pnation->init_government;
 
-    if (pnation->init_government == game.info.government_when_anarchy) {
+    if (pnation->init_government == game.government_when_anarchy) {
       /* If we do not do this, an assert will trigger. This enables us to
        * select a valid government on game start. */
       pplayer->revolution_finishes = 0;

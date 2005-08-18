@@ -195,7 +195,7 @@ struct packet_game_info {
   int incite_improvement_factor;
   int incite_unit_factor;
   int incite_total_factor;
-  int government_when_anarchy;
+  int government_when_anarchy_id;
   int revolution_length;
   int base_pollution;
   int happy_cost;

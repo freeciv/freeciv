@@ -45,7 +45,8 @@ void helptext_unit(char *buf, struct unit_type *punittype,
 void helptext_tech(char *buf, int i, const char *user_text);
 void helptext_terrain(char *buf, const struct terrain *pterrain,
 		      const char *user_text);
-void helptext_government(char *buf, int i, const char *user_text);
+void helptext_government(char *buf, struct government *gov,
+			 const char *user_text);
 
 char *helptext_unit_upkeep_str(struct unit_type *punittype);
 

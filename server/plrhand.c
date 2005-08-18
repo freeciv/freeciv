@@ -241,9 +241,9 @@ void handle_player_rates(struct player *pplayer,
 **************************************************************************/
 static void finish_revolution(struct player *pplayer)
 {
-  int government = pplayer->target_government;
+  struct government *government = pplayer->target_government;
 
-  if (pplayer->target_government == game.info.government_when_anarchy) {
+  if (pplayer->target_government == game.government_when_anarchy) {
     assert(0);
     return;
   }
@@ -290,9 +290,9 @@ static void finish_revolution(struct player *pplayer)
 void handle_player_change_government(struct player *pplayer, int government)
 {
   int turns;
+  struct government *gov = get_government(government);
 
-  if (government < 0 || government >= game.control.government_count
-      || !can_change_to_government(pplayer, government)) {
+  if (!gov || !can_change_to_government(pplayer, gov)) {
     return;
   }
 
@@ -300,7 +300,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 	  "Government changed for %s.  Target government is %s; "
 	  "old %s.  Revofin %d, Turn %d.",
 	  pplayer->name,
-	  get_government_name(government),
+	  get_government_name(gov),
 	  get_government_name(pplayer->government),
 	  pplayer->revolution_finishes, game.info.turn);
 
@@ -322,8 +322,8 @@ void handle_player_change_government(struct player *pplayer, int government)
     turns = game.info.revolution_length;
   }
 
-  pplayer->government = game.info.government_when_anarchy;
-  pplayer->target_government = government;
+  pplayer->government = game.government_when_anarchy;
+  pplayer->target_government = gov;
   pplayer->revolution_finishes = game.info.turn + turns;
 
   freelog(LOG_DEBUG,
@@ -334,7 +334,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 
   /* Now see if the revolution is instantaneous. */
   if (turns <= 0
-      && pplayer->target_government != game.info.government_when_anarchy) {
+      && pplayer->target_government != game.government_when_anarchy) {
     finish_revolution(pplayer);
     return;
   } else if (turns > 0) {
@@ -351,7 +351,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 		     get_nation_name_plural(pplayer->nation), turns,
 		     get_government_name(pplayer->target_government));
   } else {
-    assert(pplayer->target_government == game.info.government_when_anarchy);
+    assert(pplayer->target_government == game.government_when_anarchy);
     notify_player_ex(pplayer, NULL, E_REVOLT_START,
 		     _("Revolution: returning to anarchy."));
   }
@@ -400,9 +400,9 @@ void update_revolution(struct player *pplayer)
 	  pplayer->name, get_government_name(pplayer->government),
 	  get_government_name(pplayer->target_government),
 	  pplayer->revolution_finishes, game.info.turn);
-  if (pplayer->government == game.info.government_when_anarchy
+  if (pplayer->government == game.government_when_anarchy
       && pplayer->revolution_finishes <= game.info.turn) {
-    if (pplayer->target_government != game.info.government_when_anarchy) {
+    if (pplayer->target_government != game.government_when_anarchy) {
       /* If the revolution is over and a target government is set, go into
        * the new government. */
       freelog(LOG_DEBUG, "Update: finishing revolution for %s.",
@@ -415,7 +415,7 @@ void update_revolution(struct player *pplayer)
 		       _("You should choose a new government from the "
 			 "government menu."));
     }
-  } else if (pplayer->government != game.info.government_when_anarchy
+  } else if (pplayer->government != game.government_when_anarchy
 	     && pplayer->revolution_finishes < game.info.turn) {
     /* Reset the revolution counter.  If the player has another revolution
      * they'll have to re-enter anarchy. */
@@ -910,7 +910,7 @@ static void package_player_common(struct player *plr,
   packet->science_cost = plr->ai.science_cost;
 
   packet->gold = plr->economic.gold;
-  packet->government = plr->government;
+  packet->government = plr->government ? plr->government->index : -1;
 }
 
 /**************************************************************************
@@ -950,7 +950,8 @@ static void package_player_info(struct player *plr,
   if (info_level >= INFO_EMBASSY
       || (receiver
 	  && receiver->diplstates[plr->player_no].contact_turns_left > 0)) {
-    packet->target_government = plr->target_government;
+    packet->target_government
+      = plr->target_government ? plr->target_government->index : -1;
     memset(&packet->embassy, 0, sizeof(packet->embassy));
     players_iterate(pother) {
       packet->embassy[pother->player_no]
@@ -1519,7 +1520,7 @@ static struct player *split_player(struct player *pplayer)
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
-  cplayer->government = game.info.government_when_anarchy;  
+  cplayer->government = game.government_when_anarchy;  
   cplayer->revolution_finishes = game.info.turn + 1;
   cplayer->capital = TRUE;
 
@@ -1591,8 +1592,8 @@ static struct player *split_player(struct player *pplayer)
   } tech_type_iterate_end;
   
   /* change the original player */
-  if (pplayer->government != game.info.government_when_anarchy) {
-    pplayer->government = game.info.government_when_anarchy;
+  if (pplayer->government != game.government_when_anarchy) {
+    pplayer->government = game.government_when_anarchy;
     pplayer->revolution_finishes = game.info.turn + 1;
   }
   get_player_research(pplayer)->bulbs_researched = 0;

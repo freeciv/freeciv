@@ -52,6 +52,8 @@ enum client_states {
 
 struct civ_game {
   struct packet_game_info info;
+  struct government *government_when_anarchy;
+
   struct packet_ruleset_control control;
   int version;
   char id[MAX_ID_LEN];		/* server only */

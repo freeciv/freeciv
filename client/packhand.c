@@ -1342,8 +1342,9 @@ void handle_game_info(struct packet_game_info *pinfo)
 
   game.info = *pinfo;
 
+  game.government_when_anarchy
+    = get_government(game.info.government_when_anarchy_id);
   if (!can_client_change_view()) {
-    game.info.player_idx = pinfo->player_idx;
     game.player_ptr = &game.players[game.info.player_idx];
   }
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
@@ -1392,11 +1393,11 @@ static bool read_player_info_techs(struct player *pplayer,
   Sets the target government.  This will automatically start a revolution
   if the target government differs from the current one.
 **************************************************************************/
-void set_government_choice(int government)
+void set_government_choice(struct government *government)
 {
   if (government != game.player_ptr->government
       && can_client_issue_orders()) {
-    dsend_packet_player_change_government(&aconnection, government);
+    dsend_packet_player_change_government(&aconnection, government->index);
   }
 }
 
@@ -1407,7 +1408,7 @@ void set_government_choice(int government)
 void start_revolution(void)
 {
   dsend_packet_player_change_government(&aconnection,
-					game.info.government_when_anarchy);
+					game.info.government_when_anarchy_id);
 }
 
 /**************************************************************************
@@ -1433,8 +1434,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.tax=pinfo->tax;
   pplayer->economic.science=pinfo->science;
   pplayer->economic.luxury=pinfo->luxury;
-  pplayer->government=pinfo->government;
-  pplayer->target_government = pinfo->target_government;
+  pplayer->government = get_government(pinfo->government);
+  pplayer->target_government = get_government(pinfo->target_government);
   BV_CLR_ALL(pplayer->embassy);
   players_iterate(pother) {
     if (pinfo->embassy[pother->player_no]) {
@@ -2077,7 +2078,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->move_rate          = p->move_rate;
   u->tech_requirement   = p->tech_requirement;
   u->impr_requirement   = p->impr_requirement;
-  u->gov_requirement    = p->gov_requirement;
+  u->gov_requirement = get_government(p->gov_requirement);
   u->vision_range       = p->vision_range;
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
@@ -2383,7 +2384,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
          sizeof(pl->init_buildings));
   memcpy(pl->init_units, p->init_units, 
          sizeof(pl->init_units));
-  pl->init_government = p->init_government;
+  pl->init_government = get_government(p->init_government);
 
   if (p->legend[0] != '\0') {
     pl->legend = mystrdup(_(p->legend));

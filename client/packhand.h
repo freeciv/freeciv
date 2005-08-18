@@ -26,7 +26,7 @@ void set_reports_thaw_request(int request_id);
 
 void play_sound_for_event(enum event_type type);
 void target_government_init(void);
-void set_government_choice(int government);
+void set_government_choice(struct government *government);
 void start_revolution(void);
 
 #endif /* FC__PACKHAND_H */

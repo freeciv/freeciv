@@ -107,7 +107,7 @@ static void ai_manage_taxes(struct player *pplayer)
     return; /* This ruleset does not support changing tax rates. */
   }
 
-  if (get_gov_pplayer(pplayer)->index == game.info.government_when_anarchy) {
+  if (get_gov_pplayer(pplayer) == game.government_when_anarchy) {
     return; /* This government does not support changing tax rates. */
   }
 
@@ -276,9 +276,9 @@ void ai_best_government(struct player *pplayer)
   struct ai_data *ai = ai_data_get(pplayer);
   int best_val = 0;
   int bonus = 0; /* in percentage */
-  int current_gov = pplayer->government;
+  struct government *current_gov = pplayer->government;
 
-  ai->goal.govt.idx = pplayer->government;
+  ai->goal.govt.gov = pplayer->government;
   ai->goal.govt.val = 0;
   ai->goal.govt.req = A_UNSET;
   ai->goal.revolution = pplayer->government;
@@ -292,14 +292,14 @@ void ai_best_government(struct player *pplayer)
       int val = 0;
       int dist;
 
-      if (gov->index == game.info.government_when_anarchy) {
+      if (gov == game.government_when_anarchy) {
         continue; /* pointless */
       }
-      if (gov->ai_better != G_MAGIC
-          && can_change_to_government(pplayer, gov->ai_better)) {
+      if (gov->ai.better
+          && can_change_to_government(pplayer, gov->ai.better)) {
         continue; /* we have better governments available */
       }
-      pplayer->government = gov->index;
+      pplayer->government = gov;
       /* Ideally we should change tax rates here, but since
        * this is a rather big CPU operation, we'd rather not. */
       check_player_government_rates(pplayer);
@@ -351,12 +351,12 @@ void ai_best_government(struct player *pplayer)
   /* Figure out which government is the best for us this turn. */
   government_iterate(gov) {
     if (ai->government_want[gov->index] > best_val 
-        && can_change_to_government(pplayer, gov->index)) {
+        && can_change_to_government(pplayer, gov)) {
       best_val = ai->government_want[gov->index];
-      ai->goal.revolution = gov->index;
+      ai->goal.revolution = gov;
     }
     if (ai->government_want[gov->index] > ai->goal.govt.val) {
-      ai->goal.govt.idx = gov->index;
+      ai->goal.govt.gov = gov;
       ai->goal.govt.val = ai->government_want[gov->index];
 
       /* FIXME: handle reqs other than technologies. */
@@ -407,7 +407,7 @@ static void ai_manage_government(struct player *pplayer)
     pplayer->ai.tech_want[ai->goal.govt.req] += want;
     TECH_LOG(LOG_DEBUG, pplayer, ai->goal.govt.req, "+ %d for %s in "
              "ai_manage_government", want,
-             get_government_name(ai->goal.govt.idx));
+             get_government_name(ai->goal.govt.gov));
   }
 }
 

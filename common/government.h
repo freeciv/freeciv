@@ -51,8 +51,6 @@ struct government
   char  graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
 
-  int ai_better;		/* govt AI prefers to this one (hint) */
-
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;
 
@@ -85,22 +83,28 @@ struct government
   } waste[O_MAX];
 
   char *helptext;
+
+  /* AI cached data for this government. */
+  struct {
+    struct government *better; /* hint: a better government (or NULL) */
+  } ai;
 };
 
 extern struct government *governments;
 
-struct government *get_government(int gov);
+struct government *get_government(int government_id);
 struct government *get_gov_pplayer(const struct player *pplayer);
 struct government *get_gov_pcity(const struct city *pcity);
 
 struct government *find_government_by_name(const char *name);
 struct government *find_government_by_name_orig(const char *name);
 
-const char *get_government_name(int type);
-const char *get_ruler_title(int gov, bool male,
+const char *get_government_name(const struct government *gov);
+const char *get_ruler_title(const struct government *gov, bool male,
 			    const struct nation_type *pnation);
 
-bool can_change_to_government(struct player *pplayer, int government);
+bool can_change_to_government(struct player *pplayer,
+			      const struct government *gov);
 
 void set_ruler_title(struct government *gov, struct nation_type *pnation,
                      const char *male, const char *female);

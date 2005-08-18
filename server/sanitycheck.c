@@ -17,9 +17,11 @@
 
 #include <assert.h>
 
+#include "log.h"
+
 #include "city.h"
 #include "game.h"
-#include "log.h"
+#include "government.h"
 #include "map.h"
 #include "movement.h"
 #include "player.h"
@@ -101,6 +103,10 @@ static void check_fow(void)
       }
     } players_iterate_end;
   } whole_map_iterate_end;
+
+  SANITY_CHECK(game.government_when_anarchy != NULL);
+  SANITY_CHECK(game.government_when_anarchy
+	       == get_government(game.info.government_when_anarchy_id));
 }
 
 /**************************************************************************
@@ -431,13 +437,13 @@ static void check_players(void)
     } players_iterate_end;
 
     if (pplayer->revolution_finishes == -1) {
-      if (pplayer->government == game.info.government_when_anarchy) {
+      if (pplayer->government == game.government_when_anarchy) {
         freelog(LOG_FATAL, "%s's government is anarchy but does not finish",
                 pplayer->name);
       }
-      SANITY_CHECK(pplayer->government != game.info.government_when_anarchy);
+      SANITY_CHECK(pplayer->government != game.government_when_anarchy);
     } else if (pplayer->revolution_finishes > game.info.turn) {
-      SANITY_CHECK(pplayer->government == game.info.government_when_anarchy);
+      SANITY_CHECK(pplayer->government == game.government_when_anarchy);
     } else {
       /* Things may vary in this case depending on when the sanity_check
        * call is made.  No better check is possible. */

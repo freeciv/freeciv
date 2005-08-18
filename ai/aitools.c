@@ -1062,13 +1062,13 @@ int stack_cost(struct unit *pdef)
 /**************************************************************************
   Change government, pretty fast...
 **************************************************************************/
-void ai_government_change(struct player *pplayer, int gov)
+void ai_government_change(struct player *pplayer, struct government *gov)
 {
   if (gov == pplayer->government) {
     return;
   }
 
-  handle_player_change_government(pplayer, gov);
+  handle_player_change_government(pplayer, gov->index);
 
   city_list_iterate(pplayer->cities, pcity) {
     auto_arrange_workers(pcity); /* update cities */

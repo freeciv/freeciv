@@ -116,10 +116,10 @@ void cityresult_fill(struct player *pplayer,
   struct city *pcity = tile_get_city(result->tile);
   int sum = 0;
   bool virtual_city = FALSE;
-  int curr_govt = pplayer->government;
+  struct government *curr_govt = pplayer->government;
   bool handicap = ai_handicap(pplayer, H_MAP);
 
-  pplayer->government = ai->goal.govt.idx;
+  pplayer->government = ai->goal.govt.gov;
 
   result->best_other = 0;
   result->other_tile = NULL;

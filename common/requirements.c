@@ -84,7 +84,6 @@ enum req_range req_range_from_str(const char *str)
 struct req_source req_source_from_str(const char *type, const char *value)
 {
   struct req_source source;
-  const struct government *pgov;
 
   assert(ARRAY_SIZE(req_source_type_names) == REQ_LAST);
   if (type) {
@@ -110,9 +109,8 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_GOV:
-    pgov = find_government_by_name(value);
-    if (pgov != NULL) {
-      source.value.gov = pgov->index;
+    source.value.gov = find_government_by_name(value);
+    if (source.value.gov != NULL) {
       return source;
     }
     break;
@@ -195,7 +193,7 @@ struct req_source req_source_from_values(int type, int value)
     source.value.tech = value;
     return source;
   case REQ_GOV:
-    source.value.gov = value;
+    source.value.gov = get_government(value);
     return source;
   case REQ_BUILDING:
     source.value.building = value;
@@ -251,7 +249,7 @@ void req_source_get_values(const struct req_source *source,
     *value = source->value.tech;
     return;
   case REQ_GOV:
-    *value = source->value.gov;
+    *value = source->value.gov->index;
     return;
   case REQ_BUILDING:
     *value = source->value.building;
