@@ -103,6 +103,7 @@ match=2
 *include "nation/bavarian.ruleset"
 *include "nation/brazilian.ruleset"
 *include "nation/irish.ruleset"
+*include "nation/iroquois.ruleset"
 *include "nation/cornish.ruleset"
 *include "nation/italian.ruleset"
 *include "nation/filipino.ruleset"

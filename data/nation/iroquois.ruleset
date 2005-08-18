@@ -1,0 +1,141 @@
+[nation_iroquois]
+
+name=_("Iroquois")
+plural=_("?plural:Iroquois")
+groups=_("Medieval"), _("American")
+legend=_("The Iroquois Confederacy - known as Haudenosaunee in their own\
+ language - was a North American group of nations with common language and\
+ culture. They were based in what is now upstate New York and consisted\
+ originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk.\
+ The confederacy had a written constitution and a currency system making\
+ them the most advanced state in North America upon the arrival of the\
+ Europeans.")
+leader="Deganawidah", 	; The legenday founder of the Iroquois
+  "Hiawatha", 
+  "Thayendanegea", 	; a.k.a. Joseph Brant
+  "Kaintwakon", 	; a.k.a. Cornplanter
+  "Kateri Tekakwitha",  ; The first canonized Amerindian
+  "Guyasuta"
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+flag="iroquois"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Chief"),       _("Chief")
+		 "Republic", 	    _("Great Chief"),  _("Great Chief")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+wonder="United Nations"
+government="Republic"
+civilwar_nations = "american", "quebecois"
+
+; This city list is a modified version of the list found here:
+; http://www.accessgenealogy.com/native/tribes/iroquioi/iroquoisvillages.htm
+cities =
+ "Adjouquay",
+ "Allaquippa", 
+ "Anpuaqun", 
+ "Aquatsagana", 
+ "Aratumquat",
+ "Awegen",
+ "Cahunghage",
+ "Canowdowsa",
+ "Caughnawaga", 
+ "Chemegaide",
+ "Chenango",
+ "Chinklacamoose",
+ "Chugnut",
+ "Churamuk",
+ "Cocfocoraren",
+ "Cokanuck",
+ "Conaquanosshan",
+ "Conejoholo",
+ "Conihunta",
+ "Connosomothdian",
+ "Cowawago",
+ "Cussewago",
+ "Ganadoga", 
+ "Ganagarahhare",
+ "Ganasarage", 
+ "Ganeraske",
+ "Ganneious", 
+ "Gannentaha",
+ "Glasswanoge", 
+ "Janundat",
+ "Jedakne",
+ "Jonondes",
+ "Juniata",
+ "Juraken",
+ "Kahendohon", 
+ "Kanaghsaws",
+ "Kannawalohalla",
+ "Kanesadageh",
+ "Karaken",
+ "Karhationni",
+ "Karhawenradon", 
+ "Kayehkwarageh", 
+ "Kaygen", 
+ "Kente",
+ "Kickenapawling",
+ "Kiskiminetas",
+ "Kittaning",
+ "Lawunkhannek", 
+ "Mahusquechikoken",
+ "Mahican",
+ "Mahoning",
+ "Manckatawangum",
+ "Matchasaung",
+ "Mohanet",
+ "Nescopeck",
+ "Octageron",
+ "Ohrekionni",
+ "Onaweron",
+ "Onkwe Iyede", 
+ "Opolopong", 
+ "Oquaga",
+ "Osewingo",
+ "Oskawaserenhon",
+ "Ostonwackin", 
+ "Oswegatchie",
+ "Otiahanague",
+ "Otsiningo", 
+ "Otskwirakeron",
+ "Ousagwentera",
+ "Owego",
+ "Punxatawney", 
+ "Runonvea",
+ "Sawcunk",
+ "Schoharie", 
+ "Schohorage",
+ "Sconassi",
+ "Sevege",
+ "Shamokin",
+ "Shannopin",
+ "Shenango",
+ "Sheshequin",
+ "Sheoquage", 
+ "Sittawingo",
+ "Skannayutenate",
+ "Skenandowa",
+ "Solocka",
+ "Swahadowri",
+ "Taiaiagon",
+ "Tewanondadon",
+ "Tioga",
+ "Tullihas",
+ "Tonihata", 
+ "Tuscarora",
+ "Tuskokogie",
+ "Tutelo",
+ "Unadilla",
+ "Venango",
+ "Wakatomica",
+ "Wakerhon",
+ "Wauteghe", 
+ "Yoghroonwago",
+ "Youcham"

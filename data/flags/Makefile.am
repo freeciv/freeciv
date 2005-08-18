@@ -53,6 +53,7 @@ flag_files =				\
 		iran.png		\
 		iraq_old.png		\
 		ireland.png		\
+		iroquois.png		\
 		israel.png		\
 		italy.png		\
 		japan.png		\
@@ -162,6 +163,7 @@ shield_files =					\
 		iran-shield.png			\
 		iraq_old-shield.png		\
 		ireland-shield.png		\
+		iroquois-shield.png		\
 		israel-shield.png		\
 		italy-shield.png		\
 		japan-shield.png		\
@@ -271,6 +273,7 @@ svg_files = 				\
 		iran.svg		\
 		iraq_old.svg		\
 		ireland.svg		\
+		iroquois.svg		\
 		israel.svg		\
 		italy.svg		\
 		japan.svg		\

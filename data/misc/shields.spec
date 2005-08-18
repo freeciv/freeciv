@@ -63,6 +63,7 @@ sprites =
 		"f.shield.iraq_old", "flags/iraq_old-shield"
 		"f.shield.ireland", "flags/ireland-shield"
 ;		"f.shield.ireland", "flags/stpatrick-shield"
+		"f.shield.iroquois", "flags/iroquois-shield"
 		"f.shield.israel", "flags/israel-shield"
 		"f.shield.italy", "flags/italy-shield"
 		"f.shield.japan", "flags/japan-shield"
