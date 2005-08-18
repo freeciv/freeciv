@@ -97,7 +97,7 @@ static const char *col_nation(const struct player *player)
 *******************************************************************/
 static const char *col_team(const struct player *player)
 {
-  return _(player->team->name);
+  return team_get_name(player->team);
 }
 
 /******************************************************************

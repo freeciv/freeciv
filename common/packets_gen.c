@@ -3472,7 +3472,7 @@ void lsend_packet_tile_info(struct conn_list *dest, const struct packet_tile_inf
 
 #define cmp_packet_game_info_100 cmp_const
 
-BV_DEFINE(packet_game_info_100_fields, 104);
+BV_DEFINE(packet_game_info_100_fields, 106);
 
 static struct packet_game_info *receive_packet_game_info_100(struct connection *pc, enum packet_type type)
 {
@@ -4217,6 +4217,28 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
     dio_get_string(&din, real_packet->start_units, sizeof(real_packet->start_units));
   }
   if (BV_ISSET(fields, 102)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->num_teams = readin;
+    }
+  }
+  if (BV_ISSET(fields, 103)) {
+    
+    {
+      int i;
+    
+      if(real_packet->num_teams > MAX_NUM_TEAMS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->num_teams = MAX_NUM_TEAMS;
+      }
+      for (i = 0; i < real_packet->num_teams; i++) {
+        dio_get_string(&din, real_packet->team_names_orig[i], sizeof(real_packet->team_names_orig[i]));
+      }
+    }
+  }
+  if (BV_ISSET(fields, 104)) {
     
     for (;;) {
       int i;
@@ -4232,7 +4254,7 @@ static struct packet_game_info *receive_packet_game_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 103)) {
+  if (BV_ISSET(fields, 105)) {
     
     for (;;) {
       int i;
@@ -4719,6 +4741,26 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 101);}
 
+  differ = (old->num_teams != real_packet->num_teams);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 102);}
+
+
+    {
+      differ = (old->num_teams != real_packet->num_teams);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->num_teams; i++) {
+          if (strcmp(old->team_names_orig[i], real_packet->team_names_orig[i]) != 0) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 103);}
+
 
     {
       differ = (A_LAST != A_LAST);
@@ -4733,7 +4775,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 102);}
+  if(differ) {BV_SET(fields, 104);}
 
 
     {
@@ -4749,7 +4791,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 103);}
+  if(differ) {BV_SET(fields, 105);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -5048,6 +5090,19 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
     dio_put_string(&dout, real_packet->start_units);
   }
   if (BV_ISSET(fields, 102)) {
+    dio_put_uint8(&dout, real_packet->num_teams);
+  }
+  if (BV_ISSET(fields, 103)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->num_teams; i++) {
+        dio_put_string(&dout, real_packet->team_names_orig[i]);
+      }
+    } 
+  }
+  if (BV_ISSET(fields, 104)) {
   
     {
       int i;
@@ -5063,7 +5118,7 @@ static int send_packet_game_info_100(struct connection *pc, const struct packet_
       dio_put_uint8(&dout, 255);
     } 
   }
-  if (BV_ISSET(fields, 103)) {
+  if (BV_ISSET(fields, 105)) {
   
     {
       int i;

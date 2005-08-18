@@ -1292,7 +1292,7 @@ void update_conn_list_dialog(void)
 	nation = get_nation_name(pplayer->nation);
 	leader = pplayer->name;
       }
-      team = pplayer->team ? _(pplayer->team->name) : "";
+      team = pplayer->team ? team_get_name(pplayer->team) : "";
 
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,

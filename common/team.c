@@ -42,12 +42,13 @@ struct team *team_find_by_name(const char *team_name)
   int index;
 
   assert(team_name != NULL);
+  assert(NUM_TEAMS <= MAX_NUM_TEAMS);
 
   /* Can't use team_iterate here since it skips empty teams. */
-  for (index = 0; index < MAX_NUM_TEAMS; index++) {
+  for (index = 0; index < NUM_TEAMS; index++) {
     struct team *pteam = team_get_by_id(index);
 
-    if (mystrcasecmp(team_name, pteam->name) == 0) {
+    if (mystrcasecmp(team_name, team_get_name_orig(pteam)) == 0) {
       return pteam;
     }
   }
@@ -60,7 +61,7 @@ struct team *team_find_by_name(const char *team_name)
 ****************************************************************************/
 struct team *team_get_by_id(Team_type_id id)
 {
-  if (id < 0 || id >= MAX_NUM_TEAMS) {
+  if (id < 0 || id >= NUM_TEAMS) {
     return NULL;
   }
   return &teams[id];
@@ -77,7 +78,7 @@ void team_add_player(struct player *pplayer, struct team *pteam)
 
   freelog(LOG_DEBUG, "Adding player %d/%s to team %s.",
 	  pplayer->player_no, pplayer->username,
-	  pteam ? pteam->name : "(none)");
+	  pteam ? team_get_name(pteam) : "(none)");
 
   /* Remove the player from the old team, if any.  The player's team should
    * only be NULL for a few instants after the player was created; after
@@ -105,12 +106,31 @@ void team_remove_player(struct player *pplayer)
   if (pplayer->team) {
     freelog(LOG_DEBUG, "Removing player %d/%s from team %s (%d)",
 	    pplayer->player_no, pplayer->username,
-	    pplayer->team ? pplayer->team->name : "(none)",
+	    pplayer->team ? team_get_name(pplayer->team) : "(none)",
 	    pplayer->team ? pplayer->team->players : 0);
     pplayer->team->players--;
     assert(pplayer->team->players >= 0);
   }
   pplayer->team = NULL;
+}
+
+/****************************************************************************
+  Return the translated name of the team.
+****************************************************************************/
+const char *team_get_name(const struct team *pteam)
+{
+  return _(team_get_name_orig(pteam));
+}
+
+/****************************************************************************
+  Return the untranslated name of the team.
+****************************************************************************/
+const char *team_get_name_orig(const struct team *pteam)
+{
+  if (!pteam) {
+    return N_("(none)");
+  }
+  return game.info.team_names_orig[pteam->index];
 }
 
 /****************************************************************************
@@ -123,7 +143,7 @@ struct team *find_empty_team(void)
   struct team *pbest = NULL;
 
   /* Can't use teams_iterate here since it skips empty teams! */
-  for (i = 0; i < MAX_NUM_TEAMS; i++) {
+  for (i = 0; i < NUM_TEAMS; i++) {
     struct team *pteam = team_get_by_id(i);
 
     if (!pbest || pbest->players > pteam->players) {
@@ -144,46 +164,10 @@ struct team *find_empty_team(void)
 void teams_init(void)
 {
   Team_type_id i;
-  char *names[] = {
-    N_("Team 1"),
-    N_("Team 2"),
-    N_("Team 3"),
-    N_("Team 4"),
-    N_("Team 5"),
-    N_("Team 6"),
-    N_("Team 7"),
-    N_("Team 8"),
-    N_("Team 9"),
-    N_("Team 10"),
-    N_("Team 11"),
-    N_("Team 12"),
-    N_("Team 13"),
-    N_("Team 14"),
-    N_("Team 15"),
-    N_("Team 16"),
-    N_("Team 17"),
-    N_("Team 18"),
-    N_("Team 19"),
-    N_("Team 20"),
-    N_("Team 21"),
-    N_("Team 22"),
-    N_("Team 23"),
-    N_("Team 24"),
-    N_("Team 25"),
-    N_("Team 26"),
-    N_("Team 27"),
-    N_("Team 28"),
-    N_("Team 29"),
-    N_("Team 30"),
-    N_("Team 31"),
-    N_("Team 32"),
-  };
-  assert(ARRAY_SIZE(names) == MAX_NUM_TEAMS);
 
   for (i = 0; i < MAX_NUM_TEAMS; i++) {
     /* mark as unused */
     teams[i].index = i;
-    sz_strlcpy(teams[i].name, names[i]);
 
     teams[i].players = 0;
     player_research_init(&(teams[i].research));

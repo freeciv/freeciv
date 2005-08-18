@@ -500,7 +500,7 @@ void gamelog(int level, ...)
     pteam = va_arg(args, struct team *);
 
     my_snprintf(buf, sizeof(buf), "<id>%d</id><name>%s</name>",
-                                  pteam->index, pteam->name);
+		pteam->index, team_get_name_orig(pteam));
     players_iterate(aplayer) {
       if (aplayer->team == pteam) {
         cat_snprintf(buf, sizeof(buf), "<n>%d</n>", aplayer->player_no);
@@ -553,7 +553,8 @@ void gamelog(int level, ...)
           cat_snprintf(buf, sizeof(buf), "<n>%d</n>", aplayer->player_no);
         }
       } players_iterate_end;
-      my_snprintf(msg, sizeof(msg), "Team victory to %s", pteam->name);
+      my_snprintf(msg, sizeof(msg), "Team victory to %s",
+		  team_get_name_orig(pteam));
       break;
     default:
       break;

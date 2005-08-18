@@ -207,6 +207,8 @@ struct packet_game_info {
   int save_nturns;
   int save_compress_level;
   char start_units[MAX_LEN_STARTUNIT];
+  int num_teams;
+  char team_names_orig[MAX_NUM_TEAMS][MAX_LEN_NAME];
   bool global_advances[A_LAST];
   int great_wonders[B_LAST];
 };

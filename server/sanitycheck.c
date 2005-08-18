@@ -123,6 +123,7 @@ static void check_misc(void)
   SANITY_CHECK(nbarbs == game.info.nbarbarians);
 
   SANITY_CHECK(game.info.nplayers <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  SANITY_CHECK(NUM_TEAMS <= MAX_NUM_TEAMS);
 }
 
 /**************************************************************************

@@ -259,7 +259,7 @@ bool is_game_over(void)
     } players_iterate_end;
     if (win) {
       notify_conn_ex(game.est_connections, NULL, E_GAME_END,
-		     _("Team victory to %s"), pteam->name);
+		     _("Team victory to %s"), team_get_name_orig(pteam));
       gamelog(GAMELOG_JUDGE, GL_TEAMWIN, pteam);
       return TRUE;
     }

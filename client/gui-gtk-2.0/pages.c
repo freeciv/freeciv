@@ -963,7 +963,7 @@ static void team_menu_entry_chosen(GtkMenuItem *menuitem, gpointer data)
 
   if (pteam != team_menu_player->team) {
     my_snprintf(buf, sizeof(buf), "/team \"%s\" \"%s\"",
-		team_menu_player->name, pteam->name);
+		team_menu_player->name, team_get_name_orig(pteam));
     send_chat(buf);
   }
 }
@@ -993,8 +993,9 @@ static GtkWidget *create_team_menu(struct player *pplayer)
       need_empty_team = FALSE;
     }
 
-    entry = gtk_menu_item_new_with_label(_(pteam->name));
-    g_object_set_data_full(G_OBJECT(menu), pteam->name, entry,
+    entry = gtk_menu_item_new_with_label(team_get_name(pteam));
+    g_object_set_data_full(G_OBJECT(menu),
+			   team_get_name_orig(pteam), entry,
 			   (GtkDestroyNotify) gtk_widget_unref);
     gtk_widget_show(entry);
     gtk_container_add(GTK_CONTAINER(menu), entry);

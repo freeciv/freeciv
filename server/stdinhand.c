@@ -2063,7 +2063,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
     team_add_player(pplayer, pteam);
     send_player_info(pplayer, NULL);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
-	      pplayer->name, _(pteam->name));
+	      pplayer->name, team_get_name(pteam));
   }
   res = TRUE;
 
@@ -3942,7 +3942,7 @@ void show_players(struct connection *caller)
 		     get_nation_name_plural(pplayer->nation));
       }
       cat_snprintf(buf2, sizeof(buf2), _(", team %s"),
-		   pplayer->team->name);
+		   team_get_name(pplayer->team));
       if (server_state == PRE_GAME_STATE && pplayer->is_connected) {
 	if (pplayer->is_ready) {
 	  cat_snprintf(buf2, sizeof(buf2), _(", ready"));
@@ -3997,7 +3997,7 @@ static void show_teams(struct connection *caller)
 		PL_("%2d : '%s' : %d player",
 		    "%2d : '%s' : %d players",
 		    pteam->players),
-		team_no, _(pteam->name), pteam->players);
+		team_no, team_get_name(pteam), pteam->players);
       players_iterate(pplayer) {
 	if (pplayer->team == pteam) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT, "  %s", pplayer->name);
@@ -4015,12 +4015,12 @@ static void show_teams(struct connection *caller)
 
       cmd_reply(CMD_LIST, caller, C_COMMENT,
 		_("%2d : '%s' : 1 player : %s"),
-		team_no, _(pteam->name), teamplayer->name);
+		team_no, team_get_name(pteam), teamplayer->name);
     }
   }
   cmd_reply(CMD_LIST, caller, C_COMMENT, " ");
   cmd_reply(CMD_LIST, caller, C_COMMENT,
-	    _("Empty team: %s"), find_empty_team()->name);
+	    _("Empty team: %s"), team_get_name(find_empty_team()));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 

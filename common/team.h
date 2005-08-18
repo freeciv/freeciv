@@ -19,10 +19,10 @@
 #include "tech.h"
 
 #define MAX_NUM_TEAMS (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
+#define NUM_TEAMS (game.info.num_teams)
 
 struct team {
   Team_type_id index;
-  char name[MAX_LEN_NAME];
   
   struct player_research research;
 
@@ -34,6 +34,9 @@ struct team *team_find_by_name(const char *team_name);
 struct team *team_get_by_id(Team_type_id id);
 void team_add_player(struct player *pplayer, struct team *pteam);
 void team_remove_player(struct player *pplayer);
+
+const char *team_get_name(const struct team *pteam);
+const char *team_get_name_orig(const struct team *pteam);
 
 struct team *find_empty_team(void);
 

@@ -82,8 +82,7 @@ const char * const our_capability = our_capability_internal;
  *     as long as possible.  We want to maintain network compatibility with
  *     the stable branch for as long as possible.
  */
-/* FIXME: accidental future date - do not regress */
-#define CAPABILITY "+Freeciv.Devel.2005.Aug.12c"
+#define CAPABILITY "+Freeciv.Devel.2005.Aug.18"
 
 void init_our_capability(void)
 {

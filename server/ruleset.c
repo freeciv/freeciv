@@ -2460,9 +2460,10 @@ Load ruleset file
 static void load_ruleset_game(void)
 {
   struct section_file file;
-  char *sval;
+  char *sval, **svec;
   const char *filename;
   int *food_ini;
+  int i;
 
   openload_ruleset_file(&file, "game");
   filename = secfile_filename(&file);
@@ -2615,7 +2616,18 @@ static void load_ruleset_game(void)
 
   /* Enable/Disable killstack */
   game.info.killstack = secfile_lookup_bool(&file, "combat_rules.killstack");
-	
+
+  svec = secfile_lookup_str_vec(&file, &game.info.num_teams, "teams.names");
+  game.info.num_teams = MIN(MAX_NUM_TEAMS, game.info.num_teams);
+  if (game.info.num_teams <= 0) {
+    freelog(LOG_FATAL, "Missing team names in game.ruleset.");
+    exit(EXIT_FAILURE);
+  }
+  for (i = 0; i < game.info.num_teams; i++) {
+    sz_strlcpy(game.info.team_names_orig[i], svec[i]);
+  }
+  free(svec);
+
   section_file_check_unused(&file, filename);
   section_file_free(&file);
 }
