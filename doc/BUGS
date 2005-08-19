@@ -81,7 +81,14 @@ KNOWN BUGS:
 
  - Using the CMA in games with a timeout will cause the client to track the
    time remaining incorrectly.  The result is the turn will end while the
-   client claims there is still time remaining.
+   client claims there is still time remaining.  Even without the CMA there
+   is a small amount of error in the time tracking.
+
+ - Pressing turn-done in games with a timeout near to the end of the turn
+   may result in the server not processing the turn-done until the start
+   of the next turn.  The result is that the server thinks you pressed
+   turn-done for the new turn.  (This is particularly annoying in conjunction
+   with the timer bug above.)
 
 REPORTING A BUG:
 ================
