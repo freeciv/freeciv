@@ -335,6 +335,7 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
   request_diplomat_action(SPY_SABOTAGE_UNIT, diplomat_id,
 			  diplomat_target_id, 0);
+  gtk_widget_destroy(diplomat_dialog);
 }
 
 /****************************************************************
