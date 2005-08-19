@@ -66,6 +66,7 @@ client/options.c
 client/packhand.c
 client/plrdlg_common.c
 client/repodlgs_common.c
+client/servers.c
 client/text.c
 client/tilespec.c
 client/agents/cma_core.c
