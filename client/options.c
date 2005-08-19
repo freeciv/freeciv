@@ -35,12 +35,12 @@
 #include "clinet.h"
 #include "cma_fec.h"
 #include "mapview_common.h"
+#include "options.h"
 #include "overview_common.h"
 #include "plrdlg_common.h"
+#include "servers.h"
 #include "tilespec.h"
 
-#include "options.h"
- 
 /** Defaults for options normally on command line **/
 
 char default_user_name[512] = "\0";

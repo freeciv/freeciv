@@ -35,6 +35,7 @@
 #include "clinet.h"
 #include "connectdlg_common.h"
 #include "packhand.h"
+#include "servers.h"
 
 #include "dialogs_g.h"
 
