@@ -439,10 +439,15 @@ const char *get_science_target_text(double *percent)
     int total = total_bulbs_required(game.player_ptr);
     int done = research->bulbs_researched;
     int perturn = get_bulbs_per_turn(NULL, NULL);
-    int turns = (total - done + perturn - 1) / perturn;
 
-    astr_add(&str, PL_("%d/%d (%d turn)", "%d/%d (%d turns)", turns),
-	     done, total, turns);
+    if (perturn > 0) {
+      int turns = (total - done + perturn - 1) / perturn;
+
+      astr_add(&str, PL_("%d/%d (%d turn)", "%d/%d (%d turns)", turns),
+	       done, total, turns);
+    } else {
+      astr_add(&str, _("%d/%d (never)"), done, total);
+    }
     if (percent) {
       *percent = (double)done / (double)total;
       *percent = CLIP(0.0, *percent, 1.0);
