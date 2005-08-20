@@ -805,6 +805,8 @@ void request_orders_cleared(struct unit *punit)
   /* Clear the orders by sending an empty orders path. */
   freelog(PACKET_LOG_LEVEL, "Clearing orders for unit %d.", punit->id);
   p.unit_id = punit->id;
+  p.src_x = punit->tile->x;
+  p.src_y = punit->tile->y;
   p.repeat = p.vigilant = FALSE;
   p.length = 0;
   p.dest_x = punit->tile->x;
@@ -824,6 +826,8 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   struct tile *old_tile;
 
   p.unit_id = punit->id;
+  p.src_x = punit->tile->x;
+  p.src_y = punit->tile->y;
   p.repeat = repeat;
   p.vigilant = vigilant;
 
@@ -969,6 +973,8 @@ void send_connect_route(struct unit *punit, enum unit_activity activity)
   }
 
   p.unit_id = punit->id;
+  p.src_x = punit->tile->x;
+  p.src_y = punit->tile->y;
   p.repeat = FALSE;
   p.vigilant = FALSE; /* Should be TRUE? */
 

@@ -800,6 +800,8 @@ end
 # used for client orders: currently client-side goto and patrol
 PACKET_UNIT_ORDERS=59;cs
   UNIT unit_id;
+  COORD src_x, src_y; # Origin tile, included for sanity checking
+
   UINT16 length;
   BOOL repeat, vigilant;
   ORDERS orders[MAX_LEN_ROUTE:length];

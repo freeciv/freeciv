@@ -1621,12 +1621,21 @@ void handle_unit_orders(struct player *pplayer,
 			struct packet_unit_orders *packet)
 {
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
+  struct tile *src_tile = map_pos_to_tile(packet->src_x, packet->src_y);
   int i;
 
   if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE) {
     return;
   }
 
+  if (src_tile != punit->tile) {
+    /* Failed sanity check.  Usually this happens if the orders were sent
+     * in the previous turn, and the client thought the unit was in a
+     * different position than it's actually in.  The easy solution is to
+     * discard the packet.  We don't send an error message to the client
+     * here (though maybe we should?). */
+    return;
+  }
 
   for (i = 0; i < packet->length; i++) {
     if (packet->orders[i] < 0 || packet->orders[i] > ORDER_LAST) {

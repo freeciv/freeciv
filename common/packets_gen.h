@@ -546,6 +546,8 @@ struct packet_unit_help_build_wonder {
 
 struct packet_unit_orders {
   int unit_id;
+  int src_x;
+  int src_y;
   int length;
   bool repeat;
   bool vigilant;

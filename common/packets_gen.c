@@ -14690,7 +14690,7 @@ int dsend_packet_unit_help_build_wonder(struct connection *pc, int unit_id)
 
 #define cmp_packet_unit_orders_100 cmp_const
 
-BV_DEFINE(packet_unit_orders_100_fields, 9);
+BV_DEFINE(packet_unit_orders_100_fields, 11);
 
 static struct packet_unit_orders *receive_packet_unit_orders_100(struct connection *pc, enum packet_type type)
 {
@@ -14726,13 +14726,29 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
     {
       int readin;
     
+      dio_get_uint8(&din, &readin);
+      real_packet->src_x = readin;
+    }
+  }
+  if (BV_ISSET(fields, 2)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->src_y = readin;
+    }
+  }
+  if (BV_ISSET(fields, 3)) {
+    {
+      int readin;
+    
       dio_get_uint16(&din, &readin);
       real_packet->length = readin;
     }
   }
-  real_packet->repeat = BV_ISSET(fields, 2);
-  real_packet->vigilant = BV_ISSET(fields, 3);
-  if (BV_ISSET(fields, 4)) {
+  real_packet->repeat = BV_ISSET(fields, 4);
+  real_packet->vigilant = BV_ISSET(fields, 5);
+  if (BV_ISSET(fields, 6)) {
     
     {
       int i;
@@ -14751,7 +14767,7 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
       }
     }
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 7)) {
     
     {
       int i;
@@ -14770,7 +14786,7 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
       }
     }
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 8)) {
     
     {
       int i;
@@ -14789,7 +14805,7 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
       }
     }
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 9)) {
     {
       int readin;
     
@@ -14797,7 +14813,7 @@ static struct packet_unit_orders *receive_packet_unit_orders_100(struct connecti
       real_packet->dest_x = readin;
     }
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 10)) {
     {
       int readin;
     
@@ -14843,17 +14859,25 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 0);}
 
-  differ = (old->length != real_packet->length);
+  differ = (old->src_x != real_packet->src_x);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
+  differ = (old->src_y != real_packet->src_y);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 2);}
+
+  differ = (old->length != real_packet->length);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 3);}
+
   differ = (old->repeat != real_packet->repeat);
   if(differ) {different++;}
-  if(packet->repeat) {BV_SET(fields, 2);}
+  if(packet->repeat) {BV_SET(fields, 4);}
 
   differ = (old->vigilant != real_packet->vigilant);
   if(differ) {different++;}
-  if(packet->vigilant) {BV_SET(fields, 3);}
+  if(packet->vigilant) {BV_SET(fields, 5);}
 
 
     {
@@ -14869,7 +14893,7 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 4);}
+  if(differ) {BV_SET(fields, 6);}
 
 
     {
@@ -14885,7 +14909,7 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
+  if(differ) {BV_SET(fields, 7);}
 
 
     {
@@ -14901,15 +14925,15 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 6);}
+  if(differ) {BV_SET(fields, 8);}
 
   differ = (old->dest_x != real_packet->dest_x);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 9);}
 
   differ = (old->dest_y != real_packet->dest_y);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 10);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -14921,11 +14945,17 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
     dio_put_uint16(&dout, real_packet->unit_id);
   }
   if (BV_ISSET(fields, 1)) {
+    dio_put_uint8(&dout, real_packet->src_x);
+  }
+  if (BV_ISSET(fields, 2)) {
+    dio_put_uint8(&dout, real_packet->src_y);
+  }
+  if (BV_ISSET(fields, 3)) {
     dio_put_uint16(&dout, real_packet->length);
   }
-  /* field 2 is folded into the header */
-  /* field 3 is folded into the header */
-  if (BV_ISSET(fields, 4)) {
+  /* field 4 is folded into the header */
+  /* field 5 is folded into the header */
+  if (BV_ISSET(fields, 6)) {
   
     {
       int i;
@@ -14935,7 +14965,7 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
       }
     } 
   }
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 7)) {
   
     {
       int i;
@@ -14945,7 +14975,7 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
       }
     } 
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 8)) {
   
     {
       int i;
@@ -14955,10 +14985,10 @@ static int send_packet_unit_orders_100(struct connection *pc, const struct packe
       }
     } 
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->dest_x);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_uint8(&dout, real_packet->dest_y);
   }
 
