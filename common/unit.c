@@ -1220,17 +1220,19 @@ struct unit *is_allied_unit_tile(const struct tile *ptile,
   return punit;
 }
 
-/**************************************************************************
- is there an enemy unit on this tile?
-**************************************************************************/
+/****************************************************************************
+  Is there an enemy unit on this tile?  Returns the unit or NULL if none.
+
+  This function is likely to fail if used at the client because the client
+  doesn't see all units.  (Maybe it should be moved into the server code.)
+****************************************************************************/
 struct unit *is_enemy_unit_tile(const struct tile *ptile,
 				const struct player *pplayer)
 {
   unit_list_iterate(ptile->units, punit) {
     if (pplayers_at_war(unit_owner(punit), pplayer))
       return punit;
-  }
-  unit_list_iterate_end;
+  } unit_list_iterate_end;
 
   return NULL;
 }
