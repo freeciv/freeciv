@@ -1,0 +1,73 @@
+[nation_inuit]
+
+name=_("Inuit")
+plural=_("?plural:Inuits")
+groups=_("Medieval"), _("American")
+legend=_("The Inuit, or Eskimos, inhabit northern Canada and Greenland.\
+ Legend says that the Great Shaman Qitdlarssuaq lead his people to Thule\
+ (Qaanaaq) on the west coast of Greenland in the 10th century. All Inuit\
+ of today are descendents of the Thule culture.")
+leader=
+ "Qitdlarssuaq",
+ "Nakasuk",
+ "Jonathan Motzfeldt",
+ "Jack Iyerak Anawak",
+ "Ann Meekitjuk Hanson",
+ "Paul Okalik",
+ "Nancy Karetak-Lindell"
+
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Female"
+flag="greenland"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Shaman"),        _("Shaman")
+                 "Monarchy",        _("Great Shaman"),  _("Great Shaman")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+wonder="Lighthouse"
+government="Democracy"
+civilwar_nations = "canadian", "quebecois"
+
+; City names are taken from Greenland (a self-governing territory of the
+; Danish kingdom) and the Canadian territory of Nunavut, both Inuit-
+; dominated political entities. The two last are from northern Quebec.
+
+cities =
+ "Nuuk",
+ "Iqaluit",
+ "Ilulissat",
+ "Igloolik",
+ "Narsarsuaq",
+ "Arviat", 
+ "Qaanaaq",
+ "Kimmirut",
+ "Upernavik",
+ "Sanikiluaq",
+ "Uummannaq",
+ "Pangnirtung",
+ "Qeqertarsuaq",
+ "Quikiqtarjuaq",
+ "Kangerlussuaq",
+ "Taloyoak",
+ "Asiaat",
+ "Ittoqortoormiut",
+ "Kuglutuk",
+ "Kangaatsiak",
+ "Umingmaktok",
+ "Maniitsoq",
+ "Nanisivik",
+ "Nanortalik",
+ "Narsaq",
+ "Paamiut",
+ "Qaqortorq",
+ "Qasigiannguit",
+ "Sisimiut",
+ "Tasiilaq",
+ "Kuujjuaq",
+ "Kangiqsualujjuaq"

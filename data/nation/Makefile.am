@@ -51,6 +51,7 @@ pkgdata_DATA = \
 		inca.ruleset \
 		indian.ruleset \
 		indonesian.ruleset \
+		inuit.ruleset \
 		irish.ruleset \
 		iroquois.ruleset \
 		israeli.ruleset \
