@@ -1514,6 +1514,8 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
      * will be sent eventually anyway, but it's surely a bug. */
     unit_list_iterate(ptile->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
+	/* Could use unload_unit_from_transporter here, but that would
+	 * call send_unit_info for the transporter unnecessarily. */
 	pull_unit_from_transporter(pcargo, punit);
 	if (pcargo->activity == ACTIVITY_SENTRY) {
 	  /* Activate sentried units - like planes on a disbanded carrier.
@@ -1521,6 +1523,7 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 	   * transporter. */
 	  set_unit_activity(pcargo, ACTIVITY_IDLE);
 	}
+	send_unit_info(NULL, pcargo);
       } 
     } unit_list_iterate_end;
   }
