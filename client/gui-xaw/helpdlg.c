@@ -1084,14 +1084,15 @@ static void help_update_terrain(const struct help_item *pitem,
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_government(const struct help_item *pitem,
-				   char *title, struct government *gov)
+				   char *title,
+				   struct government *pgovernment)
 {
   char *buf = &long_buffer[0];
 
-  if (gov==NULL) {
+  if (!pgovernment) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, gov-governments, pitem->text);
+    helptext_government(buf, pgovernment, pitem->text);
   }
   create_help_page(HELP_TEXT);
   set_title_topic(pitem);

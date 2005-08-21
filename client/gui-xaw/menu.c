@@ -314,19 +314,18 @@ void update_menus(void)
       XtDestroyWidget(government_widgets[i]);
     }
     i = 0;
-    government_iterate(gov) {
+    government_iterate(pgovernment) {
       Widget w;
 
-      if (gov->index == game.info.government_when_anarchy) {
+      if (pgovernment == game.government_when_anarchy) {
 	continue;
       }
 
-      w = XtCreateManagedWidget(gov->name, smeBSBObjectClass,
+      w = XtCreateManagedWidget(pgovernment->name, smeBSBObjectClass,
 				menus[MENU_GOVERNMENT]->shell, NULL, 0);
-      XtAddCallback(w, XtNcallback, revolution_menu_callback,
-		    (XtPointer)gov->index);
+      XtAddCallback(w, XtNcallback, revolution_menu_callback, pgovernment);
       XtSetSensitive(w, can_change_to_government(game.player_ptr,
-						 gov->index));
+						 pgovernment));
 
       government_widgets[i] = w;
       i++;
@@ -549,7 +548,7 @@ static void government_menu_callback(Widget w, XtPointer client_data,
     popup_worklists_dialog(game.player_ptr);
     break;
   case MENU_GOVERNMENT_REVOLUTION:
-    popup_revolution_dialog(game.info.government_when_anarchy);
+    popup_revolution_dialog(NULL);
     break;
   }
 }
@@ -560,11 +559,13 @@ static void government_menu_callback(Widget w, XtPointer client_data,
 static void revolution_menu_callback(Widget w, XtPointer client_data,
 				     XtPointer garbage)
 {
+  struct government *pgovernment = client_data;
+
   if (game.player_ptr->revolution_finishes == -1) {
-    popup_revolution_dialog(XTPOINTER_TO_INT(client_data));
+    popup_revolution_dialog(pgovernment);
   } else {
     /* Player already has a revolution and should just choose a government */
-    set_government_choice(XTPOINTER_TO_INT(client_data));
+    set_government_choice(pgovernment);
   }
 }
 

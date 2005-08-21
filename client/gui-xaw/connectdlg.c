@@ -37,14 +37,16 @@
 #include "version.h"
 
 #include "civclient.h"
-#include "chatline.h"
 #include "clinet.h"
-#include "connectdlg_g.h"
+#include "packhand.h"
+#include "servers.h"
+
+#include "chatline.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "packhand.h"
 #include "pages.h"
 
+#include "connectdlg_g.h"
 #include "connectdlg.h"
 
 static enum {

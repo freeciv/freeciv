@@ -1228,13 +1228,13 @@ bool caravan_dialog_is_open(void)
 static void revolution_callback_yes(Widget w, XtPointer client_data, 
 				    XtPointer call_data)
 {
-  int government = XTPOINTER_TO_INT(client_data);
+  struct government *pgovernment = client_data;
 
-  if (government == -1) {
+  if (!pgovernment) {
     start_revolution();
   } else {
     /* Player have choosed government */
-    set_government_choice(government);
+    set_government_choice(pgovernment);
   }
   destroy_message_dialog(w);
 }
@@ -1253,12 +1253,11 @@ static void revolution_callback_no(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void popup_revolution_dialog(int government)
+void popup_revolution_dialog(struct government *pgovernment)
 {
-  popup_message_dialog(toplevel, "revolutiondialog", 
+  popup_message_dialog(toplevel, "revolutiondialog",
 		       _("You say you wanna revolution?"),
-		       revolution_callback_yes,
-		       INT_TO_XTPOINTER(government), 0,
+		       revolution_callback_yes, pgovernment, 0,
 		       revolution_callback_no, 0, 0,
 		       NULL);
 }
