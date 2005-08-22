@@ -286,7 +286,12 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 	 || tech_found == A_FUTURE);
   assert(tech_is_available(plr, tech_found) || tech_found == A_FUTURE);
 
-  plr->got_tech = TRUE;
+  /* got_tech allows us to change research without applying techpenalty
+   * (without loosing bulbs) */
+  if (tech_found == plr->research.researching) {
+    plr->got_tech = TRUE;
+  }
+
   plr->research.changed_from = -1;
   plr->research.techs_researched++;
   was_first = (game.global_advances[tech_found] == 0);
