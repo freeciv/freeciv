@@ -1522,8 +1522,8 @@ static struct player *split_player(struct player *pplayer)
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
-  cplayer->government = game.government_when_anarchy;  
-  cplayer->revolution_finishes = game.info.turn + 1;
+  cplayer->government = cplayer->nation->init_government;
+  assert(cplayer->revolution_finishes < 0);
   cplayer->capital = TRUE;
 
   /* cplayer is not yet part of players_iterate which goes only
