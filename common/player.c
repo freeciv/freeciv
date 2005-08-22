@@ -60,6 +60,13 @@ bool pplayer_can_declare_war(const struct player *p1,
 ***************************************************************/
 bool pplayer_can_ally(const struct player *p1, const struct player *p2)
 {
+  if (p1 == p2) {
+    return TRUE; /* duh! */
+  }
+  if (get_player_bonus(p1, EFT_NO_DIPLOMACY)
+      || get_player_bonus(p2, EFT_NO_DIPLOMACY)) {
+    return FALSE;
+  }
   players_iterate(pplayer) {
     enum diplstate_type ds = pplayer_get_diplstate(p1, pplayer)->type;
     if (pplayer != p1

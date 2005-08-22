@@ -1158,8 +1158,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   int player1 = pplayer1->player_no, player2 = pplayer2->player_no;
 
   if (pplayer1 == pplayer2
-      || !pplayer1->is_alive || !pplayer2->is_alive
-      || is_barbarian(pplayer1) || is_barbarian(pplayer2)) {
+      || !pplayer1->is_alive
+      || !pplayer2->is_alive
+      || get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) > 0
+      || get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) > 0) {
     return;
   }
 
@@ -1529,8 +1531,7 @@ static struct player *split_player(struct player *pplayer)
   /* cplayer is not yet part of players_iterate which goes only
      to game.info.nplayers. */
   players_iterate(other_player) {
-    /* Barbarians are at war with everybody */
-    if (is_barbarian(other_player)) {
+    if (get_player_bonus(other_player, EFT_NO_DIPLOMACY)) {
       cplayer->diplstates[other_player->player_no].type = DS_WAR;
       other_player->diplstates[cplayer->player_no].type = DS_WAR;
     } else {

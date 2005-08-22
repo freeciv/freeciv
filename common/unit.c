@@ -89,17 +89,20 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
       if(action==DIPLOMAT_MOVE)
         return pplayers_allied(unit_owner(pdiplomat), city_owner(pcity));
-      if (action == DIPLOMAT_EMBASSY && !is_barbarian(city_owner(pcity)) &&
-	  !player_has_embassy(unit_owner(pdiplomat), city_owner(pcity)))
+      if (action == DIPLOMAT_EMBASSY
+          && !get_player_bonus(city_owner(pcity), EFT_NO_DIPLOMACY)
+          && !player_has_embassy(unit_owner(pdiplomat), city_owner(pcity))) {
 	return TRUE;
+      }
       if(action==SPY_POISON &&
 	 pcity->size>1 &&
 	 unit_flag(pdiplomat, F_SPY))
 	return pplayers_at_war(unit_owner(pdiplomat), city_owner(pcity));
       if(action==DIPLOMAT_INVESTIGATE)
         return TRUE;
-      if (action == DIPLOMAT_STEAL && !is_barbarian(city_owner(pcity)))
+      if (action == DIPLOMAT_STEAL && !is_barbarian(city_owner(pcity))) {
 	return TRUE;
+      }
       if(action==DIPLOMAT_INCITE)
         return !pplayers_allied(city_owner(pcity), unit_owner(pdiplomat));
       if(action==DIPLOMAT_ANY_ACTION)

@@ -344,6 +344,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
       case EFT_OUTPUT_PER_TILE:
       case EFT_OUTPUT_WASTE_PCT:
       case EFT_SPECIALIST_OUTPUT:
+      case EFT_NO_DIPLOMACY:
 	  break;
 
       case EFT_SLOW_DOWN_TIMELINE:

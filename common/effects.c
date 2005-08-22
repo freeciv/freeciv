@@ -115,7 +115,8 @@ static const char *effect_type_names[EFT_LAST] = {
   "Has_Senate",
   "Inspire_Partisans",
   "Happiness_To_Gold",
-  "Fanatics"
+  "Fanatics",
+  "No_Diplomacy"
 };
 
 static bool initialized = FALSE;

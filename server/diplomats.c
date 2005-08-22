@@ -273,7 +273,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Check for Barbarian response. */
-  if (is_barbarian (cplayer)) {
+  if (get_player_bonus(cplayer, EFT_NO_DIPLOMACY)) {
     notify_player_ex(pplayer, pcity->tile, E_MY_DIPLOMAT_FAILED,
 		     _("Your %s was executed in %s by primitive %s."),
 		     unit_name(pdiplomat->type),

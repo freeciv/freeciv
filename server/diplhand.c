@@ -660,7 +660,8 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
     return;
   }
 
-  if (is_barbarian(pplayer) || is_barbarian(pother)) {
+  if (get_player_bonus(pplayer, EFT_NO_DIPLOMACY)
+      || get_player_bonus(pother, EFT_NO_DIPLOMACY)) {
     notify_player(pplayer, _("Your diplomatic envoy was decapitated!"));
     return;
   }

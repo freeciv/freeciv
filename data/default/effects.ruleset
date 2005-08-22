@@ -16,6 +16,15 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+; Barbarian effects
+
+[effect_barb1]
+name    = "No_Diplomacy"
+value   = 1
+reqs    =
+    { "type",   "name", "range"
+      "Nation", "Barbarian", "Player"
+    }
 
 ; Specialist output bonuses
 
