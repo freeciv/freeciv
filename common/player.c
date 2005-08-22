@@ -92,6 +92,7 @@ void player_init(struct player *plr)
   sz_strlcpy(plr->username, ANON_USER_NAME);
   plr->is_male = TRUE;
   plr->government=game.default_government;
+  plr->target_government = game.default_government;
   plr->nation = NO_NATION_SELECTED;
   plr->team = TEAM_NONE;
   plr->is_started = FALSE;
