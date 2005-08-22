@@ -987,13 +987,8 @@ void gui_server_connect()
 
   fcwin_box_add_button(hbox, _("Game Options"), ID_NEWGAMEDLG_OPTIONS, 0, 
 		       TRUE, TRUE, 5);
-
-  /* Enable this to enable Pick Nation button */
-#if 0
   fcwin_box_add_button(hbox, _("Pick Nation"), ID_NEWGAMEDLG_NATIONS, 0, 
 		       TRUE, TRUE, 5);
-#endif
-
   fcwin_box_add_button(hbox, _("Start Game"), ID_OK, 0, TRUE, TRUE, 5);
   fcwin_box_add_button(hbox, _("Cancel"), ID_CANCEL, 0, TRUE, TRUE, 5);
 

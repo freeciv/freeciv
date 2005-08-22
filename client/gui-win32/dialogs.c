@@ -21,6 +21,7 @@
 
 #include <windows.h>
 #include <windowsx.h>
+#include <commctrl.h>
  
 #include "capability.h"
 #include "fcintl.h"
@@ -54,6 +55,8 @@
 #define UNITSELECT_READY_ALL 301
 #define UNITSELECT_UNITS_BASE 305
 #define MAX_NUM_GOVERNMENTS 10
+#define ID_RACESDLG_NATION_TYPE_BASE 3000
+#define ID_RACESDLG_LIST 2000
 #define ID_RACESDLG_NATION_BASE 2000
 #define ID_RACESDLG_STYLE_BASE 1000
 #define ID_PILLAGE_BASE 1000
@@ -99,8 +102,10 @@ struct message_dialog {
 
 static HWND races_dlg;
 struct player *races_player;
+static HWND races_listview;
 static HWND races_class;
 static HWND races_legend;
+int visible_nations[MAX_NUM_ITEMS];
 int selected_leader_sex;
 int selected_style;
 struct fcwin_box *government_box;
@@ -120,6 +125,7 @@ static LONG APIENTRY msgdialog_proc(HWND hWnd,
 			       UINT message,
 			       UINT wParam,
 			       LONG lParam);                         
+static void populate_nation_listview(struct nation_group* group, HWND listview);
 
 
 /**************************************************************************
@@ -266,13 +272,6 @@ static void update_radio_buttons(int id)
   /*  if (id!=selected_style) */
   CheckRadioButton(races_dlg,ID_RACESDLG_STYLE_BASE,
 		   ID_RACESDLG_STYLE_BASE+b_s_num-1,selected_style);
-#if 0
-/* FIXME!!! */
-  if (id!=(selected_nation+ID_RACESDLG_NATION_BASE)) 
-    CheckRadioButton(races_dlg,ID_RACESDLG_NATION_BASE,
-		     ID_RACESDLG_NATION_BASE+game.control.playable_nation_count-1,
-		     selected_nation+ID_RACESDLG_NATION_BASE);   
-#endif
 }
 
 
@@ -287,7 +286,7 @@ static void update_nation_info()
   struct nation_type *nation = get_nation_by_idx(selected_nation);
  
   buf[0] = '\0';
-
+/*
   for (i = 0; i < nation->num_groups; i++) {
     sz_strlcat(buf, nation->groups[i]->name);
     if (i != nation->num_groups - 1) {
@@ -297,6 +296,7 @@ static void update_nation_info()
 
   SetWindowText(races_class, buf);
   SetWindowText(races_legend, nation->legend);
+*/
 }
 
 
@@ -305,12 +305,9 @@ static void update_nation_info()
 **************************************************************************/
 static void select_random_race(HWND hWnd)
 {
-#if 0
-/* FIXME!!! */
-  selected_nation=myrand(game.control.playable_nation_count);
+  selected_nation = myrand(game.control.nation_count);
   update_nation_info();
   update_radio_buttons(0);
-#endif
 }
 
 /**************************************************************************
@@ -373,7 +370,9 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 				   LPARAM lParam)  
 {
   static bool name_edited;
-  int id;
+  int id, n, sel, i;
+  NMHDR *pnmh;
+
   switch(message)
     {
     case WM_CREATE:
@@ -388,6 +387,28 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
     case WM_SIZE:
       break;
     case WM_GETMINMAXINFO:
+      break;
+    case WM_NOTIFY:
+      pnmh = (LPNMHDR)lParam;
+      if (pnmh->idFrom != ID_RACESDLG_LIST) {
+	break;
+      }
+      n = ListView_GetItemCount(races_listview);
+      sel = -1;
+      for(i = 0;i < n; i++) {
+	if (ListView_GetItemState(races_listview, i, LVIS_SELECTED)) {
+	  sel = visible_nations[i];
+	  break;
+	}
+      }
+      if (sel == -1 || selected_nation == sel) {
+	break;
+      }
+      selected_nation = sel;
+      update_nation_info();
+      if (!name_edited) {
+	select_random_leader(hWnd);
+      }
       break;
     case WM_COMMAND:
       id=LOWORD(wParam);
@@ -411,33 +432,20 @@ static LONG CALLBACK racesdlg_proc(HWND hWnd,
 	case ID_RACESDLG_QUIT:
 	  ui_exit();
 	  break;
-	case ID_RACESDLG_DISCONNECT:
+	case IDCANCEL:
 	  popdown_races_dialog();
-	  disconnect_from_server();
 	  break;
-	case ID_RACESDLG_OK:
+	case IDOK:
 	  do_select(hWnd);
 	  break;
 	default:
-	
-	  if ((id>=ID_RACESDLG_STYLE_BASE)&&
-	      (id<ID_RACESDLG_STYLE_BASE+b_s_num)) {
-	    selected_style=id;
-	    update_radio_buttons(id);
-	  }
-#if 0
-/* FIXME!!! */
- else if ((id>=ID_RACESDLG_NATION_BASE)&&
-		     (id<ID_RACESDLG_NATION_BASE+game.control.playable_nation_count)) {
-	    selected_nation=id-ID_RACESDLG_NATION_BASE;
-	    update_nation_info();
-	    if (!name_edited) {
-	      select_random_leader(hWnd);
+	  if (id >= ID_RACESDLG_NATION_TYPE_BASE) {
+	    if (id == ID_RACESDLG_NATION_TYPE_BASE) {
+	      populate_nation_listview(NULL, races_listview);
+	    } else {
+	      populate_nation_listview(get_nation_group_by_id(id - ID_RACESDLG_NATION_TYPE_BASE - 1), races_listview);
 	    }
-	    update_radio_buttons(id);
-    
 	  }
-#endif
 	  break;
 	}
       break;
@@ -457,45 +465,35 @@ static int cmp_func(const void * a_p, const void * b_p)
                 get_nation_name(get_nation_by_idx((*(int *)b_p)-ID_RACESDLG_NATION_BASE)));
 }
 
-#define NATIONS_PER_ROW 5
-/**************************************************************************
-
-**************************************************************************/
-static void add_nations(struct fcwin_box *vbox)
+/****************************************************************
+...
+*****************************************************************/
+static void populate_nation_listview(struct nation_group* group, HWND listview)
 {
-#if 0
-/* FIXME!!! */
-  int i;
-  struct fcwin_box *hbox;
-  struct fcwin_box *vboxes[NATIONS_PER_ROW];
-  struct genlist *nation_list;
-  struct genlist_link *myiter;
-  nation_list = genlist_new();
-  for(i=0; i<game.control.playable_nation_count; i++) { 
-    /* Don't use a NULL pointer */
-    genlist_prepend(nation_list, (void *)(i + ID_RACESDLG_NATION_BASE));
-  }
-  genlist_sort(nation_list, cmp_func);
-  for(i=0;i<NATIONS_PER_ROW;i++) {  
-    vboxes[i]=fcwin_vbox_new(races_dlg,TRUE);
-  }
-  myiter = nation_list->head_link;
-  i=0;
-  for(;ITERATOR_PTR(myiter);ITERATOR_NEXT(myiter),i++) {
-    int id;
-    if (i>=NATIONS_PER_ROW)
-      i=0;
-    id=(int)ITERATOR_PTR(myiter);
-    fcwin_box_add_radiobutton(vboxes[i],
-			      get_nation_name(id-ID_RACESDLG_NATION_BASE),
-			      id,0,FALSE,FALSE,0);			      
-  }
-  genlist_unlink_all(nation_list);
-  hbox=fcwin_hbox_new(races_dlg,TRUE);
-  for(i=0;i<NATIONS_PER_ROW;i++)
-    fcwin_box_add_box(hbox,vboxes[i],TRUE,TRUE,10);
-  fcwin_box_add_box(vbox,hbox,TRUE,TRUE,10);
-#endif
+  int n;
+
+  ListView_DeleteAllItems(listview);
+
+  n = 0;
+  nations_iterate(pnation) {
+    char *strings[1];
+
+    if (!is_nation_playable(pnation) || pnation->is_unavailable) {
+      continue;
+    }
+
+    if (group != NULL && !nation_in_group(pnation, group->name)) {
+      continue;
+    }
+
+    strings[0] = pnation->name;
+
+    fcwin_listview_add_row(listview, pnation->index, 1, strings);
+    visible_nations[n++] = pnation->index;
+
+  } nations_iterate_end;
+
+  ListView_SetColumnWidth(listview, 0, LVSCW_AUTOSIZE);
 }
 
 /****************************************************************
@@ -503,8 +501,9 @@ static void add_nations(struct fcwin_box *vbox)
 *****************************************************************/
 static void create_races_dialog(struct player *pplayer)
 {
-  HWND shell, frame;
-  struct fcwin_box *vbox, *hbox;
+  HWND shell;
+  struct fcwin_box *shell_box, *left_column, *right_column, *group_box, *right_entry_box, *input_box, *sex_select_box, *bottom_bar, *button_column;
+  int i;
 
   shell =
     fcwin_create_layouted_window(racesdlg_proc, _("What nation will you be?"),
@@ -515,11 +514,94 @@ static void create_races_dialog(struct player *pplayer)
   races_dlg = shell;
   races_player = pplayer;
 
-  hbox = fcwin_hbox_new(shell, FALSE);
-  vbox = fcwin_hbox_new(shell, FALSE);
+  shell_box = fcwin_vbox_new(shell, FALSE);
+  fcwin_set_box(shell, shell_box);
+
+  group_box = fcwin_hbox_new(shell, FALSE);
+  fcwin_box_add_groupbox(shell_box, _("Select a nation"), group_box, 0, FALSE, FALSE, 0);
+
+  left_column = fcwin_hbox_new(shell, FALSE);
+  fcwin_box_add_box(group_box, left_column, FALSE, FALSE, 5);
+
+  right_column = fcwin_vbox_new(shell, FALSE);
+  fcwin_box_add_box(group_box, right_column, FALSE, FALSE, 5);
   
-  frame = fcwin_box_add_groupbox(hbox, _("Select a nation"), vbox, 0, FALSE,
-				 FALSE, 0);
+  /* left column */
+  
+  button_column = fcwin_vbox_new(shell, FALSE);
+  fcwin_box_add_box(left_column, button_column, FALSE, FALSE, 5);
+
+  for (i = 0; i <= get_nation_groups_count(); i++) {
+    struct nation_group* group = (i == 0 ? NULL: get_nation_group_by_id(i - 1));
+    fcwin_box_add_button(button_column, group ? _(group->name) : _("All"), ID_RACESDLG_NATION_TYPE_BASE + i, WS_GROUP, TRUE, TRUE, 0);
+  }
+
+  races_listview = fcwin_box_add_listview(left_column, 4, ID_RACESDLG_LIST,
+					  LVS_REPORT | LVS_SHOWSELALWAYS
+					  | LVS_SINGLESEL, TRUE, TRUE, 0);
+
+  LV_COLUMN lvc;
+
+  lvc.mask = LVCF_TEXT | LVCF_FMT;
+  lvc.pszText = _("Nation");
+  lvc.fmt = LVCFMT_LEFT;
+
+  ListView_InsertColumn(races_listview, 0, &lvc);
+
+  /* Populate nation list store. */
+
+  populate_nation_listview(NULL, races_listview);
+
+  /* right column */
+  right_entry_box = fcwin_hbox_new(shell, FALSE);
+  fcwin_box_add_box(right_column, right_entry_box, FALSE, FALSE, 0);
+
+  fcwin_box_add_static(right_entry_box, _("Leader:"), 0, 0, TRUE, TRUE, 5);
+
+  input_box = fcwin_vbox_new(shell, FALSE);
+  fcwin_box_add_box(right_entry_box, input_box, FALSE, FALSE, 0);
+
+  fcwin_box_add_combo(input_box, 10, ID_RACESDLG_LEADER, CBS_DROPDOWN
+		      | WS_VSCROLL, FALSE, FALSE, 0);
+
+  sex_select_box = fcwin_hbox_new(shell, TRUE);
+
+  fcwin_box_add_radiobutton(sex_select_box, _("Male"), ID_RACESDLG_MALE, 0,
+			    TRUE,TRUE, 0);
+  fcwin_box_add_radiobutton(sex_select_box, _("Female"), ID_RACESDLG_FEMALE,
+			    WS_GROUP, TRUE, TRUE, 0);
+
+  fcwin_box_add_box(input_box, sex_select_box, FALSE, TRUE, 0);
+
+  right_entry_box = fcwin_hbox_new(shell, FALSE);
+  fcwin_box_add_box(right_column, right_entry_box, FALSE, FALSE, 0);
+
+  fcwin_box_add_static(right_entry_box, _("City Style:"), 0, 0, TRUE, TRUE, 5);
+  input_box = fcwin_vbox_new(shell, FALSE);
+  fcwin_box_add_box(right_entry_box, input_box, FALSE, FALSE, 0);
+
+  for(i=0, b_s_num=0; i < game.control.styles_count && i < 64; i++) {
+    if (!city_style_has_requirements(&city_styles[i])) {
+      city_style_idx[b_s_num] = i;
+      city_style_ridx[i] = b_s_num;
+      b_s_num++;
+    }
+  }
+  for(i = 0; i < b_s_num; i++) {
+    fcwin_box_add_radiobutton(input_box, city_styles[city_style_idx[i]].name,
+			      ID_RACESDLG_STYLE_BASE + i, 0, TRUE, TRUE, 0);
+  }
+
+  bottom_bar = fcwin_hbox_new(shell, FALSE);
+
+  fcwin_box_add_button(bottom_bar, _("OK"), IDOK, WS_GROUP, TRUE, TRUE, 0);
+  fcwin_box_add_button(bottom_bar, _("Random"), IDCANCEL, 0, TRUE, TRUE, 0);
+
+  fcwin_box_add_box(shell_box, bottom_bar, FALSE, FALSE, 0);
+
+  fcwin_redo_layout(shell);
+
+  ShowWindow(shell, SW_SHOWNORMAL);
 }
 
 /**************************************************************************
@@ -529,93 +611,9 @@ void popup_races_dialog(struct player *pplayer)
 {
   if (!races_dlg) {
     create_races_dialog(pplayer);
+    select_random_race(races_dlg);
     SetFocus(races_dlg);
   }
-#if 0
-  struct fcwin_box *vbox;
-  struct fcwin_box *hbox;
-  struct fcwin_box *grp_box;
-  int i;
-
-  races_player = pplayer;
-  races_dlg=fcwin_create_layouted_window(racesdlg_proc,
-					 _("What nation will you be?"),
-					 WS_OVERLAPPEDWINDOW,
-					 CW_USEDEFAULT,
-					 CW_USEDEFAULT,
-					 root_window,
-					 NULL,
-					 REAL_CHILD,
-					 NULL);
-  vbox=fcwin_vbox_new(races_dlg,FALSE);
-  grp_box=fcwin_vbox_new(races_dlg,FALSE);
-  fcwin_box_add_groupbox(vbox,_("Select nation and name"),
-			 grp_box,WS_GROUP,TRUE,TRUE,5);
-  add_nations(grp_box);
-  
-  hbox = fcwin_hbox_new(races_dlg, FALSE);
-  fcwin_box_add_static(hbox, _("Class:"), 0, SS_LEFT, FALSE,FALSE, 0);
-  
-  races_class = fcwin_box_add_static(hbox, "content", 0, SS_LEFT, TRUE, TRUE,5);
-  
-  fcwin_box_add_box(vbox, hbox, FALSE, FALSE, 0);
- 
-  grp_box = fcwin_vbox_new(races_dlg, FALSE);
-  races_legend = fcwin_box_add_static(grp_box, "content\n\n\nc", SS_LEFT,
-				      0, FALSE, FALSE, 5);
-  fcwin_box_add_groupbox(vbox, _("Description"), grp_box,
-			 0, FALSE, FALSE, 5);
-
-  grp_box=fcwin_vbox_new(races_dlg,FALSE);  
-  fcwin_box_add_groupbox(vbox,_("Your leader name"),grp_box,
-			 0,FALSE,FALSE,5);
-  fcwin_box_add_combo(grp_box, 10, ID_RACESDLG_LEADER, CBS_DROPDOWN
-		      | WS_VSCROLL, FALSE, FALSE, 0);
-  grp_box=fcwin_hbox_new(races_dlg,TRUE);
-  fcwin_box_add_groupbox(vbox,_("Select your sex"),grp_box,WS_GROUP,
-			 FALSE,FALSE,5);
-  fcwin_box_add_radiobutton(grp_box,_("Male"),ID_RACESDLG_MALE,0,
-			    TRUE,TRUE,25);
-  fcwin_box_add_radiobutton(grp_box,_("Female"),ID_RACESDLG_FEMALE,
-			    WS_GROUP,TRUE,TRUE,25);
- 
-  grp_box=fcwin_vbox_new(races_dlg,FALSE);
-  fcwin_box_add_groupbox(vbox,_("Select your city style"),grp_box,WS_GROUP,
-			 FALSE,FALSE,5);
-  hbox=fcwin_hbox_new(races_dlg,TRUE);
-  for(i=0,b_s_num=0; i<game.control.styles_count && i<64; i++) {
-    if (!city_style_has_requirements(&city_styles[i])) {
-      city_style_idx[b_s_num] = i;
-      city_style_ridx[i] = b_s_num;
-      b_s_num++;
-    }
-  }
-  for(i=0; i<b_s_num; i++) {
-    fcwin_box_add_radiobutton(hbox,city_styles[city_style_idx[i]].name,
-			      ID_RACESDLG_STYLE_BASE+i,0,TRUE,TRUE,25);
-    if (i%2) {
-      fcwin_box_add_box(grp_box,hbox,FALSE,FALSE,0);
-      hbox=fcwin_hbox_new(races_dlg,TRUE);
-    }
-  }
-  /* if (i%2)
-     fcwin_box_add_box(grp_box,hbox,FALSE,FALSE,20); */
-  fcwin_box_add_box(grp_box,hbox,FALSE,FALSE,0);
-  hbox=fcwin_hbox_new(races_dlg,TRUE);
-  fcwin_box_add_button(hbox,_("Ok"),ID_RACESDLG_OK,WS_GROUP,TRUE,TRUE,25);
-  fcwin_box_add_button(hbox,_("Disconnect"),ID_RACESDLG_DISCONNECT,0,
-		       TRUE,TRUE,25);
-  fcwin_box_add_button(hbox,_("Quit"),ID_RACESDLG_QUIT,0,TRUE,TRUE,25);
-  fcwin_box_add_box(vbox,hbox,FALSE,FALSE,5);
-  selected_style=ID_RACESDLG_STYLE_BASE;
-  CheckRadioButton(races_dlg,
-		   ID_RACESDLG_STYLE_BASE,ID_RACESDLG_STYLE_BASE+b_s_num-1,
-		   ID_RACESDLG_STYLE_BASE);
-  fcwin_set_box(races_dlg, vbox);
-  select_random_race(races_dlg);
-  select_random_leader(races_dlg);
-  ShowWindow(races_dlg,SW_SHOWNORMAL);
-#endif
 }
 
 /**************************************************************************
@@ -922,13 +920,13 @@ void races_toggles_set_sensitive(void)
   int i;
   BOOL changed;
 
-  for (i = 0; i < game.control.playable_nation_count; i++) {
+  for (i = 0; i < game.control.nation_count; i++) {
     EnableWindow(GetDlgItem(races_dlg, ID_RACESDLG_NATION_BASE + i), TRUE);
   }
 
   changed = FALSE;
 
-  for (i = 0; i < game.control.playable_nation_count; i++) {
+  for (i = 0; i < game.control.nation_count; i++) {
     struct nation_type *nation;
     nation = get_nation_by_idx(i);
 
