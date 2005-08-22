@@ -70,6 +70,7 @@
 #include "pages.h"
 #include "spaceshipdlg.h"
 #include "resources.h"
+#include "text.h"
 #include "tilespec.h"
 
 
@@ -1507,51 +1508,14 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev, gpointer data)
 {
   if(ev->button == 1) {
     GtkWidget *p;
-    char buf[512];
-    struct player_research* research = get_player_research(game.player_ptr);
-    
-    if (get_player_research(game.player_ptr)->researching != A_UNSET) {
-      my_snprintf(buf, sizeof(buf),
-	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
-	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/%d\nGovernment: %s"),
-	    population_to_text(civ_population(game.player_ptr)),
-	    textyear(game.info.year), game.info.turn,
-	    game.player_ptr->economic.gold,
-	    player_get_expected_income(game.player_ptr),
-	    game.player_ptr->economic.tax,
-	    game.player_ptr->economic.luxury,
-	    game.player_ptr->economic.science,
 
-	    get_tech_name(game.player_ptr,
-			  research->researching),
-	    research->bulbs_researched,
-	    total_bulbs_required(game.player_ptr),
-	    get_government_name(game.player_ptr->government));
-    } else {
-      my_snprintf(buf, sizeof(buf),
-	    _("%s People\nYear: %s Turn: %d\nGold: %d\nNet Income: %d\n"
-	      "Tax:%d Lux:%d Sci:%d\nResearching %s: %d/-\nGovernment: %s"),
-	    population_to_text(civ_population(game.player_ptr)),
-	    textyear(game.info.year), game.info.turn,
-	    game.player_ptr->economic.gold,
-	    player_get_expected_income(game.player_ptr),
-	    game.player_ptr->economic.tax,
-	    game.player_ptr->economic.luxury,
-	    game.player_ptr->economic.science,
-
-	    get_tech_name(game.player_ptr,
-			  research->researching),
-	    research->bulbs_researched,
-	    get_government_name(game.player_ptr->government));
-    }
-        
     p = gtk_window_new(GTK_WINDOW_POPUP);
     gtk_widget_set_app_paintable(p, TRUE);
     gtk_container_set_border_width(GTK_CONTAINER(p), 4);
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,
-        			   "GtkLabel::label", buf,
+		   "GtkLabel::label", get_info_label_text_popup(),
 				   "GtkWidget::visible", TRUE,
         			   NULL);
     gtk_widget_show(p);

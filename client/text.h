@@ -30,6 +30,7 @@ const char *science_dialog_text(void);
 const char *get_science_target_text(double *percent);
 const char *get_science_goal_text(Tech_type_id goal);
 const char *get_info_label_text(void);
+const char *get_info_label_text_popup(void);
 const char *get_bulb_tooltip(void);
 const char *get_global_warming_tooltip(void);
 const char *get_nuclear_winter_tooltip(void);

@@ -497,6 +497,8 @@ const char *get_science_goal_text(Tech_type_id goal)
 /****************************************************************************
   Return the text for the label on the info panel.  (This is traditionally
   shown to the left of the mapview.)
+
+  Clicking on this text should bring up the get_info_label_text_popup text.
 ****************************************************************************/
 const char *get_info_label_text(void)
 {
@@ -517,6 +519,50 @@ const char *get_info_label_text(void)
   if (!game.info.simultaneous_phases) {
     astr_add_line(&str, _("Moving: %s"), get_player(game.info.phase)->name);
   }
+  astr_add_line(&str, _("(Click for more info)"));
+  return str.str;
+}
+
+/****************************************************************************
+  Return the text for the popup label on the info panel.  (This is
+  traditionally done as a popup whenever the regular info text is clicked
+  on.)
+****************************************************************************/
+const char *get_info_label_text_popup(void)
+{
+  static struct astring str = ASTRING_INIT;
+  struct player_research *research = get_player_research(game.player_ptr);
+
+  astr_clear(&str);
+
+  astr_add_line(&str, _("%s People"),
+		population_to_text(civ_population(game.player_ptr)));
+  astr_add_line(&str, _("Year: %s"), textyear(game.info.year));
+  astr_add_line(&str, _("Turn: %d"), game.info.turn);
+  astr_add_line(&str, _("Gold: %d"), game.player_ptr->economic.gold);
+  astr_add_line(&str, _("Net Income: %d"),
+		player_get_expected_income(game.player_ptr));
+  /* TRANS: Gold, luxury, and science rates are in percentage values. */
+  astr_add_line(&str, _("Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"),
+		game.player_ptr->economic.tax,
+		game.player_ptr->economic.luxury,
+		game.player_ptr->economic.science);
+  astr_add_line(&str, _("Researching %s: %s"),
+		get_tech_name(game.player_ptr, research->researching),
+		get_science_target_text(NULL));
+
+  /* These mirror the code in get_global_warming_tooltip and
+   * get_nuclear_winter_tooltip. */
+  astr_add_line(&str, _("Global warming chance: %d%% (%+d%%/turn)"),
+		CLIP(0, (game.info.globalwarming + 1) / 2, 100),
+		DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
+  astr_add_line(&str, _("Nuclear winter chance: %d%% (%+d%%/turn)"),
+		CLIP(0, (game.info.nuclearwinter + 1) / 2, 100),
+		DIVIDE(game.info.cooling - game.info.coolinglevel + 1, 2));
+
+  astr_add_line(&str, _("Government: %s"),
+		get_government_name(game.player_ptr->government));
+
   return str.str;
 }
 
@@ -643,9 +689,9 @@ const char *get_nuclear_winter_tooltip(void)
   /* This mirrors the logic in update_environmental_upset. */
   astr_add_line(&str, _("Shows the progress of nuclear winter:"));
   astr_add_line(&str, _("Fallout rate: %d%%"),
-		DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
+		DIVIDE(game.info.cooling - game.info.coolinglevel + 1, 2));
   astr_add_line(&str, _("Chance of catastrophic winter each turn: %d%%"),
-		CLIP(0, (game.info.globalwarming + 1) / 2, 100));
+		CLIP(0, (game.info.nuclearwinter + 1) / 2, 100));
   return str.str;
 }
 
