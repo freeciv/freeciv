@@ -956,7 +956,7 @@ static void revolution_callback_yes(HWND w, void * data)
   if ((int)data == -1) {
     start_revolution();
   } else {
-    set_government_choice((int)data);
+    set_government_choice((struct government *)data);
   }
   destroy_message_dialog(w);
 }
@@ -974,19 +974,19 @@ static void revolution_callback_no(HWND w, void * data)
 /****************************************************************
 ...
 *****************************************************************/
-void popup_revolution_dialog(int government)
+void popup_revolution_dialog(struct government *gov)
 {
   if (game.player_ptr->revolution_finishes < game.info.turn) {
     popup_message_dialog(NULL, _("Revolution!"),
 			 _("You say you wanna revolution?"),
-			 _("_Yes"),revolution_callback_yes, government,
+			 _("_Yes"),revolution_callback_yes, gov,
 			 _("_No"),revolution_callback_no, 0,
 			 0);
   } else {
-    if (government == -1) {
+    if (gov == NULL) {
       start_revolution();
     } else {
-      set_government_choice(government);
+      set_government_choice(gov);
     }
   }
 }

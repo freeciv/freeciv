@@ -51,6 +51,7 @@
 #include "optiondlg.h"
 #include "options.h"
 #include "packhand_gen.h"
+#include "servers.h"
 #include "spaceshipdlg.h"
 #include "tilespec.h"
 

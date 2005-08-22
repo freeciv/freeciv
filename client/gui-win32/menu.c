@@ -604,7 +604,7 @@ void handle_menu(int code)
       popup_worklists_report(game.player_ptr);
       break;
     case IDM_GOVERNMENT_REVOLUTION:
-      popup_revolution_dialog(-1);
+      popup_revolution_dialog(NULL);
       break;
 
 
@@ -918,7 +918,8 @@ void handle_menu(int code)
     default:
       if ((enum MenuID)code >= IDM_GOVERNMENT_CHANGE_FIRST
 	   && (enum MenuID)code <= IDM_GOVERNMENT_CHANGE_LAST) {
-	popup_revolution_dialog(code - IDM_GOVERNMENT_CHANGE_FIRST);
+	struct government *gov = get_government(code - IDM_GOVERNMENT_CHANGE_FIRST);
+	popup_revolution_dialog(gov);
       }
       break;
     }
@@ -1022,7 +1023,6 @@ update_menus(void)
   } else {
     struct unit *punit;
     HMENU govts;
-    int i;
 
     /* remove previous government entries. */
     for (id = IDM_GOVERNMENT_CHANGE_FIRST; id <= IDM_GOVERNMENT_CHANGE_LAST;
@@ -1034,15 +1034,17 @@ update_menus(void)
     govts = GetSubMenu(GetSubMenu(menu, 1), 5); 
 
     /* add new government entries. */
-    for (i = 0; i < game.control.government_count; i++) {
-      if (i != game.info.government_when_anarchy) {
-	AppendMenu(govts, MF_STRING, IDM_GOVERNMENT_CHANGE_FIRST + i,
-		   governments[i].name);
-	my_enable_menu(menu, IDM_GOVERNMENT_CHANGE_FIRST + i, 
-		       can_change_to_government(game.player_ptr, i)
+    id = IDM_GOVERNMENT_CHANGE_FIRST;
+
+    government_iterate(g) {
+      if (g != game.government_when_anarchy) {
+	AppendMenu(govts, MF_STRING, id + g->index, g->name);
+	my_enable_menu(menu, id + g->index,
+		       can_change_to_government(game.player_ptr, g)
 		       && can_client_issue_orders());
       }
-    }
+    } government_iterate_end;
+
     my_enable_menu(menu, IDM_GOVERNMENT_FIND_CITY, TRUE);
 
     /* Enables IDM_VIEW_MENU */

@@ -104,11 +104,6 @@ science_dialog_update(void)
     }
   } tech_type_iterate_end;
 
-  my_snprintf(text, sizeof(text), "%d/%d",
-              get_player_research(game.player_ptr)->bulbs_researched,
-	      total_bulbs_required(game.player_ptr));
-
-  SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_PROG), text);
   ComboBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH));
 
   if (get_player_research(game.player_ptr)->researching == A_UNSET) {
@@ -118,7 +113,14 @@ science_dialog_update(void)
 			 id, A_NONE);
     ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 		       id);
+    text[0] = '\0';
+  } else {
+    my_snprintf(text, sizeof(text), "%d/%d",
+		get_player_research(game.player_ptr)->bulbs_researched,
+		total_bulbs_required(game.player_ptr));
   }
+
+  SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_PROG), text);
 
   if (!is_future_tech(get_player_research(game.player_ptr)->researching)) {
     tech_type_iterate(tech_id) {
@@ -206,8 +208,6 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	  if (HIWORD(wParam)==CBN_SELCHANGE) {
 	    to=ComboBox_GetCurSel(GetDlgItem(hWnd,ID_SCIENCE_RESEARCH));
 	    if (to!=LB_ERR) {
-	      char text[512];
-
 	      to = ComboBox_GetItemData(GetDlgItem(hWnd,
 						   ID_SCIENCE_RESEARCH),
 					to);
@@ -216,10 +216,6 @@ static LONG CALLBACK science_proc(HWND hWnd,
 		popup_help_dialog_typed(advances[to].name, HELP_TECH);
 		science_dialog_update();
 	      } else {
-		my_snprintf(text, sizeof(text), "%d/%d",
-			get_player_research(game.player_ptr)->bulbs_researched,
-			total_bulbs_required(game.player_ptr));
-		SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_PROG),text);
 		dsend_packet_player_research(&aconnection, to);
 	      }
 	    }
