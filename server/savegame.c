@@ -2440,9 +2440,11 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, old_government_id(gov),
                      "player%d.government", plrno);
 
-  gov = get_government(plr->target_government);
-  secfile_insert_str(file, gov->name_orig,
-		     "player%d.target_government_name", plrno);
+  if (plr->target_government != G_MAGIC) {
+    gov = get_government(plr->target_government);
+    secfile_insert_str(file, gov->name_orig,
+                       "player%d.target_government_name", plrno);
+  }
   
   secfile_insert_int(file, plr->embassy, "player%d.embassy", plrno);
 
