@@ -1975,6 +1975,7 @@ static struct player *split_player(struct player *pplayer)
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
   cplayer->government = game.default_government;
+  cplayer->target_government = game.default_government;
   assert(cplayer->revolution_finishes < 0);
   cplayer->capital = TRUE;
 
