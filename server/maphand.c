@@ -193,8 +193,6 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
 						 struct tile *ptile);
-static void send_tile_info_always(struct player *pplayer,
-				  struct conn_list *dest, struct tile *ptile);
 static void shared_vision_change_seen(struct tile *ptile, struct player *pplayer, int change);
 static int map_get_seen(const struct tile *ptile,
 			const struct player *pplayer);
@@ -436,17 +434,7 @@ void send_all_known_tiles(struct conn_list *dest)
       conn_list_do_buffer(dest);
     }
 
-    conn_list_iterate(dest, pconn) {
-      struct player *pplayer = pconn->player;
-
-      if (!pplayer && !pconn->observer) {	/* no map needed */
-        continue;
-      }
-
-      if (!pplayer || map_is_known(ptile, pplayer)) {
-	send_tile_info_always(pplayer, pconn->self, ptile);
-      }
-    } conn_list_iterate_end;
+    send_tile_info(dest, ptile);
   } whole_map_iterate_end;
 
   conn_list_do_unbuffer(dest);
@@ -508,65 +496,6 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
     }
   }
   conn_list_iterate_end;
-}
-
-/**************************************************************************
-  Send the tile information, as viewed by pplayer, to all specified
-  connections.   The tile info is sent even if pplayer doesn't see or
-  know the tile (setting appropriate info.known), as required for
-  client drawing requirements in some cases (see doc/HACKING).  This function
-  does NOT update player knowledge; call update_player_tile_knowledge to
-  do that.
-  pplayer==NULL means send "real" data, for observers
-**************************************************************************/
-static void send_tile_info_always(struct player *pplayer, struct conn_list *dest,
-			   struct tile *ptile)
-{
-  struct packet_tile_info info;
-  struct player_tile *plrtile;
-  enum tile_special_type spe;
-
-  info.x = ptile->x;
-  info.y = ptile->y;
-  info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
-  if (ptile->spec_sprite) {
-    sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
-  } else {
-    info.spec_sprite[0] = '\0';
-  }
-
-  if (!pplayer) {
-    /* Observer sees all. */
-    info.known=TILE_KNOWN;
-    info.type = ptile->terrain->index;
-    for (spe = 0; spe < S_LAST; spe++) {
-      info.special[spe] = BV_ISSET(ptile->special, spe);
-    }
-    info.continent = ptile->continent;
-  } else if (map_is_known(ptile, pplayer)) {
-    if (map_get_seen(ptile, pplayer) != 0) {
-      /* Known and seen. */
-      info.known = TILE_KNOWN;
-    } else {
-      /* Known but not seen. */
-      info.known = TILE_KNOWN_FOGGED;
-    }
-    plrtile = map_get_player_tile(ptile, pplayer);
-    info.type = plrtile->terrain->index;
-    for (spe = 0; spe < S_LAST; spe++) {
-      info.special[spe] = BV_ISSET(plrtile->special, spe);
-    }
-    info.continent = ptile->continent;
-  } else {
-    /* Unknown (the client needs these sometimes to draw correctly). */
-    info.known = TILE_UNKNOWN;
-    info.type = ptile->terrain->index;
-    for (spe = 0; spe < S_LAST; spe++) {
-      info.special[spe] = BV_ISSET(ptile->special, spe);
-    }
-    info.continent = ptile->continent;
-  }
-  lsend_packet_tile_info(dest, &info);
 }
 
 /**************************************************************************
@@ -676,7 +605,7 @@ static void really_unfog_area(struct player *pplayer, struct tile *ptile)
    * continent number before it can handle following packets
    */
   update_player_tile_knowledge(pplayer, ptile);
-  send_tile_info_always(pplayer, pplayer->connections, ptile);
+  send_tile_info(pplayer->connections, ptile);
 
   /* discover units */
   unit_list_iterate(ptile->units, punit)
@@ -752,7 +681,7 @@ static void really_fog_area(struct player *pplayer, struct tile *ptile)
   unit_list_iterate_end;  
 
   update_player_tile_last_seen(pplayer, ptile);
-  send_tile_info_always(pplayer, pplayer->connections, ptile);
+  send_tile_info(pplayer->connections, ptile);
 }
 
 /**************************************************************************
@@ -912,7 +841,7 @@ static void really_show_area(struct player *pplayer, struct tile *ptile)
     update_player_tile_knowledge(pplayer, ptile);
     update_player_tile_last_seen(pplayer, ptile);
 
-    send_tile_info_always(pplayer, pplayer->connections, ptile);
+    send_tile_info(pplayer->connections, ptile);
 
     /* remove old cities that exist no more */
     reality_check_city(pplayer, ptile);
@@ -1254,7 +1183,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       dest_tile->special = from_tile->special;
       dest_tile->owner = from_tile->owner;
       dest_tile->last_updated = from_tile->last_updated;
-      send_tile_info_always(pdest, pdest->connections, ptile);
+      send_tile_info(pdest->connections, ptile);
 	
       /* update and send city knowledge */
       /* remove outdated cities */
