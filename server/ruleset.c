@@ -1805,6 +1805,9 @@ static void load_ruleset_governments(struct section_file *file)
     if (game.players[i].government == G_MAGIC) {
       game.players[i].government = game.default_government;
     }
+    if (game.players[i].target_government == G_MAGIC) {
+      game.players[i].target_government = game.default_government;
+    }
   }
 
   /* easy ones: */
