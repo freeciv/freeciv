@@ -696,6 +696,10 @@ void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
 		     va_list vargs)
 {
   struct packet_chat_msg genmsg;
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
   
   my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, vargs);
   genmsg.event = event;
@@ -745,21 +749,15 @@ void notify_conn(struct conn_list *dest, const char *format, ...)
   Similar to vnotify_conn_ex (see also), but takes player as "destination".
   If player != NULL, sends to all connections for that player.
   If player == NULL, sends to all game connections, to support
-  old code, but this feature may go away - should use notify_conn with
-  explicitly game.est_connections or game.game_connections as dest.
+  old code, but this feature may go away - should use notify_conn(NULL)
+  instead.
 **************************************************************************/
 void notify_player_ex(const struct player *pplayer, struct tile *ptile,
 		      enum event_type event, const char *format, ...) 
 {
-  struct conn_list *dest;
+  struct conn_list *dest = pplayer ? pplayer->connections : NULL;
   va_list args;
 
-  if (pplayer) {
-    dest = pplayer->connections;
-  } else {
-    dest = game.game_connections;
-  }
-  
   va_start(args, format);
   vnotify_conn_ex(dest, ptile, event, format, args);
   va_end(args);
@@ -770,15 +768,9 @@ void notify_player_ex(const struct player *pplayer, struct tile *ptile,
 **************************************************************************/
 void notify_player(const struct player *pplayer, const char *format, ...) 
 {
-  struct conn_list *dest;
+  struct conn_list *dest = pplayer ? pplayer->connections : NULL;
   va_list args;
 
-  if (pplayer) {
-    dest = pplayer->connections;
-  } else {
-    dest = game.game_connections;
-  }
-  
   va_start(args, format);
   vnotify_conn_ex(dest, NULL, E_NOEVENT, format, args);
   va_end(args);
