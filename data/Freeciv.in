@@ -1260,13 +1260,18 @@ Freeciv*optionpopup*Toggle.internalHeight: 0
 Freeciv*optionlabel.label:             _("Set local options")
 Freeciv*optionlabel.borderWidth:       0
 
+Freeciv*optionviewport.fromVert:       optionlabel
+Freeciv*optionviewport.height:         510
+Freeciv*optionviewport.useRight:       True
+Freeciv*optionviewport.allowVert:      True
+
 ! dummy labels:
 Freeciv*optionpopup*label.label:           XXXXXXXXXXXXXXXXXXXXXXXXXXX
 Freeciv*optionpopup*label.borderWidth:     0
 
 Freeciv*optionpopup*input.*.foreground:    black
 Freeciv*optionpopup*input.*.background:    white
-Freeciv*optionpopup*input.width:           50
+Freeciv*optionpopup*input.width:           120
 Freeciv*optionpopup*input.*.editType:      edit
 
 Freeciv*optionokcommand.label:          _("Ok")
