@@ -1705,6 +1705,7 @@ void server_player_init(struct player *pplayer, bool initmap)
     player_map_allocate(pplayer);
   }
   pplayer->player_no = pplayer-game.players;
+  pplayer->team = TEAM_NONE;
   ai_data_init(pplayer);
 }
 
