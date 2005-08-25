@@ -374,10 +374,10 @@ static int get_bulbs_per_turn(int *pours, int *ptheirs)
 ****************************************************************************/
 const char *science_dialog_text(void)
 {
-  int turns_to_advance;
   struct player *plr = game.player_ptr;
   int ours, theirs;
   static struct astring str = ASTRING_INIT;
+  char ourbuf[1024] = "", theirbuf[1024] = "";
 
   astr_clear(&str);
 
@@ -389,29 +389,25 @@ const char *science_dialog_text(void)
   }
   assert(ours >= 0 && theirs >= 0);
   if (get_player_research(plr)->researching == A_UNSET) {
-    if (theirs == 0) {
-      astr_add(&str, _("Progress: no research target (%d pts/turn)"), ours);
-    } else {
-      astr_add(&str, _("Progress: no research target "
-	    "(%d pts/turn, %d pts/turn from team)"), ours, theirs);
-    }
-    return str.str;
-  }
-  turns_to_advance = (total_bulbs_required(plr) + ours + theirs - 1)
-                     / (ours + theirs);
-  if (theirs == 0) {
-    /* Simple version, no techpool */
-    astr_add(&str, PL_("Progress: %d turn/advance (%d pts/turn)",
-	    "Progress: %d turns/advance (%d pts/turn)",
-	    turns_to_advance), turns_to_advance, ours);
+    astr_add(&str, _("Progress: no research target"));
   } else {
-    /* Techpool version */
-    astr_add(&str, PL_("Progress: %d turn/advance (%d pts/turn, "
-	    "%d pts/turn from team)",
-	    "Progress: %d turns/advance (%d pts/turn, "
-	    "%d pts/turn from team)",
-	    turns_to_advance), turns_to_advance, ours, theirs);
+    int turns_to_advance = ((total_bulbs_required(plr) + ours + theirs - 1)
+			    / (ours + theirs));
+
+    astr_add(&str, PL_("Progress: %d turn/advance",
+		       "Progress: %d turns/advance",
+		       turns_to_advance), turns_to_advance);
   }
+  my_snprintf(ourbuf, sizeof(ourbuf),
+	      PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
+  if (theirs > 0) {
+    /* Techpool version */
+    /* TRANS: This is appended to "%d bulb/turn" text */
+    my_snprintf(theirbuf, sizeof(theirbuf),
+		PL_(", %d bulb/turn from team",
+		    ", %d bulbs/turn from team", theirs), theirs);
+  }
+  astr_add(&str, " (%s%s)", ourbuf, theirbuf);
   return str.str;
 }
 
