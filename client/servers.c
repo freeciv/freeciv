@@ -498,40 +498,24 @@ struct server_list *get_lan_server_list(void) {
   char status[256];
   char players[256];
   char message[1024];
-  fd_set readfs, exceptfs;
-  struct timeval tv;
 
-  FD_ZERO(&readfs);
-  FD_ZERO(&exceptfs);
-  FD_SET(socklan, &exceptfs);
-  FD_SET(socklan, &readfs);
-  tv.tv_sec = 0;
-  tv.tv_usec = 0;
-
-  while (select(socklan + 1, &readfs, NULL, &exceptfs, &tv) == -1) {
-    if (errno != EINTR) {
-      freelog(LOG_ERROR, "select failed: %s", mystrerror());
-      return lan_servers;
-    }
-    /* EINTR can happen sometimes, especially when compiling with -pg.
-     * Generally we just want to run select again. */
-  }
-
-  if (!FD_ISSET(socklan, &readfs)) {
-    return lan_servers;
-  }
-
-  dio_input_init(&din, msgbuf, sizeof(msgbuf));
-  fromlen = sizeof(fromend);
-
-  /* Try to receive a packet from a server. */ 
-  if (0 < recvfrom(socklan, msgbuf, sizeof(msgbuf), 0,
-                   &fromend.sockaddr, &fromlen)) {
+  while (1) {
     struct server *pserver;
+    bool duplicate = FALSE;
+
+    dio_input_init(&din, msgbuf, sizeof(msgbuf));
+    fromlen = sizeof(fromend);
+
+    /* Try to receive a packet from a server.  No select loop is needed;
+     * we just keep on reading until recvfrom returns -1. */
+    if (recvfrom(socklan, msgbuf, sizeof(msgbuf), 0,
+		 &fromend.sockaddr, &fromlen) < 0) {
+      break;
+    }
 
     dio_get_uint8(&din, &type);
     if (type != SERVER_LAN_VERSION) {
-      return lan_servers;
+      continue;
     }
     dio_get_string(&din, servername, sizeof(servername));
     dio_get_string(&din, port, sizeof(port));
@@ -550,14 +534,17 @@ struct server_list *get_lan_server_list(void) {
     server_list_iterate(lan_servers, aserver) {
       if (!mystrcasecmp(aserver->host, servername) 
           && !mystrcasecmp(aserver->port, port)) {
-        return lan_servers;
+	duplicate = TRUE;
       } 
     } server_list_iterate_end;
+    if (duplicate) {
+      continue;
+    }
 
     freelog(LOG_DEBUG,
             ("Received a valid announcement from a server on the LAN."));
     
-    pserver =  (struct server*)fc_malloc(sizeof(struct server));
+    pserver = fc_malloc(sizeof(*pserver));
     pserver->host = mystrdup(servername);
     pserver->port = mystrdup(port);
     pserver->version = mystrdup(version);
@@ -567,9 +554,7 @@ struct server_list *get_lan_server_list(void) {
     pserver->players = NULL;
 
     server_list_prepend(lan_servers, pserver);
-  } else {
-    return lan_servers;
-  }                                       
+  }
 
   return lan_servers;
 }
