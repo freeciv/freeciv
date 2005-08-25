@@ -253,7 +253,7 @@ static void finish_revolution(struct player *pplayer)
   }
 
   pplayer->government = government;
-  /* Leave the target government the same. */
+  pplayer->target_government = NULL;
 
   freelog(LOG_DEBUG,
 	  "Revolution finished for %s.  Government is %s.  Revofin %d (%d).",
