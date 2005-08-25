@@ -329,7 +329,7 @@ void message_options_init(void)
     messages_where[i] = MW_MESSAGES;
   }
   for (i = 0; i < ARRAY_SIZE(none); i++) {
-    messages_where[out_only[i]] = 0;
+    messages_where[none[i]] = 0;
   }
   for (i = 0; i < ARRAY_SIZE(out_only); i++) {
     messages_where[out_only[i]] = MW_OUTPUT;
