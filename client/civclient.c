@@ -710,7 +710,8 @@ double real_timer_callback(void)
 **************************************************************************/
 bool can_client_issue_orders(void)
 {
-  return (!client_is_observer()
+  return (game.player_ptr
+	  && !client_is_observer()
 	  && get_client_state() == CLIENT_GAME_RUNNING_STATE);
 }
 
@@ -740,6 +741,7 @@ bool can_intel_with_player(const struct player *pplayer)
 **************************************************************************/
 bool can_client_change_view(void)
 {
-  return (get_client_state() == CLIENT_GAME_RUNNING_STATE
-	  || get_client_state() == CLIENT_GAME_OVER_STATE);
+  return (game.player_ptr
+	  && (get_client_state() == CLIENT_GAME_RUNNING_STATE
+	      || get_client_state() == CLIENT_GAME_OVER_STATE));
 }

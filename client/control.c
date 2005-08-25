@@ -227,6 +227,9 @@ at the end of the goto, then they are still in focus.
 **************************************************************************/
 void update_unit_focus(void)
 {
+  if (!can_client_change_view()) {
+    return;
+  }
   if (!punit_focus
       || (punit_focus->activity != ACTIVITY_IDLE
 	  && !unit_has_orders(punit_focus)
@@ -257,6 +260,8 @@ void advance_unit_focus(void)
 {
   struct unit *punit_old_focus = punit_focus;
   struct unit *candidate = find_best_focus_candidate(FALSE);
+
+  assert(can_client_change_view());
 
   set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   if (!can_client_change_view()) {

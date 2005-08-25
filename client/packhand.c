@@ -812,7 +812,7 @@ void handle_start_phase(int phase)
 {
   game.info.phase = phase;
 
-  if (is_player_phase(game.player_ptr, phase)) {
+  if (game.player_ptr && is_player_phase(game.player_ptr, phase)) {
     /* HACK: this is updated by the player packet too; we update it here
      * so the turn done button state will be set properly. */
     game.player_ptr->phase_done = FALSE;
@@ -1344,9 +1344,7 @@ void handle_game_info(struct packet_game_info *pinfo)
 
   game.government_when_anarchy
     = get_government(game.info.government_when_anarchy_id);
-  if (!can_client_change_view()) {
-    game.player_ptr = &game.players[game.info.player_idx];
-  }
+  game.player_ptr = get_player(game.info.player_idx);
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     popdown_races_dialog();
   }
@@ -1559,10 +1557,12 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   sz_strlcpy(pplayer->username, pinfo->username);
 
-  /* Just about any changes above require an update to the intelligence
-   * dialog. */
-  update_intel_dialog(pplayer);
-  update_conn_list_dialog();
+  if (can_client_change_view()) {
+    /* Just about any changes above require an update to the intelligence
+     * dialog. */
+    update_intel_dialog(pplayer);
+    update_conn_list_dialog();
+  }
 }
 
 /**************************************************************************

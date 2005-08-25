@@ -1967,8 +1967,10 @@ static void queue_add_callback(void)
 **************************************************************************/
 void queue_mapview_update(enum update_type update)
 {
-  needed_updates |= update;
-  queue_add_callback();
+  if (can_client_change_view()) {
+    needed_updates |= update;
+    queue_add_callback();
+  }
 }
 
 /**************************************************************************
@@ -1981,11 +1983,13 @@ void queue_mapview_update(enum update_type update)
 void queue_mapview_tile_update(struct tile *ptile,
 			       enum tile_update_type type)
 {
-  if (!tile_updates[type]) {
-    tile_updates[type] = tile_list_new();
+  if (can_client_change_view()) {
+    if (!tile_updates[type]) {
+      tile_updates[type] = tile_list_new();
+    }
+    tile_list_append(tile_updates[type], ptile);
+    queue_add_callback();
   }
-  tile_list_append(tile_updates[type], ptile);
-  queue_add_callback();
 }
 
 /**************************************************************************

@@ -502,16 +502,20 @@ const char *get_info_label_text(void)
 
   astr_clear(&str);
 
-  astr_add_line(&str, _("Population: %s"),
-		population_to_text(civ_population(game.player_ptr)));
+  if (game.player_ptr) {
+    astr_add_line(&str, _("Population: %s"),
+		  population_to_text(civ_population(game.player_ptr)));
+  }
   astr_add_line(&str, _("Year: %s (T%d)"),
 		textyear(game.info.year), game.info.turn);
-  astr_add_line(&str, _("Gold: %d (%+d)"), game.player_ptr->economic.gold,
-		player_get_expected_income(game.player_ptr));
-  astr_add_line(&str, _("Tax: %d Lux: %d Sci: %d"),
-		game.player_ptr->economic.tax,
-		game.player_ptr->economic.luxury,
-		game.player_ptr->economic.science);
+  if (game.player_ptr) {
+    astr_add_line(&str, _("Gold: %d (%+d)"), game.player_ptr->economic.gold,
+		  player_get_expected_income(game.player_ptr));
+    astr_add_line(&str, _("Tax: %d Lux: %d Sci: %d"),
+		  game.player_ptr->economic.tax,
+		  game.player_ptr->economic.luxury,
+		  game.player_ptr->economic.science);
+  }
   if (!game.info.simultaneous_phases) {
     astr_add_line(&str, _("Moving: %s"), get_player(game.info.phase)->name);
   }
@@ -639,16 +643,18 @@ const char *get_bulb_tooltip(void)
 
   astr_add_line(&str, _("Shows your progress in "
 			"researching the current technology."));
-  if (get_player_research(game.player_ptr)->researching == A_UNSET) {
-    astr_add_line(&str, _("no research target."));
-  } else {
-    /* TRANS: <tech>: <amount>/<total bulbs> */
-    struct player_research *research = get_player_research(game.player_ptr);
+  if (game.player_ptr) {
+    if (get_player_research(game.player_ptr)->researching == A_UNSET) {
+      astr_add_line(&str, _("no research target."));
+    } else {
+      /* TRANS: <tech>: <amount>/<total bulbs> */
+      struct player_research *research = get_player_research(game.player_ptr);
 
-    astr_add_line(&str, _("%s: %d/%d."),
-		  get_tech_name(game.player_ptr, research->researching),
-		  research->bulbs_researched,
-		  total_bulbs_required(game.player_ptr));
+      astr_add_line(&str, _("%s: %d/%d."),
+		    get_tech_name(game.player_ptr, research->researching),
+		    research->bulbs_researched,
+		    total_bulbs_required(game.player_ptr));
+    }
   }
   return str.str;
 }
@@ -701,8 +707,10 @@ const char *get_government_tooltip(void)
 
   astr_clear(&str);
 
-  astr_add(&str, _("Shows your current government:\n%s."),
-      get_government_name(game.player_ptr->government));
+  astr_add_line(&str, _("Shows your current government:"));
+  if (game.player_ptr) {
+    astr_add_line(&str, get_government_name(game.player_ptr->government));
+  }
   return str.str;
 }
 

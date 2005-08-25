@@ -26,9 +26,10 @@
 #include "citydlg_g.h"
 #include "mapview_g.h"
 #include "messagewin_g.h"
-#include "options.h"
 
+#include "civclient.h"
 #include "messagewin_common.h"
+#include "options.h"
 
 static int frozen_level = 0;
 static bool change = FALSE;
@@ -70,7 +71,7 @@ void meswin_force_thaw(void)
 **************************************************************************/
 void update_meswin_dialog(void)
 {
-  if (frozen_level > 0 || !change) {
+  if (frozen_level > 0 || !change || !can_client_change_view()) {
     return;
   }
 

@@ -99,12 +99,15 @@ void update_timeout_label(void)
 **************************************************************************/
 void update_info_label( void )
 {
-  int  d;
   GtkWidget *label;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
-  gtk_label_set_text(GTK_LABEL(label),
-		     get_nation_name(game.player_ptr->nation));
+  if (game.player_ptr) {
+    gtk_label_set_text(GTK_LABEL(label),
+		       get_nation_name(game.player_ptr->nation));
+  } else {
+    gtk_label_set_text(GTK_LABEL(label), "-");
+  }
 
   gtk_label_set_text(GTK_LABEL(main_label_info), get_info_label_text());
 
@@ -113,27 +116,30 @@ void update_info_label( void )
 		      client_cooling_sprite(),
 		      client_government_sprite());
 
-  d=0;
-  for (; d < game.player_ptr->economic.luxury /10; d++) {
-    struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
+  if (game.player_ptr) {
+    int d = 0;
 
-    gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
-			      sprite_get_pixbuf(sprite));
-  }
+    for (; d < game.player_ptr->economic.luxury /10; d++) {
+      struct sprite *sprite = get_tax_sprite(tileset, O_LUXURY);
+
+      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
+				sprite_get_pixbuf(sprite));
+    }
  
-  for (; d < (game.player_ptr->economic.science
-	     + game.player_ptr->economic.luxury) / 10; d++) {
-    struct sprite *sprite = get_tax_sprite(tileset, O_SCIENCE);
+    for (; d < (game.player_ptr->economic.science
+		+ game.player_ptr->economic.luxury) / 10; d++) {
+      struct sprite *sprite = get_tax_sprite(tileset, O_SCIENCE);
 
-    gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
-			      sprite_get_pixbuf(sprite));
-  }
+      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
+				sprite_get_pixbuf(sprite));
+    }
  
-  for (; d < 10; d++) {
-    struct sprite *sprite = get_tax_sprite(tileset, O_GOLD);
+    for (; d < 10; d++) {
+      struct sprite *sprite = get_tax_sprite(tileset, O_GOLD);
 
-    gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
-			      sprite_get_pixbuf(sprite));
+      gtk_image_set_from_pixbuf(GTK_IMAGE(econ_label[d]),
+				sprite_get_pixbuf(sprite));
+    }
   }
  
   update_timeout_label();
