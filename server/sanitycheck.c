@@ -52,7 +52,7 @@
 
 
 /**************************************************************************
-...
+  Sanity checking on map (tile) specials.
 **************************************************************************/
 static void check_specials(void)
 {
@@ -79,7 +79,7 @@ static void check_specials(void)
 }
 
 /**************************************************************************
-...
+  Sanity checking on fog-of-war (visibility, shared vision, etc.).
 **************************************************************************/
 static void check_fow(void)
 {
@@ -110,7 +110,7 @@ static void check_fow(void)
 }
 
 /**************************************************************************
-...
+  Miscellaneous sanity checks.
 **************************************************************************/
 static void check_misc(void)
 {
@@ -127,7 +127,7 @@ static void check_misc(void)
 }
 
 /**************************************************************************
-...
+  Sanity checks on the map itself.  See also check_specials.
 **************************************************************************/
 static void check_map(void)
 {
@@ -300,7 +300,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 }
 
 /**************************************************************************
-...
+  Sanity checks on all cities in the world.
 **************************************************************************/
 static void check_cities(void)
 {
@@ -333,7 +333,7 @@ static void check_cities(void)
 }
 
 /**************************************************************************
-...
+  Sanity checks on all units in the world.
 **************************************************************************/
 static void check_units(void) {
   players_iterate(pplayer) {
@@ -401,7 +401,7 @@ static void check_units(void) {
 }
 
 /**************************************************************************
-...
+  Sanity checks on all players.
 **************************************************************************/
 static void check_players(void)
 {
@@ -488,7 +488,27 @@ static void check_teams(void)
 }
 
 /**************************************************************************
-...
+  Sanity checking on connections.
+**************************************************************************/
+static void check_connections(void)
+{
+  /* est_connections is a subset of all_connections */
+  SANITY_CHECK(conn_list_size(game.all_connections)
+	       >= conn_list_size(game.est_connections));
+
+  /* game_connections is a subset of est_connections */
+  SANITY_CHECK(conn_list_size(game.est_connections)
+	       >= conn_list_size(game.game_connections));
+}
+
+/**************************************************************************
+  Do sanity checks on the server state.  Call this once per turn or
+  whenever you feel like it.
+
+  But be careful, calling it too much would make the server slow down.  And
+  at some times the server isn't supposed to be in a sane state so you
+  can't call it in the middle of an operation that is supposed to be
+  atomic.
 **************************************************************************/
 void sanity_check(void)
 {
@@ -504,6 +524,7 @@ void sanity_check(void)
   check_misc();
   check_players();
   check_teams();
+  check_connections();
 }
 
 #endif /* SANITY_CHECKING */
