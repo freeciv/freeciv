@@ -135,6 +135,7 @@ int fill_sprite_array(struct tileset *t,
 
 double get_focus_unit_toggle_timeout(const struct tileset *t);
 void reset_focus_unit_state(struct tileset *t);
+void focus_unit_in_combat(struct tileset *t);
 void toggle_focus_unit_state(struct tileset *t);
 struct unit *get_drawable_unit(const struct tileset *t,
 			       struct tile *ptile,

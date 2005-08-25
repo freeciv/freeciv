@@ -4192,6 +4192,13 @@ void reset_focus_unit_state(struct tileset *t)
   focus_unit_state = 0;
 }
 
+void focus_unit_in_combat(struct tileset *t)
+{
+  if (!t->sprites.unit.select[0]) {
+    reset_focus_unit_state(t);
+  }
+}
+
 /****************************************************************************
   Toggle/increment the focus unit state.  This should be called once
   every get_focus_unit_toggle_timeout() seconds.

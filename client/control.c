@@ -541,6 +541,14 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 {
   punit_attacking = pattacker;
   punit_defending = pdefender;
+
+  if (punit_attacking == punit_focus || punit_defending == punit_focus) {
+    /* If one of the units is the focus unit, make sure hidden-focus is
+     * disabled.  We don't just do this as a check later because then
+     * with a blinking unit it would just disappear again right after the
+     * battle. */
+    focus_unit_in_combat(tileset);
+  }
 }
 
 /**************************************************************************
