@@ -33,6 +33,7 @@ enum event_type {
   E_CITY_GRAN_THROTTLE,
   E_CITY_TRANSFER,
   E_CITY_BUILD,
+  E_CITY_PRODUCTION_CHANGED,
   E_WORKLIST,
   E_UPRISING,
   E_CIVIL_WAR,
@@ -60,6 +61,7 @@ enum event_type {
   E_ENEMY_DIPLOMAT_POISON,
   E_ENEMY_DIPLOMAT_SABOTAGE,
   E_ENEMY_DIPLOMAT_THEFT,
+  E_CARAVAN_ACTION,
   E_TUTORIAL,
   E_BROADCAST_REPORT,
   E_GAME_END,
@@ -108,8 +110,11 @@ enum event_type {
   E_WONDER_STOPPED,
   E_WONDER_WILL_BE_BUILT,
   E_DIPLOMACY,
-  E_CITY_PRODUCTION_CHANGED,
   E_TREATY_EMBASSY,
+  E_BAD_COMMAND,  /* Illegal command sent from client. */
+  E_SETTING, /* Messages for changed server settings */
+  E_CHAT_MSG, /* Chatline messages */
+  E_CHAT_ERROR, /* Chatline errors (bad syntax, etc.) */
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in client/options.c using GEN_EV and to

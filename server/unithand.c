@@ -356,7 +356,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
 
   if (unit_flag(punit, F_UNDISBANDABLE)) {
     /* refuse to kill ourselves */
-    notify_player_ex(unit_owner(punit), punit->tile, E_NOEVENT,
+    notify_player_ex(unit_owner(punit), punit->tile, E_BAD_COMMAND,
               _("%s refuses to disband!"), unit_name(punit->type));
     return;
   }
@@ -409,19 +409,19 @@ static void city_add_or_build_error(struct player *pplayer,
 
   switch (res) {
   case AB_NOT_BUILD_LOC:
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("Can't place city here."));
     break;
   case AB_NOT_BUILD_UNIT:
     {
       const char *us = get_units_with_flag_string(F_CITIES);
       if (us) {
-	notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+	notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 			 _("Only %s can build a city."),
 			 us);
 	free((void *) us);
       } else {
-	notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+	notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 			 _("Can't build a city."));
       }
     }
@@ -430,33 +430,33 @@ static void city_add_or_build_error(struct player *pplayer,
     {
       const char *us = get_units_with_flag_string(F_ADD_TO_CITY);
       if (us) {
-	notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+	notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 			 _("Only %s can add to a city."),
 			 us);
 	free((void *) us);
       } else {
-	notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+	notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 			 _("Can't add to a city."));
       }
     }
     break;
   case AB_NO_MOVES_ADD:
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s unit has no moves left to add to %s."),
 		     unit_name, pcity->name);
     break;
   case AB_NO_MOVES_BUILD:
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s unit has no moves left to build city."),
 		     unit_name);
     break;
   case AB_TOO_BIG:
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s is too big to add %s."),
 		     pcity->name, unit_name);
     break;
   case AB_NO_SPACE:
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("%s needs an improvement to grow, so "
 		       "you cannot add %s."),
 		     pcity->name, unit_name);
@@ -465,7 +465,7 @@ static void city_add_or_build_error(struct player *pplayer,
     /* Shouldn't happen */
     freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason",
 	    unit_name, pcity->name);
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("Can't add %s to %s."),
 		     unit_name, pcity->name);
     break;
@@ -489,7 +489,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   auto_arrange_workers(pcity);
   wipe_unit(punit);
   send_city_info(NULL, pcity);
-  notify_player_ex(pplayer, pcity->tile, E_NOEVENT,
+  notify_player_ex(pplayer, pcity->tile, E_CITY_BUILD,
 		   _("%s added to aid %s in growing."),
 		   unit_name, pcity->name);
 }
@@ -506,8 +506,8 @@ static void city_build(struct player *pplayer, struct unit *punit,
   char message[1024];
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
-		     _("%s"), message);
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
+		     "%s", message);
     return;
   }
 
@@ -957,19 +957,19 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     const char *units_str = get_units_with_flag_string(F_MARINES);
     if (units_str) {
       notify_player_ex(unit_owner(punit), src_tile,
-		       E_NOEVENT, _("Only %s can attack from sea."),
+		       E_BAD_COMMAND, _("Only %s can attack from sea."),
 		       units_str);
       free((void *) units_str);
     } else {
       notify_player_ex(unit_owner(punit), src_tile,
-		       E_NOEVENT, _("Cannot attack from sea."));
+		       E_BAD_COMMAND, _("Cannot attack from sea."));
     }
   } else if (reason == MR_NO_WAR) {
     notify_player_ex(unit_owner(punit), src_tile,
-		     E_NOEVENT,
+		     E_BAD_COMMAND,
 		     _("Cannot attack unless you declare war first."));
   } else if (reason == MR_ZOC) {
-    notify_player_ex(unit_owner(punit), src_tile, E_NOEVENT,
+    notify_player_ex(unit_owner(punit), src_tile, E_BAD_COMMAND,
 		     _("%s can only move into your own zone of control."),
 		     unit_type(punit)->name);
   }
@@ -1006,7 +1006,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
 
 
   if (punit->moves_left<=0)  {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
                      _("This unit has no moves left."));
     return FALSE;
   }
@@ -1059,7 +1059,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
 						 punit->id, target_id);
         return FALSE;
       } else if (!can_unit_move_to_tile(punit, pdesttile, igzoc)) {
-        notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+        notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
                          is_ocean(tile_get_terrain(punit->tile))
                          ? _("Unit must be on land to "
                              "perform diplomatic action.")
@@ -1078,7 +1078,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
     /* We can attack ONLY in enemy cities */
     if ((pcity && !pplayers_at_war(city_owner(pcity), pplayer))
         || (victim = is_non_attack_unit_tile(pdesttile, pplayer))) {
-      notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+      notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
                        _("You must declare war on %s first.  Try using "
                          "players dialog (F3)."), victim == NULL ?
                        city_owner(pcity)->name : unit_owner(victim)->name);
@@ -1094,7 +1094,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
 	  unit_bombard(punit, pdesttile);
 	  return TRUE;
 	} else {
-	  notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+	  notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 			   _("This unit is being transported, and"
 			     " so cannot bombard."));
 	  return FALSE;
@@ -1109,7 +1109,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
     if (victim) {
       /* Must be physically able to attack EVERY unit there */
       if (!can_unit_attack_all_at_tile(punit, pdesttile)) {
-        notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+        notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
                          _("You can't attack there."));
         return FALSE;
       }
@@ -1129,7 +1129,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
        * If not it would have been caught in the attack case. 
        * FIXME: Move this check into test_unit_move_tile */
       if (!COULD_OCCUPY(punit)) {
-        notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+        notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
                          _("This type of troops cannot "
                            "take over a city."));
         return FALSE;
@@ -1147,7 +1147,7 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
       if (pcargo->transported_by == punit->id
           && (is_non_allied_unit_tile(pdesttile, unit_owner(pcargo))
               || is_non_allied_city_tile(pdesttile, unit_owner(pcargo)))) {
-         notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+         notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
                           _("A transported unit is not allied to all "
                             "units or city on target tile."));
          return FALSE;
@@ -1194,7 +1194,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
   } else {
     text = _("Your %s helps build the %s in %s (%d surplus).");
   }
-  notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
+  notify_player_ex(pplayer, pcity_dest->tile, E_CARAVAN_ACTION,
 		   text, /* Must match arguments below. */
 		   unit_name(punit->type),
 		   get_improvement_type(pcity_dest->production.value)->name,
@@ -1235,7 +1235,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   pcity_homecity = player_find_city_by_id(pplayer, punit->homecity);
 
   if (!pcity_homecity) {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("Sorry, your %s cannot establish"
 		       " a trade route because it has no home city"),
 		     unit_name(punit->type));
@@ -1245,7 +1245,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 
     
   if (!can_cities_trade(pcity_homecity, pcity_dest)) {
-    notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
+    notify_player_ex(pplayer, pcity_dest->tile, E_BAD_COMMAND,
 		     _("Sorry, your %s cannot establish"
 		       " a trade route between %s and %s"),
 		     unit_name(punit->type),pcity_homecity->name,
@@ -1273,10 +1273,10 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 	pcity_out_of_home = find_city_by_id(pcity_homecity->trade[slot]);
 	assert(pcity_out_of_home != NULL);
       } else {
-	notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
+	notify_player_ex(pplayer, pcity_dest->tile, E_BAD_COMMAND,
 		     _("Sorry, your %s cannot establish"
 		       " a trade route here!"), unit_name(punit->type));
-        notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
+        notify_player_ex(pplayer, pcity_dest->tile, E_BAD_COMMAND,
 		       _("      The city of %s already has %d "
 			 "better trade routes!"), pcity_homecity->name,
 		       NUM_TRADEROUTES);
@@ -1290,10 +1290,10 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 	pcity_out_of_dest = find_city_by_id(pcity_dest->trade[slot]);
 	assert(pcity_out_of_dest != NULL);
       } else {
-	notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
+	notify_player_ex(pplayer, pcity_dest->tile, E_BAD_COMMAND,
 		     _("Sorry, your %s cannot establish"
 		       " a trade route here!"), unit_name(punit->type));
-        notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
+        notify_player_ex(pplayer, pcity_dest->tile, E_BAD_COMMAND,
 		       _("      The city of %s already has %d "
 			 "better trade routes!"), pcity_dest->name,
 		       NUM_TRADEROUTES);
@@ -1305,7 +1305,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     if (can_establish && pcity_out_of_home) {
       remove_trade_route(pcity_homecity, pcity_out_of_home);
       notify_player_ex(city_owner(pcity_out_of_home),
-		       pcity_out_of_home->tile, E_NOEVENT,
+		       pcity_out_of_home->tile, E_CARAVAN_ACTION,
 		       _("Sorry, %s has canceled the trade route "
 			 "from %s to your city %s."),
 		       city_owner(pcity_homecity)->name,
@@ -1316,7 +1316,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     if (can_establish && pcity_out_of_dest) {
       remove_trade_route(pcity_dest, pcity_out_of_dest);
       notify_player_ex(city_owner(pcity_out_of_dest),
-		       pcity_out_of_dest->tile, E_NOEVENT,
+		       pcity_out_of_dest->tile, E_CARAVAN_ACTION,
 		       _("Sorry, %s has canceled the trade route "
 			 "from %s to your city %s."),
 		       city_owner(pcity_dest)->name,
@@ -1348,7 +1348,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   }
   
   conn_list_do_buffer(pplayer->connections);
-  notify_player_ex(pplayer, pcity_dest->tile, E_NOEVENT,
+  notify_player_ex(pplayer, pcity_dest->tile, E_CARAVAN_ACTION,
 		   _("Your %s from %s has arrived in %s,"
 		     " and revenues amount to %d in gold and research."), 
 		   unit_name(punit->type), pcity_homecity->name,

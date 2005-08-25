@@ -26,7 +26,7 @@
 #include "events.h"
 
 #define GEN_EV(descr, event) { #event, NULL, descr, NULL, event }
-#define GEN_EV_TERMINATOR { NULL, NULL, NULL, NULL, E_NOEVENT }
+#define GEN_EV_TERMINATOR { NULL, NULL, NULL, NULL, -1 }
 
 /*
  * Holds information about all event types. The entries don't have
@@ -56,6 +56,7 @@ static struct {
   GEN_EV(N_("City: Transfer"),                        E_CITY_TRANSFER),
   GEN_EV(N_("City: Was Built"),                       E_CITY_BUILD),
   GEN_EV(N_("City: Worklist Events"),                 E_WORKLIST),
+  GEN_EV(N_("City: Production changed"),              E_CITY_PRODUCTION_CHANGED),
   GEN_EV(N_("Civ: Barbarian Uprising"),               E_UPRISING ),
   GEN_EV(N_("Civ: Civil War"),                        E_CIVIL_WAR),
   GEN_EV(N_("Civ: Collapse to Anarchy"),              E_ANARCHY),
@@ -82,6 +83,7 @@ static struct {
   GEN_EV(N_("Enemy Diplomat: Poison"),              E_ENEMY_DIPLOMAT_POISON),
   GEN_EV(N_("Enemy Diplomat: Sabotage"),            E_ENEMY_DIPLOMAT_SABOTAGE),
   GEN_EV(N_("Enemy Diplomat: Theft"),               E_ENEMY_DIPLOMAT_THEFT),
+  GEN_EV(N_("Caravan actions"), E_CARAVAN_ACTION),
   GEN_EV(N_("Tutorial message"),                E_TUTORIAL),
   GEN_EV(N_("Broadcast Report"),                E_BROADCAST_REPORT),
   GEN_EV(N_("Game Ended"),                      E_GAME_END),
@@ -130,8 +132,11 @@ static struct {
   GEN_EV(N_("Wonder: Stopped"),                       E_WONDER_STOPPED),
   GEN_EV(N_("Wonder: Will Finish Next Turn"),         E_WONDER_WILL_BE_BUILT),
   GEN_EV(N_("Diplomatic Message"),                    E_DIPLOMACY),
-  GEN_EV(N_("City: Production changed"),              E_CITY_PRODUCTION_CHANGED),
   GEN_EV(N_("Treaty: Embassy"),                       E_TREATY_EMBASSY),
+  GEN_EV(N_("Error message from bad command"), E_BAD_COMMAND),
+  GEN_EV(N_("Server settings changed"), E_SETTING),
+  GEN_EV(N_("Chat messages"), E_CHAT_MSG),
+  GEN_EV(N_("Chat error messages"), E_CHAT_ERROR),
   GEN_EV_TERMINATOR
 };
 
@@ -177,7 +182,7 @@ static int compar_event_message_texts(const void *i1, const void *i2)
 ****************************************************************************/
 const char *get_event_sound_tag(enum event_type event)
 {
-  if (event == E_NOEVENT) {
+  if (event < 0 || event >= E_LAST) {
     return NULL;
   }
 
@@ -242,7 +247,7 @@ void events_init(void)
   for (i = 0;; i++) {
     int j;
 
-    if (events[i].event == E_NOEVENT) {
+    if (events[i].event < 0) {
       break;
     }
     events[i].descr = _(events[i].descr_orig);

@@ -314,19 +314,25 @@ unsigned int messages_where[E_LAST];
 *****************************************************************/
 void message_options_init(void)
 {
-  int out_only[] = { E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY,
-		     E_UNIT_LOST_ATT, E_UNIT_WIN_ATT, E_GAME_START,
-		     E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR,
-		     E_CITY_PRODUCTION_CHANGED,
-		     E_CITY_MAY_SOON_GROW, E_WORKLIST};
-  int all[] = { E_MESSAGE_WALL, E_TUTORIAL };
+  int none[] = {
+    E_IMP_BUY, E_IMP_SOLD, E_UNIT_BUY,
+    E_UNIT_LOST_ATT, E_UNIT_WIN_ATT, E_GAME_START,
+    E_NATION_SELECTED, E_CITY_BUILD, E_NEXT_YEAR,
+    E_CITY_PRODUCTION_CHANGED,
+    E_CITY_MAY_SOON_GROW, E_WORKLIST
+  };
+  int out_only[] = {E_CHAT_MSG, E_CHAT_ERROR, E_SETTING};
+  int all[] = {E_MESSAGE_WALL, E_TUTORIAL};
   int i;
 
-  for(i=0; i<E_LAST; i++) {
+  for (i = 0; i < E_LAST; i++) {
     messages_where[i] = MW_MESSAGES;
   }
-  for (i = 0; i < ARRAY_SIZE(out_only); i++) {
+  for (i = 0; i < ARRAY_SIZE(none); i++) {
     messages_where[out_only[i]] = 0;
+  }
+  for (i = 0; i < ARRAY_SIZE(out_only); i++) {
+    messages_where[out_only[i]] = MW_OUTPUT;
   }
   for (i = 0; i < ARRAY_SIZE(all); i++) {
     messages_where[all[i]] = MW_MESSAGES | MW_POPUP;

@@ -688,8 +688,7 @@ repeat_break_treaty:
   apply if game has started and the conn's player knows that tile (or
   pconn->player==NULL && pconn->observer).  If coords are not required,
   caller should specify (x,y) = (-1,-1); otherwise make sure that the
-  coordinates have been normalized.  For generic event use E_NOEVENT.
-  (But current clients do not use (x,y) data for E_NOEVENT events.)
+  coordinates have been normalized.
 **************************************************************************/
 void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
 		     enum event_type event, const char *format,

@@ -403,7 +403,7 @@ static void handle_city(struct city *pcity)
       if (!apply_result_on_server(pcity, &result)) {
 	freelog(HANDLE_CITY_LOG_LEVEL2, "  doesn't cleanly apply");
 	if (check_city(city_id, NULL) && i == 0) {
-	  create_event(pcity->tile, E_NOEVENT,
+	  create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		       _("The citizen governor has gotten confused dealing "
 			 "with %s.  You may want to have a look."),
 		       pcity->name);
@@ -423,7 +423,7 @@ static void handle_city(struct city *pcity)
     assert(pcity != NULL);
     freelog(HANDLE_CITY_LOG_LEVEL2, "  not handled");
 
-    create_event(pcity->tile, E_NOEVENT,
+    create_event(pcity->tile, E_CITY_CMA_RELEASE,
 		 _("The citizen governor has gotten confused dealing "
 		   "with %s.  You may want to have a look."),
 		 pcity->name);

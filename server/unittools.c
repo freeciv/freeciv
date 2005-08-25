@@ -420,7 +420,7 @@ void player_restore_units(struct player *pplayer)
 	    punit->goto_tile = itr_tile;
 	    set_unit_activity(punit, ACTIVITY_GOTO);
 	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-	    notify_player_ex(pplayer, punit->tile, E_NOEVENT, 
+	    notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS, 
 			     _("Your %s has returned to refuel."),
 			     unit_name(punit->type));
 	    goto OUT;
@@ -1111,7 +1111,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
 	    unit_owner(punit)->name, unit_name(punit->type),
 	    src_tile->x, src_tile->y, pcity->name);
     if (verbose) {
-      notify_player_ex(unit_owner(punit), pcity->tile, E_NOEVENT,
+      notify_player_ex(unit_owner(punit), pcity->tile, E_UNIT_RELOCATED,
 		       _("Teleported your %s to %s."),
 		       unit_name(punit->type), pcity->name);
     }
@@ -1140,7 +1140,7 @@ void bounce_unit(struct unit *punit, bool verbose)
   } else {
     /* remove it */
     if (verbose) {
-      notify_player_ex(unit_owner(punit), punit->tile, E_NOEVENT,
+      notify_player_ex(unit_owner(punit), punit->tile, E_UNIT_LOST,
 		       _("Disbanded your %s."),
 		       unit_name(punit->type));
     }
@@ -1565,7 +1565,7 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
 	    pcity = find_closest_owned_city(unit_owner(pcargo),
 					    pcargo->tile, TRUE, NULL);
 	    if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
-	      notify_player_ex(pplayer, ptile, E_NOEVENT,
+	      notify_player_ex(pplayer, ptile, E_UNIT_RELOCATED,
 			       _("%s escaped the destruction of %s, and "
 				 "fled to %s."), unit_type(pcargo)->name,
 			       ptype->name, pcity->name);
@@ -2019,7 +2019,7 @@ bool do_airline(struct unit *punit, struct city *city2)
   city1->airlift = FALSE;
   city2->airlift = FALSE;
 
-  notify_player_ex(unit_owner(punit), city2->tile, E_NOEVENT,
+  notify_player_ex(unit_owner(punit), city2->tile, E_UNIT_RELOCATED,
 		   _("%s transported succesfully."),
 		   unit_name(punit->type));
 
@@ -2042,7 +2042,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
 
   if (!unit_flag(punit, F_PARATROOPERS)) {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
                      _("This unit type can not be paradropped."));
     return FALSE;
   }
@@ -2052,19 +2052,19 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   if (get_transporter_occupancy(punit) > 0) {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_BAD_COMMAND,
 		     _("You cannot paradrop a transporter unit."));
   }
 
   if (!map_is_known(ptile, pplayer)) {
-    notify_player_ex(pplayer, ptile, E_NOEVENT,
+    notify_player_ex(pplayer, ptile, E_BAD_COMMAND,
                      _("The destination location is not known."));
     return FALSE;
   }
 
   /* Safe terrain according to player map? */
   if (!is_native_terrain(punit, map_get_player_tile(ptile, pplayer)->terrain)) {
-    notify_player_ex(pplayer, ptile, E_NOEVENT,
+    notify_player_ex(pplayer, ptile, E_BAD_COMMAND,
                      _("This unit cannot paradrop into %s."),
                        get_name(map_get_player_tile(ptile, pplayer)->terrain));
     return FALSE;
@@ -2074,7 +2074,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
       && ((ptile->city
 	  && pplayers_non_attack(pplayer, city_owner(ptile->city)))
       || is_non_attack_unit_tile(ptile, pplayer))) {
-    notify_player_ex(pplayer, ptile, E_NOEVENT,
+    notify_player_ex(pplayer, ptile, E_BAD_COMMAND,
                      _("Cannot attack unless you declare war first."));
     return FALSE;    
   }
@@ -2083,7 +2083,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     int range = unit_type(punit)->paratroopers_range;
     int distance = real_map_distance(punit->tile, ptile);
     if (distance > range) {
-      notify_player_ex(pplayer, ptile, E_NOEVENT,
+      notify_player_ex(pplayer, ptile, E_BAD_COMMAND,
                        _("The distance to the target (%i) "
                          "is greater than the unit's range (%i)."),
                        distance, range);
@@ -2246,7 +2246,7 @@ static bool unit_enter_hut(struct unit *punit)
   update_tile_knowledge(punit->tile);
 
   if (game.info.hut_overflight == OVERFLIGHT_FRIGHTEN && is_air_unit(punit)) {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_HUT_BARB,
 		     _("Your overflight frightens the tribe;"
 		       " they scatter in terror."));
     return ok;
@@ -2847,7 +2847,7 @@ static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
   
   if (is_non_allied_unit_tile(ptile, pplayer) 
       || is_non_allied_city_tile(ptile, pplayer)) {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
+    notify_player_ex(pplayer, punit->tile, E_UNIT_ORDERS,
                      _("%s aborted GOTO "
                        "as there are units in the way."),
                      unit_type(punit)->name);
@@ -2890,7 +2890,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 
   if (cancel) {
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    notify_player_ex(unit_owner(punit), punit->tile, E_NOEVENT, 
+    notify_player_ex(unit_owner(punit), punit->tile, E_UNIT_ORDERS, 
 		     _("Your %s cancelled patrol order because it "
 		       "encountered a foreign unit."), unit_name(punit->type));
   }

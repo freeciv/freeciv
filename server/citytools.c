@@ -797,7 +797,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
       && city_list_find_name(ptaker->cities, pcity->name)) {
     sz_strlcpy(pcity->name,
 	       city_name_suggestion(ptaker, pcity->tile));
-    notify_player_ex(ptaker, pcity->tile, E_NOEVENT,
+    notify_player_ex(ptaker, pcity->tile, E_BAD_COMMAND,
 		     _("You already had a city called %s."
 		       " The city was renamed to %s."), old_city_name,
 		     pcity->name);
@@ -1085,7 +1085,7 @@ void remove_city(struct city *pcity)
 	if (could_unit_move_to_tile(punit, tile1) == 1) {
 	  moved = handle_unit_move_request(punit, tile1, FALSE, TRUE);
 	  if (moved) {
-	    notify_player_ex(unit_owner(punit), NULL, E_NOEVENT,
+	    notify_player_ex(unit_owner(punit), NULL, E_UNIT_RELOCATED,
 			     _("Moved %s out of disbanded city %s "
 			       "to avoid being landlocked."),
 			     unit_type(punit)->name, pcity->name);
@@ -1094,9 +1094,9 @@ void remove_city(struct city *pcity)
       }
     } adjc_iterate_end;
     if (!moved) {
-      notify_player_ex(unit_owner(punit), NULL, E_NOEVENT,
+      notify_player_ex(unit_owner(punit), NULL, E_UNIT_LOST,
 		       _("When %s was disbanded your %s could not "
-			 "get out, and it was therefore stranded."),
+			 "get out, and it was therefore lost."),
 		       pcity->name, unit_type(punit)->name);
       wipe_unit(punit);
     }
@@ -1105,9 +1105,9 @@ void remove_city(struct city *pcity)
   /* Destroy final ineligible units (land units in ocean city) */
   unit_list_iterate_safe(ptile->units, punit) {
     if (is_ocean(tile_get_terrain(ptile)) && is_ground_unit(punit)) {
-      notify_player_ex(unit_owner(punit), NULL, E_NOEVENT,
+      notify_player_ex(unit_owner(punit), NULL, E_UNIT_LOST,
 		       _("When %s was disbanded your %s could not "
-			 "get out, and it was therefore stranded."),
+			 "get out, and it was therefore lost."),
 		       pcity->name, unit_type(punit)->name);
       wipe_unit(punit);
     }
@@ -1832,17 +1832,10 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   /* Tell the player what's up. */
   /* FIXME: this may give bad grammar when translated if the 'source'
    * string can have multiple values. */
-  if (event != E_NOEVENT) {
-    notify_player_ex(pplayer, pcity->tile, event,
-		     /* TRANS: "<city> is building <production><source>." */
-		     _("%s is building %s%s."),
-		     pcity->name, name, source);
-  } else {
-    notify_player_ex(pplayer, pcity->tile, E_CITY_PRODUCTION_CHANGED,
-		     /* TRANS: "<city> is building <production>." */
-		     _("%s is building %s."), 
-		     pcity->name, name);
-  }
+  notify_player_ex(pplayer, pcity->tile, event,
+		   /* TRANS: "<city> is building <production><source>." */
+		   _("%s is building %s%s."),
+		   pcity->name, name, source);
 
   /* If the city is building a wonder, tell the rest of the world
      about it. */
