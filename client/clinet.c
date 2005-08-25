@@ -834,6 +834,8 @@ struct server_list *get_lan_server_list(void) {
   fd_set readfs, exceptfs;
   struct timeval tv;
 
+ again:
+
   FD_ZERO(&readfs);
   FD_ZERO(&exceptfs);
   FD_SET(socklan, &exceptfs);
@@ -864,7 +866,7 @@ struct server_list *get_lan_server_list(void) {
 
     dio_get_uint8(&din, &type);
     if (type != SERVER_LAN_VERSION) {
-      return lan_servers;
+      goto again;
     }
     dio_get_string(&din, servername, sizeof(servername));
     dio_get_string(&din, port, sizeof(port));
@@ -883,7 +885,7 @@ struct server_list *get_lan_server_list(void) {
     server_list_iterate(*lan_servers, aserver) {
       if (!mystrcasecmp(aserver->host, servername) 
           && !mystrcasecmp(aserver->port, port)) {
-        return lan_servers;
+	goto again;
       } 
     } server_list_iterate_end;
 
@@ -900,9 +902,9 @@ struct server_list *get_lan_server_list(void) {
     pserver->players = NULL;
 
     server_list_insert(lan_servers, pserver);
-  } else {
-    return lan_servers;
-  }                                       
+
+    goto again;
+  }
 
   return lan_servers;
 }
