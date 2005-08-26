@@ -64,6 +64,10 @@ static void ai_select_tech(struct player *pplayer,
 
   memset(values, 0, sizeof(values));
   memset(goal_values, 0, sizeof(goal_values));
+  values[A_UNSET] = -1;
+  values[A_NONE] = -1;
+  goal_values[A_UNSET] = -1;
+  goal_values[A_NONE] = -1;
 
   /* Fill in values for the techs: want of the tech 
    * + average want of those we will discover en route */
