@@ -139,27 +139,9 @@ function Player:num_units()
   return methods_player_num_units(self)
 end
 
--- City methods.
-function City:owner()
-  return find.player(self.owner_id)
-end
-
 -- Unit methods.
-function Unit:type()
-  return find.unit_type(self.type_id)
-end
-
-function Unit:owner()
-  return find.player(self.owner_id)
-end
-
 function Unit:homecity()
   return find.city(self:owner(), self.homecity_id)
-end
-
--- Tile methods.
-function Tile:terrain()
-  return find.terrain(self.terrain_id)
 end
 
 -- Building_Type methods.
