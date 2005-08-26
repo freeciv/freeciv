@@ -421,13 +421,13 @@ static void update_diplomatics(void)
       if(pdiplstate->type == DS_CEASEFIRE) {
 	switch(--pdiplstate->turns_left) {
 	case 1:
-	  notify_player(player1,
+	  notify_player(player1, NULL, E_DIPLOMACY,
 			_("Concerned citizens point "
   			  "out that the cease-fire with %s will run out soon."),
 			player2->name);
   	  break;
   	case 0:
-	  notify_player(player1,
+	  notify_player(player1, NULL, E_DIPLOMACY,
   			_("The cease-fire with %s has "
   			  "run out. You are now neutral towards the %s."),
 			player2->name,
@@ -1341,11 +1341,11 @@ void handle_player_ready(struct player *requestor,
       }
     } players_iterate_end;
     if (num_unready > 0) {
-      notify_player(NULL, _("Waiting to start game: %d out of %d players "
-			    "are ready to start."),
-		    num_ready, num_ready + num_unready);
+      notify_conn(NULL, _("Waiting to start game: %d out of %d players "
+			  "are ready to start."),
+		  num_ready, num_ready + num_unready);
     } else {
-      notify_player(NULL, _("All players are ready; starting game."));
+      notify_conn(NULL, _("All players are ready; starting game."));
       start_game();
     }
   }
@@ -1402,10 +1402,10 @@ void aifill(int amount)
 	    _("%s has been added as %s level AI-controlled player."),
             pplayer->name,
 	    name_of_skill_level(pplayer->ai.skill_level));
-    notify_player(NULL,
-                  _("%s has been added as %s level AI-controlled player."),
-		  pplayer->name,
-		  name_of_skill_level(pplayer->ai.skill_level));
+    notify_conn(NULL,
+		_("%s has been added as %s level AI-controlled player."),
+		pplayer->name,
+		name_of_skill_level(pplayer->ai.skill_level));
 
     game.info.nplayers++;
 
@@ -1546,7 +1546,7 @@ static void announce_player (struct player *pplayer)
 	   get_nation_name_plural(pplayer->nation));
 
   players_iterate(other_player) {
-    notify_player(other_player,
+    notify_player(other_player, NULL, E_GAME_START,
 		  _("%s rules the %s."), pplayer->name,
 		  get_nation_name_plural(pplayer->nation));
   } players_iterate_end;
@@ -1720,7 +1720,7 @@ void srv_main(void)
     send_game_state(game.game_connections, CLIENT_GAME_OVER_STATE);
     report_final_scores();
     show_map_to_all();
-    notify_player(NULL, _("The game is over..."));
+    notify_player(NULL, NULL, E_GAME_END, _("The game is over..."));
     gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
     if (game.info.save_nturns > 0

@@ -162,18 +162,20 @@ void handle_spaceship_launch(struct player *pplayer)
   int arrival;
 
   if (!find_palace(pplayer)) {
-    notify_player(pplayer,
+    notify_player(pplayer, NULL, E_SPACESHIP,
                   _("You need to have a capital in order to launch "
 		    "your spaceship."));
     return;
   }
   if (ship->state >= SSHIP_LAUNCHED) {
-    notify_player(pplayer, _("Your spaceship is already launched!"));
+    notify_player(pplayer, NULL, E_SPACESHIP,
+		  _("Your spaceship is already launched!"));
     return;
   }
   if (ship->state != SSHIP_STARTED
       || ship->success_rate == 0.0) {
-    notify_player(pplayer, _("Your spaceship can't be launched yet!"));
+    notify_player(pplayer, NULL, E_SPACESHIP,
+		  _("Your spaceship can't be launched yet!"));
     return;
   }
 
@@ -199,13 +201,14 @@ void handle_spaceship_place(struct player *pplayer,
   struct player_spaceship *ship = &pplayer->spaceship;
   
   if (ship->state == SSHIP_NONE) {
-    notify_player(pplayer, _("Spaceship action received,"
-			     " but you don't have a spaceship!"));
+    notify_player(pplayer, NULL, E_SPACESHIP,
+		  _("Spaceship action received,"
+		    " but you don't have a spaceship!"));
     return;
   }
   if (ship->state >= SSHIP_LAUNCHED) {
-    notify_player(pplayer, _("You can't modify your"
-			     " spaceship after launch!"));
+    notify_player(pplayer, NULL, E_SPACESHIP,
+		  _("You can't modify your spaceship after launch!"));
     return;
   }
   if (type == SSHIP_PLACE_STRUCTURAL) {
@@ -213,13 +216,14 @@ void handle_spaceship_place(struct player *pplayer,
       return;
     }
     if (num_spaceship_structurals_placed(ship) >= ship->structurals) {
-      notify_player(pplayer, _("You don't have any unplaced"
-			       " Space Structurals!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("You don't have any unplaced Space Structurals!"));
       return;
     }
     if (num!=0 && !ship->structure[structurals_info[num].required]) {
-      notify_player(pplayer, _("That Space Structural"
-			       " would not be connected!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("That Space Structural"
+		      " would not be connected!"));
       return;
     }
     ship->structure[num] = TRUE;
@@ -232,13 +236,15 @@ void handle_spaceship_place(struct player *pplayer,
       return;
     }
     if (ship->fuel + ship->propulsion >= ship->components) {
-      notify_player(pplayer, _("You don't have any unplaced"
-			       " Space Components!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("You don't have any unplaced"
+		      " Space Components!"));
       return;
     }
     if (num > NUM_SS_COMPONENTS/2) {
-      notify_player(pplayer, _("Your spaceship already has"
-			       " the maximum number of Fuel Components!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("Your spaceship already has"
+		      " the maximum number of Fuel Components!"));
       return;
     }
     ship->fuel++;
@@ -251,13 +257,15 @@ void handle_spaceship_place(struct player *pplayer,
       return;
     }
     if (ship->fuel + ship->propulsion >= ship->components) {
-      notify_player(pplayer, _("You don't have any unplaced"
-			       " Space Components!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("You don't have any unplaced"
+		      " Space Components!"));
       return;
     }
     if (num > NUM_SS_COMPONENTS/2) {
-      notify_player(pplayer, _("Your spaceship already has the"
-			       " maximum number of Propulsion Components!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("Your spaceship already has the"
+		      " maximum number of Propulsion Components!"));
       return;
     }
     ship->propulsion++;
@@ -271,13 +279,15 @@ void handle_spaceship_place(struct player *pplayer,
     }
     if (ship->habitation + ship->life_support + ship->solar_panels
 	>= ship->modules) {
-      notify_player(pplayer, _("You don't have any unplaced"
-			       " Space Modules!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("You don't have any unplaced"
+		      " Space Modules!"));
       return;
     }
     if (num > NUM_SS_MODULES/3) {
-      notify_player(pplayer, _("Your spaceship already has the"
-			       " maximum number of Habitation Modules!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("Your spaceship already has the"
+		      " maximum number of Habitation Modules!"));
       return;
     }
     ship->habitation++;
@@ -291,13 +301,15 @@ void handle_spaceship_place(struct player *pplayer,
     }
     if (ship->habitation + ship->life_support + ship->solar_panels
 	>= ship->modules) {
-      notify_player(pplayer, _("You don't have any unplaced"
-			       " Space Modules!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("You don't have any unplaced"
+		      " Space Modules!"));
       return;
     }
     if (num > NUM_SS_MODULES/3) {
-      notify_player(pplayer, _("Your spaceship already has the"
-			       " maximum number of Life Support Modules!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("Your spaceship already has the"
+		      " maximum number of Life Support Modules!"));
       return;
     }
     ship->life_support++;
@@ -311,13 +323,15 @@ void handle_spaceship_place(struct player *pplayer,
     }
     if (ship->habitation + ship->life_support + ship->solar_panels
 	>= ship->modules) {
-      notify_player(pplayer, _("You don't have any unplaced"
-			       " Space Modules!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("You don't have any unplaced"
+		      " Space Modules!"));
       return;
     }
     if (num > NUM_SS_MODULES/3) {
-      notify_player(pplayer, _("Your spaceship already has the"
-			       " maximum number of Solar Panel Modules!"));
+      notify_player(pplayer, NULL, E_SPACESHIP,
+		    _("Your spaceship already has the"
+		      " maximum number of Solar Panel Modules!"));
       return;
     }
     ship->solar_panels++;

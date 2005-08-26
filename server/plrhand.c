@@ -196,7 +196,7 @@ void handle_player_rates(struct player *pplayer,
   if (server_state != RUN_GAME_STATE) {
     freelog(LOG_ERROR, "received player_rates packet from %s before start",
 	    pplayer->name);
-    notify_player(pplayer,
+    notify_player(pplayer, NULL, E_BAD_COMMAND,
 		  _("Cannot change rates before game start."));
     return;
   }
@@ -220,7 +220,8 @@ void handle_player_rates(struct player *pplayer,
       rtype = _("Science");
     }
 
-    notify_player(pplayer, _("%s rate exceeds the max rate for %s."),
+    notify_player(pplayer, NULL, E_BAD_COMMAND,
+		  _("%s rate exceeds the max rate for %s."),
                   rtype, get_government_name(pplayer->government));
   } else {
     pplayer->economic.tax = tax;
@@ -440,19 +441,19 @@ void check_player_government_rates(struct player *pplayer)
   player_limit_to_government_rates(pplayer);
   if (pplayer->economic.tax != old_econ.tax) {
     changed = TRUE;
-    notify_player(pplayer,
+    notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
 		  _("Tax rate exceeded the max rate for %s; adjusted."), 
 		  get_government_name(pplayer->government));
   }
   if (pplayer->economic.science != old_econ.science) {
     changed = TRUE;
-    notify_player(pplayer,
+    notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
 		  _("Science rate exceeded the max rate for %s; adjusted."), 
 		  get_government_name(pplayer->government));
   }
   if (pplayer->economic.luxury != old_econ.luxury) {
     changed = TRUE;
-    notify_player(pplayer,
+    notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
 		  _("Luxury rate exceeded the max rate for %s; adjusted."), 
 		  get_government_name(pplayer->government));
   }
@@ -759,19 +760,6 @@ void notify_player_ex(const struct player *pplayer, struct tile *ptile,
 
   va_start(args, format);
   vnotify_conn_ex(dest, ptile, event, format, args);
-  va_end(args);
-}
-
-/**************************************************************************
-  Just like notify_player_ex, but no (x,y) nor event type.
-**************************************************************************/
-void notify_player(const struct player *pplayer, const char *format, ...) 
-{
-  struct conn_list *dest = pplayer ? pplayer->connections : NULL;
-  va_list args;
-
-  va_start(args, format);
-  vnotify_conn_ex(dest, NULL, E_NOEVENT, format, args);
   va_end(args);
 }
 
@@ -1121,7 +1109,8 @@ void server_remove_player(struct player *pplayer)
   }
 
   freelog(LOG_NORMAL, _("Removing player %s."), pplayer->name);
-  notify_player(pplayer, _("You've been removed from the game!"));
+  notify_conn(pplayer->connections,
+	      _("You've been removed from the game!"));
 
   notify_conn(game.est_connections,
 	      _("%s has been removed from the game."), pplayer->name);
@@ -1422,15 +1411,17 @@ struct player *create_global_observer(void)
    * a slot available to create one.  Observers are taken from the slots of
    * normal civs (barbarians are reserved separately). */
   if (game.info.nplayers - game.info.nbarbarians >= MAX_NUM_PLAYERS) {
-    notify_player(NULL, _("A global observer cannot be created: too "
-                          "many regular players."));
+    notify_conn(NULL,
+		_("A global observer cannot be created: too "
+		  "many regular players."));
     return NULL;
   }
 
   nation = pick_observer_nation();
   if (nation == NO_NATION_SELECTED) {
-    notify_player(NULL, _("A global observer cannot be created: there's "
-			  "no observer nation in the ruleset."));
+    notify_conn(NULL,
+		_("A global observer cannot be created: there's "
+		  "no observer nation in the ruleset."));
     return NULL;
   }
 
@@ -1470,7 +1461,8 @@ struct player *create_global_observer(void)
   /* tell everyone that game.info.nplayers has been updated */
   send_game_info(NULL);
   send_player_info(pplayer, NULL);
-  notify_player(NULL, _("A global observer has been created"));
+  notify_conn(NULL,
+	      _("A global observer has been created"));
 
   return pplayer;
 }
@@ -1764,7 +1756,7 @@ void civil_war(struct player *pplayer)
 
   resolve_unit_stacks(pplayer, cplayer, FALSE);
 
-  notify_player(NULL,
+  notify_player(NULL, NULL, E_CIVIL_WAR,
 		_("The capture of %s's capital and the destruction "
 		  "of the empire's administrative\n"
 		  "      structures have sparked a civil war.  "

@@ -507,7 +507,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
     freelog(LOG_VERBOSE, "Changed homecity of %s's %s to %s",
 	    from_player->name, unit_name(punit->type), tocity->name);
     if (verbose) {
-      notify_player(from_player, _("Changed homecity of %s to %s."),
+      notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
+		    _("Changed homecity of %s to %s."),
 		    unit_name(punit->type), tocity->name);
     }
   } else {
@@ -517,7 +518,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 	      unit_name(punit->type), in_city->name,
 	      from_player->name, to_player->name);
       if (verbose) {
-	notify_player(from_player, _("Transfered %s in %s from %s to %s."),
+	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
+		      _("Transfered %s in %s from %s to %s."),
 		      unit_name(punit->type), in_city->name,
 		      from_player->name, to_player->name);
       }
@@ -526,7 +528,8 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 	      unit_name(punit->type),
 	      from_player->name, to_player->name);
       if (verbose) {
-	notify_player(from_player, _("Transfered %s from %s to %s."),
+	notify_player(from_player, punit->tile, E_UNIT_RELOCATED,
+		      _("Transfered %s from %s to %s."),
 		      unit_name(punit->type),
 		      from_player->name, to_player->name);
       }
@@ -535,8 +538,9 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
 	      unit_name(punit->type),
 	      from_player->name, to_player->name);
       if (verbose) {
-	notify_player(from_player, _("%s from %s lost in transfer "
-                      "to %s's %s"), unit_name(punit->type),
+	notify_player(from_player, punit->tile, E_UNIT_LOST,
+		      _("%s from %s lost in transfer to %s's %s"),
+		      unit_name(punit->type),
 		      from_player->name, to_player->name, tocity->name);
       }
       wipe_unit(punit);
@@ -733,7 +737,8 @@ static void build_free_small_wonders(struct player *pplayer,
        */
       send_player_cities(pplayer);
 
-      notify_player(pplayer, _("You lost %s. A new %s was built in %s."),
+      notify_player(pplayer, pnew_city->tile, E_CITY_LOST,
+		    _("You lost %s. A new %s was built in %s."),
 		    old_capital_name, get_improvement_name(id),
 		    pnew_city->name);
       /* 
@@ -888,7 +893,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   if (terrain_control.may_road
       && player_knows_techs_with_flag (ptaker, TF_RAILROAD)
       && !tile_has_special(pcity->tile, S_RAILROAD)) {
-    notify_player(ptaker,
+    notify_player(ptaker, pcity->tile, E_CITY_TRANSFER,
 		  _("The people in %s are stunned by your"
 		    " technological insight!\n"
 		    "      Workers spontaneously gather and upgrade"

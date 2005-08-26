@@ -95,7 +95,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id type)
 
   to_unittype = can_upgrade_unittype(pplayer, from_unittype);
   if (!to_unittype) {
-    notify_player(pplayer,
+    notify_player(pplayer, NULL, E_BAD_COMMAND,
 		  _("Illegal packet, can't upgrade %s (yet)."),
 		  from_unittype->name);
     return;
@@ -123,13 +123,15 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id type)
   /* Alert the player about what happened. */
   if (number_of_upgraded_units > 0) {
     const int cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
-    notify_player(pplayer, _("%d %s upgraded to %s for %d gold."),
+    notify_player(pplayer, NULL, E_UNIT_UPGRADED,
+		  _("%d %s upgraded to %s for %d gold."),
 		  number_of_upgraded_units, from_unittype->name,
 		  to_unittype->name,
 		  cost * number_of_upgraded_units);
     send_player_info(pplayer, pplayer);
   } else {
-    notify_player(pplayer, _("No units could be upgraded."));
+    notify_player(pplayer, NULL, E_UNIT_UPGRADED,
+		  _("No units could be upgraded."));
   }
 }
 
@@ -152,10 +154,12 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 
     upgrade_unit(punit, to_unit, FALSE);
     send_player_info(pplayer, pplayer);
-    notify_player(pplayer, _("%s upgraded to %s for %d gold."), 
+    notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
+		  _("%s upgraded to %s for %d gold."), 
 		  unit_name(from_unit), unit_name(to_unit), cost);
   } else {
-    notify_player(pplayer, _("%s"), buf);
+    notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
+		  "%s", buf);
   }
 }
 

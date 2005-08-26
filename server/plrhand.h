@@ -57,8 +57,7 @@ void notify_conn(struct conn_list *dest, const char *format, ...)
 void notify_player_ex(const struct player *pplayer, struct tile *ptile,
 		      enum event_type event, const char *format, ...)
                       fc__attribute((format (printf, 4, 5)));
-void notify_player(const struct player *pplayer, const char *format, ...)
-                   fc__attribute((format (printf, 2, 3)));
+#define notify_player notify_player_ex
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      const char *format, ...)
 		      fc__attribute((format (printf, 3, 4)));

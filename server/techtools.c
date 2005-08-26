@@ -404,8 +404,8 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
   if (bonus_tech_hack) {
     if (advances[tech_found].bonus_message) {
-      notify_player(plr, _("%s"),
-		    _(advances[tech_found].bonus_message));
+      notify_team_ex(plr, NULL, E_TECH_GAIN,
+		     "%s", _(advances[tech_found].bonus_message));
     } else {
       notify_team_ex(plr, NULL, E_TECH_GAIN,
                      _("Great scientists from all the "
@@ -576,7 +576,8 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
 {
   /* It's been suggested that if the research target is empty then
    * choose_random_tech should be called here. */
-  notify_player(plr, _("Technology goal is %s."),
+  notify_player(plr, NULL, E_TECH_GAIN /* ? */,
+		_("Technology goal is %s."),
 		get_tech_name(plr, tech));
   get_player_research(plr)->tech_goal = tech;
 }

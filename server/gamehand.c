@@ -132,8 +132,9 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
     if (utype->move_type == SEA_MOVING) {
       freelog(LOG_ERROR, _("Sea moving start units are not yet supported, "
                            "%s not created."), utype->name);
-      notify_player(pplayer, _("Sea moving start units are not yet supported. "
-                               "Nobody gets %s."), utype->name);
+      notify_player(pplayer, NULL, E_BAD_COMMAND,
+		    _("Sea moving start units are not yet supported. "
+		      "Nobody gets %s."), utype->name);
       return;
     }
 

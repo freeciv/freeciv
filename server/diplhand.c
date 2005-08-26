@@ -141,7 +141,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	    freelog(LOG_ERROR, "Treaty: The %s can't have tech %s",
                     get_nation_name_plural(pother->nation),
 		    get_tech_name(pplayer, pclause->value));
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
                           _("The %s can't accept %s."),
                           get_nation_name_plural(pother->nation),
 			  get_tech_name(pplayer, pclause->value));
@@ -153,7 +153,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 		    get_nation_name_plural(pplayer->nation),
 		    get_tech_name(pplayer, pclause->value),
 		    get_nation_name_plural(pother->nation));
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You don't have tech %s, you can't accept treaty."),
 			  get_tech_name(pplayer, pclause->value));
 	    return;
@@ -162,19 +162,19 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_CITY:
 	  pcity = find_city_by_id(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("City you are trying to give no longer exists, "
 			    "you can't accept treaty."));
 	    return;
 	  }
 	  if (pcity->owner != pplayer) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You are not owner of %s, you can't accept treaty."),
 			  pcity->name);
 	    return;
 	  }
 	  if (is_capital(pcity)) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."),
 			  pcity->name);
@@ -183,14 +183,14 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  break;
 	case CLAUSE_ALLIANCE:
           if (!pplayer_can_ally(pplayer, pother)) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You are at war with one of %s's "
 			    "allies - an alliance with %s is impossible."),
 			  pother->name, pother->name);
             return;
           }
           if (!pplayer_can_ally(pother, pplayer)) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("%s is at war with one of your allies "
 			    "- an alliance with %s is impossible."),
 			  pother->name, pother->name);
@@ -199,7 +199,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           break;
 	case CLAUSE_GOLD:
 	  if (pplayer->economic.gold < pclause->value) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("You don't have enough gold, "
 			    "you can't accept treaty."));
 	    return;
@@ -231,12 +231,12 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 					   pplayer->player_no,
  					   pplayer->player_no);
 
-    notify_player(pplayer,
+    notify_player(pplayer, NULL, E_DIPLOMACY,
 		  PL_("A treaty containing %d clause was agreed upon.",
 		      "A treaty containing %d clauses was agreed upon.",
 		      nclauses),
 		  nclauses);
-    notify_player(pother,
+    notify_player(pother, NULL, E_DIPLOMACY,
 		  PL_("A treaty containing %d clause was agreed upon.",
 		      "A treaty containing %d clauses was agreed upon.",
 		      nclauses),
@@ -252,23 +252,23 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_CITY:
 	  pcity = find_city_by_id(pclause->value);
 	  if (!pcity) { /* Can't find out cityname any more. */
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("One of the cities %s is giving away is destroyed! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
-	    notify_player(pother,
+	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("One of the cities %s is giving away is destroyed! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
 	    goto cleanup;
 	  }
 	  if (pcity->owner != pother) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation),
 			  pcity->name);
-	    notify_player(pother,
+	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("The %s no longer control %s! "
 			    "Treaty canceled!"),
 			  get_nation_name_plural(pother->nation),
@@ -276,7 +276,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	    goto cleanup;
 	  }
 	  if (is_capital(pcity)) {
-	    notify_player(pother,
+	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("Your capital (%s) is requested, "
 			    "you can't accept treaty."), pcity->name);
 	    goto cleanup;
@@ -287,11 +287,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           /* We need to recheck this way since things might have
            * changed. */
           if (!pplayer_can_ally(pother, pplayer)) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("%s is at war with one of your "
 			    "allies - an alliance with %s is impossible."),
 			  pother->name, pother->name);
-	    notify_player(pother,
+	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("You are at war with one of %s's "
 			    "allies - an alliance with %s is impossible."),
 			  pplayer->name, pplayer->name);
@@ -300,11 +300,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           break;
 	case CLAUSE_GOLD:
 	  if (pother->economic.gold < pclause->value) {
-	    notify_player(pplayer,
+	    notify_player(pplayer, NULL, E_DIPLOMACY,
 			  _("The %s don't have the promised amount "
 			    "of gold! Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
-	    notify_player(pother,
+	    notify_player(pother, NULL, E_DIPLOMACY,
 			  _("The %s don't have the promised amount "
 			    "of gold! Treaty canceled!"),
 			  get_nation_name_plural(pother->nation));
@@ -374,20 +374,23 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	found_new_tech(pdest, pclause->value, FALSE, TRUE);
 	break;
       case CLAUSE_GOLD:
-	notify_player(pdest, _("You get %d gold."), pclause->value);
+	notify_player(pdest, NULL, E_DIPLOMACY,
+		      _("You get %d gold."), pclause->value);
 	pgiver->economic.gold -= pclause->value;
 	pdest->economic.gold += pclause->value;
         gamelog(GAMELOG_TREATY, GL_GOLD, pgiver, pdest);
 	break;
       case CLAUSE_MAP:
 	give_map_from_player_to_player(pgiver, pdest);
-	notify_player(pdest, _("You receive %s's worldmap."),
+	notify_player(pdest, NULL, E_DIPLOMACY,
+		      _("You receive %s's worldmap."),
 		      pgiver->name);
         gamelog(GAMELOG_TREATY, GL_MAP, pgiver, pdest);
 	break;
       case CLAUSE_SEAMAP:
 	give_seamap_from_player_to_player(pgiver, pdest);
-	notify_player(pdest, _("You receive %s's seamap."),
+	notify_player(pdest, NULL, E_DIPLOMACY,
+		      _("You receive %s's seamap."),
 		      pgiver->name);
         gamelog(GAMELOG_TREATY, GL_SEAMAP, pgiver, pdest);
 	break;
@@ -615,13 +618,15 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
     dlsend_packet_diplomacy_cancel_meeting(pother->connections,
 					   pplayer->player_no,
 					   pplayer->player_no);
-    notify_player(pother, _("%s canceled the meeting!"), 
+    notify_player(pother, NULL, E_DIPLOMACY,
+		  _("%s canceled the meeting!"), 
 		  pplayer->name);
     /* Need to send to pplayer too, for multi-connects: */
     dlsend_packet_diplomacy_cancel_meeting(pplayer->connections,
 					   pother->player_no,
 					   pplayer->player_no);
-    notify_player(pplayer, _("Meeting with %s canceled."), 
+    notify_player(pplayer, NULL, E_DIPLOMACY,
+		  _("Meeting with %s canceled."), 
 		  pother->name);
     treaty_list_unlink(treaties, ptreaty);
     clear_treaty(ptreaty);
@@ -662,7 +667,8 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
 
   if (get_player_bonus(pplayer, EFT_NO_DIPLOMACY)
       || get_player_bonus(pother, EFT_NO_DIPLOMACY)) {
-    notify_player(pplayer, _("Your diplomatic envoy was decapitated!"));
+    notify_player(pplayer, NULL, E_DIPLOMACY,
+		  _("Your diplomatic envoy was decapitated!"));
     return;
   }
 

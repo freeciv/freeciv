@@ -270,7 +270,7 @@ static void do_upgrade_effects(struct player *pplayer)
     struct unit_type *upgrade_type
       = can_upgrade_unittype(pplayer, punit->type);
 
-    notify_player(pplayer,
+    notify_player(pplayer, punit->tile, E_UNIT_UPGRADED,
 		  _("%s was upgraded for free to %s%s."),
 		  unit_type(punit)->name,
 		  upgrade_type->name,
@@ -1462,7 +1462,8 @@ static void server_remove_unit(struct unit *punit)
     notify_conn_ex(game.est_connections, punit->tile, E_UNIT_LOST,
                    _("Unable to defend %s, %s has lost the game."),
                    unit_name(punit->type), unit_owner(punit)->name);
-    notify_player(unit_owner(punit), _("Losing %s meant losing the game! "
+    notify_player(unit_owner(punit), punit->tile, E_GAME_END,
+		  _("Losing %s meant losing the game! "
                   "Be more careful next time!"), unit_name(punit->type));
     gamelog(GAMELOG_UNITGAMELOSS, punit);
     unit_owner(punit)->is_dying = TRUE;
