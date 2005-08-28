@@ -65,12 +65,12 @@ static const char *unit_class_names[] = {
 };
 
 struct unit_class unit_classes[] = {
-  { UCL_MISSILE,    { FALSE, FALSE }},
-  { UCL_LAND,       { TRUE,  TRUE  }},
-  { UCL_SEA,        { TRUE,  TRUE  }},
-  { UCL_HELICOPTER, { FALSE, FALSE }},
-  { UCL_AIR,        { FALSE, FALSE }},
-  { UCL_NUCLEAR,    { FALSE, FALSE }}
+  { UCL_MISSILE,    { FALSE, FALSE },  0 },
+  { UCL_LAND,       { TRUE,  TRUE  },  0 },
+  { UCL_SEA,        { TRUE,  TRUE  },  0 },
+  { UCL_HELICOPTER, { FALSE, FALSE }, 10 },
+  { UCL_AIR,        { FALSE, FALSE },  0 },
+  { UCL_NUCLEAR,    { FALSE, FALSE },  0 }
 };
 
 /**************************************************************************

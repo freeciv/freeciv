@@ -33,6 +33,7 @@ struct move_params {
 struct unit_class {
   Unit_Class_id id;
   struct move_params move;
+  int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
 };
 
 /* Unit "special effects" flags:

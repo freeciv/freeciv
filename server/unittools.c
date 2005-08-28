@@ -470,6 +470,8 @@ void player_restore_units(struct player *pplayer)
 static void unit_restore_hitpoints(struct unit *punit)
 {
   bool was_lower;
+  struct unit_class *class = get_unit_class(punit->type);
+  struct city *pcity = tile_get_city(punit->tile);
 
   was_lower=(punit->hp < unit_type(punit)->hp);
 
@@ -480,12 +482,8 @@ static void unit_restore_hitpoints(struct unit *punit)
   /* Bonus recovery HP (traditionally from the United Nations) */
   punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
 
-  if(is_heli_unit(punit)) {
-    struct city *pcity = tile_get_city(punit->tile);
-    if(!pcity) {
-      if (!tile_has_special(punit->tile, S_AIRBASE))
-        punit->hp-=unit_type(punit)->hp/10;
-    }
+  if (!pcity && !tile_has_special(punit->tile, S_AIRBASE)) {
+    punit->hp -= unit_type(punit)->hp * class->hp_loss_pct / 100;
   }
 
   if(punit->hp>=unit_type(punit)->hp) {
@@ -534,6 +532,8 @@ static int hp_gain_coord(struct unit *punit)
 {
   int hp;
   struct city *pcity;
+  struct unit_class *class = get_unit_class(punit->type);
+
   if (unit_on_fortress(punit))
     hp=unit_type(punit)->hp/4;
   else
@@ -550,8 +550,9 @@ static int hp_gain_coord(struct unit *punit)
     else
       hp=unit_type(punit)->hp/3;
   }
-  else if (!is_heli_unit(punit))
+  else if (!class->hp_loss_pct) {
     hp++;
+  }
 
   if(punit->activity==ACTIVITY_FORTIFIED)
     hp++;
