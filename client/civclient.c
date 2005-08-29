@@ -475,11 +475,13 @@ void set_client_state(enum client_states newstate)
     /*
      * Extra kludge for end-game handling of the CMA.
      */
-    city_list_iterate(game.player_ptr->cities, pcity) {
-      if (cma_is_city_under_agent(pcity, NULL)) {
-        cma_release_city(pcity);
-      }
-    } city_list_iterate_end;
+    if (game.player_ptr) {
+      city_list_iterate(game.player_ptr->cities, pcity) {
+	if (cma_is_city_under_agent(pcity, NULL)) {
+	  cma_release_city(pcity);
+	}
+      } city_list_iterate_end;
+    }
     popdown_all_city_dialogs();
     popdown_all_game_dialogs();
     set_unit_focus(NULL);

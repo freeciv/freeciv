@@ -893,8 +893,9 @@ void handle_page_msg(char *message, enum event_type event)
     lines = "";
   }
 
-  if (!game.player_ptr->ai.control||
-      event != E_BROADCAST_REPORT) {
+  if (!game.player_ptr
+      || !game.player_ptr->ai.control
+      || event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
     play_sound_for_event(event);
   }

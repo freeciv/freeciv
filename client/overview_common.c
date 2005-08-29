@@ -334,6 +334,9 @@ void overview_to_map_pos(int *map_x, int *map_y,
 **************************************************************************/
 void refresh_overview_canvas(void)
 {
+  if (!can_client_change_view()) {
+    return;
+  }
   whole_map_iterate(ptile) {
     overview_update_tile(ptile);
   } whole_map_iterate_end;

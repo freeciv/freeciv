@@ -2028,6 +2028,12 @@ void unqueue_mapview_updates(bool write_to_screen)
 
   int i;
 
+  if (!can_client_change_view()) {
+    /* Double sanity check: make sure we don't unqueue an invalid update
+     * after we've already detached. */
+    return;
+  }
+
   freelog(LOG_DEBUG, "unqueue_mapview_update: needed_updates=%d",
 	  needed_updates);
 

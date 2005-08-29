@@ -1224,30 +1224,33 @@ void ui_main(int argc, char **argv)
 void update_conn_list_dialog(void)
 {
   GtkTreeIter it;
-  char *text;
 
-  if (game.player_ptr->is_ready) {
-    text = _("Not _ready");
-  } else {
-    int num_unready = 0;
+  if (game.player_ptr) {
+    char *text;
 
-    players_iterate(pplayer) {
-      if (!pplayer->ai.control && !pplayer->is_ready) {
-	num_unready++;
-      }
-    } players_iterate_end;
-
-    if (num_unready > 1) {
-      text = _("_Ready");
+    if (game.player_ptr->is_ready) {
+      text = _("Not _ready");
     } else {
-      /* We are the last unready player so clicking here will
-       * immediately start the game. */
-      text = _("_Start");
+      int num_unready = 0;
+
+      players_iterate(pplayer) {
+	if (!pplayer->ai.control && !pplayer->is_ready) {
+	  num_unready++;
+	}
+      } players_iterate_end;
+
+      if (num_unready > 1) {
+	text = _("_Ready");
+      } else {
+	/* We are the last unready player so clicking here will
+	 * immediately start the game. */
+	text = _("_Start");
+      }
     }
+
+    gtk_stockbutton_set_label(ready_button, text);
   }
 
-  gtk_stockbutton_set_label(ready_button, text);
-  
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     bool is_ready;
     const char *nation, *leader, *team;
