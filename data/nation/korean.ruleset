@@ -3,48 +3,52 @@
 name=_("Korean")
 plural=_("?plural:Koreans")
 groups=_("Modern"), _("Medieval"), _("Asian")
-legend=_("Go-Joseon, or Old Korea (2333 - 206 BC), was the first Korean \
-kingdom. According to legend, it was founded by Dangun in southern \
-Manchuria in the basins of the Liao and Taedong Rivers. Today the Korean \
-peninsula is divided into two states, North and South Korea as a result \
-of the stalemate after the Korean war in 1953.")
-leader="Kwanggaet'o", "Sŏndŏk", "Wang Gon", "T'aejong", "Sejong",
- "Kim Il-sung", "Syngman Rhee", "Park Jung Hee"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male"
+legend=_("According to legend, the first Korean kingdom was founded in\
+ prehistory by the ancestral Tangun in southern Manchuria. The Korean\
+ kingdoms was united in 918 by king T'aejo. Today the Korean peninsula is\
+ divided into two states, North and South Korea as a result of the stalemate\
+ after the Korean war in 1953.")
+leader="Tangun",
+ "Kwanggaet'o",
+ "Sondok",
+ "T'aejo",
+ "Sejong",
+ "Kim Il-sung",
+ "Syngman Rhee",
+ "Park Chung Hee",
+ "Kim Dae-jung"
+leader_sex= "Male", "Male", "Female", "Male", "Male", "Male",
+ "Male", "Male", "Male"
 flag="korea"
 flag_alt = "-"
 city_style = "Asian"
 
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Communism",       _("Great Leader"),   _("Great Leader")
+               }
+
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
-wonder="Sun Tzu's War Academy"
-government="Democracy"
-civilwar_nations = "japanese", "mongol"
+civilwar_nations = "japanese", "mongol", "chinese"
 
-; /* <-- avoid gettext warnings
-;
-; South Korean names are written according to "Revised romanization"
-; spelling rules, while North Korean names uses "McCune-Reischauer."
-; They are the respective standards of the two countries.
-;
-; */ <-- avoid gettext warnings
+; City names are written according to "Revised romanization" orthography.
+; see comment in japanese.ruleset about use of ASCII versus accented chars
 
 cities =
  "Seoul (river)",
- "P'yŏngyang (river)",
+ "Pyeongyang (river)",
  "Busan (ocean)",
- "Daegu (hills, river)",
+ "Daegu (hills)",
  "Daejeon (!ocean)",
- "Hamhŭng (river)",
- "Wŏnsan (mountains, ocean)",
+ "Hamheung (river)",
+ "Wonsan (mountains)",
  "Incheon (ocean)",
- "Ch'ŏngjin (ocean)",
+ "Cheongjin (ocean)",
  "Gwangju (river)",
  "Suncheon (!ocean)",
- "Kimch'aek (ocean)",
+ "Gimchaek (ocean)",
  "Najin (ocean)",
  "Ulsan (ocean)",
  "Yeosu (!ocean)",
@@ -52,11 +56,11 @@ cities =
  "Pohang (ocean)",
  "Masan (ocean)",
  "Jinhae (ocean)",
- "Sŏnbong (ocean)",
+ "Seonbong (ocean)",
  "Songnim (river)",
- "Sariwŏn (!ocean)",
+ "Sariweon (!ocean)",
  "Jeju (ocean)",
- "Kosŏng (ocean)",
+ "Goseong (ocean)",
  "Haeju (ocean)",
  "Jeonju (!ocean)",
  "Cheongju (!ocean)",
@@ -65,6 +69,7 @@ cities =
  "Anyang (!ocean)",
  "Seongnam (!ocean)",
  "Pocheon (!ocean)",
- "Kaesŏng (!ocean)",
- "Namp'o (ocean)",
- "Kanggye (!ocean)"
+ "Gaeseong (!ocean)",
+ "Nampo (ocean)",
+ "Ganggye (!ocean)",
+ "Gokseong (!ocean)"
