@@ -1600,8 +1600,8 @@ void ai_incident_war(struct player *violator, struct player *victim)
           if (!pplayers_allied(pplayer, ally) || !ally->is_alive) {
             continue;
           }
-          notify(ally, _("*%s (AI)* We have been savagely attacked by  "
-                         "%s, and we need your help!  Honour our glorious "
+          notify(ally, _("*%s (AI)* We have been savagely attacked by "
+                         "%s, and we need your help! Honour our glorious "
                          "alliance and your name will never be forgotten!"),
                          victim->name, violator->name);
         } players_iterate_end;
