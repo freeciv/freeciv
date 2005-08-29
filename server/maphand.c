@@ -246,7 +246,7 @@ void global_warming(int effect)
     }
   }
 
-  notify_player_ex(NULL, NULL, E_GLOBAL_ECO,
+  notify_player(NULL, NULL, E_GLOBAL_ECO,
 		   _("Global warming has occurred!"));
   notify_player(NULL, NULL, E_GLOBAL_ECO,
 		_("Coastlines have been flooded and vast "
@@ -290,7 +290,7 @@ void nuclear_winter(int effect)
     }
   }
 
-  notify_player_ex(NULL, NULL, E_GLOBAL_ECO,
+  notify_player(NULL, NULL, E_GLOBAL_ECO,
 		   _("Nuclear winter has occurred!"));
   notify_player(NULL, NULL, E_GLOBAL_ECO,
 		_("Wetlands have dried up and vast "
@@ -1470,7 +1470,7 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 		  "Moved %s's %s due to changing terrain at %d,%d.",
 		  unit_owner(punit)->name, unit_name(punit->type),
 		  punit->tile->x, punit->tile->y);
-	  notify_player_ex(unit_owner(punit),
+	  notify_player(unit_owner(punit),
 			   punit->tile, E_UNIT_RELOCATED,
 			   _("Moved your %s due to changing terrain."),
 			   unit_name(punit->type));
@@ -1487,7 +1487,7 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 		"Disbanded %s's %s due to changing land to sea at (%d, %d).",
 		unit_owner(punit)->name, unit_name(punit->type),
 		punit->tile->x, punit->tile->y);
-	notify_player_ex(unit_owner(punit),
+	notify_player(unit_owner(punit),
 			 punit->tile, E_UNIT_LOST,
 			 _("Disbanded your %s due to changing terrain."),
 			 unit_name(punit->type));

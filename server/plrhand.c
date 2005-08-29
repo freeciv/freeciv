@@ -147,7 +147,7 @@ void kill_player(struct player *pplayer) {
                           "The feared barbarian leader %s is no more");
     return;
   } else {
-    notify_player_ex(NULL, NULL, E_DESTROYED, _("The %s are no more!"),
+    notify_player(NULL, NULL, E_DESTROYED, _("The %s are no more!"),
                      get_nation_name_plural(pplayer->nation));
     gamelog(GAMELOG_GENO, pplayer, "%s civilization destroyed");
   }
@@ -260,7 +260,7 @@ static void finish_revolution(struct player *pplayer)
 	  "Revolution finished for %s.  Government is %s.  Revofin %d (%d).",
 	  pplayer->name, get_government_name(government),
 	  pplayer->revolution_finishes, game.info.turn);
-  notify_player_ex(pplayer, NULL, E_REVOLT_DONE,
+  notify_player(pplayer, NULL, E_REVOLT_DONE,
 		   _("%s now governs the %s as a %s."), 
 		   pplayer->name, 
 		   get_nation_name_plural(pplayer->nation),
@@ -339,7 +339,7 @@ void handle_player_change_government(struct player *pplayer, int government)
     finish_revolution(pplayer);
     return;
   } else if (turns > 0) {
-    notify_player_ex(pplayer, NULL, E_REVOLT_START,
+    notify_player(pplayer, NULL, E_REVOLT_START,
 		     /* TRANS: this is a message event so don't make it
 		      * too long. */
 		     PL_("The %s have incited a revolt! "
@@ -353,7 +353,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 		     get_government_name(pplayer->target_government));
   } else {
     assert(pplayer->target_government == game.government_when_anarchy);
-    notify_player_ex(pplayer, NULL, E_REVOLT_START,
+    notify_player(pplayer, NULL, E_REVOLT_START,
 		     _("Revolution: returning to anarchy."));
   }
   gamelog(GAMELOG_REVOLT, pplayer);
@@ -414,7 +414,7 @@ void update_revolution(struct player *pplayer)
     } else {
       /* If the revolution is over but there's no target government set,
        * alert the player. */
-      notify_player_ex(pplayer, NULL, E_REVOLT_DONE,
+      notify_player(pplayer, NULL, E_REVOLT_DONE,
 		       _("You should choose a new government from the "
 			 "government menu."));
     }
@@ -526,7 +526,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
       return;
     }
     remove_shared_vision(pplayer, pplayer2);
-    notify_player_ex(pplayer2, NULL, E_TREATY_BROKEN,
+    notify_player(pplayer2, NULL, E_TREATY_BROKEN,
                      _("%s no longer gives us shared vision!"),
                      pplayer->name);
     return;
@@ -538,7 +538,7 @@ repeat_break_treaty:
   /* The senate may not allow you to break the treaty.  In this case you
    * must first dissolve the senate then you can break it. */
   if (!pplayer_can_declare_war(pplayer, pplayer2)) {
-    notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
+    notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		     _("The senate will not allow you to break treaty "
 		       "with the %s.  You must either dissolve the senate "
 		       "or wait until a more timely moment."),
@@ -597,12 +597,12 @@ repeat_break_treaty:
    * will happen but the second one will fail. */
   if (get_player_bonus(pplayer, EFT_HAS_SENATE) > 0 && !repeat) {
     if (pplayer->diplstates[pplayer2->player_no].has_reason_to_cancel > 0) {
-      notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
+      notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		       _("The senate passes your bill because of the "
 			 "constant provocations of the %s."),
 		       get_nation_name_plural(pplayer2->nation));
     } else if (new_type == DS_WAR) {
-      notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
+      notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		       _("The senate refuses to break treaty with the %s, "
 			 "but you have no trouble finding a new senate."),
 		       get_nation_name_plural(pplayer2->nation));
@@ -636,13 +636,13 @@ repeat_break_treaty:
   check_city_workers(pplayer);
   check_city_workers(pplayer2);
 
-  notify_player_ex(pplayer, NULL, E_TREATY_BROKEN,
+  notify_player(pplayer, NULL, E_TREATY_BROKEN,
 		   _("The diplomatic state between the %s "
 		     "and the %s is now %s."),
 		   get_nation_name_plural(pplayer->nation),
 		   get_nation_name_plural(pplayer2->nation),
 		   diplstate_text(new_type));
-  notify_player_ex(pplayer2, NULL, E_TREATY_BROKEN,
+  notify_player(pplayer2, NULL, E_TREATY_BROKEN,
 		   _(" %s cancelled the diplomatic agreement! "
 		     "The diplomatic state between the %s and the %s "
 		     "is now %s."), pplayer->name,
@@ -659,7 +659,7 @@ repeat_break_treaty:
         /* If an ally declares war on another ally, break off your alliance
          * to the aggressor. This prevents in-alliance wars, which are not
          * permitted. */
-        notify_player_ex(other, NULL, E_TREATY_BROKEN,
+        notify_player(other, NULL, E_TREATY_BROKEN,
                          _("%s has attacked your ally %s! "
                            "You cancel your alliance to the aggressor."),
                        pplayer->name, pplayer2->name);
@@ -670,7 +670,7 @@ repeat_break_treaty:
         /* We are in the same team as the agressor; we cannot break 
          * alliance with him. We trust our team mate and break alliance
          * with the attacked player */
-        notify_player_ex(other, NULL, E_TREATY_BROKEN,
+        notify_player(other, NULL, E_TREATY_BROKEN,
                          _("Your team mate %s declared war on %s. "
                            "You are obligated to cancel alliance with %s."),
                          pplayer->name,
@@ -752,7 +752,7 @@ void notify_conn(struct conn_list *dest, const char *format, ...)
   old code, but this feature may go away - should use notify_conn(NULL)
   instead.
 **************************************************************************/
-void notify_player_ex(const struct player *pplayer, struct tile *ptile,
+void notify_player(const struct player *pplayer, struct tile *ptile,
 		      enum event_type event, const char *format, ...) 
 {
   struct conn_list *dest = pplayer ? pplayer->connections : NULL;
@@ -1157,11 +1157,11 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     pplayer1->diplstates[player2].type
       = pplayer2->diplstates[player1].type
       = dipstate;
-    notify_player_ex(pplayer1, ptile,
+    notify_player(pplayer1, ptile,
 		     E_FIRST_CONTACT,
 		     _("You have made contact with the %s, ruled by %s."),
 		     get_nation_name_plural(pplayer2->nation), pplayer2->name);
-    notify_player_ex(pplayer2, ptile,
+    notify_player(pplayer2, ptile,
 		     E_FIRST_CONTACT,
 		     _("You have made contact with the %s, ruled by %s."),
 		     get_nation_name_plural(pplayer1->nation), pplayer1->name);
@@ -1722,7 +1722,7 @@ void civil_war(struct player *pplayer)
   freelog(LOG_VERBOSE,
 	  "%s's nation is thrust into civil war, created AI player %s",
 	  pplayer->name, cplayer->name);
-  notify_player_ex(pplayer, NULL, E_CIVIL_WAR,
+  notify_player(pplayer, NULL, E_CIVIL_WAR,
 		   _("Your nation is thrust into civil war, "
 		     " %s is declared the leader of the rebel states."),
 		   cplayer->name);
@@ -1742,7 +1742,7 @@ void civil_war(struct player *pplayer)
 	transfer_city(cplayer, pcity, -1, FALSE, FALSE, FALSE);
 	freelog(LOG_VERBOSE, "%s declares allegiance to %s",
 		pcity->name, cplayer->name);
-	notify_player_ex(pplayer, pcity->tile, E_CITY_LOST,
+	notify_player(pplayer, pcity->tile, E_CITY_LOST,
 			 _("%s declares allegiance to %s."),
 			 pcity->name, cplayer->name);
 	i--;

@@ -610,7 +610,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 	      unit_owner(vunit)->name, unit_name(vunit->type),
 	      vunit->tile->x, vunit->tile->y, pcity->name);
       if (verbose) {
-	notify_player_ex(unit_owner(vunit), vunit->tile,
+	notify_player(unit_owner(vunit), vunit->tile,
 			 E_UNIT_LOST,
 			 _("%s lost along with control of %s."),
 			 unit_name(vunit->type), pcity->name);
@@ -802,7 +802,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
       && city_list_find_name(ptaker->cities, pcity->name)) {
     sz_strlcpy(pcity->name,
 	       city_name_suggestion(ptaker, pcity->tile));
-    notify_player_ex(ptaker, pcity->tile, E_BAD_COMMAND,
+    notify_player(ptaker, pcity->tile, E_BAD_COMMAND,
 		     _("You already had a city called %s."
 		       " The city was renamed to %s."), old_city_name,
 		     pcity->name);
@@ -1020,7 +1020,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   send_city_info(NULL, pcity);
   sync_cities(); /* Will also send pcity. */
 
-  notify_player_ex(pplayer, ptile, E_CITY_BUILD,
+  notify_player(pplayer, ptile, E_CITY_BUILD,
 		   _("You have founded %s"), pcity->name);
   maybe_make_contact(ptile, city_owner(pcity));
 
@@ -1090,7 +1090,7 @@ void remove_city(struct city *pcity)
 	if (could_unit_move_to_tile(punit, tile1) == 1) {
 	  moved = handle_unit_move_request(punit, tile1, FALSE, TRUE);
 	  if (moved) {
-	    notify_player_ex(unit_owner(punit), NULL, E_UNIT_RELOCATED,
+	    notify_player(unit_owner(punit), NULL, E_UNIT_RELOCATED,
 			     _("Moved %s out of disbanded city %s "
 			       "to avoid being landlocked."),
 			     unit_type(punit)->name, pcity->name);
@@ -1099,7 +1099,7 @@ void remove_city(struct city *pcity)
       }
     } adjc_iterate_end;
     if (!moved) {
-      notify_player_ex(unit_owner(punit), NULL, E_UNIT_LOST,
+      notify_player(unit_owner(punit), NULL, E_UNIT_LOST,
 		       _("When %s was disbanded your %s could not "
 			 "get out, and it was therefore lost."),
 		       pcity->name, unit_type(punit)->name);
@@ -1110,7 +1110,7 @@ void remove_city(struct city *pcity)
   /* Destroy final ineligible units (land units in ocean city) */
   unit_list_iterate_safe(ptile->units, punit) {
     if (is_ocean(tile_get_terrain(ptile)) && is_ground_unit(punit)) {
-      notify_player_ex(unit_owner(punit), NULL, E_UNIT_LOST,
+      notify_player(unit_owner(punit), NULL, E_UNIT_LOST,
 		       _("When %s was disbanded your %s could not "
 			 "get out, and it was therefore lost."),
 		       pcity->name, unit_type(punit)->name);
@@ -1222,9 +1222,9 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
    * the city will be destroyed.
    */
   if (pcity->size <= 1) {
-    notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT,
+    notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT,
 		     _("You destroy %s completely."), pcity->name);
-    notify_player_ex(cplayer, pcity->tile, E_CITY_LOST, 
+    notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		     _("%s has been destroyed by %s."), 
 		     pcity->name, pplayer->name);
     gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "destroyed");
@@ -1241,22 +1241,22 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   cplayer->economic.gold -= coins;
   send_player_info(cplayer, cplayer);
   if (pcity->original != pplayer) {
-    notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
+    notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
 		     _("You conquer %s, your lootings accumulate"
 		       " to %d gold!"), 
 		     pcity->name, coins);
-    notify_player_ex(cplayer, pcity->tile, E_CITY_LOST, 
+    notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		     _("%s conquered %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
     gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "conquered");
   } else {
-    notify_player_ex(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
+    notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
 		     _("You have liberated %s!"
 		       " Lootings accumulate to %d gold."),
 		     pcity->name, coins);
     
-    notify_player_ex(cplayer, pcity->tile, E_CITY_LOST, 
+    notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		     _("%s liberated %s and looted %d gold"
 		       " from the city."),
 		     pplayer->name, pcity->name, coins);
@@ -1805,7 +1805,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
        because the worklist advances, then the wonder was completed -- 
        don't announce that the player has *stopped* building that wonder. 
        */
-    notify_player_ex(NULL, pcity->tile, E_WONDER_STOPPED,
+    notify_player(NULL, pcity->tile, E_WONDER_STOPPED,
 		     _("The %s have stopped building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
 		     get_impr_name_ex(pcity, pcity->production.value),
@@ -1837,7 +1837,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   /* Tell the player what's up. */
   /* FIXME: this may give bad grammar when translated if the 'source'
    * string can have multiple values. */
-  notify_player_ex(pplayer, pcity->tile, event,
+  notify_player(pplayer, pcity->tile, event,
 		   /* TRANS: "<city> is building <production><source>." */
 		   _("%s is building %s%s."),
 		   pcity->name, name, source);
@@ -1845,7 +1845,7 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   /* If the city is building a wonder, tell the rest of the world
      about it. */
   if (!pcity->production.is_unit && is_great_wonder(pcity->production.value)) {
-    notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
+    notify_player(NULL, pcity->tile, E_WONDER_STARTED,
 		     _("The %s have started building The %s in %s."),
 		     get_nation_name_plural(pplayer->nation),
 		     get_impr_name_ex(pcity, pcity->production.value),
@@ -2083,7 +2083,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 				NULL, NULL, NULL, NULL,
 				preq)) {
           do_sell_building(pplayer, pcity, impr);
-          notify_player_ex(pplayer, tile1, E_IMP_SOLD,
+          notify_player(pplayer, tile1, E_IMP_SOLD,
                            _("You sell %s in %s (now landlocked)"
                              " for %d gold."),
                            get_improvement_name(impr), pcity->name,

@@ -180,7 +180,7 @@ static struct player *create_barbarian_player(bool land)
 
   freelog(LOG_VERBOSE, "Created barbarian %s, player %d",
           barbarians->name, barbarians->player_no);
-  notify_player_ex(NULL, NULL, E_UPRISING,
+  notify_player(NULL, NULL, E_UPRISING,
                    _("Barbarians gain a leader by the name %s.  Dangerous "
                      "times may lie ahead."), barbarians->name);
   gamelog(GAMELOG_PLAYER, barbarians);
@@ -468,11 +468,11 @@ static void try_summon_barbarians(void)
 
   /* There should probably be a different message about Sea Raiders */
   if (is_land_barbarian(barbarians)) {
-    notify_player_ex(victim, utile, E_UPRISING,
+    notify_player(victim, utile, E_UPRISING,
 		     _("Native unrest near %s led by %s."), pc->name,
 		     barbarians->name);
   } else if (map_is_known_and_seen(utile, victim)) {
-    notify_player_ex(victim, utile, E_UPRISING,
+    notify_player(victim, utile, E_UPRISING,
 		     _("Sea raiders seen near %s!"), pc->name);
   }
 }

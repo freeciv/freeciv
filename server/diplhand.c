@@ -333,10 +333,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
       switch (pclause->type) {
       case CLAUSE_EMBASSY:
         establish_embassy(pdest, pgiver); /* sic */
-        notify_player_ex(pgiver, NULL, E_TREATY_SHARED_VISION,
+        notify_player(pgiver, NULL, E_TREATY_SHARED_VISION,
                          _("You gave an embassy to %s."),
                          pdest->name);
-        notify_player_ex(pdest, NULL, E_TREATY_SHARED_VISION,
+        notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
                          _("%s allowed you to create an embassy!"),
                          pgiver->name);
         gamelog(GAMELOG_TREATY, GL_EMBASSY, pgiver, pdest);
@@ -353,7 +353,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 		  get_nation_name_plural(pgiver->nation));
           break;
         }
-	notify_player_ex(pdest, NULL, E_TECH_GAIN,
+	notify_player(pdest, NULL, E_TECH_GAIN,
 			 _("You are taught the knowledge of %s."),
 			 get_tech_name(pdest, pclause->value));
 
@@ -405,11 +405,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	    break;
 	  }
 
-	  notify_player_ex(pdest, pcity->tile, E_CITY_TRANSFER,
+	  notify_player(pdest, pcity->tile, E_CITY_TRANSFER,
 			   _("You receive city of %s from %s."),
 			   pcity->name, pgiver->name);
 
-	  notify_player_ex(pgiver, pcity->tile, E_CITY_LOST,
+	  notify_player(pgiver, pcity->tile, E_CITY_LOST,
 			   _("You give city of %s to %s."),
 			   pcity->name, pdest->name);
 
@@ -423,10 +423,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pgiver->diplstates[pdest->player_no].turns_left=16;
 	pdest->diplstates[pgiver->player_no].type=DS_CEASEFIRE;
 	pdest->diplstates[pgiver->player_no].turns_left=16;
-	notify_player_ex(pgiver, NULL, E_TREATY_CEASEFIRE,
+	notify_player(pgiver, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
 			 pdest->name);
-	notify_player_ex(pdest, NULL, E_TREATY_CEASEFIRE,
+	notify_player(pdest, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_CEASEFIRE, pgiver, pdest);
@@ -443,10 +443,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           MAX(DS_PEACE, pgiver->diplstates[pdest->player_no].max_state);
 	pdest->diplstates[pgiver->player_no].max_state = 
           MAX(DS_PEACE, pdest->diplstates[pgiver->player_no].max_state);
-	notify_player_ex(pgiver, NULL, E_TREATY_PEACE,
+	notify_player(pgiver, NULL, E_TREATY_PEACE,
 			 _("You agree on a peace treaty with %s."),
 			 pdest->name);
-	notify_player_ex(pdest, NULL, E_TREATY_PEACE,
+	notify_player(pdest, NULL, E_TREATY_PEACE,
 			 _("You agree on a peace treaty with %s."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_PEACE, pgiver, pdest);
@@ -463,10 +463,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           MAX(DS_ALLIANCE, pgiver->diplstates[pdest->player_no].max_state);
 	pdest->diplstates[pgiver->player_no].max_state = 
           MAX(DS_ALLIANCE, pdest->diplstates[pgiver->player_no].max_state);
-	notify_player_ex(pgiver, NULL, E_TREATY_ALLIANCE,
+	notify_player(pgiver, NULL, E_TREATY_ALLIANCE,
 			 _("You agree on an alliance with %s."),
 			 pdest->name);
-	notify_player_ex(pdest, NULL, E_TREATY_ALLIANCE,
+	notify_player(pdest, NULL, E_TREATY_ALLIANCE,
 			 _("You agree on an alliance with %s."),
 			 pgiver->name);
 
@@ -476,10 +476,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	break;
       case CLAUSE_VISION:
 	give_shared_vision(pgiver, pdest);
-	notify_player_ex(pgiver, NULL, E_TREATY_SHARED_VISION,
+	notify_player(pgiver, NULL, E_TREATY_SHARED_VISION,
 			 _("You give shared vision to %s."),
 			 pdest->name);
-	notify_player_ex(pdest, NULL, E_TREATY_SHARED_VISION,
+	notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
 			 _("%s gives you shared vision."),
 			 pgiver->name);
         gamelog(GAMELOG_TREATY, GL_VISION, pgiver, pdest);

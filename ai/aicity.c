@@ -986,7 +986,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
     if (!pcity->production.is_unit && is_great_wonder(pcity->production.value) 
 	&& (is_unit_choice_type(pcity->ai.choice.type) 
 	    || pcity->ai.choice.choice != pcity->production.value))
-      notify_player_ex(NULL, pcity->tile, E_WONDER_STOPPED,
+      notify_player(NULL, pcity->tile, E_WONDER_STOPPED,
 		       _("The %s have stopped building The %s in %s."),
 		       get_nation_name_plural(pplayer->nation),
 		       get_impr_name_ex(pcity, pcity->production.value),
@@ -997,7 +997,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
 	&& (pcity->production.is_unit 
 	    || pcity->production.value != pcity->ai.choice.choice)) {
       if (is_great_wonder(pcity->ai.choice.choice)) {
-	notify_player_ex(NULL, pcity->tile, E_WONDER_STARTED,
+	notify_player(NULL, pcity->tile, E_WONDER_STARTED,
 			 _("The %s have started building The %s in %s."),
 			 get_nation_name_plural(city_owner(pcity)->nation),
 			 get_impr_name_ex(pcity, pcity->ai.choice.choice),
@@ -1318,7 +1318,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
        && (is_building_replaced(pcity, i)
 	   || building_unwanted(city_owner(pcity), i))) {
       do_sell_building(pplayer, pcity, i);
-      notify_player_ex(pplayer, pcity->tile, E_IMP_SOLD,
+      notify_player(pplayer, pcity->tile, E_IMP_SOLD,
 		       _("%s is selling %s (not needed) for %d."), 
 		       pcity->name, get_improvement_name(i), 
 		       impr_sell_gold(i));

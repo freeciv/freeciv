@@ -167,7 +167,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 	  }
 	} players_iterate_end;
 	if (num_players >= mod) {
-	  notify_player_ex(pplayer, NULL, E_TECH_GAIN,
+	  notify_player(pplayer, NULL, E_TECH_GAIN,
 			   _("%s acquired from %s!"),
 			   get_tech_name(pplayer, i), buf);
 	  script_signal_emit("tech_researched", 3,
@@ -227,7 +227,7 @@ static void update_player_after_tech_researched(struct player* plr,
   government_iterate(gov) {
     if (!could_switch_to_government[gov->index]
 	&& can_change_to_government(plr, gov)) {
-      notify_player_ex(plr, NULL, E_NEW_GOVERNMENT,
+      notify_player(plr, NULL, E_NEW_GOVERNMENT,
 		       _("Discovery of %s makes the government form %s"
 			 " available. You may want to start a revolution."),
 		       get_tech_name(plr, tech_found), gov->name);
@@ -307,7 +307,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
       if (is_great_wonder(id) && great_wonder_was_built(id)
 	  && get_improvement_type(id)->obsolete_by == tech_found
 	  && (pcity = find_city_from_great_wonder(id))) {
-	notify_player_ex(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
+	notify_player(city_owner(pcity), NULL, E_WONDER_OBSOLETE,
 	                 _("Discovery of %s OBSOLETES %s in %s!"), 
 	                 get_tech_name(city_owner(pcity), tech_found),
 			 get_improvement_name(id),
@@ -694,12 +694,12 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 		     API_TYPE_STRING, "stolen");
   gamelog(GAMELOG_TECH, pplayer, victim, stolen_tech, "steal");
 
-  notify_player_ex(pplayer, NULL, E_TECH_GAIN,
+  notify_player(pplayer, NULL, E_TECH_GAIN,
 		   _("You steal %s from the %s."),
 		   get_tech_name(pplayer, stolen_tech),
 		   get_nation_name_plural(victim->nation));
 
-  notify_player_ex(victim, NULL, E_ENEMY_DIPLOMAT_THEFT,
+  notify_player(victim, NULL, E_ENEMY_DIPLOMAT_THEFT,
                    _("The %s stole %s from you!"),
 		   get_nation_name_plural(pplayer->nation),
 		   get_tech_name(pplayer, stolen_tech));
