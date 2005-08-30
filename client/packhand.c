@@ -1562,8 +1562,8 @@ void handle_player_info(struct packet_player_info *pinfo)
     /* Just about any changes above require an update to the intelligence
      * dialog. */
     update_intel_dialog(pplayer);
-    update_conn_list_dialog();
   }
+  update_conn_list_dialog();
 }
 
 /**************************************************************************
@@ -2002,6 +2002,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 void handle_player_remove(int player_id)
 {
   client_remove_player(player_id);
+  update_conn_list_dialog();
 }
 
 /**************************************************************************
