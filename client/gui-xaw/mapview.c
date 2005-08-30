@@ -165,34 +165,23 @@ void update_timeout_label(void)
 **************************************************************************/
 void update_info_label(void)
 {
-  char buffer[512]; int d;
+  int d;
   
-  my_snprintf(buffer, sizeof(buffer),
-	      _("%s People\n"
-		"Year: %s\n"
-		"Gold: %d\n"
-		"Tax:%d Lux:%d Sci:%d"),
-	  population_to_text(civ_population(game.player_ptr)),
-	  textyear(game.info.year),
-	  game.player_ptr->economic.gold,
-	  game.player_ptr->economic.tax,
-	  game.player_ptr->economic.luxury,
-	  game.player_ptr->economic.science);
-  xaw_set_label(info_command, buffer);
+  xaw_set_label(info_command, get_info_label_text());
 
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
 		      client_cooling_sprite(),
 		      client_government_sprite());
 
-  d=0;
-  for(;d<(game.player_ptr->economic.luxury)/10;d++)
+  d = 0;
+  for(; d < (game.player_ptr->economic.luxury) / 10; d++)
     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_LUXURY)->pixmap);
  
-  for(;d<(game.player_ptr->economic.science+game.player_ptr->economic.luxury)/10;d++)
+  for(; d < (game.player_ptr->economic.science + game.player_ptr->economic.luxury) / 10; d++)
     xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_SCIENCE)->pixmap);
  
-   for(;d<10;d++)
+   for(; d < 10; d++)
      xaw_set_bitmap(econ_label[d], get_tax_sprite(tileset, O_GOLD)->pixmap);
  
   update_timeout_label();

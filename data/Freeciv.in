@@ -2565,7 +2565,7 @@ Freeciv*overviewcanvas.left:                       chainLeft
 Freeciv*overviewcanvas.right:                      chainRight
 Freeciv*overviewcanvas.resizable:                  True
 
-Freeciv*infocommand.label:	\n\n\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
+Freeciv*infocommand.label:	\n\n\n\n\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 
 Freeciv*infocommand.background:                    gray84
 Freeciv*infocommand.foreground:                    black
 Freeciv*infocommand.justify:                       left

@@ -39,11 +39,12 @@
 
 #include "fciconv.h"
 #include "fcintl.h"
+#include "log.h"
+#include "support.h"
+
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "support.h"
 #include "version.h"
 
 #include "civclient.h"
@@ -51,6 +52,7 @@
 #include "clinet.h"
 #include "control.h"
 #include "options.h"
+#include "text.h"
 #include "tilespec.h"
 
 #include "actions.h"
@@ -717,53 +719,30 @@ void xaw_ui_exit(void)
 **************************************************************************/
 void main_show_info_popup(XEvent *event)
 {
-  XButtonEvent *ev=(XButtonEvent *)event;
-  struct player_research* research = get_player_research(game.player_ptr);
-  if(ev->button==Button1) {
+  XButtonEvent *ev = (XButtonEvent *)event;
+
+  if (ev->button == Button1) {
     Widget  p;
     Position x, y;
     Dimension w, h;
-    char buf[512];
 
-    my_snprintf(buf, sizeof(buf),
-		_("%s People\n"
-		  "Year: %s Turn: %d\n"
-		  "Gold: %d\n"
-		  "Net Income: %d\n"
-		  "Tax:%d Lux:%d Sci:%d\n"
-		  "Researching %s: %d/%d\n"
-		  "Government: %s"),
-		population_to_text(civ_population(game.player_ptr)),
-		textyear(game.info.year), game.info.turn,
-		game.player_ptr->economic.gold,
-		player_get_expected_income(game.player_ptr),
-		game.player_ptr->economic.tax,
-		game.player_ptr->economic.luxury,
-		game.player_ptr->economic.science,
-		(research->researching == A_UNSET) ?
-		  advances[A_NONE].name :
-		  advances[research->researching].name,
-		research->bulbs_researched,
-		total_bulbs_required(game.player_ptr),
-		get_government_name(game.player_ptr->government));
+    p = XtCreatePopupShell("popupinfo", 
+			   overrideShellWidgetClass, 
+			   info_command, NULL, 0);
 
-    p=XtCreatePopupShell("popupinfo", 
-			 overrideShellWidgetClass, 
-			 info_command, NULL, 0);
+    XtAddCallback(p, XtNpopdownCallback, destroy_me_callback, NULL);
 
-    XtAddCallback(p,XtNpopdownCallback,destroy_me_callback,NULL);
-
-    XtVaCreateManagedWidget("fullinfopopuplabel", 
+    XtVaCreateManagedWidget("fullinfopopuplabel",
 			    labelWidgetClass,
 			    p,
-			    XtNlabel, buf,
+			    XtNlabel, get_info_label_text_popup(),
 			    NULL);
 
     XtRealizeWidget(p);
 
     XtVaGetValues(p, XtNwidth, &w, XtNheight, &h,  NULL);
     XtTranslateCoords(info_command, ev->x, ev->y, &x, &y);
-    XtVaSetValues(p, XtNx, x-w/2, XtNy, y-h/2, NULL);
+    XtVaSetValues(p, XtNx, x - w / 2, XtNy, y - h / 2, NULL);
     XtPopupSpringLoaded(p);
   }
 }
