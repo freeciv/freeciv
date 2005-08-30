@@ -663,6 +663,7 @@ AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ["$CXXFLAGS"], [These are the CXXFLAGS u
 
 AC_CONFIG_FILES([Makefile
           data/Makefile 
+	  data/amplio/Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile 
 	  data/trident/Makefile 
