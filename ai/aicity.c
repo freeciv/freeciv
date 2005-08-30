@@ -406,9 +406,50 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  }
 	  break;
 	case EFT_TECH_PARASITE:
-	  v += (total_bulbs_required(pplayer) * (100 - game.info.freecost)
-	      * (nplayers - amount)) / (nplayers * amount * 100);
+	{
+	  int turns;
+	  int bulbs;
+	  int value;
+	  
+	  if (nplayers <= amount) {
+	    break;
+	  }
+          
+	  turns = 9999;
+	  bulbs = 0;
+	  players_iterate(aplayer) {
+	    int potential = aplayer->bulbs_last_turn
+	                    + city_list_size(aplayer->cities) + 1;
+	    if (tech_exists(pimpr->obsolete_by)) {
+	      turns = MIN(turns, 
+	        total_bulbs_required_for_goal(aplayer, pimpr->obsolete_by)
+		/ (potential + 1));
+	    }
+	    if (players_on_same_team(aplayer, pplayer)) {
+	      continue;
+	    }
+	    bulbs += potential;
+	  } players_iterate_end;
+  
+  	  /* For some number of turns we will be receiving bulbs for free
+	   * Bulbs should be amortized properly for each turn.
+	   * We use formula for the sum of geometric series:
+	   */
+	  value = bulbs * (1.0 - pow(1.0 - (1.0 / MORT), turns)) * MORT;
+	  
+	  value = value  * (100 - game.info.freecost)	  
+	          * (nplayers - amount) / (nplayers * amount * 100);
+	  
+	  /* WAG */
+	  value /= 3;
+
+          CITY_LOG(LOG_DEBUG, pcity,
+	           "%s parasite effect: bulbs %d, turns %d, value %d", 
+                   get_improvement_name(id), bulbs, turns, value);
+	
+	  v += value;
 	  break;
+	}
 	case EFT_GROWTH_FOOD:
 	  v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
 	  break;
