@@ -2,6 +2,7 @@
 
 if CLIENT
 COMMON_CLIENT_FILES =			\
+	amplio.tilespec			\
 	isophex.tilespec		\
 	isotrident.tilespec		\
 	trident.tilespec		\
@@ -36,6 +37,7 @@ EXTRA_DIST = \
 	freeciv-client.png \
 	freeciv.rc	\
 	freeciv.rc-2.0	\
+	amplio.tilespec	\
 	isophex.tilespec	\
 	isotrident.tilespec \
 	trident.tilespec	\
