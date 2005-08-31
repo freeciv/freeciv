@@ -223,26 +223,29 @@ static client_option common_options[] = {
 		  N_("Background layer"),
 		  N_("The background layer of the overview shows just "
 		     "ocean and land."), COC_OVERVIEW),
-  GEN_BOOL_OPTION(overview.layers[OLAYER_RELIEF],
-		  N_("Terrain relief map layer"),
-		  N_("The relief layer shows all terrains on the map."),
-		  COC_OVERVIEW),
-  GEN_BOOL_OPTION(overview.layers[OLAYER_BORDERS],
-		  N_("Borders layer"),
-		  N_("The borders layer of the overview shows which tiles "
-		     "are owned by each player."), COC_OVERVIEW),
-  GEN_BOOL_OPTION(overview.layers[OLAYER_UNITS],
-		  N_("Units layer"),
-		  N_("If enabled then units will be drawn on the overview."),
-		  COC_OVERVIEW),
-  GEN_BOOL_OPTION(overview.layers[OLAYER_CITIES],
-		  N_("Cities layer"),
-		  N_("If enabled then cities will be drawn on the overview."),
-		  COC_OVERVIEW),
-  GEN_BOOL_OPTION(overview.fog,
-		  N_("Overview fog of war"),
-		  N_("If enabled, fog of war is shown on the overview."),
-		  COC_OVERVIEW)
+  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_RELIEF],
+		     N_("Terrain relief map layer"),
+		     N_("The relief layer shows all terrains on the map."),
+		     COC_OVERVIEW, overview_redraw_callback),
+  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_BORDERS],
+		     N_("Borders layer"),
+		     N_("The borders layer of the overview shows which tiles "
+			"are owned by each player."),
+		     COC_OVERVIEW, overview_redraw_callback),
+  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_UNITS],
+		     N_("Units layer"),
+		     N_("If enabled then units will be "
+			"drawn on the overview."),
+		     COC_OVERVIEW, overview_redraw_callback),
+  GEN_BOOL_OPTION_CB(overview.layers[OLAYER_CITIES],
+		     N_("Cities layer"),
+		     N_("If enabled then cities will be "
+			"drawn on the overview."),
+		     COC_OVERVIEW, overview_redraw_callback),
+  GEN_BOOL_OPTION_CB(overview.fog,
+		     N_("Overview fog of war"),
+		     N_("If enabled, fog of war is shown on the overview."),
+		     COC_OVERVIEW, overview_redraw_callback)
 };
 #undef GEN_INT_OPTION
 #undef GEN_BOOL_OPTION

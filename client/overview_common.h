@@ -18,6 +18,8 @@
 
 #include "canvas_g.h"
 
+#include "options.h"
+
 enum overview_layers {
   OLAYER_BACKGROUND,
   OLAYER_RELIEF,
@@ -65,5 +67,7 @@ void calculate_overview_dimensions(void);
 void center_tile_overviewcanvas(void);
 
 void flush_dirty_overview(void);
+
+void overview_redraw_callback(struct client_option *option);
 
 #endif /* FC__OVERVIEW_COMMON_H */
