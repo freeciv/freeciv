@@ -2,13 +2,41 @@
 Welcome to Freeciv 2.0
 ======================
 
-This is release 2.0.4.
+This is release 2.0.5.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 2.0.4
+ - Fix bugs with government setting of new civs (barbarians and civil war 
+   nations).
+ - Fix a bug where some mapgen settings would create more continents than
+   the server could handle.
+ - Fix a bug that allowed free changing of techs after finding a tech other
+   than the one currently being researched.
+ - Fix a bug where removing and creating a new player would give the new
+   player the old one's team.
+ - When the player disconnects in a normal game, make a savegame and exit
+   immediately rather than continuing to run. (This fixes the bug where
+   savegames made after a client crash would reveal the entire map.)
+ - Fix a bug in the "endyear" setting.
+ - Don't send server-only settings to the client (to be shown in the
+   settings dialog).
+ - Send a unit's info to the client when its transporter is disbanded.
+ - Fix several bugs where crashes could happen if an invalid connection
+   was left in the lists.
+ - Better fallbacks when starting positions can't be placed (previously
+   the server would crash in this situation).
+ - Fix several bugs in the detection of multiple servers on the LAN.
+ - Make sure units in combat are not in the hidden (focus unit) state.
+ - Update menus for the focus unit when a transporter becomes available for it.
+ - Fix a bug in the GTK2 client where diplomat actions would sometimes
+   become impossible.
+ - Clicking on the focus unit in the panel will center it.
+ - Set aifill values for several scenarios.
 
 WHAT'S CHANGED SINCE 2.0.3
  - Fix some buffer underruns on the terrain array (this bug could have
