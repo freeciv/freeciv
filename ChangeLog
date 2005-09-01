@@ -1,3 +1,252 @@
+Thu Sep 01 21:00:12 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* NEWS, common/version.h, doc/BUGS, version.in:
+
+	Update NEWS and bump version to 2.0.5.
+
+Thu Sep 01 19:52:57 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/stdinhand.c:
+
+	Avoid one possible crash scenario when an unused connection gets
+	left on a player's connection list.
+
+	See PR#13817.
+
+Tue Aug 30 17:33:06 2005  Egor Vyscrebentsov <evyscr@murom.net>:
+
+	* po/ru.po:
+
+	3738 translated, 0 fuzzies, 0 untranslated.
+
+Thu Aug 25 19:27:48 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/clinet.c:
+
+	Backport: fix several bugs in LAN server detection, caused
+	because get_lan_servers can only detect one server (new or
+	duplicate) per call.
+
+	Patch by me in PR#13765.
+
+Thu Aug 25 18:57:21 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/control.c:
+
+	Backport: make sure the focus unit isn't hidden before we do
+	combat animation on it.
+
+	Reported by Christian Knoke <chrisk@cknoke.de> in PR#10843.
+
+Wed Aug 24 17:22:06 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c:
+
+	S2_0: When a player is created make sure that the team field in
+	the player structure is properly initialized. This fixes some
+	strange bugs reported by pubserver. Patch by me in PR#13756
+
+Tue Aug 23 08:31:05 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/ruleset.c:
+
+	Properly initialize target_government when rulesets are loaded.
+	Patch by me in PR#13745
+
+Tue Aug 23 08:30:23 2005  Per I. Mathisen <per@leftist.net>:
+
+	* server/savegame.c:
+
+	Do not attempt to save target_government if this value is
+	invalid. This should really fix PR#13745, the savegame crash.
+
+Tue Aug 23 08:05:37 2005  Per I. Mathisen <per@leftist.net>:
+
+	* server/barbarian.c, server/plrhand.c:
+
+	This hopefully fixes "(PR#13745) savegame crash".
+
+Mon Aug 22 20:58:53 2005  Per I. Mathisen <per@leftist.net>:
+
+	* common/player.c, server/barbarian.c, server/plrhand.c:
+
+	2.0: Fix issues with initial government for barbarians and split
+	players. This fixes PR#13740 and PR#13723. Patch by Jason.
+
+Mon Aug 22 08:04:56 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c:
+
+	Backport: When a player founds new tech set got_tech only if the
+	tech is a tech which he is currently researching. Previously you
+	could change research without loss of bulbs when you found a tech
+	in a hut. Reported by Christian Knoke, patch by Jason in PR#12294
+
+Sat Aug 20 19:58:25 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/unittools.c:
+
+	Backport: send a unit's info to the client when its transporter
+	is disbanded. This fixes a bug where the info for the unit wasn't
+	updated until the next turn.
+
+	Reported by Christian Knoke <chrisk@cknoke.de> in PR#13691.
+
+Fri Aug 19 07:42:15 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/gui-gtk-2.0/dialogs.c:
+
+	Backport: Fix a bug where the spying window won't appear again
+	after sabotaging a unit. Reported by Bayprogrammer@aol.com in
+	PR#13696, patch by me.
+
+Fri Aug 19 02:14:17 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* doc/BUGS:
+
+	Known bug:
+
+	- Pressing turn-done in games with a timeout near to the end of
+	the turn may result in the server not processing the turn-done
+	until the start of the next turn. The result is that the server
+	thinks you pressed turn-done for the new turn. (This is
+	particularly annoying in conjunction with the timer bug above.)
+
+	See PR#13648.
+
+Mon Aug 15 03:33:29 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/sernet.c, server/srv_main.c, server/srv_main.h:
+
+	When all players disconnect and -q and -e are both given, make an
+	autosave and exit immediately. This fixes the bug where the
+	server would continue running for one more turn and then make a
+	savegame in the gameover state.
+
+	Reported by Benoit Hudson, Christian Knoke, "Jeff"
+	<superfli@gmail.com>, Vladimir Pekez <vbpekez@EUnet.yu>, Carl
+	Lobo <carllobo@gmail.com>, and <excellent.one@sympatico.ca> in
+	PR#11688. Patch by me.
+
+Sun Aug 14 00:23:11 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/packhand.c:
+
+	Fix a bug where menus are not updated for the active unit when a
+	transporter becomes available for it.
+
+	Reported by Christian Knoke <chrisk@cknoke.de> in PR#13636. Patch
+	by me.
+
+Thu Aug 11 04:43:55 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/stdinhand.c:
+
+	Backport: don't send server-only options to the client as part of
+	the options_settable packet.
+
+	Patch by me in PR#13631.
+
+Thu Aug 11 01:30:10 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* doc/BUGS:
+
+	Known bug:
+
+	- Using the CMA in games with a timeout will cause the client to
+	track the time remaining incorrectly. The result is the turn will
+	end while the client claims there is still time remaining.
+
+	See PR#13645.
+
+Tue Aug 09 16:48:22 2005  Christian Knoke <chrisk@cknoke.de>:
+
+	* po/de.po:
+
+	fix
+
+Mon Aug 08 19:57:04 2005  Christian Knoke <chrisk@cknoke.de>:
+
+	* po/de.po:
+
+	updated
+
+Mon Aug 08 19:48:30 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/stdinhand.c:
+
+	Fix a buglet causing garbage to sometimes be sent in an
+	options_settable packet, and remove unnecessary static qualifiers
+	on variables.
+
+	Patch by me in PR#13620.
+
+Mon Aug 08 16:12:56 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/settings.c:
+
+	Backport: fix a typo bug in the endyear setting.
+
+	Patch by me in PR#13616.
+
+Sat Aug 06 07:42:40 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/generator/mapgen.c, server/generator/startpos.c,
+	server/generator/startpos.h:
+
+	Backport: Try different values of the mode argument if
+	create_start_positions fails. This fixes a crash reported by
+	Jason in PR#13596, patch by me
+
+Thu Aug 04 16:57:35 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/gui-gtk-2.0/gui_main.c:
+
+	Backport: clicking on the focus unit on the panel will center it.
+
+	Reported by Christian Knoke <chrisk@cknoke.de> in PR#13575. Patch
+	by me.
+
+Thu Aug 04 15:47:08 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* doc/BUGS, server/maphand.h:
+
+	Increase the hardcoded limit NCONT. Add an entry to BUGS to
+	document mapgen failures with unusual parameters.
+
+	Patch by me in PR#13595.
+
+Thu Aug 04 02:50:37 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/unittools.c:
+
+	Backport: avoid a potential patch in send_unit_info_to_onlookers
+	when unusual connections are present.
+
+	Patch by me in PR#13594.
+
+Tue Aug 02 06:24:54 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* data/scenario/earth-160x90-v2.sav,
+	data/scenario/earth-80x50-v2.sav:
+
+	Backport: Set aifill to be larger than 0 in all scenarious. Patch
+	by me in PR#13570
+
+Fri Jul 29 08:40:35 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* po/pl.po:
+
+	Update
+
+Thu Jul 28 19:02:11 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/climisc.c:
+
+	Backport: avoid iterating over out-of-range improvements.
+
+	Patch by me in PR#13556.
+
 Wed Jul 27 20:43:11 2005  Jason Short <jdorje@users.sourceforge.net>:
 
 	* doc/BUGS:
