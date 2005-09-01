@@ -4053,6 +4053,11 @@ void show_players(struct connection *caller)
       cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
       
       conn_list_iterate(pplayer->connections, pconn) {
+	if (!pconn->used) {
+	  /* A bug that we haven't been able to trace leaves unused
+	   * connections on the lists.  We skip them. */
+	  continue;
+	}
 	my_snprintf(buf, sizeof(buf),
 		    _("  %s from %s (command access level %s), bufsize=%dkb"),
 		    pconn->username, pconn->addr, 
