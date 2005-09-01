@@ -260,6 +260,8 @@ const char *api_intl_PL_ @ PL_ (const char *string1, const char *string2,
 /* Notify module. */
 module notify {
   void api_notify_embassies_msg @ embassies_msg (Player *pplayer,
+						 Tile *ptile,
+						 int event,
 						 const char *message);
   void api_notify_event_msg @ event_msg (Player *pplayer, Tile *ptile,
 					 int event, const char *message);
@@ -390,8 +392,8 @@ function notify.event(player, tile, event, ...)
   notify.event_msg(player, tile, event, string.format(unpack(arg)))
 end
 
-function notify.embassies(player, ...)
-  notify.embassies_msg(player, string.format(unpack(arg)))
+function notify.embassies(player, ptile, event, ...)
+  notify.embassies_msg(player, ptile, event, string.format(unpack(arg)))
 end
 $]
 

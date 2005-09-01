@@ -16,7 +16,8 @@
 
 #include "api_types.h"
 
-void api_notify_embassies_msg(Player *pplayer, const char *message);
+void api_notify_embassies_msg(Player *pplayer, Tile *ptile,
+			      int event, const char *message);
 void api_notify_event_msg(Player *pplayer, Tile *ptile, int event,
 		          const char *message);
 

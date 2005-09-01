@@ -108,13 +108,13 @@ static void tech_researched(struct player *plr)
   struct advance *tech = &advances[tech_id];
 
   if (!is_future_tech(research->researching)) {
-    notify_embassies(plr, NULL,
+    notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
 		     _("The %s have researched %s."), 
 		     get_nation_name_plural(plr->nation),
 		     get_tech_name(plr, research->researching));
 
   } else {
-    notify_embassies(plr, NULL,
+    notify_embassies(plr, NULL, NULL, E_TECH_GAIN,
 		     _("The %s have researched Future Tech. %d."), 
 		     get_nation_name_plural(plr->nation),
 		     research->future_tech);
@@ -175,7 +175,7 @@ void do_tech_parasite_effect(struct player *pplayer)
 			     API_TYPE_PLAYER, pplayer,
 			     API_TYPE_STRING, "stolen");
           gamelog(GAMELOG_TECH, pplayer, NULL, i, "steal");
-	  notify_embassies(pplayer, NULL,
+	  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 			   _("The %s have acquired %s from %s."),
 			   get_nation_name_plural(pplayer->nation),
 			   get_tech_name(pplayer, i), buf);
@@ -704,7 +704,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 		   get_nation_name_plural(pplayer->nation),
 		   get_tech_name(pplayer, stolen_tech));
 
-  notify_embassies(pplayer, victim,
+  notify_embassies(pplayer, victim, NULL, E_TECH_GAIN,
 		   _("The %s have stolen %s from the %s."),
 		   get_nation_name_plural(pplayer->nation),
 		   get_tech_name(pplayer, stolen_tech),

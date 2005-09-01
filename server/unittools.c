@@ -2159,8 +2159,9 @@ static void hut_get_tech(struct unit *punit)
 		     API_TYPE_PLAYER, pplayer,
 		     API_TYPE_STRING, "hut");
   gamelog(GAMELOG_TECH, pplayer, NULL, new_tech);
-  notify_embassies(pplayer, NULL, _("The %s have acquired %s"
-				    " from ancient scrolls of wisdom."),
+  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
+		   _("The %s have acquired %s"
+		     " from ancient scrolls of wisdom."),
 		   get_nation_name_plural(pplayer->nation), tech_name);
 }
 

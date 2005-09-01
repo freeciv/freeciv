@@ -1133,7 +1133,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       for (i = 0; i < mod; i++) {
 	Tech_type_id tech = give_immediate_free_tech(pplayer);
 
-	notify_embassies(pplayer, NULL,
+	notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 	    _("The %s have acquired %s from %s."),
 	    get_nation_name_plural(pplayer->nation),
 	    get_tech_name(pplayer, tech),

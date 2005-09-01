@@ -23,9 +23,10 @@
 /**************************************************************************
   Notify players which have embassies with pplayer with the given message.
 **************************************************************************/
-void api_notify_embassies_msg(Player *pplayer, const char *message)
+void api_notify_embassies_msg(Player *pplayer, Tile *ptile, int event,
+			      const char *message)
 {
-  notify_embassies(pplayer, NULL, "%s", message);
+  notify_embassies(pplayer, NULL, ptile, event, "%s", message);
 }
 
 /**************************************************************************

@@ -58,8 +58,9 @@ void notify_player(const struct player *pplayer, struct tile *ptile,
 		   enum event_type event, const char *format, ...)
                    fc__attribute((format (printf, 4, 5)));
 void notify_embassies(struct player *pplayer, struct player *exclude,
+		      struct tile *ptile, enum event_type event,
 		      const char *format, ...)
-		      fc__attribute((format (printf, 3, 4)));
+		      fc__attribute((format (printf, 5, 6)));
 void notify_team_ex(struct player* pplayer, struct tile *ptile,
                  enum event_type event, const char *format, ...)
                  fc__attribute((format (printf, 4, 5)));

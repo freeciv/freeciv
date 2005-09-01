@@ -768,6 +768,7 @@ void notify_player(const struct player *pplayer, struct tile *ptile,
   but excluding pplayer and specified player.
 **************************************************************************/
 void notify_embassies(struct player *pplayer, struct player *exclude,
+		      struct tile *ptile, enum event_type event,
 		      const char *format, ...) 
 {
   struct packet_chat_msg genmsg;
@@ -777,9 +778,14 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
   my_vsnprintf(genmsg.message, sizeof(genmsg.message), format, args);
   va_end(args);
 
-  genmsg.x = -1;
-  genmsg.y = -1;
-  genmsg.event = E_NOEVENT;
+  if (ptile) {
+    genmsg.x = ptile->x;
+    genmsg.y = ptile->y;
+  } else {
+    genmsg.x = -1;
+    genmsg.y = -1;
+  }
+  genmsg.event = event;
   genmsg.conn_id = -1;
 
   players_iterate(other_player) {
