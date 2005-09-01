@@ -187,7 +187,7 @@ struct unit_type {
   /* Values for bombardment */
   int bombard_rate;
 
-  Unit_Class_id class;
+  struct unit_class *class;
   
   char *helptext;
 };
@@ -212,7 +212,7 @@ int unit_pop_value(const struct unit_type *punittype);
 struct unit_class *get_unit_class(const struct unit_type *punittype);
 const char *unit_name(const struct unit_type *punittype);
 const char *unit_name_orig(const struct unit_type *punittype);
-const char *unit_class_name(Unit_Class_id id);
+const char *unit_class_name(const struct unit_class *pclass);
 
 const char *get_unit_name(const struct unit_type *punittype);
 const char *get_units_with_flag_string(int flag);
@@ -230,7 +230,7 @@ int unit_upgrade_price(const struct player *pplayer,
 struct unit_type *find_unit_type_by_name(const char *name);
 struct unit_type *find_unit_type_by_name_orig(const char *name_orig);
 
-Unit_Class_id unit_class_from_str(const char *s);
+struct unit_class *unit_class_from_str(const char *s);
 enum unit_flag_id unit_flag_from_str(const char *s);
 enum unit_role_id unit_role_from_str(const char *s);
 

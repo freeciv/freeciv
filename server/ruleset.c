@@ -1064,26 +1064,27 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
   /* main stats: */
   unit_type_iterate(u) {
     const int i = u->index;
+    struct unit_class *pclass;
 
     u->impr_requirement = lookup_building(file, sec[i], "impr_req",
 					  FALSE, filename, u->name);
 
     sval = secfile_lookup_str(file, "%s.class", sec[i]);
-    ival = unit_class_from_str(sval);
-    if (ival == UCL_LAST) {
+    pclass = unit_class_from_str(sval);
+    if (!pclass) {
       freelog(LOG_FATAL, "for unit_type \"%s\": bad class %s (%s)",
               u->name, sval, filename);
       exit(EXIT_FAILURE);
     }
-    u->class = ival;
-    switch (ival)
+    u->class = pclass;
+    switch (pclass->id)
     {
     case UCL_MISSILE:
     case UCL_NUCLEAR:
       u->move_type = AIR_MOVING;
       break;
     default:
-      u->move_type = ival;
+      u->move_type = pclass->id;
       break;
     }
     

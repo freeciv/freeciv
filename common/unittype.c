@@ -227,15 +227,12 @@ const char *get_unit_name(const struct unit_type *punittype)
 }
 
 /**************************************************************************
-...
+  Returns the name of the unit class.
 **************************************************************************/
-const char *unit_class_name(Unit_Class_id id)
+const char *unit_class_name(const struct unit_class *pclass)
 {
-  if ((id >= 0) && (id < UCL_LAST)) {
-    return unit_class_names[id];
-  } else {
-    return "";
-  }
+  assert(pclass != NULL && &unit_classes[pclass->id] == pclass);
+  return unit_class_names[pclass->id];
 }
 
 /**************************************************************************
@@ -360,7 +357,7 @@ struct unit_type *find_unit_type_by_name_orig(const char *name_orig)
   Convert Unit_Class_id names to enum; case insensitive;
   returns UCL_LAST if can't match.
 **************************************************************************/
-Unit_Class_id unit_class_from_str(const char *s)
+struct unit_class *unit_class_from_str(const char *s)
 {
   Unit_Class_id i;
 
@@ -368,10 +365,10 @@ Unit_Class_id unit_class_from_str(const char *s)
 
   for (i = 0; i < UCL_LAST; i++) {
     if (mystrcasecmp(unit_class_names[i], s)==0) {
-      return i;
+      return &unit_classes[i];
     }
   }
-  return UCL_LAST;
+  return NULL;
 }
 
 /**************************************************************************
@@ -694,5 +691,5 @@ void unit_types_free(void)
 ***************************************************************/
 struct unit_class *get_unit_class(const struct unit_type *punittype)
 {
-  return &unit_classes[punittype->class];
+  return punittype->class;
 }
