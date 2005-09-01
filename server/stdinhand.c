@@ -3023,8 +3023,8 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     } conn_list_iterate_end;
 
     /* actually do the removal */
-    game_remove_player(pplayer);
-    game_renumber_players(pplayer->player_no);
+    server_remove_player(pplayer);
+    aifill(game.aifill);
     reset_all_start_commands();
   }
 
