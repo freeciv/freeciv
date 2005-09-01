@@ -2073,6 +2073,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   sz_strlcpy(u->sound_fight_alt, p->sound_fight_alt);
 
   u->move_type          = p->move_type;
+  u->class = unit_class_get_by_id(p->unit_class_id);
   u->build_cost         = p->build_cost;
   u->pop_cost           = p->pop_cost;
   u->attack_strength    = p->attack_strength;

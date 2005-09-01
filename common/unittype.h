@@ -209,6 +209,7 @@ int unit_buy_gold_cost(const struct unit_type *punittype,
 int unit_disband_shields(const struct unit_type *punittype);
 int unit_pop_value(const struct unit_type *punittype);
 
+struct unit_class *unit_class_get_by_id(int id);
 struct unit_class *get_unit_class(const struct unit_type *punittype);
 const char *unit_name(const struct unit_type *punittype);
 const char *unit_name_orig(const struct unit_type *punittype);

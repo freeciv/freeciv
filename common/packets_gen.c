@@ -21578,7 +21578,7 @@ void lsend_packet_spaceship_info(struct conn_list *dest, const struct packet_spa
 
 #define cmp_packet_ruleset_unit_100 cmp_const
 
-BV_DEFINE(packet_ruleset_unit_100_fields, 35);
+BV_DEFINE(packet_ruleset_unit_100_fields, 36);
 
 static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connection *pc, enum packet_type type)
 {
@@ -21643,16 +21643,16 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
     {
       int readin;
     
-      dio_get_uint16(&din, &readin);
-      real_packet->build_cost = readin;
+      dio_get_uint8(&din, &readin);
+      real_packet->unit_class_id = readin;
     }
   }
   if (BV_ISSET(fields, 10)) {
     {
       int readin;
     
-      dio_get_uint8(&din, &readin);
-      real_packet->pop_cost = readin;
+      dio_get_uint16(&din, &readin);
+      real_packet->build_cost = readin;
     }
   }
   if (BV_ISSET(fields, 11)) {
@@ -21660,7 +21660,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->attack_strength = readin;
+      real_packet->pop_cost = readin;
     }
   }
   if (BV_ISSET(fields, 12)) {
@@ -21668,7 +21668,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->defense_strength = readin;
+      real_packet->attack_strength = readin;
     }
   }
   if (BV_ISSET(fields, 13)) {
@@ -21676,7 +21676,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->move_rate = readin;
+      real_packet->defense_strength = readin;
     }
   }
   if (BV_ISSET(fields, 14)) {
@@ -21684,7 +21684,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->tech_requirement = readin;
+      real_packet->move_rate = readin;
     }
   }
   if (BV_ISSET(fields, 15)) {
@@ -21692,7 +21692,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->impr_requirement = readin;
+      real_packet->tech_requirement = readin;
     }
   }
   if (BV_ISSET(fields, 16)) {
@@ -21700,7 +21700,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->gov_requirement = readin;
+      real_packet->impr_requirement = readin;
     }
   }
   if (BV_ISSET(fields, 17)) {
@@ -21708,7 +21708,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->vision_range = readin;
+      real_packet->gov_requirement = readin;
     }
   }
   if (BV_ISSET(fields, 18)) {
@@ -21716,7 +21716,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->transport_capacity = readin;
+      real_packet->vision_range = readin;
     }
   }
   if (BV_ISSET(fields, 19)) {
@@ -21724,7 +21724,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->hp = readin;
+      real_packet->transport_capacity = readin;
     }
   }
   if (BV_ISSET(fields, 20)) {
@@ -21732,10 +21732,18 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->firepower = readin;
+      real_packet->hp = readin;
     }
   }
   if (BV_ISSET(fields, 21)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->firepower = readin;
+    }
+  }
+  if (BV_ISSET(fields, 22)) {
     {
       int readin;
     
@@ -21743,7 +21751,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       real_packet->obsoleted_by = readin;
     }
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 23)) {
     {
       int readin;
     
@@ -21751,7 +21759,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       real_packet->fuel = readin;
     }
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 24)) {
     {
       int readin;
     
@@ -21759,7 +21767,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       real_packet->happy_cost = readin;
     }
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 25)) {
     
     {
       int i;
@@ -21774,7 +21782,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 26)) {
     {
       int readin;
     
@@ -21782,7 +21790,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       real_packet->paratroopers_range = readin;
     }
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 27)) {
     {
       int readin;
     
@@ -21790,7 +21798,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       real_packet->paratroopers_mr_req = readin;
     }
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 28)) {
     {
       int readin;
     
@@ -21798,7 +21806,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       real_packet->paratroopers_mr_sub = readin;
     }
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 29)) {
     
     {
       int i;
@@ -21808,7 +21816,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 30)) {
     
     {
       int i;
@@ -21821,7 +21829,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 31)) {
     
     {
       int i;
@@ -21836,7 +21844,7 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       }
     }
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 32)) {
     {
       int readin;
     
@@ -21844,13 +21852,13 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
       real_packet->bombard_rate = readin;
     }
   }
-  if (BV_ISSET(fields, 32)) {
+  if (BV_ISSET(fields, 33)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
-  if (BV_ISSET(fields, 33)) {
+  if (BV_ISSET(fields, 34)) {
     DIO_BV_GET(&din, real_packet->flags);
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 35)) {
     DIO_BV_GET(&din, real_packet->roles);
   }
 
@@ -21923,65 +21931,69 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 8);}
 
-  differ = (old->build_cost != real_packet->build_cost);
+  differ = (old->unit_class_id != real_packet->unit_class_id);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 9);}
 
-  differ = (old->pop_cost != real_packet->pop_cost);
+  differ = (old->build_cost != real_packet->build_cost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 10);}
 
-  differ = (old->attack_strength != real_packet->attack_strength);
+  differ = (old->pop_cost != real_packet->pop_cost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 11);}
 
-  differ = (old->defense_strength != real_packet->defense_strength);
+  differ = (old->attack_strength != real_packet->attack_strength);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 12);}
 
-  differ = (old->move_rate != real_packet->move_rate);
+  differ = (old->defense_strength != real_packet->defense_strength);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 13);}
 
-  differ = (old->tech_requirement != real_packet->tech_requirement);
+  differ = (old->move_rate != real_packet->move_rate);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 14);}
 
-  differ = (old->impr_requirement != real_packet->impr_requirement);
+  differ = (old->tech_requirement != real_packet->tech_requirement);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 15);}
 
-  differ = (old->gov_requirement != real_packet->gov_requirement);
+  differ = (old->impr_requirement != real_packet->impr_requirement);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 16);}
 
-  differ = (old->vision_range != real_packet->vision_range);
+  differ = (old->gov_requirement != real_packet->gov_requirement);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 17);}
 
-  differ = (old->transport_capacity != real_packet->transport_capacity);
+  differ = (old->vision_range != real_packet->vision_range);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 18);}
 
-  differ = (old->hp != real_packet->hp);
+  differ = (old->transport_capacity != real_packet->transport_capacity);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 19);}
 
-  differ = (old->firepower != real_packet->firepower);
+  differ = (old->hp != real_packet->hp);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 20);}
 
-  differ = (old->obsoleted_by != real_packet->obsoleted_by);
+  differ = (old->firepower != real_packet->firepower);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 21);}
 
-  differ = (old->fuel != real_packet->fuel);
+  differ = (old->obsoleted_by != real_packet->obsoleted_by);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 22);}
 
-  differ = (old->happy_cost != real_packet->happy_cost);
+  differ = (old->fuel != real_packet->fuel);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 23);}
+
+  differ = (old->happy_cost != real_packet->happy_cost);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 24);}
 
 
     {
@@ -21997,19 +22009,19 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
+  if(differ) {BV_SET(fields, 25);}
 
   differ = (old->paratroopers_range != real_packet->paratroopers_range);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 26);}
 
   differ = (old->paratroopers_mr_req != real_packet->paratroopers_mr_req);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 26);}
+  if(differ) {BV_SET(fields, 27);}
 
   differ = (old->paratroopers_mr_sub != real_packet->paratroopers_mr_sub);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
+  if(differ) {BV_SET(fields, 28);}
 
 
     {
@@ -22025,7 +22037,7 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
+  if(differ) {BV_SET(fields, 29);}
 
 
     {
@@ -22041,7 +22053,7 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
+  if(differ) {BV_SET(fields, 30);}
 
 
     {
@@ -22057,23 +22069,23 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 30);}
+  if(differ) {BV_SET(fields, 31);}
 
   differ = (old->bombard_rate != real_packet->bombard_rate);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 31);}
+  if(differ) {BV_SET(fields, 32);}
 
   differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 32);}
+  if(differ) {BV_SET(fields, 33);}
 
   differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 33);}
+  if(differ) {BV_SET(fields, 34);}
 
   differ = !BV_ARE_EQUAL(old->roles, real_packet->roles);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 34);}
+  if(differ) {BV_SET(fields, 35);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22109,51 +22121,54 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
     dio_put_uint8(&dout, real_packet->move_type);
   }
   if (BV_ISSET(fields, 9)) {
-    dio_put_uint16(&dout, real_packet->build_cost);
+    dio_put_uint8(&dout, real_packet->unit_class_id);
   }
   if (BV_ISSET(fields, 10)) {
-    dio_put_uint8(&dout, real_packet->pop_cost);
+    dio_put_uint16(&dout, real_packet->build_cost);
   }
   if (BV_ISSET(fields, 11)) {
-    dio_put_uint8(&dout, real_packet->attack_strength);
+    dio_put_uint8(&dout, real_packet->pop_cost);
   }
   if (BV_ISSET(fields, 12)) {
-    dio_put_uint8(&dout, real_packet->defense_strength);
+    dio_put_uint8(&dout, real_packet->attack_strength);
   }
   if (BV_ISSET(fields, 13)) {
-    dio_put_uint8(&dout, real_packet->move_rate);
+    dio_put_uint8(&dout, real_packet->defense_strength);
   }
   if (BV_ISSET(fields, 14)) {
-    dio_put_uint8(&dout, real_packet->tech_requirement);
+    dio_put_uint8(&dout, real_packet->move_rate);
   }
   if (BV_ISSET(fields, 15)) {
-    dio_put_uint8(&dout, real_packet->impr_requirement);
+    dio_put_uint8(&dout, real_packet->tech_requirement);
   }
   if (BV_ISSET(fields, 16)) {
-    dio_put_uint8(&dout, real_packet->gov_requirement);
+    dio_put_uint8(&dout, real_packet->impr_requirement);
   }
   if (BV_ISSET(fields, 17)) {
-    dio_put_uint8(&dout, real_packet->vision_range);
+    dio_put_uint8(&dout, real_packet->gov_requirement);
   }
   if (BV_ISSET(fields, 18)) {
-    dio_put_uint8(&dout, real_packet->transport_capacity);
+    dio_put_uint8(&dout, real_packet->vision_range);
   }
   if (BV_ISSET(fields, 19)) {
-    dio_put_uint8(&dout, real_packet->hp);
+    dio_put_uint8(&dout, real_packet->transport_capacity);
   }
   if (BV_ISSET(fields, 20)) {
-    dio_put_uint8(&dout, real_packet->firepower);
+    dio_put_uint8(&dout, real_packet->hp);
   }
   if (BV_ISSET(fields, 21)) {
-    dio_put_sint8(&dout, real_packet->obsoleted_by);
+    dio_put_uint8(&dout, real_packet->firepower);
   }
   if (BV_ISSET(fields, 22)) {
-    dio_put_uint8(&dout, real_packet->fuel);
+    dio_put_sint8(&dout, real_packet->obsoleted_by);
   }
   if (BV_ISSET(fields, 23)) {
-    dio_put_uint8(&dout, real_packet->happy_cost);
+    dio_put_uint8(&dout, real_packet->fuel);
   }
   if (BV_ISSET(fields, 24)) {
+    dio_put_uint8(&dout, real_packet->happy_cost);
+  }
+  if (BV_ISSET(fields, 25)) {
   
     {
       int i;
@@ -22163,16 +22178,16 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 26)) {
     dio_put_uint8(&dout, real_packet->paratroopers_range);
   }
-  if (BV_ISSET(fields, 26)) {
+  if (BV_ISSET(fields, 27)) {
     dio_put_uint8(&dout, real_packet->paratroopers_mr_req);
   }
-  if (BV_ISSET(fields, 27)) {
+  if (BV_ISSET(fields, 28)) {
     dio_put_uint8(&dout, real_packet->paratroopers_mr_sub);
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 29)) {
   
     {
       int i;
@@ -22182,7 +22197,7 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 30)) {
   
     {
       int i;
@@ -22192,7 +22207,7 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 30)) {
+  if (BV_ISSET(fields, 31)) {
   
     {
       int i;
@@ -22202,16 +22217,16 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
       }
     } 
   }
-  if (BV_ISSET(fields, 31)) {
+  if (BV_ISSET(fields, 32)) {
     dio_put_uint8(&dout, real_packet->bombard_rate);
   }
-  if (BV_ISSET(fields, 32)) {
+  if (BV_ISSET(fields, 33)) {
     dio_put_string(&dout, real_packet->helptext);
   }
-  if (BV_ISSET(fields, 33)) {
+  if (BV_ISSET(fields, 34)) {
   DIO_BV_PUT(&dout, packet->flags);
   }
-  if (BV_ISSET(fields, 34)) {
+  if (BV_ISSET(fields, 35)) {
   DIO_BV_PUT(&dout, packet->roles);
   }
 

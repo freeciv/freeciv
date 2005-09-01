@@ -2652,6 +2652,7 @@ static void send_ruleset_units(struct conn_list *dest)
     sz_strlcpy(packet.graphic_str, u->graphic_str);
     sz_strlcpy(packet.graphic_alt, u->graphic_alt);
     packet.move_type = u->move_type;
+    packet.unit_class_id = u->class->id;
     packet.build_cost = u->build_cost;
     packet.pop_cost = u->pop_cost;
     packet.attack_strength = u->attack_strength;

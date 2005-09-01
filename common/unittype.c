@@ -686,8 +686,23 @@ void unit_types_free(void)
   } unit_type_iterate_end;
 }
 
+/****************************************************************************
+  Returns unit class structure for an ID value.  Note the possible confusion
+  with get_unit_class.
+****************************************************************************/
+struct unit_class *unit_class_get_by_id(int id)
+{
+  if (id < 0 || id >= UCL_LAST) {
+    return NULL;
+  }
+  return &unit_classes[id];
+}
+
 /***************************************************************
  Returns unit class structure
+
+  FIXME: this function is misnamed and will cause confusion with
+  unit_class_get_by_id.
 ***************************************************************/
 struct unit_class *get_unit_class(const struct unit_type *punittype)
 {

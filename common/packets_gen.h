@@ -771,6 +771,7 @@ struct packet_ruleset_unit {
   char sound_fight[MAX_LEN_NAME];
   char sound_fight_alt[MAX_LEN_NAME];
   int move_type;
+  int unit_class_id;
   int build_cost;
   int pop_cost;
   int attack_strength;
