@@ -590,7 +590,7 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
 {
   static struct string_vector future;
   int i;
-  struct player_research *research = get_player_research(pplayer);
+  struct player_research *research;
 
   /* We don't return a static buffer because that would break anything that
    * needed to work with more than one name at a time. */
@@ -602,6 +602,8 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
     /* TRANS: "None" tech */
     return _("None");
   case A_FUTURE:
+    research = get_player_research(pplayer);
+
     /* pplayer->future_tech == 0 means "Future Tech. 1". */
     for (i = future.size; i <= research->future_tech; i++) {
       char *ptr = NULL;
