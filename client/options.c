@@ -608,10 +608,12 @@ void save_options(void)
   }
   
   /* insert global worklists */
-  for(i = 0; i < MAX_NUM_WORKLISTS; i++){
-    if (game.player_ptr->worklists[i].is_valid) {
-      worklist_save(&sf, &(game.player_ptr->worklists[i]),
-		    "worklists.worklist%d", i);
+  if (game.player_ptr) {
+    for(i = 0; i < MAX_NUM_WORKLISTS; i++){
+      if (game.player_ptr->worklists[i].is_valid) {
+	worklist_save(&sf, &(game.player_ptr->worklists[i]),
+		      "worklists.worklist%d", i);
+      }
     }
   }
 
