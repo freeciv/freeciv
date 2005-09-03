@@ -56,5 +56,6 @@ libguiclient_a_SOURCES = \
 	spaceshipdlg.h	\
 	sprite.c	\
 	sprite.h	\
+	themes.c	\
 	wldlg.c		\
 	wldlg.h

@@ -26,4 +26,5 @@ noinst_HEADERS = \
 	repodlgs_g.h	\
 	spaceshipdlg_g.h	\
 	sprite_g.h		\
+	themes_g.h		\
 	wldlg_g.h

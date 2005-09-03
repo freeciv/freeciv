@@ -68,6 +68,7 @@
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 #include "tilespec.h"
+#include "themes_common.h"
 
 #include "civclient.h"
 
@@ -315,6 +316,7 @@ int main(int argc, char *argv[])
   chatline_common_init();
   message_options_init();
   init_player_dlg_common();
+  init_themes();
   settable_options_init();
 
   load_general_options();

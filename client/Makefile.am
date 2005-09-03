@@ -173,6 +173,8 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 	servers.h		\
 	text.c	\
 	text.h	\
+	themes_common.c	\
+	themes_common.h	\
 	tilespec.c	\
 	tilespec.h	\
 	audio.c         \
