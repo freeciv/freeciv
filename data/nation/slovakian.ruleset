@@ -27,8 +27,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder= "Leonardo's Workshop"
-government="Democracy"
 civilwar_nations="hungarian"
 
 cities =

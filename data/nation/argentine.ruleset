@@ -19,8 +19,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="J.S. Bach's Cathedral"
-government="Democracy"
 civilwar_nations = "chilean"
 
 cities =

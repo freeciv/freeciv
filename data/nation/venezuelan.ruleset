@@ -24,8 +24,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="A.Smith's Trading Co."
-government=""
 cities =
   "Caracas", "Zulia (ocean)", "Falcón", "Lara", "Yaracuy", "Trujillo",
   "Barinas", "Apure", "Cojedes", "Táchira", "Mérida (hills)", "Vargas",

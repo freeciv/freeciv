@@ -13,8 +13,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder= "Statue of Liberty"
-government = "The Republic"
 
 cities =
   "Ciudad de México", "Guadalajara", "Monterrey",

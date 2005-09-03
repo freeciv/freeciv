@@ -13,8 +13,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder= "Magellan's Expedition"
-government = "Despotism"
 
 cities =
   "Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Palembang",

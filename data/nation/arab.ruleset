@@ -19,8 +19,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Oracle"
-government="Monarchy"
 civilwar_nations = "turk", "persian"
 
 ; Arab Peninsula and Near East.  City names are mostly from the Ummayyad 

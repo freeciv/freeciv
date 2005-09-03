@@ -23,8 +23,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Great Wall"
-government="Monarchy"
 civilwar_nations = "aztec"
 
 cities =

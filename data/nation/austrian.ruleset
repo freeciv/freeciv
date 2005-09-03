@@ -13,8 +13,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder= "J.S. Bach's Cathedral"
-government = "Monarchy"
 
 cities =
   "Wien", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt",

@@ -18,8 +18,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="A.Smith's Trading Co."
-government="Communism"
 
 cities =
   "Uruk", "Eridu", "Ur", "Lagash", "Nippur", "Umma",

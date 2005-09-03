@@ -17,8 +17,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Hanging Gardens"
-government="Monarchy"
 civilwar_nations = "israeli", "persian", "arab"
 
 cities =

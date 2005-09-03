@@ -30,8 +30,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Lighthouse"
-government="Democracy"
 civilwar_nations = "canadian", "quebecois"
 
 ; City names are taken from Greenland (a self-governing territory of the

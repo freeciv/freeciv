@@ -23,8 +23,6 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 ; Hanging Gardens: as Samwise used his gift from Galadriel, all plants grew fast, and the first year was called 'the year of Plenty'
-wonder="Hanging Gardens"
-government="Monarchy"
 
 ;'Important' villages in the Shire and Buckland, and at the end the White Hills (a gift from King Elessar). (starting with Michel Delving, as the capital of the Shire, followed by Hobbiton)
 ; I've used Karen Wynn Fontstadt's 'Atlas of Middle-earth' to look up the names

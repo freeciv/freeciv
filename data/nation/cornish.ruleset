@@ -16,8 +16,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder = "King Richard's Crusade"
-government = "Republic"
 civilwar_nations = "english", "irish"
 
 cities =

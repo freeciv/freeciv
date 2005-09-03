@@ -17,8 +17,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Lighthouse"
-government="Monarchy"
 civilwar_nations = "roman"
 
 ;Ancient cities from Africa and south Spain,

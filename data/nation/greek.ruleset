@@ -17,8 +17,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Lighthouse"
-government="Republic"
 civilwar_nations = "egyptian", "persian"
 
 cities =

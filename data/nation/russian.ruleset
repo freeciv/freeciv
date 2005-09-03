@@ -21,8 +21,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Women's Suffrage"
-government="Communism"
 civilwar_nations = "ukrainian", "polish"
 
 cities =

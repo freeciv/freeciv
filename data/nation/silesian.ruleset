@@ -26,8 +26,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Great Wall" ; Yes, we had own great wall ("Wały Śląskie") 
-government="Democracy"
 civilwar_nations = "polish"
 
 ; if you want your favourite city to be in more prominent place, go ahead

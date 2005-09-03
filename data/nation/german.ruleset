@@ -31,8 +31,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder     = "J.S. Bach's Cathedral"
-government = "Republic"
 civilwar_nations = "french", "italian"
 
 cities =

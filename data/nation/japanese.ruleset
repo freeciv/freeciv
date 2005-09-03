@@ -43,8 +43,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Oracle"
-government="Republic"
 civilwar_nations = "korean", "filipino"
 
 cities =

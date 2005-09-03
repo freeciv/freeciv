@@ -30,8 +30,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="United Nations"
-government="Republic"
 civilwar_nations = "american", "quebecois"
 
 ; This city list is a modified version of the list found here:

@@ -32,8 +32,6 @@ init_techs = ""
 init_buildings = ""
 init_government = "Despotism"
 init_units = ""
-wonder = "Magellan's Expedition"
-government = "Republic"
 civilwar_nations = "singaporean", "indonesian"
 
 cities =

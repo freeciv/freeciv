@@ -33,8 +33,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Copernicus' Observatory"
-government="Democracy"
 civilwar_nations = "lithuanian", "silesian", "ukrainian"
 
 cities =

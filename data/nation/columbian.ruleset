@@ -13,8 +13,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder= "Statue of Liberty"
-government = "Democracy"
 
 cities =
   "Bogotá", "Medellin", "Cali", "Barranquilla", "Cartagena", "Cúcuta",

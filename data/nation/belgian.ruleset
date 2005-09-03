@@ -17,8 +17,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder= "Cure for Cancer"
-government = "Monarchy"
 
 cities =
   "Brussel", "Antwerpen", "Gent", "Charleroi", "Liège", "Brugge", "Namur",

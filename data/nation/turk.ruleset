@@ -24,8 +24,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Sun Tzu's War Academy"
-government="Republic"
 civilwar_nations = "slovenian", "czech"
 
 cities =

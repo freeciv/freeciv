@@ -14,8 +14,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Apollo Program"
-government="Communism"
 
 cities =
 	"Olympus Mons", "Utopia Planitia", "Hellas Planitia",

@@ -20,8 +20,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Hoover Dam"
-government="Democracy"
 
 cities =
   "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide", "Perth",

@@ -27,8 +27,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Hoover Dam"
-government="Democracy"
 civilwar_nations = "scottish"
 
 cities =

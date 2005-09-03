@@ -27,8 +27,6 @@ init_government="Despotism"
 init_units=""
 
 ; Think of the Girdle of Melian, the Encircling Mountains around Rivendell, the rivers (Silverlode and Anduin) around Lothlorien, etc.
-wonder="Great Wall"
-government="Monarchy"
 
 ; /* <-- avoid gettext warnings
 ; Cities in order of seeing them on the map :-)

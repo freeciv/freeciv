@@ -24,8 +24,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Pyramids"
-government="Monarchy"
 civilwar_nations = "israeli"
 
 cities =

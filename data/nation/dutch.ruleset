@@ -17,8 +17,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Magellan's Expedition"
-government="Democracy"
 civilwar_nations = "boer"
 
 ;names from the Golden Age, from Holland circling outward

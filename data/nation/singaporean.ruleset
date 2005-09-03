@@ -37,8 +37,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="J.S. Bach's Cathedral"
-government="Republic"
 
 cities =
   "Singapore", "Esplanade", "Tumasik", "Raffles Place", "Keppel", "Chinatown",

@@ -13,8 +13,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder = "Apollo Program"
-government = "Despotism"
 
 cities = "Nowhere"
 

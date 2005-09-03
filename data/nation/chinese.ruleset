@@ -27,8 +27,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Great Wall"
-government="Communism"
 civilwar_nations = "vietnamese", "japanese", "korean"
 
 cities =

@@ -24,8 +24,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Leonardo's Workshop"
-government="Republic"
 civilwar_nations = "italian", "spanish", "french"
 
 cities =

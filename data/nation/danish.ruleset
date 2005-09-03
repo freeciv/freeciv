@@ -31,8 +31,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="Magellan's Expedition"
-government="Democracy"
 civilwar_nations = "english", "icelandic"
 
 cities =

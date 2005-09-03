@@ -15,8 +15,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Cure For Cancer"
-government = "Democracy"
 civilwar_nations = "polish", "swedish"
 
 cities =

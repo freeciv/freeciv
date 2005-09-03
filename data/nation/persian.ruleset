@@ -19,8 +19,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Hanging Gardens"
-government="Monarchy"
 civilwar_nations = "babylonian", "arab"
 
 ;first are ancient cities in latin version

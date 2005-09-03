@@ -28,8 +28,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder = "Shakespeare's Theatre"
-government = "Republic"
 civilwar_nations = "croatian"
 
 cities =

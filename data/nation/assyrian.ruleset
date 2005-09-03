@@ -19,8 +19,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Great Library"
-government="Democracy"
 
 
 cities =

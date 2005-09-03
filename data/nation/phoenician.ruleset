@@ -24,8 +24,6 @@ init_units=""
 
 init_techs=""
 init_buildings=""
-wonder="Magellan's Expedition"
-government="Monarchy"
 civilwar_nations="turk", "carthaginian", "israeli"
 
 cities =

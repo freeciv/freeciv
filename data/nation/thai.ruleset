@@ -18,8 +18,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder= "Marco Polo's Embassy"
-government = "Democracy"
 civilwar_nations = "vietnamese"
 
 cities =

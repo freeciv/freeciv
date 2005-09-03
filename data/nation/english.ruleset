@@ -24,8 +24,6 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-wonder="King Richard's Crusade"
-government="Democracy"
 civilwar_nations = "american", "australian", "canadian"
 
 cities =

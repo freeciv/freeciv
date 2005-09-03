@@ -16,8 +16,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder= "Great Wall"
-government = "Communism"
 
 cities =
   "Hanoi", "Ho Chi Minh City", "Saigon", "Haifong", "Nam Dinh",

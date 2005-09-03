@@ -27,8 +27,6 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-wonder="Sun Tzu's War Academy"
-government="Republic"
 civilwar_nations = "american", "canadian"
 
 
