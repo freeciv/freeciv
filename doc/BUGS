@@ -77,6 +77,15 @@ KNOWN BUGS:
    happens.  Try using the same parameters again or switching to more
    "regular" parameters.
 
+ - In some situations non-ascii text output on the server command line will
+   be drawn wrong in graphical terminal programs.  The problem here is that
+   the terminal program probably has a separate means of configuring the
+   character encoding that does not match the $LANG variable.  This is a bug
+   in the configuration (or possibly in the terminal program) and can be
+   fixed by editing the terminal configuration.  In gnome-terminal, for
+   instance, you can set the encoding through the menus - simply set it to
+   match the value in your $LANG.
+
 REPORTING A BUG:
 ================
 
