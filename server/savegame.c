@@ -1816,6 +1816,11 @@ static void player_load(struct player *plr, int plrno,
   plr->economic.tax=secfile_lookup_int(file, "player%d.tax", plrno);
   plr->economic.science=secfile_lookup_int(file, "player%d.science", plrno);
   plr->economic.luxury=secfile_lookup_int(file, "player%d.luxury", plrno);
+  
+  plr->bulbs_last_turn =
+    secfile_lookup_int_default(file, 0,
+                               "player%d.bulbs_last_turn",
+			       plrno);
 
   /* how many future techs were researched already by player */
   research->future_tech
@@ -2538,6 +2543,9 @@ static void player_save(struct player *plr, int plrno,
   secfile_insert_int(file, plr->economic.tax, "player%d.tax", plrno);
   secfile_insert_int(file, plr->economic.science, "player%d.science", plrno);
   secfile_insert_int(file, plr->economic.luxury, "player%d.luxury", plrno);
+  
+  secfile_insert_int(file, plr->bulbs_last_turn, "player%d.bulbs_last_turn",
+                     plrno);
 
   secfile_insert_int(file, get_player_research(plr)->future_tech,
 		     "player%d.futuretech", plrno);
