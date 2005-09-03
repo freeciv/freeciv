@@ -34,6 +34,7 @@
 #include "civclient.h"
 #include "clinet.h"
 #include "cma_fec.h"
+#include "dialogs_g.h"
 #include "mapview_common.h"
 #include "options.h"
 #include "overview_common.h"
@@ -79,6 +80,8 @@ bool show_task_icons = TRUE;
 
 /* This option is currently set by the client - not by the user. */
 bool update_city_text_in_refresh_tile = TRUE;
+
+static void reqtree_show_icons_callback(struct client_option *option);
 
 const char *client_option_class_names[COC_MAX] = {
   N_("Graphics"),
@@ -168,6 +171,13 @@ static client_option common_options[] = {
 			"city name and attributes, a large amount of data "
 			"will be drawn beneach each city in the 'citybar'."),
 		     COC_GRAPHICS, mapview_redraw_callback),
+  GEN_BOOL_OPTION_CB(reqtree_show_icons,
+                     N_("Show icons in the technology tree"),
+                     N_("If this options is set then there will be icons "
+		        "displayed on the technology tree diagram. Turning "
+		        "this option off makes the technology tree "
+		        "more compact."),
+		     COC_GRAPHICS, reqtree_show_icons_callback),
   GEN_BOOL_OPTION_CB(draw_unit_shields, N_("Draw shield graphics for units"),
 		     N_("If set, then special shield graphics will be drawn "
 			"as the flags on units.  If unset, the full flag will "
@@ -277,6 +287,7 @@ bool draw_borders = TRUE;
 bool draw_full_citybar = TRUE;
 bool draw_unit_shields = TRUE;
 bool player_dlg_show_dead_players = TRUE;
+bool reqtree_show_icons = TRUE;
 
 #define VIEW_OPTION(name) { #name, &name }
 #define VIEW_OPTION_TERMINATOR { NULL, NULL }
@@ -693,4 +704,15 @@ static void save_cma_preset(struct section_file *file, char *name,
 void mapview_redraw_callback(struct client_option *option)
 {
   update_map_canvas_visible();
+}
+
+/****************************************************************************
+   Callback when the reqtree  show icons option is changed.
+   The tree is recalculated.
+****************************************************************************/
+static void reqtree_show_icons_callback(struct client_option *option)
+{
+  /* This will close research dialog, when it's open again the techtree will
+   * be recalculated */
+  popdown_all_game_dialogs();
 }

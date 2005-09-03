@@ -146,6 +146,8 @@ extern bool draw_unit_shields;
 
 extern bool player_dlg_show_dead_players;
 
+extern bool reqtree_show_icons;
+
 typedef struct {
   const char *name;
   bool *p_value;
