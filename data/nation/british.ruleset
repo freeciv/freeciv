@@ -1,0 +1,61 @@
+[nation_british]
+
+name=_("British")
+plural=_("?plural:British")
+groups=_("Modern"), _("European")
+legend=_("The United Kingdom was created in 1707 as a negotiated agreement\
+ between the kingdom of England and the kingdom of Scotland. The country -\
+ also known as Great Britain - became the leading industrial and maritime\
+ power in the 19th century.")
+leader=
+ "Benjamin Disraeli",
+ "William Gladstone",
+ "George",
+ "Victoria",
+ "Winston Churchill",
+ "Margaret Thatcher",
+ "Tony Blair"
+leader_sex="Male", "Male", "Male", "Female", "Male", "Female", "Male"
+flag="united_kingdom"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "english", "scottish", "welsh", "american", "australian"
+
+; Cities listed roughly in order from south to north
+cities =
+ "London", 
+ "Bristol",
+ "Southampton",
+ "Portsmouth",
+ "Cardiff",
+ "Plymouth",
+ "Falmouth",
+ "Dover",
+ "Felixtowe",
+ "Birmingham",
+ "Coventry",
+ "Liverpool",
+ "Manchester",
+ "Sheffield",
+ "Kingston upon Hull",
+ "Leeds",
+ "Middlesbrough",
+ "Belfast",
+ "Londonderry",
+ "Newcastle upon Tyne",
+ "Glasgow",
+ "Edinburgh",
+ "Grangemouth",
+ "Dundee",
+ "Aberdeen",
+ "Peterhead",
+ "Scapa",
+ "Lerwick"
