@@ -510,7 +510,9 @@ void set_client_state(enum client_states newstate)
       load_ruleset_specific_options();
       create_event(NULL, E_GAME_START, _("Game started."));
       precalc_tech_data();
-      update_research(game.player_ptr);
+      if (game.player_ptr) {
+	update_research(game.player_ptr);
+      }
       role_unit_precalcs();
       boot_help_texts();	/* reboot */
       can_slide = FALSE;

@@ -457,7 +457,7 @@ double blink_turn_done_button(void)
   static struct timer *blink_timer = NULL;
   const double blink_time = 0.5; /* half-second blink interval */
 
-  if (game.player_ptr->is_connected && game.player_ptr->is_alive
+  if (game.player_ptr && game.player_ptr->is_alive
       && !game.player_ptr->phase_done) {
     if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
       int is_waiting = 0, is_moving = 0;

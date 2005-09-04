@@ -544,10 +544,12 @@ void load_ruleset_specific_options(void)
   if (!section_file_load(&sf, name))
     return;
 
-  /* load global worklists */
-  for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    worklist_load(&sf, &(game.player_ptr->worklists[i]),
-		  "worklists.worklist%d", i);
+  if (game.player_ptr) {
+    /* load global worklists */
+    for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
+      worklist_load(&sf, &(game.player_ptr->worklists[i]),
+		    "worklists.worklist%d", i);
+    }
   }
 
   /* Load city report columns (which include some ruleset data). */
