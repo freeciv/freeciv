@@ -101,8 +101,6 @@ static void send_ruleset_units(struct conn_list *dest);
 static void send_ruleset_buildings(struct conn_list *dest);
 static void send_ruleset_terrain(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
-static void send_ruleset_nations(struct conn_list *dest);
-static void send_ruleset_nations_availability(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
 
@@ -2246,8 +2244,8 @@ static void load_ruleset_nations(struct section_file *file)
       pl->legend[MAX_LEN_MSG - 1] = '\0';
     }
 
-    pl->is_unavailable = FALSE;
-    pl->is_used = FALSE;
+    pl->is_available = TRUE;
+    pl->player = NULL;
   }
 
   /* Calculate parent nations.  O(n^2) algorithm. */
@@ -2937,7 +2935,7 @@ static void send_ruleset_governments(struct conn_list *dest)
   Send the nations ruleset information (info on each nation) to the
   specified connections.
 **************************************************************************/
-static void send_ruleset_nations(struct conn_list *dest)
+void send_ruleset_nations(struct conn_list *dest)
 {
   struct packet_ruleset_nation packet;
   struct nation_type *n;
@@ -2978,22 +2976,6 @@ static void send_ruleset_nations(struct conn_list *dest)
      }
 
     lsend_packet_ruleset_nation(dest, &packet);
-  }
-}
-
-/**************************************************************************
-  Send nations availability information
-**************************************************************************/
-static void send_ruleset_nations_availability(struct conn_list *dest)
-{
-  int i;
-  for (i = 0; i < game.control.nation_count; i++) {
-    struct nation_type *nation = get_nation_by_idx(i);
-    struct packet_nation_available packet;
-    packet.id = i;
-    packet.is_unavailable = nation->is_unavailable;
-    packet.is_used = nation->is_used;
-    lsend_packet_nation_available(dest, &packet);
   }
 }
 
@@ -3147,7 +3129,6 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_terrain(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);
-  send_ruleset_nations_availability(dest);
   send_ruleset_cities(dest);
   send_ruleset_cache(dest);
 

@@ -1210,7 +1210,8 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     /* Do a civil war only if there's an available unused nation. */
     nations_iterate(pnation) {
       if (is_nation_playable(pnation)
-	  && !pnation->is_unavailable && !pnation->is_used) {
+	  && pnation->is_available
+	  && !pnation->player) {
 	do_civil_war = TRUE;
 	break;
       }

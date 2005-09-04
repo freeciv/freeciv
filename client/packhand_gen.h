@@ -22,7 +22,6 @@ void handle_thaw_hint(void);
 void handle_server_join_reply(bool you_can_join, char *message, char *capability, char *challenge_file, int conn_id);
 void handle_authentication_req(enum authentication_type type, char *message);
 void handle_server_shutdown(void);
-void handle_nation_available(Nation_type_id id, bool is_unavailable, bool is_used);
 void handle_game_state(int value);
 struct packet_endgame_report;
 void handle_endgame_report(struct packet_endgame_report *packet);

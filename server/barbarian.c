@@ -86,7 +86,7 @@ static bool is_sea_barbarian(struct player *pplayer)
 struct nation_type *pick_barbarian_nation(void)
 {
   nations_iterate(pnation) {
-    if (is_nation_barbarian(pnation) && !pnation->is_used) {
+    if (is_nation_barbarian(pnation) && !pnation->player) {
       return pnation;
     }
   } nations_iterate_end;

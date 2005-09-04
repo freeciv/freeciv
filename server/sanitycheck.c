@@ -464,6 +464,10 @@ static void check_players(void)
     /* Dying players shouldn't be left around.  But they are. */
     SANITY_CHECK(!pplayer->is_dying);
   }
+
+  nations_iterate(pnation) {
+    SANITY_CHECK(!pnation->player || pnation->player->nation == pnation);
+  } nations_iterate_end;
 }
 
 /****************************************************************************

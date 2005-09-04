@@ -1598,7 +1598,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
     GtkTreeIter it;
     GValue value = { 0, };
 
-    if (!is_nation_playable(pnation) || pnation->is_unavailable) {
+    if (!is_nation_playable(pnation) || !pnation->is_available) {
       continue;
     }
 
@@ -1610,7 +1610,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
 
     s = crop_blankspace(get_nation_flag_sprite(tileset, pnation));
     img = sprite_get_pixbuf(s);
-    used = pnation->is_used;
+    used = (pnation->player != NULL);
     gtk_list_store_set(store, &it, 0, pnation->index, 1, used, 2, img, -1);
     free_sprite(s);
 
@@ -1976,7 +1976,7 @@ void races_toggles_set_sensitive(void)
         gtk_tree_model_get(model, &it, 0, &nation_no, -1);
 	nation = get_nation_by_idx(nation_no);
 
-        chosen = nation->is_unavailable || nation->is_used;
+        chosen = !nation->is_available || nation->player;
 
         gtk_list_store_set(GTK_LIST_STORE(model), &it, 1, chosen, -1);
 

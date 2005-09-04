@@ -1167,20 +1167,6 @@ static bool is_allowed_player_name(struct player *pplayer,
 }
 
 /****************************************************************************
-  Send unavailable/used information for this nation out to everyone.
-****************************************************************************/
-static void send_nation_available(struct nation_type *nation)
-{
-  struct packet_nation_available packet;
-
-  packet.id = nation->index;
-  packet.is_unavailable = nation->is_unavailable;
-  packet.is_used = nation->is_used;
-
-  lsend_packet_nation_available(game.est_connections, &packet);
-}
-
-/****************************************************************************
   Initialize the list of available nations.
 
   Call this on server start, or when loading a scenario.
@@ -1205,23 +1191,16 @@ void init_available_nations(void)
 
   if (start_nations) {
     nations_iterate(nation) {
-      nation->is_unavailable = TRUE;
+      nation->is_available = FALSE;
     } nations_iterate_end;
     for (i = 0; i < map.num_start_positions; i++) {
-      map.start_positions[i].nation->is_unavailable = FALSE;
+      map.start_positions[i].nation->is_available = TRUE;
     }
-  } else {
-    nations_iterate(nation) {
-      /* We preemptively mark unplayable nations as unavailable. */
-      /* FIXME: this may not be right since barbarians need them to be
-       * available (for instance). */
-      nation->is_unavailable = !is_nation_playable(nation);
-    } nations_iterate_end;
   }
   nations_iterate(nation) {
-    nation->is_used = FALSE;
-    send_nation_available(nation);
+    nation->player = NULL;
   } nations_iterate_end;
+  send_ruleset_nations(game.est_connections);
 }
 
 /**************************************************************************
@@ -1255,13 +1234,13 @@ void handle_nation_select_req(struct player *requestor,
       return;
     }
 
-    if (new_nation->is_unavailable) {
+    if (!new_nation->is_available) {
       notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
 		     _("%s nation is not available in this scenario."),
 		     new_nation->name);
       return;
     }
-    if (new_nation->is_unavailable) {
+    if (new_nation->player && new_nation->player != pplayer) {
       notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
 		     _("%s nation is already in use."),
 		     new_nation->name);
@@ -1286,17 +1265,13 @@ void handle_nation_select_req(struct player *requestor,
     sz_strlcpy(pplayer->name, name);
     pplayer->is_male = is_male;
     pplayer->city_style = city_style;
-
-    new_nation->is_used = TRUE;
-    send_nation_available(new_nation);
   }
 
-  pplayer->nation = new_nation; /* May be NULL (NO_NATION_SELECTED) */
+  (void) player_set_nation(pplayer, new_nation);
   send_player_info_c(pplayer, game.est_connections);
 
   if (old_nation != NO_NATION_SELECTED) {
-    old_nation->is_used = FALSE;
-    send_nation_available(old_nation);
+    old_nation->player = NULL;
   }
 }
 
@@ -1392,7 +1367,7 @@ void aifill(int amount)
     char player_name[ARRAY_SIZE(pplayer->name)];
 
     server_player_init(pplayer, FALSE, TRUE);
-    pplayer->nation = NO_NATION_SELECTED;
+    player_set_nation(pplayer, NULL);
     do {
       my_snprintf(player_name, sizeof(player_name),
 		  "AI%d", ++filled);
@@ -1459,9 +1434,10 @@ static void generate_players(void)
     /* See if the player name matches a known leader name. */
     nations_iterate(pnation) {
       if (is_nation_playable(pnation)
-	  && !pnation->is_unavailable && !pnation->is_used
+	  && pnation->is_available
+	  && !pnation->player
 	  && check_nation_leader_name(pnation, pplayer->name)) {
-	pplayer->nation = pnation;
+	player_set_nation(pplayer, pnation);
 	pplayer->city_style = get_nation_city_style(pnation);
 	pplayer->is_male = get_nation_leader_sex(pnation, pplayer->name);
 	break;
@@ -1472,10 +1448,9 @@ static void generate_players(void)
       continue;
     }
 
-    pplayer->nation = pick_available_nation(NULL);
+    player_set_nation(pplayer, pick_available_nation(NULL));
     assert(pplayer->nation != NO_NATION_SELECTED);
 
-    pplayer->nation->is_used = TRUE;
     pplayer->city_style = get_nation_city_style(pplayer->nation);
 
     pick_random_player_name(pplayer->nation, player_name);

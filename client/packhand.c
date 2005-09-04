@@ -1420,11 +1420,12 @@ void handle_player_info(struct packet_player_info *pinfo)
   char msg[MAX_LEN_MSG];
   struct player *pplayer = &game.players[pinfo->playerno];
   struct player_research* research;
+  bool is_new_nation;
 
   sz_strlcpy(pplayer->name, pinfo->name);
 
   pplayer->is_observer = pinfo->is_observer;
-  pplayer->nation = get_nation_by_idx(pinfo->nation);
+  is_new_nation = player_set_nation(pplayer, get_nation_by_idx(pinfo->nation));
   pplayer->is_male=pinfo->is_male;
   team_add_player(pplayer, team_get_by_id(pinfo->team));
   pplayer->score.game = pinfo->score;
@@ -1558,6 +1559,9 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   sz_strlcpy(pplayer->username, pinfo->username);
 
+  if (is_new_nation) {
+    races_toggles_set_sensitive();
+  }
   if (can_client_change_view()) {
     /* Just about any changes above require an update to the intelligence
      * dialog. */
@@ -2006,30 +2010,6 @@ void handle_player_remove(int player_id)
 }
 
 /**************************************************************************
-  Mark a nation as available or unavailable, in pregame.
-**************************************************************************/
-void handle_nation_available(Nation_type_id nation_no,
-			     bool is_unavailable, bool is_used)
-{
-  if (get_client_state() == CLIENT_PRE_GAME_STATE
-      && nation_no >= 0 && nation_no < game.control.nation_count) {
-    struct nation_type *nation = get_nation_by_idx(nation_no);
-    const bool changed = (nation->is_unavailable != is_unavailable
-			  || nation->is_used != is_used);
-
-    nation->is_unavailable = is_unavailable;
-    nation->is_used = is_used;
-
-    if (changed) {
-      races_toggles_set_sensitive();
-    }
-  } else {
-    freelog(LOG_ERROR,
-	    "got a select nation packet in an incompatible state");
-  }
-}
-
-/**************************************************************************
   Take arrival of ruleset control packet to indicate that
   current allocated governments should be free'd, and new
   memory allocated for new size. The same for nations.
@@ -2400,6 +2380,8 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   for (i = 0; i < p->group_count; i++) {
     pl->groups[i] = add_new_nation_group(p->group_name[i]);
   }
+
+  pl->is_available = p->is_available;
 
   tileset_setup_nation_flag(tileset, p->id);
 }

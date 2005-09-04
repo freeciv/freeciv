@@ -293,13 +293,6 @@ end
 PACKET_SERVER_SHUTDOWN=8;sc,lsend
 end
 
-PACKET_NATION_AVAILABLE=9;sc,lsend
-  NATION id; key
-
-  BOOL is_unavailable;
-  BOOL is_used;
-end
-
 PACKET_NATION_SELECT_REQ=10;cs,dsend
   PLAYER player_no;
   NATION nation_no;
@@ -1166,7 +1159,7 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   UINT8 fallout_tile_penalty[O_MAX]; /* % taken from output if polluted */
 end
 
-PACKET_RULESET_NATION=102;sc,lsend
+PACKET_RULESET_NATION=102;sc,lsend,is-info
   NATION id; key
 
   STRING name[MAX_LEN_NAME];
@@ -1185,7 +1178,7 @@ PACKET_RULESET_NATION=102;sc,lsend
   STRING leader_name[MAX_NUM_LEADERS:leader_count][MAX_LEN_NAME];
   BOOL leader_sex[MAX_NUM_LEADERS:leader_count];
 
-  BOOL is_playable, is_observer, is_barbarian;
+  BOOL is_available, is_playable, is_observer, is_barbarian;
   
   UINT8 group_count;
   STRING group_name[MAX_NUM_NATION_GROUPS:group_count][MAX_LEN_NAME];

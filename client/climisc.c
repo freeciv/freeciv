@@ -63,6 +63,7 @@ void client_remove_player(int plrno)
   game_remove_player(get_player(plrno));
   game_renumber_players(plrno);
   update_conn_list_dialog();
+  races_toggles_set_sensitive();
 }
 
 /**************************************************************************

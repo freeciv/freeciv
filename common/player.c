@@ -164,6 +164,25 @@ void player_init(struct player *plr)
   BV_CLR_ALL(plr->debug);
 }
 
+/****************************************************************************
+  Set the player's nation to the given nation (may be NULL).  Returns TRUE
+  iff there was a change.
+****************************************************************************/
+bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
+{
+  if (pplayer->nation != pnation) {
+    if (pplayer->nation) {
+      pplayer->nation->player = NULL;
+    }
+    if (pnation) {
+      pnation->player = pplayer;
+    }
+    pplayer->nation = pnation;
+    return TRUE;
+  }
+  return FALSE;
+}
+
 /***************************************************************
 ...
 ***************************************************************/

@@ -99,9 +99,10 @@ struct nation_type {
   int num_groups;
   struct nation_group **groups;
 
-  /* Unavailable nations aren't allowed in the scenario.  Used nations are
-   * those in use by another player. */
-  bool is_unavailable, is_used;
+  /* Unavailable nations aren't allowed in the scenario. */
+  bool is_available;
+
+  struct player *player; /* Who's using the nation, or NULL. */
 };
 
 struct nation_type *find_nation_by_name(const char *name);

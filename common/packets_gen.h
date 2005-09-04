@@ -52,12 +52,6 @@ struct packet_server_shutdown {
   char __dummy;			/* to avoid malloc(0); */
 };
 
-struct packet_nation_available {
-  Nation_type_id id;
-  bool is_unavailable;
-  bool is_used;
-};
-
 struct packet_nation_select_req {
   int player_no;
   Nation_type_id nation_no;
@@ -894,6 +888,7 @@ struct packet_ruleset_nation {
   int leader_count;
   char leader_name[MAX_NUM_LEADERS][MAX_LEN_NAME];
   bool leader_sex[MAX_NUM_LEADERS];
+  bool is_available;
   bool is_playable;
   bool is_observer;
   bool is_barbarian;
@@ -1050,8 +1045,7 @@ enum packet_type {
   PACKET_AUTHENTICATION_REQ,
   PACKET_AUTHENTICATION_REPLY,
   PACKET_SERVER_SHUTDOWN,
-  PACKET_NATION_AVAILABLE,
-  PACKET_NATION_SELECT_REQ,              /* 10 */
+  PACKET_NATION_SELECT_REQ = 10,         /* 10 */
   PACKET_GAME_STATE = 12,
   PACKET_ENDGAME_REPORT,
   PACKET_TILE_INFO,
@@ -1190,10 +1184,6 @@ int send_packet_authentication_reply(struct connection *pc, const struct packet_
 struct packet_server_shutdown *receive_packet_server_shutdown(struct connection *pc, enum packet_type type);
 int send_packet_server_shutdown(struct connection *pc);
 void lsend_packet_server_shutdown(struct conn_list *dest);
-
-struct packet_nation_available *receive_packet_nation_available(struct connection *pc, enum packet_type type);
-int send_packet_nation_available(struct connection *pc, const struct packet_nation_available *packet);
-void lsend_packet_nation_available(struct conn_list *dest, const struct packet_nation_available *packet);
 
 struct packet_nation_select_req *receive_packet_nation_select_req(struct connection *pc, enum packet_type type);
 int send_packet_nation_select_req(struct connection *pc, const struct packet_nation_select_req *packet);

@@ -435,6 +435,7 @@ void game_advance_year(void)
 ****************************************************************************/
 void game_remove_player(struct player *pplayer)
 {
+  player_set_nation(pplayer, NULL);
   if (pplayer->attribute_block.data) {
     free(pplayer->attribute_block.data);
     pplayer->attribute_block.data = NULL;
@@ -488,6 +489,9 @@ void game_renumber_players(int plrno)
     conn_list_iterate(game.players[i].connections, pconn) {
       pconn->player = &game.players[i];
     } conn_list_iterate_end;
+    if (game.players[i].nation) {
+      game.players[i].nation->player = &game.players[i];
+    }
 
     /* We could renumber players in-game if we updated the unit and
      * city owners.  But for now we just make sure these lists are empty. */

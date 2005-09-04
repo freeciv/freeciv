@@ -1315,7 +1315,8 @@ struct nation_type *pick_available_nation(struct nation_type **choices)
    * 2: preferred choice */
   nations_iterate(pnation) {
     if (!is_nation_playable(pnation)
-	|| pnation->is_used || pnation->is_unavailable) {
+	|| pnation->player
+	|| !pnation->is_available) {
       /* Nation is unplayable or already used: don't consider it. */
       nations_used[pnation->index] = UNAVAILABLE;
       match[pnation->index] = 0;
@@ -1374,7 +1375,7 @@ struct nation_type *pick_available_nation(struct nation_type **choices)
 static struct nation_type *pick_observer_nation(void)
 {
   nations_iterate(pnation) {
-    if (is_nation_observer(pnation) && !pnation->is_used) {
+    if (is_nation_observer(pnation) && !pnation->player) {
       return pnation;
     }
   } nations_iterate_end;
