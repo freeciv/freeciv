@@ -52,8 +52,7 @@ void notify_conn_ex(struct conn_list *dest, struct tile *ptile,
 void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
 		     enum event_type event, const char *format,
 		     va_list vargs);
-void notify_conn(struct conn_list *dest, const char *format, ...) 
-                 fc__attribute((format (printf, 2, 3)));
+#define notify_conn notify_conn_ex
 void notify_player(const struct player *pplayer, struct tile *ptile,
 		   enum event_type event, const char *format, ...)
                    fc__attribute((format (printf, 4, 5)));

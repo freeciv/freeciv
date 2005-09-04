@@ -93,10 +93,12 @@ static void establish_new_connection(struct connection *pconn)
 
   /* introduce the server to the connection */
   if (my_gethostname(hostname, sizeof(hostname)) == 0) {
-    notify_conn(dest, _("Welcome to the %s Server running at %s port %d."),
+    notify_conn(dest, NULL, E_CONNECTION,
+		_("Welcome to the %s Server running at %s port %d."),
                 freeciv_name_version(), hostname, srvarg.port);
   } else {
-    notify_conn(dest, _("Welcome to the %s Server at port %d."),
+    notify_conn(dest, NULL, E_CONNECTION,
+		_("Welcome to the %s Server at port %d."),
                 freeciv_name_version(), srvarg.port);
   }
 
@@ -108,7 +110,8 @@ static void establish_new_connection(struct connection *pconn)
           pconn->username, pconn->addr);
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
-      notify_conn(aconn->self, _("Server: %s has connected from %s."),
+      notify_conn(aconn->self, NULL, E_CONNECTION,
+		  _("Server: %s has connected from %s."),
                   pconn->username, pconn->addr);
     }
   } conn_list_iterate_end;
@@ -143,7 +146,8 @@ static void establish_new_connection(struct connection *pconn)
 
   } else if (server_state == PRE_GAME_STATE && game.info.is_new_game) {
     if (!attach_connection_to_player(pconn, NULL)) {
-      notify_conn(dest, _("Couldn't attach your connection to new player."));
+      notify_conn(dest, NULL, E_CONNECTION,
+		  _("Couldn't attach your connection to new player."));
       freelog(LOG_VERBOSE, "%s is not attached to a player", pconn->username);
     } else {
       sz_strlcpy(pconn->player->name, pconn->username);
@@ -152,14 +156,17 @@ static void establish_new_connection(struct connection *pconn)
 
   /* remind the connection who he is */
   if (!pconn->player) {
-    notify_conn(dest, _("You are logged in as '%s' connected to no player."),
+    notify_conn(dest, NULL, E_CONNECTION,
+		_("You are logged in as '%s' connected to no player."),
                 pconn->username);
   } else if (strcmp(pconn->player->name, ANON_PLAYER_NAME) == 0) {
-    notify_conn(dest, _("You are logged in as '%s' connected to an "
-                        "anonymous player."),
+    notify_conn(dest, NULL, E_CONNECTION,
+		_("You are logged in as '%s' connected to an "
+		  "anonymous player."),
 		pconn->username);
   } else {
-    notify_conn(dest, _("You are logged in as '%s' connected to %s."),
+    notify_conn(dest, NULL, E_CONNECTION,
+		_("You are logged in as '%s' connected to %s."),
                 pconn->username, pconn->player->name);
   }
 
@@ -170,8 +177,9 @@ static void establish_new_connection(struct connection *pconn)
           && !cplayer->ai.control
           && !cplayer->phase_done
           && cplayer != pconn->player) {  /* skip current player */
-        notify_conn(dest, _("Turn-blocking game play: "
-                            "waiting on %s to finish turn..."),
+        notify_conn(dest, NULL, E_CONNECTION,
+		    _("Turn-blocking game play: "
+		      "waiting on %s to finish turn..."),
                     cplayer->name);
       }
     } players_iterate_end;
@@ -294,8 +302,9 @@ bool handle_login_request(struct connection *pconn,
         get_unique_guest_name(req->username);
 
         if (strncmp(old_guest_name, req->username, MAX_LEN_NAME) != 0) {
-          notify_conn(pconn->self, _("Warning: the guest name '%s' has been "
-                                      "taken, renaming to user '%s'."),
+          notify_conn(pconn->self, NULL, E_CONNECTION,
+		      _("Warning: the guest name '%s' has been "
+			"taken, renaming to user '%s'."),
                       old_guest_name, req->username);
         }
       } else {
@@ -319,9 +328,10 @@ bool handle_login_request(struct connection *pconn,
           sz_strlcpy(pconn->username, tmpname);
 
           freelog(LOG_ERROR, "Error reading database; connection -> guest");
-          notify_conn(pconn->self, _("There was an error reading the user "
-                                      "database, logging in as guest "
-                                      "connection '%s'."), pconn->username);
+          notify_conn(pconn->self, NULL, E_CONNECTION,
+		      _("There was an error reading the user "
+			"database, logging in as guest "
+			"connection '%s'."), pconn->username);
           establish_new_connection(pconn);
         } else {
           reject_new_connection(_("There was an error reading the user "
@@ -413,9 +423,10 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
     case USER_DB_SUCCESS:
       break;
     case USER_DB_ERROR:
-      notify_conn(pconn->self, _("Warning: There was an error in saving "
-                                  "to the database. Continuing, but your "
-                                  "stats will not be saved."));
+      notify_conn(pconn->self, NULL, E_CONNECTION,
+		  _("Warning: There was an error in saving "
+		    "to the database. Continuing, but your "
+		    "stats will not be saved."));
       freelog(LOG_ERROR, "Error writing to database for %s", pconn->username);
       break;
     default:
@@ -552,7 +563,8 @@ void lost_connection_to_client(struct connection *pconn)
    * Safe to unlink even if not in list: */
   conn_list_unlink(game.est_connections, pconn);
   delayed_disconnect++;
-  notify_conn(game.est_connections, _("Lost connection: %s."), desc);
+  notify_conn(game.est_connections, NULL, E_CONNECTION,
+	      _("Lost connection: %s."), desc);
 
   if (!pplayer) {
     delayed_disconnect--;

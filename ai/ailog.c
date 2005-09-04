@@ -69,7 +69,7 @@ void TECH_LOG(int level, struct player *pplayer, Tech_type_id id,
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
-    notify_conn(NULL, buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
   freelog(minlevel, buffer);
 }
@@ -109,7 +109,7 @@ void DIPLO_LOG(int level, struct player *pplayer, struct player *aplayer,
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
-    notify_conn(NULL, buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
   freelog(minlevel, buffer);
 }
@@ -143,7 +143,7 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
   if (pcity->debug) {
-    notify_conn(NULL, buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
   freelog(minlevel, buffer);
 }
@@ -202,7 +202,7 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
 
   cat_snprintf(buffer, sizeof(buffer), buffer2);
   if (punit->debug || messwin) {
-    notify_conn(NULL, buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
   freelog(minlevel, buffer);
 }
@@ -254,7 +254,7 @@ void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg)
 	      s, id, charge_x, charge_y);
   cat_snprintf(buffer, sizeof(buffer), msg);
   if (punit->debug) {
-    notify_conn(NULL, buffer);
+    notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buffer);
   }
   freelog(minlevel, buffer);
 }
@@ -307,10 +307,10 @@ void TIMING_RESULTS(void)
            read_timer_seconds(aitimer[which][0]),                        \
            read_timer_seconds(aitimer[which][1]));                       \
   freelog(LOG_NORMAL, buf);                                              \
-  notify_conn(NULL, buf);
+  notify_conn(NULL, NULL, E_AI_DEBUG, "%s", buf);
 
   freelog(LOG_NORMAL, "  --- AI timing results ---");
-  notify_conn(NULL, "  --- AI timing results ---");
+  notify_conn(NULL, NULL, E_AI_DEBUG, "  --- AI timing results ---");
   OUT("Total AI time", AIT_ALL);
   OUT("Movemap", AIT_MOVEMAP);
   OUT("Units", AIT_UNITS);

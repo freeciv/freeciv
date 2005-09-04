@@ -735,17 +735,6 @@ void notify_conn_ex(struct conn_list *dest, struct tile *ptile,
 }
 
 /**************************************************************************
-  See vnotify_conn_ex - this is varargs, and cannot specify (x,y), event.
-**************************************************************************/
-void notify_conn(struct conn_list *dest, const char *format, ...) 
-{
-  va_list args;
-  va_start(args, format);
-  vnotify_conn_ex(dest, NULL, E_NOEVENT, format, args);
-  va_end(args);
-}
-
-/**************************************************************************
   Similar to vnotify_conn_ex (see also), but takes player as "destination".
   If player != NULL, sends to all connections for that player.
   If player == NULL, sends to all game connections, to support
@@ -1115,10 +1104,10 @@ void server_remove_player(struct player *pplayer)
   }
 
   freelog(LOG_NORMAL, _("Removing player %s."), pplayer->name);
-  notify_conn(pplayer->connections,
+  notify_conn(pplayer->connections, NULL, E_CONNECTION,
 	      _("You've been removed from the game!"));
 
-  notify_conn(game.est_connections,
+  notify_conn(game.est_connections, NULL, E_CONNECTION,
 	      _("%s has been removed from the game."), pplayer->name);
   
   dlsend_packet_player_remove(game.game_connections, pplayer->player_no);
@@ -1417,7 +1406,7 @@ struct player *create_global_observer(void)
    * a slot available to create one.  Observers are taken from the slots of
    * normal civs (barbarians are reserved separately). */
   if (game.info.nplayers - game.info.nbarbarians >= MAX_NUM_PLAYERS) {
-    notify_conn(NULL,
+    notify_conn(NULL, NULL, E_CONNECTION,
 		_("A global observer cannot be created: too "
 		  "many regular players."));
     return NULL;
@@ -1425,7 +1414,7 @@ struct player *create_global_observer(void)
 
   nation = pick_observer_nation();
   if (nation == NO_NATION_SELECTED) {
-    notify_conn(NULL,
+    notify_conn(NULL, NULL, E_CONNECTION,
 		_("A global observer cannot be created: there's "
 		  "no observer nation in the ruleset."));
     return NULL;
@@ -1467,7 +1456,7 @@ struct player *create_global_observer(void)
   /* tell everyone that game.info.nplayers has been updated */
   send_game_info(NULL);
   send_player_info(pplayer, NULL);
-  notify_conn(NULL,
+  notify_conn(NULL, NULL, E_CONNECTION,
 	      _("A global observer has been created"));
 
   return pplayer;

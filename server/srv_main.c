@@ -799,8 +799,10 @@ void start_game(void)
   /* Remove ALLOW_CTRL from whoever has it (gotten from 'first'). */
   conn_list_iterate(game.game_connections, pconn) {
     if (pconn->access_level == ALLOW_CTRL) {
-      notify_conn(game.game_connections, _("%s lost control cmdlevel on "
-                  "game start.  Use voting from now on."), pconn->username);
+      notify_conn(game.game_connections, NULL, E_SETTING,
+		  _("%s lost control cmdlevel on "
+		    "game start.  Use voting from now on."),
+		  pconn->username);
       pconn->access_level = ALLOW_INFO;
     }
   } conn_list_iterate_end;
@@ -848,7 +850,8 @@ void handle_report_req(struct connection *pconn, enum report_type type)
     return;
   }
 
-  notify_conn(dest, _("request for unknown report (type %d)"), type);
+  notify_conn(dest, NULL, E_BAD_COMMAND,
+	      _("request for unknown report (type %d)"), type);
 }
 
 /**************************************************************************
@@ -1341,11 +1344,13 @@ void handle_player_ready(struct player *requestor,
       }
     } players_iterate_end;
     if (num_unready > 0) {
-      notify_conn(NULL, _("Waiting to start game: %d out of %d players "
-			  "are ready to start."),
+      notify_conn(NULL, NULL, E_SETTING,
+		  _("Waiting to start game: %d out of %d players "
+		    "are ready to start."),
 		  num_ready, num_ready + num_unready);
     } else {
-      notify_conn(NULL, _("All players are ready; starting game."));
+      notify_conn(NULL, NULL, E_SETTING,
+		  _("All players are ready; starting game."));
       start_game();
     }
   }
@@ -1402,7 +1407,7 @@ void aifill(int amount)
 	    _("%s has been added as %s level AI-controlled player."),
             pplayer->name,
 	    name_of_skill_level(pplayer->ai.skill_level));
-    notify_conn(NULL,
+    notify_conn(NULL, NULL, E_SETTING,
 		_("%s has been added as %s level AI-controlled player."),
 		pplayer->name,
 		name_of_skill_level(pplayer->ai.skill_level));

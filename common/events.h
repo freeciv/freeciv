@@ -66,7 +66,6 @@ enum event_type {
   E_BROADCAST_REPORT,
   E_GAME_END,
   E_GAME_START,
-  E_MESSAGE_WALL,
   E_NATION_SELECTED,
   E_DESTROYED,
   E_REPORT,
@@ -114,7 +113,10 @@ enum event_type {
   E_BAD_COMMAND,  /* Illegal command sent from client. */
   E_SETTING, /* Messages for changed server settings */
   E_CHAT_MSG, /* Chatline messages */
+  E_MESSAGE_WALL,
   E_CHAT_ERROR, /* Chatline errors (bad syntax, etc.) */
+  E_CONNECTION, /* Messages about acquired or lost connections */
+  E_AI_DEBUG, /* AI debugging messages */
   /* 
    * Note: If you add a new event, make sure you make a similar change
    * to the events array in client/options.c using GEN_EV and to
