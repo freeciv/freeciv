@@ -297,7 +297,7 @@ void send_global_city_turn_notifications(struct conn_list *dest)
       if (!pcity->production.is_unit && is_great_wonder(pcity->production.value)
 	  && (city_turns_to_build(pcity, pcity->production, TRUE) <= 1)
 	  && can_player_build_improvement(city_owner(pcity), pcity->production.value)) {
-	notify_conn_ex(dest, pcity->tile,
+	notify_conn(dest, pcity->tile,
 		       E_WONDER_WILL_BE_BUILT,
 		       _("Notice: Wonder %s in %s will be finished"
 			 " next turn."), 
@@ -331,7 +331,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
 	 preserves food.  -AJS */
       if (turns_growth < 5 && turns_granary < 5
 	  && turns_growth < turns_granary) {
-	notify_conn_ex(dest, pcity->tile,
+	notify_conn(dest, pcity->tile,
 			 E_CITY_GRAN_THROTTLE,
 			 _("Suggest throttling growth in %s to use %s "
 			   "(being built) more effectively."), pcity->name,
@@ -342,7 +342,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
     can_grow = city_can_grow_to(pcity, pcity->size + 1);
 
     if ((turns_growth <= 0) && !city_celebrating(pcity) && can_grow) {
-      notify_conn_ex(dest, pcity->tile,
+      notify_conn(dest, pcity->tile,
 		       E_CITY_MAY_SOON_GROW,
 		       _("%s may soon grow to size %i."),
 		       pcity->name, pcity->size + 1);
@@ -350,7 +350,7 @@ void send_city_turn_notifications(struct conn_list *dest, struct city *pcity)
   } else {
     if (pcity->food_stock + pcity->surplus[O_FOOD] <= 0
 	&& pcity->surplus[O_FOOD] < 0) {
-      notify_conn_ex(dest, pcity->tile,
+      notify_conn(dest, pcity->tile,
 		     E_CITY_FAMINE_FEARED,
 		     _("Warning: Famine feared in %s."),
 		     pcity->name);

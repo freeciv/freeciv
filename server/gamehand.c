@@ -310,7 +310,7 @@ void send_year_to_clients(int year)
   lsend_packet_new_year(game.game_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
-  notify_conn_ex(game.game_connections, NULL, E_NEXT_YEAR, _("Year: %s"),
+  notify_conn(game.game_connections, NULL, E_NEXT_YEAR, _("Year: %s"),
 		 textyear(year));
 }
 
@@ -384,7 +384,7 @@ int update_timeout(void)
     game.timeoutint += game.timeoutintinc;
 
     if (game.info.timeout > GAME_MAX_TIMEOUT) {
-      notify_conn_ex(game.game_connections, NULL, E_SETTING,
+      notify_conn(game.game_connections, NULL, E_SETTING,
 		     _("The turn timeout has exceeded its maximum value, "
 		       "fixing at its maximum"));
       freelog(LOG_DEBUG, "game.info.timeout exceeded maximum value");
@@ -392,7 +392,7 @@ int update_timeout(void)
       game.timeoutint = 0;
       game.timeoutinc = 0;
     } else if (game.info.timeout < 0) {
-      notify_conn_ex(game.game_connections, NULL, E_SETTING,
+      notify_conn(game.game_connections, NULL, E_SETTING,
 		     _("The turn timeout is smaller than zero, "
 		       "fixing at zero."));
       freelog(LOG_DEBUG, "game.info.timeout less than zero");

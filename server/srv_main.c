@@ -210,8 +210,8 @@ bool is_game_over(void)
 
   /* quit if we are past the year limit */
   if (game.info.year > game.info.end_year) {
-    notify_conn_ex(game.est_connections, NULL, E_GAME_END, 
-		   _("Game ended in a draw as end year exceeded"));
+    notify_conn(game.est_connections, NULL, E_GAME_END, 
+		_("Game ended in a draw as end year exceeded"));
     gamelog(GAMELOG_JUDGE, GL_DRAW, 
             "Game ended in a draw as end year exceeded");
     return TRUE;
@@ -258,7 +258,7 @@ bool is_game_over(void)
       }
     } players_iterate_end;
     if (win) {
-      notify_conn_ex(game.est_connections, NULL, E_GAME_END,
+      notify_conn(game.est_connections, NULL, E_GAME_END,
 		     _("Team victory to %s"), team_get_name_orig(pteam));
       gamelog(GAMELOG_JUDGE, GL_TEAMWIN, pteam);
       return TRUE;
@@ -267,12 +267,12 @@ bool is_game_over(void)
 
   /* quit if only one player is left alive */
   if (alive == 1) {
-    notify_conn_ex(game.est_connections, NULL, E_GAME_END,
+    notify_conn(game.est_connections, NULL, E_GAME_END,
 		   _("Game ended in victory for %s"), victor->name);
     gamelog(GAMELOG_JUDGE, GL_LONEWIN, victor);
     return TRUE;
   } else if (alive == 0) {
-    notify_conn_ex(game.est_connections, NULL, E_GAME_END, 
+    notify_conn(game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw"));
     gamelog(GAMELOG_JUDGE, GL_DRAW);
     return TRUE;
@@ -296,7 +296,7 @@ bool is_game_over(void)
     }
   } players_iterate_end;
   if (all_allied) {
-    notify_conn_ex(game.est_connections, NULL, E_GAME_END, 
+    notify_conn(game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in allied victory"));
     gamelog(GAMELOG_JUDGE, GL_ALLIEDWIN);
     return TRUE;
@@ -1235,15 +1235,15 @@ void handle_nation_select_req(struct player *requestor,
     }
 
     if (!new_nation->is_available) {
-      notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
-		     _("%s nation is not available in this scenario."),
-		     new_nation->name);
+      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
+		  _("%s nation is not available in this scenario."),
+		  new_nation->name);
       return;
     }
     if (new_nation->player && new_nation->player != pplayer) {
-      notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
-		     _("%s nation is already in use."),
-		     new_nation->name);
+      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
+		  _("%s nation is already in use."),
+		  new_nation->name);
       return;
     }
 
@@ -1251,16 +1251,16 @@ void handle_nation_select_req(struct player *requestor,
 
     if (!is_allowed_player_name(pplayer, new_nation, name,
 				message, sizeof(message))) {
-      notify_conn_ex(pplayer->connections, NULL, E_NATION_SELECTED,
-		     "%s", message);
+      notify_conn(pplayer->connections, NULL, E_NATION_SELECTED,
+		  "%s", message);
       return;
     }
 
     name[0] = my_toupper(name[0]);
 
-    notify_conn_ex(game.game_connections, NULL, E_NATION_SELECTED,
-		   _("%s is the %s ruler %s."), pplayer->username,
-		   new_nation->name, name);
+    notify_conn(game.game_connections, NULL, E_NATION_SELECTED,
+		_("%s is the %s ruler %s."), pplayer->username,
+		new_nation->name, name);
 
     sz_strlcpy(pplayer->name, name);
     pplayer->is_male = is_male;

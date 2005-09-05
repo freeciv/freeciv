@@ -691,9 +691,9 @@ repeat_break_treaty:
   caller should specify (x,y) = (-1,-1); otherwise make sure that the
   coordinates have been normalized.
 **************************************************************************/
-void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
-		     enum event_type event, const char *format,
-		     va_list vargs)
+void vnotify_conn(struct conn_list *dest, struct tile *ptile,
+		  enum event_type event, const char *format,
+		  va_list vargs)
 {
   struct packet_chat_msg genmsg;
 
@@ -723,19 +723,19 @@ void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
 }
 
 /**************************************************************************
-  See vnotify_conn_ex - this is just the "non-v" version, with varargs.
+  See vnotify_conn - this is just the "non-v" version, with varargs.
 **************************************************************************/
-void notify_conn_ex(struct conn_list *dest, struct tile *ptile,
-		    enum event_type event, const char *format, ...)
+void notify_conn(struct conn_list *dest, struct tile *ptile,
+		 enum event_type event, const char *format, ...)
 {
   va_list args;
   va_start(args, format);
-  vnotify_conn_ex(dest, ptile, event, format, args);
+  vnotify_conn(dest, ptile, event, format, args);
   va_end(args);
 }
 
 /**************************************************************************
-  Similar to vnotify_conn_ex (see also), but takes player as "destination".
+  Similar to vnotify_conn (see also), but takes player as "destination".
   If player != NULL, sends to all connections for that player.
   If player == NULL, sends to all game connections, to support
   old code, but this feature may go away - should use notify_conn(NULL)
@@ -748,7 +748,7 @@ void notify_player(const struct player *pplayer, struct tile *ptile,
   va_list args;
 
   va_start(args, format);
-  vnotify_conn_ex(dest, ptile, event, format, args);
+  vnotify_conn(dest, ptile, event, format, args);
   va_end(args);
 }
 
@@ -789,9 +789,9 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 /**************************************************************************
   Sends a message to all players on pplayer's team
 **************************************************************************/
-void notify_team_ex(struct player* pplayer,
-                    struct tile *ptile, enum event_type event,
-		    const char* format, ...)
+void notify_team(struct player *pplayer,
+		 struct tile *ptile, enum event_type event,
+		 const char* format, ...)
 {
   va_list args;
 
@@ -800,7 +800,7 @@ void notify_team_ex(struct player* pplayer,
     if (!players_on_same_team(pplayer, other_player)) {
       continue;
     }
-    vnotify_conn_ex(other_player->connections, ptile, event, format, args);
+    vnotify_conn(other_player->connections, ptile, event, format, args);
   } players_iterate_end;
   va_end(args);
 }

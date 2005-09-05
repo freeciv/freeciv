@@ -1612,7 +1612,7 @@ static bool explain_option(struct connection *caller, char *str, bool check)
 static bool wall(char *str, bool check)
 {
   if (!check) {
-    notify_conn_ex(game.game_connections, NULL, E_MESSAGE_WALL,
+    notify_conn(game.game_connections, NULL, E_MESSAGE_WALL,
  		   _("Server Operator: %s"), str);
   }
   return TRUE;
@@ -3508,7 +3508,7 @@ static bool end_command(struct connection *caller, char *str, bool check)
     if (check) {
       return TRUE;
     }
-    notify_conn_ex(game.est_connections, NULL, E_GAME_END,
+    notify_conn(game.est_connections, NULL, E_GAME_END,
                    _("Game ended in a draw."));
     gamelog(GAMELOG_JUDGE, GL_DRAW,
             "Game ended in a draw by /endgame.");
@@ -3535,7 +3535,7 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
     if (check) {
       return TRUE;
     }
-    notify_conn_ex(game.est_connections, NULL, E_GAME_END,
+    notify_conn(game.est_connections, NULL, E_GAME_END,
                    _("%s has conceded the game and can no longer win."),
                    caller->player->name);
     caller->player->surrendered = TRUE;

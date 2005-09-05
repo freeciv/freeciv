@@ -1460,7 +1460,7 @@ static void server_remove_unit(struct unit *punit)
 
   /* check if this unit had F_GAMELOSS flag */
   if (unit_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
-    notify_conn_ex(game.est_connections, punit->tile, E_UNIT_LOST,
+    notify_conn(game.est_connections, punit->tile, E_UNIT_LOST,
                    _("Unable to defend %s, %s has lost the game."),
                    unit_name(punit->type), unit_owner(punit)->name);
     notify_player(unit_owner(punit), punit->tile, E_GAME_END,
@@ -1998,7 +1998,7 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
     do_nuke_tile(pplayer, ptile1);
   } square_iterate_end;
 
-  notify_conn_ex(game.game_connections, ptile, E_NUKE,
+  notify_conn(game.game_connections, ptile, E_NUKE,
 		 _("%s detonated a nuke!"), pplayer->name);
 }
 

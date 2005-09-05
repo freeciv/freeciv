@@ -46,13 +46,12 @@ void maybe_make_contact(struct tile *ptile, struct player *pplayer);
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
 
-void notify_conn_ex(struct conn_list *dest, struct tile *ptile,
-		    enum event_type event, const char *format, ...)
-                    fc__attribute((format (printf, 4, 5)));
-void vnotify_conn_ex(struct conn_list *dest, struct tile *ptile,
-		     enum event_type event, const char *format,
-		     va_list vargs);
-#define notify_conn notify_conn_ex
+void notify_conn(struct conn_list *dest, struct tile *ptile,
+		 enum event_type event, const char *format, ...)
+                 fc__attribute((format (printf, 4, 5)));
+void vnotify_conn(struct conn_list *dest, struct tile *ptile,
+		  enum event_type event, const char *format,
+		  va_list vargs);
 void notify_player(const struct player *pplayer, struct tile *ptile,
 		   enum event_type event, const char *format, ...)
                    fc__attribute((format (printf, 4, 5)));
@@ -60,7 +59,7 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 		      struct tile *ptile, enum event_type event,
 		      const char *format, ...)
 		      fc__attribute((format (printf, 5, 6)));
-void notify_team_ex(struct player* pplayer, struct tile *ptile,
+void notify_team(struct player* pplayer, struct tile *ptile,
                  enum event_type event, const char *format, ...)
                  fc__attribute((format (printf, 4, 5)));
 
