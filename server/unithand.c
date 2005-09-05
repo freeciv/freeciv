@@ -677,7 +677,7 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
 
   /* Send combat info to non-player observers as well.  They already know
    * about the unit so no unit_info is needed. */
-  conn_list_iterate(game.game_connections, pconn) {
+  conn_list_iterate(game.est_connections, pconn) {
     if (!pconn->player && pconn->observer) {
       send_packet_unit_combat_info(pconn, &combat);
     }
@@ -790,8 +790,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
       return;
     } 
 
-    dlsend_packet_nuke_tile_info(game.game_connections, def_tile->x,
-				 def_tile->y);
+    dlsend_packet_nuke_tile_info(game.est_connections,
+				 def_tile->x, def_tile->y);
 
     wipe_unit(punit);
     do_nuclear_explosion(pplayer, def_tile);

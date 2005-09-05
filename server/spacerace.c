@@ -110,14 +110,14 @@ void spaceship_calc_derived(struct player_spaceship *ship)
 /**************************************************************************
   Send details of src's spaceship (or spaceships of all players
   if src is NULL) to specified destinations.  If dest is NULL then
-  game.game_connections is used.
+  game.est_connections is used.
 **************************************************************************/
 void send_spaceship_info(struct player *src, struct conn_list *dest)
 {
   int j;
 
   if (!dest) {
-    dest = game.game_connections;
+    dest = game.est_connections;
   }
 
   players_iterate(pplayer) {

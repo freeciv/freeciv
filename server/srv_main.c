@@ -522,7 +522,7 @@ static void begin_phase(bool is_new_phase)
 {
   freelog(LOG_DEBUG, "Begin phase");
 
-  conn_list_do_buffer(game.game_connections);
+  conn_list_do_buffer(game.est_connections);
 
   phase_players_iterate(pplayer) {
     pplayer->phase_done = FALSE;
@@ -555,7 +555,7 @@ static void begin_phase(bool is_new_phase)
   } phase_players_iterate_end;
 
   flush_packets();  /* to curb major city spam */
-  conn_list_do_unbuffer(game.game_connections);
+  conn_list_do_unbuffer(game.est_connections);
 
   phase_players_iterate(pplayer) {
     update_revolution(pplayer);
@@ -797,9 +797,9 @@ void start_game(void)
   }
 
   /* Remove ALLOW_CTRL from whoever has it (gotten from 'first'). */
-  conn_list_iterate(game.game_connections, pconn) {
+  conn_list_iterate(game.est_connections, pconn) {
     if (pconn->access_level == ALLOW_CTRL) {
-      notify_conn(game.game_connections, NULL, E_SETTING,
+      notify_conn(NULL, NULL, E_SETTING,
 		  _("%s lost control cmdlevel on "
 		    "game start.  Use voting from now on."),
 		  pconn->username);
@@ -1258,7 +1258,7 @@ void handle_nation_select_req(struct player *requestor,
 
     name[0] = my_toupper(name[0]);
 
-    notify_conn(game.game_connections, NULL, E_NATION_SELECTED,
+    notify_conn(NULL, NULL, E_NATION_SELECTED,
 		_("%s is the %s ruler %s."), pplayer->username,
 		new_nation->name, name);
 
@@ -1552,7 +1552,7 @@ static void main_loop(void)
    * Do this before the body so that the PACKET_THAW_HINT packet is
    * balanced. 
    */
-  lsend_packet_freeze_hint(game.game_connections);
+  lsend_packet_freeze_hint(game.est_connections);
 
   while(server_state==RUN_GAME_STATE) {
     /* The beginning of a turn.
@@ -1573,7 +1573,7 @@ static void main_loop(void)
       /* 
        * This will thaw the reports and agents at the client.
        */
-      lsend_packet_thaw_hint(game.game_connections);
+      lsend_packet_thaw_hint(game.est_connections);
 
       /* Before sniff (human player activites), report time to now: */
       freelog(LOG_VERBOSE, "End/start-turn server/ai activities: %g seconds",
@@ -1605,18 +1605,18 @@ static void main_loop(void)
 	break;
       }
 
-      conn_list_do_buffer(game.game_connections);
+      conn_list_do_buffer(game.est_connections);
 
       sanity_check();
 
       /* 
        * This will freeze the reports and agents at the client.
        */
-      lsend_packet_freeze_hint(game.game_connections);
+      lsend_packet_freeze_hint(game.est_connections);
 
       end_phase();
 
-      conn_list_do_unbuffer(game.game_connections);
+      conn_list_do_unbuffer(game.est_connections);
     }
     if (server_state == GAME_OVER_STATE) {
       break;
@@ -1633,7 +1633,7 @@ static void main_loop(void)
   /* 
    * This will thaw the reports and agents at the client.
    */
-  lsend_packet_thaw_hint(game.game_connections);
+  lsend_packet_thaw_hint(game.est_connections);
 
   free_timer(eot_timer);
 }
@@ -1697,7 +1697,7 @@ void srv_main(void)
   while (TRUE) {
     srv_loop();
 
-    send_game_state(game.game_connections, CLIENT_GAME_OVER_STATE);
+    send_game_state(game.est_connections, CLIENT_GAME_OVER_STATE);
     report_final_scores();
     show_map_to_all();
     notify_player(NULL, NULL, E_GAME_END, _("The game is over..."));
@@ -1857,9 +1857,9 @@ static void srv_loop(void)
     } players_iterate_end;
   }
 
-  lsend_packet_freeze_hint(game.game_connections);
-  send_all_info(game.game_connections);
-  lsend_packet_thaw_hint(game.game_connections);
+  lsend_packet_freeze_hint(game.est_connections);
+  send_all_info(game.est_connections);
+  lsend_packet_thaw_hint(game.est_connections);
   
   if(game.info.is_new_game) {
     init_new_game();
@@ -1872,7 +1872,7 @@ static void srv_loop(void)
     } players_iterate_end;
   }
 
-  send_game_state(game.game_connections, CLIENT_GAME_RUNNING_STATE);
+  send_game_state(game.est_connections, CLIENT_GAME_RUNNING_STATE);
 
   /*** Where the action is. ***/
   main_loop();

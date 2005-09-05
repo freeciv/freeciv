@@ -199,7 +199,6 @@ void close_connection(struct connection *pconn)
   /* safe to do these even if not in lists: */
   conn_list_unlink(game.all_connections, pconn);
   conn_list_unlink(game.est_connections, pconn);
-  conn_list_unlink(game.game_connections, pconn);
 
   pconn->player = NULL;
   pconn->access_level = ALLOW_NONE;
@@ -225,7 +224,6 @@ void close_connections_and_socket(void)
   /* Remove the game connection lists and make sure they are empty. */
   conn_list_free(game.all_connections);
   conn_list_free(game.est_connections);
-  conn_list_free(game.game_connections);
 
   my_closesocket(sock);
   my_closesocket(socklan);
@@ -914,7 +912,6 @@ void init_connections(void)
 
   game.all_connections = conn_list_new();
   game.est_connections = conn_list_new();
-  game.game_connections = conn_list_new();
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) { 
     struct connection *pconn = &connections[i];
@@ -1001,17 +998,7 @@ static void send_ping_times_to_all(void)
   int i;
 
   i = 0;
-  conn_list_iterate(game.game_connections, pconn) {
-    if (!pconn->used) {
-      continue;
-    }
-    i++;
-  } conn_list_iterate_end;
-
-  packet.connections = i;
-
-  i = 0;
-  conn_list_iterate(game.game_connections, pconn) {
+  conn_list_iterate(game.est_connections, pconn) {
     if (!pconn->used) {
       continue;
     }
@@ -1020,6 +1007,8 @@ static void send_ping_times_to_all(void)
     packet.ping_time[i] = pconn->ping_time;
     i++;
   } conn_list_iterate_end;
+  packet.connections = i;
+
   lsend_packet_conn_ping_info(game.est_connections, &packet);
 }
 

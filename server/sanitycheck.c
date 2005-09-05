@@ -499,10 +499,6 @@ static void check_connections(void)
   /* est_connections is a subset of all_connections */
   SANITY_CHECK(conn_list_size(game.all_connections)
 	       >= conn_list_size(game.est_connections));
-
-  /* game_connections is a subset of est_connections */
-  SANITY_CHECK(conn_list_size(game.est_connections)
-	       >= conn_list_size(game.game_connections));
 }
 
 /**************************************************************************

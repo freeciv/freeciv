@@ -1844,7 +1844,7 @@ void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit)
   at its position, or the specified ptile (if different).
   Eg, use ptile as where the unit came from, so that the info can be
   sent if the other players can see either the target or destination tile.
-  dest = NULL means all connections (game.game_connections)
+  dest = NULL means all connections (game.est_connections)
 **************************************************************************/
 void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 				 struct tile *ptile, bool remove_unseen)
@@ -1853,7 +1853,7 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
   struct packet_unit_short_info sinfo;
   
   if (!dest) {
-    dest = game.game_connections;
+    dest = game.est_connections;
   }
 
   CHECK_UNIT(punit);
@@ -1882,12 +1882,12 @@ void send_unit_info_to_onlookers(struct conn_list *dest, struct unit *punit,
 
 /**************************************************************************
   send the unit to the players who need the info 
-  dest = NULL means all connections (game.game_connections)
+  dest = NULL means all connections (game.est_connections)
 **************************************************************************/
 void send_unit_info(struct player *dest, struct unit *punit)
 {
   struct conn_list *conn_dest = (dest ? dest->connections
-				 : game.game_connections);
+				 : game.est_connections);
   send_unit_info_to_onlookers(conn_dest, punit, punit->tile, FALSE);
 }
 
@@ -1998,7 +1998,7 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
     do_nuke_tile(pplayer, ptile1);
   } square_iterate_end;
 
-  notify_conn(game.game_connections, ptile, E_NUKE,
+  notify_conn(NULL, ptile, E_NUKE,
 		 _("%s detonated a nuke!"), pplayer->name);
 }
 

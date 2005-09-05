@@ -199,7 +199,7 @@ static void historian_generic(enum historian_type which_news)
   }
   my_snprintf(title, sizeof(title), _(historian_message[which_news]),
     _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
-  page_conn_etype(game.game_connections, _("Historian Publishes!"),
+  page_conn_etype(game.est_connections, _("Historian Publishes!"),
 		  title, buffer, E_BROADCAST_REPORT);
 }
 
@@ -1103,7 +1103,7 @@ void report_final_scores(void)
     packet.spaceship[i] = get_spaceship(size[i].player); 
   }  
 
-  lsend_packet_endgame_report(game.game_connections, &packet);
+  lsend_packet_endgame_report(game.est_connections, &packet);
 }	
 
 /**************************************************************************

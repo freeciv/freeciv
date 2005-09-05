@@ -1615,7 +1615,6 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       }
       conn_list_append(game.all_connections, pconn);
       conn_list_append(game.est_connections, pconn);
-      conn_list_append(game.game_connections, pconn);
     } else {
       freelog(LOG_DEBUG, "Server reports updated connection %d %s",
 	      pinfo->id, pinfo->username);

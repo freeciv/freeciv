@@ -843,11 +843,11 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
   Send information about player src, or all players if src is NULL,
   to specified players dest (that is, to dest->connections).
   As convenience to old code, dest may be NULL meaning send to
-  game.game_connections.  
+  game.est_connections.  
 **************************************************************************/
 void send_player_info(struct player *src, struct player *dest)
 {
-  send_player_info_c(src, (dest ? dest->connections : game.game_connections));
+  send_player_info_c(src, (dest ? dest->connections : game.est_connections));
 }
 
 /**************************************************************************
@@ -1110,7 +1110,7 @@ void server_remove_player(struct player *pplayer)
   notify_conn(game.est_connections, NULL, E_CONNECTION,
 	      _("%s has been removed from the game."), pplayer->name);
   
-  dlsend_packet_player_remove(game.game_connections, pplayer->player_no);
+  dlsend_packet_player_remove(game.est_connections, pplayer->player_no);
 
   /* Note it is ok to remove the _current_ item in a list_iterate. */
   conn_list_iterate(pplayer->connections, pconn) {

@@ -1612,7 +1612,7 @@ static bool explain_option(struct connection *caller, char *str, bool check)
 static bool wall(char *str, bool check)
 {
   if (!check) {
-    notify_conn(game.game_connections, NULL, E_MESSAGE_WALL,
+    notify_conn(NULL, NULL, E_MESSAGE_WALL,
  		   _("Server Operator: %s"), str);
   }
   return TRUE;

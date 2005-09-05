@@ -288,7 +288,7 @@ void init_new_game(void)
 void send_start_phase_to_clients(void)
 {
   /* This function is so simple it could probably be dropped... */
-  dlsend_packet_start_phase(game.game_connections, game.info.phase);
+  dlsend_packet_start_phase(game.est_connections, game.info.phase);
 }
 
 /**************************************************************************
@@ -307,10 +307,10 @@ void send_year_to_clients(int year)
 
   apacket.year = year;
   apacket.turn = game.info.turn;
-  lsend_packet_new_year(game.game_connections, &apacket);
+  lsend_packet_new_year(game.est_connections, &apacket);
 
   /* Hmm, clients could add this themselves based on above packet? */
-  notify_conn(game.game_connections, NULL, E_NEXT_YEAR, _("Year: %s"),
+  notify_conn(game.est_connections, NULL, E_NEXT_YEAR, _("Year: %s"),
 		 textyear(year));
 }
 
@@ -327,14 +327,14 @@ void send_game_state(struct conn_list *dest, int state)
 
 /**************************************************************************
   Send game_info packet; some server options and various stuff...
-  dest==NULL means game.game_connections
+  dest==NULL means game.est_connections
 **************************************************************************/
 void send_game_info(struct conn_list *dest)
 {
   struct packet_game_info ginfo;
 
   if (!dest) {
-    dest = game.game_connections;
+    dest = game.est_connections;
   }
 
   ginfo = game.info;
@@ -384,7 +384,7 @@ int update_timeout(void)
     game.timeoutint += game.timeoutintinc;
 
     if (game.info.timeout > GAME_MAX_TIMEOUT) {
-      notify_conn(game.game_connections, NULL, E_SETTING,
+      notify_conn(game.est_connections, NULL, E_SETTING,
 		     _("The turn timeout has exceeded its maximum value, "
 		       "fixing at its maximum"));
       freelog(LOG_DEBUG, "game.info.timeout exceeded maximum value");
@@ -392,7 +392,7 @@ int update_timeout(void)
       game.timeoutint = 0;
       game.timeoutinc = 0;
     } else if (game.info.timeout < 0) {
-      notify_conn(game.game_connections, NULL, E_SETTING,
+      notify_conn(game.est_connections, NULL, E_SETTING,
 		     _("The turn timeout is smaller than zero, "
 		       "fixing at zero."));
       freelog(LOG_DEBUG, "game.info.timeout less than zero");

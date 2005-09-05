@@ -75,7 +75,6 @@ struct civ_game {
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   struct conn_list *all_connections;        /* including not yet established */
   struct conn_list *est_connections;        /* all established client conns */
-  struct conn_list *game_connections;       /* involved in game; send map etc */
   char save_name[MAX_LEN_NAME];
   bool scorelog;
   int seed;

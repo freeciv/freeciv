@@ -408,7 +408,7 @@ void give_citymap_from_player_to_player(struct city *pcity,
 
 /**************************************************************************
   Send all tiles known to specified clients.
-  If dest is NULL means game.game_connections.
+  If dest is NULL means game.est_connections.
   
   Note for multiple connections this may change "sent" multiple times
   for single player.  This is ok, because "sent" data is just optimised
@@ -420,7 +420,7 @@ void send_all_known_tiles(struct conn_list *dest)
   int tiles_sent;
 
   if (!dest) {
-    dest = game.game_connections;
+    dest = game.est_connections;
   }
 
   /* send whole map piece by piece to each player to balance the load
@@ -445,7 +445,7 @@ void send_all_known_tiles(struct conn_list *dest)
 
 /**************************************************************************
   Send tile information to all the clients in dest which know and see
-  the tile. If dest is NULL, sends to all clients (game.game_connections)
+  the tile. If dest is NULL, sends to all clients (game.est_connections)
   which know and see tile.
 
   Note that this function does not update the playermap.  For that call
@@ -456,7 +456,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
   struct packet_tile_info info;
 
   if (!dest) {
-    dest = game.game_connections;
+    dest = game.est_connections;
   }
 
   info.x = ptile->x;
@@ -1140,7 +1140,7 @@ void update_tile_knowledge(struct tile *ptile)
   } players_iterate_end;
 
   /* Global observers */
-  conn_list_iterate(game.game_connections, pconn) {
+  conn_list_iterate(game.est_connections, pconn) {
     struct player *pplayer = pconn->player;
     if (!pplayer && pconn->observer) {
       send_tile_info(pconn->self, ptile);

@@ -930,9 +930,10 @@ static void ai_fill_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void start_start_callback(GtkWidget *w, gpointer data)
 {
-  really_close_connection_dialog();
-  dsend_packet_player_ready(&aconnection, game.info.player_idx,
-			    !game.player_ptr->is_ready);
+  if (game.player_ptr) {
+    dsend_packet_player_ready(&aconnection, game.info.player_idx,
+			      !game.player_ptr->is_ready);
+  }
 }
 
 /**************************************************************************

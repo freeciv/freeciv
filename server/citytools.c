@@ -1388,7 +1388,7 @@ static void broadcast_city_info(struct city *pcity)
   /* send to non-player observers:
    * should these only get dumb_city type info?
    */
-  conn_list_iterate(game.game_connections, pconn) {
+  conn_list_iterate(game.est_connections, pconn) {
     if (!pconn->player && pconn->observer) {
       package_city(pcity, &packet, FALSE);
       send_packet_city_info(pconn, &packet);

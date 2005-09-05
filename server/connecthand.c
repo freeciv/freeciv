@@ -91,6 +91,8 @@ static void establish_new_connection(struct connection *pconn)
   /* "establish" the connection */
   pconn->established = TRUE;
 
+  conn_list_append(game.est_connections, pconn);
+
   /* introduce the server to the connection */
   if (my_gethostname(hostname, sizeof(hostname)) == 0) {
     notify_conn(dest, NULL, E_CONNECTION,
@@ -191,7 +193,6 @@ static void establish_new_connection(struct connection *pconn)
   }
 
   send_conn_info(dest, game.est_connections);
-  conn_list_append(game.est_connections, pconn);
   send_conn_info(game.est_connections, dest);
   send_player_info_c(NULL, dest);
   reset_all_start_commands();
@@ -700,7 +701,6 @@ bool attach_connection_to_player(struct connection *pconn,
 
   pconn->player = pplayer;
   conn_list_append(pplayer->connections, pconn);
-  conn_list_append(game.game_connections, pconn);
 
   send_game_info(NULL);
   send_player_info(pplayer, NULL);
@@ -723,7 +723,6 @@ bool unattach_connection_from_player(struct connection *pconn)
   }
 
   conn_list_unlink(pconn->player->connections, pconn);
-  conn_list_unlink(game.game_connections, pconn);
 
   pconn->player->is_connected = FALSE;
   pconn->observer = FALSE;

@@ -308,7 +308,6 @@ int main(int argc, char *argv[])
 
   game.all_connections = conn_list_new();
   game.est_connections = conn_list_new();
-  game.game_connections = conn_list_new();
 
   ui_init();
   charsets_init();
@@ -379,7 +378,6 @@ void ui_exit(void)
   helpdata_done(); /* ui_exit() unlinks help text list */
   conn_list_free(game.all_connections);
   conn_list_free(game.est_connections);
-  conn_list_free(game.game_connections);
   exit(EXIT_SUCCESS);
 }
 
@@ -574,7 +572,6 @@ void client_remove_cli_conn(struct connection *pconn)
   }
   conn_list_unlink(game.all_connections, pconn);
   conn_list_unlink(game.est_connections, pconn);
-  conn_list_unlink(game.game_connections, pconn);
   assert(pconn != &aconnection);
   free(pconn);
 }
