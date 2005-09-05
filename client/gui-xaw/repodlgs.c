@@ -23,37 +23,50 @@
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
 #include <X11/StringDefs.h>
+#include <X11/Xaw/AsciiText.h>  
+#include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
-#include <X11/Xaw/SimpleMenu.h> 
-#include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
 #include <X11/Xaw/MenuButton.h>
+#include <X11/Xaw/SimpleMenu.h> 
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/Toggle.h>
+#include <X11/Xaw/Viewport.h>
 
-#include "city.h"
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
-#include "packets.h"
 #include "shared.h"
 #include "support.h"
 
-#include "cityrep.h"
+#include "city.h"
+#include "game.h"
+#include "government.h"
+#include "packets.h"
+
+#include "chatline_common.h" /* for send_chat() */
 #include "climisc.h"
 #include "clinet.h"
+#include "text.h"
+
+#include "cityrep.h"
 #include "dialogs.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "optiondlg.h"
-#include "text.h"
 
-#include "repodlgs.h"
 #include "repodlgs_common.h"
+#include "repodlgs.h"
 
 /******************************************************************/
+static Widget science_dialog_shell;
+static Widget science_label;
+static Widget science_current_label, science_goal_label;
+static Widget science_change_menu_button, science_goal_menu_button;
+static Widget science_list, science_help_toggle;
+static Widget science_help_note;
+static Widget popupmenu, goalmenu;
+static int science_dialog_shell_is_modal;
 
 void create_science_dialog(bool make_modal);
 void science_close_callback(Widget w, XtPointer client_data, 
@@ -67,16 +80,13 @@ void science_goal_callback(Widget w, XtPointer client_data,
 
 
 /******************************************************************/
-static Widget science_dialog_shell;
-static Widget science_label;
-static Widget science_current_label, science_goal_label;
-static Widget science_change_menu_button, science_goal_menu_button;
-static Widget science_list, science_help_toggle;
-static Widget science_help_note;
-static int science_dialog_shell_is_modal;
-static Widget popupmenu, goalmenu;
+static Widget economy_dialog_shell;
+static Widget economy_label, economy_label2;
+static Widget economy_list, economy_list_label;
+static Widget sellall_command, sellobsolete_command;
+static int economy_dialog_shell_is_modal;
+static int economy_improvement_type[B_LAST];
 
-/******************************************************************/
 void create_economy_report_dialog(bool make_modal);
 void economy_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
@@ -84,15 +94,15 @@ void economy_selloff_callback(Widget w, XtPointer client_data,
                             XtPointer call_data);
 void economy_list_callback(Widget w, XtPointer client_data,
                          XtPointer call_data);
-static int economy_improvement_type[B_LAST];
-
-static Widget economy_dialog_shell;
-static Widget economy_label, economy_label2;
-static Widget economy_list, economy_list_label;
-static Widget sellall_command, sellobsolete_command;
-static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
+static Widget activeunits_dialog_shell;
+static Widget activeunits_label, activeunits_label2;
+static Widget activeunits_list, activeunits_list_label;
+static Widget upgrade_command;
+static int activeunits_dialog_shell_is_modal;
+static int activeunits_type[U_LAST];
+
 void create_activeunits_report_dialog(bool make_modal);
 void activeunits_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data);
@@ -102,15 +112,24 @@ void activeunits_refresh_callback(Widget w, XtPointer client_data,
 			 XtPointer call_data);
 void activeunits_list_callback(Widget w, XtPointer client_data, 
                            XtPointer call_data);
-static int activeunits_type[U_LAST];
-
-static Widget activeunits_dialog_shell;
-static Widget activeunits_label, activeunits_label2;
-static Widget activeunits_list, activeunits_list_label;
-static Widget upgrade_command;
-
-static int activeunits_dialog_shell_is_modal;
 /******************************************************************/
+static Widget settable_options_dialog_shell;
+static Widget settable_options_form;
+static Widget settable_options_label;
+static Widget settable_options_viewport;
+static Widget settable_options_scrollform;
+static Widget *settable_options_widgets = NULL;
+static Widget settable_options_ok_command;
+static Widget settable_options_cancel_command;
+
+void create_settable_options_dialog(void);
+void update_settable_options_dialog(void);
+void settable_options_toggle_callback(Widget w, XtPointer client_data,
+				      XtPointer call_data);
+void settable_options_ok_callback(Widget w, XtPointer client_data,
+				  XtPointer call_data);
+void settable_options_cancel_callback(Widget w, XtPointer client_data,
+				      XtPointer call_data);
 
 /******************************************************************
 ...
@@ -1159,10 +1178,329 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                       buffer);
 }
 
-/*************************************************************************
-  Server options dialog
-*************************************************************************/
+/****************************************************************************
+			SERVER OPTIONS DIALOG
+****************************************************************************/
+
+/****************************************************************************
+  Show a dialog with the server options.
+****************************************************************************/
 void popup_settable_options_dialog(void)
 {
-  /* PORT ME */
+  if (!settable_options_dialog_shell) {
+    create_settable_options_dialog();
+  }
+
+  update_settable_options_dialog();
+
+  XtPopup(settable_options_dialog_shell, XtGrabNone);
+}
+
+/****************************************************************************
+  Popdown server options dialog.
+****************************************************************************/
+void popdown_settable_options_dialog(void)
+{
+  if (settable_options_dialog_shell) {
+    XtDestroyWidget(settable_options_dialog_shell);
+    settable_options_dialog_shell = NULL;
+  }
+}
+
+/****************************************************************************
+  Server options dialog.
+****************************************************************************/
+void create_settable_options_dialog(void)
+{
+  Widget prev_widget, longest_label = NULL;
+  size_t longest_len = 0;
+  Dimension width;
+  int i;
+
+  settable_options_dialog_shell =
+    I_T(XtCreatePopupShell("settableoptionspopup", transientShellWidgetClass,
+			   toplevel, NULL, 0));
+  settable_options_form =
+    XtVaCreateManagedWidget("settableoptionsform", formWidgetClass,
+			    settable_options_dialog_shell, NULL);
+
+  settable_options_label =
+    I_L(XtVaCreateManagedWidget("settableoptionslabel", labelWidgetClass,
+				settable_options_form, NULL));
+
+  settable_options_viewport =
+    XtVaCreateManagedWidget("settableoptionsviewport", viewportWidgetClass,
+			    settable_options_form, NULL);
+  settable_options_scrollform =
+    XtVaCreateManagedWidget("settableoptionsscrollform", formWidgetClass, 
+			    settable_options_viewport, NULL);
+
+  if (!settable_options_widgets) {
+    settable_options_widgets = fc_calloc(num_settable_options, sizeof(Widget));
+  }
+
+  prev_widget = NULL; /* init the prev-Widget */
+
+  for (i = 0; i < num_settable_options; i++) {
+    char buf[256];
+    size_t len;
+
+    my_snprintf(buf, sizeof(buf), "%s: %s", settable_options[i].name,
+		_(settable_options[i].short_help));
+    len = strlen(buf);
+
+    /* 
+     * Remember widget so we can reset the vertical position.
+     */
+    settable_options_widgets[i] = prev_widget;
+
+    if (prev_widget) {
+      prev_widget =
+	XtVaCreateManagedWidget("label", labelWidgetClass,
+				settable_options_scrollform,
+				XtNlabel, buf,
+				XtNfromVert, prev_widget,
+				NULL);
+    } else {
+      prev_widget =
+	XtVaCreateManagedWidget("label", labelWidgetClass,
+				settable_options_scrollform,
+				XtNlabel, buf,
+				NULL);
+    }
+
+    if (len > longest_len) {
+      longest_len = len;
+      longest_label = prev_widget;
+    }
+
+    /* 
+     * The addition of a scrollbar screws things up. There must be a
+     * better way to do this.
+     */
+    XtVaGetValues(prev_widget, XtNwidth, &width, NULL);
+    XtVaSetValues(prev_widget, XtNwidth, width + 15, NULL);
+  }
+
+  XtVaGetValues(longest_label, XtNwidth, &width, NULL);
+  XtVaSetValues(settable_options_label, XtNwidth, width + 15, NULL);
+
+  for (i = 0; i < num_settable_options; i++) {
+    if (setting_class_is_changeable(settable_options[i].class)
+	&& settable_options[i].is_visible) {
+      switch (settable_options[i].type) {
+      case SSET_BOOL:
+	if (settable_options_widgets[i]) {
+	  prev_widget =
+	    XtVaCreateManagedWidget("toggle", toggleWidgetClass,
+				    settable_options_scrollform,
+				    XtNfromHoriz, settable_options_label,
+				    XtNfromVert, settable_options_widgets[i],
+				    NULL);
+	} else {
+	  prev_widget =
+	    XtVaCreateManagedWidget("toggle", toggleWidgetClass,
+				    settable_options_scrollform,
+				    XtNfromHoriz, settable_options_label,
+				    NULL);
+	}
+	XtAddCallback(prev_widget, XtNcallback,
+		      settable_options_toggle_callback, NULL);
+	break;
+      case SSET_INT:
+      case SSET_STRING:
+	if (settable_options_widgets[i]) {
+	  prev_widget =
+	    XtVaCreateManagedWidget("input", asciiTextWidgetClass,
+				    settable_options_scrollform,
+				    XtNfromHoriz, settable_options_label,
+				    XtNfromVert, settable_options_widgets[i],
+				    NULL);
+	} else {
+	  prev_widget =
+	    XtVaCreateManagedWidget("input", asciiTextWidgetClass,
+				    settable_options_scrollform,
+				    XtNfromHoriz, settable_options_label,
+				    NULL);
+	}
+	break;
+      }
+
+    } else {
+      if (settable_options_widgets[i]) {
+	prev_widget =
+	  XtVaCreateManagedWidget("rlabel", labelWidgetClass,
+				  settable_options_scrollform,
+				  XtNfromHoriz, settable_options_label,
+				  XtNfromVert, settable_options_widgets[i],
+				  NULL);
+      } else {
+	prev_widget =
+	  XtVaCreateManagedWidget("rlabel", labelWidgetClass,
+				  settable_options_scrollform,
+				  XtNfromHoriz, settable_options_label,
+				  NULL);
+      }
+    }
+    /* store the final widget */
+    settable_options_widgets[i] = prev_widget;
+  }
+
+  settable_options_ok_command =
+    I_L(XtVaCreateManagedWidget("settableoptionsokcommand",
+				commandWidgetClass,
+				settable_options_form,
+				NULL));
+
+  settable_options_cancel_command =
+    I_L(XtVaCreateManagedWidget("settableoptionscancelcommand",
+				commandWidgetClass,
+				settable_options_form,
+				NULL));
+
+  XtAddCallback(settable_options_ok_command, XtNcallback,
+		settable_options_ok_callback, NULL);
+  XtAddCallback(settable_options_cancel_command, XtNcallback,
+		settable_options_cancel_callback, NULL);
+
+  XtRealizeWidget(settable_options_dialog_shell);
+
+  XSetWMProtocols(display, XtWindow(settable_options_dialog_shell),
+		  &wm_delete_window, 1);
+  XtOverrideTranslations(settable_options_dialog_shell,
+    XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-settable-options()"));
+
+  xaw_horiz_center(settable_options_label);
+}
+
+/****************************************************************************
+  Update server options dialog.
+****************************************************************************/
+void update_settable_options_dialog(void)
+{
+  if (settable_options_dialog_shell) {
+    char buf[256];
+    int i;
+
+    for (i = 0; i < num_settable_options; i++) {
+      if (setting_class_is_changeable(settable_options[i].class)
+	  && settable_options[i].is_visible) {
+	switch (settable_options[i].type) {
+	case SSET_BOOL:
+	  XtVaSetValues(settable_options_widgets[i],
+			XtNstate, settable_options[i].val ? True : False,
+			XtNlabel,
+			settable_options[i].val ? _("Yes") : _("No"), NULL);
+	  break;
+	case SSET_INT:
+	  my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
+	  XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
+	  break;
+	case SSET_STRING:
+	  my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
+	  XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
+	  break;
+	}
+      } else {
+	if (settable_options[i].is_visible) {
+	  switch (settable_options[i].type) {
+	  case SSET_BOOL:
+	    my_snprintf(buf, sizeof(buf), "%s",
+	      settable_options[i].val != 0 ? _("true") : _("false"));
+	    break;
+	  case SSET_INT:
+	    my_snprintf(buf, sizeof(buf), "%d", settable_options[i].val);
+	    break;
+	  case SSET_STRING:
+	    my_snprintf(buf, sizeof(buf), "%s", settable_options[i].strval);
+	    break;
+	  }
+	} else {
+	  my_snprintf(buf, sizeof(buf), _("(hidden)"));
+	}
+	XtVaSetValues(settable_options_widgets[i], XtNlabel, buf, NULL);
+      }
+    }
+  }
+}
+
+/****************************************************************************
+  Changes the label of the toggle widget to Yes/No depending on the state of
+  the toggle.
+****************************************************************************/
+void settable_options_toggle_callback(Widget w, XtPointer client_data,
+				      XtPointer call_data)
+{
+  Boolean b;
+
+  XtVaGetValues(w, XtNstate, &b, NULL);
+  XtVaSetValues(w, XtNlabel, b ? _("Yes") : _("No"), NULL);
+}
+
+/****************************************************************************
+  OK button callback.
+****************************************************************************/
+void settable_options_ok_callback(Widget w, XtPointer client_data,
+				  XtPointer call_data)
+{
+  if (settable_options_dialog_shell) {
+    Boolean b, old_b;
+    int val, i;
+    XtPointer dp;
+
+    for (i = 0; i < num_settable_options; i++) {
+      if (setting_class_is_changeable(settable_options[i].class)
+	  && settable_options[i].is_visible) {
+	char buffer[MAX_LEN_MSG];
+
+	switch (settable_options[i].type) {
+	case SSET_BOOL:
+	  old_b = settable_options[i].val ? True: False;
+	  XtVaGetValues(settable_options_widgets[i], XtNstate, &b, NULL);
+	  if (b != old_b) {
+	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
+			settable_options[i].name, b ? "1" : "0");
+	    send_chat(buffer);
+	  }
+	  break;
+	case SSET_INT:
+	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
+	  sscanf(dp, "%d", &val);
+	  if (val != settable_options[i].val) {
+	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %d",
+			settable_options[i].name, val);
+	    send_chat(buffer);
+	  }
+	  break;
+	case SSET_STRING:
+	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
+	  if (strcmp(settable_options[i].strval, dp)) {
+	    my_snprintf(buffer, MAX_LEN_MSG, "/set %s %s",
+			settable_options[i].name, (char *)dp);
+	    send_chat(buffer);
+	  }
+	  break;
+	}
+      }
+    }
+
+    popdown_settable_options_dialog();
+  }
+}
+
+/****************************************************************************
+  Cancel button callback.
+****************************************************************************/
+void settable_options_cancel_callback(Widget w, XtPointer client_data,
+				      XtPointer call_data)
+{
+  popdown_settable_options_dialog();
+}
+
+/****************************************************************************
+  Callback for overrided wm_delete_window of server options dialog.
+****************************************************************************/
+void settable_options_msg_close(Widget w)
+{
+  popdown_settable_options_dialog();
 }

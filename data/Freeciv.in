@@ -3396,3 +3396,41 @@ Freeciv*startpagestartcommand.bottom:         chainBottom
 Freeciv*startpagestartcommand.left:           chainLeft
 Freeciv*startpagestartcommand.right:          chainLeft
 
+!
+! Settable options dialog
+!
+Freeciv*settableoptionspopup.title:        _("Game Settings")
+
+Freeciv*settableoptionspopup*Label.background:       gray84
+
+Freeciv*settableoptionspopup*Toggle.background:     white
+Freeciv*settableoptionspopup*Toggle.shapeStyle:     oval
+Freeciv*settableoptionspopup*Toggle.width:          50
+Freeciv*settableoptionspopup*Toggle.internalHeight: 0
+
+Freeciv*settableoptionslabel.label:              _("Game Settings")
+Freeciv*settableoptionslabel.borderWidth:        0
+
+Freeciv*settableoptionsviewport.fromVert:        settableoptionslabel
+Freeciv*settableoptionsviewport.height:          510
+Freeciv*settableoptionsviewport.useRight:        True
+Freeciv*settableoptionsviewport.allowVert:       True
+
+! dummy labels:
+Freeciv*settableoptionspopup*label.label:        XXXXXXXXXXXXXXXXXXXXXXXXXXX
+Freeciv*settableoptionspopup*label.borderWidth:  0
+
+Freeciv*settableoptionspopup*input.*.foreground: black
+Freeciv*settableoptionspopup*input.*.background: white
+Freeciv*settableoptionspopup*input.width:        120
+Freeciv*settableoptionspopup*input.*.editType:   edit
+
+Freeciv*settableoptionspopup*rlabel.width:       120
+Freeciv*settableoptionspopup*rlabel.borderWidth: 1
+
+Freeciv*settableoptionsokcommand.label:          _("Ok")
+Freeciv*settableoptionsokcommand.fromVert:       settableoptionsviewport
+
+Freeciv*settableoptionscancelcommand.label:      _("Cancel")
+Freeciv*settableoptionscancelcommand.fromHoriz:  settableoptionsokcommand
+Freeciv*settableoptionscancelcommand.fromVert:   settableoptionsviewport

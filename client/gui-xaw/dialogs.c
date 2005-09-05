@@ -194,8 +194,8 @@ static void select_random_race(void)
     int race_toggle_index = myrand(game.control.nation_count);
 
     if (!is_nation_playable(get_nation_by_idx(race_toggle_index))
-	|| get_nation_by_idx(race_toggle_index)->is_unavailable
-	|| get_nation_by_idx(race_toggle_index)->is_used) {
+	|| !get_nation_by_idx(race_toggle_index)->is_available
+	|| get_nation_by_idx(race_toggle_index)->player) {
       continue;
     }
     if (XtIsSensitive(races_toggles[race_toggle_index])) {
@@ -2053,7 +2053,7 @@ void races_toggles_set_sensitive(void)
       continue;
     }
 
-    if (!(nation->is_unavailable || nation->is_used)) {
+    if (nation->is_available && !nation->player) {
       continue;
     }
 
