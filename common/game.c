@@ -435,7 +435,6 @@ void game_advance_year(void)
 ****************************************************************************/
 void game_remove_player(struct player *pplayer)
 {
-  player_set_nation(pplayer, NULL);
   if (pplayer->attribute_block.data) {
     free(pplayer->attribute_block.data);
     pplayer->attribute_block.data = NULL;
@@ -466,6 +465,9 @@ void game_remove_player(struct player *pplayer)
   city_list_unlink_all(pplayer->cities);
   city_list_free(pplayer->cities);
   pplayer->cities = NULL;
+
+  /* This comes last because log calls in the above functions may use it. */
+  player_set_nation(pplayer, NULL);
 
   if (is_barbarian(pplayer)) game.info.nbarbarians--;
 }
