@@ -1,7 +1,7 @@
 [nation_polish]
 
 name=_("Polish")
-plural=_("?plural:Polish")
+plural=_("?plural:Poles")
 groups=_("Medieval"), _("Modern"), _("European")
 leader="Mieszko I",
        "Bolesław Chrobry",
