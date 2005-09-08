@@ -2461,6 +2461,16 @@ static bool unit_survive_autoattack(struct unit *punit)
   }
 }
 
+/****************************************************************************
+  Cancel orders for the unit.
+****************************************************************************/
+static void cancel_orders(struct unit *punit, char *dbg_msg)
+{
+  free_unit_orders(punit);
+  send_unit_info(NULL, punit);
+  freelog(LOG_DEBUG, "%s", dbg_msg);
+}
+
 /*****************************************************************
   Will wake up any neighboring enemy sentry units or patrolling 
   units.
@@ -2500,7 +2510,13 @@ static void wakeup_neighbor_sentries(struct unit *punit)
       if (punit != ppatrol
 	  && unit_has_orders(ppatrol)
 	  && ppatrol->orders.vigilant) {
-	(void) maybe_cancel_patrol_due_to_enemy(ppatrol);
+	if (maybe_cancel_patrol_due_to_enemy(ppatrol)) {
+	  cancel_orders(ppatrol, "  stopping because of nearby enemy");
+	  notify_player(ppatrol->owner, ppatrol->tile, E_UNIT_ORDERS,
+			_("Orders for %s aborted after enemy movement was "
+			  "spotted."),
+			unit_name(ppatrol->type));
+	}
       }
     } unit_list_iterate_end;
   } square_iterate_end;
@@ -2846,18 +2862,8 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 static bool maybe_cancel_goto_due_to_enemy(struct unit *punit, 
                                            struct tile *ptile)
 {
-  struct player *pplayer = unit_owner(punit);
-  
-  if (is_non_allied_unit_tile(ptile, pplayer) 
-      || is_non_allied_city_tile(ptile, pplayer)) {
-    notify_player(pplayer, punit->tile, E_UNIT_ORDERS,
-                     _("%s aborted GOTO "
-                       "as there are units in the way."),
-                     unit_type(punit)->name);
-    return TRUE;
-  }
-
-  return FALSE;
+  return (is_non_allied_unit_tile(ptile, punit->owner) 
+	  || is_non_allied_city_tile(ptile, punit->owner));
 }
 
 /**************************************************************************
@@ -2891,24 +2897,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
     }
   } square_iterate_end;
 
-  if (cancel) {
-    handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    notify_player(unit_owner(punit), punit->tile, E_UNIT_ORDERS, 
-		     _("Your %s cancelled patrol order because it "
-		       "encountered a foreign unit."), unit_name(punit->type));
-  }
-
   return cancel;
-}
-
-/****************************************************************************
-  Cancel orders for the unit.
-****************************************************************************/
-static void cancel_orders(struct unit *punit, char *dbg_msg)
-{
-  free_unit_orders(punit);
-  send_unit_info(NULL, punit);
-  freelog(LOG_DEBUG, "%s", dbg_msg);
 }
 
 /****************************************************************************
