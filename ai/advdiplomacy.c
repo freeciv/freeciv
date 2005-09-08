@@ -271,7 +271,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
   case CLAUSE_CEASEFIRE:
     /* Don't do anything in away mode */
     if (ai_handicap(pplayer, H_AWAY)) {
-      notify(aplayer, _("*%s (AI)* In away mode AI can't sign such a treaty"),
+      notify(aplayer, _("*%s (AI)* In away mode AI can't sign such a treaty."),
              pplayer->name);
       worth = -BIG_NUMBER;
       break;
@@ -281,7 +281,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
      * ceasefire. */
     if (adip->is_allied_with_enemy
         && pclause->type != CLAUSE_CEASEFIRE) {
-      notify(aplayer, _("*%s (AI)* First break alliance with %s, %s"),
+      notify(aplayer, _("*%s (AI)* First break alliance with %s, %s."),
              pplayer->name, adip->is_allied_with_enemy->name,
              aplayer->name);
       worth = -BIG_NUMBER;
@@ -306,12 +306,12 @@ static int ai_goldequiv_clause(struct player *pplayer,
       struct player_diplstate *ds = &pplayer->diplstates[aplayer->player_no];
 
       if (!pplayers_non_attack(pplayer, aplayer)) {
-        notify(aplayer, _("*%s (AI)* Let us first cease hostilies, %s"),
+        notify(aplayer, _("*%s (AI)* Let us first cease hostilies, %s."),
                pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
       } else if (ds->type == DS_CEASEFIRE && ds->turns_left > 2) {
         notify(aplayer, _("*%s (AI)* I wish to see you keep the current "
-               "ceasefire first, %s"), pplayer->name, aplayer->name);
+               "ceasefire first, %s."), pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
       } else if (adip->countdown >= 0 && adip->countdown < -1) {
         worth = -BIG_NUMBER; /* but say nothing */
@@ -332,7 +332,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       }
       if (pplayer->ai.love[aplayer->player_no] < MAX_AI_LOVE / 10) {
         notify(aplayer, _("*%s (AI)* I simply do not trust you with an "
-               "alliance yet, %s"), pplayer->name, aplayer->name);
+               "alliance yet, %s."), pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
       }
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "ally clause worth %d", worth);
@@ -1048,7 +1048,7 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
     adip->countdown = -20;
     break;
   case WAR_REASON_NONE:
-    notify(target, _("*%s (AI)* Peace in ... some other time"),
+    notify(target, _("*%s (AI)* Peace in ... some other time."),
            pplayer->name);
     adip->countdown = -10;
     break;
@@ -1418,7 +1418,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       switch (adip->ally_patience--) {
         case 0:
           notify(aplayer, _("*%s (AI)* Greetings our most trustworthy "
-                 "ally, we call upon you to destroy our enemy, %s"), 
+                 "ally. We call upon you to destroy our enemy, %s."), 
                  pplayer->name, target->name);
           break;
         case -1:
@@ -1429,7 +1429,7 @@ void ai_diplomacy_actions(struct player *pplayer)
         case -2:
           notify(aplayer, _("*%s (AI)* Dishonoured one, we made a pact of "
                  "alliance, and yet you remain at peace with our mortal "
-                 "enemy, %s! This is unacceptable, our alliance is no "
+                 "enemy, %s! This is unacceptable; our alliance is no "
                  "more!"), pplayer->name, target->name);
           DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "breaking useless alliance");
 	  /* to peace */
@@ -1484,7 +1484,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
       adip->asked_about_ceasefire = !aplayer->ai.control ? 9 : 0;
       notify(aplayer, _("*%s (AI)* we grow weary of this constant "
-             "bloodshed, may we suggest a cessation of hostilities?"), 
+             "bloodshed. May we suggest a cessation of hostilities?"), 
              pplayer->name);
       break;
     default:

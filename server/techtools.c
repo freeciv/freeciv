@@ -357,8 +357,8 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 
     if (choose_goal_tech(plr)) {
       notify_team(plr, NULL, E_TECH_LEARNED,
-		       _("Learned %s.  "
-			 "Our scientists focus on %s, goal is %s."),
+		       _("Learned %s. "
+			 "Our scientists focus on %s; goal is %s."),
 		       get_tech_name(plr, tech_found),
 		       get_tech_name(plr, research->researching),
 		       get_tech_name(plr, research->tech_goal));

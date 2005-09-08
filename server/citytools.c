@@ -1242,26 +1242,46 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
   cplayer->economic.gold -= coins;
   send_player_info(cplayer, cplayer);
   if (pcity->original != pplayer) {
-    notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
-		     _("You conquer %s, your lootings accumulate"
-		       " to %d gold!"), 
-		     pcity->name, coins);
-    notify_player(cplayer, pcity->tile, E_CITY_LOST, 
-		     _("%s conquered %s and looted %d gold"
-		       " from the city."),
-		     pplayer->name, pcity->name, coins);
+    if (coins > 0) {
+      notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
+		    PL_("You conquer %s; your lootings accumulate"
+			" to %d gold!",
+			"You conquer %s; your lootings accumulate"
+			" to %d gold!", coins), 
+		    pcity->name, coins);
+      notify_player(cplayer, pcity->tile, E_CITY_LOST, 
+		    PL_("%s conquered %s and looted %d gold"
+			" from the city.",
+			"%s conquered %s and looted %d gold"
+			" from the city.", coins),
+		    pplayer->name, pcity->name, coins);
+    } else {
+      notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
+		    _("You conquer %s"), pcity->name);
+      notify_player(cplayer, pcity->tile, E_CITY_LOST, 
+		    _("%s conquered %s."), pplayer->name, pcity->name);
+    }
     gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "conquered");
   } else {
-    notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
-		     _("You have liberated %s!"
-		       " Lootings accumulate to %d gold."),
-		     pcity->name, coins);
-    
-    notify_player(cplayer, pcity->tile, E_CITY_LOST, 
-		     _("%s liberated %s and looted %d gold"
-		       " from the city."),
-		     pplayer->name, pcity->name, coins);
-
+    if (coins > 0) {
+      notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
+		    PL_("You have liberated %s!"
+			" Lootings accumulate to %d gold.",
+			"You have liberated %s!"
+			" Lootings accumulate to %d gold.", coins),
+		    pcity->name, coins);
+      notify_player(cplayer, pcity->tile, E_CITY_LOST, 
+		    PL_("%s liberated %s and looted %d gold"
+			" from the city.",
+			"%s liberated %s and looted %d gold"
+			" from the city.", coins),
+		    pplayer->name, pcity->name, coins);
+    } else {
+      notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
+		    _("You have liberated %s!"), pcity->name);
+      notify_player(cplayer, pcity->tile, E_CITY_LOST, 
+		    _("%s liberated %s."), pplayer->name, pcity->name);
+    }
     gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "liberated");
   }
 
