@@ -1625,7 +1625,6 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   struct player *pplayer   = unit_owner(punit);
   struct player *destroyer = unit_owner(pkiller);
   char *loc_str = get_location_str_in(pplayer, punit->tile);
-  int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int ransom, unitcount = 0;
   
   /* barbarian leader ransom hack */
@@ -1660,45 +1659,95 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     wipe_unit(punit);
   } else { /* unitcount > 1 */
     int i;
+    int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+    struct unit *other_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+
     if (!(unitcount > 1)) {
       die("Error in kill_unit, unitcount is %i", unitcount);
     }
     /* initialize */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       num_killed[i] = 0;
+      other_killed[i] = NULL;
     }
 
     /* count killed units */
     unit_list_iterate(punit->tile->units, vunit) {
       if (pplayers_at_war(unit_owner(pkiller), unit_owner(vunit))) {
 	num_killed[vunit->owner->player_no]++;
+	if (vunit != punit) {
+	  other_killed[vunit->owner->player_no] = vunit;
+	}
       }
     } unit_list_iterate_end;
 
-    /* inform the owners */
+    /* inform the owners: this only tells about owned units that were killed.
+     * there may have been 20 units who died but if only 2 belonged to the
+     * particular player they'll only learn about those.
+     *
+     * Also if a large number of units die you don't find out what type
+     * they all are. */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
-      if (num_killed[i]>0) {
-	notify_player(get_player(i), punit->tile, E_UNIT_LOST,
-			 PL_("You lost %d unit to an attack "
-			     "from %s's %s%s.",
-			     "You lost %d units to an attack "
-			     "from %s's %s%s.",
-			     num_killed[i]), num_killed[i],
-			 destroyer->name, unit_name(pkiller->type),
-			 loc_str);
+      if (num_killed[i] == 1) {
+	if (i == punit->owner->player_no) {
+	  assert(other_killed[i] == NULL);
+	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+			/* TRANS: "Cannon lost to an attack from John's
+			 * Destroyer." */
+			_("%s lost to an attack from %s's %s."),
+			punit->type->name,
+			destroyer->name, pkiller->type->name);
+	} else {
+	  assert(other_killed[i] != punit);
+	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+			/* TRANS: "Cannon lost when John's Destroyer
+			 * attacked Mark's Musketeers." */
+			_("%s lost when %s's %s attacked %s's %s."),
+			other_killed[i]->type->name,
+			destroyer->name, pkiller->type->name,
+			punit->owner->name, punit->type->name);
+	}
+      } else if (num_killed[i] > 1) {
+	if (i == punit->owner->player_no) {
+	  int others = num_killed[i] - 1;
+
+	  if (others == 1) {
+	    notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+			  /* TRANS: "Musketeers (and Cannon) lost to an
+			   * attack from John's Destroyer." */
+			  _("%s (and %s) lost to an attack from %s's %s."),
+			  punit->type->name, other_killed[i]->type->name,
+			  destroyer->name, pkiller->type->name);
+	  } else {
+	    notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+			  /* TRANS: "Musketeers and 3 other units lost to
+			   * an attack from John's Destroyer." (only happens
+			   * with at least 2 other units) */
+			  PL_("%s and %d other unit lost to an attack "
+			      "from %s's %s.",
+			      "%s and %d other units lost to an attack "
+			      "from %s's %s.", others),
+			  punit->type->name, others,
+			  destroyer->name, pkiller->type->name);
+	  }
+	} else {
+	  notify_player(get_player(i), punit->tile, E_UNIT_LOST,
+			/* TRANS: "2 units lost when John's Destroyer
+			 * attacked Mark's Musketeers."  (only happens
+			 * with at least 2 other units) */
+			PL_("%d unit lost when %s's %s attacked %s's %s.",
+			    "%d units lost when %s's %s attacked %s's %s.",
+			    num_killed[i]),
+			num_killed[i],
+			destroyer->name, pkiller->type->name,
+			punit->owner->name, punit->type->name);
+	}
       }
     }
 
     /* remove the units */
     unit_list_iterate(punit->tile->units, punit2) {
       if (pplayers_at_war(unit_owner(pkiller), unit_owner(punit2))) {
-	notify_player(unit_owner(punit2), 
-			 punit2->tile, E_UNIT_LOST,
-			 _("%s lost to an attack"
-			   " from %s's %s."),
-			 unit_type(punit2)->name, destroyer->name,
-			 unit_name(pkiller->type));
-
         gamelog(GAMELOG_UNITLOSS, punit2, destroyer);
 	wipe_unit_spec_safe(punit2, FALSE);
       }
