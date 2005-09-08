@@ -2520,7 +2520,12 @@ static void wakeup_neighbor_sentries(struct unit *punit)
       if (punit != ppatrol
 	  && unit_has_orders(ppatrol)
 	  && ppatrol->orders.vigilant) {
-	(void) maybe_cancel_patrol_due_to_enemy(ppatrol);
+	if (maybe_cancel_patrol_due_to_enemy(ppatrol)) {
+	  notify_player_ex(unit_owner(ppatrol), ppatrol->tile, E_UNIT_ORDERS, 
+			   _("Game: Your %s cancelled patrol order because it "
+			     "encountered a foreign unit."),
+			   unit_name(ppatrol->type));
+	}
       }
     } unit_list_iterate_end;
   } square_iterate_end;
@@ -2844,10 +2849,6 @@ static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
   
   if (is_non_allied_unit_tile(ptile, pplayer) 
       || is_non_allied_city_tile(ptile, pplayer)) {
-    notify_player_ex(pplayer, punit->tile, E_NOEVENT,
-                     _("Game: %s aborted GOTO "
-                       "as there are units in the way."),
-                     unit_type(punit)->name);
     return TRUE;
   }
 
@@ -2887,9 +2888,6 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 
   if (cancel) {
     handle_unit_activity_request(punit, ACTIVITY_IDLE);
-    notify_player_ex(unit_owner(punit), punit->tile, E_NOEVENT, 
-		     _("Game: Your %s cancelled patrol order because it "
-		       "encountered a foreign unit."), unit_name(punit->type));
   }
 
   return cancel;
