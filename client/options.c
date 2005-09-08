@@ -169,7 +169,7 @@ static client_option common_options[] = {
   GEN_BOOL_OPTION_CB(draw_full_citybar, N_("Draw a larger citybar"),
 		     N_("If this option is set then instead of just the "
 			"city name and attributes, a large amount of data "
-			"will be drawn beneach each city in the 'citybar'."),
+			"will be drawn beneath each city in the 'citybar'."),
 		     COC_GRAPHICS, mapview_redraw_callback),
   GEN_BOOL_OPTION_CB(reqtree_show_icons,
                      N_("Show icons in the technology tree"),
