@@ -278,12 +278,33 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
       = (get_player_bonus(aplr, EFT_HAVE_EMBASSIES) > 0);
   } players_iterate_end;
 
+  /* This is a hack which makes buggy team research work somehow
+     in 2.0 branch */
+  if (tech_exists(tech_found)
+      && get_invention(plr, tech_found) == TECH_KNOWN) {
+    freelog(LOG_ERROR, "Error: found_new_tech() was called on already "
+                       "researched technology %s for player %s",
+	    get_tech_name(plr, tech_found), plr->name);
+    freelog(LOG_ERROR, "Report this bug at <bugs@freeciv.org>\n"
+            "Here is some info you should attach:");
+    players_iterate(eplayer) {
+      freelog(LOG_ERROR, 
+              "Player %s(team %d): researching %s;\n bulbs_researched %d; "
+	      "techs_researched: %d; bulbs_last_turn: %d; Researched %s? %s",
+	      eplayer->name,
+	      eplayer->team,
+	      get_tech_name(eplayer, eplayer->research.researching),
+	      eplayer->research.bulbs_researched,
+	      eplayer->research.techs_researched,
+	      eplayer->research.bulbs_last_turn,
+	      get_tech_name(plr, tech_found),
+	      get_invention(eplayer, tech_found) == TECH_KNOWN ? "yes" : "no");
+    } players_iterate_end;
+  }
+
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
    * or may not be the correct thing to do.  For these sanity checks we
    * just special-case it. */
-  assert((tech_exists(tech_found)
-	  && get_invention(plr, tech_found) != TECH_KNOWN)
-	 || tech_found == A_FUTURE);
   assert(tech_is_available(plr, tech_found) || tech_found == A_FUTURE);
 
   /* got_tech allows us to change research without applying techpenalty
