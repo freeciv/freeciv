@@ -382,14 +382,14 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 		       get_tech_name(plr, plr->research.researching),
 		       get_tech_name(plr, plr->ai.tech_goal));
     } else {
+      plr->research.researching = A_UNSET;
       if (plr->ai.control || !was_discovery) {
         choose_random_tech(plr);
       } else if (is_future_tech(tech_found)) {
         /* Continue researching future tech. */
         plr->research.researching = A_FUTURE;
-      } else {
-        plr->research.researching = A_UNSET;
       }
+      
       if (plr->research.researching != A_UNSET 
           && (!is_future_tech(plr->research.researching)
 	      || !is_future_tech(tech_found))) {
@@ -610,30 +610,35 @@ static bool choose_goal_tech(struct player *plr)
 void choose_random_tech(struct player *plr)
 {
   int chosen, researchable = 0;
-
-  if (plr->research.bulbs_researched >0) {
-    plr->research.bulbs_researched = 0;
-  }
-  tech_type_iterate(i) {
-    if (get_invention(plr, i) == TECH_REACHABLE) {
-      researchable++;
-    }
-  } tech_type_iterate_end;
-  if (researchable == 0) {
-    plr->research.researching = A_FUTURE;
-    return;
-  }
-  chosen = myrand(researchable) + 1;
   
-  tech_type_iterate(i) {
-    if (get_invention(plr, i) == TECH_REACHABLE) {
-      chosen--;
-      if (chosen == 0) {
-	plr->research.researching = i;
-	break;
+  if (plr->research.researching != A_UNSET) {
+    freelog(LOG_ERROR, "Error: choose_random_tech should only be called "
+                       "when research target is A_UNSET. Please report this "
+		       "bug at <bugs@freeeciv.org>.");
+  }
+  
+  do {
+    tech_type_iterate(i) {
+      if (get_invention(plr, i) == TECH_REACHABLE) {
+        researchable++;
       }
+    } tech_type_iterate_end;
+    if (researchable == 0) {
+      choose_tech(plr, A_FUTURE);
+      return;
     }
-  } tech_type_iterate_end;
+    chosen = myrand(researchable) + 1;
+  
+    tech_type_iterate(i) {
+      if (get_invention(plr, i) == TECH_REACHABLE) {
+        chosen--;
+        if (chosen == 0) {
+	  choose_tech(plr, i);
+	  break;
+        }
+      }
+    } tech_type_iterate_end;
+  } while (plr->research.researching == A_UNSET);
 }
 
 /**************************************************************************
