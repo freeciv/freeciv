@@ -362,6 +362,16 @@ static gint gui_dialog_delete_handler(GtkWidget *widget,
 **************************************************************************/
 static gint gui_dialog_delete_tab_handler(struct gui_dialog* dlg)
 {
+  GtkWidget* notebook;
+  int n;
+  
+  notebook = dlg->v.tab.notebook;
+  n = gtk_notebook_get_current_page(GTK_NOTEBOOK(notebook));
+  if (gtk_notebook_get_nth_page(GTK_NOTEBOOK(notebook), n)
+      != dlg->v.tab.child) {
+    gui_dialog_set_return_dialog(dlg, NULL);
+  }			                                  
+  
   /* emit response signal. */
   gui_dialog_response(dlg, GTK_RESPONSE_DELETE_EVENT);
                                                                                
@@ -508,6 +518,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       dlg->v.tab.handler_id =
 	g_signal_connect(notebook, "switch_page",
 	    G_CALLBACK(gui_dialog_switch_page_handler), dlg);
+      dlg->v.tab.child = vbox;
 
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
@@ -873,5 +884,9 @@ void gui_dialog_response_set_callback(struct gui_dialog *dlg,
 void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
                                   struct gui_dialog *return_dialog)
 {
-  dlg->return_dialog_id = return_dialog->id;
+  if (return_dialog == NULL) {
+    dlg->return_dialog_id = -1;
+  } else {
+    dlg->return_dialog_id = return_dialog->id;
+  }
 }

@@ -79,6 +79,7 @@ struct gui_dialog
       GtkWidget *label;
       GtkWidget *notebook;
       gulong handler_id;
+      GtkWidget *child;
     } tab;
   } v;
 
