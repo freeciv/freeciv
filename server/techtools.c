@@ -460,25 +460,20 @@ void update_tech(struct player *plr, int bulbs)
   int excessive_bulbs;
   struct player_research *research = get_player_research(plr);
 
-  /* At the end of the turn an unset tech target will lead to one being
-   * picked randomly.  You can't save bulbs over between turns. */
-  if (research->researching == A_UNSET) {
-    choose_random_tech(plr);
-  }
-  assert(research->researching != A_UNSET);
-
   /* count our research contribution this turn */
   plr->bulbs_last_turn += bulbs;
 
   research->bulbs_researched += bulbs;
-  
-  excessive_bulbs =
+
+  if (research->researching != A_UNSET) {  
+    excessive_bulbs =
       (research->bulbs_researched - total_bulbs_required(plr));
 
-  if (excessive_bulbs >= 0) {
-    tech_researched(plr);
-    if (research->researching != A_UNSET) {
-      update_tech(plr, 0);
+    if (excessive_bulbs >= 0) {
+      tech_researched(plr);
+      if (research->researching != A_UNSET) {
+        update_tech(plr, 0);
+      }
     }
   }
 }
