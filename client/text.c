@@ -125,6 +125,50 @@ static void real_add(char **buffer, size_t * buffer_size, const char *format,
   va_end(args);
 }
 
+/***************************************************************
+  Return a (static) string with a tile's food/prod/trade
+***************************************************************/
+static const char *map_get_tile_fpt_text(const struct tile *ptile)
+{
+  static char s[64];
+  char food[16];
+  char shields[16];
+  char trade[16];
+  int x, before_penalty;
+  
+  struct government *gov = get_gov_pplayer(game.player_ptr);
+  
+  x = get_food_tile(ptile);
+  before_penalty = gov->food_before_penalty;
+
+  if (before_penalty > 0 && x > before_penalty) {
+    my_snprintf(food, sizeof(food), "%d(-1)", x);
+  } else {
+    my_snprintf(food, sizeof(food), "%d", x);
+  }
+
+  x = get_shields_tile(ptile);
+  before_penalty = gov->shields_before_penalty;
+
+  if (before_penalty > 0 && x > before_penalty) {
+    my_snprintf(shields, sizeof(shields), "%d(-1)", x);
+  } else {
+    my_snprintf(shields, sizeof(shields), "%d", x);
+  }
+
+  x = get_trade_tile(ptile);
+  before_penalty = gov->trade_before_penalty;
+
+  if (before_penalty > 0 && x > before_penalty) {
+    my_snprintf(trade, sizeof(trade), "%d(-1)", x);
+  } else {
+    my_snprintf(trade, sizeof(trade), "%d", x);
+  }
+  
+  my_snprintf(s, sizeof(s), "%s/%s/%s", food, shields, trade);
+  return s;
+}
+
 /****************************************************************************
   Text to popup on a middle-click in the mapview.
 ****************************************************************************/
