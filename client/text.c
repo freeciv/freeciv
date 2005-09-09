@@ -39,12 +39,28 @@
 const char *get_tile_output_text(const struct tile *ptile)
 {
   static struct astring str = ASTRING_INIT;
+  int i;
+  char output_text[O_MAX][16];
+  struct government *gov;
+  
+  gov = get_gov_pplayer(game.player_ptr);
 
+  for (i = 0; i < O_MAX; i++) {
+    int before_penalty = gov->output_before_penalty[i];
+    int x = get_output_tile(ptile, i);
+    
+    if (before_penalty > 0 && x > before_penalty) {
+      my_snprintf(output_text[i], sizeof(output_text[i]), "%d(-1)", x);
+    } else {
+      my_snprintf(output_text[i], sizeof(output_text[i]), "%d", x);
+    }
+  }
+  
   astr_clear(&str);
-  astr_add_line(&str, "%d/%d/%d",
-		get_output_tile(ptile, O_FOOD),
-		get_output_tile(ptile, O_SHIELD),
-		get_output_tile(ptile, O_TRADE));
+  astr_add_line(&str, "%s/%s/%s",
+                output_text[O_FOOD],
+		output_text[O_SHIELD],
+		output_text[O_TRADE]);
 
   return str.str;
 }
