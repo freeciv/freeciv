@@ -39,8 +39,8 @@ tiles = { "row", "column", "tag"
 
 ; used by all city styles
 
- 0,  6, "city.european_occupied"
- 0,  6, "city.industrial_occupied"
+ 2,  11, "city.european_occupied"
+ 2,  11, "city.industrial_occupied"
 
 ;
 ; city tiles
