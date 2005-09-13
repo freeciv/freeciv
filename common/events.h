@@ -16,7 +16,6 @@
 #include "shared.h"          /* bool type */
 
 enum event_type {
-  E_NOEVENT = -1,
   E_CITY_CANTBUILD,
   E_CITY_LOST,
   E_CITY_LOVE,
