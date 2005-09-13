@@ -676,9 +676,11 @@ void choose_tech(struct player *plr, int tech)
 
 void choose_tech_goal(struct player *plr, int tech)
 {
-  notify_player(plr, _("Game: Technology goal is %s."),
-		get_tech_name(plr, tech));
-  plr->ai.tech_goal = tech;
+  if (plr->ai.tech_goal != tech) {
+    notify_player(plr, _("Game: Technology goal is %s."),
+		  get_tech_name(plr, tech));
+    plr->ai.tech_goal = tech;
+  }
 }
 
 /**************************************************************************
