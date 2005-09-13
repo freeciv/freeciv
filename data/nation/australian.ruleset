@@ -2,10 +2,14 @@
 
 name=_("Australian")
 plural=_("?plural:Australians")
-groups=_("Modern")
-legend=_("Australia was founded as a British penal colony in 1788AD. It is \
-the only country on earth to occupy an entire continent.")
-leader = "Robert Menzies", "Helen Leonard", "John Curtin", "Edna Lyon"
+groups=_("Modern"), _("Australian")
+legend=_("Australia was founded as a British penal colony in 1788AD. It is\
+ the only country on earth to occupy an entire continent.")
+leader =
+ "Robert Menzies",
+ "Helen Leonard",
+ "John Curtin",
+ "Edna Lyon"
 leader_sex = "Male", "Female", "Male", "Female"
 flag="australia"
 flag_alt = "-"
@@ -17,10 +21,11 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
+civilwar_nations="aborigines", "british"
 
+; Some of these cities could be moved to Aborigines nation.
 cities =
   "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide", "Perth",
   "Darwin", "Hobart", "Wollongong", "Rockhampton", "Launceston",
@@ -36,5 +41,3 @@ cities =
   "Queenstown", "Coober Pedy", "Bendigo", "Derby", "Cunnamulla", "Walgett",
   "Dampier", "Exmouth", "Yorketown", "Kiama", "Moe", "Warwick", "Gosford",
   "Bowen", "Ingham", "Gympie", "Caloundra", "Taree", "Katoomba", "Proserpine"
-
-
