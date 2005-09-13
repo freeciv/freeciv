@@ -177,6 +177,7 @@ const char *popup_info_text(struct tile *ptile)
   const char *activity_text;
   struct city *pcity = ptile->city;
   struct unit *punit = find_visible_unit(ptile);
+  struct unit *pfocus_unit = get_unit_in_focus();
   const char *diplo_nation_plural_adjectives[DS_LAST] =
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      "" /* unused, DS_CEASEFIRE*/,
@@ -230,7 +231,6 @@ const char *popup_info_text(struct tile *ptile)
      * borders are in use). */
     struct player *owner = city_owner(pcity);
     struct player_diplstate *ds = game.player_ptr->diplstates;
-    struct unit *apunit;
 
     if (owner == game.player_ptr){
       /* TRANS: "City: Warsaw (Polish)" */
@@ -259,10 +259,10 @@ const char *popup_info_text(struct tile *ptile)
       add("%s",_(" with City Walls"));
     }
 
-    if ((apunit = get_unit_in_focus())) {
-      struct city *hcity = find_city_by_id(apunit->homecity);
+    if (pfocus_unit) {
+      struct city *hcity = find_city_by_id(pfocus_unit->homecity);
 
-      if (unit_flag(apunit, F_TRADE_ROUTE)
+      if (unit_flag(pfocus_unit, F_TRADE_ROUTE)
 	  && can_cities_trade(hcity, pcity)
 	  && can_establish_trade_route(hcity, pcity)) {
 	/* TRANS: "Trade from Warsaw: 5" */
@@ -315,15 +315,24 @@ const char *popup_info_text(struct tile *ptile)
       }
     }
 
-    if (owner != game.player_ptr){
-      struct unit *apunit;
-      if ((apunit = get_unit_in_focus())) {
-	/* chance to win when active unit is attacking the selected unit */
-	int att_chance = unit_win_chance(apunit, punit) * 100;
-	
-	/* chance to win when selected unit is attacking the active unit */
-	int def_chance = (1.0 - unit_win_chance(punit, apunit)) * 100;
+    if (pfocus_unit) {
+      int att_chance = FC_INFINITY, def_chance = FC_INFINITY;
+      bool found = FALSE;
 
+      unit_list_iterate(ptile->units, tile_unit) {
+	if (tile_unit->owner != pfocus_unit->owner) {
+	  int att = unit_win_chance(pfocus_unit, tile_unit) * 100;
+	  int def = (1.0 - unit_win_chance(tile_unit, pfocus_unit)) * 100;
+
+	  found = TRUE;
+
+	  /* Presumably the best attacker and defender will be used. */
+	  att_chance = MIN(att, att_chance);
+	  def_chance = MIN(def, def_chance);
+	}
+      } unit_list_iterate_end;
+
+      if (found) {
 	/* TRANS: "Chance to win: A:95% D:46%" */
 	add_line(_("Chance to win: A:%d%% D:%d%%"),
 		 att_chance, def_chance);
