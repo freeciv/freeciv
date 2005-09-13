@@ -62,6 +62,9 @@ void notify_embassies(struct player *pplayer, struct player *exclude,
 void notify_team(struct player* pplayer, struct tile *ptile,
                  enum event_type event, const char *format, ...)
                  fc__attribute((format (printf, 4, 5)));
+void notify_research(struct player *pplayer,
+		     enum event_type event, const char *format, ...)
+                     fc__attribute((format (printf, 3, 4)));
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 

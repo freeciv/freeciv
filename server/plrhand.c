@@ -805,6 +805,28 @@ void notify_team(struct player *pplayer,
   va_end(args);
 }
 
+/****************************************************************************
+  Sends a message to all players that share research with pplayer.  Currently
+  this is all players on the same team but it may not always be that way.
+
+  Unlike other notify functions this one does not take a tile argument.  We
+  assume no research message will have a tile associated.
+****************************************************************************/
+void notify_research(struct player *pplayer,
+		     enum event_type event, const char *format, ...)
+{
+  va_list args;
+  struct player_research *research = get_player_research(pplayer);
+
+  /* This function is structured just like notify_team. */
+  va_start(args, format);
+  players_iterate(other_player) {
+    if (get_player_research(other_player) == research) {
+      vnotify_conn(other_player->connections, NULL, event, format, args);
+    }
+  } players_iterate_end;
+  va_end(args);
+}
 
 /**************************************************************************
   Send information about player src, or all players if src is NULL,
