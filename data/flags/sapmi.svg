@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Creator: CorelDRAW -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xml:space="preserve"
+   width="1818.0000pt"
+   height="1350.0000pt"
+   style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+   viewBox="0 0 8.5 11"
+   id="svg1342"
+   sodipodi:version="0.32"
+   inkscape:version="0.42.2"
+   sodipodi:docname="sapmi.svg"
+   sodipodi:docbase="/home/jdorje/src/freeciv/freeciv/data/flags"><metadata
+   id="metadata1358"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+   inkscape:window-height="513"
+   inkscape:window-width="754"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   borderopacity="1.0"
+   bordercolor="#666666"
+   pagecolor="#ffffff"
+   id="base"
+   inkscape:zoom="0.19694752"
+   inkscape:cx="1168.4392"
+   inkscape:cy="858.51457"
+   inkscape:window-x="0"
+   inkscape:window-y="27"
+   inkscape:current-layer="svg1342" />
+ <defs
+   id="defs1344">
+  <style
+   type="text/css"
+   id="style1346">
+   
+    .fil0 {fill:#0033AB}
+    .fil2 {fill:#007336}
+    .fil3 {fill:#D42E12}
+    .fil1 {fill:#F7D117}
+   
+  </style>
+ </defs>
+ <g
+   id="Layer_x0020_1"
+   transform="matrix(0.586667,0.000000,0.000000,0.586667,1.830003,2.273328)">
+  <metadata
+   id="CorelCorpID_0Corel-Layer" />
+  <g
+   id="_134557880">
+   <rect
+   id="_136607520"
+   class="fil0"
+   x="3.0625000"
+   y="-3.8750000"
+   width="13.687500"
+   height="18.750000"
+   style="fill:#0033ab" />
+   <rect
+   id="_136678936"
+   class="fil1"
+   x="1.3125000"
+   y="-3.8750000"
+   width="1.7500000"
+   height="18.750000"
+   style="fill:#f7d117" />
+   <rect
+   id="_136689144"
+   class="fil2"
+   x="-0.43750000"
+   y="-3.8750000"
+   width="1.7500000"
+   height="18.750000"
+   style="fill:#007336" />
+   <rect
+   id="_136695184"
+   class="fil3"
+   x="-8.5000000"
+   y="-3.8750000"
+   width="8.0625000"
+   height="18.750000"
+   style="fill:#d42e12" />
+   <path
+   id="_136686600"
+   class="fil0"
+   d="M 1.3125000,11.500000 C -2.0006500,11.500000 -4.6875000,8.8131500 -4.6875000,5.5000000 C -4.6875000,2.1868500 -2.0006500,-0.50000000 1.3125000,-0.50000000 L 1.3125000,11.500000 z M 1.3125000,10.500000 C -1.4484500,10.500000 -3.6875000,8.2609600 -3.6875000,5.5000000 C -3.6875000,2.7390500 -1.4484600,0.50000000 1.3125000,0.50000000 L 1.3125000,10.500000 z "
+   style="fill:#0033ab" />
+   <path
+   id="_136682368"
+   class="fil3"
+   d="M 1.3125000,-0.50000000 C 4.6256500,-0.50000000 7.3125000,2.1868500 7.3125000,5.5000000 C 7.3125000,8.8131500 4.6256500,11.500000 1.3125000,11.500000 L 1.3125000,-0.50000000 z M 1.3125000,0.50000000 C 4.0734500,0.50000000 6.3125000,2.7390400 6.3125000,5.5000000 C 6.3125000,8.2609500 4.0734600,10.500000 1.3125000,10.500000 L 1.3125000,0.50000000 z "
+   style="fill:#d42e12" />
+  </g>
+ </g>
+</svg>

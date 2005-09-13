@@ -1,0 +1,134 @@
+[nation_sami]
+
+name=_("Sami")
+plural=_("?plural:Sami")
+groups=_("Medieval"), _("European")
+legend=_("The Sami, or Lapps, are a people of northern Scandinavia. Their\
+ nation spans over the northernmost regions of the Scandinavian countries:\
+ Finnmark of Norway and Lapland of Sweden and Finland. They are famous for\
+ keeping reindeers as cattle.")
+leader=
+ "Lars Levi Læstadius",
+ "Aslak Hætta",
+ "Matts Heiva",
+ "Kuta-Vuorok",
+ "Elsa Laula",
+ "Ole Henrik Magga"
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+flag="sapmi"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Noyd"),         _("Noyd")
+                 "Republic",        _("Grand Noyd"),   _("Grand Noyd")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "finnish", "estonian"
+
+; Sami city names are taken from the northernmost regions of Norway 
+; (Finnmark) Sweden and Finland (Lapland) and also a few from Russia.
+; Some of these names use the classic orthography in the respective
+; countries while yet some use a more modern native Sami orthography.
+
+cities =
+ "Kautokeino", 			; Historical and de-facto capital
+ "Karasjok (river)",		; Site of Sami Parliament, Norway
+ "Giron",			; Site of Swedish Sami council (a.k.a Kiruna)
+ "Inari",			; Site of Finnish Sami council
+ "Lujávri (river, swamp)",
+ "Karesuando",
+ "Dálvvadis",
+ "Alta",
+ "Gällivare (mountains)",
+ "Kvikkjokk (river)",
+ "Murjek (swamp, river)",
+ "Karagasnjarga",
+ "Noarvas",
+ "Aiddejavvre (river, swamp)",
+ "Utsjok (river)",
+ "Thohkerasjavre (river, swamp)",
+ "Jäggeluokta (ocean)",
+ "Galanito",
+ "Miron",
+ "Jona",
+ "Reuda",
+ "Masi",
+ "Suolovuobme (forest)",
+ "Jotkajavvre (river, swamp)",
+ "Mollesjok (river)",
+ "Sjusjavrre (river, swamp)",
+ "Bæivašgiedde (grassland)",
+ "Jorgastak",
+ "Valjok (river)",
+ "Porjus",
+ "Abisko",
+ "Skoganvarre (hills, mountains)",
+ "Njoammelsasskam",
+ "Seida",
+ "Nuorgam",
+ "Polmak",
+ "Ivgovuonbahta",
+ "Rosta",
+ "Bilto",
+ "Galgo",
+ "Mierojokka (river)",
+ "Stuoranjargga",
+ "Šuošjavrre (river, swamp)",
+ "Maskjok (river)",
+ "Buollanjargga",
+ "Dorvinjargga",
+ "Ailegieddi (grassland)",
+ "Goržžam",
+ "Sautso",
+ "Sabitjåkka (river)",
+ "Gabna",
+ "Leavas",
+ "Girjjis",
+ "Vatsadsi",
+ "Håmojåkk (river)",
+ "Dokkas",
+ "Ullatti",
+ "Suorva",
+ "Peuraure",
+ "Jutis",
+ "Labbas",
+ "Lainijaur (river, swamp)",
+ "Adak",
+ "Baktsjaure (river, swamp)",
+ "Tellejokk (river)",
+ "Tjåmotis",
+ "Kitajaur (river, swamp)",
+ "Puottaure",
+ "Tårajaure (river, swamp)",
+ "Ligga",
+ "Nikkaluokta (ocean)",
+ "Saltoluokta (ocean)",
+ "Kuouka",
+ "Nuortikon",
+ "Ripats",
+ "Kilvo",
+ "Vuollerim",
+ "Manjaur (river, swamp)",
+ "Njunjes",
+ "Tjiengaluokta (ocean)",
+ "Stikkenjokk (river)",
+ "Gervenåkko",
+ "Vielmesmakke",
+ "Fättjaur (river, swamp)",
+ "Åike",
+ "Juksjaur (river, swamp)",
+ "Laiva",
+ "Sitasjaure (river, swamp)",
+ "Hukejaure (river, swamp)",
+ "Kårtjevuolle (river)",
+ "Tjatjajaure (river, swamp)",
+ "Sjangeli",
+ "Vassijaure (river, swamp)",
+ "Låktasjåkka (river)",
+ "Vuoskojaure (river, swamp)",
+ "Kätkesuando"

@@ -43,7 +43,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "korean", "filipino"
+civilwar_nations = "korean", "filipino", "ryukyuan"
 
 cities =
   "Tokyo (ocean)",
@@ -85,7 +85,6 @@ cities =
   "Takamatsu (ocean)",
   "Kochi (ocean)",
   "Toyama (ocean)",
-  "Naha (ocean)",
   "Aomori (ocean)",
   "Hakodate (ocean)",
   "Maebashi (!ocean)",

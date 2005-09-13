@@ -3,13 +3,14 @@
 name=_("Chinese")
 plural=_("?plural:Chinese")
 groups=_("Ancient"), _("Medieval"), _("Modern"), _("Asian")
-legend=_("China is the oldest major civilization that is still in existence \
-today, with written records dating back over 3,500 years.  After first being \
-unified by the Qin dynasty in 221BC, China alternated between periods of \
-unity and disunity, and was often conquered by external ethnicities.  Today, \
-the People's Republic of China, established by the Communists in 1949, \
-occupies the mainland, while the former Nationalist government of \
-the Republic of China had fled to the island of Taiwan after the civil war.")
+legend=_("China is the oldest major civilization that is still in existence\
+ today, with written records dating back over 3,500 years. After first being\
+ unified by the Qin dynasty in 221BC, China alternated between periods of\
+ unity and disunity, and was often conquered by external ethnicities. Today,\
+ the People's Republic of China, established by the Communists in 1949,\
+ occupies the mainland, while the former Nationalist government of\
+ the Republic of China had fled to the island of Taiwan after the civil\
+ war.")
 leader="Qin Shihuang", "Liu Bang", "Liu Bei", "Li Shimin", "Wu Zetian", 
        "Qianlong", "Cixi", "Sun Yat-Sen", "Mao Zedong", "Deng Xiaoping" 
 leader_sex="Male", "Male", "Male", "Male", "Female",
@@ -24,31 +25,115 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
-civilwar_nations = "vietnamese", "japanese", "korean"
+civilwar_nations = "vietnamese", "manchu", "tibetan"
 
 cities =
-  "Beijing", "Shanghai", "Guangzhou", "Tianjin", "Nanjing", 
-  "Xi'an", "Chongqing", "Chengdu", "Jinan", "Shijiazhuang", 
-  "Taiyuan", "Zhengzhou", "Wuhan", "Changsha", "Nanchang", 
-  "Hangzhou", "Fuzhou", "Hefei", "Guiyang", "Lanzhou", 
-  "Kunming", "Xining", "Nanning", "Yinchuan", "Shenyang", 
-  "Changchun", "Harbin", "Luoyang", "Kaifeng", "Qingdao", 
-  "Suzhou", "Wuxi", "Xiamen", "Haikou", "Hong Kong", 
-  "Datong", "Anyang", "Shangqiu", "Nanyang", "Dengfeng", 
-  "Handan", "Baoding", "Chengde", "Tangshan", "Zhangjiakou", 
-  "Yantai", "Zibo", "Jining", "Dezhou", "Qinhuangdao", 
-  "Changshu", "Gaoyou", "Nantong", "Zhenjiang", "Lianyungang", 
-  "Yangzhou", "Xuzhou", "Changzhou", "Wenzhou", "Huzhou", 
-  "Shaoxing", "Jiaxing", "Ningbo", "Zhangzhou", "Quanzhou", 
-  "Shantou", "Foshan", "Shenzhen", "Zhuhai", "Zhongshan", 
-  "Huizhou", "Chaozhou", "Ganzhou", "Jiujiang", "Jingdezhen", 
-  "Zhanjiang", "Liuzhou", "Beihai", "Guilin", "Yichang", 
-  "Xiangtan", "Zhuzhou", "Shaoyang", "Hengyang", "Yueyang", 
-  "Mianyang", "Zigong", "Xianyang", "Baoji", "Gejiu", 
-  "Tianshui", "Jiuquan", "Baiyin", "Dunhuang", "Jiayuguan", 
-  "Dalian", "Anshan", "Fushun", "Jilin", "Mudanjiang", 
-  "Liaoyang", "Dandong", "Baotou", "Heihe", 
-  "Bengbu", "Wuhu", "Anqing", "Ma'anshan"
+ "Beijing",
+ "Shanghai",
+ "Guangzhou",
+ "Tianjin",
+ "Nanjing", 
+ "Xi'an",
+ "Chongqing",
+ "Chengdu",
+ "Jinan",
+ "Shijiazhuang", 
+ "Taiyuan",
+ "Zhengzhou",
+ "Wuhan",
+ "Changsha",
+ "Nanchang", 
+ "Hangzhou",
+ "Fuzhou",
+ "Hefei",
+ "Guiyang",
+ "Lanzhou", 
+ "Kunming",
+ "Xining",
+ "Nanning",
+ "Yinchuan",
+ "Shenyang", 
+ "Changchun",
+ "Luoyang",
+ "Kaifeng",
+ "Qingdao", 
+ "Suzhou",
+ "Wuxi",
+ "Xiamen",
+ "Haikou",
+ "Hong Kong", 
+ "Datong",
+ "Anyang",
+ "Shangqiu",
+ "Nanyang",
+ "Dengfeng", 
+ "Handan",
+ "Baoding",
+ "Chengde",
+ "Tangshan",
+ "Zhangjiakou", 
+ "Yantai",
+ "Zibo",
+ "Jining",
+ "Dezhou",
+ "Qinhuangdao", 
+ "Changshu",
+ "Gaoyou",
+ "Nantong",
+ "Zhenjiang",
+ "Lianyungang", 
+ "Yangzhou",
+ "Xuzhou",
+ "Changzhou",
+ "Wenzhou",
+ "Huzhou", 
+ "Shaoxing",
+ "Jiaxing",
+ "Ningbo",
+ "Zhangzhou",
+ "Quanzhou", 
+ "Shantou",
+ "Foshan",
+ "Shenzhen",
+ "Zhuhai",
+ "Zhongshan", 
+ "Huizhou",
+ "Chaozhou",
+ "Ganzhou",
+ "Jiujiang",
+ "Jingdezhen", 
+ "Zhanjiang",
+ "Liuzhou",
+ "Beihai",
+ "Guilin",
+ "Yichang", 
+ "Xiangtan",
+ "Zhuzhou",
+ "Shaoyang",
+ "Hengyang",
+ "Yueyang", 
+ "Mianyang",
+ "Zigong",
+ "Xianyang",
+ "Baoji",
+ "Gejiu", 
+ "Tianshui",
+ "Jiuquan",
+ "Baiyin",
+ "Dunhuang",
+ "Jiayuguan", 
+ "Dalian",
+ "Anshan",
+ "Fushun",
+ "Jilin",
+ "Mudanjiang", 
+ "Liaoyang",
+ "Dandong",
+ "Baotou",
+ "Heihe", 
+ "Bengbu",
+ "Wuhu",
+ "Anqing",
+ "Ma'anshan"

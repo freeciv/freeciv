@@ -5,7 +5,9 @@
 pkgdatadir = $(datadir)/@PACKAGE@/nation
 
 pkgdata_DATA = \
+		aborigines.ruleset \
 		afghani.ruleset \
+		algerian.ruleset \
 		american.ruleset \
 		arab.ruleset \
 		argentine.ruleset \
@@ -28,9 +30,10 @@ pkgdata_DATA = \
 		catalan.ruleset \
 		chilean.ruleset \
 		chinese.ruleset \
-		columbian.ruleset \
+		colombian.ruleset \
 		cornish.ruleset \
 		croatian.ruleset \
+		cuban.ruleset \
 		czech.ruleset \
 		danish.ruleset \
 		dunedain.ruleset \
@@ -53,6 +56,7 @@ pkgdata_DATA = \
 		indian.ruleset \
 		indonesian.ruleset \
 		inuit.ruleset \
+		iraqi.ruleset \
 		irish.ruleset \
 		iroquois.ruleset \
 		israeli.ruleset \
@@ -61,9 +65,13 @@ pkgdata_DATA = \
 		kampuchean.ruleset \
 		kenyan.ruleset \
 		korean.ruleset \
+		lankese.ruleset \
 		latvian.ruleset \
+		libyan.ruleset \
 		lithuanian.ruleset \
 		malaysian.ruleset \
+		manchu.ruleset \
+		maori.ruleset \
 		martian.ruleset \
 		mexican.ruleset \
 		mongol.ruleset \
@@ -79,6 +87,8 @@ pkgdata_DATA = \
 		romanian.ruleset \
 		roman.ruleset \
 		russian.ruleset \
+		ryukyuan.ruleset \
+		sami.ruleset \
 		scottish.ruleset \
 		serbian.ruleset \
 		silesian.ruleset \
@@ -87,13 +97,17 @@ pkgdata_DATA = \
 		slovakian.ruleset \
 		slovenian.ruleset \
 		spanish.ruleset \
+		sudanese.ruleset \
 		sumerian.ruleset \
 		swedish.ruleset \
 		swiss.ruleset \
 		taiwanese.ruleset \
 		thai.ruleset \
+		tibetan.ruleset \
+		tunisian.ruleset \
 		turk.ruleset \
 		ukrainian.ruleset \
+		uyghur.ruleset \
 		venezuelan.ruleset \
 		vietnamese.ruleset \
 		viking.ruleset \

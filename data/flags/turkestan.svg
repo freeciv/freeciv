@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="200.00000px"
+   id="svg548"
+   inkscape:version="0.42.2"
+   sodipodi:docbase="/home/jdorje/src/freeciv/freeciv/data/flags"
+   sodipodi:docname="turkestan.svg"
+   sodipodi:version="0.32"
+   width="300.00000px"
+   inkscape:export-filename="/Users/daniel/Desktop/turkestan.png"
+   inkscape:export-xdpi="90.000000"
+   inkscape:export-ydpi="90.000000">
+  <metadata
+     id="metadata4495">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>East Turkestan nation</dc:title>
+        <dc:description />
+        <dc:subject>
+          <rdf:Bag />
+        </dc:subject>
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://www.openclipart.org">
+            <dc:title />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Daniel Markstedt</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title />
+          </cc:Agent>
+        </dc:rights>
+        <dc:date />
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://web.resource.org/cc/PublicDomain" />
+        <dc:language>en</dc:language>
+        <dc:contributor>
+          <cc:Agent>
+            <dc:title>Based on the Turkey flag by Sigge Kotliar</dc:title>
+          </cc:Agent>
+        </dc:contributor>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://web.resource.org/cc/PublicDomain">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs550" />
+  <sodipodi:namedview
+     gridspacingx="14.1732pt"
+     gridspacingy="14.1732pt"
+     id="base"
+     inkscape:cx="149.99993"
+     inkscape:cy="100.00004"
+     inkscape:window-height="720"
+     inkscape:window-width="926"
+     inkscape:window-x="0"
+     inkscape:window-y="34"
+     inkscape:zoom="2.7550013"
+     showgrid="true"
+     snaptogrid="false"
+     snaptoguides="true"
+     inkscape:current-layer="svg548" />
+  <g
+     id="g1841"
+     transform="matrix(0.555340,0.000000,0.000000,0.564973,-0.547443,-0.187367)">
+    <rect
+       height="353.99905"
+       id="rect551"
+       sodipodi:fill-cmyk="(0 0.89524 0.8 0.047619)"
+       style="font-size:12.000000px;fill:#006eff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       width="540.20935"
+       x="0.98577899"
+       y="0.33165646" />
+    <path
+       d="M 340.32924,152.69109 C 340.32924,152.69109 340.32924,152.69109 340.32924,152.69109"
+       id="path670"
+       style="font-size:12.000000px;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.50384588pt" />
+    <path
+       d="M 178.37312 445.63620 A 182.30783 182.30783 0 1 1  -186.24254,445.63620 A 182.30783 182.30783 0 1 1  178.37312 445.63620 z"
+       id="path614"
+       sodipodi:cx="-3.9347081"
+       sodipodi:cy="445.63620"
+       sodipodi:rx="182.30783"
+       sodipodi:ry="182.30783"
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000"
+       transform="matrix(0.493861,0.000000,0.000000,0.485441,182.9988,-38.99872)" />
+    <path
+       d="M -15.738815 157.09140 A 80.005592 80.005608 0 1 1  -175.75000,157.09140 A 80.005592 80.005608 0 1 1  -15.738815 157.09140 z"
+       id="path615"
+       sodipodi:cx="-95.744408"
+       sodipodi:cy="157.09140"
+       sodipodi:fill-cmyk="(0 0.9 0.8 0.05)"
+       sodipodi:rx="80.005592"
+       sodipodi:ry="80.005608"
+       sodipodi:type="arc"
+       style="fill:#006eff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000"
+       transform="matrix(0.900285,0.000000,0.000000,0.884934,289.7616,38.31572)" />
+    <path
+       d="M 288.61461,135.99124 L 287.88789,168.70659 L 257.36608,176.99282 L 287.45185,187.70728 L 286.72513,217.70818 L 306.34611,194.27913 L 335.99534,204.56499 L 318.84522,179.42105 L 339.77429,154.42047 L 307.65421,163.27767 L 288.61461,135.99124 z "
+       id="path563"
+       style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt" />
+  </g>
+</svg>

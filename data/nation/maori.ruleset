@@ -1,0 +1,67 @@
+[nation_maori]
+
+name=_("Maori")
+plural=_("?plural:Maori")
+groups=_("Medieval"), _("Australian")
+legend=_("The Maori are a Polynesian people that migrated to and settled the\
+ island group that is now New Zealand. According to archeological evidence,\
+ the migration commenced in the 900s and continued until the 1400s.")
+leader=
+ "Te Kooti",
+ "Hone Heke",
+ "Potatau",
+ "Tawhiao",
+ "Apirana Ngata",
+ "Te Atairangi Kaahu",
+ "Te Puea Herangi"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female", "Female"
+flag="maori"
+flag_alt = "-"
+city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Chief"),        _("Chief")
+}
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+; Note that putting "(ocean)" as a qualifier for every city probably won't
+; give very useful results.
+cities =
+ "Poneke (ocean)",     ; Maori name for Wellington
+ "Akarana",
+ "Otautahi (ocean)",
+ "Otepoti (ocean)",
+ "Waitakere",
+ "Manukau (ocean)",
+ "Te Maru (ocean)",
+ "Waiheke (ocean)",
+ "Matakana",
+ "Hokianga (ocean)",
+ "Manawatu (river, plains)",
+ "Waikato",
+ "Kawerau (hills)",
+ "Wairarapa",
+ "Te Aroha (grassland)",
+ "Urewera",
+ "Mahia",
+ "Waihi (ocean, mountains)",
+ "Kaipara (ocean)",
+ "Wairoa (ocean, plains)",
+ "Hikurangi (mountains)",
+ "Heretaunga (plains)",
+ "Hikurangi",
+ "Kamo",
+ "Tangiwai",
+ "Takapuna",
+ "Waitemata",
+ "Papatoetoe",
+ "Papakura",
+ "Tamaki",
+ "Porirua",
+ "Ngaio",
+ "Opotiki"

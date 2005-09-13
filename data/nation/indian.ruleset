@@ -3,7 +3,7 @@
 name=_("Indian")
 groups=_("Ancient"), _("Medieval"), _("Modern"), _("Asian")
 plural=_("?plural:Indians")
-leader="Gandhi", "Ashoka", "Chandragupta", "Indira Gandhi"
+leader="Mohandas Gandhi", "Ashoka", "Chandragupta", "Indira Gandhi"
 leader_sex="Male", "Male", "Male", "Female"
 flag="india"
 flag_alt = "-"
@@ -11,20 +11,50 @@ city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Maharaja"),     _("Maharaja")
+                 "Republic",        _("Mahatma"),      _("Mahatma")
                }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "arab"
+civilwar_nations = "arab", "lankese", "persian"
 
 cities =
-  "Delhi", "Bombay", "Madras", "Bangalore", "Calcutta",
-  "Lahore", "Karachi", "Ahmadabad", "Kanpur", "Hyderabad",
-  "Dacca", "Lucknow", "Benares", "Chandrigarh", "Rawalpindi",
-  "Colombo", "Madurai", "Coimbatore", "Calicut", "Trivandrum",
-  "Nagpur", "Chittagong", "Multan", "Amritsar", "Srinagar",
-  "Agra", "Bhopal", "Patna", "Surat", "Jaipur", "Varanasi",
-  "Allahabad", "Indore", "Mysore", "Raipur", "Gaya", "Cawnpore",
-  "Poona (hills)"
+ "Delhi",
+ "Bombay",
+ "Madras",
+ "Bangalore",
+ "Calcutta",
+ "Lahore",
+ "Karachi",
+ "Ahmadabad",
+ "Kanpur",
+ "Hyderabad",
+ "Dacca",
+ "Lucknow",
+ "Benares",
+ "Chandrigarh",
+ "Rawalpindi",
+ "Madurai",
+ "Coimbatore",
+ "Calicut",
+ "Trivandrum",
+ "Nagpur",
+ "Chittagong",
+ "Multan",
+ "Amritsar",
+ "Srinagar",
+ "Agra",
+ "Bhopal",
+ "Patna",
+ "Surat",
+ "Jaipur",
+ "Varanasi",
+ "Allahabad",
+ "Indore",
+ "Mysore",
+ "Raipur",
+ "Gaya",
+ "Cawnpore",
+ "Poona (hills)"

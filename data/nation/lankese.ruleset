@@ -1,0 +1,56 @@
+[nation_lankese]
+
+name=_("Lankese")
+groups=_("Ancient"), _("Medieval"), _("Modern"), _("Asian")
+plural=_("?plural:Lankese")
+legend=_("Prince Vijaya came to Sri Lanka from Orissa, in north-eastern\
+ India during the 6th century BC and founded the Sinhalese kingdom there.\
+ During British colonialism the country was known as Ceylon.")
+leader=
+ "Vijaya",
+ "Parakramabahu",
+ "Kasyapa",
+ "Junius Richard Jayewardene",
+ "Chandrika Kumaratunga"
+leader_sex="Male", "Male", "Male", "Male", "Female"
+flag="srilanka"
+flag_alt = "-"
+city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Governor"),     _("Governor")
+                 "Communism",  _("Supreme Commander"), _("Supreme Commander")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "indian"
+
+cities =
+ "Anuradhapura", ; The first six cities are all
+ "Polonnaruwa",  ; historical capitals of Sri Lanka
+ "Dambadeniya",
+ "Sri Jayewardenepura",
+ "Kandy",
+ "Colombo",
+ "Gimhathiththa",
+ "Jaffna",
+ "Kitulgala",
+ "Nuwara Eliya",
+ "Sigiriya",
+ "Trincomalee",
+ "Valvettithurai",
+ "Batticaloa",
+ "Dehiwala",
+ "Mt Lavinia",
+ "Matale",
+ "Moratuwa",
+ "Negombo",
+ "Ratnapura",
+ "Hambantota",
+ "Badulla",
+ "Puttalam",
+ "Kalpitiya",
+ "Mannar"

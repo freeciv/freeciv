@@ -17,12 +17,15 @@ artists = "
     Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
     Jan Heidefuss <jan_heidefuss@yahoo.de> (Bavarian)
     Ivan kosak <ivan.kosak@sk.tel.hr> (Croatia,Slovenia,Serbia)
-    Daniel Markstedt <himasaram@spray.se> (Iroquois)
+    Daniel Markstedt <himasaram@spray.se> (Iroquois,Maori,Ryukyu)
+    Dean Tersigni <thealmightyguru@gmail.com> (Sapmi)
 "
 [extra]
 sprites =
 	{	"tag", "file"
+		"f.aborigines", "flags/aborigines"   ; Australian Aborigines
 		"f.afghanistan", "flags/afghanistan"
+		"f.algeria", "flags/algeria"
 		"f.arab", "flags/arab"			; Saudi Arabia
 		"f.argentina", "flags/argentina"
 		"f.armenia", "flags/armenia"
@@ -43,7 +46,7 @@ sprites =
 		"f.cheyenne", "flags/cheyenne"
 		"f.chile", "flags/chile"
 		"f.china", "flags/china"
-		"f.columbia", "flags/columbia"
+		"f.colombia", "flags/colombia"
 ;		"f.constantine", "flags/constantine"
 		"f.cornwall", "flags/cornwall"
 		"f.croatia", "flags/croatia"
@@ -71,6 +74,7 @@ sprites =
 		"f.indonesia", "flags/indonesia"
 		"f.iran", "flags/iran"
 		"f.iraq_old", "flags/iraq_old"
+		"f.iraq", "flags/iraq"
 		"f.ireland", "flags/ireland"
 ;		"f.ireland", "flags/stpatrick"
 		"f.iroquois", "flags/iroquois"
@@ -82,9 +86,11 @@ sprites =
 		"f.korea", "flags/korea"
 		"f.krev", "flags/krev"
 		"f.latvia", "flags/latvia"
+		"f.libya", "flags/libya"
 		"f.lithuania", "flags/lithuania"
 		"f.macedonia", "flags/macedonia"
 		"f.malaysia", "flags/malaysia"
+		"f.maori", "flags/maori"
 		"f.mars", "flags/mars"
 		"f.mexico", "flags/mexico"
 		"f.mongolia", "flags/mongolia"
@@ -101,11 +107,14 @@ sprites =
 		"f.phoenicia", "flags/phoenicia"
 		"f.poland", "flags/poland"
 		"f.portugal", "flags/portugal"
+		"f.qing", "flags/qing"			; Manchu empire flag
 		"f.quebec", "flags/quebec"
 		"f.romania", "flags/romania"
 		"f.rome", "flags/rome"			; Roman republic flag
 		"f.russia", "flags/russia"
 		"f.rwanda", "flags/rwanda"		; Alternate Zulu
+		"f.ryukyu", "flags/ryukyu"
+		"f.sapmi", "flags/sapmi"
 		"f.scotland", "flags/scotland"
 		"f.serbia", "flags/serbia"
 		"f.silesia", "flags/silesia"
@@ -115,13 +124,17 @@ sprites =
 		"f.south_africa", "flags/south_africa"	; for Zulus
 		"f.soviet", "flags/soviet"
 		"f.spain", "flags/spain"
+		"f.srilanka", "flags/srilanka"
+		"f.sudan", "flags/sudan"
 		"f.sumeria", "flags/sumeria"
 		"f.sweden", "flags/sweden"
 		"f.switzerland", "flags/swiss"
 		"f.syria", "flags/syria"
 		"f.taiwan", "flags/taiwan"
 		"f.thailand", "flags/thailand"
+		"f.tibet", "flags/tibet"
 		"f.tunisia", "flags/tunisia"
+		"f.turkestan", "flags/turkestan" ; for Uyghur nation
 		"f.turkey", "flags/turkey"
 		"f.ukraine", "flags/ukraine"
 		"f.united_kingdom", "flags/united_kingdom"

@@ -12,7 +12,9 @@ artists = "
 [extra]
 sprites =
 	{	"tag", "file"
+		"f.shield.aborigines", "flags/aborigines-shield" ; Australian 
 		"f.shield.afghanistan", "flags/afghanistan-shield"
+		"f.shield.algeria", "flags/algeria-shield"
 		"f.shield.arab", "flags/arab-shield"		; Saudi Arabia
 		"f.shield.argentina", "flags/argentina-shield"
 		"f.shield.armenia", "flags/armenia-shield"
@@ -33,7 +35,7 @@ sprites =
 		"f.shield.cheyenne", "flags/cheyenne-shield"
 		"f.shield.chile", "flags/chile-shield"
 		"f.shield.china", "flags/china-shield"
-		"f.shield.columbia", "flags/columbia-shield"
+		"f.shield.colombia", "flags/colombia-shield"
 ;		"f.shield.constantine", "flags/constantine"
 		"f.shield.cornwall", "flags/cornwall-shield"
 		"f.shield.croatia", "flags/croatia-shield"
@@ -61,6 +63,7 @@ sprites =
 		"f.shield.indonesia", "flags/indonesia-shield"
 		"f.shield.iran", "flags/iran-shield"
 		"f.shield.iraq_old", "flags/iraq_old-shield"
+		"f.shield.iraq", "flags/iraq-shield"
 		"f.shield.ireland", "flags/ireland-shield"
 ;		"f.shield.ireland", "flags/stpatrick-shield"
 		"f.shield.iroquois", "flags/iroquois-shield"
@@ -72,9 +75,11 @@ sprites =
 		"f.shield.korea", "flags/korea-shield"
 		"f.shield.krev", "flags/krev-shield"
 		"f.shield.latvia", "flags/latvia-shield"
+		"f.shield.libya", "flags/libya-shield"
 		"f.shield.lithuania", "flags/lithuania-shield"
 		"f.shield.macedonia", "flags/macedonia-shield"
 		"f.shield.malaysia", "flags/malaysia-shield"
+		"f.shield.maori", "flags/maori-shield"
 		"f.shield.mars", "flags/mars-shield"
 		"f.shield.mexico", "flags/mexico-shield"
 		"f.shield.mongolia", "flags/mongolia-shield"
@@ -91,11 +96,14 @@ sprites =
 		"f.shield.phoenicia", "flags/phoenicia-shield"
 		"f.shield.poland", "flags/poland-shield"
 		"f.shield.portugal", "flags/portugal-shield"
+		"f.shield.qing", "flags/qing-shield"	; Manchu
 		"f.shield.quebec", "flags/quebec-shield"
 		"f.shield.romania", "flags/romania-shield"
 		"f.shield.rome", "flags/rome-shield"	; Roman republic flag
 		"f.shield.russia", "flags/russia-shield"
 		"f.shield.rwanda", "flags/rwanda-shield"; Alternate Zulu
+		"f.shield.ryukyu", "flags/ryukyu-shield"
+		"f.shield.sapmi", "flags/sapmi-shield"
 		"f.shield.scotland", "flags/scotland-shield"
 		"f.shield.serbia", "flags/serbia-shield"
 		"f.shield.silesia", "flags/silesia-shield"
@@ -105,13 +113,17 @@ sprites =
 		"f.shield.south_africa", "flags/south_africa-shield" ; Zulus
 		"f.shield.soviet", "flags/soviet-shield"
 		"f.shield.spain", "flags/spain-shield"
+		"f.shield.srilanka", "flags/srilanka-shield"
+		"f.shield.sudan", "flags/sudan-shield"
 		"f.shield.sumeria", "flags/sumeria-shield"
 		"f.shield.sweden", "flags/sweden-shield"
 		"f.shield.switzerland", "flags/swiss-shield"
 		"f.shield.syria", "flags/syria-shield"
 		"f.shield.taiwan", "flags/taiwan-shield"
+		"f.shield.tibet", "flags/tibet-shield"
 		"f.shield.thailand", "flags/thailand-shield"
 		"f.shield.tunisia", "flags/tunisia-shield"
+		"f.shield.turkestan", "flags/turkestan-shield" ; Uyghur
 		"f.shield.turkey", "flags/turkey-shield"
 		"f.shield.ukraine", "flags/ukraine-shield"
 		"f.shield.united_kingdom", "flags/united_kingdom-shield"

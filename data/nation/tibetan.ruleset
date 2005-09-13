@@ -1,0 +1,49 @@
+[nation_tibetan]
+
+name=_("Tibetan")
+plural=_("?plural:Tibetans")
+groups=_("Medieval"), _("Asian")
+legend=_("The Tibetans live in what is sometimes called the 'Roof of the\
+ World', the highest elevated region in the world. The country has been\
+ subjugated by and then liberated from China several times throughout\
+ history.")
+leader="Dalai Lama"
+leader_sex="Male"
+flag="tibet"
+flag_alt = "-"
+city_style = "Asian"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "mongol", "indian"
+
+cities =
+ "Lhasa",
+ "Shigatse",
+ "Gyantse",
+ "Chamdo",
+ "Nagchu",
+ "Nyingchi",
+ "Nedong",
+ "Dartsendo",
+ "Jyekundo",
+ "Golmud",
+ "Barkam",
+ "Gartse",
+ "Lhatse",
+ "Machen",
+ "Pelbar",
+ "Sakya",
+ "Tingri",
+ "Shekar",
+ "Dingri",
+ "Kyirong",
+ "Gartok",
+ "Ruthok",
+ "Tsetang",
+ "Pome",
+ "Derge",
+ "Kandze",
+ "Mili"

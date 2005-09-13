@@ -1,0 +1,48 @@
+[nation_sudanese]
+
+name=_("Sudanese")
+plural=_("?plural:Sudanese")
+groups=_("Modern"), _("African")
+legend=_("In 1820 Sudan came under Egyptian rule and later British rule.\
+ Sudan became independent in 1956.")
+leader=
+ "Muhammad ibn Abdalla",
+ "Gaadar Muhammad Nimeiri",
+ "Suwar al-Dahab",
+ "Omar Hassan el-Bashir",
+ "Ibrahim Abboud",
+ "Sadiq el-Mahdi",
+ "Jaafar el-Nemery",
+ "Abdul Rahman Swaredahab"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+flag="sudan"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "libyan", "egyptian"
+
+cities =
+  "Khartoum",
+  "Omdurman",
+  "Al Fáshir",
+  "Nyala",
+  "Wáw",
+  "Malakál",
+  "Al Qadárif",
+  "Atbara",
+  "Port Sudan (ocean)",
+  "Wádi Haifa",
+  "Kassala",
+  "Kusti",
+  "Bor",
+  "Juba",
+  "Nimule",
+  "Kosti",
+  "El Obeid",
+  "Geneina",
+  "Atbara",
+  "Merowe"
