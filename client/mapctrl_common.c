@@ -322,7 +322,6 @@ void key_city_overlay(int canvas_x, int canvas_y)
 **************************************************************************/
 void clipboard_copy_production(struct tile *ptile)
 {
-  char msg[MAX_LEN_MSG];
   struct city *pcity = ptile->city;
 
   if (pcity) {
@@ -336,10 +335,9 @@ void clipboard_copy_production(struct tile *ptile)
       return;
     }
     if (!can_player_build_unit_direct(game.player_ptr, punit->type))  {
-      my_snprintf(msg, sizeof(msg),
-      _("You don't know how to build %s!"),
-		  punit->type->name);
-      append_output_window(msg);
+      create_event(ptile, E_BAD_COMMAND,
+		   _("You don't know how to build %s!"),
+		   punit->type->name);
       return;
     }
     clipboard.is_unit = TRUE;
@@ -347,10 +345,10 @@ void clipboard_copy_production(struct tile *ptile)
   }
   upgrade_canvas_clipboard();
 
-  my_snprintf(msg, sizeof(msg), _("Copy %s to clipboard."),
-	      clipboard.is_unit ? get_unit_type(clipboard.value)->name
-	      : get_improvement_name(clipboard.value));
-  append_output_window(msg);
+  create_event(ptile, E_CITY_PRODUCTION_CHANGED, /* ? */
+	       _("Copy %s to clipboard."),
+	       clipboard.is_unit ? get_unit_type(clipboard.value)->name
+	       : get_improvement_name(clipboard.value));
 }
 
 /**************************************************************************
@@ -363,8 +361,7 @@ void clipboard_paste_production(struct city *pcity)
     return;
   }
   if (clipboard.value == -1) {
-    append_output_window(
-    _("Clipboard is empty."));
+    create_event(pcity->tile, E_BAD_COMMAND, _("Clipboard is empty."));
     return;
   }
   if (!tiles_hilited_cities) {

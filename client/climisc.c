@@ -160,16 +160,14 @@ could be improvements or units. X and Y are compound ids.
 void client_change_all(struct city_production from,
 		       struct city_production to)
 {
-  char buf[512];
   int last_request_id = 0;
 
-  my_snprintf(buf, sizeof(buf),
-	      _("Changing production of every %s into %s."),
-	      from.is_unit ? get_unit_type(from.value)->name
-	      : get_improvement_name(from.value),
-	      to.is_unit ? get_unit_type(to.value)->name
-	      : get_improvement_name(to.value));
-  append_output_window(buf);
+  create_event(NULL, E_CITY_PRODUCTION_CHANGED,
+	       _("Changing production of every %s into %s."),
+	       from.is_unit ? get_unit_type(from.value)->name
+	       : get_improvement_name(from.value),
+	       to.is_unit ? get_unit_type(to.value)->name
+	       : get_improvement_name(to.value));
 
   connection_do_buffer(&aconnection);
   city_list_iterate (game.player_ptr->cities, pcity) {
@@ -993,21 +991,17 @@ void cityrep_buy(struct city *pcity)
   int value = city_buy_cost(pcity);
 
   if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
-    char buf[512];
-
     assert(!pcity->production.is_unit);
-    my_snprintf(buf, sizeof(buf),
+    create_event(pcity->tile, E_BAD_COMMAND,
 		_("You don't buy %s in %s!"),
 		get_improvement_name(pcity->production.value),
 		pcity->name);
-    append_output_window(buf);
     return;
   }
 
   if (game.player_ptr->economic.gold >= value) {
     city_buy_production(pcity);
   } else {
-    char buf[512];
     const char *name;
 
     if (pcity->production.is_unit) {
@@ -1016,10 +1010,9 @@ void cityrep_buy(struct city *pcity)
       name = get_impr_name_ex(pcity, pcity->production.value);
     }
 
-    my_snprintf(buf, sizeof(buf),
-		_("%s costs %d gold and you only have %d gold."),
-		name, value, game.player_ptr->economic.gold);
-    append_output_window(buf);
+    create_event(NULL, E_BAD_COMMAND,
+		 _("%s costs %d gold and you only have %d gold."),
+		 name, value, game.player_ptr->economic.gold);
   }
 }
 
