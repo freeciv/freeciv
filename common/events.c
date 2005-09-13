@@ -26,7 +26,7 @@
 #include "events.h"
 
 #define GEN_EV(descr, event) { #event, NULL, descr, NULL, event }
-#define GEN_EV_TERMINATOR { NULL, NULL, NULL, NULL, -1 }
+#define GEN_EV_TERMINATOR { NULL, NULL, NULL, NULL, 0 }
 
 /*
  * Holds information about all event types. The entries don't have
@@ -246,12 +246,9 @@ void events_init(void)
     event_to_index[i] = 0;
   }
 
-  for (i = 0;; i++) {
+  for (i = 0; events[i].enum_name; i++) {
     int j;
 
-    if (events[i].event < 0) {
-      break;
-    }
     events[i].descr = _(events[i].descr_orig);
     event_to_index[events[i].event] = i;
     events[i].tag_name = mystrdup(events[i].enum_name);
