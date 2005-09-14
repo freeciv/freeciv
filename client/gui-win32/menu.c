@@ -1096,9 +1096,9 @@ update_menus(void)
     }
 
     if ((punit = get_unit_in_focus())) {
-      const char *irrfmt = N_("Change to %s") "\tI";
-      const char *minfmt = N_("Change to %s") "\tM";
-      const char *transfmt = N_("Transform to %s") "\tO";
+      const char *irrfmt = _("Change to %s");
+      const char *minfmt = _("Change to %s");
+      const char *transfmt = _("Transform to %s");
       char irrtext[128], mintext[128], transtext[128];
       char *roadtext;
       struct terrain *pterrain;
@@ -1212,6 +1212,7 @@ update_menus(void)
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		    get_tile_change_menu_text(punit->tile,
 					      ACTIVITY_IRRIGATE));
+ 	sz_strlcat(irrtext, "\tI");
       } else if (tile_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
@@ -1221,12 +1222,14 @@ update_menus(void)
 	  && pterrain->mining_result != pterrain) {
 	my_snprintf(mintext, sizeof(mintext), minfmt,
 		    get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
+ 	sz_strlcat(mintext, "\tM");
       }
       if (pterrain->transform_result != T_NONE
 	  && pterrain->transform_result != pterrain) {
 	my_snprintf(transtext, sizeof(transtext), transfmt,
 		    get_tile_change_menu_text(punit->tile,
 					      ACTIVITY_TRANSFORM));
+ 	sz_strlcat(transtext, "\tO");
       }
 
       my_rename_menu(menu, IDM_ORDERS_IRRIGATE, irrtext);

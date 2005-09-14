@@ -309,19 +309,19 @@ popup_rates_dialog(void)
     fcwin_box_add_groupbox(vbox,_("Tax"),hbox,0,FALSE,FALSE,10);
     ratesdlg_add_scroll(hbox,ID_RATES_TAX);
     fcwin_box_add_static(hbox,"100%",0,SS_RIGHT,FALSE,FALSE,20);
-    fcwin_box_add_checkbox(hbox,"Lock",ID_RATES_TAXLOCK,0,FALSE,FALSE,20);
+    fcwin_box_add_checkbox(hbox,_("Lock"),ID_RATES_TAXLOCK,0,FALSE,FALSE,20);
     
     hbox=fcwin_hbox_new(ratesdlg,FALSE);
     fcwin_box_add_groupbox(vbox,_("Luxury"),hbox,0,FALSE,FALSE,10);  
     ratesdlg_add_scroll(hbox,ID_RATES_LUXURY);
     fcwin_box_add_static(hbox,"100%",0,SS_RIGHT,FALSE,FALSE,20);
-    fcwin_box_add_checkbox(hbox,"Lock",ID_RATES_LUXURYLOCK,0,FALSE,FALSE,20);
+    fcwin_box_add_checkbox(hbox,_("Lock"),ID_RATES_LUXURYLOCK,0,FALSE,FALSE,20);
 
     hbox=fcwin_hbox_new(ratesdlg,FALSE);
     fcwin_box_add_groupbox(vbox,_("Science"),hbox,0,FALSE,FALSE,10);
     ratesdlg_add_scroll(hbox,ID_RATES_SCIENCE);
     fcwin_box_add_static(hbox,"100%",0,SS_RIGHT,FALSE,FALSE,20);
-    fcwin_box_add_checkbox(hbox,"Lock",ID_RATES_SCIENCELOCK,0,FALSE,FALSE,20);
+    fcwin_box_add_checkbox(hbox,_("Lock"),ID_RATES_SCIENCELOCK,0,FALSE,FALSE,20);
     hbox=fcwin_hbox_new(ratesdlg,TRUE);
 
     fcwin_box_add_button(hbox,_("Ok"),IDOK,0,TRUE,TRUE,20);

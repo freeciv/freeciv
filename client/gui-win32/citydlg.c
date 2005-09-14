@@ -693,7 +693,8 @@ static struct fcwin_box *create_city_info_table(HWND owner, HWND *info_label)
 	padding = 0;
     }
     
-    label = fcwin_box_add_static(column1, output_label[i], 0, SS_LEFT, FALSE, FALSE, padding);
+    label = fcwin_box_add_static(column1, _(output_label[i]), 0, SS_LEFT,
+				 FALSE, FALSE, padding);
     SendMessage(label,
 	      WM_SETFONT,(WPARAM) font_12courier,MAKELPARAM(TRUE,0)); 
 
