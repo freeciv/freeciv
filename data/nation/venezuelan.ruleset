@@ -1,6 +1,7 @@
 [nation_venezuelan]
 
-name=_("Venezuelan")
+; Changing the name will break savegames
+name=_("Venezuela")
 plural=_("?plural:Venezuelans")
 groups=_("American"), _("Modern")
 legend=_("Venezuela is the most northern country in South America. Having\
