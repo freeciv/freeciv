@@ -478,7 +478,7 @@ static void populate_nation_listview(struct nation_group* group, HWND listview)
   nations_iterate(pnation) {
     char *strings[1];
 
-    if (!is_nation_playable(pnation) || pnation->is_unavailable) {
+    if (!is_nation_playable(pnation) || !pnation->is_available) {
       continue;
     }
 
