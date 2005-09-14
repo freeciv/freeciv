@@ -78,26 +78,26 @@ static void select_help_item(int item);
 static void select_help_item_string(const char *item,
                                     enum help_page_type htype);
 char *help_ilabel_name[6] =
-{ N_("Cost:"), "", N_("Upkeep:"), "", N_("Requirement:"), "" };
+{ N_("Cost:"), NULL, N_("Upkeep:"), NULL, N_("Requirement:"), NULL };
  
 char *help_wlabel_name[6] =
-{ N_("Cost:"), "", N_("Requirement:"), "", N_("Obsolete by:"), "" };
+{ N_("Cost:"), NULL, N_("Requirement:"), NULL, N_("Obsolete by:"), NULL };
  
 char *help_ulabel_name[5][5] =
 {
-    { N_("Cost:"),"",           "", N_("Attack:"),  "" },
-    { N_("Defense:"),"",        "", N_("Move:"),       "" },
-    { N_("FirePower:"),"",      "", N_("Hitpoints:"),       "" },
-    { N_("Basic Upkeep:"),"",   "", N_("Vision:"),  "" },
-    { N_("Requirement:"),"",    "", N_("Obsolete by:"),     "" }
+    { N_("Cost:"),         NULL, NULL, N_("Attack:"),      NULL },
+    { N_("Defense:"),      NULL, NULL, N_("Move:"),        NULL },
+    { N_("FirePower:"),    NULL, NULL, N_("Hitpoints:"),   NULL },
+    { N_("Basic Upkeep:"), NULL, NULL, N_("Vision:"),      NULL },
+    { N_("Requirement:"),  NULL, NULL, N_("Obsolete by:"), NULL }
 };
  
 char *help_tlabel_name[4][5] =
 {
-    { N_("Move/Defense:"),"",          "", N_("Food/Res/Trade:"),  "" },
-    { N_("Sp1 F/R/T:"),"",            "", N_("Sp2 F/R/T:"),               "" },
-    { N_("Road Rslt/Time:"),"",        "", N_("Irrig. Rslt/Time:"),        "" },
-    { N_("Mine Rslt/Time:"),"",        "", N_("Trans. Rslt/Time:"),        "" }
+    { N_("Move/Defense:"),   NULL, NULL, N_("Food/Res/Trade:"),   NULL },
+    { N_("Sp1 F/R/T:"),      NULL, NULL, N_("Sp2 F/R/T:"),        NULL },
+    { N_("Road Rslt/Time:"), NULL, NULL, N_("Irrig. Rslt/Time:"), NULL },
+    { N_("Mine Rslt/Time:"), NULL, NULL, N_("Trans. Rslt/Time:"), NULL }
 };                                 
 
 static void help_draw_unit(HDC hdc,int i);
@@ -342,18 +342,18 @@ static void create_unit_page(struct fcwin_box *vbox)
     fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,15);
     for(y=0;y<4;y++) {
       help_ulabel[y][x]=
-	fcwin_box_add_static(vbox_labels,help_ulabel_name[y][x],0,SS_LEFT,
-			     FALSE,FALSE,0);
+	fcwin_box_add_static(vbox_labels, _(help_ulabel_name[y][x]), 0,
+			     SS_LEFT, FALSE, FALSE, 0);
     }
     if ((x==1)||(x==4))
       help_ulabel[y][x]=
-	fcwin_box_add_button(vbox_labels,help_ulabel_name[y][x],
+	fcwin_box_add_button(vbox_labels, _(help_ulabel_name[y][x]),
 			     x==1?ID_HELP_TECH_LINK:ID_HELP_UNIT_LINK,
 			     0,TRUE,TRUE,0);
     else
       help_ulabel[y][x]=
-	fcwin_box_add_static(vbox_labels,help_ulabel_name[y][x],0,SS_LEFT,
-			     TRUE,TRUE,0);
+	fcwin_box_add_static(vbox_labels, _(help_ulabel_name[y][x]), 0,
+			     SS_LEFT, TRUE, TRUE, 0);
   }
 }
 
@@ -372,8 +372,8 @@ static void create_terrain_page(struct fcwin_box *vbox)
     fcwin_box_add_box(hbox,vbox_labels,TRUE,TRUE,15);
     for(y=0;y<4;y++) {
       help_tlabel[y][x]=
-	fcwin_box_add_static(vbox_labels,help_tlabel_name[y][x],0,SS_LEFT,
-			     FALSE,FALSE,0);
+	fcwin_box_add_static(vbox_labels, _(help_tlabel_name[y][x]), 0,
+			     SS_LEFT, FALSE, FALSE, 0);
     }
   }
 }
@@ -633,7 +633,7 @@ static void help_update_terrain(const struct help_item *pitem,
 	      get_tile_type(ptype->transform_result)->terrain_name,
 	      ptype->transform_time);
     } else {
-      strcpy(buf, "n/a");
+      strcpy(buf, _("n/a"));
     }
     SetWindowText(help_tlabel[3][4], buf);
   }

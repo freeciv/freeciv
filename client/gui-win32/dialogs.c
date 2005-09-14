@@ -719,7 +719,8 @@ popup_unit_select_dialog(struct tile *ptile)
   }
   
   GetCursorPos(&pt);
-  if (!(unit_select_main=CreateWindow("freecivunitselect","Unit Selection",
+  if (!(unit_select_main=CreateWindow("freecivunitselect",
+				      _("Unit Selection"),
 				      WS_POPUP | WS_CAPTION | WS_SYSMENU,
 				      pt.x+20,
 				      pt.y+20,

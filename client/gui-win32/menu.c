@@ -1085,9 +1085,9 @@ update_menus(void)
     }
 
     if ((punit = get_unit_in_focus())) {
-      const char *irrfmt = N_("Change to %s") "\tI";
-      const char *minfmt = N_("Change to %s") "\tM";
-      const char *transfmt = N_("Transform to %s") "\tO";
+      const char *irrfmt = _("Change to %s");
+      const char *minfmt = _("Change to %s");
+      const char *transfmt = _("Transform to %s");
       char irrtext[128], mintext[128], transtext[128];
       char *roadtext;
       Terrain_type_id  ttype;
@@ -1202,6 +1202,7 @@ update_menus(void)
 	  && tinfo->irrigation_result != ttype) {
 	my_snprintf(irrtext, sizeof(irrtext), irrfmt,
 		    (get_tile_type(tinfo->irrigation_result))->terrain_name);
+	sz_strlcat(irrtext, "\tI");
       } else if (map_has_special(punit->tile, S_IRRIGATION)
 		 && player_knows_techs_with_flag(game.player_ptr,
 						 TF_FARMLAND)) {
@@ -1211,11 +1212,13 @@ update_menus(void)
 	  && tinfo->mining_result != ttype) {
 	my_snprintf(mintext, sizeof(mintext), minfmt,
 		    (get_tile_type(tinfo->mining_result))->terrain_name);
+	sz_strlcat(mintext, "\tM");
       }
       if (tinfo->transform_result != T_NONE
 	  && tinfo->transform_result != ttype) {
 	my_snprintf(transtext, sizeof(transtext), transfmt,
 		    (get_tile_type(tinfo->transform_result))->terrain_name);
+	sz_strlcat(transtext, "\tO");
       }
 
       my_rename_menu(menu, IDM_ORDERS_IRRIGATE, irrtext);
