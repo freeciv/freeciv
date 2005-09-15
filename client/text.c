@@ -283,6 +283,7 @@ const char *popup_info_text(struct tile *ptile)
     struct player *owner = unit_owner(punit);
     struct player_diplstate *ds = game.player_ptr->diplstates;
     struct unit_type *ptype = unit_type(punit);
+    char vet[1024] = "";
 
     if (owner == game.player_ptr){
       struct city *pcity;
@@ -339,13 +340,15 @@ const char *popup_info_text(struct tile *ptile)
       }
     }
 
+    my_snprintf(vet, sizeof(vet), " (%s)",
+		_(unit_type(punit)->veteran[punit->veteran].name));
+
     /* TRANS: A is attack power, D is defense power, FP is firepower,
      * HP is hitpoints (current and max). */
-    /* FIXME: veteran status isn't handled properly here. */
     add_line(_("A:%d D:%d FP:%d HP:%d/%d%s"),
 	     ptype->attack_strength, 
 	     ptype->defense_strength, ptype->firepower, punit->hp, 
-	     ptype->hp, punit->veteran ? _(" V") : "");
+	     ptype->hp, vet);
     if (owner == game.player_ptr
 	&& unit_list_size(&ptile->units) >= 2) {
       /* TRANS: "5 more" units on this tile */
