@@ -1609,15 +1609,15 @@ void wipe_unit(struct unit *punit)
 }
 
 /**************************************************************************
-this is a highlevel routine
-the unit has been killed in combat => all other units on the
-tile dies unless ...
+  Called when one unit kills another in combat (this function is only
+  called in one place).  It handles all side effects including
+  notifications and killstack.
 **************************************************************************/
-void kill_unit(struct unit *pkiller, struct unit *punit)
+void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 {
   struct player *pplayer   = unit_owner(punit);
   struct player *destroyer = unit_owner(pkiller);
-  char *loc_str = get_location_str_in(pplayer, punit->tile);
+  const char *loc_str = get_location_str_in(pplayer, punit->tile);
   int ransom, unitcount = 0;
   
   /* barbarian leader ransom hack */
@@ -1643,6 +1643,22 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
   }
 
   if (!is_stack_vulnerable(punit->tile) || unitcount == 1) {
+    if (vet) {
+      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+		    _("Your attacking %s succeeded"
+		      " against %s's %s%s and became more experienced!"),
+		    unit_name(pkiller->type),
+		    unit_owner(punit)->name, unit_name(punit->type),
+		    get_location_str_at(unit_owner(pkiller),
+					punit->tile));
+    } else {
+      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+		    _("Your attacking %s succeeded against %s's %s%s!"),
+		    unit_name(pkiller->type),
+		    unit_owner(punit)->name, unit_name(punit->type),
+		    get_location_str_at(unit_owner(pkiller),
+					punit->tile));
+    }
     notify_player(pplayer, punit->tile, E_UNIT_LOST,
 		     _("%s lost to an attack by %s's %s%s."),
 		     unit_type(punit)->name, destroyer->name,
@@ -1655,9 +1671,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
     struct unit *other_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
-    if (!(unitcount > 1)) {
-      die("Error in kill_unit, unitcount is %i", unitcount);
-    }
+    assert(unitcount > 1);
+
     /* initialize */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
       num_killed[i] = 0;
@@ -1670,9 +1685,36 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
 	num_killed[vunit->owner->player_no]++;
 	if (vunit != punit) {
 	  other_killed[vunit->owner->player_no] = vunit;
+	  other_killed[destroyer->player_no] = vunit;
 	}
       }
     } unit_list_iterate_end;
+
+    /* Inform the destroyer: lots of different cases here! */
+    if (vet) {
+      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+		    PL_("Your attacking %s succeeded against %s's %s "
+			"(and %d other unit)%s and became more experienced!",
+			"Your attacking %s succeeded against %s's %s "
+			"(and %d other units)%s and became more experienced!",
+			unitcount),
+		    unit_name(pkiller->type),
+		    unit_owner(punit)->name, unit_name(punit->type),
+		    unitcount,
+		    get_location_str_at(unit_owner(pkiller),
+					punit->tile));
+    } else {
+      notify_player(unit_owner(pkiller), pkiller->tile, E_UNIT_WIN_ATT,
+		    PL_("Your attacking %s succeeded against %s's %s "
+			"(and %d other unit)%s!",
+			"Your attacking %s succeeded against %s's %s "
+			"(and %d other units)%s!", unitcount),
+		    unit_name(pkiller->type),
+		    unit_owner(punit)->name, unit_name(punit->type),
+		    unitcount,
+		    get_location_str_at(unit_owner(pkiller),
+					punit->tile));
+    }
 
     /* inform the owners: this only tells about owned units that were killed.
      * there may have been 20 units who died but if only 2 belonged to the

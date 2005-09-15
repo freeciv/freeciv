@@ -885,31 +885,11 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	    unit_owner(pdefender)->name, unit_type(pdefender)->name);
 
     punit->moved = TRUE;	/* We moved */
-    if (vet && !unit_flag(punit, F_MISSILE)) {
-      notify_player(unit_owner(pwinner), punit->tile,
-		       E_UNIT_WIN_ATT,
-		       _("Your attacking %s succeeded"
-		         " against %s's %s%s and became more experienced!"),
-		       unit_name(pwinner->type),
-		       unit_owner(plooser)->name, unit_name(plooser->type),
-		       get_location_str_at(unit_owner(pwinner),
-		       plooser->tile));
-    } else {
-      notify_player(unit_owner(pwinner), punit->tile,
-		       E_UNIT_WIN_ATT,
-		       _("Your attacking %s succeeded"
-		         " against %s's %s%s!"),
-		       unit_name(pwinner->type),
-		       unit_owner(plooser)->name, unit_name(plooser->type),
-		       get_location_str_at(unit_owner(pwinner),
-		       plooser->tile));
+    kill_unit(pwinner, plooser, vet && !unit_flag(punit, F_MISSILE));
+    if (unit_flag(pwinner, F_MISSILE)) {
+      wipe_unit(pwinner);
+      return;
     }
-    kill_unit(pwinner, plooser);
-               /* no longer pplayer - want better msgs -- Syela */
-  }
-  if (pwinner == punit && unit_flag(punit, F_MISSILE)) {
-    wipe_unit(pwinner);
-    return;
   }
 
   /* If attacker wins, and occupychance > 0, it might move in.  Don't move in
