@@ -1491,7 +1491,7 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 			 punit->tile, E_UNIT_LOST,
 			 _("Disbanded your %s due to changing terrain."),
 			 unit_name(punit->type));
-	wipe_unit_spec_safe(punit, FALSE);
+	wipe_unit(punit);
       }
     }
   } unit_list_iterate_safe_end;

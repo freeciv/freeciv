@@ -1503,8 +1503,9 @@ static void server_remove_unit(struct unit *punit)
   Remove the unit, and passengers if it is a carrying any. Remove the 
   _minimum_ number, eg there could be another boat on the square.
 **************************************************************************/
-void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
+void wipe_unit(struct unit *punit)
 {
+  bool wipe_cargo = TRUE; /* This used to be a function parameter. */
   struct tile *ptile = punit->tile;
   struct player *pplayer = unit_owner(punit);
   struct unit_type *ptype = unit_type(punit);
@@ -1605,14 +1606,6 @@ void wipe_unit_spec_safe(struct unit *punit, bool wipe_cargo)
       }
     } unit_list_iterate_end;
   }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void wipe_unit(struct unit *punit)
-{
-  wipe_unit_spec_safe(punit, TRUE);
 }
 
 /**************************************************************************
@@ -1746,13 +1739,12 @@ void kill_unit(struct unit *pkiller, struct unit *punit)
     }
 
     /* remove the units */
-    unit_list_iterate(punit->tile->units, punit2) {
+    unit_list_iterate_safe(punit->tile->units, punit2) {
       if (pplayers_at_war(unit_owner(pkiller), unit_owner(punit2))) {
         gamelog(GAMELOG_UNITLOSS, punit2, destroyer);
-	wipe_unit_spec_safe(punit2, FALSE);
+	wipe_unit(punit2);
       }
-    }
-    unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
   }
 }
 
@@ -1982,7 +1974,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 {
   struct city *pcity = tile_get_city(ptile);
 
-  unit_list_iterate(ptile->units, punit) {
+  unit_list_iterate_safe(ptile->units, punit) {
     notify_player(unit_owner(punit), ptile, E_UNIT_LOST,
 		     _("Your %s was nuked by %s."),
 		     unit_name(punit->type),
@@ -1994,8 +1986,8 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 		       unit_owner(punit)->name,
 		       unit_name(punit->type));
     }
-    wipe_unit_spec_safe(punit, FALSE);
-  } unit_list_iterate_end;
+    wipe_unit(punit);
+  } unit_list_iterate_safe_end;
 
   if (pcity) {
     notify_player(city_owner(pcity),
