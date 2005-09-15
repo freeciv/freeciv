@@ -243,11 +243,12 @@ const char *popup_info_text(struct tile *ptile)
 
     /* TRANS: A is attack power, D is defense power, FP is firepower,
      * HP is hitpoints (current and max). */
-    /* FIXME: veteran status isn't handled properly here. */
-    astr_add_line(&str, _("A:%d D:%d FP:%d HP:%d/%d%s"),
+    astr_add_line(&str, _("A:%d D:%d FP:%d HP:%d/%d (%s)"),
 		  ptype->attack_strength, 
 		  ptype->defense_strength, ptype->firepower, punit->hp, 
-		  ptype->hp, punit->veteran ? _(" V") : "");
+		  ptype->hp,
+		  _(ptype->veteran[punit->veteran].name));
+
     if (owner == game.player_ptr
 	&& unit_list_size(ptile->units) >= 2) {
       /* TRANS: "5 more" units on this tile */
