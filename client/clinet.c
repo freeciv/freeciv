@@ -72,6 +72,7 @@
 #include "version.h"
 
 #include "agents.h"
+#include "attribute.h"
 #include "chatline_g.h"
 #include "civclient.h"
 #include "climisc.h"
@@ -239,6 +240,7 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
 **************************************************************************/
 void disconnect_from_server(void)
 {
+  attribute_flush();
   close_socket_nomessage(&aconnection);
   /* If it's internal server - kill him 
    * We assume that we are always connected to the internal server  */
