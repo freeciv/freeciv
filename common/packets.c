@@ -571,6 +571,24 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 					   packet_player_attribute_chunk
 					   *chunk)
 {
+  freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", chunk->offset,
+	  chunk->total_length, chunk->chunk_length);
+
+  if (chunk->total_length < 0
+      || chunk->total_length >= MAX_ATTRIBUTE_BLOCK
+      || chunk->offset < 0
+      || chunk->offset + chunk->chunk_length > chunk->total_length
+      || (chunk->offset != 0
+          && chunk->total_length != pplayer->attribute_block.length)) {
+    /* wrong attribute data */
+    if (pplayer->attribute_block.data) {
+      free(pplayer->attribute_block.data);
+      pplayer->attribute_block.data = NULL;
+    }
+    pplayer->attribute_block.length = 0;
+    freelog(LOG_ERROR, "Received wrong attribute chunk");
+    return;
+  }
   /* first one in a row */
   if (chunk->offset == 0) {
     if (pplayer->attribute_block.data) {
@@ -678,33 +696,6 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
   freelog(LOG_DEBUG, "sending attribute chunk %d/%d %d", packet->offset,
 	  packet->total_length, packet->chunk_length);
 
-}
-
-void post_receive_packet_player_attribute_chunk(struct connection *pc,
-						struct packet_player_attribute_chunk
-						*packet)
-{
-  /*
-   * Because of the changes in enum packet_type during the 1.12.1
-   * timeframe an old server will trigger the following condition.
-   */
-  if (packet->total_length <= 0
-      || packet->total_length >= MAX_ATTRIBUTE_BLOCK) {
-    freelog(LOG_FATAL, _("The server you tried to connect is too old "
-			 "(1.12.0 or earlier). Please choose another "
-			 "server next time. Good bye."));
-    exit(EXIT_FAILURE);
-  }
-  assert(packet->total_length > 0
-	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
-  /* 500 bytes header, just to be sure */
-  assert(packet->chunk_length > 0
-	 && packet->chunk_length < MAX_LEN_PACKET - 500);
-  assert(packet->chunk_length <= packet->total_length);
-  assert(packet->offset >= 0 && packet->offset < packet->total_length);
-
-  freelog(LOG_DEBUG, "received attribute chunk %d/%d %d", packet->offset,
-	  packet->total_length, packet->chunk_length);
 }
 
 void post_receive_packet_game_state(struct connection *pc,
