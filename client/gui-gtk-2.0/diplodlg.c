@@ -515,6 +515,14 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
   gtk_box_pack_start(GTK_BOX(bottom), vbox, TRUE, TRUE, 0);
 
+  label = gtk_label_new(NULL);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  my_snprintf(buf, sizeof(buf),
+	      "<span size=\"large\" weight=\"bold\">%s</span>",
+              get_nation_name_plural(plr0->nation));
+  gtk_label_set_markup(GTK_LABEL(label), buf);
+  gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
+
   hbox = gtk_hbox_new(FALSE, 12);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
   
@@ -536,7 +544,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   image = gtk_image_new();
   pdialog->image0 = image;
   gtk_box_pack_end(GTK_BOX(hbox), image, FALSE, FALSE, 0);
-
+  
   table = gtk_table_new(2, 2, FALSE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 6);
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
@@ -578,6 +586,15 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
   gtk_box_pack_start(GTK_BOX(bottom), vbox, TRUE, TRUE, 0);
 
+
+  label = gtk_label_new(NULL);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  my_snprintf(buf, sizeof(buf),
+	      "<span size=\"large\" weight=\"bold\">%s</span>",
+              get_nation_name_plural(plr1->nation));
+  gtk_label_set_markup(GTK_LABEL(label), buf);
+  gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
+
   hbox = gtk_hbox_new(FALSE, 12);
   gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
@@ -600,7 +617,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   image = gtk_image_new();
   pdialog->image1 = image;
   gtk_box_pack_end(GTK_BOX(hbox), image, FALSE, FALSE, 0);
-
+  
   table = gtk_table_new(2, 2, FALSE);
   gtk_table_set_row_spacings(GTK_TABLE(table), 6);
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
