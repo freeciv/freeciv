@@ -85,9 +85,6 @@ void post_receive_packet_chat_msg(struct connection *pc,
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
 					    struct packet_player_attribute_chunk
 					    *packet);
-void post_receive_packet_player_attribute_chunk(struct connection *pc, struct packet_player_attribute_chunk
-						*packet);
-
 void post_receive_packet_game_state(struct connection *pc,
 				    struct packet_game_state *packet);
 void post_send_packet_game_state(struct connection *pc,

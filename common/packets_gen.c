@@ -11194,7 +11194,6 @@ static struct packet_player_attribute_chunk *receive_packet_player_attribute_chu
   }
   hash_insert(*hash, clone, clone);
 
-  post_receive_packet_player_attribute_chunk(pc, real_packet);
   RECEIVE_PACKET_END(real_packet);
 }
 
