@@ -1159,7 +1159,7 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   UINT8 fallout_tile_penalty[O_MAX]; /* % taken from output if polluted */
 end
 
-PACKET_RULESET_NATION=102;sc,lsend,is-info
+PACKET_RULESET_NATION=102;sc,lsend
   NATION id; key
 
   STRING name[MAX_LEN_NAME];

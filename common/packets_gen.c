@@ -24520,7 +24520,7 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
   const struct packet_ruleset_nation *real_packet = packet;
   packet_ruleset_nation_100_fields fields;
   struct packet_ruleset_nation *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = FALSE;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
   struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_NATION];
   int different = 0;
   SEND_PACKET_START(PACKET_RULESET_NATION);
