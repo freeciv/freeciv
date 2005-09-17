@@ -225,6 +225,11 @@ struct player {
     int length;
     void *data;
   } attribute_block;
+  struct {
+    int length;
+    void *data;
+  } attribute_block_buffer;
+  
   bool debug;
 };
 
