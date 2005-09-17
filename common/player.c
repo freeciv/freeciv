@@ -161,6 +161,8 @@ void player_init(struct player *plr)
 
   plr->attribute_block.data = NULL;
   plr->attribute_block.length = 0;
+  plr->attribute_block_buffer.data = NULL;
+  plr->attribute_block_buffer.length = 0;
   BV_CLR_ALL(plr->debug);
 }
 

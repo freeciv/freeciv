@@ -579,27 +579,39 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
       || chunk->offset < 0
       || chunk->offset + chunk->chunk_length > chunk->total_length
       || (chunk->offset != 0
-          && chunk->total_length != pplayer->attribute_block.length)) {
+          && chunk->total_length != pplayer->attribute_block_buffer.length)) {
     /* wrong attribute data */
-    if (pplayer->attribute_block.data) {
-      free(pplayer->attribute_block.data);
-      pplayer->attribute_block.data = NULL;
+    if (pplayer->attribute_block_buffer.data) {
+      free(pplayer->attribute_block_buffer.data);
+      pplayer->attribute_block_buffer.data = NULL;
     }
-    pplayer->attribute_block.length = 0;
+    pplayer->attribute_block_buffer.length = 0;
     freelog(LOG_ERROR, "Received wrong attribute chunk");
     return;
   }
   /* first one in a row */
   if (chunk->offset == 0) {
-    if (pplayer->attribute_block.data) {
-      free(pplayer->attribute_block.data);
-      pplayer->attribute_block.data = NULL;
+    if (pplayer->attribute_block_buffer.data) {
+      free(pplayer->attribute_block_buffer.data);
+      pplayer->attribute_block_buffer.data = NULL;
     }
-    pplayer->attribute_block.data = fc_malloc(chunk->total_length);
-    pplayer->attribute_block.length = chunk->total_length;
+    pplayer->attribute_block_buffer.data = fc_malloc(chunk->total_length);
+    pplayer->attribute_block_buffer.length = chunk->total_length;
   }
-  memcpy((char *) (pplayer->attribute_block.data) + chunk->offset,
+  memcpy((char *) (pplayer->attribute_block_buffer.data) + chunk->offset,
 	 chunk->data, chunk->chunk_length);
+  
+  if (chunk->offset + chunk->chunk_length == chunk->total_length) {
+    /* Received full attribute block */
+    if (pplayer->attribute_block.data != NULL) {
+      free(pplayer->attribute_block.data);
+    }
+    pplayer->attribute_block.data = pplayer->attribute_block_buffer.data;
+    pplayer->attribute_block.length = pplayer->attribute_block_buffer.length;
+    
+    pplayer->attribute_block_buffer.data = NULL;
+    pplayer->attribute_block_buffer.length = 0;
+  }
 }
 
 /**************************************************************************
