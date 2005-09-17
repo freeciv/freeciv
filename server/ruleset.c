@@ -2958,6 +2958,7 @@ void send_ruleset_nations(struct conn_list *dest)
     }
     packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
+    packet.is_available = n->is_available;
     packet.is_observer = n->is_observer;
     packet.is_barbarian = n->is_barbarian;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
