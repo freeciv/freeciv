@@ -1470,7 +1470,8 @@ struct player *create_global_observer(void)
    * FIXME: could we use map_is_empty here? */
   if (server_state == RUN_GAME_STATE || !game.info.is_new_game) {
     pplayer->nation = nation;
-    init_tech(pplayer, 0);
+    init_tech(pplayer);
+    give_initial_techs(pplayer);
     map_know_and_see_all(pplayer);
   }
 

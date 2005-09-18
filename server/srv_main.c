@@ -1806,10 +1806,37 @@ static void srv_loop(void)
 
     players_iterate(pplayer) {
       player_map_allocate(pplayer);
-      init_tech(pplayer, game.info.tech);
+      init_tech(pplayer);
       player_limit_to_government_rates(pplayer);
       pplayer->economic.gold = game.info.gold;
     } players_iterate_end;
+
+    players_iterate(pplayer) {
+      give_initial_techs(pplayer);
+    } players_iterate_end;
+    
+    players_iterate(pplayer) {
+      int i;
+      bool free_techs_already_given = FALSE;
+      
+      players_iterate(eplayer) {
+        if (players_on_same_team(eplayer, pplayer) &&
+	    eplayer->player_no < pplayer->player_no) {
+          free_techs_already_given = TRUE;
+	  break;
+        }
+      } players_iterate_end;
+      
+      if (free_techs_already_given) {
+        break;
+      }
+      
+      for (i = 0; i < game.info.tech; i++) {
+        give_random_initial_tech(pplayer);
+      }
+    } players_iterate_end;
+    
+    
     if(game.info.is_new_game) {
       /* If we're starting a new game, reset the rules.max_players to be the
        * number of players currently in the game.  But when loading a game

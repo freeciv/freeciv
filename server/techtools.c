@@ -583,15 +583,9 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
 
 /****************************************************************************
   Initializes tech data for the player.
-
-  The 'tech' parameter gives the number of random techs to assign to the
-  player.
 ****************************************************************************/
-void init_tech(struct player *plr, int tech_count)
+void init_tech(struct player *plr)
 {
-  int i;
-  struct nation_type *nation = get_nation_by_plr(plr);
-
   tech_type_iterate(i) {
     set_invention(plr, i, TECH_UNKNOWN);
   } tech_type_iterate_end;
@@ -599,6 +593,21 @@ void init_tech(struct player *plr, int tech_count)
 
   get_player_research(plr)->techs_researched = 1;
 
+  /* Mark the reachable techs */
+  update_research(plr);
+  if (!choose_goal_tech(plr)) {
+    choose_random_tech(plr);
+  }
+}
+
+/****************************************************************************
+  Gives initial techs to the player
+****************************************************************************/
+void give_initial_techs(struct player* plr)
+{
+  struct nation_type *nation = get_nation_by_plr(plr);
+  int i;
+  
   /*
    * Give game wide initial techs
    */
@@ -606,7 +615,7 @@ void init_tech(struct player *plr, int tech_count)
     if (game.rgame.global_init_techs[i] == A_LAST) {
       break;
     }
-    set_invention(plr, game.rgame.global_init_techs[i], TECH_KNOWN);
+    found_new_tech(plr, game.rgame.global_init_techs[i], FALSE, TRUE);
   }
 
   /*
@@ -616,20 +625,22 @@ void init_tech(struct player *plr, int tech_count)
     if (nation->init_techs[i] == A_LAST) {
       break;
     }
-    set_invention(plr, nation->init_techs[i], TECH_KNOWN);
+    found_new_tech(plr, nation->init_techs[i], FALSE, TRUE);
   }
+}
 
-  for (i = 0; i < tech_count; i++) {
-    update_research(plr);
-    choose_random_tech(plr); /* could be choose_goal_tech -- Syela */
-    set_invention(plr, get_player_research(plr)->researching, TECH_KNOWN);
-  }
-
-  /* Mark the reachable techs */
-  update_research(plr);
-  if (!choose_goal_tech(plr)) {
-    choose_random_tech(plr);
-  }
+/****************************************************************************
+  Gives a player random tech, which he hasn't researched yet.
+  Returns the tech. This differs from give_random_free_tech - it doesn't
+  apply free cost
+****************************************************************************/
+Tech_type_id give_random_initial_tech(struct player* pplayer)
+{
+  Tech_type_id tech;
+  
+  tech = pick_random_tech(pplayer);
+  found_new_tech(pplayer, tech, FALSE, TRUE);
+  return tech;
 }
 
 /****************************************************************************

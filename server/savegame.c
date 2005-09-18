@@ -1682,7 +1682,8 @@ static void player_load(struct player *plr, int plrno,
   }
 
   /* Add techs from game and nation, but ignore game.info.tech. */
-  init_tech(plr, 0);
+  init_tech(plr);
+  give_initial_techs(plr);
 
   if (is_barbarian(plr) && plr->nation == NO_NATION_SELECTED) {
     plr->nation = pick_barbarian_nation();
