@@ -2250,12 +2250,14 @@ static bool debug_command(struct connection *caller, char *str,
     return TRUE; /* whatever! */
   }
 
-  if (str != NULL || strlen(str) > 0) {
+  if (str != NULL && strlen(str) > 0) {
     sz_strlcpy(buf, str);
     ntokens = get_tokens(buf, arg, 3, TOKEN_DELIMITERS);
+  } else {
+    ntokens = 0;
   }
 
-  if (strcmp(arg[0], "player") == 0) {
+  if (ntokens > 0 && strcmp(arg[0], "player") == 0) {
     struct player *pplayer;
     enum m_pre_result match_result;
 
@@ -2277,7 +2279,7 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s debugged"), pplayer->name);
       /* TODO: print some info about the player here */
     }
-  } else if (strcmp(arg[0], "city") == 0) {
+  } else if (ntokens > 0 && strcmp(arg[0], "city") == 0) {
     int x, y;
     struct tile *ptile;
     struct city *pcity;
@@ -2308,7 +2310,7 @@ static bool debug_command(struct connection *caller, char *str,
       CITY_LOG(LOG_NORMAL, pcity, "debugged");
       pcity->ai.next_recalc = 0; /* force recalc of city next turn */
     }
-  } else if (strcmp(arg[0], "units") == 0) {
+  } else if (ntokens > 0 && strcmp(arg[0], "units") == 0) {
     int x, y;
     struct tile *ptile;
 
@@ -2335,7 +2337,7 @@ static bool debug_command(struct connection *caller, char *str,
                  unit_owner(punit)->name, unit_name(punit->type));
       }
     } unit_list_iterate_end;
-  } else if (strcmp(arg[0], "unit") == 0) {
+  } else if (ntokens > 0 && strcmp(arg[0], "unit") == 0) {
     int id;
     struct unit *punit;
 
