@@ -6860,11 +6860,11 @@ msgstr "Spiel: %s transportiert."
 
 #: server/unittools.c:2189
 msgid "Game: This unit type can not be paradropped."
-msgstr "Spiel: Diese Einheit kann nicht Fallschirmspringen."
+msgstr "Spiel: Diese Einheit kann nicht per Fallschirm abgeworfen werden."
 
 #: server/unittools.c:2199
 msgid "Game: You cannot paradrop a transporter unit."
-msgstr "Spiel: Ein Transporter kann nicht fallschirmspringen."
+msgstr "Spiel: Ein Transporter kann nicht per Fallschirm abgeworfen werden."
 
 #: server/unittools.c:2204
 msgid "Game: The destination location is not known."
@@ -6872,7 +6872,7 @@ msgstr "Spiel: Der Zielort ist nicht bekannt."
 
 #: server/unittools.c:2211
 msgid "Game: This unit cannot paradrop into ocean."
-msgstr "Spiel: Diese Einheit kann nicht über dem Ozean abspringen."
+msgstr "Spiel: Diese Einheit kann nicht über dem Ozean per Fallschirm abgeworfen werden."
 
 #: server/unittools.c:2229
 #, c-format
@@ -7810,7 +7810,7 @@ msgstr "Spiel: Das können nur Nuklear-Einheiten."
 
 #: client/control.c:1006
 msgid "Game: Only paratrooper units can do this."
-msgstr "Spiel: Das können nur Fallschirmspringer."
+msgstr "Spiel: Das können nur Fallschirmjäger."
 
 #: client/control.c:1028 client/control.c:1674
 msgid "Game: Sorry, airunit patrol not yet implemented."
@@ -14360,7 +14360,7 @@ msgstr "Luftwaffeneinheiten automatisch angreifen"
 
 #: client/gui-win32/citydlg.c:2027
 msgid "Auto-attack vs helicopters"
-msgstr "Helikopter automatisch angreifen"
+msgstr "Hubschrauber automatisch angreifen"
 
 #: client/gui-win32/cityrep.c:464
 msgid "Available To Build"
@@ -15262,7 +15262,7 @@ msgstr "Luftwaffeneinheiten automatisch angreifen:    "
 
 #: data/Freeciv.in:1571
 msgid "Auto-attack vs helicopters:        "
-msgstr "Helikopter automatisch angreifen:             "
+msgstr "Hubschrauber automatisch angreifen:             "
 
 #: data/Freeciv.in:1688
 msgid "Configure..."
@@ -15636,7 +15636,7 @@ msgstr ""
 "   N: Atombombe zünden\n"
 "   o: Gelände verändern (Ingenieure)\n"
 "   p: Umweltverschmutzung beseitigen (Siedler und Arbeiter)\n"
-"   p: abspringen (Fallschirmspringer)\n"
+"   p: abspringen (Fallschirmjäger)\n"
 "   P: brandschatzen (Truppen)\n"
 "   q: patrouillieren (Ziel per Mausklick bestimmen)\n"
 "   q: Wegpunkt hinzufügen (im Patrouilleren-Modus)\n"
@@ -17481,7 +17481,7 @@ msgstr ""
 "'Apollo Programm' fertiggestellt hat. Außerdem werden für die Fertigung der "
 "Raumschiffteile bestimmte Kenntnisse verlangt. Einzelheiten finden sich bei "
 "'Stadterweiterungen' unter den Punkten 'Raumschiffkörper', "
-"'Raumschiffkomponenten' und 'Raumschiffmodule'."
+"'Raumschiffkomponente' und 'Raumschiffmodul'."
 
 #: data/helpdata.txt:1438
 msgid ""
@@ -18033,7 +18033,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1114 data/civ2/buildings.ruleset:1042
 #: data/civ1/buildings.ruleset:805 data/history/buildings.ruleset:1060
 msgid "Space Component"
-msgstr "Raumschiffkomponenten"
+msgstr "Raumschiffkomponente"
 
 #: data/default/buildings.ruleset:1135 data/civ2/buildings.ruleset:1063
 #: data/civ1/buildings.ruleset:826 data/history/buildings.ruleset:1081
@@ -18055,7 +18055,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1145 data/civ2/buildings.ruleset:1073
 #: data/civ1/buildings.ruleset:836 data/history/buildings.ruleset:1091
 msgid "Space Module"
-msgstr "Raumschiffmodule"
+msgstr "Raumschiffmodul"
 
 #: data/default/buildings.ruleset:1166 data/civ2/buildings.ruleset:1094
 #: data/civ1/buildings.ruleset:857 data/history/buildings.ruleset:1112
@@ -20821,7 +20821,7 @@ msgstr "Marines"
 #: data/default/units.ruleset:646 data/civ2/units.ruleset:505
 #: data/civ1/units.ruleset:482 data/history/units.ruleset:572
 msgid "Paratroopers"
-msgstr "Fallschirmspringer"
+msgstr "Fallschirmjäger"
 
 #: data/default/units.ruleset:678 data/civ2/units.ruleset:537
 #: data/civ1/units.ruleset:510 data/history/units.ruleset:604
@@ -21215,7 +21215,7 @@ msgid ""
 "100 gold ransom is paid, but only to land units and helicopters."
 msgstr ""
 "Wird ein Barbarenanführer auf einem Feld ohne Verteidiger getötet, werden "
-"die 100 Goldstücke Belohnung nur an Landeinheiten oder Helikopter bezahlt."
+"die 100 Goldstücke Belohnung nur an Landeinheiten oder Hubschrauber bezahlt."
 
 #: data/default/units.ruleset:1855
 msgid "AWACS"
