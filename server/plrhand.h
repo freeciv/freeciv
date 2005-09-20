@@ -66,11 +66,13 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
                     bool saving_bulbs, int next_tech);
 void found_new_future_tech(struct player *pplayer);
 void update_tech(struct player *plr, int bulbs);
-void init_tech(struct player *plr, int tech);
+void init_tech(struct player *plr);
 void choose_random_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);
 void choose_tech_goal(struct player *plr, int tech);
 void get_a_tech(struct player *pplayer, struct player *target);
+void give_initial_techs(struct player* plr);
+Tech_Type_id give_random_initial_tech(struct player* pplayer);
 
 void send_player_turn_notifications(struct conn_list *dest);
 

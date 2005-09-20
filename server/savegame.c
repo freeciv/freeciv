@@ -1662,7 +1662,8 @@ static void player_load(struct player *plr, int plrno,
   }
 
   /* Add techs from game and nation, but ignore game.tech. */
-  init_tech(plr, 0);
+  init_tech(plr);
+  give_initial_techs(plr);
 
   /* not all players have teams */
   if (section_file_lookup(file, "player%d.team", plrno)) {

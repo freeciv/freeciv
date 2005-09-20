@@ -2709,7 +2709,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 
       if ((server_state == RUN_GAME_STATE) || !game.is_new_game) {
         pplayer->nation = OBSERVER_NATION;
-        init_tech(pplayer, 0);
+        init_tech(pplayer);
+	give_initial_techs(pplayer);
         map_know_and_see_all(pplayer);
       }
 
