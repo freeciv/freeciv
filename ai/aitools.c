@@ -112,20 +112,49 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 /**********************************************************************
   There are some signs that a player might be dangerous: We are at 
   war with him, he has done lots of ignoble things to us, he is an 
-  ally of one of our enemies (a ticking bomb to be sure), or he is 
-  our war target.
+  ally of one of our enemies (a ticking bomb to be sure), he is 
+  our war target, we don't like him, diplomatic state is neutral 
+  or we have case fire.
+  This function is used for example to check if pplayer can leave
+  his city undefended when aplayer's units are near it.
 ***********************************************************************/
 bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
-  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[aplayer->player_no];
-  int reason = pplayer->diplstates[aplayer->player_no].has_reason_to_cancel;
+  struct ai_dip_intel *adip;
+  struct ai_data *ai;
+  enum diplstate_type ds;
 
-  return (pplayer != aplayer
-          && (pplayers_at_war(pplayer, aplayer)
-              || adip->countdown >= 0
-              || reason != 0
-              || adip->is_allied_with_enemy));
+  if (pplayer == aplayer) {
+    /* We always trust ourself */
+    return FALSE;
+  }
+  
+  ds = pplayer_get_diplstate(pplayer, aplayer)->type;
+  
+  if (ds == DS_WAR || ds == DS_CEASEFIRE || ds == DS_NEUTRAL) {
+    /* It's already a war or aplayer can declare it soon */
+    return TRUE;
+  }
+
+  ai = ai_data_get(pplayer);
+  adip = &(ai->diplomacy.player_intel[aplayer->player_no]);
+  
+  if (adip->countdown >= 0 || adip->is_allied_with_enemy) {
+    /* Don't trust our war target or someone who will declare war on us soon */
+    return TRUE;
+  }
+  
+  if (pplayer->diplstates[aplayer->player_no].has_reason_to_cancel > 0) {
+    return TRUE;
+  }
+  
+  if (pplayer->ai.love[aplayer->player_no] < MAX_AI_LOVE / 10) {
+    /* We don't trust players who we don't like. Note that 
+     * aplayer's units inside pplayer's borders decreases AI's love */
+    return TRUE;
+  }
+  
+  return FALSE;
 }
 
 /*************************************************************************
