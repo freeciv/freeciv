@@ -1593,7 +1593,7 @@ void ai_incident_war(struct player *violator, struct player *victim)
         pplayer->ai.love[violator->player_no] -= MAX_AI_LOVE / 10;
       }
       if (victim == pplayer) {
-        pplayer->ai.love[violator->player_no] -= 
+        pplayer->ai.love[violator->player_no] = 
           MIN(pplayer->ai.love[violator->player_no] - MAX_AI_LOVE / 3, -1);
         /* Scream for help!! */
         players_iterate(ally) {
