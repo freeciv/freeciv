@@ -29,6 +29,9 @@ struct sprite;			/* opaque; gui-dep */
 #define SPECVEC_TAG sprite
 #define SPECVEC_TYPE struct sprite *
 #include "specvec.h"
+#define sprite_vector_iterate(sprite_vec, psprite) \
+  TYPED_VECTOR_ITERATE(struct sprite *, sprite_vec, psprite)
+#define sprite_vector_iterate_end VECTOR_ITERATE_END
 
 /* An edge is the border between two tiles.  This structure represents one
  * edge.  The tiles are given in the same order as the enumeration name. */

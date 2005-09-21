@@ -576,19 +576,6 @@ static struct tileset *tileset_new(void)
 }
 
 /**************************************************************************
-  Clean up.
-**************************************************************************/
-void tileset_free(struct tileset *t)
-{
-  specfile_list_free(t->specfiles);
-  small_sprite_list_free(t->small_sprites);
-  if (t->color_system) {
-    color_system_free(t->color_system);
-  }
-  free(t);
-}
-
-/**************************************************************************
   Return the tileset name of the direction.  This is similar to
   dir_get_name but you shouldn't change this or all tilesets will break.
 **************************************************************************/
@@ -748,6 +735,8 @@ static bool check_tilespec_capabilities(struct section_file *file,
 ***********************************************************************/
 static void tileset_free_toplevel(struct tileset *t)
 {
+  int i, j;
+
   if (t->main_intro_filename) {
     free(t->main_intro_filename);
     t->main_intro_filename = NULL;
@@ -757,19 +746,53 @@ static void tileset_free_toplevel(struct tileset *t)
     t->minimap_intro_filename = NULL;
   }
 
-  while (hash_num_entries(t->terrain_hash) > 0) {
-    const struct terrain_drawing_data *draw;
+  if (t->terrain_hash) {
+    while (hash_num_entries(t->terrain_hash) > 0) {
+      const struct terrain_drawing_data *draw;
 
-    draw = hash_value_by_number(t->terrain_hash, 0);
-    hash_delete_entry(t->terrain_hash, draw->name);
-    free(draw->name);
-    if (draw->mine_tag) {
-      free(draw->mine_tag);
+      draw = hash_value_by_number(t->terrain_hash, 0);
+      hash_delete_entry(t->terrain_hash, draw->name);
+      free(draw->name);
+      if (draw->mine_tag) {
+	free(draw->mine_tag);
+      }
+      if (draw->is_blended && t->is_isometric) {
+	for (i = 0; i < 4; i++) {
+	  free_sprite(draw->blend[i]);
+	}
+      }
+      free((void *) draw);
     }
-    free((void *) draw);
+    hash_free(t->terrain_hash);
+    t->terrain_hash = NULL; /* Helpful for sanity. */
   }
-  hash_free(t->terrain_hash);
-  t->terrain_hash = NULL; /* Helpful for sanity. */
+
+  for (i = 0; i < MAX_NUM_LAYERS; i++) {
+    if (t->layers[i].match_types) {
+      for (j = 0; j < t->layers[i].count; j++) {
+	free(t->layers[i].match_types[j]);
+      }
+      free(t->layers[i].match_types);
+      t->layers[i].match_types = NULL;
+    }
+  }
+
+  if (t->color_system) {
+    color_system_free(t->color_system);
+    t->color_system = NULL;
+  }
+}
+
+/**************************************************************************
+  Clean up.
+**************************************************************************/
+void tileset_free(struct tileset *t)
+{
+  tileset_free_tiles(t);
+  tileset_free_toplevel(t);
+  specfile_list_free(t->specfiles);
+  small_sprite_list_free(t->small_sprites);
+  free(t);
 }
 
 /**********************************************************************
@@ -1694,6 +1717,7 @@ static void insert_sprite(struct tileset *t, const char *tag_name,
   assert(load_sprite(t, tag_name) == 0);
   ss->ref_count = 1;
   ss->sprite = sprite;
+  small_sprite_list_prepend(t->small_sprites, ss);
   if (!hash_insert(t->sprite_hash, mystrdup(tag_name), ss)) {
     freelog(LOG_ERROR, "warning: already have a sprite for %s", tag_name);
   }
@@ -4243,14 +4267,16 @@ struct unit *get_drawable_unit(const struct tileset *t,
 ****************************************************************************/
 static void unload_all_sprites(struct tileset *t)
 {
-  int i, entries = hash_num_entries(t->sprite_hash);
+  if (t->sprite_hash) {
+    int i, entries = hash_num_entries(t->sprite_hash);
 
-  for (i = 0; i < entries; i++) {
-    const char *tag_name = hash_key_by_number(t->sprite_hash, i);
-    struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
+    for (i = 0; i < entries; i++) {
+      const char *tag_name = hash_key_by_number(t->sprite_hash, i);
+      struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
 
-    while (ss->ref_count > 0) {
-      unload_sprite(t, tag_name);
+      while (ss->ref_count > 0) {
+	unload_sprite(t, tag_name);
+      }
     }
   }
 }
@@ -4260,21 +4286,25 @@ static void unload_all_sprites(struct tileset *t)
 ***********************************************************************/
 void tileset_free_tiles(struct tileset *t)
 {
-  int i, entries = hash_num_entries(t->sprite_hash);
+  int i;
 
   freelog(LOG_DEBUG, "tilespec_free_tiles");
 
   unload_all_sprites(t);
 
-  for (i = 0; i < entries; i++) {
-    const char *key = hash_key_by_number(t->sprite_hash, 0);
+  if (t->sprite_hash) {
+    const int entries = hash_num_entries(t->sprite_hash);
 
-    hash_delete_entry(t->sprite_hash, key);
-    free((void *) key);
+    for (i = 0; i < entries; i++) {
+      const char *key = hash_key_by_number(t->sprite_hash, 0);
+
+      hash_delete_entry(t->sprite_hash, key);
+      free((void *) key);
+    }
+
+    hash_free(t->sprite_hash);
+    t->sprite_hash = NULL;
   }
-
-  hash_free(t->sprite_hash);
-  t->sprite_hash = NULL;
 
   small_sprite_list_iterate(t->small_sprites, ss) {
     small_sprite_list_unlink(t->small_sprites, ss);
@@ -4295,6 +4325,33 @@ void tileset_free_tiles(struct tileset *t)
     free(sf);
   } specfile_list_iterate_end;
 
+  sprite_vector_iterate(&t->sprites.city.worked_tile_overlay, psprite) {
+    free_sprite(*psprite);
+  } sprite_vector_iterate_end;
+  sprite_vector_free(&t->sprites.city.worked_tile_overlay);
+
+  sprite_vector_iterate(&t->sprites.city.unworked_tile_overlay, psprite) {
+    free_sprite(*psprite);
+  } sprite_vector_iterate_end;
+  sprite_vector_free(&t->sprites.city.unworked_tile_overlay);
+
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    if (t->sprites.backgrounds.player[i]) {
+      free_sprite(t->sprites.backgrounds.player[i]);
+      t->sprites.backgrounds.player[i] = NULL;
+    }
+  }
+
+  if (t->sprites.tx.fullfog) {
+    free(t->sprites.tx.fullfog);
+    t->sprites.tx.fullfog = NULL;
+  }
+  if (t->sprites.backgrounds.background) {
+    free_sprite(t->sprites.backgrounds.background);
+    t->sprites.backgrounds.background = NULL;
+  }
+
+  sprite_vector_free(&t->sprites.colors.overlays);
   sprite_vector_free(&t->sprites.explode.unit);
   sprite_vector_free(&t->sprites.nation_flag);
   sprite_vector_free(&t->sprites.citybar.occupancy);

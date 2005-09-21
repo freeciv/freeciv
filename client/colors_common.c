@@ -207,10 +207,13 @@ void color_system_free(struct color_system *colors)
   }
   while (hash_num_entries(colors->terrain_hash) > 0) {
     const char *key = hash_key_by_number(colors->terrain_hash, 0);
+    const void *rgb = hash_value_by_number(colors->terrain_hash, 0);
 
     hash_delete_entry(colors->terrain_hash, key);
     free((void *)key);
+    free((void *)rgb);
   }
+  hash_free(colors->terrain_hash);
   free(colors);
 }
 
