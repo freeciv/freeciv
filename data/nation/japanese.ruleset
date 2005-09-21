@@ -12,7 +12,7 @@
 ; solve this would be to allow translation of city names (forcing translators
 ; to translate or at least wade through all of the thousands of available
 ; names) or to distribute a separate Japanese ruleset for Japanese
-; players to use (which wouldn't be that hard; just substitute in the
+; players to use (which would not be that hard; just substitute in the
 ; correct native characters, in UTF-8, into this file).
 ;
 ; This is also a problem for many other nations that use non-latin alphabets.

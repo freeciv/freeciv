@@ -29,7 +29,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Note that putting "(ocean)" as a qualifier for every city probably won't
+; Note that putting "(ocean)" as a qualifier for every city probably will not
 ; give very useful results.
 cities =
  "Poneke (ocean)",     ; Maori name for Wellington
