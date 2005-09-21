@@ -1302,12 +1302,30 @@ struct player *shuffled_player(int i)
 }
 
 /**************************************************************************
-  Returns how much two nations looks good in the same game
+  Returns how much two nations looks good in the same game.
+  Negative return value means that we really really don't want these
+  nations together.
 **************************************************************************/
-static int nations_match(struct nation_type* n1, struct nation_type* n2)
+static int nations_match(struct nation_type* n1, struct nation_type* n2,
+                         bool ignore_conflicts)
 {
   int i, sum = 0;
+  
+  /* Scottish is a good civil war nation for British */
+  if (!ignore_conflicts) {
+  
+    for (i = 0; i < n1->num_conflicts; i++) {
+      if (n1->conflicts_with[i] == n2) {
+        return -1;
+      }
+    }
 
+    for (i = 0; i < n2->num_conflicts; i++) {
+      if (n2->conflicts_with[i] == n1) {
+        return -1;
+      }
+    }
+  }
   for (i = 0; i < n1->num_groups; i++) {
     if (nation_in_group(n2, n1->groups[i]->name)) {
       sum += n1->groups[i]->match;
@@ -1323,18 +1341,21 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2)
 
   choices may be NULL; if so it's ignored.
 ****************************************************************************/
-struct nation_type *pick_available_nation(struct nation_type **choices)
+struct nation_type *pick_available_nation(struct nation_type **choices,
+                                          bool ignore_conflicts)
 {
   enum {
-    UNAVAILABLE, AVAILABLE, PREFERRED
+    UNAVAILABLE, AVAILABLE, PREFERRED, UNWANTED
   } nations_used[game.control.nation_count], looking_for;
   int match[game.control.nation_count], pick;
   int num_nations_avail = 0, pref_nations_avail = 0;
 
   /* Values of nations_used: 
-   * 0: not available
-   * 1: available
-   * 2: preferred choice */
+   * 0: not available - nation is already used or is a special nation
+   * 1: available - we can use this nation
+   * 2: preferred - we can use this nation and it is on the choices list 
+   * 3: unwanted - we can used this nation, but we really don't want to
+   */
   nations_iterate(pnation) {
     if (!is_nation_playable(pnation)
 	|| pnation->player
@@ -1350,20 +1371,34 @@ struct nation_type *pick_available_nation(struct nation_type **choices)
     match[pnation->index] = 1;
     players_iterate(pplayer) {
       if (pplayer->nation != NO_NATION_SELECTED) {
-	match[pnation->index]
-	  += nations_match(pplayer->nation, pnation) * 100;
+        int x = nations_match(pnation, pplayer->nation, ignore_conflicts);
+	if (x < 0) {
+	  nations_used[pnation->index] = UNWANTED;
+	  match[pnation->index] = 1;
+	  break;
+	} else {
+	  match[pnation->index] += x * 100;
+	}
       }
     } players_iterate_end;
 
     num_nations_avail += match[pnation->index];
   } nations_iterate_end;
 
+  /* Mark as prefered those nations which are on the choices list and
+   * which are AVAILABLE, but no UNWANTED */
   for (; choices && *choices != NO_NATION_SELECTED; choices++) {
     if (nations_used[(*choices)->index] == AVAILABLE) {
       pref_nations_avail += match[(*choices)->index];
       nations_used[(*choices)->index] = PREFERRED;
     }
   }
+  
+  nations_iterate(pnation) {
+    if (nations_used[pnation->index] == UNWANTED) {
+      nations_used[pnation->index] = AVAILABLE;
+    }
+  } nations_iterate_end;
 
   assert(num_nations_avail > 0);
   assert(pref_nations_avail >= 0);
@@ -1521,7 +1556,7 @@ static struct player *split_player(struct player *pplayer)
 
   /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
-  cplayer->nation = pick_available_nation(civilwar_nations);
+  cplayer->nation = pick_available_nation(civilwar_nations, TRUE);
   pick_random_player_name(cplayer->nation, cplayer->name);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);

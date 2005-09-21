@@ -1448,7 +1448,7 @@ static void generate_players(void)
       continue;
     }
 
-    player_set_nation(pplayer, pick_available_nation(NULL));
+    player_set_nation(pplayer, pick_available_nation(NULL, FALSE));
     assert(pplayer->nation != NO_NATION_SELECTED);
 
     pplayer->city_style = get_nation_city_style(pplayer->nation);

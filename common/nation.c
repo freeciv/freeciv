@@ -294,6 +294,11 @@ static void nation_free(struct nation_type *pnation)
     free(pnation->groups);
     pnation->groups = NULL;
   }
+  
+  if (pnation->conflicts_with) {
+    free(pnation->conflicts_with);
+    pnation->conflicts_with = NULL;
+  }
 
   nation_city_names_free(pnation->city_names);
   pnation->city_names = NULL;

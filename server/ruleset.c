@@ -2042,7 +2042,7 @@ static void load_ruleset_nations(struct section_file *file)
   struct government *gov;
   int dim, i, j, k, nval, numgroups;
   char temp_name[MAX_LEN_NAME];
-  char **leaders, **sec, **civilwar_nations, **groups;
+  char **leaders, **sec, **civilwar_nations, **groups, **conflicts;
   char* name;
   const char *filename = secfile_filename(file);
 
@@ -2071,6 +2071,16 @@ static void load_ruleset_nations(struct section_file *file)
       pl->groups[j] = add_new_nation_group(groups[j]);
     }
     free(groups);
+    
+    conflicts = 
+      secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec[i]);
+    pl->num_conflicts = dim;
+    pl->conflicts_with = fc_malloc(sizeof(*(pl->conflicts_with)) * dim);
+    for (j = 0; j < dim; j++) {
+      /* NO_NATION_SELECTED is allowed here */
+      pl->conflicts_with[j] = find_nation_by_name(conflicts[j]);
+    }
+    free(conflicts);
 
     /* nation leaders */
 
