@@ -758,7 +758,9 @@ static void tileset_free_toplevel(struct tileset *t)
       }
       if (draw->is_blended && t->is_isometric) {
 	for (i = 0; i < 4; i++) {
-	  free_sprite(draw->blend[i]);
+	  if (draw->blend[i]) {
+	    free_sprite(draw->blend[i]);
+	  }
 	}
       }
       free((void *) draw);
