@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    style="fill:#28ff09; fill-opacity:14.1176%; stroke:none; "
    width="280mm"
-   height="140mm"
+   height="529.13000pt"
    id="canada"
-   sodipodi:docbase="/tmp/civ/cvs/freeciv/data/flags/"
-   sodipodi:docname="/tmp/civ/cvs/freeciv/data/flags/canada.svg"
-   sodipodi:version="0.34">
+   sodipodi:docbase="/Users/daniel/Desktop/updated flags"
+   sodipodi:docname="canada.svg"
+   sodipodi:version="0.32"
+   inkscape:version="0.42">
+  <metadata
+     id="metadata2989">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <defs
      id="defs3" />
   <sodipodi:namedview
@@ -30,31 +44,38 @@
      guidehicolor="#ff0000"
      guidehiopacity="0.494118"
      showgrid="false"
-     snaptogrid="true" />
+     snaptogrid="true"
+     inkscape:zoom="0.43262028"
+     inkscape:cx="500.46363"
+     inkscape:cy="296.45090"
+     inkscape:window-width="701"
+     inkscape:window-height="507"
+     inkscape:window-x="38"
+     inkscape:window-y="97"
+     inkscape:current-layer="canada" />
   <rect
-     style="fill:#ffffff;fill-opacity:1;"
+     style="fill:#ffffff;fill-opacity:1.0000000"
      id="mat"
-     width="496"
-     height="496"
-     x="248"
-     y="0" />
+     width="496.00000"
+     height="661.41248"
+     x="248.00000"
+     y="0.0000000" />
   <rect
-     style="fill:#ff0000;fill-opacity:1;"
+     style="fill:#ff0000;fill-opacity:1.0000000"
      id="left"
-     x="0"
-     y="0"
-     width="248"
-     height="496" />
+     x="0.0000000"
+     y="0.0000000"
+     width="248.00000"
+     height="661.41248" />
   <path
-     style="fill:#ff0000;fill-opacity:1;"
-     d="M 186.17 139.701 L 174.906 143.551 L 227.319 189.55 C 231.284 201.372 225.943 204.857 222.54 211.057 L 279.44 203.835 L 277.958 261.097 L 289.743 260.758 L 287.173 203.972 L 344.129 210.724 C 340.604 203.28 337.467 199.327 340.728 187.424 L 393.106 143.844 L 383.94 140.526 C 376.446 134.743 387.178 112.673 388.797 98.7457 C 388.797 98.7457 358.213 109.263 356.209 103.76 L 348.421 88.7984 L 320.597 119.364 C 317.557 120.092 316.262 118.882 315.549 116.314 L 328.403 52.4428 L 308.049 63.8906 C 306.345 64.6192 304.641 63.9906 303.518 62.0047 L 283.944 22.7102 L 263.758 63.5087 C 262.236 64.9706 260.713 65.14 259.449 64.1459 L 240.068 53.2739 L 251.702 116.646 C 250.777 119.162 248.56 119.87 245.953 118.508 L 219.356 88.2908 C 215.877 93.8651 213.519 102.973 208.92 105.014 C 204.321 106.925 188.918 101.152 178.594 98.8982 C 182.121 111.626 193.148 132.771 186.17 139.701 z "
-     id="leaf"
-     transform="matrix(1.773858,0.000000,0.000000,1.773858,-8.019499,-6.440445)" />
+     style="fill:#ff0000;fill-opacity:1.0000000"
+     d="M 322.21964,326.79821 L 302.23891,333.62756 L 395.21213,415.22326 C 402.24547,436.19381 392.77130,442.37570 386.73486,453.37362 L 487.66738,440.56282 L 485.03852,542.13748 L 505.94344,541.53614 L 501.38462,440.80584 L 602.41648,452.78293 C 596.16363,439.57833 590.59904,432.56627 596.38359,411.45204 L 689.29472,334.14730 L 673.03554,328.26164 C 659.74225,318.00342 678.77929,278.85438 681.65117,254.14932 C 681.65117,254.14932 627.39950,272.80552 623.84469,263.04398 L 610.02988,236.50423 L 560.67405,290.72326 C 555.28153,292.01463 552.98438,289.86826 551.71962,285.31299 L 574.52079,172.01455 L 538.41568,192.32133 C 535.39303,193.61376 532.37038,192.49871 530.37833,188.97601 L 495.65684,119.27314 L 459.84974,191.64389 C 457.14993,194.23709 454.44834,194.53758 452.20619,192.77419 L 417.82704,173.48881 L 438.46411,285.90191 C 436.82329,290.36494 432.89065,291.62083 428.26620,289.20484 L 381.08690,235.60382 C 374.91564,245.49183 370.73289,261.64795 362.57491,265.26840 C 354.41694,268.65824 327.09421,258.41776 308.78090,254.41984 C 315.03729,276.99715 334.59763,314.50537 322.21964,326.79821 z "
+     id="leaf" />
   <rect
-     style="fill:#ff0000;fill-opacity:1;"
+     style="fill:#ff0000;fill-opacity:1.0000000"
      id="right"
-     x="744"
-     y="0"
-     width="248"
-     height="496" />
+     x="744.00000"
+     y="0.0000000"
+     width="248.00000"
+     height="661.41248" />
 </svg>
