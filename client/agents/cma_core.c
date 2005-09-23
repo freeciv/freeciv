@@ -476,6 +476,7 @@ static void new_turn(void)
 void cma_init(void)
 {
   struct agent self;
+  struct timer *timer = stats.wall_timer;
 
   freelog(LOG_DEBUG, "sizeof(struct cm_result)=%d",
 	  (unsigned int) sizeof(struct cm_result));
@@ -484,7 +485,7 @@ void cma_init(void)
 
   /* reset cache counters */
   memset(&stats, 0, sizeof(stats));
-  stats.wall_timer = new_timer(TIMER_USER, TIMER_ACTIVE);
+  stats.wall_timer = renew_timer(timer, TIMER_USER, TIMER_ACTIVE);
 
   memset(&self, 0, sizeof(self));
   strcpy(self.name, "CMA");
