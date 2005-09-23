@@ -661,41 +661,6 @@ GtkWidget *create_network_page(void)
   notebook = gtk_notebook_new();
   gtk_container_add(GTK_CONTAINER(box), notebook);
 
-  /* Metaserver pane. */
-  meta_store = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING,
-      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(meta_store));
-  g_object_unref(meta_store);
-  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-
-  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-  meta_selection = selection;
-  gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
-  g_signal_connect(view, "focus",
-      		   G_CALLBACK(gtk_true), NULL);
-  g_signal_connect(view, "row_activated",
-		   G_CALLBACK(network_activate_callback), NULL);
-  g_signal_connect(selection, "changed",
-                   G_CALLBACK(network_list_callback), NULL);
-
-  rend = gtk_cell_renderer_text_new();
-  for (i = 0; i < ARRAY_SIZE(titles); i++) {
-    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-	-1, titles[i], rend, "text", i, NULL);
-  }
-
-  label = gtk_label_new_with_mnemonic(_("Internet _Metaserver"));
-
-  sw = gtk_scrolled_window_new(NULL, NULL);
-  gtk_container_set_border_width(GTK_CONTAINER(sw), 4);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
-
   /* LAN pane. */
   lan_store = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING,
       G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
@@ -731,6 +696,41 @@ GtkWidget *create_network_page(void)
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
+
+  /* Metaserver pane. */
+  meta_store = gtk_list_store_new(6, G_TYPE_STRING, G_TYPE_STRING,
+      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
+
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(meta_store));
+  g_object_unref(meta_store);
+  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
+
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  meta_selection = selection;
+  gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+  g_signal_connect(view, "focus",
+      		   G_CALLBACK(gtk_true), NULL);
+  g_signal_connect(view, "row_activated",
+		   G_CALLBACK(network_activate_callback), NULL);
+  g_signal_connect(selection, "changed",
+                   G_CALLBACK(network_list_callback), NULL);
+
+  rend = gtk_cell_renderer_text_new();
+  for (i = 0; i < ARRAY_SIZE(titles); i++) {
+    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+	-1, titles[i], rend, "text", i, NULL);
+  }
+
+  label = gtk_label_new_with_mnemonic(_("Internet _Metaserver"));
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_set_border_width(GTK_CONTAINER(sw), 4);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+				 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(sw), view);
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), sw, label);
 
   /* Bottom part of the page, outside the inner notebook. */
   sbox = gtk_vbox_new(FALSE, 0);
