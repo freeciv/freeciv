@@ -54,6 +54,8 @@ bool hash_key_exists(const struct hash_table *h, const void *key);
 void *hash_lookup_data(const struct hash_table *h, const void *key);
 
 void *hash_delete_entry(struct hash_table *h, const void *key);
+void *hash_delete_entry_full(struct hash_table *h, const void *key,
+			     void **deleted_key);
 void hash_delete_all_entries(struct hash_table *h);
 
 const void *hash_key_by_number(const struct hash_table *h,

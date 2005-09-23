@@ -531,12 +531,28 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
 **************************************************************************/
 void *hash_delete_entry(struct hash_table *h, const void *key)
 {
+  return hash_delete_entry_full(h, key, NULL);
+}
+
+/**************************************************************************
+  Delete an entry with specified key.  Returns user-data of deleted
+  entry, or NULL if not found.  old_key, if non-NULL, will be set to the
+  key that was used for the bucket (the caller may need to free this
+  value).
+**************************************************************************/
+void *hash_delete_entry_full(struct hash_table *h, const void *key,
+			     void **old_key)
+{
   struct hash_bucket *bucket;
 
   hash_maybe_shrink(h);  
   bucket = internal_lookup(h, key, HASH_VAL(h,key));
   if (bucket->used == BUCKET_USED) {
     const void *ret = bucket->data;
+
+    if (old_key) {
+      *old_key = bucket->key;
+    }
     zero_hbucket(bucket);
     bucket->used = BUCKET_DELETED;
     h->num_deleted++;
@@ -544,6 +560,9 @@ void *hash_delete_entry(struct hash_table *h, const void *key)
     h->num_entries--;
     return (void*) ret;
   } else {
+    if (old_key) {
+      *old_key = NULL;
+    }
     return NULL;
   }
 }

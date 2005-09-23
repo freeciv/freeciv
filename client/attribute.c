@@ -321,8 +321,11 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   }
 
   if (hash_key_exists(attribute_hash, pkey)) {
-    void *old_value = hash_delete_entry(attribute_hash, pkey);
+    void *old_key;
+    void *old_value = hash_delete_entry_full(attribute_hash, pkey, &old_key);
+
     free(old_value);
+    free(old_key);
   }
 
   if (data_length != 0) {
