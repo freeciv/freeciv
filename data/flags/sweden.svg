@@ -8,13 +8,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="392.85000pt"
+   height="521.91000px"
    id="svg589"
    inkscape:version="0.42"
    sodipodi:docbase="/Users/daniel/Desktop"
    sodipodi:docname="sweden.svg"
    sodipodi:version="0.32"
-   width="626.29000pt">
+   width="782.86249px">
   <metadata
      id="metadata2185">
     <rdf:RDF>
@@ -73,13 +73,13 @@
      id="defs591" />
   <sodipodi:namedview
      id="base"
-     inkscape:cx="314.64565"
-     inkscape:cy="198.42518"
-     inkscape:window-height="720"
-     inkscape:window-width="942"
-     inkscape:window-x="0"
-     inkscape:window-y="34"
-     inkscape:zoom="0.87082086"
+     inkscape:cx="345.21324"
+     inkscape:cy="265.68494"
+     inkscape:window-height="508"
+     inkscape:window-width="735"
+     inkscape:window-x="11"
+     inkscape:window-y="74"
+     inkscape:zoom="0.61576334"
      inkscape:current-layer="svg589" />
   <rect
      y="0.0000000"
@@ -88,21 +88,21 @@
      style="font-size:12.000000px;fill:#004073;fill-rule:evenodd;stroke-width:1.0000000pt"
      sodipodi:fill-cmyk="(1 0.5 0.1 0.498039)"
      id="rect552"
-     height="491.06250" />
+     height="521.90997" />
   <rect
-     y="0.12863673"
+     y="0.13671684"
      x="245.81952"
-     width="98.146233"
+     width="104.31000"
      style="font-size:12.000000px;fill:#ffcc00;fill-rule:evenodd;stroke-width:1.0000000pt"
      sodipodi:fill-cmyk="(0 0.2 1 0)"
      id="rect556"
-     height="490.73120" />
+     height="521.55786" />
   <rect
-     y="196.61827"
+     y="208.96942"
      x="0.0000000"
      width="782.86249"
      style="font-size:12.000000px;fill:#ffcc00;fill-rule:evenodd;stroke-width:1.0000000pt"
      sodipodi:fill-cmyk="(0 0.2 1 0)"
      id="rect557"
-     height="98.146187" />
+     height="104.31152" />
 </svg>

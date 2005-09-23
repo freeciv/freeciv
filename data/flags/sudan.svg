@@ -10,11 +10,11 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    height="496.06299px"
    id="svg548"
-   sodipodi:docbase="/home/jdorje/src/freeciv/freeciv/data/flags"
+   sodipodi:docbase="/Users/daniel/Desktop/flags"
    sodipodi:docname="sudan.svg"
    sodipodi:version="0.32"
-   width="992.12598px"
-   inkscape:version="0.42.2">
+   width="744.09000px"
+   inkscape:version="0.42">
   <metadata
      id="metadata320">
     <rdf:RDF>
@@ -76,30 +76,34 @@
      inkscape:cy="248.03149"
      inkscape:window-width="754"
      inkscape:window-height="513"
-     inkscape:window-x="51"
-     inkscape:window-y="235"
+     inkscape:window-x="7"
+     inkscape:window-y="68"
      inkscape:current-layer="svg548" />
-  <rect
-     height="165.36615"
-     id="rect551"
-     style="font-size:12.000000px;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
-     width="992.12598"
-     x="0.0000000"
-     y="330.69681" />
-  <rect
-     height="165.36615"
-     id="rect552"
-     style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
-     width="992.12598"
-     x="0.0000000"
-     y="165.33057" />
-  <rect
-     height="165.36615"
-     id="rect553"
-     style="font-size:12.000000px;fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
-     width="992.13000"
-     x="0.0000000"
-     y="-1.5000000e-05" />
+  <g
+     id="g7765"
+     transform="scale(0.749992,1.000000)">
+    <rect
+       y="330.69681"
+       x="0.0000000"
+       width="992.12598"
+       style="font-size:12.000000px;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       id="rect551"
+       height="165.36615" />
+    <rect
+       y="165.33057"
+       x="0.0000000"
+       width="992.12598"
+       style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       id="rect552"
+       height="165.36615" />
+    <rect
+       y="-1.5000000e-05"
+       x="0.0000000"
+       width="992.13000"
+       style="font-size:12.000000px;fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+       id="rect553"
+       height="165.36615" />
+  </g>
   <path
      d="M 0.0000000,7.6293900e-05 L 0.0000000,496.06300 L 330.69700,248.03200 L 0.0000000,7.6293900e-05 z "
      id="path556"
