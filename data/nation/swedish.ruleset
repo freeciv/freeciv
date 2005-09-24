@@ -3,21 +3,29 @@
 name=_("Swedish")
 plural=_("?plural:Swedes")
 groups=_("Medieval"), _("Modern"), _("European")
-legend=_("The Kingdom of Sweden was christianized and consolidated as a political entity in the 12th century AD. The country rose to prominence as one of the great powers of Europe in the 17th century, following substantial military conquests by the so called Warrior Kings. However, due to a worsening economy and several disastrous defeats to Russia, Sweden soon lost most of its gained territory. The country has not been involved in an armed conflict since 1814.")
+legend=_("The Kingdom of Sweden was christianized and consolidated as a\
+ political entity in the 12th century AD. The country rose to prominence as\
+ one of the great powers of Europe in the 17th century, following\
+ substantial military conquests by the so called Warrior Kings. However,\
+ due to a worsening economy and several disastrous defeats to Russia, Sweden\
+ soon lost most of its gained territory. The country has not been involved\
+ in an armed conflict since 1814.")
 leader=
-  "Erik Segergäll",
-  "Olof Skötkonung",
-  "Magnus Ladulås",
-  "Gustav Vasa",
-  "Erik IX",
-  "Karl XII",
-  "Gustav II Adolf",
-  "Kristina",
-  "Per Albin Hansson",
-  "Olof Palme",
-  "Anna Lindh"
-
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male", "Female"
+ "Erik Segersäll",
+ "Olof Skötkonung",
+ "Magnus Ladulås",
+ "Gustav Vasa",
+ "Erik IX",
+ "Karl XII",
+ "Gustav II Adolf",
+ "Kristina",
+ "Oscar II",
+ "Per Albin Hansson",
+ "Dag Hammarskjöld",
+ "Olof Palme",
+ "Anna Lindh"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Male", "Female", "Male", "Male", "Male", "Female"
 flag="sweden"
 flag_alt = "-"
 city_style = "European"
@@ -27,75 +35,67 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
-civilwar_nations = "viking", "danish"
+civilwar_nations = "viking", "danish", "norwegian", "sami"
 
 ; /* <-- avoid gettext warnings
 ;
-;  Kort upplysning om ortnamnens betydelser och ursprung
-;  =====================================================
+;  Brief explanation of the source and meaning of words in city names
+;  ==================================================================
 ;
-;  BIRKA betyder Björkö
-;    Borde Birka egentligen inte flyttas till viking.ruleset?
-;    Det är väl långsökt att påstå att staden någonsin tillhört den
-;    svenska nationen.
+;  BORG (source: Våra ord)
+;    Old Swedish, Icelandic <borg>; common Germanic word (German
+;    <Burg>, English <Borough>), related to [berg]
 ;
-;  BORG (källa: Våra ord)
-;    fornsvenska islänska <borg>; gemensamt germanskt ord (tyska
-;    <Burg>, engelska <Borough>), besläktat med [berg]
-;
-;  HULT (källa: Våra ord)
-;    skogsdunge, liten skog: fornsvenska <hult>, isländska <holt>;
-;    gemensamt germanskt ord (tyska <Holz> trä, skog) med släktingar i
-;    ett flertal andra indoeuropeiska språk
+;  HULT (source: Våra ord)
+;    grove, small forest: Old Swedish <hult>, Icelandic <holt>;
+;    common Germanic word (German <Holz> wood, forest) with relatives in
+;    in a number of other Indo-European languages
 ;
 ;  HUS
-;    fornsvenska isländska <hús>; gemensamt germanskt ord (tyska
-;    <Haus>, engelska <house>) av dunkelt ursprung; jämför [hos],
+;    Old Swedish, Icelandic <hús>; common Germanic word (German
+;    <Haus>, English <house>) of obscure origin; cf. [hos],
 ;    [hysa]
 ;
-;  KIRUNA samiska <giron>, fjällripa
+;  KIRUNA Finnized Sami language word <giron>, 'Ptarmigan'
 ;
-;  KÖPING (källa: Våra ord)
-;    fornsvenska <køpunger> handelsplats; jämför isländska <kaupangr>,
-;    sammansättning av [köpa] och <-angr> (fornsvenska <-anger>) äng,
-;    gräsplats
+;  KÖPING (source: Våra ord)
+;    Old Swedish <køpunger> trading town; compare Icelandic <kaupangr>,
+;    Norwegian <kaupang>; a compound of [köpa] and <-angr>
+;    (Old Swedish <-anger>) meadow, grassy field
 ;
-;  JOKKMOKK samiska bäck-krök
+;  JOKKMOKK Sami language 'bend in the stream'
 ;
-;  OR flodmynning (i till exempel <Orsa>)
+;  OR mouth of a river (in for example <Orsa>)
 ;
-;  SAL (källa: Våra ord)
-;    fornsvenska <sal>, isländska <salr>; gemensamt germanskt ord
-;    (tyska <Saal>), troligen med grundbetydelsen 'stort hus för
-;    gästabud; boning' (i ortnamn till exempel <Sala>, <Uppsala>)
+;  SAL (source: Våra ord)
+;    Old Swedish <sal>, Icelandic <salr>; common Germanic word
+;    (German <Saal>), hypothetically meaning 'large house made for
+;    parties; living quarters' (in for example <Sala>, <Uppsala>)
 ;
-;  SEL (källa: sv.wikipedia)
-;    Den del av en älv där den blir bredare, och vattnet flyter stilla.
+;  SEL (source: sv.wikipedia)
+;    The part of a river where it broadens and the water seems to be still.
 ;
-;  TORP (källa: Våra ord)
-;    fornsvenska isländska <þorp> liten utgård, nyodling; gård, by,
-;    norska <torp>; gemensamt germanskt ord (tyska <Dorf> by, se
-;    [tölp]), möjligen med grundbetydelsen 'hus'
+;  TORP (source: Våra ord)
+;    Old Swedish, Icelandic <þorp> lesser farm, allotment; farm, village,
+;    Norwegian <torp>; common Germanic word (German <Dorf> village, cf.
+;    [tölp]), hypothetical original meaning 'house'
 ;
-;  TUN (källa: Våra ord)
-;    gårdsplats (om fornnordiska förhållanden): av isländska <tún>
-;    inhägnad jord, hemmaägor (i svenska ortnamn som <Tuna>, <Sigtuna>
-;    med flera); gemensamt germanskt ord (tyska <Zaun> gärdesgård,
-;    engelska <town> stad) med ursprunglig betydelse 'hägnad,
-;    gärdsgård' (gotländska <tun> gärdsgård) och med motsvarighet i
-;    keltiska språk
+;  TUN (source: Våra ord)
+;    farmstead (in the ancient Nordic context): from Icelandic <tún>
+;    fenced land, homestead (in Swedish town names <Tuna>, <Sigtuna>
+;    etc.); common Germanic word (German <Zaun> fencing, English <town>)
+;    with original meaning 'fencing' (Gothlandic <tun> fence) also
+;    related words in Celtic languages
 ;
+;  Natural city names are created in the following way:
 ;
-;  Tillordningen namn -> landskap är huvudsakligen gjord enligt
-;  följande:
-;
-;    "holm", "ö" ("a" i Birka), "sjö", "hamn", "sund" -> ocean
-;    "bro", "å" -> river
+;    "holm", "ö", "sjö", "hamn", "sund" -> ocean
+;    "bro", "å", "sel" -> river
 ;    "ås" -> hills
 ;    "köping" -> grassland
+;    "träsk" -> swamp
 ;
 ; */ <-- avoid gettext warnings
 
@@ -104,32 +104,36 @@ cities =
  "Uppsala",
  "Sollentuna",
  "Sigtuna",
- "Birka (ocean)",
+ "Lödöse (ocean)",
  "Norrköping (grassland)",
+ "Husaby",
  "Linköping (grassland)",
  "Örebro (river)",
  "Gävle",
  "Västerås (hills)",
- "Göteborg",
+ "Göteborg (ocean)",
  "Karlstad",
  "Växjö (ocean)",
- "Kalmar", "Visby",
+ "Kalmar",
+ "Visby",
  "Malmö (ocean)",
  "Helsingborg",
  "Ystad",
  "Lund",
+ "Bohus",
  "Luleå (river, ocean)",
- "Kiruna (mountains)",
  "Halmstad",
  "Östersund (ocean)",
  "Nyköping (grassland)",
  "Söderhamn (ocean)",
+ "Nässjö",
  "Sundsvall (ocean)",
  "Piteå (river, ocean)",
  "Skellefteå (river, ocean)",
  "Umeå (river, ocean)",
  "Jönköping (grassland)",
  "Kristianstad",
+ "Sala",
  "Karlskrona",
  "Mora",
  "Oskarshamn (ocean)",
@@ -141,7 +145,12 @@ cities =
  "Trollhättan",
  "Kiruna (mountains)",
  "Jokkmokk (river)",
- "Lycksele",
- "Sorsele",
+ "Lycksele (river)",
+ "Hultsfred",
+ "Sorsele (river)",
  "Pajala",
- "Torneå"
+ "Vidsel (river)",
+ "Kalix",
+ "Burträsk (swamp)",
+ "Västervik (ocean)",
+ "Skogstorp (forest)"
