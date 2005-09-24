@@ -663,6 +663,11 @@ bool can_unit_load(struct unit *pcargo, struct unit *ptrans)
     return FALSE;
   }
 
+  /* Recursive transporting is not allowed (for now). */
+  if (get_transporter_occupancy(pcargo) > 0) {
+    return FALSE;
+  }
+
   /* Make sure this transporter can carry this type of unit. */
   if (is_ground_unit(pcargo)) {
     if (!is_ground_units_transport(ptrans)) {
@@ -706,7 +711,8 @@ bool can_unit_unload(struct unit *pcargo, struct unit *ptrans)
   }
 
   /* Only top-level transporters may be unloaded.  However the unit being
-   * unloaded may be transporting other units. */
+   * unloaded may be transporting other units (well, at least it's allowed
+   * here: elsewhere this may be disallowed). */
   if (ptrans->transported_by != -1) {
     return FALSE;
   }
