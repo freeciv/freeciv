@@ -857,6 +857,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 {
   struct player *pplayer;
   PlayerNameStatus PNameStatus;
+  bool ai_player_should_be_removed = FALSE;
    
   if (server_state!=PRE_GAME_STATE)
   {
@@ -869,9 +870,22 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
    * MAX_NUM_PLAYERS is a limit on all players. */
   if (get_num_nonobserver_players() >= game.info.max_players
       || game.info.nplayers >= MAX_NUM_PLAYERS) {
-    cmd_reply(CMD_CREATE, caller, C_FAIL,
-	      _("Can't add more players, server is full."));
-    return FALSE;
+    /* Try emptying a slot if there is an ai player
+     * created through the /aifill command */
+    players_iterate(eplayer) {
+      if (eplayer->is_observer || eplayer->is_connected
+	  || eplayer->was_created) {
+        continue;
+      }     
+      ai_player_should_be_removed = TRUE;
+      break;
+    } players_iterate_end;
+    
+    if (!ai_player_should_be_removed) {
+      cmd_reply(CMD_CREATE, caller, C_FAIL,
+	        _("Can't add more players, server is full."));
+      return FALSE;
+    }
   }
 
   if ((PNameStatus = test_player_name(arg)) == PNameEmpty)
@@ -906,6 +920,17 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   }
   if (check) {
     return TRUE;
+  }
+  
+  if (ai_player_should_be_removed) {
+    players_iterate(eplayer) {
+      if (eplayer->is_observer || eplayer->is_connected
+	  || eplayer->was_created) {
+        continue;
+      }
+      server_remove_player(eplayer);
+      break;
+    } players_iterate_end;
   }
 
   pplayer = &game.players[game.info.nplayers];
