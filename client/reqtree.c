@@ -34,6 +34,30 @@
 #include "tilespec.h"
 #include "options.h"
 
+/*
+ * Hierarchical directed draph drawing for Freeciv's technology tree
+ *
+ *
+ * \     Layer 0    /          \    Layer 1    /   \  Layer 2  /
+ *  vvvvvvvvvvvvvvvv            vvvvvvvvvvvvvvv     vvvvvvvvvvv
+ *
+ * +-----------------+          +-------------+    +----------+
+ * |    Alphabeth    |----------| Code of Laws|----| Monarchy |
+ * +-----------------+          +-------------+   /+----------+
+ *                                               /
+ * +-----------------+             Dummy node  / 
+ * |Ceremonial Burial|-----------=============/
+ * +-----------------+
+ * 
+ * ^ node_y
+ * |
+ * |
+ * |    node_x
+ * +-------->
+ */
+
+
+
 /****************************************************************************
   This structure desribes a node in a technology tree diagram.
   A node can by dummy or real. Real node describes a technology.
@@ -42,16 +66,18 @@ struct tree_node {
   bool is_dummy;
   Tech_type_id tech;
 
+  /* Incoming edges */
   int nrequire;
   struct tree_node **require;
 
+  /* Outgoing edges */
   int nprovide;
   struct tree_node **provide;
 
-  /* Note that y means a layer and x ordering in that layer */
-  int layer, order;
+  /* logical position on the diagram */
+  int order, layer;
 
-  /* Coordinates of the rectangle on the diagram */
+  /* Coordinates of the rectangle on the diagram in pixels */
   int node_x, node_y, node_width, node_height;
 
   /* for general purpose */
@@ -67,9 +93,11 @@ struct reqtree {
   struct tree_node **nodes;
 
   int num_layers;
+  /* size of each layer */
   int *layer_size;
   struct tree_node ***layers;
 
+  /* in pixels */
   int diagram_width, diagram_height;
 };
 
@@ -93,7 +121,7 @@ static void add_requirement(struct tree_node *node, struct tree_node *req)
 }
 
 /*************************************************************************
-  Allocate and init new tree node
+  Allocate and initialize new tree node
 *************************************************************************/
 static struct tree_node *new_tree_node(void)
 {
@@ -103,13 +131,13 @@ static struct tree_node *new_tree_node(void)
   node->nprovide = 0;
   node->require = NULL;
   node->provide = NULL;
-  node->layer = -1;
   node->order = -1;
+  node->layer = -1;
   return node;
 }
 
 /****************************************************************************
-  Return minimum size of the rectangle on the diagram which
+  Return minimum size of the rectangle in pixels on the diagram which
   corresponds to the given node
 ****************************************************************************/
 static void node_rectangle_minimum_size(struct tree_node *node,
@@ -121,6 +149,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
   int swidth, sheight;
   
   if (node->is_dummy) {
+    /* Dummy node is a straight line */
     *width = *height = 1;
   } else {
     get_text_size(width, height, FONT_REQTREE_TEXT,
@@ -180,7 +209,7 @@ static void node_rectangle_minimum_size(struct tree_node *node,
 
 /****************************************************************************
   Move nodes up and down without changing order but making it more 
-  symetrical. Gravitate towards parents average position
+  symetrical. Gravitate towards parents average position.
 ****************************************************************************/
 static void symmetrize(struct reqtree* tree)
 {
@@ -236,7 +265,8 @@ static void symmetrize(struct reqtree* tree)
 }
 
 /****************************************************************************
-  Calculate rectangles position and size from current tech_tree
+  Calculate rectangles position and size from the tree.
+  Logical order should already be calculated.
 ****************************************************************************/
 static void calculate_diagram_layout(struct reqtree *tree)
 {
@@ -268,7 +298,8 @@ static void calculate_diagram_layout(struct reqtree *tree)
     tree->diagram_height = MAX(tree->diagram_height, h_sum);
   }
   
-  /* calculate maximum width of node for each layer and enlarge other nodes 
+  /* calculate maximum width of node for each layer and enlarge other nodes
+   * to match maximum width
    * calculate x offsets
    */
   layer_offs = 0;
@@ -280,12 +311,15 @@ static void calculate_diagram_layout(struct reqtree *tree)
 
       max_width = MAX(max_width, node->node_width);
     }
+    
     for (i = 0; i < tree->layer_size[layer]; i++) {
       struct tree_node *node = tree->layers[layer][i];
 
       node->node_width = max_width;
       node->node_x = layer_offs;
     }
+    
+    /* space between layers should be proportional to their size */
     if (layer != tree->num_layers - 1)  {
       layer_offs += max_width * 5 / 4 + 80;
     } else {
@@ -294,8 +328,9 @@ static void calculate_diagram_layout(struct reqtree *tree)
   }
   tree->diagram_width = layer_offs;
 
-  /* Calculate y-position of nodes on the diagram 
-   * Distribute nodes steadily  
+  /* Once we have x positions calculated we can
+   * calculate y-position of nodes on the diagram 
+   * Distribute nodes steadily.
    */
   for (layer = 0; layer < tree->num_layers; layer++) {
     int y = 0;
@@ -318,18 +353,20 @@ static void calculate_diagram_layout(struct reqtree *tree)
     }
   }
 
+  /* The symetrize() function moves node by one pixel per call */
   for (i = 0; i < tree->diagram_height; i++) {
     symmetrize(tree);
   }
 }
 
+
 /*************************************************************************
   Create a "dummy" tech tree from current ruleset.  This tree is then
-  fleshed out further (see create_reqtree).
+  fleshed out further (see create_reqtree). This tree doesn't include
+  dummy edges. Layering and ordering isn't done also.
 *************************************************************************/
 static struct reqtree *create_dummy_reqtree(void)
 {
-  /* Doesn't include dummy edges (?) */
   struct reqtree *tree = fc_malloc(sizeof(*tree));
   struct advance *advance;
   int j;
@@ -350,6 +387,7 @@ static struct reqtree *create_dummy_reqtree(void)
       continue;
     }
     advance = &advances[tech];
+    /* Don't include redundant edges */
     if (advance->req[0] != A_NONE && advance->req[1] != A_LAST) {
       if ((advance->req[1] != A_NONE
 	   && !is_tech_a_req_for_goal(game.player_ptr, advance->req[0],
@@ -367,6 +405,8 @@ static struct reqtree *create_dummy_reqtree(void)
     }
   } tech_type_iterate_end;
 
+  /* Copy nodes from local array to dynamically allocated one. 
+   * Skip non-existing entries */
   tree->nodes = fc_malloc(game.control.num_tech_types * sizeof(*tree->nodes));
   j = 0;
   tech_type_iterate(tech) {
@@ -409,21 +449,21 @@ void destroy_reqtree(struct reqtree *tree)
 
 /*************************************************************************
   Compute the longest path from this tree_node to the node with 
-  no requirements. Store the result int node->order
+  no requirements. Store the result in node->layer.
 *************************************************************************/
 static int longest_path(struct tree_node *node)
 {
   int max, i;
 
-  if (node->order != -1) {
-    return node->order;
+  if (node->layer != -1) {
+    return node->layer;
   }
   max = -1;
   for (i = 0; i < node->nrequire; i++) {
     max = MAX(max, longest_path(node->require[i]));
   }
-  node->order = max + 1;
-  return node->order;
+  node->layer = max + 1;
+  return node->layer;
 }
 
 /*************************************************************************
@@ -441,16 +481,16 @@ static void longest_path_layering(struct reqtree *tree)
 }
 
 /*************************************************************************
-  Find the largest value of y amongst children of the given node
+  Find the largest value of layer amongst children of the given node
 *************************************************************************/
 static int max_provide_layer(struct tree_node *node)
 {
   int i;
-  int max = node->order;
+  int max = node->layer;
 
   for (i = 0; i < node->nprovide; i++) {
-    if (node->provide[i]->order > max) {
-      max = node->provide[i]->order;
+    if (node->provide[i]->layer > max) {
+      max = node->provide[i]->layer;
     }
   }
   return max;
@@ -474,8 +514,8 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
       continue;
     }
     mpl = max_provide_layer(tree->nodes[i]);
-    if (mpl > tree->nodes[i]->order + 1) {
-      num_dummy_nodes += mpl - tree->nodes[i]->order - 1;
+    if (mpl > tree->nodes[i]->layer + 1) {
+      num_dummy_nodes += mpl - tree->nodes[i]->layer - 1;
     }
   }
 
@@ -491,7 +531,7 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
     new_tree->nodes[i] = new_tree_node();
     new_tree->nodes[i]->is_dummy = FALSE;
     new_tree->nodes[i]->tech = tree->nodes[i]->tech;
-    new_tree->nodes[i]->order = tree->nodes[i]->order;
+    new_tree->nodes[i]->layer = tree->nodes[i]->layer;
     tree->nodes[i]->number = i;
   }
   
@@ -512,34 +552,34 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
     mpl = max_provide_layer(node);
 
     /* if this node will have dummy as ancestors, connect them in a chain */
-    if (mpl > node->order + 1) {
+    if (mpl > node->layer + 1) {
       add_requirement(new_tree->nodes[k], new_tree->nodes[i]);
-      for (j = node->order + 2; j < mpl; j++) {
-	add_requirement(new_tree->nodes[k + j - node->order - 1],
-			new_tree->nodes[k + j - node->order - 2]);
+      for (j = node->layer + 2; j < mpl; j++) {
+	add_requirement(new_tree->nodes[k + j - node->layer - 1],
+			new_tree->nodes[k + j - node->layer - 2]);
       }
-      for (j = node->order + 1; j < mpl; j++) {
-	new_tree->nodes[k + j - node->order - 1]->order = j;
+      for (j = node->layer + 1; j < mpl; j++) {
+	new_tree->nodes[k + j - node->layer - 1]->layer = j;
       }
     }
 
     /* copy all edges and create edges with dummy nodes */
     for (j = 0; j < node->nprovide; j++) {
-      int provide_y = node->provide[j]->order;
+      int provide_y = node->provide[j]->layer;
 
-      if (provide_y == node->order + 1) {
+      if (provide_y == node->layer + 1) {
         /* direct connection */
 	add_requirement(new_tree->nodes[node->provide[j]->number],
 			new_tree->nodes[i]);
       } else {
         /* connection through dummy node */
 	add_requirement(new_tree->nodes[node->provide[j]->number],
-			new_tree->nodes[k + provide_y - node->order - 2]);
+			new_tree->nodes[k + provide_y - node->layer - 2]);
       }
     }
 
-    if (mpl > node->order + 1) {
-      k += mpl - node->order - 1;
+    if (mpl > node->layer + 1) {
+      k += mpl - node->layer - 1;
       assert(k <= new_tree->num_nodes);
     }
   }
@@ -550,7 +590,7 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
 
 /*************************************************************************
   Calculate layers[] and layer_size[] fields of tree.
-  There should be y value calculated for each node.
+  There should be layer value calculated for each node.
   Nodes will be put into layers in no particular order.
 *************************************************************************/
 static void set_layers(struct reqtree *tree)
@@ -560,13 +600,13 @@ static void set_layers(struct reqtree *tree)
   
   /* count total number of layers */
   for (i = 0; i < tree->num_nodes; i++) {
-    num_layers = MAX(num_layers, tree->nodes[i]->order);
+    num_layers = MAX(num_layers, tree->nodes[i]->layer);
   }
   num_layers++;
   tree->num_layers = num_layers;
 
   {
-    /* counters for x */
+    /* Counters for order - order number for the next node in the layer */
     int T[num_layers];
 
     tree->layers = fc_malloc(sizeof(*tree->layers) * num_layers);
@@ -576,7 +616,7 @@ static void set_layers(struct reqtree *tree)
       tree->layer_size[i] = 0;
     }
     for (i = 0; i < tree->num_nodes; i++) {
-      tree->layer_size[tree->nodes[i]->order]++;
+      tree->layer_size[tree->nodes[i]->layer]++;
     }
 
     for (i = 0; i < num_layers; i++) {
@@ -586,9 +626,9 @@ static void set_layers(struct reqtree *tree)
     for (i = 0; i < tree->num_nodes; i++) {
       struct tree_node *node = tree->nodes[i];
 
-      tree->layers[node->order][T[node->order]] = node;
-      node->layer = T[node->order];
-      T[node->order]++;
+      tree->layers[node->layer][T[node->layer]] = node;
+      node->order = T[node->layer];
+      T[node->layer]++;
     }
   }
 }
@@ -630,7 +670,7 @@ static void barycentric_sort(struct reqtree *tree, int layer)
     T[i].node = node;
     v = 0.0;
     for (j = 0; j < node->nrequire; j++) {
-      v += node->require[j]->layer;
+      v += node->require[j]->order;
     }
     if (node->nrequire > 0) {
       v /= (float) node->nrequire;
@@ -642,7 +682,7 @@ static void barycentric_sort(struct reqtree *tree, int layer)
 
   for (i = 0; i < tree->layer_size[layer]; i++) {
     tree->layers[layer][i] = T[i].node;
-    T[i].node->layer = i;
+    T[i].node->order = i;
   }
 }
 
@@ -665,10 +705,10 @@ static int count_crossings(struct reqtree *tree, int layer)
     struct tree_node *node = tree->layers[layer][i];
 
     for (j = 0; j < node->nprovide; j++) {
-      sum += X[node->provide[j]->layer];
+      sum += X[node->provide[j]->order];
     }
     for (j = 0; j < node->nprovide; j++) {
-      for (k = 0; k < node->provide[j]->layer; k++) {
+      for (k = 0; k < node->provide[j]->order; k++) {
 	X[k]++;
       }
     }
@@ -680,15 +720,15 @@ static int count_crossings(struct reqtree *tree, int layer)
 /*************************************************************************
   Swap positions of two nodes on the same layer
 *************************************************************************/
-static void swap(struct reqtree *tree, int layer, int layer1, int layer2)
+static void swap(struct reqtree *tree, int layer, int order1, int order2)
 {
-  struct tree_node *node1 = tree->layers[layer][layer1];
-  struct tree_node *node2 = tree->layers[layer][layer2];
+  struct tree_node *node1 = tree->layers[layer][order1];
+  struct tree_node *node2 = tree->layers[layer][order2];
 
-  tree->layers[layer][layer1] = node2;
-  tree->layers[layer][layer2] = node1;
-  node1->layer = layer2;
-  node2->layer = layer1;
+  tree->layers[layer][order1] = node2;
+  tree->layers[layer][order2] = node1;
+  node1->order = order2;
+  node2->order = order1;
 }
 
 /*************************************************************************
@@ -744,7 +784,8 @@ static void improve(struct reqtree *tree)
 }
 
 /*************************************************************************
-  Generate optimized tech_tree from current ruleset
+  Generate optimized tech_tree from current ruleset.
+  You should free it by destroy_reqtree.
 *************************************************************************/
 struct reqtree *create_reqtree(void)
 {
@@ -857,11 +898,17 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
 	const char *text = get_tech_name(game.player_ptr, node->tech);
 	int text_w, text_h;
 	int icon_startx;
+	
 
 	/* Print color rectangle with text inside. */
 	canvas_put_rectangle(pcanvas, get_color(tileset, node_color(node)),
 			     startx + 1, starty + 1,
 			     width - 2, height - 2);
+	/* The following code is similar to the one in 
+	 * node_rectangle_minimum_size(). If you change something here,
+	 * change also node_rectangle_minimum_size().
+	 */
+			     
 	get_text_size(&text_w, &text_h, FONT_REQTREE_TEXT, text);
 
 	canvas_put_text(pcanvas,
