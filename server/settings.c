@@ -406,7 +406,7 @@ struct settings_s settings[] = {
              "will be rejected."), maxplayers_callback,
 	  GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS)
 
-  GEN_INT("aifill", game.aifill,
+  GEN_INT("aifill", game.info.aifill,
 	  SSET_PLAYERS, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Total number of players (including AI players)"),
 	  N_("If set to a positive value, then AI players will be "

@@ -102,6 +102,7 @@ struct packet_game_info {
   int gold;
   int tech;
   int skill_level;
+  int aifill;
   bool is_new_game;
   float seconds_to_phasedone;
   int timeout;

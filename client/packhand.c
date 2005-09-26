@@ -180,7 +180,11 @@ void handle_server_join_reply(bool you_can_join, char *message,
     aconnection.id = conn_id;
     agents_game_joined();
     update_menus();
-    set_client_page(PAGE_START);
+    
+    
+    if (get_client_page() == PAGE_MAIN || get_client_page() == PAGE_NETWORK) {
+      set_client_page(PAGE_START);
+    }
 
     /* we could always use hack, verify we're local */ 
     send_client_wants_hack(challenge_file);
@@ -1340,7 +1344,13 @@ void handle_map_info(int xsize, int ysize, int topology_id)
 void handle_game_info(struct packet_game_info *pinfo)
 {
   bool boot_help;
+  bool update_aifill_button = FALSE;
 
+
+  if (game.info.aifill != pinfo->aifill) {
+    update_aifill_button = TRUE;
+  }
+  
   game.info = *pinfo;
 
   game.government_when_anarchy
@@ -1358,6 +1368,9 @@ void handle_game_info(struct packet_game_info *pinfo)
     boot_help_texts();		/* reboot, after setting game.spacerace */
   }
   update_unit_focus();
+  if (update_aifill_button) {
+    update_start_page();
+  }
 }
 
 /**************************************************************************

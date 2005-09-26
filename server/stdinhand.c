@@ -955,9 +955,9 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   pplayer->ai.control = TRUE;
   set_ai_level_directer(pplayer, game.info.skill_level);
+  aifill(game.info.aifill);
   send_game_info(NULL);
   send_player_info(pplayer, NULL);
-  aifill(game.aifill);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
   return TRUE;
@@ -995,7 +995,7 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
     cmd_reply(CMD_REMOVE, caller, C_OK,
 	      _("Removed player %s from the game."), name);
   }
-  aifill(game.aifill);
+  aifill(game.info.aifill);
   return TRUE;
 }
 
@@ -2549,6 +2549,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   if (!check && do_update) {
     send_server_setting(NULL, cmd);
+    send_game_info(NULL);
     reset_all_start_commands();
     send_server_info_to_metaserver(META_INFO);
     /* 
@@ -3071,7 +3072,7 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 
     /* actually do the removal */
     server_remove_player(pplayer);
-    aifill(game.aifill);
+    aifill(game.info.aifill);
     reset_all_start_commands();
   }
 
@@ -3200,6 +3201,9 @@ bool load_command(struct connection *caller, char *filename, bool check)
           read_timer_seconds_free(uloadtimer));
 
   sanity_check();
+  
+  send_game_info(game.est_connections);
+  send_rulesets(game.est_connections);
 
   /* Everything seemed to load ok; spread the good news. */
   send_load_game_info(TRUE);

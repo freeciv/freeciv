@@ -705,7 +705,7 @@ bool attach_connection_to_player(struct connection *pconn,
   send_game_info(NULL);
   send_player_info(pplayer, NULL);
 
-  aifill(game.aifill);
+  aifill(game.info.aifill);
 
   return TRUE;
 }

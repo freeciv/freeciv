@@ -251,7 +251,7 @@ void game_init(void)
   game.timeoutcounter= 1;
   game.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
   game.last_ping     = 0;
-  game.aifill      = GAME_DEFAULT_AIFILL;
+  game.info.aifill      = GAME_DEFAULT_AIFILL;
   sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
 
   game.seed = GAME_DEFAULT_SEED;

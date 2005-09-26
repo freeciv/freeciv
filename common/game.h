@@ -69,7 +69,6 @@ struct civ_game {
    * use.  The "stored" value is a value the player can change; it won't
    * take effect until the next turn. */
   bool simultaneous_phases_stored;
-  int aifill;
   char *startmessage;
   struct player *player_ptr;
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];

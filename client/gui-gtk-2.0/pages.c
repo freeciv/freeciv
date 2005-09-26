@@ -98,8 +98,7 @@ static void start_new_game_callback(GtkWidget *w, gpointer data)
 static void start_scenario_callback(GtkWidget *w, gpointer data)
 {
   set_client_page(PAGE_SCENARIO);
-
-  start_new_game_callback(NULL, NULL);
+  client_start_server();
 }
 
 /**************************************************************************
@@ -108,8 +107,7 @@ static void start_scenario_callback(GtkWidget *w, gpointer data)
 static void load_saved_game_callback(GtkWidget *w, gpointer data)
 {
   set_client_page(PAGE_LOAD);
-
-  start_new_game_callback(NULL, NULL);
+  client_start_server();
 }
 
 /**************************************************************************
@@ -916,13 +914,16 @@ static void ruleset_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   AI fill setting callback.
 **************************************************************************/
+static bool send_new_aifill_to_server = TRUE;
 static void ai_fill_callback(GtkWidget *w, gpointer data)
 {
   char buf[512];
 
-  my_snprintf(buf, sizeof(buf), "/set aifill %d",
+  if (send_new_aifill_to_server) {
+    my_snprintf(buf, sizeof(buf), "/set aifill %d",
       gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w)));
-  send_chat(buf);
+    send_chat(buf);
+  }
 }
 
 /**************************************************************************
@@ -947,10 +948,14 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   update the start page.
 **************************************************************************/
-static void update_start_page(void)
+void update_start_page(void)
 {
+  bool old = send_new_aifill_to_server;
+  send_new_aifill_to_server = FALSE;
   /* Default to aifill 5. */
-  gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin), 5);
+  gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin),
+                            game.info.aifill);
+  send_new_aifill_to_server = old;
 }
 
 static struct player *team_menu_player;
@@ -1274,9 +1279,23 @@ void handle_game_load(struct packet_game_load *packet)
 {
   if (!packet->load_successful) {
   } else {
-    update_nation_page(packet);
+    if (game.info.is_new_game) {
+      char message[MAX_LEN_MSG];
 
-    set_client_page(PAGE_NATION);
+      set_client_page(PAGE_START);
+      
+      /* It's pregame. Create a player and connect to him */
+      my_snprintf(message, sizeof(message), "/create %s", user_name);
+      send_chat(message);
+      my_snprintf(message, sizeof(message), "/ai %s", user_name);
+      send_chat(message);
+      my_snprintf(message, sizeof(message), "/take \"%s\"", user_name);
+      send_chat(message);
+
+    } else {
+      update_nation_page(packet);
+      set_client_page(PAGE_NATION);
+    }
   }
 }
 
@@ -1736,6 +1755,13 @@ GtkWidget *create_nation_page(void)
   return box;
 }
 
+/**************************************************************************
+  Returns current client page
+**************************************************************************/
+enum client_pages get_client_page(void)
+{
+  return old_page;
+}
 
 /**************************************************************************
   changes the current page.
@@ -1746,6 +1772,7 @@ void set_client_page(enum client_pages page)
   enum client_pages new_page;
 
   new_page = page;
+  
 
   /* If the page remains the same, don't do anything. */
   if (old_page == new_page) {
@@ -1753,12 +1780,8 @@ void set_client_page(enum client_pages page)
   }
 
   switch (old_page) {
-  /* We aren't interested in showing a start page on game load or scenario. */
   case PAGE_SCENARIO:
   case PAGE_LOAD:
-    if (new_page == PAGE_START) {
-      return;
-    }
     break;
   case PAGE_NETWORK:
     if (lan_timer != 0) {
