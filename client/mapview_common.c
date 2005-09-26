@@ -1517,14 +1517,14 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 
       show_city_desc(mapview.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
-      freelog(LOG_NORMAL, "Drawing %s.", pcity->name);
+      freelog(LOG_DEBUG, "Drawing %s.", pcity->name);
 
       if (width > max_desc_width || height > max_desc_height) {
 	/* The update was incomplete!  We queue a new update.  Note that
 	 * this is recursively queueing an update within a dequeuing of an
 	 * update.  This is allowed specifically because of the code in
 	 * unqueue_mapview_updates.  See that function for more. */
-	freelog(LOG_NORMAL, "Re-queuing %s.", pcity->name);
+	freelog(LOG_DEBUG, "Re-queuing %s.", pcity->name);
 	update_city_description(pcity);
       }
       new_max_width = MAX(width, new_max_width);
