@@ -1,3 +1,189 @@
+Mon Sep 26 00:34:39 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* NEWS, common/version.h, doc/BUGS, version.in:
+
+	Update NEWS and bump version to 2.0.6.
+
+Sat Sep 24 01:28:05 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* common/unit.c:
+
+	Backport: don't allow recursive transporting, since it is buggy.
+
+	Reported by Senti Lo'oris <lo_oris@email.it> in PR#14043.
+
+Fri Sep 23 19:23:30 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/attribute.c, utility/hash.c:
+
+	Backport: fix a memory leak in the attribute hash code.
+
+	Patch by me in PR#14063.
+
+Fri Sep 23 18:42:15 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/agents/cma_core.c:
+
+	Backport: fix a memory leak caused by multiple calls to
+	new_timer.
+
+	Patch by me in PR#14064.
+
+Fri Sep 23 18:38:13 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/gui-gtk-2.0/pages.c:
+
+	Backport: change the LAN tab (not the metaserver tab) to be the
+	default in the "connect to network game" pane.
+
+	Patch by me in PR#14086.
+
+Tue Sep 20 18:16:55 2005  Christian Knoke <chrisk@cknoke.de>:
+
+	* po/de.po:
+
+	bugfixes and changes suggested by Guido Ostkamp
+
+Tue Sep 20 17:42:15 2005  Christian Knoke <chrisk@cknoke.de>:
+
+	* po/de.po:
+
+	updated
+
+Tue Sep 20 12:40:19 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/stdinhand.c:
+
+	The /debug command without arguments could crash the server.
+	Reported by pubserver. Patch by me in PR#14032
+
+Tue Sep 20 10:35:04 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/barbarian.c, server/plrhand.c, server/plrhand.h,
+	server/savegame.c, server/srv_main.c, server/stdinhand.c:
+
+	S2_0: Clean up a code which is responsible for giving initial
+	techs (techlevel, init_techs). Don't let techlevel > 0
+	desynchronize team research. Give techlevel bonus only once per
+	team. Patch by me in PR#11610
+
+Sat Sep 17 15:56:33 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* common/game.c, common/packets.c, common/player.c,
+	common/player.h:
+
+	S2_0: Solve problems resulting from the fact that attribute
+	upload isn't atomic. Patch by me in PR#13986
+
+Fri Sep 16 09:43:26 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/clinet.c, client/gui-gtk-2.0/gui_main.c:
+
+	S2_0: Send attributes when the client intentionally disconnects.
+	Patch by me in PR#13924
+
+Fri Sep 16 08:31:25 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* common/packets.c, common/packets.def, common/packets.h,
+	common/packets_gen.c:
+
+	S2_0: Drop player attributes when we receive bad attribute chunk.
+	Previously we simply crashed. Patch by me in PR#13802
+
+Thu Sep 15 18:05:49 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/text.c:
+
+	Backport: display veteran status in popup_info_text.
+
+	Patch by me in PR#8576.
+
+Wed Sep 14 03:03:34 2005  James Canete <use_less@ignmail.com>:
+
+	* client/gui-win32/citydlg.c, client/gui-win32/dialogs.c,
+	client/gui-win32/helpdlg.c, client/gui-win32/menu.c,
+	client/gui-win32/ratesdlg.c:
+
+	gui-win32: Fix some untranslated strings.
+
+	Reported by Florian Kattner and Christian Knoke
+	<chrisk@cknoke.de> in PR#13940.
+
+	Patch by me.
+
+Tue Sep 13 08:43:33 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/plrhand.c:
+
+	Backport: don't notify the player when the tech goal isn't
+	changed.
+
+	Patch by me in PR#13885.
+
+Tue Sep 13 07:06:00 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* client/text.c:
+
+	Backport: fix a bug where the tile popup gave attack/defense
+	percentages based only on the "visible" unit not on all known
+	units on the tile.
+
+	Patch by me in PR#13917.
+
+Fri Sep 09 07:45:49 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* client/text.c, common/map.c, common/map.h:
+
+	S2_0: Include despotism penaly in the midle-mouse-button popup.
+	Requested by C <bmorris3@san.rr.com> in PR#13902
+
+Thu Sep 08 19:20:38 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* server/unittools.c:
+
+	Backport: remove duplicate messages when orders for a unit on
+	goto or patrol are canceled because of an enemy unit.
+
+	Patch by me in PR#13912.
+
+Thu Sep 08 06:21:06 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c:
+
+	Don't loose bulbs in choose_random_tech(). Reported by Thomas
+	Muller <lists@elfstone.de> in PR#13198, patch by me in PR#13342
+
+Thu Sep 08 06:10:52 2005  Mateusz Stefek <mstefek@poczta.fm>:
+
+	* server/plrhand.c:
+
+	Remove assertion in found_new_tech and replace it with a warning
+	message with good debugging information. This should 'fix' some
+	problems with team research in S2_0 branch. Patch by me in
+	PR#13705.
+
+Tue Sep 06 00:41:21 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* data/default/units.ruleset:
+
+	Backport: add "leader" unit to 2.0.
+
+	Patch by Per Mathisen in PR#12491.
+
+Sat Sep 03 17:28:59 2005  Dusan Hokuv,cs Translator <dusan@mirc.cz>:
+
+	* po/cs.po:
+
+	update 8 translation strings
+
+Sat Sep 03 00:34:59 2005  Jason Short <jdorje@users.sourceforge.net>:
+
+	* doc/PEOPLE:
+
+	Backport: add credits for some nation authors.
+
+	See PR#3589.
+
 Thu Sep 01 21:00:12 2005  Jason Short <jdorje@users.sourceforge.net>:
 
 	* NEWS, common/version.h, doc/BUGS, version.in:
