@@ -376,18 +376,7 @@ static void hash_free_contents(struct hash_table *h)
 **************************************************************************/
 void hash_free(struct hash_table *h)
 {
-  unsigned i;
-
-  for(i = 0; i < h->num_buckets; i++) {
-    struct hash_bucket *bucket = &h->buckets[i];
-
-    if (h->free_key_func) {
-      h->free_key_func((void*)bucket->key);
-    }
-    if (h->free_data_func) {
-      h->free_data_func((void*)bucket->data);
-    }
-  }
+  hash_delete_all_entries(h);
   hash_free_contents(h);
   free(h);
 }
@@ -591,6 +580,47 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
 }
 
 /**************************************************************************
+  Deletes a single bucket from the hash.  You may call this on an unused
+  bucket.  old_key and old_value, if non-NULL, will be set to contain the
+  pointers to the key and value that are being deleted.  free_key_func
+  and free_data_func will (if set) be called on the key and data so these
+  return values may already have been freed.
+**************************************************************************/
+static void hash_delete_bucket(struct hash_table *h,
+			       struct hash_bucket *bucket,
+			       void **old_key,
+			       void **old_value)
+{
+  if (bucket->used == BUCKET_USED) {
+    if (old_key) {
+      *old_key = (void*)bucket->key;
+    }
+    if (old_value) {
+      *old_value = (void*)bucket->data;
+    }
+    if (h->free_key_func) {
+      h->free_key_func((void*)bucket->key);
+    }
+    if (h->free_data_func) {
+      h->free_data_func((void*)bucket->data);
+    }
+    zero_hbucket(bucket);
+    bucket->used = BUCKET_DELETED;
+    h->num_deleted++;
+    assert(h->num_entries > 0);
+    h->num_entries--;
+  } else {
+    if (old_key) {
+      *old_key = NULL;
+    }
+    if (old_value) {
+      *old_value = NULL;
+    }
+  }
+
+}
+
+/**************************************************************************
   Delete an entry with specified key.  Returns user-data of deleted
   entry, or NULL if not found.
 **************************************************************************/
@@ -609,32 +639,12 @@ void *hash_delete_entry_full(struct hash_table *h, const void *key,
 			     void **old_key)
 {
   struct hash_bucket *bucket;
+  void *old_value;
 
   hash_maybe_shrink(h);  
   bucket = internal_lookup(h, key, HASH_VAL(h,key));
-  if (bucket->used == BUCKET_USED) {
-    const void *ret = bucket->data;
-    if (h->free_key_func) {
-      h->free_key_func((void*)bucket->key);
-    }
-    if (h->free_data_func) {
-      h->free_data_func((void*)bucket->data);
-    }
-    if (old_key) {
-      *old_key = (void*)bucket->key;
-    }
-    zero_hbucket(bucket);
-    bucket->used = BUCKET_DELETED;
-    h->num_deleted++;
-    assert(h->num_entries > 0);
-    h->num_entries--;
-    return (void*) ret;
-  } else {
-    if (old_key) {
-      *old_key = NULL;
-    }
-    return NULL;
-  }
+  hash_delete_bucket(h, bucket, old_key, &old_value);
+  return old_value;
 }
 
 /**************************************************************************
@@ -642,8 +652,13 @@ void *hash_delete_entry_full(struct hash_table *h, const void *key,
 **************************************************************************/
 void hash_delete_all_entries(struct hash_table *h)
 {
-  while (hash_num_entries(h) > 0)
-    (void) hash_delete_entry(h, hash_key_by_number(h, 0));
+  unsigned int bucket_nr;
+
+  /* Modeled after hash_key_by_number and hash_delete_entry. */
+  for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {
+    hash_delete_bucket(h, &h->buckets[bucket_nr], NULL, NULL);
+  }
+  hash_maybe_shrink(h);
 }
 
 /**************************************************************************
