@@ -412,13 +412,13 @@ void handle_city_info(struct packet_city_info *packet)
     /* Check if city desciptions should be updated */
     if (draw_city_names && name_changed) {
       update_descriptions = TRUE;
-    } else if (draw_city_productions
+    } else if (DRAW_CITY_PRODUCTIONS
 	       && (pcity->production.is_unit != packet->production_is_unit
 		   || pcity->production.value != packet->production_value
 		   || pcity->surplus[O_SHIELD] != packet->surplus[O_SHIELD]
 		   || pcity->shield_stock != packet->shield_stock)) {
       update_descriptions = TRUE;
-    } else if (draw_city_names && draw_city_growth &&
+    } else if (draw_city_names && DRAW_CITY_GROWTH &&
 	       (pcity->food_stock != packet->food_stock ||
 		pcity->surplus[O_FOOD] != packet->surplus[O_FOOD])) {
       /* If either the food stock or surplus have changed, the time-to-grow
