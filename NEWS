@@ -2,13 +2,32 @@
 Welcome to Freeciv 2.0
 ======================
 
-This is release 2.0.5.
+This is release 2.0.6.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 2.0.5
+ - Fix some memory leaks.
+ - Fix some bugs with uploading of CMA parameter data.
+ - Upload CMA parameter data when the user disconnects mid-turn.
+ - Include despotism penalty in the middle-mouse tile popup.
+ - Fix the attack/defend changes in the middle-mouse tile popup.
+ - Correctly show veteran status in the middle-mouse tile popup.
+ - Don't allow recursive transporting even if the ruleset allows it.
+ - Fix bugs with use of the techlevel setting and teams.
+ - Fix some situations where changing tech targets could erronously cause
+   bulbs to be lost.
+ - Work around some bugs with desynchronized team research.
+ - Remove some duplicate/unnecessary messages.
+ - Fix a possible crash with the debug command.
+ - In the GTK-2 client, show the LAN tab by default (rather than the
+   metaserver tab).
+ - In the win32 client, fix some untranslated strings.
+ - Add a leader unit to the ruleset (for use with the startunits setting).
 
 WHAT'S CHANGED SINCE 2.0.4
  - Fix bugs with government setting of new civs (barbarians and civil war 
