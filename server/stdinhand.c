@@ -3676,6 +3676,7 @@ static bool start_command(struct connection *caller, char *name, bool check)
 		      started, started + notstarted);
 	return TRUE;
       }
+      notify_player(NULL, _("All players are ready; starting game."));
       start_game();
       return TRUE;
     }
