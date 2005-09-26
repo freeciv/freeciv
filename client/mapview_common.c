@@ -1480,6 +1480,7 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 {
   const int dx = max_desc_width - tileset_tile_width(tileset), dy = max_desc_height;
   const int offset_y = tileset_citybar_offset_y(tileset);
+  int new_max_width = max_desc_width, new_max_height = max_desc_height;
 
   if (!draw_city_names && !draw_city_productions) {
     return;
@@ -1516,11 +1517,25 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 
       show_city_desc(mapview.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
+      freelog(LOG_NORMAL, "Drawing %s.", pcity->name);
 
-      max_desc_width = MAX(width, max_desc_width);
-      max_desc_height = MAX(height, max_desc_height);
+      if (width > max_desc_width || height > max_desc_height) {
+	/* The update was incomplete!  We queue a new update.  Note that
+	 * this is recursively queueing an update within a dequeuing of an
+	 * update.  This is allowed specifically because of the code in
+	 * unqueue_mapview_updates.  See that function for more. */
+	freelog(LOG_NORMAL, "Re-queuing %s.", pcity->name);
+	update_city_description(pcity);
+      }
+      new_max_width = MAX(width, new_max_width);
+      new_max_height = MAX(height, new_max_height);
     }
   } gui_rect_iterate_end;
+
+  /* We don't update the new max values until the end, so that the
+   * check above to see what cities need redrawing will be complete. */
+  max_desc_width = MAX(max_desc_width, new_max_width);
+  max_desc_height = MAX(max_desc_height, new_max_height);
 }
 
 /****************************************************************************
@@ -2025,6 +2040,7 @@ void unqueue_mapview_updates(bool write_to_screen)
     {-(max_desc_width - W) / 2, H, max_desc_width, max_desc_height},
     {-(city_width - W) / 2, -(city_height - H) / 2, city_width, city_height}
   };
+  struct tile_list *my_tile_updates[TILE_UPDATE_COUNT];
 
   int i;
 
@@ -2036,6 +2052,14 @@ void unqueue_mapview_updates(bool write_to_screen)
 
   freelog(LOG_DEBUG, "unqueue_mapview_update: needed_updates=%d",
 	  needed_updates);
+
+  /* This code "pops" the lists of tile updates off of the static array and
+   * stores them locally.  This allows further updates to be queued within
+   * the function itself (namely, within update_map_canvas). */
+  for (i = 0; i < TILE_UPDATE_COUNT; i++) {
+    my_tile_updates[i] = tile_updates[i];
+    tile_updates[i] = NULL;
+  }
 
   if (map_exists()) {
     if ((needed_updates & UPDATE_MAP_CANVAS_VISIBLE)
@@ -2051,8 +2075,8 @@ void unqueue_mapview_updates(bool write_to_screen)
       int i;
 
       for (i = 0; i < TILE_UPDATE_COUNT; i++) {
-	if (tile_updates[i]) {
-	  tile_list_iterate(tile_updates[i], ptile) {
+	if (my_tile_updates[i]) {
+	  tile_list_iterate(my_tile_updates[i], ptile) {
 	    int x0, y0, x1, y1;
 
 	    (void) tile_to_canvas_pos(&x0, &y0, ptile);
@@ -2084,8 +2108,9 @@ void unqueue_mapview_updates(bool write_to_screen)
     }
   }
   for (i = 0; i < TILE_UPDATE_COUNT; i++) {
-    if (tile_updates[i]) {
-      tile_list_unlink_all(tile_updates[i]);
+    if (my_tile_updates[i]) {
+      tile_list_unlink_all(my_tile_updates[i]);
+      tile_list_free(my_tile_updates[i]);
     }
   }
   needed_updates = UPDATE_NONE;
