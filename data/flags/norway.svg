@@ -12,7 +12,7 @@
    x="0"
    y="0"
    width="190.5mm"
-   height="140mm"
+   height="450.00000px"
    id="islenskifaninn"
    sodipodi:version="0.32"
    sodipodi:docname="norway.svg"
@@ -51,49 +51,49 @@
      style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect583"
      width="675.00000"
-     height="496.06000"
+     height="450.00000"
      x="-8.0000000e-06"
-     y="0.0029882812" />
+     y="0.0000000" />
   <rect
      style="font-size:12.000000px;fill:#d72828;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect561"
      width="186.93668"
-     height="191.33768"
+     height="166.80000"
      x="1.9403700e-07"
-     y="0.0029873643" />
+     y="-3.0517579e-06" />
   <rect
      style="font-size:12.000000px;fill:#d72828;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect562"
      width="368.42392"
-     height="191.13284"
+     height="166.80000"
      x="306.57617"
-     y="0.20787269" />
+     y="-3.0517579e-06" />
   <rect
      style="font-size:12.000000px;fill:#d72828;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect563"
      width="184.09088"
-     height="185.94568"
+     height="166.80000"
      x="1.9403700e-07"
-     y="310.11722" />
+     y="283.19998" />
   <rect
      style="font-size:12.000000px;fill:#d72828;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect564"
      width="365.93146"
-     height="183.87743"
+     height="166.80412"
      x="309.06863"
-     y="312.18546" />
+     y="283.19586" />
   <rect
      style="font-size:12.000000px;fill:#003897;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect565"
      width="62.250000"
-     height="496.06000"
+     height="450.00000"
      x="217.05414"
-     y="0.0029980564" />
+     y="0.0000000" />
   <rect
      style="font-size:12.000000px;fill:#003897;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect566"
      width="675.00000"
      height="61.297916"
      x="1.5439717e-17"
-     y="219.65277" />
+     y="194.35208" />
 </svg>
