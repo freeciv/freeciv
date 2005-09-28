@@ -2,7 +2,7 @@
 
 name=_("Icelandic")
 plural=_("?plural:Icelanders")
-groups=_("Modern")
+groups=_("Modern"), _("European")
 leader= "Jón Sigurdsson",
    "Ingólfur Arnarson",
    "Davíð Oddsson",

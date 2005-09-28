@@ -2,7 +2,7 @@
 
 name=_("Bulgarian")
 plural=_("?plural:Bulgarians")
-groups=_("Modern"), _("European")
+groups=_("Modern"), _("Medieval"), _("European")
 leader="Asparukh", "Omurtag", "Kardam", "Krum", "Boris",
        "Simeon", "Samuil", "Petar", "Assen",
        "Kaloyan", "Ivan-Assen", "Ivaylo",

@@ -14,7 +14,7 @@
 
 name=_("Singaporean")
 plural=_("?plural:Singaporeans")
-groups=_("Modern")
+groups=_("Modern"), _("Asian")
 legend=_("Singapore is a mercantile city-state located at the southernmost \
 tip of the Malaysian Peninsula")
 leader="Tengku Long", "Stamford Raffles", "W.A. Pickering", "Ong Teng Cheong",

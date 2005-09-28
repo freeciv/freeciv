@@ -2,7 +2,7 @@
 
 name=_("Phoenician")
 plural=_("?plural:Phoenicians")
-groups=_("Ancient")
+groups=_("Ancient"), _("Asian")
 leader="Hiram", "Agenor", "Eshmunazar", "Kadmos", "Ithobaal",
        "Abd'ashtart"
 leader_sex="Male", "Male", "Male", "Male", "Male",

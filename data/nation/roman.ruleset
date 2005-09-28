@@ -2,7 +2,7 @@
 
 name=_("Roman")
 plural=_("?plural:Romans")
-groups=_("Ancient")
+groups=_("Ancient"), _("European")
 legend=_("Rome was, in legend, founded by Romulus in 753 BC.  At its\
  height, Rome controlled nearly all of Europe, northern Africa and\
  Mesopotamia.")

@@ -2,7 +2,7 @@
 
 name=_("Indonesian")
 plural=_("?plural:Indonesians")
-groups=_("Modern")
+groups=_("Modern"), _("Asian")
 leader="Sukarno", "Suharto", "Habibie", "Wahid"
 leader_sex="Male", "Male", "Male", "Male"
 flag="indonesia"
