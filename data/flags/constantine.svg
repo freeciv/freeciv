@@ -1,106 +1,128 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0.00000000"
    y="0.00000000"
    width="1062.98853"
-   height="744.094482"
+   height="708.66000px"
    id="svg378"
-   sodipodi:version="0.34"
-   sodipodi:docname="/home/nmav/byz-early.svg"
-   sodipodi:docbase="/home/nmav">
+   sodipodi:version="0.32"
+   sodipodi:docname="constantine.svg"
+   sodipodi:docbase="/Users/daniel/Desktop/test"
+   inkscape:version="0.42">
+  <metadata
+     id="metadata2962">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <sodipodi:namedview
-     id="base" />
+     id="base"
+     inkscape:zoom="0.46230688"
+     inkscape:cx="531.49426"
+     inkscape:cy="332.69387"
+     inkscape:window-width="701"
+     inkscape:window-height="507"
+     inkscape:window-x="8"
+     inkscape:window-y="77"
+     inkscape:current-layer="svg378" />
   <defs
      id="defs380" />
   <rect
-     width="1062.98999"
-     height="744.094421"
-     x="-1062.98999"
-     y="-708.660950"
-     transform="matrix(-1.000000,0.000000,0.000000,-1.000000,-7.629395e-4,35.43352)"
-     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0247pt;fill-opacity:1;"
+     width="1062.9900"
+     height="708.65997"
+     x="-1062.9893"
+     y="-708.65997"
+     transform="scale(-1.000000,-1.000000)"
+     style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0247000pt"
      id="rect149" />
   <rect
-     width="598.700827"
+     width="598.70105"
      height="122.87466"
-     x="77.171054"
-     y="-593.758155"
-     style="font-size:12;fill:#0000ff;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     x="55.104408"
+     y="-593.68536"
+     style="font-size:12.000000px;fill:#0000ff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect2206"
-     transform="matrix(-3.301614e-3,0.999995,-1,2.377719e-4,0,0)" />
+     transform="matrix(-3.301613e-3,0.999995,-1.000000,2.377719e-4,0.000000,0.000000)" />
   <text
-     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
-     x="52.413038"
-     y="20.3531773"
+     style="font-size:152.30759px;font-style:normal;font-weight:bold;line-height:100.00000%;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans Mono"
+     x="665.24194"
+     y="236.56483"
      id="text2207"
-     transform="scale(12.51816,12.86886)"
-     sodipodi:linespacing="100%"
+     transform="scale(0.986280,1.013911)"
+     sodipodi:linespacing="100.00000%"
      xml:space="default">
     <tspan
-       x="52.4130363"
-       y="20.353178"
+       x="665.24194"
+       y="236.56483"
        sodipodi:role="line"
        id="tspan2213"
-       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+       style="fill:#0000ff;fill-opacity:1.0000000">B</tspan>
   </text>
   <text
-     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
-     x="52.3810403"
-     y="46.3235688"
+     style="font-size:152.30759px;font-style:normal;font-weight:bold;line-height:100.00000%;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans Mono"
+     x="664.83582"
+     y="566.18878"
      id="text2221"
-     transform="scale(12.51816,12.86886)"
-     sodipodi:linespacing="100%"
+     transform="scale(0.986280,1.013911)"
+     sodipodi:linespacing="100.00000%"
      xml:space="default">
     <tspan
-       x="52.3810387"
-       y="46.3235703"
+       x="664.83582"
+       y="566.18878"
        sodipodi:role="line"
        id="tspan2222"
-       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+       style="fill:#0000ff;fill-opacity:1.0000000">B</tspan>
   </text>
   <text
-     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
-     x="-30.9465799"
-     y="20.353185"
+     style="font-size:152.30759px;font-style:normal;font-weight:bold;line-height:100.00000%;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans Mono"
+     x="-392.78323"
+     y="236.56493"
      id="text2233"
-     transform="scale(-12.51816,12.86886)"
-     sodipodi:linespacing="100%"
+     transform="scale(-0.986280,1.013911)"
+     sodipodi:linespacing="100.00000%"
      xml:space="default">
     <tspan
-       x="-30.946579"
-       y="20.3531857"
+       x="-392.78323"
+       y="236.56493"
        sodipodi:role="line"
        id="tspan2234"
-       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+       style="fill:#0000ff;fill-opacity:1.0000000">B</tspan>
   </text>
   <text
-     style="fill:#0000ff;stroke:none;font-family:Bitstream Vera Sans Mono;font-style:normal;font-weight:bold;font-size:12;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
-     x="-30.9785776"
-     y="46.3235688"
+     style="font-size:152.30759px;font-style:normal;font-weight:bold;line-height:100.00000%;writing-mode:lr-tb;text-anchor:start;fill:#0000ff;fill-opacity:1.0000000;stroke:none;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1.0000000;font-family:Bitstream Vera Sans Mono"
+     x="-393.18936"
+     y="566.18878"
      id="text2236"
-     transform="scale(-12.51816,12.86886)"
-     sodipodi:linespacing="100%"
+     transform="scale(-0.986280,1.013911)"
+     sodipodi:linespacing="100.00000%"
      xml:space="default">
     <tspan
-       x="-30.9785767"
-       y="46.3235703"
+       x="-393.18936"
+       y="566.18878"
        sodipodi:role="line"
        id="tspan2237"
-       style="fill:#0000ff;fill-opacity:1;">B</tspan>
+       style="fill:#0000ff;fill-opacity:1.0000000">B</tspan>
   </text>
   <rect
-     width="598.700827"
+     width="598.70105"
      height="122.87466"
-     x="231.641476"
-     y="313.202155"
-     style="font-size:12;fill:#0000ff;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     x="231.64684"
+     y="291.13559"
+     style="font-size:12.000000px;fill:#0000ff;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
      id="rect684"
-     transform="matrix(0.999995,3.301614e-3,2.377719e-4,1,0,0)" />
+     transform="matrix(0.999995,3.301613e-3,2.377719e-4,1.000000,0.000000,0.000000)" />
 </svg>
