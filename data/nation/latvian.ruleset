@@ -3,6 +3,7 @@
 name=_("Latvian")
 plural=_("?plural:Latvians")
 groups=_("Modern"), _("European")
+conflicts_with="austrian"	; Similar flags
 leader="Karlis Ulmanis", "Guntis Ulmanis", 
   "Vaira Vike Freiberga", "Namejs"
 leader_sex="Male", "Male", 

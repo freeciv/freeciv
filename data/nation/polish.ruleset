@@ -3,6 +3,7 @@
 name=_("Polish")
 plural=_("?plural:Poles")
 groups=_("Medieval"), _("Modern"), _("European")
+conflicts_with="silesian"
 leader="Mieszko I",
        "Bolesław Chrobry",
        "Władysław Łokietek", 

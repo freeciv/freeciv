@@ -4,7 +4,7 @@ name=_("British")
 plural=_("?plural:British")
 groups=_("Modern"), _("European")
 ; We don't want British nation in the same game with English
-conflicts_with="english", "scottish", "welsh"
+conflicts_with="english", "scottish", "welsh", "cornish"
 legend=_("The United Kingdom was created in 1707 as a negotiated agreement\
  between the kingdom of England and the kingdom of Scotland. The country -\
  also known as Great Britain - became the leading industrial and maritime\
