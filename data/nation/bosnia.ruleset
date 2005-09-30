@@ -3,6 +3,8 @@
 name=_("Bosnia & Herzegovina")
 plural=_("?plural:Bosnians")
 groups=_("Modern"), _("European")
+legend=_("The nation of Bosnia & Herzegovina was created following the\
+ exceedingly bloody Yugoslav wars of the early 90s.")
 leader="Kulin Ban", "Ban Stjepan", "Kotromanic", "Tvrtko",
        "Stjepan Tvrtko I", "Prijezda I", "Stjepan Tomas",
        "Filipovic Nikola", "Avdo Humo", "Seid Maglajlija",

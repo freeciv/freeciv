@@ -3,8 +3,8 @@
 name=_("Mordor")
 plural=_("?plural:Mordors")
 groups=_("Fictional")
-legend=_("The armies of the Dark Lord Sauron, from J.R.R. Tolkien's \
-Middle Earth fantasies.")
+legend=_("The armies of the Dark Lord Sauron, from J.R.R. Tolkien's\
+ Middle Earth fantasies.")
 leader="Sauron", "Angmar", "Gorthaur", "Melkor"
 leader_sex="Male", "Male", "Male", "Male"
 flag = "mordor"

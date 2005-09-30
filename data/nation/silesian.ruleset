@@ -3,8 +3,8 @@
 name=_("Silesian")
 plural=_("?plural:Silesians")
 groups=_("Medieval"), _("European")
-legend=_("Silesia is a region of southern Poland that was at one time an \
-independent kingdom.")
+legend=_("Silesia is a region of southern Poland that was at one time an\
+ independent kingdom.")
 leader = "Władysław Wygnaniec",
          "Henryk Brodaty",
          "Henryk Pobożny",

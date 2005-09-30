@@ -3,6 +3,9 @@
 name=_("Canadian")
 plural=_("?plural:Canadians")
 groups=_("Modern"), _("American")
+conflicts_with="quebecois", "inuit"
+legend=_("Canada is the geographically northernmost country in world: The\
+ Magnetic North Pole currently lies on Canadian territory.")
 leader="Pierre Trudeau", "John A. MacDonald", "John Diefenbaker", "Mackenzie King"
 leader_sex="Male", "Male", "Male", "Male"
 flag="canada"

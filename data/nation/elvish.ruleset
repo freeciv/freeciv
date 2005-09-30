@@ -4,10 +4,14 @@
 name=_("Elves")
 plural=_("?plural:Elves")
 groups=_("Fictional")
+legend=_("The ancient Elves of J.R.R. Tolkien's Middle Earth fantasies.")
 ; /* <-- avoid gettext warnings
-; Starting with the six High Kings of the Noldor, folowed by other kings (some are not real Kings, but in the Third Age it's close enough :-)
-; Elrond COULD have been High King, but never made claim to the Kingship, so I include him as well (and most people know him)
-; Melian is a Maia, but as Queen of Doriath I found it good to include her as well. */
+; Starting with the six High Kings of the Noldor, folowed by other kings
+; (some are not real Kings, but in the Third Age it's close enough :-)
+; Elrond COULD have been High King, but never made claim to the Kingship,
+; so I include him as well (and most people know him)
+; Melian is a Maia, but as Queen of Doriath I found it good to include her
+; as well. */
 leader="Ingwë", "Fëanor", "Fingolfin", "Fingon", "Turgon",
    "Ereinion Gil-galad", "Thingol", "Melian", "Finwë", "Finarfin",
    "Celeborn", "Elrond"

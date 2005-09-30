@@ -3,6 +3,8 @@
 name=_("Hungarian")
 plural=_("?plural:Hungarians")
 groups=_("Medieval"), _("Modern"), _("European")
+legend=_("Legend says that Hungary was founded by Arpad in the 9th\
+ century.")
 conflicts_with="indian"	; Similar flags
 leader="Árpád", "Szent István", "Károly Róbert",
        "Hunyadi Mátyás", "Mária Terézia", "Batthyány"

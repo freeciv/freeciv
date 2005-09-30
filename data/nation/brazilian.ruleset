@@ -3,9 +3,9 @@
 name=_("Brazilian")
 plural=_("?plural:Brazilians")
 groups=_("Modern"), _("American")
-legend=_("Brazil was founded as a colony of Portugal but became \
-independent in 1822AD. It is the only country in the New World that \
-has been the seat of a monarchy.")
+legend=_("Brazil was founded as a colony of Portugal but became\
+ independent in 1822AD. It is the only country in the New World that\
+ has been the seat of a monarchy.")
 leader="Dom Pedro I", "Princesa Isabel", "Marechal Deodoro",
        "Tancredo Neves", "Juscelino Kubitscheck", "Getúlio Vargas"
 leader_sex="Male", "Female", "Male", "Male", "Male", "Male"

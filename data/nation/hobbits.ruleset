@@ -3,6 +3,8 @@
 name=_("Hobbit")
 plural=_("?plural:Hobbits")
 groups=_("Fictional")
+legend=_("The Hobbits of the Shire, from J.R.R. Tolkien's Middle Earth\
+ fantasies.")
 ; These are pretty arbitrary.  Peregrin was Thain of Tookland;
 ; Meriadoc was Master of Brandybuck; others were mayor of hobbiton.
 ;

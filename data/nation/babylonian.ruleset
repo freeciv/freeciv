@@ -3,9 +3,9 @@
 name=_("Babylonian")
 plural=_("?plural:Babylonians")
 groups=_("Ancient"), _("Asian")
-legend=_("Babylon was the dominant city of Mesopotamia from the 18th to \
-7th centuries BC under a succession of peoples including Amorites, \
-Kassites, Assyrians, and Chaldeans.")
+legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
+ 7th centuries BC under a succession of peoples including Amorites,\
+ Kassites, Assyrians, and Chaldeans.")
 leader="Hammurabi", "Sargon", "Nebuchadnezzar", "Tiglath-Pileser"
 leader_sex="Male", "Male", "Male", "Male"
 flag = "iraq_old"

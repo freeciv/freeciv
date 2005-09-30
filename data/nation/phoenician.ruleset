@@ -3,6 +3,8 @@
 name=_("Phoenician")
 plural=_("?plural:Phoenicians")
 groups=_("Ancient"), _("Asian")
+legend=_("Phoenicia was an ancient civilization, based in what is now the\
+ coastal regions of Lebanon and Syria.")
 leader="Hiram", "Agenor", "Eshmunazar", "Kadmos", "Ithobaal",
        "Abd'ashtart"
 leader_sex="Male", "Male", "Male", "Male", "Male",

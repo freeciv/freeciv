@@ -4,6 +4,9 @@ name=_("Latvian")
 plural=_("?plural:Latvians")
 groups=_("Modern"), _("European")
 conflicts_with="austrian"	; Similar flags
+legend=_("Latvia gained independence from the Russian Empire in 1920, was\
+ incorporated into the Soviet Union in 1940 and finally gained independence\
+ again in 1991.")
 leader="Karlis Ulmanis", "Guntis Ulmanis", 
   "Vaira Vike Freiberga", "Namejs"
 leader_sex="Male", "Male", 

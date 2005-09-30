@@ -3,6 +3,9 @@
 name=_("Taiwanese")
 plural=_("?plural:Taiwanese")
 groups=_("Modern"), _("Asian")
+legend=_("When the Chinese nationalists lost the armed struggle against the\
+ Chinese communists, the nationalist government evacuated to the island of\
+ Taiwan where they formed the Republic of China.")
 leader="Sun Yat Sen", "Chiang Kai Shek", "Lee Teng Hui", "Kung Fu Tse"
 leader_sex="Male", "Male", "Male", "Male"
 flag="taiwan"

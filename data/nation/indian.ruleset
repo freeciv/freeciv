@@ -1,8 +1,10 @@
 [nation_indian]
 
 name=_("Indian")
-groups=_("Ancient"), _("Medieval"), _("Modern"), _("Asian")
 plural=_("?plural:Indians")
+groups=_("Ancient"), _("Medieval"), _("Modern"), _("Asian")
+legend=_("The cradle of Ancient Indian civilization lay in the Indus river\
+ valley in modern-day Pakistan.")
 leader="Mohandas Gandhi", "Ashoka", "Chandragupta", "Indira Gandhi"
 leader_sex="Male", "Male", "Male", "Female"
 flag="india"

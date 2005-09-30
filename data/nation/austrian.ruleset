@@ -3,6 +3,8 @@
 name=_("Austrian")
 plural=_("?plural:Austrians")
 groups=_("Modern"), _("European")
+legend=_("Austria means Eastern Realm, given its position as the far east\
+ territory of the medieval Holy Roman Empire.")
 leader="Maria Theresia", "Franz Joseph", "Luitpold" 
 leader_sex="Female", "Male", "Male"
 flag="austria"

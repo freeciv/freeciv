@@ -3,6 +3,10 @@
 name=_("Dutch")
 plural=_("?plural:Dutch")
 groups=_("Modern"), _("Medieval"), _("European")
+legend=_("When the Holy Roman Emperor sentenced the entire population to\
+ death, the people of the Netherlands revolted and declared themselves\
+ independent, forming the Union of Utrecht in 1579. The Netherlands grew\
+ to be a dominant maritime and economic power in the 17th century.")
 leader="Willem", "Maurits", "Emma", "Wilhelmina", "Juliana", "Beatrix"
 leader_sex="Male", "Male", "Female", "Female", "Female", "Female"
 flag="netherlands"

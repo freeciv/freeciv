@@ -3,9 +3,9 @@
 name=_("Finnish")
 plural=_("?plural:Finns")
 groups=_("Modern"), _("European")
-legend=_("Finland is a small, cold country on the northern fringe of Europe, \
-noted for exporting timber, cellular phones, and world-class operating \
-systems.")
+legend=_("Finland is a small, cold country on the northern fringe of Europe,\
+ noted for exporting timber, cellular phones, and world-class operating\
+ systems.")
 leader="C.G.E. Mannerheim", "Urho Kekkonen", "Martti Ahtisaari",
        "Tarja Halonen", "Linus Torvalds"
 leader_sex="Male", "Male", "Male",
