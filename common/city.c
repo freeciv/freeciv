@@ -1569,7 +1569,9 @@ static int content_citizens(struct player *pplayer)
 **************************************************************************/
 int get_city_shield_bonus(const struct city *pcity)
 {
-  return (100 + get_city_bonus(pcity, EFT_PROD_BONUS));
+  const int bonus = 100 + get_city_bonus(pcity, EFT_PROD_BONUS);
+
+  return MAX(bonus, 0);
 }
 
 /**************************************************************************
@@ -1577,7 +1579,9 @@ int get_city_shield_bonus(const struct city *pcity)
 **************************************************************************/
 int get_city_tax_bonus(const struct city *pcity)
 {
-  return (100 + get_city_bonus(pcity, EFT_TAX_BONUS));
+  const int bonus = 100 + get_city_bonus(pcity, EFT_TAX_BONUS);
+
+  return MAX(bonus, 0);
 }
 
 /**************************************************************************
@@ -1585,7 +1589,9 @@ int get_city_tax_bonus(const struct city *pcity)
 **************************************************************************/
 int get_city_luxury_bonus(const struct city *pcity)
 {
-  return (100 + get_city_bonus(pcity, EFT_LUXURY_BONUS));
+  const int bonus = 100 + get_city_bonus(pcity, EFT_LUXURY_BONUS);
+
+  return MAX(bonus, 0);
 }
 
 /**************************************************************************
@@ -1620,7 +1626,7 @@ int get_city_science_bonus(const struct city *pcity)
     science_bonus /= 2;
   }
 
-  return science_bonus;
+  return MAX(science_bonus, 0);
 }
 
 /**************************************************************************
