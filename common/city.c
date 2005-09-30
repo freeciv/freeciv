@@ -1467,7 +1467,7 @@ int get_city_output_bonus(const struct city *pcity, Output_type_id otype)
   int bonus2 = 100 + get_city_tile_output_bonus(pcity, NULL, output,
 						EFT_OUTPUT_BONUS_2);
 
-  return bonus1 * bonus2 / 100;
+  return MAX(bonus1 * bonus2 / 100, 0);
 }
 
 /**************************************************************************

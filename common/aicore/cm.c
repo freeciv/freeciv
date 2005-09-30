@@ -1546,7 +1546,11 @@ static void init_min_production(struct cm_state *state)
      * 3.  Subtract off any "free" production (trade routes, tithes, and
      *     city-center). */
     min = pcity->usage[o] + state->parameter.minimal_surplus[o];
-    min = min * 100 / pcity->bonus[o];
+    if (pcity->bonus[o] > 0) {
+      /* FIXME: how does this work if the bonus is 0?  Then no production
+       * is possible and we can probably short-cut everything. */
+      min = min * 100 / pcity->bonus[o];
+    }
     city_map_iterate(x, y) {
       if (is_free_worked_tile(x, y)) {
 	min -= base_city_get_output_tile(x, y, pcity, is_celebrating, o);
