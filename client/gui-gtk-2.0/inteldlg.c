@@ -241,6 +241,8 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 
   /* techs tab. */
   pdialog->techs = gtk_list_store_new(2, G_TYPE_BOOLEAN, G_TYPE_STRING);
+  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(pdialog->techs),
+      1, GTK_SORT_ASCENDING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(pdialog->techs));
   g_object_unref(pdialog->techs);
