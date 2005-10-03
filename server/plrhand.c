@@ -638,6 +638,21 @@ static Tech_Type_id pick_random_tech(struct player *plr)
   return A_NONE;
 }
 
+/****************************************************************************
+  Gives a player random tech, which he hasn't researched yet. Applies freecost
+  Returns the tech.
+****************************************************************************/
+Tech_Type_id give_random_free_tech(struct player* pplayer)
+{
+  Tech_Type_id tech;
+  
+  tech = pick_random_tech(pplayer);
+  do_free_cost(pplayer);
+  found_new_tech(pplayer, tech, FALSE, TRUE, A_NONE);
+  return tech;
+}
+
+
 /**************************************************************************
 ...
 **************************************************************************/
