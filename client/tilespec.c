@@ -1061,15 +1061,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
     int x_top_left, y_top_left, dx, dy;
     int pixel_border;
 
-    pixel_border =
-      secfile_lookup_int_default(file, -1, "%s.pixel_border", gridnames[i]);
-    if (pixel_border < 0) {
-      /* is_pixel_border is used in old tilesets. */
-      pixel_border =
-	(secfile_lookup_bool_default(file, FALSE,
-				     "%s.is_pixel_border", gridnames[i])
-	 ? 1 : 0);
-    }
+    pixel_border = secfile_lookup_int_default(file, 0, "%s.pixel_border",
+					      gridnames[i]);
 
     x_top_left = secfile_lookup_int(file, "%s.x_top_left", gridnames[i]);
     y_top_left = secfile_lookup_int(file, "%s.y_top_left", gridnames[i]);
@@ -1247,14 +1240,15 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   (void) section_file_lookup(file, "tilespec.name"); /* currently unused */
 
   sz_strlcpy(t->name, tileset_name);
-  t->priority = secfile_lookup_int_default(file, 0, "tilespec.priority");
+  t->priority = secfile_lookup_int(file, "tilespec.priority");
 
-  t->is_isometric = secfile_lookup_bool_default(file, FALSE,
-						"tilespec.is_isometric");
+  t->is_isometric = secfile_lookup_bool(file, "tilespec.is_isometric");
 
   /* Read hex-tileset information. */
-  is_hex = secfile_lookup_bool_default(file, FALSE, "tilespec.is_hex");
-  hex_side = secfile_lookup_int_default(file, 0, "tilespec.hex_side");
+  is_hex = secfile_lookup_bool(file, "tilespec.is_hex");
+  if (is_hex) {
+    hex_side = secfile_lookup_int(file, "tilespec.hex_side");
+  }
   t->hex_width = t->hex_height = 0;
   if (is_hex) {
     if (t->is_isometric) {
@@ -1326,12 +1320,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 	  t->full_tile_width, t->full_tile_height,
 	  t->small_sprite_width, t->small_sprite_height);
 
-  t->roadstyle = secfile_lookup_int_default(file, t->is_isometric ? 0 : 1,
-					    "tilespec.roadstyle");
-  t->fogstyle
-    = secfile_lookup_int_default(file,
-				 t->is_isometric ? FOG_AUTO : FOG_SPRITE,
-				 "tilespec.fogstyle");
+  t->roadstyle = secfile_lookup_int(file, "tilespec.roadstyle");
+  t->fogstyle = secfile_lookup_int(file, "tilespec.fogstyle");
   t->darkness_style = secfile_lookup_int(file, "tilespec.darkness_style");
   if (t->darkness_style < DARKNESS_NONE
       || t->darkness_style > DARKNESS_CORNER
@@ -1340,25 +1330,19 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     freelog(LOG_FATAL, _("Invalid darkness style set in tileset."));
     exit(EXIT_FAILURE);
   }
-  t->flag_offset_x = secfile_lookup_int_default(file, 0,
-						"tilespec.flag_offset_x");
-  t->flag_offset_y = secfile_lookup_int_default(file, 0,
-						"tilespec.flag_offset_y");
-  t->unit_offset_x = secfile_lookup_int_default(file, 0,
-						"tilespec.unit_offset_x");
-  t->unit_offset_y = secfile_lookup_int_default(file, 0,
-						"tilespec.unit_offset_y");
+  t->flag_offset_x = secfile_lookup_int(file, "tilespec.flag_offset_x");
+  t->flag_offset_y = secfile_lookup_int(file, "tilespec.flag_offset_y");
+  t->unit_offset_x = secfile_lookup_int(file, "tilespec.unit_offset_x");
+  t->unit_offset_y = secfile_lookup_int(file, "tilespec.unit_offset_y");
 
   t->citybar_offset_y
-    = secfile_lookup_int_default(file, t->normal_tile_height,
-				 "tilespec.citybar_offset_y");
+    = secfile_lookup_int(file, "tilespec.citybar_offset_y");
 
   t->city_names_font_size
-    = secfile_lookup_int_default(file, 10, "tilespec.city_names_font_size");
+    = secfile_lookup_int(file, "tilespec.city_names_font_size");
 
   t->city_productions_font_size
-    = secfile_lookup_int_default(file, 10,
-				 "tilespec.city_productions_font_size");
+    = secfile_lookup_int(file, "tilespec.city_productions_font_size");
   set_city_names_font_sizes(t->city_names_font_size,
 			    t->city_productions_font_size);
 
@@ -1372,15 +1356,18 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 
   /* Terrain layer info. */
   for (i = 0; i < MAX_NUM_LAYERS; i++) {
-    char *style = secfile_lookup_str_default(file, "none",
-					     "layer%d.match_style", i);
+    char *style = secfile_lookup_str(file, "layer%d.match_style", i);
     int j;
 
     if (mystrcasecmp(style, "full") == 0) {
       t->layers[i].match_style = MATCH_FULL;
     } else if (mystrcasecmp(style, "bool") == 0) {
       t->layers[i].match_style = MATCH_BOOLEAN;
+    } else if (mystrcasecmp(style, "none") == 0) {
+      t->layers[i].match_style = MATCH_NONE;
     } else {
+      freelog(LOG_ERROR, "Invalid match style %s for layer %d.",
+	      style, i);
       t->layers[i].match_style = MATCH_NONE;
     }
 

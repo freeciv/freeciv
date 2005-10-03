@@ -18,6 +18,7 @@ small_tile_width   = 15
 small_tile_height  = 20
 
 is_isometric = 0
+is_hex = 0
 
 ; Use roadstyle 1 (old non-iso style)
 roadstyle = 1
@@ -31,6 +32,10 @@ darkness_style = 4
 ; offset the flags by this amount when drawing units
 flag_offset_x = 0
 flag_offset_y = 0
+ 
+; offset the units by this amount when drawing units
+unit_offset_x = 0
+unit_offset_y = 0
 
 ; offset the citybar text by this amount (from the city tile origin)
 citybar_offset_y = 27

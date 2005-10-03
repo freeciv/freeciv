@@ -51,6 +51,10 @@ city_productions_font = "6x13"
 ; Should flags be drawn as transparent:  (else opaque)
 flags_are_transparent = 1
 
+; Font size (points) to use to draw city names and productions:
+city_names_font_size = 10
+city_productions_font_size = 10
+
 ; These are special because they get freed and reloaded
 ; as required:
 main_intro_file    = "misc/intro"

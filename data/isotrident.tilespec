@@ -18,6 +18,7 @@ small_tile_width   = 15
 small_tile_height  = 20
 
 is_isometric = 1
+is_hex = 0
 
 ; Use roadstyle 0 (old iso style)
 roadstyle = 0
