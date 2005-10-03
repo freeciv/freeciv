@@ -562,7 +562,7 @@ static void ai_treaty_react(struct player *pplayer,
         notify(aplayer, _("*%s (AI)* Welcome into our alliance %s!"),
                pplayer->name, aplayer->name);
       } else {
-        notify(aplayer, _("*%s (AI)* Yes, may we forever stand united, %s"),
+        notify(aplayer, _("*%s (AI)* Yes, may we forever stand united, %s."),
                pplayer->name, aplayer->name);
       }
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "become allies");
@@ -573,7 +573,7 @@ static void ai_treaty_react(struct player *pplayer,
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "sign peace treaty");
       break;
     case CLAUSE_CEASEFIRE:
-      notify(aplayer, _("*%s (AI)* Agreed. No more hostilities, %s"),
+      notify(aplayer, _("*%s (AI)* Agreed. No more hostilities, %s."),
              pplayer->name, aplayer->name);
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "sign ceasefire");
       break;
