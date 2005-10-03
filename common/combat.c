@@ -18,6 +18,8 @@
 #include <assert.h>
 #include <math.h>
 
+#include "rand.h"
+
 #include "game.h"
 #include "log.h"
 #include "map.h"
@@ -334,15 +336,17 @@ bool unit_on_fortress(const struct unit *punit)
 }
 
 /**************************************************************************
-  a wrapper function returns 1 if there is a sdi-defense close to the square
+  Try defending against nuclear attack, if succed return a city which 
+  had enough luck and EFT_NUKE_PROOF.
+  If the attack was succesful return NULL.
 **************************************************************************/
-struct city *sdi_defense_close(const struct player *owner,
+struct city *sdi_try_defend(const struct player *owner,
 			       const struct tile *ptile)
 {
   square_iterate(ptile, 2, ptile1) {
     struct city *pcity = tile_get_city(ptile1);
     if (pcity && (!pplayers_allied(city_owner(pcity), owner))
-	&& get_city_bonus(pcity, EFT_NUKE_PROOF) > 0) {
+	&& myrand(100) < get_city_bonus(pcity, EFT_NUKE_PROOF)) {
       return pcity;
     }
   } square_iterate_end;

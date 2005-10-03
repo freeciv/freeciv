@@ -779,7 +779,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   }
 
   if (unit_flag(punit, F_NUCLEAR)) {
-    if ((pcity = sdi_defense_close(unit_owner(punit), def_tile))) {
+    if ((pcity = sdi_try_defend(unit_owner(punit), def_tile))) {
       notify_player(pplayer, punit->tile, E_UNIT_LOST_ATT,
 		       _("Your Nuclear missile was shot down by"
 			 " SDI defences, what a waste."));

@@ -44,7 +44,7 @@ double unit_win_chance(const struct unit *attacker,
 
 bool unit_really_ignores_citywalls(const struct unit *punit);
 bool unit_on_fortress(const struct unit *punit);
-struct city *sdi_defense_close(const struct player *owner,
+struct city *sdi_try_defend(const struct player *owner,
 			       const struct tile *ptile);
 
 int get_attack_power(const struct unit *punit);

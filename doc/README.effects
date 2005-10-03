@@ -65,7 +65,7 @@ cumulative.  For many effects this is undesirable.
 
 "No_Sink_Deep"	- prevent certain sea units from sinking in deep sea
 
-"Nuke_Proof"	- nuclear attacks will fail within AMOUNT distance
+"Nuke_Proof"	- nuclear attacks will fail with amount percent probability
 
 "Pollu_Pop_Pct"	- increases pollution caused by population by AMOUNT percent
 

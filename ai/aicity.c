@@ -493,7 +493,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  break;
 	case EFT_NUKE_PROOF:
 	  if (ai->threats.nuclear) {
-	    v += pcity->size * unit_list_size(ptile->units) * (capital + 1);
+	    v += pcity->size * unit_list_size(ptile->units) * (capital + 1)
+	         * amount / 100;
 	  }
 	  break;
 	case EFT_REVEAL_MAP:
