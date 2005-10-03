@@ -2115,6 +2115,11 @@ static bool team_command(struct connection *caller, char *str, bool check)
     cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Cannot team a barbarian."));
     goto cleanup;
   }
+  if (pplayer->is_observer) {
+    /* Not allowed! */
+    cmd_reply(CMD_TEAM, caller, C_SYNTAX, _("Cannot team an observer."));
+    goto cleanup;
+  }
   if (!check) {
     team_add_player(pplayer, arg[1]);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
