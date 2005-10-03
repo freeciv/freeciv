@@ -295,7 +295,7 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 /**************************************************************************
  Pretty sprints the info about a production in 4 columns (name, info,
  cost, turns to build). The columns must each have a size of
- column_size bytes.
+ column_size bytes.  City may be NULL.
 **************************************************************************/
 void get_city_dialog_production_row(char *buf[], size_t column_size,
 				    struct city_production target,
@@ -318,7 +318,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     }
     my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(ptype));
   } else {
-    struct player *pplayer = pcity->owner;
+    struct player *pplayer = pcity ? pcity->owner : game.player_ptr;
 
     /* Total & turns left meaningless on capitalization */
     if (building_has_effect(target.value, EFT_PROD_TO_GOLD)) {

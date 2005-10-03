@@ -53,7 +53,8 @@ static const char *flag_names[] = {
   This can be: TECH_KNOW, TECH_UNKNOWN or TECH_REACHABLE
   Should be called with existing techs or A_FUTURE
 
-  If pplayer is NULL this simply returns TECH_KNOWN (used by the client).
+  If pplayer is NULL this checks whether any player knows the tech (used
+  by the client).
 **************************************************************************/
 enum tech_state get_invention(const struct player *pplayer,
 			      Tech_type_id tech)
@@ -62,7 +63,11 @@ enum tech_state get_invention(const struct player *pplayer,
          || (tech >= 0 && tech < game.control.num_tech_types));
 
   if (!pplayer) {
-    return TECH_KNOWN;
+    if (tech != A_FUTURE && game.info.global_advances[tech]) {
+      return TECH_KNOWN;
+    } else {
+      return TECH_UNKNOWN;
+    }
   } else {
     return get_player_research(pplayer)->inventions[tech].state;
   }

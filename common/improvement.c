@@ -439,6 +439,9 @@ struct city *find_city_from_great_wonder(Impr_type_id id)
 struct city *find_city_from_small_wonder(const struct player *pplayer,
 					 Impr_type_id id)
 {
+  if (!pplayer) {
+    return NULL; /* Used in some places in the client. */
+  }
   return (player_find_city_by_id(pplayer, pplayer->small_wonders[id]));
 }
 
