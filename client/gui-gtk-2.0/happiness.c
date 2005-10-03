@@ -224,8 +224,8 @@ static void happiness_dialog_update_cities(struct happiness_dialog
   int cities = city_list_size(pplayer->cities);
   int content = game.info.unhappysize;
   int basis = game.info.cityfactor 
-              + get_player_bonus(game.player_ptr, EFT_EMPIRE_SIZE_MOD);
-  int step = get_player_bonus(game.player_ptr, EFT_EMPIRE_SIZE_STEP);
+              + get_player_bonus(pcity->owner, EFT_EMPIRE_SIZE_MOD);
+  int step = get_player_bonus(pcity->owner, EFT_EMPIRE_SIZE_STEP);
   int excess = cities - basis;
   int penalty = 0;
 

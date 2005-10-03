@@ -117,7 +117,11 @@ void update_worklist_report_dialog(void)
   plr = game.player_ptr;
 
   gtk_list_store_clear(worklists_store);
-  
+
+  if (!game.player_ptr) {
+    return;
+  }
+
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     if (plr->worklists[i].is_valid) {
       gtk_list_store_append(worklists_store, &it);
@@ -142,6 +146,10 @@ static void worklists_response(GtkWidget *w, gint response)
   GtkTreeIter it;
 
   plr = game.player_ptr;
+
+  if (!game.player_ptr) {
+    return;
+  }
 
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     if (!plr->worklists[i].is_valid) {
@@ -209,13 +217,12 @@ static void cell_edited(GtkCellRendererText *cell,
   GtkTreePath *path;
   GtkTreeIter it;
   int pos;
-  struct player *plr;
+  struct player *plr = game.player_ptr;
 
   path = gtk_tree_path_new_from_string(spath);
   gtk_tree_model_get_iter(GTK_TREE_MODEL(worklists_store), &it, path);
   
   gtk_tree_model_get(GTK_TREE_MODEL(worklists_store), &it, 1, &pos, -1);
-  plr = game.player_ptr;
 
   sz_strlcpy(plr->worklists[pos].name, text);
   gtk_list_store_set(worklists_store, &it, 0, text, -1);
@@ -473,6 +480,10 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
   gint pos;
   struct worklist *pwl;
 
+  if (!game.player_ptr) {
+    return;
+  }
+
   plr = game.player_ptr;
   pos = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "pos"));
 
@@ -507,6 +518,10 @@ static void popup_add_menu(GtkMenuShell *menu, gpointer data)
   gtk_container_foreach(GTK_CONTAINER(menu),
 			(GtkCallback) gtk_widget_destroy, NULL);
   plr = game.player_ptr;
+
+  if (!game.player_ptr) {
+    return;
+  }
 
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
     if (plr->worklists[i].is_valid) {

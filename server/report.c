@@ -97,7 +97,7 @@ static const char *science_to_text(int value);
 static const char *mil_service_to_text(int value);
 static const char *pollution_to_text(int value);
 
-#define GOOD_PLAYER(p) ((p)->is_alive && !is_barbarian(p) && !(p)->is_observer)
+#define GOOD_PLAYER(p) ((p)->is_alive && !is_barbarian(p))
 
 /*
  * Describes a row.

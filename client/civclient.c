@@ -724,8 +724,9 @@ bool can_client_issue_orders(void)
 **************************************************************************/
 bool can_meet_with_player(const struct player *pplayer)
 {
-  return (could_meet_with_player(game.player_ptr, pplayer)
-          && can_client_issue_orders());
+  return (can_client_issue_orders()
+	  && game.player_ptr
+	  && could_meet_with_player(game.player_ptr, pplayer));
 }
 
 /**************************************************************************
@@ -734,7 +735,9 @@ bool can_meet_with_player(const struct player *pplayer)
 **************************************************************************/
 bool can_intel_with_player(const struct player *pplayer)
 {
-  return could_intel_with_player(game.player_ptr, pplayer);
+  return (client_is_observer()
+	  || (game.player_ptr
+	      && could_intel_with_player(game.player_ptr, pplayer)));
 }
 
 /**************************************************************************
@@ -744,7 +747,7 @@ bool can_intel_with_player(const struct player *pplayer)
 **************************************************************************/
 bool can_client_change_view(void)
 {
-  return (game.player_ptr
+  return ((game.player_ptr || client_is_observer())
 	  && (get_client_state() == CLIENT_GAME_RUNNING_STATE
 	      || get_client_state() == CLIENT_GAME_OVER_STATE));
 }

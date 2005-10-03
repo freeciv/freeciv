@@ -942,7 +942,9 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void pick_nation_callback(GtkWidget *w, gpointer data)
 {
-  popup_races_dialog(game.player_ptr);
+  if (game.player_ptr) {
+    popup_races_dialog(game.player_ptr);
+  }
 }
 
 /**************************************************************************

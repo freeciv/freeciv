@@ -324,6 +324,10 @@ void clipboard_copy_production(struct tile *ptile)
 {
   struct city *pcity = ptile->city;
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   if (pcity) {
     if (pcity->owner != game.player_ptr)  {
       return;
@@ -402,6 +406,9 @@ static void clipboard_send_production_packet(struct city *pcity)
 **************************************************************************/
 void upgrade_canvas_clipboard(void)
 {
+  if (!can_client_issue_orders()) {
+    return;
+  }
   if (clipboard.is_unit)  {
     struct unit_type *u
       = can_upgrade_unittype(game.player_ptr, get_unit_type(clipboard.value));
@@ -589,7 +596,9 @@ void update_turn_done_button_state()
 
   if (turn_done_state) {
     if (waiting_for_end_turn
-	|| (game.player_ptr->ai.control && !ai_manual_turn_done)) {
+	|| (game.player_ptr
+	    && game.player_ptr->ai.control
+	    && !ai_manual_turn_done)) {
       send_turn_done();
     } else {
       update_turn_done_button(TRUE);

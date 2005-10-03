@@ -29,7 +29,6 @@
 
 #define ANON_PLAYER_NAME "noname"
 #define ANON_USER_NAME  "Unassigned"
-#define OBSERVER_NAME	"Observer"
 
 /*
  * pplayer->ai.barbarian_type uses this enum. Note that the values
@@ -162,7 +161,6 @@ struct player {
   bool phase_done;
   int nturns_idle;
   bool is_alive;
-  bool is_observer; /* is the player a global observer */ 
   bool is_dying; /* set once the player is in the process of dying */
   bool surrendered; /* has indicated willingness to surrender */
 
@@ -182,7 +180,7 @@ struct player {
   struct player_spaceship spaceship;
   struct player_ai ai;
   bool was_created;                    /* if the player was /created */
-  bool is_connected;		       /* observers don't count */
+  bool is_connected;
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list *connections;       /* will replace conn */
   struct worklist worklists[MAX_NUM_WORKLISTS];

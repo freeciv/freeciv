@@ -1152,7 +1152,7 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
   struct pf_map *map;
   struct pf_path *path = NULL;
 
-  if ((pcity = is_allied_city_tile(punit->tile, game.player_ptr))) {
+  if ((pcity = is_allied_city_tile(punit->tile, punit->owner))) {
     /* We're already on a city - don't go anywhere. */
     return NULL;
   }
@@ -1165,7 +1165,7 @@ struct pf_path *path_to_nearest_allied_city(struct unit *punit)
 
     pf_next_get_position(map, &pos);
 
-    if ((pcity = is_allied_city_tile(pos.tile, game.player_ptr))) {
+    if ((pcity = is_allied_city_tile(pos.tile, punit->owner))) {
       break;
     }
   }

@@ -553,8 +553,10 @@ static void reports_menu_callback(gpointer callback_data,
    case MENU_REPORT_DEMOGRAPHIC:
     send_report_request(REPORT_DEMOGRAPHIC);
     break;
-   case MENU_REPORT_SPACESHIP:
-    popup_spaceship_dialog(game.player_ptr);
+  case MENU_REPORT_SPACESHIP:
+    if (game.player_ptr) {
+      popup_spaceship_dialog(game.player_ptr);
+    }
     break;
   }
 }
@@ -1246,7 +1248,8 @@ void update_menus(void)
 			can_client_issue_orders());
 
     menus_set_sensitive("<main>/_Reports/S_paceship",
-			(game.player_ptr->spaceship.state!=SSHIP_NONE));
+			(game.player_ptr
+			 && game.player_ptr->spaceship.state != SSHIP_NONE));
 
     menus_set_active("<main>/_View/City Outlines", draw_city_outlines);
     menus_set_active("<main>/_View/Map _Grid", draw_map_grid);
@@ -1385,7 +1388,7 @@ void update_menus(void)
 		    get_tile_change_menu_text(punit->tile,
 					      ACTIVITY_IRRIGATE));
       } else if (tile_has_special(punit->tile, S_IRRIGATION)
-		 && player_knows_techs_with_flag(game.player_ptr,
+		 && player_knows_techs_with_flag(punit->owner,
 						 TF_FARMLAND)) {
 	sz_strlcpy(irrtext, _("Bu_ild Farmland"));
       }

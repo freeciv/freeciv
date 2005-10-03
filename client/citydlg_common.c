@@ -318,7 +318,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     }
     my_snprintf(buf[2], column_size, "%d", unit_build_shield_cost(ptype));
   } else {
-    struct player *pplayer = game.player_ptr;
+    struct player *pplayer = pcity->owner;
 
     /* Total & turns left meaningless on capitalization */
     if (building_has_effect(target.value, EFT_PROD_TO_GOLD)) {

@@ -137,11 +137,16 @@ const char *get_government_name(const struct government *gov)
    - no required tech (required is A_NONE)
    - player has required tech
    - we have an appropriate wonder
+  Returns FALSE if pplayer is NULL (used for observers).
 ***************************************************************/
 bool can_change_to_government(struct player *pplayer,
 			      const struct government *gov)
 {
   CHECK_GOVERNMENT(gov);
+
+  if (!pplayer) {
+    return FALSE;
+  }
 
   if (get_player_bonus(pplayer, EFT_ANY_GOVERNMENT) > 0) {
     /* Note, this may allow govs that are on someone else's "tech tree". */

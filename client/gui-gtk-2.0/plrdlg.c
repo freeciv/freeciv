@@ -146,15 +146,20 @@ static void update_players_menu(void)
       gtk_widget_set_sensitive(players_sship_command, FALSE);
     }
 
-    switch (pplayer_get_diplstate(game.player_ptr, get_player(plrno))->type) {
-    case DS_WAR:
-    case DS_NO_CONTACT:
+    if (game.player_ptr) {
+      switch (pplayer_get_diplstate(game.player_ptr,
+				    get_player(plrno))->type) {
+      case DS_WAR:
+      case DS_NO_CONTACT:
+	gtk_widget_set_sensitive(players_war_command, FALSE);
+	break;
+      default:
+	gtk_widget_set_sensitive(players_war_command,
+				 can_client_issue_orders()
+				 && game.info.player_idx != plrno);
+      }
+    } else {
       gtk_widget_set_sensitive(players_war_command, FALSE);
-      break;
-    default:
-      gtk_widget_set_sensitive(players_war_command,
-			       can_client_issue_orders()
-			       && game.info.player_idx != plrno);
     }
 
     gtk_widget_set_sensitive(players_vision_command,
@@ -576,7 +581,7 @@ static void build_row(GtkTreeIter *it, int i)
 {
   struct player *plr = get_player(i);
   GdkPixbuf *pixbuf;
-  gint style, weight;
+  gint style = PANGO_STYLE_NORMAL, weight = PANGO_WEIGHT_NORMAL;
   int k;
   gchar *p;
 
@@ -610,21 +615,29 @@ static void build_row(GtkTreeIter *it, int i)
     -1);
 
    /* now add some eye candy ... */
-   switch (pplayer_get_diplstate(game.player_ptr, plr)->type) {
-   case DS_WAR:
-     weight = PANGO_WEIGHT_NORMAL;
-     style = PANGO_STYLE_ITALIC;
-     break;
-   case DS_ALLIANCE:
-   case DS_TEAM:
-     weight = PANGO_WEIGHT_BOLD;
-     style = PANGO_STYLE_NORMAL;
-     break;
-   default:
-     weight = PANGO_WEIGHT_NORMAL;
-     style = PANGO_STYLE_NORMAL;
-     break;
-   }
+  if (game.player_ptr) {
+    switch (pplayer_get_diplstate(game.player_ptr, plr)->type) {
+    case DS_WAR:
+      weight = PANGO_WEIGHT_NORMAL;
+      style = PANGO_STYLE_ITALIC;
+      break;
+    case DS_ALLIANCE:
+    case DS_TEAM:
+      weight = PANGO_WEIGHT_BOLD;
+      style = PANGO_STYLE_NORMAL;
+      break;
+    case DS_NEUTRAL:
+    case DS_CEASEFIRE:
+    case DS_PEACE:
+    case DS_NO_CONTACT:
+      weight = PANGO_WEIGHT_NORMAL;
+      style = PANGO_STYLE_NORMAL;
+      break;
+    case DS_LAST:
+      assert(0);
+      break;
+    }
+  }
    gtk_list_store_set(store, it,
        num_player_dlg_columns, style,
        num_player_dlg_columns + 1, weight,

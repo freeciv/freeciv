@@ -52,6 +52,8 @@ static const char *flag_names[] = {
   Returns state of the tech for current pplayer.
   This can be: TECH_KNOW, TECH_UNKNOWN or TECH_REACHABLE
   Should be called with existing techs or A_FUTURE
+
+  If pplayer is NULL this simply returns TECH_KNOWN (used by the client).
 **************************************************************************/
 enum tech_state get_invention(const struct player *pplayer,
 			      Tech_type_id tech)
@@ -59,7 +61,11 @@ enum tech_state get_invention(const struct player *pplayer,
   assert(tech == A_FUTURE
          || (tech >= 0 && tech < game.control.num_tech_types));
 
-  return get_player_research(pplayer)->inventions[tech].state;
+  if (!pplayer) {
+    return TECH_KNOWN;
+  } else {
+    return get_player_research(pplayer)->inventions[tech].state;
+  }
 }
 
 /**************************************************************************
@@ -84,11 +90,17 @@ void set_invention(struct player *pplayer, Tech_type_id tech,
 /**************************************************************************
   Returns if the given tech has to be researched to reach the
   goal. The goal itself isn't a requirement of itself.
+
+  pplayer may be NULL; however the function will always return FALSE in
+  that case.
 **************************************************************************/
 bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
 			    Tech_type_id goal)
 {
   if (tech == goal) {
+    return FALSE;
+  } else if (!pplayer) {
+    /* FIXME: We need a proper implementation here! */
     return FALSE;
   } else {
     return
@@ -177,6 +189,9 @@ static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 /**************************************************************************
   Returns TRUE iff the given tech is ever reachable by the given player
   by checking tech tree limitations.
+
+  pplayer may be NULL in which case a simplified result is returned
+  (used by the client).
 **************************************************************************/
 bool tech_is_available(const struct player *pplayer, Tech_type_id id)
 {
@@ -390,6 +405,9 @@ int total_bulbs_required(const struct player *pplayer)
 
   At the end we multiply by the sciencebox value, as a percentage.  The
   cost can never be less than 1.
+
+  pplayer may be NULL in which case a simplified result is returned (used
+  by client and manual code).
 ****************************************************************************/
 int base_total_bulbs_required(const struct player *pplayer,
 			      Tech_type_id tech)
@@ -397,7 +415,9 @@ int base_total_bulbs_required(const struct player *pplayer,
   int tech_cost_style = game.info.tech_cost_style;
   double base_cost;
 
-  if (!is_future_tech(tech) && get_invention(pplayer, tech) == TECH_KNOWN) {
+  if (pplayer
+      && !is_future_tech(tech)
+      && get_invention(pplayer, tech) == TECH_KNOWN) {
     /* A non-future tech which is already known costs nothing. */
     return 0;
   }
@@ -414,8 +434,12 @@ int base_total_bulbs_required(const struct player *pplayer,
 
   switch (tech_cost_style) {
   case 0:
-    base_cost = get_player_research(pplayer)->techs_researched 
-                * game.info.base_tech_cost;
+    if (pplayer) {
+      base_cost = get_player_research(pplayer)->techs_researched 
+	* game.info.base_tech_cost;
+    } else {
+      base_cost = 0;
+    }
     break;
   case 1:
     base_cost = techcoststyle1[tech];
@@ -447,7 +471,7 @@ int base_total_bulbs_required(const struct player *pplayer,
       players_iterate(other) {
 	players++;
 	if (get_invention(other, tech) == TECH_KNOWN
-	    && player_has_embassy(pplayer, other)) {
+	    && pplayer && player_has_embassy(pplayer, other)) {
 	  players_with_tech_and_embassy++;
 	}
       } players_iterate_end;
@@ -500,7 +524,7 @@ int base_total_bulbs_required(const struct player *pplayer,
    * can also be adpoted to create an extra-hard AI skill level where the AI
    * gets science benefits */
 
-  if (pplayer->ai.control) {
+  if (pplayer && pplayer->ai.control) {
     assert(pplayer->ai.science_cost > 0);
     base_cost *= (double)pplayer->ai.science_cost / 100.0;
   }
@@ -514,10 +538,16 @@ int base_total_bulbs_required(const struct player *pplayer,
  Returns the number of technologies the player need to research to get
  the goal technology. This includes the goal technology. Technologies
  are only counted once.
+
+  pplayer may be NULL; however the wrong value will be return in this case.
 **************************************************************************/
 int num_unknown_techs_for_goal(const struct player *pplayer,
 			       Tech_type_id goal)
 {
+  if (!pplayer) {
+    /* FIXME: need an implementation for this! */
+    return 0;
+  }
   return get_player_research(pplayer)->inventions[goal].num_required_techs;
 }
 
@@ -525,10 +555,16 @@ int num_unknown_techs_for_goal(const struct player *pplayer,
  Function to determine cost (in bulbs) of reaching goal
  technology. These costs _include_ the cost for researching the goal
  technology itself.
+
+  pplayer may be NULL; however the wrong value will be return in this case.
 **************************************************************************/
 int total_bulbs_required_for_goal(const struct player *pplayer,
 				  Tech_type_id goal)
 {
+  if (!pplayer) {
+    /* FIXME: need an implementation for this! */
+    return 0;
+  }
   return get_player_research(pplayer)->inventions[goal].bulbs_required;
 }
 
@@ -583,14 +619,15 @@ bool is_future_tech(Tech_type_id tech)
 #include "specvec.h"
 
 /**************************************************************************
- Return the name of the given tech. You don't have to free the return
- pointer.
+  Return the name of the given tech. You don't have to free the return
+  pointer.
+
+  pplayer may be NULL.  In this case we won't know the "number" of a
+  future technology.
 **************************************************************************/
 const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
 {
-  static struct string_vector future;
   int i;
-  struct player_research *research;
 
   /* We don't return a static buffer because that would break anything that
    * needed to work with more than one name at a time. */
@@ -602,22 +639,27 @@ const char *get_tech_name(const struct player *pplayer, Tech_type_id tech)
     /* TRANS: "None" tech */
     return _("None");
   case A_FUTURE:
-    research = get_player_research(pplayer);
+    if (pplayer) {
+      struct player_research *research = get_player_research(pplayer);
+      static struct string_vector future;
 
-    /* pplayer->future_tech == 0 means "Future Tech. 1". */
-    for (i = future.size; i <= research->future_tech; i++) {
-      char *ptr = NULL;
+      /* pplayer->future_tech == 0 means "Future Tech. 1". */
+      for (i = future.size; i <= research->future_tech; i++) {
+	char *ptr = NULL;
 
-      string_vector_append(&future, &ptr);
+	string_vector_append(&future, &ptr);
+      }
+      if (!future.p[research->future_tech]) {
+	char buffer[1024];
+
+	my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
+		    research->future_tech + 1);
+	future.p[research->future_tech] = mystrdup(buffer);
+      }
+      return future.p[research->future_tech];
+    } else {
+      return _("Future Tech.");
     }
-    if (!future.p[research->future_tech]) {
-      char buffer[1024];
-
-      my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
-		  research->future_tech + 1);
-      future.p[research->future_tech] = mystrdup(buffer);
-    }
-    return future.p[research->future_tech];
   default:
     /* Includes A_NONE */
     if (!tech_exists(tech)) {

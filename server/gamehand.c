@@ -239,11 +239,6 @@ void init_new_game(void)
     struct start_position pos
       = map.start_positions[start_pos[pplayer->player_no]];
 
-    /* don't give any units to observer */
-    if (pplayer->is_observer) {
-      continue;
-    }
-
     /* Place the first unit. */
     place_starting_unit(pos.tile, pplayer, game.info.start_units[0]);
   } players_iterate_end;
@@ -255,11 +250,6 @@ void init_new_game(void)
     struct nation_type *nation = get_nation_by_plr(pplayer);
     struct start_position p
       = map.start_positions[start_pos[pplayer->player_no]];
-
-    /* don't give any units to observer */
-    if (pplayer->is_observer) {
-      continue;
-    }
 
     /* Place global start units */
     for (i = 1; i < strlen(game.info.start_units); i++) {

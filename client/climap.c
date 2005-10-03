@@ -19,9 +19,9 @@
 #include "map.h"
 #include "shared.h"
 
-#include "tilespec.h"           /* tileset_is_isometric(tileset) */
-
+#include "civclient.h"
 #include "climap.h"
+#include "tilespec.h"           /* tileset_is_isometric(tileset) */
 
 /************************************************************************
  A tile's "known" field is used by the server to store whether _each_
@@ -35,6 +35,9 @@
 *************************************************************************/
 enum known_type client_tile_get_known(const struct tile *ptile)
 {
+  if (!game.player_ptr && client_is_observer()) {
+    return TILE_KNOWN;
+  }
   return tile_get_known(ptile, game.player_ptr);
 }
 

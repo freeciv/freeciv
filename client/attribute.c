@@ -257,6 +257,10 @@ void attribute_flush(void)
 {
   struct player *pplayer = game.player_ptr;
 
+  if (!pplayer) {
+    return;
+  }
+
   assert(attribute_hash != NULL);
 
   if (hash_num_entries(attribute_hash) == 0)
@@ -279,6 +283,10 @@ void attribute_flush(void)
 void attribute_restore(void)
 {
   struct player *pplayer = game.player_ptr;
+
+  if (!pplayer) {
+    return;
+  }
 
   assert(attribute_hash != NULL);
 

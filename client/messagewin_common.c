@@ -75,8 +75,10 @@ void update_meswin_dialog(void)
     return;
   }
 
-  if (!is_meswin_open() && messages_total > 0 &&
-      (!game.player_ptr->ai.control)) {
+  if (!is_meswin_open() && messages_total > 0
+      && !client_is_observer()
+      && game.player_ptr
+      && !game.player_ptr->ai.control) {
     popup_meswin_dialog(FALSE);
     change = FALSE;
     return;
@@ -144,7 +146,9 @@ void add_notify_window(char *message, struct tile *ptile,
     if (messages[i].location_ok) {
       struct city *pcity = tile_get_city(messages[i].tile);
 
-      messages[i].city_ok = (pcity && city_owner(pcity) == game.player_ptr);
+      messages[i].city_ok
+	= (pcity
+	   && can_player_see_city_internals(game.player_ptr, pcity));
     } else {
       messages[i].city_ok = FALSE;
     }
@@ -193,7 +197,8 @@ void meswin_popup_city(int message_index)
       center_tile_mapcanvas(ptile);
     }
 
-    if (pcity && city_owner(pcity) == game.player_ptr) {
+    if (pcity
+	&& can_player_see_units_in_city(game.player_ptr, pcity)) {
       /* If the event was the city being destroyed, pcity will be NULL
        * and we'd better not try to pop it up.  It's also possible that
        * events will happen on enemy cities; we generally don't want to pop

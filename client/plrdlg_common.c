@@ -126,7 +126,7 @@ static const char *col_diplstate(const struct player *player)
   static char buf[100];
   const struct player_diplstate *pds;
 
-  if (player == game.player_ptr) {
+  if (!game.player_ptr || player == game.player_ptr) {
     return "-";
   } else {
     pds = pplayer_get_diplstate(game.player_ptr, player);
@@ -145,7 +145,7 @@ static const char *col_diplstate(const struct player *player)
 *******************************************************************/
 static const char *col_love(const struct player *player)
 {
-  if (player == game.player_ptr || !player->ai.control) {
+  if (!game.player_ptr || player == game.player_ptr || !player->ai.control) {
     return "-";
   } else {
     return love_text(player->ai.love[game.player_ptr->player_no]);
@@ -159,6 +159,11 @@ static int cmp_love(const struct player *player1,
                           const struct player *player2)
 {
   int love1, love2;
+
+  if (!game.player_ptr) {
+    return player1->player_no - player2->player_no;
+  }
+
   if (player1 == game.player_ptr || !player1->ai.control) {
     love1 = MAX_AI_LOVE + 999;
   } else {

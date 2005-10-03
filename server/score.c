@@ -392,7 +392,7 @@ void calc_civ_score(struct player *pplayer)
   pplayer->score.literacy = 0;
   pplayer->score.spaceship = 0;
 
-  if (is_barbarian(pplayer) || pplayer->is_observer) {
+  if (is_barbarian(pplayer)) {
     return;
   }
 

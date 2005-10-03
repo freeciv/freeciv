@@ -384,7 +384,7 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
     return TRUE;
   }
 
-  if (!client_is_observer()) {
+  if (!client_is_observer()) { /* FIXME: is this check right? */
     if ((ev->state & GDK_SHIFT_MASK)) {
       switch (ev->keyval) {
 	case GDK_Left:
@@ -1260,9 +1260,6 @@ void update_conn_list_dialog(void)
     players_iterate(pplayer) {
       enum cmdlevel_id access_level = ALLOW_NONE;
 
-      if (pplayer->is_observer) {
-	continue; /* Connections are listed individually. */
-      }
       conn_list_iterate(pplayer->connections, pconn) {
         access_level = MAX(pconn->access_level, access_level);
       } conn_list_iterate_end;
@@ -1309,7 +1306,7 @@ void update_conn_list_dialog(void)
 			 -1);
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
-      if (pconn->player && !pconn->observer && !pconn->player->is_observer) {
+      if (pconn->player && !pconn->observer) {
 	continue; /* Already listed above. */
       }
       sz_strlcpy(name, pconn->username);

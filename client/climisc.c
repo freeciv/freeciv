@@ -111,12 +111,15 @@ void client_remove_unit(struct unit *punit)
 	    TILE_XY(pcity->tile));
   }
 
-  pcity = player_find_city_by_id(game.player_ptr, hc);
-  if (pcity) {
-    refresh_city_dialog(pcity);
-    freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
-	    get_nation_name(city_owner(pcity)->nation),
-	    TILE_XY(pcity->tile));
+  /* FIXME: this can cause two refreshes to be done? */
+  if (game.player_ptr) {
+    pcity = player_find_city_by_id(game.player_ptr, hc);
+    if (pcity) {
+      refresh_city_dialog(pcity);
+      freelog(LOG_DEBUG, "home city %s, %s, (%d %d)", pcity->name,
+	      get_nation_name(city_owner(pcity)->nation),
+	      TILE_XY(pcity->tile));
+    }
   }
 
   refresh_unit_mapcanvas(&old_unit, ptile, TRUE, FALSE);
@@ -162,6 +165,10 @@ void client_change_all(struct city_production from,
 {
   int last_request_id = 0;
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   create_event(NULL, E_CITY_PRODUCTION_CHANGED,
 	       _("Changing production of every %s into %s."),
 	       from.is_unit ? get_unit_type(from.value)->name
@@ -191,7 +198,8 @@ void client_change_all(struct city_production from,
 const char *get_embassy_status(const struct player *me,
 			       const struct player *them)
 {
-  if (me == them
+  if (!me || !them
+      || me == them
       || !them->is_alive
       || !me->is_alive) {
     return "-";
@@ -218,13 +226,13 @@ const char *get_embassy_status(const struct player *me,
 const char *get_vision_status(const struct player *me,
 			      const struct player *them)
 {
-  if (gives_shared_vision(me, them)) {
+  if (me && them && gives_shared_vision(me, them)) {
     if (gives_shared_vision(them, me)) {
       return Q_("?vision:Both");
     } else {
       return Q_("?vision:To Them");
     }
-  } else if (gives_shared_vision(them, me)) {
+  } else if (me && them && gives_shared_vision(them, me)) {
     return Q_("?vision:To Us");
   } else {
     return "";
@@ -373,7 +381,8 @@ struct sprite *client_cooling_sprite(void)
 **************************************************************************/
 struct sprite *client_government_sprite(void)
 {
-  if (can_client_change_view() && game.control.government_count > 0) {
+  if (can_client_change_view() && game.player_ptr
+      && game.control.government_count > 0) {
     struct government *gov = game.player_ptr->government;
 
     return get_government_sprite(tileset, gov);
@@ -402,15 +411,15 @@ void center_on_something(void)
   can_slide = FALSE;
   if ((punit = get_unit_in_focus())) {
     center_tile_mapcanvas(punit->tile);
-  } else if ((pcity = find_palace(game.player_ptr))) {
+  } else if (game.player_ptr && (pcity = find_palace(game.player_ptr))) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->tile);
-  } else if (city_list_size(game.player_ptr->cities) > 0) {
+  } else if (game.player_ptr && city_list_size(game.player_ptr->cities) > 0) {
     /* Just focus on any city. */
     pcity = city_list_get(game.player_ptr->cities, 0);
     assert(pcity != NULL);
     center_tile_mapcanvas(pcity->tile);
-  } else if (unit_list_size(game.player_ptr->units) > 0) {
+  } else if (game.player_ptr && unit_list_size(game.player_ptr->units) > 0) {
     /* Just focus on any unit. */
     punit = unit_list_get(game.player_ptr->units, 0);
     assert(punit != NULL);
@@ -633,7 +642,9 @@ void name_and_sort_items(struct city_production *targets, int num_targets,
 }
 
 /**************************************************************************
-...
+  Return possible production targets for the current player's cities.
+
+  FIXME: this should probably take a pplayer argument.
 **************************************************************************/
 int collect_production_targets(struct city_production *targets,
 			       struct city **selected_cities,
@@ -647,6 +658,10 @@ int collect_production_targets(struct city_production *targets,
 	      : game.control.num_impr_types);
   cid cid;
   int items_used = 0;
+
+  if (!game.player_ptr) {
+    return 0;
+  }
 
   for (cid = first; cid < last; cid++) {
     bool append = FALSE;
@@ -681,12 +696,18 @@ int collect_production_targets(struct city_production *targets,
 /**************************************************************************
  Collect the cids of all targets (improvements and units) which are
  currently built in a city.
+
+  FIXME: this should probably take a pplayer argument.
 **************************************************************************/
 int collect_currently_building_targets(struct city_production *targets)
 {
   bool mapping[MAX_NUM_PRODUCTION_TARGETS];
   int cids_used = 0;
   cid cid;
+
+  if (!game.player_ptr) {
+    return 0;
+  }
 
   memset(mapping, 0, sizeof(mapping));
   city_list_iterate(game.player_ptr->cities, pcity) {
@@ -706,10 +727,16 @@ int collect_currently_building_targets(struct city_production *targets)
 /**************************************************************************
  Collect the cids of all targets (improvements and units) which can
  be build in a city.
+
+  FIXME: this should probably take a pplayer argument.
 **************************************************************************/
 int collect_buildable_targets(struct city_production *targets)
 {
   int cids_used = 0;
+
+  if (!game.player_ptr) {
+    return 0;
+  }
 
   impr_type_iterate(id) {
     if (can_player_build_improvement(game.player_ptr, id)) {
@@ -733,12 +760,18 @@ int collect_buildable_targets(struct city_production *targets)
 /**************************************************************************
  Collect the cids of all targets which can be build by this city or
  in general.
+
+  FIXME: this should probably take a pplayer argument.
 **************************************************************************/
 int collect_eventually_buildable_targets(struct city_production *targets,
 					 struct city *pcity,
 					 bool advanced_tech)
 {
   int cids_used = 0;
+
+  if (!game.player_ptr) {
+    return 0;
+  }
 
   impr_type_iterate(id) {
     bool can_build = can_player_build_improvement(game.player_ptr, id);
@@ -809,7 +842,8 @@ int num_supported_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (pcity->owner != game.player_ptr) {
+  if (can_player_see_city_internals(game.player_ptr, pcity)) {
+    /* Other players don't see inside the city (but observers do). */
     plist = pcity->info_units_supported;
   } else {
     plist = pcity->units_supported;
@@ -825,7 +859,8 @@ int num_present_units_in_city(struct city *pcity)
 {
   struct unit_list *plist;
 
-  if (pcity->owner != game.player_ptr) {
+  if (can_player_see_units_in_city(game.player_ptr, pcity)) {
+    /* Other players don't see inside the city (but observers do). */
     plist = pcity->info_units_present;
   } else {
     plist = pcity->tile->units;
@@ -855,8 +890,8 @@ void handle_event(char *message, struct tile *ptile,
   if (BOOL_VAL(where & MW_MESSAGES)) {
     add_notify_window(message, ptile, event);
   }
-  if (BOOL_VAL(where & MW_POPUP) &&
-      (!game.player_ptr->ai.control)) {
+  if (BOOL_VAL(where & MW_POPUP)
+      && (!game.player_ptr || !game.player_ptr->ai.control)) {
     popup_notify_goto_dialog(_("Popup Request"), message, ptile);
   }
 
@@ -999,7 +1034,7 @@ void cityrep_buy(struct city *pcity)
     return;
   }
 
-  if (game.player_ptr->economic.gold >= value) {
+  if (pcity->owner->economic.gold >= value) {
     city_buy_production(pcity);
   } else {
     const char *name;
@@ -1012,7 +1047,7 @@ void cityrep_buy(struct city *pcity)
 
     create_event(NULL, E_BAD_COMMAND,
 		 _("%s costs %d gold and you only have %d gold."),
-		 name, value, game.player_ptr->economic.gold);
+		 name, value, pcity->owner->economic.gold);
   }
 }
 

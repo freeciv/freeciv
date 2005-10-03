@@ -844,7 +844,7 @@ void send_player_info_c(struct player *src, struct conn_list *dest)
       package_player_common(pplayer, &info);
 
       conn_list_iterate(dest, pconn) {
-	if (pconn->player && pconn->player->is_observer) {
+	if (!pconn->player && pconn->observer) {
 	  /* Global observer. */
 	  package_player_info(pplayer, &info, pconn->player, INFO_FULL);
 	} else if (pconn->player) {
@@ -885,7 +885,6 @@ static void package_player_common(struct player *plr,
   sz_strlcpy(packet->username, plr->username);
   packet->nation = plr->nation ? plr->nation->index : -1;
   packet->is_male=plr->is_male;
-  packet->is_observer=plr->is_observer;
   packet->team = plr->team ? plr->team->index : -1;
   packet->is_ready = plr->is_ready;
   packet->city_style=plr->city_style;
@@ -1423,102 +1422,6 @@ struct nation_type *pick_available_nation(struct nation_type **choices,
 
   assert(0);
   return NO_NATION_SELECTED;
-}
-
-/****************************************************************************
-  Return an available observer nation.  This simply returns the first
-  such nation.  If no nation is available NO_NATION_SELECTED is returned.
-****************************************************************************/
-static struct nation_type *pick_observer_nation(void)
-{
-  nations_iterate(pnation) {
-    if (is_nation_observer(pnation) && !pnation->player) {
-      return pnation;
-    }
-  } nations_iterate_end;
-
-  return NO_NATION_SELECTED;
-}
-
-/****************************************************************************
-  Create a player with is_observer = TRUE and return it.
-  If a global observer has already been created, return that player.
-  If there are no player slots available return NULL.
-
-  (Could be called ensure_global_observer instead.)
-****************************************************************************/
-struct player *create_global_observer(void)
-{
-  struct player *pplayer = NULL;
-  struct nation_type *nation;
-
-  /* Check if a global observer already exists. If so, return it.  Note the
-   * observer may exist at any position in the array. */
-  players_iterate(aplayer) {
-    if (aplayer->is_observer) {
-      return aplayer;
-    }
-  } players_iterate_end
-
-  /* If we're here we couldn't find an observer, so check if we have
-   * a slot available to create one.  Observers are taken from the slots of
-   * normal civs (barbarians are reserved separately). */
-  if (game.info.nplayers - game.info.nbarbarians >= MAX_NUM_PLAYERS) {
-    notify_conn(NULL, NULL, E_CONNECTION,
-		_("A global observer cannot be created: too "
-		  "many regular players."));
-    return NULL;
-  }
-
-  nation = pick_observer_nation();
-  if (nation == NO_NATION_SELECTED) {
-    notify_conn(NULL, NULL, E_CONNECTION,
-		_("A global observer cannot be created: there's "
-		  "no observer nation in the ruleset."));
-    return NULL;
-  }
-
-  /* alright, we can create an observer. go for it. */
-  pplayer = &game.players[game.info.nplayers];
-
-  /* only allocate a player map is the game is running or a game is loaded
-   * in pregame. This is because a game map might not be created otherwise.
-   *
-   * FIXME: could we use map_is_empty here? */
-  server_player_init(pplayer,
-                     (server_state == RUN_GAME_STATE || !game.info.is_new_game),
-		     TRUE);
-
-  sz_strlcpy(pplayer->name, OBSERVER_NAME);
-  sz_strlcpy(pplayer->username, ANON_USER_NAME);
-  pplayer->is_connected = FALSE;
-  pplayer->is_observer = TRUE;
-  pplayer->capital = TRUE;	/* is this necessary? maybe for client... */
-  pplayer->phase_done = TRUE;
-  BV_CLR_ALL(pplayer->embassy);		/* no embassies */
-  pplayer->is_alive = FALSE;
-  pplayer->was_created = FALSE;	/* doesn't really matter */
-
-  /* don't do this otherwise, because a game map might
-   * not have been created.
-   *
-   * FIXME: could we use map_is_empty here? */
-  if (server_state == RUN_GAME_STATE || !game.info.is_new_game) {
-    pplayer->nation = nation;
-    init_tech(pplayer);
-    give_initial_techs(pplayer);
-    map_know_and_see_all(pplayer);
-  }
-
-  game.info.nplayers++;
-
-  /* tell everyone that game.info.nplayers has been updated */
-  send_game_info(NULL);
-  send_player_info(pplayer, NULL);
-  notify_conn(NULL, NULL, E_CONNECTION,
-	      _("A global observer has been created"));
-
-  return pplayer;
 }
 
 /****************************************************************************

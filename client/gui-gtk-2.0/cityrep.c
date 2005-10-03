@@ -535,6 +535,9 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
   GtkWidget *w;
 
   gtk_menu_item_remove_submenu(parent_item);
+  if (!can_client_issue_orders()) {
+    return;
+  }
   menu = gtk_menu_new();
   gtk_menu_item_set_submenu(parent_item, menu);
 
@@ -1099,8 +1102,7 @@ static void update_row(GtkTreeIter *row, struct city *pcity)
 *****************************************************************/
 static void city_model_init(void)
 {
-  if (city_dialog_shell && !is_report_dialogs_frozen()) {
-
+  if (city_dialog_shell && !is_report_dialogs_frozen() && game.player_ptr) {
     city_list_iterate(game.player_ptr->cities, pcity) {
       GtkTreeIter it;
 
@@ -1138,14 +1140,16 @@ void city_report_dialog_update(void)
     /* update. */
     gtk_list_store_clear(city_model);
 
-    city_list_iterate(game.player_ptr->cities, pcity) {
-      gtk_list_store_append(city_model, &it);
-      update_row(&it, pcity);
+    if (game.player_ptr) {
+      city_list_iterate(game.player_ptr->cities, pcity) {
+	gtk_list_store_append(city_model, &it);
+	update_row(&it, pcity);
 
-      if (g_hash_table_remove(copy, pcity)) {
-	gtk_tree_selection_select_iter(city_selection, &it);
-      }
-    } city_list_iterate_end;
+	if (g_hash_table_remove(copy, pcity)) {
+	  gtk_tree_selection_select_iter(city_selection, &it);
+	}
+      } city_list_iterate_end;
+    }
 
     /* free the selection. */
     g_hash_table_destroy(copy);

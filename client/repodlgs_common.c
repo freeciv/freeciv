@@ -47,6 +47,10 @@ void get_economy_report_data(struct improvement_entry *entries,
   *num_entries_used = 0;
   *total_cost = 0;
 
+  if (!game.player_ptr) {
+    return;
+  }
+
   impr_type_iterate(impr_id) {
     if (is_improvement(impr_id)) {
       int count = 0, cost = 0;
@@ -95,6 +99,13 @@ void get_economy_report_units_data(struct unit_entry *entries,
 				   int *num_entries_used, int *total_cost)
 {
   int count, cost, partial_cost;
+
+  *num_entries_used = 0;
+  *total_cost = 0;
+
+  if (!game.player_ptr) {
+    return;
+  }
 
   unit_type_iterate(unittype) {
     cost = utype_upkeep_cost(unittype, game.player_ptr,

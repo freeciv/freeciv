@@ -2137,8 +2137,6 @@ static void load_ruleset_nations(struct section_file *file)
 
     pl->is_playable = secfile_lookup_bool_default(file, TRUE,
 						  "%s.is_playable", sec[i]);
-    pl->is_observer = secfile_lookup_bool_default(file, FALSE,
-						  "%s.is_observer", sec[i]);
     pl->is_barbarian = secfile_lookup_bool_default(file, FALSE,
 						  "%s.is_barbarian", sec[i]);
 
@@ -2969,7 +2967,6 @@ void send_ruleset_nations(struct conn_list *dest)
     packet.city_style = n->city_style;
     packet.is_playable = n->is_playable;
     packet.is_available = n->is_available;
-    packet.is_observer = n->is_observer;
     packet.is_barbarian = n->is_barbarian;
     memcpy(packet.init_techs, n->init_techs, sizeof(packet.init_techs));
     memcpy(packet.init_buildings, n->init_buildings, 

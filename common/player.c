@@ -127,7 +127,6 @@ void player_init(struct player *plr)
   plr->connections = conn_list_new();
   plr->current_conn = NULL;
   plr->is_connected = FALSE;
-  plr->is_observer = FALSE;
   plr->was_created = FALSE;
   plr->is_alive=TRUE;
   plr->is_dying = FALSE;
@@ -338,11 +337,15 @@ bool can_player_see_unit(const struct player *pplayer,
   Note that can_player_see_city_internals => can_player_see_units_in_city.
   Otherwise the player would not know anything about the city's units at
   all, since the full city packet has no "occupied" flag.
+
+  Returns TRUE if given a NULL player.  This is used by the client when in
+  observer mode.
 ****************************************************************************/
 bool can_player_see_units_in_city(const struct player *pplayer,
 				  const struct city *pcity)
 {
-  return (can_player_see_city_internals(pplayer, pcity)
+  return (!pplayer
+	  || can_player_see_city_internals(pplayer, pcity)
 	  || pplayers_allied(pplayer, city_owner(pcity)));
 }
 
@@ -350,17 +353,22 @@ bool can_player_see_units_in_city(const struct player *pplayer,
   Return TRUE iff the player can see the city's internals.  This means the
   full city packet is sent to the client, who should then be able to popup
   a dialog for it.
+
+  Returns TRUE if given a NULL player.  This is used by the client when in
+  observer mode.
 ****************************************************************************/
 bool can_player_see_city_internals(const struct player *pplayer,
 				   const struct city *pcity)
 {
-  return (pplayer == city_owner(pcity));
+  return (!pplayer || pplayer == city_owner(pcity));
 }
 
 /***************************************************************
  If the specified player owns the city with the specified id,
  return pointer to the city struct.  Else return NULL.
  Now always uses fast idex_lookup_city.
+
+  pplayer may be NULL in which case all cities will be considered.
 ***************************************************************/
 struct city *player_find_city_by_id(const struct player *pplayer,
 				    int city_id)
@@ -374,6 +382,8 @@ struct city *player_find_city_by_id(const struct player *pplayer,
  If the specified player owns the unit with the specified id,
  return pointer to the unit struct.  Else return NULL.
  Uses fast idex_lookup_city.
+
+  pplayer may be NULL in which case all units will be considered.
 ***************************************************************/
 struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id)
@@ -501,6 +511,10 @@ Locate the city where the players palace is located, (NULL Otherwise)
 **************************************************************************/
 struct city *find_palace(const struct player *pplayer)
 {
+  if (!pplayer) {
+    /* The client depends on this behavior in some places. */
+    return NULL;
+  }
   city_list_iterate(pplayer->cities, pcity) {
     if (is_capital(pcity)) {
       return pcity;
@@ -765,6 +779,9 @@ bool is_valid_username(const char *name)
 ****************************************************************************/
 struct player_research *get_player_research(const struct player *plr)
 {
-  assert((plr != NULL) && (plr->team != NULL));
+  if (!plr || !plr->team) {
+    /* Some client users depend on this behavior. */
+    return NULL;
+  }
   return &(plr->team->research);
 }

@@ -379,7 +379,6 @@ struct packet_player_info {
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
   int score;
-  bool is_observer;
   bool is_male;
   int government;
   int target_government;
@@ -891,7 +890,6 @@ struct packet_ruleset_nation {
   bool leader_sex[MAX_NUM_LEADERS];
   bool is_available;
   bool is_playable;
-  bool is_observer;
   bool is_barbarian;
   int group_count;
   char group_name[MAX_NUM_NATION_GROUPS][MAX_LEN_NAME];

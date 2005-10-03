@@ -22,23 +22,25 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "shared.h"
+#include "support.h"
+
 #include "events.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
-#include "support.h"
+
+#include "civclient.h"
+#include "clinet.h"
+#include "options.h"
 
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"
-#include "clinet.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
-#include "options.h"
-
 #include "ratesdlg.h"
 #include "optiondlg.h"
 
@@ -73,7 +75,11 @@ static void rates_set_values(int tax, int no_tax_scroll,
   lux_lock	= GTK_TOGGLE_BUTTON(rates_lux_toggle)->active;
   sci_lock	= GTK_TOGGLE_BUTTON(rates_sci_toggle)->active;
 
-  maxrate = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
+  if (game.player_ptr) {
+    maxrate = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
+  } else {
+    maxrate = 100;
+  }
   /* This's quite a simple-minded "double check".. */
   tax=MIN(tax, maxrate);
   lux=MIN(lux, maxrate);
@@ -213,6 +219,10 @@ static GtkWidget *create_rates_dialog(void)
   GtkWidget	*frame, *hbox;
 
   GtkWidget	*scale;
+
+  if (!can_client_issue_orders()) {
+    return NULL;
+  }
   
   shell = gtk_dialog_new_with_buttons(_("Select tax, luxury and science rates"),
   	NULL,
@@ -330,8 +340,16 @@ void popup_rates_dialog(void)
 {
   char buf[64];
 
-  if (!rates_dialog_shell)
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
+  if (!rates_dialog_shell) {
     rates_dialog_shell = create_rates_dialog();
+  }
+  if (!rates_dialog_shell) {
+    return;
+  }
 
   my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
       get_government_name(game.player_ptr->government),

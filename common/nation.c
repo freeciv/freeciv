@@ -124,20 +124,6 @@ bool is_nation_playable(const struct nation_type *nation)
 }
 
 /****************************************************************************
-  Return whether a nation is usable as an observer.  If true then observers
-  can use this nation.
-
-  This does not check whether a nation is "used" or "available".
-****************************************************************************/
-bool is_nation_observer(const struct nation_type *nation)
-{
-  if (!bounds_check_nation(nation, LOG_FATAL, "is_nation_observer")) {
-    die("wrong nation %d", nation->index);
-  }
-  return nation->is_observer;
-}
-
-/****************************************************************************
   Return whether a nation is usable as a barbarian.  If true then barbarians
   can use this nation.
 

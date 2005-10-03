@@ -60,9 +60,4 @@ options="1.9"
 *include "nation/chinese.ruleset"
 *include "nation/english.ruleset"
 *include "nation/mongol.ruleset"
-
-;
-; observer and barbarians MUST go last in THIS order
-;
-*include "nation/observer.ruleset"
 *include "nation/barbarian.ruleset"

@@ -3643,8 +3643,10 @@ static int fill_grid_sprite_array(const struct tileset *t,
 	&& base_map_to_city_map(&dummy_x, &dummy_y, pfocus->tile, tile);
       worked[i] = FALSE;
 
-      city[i] = tile && (powner == NULL || powner == game.player_ptr)
-	&& player_in_city_radius(game.player_ptr, tile);
+      city[i] = (tile
+		 && (!powner || !game.player_ptr || powner == game.player_ptr)
+		 && (!game.player_ptr
+		     || player_in_city_radius(game.player_ptr, tile)));
       if (city[i]) {
 	if (citymode) {
 	  int cx, cy;
@@ -4252,7 +4254,7 @@ struct unit *get_drawable_unit(const struct tileset *t,
   if (!punit)
     return NULL;
 
-  if (citymode && punit->owner == game.player_ptr)
+  if (citymode && punit->owner == citymode->owner)
     return NULL;
 
   if (punit != pfocus

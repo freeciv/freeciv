@@ -160,8 +160,4 @@ match=2
 *include "nation/tibetan.ruleset"
 *include "nation/tunisian.ruleset"
 *include "nation/uyghur.ruleset"
-;
-; observer and barbarians MUST go last in THIS order
-;
-*include "nation/observer.ruleset"
 *include "nation/barbarian.ruleset"

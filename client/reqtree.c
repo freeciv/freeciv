@@ -836,6 +836,11 @@ static enum color_std node_color(struct tree_node *node)
 {
   if (!node->is_dummy) {
     struct player_research* research = get_player_research(game.player_ptr);
+
+    if (!game.player_ptr || !research) {
+      return COLOR_REQTREE_KNOWN;
+    }
+
     if (research->researching == node->tech) {
       return COLOR_REQTREE_RESEARCHING;
     }

@@ -145,7 +145,8 @@ void popup_science_dialog(bool raise)
     create_science_dialog(FALSE);
   }
 
-  if (get_player_research(game.player_ptr)->tech_goal == A_UNSET
+  if (can_client_issue_orders()
+      && get_player_research(game.player_ptr)->tech_goal == A_UNSET
       && get_player_research(game.player_ptr)->researching == A_UNSET) {
     gui_dialog_alert(science_dialog_shell);
   } else {
@@ -182,7 +183,7 @@ static void button_release_event_callback(GtkWidget *widget,
   if (tech == A_NONE) {
     return;
   }
-  if (event->button == 1) {
+  if (event->button == 1 && can_client_issue_orders()) {
     /* LMB: set research or research goal */
     switch (get_invention(game.player_ptr, tech)) {
     case TECH_REACHABLE:
@@ -227,6 +228,7 @@ static GtkWidget *create_reqtree_diagram(void)
   GtkAdjustment* adjustment;
   int width, height;
   int x;
+  Tech_type_id researching;
 
   get_reqtree_dimensions(reqtree, &width, &height);
 
@@ -252,8 +254,12 @@ static GtkWidget *create_reqtree_diagram(void)
   adjustment = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw));
   
   /* Center on currently researched node */
-  if (find_tech_on_reqtree(reqtree,
-                           get_player_research(game.player_ptr)->researching,
+  if (game.player_ptr) {
+    researching = get_player_research(game.player_ptr)->researching;
+  } else {
+    researching = A_UNSET;
+  }
+  if (find_tech_on_reqtree(reqtree, researching,
 			   &x, NULL, NULL, NULL)) {
     /* FIXME: this is just an approximation */
     gtk_adjustment_set_value(adjustment, x - 100);
@@ -418,7 +424,7 @@ void science_dialog_update(void)
   GtkSizeGroup *group1, *group2;
   struct player_research *research = get_player_research(game.player_ptr);
 
-  if (is_report_dialogs_frozen()) {
+  if (!game.player_ptr || !research || is_report_dialogs_frozen()) {
     return;
   }
 
@@ -1053,14 +1059,10 @@ static void activeunits_selection_callback(GtkTreeSelection *selection,
 				      ACTIVEUNITS_NEAREST,
 				      can_client_issue_orders());	
     
-    if (can_upgrade_unittype(game.player_ptr, utype) != NULL) {
-      gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-					ACTIVEUNITS_UPGRADE,
-					can_client_issue_orders());	
-    } else {
-      gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-					ACTIVEUNITS_UPGRADE, FALSE);
-    }
+    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
+		ACTIVEUNITS_UPGRADE,
+		(can_client_issue_orders()
+		 && can_upgrade_unittype(game.player_ptr, utype) != NULL));
   }
 }
 
@@ -1071,9 +1073,12 @@ static struct unit *find_nearest_unit(const struct unit_type *type,
 				      struct tile *ptile)
 {
   struct unit *best_candidate;
-  int best_dist = 99999;
+  int best_dist = FC_INFINITY;
 
   best_candidate = NULL;
+  if (!game.player_ptr) {
+    return NULL;
+  }
   unit_list_iterate(game.player_ptr->units, punit) {
     if (punit->type == type) {
       if (punit->focus_status==FOCUS_AVAIL
@@ -1137,7 +1142,7 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response,
 	}
       }
     }
-  } else {
+  } else if (can_client_issue_orders()) {
     GtkWidget *shell;
     struct unit_type *ut2 = can_upgrade_unittype(game.player_ptr, utype1);
 
@@ -1173,10 +1178,12 @@ void activeunits_report_dialog_update(void)
     int building_count;
   };
 
-  if (is_report_dialogs_frozen())
+  if (is_report_dialogs_frozen() || !activeunits_dialog_shell) {
     return;
+  }
 
-  if (activeunits_dialog_shell) {
+  gtk_list_store_clear(activeunits_store);
+  if (game.player_ptr) {
     int    k, can;
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;

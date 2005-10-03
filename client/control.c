@@ -145,10 +145,8 @@ void set_unit_focus(struct unit *punit)
 {
   struct unit *punit_old_focus = punit_focus;
 
-  if (punit && punit->owner != game.player_ptr) {
+  if (punit && game.player_ptr && punit->owner != game.player_ptr) {
     /* Callers should make sure this never happens. */
-    freelog(LOG_ERROR, "Trying to focus on another player's unit!");
-    assert(0);
     return;
   }
 
@@ -227,7 +225,7 @@ at the end of the goto, then they are still in focus.
 **************************************************************************/
 void update_unit_focus(void)
 {
-  if (!can_client_change_view()) {
+  if (!game.player_ptr || !can_client_change_view()) {
     return;
   }
   if (!punit_focus
@@ -261,7 +259,10 @@ void advance_unit_focus(void)
   struct unit *punit_old_focus = punit_focus;
   struct unit *candidate = find_best_focus_candidate(FALSE);
 
-  assert(can_client_change_view());
+  if (!game.player_ptr || !can_client_change_view()) {
+    set_unit_focus(NULL);
+    return;
+  }
 
   set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   if (!can_client_change_view()) {
@@ -315,7 +316,8 @@ static struct unit *find_best_focus_candidate(bool accept_current)
   int best_dist = 99999;
   struct tile *ptile;
 
-  if (!is_player_phase(game.player_ptr, game.info.phase)) {
+  if (!game.player_ptr
+      || !is_player_phase(game.player_ptr, game.info.phase)) {
     /* No focus unit wanted. */
     return NULL;
   }
@@ -457,7 +459,8 @@ double blink_turn_done_button(void)
   static struct timer *blink_timer = NULL;
   const double blink_time = 0.5; /* half-second blink interval */
 
-  if (game.player_ptr && game.player_ptr->is_alive
+  if (game.player_ptr
+      && game.player_ptr->is_alive
       && !game.player_ptr->phase_done) {
     if (!blink_timer || read_timer_seconds(blink_timer) > blink_time) {
       int is_waiting = 0, is_moving = 0;
@@ -588,13 +591,16 @@ void process_caravan_arrival(struct unit *punit)
     id = *p_id;
     free(p_id);
     p_id = NULL;
-    punit = player_find_unit_by_id(game.player_ptr, id);
+    punit = find_unit_by_id(id);
 
     if (punit && (unit_can_help_build_wonder_here(punit)
 		  || unit_can_est_traderoute_here(punit))
-	&& (!game.player_ptr->ai.control)) {
+	&& (!game.player_ptr
+	    || (game.player_ptr == punit->owner
+		&& !game.player_ptr->ai.control))) {
       struct city *pcity_dest = tile_get_city(punit->tile);
       struct city *pcity_homecity = find_city_by_id(punit->homecity);
+
       if (pcity_dest && pcity_homecity) {
 	popup_caravan_dialog(punit, pcity_homecity, pcity_dest);
 	return;
@@ -794,7 +800,7 @@ void request_unit_unload_all(struct unit *punit)
 	request_new_unit_activity(pcargo, ACTIVITY_IDLE);
       }
 
-      if (pcargo->owner == game.player_ptr) {
+      if (pcargo->owner == punit->owner) {
 	plast = pcargo;
       }
     }
@@ -867,6 +873,9 @@ void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 
 void wakeup_sentried_units(struct tile *ptile)
 {
+  if (!can_client_issue_orders()) {
+    return;
+  }
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_SENTRY
 	&& game.player_ptr == punit->owner) {

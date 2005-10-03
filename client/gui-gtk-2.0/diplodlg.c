@@ -20,27 +20,29 @@
 
 #include <gtk/gtk.h>
 
+#include "mem.h"
+#include "shared.h"
+#include "support.h"
+
+#include "diptreaty.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
-#include "mem.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
-#include "support.h"
 
 #include "chatline.h"
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
-#include "diptreaty.h"
+#include "options.h"
+
+#include "diplodlg.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
-#include "options.h"
 #include "plrdlg.h"
-
-#include "diplodlg.h"
 
 #define MAX_NUM_CLAUSES 64
 
@@ -169,6 +171,10 @@ popup the dialog 10% inside the main-window
 static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
 {
   struct Diplomacy_dialog *pdialog = find_diplomacy_dialog(other_player_id);
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
 
   if (game.player_ptr->ai.control) {
     return;			/* Don't show if we are AI controlled. */

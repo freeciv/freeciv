@@ -204,7 +204,7 @@ void srv_init(void)
 **************************************************************************/
 bool is_game_over(void)
 {
-  int barbs = 0, alive = 0, observers = 0;
+  int barbs = 0, alive = 0;
   bool all_allied;
   struct player *victor = NULL;
 
@@ -222,9 +222,6 @@ bool is_game_over(void)
     if (is_barbarian(pplayer)) {
       barbs++;
     }
-    if (pplayer->is_observer) {
-      observers++;
-    }
   } players_iterate_end;
 
   /* count the living */
@@ -238,7 +235,7 @@ bool is_game_over(void)
   } players_iterate_end;
 
   /* the game does not quit if we are playing solo */
-  if (game.info.nplayers == (observers + barbs + 1)
+  if (game.info.nplayers == (barbs + 1)
       && alive >= 1) {
     return FALSE;
   }
@@ -1336,8 +1333,7 @@ void handle_player_ready(struct player *requestor,
 ****************************************************************************/
 void aifill(int amount)
 {
-  int observers = 0, remove;
-  int filled = 0;
+  int remove, filled = 0;
 
   if (server_state != PRE_GAME_STATE || !game.info.is_new_game) {
     return;
@@ -1350,18 +1346,7 @@ void aifill(int amount)
 
   amount = MIN(amount, game.info.max_players);
 
-  /* we don't want aifill to count global observers unless 
-   * aifill = MAX_NUM_PLAYERS */
-  players_iterate(pplayer) {
-    if (pplayer->is_observer) {
-      observers++;
-    }
-  } players_iterate_end;
-  if (amount == game.info.max_players) {
-    observers = 0;
-  }
-
-  while (game.info.nplayers < amount + observers) {
+  while (game.info.nplayers < amount) {
     const int old_nplayers = game.info.nplayers;
     struct player *pplayer = get_player(old_nplayers);
     char player_name[ARRAY_SIZE(pplayer->name)];
@@ -1394,11 +1379,10 @@ void aifill(int amount)
   }
 
   remove = game.info.nplayers - 1;
-  while (game.info.nplayers > amount + observers && remove >= 0) {
+  while (game.info.nplayers > amount && remove >= 0) {
     struct player *pplayer = get_player(remove);
 
-    if (!pplayer->is_observer && !pplayer->is_connected
-	&& !pplayer->was_created) {
+    if (!pplayer->is_connected && !pplayer->was_created) {
       server_remove_player(pplayer);
     }
     remove--;
@@ -1890,13 +1874,6 @@ static void srv_loop(void)
   
   if(game.info.is_new_game) {
     init_new_game();
-
-    /* give global observers the entire map */
-    players_iterate(pplayer) {
-      if (pplayer->is_observer) {
-        map_know_and_see_all(pplayer);
-      }
-    } players_iterate_end;
   }
 
   send_game_state(game.est_connections, CLIENT_GAME_RUNNING_STATE);
