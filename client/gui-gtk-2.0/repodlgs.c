@@ -397,26 +397,10 @@ void science_goal_callback(GtkWidget *widget, gpointer data)
 static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
   const gchar *a_str, *b_str;
-  gchar text_a[512], text_b[512];
   gint a = GPOINTER_TO_INT(a_p), b = GPOINTER_TO_INT(b_p);
 
-  /* FIXME: future techs aren't counted this way but are handled by
-   * get_tech_name() when given a player parameter. */
-  if (!is_future_tech(a)) {
-    a_str = get_tech_name(game.player_ptr, a);
-  } else {
-    my_snprintf(text_a,sizeof(text_a), _("Future Tech. %d"),
-		a - game.control.num_tech_types);
-    a_str=text_a;
-  }
-
-  if(!is_future_tech(b)) {
-    b_str = get_tech_name(game.player_ptr, b);
-  } else {
-    my_snprintf(text_b,sizeof(text_b), _("Future Tech. %d"),
-		b - game.control.num_tech_types);
-    b_str=text_b;
-  }
+  a_str = get_tech_name(game.player_ptr, a);
+  b_str = get_tech_name(game.player_ptr, b);
 
   return strcmp(a_str,b_str);
 }
