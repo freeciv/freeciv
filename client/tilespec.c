@@ -1208,7 +1208,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
   int i;
-  int num_spec_files, num_terrains, hex_side;
+  int num_spec_files, num_terrains;
   char **spec_filenames, **terrains;
   char *file_capstr;
   bool duplicates_ok, is_hex;
@@ -1246,11 +1246,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 
   /* Read hex-tileset information. */
   is_hex = secfile_lookup_bool(file, "tilespec.is_hex");
-  if (is_hex) {
-    hex_side = secfile_lookup_int(file, "tilespec.hex_side");
-  }
   t->hex_width = t->hex_height = 0;
   if (is_hex) {
+    int hex_side = secfile_lookup_int(file, "tilespec.hex_side");
+
     if (t->is_isometric) {
       t->hex_height = hex_side;
     } else {
