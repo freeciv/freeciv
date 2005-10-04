@@ -1227,12 +1227,16 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 
   if (!section_file_load(file, fname)) {
     freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
+    section_file_free(file);
+    free(fname);
     tileset_free(t);
     return NULL;
   }
 
   if (!check_tilespec_capabilities(file, "tilespec",
 				   TILESPEC_CAPSTR, fname)) {
+    section_file_free(file);
+    free(fname);
     tileset_free(t);
     return NULL;
   }
@@ -1385,6 +1389,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   terrains = secfile_get_secnames_prefix(file, "terrain_", &num_terrains);
   if (num_terrains == 0) {
     freelog(LOG_ERROR, "No terrain types supported by tileset.");
+    section_file_free(file);
+    free(fname);
     tileset_free(t);
     return NULL;
   }
@@ -1504,6 +1510,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     if (!hash_insert(t->terrain_hash, terr->name, terr)) {
       freelog(LOG_NORMAL, "warning: duplicate terrain entry %s.",
 	      terrains[i]);
+      section_file_free(file);
+      free(fname);
       tileset_free(t);
       return NULL;
     }
@@ -1515,6 +1523,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 					  "tilespec.files");
   if (num_spec_files == 0) {
     freelog(LOG_ERROR, "No tile files specified in \"%s\"", fname);
+    section_file_free(file);
+    free(fname);
     tileset_free(t);
     return NULL;
   }
@@ -1530,6 +1540,8 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     sf->big_sprite = NULL;
     dname = datafilename(spec_filenames[i]);
     if (!dname) {
+      section_file_free(file);
+      free(fname);
       tileset_free(t);
       return NULL;
     }
