@@ -7,11 +7,22 @@ legend=_("Croatia is the region of the Southern Slavs that was held by the\
  Austro-Hungarian Empire, rather than coming under Ottoman rule after the\
  collapse of Byzantium. During most of the 20th century it was part of the\
  Yugoslav Federation.")
-leader="Ljudevit Posavski", "Borna", "Trpimir", "Domagoj", "Branimir",
-       "Tomislav", "Stjepan Drzislav", "Petar Kresimir IV", "Zvonimir",
-       "Nikola Subic Zrinski", "Matija Gubec", "Petar Zrinski",
-       "Franjo Frankopan", "Franjo Tudjman",
-       "Josip Ban Jelacic"
+leader=
+ "Ljudevit Posavski",
+ "Borna",
+ "Trpimir",
+ "Domagoj",
+ "Branimir",
+ "Tomislav",
+ "Stjepan Drzislav",
+ "Petar Kresimir IV",
+ "Zvonimir",
+ "Nikola Subic Zrinski",
+ "Matija Gubec",
+ "Petar Zrinski",
+ "Franjo Frankopan",
+ "Franjo Tudjman",
+ "Josip Ban Jelacic"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Male"

@@ -6,7 +6,12 @@ groups=_("Ancient"), _("Asian")
 legend=_("Sumer controlled southern Mesopotamia until the rise of\
  Babylonia. Tablets of Sumerian writing some 5500 years old have been\
  found, pre-dating every other writing in history.")
-leader="Gilgamesh", "Lagislazuli", "Urukagina", "Urnammu", "Ibissin"
+leader=
+ "Gilgamesh",
+ "Lagislazuli",
+ "Urukagina",
+ "Urnammu",
+ "Ibissin"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag = "sumeria"
 flag_alt = "-"

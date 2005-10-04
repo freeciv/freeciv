@@ -10,13 +10,16 @@ legend=_("Afghanistan, often called the crossroads of Central Asia, has had\
  by many forces including the Persian Empire, Genghis Khan and Alexander the\
  Great. The Afghanistan nation-state as it is known today came into existence\
  in 1746 when Ahmad Shah founded the Durrani Empire.")
-leader="Mahmud Ghazni",
+leader=
+ "Kanishka",
+ "Mahmud Ghazni",
+ "Timour-i-Lang",
  "Ahmad Shah",
  "Zahir Shah",
  "Daoud Khan",
  "Mohammad Omar",
  "Hamid Karzai"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="afghanistan"
 flag_alt = "-"
 city_style = "European"

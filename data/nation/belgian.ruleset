@@ -7,7 +7,11 @@ legend = _("Belgium gained independance from the Dutch Kingdom in 1830.\
  Belgium is mainly characterized by its movement from a unified state\
  to a federal one. This is the result of the Flemish and the\
  Walloon's nationalist (almost) peaceful fights.")
-leader="Leopold", "Albert", "Boudewijn", "Baudouin"
+leader=
+ "Leopold",
+ "Albert",
+ "Boudewijn",
+ "Baudouin"
 leader_sex="Male", "Male", "Male", "Male"
 flag="belgium"
 flag_alt = "-"

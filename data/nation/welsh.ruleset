@@ -6,7 +6,10 @@ groups= _("Medieval"), _("European")
 legend=_("The Welsh at one time controlled all of what is now England\
  until being driven into the mountainous western reaches by invading\
  Saxons.")
-leader="Llywelyn ap Gruffudd", "Hywel Dda", "Owain Glyndwr"
+leader=
+ "Llywelyn ap Gruffudd",
+ "Hywel Dda",
+ "Owain Glyndwr"
 leader_sex="Male", "Male", "Male"
 flag="wales"
 flag_alt = "united_kingdom"
@@ -15,8 +18,8 @@ city_style = "European"
 ;names = "Yr Ymerodreath Gymreig"          "empire"            (depotism)
 ;      = "Y Twysysogaeth Cymru"            "principality"      (monarchy)
 ;      = "Y Gwerinaeth Pobl Cymru"         "people's republic" (communism)
-;      = "Yr Ymerodrath Scantaidd Cymreig" "holy welsh empire" (fundamentalism)
-;      = "Y Gweriniaeth Cymru"             "republic"          (republic, democracy)
+;    = "Yr Ymerodrath Scantaidd Cymreig" "holy welsh empire" (fundamentalism)
+;      = "Y Gweriniaeth Cymru"           "republic"     (republic, democracy)
 
 ruler_titles = { "government",      "male_title",      "female_title",
                  "Monarchy",        _("Prince"),         _("Princess")

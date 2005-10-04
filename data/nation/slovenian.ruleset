@@ -5,7 +5,11 @@ plural=_("?plural:Slovenians")
 groups=_("Medieval"), _("Modern"), _("European")
 legend=_("Slovenia was the most western and northern republic of the old\
  Yugoslav Federation.")
-leader="Valuka", "Valtunk", "Kocelj", "Primoz Trubar"
+leader=
+ "Valuka",
+ "Valtunk",
+ "Kocelj",
+ "Primoz Trubar"
 leader_sex="Male", "Male", "Male", "Male"
 flag="slovenia"
 flag_alt = "-"

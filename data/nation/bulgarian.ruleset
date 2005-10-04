@@ -6,10 +6,21 @@ groups=_("Modern"), _("Medieval"), _("European")
 legend=_("Bulgar leader Khan Asparukh led his people into the northern\
  Balkans, and founded Bulgaria in 681. This was the first Slavic\
  nation-state in history.")
-leader="Asparukh", "Omurtag", "Kardam", "Krum", "Boris",
-       "Simeon", "Samuil", "Petar", "Assen",
-       "Kaloyan", "Ivan-Assen", "Ivaylo",
-       "Ivan Shishman", "Alexander Batemberg"
+leader=
+ "Asparukh",
+ "Omurtag",
+ "Kardam",
+ "Krum",
+ "Boris",
+ "Simeon",
+ "Samuil",
+ "Petar",
+ "Assen",
+ "Kaloyan",
+ "Ivan-Assen",
+ "Ivaylo",
+ "Ivan Shishman",
+ "Alexander Batemberg"
 leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male",
            "Male","Male", "Male",

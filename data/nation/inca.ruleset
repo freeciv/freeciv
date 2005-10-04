@@ -8,7 +8,11 @@ legend=_("The Inca were an Amerind people of the Northern Andes who\
  from what is now southern Chile nearly to the Equator. They had the bad\
  timing to do it just a few decades before the Spanish conquistadors\
  arrived in their part of the world in the mid-1500s AD.")
-leader="Tupac", "Manco Capac", "Atahualpa", "Pachacuti"
+leader=
+ "Tupac",
+ "Manco Capac",
+ "Atahualpa",
+ "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
 flag="peru"
 flag_alt = "-"

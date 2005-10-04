@@ -3,10 +3,15 @@
 name=_("Lithuanian")
 plural=_("?plural:Lithuanians")
 groups=_("Medieval"), _("Modern"), _("European")
+conflicts_with="bulgarian"	; Similar flags
 legend=_("Lithuania is a small country on the south coast of the Baltic\
  Sea, northeast of Poland. Lithuanian is the most archaic and complex of\
  the northern Indo-European languages")
-leader="Gediminas", "Mindaugas", "Vytautas", "Antanas Smetona"
+leader=
+ "Gediminas",
+ "Mindaugas",
+ "Vytautas",
+ "Antanas Smetona"
 leader_sex="Male", "Male", "Male", "Male"
 flag="lithuania"
 flag_alt = "-"

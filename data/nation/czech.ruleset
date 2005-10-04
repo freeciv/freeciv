@@ -5,10 +5,23 @@ plural = _("?plural:Czechs")
 groups=_("Modern"), _("Medieval"), _("European")
 legend=_("Today's Czech Republic was until 1993 part of Czechoslovakia,\
  which had been until 1918 part of the Austro-Hungarian Empire.")
-leader = "Jan Lucemburský", "Otakar II", "Karel IV", "Václav", "Jiří z Poděbrad",
-         "Jan Žižka", "Jan Hus", "Záviš z Falknštejna", "Libuše",
-         "Kunhuta", "Alžběta Pomořanská", "Eliška Přemyslovna", "Anežka",
-         "T. G. Masaryk", "Edvard Beneš", "Václav Havel"
+leader =
+ "Jan Lucemburský",
+ "Otakar II",
+ "Karel IV",
+ "Václav",
+ "Jiří z Poděbrad",
+ "Jan Žižka",
+ "Jan Hus",
+ "Záviš z Falknštejna",
+ "Libuše",
+ "Kunhuta",
+ "Alžběta Pomořanská",
+ "Eliška Přemyslovna",
+ "Anežka",
+ "T. G. Masaryk",
+ "Edvard Beneš",
+ "Václav Havel"
 leader_sex = "Male", "Male", "Male", "Male", "Male",
         "Male", "Male", "Male", "Female",
         "Female", "Female", "Female", "Female",

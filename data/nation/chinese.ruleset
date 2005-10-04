@@ -11,8 +11,17 @@ legend=_("China is the oldest major civilization that is still in existence\
  occupies the mainland, while the former Nationalist government of\
  the Republic of China had fled to the island of Taiwan after the civil\
  war.")
-leader="Qin Shihuang", "Liu Bang", "Liu Bei", "Li Shimin", "Wu Zetian", 
-       "Qianlong", "Cixi", "Sun Yat-Sen", "Mao Zedong", "Deng Xiaoping" 
+leader=
+ "Qin Shihuang",
+ "Liu Bang",
+ "Liu Bei",
+ "Li Shimin",
+ "Wu Zetian", 
+ "Qianlong",
+ "Cixi",
+ "Sun Yat-Sen",
+ "Mao Zedong",
+ "Deng Xiaoping" 
 leader_sex="Male", "Male", "Male", "Male", "Female",
            "Male", "Female", "Male", "Male", "Male"
 flag="china"

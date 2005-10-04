@@ -5,8 +5,13 @@ plural=_("?plural:Catalans")
 groups=_("Medieval"), _("European")
 legend=_("Catalunya (aka Catalonia in English) is the north-eastern-most\
  coastal region of Spain near the southern foot of the Pyrenees.")
-leader="Guifré el Pilós", "Ramon Berenguer IV", "Jaume I", "Pere II",
-       "Lluis Companys", "Josep Tarradellas"
+leader=
+ "Guifré el Pilós",
+ "Ramon Berenguer IV",
+ "Jaume I",
+ "Pere II",
+ "Lluis Companys",
+ "Josep Tarradellas"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
 flag="catalan"

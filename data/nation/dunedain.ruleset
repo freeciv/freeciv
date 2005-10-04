@@ -8,8 +8,17 @@ name=_("Dunedain")
 plural=_("?plural:Dunedan")
 groups=_("Fictional")
 legend=_("The Men of the West from J.R.R. Tolkien's Middle Earth fantasies.")
-leader="Elros", "Tar-Ancalimë", "Míriel", "Elendil", "Isildur", "Aragorn",
-	"Tarannon Falastur", "Thorongil", "Ar-Pharazon", "Beruthiel"
+leader=
+ "Elros",
+ "Tar-Ancalimë",
+ "Míriel",
+ "Elendil",
+ "Isildur",
+ "Aragorn",
+ "Tarannon Falastur",
+ "Thorongil",
+ "Ar-Pharazon",
+ "Beruthiel"
 leader_sex="Male", "Female", "Female", "Male", "Male", "Male",
 	"Male", "Male", "Male", "Female"
 flag = "dunedain"

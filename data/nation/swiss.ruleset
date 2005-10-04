@@ -5,9 +5,15 @@ plural=_("?plural:Swiss")
 groups=_("Modern"), _("Medieval"), _("European")
 legend=_("Switzerland is a federation of cantons, some of which have more\
  than 700 years of history as a confederacy.")
-leader=	"Wilhelm Tell", "Arnold von Winkelried", "Gessler", "General Guisan",
-	"Adolf Ogi", "Ruth Dreifuss", "Moritz Leuenberger",
-	"Christoph Blocher"
+leader=
+ "Wilhelm Tell",
+ "Arnold von Winkelried",
+ "Albrecht Gessler",
+ "Henri Guisan",
+ "Adolf Ogi",
+ "Ruth Dreifuss",
+ "Moritz Leuenberger",
+ "Christoph Blocher"
 leader_sex="Male", "Male", "Male", "Male", "Male",
   "Female", "Male", "Male"
 flag="switzerland"

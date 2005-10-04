@@ -4,7 +4,11 @@ name=_("Greek")
 plural=_("?plural:Greeks")
 groups=_("Ancient"), _("Medieval"), _("Modern"), _("European")
 legend=_("The ancient Greeks, between Mycenae and the Roman conquest.")
-leader="Alexander", "Perikles", "Leonidas", "Solon"
+leader=
+ "Alexander",
+ "Perikles",
+ "Leonidas",
+ "Solon"
 leader_sex="Male", "Male", "Male", "Male"
 flag="greece"
 flag_alt = "-"

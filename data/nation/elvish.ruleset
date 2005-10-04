@@ -12,9 +12,19 @@ legend=_("The ancient Elves of J.R.R. Tolkien's Middle Earth fantasies.")
 ; so I include him as well (and most people know him)
 ; Melian is a Maia, but as Queen of Doriath I found it good to include her
 ; as well. */
-leader="Ingwë", "Fëanor", "Fingolfin", "Fingon", "Turgon",
-   "Ereinion Gil-galad", "Thingol", "Melian", "Finwë", "Finarfin",
-   "Celeborn", "Elrond"
+leader=
+ "Ingwë",
+ "Fëanor",
+ "Fingolfin",
+ "Fingon",
+ "Turgon",
+ "Ereinion Gil-galad",
+ "Thingol",
+ "Melian",
+ "Finwë",
+ "Finarfin",
+ "Celeborn",
+ "Elrond"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female",
    "Male", "Male", "Male", "Male"
 flag="elves"

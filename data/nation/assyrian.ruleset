@@ -5,8 +5,13 @@ plural=_("?plural:Assyrians")
 groups=_("Ancient"), _("Asian")
 legend=_("Assyria was an empire in northern Mesopotamia, named after its\
  capital Ashur.")
-leader="Ashurbanipal", "Tiglat Pileser III", "Ashurnasirpal II", "Shamiram",
-       "Agha Petros", "Naoum Faik"
+leader=
+ "Ashurbanipal",
+ "Tiglat Pileser III",
+ "Ashurnasirpal II",
+ "Shamiram",
+ "Agha Petros",
+ "Naoum Faik"
 leader_sex="Male", "Male", "Male", "Female", "Male", "Male"
 flag = "assyria"
 flag_alt = "-"

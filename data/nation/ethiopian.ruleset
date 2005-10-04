@@ -5,8 +5,15 @@ plural=_("?plural:Ethiopians")
 groups=_("Modern"), _("Ancient"), _("African")
 legend=_("Ethiopia is the oldest nation in Africa and the only one to\
  remain independent during European colonialism.")
-leader="Zara Yakob", "Menelik II", "Haile Selassies", "Zoskales", "Gedara",
-   "Lalibela", "Yekuno Amlak", "Tewodros II"
+leader=
+ "Zara Yakob",
+ "Menelik II",
+ "Haile Selassies",
+ "Zoskales",
+ "Gedara",
+ "Lalibela",
+ "Yekuno Amlak",
+ "Tewodros II"
 leader_sex="Male", "Male", "Male", "Male", "Male",
   "Male", "Male", "Male"
 flag="ethiopia"

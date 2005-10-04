@@ -5,8 +5,12 @@ plural=_("?plural:Mexicans")
 groups=_("Modern"), _("American")
 legend=_("Mexico borrows its name from the Mexica people, another name for\
  the Aztecs.")
-leader="B. Juárez", "Cárdenas"
-leader_sex="Male", "Male"
+leader=
+ "Benito Juárez",
+ "Lázaro Cárdenas del Río",
+ "Antonio López de Santa Anna",
+ "Guadalupe Victoria"
+leader_sex="Male", "Male", "Male", "Male"
 flag="mexico"
 flag_alt = "-"
 city_style = "European"

@@ -9,10 +9,20 @@ legend=_("Romania appeared at the begining of the 20th century AD, when the\
  of ancient Rome. It has a convoluted history as it was always at the\
  borders of great empires: Roman, Ottoman, Austro-Hungarian, and Russian.")
 
-leader="Mircea the Old", "Vlad Dracula", "Mihai the Lionheart",
-"Stefan the Great", "Ioan Corvin Huniade", "Avram Iancu",
-"Horea", "Alexandru the Good", "Carol Hohenzollern the I'st", "Ferdinand",
-"Nicolae Antonescu", "Nicolae Ceausescu", "Ion Iliescu"
+leader=
+ "Mircea the Old",
+ "Vlad Dracula",
+ "Mihai the Lionheart",
+ "Stefan the Great",
+ "Ioan Corvin Huniade",
+ "Avram Iancu",
+ "Horea",
+ "Alexandru the Good",
+ "Carol Hohenzollern I",
+ "Ferdinand",
+ "Nicolae Antonescu",
+ "Nicolae Ceausescu",
+ "Ion Iliescu"
 leader_sex="Male", "Male", "Male",
 "Male", "Male", "Male",
 "Male", "Male", "Male", "Male",

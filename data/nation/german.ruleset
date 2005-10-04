@@ -10,10 +10,20 @@ force.  After World War I it became a republic, but fell into \
 Nazism 1933 and started World War II.  After the war it was split \
 into two states, which reunited in 1990 at the end of the Cold War.")
 
-leader = "Arminius", "Alarich", "Karl der Große", "Otto I.", 
-         "Friedrich I. Barbarossa", "Friedrich II.", "Wilhelm I.",
-         "Otto von Bismarck", "Friedrich Ebert", "Adolf Hitler", 
-         "Konrad Adenauer", "Willy Brandt", "Erich Honecker"
+leader =
+ "Arminius",
+ "Alarich",
+ "Karl der Große",
+ "Otto I", 
+ "Friedrich I Barbarossa",
+ "Friedrich II",
+ "Wilhelm I",
+ "Otto von Bismarck",
+ "Friedrich Ebert",
+ "Adolf Hitler", 
+ "Konrad Adenauer",
+ "Willy Brandt",
+ "Erich Honecker"
 leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", 
              "Male", "Male", "Male", "Male", "Male", "Male"
 

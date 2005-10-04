@@ -6,8 +6,13 @@ groups=_("Modern"), _("Medieval"), _("Asian")
 legend=_("The Thai kingdom was the only country in Southeast Asia to\
  preserve its independence throught the colonial era of the 18th and\
  19th centuries AD.")
-leader = "Rama Thibodi", "Chao Phya Chakri", "Maha Mongkut", "Chulalongkorn",
-         "Pibul Songgram", "Seni Pramoya"
+leader =
+ "Rama Thibodi",
+ "Chao Phya Chakri",
+ "Maha Mongkut",
+ "Chulalongkorn",
+ "Pibul Songgram",
+ "Seni Pramoya"
 leader_sex = "Male", "Male", "Male", "Male",
              "Male", "Male"
 flag="thailand"

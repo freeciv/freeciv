@@ -11,12 +11,10 @@ leader=
  "Qitdlarssuaq",
  "Nakasuk",
  "Jonathan Motzfeldt",
- "Jack Iyerak Anawak",
- "Ann Meekitjuk Hanson",
  "Paul Okalik",
  "Nancy Karetak-Lindell"
 
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Female"
+leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="greenland"
 flag_alt = "-"
 city_style = "European"

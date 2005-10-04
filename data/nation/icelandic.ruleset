@@ -6,10 +6,11 @@ groups=_("Modern"), _("European")
 legend=_("Iceland was discovered and settled by Norwegian Vikings in the\
  late 9th century. The island was kept initially under the Norwegian and\
  later the Danish crown until independence from Denmark in 1944.")
-leader= "Jón Sigurdsson",
-   "Ingólfur Arnarson",
-   "Davíð Oddsson",
-   "Ólafur Ragnar Grímsson"
+leader=
+ "Jón Sigurdsson",
+ "Ingólfur Arnarson",
+ "Davíð Oddsson",
+ "Ólafur Ragnar Grímsson"
 
 leader_sex="Male", "Male", "Male", "Male"
 
