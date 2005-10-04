@@ -762,12 +762,15 @@ bool tilespec_read_toplevel(const char *tileset_name)
   freelog(LOG_VERBOSE, "tilespec file is %s", fname);
 
   if (!section_file_load(file, fname)) {
+    free(fname);
     freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
     return FALSE;
   }
 
   if (!check_tilespec_capabilities(file, "tilespec",
 				   TILESPEC_CAPSTR, fname)) {
+    section_file_free(file);
+    free(fname);
     return FALSE;
   }
 
@@ -903,6 +906,8 @@ bool tilespec_read_toplevel(const char *tileset_name)
   terrains = secfile_get_secnames_prefix(file, "terrain_", &num_terrains);
   if (num_terrains == 0) {
     freelog(LOG_ERROR, "No terrain types supported by tileset.");
+    section_file_free(file);
+    free(fname);
     return FALSE;
   }
 
@@ -1021,6 +1026,8 @@ bool tilespec_read_toplevel(const char *tileset_name)
     if (!hash_insert(terrain_hash, terr->name, terr)) {
       freelog(LOG_NORMAL, "warning: duplicate terrain entry %s.",
 	      terrains[i]);
+      section_file_free(file);
+      free(fname);
       return FALSE;
     }
   }
@@ -1031,6 +1038,8 @@ bool tilespec_read_toplevel(const char *tileset_name)
 					  "tilespec.files");
   if (num_spec_files == 0) {
     freelog(LOG_ERROR, "No tile files specified in \"%s\"", fname);
+    section_file_free(file);
+    free(fname);
     return FALSE;
   }
 
