@@ -71,15 +71,15 @@ enum ai_timer_activity  {
   TIMER_START, TIMER_STOP
 };
 
-void TECH_LOG(int level, struct player *pplayer, Tech_type_id id,
+void TECH_LOG(int level, const struct player *pplayer, Tech_type_id id,
               const char *msg, ...)
      fc__attribute((format (printf, 4, 5)));
-void DIPLO_LOG(int level, struct player *pplayer, struct player *aplayer,
-               const char *msg, ...)
+void DIPLO_LOG(int level, const struct player *pplayer,
+	       const struct player *aplayer, const char *msg, ...)
      fc__attribute((format (printf, 4, 5)));
-void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
+void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
      fc__attribute((format (printf, 3, 4)));
-void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
+void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
      fc__attribute((format (printf, 3, 4)));
 void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg);
 void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity);

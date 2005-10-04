@@ -168,5 +168,7 @@ void ai_data_init(struct player *pplayer);
 void ai_data_analyze_rulesets(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
+const struct ai_dip_intel *ai_diplomacy_get(const struct player *pplayer,
+					    const struct player *aplayer);
 
 #endif

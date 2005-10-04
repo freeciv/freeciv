@@ -558,6 +558,17 @@ struct ai_data *ai_data_get(struct player *pplayer)
 }
 
 /**************************************************************************
+  Like ai_data_get, but no side effects.
+**************************************************************************/
+const struct ai_dip_intel *ai_diplomacy_get(const struct player *pplayer,
+					    const struct player *aplayer)
+{
+  const struct ai_data *ai = &aidata[pplayer->player_no];
+
+  return &ai->diplomacy.player_intel[aplayer->player_no];
+}
+
+/**************************************************************************
   Initialize with sane values.
 **************************************************************************/
 void ai_data_init(struct player *pplayer)

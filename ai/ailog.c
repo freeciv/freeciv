@@ -40,7 +40,7 @@ static int recursion[AIT_LAST];
 /**************************************************************************
   Log player tech messages.
 **************************************************************************/
-void TECH_LOG(int level, struct player *pplayer, Tech_type_id id,
+void TECH_LOG(int level, const struct player *pplayer, Tech_type_id id,
               const char *msg, ...)
 {
   char buffer[500];
@@ -79,23 +79,23 @@ void TECH_LOG(int level, struct player *pplayer, Tech_type_id id,
     
   where ti is timer, co countdown and lo love for target, who is e.
 **************************************************************************/
-void DIPLO_LOG(int level, struct player *pplayer, struct player *aplayer,
-               const char *msg, ...)
+void DIPLO_LOG(int level, const struct player *pplayer,
+	       const struct player *aplayer, const char *msg, ...)
 {
   char buffer[500];
   char buffer2[500];
   va_list ap;
   int minlevel = MIN(LOGLEVEL_PLAYER, level);
-  struct ai_data *ai;
-  struct ai_dip_intel *adip;
+  const struct ai_dip_intel *adip;
 
   if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
     minlevel = LOG_NORMAL;
   } else if (minlevel > fc_log_level) {
     return;
   }
-  ai = ai_data_get(pplayer);
-  adip = &ai->diplomacy.player_intel[aplayer->player_no];
+
+  /* Don't use ai_data_get since it can have side effects. */
+  adip = ai_diplomacy_get(pplayer, aplayer);
 
   my_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ", 
               pplayer->name, aplayer->name, 
@@ -118,7 +118,7 @@ void DIPLO_LOG(int level, struct player *pplayer, struct player *aplayer,
   Log city messages, they will appear like this
     2: c's Romenna(5,35) [s1 d106 u11 g1] must have Archers ...
 **************************************************************************/
-void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
+void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
 {
   char buffer[500];
   char buffer2[500];
@@ -154,7 +154,7 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
   where [] is unit id, ()->() are coordinates present and goto, and
   {,} contains bodyguard and ferryboat ids.
 **************************************************************************/
-void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
+void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
 {
   char buffer[500];
   char buffer2[500];

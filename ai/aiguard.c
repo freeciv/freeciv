@@ -83,11 +83,11 @@ void aiguard_check_charge_unit(const struct unit *charge)
  
  if (guard && guard->ai.charge != charge->id) {
     /* FIXME: UNIT_LOG should take a const struct * */
-    UNIT_LOG(LOG_DEBUG, (struct unit *)charge,
+    UNIT_LOG(LOG_DEBUG, charge,
              "inconsistent guard references");
   } else if (guard && unit_owner(guard) != charge_owner) {
     /* FIXME: UNIT_LOG should take a const struct * */
-    UNIT_LOG(LOG_DEBUG, (struct unit *)charge, "foreign guard");
+    UNIT_LOG(LOG_DEBUG, charge, "foreign guard");
   }
 }
 
