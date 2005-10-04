@@ -116,6 +116,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Inspire_Partisans",
   "Happiness_To_Gold",
   "Fanatics",
+  "Trade_Revenue_Bonus",
   "No_Diplomacy"
 };
 

@@ -893,7 +893,7 @@ int city_num_trade_routes(const struct city *pcity)
 int get_caravan_enter_city_trade_bonus(const struct city *pc1, 
                                        const struct city *pc2)
 {
-  int i, tb;
+  int tb, bonus;
 
   /* Should this be real_map_distance? */
   tb = map_distance(pc1->tile, pc2->tile) + 10;
@@ -902,12 +902,11 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
   /*  fudge factor to more closely approximate Civ2 behavior (Civ2 is
    * really very different -- this just fakes it a little better) */
   tb *= 3;
-
-  /* Check for technologies that reduce trade revenues. */
-  for (i = 0; i < num_known_tech_with_flag(city_owner(pc1),
-					   TF_TRADE_REVENUE_REDUCE); i++) {
-    tb = (tb * 2) / 3;
-  }
+  
+  /* Trade_revenue_bonus increases revenue by power of 2 in milimes */
+  bonus = get_city_bonus(pc1, EFT_TRADE_REVENUE_BONUS);
+  
+  tb = (float)tb * pow(2.0, (double)bonus / 1000.0);
 
   return tb;
 }

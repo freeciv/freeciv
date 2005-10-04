@@ -216,7 +216,7 @@ flags    = ""
 name     = _("Flight")
 req1     = "Combustion"
 req2     = "Physics"
-flags    = "Trade_Revenue_Reduce"
+flags    = ""
 
 [advance_fundamentalism]
 name     = _("Fundamentalism")
@@ -433,7 +433,7 @@ flags    = ""
 name     = _("Railroad")
 req1     = "Steam Engine"
 req2     = "Bridge Building"
-flags    = "Railroad","Trade_Revenue_Reduce"
+flags    = "Railroad"
 
 [advance_recycling]
 name     = _("Recycling")

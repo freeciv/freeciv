@@ -984,3 +984,19 @@ reqs	=
     { "type", "name", "range"
       "Building", "Women's Suffrage", "Player"
     }
+
+[effect_flight_trade_revenue_reduce]
+name    = "Trade_Revenue_Bonus"
+value   = -585
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Flight", "Player"
+    }
+    
+[effect_railroad_trade_revenue_reduce]
+name    = "Trade_Revenue_Bonus"
+value   = -585
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Railroad", "Player"
+    }    

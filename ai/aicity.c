@@ -654,6 +654,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
         case EFT_INSPIRE_PARTISANS:
         case EFT_HAPPINESS_TO_GOLD:
         case EFT_FANATICS:
+	case EFT_TRADE_REVENUE_BONUS:
           break;
 	case EFT_LAST:
 	  freelog(LOG_ERROR, "Bad effect type.");

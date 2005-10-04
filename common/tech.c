@@ -41,7 +41,7 @@ static double techcoststyle1[A_LAST];
 
 static const char *flag_names[] = {
   "Bonus_Tech", "Bridge", "Railroad", "Fortress",
-  "Watchtower", "Population_Pollution_Inc", "Trade_Revenue_Reduce",
+  "Watchtower", "Population_Pollution_Inc", 
   "Airbase", "Farmland", "Reduce_Trireme_Loss1", "Reduce_Trireme_Loss2", 
   "Build_Airborne"
 };

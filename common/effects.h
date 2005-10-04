@@ -105,6 +105,7 @@ enum effect_type {
   EFT_HAPPINESS_TO_GOLD,
   EFT_FANATICS, /* stupid special case, we hatess it */
   EFT_NO_DIPLOMACY,
+  EFT_TRADE_REVENUE_BONUS,
   EFT_LAST	/* keep this last */
 };
 
