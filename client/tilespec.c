@@ -748,9 +748,9 @@ static void tileset_free_toplevel(struct tileset *t)
 
   if (t->terrain_hash) {
     while (hash_num_entries(t->terrain_hash) > 0) {
-      const struct terrain_drawing_data *draw;
+      struct terrain_drawing_data *draw;
 
-      draw = hash_value_by_number(t->terrain_hash, 0);
+      draw = (void *)hash_value_by_number(t->terrain_hash, 0);
       hash_delete_entry(t->terrain_hash, draw->name);
       free(draw->name);
       if (draw->mine_tag) {
@@ -763,7 +763,10 @@ static void tileset_free_toplevel(struct tileset *t)
 	  }
 	}
       }
-      free((void *) draw);
+      for (i = 0; i < draw->num_layers; i++) {
+	sprite_vector_free(&draw->layer[i].base);
+      }
+      free(draw);
     }
     hash_free(t->terrain_hash);
     t->terrain_hash = NULL; /* Helpful for sanity. */
@@ -4344,6 +4347,7 @@ void tileset_free_tiles(struct tileset *t)
   sprite_vector_free(&t->sprites.colors.overlays);
   sprite_vector_free(&t->sprites.explode.unit);
   sprite_vector_free(&t->sprites.nation_flag);
+  sprite_vector_free(&t->sprites.nation_shield);
   sprite_vector_free(&t->sprites.citybar.occupancy);
 }
 

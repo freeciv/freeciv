@@ -2760,6 +2760,9 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
     gtk_widget_destroy(pdialog->rename_shell);
 
   g_object_unref(pdialog->map_canvas_store);
+  if (pdialog->map_pixbuf_unscaled) {
+    g_object_unref(pdialog->map_pixbuf_unscaled);
+  }
 
   unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
     free(psunit);

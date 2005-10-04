@@ -199,12 +199,12 @@ void color_system_free(struct color_system *colors)
       color_free(colors->player_colors[i].color);
     }
   }
-  free(colors->player_colors);
   for (i = 0; i < ARRAY_SIZE(colors->terrain_colors); i++) {
     if (colors->terrain_colors[i].color) {
       color_free(colors->player_colors[i].color);
     }
   }
+  free(colors->player_colors);
   while (hash_num_entries(colors->terrain_hash) > 0) {
     const char *key = hash_key_by_number(colors->terrain_hash, 0);
     const void *rgb = hash_value_by_number(colors->terrain_hash, 0);
