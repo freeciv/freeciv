@@ -194,6 +194,7 @@ static void establish_new_connection(struct connection *pconn)
 
   send_conn_info(dest, game.est_connections);
   send_conn_info(game.est_connections, dest);
+  send_game_info(dest);
   send_player_info_c(NULL, dest);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
