@@ -2053,7 +2053,7 @@ static void load_ruleset_nations(struct section_file *file)
     struct nation_group* group;
     name = secfile_lookup_str(file, "%s.name", groups[i]);
     group = add_new_nation_group(name);
-    group->match = secfile_lookup_int_default(file, 0, "%s.match", groups[i]);
+    group->match = secfile_lookup_int(file, "%s.match", groups[i]);
   }
   free(groups);
 
@@ -2178,7 +2178,7 @@ static void load_ruleset_nations(struct section_file *file)
     /* City styles */
 
     sz_strlcpy(temp_name,
-	       secfile_lookup_str_default(file, "-", "%s.city_style", sec[i]));
+	       secfile_lookup_str(file, "%s.city_style", sec[i]));
     pl->city_style = get_style_by_name(temp_name);
     if (pl->city_style == -1) {
       freelog(LOG_NORMAL,
@@ -2246,8 +2246,7 @@ static void load_ruleset_nations(struct section_file *file)
 
     pl->city_names = load_city_name_list(file, sec[i], ".cities");
 
-    pl->legend =
-	mystrdup(secfile_lookup_str_default(file, "", "%s.legend", sec[i]));
+    pl->legend = mystrdup(secfile_lookup_str(file, "%s.legend", sec[i]));
     if (check_strlen(pl->legend, MAX_LEN_MSG, "Legend '%s' is too long")) {
       pl->legend[MAX_LEN_MSG - 1] = '\0';
     }
