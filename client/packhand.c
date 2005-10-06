@@ -243,6 +243,13 @@ void handle_unit_remove(int unit_id)
   if (!punit) {
     return;
   }
+  
+  /* Close diplomat dialog if the diplomat is lost */
+  if (diplomat_handled_in_diplomat_dialog() == punit->id) {
+    close_diplomat_dialog();
+    /* Open another diplomat dialog if there are other diplomats waiting */
+    process_diplomat_arrival(NULL, 0);
+  }
 
   powner = unit_owner(punit);
 

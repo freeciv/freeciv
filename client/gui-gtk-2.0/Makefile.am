@@ -40,6 +40,7 @@ libguiclient_a_SOURCES = \
 	dialogs.h	\
 	diplodlg.c	\
 	diplodlg.h	\
+	diplomat_dialog.c \
 	finddlg.c	\
 	finddlg.h	\
 	gamedlgs.c	\

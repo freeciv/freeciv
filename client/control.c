@@ -630,7 +630,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
   }
 
   /* There can only be one dialog at a time: */
-  if (diplomat_dialog_is_open()) {
+  if (diplomat_handled_in_diplomat_dialog() != -1) {
     return;
   }
 
@@ -1913,7 +1913,7 @@ void key_unit_diplomat_actions(void)
   if (punit_focus
      && is_diplomat_unit(punit_focus)
      && (pcity = tile_get_city(punit_focus->tile))
-     && !diplomat_dialog_is_open()    /* confusing otherwise? */
+     && diplomat_handled_in_diplomat_dialog() != -1    /* confusing otherwise? */
      && diplomat_can_do_action(punit_focus, DIPLOMAT_ANY_ACTION,
 			       punit_focus->tile))
      process_diplomat_arrival(punit_focus, pcity->id);

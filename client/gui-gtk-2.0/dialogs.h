@@ -25,6 +25,8 @@ void message_dialog_button_set_sensitive(GtkWidget *shl, int button,
 GtkWidget *popup_message_dialog(GtkWindow *parent, const gchar *dialogname,
 				const gchar *text, ...);
 
+void message_dialog_set_hide(GtkWidget *dshell, gboolean setting);
+
 gboolean taxrates_callback(GtkWidget *w, GdkEventButton *ev, gpointer data);
 
 #endif  /* FC__DIALOGS_H */
