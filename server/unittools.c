@@ -1697,10 +1697,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 			"(and %d other unit)%s and became more experienced!",
 			"Your attacking %s succeeded against %s's %s "
 			"(and %d other units)%s and became more experienced!",
-			unitcount),
+			unitcount - 1),
 		    unit_name(pkiller->type),
 		    unit_owner(punit)->name, unit_name(punit->type),
-		    unitcount,
+		    unitcount - 1,
 		    get_location_str_at(unit_owner(pkiller),
 					punit->tile));
     } else {
@@ -1708,10 +1708,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 		    PL_("Your attacking %s succeeded against %s's %s "
 			"(and %d other unit)%s!",
 			"Your attacking %s succeeded against %s's %s "
-			"(and %d other units)%s!", unitcount),
+			"(and %d other units)%s!", unitcount - 1),
 		    unit_name(pkiller->type),
 		    unit_owner(punit)->name, unit_name(punit->type),
-		    unitcount,
+		    unitcount - 1,
 		    get_location_str_at(unit_owner(pkiller),
 					punit->tile));
     }
