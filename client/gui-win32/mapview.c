@@ -93,8 +93,12 @@ void map_expose(int x, int y, int width, int height)
     DeleteDC(introgfxdc);
     ReleaseDC(map_window, hdc);
   } else {
-    canvas_copy(get_mapview_window(), mapview.store, x, y, x, y,
-		width, height);
+    /* First we mark the area to be updated as dirty.  Then we unqueue
+     * any pending updates, to make sure only the most up-to-date data
+     * is written (otherwise drawing bugs happen when old data is copied
+     * to screen).  Then we draw all changed areas to the screen. */
+    dirty_rect(x, y, width, height);
+    unqueue_mapview_updates(TRUE);
   }
 } 
 

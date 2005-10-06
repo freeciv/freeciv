@@ -64,7 +64,6 @@ enum tile_update_type {
 static void queue_mapview_update(enum update_type update);
 static void queue_mapview_tile_update(struct tile *ptile,
 				      enum tile_update_type type);
-static void unqueue_mapview_updates(bool write_to_screen);
 
 /**************************************************************************
  Refreshes a single tile on the map canvas.

@@ -1488,6 +1488,10 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 
   unit_list_prepend(dst_tile->units, punit);
 
+  if (punit->transported_by == -1) {
+    refresh_unit_mapcanvas(punit, dst_tile, TRUE, FALSE);
+  }
+
   /* With the "full" citybar we have to update the citybar when units move
    * into or out of a city.  For foreign cities this is handled separately,
    * via the occupied field of the short-city packet. */

@@ -54,8 +54,6 @@
 
 #include "mapview.h"
 
-#define map_canvas_store (mapview.store->pixmap)
-
 static void pixmap_put_overlay_tile(Pixmap pixmap, int x, int y,
  				    struct sprite *ssprite);
 
@@ -347,11 +345,13 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
   }
 
   if (map_exists() && !map_resized) {
-    XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
-	      civ_gc,
-	      event->xexpose.x, event->xexpose.y,
-	      event->xexpose.width, event->xexpose.height,
-	      event->xexpose.x, event->xexpose.y);
+    /* First we mark the area to be updated as dirty.  Then we unqueue
+     * any pending updates, to make sure only the most up-to-date data
+     * is written (otherwise drawing bugs happen when old data is copied
+     * to screen).  Then we draw all changed areas to the screen. */
+    dirty_rect(event->xexpose.x, event->xexpose.y,
+	       event->xexpose.width, event->xexpose.height);
+    unqueue_mapview_updates(TRUE);
   }
   refresh_overview_canvas();
 }
@@ -512,7 +512,7 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height)
 {
-  XCopyArea(display, map_canvas_store, XtWindow(map_canvas), 
+  XCopyArea(display, mapview.store->pixmap, XtWindow(map_canvas), 
 	    civ_gc, 
 	    canvas_x, canvas_y, pixel_width, pixel_height,
 	    canvas_x, canvas_y);

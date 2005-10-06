@@ -54,8 +54,6 @@
 #include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
-#define map_canvas_store (mapview.store->v.pixmap)
-
 static GtkObject *map_hadj, *map_vadj;
 
 
@@ -317,9 +315,12 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
   else
   {
     if (map_exists()) { /* do we have a map at all */
-      gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
-			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-			ev->area.width, ev->area.height);
+      /* First we mark the area to be updated as dirty.  Then we unqueue
+       * any pending updates, to make sure only the most up-to-date data
+       * is written (otherwise drawing bugs happen when old data is copied
+       * to screen).  Then we draw all changed areas to the screen. */
+      dirty_rect(ev->area.x, ev->area.y, ev->area.width, ev->area.height);
+      unqueue_mapview_updates(TRUE);
       cleared = FALSE;
     } else {
       if (!cleared) {
@@ -346,7 +347,7 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 void flush_mapcanvas(int canvas_x, int canvas_y,
 		     int pixel_width, int pixel_height)
 {
-  gdk_draw_drawable(map_canvas->window, civ_gc, map_canvas_store,
+  gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
 		    canvas_x, canvas_y, canvas_x, canvas_y,
 		    pixel_width, pixel_height);
 }
