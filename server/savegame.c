@@ -3176,9 +3176,6 @@ void game_load(struct section_file *file)
     set_meta_patches_string(secfile_lookup_str_default(file, 
                                                 default_meta_patches_string(),
                                                 "game.metapatches"));
-    set_meta_topic_string(secfile_lookup_str_default(file, 
-                                                default_meta_topic_string(),
-                                                "game.metatopic"));
     set_meta_message_string(secfile_lookup_str_default(file, 
                                                 default_meta_message_string(),
                                                 "game.metamessage"));
@@ -3746,7 +3743,6 @@ void game_save(struct section_file *file, const char *save_reason)
 				  RUN_GAME_STATE), "game.server_state");
   
   secfile_insert_str(file, get_meta_patches_string(), "game.metapatches");
-  secfile_insert_str(file, get_meta_topic_string(), "game.metatopic");
   secfile_insert_str(file, get_meta_message_string(), "game.metamessage");
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
   

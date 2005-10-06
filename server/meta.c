@@ -64,7 +64,6 @@ static int   metaport;
 static char *metaserver_path;
 
 static char meta_patches[256] = "";
-static char meta_topic[256] = "";
 static char meta_message[256] = "";
 
 /*************************************************************************
@@ -73,14 +72,6 @@ static char meta_message[256] = "";
 const char *default_meta_patches_string(void)
 {
   return "none";
-}
-
-/*************************************************************************
- the default metaserver topic
-*************************************************************************/
-const char *default_meta_topic_string(void)
-{
-  return "";
 }
 
 /*************************************************************************
@@ -110,14 +101,6 @@ const char *get_meta_patches_string(void)
 }
 
 /*************************************************************************
- the metaserver topic
-*************************************************************************/
-const char *get_meta_topic_string(void)
-{
-  return meta_topic;
-}
-
-/*************************************************************************
  the metaserver message
 *************************************************************************/
 const char *get_meta_message_string(void)
@@ -131,14 +114,6 @@ const char *get_meta_message_string(void)
 void set_meta_patches_string(const char *string)
 {
   sz_strlcpy(meta_patches, string);
-}
-
-/*************************************************************************
- set the metaserver topic string
-*************************************************************************/
-void set_meta_topic_string(const char *string)
-{
-  sz_strlcpy(meta_topic, string);
 }
 
 /*************************************************************************
@@ -235,10 +210,6 @@ static bool send_to_metaserver(enum meta_flag flag)
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "capability=%s&", my_url_encode(our_capability));
-    s = end_of_strn(s, &rest);
-
-    my_snprintf(s, rest, "topic=%s&",
-                my_url_encode(get_meta_topic_string()));
     s = end_of_strn(s, &rest);
 
     my_snprintf(s, rest, "serverid=%s&",
@@ -414,9 +385,6 @@ void server_open_meta(void)
 
   if (meta_patches[0] == '\0') {
     set_meta_patches_string(default_meta_patches_string());
-  }
-  if (meta_topic[0] == '\0') {
-    set_meta_topic_string(default_meta_topic_string());
   }
   if (meta_message[0] == '\0') {
     set_meta_message_string(default_meta_message_string());

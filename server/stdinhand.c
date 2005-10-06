@@ -600,29 +600,6 @@ static bool metapatches_command(struct connection *caller,
 /**************************************************************************
 ...
 **************************************************************************/
-static bool metatopic_command(struct connection *caller, char *arg, bool check)
-{
-  if (check) {
-    return TRUE;
-  }
-
-  set_meta_topic_string(arg);
-  if (is_metaserver_open()) {
-    send_server_info_to_metaserver(META_INFO);
-    notify_conn(NULL, NULL, E_SETTING,
-		_("Metaserver topic string set to '%s'."), arg);
-  } else {
-    notify_conn(NULL, NULL, E_SETTING,
-		_("Metaserver topic string set to '%s', "
-		  "not reporting to metaserver."), arg);
-  }
-
-  return TRUE;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
 static bool metamessage_command(struct connection *caller, 
                                 char *arg, bool check)
 {
@@ -1073,9 +1050,6 @@ static void write_init_script(char *script_filename)
 
     if (0 != strcmp(get_meta_patches_string(), default_meta_patches_string())) {
       fprintf(script_file, "metapatches %s\n", get_meta_patches_string());
-    }
-    if (0 != strcmp(get_meta_topic_string(), default_meta_topic_string())) {
-      fprintf(script_file, "metatopic %s\n", get_meta_topic_string());
     }
     if (0 != strcmp(get_meta_message_string(), default_meta_message_string())) {
       fprintf(script_file, "metamessage %s\n", get_meta_message_string());
@@ -3438,8 +3412,6 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     return load_command(caller, arg, check);
   case CMD_METAPATCHES:
     return metapatches_command(caller, arg, check);
-  case CMD_METATOPIC:
-    return metatopic_command(caller, arg, check);
   case CMD_METAMESSAGE:
     return metamessage_command(caller, arg, check);
   case CMD_METACONN:

@@ -27,15 +27,12 @@ enum meta_flag {
 };
 
 const char *default_meta_patches_string(void);
-const char *default_meta_topic_string(void);
 const char *default_meta_message_string(void);
 
 const char *get_meta_patches_string(void);
-const char *get_meta_topic_string(void);
 const char *get_meta_message_string(void);
 
 void set_meta_patches_string(const char *string);
-void set_meta_topic_string(const char *string);
 void set_meta_message_string(const char *string);
 
 char *meta_addr_port(void);

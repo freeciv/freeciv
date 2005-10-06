@@ -148,11 +148,6 @@ const struct command commands[] = {
    N_("metainfo <meta-line>"),
    N_("Set metaserver info line."), NULL
   },
-  {"metatopic", ALLOW_CTRL,
-   /* TRANS: translate text between <> only */
-   N_("metatopic <meta-line>"),
-   N_("Set metaserver topic line."), NULL
-  },
   {"metapatches", ALLOW_HACK,
    /* TRANS: translate text between <> only */
    N_("metapatch <meta-line>"),
