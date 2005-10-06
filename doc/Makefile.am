@@ -17,6 +17,7 @@ EXTRA_DIST =			\
 	README.effects		\
 	README.ftwl		\
 	README.graphics		\
+	README.nations		\
 	README.rulesets		\
 	README.scorelog		\
 	README.sound		\
