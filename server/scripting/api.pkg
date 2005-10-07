@@ -141,7 +141,7 @@ end
 
 -- Unit methods.
 function Unit:homecity()
-  return find.city(self:owner(), self.homecity_id)
+  return find.city(self.owner, self.homecity_id)
 end
 
 -- Building_Type methods.
