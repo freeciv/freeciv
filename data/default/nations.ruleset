@@ -34,24 +34,25 @@ match=2
 ;
 ; Notes:
 ;
-; name          = name of the nation
-; plural        = plural form of the nation name (use '?plural:' qualifier)
-; leader        = default leader names for the nation
+; name		= name of the nation
+; plural	= plural form of the nation name (use '?plural:' qualifier)
+; groups	= member group(s)
+; conflicts_with = a list of nations that should not be chosen together
+;		   with the nation
+; legend	= a brief history or trivia of the nation
+; leader	= default leader names for the nation
 ; leader_sex    = sex of each default leader: "Male" or "Female"
 ; flag          = string to look for in client tilespec files for
 ;                 preferred flag icon
 ; flag_alt      = alternate flag icon string, or "-"
+; city_style	= preferred city style
+; ruler_titles	= unique leader titles for the nation
+; civilwar_nations = a list of the nations that should appear in case of
+;		     civil war - also used for fallback city names
+; cities	= city names, of course :-)
 ;
-; The following AI hints are currently not used, but may be in the future:
-; tech_goals    = technology goals, up to 10
-; wonder        = primary wonder
-; government    = wanted government
-;
-; cities        = city names, of course :-)
-;
-; Section [misc] currently contains cities suggested when you run out of
-; default cities for your nation. See doc/README.rulesets for information
-; on marking up cities with terrain information.
+; See doc/README.nations for information on marking up cities with terrain
+; information as well as more comprehensive contents and style guidelines.
 ;
 
 *include "nation/roman.ruleset"
