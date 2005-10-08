@@ -472,10 +472,10 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gui_dialog_set_title(pdialog->dialog, buf);
   gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
 
-  gui_dialog_add_button(pdialog->dialog, _("_Cancel meeting"),
-		        RESPONSE_CANCEL_MEETING);
-  gui_dialog_add_button(pdialog->dialog, _("Accept _treaty"),
-			GTK_RESPONSE_ACCEPT);
+  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
+			     _("_Cancel meeting"), RESPONSE_CANCEL_MEETING);
+  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_EDIT,
+			     _("Accept _treaty"), GTK_RESPONSE_ACCEPT);
 
   vbox = pdialog->dialog->vbox;
 
@@ -508,13 +508,15 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     "yalign", 0.5,
     NULL);
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);
+
   gtk_box_pack_start(GTK_BOX(vbox), sw, TRUE, TRUE, 2);
   gtk_widget_show_all(vbox);
 
 
   /* bottom area. */
   bottom = gtk_hbox_new(TRUE, 18);
-  gtk_box_pack_start(GTK_BOX(vbox), bottom, FALSE, FALSE, 10);
+  gtk_box_pack_start(GTK_BOX(vbox), bottom, FALSE, FALSE, 20);
+
 
   /* us. */
   vbox = gtk_vbox_new(FALSE, 18);
@@ -522,9 +524,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(bottom), vbox, TRUE, TRUE, 0);
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
-	      "<span size=\"large\" weight=\"bold\">%s</span>",
+	      "<span size=\"large\"><u>%s</u></span>",
               get_nation_name_plural(plr0->nation));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -540,7 +542,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_box_pack_start(GTK_BOX(hbox), image, FALSE, FALSE, 0);    
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s %s</span>",
 	      get_ruler_title(plr0->government, plr0->is_male, plr0->nation), plr0->name);
@@ -594,9 +596,9 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
-	      "<span size=\"large\" weight=\"bold\">%s</span>",
+	      "<span size=\"large\"><u>%s</u></span>",
               get_nation_name_plural(plr1->nation));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -613,7 +615,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
 
   label = gtk_label_new(NULL);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
   my_snprintf(buf, sizeof(buf),
 	      "<span size=\"large\" weight=\"bold\">%s %s</span>",
 	      get_ruler_title(plr1->government, plr1->is_male, plr1->nation), plr1->name);
@@ -677,6 +679,7 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
   GtkListStore *store;
   GtkTreeIter it;
+  bool blank = TRUE;
 
   store = pdialog->store;
 
@@ -688,7 +691,15 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it, 0, buf, -1);
+    blank = FALSE;
   } clause_list_iterate_end;
+
+  if (blank) {
+    gtk_list_store_append(store, &it);
+    gtk_list_store_set(store, &it, 0,
+		       _("--- This treaty is blank. "
+		 	 "Please add some clauses. ---"), -1);
+  }
 
   gtk_image_set_from_pixbuf(GTK_IMAGE(pdialog->image0),
 			    get_thumb_pixbuf(pdialog->treaty.accept0));
