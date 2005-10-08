@@ -3939,6 +3939,8 @@ void game_save(struct section_file *file, const char *save_reason)
     map_save(file);
   }
   
+  script_state_save(file);
+
   if ((server_state == PRE_GAME_STATE) && game.info.is_new_game) {
     return; /* want to save scenarios as well */
   }
@@ -3983,6 +3985,4 @@ void game_save(struct section_file *file, const char *save_reason)
 			 "game.shuffled_player_%d", i);
     }
   }
-
-  script_state_save(file);
 }
