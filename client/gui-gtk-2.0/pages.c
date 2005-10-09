@@ -56,6 +56,8 @@ static GtkTreeViewColumn *nation_col, *ready_col, *team_col;
 static GtkWidget *start_options_table;
 GtkWidget *ready_button;
 
+static GtkWidget *scenario_description;
+
 static GtkListStore *load_store, *scenario_store,
   *nation_store, *meta_store, *lan_store; 
 
@@ -1486,6 +1488,26 @@ GtkWidget *create_load_page(void)
 
 
 /**************************************************************************
+  Updates the info for the currently selected scenario.
+**************************************************************************/
+static void scenario_list_callback(void)
+{
+  GtkTreeIter it;
+  GtkTextBuffer *buffer;
+  char *description;
+
+  if (gtk_tree_selection_get_selected(scenario_selection, NULL, &it)) {
+    gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
+		       2, &description, -1);
+  } else {
+    description = "";
+  }
+
+  buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(scenario_description));
+  gtk_text_buffer_set_text(buffer, description, -1);
+}
+
+/**************************************************************************
   loads the currently selected scenario.
 **************************************************************************/
 static void scenario_callback(void)
@@ -1528,10 +1550,19 @@ static void update_scenario_page(void)
   files = datafilelist_infix("scenario", ".sav", TRUE);
   datafile_list_iterate(files, pfile) {
     GtkTreeIter it;
+    struct section_file sf;
+    char *description;
+
+    if (section_file_load(&sf, pfile->fullname)) {
+      description = secfile_lookup_str_default(&sf, "", "game.description");
+    } else {
+      description = "";
+    }
+    section_file_free(&sf);
 
     gtk_list_store_append(scenario_store, &it);
     gtk_list_store_set(scenario_store, &it,
-	0, pfile->name, 1, pfile->fullname, -1);
+	0, pfile->name, 1, pfile->fullname, 2, description, -1);
 
     free(pfile->name);
     free(pfile->fullname);
@@ -1547,18 +1578,17 @@ static void update_scenario_page(void)
 **************************************************************************/
 GtkWidget *create_scenario_page(void)
 {
-  GtkWidget *align, *box, *sbox, *bbox;
+  GtkWidget *vbox, *hbox, *sbox, *bbox;
 
-  GtkWidget *button, *label, *view, *sw;
+  GtkWidget *align, *button, *label, *view, *sw, *text;
   GtkCellRenderer *rend;
 
-  box = gtk_vbox_new(FALSE, 18);
-  gtk_container_set_border_width(GTK_CONTAINER(box), 4);
+  vbox = gtk_vbox_new(FALSE, 18);
+  gtk_container_set_border_width(GTK_CONTAINER(vbox), 4);
 
-  align = gtk_alignment_new(0.5, 0.5, 0.0, 1.0);
-  gtk_box_pack_start(GTK_BOX(box), align, TRUE, TRUE, 0);
-
-  scenario_store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_STRING);
+  scenario_store = gtk_list_store_new(3, G_TYPE_STRING,
+					 G_TYPE_STRING,
+					 G_TYPE_STRING);
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scenario_store));
   g_object_unref(scenario_store);
 
@@ -1567,6 +1597,8 @@ GtkWidget *create_scenario_page(void)
       -1, NULL, rend, "text", 0, NULL);
 
   scenario_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  g_signal_connect(scenario_selection, "changed",
+                   G_CALLBACK(scenario_list_callback), NULL);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
 
   gtk_tree_selection_set_mode(scenario_selection, GTK_SELECTION_SINGLE);
@@ -1575,7 +1607,7 @@ GtkWidget *create_scenario_page(void)
                    G_CALLBACK(scenario_callback), NULL);
   
   sbox = gtk_vbox_new(FALSE, 2);
-  gtk_container_add(GTK_CONTAINER(align), sbox);
+  gtk_box_pack_start(GTK_BOX(vbox), sbox, TRUE, TRUE, 0);
 
   label = g_object_new(GTK_TYPE_LABEL,
     "use-underline", TRUE,
@@ -1586,19 +1618,38 @@ GtkWidget *create_scenario_page(void)
     NULL);
   gtk_box_pack_start(GTK_BOX(sbox), label, FALSE, FALSE, 0);
 
+  hbox = gtk_hbox_new(TRUE, 12);
+  gtk_box_pack_start(GTK_BOX(sbox), hbox, TRUE, TRUE, 0);
+
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
 				      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_AUTOMATIC);
-  gtk_widget_set_size_request(sw, 300, -1);
   gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_box_pack_start(GTK_BOX(sbox), sw, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), sw, TRUE, TRUE, 0);
+
+  align = gtk_alignment_new(0.5, 0.0, 1.0, 0.5);
+  gtk_box_pack_start(GTK_BOX(hbox), align, TRUE, TRUE, 0);
+
+  text = gtk_text_view_new();
+  gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
+  gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 2);
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
+  scenario_description = text;
+
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+				      GTK_SHADOW_ETCHED_IN);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
+  				 GTK_POLICY_AUTOMATIC);
+  gtk_container_add(GTK_CONTAINER(sw), text);
+  gtk_container_add(GTK_CONTAINER(align), sw);
 
   bbox = gtk_hbutton_box_new();
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
-  gtk_box_pack_start(GTK_BOX(box), bbox, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), bbox, FALSE, FALSE, 0);
 
   button = gtk_button_new_with_mnemonic(_("_Browse..."));
   gtk_container_add(GTK_CONTAINER(bbox), button);
@@ -1616,7 +1667,7 @@ GtkWidget *create_scenario_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(scenario_callback), NULL);
 
-  return box;
+  return vbox;
 }
 
 
