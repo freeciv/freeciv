@@ -50,10 +50,21 @@ struct server
   TYPED_LIST_ITERATE(struct server, serverlist, pserver)
 #define server_list_iterate_end  LIST_ITERATE_END
 
-struct server_list *create_server_list(char *errbuf, int n_errbuf);
-void delete_server_list(struct server_list *server_list);
-int begin_lanserver_scan(void);
-struct server_list *get_lan_server_list(void); 
-void finish_lanserver_scan(void);
+struct server_scan;
+
+enum server_scan_type {
+  SERVER_SCAN_LOCAL, /* Local servers, detected through a LAN scan */
+  SERVER_SCAN_GLOBAL, /* Global servers, read from the metaserver */
+  SERVER_SCAN_LAST
+};
+
+typedef void (*ServerScanErrorFunc)(struct server_scan *scan,
+				    const char *message);
+
+struct server_scan *server_scan_begin(enum server_scan_type type,
+				      ServerScanErrorFunc error_func);
+enum server_scan_type server_scan_get_type(const struct server_scan *scan);
+struct server_list *server_scan_get_servers(struct server_scan *scan);
+void server_scan_finish(struct server_scan *scan);
 
 #endif /* FC__SERVERS_H */

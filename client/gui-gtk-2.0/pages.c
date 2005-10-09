@@ -67,8 +67,8 @@ static enum client_pages old_page;
 static void set_page_callback(GtkWidget *w, gpointer data);
 static void update_nation_page(struct packet_game_load *packet);
 
-static guint lan_timer = 0;
-static int num_lanservers_timer = 0;
+static guint scan_timer = 0;
+struct server_scan *lan, *meta;
 
 static GtkWidget *statusbar, *statusbar_frame;
 static GQueue *statusbar_queue;
@@ -291,45 +291,69 @@ static void update_server_list(GtkTreeSelection *selection,
 }
 
 /**************************************************************************
-  get the list of servers from the metaserver.
-**************************************************************************/
-static bool get_meta_list(char *errbuf, int n_errbuf)
-{
-  struct server_list *server_list = create_server_list(errbuf, n_errbuf);
-
-  update_server_list(meta_selection, meta_store, server_list);
-
-  if (server_list) {
-    delete_server_list(server_list);
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
-
-/**************************************************************************
   this function frees the list of LAN servers on timeout destruction. 
 **************************************************************************/
-static void get_lan_destroy(gpointer data)
+static void get_server_scan_destroy(gpointer data)
 {
-  finish_lanserver_scan();
-  num_lanservers_timer = 0;
-  lan_timer = 0;
+  if (meta) {
+    server_scan_finish(meta);
+    meta = NULL;
+  }
+  if (lan) {
+    server_scan_finish(lan);
+    lan = NULL;
+  }
+  scan_timer = 0;
 }
 
 /**************************************************************************
-  this function updates the list of LAN servers every 1000 ms for 5 secs.
+  this function updates the list of servers every so often.
 **************************************************************************/
-static gboolean get_lan_list(gpointer data)
+static gboolean get_server_scan_list(gpointer data)
 {
-  struct server_list *server_list = get_lan_server_list();
+  struct server_list *server_list;
 
-  update_server_list(lan_selection, lan_store, server_list);
-  num_lanservers_timer++;
-  if (num_lanservers_timer == 5) {
+  if (!meta && !lan) {
     return FALSE;
-  } else {
-    return TRUE;
+  }
+
+  if (lan) {
+    server_list = server_scan_get_servers(lan);
+    if (server_list) {
+      update_server_list(lan_selection, lan_store, server_list);
+    }
+  }
+
+  if (meta) {
+    server_list = server_scan_get_servers(meta);
+    if (server_list) {
+      update_server_list(meta_selection, meta_store, server_list);
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Callback function for when there's an error in the server scan.
+**************************************************************************/
+static void server_scan_error(struct server_scan *scan,
+			      const char *message)
+{
+  append_output_window(message);
+  freelog(LOG_NORMAL, "%s", message);
+
+  switch (server_scan_get_type(scan)) {
+  case SERVER_SCAN_LOCAL:
+    server_scan_finish(lan);
+    lan = NULL;
+    break;
+  case SERVER_SCAN_GLOBAL:
+    server_scan_finish(meta);
+    meta = NULL;
+    break;
+  case SERVER_SCAN_LAST:
+    break;
   }
 }
 
@@ -338,17 +362,18 @@ static gboolean get_lan_list(gpointer data)
 **************************************************************************/
 static void update_network_lists(void)
 {
-  char errbuf[128];
-
-  if (!get_meta_list(errbuf, sizeof(errbuf)))  {
-    append_output_window(errbuf);
+  if (!meta) {
+    meta = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
   }
 
-  if (lan_timer == 0) { 
-    if (begin_lanserver_scan()) {
-      lan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 1000,
-	  get_lan_list, NULL, get_lan_destroy);
-    }
+  if (!lan) {
+    lan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+  }
+
+  if (scan_timer == 0) { 
+    scan_timer = g_timeout_add_full(G_PRIORITY_DEFAULT, 100,
+				    get_server_scan_list,
+				    NULL, get_server_scan_destroy);
   }
 }
 
@@ -1786,8 +1811,9 @@ void set_client_page(enum client_pages page)
   case PAGE_LOAD:
     break;
   case PAGE_NETWORK:
-    if (lan_timer != 0) {
-      g_source_remove(lan_timer);
+    if (scan_timer != 0) {
+      g_source_remove(scan_timer);
+      scan_timer = 0;
     }
     break;
   case PAGE_GAME:

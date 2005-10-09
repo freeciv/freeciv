@@ -72,8 +72,26 @@
 
 #include "gui_main_g.h"
 
-static int socklan;
-static struct server_list *lan_servers;
+struct server_scan {
+  enum server_scan_type type;
+  ServerScanErrorFunc error_func;
+
+  struct server_list *servers;
+  int sock;
+
+  /* Only used for metaserver */
+  struct {
+    enum {
+      META_CONNECTING,
+      META_WAITING,
+      META_DONE
+    } state;
+    char name[MAX_LEN_ADDR];
+    int port;
+    const char *urlpath;
+    FILE *fp; /* temp file */
+  } meta;
+};
 
 /**************************************************************************
  The server sends a stream in a registry 'ini' type format.
@@ -244,48 +262,17 @@ static char *win_uname()
 }
 #endif
 
-/**************************************************************************
- Create the list of servers from the metaserver
- The result must be free'd with delete_server_list() when no
- longer used
-**************************************************************************/
-struct server_list *create_server_list(char *errbuf, int n_errbuf)
+/****************************************************************************
+  Send the request string to the metaserver.
+****************************************************************************/
+static void meta_send_request(struct server_scan *scan)
 {
-  union my_sockaddr addr;
-  int s;
-  fz_FILE *f;
-  const char *urlpath;
-  char metaname[MAX_LEN_ADDR];
-  int metaport;
   const char *capstr;
   char str[MAX_LEN_PACKET];
-  char machine_string[128];
 #ifdef HAVE_UNAME
   struct utsname un;
 #endif 
-
-  urlpath = my_lookup_httpd(metaname, &metaport, METALIST_ADDR);//metaserver);
-  if (!urlpath) {
-    (void) mystrlcpy(errbuf, _("Invalid $http_proxy or metaserver value, must "
-                              "start with 'http://'"), n_errbuf);
-    return NULL;
-  }
-
-  if (!net_lookup_service(metaname, metaport, &addr)) {
-    (void) mystrlcpy(errbuf, _("Failed looking up metaserver's host"), n_errbuf);
-    return NULL;
-  }
-  
-  if((s = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(), n_errbuf);
-    return NULL;
-  }
-  
-  if(connect(s, (struct sockaddr *) &addr.sockaddr, sizeof(addr)) == -1) {
-    (void) mystrlcpy(errbuf, mystrerror(), n_errbuf);
-    my_closesocket(s);
-    return NULL;
-  }
+  char machine_string[128];
 
 #ifdef HAVE_UNAME
   uname(&un);
@@ -316,30 +303,186 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
     "Content-Length: %lu\r\n"
     "\r\n"
     "client_cap=%s\r\n",
-    urlpath,
-    metaname, metaport,
+    scan->meta.urlpath,
+    scan->meta.name, scan->meta.port,
     VERSION_STRING, client_string, machine_string,
     (unsigned long) (strlen("client_cap=") + strlen(capstr)),
     capstr);
 
-  f = my_querysocket(s, str, strlen(str));
+  if (my_writesocket(scan->sock, str, strlen(str)) != strlen(str)) {
+    /* Even with non-blocking this shouldn't fail. */
+    (scan->error_func)(scan, mystrerror());
+    return;
+  }
 
-  if (f == NULL) {
-    /* TRANS: This means a network error when trying to connect to
-     * the metaserver.  The message will be shown directly to the user. */
-    (void) mystrlcpy(errbuf, _("Failed querying socket"), n_errbuf);
+  scan->meta.state = META_WAITING;
+}
+
+/****************************************************************************
+  Read the request string (or part of it) from the metaserver.
+****************************************************************************/
+static void meta_read_response(struct server_scan *scan)
+{
+  char buf[4096];
+  int result;
+
+  if (!scan->meta.fp) {
+#ifdef WIN32_NATIVE
+    char filename[MAX_PATH];
+
+    GetTempPath(sizeof(filename), filename);
+    cat_snprintf(filename, sizeof(filename) "fctmp%d", myrand());
+
+    scan->meta.fp = fopen(filename, "w+b");
+#else
+    scan->meta.fp = tmpfile();
+#endif
+
+    if (!scan->meta.fp) {
+      (scan->error_func)(scan, _("Could not open temp file."));
+    }
+  }
+
+  while (1) {
+    result = my_readsocket(scan->sock, buf, sizeof(buf));
+
+    if (result < 0) {
+      if (errno == EAGAIN || errno == EINTR) {
+	/* Keep waiting. */
+	return;
+      }
+      (scan->error_func)(scan, mystrerror());
+      return;
+    } else if (result == 0) {
+      fz_FILE *f;
+      char str[4096];
+
+      /* We're done! */
+      rewind(scan->meta.fp);
+
+      f = fz_from_stream(scan->meta.fp);
+      assert(f != NULL);
+
+
+      /* skip HTTP headers */
+      /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
+      while (fz_fgets(str, sizeof(str), f) && strcmp(str, "\r\n") != 0) {
+	/* nothing */
+      }
+
+      /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
+
+      /* parse HTTP message body */
+      scan->servers = parse_metaserver_data(f);
+      scan->meta.state = META_DONE;
+      return;
+    } else {
+      if (fwrite(buf, 1, result, scan->meta.fp) < 0) {
+	(scan->error_func)(scan, mystrerror());
+      }
+    }
+  }
+}
+
+/****************************************************************************
+  Begin a metaserver scan for servers.  This just initiates the connection
+  to the metaserver; later get_meta_server_list should be called whenever
+  the socket has data pending to read and parse it.
+
+  Returns FALSE on error (in which case errbuf will contain an error
+  message).
+****************************************************************************/
+static bool begin_metaserver_scan(struct server_scan *scan)
+{
+  union my_sockaddr addr;
+  int s;
+
+  scan->meta.urlpath = my_lookup_httpd(scan->meta.name, &scan->meta.port,
+				       METALIST_ADDR);
+  if (!scan->meta.urlpath) {
+    (scan->error_func)(scan,
+		       _("Invalid $http_proxy or metaserver value, must "
+			 "start with 'http://'"));
+    return FALSE;
+  }
+
+  if (!net_lookup_service(scan->meta.name, scan->meta.port, &addr)) {
+    (scan->error_func)(scan, _("Failed looking up metaserver's host"));
+    return FALSE;
+  }
+  
+  if ((s = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    (scan->error_func)(scan, mystrerror());
+    return FALSE;
+  }
+
+  my_nonblock(s);
+  
+  if (connect(s, (struct sockaddr *) &addr.sockaddr, sizeof(addr)) == -1) {
+    if (errno == EINPROGRESS) {
+      /* With non-blocking sockets this is the expected result. */
+      scan->meta.state = META_CONNECTING;
+      scan->sock = s;
+    } else {
+      my_closesocket(s);
+      (scan->error_func)(scan, mystrerror());
+      return FALSE;
+    }
+  } else {
+    /* Instant connection?  Whoa. */
+    scan->sock = s;
+    scan->meta.state = META_CONNECTING;
+    meta_send_request(scan);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+ Create the list of servers from the metaserver
+ The result must be free'd with delete_server_list() when no
+ longer used
+**************************************************************************/
+static struct server_list *get_metaserver_list(struct server_scan *scan)
+{
+  struct timeval tv = {.tv_sec = 0, .tv_usec = 0};
+  fd_set sockset;
+
+  if (scan->sock < 0) {
     return NULL;
   }
 
-  /* skip HTTP headers */
-  while (fz_fgets(str, sizeof(str), f) && strcmp(str, "\r\n") != 0) {
-    /* nothing */
+  FD_ZERO(&sockset);
+  FD_SET(scan->sock, &sockset);
+
+  switch (scan->meta.state) {
+  case META_CONNECTING:
+    if (select(scan->sock + 1, NULL, &sockset, NULL, &tv) < 0) {
+      (scan->error_func)(scan, mystrerror());
+    } else if (FD_ISSET(scan->sock, &sockset)) {
+      meta_send_request(scan);
+    } else {
+      /* Keep waiting. */
+    }
+    return NULL;
+  case META_WAITING:
+    if (select(scan->sock + 1, &sockset, NULL, NULL, &tv) < 0) {
+      (scan->error_func)(scan, mystrerror());
+    } else if (FD_ISSET(scan->sock, &sockset)) {
+      meta_read_response(scan);
+      return scan->servers;
+    } else {
+      /* Keep waiting. */
+    }
+    return NULL;
+  case META_DONE:
+    /* We already have a server list but we don't return it since it hasn't
+     * changed. */
+    return NULL;
   }
 
-  /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
-
-  /* parse HTTP message body */
-  return parse_metaserver_data(f);
+  assert(0);
+  return NULL;
 }
 
 /**************************************************************************
@@ -347,7 +490,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
  the server list itself (so the server_list is no longer
  valid after calling this function)
 **************************************************************************/
-void delete_server_list(struct server_list *server_list)
+static void delete_server_list(struct server_list *server_list)
 {
   server_list_iterate(server_list, ptmp) {
     int i;
@@ -382,7 +525,7 @@ void delete_server_list(struct server_list *server_list)
   about the server. The packet is send to all Freeciv servers in the same
   multicast group as the client.
 **************************************************************************/
-int begin_lanserver_scan(void)
+static bool begin_lanserver_scan(struct server_scan *scan)
 {
   union my_sockaddr addr;
   struct data_out dout;
@@ -396,7 +539,7 @@ int begin_lanserver_scan(void)
   /* Create a socket for broadcasting to servers. */
   if ((sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
     freelog(LOG_ERROR, "socket failed: %s", mystrerror());
-    return 0;
+    return FALSE;
   }
 
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
@@ -416,13 +559,13 @@ int begin_lanserver_scan(void)
   if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
                  sizeof(ttl))) {
     freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
-    return 0;
+    return FALSE;
   }
 
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
     freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
-    return 0;
+    return FALSE;
   }
 
   dio_output_init(&dout, buffer, sizeof(buffer));
@@ -432,8 +575,10 @@ int begin_lanserver_scan(void)
 
   if (sendto(sock, buffer, size, 0, &addr.sockaddr,
       sizeof(addr)) < 0) {
+    /* This can happen when there's no network connection - it should
+     * give an in-game message. */
     freelog(LOG_ERROR, "sendto failed: %s", mystrerror());
-    return 0;
+    return FALSE;
   } else {
     freelog(LOG_DEBUG, ("Sending request for server announcement on LAN."));
   }
@@ -441,14 +586,14 @@ int begin_lanserver_scan(void)
   my_closesocket(sock);
 
   /* Create a socket for listening for server packets. */
-  if ((socklan = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-    freelog(LOG_ERROR, "socket failed: %s", mystrerror());
-    return 0;
+  if ((scan->sock = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
+    (scan->error_func)(scan, mystrerror());
+    return FALSE;
   }
 
-  my_nonblock(socklan);
+  my_nonblock(scan->sock);
 
-  if (setsockopt(socklan, SOL_SOCKET, SO_REUSEADDR,
+  if (setsockopt(scan->sock, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
     freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", mystrerror());
   }
@@ -458,30 +603,30 @@ int begin_lanserver_scan(void)
   addr.sockaddr_in.sin_addr.s_addr = htonl(INADDR_ANY); 
   addr.sockaddr_in.sin_port = htons(SERVER_LAN_PORT + 1);
 
-  if (bind(socklan, &addr.sockaddr, sizeof(addr)) < 0) {
-    freelog(LOG_ERROR, "bind failed: %s", mystrerror());
-    return 0;
+  if (bind(scan->sock, &addr.sockaddr, sizeof(addr)) < 0) {
+    (scan->error_func)(scan, mystrerror());
+    return FALSE;
   }
 
   mreq.imr_multiaddr.s_addr = inet_addr(group);
   mreq.imr_interface.s_addr = htonl(INADDR_ANY);
-  if (setsockopt(socklan, IPPROTO_IP, IP_ADD_MEMBERSHIP, 
+  if (setsockopt(scan->sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, 
                  (const char*)&mreq, sizeof(mreq)) < 0) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", mystrerror());
-    return 0;
+    (scan->error_func)(scan, mystrerror());
+    return FALSE;
   }
 
-  lan_servers = server_list_new();
+  scan->servers = server_list_new();
 
-  return 1;
+  return TRUE;
 }
 
 /**************************************************************************
   Listens for UDP packets broadcasted from a server that responded
   to the request-packet sent from the client. 
 **************************************************************************/
-struct server_list *get_lan_server_list(void) {
-
+static struct server_list *get_lan_server_list(struct server_scan *scan)
+{
 # if defined(__VMS) && !defined(_DECC_V4_SOURCE)
   size_t fromlen;
 # else
@@ -498,6 +643,7 @@ struct server_list *get_lan_server_list(void) {
   char status[256];
   char players[256];
   char message[1024];
+  bool found_new = FALSE;
 
   while (1) {
     struct server *pserver;
@@ -508,7 +654,7 @@ struct server_list *get_lan_server_list(void) {
 
     /* Try to receive a packet from a server.  No select loop is needed;
      * we just keep on reading until recvfrom returns -1. */
-    if (recvfrom(socklan, msgbuf, sizeof(msgbuf), 0,
+    if (recvfrom(scan->sock, msgbuf, sizeof(msgbuf), 0,
 		 &fromend.sockaddr, &fromlen) < 0) {
       break;
     }
@@ -531,10 +677,11 @@ struct server_list *get_lan_server_list(void) {
     }
 
     /* UDP can send duplicate or delayed packets. */
-    server_list_iterate(lan_servers, aserver) {
+    server_list_iterate(scan->servers, aserver) {
       if (!mystrcasecmp(aserver->host, servername) 
           && !mystrcasecmp(aserver->port, port)) {
 	duplicate = TRUE;
+	break;
       } 
     } server_list_iterate_end;
     if (duplicate) {
@@ -553,17 +700,104 @@ struct server_list *get_lan_server_list(void) {
     pserver->message = mystrdup(message);
     pserver->players = NULL;
 
-    server_list_prepend(lan_servers, pserver);
+    server_list_prepend(scan->servers, pserver);
   }
 
-  return lan_servers;
+  return found_new ? scan->servers : NULL;
+}
+
+/****************************************************************************
+  Creates a new server scan, and starts scanning.
+
+  Depending on 'type' the scan will look for either local or internet
+  games.
+
+  error_func provides a callback to be used in case of error; this
+  callback probably should call server_scan_finish.
+****************************************************************************/
+struct server_scan *server_scan_begin(enum server_scan_type type,
+				      ServerScanErrorFunc error_func)
+{
+  struct server_scan *scan = fc_calloc(sizeof(*scan), 1);
+
+  scan->type = type;
+  scan->error_func = error_func;
+
+  scan->sock = -1;
+
+  switch (type) {
+  case SERVER_SCAN_GLOBAL:
+    if (begin_metaserver_scan(scan)) {
+      return scan;
+    } else {
+      return NULL;
+    }
+  case SERVER_SCAN_LOCAL:
+    if (begin_lanserver_scan(scan)) {
+      return scan;
+    } else {
+      return NULL;
+    }
+  case SERVER_SCAN_LAST:
+    break;
+  }
+
+  assert(0);
+  return NULL;
+}
+
+/****************************************************************************
+  A simple query function to determine the type of a server scan (previously
+  allocated in server_scan_begin).
+****************************************************************************/
+enum server_scan_type server_scan_get_type(const struct server_scan *scan)
+{
+  return scan->type;
+}
+
+/****************************************************************************
+  A function to query servers of the server scan.  This will check any
+  pending network data and update the server list.  It then returns
+  a server_list if any new servers are found, or NULL if the list has not
+  changed.
+
+  Note that unless the list has changed NULL will be returned.  Since
+  polling is likely to be used with the server scans, callers should poll
+  this function often (every 100 ms) but only need to take further action
+  when a non-NULL value is returned.
+****************************************************************************/
+struct server_list *server_scan_get_servers(struct server_scan *scan)
+{
+  switch (scan->type) {
+  case SERVER_SCAN_GLOBAL:
+    return get_metaserver_list(scan);
+  case SERVER_SCAN_LOCAL:
+   return get_lan_server_list(scan);
+  case SERVER_SCAN_LAST:
+    break;
+  }
+
+  assert(0);
+  return NULL;
 }
 
 /**************************************************************************
-  Closes the socket listening on the lan and frees the list of LAN servers.
+  Closes the socket listening on the scan and frees the list of servers.
 **************************************************************************/
-void finish_lanserver_scan(void) 
+void server_scan_finish(struct server_scan *scan)
 {
-  my_closesocket(socklan);
-  delete_server_list(lan_servers);
+  if (!scan) {
+    return;
+  }
+  if (scan->sock >= 0) {
+    my_closesocket(scan->sock);
+    scan->sock = -1;
+  }
+
+  if (scan->servers) {
+    delete_server_list(scan->servers);
+    scan->servers = NULL;
+  }
+
+  /* FIXME: do we need to close scan->meta.fp or free scan->meta.urlpath? */
 }
