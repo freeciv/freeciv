@@ -1609,3 +1609,17 @@ void ai_incident_war(struct player *violator, struct player *victim)
     }
   } players_iterate_end;
 }
+
+/***************************************************************************
+  Violator pillaged something on victims territory
+***************************************************************************/
+void ai_incident_pillage(struct player *violator, struct player *victim)
+{
+  if (violator == victim) {
+    return;
+  }
+  if (victim == NULL) {
+    return;
+  }
+  victim->ai.love[violator->player_no] -= MAX_AI_LOVE / 20;
+}

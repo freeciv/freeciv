@@ -707,6 +707,8 @@ static void update_unit_activity(struct unit *punit)
       } unit_list_iterate_end;
       update_tile_knowledge(ptile);
       
+      ai_incident_pillage(unit_owner(punit), ptile->owner);
+      
       /* If a watchtower has been pillaged, reduce sight to normal */
       if (what_pillaged == S_FORTRESS) {
 	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
