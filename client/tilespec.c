@@ -352,7 +352,8 @@ struct tileset {
   enum fog_style fogstyle;
   enum darkness_style darkness_style;
 
-  int flag_offset_x, flag_offset_y;
+  int unit_flag_offset_x, unit_flag_offset_y;
+  int city_flag_offset_x, city_flag_offset_y;
   int unit_offset_x, unit_offset_y;
 
   int citybar_offset_y;
@@ -387,7 +388,7 @@ struct tileset {
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Jun.6"
+#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Oct.9"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -1336,8 +1337,14 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     freelog(LOG_FATAL, _("Invalid darkness style set in tileset."));
     exit(EXIT_FAILURE);
   }
-  t->flag_offset_x = secfile_lookup_int(file, "tilespec.flag_offset_x");
-  t->flag_offset_y = secfile_lookup_int(file, "tilespec.flag_offset_y");
+  t->unit_flag_offset_x
+    = secfile_lookup_int(file, "tilespec.unit_flag_offset_x");
+  t->unit_flag_offset_y
+    = secfile_lookup_int(file, "tilespec.unit_flag_offset_y");
+  t->city_flag_offset_x
+    = secfile_lookup_int(file, "tilespec.city_flag_offset_x");
+  t->city_flag_offset_y
+    = secfile_lookup_int(file, "tilespec.city_flag_offset_y");
   t->unit_offset_x = secfile_lookup_int(file, "tilespec.unit_offset_x");
   t->unit_offset_y = secfile_lookup_int(file, "tilespec.unit_offset_y");
 
@@ -2811,8 +2818,8 @@ static int fill_unit_sprite_array(const struct tileset *t,
   if (backdrop) {
     if (!solid_color_behind_units) {
       ADD_SPRITE(get_unit_nation_flag_sprite(t, punit), TRUE,
-		 FULL_TILE_X_OFFSET + t->flag_offset_x,
-		 FULL_TILE_Y_OFFSET + t->flag_offset_y);
+		 FULL_TILE_X_OFFSET + t->unit_flag_offset_x,
+		 FULL_TILE_Y_OFFSET + t->unit_flag_offset_y);
     } else {
       /* Taken care of in the LAYER_BACKGROUND. */
     }
@@ -3951,8 +3958,8 @@ int fill_sprite_array(struct tileset *t,
     if (pcity && draw_cities) {
       if (!draw_full_citybar && !solid_color_behind_units) {
 	ADD_SPRITE(get_city_flag_sprite(t, pcity), TRUE,
-		   FULL_TILE_X_OFFSET + t->flag_offset_x,
-		   FULL_TILE_Y_OFFSET + t->flag_offset_y);
+		   FULL_TILE_X_OFFSET + t->city_flag_offset_x,
+		   FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
       }
       ADD_SPRITE_FULL(get_city_sprite(t, pcity));
       if (!draw_full_citybar && pcity->client.occupied) {

@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec3 +Freeciv.Devel.2005.Jun.6"
+options = "+tilespec3 +Freeciv.Devel.2005.Oct.9"
 
 ; A simple name for the tileset specified by this file:
 name = "amplio"
@@ -31,8 +31,10 @@ fogstyle = 2
 darkness_style = 4
  
 ; offset the flags by this amount when drawing units
-flag_offset_x = 25
-flag_offset_y = 16
+unit_flag_offset_x = 25
+unit_flag_offset_y = 16
+city_flag_offset_x = 25
+city_flag_offset_y = 16
 
 ; offset the units by this amount when drawing units
 unit_offset_x = 19
