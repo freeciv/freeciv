@@ -699,6 +699,7 @@ static struct server_list *get_lan_server_list(struct server_scan *scan)
     pserver->nplayers = mystrdup(players);
     pserver->message = mystrdup(message);
     pserver->players = NULL;
+    found_new = TRUE;
 
     server_list_prepend(scan->servers, pserver);
   }
