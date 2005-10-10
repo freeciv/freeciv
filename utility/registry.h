@@ -32,6 +32,8 @@ struct section_file {
 void section_file_init(struct section_file *file);
 bool section_file_load(struct section_file *my_section_file,
 		       const char *filename);
+bool section_file_load_section(struct section_file *my_section_file,
+			       const char *filename, const char *section);
 bool section_file_load_nodup(struct section_file *my_section_file,
 			    const char *filename);
 bool section_file_load_from_stream(struct section_file *my_section_file,

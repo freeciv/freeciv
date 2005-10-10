@@ -1,3 +1,8 @@
+# Keep this section first
+[scenario]
+name=_("British Isles (medium/classic)")
+description=_("Classic-style 85x80 map of the British Isles.")
+
 [game]
 version=13702
 server_state=0

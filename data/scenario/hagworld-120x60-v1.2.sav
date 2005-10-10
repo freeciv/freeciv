@@ -1,4 +1,10 @@
 #  2001-05-28 by Helge Arne Gudmestad, gudmesta@pvv.org
+
+# Keep this section first
+[scenario]
+name=_("Earth (classic, medium)")
+description=_("Classic-style 120x60 Earth scenario.")
+
 [game]
 version=11105
 server_state=2

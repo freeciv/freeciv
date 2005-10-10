@@ -401,7 +401,8 @@ static struct section *find_section_by_name(struct section_file *sf,
 static bool section_file_read_dup(struct section_file *sf,
       	      	      	      	  const char *filename,
       	      	      	      	  struct inputfile *inf,
-				  bool allow_duplicates)
+				  bool allow_duplicates,
+				  const char *requested_section)
 {
   struct section *psection = NULL;
   struct entry *pentry;
@@ -413,6 +414,7 @@ static bool section_file_read_dup(struct section_file *sf,
   struct astring base_name = ASTRING_INIT;    /* for table or single entry */
   struct astring entry_name = ASTRING_INIT;
   struct astring_vector columns;    /* astrings for column headings */
+  bool found_my_section = FALSE;
 
   if (!inf) {
     return FALSE;
@@ -441,6 +443,16 @@ static bool section_file_read_dup(struct section_file *sf,
     }
     tok = inf_token(inf, INF_TOK_SECTION_NAME);
     if (tok) {
+      if (found_my_section) {
+	/* This shortcut will stop any further loading after the requested
+	 * section has been loaded (i.e., at the start of a new section).
+	 * This is needed to make the behavior useful, since the whole
+	 * purpose is to short-cut further loading of the file.  However
+	 * normally a section may be split up, and that will no longer
+	 * work here because it will be short-cut. */
+	inf_log(inf, LOG_DEBUG, "found requested section; finishing");
+	return TRUE;
+      }
       if (table_state) {
 	inf_log(inf, LOG_ERROR, "new section during table");
         return FALSE;
@@ -452,15 +464,25 @@ static bool section_file_read_dup(struct section_file *sf,
       */
       psection = find_section_by_name(sf, tok);
       if (!psection) {
-	psection = section_file_append_section(sf, tok);
+	if (!requested_section || strcmp(tok, requested_section) == 0) {
+	  psection = section_file_append_section(sf, tok);
+	  if (requested_section) {
+	    found_my_section = TRUE;
+	  }
+	}
       }
       (void) inf_token_required(inf, INF_TOK_EOL);
       continue;
     }
+#if 0
     if (!psection) {
+      /* This used to be an error.  However there's no reason it shouldn't
+       * be allowed, and it breaks the rest of the requested_section code.
+       * It's been defined out but may be of use sometime. */
       inf_log(inf, LOG_ERROR, "data before first section");
       return FALSE;
     }
+#endif
     if (inf_token(inf, INF_TOK_TABLE_END)) {
       if (!table_state) {
 	inf_log(inf, LOG_ERROR, "misplaced \"}\"");
@@ -493,9 +515,13 @@ static bool section_file_read_dup(struct section_file *sf,
 		      columns.p[num_columns - 1].str,
 		      (int) (i - num_columns + 1));
 	}
-	pentry = new_entry(sb, entry_name.str, tok);
-	entry_list_append(psection->entries, pentry);
-	sf->num_entries++;
+	if (psection) {
+	  /* Load this entry (if psection == NULL the entry is silently
+	   * skipped). */
+	  pentry = new_entry(sb, entry_name.str, tok);
+	  entry_list_append(psection->entries, pentry);
+	  sf->num_entries++;
+	}
       } while(inf_token(inf, INF_TOK_COMMA));
       
       (void) inf_token_required(inf, INF_TOK_EOL);
@@ -562,8 +588,12 @@ static bool section_file_read_dup(struct section_file *sf,
 		    "%s,%d", base_name.str, i);
 	pentry = new_entry(sb, entry_name.str, tok);
       }
-      entry_list_append(psection->entries, pentry);
-      sf->num_entries++;
+      if (psection) {
+	/* Load this entry (if psection == NULL the entry is silently
+	 * skipped). */
+	entry_list_append(psection->entries, pentry);
+	sf->num_entries++;
+      }
     } while(inf_token(inf, INF_TOK_COMMA));
     (void) inf_token_required(inf, INF_TOK_EOL);
   }
@@ -598,13 +628,27 @@ static bool section_file_read_dup(struct section_file *sf,
 bool section_file_load(struct section_file *my_section_file,
 		      const char *filename)
 {
+  return section_file_load_section(my_section_file, filename, NULL);
+}
+
+/**************************************************************************
+  Like section_file_load, but this function will only load one "part" of
+  the section file.  For instance if you pass in "tutorial", then it will
+  only load the [tutorial] section.
+
+  Passing in NULL will give identical results to section_file_load.
+**************************************************************************/
+bool section_file_load_section(struct section_file *my_section_file,
+			       const char *filename, const char *part)
+{
   char real_filename[1024];
   struct inputfile *inf;
 
   interpret_tilde(real_filename, sizeof(real_filename), filename);
   inf = inf_from_file(real_filename, datafilename);
 
-  return section_file_read_dup(my_section_file, real_filename, inf, TRUE);
+  return section_file_read_dup(my_section_file, real_filename,
+			       inf, TRUE, NULL);
 }
 
 /**************************************************************************
@@ -619,7 +663,8 @@ bool section_file_load_nodup(struct section_file *my_section_file,
   interpret_tilde(real_filename, sizeof(real_filename), filename);
   inf = inf_from_file(real_filename, datafilename);
 
-  return section_file_read_dup(my_section_file, real_filename, inf, FALSE);
+  return section_file_read_dup(my_section_file, real_filename,
+			       inf, FALSE, NULL);
 }
 
 /**************************************************************************
@@ -630,7 +675,7 @@ bool section_file_load_from_stream(struct section_file *my_section_file,
 {
   struct inputfile *inf = inf_from_stream(stream, datafilename);
 
-  return section_file_read_dup(my_section_file, NULL, inf, TRUE);
+  return section_file_read_dup(my_section_file, NULL, inf, TRUE, NULL);
 }
 
 /**************************************************************************

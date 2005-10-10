@@ -1,3 +1,8 @@
+# Keep this section first
+[scenario]
+name=_("Tutorial")
+description=_("Tutorial Scenario.")
+
 [script]
 code="
 function turn_callback(turn, year)

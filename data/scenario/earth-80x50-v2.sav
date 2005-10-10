@@ -1,3 +1,7 @@
+# Keep this section first
+[scenario]
+name=_("Earth (classic, small)")
+description=_("Classic-style 80x50 Earth scenario.")
 
 [game]
 version=11105

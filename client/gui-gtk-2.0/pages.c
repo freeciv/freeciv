@@ -1551,18 +1551,22 @@ static void update_scenario_page(void)
   datafile_list_iterate(files, pfile) {
     GtkTreeIter it;
     struct section_file sf;
-    char *description;
+    char *description = NULL, *name = NULL;
 
-    if (section_file_load(&sf, pfile->fullname)) {
-      description = secfile_lookup_str_default(&sf, "", "game.description");
-    } else {
-      description = "";
+    if (section_file_load_section(&sf, pfile->fullname, "scenario")) {
+      name = secfile_lookup_str_default(&sf, NULL, "scenario.name");
+      description = secfile_lookup_str_default(&sf,
+					       NULL, "scenario.description");
+      section_file_free(&sf);
     }
-    section_file_free(&sf);
+
+    /* Translated loaded names (if any). */
+    name = name ? _(name) : pfile->name;
+    description = description ? _(description) : "";
 
     gtk_list_store_append(scenario_store, &it);
     gtk_list_store_set(scenario_store, &it,
-	0, pfile->name, 1, pfile->fullname, 2, description, -1);
+		       0, name, 1, pfile->fullname, 2, description, -1);
 
     free(pfile->name);
     free(pfile->fullname);
