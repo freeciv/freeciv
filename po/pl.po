@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-07 10:23+0200\n"
+"POT-Creation-Date: 2005-10-11 20:43+0200\n"
 "PO-Revision-Date: 1999-09-27 00:10+0200\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -5870,24 +5870,24 @@ msgid "Barbarian"
 msgstr "Barbarzyński"
 
 #: server/stdinhand.c:2934 server/stdinhand.c:3950 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:1643 client/gui-win32/connectdlg.c:199
+#: client/gui-gtk-2.0/pages.c:1723 client/gui-win32/connectdlg.c:199
 #: client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "AI"
 
 #: server/stdinhand.c:2934 server/stdinhand.c:3952
-#: client/gui-gtk-2.0/pages.c:1643 client/gui-gtk-2.0/pages.c:1673
+#: client/gui-gtk-2.0/pages.c:1723 client/gui-gtk-2.0/pages.c:1753
 #: client/gui-win32/connectdlg.c:199 client/gui-win32/connectdlg.c:218
 msgid "Human"
 msgstr "Człowiek"
 
-#: server/stdinhand.c:2934 client/gui-gtk-2.0/pages.c:1642
-#: client/gui-gtk-2.0/pages.c:1672 client/gui-win32/connectdlg.c:198
+#: server/stdinhand.c:2934 client/gui-gtk-2.0/pages.c:1722
+#: client/gui-gtk-2.0/pages.c:1752 client/gui-win32/connectdlg.c:198
 #: client/gui-win32/connectdlg.c:217
 msgid "Alive"
 msgstr "Żywy"
 
-#: server/stdinhand.c:2934 client/gui-gtk-2.0/pages.c:1642
+#: server/stdinhand.c:2934 client/gui-gtk-2.0/pages.c:1722
 #: client/gui-win32/connectdlg.c:198
 msgid "Dead"
 msgstr "Martwy"
@@ -6311,7 +6311,7 @@ msgstr "Tylko %s mogą atakować z morza."
 msgid "Cannot attack from sea."
 msgstr "Nie możesz atakować z morza."
 
-#: server/unithand.c:954 server/unittools.c:2163
+#: server/unithand.c:954 server/unittools.c:2165
 msgid "Cannot attack unless you declare war first."
 msgstr "Nie możesz atakować zanim nie wypowiesz wojny."
 
@@ -6452,65 +6452,65 @@ msgstr "Skończyło się paliwo jednostce %s."
 msgid "Your %s became more experienced!"
 msgstr "Twoi %s są teraz bardziej doświadczeni."
 
-#: server/unittools.c:905
+#: server/unittools.c:907
 #, c-format
 msgid " at %s"
 msgstr " w mieście %s"
 
-#: server/unittools.c:907
+#: server/unittools.c:909
 #, c-format
 msgid " in %s"
 msgstr " w mieście %s"
 
-#: server/unittools.c:914
+#: server/unittools.c:916
 #, c-format
 msgid " outside %s"
 msgstr " pod miastem %s"
 
-#: server/unittools.c:917
+#: server/unittools.c:919
 #, c-format
 msgid " near %s"
 msgstr " koło miasta %s"
 
-#: server/unittools.c:1116
+#: server/unittools.c:1118
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Przeniesiono jednostkę %s do miasta %s."
 
-#: server/unittools.c:1145
+#: server/unittools.c:1147
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Rozwiązano twoją jednostkę %s."
 
-#: server/unittools.c:1464
+#: server/unittools.c:1466
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "%2$s nie mogł obronić %1$s i przegrał grę."
 
-#: server/unittools.c:1467
+#: server/unittools.c:1469
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "Utrata %s oznacza przegranie rozgrywki! Zachowaj większą ostrożność "
 "następnym razem!"
 
-#: server/unittools.c:1572
+#: server/unittools.c:1574
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "Twój %s uratował podczas niszczenia %s, i przeleciał do %s."
 
-#: server/unittools.c:1579
+#: server/unittools.c:1581
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "Jednostka %s utracona razem z %s."
 
-#: server/unittools.c:1630
+#: server/unittools.c:1632
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr ""
 "Ująłeś barbarzyńskiego przywódcę, otrzymałeś okup w wysokości %d złota."
 
-#: server/unittools.c:1648
+#: server/unittools.c:1650
 #, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s%s and became more experienced!"
@@ -6518,18 +6518,18 @@ msgstr ""
 "Twoja jednostka %1$s przeprowadziła udany atak %4$s przeciwko %2$s %3$s. "
 "Jednostka zyskała doświadczenie."
 
-#: server/unittools.c:1656
+#: server/unittools.c:1658
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s%s!"
 msgstr ""
 "Twoja jednostka %1$s przeprowadziła udany atak %4$s przeciwko %2$s %3$s!"
 
-#: server/unittools.c:1663
+#: server/unittools.c:1665
 #, c-format
 msgid "%s lost to an attack by %s's %s%s."
 msgstr "Jednostka %s utracona w wyniku ataku %s %s%s."
 
-#: server/unittools.c:1696
+#: server/unittools.c:1698
 #, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
@@ -6547,7 +6547,7 @@ msgstr[2] ""
 "Twoja jednostka %s przeprowadziła udany atak przeciwko %s %s. (i %d "
 "dodatkowym jednostkom) %s Jednostka zyskała doświadczenie."
 
-#: server/unittools.c:1708
+#: server/unittools.c:1710
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
@@ -6564,21 +6564,21 @@ msgstr[2] ""
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
-#: server/unittools.c:1732
+#: server/unittools.c:1734
 #, c-format
 msgid "%s lost to an attack from %s's %s."
 msgstr "Jednostka %s utracona podczas ataku %s %s."
 
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
-#: server/unittools.c:1740
+#: server/unittools.c:1742
 #, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
 msgstr "Jednostka %s utracona podczas ataku %s %s na %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from John's Destroyer."
-#: server/unittools.c:1753
+#: server/unittools.c:1755
 #, c-format
 msgid "%s (and %s) lost to an attack from %s's %s."
 msgstr "Jednostka %s ( i %s) utracona podczas ataku %s %s."
@@ -6586,7 +6586,7 @@ msgstr "Jednostka %s ( i %s) utracona podczas ataku %s %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from John's Destroyer." (only happens
 #. * with at least 2 other units)
-#: server/unittools.c:1761
+#: server/unittools.c:1763
 #, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
@@ -6600,7 +6600,7 @@ msgstr[2] ""
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
 #. * with at least 2 other units)
-#: server/unittools.c:1773
+#: server/unittools.c:1775
 #, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
@@ -6608,177 +6608,177 @@ msgstr[0] "%d jednostka utracona podczas ataku %s %s na %s %s."
 msgstr[1] "%d jednostki utracona podczas ataku %s %s na %s %s."
 msgstr[2] "%d jednostek utraconych podczas ataku %s %s na %s %s."
 
-#: server/unittools.c:2021
+#: server/unittools.c:2023
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Twoja jednostka %s została zbombardowana przez %s."
 
-#: server/unittools.c:2023 server/unittools.c:2039
+#: server/unittools.c:2025 server/unittools.c:2041
 msgid "yourself"
 msgstr "ciebie"
 
-#: server/unittools.c:2027
+#: server/unittools.c:2029
 #, c-format
 msgid "%s's %s was nuked."
 msgstr "Jednostka %s %s zniszczona."
 
-#: server/unittools.c:2037
+#: server/unittools.c:2039
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "Miasto %s zostało zniszczone przez %s."
 
-#: server/unittools.c:2044
+#: server/unittools.c:2046
 #, c-format
 msgid "You nuked %s."
 msgstr "Zniszczyłeś miasto %s."
 
-#: server/unittools.c:2085
+#: server/unittools.c:2087
 #, c-format
 msgid "%s detonated a nuke!"
 msgstr "%s użył(a) broni jądrowej!"
 
-#: server/unittools.c:2108
+#: server/unittools.c:2110
 #, c-format
 msgid "%s transported succesfully."
 msgstr "Jednostka %s bezpiecznie przetransportowana."
 
-#: server/unittools.c:2131
+#: server/unittools.c:2133
 msgid "This unit type can not be paradropped."
 msgstr "Ta jednostka nie może być przerzucona."
 
 #
-#: server/unittools.c:2141
+#: server/unittools.c:2143
 msgid "You cannot paradrop a transporter unit."
 msgstr "Nie możesz przerzucać jednostki transportującej."
 
-#: server/unittools.c:2146
+#: server/unittools.c:2148
 msgid "The destination location is not known."
 msgstr "Cel jest nieznany."
 
 #
-#: server/unittools.c:2153
+#: server/unittools.c:2155
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Jednostki nie można przerzucić do %s."
 
-#: server/unittools.c:2172
+#: server/unittools.c:2174
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Odległość do celu (%i) jest większa od zasięgu danej jednostki (%i)."
 
-#: server/unittools.c:2186
+#: server/unittools.c:2188
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Gra: Twoi %s zostali zrzuceni do %s i zginęli."
 
-#: server/unittools.c:2199
+#: server/unittools.c:2201
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Twoi %s zostali zabici przez jednostki wroga podczas lądowania."
 
-#: server/unittools.c:2221
+#: server/unittools.c:2223
 #, c-format
 msgid "You found %d gold."
 msgstr "Znalazłeś %d złota."
 
-#: server/unittools.c:2238
+#: server/unittools.c:2240
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr "Odkryłeś technologię %s w pradawnych zbiorach wiedzy."
 
-#: server/unittools.c:2246
+#: server/unittools.c:2248
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "%s znaleźli technologię %s w pradawnych zbiorach wiedzy."
 
-#: server/unittools.c:2259
+#: server/unittools.c:2261
 msgid "A band of friendly mercenaries joins your cause."
 msgstr "Przyjaźnie nastawieni najemnicy przyłączyli się do ciebie."
 
-#: server/unittools.c:2277
+#: server/unittools.c:2279
 msgid "An abandoned village is here."
 msgstr "Ta wioska jest opuszczona."
 
-#: server/unittools.c:2287
+#: server/unittools.c:2289
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Sprowokowałeś barbarzyńców do ataku!"
 
-#: server/unittools.c:2290
+#: server/unittools.c:2292
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s został(a) zabity przez barbarzyńców!"
 
-#: server/unittools.c:2306
+#: server/unittools.c:2308
 msgid "You found a friendly city."
 msgstr "Znalazłeś przyjazne miasto."
 
-#: server/unittools.c:2311
+#: server/unittools.c:2313
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Przyjaźni koczownicy są zachwyceni tobą i przyłączają się."
 
-#: server/unittools.c:2336
+#: server/unittools.c:2338
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Twój przelot wystraszył tubylców; uciekli wystraszeni."
 
-#: server/unittools.c:2599
+#: server/unittools.c:2601
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu gdy napotkała ruch wrogiej "
 "jednostki."
 
-#: server/unittools.c:3042
+#: server/unittools.c:3044
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu gdy napotkała wrogie jednostki."
 
-#: server/unittools.c:3094
+#: server/unittools.c:3096
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Jednostka %s nie wykonała rozkazu - nie udało się zbudować miasta."
 
-#: server/unittools.c:3106
+#: server/unittools.c:3108
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s ponieważ zawiera on nieprawidłową czynność."
 
-#: server/unittools.c:3120
+#: server/unittools.c:3122
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s ponieważ zawiera on nieprawidłowe "
 "współrzędne."
 
-#: server/unittools.c:3130
+#: server/unittools.c:3132
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu gdy napotkała wrogie jednostki na "
 "swojej drodze."
 
-#: server/unittools.c:3156
+#: server/unittools.c:3158
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Jednostka %s nie wykonała rozkazu - ruch niemożliwy."
 
-#: server/unittools.c:3197
+#: server/unittools.c:3199
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Nie udało się zmienić miasta macierzystego jednostce %s."
 
-#: server/unittools.c:3208
+#: server/unittools.c:3210
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Nie udało się utworzyć szlaku handlowego za pomocą %s."
 
-#: server/unittools.c:3220
+#: server/unittools.c:3222
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Nie udało się wspomóc budowy cudu za pomocą %s."
 
-#: server/unittools.c:3229
+#: server/unittools.c:3231
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Twoja jednostka %s ma nieprawidłowe rozkazy."
@@ -8978,12 +8978,12 @@ msgid "Username"
 msgstr "Nazwa użytkownika"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:896
-#: client/gui-gtk-2.0/pages.c:1705
+#: client/gui-gtk-2.0/pages.c:1785
 msgid "Flag"
 msgstr "Flaga"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:900
-#: client/gui-gtk-2.0/pages.c:1204 client/gui-gtk-2.0/pages.c:1707
+#: client/gui-gtk-2.0/pages.c:1231 client/gui-gtk-2.0/pages.c:1787
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:942
 #: client/gui-win32/dialogs.c:546 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -8997,7 +8997,7 @@ msgstr "Granica"
 msgid "Score"
 msgstr "Punktacja"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1210
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1237
 msgid "Team"
 msgstr "Zespół"
 
@@ -9067,20 +9067,18 @@ msgstr "Rozwiązano %d %s."
 msgid "No %s could be disbanded."
 msgstr "Nie udało się rozproszyć żadnej jednostki %s."
 
-#: client/servers.c:269
+#: client/servers.c:342
+msgid "Could not open temp file."
+msgstr "Nie mogę otworzyć pliku tymczasowego."
+
+#: client/servers.c:404
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr ""
 "Błędna wartość $http_proxy lub metaserwer, powinna się zaczynać od 'http://'"
 
-#: client/servers.c:275
+#: client/servers.c:410
 msgid "Failed looking up metaserver's host"
 msgstr "Odnalezienie metaserwera nie powiodło się"
-
-#. TRANS: This means a network error when trying to connect to
-#. * the metaserver.  The message will be shown directly to the user.
-#: client/servers.c:330
-msgid "Failed querying socket"
-msgstr "Nie można otworzyć socketa"
 
 #: client/text.c:78
 msgid "?nation:Neutral"
@@ -9600,7 +9598,7 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Cuda: "
 
-#: client/tilespec.c:711
+#: client/tilespec.c:712
 #, c-format
 msgid ""
 "%s file appears incompatible:\n"
@@ -9613,7 +9611,7 @@ msgstr ""
 "opcje pliku: %s\n"
 "wspierane opcje: %s"
 
-#: client/tilespec.c:719
+#: client/tilespec.c:720
 #, c-format
 msgid ""
 "%s file claims required option(s) which we don't support:\n"
@@ -9626,46 +9624,46 @@ msgstr ""
 "opcje pliku: %s\n"
 "wspierane opcje: %s"
 
-#: client/tilespec.c:830
+#: client/tilespec.c:831
 msgid "No usable default tileset found, aborting!"
 msgstr "Nie znalazłem odpowiedniego zestawu graficznego, kończę pracę!"
 
-#: client/tilespec.c:834
+#: client/tilespec.c:835
 #, c-format
 msgid "Trying \"%s\" tileset."
 msgstr "Próbuję zestaw graficzny \"%s\"."
 
-#: client/tilespec.c:1015 client/tilespec.c:1049 client/tilespec.c:1229
+#: client/tilespec.c:1016 client/tilespec.c:1050 client/tilespec.c:1230
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Nie mogę otworzyć \"%s\"."
 
-#: client/tilespec.c:1029
+#: client/tilespec.c:1030
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
 msgstr "Nie mogę wczytać pliku gfx dla pliku specyfikacyjnego %s"
 
-#: client/tilespec.c:1198
+#: client/tilespec.c:1199
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Nie mogę znaleźć wspieranego rozszerzenia pliku gfx dla %s"
 
-#: client/tilespec.c:1270
+#: client/tilespec.c:1271
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr "Klient nie obsługuje izometrycznej grafiki. Używam domyślnego zestawu."
 
-#: client/tilespec.c:1279
+#: client/tilespec.c:1280
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
 msgstr "Klient nie obsługuje 'wystającej' grafiki. Używam domyślnego zestawu."
 
-#: client/tilespec.c:1336
+#: client/tilespec.c:1337
 msgid "Invalid darkness style set in tileset."
 msgstr "Nieprawidłowy styl ciemności (darkness_style) w zestawie graficznym."
 
-#: client/tilespec.c:1491
+#: client/tilespec.c:1498
 #, c-format
 msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
@@ -9674,33 +9672,33 @@ msgstr ""
 "Bład w warstwie %s %d: nie można używać wysokiego terenu lub przesunięcia "
 "sprite'a w  metodzie cell-based."
 
-#: client/tilespec.c:1655
+#: client/tilespec.c:1662
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Nie mogę wczytać pliku gfx '%s' dla sprite'a %s"
 
-#: client/tilespec.c:1792
+#: client/tilespec.c:1799
 #, c-format
 msgid "No graphics for specialist %s."
 msgstr "Nie ma grafiki dla specjalisty %s."
 
-#: client/tilespec.c:1823
+#: client/tilespec.c:1830
 #, c-format
 msgid "No graphics for citizen %s."
 msgstr "Nie ma grafiki dla mieszkańca %s."
 
-#: client/tilespec.c:2357
+#: client/tilespec.c:2364
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Nie ma grafiki %s lub %s dla %s %s"
 
 #. TRANS: obscure tileset error.
-#: client/tilespec.c:2459
+#: client/tilespec.c:2466
 #, c-format
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "Brakuje base sprite tag \"%s1\"."
 
-#: client/tilespec.c:3761
+#: client/tilespec.c:3768
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -10368,8 +10366,8 @@ msgstr "Wybierz cel plądrowania:"
 msgid "Unit"
 msgstr "Jednostka"
 
-#: client/gui-gtk-2.0/dialogs.c:752 client/gui-gtk-2.0/pages.c:1188
-#: client/gui-gtk-2.0/pages.c:1703 client/gui-gtk-2.0/wldlg.c:1030
+#: client/gui-gtk-2.0/dialogs.c:752 client/gui-gtk-2.0/pages.c:1215
+#: client/gui-gtk-2.0/pages.c:1783 client/gui-gtk-2.0/wldlg.c:1030
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:937
 #: client/gui-win32/plrdlg.c:335 data/Freeciv.in:80
 msgid "Name"
@@ -10480,11 +10478,11 @@ msgstr "_Pakty"
 msgid "Diplomacy: %s"
 msgstr "Dyplomacja: %s"
 
-#: client/gui-gtk-2.0/diplodlg.c:475 client/gui-mui/diplodlg.c:535
+#: client/gui-gtk-2.0/diplodlg.c:476 client/gui-mui/diplodlg.c:535
 msgid "_Cancel meeting"
 msgstr "P_rzerwij spotkanie"
 
-#: client/gui-gtk-2.0/diplodlg.c:477
+#: client/gui-gtk-2.0/diplodlg.c:478
 msgid "Accept _treaty"
 msgstr "Zatwierdź _traktat"
 
@@ -10492,15 +10490,19 @@ msgstr "Zatwierdź _traktat"
 msgid "C_lauses:"
 msgstr "_Klauzule:"
 
-#: client/gui-gtk-2.0/diplodlg.c:568 client/gui-gtk-2.0/diplodlg.c:641
+#: client/gui-gtk-2.0/diplodlg.c:570 client/gui-gtk-2.0/diplodlg.c:643
 msgid "_Gold:"
 msgstr "Zł_oto:"
 
-#: client/gui-gtk-2.0/diplodlg.c:580 client/gui-gtk-2.0/diplodlg.c:653
+#: client/gui-gtk-2.0/diplodlg.c:582 client/gui-gtk-2.0/diplodlg.c:655
 msgid "_Add Clause..."
 msgstr "_Dodaj klauzulę..."
 
-#: client/gui-gtk-2.0/diplodlg.c:895 client/gui-mui/diplodlg.c:382
+#: client/gui-gtk-2.0/diplodlg.c:700
+msgid "--- This treaty is blank. Please add some clauses. ---"
+msgstr "--- Ten traktat nie zawiera żadnych klauzul. ---"
+
+#: client/gui-gtk-2.0/diplodlg.c:906 client/gui-mui/diplodlg.c:382
 #: client/gui-win32/diplodlg.c:263 client/gui-xaw/diplodlg.c:948
 msgid "Invalid amount of gold specified."
 msgstr "Określono niepoprawną ilość złota."
@@ -10660,11 +10662,11 @@ msgstr ""
 msgid "Not _ready"
 msgstr "Nie _przygotowany"
 
-#: client/gui-gtk-2.0/gui_main.c:1243 client/gui-gtk-2.0/pages.c:1268
+#: client/gui-gtk-2.0/gui_main.c:1243 client/gui-gtk-2.0/pages.c:1295
 msgid "_Ready"
 msgstr "_Gotowy"
 
-#: client/gui-gtk-2.0/gui_main.c:1247 client/gui-gtk-2.0/pages.c:1752
+#: client/gui-gtk-2.0/gui_main.c:1247 client/gui-gtk-2.0/pages.c:1832
 msgid "_Start"
 msgstr "_Start"
 
@@ -11634,7 +11636,7 @@ msgstr "Idź do miejsca"
 msgid "?show:Dead Players"
 msgstr "?show:Martwi gracze"
 
-#: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:656
+#: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:683
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
 #: client/gui-win32/connectdlg.c:869 client/gui-win32/plrdlg.c:341
 #: client/gui-xaw/menu.c:217 data/Freeciv.in:3204 data/Freeciv.in:3205
@@ -11669,136 +11671,136 @@ msgstr "Widok _dzielony"
 msgid "_Spaceship"
 msgstr "Statek _kosmiczny"
 
-#: client/gui-gtk-2.0/pages.c:192
+#: client/gui-gtk-2.0/pages.c:194
 msgid "Start _New Game"
 msgstr "Rozpocznij _nową grę"
 
-#: client/gui-gtk-2.0/pages.c:198
+#: client/gui-gtk-2.0/pages.c:200
 msgid "Start _Scenario Game"
 msgstr "Rozpocznij nowy _scenariusz"
 
-#: client/gui-gtk-2.0/pages.c:204
+#: client/gui-gtk-2.0/pages.c:206
 msgid "_Load Saved Game"
 msgstr "_Wczytaj zachowaną grę"
 
-#: client/gui-gtk-2.0/pages.c:213
+#: client/gui-gtk-2.0/pages.c:215
 msgid "C_onnect to Network Game"
 msgstr "Przyłącz się do gry sie_ciowej"
 
-#: client/gui-gtk-2.0/pages.c:562 client/gui-win32/connectdlg.c:305
+#: client/gui-gtk-2.0/pages.c:589 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:315
 msgid "Passwords don't match, enter password."
 msgstr "Hasło nieprawidłowe, wprowadź hasło."
 
-#: client/gui-gtk-2.0/pages.c:652 client/gui-mui/connectdlg.c:160
+#: client/gui-gtk-2.0/pages.c:679 client/gui-mui/connectdlg.c:160
 #: client/gui-win32/connectdlg.c:868
 msgid "Server Name"
 msgstr "Nazwa serwera"
 
-#: client/gui-gtk-2.0/pages.c:653 client/gui-mui/connectdlg.c:161
+#: client/gui-gtk-2.0/pages.c:680 client/gui-mui/connectdlg.c:161
 #: client/gui-win32/connectdlg.c:868 data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:654 client/gui-mui/connectdlg.c:162
+#: client/gui-gtk-2.0/pages.c:681 client/gui-mui/connectdlg.c:162
 #: client/gui-win32/connectdlg.c:869
 msgid "Version"
 msgstr "Wersja"
 
-#: client/gui-gtk-2.0/pages.c:655 client/gui-gtk-2.0/pages.c:1709
+#: client/gui-gtk-2.0/pages.c:682 client/gui-gtk-2.0/pages.c:1789
 #: client/gui-mui/connectdlg.c:163 client/gui-win32/connectdlg.c:869
 #: client/gui-win32/connectdlg.c:947
 msgid "Status"
 msgstr "Stan"
 
-#: client/gui-gtk-2.0/pages.c:657 client/gui-mui/connectdlg.c:165
+#: client/gui-gtk-2.0/pages.c:684 client/gui-mui/connectdlg.c:165
 #: client/gui-win32/connectdlg.c:870
 msgid "Comment"
 msgstr "Komentarz"
 
-#: client/gui-gtk-2.0/pages.c:695
+#: client/gui-gtk-2.0/pages.c:722
 msgid "Local _Area Network"
 msgstr "Sieć _Lokalna"
 
-#: client/gui-gtk-2.0/pages.c:731
+#: client/gui-gtk-2.0/pages.c:758
 msgid "Internet _Metaserver"
 msgstr "Metaserwer Internetowy"
 
-#: client/gui-gtk-2.0/pages.c:765
+#: client/gui-gtk-2.0/pages.c:792
 msgid "_Host:"
 msgstr "_Host:"
 
-#: client/gui-gtk-2.0/pages.c:782
+#: client/gui-gtk-2.0/pages.c:809
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:799
+#: client/gui-gtk-2.0/pages.c:826
 msgid "_Login:"
 msgstr "_Użytkownik:"
 
-#: client/gui-gtk-2.0/pages.c:817
+#: client/gui-gtk-2.0/pages.c:844
 msgid "Pass_word:"
 msgstr "Hasło:"
 
-#: client/gui-gtk-2.0/pages.c:835
+#: client/gui-gtk-2.0/pages.c:862
 msgid "Conf_irm Password:"
 msgstr "Potwierdź hasło:"
 
-#: client/gui-gtk-2.0/pages.c:860
+#: client/gui-gtk-2.0/pages.c:887
 msgid "C_onnect"
 msgstr "Połą_cz"
 
-#: client/gui-gtk-2.0/pages.c:1123
+#: client/gui-gtk-2.0/pages.c:1150
 msgid "_Number of Players (including AI):"
 msgstr "Liczba _graczy (Łącznie z botami):"
 
-#: client/gui-gtk-2.0/pages.c:1146
+#: client/gui-gtk-2.0/pages.c:1173
 msgid "_AI Skill Level:"
 msgstr "Poziom trudności _AI:"
 
-#: client/gui-gtk-2.0/pages.c:1162
+#: client/gui-gtk-2.0/pages.c:1189
 msgid "_Ruleset:"
 msgstr "_Zestaw zasad:"
 
-#: client/gui-gtk-2.0/pages.c:1170
+#: client/gui-gtk-2.0/pages.c:1197
 msgid "More Game _Options..."
 msgstr "Więcej _opcji..."
 
-#: client/gui-gtk-2.0/pages.c:1193
+#: client/gui-gtk-2.0/pages.c:1220
 msgid "Ready"
 msgstr "Gotowy"
 
-#: client/gui-gtk-2.0/pages.c:1200 data/default/units.ruleset:1739
+#: client/gui-gtk-2.0/pages.c:1227 data/default/units.ruleset:1739
 #: data/history/units.ruleset:1665 data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Przywódca"
 
-#: client/gui-gtk-2.0/pages.c:1263
+#: client/gui-gtk-2.0/pages.c:1290
 msgid "Pick _Nation"
 msgstr "Wybierz _naród"
 
-#: client/gui-gtk-2.0/pages.c:1331
+#: client/gui-gtk-2.0/pages.c:1358
 msgid "Choose Saved Game to Load"
 msgstr "Wybierz Zapisaną Grę"
 
-#: client/gui-gtk-2.0/pages.c:1423
+#: client/gui-gtk-2.0/pages.c:1450
 msgid "Choose Saved Game to _Load:"
 msgstr "Wybierz Zapisaną Grę:"
 
-#: client/gui-gtk-2.0/pages.c:1443 client/gui-gtk-2.0/pages.c:1578
-#: client/gui-gtk-2.0/pages.c:1992
+#: client/gui-gtk-2.0/pages.c:1470 client/gui-gtk-2.0/pages.c:1658
+#: client/gui-gtk-2.0/pages.c:2073
 msgid "_Browse..."
 msgstr "_Przeglądaj..."
 
-#: client/gui-gtk-2.0/pages.c:1490
+#: client/gui-gtk-2.0/pages.c:1537
 msgid "Choose a Scenario"
 msgstr "Wybierz scenariusz"
 
-#: client/gui-gtk-2.0/pages.c:1558
+#: client/gui-gtk-2.0/pages.c:1619
 msgid "Choose a _Scenario:"
 msgstr "Wybierz _scenariusz:"
 
-#: client/gui-gtk-2.0/pages.c:1711 client/gui-gtk-2.0/repodlgs.c:631
+#: client/gui-gtk-2.0/pages.c:1791 client/gui-gtk-2.0/repodlgs.c:631
 #: client/gui-gtk-2.0/wldlg.c:1030 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
 #: client/gui-win32/citydlg.c:1087 client/gui-win32/connectdlg.c:952
@@ -11806,27 +11808,27 @@ msgstr "Wybierz _scenariusz:"
 msgid "Type"
 msgstr "Typ"
 
-#: client/gui-gtk-2.0/pages.c:1721
+#: client/gui-gtk-2.0/pages.c:1801
 msgid "Choose a _nation to play:"
 msgstr "Wybierz _naród:"
 
-#: client/gui-gtk-2.0/pages.c:1741
+#: client/gui-gtk-2.0/pages.c:1821
 msgid "Game _Options..."
 msgstr "_Opcje gry..."
 
-#: client/gui-gtk-2.0/pages.c:1904 client/gui-win32/menu.c:578
+#: client/gui-gtk-2.0/pages.c:1985 client/gui-win32/menu.c:578
 msgid "Select Location to Save"
 msgstr "Wybierz miejsce zapisu"
 
-#: client/gui-gtk-2.0/pages.c:1989
+#: client/gui-gtk-2.0/pages.c:2070
 msgid "Save Game"
 msgstr "Zapisz _grę"
 
-#: client/gui-gtk-2.0/pages.c:2030
+#: client/gui-gtk-2.0/pages.c:2111
 msgid "Saved _Games:"
 msgstr "Zapisane _gry:"
 
-#: client/gui-gtk-2.0/pages.c:2057
+#: client/gui-gtk-2.0/pages.c:2138
 msgid "Save _Filename:"
 msgstr "Zapisz w pliku:"
 
@@ -23220,3 +23222,54 @@ msgstr ""
 "Zulusi to wojowniczy szczep, który na początku XVIII w. wyruszył z środkowo-"
 "zachodniej Afryki na podbój południowej części kontynentu, gdzie starł się z "
 "Europejskimi osadnikami."
+
+#: data/scenario/british-isles-85x80-v2.80.sav:3
+msgid "British Isles (medium/classic)"
+msgstr ""
+
+#: data/scenario/british-isles-85x80-v2.80.sav:4
+msgid "Classic-style 85x80 map of the British Isles."
+msgstr ""
+
+#: data/scenario/earth-160x90-v2.sav:3
+msgid "Earth (classic, large)"
+msgstr ""
+
+#: data/scenario/earth-160x90-v2.sav:4
+msgid "Classic-style 160x90 Earth scenario."
+msgstr ""
+
+#: data/scenario/earth-80x50-v2.sav:3
+msgid "Earth (classic, small)"
+msgstr ""
+
+#: data/scenario/earth-80x50-v2.sav:4
+msgid "Classic-style 80x50 Earth scenario."
+msgstr ""
+
+#: data/scenario/hagworld-120x60-v1.2.sav:5
+msgid "Earth (classic, medium)"
+msgstr ""
+
+#: data/scenario/hagworld-120x60-v1.2.sav:6
+msgid "Classic-style 120x60 Earth scenario."
+msgstr ""
+
+#: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
+msgid "Iberian Peninsula (classic/large)"
+msgstr ""
+
+#: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
+msgid ""
+"Large classic-style map of the Iberian Peninsula (modern-day Spain and "
+"Portugal)."
+msgstr ""
+
+#: data/scenario/tutorial.sav:3
+msgid "Tutorial"
+msgstr "Samouczek"
+
+#: data/scenario/tutorial.sav:4
+msgid "Tutorial Scenario."
+msgstr "Scenariusz, za pomocą którego nauczysz się grać."
+
