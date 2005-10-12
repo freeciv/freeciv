@@ -2,3 +2,4 @@
 /Makefile.in
 /tolua
 /.deps
+/libtolua.a

@@ -1,5 +1,5 @@
 /Makefile
 /Makefile.in
-/civclient
 /.deps
 /Freeciv.h
+/libguiclient.a

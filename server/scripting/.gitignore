@@ -3,3 +3,4 @@
 /api_gen.c
 /api_gen.h
 /.deps
+/libscripting.a
