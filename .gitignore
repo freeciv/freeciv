@@ -29,9 +29,7 @@
 /configure
 /stamp-h
 /stamp-h1
-/civclient
 /civ
-/civserver
 /ser
 /.deps
 /*.sav
@@ -39,3 +37,4 @@
 /freeciv_user_database
 /manual*.html
 /freeciv.spec
+/core
