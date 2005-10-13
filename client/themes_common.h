@@ -16,5 +16,5 @@
 
 void init_themes(void);
 const char** get_themes_list(void);
-void load_theme(const char* theme_name);
+bool load_theme(const char* theme_name);
 #endif

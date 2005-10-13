@@ -175,16 +175,18 @@ const char **get_themes_list(void)
 
 /****************************************************************************
   Loads a theme with the given name. First matching directory will be used.
+  If there's no such theme the function returns FALSE.
 ****************************************************************************/
-void load_theme(const char *theme_name)
+bool load_theme(const char *theme_name)
 {
   int i, j;
   for (i = 0; i < num_directories; i++) {
     for (j = 0; j < directories[i].num_themes; j++) {
       if (strcmp(theme_name, directories[i].themes[j]) == 0) {
 	gui_load_theme(directories[i].path, directories[i].themes[j]);
-	return;
+	return TRUE;
       }
     }
   }
+  return FALSE;
 }

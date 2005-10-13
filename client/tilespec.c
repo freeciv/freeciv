@@ -46,12 +46,14 @@
 #include "graphics_g.h"
 #include "gui_main_g.h"
 #include "mapview_g.h"		/* for update_map_canvas_visible */
+#include "themes_g.h"
 
 #include "civclient.h"		/* for get_client_state() */
 #include "climap.h"		/* for client_tile_get_known() */
 #include "control.h"		/* for fill_xxx */
 #include "goto.h"
 #include "options.h"		/* for fill_xxx */
+#include "themes_common.h"
 
 #include "tilespec.h"
 
@@ -384,6 +386,9 @@ struct tileset {
   struct named_sprites sprites;
 
   struct color_system *color_system;
+  
+  int num_prefered_themes;
+  char** prefered_themes;
 };
 
 struct tileset *tileset;
@@ -746,6 +751,16 @@ static void tileset_free_toplevel(struct tileset *t)
     free(t->minimap_intro_filename);
     t->minimap_intro_filename = NULL;
   }
+  
+  if (t->prefered_themes) {
+    int i;
+    for (i = 0; i < t->num_prefered_themes; i++) {
+      free(t->prefered_themes[i]);
+    }
+    free(t->prefered_themes);
+    t->prefered_themes = NULL;
+  }
+  t->num_prefered_themes = 0;
 
   if (t->terrain_hash) {
     while (hash_num_entries(t->terrain_hash) > 0) {
@@ -887,6 +902,7 @@ void tilespec_reread(const char *new_tileset_name)
   }
   sz_strlcpy(default_tileset_name, tileset->name);
   tileset_load_tiles(tileset);
+  tileset_use_prefered_theme(tileset);
 
   /* Step 3: Setup
    *
@@ -1562,6 +1578,12 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   t->color_system = color_system_read(file);
 
   section_file_check_unused(file, fname);
+  
+  t->prefered_themes = secfile_lookup_str_vec(file, &(t->num_prefered_themes),
+                                              "tilespec.prefered_themes");
+  for (i = 0; i < t->num_prefered_themes; i++) {
+    t->prefered_themes[i] = mystrdup(t->prefered_themes[i]);
+  }
   
   section_file_free(file);
   freelog(LOG_VERBOSE, "finished reading %s", fname);
@@ -4646,4 +4668,22 @@ struct sprite *get_basic_fog_sprite(const struct tileset *t)
 struct color_system *get_color_system(const struct tileset *t)
 {
   return t->color_system;
+}
+
+/****************************************************************************
+  Loads prefered theme if there's any.
+****************************************************************************/
+void tileset_use_prefered_theme(const struct tileset *t)
+{
+  int i;
+  for (i = 0; i < t->num_prefered_themes; i++) {
+    freelog(LOG_DEBUG, "trying theme %s", t->prefered_themes[i]);
+    if (load_theme(t->prefered_themes[i])) {
+      return;
+    }
+  }
+  freelog(LOG_VERBOSE, "The tileset doesn't specify prefered themes or "
+                       "none of prefered themes can be used. Using system "
+		       "default");
+  gui_clear_theme();
 }

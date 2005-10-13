@@ -1212,6 +1212,8 @@ void ui_main(int argc, char **argv)
   init_mapcanvas_and_overview();
 
   set_client_state(CLIENT_PRE_GAME_STATE);
+  
+  tileset_use_prefered_theme(tileset);
 
   gtk_main();
 
