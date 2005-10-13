@@ -106,6 +106,24 @@ citizens_graphic_alt = "generic"
 ; No reqs
 replaced_by = "Renaissance"
 
+[citystyle_babylonian]
+name        = _("Babylonian")
+graphic     = "city.babylonian"
+graphic_alt = "city.classical"
+citizens_graphic     = "ancient"
+citizens_graphic_alt = "generic"
+; No reqs
+replaced_by = "Renaissance"
+
+[citystyle_celtic]
+name        = _("Celtic")
+graphic     = "city.celtic"
+graphic_alt = "city.european"
+citizens_graphic     = "ancient"
+citizens_graphic_alt = "generic"
+; No reqs
+replaced_by = "Renaissance"
+
 [citystyle_renaissance]
 name        = _("Renaissance")
 graphic     = "city.industrial"

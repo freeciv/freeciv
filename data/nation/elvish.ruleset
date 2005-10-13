@@ -29,7 +29,8 @@ leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female",
    "Male", "Male", "Male", "Male"
 flag="elves"
 flag_alt = "-"
-city_style = "European"
+city_style = "Babylonian"
+
 ; Melian was the Queen of Doriath
 ruler_titles = { "government",      "male_title",      "female_title"
             "Monarchy", _("High King of the Noldor"), _("Queen of Doriath")

@@ -15,7 +15,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="srilanka"
 flag_alt = "-"
-city_style = "Tropical"
+city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Republic",        _("Governor"),     _("Governor")

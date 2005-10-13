@@ -17,7 +17,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
 flag="philippines"
 flag_alt = "-"
-city_style = "Asian"
+city_style = "Tropical"
 
 init_techs=""
 init_buildings=""

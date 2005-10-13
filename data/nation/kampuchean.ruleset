@@ -15,7 +15,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="kampuchea"
 flag_alt = "-"
-city_style = "European"
+city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Communism",        _("Brother"),         _("Sister")

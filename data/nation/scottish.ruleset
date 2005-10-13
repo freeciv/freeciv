@@ -18,7 +18,7 @@ leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male", "Female"
 flag="scotland"
 flag_alt = "united_kingdom"
-city_style = "European"
+city_style = "Celtic"
 
 ruler_titles = { "government",  "male_title",         "female_title"
                  "Republic",    _("Speaker"),         _("Speaker")

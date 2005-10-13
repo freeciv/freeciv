@@ -15,7 +15,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Female", "Male", "Male"
 flag = "assyria"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Babylonian"
 
 ruler_titles = { "government",	"male_title",	"female_title"
 		 "Monarchy",	_("Malka"),	_("Malikta")

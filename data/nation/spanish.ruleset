@@ -23,7 +23,8 @@ leader_sex="Male", "Male", "Male", "Male", "Female",
            "Male", "Male", "Male", "Male", "Male"
 flag="spain"
 flag_alt = "-"
-city_style = "European"
+city_style = "Classical"
+
 ruler_titles = { "government",     "male_title",        "female_title"
                  "Despotism",      _("Caudillo"),       _("Caudilla")
                  "Fundamentalism", _("Cardinal"),       _("Cardinal")

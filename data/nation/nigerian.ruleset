@@ -12,7 +12,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="nigeria"
 flag_alt = "-"
-city_style = "European"
+city_style = "Tropical"
 
 init_techs=""
 init_buildings=""

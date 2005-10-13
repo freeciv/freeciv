@@ -16,7 +16,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="peru"
 flag_alt = "-"
-city_style = "Tropical"
+city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Warlord"),      _("Warlord")

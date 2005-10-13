@@ -21,7 +21,7 @@ leader_sex="Male", "Male", "Male", "Male",
 	   "Male", "Male", "Male", "Male", "Female", "Male"
 flag="portugal"
 flag_alt = "-"
-city_style = "European"
+city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")

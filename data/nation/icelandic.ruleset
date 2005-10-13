@@ -16,7 +16,8 @@ leader_sex="Male", "Male", "Male", "Male"
 
 flag="iceland"
 flag_alt = "norway"
-city_style = "Classical"
+city_style = "European"
+
 ruler_titles = { "government",      "male_title",       "female_title"
        "Democracy",   _("President"),      _("President")
                }

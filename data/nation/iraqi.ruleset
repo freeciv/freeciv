@@ -14,7 +14,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag = "iraq"
 flag_alt = "iraq_old"
-city_style = "European"
+city_style = "Babylonian"
 
 ruler_titles = { "government",  "male_title",      "female_title"
 	         "Communism",   _("Dictator"),     _("Dictator")

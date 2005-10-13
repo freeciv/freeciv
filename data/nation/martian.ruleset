@@ -13,7 +13,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="mars"
 flag_alt = "-"
-city_style = "European"
+city_style = "Babylonian"
 
 init_techs=""
 init_buildings=""

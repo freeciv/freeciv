@@ -13,7 +13,7 @@ leader=
 leader_sex="Male", "Male", "Male"
 flag="wales"
 flag_alt = "united_kingdom"
-city_style = "European"
+city_style = "Celtic"
 
 ;names = "Yr Ymerodreath Gymreig"          "empire"            (depotism)
 ;      = "Y Twysysogaeth Cymru"            "principality"      (monarchy)

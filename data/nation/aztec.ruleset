@@ -16,7 +16,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="mexico"
 flag_alt = "-"
-city_style = "Tropical"
+city_style = "Babylonian"
 
 init_techs=""
 init_buildings=""

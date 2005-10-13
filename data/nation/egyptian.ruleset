@@ -21,7 +21,7 @@ leader_sex="Male", "Female", "Male", "Male", "Male",
         "Female", "Female", "Male", "Male"
 flag="egypt"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Pharaoh"),       _("Pharaoh")

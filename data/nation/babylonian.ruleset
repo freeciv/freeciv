@@ -14,7 +14,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag = "iraq_old"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Babylonian"
 
 init_techs=""
 init_buildings=""

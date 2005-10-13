@@ -51,7 +51,8 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
            "Female"
 flag="usa"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
+
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Republic",        _("Speaker"),      _("Speaker")
                  "Fundamentalism",  _("Reverend"),     _("Reverend")

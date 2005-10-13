@@ -60,7 +60,7 @@ leader_sex = "Male", "Male", "Female",
  "Male", "Male"
 flag="ireland"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Chieftain"),    _("Chieftain")

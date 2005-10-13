@@ -16,7 +16,8 @@ leader_sex="Male", "Male", "Male", "Male",
            "Female", "Male"
 flag="galicia"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
+
 ruler_titles = { "government",      "male_title",          "female_title"
                  "Democracy",       _("Primeiro Ministro"),  _("Primeira Ministra")
                  "Despotism",       _("Dictador"),         _("Dictadora")

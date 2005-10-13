@@ -14,7 +14,8 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="canada"
 flag_alt = "united_kingdom"
-city_style = "European"
+city_style = "Celtic"
+
 ruler_titles = { "government",      "male_title",         "female_title"
                  "Democracy",       _("Prime Minister"),  _("Prime Minister")
                }

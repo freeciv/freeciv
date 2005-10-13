@@ -22,7 +22,7 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male"
 flag="cheyenne"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Chief"),        _("Chief")

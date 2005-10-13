@@ -20,7 +20,7 @@ leader_sex="Male", "Male",
   "Female", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="algeria"
 flag_alt = "-"
-city_style = "European"
+city_style = "Classical"
 
 init_techs=""
 init_buildings=""

@@ -19,7 +19,8 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
 flag="byzantium"
 flag_alt = "greek"
-city_style = "European"
+city_style = "Classical"
+
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Imperator"), _("Imperatrix")
 		 "Fundamentalism",  _("Patriarch"), _("Patriarch")

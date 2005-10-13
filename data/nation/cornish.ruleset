@@ -14,7 +14,7 @@ leader =
 leader_sex = "Male", "Male", "Male", "Male", "Male"
 flag = "cornwall"
 flag_alt = "england"
-city_style = "European"
+city_style = "Celtic"
 
 init_techs=""
 init_buildings=""

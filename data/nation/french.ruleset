@@ -17,7 +17,8 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="france"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
+
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Premier"),      _("Premier")
                  "Fundamentalism",  _("Archbishop"),   _("Archbishop")

@@ -14,7 +14,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="taiwan"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Asian"
 
 init_techs=""
 init_buildings=""

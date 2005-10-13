@@ -15,7 +15,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="indonesia"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Tropical"
 
 init_techs=""
 init_buildings=""

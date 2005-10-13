@@ -22,7 +22,8 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="afghanistan"
 flag_alt = "-"
-city_style = "European"
+city_style = "Classical"
+
 ruler_titles = { "government",      "male_title",       "female_title"
                  "Monarchy",        _("Emir"),          _("Emir")
                  "Communism", _("General Secretary"), _("General Secretary")

@@ -17,7 +17,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="sudan"
 flag_alt = "-"
-city_style = "European"
+city_style = "Classical"
 
 init_techs=""
 init_buildings=""

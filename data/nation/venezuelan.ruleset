@@ -27,7 +27,8 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
 
 flag="venezuela"
 flag_alt = "-"
-city_style = "European"
+city_style = "Tropical"
+
 ruler_titles = { "government",     "male_title",        "female_title"
                  "Despotism",      _("Governador"), _("Governadora")
                  "Fundamentalism", _("Terrateniente"), _("Terrateniente")

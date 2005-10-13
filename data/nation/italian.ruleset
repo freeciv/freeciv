@@ -18,7 +18,7 @@ leader_sex = "Male", "Male", "Male",
              "Male", "Male"
 flag = "italy"
 flag_alt = "-"
-city_style = "European"
+city_style = "Classical"
 
 init_techs=""
 init_buildings=""

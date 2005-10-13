@@ -15,7 +15,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="belgium"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
 
 init_techs=""
 init_buildings=""

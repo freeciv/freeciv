@@ -20,7 +20,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
 flag="iroquois"
 flag_alt = "-"
-city_style = "European"
+city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Chief"),       _("Chief")

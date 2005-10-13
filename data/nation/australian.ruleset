@@ -13,7 +13,7 @@ leader =
 leader_sex = "Male", "Female", "Male", "Female"
 flag="australia"
 flag_alt = "-"
-city_style = "European"
+city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")

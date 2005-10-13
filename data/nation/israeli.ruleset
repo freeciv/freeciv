@@ -15,7 +15,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="israel"
 flag_alt = "-"
-city_style = "European"
+city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
