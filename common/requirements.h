@@ -31,6 +31,7 @@ enum req_source_type {
   REQ_NATION,
   REQ_UNITTYPE,
   REQ_UNITFLAG,
+  REQ_UNITCLASS,
   REQ_OUTPUTTYPE,
   REQ_SPECIALIST,
   REQ_MINSIZE, /* Minimum size: at city range means city size */
@@ -62,6 +63,7 @@ struct req_source {
     struct nation_type *nation;         /* source nation type */
     struct unit_type *unittype;         /* source unittype */
     enum unit_flag_id unitflag;         /* source unit flag */
+    struct unit_class *unitclass;       /* source unit class */
     Output_type_id outputtype;          /* source output type */
     Specialist_type_id specialist;      /* specialist type */
     int minsize;                        /* source minsize type */
@@ -117,7 +119,7 @@ bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
 		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
-		   const struct unit *target_unit,
+		   const struct unit_type *target_unittype,
 		   const struct output_type *target_output,
 		   const struct specialist *target_specialist,
 		   const struct requirement *req);
@@ -125,7 +127,7 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
 		     const struct impr_type *target_building,
 		     const struct tile *target_tile,
-		     const struct unit *target_unit,
+		     const struct unit_type *target_unittype,
 		     const struct output_type *target_output,
 		     const struct specialist *target_specialist,
 		     const struct requirement_vector *reqs);

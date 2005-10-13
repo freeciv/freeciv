@@ -545,14 +545,14 @@ bool is_effect_disabled(const struct player *target_player,
 		        const struct city *target_city,
 		        const struct impr_type *target_building,
 		        const struct tile *target_tile,
-			const struct unit *target_unit,
+			const struct unit_type *target_unittype,
 			const struct output_type *target_output,
 			const struct specialist *target_specialist,
 		        const struct effect *peffect)
 {
   requirement_list_iterate(peffect->nreqs, preq) {
     if (is_req_active(target_player, target_city, target_building,
-		      target_tile, target_unit, target_output,
+		      target_tile, target_unittype, target_output,
 		      target_specialist,
 		      preq)) {
       return TRUE;
@@ -570,14 +570,14 @@ static bool is_effect_enabled(const struct player *target_player,
 			      const struct city *target_city,
 			      const struct impr_type *target_building,
 			      const struct tile *target_tile,
-			      const struct unit *target_unit,
+			      const struct unit_type *target_unittype,
 			      const struct output_type *target_output,
 			      const struct specialist *target_specialist,
 			      const struct effect *peffect)
 {
   requirement_list_iterate(peffect->reqs, preq) {
     if (!is_req_active(target_player, target_city, target_building,
-		       target_tile, target_unit, target_output,
+		       target_tile, target_unittype, target_output,
 		       target_specialist,
 		       preq)) {
       return FALSE;
@@ -599,17 +599,17 @@ static bool is_effect_active(const struct player *target_player,
 			     const struct city *target_city,
 			     const struct impr_type *target_building,
 			     const struct tile *target_tile,
-			     const struct unit *target_unit,
+			     const struct unit_type *target_unittype,
 			     const struct output_type *target_output,
 			     const struct specialist *target_specialist,
 			     const struct effect *peffect)
 {
   return is_effect_enabled(target_player, target_city, target_building,
-			   target_tile, target_unit, target_output,
+			   target_tile, target_unittype, target_output,
 			   target_specialist,
 			   peffect)
     && !is_effect_disabled(target_player, target_city, target_building,
-			   target_tile, target_unit, target_output,
+			   target_tile, target_unittype, target_output,
 			   target_specialist,
 			   peffect);
 }
@@ -630,13 +630,13 @@ bool is_effect_useful(const struct player *target_player,
 		      const struct city *target_city,
 		      const struct impr_type *target_building,
 		      const struct tile *target_tile,
-		      const struct unit *target_unit,
+		      const struct unit_type *target_unittype,
 		      const struct output_type *target_output,
 		      const struct specialist *target_specialist,
 		      Impr_type_id source, const struct effect *peffect)
 {
   if (is_effect_disabled(target_player, target_city, target_building,
-			 target_tile, target_unit, target_output,
+			 target_tile, target_unittype, target_output,
 			 target_specialist,
 			 peffect)) {
     return FALSE;
@@ -647,7 +647,7 @@ bool is_effect_useful(const struct player *target_player,
       continue;
     }
     if (!is_req_active(target_player, target_city, target_building,
-		       target_tile, target_unit, target_output,
+		       target_tile, target_unittype, target_output,
 		       target_specialist,
 		       preq)) {
       return FALSE;
@@ -706,7 +706,7 @@ static int get_target_bonus_effects(struct effect_list *plist,
 				    const struct city *target_city,
 				    const struct impr_type *target_building,
 				    const struct tile *target_tile,
-				    const struct unit *target_unit,
+				    const struct unit_type *target_unittype,
 				    const struct output_type *target_output,
 				    const struct specialist *target_specialist,
 				    enum effect_type effect_type)
@@ -717,7 +717,7 @@ static int get_target_bonus_effects(struct effect_list *plist,
   effect_list_iterate(get_effects(effect_type), peffect) {
     /* For each effect, see if it is active. */
     if (is_effect_active(target_player, target_city, target_building,
-			 target_tile, target_unit, target_output,
+			 target_tile, target_unittype, target_output,
 			 target_specialist,
 			 peffect)) {
       /* And if so add on the value. */
@@ -837,7 +837,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
   assert(punit != NULL);
   return get_target_bonus_effects(NULL,
 				  unit_owner(punit), NULL, NULL,
-				  NULL, punit, NULL, NULL,
+				  NULL, punit->type, NULL, NULL,
 				  effect_type);
 }
 

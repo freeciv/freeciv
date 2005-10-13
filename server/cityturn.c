@@ -793,6 +793,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	      break;
 	    case REQ_UNITTYPE:
 	    case REQ_UNITFLAG:
+	    case REQ_UNITCLASS:
 	    case REQ_OUTPUTTYPE:
 	    case REQ_SPECIALIST:
 	      /* Will only happen with a bogus ruleset. */

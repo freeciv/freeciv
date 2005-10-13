@@ -38,6 +38,7 @@ static const char *req_source_type_names[] = {
   "Nation",
   "UnitType",
   "UnitFlag",
+  "UnitClass",
   "OutputType",
   "Specialist",
   "MinSize"
@@ -150,6 +151,12 @@ struct req_source req_source_from_str(const char *type, const char *value)
       return source;
     }
     break;
+  case REQ_UNITCLASS:
+    source.value.unitclass = unit_class_from_str(value);
+    if (source.value.unitclass) {
+      return source;
+    }
+    break;
   case REQ_OUTPUTTYPE:
     source.value.outputtype = find_output_type_by_identifier(value);
     if (source.value.outputtype != O_LAST) {
@@ -213,6 +220,9 @@ struct req_source req_source_from_values(int type, int value)
   case REQ_UNITFLAG:
     source.value.unitflag = value;
     return source;
+  case REQ_UNITCLASS:
+    source.value.unitclass = unit_class_get_by_id(value);
+    return source;
   case REQ_OUTPUTTYPE:
     source.value.outputtype = value;
     return source;
@@ -269,6 +279,9 @@ void req_source_get_values(const struct req_source *source,
   case REQ_UNITFLAG:
     *value = source->value.unitflag;
     return;
+  case REQ_UNITCLASS:
+    *value = source->value.unitclass->id;
+    return;
   case REQ_OUTPUTTYPE:
     *value = source->value.outputtype;
     return;
@@ -315,6 +328,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case REQ_TERRAIN:
     case REQ_UNITTYPE:
     case REQ_UNITFLAG:
+    case REQ_UNITCLASS:
     case REQ_OUTPUTTYPE:
     case REQ_SPECIALIST:
       req.range = REQ_RANGE_LOCAL;
@@ -362,6 +376,7 @@ struct requirement req_from_str(const char *type, const char *range,
     break;
   case REQ_UNITTYPE:
   case REQ_UNITFLAG:
+  case REQ_UNITCLASS:
   case REQ_OUTPUTTYPE:
   case REQ_SPECIALIST:
     invalid = (req.range != REQ_RANGE_LOCAL);
@@ -712,26 +727,37 @@ static bool is_nation_in_range(const struct player *target_player,
 /****************************************************************************
   Is there a unit of the given type within range of the target?
 ****************************************************************************/
-static bool is_unittype_in_range(const struct unit *target_unit,
+static bool is_unittype_in_range(const struct unit_type *target_unittype,
 				 enum req_range range, bool survives,
 				 struct unit_type *punittype)
 {
   return (range == REQ_RANGE_LOCAL
-	  && target_unit
-	  && punittype
-	  && target_unit->type == punittype);
+	  && target_unittype
+	  && target_unittype == punittype);
 }
 
 /****************************************************************************
   Is there a unit with the given flag within range of the target?
 ****************************************************************************/
-static bool is_unitflag_in_range(const struct unit *target_unit,
+static bool is_unitflag_in_range(const struct unit_type *target_unittype,
 				 enum req_range range, bool survives,
 				 enum unit_flag_id unitflag)
 {
   return (range == REQ_RANGE_LOCAL
-	  && target_unit
-	  && unit_flag(target_unit, unitflag));
+	  && target_unittype
+	  && unit_type_flag(target_unittype, unitflag));
+}
+
+/****************************************************************************
+  Is there a unit with the given flag within range of the target?
+****************************************************************************/
+static bool is_unitclass_in_range(const struct unit_type *target_unittype,
+				  enum req_range range, bool survives,
+				  struct unit_class *pclass)
+{
+  return (range == REQ_RANGE_LOCAL
+	  && target_unittype
+	  && target_unittype->class == pclass);
 }
 
 /****************************************************************************
@@ -749,7 +775,7 @@ bool is_req_active(const struct player *target_player,
 		   const struct city *target_city,
 		   const struct impr_type *target_building,
 		   const struct tile *target_tile,
-		   const struct unit *target_unit,
+		   const struct unit_type *target_unittype,
 		   const struct output_type *target_output,
 		   const struct specialist *target_specialist,
 		   const struct requirement *req)
@@ -798,14 +824,19 @@ bool is_req_active(const struct player *target_player,
 			      req->source.value.nation);
     break;
   case REQ_UNITTYPE:
-    eval = is_unittype_in_range(target_unit,
+    eval = is_unittype_in_range(target_unittype,
 				req->range, req->survives,
 				req->source.value.unittype);
     break;
   case REQ_UNITFLAG:
-    eval = is_unitflag_in_range(target_unit,
+    eval = is_unitflag_in_range(target_unittype,
 				req->range, req->survives,
 				req->source.value.unitflag);
+    break;
+  case REQ_UNITCLASS:
+    eval = is_unitclass_in_range(target_unittype,
+				 req->range, req->survives,
+				 req->source.value.unitclass);
     break;
   case REQ_OUTPUTTYPE:
     eval = (target_output
@@ -847,14 +878,14 @@ bool are_reqs_active(const struct player *target_player,
 		     const struct city *target_city,
 		     const struct impr_type *target_building,
 		     const struct tile *target_tile,
-		     const struct unit *target_unit,
+		     const struct unit_type *target_unittype,
 		     const struct output_type *target_output,
 		     const struct specialist *target_specialist,
 		     const struct requirement_vector *reqs)
 {
   requirement_vector_iterate(reqs, preq) {
     if (!is_req_active(target_player, target_city, target_building,
-		       target_tile, target_unit, target_output,
+		       target_tile, target_unittype, target_output,
 		       target_specialist,
 		       preq)) {
       return FALSE;
@@ -887,6 +918,7 @@ bool is_req_unchanging(const struct requirement *req)
   case REQ_MINSIZE:
   case REQ_UNITTYPE: /* Not sure about this one */
   case REQ_UNITFLAG: /* Not sure about this one */
+  case REQ_UNITCLASS: /* Not sure about this one */
     return FALSE;
   case REQ_SPECIAL:
   case REQ_TERRAIN:
@@ -931,6 +963,8 @@ bool are_req_sources_equal(const struct req_source *psource1,
     return psource1->value.unittype == psource2->value.unittype;
   case REQ_UNITFLAG:
     return psource1->value.unitflag == psource2->value.unitflag;
+  case REQ_UNITCLASS:
+    return psource1->value.unitclass == psource2->value.unitclass;
   case REQ_OUTPUTTYPE:
     return psource1->value.outputtype == psource2->value.outputtype;
   case REQ_SPECIALIST:
@@ -980,6 +1014,10 @@ char *get_req_source_text(const struct req_source *psource,
   case REQ_UNITFLAG:
     cat_snprintf(buf, bufsz, _("%s units"),
 		 get_unit_flag_name(psource->value.unitflag));
+    break;
+  case REQ_UNITCLASS:
+    cat_snprintf(buf, bufsz, _("%s units"),
+		 unit_class_name(psource->value.unitclass));
     break;
   case REQ_OUTPUTTYPE:
     mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz);

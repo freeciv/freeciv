@@ -192,6 +192,10 @@ static void insert_requirement(struct requirement *req,
     cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
                 get_unit_flag_name(req->source.value.unitflag));
     return;
+  case REQ_UNITCLASS:
+    cat_snprintf(buf, bufsz, _("Only applies to %s units.\n\n"),
+		 unit_class_name(req->source.value.unitclass));
+    return;
   case REQ_OUTPUTTYPE:
     cat_snprintf(buf, bufsz, _("Applies only to %s.\n\n"),
 		 get_output_name(req->source.value.outputtype));

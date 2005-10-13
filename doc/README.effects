@@ -183,13 +183,13 @@ cumulative.  For many effects this is undesirable.
 	    (if unspecified, 0 (doesn't survive) is assumed)
 .req_type  = The type of the requirement; one of:
              "None" (default), "Tech", "Gov", "Building", "Special",
-             "Terrain", "UnitType", "UnitFlag", "Nation", "OutputType",
-             "MinSize"
+             "Terrain", "UnitType", "UnitFlag", "UnitClass", 
+             "Nation", "OutputType", "MinSize"
 .req       = The requirement.  The effect will not be active unless this
              requirement is met.  This is a string containing the name of
              the technology, government, building, tile special, tile
-             terrain, unit type, unit flag, nation, or output type that is
-             required. For MinSize it is the
+             terrain, unit type, unit flag, unit class, nation,
+             or output type that is required. For MinSize it is the
              minimum (city) size at which the requirement is met.  The
              requirement applies to the target of the effect (not
              the source).  Note that a requirement applied at local range
