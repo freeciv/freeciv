@@ -159,8 +159,6 @@ void game_remove_city(struct city *pcity)
 	   get_nation_name(city_owner(pcity)->nation), pcity->tile->x,
 	  pcity->tile->y);
 
-  assert(pcity->server.vision_radius_sq < 0); /* Otherwise vision fails. */
-
   city_map_checked_iterate(pcity->tile, x, y, map_tile) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
   } city_map_checked_iterate_end;
