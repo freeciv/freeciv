@@ -42,6 +42,9 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
 /* Changing this requires updating CITY_TILES and network capabilities. */
 #define CITY_MAP_RADIUS 2
 
+/* The city includes all tiles dx^2 + dy^2 <= CITY_MAP_RADIUS_SQ */
+#define CITY_MAP_RADIUS_SQ (CITY_MAP_RADIUS * CITY_MAP_RADIUS + 1)
+
 /* Diameter of the workable city area.  Some places harcdode this number. */
 #define CITY_MAP_SIZE (CITY_MAP_RADIUS * 2 + 1) 
 
@@ -290,6 +293,9 @@ struct city {
     /* If set, workers need to be arranged when the city is unfrozen.  Only
      * set inside auto_arrange_workers. */
     bool needs_arrange;
+
+    /* The vision radius that is currently unfogged. */
+    int vision_radius_sq;
   } server;
 
   int turn_founded;		/* In which turn was the city founded? */

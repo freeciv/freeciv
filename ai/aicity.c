@@ -347,6 +347,13 @@ static void adjust_building_want_by_effects(struct city *pcity,
       case EFT_NO_DIPLOMACY:
 	  break;
 
+      case EFT_CITY_VISION_RADIUS_SQ:
+	/* Wild guess.  "Amount" is the number of tiles (on average) that
+	 * will be revealed by the effect.  Note that with an omniscient
+	 * AI this effect is actually not useful at all. */
+	v += c * amount;
+	break;
+
       case EFT_SLOW_DOWN_TIMELINE:
 	/* AI doesn't care about these. */
 	break;

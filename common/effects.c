@@ -95,6 +95,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Land_Regen",
   "Sea_Regen",
   "Air_Regen",
+  "City_Vision_Radius_Sq",
   "Land_Defend",
   "Sea_Defend",
   "Air_Defend",

@@ -322,16 +322,26 @@ extern struct terrain_misc terrain_control;
  * positions will be automatically discarded. 
  */
 #define circle_iterate(center_tile, sq_radius, tile_itr)		    \
-{                                                                           \
-  int _sq_radius = (sq_radius);						    \
-  int _cr_radius = (int)sqrt((double)_sq_radius);			    \
-  square_dxy_iterate(center_tile, _cr_radius, tile_itr, _dx, _dy) {	    \
-    if (map_vector_to_sq_distance(_dx, _dy) <= _sq_radius) {
+  circle_dxyr_iterate(center_tile, sq_radius, tile_itr, _dx, _dy, _dr)
 
 #define circle_iterate_end                                                  \
-    }                                                                       \
-  } square_dxy_iterate_end;                                                 \
-}									       
+  circle_dxyr_iterate_end
+
+#define circle_dxyr_iterate(center_tile, sq_radius,			    \
+			    tile_itr, dx, dy, dr)			    \
+{									    \
+  const int _sq_radius = (sq_radius);					    \
+  const int _cr_radius = (int)sqrt((double)MAX(_sq_radius, 0));		    \
+									    \
+  square_dxy_iterate(center_tile, _cr_radius, tile_itr, dx, dy) {	    \
+    const int dr = map_vector_to_sq_distance(dx, dy);			    \
+									    \
+    if (dr <= _sq_radius) {
+
+#define circle_dxyr_iterate_end						    \
+    }									    \
+  } square_dxy_iterate_end;						    \
+}
 
 /* Iterate through all map positions adjacent to the given center map
  * position, with normalization.  The order of positions is unspecified. */

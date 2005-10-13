@@ -2134,7 +2134,7 @@ static void player_load(struct player *plr, int plrno,
     }
     
     /* adding the cities contribution to fog-of-war */
-    map_unfog_pseudo_city_area(&game.players[plrno], pcity->tile);
+    map_unfog_city_area(pcity);
 
     pcity->units_supported = unit_list_new();
 

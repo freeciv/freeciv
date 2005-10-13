@@ -795,7 +795,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   } built_impr_iterate_end;
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
-  map_unfog_pseudo_city_area(ptaker, pcity->tile);
+  map_refog_circle(ptaker, pcity->tile,
+		   -1, pcity->server.vision_radius_sq, TRUE);
 
   sz_strlcpy(old_city_name, pcity->name);
   if (game.info.allowed_city_names == 1
@@ -903,7 +904,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     update_tile_knowledge(pcity->tile);
   }
 
-  map_fog_pseudo_city_area(pgiver, pcity->tile);
+  map_refog_circle(pgiver, pcity->tile,
+		   pcity->server.vision_radius_sq, -1, TRUE);
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
@@ -965,7 +967,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   }
 
   /* Before arranging workers to show unknown land */
-  map_unfog_pseudo_city_area(pplayer, ptile);
+  map_unfog_city_area(pcity);
 
   tile_set_city(ptile, pcity);
 
@@ -1054,6 +1056,7 @@ void remove_city(struct city *pcity)
   struct tile *ptile = pcity->tile;
   bv_imprs had_small_wonders;
   char *city_name = mystrdup(pcity->name);
+  int old_vision_range;
 
   BV_CLR_ALL(had_small_wonders);
   built_impr_iterate(pcity, i) {
@@ -1139,6 +1142,8 @@ void remove_city(struct city *pcity)
      alive in the client. As the number of removed cities is small the leak is
      acceptable. */
 
+  old_vision_range = pcity->server.vision_radius_sq;
+  pcity->server.vision_radius_sq = -1;
   game_remove_city(pcity);
   map_update_borders_city_destroyed(ptile);
 
@@ -1148,7 +1153,7 @@ void remove_city(struct city *pcity)
     }
   } players_iterate_end;
 
-  map_fog_pseudo_city_area(pplayer, ptile);
+  map_refog_circle(pplayer, ptile, old_vision_range, -1, TRUE);
 
   /* Update available tiles in adjacent cities. */
   map_city_radius_iterate(ptile, tile1) {
@@ -1801,6 +1806,10 @@ void building_lost(struct city *pcity, Impr_type_id id)
      * the spaceship is lost. */
     spaceship_lost(owner);
   }
+
+  /* Re-update the city's visible area.  This updates fog if the vision
+   * range increases or decreases. */
+  map_unfog_city_area(pcity);
 }
 
 /**************************************************************************

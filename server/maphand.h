@@ -71,8 +71,8 @@ void map_fog_city_area(struct city *pcity);
 void map_unfog_city_area(struct city *pcity);
 void remove_unit_sight_points(struct unit *punit);
 void show_area(struct player *pplayer,struct tile *ptile, int len);
-void map_unfog_pseudo_city_area(struct player *pplayer, struct tile *ptile);
-void map_fog_pseudo_city_area(struct player *pplayer, struct tile *ptile);
+void map_refog_circle(struct player *pplayer, struct tile *ptile,
+		      int old_radius_sq, int new_radius_sq, bool pseudo);
 
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer);
 void map_change_seen(struct tile *ptile, struct player *pplayer, int change);

@@ -47,6 +47,12 @@ reqs    =
     }
 
 
+; Base vision range - radius of vision is sqrt(5) = 2.24
+[effect_city_vision]
+name    = "City_Vision_Radius_Sq"
+value   = 5
+
+
 ; Nuclear power gives +1 moves to sea units
 [effect_nuclear_powered_boats]
 name	= "Sea_Move"

@@ -83,7 +83,7 @@ bool is_valid_city_coords(const int city_x, const int city_y)
    * This diagram is for rectangular topologies only.  But this is taken
    * care of inside map_vector_to_sq_distance so it works for all topologies.
    */
-  return (CITY_MAP_RADIUS * CITY_MAP_RADIUS + 1 >= dist);
+  return dist <= CITY_MAP_RADIUS_SQ;
 }
 
 /**************************************************************************
@@ -2461,6 +2461,7 @@ struct city *create_city_virtual(struct player *pplayer,
 
   pcity->server.workers_frozen = 0;
   pcity->server.needs_arrange = FALSE;
+  pcity->server.vision_radius_sq = -1; /* No vision. */
 
   pcity->ai.founder_want = 0; /* calculating this is really expensive */
   pcity->ai.next_founder_want_recalc = 0; /* turns to recalc found_want */

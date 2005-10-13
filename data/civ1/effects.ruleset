@@ -47,6 +47,12 @@ reqs    =
     }
 
 
+; Base vision range - radius of vision is sqrt(5) = 2.24
+[effect_city_vision]
+name    = "City_Vision_Radius_Sq"
+value   = 5
+
+
 [effect_civil_war_0]
 name    = "Civil_War_Chance"
 value   = 90

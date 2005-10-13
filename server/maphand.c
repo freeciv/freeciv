@@ -732,29 +732,40 @@ void send_map_info(struct conn_list *dest)
 }
 
 /**************************************************************************
-...
+  Changes the vision range of the city.  The new range is given in
+  the radius_sq.
 **************************************************************************/
-void map_fog_city_area(struct city *pcity)
+static void map_refog_city_area(struct city *pcity, int new_radius_sq)
 {
-  if (!pcity) {
-    freelog(LOG_ERROR, "Attempting to fog non-existent city");
-    return;
+  if (pcity) {
+    map_refog_circle(city_owner(pcity), pcity->tile,
+		     pcity->server.vision_radius_sq, new_radius_sq, TRUE);
+    pcity->server.vision_radius_sq = new_radius_sq;
+  } else {
+    freelog(LOG_ERROR, "Attempting to change fog for non-existent city");
   }
-
-  map_fog_pseudo_city_area(city_owner(pcity), pcity->tile);
 }
 
 /**************************************************************************
-...
+  Fogs the area visible by the city.  Unlike other unfog functions this
+  one may be called multiple times in a row without any penalty.  Call it
+  before destroying the city (or go straight to the source and use
+  map_refog_circle by hand).
+**************************************************************************/
+void map_fog_city_area(struct city *pcity)
+{
+  map_refog_city_area(pcity, -1);
+}
+
+/**************************************************************************
+  Unfogs the area visible by the city.  Unlike other unfog functions this
+  one may be called multiple times in a row without any penalty.  Basically
+  it should be called any time the city's vision range may have changed.
 **************************************************************************/
 void map_unfog_city_area(struct city *pcity)
 {
-  if (!pcity) {
-    freelog(LOG_ERROR, "Attempting to unfog non-existent city");
-    return;
-  }
-
-  map_unfog_pseudo_city_area(city_owner(pcity), pcity->tile);
+  map_refog_city_area(pcity,
+		      get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ));
 }
 
 /**************************************************************************
@@ -774,37 +785,33 @@ static void shared_vision_change_seen(struct tile *ptile, struct player *pplayer
 /**************************************************************************
 There doesn't have to be a city.
 **************************************************************************/
-void map_unfog_pseudo_city_area(struct player *pplayer, struct tile *ptile)
+void map_refog_circle(struct player *pplayer, struct tile *ptile,
+		      int old_radius_sq, int new_radius_sq, bool pseudo)
 {
-  freelog(LOG_DEBUG, "Unfogging city area at %i,%i", TILE_XY(ptile));
+  if (old_radius_sq != new_radius_sq) {
+    int max_radius = MAX(old_radius_sq, new_radius_sq);
 
-  buffer_shared_vision(pplayer);
-  map_city_radius_iterate(ptile, tile1) {
-    if (map_is_known(tile1, pplayer)) {
-      unfog_area(pplayer, tile1, 0);
-    } else {
-      increment_pending_seen(pplayer, tile1);
-    }
-  } map_city_radius_iterate_end;
-  unbuffer_shared_vision(pplayer);
-}
+    freelog(LOG_DEBUG, "Refogging circle at %d,%d from %d to %d",
+	    TILE_XY(ptile), old_radius_sq, new_radius_sq);
 
-/**************************************************************************
-There doesn't have to be a city.
-**************************************************************************/
-void map_fog_pseudo_city_area(struct player *pplayer, struct tile *ptile)
-{
-  freelog(LOG_DEBUG, "Fogging city area at %i,%i", TILE_XY(ptile));
-
-  buffer_shared_vision(pplayer);
-  map_city_radius_iterate(ptile, tile1) {
-    if (map_is_known(tile1, pplayer)) {
-      fog_area(pplayer, tile1, 0);
-    } else {
-      decrement_pending_seen(pplayer, tile1);
-    }
-  } map_city_radius_iterate_end;
-  unbuffer_shared_vision(pplayer);
+    buffer_shared_vision(pplayer);
+    circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
+      if (dr > old_radius_sq && dr <= new_radius_sq) {
+	if (!pseudo || map_is_known(tile1, pplayer)) {
+	  unfog_area(pplayer, tile1, 0);
+	} else {
+	  increment_pending_seen(pplayer, tile1);
+	}
+      } else if (dr > new_radius_sq && dr < old_radius_sq) {
+	if (!pseudo || map_is_known(tile1, pplayer)) {
+	  fog_area(pplayer, tile1, 0);
+	} else {
+	  decrement_pending_seen(pplayer, tile1);
+	}
+      }
+    } circle_dxyr_iterate_end;
+    unbuffer_shared_vision(pplayer);
+  }
 }
 
 /**************************************************************************

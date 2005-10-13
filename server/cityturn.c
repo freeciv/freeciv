@@ -1120,6 +1120,9 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 		       API_TYPE_BUILDING_TYPE, get_improvement_type(id),
 		       API_TYPE_CITY, pcity);
 
+    /* Call this function since some buildings may change the
+     * the vision range of a city */
+    map_unfog_city_area(pcity);
 
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH))) {
       int i;
