@@ -18,5 +18,5 @@ Icon=freeciv-client.png
 StartupNotify=true
 Terminal=false
 Type=Application
-Categories=GNOME;Application;Game;Strategy
-StartupNotify=true
+Categories=GNOME;Application;Game;Strategy;
+Version=0.9.4
