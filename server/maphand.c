@@ -802,7 +802,7 @@ void map_refog_circle(struct player *pplayer, struct tile *ptile,
 	} else {
 	  increment_pending_seen(pplayer, tile1);
 	}
-      } else if (dr > new_radius_sq && dr < old_radius_sq) {
+      } else if (dr > new_radius_sq && dr <= old_radius_sq) {
 	if (!pseudo || map_is_known(tile1, pplayer)) {
 	  fog_area(pplayer, tile1, 0);
 	} else {
