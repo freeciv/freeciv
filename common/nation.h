@@ -104,7 +104,7 @@ struct nation_type {
   int num_conflicts;
   struct nation_type **conflicts_with;
 
-  /* Unavailable nations aren't allowed in the scenario. */
+  /* Unavailable nations aren't allowed to be chosen in the scenario. */
   bool is_available;
 
   struct player *player; /* Who's using the nation, or NULL. */

@@ -1339,9 +1339,11 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2,
   file were found, return a random nation. If no nations are available, die.
 
   choices may be NULL; if so it's ignored.
+  If only_available is set choose only nations that have is_available bit set.
 ****************************************************************************/
-struct nation_type *pick_available_nation(struct nation_type **choices,
-                                          bool ignore_conflicts)
+struct nation_type *pick_a_nation(struct nation_type **choices,
+                                  bool ignore_conflicts,
+				  bool only_available)
 {
   enum {
     UNAVAILABLE, AVAILABLE, PREFERRED, UNWANTED
@@ -1358,7 +1360,7 @@ struct nation_type *pick_available_nation(struct nation_type **choices,
   nations_iterate(pnation) {
     if (!is_nation_playable(pnation)
 	|| pnation->player
-	|| !pnation->is_available) {
+	|| (only_available && !pnation->is_available)) {
       /* Nation is unplayable or already used: don't consider it. */
       nations_used[pnation->index] = UNAVAILABLE;
       match[pnation->index] = 0;
@@ -1459,7 +1461,7 @@ static struct player *split_player(struct player *pplayer)
 
   /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
-  cplayer->nation = pick_available_nation(civilwar_nations, TRUE);
+  cplayer->nation = pick_a_nation(civilwar_nations, TRUE, FALSE);
   pick_random_player_name(cplayer->nation, cplayer->name);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);

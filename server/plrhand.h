@@ -36,8 +36,9 @@ void kill_player(struct player *pplayer);
 void kill_dying_players(void);
 void update_revolution(struct player *pplayer);
 
-struct nation_type *pick_available_nation(struct nation_type **choices,
-                                          bool ignore_conflicts);
+struct nation_type *pick_a_nation(struct nation_type **choices,
+                                  bool ignore_conflicts,
+				  bool only_available);
 
 void check_player_government_rates(struct player *pplayer);
 void make_contact(struct player *pplayer1, struct player *pplayer2,

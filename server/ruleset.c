@@ -2134,6 +2134,9 @@ static void load_ruleset_nations(struct section_file *file)
       }
     }
     free(leaders);
+    
+    pl->is_available = secfile_lookup_bool_default(file, TRUE,
+                                                   "%s.is_available", sec[i]);
 
     pl->is_playable = secfile_lookup_bool_default(file, TRUE,
 						  "%s.is_playable", sec[i]);
@@ -2251,7 +2254,6 @@ static void load_ruleset_nations(struct section_file *file)
       pl->legend[MAX_LEN_MSG - 1] = '\0';
     }
 
-    pl->is_available = TRUE;
     pl->player = NULL;
   }
 
