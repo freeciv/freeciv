@@ -31,7 +31,7 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-civilwar_nations = "scottish"
+civilwar_nations="scottish", "irish", "cornish"
 
 cities =
   "Cardiff", "Swansea", "Newport", "Barry", "Port Talbot", "Carmarthen",

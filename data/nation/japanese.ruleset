@@ -43,7 +43,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "korean", "filipino", "ryukyuan"
+civilwar_nations="ryukyuan"
+; Reducing to ryukyuan only: This is a "true" Japanese civil war nation
 
 cities =
   "Tokyo (ocean)",

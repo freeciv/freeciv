@@ -24,7 +24,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "danish", "dutch"
+civilwar_nations="finnish", "latvian"
+; Removed "danish", "dutch": No relation?
 
 cities =
   "Tallinn", "Tartu", "Narva", "Kohtla-Järve", "Pärnu",

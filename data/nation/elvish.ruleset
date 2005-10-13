@@ -39,6 +39,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+civilwar_nations="dunedain", "hobbits", "mordor"
 
 ; Think of the Girdle of Melian, the Encircling Mountains around Rivendell, the rivers (Silverlode and Anduin) around Lothlorien, etc.
 

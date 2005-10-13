@@ -30,10 +30,9 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
-civilwar_nations = "israeli"
+civilwar_nations="israeli", "sudanese"
 
 cities =
   "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe", "Bubastis",

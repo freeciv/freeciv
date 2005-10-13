@@ -24,7 +24,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "kenyan"
+civilwar_nations="romanian", "swiss"
+; Removed "kenyan": No relation?
 
 cities =
   "Roma", "Milano", "Napoli", "Venezia", "Genova", "Modena",

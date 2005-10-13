@@ -35,7 +35,11 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "chilean", "argentine"
+civilwar_nations=
+; Sub-national nations
+ "catalan", "galician",
+; Spanish speaking ex-colonies
+ "argentine", "chilean", "colombian", "cuban", "filipino", "venezuelan"
 
 cities =
   "Madrid", "Barcelona", "Bilbao", "Valencia", "Sevilla", "Zaragoza",

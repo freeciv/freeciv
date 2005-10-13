@@ -28,6 +28,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+civilwar_nations="newzealand"
 
 ; Note that putting "(ocean)" as a qualifier for every city probably will not
 ; give very useful results.

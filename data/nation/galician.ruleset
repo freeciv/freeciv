@@ -29,6 +29,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+civilwar_nations="portuguese", "spanish"
 
 cities =
   "Santiago de Compostela", "A Coruña", "Vigo", "Lugo", "Pontevedra",

@@ -42,11 +42,19 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-civilwar_nations = "french", "italian"
+civilwar_nations=
+; Sub-national nations
+ "bavarian",
+; German-speaking nations
+ "austrian", "swiss",
+; A few more closely related nations
+ "dutch", "french",
+; I suppose this is because of South Tyrol in Italy
+ "italian"
 
 cities =
   "Berlin (grassland, !mountains)", 
-  "Hamburg(grassland, swamp, ocean, river, !mountains)",
+  "Hamburg (grassland, swamp, ocean, river, !mountains)",
   "München (hills, mountains, !ocean)", 
   "Köln (plains, hills, river)", 
   "Frankfurt am Main (grassland, hills, river, !ocean)",

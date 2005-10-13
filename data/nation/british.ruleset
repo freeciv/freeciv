@@ -29,7 +29,13 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "english", "scottish", "welsh", "american", "australian"
+civilwar_nations=
+; Sub-national nations
+ "english", "scottish", "welsh", "cornish",
+; Northern Ireland
+ "irish",
+; English-speaking ex-colonies
+ "american", "australian", "canadian", "newzealand"
 
 ; Cities listed roughly in order from south to north
 cities =

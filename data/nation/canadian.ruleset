@@ -23,7 +23,11 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "american"
+civilwar_nations=
+; Sub-national nations
+ "quebecois",
+; First Nations
+ "inuit", "iroquois"
 
 ; Capitals of provinces and territories are listed first in this list
 cities =

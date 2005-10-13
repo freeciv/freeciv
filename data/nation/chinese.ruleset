@@ -36,7 +36,13 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "vietnamese", "manchu", "tibetan"
+civilwar_nations=
+; Technically, Taiwan is a splinter nation of China
+ "taiwanese",
+; Sub-national/occupied nations of China
+ "manchu", "tibetan", "uyghur",
+; Vietnam split from Chinese rule in the first millennium AD
+ "vietnamese"
 
 cities =
  "Beijing",

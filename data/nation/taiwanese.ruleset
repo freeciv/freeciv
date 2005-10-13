@@ -20,6 +20,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+civilwar_nations="chinese"
 
 ; These names used to be spelled differently (Taipeh instead of Taipei).
 ; The new names are better but may not be canonical.
