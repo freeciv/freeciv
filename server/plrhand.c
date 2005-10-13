@@ -887,7 +887,7 @@ static void package_player_common(struct player *plr,
   packet->is_male=plr->is_male;
   packet->team = plr->team ? plr->team->index : -1;
   packet->is_ready = plr->is_ready;
-  packet->city_style=plr->city_style;
+  packet->city_style = get_player_city_style(plr);
 
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;
