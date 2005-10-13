@@ -22,6 +22,7 @@ warminglevel=8
 unhappysize=5
 cityfactor=15
 civilwarsize=10
+fogofwar=1
 diplcost=0
 freecost=0
 conquercost=0

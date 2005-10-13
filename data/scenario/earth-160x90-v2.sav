@@ -17,6 +17,7 @@ box_science=150
 min_players=1
 max_players=14
 nplayers=0
+fogofwar=1
 globalwarming=0
 warminglevel=8
 unhappysize=5
