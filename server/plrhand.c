@@ -63,7 +63,6 @@ static void package_player_info(struct player *plr,
                                 enum plr_info_level min_info_level);
 static Nation_Type_id pick_available_nation(Nation_Type_id *choices);
 static void tech_researched(struct player* plr);
-static bool choose_goal_tech(struct player *plr);
 static Tech_Type_id pick_random_tech(struct player *plr);
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver);
@@ -374,12 +373,13 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
 
   if (tech_found == plr->research.researching && next_tech == A_NONE) {
     /* try to pick new tech to research */
+    Tech_Type_id next_tech = choose_goal_tech(plr);
 
-    if (choose_goal_tech(plr)) {
+    if (next_tech != A_UNSET) {
       notify_player_ex(plr, NULL, E_TECH_LEARNED,
 		       _("Game: Learned %s.  "
 			 "Our scientists focus on %s, goal is %s."),
-		       get_tech_name(plr, tech_found),
+		       get_tech_name(plr, next_tech),
 		       get_tech_name(plr, plr->research.researching),
 		       get_tech_name(plr, plr->ai.tech_goal));
     } else {
@@ -581,9 +581,9 @@ void update_tech(struct player *plr, int bulbs)
 /**************************************************************************
 ...
 **************************************************************************/
-static bool choose_goal_tech(struct player *plr)
+Tech_Type_id choose_goal_tech(struct player *plr)
 {
-  int sub_goal;
+  Tech_Type_id sub_goal;
 
   if (plr->ai.control) {
     ai_next_tech_goal(plr);	/* tech-AI has been changed */
@@ -600,10 +600,9 @@ static bool choose_goal_tech(struct player *plr)
   }
 
   if (sub_goal != A_UNSET) {
-    plr->research.researching = sub_goal;
-    return TRUE;
+    choose_tech(plr, sub_goal);
   }
-  return FALSE;
+  return sub_goal;
 }
 
 /**************************************************************************
@@ -726,7 +725,7 @@ void init_tech(struct player *plr)
 
   /* Mark the reachable techs */
   update_research(plr);
-  if (!choose_goal_tech(plr)) {
+  if (choose_goal_tech(plr) == A_UNSET) {
     choose_random_tech(plr);
   }
 }

@@ -563,7 +563,9 @@ static void end_phase(void)
   before_end_year();
   players_iterate(pplayer) {
     if (pplayer->research.researching == A_UNSET) {
-      choose_random_tech(pplayer);
+      if (choose_goal_tech(pplayer) == A_UNSET) {
+        choose_random_tech(pplayer);
+      }
       update_tech(pplayer, 0);
     }
   } players_iterate_end;

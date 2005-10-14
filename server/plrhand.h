@@ -68,6 +68,7 @@ void found_new_future_tech(struct player *pplayer);
 void update_tech(struct player *plr, int bulbs);
 void init_tech(struct player *plr);
 void choose_random_tech(struct player *plr);
+Tech_Type_id choose_goal_tech(struct player *plr);
 void choose_tech(struct player *plr, int tech);
 void choose_tech_goal(struct player *plr, int tech);
 void get_a_tech(struct player *pplayer, struct player *target);
