@@ -3169,11 +3169,19 @@ bool execute_orders(struct unit *punit)
   } /* end while */
 }
 
+/****************************************************************************
+  Return the vision the unit will have at the given tile.  The base vision
+  range may be modified by effects.
+
+  Note that vision MUST be independent of transported_by for this to work
+  properly.
+****************************************************************************/
 int get_unit_vision_at(struct unit *punit, struct tile *ptile)
 {
   int radius_sq = punit->type->vision_radius_sq;
 
   if (is_ground_unit(punit)
+      && tile_has_special(ptile, S_FORTRESS)
       && player_knows_techs_with_flag(unit_owner(punit), TF_WATCHTOWER)) {
     radius_sq += terrain_control.watchtower_extra_vision_radius_sq;
   }
