@@ -1009,9 +1009,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
       struct player *owner = unit_owner(punit);
 
       if (player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-        unfog_area(owner, punit->tile,
-                   unit_type(punit)->vision_range);
-        fog_area(owner, punit->tile, get_watchtower_vision(punit));
+	map_refog_circle(owner, punit->tile,
+			 get_watchtower_vision(punit),
+			 punit->type->vision_radius_sq,
+			 FALSE);
       }
     } unit_list_iterate_end;
   }
@@ -1536,7 +1537,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       }
     } else {
       if (!map_is_known(ptile, pviewer)) {
-	show_area(pviewer, ptile, 0);
+	show_circle(pviewer, ptile, 0);
       }
       if (map_is_known_and_seen(ptile, pviewer)) {
 	if (pcity) {		/* it's there and we see it; update and send */

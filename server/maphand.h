@@ -63,14 +63,12 @@ void send_all_known_tiles(struct conn_list *dest);
 void send_tile_info(struct conn_list *dest, struct tile *ptile);
 void reveal_hidden_units(struct player *pplayer, struct tile *ptile);
 void conceal_hidden_units(struct player *pplayer, struct tile *ptile);
-void unfog_area(struct player *pplayer, struct tile *ptile, int len);
-void fog_area(struct player *pplayer, struct tile *ptile, int len);
 void upgrade_city_rails(struct player *pplayer, bool discovery);
 void send_map_info(struct conn_list *dest);
 void map_fog_city_area(struct city *pcity);
 void map_unfog_city_area(struct city *pcity);
 void remove_unit_sight_points(struct unit *punit);
-void show_area(struct player *pplayer,struct tile *ptile, int len);
+void show_circle(struct player *pplayer,struct tile *ptile, int radius_sq);
 void map_refog_circle(struct player *pplayer, struct tile *ptile,
 		      int old_radius_sq, int new_radius_sq, bool pseudo);
 

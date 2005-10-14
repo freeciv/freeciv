@@ -165,7 +165,6 @@ struct packet_game_info {
   int add_to_size_limit;
   int notradesize;
   int fulltradesize;
-  int watchtower_extra_vision;
   int allowed_city_names;
   Impr_type_id palace_building;
   Impr_type_id land_defend_building;
@@ -774,7 +773,7 @@ struct packet_ruleset_unit {
   int tech_requirement;
   int impr_requirement;
   int gov_requirement;
-  int vision_range;
+  int vision_radius_sq;
   int transport_capacity;
   int hp;
   int firepower;
@@ -871,6 +870,7 @@ struct packet_ruleset_terrain_control {
   int rail_tile_bonus[O_MAX];
   int pollution_tile_penalty[O_MAX];
   int fallout_tile_penalty[O_MAX];
+  int watchtower_extra_vision_radius_sq;
 };
 
 struct packet_ruleset_nation {

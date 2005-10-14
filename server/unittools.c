@@ -81,21 +81,6 @@ static void pull_unit_from_transporter(struct unit *punit,
 				       struct unit *ptrans);
 
 /**************************************************************************
-  Handle changes to (unit) vision range, usually caused by watchtower.
-**************************************************************************/
-static void change_vision_range(struct player *pplayer, struct tile *ptile,
-                                int old_range, int new_range)
-{
-  if (new_range != old_range) {
-    /* Make sure that area that is unfogged both before and after is
-       not even temporarily fogged. Unfog (increase seen counter) first,
-       fog (decrease seen counter) later. */
-    unfog_area(pplayer, ptile, new_range);
-    fog_area(pplayer, ptile, old_range);
-  }
-}
-
-/**************************************************************************
   Returns a unit type that matches the role_tech or role roles.
 
   If role_tech is given, then we look at all units with this role
@@ -684,9 +669,9 @@ static void update_unit_activity(struct unit *punit)
 
             if (is_ground_unit(punit2)
                 && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-              change_vision_range(owner, punit2->tile,
-				  get_watchtower_vision(punit2),
-                                  unit_type(punit2)->vision_range);
+              map_refog_circle(owner, punit2->tile,
+			       get_watchtower_vision(punit2),
+			       unit_type(punit2)->vision_radius_sq, FALSE);
             }
 	  }
 	  unit_list_iterate_end;
@@ -718,9 +703,9 @@ static void update_unit_activity(struct unit *punit)
 
           if (is_ground_unit(punit2)
               && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-            change_vision_range(owner, ptile,
-				get_watchtower_vision(punit2),
-                                unit_type(punit2)->vision_range);
+	    map_refog_circle(owner, ptile,
+			     get_watchtower_vision(punit2),
+			     unit_type(punit2)->vision_radius_sq, FALSE);
           }
 	}
 	unit_list_iterate_end;
@@ -756,9 +741,9 @@ static void update_unit_activity(struct unit *punit)
 
         if (is_ground_unit(punit)
             && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-          change_vision_range(pplayer, ptile,
-			      unit_type(punit)->vision_range,
-                              get_watchtower_vision(punit));
+          map_refog_circle(pplayer, ptile,
+			   unit_type(punit)->vision_radius_sq,
+			   get_watchtower_vision(punit), FALSE);
         }
       }
       unit_list_iterate_end;
@@ -1290,7 +1275,7 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
 		  bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  int range;
+  int old_radius_sq, new_radius_sq;
   int old_mr = unit_move_rate(punit), old_hp = unit_type(punit)->hp;
 
   assert(test_unit_upgrade(punit, is_free) == UR_OK);
@@ -1302,10 +1287,11 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
 
   /* save old vision range */
   if (tile_has_special(punit->tile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit))
-    range = get_watchtower_vision(punit);
-  else
-    range = unit_type(punit)->vision_range;
+      && unit_profits_of_watchtower(punit)) {
+    old_radius_sq = get_watchtower_vision(punit);
+  } else {
+    old_radius_sq = unit_type(punit)->vision_radius_sq;
+  }
 
   punit->type = to_unit;
 
@@ -1320,10 +1306,11 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
   /* apply new vision range */
   if (tile_has_special(punit->tile, S_FORTRESS)
       && unit_profits_of_watchtower(punit)) {
-    change_vision_range(pplayer, punit->tile, range, get_watchtower_vision(punit));
+    new_radius_sq = get_watchtower_vision(punit);
   } else {
-    change_vision_range(pplayer, punit->tile, range, to_unit->vision_range);
+    new_radius_sq = to_unit->vision_radius_sq;
   }
+  map_refog_circle(pplayer, punit->tile, old_radius_sq, new_radius_sq, FALSE);
 
   send_unit_info(NULL, punit);
   conn_list_do_unbuffer(pplayer->connections);
@@ -1403,9 +1390,11 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 
   if (tile_has_special(ptile, S_FORTRESS)
       && unit_profits_of_watchtower(punit)) {
-    unfog_area(pplayer, punit->tile, get_watchtower_vision(punit));
+    map_refog_circle(pplayer, punit->tile,
+		     -1, get_watchtower_vision(punit), FALSE);
   } else {
-    unfog_area(pplayer, ptile, unit_type(punit)->vision_range);
+    map_refog_circle(pplayer, ptile,
+		     -1, unit_type(punit)->vision_radius_sq, FALSE);
   }
 
   send_unit_info(NULL, punit);
@@ -2180,10 +2169,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
   /* Safe terrain, really? Not transformed since player last saw it. */
   if (!can_unit_exist_at_tile(punit, ptile)) {
-    int srange = unit_type(punit)->vision_range;
-
-    show_area(pplayer, ptile, srange);
-
+    show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     notify_player(pplayer, ptile, E_UNIT_LOST,
                      _("Your %s paradropped into the %s "
                        "and was lost."),
@@ -2194,8 +2180,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
   if ((ptile->city && pplayers_non_attack(pplayer, city_owner(ptile->city)))
       || is_non_allied_unit_tile(ptile, pplayer)) {
-    int srange = unit_type(punit)->vision_range;
-    show_area(pplayer, ptile, srange);
+    show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
     notify_player(pplayer, ptile, E_UNIT_LOST_ATT,
                      _("Your %s was killed by enemy units at the "
@@ -2566,19 +2551,20 @@ static void wakeup_neighbor_sentries(struct unit *punit)
      wake them up if the punit is farther away than 3. */
   square_iterate(punit->tile, 3, ptile) {
     unit_list_iterate(ptile->units, penemy) {
-      int range;
+      int radius_sq;
       enum unit_move_type move_type = unit_type(penemy)->move_type;
       struct terrain *pterrain = tile_get_terrain(ptile);
 
       if (tile_has_special(ptile, S_FORTRESS)
-	  && unit_profits_of_watchtower(penemy))
-	range = get_watchtower_vision(penemy);
-      else
-	range = unit_type(penemy)->vision_range;
+	  && unit_profits_of_watchtower(penemy)) {
+	radius_sq = get_watchtower_vision(penemy);
+      } else {
+	radius_sq = unit_type(penemy)->vision_radius_sq;
+      }
       
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
-	  && range >= real_map_distance(punit->tile, ptile)
+	  && radius_sq >= sq_map_distance(punit->tile, ptile)
 	  && can_player_see_unit(unit_owner(penemy), punit)
 	  /* on board transport; don't awaken */
 	  && !(move_type == LAND_MOVING && is_ocean(pterrain))) {
@@ -2754,7 +2740,8 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
-      unfog_area(unit_owner(pcargo), pdesttile, unit_type(pcargo)->vision_range);
+      map_refog_circle(unit_owner(pcargo), pdesttile,
+		       -1, unit_type(pcargo)->vision_radius_sq, FALSE);
 
       /* Silently free orders since they won't be applicable anymore. */
       free_unit_orders(pcargo);
@@ -2764,7 +2751,8 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       unit_list_prepend(pdesttile->units, pcargo);
       check_unit_activity(pcargo);
       send_unit_info_to_onlookers(NULL, pcargo, psrctile, FALSE);
-      fog_area(unit_owner(pcargo), psrctile, unit_type(pcargo)->vision_range);
+      map_refog_circle(unit_owner(pcargo), psrctile,
+		       unit_type(pcargo)->vision_radius_sq, -1, FALSE);
       handle_unit_move_consequences(pcargo, psrctile, pdesttile);
     } unit_list_iterate_end;
     unit_list_unlink_all(cargo_units);
@@ -2780,9 +2768,11 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   /* Enhance vision if unit steps into a fortress */
   if (unit_profits_of_watchtower(punit)
       && tile_has_special(pdesttile, S_FORTRESS)) {
-    unfog_area(pplayer, pdesttile, get_watchtower_vision(punit));
+    map_refog_circle(pplayer, pdesttile,
+		     -1, get_watchtower_vision(punit), FALSE);
   } else {
-    unfog_area(pplayer, pdesttile, unit_type(punit)->vision_range);
+    map_refog_circle(pplayer, pdesttile,
+		     -1, unit_type(punit)->vision_radius_sq, FALSE);
   }
 
   unit_list_unlink(psrctile->units, punit);
@@ -2864,9 +2854,11 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   if (unit_profits_of_watchtower(punit)
       && tile_has_special(psrctile, S_FORTRESS)) {
-    fog_area(pplayer, psrctile, get_watchtower_vision(punit));
+    map_refog_circle(pplayer, psrctile,
+		     get_watchtower_vision(punit), -1, FALSE);
   } else {
-    fog_area(pplayer, psrctile, unit_type(punit)->vision_range);
+    map_refog_circle(pplayer, psrctile,
+		     unit_type(punit)->vision_radius_sq, -1, FALSE);
   }
 
   /*
@@ -2960,16 +2952,17 @@ static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 {
   bool cancel = FALSE;
-  int range;
+  int radius_sq;
   struct player *pplayer = unit_owner(punit);
 
   if (tile_has_special(punit->tile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit))
-    range = get_watchtower_vision(punit);
-  else
-    range = unit_type(punit)->vision_range;
+      && unit_profits_of_watchtower(punit)) {
+    radius_sq = get_watchtower_vision(punit);
+  } else {
+    radius_sq = unit_type(punit)->vision_radius_sq;
+  }
   
-  square_iterate(punit->tile, range, ptile) {
+  circle_iterate(punit->tile, radius_sq, ptile) {
     struct unit *penemy =
 	is_non_allied_unit_tile(ptile, pplayer);
     struct dumb_city *pdcity = map_get_player_tile(ptile, pplayer)->city;
@@ -2980,7 +2973,7 @@ static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
       cancel = TRUE;
       break;
     }
-  } square_iterate_end;
+  } circle_iterate_end;
 
   return cancel;
 }
@@ -3253,7 +3246,8 @@ bool execute_orders(struct unit *punit)
 **************************************************************************/
 int get_watchtower_vision(struct unit *punit)
 {
-  return (unit_type(punit)->vision_range + game.info.watchtower_extra_vision);
+  return (unit_type(punit)->vision_radius_sq
+	  + terrain_control.watchtower_extra_vision_radius_sq);
 }
 
 /**************************************************************************

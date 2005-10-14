@@ -409,7 +409,6 @@ PACKET_GAME_INFO=15; sc
   BOOL slow_invasions;
   UINT8 add_to_size_limit;
   UINT8 notradesize, fulltradesize;
-  UINT8 watchtower_extra_vision;
   UINT8 allowed_city_names;
   IMPROVEMENT palace_building;
   IMPROVEMENT land_defend_building;
@@ -1045,7 +1044,7 @@ PACKET_RULESET_UNIT=96;sc,lsend
   TECH tech_requirement;
   UINT8 impr_requirement;
   GOVERNMENT gov_requirement;
-  UINT8 vision_range;
+  UINT16 vision_radius_sq;
   UINT8 transport_capacity;
   UINT8 hp;
   UINT8 firepower;
@@ -1158,6 +1157,8 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   UINT16 rail_tile_bonus[O_MAX];        /* % added to output if railroad */
   UINT8 pollution_tile_penalty[O_MAX]; /* % taken from output if polluted */
   UINT8 fallout_tile_penalty[O_MAX]; /* % taken from output if polluted */
+
+  UINT16 watchtower_extra_vision_radius_sq;
 end
 
 PACKET_RULESET_NATION=102;sc,lsend

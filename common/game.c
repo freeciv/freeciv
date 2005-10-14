@@ -232,7 +232,6 @@ void game_init(void)
   game.info.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
   game.info.heating       = 0;
   game.info.cooling       = 0;
-  game.info.watchtower_extra_vision = GAME_DEFAULT_WATCHTOWER_EXTRA_VISION;
   game.info.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;
   game.info.save_nturns   = GAME_DEFAULT_SAVETURNS;
 #ifdef HAVE_LIBZ

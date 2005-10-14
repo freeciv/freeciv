@@ -287,6 +287,8 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
     unit_list_unlink(old_pcity->units_supported, punit);
   }
   if (old_owner != new_owner) {
+    int vision_radius_sq;
+
     remove_unit_sight_points(punit);
     ai_reinit(punit);
 
@@ -296,10 +298,11 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 
     if (tile_has_special(punit->tile, S_FORTRESS)
         && unit_profits_of_watchtower(punit)) {
-      unfog_area(new_owner, punit->tile, get_watchtower_vision(punit));
+      vision_radius_sq = get_watchtower_vision(punit);
     } else {
-      unfog_area(new_owner, punit->tile, unit_type(punit)->vision_range);
+      vision_radius_sq = unit_type(punit)->vision_radius_sq;
     }
+    map_refog_circle(new_owner, punit->tile, -1, vision_radius_sq, FALSE);
 
     conceal_hidden_units(old_owner, punit->tile);
     reveal_hidden_units(new_owner, punit->tile);

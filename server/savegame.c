@@ -1573,26 +1573,24 @@ static void load_player_units(struct player *plr, int plrno,
     }
 
     {
+      int radius_sq;
+
+      if (tile_has_special(punit->tile, S_FORTRESS)
+	  && unit_profits_of_watchtower(punit)) {
+	radius_sq = get_watchtower_vision(punit);
+      } else {
+	radius_sq = unit_type(punit)->vision_radius_sq;
+      }
+
       /* Sanity: set the map to known for all tiles within the vision
-       * range.
-       *
-       * FIXME: shouldn't this take into account modifiers like 
-       * watchtowers? */
-      int range = unit_type(punit)->vision_range;
-
-      square_iterate(punit->tile, range, tile1) {
+       * range. */
+      circle_iterate(punit->tile, radius_sq, tile1) {
 	map_set_known(tile1, plr);
-      } square_iterate_end;
-    }
+      } circle_iterate_end;
 
-    /* allocate the unit's contribution to fog of war */
-    if (unit_profits_of_watchtower(punit)
-	&& tile_has_special(punit->tile, S_FORTRESS)) {
-      unfog_area(unit_owner(punit), punit->tile,
-		 get_watchtower_vision(punit));
-    } else {
-      unfog_area(unit_owner(punit), punit->tile,
-		 unit_type(punit)->vision_range);
+      /* allocate the unit's contribution to fog of war */
+      map_refog_circle(unit_owner(punit), punit->tile,
+		       -1, radius_sq, FALSE);
     }
 
     unit_list_append(plr->units, punit);
@@ -3295,13 +3293,6 @@ void game_load(struct section_file *file)
     game.info.diplomacy = secfile_lookup_int_default(file, GAME_DEFAULT_DIPLOMACY, 
                                                 "game.diplomacy");
 
-    if (has_capability("watchtower", savefile_options)) {
-      game.info.watchtower_extra_vision =
-	  secfile_lookup_int(file, "game.watchtower_extra_vision");
-    } else {
-      game.info.watchtower_extra_vision = 0;
-    }
-
     sz_strlcpy(game.save_name,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_SAVE_NAME,
 					  "game.save_name"));
@@ -3865,9 +3856,12 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.borders, "game.borders");
   secfile_insert_bool(file, game.info.happyborders, "game.happyborders");
   secfile_insert_int(file, game.info.diplomacy, "game.diplomacy");
-  /* watchtower_vision is required by 2.0 servers. */
+  /* watchtower_vision and watchtower_extra_vision are
+   * required by 2.0 servers. */
   secfile_insert_int(file, 0, "game.watchtower_vision");
-  secfile_insert_int(file, game.info.watchtower_extra_vision, "game.watchtower_extra_vision");
+  secfile_insert_int(file,
+	(int)(sqrt(terrain_control.watchtower_extra_vision_radius_sq) + 0.5),
+	"game.watchtower_extra_vision");
   secfile_insert_int(file, game.info.allowed_city_names, "game.allowed_city_names");
 
   /* old (1.14.1) servers need to have these server variables.  The values

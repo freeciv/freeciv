@@ -61,7 +61,7 @@ Roads and railroads can only be built on River squares if your\
 fortress_defense_bonus=100
 
 ; extra vision range given to units in a fortress
-fortress_extra_vision=2
+fortress_extra_vision_radius_sq = 8
 
 ; percent added to trade production if road and city has superhighways
 road_superhighway_trade_bonus=50

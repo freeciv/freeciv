@@ -1115,8 +1115,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     u->move_rate =
       SINGLE_MOVE*secfile_lookup_int(file,"%s.move_rate", sec[i]);
     
-    u->vision_range =
-      secfile_lookup_int(file,"%s.vision_range", sec[i]);
+    u->vision_radius_sq =
+      secfile_lookup_int(file,"%s.vision_radius_sq", sec[i]);
     u->transport_capacity =
       secfile_lookup_int(file,"%s.transport_cap", sec[i]);
     u->hp = secfile_lookup_int(file,"%s.hitpoints", sec[i]);
@@ -1467,14 +1467,8 @@ static void load_ruleset_terrain(struct section_file *file)
   terrain_control.fortress_defense_bonus =
     secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");
 
-  game.info.watchtower_extra_vision = 
-    secfile_lookup_int_default(file, GAME_DEFAULT_WATCHTOWER_EXTRA_VISION,
-                               "parameters.fortress_extra_vision");
-  if (game.info.watchtower_extra_vision < GAME_MIN_WATCHTOWER_EXTRA_VISION
-      || game.info.watchtower_extra_vision > GAME_MAX_WATCHTOWER_EXTRA_VISION) {
-    freelog(LOG_FATAL, _("Fortress vision range set to illegal value."));
-    exit(EXIT_FAILURE);
-  }
+  terrain_control.watchtower_extra_vision_radius_sq
+    = secfile_lookup_int(file, "parameters.fortress_extra_vision_radius_sq");
 
   terrain_control.road_superhighway_trade_bonus =
     secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");
@@ -2669,7 +2663,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.impr_requirement = u->impr_requirement;
     packet.gov_requirement
       = u->gov_requirement ? u->gov_requirement->index : -1;
-    packet.vision_range = u->vision_range;
+    packet.vision_radius_sq = u->vision_radius_sq;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;
     packet.firepower = u->firepower;

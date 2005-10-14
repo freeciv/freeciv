@@ -2083,7 +2083,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->tech_requirement   = p->tech_requirement;
   u->impr_requirement   = p->impr_requirement;
   u->gov_requirement = get_government(p->gov_requirement);
-  u->vision_range       = p->vision_range;
+  u->vision_radius_sq = p->vision_radius_sq;
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;
   u->firepower          = p->firepower;

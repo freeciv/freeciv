@@ -154,7 +154,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
                               struct unit *punit)
 {
   int land_score, ocean_score, known_land_score, known_ocean_score;
-  int range = unit_type(punit)->vision_range;
+  int radius_sq = punit->type->vision_radius_sq;
   int desirable = 0;
   int unknown = 0;
 
@@ -184,7 +184,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
     known_ocean_score = KNOWN_SAME_TER_SCORE;
   }
 
-  square_iterate(ptile, range, ptile1) {
+  circle_iterate(ptile, radius_sq, ptile1) {
     int ocean = likely_ocean(ptile1, pplayer);
 
     if (!map_is_known(ptile1, pplayer)) {
@@ -207,7 +207,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
                       + (100 - ocean) * known_land_score);
       }
     }
-  } square_iterate_end;
+  } circle_iterate_end;
 
   if (unknown <= 0) {
     /* We make sure we'll uncover at least one unexplored tile. */

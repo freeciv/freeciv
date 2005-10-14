@@ -803,7 +803,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_ulabel[2][4]), buf);
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][1]),
 		       helptext_unit_upkeep_str(utype));
-    sprintf(buf, "%d", utype->vision_range);
+    sprintf(buf, "%d", (int)sqrt((double)utype->vision_radius_sq));
     gtk_label_set_text(GTK_LABEL(help_ulabel[3][4]), buf);
     if(utype->tech_requirement==A_LAST) {
       gtk_label_set_text(GTK_LABEL(help_ulabel[4][1]), REQ_NEVER);

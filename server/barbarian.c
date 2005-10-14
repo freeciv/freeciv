@@ -54,6 +54,9 @@
 
 #include "barbarian.h"
 
+#define BARBARIAN_INITIAL_VISION_RADIUS 3
+#define BARBARIAN_INITIAL_VISION_RADIUS_SQ 9
+
 /*
  IDEAS:
  1. Unrest factors configurable via rulesets (distance and gov factor)
@@ -311,7 +314,7 @@ bool unleash_barbarians(struct tile *ptile)
 
   /* FIXME: I don't know if this is needed */
   if (utile) {
-    show_area(barbarians, utile, 3);
+    show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
   }
 
   return alive;
@@ -464,8 +467,8 @@ static void try_summon_barbarians(void)
   } unit_list_iterate_end;
 
   /* to let them know where to get you */
-  show_area(barbarians, utile, 3);
-  show_area(barbarians, pc->tile, 3);
+  show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
+  show_circle(barbarians, pc->tile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
 
   /* There should probably be a different message about Sea Raiders */
   if (is_land_barbarian(barbarians)) {

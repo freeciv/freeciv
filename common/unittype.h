@@ -163,7 +163,7 @@ struct unit_type {
   int tech_requirement;
   int impr_requirement;		/* should be Impr_type_id */
   struct government *gov_requirement; /* may be NULL */
-  int vision_range;
+  int vision_radius_sq;
   int transport_capacity;
   int hp;
   int firepower;

@@ -215,9 +215,9 @@ static void update_player_after_tech_researched(struct player* plr,
     unit_list_iterate(plr->units, punit) {
       if (tile_has_special(punit->tile, S_FORTRESS)
 	  && is_ground_unit(punit)) {
-	unfog_area(plr, punit->tile, get_watchtower_vision(punit));
-	fog_area(plr, punit->tile,
-		 unit_type(punit)->vision_range);
+	map_refog_circle(plr, punit->tile,
+			 unit_type(punit)->vision_radius_sq,
+			 get_watchtower_vision(punit), FALSE);
       }
     }
     unit_list_iterate_end;
