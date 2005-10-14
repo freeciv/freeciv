@@ -743,43 +743,6 @@ void send_map_info(struct conn_list *dest)
 }
 
 /**************************************************************************
-  Changes the vision range of the city.  The new range is given in
-  the radius_sq.
-**************************************************************************/
-static void map_refog_city_area(struct city *pcity, int new_radius_sq)
-{
-  if (pcity) {
-    map_refog_circle(city_owner(pcity), pcity->tile,
-		     pcity->server.vision_radius_sq, new_radius_sq, TRUE);
-    pcity->server.vision_radius_sq = new_radius_sq;
-  } else {
-    freelog(LOG_ERROR, "Attempting to change fog for non-existent city");
-  }
-}
-
-/**************************************************************************
-  Fogs the area visible by the city.  Unlike other unfog functions this
-  one may be called multiple times in a row without any penalty.  Call it
-  before destroying the city (or go straight to the source and use
-  map_refog_circle by hand).
-**************************************************************************/
-void map_fog_city_area(struct city *pcity)
-{
-  map_refog_city_area(pcity, -1);
-}
-
-/**************************************************************************
-  Unfogs the area visible by the city.  Unlike other unfog functions this
-  one may be called multiple times in a row without any penalty.  Basically
-  it should be called any time the city's vision range may have changed.
-**************************************************************************/
-void map_unfog_city_area(struct city *pcity)
-{
-  map_refog_city_area(pcity,
-		      get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ));
-}
-
-/**************************************************************************
 ...
 **************************************************************************/
 static void shared_vision_change_seen(struct tile *ptile, struct player *pplayer, int change)
@@ -796,8 +759,9 @@ static void shared_vision_change_seen(struct tile *ptile, struct player *pplayer
 /**************************************************************************
 There doesn't have to be a city.
 **************************************************************************/
-void map_refog_circle(struct player *pplayer, struct tile *ptile,
-		      int old_radius_sq, int new_radius_sq, bool pseudo)
+static void map_refog_circle(struct player *pplayer, struct tile *ptile,
+			     int old_radius_sq, int new_radius_sq,
+			     bool can_reveal_tiles)
 {
   if (old_radius_sq != new_radius_sq) {
     int max_radius = MAX(old_radius_sq, new_radius_sq);
@@ -808,13 +772,13 @@ void map_refog_circle(struct player *pplayer, struct tile *ptile,
     buffer_shared_vision(pplayer);
     circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
       if (dr > old_radius_sq && dr <= new_radius_sq) {
-	if (!pseudo || map_is_known(tile1, pplayer)) {
+	if (can_reveal_tiles || map_is_known(tile1, pplayer)) {
 	  map_unfog_tile(pplayer, tile1);
 	} else {
 	  increment_pending_seen(pplayer, tile1);
 	}
       } else if (dr > new_radius_sq && dr <= old_radius_sq) {
-	if (!pseudo || map_is_known(tile1, pplayer)) {
+	if (can_reveal_tiles || map_is_known(tile1, pplayer)) {
 	  map_fog_tile(pplayer, tile1);
 	} else {
 	  decrement_pending_seen(pplayer, tile1);
@@ -823,27 +787,6 @@ void map_refog_circle(struct player *pplayer, struct tile *ptile,
     } circle_dxyr_iterate_end;
     unbuffer_shared_vision(pplayer);
   }
-}
-
-/**************************************************************************
-For removing a unit. The actual removal is done in server_remove_unit
-**************************************************************************/
-void remove_unit_sight_points(struct unit *punit)
-{
-  struct tile *ptile = punit->tile;
-  struct player *pplayer = unit_owner(punit);
-  int vision;
-
-  freelog(LOG_DEBUG, "Removing unit sight points at  %i,%i",
-	  TILE_XY(punit->tile));
-
-  if (tile_has_special(punit->tile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit)) {
-    vision = get_watchtower_vision(punit);
-  } else {
-    vision = unit_type(punit)->vision_radius_sq;
-  }
-  map_refog_circle(pplayer, ptile, vision, -1, FALSE);
 }
 
 /**************************************************************************
@@ -1835,4 +1778,78 @@ int get_ocean_size(Continent_id id)
 {
   assert(id > 0);
   return ocean_sizes[id];
+}
+
+/* Vision structure - see documentation in maphand.h */
+struct vision {
+  /* These values cannot be changed after initialization. */
+  struct player *player;
+  struct tile *tile;
+  bool can_reveal_tiles;
+
+  /* The radius of the vision source. */
+  int radius_sq;
+};
+
+/****************************************************************************
+  Create a new vision source.
+
+  See documentation in maphand.h.
+****************************************************************************/
+struct vision *vision_new(struct player *pplayer, struct tile *ptile,
+			  bool can_reveal_tiles)
+{
+  struct vision *vision = fc_malloc(sizeof(*vision));
+
+  vision->player = pplayer;
+  vision->tile = ptile;
+  vision->can_reveal_tiles = can_reveal_tiles;
+  vision->radius_sq = -1;
+
+  return vision;
+}
+
+/****************************************************************************
+  Returns the sight points (radius_sq) that this vision source has.
+
+  See documentation in maphand.h.
+****************************************************************************/
+int vision_get_sight(const struct vision *vision)
+{
+  return vision->radius_sq;
+}
+
+/****************************************************************************
+  Change the sight points for the vision source, fogging or unfogging tiles
+  as needed.
+
+  See documentation in maphand.h.
+****************************************************************************/
+void vision_change_sight(struct vision *vision, int radius_sq)
+{
+  map_refog_circle(vision->player, vision->tile,
+		   vision->radius_sq, radius_sq,
+		   vision->can_reveal_tiles);
+  vision->radius_sq = radius_sq;
+}
+
+/****************************************************************************
+  Clear all sight poitns from this vision source.
+
+  See documentation in maphand.h.
+****************************************************************************/
+void vision_clear_sight(struct vision *vision)
+{
+  vision_change_sight(vision, -1);
+}
+
+/****************************************************************************
+  Free the vision source.
+
+  See documentation in maphand.h.
+****************************************************************************/
+void vision_free(struct vision *vision)
+{
+  assert(server_state != RUN_GAME_STATE || vision->radius_sq < 0);
+  free(vision);
 }

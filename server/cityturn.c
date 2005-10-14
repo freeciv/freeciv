@@ -1123,7 +1123,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 
     /* Call this function since some buildings may change the
      * the vision range of a city */
-    map_unfog_city_area(pcity);
+    city_refresh_vision(pcity);
 
     if ((mod = get_current_construction_bonus(pcity, EFT_GIVE_IMM_TECH))) {
       int i;

@@ -1572,26 +1572,12 @@ static void load_player_units(struct player *plr, int plrno,
       punit->orders.list = NULL;
     }
 
-    {
-      int radius_sq;
-
-      if (tile_has_special(punit->tile, S_FORTRESS)
-	  && unit_profits_of_watchtower(punit)) {
-	radius_sq = get_watchtower_vision(punit);
-      } else {
-	radius_sq = unit_type(punit)->vision_radius_sq;
-      }
-
-      /* Sanity: set the map to known for all tiles within the vision
-       * range. */
-      circle_iterate(punit->tile, radius_sq, tile1) {
-	map_set_known(tile1, plr);
-      } circle_iterate_end;
-
-      /* allocate the unit's contribution to fog of war */
-      map_refog_circle(unit_owner(punit), punit->tile,
-		       -1, radius_sq, FALSE);
-    }
+    /* allocate the unit's contribution to fog of war */
+    punit->server.vision = vision_new(punit->owner, punit->tile, TRUE);
+    unit_refresh_vision(punit);
+    /* NOTE: There used to be some map_set_known calls here.  These were
+     * unneeded since unfogging the tile when the unit sees it will
+     * automatically reveal that tile. */
 
     unit_list_append(plr->units, punit);
 
@@ -2132,7 +2118,8 @@ static void player_load(struct player *plr, int plrno,
     }
     
     /* adding the cities contribution to fog-of-war */
-    map_unfog_city_area(pcity);
+    pcity->server.vision = vision_new(pcity->owner, pcity->tile, FALSE);
+    city_refresh_vision(pcity);
 
     pcity->units_supported = unit_list_new();
 

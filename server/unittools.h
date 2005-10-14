@@ -46,8 +46,9 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost
 void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
                          bool verbose);
 void remove_allied_visibility(struct player* pplayer, struct player* aplayer);
-int get_watchtower_vision(struct unit *punit);
-bool unit_profits_of_watchtower(struct unit *punit);
+int get_unit_vision_at(struct unit *punit, struct tile *ptile);
+void unit_refresh_vision(struct unit *punit);
+void unit_list_refresh_vision(struct unit_list *punitlist);
 void pay_for_units(struct player *pplayer, struct city *pcity);
 void bounce_unit(struct unit *punit, bool verbose);
 

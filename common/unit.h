@@ -169,6 +169,9 @@ struct unit {
     bool colored;
     int color_index;
   } client;
+  struct {
+    struct vision *vision; /* See explanation in maphand.h. */
+  } server;
 
   bool has_orders;
   struct {

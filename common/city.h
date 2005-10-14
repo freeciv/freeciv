@@ -294,8 +294,7 @@ struct city {
      * set inside auto_arrange_workers. */
     bool needs_arrange;
 
-    /* The vision radius that is currently unfogged. */
-    int vision_radius_sq;
+    struct vision *vision; /* See explanation in maphand.h. */
   } server;
 
   int turn_founded;		/* In which turn was the city founded? */

@@ -287,24 +287,18 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
     unit_list_unlink(old_pcity->units_supported, punit);
   }
   if (old_owner != new_owner) {
-    int vision_radius_sq;
+    vision_clear_sight(punit->server.vision);
+    vision_free(punit->server.vision);
+    conceal_hidden_units(old_owner, punit->tile);
 
-    remove_unit_sight_points(punit);
     ai_reinit(punit);
 
     unit_list_unlink(old_owner->units, punit);
     unit_list_prepend(new_owner->units, punit);
     punit->owner = new_owner;
 
-    if (tile_has_special(punit->tile, S_FORTRESS)
-        && unit_profits_of_watchtower(punit)) {
-      vision_radius_sq = get_watchtower_vision(punit);
-    } else {
-      vision_radius_sq = unit_type(punit)->vision_radius_sq;
-    }
-    map_refog_circle(new_owner, punit->tile, -1, vision_radius_sq, FALSE);
-
-    conceal_hidden_units(old_owner, punit->tile);
+    punit->server.vision = vision_new(new_owner, punit->tile, TRUE);
+    unit_refresh_vision(punit);
     reveal_hidden_units(new_owner, punit->tile);
   }
 

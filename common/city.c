@@ -2461,7 +2461,7 @@ struct city *create_city_virtual(struct player *pplayer,
 
   pcity->server.workers_frozen = 0;
   pcity->server.needs_arrange = FALSE;
-  pcity->server.vision_radius_sq = -1; /* No vision. */
+  pcity->server.vision = NULL; /* No vision. */
 
   pcity->ai.founder_want = 0; /* calculating this is really expensive */
   pcity->ai.next_founder_want_recalc = 0; /* turns to recalc found_want */

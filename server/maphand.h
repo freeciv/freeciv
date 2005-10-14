@@ -65,12 +65,7 @@ void reveal_hidden_units(struct player *pplayer, struct tile *ptile);
 void conceal_hidden_units(struct player *pplayer, struct tile *ptile);
 void upgrade_city_rails(struct player *pplayer, bool discovery);
 void send_map_info(struct conn_list *dest);
-void map_fog_city_area(struct city *pcity);
-void map_unfog_city_area(struct city *pcity);
-void remove_unit_sight_points(struct unit *punit);
 void show_circle(struct player *pplayer,struct tile *ptile, int radius_sq);
-void map_refog_circle(struct player *pplayer, struct tile *ptile,
-		      int old_radius_sq, int new_radius_sq, bool pseudo);
 
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer);
 void map_change_seen(struct tile *ptile, struct player *pplayer, int change);
@@ -103,5 +98,61 @@ void map_calculate_borders(void);
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 int get_continent_size(Continent_id id);
 int get_ocean_size(Continent_id id);
+
+/****************************************************************************
+  Vision for units and cities:
+
+  A vision source has a fixed owner and tile; it changes only in range.
+  Vision range is given in radius squared; most such values will come from
+  the ruleset.  All vision is circular.
+
+  A vision source is created using vision_new; this creates the source
+  without any sight points.  Call vision_change_sight to change the sight
+  points of a vision source (generally called from city_refresh_vision
+  and unit_refresh vision; this can be called liberally to do updates after
+  an effect may have changed the source's vision range).  Clear the sight
+  using vision_clear_sight before freeing it with vision_free.
+
+  vision_get_sight returns the sight points of the source.  This should
+  only rarely be necessary since all fogging and unfogging operations
+  are taken care of internally.
+
+  The can_reveal_tiles parameter controls whether the vision source can
+  discover new (unknown) tiles or simply maintain vision on already-known
+  tiles.  Currently cities should pass FALSE for this since they cannot
+  discover new tiles.
+
+  ***** IMPORTANT *****
+  To change any of the parameters given to vision_new - that is, to change
+  the vision source's position (tile) or owner - you must create a new
+  vision and then clear and free the old vision.  Order is very important
+  here since you do not want to fog tiles intermediately.  You must store
+  a copy of the old vision source, then create and attach and fill out the
+  sight for a new vision source, and only then may you clear and free the
+  old vision source.  In most operations you'll want to stick some other
+  code in between so that for the bulk of the operation all tiles are
+  visible.  For instance to move a unit:
+
+    old_vision = punit->server.vision;
+    punit->server.vision = vision_new(punit->owner, dest_tile, TRUE);
+    vision_change_sight(punit->server.vision,
+                        get_unit_vision_at(punit, dest_tile));
+
+    ...then do all the work of moving the unit...
+
+    vision_clear_sight(old_vision);
+    vision_free(old_vision);
+
+  note that for all the code in the middle both the new and the old
+  vision sources are active.  The same process applies when transferring
+  a unit or city between players, etc.
+****************************************************************************/
+struct vision;
+struct vision *vision_new(struct player *pplayer, struct tile *ptile,
+			  bool can_reveal_tiles);
+int vision_get_sight(const struct vision *vision);
+void vision_change_sight(struct vision *vision, int radius_sq);
+void vision_clear_sight(struct vision *vision);
+void vision_free(struct vision *vision);
 
 #endif  /* FC__MAPHAND_H */

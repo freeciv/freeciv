@@ -766,6 +766,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   int old_trade_routes[NUM_TRADEROUTES];
   bv_imprs had_small_wonders;
   char old_city_name[MAX_LEN_NAME];
+  struct vision *old_vision;
 
   assert(pgiver != ptaker);
 
@@ -795,8 +796,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   } built_impr_iterate_end;
 
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
-  map_refog_circle(ptaker, pcity->tile,
-		   -1, pcity->server.vision_radius_sq, TRUE);
+  old_vision = pcity->server.vision;
+  pcity->server.vision = vision_new(ptaker, pcity->tile, FALSE);
+  vision_change_sight(pcity->server.vision, vision_get_sight(old_vision));
 
   sz_strlcpy(old_city_name, pcity->name);
   if (game.info.allowed_city_names == 1
@@ -904,14 +906,17 @@ void transfer_city(struct player *ptaker, struct city *pcity,
     update_tile_knowledge(pcity->tile);
   }
 
-  map_refog_circle(pgiver, pcity->tile,
-		   pcity->server.vision_radius_sq, -1, TRUE);
-
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
   if (game.info.savepalace) {
     build_free_small_wonders(pgiver, pcity->name, &had_small_wonders);
   }
+
+  /* Remove the sight points from the giver...and refresh the city's
+   * vision range, since it might be different under the new owner. */
+  vision_clear_sight(old_vision);
+  vision_free(old_vision);
+  city_refresh_vision(pcity);
 
   sanity_check_city(pcity);
   sync_cities();
@@ -967,7 +972,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
   }
 
   /* Before arranging workers to show unknown land */
-  map_unfog_city_area(pcity);
+  pcity->server.vision = vision_new(pplayer, ptile, FALSE);
+  city_refresh_vision(pcity);
 
   tile_set_city(ptile, pcity);
 
@@ -1004,19 +1010,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Put vision back to normal, if fortress acted as a watchtower */
   if (tile_has_special(ptile, S_FORTRESS)) {
-    /* This could be a helper function. */
-    unit_list_iterate((ptile)->units, punit) {
-      struct player *owner = unit_owner(punit);
-
-      if (player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-	map_refog_circle(owner, punit->tile,
-			 get_watchtower_vision(punit),
-			 punit->type->vision_radius_sq,
-			 FALSE);
-      }
-    } unit_list_iterate_end;
+    tile_clear_special(ptile, S_FORTRESS);
+    unit_list_refresh_vision(ptile->units);
   }
-  tile_clear_special(ptile, S_FORTRESS);
+
   update_tile_knowledge(ptile);
 
   pcity->synced = FALSE;
@@ -1057,7 +1054,7 @@ void remove_city(struct city *pcity)
   struct tile *ptile = pcity->tile;
   bv_imprs had_small_wonders;
   char *city_name = mystrdup(pcity->name);
-  int old_vision_range;
+  struct vision *old_vision;
 
   BV_CLR_ALL(had_small_wonders);
   built_impr_iterate(pcity, i) {
@@ -1143,8 +1140,8 @@ void remove_city(struct city *pcity)
      alive in the client. As the number of removed cities is small the leak is
      acceptable. */
 
-  old_vision_range = pcity->server.vision_radius_sq;
-  pcity->server.vision_radius_sq = -1;
+  old_vision = pcity->server.vision;
+  pcity->server.vision = NULL;
   game_remove_city(pcity);
   map_update_borders_city_destroyed(ptile);
 
@@ -1154,7 +1151,8 @@ void remove_city(struct city *pcity)
     }
   } players_iterate_end;
 
-  map_refog_circle(pplayer, ptile, old_vision_range, -1, TRUE);
+  vision_clear_sight(old_vision);
+  vision_free(old_vision);
 
   /* Update available tiles in adjacent cities. */
   map_city_radius_iterate(ptile, tile1) {
@@ -1810,7 +1808,7 @@ void building_lost(struct city *pcity, Impr_type_id id)
 
   /* Re-update the city's visible area.  This updates fog if the vision
    * range increases or decreases. */
-  map_unfog_city_area(pcity);
+  city_refresh_vision(pcity);
 }
 
 /**************************************************************************
@@ -2124,4 +2122,16 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
       } built_impr_iterate_end;
     }
   } adjc_iterate_end;
+}
+
+/****************************************************************************
+  Refresh the city's vision.
+
+  This function has very small overhead and can be called any time effects
+  may have changed the vision range of the city.
+****************************************************************************/
+void city_refresh_vision(struct city *pcity)
+{
+  vision_change_sight(pcity->server.vision,
+		      get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ));
 }

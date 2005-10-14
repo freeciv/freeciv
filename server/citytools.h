@@ -89,5 +89,6 @@ void sync_cities(void);
 bool can_place_worker_here(struct city *pcity, int city_x, int city_y);
 void check_city_workers(struct player *pplayer);
 void city_landlocked_sell_coastal_improvements(struct tile *ptile);
+void city_refresh_vision(struct city *pcity);
 
 #endif  /* FC__CITYTOOLS_H */

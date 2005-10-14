@@ -211,15 +211,7 @@ static void update_player_after_tech_researched(struct player* plr,
   
   /* Enhance vision of units inside a fortress */
   if (tech_flag(tech_found, TF_WATCHTOWER)) {
-    unit_list_iterate(plr->units, punit) {
-      if (tile_has_special(punit->tile, S_FORTRESS)
-	  && is_ground_unit(punit)) {
-	map_refog_circle(plr, punit->tile,
-			 unit_type(punit)->vision_radius_sq,
-			 get_watchtower_vision(punit), FALSE);
-      }
-    }
-    unit_list_iterate_end;
+    unit_list_refresh_vision(plr->units);
   }
 
   /* Notify a player about new governments available */

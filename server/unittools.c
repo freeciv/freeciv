@@ -663,18 +663,7 @@ static void update_unit_activity(struct unit *punit)
 	/* If a watchtower has been pillaged, reduce sight to normal */
 	if (what == S_FORTRESS) {
 	  freelog(LOG_VERBOSE, "Watchtower pillaged!");
-	  /* This could be a helper function. */
-	  unit_list_iterate(ptile->units, punit2) {
-            struct player *owner = unit_owner(punit2);
-
-            if (is_ground_unit(punit2)
-                && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-              map_refog_circle(owner, punit2->tile,
-			       get_watchtower_vision(punit2),
-			       unit_type(punit2)->vision_radius_sq, FALSE);
-            }
-	  }
-	  unit_list_iterate_end;
+	  unit_list_refresh_vision(ptile->units);
 	}
       }
     }
@@ -697,18 +686,7 @@ static void update_unit_activity(struct unit *punit)
       /* If a watchtower has been pillaged, reduce sight to normal */
       if (what_pillaged == S_FORTRESS) {
 	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
-	/* This could be a helper function. */
-	unit_list_iterate(ptile->units, punit2) {
-          struct player *owner = unit_owner(punit2);
-
-          if (is_ground_unit(punit2)
-              && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-	    map_refog_circle(owner, ptile,
-			     get_watchtower_vision(punit2),
-			     unit_type(punit2)->vision_radius_sq, FALSE);
-          }
-	}
-	unit_list_iterate_end;
+	unit_list_refresh_vision(ptile->units);
       }
     }
   }
@@ -735,18 +713,7 @@ static void update_unit_activity(struct unit *punit)
       tile_set_special(ptile, S_FORTRESS);
       unit_activity_done = TRUE;
       /* watchtower becomes effective */
-      /* This could be a helper function. */
-      unit_list_iterate(ptile->units, punit) {
-        struct player *owner = unit_owner(punit);
-
-        if (is_ground_unit(punit)
-            && player_knows_techs_with_flag(owner, TF_WATCHTOWER)) {
-          map_refog_circle(pplayer, ptile,
-			   unit_type(punit)->vision_radius_sq,
-			   get_watchtower_vision(punit), FALSE);
-        }
-      }
-      unit_list_iterate_end;
+      unit_list_refresh_vision(ptile->units);
     }
   }
 
@@ -1275,7 +1242,6 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
 		  bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  int old_radius_sq, new_radius_sq;
   int old_mr = unit_move_rate(punit), old_hp = unit_type(punit)->hp;
 
   assert(test_unit_upgrade(punit, is_free) == UR_OK);
@@ -1283,14 +1249,6 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
   if (!is_free) {
     pplayer->economic.gold -=
 	unit_upgrade_price(pplayer, punit->type, to_unit);
-  }
-
-  /* save old vision range */
-  if (tile_has_special(punit->tile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit)) {
-    old_radius_sq = get_watchtower_vision(punit);
-  } else {
-    old_radius_sq = unit_type(punit)->vision_radius_sq;
   }
 
   punit->type = to_unit;
@@ -1303,14 +1261,7 @@ void upgrade_unit(struct unit *punit, struct unit_type *to_unit,
 
   conn_list_do_buffer(pplayer->connections);
 
-  /* apply new vision range */
-  if (tile_has_special(punit->tile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit)) {
-    new_radius_sq = get_watchtower_vision(punit);
-  } else {
-    new_radius_sq = to_unit->vision_radius_sq;
-  }
-  map_refog_circle(pplayer, punit->tile, old_radius_sq, new_radius_sq, FALSE);
+  unit_refresh_vision(punit);
 
   send_unit_info(NULL, punit);
   conn_list_do_unbuffer(pplayer->connections);
@@ -1388,14 +1339,8 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
     send_city_info(pplayer, pcity);
   }
 
-  if (tile_has_special(ptile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit)) {
-    map_refog_circle(pplayer, punit->tile,
-		     -1, get_watchtower_vision(punit), FALSE);
-  } else {
-    map_refog_circle(pplayer, ptile,
-		     -1, unit_type(punit)->vision_radius_sq, FALSE);
-  }
+  punit->server.vision = vision_new(pplayer, ptile, TRUE);
+  unit_refresh_vision(punit);
 
   send_unit_info(NULL, punit);
   maybe_make_contact(ptile, unit_owner(punit));
@@ -1447,7 +1392,9 @@ static void server_remove_unit(struct unit *punit)
     }
   } players_iterate_end;
 
-  remove_unit_sight_points(punit);
+  vision_clear_sight(punit->server.vision);
+  vision_free(punit->server.vision);
+  punit->server.vision = NULL;
 
   /* check if this unit had F_GAMELOSS flag */
   if (unit_flag(punit, F_GAMELOSS) && unit_owner(punit)->is_alive) {
@@ -2551,17 +2498,10 @@ static void wakeup_neighbor_sentries(struct unit *punit)
      wake them up if the punit is farther away than 3. */
   square_iterate(punit->tile, 3, ptile) {
     unit_list_iterate(ptile->units, penemy) {
-      int radius_sq;
+      int radius_sq = get_unit_vision_at(penemy, penemy->tile);
       enum unit_move_type move_type = unit_type(penemy)->move_type;
       struct terrain *pterrain = tile_get_terrain(ptile);
 
-      if (tile_has_special(ptile, S_FORTRESS)
-	  && unit_profits_of_watchtower(penemy)) {
-	radius_sq = get_watchtower_vision(penemy);
-      } else {
-	radius_sq = unit_type(penemy)->vision_radius_sq;
-      }
-      
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
 	  && radius_sq >= sq_map_distance(punit->tile, ptile)
@@ -2721,6 +2661,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   struct tile *psrctile = punit->tile;
   struct city *pcity;
   struct unit *ptransporter = NULL;
+  struct vision *old_vision = punit->server.vision;
     
   conn_list_do_buffer(pplayer->connections);
 
@@ -2740,8 +2681,11 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
     /* Insert them again. */
     unit_list_iterate(cargo_units, pcargo) {
-      map_refog_circle(unit_owner(pcargo), pdesttile,
-		       -1, unit_type(pcargo)->vision_radius_sq, FALSE);
+      struct vision *old_vision = pcargo->server.vision;
+
+      pcargo->server.vision = vision_new(pcargo->owner, pdesttile, TRUE);
+      vision_change_sight(pcargo->server.vision,
+			  get_unit_vision_at(pcargo, pdesttile));
 
       /* Silently free orders since they won't be applicable anymore. */
       free_unit_orders(pcargo);
@@ -2751,8 +2695,10 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       unit_list_prepend(pdesttile->units, pcargo);
       check_unit_activity(pcargo);
       send_unit_info_to_onlookers(NULL, pcargo, psrctile, FALSE);
-      map_refog_circle(unit_owner(pcargo), psrctile,
-		       unit_type(pcargo)->vision_radius_sq, -1, FALSE);
+
+      vision_clear_sight(old_vision);
+      vision_free(old_vision);
+
       handle_unit_move_consequences(pcargo, psrctile, pdesttile);
     } unit_list_iterate_end;
     unit_list_unlink_all(cargo_units);
@@ -2766,14 +2712,9 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
      move */
 
   /* Enhance vision if unit steps into a fortress */
-  if (unit_profits_of_watchtower(punit)
-      && tile_has_special(pdesttile, S_FORTRESS)) {
-    map_refog_circle(pplayer, pdesttile,
-		     -1, get_watchtower_vision(punit), FALSE);
-  } else {
-    map_refog_circle(pplayer, pdesttile,
-		     -1, unit_type(punit)->vision_radius_sq, FALSE);
-  }
+  punit->server.vision = vision_new(punit->owner, pdesttile, TRUE);
+  vision_change_sight(punit->server.vision,
+		      get_unit_vision_at(punit, pdesttile));
 
   unit_list_unlink(psrctile->units, punit);
   punit->tile = pdesttile;
@@ -2852,14 +2793,8 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
    * at (src_x, src_y) */
   reveal_hidden_units(pplayer, pdesttile);
 
-  if (unit_profits_of_watchtower(punit)
-      && tile_has_special(psrctile, S_FORTRESS)) {
-    map_refog_circle(pplayer, psrctile,
-		     get_watchtower_vision(punit), -1, FALSE);
-  } else {
-    map_refog_circle(pplayer, psrctile,
-		     unit_type(punit)->vision_radius_sq, -1, FALSE);
-  }
+  vision_clear_sight(old_vision);
+  vision_free(old_vision);
 
   /*
    * Let the unit goes out of sight for the players which doesn't see
@@ -2952,16 +2887,9 @@ static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 {
   bool cancel = FALSE;
-  int radius_sq;
+  int radius_sq = get_unit_vision_at(punit, punit->tile);
   struct player *pplayer = unit_owner(punit);
 
-  if (tile_has_special(punit->tile, S_FORTRESS)
-      && unit_profits_of_watchtower(punit)) {
-    radius_sq = get_watchtower_vision(punit);
-  } else {
-    radius_sq = unit_type(punit)->vision_radius_sq;
-  }
-  
   circle_iterate(punit->tile, radius_sq, ptile) {
     struct unit *penemy =
 	is_non_allied_unit_tile(ptile, pplayer);
@@ -3241,22 +3169,36 @@ bool execute_orders(struct unit *punit)
   } /* end while */
 }
 
-/**************************************************************************
-  Get the vision range of a unit standing inside a 'watchtower'.
-**************************************************************************/
-int get_watchtower_vision(struct unit *punit)
+int get_unit_vision_at(struct unit *punit, struct tile *ptile)
 {
-  return (unit_type(punit)->vision_radius_sq
-	  + terrain_control.watchtower_extra_vision_radius_sq);
+  int radius_sq = punit->type->vision_radius_sq;
+
+  if (is_ground_unit(punit)
+      && player_knows_techs_with_flag(unit_owner(punit), TF_WATCHTOWER)) {
+    radius_sq += terrain_control.watchtower_extra_vision_radius_sq;
+  }
+
+  return radius_sq;
 }
 
-/**************************************************************************
-  Would a unit gain extra vision range due to a 'watchtower', if there
-  was one present?
-**************************************************************************/
-bool unit_profits_of_watchtower(struct unit *punit)
+/****************************************************************************
+  Refresh the unit's vision.
+
+  This function has very small overhead and can be called any time effects
+  may have changed the vision range of the city.
+****************************************************************************/
+void unit_refresh_vision(struct unit *punit)
 {
-  return (is_ground_unit(punit)
-	  && player_knows_techs_with_flag(unit_owner(punit),
-					  TF_WATCHTOWER));
+  vision_change_sight(punit->server.vision,
+		      get_unit_vision_at(punit, punit->tile));
+}
+
+/****************************************************************************
+  Refresh the vision of all units in the list - see unit_refresh_vision.
+****************************************************************************/
+void unit_list_refresh_vision(struct unit_list *punitlist)
+{
+  unit_list_iterate(punitlist, punit) {
+    unit_refresh_vision(punit);
+  } unit_list_iterate_end;
 }

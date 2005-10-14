@@ -1904,6 +1904,16 @@ void server_game_init(void)
 void server_game_free()
 {
   players_iterate(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      vision_free(punit->server.vision);
+      punit->server.vision = NULL;
+    } unit_list_iterate_end;
+
+    city_list_iterate(pplayer->cities, pcity) {
+      vision_free(pcity->server.vision);
+      pcity->server.vision = NULL;
+    } city_list_iterate_end;
+
     player_map_free(pplayer);
   } players_iterate_end;
   game_free();

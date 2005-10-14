@@ -121,6 +121,9 @@ void game_remove_unit(struct unit *punit)
 {
   struct city *pcity;
 
+  /* Opaque server-only variable: the server must free this earlier. */
+  assert(punit->server.vision == NULL);
+
   freelog(LOG_DEBUG, "game_remove_unit %d", punit->id);
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	  punit->id, get_nation_name(unit_owner(punit)->nation),
@@ -158,6 +161,9 @@ void game_remove_city(struct city *pcity)
   freelog(LOG_DEBUG, "removing city %s, %s, (%d %d)", pcity->name,
 	   get_nation_name(city_owner(pcity)->nation), pcity->tile->x,
 	  pcity->tile->y);
+
+  /* Opaque server-only variable: the server must free this earlier. */
+  assert(pcity->server.vision == NULL);
 
   city_map_checked_iterate(pcity->tile, x, y, map_tile) {
     set_worker_city(pcity, x, y, C_TILE_EMPTY);
