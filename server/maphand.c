@@ -219,7 +219,7 @@ void global_warming(int effect)
 {
   int k;
 
-  freelog(LOG_NORMAL, "Global warming: %d", game.info.heating);
+  freelog(LOG_VERBOSE, "Global warming: %d", game.info.heating);
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
@@ -263,7 +263,7 @@ void nuclear_winter(int effect)
 {
   int k;
 
-  freelog(LOG_NORMAL, "Nuclear winter: %d", game.info.cooling);
+  freelog(LOG_VERBOSE, "Nuclear winter: %d", game.info.cooling);
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
