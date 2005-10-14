@@ -90,6 +90,10 @@ KNOWN BUGS:
    turn-done for the new turn.  (This is particularly annoying in conjunction
    with the timer bug above.)
 
+ - Transported units do not work with watchtower vision, and will desynch
+   the fog of war.  None of the provided rulesets allow transported units on
+   land, so this won't affect the default play.
+
 REPORTING A BUG:
 ================
 
