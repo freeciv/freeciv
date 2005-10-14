@@ -81,20 +81,19 @@ void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
 
 /****************************************************************************
   Called to find and choose (pick) a research target on the way to the
-  player's goal.  Return TRUE iff the tech is set.
+  player's goal.  Return a tech iff the tech is set.
 ****************************************************************************/
-static bool choose_goal_tech(struct player *plr)
+Tech_type_id choose_goal_tech(struct player *plr)
 {
-  int sub_goal;
+  Tech_type_id sub_goal;
   struct player_research *research = get_player_research(plr);
 
   sub_goal = get_next_tech(plr, research->tech_goal);
 
   if (sub_goal != A_UNSET) {
-    research->researching = sub_goal;
-    return TRUE;
+    choose_tech(plr, sub_goal);
   }
-  return FALSE;
+  return sub_goal;
 }
 
 /****************************************************************************
@@ -353,9 +352,10 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   }
 
   if (tech_found == research->researching) {
+    Tech_type_id next_tech = choose_goal_tech(plr);
     /* try to pick new tech to research */
 
-    if (choose_goal_tech(plr)) {
+    if (next_tech != A_UNSET) {
       notify_team(plr, NULL, E_TECH_LEARNED,
 		       _("Learned %s. "
 			 "Our scientists focus on %s; goal is %s."),
@@ -595,7 +595,7 @@ void init_tech(struct player *plr)
 
   /* Mark the reachable techs */
   update_research(plr);
-  if (!choose_goal_tech(plr)) {
+  if (choose_goal_tech(plr) == A_UNSET) {
     choose_random_tech(plr);
   }
 }

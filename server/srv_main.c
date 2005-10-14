@@ -600,7 +600,9 @@ static void end_phase(void)
 
   phase_players_iterate(pplayer) {
     if (get_player_research(pplayer)->researching == A_UNSET) {
-      choose_random_tech(pplayer);
+      if (choose_goal_tech(pplayer) == A_UNSET) {
+        choose_random_tech(pplayer);
+      }
       update_tech(pplayer, 0);
     }
   } phase_players_iterate_end;
