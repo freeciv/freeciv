@@ -97,8 +97,9 @@ void map_expose(int x, int y, int width, int height)
      * any pending updates, to make sure only the most up-to-date data
      * is written (otherwise drawing bugs happen when old data is copied
      * to screen).  Then we draw all changed areas to the screen. */
-    dirty_rect(x, y, width, height);
-    unqueue_mapview_updates(TRUE);
+    unqueue_mapview_updates(FALSE);
+    canvas_copy(get_mapview_window(), mapview.store, x, y, x, y,
+		width, height);
   }
 } 
 

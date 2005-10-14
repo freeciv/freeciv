@@ -349,9 +349,12 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
      * any pending updates, to make sure only the most up-to-date data
      * is written (otherwise drawing bugs happen when old data is copied
      * to screen).  Then we draw all changed areas to the screen. */
-    dirty_rect(event->xexpose.x, event->xexpose.y,
-	       event->xexpose.width, event->xexpose.height);
-    unqueue_mapview_updates(TRUE);
+    unqueue_mapview_updates(FALSE);
+    XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
+	      civ_gc,
+	      event->xexpose.x, event->xexpose.y,
+	      event->xexpose.width, event->xexpose.height,
+	      event->xexpose.x, event->xexpose.y);
   }
   refresh_overview_canvas();
 }
