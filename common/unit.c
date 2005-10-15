@@ -505,7 +505,15 @@ enum add_build_city_result test_unit_add_or_build_city(struct unit *punit)
 **************************************************************************/
 bool can_unit_change_homecity(struct unit *punit)
 {
-  return punit->tile->city && punit->tile->city->owner == punit->owner;
+  /* Requirements to change homecity:
+   *
+   * 1. Homeless cities can't change homecity (this is a feature since
+   *    being homeless is a big benefit).
+   * 2. The unit must be inside the city it is rehoming to.
+   * 3. Of course you can only have your own cities as homecity. */
+  return (punit->homecity != -1
+	  && punit->tile->city
+	  && punit->tile->city->owner == punit->owner);
 }
 
 /**************************************************************************
