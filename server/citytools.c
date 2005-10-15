@@ -1332,9 +1332,9 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   struct city *pcity = tile_get_city(ptile);
 
   packet->id = pdcity->id;
-  if (pdtile->owner >= 0) {
+  if (ptile->owner) {
     /* Use tile owner information not city owner information. */
-    packet->owner = pdtile->owner;
+    packet->owner = ptile->owner->player_no;
   } else {
     packet->owner = pdcity->owner->player_no;
   }

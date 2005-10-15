@@ -464,6 +464,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 
   info.x = ptile->x;
   info.y = ptile->y;
+  info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
   if (ptile->spec_sprite) {
     sz_strlcpy(info.spec_sprite, ptile->spec_sprite);
   } else {
@@ -484,7 +485,6 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 	info.special[spe] = BV_ISSET(ptile->special, spe);
       }
       info.continent = ptile->continent;
-      info.owner = ptile->owner ? ptile->owner->player_no : MAP_TILE_OWNER_NULL;
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
 	       && map_get_seen(ptile, pplayer) == 0) {
@@ -492,7 +492,6 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 
       info.known = TILE_KNOWN_FOGGED;
       info.type = plrtile->terrain->index;
-      info.owner = plrtile->owner >= 0 ? plrtile->owner : MAP_TILE_OWNER_NULL;
       for (spe = 0; spe < S_LAST; spe++) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
       }
@@ -1043,7 +1042,6 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
 
   plrtile->last_updated = GAME_START_YEAR;
   plrtile->own_seen = plrtile->seen_count;
-  plrtile->owner = -1;
 }
 
 /****************************************************************************
@@ -1071,16 +1069,9 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
 
   if (plrtile->terrain != ptile->terrain
       || memcmp(&plrtile->special, &ptile->special,
-		sizeof(plrtile->special)) != 0
-      || (ptile->owner && plrtile->owner != ptile->owner->player_no)
-      || (!ptile->owner && plrtile->owner >= 0)) {
+		sizeof(plrtile->special)) != 0) {
     plrtile->terrain = ptile->terrain;
     plrtile->special = ptile->special;
-    if (ptile->owner) {
-      plrtile->owner = ptile->owner->player_no;
-    } else {
-      plrtile->owner = -1;
-    }
     return TRUE;
   }
   return FALSE;
@@ -1148,7 +1139,6 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       map_set_known(ptile, pdest);
       dest_tile->terrain = from_tile->terrain;
       dest_tile->special = from_tile->special;
-      dest_tile->owner = from_tile->owner;
       dest_tile->last_updated = from_tile->last_updated;
       send_tile_info(pdest->connections, ptile);
 	
@@ -1638,7 +1628,10 @@ static void map_update_borders_recalculate_position(struct tile *ptile)
 
       if (new_owner != tile_get_owner(tile1)) {
 	tile_set_owner(tile1, new_owner);
-        update_tile_knowledge(tile1);
+	/* Note we call send_tile_info, not update_tile_knowledge here.
+	 * Borders information is sent to everyone who has seen the tile
+	 * before; it's not stored in the playermap. */
+	send_tile_info(NULL, tile1);
 	tile_update_owner(tile1);
 	/* Update happiness */
 	if (game.info.happyborders > 0) {

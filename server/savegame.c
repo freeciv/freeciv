@@ -185,8 +185,7 @@
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent map_editor known32fix turn " \
 "attributes watchtower rulesetdir client_worklists orders " \
-"startunits turn_last_built improvement_order technology_order embassies " \
-"owner_player_map"
+"startunits turn_last_built improvement_order technology_order embassies"
 
 static const char hex_chars[] = "0123456789abcdef";
 
@@ -2270,7 +2269,6 @@ static void player_map_load(struct player *plr, int plrno,
 			    char** improvement_order,
 			    int improvement_order_size)
 {
-  char *savefile_options = secfile_lookup_str(file, "savefile.options");
   int i;
 
   if (!plr->is_alive)
@@ -2331,29 +2329,6 @@ static void player_map_load(struct player *plr, int plrno,
 		  (file, "player%d.map_ud%03d", plrno, nat_y),
 		  map_get_player_tile(ptile, plr)->last_updated |=
 		  ascii_hex2bin(ch, 3));
-
-    /* get 4-bit segments of 8-bit "owner" field */
-    if (has_capability("owner_player_map", savefile_options)) {
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-                    secfile_lookup_str
-                    (file, "player%d.map_oa%03d", plrno, nat_y),
-                    map_get_player_tile(ptile, plr)->owner =
-                    ascii_hex2bin(ch, 0));
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-                    secfile_lookup_str
-                    (file, "player%d.map_ob%03d", plrno, nat_y),
-                    map_get_player_tile(ptile, plr)->owner =
-                    ascii_hex2bin(ch, 1));
-    } else {
-      int nat_x, nat_y;
-      for (nat_y = 0; nat_y < map.ysize; nat_y++) {
-        for (nat_x = 0; nat_x < map.xsize; nat_x++) {
-          struct tile *ptile = native_pos_to_tile(nat_x, nat_y);
-          map_get_player_tile(ptile, plr)->owner =
-            ptile->owner ? ptile->owner->player_no : -1;
-        }
-      }
-    }
 
     {
       int j;
@@ -2932,14 +2907,6 @@ static void player_save(struct player *plr, int plrno,
     SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_ud%03d", plrno,
 			 bin2ascii_hex(map_get_player_tile
 				       (ptile, plr)->last_updated, 3));
-
-    /* put 4-bit segments of 8-bit "owner" field */
-    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_oa%03d", plrno,
-                         bin2ascii_hex(map_get_player_tile
-                                       (ptile, plr)->owner, 0));
-    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_ob%03d", plrno,
-                         bin2ascii_hex(map_get_player_tile
-                                       (ptile, plr)->owner, 1));
 
     if (TRUE) {
       struct dumb_city *pdcity;
