@@ -314,7 +314,7 @@ bool unleash_barbarians(struct tile *ptile)
 
   /* FIXME: I don't know if this is needed */
   if (utile) {
-    show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
+    map_show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
   }
 
   return alive;
@@ -467,8 +467,8 @@ static void try_summon_barbarians(void)
   } unit_list_iterate_end;
 
   /* to let them know where to get you */
-  show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
-  show_circle(barbarians, pc->tile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
+  map_show_circle(barbarians, utile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
+  map_show_circle(barbarians, pc->tile, BARBARIAN_INITIAL_VISION_RADIUS_SQ);
 
   /* There should probably be a different message about Sea Raiders */
   if (is_land_barbarian(barbarians)) {

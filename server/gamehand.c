@@ -80,7 +80,7 @@ static void place_starting_unit(struct tile *ptile, struct player *pplayer,
   }
 
   /* Expose visible area. */
-  show_circle(pplayer, ptile, game.info.init_vis_radius_sq);
+  map_show_circle(pplayer, ptile, game.info.init_vis_radius_sq);
 
   switch(crole) {
   case 'c':

@@ -1541,7 +1541,8 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
       }
     } else {
       if (!map_is_known(ptile, pviewer)) {
-	show_circle(pviewer, ptile, 0);
+	/* Without the conditional we'd have an infinite loop here. */
+	map_show_tile(pviewer, ptile);
       }
       if (map_is_known_and_seen(ptile, pviewer)) {
 	if (pcity) {		/* it's there and we see it; update and send */

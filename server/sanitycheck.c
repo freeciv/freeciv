@@ -89,7 +89,6 @@ static void check_fow(void)
       /* underflow of unsigned int */
       SANITY_CHECK(plr_tile->seen_count < 60000);
       SANITY_CHECK(plr_tile->own_seen < 60000);
-      SANITY_CHECK(plr_tile->pending_seen < 60000);
 
       if (plr_tile->seen_count > 0) {
 	SANITY_CHECK(BV_ISSET(ptile->tile_seen, pplayer->player_no));
@@ -98,9 +97,6 @@ static void check_fow(void)
       }
 
       SANITY_CHECK(plr_tile->own_seen <= plr_tile->seen_count);
-      if (map_is_known(ptile, pplayer)) {
-	SANITY_CHECK(plr_tile->pending_seen == 0);
-      }
     } players_iterate_end;
   } whole_map_iterate_end;
 

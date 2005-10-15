@@ -45,7 +45,6 @@ struct player_tile {
      the square stays unknown. However, we still have to keep count
      of the seen points, so they are kept in here. When the tile
      then becomes known they are moved to seen. */
-  unsigned short pending_seen;
   struct dumb_city* city;
   short last_updated;
 };
@@ -64,14 +63,17 @@ void reveal_hidden_units(struct player *pplayer, struct tile *ptile);
 void conceal_hidden_units(struct player *pplayer, struct tile *ptile);
 void upgrade_city_rails(struct player *pplayer, bool discovery);
 void send_map_info(struct conn_list *dest);
-void show_circle(struct player *pplayer,struct tile *ptile, int radius_sq);
+
+void map_show_tile(struct player *pplayer, struct tile *ptile);
+void map_show_circle(struct player *pplayer,
+		     struct tile *ptile, int radius_sq);
+void map_show_all(struct player *pplayer);
 
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer);
 void map_change_seen(struct tile *ptile, struct player *pplayer, int change);
 bool map_is_known(const struct tile *ptile, const struct player *pplayer);
 void map_set_known(struct tile *ptile, struct player *pplayer);
 void map_clear_known(struct tile *ptile, struct player *pplayer);
-void map_know_all(struct player *pplayer);
 void map_know_and_see_all(struct player *pplayer);
 void show_map_to_all(void);
 

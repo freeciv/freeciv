@@ -56,9 +56,6 @@
 static Continent_id *lake_surrounders;
 static int *continent_sizes, *ocean_sizes;
 
-static void map_unfog_tile(struct player *pplayer, struct tile *ptile);
-static void map_fog_tile(struct player *pplayer, struct tile *ptile);
-
 /**************************************************************************
   Number this tile and nearby tiles (recursively) with the specified
   continent number nr, using a flood-fill algorithm.
@@ -503,72 +500,6 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 }
 
 /****************************************************************************
-  Get the "pending" seen value for this tile.
-
-  "pending" seen is a reference count on the number of sources that are
-  in vision range of this tile, but don't have full vision of their own.
-  Cities are the primary example: a city in sight of an unknown tile will
-  not unfog that tile (thus incrementing the "seen" value) but will
-  instead add to the "pending_seen" value.  Once the tile is discovered by
-  another unit, all pending_seen values are turned into regular seen
-  references.
-****************************************************************************/
-static int map_get_pending_seen(struct player *pplayer, struct tile *ptile)
-{
-  return map_get_player_tile(ptile, pplayer)->pending_seen;
-}
-
-/****************************************************************************
-  Set the "pending" seen value for this tile.
-
-  See map_get_pending_seen.
-****************************************************************************/
-static void map_set_pending_seen(struct player *pplayer, struct tile *ptile,
-				 int newv)
-{
-  map_get_player_tile(ptile, pplayer)->pending_seen = newv;
-}
-
-/****************************************************************************
-  Increase the "pending" seen value.
-
-  See map_get_pending_seen.
-****************************************************************************/
-static void increment_pending_seen(struct player *pplayer, struct tile *ptile)
-{
-  map_get_player_tile(ptile, pplayer)->pending_seen += 1;
-}
-
-/****************************************************************************
-  Decrease the "pending" seen value.
-
-  See map_get_pending_seen.
-****************************************************************************/
-static void decrement_pending_seen(struct player *pplayer, struct tile *ptile)
-{
-  struct player_tile *plr_tile = map_get_player_tile(ptile, pplayer);
-
-  assert(plr_tile->pending_seen != 0);
-  plr_tile->pending_seen -= 1;
-}
-
-/****************************************************************************
-  Turn "pending" seen values into seen (unfogged) values.
-
-  See map_get_pending_seen.
-****************************************************************************/
-static void reveal_pending_seen(struct player *pplayer, struct tile *ptile)
-{
-  int pseen = map_get_pending_seen(pplayer, ptile);
-
-  map_set_pending_seen(pplayer, ptile, 0);
-  while (pseen > 0) {
-    map_unfog_tile(pplayer, ptile);
-    pseen--;
-  }
-}
-
-/****************************************************************************
   Checks for hidden units around (x,y).  Such units can be invisible even
   on a KNOWN_AND_SEEN tile, so unfogging might not reveal them.
 ****************************************************************************/
@@ -610,8 +541,9 @@ void conceal_hidden_units(struct player *pplayer, struct tile *ptile)
 }
 
 /****************************************************************************
-  Backend function to do some of the work of unfogging a tile.  It's not
-  entirely clear when this should be called instead of map_unfog_tile.
+  This is a backend function that marks a tile as unfogged.  Call this when
+  map_unfog_tile adds the first point of visibility to the tile, or when
+  shared vision changes cause a tile to become unfogged.
 ****************************************************************************/
 static void really_unfog_tile(struct player *pplayer, struct tile *ptile)
 {
@@ -657,32 +589,30 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile)
   NULL.  The caller may wish to buffer_shared_vision if calling this
   function multiple times.
 ****************************************************************************/
-static void map_unfog_tile(struct player *pplayer, struct tile *ptile)
+static void map_unfog_tile(struct player *pplayer, struct tile *ptile,
+			   bool can_reveal_tiles)
 {
-  /* Did the tile just become visible?
-     - send info about units and cities and the tile itself */
-
   /* Increase seen count. */
   shared_vision_change_seen(ptile, pplayer, +1);
 
-  /* And then give the vision. */
+  /* And then give the vision.  Did the tile just become visible?
+   * Then send info about units and cities and the tile itself. */
   players_iterate(pplayer2) {
-    if (pplayer2 != pplayer
-	&& !really_gives_vision(pplayer, pplayer2)) {
-      continue;
-    }
+    if (pplayer2 == pplayer || really_gives_vision(pplayer, pplayer2)) {
+      bool known = map_is_known(ptile, pplayer2);
 
-    if (map_get_seen(ptile, pplayer2) == 1
-	|| !map_is_known(ptile, pplayer2)) {
-      really_unfog_tile(pplayer2, ptile);
+      if ((!known && can_reveal_tiles)
+	  || (known && map_get_seen(ptile, pplayer2) == 1)) {
+	really_unfog_tile(pplayer2, ptile);
+      }
     }
-    reveal_pending_seen(pplayer2, ptile);
   } players_iterate_end;
 }
 
 /****************************************************************************
-  Backend function to do some of the work of unfogging a tile.  It's not
-  entirely clear when this should be called instead of map_unfog_tile.
+  This is a backend function that marks a tile as fogged.  Call this when
+  map_fog_tile removes the last point of visibility from the tile, or when
+  shared vision changes cause a tile to become fogged.
 ****************************************************************************/
 static void really_fog_tile(struct player *pplayer, struct tile *ptile)
 {
@@ -706,24 +636,16 @@ static void really_fog_tile(struct player *pplayer, struct tile *ptile)
 **************************************************************************/
 static void map_fog_tile(struct player *pplayer, struct tile *ptile)
 {
-  if (map_is_known(ptile, pplayer)) {
-    /* the player himself */
-    shared_vision_change_seen(ptile, pplayer, -1);
-    if (map_get_seen(ptile, pplayer) == 0) {
-      really_fog_tile(pplayer, ptile);
-    }
+  shared_vision_change_seen(ptile, pplayer, -1);
 
-    /* players (s)he gives shared vision */
+  if (map_is_known(ptile, pplayer)) {
     players_iterate(pplayer2) {
-      if (!really_gives_vision(pplayer, pplayer2)) {
-	continue;
-      }
-      if (map_get_seen(ptile, pplayer2) == 0) {
-	really_fog_tile(pplayer2, ptile);
+      if (pplayer2 == pplayer || really_gives_vision(pplayer, pplayer2)) {
+	if (map_get_seen(ptile, pplayer2) == 0) {
+	  really_fog_tile(pplayer2, ptile);
+	}
       }
     } players_iterate_end;
-  } else {
-    decrement_pending_seen(pplayer, ptile);
   }
 }
 
@@ -771,87 +693,102 @@ static void map_refog_circle(struct player *pplayer, struct tile *ptile,
     buffer_shared_vision(pplayer);
     circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
       if (dr > old_radius_sq && dr <= new_radius_sq) {
-	if (can_reveal_tiles || map_is_known(tile1, pplayer)) {
-	  map_unfog_tile(pplayer, tile1);
-	} else {
-	  increment_pending_seen(pplayer, tile1);
-	}
+	map_unfog_tile(pplayer, tile1, can_reveal_tiles);
       } else if (dr > new_radius_sq && dr <= old_radius_sq) {
-	if (can_reveal_tiles || map_is_known(tile1, pplayer)) {
-	  map_fog_tile(pplayer, tile1);
-	} else {
-	  decrement_pending_seen(pplayer, tile1);
-	}
+	map_fog_tile(pplayer, tile1);
       }
     } circle_dxyr_iterate_end;
     unbuffer_shared_vision(pplayer);
   }
 }
 
-/**************************************************************************
-Shows area even if still fogged. If the tile is not "seen" units are not
-shown
-**************************************************************************/
-static void really_show_tile(struct player *pplayer, struct tile *ptile)
+/****************************************************************************
+  Shows the area to the player.  Unless the tile is "seen", it will remain
+  fogged and units will be hidden.
+
+  Callers may wish to buffer_shared_vision before calling this function.
+****************************************************************************/
+void map_show_tile(struct player *src_player, struct tile *ptile)
 {
-  struct city *pcity;
-  bool old_known = map_is_known(ptile, pplayer);
+  static int recurse = 0;
+  freelog(LOG_DEBUG, "Showing %i,%i to %s",
+	  TILE_XY(ptile), src_player->name);
 
-  freelog(LOG_DEBUG, "Showing %i,%i", TILE_XY(ptile));
+  assert(recurse == 0);
+  recurse++;
 
-  if (!map_is_known_and_seen(ptile, pplayer)) {
-    map_set_known(ptile, pplayer);
+  players_iterate(pplayer) {
+    if (pplayer == src_player || really_gives_vision(pplayer, src_player)) {
+      struct city *pcity;
+      bool old_known = map_is_known(ptile, pplayer);
 
-    /* as the tile may be fogged send_tile_info won't always do this for us */
-    update_player_tile_knowledge(pplayer, ptile);
-    update_player_tile_last_seen(pplayer, ptile);
+      if (!map_is_known_and_seen(ptile, pplayer)) {
+	map_set_known(ptile, pplayer);
 
-    send_tile_info(pplayer->connections, ptile);
+	/* as the tile may be fogged send_tile_info won't always do this for us */
+	update_player_tile_knowledge(pplayer, ptile);
+	update_player_tile_last_seen(pplayer, ptile);
 
-    /* remove old cities that exist no more */
-    reality_check_city(pplayer, ptile);
-    if ((pcity = tile_get_city(ptile))) {
-      /* as the tile may be fogged send_city_info won't do this for us */
-      update_dumb_city(pplayer, pcity);
-      send_city_info(pplayer, pcity);
-    }
+	send_tile_info(pplayer->connections, ptile);
 
-    if (map_get_seen(ptile, pplayer) != 0) {
-      unit_list_iterate(ptile->units, punit)
-	send_unit_info(pplayer, punit);
-      unit_list_iterate_end;
-    }
-
-    /* If the tile was not known before we need to refresh the cities that
-       can use the tile. */
-    if (!old_known) {
-      map_city_radius_iterate(ptile, tile1) {
-	pcity = tile_get_city(tile1);
-	if (pcity && city_owner(pcity) == pplayer) {
-	  update_city_tile_status_map(pcity, ptile);
+	/* remove old cities that exist no more */
+	reality_check_city(pplayer, ptile);
+	if ((pcity = tile_get_city(ptile))) {
+	  /* as the tile may be fogged send_city_info won't do this for us */
+	  update_dumb_city(pplayer, pcity);
+	  send_city_info(pplayer, pcity);
 	}
-      } map_city_radius_iterate_end;
-      sync_cities();
+
+	if (map_get_seen(ptile, pplayer) != 0) {
+	  unit_list_iterate(ptile->units, punit)
+	    send_unit_info(pplayer, punit);
+	  unit_list_iterate_end;
+	}
+
+	/* If the tile was not known before we need to refresh the cities that
+	   can use the tile. */
+	if (!old_known) {
+	  map_city_radius_iterate(ptile, tile1) {
+	    pcity = tile_get_city(tile1);
+	    if (pcity && city_owner(pcity) == pplayer) {
+	      update_city_tile_status_map(pcity, ptile);
+	    }
+	  } map_city_radius_iterate_end;
+	  sync_cities();
+	}
+      }
     }
-  }
+  } players_iterate_end;
+
+  recurse--;
 }
 
-/**************************************************************************
-Shows area, ie send terrain etc., even if still fogged, sans units and cities.
-**************************************************************************/
-void show_circle(struct player *pplayer, struct tile *ptile, int radius_sq)
+/****************************************************************************
+  Shows the area to the player.  Unless the tile is "seen", it will remain
+  fogged and units will be hidden.
+****************************************************************************/
+void map_show_circle(struct player *pplayer, struct tile *ptile, int radius_sq)
 {
   buffer_shared_vision(pplayer);
 
   circle_iterate(ptile, radius_sq, tile1) {
-    players_iterate(pplayer2) {
-      if (pplayer == pplayer2
-	  || really_gives_vision(pplayer, pplayer2)) {
-	really_show_tile(pplayer2, tile1);
-	reveal_pending_seen(pplayer2, tile1);
-      }
-    } players_iterate_end;
+    map_show_tile(pplayer, tile1);
   } circle_iterate_end;
+
+  unbuffer_shared_vision(pplayer);
+}
+
+/****************************************************************************
+  Shows the area to the player.  Unless the tile is "seen", it will remain
+  fogged and units will be hidden.
+****************************************************************************/
+void map_show_all(struct player *pplayer)
+{
+  buffer_shared_vision(pplayer);
+
+  whole_map_iterate(ptile) {
+    map_show_tile(pplayer, ptile);
+  } whole_map_iterate_end;
 
   unbuffer_shared_vision(pplayer);
 }
@@ -916,9 +853,7 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change)
 static int map_get_own_seen(struct tile *ptile, struct player *pplayer)
 {
   int own_seen = map_get_player_tile(ptile, pplayer)->own_seen;
-  if (own_seen != 0) {
-    assert(map_is_known(ptile, pplayer));
-  }
+
   return own_seen;
 }
 
@@ -947,32 +882,24 @@ void map_clear_known(struct tile *ptile, struct player *pplayer)
   BV_CLR(ptile->tile_known, pplayer->player_no);
 }
 
-/***************************************************************
-...
-***************************************************************/
-void map_know_all(struct player *pplayer)
-{
-  buffer_shared_vision(pplayer);
-  whole_map_iterate(ptile) {
-    show_circle(pplayer, ptile, 0);
-  } whole_map_iterate_end;
-  unbuffer_shared_vision(pplayer);
-}
-
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Call this function to unfog all tiles.  This should only be called when
+  a player dies or at the end of the game as it will result in permanent
+  vision of the whole map.
+****************************************************************************/
 void map_know_and_see_all(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
+
   whole_map_iterate(ptile) {
-    map_unfog_tile(pplayer, ptile);
+    map_unfog_tile(pplayer, ptile, TRUE);
   } whole_map_iterate_end;
+
   unbuffer_shared_vision(pplayer);
 }
 
 /**************************************************************************
-...
+  Unfogs all tiles for all players.  See map_know_and_see_all.
 **************************************************************************/
 void show_map_to_all(void)
 {
@@ -1029,14 +956,11 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   plrtile->city = NULL;
 
   plrtile->seen_count = 0;
-  plrtile->pending_seen = 0;
   BV_CLR(ptile->tile_seen, pplayer->player_no);
   if (!game.fogofwar_old) {
+    plrtile->seen_count = 1;
     if (map_is_known(ptile, pplayer)) {
-      plrtile->seen_count = 1;
       BV_SET(ptile->tile_seen, pplayer->player_no);
-    } else {
-      plrtile->pending_seen = 1;
     }
   }
 
@@ -1164,8 +1088,6 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 	send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
       }
 
-      reveal_pending_seen(pdest, ptile);
-
       map_city_radius_iterate(ptile, tile1) {
 	struct city *pcity = tile_get_city(tile1);
 	if (pcity && city_owner(pcity) == pdest) {
@@ -1263,9 +1185,9 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 	  int change = map_get_own_seen(ptile, pplayer);
 	  if (change != 0) {
 	    map_change_seen(ptile, pplayer2, change);
-	    if (map_get_seen(ptile, pplayer2) == change) {
+	    if (map_get_seen(ptile, pplayer2) == change
+		&& map_is_known(ptile, pplayer)) {
 	      really_unfog_tile(pplayer2, ptile);
-	      reveal_pending_seen(pplayer2, ptile);
 	    }
 	  }
 	} whole_map_iterate_end;
@@ -1338,11 +1260,7 @@ static void enable_fog_of_war_player(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
   whole_map_iterate(ptile) {
-    if (map_is_known(ptile, pplayer)) {
-      map_fog_tile(pplayer, ptile);
-    } else {
-      decrement_pending_seen(pplayer, ptile);
-    }
+    map_fog_tile(pplayer, ptile);
   } whole_map_iterate_end;
   unbuffer_shared_vision(pplayer);
 }
@@ -1364,11 +1282,7 @@ static void disable_fog_of_war_player(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
   whole_map_iterate(ptile) {
-    if (map_is_known(ptile, pplayer)) {
-      map_unfog_tile(pplayer, ptile);
-    } else {
-      increment_pending_seen(pplayer, ptile);
-    }
+    map_unfog_tile(pplayer, ptile, FALSE);
   } whole_map_iterate_end;
   unbuffer_shared_vision(pplayer);
 }

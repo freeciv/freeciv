@@ -334,7 +334,7 @@ static void do_reveal_effects(void)
     if (get_player_bonus(pplayer, EFT_REVEAL_CITIES) > 0) {
       players_iterate(other_player) {
 	city_list_iterate(other_player->cities, pcity) {
-	  show_circle(pplayer, pcity->tile, 0);
+	  map_show_tile(pplayer, pcity->tile);
 	} city_list_iterate_end;
       } players_iterate_end;
     }
@@ -342,7 +342,7 @@ static void do_reveal_effects(void)
       /* map_know_all will mark all unknown tiles as known and send
        * tile, unit, and city updates as necessary.  No other actions are
        * needed. */
-      map_know_all(pplayer);
+      map_show_all(pplayer);
     }
   } phase_players_iterate_end;
 }
