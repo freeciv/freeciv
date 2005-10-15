@@ -1461,7 +1461,7 @@ static struct player *split_player(struct player *pplayer)
 
   /* select a new name and nation for the copied player. */
   /* Rebel will always be an AI player */
-  cplayer->nation = pick_a_nation(civilwar_nations, TRUE, FALSE);
+  player_set_nation(cplayer, pick_a_nation(civilwar_nations, TRUE, FALSE));
   pick_random_player_name(cplayer->nation, cplayer->name);
 
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
