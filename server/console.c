@@ -47,9 +47,8 @@ This must match the log_callback_fn typedef signature.
 ************************************************************************/
 static void con_handle_log(int level, const char *message, bool file_too)
 {
-  /* Write to console only when not written to file.
-     LOG_FATAL messages always to console too. */
-  if (! file_too || level <= LOG_FATAL) {
+  /* Write debug/verbose message to console only when not written to file. */
+  if (!file_too || level <= LOG_NORMAL) {
     if (console_rfcstyle) {
       con_write(C_LOG_BASE + level, "%s", message);
     } else {

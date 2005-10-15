@@ -329,7 +329,7 @@ const struct command commands[] = {
       "    --file <filename>\n"
       "and use the 'start' command once players have reconnected.")
   },
-  {"load",      ALLOW_HACK,
+  {"load",      ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("load\n"
       "load <file-name>"),
@@ -337,7 +337,7 @@ const struct command commands[] = {
    N_("Load a game from <file-name>. Any current data including players, "
       "rulesets and server options are lost.\n")
   },
-  {"read",	ALLOW_HACK,
+  {"read",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
    N_("read <file-name>"),
    N_("Process server commands from file."), NULL

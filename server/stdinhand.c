@@ -112,6 +112,15 @@ static const char horiz_line[] =
 "------------------------------------------------------------------------------";
 
 /********************************************************************
+  Are we operating under a restricted security regime?  For now
+  this does not do much.
+*********************************************************************/
+static bool is_restricted(struct connection *caller)
+{
+  return (caller && caller->access_level != ALLOW_HACK);
+}
+
+/********************************************************************
 Returns whether the specified server setting (option) should be
 sent to the client.
 *********************************************************************/
@@ -738,6 +747,11 @@ Save the game, with filename=arg, provided server state is ok.
 **************************************************************************/
 static bool save_command(struct connection *caller, char *arg, bool check)
 {
+  if (is_restricted(caller)) {
+    cmd_reply(CMD_SAVE, caller, C_FAIL,
+              _("You cannot save games manually on this server."));
+    return FALSE;
+  }
   if (!check) {
     save_game(arg, "User request");
   }
@@ -959,30 +973,62 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
 
 /**************************************************************************
   Returns FALSE iff there was an error.
+
+  Security: We will look for a file with mandatory extension '.serv',
+  and on public servers we will not look outside the data directories.
+  As long as the user cannot create files with arbitrary names in the
+  root of the data directories, this should ensure that we will not be 
+  tricked into loading non-approved content. The script is read with the 
+  permissions of the caller, so it will in any case not lead to elevated
+  permissions unless there are other bugs.
 **************************************************************************/
-bool read_init_script(struct connection *caller, char *script_filename)
+bool read_init_script(struct connection *caller, char *script_filename,
+                      bool from_cmdline)
 {
   FILE *script_file;
+  const char extension[] = ".serv";
+  char serv_filename[strlen(extension) + strlen(script_filename) + 2];
   char tilde_filename[4096];
   char *real_filename;
 
-  interpret_tilde(tilde_filename, sizeof(tilde_filename), script_filename);
+  my_snprintf(serv_filename, sizeof(serv_filename), "%s%s", 
+              script_filename, extension);
+
+  if (is_restricted(caller) && !from_cmdline) {
+    if (!is_safe_filename(serv_filename)) {
+      cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
+                _("Name \"%s\" disallowed for security reasons."), 
+                serv_filename);
+      return FALSE;
+    }
+    sz_strlcpy(tilde_filename, serv_filename);
+  } else {
+    interpret_tilde(tilde_filename, sizeof(tilde_filename), serv_filename);
+  }
 
   real_filename = datafilename(tilde_filename);
   if (!real_filename) {
+    if (is_restricted(caller) && !from_cmdline) {
+      cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
+                _("No command script found by the name \"%s\"."), 
+                serv_filename);
+      return FALSE;
+    }
+    /* File is outside data directories */
     real_filename = tilde_filename;
   }
 
-  /* This used to print out the script_filename, but it seems more useful
-   * to show the real_filename. */
   freelog(LOG_NORMAL, _("Loading script file: %s"), real_filename);
 
   if (is_reg_file_for_access(real_filename, FALSE)
       && (script_file = fopen(real_filename, "r"))) {
     char buffer[MAX_LEN_CONSOLE_LINE];
+
     /* the size is set as to not overflow buffer in handle_stdin_input */
-    while(fgets(buffer,MAX_LEN_CONSOLE_LINE-1,script_file))
-      handle_stdin_input((struct connection *)NULL, buffer, FALSE);
+    while (fgets(buffer, MAX_LEN_CONSOLE_LINE - 1, script_file)) {
+			/* Execute script contents with same permissions as caller */
+      handle_stdin_input(caller, buffer, FALSE);
+		}
     fclose(script_file);
     return TRUE;
   } else {
@@ -1003,7 +1049,7 @@ static bool read_command(struct connection *caller, char *arg, bool check)
     return TRUE; /* FIXME: no actual checks done */
   }
   /* warning: there is no recursion check! */
-  return read_init_script(caller, arg);
+  return read_init_script(caller, arg, FALSE);
 }
 
 /**************************************************************************
@@ -1091,7 +1137,11 @@ static void write_init_script(char *script_filename)
 **************************************************************************/
 static bool write_command(struct connection *caller, char *arg, bool check)
 {
-  if (!check) {
+  if (is_restricted(caller)) {
+    cmd_reply(CMD_WRITE_SCRIPT, caller, C_OK, _("You cannot use the write "
+              "command on this server for security reasons."));
+    return FALSE;
+  } else if (!check) {
     write_init_script(arg);
   }
   return TRUE;
@@ -3119,20 +3169,45 @@ bool load_command(struct connection *caller, char *filename, bool check)
 {
   struct timer *loadtimer, *uloadtimer;  
   struct section_file file;
-  char arg[strlen(filename) + 1];
+  char arg[MAX_LEN_PATH];
 
-  /* We make a local copy because the parameter might be a pointer to 
-   * srvarg.load_filename, which we edit down below. */
-  sz_strlcpy(arg, filename);
-
-  if (!arg || arg[0] == '\0') {
-    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <filename>"));
-    send_load_game_info(FALSE);
+  if (!filename || filename[0] == '\0') {
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Usage: load <game name>"));
     return FALSE;
+  }
+  if (!is_safe_filename(filename) && is_restricted(caller)) {
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Name \"%s\" disallowed for "
+              "security reasons."), filename);
+    return FALSE;
+  }
+  {
+    /* it is a normal savegame or maybe a scenario */
+    char tmp[MAX_LEN_PATH];
+
+    my_snprintf(tmp, sizeof(tmp), "%s.sav", filename);
+    if (!datafilename(tmp)) {
+      my_snprintf(tmp, sizeof(tmp), "%s.sav.gz", filename);
+      if (!datafilename(tmp)) {
+        my_snprintf(tmp, sizeof(tmp), "scenario/%s.sav", filename);
+        if (!datafilename(tmp)) {
+          my_snprintf(tmp, sizeof(tmp), "scenario/%s.sav.gz", filename);
+          if (is_restricted(caller) && !datafilename(tmp)) {
+            cmd_reply(CMD_LOAD, caller, C_FAIL, _("Cannot find savegame or "
+                      "scenario with the name \"%s\"."), filename);
+            return FALSE;
+          }
+        }
+      }
+    }
+    if (datafilename(tmp)) {
+      sz_strlcpy(arg, datafilename(tmp));
+    } else {
+      sz_strlcpy(arg, filename);
+    }
   }
 
   if (server_state != PRE_GAME_STATE) {
-    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Can't load a game while another "
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Cannot load a game while another "
                                           "is running."));
     send_load_game_info(FALSE);
     return FALSE;
@@ -3141,7 +3216,7 @@ bool load_command(struct connection *caller, char *filename, bool check)
   /* attempt to parse the file */
 
   if (!section_file_load_nodup(&file, arg)) {
-    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Couldn't load savefile: %s"), arg);
+    cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"), arg);
     send_load_game_info(FALSE);
     return FALSE;
   }
@@ -3196,7 +3271,13 @@ bool load_command(struct connection *caller, char *filename, bool check)
 }
 
 /**************************************************************************
-  ...
+  Load rulesets from a given ruleset directory.
+
+  Security: There are some rudimentary checks in load_rulesets() to see
+  if this directory realls is a viable ruleset directory. For public
+  servers, we check against directory redirection (is_safe_filename) and
+  other bad stuff in the directory name, and will only use directories
+  inside the data directories.
 **************************************************************************/
 static bool set_rulesetdir(struct connection *caller, char *str, bool check)
 {
@@ -3206,6 +3287,13 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
              _("Current ruleset directory is \"%s\""), game.rulesetdir);
     return FALSE;
   }
+  if (is_restricted(caller)
+      && (!is_safe_filename(str) || strchr(str, '.'))) {
+    cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
+             _("Ruleset directory name \"%s\" disallowed for security "
+               "reasons."), str);
+    return FALSE;
+  }  
   my_snprintf(filename, sizeof(filename), "%s", str);
   pfilename = datafilename(filename);
   if (!pfilename) {

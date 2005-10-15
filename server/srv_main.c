@@ -1675,7 +1675,7 @@ void srv_main(void)
 
   /* load a script file */
   if (srvarg.script_filename
-      && !read_init_script(NULL, srvarg.script_filename)) {
+      && !read_init_script(NULL, srvarg.script_filename, TRUE)) {
     exit(EXIT_FAILURE);
   }
 

@@ -180,6 +180,7 @@ void log_init(const char *filename, int initial_level,
   fc_log_level = initial_level;
   if (log_filename) {
     free(log_filename);
+    log_filename = NULL;
   }
   if (filename && strlen(filename) > 0) {
     log_filename = strdup(filename);

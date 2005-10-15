@@ -33,7 +33,7 @@
 #include "stdinhand.h"
 
 int gamelog_level;		/* also accessed from stdinhand.c */
-static char *gamelog_filename;
+static char *gamelog_filename = NULL;
 
 /* Stuff for gamelog_status() */
 struct player_score_entry {
@@ -75,6 +75,7 @@ void gamelog_init(const char *filename)
   gamelog_level = GAMELOG_FULL;
   if (gamelog_filename) {
     free(gamelog_filename);
+    gamelog_filename = NULL;
   }
   if (filename && strlen(filename) > 0) {
     gamelog_filename = strdup(filename);

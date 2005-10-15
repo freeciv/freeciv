@@ -28,7 +28,8 @@ void report_server_options(struct conn_list *dest, int which);
 void send_server_settings(struct conn_list *dest);
 void set_ai_level_direct(struct player *pplayer, int level);
 void set_ai_level_directer(struct player *pplayer, int level);
-bool read_init_script(struct connection *caller, char *script_filename);
+bool read_init_script(struct connection *caller, char *script_filename,
+                      bool from_cmdline);
 void show_players(struct connection *caller);
 
 bool load_command(struct connection *caller, char *arg, bool check);
