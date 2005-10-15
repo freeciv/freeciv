@@ -190,6 +190,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   SANITY_CHECK(pcity->size >= 1);
   SANITY_CHECK(!terrain_has_flag(tile_get_terrain(pcity->tile),
 			   TER_NO_CITIES));
+  SANITY_CHECK(pcity->tile->owner == NULL || pcity->tile->owner == pplayer);
 
   unit_list_iterate(pcity->units_supported, punit) {
     SANITY_CHECK(punit->homecity == pcity->id);

@@ -1327,11 +1327,17 @@ This fills out a package from a players dumb_city.
 static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 			      struct packet_city_short_info *packet)
 {
-  struct dumb_city *pdcity = map_get_player_tile(ptile, pplayer)->city;
+  struct player_tile *pdtile = map_get_player_tile(ptile, pplayer);
+  struct dumb_city *pdcity = pdtile->city;
   struct city *pcity = tile_get_city(ptile);
 
   packet->id = pdcity->id;
-  packet->owner = pdcity->owner->player_no;
+  if (pdtile->owner >= 0) {
+    /* Use tile owner information not city owner information. */
+    packet->owner = pdtile->owner;
+  } else {
+    packet->owner = pdcity->owner->player_no;
+  }
   packet->x = ptile->x;
   packet->y = ptile->y;
   sz_strlcpy(packet->name, pdcity->name);
