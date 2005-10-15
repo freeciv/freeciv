@@ -1658,15 +1658,14 @@ static void player_load(struct player *plr, int plrno,
     }
   }
   plr->nation = find_nation_by_name_orig(p);
-  if (plr->nation == NO_NATION_SELECTED) {
-    freelog(LOG_FATAL, _("Nation %s (used by %s) isn't available."),
-	    p, plr->name);
-    exit(EXIT_FAILURE);
-  }
+  /* Nation may be unselected at this point; we check for this later and
+   * reassign nations to players who don't have them. */
 
   /* Add techs from game and nation, but ignore game.info.tech. */
   init_tech(plr);
-  give_initial_techs(plr);
+  /* We used to call give_initial_techs here, but that shouldn't be
+   * necessary.  The savegame should already mark those techs as known.
+   * give_initial_techs will crash if the nation is unset. */
 
   if (is_barbarian(plr) && plr->nation == NO_NATION_SELECTED) {
     plr->nation = pick_barbarian_nation();
@@ -3524,11 +3523,20 @@ void game_load(struct section_file *file)
       }
     }
 
-    for (i = 0; i < game.info.nplayers; i++) {
-      player_load(&game.players[i], i, file, improvement_order,
+    players_iterate(pplayer) {
+      player_load(pplayer, pplayer->player_no, file, improvement_order,
 		  improvement_order_size, technology_order,
 		  technology_order_size); 
-    }
+    } players_iterate_end;
+    players_iterate(pplayer) {
+      /* Some players may have invalid nations in the ruleset.  Pick new
+       * nations for them. */
+      if (pplayer->nation == NO_NATION_SELECTED) {
+	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE));
+	freelog(LOG_NORMAL, "%s had invalid nation; changing to %s.",
+		pplayer->name, pplayer->nation->name);
+      }
+    } players_iterate_end;
 
     /* Assign players with no team listed onto an empty team. */
     players_iterate(pplayer) {
