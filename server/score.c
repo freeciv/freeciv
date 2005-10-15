@@ -35,18 +35,10 @@ static int get_civ_score(const struct player *pplayer);
 
 #define USER_AREA_MULT 1000
 
-struct claim_cell {
-  int when;
-  const struct player *whom;
-  bv_player know;
-  int cities;
-};
-
 struct claim_map {
-  struct claim_cell *claims;
-  int *player_landarea;
-  int *player_owndarea;
-  struct tile **edges;
+  struct {
+    int landarea, settledarea;
+  } player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 };
 
 /**************************************************************************
@@ -99,7 +91,7 @@ static char when_char(int when)
 
 /**************************************************************************
   Prints the landarea map to stdout (a debugging tool).
-**************************************************************************/
+*******************************************o*******************************/
 static void print_landarea_map(struct claim_map *pcmap, int turn)
 {
   int p;
@@ -138,195 +130,58 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
 
 #endif
 
-/**************************************************************************
-  allocate and clear claim map; determine city radii
-**************************************************************************/
-static void build_landarea_map_new(struct claim_map *pcmap)
+/****************************************************************************
+  Count landarea, settled area, and claims map for all players.
+****************************************************************************/
+static void build_landarea_map(struct claim_map *pcmap)
 {
-  int nbytes;
+  bv_player claims[MAP_INDEX_SIZE];
 
-  pcmap->claims = fc_calloc(MAP_INDEX_SIZE, sizeof(*pcmap->claims));
+  memset(claims, 0, sizeof(claims));
+  memset(pcmap, 0, sizeof(*pcmap));
 
-  nbytes = game.info.nplayers * sizeof(int);
-  pcmap->player_landarea = fc_malloc(nbytes);
-  memset(pcmap->player_landarea, 0, nbytes);
-
-  nbytes = game.info.nplayers * sizeof(int);
-  pcmap->player_owndarea = fc_malloc(nbytes);
-  memset(pcmap->player_owndarea, 0, nbytes);
-
-  nbytes = 2 * MAP_INDEX_SIZE * sizeof(*pcmap->edges);
-  pcmap->edges = fc_malloc(nbytes);
-
+  /* First calculate claims: which tiles are owned by each player. */
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       map_city_radius_iterate(pcity->tile, tile1) {
-	pcmap->claims[tile1->index].cities |= (1u << pcity->owner->player_no);
+	BV_SET(claims[tile1->index], pcity->owner->player_no);
       } map_city_radius_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
-}
-
-/**************************************************************************
-  0th turn: install starting points, counting their tiles
-**************************************************************************/
-static void build_landarea_map_turn_0(struct claim_map *pcmap)
-{
-  int turn;
-  struct tile **nextedge;
-  struct claim_cell *pclaim;
-  struct player *owner;
-
-  turn = 0;
-  nextedge = pcmap->edges;
 
   whole_map_iterate(ptile) {
-    int i = ptile->index;
-
-    pclaim = &pcmap->claims[i];
-    ptile = &map.tiles[i];
+    struct player *owner = NULL;
+    bv_player *pclaim = &claims[ptile->index];
 
     if (is_ocean(ptile->terrain)) {
-      /* pclaim->when = 0; */
-      pclaim->whom = NULL;
-      /* pclaim->know = 0; */
+      /* Nothing. */
     } else if (ptile->city) {
       owner = ptile->city->owner;
-      pclaim->when = turn + 1;
-      pclaim->whom = owner;
-      *nextedge = ptile;
-      nextedge++;
-      pcmap->player_landarea[owner->player_no]++;
-      pcmap->player_owndarea[owner->player_no]++;
-      pclaim->know = ptile->tile_known;
+      pcmap->player[owner->player_no].settledarea++;
     } else if (ptile->worked) {
       owner = ptile->worked->owner;
-      pclaim->when = turn + 1;
-      pclaim->whom = owner;
-      *nextedge = ptile;
-      nextedge++;
-      pcmap->player_landarea[owner->player_no]++;
-      pcmap->player_owndarea[owner->player_no]++;
-      pclaim->know = ptile->tile_known;
+      pcmap->player[owner->player_no].settledarea++;
     } else if (unit_list_size(ptile->units) > 0) {
+      /* Because of allied stacking these calculations are a bit off. */
       owner = (unit_list_get(ptile->units, 0))->owner;
-      pclaim->when = turn + 1;
-      pclaim->whom = owner;
-      *nextedge = ptile;
-      nextedge++;
-      pcmap->player_landarea[owner->player_no]++;
-      if (TEST_BIT(pclaim->cities, owner->player_no)) {
-	pcmap->player_owndarea[owner->player_no]++;
+      if (BV_ISSET(*pclaim, owner->player_no)) {
+	pcmap->player[owner->player_no].settledarea++;
       }
-      pclaim->know = ptile->tile_known;
-    } else {
-      /* pclaim->when = 0; */
-      pclaim->whom = NULL;
-      pclaim->know = ptile->tile_known;
+    }
+
+    if (game.info.borders > 0) {
+      /* If borders are enabled, use owner information directly from the
+       * map.  Otherwise use the calculations above. */
+      owner = ptile->owner;
+    }
+    if (owner) {
+      pcmap->player[owner->player_no].landarea++;
     }
   } whole_map_iterate_end;
-
-  *nextedge = NULL;
 
 #if LAND_AREA_DEBUG >= 2
   print_landarea_map(pcmap, turn);
 #endif
-}
-
-/**************************************************************************
-  expand outwards evenly from each starting point, counting tiles
-**************************************************************************/
-static void build_landarea_map_expand(struct claim_map *pcmap)
-{
-  struct tile **midedge;
-  int turn, accum;
-  struct tile **thisedge;
-  struct tile **nextedge;
-
-  midedge = &pcmap->edges[MAP_INDEX_SIZE];
-
-  for (accum = 1, turn = 1; accum > 0; turn++) {
-    thisedge = ((turn & 0x1) == 1) ? pcmap->edges : midedge;
-    nextedge = ((turn & 0x1) == 1) ? midedge : pcmap->edges;
-
-    for (accum = 0; *thisedge; thisedge++) {
-      struct tile *ptile = *thisedge;
-      int i = ptile->index;
-      const struct player *owner = pcmap->claims[i].whom, *other;
-
-      if (owner) {
-	adjc_iterate(ptile, tile1) {
-	  int j = tile1->index;
-	  struct claim_cell *pclaim = &pcmap->claims[j];
-
-	  if (BV_ISSET(pclaim->know, owner->player_no)) {
-	    if (pclaim->when == 0) {
-	      pclaim->when = turn + 1;
-	      pclaim->whom = owner;
-	      *nextedge = tile1;
-	      nextedge++;
-	      pcmap->player_landarea[owner->player_no]++;
-	      if (TEST_BIT(pclaim->cities, owner->player_no)) {
-		pcmap->player_owndarea[owner->player_no]++;
-	      }
-	      accum++;
-	    } else if (pclaim->when == turn + 1
-		       && pclaim->whom
-		       && pclaim->whom != owner) {
-	      other = pclaim->whom;
-	      if (TEST_BIT(pclaim->cities, other->player_no)) {
-		pcmap->player_owndarea[other->player_no]--;
-	      }
-	      pcmap->player_landarea[other->player_no]--;
-	      pclaim->whom = NULL;
-	      accum--;
-	    }
-	  }
-	} adjc_iterate_end;
-      }
-    }
-
-    *nextedge = NULL;
-
-#if LAND_AREA_DEBUG >= 2
-    print_landarea_map(pcmap, turn);
-#endif
-  }
-}
-
-/**************************************************************************
-  this just calls the three worker routines
-**************************************************************************/
-static void build_landarea_map(struct claim_map *pcmap)
-{
-  build_landarea_map_new(pcmap);
-  build_landarea_map_turn_0(pcmap);
-  build_landarea_map_expand(pcmap);
-}
-
-/**************************************************************************
-  Frees and NULLs an allocated claim map.
-**************************************************************************/
-static void free_landarea_map(struct claim_map *pcmap)
-{
-  if (pcmap) {
-    if (pcmap->claims) {
-      free(pcmap->claims);
-      pcmap->claims = NULL;
-    }
-    if (pcmap->player_landarea) {
-      free(pcmap->player_landarea);
-      pcmap->player_landarea = NULL;
-    }
-    if (pcmap->player_owndarea) {
-      free(pcmap->player_owndarea);
-      pcmap->player_owndarea = NULL;
-    }
-    if (pcmap->edges) {
-      free(pcmap->edges);
-      pcmap->edges = NULL;
-    }
-  }
 }
 
 /**************************************************************************
@@ -341,16 +196,16 @@ static void get_player_landarea(struct claim_map *pcmap,
 #if LAND_AREA_DEBUG >= 1
     printf("%-14s", pplayer->name);
 #endif
-    if (return_landarea && pcmap->player_landarea) {
-      *return_landarea =
-	USER_AREA_MULT * pcmap->player_landarea[pplayer->player_no];
+    if (return_landarea) {
+      *return_landarea
+	= USER_AREA_MULT * pcmap->player[pplayer->player_no].landarea;
 #if LAND_AREA_DEBUG >= 1
       printf(" l=%d", *return_landarea / USER_AREA_MULT);
 #endif
     }
-    if (return_settledarea && pcmap->player_owndarea) {
-      *return_settledarea =
-	USER_AREA_MULT * pcmap->player_owndarea[pplayer->player_no];
+    if (return_settledarea) {
+      *return_settledarea
+	= USER_AREA_MULT * pcmap->player[pplayer->player_no].settledarea;
 #if LAND_AREA_DEBUG >= 1
       printf(" s=%d", *return_settledarea / USER_AREA_MULT);
 #endif
@@ -368,8 +223,7 @@ void calc_civ_score(struct player *pplayer)
 {
   struct city *pcity;
   int landarea = 0, settledarea = 0;
-  static struct claim_map cmap = { NULL, NULL, NULL,NULL };
-  static int turn = 0;
+  static struct claim_map cmap;
 
   pplayer->score.happy = 0;
   pplayer->score.content = 0;
@@ -418,11 +272,8 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.literacy += (city_population(pcity) * bonus) / 100;
   } city_list_iterate_end;
 
-  /* rebuild map only once per turn */
-  if (game.info.turn != turn) {
-    free_landarea_map(&cmap);
-    build_landarea_map(&cmap);
-  }
+  build_landarea_map(&cmap);
+
   get_player_landarea(&cmap, pplayer, &landarea, &settledarea);
   pplayer->score.landarea = landarea;
   pplayer->score.settledarea = settledarea;
