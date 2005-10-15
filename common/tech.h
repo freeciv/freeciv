@@ -56,7 +56,6 @@ enum tech_flag_id {
   TF_BRIDGE,    /* "Settler" unit types can build bridges over rivers */
   TF_RAILROAD,  /* "Settler" unit types can build rail roads */
   TF_FORTRESS,  /* "Settler" unit types can build fortress */
-  TF_WATCHTOWER, /* Units get enhanced visionrange in a fortress (=fortress acts also as a watchtower) */
   TF_POPULATION_POLLUTION_INC,  /* Increase the pollution factor created by popultaion by one */
   TF_AIRBASE,   /* "Airbase" unit types can build Airbases */
   TF_FARMLAND,  /* "Settler" unit types can build farmland */

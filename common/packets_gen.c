@@ -23914,7 +23914,7 @@ void lsend_packet_ruleset_government(struct conn_list *dest, const struct packet
 
 #define cmp_packet_ruleset_terrain_control_100 cmp_const
 
-BV_DEFINE(packet_ruleset_terrain_control_100_fields, 16);
+BV_DEFINE(packet_ruleset_terrain_control_100_fields, 15);
 
 static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control_100(struct connection *pc, enum packet_type type)
 {
@@ -24044,14 +24044,6 @@ static struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_con
       real_packet->fallout_tile_penalty[i] = readin;
     }
       }
-    }
-  }
-  if (BV_ISSET(fields, 15)) {
-    {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->watchtower_extra_vision_radius_sq = readin;
     }
   }
 
@@ -24184,10 +24176,6 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 14);}
 
-  differ = (old->watchtower_extra_vision_radius_sq != real_packet->watchtower_extra_vision_radius_sq);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
-
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
   }
@@ -24251,9 +24239,6 @@ static int send_packet_ruleset_terrain_control_100(struct connection *pc, const 
         dio_put_uint8(&dout, real_packet->fallout_tile_penalty[i]);
       }
     } 
-  }
-  if (BV_ISSET(fields, 15)) {
-    dio_put_uint16(&dout, real_packet->watchtower_extra_vision_radius_sq);
   }
 
 

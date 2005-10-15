@@ -84,6 +84,7 @@ enum effect_type {
   EFT_SEA_REGEN,
   EFT_AIR_REGEN,
   EFT_CITY_VISION_RADIUS_SQ,
+  EFT_UNIT_VISION_RADIUS_SQ,
   EFT_LAND_DEFEND,
   EFT_SEA_DEFEND,
   EFT_AIR_DEFEND,
@@ -182,6 +183,10 @@ int get_city_tile_output_bonus(const struct city *pcity,
 			       const struct output_type *poutput,
 			       enum effect_type effect_type);
 int get_building_bonus(const struct city *pcity, Impr_type_id building,
+		       enum effect_type effect_type);
+int get_unittype_bonus(const struct player *pplayer,
+		       const struct tile *ptile, /* pcity is implied */
+		       const struct unit_type *punittype,
 		       enum effect_type effect_type);
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type);
 

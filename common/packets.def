@@ -1157,8 +1157,6 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   UINT16 rail_tile_bonus[O_MAX];        /* % added to output if railroad */
   UINT8 pollution_tile_penalty[O_MAX]; /* % taken from output if polluted */
   UINT8 fallout_tile_penalty[O_MAX]; /* % taken from output if polluted */
-
-  UINT16 watchtower_extra_vision_radius_sq;
 end
 
 PACKET_RULESET_NATION=102;sc,lsend

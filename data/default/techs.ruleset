@@ -45,7 +45,6 @@ options="1.9"
 ; "Railroad" = "Settler" unit types can build rail roads
 ; "Farmland" = "Settler" unit types can build farmland
 ; "Fortress" = "Settler" unit types can build fortress
-; "Watchtower" = Units get enhanced visionrange in a fortress
 ; "Population_Pollution_Inc" = Increase the pollution factor created by
 ;                              popultaion by one
 ; "Airbase" = "Airbase" unit types can build Airbases
@@ -353,7 +352,7 @@ graphic_alt = "-"
 name     = _("Invention")
 req1     = "Engineering"
 req2     = "Literacy"
-flags    = "Watchtower"
+flags    = ""
 graphic     = "a.invention"
 graphic_alt = "-"
 

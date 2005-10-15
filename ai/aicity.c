@@ -348,6 +348,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  break;
 
       case EFT_CITY_VISION_RADIUS_SQ:
+      case EFT_UNIT_VISION_RADIUS_SQ:
 	/* Wild guess.  "Amount" is the number of tiles (on average) that
 	 * will be revealed by the effect.  Note that with an omniscient
 	 * AI this effect is actually not useful at all. */

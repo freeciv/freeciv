@@ -56,6 +56,17 @@ reqs    =
     }
 
 
+; Vision benefit from fortress watchtowers
+[effect_fortress_vision]
+name    = "Unit_Vision_Radius_Sq"
+value   = 8
+reqs    =
+    { "type", "name", "range"
+      "Special", "Fortress", "tile"
+      "Tech", "Invention", "player"
+    }
+
+
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 name    = "City_Vision_Radius_Sq"

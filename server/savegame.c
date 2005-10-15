@@ -184,7 +184,7 @@
    and rulesets */
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent map_editor known32fix turn " \
-"attributes watchtower rulesetdir client_worklists orders " \
+"attributes rulesetdir client_worklists orders " \
 "startunits turn_last_built improvement_order technology_order embassies"
 
 static const char hex_chars[] = "0123456789abcdef";
@@ -3810,12 +3810,6 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.borders, "game.borders");
   secfile_insert_bool(file, game.info.happyborders, "game.happyborders");
   secfile_insert_int(file, game.info.diplomacy, "game.diplomacy");
-  /* watchtower_vision and watchtower_extra_vision are
-   * required by 2.0 servers. */
-  secfile_insert_int(file, 0, "game.watchtower_vision");
-  secfile_insert_int(file,
-	(int)(sqrt(terrain_control.watchtower_extra_vision_radius_sq) + 0.5),
-	"game.watchtower_extra_vision");
   secfile_insert_int(file, game.info.allowed_city_names, "game.allowed_city_names");
 
   /* old (1.14.1) servers need to have these server variables.  The values

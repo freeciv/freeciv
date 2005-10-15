@@ -1484,9 +1484,6 @@ static void load_ruleset_terrain(struct section_file *file)
   terrain_control.fortress_defense_bonus =
     secfile_lookup_int_default(file, 100, "parameters.fortress_defense_bonus");
 
-  terrain_control.watchtower_extra_vision_radius_sq
-    = secfile_lookup_int(file, "parameters.fortress_extra_vision_radius_sq");
-
   terrain_control.road_superhighway_trade_bonus =
     secfile_lookup_int_default(file, 50, "parameters.road_superhighway_trade_bonus");
   output_type_iterate(o) {

@@ -660,11 +660,8 @@ static void update_unit_activity(struct unit *punit)
 	  check_adjacent_units = TRUE;
 	}
 
-	/* If a watchtower has been pillaged, reduce sight to normal */
-	if (what == S_FORTRESS) {
-	  freelog(LOG_VERBOSE, "Watchtower pillaged!");
-	  unit_list_refresh_vision(ptile->units);
-	}
+	/* Change vision if effects have changed. */
+	unit_list_refresh_vision(ptile->units);
       }
     }
     else if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
@@ -683,11 +680,8 @@ static void update_unit_activity(struct unit *punit)
       
       ai_incident_pillage(unit_owner(punit), ptile->owner);
       
-      /* If a watchtower has been pillaged, reduce sight to normal */
-      if (what_pillaged == S_FORTRESS) {
-	freelog(LOG_VERBOSE, "Watchtower(2) pillaged!");
-	unit_list_refresh_vision(ptile->units);
-      }
+      /* Change vision if effects have changed. */
+      unit_list_refresh_vision(ptile->units);
     }
   }
 
@@ -712,7 +706,9 @@ static void update_unit_activity(struct unit *punit)
 	>= tile_activity_time(ACTIVITY_FORTRESS, ptile)) {
       tile_set_special(ptile, S_FORTRESS);
       unit_activity_done = TRUE;
-      /* watchtower becomes effective */
+
+      /* watchtower becomes effective
+       * FIXME: Reqs on other specials will not be updated immediately. */
       unit_list_refresh_vision(ptile->units);
     }
   }
@@ -3178,15 +3174,9 @@ bool execute_orders(struct unit *punit)
 ****************************************************************************/
 int get_unit_vision_at(struct unit *punit, struct tile *ptile)
 {
-  int radius_sq = punit->type->vision_radius_sq;
-
-  if (is_ground_unit(punit)
-      && tile_has_special(ptile, S_FORTRESS)
-      && player_knows_techs_with_flag(unit_owner(punit), TF_WATCHTOWER)) {
-    radius_sq += terrain_control.watchtower_extra_vision_radius_sq;
-  }
-
-  return radius_sq;
+  return (punit->type->vision_radius_sq
+	  + get_unittype_bonus(punit->owner, ptile, punit->type,
+			       EFT_UNIT_VISION_RADIUS_SQ));
 }
 
 /****************************************************************************

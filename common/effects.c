@@ -96,6 +96,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Sea_Regen",
   "Air_Regen",
   "City_Vision_Radius_Sq",
+  "Unit_Vision_Radius_Sq",
   "Land_Defend",
   "Sea_Defend",
   "Air_Defend",
@@ -827,6 +828,25 @@ int get_building_bonus(const struct city *pcity, Impr_type_id id,
 				  get_improvement_type(id),
 				  NULL, NULL, NULL, NULL,
 				  effect_type);
+}
+
+/**************************************************************************
+  Returns the effect bonus that applies at a tile for a given unittype.
+
+  For instance with EFT_DEFEND_BONUS the attacker's unittype and the
+  defending tile should be passed in.  Slightly counter-intuitive!
+  See doc/README.effects to see how the unittype applies for each effect
+  here.
+**************************************************************************/
+int get_unittype_bonus(const struct player *pplayer,
+		       const struct tile *ptile,
+		       const struct unit_type *punittype,
+		       enum effect_type effect_type)
+{
+  assert(pplayer != NULL && ptile != NULL && punittype != NULL);
+  return get_target_bonus_effects(NULL,
+                                 pplayer, ptile->city, NULL, ptile,
+                                 punittype, NULL, NULL, effect_type);
 }
 
 /**************************************************************************

@@ -209,10 +209,9 @@ static void update_player_after_tech_researched(struct player* plr,
     upgrade_city_rails(plr, was_discovery);  
   }
   
-  /* Enhance vision of units inside a fortress */
-  if (tech_flag(tech_found, TF_WATCHTOWER)) {
-    unit_list_refresh_vision(plr->units);
-  }
+  /* Enhance vision of units if a player-ranged effect has changed.  Note
+   * that world-ranged effects will not be updated immediately. */
+  unit_list_refresh_vision(plr->units);
 
   /* Notify a player about new governments available */
   government_iterate(gov) {

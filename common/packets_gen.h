@@ -870,7 +870,6 @@ struct packet_ruleset_terrain_control {
   int rail_tile_bonus[O_MAX];
   int pollution_tile_penalty[O_MAX];
   int fallout_tile_penalty[O_MAX];
-  int watchtower_extra_vision_radius_sq;
 };
 
 struct packet_ruleset_nation {
