@@ -1319,6 +1319,8 @@ static void load_ruleset_buildings(struct section_file *file)
   for (i = 0; i < nval; i++) {
     struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
     struct impr_type *b = get_improvement_type(i);
+    char *sval, **slist;
+    int j, nflags, ival;
 
     item = secfile_lookup_str(file, "%s.genus", sec[i]);
     b->genus = impr_genus_from_str(item);
@@ -1328,6 +1330,21 @@ static void load_ruleset_buildings(struct section_file *file)
 	      b->name, item, filename);
       exit(EXIT_FAILURE);
     }
+
+    slist = secfile_lookup_str_vec(file, &nflags, "%s.flags", sec[i]);
+    for(j=0; j<nflags; j++) {
+      sval = slist[j];
+      if(strcmp(sval,"")==0) {
+	continue;
+      }
+      ival = impr_flag_from_str(sval);
+      if (ival==IF_LAST) {
+	freelog(LOG_ERROR, "for improvement \"%s\": bad flag name \"%s\" (%s)",
+		b->name, sval, filename);
+      }
+      b->flags |= (1<<ival);
+    }
+    free(slist);
 
     requirement_vector_copy(&b->reqs, reqs);
 
