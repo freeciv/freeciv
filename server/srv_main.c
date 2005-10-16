@@ -818,6 +818,7 @@ void start_game(void)
 **************************************************************************/
 void server_quit(void)
 {
+  server_state = GAME_OVER_STATE;
   server_game_free();
   diplhand_free();
   stdinhand_free();
