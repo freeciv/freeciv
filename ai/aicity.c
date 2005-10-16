@@ -486,7 +486,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  break;
 	case EFT_GIVE_IMM_TECH:
  	  if (!ai_wants_no_science(pplayer)) {
- 	    v += amount * (game.researchcost + 1);
+ 	    v += amount * (game.info.sciencebox + 1);
           }
 	  break;
 	case EFT_HAVE_EMBASSIES:
