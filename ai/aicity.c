@@ -485,10 +485,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  }
 	  break;
 	case EFT_GIVE_IMM_TECH:
-	  v += ((total_bulbs_required(pplayer) * amount)
-	      * TRADE_WEIGHTING - 
-	        get_player_research(pplayer)->bulbs_researched 
-	        * TRADE_WEIGHTING) / MORT;
+ 	  if (!ai_wants_no_science(pplayer)) {
+ 	    v += amount * (game.researchcost + 1);
+          }
 	  break;
 	case EFT_HAVE_EMBASSIES:
 	  v += 5 * nplayers;
