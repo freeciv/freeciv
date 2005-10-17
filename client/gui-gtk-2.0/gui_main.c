@@ -405,13 +405,36 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 
 	case GDK_Home:
 	  key_center_capital();
-	  break;
+	  return TRUE;
 
 	case GDK_Return:
 	case GDK_KP_Enter:
 	  key_end_turn();
-	  break;
+	  return TRUE;
   
+	default:
+	  break;
+      }
+    }
+
+    if (GTK_WIDGET_HAS_FOCUS(map_canvas)) {
+      switch (ev->keyval) {
+	case GDK_Left:
+	  key_unit_move(DIR8_WEST);
+	  return TRUE;
+
+	case GDK_Right:
+	  key_unit_move(DIR8_EAST);
+	  return TRUE;
+
+	case GDK_Up:
+	  key_unit_move(DIR8_NORTH);
+	  return TRUE;
+
+	case GDK_Down:
+	  key_unit_move(DIR8_SOUTH);
+	  return TRUE;
+
 	default:
 	  break;
       }
