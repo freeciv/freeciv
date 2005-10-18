@@ -17,42 +17,12 @@
 #include <string.h>		/* memset */
 #include <time.h>		/* time_t */
 
+#include "support.h" /* bool, fc__attribute */
+
 #ifdef HAVE_CONFIG_H
 #ifndef FC_CONFIG_H            /* this should be defined in config.h */
 #error Files including fcintl.h should also include config.h directly
 #endif
-#endif
-
-#if __BEOS__
-#include <posix/be_prim.h>
-#define __bool_true_false_are_defined 1
-#else
-#ifdef HAVE_STDBOOL_H
-#include <stdbool.h>
-#else /* Implement <stdbool.h> ourselves */
-#undef bool
-#undef true
-#undef false
-#undef __bool_true_false_are_defined
-#define bool fc_bool
-#define true  1
-#define false 0
-#define __bool_true_false_are_defined 1
-typedef unsigned int fc_bool;
-#endif /* ! HAVE_STDBOOL_H */
-#endif /* ! __BEOS__ */
-
-/* Want to use GCC's __attribute__ keyword to check variadic
- * parameters to printf-like functions, without upsetting other
- * compilers: put any required defines magic here.
- * If other compilers have something equivalent, could also
- * work that out here.   Should this use configure stuff somehow?
- * --dwp
- */
-#if defined(__GNUC__)
-#define fc__attribute(x)  __attribute__(x)
-#else
-#define fc__attribute(x)
 #endif
 
 #define MAX_LEN_ADDR     256	/* see also MAXHOSTNAMELEN and RFC 1123 2.1 */
@@ -61,17 +31,6 @@ typedef unsigned int fc_bool;
 /* Use FC_INFINITY to denote that a certain event will never occur or
    another unreachable condition. */
 #define FC_INFINITY    	(1000 * 1000 * 1000)
-
-#ifdef TRUE
-#undef TRUE
-#endif
-
-#ifdef FALSE
-#undef FALSE
-#endif
-
-#define TRUE true
-#define FALSE false
 
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))

@@ -227,6 +227,23 @@ static struct genlist_link *find_genlist_position(const struct genlist *pgenlist
   return plink;
 }
 
+/****************************************************************************
+  Return TRUE iff this element is in the list.
+
+  This is an O(n) operation.  Hence, "search".
+****************************************************************************/
+bool genlist_search(struct genlist *pgenlist, const void *data)
+{
+  struct genlist_link *plink;
+
+  for (plink = pgenlist->head_link; plink; plink = plink->next) {
+    if (plink->dataptr == data) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
 
 /************************************************************************
  Sort the elements of a genlist.

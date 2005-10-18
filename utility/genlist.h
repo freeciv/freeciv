@@ -49,6 +49,8 @@
   See also the speclist module.
 ***********************************************************************/
 
+#include "support.h" /* bool */
+
 /* A single element of a genlist, storing the pointer to user
    data, and pointers to the next and previous elements:
 */
@@ -76,6 +78,8 @@ void genlist_free(struct genlist *pgenlist);
 void genlist_append(struct genlist *pgenlist, void *data);
 void genlist_prepend(struct genlist *pgenlist, void *data);
 void genlist_unlink(struct genlist *pgenlist, void *punlink);
+
+bool genlist_search(struct genlist *pgenlist, const void *data);
 
 void genlist_sort(struct genlist *pgenlist,
 		  int (*compar)(const void *, const void *));

@@ -37,6 +37,7 @@
       void foo_list_append(struct foo_list *This, foo_t *pfoo);
       void foo_list_unlink(struct foo_list *This, foo_t *pfoo);
       void foo_list_unlink_all(struct foo_list *This);
+      bool foo_list_search(struct foo_list *this, foo_t *pfoo);
       void foo_list_sort(struct foo_list *This, 
          int (*compar)(const void *, const void *));
 
@@ -119,6 +120,17 @@ static inline void SPECLIST_FOO(_list_free) (SPECLIST_LIST *tthis)
 {
   genlist_free(tthis->list);
   free(tthis);
+}
+
+/****************************************************************************
+  Return TRUE iff this element is in the list.
+
+  This is an O(n) operation.  Hence, "search".
+****************************************************************************/
+static inline bool SPECLIST_FOO(_list_search) (SPECLIST_LIST *tthis,
+					       const SPECLIST_TYPE *pfoo)
+{
+  return genlist_search(tthis->list, pfoo);
 }
 
 static inline void SPECLIST_FOO(_list_sort) (SPECLIST_LIST * tthis, int (*compar) (const void *, const void *))

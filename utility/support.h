@@ -27,7 +27,48 @@
 #include <sys/types.h>
 #endif
 
-#include "shared.h"		/* bool type and fc__attribute */
+#ifdef TRUE
+#undef TRUE
+#endif
+
+#ifdef FALSE
+#undef FALSE
+#endif
+
+#define TRUE true
+#define FALSE false
+
+#if __BEOS__
+#include <posix/be_prim.h>
+#define __bool_true_false_are_defined 1
+#else
+#ifdef HAVE_STDBOOL_H
+#include <stdbool.h>
+#else /* Implement <stdbool.h> ourselves */
+#undef bool
+#undef true
+#undef false
+#undef __bool_true_false_are_defined
+#define bool fc_bool
+#define true  1
+#define false 0
+#define __bool_true_false_are_defined 1
+typedef unsigned int fc_bool;
+#endif /* ! HAVE_STDBOOL_H */
+#endif /* ! __BEOS__ */
+
+/* Want to use GCC's __attribute__ keyword to check variadic
+ * parameters to printf-like functions, without upsetting other
+ * compilers: put any required defines magic here.
+ * If other compilers have something equivalent, could also
+ * work that out here.   Should this use configure stuff somehow?
+ * --dwp
+ */
+#if defined(__GNUC__)
+#define fc__attribute(x)  __attribute__(x)
+#else
+#define fc__attribute(x)
+#endif
 
 int mystrcasecmp(const char *str0, const char *str1);
 int mystrncasecmp(const char *str0, const char *str1, size_t n);
