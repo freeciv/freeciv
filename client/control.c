@@ -1524,7 +1524,7 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
       do_unit_goto(ptile);
       break;
     case HOVER_NUKE:
-      if (3 * real_map_distance(punit->tile, ptile)
+      if (SINGLE_MOVE * real_map_distance(punit->tile, ptile)
 	  > punit->moves_left) {
         create_event(punit->tile, E_BAD_COMMAND, _("Too far for this unit."));
       } else {
