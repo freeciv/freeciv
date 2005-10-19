@@ -2216,7 +2216,8 @@ static void load_ruleset_nations(struct section_file *file)
 
     civilwar_nations = secfile_lookup_str_vec(file, &dim,
 					      "%s.civilwar_nations", sec[i]);
-    pl->civilwar_nations = fc_malloc(sizeof(Nation_type_id) * (dim + 1));
+    pl->civilwar_nations = fc_malloc(sizeof(*pl->civilwar_nations)
+				     * (dim + 1));
 
     for (j = 0, k = 0; k < dim; j++, k++) {
       /* HACK: At this time, all the names are untranslated and the name_orig

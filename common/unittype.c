@@ -528,7 +528,7 @@ static void precalc_one(int i,
   } unit_type_iterate_end;
 
   if(n_with_role[i] > 0) {
-    with_role[i] = fc_malloc(n_with_role[i]*sizeof(Unit_type_id));
+    with_role[i] = fc_malloc(n_with_role[i] * sizeof(*with_role[i]));
     j = 0;
     unit_type_iterate(u) {
       if (func_has(u, i)) {
