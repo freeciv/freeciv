@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -59,6 +59,7 @@
 #include "aihand.h"
 #include "aihunt.h"
 #include "ailog.h"
+#include "aiparatrooper.h"
 #include "aitools.h"
 
 #include "aiunit.h"
@@ -71,12 +72,6 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit);
 static void ai_manage_barbarian_leader(struct player *pplayer,
 				       struct unit *leader);
 
-#define RAMPAGE_ANYTHING                 1
-#define RAMPAGE_HUT_OR_BETTER        99998
-#define RAMPAGE_FREE_CITY_OR_BETTER  99999
-#define BODYGUARD_RAMPAGE_THRESHOLD (SHIELD_WEIGHTING * 4)
-static bool ai_military_rampage(struct unit *punit, int thresh_adj, 
-                                int thresh_move);
 static void ai_military_findjob(struct player *pplayer,struct unit *punit);
 static void ai_military_defend(struct player *pplayer,struct unit *punit);
 static void ai_military_attack(struct player *pplayer,struct unit *punit);
@@ -154,7 +149,7 @@ static void ai_airlift(struct player *pplayer)
     if (!transported) {
       return;
     }
-    UNIT_LOG(LOG_DEBUG, transported, "airlifted to defend %s", 
+    UNIT_LOG(LOG_DEBUG, transported, "airlifted to defend %s",
              most_needed->name);
     do_airline(transported, most_needed);
   } while (TRUE);
@@ -599,7 +594,7 @@ static int ai_rampage_want(struct unit *punit, struct tile *ptile)
 /*************************************************************************
   Look for worthy targets within a one-turn horizon.
 *************************************************************************/
-static struct pf_path *find_rampage_target(struct unit *punit, 
+static struct pf_path *find_rampage_target(struct unit *punit,
                                            int thresh_adj, int thresh_move)
 {
   struct pf_map *tgt_map;
@@ -666,7 +661,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
 }
 
 /*************************************************************************
-  Find and kill anything reachable within this turn and worth more than 
+  Find and kill anything reachable within this turn and worth more than
   the relevant of the given thresholds until we have run out of juicy 
   targets or movement.  The first threshold is for attacking which will 
   leave us where we stand (attacking adjacent units), the second is for 
@@ -679,7 +674,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
 
   Returns TRUE if survived the rampage session.
 **************************************************************************/
-static bool ai_military_rampage(struct unit *punit, int thresh_adj, 
+bool ai_military_rampage(struct unit *punit, int thresh_adj, 
                                 int thresh_move)
 {
   int count = punit->moves_left + 1; /* break any infinite loops */
@@ -839,7 +834,7 @@ static bool unit_role_defender(const struct unit_type *punittype)
 
   Requires an initialized warmap!
 **************************************************************************/
-int look_for_charge(struct player *pplayer, struct unit *punit, 
+int look_for_charge(struct player *pplayer, struct unit *punit,
                     struct unit **aunit, struct city **acity)
 {
   int dist, def, best = 0;
@@ -2126,6 +2121,9 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else if (unit_has_role(punit->type, L_BARBARIAN_LEADER)) {
     ai_manage_barbarian_leader(pplayer, punit);
+    return;
+  } else if (unit_flag(punit, F_PARATROOPERS)) {
+    ai_manage_paratrooper(pplayer, punit);
     return;
   } else if (get_transporter_capacity(punit) > 0
              && !unit_flag(punit, F_MISSILE_CARRIER)

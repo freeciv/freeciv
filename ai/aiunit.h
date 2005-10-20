@@ -54,6 +54,12 @@ struct pf_path;
 
 extern struct unit_type *simple_ai_types[U_LAST];
 
+#define RAMPAGE_ANYTHING                 1
+#define RAMPAGE_HUT_OR_BETTER        99998
+#define RAMPAGE_FREE_CITY_OR_BETTER  99999
+#define BODYGUARD_RAMPAGE_THRESHOLD (SHIELD_WEIGHTING * 4)
+bool ai_military_rampage(struct unit *punit, int thresh_adj,
+                         int thresh_move);
 void ai_manage_units(struct player *pplayer); 
 void ai_manage_unit(struct player *pplayer, struct unit *punit);
 void ai_manage_military(struct player *pplayer,struct unit *punit);

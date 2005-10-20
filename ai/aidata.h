@@ -115,6 +115,8 @@ struct ai_data {
 
       /* Upgradeable units */
       int upgradeable;
+      
+      int paratroopers;
     } units;
     int *workers;     /* cities to workers on continent*/
     int *cities;      /* number of cities we have on continent */

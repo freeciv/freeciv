@@ -204,6 +204,9 @@ static void count_my_units(struct player *pplayer)
     if (unit_flag(punit, F_MISSILE)) {
       ai->stats.units.missiles++;
     }
+    if (unit_flag(punit, F_PARATROOPERS)) {
+      ai->stats.units.paratroopers++;
+    }
     if (can_upgrade_unittype(pplayer, punit->type) >= 0) {
       ai->stats.units.upgradeable++;
     }
