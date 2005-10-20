@@ -26,13 +26,14 @@ sprites =
 		"f.aborigines", "flags/aborigines"   ; Australian Aborigines
 		"f.afghanistan", "flags/afghanistan"
 		"f.algeria", "flags/algeria"
-		"f.arab", "flags/arab"			; Saudi Arabia
+		"f.arab", "flags/arab"
 		"f.argentina", "flags/argentina"
 		"f.armenia", "flags/armenia"
 		"f.assyria", "flags/assyria"
 		"f.australia", "flags/australia"
 		"f.austria", "flags/austria"
 		"f.azerbaijan", "flags/azerbaijan"
+		"f.aztec", "flags/aztec"
 		"f.barbarian", "flags/barbarian"
 		"f.bavarian", "flags/bavarian"
 		"f.belgium", "flags/belgium"

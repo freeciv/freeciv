@@ -15,13 +15,14 @@ sprites =
 		"f.shield.aborigines", "flags/aborigines-shield" ; Australian 
 		"f.shield.afghanistan", "flags/afghanistan-shield"
 		"f.shield.algeria", "flags/algeria-shield"
-		"f.shield.arab", "flags/arab-shield"		; Saudi Arabia
+		"f.shield.arab", "flags/arab-shield"
 		"f.shield.argentina", "flags/argentina-shield"
 		"f.shield.armenia", "flags/armenia-shield"
 		"f.shield.assyria", "flags/assyria-shield"
 		"f.shield.australia", "flags/australia-shield"
 		"f.shield.austria", "flags/austria-shield"
 		"f.shield.azerbaijan", "flags/azerbaijan-shield"
+		"f.shield.aztec", "flags/aztec-shield"
 		"f.shield.barbarian", "flags/barbarian-shield"
 		"f.shield.bavarian", "flags/bavarian-shield"
 		"f.shield.belgium", "flags/belgium-shield"

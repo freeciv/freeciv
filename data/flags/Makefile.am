@@ -14,6 +14,7 @@ flag_files =				\
 		australia.png		\
 		austria.png		\
 		azerbaijan.png		\
+		aztec.png		\
 		barbarian.png		\
 		bavarian.png		\
 		belgium.png		\
@@ -136,6 +137,7 @@ shield_files =					\
 		australia-shield.png		\
 		austria-shield.png		\
 		azerbaijan-shield.png		\
+		aztec-shield.png		\
 		barbarian-shield.png		\
 		bavarian-shield.png		\
 		belgium-shield.png		\
@@ -258,6 +260,7 @@ svg_files = 				\
 		australia.svg		\
 		austria.svg		\
 		azerbaijan.svg		\
+		aztec.svg		\
 		constantine.svg		\
 		barbarian.svg		\
 		bavarian.svg		\
