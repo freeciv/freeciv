@@ -9,11 +9,11 @@ legend=_("Modern Turkey is the successor state of the Ottoman Empire, which\
  by Kemal Mustapha, the hero of the defense of Gallipoli.")
 leader=
  "Kemal Atatürk",
- "Süleyman",
- "Osman",
- "Murat",
- "Selim",
- "Mehmet"
+ "Süleyman I",
+ "Osman I",
+ "Murad I",
+ "Selim III",
+ "Mehmed II"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
 flag="turkey"

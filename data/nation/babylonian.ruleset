@@ -8,10 +8,12 @@ legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
  Kassites, Assyrians, and Chaldeans.")
 leader=
  "Hammurabi",
- "Sargon",
- "Nebuchadnezzar",
- "Tiglath-Pileser"
-leader_sex="Male", "Male", "Male", "Male"
+ "Sargon II",
+ "Nebuchadnezzar II",
+ "Tiglath-Pileser III",
+ "Burnaburiash II",
+ "Nabonassar"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag = "iraq_old"
 flag_alt = "-"
 city_style = "Babylonian"

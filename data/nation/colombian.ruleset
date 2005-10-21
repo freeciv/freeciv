@@ -8,8 +8,8 @@ legend=_("Colombia is a country in northern South America. The region was\
  settling Colombia's north coast around 1500. In 1819 the The Republic of\
  Colombia gained independence.")
 leader=
- "S. Bolívar",
- "G.J. Quesada",
+ "Simón Bolívar",
+ "Gonzalo Jiménez de Quesada",
  "Álvaro Uribe"
 leader_sex="Male", "Male", "Male"
 flag="colombia"

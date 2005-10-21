@@ -12,8 +12,9 @@ leader=
  "Károly Róbert",
  "Hunyadi Mátyás",
  "Mária Terézia",
- "Batthyány"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+ "Batthyány",
+ "Béla IV"
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Male"
 flag="hungary"
 flag_alt = "-"
 city_style = "European"

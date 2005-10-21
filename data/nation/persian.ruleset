@@ -6,11 +6,13 @@ groups=_("Ancient"), _("Modern"), _("Asian")
 legend=_("The first Persian (Achaemenid) Empire lasted from 550BC to 330BC;\
  the second (Sassanid) from 226AD to 642AD.")
 leader=
- "Cyrus",
- "Darius",
- "Xerxes",
- "Ardashir"
-leader_sex="Male", "Male", "Male", "Male"
+ "Cyrus II",	; A native rendering of his name is "Kurush"
+ "Darius I",	;		-""-		    "Darayavaush"
+ "Xerxes I",	;		-""-		    "Khshayarsha"
+ "Ardashir I",
+ "Khosrau I",
+ "Shapur I"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag="iran"
 flag_alt = "-"
 city_style = "Classical"

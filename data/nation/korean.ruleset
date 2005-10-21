@@ -10,17 +10,19 @@ legend=_("According to legend, the first Korean kingdom was founded in\
  after the Korean war in 1953.")
 leader=
  "Tangun",	; Ancestral founder of Korea
- "Kwanggaet'o",	; Great king of Koguryeo, 4th century
+ "Kwanggaet'o",	; Great king of Goguryeo, 4th century
  "Sondok",	; Queen of Silla, 7th century
  "Munmu",	; King of Silla - unified the Korean kingdoms
- "T'aejo",	; Founder and king of Joseon
+ "Wang Kon",	; Founder and king of Goryeo, temple name "T'aejo"
+ "Yi Song-gye",	; Founder and king of Joseon, temple name "T'aejo"
+ "T'aejong",	; King of Joseon
  "Sejong",	; Great king of Joseon
  "Min",		; Queen of Joseon - fiercely opposed Japanese oppression
  "Kim Il-sung",	; Eternal leader of North Korea
  "Syngman Rhee",	; First president of South Korea
  "Park Chung Hee",	; Second president of South Korea
  "Kim Dae-jung"		; Fifth president of South Korea
-leader_sex= "Male", "Male", "Female", "Male", "Male", "Male",
+leader_sex= "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male",
             "Female", "Male", "Male", "Male", "Male"
 flag="korea"
 flag_alt = "-"

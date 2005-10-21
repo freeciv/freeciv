@@ -8,9 +8,9 @@ legend=_("The Azteca, a group of barbarians from the Sonoran desert,\
  during the 15th century AD, reviving the practice of human sacrifice.\
  They were conquered by the Spanish under Cortez in 1524.")
 leader=
- "Montezuma",
- "Cuahtemoc",
- "Itzcoatl",
+ "Moctezuma II",
+ "Cuauhtémoc",
+ "Itzcóatl",
  "Axayacatl"
 leader_sex="Male", "Male", "Male", "Male"
 flag="aztec"

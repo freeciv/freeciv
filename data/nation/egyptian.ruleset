@@ -8,14 +8,14 @@ legend=_("Egypt was the second-oldest of the world's civilizations. Since\
  ancient times it has been unusually urbanized, supporting a large\
  population on silt deposited by the annual floodings of the Nile.")
 leader=
- "Rameses",
- "Cleopatra",
+ "Ramesses II",
+ "Cleopatra VII",
  "Tutankhamun",
  "Narmer",
- "Thutmose",
+ "Thutmose I",
  "Hatshepsut",
  "Nefertiti",
- "Cheops",
+ "Cheops",	; A more correct rendering of his name would be "Khufu"
  "Akhenaten"
 leader_sex="Male", "Female", "Male", "Male", "Male",
         "Female", "Female", "Male", "Male"

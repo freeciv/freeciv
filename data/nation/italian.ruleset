@@ -13,9 +13,10 @@ leader =
  "Giuseppe Mazzini",
  "Palmiro Togliatti",
  "Giacomo Matteotti",
- "Benito Mussolini"
+ "Benito Mussolini",
+ "Vittorio Emanuele II"
 leader_sex = "Male", "Male", "Male",
-             "Male", "Male"
+             "Male", "Male", "Male"
 flag = "italy"
 flag_alt = "-"
 city_style = "Classical"

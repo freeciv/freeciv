@@ -7,17 +7,16 @@ legend=_("Rome was, in legend, founded by Romulus in 753 BC.  At its\
  height, Rome controlled nearly all of Europe, northern Africa and\
  Mesopotamia.")
 leader=
- "Julius Caesar",
- "Augustus",
- "Vespasian",
+ "Julius Caesar",	; "Caesar Augustus" is the same person
+ "Vespasianus",
  "Nero",
- "Trajan",
+ "Traianus",
  "Marcus Aurelius",
  "Tiberius",
- "Constantine",
- "Livia",
- "Messalina"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Constantinus I",
+ "Livia Drusilla",
+ "Valeria Messalina"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Female", "Female"
 flag = "rome"
 flag_alt = "italy"

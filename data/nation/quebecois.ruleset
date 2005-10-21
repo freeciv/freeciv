@@ -7,11 +7,11 @@ legend=_("Quebec is the largest province of Canada, housing the majority of\
  the Francophone population of America. It is also the only political unit\
  in North America where English is not an official language.")
 leader=
- "Champlain",
- "Frontenac",
- "Montcalm",
- "Papineau",
- "Rene Levesque"
+ "Samuel de Champlain",
+ "Louis de Frontenac",
+ "Louis-Joseph de Montcalm",
+ "Louis-Joseph Papineau",
+ "René Lévesque"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag = "quebec"
 flag_alt = "-"

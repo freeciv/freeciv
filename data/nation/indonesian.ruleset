@@ -10,8 +10,8 @@ legend=_("Indonesia is a large country on the Malay Archipelago with central\
 leader=
  "Sukarno",
  "Suharto",
- "Habibie",
- "Wahid"
+ "Jusuf Habibie",
+ "Abdurrahman Wahid"
 leader_sex="Male", "Male", "Male", "Male"
 flag="indonesia"
 flag_alt = "-"
