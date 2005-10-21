@@ -100,6 +100,10 @@ void close_cma_dialog(struct city *pcity)
 {
   struct cma_dialog *pdialog = get_cma_dialog(pcity);
 
+  if (pdialog == NULL) {
+    /* A city which is being investigated doesn't contain cma dialog */
+    return;
+  }
   gtk_widget_destroy(pdialog->shell);
 }
 

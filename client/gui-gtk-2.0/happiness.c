@@ -202,8 +202,13 @@ void refresh_happiness_dialog(struct city *pcity)
 void close_happiness_dialog(struct city *pcity)
 {
   struct happiness_dialog *pdialog = get_happiness_dialog(pcity);
+  if (pdialog == NULL) {
+    /* City which is being investigated doesn't contain happiness tab */
+    return;
+  }
 
   gtk_widget_hide(pdialog->shell);
+
   dialog_list_unlink(dialog_list, pdialog);
 
   gtk_widget_destroy(pdialog->shell);
