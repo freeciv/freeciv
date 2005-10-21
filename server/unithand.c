@@ -758,7 +758,8 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   int moves_used, def_moves_used; 
   struct tile *def_tile = pdefender->tile;
   int old_unit_vet, old_defender_vet, vet;
-
+  int winner_id;
+  
   freelog(LOG_DEBUG, "Start attack: %s's %s against %s's %s.",
 	  pplayer->name, unit_type(punit)->name, 
 	  unit_owner(pdefender)->name,
@@ -833,6 +834,7 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
   if (unit_flag(punit, F_ONEATTACK)) 
     punit->moves_left = 0;
   pwinner = (punit->hp > 0) ? punit : pdefender;
+  winner_id = pwinner->id;
   plooser = (pdefender->hp > 0) ? punit : pdefender;
 
   vet = (pwinner->veteran == ((punit->hp > 0) ? old_unit_vet :
@@ -914,7 +916,10 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
     }
   }
 
-  send_unit_info(NULL, pwinner);
+  /* The attacker may have died for many reasons */
+  if (find_unit_by_id(winner_id) != NULL) {
+    send_unit_info(NULL, pwinner);
+  }
 }
 
 /**************************************************************************
