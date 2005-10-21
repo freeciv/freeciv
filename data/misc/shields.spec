@@ -133,6 +133,7 @@ sprites =
 		"f.shield.usa", "flags/usa-shield"
 		"f.shield.venezuela", "flags/venezuela-shield"
 		"f.shield.vietnam", "flags/vietnam-shield"
+		"f.shield.viking", "flags/viking-shield"
 		"f.shield.wales", "flags/wales-shield"
 		"f.shield.alien", "flags/alien-shield"
 	}

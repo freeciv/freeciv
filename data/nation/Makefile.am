@@ -78,6 +78,7 @@ pkgdata_DATA = \
 		mordor.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \
+		norwegian.ruleset \
 		persian.ruleset \
 		phoenician.ruleset \
 		polish.ruleset \

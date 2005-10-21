@@ -144,6 +144,7 @@ sprites =
 		"f.usa", "flags/usa"
 		"f.venezuela", "flags/venezuela"
 		"f.vietnam", "flags/vietnam"
+		"f.viking", "flags/viking"
 		"f.wales", "flags/wales"
 		"f.alien", "flags/alien"
 	}

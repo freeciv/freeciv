@@ -161,4 +161,5 @@ match=2
 *include "nation/tibetan.ruleset"
 *include "nation/tunisian.ruleset"
 *include "nation/uyghur.ruleset"
+*include "nation/norwegian.ruleset"
 *include "nation/barbarian.ruleset"
