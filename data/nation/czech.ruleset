@@ -38,10 +38,9 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
-civilwar_nations = "croatian"
+civilwar_nations="slovakian", "silesian", "polish"
 
 cities =
         "Praha", "Brno", "Ostrava", "Plzeň", "Hradec Králové",
