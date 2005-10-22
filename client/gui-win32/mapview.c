@@ -388,6 +388,7 @@ static VOID CALLBACK unqueue_flush(HWND hwnd, UINT uMsg, UINT idEvent,
 				   DWORD dwTime)
 {
   flush_dirty();
+  redraw_selection_rectangle();
   is_flush_queued = FALSE;
 }
 

@@ -542,6 +542,7 @@ bool is_flush_queued = FALSE;
 static void unqueue_flush(XtPointer client_data, XtIntervalId * id)
 {
   flush_dirty();
+  redraw_selection_rectangle();
   is_flush_queued = FALSE;
 }
 

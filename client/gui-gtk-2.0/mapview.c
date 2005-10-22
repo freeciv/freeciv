@@ -428,6 +428,7 @@ static bool is_flush_queued = FALSE;
 static gint unqueue_flush(gpointer data)
 {
   flush_dirty();
+  redraw_selection_rectangle();
   is_flush_queued = FALSE;
   return 0;
 }
