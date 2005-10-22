@@ -34,10 +34,37 @@ init_government="Despotism"
 init_units=""
 civilwar_nations="israeli", "sudanese"
 
+; Source: http://www.narmer.pl/map/nomy_en.htm
+; Alternative names in comment
 cities =
-  "Thebae", "Memphis", "Heliopolis", "Syene", "Arsinoe", "Bubastis",
-  "Ammonium", "Alexandria", "Pelusium", "Canopus", "Naucratis",
-  "Diospolis",  "Sais", "Acoris", "Cynopolis", "Thinis",
-  "Timonepsis", "Nilopolis", "Chemmis", "Antaeopolis", "Hermonthis",
-  "Letopolis", "Aphroditopolis", "Heracleopolis", "Oxyrynchus",
-  "Ibiu", "Busiris", "Andropolis", "Sele", "Antiphrae", "Apis"
+ "Waset",	; No-Amon, Diospolis Magna, Thebes, Luxor, Karnak
+ "Ineb-Hedj",	; Men-Nefer, Memphis, Mit Rahina
+ "Yunu",	; On, Heliopolis, el-Matariya
+ "Suentet",	; Syene, Asuan
+ "Sheresi",	; Merwer, Shedyt, Crokodilopolis, Arsinoe, Medinet el-Fayum
+ "Per-Bastet",	; Bubastis, Tell Basta
+ "Rakote",	; Alexandria
+ "Behdet",	; Sam-Behutkhet, Pa-khen-em-Amon, Hu, Diospolis Parva etc.
+ "Sa",		; Sais, San el-Hagar
+ "Hardai",	; Cynopolis
+ "This",	; Tjeny, Thinis, Girga
+ "Ipu",		; Ipu-Khent-Min, Khemmis Panopolis, Akhmim
+ "Djeuka",	; Antaeopolis, Kaw el-Kebir
+ "Yuni",	; Hermonthis, Armant
+ "Khem",	; Letopolis, Kom Ausim
+ "Henen-Nesut",	; Heracleopolis, Ehnasije el-Medine
+ "Per-Medjed",	; Oxyrynkhos, el-Bahnasa
+ "Per-Usiri",	; Djedu, Busiris, Taposiris Magna, Abusir Bana
+ "Imu",		; Kom el-Hisn
+ "Itji-Tawi",	; el-Lisht
+ "Sauti",	; Lycopolis, Asyut
+ "Akhet-Aton",	; el-Amarna
+ "Chaswu",	; Xois, Sakha
+ "Pi-Rameses",	; Qantir
+ "Abdju",	; Osiris, Abydos
+ "Djanenet",	; Hut-Waret, Tanis, Awaris, San el-Hagar
+ "Per-Banebdjedet", ; Mendes, Tema el-Amdid
+ "Tjeb-Neter",	; Sebennythos, Samanud
+ "Anpet-Djedet", ; Tmuis
+ "Gebtiu",	; Koptos, Kuft
+ "Taminhor" 	; Hermopolis Parva, Damanhur
