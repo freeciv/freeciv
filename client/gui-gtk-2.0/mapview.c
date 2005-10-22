@@ -366,6 +366,7 @@ static bool is_flush_queued = FALSE;
 static gint unqueue_flush(gpointer data)
 {
   flush_dirty();
+  redraw_selection_rectangle();
   is_flush_queued = FALSE;
   return 0;
 }
@@ -770,8 +771,6 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   points[4].x = canvas_x;
   points[4].y = canvas_y;
   gdk_draw_lines(map_canvas->window, civ_gc, points, ARRAY_SIZE(points));
-
-  rectangle_active = TRUE;
 }
 
 /**************************************************************************

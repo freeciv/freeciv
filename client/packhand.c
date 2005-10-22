@@ -266,7 +266,6 @@ void handle_unit_remove(int unit_id)
 **************************************************************************/
 void handle_nuke_tile_info(int x, int y)
 {
-  flush_dirty();
   put_nuke_mushroom_pixmaps(map_pos_to_tile(x, y));
 }
 
@@ -302,7 +301,6 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 		       unit_type(punit1)->sound_fight_alt);
 
       if (do_combat_animation) {
-	flush_dirty();
 	decrease_unit_hp_smooth(punit0, hp0, punit1, hp1);
       } else {
 	punit0->hp = hp0;

@@ -840,6 +840,7 @@ static void my_drag_move(struct sw_widget *widget,
 	    dy, new_x, new_y);
     set_mapview_scroll_pos(new_x, new_y);
     flush_dirty();
+    redraw_selection_rectangle();
     clear_timer_start(drag_timer);
   }
 }
@@ -987,6 +988,7 @@ static void action_callback(const char *action)
       }
       set_mapview_scroll_pos(x, y);
       flush_dirty();
+      redraw_selection_rectangle();
     }
   } else {
     freelog(LOG_NORMAL, "action '%s' requested", action);

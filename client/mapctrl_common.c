@@ -227,9 +227,20 @@ void update_selection_rectangle(int canvas_x, int canvas_y)
   }
 
   /* It is currently drawn only to the screen, not backing store */
+  rectangle_active = TRUE;
   draw_selection_rectangle(canvas_x, canvas_y, rec_w, rec_h);
   rec_corner_x = canvas_x;
   rec_corner_y = canvas_y;
+}
+
+/**************************************************************************
+  Redraws the selection rectangle after a map flush.
+**************************************************************************/
+void redraw_selection_rectangle(void)
+{
+  if (rectangle_active) {
+    draw_selection_rectangle(rec_corner_x, rec_corner_y, rec_w, rec_h);
+  }
 }
 
 /**************************************************************************
