@@ -78,7 +78,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
     acity = tile_get_city(ptile);
     if (acity && pplayers_at_war(unit_owner(punit), city_owner(acity)) &&
         (unit_list_size(ptile->units) == 0)) {
-      if (!map_is_known_and_seen(ptile, pplayer)
+      if (!map_is_known_and_seen(ptile, pplayer, V_MAIN)
           && ai_handicap(pplayer, H_FOG)) {
         continue;
       }
@@ -120,14 +120,17 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
       if (unit_list_size(target->units) == 0
           || !can_unit_attack_tile(punit, target)
 	  || is_ocean(target->terrain)
-	  || (!map_is_known_and_seen(target, pplayer)
-	      && ai_handicap(pplayer, H_FOG))) {
+	  || (ai_handicap(pplayer, H_FOG)
+	      && !map_is_known_and_seen(target, pplayer, V_MAIN))) {
         continue;
       }
       val = 0;
       if (is_stack_vulnerable(target)) {
         unit_list_iterate(target->units, victim) {
-          val += victim->hp * 100;
+	  if (!ai_handicap(pplayer, H_FOG)
+	      || can_player_see_unit_at(pplayer, victim, target)) {
+	    val += victim->hp * 100;
+	  }
         } unit_list_iterate_end;
       } else {
         val += get_defender(punit, target)->hp * 100;

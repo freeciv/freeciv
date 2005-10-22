@@ -627,7 +627,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
     }
 
     if (ai_handicap(pplayer, H_TARGETS) 
-        && !map_is_known_and_seen(pos.tile, pplayer)) {
+        && !map_is_known_and_seen(pos.tile, pplayer, V_MAIN)) {
       /* The target is under fog of war */
       continue;
     }

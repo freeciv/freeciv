@@ -191,7 +191,7 @@ static int find_something_to_bomb(struct unit *punit, struct tile *ptile)
       continue;
     }
     if (ai_handicap(pplayer, H_FOG) 
-        && !map_is_known_and_seen(tile1, pplayer)) {
+        && !map_is_known_and_seen(tile1, pplayer, V_MAIN)) {
       /* The tile is fogged */
       continue;
     }

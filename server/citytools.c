@@ -798,7 +798,10 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   give_citymap_from_player_to_player(pcity, pgiver, ptaker);
   old_vision = pcity->server.vision;
   pcity->server.vision = vision_new(ptaker, pcity->tile, FALSE);
-  vision_change_sight(pcity->server.vision, vision_get_sight(old_vision));
+  vision_layer_iterate(v) {
+    vision_change_sight(pcity->server.vision, v,
+			vision_get_sight(old_vision, v));
+  } vision_layer_iterate_end;
 
   sz_strlcpy(old_city_name, pcity->name);
   if (game.info.allowed_city_names == 1
@@ -1146,7 +1149,7 @@ void remove_city(struct city *pcity)
   map_update_borders_city_destroyed(ptile);
 
   players_iterate(other_player) {
-    if (map_is_known_and_seen(ptile, other_player)) {
+    if (map_is_known_and_seen(ptile, other_player, V_MAIN)) {
       reality_check_city(other_player, ptile);
     }
   } players_iterate_end;
@@ -1364,7 +1367,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 void refresh_dumb_city(struct city *pcity)
 {
   players_iterate(pplayer) {
-    if (map_is_known_and_seen(pcity->tile, pplayer)
+    if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)
 	|| player_has_traderoute_with_city(pplayer, pcity)) {
       if (update_dumb_city(pplayer, pcity)) {
 	struct packet_city_short_info packet;
@@ -1406,7 +1409,7 @@ static void broadcast_city_info(struct city *pcity)
 	lsend_packet_city_info(powner->connections, &packet);
       }
     } else {
-      if (map_is_known_and_seen(pcity->tile, pplayer)
+      if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)
 	  || player_has_traderoute_with_city(pplayer, pcity)) {
 	update_dumb_city(pplayer, pcity);
 	package_dumb_city(pplayer, pcity->tile, &sc_pack);
@@ -1544,7 +1547,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 	/* Without the conditional we'd have an infinite loop here. */
 	map_show_tile(pviewer, ptile);
       }
-      if (map_is_known_and_seen(ptile, pviewer)) {
+      if (map_is_known_and_seen(ptile, pviewer, V_MAIN)) {
 	if (pcity) {		/* it's there and we see it; update and send */
 	  update_dumb_city(pviewer, pcity);
 	  package_dumb_city(pviewer, ptile, &sc_pack);
@@ -2139,6 +2142,9 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 ****************************************************************************/
 void city_refresh_vision(struct city *pcity)
 {
-  vision_change_sight(pcity->server.vision,
-		      get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ));
+  int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
+
+  vision_layer_iterate(v) {
+    vision_change_sight(pcity->server.vision, v, radius_sq);
+  } vision_layer_iterate_end;
 }

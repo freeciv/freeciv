@@ -290,19 +290,8 @@ bool can_player_see_unit_at(const struct player *pplayer,
     return TRUE;
   }
 
-  /* Hiding units may only be seen by adjacent allied units or cities. */
-  /* FIXME: shouldn't a check for shared vision be done here? */
-  adjc_iterate(ptile, ptile1) {
-    struct city *pcity = tile_get_city(ptile1);
-    if (pcity && pplayers_allied(city_owner(pcity), pplayer)) {
-      return TRUE;
-    }  
-    unit_list_iterate(ptile1->units, punit2) {
-      if (pplayers_allied(unit_owner(punit2), pplayer)) {
-	return TRUE;
-      }
-    } unit_list_iterate_end;
-  } adjc_iterate_end;
+  /* Hiding units are only seen by the V_INVIS fog layer. */
+  return BV_ISSET(ptile->tile_seen[V_INVIS], pplayer->player_no);
 
   return FALSE;
 }

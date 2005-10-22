@@ -2271,9 +2271,7 @@ static void player_map_load(struct player *plr, int plrno,
   int i;
 
   if (!plr->is_alive)
-    whole_map_iterate(ptile) {
-      map_change_seen(ptile, plr, +1);
-    } whole_map_iterate_end;
+    map_know_and_see_all(plr);
 
   /* load map if:
      1) it from a fog of war build
@@ -2382,7 +2380,7 @@ static void player_map_load(struct player *plr, int plrno,
     /* This shouldn't be neccesary if the savegame was consistent, but there
        is a bug in some pre-1.11 savegames. Anyway, it can't hurt */
     whole_map_iterate(ptile) {
-      if (map_is_known_and_seen(ptile, plr)) {
+      if (map_is_known_and_seen(ptile, plr, V_MAIN)) {
 	update_player_tile_knowledge(plr, ptile);
 	reality_check_city(plr, ptile);
 	if (tile_get_city(ptile)) {

@@ -475,7 +475,7 @@ static void try_summon_barbarians(void)
     notify_player(victim, utile, E_UPRISING,
 		     _("Native unrest near %s led by %s."), pc->name,
 		     barbarians->name);
-  } else if (map_is_known_and_seen(utile, victim)) {
+  } else if (map_is_known_and_seen(utile, victim, V_MAIN)) {
     notify_player(victim, utile, E_UPRISING,
 		     _("Sea raiders seen near %s!"), pc->name);
   }

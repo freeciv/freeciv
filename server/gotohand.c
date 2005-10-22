@@ -1239,7 +1239,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     return TRUE;
   }
 
-  if (!(omni || map_is_known_and_seen(ptile, pplayer))) {
+  if (!(omni || map_is_known_and_seen(ptile, pplayer, V_MAIN))) {
     /* The destination is in unknown -- assume sane */
     return TRUE;
   }
@@ -1459,7 +1459,7 @@ static bool airspace_looks_safe(struct tile *ptile, struct player *pplayer)
 
   /* If the tile's fogged we again (may) assume it's safe. */
   if (ai_handicap(pplayer, H_FOG) &&
-      !map_is_known_and_seen(ptile, pplayer)) {
+      !map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
     return AIR_ASSUMES_FOGGED_SAFE;
   }
 

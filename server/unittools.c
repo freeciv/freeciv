@@ -1027,7 +1027,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
 
   adjc_iterate(ptile, ptile1) {
     if (ai_handicap(pplayer, H_FOG)
-	&& !map_is_known_and_seen(ptile1, unit_owner(punit))) {
+	&& !map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
       /* We cannot see danger at (ptile1) => assume there is none */
       continue;
     }
@@ -1179,7 +1179,7 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
      * candidates.  This solution just tells the client to drop all such
      * units.  If any of these are unknown to the client the client will
      * just ignore them. */
-    if (map_is_known_and_seen(punit->tile, pplayer) &&
+    if (map_is_known_and_seen(punit->tile, pplayer, V_MAIN) &&
         !can_player_see_unit(pplayer, punit)) {
       unit_goes_out_of_sight(pplayer, punit);
     }
@@ -1189,7 +1189,7 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
     /* The player used to know what units were in these cities.  Now that he
      * doesn't, he needs to get a new short city packet updating the
      * occupied status. */
-    if (map_is_known_and_seen(pcity->tile, pplayer)) {
+    if (map_is_known_and_seen(pcity->tile, pplayer, V_MAIN)) {
       send_city_info(pplayer, pcity);
     }
   } city_list_iterate_end;
@@ -1365,7 +1365,6 @@ static void server_remove_unit(struct unit *punit)
   struct city *pcity = tile_get_city(punit->tile);
   struct city *phomecity = find_city_by_id(punit->homecity);
   struct tile *unit_tile = punit->tile;
-  struct player *unitowner = unit_owner(punit);
 
 #ifndef NDEBUG
   unit_list_iterate(punit->tile->units, pcargo) {
@@ -1383,7 +1382,7 @@ static void server_remove_unit(struct unit *punit)
   }
 
   players_iterate(pplayer) {
-    if (map_is_known_and_seen(unit_tile, pplayer)) {
+    if (can_player_see_unit(pplayer, punit)) {
       dlsend_packet_unit_remove(pplayer->connections, punit->id);
     }
   } players_iterate_end;
@@ -1406,9 +1405,6 @@ static void server_remove_unit(struct unit *punit)
 
   game_remove_unit(punit);
   punit = NULL;
-
-  /* Hide any submarines that are no longer visible. */
-  conceal_hidden_units(unitowner, unit_tile);
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   map_city_radius_iterate(unit_tile, ptile1) {
@@ -1925,8 +1921,7 @@ void send_all_known_units(struct conn_list *dest)
     for(p=0; p<game.info.nplayers; p++) { /* send the players units */
       struct player *unitowner = &game.players[p];
       unit_list_iterate(unitowner->units, punit) {
-	if (!pplayer
-	    || map_is_known_and_seen(punit->tile, pplayer)) {
+	if (!pplayer || can_player_see_unit(pplayer, punit)) {
 	  send_unit_info_to_onlookers(pconn->self, punit,
 				      punit->tile, FALSE);
 	}
@@ -2089,7 +2084,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
-  if (map_is_known_and_seen(ptile, pplayer)
+  if (map_is_known_and_seen(ptile, pplayer, V_MAIN)
       && ((ptile->city
 	  && pplayers_non_attack(pplayer, city_owner(ptile->city)))
       || is_non_attack_unit_tile(ptile, pplayer))) {
@@ -2494,7 +2489,7 @@ static void wakeup_neighbor_sentries(struct unit *punit)
      wake them up if the punit is farther away than 3. */
   square_iterate(punit->tile, 3, ptile) {
     unit_list_iterate(ptile->units, penemy) {
-      int radius_sq = get_unit_vision_at(penemy, penemy->tile);
+      int radius_sq = get_unit_vision_at(penemy, penemy->tile, V_MAIN);
       enum unit_move_type move_type = unit_type(penemy)->move_type;
       struct terrain *pterrain = tile_get_terrain(ptile);
 
@@ -2680,8 +2675,10 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       struct vision *old_vision = pcargo->server.vision;
 
       pcargo->server.vision = vision_new(pcargo->owner, pdesttile, TRUE);
-      vision_change_sight(pcargo->server.vision,
-			  get_unit_vision_at(pcargo, pdesttile));
+      vision_layer_iterate(v) {
+	vision_change_sight(pcargo->server.vision, v,
+			    get_unit_vision_at(pcargo, pdesttile, v));
+      } vision_layer_iterate_end;
 
       /* Silently free orders since they won't be applicable anymore. */
       free_unit_orders(pcargo);
@@ -2709,8 +2706,10 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   /* Enhance vision if unit steps into a fortress */
   punit->server.vision = vision_new(punit->owner, pdesttile, TRUE);
-  vision_change_sight(punit->server.vision,
-		      get_unit_vision_at(punit, pdesttile));
+  vision_layer_iterate(v) {
+    vision_change_sight(punit->server.vision, v,
+			get_unit_vision_at(punit, pdesttile, v));
+  } vision_layer_iterate_end;
 
   unit_list_unlink(psrctile->units, punit);
   punit->tile = pdesttile;
@@ -2783,11 +2782,6 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   if ((pcity = tile_get_city(pdesttile))) {
     refresh_dumb_city(pcity);
   }
-
-  /* The hidden units might not have been previously revealed 
-   * because when we did the unfogging, the unit was still 
-   * at (src_x, src_y) */
-  reveal_hidden_units(pplayer, pdesttile);
 
   vision_clear_sight(old_vision);
   vision_free(old_vision);
@@ -2883,7 +2877,7 @@ static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit)
 {
   bool cancel = FALSE;
-  int radius_sq = get_unit_vision_at(punit, punit->tile);
+  int radius_sq = get_unit_vision_at(punit, punit->tile, V_MAIN);
   struct player *pplayer = unit_owner(punit);
 
   circle_iterate(punit->tile, radius_sq, ptile) {
@@ -3172,11 +3166,23 @@ bool execute_orders(struct unit *punit)
   Note that vision MUST be independent of transported_by for this to work
   properly.
 ****************************************************************************/
-int get_unit_vision_at(struct unit *punit, struct tile *ptile)
+int get_unit_vision_at(struct unit *punit, struct tile *ptile,
+		       enum vision_layer vlayer)
 {
-  return (punit->type->vision_radius_sq
-	  + get_unittype_bonus(punit->owner, ptile, punit->type,
-			       EFT_UNIT_VISION_RADIUS_SQ));
+  const int base = (punit->type->vision_radius_sq
+		    + get_unittype_bonus(punit->owner, ptile, punit->type,
+					 EFT_UNIT_VISION_RADIUS_SQ));
+  switch (vlayer) {
+  case V_MAIN:
+    return base;
+  case V_INVIS:
+    return MIN(base, 2);
+  case V_COUNT:
+    break;
+  }
+
+  assert(0);
+  return 0;
 }
 
 /****************************************************************************
@@ -3187,8 +3193,12 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile)
 ****************************************************************************/
 void unit_refresh_vision(struct unit *punit)
 {
-  vision_change_sight(punit->server.vision,
-		      get_unit_vision_at(punit, punit->tile));
+  vision_layer_iterate(v) {
+    /* This requires two calls to get_unit_vision_at...it could be
+     * optimized. */
+    vision_change_sight(punit->server.vision, v,
+			get_unit_vision_at(punit, punit->tile, v));
+  } vision_layer_iterate_end;
 }
 
 /****************************************************************************

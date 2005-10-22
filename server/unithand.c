@@ -289,7 +289,6 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
   if (old_owner != new_owner) {
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
-    conceal_hidden_units(old_owner, punit->tile);
 
     ai_reinit(punit);
 
@@ -299,7 +298,6 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 
     punit->server.vision = vision_new(new_owner, punit->tile, TRUE);
     unit_refresh_vision(punit);
-    reveal_hidden_units(new_owner, punit->tile);
   }
 
   punit->homecity = new_pcity->id;
@@ -623,8 +621,10 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
   package_short_unit(pdefender, &unit_def_short_packet, FALSE,
 		     UNIT_INFO_IDENTITY, 0);
   players_iterate(other_player) {
-    if (map_is_known_and_seen(pattacker->tile, other_player)
-	|| map_is_known_and_seen(pdefender->tile, other_player)) {
+    /* NOTE: this means the player can see combat between submarines even
+     * if neither sub is visible.  See similar comment in send_combat. */
+    if (map_is_known_and_seen(pattacker->tile, other_player, V_MAIN)
+	|| map_is_known_and_seen(pdefender->tile, other_player, V_MAIN)) {
       if (!can_player_see_unit(other_player, pattacker)) {
 	assert(other_player != pattacker->owner);
 	lsend_packet_unit_short_info(other_player->connections,
@@ -655,8 +655,10 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
   combat.make_winner_veteran=veteran;
 
   players_iterate(other_player) {
-    if (map_is_known_and_seen(pattacker->tile, other_player)
-	|| map_is_known_and_seen(pdefender->tile, other_player)) {
+    /* NOTE: this means the player can see combat between submarines even
+     * if neither sub is visible.  See similar comment in see_combat. */
+    if (map_is_known_and_seen(pattacker->tile, other_player, V_MAIN)
+	|| map_is_known_and_seen(pdefender->tile, other_player, V_MAIN)) {
       lsend_packet_unit_combat_info(other_player->connections, &combat);
 
       /* 

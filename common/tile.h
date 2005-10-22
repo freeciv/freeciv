@@ -32,7 +32,7 @@ struct tile {
   bv_special special;
   struct city *city;        /* city standing on the tile, NULL if none */
   struct unit_list *units;
-  bv_player tile_known, tile_seen;
+  bv_player tile_known, tile_seen[V_COUNT];
   struct city *worked;      /* city working tile, or NULL if none */
   Continent_id continent;
   struct player *owner;     /* Player owning this tile, or NULL. */

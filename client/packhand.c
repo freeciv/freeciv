@@ -1926,11 +1926,15 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
   if (game.player_ptr) {
     BV_CLR(ptile->tile_known, game.info.player_idx);
-    BV_CLR(ptile->tile_seen, game.info.player_idx);
+    vision_layer_iterate(v) {
+      BV_CLR(ptile->tile_seen[v], game.info.player_idx);
+    } vision_layer_iterate_end;
     switch (packet->known) {
     case TILE_KNOWN:
       BV_SET(ptile->tile_known, game.info.player_idx);
-      BV_SET(ptile->tile_seen, game.info.player_idx);
+      vision_layer_iterate(v) {
+	BV_SET(ptile->tile_seen[v], game.info.player_idx);
+      } vision_layer_iterate_end;
       break;
     case TILE_KNOWN_FOGGED:
       BV_SET(ptile->tile_known, game.info.player_idx);

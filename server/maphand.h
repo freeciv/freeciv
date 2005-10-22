@@ -39,8 +39,8 @@ struct dumb_city{
 struct player_tile {
   struct terrain *terrain; /* May be NULL for unknown tiles. */
   bv_special special;
-  unsigned short seen_count;
-  unsigned short own_seen;
+  unsigned short seen_count[V_COUNT];
+  unsigned short own_seen[V_COUNT];
   /* If you build a city with an unknown square within city radius
      the square stays unknown. However, we still have to keep count
      of the seen points, so they are kept in here. When the tile
@@ -59,8 +59,6 @@ void give_citymap_from_player_to_player(struct city *pcity,
 					struct player *pfrom, struct player *pdest);
 void send_all_known_tiles(struct conn_list *dest);
 void send_tile_info(struct conn_list *dest, struct tile *ptile);
-void reveal_hidden_units(struct player *pplayer, struct tile *ptile);
-void conceal_hidden_units(struct player *pplayer, struct tile *ptile);
 void upgrade_city_rails(struct player *pplayer, bool discovery);
 void send_map_info(struct conn_list *dest);
 
@@ -69,8 +67,10 @@ void map_show_circle(struct player *pplayer,
 		     struct tile *ptile, int radius_sq);
 void map_show_all(struct player *pplayer);
 
-bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer);
-void map_change_seen(struct tile *ptile, struct player *pplayer, int change);
+bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
+			   enum vision_layer vlayer);
+void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
+		     enum vision_layer vlayer);
 bool map_is_known(const struct tile *ptile, const struct player *pplayer);
 void map_set_known(struct tile *ptile, struct player *pplayer);
 void map_clear_known(struct tile *ptile, struct player *pplayer);
@@ -151,8 +151,9 @@ int get_ocean_size(Continent_id id);
 struct vision;
 struct vision *vision_new(struct player *pplayer, struct tile *ptile,
 			  bool can_reveal_tiles);
-int vision_get_sight(const struct vision *vision);
-void vision_change_sight(struct vision *vision, int radius_sq);
+int vision_get_sight(const struct vision *vision, enum vision_layer vlayer);
+void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
+			 int radius_sq);
 void vision_clear_sight(struct vision *vision);
 void vision_free(struct vision *vision);
 

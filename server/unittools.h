@@ -46,7 +46,8 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity, int move_cost
 void resolve_unit_stacks(struct player *pplayer, struct player *aplayer,
                          bool verbose);
 void remove_allied_visibility(struct player* pplayer, struct player* aplayer);
-int get_unit_vision_at(struct unit *punit, struct tile *ptile);
+int get_unit_vision_at(struct unit *punit, struct tile *ptile,
+		       enum vision_layer vlayer);
 void unit_refresh_vision(struct unit *punit);
 void unit_list_refresh_vision(struct unit_list *punitlist);
 void pay_for_units(struct player *pplayer, struct city *pcity);

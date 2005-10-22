@@ -86,17 +86,26 @@ static void check_fow(void)
   whole_map_iterate(ptile) {
     players_iterate(pplayer) {
       struct player_tile *plr_tile = map_get_player_tile(ptile, pplayer);
-      /* underflow of unsigned int */
-      SANITY_CHECK(plr_tile->seen_count < 60000);
-      SANITY_CHECK(plr_tile->own_seen < 60000);
 
-      if (plr_tile->seen_count > 0) {
-	SANITY_CHECK(BV_ISSET(ptile->tile_seen, pplayer->player_no));
-      } else {
-	SANITY_CHECK(!BV_ISSET(ptile->tile_seen, pplayer->player_no));
-      }
+      vision_layer_iterate(v) {
+	/* underflow of unsigned int */
+	SANITY_CHECK(plr_tile->seen_count[v] < 60000);
+	SANITY_CHECK(plr_tile->own_seen[v] < 60000);
 
-      SANITY_CHECK(plr_tile->own_seen <= plr_tile->seen_count);
+	if (plr_tile->seen_count[v] > 0) {
+	  SANITY_CHECK(BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	} else {
+	  SANITY_CHECK(!BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	}
+
+	SANITY_CHECK(plr_tile->own_seen[v] <= plr_tile->seen_count[v]);
+      } vision_layer_iterate_end;
+
+      /* Lots of server bits depend on this. */
+      SANITY_CHECK(plr_tile->seen_count[V_INVIS]
+		   <= plr_tile->seen_count[V_MAIN]);
+      SANITY_CHECK(plr_tile->own_seen[V_INVIS]
+		   <= plr_tile->own_seen[V_MAIN]);
     } players_iterate_end;
   } whole_map_iterate_end;
 

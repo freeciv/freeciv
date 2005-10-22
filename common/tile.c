@@ -150,7 +150,7 @@ enum known_type tile_get_known(const struct tile *ptile,
 {
   if (!BV_ISSET(ptile->tile_known, pplayer->player_no)) {
     return TILE_UNKNOWN;
-  } else if (!BV_ISSET(ptile->tile_seen, pplayer->player_no)) {
+  } else if (!BV_ISSET(ptile->tile_seen[V_MAIN], pplayer->player_no)) {
     return TILE_KNOWN_FOGGED;
   } else {
     return TILE_KNOWN;

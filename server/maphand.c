@@ -193,11 +193,14 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer);
 static void give_tile_info_from_player_to_player(struct player *pfrom,
 						 struct player *pdest,
 						 struct tile *ptile);
-static void shared_vision_change_seen(struct tile *ptile, struct player *pplayer, int change);
+static void shared_vision_change_seen(struct tile *ptile,
+				      struct player *pplayer, int change,
+				      enum vision_layer vlayer);
 static int map_get_seen(const struct tile *ptile,
-			const struct player *pplayer);
+			const struct player *pplayer,
+			enum vision_layer vlayer);
 static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
-				int change);
+				int change, enum vision_layer vlayer);
 
 /**************************************************************************
 Used only in global_warming() and nuclear_winter() below.
@@ -475,7 +478,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
     if (!pplayer && !pconn->observer) {
       continue;
     }
-    if (!pplayer || map_is_known_and_seen(ptile, pplayer)) {
+    if (!pplayer || map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       info.known = TILE_KNOWN;
       info.type = ptile->terrain->index;
       for (spe = 0; spe < S_LAST; spe++) {
@@ -484,7 +487,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
-	       && map_get_seen(ptile, pplayer) == 0) {
+	       && map_get_seen(ptile, pplayer, V_MAIN) == 0) {
       struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
       info.known = TILE_KNOWN_FOGGED;
@@ -500,44 +503,12 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
 }
 
 /****************************************************************************
-  Checks for hidden units around (x,y).  Such units can be invisible even
-  on a KNOWN_AND_SEEN tile, so unfogging might not reveal them.
+  Assumption: Each unit type is visible on only one layer.
 ****************************************************************************/
-void reveal_hidden_units(struct player *pplayer, struct tile *ptile)
+static bool unit_is_visible_on_layer(const struct unit *punit,
+				     enum vision_layer vlayer)
 {
-  adjc_iterate(ptile, tile1) {
-    unit_list_iterate(tile1->units, punit) {
-      if (is_hiding_unit(punit)) {
-        /* send_unit_info will check whether it is visible */
-        send_unit_info(pplayer, punit);
-      }
-    } unit_list_iterate_end;
-  } adjc_iterate_end;
-}
-
-/****************************************************************************
-  Checks for hidden units around (x,y).  Such units can be invisible even
-  on a KNOWN_AND_SEEN tile, so fogging might not hide them.
-
-  Note, this must be called after the unit/vision source at ptile has
-  been removed, unlike remove_unit_sight_points.
-****************************************************************************/
-void conceal_hidden_units(struct player *pplayer, struct tile *ptile)
-{
-  /* Remove vision of submarines.  This is extremely ugly and inefficient. */
-  adjc_iterate(ptile, tile1) {
-    unit_list_iterate(tile1->units, phidden_unit) {
-      if (phidden_unit->transported_by == -1
-	  && is_hiding_unit(phidden_unit)) {
-	players_iterate(pplayer2) {
-	  if ((pplayer2 == pplayer || really_gives_vision(pplayer, pplayer2))
-	      && !can_player_see_unit(pplayer2, phidden_unit)) {
-	    unit_goes_out_of_sight(pplayer2, phidden_unit);
-	  }
-	} players_iterate_end;
-      }
-    } unit_list_iterate_end;
-  } adjc_iterate_end;
+  return XOR(vlayer == V_MAIN, is_hiding_unit(punit));
 }
 
 /****************************************************************************
@@ -545,7 +516,8 @@ void conceal_hidden_units(struct player *pplayer, struct tile *ptile)
   map_unfog_tile adds the first point of visibility to the tile, or when
   shared vision changes cause a tile to become unfogged.
 ****************************************************************************/
-static void really_unfog_tile(struct player *pplayer, struct tile *ptile)
+static void really_unfog_tile(struct player *pplayer, struct tile *ptile,
+			      enum vision_layer vlayer)
 {
   struct city *pcity;
   bool old_known = map_is_known(ptile, pplayer);
@@ -554,33 +526,43 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile)
 
   map_set_known(ptile, pplayer);
 
-  /* send info about the tile itself 
-   * It has to be sent first because the client needs correct
-   * continent number before it can handle following packets
-   */
-  update_player_tile_knowledge(pplayer, ptile);
-  send_tile_info(pplayer->connections, ptile);
+  if (vlayer == V_MAIN) {
+    /* send info about the tile itself 
+     * It has to be sent first because the client needs correct
+     * continent number before it can handle following packets
+     */
+    update_player_tile_knowledge(pplayer, ptile);
+    send_tile_info(pplayer->connections, ptile);
+    /* NOTE: because the V_INVIS case doesn't fall into this if statement,
+     * changes to V_INVIS fogging won't send a new info packet to the client
+     * and the client's tile_seen[V_INVIS] bitfield may end up being out
+     * of date. */
+  }
 
   /* discover units */
-  unit_list_iterate(ptile->units, punit)
-    send_unit_info(pplayer, punit);
-  unit_list_iterate_end;
+  unit_list_iterate(ptile->units, punit) {
+    if (unit_is_visible_on_layer(punit, vlayer)) {
+      send_unit_info(pplayer, punit);
+    }
+  } unit_list_iterate_end;
 
-  /* discover cities */ 
-  reality_check_city(pplayer, ptile);
-  if ((pcity=tile_get_city(ptile)))
-    send_city_info(pplayer, pcity);
+  if (vlayer == V_MAIN) {
+    /* discover cities */ 
+    reality_check_city(pplayer, ptile);
+    if ((pcity=tile_get_city(ptile)))
+      send_city_info(pplayer, pcity);
 
-  /* If the tile was not known before we need to refresh the cities that
-     can use the tile. */
-  if (!old_known) {
-    map_city_radius_iterate(ptile, tile1) {
-      pcity = tile_get_city(tile1);
-      if (pcity && city_owner(pcity) == pplayer) {
-	update_city_tile_status_map(pcity, ptile);
-      }
-    } map_city_radius_iterate_end;
-    sync_cities();
+    /* If the tile was not known before we need to refresh the cities that
+       can use the tile. */
+    if (!old_known) {
+      map_city_radius_iterate(ptile, tile1) {
+	pcity = tile_get_city(tile1);
+	if (pcity && city_owner(pcity) == pplayer) {
+	  update_city_tile_status_map(pcity, ptile);
+	}
+      } map_city_radius_iterate_end;
+      sync_cities();
+    }
   }
 }
 
@@ -590,10 +572,11 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile)
   function multiple times.
 ****************************************************************************/
 static void map_unfog_tile(struct player *pplayer, struct tile *ptile,
-			   bool can_reveal_tiles)
+			   bool can_reveal_tiles,
+			   enum vision_layer vlayer)
 {
   /* Increase seen count. */
-  shared_vision_change_seen(ptile, pplayer, +1);
+  shared_vision_change_seen(ptile, pplayer, +1, vlayer);
 
   /* And then give the vision.  Did the tile just become visible?
    * Then send info about units and cities and the tile itself. */
@@ -602,8 +585,8 @@ static void map_unfog_tile(struct player *pplayer, struct tile *ptile,
       bool known = map_is_known(ptile, pplayer2);
 
       if ((!known && can_reveal_tiles)
-	  || (known && map_get_seen(ptile, pplayer2) == 1)) {
-	really_unfog_tile(pplayer2, ptile);
+	  || (known && map_get_seen(ptile, pplayer2, vlayer) == 1)) {
+	really_unfog_tile(pplayer2, ptile, vlayer);
       }
     }
   } players_iterate_end;
@@ -614,19 +597,24 @@ static void map_unfog_tile(struct player *pplayer, struct tile *ptile,
   map_fog_tile removes the last point of visibility from the tile, or when
   shared vision changes cause a tile to become fogged.
 ****************************************************************************/
-static void really_fog_tile(struct player *pplayer, struct tile *ptile)
+static void really_fog_tile(struct player *pplayer, struct tile *ptile,
+			    enum vision_layer vlayer)
 {
   freelog(LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
-	  TILE_XY(ptile), map_get_seen(ptile, pplayer));
+	  TILE_XY(ptile), map_get_seen(ptile, pplayer, vlayer));
  
-  assert(map_get_seen(ptile, pplayer) == 0);
+  assert(map_get_seen(ptile, pplayer, vlayer) == 0);
 
   unit_list_iterate(ptile->units, punit)
-    unit_goes_out_of_sight(pplayer,punit);
+    if (unit_is_visible_on_layer(punit, vlayer)) {
+      unit_goes_out_of_sight(pplayer,punit);
+    }
   unit_list_iterate_end;  
 
-  update_player_tile_last_seen(pplayer, ptile);
-  send_tile_info(pplayer->connections, ptile);
+  if (vlayer == V_MAIN) {
+    update_player_tile_last_seen(pplayer, ptile);
+    send_tile_info(pplayer->connections, ptile);
+  }
 }
 
 /**************************************************************************
@@ -634,15 +622,16 @@ static void really_fog_tile(struct player *pplayer, struct tile *ptile)
   NULL.  The caller may wish to buffer_shared_vision if calling this
   function multiple times.
 **************************************************************************/
-static void map_fog_tile(struct player *pplayer, struct tile *ptile)
+static void map_fog_tile(struct player *pplayer, struct tile *ptile,
+			 enum vision_layer vlayer)
 {
-  shared_vision_change_seen(ptile, pplayer, -1);
+  shared_vision_change_seen(ptile, pplayer, -1, vlayer);
 
   if (map_is_known(ptile, pplayer)) {
     players_iterate(pplayer2) {
       if (pplayer2 == pplayer || really_gives_vision(pplayer, pplayer2)) {
-	if (map_get_seen(ptile, pplayer2) == 0) {
-	  really_fog_tile(pplayer2, ptile);
+	if (map_get_seen(ptile, pplayer2, vlayer) == 0) {
+	  really_fog_tile(pplayer2, ptile, vlayer);
 	}
       }
     } players_iterate_end;
@@ -666,14 +655,16 @@ void send_map_info(struct conn_list *dest)
 /**************************************************************************
 ...
 **************************************************************************/
-static void shared_vision_change_seen(struct tile *ptile, struct player *pplayer, int change)
+static void shared_vision_change_seen(struct tile *ptile,
+				      struct player *pplayer, int change,
+				      enum vision_layer vlayer)
 {
-  map_change_seen(ptile, pplayer, change);
-  map_change_own_seen(ptile, pplayer, change);
+  map_change_seen(ptile, pplayer, change, vlayer);
+  map_change_own_seen(ptile, pplayer, change, vlayer);
 
   players_iterate(pplayer2) {
     if (really_gives_vision(pplayer, pplayer2))
-      map_change_seen(ptile, pplayer2, change);
+      map_change_seen(ptile, pplayer2, change, vlayer);
   } players_iterate_end;
 }
 
@@ -682,7 +673,8 @@ There doesn't have to be a city.
 **************************************************************************/
 static void map_refog_circle(struct player *pplayer, struct tile *ptile,
 			     int old_radius_sq, int new_radius_sq,
-			     bool can_reveal_tiles)
+			     bool can_reveal_tiles,
+			     enum vision_layer vlayer)
 {
   if (old_radius_sq != new_radius_sq) {
     int max_radius = MAX(old_radius_sq, new_radius_sq);
@@ -693,9 +685,9 @@ static void map_refog_circle(struct player *pplayer, struct tile *ptile,
     buffer_shared_vision(pplayer);
     circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
       if (dr > old_radius_sq && dr <= new_radius_sq) {
-	map_unfog_tile(pplayer, tile1, can_reveal_tiles);
+	map_unfog_tile(pplayer, tile1, can_reveal_tiles, vlayer);
       } else if (dr > new_radius_sq && dr <= old_radius_sq) {
-	map_fog_tile(pplayer, tile1);
+	map_fog_tile(pplayer, tile1, vlayer);
       }
     } circle_dxyr_iterate_end;
     unbuffer_shared_vision(pplayer);
@@ -722,7 +714,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
       struct city *pcity;
       bool old_known = map_is_known(ptile, pplayer);
 
-      if (!map_is_known_and_seen(ptile, pplayer)) {
+      if (!map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
 	map_set_known(ptile, pplayer);
 
 	/* as the tile may be fogged send_tile_info won't always do this for us */
@@ -739,11 +731,15 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 	  send_city_info(pplayer, pcity);
 	}
 
-	if (map_get_seen(ptile, pplayer) != 0) {
-	  unit_list_iterate(ptile->units, punit)
-	    send_unit_info(pplayer, punit);
-	  unit_list_iterate_end;
-	}
+	vision_layer_iterate(v) {
+	  if (map_get_seen(ptile, pplayer, v) != 0) {
+	    unit_list_iterate(ptile->units, punit)
+	      if (unit_is_visible_on_layer(punit, v)) {
+		send_unit_info(pplayer, punit);
+	      }
+	    unit_list_iterate_end;
+	  }
+	} vision_layer_iterate_end;
 
 	/* If the tile was not known before we need to refresh the cities that
 	   can use the tile. */
@@ -805,12 +801,13 @@ bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 /***************************************************************
 ...
 ***************************************************************/
-bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer)
+bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
+			   enum vision_layer vlayer)
 {
-  assert(BV_ISSET(ptile->tile_seen, pplayer->player_no)
-	 == (map_get_player_tile(ptile, pplayer)->seen_count > 0));
+  assert(BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	 == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer] > 0));
   return (BV_ISSET(ptile->tile_known, pplayer->player_no)
-	  && BV_ISSET(ptile->tile_seen, pplayer->player_no));
+	  && BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no));
 }
 
 /****************************************************************************
@@ -821,49 +818,52 @@ bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer)
   this case the tile is unknown (but map_get_seen will still return TRUE).
 ****************************************************************************/
 static int map_get_seen(const struct tile *ptile,
-			const struct player *pplayer)
+			const struct player *pplayer,
+			enum vision_layer vlayer)
 {
-  assert(BV_ISSET(ptile->tile_seen, pplayer->player_no)
-	 == (map_get_player_tile(ptile, pplayer)->seen_count > 0));
-  return map_get_player_tile(ptile, pplayer)->seen_count;
+  assert(BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	 == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer] > 0));
+  return map_get_player_tile(ptile, pplayer)->seen_count[vlayer];
 }
 
 /***************************************************************
 ...
 ***************************************************************/
-void map_change_seen(struct tile *ptile, struct player *pplayer, int change)
+void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
+		     enum vision_layer vlayer)
 {
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
-  assert(0 <= change || -change <= plrtile->seen_count); /* else underflow */
+  /* assert to avoid underflow */
+  assert(0 <= change || -change <= plrtile->seen_count[vlayer]);
 
-  plrtile->seen_count += change;
-  if (plrtile->seen_count != 0) {
-    BV_SET(ptile->tile_seen, pplayer->player_no);
+  plrtile->seen_count[vlayer] += change;
+  if (plrtile->seen_count[vlayer] != 0) {
+    BV_SET(ptile->tile_seen[vlayer], pplayer->player_no);
   } else {
-    BV_CLR(ptile->tile_seen, pplayer->player_no);
+    BV_CLR(ptile->tile_seen[vlayer], pplayer->player_no);
   }
   freelog(LOG_DEBUG, "%d,%d, p: %d, change %d, result %d\n", TILE_XY(ptile),
-	  pplayer->player_no, change, plrtile->seen_count);
+	  pplayer->player_no, change, plrtile->seen_count[vlayer]);
 }
 
 /***************************************************************
 ...
 ***************************************************************/
-static int map_get_own_seen(struct tile *ptile, struct player *pplayer)
+static int map_get_own_seen(struct tile *ptile, struct player *pplayer,
+			    enum vision_layer vlayer)
 {
-  int own_seen = map_get_player_tile(ptile, pplayer)->own_seen;
-
-  return own_seen;
+  return map_get_player_tile(ptile, pplayer)->own_seen[vlayer];
 }
 
 /***************************************************************
 ...
 ***************************************************************/
 static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
-				int change)
+				int change,
+				enum vision_layer vlayer)
 {
-  map_get_player_tile(ptile, pplayer)->own_seen += change;
+  map_get_player_tile(ptile, pplayer)->own_seen[vlayer] += change;
 }
 
 /***************************************************************
@@ -892,7 +892,9 @@ void map_know_and_see_all(struct player *pplayer)
   buffer_shared_vision(pplayer);
 
   whole_map_iterate(ptile) {
-    map_unfog_tile(pplayer, ptile, TRUE);
+    vision_layer_iterate(v) {
+      map_unfog_tile(pplayer, ptile, TRUE, v);
+    } vision_layer_iterate_end;
   } whole_map_iterate_end;
 
   unbuffer_shared_vision(pplayer);
@@ -955,17 +957,21 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   BV_CLR_ALL(plrtile->special);
   plrtile->city = NULL;
 
-  plrtile->seen_count = 0;
-  BV_CLR(ptile->tile_seen, pplayer->player_no);
+  vision_layer_iterate(v) {
+    plrtile->seen_count[v] = 0;
+    BV_CLR(ptile->tile_seen[v], pplayer->player_no);
+  } vision_layer_iterate_end
   if (!game.fogofwar_old) {
-    plrtile->seen_count = 1;
+    plrtile->seen_count[V_MAIN] = 1;
     if (map_is_known(ptile, pplayer)) {
-      BV_SET(ptile->tile_seen, pplayer->player_no);
+      BV_SET(ptile->tile_seen[V_MAIN], pplayer->player_no);
     }
   }
 
   plrtile->last_updated = GAME_START_YEAR;
-  plrtile->own_seen = plrtile->seen_count;
+  vision_layer_iterate(v) {
+    plrtile->own_seen[v] = plrtile->seen_count[v];
+  } vision_layer_iterate_end;
 }
 
 /****************************************************************************
@@ -1012,7 +1018,7 @@ void update_tile_knowledge(struct tile *ptile)
 {
   /* Players */
   players_iterate(pplayer) {
-    if (map_is_known_and_seen(ptile, pplayer)) {
+    if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
       if (update_player_tile_knowledge(pplayer, ptile)) {
         send_tile_info(pplayer->connections, ptile);
       }
@@ -1044,7 +1050,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
 							struct tile *ptile)
 {
   struct player_tile *from_tile, *dest_tile;
-  if (!map_is_known_and_seen(ptile, pdest)) {
+  if (!map_is_known_and_seen(ptile, pdest, V_MAIN)) {
     /* I can just hear people scream as they try to comprehend this if :).
      * Let me try in words:
      * 1) if the tile is seen by pfrom the info is sent to pdest
@@ -1052,7 +1058,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
      * 2) if the tile is known by pfrom AND (he has more recent info
      *     OR it is not known by pdest)
      */
-    if (map_is_known_and_seen(ptile, pfrom)
+    if (map_is_known_and_seen(ptile, pfrom, V_MAIN)
 	|| (map_is_known(ptile, pfrom)
 	    && (((map_get_player_tile(ptile, pfrom)->last_updated
 		 > map_get_player_tile(ptile, pdest)->last_updated))
@@ -1182,14 +1188,17 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
 	       pplayer->name, pplayer2->name);
 	whole_map_iterate(ptile) {
-	  int change = map_get_own_seen(ptile, pplayer);
-	  if (change != 0) {
-	    map_change_seen(ptile, pplayer2, change);
-	    if (map_get_seen(ptile, pplayer2) == change
-		&& map_is_known(ptile, pplayer)) {
-	      really_unfog_tile(pplayer2, ptile);
+	  vision_layer_iterate(v) {
+	    int change = map_get_own_seen(ptile, pplayer, v);
+
+	    if (change != 0) {
+	      map_change_seen(ptile, pplayer2, change, v);
+	      if (map_get_seen(ptile, pplayer2, v) == change
+		  && map_is_known(ptile, pplayer)) {
+		really_unfog_tile(pplayer2, ptile, v);
+	      }
 	    }
-	  }
+	  } vision_layer_iterate_end;
 	} whole_map_iterate_end;
 
 	/* squares that are not seen, but which pfrom may have more recent
@@ -1236,12 +1245,15 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
 	       pplayer->name, pplayer2->name);
 	whole_map_iterate(ptile) {
-	  int change = map_get_own_seen(ptile, pplayer);
-	  if (change > 0) {
-	    map_change_seen(ptile, pplayer2, -change);
-	    if (map_get_seen(ptile, pplayer2) == 0)
-	      really_fog_tile(pplayer2, ptile);
-	  }
+	  vision_layer_iterate(v) {
+	    int change = map_get_own_seen(ptile, pplayer, v);
+
+	    if (change > 0) {
+	      map_change_seen(ptile, pplayer2, -change, v);
+	      if (map_get_seen(ptile, pplayer2, v) == 0)
+		really_fog_tile(pplayer2, ptile, v);
+	    }
+	  } vision_layer_iterate_end;
 	} whole_map_iterate_end;
       }
     } players_iterate_end;
@@ -1260,7 +1272,7 @@ static void enable_fog_of_war_player(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
   whole_map_iterate(ptile) {
-    map_fog_tile(pplayer, ptile);
+    map_fog_tile(pplayer, ptile, V_MAIN);
   } whole_map_iterate_end;
   unbuffer_shared_vision(pplayer);
 }
@@ -1282,7 +1294,7 @@ static void disable_fog_of_war_player(struct player *pplayer)
 {
   buffer_shared_vision(pplayer);
   whole_map_iterate(ptile) {
-    map_unfog_tile(pplayer, ptile, FALSE);
+    map_unfog_tile(pplayer, ptile, FALSE, V_MAIN);
   } whole_map_iterate_end;
   unbuffer_shared_vision(pplayer);
 }
@@ -1695,7 +1707,7 @@ struct vision {
   bool can_reveal_tiles;
 
   /* The radius of the vision source. */
-  int radius_sq;
+  int radius_sq[V_COUNT];
 };
 
 /****************************************************************************
@@ -1711,7 +1723,9 @@ struct vision *vision_new(struct player *pplayer, struct tile *ptile,
   vision->player = pplayer;
   vision->tile = ptile;
   vision->can_reveal_tiles = can_reveal_tiles;
-  vision->radius_sq = -1;
+  vision_layer_iterate(v) {
+    vision->radius_sq[v] = -1;
+  } vision_layer_iterate_end;
 
   return vision;
 }
@@ -1721,9 +1735,9 @@ struct vision *vision_new(struct player *pplayer, struct tile *ptile,
 
   See documentation in maphand.h.
 ****************************************************************************/
-int vision_get_sight(const struct vision *vision)
+int vision_get_sight(const struct vision *vision, enum vision_layer vlayer)
 {
-  return vision->radius_sq;
+  return vision->radius_sq[vlayer];
 }
 
 /****************************************************************************
@@ -1732,22 +1746,28 @@ int vision_get_sight(const struct vision *vision)
 
   See documentation in maphand.h.
 ****************************************************************************/
-void vision_change_sight(struct vision *vision, int radius_sq)
+void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
+			 int radius_sq)
 {
   map_refog_circle(vision->player, vision->tile,
-		   vision->radius_sq, radius_sq,
-		   vision->can_reveal_tiles);
-  vision->radius_sq = radius_sq;
+		   vision->radius_sq[vlayer], radius_sq,
+		   vision->can_reveal_tiles, vlayer);
+  vision->radius_sq[vlayer] = radius_sq;
+
+  assert(vision->radius_sq[V_MAIN] >= vision->radius_sq[V_INVIS]);
 }
 
 /****************************************************************************
-  Clear all sight poitns from this vision source.
+  Clear all sight points from this vision source.
 
   See documentation in maphand.h.
 ****************************************************************************/
 void vision_clear_sight(struct vision *vision)
 {
-  vision_change_sight(vision, -1);
+  /* We don't use vision_layer_iterate because we have to go in reverse
+   * order. */
+  vision_change_sight(vision, V_INVIS, -1);
+  vision_change_sight(vision, V_MAIN, -1);
 }
 
 /****************************************************************************
@@ -1757,6 +1777,7 @@ void vision_clear_sight(struct vision *vision)
 ****************************************************************************/
 void vision_free(struct vision *vision)
 {
-  assert(server_state != RUN_GAME_STATE || vision->radius_sq < 0);
+  assert(server_state != RUN_GAME_STATE || vision->radius_sq[V_MAIN] < 0);
+  assert(server_state != RUN_GAME_STATE || vision->radius_sq[V_INVIS] < 0);
   free(vision);
 }

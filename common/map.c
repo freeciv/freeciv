@@ -269,7 +269,9 @@ static void tile_init(struct tile *ptile)
   ptile->terrain  = T_UNKNOWN;
   BV_CLR_ALL(ptile->special);
   BV_CLR_ALL(ptile->tile_known);
-  BV_CLR_ALL(ptile->tile_seen);
+  vision_layer_iterate(v) {
+    BV_CLR_ALL(ptile->tile_seen[v]);
+  } vision_layer_iterate_end;
   ptile->continent = 0;
   ptile->city     = NULL;
   ptile->units    = unit_list_new();
