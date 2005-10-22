@@ -51,6 +51,7 @@ flag_files =				\
 		hobbits.png		\
 		hungary.png		\
 		iceland.png		\
+		inca.png		\
 		india.png		\
 		indonesia.png		\
 		iran.png		\
@@ -175,6 +176,7 @@ shield_files =					\
 		hobbits-shield.png		\
 		hungary-shield.png		\
 		iceland-shield.png		\
+		inca-shield.png			\
 		india-shield.png		\
 		indonesia-shield.png		\
 		iran-shield.png			\
@@ -299,6 +301,7 @@ svg_files = 				\
 		hobbits.svg		\
 		hungary.svg		\
 		iceland.svg		\
+		inca.svg		\
 		india.svg		\
 		indonesia.svg		\
 		iran.svg		\

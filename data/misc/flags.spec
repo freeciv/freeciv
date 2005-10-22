@@ -72,6 +72,7 @@ sprites =
 		"f.hungary", "flags/hungary"
 		"f.iceland", "flags/iceland"
 		"f.india", "flags/india"
+		"f.inca", "flags/inca"
 		"f.indonesia", "flags/indonesia"
 		"f.iran", "flags/iran"
 		"f.iraq_old", "flags/iraq_old"

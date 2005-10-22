@@ -60,6 +60,7 @@ sprites =
 		"f.shield.holland", "flags/netherlands-shield"	; backward compatabiliy
 		"f.shield.hungary", "flags/hungary-shield"
 		"f.shield.iceland", "flags/iceland-shield"
+		"f.shield.inca", "flags/inca-shield"
 		"f.shield.india", "flags/india-shield"
 		"f.shield.indonesia", "flags/indonesia-shield"
 		"f.shield.iran", "flags/iran-shield"

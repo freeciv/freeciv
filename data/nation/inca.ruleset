@@ -14,8 +14,8 @@ leader=
  "Atahualpa",
  "Pachacuti"
 leader_sex="Male", "Male", "Male", "Male"
-flag="peru"
-flag_alt = "-"
+flag="inca"
+flag_alt = "peru"	; Used previously
 city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
