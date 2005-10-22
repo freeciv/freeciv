@@ -105,7 +105,8 @@ void worklist_advance(struct worklist *pwl)
 ****************************************************************/
 void copy_worklist(struct worklist *dst, const struct worklist *src)
 {
-  memcpy(dst, src, sizeof(struct worklist));
+  assert(sizeof(*dst) == sizeof(*src));
+  memcpy(dst, src, sizeof(*dst));
 }
 
 /****************************************************************

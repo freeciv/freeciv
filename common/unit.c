@@ -1451,7 +1451,7 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
                                  struct unit_type *punittype,
 				 int veteran_level)
 {
-  struct unit *punit = fc_calloc(1, sizeof(struct unit));
+  struct unit *punit = fc_calloc(1, sizeof(*punit));
 
   CHECK_UNIT_TYPE(punittype); /* No untyped units! */
   punit->type = punittype;

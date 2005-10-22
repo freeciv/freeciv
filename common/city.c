@@ -2342,7 +2342,7 @@ void city_styles_alloc(int num)
 {
   int i;
 
-  city_styles = fc_calloc(num, sizeof(struct citystyle));
+  city_styles = fc_calloc(num, sizeof(*city_styles));
   game.control.styles_count = num;
 
   for (i = 0; i < game.control.styles_count; i++) {
@@ -2376,7 +2376,7 @@ struct city *create_city_virtual(struct player *pplayer,
   int i;
   struct city *pcity;
 
-  pcity = fc_malloc(sizeof(struct city));
+  pcity = fc_malloc(sizeof(*pcity));
 
   pcity->id = 0;
   assert(pplayer != NULL); /* No unowned cities! */

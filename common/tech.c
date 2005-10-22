@@ -743,7 +743,7 @@ void techs_free(void)
 ***************************************************************/
 void player_research_init(struct player_research* research)
 {
-  memset(research, 0, sizeof(struct player_research));
+  memset(research, 0, sizeof(*research));
   research->tech_goal = A_UNSET;
   research->changed_from = -1;
 }

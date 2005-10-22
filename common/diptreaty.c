@@ -176,7 +176,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     }
   } clause_list_iterate_end;
    
-  pclause=(struct Clause *)fc_malloc(sizeof(struct Clause));
+  pclause = fc_malloc(sizeof(*pclause));
 
   pclause->type=type;
   pclause->from=pfrom;

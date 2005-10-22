@@ -473,7 +473,7 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
 {
   struct socket_packet_buffer *buf;
 
-  buf = (struct socket_packet_buffer *)fc_malloc(sizeof(*buf));
+  buf = fc_malloc(sizeof(*buf));
   buf->ndata = 0;
   buf->do_buffer_sends = 0;
   buf->nsize = 10*MAX_LEN_PACKET;

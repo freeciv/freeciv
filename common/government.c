@@ -166,9 +166,9 @@ void set_ruler_title(struct government *gov, struct nation_type *pnation,
   struct ruler_title *title;
 
   gov->num_ruler_titles++;
-  gov->ruler_titles =
-    fc_realloc(gov->ruler_titles,
-      gov->num_ruler_titles*sizeof(struct ruler_title));
+  gov->ruler_titles
+    = fc_realloc(gov->ruler_titles,
+		 gov->num_ruler_titles * sizeof(*gov->ruler_titles));
   title = &(gov->ruler_titles[gov->num_ruler_titles-1]);
 
   title->nation = pnation; /* A valid nation or DEFAULT_NATION */
@@ -187,7 +187,7 @@ void governments_alloc(int num)
 {
   int index;
 
-  governments = fc_calloc(num, sizeof(struct government));
+  governments = fc_calloc(num, sizeof(*governments));
   game.control.government_count = num;
 
   for (index = 0; index < num; index++) {
