@@ -425,7 +425,6 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Desert"
 cooler_drier_result  = "Tundra"
 flags                = "CanHaveRiver"
-flags                = "CanHaveRiver"
 property_tropical    = 50
 property_foliage     = 50
 property_wet         = 50
