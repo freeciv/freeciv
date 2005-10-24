@@ -156,7 +156,7 @@ static void openload_ruleset_file(struct section_file *file, const char *whichse
 
   sz_strlcpy(sfilename, dfilename);
 
-  if (!section_file_load(file,sfilename)) {
+  if (!section_file_load_nodup(file, sfilename)) {
     freelog(LOG_FATAL,
 	    /* TRANS: message for an obscure ruleset error. */
 	    _("Could not load ruleset file \"%s\"."), sfilename);

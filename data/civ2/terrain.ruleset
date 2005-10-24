@@ -419,7 +419,6 @@ warmer_drier_result  = "no"
 cooler_wetter_result = "Desert"
 cooler_drier_result  = "Tundra"
 flags                = "CanHaveRiver"
-flags                = "CanHaveRiver"
 helptext	     = _("\
 Jungles are densely overgrown, making agriculture somewhat\
  problematic.\

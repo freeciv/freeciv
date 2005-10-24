@@ -1258,18 +1258,15 @@ upkeep		= 0
 sabotage	= 0
 effect		=
     { "name", "range", "value", "req_type", "req"
-      "Science_Bonus", "Player", 50, "Building", "Library"
-      "Science_Bonus", "Player", 50, "Building", "University"
-    }
-effect		=
-    { "type", "range", "amount"
-	"Science_Bonus", "City", 100
+      "Science_Bonus", "Player", 33, "Building", "Library"
+      "Science_Bonus", "Player", 33, "Building", "University"
     }
 sound		= "w_isaac_newtons_college"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Boosts science production by 100% in the city where it is built.\
+Boosts science production by 33% in each city with a library, and 33% in\
+ each city with a university.\
 ")
 
 [building_js_bachs_cathedral]
