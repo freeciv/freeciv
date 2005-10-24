@@ -478,17 +478,10 @@ int do_make_unit_veteran(struct city *pcity,
       || unit_type_flag(punittype, F_CITIES)) {
     return 0;
   }
-  
-  if (unit_type_flag(punittype, F_DIPLOMAT)) {
-    return (get_city_bonus(pcity, EFT_VETERAN_DIPLOMATS) ? 1 : 0);
-  } else if (is_ground_unittype(punittype)) {
-    return (get_city_bonus(pcity, EFT_LAND_VETERAN) > 0) ? 1 : 0;
-  } else {
-    if (is_sailing_unittype(punittype)) {
-      return (get_city_bonus(pcity, EFT_SEA_VETERAN) > 0) ? 1 : 0;
-    } else {
-      return (get_city_bonus(pcity, EFT_AIR_VETERAN) > 0) ? 1 : 0;
-    }
+
+  if (get_unittype_bonus(pcity->owner, pcity->tile, punittype,
+			 EFT_VETERAN_BUILD) > 0) {
+    return 1;
   }
   
   return 0;

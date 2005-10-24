@@ -258,8 +258,8 @@ void get_modified_firepower(const struct unit *attacker,
   }
 
   if (unit_flag(attacker, F_BADWALLATTACKER)
-      && pcity 
-      && get_city_bonus(pcity, EFT_LAND_DEFEND) > 0) {
+      && get_unittype_bonus(defender->owner, defender->tile, attacker->type,
+			    EFT_DEFEND_BONUS) > 0) {
     *att_fp = 1;
   }
 
@@ -431,6 +431,7 @@ effects.
 **************************************************************************/
 static int defense_multiplication(const struct unit_type *att_type,
 				  const struct unit_type *def_type,
+				  const struct player *def_player,
 				  const struct tile *ptile,
 				  int defensepower, bool fortified)
 {
@@ -451,25 +452,12 @@ static int defense_multiplication(const struct unit_type *att_type,
 	(is_air_unittype(att_type) || is_heli_unittype(att_type))) {
       defensepower *= 5;
     }
-         
-    if (is_air_unittype(att_type) && pcity) {
-      if ((mod = get_city_bonus(pcity, EFT_AIR_DEFEND)) > 0) {
-	defensepower = defensepower * (100 + mod) / 100;
-      }
-      if ((mod = get_city_bonus(pcity, EFT_MISSILE_DEFEND)) > 0
-	  && unit_type_flag(att_type, F_MISSILE)) {
-	defensepower = defensepower * (100 + mod) / 100;
-      }
-    } else if (is_sailing_unittype(att_type) && pcity) {
-      if ((mod = get_city_bonus(pcity, EFT_SEA_DEFEND)) > 0) {
-	defensepower = defensepower * (100 + mod) / 100;
-      }
-    }
-    if (!unit_type_flag(att_type, F_IGWALL)
-	&& (is_ground_unittype(att_type) || is_heli_unittype(att_type))
-        && pcity
-        && (mod = get_city_bonus(pcity, EFT_LAND_DEFEND)) > 0) {
-      defensepower = defensepower * (100 + mod) / 100;
+
+    if (!unit_type_flag(att_type, F_IGWALL)) {
+      /* This applies even if pcity is NULL. */
+      mod = 100 + get_unittype_bonus(def_player, ptile,
+				     att_type, EFT_DEFEND_BONUS);
+      defensepower = MAX(0, defensepower * mod / 100);
     }
 
     if (unit_type_flag(att_type, F_FIGHTER) && is_heli_unittype(def_type)) {
@@ -495,6 +483,7 @@ static int defense_multiplication(const struct unit_type *att_type,
 **************************************************************************/
 int get_virtual_defense_power(const struct unit_type *att_type,
 			      const struct unit_type *def_type,
+			      const struct player *def_player,
 			      const struct tile *ptile,
 			      bool fortified, int veteran)
 {
@@ -514,7 +503,8 @@ int get_virtual_defense_power(const struct unit_type *att_type,
   defensepower *= db;
   defensepower *= def_type->veteran[veteran].power_fact;
 
-  return defense_multiplication(att_type, def_type, ptile, defensepower,
+  return defense_multiplication(att_type, def_type, def_player,
+				ptile, defensepower,
 				fortified);
 }
 
@@ -527,6 +517,7 @@ int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender)
 {
   return defense_multiplication(attacker->type, defender->type,
+				defender->owner,
 				defender->tile,
 				get_defense_power(defender),
 				defender->activity == ACTIVITY_FORTIFIED);

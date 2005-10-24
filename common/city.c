@@ -971,7 +971,7 @@ bool is_capital(const struct city *pcity)
 **************************************************************************/
 bool city_got_citywalls(const struct city *pcity)
 {
-  return (get_city_bonus(pcity, EFT_LAND_DEFEND) > 0);
+  return (get_city_bonus(pcity, EFT_DEFEND_BONUS) > 0);
 }
 
 /**************************************************************************

@@ -915,7 +915,8 @@ static int find_a_direction(struct unit *punit,
 			    struct tile *dest_tile)
 {
 #define UNIT_DEFENSE(punit, ptile, defence_multiplier) \
-  ((get_virtual_defense_power(NULL, (punit)->type, (ptile), FALSE, 0) * \
+  ((get_virtual_defense_power(NULL, (punit)->type, (punit)->owner, \
+			      (ptile), FALSE, 0) *		   \
     (defence_multiplier)) / 2)
 
 #define UNIT_RATING(punit, ptile, defence_multiplier) \
@@ -1020,12 +1021,9 @@ static int find_a_direction(struct unit *punit,
      */
     defence_multiplier = 2;
     if (pcity) {
-      /* This isn't very accurate. */
-      defence_multiplier += (get_city_bonus(pcity, EFT_LAND_DEFEND)
-			     + get_city_bonus(pcity, EFT_MISSILE_DEFEND)
-			     + get_city_bonus(pcity, EFT_AIR_DEFEND)
-			     + get_city_bonus(pcity, EFT_SEA_DEFEND)) / 100;
+      defence_multiplier += get_city_bonus(pcity, EFT_DEFEND_BONUS) / 100;
     }
+    defence_multiplier = MAX(1, defence_multiplier); /* no division by 0 */
 
     /* 
      * Find the best ally unit at the target tile.

@@ -390,9 +390,10 @@ int unit_def_rating_basic_sq(struct unit *punit)
 **************************************************************************/
 int unittype_def_rating_sq(const struct unit_type *att_type,
 			   const struct unit_type *def_type,
+			   const struct player *def_player,
                            struct tile *ptile, bool fortified, int veteran)
 {
-  int v = get_virtual_defense_power(att_type, def_type, ptile,
+  int v = get_virtual_defense_power(att_type, def_type, def_player, ptile,
                                     fortified, veteran)
     * def_type->hp * def_type->firepower / POWER_DIVIDER;
 
@@ -492,12 +493,14 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 	continue;
       if (!can_unit_attack_all_at_tile(aunit, pdef->tile))
 	continue;
-      d = get_virtual_defense_power(aunit->type, pdef->type, pdef->tile,
+      d = get_virtual_defense_power(aunit->type, pdef->type, pdef->owner,
+				    pdef->tile,
 				    FALSE, 0);
       if (d == 0)
 	return TRUE;		/* Thanks, Markus -- Syela */
       cur = unit_att_rating_now(aunit) *
-	  get_virtual_defense_power(punit->type, pdef->type, pdef->tile,
+	  get_virtual_defense_power(punit->type, pdef->type,
+				    pdef->owner, pdef->tile,
 				    FALSE, 0) / d;
       if (cur > val && ai_fuzzy(unit_owner(punit), TRUE))
 	return FALSE;
@@ -1387,7 +1390,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         struct unit_type *def_type
 	  = ai_choose_defender_versus(acity, punit->type);
         int v = unittype_def_rating_sq(punit->type, def_type,
-                                       acity->tile, FALSE,
+                                       acity->owner, acity->tile, FALSE,
                                        do_make_unit_veteran(acity, def_type));
         if (v > vuln) {
           /* They can build a better defender! */ 
@@ -1595,15 +1598,14 @@ struct city *find_nearest_safe_city(struct unit *punit)
       city_list_iterate(aplayer->cities, pcity) {
         if (ground) {
           cur = WARMAP_COST(pcity->tile);
-          if (get_city_bonus(pcity, EFT_LAND_REGEN) > 0) {
-            cur /= 3;
-          }
         } else {
           cur = WARMAP_SEACOST(pcity->tile);
-          if (get_city_bonus(pcity, EFT_SEA_REGEN) > 0) {
-            cur /= 3;
-          }
         }
+	/* Note the "player" here is the unit owner NOT the city owner. */
+	if (get_unittype_bonus(punit->owner, pcity->tile, punit->type,
+			       EFT_HP_REGEN) > 0) {
+	  cur /= 3;
+	}
         if (cur < best) {
           best = cur;
           acity = pcity;

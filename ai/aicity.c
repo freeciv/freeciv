@@ -543,32 +543,28 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_SPY_RESISTANT:
 	  /* Uhm, problem: City Wall has -50% here!! */
 	  break;
-	case EFT_SEA_MOVE:
-	  v += ai->stats.units.sea * 8 * amount;
+	case EFT_MOVE_BONUS:
+	  /* FIXME: check other reqs (e.g., unitclass) */
+	  v += (8 * v * amount + ai->stats.units.land
+		+ ai->stats.units.sea + ai->stats.units.air);
 	  break;
 	case EFT_UNIT_NO_LOSE_POP:
 	  v += unit_list_size(ptile->units) * 2;
 	  break;
-	case EFT_LAND_REGEN:
-	  v += 5 * c + ai->stats.units.land * 3;
+	case EFT_HP_REGEN:
+	  /* FIXME: check other reqs (e.g., unitclass) */
+	  v += (5 * c + ai->stats.units.land
+		+ ai->stats.units.sea + ai->stats.units.air);
 	  break;
-	case EFT_SEA_REGEN:
-	  v += 5 * c + ai->stats.units.sea * 3;
+	case EFT_VETERAN_COMBAT:
+	  /* FIXME: check other reqs (e.g., unitclass) */
+	  v += (2 * c + ai->stats.units.land + ai->stats.units.sea
+		+ ai->stats.units.air);
 	  break;
-	case EFT_AIR_REGEN:
-	  v += 5 * c + ai->stats.units.air * 3;
-	  break;
-	case EFT_LAND_VET_COMBAT:
-	  v += 2 * c + ai->stats.units.land * 2;
-	  break;
-	case EFT_LAND_VETERAN:
-	  v += 3 * c + ai->stats.units.land;
-	  break;
-	case EFT_SEA_VETERAN:
-	  v += 5 * c + ai->stats.units.sea;
-	  break;
-	case EFT_AIR_VETERAN:
-	  v += 5 * c + ai->stats.units.air;
+	case EFT_VETERAN_BUILD:
+	  /* FIXME: check other reqs (e.g., unitclass, unitflag) */
+	  v += (3 * c + ai->stats.units.land + ai->stats.units.sea
+		+ ai->stats.units.air);
 	  break;
 	case EFT_UPGRADE_UNIT:
 	  v += ai->stats.units.upgradeable;
@@ -580,7 +576,7 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    v *= 4;
 	  }
 	  break;
-	case EFT_SEA_DEFEND:
+	case EFT_DEFEND_BONUS:
 	  if (ai_handicap(pplayer, H_DEFENSIVE)) {
 	    v += amount / 10; /* make AI slow */
 	  }
@@ -598,34 +594,16 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	    } adjc_iterate_end;
 	  }
 	  v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
-	  if (capital && ai->threats.invasions) {
-	    v += amount; /* defend capital! */
-	  }
-	  break;
-	case EFT_AIR_DEFEND:
-	  if (ai_handicap(pplayer, H_DEFENSIVE)) {
-	    v += amount / 15; /* make AI slow */
-	  }
-	  v += (ai->threats.air && ai->threats.continent[ptile->continent]) 
-	    ? amount/10 * 5 + amount/10 * c : c;
-	  break;
-	case EFT_MISSILE_DEFEND:
-	  if (ai->threats.missile
-	      && (ai->threats.continent[ptile->continent] || capital)) {
-	    v += amount/10 * 5 + (amount/10 - 1) * c;
-	  }
-	  break;
-	case EFT_LAND_DEFEND:
-	  if (ai_handicap(pplayer, H_DEFENSIVE)) {
-	    v += amount / 10; /* make AI slow */
-	  }
 	  if (ai->threats.continent[ptile->continent]
 	      || capital
 	      || (ai->threats.invasions
-		&& is_water_adjacent_to_tile(pcity->tile))) {
-	    v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
+		  && is_water_adjacent_to_tile(pcity->tile))) {
+	    if (ai->threats.continent[ptile->continent]) {
+	      v += amount;
+	    } else {
+	      v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
+	    }
 	  }
-	  v += (1 + ai->threats.invasions + !ai->threats.igwall) * c;
 	  break;
 	case EFT_NO_INCITE:
 	  if (get_city_bonus(pcity, EFT_NO_INCITE) <= 0) {
@@ -655,7 +633,6 @@ static void adjust_building_want_by_effects(struct city *pcity,
         case EFT_MARTIAL_LAW_MAX:
         case EFT_RAPTURE_GROW:
         case EFT_UNBRIBABLE_UNITS:
-        case EFT_VETERAN_DIPLOMATS:
         case EFT_REVOLUTION_WHEN_UNHAPPY:
         case EFT_HAS_SENATE:
         case EFT_INSPIRE_PARTISANS:
@@ -1069,7 +1046,7 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 {
   impr_type_iterate(id) {
     if (can_city_sell_building(pcity, id)
-	&& !building_has_effect(id, EFT_LAND_DEFEND)) {
+	&& !building_has_effect(id, EFT_DEFEND_BONUS)) {
 /* selling walls to buy defenders is counterproductive -- Syela */
       really_handle_city_sell(pplayer, pcity, id);
       break;
@@ -1363,7 +1340,7 @@ static void ai_sell_obsolete_buildings(struct city *pcity)
 
   built_impr_iterate(pcity, i) {
     if(can_city_sell_building(pcity, i) 
-       && !building_has_effect(i, EFT_LAND_DEFEND)
+       && !building_has_effect(i, EFT_DEFEND_BONUS)
 	      /* selling city walls is really, really dumb -- Syela */
        && (is_building_replaced(pcity, i)
 	   || building_unwanted(city_owner(pcity), i))) {

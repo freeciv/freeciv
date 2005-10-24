@@ -148,11 +148,8 @@ bool maybe_make_veteran(struct unit *punit)
       || unit_flag(punit, F_NO_VETERAN)) {
     return FALSE;
   } else {
-    int mod = 100;
-
-    if (is_ground_unittype(punit->type)) {
-      mod += get_unit_bonus(punit, EFT_LAND_VET_COMBAT);
-    }
+    int mod = 100 + get_unittype_bonus(punit->owner, punit->tile,
+				       punit->type, EFT_VETERAN_COMBAT);
 
     /* The modification is tacked on as a multiplier to the base chance.
      * For example with a base chance of 50% for green units and a modifier
@@ -515,34 +512,25 @@ void update_unit_activities(struct player *pplayer)
 ***************************************************************************/
 static int hp_gain_coord(struct unit *punit)
 {
-  int hp;
-  struct city *pcity;
-  struct unit_class *class = get_unit_class(punit->type);
+  int hp = 0;
+  const int base = unit_type(punit)->hp;
 
-  if (unit_on_fortress(punit))
-    hp=unit_type(punit)->hp/4;
-  else
-    hp=0;
-  if((pcity=tile_get_city(punit->tile))) {
-    if ((get_city_bonus(pcity, EFT_LAND_REGEN) > 0
-	 && is_ground_unit(punit))
-	|| (get_city_bonus(pcity, EFT_AIR_REGEN) > 0
-	    && (is_air_unit(punit) || is_heli_unit(punit)))
-	|| (get_city_bonus(pcity, EFT_SEA_REGEN) > 0
-	    && is_sailing_unit(punit))) {
-      hp=unit_type(punit)->hp;
-    }
-    else
-      hp=unit_type(punit)->hp/3;
-  }
-  else if (!class->hp_loss_pct) {
-    hp++;
+  /* Includes barracks (100%), fortress (25%), etc. */
+  hp += base * get_unit_bonus(punit, EFT_HP_REGEN) / 100;
+
+  if (punit->tile->city) {
+    hp = MAX(hp, base / 3);
   }
 
-  if(punit->activity==ACTIVITY_FORTIFIED)
-    hp++;
-  
-  return hp;
+  if (!punit->type->class->hp_loss_pct) {
+    hp += (base + 9) / 10;
+  }
+
+  if (punit->activity == ACTIVITY_FORTIFIED) {
+    hp += (base + 9) / 10;
+  }
+
+  return MAX(hp, 0);
 }
 
 /**************************************************************************
@@ -937,7 +925,10 @@ static bool find_a_good_partisan_spot(struct city *pcity,
       continue;
     if (unit_list_size(ptile->units) > 0)
       continue;
-    value = get_virtual_defense_power(NULL, u_type, ptile, FALSE, 0);
+
+    /* City has not changed hands yet; see place_partisans(). */
+    value = get_virtual_defense_power(NULL, u_type, pcity->owner,
+				      ptile, FALSE, 0);
     value *= 10;
 
     if (ptile->continent != tile_get_continent(pcity->tile)) {

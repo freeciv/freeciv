@@ -62,6 +62,7 @@ struct unit_type *ai_choose_defender_versus(struct city *pcity,
     if (can_build_unit(pcity, punittype)
 	&& (move_type == LAND_MOVING || move_type == SEA_MOVING)) {
       const int defense = get_virtual_defense_power(v, punittype,
+						    pcity->owner,
 						    pcity->tile,
 						    FALSE, FALSE);
 
@@ -327,6 +328,7 @@ static unsigned int assess_danger_unit(struct city *pcity, struct unit *punit)
 {
   unsigned int danger;
   bool sailing;
+  int mod;
 
   if (unit_flag(punit, F_NO_LAND_ATTACK)) return 0;
 
@@ -336,12 +338,9 @@ static unsigned int assess_danger_unit(struct city *pcity, struct unit *punit)
   }
 
   danger = unit_att_rating(punit);
-  if (sailing && get_city_bonus(pcity, EFT_SEA_DEFEND) > 0) {
-    danger /= 2;
-  }
-  if (is_air_unit(punit) && get_city_bonus(pcity, EFT_AIR_DEFEND) > 0) {
-    danger /= 2;
-  }
+  mod = 100 + get_unittype_bonus(pcity->owner, pcity->tile,
+				 punit->type, EFT_DEFEND_BONUS);
+  danger = danger * 100 / MAX(mod, 1);
 
   return danger;
 }
@@ -454,7 +453,7 @@ static void ai_reevaluate_building(struct city *pcity, int *value,
 static unsigned int assess_danger(struct city *pcity)
 {
   int i;
-  int danger[5], defender[4];
+  int danger[5], defender;
   struct player *pplayer = city_owner(pcity);
   bool pikemen = FALSE;
   unsigned int urgency = 0;
@@ -573,29 +572,11 @@ static unsigned int assess_danger(struct city *pcity)
 
   /* HACK: This needs changing if multiple improvements provide
    * this effect. */
-  defender[0] = ai_find_source_building(pplayer, EFT_LAND_DEFEND);
-  defender[1] = ai_find_source_building(pplayer, EFT_SEA_DEFEND);
-  defender[2] = ai_find_source_building(pplayer, EFT_AIR_DEFEND);
-  defender[3] = ai_find_source_building(pplayer, EFT_MISSILE_DEFEND);
+  defender = ai_find_source_building(pplayer, EFT_DEFEND_BONUS);
 
-  if (defender[0] != B_LAST) {
-    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender[0]],
-	urgency, danger[1], assess_defense(pcity));
-  }
-  if (defender[1] != B_LAST) {
-    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender[1]],
-	urgency, danger[2], 
-	assess_defense_igwall(pcity));
-  }
-  if (defender[2] != B_LAST) {
-    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender[2]],
-	urgency, danger[3], 
-	assess_defense_igwall(pcity));
-  }
-  if (defender[3] != B_LAST) {
-    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender[3]],
-	urgency, danger[4], 
-	assess_defense_igwall(pcity));
+  if (defender != B_LAST) {
+    ai_reevaluate_building(pcity, &pcity->ai.building_want[defender],
+	urgency, danger[1], assess_defense_igwall(pcity));
   }
 
   pcity->ai.danger = danger[0];
@@ -806,6 +787,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
 static void process_attacker_want(struct city *pcity,
                                   int value,
 				  struct unit_type *victim_unit_type,
+				  struct player *victim_player,
                                   int veteran, struct tile *ptile,
                                   struct ai_choice *best_choice,
                                   struct unit *boat,
@@ -853,9 +835,9 @@ static void process_attacker_want(struct city *pcity,
                                       punittype->obsoleted_by))
         && punittype->attack_strength > 0 /* or we'll get SIGFPE */
         && move_type == orig_move_type) {
-      /* TODO: Case for Airport. -- Raahul */
-      int will_be_veteran = (move_type == LAND_MOVING
-	  || ai_find_source_building(pplayer, EFT_SEA_VETERAN) != B_LAST);
+      /* TODO: check for the right _type_ of building. */
+      int will_be_veteran
+	= (ai_find_source_building(pplayer, EFT_VETERAN_BUILD) != B_LAST);
       /* Cost (shield equivalent) of gaining these techs. */
       /* FIXME? Katvrr advises that this should be weighted more heavily in big
        * danger. */
@@ -903,6 +885,7 @@ static void process_attacker_want(struct city *pcity,
       /* Estimate strength of the enemy. */
       
       vuln = unittype_def_rating_sq(punittype, victim_unit_type,
+				    victim_player,
                                     ptile, FALSE, veteran);
 
       /* Not bothering to s/!vuln/!pdef/ here for the time being. -- Syela
@@ -1005,21 +988,20 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   int attack;
   /* Benefit from fighting the target */
   int benefit;
-  /* Enemy defender type */
+  /* Defender of the target city/tile */
+  struct unit *pdef; 
   struct unit_type *def_type;
+  struct player *def_owner;
+  int def_vet; /* Is the defender veteran? */
   /* Target coordinates */
   struct tile *ptile;
   /* Our transport */
   struct unit *ferryboat = NULL;
   /* Our target */
   struct city *acity;
-  /* Defender of the target city/tile */
-  struct unit *pdef; 
   /* Type of the boat (real or a future one) */
   struct unit_type *boattype = NULL;
   bool go_by_boat;
-  /* Is the defender veteran? */
-  int def_vet;
   struct ai_choice best_choice;
 
   init_choice(&best_choice);
@@ -1100,9 +1082,10 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                                     go_by_boat, ferryboat, boattype);
 
     def_type = ai_choose_defender_versus(acity, myunit->type);
+    def_owner = acity->owner;
     if (move_time > 1) {
       def_vet = do_make_unit_veteran(acity, def_type);
-      vuln = unittype_def_rating_sq(myunit->type, def_type,
+      vuln = unittype_def_rating_sq(myunit->type, def_type, acity->owner,
                                     ptile, FALSE, def_vet);
       benefit = unit_build_shield_cost(def_type);
     } else {
@@ -1113,13 +1096,14 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     pdef = get_defender(myunit, ptile);
     if (pdef) {
-      int m = unittype_def_rating_sq(myunit->type, pdef->type,
+      int m = unittype_def_rating_sq(myunit->type, pdef->type, acity->owner,
                                      ptile, FALSE, pdef->veteran);
       if (vuln < m) {
         vuln = m;
         benefit = unit_build_shield_cost(pdef->type);
         def_vet = pdef->veteran;
         def_type = pdef->type; 
+	def_owner = pdef->owner;
       }
     }
     if (COULD_OCCUPY(myunit) || TEST_BIT(acity->ai.invasion, 0)) {
@@ -1141,17 +1125,20 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 
     def_type = pdef->type;
     def_vet = pdef->veteran;
+    def_owner = pdef->owner;
     /* end dealing with units */
   }
   
   if (!go_by_boat) {
-    process_attacker_want(pcity, benefit, def_type, def_vet, ptile, 
+    process_attacker_want(pcity, benefit, def_type, def_owner,
+			  def_vet, ptile, 
                           &best_choice, NULL, NULL);
   } else { 
     /* Attract a boat to our city or retain the one that's already here */
     assert(is_ground_unit(myunit));
     best_choice.need_boat = TRUE;
-    process_attacker_want(pcity, benefit, def_type, def_vet, ptile, 
+    process_attacker_want(pcity, benefit, def_type, def_owner,
+			  def_vet, ptile, 
                           &best_choice, ferryboat, boattype);
   }
 
@@ -1231,31 +1218,11 @@ static void adjust_ai_unit_choice(struct city *pcity,
   }
 
   move_type = get_unit_type(choice->choice)->move_type;
-  switch(move_type) {
-  case LAND_MOVING:
-    if ((id = ai_find_source_building(pplayer, EFT_LAND_VETERAN)) != B_LAST) {
-      choice->choice = id;
-      choice->type = CT_BUILDING;
-    }
-    break;
-  case SEA_MOVING:
-    if ((id = ai_find_source_building(pplayer, EFT_SEA_VETERAN)) != B_LAST) {
-      choice->choice = id;
-      choice->type = CT_BUILDING;
-    }
-    break;
-  case HELI_MOVING:
-  case AIR_MOVING:
-    if ((id = ai_find_source_building(pplayer, EFT_AIR_VETERAN)) != B_LAST
-        && pcity->surplus[O_SHIELD] > impr_build_shield_cost(id) / 10) {
-      /* Only build this if we have really high production */
-      choice->choice = id;
-      choice->type = CT_BUILDING;
-    }
-    break;
-  default:
-    freelog(LOG_ERROR, "Unknown move_type in adjust_ai_unit_choice");
-    assert(FALSE);
+
+  /* TODO: separate checks based on other requirements (e.g., unit class) */
+  if ((id = ai_find_source_building(pplayer, EFT_VETERAN_BUILD)) != B_LAST) {
+    choice->choice = id;
+    choice->type = CT_BUILDING;
   }
 }
 
@@ -1291,7 +1258,7 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
   /* Otherwise no need to defend yet */
   if (pcity->ai.danger != 0) { 
     int num_defenders = unit_list_size(ptile->units);
-    int land_id, sea_id, air_id, danger;
+    int wall_id, danger;
 
     /* First determine the danger.  It is measured in percents of our 
      * defensive strength, capped at 200 + urgency */
@@ -1323,61 +1290,32 @@ void military_advisor_choose_build(struct player *pplayer, struct city *pcity,
 
     /* HACK: This needs changing if multiple improvements provide
      * this effect. */
-    land_id = ai_find_source_building(pplayer, EFT_LAND_DEFEND);
-    sea_id = ai_find_source_building(pplayer, EFT_SEA_DEFEND);
-    air_id = ai_find_source_building(pplayer, EFT_AIR_DEFEND);
+    wall_id = ai_find_source_building(pplayer, EFT_DEFEND_BONUS);
 
-    if (land_id != B_LAST
-	&& pcity->ai.building_want[land_id] != 0 && our_def != 0 
-        && can_build_improvement(pcity, land_id)
+    if (wall_id != B_LAST
+	&& pcity->ai.building_want[wall_id] != 0 && our_def != 0 
+        && can_build_improvement(pcity, wall_id)
         && (danger < 101 || num_defenders > 1
             || (pcity->ai.grave_danger == 0 
                 && pplayer->economic.gold > (80 - pcity->shield_stock) * 2)) 
         && ai_fuzzy(pplayer, TRUE)) {
       /* NB: great wall is under domestic */
-      choice->choice = land_id;
+      choice->choice = wall_id;
       /* building_want is hacked by assess_danger */
-      choice->want = pcity->ai.building_want[land_id];
+      choice->want = pcity->ai.building_want[wall_id];
       if (urgency == 0 && choice->want > 100) {
         choice->want = 100;
       }
       choice->type = CT_BUILDING;
-      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants land defense building with %d",
-               choice->want);
-    } else if (sea_id != B_LAST
-	       && pcity->ai.building_want[sea_id] != 0 && our_def != 0 
-               && can_build_improvement(pcity, sea_id) 
-               && (danger < 101 || num_defenders > 1) 
-               && ai_fuzzy(pplayer, TRUE)) {
-      choice->choice = sea_id;
-      /* building_want is hacked by assess_danger */
-      choice->want = pcity->ai.building_want[sea_id];
-      if (urgency == 0 && choice->want > 100) {
-        choice->want = 100;
-      }
-      choice->type = CT_BUILDING;
-      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants sea defense building with %d",
-               choice->want);
-    } else if (air_id != B_LAST
-	       && pcity->ai.building_want[air_id] != 0 && our_def != 0 
-               && can_build_improvement(pcity, air_id) 
-               && (danger < 101 || num_defenders > 1) 
-               && ai_fuzzy(pplayer, TRUE)) {
-      choice->choice = air_id;
-      /* building_want is hacked by assess_danger */
-      choice->want = pcity->ai.building_want[air_id];
-      if (urgency == 0 && choice->want > 100) {
-        choice->want = 100;
-      }
-      choice->type = CT_BUILDING;
-      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants air defense building with %d",
+      CITY_LOG(LOG_DEBUG, pcity, "m_a_c_d wants defense building with %d",
                choice->want);
     } else if (danger > 0 && num_defenders <= urgency) {
       /* Consider building defensive units units */
       process_defender_want(pplayer, pcity, danger, choice);
       if (urgency == 0
 	  && get_unit_type(choice->choice)->defense_strength == 1) {
-        if (get_city_bonus(pcity, EFT_LAND_REGEN) > 0) {
+	/* FIXME: check other reqs (unit class?) */
+        if (get_city_bonus(pcity, EFT_HP_REGEN) > 0) {
           /* unlikely */
           choice->want = MIN(49, danger);
         } else {

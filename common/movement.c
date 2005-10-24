@@ -53,13 +53,12 @@ int unit_move_rate(const struct unit *punit)
     move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
   }
 
+  /* Add on effects bonus (Magellan's Expedition, Lighthouse,
+   * Nuclear Power). */
+  move_rate += (get_unit_bonus(punit, EFT_MOVE_BONUS) * SINGLE_MOVE);
+
   /* TODO: These effects should not be hardcoded to unit class enumeration */
   if (pclass->id == UCL_SEA) {
-    /* Add on effects bonus (Magellan's Expedition, Lighthouse,
-     * Nuclear Power). */
-    move_rate += (get_unit_bonus(punit, EFT_SEA_MOVE)
-		  * SINGLE_MOVE);
-
     /* Don't let the move_rate be less than 2 unless the base_move_rate is
      * also less than 2. */
     if (move_rate < 2 * SINGLE_MOVE) {

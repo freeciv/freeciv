@@ -88,6 +88,9 @@ cumulative.  For many effects this is undesirable.
 
 "Incite_Cost_Pct" - increases revolt cost by AMOUNT percent
 
+"Defend_Bonus"  - Increases defensive bonuses of units.  Any unit requirements
+                  on this effect will be applied to the _attacking_ unit.
+
 "Size_Adj"      - Increases maximum city size by AMOUNT
 
 "Size_Unlimit"	- Removes maximum city size limitation

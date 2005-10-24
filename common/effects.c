@@ -80,27 +80,18 @@ static const char *effect_type_names[EFT_LAST] = {
   "SS_Component",
   "SS_Module",
   "Spy_Resistant",
-  "Sea_Move",
+  "Move_Bonus",
   "Unit_No_Lose_Pop",
   "Unit_Recover",
   "Upgrade_Unit",
   "Upkeep_Free",
   "No_Unhappy",
-  "Land_Veteran",
-  "Sea_Veteran",
-  "Air_Veteran",
-  "Land_Vet_Combat",
-  /* TODO: "Sea_Vet_Combat", */
-  /* TODO: "Air_Vet_Combat", */
-  "Land_Regen",
-  "Sea_Regen",
-  "Air_Regen",
+  "Veteran_Build",
+  "Veteran_Combat",
+  "HP_Regen",
   "City_Vision_Radius_Sq",
   "Unit_Vision_Radius_Sq",
-  "Land_Defend",
-  "Sea_Defend",
-  "Air_Defend",
-  "Missile_Defend",
+  "Defend_Bonus",
   "No_Incite",
   "Gain_AI_Love",
   "Slow_Down_Timeline",
@@ -112,7 +103,6 @@ static const char *effect_type_names[EFT_LAST] = {
   "Martial_Law_Max",
   "Rapture_Grow",
   "Unbribable_Units",
-  "Veteran_Diplomats",
   "Revolution_When_Unhappy",
   "Has_Senate",
   "Inspire_Partisans",
@@ -856,8 +846,10 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 {
   assert(punit != NULL);
   return get_target_bonus_effects(NULL,
-				  unit_owner(punit), NULL, NULL,
-				  NULL, punit->type, NULL, NULL,
+				  unit_owner(punit),
+				  punit->tile ? punit->tile->city : NULL,
+				  NULL, punit->tile,
+				  punit->type, NULL, NULL,
 				  effect_type);
 }
 

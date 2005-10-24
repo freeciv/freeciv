@@ -652,8 +652,10 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
     want += pcity->size * 20;
     want += pcity->surplus[O_SHIELD] * 8;
     want += pcity->surplus[O_TRADE] * 6;
-    fear += get_city_bonus(pcity, EFT_LAND_DEFEND);
-    fear += get_city_bonus(pcity, EFT_SEA_DEFEND);
+
+    /* FIXME: This might be buggy if it ignores unmet UnitClass reqs. */
+    fear += get_city_bonus(pcity, EFT_DEFEND_BONUS);
+
     built_impr_iterate(pcity, id) {
       want += impr_build_shield_cost(id);
       if (is_great_wonder(id)) {

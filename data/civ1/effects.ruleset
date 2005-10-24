@@ -47,6 +47,16 @@ reqs    =
     }
 
 
+; Fortress HP regen
+[effect_fortress_hp_regen]
+name	= "HP_Regen"
+value	= 100
+reqs	=
+    { "type", "name", "range"
+      "Special", "Fortress", "Tile"
+      "UnitClass", "Land", "Local"
+    }
+
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 name    = "City_Vision_Radius_Sq"
@@ -288,11 +298,12 @@ reqs    =
     }
 
 [effect_communism_0]
-name    = "Veteran_Diplomats"
+name    = "Veteran_Build"
 value   = 1
 reqs    =
     { "type",       "name",      "range"
       "Gov", "Communism", "Player"
+      "UnitFlag", "Diplomat", "Local"
     }
 
 [effect_revolution_0]
@@ -353,23 +364,7 @@ reqs	=
     }
 
 [effect_barracks]
-name	= "Land_Veteran"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks", "City"
-    }
-
-[effect_barracks_1]
-name	= "Sea_Veteran"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks", "City"
-    }
-
-[effect_barracks_2]
-name	= "Air_Veteran"
+name	= "Veteran_Build"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -377,23 +372,7 @@ reqs	=
     }
 
 [effect_barracks_ii]
-name	= "Land_Veteran"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks II", "City"
-    }
-
-[effect_barracks_ii_1]
-name	= "Sea_Veteran"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks II", "City"
-    }
-
-[effect_barracks_ii_2]
-name	= "Air_Veteran"
+name	= "Veteran_Build"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -401,23 +380,7 @@ reqs	=
     }
 
 [effect_barracks_iii]
-name	= "Land_Veteran"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks III", "City"
-    }
-
-[effect_barracks_iii_1]
-name	= "Sea_Veteran"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Barracks III", "City"
-    }
-
-[effect_barracks_iii_2]
-name	= "Air_Veteran"
+name	= "Veteran_Build"
 value	= 1
 reqs	=
     { "type", "name", "range"
@@ -433,11 +396,12 @@ reqs	=
     }
 
 [effect_city_walls]
-name	= "Land_Defend"
+name	= "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
       "Building", "City Walls", "City"
+      "UnitClass", "Land", "Local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -445,11 +409,12 @@ nreqs	=
     }
 
 [effect_city_walls_1]
-name	= "Sea_Defend"
+name	= "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
       "Building", "City Walls", "City"
+      "UnitClass", "Sea", "Local"
     }
 nreqs	=
     { "type", "name", "range"
@@ -820,19 +785,21 @@ reqs	=
     }
 
 [effect_great_wall]
-name	= "Land_Defend"
+name	= "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Player"
+      "UnitClass", "Land", "Local"
     }
 
 [effect_great_wall_1]
-name	= "Sea_Defend"
+name	= "Defend_Bonus"
 value	= 200
 reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Player"
+      "UnitClass", "Sea", "Local"
     }
 
 [effect_hanging_gardens]
@@ -893,19 +860,21 @@ reqs	=
     }
 
 [effect_lighthouse]
-name	= "Sea_Move"
+name	= "Move_Bonus"
 value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "Lighthouse", "Player"
+      "UnitClass", "Sea", "Local"
     }
 
 [effect_magellans_expedition]
-name	= "Sea_Move"
+name	= "Move_Bonus"
 value	= 1
 reqs	=
     { "type", "name", "range"
       "Building", "Magellan's Expedition", "Player"
+      "UnitClass", "Sea", "Local"
     }
 
 [effect_manhattan_project]

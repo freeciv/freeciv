@@ -85,6 +85,7 @@ int unit_def_rating_basic(struct unit *punit);
 int unit_def_rating_basic_sq(struct unit *punit);
 int unittype_def_rating_sq(const struct unit_type *att_type,
 			   const struct unit_type *def_type,
+			   const struct player *def_player,
                            struct tile *ptile, bool fortified, int veteran);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 
