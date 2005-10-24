@@ -1,7 +1,7 @@
 [nation_british]
 
 name=_("British")
-plural=_("?plural:British")
+plural=_("?plural:Britons")
 groups=_("Modern"), _("European")
 ; We don't want British nation in the same game with English
 conflicts_with="english", "scottish", "welsh", "cornish"
