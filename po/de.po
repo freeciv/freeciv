@@ -631,12 +631,12 @@ msgstr "error %d (compiled without strerror)"
 #: ai/aicity.c:1017 server/citytools.c:1841
 #, c-format
 msgid "The %s have stopped building The %s in %s."
-msgstr "Spiel: Die %s haben aufgehört, %s in %s zu bauen."
+msgstr "Die %s haben aufgehört, %s in %s zu bauen."
 
 #: ai/aicity.c:1028 server/citytools.c:1881
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr "Spiel: Die %s haben begonnen, %s in %s zu bauen."
+msgstr "Die %s haben begonnen, %s in %s zu bauen."
 
 #: ai/aicity.c:1349
 #, c-format
@@ -943,67 +943,63 @@ msgstr "Piraten in der Nähe von %s entdeckt!"
 
 #: server/cityhand.c:117
 msgid "You don't have a worker here."
-msgstr "Spiel: Hier sind keine Arbeiter."
+msgstr "Hier ist kein Arbeiter."
 
 #: server/cityhand.c:174
 msgid "You have already sold something here this turn."
-msgstr "Spiel: In dieser Runde wurde hier bereits etwas verkauft."
+msgstr "In dieser Runde wurde hier bereits etwas verkauft."
 
 #: server/cityhand.c:183
 #, c-format
 msgid "You sell %s in %s for %d gold."
-msgstr "Spiel: %s in %s wurde für %d Goldstücke verkauft."
+msgstr "%s in %s wurde für %d Goldstücke verkauft."
 
 #: server/cityhand.c:222
 msgid "Cannot buy in city created this turn."
-msgstr "Spiel: In einer gerade gebauten Stadt kann man nicht kaufen."
+msgstr "In einer gerade gebauten Stadt kann man nicht kaufen."
 
 #: server/cityhand.c:228
 msgid "You have already bought this turn."
-msgstr "Spiel: In dieser Runde wurde bereits gekauft."
+msgstr "In dieser Runde wurde bereits gekauft."
 
 #: server/cityhand.c:235
 #, c-format
 msgid "You don't buy %s!"
-msgstr "Spiel: %s wurde nicht gekauft!"
+msgstr "%s wurde nicht gekauft!"
 
 #: server/cityhand.c:242
 msgid "Can't buy units when city is in disorder."
-msgstr "Spiel: In einer aufständigen Stadt kann man keine Einheiten kaufen."
+msgstr "In einer aufständigen Stadt kann man keine Einheiten kaufen."
 
 #: server/cityhand.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr "Spiel: %s kosten %d Goldstücke. Vorhanden sind nur %d Goldstücke."
+msgstr "%d Goldstücke benötigt. Vorhanden sind nur %d Goldstücke."
 
 #: server/cityhand.c:362
 msgid "You have bought this turn, can't change."
-msgstr ""
-"Spiel: Es wurde in dieser Runde bereits gekauft - kann nicht mehr geändert "
-"werden."
+msgstr "Es wurde bereits gekauft, und kann nicht mehr geändert werden."
 
 #: server/cityhand.c:387 client/text.c:971 client/text.c:1008
 #: client/gui-mui/citydlg.c:2042 client/gui-win32/citydlg.c:1262
 #, c-format
 msgid "%s"
-msgstr "Spiel: %s"
+msgstr "%s"
 
 #: server/citytools.c:270
 #, c-format
 msgid "You already have a city called %s."
-msgstr "Spiel: Sie haben bereits eine Stadt mit dem Namen %s."
+msgstr "Sie haben bereits eine Stadt mit dem Namen %s."
 
 #: server/citytools.c:282
 #, c-format
 msgid "A city called %s already exists."
-msgstr "Spiel: Eine Stadt mit dem Namen %s existiert bereits."
+msgstr "Eine Stadt mit dem Namen %s existiert bereits."
 
 #: server/citytools.c:309
 #, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr ""
-"Spiel: %s kann nicht als Städtename verwendet werden. Es ist für die %s "
-"reserviert."
+msgstr "%s kann nicht als Städtename verwendet werden, er ist reserviert für die %s."
 
 #: server/citytools.c:328
 #, c-format
@@ -1023,17 +1019,17 @@ msgstr "Eine schlecht benannte Stadt"
 #: server/citytools.c:504
 #, c-format
 msgid "Changed homecity of %s to %s."
-msgstr "Spiel: Heimatstadt von %s in %s geändert."
+msgstr "Heimatstadt von %s ist jetzt %s."
 
 #: server/citytools.c:515
 #, c-format
 msgid "Transfered %s in %s from %s to %s."
-msgstr "Spiel: %s in %s von %s nach %s transportiert."
+msgstr "%s in %s von %s nach %s transportiert."
 
 #: server/citytools.c:525
 #, c-format
 msgid "Transfered %s from %s to %s."
-msgstr "Spiel: %s von %s nach %s überführt."
+msgstr "%s von %s nach %s überführt."
 
 #: server/citytools.c:535
 #, fuzzy, c-format
@@ -1043,12 +1039,12 @@ msgstr "Spiel: %s beim Angriff von %ss %s verloren."
 #: server/citytools.c:608
 #, c-format
 msgid "%s lost along with control of %s."
-msgstr "Spiel: %s gingen verloren beim Verlust von %s"
+msgstr "%s gingen mit der Kontrolle von %s verloren."
 
 #: server/citytools.c:734
-#, fuzzy, c-format
+#, c-format
 msgid "You lost %s. A new %s was built in %s."
-msgstr "Spiel: Hauptstadt %s verloren! Ein neuer Palast wurde in %s errichtet."
+msgstr "%s verloren! %s wurde in %s neu errichtet."
 
 #: server/citytools.c:805
 #, c-format
@@ -1061,63 +1057,60 @@ msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
-"Spiel: Die Bevölkerung in %s ist von den technischen Errungenschaften\n"
+"Die Bevölkerung in %s ist von Deinen technischen Errungenschaften\n"
 "       begeistert! Die Arbeiter haben die Stadt spontan mit einer\n"
 "       Eisenbahn ausgestattet."
 
 #: server/citytools.c:1020
 #, c-format
 msgid "You have founded %s"
-msgstr "Spiel: %s gegründet."
+msgstr "%s gegründet."
 
 #: server/citytools.c:1091
 #, c-format
 msgid "Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
-"Spiel: Die %s sind aus der aufgelösten Stadt %s geflohen, um eine Strandung "
-"zu vermeiden."
+msgstr "Die %s sind aus der aufgelösten Stadt %s geflohen, um eine Strandung zu vermeiden."
 
 #: server/citytools.c:1100 server/citytools.c:1111
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
-"Spiel: Als %s aufgelöst wurde sind die %s gestrandet, da sie nicht fliehen "
-"konnten."
+"Als %s aufgelöst wurde sind, konnten die %s nicht fliehen und gingen verloren."
 
 #: server/citytools.c:1227
 #, c-format
 msgid "You destroy %s completely."
-msgstr "Spiel: %s völlig zerstört."
+msgstr "%s wurde völlig zerstört."
 
 #: server/citytools.c:1229
 #, c-format
 msgid "%s has been destroyed by %s."
-msgstr "Spiel: %s wurde von %s zerstört."
+msgstr "%s wurde von %s zerstört."
 
 #: server/citytools.c:1247
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
-msgstr[0] "Spiel: %s erobert. Beute im Wert von %d Goldstücken gemacht!"
-msgstr[1] "Spiel: %s erobert. Beute im Wert von %d Goldstücken gemacht!"
+msgstr[0] "Du hast %s erobert. Beute im Wert von %d Goldstück gemacht!"
+msgstr[1] "Du hast %s erobert. Beute im Wert von %d Goldstücken gemacht!"
 
 #: server/citytools.c:1253
-#, fuzzy, c-format
+#, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
-msgstr[0] "Spiel: %s eroberte %s und machte Beute im Wert von %d Goldstücken."
-msgstr[1] "Spiel: %s eroberte %s und machte Beute im Wert von %d Goldstücken."
+msgstr[0] "%s hat %s erobert und Beute im Wert von %d Goldstück gemacht."
+msgstr[1] "%s hat %s erobert und Beute im Wert von %d Goldstücken gemacht."
 
 #: server/citytools.c:1260
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s"
-msgstr "Spiel: %s atomar angegriffen."
+msgstr "Du eroberst %s."
 
 #: server/citytools.c:1262
-#, fuzzy, c-format
+#, c-format
 msgid "%s conquered %s."
-msgstr "Spiel: %s durch %s  erworben!"
+msgstr "%s hat %s erobert."
 
 #: server/citytools.c:1268
 #, fuzzy, c-format
