@@ -112,7 +112,7 @@ static void add_refuel_point(struct tile *ptile,
     /* If refuels.alloc_size was zero (on the first call), 
      * then refuels.points is NULL and realloc will actually malloc */
     refuels.points = fc_realloc(refuels.points, 
-                                refuels.alloc_size * sizeof(struct refuel));
+                                refuels.alloc_size * sizeof(*refuels.points));
     /* This memory, because refuels is static, is never freed.
      * It is just reused. */  
   }

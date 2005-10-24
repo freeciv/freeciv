@@ -675,7 +675,7 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
   if (could_meet_with_player(pplayer, pother)) {
     struct Treaty *ptreaty;
 
-    ptreaty = fc_malloc(sizeof(struct Treaty));
+    ptreaty = fc_malloc(sizeof(*ptreaty));
     init_treaty(ptreaty, pplayer, pother);
     treaty_list_prepend(treaties, ptreaty);
 

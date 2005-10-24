@@ -639,7 +639,7 @@ static void gamelog_status(char *buffer, int len) {
   } players_iterate_end;
 
   buffer[0] = '\0';
-  qsort(rank, count, sizeof(struct player_score_entry), secompare1);
+  qsort(rank, count, sizeof(rank[0]), secompare1);
 
   for (i = 0; i < count; i++) {
     cat_snprintf(buffer, len, "<plr><no>%d</no><r>%d</r><s>%d</s></plr>",

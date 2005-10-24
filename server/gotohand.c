@@ -121,8 +121,11 @@ static void init_queue(void)
 static struct mappos_array *get_empty_array(void)
 {
   struct mappos_array *parray;
-  if (!mappos_arrays[array_count])
-    mappos_arrays[array_count] = fc_malloc(sizeof(struct mappos_array));
+
+  if (!mappos_arrays[array_count]) {
+    mappos_arrays[array_count]
+      = fc_malloc(sizeof(*mappos_arrays[array_count]));
+  }
   parray = mappos_arrays[array_count++];
   parray->first_pos = 0;
   parray->last_pos = -1;

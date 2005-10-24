@@ -1792,7 +1792,7 @@ static void load_ruleset_governments(struct section_file *file)
     struct ruler_title *title;
 
     g->num_ruler_titles = 1;
-    g->ruler_titles = fc_calloc(1, sizeof(struct ruler_title));
+    g->ruler_titles = fc_calloc(1, sizeof(*g->ruler_titles));
     title = &(g->ruler_titles[0]);
 
     title->nation = DEFAULT_TITLE;
@@ -1928,7 +1928,7 @@ static struct city_name* load_city_name_list(struct section_file *file,
    * all the name data.  The array is NULL-terminated by
    * having a NULL name at the end.
    */
-  city_names = fc_calloc(dim + 1, sizeof(struct city_name));
+  city_names = fc_calloc(dim + 1, sizeof(*city_names));
   city_names[dim].name = NULL;
 
   /*

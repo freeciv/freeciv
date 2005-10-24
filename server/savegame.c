@@ -2341,7 +2341,7 @@ static void player_map_load(struct player *plr, int plrno,
 	nat_y = secfile_lookup_int(file, "player%d.dc%d.y", plrno, j);
 	ptile = native_pos_to_tile(nat_x, nat_y);
 
-	pdcity = fc_malloc(sizeof(struct dumb_city));
+	pdcity = fc_malloc(sizeof(*pdcity));
 	pdcity->id = secfile_lookup_int(file, "player%d.dc%d.id", plrno, j);
 	sz_strlcpy(pdcity->name, secfile_lookup_str(file, "player%d.dc%d.name", plrno, j));
 	pdcity->size = secfile_lookup_int(file, "player%d.dc%d.size", plrno, j);
@@ -2823,7 +2823,7 @@ static void player_save(struct player *plr, int plrno,
       }
     }
     citymap_buf[j]='\0';
-    assert(j < sizeof(citymap_buf));
+    assert(j < ARRAY_SIZE(citymap_buf));
     secfile_insert_str(file, citymap_buf, "player%d.c%d.workers", plrno, i);
 
     secfile_insert_bool(file, pcity->production.is_unit, 

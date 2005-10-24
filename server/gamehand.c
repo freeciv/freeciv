@@ -51,7 +51,7 @@ static void init_game_id(void)
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   int i;
 
-  for (i = 0; i < sizeof(game.id) - 1; i++) {
+  for (i = 0; i < ARRAY_SIZE(game.id) - 1; i++) {
     game.id[i] = chars[myrand(sizeof(chars) - 1)];
   }
   game.id[i] = '\0';

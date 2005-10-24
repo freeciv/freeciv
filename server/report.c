@@ -187,7 +187,7 @@ static void historian_generic(enum historian_type which_news)
     } /* else the player is dead or barbarian or observer */
   } players_iterate_end;
 
-  qsort(size, j, sizeof(struct player_score_entry), secompare);
+  qsort(size, j, sizeof(size[0]), secompare);
   buffer[0] = '\0';
   for (i = 0; i < j; i++) {
     if (i == 0 || size[i].value < size[i - 1].value) {
@@ -243,8 +243,7 @@ void report_top_five_cities(struct conn_list *dest)
       if (value_of_pcity > size[NUM_BEST_CITIES - 1].value) {
 	size[NUM_BEST_CITIES - 1].value = value_of_pcity;
 	size[NUM_BEST_CITIES - 1].city = pcity;
-	qsort(size, NUM_BEST_CITIES, sizeof(struct player_score_entry),
-	      secompare);
+	qsort(size, NUM_BEST_CITIES, sizeof(size[0]), secompare);
       }
     } city_list_iterate_end;
   } players_iterate_end;
@@ -1083,7 +1082,7 @@ void report_final_scores(void)
     }
   } players_iterate_end;
 
-  qsort(size, j, sizeof(struct player_score_entry), secompare);
+  qsort(size, j, sizeof(size[0]), secompare);
 
   packet.nscores = j;
   for (i = 0; i < j; i++) {

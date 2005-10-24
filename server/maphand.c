@@ -1088,7 +1088,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       /* Set and send new city info */
       if (from_tile->city) {
 	if (!dest_tile->city) {
-	  dest_tile->city = fc_malloc(sizeof(struct dumb_city));
+	  dest_tile->city = fc_malloc(sizeof(*dest_tile->city));
 	}
 	*dest_tile->city = *from_tile->city;
 	send_city_info_at_tile(pdest, pdest->connections, NULL, ptile);
