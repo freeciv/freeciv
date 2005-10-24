@@ -126,7 +126,8 @@ flag_files =				\
 		venezuela.png		\
 		vietnam.png		\
 		viking.png		\
-		wales.png
+		wales.png		\
+		zulu.png
 
 shield_files =					\
 		aborigines-shield.png		\
@@ -251,7 +252,8 @@ shield_files =					\
 		venezuela-shield.png		\
 		vietnam-shield.png		\
 		viking-shield.png		\
-		wales-shield.png
+		wales-shield.png		\
+		zulu-shield.png
 
 svg_files = 				\
 		aborigines.svg		\
@@ -376,7 +378,8 @@ svg_files = 				\
 		venezuela.svg		\
 		vietnam.svg		\
 		viking.svg		\
-		wales.svg
+		wales.svg		\
+		zulu.svg
 
 pkgdata_DATA = $(flag_files) $(shield_files)
 

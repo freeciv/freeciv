@@ -33,8 +33,8 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male"
-flag="south_africa"
-flag_alt = "rwanda"  ; used previously
+flag="zulu"	; Former KwaZulu homeland flag
+flag_alt = "south_africa"  ; used previously
 city_style = "Tropical"
 
 init_techs=""
