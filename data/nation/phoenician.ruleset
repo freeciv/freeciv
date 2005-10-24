@@ -17,19 +17,11 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
 flag="phoenicia"
 flag_alt = "-"
 city_style = "Classical"
-ruler_titles = { "government",      "male_title",       "female_title"
-               }
-
-attack=1
-expand=2
-civilized=2
-advisors=100,100,100,100,100,100,100
-
-init_government="Despotism"
-init_units=""
 
 init_techs=""
 init_buildings=""
+init_government="Despotism"
+init_units=""
 civilwar_nations="turk", "carthaginian", "israeli"
 
 cities =
