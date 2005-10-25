@@ -236,14 +236,15 @@ static void check_vote(struct voting *vote)
     }
     if (vote->yes > num_voters / 2 || vote->no == 0) {
       /* Do it! */
-      notify_player(NULL, _("Vote \"%s\" is passed %d to %d with %d "
-                    "abstentions."), vote->command, vote->yes, vote->no,
-                    num_voters - vote->yes - vote->no);
+      notify_conn(NULL, _("Vote \"%s\" is passed %d to %d with %d "
+			  "abstentions."), vote->command, vote->yes, vote->no,
+		  num_voters - vote->yes - vote->no);
       handle_stdin_input((struct connection *)NULL, vote->command, FALSE);
     } else {
-      notify_player(NULL, _("Vote \"%s\" failed with %d against, %d for "
-                    "and %d abstentions."), vote->command, vote->no, vote->yes, 
-                    num_voters - vote->yes - vote->no);
+      notify_conn(NULL, _("Vote \"%s\" failed with %d against, %d for "
+			  "and %d abstentions."),
+		  vote->command, vote->no, vote->yes, 
+		  num_voters - vote->yes - vote->no);
     }
     vote->command[0] = '\0';
   }
@@ -381,12 +382,12 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   }
 
   if (rfc_status == C_OK) {
-    players_iterate(pplayer) {
+    conn_list_iterate(game.est_connections, pconn) {
       /* Do not tell caller, since he was told above! */
-      if (!(caller && caller->player && caller->player == pplayer)) {
-        notify_player(pplayer, _("Game: %s"), line);
+      if (pconn != caller) {
+        notify_conn(&pconn->self, _("Game: %s"), line);
       }
-    } players_iterate_end;
+    } conn_list_iterate_end;
   }
 }
 
@@ -522,8 +523,8 @@ static void open_metaserver_connection(struct connection *caller)
 {
   server_open_meta();
   if (send_server_info_to_metaserver(META_INFO)) {
-    notify_player(NULL, _("Open metaserver connection to [%s]."),
-		  meta_addr_port());
+    notify_conn(NULL, _("Open metaserver connection to [%s]."),
+		meta_addr_port());
   }
 }
 
@@ -534,8 +535,8 @@ static void close_metaserver_connection(struct connection *caller)
 {
   if (send_server_info_to_metaserver(META_GOODBYE)) {
     server_close_meta();
-    notify_player(NULL, _("Close metaserver connection to [%s]."),
-		  meta_addr_port());
+    notify_conn(NULL, _("Close metaserver connection to [%s]."),
+		meta_addr_port());
   }
 }
 
@@ -598,9 +599,9 @@ static bool metapatches_command(struct connection *caller,
 
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
-    notify_player(NULL, _("Metaserver patches string set to '%s'."), arg);
+    notify_conn(NULL, _("Metaserver patches string set to '%s'."), arg);
   } else {
-    notify_player(NULL, _("Metaserver patches string set to '%s', "
+    notify_conn(NULL, _("Metaserver patches string set to '%s', "
                           "not reporting to metaserver."), arg);
   }
 
@@ -619,9 +620,9 @@ static bool metatopic_command(struct connection *caller, char *arg, bool check)
   set_meta_topic_string(arg);
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
-    notify_player(NULL, _("Metaserver topic string set to '%s'."), arg);
+    notify_conn(NULL, _("Metaserver topic string set to '%s'."), arg);
   } else {
-    notify_player(NULL, _("Metaserver topic string set to '%s', "
+    notify_conn(NULL, _("Metaserver topic string set to '%s', "
                           "not reporting to metaserver."), arg);
   }
 
@@ -641,10 +642,10 @@ static bool metamessage_command(struct connection *caller,
   set_meta_message_string(arg);
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
-    notify_player(NULL, _("Metaserver message string set to '%s'."), arg);
+    notify_conn(NULL, _("Metaserver message string set to '%s'."), arg);
   } else {
-    notify_player(NULL, _("Metaserver message string set to '%s', "
-                          "not reporting to metaserver."), arg);
+    notify_conn(NULL, _("Metaserver message string set to '%s', "
+			"not reporting to metaserver."), arg);
   }
 
   return TRUE;
@@ -663,8 +664,8 @@ static bool metaserver_command(struct connection *caller, char *arg,
 
   sz_strlcpy(srvarg.metaserver_addr, arg);
 
-  notify_player(NULL, _("Metaserver is now [%s]."),
-		meta_addr_port());
+  notify_conn(NULL, _("Metaserver is now [%s]."),
+	      meta_addr_port());
   return TRUE;
 }
 
@@ -926,8 +927,8 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   game.nplayers++;
 
-  notify_player(NULL, _("Game: %s has been added as an AI-controlled player."),
-                arg);
+  notify_conn(NULL, _("Game: %s has been added as an AI-controlled player."),
+	      arg);
 
   pplayer = find_player_by_name(arg);
   if (!pplayer)
@@ -1188,9 +1189,9 @@ void notify_if_first_access_level_is_available(void)
 {
   if (first_access_level > default_access_level
       && !first_access_level_is_taken()) {
-    notify_player(NULL, _("Game: Anyone can assume command access level "
-			  "'%s' now by issuing the 'firstlevel' command."),
-		  cmdlevel_name(first_access_level));
+    notify_conn(NULL, _("Game: Anyone can assume command access level "
+			"'%s' now by issuing the 'firstlevel' command."),
+		cmdlevel_name(first_access_level));
   }
 }
 
@@ -2512,7 +2513,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   if (!check && strlen(buffer) > 0 && sset_is_to_client(cmd)) {
-    notify_player(NULL, "%s", buffer);
+    notify_conn(NULL, "%s", buffer);
   }
 
   if (!check && do_update) {
@@ -2695,8 +2696,8 @@ static bool observe_command(struct connection *caller, char *str, bool check)
     /* we need to create a new player */
     if (!pplayer) {
       if (game.nplayers >= MAX_NUM_PLAYERS) {
-        notify_player(NULL, _("Game: A global observer cannot be created: too "
-                              "many regular players."));
+        notify_conn(NULL, _("Game: A global observer cannot be created: too "
+			    "many regular players."));
         goto end;
       }
 
@@ -2727,7 +2728,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
       send_game_info(NULL);
       send_player_info(pplayer, NULL);
 
-      notify_player(NULL, _("Game: A global observer has been created"));
+      notify_conn(NULL, _("Game: A global observer has been created"));
     }
   }
 
@@ -3390,8 +3391,8 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
     /* Check if the vote command would succeed. */
     if (handle_stdin_input(caller, full_command, TRUE)) {
       last_vote++;
-      notify_player(NULL, _("New vote, no. %d, by %s: %s."), last_vote, 
-                    caller->player->name, full_command);
+      notify_conn(NULL, _("New vote, no. %d, by %s: %s."), last_vote, 
+		  caller->player->name, full_command);
       sz_strlcpy(votes[idx].command, full_command);
       votes[idx].vote_no = last_vote;
       votes[idx].full_turn = FALSE; /* just to be sure */
@@ -3435,7 +3436,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
      * use command,arg instead of str because of the trailing
      * newline in str when it comes from the server command line
      */
-    notify_player(NULL, "%s: '%s %s'",
+    notify_conn(NULL, "%s: '%s %s'",
       caller ? caller->username : _("(server prompt)"), command, arg);
   }
 
@@ -3676,12 +3677,12 @@ static bool start_command(struct connection *caller, char *name, bool check)
 	}
       } players_iterate_end;
       if (started * 100 < (started + notstarted) * percent_required) {
-	notify_player(NULL, _("Waiting to start game: %d out of %d players "
-			      "are ready to start."),
-		      started, started + notstarted);
+	notify_conn(NULL, _("Waiting to start game: %d out of %d players "
+			    "are ready to start."),
+		    started, started + notstarted);
 	return TRUE;
       }
-      notify_player(NULL, _("All players are ready; starting game."));
+      notify_conn(NULL, _("All players are ready; starting game."));
       start_game();
       return TRUE;
     }

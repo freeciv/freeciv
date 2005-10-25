@@ -1402,9 +1402,9 @@ static void generate_ai_players(void)
 
     freelog(LOG_NORMAL, _("%s has been added as an AI-controlled player."),
             player_name);
-    notify_player(NULL,
-                  _("Game: %s has been added as an AI-controlled player."),
-                  player_name);
+    notify_conn(NULL,
+		_("Game: %s has been added as an AI-controlled player."),
+		player_name);
 
     game.nplayers++;
 
@@ -1655,7 +1655,7 @@ void srv_main(void)
     send_game_state(&game.game_connections, CLIENT_GAME_OVER_STATE);
     report_final_scores();
     show_map_to_all();
-    notify_player(NULL, _("Game: The game is over..."));
+    notify_conn(NULL, _("Game: The game is over..."));
     gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
     if (game.save_nturns > 0) {

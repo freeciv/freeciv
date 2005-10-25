@@ -1445,6 +1445,10 @@ void notify_conn_ex(struct conn_list *dest, struct tile *ptile,
 void notify_conn(struct conn_list *dest, const char *format, ...) 
 {
   va_list args;
+
+  if (!dest) {
+    dest = &game.est_connections;
+  }
   va_start(args, format);
   vnotify_conn_ex(dest, NULL, E_NOEVENT, format, args);
   va_end(args);
