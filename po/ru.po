@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.0\n"
-"POT-Creation-Date: 2005-08-30 20:13+0400\n"
-"PO-Revision-Date: 2005-08-30 20:35+0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-10-25 12:14+0400\n"
+"PO-Revision-Date: 2005-10-25 12:31+0400\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
 
@@ -83,28 +83,28 @@ msgstr "Эффекты выживания поддерживаются только с радиусом World."
 msgid "Special1"
 msgstr "Специальное1"
 
-#: common/map.c:63 common/map.c:781 common/unit.c:601
+#: common/map.c:63 common/map.c:767 common/unit.c:609
 msgid "Road"
 msgstr "Дорога"
 
-#: common/map.c:64 common/map.c:787 common/unit.c:605
+#: common/map.c:64 common/map.c:773 common/unit.c:613
 #: client/gui-gtk-2.0/menu.c:715 client/gui-gtk/menu.c:664
 #: client/gui-mui/gui_main.c:228 client/gui-win32/menu.c:344
 #: client/gui-xaw/menu.c:149
 msgid "Irrigation"
 msgstr "Орошение"
 
-#: common/map.c:65 common/map.c:779 common/unit.c:615
+#: common/map.c:65 common/map.c:765 common/unit.c:623
 #: data/default/techs.ruleset:581 data/civ2/techs.ruleset:432
 #: data/civ1/techs.ruleset:432 data/history/techs.ruleset:434
 msgid "Railroad"
 msgstr "Железная дорога"
 
-#: common/map.c:66 common/map.c:790 common/unit.c:603
+#: common/map.c:66 common/map.c:776 common/unit.c:611
 msgid "Mine"
 msgstr "Шахта"
 
-#: common/map.c:67 common/unit.c:599 server/report.c:117
+#: common/map.c:67 common/unit.c:607 server/report.c:117
 #: client/cityrepdata.c:473
 msgid "Pollution"
 msgstr "Загрязнение"
@@ -113,7 +113,7 @@ msgstr "Загрязнение"
 msgid "Hut"
 msgstr "Хижина"
 
-#: common/map.c:69 common/map.c:793 common/unit.c:611
+#: common/map.c:69 common/map.c:779 common/unit.c:619
 msgid "Fortress"
 msgstr "Крепость"
 
@@ -125,133 +125,125 @@ msgstr "Специальное2"
 msgid "River"
 msgstr "Река"
 
-#: common/map.c:72 common/map.c:785
+#: common/map.c:72 common/map.c:771
 msgid "Farmland"
 msgstr "Ферма"
 
-#: common/map.c:73 common/map.c:796 common/unit.c:625
+#: common/map.c:73 common/map.c:782 common/unit.c:633
 msgid "Airbase"
 msgstr "Аэродром"
 
-#: common/map.c:74 common/unit.c:627
+#: common/map.c:74 common/unit.c:635
 msgid "Fallout"
 msgstr "Радиация"
 
-#: common/packets.c:695
-msgid ""
-"The server you tried to connect is too old (1.12.0 or earlier). Please "
-"choose another server next time. Good bye."
-msgstr ""
-"Сервер, к которому Вы пытались подключиться, - слишком старый (версия 1.12.0 "
-"или ранее). Пожалуйста, выберите другой сервер в следующий раз. До свидания."
-
-#: common/player.c:537
+#: common/player.c:540
 msgid "?attitude:Genocidal"
 msgstr "?attitude:Геноцид"
 
-#: common/player.c:539
+#: common/player.c:542
 msgid "?attitude:Belligerent"
 msgstr "?attitude:Воинственные"
 
-#: common/player.c:541
+#: common/player.c:544
 msgid "?attitude:Hostile"
 msgstr "?attitude:Враждебные"
 
-#: common/player.c:543
+#: common/player.c:546
 msgid "?attitude:Uncooperative"
 msgstr "?attitude:Несговорчивые"
 
-#: common/player.c:545
+#: common/player.c:548
 msgid "?attitude:Uneasy"
 msgstr "?attitude:Беспокойные"
 
-#: common/player.c:547
+#: common/player.c:550
 msgid "?attitude:Neutral"
 msgstr "?attitude:Нейтральные"
 
-#: common/player.c:549
+#: common/player.c:552
 msgid "?attitude:Respectful"
 msgstr "?attitude:Вежливые"
 
-#: common/player.c:551
+#: common/player.c:554
 msgid "?attitude:Helpful"
 msgstr "?attitude:Полезные"
 
-#: common/player.c:553
+#: common/player.c:556
 msgid "?attitude:Enthusiastic"
 msgstr "?attitude:Восторженные"
 
-#: common/player.c:555
+#: common/player.c:558
 msgid "?attitude:Admiring"
 msgstr "?attitude:Восхищённые"
 
-#: common/player.c:558
+#: common/player.c:561
 msgid "?attitude:Worshipful"
 msgstr "?attitude:Враждебные"
 
-#: common/player.c:570
+#: common/player.c:573
 msgid "Spotless"
 msgstr "Безупречная"
 
-#: common/player.c:572
+#: common/player.c:575
 msgid "Excellent"
 msgstr "Отличная"
 
-#: common/player.c:574
+#: common/player.c:577
 msgid "Honorable"
 msgstr "Достойная"
 
-#: common/player.c:576
+#: common/player.c:579
 msgid "Questionable"
 msgstr "Спорная"
 
-#: common/player.c:578
+#: common/player.c:581
 msgid "Dishonorable"
 msgstr "Бесчестная"
 
-#: common/player.c:580
+#: common/player.c:583
 msgid "Poor"
 msgstr "Плохая"
 
-#: common/player.c:582
+#: common/player.c:585
 msgid "Despicable"
 msgstr "Отвратительная"
 
-#: common/player.c:584
+#: common/player.c:587
 msgid "Atrocious"
 msgstr "Ужасная"
 
-#: common/player.c:594
+#: common/player.c:597
 msgid "?diplomatic_state:Neutral"
 msgstr "?дипсост:Нейтралитет"
 
-#: common/player.c:595
+#: common/player.c:598
 msgid "?diplomatic_state:War"
 msgstr "?дипсост:Война"
 
-#: common/player.c:596 client/gui-gtk-2.0/diplodlg.c:343
+#: common/player.c:599 client/gui-gtk-2.0/diplodlg.c:343
 #: client/gui-gtk/diplodlg.c:485 client/gui-mui/diplodlg.c:633
 #: client/gui-win32/diplodlg.c:306 client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
 msgstr "?дипсост:Перемирие"
 
-#: common/player.c:597 client/gui-gtk-2.0/diplodlg.c:348
+#: common/player.c:600 client/gui-gtk-2.0/diplodlg.c:348
 #: client/gui-gtk/diplodlg.c:490 client/gui-mui/diplodlg.c:637
 #: client/gui-win32/diplodlg.c:307 client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
 msgstr "?дипсост:Мир"
 
-#: common/player.c:598 client/gui-gtk-2.0/diplodlg.c:353
+#: common/player.c:601 client/gui-gtk-2.0/diplodlg.c:353
 #: client/gui-gtk/diplodlg.c:495 client/gui-mui/diplodlg.c:641
 #: client/gui-win32/diplodlg.c:308 client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
 msgstr "?дипсост:Альянс"
 
-#: common/player.c:599
+#: common/player.c:602
 msgid "?diplomatic_state:Never met"
 msgstr "?дипсост:Не встречал"
 
-#: common/player.c:600
+#: common/player.c:603
 msgid "?diplomatic_state:Team"
 msgstr "?дипсост:Союз"
 
@@ -262,8 +254,8 @@ msgid "tech \"%s\": requires itself"
 msgstr "технология \"%s\" требует себя"
 
 #. TRANS: "Unknown" tech
-#: common/tech.c:603 common/tech.c:626 client/gui-gtk-2.0/inteldlg.c:355
-#: client/gui-gtk-2.0/inteldlg.c:375 client/gui-gtk/inteldlg.c:140
+#: common/tech.c:603 common/tech.c:626 client/gui-gtk-2.0/inteldlg.c:357
+#: client/gui-gtk-2.0/inteldlg.c:377 client/gui-gtk/inteldlg.c:140
 #: client/gui-mui/inteldlg.c:149 client/gui-win32/inteldlg.c:133
 #: client/gui-xaw/inteldlg.c:263
 msgid "(Unknown)"
@@ -291,54 +283,54 @@ msgstr "Ничего"
 msgid "Future Tech. %d"
 msgstr "Технология будущего %d"
 
-#: common/unit.c:597 client/gui-gtk/plrdlg.c:143 client/gui-mui/plrdlg.c:174
+#: common/unit.c:605 client/gui-gtk/plrdlg.c:143 client/gui-mui/plrdlg.c:174
 #: client/gui-win32/plrdlg.c:342
 msgid "Idle"
 msgstr "Бездействует"
 
-#: common/unit.c:607
+#: common/unit.c:615
 msgid "Fortifying"
 msgstr "Укрепляется"
 
-#: common/unit.c:609
+#: common/unit.c:617
 msgid "Fortified"
 msgstr "Укреплен(ы)"
 
-#: common/unit.c:613 client/gui-mui/gui_main.c:253
+#: common/unit.c:621 client/gui-mui/gui_main.c:253
 #: client/gui-mui/mapclass.c:1680 client/gui-mui/mapclass.c:2968
 #: client/gui-xaw/menu.c:182
 msgid "Sentry"
 msgstr "Сторожить"
 
-#: common/unit.c:617 client/gui-gtk-2.0/menu.c:764 client/gui-gtk/menu.c:713
+#: common/unit.c:625 client/gui-gtk-2.0/menu.c:764 client/gui-gtk/menu.c:713
 #: client/gui-mui/gui_main.c:254 client/gui-mui/mapclass.c:1682
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:183
 msgid "Pillage"
 msgstr "Разрушать"
 
-#: common/unit.c:619 client/gui-win32/gotodlg.c:164 data/Freeciv.in:1155
+#: common/unit.c:627 client/gui-win32/gotodlg.c:164 data/Freeciv.in:1155
 msgid "Goto"
 msgstr "Идти к"
 
-#: common/unit.c:621
+#: common/unit.c:629
 msgid "Explore"
 msgstr "Исследовать"
 
-#: common/unit.c:623
+#: common/unit.c:631
 msgid "Transform"
 msgstr "Преобразовать"
 
-#: common/unit.c:635 client/gui-gtk-2.0/citydlg.c:1749
+#: common/unit.c:643 client/gui-gtk-2.0/citydlg.c:1749
 #: client/gui-gtk/citydlg.c:2196 client/gui-mui/citydlg.c:2040
-#: client/gui-win32/citydlg.c:1274 client/gui-xaw/citydlg.c:1429
+#: client/gui-win32/citydlg.c:1275 client/gui-xaw/citydlg.c:1429
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: common/unit.c:1060
+#: common/unit.c:1074
 msgid "Moves"
 msgstr "Ходы"
 
-#: common/unit.c:1873 client/gui-mui/dialogs.c:1756
+#: common/unit.c:1887 client/gui-mui/dialogs.c:1756
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -347,12 +339,12 @@ msgstr ""
 "Модернизировать %s до %s за %d золота?\n"
 "В казне %d золота."
 
-#: common/unit.c:1880
+#: common/unit.c:1894
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Извините, невозможно модернизировать %s (пока)."
 
-#: common/unit.c:1886 client/gui-mui/dialogs.c:1766
+#: common/unit.c:1900 client/gui-mui/dialogs.c:1766
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -361,11 +353,11 @@ msgstr ""
 "Модернизация %s до %s стоит %d золота.\n"
 "В казне %d золота."
 
-#: common/unit.c:1894
+#: common/unit.c:1908
 msgid "You can only upgrade units in your cities."
 msgstr "Вы можете модернизировать соединения только в Ваших городах."
 
-#: common/unit.c:1898
+#: common/unit.c:1912
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
@@ -485,18 +477,18 @@ msgstr "Торговля"
 
 #: common/aicore/cm.c:1860 client/gui-gtk-2.0/repodlgs.c:941
 #: client/gui-gtk/repodlgs.c:843 client/gui-mui/citydlg.c:1609
-#: data/default/terrain.ruleset:475 data/civ2/terrain.ruleset:438
+#: data/default/terrain.ruleset:475 data/civ2/terrain.ruleset:437
 #: data/civ1/terrain.ruleset:427 data/history/terrain.ruleset:467
 msgid "Gold"
 msgstr "Золото"
 
-#: common/aicore/cm.c:1862 server/plrhand.c:802
+#: common/aicore/cm.c:1862 server/plrhand.c:870
 #: client/gui-gtk-2.0/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:261
 #: client/gui-mui/citydlg.c:1613 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "Роскошь"
 
-#: common/aicore/cm.c:1864 server/plrhand.c:804
+#: common/aicore/cm.c:1864 server/plrhand.c:872
 #: client/gui-gtk-2.0/gamedlgs.c:282 client/gui-gtk-2.0/repodlgs.c:183
 #: client/gui-gtk/gamedlgs.c:281 client/gui-gtk/repodlgs.c:174
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
@@ -653,17 +645,17 @@ msgstr "ошибка %ld (ошибка FormatMessage)"
 msgid "error %d (compiled without strerror)"
 msgstr "ошибка %d (скомпилировано без strerror)"
 
-#: ai/aicity.c:713 server/citytools.c:1828
+#: ai/aicity.c:712 server/citytools.c:1828
 #, c-format
 msgid "Game: The %s have stopped building The %s in %s."
 msgstr "Игра: %s прекратили строительство чуда %s в %s."
 
-#: ai/aicity.c:723 server/citytools.c:1875
+#: ai/aicity.c:722 server/citytools.c:1875
 #, c-format
 msgid "Game: The %s have started building The %s in %s."
 msgstr "Игра: %s начали строить чудо %s в %s."
 
-#: ai/aicity.c:1022
+#: ai/aicity.c:1021
 #, c-format
 msgid "Game: %s is selling %s (not needed) for %d."
 msgstr "Игра: %s продают %s (не нужны) за %d."
@@ -877,18 +869,18 @@ msgstr "Игра: Авто-атака: %s %s обнаружили слишком сильного противника (%s)"
 msgid "Game: Auto-Attack: %s's %s attacking %s's %s"
 msgstr "Игра: Авто-атака: %s %s атакуют %s %s!"
 
-#: server/barbarian.c:157
+#: server/barbarian.c:158
 #, c-format
 msgid ""
 "Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
 msgstr "Варвары получили лидера %s. Нас ожидают опасные времена."
 
-#: server/barbarian.c:434
+#: server/barbarian.c:435
 #, c-format
 msgid "Native unrest near %s led by %s."
 msgstr "Местные беспорядки возле %s под руководством %s"
 
-#: server/barbarian.c:438
+#: server/barbarian.c:439
 #, c-format
 msgid "Sea raiders seen near %s!"
 msgstr "Морские рейдеры замечены возле %s"
@@ -933,7 +925,7 @@ msgstr "Игра: %s куплено в %s за %d золотых."
 msgid "Game: You have bought this turn, can't change."
 msgstr "Игра: Вы покупали на этом ходу, невозможно изменить."
 
-#: server/cityhand.c:382 server/plrhand.c:409 server/stdinhand.c:387
+#: server/cityhand.c:382 server/plrhand.c:431 server/stdinhand.c:387
 #: server/unithand.c:176 server/unithand.c:474
 #, c-format
 msgid "Game: %s"
@@ -2651,7 +2643,7 @@ msgstr "Игра: Ваш %s похитил %s из %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Игра: %s %s украл %s из %s."
 
-#: server/diplomats.c:690 server/plrhand.c:762
+#: server/diplomats.c:690 server/plrhand.c:830
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Игра: %s похитил %s из %s."
@@ -2855,7 +2847,7 @@ msgstr ""
 "Морские начальные соединения пока ещё не поддерживаются. Никто не получает %"
 "s."
 
-#: server/gamehand.c:283 client/text.c:458 client/gui-mui/mapview.c:192
+#: server/gamehand.c:283 client/text.c:514 client/gui-mui/mapview.c:192
 #, c-format
 msgid "Year: %s"
 msgstr "Год: %s"
@@ -2971,12 +2963,12 @@ msgstr "Игра: %s приобретено от %s!"
 msgid "Game: The %s are no more!"
 msgstr "Игра: %s более не существуют."
 
-#: server/plrhand.c:308
+#: server/plrhand.c:329
 #, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
 msgstr "Игра: Открытие науки \"%s\" отменяет %s в %s!"
 
-#: server/plrhand.c:319
+#: server/plrhand.c:340
 #, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
@@ -2985,32 +2977,32 @@ msgstr ""
 "Игра: Открытие науки \"%s\" делает доступной новую форму управления: %s. "
 "Возможно Вам следует подумать о революции."
 
-#: server/plrhand.c:358
+#: server/plrhand.c:380
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
 msgstr "Игра: %s изучено. Наши ученые сосредоточили усилия на %s, цель - %s."
 
-#: server/plrhand.c:376
+#: server/plrhand.c:398
 #, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
 msgstr "Игра: %s изучено. Ученые выбрали для исследования %s."
 
-#: server/plrhand.c:384
+#: server/plrhand.c:406
 #, c-format
 msgid "Game: Learned %s. "
 msgstr "Игра: Открыли %s."
 
-#: server/plrhand.c:387
+#: server/plrhand.c:409
 #, c-format
 msgid "Researching %s."
 msgstr "Исследуется %s."
 
-#: server/plrhand.c:393
+#: server/plrhand.c:415
 #, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
 msgstr "Игра: %s изучено. Учёные не знают, что исследовать дальше."
 
-#: server/plrhand.c:412
+#: server/plrhand.c:434
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
@@ -3018,14 +3010,14 @@ msgstr ""
 "Игра: Величайшие ученые всего мира присоединились к Вашей цивилизации; Вы "
 "получили немедленное открытие."
 
-#: server/plrhand.c:471
+#: server/plrhand.c:494
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
 msgstr ""
 "Игра: %s изучено в сотрудничестве с %s. Учёные выбрали для исследования %s."
 
-#: server/plrhand.c:477
+#: server/plrhand.c:500
 #, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists do not know what to "
@@ -3034,107 +3026,107 @@ msgstr ""
 "Игра: %s изучено в сотрудничестве с %s. Учёные не знают, что исследовать "
 "дальше."
 
-#: server/plrhand.c:506
+#: server/plrhand.c:529
 #, c-format
 msgid "Game: The %s have researched %s."
 msgstr "Игра: %s изучили %s."
 
-#: server/plrhand.c:512
+#: server/plrhand.c:535
 #, c-format
 msgid "Game: The %s have researched Future Tech. %d."
 msgstr "Игра: %s изучили Технологию Будущего %d."
 
-#: server/plrhand.c:653
+#: server/plrhand.c:708
 #, c-format
 msgid "Game: Technology goal is %s."
 msgstr "Игра: Технологическая цель - %s."
 
-#: server/plrhand.c:752
+#: server/plrhand.c:820
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Игра: Вы украли науку \"%s\" у народа, именуемого %s."
 
-#: server/plrhand.c:757
+#: server/plrhand.c:825
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Игра: %s украли у Вас %s!"
 
-#: server/plrhand.c:784
+#: server/plrhand.c:852
 msgid "Game: Cannot change rates before game start."
 msgstr "Игра: Невозможно изменить скорость до начала игры."
 
-#: server/plrhand.c:800 client/gui-gtk-2.0/gamedlgs.c:242
+#: server/plrhand.c:868 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-gtk/gamedlgs.c:241 client/gui-win32/ratesdlg.c:309
 msgid "Tax"
 msgstr "Налог"
 
-#: server/plrhand.c:807
+#: server/plrhand.c:875
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Игра: уровень %s превосходит максимальный уровень при %s."
 
-#: server/plrhand.c:909
+#: server/plrhand.c:977
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Игра: %s сейчас правит народом %s при форме правления %s."
 
-#: server/plrhand.c:960
+#: server/plrhand.c:1028
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Игра: %s начали революцию!"
 
-#: server/plrhand.c:1061
+#: server/plrhand.c:1129
 msgid "You should choose a new government from the government menu."
 msgstr "Вы должны выбрать новую форму правления из меню формы правления."
 
-#: server/plrhand.c:1088
+#: server/plrhand.c:1156
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Налоговая ставка превысила максимально допустимый уровень для %s, "
 "исправлено."
 
-#: server/plrhand.c:1094
+#: server/plrhand.c:1162
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень науки превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:1100
+#: server/plrhand.c:1168
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Игра: Уровень роскоши превысил максимально допустимый для %s, исправлено."
 
-#: server/plrhand.c:1171
+#: server/plrhand.c:1239
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s больше не делятся своим зрением!"
 
-#: server/plrhand.c:1232
+#: server/plrhand.c:1300
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "Сенат принимает Ваше предложение из-за постоянных провокаций %s."
 
-#: server/plrhand.c:1244
+#: server/plrhand.c:1312
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Игра: Ваша репутация сейчас %s."
 
-#: server/plrhand.c:1249
+#: server/plrhand.c:1317
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr ""
 "Игра: Сенат решает распуститься, лишь бы не поддерживать Ваши действия."
 
-#: server/plrhand.c:1280
+#: server/plrhand.c:1348
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Игра: Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:1286
+#: server/plrhand.c:1354
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -3142,7 +3134,7 @@ msgid ""
 msgstr ""
 "Игра: %s разорвали догвор. Дипломатическое состояние между %s и %s сейчас %s."
 
-#: server/plrhand.c:1303
+#: server/plrhand.c:1371
 #, c-format
 msgid ""
 "Game: %s has attacked your ally %s! You cancel your alliance to the "
@@ -3150,7 +3142,7 @@ msgid ""
 msgstr ""
 "Игра: %s атаковал Вашего союзника %s! Вы отменили Ваш союз с агрессором."
 
-#: server/plrhand.c:1314
+#: server/plrhand.c:1382
 #, c-format
 msgid ""
 "Game: Your team mate %s declared war on %s. You are obligated to cancel "
@@ -3158,31 +3150,31 @@ msgid ""
 msgstr ""
 "Игра: Ваш союзник %s объявил войну %s. Вы обязаны отменить альянс с %s."
 
-#: server/plrhand.c:1724
+#: server/plrhand.c:1792
 #, c-format
 msgid "Removing player %s."
 msgstr "Убираем игрока %s."
 
-#: server/plrhand.c:1725
+#: server/plrhand.c:1793
 msgid "Game: You've been removed from the game!"
 msgstr "Игра: Вы были удалены из игры!"
 
-#: server/plrhand.c:1728
+#: server/plrhand.c:1796
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Игра: %s был удален из игры."
 
-#: server/plrhand.c:1771 server/plrhand.c:1775
+#: server/plrhand.c:1839 server/plrhand.c:1843
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Игра: Вы вступили в контакт с народом, именуемым %s, их лидер - %s."
 
-#: server/plrhand.c:2168
+#: server/plrhand.c:2236
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "%s не могут начать гражданской войны - слишком много игроков"
 
-#: server/plrhand.c:2190
+#: server/plrhand.c:2258
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -3191,12 +3183,12 @@ msgstr ""
 "Игра: В Вашей стране началась гражданская война, %s объявлен лидером "
 "повстанцев."
 
-#: server/plrhand.c:2210
+#: server/plrhand.c:2278
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Игра: %s перешел на сторону %s."
 
-#: server/plrhand.c:2224
+#: server/plrhand.c:2292
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -3703,17 +3695,17 @@ msgstr "Ошибка сохранения игры: неверные приказы для соединений."
 msgid "Nation %s (used by %s) isn't available."
 msgstr "Народ %s (управляемый  %s) не доступен."
 
-#: server/savegame.c:1691
+#: server/savegame.c:1692
 #, c-format
 msgid "Unsupported government found (%s)"
 msgstr "Найдена неподдерживаемая форма правления (%s)"
 
-#: server/savegame.c:1726
+#: server/savegame.c:1727
 #, c-format
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr "Найден неподдерживаемый стиль города у игрока %d. Изменено на %s"
 
-#: server/savegame.c:1900
+#: server/savegame.c:1901
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -3722,18 +3714,18 @@ msgstr ""
 "Обнаружена неверная структура альянса: союз между игроками %s и %s сокращен "
 "до мирного договора."
 
-#: server/savegame.c:3067
+#: server/savegame.c:3068
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Сохранённая игра слишком старая, нужна по крайней мере версия 1.9.0."
 
-#: server/savegame.c:3256
+#: server/savegame.c:3257
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "Сохранённая игра использует \"классический\" набор рельефа, который больше "
 "не поддерживается."
 
-#: server/savegame.c:3265
+#: server/savegame.c:3266
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -5165,35 +5157,35 @@ msgid ""
 msgstr ""
 "Игра: Перемирие с %s закончилось. Теперь Вы нейтральны по отношению к %s"
 
-#: server/srv_main.c:742
+#: server/srv_main.c:744
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Не удалось сохранить игру как %s"
 
-#: server/srv_main.c:744
+#: server/srv_main.c:746
 #, c-format
 msgid "Game saved as %s"
 msgstr "Игра сохранена как %s"
 
-#: server/srv_main.c:774
+#: server/srv_main.c:776
 msgid "The game is already running."
 msgstr "Игра уже запущена."
 
-#: server/srv_main.c:778
+#: server/srv_main.c:780
 msgid "Starting game."
 msgstr "Запуск игры."
 
-#: server/srv_main.c:825
+#: server/srv_main.c:827
 #, c-format
 msgid "Game: request for unknown report (type %d)"
 msgstr "Игра: запрошен неизвестный рапорт (тип %d)"
 
-#: server/srv_main.c:888
+#: server/srv_main.c:890
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Внимание: отказываем старому клиенту (%s)"
 
-#: server/srv_main.c:897
+#: server/srv_main.c:899
 msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
@@ -5202,107 +5194,107 @@ msgstr ""
 "ваш клиент до CVS версии после 28/11/2003, либо до Freeciv версии 1.15.0 или "
 "позже."
 
-#: server/srv_main.c:983
+#: server/srv_main.c:985
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Получил пакет типа %d от мертвого игрока или наблюдателя"
 
-#: server/srv_main.c:1061
+#: server/srv_main.c:1063
 msgid "Please choose a non-blank name."
 msgstr "Выберите непустое имя."
 
-#: server/srv_main.c:1070
+#: server/srv_main.c:1072
 msgid "That nation is already in use."
 msgstr "Этот народ уже используется."
 
-#: server/srv_main.c:1087
+#: server/srv_main.c:1089
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "Другой игрок назвавший себя '%s' уже присоединился к игре. Пожалуйста "
 "выберите другое имя."
 
-#: server/srv_main.c:1108
+#: server/srv_main.c:1110
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Выберите имя, содержащее только ASCII символы."
 
-#: server/srv_main.c:1128
+#: server/srv_main.c:1130
 msgid "Trying to alloc nation outside of SELECT_RACES_STATE!"
 msgstr "Пытаюсь создать новый народ вне SELECT_RACES_STATE!"
 
-#: server/srv_main.c:1153
+#: server/srv_main.c:1155
 #, c-format
 msgid "Game: %s is the %s ruler %s."
 msgstr "Игра: %s - %s правитель %s."
 
-#: server/srv_main.c:1181
+#: server/srv_main.c:1183
 #, c-format
 msgid "No nations left: Removing player %s."
 msgstr "Не осталось стран: Убираем игрока %s."
 
-#: server/srv_main.c:1184
+#: server/srv_main.c:1186
 msgid "Game: Sorry, there are no nations left."
 msgstr "Извините, Вы не можете играть. Не осталось стран."
 
-#: server/srv_main.c:1331
+#: server/srv_main.c:1333
 #, c-format
 msgid "Ran out of nations.  AI controlled player %s not created."
 msgstr "Не хватает стран. Компьютерный игрок %s не создан."
 
-#: server/srv_main.c:1366
+#: server/srv_main.c:1368
 #, c-format
 msgid "Nation count smaller than aifill; aifill reduced to %d."
 msgstr "Количество стран меньше чем aifill. aifill уменьшен до %d."
 
-#: server/srv_main.c:1373
+#: server/srv_main.c:1375
 #, c-format
 msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr "Максимальное число игроков меньше чем aifill. aifill уменьшен до %d."
 
-#: server/srv_main.c:1401
+#: server/srv_main.c:1403
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s был добавлен как управляемый компьютером игрок."
 
-#: server/srv_main.c:1404 server/stdinhand.c:929
+#: server/srv_main.c:1406 server/stdinhand.c:929
 #, c-format
 msgid "Game: %s has been added as an AI-controlled player."
 msgstr "Игра: %s был добавлен как управляемый компьютером игрок."
 
-#: server/srv_main.c:1411
+#: server/srv_main.c:1413
 #, c-format
 msgid "Error creating new AI player: %s\n"
 msgstr "Ошибка создания нового компьютерного игрока: %s\n"
 
-#: server/srv_main.c:1474
+#: server/srv_main.c:1476
 #, c-format
 msgid "Player %d"
 msgstr "Игрок %d"
 
-#: server/srv_main.c:1492
+#: server/srv_main.c:1494
 #, c-format
 msgid "AI is controlling the %s ruled by %s."
 msgstr "Компьютер контролирует народ, именуюмый %s, их лидер - %s."
 
-#: server/srv_main.c:1498
+#: server/srv_main.c:1500
 #, c-format
 msgid "Game: %s rules the %s."
 msgstr "Игра: %s правит народом, именуемым %s."
 
-#: server/srv_main.c:1633
+#: server/srv_main.c:1635
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Посылаем информацию на метасервер [%s]"
 
-#: server/srv_main.c:1656
+#: server/srv_main.c:1658
 msgid "Game: The game is over..."
 msgstr "Игра: Игра закончена..."
 
-#: server/srv_main.c:1692
+#: server/srv_main.c:1694
 msgid "Now accepting new client connections."
 msgstr "Принимаются подключения новых клиентов."
 
-#: server/srv_main.c:1779
+#: server/srv_main.c:1781
 msgid "Last player has disconnected: will need to restart."
 msgstr "Последний игрок отключился: необходим перезапуск."
 
@@ -5320,7 +5312,7 @@ msgstr "Голосование \"%s\" не удалось: %d против, %d за, %d воздержалось."
 msgid "(ambiguous)"
 msgstr "(двусмысленно)"
 
-#: server/stdinhand.c:371 client/packhand.c:1248
+#: server/stdinhand.c:371 client/packhand.c:1250
 msgid "(unknown)"
 msgstr "(неизвестно)"
 
@@ -5622,7 +5614,7 @@ msgstr "Динамический тайм-аут установлен в %d %d %d %d"
 msgid "Option:"
 msgstr "Настройка:"
 
-#: server/stdinhand.c:1505 server/stdinhand.c:3804
+#: server/stdinhand.c:1505 server/stdinhand.c:3813
 msgid "Description:"
 msgstr "Описание:"
 
@@ -5662,7 +5654,7 @@ msgstr "Объяснения доступны для следующих настроек сервера:"
 msgid "No explanation for that yet."
 msgstr "Пока нет объяснения для этого."
 
-#: server/stdinhand.c:1595 server/stdinhand.c:2412
+#: server/stdinhand.c:1595 server/stdinhand.c:2419
 msgid "Ambiguous option name."
 msgstr "Двусмысленное имя настройки."
 
@@ -5703,7 +5695,7 @@ msgstr "%s контролируется компьютером."
 msgid "Default AI skill level set to '%s'."
 msgstr "Уровень компьютерных игроков по умолчанию установлен в '%s'"
 
-#: server/stdinhand.c:1859 server/stdinhand.c:2147
+#: server/stdinhand.c:1859 server/stdinhand.c:2152
 msgid "This command is client only."
 msgstr "Эта команда работает только в клиенте."
 
@@ -5796,51 +5788,55 @@ msgid "Cannot team a barbarian."
 msgstr "Невозможно включить варварского игрока в команду."
 
 #: server/stdinhand.c:2120
+msgid "Cannot team an observer."
+msgstr "Невозможно включить наблюдателя в команду."
+
+#: server/stdinhand.c:2125
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Игрок %s в команде: %s"
 
-#: server/stdinhand.c:2141
+#: server/stdinhand.c:2146
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Неопределённый аргумент. Используйте: vote yes|no [номер]."
 
-#: server/stdinhand.c:2150
+#: server/stdinhand.c:2155
 msgid "Observers cannot vote."
 msgstr "Наблюдатели не могут голосовать."
 
-#: server/stdinhand.c:2161
+#: server/stdinhand.c:2166
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "Голосование %d \"%s\": %d за, %d против"
 
-#: server/stdinhand.c:2168
+#: server/stdinhand.c:2173
 msgid "There are no votes going on."
 msgstr "Нет активных голосований."
 
-#: server/stdinhand.c:2189
+#: server/stdinhand.c:2194
 msgid "No legal last vote."
 msgstr "Неверное последнее голосование."
 
-#: server/stdinhand.c:2194
+#: server/stdinhand.c:2199
 msgid "Value must be integer."
 msgstr "Значение должно быть целым числом."
 
-#: server/stdinhand.c:2205
+#: server/stdinhand.c:2210
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Нет такого голосования (%d)."
 
-#: server/stdinhand.c:2209
+#: server/stdinhand.c:2214
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Вы голосовали за \"%s\"."
 
-#: server/stdinhand.c:2213
+#: server/stdinhand.c:2218
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Вы голосовали против \"%s\""
 
-#: server/stdinhand.c:2240
+#: server/stdinhand.c:2245
 msgid ""
 "Undefined arguments. Usage: debug <player <player> | city <x> <y> | units "
 "<x> <y> | unit <id>>."
@@ -5848,382 +5844,386 @@ msgstr ""
 "Аргументы не заданы. Использование: debug <player <имя-игрока> | city <x> "
 "<y> | unit <идентификатор>>."
 
-#: server/stdinhand.c:2246
+#: server/stdinhand.c:2251
 msgid "Can only use this command once game has begun."
 msgstr "Эту команду можно использовать только после начала игры."
 
-#: server/stdinhand.c:2273 server/stdinhand.c:2304
+#: server/stdinhand.c:2280 server/stdinhand.c:2311
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Отладка %s закончена"
 
-#: server/stdinhand.c:2277
+#: server/stdinhand.c:2284
 #, c-format
 msgid "%s debugged"
 msgstr "Отладка %s начата"
 
-#: server/stdinhand.c:2290 server/stdinhand.c:2320
+#: server/stdinhand.c:2297 server/stdinhand.c:2327
 msgid "Value 2 & 3 must be integer."
 msgstr "Значения 2 и 3 должны быть целыми числами."
 
-#: server/stdinhand.c:2294 server/stdinhand.c:2324
+#: server/stdinhand.c:2301 server/stdinhand.c:2331
 msgid "Bad map coordinates."
 msgstr "Неверные координаты карты."
 
-#: server/stdinhand.c:2299
+#: server/stdinhand.c:2306
 msgid "No city at this coordinate."
 msgstr "Нет города с такими координатами."
 
-#: server/stdinhand.c:2330 server/stdinhand.c:2356
+#: server/stdinhand.c:2337 server/stdinhand.c:2363
 #, c-format
 msgid "%s's %s no longer debugged."
 msgstr "Отладка %s %s закончена."
 
-#: server/stdinhand.c:2334 server/stdinhand.c:2360
+#: server/stdinhand.c:2341 server/stdinhand.c:2367
 #, c-format
 msgid "%s's %s debugged."
 msgstr "Отладка %s %s начата."
 
-#: server/stdinhand.c:2347
+#: server/stdinhand.c:2354
 msgid "Value 2 must be integer."
 msgstr "Значение 2 должно быть целым числом."
 
-#: server/stdinhand.c:2351
+#: server/stdinhand.c:2358
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Соединение %d не существует."
 
-#: server/stdinhand.c:2407
+#: server/stdinhand.c:2414
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Неопределённый аргумент. Используйте: set <настройка> <значение>."
 
-#: server/stdinhand.c:2417
+#: server/stdinhand.c:2424
 msgid "You are not allowed to set this option."
 msgstr "Вам не позволено изменять эту настройку."
 
-#: server/stdinhand.c:2422
+#: server/stdinhand.c:2429
 msgid "This setting can't be modified after the game has started."
 msgstr "Эта настройка не может быть изменена после запуска игры."
 
-#: server/stdinhand.c:2434 server/stdinhand.c:2460
+#: server/stdinhand.c:2441 server/stdinhand.c:2467
 msgid "Value must be an integer."
 msgstr "Значение должно быть целым числом."
 
-#: server/stdinhand.c:2438
+#: server/stdinhand.c:2445
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Значение вне допустимых пределов (минимум: 0, максимум: 1)."
 
-#: server/stdinhand.c:2451 server/stdinhand.c:2477
+#: server/stdinhand.c:2458 server/stdinhand.c:2484
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Настройка: %s была установлена в %d."
 
-#: server/stdinhand.c:2464
+#: server/stdinhand.c:2471
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Значение вне допустимых пределов (минимум: %d, максимум: %d)."
 
-#: server/stdinhand.c:2487
+#: server/stdinhand.c:2494
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr ""
 "Строка символов слишком длинна. Используйте: set <настройка> <значение>"
 
-#: server/stdinhand.c:2499
+#: server/stdinhand.c:2506
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Настройка: %s установлена в \"%s\"."
 
-#: server/stdinhand.c:2536
+#: server/stdinhand.c:2543
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Извините, вы не можете наблюдать глобально в этой игре."
 
-#: server/stdinhand.c:2539
+#: server/stdinhand.c:2546
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr ""
 "Извините, вы не можете взять управление глобальным наблюдателем. Вместо "
 "этого попробуйте просто наблюдать."
 
-#: server/stdinhand.c:2548
+#: server/stdinhand.c:2555
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за варварами."
 
-#: server/stdinhand.c:2551
+#: server/stdinhand.c:2558
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Извините, в этой игре нельзя брать управление варварами."
 
-#: server/stdinhand.c:2559
+#: server/stdinhand.c:2566
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за погибшими игроками."
 
-#: server/stdinhand.c:2562
+#: server/stdinhand.c:2569
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Извините, в этой игре нельзя брать управление погибшими игроками."
 
-#: server/stdinhand.c:2570
+#: server/stdinhand.c:2577
 msgid "Sorry, one can't observe AI players in this game."
 msgstr ""
 "Извините, в этой игре запрещено наблюдение за игроками, управляемыми "
 "компьютером."
 
-#: server/stdinhand.c:2573
+#: server/stdinhand.c:2580
 msgid "Sorry, one can't take AI players in this game."
 msgstr ""
 "Извините, в этой игре нельзя брать управление игроками, управляемыми "
 "компьютером."
 
-#: server/stdinhand.c:2582
+#: server/stdinhand.c:2589
 msgid "Sorry, one can't observe human players in this game."
 msgstr ""
 "Извините, в этой игре запрещено наблюдение за игроками, управляемыми людьми."
 
-#: server/stdinhand.c:2585
+#: server/stdinhand.c:2592
 msgid "Sorry, one can't take human players in this game."
 msgstr ""
 "Извините, в этой игре нельзя брать управление игроками, управляемыми людьми."
 
-#: server/stdinhand.c:2595
+#: server/stdinhand.c:2602
 msgid "Sorry, one can't observe in this game."
 msgstr "Извините, в этой игре запрещено наблюдение за игроками."
 
-#: server/stdinhand.c:2600
+#: server/stdinhand.c:2607
 msgid "Sorry, one can't take players in this game."
 msgstr "Извините, в этой игре нельзя брать управление игроками."
 
-#: server/stdinhand.c:2606
+#: server/stdinhand.c:2613
 msgid "Sorry, one can't take players already connected in this game."
 msgstr ""
 "Извините, в этой игре нельзя брать управление игроками, которые уже "
 "подключены."
 
-#: server/stdinhand.c:2639
+#: server/stdinhand.c:2646
 msgid "Usage: observe [connection-name [player-name]]"
 msgstr "Использование: observe [имя-подключения [имя-игрока]]"
 
-#: server/stdinhand.c:2645
+#: server/stdinhand.c:2652
 msgid "Usage: observe [player-name]"
 msgstr "Использование: observe [имя-игрока]"
 
-#: server/stdinhand.c:2691
+#: server/stdinhand.c:2698
 msgid "Game: A global observer cannot be created: too many regular players."
 msgstr ""
 "Игра: Глобальный наблюдатель не может быть создан: слишком много обычных "
 "игроков."
 
-#: server/stdinhand.c:2722
+#: server/stdinhand.c:2730
 msgid "Game: A global observer has been created"
 msgstr "Игра: Глобальный наблюдатель был создан"
 
-#: server/stdinhand.c:2738
+#: server/stdinhand.c:2746
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr ""
 "%s итак контролирует %s. Если Вы используете команду 'observe', это уберет %s"
 
-#: server/stdinhand.c:2746
+#: server/stdinhand.c:2754
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s уже контролирует %s."
 
-#: server/stdinhand.c:2799
+#: server/stdinhand.c:2807
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s сейчас наблюдает за %s"
 
-#: server/stdinhand.c:2839
+#: server/stdinhand.c:2847
 msgid "Usage: take <connection-name> <player-name>"
 msgstr "Используйте: take <имя-подключения> <имя-игрока>"
 
-#: server/stdinhand.c:2844
+#: server/stdinhand.c:2852
 msgid "Usage: take <player-name>"
 msgstr "Использование: take <имя-игрока>"
 
-#: server/stdinhand.c:2850
+#: server/stdinhand.c:2858
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "Используйте: take [имя-подключения] <имя-игрока>"
 
-#: server/stdinhand.c:2882
+#: server/stdinhand.c:2890
 #, c-format
 msgid "%s cannot be taken."
 msgstr "%s нельзя взять"
 
-#: server/stdinhand.c:2889
+#: server/stdinhand.c:2897
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s уже контролирует %s"
 
-#: server/stdinhand.c:2913
+#: server/stdinhand.c:2921
 #, c-format
 msgid "being detached from %s."
 msgstr "отключается от %s."
 
-#: server/stdinhand.c:2970
+#: server/stdinhand.c:2978
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s сейчас контролируeт %s (%s, %s)"
 
-#: server/stdinhand.c:2972 server/stdinhand.c:4018
+#: server/stdinhand.c:2980 server/stdinhand.c:4027
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Варвары"
 
-#: server/stdinhand.c:2973 server/stdinhand.c:4020 client/plrdlg_common.c:228
+#: server/stdinhand.c:2981 server/stdinhand.c:4029 client/plrdlg_common.c:228
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk/plrdlg.c:141
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/plrdlg.c:340
 msgid "AI"
 msgstr "Компьютер"
 
-#: server/stdinhand.c:2973 server/stdinhand.c:4022
+#: server/stdinhand.c:2981 server/stdinhand.c:4031
 #: client/gui-gtk-2.0/pages.c:1453 client/gui-gtk-2.0/pages.c:1480
 #: client/gui-win32/connectdlg.c:189 client/gui-win32/connectdlg.c:208
 msgid "Human"
 msgstr "Человек"
 
-#: server/stdinhand.c:2973 client/gui-gtk-2.0/pages.c:1452
+#: server/stdinhand.c:2981 client/gui-gtk-2.0/pages.c:1452
 #: client/gui-gtk-2.0/pages.c:1479 client/gui-win32/connectdlg.c:188
 #: client/gui-win32/connectdlg.c:207
 msgid "Alive"
 msgstr "Живой"
 
-#: server/stdinhand.c:2973 client/gui-gtk-2.0/pages.c:1452
+#: server/stdinhand.c:2981 client/gui-gtk-2.0/pages.c:1452
 #: client/gui-win32/connectdlg.c:188
 msgid "Dead"
 msgstr "Умер"
 
-#: server/stdinhand.c:3004
+#: server/stdinhand.c:3012
 msgid "Usage: detach <connection-name>"
 msgstr "Использование: detach <имя-подключения>"
 
-#: server/stdinhand.c:3024
+#: server/stdinhand.c:3032
 msgid "You can not detach other users."
 msgstr "Вы не можете отключать других пользователей."
 
-#: server/stdinhand.c:3033
+#: server/stdinhand.c:3041
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s не подключен ни к каким игрокам."
 
-#: server/stdinhand.c:3060
+#: server/stdinhand.c:3068
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s отключается от %s"
 
-#: server/stdinhand.c:3072
+#: server/stdinhand.c:3080
 #, c-format
 msgid "detaching from %s."
 msgstr "отключается от %s."
 
-#: server/stdinhand.c:3165
+#: server/stdinhand.c:3173
 msgid "Usage: load <filename>"
 msgstr "Использование: load <имя-файла>"
 
-#: server/stdinhand.c:3171
+#: server/stdinhand.c:3179
 msgid "Can't load a game while another is running."
 msgstr "Невозможно загрузить игру во время работы другой игры."
 
-#: server/stdinhand.c:3180
+#: server/stdinhand.c:3188
 #, c-format
 msgid "Couldn't load savefile: %s"
 msgstr "Невозможно загрузить файл: %s"
 
-#: server/stdinhand.c:3237
+#: server/stdinhand.c:3245
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Текущий путь для данных: \"%s\""
 
-#: server/stdinhand.c:3244
+#: server/stdinhand.c:3252
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Каталог набора правил \"%s\" не найден"
 
-#: server/stdinhand.c:3249
+#: server/stdinhand.c:3257
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Каталог набора правил установлен в \"%s\""
 
-#: server/stdinhand.c:3287
+#: server/stdinhand.c:3295
 msgid "Goodbye."
 msgstr "Пока."
 
-#: server/stdinhand.c:3319
+#: server/stdinhand.c:3327
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Извините, Вы не можете использовать команды сервера."
 
-#: server/stdinhand.c:3355
+#: server/stdinhand.c:3363
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Внимание: '%s' интерпретировано как '%s', но оно двусмысленно. Попробуйте '%"
 "shelp'."
 
-#: server/stdinhand.c:3360
+#: server/stdinhand.c:3368
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Неизвестная команда. Попробуйте '%shelp'."
 
-#: server/stdinhand.c:3377
+#: server/stdinhand.c:3385
 msgid "Your new vote cancelled your previous vote."
 msgstr "Ваше новое голосование отменяет предыдущее голосование."
 
-#: server/stdinhand.c:3385
+#: server/stdinhand.c:3393
 #, c-format
 msgid "New vote, no. %d, by %s: %s."
 msgstr "Новый голос, номер %d, от %s: %s."
 
-#: server/stdinhand.c:3405
+#: server/stdinhand.c:3413
 msgid "You are not allowed to use this command."
 msgstr "Вы не можете пользоваться этой командой."
 
-#: server/stdinhand.c:3431
+#: server/stdinhand.c:3439
 msgid "(server prompt)"
 msgstr "(приглашение сервера)"
 
-#: server/stdinhand.c:3503
+#: server/stdinhand.c:3511
 msgid "The game must be running before you can see the score."
 msgstr "Игра должна начаться, прежде чем Вы сможете посмотреть счет."
 
-#: server/stdinhand.c:3564
+#: server/stdinhand.c:3572
 #, c-format
 msgid "But %s is dead!"
 msgstr "Но %s уже мёртв!"
 
-#: server/stdinhand.c:3583
+#: server/stdinhand.c:3591
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Заканчиваем игру. Сервер перезагрузится как только все клиенты отключатся."
 
-#: server/stdinhand.c:3593
+#: server/stdinhand.c:3601
 msgid "Cannot end the game: no game running."
 msgstr "Невозможно закончить игру, игра не запущена."
 
-#: server/stdinhand.c:3639
+#: server/stdinhand.c:3647
 msgid "Not enough players, game will not start."
 msgstr "Недостаточно игроков, игра не начнется."
 
-#: server/stdinhand.c:3671
+#: server/stdinhand.c:3679
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Ожидаем начала игры: %d из %d игроков готовы к игре."
 
-#: server/stdinhand.c:3682
+#: server/stdinhand.c:3684
+msgid "All players are ready; starting game."
+msgstr "Все игроки готовы; начинаем игру."
+
+#: server/stdinhand.c:3691
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Невозможно начать игру: ждем пока все клиенты отключатся."
 
-#: server/stdinhand.c:3688
+#: server/stdinhand.c:3697
 msgid "Cannot start the game: it has already been started."
 msgstr "Невозможно начать игру: она уже началась."
 
-#: server/stdinhand.c:3693
+#: server/stdinhand.c:3702
 msgid "Cannot start the game: it is already running."
 msgstr "Невозможно начать игру: она уже идет."
 
-#: server/stdinhand.c:3722
+#: server/stdinhand.c:3731
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Прерываем подключение %s."
 
-#: server/stdinhand.c:3741
+#: server/stdinhand.c:3750
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6262,84 +6262,84 @@ msgstr ""
 "  save   -  чтобы сохранить игру\n"
 "  quit   -  чтобы выйти"
 
-#: server/stdinhand.c:3776 server/stdinhand.c:3779
+#: server/stdinhand.c:3785 server/stdinhand.c:3788
 msgid "Command:"
 msgstr "Команда:"
 
-#: server/stdinhand.c:3783
+#: server/stdinhand.c:3792
 msgid "Synopsis: "
 msgstr "Краткая справка:"
 
-#: server/stdinhand.c:3792
+#: server/stdinhand.c:3801
 #, c-format
 msgid "Level: %s"
 msgstr "Уровень: %s"
 
-#: server/stdinhand.c:3795
+#: server/stdinhand.c:3804
 #, c-format
 msgid "Pregame level: %s"
 msgstr "Уровень перед игрой: %s"
 
-#: server/stdinhand.c:3821
+#: server/stdinhand.c:3830
 msgid "The following server commands are available:"
 msgstr "Следующие команды сервера доступны:"
 
-#: server/stdinhand.c:3896
+#: server/stdinhand.c:3905
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Аргумент команды help '%s' неоднозначен."
 
-#: server/stdinhand.c:3901
+#: server/stdinhand.c:3910
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Справка по '%s' не найдена."
 
-#: server/stdinhand.c:3960
+#: server/stdinhand.c:3969
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Плохой аргумент команды list: '%s'. Попробуйте '%shelp list'."
 
-#: server/stdinhand.c:3992
+#: server/stdinhand.c:4001
 msgid "List of players:"
 msgstr "Список игроков:"
 
-#: server/stdinhand.c:3997
+#: server/stdinhand.c:4006
 msgid "<no players>"
 msgstr "<нет игроков>"
 
-#: server/stdinhand.c:4014
+#: server/stdinhand.c:4023
 #, c-format
 msgid "user %s, "
 msgstr "пользователь %s, "
 
-#: server/stdinhand.c:4025
+#: server/stdinhand.c:4034
 msgid ", Dead"
 msgstr ", Умер"
 
-#: server/stdinhand.c:4028
+#: server/stdinhand.c:4037
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", уровень сложности %s"
 
-#: server/stdinhand.c:4032
+#: server/stdinhand.c:4041
 #, c-format
 msgid ", nation %s"
 msgstr ", народ - %s"
 
-#: server/stdinhand.c:4036
+#: server/stdinhand.c:4045
 #, c-format
 msgid ", team %s"
 msgstr ", команда %s"
 
-#: server/stdinhand.c:4041
+#: server/stdinhand.c:4050
 msgid ", ready"
 msgstr ", готов"
 
-#: server/stdinhand.c:4043
+#: server/stdinhand.c:4052
 msgid ", not ready"
 msgstr ", не готов"
 
-#: server/stdinhand.c:4051
+#: server/stdinhand.c:4060
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -6347,20 +6347,20 @@ msgstr[0] " %d соединение:"
 msgstr[1] " %d соединения:"
 msgstr[2] " %d соединений:"
 
-#: server/stdinhand.c:4057
+#: server/stdinhand.c:4071
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s из %s (уровень команд %s), размер буфера=%dкб"
 
-#: server/stdinhand.c:4062
+#: server/stdinhand.c:4076
 msgid " (observer mode)"
 msgstr " (наблюдатель)"
 
-#: server/stdinhand.c:4078
+#: server/stdinhand.c:4092
 msgid "List of connections to server:"
 msgstr "Список соединений с сервером:"
 
-#: server/stdinhand.c:4082
+#: server/stdinhand.c:4096
 msgid "<no connections>"
 msgstr "<нет соединений>"
 
@@ -6825,54 +6825,48 @@ msgstr "Игра: Ваши %s были уничтожены врагами в точке парашютной высадки."
 msgid "Game: You found %d gold."
 msgstr "Игра: Вы нашли %d золотых."
 
-#: server/unittools.c:2304
+#: server/unittools.c:2295
 #, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
 msgstr "Игра: Вы нашли описание науки \"%s\" в древней рукописи."
 
-#: server/unittools.c:2307
+#: server/unittools.c:2298
 #, c-format
 msgid "Game: The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Игра: %s получили %s из древних манускриптов."
 
-#: server/unittools.c:2327
+#: server/unittools.c:2311
 msgid "Game: A band of friendly mercenaries joins your cause."
 msgstr "Игра: Группа дружественных наёмников присоединяется к Вам."
 
-#: server/unittools.c:2345
+#: server/unittools.c:2329
 msgid "Game: An abandoned village is here."
 msgstr "Игра: Эта деревня оставлена жителями."
 
-#: server/unittools.c:2355
+#: server/unittools.c:2339
 msgid "Game: You have unleashed a horde of barbarians!"
 msgstr "Игра: Ваше соединение встретило орды варваров!"
 
-#: server/unittools.c:2358
+#: server/unittools.c:2342
 #, c-format
 msgid "Game: Your %s has been killed by barbarians!"
 msgstr "Игра: Ваши %s были уничтожены варварами."
 
-#: server/unittools.c:2374
+#: server/unittools.c:2358
 msgid "Game: You found a friendly city."
 msgstr "Игра: Вы нашли дружественный город."
 
-#: server/unittools.c:2379
+#: server/unittools.c:2363
 msgid "Game: Friendly nomads are impressed by you, and join you."
 msgstr ""
 "Игра: К Вам присоединились дружественные кочевники, потрясенные Вашим "
 "могуществом."
 
-#: server/unittools.c:2404
+#: server/unittools.c:2388
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
 msgstr "Игра: Ваш перелёт пугает племя, оно разбегается в ужасе."
 
-#: server/unittools.c:2848
-#, c-format
-msgid "Game: %s aborted GOTO as there are units in the way."
-msgstr ""
-"Игра: %s прервал 'ИДТИ К', так как на дороге находятся другие соединения."
-
-#: server/unittools.c:2891
+#: server/unittools.c:2509
 #, c-format
 msgid ""
 "Game: Your %s cancelled patrol order because it encountered a foreign unit."
@@ -6880,35 +6874,35 @@ msgstr ""
 "Игра: Ваше соединение \"%s\" перестало патрулировать в связи со встречей с "
 "войсками противника."
 
-#: server/unittools.c:2964
+#: server/unittools.c:2946
 #, c-format
 msgid "Game: Orders for %s aborted as there are units nearby."
 msgstr "Игра: Приказ для %s отменён, так как поблизости есть соединения."
 
-#: server/unittools.c:3013
+#: server/unittools.c:2995
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid activity."
 msgstr "Игра: Приказ для  %s отменён, невозможно выполнить приказ."
 
-#: server/unittools.c:3027
+#: server/unittools.c:3009
 #, c-format
 msgid "Game: Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Игра: Приказ для %s отменён, поскольку было указано неверное направление."
 
-#: server/unittools.c:3037
+#: server/unittools.c:3019
 #, c-format
 msgid "Game: Orders for %s aborted as there are units in the way."
 msgstr ""
 "Игра: %s отменил команду ИДТИ К, так как на дороге находятся другие "
 "соединения."
 
-#: server/unittools.c:3063
+#: server/unittools.c:3045
 #, c-format
 msgid "Game: Orders for %s aborted because of failed move."
 msgstr "Игра: Приказ для %s отменён потому что соединение не может двигаться."
 
-#: server/unittools.c:3096
+#: server/unittools.c:3078
 #, c-format
 msgid "Game: Your %s has invalid orders."
 msgstr "Игра: Ваш %s получил неверный приказ."
@@ -7240,7 +7234,7 @@ msgstr "?Ученые:У"
 
 #: client/cityrepdata.c:437 client/gui-gtk-2.0/citydlg.c:932
 #: client/gui-gtk/citydlg.c:1268 client/gui-mui/citydlg.c:1367
-#: client/gui-win32/citydlg.c:2013 client/gui-xaw/citydlg.c:2394
+#: client/gui-win32/citydlg.c:2014 client/gui-xaw/citydlg.c:2394
 msgid "Scientists"
 msgstr "Ученые"
 
@@ -7250,7 +7244,7 @@ msgstr "?Налогосборщики:Н"
 
 #: client/cityrepdata.c:439 client/gui-gtk-2.0/citydlg.c:933
 #: client/gui-gtk/citydlg.c:1269 client/gui-mui/citydlg.c:1368
-#: client/gui-win32/citydlg.c:2015 client/gui-xaw/citydlg.c:2394
+#: client/gui-win32/citydlg.c:2016 client/gui-xaw/citydlg.c:2394
 msgid "Taxmen"
 msgstr "Налогосборщики"
 
@@ -7410,7 +7404,7 @@ msgstr "Рост"
 
 #: client/cityrepdata.c:475 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:323
-#: client/gui-win32/citydlg.c:1105 client/gui-win32/wldlg.c:687
+#: client/gui-win32/citydlg.c:1106 client/gui-win32/wldlg.c:687
 msgid "Turns"
 msgstr "Ходы"
 
@@ -7437,7 +7431,7 @@ msgstr "Растраты"
 #: client/cityrepdata.c:480 client/gui-gtk-2.0/cityrep.c:1206
 #: client/gui-gtk-2.0/cityrep.c:1479 client/gui-gtk/cityrep.c:562
 #: client/gui-gtk/cityrep.c:937 client/gui-mui/citydlg.c:1375
-#: client/gui-win32/citydlg.c:739
+#: client/gui-win32/citydlg.c:740
 msgid "CMA"
 msgstr "АУГ"
 
@@ -7645,35 +7639,35 @@ msgstr "Игра: Вы не купили %s в %s!"
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Игра: %s стоит %d золотых, а у Вас только %d золотых."
 
-#: client/clinet.c:126
+#: client/clinet.c:127
 msgid "Lost connection to server!"
 msgstr "Потеряно соединение с сервером!"
 
-#: client/clinet.c:166
+#: client/clinet.c:167
 msgid "Failed looking up host."
 msgstr "Не удалось найти сервер."
 
-#: client/clinet.c:192
+#: client/clinet.c:193
 msgid "Connection in progress."
 msgstr "Соединение в процессе."
 
-#: client/clinet.c:246
+#: client/clinet.c:248
 msgid "Disconnected from server."
 msgstr "Отключились от сервера."
 
-#: client/clinet.c:601
+#: client/clinet.c:603
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr ""
 "Неправильное значение $http_proxy или метасервера, должно начинаться с "
 "'http://'"
 
-#: client/clinet.c:607
+#: client/clinet.c:609
 msgid "Failed looking up host"
 msgstr "Хост не найден"
 
 #. TRANS: This means a network error when trying to connect to
 #. * the metaserver.  The message will be shown directly to the user.
-#: client/clinet.c:662
+#: client/clinet.c:664
 msgid "Failed querying socket"
 msgstr "Не удалось запросить сокет"
 
@@ -7817,18 +7811,22 @@ msgid "* Allows %s.\n"
 msgstr "* Разрешает %s.\n"
 
 #: client/helpdata.c:660
+#, c-format
 msgid "* May not be built in cities.\n"
 msgstr "* Не может быть построен в городах.\n"
 
 #: client/helpdata.c:663
+#, c-format
 msgid "* Never has a home city.\n"
 msgstr "* Не может иметь домашнего города.\n"
 
 #: client/helpdata.c:667
+#, c-format
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* Потеряв данное соединение Вы проиграете в игре!\n"
 
 #: client/helpdata.c:671
+#, c-format
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* Каждый игрок может иметь только одно соединение данного типа.\n"
 
@@ -7864,6 +7862,7 @@ msgstr[2] "* Может перевозить %d наземных соединений по воде.\n"
 #. TRANS: "Manhattan" distance is the distance along gridlines, with
 #. * no diagonals allowed.
 #: client/helpdata.c:698
+#, c-format
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
@@ -7878,6 +7877,7 @@ msgid "* Can help build wonders (adds %d production).\n"
 msgstr "* Может помогать строить чудеса (добавляет %d единиц производства).\n"
 
 #: client/helpdata.c:709
+#, c-format
 msgid "* May not be disbanded.\n"
 msgstr "* Нельзя распустить.\n"
 
@@ -7887,6 +7887,7 @@ msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
 msgstr "* Может быть распущен в городе с получением 50%% от стоимости.\n"
 
 #: client/helpdata.c:715
+#, c-format
 msgid "* Can build new cities.\n"
 msgstr "* Может строить новые города.\n"
 
@@ -7896,18 +7897,22 @@ msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Может добавить %d жителей к городам, размер которых не более %d.\n"
 
 #: client/helpdata.c:726
+#, c-format
 msgid "* Can build roads and railroads.\n"
 msgstr "* Может строить дороги и железные дороги.\n"
 
 #: client/helpdata.c:727
+#, c-format
 msgid "* Can build mines on tiles.\n"
 msgstr "* Может строить шахты.\n"
 
 #: client/helpdata.c:728
+#, c-format
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Может строить орошение.\n"
 
 #: client/helpdata.c:733
+#, c-format
 msgid "* Can build farmland.\n"
 msgstr "* Может строить ферму.\n"
 
@@ -7922,6 +7927,7 @@ msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Может строить ферму (если что-либо из списка известно: %s).\n"
 
 #: client/helpdata.c:749
+#, c-format
 msgid "* Can build fortresses.\n"
 msgstr "* Может строить крепости.\n"
 
@@ -7936,18 +7942,22 @@ msgid "* Can build fortresses (if any of the following are known: %s).\n"
 msgstr "* Может строить крепости (если что-либо из списка известно: %s).\n"
 
 #: client/helpdata.c:763
+#, c-format
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* Может очищать загрязнения.\n"
 
 #: client/helpdata.c:765
+#, c-format
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Может очищать радиоактивные загрязнения.\n"
 
 #: client/helpdata.c:768
+#, c-format
 msgid "* Can transform tiles.\n"
 msgstr "* Может изменять ландшафт.\n"
 
 #: client/helpdata.c:771
+#, c-format
 msgid "* Can build airbases.\n"
 msgstr "* Может строить аэродромы.\n"
 
@@ -7957,42 +7967,51 @@ msgid "* May fortify, granting a 50%% defensive bonus.\n"
 msgstr "* Может укрепляться, что даёт 50%% защитную премию.\n"
 
 #: client/helpdata.c:779
+#, c-format
 msgid "* May pillage to destroy infrastructure from tiles.\n"
 msgstr "* Может грабить и уничтожать инфраструктуру.\n"
 
 #: client/helpdata.c:783
+#, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr ""
 "* Может выполнять дипломатические функции и обладает специальными шпионскими "
 "способностями.\n"
 
 #: client/helpdata.c:786
+#, c-format
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Может выполнять дипломатические функции.\n"
 
 #: client/helpdata.c:790
+#, c-format
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* Никогда не проигрывает в дипломатической борьбе.\n"
 
 #: client/helpdata.c:794
+#, c-format
 msgid "* May not be bribed.\n"
 msgstr "* Не может быть завербовано.\n"
 
 #: client/helpdata.c:797
+#, c-format
 msgid "* Can attack enemy air units.\n"
 msgstr "* Может атаковать чужие воздушные соединения.\n"
 
 #: client/helpdata.c:800
+#, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "* Невидим, за исключением случаев, когда рядом с вражеским соединением или "
 "городом.\n"
 
 #: client/helpdata.c:804
+#, c-format
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Может атаковать только войка в океане (нет береговых атак).\n"
 
 #: client/helpdata.c:809
+#, c-format
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares.\n"
@@ -8007,30 +8026,37 @@ msgstr ""
 "* Может быть сброшен на парашюте из дружественного города (Расстояние: %d).\n"
 
 #: client/helpdata.c:818
+#, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Имеет двойную защиту против 'конных' соединений.\n"
 
 #: client/helpdata.c:823
+#, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Считается 'конным' против определённых защитников.\n"
 
 #: client/helpdata.c:827
+#, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "* Ракетное соединение: используется для атаки.\n"
 
 #: client/helpdata.c:830
+#, c-format
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Атака заканчивает ход этого соединения.\n"
 
 #: client/helpdata.c:834
+#, c-format
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Атака этого соединения вызывает ядерный взрыв!\n"
 
 #: client/helpdata.c:838
+#, c-format
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* Получает двойную огневую мощь при атаке городов.\n"
 
 #: client/helpdata.c:841
+#, c-format
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Игнорирует эффект городских стен.\n"
 
@@ -8045,35 +8071,43 @@ msgstr ""
 "рискует.\n"
 
 #: client/helpdata.c:851
+#, c-format
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
 msgstr "* Даёт пятикратную защиту против ракет и самолётов.\n"
 
 #: client/helpdata.c:855
+#, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Игнорирует эффекты рельефа (воспринимает все квадраты как дороги).\n"
 
 #: client/helpdata.c:859
+#, c-format
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr "* Атакует в полную силу даже если меньше чем 1 движение осталось.\n"
 
 #: client/helpdata.c:863
+#, c-format
 msgid "* Ignores zones of control.\n"
 msgstr "* Игнорирует зоны контроля.\n"
 
 #: client/helpdata.c:866
+#, c-format
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr ""
 "* Не-военное соединение (не может атаковать; нет военного положения).\n"
 
 #: client/helpdata.c:870
+#, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Полевое соединение: одно несчастье, даже если не агрессивен.\n"
 
 #: client/helpdata.c:875
+#, c-format
 msgid "* Will never achieve veteran status.\n"
 msgstr "* Никогда не достигнет статуса ветерана.\n"
 
 #: client/helpdata.c:878
+#, c-format
 msgid "* May become veteran through training or combat.\n"
 msgstr "* Может стать ветераном в процессе обучения или в бою.\n"
 
@@ -8127,10 +8161,12 @@ msgstr ""
 "технологий. Весь проект потребует %d лампочек для завершения."
 
 #: client/helpdata.c:995
+#, c-format
 msgid "You cannot research this technology."
 msgstr "Вы не можете исследовать эту технологию."
 
 #: client/helpdata.c:999
+#, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr " Это число может зависеть от того, что изобретут другие игроки.\n"
 
@@ -8145,6 +8181,7 @@ msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr "* Первый игрок, открывший %s, получает немедленное открытие.\n"
 
 #: client/helpdata.c:1018
+#, c-format
 msgid "* Gives sea units one extra move.\n"
 msgstr "* Даёт морским соединениям один дополнительный ход.\n"
 
@@ -8159,22 +8196,27 @@ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 msgstr "* Уменьшает вероятность утери кораблей в океане до 12%%.\n"
 
 #: client/helpdata.c:1026
+#, c-format
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Увеличивает загрязнения, создаваемые населением.\n"
 
 #: client/helpdata.c:1029
+#, c-format
 msgid "* Improves the effect of Cathedrals.\n"
 msgstr "* Усиливает эффект Соборов.\n"
 
 #: client/helpdata.c:1031
+#, c-format
 msgid "* Reduces the effect of Cathedrals.\n"
 msgstr "* Уменьшает эффект Соборов.\n"
 
 #: client/helpdata.c:1033
+#, c-format
 msgid "* Improves the effect of Colosseums.\n"
 msgstr "* Усиливает эффект Колизеев.\n"
 
 #: client/helpdata.c:1035
+#, c-format
 msgid "* Improves the effect of Temples.\n"
 msgstr "* Усиливает эффект Храмов.\n"
 
@@ -8204,22 +8246,27 @@ msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Позволяет соединению %s обновлять орошения до ферм.\n"
 
 #: client/helpdata.c:1097
+#, c-format
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Загрязнение не происходит в этом рельефе."
 
 #: client/helpdata.c:1102
+#, c-format
 msgid "* You cannot build cities on this terrain."
 msgstr "* Вы не можете строить города в этом рельефе."
 
 #: client/helpdata.c:1108
+#, c-format
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Берег этого рельефа опасен."
 
 #: client/helpdata.c:1113
+#, c-format
 msgid "* This terrain is unsafe for units to travel on."
 msgstr "* Этот рельеф опасен для передвигающихся соединений."
 
 #: client/helpdata.c:1118
+#, c-format
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Наземеные соединения не могут перемещаться по морскому рельефу."
 
@@ -8243,21 +8290,21 @@ msgstr "%s%d несчастья"
 msgid "%s%d gold"
 msgstr "%s%d золота"
 
-#: client/mapctrl_common.c:341
+#: client/mapctrl_common.c:352
 #, c-format
 msgid "Game: You don't know how to build %s!"
 msgstr "Игра: Вы не знаете как делать \"%s\"!"
 
-#: client/mapctrl_common.c:351
+#: client/mapctrl_common.c:362
 #, c-format
 msgid "Game: Copy %s to clipboard."
 msgstr "Игра: Копируем %s в буфер обмена."
 
-#: client/mapctrl_common.c:368
+#: client/mapctrl_common.c:379
 msgid "Game: Clipboard is empty."
 msgstr "Игра: Буфер обмена пуст."
 
-#: client/mapview_common.c:814
+#: client/mapview_common.c:816
 msgid ""
 "Paths longer than 99 turns are not supported.\n"
 "Report this bug to bugs@freeciv.org."
@@ -8763,25 +8810,25 @@ msgstr "Строка возможностей клиента: %s"
 msgid "Server capability string: %s"
 msgstr "Строка возможностей сервера: %s"
 
-#: client/packhand.c:843
+#: client/packhand.c:845
 #, c-format
 msgid "Start of turn %d"
 msgstr "Начало хода %d"
 
-#: client/packhand.c:1622
+#: client/packhand.c:1624
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Компьютерный режим %s."
 
-#: client/packhand.c:1623
+#: client/packhand.c:1625
 msgid "ON"
 msgstr "ВКЛ"
 
-#: client/packhand.c:1623
+#: client/packhand.c:1625
 msgid "OFF"
 msgstr "ВЫКЛ"
 
-#: client/packhand.c:2616
+#: client/packhand.c:2618
 msgid "Other"
 msgstr "Другое"
 
@@ -8902,79 +8949,79 @@ msgstr "Распустить %d %s."
 msgid "No %s could be disbanded."
 msgstr "Ни одно соединение %s не может быть распущено."
 
-#: client/text.c:137
+#: client/text.c:182
 msgid "?nation:Neutral"
 msgstr "?nation:нейтральных"
 
-#: client/text.c:137
+#: client/text.c:182
 msgid "?nation:Hostile"
 msgstr "?nation:враждебных"
 
-#: client/text.c:139
+#: client/text.c:184
 msgid "?nation:Peaceful"
 msgstr "?nation:мирных"
 
-#: client/text.c:139
+#: client/text.c:184
 msgid "?nation:Friendly"
 msgstr "?nation:дружественных"
 
-#: client/text.c:140
+#: client/text.c:185
 msgid "?nation:Mysterious"
 msgstr "?nation:таинственных"
 
-#: client/text.c:140
+#: client/text.c:185
 msgid "?nation:Friendly(team)"
 msgstr "?nation:Дружественная(команда)"
 
-#: client/text.c:142
+#: client/text.c:187
 msgid "?city:Neutral"
 msgstr "?city:Нейтральные"
 
-#: client/text.c:142
+#: client/text.c:187
 msgid "?city:Hostile"
 msgstr "?city:Враждебные"
 
-#: client/text.c:144
+#: client/text.c:189
 msgid "?city:Peaceful"
 msgstr "?city:Мирные"
 
-#: client/text.c:144
+#: client/text.c:189
 msgid "?city:Friendly"
 msgstr "?city:Дружественные"
 
-#: client/text.c:144
+#: client/text.c:189
 msgid "?city:Mysterious"
 msgstr "?city:Таинственные"
 
-#: client/text.c:145
+#: client/text.c:190
 msgid "?city:Friendly(team)"
 msgstr "?city:Дружественная(команда)"
 
-#: client/text.c:149
+#: client/text.c:194
 #, c-format
 msgid "Location: (%d, %d) [%d]"
 msgstr "Место: (%d, %d) [%d]"
 
-#: client/text.c:152 client/gui-mui/mapclass.c:102
+#: client/text.c:197 client/gui-mui/mapclass.c:102
 #, c-format
 msgid "Terrain: %s"
 msgstr "Рельеф: %s"
 
-#: client/text.c:153
+#: client/text.c:198
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "Еда/Произв/Торг: %s"
 
-#: client/text.c:156 client/gui-mui/mapclass.c:108
+#: client/text.c:201 client/gui-mui/mapclass.c:108
 msgid "Minor Tribe Village"
 msgstr "Деревня маленького племени"
 
-#: client/text.c:163
+#: client/text.c:208
 msgid "Our Territory"
 msgstr "Наша территория"
 
 #. TRANS: "Polish territory (5 turn ceasefire)"
-#: client/text.c:169
+#: client/text.c:214
 #, c-format
 msgid "%s territory (%d turn ceasefire)"
 msgid_plural "%s territory (%d turn ceasefire)"
@@ -8984,23 +9031,23 @@ msgstr[2] "%s (%d-ходовое перемирие)"
 
 #. TRANS: "Territory of the friendly Polish".  See the
 #. * ?nation adjectives.
-#: client/text.c:176
+#: client/text.c:221
 #, c-format
 msgid "Territory of the %s %s"
 msgstr "Территория %s %s"
 
-#: client/text.c:181
+#: client/text.c:226
 msgid "Unclaimed territory"
 msgstr "Незаявленная территория"
 
 #. TRANS: "City: Warsaw (Polish)"
-#: client/text.c:193
+#: client/text.c:237
 #, c-format
 msgid "City: %s (%s)"
 msgstr "Город: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn ceasefire)"
-#: client/text.c:200
+#: client/text.c:244
 #, c-format
 msgid "City: %s (%s, %d turn ceasefire)"
 msgid_plural "City: %s (%s, %d turn ceasefire)"
@@ -9009,40 +9056,40 @@ msgstr[1] "Город: %s (%s, %d-ходовое перемири)"
 msgstr[2] "Город: %s (%s, %d-ходовое перемири)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
-#: client/text.c:208
+#: client/text.c:252
 #, c-format
 msgid "City: %s (%s,%s)"
 msgstr "Город: %s (%s,%s)"
 
 #. TRANS: previous lines gave other information about the city.
-#: client/text.c:215
+#: client/text.c:259
 msgid " with City Walls"
 msgstr " с городскими стенами"
 
 #. TRANS: "Trade from Warsaw: 5"
-#: client/text.c:225
+#: client/text.c:269
 #, c-format
 msgid "Trade from %s: %d"
 msgstr "Торговля с %s: %d"
 
-#: client/text.c:231
+#: client/text.c:275
 #, c-format
 msgid "Infrastructure: %s"
 msgstr "Инфраструктура: %s"
 
-#: client/text.c:236
+#: client/text.c:280
 #, c-format
 msgid "Activity: %s"
 msgstr "Активность: %s"
 
 #. TRANS: "Unit: Musketeers (Polish/Warsaw)"
-#: client/text.c:252
+#: client/text.c:297
 #, c-format
 msgid "Unit: %s (%s%s)"
 msgstr "Соед: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn ceasefire)"
-#: client/text.c:260
+#: client/text.c:305
 #, c-format
 msgid "Unit: %s (%s, %d turn ceasefire)"
 msgid_plural "Unit: %s (%s, %d turn ceasefire)"
@@ -9051,61 +9098,56 @@ msgstr[1] "Город: %s (%s, %d-ходовое перемирие)"
 msgstr[2] "Город: %s (%s, %d-ходовое перемирие)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
-#: client/text.c:268
+#: client/text.c:313
 #, c-format
 msgid "Unit: %s (%s,%s)"
 msgstr "Соед: %s (%s,%s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
-#: client/text.c:284
+#: client/text.c:338
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Вероятность победы: А:%d%% З:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
-#. FIXME: veteran status isn't handled properly here.
-#: client/text.c:292
+#: client/text.c:348
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d%s"
 msgstr "А:%d З:%d Ог:%d Зд:%d/%d%s"
 
-#: client/text.c:295
-msgid " V"
-msgstr " В"
-
 #. TRANS: "5 more" units on this tile
-#: client/text.c:299 client/gui-mui/mapclass.c:158
+#: client/text.c:355 client/gui-mui/mapclass.c:158
 #, c-format
 msgid "  (%d more)"
 msgstr "  (ещё %d)"
 
-#: client/text.c:362
+#: client/text.c:418
 #, c-format
 msgid "far from %s"
 msgstr "далеко от %s"
 
-#: client/text.c:363
+#: client/text.c:419
 #, c-format
 msgid "near %s"
 msgstr "возле %s"
 
-#: client/text.c:364
+#: client/text.c:420
 #, c-format
 msgid "in %s"
 msgstr "в %s"
 
 #. TRANS: "from Warsaw"
-#: client/text.c:392
+#: client/text.c:448
 #, c-format
 msgid "from %s"
 msgstr "из %s"
 
-#: client/text.c:426
+#: client/text.c:482
 msgid "Progress: no research"
 msgstr "Скорость исследований: не ведутся"
 
-#: client/text.c:434
+#: client/text.c:490
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn)"
@@ -9113,7 +9155,7 @@ msgstr[0] "Скорость исследований: %d ход/открытие (%d пункт/ход)"
 msgstr[1] "Скорость исследований: %d хода/открытие (%d пункт/ход)"
 msgstr[2] "Скорость исследований: %d ходов/открытие (%d пункт/ход)"
 
-#: client/text.c:439
+#: client/text.c:495
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
@@ -9127,29 +9169,29 @@ msgstr[2] ""
 "Скорость исследований: %d ходов/открытие (%d пункт/ход, %d пункт/ход от "
 "команды)"
 
-#: client/text.c:456 client/gui-mui/mapview.c:190
+#: client/text.c:512 client/gui-mui/mapview.c:190
 #, c-format
 msgid "Population: %s"
 msgstr "Население: %s"
 
-#: client/text.c:459 client/gui-gtk/inteldlg.c:112
+#: client/text.c:515 client/gui-gtk/inteldlg.c:112
 #: client/gui-mui/inteldlg.c:141 client/gui-mui/mapview.c:193
 #: client/gui-win32/inteldlg.c:110 client/gui-xaw/inteldlg.c:210
 #, c-format
 msgid "Gold: %d"
 msgstr "Золото: %d"
 
-#: client/text.c:460
+#: client/text.c:516
 #, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr " Нал: %d Рос: %d Нау: %d"
 
-#: client/text.c:501
+#: client/text.c:557
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Ходов до цели: %d"
 
-#: client/text.c:531
+#: client/text.c:587
 #, c-format
 msgid ""
 "Shows your progress in researching the current technology.\n"
@@ -9158,7 +9200,7 @@ msgstr ""
 "Показывает прогресс в изучении текущей технологии.\n"
 "%s: %d/%d."
 
-#: client/text.c:548
+#: client/text.c:604
 #, c-format
 msgid ""
 "Shows the progress of global warming:\n"
@@ -9167,7 +9209,7 @@ msgstr ""
 "Показывает прогресс в глобальном потеплении:\n"
 "%d."
 
-#: client/text.c:561
+#: client/text.c:617
 #, c-format
 msgid ""
 "Shows the progress of nuclear winter:\n"
@@ -9176,7 +9218,7 @@ msgstr ""
 "Показывает прогресс ядерной зимы:\n"
 "%d."
 
-#: client/text.c:574
+#: client/text.c:630
 #, c-format
 msgid ""
 "Shows your current government:\n"
@@ -9186,25 +9228,25 @@ msgstr ""
 "%s."
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:594
+#: client/text.c:650
 #, c-format
 msgid "Population:      %5d"
 msgstr "Население:      %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:597
+#: client/text.c:653
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Поддержка:      %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:601
+#: client/text.c:657
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Масса:          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:605
+#: client/text.c:661
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -9213,81 +9255,81 @@ msgstr[1] "Масса:           %5d тонны"
 msgstr[2] "Масса:           %5d тонн"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:610
+#: client/text.c:666
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Время путешествия: %5.1f лет"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:614
+#: client/text.c:670
 msgid "Travel time:        N/A     "
 msgstr "Время путешествия:   Нет данных   "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:618
+#: client/text.c:674
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Вероят. успеха:    %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:622
+#: client/text.c:678
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Год прибытия: %8s"
 
-#: client/text.c:640
+#: client/text.c:696
 msgid "?timeout:off"
 msgstr "?timeout:выкл"
 
-#: client/text.c:662
+#: client/text.c:718
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?секунды:%02dс"
 
-#: client/text.c:664
+#: client/text.c:720
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dм %02dс"
 
-#: client/text.c:666
+#: client/text.c:722
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02dч %02dм"
 
-#: client/text.c:668
+#: client/text.c:724
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dд %02dч"
 
-#: client/text.c:671
+#: client/text.c:727
 msgid "?duration:overflow"
 msgstr "?duration:переполнение"
 
-#: client/text.c:690
+#: client/text.c:746
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d мс"
 
 #. TRANS: "Republic of the Polish"
-#: client/text.c:709
+#: client/text.c:765
 #, c-format
 msgid "%s of the %s"
 msgstr "%s из %s"
 
-#: client/text.c:730
+#: client/text.c:786
 msgid "Buildings: "
 msgstr "Здания: "
 
-#: client/text.c:735 client/text.c:760 client/text.c:767 client/text.c:774
+#: client/text.c:791 client/text.c:816 client/text.c:823 client/text.c:830
 #, c-format
 msgid "%s. "
 msgstr "%s. "
 
-#: client/text.c:740 client/text.c:779
+#: client/text.c:796 client/text.c:835
 msgid "None. "
 msgstr "Нет.  "
 
-#: client/text.c:755
+#: client/text.c:811
 msgid "Wonders: "
 msgstr "Чудеса: "
 
@@ -9326,7 +9368,7 @@ msgstr ""
 "опции файла: %s\n"
 "поддерживаемые опции: %s"
 
-#: client/tilespec.c:563 client/tilespec.c:596 client/tilespec.c:765
+#: client/tilespec.c:563 client/tilespec.c:596 client/tilespec.c:766
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Невозможно открыть \"%s\"."
@@ -9341,14 +9383,14 @@ msgstr "Невозможно загрузить gfx файл для spec файла %s"
 msgid "Couldn't find a supported gfx file extension for %s"
 msgstr "Не удалось найти поддерживаемое расширение файла gfx для %s"
 
-#: client/tilespec.c:795
+#: client/tilespec.c:798
 msgid ""
 "Client does not support isometric tilesets. Using default tileset instead."
 msgstr ""
 "Клиент не поддерживает изометрический набор полей. Используем стандартный "
 "набор."
 
-#: client/tilespec.c:803
+#: client/tilespec.c:806
 msgid ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
@@ -9356,11 +9398,11 @@ msgstr ""
 "Клиент не поддерживает набор полей с видом сверху. Используем стандартный "
 "набор."
 
-#: client/tilespec.c:857
+#: client/tilespec.c:860
 msgid "Invalid darkness style set in tileset."
 msgstr "Неправильный стиль темноты установлен в наборе полей."
 
-#: client/tilespec.c:1002
+#: client/tilespec.c:1007
 #, c-format
 msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
@@ -9369,28 +9411,28 @@ msgstr ""
 "Ошибка в %s, слое %d: невозможно иметь высокий рельеф или\n"
 "сдвиг спрайта, если используется клеточный метод отображения."
 
-#: client/tilespec.c:1179
+#: client/tilespec.c:1188
 #, c-format
 msgid "No graphics for specialist %s."
 msgstr "Нет изображения для специалиста %s."
 
-#: client/tilespec.c:1211
+#: client/tilespec.c:1220
 #, c-format
 msgid "No graphics for citizen %s."
 msgstr "Нет изображения для жителя %s."
 
-#: client/tilespec.c:1546
+#: client/tilespec.c:1555
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Нет графического тэга %s или %s для %s %s"
 
 #. TRANS: obscure tileset error.
-#: client/tilespec.c:1644
+#: client/tilespec.c:1653
 #, c-format
 msgid "Missing base sprite tag \"%s1\"."
 msgstr "Отсутствует базовый тэг для \"%s1\"."
 
-#: client/tilespec.c:3128
+#: client/tilespec.c:3137
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Невозможно загрузить gfx файл %s для файла %s"
@@ -9565,13 +9607,13 @@ msgstr "_Обзор"
 #: client/gui-gtk-2.0/citydlg.c:580 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:315
 #: client/gui-gtk/wldlg.c:321 client/gui-mui/citydlg.c:634
-#: client/gui-mui/worklistclass.c:238 client/gui-win32/citydlg.c:1099
+#: client/gui-mui/worklistclass.c:238 client/gui-win32/citydlg.c:1100
 #: client/gui-win32/wldlg.c:679 client/gui-win32/wldlg.c:685
 msgid "Info"
 msgstr "Инфо"
 
 #: client/gui-gtk-2.0/citydlg.c:586 client/gui-gtk/citydlg.c:653
-#: client/gui-win32/citydlg.c:795
+#: client/gui-win32/citydlg.c:796
 msgid "City map"
 msgstr "Карта города"
 
@@ -9642,7 +9684,7 @@ msgid "Air units"
 msgstr "Воздушные соединения"
 
 #: client/gui-gtk-2.0/citydlg.c:941 client/gui-gtk/citydlg.c:1277
-#: client/gui-win32/citydlg.c:2018
+#: client/gui-win32/citydlg.c:2019
 msgid "Disband if build settler at size 1"
 msgstr "Распустить, если строим колонистов при размере 1"
 
@@ -9679,7 +9721,7 @@ msgid "Last active page"
 msgstr "Последнюю активную страницу"
 
 #: client/gui-gtk-2.0/citydlg.c:978 client/gui-gtk/citydlg.c:1352
-#: client/gui-mui/citydlg.c:1643 client/gui-win32/citydlg.c:2010
+#: client/gui-mui/citydlg.c:1643 client/gui-win32/citydlg.c:2011
 msgid "New citizens are"
 msgstr "Новые жители"
 
@@ -9749,19 +9791,19 @@ msgid "Present units %d"
 msgstr "Присутствующие соединения: %d"
 
 #: client/gui-gtk-2.0/citydlg.c:1749 client/gui-gtk/citydlg.c:2196
-#: client/gui-mui/citydlg.c:2040 client/gui-win32/citydlg.c:1274
+#: client/gui-mui/citydlg.c:2040 client/gui-win32/citydlg.c:1275
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:1752 client/gui-gtk/citydlg.c:2199
-#: client/gui-mui/citydlg.c:2043 client/gui-win32/citydlg.c:1277
+#: client/gui-mui/citydlg.c:2043 client/gui-win32/citydlg.c:1278
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
 msgstr "Торговля с %s даёт %d золотых\n"
 
 #: client/gui-gtk-2.0/citydlg.c:1758 client/gui-gtk/citydlg.c:2205
-#: client/gui-mui/citydlg.c:2049 client/gui-win32/citydlg.c:1283
+#: client/gui-mui/citydlg.c:2049 client/gui-win32/citydlg.c:1284
 msgid "No trade routes exist."
 msgstr "Нет торговых путей."
 
@@ -9778,19 +9820,19 @@ msgstr "Центр"
 
 #: client/gui-gtk-2.0/citydlg.c:1885 client/gui-gtk-2.0/citydlg.c:1938
 #: client/gui-gtk/citydlg.c:2370 client/gui-gtk/citydlg.c:2405
-#: client/gui-win32/citydlg.c:1498 client/gui-win32/citydlg.c:1529
+#: client/gui-win32/citydlg.c:1499 client/gui-win32/citydlg.c:1530
 msgid "_Activate unit"
 msgstr "Задействовать соединение"
 
 #: client/gui-gtk-2.0/citydlg.c:1891 client/gui-gtk-2.0/citydlg.c:1944
 #: client/gui-gtk/citydlg.c:2371 client/gui-gtk/citydlg.c:2406
-#: client/gui-win32/citydlg.c:1500 client/gui-win32/citydlg.c:1531
+#: client/gui-win32/citydlg.c:1501 client/gui-win32/citydlg.c:1532
 msgid "Activate unit, _close dialog"
 msgstr "Задействовать соединение, закрыть диалог"
 
 #: client/gui-gtk-2.0/citydlg.c:1897 client/gui-gtk-2.0/citydlg.c:1993
 #: client/gui-gtk/citydlg.c:2373 client/gui-gtk/citydlg.c:2411
-#: client/gui-win32/citydlg.c:1502 client/gui-win32/citydlg.c:1537
+#: client/gui-win32/citydlg.c:1503 client/gui-win32/citydlg.c:1538
 msgid "_Disband unit"
 msgstr "Расформировать соединение"
 
@@ -9803,17 +9845,17 @@ msgid "_Unload unit"
 msgstr "Раз_грузить соединение"
 
 #: client/gui-gtk-2.0/citydlg.c:1971 client/gui-gtk/citydlg.c:2408
-#: client/gui-win32/citydlg.c:1533
+#: client/gui-win32/citydlg.c:1534
 msgid "_Sentry unit"
 msgstr "Сторожить"
 
 #: client/gui-gtk-2.0/citydlg.c:1982 client/gui-gtk/citydlg.c:2410
-#: client/gui-win32/citydlg.c:1535
+#: client/gui-win32/citydlg.c:1536
 msgid "_Fortify unit"
 msgstr "Укрепить соединение"
 
 #: client/gui-gtk-2.0/citydlg.c:1999 client/gui-gtk/citydlg.c:2413
-#: client/gui-win32/citydlg.c:1539
+#: client/gui-win32/citydlg.c:1540
 msgid "Make new _homecity"
 msgstr "Сменить домашний город"
 
@@ -9823,20 +9865,20 @@ msgstr "_Модернизировать соединение"
 
 #: client/gui-gtk-2.0/citydlg.c:2222 client/gui-gtk/citydlg.c:2595
 #: client/gui-mui/dialogs.c:1747 client/gui-mui/dialogs.c:1771
-#: client/gui-win32/citydlg.c:1473 data/Freeciv.in:2511
+#: client/gui-win32/citydlg.c:1474 data/Freeciv.in:2511
 msgid "Upgrade Unit!"
 msgstr "Модернизировать соединение!"
 
 #: client/gui-gtk-2.0/citydlg.c:2231 client/gui-gtk-2.0/repodlgs.c:1162
 #: client/gui-gtk/citydlg.c:2588 client/gui-gtk/repodlgs.c:967
 #: client/gui-mui/dialogs.c:1760 client/gui-mui/repodlgs.c:724
-#: client/gui-win32/citydlg.c:1466 client/gui-win32/repodlgs.c:572
+#: client/gui-win32/citydlg.c:1467 client/gui-win32/repodlgs.c:572
 #: data/Freeciv.in:2500
 msgid "Upgrade Obsolete Units"
 msgstr "Модернизировать устаревшие войска"
 
 #: client/gui-gtk-2.0/citydlg.c:2361 client/gui-gtk/citydlg.c:2748
-#: client/gui-mui/citydlg.c:960 client/gui-win32/citydlg.c:918
+#: client/gui-mui/citydlg.c:960 client/gui-win32/citydlg.c:919
 #: client/gui-xaw/citydlg.c:1900
 #, c-format
 msgid ""
@@ -9849,13 +9891,13 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:2364 client/gui-gtk-2.0/citydlg.c:2376
 #: client/gui-gtk/citydlg.c:2752 client/gui-gtk/citydlg.c:2762
 #: client/gui-mui/citydlg.c:963 client/gui-mui/citydlg.c:973
-#: client/gui-win32/citydlg.c:921 client/gui-win32/citydlg.c:930
+#: client/gui-win32/citydlg.c:922 client/gui-win32/citydlg.c:931
 #: data/Freeciv.in:2247 data/Freeciv.in:2277
 msgid "Buy It!"
 msgstr "Купить!"
 
 #: client/gui-gtk-2.0/citydlg.c:2373 client/gui-gtk/citydlg.c:2758
-#: client/gui-mui/citydlg.c:970 client/gui-win32/citydlg.c:927
+#: client/gui-mui/citydlg.c:970 client/gui-win32/citydlg.c:928
 #: client/gui-xaw/citydlg.c:1909
 #, c-format
 msgid ""
@@ -9866,25 +9908,25 @@ msgstr ""
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/citydlg.c:2410 client/gui-gtk/citydlg.c:3006
-#: client/gui-mui/citydlg.c:998 client/gui-win32/citydlg.c:971
+#: client/gui-mui/citydlg.c:998 client/gui-win32/citydlg.c:972
 #: client/gui-xaw/citydlg.c:2296
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Продать %s за %d золотых?"
 
 #: client/gui-gtk-2.0/citydlg.c:2415 client/gui-gtk/citydlg.c:3010
-#: client/gui-mui/citydlg.c:1003 client/gui-win32/citydlg.c:976
+#: client/gui-mui/citydlg.c:1003 client/gui-win32/citydlg.c:977
 #: data/Freeciv.in:2266
 msgid "Sell It!"
 msgstr "Продать!"
 
 #: client/gui-gtk-2.0/citydlg.c:2487 client/gui-gtk/citydlg.c:3155
-#: client/gui-win32/citydlg.c:1218
+#: client/gui-win32/citydlg.c:1219
 msgid "Rename City"
 msgstr "Переименовать город"
 
 #: client/gui-gtk-2.0/citydlg.c:2489 client/gui-gtk/citydlg.c:3157
-#: client/gui-win32/citydlg.c:1219 client/gui-xaw/citydlg.c:1386
+#: client/gui-win32/citydlg.c:1220 client/gui-xaw/citydlg.c:1386
 msgid "What should we rename the city to?"
 msgstr "Как переименовать город?"
 
@@ -10145,17 +10187,17 @@ msgid "_Popup City"
 msgstr "Открыть город"
 
 #: client/gui-gtk-2.0/dialogs.c:280 client/gui-gtk/dialogs.c:439
-#: client/gui-win32/dialogs.c:1284
+#: client/gui-win32/dialogs.c:1285
 msgid "Ooops..."
 msgstr "Опаньки..."
 
 #: client/gui-gtk-2.0/dialogs.c:281 client/gui-gtk/dialogs.c:440
-#: client/gui-win32/dialogs.c:1285 client/gui-xaw/dialogs.c:447
+#: client/gui-win32/dialogs.c:1286 client/gui-xaw/dialogs.c:447
 msgid "This unit cannot be bribed!"
 msgstr "Это соединение не может быть завербовано!"
 
 #: client/gui-gtk-2.0/dialogs.c:288 client/gui-gtk/dialogs.c:444
-#: client/gui-mui/dialogs.c:221 client/gui-win32/dialogs.c:1289
+#: client/gui-mui/dialogs.c:221 client/gui-win32/dialogs.c:1290
 #: client/gui-xaw/dialogs.c:451
 #, c-format
 msgid ""
@@ -10166,13 +10208,13 @@ msgstr ""
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/dialogs.c:290 client/gui-gtk/dialogs.c:446
-#: client/gui-mui/dialogs.c:224 client/gui-win32/dialogs.c:1291
+#: client/gui-mui/dialogs.c:224 client/gui-win32/dialogs.c:1292
 #: data/Freeciv.in:2446 data/Freeciv.in:2459
 msgid "Bribe Enemy Unit"
 msgstr "Подкупить вражеское соединение"
 
 #: client/gui-gtk-2.0/dialogs.c:296 client/gui-gtk/dialogs.c:452
-#: client/gui-mui/dialogs.c:230 client/gui-win32/dialogs.c:1297
+#: client/gui-mui/dialogs.c:230 client/gui-win32/dialogs.c:1298
 #: client/gui-xaw/dialogs.c:460
 #, c-format
 msgid ""
@@ -10185,13 +10227,13 @@ msgstr ""
 #: client/gui-gtk-2.0/dialogs.c:298 client/gui-gtk-2.0/dialogs.c:753
 #: client/gui-gtk/dialogs.c:455 client/gui-gtk/dialogs.c:960
 #: client/gui-mui/dialogs.c:233 client/gui-mui/dialogs.c:501
-#: client/gui-win32/dialogs.c:1301 client/gui-win32/dialogs.c:1484
+#: client/gui-win32/dialogs.c:1302 client/gui-win32/dialogs.c:1485
 #: data/Freeciv.in:2481
 msgid "Traitors Demand Too Much!"
 msgstr "Предатели требуют слишком много!"
 
 #: client/gui-gtk-2.0/dialogs.c:429 client/gui-gtk/dialogs.c:682
-#: client/gui-mui/dialogs.c:318 client/gui-win32/dialogs.c:1200
+#: client/gui-mui/dialogs.c:318 client/gui-win32/dialogs.c:1201
 #: data/Freeciv.in:2312 data/Freeciv.in:2345 data/Freeciv.in:2362
 msgid "Steal Technology"
 msgstr "Украсть технологию"
@@ -10201,7 +10243,7 @@ msgid "_Steal"
 msgstr "Украсть"
 
 #: client/gui-gtk-2.0/dialogs.c:443 client/gui-gtk/dialogs.c:675
-#: client/gui-mui/dialogs.c:322 client/gui-win32/dialogs.c:1210
+#: client/gui-mui/dialogs.c:322 client/gui-win32/dialogs.c:1211
 #: data/Freeciv.in:2377
 msgid "Select Advance to Steal"
 msgstr "Выберите технологию для кражи"
@@ -10213,13 +10255,13 @@ msgstr "Открытия:"
 #: client/gui-gtk-2.0/dialogs.c:503 client/gui-gtk-2.0/dialogs.c:636
 #: client/gui-gtk/dialogs.c:741 client/gui-gtk/dialogs.c:835
 #: client/gui-mui/dialogs.c:298 client/gui-mui/dialogs.c:393
-#: client/gui-win32/dialogs.c:1113 client/gui-win32/dialogs.c:1325
+#: client/gui-win32/dialogs.c:1114 client/gui-win32/dialogs.c:1326
 #: client/gui-xaw/dialogs.c:746 client/gui-xaw/dialogs.c:833
 msgid "At Spy's Discretion"
 msgstr "На усмотрение шпиона"
 
 #: client/gui-gtk-2.0/dialogs.c:573 client/gui-gtk/dialogs.c:781
-#: client/gui-mui/dialogs.c:409 client/gui-win32/dialogs.c:1399
+#: client/gui-mui/dialogs.c:409 client/gui-win32/dialogs.c:1400
 #: data/Freeciv.in:2404
 msgid "Sabotage Improvements"
 msgstr "Саботировать здания"
@@ -10229,31 +10271,31 @@ msgid "_Sabotage"
 msgstr "Саботировать"
 
 #: client/gui-gtk-2.0/dialogs.c:587 client/gui-gtk/dialogs.c:774
-#: client/gui-mui/dialogs.c:413 client/gui-win32/dialogs.c:1409
+#: client/gui-mui/dialogs.c:413 client/gui-win32/dialogs.c:1410
 #: data/Freeciv.in:2419
 msgid "Select Improvement to Sabotage"
 msgstr "Выберите какое здание саботировать"
 
 #: client/gui-gtk-2.0/dialogs.c:626 client/gui-gtk/dialogs.c:822
-#: client/gui-mui/dialogs.c:392 client/gui-win32/dialogs.c:1314
+#: client/gui-mui/dialogs.c:392 client/gui-win32/dialogs.c:1315
 #: client/gui-xaw/dialogs.c:822
 msgid "City Production"
 msgstr "Городское производство"
 
 #: client/gui-gtk-2.0/dialogs.c:735 client/gui-gtk/dialogs.c:942
-#: client/gui-mui/dialogs.c:483 client/gui-win32/dialogs.c:1467
+#: client/gui-mui/dialogs.c:483 client/gui-win32/dialogs.c:1468
 #: client/gui-xaw/dialogs.c:977
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Игра: Вы не можете взбунтовать %s!"
 
 #: client/gui-gtk-2.0/dialogs.c:737 client/gui-gtk/dialogs.c:944
-#: client/gui-mui/dialogs.c:485 client/gui-win32/dialogs.c:1469
+#: client/gui-mui/dialogs.c:485 client/gui-win32/dialogs.c:1470
 msgid "City can't be incited!"
 msgstr "Не можем взбунтовать город!"
 
 #: client/gui-gtk-2.0/dialogs.c:743 client/gui-gtk/dialogs.c:949
-#: client/gui-mui/dialogs.c:488 client/gui-win32/dialogs.c:1473
+#: client/gui-mui/dialogs.c:488 client/gui-win32/dialogs.c:1474
 #: client/gui-xaw/dialogs.c:983
 #, c-format
 msgid ""
@@ -10264,13 +10306,13 @@ msgstr ""
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/dialogs.c:745 client/gui-gtk/dialogs.c:951
-#: client/gui-mui/dialogs.c:492 client/gui-win32/dialogs.c:1476
+#: client/gui-mui/dialogs.c:492 client/gui-win32/dialogs.c:1477
 #: data/Freeciv.in:2470
 msgid "Incite a Revolt!"
 msgstr "Вызвать революцию!"
 
 #: client/gui-gtk-2.0/dialogs.c:751 client/gui-gtk/dialogs.c:957
-#: client/gui-mui/dialogs.c:499 client/gui-win32/dialogs.c:1481
+#: client/gui-mui/dialogs.c:499 client/gui-win32/dialogs.c:1482
 #: client/gui-xaw/dialogs.c:993
 #, c-format
 msgid ""
@@ -10281,7 +10323,7 @@ msgstr ""
 "В казне %d золота."
 
 #: client/gui-gtk-2.0/dialogs.c:815 client/gui-gtk/dialogs.c:1014
-#: client/gui-win32/dialogs.c:1520 client/gui-xaw/dialogs.c:1054
+#: client/gui-win32/dialogs.c:1521 client/gui-xaw/dialogs.c:1054
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -10291,36 +10333,36 @@ msgstr ""
 "Что прикажете?"
 
 #: client/gui-gtk-2.0/dialogs.c:820 client/gui-gtk/dialogs.c:1019
-#: client/gui-win32/dialogs.c:1525
+#: client/gui-win32/dialogs.c:1526
 msgid " Choose Your Diplomat's Strategy"
 msgstr " Выберите стратегию Вашего дипломата"
 
 #: client/gui-gtk-2.0/dialogs.c:821 client/gui-gtk-2.0/dialogs.c:845
 #: client/gui-gtk/dialogs.c:1021 client/gui-gtk/dialogs.c:1046
-#: client/gui-win32/dialogs.c:1526 client/gui-win32/dialogs.c:1547
+#: client/gui-win32/dialogs.c:1527 client/gui-win32/dialogs.c:1548
 msgid "Establish _Embassy"
 msgstr "Создать посольство"
 
 #: client/gui-gtk-2.0/dialogs.c:822 client/gui-gtk-2.0/dialogs.c:846
 #: client/gui-gtk/dialogs.c:1022 client/gui-gtk/dialogs.c:1047
-#: client/gui-win32/dialogs.c:1527 client/gui-win32/dialogs.c:1548
+#: client/gui-win32/dialogs.c:1528 client/gui-win32/dialogs.c:1549
 msgid "_Investigate City"
 msgstr "Исследовать город"
 
 #: client/gui-gtk-2.0/dialogs.c:823 client/gui-gtk/dialogs.c:1023
-#: client/gui-win32/dialogs.c:1528
+#: client/gui-win32/dialogs.c:1529
 msgid "_Sabotage City"
 msgstr "Саботировать город"
 
 #: client/gui-gtk-2.0/dialogs.c:824 client/gui-gtk-2.0/dialogs.c:849
 #: client/gui-gtk/dialogs.c:1024 client/gui-gtk/dialogs.c:1050
-#: client/gui-win32/dialogs.c:1529 client/gui-win32/dialogs.c:1551
+#: client/gui-win32/dialogs.c:1530 client/gui-win32/dialogs.c:1552
 msgid "Steal _Technology"
 msgstr "Похитить технологию"
 
 #: client/gui-gtk-2.0/dialogs.c:825 client/gui-gtk-2.0/dialogs.c:850
 #: client/gui-gtk/dialogs.c:1025 client/gui-gtk/dialogs.c:1051
-#: client/gui-win32/dialogs.c:1530 client/gui-win32/dialogs.c:1552
+#: client/gui-win32/dialogs.c:1531 client/gui-win32/dialogs.c:1553
 msgid "Incite a _Revolt"
 msgstr "Подстрекать к революции"
 
@@ -10328,56 +10370,56 @@ msgstr "Подстрекать к революции"
 #: client/gui-gtk-2.0/dialogs.c:975 client/gui-gtk/dialogs.c:1026
 #: client/gui-gtk/dialogs.c:1052 client/gui-gtk/dialogs.c:1157
 #: client/gui-mui/dialogs.c:771 client/gui-mui/dialogs.c:838
-#: client/gui-mui/dialogs.c:1010 client/gui-win32/dialogs.c:983
+#: client/gui-mui/dialogs.c:1010 client/gui-win32/dialogs.c:984
 msgid "_Keep moving"
 msgstr "Продолжить движение"
 
 #: client/gui-gtk-2.0/dialogs.c:844 client/gui-gtk/dialogs.c:1044
-#: client/gui-mui/dialogs.c:850 client/gui-win32/dialogs.c:1546
+#: client/gui-mui/dialogs.c:850 client/gui-win32/dialogs.c:1547
 #: data/Freeciv.in:2326
 msgid "Choose Your Spy's Strategy"
 msgstr "Выбрать стратегию Вашего шпиона"
 
 #: client/gui-gtk-2.0/dialogs.c:847 client/gui-gtk/dialogs.c:1048
-#: client/gui-win32/dialogs.c:1549
+#: client/gui-win32/dialogs.c:1550
 msgid "_Poison City"
 msgstr "Отравить город"
 
 #: client/gui-gtk-2.0/dialogs.c:848 client/gui-gtk/dialogs.c:1049
-#: client/gui-win32/dialogs.c:1550
+#: client/gui-win32/dialogs.c:1551
 msgid "Industrial _Sabotage"
 msgstr "Промышленный саботаж"
 
 #: client/gui-gtk-2.0/dialogs.c:885 client/gui-gtk/dialogs.c:1079
-#: client/gui-mui/dialogs.c:885 client/gui-win32/dialogs.c:1577
+#: client/gui-mui/dialogs.c:885 client/gui-win32/dialogs.c:1578
 #: data/Freeciv.in:2457
 msgid "Subvert Enemy Unit"
 msgstr "Переманить вражеское соединение"
 
 #: client/gui-gtk-2.0/dialogs.c:887 client/gui-gtk/dialogs.c:1081
 #: client/gui-mui/dialogs.c:784 client/gui-mui/dialogs.c:887
-#: client/gui-win32/dialogs.c:1579 client/gui-xaw/dialogs.c:1114
+#: client/gui-win32/dialogs.c:1580 client/gui-xaw/dialogs.c:1114
 msgid "Sir, the diplomat is waiting for your command"
 msgstr "Сэр, дипломат ожидает Вашей команды"
 
 #: client/gui-gtk-2.0/dialogs.c:888 client/gui-gtk/dialogs.c:1082
 #: client/gui-mui/dialogs.c:851 client/gui-mui/dialogs.c:888
-#: client/gui-win32/dialogs.c:1580 client/gui-xaw/dialogs.c:1115
+#: client/gui-win32/dialogs.c:1581 client/gui-xaw/dialogs.c:1115
 msgid "Sir, the spy is waiting for your command"
 msgstr "Сэр, шпион ожидает Вашей команды"
 
 #: client/gui-gtk-2.0/dialogs.c:889 client/gui-gtk/dialogs.c:1084
-#: client/gui-mui/dialogs.c:865 client/gui-win32/dialogs.c:1581
+#: client/gui-mui/dialogs.c:865 client/gui-win32/dialogs.c:1582
 msgid "_Bribe Enemy Unit"
 msgstr "Подкупить вражеское соединение"
 
 #: client/gui-gtk-2.0/dialogs.c:890 client/gui-gtk/dialogs.c:1085
-#: client/gui-mui/dialogs.c:873 client/gui-win32/dialogs.c:1582
+#: client/gui-mui/dialogs.c:873 client/gui-win32/dialogs.c:1583
 msgid "_Sabotage Enemy Unit"
 msgstr "Саботировать вражеское соединение"
 
 #: client/gui-gtk-2.0/dialogs.c:959 client/gui-gtk/dialogs.c:1141
-#: client/gui-mui/dialogs.c:973 client/gui-win32/dialogs.c:967
+#: client/gui-mui/dialogs.c:973 client/gui-win32/dialogs.c:968
 #: client/gui-xaw/dialogs.c:1192
 #, c-format
 msgid ""
@@ -10388,45 +10430,45 @@ msgstr ""
 "Что дальше?"
 
 #: client/gui-gtk-2.0/dialogs.c:970 client/gui-gtk/dialogs.c:1152
-#: client/gui-mui/dialogs.c:1016 client/gui-win32/dialogs.c:978
+#: client/gui-mui/dialogs.c:1016 client/gui-win32/dialogs.c:979
 #: data/Freeciv.in:2286
 msgid "Your Caravan Has Arrived"
 msgstr "Ваш караван достиг цели"
 
 #: client/gui-gtk-2.0/dialogs.c:972 client/gui-gtk/dialogs.c:1154
-#: client/gui-win32/dialogs.c:980
+#: client/gui-win32/dialogs.c:981
 msgid "Establish _Traderoute"
 msgstr "Установить торговый путь"
 
 #: client/gui-gtk-2.0/dialogs.c:973 client/gui-gtk/dialogs.c:1155
-#: client/gui-win32/dialogs.c:981
+#: client/gui-win32/dialogs.c:982
 msgid "Enter Marketplace"
 msgstr "Войти на рынок"
 
 #: client/gui-gtk-2.0/dialogs.c:974 client/gui-gtk/dialogs.c:1156
-#: client/gui-win32/dialogs.c:982
+#: client/gui-win32/dialogs.c:983
 msgid "Help build _Wonder"
 msgstr "Помочь строить чудо"
 
 #: client/gui-gtk-2.0/dialogs.c:1030 client/gui-gtk/dialogs.c:1191
-#: client/gui-mui/dialogs.c:1043 client/gui-win32/dialogs.c:905
+#: client/gui-mui/dialogs.c:1043 client/gui-win32/dialogs.c:906
 #: client/gui-xaw/dialogs.c:1254
 msgid "You say you wanna revolution?"
 msgstr "Вы сказали, что хотите революцию?"
 
 #: client/gui-gtk-2.0/dialogs.c:1031 client/gui-gtk/dialogs.c:1190
-#: client/gui-mui/dialogs.c:1043 client/gui-win32/dialogs.c:904
+#: client/gui-mui/dialogs.c:1043 client/gui-win32/dialogs.c:905
 #: data/Freeciv.in:2489
 msgid "Revolution!"
 msgstr "Революция!"
 
 #: client/gui-gtk-2.0/dialogs.c:1083 client/gui-gtk/dialogs.c:1260
-#: client/gui-win32/dialogs.c:1651 data/Freeciv.in:2527
+#: client/gui-win32/dialogs.c:1652 data/Freeciv.in:2527
 msgid "What To Pillage"
 msgstr "Что разрушать"
 
 #: client/gui-gtk-2.0/dialogs.c:1084 client/gui-gtk/dialogs.c:1261
-#: client/gui-mui/dialogs.c:1117 client/gui-win32/dialogs.c:1658
+#: client/gui-mui/dialogs.c:1117 client/gui-win32/dialogs.c:1659
 #: data/Freeciv.in:2529
 msgid "Select what to pillage:"
 msgstr "Выберите, что разрушать:"
@@ -10608,7 +10650,9 @@ msgstr "Выбрать значения для уровня налогов, роскоши и науки"
 #: client/gui-gtk-2.0/gamedlgs.c:259 client/gui-gtk-2.0/gamedlgs.c:279
 #: client/gui-gtk-2.0/gamedlgs.c:299 client/gui-gtk/gamedlgs.c:258
 #: client/gui-gtk/gamedlgs.c:278 client/gui-gtk/gamedlgs.c:298
-#: data/Freeciv.in:1338 data/Freeciv.in:1356 data/Freeciv.in:1375
+#: client/gui-win32/ratesdlg.c:312 client/gui-win32/ratesdlg.c:318
+#: client/gui-win32/ratesdlg.c:324 data/Freeciv.in:1338 data/Freeciv.in:1356
+#: data/Freeciv.in:1375
 msgid "Lock"
 msgstr "Закрыть"
 
@@ -10680,30 +10724,30 @@ msgstr "Сплошной цвет иконки фона соединения в городском диалоге"
 msgid "Better fog-of-war drawing"
 msgstr "Улучшенная прорисовка Тумана войны"
 
-#: client/gui-gtk-2.0/gui_main.c:490 client/gui-gtk-2.0/gui_main.c:1077
+#: client/gui-gtk-2.0/gui_main.c:490 client/gui-gtk-2.0/gui_main.c:1082
 #: client/gui-gtk/gui_main.c:385 client/gui-gtk/gui_main.c:857
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:844 client/gui-gtk-2.0/gui_main.c:858
+#: client/gui-gtk-2.0/gui_main.c:849 client/gui-gtk-2.0/gui_main.c:863
 #: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:406
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Ход сделан"
 
-#: client/gui-gtk-2.0/gui_main.c:858
+#: client/gui-gtk-2.0/gui_main.c:863
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:890
+#: client/gui-gtk-2.0/gui_main.c:895
 msgid "_Map"
 msgstr "_Карта"
 
-#: client/gui-gtk-2.0/gui_main.c:964
+#: client/gui-gtk-2.0/gui_main.c:969
 msgid "_Chat"
 msgstr "_Общение"
 
-#: client/gui-gtk-2.0/gui_main.c:980 client/gui-gtk/gui_main.c:783
+#: client/gui-gtk-2.0/gui_main.c:985 client/gui-gtk/gui_main.c:783
 #: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:462
 #: data/Freeciv.in:2836
 msgid ""
@@ -10716,16 +10760,16 @@ msgstr ""
 "при определённых условиях; смотрите пункт \"Копирование\" в меню Справка\n"
 "А теперь... Пусть всем чертям станет тошно!"
 
-#: client/gui-gtk-2.0/gui_main.c:1236 client/gui-mui/citydlg.c:1557
+#: client/gui-gtk-2.0/gui_main.c:1241 client/gui-mui/citydlg.c:1557
 msgid "Name:"
 msgstr "Имя:"
 
-#: client/gui-gtk-2.0/gui_main.c:1243 client/gui-gtk/connectdlg.c:433
+#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-gtk/connectdlg.c:433
 #: client/gui-win32/connectdlg.c:1080
 msgid "Host:"
 msgstr "Хост:"
 
-#: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk/gui_main.c:1090
+#: client/gui-gtk-2.0/gui_main.c:1385 client/gui-gtk/gui_main.c:1090
 #: client/gui-xaw/gui_main.c:709
 #, c-format
 msgid ""
@@ -10745,7 +10789,7 @@ msgstr ""
 "Изучаем %s: %d/%d\n"
 "Правление: %s"
 
-#: client/gui-gtk-2.0/gui_main.c:1502
+#: client/gui-gtk-2.0/gui_main.c:1510
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
@@ -10764,7 +10808,7 @@ msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-gtk/happiness.c:113
 #: client/gui-mui/citydlg.c:1374 client/gui-mui/citydlg.c:1511
-#: client/gui-win32/citydlg.c:739 client/gui-win32/happiness.c:94
+#: client/gui-win32/citydlg.c:740 client/gui-win32/happiness.c:94
 #: client/gui-xaw/menu.c:244 data/helpdata.txt:1350
 msgid "Happiness"
 msgstr "Счастье"
@@ -11033,9 +11077,9 @@ msgstr "так же / %d"
 #: client/gui-gtk-2.0/helpdlg.c:1059 client/gui-gtk/helpdlg.c:972
 #: client/gui-gtk/helpdlg.c:976 client/gui-gtk/helpdlg.c:990
 #: client/gui-win32/helpdlg.c:599 client/gui-win32/helpdlg.c:603
-#: client/gui-win32/helpdlg.c:617 client/gui-xaw/helpdlg.c:1004
-#: client/gui-xaw/helpdlg.c:1008 client/gui-xaw/helpdlg.c:1026
-#: client/gui-xaw/helpdlg.c:1050
+#: client/gui-win32/helpdlg.c:617 client/gui-win32/helpdlg.c:636
+#: client/gui-xaw/helpdlg.c:1004 client/gui-xaw/helpdlg.c:1008
+#: client/gui-xaw/helpdlg.c:1026 client/gui-xaw/helpdlg.c:1050
 msgid "n/a"
 msgstr "н/д"
 
@@ -11075,11 +11119,11 @@ msgstr "Исследуется:"
 msgid "_Diplomacy"
 msgstr "_Дипломатия"
 
-#: client/gui-gtk-2.0/inteldlg.c:265
+#: client/gui-gtk-2.0/inteldlg.c:267
 msgid "_Techs"
 msgstr "_Технологии"
 
-#: client/gui-gtk-2.0/inteldlg.c:290
+#: client/gui-gtk-2.0/inteldlg.c:292
 #, c-format
 msgid "Foreign Intelligence: %s Empire"
 msgstr "Иностранная разведка: %s Империя"
@@ -11101,7 +11145,7 @@ msgstr ""
 "Показывает Ваши нынешние уровни налогов/роскоши/науки; нажмите мышкой, чтобы "
 "их переключить."
 
-#: client/gui-gtk-2.0/mapview.c:945 client/gui-win32/mapview.c:806
+#: client/gui-gtk-2.0/mapview.c:946 client/gui-win32/mapview.c:807
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr ""
 "Улучшенная прорисовка тумана работает только в формате truecolor.  Отменяем "
@@ -11635,7 +11679,7 @@ msgstr "_Справка"
 #: client/gui-gtk-2.0/repodlgs.c:213 client/gui-gtk/repodlgs.c:203
 #: client/gui-gtk/wldlg.c:502 client/gui-mui/gui_main.c:288
 #: client/gui-mui/helpdlg.c:284 client/gui-mui/repodlgs.c:277
-#: client/gui-win32/citydlg.c:1090 client/gui-win32/repodlgs.c:292
+#: client/gui-win32/citydlg.c:1091 client/gui-win32/repodlgs.c:292
 #: client/gui-win32/wldlg.c:724 data/Freeciv.in:1493 data/Freeciv.in:2058
 #: data/Freeciv.in:2128 data/Freeciv.in:2215 data/Freeciv.in:2221
 msgid "Help"
@@ -11881,12 +11925,12 @@ msgid "Comment"
 msgstr "Комментарий"
 
 #: client/gui-gtk-2.0/pages.c:688
-msgid "Internet _Metaserver"
-msgstr "_Интернет Метасервер"
-
-#: client/gui-gtk-2.0/pages.c:723
 msgid "Local _Area Network"
 msgstr "_Локальная сеть"
+
+#: client/gui-gtk-2.0/pages.c:724
+msgid "Internet _Metaserver"
+msgstr "_Интернет Метасервер"
 
 #: client/gui-gtk-2.0/pages.c:758
 msgid "_Host:"
@@ -11949,7 +11993,7 @@ msgstr "Выберите _сценарий"
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:314
 #: client/gui-gtk/wldlg.c:320 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
-#: client/gui-win32/citydlg.c:1096 client/gui-win32/connectdlg.c:1021
+#: client/gui-win32/citydlg.c:1097 client/gui-win32/connectdlg.c:1021
 #: client/gui-win32/wldlg.c:678 client/gui-win32/wldlg.c:684
 msgid "Type"
 msgstr "Тип"
@@ -12049,7 +12093,7 @@ msgstr "Количество"
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/repodlgs.c:587
 #: client/gui-gtk/wldlg.c:316 client/gui-gtk/wldlg.c:322
 #: client/gui-mui/citydlg.c:636 client/gui-mui/repodlgs.c:461
-#: client/gui-mui/worklistclass.c:239 client/gui-win32/citydlg.c:1103
+#: client/gui-mui/worklistclass.c:239 client/gui-win32/citydlg.c:1104
 #: client/gui-win32/repodlgs.c:466 client/gui-win32/wldlg.c:680
 #: client/gui-win32/wldlg.c:686
 msgid "Cost"
@@ -12272,7 +12316,7 @@ msgid "City improvements"
 msgstr "Городские здания"
 
 #: client/gui-gtk/citydlg.c:620 client/gui-mui/citydlg.c:663
-#: client/gui-win32/citydlg.c:862
+#: client/gui-win32/citydlg.c:863
 msgid "Upkeep"
 msgstr "Поддержка"
 
@@ -12280,7 +12324,7 @@ msgstr "Поддержка"
 msgid "City _Overview"
 msgstr "Обзор города"
 
-#: client/gui-gtk/citydlg.c:647 client/gui-win32/citydlg.c:791
+#: client/gui-gtk/citydlg.c:647 client/gui-win32/citydlg.c:792
 msgid "City info"
 msgstr "Информация о городе"
 
@@ -12300,16 +12344,16 @@ msgid "_Change"
 msgstr "Изменить"
 
 #: client/gui-gtk/citydlg.c:887 client/gui-gtk/citydlg.c:1884
-#: client/gui-gtk/citydlg.c:3051 client/gui-win32/citydlg.c:800
+#: client/gui-gtk/citydlg.c:3051 client/gui-win32/citydlg.c:801
 msgid "Sell"
 msgstr "Продать"
 
-#: client/gui-gtk/citydlg.c:962 client/gui-win32/citydlg.c:820
+#: client/gui-gtk/citydlg.c:962 client/gui-win32/citydlg.c:821
 msgid "Supported units"
 msgstr "Поддерживаемые войска"
 
 #: client/gui-gtk/citydlg.c:966 client/gui-mui/citydlg.c:1446
-#: client/gui-mui/citydlg.c:1494 client/gui-win32/citydlg.c:826
+#: client/gui-mui/citydlg.c:1494 client/gui-win32/citydlg.c:827
 msgid "Units present"
 msgstr "Присутствующие войска"
 
@@ -12370,7 +12414,7 @@ msgid "City name"
 msgstr "Название города"
 
 #: client/gui-gtk/citydlg.c:1378 client/gui-gtk/wldlg.c:226
-#: client/gui-win32/citydlg.c:834 client/gui-win32/wldlg.c:310
+#: client/gui-win32/citydlg.c:835 client/gui-win32/wldlg.c:310
 #: data/Freeciv.in:2028
 msgid "Rename"
 msgstr "Переименовать"
@@ -12409,13 +12453,13 @@ msgid "Present units (%d)"
 msgstr "Присутствующие войска (%d)"
 
 #: client/gui-gtk/citydlg.c:2208 client/gui-mui/citydlg.c:2052
-#: client/gui-win32/citydlg.c:1286
+#: client/gui-win32/citydlg.c:1287
 #, c-format
 msgid "Total trade from trade routes: %d"
 msgstr "Всего торговли от торговых путей: %d"
 
 #: client/gui-gtk/citydlg.c:2367 client/gui-gtk/citydlg.c:2403
-#: client/gui-win32/citydlg.c:1496 client/gui-win32/citydlg.c:1527
+#: client/gui-win32/citydlg.c:1497 client/gui-win32/citydlg.c:1528
 #: data/Freeciv.in:1192 data/Freeciv.in:1228
 msgid "Unit Commands"
 msgstr "Команды соединения"
@@ -12431,13 +12475,13 @@ msgstr "Команды соединения"
 #: client/gui-mui/gamedlgs.c:238 client/gui-mui/gamedlgs.c:326
 #: client/gui-mui/gotodlg.c:171 client/gui-mui/inputdlg.c:82
 #: client/gui-mui/messagedlg.c:91 client/gui-mui/worklistclass.c:717
-#: client/gui-win32/citydlg.c:1504 client/gui-win32/citydlg.c:1543
-#: client/gui-win32/dialogs.c:1531 client/gui-win32/dialogs.c:1553
-#: client/gui-win32/dialogs.c:1583
+#: client/gui-win32/citydlg.c:1505 client/gui-win32/citydlg.c:1544
+#: client/gui-win32/dialogs.c:1532 client/gui-win32/dialogs.c:1554
+#: client/gui-win32/dialogs.c:1584
 msgid "_Cancel"
 msgstr "Отмена"
 
-#: client/gui-gtk/citydlg.c:2415 client/gui-win32/citydlg.c:1541
+#: client/gui-gtk/citydlg.c:2415 client/gui-win32/citydlg.c:1542
 msgid "_Upgrade unit"
 msgstr "Модернизировать соединение"
 
@@ -12447,10 +12491,10 @@ msgstr "Модернизировать соединение"
 #: client/gui-gtk/dialogs.c:1193 client/gui-mui/citydlg.c:964
 #: client/gui-mui/citydlg.c:1004 client/gui-mui/dialogs.c:493
 #: client/gui-mui/dialogs.c:1044 client/gui-mui/dialogs.c:1761
-#: client/gui-mui/repodlgs.c:725 client/gui-win32/citydlg.c:922
-#: client/gui-win32/citydlg.c:976 client/gui-win32/citydlg.c:1467
-#: client/gui-win32/dialogs.c:906 client/gui-win32/dialogs.c:1293
-#: client/gui-win32/dialogs.c:1477
+#: client/gui-mui/repodlgs.c:725 client/gui-win32/citydlg.c:923
+#: client/gui-win32/citydlg.c:977 client/gui-win32/citydlg.c:1468
+#: client/gui-win32/dialogs.c:907 client/gui-win32/dialogs.c:1294
+#: client/gui-win32/dialogs.c:1478
 msgid "_Yes"
 msgstr "Да"
 
@@ -12460,10 +12504,10 @@ msgstr "Да"
 #: client/gui-gtk/dialogs.c:1194 client/gui-mui/citydlg.c:965
 #: client/gui-mui/citydlg.c:1005 client/gui-mui/dialogs.c:494
 #: client/gui-mui/dialogs.c:1045 client/gui-mui/dialogs.c:1762
-#: client/gui-mui/repodlgs.c:726 client/gui-win32/citydlg.c:923
-#: client/gui-win32/citydlg.c:977 client/gui-win32/citydlg.c:1469
-#: client/gui-win32/dialogs.c:907 client/gui-win32/dialogs.c:1294
-#: client/gui-win32/dialogs.c:1478
+#: client/gui-mui/repodlgs.c:726 client/gui-win32/citydlg.c:924
+#: client/gui-win32/citydlg.c:978 client/gui-win32/citydlg.c:1470
+#: client/gui-win32/dialogs.c:908 client/gui-win32/dialogs.c:1295
+#: client/gui-win32/dialogs.c:1479
 msgid "_No"
 msgstr "Нет"
 
@@ -12471,14 +12515,14 @@ msgstr "Нет"
 #: client/gui-gtk/dialogs.c:441 client/gui-gtk/dialogs.c:456
 #: client/gui-gtk/dialogs.c:946 client/gui-gtk/dialogs.c:962
 #: client/gui-mui/dialogs.c:234 client/gui-mui/dialogs.c:486
-#: client/gui-mui/dialogs.c:502 client/gui-win32/citydlg.c:931
-#: client/gui-win32/citydlg.c:1474 client/gui-win32/dialogs.c:1301
-#: client/gui-win32/dialogs.c:1470 client/gui-win32/dialogs.c:1485
+#: client/gui-mui/dialogs.c:502 client/gui-win32/citydlg.c:932
+#: client/gui-win32/citydlg.c:1475 client/gui-win32/dialogs.c:1302
+#: client/gui-win32/dialogs.c:1471 client/gui-win32/dialogs.c:1486
 #: data/Freeciv.in:2279 data/Freeciv.in:2483 data/Freeciv.in:2513
 msgid "Darn"
 msgstr "Чёрт"
 
-#: client/gui-gtk/citydlg.c:2820 client/gui-win32/citydlg.c:1075
+#: client/gui-gtk/citydlg.c:2820 client/gui-win32/citydlg.c:1076
 #: data/Freeciv.in:2100
 msgid "Change Production"
 msgstr "Изменить производство"
@@ -12544,8 +12588,8 @@ msgstr "На:"
 msgid "Change Production Everywhere"
 msgstr "Изменить производство везде"
 
-#: client/gui-gtk/cityrep.c:1129 client/gui-win32/citydlg.c:807
-#: client/gui-win32/citydlg.c:1086 client/gui-win32/cityrep.c:746
+#: client/gui-gtk/cityrep.c:1129 client/gui-win32/citydlg.c:808
+#: client/gui-win32/citydlg.c:1087 client/gui-win32/cityrep.c:746
 #: client/gui-win32/cityrep.c:880 data/Freeciv.in:1414 data/Freeciv.in:1664
 #: data/Freeciv.in:1820 data/Freeciv.in:2116
 msgid "Change"
@@ -12554,9 +12598,9 @@ msgstr "Изменить"
 #: client/gui-gtk/cityrep.c:1138 client/gui-gtk/dialogs.c:1257
 #: client/gui-gtk/finddlg.c:108 client/gui-gtk/gamedlgs.c:312
 #: client/gui-gtk/inputdlg.c:135 client/gui-gtk/messagedlg.c:126
-#: client/gui-gtk/wldlg.c:492 client/gui-win32/citydlg.c:1088
+#: client/gui-gtk/wldlg.c:492 client/gui-win32/citydlg.c:1089
 #: client/gui-win32/cityrep.c:754 client/gui-win32/connectdlg.c:1060
-#: client/gui-win32/dialogs.c:1667 client/gui-win32/finddlg.c:128
+#: client/gui-win32/dialogs.c:1668 client/gui-win32/finddlg.c:128
 #: client/gui-win32/gotodlg.c:170 client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:216 client/gui-win32/ratesdlg.c:328
 #: client/gui-win32/repodlgs.c:970 client/gui-win32/wldlg.c:733
@@ -12585,10 +12629,10 @@ msgstr "Усановить выбранные колонки"
 #: client/gui-gtk/inteldlg.c:177 client/gui-gtk/repodlgs.c:238
 #: client/gui-gtk/repodlgs.c:620 client/gui-gtk/repodlgs.c:874
 #: client/gui-gtk/spaceshipdlg.c:213 client/gui-gtk/wldlg.c:206
-#: client/gui-win32/citydlg.c:832 client/gui-win32/cityrep.c:133
+#: client/gui-win32/citydlg.c:833 client/gui-win32/cityrep.c:133
 #: client/gui-win32/cityrep.c:876 client/gui-win32/dialogs.c:180
 #: client/gui-win32/dialogs.c:248 client/gui-win32/dialogs.c:706
-#: client/gui-win32/dialogs.c:1213 client/gui-win32/dialogs.c:1412
+#: client/gui-win32/dialogs.c:1214 client/gui-win32/dialogs.c:1413
 #: client/gui-win32/helpdlg.c:455 client/gui-win32/inteldlg.c:153
 #: client/gui-win32/messagewin.c:148 client/gui-win32/optiondlg.c:162
 #: client/gui-win32/plrdlg.c:356 client/gui-win32/repodlgs.c:306
@@ -12734,17 +12778,17 @@ msgstr "Сообщение:"
 msgid "Goto and Close"
 msgstr "Иди к и Закрыть"
 
-#: client/gui-gtk/dialogs.c:705 client/gui-win32/dialogs.c:1214
+#: client/gui-gtk/dialogs.c:705 client/gui-win32/dialogs.c:1215
 #: data/Freeciv.in:2393
 msgid "Steal"
 msgstr "Украсть"
 
-#: client/gui-gtk/dialogs.c:748 client/gui-win32/dialogs.c:1118
+#: client/gui-gtk/dialogs.c:748 client/gui-win32/dialogs.c:1119
 #: client/gui-xaw/dialogs.c:732
 msgid "NONE"
 msgstr "НИЧЕГО"
 
-#: client/gui-gtk/dialogs.c:803 client/gui-win32/dialogs.c:1413
+#: client/gui-gtk/dialogs.c:803 client/gui-win32/dialogs.c:1414
 #: data/Freeciv.in:2435
 msgid "Sabotage"
 msgstr "Саботировать"
@@ -12766,7 +12810,7 @@ msgstr "Класс:"
 msgid "Description"
 msgstr "Описание"
 
-#: client/gui-gtk/dialogs.c:1968
+#: client/gui-gtk/dialogs.c:1968 data/default/units.ruleset:1888
 msgid "Leader"
 msgstr "Лидер"
 
@@ -13269,7 +13313,7 @@ msgid "empty worklist"
 msgstr "пустой список работ"
 
 #: client/gui-gtk/wldlg.c:1371 client/gui-mui/citydlg.c:1373
-#: client/gui-mui/worklistclass.c:159 client/gui-win32/citydlg.c:738
+#: client/gui-mui/worklistclass.c:159 client/gui-win32/citydlg.c:739
 #: client/gui-win32/wldlg.c:956 client/gui-win32/wldlg.c:1002
 msgid "Worklist"
 msgstr "Рабочий список"
@@ -13305,16 +13349,16 @@ msgstr "Freeciv - Городское производство"
 msgid "Shields"
 msgstr "Щиты"
 
-#: client/gui-mui/citydlg.c:1371 client/gui-win32/citydlg.c:738
+#: client/gui-mui/citydlg.c:1371 client/gui-win32/citydlg.c:739
 msgid "City Overview"
 msgstr "Обзор города"
 
-#: client/gui-mui/citydlg.c:1376 client/gui-win32/citydlg.c:740
+#: client/gui-mui/citydlg.c:1376 client/gui-win32/citydlg.c:741
 #: data/Freeciv.in:2258
 msgid "Trade Routes"
 msgstr "Торговые пути"
 
-#: client/gui-mui/citydlg.c:1377 client/gui-win32/citydlg.c:741
+#: client/gui-mui/citydlg.c:1377 client/gui-win32/citydlg.c:742
 msgid "Misc. Settings"
 msgstr "Разные настройки"
 
@@ -13700,7 +13744,7 @@ msgid "Transform Terrain"
 msgstr "Преобразовать рельеф"
 
 #: client/gui-mui/gui_main.c:247 client/gui-mui/mapclass.c:1670
-#: client/gui-win32/menu.c:1228 client/gui-xaw/menu.c:175
+#: client/gui-win32/menu.c:1231 client/gui-xaw/menu.c:175
 msgid "Build Fortress"
 msgstr "Построить крепость"
 
@@ -13710,7 +13754,7 @@ msgid "Build Airbase"
 msgstr "Построить аэродром"
 
 #: client/gui-mui/gui_main.c:249 client/gui-mui/gui_main.c:1251
-#: client/gui-mui/mapclass.c:1674 client/gui-win32/menu.c:1235
+#: client/gui-mui/mapclass.c:1674 client/gui-win32/menu.c:1238
 #: client/gui-xaw/menu.c:177
 msgid "Clean Pollution"
 msgstr "Очистить загрязнение"
@@ -13721,7 +13765,7 @@ msgid "Clean Nuclear Fallout"
 msgstr "Очистить радиацию"
 
 #: client/gui-mui/gui_main.c:252 client/gui-mui/mapclass.c:1678
-#: client/gui-mui/mapclass.c:2947 client/gui-win32/menu.c:1226
+#: client/gui-mui/mapclass.c:2947 client/gui-win32/menu.c:1229
 #: client/gui-xaw/menu.c:181
 msgid "Fortify"
 msgstr "Укрепить"
@@ -13735,13 +13779,13 @@ msgid "Wake up others"
 msgstr "Разбудить других"
 
 #: client/gui-mui/gui_main.c:260 client/gui-mui/mapclass.c:1684
-#: client/gui-win32/menu.c:377 client/gui-win32/menu.c:1243
+#: client/gui-win32/menu.c:377 client/gui-win32/menu.c:1246
 #: client/gui-xaw/menu.c:192
 msgid "Auto Settler"
 msgstr "Авто Колонисты"
 
 #: client/gui-mui/gui_main.c:261 client/gui-mui/mapclass.c:1686
-#: client/gui-win32/menu.c:1240 client/gui-xaw/menu.c:193
+#: client/gui-win32/menu.c:1243 client/gui-xaw/menu.c:193
 msgid "Auto Attack"
 msgstr "Авто атаковать"
 
@@ -13840,7 +13884,7 @@ msgid "Change to %s"
 msgstr "Изменить в %s"
 
 #: client/gui-mui/gui_main.c:1246 client/gui-mui/mapclass.c:1690
-#: client/gui-win32/menu.c:1233 client/gui-xaw/menu.c:178
+#: client/gui-win32/menu.c:1236 client/gui-xaw/menu.c:178
 msgid "Paradrop"
 msgstr "Сбросить с парашютом"
 
@@ -13850,7 +13894,7 @@ msgid "Add to City"
 msgstr "Добавить к городу"
 
 #: client/gui-mui/gui_main.c:1294 client/gui-mui/mapclass.c:1706
-#: client/gui-win32/menu.c:1208 client/gui-xaw/menu.c:169
+#: client/gui-win32/menu.c:1209 client/gui-xaw/menu.c:169
 msgid "Build Farmland"
 msgstr "Построить ферму"
 
@@ -13860,6 +13904,7 @@ msgid "Build Railroad"
 msgstr "Построить железную дорогу"
 
 #: client/gui-mui/gui_main.c:1433
+#, c-format
 msgid ""
 "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
@@ -14186,40 +14231,40 @@ msgstr "Рабочий список для города"
 msgid "Name of Worklist"
 msgstr "Имя рабочего списка"
 
-#: client/gui-win32/citydlg.c:805 client/gui-win32/cityrep.c:879
+#: client/gui-win32/citydlg.c:806 client/gui-win32/cityrep.c:879
 #: data/Freeciv.in:1656
 msgid "Buy"
 msgstr "Купить"
 
-#: client/gui-win32/citydlg.c:838 data/Freeciv.in:3073
+#: client/gui-win32/citydlg.c:839 data/Freeciv.in:3073
 msgid "Activate Units"
 msgstr "Акт. войска"
 
-#: client/gui-win32/citydlg.c:841
+#: client/gui-win32/citydlg.c:842
 msgid "Unit List"
 msgstr "Список соединений"
 
-#: client/gui-win32/citydlg.c:859
+#: client/gui-win32/citydlg.c:860
 msgid "Improvement"
 msgstr "Здание"
 
-#: client/gui-win32/citydlg.c:2011
+#: client/gui-win32/citydlg.c:2012
 msgid "Elvises"
 msgstr "Скоморохи"
 
-#: client/gui-win32/citydlg.c:2020
+#: client/gui-win32/citydlg.c:2021
 msgid "Auto-attack vs land units"
 msgstr "Авто-атаковать наземные войска"
 
-#: client/gui-win32/citydlg.c:2022
+#: client/gui-win32/citydlg.c:2023
 msgid "Auto-attack vs sea units"
 msgstr "Авто-атаковать морские войска"
 
-#: client/gui-win32/citydlg.c:2024
+#: client/gui-win32/citydlg.c:2025
 msgid "Auto-attack vs air units"
 msgstr "Авто-атаковать воздушные войска"
 
-#: client/gui-win32/citydlg.c:2026
+#: client/gui-win32/citydlg.c:2027
 msgid "Auto-attack vs helicopters"
 msgstr "Авто-атаковать вертолёты"
 
@@ -14323,6 +14368,10 @@ msgstr "Имя лидера"
 #: client/gui-win32/dialogs.c:517
 msgid "Select your sex"
 msgstr "Выберите Ваш пол"
+
+#: client/gui-win32/dialogs.c:723
+msgid "Unit Selection"
+msgstr "Выбор соединений"
 
 #: client/gui-win32/diplodlg.c:666
 msgid "Erase Clause"
@@ -14687,28 +14736,27 @@ msgid "Category: %s.<br>"
 msgstr "Категория: %s.<br>"
 
 #: manual/civmanual.c:149
+#, c-format
 msgid "Can only be used in server console. "
 msgstr "Может быть использовано только в консоли сервера. "
 
 #: manual/civmanual.c:152
+#, c-format
 msgid "Can be changed during a game. "
 msgstr "Может быть изменено в ходе игры. "
 
 #: manual/civmanual.c:154
+#, c-format
 msgid "Can <b>not</b> be changed during a game. "
 msgstr "<b>Не</b> может быть изменено в ходе игры. "
 
 #: manual/civmanual.c:159
 #, c-format
-msgid "<p class=\"bounds\">Minimum: 0, Default: %d, "
-msgstr "<p class=\"bounds\">Минимум: 0, По умолчанию: %d, "
-
-#: manual/civmanual.c:160
 msgid ""
-"Maximum: 1</p>\n"
+"<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
 msgstr ""
-"Максимум: 1</p>\n"
+"<p class=\"bounds\">Минимум: 0, По умолчанию: %d, Максимум: 1</p>\n"
 "\n"
 
 #: manual/civmanual.c:163 manual/civmanual.c:173
@@ -14722,17 +14770,11 @@ msgstr ""
 
 #: manual/civmanual.c:168
 #, c-format
-msgid "<p class=\"bounds\">Minimum: %d, Default: %d, "
-msgstr ""
-"<p class=\"bounds\">Минимум: %d, По умолчанию: %d, "
-
-#: manual/civmanual.c:169
-#, c-format
 msgid ""
-"Maximum: %d</p>\n"
+"<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
 msgstr ""
-"Максимум: %d</p>\n"
+"<p class=\"bounds\">Минимум: %d, По умолчанию: %d, Максимум: %d</p>\n"
 "\n"
 
 #: manual/civmanual.c:178
@@ -14772,21 +14814,16 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:199
+#, c-format
 msgid ""
 "<table>\n"
 "<tr>\n"
-"<td valign=\"top\">"
-msgstr ""
-"<table>\n"
-"<tr>\n"
-"<td valign=\"top\">"
-
-#: manual/civmanual.c:200
-msgid ""
-"<pre>Synopsis:</pre></td>\n"
+"<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
 "<td>"
 msgstr ""
-"<pre>Краткое описание:</pre></td>\n"
+"<table>\n"
+"<tr>\n"
+"<td valign=\"top\"><pre>Краткое описание:</pre></td>\n"
 "<td>"
 
 #: manual/civmanual.c:203
@@ -14808,6 +14845,7 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:216
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
@@ -14825,67 +14863,79 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:225
+#, c-format
 msgid "<table border=1><tr><th>Terrain</th>"
 msgstr "<table border=1><tr><th>Рельеф</th>"
 
 #: manual/civmanual.c:226
+#, c-format
 msgid "<th>Food/ Shield/ Trade</th>"
 msgstr "<th>Пища/ Щиты/ Торговля</th>"
 
 #: manual/civmanual.c:227
+#, c-format
 msgid "<th>Special 1</th><th>Food/ Shield/ Trade</th>"
 msgstr "<th>Специальное 1</th><th>Пища/ Щиты/ Торговля</th>"
 
 #: manual/civmanual.c:228
+#, c-format
 msgid "<th>Special 2</th><th>Food/ Shield/ Trade</th>"
 msgstr "<th>Специальное 2</th><th>Пища/ Щиты/ Торговля</th>"
 
 #: manual/civmanual.c:229
-msgid "<th>Move cost</th><th>Defense</th><th>Road "
-msgstr "<th>Стоимость движения</th><th>Защита</th><th>Бонус дороги "
-
-#: manual/civmanual.c:230
-msgid "+trade</th>\n"
-msgstr "(+торговля)</th>\n"
+#, c-format
+msgid "<th>Move cost</th><th>Defense</th><th>Road +trade</th>\n"
+msgstr ""
+"<th>Стоимость движения</th><th>Защита</th><th>Дорога (+торговля)</th>\n"
 
 #: manual/civmanual.c:231
+#, c-format
 msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
-msgstr "<th>Бонус орошения (+пища)</th><th>Бонус шахты (+щиты)</th>\n"
+msgstr "<th>Орошение (+пища)</th><th>Шахты (+щиты)</th>\n"
 
 #: manual/civmanual.c:232
+#, c-format
 msgid "<th>Transform to</th>"
 msgstr "<th>Преобразовывается в</th>"
 
 #: manual/civmanual.c:269
+#, c-format
 msgid "</table><br><br><br><table border=1>"
 msgstr "</table><br><br><br><table border=1>"
 
 #: manual/civmanual.c:270
+#, c-format
 msgid "<caption>Time to perform action</caption>"
 msgstr "<caption>Время выполнения действия</caption>"
 
 #: manual/civmanual.c:271
+#, c-format
 msgid "<tr><th>Terrain</th>\n"
 msgstr "<tr><th>Рельеф</th>\n"
 
 #: manual/civmanual.c:272
+#, c-format
 msgid "<th>Road</th><th>Irrigation</th>\n"
 msgstr "<th>Дорога</th><th>Орошение</th>\n"
 
 #: manual/civmanual.c:273
+#, c-format
 msgid "<th>Mining</th><th>Rail</th>\n"
 msgstr "<th>Шахта</th><th>Ж. д.</th>\n"
 
 #: manual/civmanual.c:274
+#, c-format
 msgid "<th>Airbase</th><th>Fortress</th>\n"
 msgstr "<th>Аэродром</th><th>Крепость</th>\n"
 
 #: manual/civmanual.c:275
+#, c-format
 msgid "<th>Clean pollution</th><th>Clean fallout</th>\n"
 msgstr ""
 "<th>Очистка загрязнения</th><th>Очистка радиоактивного загрязнения</th>\n"
 
 #: manual/civmanual.c:276
+#, c-format
 msgid "<th>Transform</th></tr>\n"
 msgstr "<th>Преобразование</th></tr>\n"
 
@@ -18082,7 +18132,7 @@ msgid "Copernicus' Observatory"
 msgstr "Обсерватория"
 
 #: data/default/buildings.ruleset:1466 data/civ2/buildings.ruleset:1616
-#: data/civ1/buildings.ruleset:1271 data/history/buildings.ruleset:1639
+#: data/history/buildings.ruleset:1639
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
 msgstr "Ускоряет развитие науки на 100% в городе где построен."
@@ -18202,7 +18252,7 @@ msgstr ""
 "Университет."
 
 #: data/default/buildings.ruleset:1704 data/civ2/buildings.ruleset:1621
-#: data/civ1/buildings.ruleset:1276 data/history/buildings.ruleset:1644
+#: data/civ1/buildings.ruleset:1273 data/history/buildings.ruleset:1644
 msgid "J.S. Bach's Cathedral"
 msgstr "Coбop И.C.Бaxa"
 
@@ -18236,7 +18286,7 @@ msgid "Upgrades one obsolete unit per game turn."
 msgstr "Модернизирует одно устаревшее соединение за ход игры."
 
 #: data/default/buildings.ruleset:1783 data/civ2/buildings.ruleset:1700
-#: data/civ1/buildings.ruleset:1303 data/history/buildings.ruleset:1723
+#: data/civ1/buildings.ruleset:1300 data/history/buildings.ruleset:1723
 msgid "Lighthouse"
 msgstr "Маяк"
 
@@ -18251,7 +18301,7 @@ msgstr ""
 "всех городах)."
 
 #: data/default/buildings.ruleset:1813 data/civ2/buildings.ruleset:1730
-#: data/civ1/buildings.ruleset:1333 data/history/buildings.ruleset:1753
+#: data/civ1/buildings.ruleset:1330 data/history/buildings.ruleset:1753
 msgid "Magellan's Expedition"
 msgstr "Пyтeшecтвиe Maгeллaнa"
 
@@ -18260,7 +18310,7 @@ msgid "Gives all your sea units 2 additional movement points."
 msgstr "Даёт всем морским соединениям 2 дополнительных хода."
 
 #: data/default/buildings.ruleset:1839 data/civ2/buildings.ruleset:1756
-#: data/civ1/buildings.ruleset:1359 data/history/buildings.ruleset:1779
+#: data/civ1/buildings.ruleset:1356 data/history/buildings.ruleset:1779
 msgid "Manhattan Project"
 msgstr "Проект Манхэттэн"
 
@@ -18275,7 +18325,7 @@ msgid "The player who owns it gets an embassy with all players."
 msgstr "Игрок имеющий это чудо, получает посольствa со всеми игроками."
 
 #: data/default/buildings.ruleset:1890 data/civ2/buildings.ruleset:1807
-#: data/civ1/buildings.ruleset:1384 data/history/buildings.ruleset:1830
+#: data/civ1/buildings.ruleset:1381 data/history/buildings.ruleset:1830
 msgid "Michelangelo's Chapel"
 msgstr "Чacoвня Mикeлaнджeлo"
 
@@ -18294,7 +18344,7 @@ msgstr ""
 "единицу.)"
 
 #: data/default/buildings.ruleset:1923 data/civ2/buildings.ruleset:1840
-#: data/civ1/buildings.ruleset:1410 data/history/buildings.ruleset:1863
+#: data/civ1/buildings.ruleset:1407 data/history/buildings.ruleset:1863
 msgid "Oracle"
 msgstr "Оракул"
 
@@ -18305,7 +18355,7 @@ msgstr ""
 "городе, где есть храм."
 
 #: data/default/buildings.ruleset:1950 data/civ2/buildings.ruleset:1868
-#: data/civ1/buildings.ruleset:1438 data/history/buildings.ruleset:1890
+#: data/civ1/buildings.ruleset:1435 data/history/buildings.ruleset:1890
 msgid "Pyramids"
 msgstr "Пирамиды"
 
@@ -18315,7 +18365,7 @@ msgid "Counts as having a Granary in every city."
 msgstr "Считается как Амбар в каждом городе."
 
 #: data/default/buildings.ruleset:1976 data/civ2/buildings.ruleset:1894
-#: data/civ1/buildings.ruleset:1467 data/history/buildings.ruleset:1916
+#: data/civ1/buildings.ruleset:1464 data/history/buildings.ruleset:1916
 msgid "SETI Program"
 msgstr "Программа SETI"
 
@@ -18326,12 +18376,12 @@ msgstr ""
 "Исследовательская лаборатория на 100%."
 
 #: data/default/buildings.ruleset:2002 data/civ2/buildings.ruleset:1921
-#: data/civ1/buildings.ruleset:1494 data/history/buildings.ruleset:1943
+#: data/civ1/buildings.ruleset:1491 data/history/buildings.ruleset:1943
 msgid "Shakespeare's Theatre"
 msgstr "Teaтp Шeкcпиpa"
 
 #: data/default/buildings.ruleset:2023 data/civ2/buildings.ruleset:1942
-#: data/civ1/buildings.ruleset:1515 data/history/buildings.ruleset:1964
+#: data/civ1/buildings.ruleset:1512 data/history/buildings.ruleset:1964
 msgid "Makes all unhappy citizens content, in the city where it is located."
 msgstr "Делает всех несчастных граждан нейтральными в городе где установлено."
 
@@ -18341,7 +18391,7 @@ msgid "Statue of Liberty"
 msgstr "Cтaтyя cвoбoды"
 
 #: data/default/buildings.ruleset:2050 data/civ2/buildings.ruleset:1969
-#: data/civ1/buildings.ruleset:1460 data/civ1/buildings.ruleset:1542
+#: data/civ1/buildings.ruleset:1457 data/civ1/buildings.ruleset:1539
 #: data/history/buildings.ruleset:1991
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
@@ -18366,7 +18416,7 @@ msgstr ""
 "на половину."
 
 #: data/default/buildings.ruleset:2086 data/civ2/buildings.ruleset:2005
-#: data/civ1/buildings.ruleset:1520 data/history/buildings.ruleset:2027
+#: data/civ1/buildings.ruleset:1517 data/history/buildings.ruleset:2027
 msgid "United Nations"
 msgstr "ООН"
 
@@ -18375,7 +18425,7 @@ msgid "All your units regain two extra hitpoints per turn."
 msgstr "Соединения получают две лишних единицы здоровья за ход."
 
 #: data/default/buildings.ruleset:2120 data/civ2/buildings.ruleset:2039
-#: data/civ1/buildings.ruleset:1554 data/history/buildings.ruleset:2061
+#: data/civ1/buildings.ruleset:1551 data/history/buildings.ruleset:2061
 msgid "Women's Suffrage"
 msgstr "Изб. пpaво жeнщин"
 
@@ -18550,7 +18600,7 @@ msgstr ""
 msgid "Works as a City Wall in all cities."
 msgstr "Действует как городская стена для всех городов."
 
-#: data/civ2/buildings.ruleset:1723 data/civ1/buildings.ruleset:1324
+#: data/civ2/buildings.ruleset:1723 data/civ1/buildings.ruleset:1321
 #: data/history/buildings.ruleset:1746
 msgid ""
 "Gives all sea units 1 additional movement point and eliminates the risk of "
@@ -18565,7 +18615,7 @@ msgstr ""
 msgid "Gives all sea units 2 additional movement points."
 msgstr "Даёт всем морским соединениям 2 дополнительных хода."
 
-#: data/civ2/buildings.ruleset:1863 data/civ1/buildings.ruleset:1433
+#: data/civ2/buildings.ruleset:1863 data/civ1/buildings.ruleset:1430
 msgid "Doubles the effect of Temples, in all cities."
 msgstr "Удваивает эффект храмов во всех городах."
 
@@ -18589,11 +18639,11 @@ msgstr ""
 msgid "Units regain two extra hitpoints per turn."
 msgstr "Соединения получают две лишних единицы здоровья за ход."
 
-#: data/civ2/buildings.ruleset:2069 data/civ1/buildings.ruleset:1582
+#: data/civ2/buildings.ruleset:2069 data/civ1/buildings.ruleset:1579
 msgid "Capitalization"
 msgstr "Капитализация"
 
-#: data/civ2/buildings.ruleset:2088 data/civ1/buildings.ruleset:1601
+#: data/civ2/buildings.ruleset:2088 data/civ1/buildings.ruleset:1598
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Capitalization means its shield production is converted to tax output "
@@ -18675,7 +18725,16 @@ msgstr ""
 "Действует как Гидроэлектростанция в каждом городе на материке, где построено "
 "это чудо. (Уменьшает загрязнение и увеличивает эффект Фабрик и Заводов)."
 
-#: data/civ1/buildings.ruleset:1297
+#: data/civ1/buildings.ruleset:1267
+#, no-c-format
+msgid ""
+"Boosts science production by 33% in each city with a library, and 33% in "
+"each city with a university."
+msgstr ""
+"Ускоряет развитие науки на 33% в каждом городе, где есть библиотека, и на "
+"33% в каждом городе, где есть университет."
+
+#: data/civ1/buildings.ruleset:1294
 msgid ""
 "Makes two unhappy citizens content in every city of yours on the same "
 "continent where the wonder is built."
@@ -18683,20 +18742,20 @@ msgstr ""
 "Делает двух несчастных граждан нейтральными в каждом Вашем городе на том "
 "материке, на котором построено чудо."
 
-#: data/civ1/buildings.ruleset:1354
+#: data/civ1/buildings.ruleset:1351
 msgid "Gives all sea units 1 additional movement point."
 msgstr "Даёт всем морским соединениям 1 дополнительный ход."
 
-#: data/civ1/buildings.ruleset:1405
+#: data/civ1/buildings.ruleset:1402
 msgid "Double effects of Cathedrals, in all cities."
 msgstr "Удваивает эффект Соборов во всех городах."
 
-#: data/civ1/buildings.ruleset:1489
+#: data/civ1/buildings.ruleset:1486
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
 msgstr "Увеличивает производство науки в каждом городе на 50%."
 
-#: data/civ1/buildings.ruleset:1575
+#: data/civ1/buildings.ruleset:1572
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
@@ -20418,24 +20477,24 @@ msgstr "Драгоценности"
 msgid "Fruit"
 msgstr "Фрукты"
 
-#: data/default/terrain.ruleset:460 data/civ2/terrain.ruleset:423
+#: data/default/terrain.ruleset:460 data/civ2/terrain.ruleset:422
 #: data/civ1/terrain.ruleset:412 data/history/terrain.ruleset:452
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
 msgstr ""
 "Джунгли - очень плотно заросшие области, что делает сельское хозяйство "
 "проблематичным."
 
-#: data/default/terrain.ruleset:466 data/civ2/terrain.ruleset:429
+#: data/default/terrain.ruleset:466 data/civ2/terrain.ruleset:428
 #: data/civ1/terrain.ruleset:418 data/history/terrain.ruleset:458
 msgid "Mountains"
 msgstr "Горы"
 
-#: data/default/terrain.ruleset:481 data/civ2/terrain.ruleset:444
+#: data/default/terrain.ruleset:481 data/civ2/terrain.ruleset:443
 #: data/history/terrain.ruleset:473
 msgid "Iron"
 msgstr "Железо"
 
-#: data/default/terrain.ruleset:507 data/civ2/terrain.ruleset:465
+#: data/default/terrain.ruleset:507 data/civ2/terrain.ruleset:464
 #: data/civ1/terrain.ruleset:453 data/history/terrain.ruleset:499
 msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
@@ -20444,22 +20503,22 @@ msgstr ""
 "Горы - это регионы, находящиеся высоко над уровнем моря, что затруднят "
 "сельское хозяйство и торговлю."
 
-#: data/default/terrain.ruleset:513 data/civ2/terrain.ruleset:471
+#: data/default/terrain.ruleset:513 data/civ2/terrain.ruleset:470
 #: data/civ1/terrain.ruleset:459 data/history/terrain.ruleset:505
 msgid "Ocean"
 msgstr "Океан"
 
-#: data/default/terrain.ruleset:522 data/civ2/terrain.ruleset:480
+#: data/default/terrain.ruleset:522 data/civ2/terrain.ruleset:479
 #: data/civ1/terrain.ruleset:468 data/history/terrain.ruleset:514
 msgid "Fish"
 msgstr "Рыба"
 
-#: data/default/terrain.ruleset:528 data/civ2/terrain.ruleset:486
+#: data/default/terrain.ruleset:528 data/civ2/terrain.ruleset:485
 #: data/history/terrain.ruleset:520
 msgid "Whales"
 msgstr "Киты"
 
-#: data/default/terrain.ruleset:554 data/civ2/terrain.ruleset:507
+#: data/default/terrain.ruleset:554 data/civ2/terrain.ruleset:506
 #: data/civ1/terrain.ruleset:495 data/history/terrain.ruleset:546
 msgid ""
 "Oceans cover much of the world, and only sea units (Triremes and other "
@@ -20472,22 +20531,22 @@ msgstr ""
 "\n"
 "Квадраты океана не могут быть загрязнены или подвергнуты ядерным выбросам."
 
-#: data/default/terrain.ruleset:562 data/civ2/terrain.ruleset:515
+#: data/default/terrain.ruleset:562 data/civ2/terrain.ruleset:514
 #: data/civ1/terrain.ruleset:503 data/history/terrain.ruleset:554
 msgid "Plains"
 msgstr "Равнины"
 
-#: data/default/terrain.ruleset:571 data/civ2/terrain.ruleset:524
+#: data/default/terrain.ruleset:571 data/civ2/terrain.ruleset:523
 #: data/history/terrain.ruleset:563
 msgid "Buffalo"
 msgstr "Буйволы"
 
-#: data/default/terrain.ruleset:577 data/civ2/terrain.ruleset:530
+#: data/default/terrain.ruleset:577 data/civ2/terrain.ruleset:529
 #: data/history/terrain.ruleset:569
 msgid "Wheat"
 msgstr "Пшеница"
 
-#: data/default/terrain.ruleset:603 data/civ2/terrain.ruleset:551
+#: data/default/terrain.ruleset:603 data/civ2/terrain.ruleset:550
 #: data/civ1/terrain.ruleset:539 data/history/terrain.ruleset:595
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
@@ -20495,22 +20554,22 @@ msgid ""
 msgstr ""
 "Равнины - большие малозаселенные регионы, что несколько затрудняет торговлю."
 
-#: data/default/terrain.ruleset:609 data/civ2/terrain.ruleset:557
+#: data/default/terrain.ruleset:609 data/civ2/terrain.ruleset:556
 #: data/civ1/terrain.ruleset:545 data/history/terrain.ruleset:601
 msgid "Swamp"
 msgstr "Болото"
 
-#: data/default/terrain.ruleset:618 data/civ2/terrain.ruleset:566
+#: data/default/terrain.ruleset:618 data/civ2/terrain.ruleset:565
 #: data/history/terrain.ruleset:610
 msgid "Peat"
 msgstr "Торф"
 
-#: data/default/terrain.ruleset:624 data/civ2/terrain.ruleset:572
+#: data/default/terrain.ruleset:624 data/civ2/terrain.ruleset:571
 #: data/history/terrain.ruleset:616
 msgid "Spice"
 msgstr "Пряности"
 
-#: data/default/terrain.ruleset:650 data/civ2/terrain.ruleset:593
+#: data/default/terrain.ruleset:650 data/civ2/terrain.ruleset:592
 #: data/civ1/terrain.ruleset:580 data/history/terrain.ruleset:642
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
@@ -20519,23 +20578,23 @@ msgstr ""
 "Болота отличаются чрезмерным количеством воды, делая сельское хозяйство "
 "проблематичным."
 
-#: data/default/terrain.ruleset:656 data/civ2/terrain.ruleset:599
+#: data/default/terrain.ruleset:656 data/civ2/terrain.ruleset:598
 #: data/civ1/terrain.ruleset:586 data/history/terrain.ruleset:648
 msgid "Tundra"
 msgstr "Тундра"
 
-#: data/default/terrain.ruleset:665 data/civ2/terrain.ruleset:608
+#: data/default/terrain.ruleset:665 data/civ2/terrain.ruleset:607
 #: data/civ1/terrain.ruleset:261 data/civ1/terrain.ruleset:595
 #: data/history/terrain.ruleset:657
 msgid "?animals:Game"
 msgstr "Дичь"
 
-#: data/default/terrain.ruleset:671 data/civ2/terrain.ruleset:614
+#: data/default/terrain.ruleset:671 data/civ2/terrain.ruleset:613
 #: data/history/terrain.ruleset:663
 msgid "Furs"
 msgstr "Меха"
 
-#: data/default/terrain.ruleset:697 data/civ2/terrain.ruleset:635
+#: data/default/terrain.ruleset:697 data/civ2/terrain.ruleset:634
 #: data/civ1/terrain.ruleset:622 data/history/terrain.ruleset:689
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
@@ -21178,6 +21237,12 @@ msgstr ""
 "СРОН(Система раннего обнаружения и наведения - AWACS) - это самолёт, "
 "оснащённый высокотехнологичным радаром, который может обнаружить соединения "
 "противника на большом расстоянии."
+
+#: data/default/units.ruleset:1916
+msgid "This is you. If you lose this unit, you lose the game. So don't."
+msgstr ""
+"Это - Вы. Если Вы потеряете это соединение, то проиграете. Так что, не "
+"теряйте."
 
 #: data/civ2/units.ruleset:115 data/history/units.ruleset:188
 msgid ""
@@ -22824,3 +22889,44 @@ msgstr ""
 "Зулусы - воинственное племя из группы Банту, которое мигрировало из "
 "центрально-западной Африки в южную в начале XVIII века, подчинив себе "
 "местные племена Хойсан и сталкиваясь с европейскими поселенцами."
+
+#~ msgid ""
+#~ "The server you tried to connect is too old (1.12.0 or earlier). Please "
+#~ "choose another server next time. Good bye."
+#~ msgstr ""
+#~ "Сервер, к которому Вы пытались подключиться, - слишком старый (версия "
+#~ "1.12.0 или ранее). Пожалуйста, выберите другой сервер в следующий раз. До "
+#~ "свидания."
+
+#~ msgid "Game: %s aborted GOTO as there are units in the way."
+#~ msgstr ""
+#~ "Игра: %s прервал 'ИДТИ К', так как на дороге находятся другие соединения."
+
+#~ msgid " V"
+#~ msgstr " В"
+
+#~ msgid ""
+#~ "Maximum: 1</p>\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Максимум: 1</p>\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Maximum: %d</p>\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Максимум: %d</p>\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "<table>\n"
+#~ "<tr>\n"
+#~ "<td valign=\"top\">"
+#~ msgstr ""
+#~ "<table>\n"
+#~ "<tr>\n"
+#~ "<td valign=\"top\">"
+
+#~ msgid "+trade</th>\n"
+#~ msgstr "(+торговля)</th>\n"
