@@ -355,8 +355,12 @@ void update_menus(void)
     menu_entry_sensitive(MENU_GAME, MENU_GAME_CLEAR_OUTPUT, 1);
     menu_entry_sensitive(MENU_GAME, MENU_GAME_DISCONNECT, 1);
 
-    menu_entry_sensitive(MENU_REPORT, MENU_REPORT_SPACESHIP,
-			 (game.player_ptr->spaceship.state!=SSHIP_NONE));
+    if (game.player_ptr) {
+      menu_entry_sensitive(MENU_REPORT, MENU_REPORT_SPACESHIP,
+			   (game.player_ptr->spaceship.state!=SSHIP_NONE));
+    } else {
+      menu_entry_sensitive(MENU_REPORT, MENU_REPORT_SPACESHIP, 0);
+    }
 
     if (punit && can_client_issue_orders()) {
       Terrain_type_id  ttype;
@@ -561,6 +565,9 @@ static void revolution_menu_callback(Widget w, XtPointer client_data,
 {
   struct government *pgovernment = client_data;
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
   if (game.player_ptr->revolution_finishes == -1) {
     popup_revolution_dialog(pgovernment);
   } else {
@@ -796,7 +803,9 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
     send_report_request(REPORT_DEMOGRAPHIC);
     break;
    case MENU_REPORT_SPACESHIP:
-    popup_spaceship_dialog(game.player_ptr);
+    if (game.player_ptr) {
+      popup_spaceship_dialog(game.player_ptr);
+    }
     break;
   }
 }

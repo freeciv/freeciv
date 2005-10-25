@@ -50,6 +50,7 @@
 
 #include "cityrep.h"
 #include "citydlg.h"
+#include "civclient.h"
 #include "cma_fe.h"
 #include "colors.h"
 #include "control.h" /* request_xxx and set_unit_focus */
@@ -367,11 +368,11 @@ void refresh_city_dialog(struct city *pcity)
     XtSetSensitive(pdialog->cma_command, True);
     XtSetSensitive(pdialog->cityopt_command, True);
   }
-  if (city_owner(pcity) == game.player_ptr) {
+  if (!game.player_ptr || city_owner(pcity) == game.player_ptr) {
     city_report_dialog_update_city(pcity);
     economy_report_dialog_update();
   } else {
-    if(pdialog)  {
+    if (pdialog) {
       /* Set the buttons we do not want live while a Diplomat investigates */
       XtSetSensitive(pdialog->buy_command, FALSE);
       XtSetSensitive(pdialog->change_command, FALSE);
@@ -386,9 +387,9 @@ void refresh_city_dialog(struct city *pcity)
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
+/**************************************************************************
+  Updates supported and present units views in city dialogs for given unit
+**************************************************************************/
 void refresh_unit_city_dialogs(struct unit *punit)
 {
   struct city *pcity_sup, *pcity_pre;
@@ -1338,7 +1339,8 @@ void present_units_callback(Widget w, XtPointer client_data,
     if (punit->homecity == pcity->id) {
       XtSetSensitive(XtNameToWidget(wd, "*button5"), FALSE);
     }
-    if (can_upgrade_unittype(game.player_ptr, punit->type) == NULL) {
+    if (!game.player_ptr
+	|| (can_upgrade_unittype(game.player_ptr, punit->type) == NULL)) {
       XtSetSensitive(XtNameToWidget(wd, "*button6"), FALSE);
     }
   }
@@ -1644,7 +1646,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
   int i, j, adj_base;
   Widget pixcomm;
 
-  if (city_owner(pdialog->pcity) != game.player_ptr) {
+  if (game.player_ptr && (city_owner(pdialog->pcity) != game.player_ptr)) {
     plist = pdialog->pcity->info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;
@@ -1704,7 +1706,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
   int i, j, adj_base;
   Widget pixcomm;
 
-  if (city_owner(pdialog->pcity) != game.player_ptr) {
+  if (game.player_ptr && (city_owner(pdialog->pcity) != game.player_ptr)) {
     plist = pdialog->pcity->info_units_present;
   } else {
     plist = pdialog->pcity->tile->units;
@@ -1870,6 +1872,10 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   
   pdialog=(struct city_dialog *)client_data;
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   if(pdialog->pcity->production.is_unit) {
     name=get_unit_type(pdialog->pcity->production.value)->name;
   }
@@ -1878,7 +1884,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
   value=city_buy_cost(pdialog->pcity);
  
-  if(game.player_ptr->economic.gold>=value) {
+  if (game.player_ptr->economic.gold>=value) {
     my_snprintf(buf, sizeof(buf),
 		_("Buy %s for %d gold?\nTreasury contains %d gold."), 
 		name, value, game.player_ptr->economic.gold);
@@ -1905,6 +1911,11 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 void unitupgrade_callback_yes(Widget w, XtPointer client_data, XtPointer call_data)
 {
   struct unit *punit;
+
+  /* Is it right place for breaking? -ev */
+  if (!can_client_issue_orders()) {
+    return;
+  }
 
   if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data))) {
     request_unit_upgrade(punit);

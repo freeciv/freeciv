@@ -870,7 +870,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     xaw_set_label(help_unit_fp_data, buf);
     sprintf(buf, "%d ", punittype->hp);
     xaw_set_label(help_unit_hp_data, buf);
-    sprintf(buf, "%d ", punittype->vision_range);
+    sprintf(buf, "%d ", (int)sqrt((double)punittype->vision_radius_sq));
     xaw_set_label(help_unit_visrange_data, buf);
     xaw_set_label(help_unit_upkeep_data,
 		  helptext_unit_upkeep_str(punittype));

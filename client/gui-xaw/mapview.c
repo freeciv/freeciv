@@ -164,13 +164,17 @@ void update_timeout_label(void)
 void update_info_label(void)
 {
   int d;
-  
+
   xaw_set_label(info_command, get_info_label_text());
 
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
 		      client_cooling_sprite(),
 		      client_government_sprite());
+
+  if (!game.player_ptr) {
+    return;
+  }
 
   d = 0;
   for(; d < (game.player_ptr->economic.luxury) / 10; d++)
@@ -350,7 +354,7 @@ void map_canvas_expose(Widget w, XEvent *event, Region exposed,
      * is written (otherwise drawing bugs happen when old data is copied
      * to screen).  Then we draw all changed areas to the screen. */
     unqueue_mapview_updates(FALSE);
-    XCopyArea(display, map_canvas_store, XtWindow(map_canvas),
+    XCopyArea(display, mapview.store->pixmap, XtWindow(map_canvas),
 	      civ_gc,
 	      event->xexpose.x, event->xexpose.y,
 	      event->xexpose.width, event->xexpose.height,

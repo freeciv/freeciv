@@ -165,7 +165,7 @@ int unit_to_use_to_pillage;
 int caravan_city_id;
 int caravan_unit_id;
 
-bool diplomat_dialog_open = FALSE;
+static Widget diplomat_dialog;
 int diplomat_id;
 int diplomat_target_id;
 
@@ -480,7 +480,7 @@ static void diplomat_sabotage_callback(Widget w, XtPointer client_data,
 				       XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
@@ -498,7 +498,7 @@ static void diplomat_embassy_callback(Widget w, XtPointer client_data,
 				      XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
@@ -516,7 +516,7 @@ static void diplomat_investigate_callback(Widget w, XtPointer client_data,
 					  XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
@@ -546,7 +546,7 @@ static void spy_poison_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if(find_unit_by_id(diplomat_id) && 
      (find_city_by_id(diplomat_target_id))) { 
@@ -563,7 +563,7 @@ static void diplomat_steal_callback(Widget w, XtPointer client_data,
 				    XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if(find_unit_by_id(diplomat_id) && 
      find_city_by_id(diplomat_target_id)) { 
@@ -872,7 +872,7 @@ has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if(!spy_tech_shell){
     Position x, y;
@@ -899,7 +899,7 @@ static void spy_request_sabotage_list(Widget w, XtPointer client_data,
 				      XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -964,7 +964,7 @@ static void diplomat_incite_callback(Widget w, XtPointer client_data,
 				     XtPointer call_data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
     dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
@@ -1016,7 +1016,7 @@ static void diplomat_keep_moving_callback(Widget w, XtPointer client_data,
   struct city *pcity;
   
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   if( (punit=find_unit_by_id(diplomat_id))
       && (pcity=find_city_by_id(diplomat_target_id))
@@ -1033,7 +1033,7 @@ static void diplomat_keep_moving_callback(Widget w, XtPointer client_data,
 static void diplomat_cancel_callback(Widget w, XtPointer a, XtPointer b)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = FALSE;
+  diplomat_dialog = NULL;
 
   process_diplomat_arrival(NULL, 0);
 }
@@ -1046,7 +1046,6 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 {
   struct city *pcity;
   struct unit *ptunit;
-  Widget shl;
   char buf[128];
 
   diplomat_id=punit->id;
@@ -1059,8 +1058,9 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name(punit->type), pcity->name);
 
-    if(!unit_flag(punit, F_SPY)){
-      shl=popup_message_dialog(toplevel, "diplomatdialog", buf,
+    if (!unit_flag(punit, F_SPY)) {
+      diplomat_dialog =
+        popup_message_dialog(toplevel, "diplomatdialog", buf,
 			       diplomat_embassy_callback, 0, 1,
 			       diplomat_investigate_callback, 0, 1,
 			       diplomat_sabotage_callback, 0, 1,
@@ -1071,19 +1071,20 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 			       NULL);
       
       if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button0"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button1"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button2"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button3"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
-    }else{
-      shl=popup_message_dialog(toplevel, "spydialog", buf,
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
+    } else {
+      diplomat_dialog =
+        popup_message_dialog(toplevel, "spydialog", buf,
 			       diplomat_embassy_callback, 0,  1,
 			       diplomat_investigate_callback, 0, 1,
 			       spy_poison_callback,0, 1,
@@ -1095,26 +1096,25 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 			       NULL);
       
       if(!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button0"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button0"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button1"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button1"), FALSE);
       if(!diplomat_can_do_action(punit, SPY_POISON, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button2"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button2"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button3"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button3"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button4"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button4"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button5"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button5"), FALSE);
       if(!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
-	XtSetSensitive(XtNameToWidget(shl, "*button6"), FALSE);
+	XtSetSensitive(XtNameToWidget(diplomat_dialog, "*button6"), FALSE);
     }
-
-    diplomat_dialog_open = TRUE;
-  }else{ 
+  } else { 
     if ((ptunit = unit_list_get(dest_tile->units, 0))) {
       /* Spy/Diplomat acting against a unit */
       
+      Widget shl;
       const char *message = !unit_flag(punit, F_SPY)
 	? _("Sir, the diplomat is waiting for your command")
 	: _("Sir, the spy is waiting for your command");
@@ -1136,12 +1136,25 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-bool diplomat_dialog_is_open(void)
+/***************************************************************************
+  Return id of a diplomat currently handled in diplomat dialog
+***************************************************************************/
+int diplomat_handled_in_diplomat_dialog(void)
 {
-  return diplomat_dialog_open;
+  if (diplomat_dialog == NULL) {
+    return -1;
+  }
+  return diplomat_id;
+}
+
+/****************************************************************
+  Close the diplomat dialog
+****************************************************************/
+void close_diplomat_dialog(void)
+{
+  if (diplomat_dialog != NULL) {
+    XtDestroyWidget(diplomat_dialog);
+  }
 }
 
 

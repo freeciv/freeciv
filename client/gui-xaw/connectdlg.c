@@ -46,7 +46,7 @@
 #include "gui_stuff.h"
 #include "pages.h"
 
-#include "connectdlg_g.h"
+#include "connectdlg_common.h"
 #include "connectdlg.h"
 
 static enum {
@@ -90,6 +90,8 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf);
 static bool lan_mode;  /* true for LAN mode, false when Meta mode */
 static int num_lanservers_timer = 0;
 
+struct server_scan *lan, *meta;
+
 /**************************************************************************
  really close and destroy the dialog.
 **************************************************************************/
@@ -103,14 +105,23 @@ void really_close_connection_dialog(void)
 **************************************************************************/
 void close_connection_dialog()
 {
-  if (shell) {
-    XtDestroyWidget(shell);
-    shell = 0;
+  if (lan) {
+    server_scan_finish(lan);
+    lan = NULL;
+  }
+  if (meta) {
+    server_scan_finish(meta);
+    meta = NULL;
   }
 
-  if(meta_dialog_shell) {
+  if (shell) {
+    XtDestroyWidget(shell);
+    shell = NULL;
+  }
+
+  if (meta_dialog_shell) {
     XtDestroyWidget(meta_dialog_shell);
-    meta_dialog_shell = 0;
+    meta_dialog_shell = NULL;
   }
 }
 
@@ -328,13 +339,38 @@ void connect_callback(Widget w, XtPointer client_data,
   }
 }
 
+/**************************************************************************
+  Callback function for when there's an error in the server scan.
+**************************************************************************/
+static void server_scan_error(struct server_scan *scan,
+			      const char *message)
+{
+  append_output_window(message);
+  freelog(LOG_NORMAL, "%s", message);
+  switch (server_scan_get_type(scan)) {
+  case SERVER_SCAN_LOCAL:
+    server_scan_finish(lan);
+    lan = NULL;
+    break;
+  case SERVER_SCAN_GLOBAL:
+    server_scan_finish(meta);
+    meta = NULL;
+    break;
+  case SERVER_SCAN_LAST:
+    break;
+  }
+}
+
 /****************************************************************
-...
+  Callback function for Metaserver button
 *****************************************************************/
 void connect_meta_callback(Widget w, XtPointer client_data,
                            XtPointer call_data)
 {
   lan_mode = false;
+  if (!meta) {
+    meta = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+  }
   if (meta_dialog_shell) {
     /* Metaserver window already poped up */
     return;
@@ -343,19 +379,20 @@ void connect_meta_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
-...
+  Callback function for LAN Server button
 *****************************************************************/
 void connect_lan_callback(Widget w, XtPointer client_data,
                           XtPointer call_data)
 {
   lan_mode = true;
+  if (!lan) {
+    lan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+  }
   if (meta_dialog_shell) {
     /* Metaserver window already poped up */
     return;
   }
-  if (begin_lanserver_scan()) {
-    create_meta_dialog((Widget)client_data);
-  }
+  create_meta_dialog((Widget)client_data);
 }
 
 /**************************************************************************
@@ -380,7 +417,7 @@ static void server_list_timer(XtPointer meta_list, XtIntervalId * id)
 
   if (lan_mode) {
     if (num_lanservers_timer == 50 && lan_mode) {
-      finish_lanserver_scan();
+      server_scan_finish(lan);
       num_lanservers_timer = 0;
       return;
     }
@@ -442,7 +479,7 @@ void meta_update_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   if (num_lanservers_timer == 0) {
     if (lan_mode) {
-      if (begin_lanserver_scan()) {
+      if (lan) {
         server_list_timer((Widget)client_data, NULL);
       }
     } else {
@@ -485,7 +522,7 @@ void meta_list_destroy(Widget w, XtPointer client_data, XtPointer call_data)
     server_list[i]=NULL;
   }
   if (num_lanservers_timer != 0) {    
-    finish_lanserver_scan();
+    server_scan_finish(lan);
   }
 }
 
@@ -499,19 +536,23 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
   struct server_list *server_list = NULL;
 
   if (lan_mode) {
-    server_list = get_lan_server_list();
-    if (server_list == NULL) {
-      if (num_lanservers_timer == 0) {
-        *list = mystrdup(" ");;
-        return 0;
-      } else {
-        return -1;
+    if (lan) {
+      server_list = server_scan_get_servers(lan);
+      if (server_list == NULL) {
+	if (num_lanservers_timer == 0) {
+	  *list = mystrdup(" ");;
+	  return 0;
+	} else {
+	  return -1;
+	}
       }
     }
   } else {
-    server_list = create_server_list(errbuf, n_errbuf); 
-    if (!server_list) {
-      return -1;
+    if (meta) {
+      server_list = server_scan_get_servers(meta); 
+      if (!server_list) {
+	return -1;
+      }
     }
   }
 
@@ -525,9 +566,11 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
     list++;
   } server_list_iterate_end;
 
+/*
   if (!lan_mode) {
     delete_server_list(server_list);
   } 
+*/
   *list=NULL;
   return 0;
 }

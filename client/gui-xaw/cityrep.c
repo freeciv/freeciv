@@ -504,7 +504,9 @@ void city_config_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void city_report_dialog_update(void)
 {
-  if(is_report_dialogs_frozen()) return;
+  if (is_report_dialogs_frozen() || !game.player_ptr) {
+    return;
+  }
   if(city_dialog_shell) {
     int i=0, n;
     Dimension width;

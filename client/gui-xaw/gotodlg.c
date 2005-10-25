@@ -98,11 +98,14 @@ void popup_goto_dialog(void)
 {
   Position x, y;
   Dimension width, height;
-  Boolean no_player_cities = !(city_list_size(game.player_ptr->cities));
+  Boolean no_player_cities;
 
   if (!can_client_issue_orders()) {
     return;
   }
+
+  no_player_cities = !(city_list_size(game.player_ptr->cities));
+
   if(get_unit_in_focus()==0)
     return;
 
@@ -205,6 +208,10 @@ void update_goto_dialog(Widget goto_list)
 {
   int i, j;
   Boolean all_cities;
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
 
   XtVaGetValues(goto_all_toggle, XtNstate, &all_cities, NULL);
 

@@ -55,6 +55,14 @@ void start_page_start_callback(Widget w, XtPointer client_data,
 			       XtPointer call_data);
 
 
+/***************************************************************************
+  Returns current client page
+***************************************************************************/
+enum client_pages get_client_page(void)
+{
+  return old_page;
+}
+
 /**************************************************************************
   Sets the "page" that the client should show.  See documentation in
   pages_g.h.
@@ -199,9 +207,6 @@ void update_start_page(void)
 
     j = 0;
     players_iterate(pplayer) {
-      if (pplayer->is_observer) {
-	continue; /* Connections are listed individually. */
-      }
       if (pplayer->ai.control) {
 	name = _("<AI>");
       } else {
@@ -228,7 +233,7 @@ void update_start_page(void)
       j++;
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
-      if (pconn->player && !pconn->observer && !pconn->player->is_observer) {
+      if (pconn->player && !pconn->observer) {
 	continue; /* Already listed above. */
       }
       name = pconn->username;
@@ -268,7 +273,9 @@ void start_page_cancel_callback(Widget w, XtPointer client_data,
 void start_page_nation_callback(Widget w, XtPointer client_data,
 				XtPointer call_data)
 {
-  popup_races_dialog(game.player_ptr);
+  if (game.player_ptr) {
+    popup_races_dialog(game.player_ptr);
+  }
 }
 
 /**************************************************************************

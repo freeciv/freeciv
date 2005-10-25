@@ -20,32 +20,35 @@
 #include <string.h>
 
 #include <X11/Intrinsic.h>
+#include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
+#include <X11/Xaw/AsciiText.h>  
+#include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
-#include <X11/Xaw/Command.h>
+#include <X11/Xaw/List.h>
 #include <X11/Xaw/MenuButton.h>
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
-#include <X11/Xaw/List.h>
-#include <X11/Xaw/Viewport.h>
-#include <X11/Xaw/AsciiText.h>  
 #include <X11/Xaw/Toggle.h>     
-#include <X11/IntrinsicP.h>
+#include <X11/Xaw/Viewport.h>
 
+#include "fcintl.h"
+#include "mem.h"
 
 #include "city.h"
-#include "fcintl.h"
 #include "game.h"
+#include "packets.h"
+#include "worklist.h"
+
+#include "civclient.h"
+#include "climisc.h"
+#include "clinet.h"
+
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "helpdlg.h"
 #include "inputdlg.h"
-#include "mem.h"
-#include "packets.h"
-#include "worklist.h"
-#include "climisc.h"
-#include "clinet.h"
 
 #include "wldlg.h"
 
@@ -1300,6 +1303,10 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   int advanced_tech;
   int can_build, can_eventually_build;
   struct city_production production;
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
 
   n = 0;
 

@@ -35,7 +35,9 @@
 #include "shared.h"
 #include "support.h"
 
+#include "civclient.h"
 #include "clinet.h"
+
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
@@ -79,6 +81,10 @@ void popup_rates_dialog(void)
   Dimension width, height;
   char buf[64];
 
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   XtSetSensitive(main_form, FALSE);
 
   create_rates_dialog();
@@ -106,6 +112,9 @@ void create_rates_dialog(void)
   Widget rates_form;
   Widget rates_ok_command, rates_cancel_command;
   
+  if (!can_client_issue_orders()) {
+    return;
+  }
 
   rates_dialog_shell =
     I_T(XtCreatePopupShell("ratespopup", transientShellWidgetClass,
@@ -250,6 +259,10 @@ void rates_set_values(int tax, int no_tax_scroll,
   Boolean tax_lock, lux_lock, sci_lock;
   int maxrate;
   
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
   XtVaGetValues(rates_tax_toggle, XtNstate, &tax_lock, NULL);
   XtVaGetValues(rates_lux_toggle, XtNstate, &lux_lock, NULL);
   XtVaGetValues(rates_sci_toggle, XtNstate, &sci_lock, NULL);
