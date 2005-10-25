@@ -20,7 +20,7 @@ Freeciv - Copyright (C) 2003 - The Freeciv Project
 #endif
 
 bool client_start_server(void);
-void client_kill_server(void);
+void client_kill_server(bool force);
 
 bool is_server_running(void);
 bool can_client_access_hack(void);
@@ -28,8 +28,6 @@ bool can_client_access_hack(void);
 void send_client_wants_hack(const char *filename);
 void send_start_saved_game(void);
 void send_save_game(char *filename);
-
-void disconnected_from_local_server(void);
 
 void set_ruleset(const char *ruleset);
 

@@ -799,7 +799,7 @@ static LONG CALLBACK new_game_proc(HWND win, UINT message,
 	  popup_races_dialog(game.player_ptr);
 	  break;
 	case ID_CANCEL:
-	  client_kill_server();
+	  client_kill_server(TRUE);
 	  ShowWindow(newgame_dlg,SW_HIDE);
 	  ShowWindow(start_dlg,SW_SHOWNORMAL);
 	  break;

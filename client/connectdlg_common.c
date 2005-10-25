@@ -127,25 +127,53 @@ bool can_client_access_hack(void)
   return client_has_hack;
 }
 
-/************************************************************************** 
-Kills the server if the client has started it.
-**************************************************************************/ 
-void client_kill_server()
+/****************************************************************************
+  Kills the server if the client has started it.
+
+  If the 'force' parameter is unset, we just do a /quit.  If it's set, then
+  we'll send a signal to the server to kill it (use this when the socket
+  is disconnected already).
+****************************************************************************/
+void client_kill_server(bool force)
 {
   if (is_server_running()) {
+    if (aconnection.used) {
+      /* This does a "soft" shutdown of the server by sending a /quit.
+       *
+       * This is useful when closing the client or disconnecting because it
+       * doesn't kill the server prematurely.  In particular, killing the
+       * server in the middle of a save can have disasterous results.  This
+       * method tells the server to quit on its own.  This is safer from a
+       * game perspective, but more dangerous because if the kill fails the
+       * server will be left running.
+       *
+       * Another potential problem is because this function is called atexit
+       * it could potentially be called when we're connected to an unowned
+       * server.  In this case we don't want to kill it. */
+      send_chat("/quit");
 #ifdef WIN32_NATIVE
-    TerminateProcess(server_process, 0);
-    CloseHandle(server_process);
-    if (loghandle != INVALID_HANDLE_VALUE) {
-      CloseHandle(loghandle);
-    }
-    server_process = INVALID_HANDLE_VALUE;
-    loghandle = INVALID_HANDLE_VALUE;
+      server_process = INVALID_HANDLE_VALUE;
+      loghandle = INVALID_HANDLE_VALUE;
 #else
-    kill(server_pid, SIGTERM);
-    waitpid(server_pid, NULL, WUNTRACED);
-    server_pid = - 1;
-#endif    
+      server_pid = -1;
+#endif
+    } else if (force) {
+      /* Looks like we've already disconnected.  So the only thing to do
+       * is a "hard" kill of the server. */
+#ifdef WIN32_NATIVE
+      TerminateProcess(server_process, 0);
+      CloseHandle(server_process);
+      if (loghandle != INVALID_HANDLE_VALUE) {
+	CloseHandle(loghandle);
+      }
+      server_process = INVALID_HANDLE_VALUE;
+      loghandle = INVALID_HANDLE_VALUE;
+#else
+      kill(server_pid, SIGTERM);
+      waitpid(server_pid, NULL, WUNTRACED);
+      server_pid = -1;
+#endif
+    }
   }
   client_has_hack = FALSE;
 }   
@@ -155,7 +183,7 @@ void client_kill_server()
 **************************************************************************/
 static void server_shutdown(void)
 {
-  client_kill_server();
+  client_kill_server(TRUE);
 }
                                                                                
 /**************************************************************** 
@@ -187,7 +215,7 @@ bool client_start_server(void)
 
   /* only one server (forked from this client) shall be running at a time */
   /* This also resets client_has_hack. */
-  client_kill_server();
+  client_kill_server(TRUE);
   
   if (!initialized) {
     atexit(server_shutdown);
@@ -339,7 +367,7 @@ bool client_start_server(void)
    * capabilities won't help us here... */ 
   if (!aconnection.used) {
     /* possible that server is still running. kill it */ 
-    client_kill_server();
+    client_kill_server(TRUE);
 
     append_output_window(_("Couldn't connect to the server."));
     append_output_window(_("We probably couldn't start it from here."));
@@ -469,7 +497,7 @@ void handle_single_want_hack_reply(bool you_have_hack)
     /* only output this if we started the server and we NEED hack */
     append_output_window(_("We can't take control of server, "
                          "attempting to kill it."));
-    client_kill_server();
+    client_kill_server(TRUE);
   }
 }
 

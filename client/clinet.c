@@ -121,7 +121,7 @@ static void close_socket_callback(struct connection *pc)
 {
   close_socket_nomessage(pc);
   /* If we lost connection to the internal server - kill him */
-  client_kill_server();
+  client_kill_server(TRUE);
   append_output_window(_("Lost connection to server!"));
   freelog(LOG_NORMAL, "lost connection to server");
 }
@@ -239,11 +239,18 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
 **************************************************************************/
 void disconnect_from_server(void)
 {
+  const bool force = !aconnection.used;
+
   attribute_flush();
-  close_socket_nomessage(&aconnection);
   /* If it's internal server - kill him 
    * We assume that we are always connected to the internal server  */
-  client_kill_server();
+  if (!force) {
+    client_kill_server(FALSE);
+  }
+  close_socket_nomessage(&aconnection);
+  if (force) {
+    client_kill_server(TRUE);
+  }
   append_output_window(_("Disconnected from server."));
 }  
 
