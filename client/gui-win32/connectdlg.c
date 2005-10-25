@@ -868,7 +868,7 @@ static LONG CALLBACK new_game_proc(HWND win, UINT message,
 	  send_report_request(REPORT_SERVER_OPTIONS2);
 	  break;
 	case ID_CANCEL:
-	  client_kill_server();
+	  client_kill_server(TRUE);
 	  ShowWindow(newgame_dlg,SW_HIDE);
 	  ShowWindow(start_dlg,SW_SHOWNORMAL);
 	  break;
