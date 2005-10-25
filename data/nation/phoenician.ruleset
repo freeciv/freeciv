@@ -10,18 +10,10 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
 flag="f.phoenicia"
 flag_alt = "-"
 city_style = "Classical"
-ruler_titles = { "government",      "male_title",       "female_title"
-               }
-
-attack=1
-expand=2
-civilized=2
-advisors=100,100,100,100,100,100,100
-
-tech_goals = "Alphabet", "Trade", "Seafaring", "Navigation"
 
 init_techs=""
 init_buildings=""
+tech_goals = "Alphabet", "Trade", "Seafaring", "Navigation"
 wonder="Magellan's Expedition"
 government="Monarchy"
 civilwar_nations="turk", "carthaginian", "israeli"

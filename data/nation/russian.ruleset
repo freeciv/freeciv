@@ -11,7 +11,7 @@ flag="f.russia"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",      "female_title",
+ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Czar"),         _("Czarina")
                  "Fundamentalism",  _("Patriarch"),    _("Matriarch")
                }
