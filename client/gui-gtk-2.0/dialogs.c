@@ -2115,7 +2115,7 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
   } else {
     popdown_races_dialog();
     disconnect_from_server();
-    client_kill_server();
+    client_kill_server(FALSE);
   }
 }
 
