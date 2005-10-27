@@ -27,13 +27,47 @@ init_government="Despotism"
 init_units=""
 civilwar_nations = "babylonian", "arab"
 
-;first are ancient cities in latin version
-
+; Sources:
+; http://www.livius.org/persia.html
+; http://www.iranian.com/GuiveMirfendereski/2005/May/Saka/
 cities =
-  "Persepolis", "Susa", "Ekbatana", "Pasargadae",
-  "Rhagae", "Margiane", "Baktra", "Taxila", "Gabae",
-  "Zadrakarta", "Herat", "Drapsaka", "Karmana", "Pura", ;modern cities
-  "Teheran", "Isfahan", "Tabriz", "Hamadan", "Rasht",
-  "Ahraz", "Shiraz", "Kerman", "Yazd", "Mashhad", "Zahedan",
-  "Bushehr", "Qazrin", "Lhasa", "Bulgar", "Hormuz",
-  "Esfahan", "Mosul"
+; Ancient cities first; Latin rendering in comment
+ "Parsa",	; Persepolis
+ "Susa",
+ "Hagmatana",	; Ecbatana
+ "Pathragada",	; Pasaradae
+ "Raga",	; Rhagae
+ "Margush",	; Margiane
+ "Baktra",
+ "Takshasila",	; Taxila
+ "Gaba",	; Gabae
+ "Sakarta",	; Zadrakarta
+ "Herat",
+ "Drapsaka",
+ "Karmana",
+ "Pura",
+ "Bishapur",
+ "Ardashir Khureh",
+ "Tikni",
+ "Istakhr",
+ "Shurkutir",
+ "Susia",
+
+ ; Modern cities of the region
+ "Teheran",
+ "Isfahan",
+ "Tabriz",
+ "Hamadan",
+ "Rasht",
+ "Ahraz",
+ "Shiraz",
+ "Kerman",
+ "Yazd",
+ "Mashhad",
+ "Zahedan",
+ "Bushehr",
+ "Qazrin",
+ "Lhasa",
+ "Bulgar",
+ "Hormuz",
+ "Mosul"
