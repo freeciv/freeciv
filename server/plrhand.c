@@ -379,7 +379,7 @@ void found_new_tech(struct player *plr, int tech_found, bool was_discovery,
       notify_player_ex(plr, NULL, E_TECH_LEARNED,
 		       _("Game: Learned %s.  "
 			 "Our scientists focus on %s, goal is %s."),
-		       get_tech_name(plr, next_tech),
+		       get_tech_name(plr, tech_found),
 		       get_tech_name(plr, plr->research.researching),
 		       get_tech_name(plr, plr->ai.tech_goal));
     } else {
