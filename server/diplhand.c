@@ -726,3 +726,28 @@ void cancel_all_meetings(struct player *pplayer)
     }
   } players_iterate_end;
 }
+
+/**************************************************************************
+  Reject all treaties currently being negotiated
+**************************************************************************/
+void reject_all_treaties(struct player *pplayer)
+{
+  struct Treaty* treaty;
+  players_iterate(pplayer2) {
+    treaty = find_treaty(pplayer, pplayer2);
+    if (!treaty) {
+      continue;
+    }
+    treaty->accept0 = FALSE;
+    treaty->accept1 = FALSE;
+    dlsend_packet_diplomacy_accept_treaty(pplayer->connections,
+					  pplayer2->player_no,
+					  FALSE,
+					  FALSE);
+    dlsend_packet_diplomacy_accept_treaty(pplayer2->connections,
+                                          pplayer->player_no,
+					  FALSE,
+					  FALSE);
+  } players_iterate_end;
+}
+

@@ -532,7 +532,8 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     return; /* Duh */
   }
 
-
+  reject_all_treaties(pplayer);
+  reject_all_treaties(pplayer2);
   /* else, breaking a treaty */
 repeat_break_treaty:
 
