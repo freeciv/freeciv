@@ -171,7 +171,7 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_ANGRYCITIZEN TRUE
 
-#define GAME_DEFAULT_END_YEAR    2000
+#define GAME_DEFAULT_END_YEAR    5000
 #define GAME_MIN_END_YEAR        GAME_START_YEAR
 #define GAME_MAX_END_YEAR        5000
 
