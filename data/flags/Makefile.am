@@ -24,6 +24,7 @@ flag_files =				\
 		bulgaria.png		\
 		byzantium.png		\
 		canada.png		\
+		cartago.png		\
 		catalan.png		\
 		cheyenne.png		\
 		chile.png		\
@@ -150,6 +151,7 @@ shield_files =					\
 		bulgaria-shield.png		\
 		byzantium-shield.png		\
 		canada-shield.png		\
+		cartago-shield.png		\
 		catalan-shield.png		\
 		cheyenne-shield.png		\
 		chile-shield.png		\
@@ -277,6 +279,7 @@ svg_files = 				\
 		bulgaria.svg		\
 		byzantium.svg		\
 		canada.svg		\
+		cartago.svg		\
 		catalan.svg		\
 		cheyenne.svg		\
 		chile.svg		\
