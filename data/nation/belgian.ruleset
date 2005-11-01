@@ -27,7 +27,36 @@ init_government="Despotism"
 init_units=""
 civilwar_nations="dutch", "french"
 
+; Alternating Flemish and Walloon names
 cities =
-  "Brussel", "Antwerpen", "Gent", "Charleroi", "Liège", "Brugge", "Namur",
-  "Mons", "Leuven", "Aalst", "Kortrijk", "Mechelen", "Oostende", "Eupen",
-  "Tournai", "Hasselt", "St. Niklaas", "Dendermonde", "Dinant", "Lokeren"
+ "Brussel / Bruxelles",
+ "Antwerpen",
+ "Charleroi",
+ "Gent",
+ "Liège",
+ "Brugge",
+ "Namur",
+ "Leuven",
+ "Mons",
+ "Aalst",
+ "La Louvière",
+ "Mechelen",
+ "Tournai",
+ "Kortrijk",
+ "Seraing",
+ "Hasselt",
+ "Verviers",
+ "Sint-Niklaas",
+ "Mouscron",
+ "Oostende",
+ "Herstal",
+ "Genk",
+ "Châtelet",
+ "Roeselare",
+ "Binche",
+ "Beveren",
+ "Wavre",
+ "Dendermonde",
+ "Néau",
+ "Lokeren",
+ "Dinant"
