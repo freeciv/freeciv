@@ -1,5 +1,6 @@
 [nation_elves]
-; Note: although mostly Noldorin Kings and places have been used, I have included some Sindarin
+; Note: although mostly Noldorin Kings and places have been used, I have
+; included some Sindarin
 
 name=_("Elves")
 plural=_("?plural:Elves")
@@ -42,14 +43,17 @@ init_government="Despotism"
 init_units=""
 civilwar_nations="dunedain", "hobbits", "mordor"
 
-; Think of the Girdle of Melian, the Encircling Mountains around Rivendell, the rivers (Silverlode and Anduin) around Lothlorien, etc.
-
 ; /* <-- avoid gettext warnings
 ; Cities in order of seeing them on the map :-)
-; (Rivendel and Lothlorien are 2nd and 3rd Age, but they are quite well-known)
-; Caras Galadhon is the capital of Lothlorien; so techically I shouldn't include Lothlorien. (but I do :P)
-; I also included a lot of place-names and 'countries'(wich are no cities!) because there aren't enough Elven-cities. If anyone fins more cities, please replace the places with cities :-)
-; It is possible that I have, in my infinite distraction, have misplaced a city: a human/other city. Please correct them if you find them */
+; (Rivendel and Lothlorien are 2nd and 3rd Age, but they are quite well-
+; known)
+; Caras Galadhon is the capital of Lothlorien; so techically I shouldn't
+; include Lothlorien. (but I do :P)
+; I also included a lot of place-names and 'countries'(wich are no cities!)
+; because there aren't enough Elven-cities. If anyone fins more cities,
+; please replace the places with cities :-)
+; It is possible that I have, in my infinite distraction, have misplaced a
+; city: a human/other city. Please correct them if you find them */
 
 cities =
   "Ost-in-Edhil", "Gondolin", "Menegroth", "Nagrothrond", "Rivendell", 
