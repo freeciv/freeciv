@@ -3063,6 +3063,7 @@ static void reset_player_nations(void)
 {
   players_iterate(pplayer) {
     pplayer->nation = NO_NATION_SELECTED;
+    pplayer->city_style = 0;
   } players_iterate_end;
   send_player_info_c(NULL, game.est_connections);
 }
