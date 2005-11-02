@@ -559,6 +559,9 @@ Makes a city the capital and the center of your government. \
 Take good care of your capital, as its loss may result in your\
  empire plunging into civil war. Losing your current palace also\
  results in losing whatever spaceship you might have.\
+\n\n\
+Under Despotism the palace gives you a +75% production bonus,\
+ and under Monarchy a +50% production bonus.\
 ")
 
 [building_police_station]
