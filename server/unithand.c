@@ -277,15 +277,6 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
   struct player *old_owner = unit_owner(punit);
   struct player *new_owner = city_owner(new_pcity);
 
-  if (!same_pos(punit->tile, new_pcity->tile)) {
-    assert(can_unit_exist_at_tile(punit, new_pcity->tile));
-    move_unit(punit, new_pcity->tile, 0); /* teleport to location */
-  }
-
-  unit_list_prepend(new_pcity->units_supported, punit);
-  if (old_pcity) {
-    unit_list_unlink(old_pcity->units_supported, punit);
-  }
   if (old_owner != new_owner) {
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
@@ -298,6 +289,16 @@ void real_unit_change_homecity(struct unit *punit, struct city *new_pcity)
 
     punit->server.vision = vision_new(new_owner, punit->tile, TRUE);
     unit_refresh_vision(punit);
+  }
+
+  if (!same_pos(punit->tile, new_pcity->tile)) {
+    assert(can_unit_exist_at_tile(punit, new_pcity->tile));
+    move_unit(punit, new_pcity->tile, 0); /* teleport to location */
+  }
+  
+  unit_list_prepend(new_pcity->units_supported, punit);
+  if (old_pcity) {
+    unit_list_unlink(old_pcity->units_supported, punit);
   }
 
   punit->homecity = new_pcity->id;
