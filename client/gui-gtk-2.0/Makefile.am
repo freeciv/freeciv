@@ -24,8 +24,11 @@ libguiclient_a_SOURCES = \
 	Freeciv.h	\
 	canvas.c	\
 	canvas.h	\
+	caravan_dialog.c \
 	chatline.h	\
 	chatline.c	\
+	choice_dialog.c	\
+	choice_dialog.h \
 	citydlg.c	\
 	citydlg.h	\
 	cityrep.c	\

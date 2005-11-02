@@ -36,6 +36,7 @@
 #include "support.h"
 
 #include "chatline.h"
+#include "choice_dialog.h"
 #include "citydlg.h"
 #include "civclient.h"
 #include "climisc.h"
@@ -53,13 +54,6 @@
 
 #include "dialogs.h"
 #include "wldlg.h"
-
-/******************************************************************/
-GtkWidget *message_dialog_start(GtkWindow *parent, const gchar *name,
-				const gchar *text);
-void message_dialog_add(GtkWidget *dshell, const gchar *label,
-			GCallback handler, gpointer data);
-void message_dialog_end(GtkWidget *dshell);
 
 /******************************************************************/
 static GtkWidget  *races_shell;
@@ -98,11 +92,6 @@ static int selected_city_style;
 
 static int is_showing_pillage_dialog = FALSE;
 static int unit_to_use_to_pillage;
-
-static int caravan_city_id;
-static int caravan_unit_id;
-
-static GtkWidget *caravan_dialog;
 
 /**************************************************************************
   Popup a generic dialog to display some generic information.
@@ -233,94 +222,6 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 /****************************************************************
 ...
 *****************************************************************/
-static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
-{
-  dsend_packet_unit_establish_trade(&aconnection, caravan_unit_id);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
-{
-  dsend_packet_unit_help_build_wonder(&aconnection, caravan_unit_id);
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-static void caravan_destroy_callback(GtkWidget *w, gpointer data)
-{
-  caravan_dialog = NULL;
-  process_caravan_arrival(NULL);
-}
-
-
-
-/****************************************************************
-...
-*****************************************************************/
-void popup_caravan_dialog(struct unit *punit,
-			  struct city *phomecity, struct city *pdestcity)
-{
-  char buf[128], wonder[128];
-  bool can_establish, can_trade, can_wonder;
-  
-  my_snprintf(buf, sizeof(buf),
-	      _("Your caravan from %s reaches the city of %s.\nWhat now?"),
-	      phomecity->name, pdestcity->name);
-  
-  caravan_city_id=pdestcity->id; /* callbacks need these */
-  caravan_unit_id=punit->id;
-  
-  can_trade = can_cities_trade(phomecity, pdestcity);
-  can_establish = can_trade
-  		  && can_establish_trade_route(phomecity, pdestcity);
-
-  if (unit_can_help_build_wonder(punit, pdestcity)) {
-    my_snprintf(wonder, sizeof(wonder), _("Help build _Wonder (%d remaining)"),
-	impr_build_shield_cost(pdestcity->production.value)
-	- pdestcity->shield_stock);
-    can_wonder = TRUE;
-  } else {
-    my_snprintf(wonder, sizeof(wonder), _("Help build _Wonder"));
-    can_wonder = FALSE;
-  }
-
-  caravan_dialog = popup_message_dialog(GTK_WINDOW(toplevel),
-    _("Your Caravan Has Arrived"), 
-    buf,
-    (can_establish ? _("Establish _Traderoute") :
-    _("Enter Marketplace")),caravan_establish_trade_callback, NULL,
-    wonder,caravan_help_build_wonder_callback, NULL,
-    _("_Keep moving"), NULL, NULL,
-    NULL);
-
-  g_signal_connect(caravan_dialog, "destroy",
-		   G_CALLBACK(caravan_destroy_callback), NULL);
-  
-  if (!can_trade) {
-    message_dialog_button_set_sensitive(caravan_dialog, 0, FALSE);
-  }
-  
-  if (!can_wonder) {
-    message_dialog_button_set_sensitive(caravan_dialog, 1, FALSE);
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-bool caravan_dialog_is_open(void)
-{
-  return caravan_dialog != NULL;
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static void revolution_response(GtkWidget *w, gint response, gpointer data)
 {
   struct government *government = data;
@@ -403,7 +304,7 @@ void popup_pillage_dialog(struct unit *punit,
     is_showing_pillage_dialog = TRUE;
     unit_to_use_to_pillage = punit->id;
 
-    shl = message_dialog_start(GTK_WINDOW(toplevel),
+    shl = choice_dialog_start(GTK_WINDOW(toplevel),
 			       _("What To Pillage"),
 			       _("Select what to pillage:"));
 
@@ -412,8 +313,8 @@ void popup_pillage_dialog(struct unit *punit,
 
       BV_CLR_ALL(what_bv);
       BV_SET(what_bv, what);
-      message_dialog_add(shl, get_infrastructure_text(what_bv),
-			 G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
+      choice_dialog_add(shl, get_infrastructure_text(what_bv),
+			G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
 
       clear_special(&may_pillage, what);
       prereq = get_infrastructure_prereq(what);
@@ -422,161 +323,13 @@ void popup_pillage_dialog(struct unit *punit,
       }
     }
 
-    message_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0);
+    choice_dialog_add(shl, GTK_STOCK_CANCEL, 0, 0);
 
-    message_dialog_end(shl);
+    choice_dialog_end(shl);
 
     g_signal_connect(shl, "destroy", G_CALLBACK(pillage_destroy_callback),
 		     NULL);   
   }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void message_dialog_button_set_sensitive(GtkWidget *shl, int button,
-					 gboolean state)
-{
-  char button_name[512];
-  GtkWidget *b;
-
-  my_snprintf(button_name, sizeof(button_name), "button%d", button);
-
-  b = g_object_get_data(G_OBJECT(shl), button_name);
-  gtk_widget_set_sensitive(b, state);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-GtkWidget *message_dialog_start(GtkWindow *parent, const gchar *name,
-				const gchar *text)
-{
-  GtkWidget *dshell, *dlabel, *vbox, *bbox;
-
-  dshell = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  setup_dialog(dshell, toplevel);
-  gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
-
-  gtk_window_set_title(GTK_WINDOW(dshell), name);
-
-  gtk_window_set_transient_for(GTK_WINDOW(dshell), parent);
-  gtk_window_set_destroy_with_parent(GTK_WINDOW(dshell), TRUE);
-
-  vbox = gtk_vbox_new(FALSE, 5);
-  gtk_container_add(GTK_CONTAINER(dshell),vbox);
-
-  gtk_container_set_border_width(GTK_CONTAINER(vbox), 5);
-
-  dlabel = gtk_label_new(text);
-  gtk_container_add(GTK_CONTAINER(vbox), dlabel);
-
-  bbox = gtk_vbutton_box_new();
-  gtk_box_set_spacing(GTK_BOX(bbox), 2);
-  gtk_container_add(GTK_CONTAINER(vbox), bbox);
-  
-  g_object_set_data(G_OBJECT(dshell), "bbox", bbox);
-  g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(0));
-  g_object_set_data(G_OBJECT(dshell), "hide", GINT_TO_POINTER(FALSE));
-  
-  gtk_widget_show(vbox);
-  gtk_widget_show(dlabel);
-  
-  return dshell;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void message_dialog_clicked(GtkWidget *w, gpointer data)
-{
-  if (g_object_get_data(G_OBJECT(data), "hide")) {
-    gtk_widget_hide(GTK_WIDGET(data));
-  } else {
-    gtk_widget_destroy(GTK_WIDGET(data));
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void message_dialog_add(GtkWidget *dshell, const gchar *label,
-			GCallback handler, gpointer data)
-{
-  GtkWidget *button, *bbox;
-  char name[512];
-  int nbuttons;
-
-  bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
-  nbuttons = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dshell), "nbuttons"));
-  g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(nbuttons+1));
-
-  my_snprintf(name, sizeof(name), "button%d", nbuttons);
-
-  button = gtk_button_new_from_stock(label);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_object_set_data(G_OBJECT(dshell), name, button);
-
-  if (handler) {
-    g_signal_connect(button, "clicked", handler, data);
-  }
-
-  g_signal_connect_after(button, "clicked",
-			 G_CALLBACK(message_dialog_clicked), dshell);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void message_dialog_end(GtkWidget *dshell)
-{
-  GtkWidget *bbox;
-  
-  bbox = g_object_get_data(G_OBJECT(dshell), "bbox");
-  
-  gtk_widget_show_all(bbox);
-  gtk_widget_show(dshell);  
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void message_dialog_set_hide(GtkWidget *dshell, gboolean setting)
-{
-  g_object_set_data(G_OBJECT(dshell), "hide", GINT_TO_POINTER(setting));
-}
-
-/****************************************************************
-...
-*****************************************************************/
-GtkWidget *popup_message_dialog(GtkWindow *parent, const gchar *dialogname,
-				const gchar *text, ...)
-{
-  GtkWidget *dshell;
-  va_list args;
-  gchar *name;
-  int i;
-
-  dshell = message_dialog_start(parent, dialogname, text);
-  
-  i = 0;
-  va_start(args, text);
-
-  while ((name = va_arg(args, gchar *))) {
-    GCallback handler;
-    gpointer data;
-
-    handler = va_arg(args, GCallback);
-    data = va_arg(args, gpointer);
-
-    message_dialog_add(dshell, name, handler, data);
-  }
-
-  va_end(args);
-
-  message_dialog_end(dshell);
-
-  return dshell;
 }
 
 /**************************************************************************

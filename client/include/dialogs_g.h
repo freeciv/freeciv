@@ -35,7 +35,9 @@ void races_toggles_set_sensitive(void);
 
 void popup_caravan_dialog(struct unit *punit,
 			  struct city *phomecity, struct city *pdestcity);
-bool caravan_dialog_is_open(void);
+bool caravan_dialog_is_open(int* unit_id, int* city_id);
+void caravan_dialog_update(void);
+
 void popup_diplomat_dialog(struct unit *punit, struct tile *ptile);
 int diplomat_handled_in_diplomat_dialog(void);
 void close_diplomat_dialog(void);

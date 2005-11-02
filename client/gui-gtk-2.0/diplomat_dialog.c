@@ -24,6 +24,7 @@
 
 #include "dialogs_g.h"
 #include "chatline.h"
+#include "choice_dialog.h"
 #include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
@@ -78,7 +79,7 @@ void popup_bribe_dialog(struct unit *punit)
   GtkWidget *shell;
 
   if (unit_flag(punit, F_UNBRIBABLE)) {
-    shell = popup_message_dialog(GTK_WINDOW(toplevel), _("Ooops..."),
+    shell = popup_choice_dialog(GTK_WINDOW(toplevel), _("Ooops..."),
                                  _("This unit cannot be bribed!"),
                                  GTK_STOCK_OK, NULL, NULL, NULL);
     gtk_window_present(GTK_WINDOW(shell));
@@ -616,7 +617,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 		unit_name(punit->type), pcity->name);
 
     if (!unit_flag(punit, F_SPY)){
-      shl = popup_message_dialog(GTK_WINDOW(toplevel),
+      shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_(" Choose Your Diplomat's Strategy"), buf,
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
@@ -628,19 +629,19 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	NULL);
 
       if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
-	message_dialog_button_set_sensitive(shl, 0, FALSE);
+	choice_dialog_button_set_sensitive(shl, 0, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 1, FALSE);
+	choice_dialog_button_set_sensitive(shl, 1, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 2, FALSE);
+	choice_dialog_button_set_sensitive(shl, 2, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
-	message_dialog_button_set_sensitive(shl, 3, FALSE);
+	choice_dialog_button_set_sensitive(shl, 3, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 4, FALSE);
+	choice_dialog_button_set_sensitive(shl, 4, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 5, FALSE);
+	choice_dialog_button_set_sensitive(shl, 5, FALSE);
     } else {
-       shl = popup_message_dialog(GTK_WINDOW(toplevel),
+       shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_("Choose Your Spy's Strategy"), buf,
 	_("Establish _Embassy"), diplomat_embassy_callback, NULL,
 	_("_Investigate City"), diplomat_investigate_callback, NULL,
@@ -653,24 +654,24 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	NULL);
 
       if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, dest_tile))
-	message_dialog_button_set_sensitive(shl, 0, FALSE);
+	choice_dialog_button_set_sensitive(shl, 0, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 1, FALSE);
+	choice_dialog_button_set_sensitive(shl, 1, FALSE);
       if (!diplomat_can_do_action(punit, SPY_POISON, dest_tile))
-	message_dialog_button_set_sensitive(shl, 2, FALSE);
+	choice_dialog_button_set_sensitive(shl, 2, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_SABOTAGE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 3, FALSE);
+	choice_dialog_button_set_sensitive(shl, 3, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_STEAL, dest_tile))
-	message_dialog_button_set_sensitive(shl, 4, FALSE);
+	choice_dialog_button_set_sensitive(shl, 4, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INCITE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 5, FALSE);
+	choice_dialog_button_set_sensitive(shl, 5, FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_MOVE, dest_tile))
-	message_dialog_button_set_sensitive(shl, 6, FALSE);
+	choice_dialog_button_set_sensitive(shl, 6, FALSE);
      }
 
     diplomat_dialog = shl;
 
-    message_dialog_set_hide(shl, TRUE);
+    choice_dialog_set_hide(shl, TRUE);
     g_signal_connect(shl, "destroy",
 		     G_CALLBACK(diplomat_destroy_callback), NULL);
     g_signal_connect(shl, "delete_event",
@@ -681,7 +682,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
        
       diplomat_target_id = ptunit->id;
  
-      shl = popup_message_dialog(GTK_WINDOW(toplevel),
+      shl = popup_choice_dialog(GTK_WINDOW(toplevel),
 	_("Subvert Enemy Unit"),
 	(!unit_flag(punit, F_SPY))?
 	_("Sir, the diplomat is waiting for your command"):
@@ -692,15 +693,15 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
 	NULL);
 
       if (!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, dest_tile)) {
-	message_dialog_button_set_sensitive(shl, 0, FALSE);
+	choice_dialog_button_set_sensitive(shl, 0, FALSE);
       }
       if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, dest_tile)) {
-	message_dialog_button_set_sensitive(shl, 1, FALSE);
+	choice_dialog_button_set_sensitive(shl, 1, FALSE);
       }
 
       diplomat_dialog = shl;
 
-      message_dialog_set_hide(shl, TRUE);
+      choice_dialog_set_hide(shl, TRUE);
       g_signal_connect(shl, "destroy",
 		       G_CALLBACK(diplomat_destroy_callback), NULL);
       g_signal_connect(shl, "delete_event",

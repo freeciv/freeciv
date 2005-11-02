@@ -390,7 +390,10 @@ void handle_city_info(struct packet_city_info *packet)
   bool need_units_dialog_update = FALSE;
   struct city *pcity;
   bool popup, update_descriptions = FALSE, name_changed = FALSE;
+  bool shield_stock_changed = FALSE;
+  bool production_changed = FALSE;
   struct unit *pfocus_unit = get_unit_in_focus();
+  int caravan_city_id;
 
   pcity=find_city_by_id(packet->id);
 
@@ -465,13 +468,20 @@ void handle_city_info(struct packet_city_info *packet)
   } output_type_iterate_end;
 
   pcity->food_stock=packet->food_stock;
-  pcity->shield_stock=packet->shield_stock;
+  if (pcity->shield_stock != packet->shield_stock) {
+    shield_stock_changed = TRUE;
+    pcity->shield_stock = packet->shield_stock;
+  }
   pcity->pollution=packet->pollution;
 
   if (city_is_new
       || pcity->production.is_unit != packet->production_is_unit
       || pcity->production.value != packet->production_value) {
     need_units_dialog_update = TRUE;
+  }
+  if (pcity->production.is_unit != packet->production_is_unit
+      || pcity->production.value != packet->production_value) {
+    production_changed = TRUE;
   }
   pcity->production.is_unit = packet->production_is_unit;
   pcity->production.value = packet->production_value;
@@ -563,6 +573,13 @@ void handle_city_info(struct packet_city_info *packet)
 
   /* Update the panel text (including civ population). */
   update_info_label();
+  
+  /* update caravan dialog */
+  if ((production_changed || shield_stock_changed)
+      && caravan_dialog_is_open(NULL, &caravan_city_id)
+      && caravan_city_id == pcity->id) {
+    caravan_dialog_update();
+  }
 }
 
 /**************************************************************************

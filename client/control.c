@@ -579,7 +579,7 @@ void process_caravan_arrival(struct unit *punit)
   }
 
   /* There can only be one dialog at a time: */
-  if (caravan_dialog_is_open()) {
+  if (caravan_dialog_is_open(NULL, NULL)) {
     return;
   }
   
