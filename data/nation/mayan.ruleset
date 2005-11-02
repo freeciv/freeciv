@@ -1,0 +1,72 @@
+[nation_mayan]
+
+name=_("Mayan")
+plural=_("?plural:Mayans")
+groups=_("Ancient"), _("Medieval"), _("American")
+legend=_("The Mayans were a Mesoamerican civilization. Famous for building\
+ great pyramids and palaces in the jungle.")
+leader="K'uk B'alam", "Zac-Kuk", "Pacal", "Tecún Umán"
+leader_sex="Male", "Female", "Male", "Male"
+flag ="maya"
+flag_alt = "-"
+city_style = "Classical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Ajaw"),         _("Ajaw")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "aztec"
+
+; Cities are archeological sites. Classical name used when known.
+cities =
+  "Tikal",
+  "Lakam Ha",
+  "Oxwitik",
+  "Kalakmul",
+  "Teotihuacan",
+  "Siaan K’aan",
+  "Chichen Itza",
+  "Uxmal",
+  "Izancanac",
+  "Coba",
+  "Becan",
+  "Oxhuitza",
+  "Lamanai",
+  "Chinikiha",
+  "Chinkultic",
+  "Dos Pilas",
+  "Cival",
+  "Comalcalco",
+  "Dzibilchaltun",
+  "Waká",
+  "Altun Ha",
+  "Nakbé",
+  "Edzná",
+  "Gumarcaj",
+  "Iximche",
+  "Izamal",
+  "Jaina",
+  "Kabah",
+  "Kaminaljuyu",
+  "Bonampak",
+  "Labná",
+  "Lubaantun",
+  "Mayapan",
+  "Mixco Viejo",
+  "Uac Cab'nal",
+  "Nim Li Punit",
+  "Yokib",
+  "Quirigua",
+  "Sayil",
+  "Seibal",
+  "Takalik Abaj",
+  "Tazumal",
+  "Tonina",
+  "Tuluum",
+  "Xunantunich",
+  "Yo'okop",
+  "Zac Tz'otz'"

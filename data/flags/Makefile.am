@@ -44,11 +44,13 @@ flag_files =				\
 		ethiopia.png		\
 		europe.png		\
 		finland.png		\
+		france_old.png		\
 		france.png		\
 		galicia.png		\
 		germany.png		\
 		greece.png		\
 		greenland.png		\
+		hittite.png		\
 		hobbits.png		\
 		hungary.png		\
 		iceland.png		\
@@ -74,6 +76,7 @@ flag_files =				\
 		macedonia.png		\
 		maori.png		\
 		mars.png		\
+		maya.png		\
 		mexico.png		\
 		mongolia.png		\
 		mordor.png		\
@@ -84,6 +87,7 @@ flag_files =				\
 		norway.png		\
 		observer.png		\
 		pakistan.png		\
+		papua_newguinea.png	\
 		peru.png		\
 		philippines.png		\
 		phoenicia.png		\
@@ -171,11 +175,13 @@ shield_files =					\
 		ethiopia-shield.png		\
 		europe-shield.png		\
 		finland-shield.png		\
+		france_old-shield.png		\
 		france-shield.png		\
 		galicia-shield.png		\
 		germany-shield.png		\
 		greece-shield.png		\
 		greenland-shield.png		\
+		hittite-shield.png		\
 		hobbits-shield.png		\
 		hungary-shield.png		\
 		iceland-shield.png		\
@@ -201,6 +207,7 @@ shield_files =					\
 		macedonia-shield.png		\
 		maori-shield.png		\
 		mars-shield.png			\
+		maya-shield.png			\
 		mexico-shield.png		\
 		mongolia-shield.png		\
 		mordor-shield.png		\
@@ -211,6 +218,7 @@ shield_files =					\
 		norway-shield.png		\
 		observer-shield.png		\
 		pakistan-shield.png		\
+		papua_newguinea-shield.png	\
 		peru-shield.png			\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
@@ -298,11 +306,13 @@ svg_files = 				\
 		ethiopia.svg		\
 		europe.svg		\
 		finland.svg		\
+		france_old.svg		\
 		france.svg		\
 		galicia.svg		\
 		germany.svg		\
 		greece.svg		\
 		greenland.svg		\
+		hittite.svg		\
 		hobbits.svg		\
 		hungary.svg		\
 		iceland.svg		\
@@ -328,6 +338,7 @@ svg_files = 				\
 		malaysia.svg		\
 		maori.svg		\
 		mars.svg		\
+		maya.svg		\
 		mexico.svg		\
 		mongolia.svg		\
 		mordor.svg		\
@@ -338,6 +349,7 @@ svg_files = 				\
 		norway.svg		\
 		observer.svg		\
 		pakistan.svg		\
+		papua_newguinea.svg	\
 		peru.svg		\
 		philippines.svg		\
 		phoenicia.svg		\

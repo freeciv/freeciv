@@ -47,8 +47,10 @@ pkgdata_DATA = \
 		finnish.ruleset \
 		french.ruleset \
 		galician.ruleset \
+		gallic.ruleset \
 		german.ruleset \
 		greek.ruleset \
+		hittite.ruleset \
 		hobbits.ruleset \
 		hungarian.ruleset \
 		icelandic.ruleset \
@@ -73,12 +75,14 @@ pkgdata_DATA = \
 		manchu.ruleset \
 		maori.ruleset \
 		martian.ruleset \
+		mayan.ruleset \
 		mexican.ruleset \
 		mongol.ruleset \
 		mordor.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \
 		norwegian.ruleset \
+		papuan.ruleset \
 		persian.ruleset \
 		phoenician.ruleset \
 		polish.ruleset \

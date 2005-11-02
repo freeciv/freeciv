@@ -1,0 +1,74 @@
+[nation_gallic]
+
+name=_("Gallic")
+plural=_("?plural:Gauls")
+groups=_("Ancient"), _("European")
+legend=_("The Gauls were a Celtic people occupying what is now France and\
+ Belgium.")
+leader=
+ "Ariovistus",
+ "Vercingetorix",
+ "Syagrius",
+ "Ambiorix",
+ "Dumnorix",
+ "Julia Pacata",
+ "Leonnorius"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female", "Male"
+flag="france_old"
+flag_alt = "france"
+city_style = "Celtic"
+
+ruler_titles = { "government",     "male_title",    "female_title"
+		 "Despotism",	   _("Chieftain"),  _("Chieftain")
+		 "Fundamentalism", _("Druid"),      _("Druid")
+	       } 
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "french", "belgian"
+
+; City names from various articles on Wikipedia:
+; http://en.wikipedia.org/wiki/Category:Ancient_Gauls
+; http://fr.wikipedia.org/wiki/Liste_des_peuples_gaulois_en_France
+
+; Mixed Latin and Gallic names.
+
+cities =
+ "Bibracte",
+ "Durocortum",
+ "Avaricum",
+ "Uxellodunum",
+ "Vesona",
+ "Bagacum",
+ "Cabillonum",
+ "Cenabum",
+ "Autricum",
+ "Vindinum",
+ "Aragenuae",
+ "Gergovia",
+ "Aginnon",
+ "Nemetocenna",
+ "Valentia",
+ "Nemausus",
+ "Noviodunum",
+ "Castellum",
+ "Limonium",
+ "Treverorum",
+ "Narbo",
+ "Vienne",
+ "Agedincum",
+ "Metiosedum",
+ "Vellaunodunum",
+ "Bratuspantium",
+ "Bibrax",
+ "Nyrax",
+ "Vesontio",
+ "Massalia", 
+ "Arausio",
+ "Alesia",
+ "Arelate",
+ "Genava", 
+ "Agirinum",
+ "Rotomagus"

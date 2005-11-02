@@ -236,8 +236,10 @@ data/nation/filipino.ruleset
 data/nation/finnish.ruleset
 data/nation/french.ruleset
 data/nation/galician.ruleset
+data/nation/gallic.ruleset
 data/nation/german.ruleset
 data/nation/greek.ruleset
+data/nation/hittite.ruleset
 data/nation/hobbits.ruleset
 data/nation/hungarian.ruleset
 data/nation/icelandic.ruleset
@@ -262,12 +264,14 @@ data/nation/malaysian.ruleset
 data/nation/manchu.ruleset
 data/nation/maori.ruleset
 data/nation/martian.ruleset
+data/nation/mayan.ruleset
 data/nation/mexican.ruleset
 data/nation/mongol.ruleset
 data/nation/mordor.ruleset
 data/nation/newzealand.ruleset
 data/nation/nigerian.ruleset
 data/nation/norwegian.ruleset
+data/nation/papuan.ruleset
 data/nation/persian.ruleset
 data/nation/phoenician.ruleset
 data/nation/polish.ruleset

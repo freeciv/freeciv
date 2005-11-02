@@ -162,4 +162,8 @@ match=2
 *include "nation/tunisian.ruleset"
 *include "nation/uyghur.ruleset"
 *include "nation/norwegian.ruleset"
+*include "nation/gallic.ruleset"
+*include "nation/hittite.ruleset"
+*include "nation/mayan.ruleset"
+*include "nation/papuan.ruleset"
 *include "nation/barbarian.ruleset"
