@@ -991,8 +991,15 @@ bool read_init_script(struct connection *caller, char *script_filename,
   char tilde_filename[4096];
   char *real_filename;
 
-  my_snprintf(serv_filename, sizeof(serv_filename), "%s%s", 
-              script_filename, extension);
+  /* abuse real_filename to find if we already have a .serv extension */
+  real_filename = script_filename + strlen(script_filename) 
+                  - MIN(strlen(extension), strlen(script_filename));
+  if (strcmp(real_filename, extension) != 0) {
+    my_snprintf(serv_filename, sizeof(serv_filename), "%s%s", 
+                script_filename, extension);
+  } else {
+    sz_strlcpy(serv_filename, script_filename);
+  }
 
   if (is_restricted(caller) && !from_cmdline) {
     if (!is_safe_filename(serv_filename)) {
