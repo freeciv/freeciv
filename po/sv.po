@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.61\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-01 17:49+0100\n"
+"POT-Creation-Date: 2005-11-01 03:43-0500\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
@@ -511,7 +511,8 @@ msgstr "Loggningsläget %d är inte tillåtet i \"%s\".\n"
 #: utility/log.c:92 utility/log.c:103
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr "Freeciv måste kompileras med DEBUG-flaggan för att användas med "
+msgstr ""
+"Freeciv måste kompileras med DEBUG-flaggan för att användas med "
 "avlusningsläge %d.\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
@@ -594,8 +595,9 @@ msgstr "Filen \"%s\" krävs ... avbryter!"
 #: utility/shared.c:1312
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr "%s: Allvarligt fel: du försöker köra mig som användare med "
-"fullständiga rättigheter!\n"
+msgstr ""
+"%s: Allvarligt fel: du försöker köra mig som användare med fullständiga "
+"rättigheter!\n"
 
 #: utility/shared.c:1314
 msgid "Use a non-privileged account instead.\n"
@@ -653,8 +655,9 @@ msgstr "Spel: %s säljer %s (som ej behövs) för %d."
 #: ai/advdiplomacy.c:244
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty"
-msgstr "*%s (datorstyrd)* Datorstyrd spelare i bortaläge kan inte anta "
-"ett sådant avtal"
+msgstr ""
+"*%s (datorstyrd)* Datorstyrd spelare i bortaläge kan inte anta ett sådant "
+"avtal"
 
 #: ai/advdiplomacy.c:254
 #, c-format
@@ -673,8 +676,9 @@ msgstr "*%s (datorstyrd)* Bryt först förbundet med %s, %s"
 #: ai/advdiplomacy.c:279
 #, c-format
 msgid "*%s (AI)* Begone scoundrel, we all know that you cannot be trusted!"
-msgstr "*%s (datorstyrd)* Ge dig av din bedragare! Det är allmänt känt att "
-"du ej är pålitlig!"
+msgstr ""
+"*%s (datorstyrd)* Ge dig av din bedragare! Det är allmänt känt att du ej är "
+"pålitlig!"
 
 #: ai/advdiplomacy.c:291
 #, c-format
@@ -710,8 +714,9 @@ msgstr "*%s (datorstyrd)* Du har inte den erbjudna staden!"
 #: ai/advdiplomacy.c:433
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "*%s (datorstyrd)* Jag är rädd för att det inte äro vist att dela "
-"anblick med Er."
+msgstr ""
+"*%s (datorstyrd)* Jag är rädd för att det inte äro vist att dela anblick med "
+"Er."
 
 #: ai/advdiplomacy.c:539
 #, c-format
@@ -736,8 +741,9 @@ msgstr "*%s (datorstyrd)* Överenskommet. Inga fler fientligheter, %s"
 #: ai/advdiplomacy.c:974
 #, c-format
 msgid "*%s (AI)* I will NOT accept such behaviour! This means WAR!"
-msgstr "*%s (datorstyrd)* Jag kommer INTE att godtaga sådant beteende! "
-"Detta betyder KRIG!"
+msgstr ""
+"*%s (datorstyrd)* Jag kommer INTE att godtaga sådant beteende! Detta betyder "
+"KRIG!"
 
 #: ai/advdiplomacy.c:997
 #, c-format
@@ -769,8 +775,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1037
 #, c-format
 msgid "*%s (AI)* Your despicable actions will not go unpunished!"
-msgstr "*%s (datorstyrd)* Dina avskyvärda handlingar kommer ej att förbli "
-"ostraffade!"
+msgstr ""
+"*%s (datorstyrd)* Dina avskyvärda handlingar kommer ej att förbli ostraffade!"
 
 #: ai/advdiplomacy.c:1041
 #, c-format
@@ -789,14 +795,16 @@ msgstr "*%s (datorstyrd)* Fred i ... någon annan tid"
 #: ai/advdiplomacy.c:1063
 #, c-format
 msgid "*%s (AI)* Your aggression against my allies was your last mistake!"
-msgstr "*%s (datorstyrd)* Din fientlighet mot mina bundsförvanter var ditt "
-"sista mistag!"
+msgstr ""
+"*%s (datorstyrd)* Din fientlighet mot mina bundsförvanter var ditt sista "
+"mistag!"
 
 #: ai/advdiplomacy.c:1085
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr "*%s (datorstyrd)* Jag är rädd för att det inte längre äro vist att "
-"dela anblick med Er."
+msgstr ""
+"*%s (datorstyrd)* Jag är rädd för att det inte längre äro vist att dela "
+"anblick med Er."
 
 #: ai/advdiplomacy.c:1153
 #, c-format
@@ -831,8 +839,9 @@ msgstr ""
 #: ai/advdiplomacy.c:1192
 #, c-format
 msgid "*%s (AI)* Greetings friend, may we suggest a joint campaign against %s?"
-msgstr "*%s (datorstyrd)* Var hälsad vän, får vi föreslå ett gemensamt "
-"fälttåg mot %s?"
+msgstr ""
+"*%s (datorstyrd)* Var hälsad vän, får vi föreslå ett gemensamt fälttåg mot %"
+"s?"
 
 #: ai/advdiplomacy.c:1207
 #, c-format
@@ -865,8 +874,7 @@ msgstr "Spel: Självständigt angrepp: %ss %s angriper %ss %s"
 #, c-format
 msgid ""
 "Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
-msgstr ""
-"Barbarledaren %s sprider skräck i världen. Svåra år må vänta oss."
+msgstr "Barbarledaren %s sprider skräck i världen. Svåra år må vänta oss."
 
 #: server/barbarian.c:435
 #, c-format
@@ -1008,8 +1016,8 @@ msgstr "Spel: Ändrade hemstad för %s till %s."
 #: server/citytools.c:1127
 #, c-format
 msgid "Game: Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr "Spel: Flyttar ut %s ur den upplösta staden %s för att undvika "
-"strandning."
+msgstr ""
+"Spel: Flyttar ut %s ur den upplösta staden %s för att undvika strandning."
 
 #: server/citytools.c:1138
 #, c-format
@@ -1078,8 +1086,8 @@ msgstr "Spel: %s säljer %s (föråldrad) för %d."
 #: server/cityturn.c:321
 #, c-format
 msgid "Game: Notice: Wonder %s in %s will be finished next turn."
-msgstr "Spel: Påpekande: Världsundret %s i %s kommer att färdigställas nästa "
-"omgång."
+msgstr ""
+"Spel: Påpekande: Världsundret %s i %s kommer att färdigställas nästa omgång."
 
 #: server/cityturn.c:354
 #, c-format
@@ -1267,14 +1275,15 @@ msgstr "Spel: Friden är återställd i %s."
 #: server/cityturn.c:1385
 #, c-format
 msgid "Game: The people have overthrown your %s, your country is in turmoil."
-msgstr "Spel: Medborgarna ha störtat vår regering (%s). Vårt land härjas av "
+msgstr ""
+"Spel: Medborgarna ha störtat vår regering (%s). Vårt land härjas av "
 "oroligheter."
 
 #: server/cityturn.c:1409
 #, c-format
 msgid "Game: %s can't build %s yet, and we can't disband our only city."
-msgstr "Spel: %s kan inte färdigställa %s än. Vi kunna ej överge vår enda "
-"stad."
+msgstr ""
+"Spel: %s kan inte färdigställa %s än. Vi kunna ej överge vår enda stad."
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1427
@@ -1285,7 +1294,8 @@ msgstr "Spel: %s upplöstes till %s."
 #: server/civserver.c:94
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr "Varning: valmöjligheten %s är föråldrad. Använd -m för att aktivera "
+msgstr ""
+"Varning: valmöjligheten %s är föråldrad. Använd -m för att aktivera "
 "metaservern.\n"
 
 #: server/civserver.c:138
@@ -1374,8 +1384,8 @@ msgstr "  -q, --quitidle TID\tAvsluta om inga spelare på TID sekunder\n"
 
 #: server/civserver.c:184
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr "  -e, --exit-on-end\tStäng av istället för starta om när spelet är "
-"slut\n"
+msgstr ""
+"  -e, --exit-on-end\tStäng av istället för starta om när spelet är slut\n"
 
 #: server/civserver.c:187
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
@@ -1570,8 +1580,7 @@ msgstr "Skickar meddelanden till alla klienter."
 #: server/commands.c:107
 msgid ""
 "For each connected client, pops up a window showing the message entered."
-msgstr ""
-"Öppnar ett fönster som visar meddelandet hos varje ansluten klient."
+msgstr "Öppnar ett fönster som visar meddelandet hos varje ansluten klient."
 
 #: server/commands.c:111
 msgid "vote yes|no [vote number]"
@@ -2184,8 +2193,8 @@ msgstr "Du är inloggad som \"%s\" och ansluten till %s."
 #: server/connecthand.c:170
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
-msgstr "Omgångshindrande spel: väntar på att %s skall göra färdigt sin "
-"omgång..."
+msgstr ""
+"Omgångshindrande spel: väntar på att %s skall göra färdigt sin omgång..."
 
 #: server/connecthand.c:204
 #, c-format
@@ -2347,8 +2356,8 @@ msgstr "Spel: Vi ha ej teknologin %s, så vi kunna ej godkänna avtalet."
 
 #: server/diplhand.c:161
 msgid "City you are trying to give no longer exists, you can't accept treaty."
-msgstr "Staden som vi försöka ge finns inte längre: Avtalet kunna ej "
-"godkännas."
+msgstr ""
+"Staden som vi försöka ge finns inte längre: Avtalet kunna ej godkännas."
 
 #: server/diplhand.c:167
 #, c-format
@@ -2358,8 +2367,7 @@ msgstr "Vi äga ej %s, så vi kunna ej godkänna avtalet."
 #: server/diplhand.c:173 server/diplhand.c:275
 #, c-format
 msgid "Game: Your capital (%s) is requested, you can't accept treaty."
-msgstr "Spel: Vår huvudstad (%s) efterfrågas, så vi kunna ej godkänna "
-"avtalet."
+msgstr "Spel: Vår huvudstad (%s) efterfrågas, så vi kunna ej godkänna avtalet."
 
 #: server/diplhand.c:182 server/diplhand.c:290
 #, c-format
@@ -2381,8 +2389,8 @@ msgstr ""
 
 #: server/diplhand.c:198
 msgid "Game: You don't have enough gold, you can't accept treaty."
-msgstr "Spel: Vi ha ej tillräckligt mycket guld för att kunna godkänna "
-"avtalet."
+msgstr ""
+"Spel: Vi ha ej tillräckligt mycket guld för att kunna godkänna avtalet."
 
 #: server/diplhand.c:230 server/diplhand.c:235
 #, c-format
@@ -2800,26 +2808,26 @@ msgstr "Spel: %s ha orsakat en olyckshändelse vid mutandet av vår %s."
 #: server/diplomats.c:1335
 #, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
-msgstr "Spel: Vi ha orsakat en olyckshändelse vid stjälandet av teknologi "
-"från %s."
+msgstr ""
+"Spel: Vi ha orsakat en olyckshändelse vid stjälandet av teknologi från %s."
 
 #: server/diplomats.c:1339
 #, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr "Spel: %s ha orsakat en olyckshändelse vid stjälandet av teknologi "
-"från oss."
+msgstr ""
+"Spel: %s ha orsakat en olyckshändelse vid stjälandet av teknologi från oss."
 
 #: server/diplomats.c:1345
 #, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
-msgstr "Spel: Vi ha orsakat en olyckshändelse vid anstiftandet av ett uppror "
-"i %s."
+msgstr ""
+"Spel: Vi ha orsakat en olyckshändelse vid anstiftandet av ett uppror i %s."
 
 #: server/diplomats.c:1348
 #, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
-msgstr "Spel: %s ha orsakat en olyckshändelse vid anstiftandet av ett "
-"uppror i %s."
+msgstr ""
+"Spel: %s ha orsakat en olyckshändelse vid anstiftandet av ett uppror i %s."
 
 #: server/gamehand.c:130
 #, c-format
@@ -2838,8 +2846,9 @@ msgstr "År: %s"
 
 #: server/gamehand.c:384
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
-msgstr "Omgångstidsgränsen har överskridit sitt största värde. Låser den "
-"vid sitt största värde."
+msgstr ""
+"Omgångstidsgränsen har överskridit sitt största värde. Låser den vid sitt "
+"största värde."
 
 #: server/gamehand.c:392
 msgid "The turn timeout is smaller than zero, fixing at zero."
@@ -2966,8 +2975,8 @@ msgstr ""
 #: server/plrhand.c:380
 #, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
-msgstr "Spel: Vi lärde oss %s. Våra vetenskapsmän inrikta sig på %s. Målet "
-"är %s."
+msgstr ""
+"Spel: Vi lärde oss %s. Våra vetenskapsmän inrikta sig på %s. Målet är %s."
 
 #: server/plrhand.c:398
 #, c-format
@@ -2987,8 +2996,9 @@ msgstr "Forskar fram %s"
 #: server/plrhand.c:415
 #, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
-msgstr "Spel: Vi lärde oss %s. Våra vetenskapsmän vet inte vad de ska "
-"forska om härnäst."
+msgstr ""
+"Spel: Vi lärde oss %s. Våra vetenskapsmän vet inte vad de ska forska om "
+"härnäst."
 
 #: server/plrhand.c:434
 msgid ""
@@ -3076,14 +3086,14 @@ msgstr "Spel: Skattesats överskred högsta tillåtna satsen för %s; anpassad."
 #: server/plrhand.c:1162
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
-msgstr "Spel: Forskningssatsen överskred högsta tillåtna satsen för %s; "
-"justerades."
+msgstr ""
+"Spel: Forskningssatsen överskred högsta tillåtna satsen för %s; justerades."
 
 #: server/plrhand.c:1168
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
-msgstr "Spel: Överflödssatsen överskred högsta tillåtna satsen för %s, "
-"justerades."
+msgstr ""
+"Spel: Överflödssatsen överskred högsta tillåtna satsen för %s, justerades."
 
 #: server/plrhand.c:1239
 #, c-format
@@ -3419,8 +3429,9 @@ msgstr ":e plats"
 
 #: server/report.c:689
 msgid "Demography string contains invalid characters. Try \"help demography\"."
-msgstr "Demografisträngen innehåller otillåtna tecken. Försök med \"help "
-"demography\"."
+msgstr ""
+"Demografisträngen innehåller otillåtna tecken. Försök med \"help demography"
+"\"."
 
 #: server/report.c:729 server/report.c:747
 msgid "Demographics Report:"
@@ -3493,8 +3504,8 @@ msgstr "tillhandahållna valmöjligheter: %s"
 
 #: server/ruleset.c:186
 msgid "Ruleset datafile claims required option(s) which we don't support:"
-msgstr "Regeluppsättningsdatafil kräver valmöjlighet(er) som vi ej "
-"tillhandahålla:"
+msgstr ""
+"Regeluppsättningsdatafil kräver valmöjlighet(er) som vi ej tillhandahålla:"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:500
@@ -5051,7 +5062,8 @@ msgstr "Spel: Vi ha inga outsatta rymdkomponenter!"
 
 #: server/spacerace.c:238
 msgid "Game: Your spaceship already has the maximum number of Fuel Components!"
-msgstr "Spel: Vårt rymdskepp har redan det högsta möjliga antalet "
+msgstr ""
+"Spel: Vårt rymdskepp har redan det högsta möjliga antalet "
 "drivmedelkomponenter!"
 
 #: server/spacerace.c:257
@@ -5377,7 +5389,8 @@ msgstr "Metaserverupplysningssträng satt till \"%s\"."
 #: server/stdinhand.c:625
 #, c-format
 msgid "Metaserver topic string set to '%s', not reporting to metaserver."
-msgstr "Metaserverupplysningssträng satt till \"%s\", rapporteras ej till "
+msgstr ""
+"Metaserverupplysningssträng satt till \"%s\", rapporteras ej till "
 "metaservern."
 
 #: server/stdinhand.c:645
@@ -5388,8 +5401,8 @@ msgstr "Metaservermeddelandesträng satt till \"%s\"."
 #: server/stdinhand.c:647
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
-msgstr "Metaservermeddelandesträng satt till \"%s\", rapporteras ej till "
-"metaservern."
+msgstr ""
+"Metaservermeddelandesträng satt till \"%s\", rapporteras ej till metaservern."
 
 #: server/stdinhand.c:667
 #, c-format
@@ -5546,8 +5559,8 @@ msgstr "Kommandoåtkomstläget satt till \"%s\" för nya spelare."
 #: server/stdinhand.c:1295 server/stdinhand.c:1306 server/stdinhand.c:1313
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
-msgstr "Kommandoåtkomstläget satt till \"%s\" för den första spelaren som "
-"tar det."
+msgstr ""
+"Kommandoåtkomstläget satt till \"%s\" för den första spelaren som tar det."
 
 #: server/stdinhand.c:1351
 msgid "The 'firstlevel' command makes no sense from the server command line."
@@ -5575,8 +5588,8 @@ msgstr "\"%d\" är ett ogiltigt argument"
 
 #: server/stdinhand.c:1425
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
-msgstr "Användning: timeoutincrease <omgång> <omgångsökning> <värde> "
-"<värdefaktor."
+msgstr ""
+"Användning: timeoutincrease <omgång> <omgångsökning> <värde> <värdefaktor."
 
 #: server/stdinhand.c:1433
 #, c-format
@@ -6385,8 +6398,9 @@ msgstr "Spel: %s är för stort för att lägga till %s."
 #: server/unithand.c:424
 #, c-format
 msgid "Game: %s needs an improvement to grow, so you cannot add %s."
-msgstr "Spel: %s behöver en stadsförbättring för att växa, så vi kunna ej "
-"lägga till %s."
+msgstr ""
+"Spel: %s behöver en stadsförbättring för att växa, så vi kunna ej lägga till "
+"%s."
 
 #: server/unithand.c:433
 #, c-format
@@ -6436,8 +6450,7 @@ msgstr "Spel: Vår angripande %s misslyckades mot %ss %s%s!"
 msgid ""
 "Game: Your attacking %s succeeded against %s's %s%s and became more "
 "experienced!"
-msgstr ""
-"Spel: Vår angripande %s segrade över %ss %s%s och blev mer erfaren!"
+msgstr "Spel: Vår angripande %s segrade över %ss %s%s och blev mer erfaren!"
 
 #: server/unithand.c:858
 #, c-format
@@ -6490,8 +6503,8 @@ msgstr "Spel: Vi kunna ej angripa %ss enhet, ty vi äro ej i krig mot %s."
 
 #: server/unithand.c:1081
 msgid "Game: This unit is being transported, and so cannot bombard."
-msgstr "Spel: Denna enhet färdas i ett transportfordon och kan inte "
-"bombardera."
+msgstr ""
+"Spel: Denna enhet färdas i ett transportfordon och kan inte bombardera."
 
 #: server/unithand.c:1096
 msgid "Game: You can't attack there."
@@ -6530,8 +6543,8 @@ msgstr ""
 #: server/unithand.c:1234
 #, c-format
 msgid "Game: Sorry, your %s cannot establish a trade route between %s and %s"
-msgstr "Spel: Vår %s kan inte tyvärr inte inrätta en handelsled mellan %s "
-"och %s"
+msgstr ""
+"Spel: Vår %s kan inte tyvärr inte inrätta en handelsled mellan %s och %s"
 
 #: server/unithand.c:1262 server/unithand.c:1279
 #, c-format
@@ -6610,8 +6623,9 @@ msgstr "Spel: Vår %s har flyttats på grund av omvandling från land till sjö.
 #: server/unittools.c:883
 #, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
-msgstr "Spel: Vår %s gick ombord på ett fraktskepp på grund av omvandlig "
-"från land till sjö."
+msgstr ""
+"Spel: Vår %s gick ombord på ett fraktskepp på grund av omvandlig från land "
+"till sjö."
 
 #: server/unittools.c:898
 #, c-format
@@ -6759,8 +6773,7 @@ msgstr "Spel: Denna enhet kan inte hoppa fallskärm i havet."
 #, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr ""
-"Spel: Avståndet till målet (%i) är större än enhetens räckvidd (%i)."
+msgstr "Spel: Avståndet till målet (%i) är större än enhetens räckvidd (%i)."
 
 #: server/unittools.c:2243
 #, c-format
@@ -6810,8 +6823,8 @@ msgstr "Spel: Vi funno en vänlig stad."
 
 #: server/unittools.c:2363
 msgid "Game: Friendly nomads are impressed by you, and join you."
-msgstr "Spel: Vänliga nomader äro imponerade av oss och ställa sig till "
-"förfogande."
+msgstr ""
+"Spel: Vänliga nomader äro imponerade av oss och ställa sig till förfogande."
 
 #: server/unittools.c:2388
 msgid "Game: Your overflight frightens the tribe; they scatter in terror."
@@ -6887,7 +6900,8 @@ msgstr ""
 
 #: client/attribute.c:241
 msgid "There has been a CMA error.  Your CMA settings may be broken."
-msgstr "Ett fel har inträffat i stadsförvaltningen. Det kan hända att dina "
+msgstr ""
+"Ett fel har inträffat i stadsförvaltningen. Det kan hända att dina "
 "stadsförvaltningsinställningar är ogiltiga."
 
 #: client/attribute.c:287
@@ -7420,8 +7434,9 @@ msgstr "  -P, --Plugin INSTICKSPROGRAM\tAnvänd INSTICKSPROGRAM för ljud %s\n"
 
 #: client/civclient.c:213
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
-msgstr "  -r, --read FIL\tLäs FIL innehållande skript vid programkörningens "
-"början (endast för spawnad server)\n"
+msgstr ""
+"  -r, --read FIL\tLäs FIL innehållande skript vid programkörningens början "
+"(endast för spawnad server)\n"
 
 #: client/civclient.c:216
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
@@ -7819,8 +7834,8 @@ msgstr "* Kan ej upplösas.\n"
 #: client/helpdata.c:711
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
-msgstr "* Kan upplösas i en stad mot att 50%% av dess tillverkningskostnad "
-"återfås.\n"
+msgstr ""
+"* Kan upplösas i en stad mot att 50%% av dess tillverkningskostnad återfås.\n"
 
 #: client/helpdata.c:715
 #, c-format
@@ -7830,8 +7845,9 @@ msgstr "* Kan grunda nya städer.\n"
 #: client/helpdata.c:718
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
-msgstr "* Kan en öka en stads befolkning med %d i det fall staden är av "
-"storlek %d eller mindre.\n"
+msgstr ""
+"* Kan en öka en stads befolkning med %d i det fall staden är av storlek %d "
+"eller mindre.\n"
 
 #: client/helpdata.c:726
 #, c-format
@@ -8009,8 +8025,9 @@ msgstr "* Har femfaldigt försvar mot missiler och flygplan.\n"
 #: client/helpdata.c:855
 #, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
-msgstr "* Landskapet påverkar inte denna enhets rörlighet (behandlar alla "
-"rutor som vägar.\n"
+msgstr ""
+"* Landskapet påverkar inte denna enhets rörlighet (behandlar alla rutor som "
+"vägar.\n"
 
 #: client/helpdata.c:859
 #, c-format
@@ -8030,7 +8047,8 @@ msgstr "* En ickekrigsenhet (kan inte angripa; inget undantagstillstånd).\n"
 #: client/helpdata.c:870
 #, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
-msgstr "* En fältenhet: gör 1 medborgare otillfredställd även när enheten är "
+msgstr ""
+"* En fältenhet: gör 1 medborgare otillfredställd även när enheten är "
 "fredlig.\n"
 
 #: client/helpdata.c:875
@@ -8109,8 +8127,8 @@ msgstr "* Tillåter byte av regeringsform till %s.\n"
 #: client/helpdata.c:1013
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
-msgstr "* Den första spelaren att forska fram %s får ett omedelbart "
-"framsteg.\n"
+msgstr ""
+"* Den första spelaren att forska fram %s får ett omedelbart framsteg.\n"
 
 #: client/helpdata.c:1018
 #, c-format
@@ -8714,8 +8732,9 @@ msgstr "Sparning misslyckades, kan inte hitta ett filnamn."
 
 #: client/options.c:611
 msgid "If you add a preset by hand, also update \"number_of_presets\""
-msgstr "Om man lägger till ett förvalt värde för hand bör man även "
-"uppdatera \"number_of_presets\""
+msgstr ""
+"Om man lägger till ett förvalt värde för hand bör man även uppdatera "
+"\"number_of_presets\""
 
 #: client/options.c:622
 #, c-format
@@ -9087,10 +9106,10 @@ msgstr[1] "Framsteg: %d rundor/framsteg (%d poäng/omgång)"
 #, c-format
 msgid "Progress: %d turn/advance (%d pts/turn, %d pts/turn from team)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
-msgstr[0] "Framsteg: %d runda/framsteg (%d poäng/omgång, %d poäng/omgång "
-"från laget)"
-msgstr[1] "Framsteg: %d rundor/framsteg (%d poäng/omgång, %d poäng/omgång "
-"från laget)"
+msgstr[0] ""
+"Framsteg: %d runda/framsteg (%d poäng/omgång, %d poäng/omgång från laget)"
+msgstr[1] ""
+"Framsteg: %d rundor/framsteg (%d poäng/omgång, %d poäng/omgång från laget)"
 
 #: client/text.c:512 client/gui-mui/mapview.c:190
 #, c-format
@@ -12682,8 +12701,8 @@ msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %d.%d second(s) "
 "for %d times"
 msgstr ""
-"Självständing anslutning till servern \"%s\" vid port %d som \"%s\" var "
-"%d.%dte sekund %d gånger"
+"Självständing anslutning till servern \"%s\" vid port %d som \"%s\" var %d.%"
+"dte sekund %d gånger"
 
 #: client/gui-gtk/dialogs.c:374
 msgid "Message:"
@@ -15906,12 +15925,11 @@ msgstr ""
 " 0. Välja den första boplatsen.\n"
 "\n"
 "    Inled spelet med att vandra omkring EN KORT STUND för att finna en bra "
-"första boplats. Man bör inte känna sig frestad att undersöka några hyddor "
-"än - de kunna innehålla barbariska stammar. Grunda staden nära "
-"naturtillgångar och kanske nära sjön. Kom ihåg att den första staden man "
-"grundar blir ens huvudstad! Tanken är att avväga tiden som man ägnar åt att "
-"finna ett bra ställe, mot att få sin första stad grundad så tidigt som "
-"möjligt."
+"första boplats. Man bör inte känna sig frestad att undersöka några hyddor än "
+"- de kunna innehålla barbariska stammar. Grunda staden nära naturtillgångar "
+"och kanske nära sjön. Kom ihåg att den första staden man grundar blir ens "
+"huvudstad! Tanken är att avväga tiden som man ägnar åt att finna ett bra "
+"ställe, mot att få sin första stad grundad så tidigt som möjligt."
 
 #: data/helpdata.txt:617
 msgid ""
@@ -18780,8 +18798,8 @@ msgid ""
 "Boosts science production by 33% in each city with a library, and 33% in "
 "each city with a university."
 msgstr ""
-"Ger en forskningsbonus på 33% i varje stad som också har ett bibliotek, "
-"samt ytterligare 33% i varje stad som också har ett universitet."
+"Ger en forskningsbonus på 33% i varje stad som också har ett bibliotek, samt "
+"ytterligare 33% i varje stad som också har ett universitet."
 
 #: data/civ1/buildings.ruleset:1294
 msgid ""
@@ -21300,8 +21318,8 @@ msgstr ""
 
 #: data/default/units.ruleset:1916
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr "Detta är du. Besegras denna enhet förlorar du spelet. Försök undvika "
-"det."
+msgstr ""
+"Detta är du. Besegras denna enhet förlorar du spelet. Försök undvika det."
 
 #: data/civ2/units.ruleset:115 data/history/units.ruleset:188
 msgid ""
@@ -21759,8 +21777,7 @@ msgstr "?plural:katalanerna"
 msgid ""
 "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
 "region of Spain near the southern foot of the Pyrenees."
-msgstr ""
-"Katalonien är ett område i nordöstra Spanien, vid foten av Pyrenéerna."
+msgstr "Katalonien är ett område i nordöstra Spanien, vid foten av Pyrenéerna."
 
 #: data/nation/catalan.ruleset:16
 msgid "Primer Ministre"
@@ -22975,4 +22992,3 @@ msgstr ""
 "Zuluerna är en krigisk bantustam som utvandrade från Västafrika till "
 "Sydafrika i början av 1700-talet. De underkuvade Khosiastammen och stred mot "
 "europeiska bosättare."
-
