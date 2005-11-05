@@ -1,3 +1,368 @@
+
+Sat, 05 Nov 2005 13:01:42 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/NEWS
+	   M /branches/S2_0/common/version.h
+	   M /branches/S2_0/doc/BUGS
+	   M /branches/S2_0/version.in
+
+	Bump version to 2.0.7.
+
+
+Sat, 05 Nov 2005 10:59:55 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/po/ca.po
+	   M /branches/S2_0/po/cs.po
+	   M /branches/S2_0/po/da.po
+	   M /branches/S2_0/po/de.po
+	   M /branches/S2_0/po/en_GB.po
+	   M /branches/S2_0/po/es.po
+	   M /branches/S2_0/po/et.po
+	   M /branches/S2_0/po/fi.po
+	   M /branches/S2_0/po/fr.po
+	   M /branches/S2_0/po/he_IL.po
+	   M /branches/S2_0/po/hu.po
+	   M /branches/S2_0/po/it.po
+	   M /branches/S2_0/po/ja.po
+	   M /branches/S2_0/po/nl.po
+	   M /branches/S2_0/po/no.po
+	   M /branches/S2_0/po/pl.po
+	   M /branches/S2_0/po/pt.po
+	   M /branches/S2_0/po/pt_BR.po
+	   M /branches/S2_0/po/ro.po
+	   M /branches/S2_0/po/ru.po
+	   M /branches/S2_0/po/sv.po
+	   M /branches/S2_0/po/uk.po
+
+	Run 'make update-po'.
+
+
+Wed, 02 Nov 2005 23:49:47 -0800  arnica:
+
+	Changed paths:
+	   M /branches/S2_0/po/fr.po
+
+	updated fr.po
+
+
+Wed, 02 Nov 2005 09:58:03 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/sv.po
+
+	Final update for 2.0.7.
+
+
+Sun, 30 Oct 2005 14:14:00 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/sv.po
+
+	Resolve all untranslated strings - except for two buggars I can't seem to
+	weed out...
+	 --This line, and those below, will be ignored--
+
+	M    po/sv.po
+
+
+Sun, 30 Oct 2005 07:52:54 -0800  mstefek:
+
+	Changed paths:
+	   M /branches/S2_0/po/pl.po
+
+	update
+
+
+Sun, 30 Oct 2005 04:22:37 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/sv.po
+
+	Resolve all fuzzies in sv.po for S2_0.
+
+
+Wed, 26 Oct 2005 23:29:56 -0700  mstefek:
+
+	Changed paths:
+	   M /branches/S2_0/server/plrhand.c
+
+	Fix a bug where wrong tech is reported to be found in found_new_tech(). Reported by Brendon Oram <yautja@paradise.net.nz> in PR#14457
+
+
+Tue, 25 Oct 2005 14:55:47 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/dialogs.c
+
+	Add missing parameter to client_kill_server.
+
+	See PR#12346.
+
+
+Tue, 25 Oct 2005 14:24:11 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/clinet.c
+	   M /branches/S2_0/client/connectdlg_common.c
+	   M /branches/S2_0/client/connectdlg_common.h
+	   M /branches/S2_0/client/gui-win32/connectdlg.c
+
+	When exiting the client while it's still connected to a running local server,
+	use /quit instead of signals to kill the server.  This prevents the server
+	from being killed in the middle of an operation (particularly /save).
+
+	Reported by Matz <matzjosh-freeciv@schokokeks.org> in PR#12346.  Patch by me.
+
+
+Tue, 25 Oct 2005 11:55:44 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/plrhand.c
+	   M /branches/S2_0/server/srv_main.c
+	   M /branches/S2_0/server/stdinhand.c
+
+	Change numerous notify_player(NULL, ...) calls to use notify_conn instead.
+	This causes messages to be sent to detached players as well.
+
+	Reported by Marko Lindqvist <marko.lindqvist@pp5.inet.fi> in PR#11369.  Patch
+	by me.
+
+
+Tue, 25 Oct 2005 11:43:19 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/data/nation/danish.ruleset
+	   M /branches/S2_0/data/nation/korean.ruleset
+	   M /branches/S2_0/data/nation/phoenician.ruleset
+	   M /branches/S2_0/data/nation/russian.ruleset
+	   M /branches/S2_0/data/nation/swedish.ruleset
+	   M /branches/S2_0/data/nation/welsh.ruleset
+
+	Minor fixes for some nations.
+
+	Patch by Daniel Markstedt <himasaram@spray.se> in PR#14451.
+
+
+Tue, 25 Oct 2005 11:37:38 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/data/flags/kampuchea.png
+
+	Add a missing border to the kampuchea flag.
+
+	Fix by Daniel Markstedt <himasaram@spray.se> in PR#14451.
+
+
+Tue, 25 Oct 2005 01:34:16 -0700  evyscr:
+
+	Changed paths:
+	   M /branches/S2_0/po/ru.po
+
+	3736 translated
+
+
+Mon, 24 Oct 2005 03:23:42 -0700  chrisk:
+
+	Changed paths:
+	   M /branches/S2_0/po/de.po
+
+	up to date
+
+
+Sun, 23 Oct 2005 21:26:49 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/data/civ1/buildings.ruleset
+	   M /branches/S2_0/data/civ2/terrain.ruleset
+	   M /branches/S2_0/data/nation/phoenician.ruleset
+	   M /branches/S2_0/server/ruleset.c
+
+	Backport: change ruleset section file loading to be "nodup", so duplicate
+	entries will generate an error.  The rulesets are also fixed to remove
+	duplicates, including fixing of a bug in the civ1 ruleset.
+
+	Patch by me in PR#14436.
+
+
+Sat, 22 Oct 2005 00:56:45 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-ftwl/mapview.c
+	   M /branches/S2_0/client/gui-gtk-2.0/mapview.c
+	   M /branches/S2_0/client/gui-win32/mapview.c
+	   M /branches/S2_0/client/gui-xaw/mapview.c
+	   M /branches/S2_0/client/mapctrl_common.c
+	   M /branches/S2_0/client/mapctrl_common.h
+	   M /branches/S2_0/client/mapview_common.c
+	   M /branches/S2_0/client/packhand.c
+
+	Redraw the selection rectangle when making other drawing changes.
+
+	Patch by me in PR#14416.
+
+
+Tue, 18 Oct 2005 12:07:11 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/control.c
+
+	Change a hard-coded "3" value to be SINGLE_MOVE.
+
+	See PR#14361.
+
+
+Sun, 16 Oct 2005 00:28:09 -0700  mstefek:
+
+	Changed paths:
+	   M /branches/S2_0/ai/aicity.c
+
+	Improve darwin evaluation. Reported by Jason in PR#14341, patch by me
+
+
+Fri, 14 Oct 2005 20:33:24 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/unit.c
+
+	Don't allow rehoming of homeless units.
+
+	Patch by me in PR#14319.
+
+
+Fri, 14 Oct 2005 20:29:03 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/ai
+	   M /branches/S2_0/client/agents
+	   M /branches/S2_0/client/gui-gtk-2.0
+	   M /branches/S2_0/common
+	   M /branches/S2_0/common/aicore
+	   M /branches/S2_0/server
+	   M /branches/S2_0/server/generator
+	   M /branches/S2_0/server/userdb
+	   M /branches/S2_0/utility
+
+	Update svn:ignore in S2_0.
+
+
+Fri, 14 Oct 2005 02:41:15 -0700  mstefek:
+
+	Changed paths:
+	   M /branches/S2_0/server/plrhand.c
+	   M /branches/S2_0/server/plrhand.h
+	   M /branches/S2_0/server/srv_main.c
+
+	When target is A_UNSET and goal is specified pick correct tech at the start of next turn. Reported by Jason, patch by me in PR#14288
+
+
+Thu, 13 Oct 2005 23:21:08 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/doc/BUGS
+
+	Known bug:
+
+	 - Transported units do not work with watchtower vision, and will desynch
+	   the fog of war.  None of the provided rulesets allow transported units on
+	   land, so this won't affect the default play.
+
+
+Thu, 13 Oct 2005 20:22:01 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/maphand.c
+
+	Change global warming and nuclear winter console messages to be LOG_VERBOSE.
+
+	Patch by me in PR#14291.
+
+
+Thu, 13 Oct 2005 09:27:31 -0700  mstefek:
+
+	Changed paths:
+	   M /branches/S2_0/bootstrap/freeciv.desktop.in
+
+	S2_0: Fix problems in freeciv.desktop.in. Patch by Brian Pepple <bdpepple@gmail.com> in PR#12666
+
+
+Tue, 11 Oct 2005 13:27:24 -0700  mstefek:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/gui_main.c
+
+	S2_0: Work around a bug in the gtk library where scrolling a mouse wheel over GtkPaned inserted in GtkNotebook made a page to be changed on the GtkNotebook. Patch by Vasco in PR#13419
+
+
+Tue, 04 Oct 2005 16:44:07 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/tilespec.c
+
+	Backport: fix memory leaks when tileset loading fails.
+
+	Patch by me in PR#14191.
+
+
+Tue, 04 Oct 2005 09:54:52 -0700  chris:
+
+	Changed paths:
+	   M /branches/S2_0/po/de.po
+
+	updated
+
+
+Sun, 02 Oct 2005 23:26:30 -0700  matusik:
+
+	Changed paths:
+	   M /branches/S2_0/server/plrhand.c
+	   M /branches/S2_0/server/plrhand.h
+	   M /branches/S2_0/server/unittools.c
+
+	S2_0: Fix problems with techs found in huts. Reported by Jason in PR#14129
+
+
+Sun, 02 Oct 2005 20:13:18 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/stdinhand.c
+
+	Don't allow observers to be put on teams.
+
+	Reported by Reinier Post in PR#14152.
+
+
+Sun, 02 Oct 2005 16:38:52 -0700  vasc:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/inteldlg.c
+
+	Backport: PR#12334: Fix wrong sorting of techs in inteldlg.
+
+	Bug reported by Christian Knoke <chrisk@cknoke.de>.
+
+
+Fri, 30 Sep 2005 10:03:34 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/city.c
+
+	Don't allow output bonuses to drop below zero (or we'd have negative
+	production).
+
+	Reported by Lo'oris <lo_oris@email.it> in PR#14014.
+
+
+Mon, 26 Sep 2005 08:58:53 -0700  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/stdinhand.c
+
+	Add a notification when the game starts.
+
+	Patch by me in PR#12838.
+
 Mon Sep 26 00:34:39 2005  Jason Short <jdorje@users.sourceforge.net>:
 
 	* NEWS, common/version.h, doc/BUGS, version.in:
