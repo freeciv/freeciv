@@ -75,6 +75,10 @@ static void check_specials(void)
     }
 
     SANITY_CHECK(pterrain->index >= T_FIRST && pterrain->index < T_COUNT);
+
+    if (contains_special(special, S_FORTRESS)) {
+      SANITY_CHECK(ptile->owner != NULL);
+    }
   } whole_map_iterate_end;
 }
 
@@ -143,6 +147,13 @@ static void check_map(void)
     CHECK_INDEX(ptile->index);
     CHECK_MAP_POS(ptile->x, ptile->y);
     CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
+
+    if (ptile->city) {
+      SANITY_CHECK(ptile->owner != NULL);
+    }
+    if (ptile->owner != NULL) {
+      SANITY_CHECK(ptile->owner_source != NULL);
+    }
 
     index_to_map_pos(&x, &y, ptile->index);
     SANITY_CHECK(x == ptile->x && y == ptile->y);

@@ -666,6 +666,8 @@ static void end_turn(void)
     } players_iterate_end;
   }
 
+  map_calculate_borders();
+
   freelog(LOG_DEBUG, "Season of native unrests");
   summon_barbarians(); /* wild guess really, no idea where to put it, but
 			  I want to give them chance to move their units */

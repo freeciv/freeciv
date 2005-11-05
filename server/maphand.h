@@ -91,10 +91,9 @@ void remove_shared_vision(struct player *pfrom, struct player *pto);
 void enable_fog_of_war(void);
 void disable_fog_of_war(void);
 
-void map_update_borders_city_destroyed(struct tile *ptile);
-void map_update_borders_city_change(struct city *pcity);
-void map_update_borders_landmass_change(struct tile *ptile);
 void map_calculate_borders(void);
+void map_claim_ownership(struct tile *ptile, struct player *owner,
+                         struct tile *source);
 
 void check_terrain_change(struct tile *ptile, struct terrain *oldter);
 int get_continent_size(Continent_id id);

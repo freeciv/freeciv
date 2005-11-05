@@ -337,6 +337,8 @@ extern struct terrain_misc terrain_control;
 #define circle_iterate_end                                                  \
   circle_dxyr_iterate_end
 
+/* dx, dy, dr are distance from center to tile in x, y and square distance;
+ * do not rely on x, y distance, since they do not work for hex topologies */
 #define circle_dxyr_iterate(center_tile, sq_radius,			    \
 			    tile_itr, dx, dy, dr)			    \
 {									    \

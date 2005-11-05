@@ -278,6 +278,7 @@ static void tile_init(struct tile *ptile)
   ptile->worked   = NULL; /* pointer to city working tile */
   ptile->owner    = NULL; /* Tile not claimed by any nation. */
   ptile->spec_sprite = NULL;
+  ptile->owner_source = NULL;
 }
 
 /****************************************************************************

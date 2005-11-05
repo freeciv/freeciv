@@ -62,6 +62,8 @@
 #include "techtools.h"
 #include "unittools.h"
 
+#define TOKEN_SIZE 10
+
 /* 
  * This loops over the entire map to save data. It collects all the data of
  * a line using GET_XY_CHAR and then executes the macro SECFILE_INSERT_LINE.
@@ -86,8 +88,8 @@
                                                                             \
   for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			    \
     for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			    \
-      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		    \
-									    \
+      struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		          \
+      assert(ptile != NULL);                                                \
       line[_nat_x] = (GET_XY_CHAR);                                         \
       if (!my_isprint(line[_nat_x] & 0x7f)) {                               \
           die("Trying to write invalid map "                                \
@@ -184,8 +186,9 @@
    and rulesets */
 #define SAVEFILE_OPTIONS "startoptions spacerace2 rulesets" \
 " diplchance_percent map_editor known32fix turn " \
-"attributes rulesetdir client_worklists orders " \
-"startunits turn_last_built improvement_order technology_order embassies"
+"attributes watchtower rulesetdir client_worklists orders " \
+"startunits turn_last_built improvement_order technology_order embassies " \
+"new_owner_map"
 
 static const char hex_chars[] = "0123456789abcdef";
 
@@ -726,6 +729,70 @@ static void map_load(struct section_file *file)
 		secfile_lookup_str_default(file, NULL, "map.f%03d", nat_y),
 		set_savegame_special(&ptile->special, ch, 3));
 
+  /* Owner and ownership source are stored as plain numbers */
+  if (has_capability("new_owner_map", savefile_options)) {
+    int x, y;
+
+    for (y = 0; y < map.ysize; y++) {
+      char *buffer = 
+            secfile_lookup_str_default(file, NULL, "map.owner%03d", y);
+      char *ptr = buffer;
+
+      if (buffer == NULL) {
+        die("Savegame corrupt - map line %d not found.", y);
+      }
+      for (x = 0; x < map.xsize; x++) {
+        char token[TOKEN_SIZE];
+        int number;
+        struct tile *ptile = native_pos_to_tile(x, y);
+
+        scanin(&ptr, ",", token, sizeof(token));
+        if (token[0] == '\0') {
+          die("Savegame corrupt - map size not correct.");
+        }
+        if (strcmp(token, "-") == 0) {
+          ptile->owner = NULL;
+        } else {
+          if (sscanf(token, "%d", &number)) {
+            ptile->owner = get_player(number);
+          } else {
+            die("Savegame corrupt - got map owner %s in (%d, %d).", 
+                token, x, y);
+          }
+        }
+      }
+    }
+    for (y = 0; y < map.ysize; y++) {
+      char *buffer2 = 
+            secfile_lookup_str_default(file, NULL, "map.source%03d", y);
+      char *ptr2 = buffer2;
+
+      if (buffer2 == NULL) {
+        die("Savegame corrupt - map line %d not found.", y);
+      }
+      for (x = 0; x < map.xsize; x++) {
+        char token2[TOKEN_SIZE];
+        int number;
+        struct tile *ptile = native_pos_to_tile(x, y);
+
+        scanin(&ptr2, ",", token2, sizeof(token2));
+        if (token2[0] == '\0') {
+          die("Savegame corrupt - map size not correct.");
+        }
+        if (strcmp(token2, "-") == 0) {
+          ptile->owner_source = NULL;
+        } else {
+          if (sscanf(token2, "%d", &number)) {
+            ptile->owner_source = index_to_tile(number);
+          } else {
+            die("Savegame corrupt - got map source %s in (%d, %d).", 
+                token2, x, y);
+          }
+        }
+      }
+    }
+  }
+
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
     int known[MAP_INDEX_SIZE];
 
@@ -839,6 +906,52 @@ static void map_save(struct section_file *file)
 		       get_savegame_special(ptile->special, 1));
   SAVE_NORMAL_MAP_DATA(ptile, file, "map.n%03d",
 		       get_savegame_special(ptile->special, 2));
+
+  /* Store owner and ownership source as plain numbers */
+  {
+    int x, y;
+
+    for (y = 0; y < map.ysize; y++) {
+      char line[map.xsize * TOKEN_SIZE];
+
+      line[0] = '\0';
+      for (x = 0; x < map.xsize; x++) {
+        char token[TOKEN_SIZE];
+        struct tile *ptile = native_pos_to_tile(x, y);
+
+        if (ptile->owner == NULL) {
+          strcpy(token, "-");
+        } else {
+          snprintf(token, sizeof(token), "%d", ptile->owner->player_no);
+        }
+        strcat(line, token);
+        if (x + 1 < map.xsize) {
+          strcat(line, ",");
+        }
+      }
+      secfile_insert_str(file, line, "map.owner%03d", y);
+    }
+    for (y = 0; y < map.ysize; y++) {
+      char line[map.xsize * TOKEN_SIZE];
+
+      line[0] = '\0';
+      for (x = 0; x < map.xsize; x++) {
+        char token[TOKEN_SIZE];
+        struct tile *ptile = native_pos_to_tile(x, y);
+
+        if (ptile->owner_source == NULL) {
+          strcpy(token, "-");
+        } else {
+          snprintf(token, sizeof(token), "%d", ptile->index);
+        }
+        strcat(line, token);
+        if (x + 1 < map.xsize) {
+          strcat(line, ",");
+        }
+      }
+      secfile_insert_str(file, line, "map.source%03d", y);
+    }
+  }
 
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
@@ -1971,6 +2084,7 @@ static void player_load(struct player *plr, int plrno,
 
     pcity = create_city_virtual(plr, ptile,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
+    map_claim_ownership(ptile, plr, ptile);
 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
@@ -3606,9 +3720,6 @@ void game_load(struct section_file *file)
 
     initialize_globals();
     apply_unit_ordering();
-
-    /* Rebuild national borders. */
-    map_calculate_borders();
 
     /* Make sure everything is consistent. */
     players_iterate(pplayer) {

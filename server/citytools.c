@@ -810,10 +810,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   /* Has to follow the unfog call above. */
   city_list_unlink(pgiver->cities, pcity);
   pcity->owner = ptaker;
+  map_claim_ownership(pcity->tile, ptaker, pcity->tile);
   city_list_prepend(ptaker->cities, pcity);
-
-  /* Update the national borders. */
-  map_update_borders_city_change(pcity);
 
   transfer_city_units(ptaker, pgiver, old_city_units,
 		      pcity, NULL,
@@ -930,6 +928,9 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   freelog(LOG_DEBUG, "Creating city %s", name);
 
+  /* Ensure that we claim the ground we stand on */
+  map_claim_ownership(ptile, pplayer, ptile);
+
   if (terrain_control.may_road) {
     tile_set_special(ptile, S_ROAD);
     if (player_knows_techs_with_flag(pplayer, TF_RAILROAD)) {
@@ -986,10 +987,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
 	pcity->city_map[x_itr][y_itr] = C_TILE_UNAVAILABLE;
     }
   }
-
-  /* Update the national borders.  This updates the citymap tile
-   * status and so must be done after the above. */
-  map_update_borders_city_change(pcity);
 
   /* Place a worker at the city center; this is the free-worked tile.
    * This must be done before the city refresh (below) so that the city
@@ -1139,7 +1136,6 @@ void remove_city(struct city *pcity)
   old_vision = pcity->server.vision;
   pcity->server.vision = NULL;
   game_remove_city(pcity);
-  map_update_borders_city_destroyed(ptile);
 
   players_iterate(other_player) {
     if (map_is_known_and_seen(ptile, other_player, V_MAIN)) {

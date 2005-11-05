@@ -753,6 +753,12 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
     return FALSE;
   }
 
+  if (ptile->owner && ptile->owner != punit->owner) {
+    /* Cannot steal borders by settling. This has to be settled by
+     * force of arms. */
+    return FALSE;
+  }
+
   /* game.info.min_dist_bw_cities minimum is 1, meaning adjacent is okay */
   citymindist = game.info.citymindist;
   if (citymindist == 0) {

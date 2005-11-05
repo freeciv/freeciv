@@ -1570,3 +1570,62 @@ bool path_is_absolute(const char *filename)
   return FALSE;
 }
 
+/**************************************************************************
+  Scan in a word or set of words from start to but not including
+  any of the given delimiters. The buf pointer will point past delimiter,
+  or be set to NULL if there is nothing there. Removes excess white
+  space.
+
+  This function should be safe, and dest will contain "\0" and
+  *buf == NULL on failure. We always fail gently.
+
+  Due to the way the scanning is performed, looking for a space
+  will give you the first word even if it comes before multiple
+  spaces.
+
+  Returns delimiter found.
+
+  Pass in NULL for dest and -1 for size to just skip ahead.  Note that if
+  nothing is found, dest will contain the whole string, minus leading and
+  trailing whitespace.  You can scan for "" to conveniently grab the
+  remainder of a string.
+**************************************************************************/
+char scanin(char **buf, char *delimiters, char *dest, int size)
+{
+  char *ptr, found = '?';
+
+  if (*buf == NULL || strlen(*buf) == 0 || size == 0) {
+    if (dest) {
+      dest[0] = '\0';
+    }
+    *buf = NULL;
+    return '\0';
+  }
+
+  if (dest) {
+    strncpy(dest, *buf, size);
+    remove_leading_trailing_spaces(dest);
+    ptr = strpbrk(dest, delimiters);
+  } else {
+    /* Just skip ahead. */
+    ptr = strpbrk(*buf, delimiters);
+  }
+  if (ptr != NULL) {
+    found = *ptr;
+    if (dest) {
+      *ptr = '\0';
+    }
+    if (dest) {
+      remove_leading_trailing_spaces(dest);
+    }
+    *buf = strpbrk(*buf, delimiters);
+    if (*buf != NULL) {
+      (*buf)++; /* skip delimiter */
+    } else {
+    }
+  } else {
+    *buf = NULL;
+  }
+
+  return found;
+}

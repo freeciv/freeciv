@@ -36,6 +36,7 @@ struct tile {
   struct city *worked;      /* city working tile, or NULL if none */
   Continent_id continent;
   struct player *owner;     /* Player owning this tile, or NULL. */
+  struct tile *owner_source; /* what makes it owned by owner */
   char *spec_sprite;
 };
 

@@ -693,6 +693,7 @@ static void update_unit_activity(struct unit *punit)
     if (total_activity (ptile, ACTIVITY_FORTRESS)
 	>= tile_activity_time(ACTIVITY_FORTRESS, ptile)) {
       tile_set_special(ptile, S_FORTRESS);
+      map_claim_ownership(ptile, unit_owner(punit), ptile);
       unit_activity_done = TRUE;
 
       /* watchtower becomes effective
@@ -2701,6 +2702,12 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     vision_change_sight(punit->server.vision, v,
 			get_unit_vision_at(punit, pdesttile, v));
   } vision_layer_iterate_end;
+
+  /* Claim ownership of fortress? */
+  if (tile_has_special(pdesttile, S_FORTRESS)
+      && pplayers_at_war(pdesttile->owner, pplayer)) {
+    map_claim_ownership(pdesttile, pplayer, pdesttile);
+  }
 
   unit_list_unlink(psrctile->units, punit);
   punit->tile = pdesttile;

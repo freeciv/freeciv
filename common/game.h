@@ -205,11 +205,10 @@ bool setting_class_is_changeable(enum sset_class class);
 
 #define GAME_DEFAULT_FOGOFWAR        TRUE
 
-/* 0 means no national borders.  Performance dropps quickly as the border
- * distance increases (o(n^2) or worse). */
-#define GAME_DEFAULT_BORDERS         7
+/* 0 means no national borders. */
+#define GAME_DEFAULT_BORDERS         4
 #define GAME_MIN_BORDERS             0
-#define GAME_MAX_BORDERS             24
+#define GAME_MAX_BORDERS             12
 
 #define GAME_DEFAULT_HAPPYBORDERS    TRUE
 

@@ -1013,6 +1013,8 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
 
   Note this only checks for changing of the terrain or special for the
   tile, since these are the only values held in the playermap.
+
+  A tile's owner always can see terrain changes in his or her territory.
 ****************************************************************************/
 void update_tile_knowledge(struct tile *ptile)
 {
@@ -1407,117 +1409,48 @@ void check_terrain_change(struct tile *ptile, struct terrain *oldter)
 
     /* New continent numbers for all tiles to all players */
     send_all_known_tiles(NULL);
-    
-    map_update_borders_landmass_change(ptile);
   }
-}
-
-/*************************************************************************
-  Return pointer to the oldest adjacent city to this tile.  If
-  there is a city on the exact tile, that is returned instead.
-*************************************************************************/
-static struct city *map_get_adjc_city(struct tile *ptile)
-{
-  struct city *closest = NULL;   /* Closest city */
-
-  if (ptile->city) {
-    return ptile->city;
-  }
-
-  adjc_iterate(ptile, tile1) {
-    if (tile1->city && 
-         (!closest || tile1->city->turn_founded < closest->turn_founded)) {
-      closest = tile1->city;
-    }
-  } adjc_iterate_end;
-
-  return closest;
 }
 
 /*************************************************************************
   Ocean tile can be claimed iff one of the following conditions stands:
   a) it is an inland lake not larger than MAXIMUM_OCEAN_SIZE
   b) it is adjacent to only one continent and not more than two ocean tiles
-  c) It is one tile away from a city (This function doesn't check it)
-  The city, which claims the ocean has to be placed on the correct continent.
+  c) It is one tile away from a city
+  The source which claims the ocean has to be placed on the correct continent.
   in case a) The continent which surrounds the inland lake
   in case b) The only continent which is adjacent to the tile
   The correct continent is returned in *contp.
 *************************************************************************/
-static bool is_claimed_ocean(struct tile *ptile, Continent_id *contp)
+static bool is_claimable_ocean(struct tile *ptile, struct tile *source)
 {
   Continent_id cont = tile_get_continent(ptile);
-  Continent_id cont2, other;
+  Continent_id source_cont = tile_get_continent(source);
+  Continent_id cont2;
   int ocean_tiles;
-  
-  if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE &&
-      lake_surrounders[-cont] > 0) {
-    *contp = lake_surrounders[-cont];
+
+  if (get_ocean_size(-cont) <= MAXIMUM_CLAIMED_OCEAN_SIZE
+      && lake_surrounders[-cont] == source_cont) {
     return TRUE;
   }
   
-  other = 0;
   ocean_tiles = 0;
   adjc_iterate(ptile, tile2) {
     cont2 = tile_get_continent(tile2);
+    if (tile2 == source) {
+      return TRUE;
+    }
     if (cont2 == cont) {
       ocean_tiles++;
-    } else {
-      if (other == 0) {
-        other = cont2;
-      } else if (other != cont2) {
-        return FALSE;
-      }
+    } else if (cont2 != source_cont) {
+      return FALSE; /* two land continents adjacent, punt! */
     }
   } adjc_iterate_end;
   if (ocean_tiles <= 2) {
-    *contp = other;
     return TRUE;
   } else {
     return FALSE;
   }
-}
-
-/*************************************************************************
-  Return pointer to the closest city to this tile, which must be
-  on the same continent if the city is not immediately adjacent.
-  If two or more cities are equally distant, then return the
-  oldest (i.e. the one with the lowest id). This also correctly
-  works for water bases in SMAC mode, and allows coastal cities
-  to claim one square of ocean. Inland lakes and long inlets act in
-  the same way as the surrounding continent's land tiles. If no cities
-  are within game.info.borders distance, returns NULL.
-
-  NOTE: The behaviour of this function will eventually depend
-  upon some planned ruleset options.
-*************************************************************************/
-static struct city *map_get_closest_city(struct tile *ptile)
-{
-  struct city *closest;  /* Closest city */
-
-  closest = map_get_adjc_city(ptile);
-  if (!closest) {
-    int distsq;		/* Squared distance to city */
-    /* integer arithmetic equivalent of (borders+0.5)**2 */
-    int cldistsq = game.info.borders * (game.info.borders + 1);
-    Continent_id cont = tile_get_continent(ptile);
-
-    if (!is_ocean(tile_get_terrain(ptile)) || is_claimed_ocean(ptile, &cont)) {
-      cities_iterate(pcity) {
-	if (tile_get_continent(pcity->tile) == cont) {
-          distsq = sq_map_distance(pcity->tile, ptile);
-          if (distsq < cldistsq ||
-               (distsq == cldistsq &&
-                (!closest || closest->turn_founded > pcity->turn_founded))) {
-            closest = pcity;
-            cldistsq = distsq;
-          } 
-        }
-      } cities_iterate_end;
-    }
-  }
-
-  return closest;
 }
 
 /*************************************************************************
@@ -1537,55 +1470,179 @@ static void tile_update_owner(struct tile *ptile)
 }
 
 /*************************************************************************
-  Recalculate the borders around a given position.
+  Add any unique home city not found in list but found on tile to the 
+  list.
 *************************************************************************/
-static void map_update_borders_recalculate_position(struct tile *ptile)
+static void add_unique_homecities(struct city_list *cities_to_refresh, 
+                           struct tile *tile1)
 {
-  struct city_list* cities_to_refresh = NULL;
-  
+  /* Update happiness */
+ unit_list_iterate(tile1->units, unit) {
+   struct city* homecity = find_city_by_id(unit->homecity);
+   bool already_listed = FALSE;
+
+    if (!homecity) {
+      continue;
+    }
+    city_list_iterate(cities_to_refresh, city2) {
+      if (city2 == homecity) {
+        already_listed = TRUE;
+        break;
+      }
+      if (!already_listed) {
+        city_list_prepend(cities_to_refresh, homecity);
+      }
+    } city_list_iterate_end;
+  } unit_list_iterate_end;
+}
+
+/*************************************************************************
+  Claim ownership of a single tile.  This does no checks.
+*************************************************************************/
+void map_claim_ownership(struct tile *ptile, struct player *owner,
+                         struct tile *source)
+{
+  ptile->owner_source = source;
+  tile_set_owner(ptile, owner);
+  send_tile_info(NULL, ptile);
+  tile_update_owner(ptile);
+}
+
+/*************************************************************************
+  Establish range of a city's borders.
+*************************************************************************/
+static inline int tile_border_range(struct tile *ptile)
+{
+  int range;
+
+  if (ptile->city) {
+    range = MIN(ptile->city->size + 1, game.info.borders);
+    if (ptile->city->size > game.info.borders) {
+      range += (ptile->city->size - game.info.borders) / 2;
+    }
+  } else {
+    range = game.info.borders;
+  }
+  return range;
+}
+
+/*************************************************************************
+  Update borders for all sources.  Call this on turn end.
+
+  We will remove claim to land whose source is gone, and claim
+  more land to sources in range, unless there are enemy units within
+  this range.
+*************************************************************************/
+void map_calculate_borders()
+{
+  struct city_list *cities_to_refresh = NULL;
+
+  if (game.info.borders == 0) {
+    return;
+  }
+
   if (game.info.happyborders > 0) {
     cities_to_refresh = city_list_new();
   }
-  
-  if (game.info.borders > 0) {
-    iterate_outward(ptile, game.info.borders, tile1) {
-      struct city *pccity = map_get_closest_city(tile1);
-      struct player *new_owner = pccity ? pccity->owner : NULL;
 
-      if (new_owner != tile_get_owner(tile1)) {
-	tile_set_owner(tile1, new_owner);
-	/* Note we call send_tile_info, not update_tile_knowledge here.
-	 * Borders information is sent to everyone who has seen the tile
-	 * before; it's not stored in the playermap. */
-	send_tile_info(NULL, tile1);
-	tile_update_owner(tile1);
-	/* Update happiness */
-	if (game.info.happyborders > 0) {
-	  unit_list_iterate(tile1->units, unit) {
-	    struct city* homecity = find_city_by_id(unit->homecity);
-	    bool already_listed = FALSE;
-	    
-	    if (!homecity) {
-	      continue;
-	    }
-	    
-	    city_list_iterate(cities_to_refresh, city2) {
-	      if (city2 == homecity) {
-	        already_listed = TRUE;
-		break;
-	      }
-	    } city_list_iterate_end;
-	    
-	    if (!already_listed) {
-	      city_list_prepend(cities_to_refresh, homecity);
-	    }
+  /* First transfer ownership for sources that have changed hands. */
+  whole_map_iterate(ptile) {
+    if (ptile->owner 
+        && ptile->owner_source
+        && ptile->owner_source->owner != ptile->owner
+        && (ptile->owner_source->city
+            || tile_has_special(ptile->owner_source, S_FORTRESS))) {
+      /* Claim ownership of tiles previously owned by someone else */
+      map_claim_ownership(ptile, ptile->owner_source->owner, 
+                          ptile->owner_source);
+    }
+  } whole_map_iterate_end;
 
-	  } unit_list_iterate_end;
-	}
-      }
-    } iterate_outward_end;
-  }
- 
+  /* Second remove undue ownership. */
+  whole_map_iterate(ptile) {
+    if (ptile->owner
+        && (ptile->owner != ptile->owner_source->owner
+            || (!ptile->owner_source->city
+                && !tile_has_special(ptile->owner_source, S_FORTRESS)))) {
+      /* Ownership source gone */
+      map_claim_ownership(ptile, NULL, NULL);
+    }
+  } whole_map_iterate_end;
+
+  /* Now claim ownership of unclaimed tiles for all sources; we
+   * grab one circle each turn as long as we have range left
+   * to better visually displaying expansion hurdles. */
+  whole_map_iterate(ptile) {
+#ifdef DEBUG
+    if (ptile->owner == NULL
+        && (ptile->city || tile_has_special(ptile, S_FORTRESS))) {
+      /* Sanity problem */
+      freelog(LOG_ERROR, "city or fortress at (%d, %d) has no owner",
+              ptile->x, ptile->y);
+      assert(FALSE);
+      continue;
+    }
+#endif
+    if (ptile->owner
+        && (ptile->city || tile_has_special(ptile, S_FORTRESS))) {
+      /* We have an ownership source */
+      int expand_range = 99;
+      int found_unclaimed = 99;
+      int range = tile_border_range(ptile);
+
+      freelog(LOG_DEBUG, "source at %d,%d", ptile->x, ptile->y);
+      range *= range; /* due to sq dist */
+      freelog(LOG_DEBUG, "borders range for source is %d", range);
+
+      circle_dxyr_iterate(ptile, range, atile, dx, dy, dist) {
+        if (expand_range > dist) {
+          unit_list_iterate(atile->units, punit) {
+            if (!pplayers_allied(unit_owner(punit), ptile->owner)) {
+              /* We cannot expand borders further when enemy units are
+               * standing in the way. */
+              expand_range = dist - 1;
+            }
+          } unit_list_iterate_end;
+        }
+        if (found_unclaimed > dist
+            && atile->owner == NULL
+            && map_is_known(atile, ptile->owner)
+            && (!is_ocean(atile->terrain)
+                || is_claimable_ocean(atile, ptile))) {
+          found_unclaimed = dist;
+        }
+      } circle_dxyr_iterate_end;
+      freelog(LOG_DEBUG, "expand_range=%d found_unclaimed=%d", expand_range,
+              found_unclaimed);
+
+      circle_dxyr_iterate(ptile, range, atile, dx, dy, dist) {
+        if (dist > expand_range || dist > found_unclaimed) {
+          continue; /* only expand one extra circle radius each turn */
+        }
+        if (map_is_known(atile, ptile->owner)) {
+          if (atile->owner == NULL) {
+            if (!is_ocean(atile->terrain)
+                || is_claimable_ocean(atile, ptile)) {
+              map_claim_ownership(atile, ptile->owner, ptile);
+              atile->owner_source = ptile;
+              if (game.info.happyborders > 0) {
+                add_unique_homecities(cities_to_refresh, atile);
+              }
+            }
+          } else if (atile->owner == ptile->owner
+                     && sq_map_distance(ptile, atile) 
+                        < sq_map_distance(atile->owner_source, atile)) {
+            /* Steal tiles from your own cities when they are closer
+             * to this source than to its current source. This makes
+             * sure that when a source is lost, borders close to
+             * other sources will not go lost as well. */
+            atile->owner_source = ptile;
+          }
+        }
+      } circle_dxyr_iterate_end;
+    }
+  } whole_map_iterate_end;
+
   /* Update happiness in all homecities we have collected */ 
   if (game.info.happyborders > 0) {
     city_list_iterate(cities_to_refresh, to_refresh) {
@@ -1595,88 +1652,6 @@ static void map_update_borders_recalculate_position(struct tile *ptile)
     
     city_list_unlink_all(cities_to_refresh);
     city_list_free(cities_to_refresh);
-  }
-}
-
-/*************************************************************************
-  Modify national territories as resulting from a city being destroyed.
-  x,y coords for (already deleted) city's location.
-  Tile worker states are updated as necessary, but not sync'd with client.
-*************************************************************************/
-void map_update_borders_city_destroyed(struct tile *ptile)
-{
-  map_update_borders_recalculate_position(ptile);
-}
-
-/*************************************************************************
-  Modify national territories resulting from a change of landmass.
-  Tile worker states are updated as necessary, but not sync'd with client.
-*************************************************************************/
-void map_update_borders_landmass_change(struct tile *ptile)
-{
-  map_update_borders_recalculate_position(ptile);
-}
-
-/*************************************************************************
-  Modify national territories resulting from new city or change of city
-  ownership.
-  Tile worker states are updated as necessary, but not sync'd with client.
-*************************************************************************/
-void map_update_borders_city_change(struct city *pcity)
-{
-  map_update_borders_recalculate_position(pcity->tile);
-}
-
-/*************************************************************************
-  Delete the territorial claims to all tiles.
-*************************************************************************/
-static void map_clear_borders(void)
-{
-  whole_map_iterate(ptile) {
-    tile_set_owner(ptile, NULL);
-  } whole_map_iterate_end;
-}
-
-/*************************************************************************
-  Minimal code that calculates all national territories from scratch.
-*************************************************************************/
-static void map_calculate_territory(void)
-{
-  /* Clear any old territorial claims. */
-  map_clear_borders();
-
-  if (game.info.borders > 0) {
-    /* Loop over all cities and claim territory. */
-    cities_iterate(pcity) {
-      /* Loop over all map tiles within this city's sphere of influence. */
-      iterate_outward(pcity->tile, game.info.borders, ptile) {
-	struct city *pccity = map_get_closest_city(ptile);
-
-	if (pccity) {
-	  tile_set_owner(ptile, pccity->owner);
-	}
-      } iterate_outward_end;
-    } cities_iterate_end;
-  }
-}
-
-/*************************************************************************
-  Calculate all national territories from scratch.  This can be slow, but
-  is only performed occasionally, i.e. after loading a saved game. Doesn't
-  send any tile information to the clients. Tile worker states are updated
-  as necessary, but not sync'd with client.
-*************************************************************************/
-void map_calculate_borders(void)
-{
-  if (game.info.borders > 0) {
-    map_calculate_territory();
-
-    /* Fix tile worker states. */
-    cities_iterate(pcity) {
-      map_city_radius_iterate(pcity->tile, tile1) {
-        update_city_tile_status_map(pcity, tile1);
-      } map_city_radius_iterate_end;
-    } cities_iterate_end;
   }
 }
 
