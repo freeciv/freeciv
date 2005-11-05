@@ -2,13 +2,33 @@
 Welcome to Freeciv 2.0
 ======================
 
-This is release 2.0.6.
+This is release 2.0.7.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 2.0.6
+ - Cannot rehome homeless units.
+ - Fixed bug when city bonuses (shield, gold, etc.) became negative.
+ - Send messages (for instance, about failed observer creation) to detached players.
+ - When choosing a tech to research at random, prefer one that works toward the goal.
+ - Don't allow duplicate entries in the ruleset.
+ - Fix some bugs caused by duplicate entries in civ1 and civ2 rulesets.
+ - When closing the client, don't interrupt the running server. This fixes a bug
+   where the server could be interrupted in the middle of a save.
+ - Fixes for some nations and nation flags.
+ - Some translation updates.
+ - Update the mapview selection rectangle when redrawing is done.
+ - Fix bug with transported units and watchtower vision.
+ - Improve the Freeciv desktop entry.
+ - Fix a bug where using the mouse scroll wheel could completely break the client.
+ - Fix a bug with discovery of techs in huts.
+ - Don't allow observers to be put on teams.
+ - Fix a bug with sorting of techs in the intel dialog.
+ - Send a notification when the game starts.
 
 WHAT'S CHANGED SINCE 2.0.5
  - Fix some memory leaks.
