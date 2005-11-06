@@ -474,7 +474,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_CANCEL,
 			     _("_Cancel meeting"), RESPONSE_CANCEL_MEETING);
-  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_EDIT,
+  gui_dialog_add_stockbutton(pdialog->dialog, GTK_STOCK_DND,
 			     _("Accept _treaty"), GTK_RESPONSE_ACCEPT);
 
   vbox = pdialog->dialog->vbox;
