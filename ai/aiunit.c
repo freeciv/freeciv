@@ -579,16 +579,14 @@ static int ai_rampage_want(struct unit *punit, struct tile *ptile)
     /* ...and free foreign city waiting for us. Who would resist! */
     if (pcity && pplayers_at_war(pplayer, city_owner(pcity))
         && COULD_OCCUPY(punit)) {
-      
       return -RAMPAGE_FREE_CITY_OR_BETTER;
     }
     
     /* ...or tiny pleasant hut here! */
-    if (tile_has_special(ptile, S_HUT) && !is_barbarian(pplayer)) {
-      
+    if (tile_has_special(ptile, S_HUT) && !is_barbarian(pplayer)
+        && is_ground_unit(punit)) {
       return -RAMPAGE_HUT_OR_BETTER;
     }
-    
   }
   
   return 0;
@@ -1043,6 +1041,8 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
       } else {
         (void) ai_gothere(pplayer, punit, pcity->tile);
       }
+    } else {
+      UNIT_LOG(LOG_VERBOSE, punit, "defending nothing...?");
     }
   }
 }
@@ -1746,6 +1746,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   pcity = find_nearest_safe_city(punit);
   if (is_sailing_unit(punit) && pcity) {
     /* Sail somewhere */
+    UNIT_LOG(LOG_DEBUG, punit, "sailing to nearest safe house.");
     (void) ai_unit_goto(punit, pcity->tile);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do, so try exploring. */
@@ -1757,9 +1758,11 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
   } else {
     /* You can still have some moves left here, but barbarians should
        not sit helplessly, but advance towards nearest known enemy city */
+    UNIT_LOG(LOG_DEBUG, punit, "attack: barbarian");
     ai_military_attack_barbarian(pplayer, punit);
   }
   if ((punit = find_unit_by_id(id)) && punit->moves_left > 0) {
+    UNIT_LOG(LOG_DEBUG, punit, "attack: giving up unit to defense");
     ai_military_defend(pplayer, punit);
   }
 }
@@ -2077,6 +2080,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   /* Don't manage the unit if it is under human orders. */
   if (unit_has_orders(punit)) {
+    UNIT_LOG(LOG_VERBOSE, punit, "is under human orders, aborting AI control.");
     punit->ai.ai_role = AIUNIT_NONE;
     punit->ai.done = TRUE;
     return;
@@ -2147,11 +2151,14 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else if (is_military_unit(punit)) {
     TIMING_LOG(AIT_MILITARY, TIMER_START);
+    UNIT_LOG(LOG_DEBUG, punit, "recruit unit for the military");
     ai_manage_military(pplayer,punit); 
     TIMING_LOG(AIT_MILITARY, TIMER_STOP);
     return;
   } else {
     int id = punit->id;
+
+    UNIT_LOG(LOG_DEBUG, punit, "fell through all unit tasks, defending");
     /* what else could this be? -- Syela */
     if (!ai_manage_explorer(punit)
         && find_unit_by_id(id)) {
