@@ -31,11 +31,10 @@
   
   Lua callbacks functions are able to do these via their return values.
   
-  All Lua callback functions can return upto two values. Example:
-    return false, true
+  All Lua callback functions can return a value. Example:
+    return false
     
-  If the first value is 'true' the current signal emission will be stopped.
-  If the second value is 'true' the callback detaches itself from the signal.
+  If the value is 'true' the current signal emission will be stopped.
 **************************************************************************/
 
 #ifdef HAVE_CONFIG_H
