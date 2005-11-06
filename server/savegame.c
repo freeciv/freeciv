@@ -2084,7 +2084,8 @@ static void player_load(struct player *plr, int plrno,
 
     pcity = create_city_virtual(plr, ptile,
                       secfile_lookup_str(file, "player%d.c%d.name", plrno, i));
-    map_claim_ownership(ptile, plr, ptile);
+    ptile->owner_source = pcity->tile;
+    tile_set_owner(ptile, pcity->owner);
 
     pcity->id=secfile_lookup_int(file, "player%d.c%d.id", plrno, i);
     alloc_id(pcity->id);
