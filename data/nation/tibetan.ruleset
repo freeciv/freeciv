@@ -8,7 +8,7 @@ legend=_("The Tibetans live in what is sometimes called the 'Roof of the\
  subjugated by and then liberated from China several times throughout\
  history.")
 leader=
- "Dalai Lama",		; Reincarnating spiritual leader, 14th is the current
+ "Dalai Lama",		; Reincarnating spiritual and political leader
  "Songtsen Gampo",	; Legendary bringer of Buddhism
  "Thonmi Sambhota"	; Legendary inventor of Tibetan script
 leader_sex="Male", "Male", "Male"

@@ -3,8 +3,6 @@
 name=_("British")
 plural=_("?plural:Britons")
 groups=_("Modern"), _("European")
-; We do not want British nation in the same game with English
-conflicts_with="english", "scottish", "welsh", "cornish"
 legend=_("The United Kingdom was created in 1707 as a negotiated agreement\
  between the kingdom of England and the kingdom of Scotland. The country -\
  also known as Great Britain - became the leading industrial and maritime\
@@ -29,6 +27,10 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+; We do not want British nation in the same game with English or any of the
+; other nations within modern Great Britain.
+conflicts_with="english", "scottish", "welsh", "cornish"
 civilwar_nations=
 ; Sub-national nations
  "english", "scottish", "welsh", "cornish",

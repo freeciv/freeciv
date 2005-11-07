@@ -22,6 +22,7 @@ city_style = "Celtic"
 ;      = "Y Gweriniaeth Cymru"           "republic"     (republic, democracy)
 
 ruler_titles = { "government",      "male_title",      "female_title",
+                 "Despotism",       _("Chieftain"),      _("Chieftain")
                  "Monarchy",        _("Prince"),         _("Princess")
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }

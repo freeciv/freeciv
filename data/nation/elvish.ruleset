@@ -2,6 +2,7 @@
 ; Note: although mostly Noldorin Kings and places have been used, I have
 ; included some Sindarin
 
+; Nation name should be "Elvish" for consistency.
 name=_("Elves")
 plural=_("?plural:Elves")
 groups=_("Fictional")

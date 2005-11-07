@@ -3,7 +3,6 @@
 name=_("Polish")
 plural=_("?plural:Poles")
 groups=_("Medieval"), _("Modern"), _("European")
-conflicts_with="silesian"
 legend=_("The Polish state was formed about a millennium ago, and reached\
  its Golden Age near the end of the 16th century.")
 leader="Mieszko I",
@@ -36,6 +35,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+conflicts_with="silesian"
 civilwar_nations = "lithuanian", "silesian", "ukrainian"
 
 cities =

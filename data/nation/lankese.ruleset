@@ -18,6 +18,7 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Prince"),       _("Princess")
                  "Republic",        _("Governor"),     _("Governor")
                  "Communism",  _("Supreme Commander"), _("Supreme Commander")
                }
@@ -34,7 +35,7 @@ cities =
  "Dambadeniya",
  "Sri Jayewardenepura",
  "Kandy",
- "Colombo",
+ "Kolamba",	; English: "Colombo"
  "Gimhathiththa",
  "Jaffna",
  "Kitulgala",

@@ -20,6 +20,10 @@ flag="switzerland"
 flag_alt = "-"
 city_style = "European"
 
+ruler_titles = { "government",	"male_title",	"female_title"
+		 "Despotism",   _("General"),   _("General")
+	       } 
+
 init_techs=""
 init_buildings=""
 init_government="Despotism"
@@ -27,13 +31,45 @@ init_units=""
 civilwar_nations="austrian", "french", "italian"
 
 cities =
-  "Bern (river)", "Zürich", "Basel (river)", "Genève", "Lausanne",
-  "Winterthur", "St. Gallen", "Luzern", "Biel / Bienne", "Thun (river)",
-  "Köniz", "La Chaux-de-Fonds", "Fribourg (river)", "Schaffhausen (river)",
-  "Neuchatel", "Chur", "Vernier GE", "Emmen LU", "Sion (river)", "Lugano",
-  "Uster ZH", "Kriens LU", "Lancy GE", "Montreux VD",
-  "Yverdon-les-bains VD (river)",
-  "Zug", "Dietikon ZH", "Dübendorf ZH", "Frauenfeld TG", "Riehen BS",
-  "Aarau (river)", "Herisau", "Appenzell", "Liestal", "Glarus",
-  "Delemont", "Stans", "Sarnen", "Schwyz",
-  "Solothurn (river)", "Bellinzona", "Altdorf"
+ "Bern (river)",
+ "Zürich",
+ "Basel (river)",
+ "Genève",
+ "Lausanne",
+ "Winterthur",
+ "St. Gallen",
+ "Luzern",
+ "Biel / Bienne",
+ "Thun (river)",
+ "Köniz",
+ "La Chaux-de-Fonds",
+ "Fribourg (river)",
+ "Schaffhausen (river)",
+ "Neuchatel",
+ "Chur",
+ "Vernier GE",
+ "Emmen LU",
+ "Sion (river)",
+ "Lugano",
+ "Uster ZH",
+ "Kriens LU",
+ "Lancy GE",
+ "Montreux VD",
+ "Yverdon-les-bains VD (river)",
+ "Zug",
+ "Dietikon ZH",
+ "Dübendorf ZH",
+ "Frauenfeld TG",
+ "Riehen BS",
+ "Aarau (river)",
+ "Herisau",
+ "Appenzell",
+ "Liestal",
+ "Glarus",
+ "Delemont",
+ "Stans",
+ "Sarnen",
+ "Schwyz",
+ "Solothurn (river)",
+ "Bellinzona",
+ "Altdorf"

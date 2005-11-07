@@ -58,7 +58,7 @@ cities =
   "Hiroshima (ocean)",
   "Sendai (ocean)",
   "Kawasaki (ocean)",
-  "Kokura (ocean)",
+  "Kokura (ocean)",	; Modern-day "Kita-Kyushu"
   "Saitama (!ocean)",
   "Yokohama (ocean)",
   "Chiba (ocean)",
@@ -86,6 +86,7 @@ cities =
   "Takamatsu (ocean)",
   "Kochi (ocean)",
   "Toyama (ocean)",
+  "Naha (ocean)",
   "Aomori (ocean)",
   "Hakodate (ocean)",
   "Maebashi (!ocean)",
@@ -105,6 +106,7 @@ cities =
   "Fukushima (!ocean)",
   "Yokkaichi (ocean)",
   "Shimonoseki (ocean)",
+  "Koganei (!ocean)",
   "Hachinohe (ocean)",
   "Mito (!ocean)",
   "Sasebo (ocean)",
@@ -112,7 +114,7 @@ cities =
   "Kawaguchi (!ocean)",
   "Kushiro (ocean)",
   "Chofu (!ocean)",
-  "Fuse (!ocean)",
+  "Fuse (!ocean)",	; One of the old cities that now is "Higashi-Osaka"
   "Kumagaya (!ocean)",
   "Amagasaki (ocean)",
   "Ichikawa",

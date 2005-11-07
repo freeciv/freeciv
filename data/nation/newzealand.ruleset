@@ -1,6 +1,6 @@
 [nation_newzealand]
 
-; Changing the name will break savegames
+; Nation name should be "New Zealandic" (like "Icelandic") for consistency.
 name=_("New Zealand")
 plural=_("?plural:New Zealanders")
 groups=_("Modern"), _("Oceanian")

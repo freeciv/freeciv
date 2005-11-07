@@ -3,7 +3,6 @@
 name=_("Indonesian")
 plural=_("?plural:Indonesians")
 groups=_("Modern"), _("Asian")
-conflicts_with="polish"	; Similar flags
 legend=_("Indonesia is a large country on the Malay Archipelago with central\
  government on the island of Java. The country has a Muslim majority and is\
  one of the most populous in the world.")
@@ -21,6 +20,9 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+; Similar flags
+conflicts_with="polish"
 civilwar_nations="malaysian", "indonesian"
 
 cities =

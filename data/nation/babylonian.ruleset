@@ -18,9 +18,12 @@ flag = "iraq_old"
 flag_alt = "-"
 city_style = "Babylonian"
 
+ruler_titles = { "government",	"male_title",	"female_title"
+		 "Despotism",	_("Lugal"),	 _("Lugal")
+	       } 
+
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
 civilwar_nations = "israeli", "persian", "arab"

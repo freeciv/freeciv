@@ -8,13 +8,12 @@ legend=_("The Sami, or Lapps, are a people of northern Scandinavia. Their\
  Finnmark of Norway and Lapland of Sweden and Finland. They are famous for\
  keeping reindeers as cattle.")
 leader=
- "Lars Levi Læstadius",
+ "Ole Henrik Magga",
  "Aslak Hætta",
  "Matts Heiva",
  "Kuta-Vuorok",
- "Elsa Laula",
- "Ole Henrik Magga"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+ "Elsa Laula"
+leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="sapmi"
 flag_alt = "-"
 city_style = "European"
@@ -28,7 +27,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "finnish", "estonian"
+civilwar_nations="finnish"
 
 ; Sami city names are taken from the northernmost regions of Norway 
 ; (Finnmark) Sweden and Finland (Lapland) and also a few from Russia.
@@ -36,21 +35,24 @@ civilwar_nations = "finnish", "estonian"
 ; countries while yet some use a more modern native Sami orthography.
 
 cities =
- "Kautokeino", 			; Historical and de-facto capital
- "Karasjok (river)",		; Site of Sami Parliament, Norway
- "Giron",			; Site of Swedish Sami council (a.k.a Kiruna)
- "Inari",			; Site of Finnish Sami council
+ "Guovdageaidnu", 		; Kautokeino
+ "Kárášjohka (river)",		; Karasjok
+ "Giron",			; Kiruna
+ "Anar",			; Inari
  "Lujávri (river, swamp)",
- "Karesuando",
+ "Garesavvon",			; Karesuando
  "Dálvvadis",
- "Alta",
- "Gällivare (mountains)",
- "Kvikkjokk (river)",
+ "Álaheaju",			; Alta
+ "Jiellivarre (mountains)",	; Gällivare
+ "Guojkkajåhkkå (river)",	; Kvikkjokk
  "Murjek (swamp, river)",
  "Karagasnjarga",
  "Noarvas",
+ "Avvil",
  "Aiddejavvre (river, swamp)",
- "Utsjok (river)",
+ "Ohcejohka (river)",
+ "Bårjås",		; Porjus
+ "Ábeskovvu (ocean)",	; Abisko
  "Thohkerasjavre (river, swamp)",
  "Jäggeluokta (ocean)",
  "Galanito",
@@ -65,8 +67,6 @@ cities =
  "Bæivašgiedde (grassland)",
  "Jorgastak",
  "Valjok (river)",
- "Porjus",
- "Abisko",
  "Skoganvarre (hills, mountains)",
  "Njoammelsasskam",
  "Seida",
@@ -116,7 +116,6 @@ cities =
  "Manjaur (river, swamp)",
  "Njunjes",
  "Tjiengaluokta (ocean)",
- "Stikkenjokk (river)",
  "Gervenåkko",
  "Vielmesmakke",
  "Fättjaur (river, swamp)",
@@ -130,5 +129,4 @@ cities =
  "Sjangeli",
  "Vassijaure (river, swamp)",
  "Låktasjåkka (river)",
- "Vuoskojaure (river, swamp)",
- "Kätkesuando"
+ "Vuoskojaure (river, swamp)"

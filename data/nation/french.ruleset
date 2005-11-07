@@ -20,6 +20,7 @@ flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Chieftain"),    _("Chieftain")
                  "Democracy",       _("Premier"),      _("Premier")
                  "Fundamentalism",  _("Archbishop"),   _("Archbishop")
                }
@@ -28,6 +29,12 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+conflicts_with=
+; Successor-nation of:
+ "gallic",
+; Similar flag as:
+ "dutch"
 civilwar_nations="canadian", "quebecois", "belgian"
 
 cities =

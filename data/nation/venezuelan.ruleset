@@ -1,6 +1,6 @@
 [nation_venezuelan]
 
-; Changing the name will break savegames
+; Nation name should be "Venezuelan" for consistency.
 name=_("Venezuela")
 plural=_("?plural:Venezuelans")
 groups=_("American"), _("Modern")
@@ -42,6 +42,9 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+; Similar flags:
+conflicts_with="colombian"
 civilwar_nations="cuban", "colombian"
 
 cities =

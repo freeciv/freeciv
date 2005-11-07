@@ -1,6 +1,6 @@
 [nation_argentine]
 
-; Changing the name will break savegames
+; Nation name should be "Argentinean" for consistency.
 name=_("Argentine")
 plural=_("?plural:Argentines")
 groups=_("Modern"), _("American")

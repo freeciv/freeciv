@@ -16,6 +16,7 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Raja"),         _("Raja")
                  "Monarchy",        _("Maharaja"),     _("Maharaja")
                  "Republic",        _("Mahatma"),      _("Mahatma")
                }
@@ -42,6 +43,7 @@ cities =
  "Benares",
  "Chandrigarh",
  "Rawalpindi",
+ "Colombo",
  "Madurai",
  "Coimbatore",
  "Calicut",

@@ -3,7 +3,6 @@
 name=_("Serbian")
 plural=_("?plural:Serbians")
 groups=_("Modern"), _("Medieval"), _("European")
-conflicts_with="russian", "slovenian", "slovakian", "dutch"  ; Similar flags
 legend=_("Serbia is part of the region of the Southern Slavs that was\
  conquered by the Ottomans after the collapse of the Byzantine Empire.\
  During most of the 20th century it was part of the Yugoslav Federation.")
@@ -40,9 +39,11 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
+
+; Chain of similar flags
+conflicts_with="russian", "slovenian", "slovakian"
 civilwar_nations = "slovenian"
 
 cities =

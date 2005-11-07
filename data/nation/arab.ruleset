@@ -24,7 +24,11 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "turk", "persian"
+
+; Should not appear with other Arabic nations from the beginning but...
+conflicts_with="iraqi", "libyan", "sudanese"
+; ...civil war to them.
+civilwar_nations="iraqi", "libyan", "sudanese"
 
 ; Arab Peninsula and Near East.  City names are mostly from the Ummayyad 
 ; and Abbasid periods.  These are Arab spellings rather than Anglicized ones;
