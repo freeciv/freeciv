@@ -13,50 +13,40 @@ leader =
  "Brian Boru",
  "Eamon de Valera",
  "Grace O'Malley",
- "Hanna Sheehy-Skeffington",
  "Edmund Burke",
  "Daniel O'Connell",
  "Charles Stuart Parnell",
  "Constance Markievicz",
  "Theobald Wolfe Tone",
- "Padraig Pearse",
- "Jim Larkin",
- "Augusta Gregory",
  "Gormlaith",
- "Maud Gonne",
- "Michael Davitt",
  "Michael Collins",
- "James Connolly",
- "O'Sullivan Beara",
  "Aoife MacMurrough",
- "Robert Emmett",
- "Anne Devlin",
- "Kathleen Lynn",
  "Sean Lemass",
  "W.T. Cosgrave",
  "Turlough O'Connor",
  "Sean MacBride",
- "W.B. Yeats",
  "John Redmond",
  "Henry Grattan",
  "Wellington",
  "Jack Lynch",
  "Mary McSwiney",
- "Kathleen Clarke",
- "Anne Bonny",
- "Alice Kyteler",
  "Muircheartach MacLochlainn",
  "Tiernan O'Rourke"
-leader_sex = "Male", "Male", "Female",
- "Female", "Male", "Male",
- "Male", "Female", "Male",
- "Male", "Male", "Female", "Female", "Female",
- "Male", "Male", "Male", "Male",
- "Female", "Male", "Female", "Female",
- "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Male", "Male",
- "Female", "Female", "Female", "Female",
- "Male", "Male"
+leader_sex = "Male", "Male", "Female", "Male", "Male", "Male", "Female",
+ "Male", "Female", "Male", "Female", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Female", "Male", "Male"
+
+; See doc/README.nations for the current Freeciv policy on leaders
+
+; "Hanna Sheehy-Skeffington", "Padraig Pearse", "Jim Larkin",
+; "Augusta Gregory", "Maud Gonne", "Michael Davitt", "James Connolly",
+; "O'Sullivan Beara", "Robert Emmett", "Anne Devlin", "Kathleen Lynn", 
+; "W.B. Yeats", "Kathleen Clarke", "Anne Bonny", "Alice Kyteler"
+
+; "Female", "Male", "Male", "Female", "Female",
+; "Male", "Male", "Male", "Male", "Female", "Female", "Male", 
+; "Female", "Female", "Female"
+
 flag="ireland"
 flag_alt = "-"
 city_style = "Celtic"
