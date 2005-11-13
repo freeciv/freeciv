@@ -16,6 +16,7 @@
 #endif
 
 #include "fcintl.h"
+#include "fc_types.h"
 #include "shared.h"
 #include "support.h"
 
