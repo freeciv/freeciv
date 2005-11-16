@@ -2383,8 +2383,7 @@ static bool unit_survive_autoattack(struct unit *punit)
       enum diplstate_type ds = 
             pplayer_get_diplstate(unit_owner(punit), enemyplayer)->type;
 
-      if (((enemyplayer->ai.control && ai_handicap(enemyplayer, H_EXPERIMENTAL))
-           || game.info.autoattack)
+      if (game.info.autoattack
           && penemy->moves_left > 0
           && ds == DS_WAR
           && can_unit_attack_unit_at_tile(penemy, punit, punit->tile)) {
