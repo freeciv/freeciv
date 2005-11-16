@@ -35,19 +35,31 @@
 
 #ifdef SANITY_CHECKING
 
-#ifdef DEBUG
-#  define DEBUG_ASSERT(x) assert(x)
-#else
-#  define DEBUG_ASSERT(x) (void)0
-#endif /* DEBUG */
-
 #define SANITY_CHECK(x)							\
   do {									\
     if (!(x)) {								\
       freelog(LOG_ERROR, "Failed sanity check: %s (%s:%d)",		\
 	      #x, __FILE__,__LINE__);					\
     }									\
-    DEBUG_ASSERT(x);							\
+  } while(0)
+
+#define SANITY_TILE(ptile, check)					\
+  do {									\
+    if (!(check)) {							\
+      freelog(LOG_ERROR, "Failed sanity check at %s (%d, %d): "		\
+              "%s (%s:%d)", ptile->city ? ptile->city->name 		\
+              : get_name(ptile->terrain), ptile->x, ptile->y, #check, 	\
+              __FILE__,__LINE__);					\
+    }									\
+  } while(0)
+
+#define SANITY_CITY(pcity, check)					\
+  do {									\
+    if (!(check)) {							\
+      freelog(LOG_ERROR, "Failed sanity check in %s[%d](%d, %d): "	\
+              "%s (%s:%d)", pcity->name, pcity->size, pcity->tile->x, 	\
+               pcity->tile->y, #check, __FILE__,__LINE__);		\
+    }									\
   } while(0)
 
 
@@ -61,23 +73,24 @@ static void check_specials(void)
     bv_special special = tile_get_special(ptile);
 
     if (contains_special(special, S_RAILROAD))
-      SANITY_CHECK(contains_special(special, S_ROAD));
+      SANITY_TILE(ptile, contains_special(special, S_ROAD));
     if (contains_special(special, S_FARMLAND))
-      SANITY_CHECK(contains_special(special, S_IRRIGATION));
+      SANITY_TILE(ptile, contains_special(special, S_IRRIGATION));
     if (contains_special(special, S_SPECIAL_1))
-      SANITY_CHECK(!contains_special(special,  S_SPECIAL_2));
+      SANITY_TILE(ptile, !contains_special(special,  S_SPECIAL_2));
 
     if (contains_special(special, S_MINE)) {
-      SANITY_CHECK(pterrain->mining_result == pterrain);
+      SANITY_TILE(ptile, pterrain->mining_result == pterrain);
     }
     if (contains_special(special, S_IRRIGATION)) {
-      SANITY_CHECK(pterrain->irrigation_result == pterrain);
+      SANITY_TILE(ptile, pterrain->irrigation_result == pterrain);
     }
 
-    SANITY_CHECK(pterrain->index >= T_FIRST && pterrain->index < T_COUNT);
+    SANITY_TILE(ptile, pterrain->index >= T_FIRST 
+                       && pterrain->index < T_COUNT);
 
     if (contains_special(special, S_FORTRESS)) {
-      SANITY_CHECK(ptile->owner != NULL);
+      SANITY_TILE(ptile, ptile->owner != NULL);
     }
   } whole_map_iterate_end;
 }
@@ -93,22 +106,22 @@ static void check_fow(void)
 
       vision_layer_iterate(v) {
 	/* underflow of unsigned int */
-	SANITY_CHECK(plr_tile->seen_count[v] < 60000);
-	SANITY_CHECK(plr_tile->own_seen[v] < 60000);
+	SANITY_TILE(ptile, plr_tile->seen_count[v] < 60000);
+	SANITY_TILE(ptile, plr_tile->own_seen[v] < 60000);
 
 	if (plr_tile->seen_count[v] > 0) {
-	  SANITY_CHECK(BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	  SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
 	} else {
-	  SANITY_CHECK(!BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	  SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
 	}
 
-	SANITY_CHECK(plr_tile->own_seen[v] <= plr_tile->seen_count[v]);
+	SANITY_TILE(ptile, plr_tile->own_seen[v] <= plr_tile->seen_count[v]);
       } vision_layer_iterate_end;
 
       /* Lots of server bits depend on this. */
-      SANITY_CHECK(plr_tile->seen_count[V_INVIS]
+      SANITY_TILE(ptile, plr_tile->seen_count[V_INVIS]
 		   <= plr_tile->seen_count[V_MAIN]);
-      SANITY_CHECK(plr_tile->own_seen[V_INVIS]
+      SANITY_TILE(ptile, plr_tile->own_seen[V_INVIS]
 		   <= plr_tile->own_seen[V_MAIN]);
     } players_iterate_end;
   } whole_map_iterate_end;
@@ -149,47 +162,49 @@ static void check_map(void)
     CHECK_NATIVE_POS(ptile->nat_x, ptile->nat_y);
 
     if (ptile->city) {
-      SANITY_CHECK(ptile->owner != NULL);
+      SANITY_TILE(ptile, ptile->owner != NULL);
     }
     if (ptile->owner != NULL) {
-      SANITY_CHECK(ptile->owner_source != NULL);
+      SANITY_TILE(ptile, ptile->owner_source != NULL);
     }
 
     index_to_map_pos(&x, &y, ptile->index);
-    SANITY_CHECK(x == ptile->x && y == ptile->y);
+    SANITY_TILE(ptile, x == ptile->x && y == ptile->y);
 
     index_to_native_pos(&x, &y, ptile->index);
-    SANITY_CHECK(x == ptile->nat_x && y == ptile->nat_y);
+    SANITY_TILE(ptile, x == ptile->nat_x && y == ptile->nat_y);
 
     if (is_ocean(tile_get_terrain(ptile))) {
-      SANITY_CHECK(cont < 0);
+      SANITY_TILE(ptile, cont < 0);
       adjc_iterate(ptile, tile1) {
 	if (is_ocean(tile_get_terrain(tile1))) {
-	  SANITY_CHECK(tile_get_continent(tile1) == cont);
+	  SANITY_TILE(ptile, tile_get_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     } else {
-      SANITY_CHECK(cont > 0);
+      SANITY_TILE(ptile, cont > 0);
       adjc_iterate(ptile, tile1) {
 	if (!is_ocean(tile_get_terrain(tile1))) {
-	  SANITY_CHECK(tile_get_continent(tile1) == cont);
+	  SANITY_TILE(ptile, tile_get_continent(tile1) == cont);
 	}
       } adjc_iterate_end;
     }
 
     if (pcity) {
-      SANITY_CHECK(same_pos(pcity->tile, ptile));
+      SANITY_TILE(ptile, same_pos(pcity->tile, ptile));
     }
 
     unit_list_iterate(ptile->units, punit) {
-      SANITY_CHECK(same_pos(punit->tile, ptile));
+      SANITY_TILE(ptile, same_pos(punit->tile, ptile));
 
       /* Check diplomatic status of stacked units. */
       unit_list_iterate(ptile->units, punit2) {
-	SANITY_CHECK(pplayers_allied(unit_owner(punit), unit_owner(punit2)));
+	SANITY_TILE(ptile, pplayers_allied(unit_owner(punit), 
+                                           unit_owner(punit2)));
       } unit_list_iterate_end;
       if (pcity) {
-	SANITY_CHECK(pplayers_allied(unit_owner(punit), city_owner(pcity)));
+	SANITY_TILE(ptile, pplayers_allied(unit_owner(punit), 
+                                           city_owner(pcity)));
       }
     } unit_list_iterate_end;
   } whole_map_iterate_end;
@@ -203,14 +218,15 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   int workers = 0;
   struct player *pplayer = city_owner(pcity);
 
-  SANITY_CHECK(pcity->size >= 1);
-  SANITY_CHECK(!terrain_has_flag(tile_get_terrain(pcity->tile),
-			   TER_NO_CITIES));
-  SANITY_CHECK(pcity->tile->owner == NULL || pcity->tile->owner == pplayer);
+  SANITY_CITY(pcity, pcity->size >= 1);
+  SANITY_CITY(pcity, !terrain_has_flag(tile_get_terrain(pcity->tile),
+                                       TER_NO_CITIES));
+  SANITY_CITY(pcity, pcity->tile->owner == NULL
+                     || pcity->tile->owner == pplayer);
 
   unit_list_iterate(pcity->units_supported, punit) {
-    SANITY_CHECK(punit->homecity == pcity->id);
-    SANITY_CHECK(unit_owner(punit) == pplayer);
+    SANITY_CITY(pcity, punit->homecity == pcity->id);
+    SANITY_CITY(pcity, unit_owner(punit) == pplayer);
   } unit_list_iterate_end;
 
   /* Note that cities may be found on land or water. */
@@ -278,7 +294,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
 	break;
       }
     } else {
-      SANITY_CHECK(get_worker_city(pcity, x, y) == C_TILE_UNAVAILABLE);
+      SANITY_CITY(pcity, get_worker_city(pcity, x, y) == C_TILE_UNAVAILABLE);
     }
   } city_map_iterate_end;
 
@@ -291,7 +307,7 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
   if (workers + city_specialists(pcity) != pcity->size + 1) {
     int diff = pcity->size + 1 - workers - city_specialists(pcity);
 
-    SANITY_CHECK(workers + city_specialists(pcity) == pcity->size + 1);
+    SANITY_CITY(pcity, workers + city_specialists(pcity) == pcity->size + 1);
     if (diff > 0) {
       pcity->specialists[DEFAULT_SPECIALIST] += diff;
     } else if (diff < 0) {
@@ -323,7 +339,7 @@ static void check_cities(void)
 {
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      SANITY_CHECK(city_owner(pcity) == pplayer);
+      SANITY_CITY(pcity, city_owner(pcity) == pplayer);
 
       sanity_check_city(pcity);
     } city_list_iterate_end;
@@ -336,7 +352,7 @@ static void check_cities(void)
       bool is_valid;
 
       is_valid = map_to_city_map(&city_x, &city_y, pcity, ptile);
-      SANITY_CHECK(is_valid);
+      SANITY_TILE(ptile, is_valid);
 
       if (pcity->city_map[city_x][city_y] != C_TILE_WORKER) {
 	freelog(LOG_ERROR, "%d,%d is listed as being worked by %s "
@@ -437,7 +453,7 @@ static void check_players(void)
       if (is_capital(pcity)) {
 	found_palace++;
       }
-      SANITY_CHECK(found_palace <= 1);
+      SANITY_CITY(pcity, found_palace <= 1);
     } city_list_iterate_end;
 
     players_iterate(pplayer2) {
