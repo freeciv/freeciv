@@ -1129,7 +1129,9 @@ void static war_countdown(struct player *pplayer, struct player *target,
   adip->war_reason = reason;
 
   players_iterate(ally) {
-    if (!pplayers_allied(pplayer, ally) || !ally->is_alive) {
+    if (!pplayers_allied(pplayer, ally) 
+        || !ally->is_alive
+        || ally == target) {
       continue;
     }
 
@@ -1218,11 +1220,12 @@ void ai_diplomacy_actions(struct player *pplayer)
                          &ai->diplomacy.player_intel[aplayer->player_no];
       struct player_spaceship *ship = &aplayer->spaceship;
 
-      if (!aplayer->is_alive || aplayer == pplayer
-          || players_on_same_team(pplayer, aplayer)
+      if (!aplayer->is_alive 
+          || aplayer == pplayer
           || adip->countdown >= 0
           || ship->state == SSHIP_NONE
-          || NEVER_MET(pplayer, aplayer)) {
+          || players_on_same_team(pplayer, aplayer)
+          || pplayers_at_war(pplayer, aplayer)) {
         continue;
       }
       /* A spaceship victory is always one single player's or team's victory */
