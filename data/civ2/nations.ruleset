@@ -1,0 +1,41 @@
+
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "rulesetdir <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; See data/default/nations.ruleset for more information.
+
+; Note: The list is based on Civ2-ToT.
+
+[datafile]
+description="Civ2-equivalent nations data for Freeciv"
+options="1.9"
+
+*include "nation/roman.ruleset"
+*include "nation/babylonian.ruleset"
+*include "nation/german.ruleset"
+*include "nation/egyptian.ruleset"
+*include "nation/american.ruleset"
+*include "nation/greek.ruleset"
+*include "nation/indian.ruleset"
+*include "nation/russian.ruleset"
+*include "nation/zulu.ruleset"
+*include "nation/french.ruleset"
+*include "nation/aztec.ruleset"
+*include "nation/chinese.ruleset"
+*include "nation/english.ruleset"
+*include "nation/mongol.ruleset"
+*include "nation/gallic.ruleset"	; Substitute for "Celtic"
+*include "nation/japanese.ruleset"
+*include "nation/viking.ruleset"
+*include "nation/spanish.ruleset"
+*include "nation/persian.ruleset"
+*include "nation/carthaginian.ruleset"
+*include "nation/sioux.ruleset"
+*include "nation/arab.ruleset"
+*include "nation/inca.ruleset"
+*include "nation/barbarian.ruleset"
