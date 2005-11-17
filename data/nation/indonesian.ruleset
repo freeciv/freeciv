@@ -22,8 +22,8 @@ init_government="Despotism"
 init_units=""
 
 ; Similar flags
-conflicts_with="polish"
-civilwar_nations="malaysian", "indonesian"
+conflicts_with="singaporean"
+civilwar_nations="malaysian", "malagasy"
 
 cities =
   "Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Palembang",

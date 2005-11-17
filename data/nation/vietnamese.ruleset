@@ -34,7 +34,7 @@ civilwar_nations = "chinese", "kampuchean", "malaysian"
 
 cities =
   "Ha Noi",
-  "Sai Gon",	; Old name for Ho Chi Minh City
+  "Ho Chi Minh",	; Old name "Sai Gon"
   "Hai Phong",
   "Da Nang",
   "Bien Hoa",

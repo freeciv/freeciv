@@ -37,10 +37,10 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 civilwar_nations=
-; Technically, Taiwan is a splinter nation of China
+; Technically Taiwan (ROC) is the site of government-in-exile of China proper
  "taiwanese",
-; Sub-national/occupied nations of China
- "manchu", "tibetan", "uyghur",
+; Nations part of modern PRC
+ "manchu", "uyghur",
 ; Vietnam split from Chinese rule in the first millennium AD
  "vietnamese"
 

@@ -10,7 +10,7 @@ leader=
  "Vijaya",
  "Parakramabahu I",
  "Kasyapa",
- "Junius Richard Jayewardene",
+ "J. R. Jayewardene",
  "Chandrika Kumaratunga"
 leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="srilanka"
@@ -27,7 +27,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "indian"
+civilwar_nations = "indian", "bengali"
 
 cities =
  "Anuradhapura", ; The first six cities are all

@@ -27,7 +27,7 @@ init_units=""
 
 ; Chain of similar flags: Previously "egyptian"
 conflicts_with="croatian"
-civilwar_nations="egyptian"
+civilwar_nations="libyan"
 
 cities =
  "Baghdad",

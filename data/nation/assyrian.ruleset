@@ -26,7 +26,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="babylonian", "israeli"
+civilwar_nations="babylonian", "israeli", "aramean"
 
 cities =
   "Ashur", "Nineveh", "Kalhu", "Arbela", "Edessa", "Osrhoene",

@@ -18,7 +18,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="kenyan"
+civilwar_nations="kenyan", "malian"
 
 cities =
   "Abuja", "Lagos", "Ibadan", "Kano", "Oshogbo", "Ilorin", "Abeokuta",

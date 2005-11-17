@@ -2,7 +2,7 @@
 
 name=_("Zulu")
 plural=_("?plural:Zulus")
-groups=_("Medieval"), _("African")
+groups=_("African")
 legend=_("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")
@@ -33,15 +33,15 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male"
-flag="zulu"	; Former KwaZulu homeland flag
-flag_alt = "south_africa"  ; used previously
+flag="zulu"
+flag_alt = "rwanda"  ; used previously
 city_style = "Tropical"
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="boer", "kenyan"
+civilwar_nations="southafrican", "kenyan", "swazi"
 
 cities =
  "Zimbabwe", "Ulundi", "Bapedi", "Hlobane", "Isandhlwana",

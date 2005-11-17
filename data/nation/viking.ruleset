@@ -25,15 +25,15 @@ leader_sex="Female", "Male", "Male", "Male", "Male", "Male", "Male",
 	   "Male", "Male", "Male", "Male", "Male", "Male"
 
 flag="viking"
-flag_alt = "norway"
-city_style = "European"
+flag_alt="norway"	; Used previously
+city_style="European"
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; We don't want the Vikings to start together with any Scandinavian nation.
+; We do not want the Vikings to start together with any Scandinavian nation.
 conflicts_with="danish", "icelandic", "norwegian", "swedish"
 
 civilwar_nations=

@@ -8,6 +8,7 @@ flag_files =				\
 		afghanistan.png		\
 		algeria.png		\
 		arab.png		\
+		aram.png		\
 		argentina.png		\
 		armenia.png		\
 		assyria.png		\
@@ -15,6 +16,7 @@ flag_files =				\
 		austria.png		\
 		azerbaijan.png		\
 		aztec.png		\
+		bangladesh.png		\
 		barbarian.png		\
 		bavarian.png		\
 		belgium.png		\
@@ -47,6 +49,7 @@ flag_files =				\
 		france_old.png		\
 		france.png		\
 		galicia.png		\
+		georgia.png		\
 		germany.png		\
 		greece.png		\
 		greenland.png		\
@@ -72,7 +75,9 @@ flag_files =				\
 		latvia.png		\
 		libya.png		\
 		lithuania.png		\
+		madagascar.png		\
 		malaysia.png		\
+		mali.png		\
 		macedonia.png		\
 		maori.png		\
 		mars.png		\
@@ -80,6 +85,7 @@ flag_files =				\
 		mexico.png		\
 		mongolia.png		\
 		mordor.png		\
+		myanmar.png		\
 		nato.png		\
 		netherlands.png		\
 		newzealand.png		\
@@ -114,6 +120,7 @@ flag_files =				\
 		stpatrick.png		\
 		sudan.png		\
 		sumeria.png		\
+		swaziland.png		\
 		sweden.png		\
 		swiss.png		\
 		syria.png		\
@@ -139,6 +146,7 @@ shield_files =					\
 		afghanistan-shield.png		\
 		algeria-shield.png		\
 		arab-shield.png			\
+		aram-shield.png			\
 		argentina-shield.png		\
 		armenia-shield.png		\
 		assyria-shield.png		\
@@ -146,6 +154,7 @@ shield_files =					\
 		austria-shield.png		\
 		azerbaijan-shield.png		\
 		aztec-shield.png		\
+		bangladesh-shield.png		\
 		barbarian-shield.png		\
 		bavarian-shield.png		\
 		belgium-shield.png		\
@@ -178,6 +187,7 @@ shield_files =					\
 		france_old-shield.png		\
 		france-shield.png		\
 		galicia-shield.png		\
+		georgia-shield.png		\
 		germany-shield.png		\
 		greece-shield.png		\
 		greenland-shield.png		\
@@ -203,7 +213,9 @@ shield_files =					\
 		latvia-shield.png		\
 		libya-shield.png		\
 		lithuania-shield.png		\
+		madagascar-shield.png		\
 		malaysia-shield.png		\
+		mali-shield.png			\
 		macedonia-shield.png		\
 		maori-shield.png		\
 		mars-shield.png			\
@@ -211,6 +223,7 @@ shield_files =					\
 		mexico-shield.png		\
 		mongolia-shield.png		\
 		mordor-shield.png		\
+		myanmar-shield.png		\
 		nato-shield.png			\
 		netherlands-shield.png		\
 		newzealand-shield.png		\
@@ -245,6 +258,7 @@ shield_files =					\
 		stpatrick-shield.png		\
 		sudan-shield.png		\
 		sumeria-shield.png		\
+		swaziland-shield.png		\
 		sweden-shield.png		\
 		swiss-shield.png		\
 		syria-shield.png		\
@@ -270,6 +284,7 @@ svg_files = 				\
 		afghanistan.svg		\
 		algeria.svg		\
 		arab.svg		\
+		aram.svg		\
 		argentina.svg		\
 		armenia.svg		\
 		assyria.svg		\
@@ -277,7 +292,7 @@ svg_files = 				\
 		austria.svg		\
 		azerbaijan.svg		\
 		aztec.svg		\
-		constantine.svg		\
+		bangladesh.svg		\
 		barbarian.svg		\
 		bavarian.svg		\
 		belgium.svg		\
@@ -293,6 +308,7 @@ svg_files = 				\
 		chile.svg		\
 		china.svg		\
 		colombia.svg		\
+		constantine.svg		\
 		cornwall.svg		\
 		croatia.svg		\
 		cuba.svg		\
@@ -309,6 +325,7 @@ svg_files = 				\
 		france_old.svg		\
 		france.svg		\
 		galicia.svg		\
+		georgia.svg		\
 		germany.svg		\
 		greece.svg		\
 		greenland.svg		\
@@ -335,13 +352,16 @@ svg_files = 				\
 		libya.svg		\
 		lithuania.svg		\
 		macedonia.svg		\
+		madagascar.svg		\
 		malaysia.svg		\
+		mali.svg		\
 		maori.svg		\
 		mars.svg		\
 		maya.svg		\
 		mexico.svg		\
 		mongolia.svg		\
 		mordor.svg		\
+		myanmar.svg		\
 		nato.svg		\
 		netherlands.svg		\
 		newzealand.svg		\
@@ -376,6 +396,7 @@ svg_files = 				\
 		stpatrick.svg		\
 		sudan.svg		\
 		sumeria.svg		\
+		swaziland.svg		\
 		sweden.svg		\
 		swiss.svg		\
 		syria.svg		\

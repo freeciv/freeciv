@@ -5,8 +5,7 @@ plural=_("?plural:Sami")
 groups=_("European")
 legend=_("The Sami, or Lapps, are a people of northern Scandinavia. Their\
  nation spans over the northernmost regions of the Scandinavian countries:\
- Finnmark of Norway and Lapland of Sweden and Finland. They are famous for\
- keeping reindeers as cattle.")
+ Finnmark of Norway and Lapland of Sweden and Finland.")
 leader=
  "Ole Henrik Magga",
  "Aslak Hætta",

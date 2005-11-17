@@ -45,7 +45,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="malaysian", "indonesian"
+civilwar_nations="malaysian"
 
 cities =
   "Singapore", "Esplanade", "Tumasik", "Raffles Place", "Keppel", "Chinatown",
