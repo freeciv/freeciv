@@ -1373,11 +1373,12 @@ static void server_remove_unit(struct unit *punit)
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 
-  players_iterate(pplayer) {
-    if (can_player_see_unit(pplayer, punit)) {
-      dlsend_packet_unit_remove(pplayer->connections, punit->id);
+  conn_list_iterate(game.est_connections, pconn) {
+    if ((!pconn->player && pconn->observer)
+	|| can_player_see_unit(pconn->player, punit)) {
+      dsend_packet_unit_remove(pconn, punit->id);
     }
-  } players_iterate_end;
+  } conn_list_iterate_end;
 
   vision_clear_sight(punit->server.vision);
   vision_free(punit->server.vision);
