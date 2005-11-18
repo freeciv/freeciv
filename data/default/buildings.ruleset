@@ -548,6 +548,7 @@ upkeep		= 0
 sabotage	= 0
 sound		= "b_palace"
 sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Makes a city the capital and the center of your government. \
  Corruption in other cities is related to how far away from the\
