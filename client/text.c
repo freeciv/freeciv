@@ -41,14 +41,15 @@ const char *get_tile_output_text(const struct tile *ptile)
   static struct astring str = ASTRING_INIT;
   int i;
   char output_text[O_MAX][16];
-  struct government *gov;
-  
-  gov = get_gov_pplayer(game.player_ptr);
 
   for (i = 0; i < O_MAX; i++) {
-    int before_penalty = gov->output_before_penalty[i];
+    int before_penalty = 0;
     int x = get_output_tile(ptile, i);
-    
+
+    if (game.player_ptr) {
+      before_penalty = game.player_ptr->government->output_before_penalty[i];
+    }
+
     if (before_penalty > 0 && x > before_penalty) {
       my_snprintf(output_text[i], sizeof(output_text[i]), "%d(-1)", x);
     } else {
