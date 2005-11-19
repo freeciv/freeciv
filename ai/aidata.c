@@ -593,7 +593,6 @@ void ai_data_init(struct player *pplayer)
   ai->diplomacy.love_incr = MAX_AI_LOVE * 3 / 100;
   ai->diplomacy.req_love_for_peace = MAX_AI_LOVE / 8;
   ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE / 4;
-  ai->diplomacy.req_love_for_ceasefire = 0;
 
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     ai->diplomacy.player_intel[i].spam = i % 5; /* pseudorandom */

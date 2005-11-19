@@ -626,7 +626,7 @@ static void build_row(GtkTreeIter *it, int i)
       weight = PANGO_WEIGHT_BOLD;
       style = PANGO_STYLE_NORMAL;
       break;
-    case DS_NEUTRAL:
+    case DS_ARMISTICE:
     case DS_CEASEFIRE:
     case DS_PEACE:
     case DS_NO_CONTACT:

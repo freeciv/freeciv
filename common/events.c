@@ -113,7 +113,7 @@ static struct {
   GEN_EV(N_("Tech: Learned New Tech"),                E_TECH_LEARNED),
   GEN_EV(N_("Treaty: Alliance"),                      E_TREATY_ALLIANCE),
   GEN_EV(N_("Treaty: Broken"),                        E_TREATY_BROKEN),
-  GEN_EV(N_("Treaty: Ceasefire"),                     E_TREATY_CEASEFIRE),
+  GEN_EV(N_("Treaty: Cease-fire"),                    E_TREATY_CEASEFIRE),
   GEN_EV(N_("Treaty: Peace"),                         E_TREATY_PEACE),
   GEN_EV(N_("Treaty: Shared Vision"),                 E_TREATY_SHARED_VISION),
   GEN_EV(N_("Unit: Attack Failed"),                   E_UNIT_LOST_ATT),

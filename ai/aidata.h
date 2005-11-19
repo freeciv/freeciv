@@ -78,7 +78,6 @@ struct ai_data {
     char love_incr;           /* Modify love with this fixed amount */
     int req_love_for_peace;
     int req_love_for_alliance;
-    int req_love_for_ceasefire;
     struct player *spacerace_leader; /* who is leading the space pack */
     struct player *production_leader;
   } diplomacy;

@@ -34,41 +34,51 @@
 #include "player.h"
 
 /***************************************************************
-  Returns true iff p1 can declare war on p2.
+  Returns true iff p1 can cancel treaty on p2.
 
   The senate may not allow you to break the treaty.  In this 
   case you must first dissolve the senate then you can break 
   it.  This is waived if you have statue of liberty since you 
   could easily just dissolve and then recreate it. 
 ***************************************************************/
-bool pplayer_can_declare_war(const struct player *p1, 
-                             const struct player *p2)
+enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1, 
+                                           const struct player *p2)
 {
-  return (p1->diplstates[p2->player_no].has_reason_to_cancel > 0
-          || get_player_bonus(p1, EFT_HAS_SENATE) == 0
-          || get_player_bonus(p1, EFT_ANY_GOVERNMENT) > 0);
+  enum diplstate_type ds = pplayer_get_diplstate(p1, p2)->type;
+
+  if (p1 == p2 || ds == DS_WAR) {
+    return DIPL_ERROR;
+  }
+  if (players_on_same_team(p1, p2)
+      && ds == DS_ALLIANCE) {
+    return DIPL_ERROR;
+  }
+  if (p1->diplstates[p2->player_no].has_reason_to_cancel == 0
+      && ds != DS_TEAM
+      && get_player_bonus(p1, EFT_HAS_SENATE) > 0
+      && get_player_bonus(p1, EFT_ANY_GOVERNMENT) == 0) {
+    return DIPL_SENATE_BLOCKING;
+  }
+  return DIPL_OK;
 }
 
 /***************************************************************
-  Returns true iff p1 can ally p2. There is only one condition:
-  We are not at war with any of p2's allies. Note that for an
-  alliance to be made, we need to check this both ways.
+  Returns true iff p1 can be in alliance with p2.
+
+  Check that we are not at war with any of p2's allies. Note 
+  that for an alliance to be made, we need to check this both 
+  ways.
 
   The reason for this is to avoid the dread 'love-love-hate' 
   triad, in which p1 is allied to p2 is allied to p3 is at
   war with p1. These lead to strange situations.
 ***************************************************************/
-bool pplayer_can_ally(const struct player *p1, const struct player *p2)
+static bool is_valid_alliance(const struct player *p1, 
+                              const struct player *p2)
 {
-  if (p1 == p2) {
-    return TRUE; /* duh! */
-  }
-  if (get_player_bonus(p1, EFT_NO_DIPLOMACY)
-      || get_player_bonus(p2, EFT_NO_DIPLOMACY)) {
-    return FALSE;
-  }
   players_iterate(pplayer) {
     enum diplstate_type ds = pplayer_get_diplstate(p1, pplayer)->type;
+
     if (pplayer != p1
         && pplayer != p2
         && pplayers_allied(p2, pplayer)
@@ -77,7 +87,59 @@ bool pplayer_can_ally(const struct player *p1, const struct player *p2)
       return FALSE;
     }
   } players_iterate_end;
+
   return TRUE;
+}
+
+/***************************************************************
+  Returns true iff p1 can make given treaty with p2.
+
+  We cannot regress in a treaty chain. So we cannot suggest
+  'Peace' if we are in 'Alliance'. Then you have to cancel.
+
+  For alliance there is only one condition: We are not at war 
+  with any of p2's allies.
+***************************************************************/
+enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
+                                         const struct player *p2,
+                                         enum diplstate_type treaty)
+{
+  enum diplstate_type existing = pplayer_get_diplstate(p1, p2)->type;
+
+  if (p1 == p2) {
+    return DIPL_ERROR; /* duh! */
+  }
+  if (get_player_bonus(p1, EFT_NO_DIPLOMACY)
+      || get_player_bonus(p2, EFT_NO_DIPLOMACY)) {
+    return DIPL_ERROR;
+  }
+  if (treaty == DS_WAR 
+      || treaty == DS_NO_CONTACT 
+      || treaty == DS_ARMISTICE 
+      || treaty == DS_LAST) {
+    return DIPL_ERROR; /* these are not positive treaties */
+  }
+  if (treaty == DS_CEASEFIRE && existing != DS_WAR) {
+    return DIPL_ERROR; /* only available from war */
+  }
+  if (treaty == DS_PEACE 
+      && (existing != DS_WAR && existing != DS_CEASEFIRE)) {
+    return DIPL_ERROR;
+  }
+  if (treaty == DS_TEAM
+      && (!players_on_same_team(p1, p2)
+          || existing == DS_TEAM)) {
+    return DIPL_ERROR;
+  }
+  if (treaty == DS_ALLIANCE
+      && (!is_valid_alliance(p1, p2) || !is_valid_alliance(p2, p1))) {
+    return DIPL_ALLIANCE_PROBLEM;
+  }
+  /* this check must be last: */
+  if (treaty == existing) {
+    return DIPL_ERROR;
+  }
+  return DIPL_OK;
 }
 
 /***************************************************************
@@ -596,7 +658,7 @@ const char *diplstate_text(const enum diplstate_type type)
 {
   static const char *ds_names[DS_LAST] = 
   {
-    N_("?diplomatic_state:Neutral"),
+    N_("?diplomatic_state:Armistice"),
     N_("?diplomatic_state:War"), 
     N_("?diplomatic_state:Cease-fire"),
     N_("?diplomatic_state:Peace"),
@@ -683,7 +745,7 @@ bool pplayers_non_attack(const struct player *pplayer,
   if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
     return FALSE;
   }
-  return (ds == DS_PEACE || ds == DS_CEASEFIRE || ds == DS_NEUTRAL);
+  return (ds == DS_PEACE || ds == DS_CEASEFIRE || ds == DS_ARMISTICE);
 }
 
 /**************************************************************************

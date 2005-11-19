@@ -119,7 +119,7 @@ struct player_ai {
  * Adding to or reordering this array will break many things.
  */
 enum diplstate_type {
-  DS_NEUTRAL = 0,
+  DS_ARMISTICE = 0,
   DS_WAR,
   DS_CEASEFIRE,
   DS_PEACE,
@@ -129,10 +129,15 @@ enum diplstate_type {
   DS_LAST	/* leave this last */
 };
 
+enum dipl_reason {
+  DIPL_OK, DIPL_ERROR, DIPL_SENATE_BLOCKING, DIPL_ALLIANCE_PROBLEM
+};
+
+/* the following are for "pacts" */
 struct player_diplstate {
   enum diplstate_type type;	/* this player's disposition towards other */
-  /* the following are for "pacts" */
   enum diplstate_type max_state; /* maximum treaty level ever had */
+  int first_contact_turn; /* turn we had first contact with this player */
   int turns_left;		/* until pact (e.g., cease-fire) ends */
   int has_reason_to_cancel;	/* 0: no, 1: this turn, 2: this or next turn */
   int contact_turns_left;	/* until contact ends */
@@ -254,9 +259,11 @@ const struct player_diplstate *pplayer_get_diplstate(const struct player
 						     *pplayer2);
 bool are_diplstates_equal(const struct player_diplstate *pds1,
 			  const struct player_diplstate *pds2);
-bool pplayer_can_declare_war(const struct player *p1,
-                             const struct player *p2);
-bool pplayer_can_ally(const struct player *p1, const struct player *p2);
+enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
+                                         const struct player *p2,
+                                         enum diplstate_type treaty);
+enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
+                                           const struct player *p2);
 bool pplayers_at_war(const struct player *pplayer,
 		    const struct player *pplayer2);
 bool pplayers_allied(const struct player *pplayer,

@@ -63,6 +63,9 @@
 /* turn this off when we don't want functions to message players */
 static bool diplomacy_verbose = TRUE;
 
+/* turns to wait after contact before taking aim for war */
+#define TURNS_BEFORE_TARGET 15
+
 /**********************************************************************
   Send a diplomatic message. Use this instead of notify directly
   because we may want to highligh/present these messages differently
@@ -288,19 +291,6 @@ static int ai_goldequiv_clause(struct player *pplayer,
       break;
     }
 
-    /* Reduce treaty level?? */
-    {
-      enum diplstate_type ds = pplayer_get_diplstate(pplayer, aplayer)->type;
-
-      if ((pclause->type == CLAUSE_PEACE && ds > DS_PEACE)
-          || (pclause->type == CLAUSE_CEASEFIRE && ds > DS_CEASEFIRE)) {
-        notify(aplayer, _("*%s (AI)* I will not let you go that easy, %s. "
-               "The current treaty stands."), pplayer->name, aplayer->name);
-        worth = -BIG_NUMBER;
-        break;
-      }
-    }
-
     /* Steps of the treaty ladder */
     if (pclause->type == CLAUSE_PEACE) {
       struct player_diplstate *ds = &pplayer->diplstates[aplayer->player_no];
@@ -309,9 +299,10 @@ static int ai_goldequiv_clause(struct player *pplayer,
         notify(aplayer, _("*%s (AI)* Let us first cease hostilies, %s."),
                pplayer->name, aplayer->name);
         worth = -BIG_NUMBER;
-      } else if (ds->type == DS_CEASEFIRE && ds->turns_left > 2) {
+      } else if (ds->type == DS_CEASEFIRE && ds->turns_left > 4) {
         notify(aplayer, _("*%s (AI)* I wish to see you keep the current "
-               "ceasefire first, %s."), pplayer->name, aplayer->name);
+               "ceasefire for a bit longer first, %s."), pplayer->name, 
+               aplayer->name);
         worth = -BIG_NUMBER;
       } else if (adip->countdown >= 0 && adip->countdown < -1) {
         worth = -BIG_NUMBER; /* but say nothing */
@@ -341,8 +332,18 @@ static int ai_goldequiv_clause(struct player *pplayer,
          ai_players_can_agree_on_ceasefire(pplayer, aplayer)) {
 	 worth = 0;
       } else {
-        worth = greed(pplayer->ai.love[aplayer->player_no]
-                      - ai->diplomacy.req_love_for_ceasefire);
+        int turns = game.info.turn;
+
+        turns -= pplayer_get_diplstate(pplayer, aplayer)->first_contact_turn;
+        if (turns < TURNS_BEFORE_TARGET) {
+          worth = 0; /* show some good faith */
+          break;
+        } else {
+          worth = greed(pplayer->ai.love[aplayer->player_no]);
+          DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "ceasefire worth=%d love=%d "
+                    "turns=%d", worth, pplayer->ai.love[aplayer->player_no],
+                    turns);
+        }
       }
     }
 
@@ -530,18 +531,27 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   /* If we are at war, and no peace is offered, then no deal, unless
    * it is just gifts, in which case we gratefully accept. */
   if (ds_after == DS_WAR && !only_gifts) {
+    DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "no peace offered, must refuse");
     return;
   }
 
   if (given_cities > 0
       && city_list_size(pplayer->cities) - given_cities <= 2) {
     /* always keep at least two cities */
+    DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "cannot give last cities");
     return;
   }
 
   /* Accept if balance is good */
   if (total_balance >= 0) {
     handle_diplomacy_accept_treaty_req(pplayer, aplayer->player_no);
+    DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "balance was good: %d", 
+              total_balance);
+  } else {
+    notify(aplayer, _("*%s (AI)* This deal was not very good for us, %s!"),
+           pplayer->name, aplayer->name);
+    DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "balance was bad: %d", 
+              total_balance);
   }
 }
 
@@ -626,7 +636,7 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
    * he or she offers us gifts. It is only a gift if _all_ the clauses
    * are beneficial to us. */
   if (total_balance > 0 && gift) {
-    int i = total_balance / ((city_list_size(pplayer->cities) * 50) + 1);
+    int i = total_balance / ((city_list_size(pplayer->cities) * 10) + 1);
 
     i = MIN(i, ai->diplomacy.love_incr * 150) * 10;
     pplayer->ai.love[aplayer->player_no] += i;
@@ -728,7 +738,7 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
 
     /* Remember: pplayers_allied() returns true when target == eplayer */
     if (!cancel_excuse && pplayers_allied(target, eplayer)) {
-      if (ds == DS_NEUTRAL) {
+      if (ds == DS_ARMISTICE) {
         want -= abs(want) / 10; /* 10% off */
       } else if (ds == DS_CEASEFIRE) {
         want -= abs(want) / 7; /* 15% off */
@@ -778,6 +788,18 @@ static void ai_diplomacy_suggest(struct player *pplayer,
   handle_diplomacy_init_meeting_req(pplayer, aplayer->player_no);
   handle_diplomacy_create_clause_req(pplayer, aplayer->player_no,
 				     pplayer->player_no, what, value);
+}
+
+/********************************************************************** 
+  What to do when we first meet. pplayer is the AI player.
+***********************************************************************/
+void ai_diplomacy_first_contact(struct player *pplayer,
+                                struct player *aplayer)
+{
+  notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
+         "while we get to know each other better?"),
+         pplayer->name, aplayer->name);
+  ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
 }
 
 /********************************************************************** 
@@ -1090,13 +1112,20 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
   }
 
   /* Check for Senate obstruction.  If so, dissolve it. */
-  if (!pplayer_can_declare_war(pplayer, target)) {
+  if (pplayer_can_cancel_treaty(pplayer, target) == DIPL_SENATE_BLOCKING) {
     handle_player_change_government(pplayer, 
                                     game.info.government_when_anarchy_id);
   }
 
   /* This will take us straight to war. */
-  handle_diplomacy_cancel_pact(pplayer, target->player_no, CLAUSE_LAST);
+  while (pplayer_get_diplstate(pplayer, target)->type != DS_WAR) {
+    if (pplayer_can_cancel_treaty(pplayer, target) != DIPL_OK) {
+      DIPLO_LOG(LOG_ERROR, pplayer, target, "Wanted to cancel treaty but "
+                "was unable to.");
+      return;
+    }
+    handle_diplomacy_cancel_pact(pplayer, target->player_no, CLAUSE_LAST);
+  }
 
   /* Throw a tantrum */
   if (pplayer->ai.love[target->player_no] > 0) {
@@ -1264,11 +1293,19 @@ void ai_diplomacy_actions(struct player *pplayer)
   /*** Declare war against somebody if we are out of targets ***/
 
   players_iterate(aplayer) {
+    int turns; /* turns since contact */
+
+    if (NEVER_MET(pplayer, aplayer)) {
+      continue;
+    }
+    turns = game.info.turn;
+    turns -= pplayer_get_diplstate(pplayer, aplayer)->first_contact_turn;
     if (aplayer->is_alive 
         && WAR(pplayer, aplayer)) {
       need_targets = FALSE;
     } else if (aplayer->is_alive
-               && pplayer->ai.love[aplayer->player_no] < most_hatred) {
+               && pplayer->ai.love[aplayer->player_no] < most_hatred
+               && turns > TURNS_BEFORE_TARGET) {
       most_hatred = pplayer->ai.love[aplayer->player_no];
       target = aplayer;
     }
@@ -1360,8 +1397,7 @@ void ai_diplomacy_actions(struct player *pplayer)
         || aplayer == target     /* no mercy */
         || !aplayer->is_alive
         || adip->countdown >= 0
-        || !could_meet_with_player(pplayer, aplayer)
-        || adip->at_war_with_ally) {
+        || !could_meet_with_player(pplayer, aplayer)) {
       continue;
     }
 
@@ -1393,6 +1429,9 @@ void ai_diplomacy_actions(struct player *pplayer)
       break;
     case DS_ALLIANCE:
       /* See if our allies are diligently declaring war on our enemies... */
+      if (adip->at_war_with_ally) {
+        break;
+      }
       target = NULL;
       players_iterate(eplayer) {
         int e = eplayer->player_no;
@@ -1451,6 +1490,9 @@ void ai_diplomacy_actions(struct player *pplayer)
       break;
 
     case DS_PEACE:
+      if (adip->at_war_with_ally) {
+        break;
+      }
       clause.type = CLAUSE_ALLIANCE;
       if (ai_goldequiv_clause(pplayer, aplayer,
                               &clause, ai, FALSE, DS_ALLIANCE) < 0
@@ -1465,7 +1507,9 @@ void ai_diplomacy_actions(struct player *pplayer)
       break;
 
     case DS_CEASEFIRE:
-    case DS_NEUTRAL:
+      if (adip->at_war_with_ally) {
+        break;
+      }
       clause.type = CLAUSE_PEACE;
       if (ai_goldequiv_clause(pplayer, aplayer, &clause,
                               ai, FALSE, CLAUSE_PEACE) < 0
@@ -1480,10 +1524,20 @@ void ai_diplomacy_actions(struct player *pplayer)
 
     case DS_NO_CONTACT: /* but we do have embassy! weird. */
     case DS_WAR:
+    {
+      int worth;
+
+      DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "considering ceasefire");
+      if (adip->asked_about_ceasefire > 0 && !aplayer->ai.control) {
+        DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "... do not ask");
+        break;
+      }
+      worth = ai_goldequiv_clause(pplayer, aplayer,
+                                  &clause, ai, FALSE, CLAUSE_CEASEFIRE);
       clause.type = CLAUSE_CEASEFIRE;
-      if (ai_goldequiv_clause(pplayer, aplayer,
-                              &clause, ai, FALSE, CLAUSE_CEASEFIRE) < 0
-          || (adip->asked_about_ceasefire > 0 && !aplayer->ai.control)) {
+      if (worth < 0) {
+        DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "... unacceptable (w=%d)",
+                  worth);
         break; /* Fight until the end! */
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
@@ -1491,6 +1545,9 @@ void ai_diplomacy_actions(struct player *pplayer)
       notify(aplayer, _("*%s (AI)* we grow weary of this constant "
              "bloodshed. May we suggest a cessation of hostilities?"), 
              pplayer->name);
+      break;
+    }
+    case DS_ARMISTICE:
       break;
     default:
       die("Unknown pact type");

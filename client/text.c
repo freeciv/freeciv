@@ -77,12 +77,12 @@ const char *popup_info_text(struct tile *ptile)
   struct unit *pfocus_unit = get_unit_in_focus();
   const char *diplo_nation_plural_adjectives[DS_LAST] =
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
-     "" /* unused, DS_CEASEFIRE*/,
+     Q_("?nation:Neutral"),
      Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
      Q_("?nation:Mysterious"), Q_("?nation:Friendly(team)")};
   const char *diplo_city_adjectives[DS_LAST] =
     {Q_("?city:Neutral"), Q_("?city:Hostile"),
-     "" /*unused, DS_CEASEFIRE */,
+     Q_("?nation:Neutral"),
      Q_("?city:Peaceful"), Q_("?city:Friendly"), Q_("?city:Mysterious"),
      Q_("?city:Friendly(team)")};
   int infracount;
@@ -115,9 +115,9 @@ const char *popup_info_text(struct tile *ptile)
       if (ds[owner->player_no].type == DS_CEASEFIRE) {
 	int turns = ds[owner->player_no].turns_left;
 
-	/* TRANS: "Polish territory (5 turn ceasefire)" */
-	astr_add_line(&str, PL_("%s territory (%d turn ceasefire)",
-				"%s territory (%d turn ceasefire)",
+	/* TRANS: "Polish territory (5 turn cease-fire)" */
+	astr_add_line(&str, PL_("%s territory (%d turn cease-fire)",
+				"%s territory (%d turn cease-fire)",
 				turns),
 		      get_nation_name(owner->nation), turns);
       } else {
@@ -148,9 +148,9 @@ const char *popup_info_text(struct tile *ptile)
       if (ds[owner->player_no].type == DS_CEASEFIRE) {
 	int turns = ds[owner->player_no].turns_left;
 
-	/* TRANS:  "City: Warsaw (Polish, 5 turn ceasefire)" */
-        astr_add_line(&str, PL_("City: %s (%s, %d turn ceasefire)",
-				"City: %s (%s, %d turn ceasefire)",
+	/* TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)" */
+        astr_add_line(&str, PL_("City: %s (%s, %d turn cease-fire)",
+				"City: %s (%s, %d turn cease-fire)",
 				turns),
 		      pcity->name,
 		      get_nation_name(owner->nation),
@@ -212,9 +212,9 @@ const char *popup_info_text(struct tile *ptile)
       if (ds[owner->player_no].type == DS_CEASEFIRE) {
 	int turns = ds[owner->player_no].turns_left;
 
-	/* TRANS:  "Unit: Musketeers (Polish, 5 turn ceasefire)" */
-        astr_add_line(&str, PL_("Unit: %s (%s, %d turn ceasefire)",
-				"Unit: %s (%s, %d turn ceasefire)",
+	/* TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)" */
+        astr_add_line(&str, PL_("Unit: %s (%s, %d turn cease-fire)",
+				"Unit: %s (%s, %d turn cease-fire)",
 				turns),
 		      ptype->name,
 		      get_nation_name(owner->nation),

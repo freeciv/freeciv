@@ -499,6 +499,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   enum diplstate_type new_type;
   struct player *pplayer2;
   bool repeat = FALSE;
+  enum dipl_reason diplcheck;
 
   if (!is_valid_player_id(other_player_id)) {
     return;
@@ -507,13 +508,20 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   old_type = pplayer->diplstates[other_player_id].type;
   pplayer2 = get_player(other_player_id);
 
-  /* can't break a pact with yourself */
-  if (pplayer == pplayer2) {
+  diplcheck = pplayer_can_cancel_treaty(pplayer, pplayer2);
+
+  /* The senate may not allow you to break the treaty.  In this case you
+   * must first dissolve the senate then you can break it. */
+  if (diplcheck == DIPL_SENATE_BLOCKING) {
+    notify_player(pplayer, NULL, E_TREATY_BROKEN,
+		     _("The senate will not allow you to break treaty "
+		       "with the %s.  You must either dissolve the senate "
+		       "or wait until a more timely moment."),
+		     get_nation_name_plural(pplayer2->nation));
     return;
   }
 
-  /* Can't break up a team, period. */
-  if (players_on_same_team(pplayer, pplayer2)) {
+  if (diplcheck != DIPL_OK) {
     return;
   }
 
@@ -528,40 +536,20 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     return;
   }
 
-  if (old_type == DS_WAR) {
-    return; /* Duh */
-  }
-
   reject_all_treaties(pplayer);
   reject_all_treaties(pplayer2);
   /* else, breaking a treaty */
-repeat_break_treaty:
-
-  /* The senate may not allow you to break the treaty.  In this case you
-   * must first dissolve the senate then you can break it. */
-  if (!pplayer_can_declare_war(pplayer, pplayer2)) {
-    notify_player(pplayer, NULL, E_TREATY_BROKEN,
-		     _("The senate will not allow you to break treaty "
-		       "with the %s.  You must either dissolve the senate "
-		       "or wait until a more timely moment."),
-		     get_nation_name_plural(pplayer2->nation));
-    return;
-  }
 
   /* check what the new status will be */
   switch(old_type) {
   case DS_NO_CONTACT: /* possible if someone declares war on our ally */
-  case DS_NEUTRAL:
+  case DS_ARMISTICE:
+  case DS_CEASEFIRE:
+  case DS_PEACE:
     new_type = DS_WAR;
     break;
-  case DS_CEASEFIRE:
-    new_type = DS_NEUTRAL;
-    break;
-  case DS_PEACE:
-    new_type = DS_NEUTRAL;
-    break;
   case DS_ALLIANCE:
-    new_type = DS_PEACE;
+    new_type = DS_ARMISTICE;
     break;
   default:
     freelog(LOG_ERROR, "non-pact diplstate in handle_player_cancel_pact");
@@ -583,14 +571,6 @@ repeat_break_treaty:
      illegally, and we need to call resolve_unit_stacks() */
   if (old_type == DS_ALLIANCE) {
     update_players_after_alliance_breakup(pplayer, pplayer2);
-  }
-
-  /* We want to go all the way to war, whatever the cost! 
-   * This is only used by the AI. */
-  if (clause == CLAUSE_LAST && new_type != DS_WAR) {
-    repeat = TRUE;
-    old_type = new_type;
-    goto repeat_break_treaty;
   }
 
   /* if there's a reason to cancel the pact, do it without penalty */
@@ -618,7 +598,6 @@ repeat_break_treaty:
   send_player_info(pplayer, NULL);
   send_player_info(pplayer2, NULL);
 
-
   if (old_type == DS_ALLIANCE) {
     /* Inform clients about units that have been hidden.  Units in cities
      * and transporters are visible to allies but not visible once the
@@ -629,7 +608,6 @@ repeat_break_treaty:
     remove_allied_visibility(pplayer, pplayer2);
     remove_allied_visibility(pplayer2, pplayer);
   }
-
 
   /* 
    * Refresh all cities which have a unit of the other side within
@@ -981,7 +959,7 @@ static void package_player_info(struct player *plr,
     }
 
     for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-      packet->diplstates[i].type       = DS_NEUTRAL;
+      packet->diplstates[i].type       = DS_WAR;
       packet->diplstates[i].turns_left = 0;
       packet->diplstates[i].has_reason_to_cancel = 0;
       packet->diplstates[i].contact_turns_left = 0;
@@ -1161,24 +1139,19 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 
   if (pplayer1 == pplayer2
       || !pplayer1->is_alive
-      || !pplayer2->is_alive
-      || get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) > 0
-      || get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) > 0) {
+      || !pplayer2->is_alive) {
     return;
   }
-
-  pplayer1->diplstates[player2].contact_turns_left = game.info.contactturns;
-  pplayer2->diplstates[player1].contact_turns_left = game.info.contactturns;
-
+  if (get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) == 0
+      && get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) == 0) {
+    pplayer1->diplstates[player2].contact_turns_left = game.info.contactturns;
+    pplayer2->diplstates[player1].contact_turns_left = game.info.contactturns;
+  }
   if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
-    /* Set default new diplomatic state depending on game.info.diplomacy
-     * server setting. Default is zero, which gives DS_NEUTRAL. */
-    enum diplstate_type dipstate = diplomacy_possible(pplayer1,pplayer2)
-                                    ? DS_NEUTRAL : DS_WAR;
-
-    pplayer1->diplstates[player2].type
-      = pplayer2->diplstates[player1].type
-      = dipstate;
+    pplayer1->diplstates[player2].type = DS_WAR;
+    pplayer2->diplstates[player1].type = DS_WAR;
+    pplayer1->diplstates[player2].first_contact_turn = game.info.turn;
+    pplayer2->diplstates[player1].first_contact_turn = game.info.turn;
     notify_player(pplayer1, ptile,
 		     E_FIRST_CONTACT,
 		     _("You have made contact with the %s, ruled by %s."),
@@ -1187,13 +1160,16 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
 		     E_FIRST_CONTACT,
 		     _("You have made contact with the %s, ruled by %s."),
 		     get_nation_name_plural(pplayer1->nation), pplayer1->name);
+    if (pplayer1->ai.control) {
+      ai_diplomacy_first_contact(pplayer1, pplayer2);
+    }
+    if (pplayer2->ai.control && !pplayer1->ai.control) {
+      ai_diplomacy_first_contact(pplayer2, pplayer1);
+    }
     send_player_info(pplayer1, pplayer2);
     send_player_info(pplayer2, pplayer1);
     send_player_info(pplayer1, pplayer1);
     send_player_info(pplayer2, pplayer2);
-
-    check_city_workers(pplayer1);
-    check_city_workers(pplayer2);
     return;
   } else {
     assert(pplayer_get_diplstate(pplayer2, pplayer1)->type != DS_NO_CONTACT);

@@ -54,6 +54,9 @@
 
 static struct treaty_list *treaties = NULL;
 
+/* FIXME: Should this be put in a ruleset somewhere? */
+#define TURNS_LEFT 16
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -98,6 +101,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
   struct Treaty *ptreaty;
   struct player *pother;
   bool *player_accept, *other_accept;
+  enum dipl_reason diplcheck;
 
   if (!is_valid_player_id(counterpart) || pplayer->player_no == counterpart) {
     return;
@@ -181,19 +185,21 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	    return;
 	  }
 	  break;
-	case CLAUSE_ALLIANCE:
-          if (!pplayer_can_ally(pplayer, pother)) {
-	    notify_player(pplayer, NULL, E_DIPLOMACY,
-			  _("You are at war with one of %s's "
-			    "allies - an alliance with %s is impossible."),
-			  pother->name, pother->name);
+	case CLAUSE_CEASEFIRE:
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_CEASEFIRE);
+          if (diplcheck != DIPL_OK) {
             return;
           }
-          if (!pplayer_can_ally(pother, pplayer)) {
-	    notify_player(pplayer, NULL, E_DIPLOMACY,
-			  _("%s is at war with one of your allies "
-			    "- an alliance with %s is impossible."),
-			  pother->name, pother->name);
+          break;
+	case CLAUSE_PEACE:
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_PEACE);
+          if (diplcheck != DIPL_OK) {
+            return;
+          }
+          break;
+	case CLAUSE_ALLIANCE:
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_PEACE);
+          if (diplcheck != DIPL_OK) {
             return;
           }
           break;
@@ -286,16 +292,21 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_ALLIANCE:
           /* We need to recheck this way since things might have
            * changed. */
-          if (!pplayer_can_ally(pother, pplayer)) {
-	    notify_player(pplayer, NULL, E_DIPLOMACY,
-			  _("%s is at war with one of your "
-			    "allies - an alliance with %s is impossible."),
-			  pother->name, pother->name);
-	    notify_player(pother, NULL, E_DIPLOMACY,
-			  _("You are at war with one of %s's "
-			    "allies - an alliance with %s is impossible."),
-			  pplayer->name, pplayer->name);
-	    goto cleanup;
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_PEACE);
+          if (diplcheck != DIPL_OK) {
+            goto cleanup;
+          }
+          break;
+  case CLAUSE_PEACE:
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_PEACE);
+          if (diplcheck != DIPL_OK) {
+            goto cleanup;
+          }
+          break;
+  case CLAUSE_CEASEFIRE:
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_CEASEFIRE);
+          if (diplcheck != DIPL_OK) {
+            goto cleanup;
           }
           break;
 	case CLAUSE_GOLD:
@@ -420,9 +431,9 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	}
       case CLAUSE_CEASEFIRE:
 	pgiver->diplstates[pdest->player_no].type=DS_CEASEFIRE;
-	pgiver->diplstates[pdest->player_no].turns_left=16;
+	pgiver->diplstates[pdest->player_no].turns_left = TURNS_LEFT;
 	pdest->diplstates[pgiver->player_no].type=DS_CEASEFIRE;
-	pdest->diplstates[pgiver->player_no].turns_left=16;
+	pdest->diplstates[pgiver->player_no].turns_left = TURNS_LEFT;
 	notify_player(pgiver, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
 			 pdest->name);
@@ -437,18 +448,22 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	check_city_workers(pother);
 	break;
       case CLAUSE_PEACE:
-	pgiver->diplstates[pdest->player_no].type=DS_PEACE;
-	pdest->diplstates[pgiver->player_no].type=DS_PEACE;
+	pgiver->diplstates[pdest->player_no].type = DS_ARMISTICE;
+	pdest->diplstates[pgiver->player_no].type = DS_ARMISTICE;
+	pgiver->diplstates[pdest->player_no].turns_left = TURNS_LEFT;
+	pdest->diplstates[pgiver->player_no].turns_left = TURNS_LEFT;
 	pgiver->diplstates[pdest->player_no].max_state = 
           MAX(DS_PEACE, pgiver->diplstates[pdest->player_no].max_state);
 	pdest->diplstates[pgiver->player_no].max_state = 
           MAX(DS_PEACE, pdest->diplstates[pgiver->player_no].max_state);
 	notify_player(pgiver, NULL, E_TREATY_PEACE,
-			 _("You agree on a peace treaty with %s."),
-			 pdest->name);
+			 _("You agree on an armistice with %s. In %d turns it will turn "
+         "into a peace treaty. Move your units out of %s's territory."),
+			 pdest->name, TURNS_LEFT, pdest->name);
 	notify_player(pdest, NULL, E_TREATY_PEACE,
-			 _("You agree on a peace treaty with %s."),
-			 pgiver->name);
+			 _("You agree on an armistice with %s. In %d turns it will turn "
+         "into a peace treaty. Move your units out of %s's territory."),
+			 pgiver->name, TURNS_LEFT, pgiver->name);
         gamelog(GAMELOG_TREATY, GL_PEACE, pgiver, pdest);
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);

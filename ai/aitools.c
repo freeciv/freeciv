@@ -131,7 +131,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
   
   ds = pplayer_get_diplstate(pplayer, aplayer)->type;
   
-  if (ds == DS_WAR || ds == DS_CEASEFIRE || ds == DS_NEUTRAL) {
+  if (ds == DS_WAR || ds == DS_CEASEFIRE) {
     /* It's already a war or aplayer can declare it soon */
     return TRUE;
   }

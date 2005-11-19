@@ -51,7 +51,7 @@ const char *treaty_clause_strings[] = {
   "Map",
   "Seamap",
   "City",
-  "Ceasefire",
+  "Cease-fire",
   "Peace",
   "Alliance",
   "Team",
@@ -293,7 +293,7 @@ void gamelog(int level, ...)
                  "<m>Treaty - City (%s) given to the %s from the %s</m>");
       break;
     case GL_CEASEFIRE:
-      sz_strlcpy(msg, "<m>Treaty - Ceasefire between the %s and the %s</m>");
+      sz_strlcpy(msg, "<m>Treaty - Cease-fire between the %s and the %s</m>");
       break;
     case GL_PEACE:
       sz_strlcpy(msg, "<m>Treaty - Peace between the %s and the %s</m>");

@@ -466,7 +466,8 @@ static void check_players(void)
       if (pplayers_allied(pplayer, pplayer2)
           && pplayer->is_alive
           && pplayer2->is_alive) {
-        SANITY_CHECK(pplayer_can_ally(pplayer, pplayer2));
+        SANITY_CHECK(pplayer_can_make_treaty(pplayer, pplayer2, DS_ALLIANCE)
+                     != DIPL_ALLIANCE_PROBLEM);
       }
     } players_iterate_end;
 

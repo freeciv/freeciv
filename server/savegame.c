@@ -2003,8 +2003,11 @@ static void player_load(struct player *plr, int plrno,
       secfile_lookup_int_default(file, DS_WAR,
 				 "player%d.diplstate%d.type", plrno, i);
     plr->diplstates[i].max_state = 
-      secfile_lookup_int_default(file, DS_NEUTRAL,
+      secfile_lookup_int_default(file, DS_WAR,
 				 "player%d.diplstate%d.max_state", plrno, i);
+    plr->diplstates[i].first_contact_turn = 
+      secfile_lookup_int_default(file, 0,
+				 "player%d.diplstate%d.first_contact_turn", plrno, i);
     plr->diplstates[i].turns_left = 
       secfile_lookup_int_default(file, -2,
 				 "player%d.diplstate%d.turns_left", plrno, i);
@@ -2019,7 +2022,7 @@ static void player_load(struct player *plr, int plrno,
   /* We don't need this info, but savegames carry it anyway.
      To avoid getting "unused" warnings we touch the values like this. */
   for (i = game.info.nplayers; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    secfile_lookup_int_default(file, DS_NEUTRAL,
+    secfile_lookup_int_default(file, DS_WAR,
 			       "player%d.diplstate%d.type", plrno, i);
     secfile_lookup_int_default(file, 0,
 			       "player%d.diplstate%d.turns_left", plrno, i);
@@ -2666,6 +2669,8 @@ static void player_save(struct player *plr, int plrno,
 		       "player%d.diplstate%d.type", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].max_state,
 		       "player%d.diplstate%d.max_state", plrno, i);
+    secfile_insert_int(file, plr->diplstates[i].first_contact_turn,
+		       "player%d.diplstate%d.first_contact_turn", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].turns_left,
 		       "player%d.diplstate%d.turns_left", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].has_reason_to_cancel,
@@ -3662,7 +3667,8 @@ void game_load(struct section_file *file)
     players_iterate(plr) {
       players_iterate(aplayer) {
         if (pplayers_allied(plr, aplayer)
-            && !pplayer_can_ally(plr, aplayer)) {
+            && pplayer_can_make_treaty(plr, aplayer, DS_ALLIANCE) 
+               == DIPL_ALLIANCE_PROBLEM) {
           freelog(LOG_ERROR, _("Illegal alliance structure detected: "
                   "%s's alliance to %s reduced to peace treaty."),
                   plr->name, aplayer->name);

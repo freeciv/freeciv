@@ -41,4 +41,7 @@ void ai_incident_pillage(struct player *violator, struct player *victim);
 
 bool ai_on_war_footing(struct player *pplayer);
 
+void ai_diplomacy_first_contact(struct player *pplayer,
+                                struct player *aplayer);
+
 #endif

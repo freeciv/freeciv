@@ -400,41 +400,42 @@ static void update_environmental_upset(enum tile_special_type cause,
 }
 
 /**************************************************************************
- check for cease-fires running out; update cancelling reasons
+  Check for cease-fires and armistices running out; update cancelling 
+  reasons and contact information.
 **************************************************************************/
 static void update_diplomatics(void)
 {
-  players_iterate(player1) {
-    players_iterate(player2) {
-      struct player_diplstate *pdiplstate =
-	  &player1->diplstates[player2->player_no];
+  players_iterate(plr1) {
+    players_iterate(plr2) {
+      struct player_diplstate *state = &plr1->diplstates[plr2->player_no];
 
-      pdiplstate->has_reason_to_cancel =
-	  MAX(pdiplstate->has_reason_to_cancel - 1, 0);
+      state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
+      state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
 
-      pdiplstate->contact_turns_left =
-	  MAX(pdiplstate->contact_turns_left - 1, 0);
-
-      if(pdiplstate->type == DS_CEASEFIRE) {
-	switch(--pdiplstate->turns_left) {
-	case 1:
-	  notify_player(player1, NULL, E_DIPLOMACY,
-			_("Concerned citizens point "
-  			  "out that the cease-fire with %s will run out soon."),
-			player2->name);
-  	  break;
-  	case 0:
-	  notify_player(player1, NULL, E_DIPLOMACY,
-  			_("The cease-fire with %s has "
-  			  "run out. You are now neutral towards the %s."),
-			player2->name,
-			get_nation_name_plural(player2->nation));
-	  pdiplstate->type = DS_NEUTRAL;
-	  check_city_workers(player1);
-	  check_city_workers(player2);
-  	  break;
-  	}
+      if (state->type == DS_ARMISTICE) {
+        state->turns_left--;
+        if (state->turns_left <= 0) {
+          state->type = DS_PEACE;
         }
+      }
+
+      if (state->type == DS_CEASEFIRE) {
+        switch(--state->turns_left) {
+        case 1:
+          notify_player(plr1, NULL, E_DIPLOMACY,
+                        _("Concerned citizens point out that the cease-fire "
+                          "with %s will run out soon."), plr2->name);
+          break;
+        case 0:
+          notify_player(plr1, NULL, E_DIPLOMACY, _("The cease-fire with "
+                        "%s has run out. You are now at war with the %s."),
+                        plr2->name, get_nation_name_plural(plr2->nation));
+          state->type = DS_WAR;
+          check_city_workers(plr1);
+          check_city_workers(plr2);
+          break;
+        }
+      }
     } players_iterate_end;
   } players_iterate_end;
 }

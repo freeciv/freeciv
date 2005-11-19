@@ -142,6 +142,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
   
   if (is_pact_clause(type)
       && ((ds == DS_PEACE && type == CLAUSE_PEACE)
+          || (ds == DS_ARMISTICE && type == CLAUSE_PEACE)
           || (ds == DS_ALLIANCE && type == CLAUSE_ALLIANCE)
           || (ds == DS_CEASEFIRE && type == CLAUSE_CEASEFIRE))) {
     /* we already have this diplomatic state */
