@@ -298,7 +298,9 @@ bool client_start_server(void)
 # else
 #  ifdef WIN32_NATIVE
   if (logfile) {
-    loghandle = CreateFile(logfile, GENERIC_WRITE, FILE_SHARE_READ, NULL,
+    loghandle = CreateFile(logfile, GENERIC_WRITE,
+                           FILE_SHARE_READ | FILE_SHARE_WRITE,
+                           NULL,
 			   OPEN_ALWAYS, 0, NULL);
   }
 
