@@ -735,8 +735,7 @@ int base_city_get_output_tile(int city_x, int city_y,
 
 /**************************************************************************
   Returns TRUE if the given unit can build a city at the given map
-  coordinates.  punit is the founding unit, which may be NULL in some
-  cases (e.g., cities from huts).
+  coordinates.  punit is the founding unit.
 **************************************************************************/
 bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
 {
@@ -747,7 +746,7 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
     return FALSE;
   }
 
-  if (punit && !can_unit_exist_at_tile(punit, ptile)) {
+  if (!can_unit_exist_at_tile(punit, ptile)) {
     /* We allow land units to build land cities and sea units to build
      * ocean cities. Air units can build cities anywhere. */
     return FALSE;
