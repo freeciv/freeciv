@@ -137,6 +137,7 @@ const char *popup_info_text(struct tile *ptile)
     /* Look at city owner, not tile owner (the two should be the same, if
      * borders are in use). */
     struct player *owner = city_owner(pcity);
+    bool has_improvements = FALSE;
 
     if (!game.player_ptr || owner == game.player_ptr){
       /* TRANS: "City: Warsaw (Polish)" */
@@ -162,10 +163,19 @@ const char *popup_info_text(struct tile *ptile)
 		      diplo_city_adjectives[ds[owner->player_no].type]);
       }
     }
-    if (city_got_citywalls(pcity)) {
-      /* TRANS: previous lines gave other information about the city. */
-      astr_add(&str, " %s", _("with City Walls"));
-    }
+    impr_type_iterate(i) {
+      if (is_improvement_visible(i) && city_got_building(pcity, i)) {
+	/* TRANS: previous lines gave other information about the city. */
+	if (has_improvements) {
+	  astr_add(&str, ", ");
+	} else {
+	  astr_add(&str, _(" with "));
+	}
+
+	astr_add(&str, get_improvement_name(i));
+	has_improvements = TRUE;
+      }
+    } impr_type_iterate_end;
 
     if (pfocus_unit) {
       struct city *hcity = find_city_by_id(pfocus_unit->homecity);
