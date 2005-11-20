@@ -590,11 +590,13 @@ static int count_buildings_in_range(const struct player *target_player,
   case REQ_RANGE_PLAYER:
     return target_player ? num_player_buildings(target_player, source) : 0;
   case REQ_RANGE_CONTINENT:
-    if (target_player) {
+    if (target_player && target_city) {
       int continent = tile_get_continent(target_city->tile);
 
       return num_continent_buildings(target_player, continent, source);
     } else {
+      /* At present, "Continent" effects can affect only
+       * cities and units in cities. */
       return 0;
     }
   case REQ_RANGE_CITY:

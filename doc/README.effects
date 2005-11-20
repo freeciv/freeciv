@@ -180,6 +180,8 @@ cumulative.  For many effects this is undesirable.
              "None", "Local", "Adjacent", "City", "Continent",
              "Player", "World".  Some requirement types may only work at
              certain ranges; this is not yet documented.
+             In particular, at present, "Continent" effects can affect only
+             cities and units in cities.
 .value	   = integral AMOUNT parameter for many effects
 	    (must be in the range -32767 to 32767)
 .survives  = 1 if effect survives destruction (wonders only)
