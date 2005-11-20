@@ -42,6 +42,65 @@ static char *script_code;
 
 
 /**************************************************************************
+  Report a lua error.
+**************************************************************************/
+static int script_report(lua_State *L, int status)
+{
+  if (status) {
+    const char *msg;
+
+    if (!(msg = lua_tostring(L, -1))) {
+      msg = "(error with no message)";
+    }
+    freelog(LOG_ERROR, "\nlua error:\n\t%s", msg);
+    lua_pop(L, 1);
+  }
+  return status;
+}
+
+/**************************************************************************
+  Call a Lua function.
+**************************************************************************/
+static int script_call(lua_State *L, int narg, int nret)
+{
+  int status;
+  int base = lua_gettop(L) - narg;  /* Function index */
+
+  lua_pushliteral(L, "_TRACEBACK");
+  lua_rawget(L, LUA_GLOBALSINDEX);  /* Get traceback function */
+  lua_insert(L, base);  /* Put it under chunk and args */
+  status = lua_pcall(L, narg, nret, base);
+  lua_remove(L, base);  /* Remove traceback function */
+  if (status) {
+    script_report(state, status);
+  }
+  return status;
+}
+
+/**************************************************************************
+  Executes a piece of Lua code from a buffer.
+**************************************************************************/
+static int script_dobuffer(lua_State *L, const char *buf, size_t size, const char *name)
+{
+  int status;
+
+  status = luaL_loadbuffer(L, buf, size, name);
+  if (status) {
+    script_report(state, status);
+  }
+  status = script_call(L, 0, LUA_MULTRET);
+  return status;
+}
+
+/**************************************************************************
+  lua_dostring replacement with error message showing on errors.
+**************************************************************************/
+static int script_dostring(lua_State *L, const char *str, const char *name)
+{
+  return script_dobuffer(L, str, strlen(str), name);
+}
+
+/**************************************************************************
   Internal api error function.
   Invoking this will cause Lua to stop executing the current context and
   throw an exception, so to speak.
@@ -127,26 +186,16 @@ bool script_callback_invoke(const char *callback_name,
   /* The function name */
   lua_getglobal(state, callback_name);
 
+  if (!lua_isfunction(state, -1)) {
+    freelog(LOG_ERROR, "lua error: Unknown callback '%s'", callback_name);
+    lua_pop(state, 1);
+    return FALSE;
+  }
+
   script_callback_push_args(nargs, args);
 
   /* Call the function with nargs arguments, return 1 results */
-  if (lua_pcall(state, nargs, 1, 0) != 0) {
-    freelog(LOG_ERROR, "Error in script function \"%s\":", callback_name);
-
-    nres = lua_gettop(state);
-
-    /* Output error message. */
-    if (nres == 1) {
-      if (lua_isstring(state, -1)) {
-	const char *msg;
-
-	msg = lua_tostring(state, -1);
-
-	freelog(LOG_ERROR, "%s", msg);
-      }
-    }
-
-    lua_pop(state, nres);
+  if (script_call(state, nargs, 1)) {
     return FALSE;
   }
 
@@ -190,9 +239,10 @@ static void script_vars_load(struct section_file *file)
 {
   if (state) {
     const char *vars;
+    const char *section = "script.vars";
 
-    vars = secfile_lookup_str_default(file, "", "script.vars");
-    lua_dostring(state, vars);
+    vars = secfile_lookup_str_default(file, "", section);
+    script_dostring(state, vars, section);
   }
 }
 
@@ -242,10 +292,11 @@ static void script_code_load(struct section_file *file)
 {
   if (!script_code) {
     const char *code;
+    const char *section = "script.code";
 
-    code = secfile_lookup_str_default(file, "", "script.code");
+    code = secfile_lookup_str_default(file, "", section);
     script_code = mystrdup(code);
-    lua_dostring(state, script_code);
+    script_dostring(state, script_code, section);
   }
 }
 
@@ -300,6 +351,7 @@ void script_free(void)
 
     script_signals_free();
 
+    lua_setgcthreshold(state, 0); /* Collected garbage */
     lua_close(state);
     state = NULL;
   }
