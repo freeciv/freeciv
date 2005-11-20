@@ -63,36 +63,45 @@ static int script_report(lua_State *L, int status, const char *code)
     astr_add_line(&str, "\nlua error:");
     astr_add_line(&str, "\t%s", msg);
 
-    /* Add lines around the place the parse error is. */
-    if (sscanf(msg, "%*[^:]:%d:", &lineno) == 1) {
-      const char *begin, *end;
-      int i;
+    if (code) {
+      /* Add lines around the place the parse error is. */
+      if (sscanf(msg, "%*[^:]:%d:", &lineno) == 1) {
+	const char *begin, *end;
+	int i;
 
-      astr_add(&str, "\n");
+	astr_add(&str, "\n");
 
-      i = 1;
-      for (begin = code; *begin != '\0'; begin = end + 1) {
-	int len;
+	i = 1;
+	for (begin = code; *begin != '\0';) {
+	  int len;
 
-	end = strchr(begin, '\n');
-	if (!end) {
-	  end = begin + strlen(begin);
+	  end = strchr(begin, '\n');
+	  if (end) {
+	    len = end - begin;
+	  } else {
+	    len = strlen(begin);
+	  }
+
+	  if (abs(lineno - i) <= 3) {
+	    const char *indicator;
+
+	    indicator = (lineno == i) ? "-->" : "   ";
+
+	    astr_add_line(&str, "\t%s%3d:\t%*.*s",
+		indicator, i, len, len, begin);
+	  }
+
+	  i++;
+
+	  if (end) {
+	    begin = end + 1;
+	  } else {
+	    break;
+	  }
 	}
-	len = end - begin;
 
-	if (abs(lineno - i) <= 3) {
-	  const char *indicator;
-
-	  indicator = (lineno == i) ? "-->" : "   ";
-
-	  astr_add_line(&str, "\t%s%3d:\t%*.*s",
-			indicator, i, len, len, begin);
-	}
-
-        i++;
+	astr_add(&str, "\n");
       }
-
-      astr_add(&str, "\n");
     }
 
     freelog(LOG_ERROR, str.str);
