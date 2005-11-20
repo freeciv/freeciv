@@ -1509,9 +1509,9 @@ void map_claim_ownership(struct tile *ptile, struct player *owner,
 }
 
 /*************************************************************************
-  Establish range of a city's borders.
+  Establish range of a border source.
 *************************************************************************/
-static inline int tile_border_range(struct tile *ptile)
+static int tile_border_range(struct tile *ptile)
 {
   int range;
 
@@ -1558,7 +1558,34 @@ void map_calculate_borders()
     }
   } whole_map_iterate_end;
 
-  /* Second remove undue ownership. */
+  /* Second transfer ownership to city closer than current source 
+   * but with the same owner. */
+  whole_map_iterate(ptile) {
+    if (ptile->owner) {
+      city_list_iterate(ptile->owner->cities, pcity) {
+        int r_curr, r_city = sq_map_distance(ptile, pcity->tile);
+        int max_range = tile_border_range(pcity->tile);
+
+        /* Repair tile ownership */
+        if (!ptile->owner_source) {
+          assert(FALSE);
+          ptile->owner_source = pcity->tile;
+        }
+        r_curr = sq_map_distance(ptile, ptile->owner_source);
+        max_range *= max_range; /* we are dealing with square distances */
+        /* Transfer tile to city if closer than current source */
+        if (r_curr > r_city && max_range >= r_city) {
+          freelog(LOG_DEBUG, "%s's %s(%d,%d) acquired tile (%d,%d) from "
+                  "(%d,%d)", ptile->owner->name, pcity->name, pcity->tile->x, 
+                  pcity->tile->y, ptile->x, ptile->y, ptile->owner_source->x, 
+                  ptile->owner_source->y);
+          ptile->owner_source = pcity->tile;
+        }
+      } city_list_iterate_end;
+    }
+  } whole_map_iterate_end;
+
+  /* Third remove undue ownership. */
   whole_map_iterate(ptile) {
     if (ptile->owner
         && (ptile->owner != ptile->owner_source->owner
