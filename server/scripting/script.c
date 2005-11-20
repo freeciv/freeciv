@@ -16,11 +16,13 @@
 #endif
 
 #include <stdarg.h>
+#include <stdlib.h>
 
 #include "lua.h"
 #include "lualib.h"
 #include "tolua.h"
 
+#include "astring.h"
 #include "log.h"
 #include "registry.h"
 
@@ -44,15 +46,59 @@ static char *script_code;
 /**************************************************************************
   Report a lua error.
 **************************************************************************/
-static int script_report(lua_State *L, int status)
+static int script_report(lua_State *L, int status, const char *code)
 {
   if (status) {
     const char *msg;
+    static struct astring str = ASTRING_INIT;
+    int lineno;
 
     if (!(msg = lua_tostring(L, -1))) {
       msg = "(error with no message)";
     }
-    freelog(LOG_ERROR, "\nlua error:\n\t%s", msg);
+
+    astr_clear(&str);
+
+    /* Add error message. */
+    astr_add_line(&str, "\nlua error:");
+    astr_add_line(&str, "\t%s", msg);
+
+    /* Add lines around the place the parse error is. */
+    if (sscanf(msg, "%*[^:]:%d:", &lineno) == 1) {
+      const char *begin, *end;
+      int i;
+
+      astr_add(&str, "\n");
+
+      i = 1;
+      for (begin = code; *begin != '\0'; begin = end + 1) {
+	int len;
+
+	end = strchr(begin, '\n');
+	if (!end) {
+	  end = begin + strlen(begin);
+	}
+	len = end - begin;
+
+	if (abs(lineno - i) <= 3) {
+	  const char *indicator;
+
+	  indicator = (lineno == i) ? "-->" : "   ";
+
+	  astr_add_line(&str, "\t%s%3d:\t%*.*s",
+			indicator, i, len, len, begin);
+	}
+
+        i++;
+      }
+
+      astr_add(&str, "\n");
+    }
+
+    freelog(LOG_ERROR, str.str);
+
+    astr_free(&str);
+
     lua_pop(L, 1);
   }
   return status;
@@ -72,23 +118,8 @@ static int script_call(lua_State *L, int narg, int nret)
   status = lua_pcall(L, narg, nret, base);
   lua_remove(L, base);  /* Remove traceback function */
   if (status) {
-    script_report(state, status);
+    script_report(state, status, NULL);
   }
-  return status;
-}
-
-/**************************************************************************
-  Executes a piece of Lua code from a buffer.
-**************************************************************************/
-static int script_dobuffer(lua_State *L, const char *buf, size_t size, const char *name)
-{
-  int status;
-
-  status = luaL_loadbuffer(L, buf, size, name);
-  if (status) {
-    script_report(state, status);
-  }
-  status = script_call(L, 0, LUA_MULTRET);
   return status;
 }
 
@@ -97,7 +128,14 @@ static int script_dobuffer(lua_State *L, const char *buf, size_t size, const cha
 **************************************************************************/
 static int script_dostring(lua_State *L, const char *str, const char *name)
 {
-  return script_dobuffer(L, str, strlen(str), name);
+  int status;
+
+  status = luaL_loadbuffer(L, str, strlen(str), name);
+  if (status) {
+    script_report(state, status, str);
+  }
+  status = script_call(L, 0, LUA_MULTRET);
+  return status;
 }
 
 /**************************************************************************
