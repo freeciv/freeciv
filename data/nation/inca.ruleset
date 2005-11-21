@@ -19,7 +19,7 @@ flag_alt = "peru"	; Used previously
 city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Inca"),         _("Inca")
+                 "Despotism",       _("?title:Inca"),  _("?title:Inca")
                  "Monarchy",        _("Sapa Inca"),    _("Sapa Inca")
                }
 
