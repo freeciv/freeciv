@@ -66,21 +66,6 @@ SPECVEC_VECTOR {
   size_t size, size_alloc;
 };
 
-#ifndef SPECVEC_TAG
-#error Must define a SPECVEC_TAG to use this header
-#endif
-
-#ifndef SPECVEC_TYPE
-#define SPECVEC_TYPE struct SPECVEC_TAG
-#endif
-
-#define SPECVEC_PASTE_(x,y) x ## y
-#define SPECVEC_PASTE(x,y) SPECVEC_PASTE_(x,y)
-
-#define SPECVEC_VECTOR struct SPECVEC_PASTE(SPECVEC_TAG, _vector)
-
-#define SPECVEC_FOO(suffix) SPECVEC_PASTE(SPECVEC_TAG, suffix)
-
 static inline void SPECVEC_FOO(_vector_init) (SPECVEC_VECTOR *tthis)
 {
   tthis->p = NULL;
