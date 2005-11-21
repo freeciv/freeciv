@@ -1375,7 +1375,18 @@ static void server_remove_unit(struct unit *punit)
 
   conn_list_iterate(game.est_connections, pconn) {
     if ((!pconn->player && pconn->observer)
-	|| can_player_see_unit(pconn->player, punit)) {
+	|| map_is_known_and_seen(punit->tile, pconn->player, V_MAIN)) {
+      /* FIXME: this sends the remove packet to all players, even those who
+       * can't see the unit.  This potentially allows some limited cheating.
+       * However fixing it requires changes elsewhere since sometimes the
+       * client is informed about unit disappearance only after the unit
+       * disappears.  For instance when building a city the settler unit
+       * is wiped only after the city is built...at which point the settler
+       * is already "hidden" inside the city and can_player_see_unit would
+       * return FALSE.  One possible solution is to have a bv_player for
+       * each unit to record which players (clients) currently know about
+       * the unit; then we could just use a BV_TEST here and not have to
+       * worry about any synchronization problems. */
       dsend_packet_unit_remove(pconn, punit->id);
     }
   } conn_list_iterate_end;
