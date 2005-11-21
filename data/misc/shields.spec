@@ -139,13 +139,13 @@ sprites =
 		"f.shield.tibet", "flags/tibet-shield"
 		"f.shield.thailand", "flags/thailand-shield"
 		"f.shield.tunisia", "flags/tunisia-shield"
-		"f.shield.turkestan", "flags/turkestan-shield" ; Uyghur
 		"f.shield.turkey", "flags/turkey-shield"
 		"f.shield.ukraine", "flags/ukraine-shield"
 		"f.shield.united_kingdom", "flags/united_kingdom-shield"
 		"f.shield.united_nations", "flags/united_nations-shield"
 		"f.shield.unknown", "flags/unknown-shield"; hard-coded fallback
 		"f.shield.usa", "flags/usa-shield"
+		"f.shield.uyghur", "flags/uyghur-shield"
 		"f.shield.venezuela", "flags/venezuela-shield"
 		"f.shield.vietnam", "flags/vietnam-shield"
 		"f.shield.viking", "flags/viking-shield"

@@ -3,7 +3,6 @@
 name=_("Uyghur")
 plural=_("?plural:Uyghurs")
 groups=_("Medieval"), _("Asian")
-conflicts_with="turk"	; Similar flags
 legend=_("Uyghur was an east Turk empire and civilization. At its height in\
  820 AD it controlled most of Central and North Asia. After clashing with\
  the Chinese for several centuries, they were finally subdued by the Qing\
@@ -22,7 +21,7 @@ leader=
  "Guyuk"
  
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
-flag="turkestan"
+flag="uyghur"
 flag_alt = "-"
 city_style = "Classical"
 

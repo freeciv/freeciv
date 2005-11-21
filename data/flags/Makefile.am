@@ -128,13 +128,13 @@ flag_files =				\
 		thailand.png		\
 		tibet.png		\
 		tunisia.png		\
-		turkestan.png		\
 		turkey.png		\
 		ukraine.png		\
 		united_kingdom.png	\
 		united_nations.png	\
 		unknown.png		\
 		usa.png			\
+		uyghur.png		\
 		venezuela.png		\
 		vietnam.png		\
 		viking.png		\
@@ -266,13 +266,13 @@ shield_files =					\
 		thailand-shield.png		\
 		tibet-shield.png		\
 		tunisia-shield.png		\
-		turkestan-shield.png		\
 		turkey-shield.png		\
 		ukraine-shield.png		\
 		united_kingdom-shield.png	\
 		united_nations-shield.png	\
 		unknown-shield.png		\
 		usa-shield.png			\
+		uyghur-shield.png		\
 		venezuela-shield.png		\
 		vietnam-shield.png		\
 		viking-shield.png		\
@@ -404,13 +404,13 @@ svg_files = 				\
 		thailand.svg		\
 		tibet.svg		\
 		tunisia.svg		\
-		turkestan.svg		\
 		turkey.svg		\
 		ukraine.svg		\
 		united_kingdom.svg	\
 		united_nations.svg	\
 		unknown.svg		\
 		usa.svg			\
+		uyghur.svg		\
 		venezuela.svg		\
 		vietnam.svg		\
 		viking.svg		\

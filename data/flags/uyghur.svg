@@ -11,8 +11,8 @@
    height="200.00000px"
    id="svg548"
    inkscape:version="0.42"
-   sodipodi:docbase="/Users/daniel/Desktop/convert"
-   sodipodi:docname="turkestan.svg"
+   sodipodi:docbase="/Users/daniel/Desktop/flags"
+   sodipodi:docname="uyghur.svg"
    sodipodi:version="0.32"
    width="300.00000px"
    inkscape:export-filename="/Users/daniel/Desktop/turkestan.png"
@@ -75,7 +75,7 @@
      gridspacingy="14.1732pt"
      id="base"
      inkscape:cx="150.00000"
-     inkscape:cy="106.08935"
+     inkscape:cy="104.05957"
      inkscape:window-height="507"
      inkscape:window-width="701"
      inkscape:window-x="-2"
@@ -96,13 +96,13 @@
   <path
      style="font-size:12.000000px;fill:none;fill-rule:evenodd;stroke:none;stroke-width:5.2909255;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000"
      id="path670"
-     d="M 61.748494,67.426134 C 61.748494,67.426134 61.748494,67.426134 61.748494,67.426134" />
+     d="M 90.192670,79.948529 C 90.192670,79.948529 90.192670,79.948529 90.192670,79.948529" />
   <path
      id="path1401"
-     d="M 48.297444,31.729356 C 48.297444,31.729356 48.297444,31.729356 48.297444,31.729356"
+     d="M 81.396033,56.603764 C 81.396033,56.603764 81.396033,56.603764 81.396033,56.603764"
      style="font-size:12.000000px;fill:none;fill-rule:evenodd;stroke:none;stroke-width:0.39894764pt" />
   <path
-     transform="matrix(-0.288733,-0.263717,0.259221,-0.283810,37.91911,223.8127)"
+     transform="matrix(-0.188824,-0.172464,0.169524,-0.185604,74.60887,182.2213)"
      sodipodi:ry="182.30783"
      sodipodi:rx="182.30783"
      sodipodi:cy="445.63620"
@@ -113,7 +113,7 @@
      sodipodi:type="arc" />
   <path
      sodipodi:fill-cmyk="(0 0.9 0.8 0.05)"
-     transform="matrix(-0.526346,-0.480744,0.472547,-0.517371,7.498711,112.2986)"
+     transform="matrix(-0.344217,-0.314394,0.309033,-0.338347,54.71472,109.2940)"
      sodipodi:ry="80.005608"
      sodipodi:rx="80.005592"
      sodipodi:cy="157.09140"
@@ -125,13 +125,13 @@
   <rect
      style="fill:#3399ff;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:8.2985935;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000"
      id="rect2137"
-     width="149.96925"
-     height="53.304455"
-     x="-16.598234"
-     y="89.543777"
+     width="98.076035"
+     height="34.859737"
+     x="13.375594"
+     y="121.72517"
      transform="matrix(0.679080,-0.734064,0.528076,0.849197,0.000000,0.000000)" />
   <path
      id="path563"
-     d="M 95.185341,83.202635 L 118.18511,78.745100 L 129.47568,98.945560 L 131.54563,76.166031 L 152.64792,72.120741 L 132.73585,61.884027 L 134.58484,39.476500 L 120.09806,55.352793 L 98.851801,44.435083 L 110.82941,65.672529 L 95.185341,83.202635 z "
-     style="font-size:12.000000px;fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:5.8499999;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000" />
+     d="M 112.05950,90.265950 L 127.10075,87.350838 L 134.48449,100.56141 L 135.83818,85.664194 L 149.63853,83.018679 L 136.61655,76.324135 L 137.82575,61.670195 L 128.35177,72.052877 L 114.45727,64.912979 L 122.29031,78.801716 L 112.05950,90.265950 z "
+     style="font-size:12.000000px;fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:3.8257477;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000" />
 </svg>

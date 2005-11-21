@@ -150,13 +150,13 @@ sprites =
 		"f.thailand", "flags/thailand"
 		"f.tibet", "flags/tibet"
 		"f.tunisia", "flags/tunisia"
-		"f.turkestan", "flags/turkestan" ; for Uyghur nation
 		"f.turkey", "flags/turkey"
 		"f.ukraine", "flags/ukraine"
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"
 		"f.unknown", "flags/unknown"		; useful for alternates
 		"f.usa", "flags/usa"
+		"f.uyghur", "flags/uyghur"
 		"f.venezuela", "flags/venezuela"
 		"f.vietnam", "flags/vietnam"
 		"f.viking", "flags/viking"
