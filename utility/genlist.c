@@ -39,6 +39,24 @@ struct genlist *genlist_new(void)
 }
 
 /************************************************************************
+  Returns a new genlist that's a copy of the existing one.
+************************************************************************/
+struct genlist *genlist_copy(struct genlist *pgenlist)
+{
+  struct genlist *pcopy = genlist_new();
+
+  if (pgenlist) {
+    struct genlist_link *plink;
+
+    for (plink = pgenlist->head_link; plink; plink = plink->next) {
+      genlist_append(pcopy, plink->dataptr);
+    }
+  }
+
+  return pcopy;
+}
+
+/************************************************************************
   Remove a genlist.  The list must be empty first!
 ************************************************************************/
 void genlist_free(struct genlist *pgenlist)

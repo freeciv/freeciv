@@ -73,6 +73,7 @@ struct genlist {
 int genlist_size(const struct genlist *pgenlist);
 void *genlist_get(const struct genlist *pgenlist, int idx);
 struct genlist *genlist_new(void);
+struct genlist *genlist_copy(struct genlist *pgenlist);
 void genlist_unlink_all(struct genlist *pgenlist);
 void genlist_free(struct genlist *pgenlist);
 void genlist_append(struct genlist *pgenlist, void *data);

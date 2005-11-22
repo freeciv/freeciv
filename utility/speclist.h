@@ -86,6 +86,15 @@ static inline SPECLIST_LIST *SPECLIST_FOO(_list_new) (void)
   return speclist;
 }
 
+static inline SPECLIST_LIST *SPECLIST_FOO(_list_copy) (SPECLIST_LIST *plist)
+{
+  SPECLIST_LIST *newlist = (SPECLIST_LIST *)fc_malloc(sizeof(*newlist));
+
+  newlist->list = genlist_copy(plist ? plist->list : NULL);
+
+  return newlist;
+}
+
 static inline void SPECLIST_FOO(_list_prepend) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
 {
   genlist_prepend(tthis->list, pfoo);
