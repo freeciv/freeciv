@@ -733,9 +733,12 @@ static bool is_unittype_in_range(const struct unit_type *target_unittype,
 				 enum req_range range, bool survives,
 				 struct unit_type *punittype)
 {
+  /* If no target_unittype is given, we allow the req to be met.  This is
+   * to allow querying of certain effect types (like the presence of city
+   * walls) without actually knowing the target unit. */
   return (range == REQ_RANGE_LOCAL
-	  && target_unittype
-	  && target_unittype == punittype);
+	  && (!target_unittype
+	      || target_unittype == punittype));
 }
 
 /****************************************************************************
@@ -745,9 +748,12 @@ static bool is_unitflag_in_range(const struct unit_type *target_unittype,
 				 enum req_range range, bool survives,
 				 enum unit_flag_id unitflag)
 {
+  /* If no target_unittype is given, we allow the req to be met.  This is
+   * to allow querying of certain effect types (like the presence of city
+   * walls) without actually knowing the target unit. */
   return (range == REQ_RANGE_LOCAL
-	  && target_unittype
-	  && unit_type_flag(target_unittype, unitflag));
+	  && (!target_unittype
+	      || unit_type_flag(target_unittype, unitflag)));
 }
 
 /****************************************************************************
@@ -757,9 +763,12 @@ static bool is_unitclass_in_range(const struct unit_type *target_unittype,
 				  enum req_range range, bool survives,
 				  struct unit_class *pclass)
 {
+  /* If no target_unittype is given, we allow the req to be met.  This is
+   * to allow querying of certain effect types (like the presence of city
+   * walls) without actually knowing the target unit. */
   return (range == REQ_RANGE_LOCAL
-	  && target_unittype
-	  && target_unittype->class == pclass);
+	  && (!target_unittype
+	      || target_unittype->class == pclass));
 }
 
 /****************************************************************************
