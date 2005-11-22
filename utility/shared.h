@@ -46,7 +46,8 @@
      : ((value) >= (range) ? (value) % (range) : (value)))
 
 #define BOOL_VAL(x) ((x) != 0)
-#define XOR(p, q) (!(p) != !(q))
+#define XOR(p, q) (BOOL_VAL(p) != BOOL_VAL(q))
+#define EQ(p, q) (BOOL_VAL(p) == BOOL_VAL(q))
 
 /*
  * DIVIDE() divides and rounds down, rather than just divides and
