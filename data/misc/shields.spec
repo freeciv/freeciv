@@ -28,7 +28,7 @@ sprites =
 		"f.shield.barbarian", "flags/barbarian-shield"
 		"f.shield.bavarian", "flags/bavarian-shield"
 		"f.shield.belgium", "flags/belgium-shield"
-		"f.shield.boer", "flags/boer-shield"
+		"f.shield.boer", "flags/boer-shield"	; old south african
 		"f.shield.bosnia", "flags/bosnia-shield"
 		"f.shield.brasil", "flags/brasil-shield"
 		"f.shield.bulgaria", "flags/bulgaria-shield"
@@ -41,7 +41,7 @@ sprites =
 		"f.shield.china", "flags/china-shield"
 		"f.shield.colombia", "flags/colombia-shield"
 		"f.shield.columbia", "flags/colombia-shield"
-		"f.shield.constantine", "flags/constantine"
+;		"f.shield.constantine", "flags/constantine"
 		"f.shield.cornwall", "flags/cornwall-shield"
 		"f.shield.croatia", "flags/croatia-shield"
 		"f.shield.cuba", "flags/cuba-shield"
@@ -64,7 +64,7 @@ sprites =
 		"f.shield.greenland", "flags/greenland-shield"
 		"f.shield.hittite", "flags/hittite-shield"
 		"f.shield.hobbits", "flags/hobbits-shield"
-		"f.shield.holland", "flags/netherlands-shield"
+		"f.shield.holland", "flags/netherlands-shield"	; backward compatabiliy
 		"f.shield.hungary", "flags/hungary-shield"
 		"f.shield.iceland", "flags/iceland-shield"
 		"f.shield.inca", "flags/inca-shield"
@@ -74,6 +74,7 @@ sprites =
 		"f.shield.iraq_old", "flags/iraq_old-shield"
 		"f.shield.iraq", "flags/iraq-shield"
 		"f.shield.ireland", "flags/ireland-shield"
+;		"f.shield.ireland", "flags/stpatrick-shield"
 		"f.shield.iroquois", "flags/iroquois-shield"
 		"f.shield.israel", "flags/israel-shield"
 		"f.shield.italy", "flags/italy-shield"
@@ -82,6 +83,7 @@ sprites =
 		"f.shield.kenya", "flags/kenya-shield"
 		"f.shield.korea", "flags/korea-shield"
 		"f.shield.krev", "flags/krev-shield"
+		"f.shield.kurdistan", "flags/kurdistan-shield"
 		"f.shield.latvia", "flags/latvia-shield"
 		"f.shield.libya", "flags/libya-shield"
 		"f.shield.lithuania", "flags/lithuania-shield"
@@ -112,9 +114,9 @@ sprites =
 		"f.shield.qing", "flags/qing-shield"
 		"f.shield.quebec", "flags/quebec-shield"
 		"f.shield.romania", "flags/romania-shield"
-		"f.shield.rome", "flags/rome-shield"
+		"f.shield.rome", "flags/rome-shield"	; Roman republic flag
 		"f.shield.russia", "flags/russia-shield"
-		"f.shield.rwanda", "flags/rwanda-shield"
+		"f.shield.rwanda", "flags/rwanda-shield"; Alternate Zulu
 		"f.shield.ryukyu", "flags/ryukyu-shield"
 		"f.shield.sapmi", "flags/sapmi-shield"
 		"f.shield.scotland", "flags/scotland-shield"
@@ -127,7 +129,6 @@ sprites =
 		"f.shield.soviet", "flags/soviet-shield"
 		"f.shield.spain", "flags/spain-shield"
 		"f.shield.srilanka", "flags/srilanka-shield"
-		"f.shield.stpatrick", "flags/stpatrick-shield"
 		"f.shield.sudan", "flags/sudan-shield"
 		"f.shield.sumeria", "flags/sumeria-shield"
 		"f.shield.swaziland", "flags/swaziland-shield"
@@ -142,7 +143,7 @@ sprites =
 		"f.shield.ukraine", "flags/ukraine-shield"
 		"f.shield.united_kingdom", "flags/united_kingdom-shield"
 		"f.shield.united_nations", "flags/united_nations-shield"
-		"f.shield.unknown", "flags/unknown-shield"
+		"f.shield.unknown", "flags/unknown-shield"; hard-coded fallback
 		"f.shield.usa", "flags/usa-shield"
 		"f.shield.uyghur", "flags/uyghur-shield"
 		"f.shield.venezuela", "flags/venezuela-shield"
@@ -150,4 +151,5 @@ sprites =
 		"f.shield.viking", "flags/viking-shield"
 		"f.shield.wales", "flags/wales-shield"
 		"f.shield.zulu", "flags/zulu-shield"
+		"f.shield.alien", "flags/alien-shield"
 	}
