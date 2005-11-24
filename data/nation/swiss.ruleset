@@ -8,7 +8,7 @@ legend=_("Switzerland is a federation of cantons, some of which have more\
 leader=
  "Wilhelm Tell",
  "Arnold von Winkelried",
- "Albrecht Gessler",
+ "Hermann Gessler",
  "Henri Guisan",
  "Adolf Ogi",
  "Ruth Dreifuss",
@@ -21,7 +21,14 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",	"male_title",	"female_title"
-		 "Despotism",   _("General"),   _("General")
+		 "Anarchy",     _("General"),   _("General")
+		 "Despotism",   _("Bailiff"),   _("Bailiff")
+		 "Monarchy",   _("Elected King"),_("Elected Queen")
+		 "Fundamentalism", _("Elected Priest"),_("Elected Priestess")
+		 "Republic",    _("President of the Confederation"),
+				_("President of the Confederation")
+		 "Democracy",   _("Federal Chancellor"),
+				_("Federal Chancellor")
 	       } 
 
 init_techs=""
@@ -47,20 +54,20 @@ cities =
  "Schaffhausen (river)",
  "Neuchatel",
  "Chur",
- "Vernier GE",
- "Emmen LU",
+ "Vernier",
+ "Emmen",
  "Sion (river)",
  "Lugano",
- "Uster ZH",
- "Kriens LU",
- "Lancy GE",
- "Montreux VD",
- "Yverdon-les-bains VD (river)",
+ "Uster",
+ "Kriens",
+ "Lancy",
+ "Montreux",
+ "Yverdon-les-bains (river)",
  "Zug",
- "Dietikon ZH",
- "Dübendorf ZH",
- "Frauenfeld TG",
- "Riehen BS",
+ "Dietikon",
+ "Dübendorf",
+ "Frauenfeld",
+ "Riehen",
  "Aarau (river)",
  "Herisau",
  "Appenzell",
