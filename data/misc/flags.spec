@@ -7,18 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-    Tatu Rissanen <tatu.rissanen@hut.fi>
-    David Pfitzner <dwp@mso.anu.edu.au> (revised)
-    Jerzy Klek <qpkjeek@epk.ericsson.se> (more flags added)
-    Reineir Post <reinpost@win.tue.nl> (Sweden, Holland)
-    Vasco Costa <vasc@rnl.ist.utl.pt> (Portugal)
-    Robert Brady <rwb197@ecs.soton.ac.uk> (more flags)
-    Tomasz Wegrzanowski <maniek@beer.com> (more flags added, Silesia)
-    Paul Zastoupil <paulz@adnc.com> (Dunedain, Mordor)
-    Jan Heidefuss <jan_heidefuss@yahoo.de> (Bavarian)
-    Ivan kosak <ivan.kosak@sk.tel.hr> (Croatia,Slovenia,Serbia)
-    Daniel Markstedt <himasaram@spray.se> (Iroquois,Maori,Ryukyu)
-    Dean Tersigni <thealmightyguru@gmail.com> (Sapmi)
+   See flags/credits
 "
 [extra]
 sprites =
@@ -47,12 +36,12 @@ sprites =
 		"f.canada", "flags/canada"
 		"f.cartago", "flags/cartago"
 		"f.catalan", "flags/catalan"
-		"f.cheyenne", "flags/cheyenne"
+		"f.cheyenne", "flags/cheyenne"		; used by Sioux
 		"f.chile", "flags/chile"
 		"f.china", "flags/china"
 		"f.colombia", "flags/colombia"
 		"f.columbia", "flags/colombia"	; For backward compatibility
-;		"f.constantine", "flags/constantine"
+		"f.constantine", "flags/constantine"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall"
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"
@@ -66,13 +55,13 @@ sprites =
 		"f.ethiopia", "flags/ethiopia"
 		"f.europe", "flags/europe"
 		"f.finland", "flags/finland"
-		"f.france_old", "flags/france_old"
+		"f.france_old", "flags/france_old"	; used by Gallic
 		"f.france", "flags/france"
 		"f.galicia", "flags/galicia"
 		"f.georgia", "flags/georgia"
 		"f.germany", "flags/germany"
 		"f.greece", "flags/greece"
-		"f.greenland", "flags/greenland"
+		"f.greenland", "flags/greenland"	; used by Inuit
 		"f.hittite", "flags/hittite"
 		"f.hobbits", "flags/hobbits"
 		"f.holland", "flags/netherlands"	; backward compatabiliy
@@ -82,10 +71,9 @@ sprites =
 		"f.inca", "flags/inca"
 		"f.indonesia", "flags/indonesia"
 		"f.iran", "flags/iran"
-		"f.iraq_old", "flags/iraq_old"
+		"f.iraq_old", "flags/iraq_old"		; used by Babylonian
 		"f.iraq", "flags/iraq"
 		"f.ireland", "flags/ireland"
-;		"f.ireland", "flags/stpatrick"
 		"f.iroquois", "flags/iroquois"
 		"f.israel", "flags/israel"
 		"f.italy", "flags/italy"
@@ -94,7 +82,6 @@ sprites =
 		"f.kenya", "flags/kenya"
 		"f.korea", "flags/korea"
 		"f.krev", "flags/krev"
-		"f.kurdistan", "flags/kurdistan"
 		"f.latvia", "flags/latvia"
 		"f.libya", "flags/libya"
 		"f.lithuania", "flags/lithuania"
@@ -140,6 +127,7 @@ sprites =
 		"f.soviet", "flags/soviet"
 		"f.spain", "flags/spain"
 		"f.srilanka", "flags/srilanka"
+		"f.stpatrick", "flags/stpatrick"	; Alternate Irish 
 		"f.sudan", "flags/sudan"
 		"f.sumeria", "flags/sumeria"
 		"f.swaziland", "flags/swaziland"
@@ -154,7 +142,7 @@ sprites =
 		"f.ukraine", "flags/ukraine"
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"
-		"f.unknown", "flags/unknown"		; useful for alternates
+		"f.unknown", "flags/unknown"		; hard-coded fallback
 		"f.usa", "flags/usa"
 		"f.uyghur", "flags/uyghur"
 		"f.venezuela", "flags/venezuela"
@@ -162,5 +150,4 @@ sprites =
 		"f.viking", "flags/viking"
 		"f.wales", "flags/wales"
 		"f.zulu", "flags/zulu"
-		"f.alien", "flags/alien"
 	}
