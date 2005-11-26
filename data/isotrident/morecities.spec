@@ -41,23 +41,23 @@ tiles = { "row", "column", "tag"
 ; city tiles
 ;
 
- 0,  0, "city.asian_0"
- 0,  1, "city.asian_5"
- 0,  2, "city.asian_10"
+ 0,  0, "city.asian_city_0"
+ 0,  1, "city.asian_city_5"
+ 0,  2, "city.asian_city_10"
  ;1,  3, "city.asian_wall"
- 0,  4, "city.asian_occupied"
- 0,  5, "city.asian_0_wall"
- 0,  6, "city.asian_5_wall"
- 0,  7, "city.asian_10_wall"
+ 0,  4, "city.asian_occupied_0"
+ 0,  5, "city.asian_wall_0"
+ 0,  6, "city.asian_wall_5"
+ 0,  7, "city.asian_wall_10"
    
 
- 1,  0, "city.tropical_0"
- 1,  1, "city.tropical_5"
- 1,  2, "city.tropical_10"
+ 1,  0, "city.tropical_city_0"
+ 1,  1, "city.tropical_city_5"
+ 1,  2, "city.tropical_city_10"
  ;5,  3, "city.tropical_wall"
- 1,  4, "city.tropical_occupied"
- 1,  5, "city.tropical_0_wall"
- 1,  6, "city.tropical_5_wall"
- 1,  7, "city.tropical_10_wall"
+ 1,  4, "city.tropical_occupied_0"
+ 1,  5, "city.tropical_wall_0"
+ 1,  6, "city.tropical_wall_5"
+ 1,  7, "city.tropical_wall_10"
    
 }

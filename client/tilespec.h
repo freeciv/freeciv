@@ -123,8 +123,6 @@ void tileset_setup_tile_type(struct tileset *t,
 void tileset_setup_government(struct tileset *t, int id);
 void tileset_setup_nation_flag(struct tileset *t, int id);
 void tileset_setup_city_tiles(struct tileset *t, int style);
-void tileset_alloc_city_tiles(struct tileset *t, int count);
-void tileset_free_city_tiles(struct tileset *t, int count);
 
 /* Gfx support */
 

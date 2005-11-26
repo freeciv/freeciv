@@ -39,11 +39,11 @@ tiles = { "row", "column", "tag"
 0, 11, "cd.occupied"
 
 ; City occupied flags
-0, 11, "city.european_occupied"
-0, 11, "city.classical_occupied"
-0, 11, "city.industrial_occupied"
-0, 11, "city.modern_occupied"
-0, 11, "city.postmodern_occupied"
+0, 11, "city.european_occupied_0"
+0, 11, "city.classical_occupied_0"
+0, 11, "city.industrial_occupied_0"
+0, 11, "city.modern_occupied_0"
+0, 11, "city.postmodern_occupied_0"
 0, 11, "cd.occupied"
 
 }

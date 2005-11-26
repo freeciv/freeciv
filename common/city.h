@@ -307,10 +307,6 @@ struct city {
   bool debug;
 };
 
-/* city drawing styles */
-
-#define MAX_CITY_TILES 8
-
 struct citystyle {
   const char *name; /* Translated string - doesn't need freeing. */
   char name_orig[MAX_LEN_NAME];	      /* untranslated */
@@ -320,9 +316,6 @@ struct citystyle {
   char citizens_graphic_alt[MAX_LEN_NAME];
   struct requirement_vector reqs;
   int replaced_by;              /* index to replacing style          */
-                                /* client side-only:                 */
-  int tresh[MAX_CITY_TILES];    /* treshholds - what city size to use a tile */
-  int tiles_num;                /* number of "normal" city tiles,    */
 };                              /* not incl. wall and occupied tiles */
 
 extern struct citystyle *city_styles;

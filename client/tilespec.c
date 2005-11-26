@@ -111,6 +111,16 @@ struct terrain_drawing_data {
   struct sprite *mine;
 };
 
+struct city_sprite {
+  struct {
+    int num_thresholds;
+    struct {
+      int city_size;
+      struct sprite *sprite;
+    } *thresholds;
+  } *styles;
+};
+
 struct named_sprites {
   struct sprite
     *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
@@ -200,15 +210,16 @@ struct named_sprites {
   } upkeep;
   struct {
     struct sprite
-      *occupied,
       *disorder,
       *size[NUM_TILES_DIGITS],
       *size_tens[NUM_TILES_DIGITS],		/* first unused */
       *tile_foodnum[NUM_TILES_DIGITS],
       *tile_shieldnum[NUM_TILES_DIGITS],
-      *tile_tradenum[NUM_TILES_DIGITS],
-      ***tile_wall,      /* only used for isometric view */
-      ***tile;
+      *tile_tradenum[NUM_TILES_DIGITS];
+    struct city_sprite
+      *tile,
+      *wall,
+      *occupied;
     struct sprite_vector worked_tile_overlay;
     struct sprite_vector unworked_tile_overlay;
   } city;
@@ -393,7 +404,7 @@ struct tileset {
 
 struct tileset *tileset;
 
-#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Oct.9"
+#define TILESPEC_CAPSTR "+tilespec3 duplicates_ok +Freeciv.Devel.2005.Nov.25"
 /*
  * Tilespec capabilities acceptable to this program:
  *
@@ -888,7 +899,6 @@ void tilespec_reread(const char *new_tileset_name)
    * We free all old data in preparation for re-reading it.
    */
   tileset_free_tiles(tileset);
-  tileset_free_city_tiles(tileset, game.control.styles_count);
   tileset_free_toplevel(tileset);
 
   /* Step 2:  Read.
@@ -947,9 +957,6 @@ void tilespec_reread(const char *new_tileset_name)
     tileset_setup_specialist_type(tileset, sp);
   } specialist_type_iterate_end;
 
-  /* tilespec_load_tiles reverts the city tile pointers to 0.  This
-     is a workaround. */
-  tileset_alloc_city_tiles(tileset, game.control.styles_count);
   for (id = 0; id < game.control.styles_count; id++) {
     tileset_setup_city_tiles(tileset, id);
   }
@@ -1855,6 +1862,105 @@ static void tileset_setup_citizen_types(struct tileset *t)
   }
 }
 
+/****************************************************************************
+  Return the sprite in the city_sprite listing that corresponds to this
+  city - based on city style and size.
+
+  See also load_city_sprite, free_city_sprite.
+****************************************************************************/
+static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
+				      const struct city *pcity)
+{
+  /* get style and match the best tile based on city size */
+  int style = get_city_style(pcity);
+  int num_thresholds = city_sprite->styles[style].num_thresholds;
+  int t;
+
+  if (num_thresholds == 0) {
+    return NULL;
+  }
+
+  for (t = 0; t < num_thresholds - 1; t++) {
+    if (pcity->size < city_sprite->styles[style].thresholds[t].city_size) {
+      break;
+    }
+  }
+
+  return city_sprite->styles[style].thresholds[t].sprite;
+}
+
+/****************************************************************************
+  Allocates and loads a new city sprite from the given sprite tags.
+
+  tag may be NULL.
+
+  See also get_city_sprite, free_city_sprite.
+****************************************************************************/
+static struct city_sprite *load_city_sprite(struct tileset *t,
+					    const char *tag)
+{
+  struct city_sprite *city_sprite = fc_malloc(sizeof(*city_sprite));
+  int style, size;
+  char buffer[128];
+
+  city_sprite->styles = fc_malloc(game.control.styles_count
+				  * sizeof(*city_sprite->styles));
+
+  for (style = 0; style < game.control.styles_count; style++) {
+    int thresholds = 0;
+    struct sprite *sprite;
+    char *graphic = city_styles[style].graphic;
+
+    city_sprite->styles[style].thresholds = NULL;
+    for (size = 0; size < MAX_CITY_SIZE; size++) {
+      my_snprintf(buffer, sizeof(buffer), "%s_%s_%d",
+		  graphic, tag, size);
+      if ((sprite = load_sprite(t, buffer))) {
+	thresholds++;
+	city_sprite->styles[style].thresholds
+	  = fc_realloc(city_sprite->styles[style].thresholds,
+		       thresholds
+		       * sizeof(*city_sprite->styles[style].thresholds));
+	city_sprite->styles[style].thresholds[thresholds - 1].city_size = size;
+	city_sprite->styles[style].thresholds[thresholds - 1].sprite = sprite;
+      } else if (size == 0) {
+	if (graphic == city_styles[style].graphic) {
+	  /* Try again with graphic_alt. */
+	  size--;
+	  graphic = city_styles[style].graphic_alt;
+	} else {
+	  /* Don't load any others if the 0 element isn't there. */
+	  break;
+	}
+      }
+    }
+    city_sprite->styles[style].num_thresholds = thresholds;
+  }
+
+  return city_sprite;
+}
+
+/****************************************************************************
+  Frees a city sprite.
+
+  See also get_city_sprite, load_city_sprite.
+****************************************************************************/
+static void free_city_sprite(struct city_sprite *city_sprite)
+{
+  int style;
+
+  if (!city_sprite) {
+    return;
+  }
+  for (style = 0; style < game.control.styles_count; style++) {
+    if (city_sprite->styles[style].thresholds) {
+      free(city_sprite->styles[style].thresholds);
+    }
+  }
+  free(city_sprite->styles);
+  free(city_sprite);
+}
+
 /**********************************************************************
   Initialize 'sprites' structure based on hardwired tags which
   freeciv always requires. 
@@ -2322,8 +2428,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   }
 
   /* no other place to initialize these variables */
-  t->sprites.city.tile_wall = NULL;
-  t->sprites.city.tile = NULL;
   sprite_vector_init(&t->sprites.nation_flag);
   sprite_vector_init(&t->sprites.nation_shield);
 }
@@ -2726,54 +2830,6 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
   } else {
     return t->sprites.nation_flag.p[pnation->index];
   }
-}
-
-/**************************************************************************
-Return the sprite needed to draw the city
-**************************************************************************/
-static struct sprite *get_city_sprite(const struct tileset *t,
-				      const struct city *pcity)
-{
-  int size, style;
-
-  style = get_city_style(pcity);    /* get style and match the best tile */
-                                    /* based on city size                */
-  for( size=0; size < city_styles[style].tiles_num; size++)
-    if( pcity->size < city_styles[style].tresh[size]) 
-      break;
-
-  if (t->is_isometric) {
-    if (city_got_citywalls(pcity)) {
-      return t->sprites.city.tile_wall[style][size - 1];
-    } else {
-      return t->sprites.city.tile[style][size - 1];
-    }
-  } else {
-    return t->sprites.city.tile[style][size - 1];
-  }
-}
-
-/**************************************************************************
-Return the sprite needed to draw the city wall
-Not used for isometric view.
-**************************************************************************/
-static struct sprite *get_city_wall_sprite(const struct tileset *t,
-					   const struct city *pcity)
-{
-  int style = get_city_style(pcity);
-
-  return t->sprites.city.tile[style][city_styles[style].tiles_num];
-}
-
-/**************************************************************************
-Return the sprite needed to draw the occupied tile
-**************************************************************************/
-static struct sprite *get_city_occupied_sprite(const struct tileset *t,
-					       const struct city *pcity)
-{
-  int style = get_city_style(pcity);
-
-  return t->sprites.city.tile[style][city_styles[style].tiles_num + 1];
 }
 
 #define FULL_TILE_X_OFFSET ((t->normal_tile_width - t->full_tile_width) / 2)
@@ -3983,13 +4039,20 @@ int fill_sprite_array(struct tileset *t,
 		   FULL_TILE_X_OFFSET + t->city_flag_offset_x,
 		   FULL_TILE_Y_OFFSET + t->city_flag_offset_y);
       }
-      ADD_SPRITE_FULL(get_city_sprite(t, pcity));
+      /* For iso-view the city.wall graphics include the full city, whereas
+       * for non-iso view they are an overlay on top of the base city
+       * graphic. */
+      if (!t->is_isometric || !city_got_citywalls(pcity)) {
+	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.tile, pcity));
+      }
+      if (t->is_isometric && city_got_citywalls(pcity)) {
+	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
+      }
       if (!draw_full_citybar && pcity->client.occupied) {
-	ADD_SPRITE_FULL(get_city_occupied_sprite(t, pcity));
+	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.occupied, pcity));
       }
       if (!t->is_isometric && city_got_citywalls(pcity)) {
-	/* In iso-view the city wall is a part of the city sprite. */
-	ADD_SPRITE_SIMPLE(get_city_wall_sprite(t, pcity));
+	ADD_SPRITE_FULL(get_city_sprite(t->sprites.city.wall, pcity));
       }
       if (pcity->client.unhappy) {
 	ADD_SPRITE_FULL(t->sprites.city.disorder);
@@ -4091,140 +4154,31 @@ int fill_sprite_array(struct tileset *t,
   Set city tiles sprite values; should only happen after
   tilespec_load_tiles().
 ***********************************************************************/
-static void tileset_setup_style_tile(struct tileset *t,
-				     int style, char *graphics)
-{
-  struct sprite *sp;
-  char buffer[128];
-  int j;
-  struct sprite *sp_wall = NULL;
-  char buffer_wall[128];
-
-  city_styles[style].tiles_num = 0;
-
-  for(j=0; j<32 && city_styles[style].tiles_num < MAX_CITY_TILES; j++) {
-    my_snprintf(buffer, sizeof(buffer), "%s_%d", graphics, j);
-    sp = load_sprite(t, buffer);
-    if (t->is_isometric) {
-      my_snprintf(buffer, sizeof(buffer_wall), "%s_%d_wall", graphics, j);
-      sp_wall = load_sprite(t, buffer);
-    }
-    if (sp) {
-      t->sprites.city.tile[style][city_styles[style].tiles_num] = sp;
-      if (t->is_isometric) {
-	assert(sp_wall != NULL);
-	t->sprites.city.tile_wall[style][city_styles[style].tiles_num]
-	  = sp_wall;
-      }
-      city_styles[style].tresh[city_styles[style].tiles_num] = j;
-      city_styles[style].tiles_num++;
-      freelog(LOG_DEBUG, "Found tile %s_%d", graphics, j);
-    }
-  }
-
-  if(city_styles[style].tiles_num == 0)      /* don't waste more time */
-    return;
-
-  if (!t->is_isometric) {
-    /* the wall tile */
-    my_snprintf(buffer, sizeof(buffer), "%s_wall", graphics);
-    sp = load_sprite(t, buffer);
-    if (sp) {
-      t->sprites.city.tile[style][city_styles[style].tiles_num] = sp;
-    } else {
-      freelog(LOG_NORMAL, "Warning: no wall tile for graphic %s", graphics);
-    }
-  }
-
-  /* occupied tile */
-  my_snprintf(buffer, sizeof(buffer), "%s_occupied", graphics);
-  sp = load_sprite(t, buffer);
-  if (sp) {
-    t->sprites.city.tile[style][city_styles[style].tiles_num + 1] = sp;
-  } else {
-    freelog(LOG_NORMAL, "Warning: no occupied tile for graphic %s", graphics);
-  }
-}
-
-/**********************************************************************
-  Set city tiles sprite values; should only happen after
-  tilespec_load_tiles().
-***********************************************************************/
 void tileset_setup_city_tiles(struct tileset *t, int style)
 {
-  tileset_setup_style_tile(t, style, city_styles[style].graphic);
+  if (style == game.control.styles_count - 1) {
+    t->sprites.city.tile = load_city_sprite(t, "city");
+    t->sprites.city.wall = load_city_sprite(t, "wall");
+    t->sprites.city.occupied = load_city_sprite(t, "occupied");
 
-  if (city_styles[style].tiles_num == 0) {
-    /* no tiles found, try alternate */
-    freelog(LOG_NORMAL, "No tiles for %s style, trying alternate %s style",
-            city_styles[style].graphic, city_styles[style].graphic_alt);
-
-    tileset_setup_style_tile(t, style, city_styles[style].graphic_alt);
-  }
-
-  if (city_styles[style].tiles_num == 0) {
-      /* no alternate, use default */
-
-    freelog(LOG_NORMAL,
-	    "No tiles for alternate %s style, using default tiles",
-            city_styles[style].graphic_alt);
-
-    t->sprites.city.tile[style][0] = load_sprite(t, "cd.city");
-    t->sprites.city.tile[style][1] = load_sprite(t, "cd.city_wall");
-    t->sprites.city.tile[style][2] = load_sprite(t, "cd.occupied");
-    city_styles[style].tiles_num = 1;
-    city_styles[style].tresh[0] = 0;
-  }
-}
-
-/**********************************************************************
-  alloc memory for city tiles sprites
-***********************************************************************/
-void tileset_alloc_city_tiles(struct tileset *t, int count)
-{
-  int i;
-
-  if (t->is_isometric) {
-    t->sprites.city.tile_wall
-      = fc_calloc(count, sizeof(*t->sprites.city.tile_wall));
-  } else {
-    t->sprites.city.tile_wall = NULL;
-  }
-  t->sprites.city.tile = fc_calloc(count, sizeof(*t->sprites.city.tile));
-
-  for (i = 0; i < count; i++) {
-    if (t->is_isometric) {
-      t->sprites.city.tile_wall[i]
-	= fc_calloc(MAX_CITY_TILES + 2,
-		    sizeof(*t->sprites.city.tile_wall[0]));
+    for (style = 0; style < game.control.styles_count; style++) {
+      if (t->sprites.city.tile->styles[style].num_thresholds == 0) {
+	freelog(LOG_ERROR, "No city graphics for %s style.",
+		city_styles[style].name);
+	exit(EXIT_FAILURE);
+      }
+      if (t->sprites.city.wall->styles[style].num_thresholds == 0) {
+	freelog(LOG_ERROR, "No wall graphics for %s style.",
+		city_styles[style].name);
+	exit(EXIT_FAILURE);
+      }
+      if (t->sprites.city.occupied->styles[style].num_thresholds == 0) {
+	freelog(LOG_ERROR, "No occupied graphics for %s style.",
+		city_styles[style].name);
+	exit(EXIT_FAILURE);
+      }
     }
-    t->sprites.city.tile[i]
-      = fc_calloc(MAX_CITY_TILES + 2, sizeof(*t->sprites.city.tile[0]));
   }
-}
-
-/**********************************************************************
-  alloc memory for city tiles sprites
-***********************************************************************/
-void tileset_free_city_tiles(struct tileset *t, int count)
-{
-  int i;
-
-  for (i = 0; i < count; i++) {
-    if (t->is_isometric) {
-      free(t->sprites.city.tile_wall[i]);
-      t->sprites.city.tile_wall[i] = NULL;
-    }
-    free(t->sprites.city.tile[i]);
-    t->sprites.city.tile[i] = NULL;
-  }
-
-  if (t->is_isometric) {
-    free(t->sprites.city.tile_wall);
-    t->sprites.city.tile_wall = NULL;
-  }
-  free(t->sprites.city.tile);
-  t->sprites.city.tile = NULL;
 }
 
 /****************************************************************************
@@ -4325,6 +4279,13 @@ void tileset_free_tiles(struct tileset *t)
   freelog(LOG_DEBUG, "tilespec_free_tiles");
 
   unload_all_sprites(t);
+
+  free_city_sprite(t->sprites.city.tile);
+  t->sprites.city.tile = NULL;
+  free_city_sprite(t->sprites.city.wall);
+  t->sprites.city.wall = NULL;
+  free_city_sprite(t->sprites.city.occupied);
+  t->sprites.city.occupied = NULL;
 
   if (t->sprite_hash) {
     const int entries = hash_num_entries(t->sprite_hash);
@@ -4489,9 +4450,14 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
 struct sprite *get_sample_city_sprite(const struct tileset *t,
 				      int city_style)
 {
-  int index = city_styles[city_style].tiles_num - 1;
+  int num_thresholds = t->sprites.city.tile->styles[city_style].num_thresholds;
 
-  return t->sprites.city.tile[city_style][index];
+  if (num_thresholds == 0) {
+    return NULL;
+  } else {
+    return (t->sprites.city.tile->styles[city_style]
+	    .thresholds[num_thresholds - 1].sprite);
+  }
 }
 
 /**************************************************************************
