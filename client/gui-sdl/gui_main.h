@@ -24,6 +24,9 @@
 
 #include "gui_main_g.h"
 
+/* enable this to adjust sizes for 320x240 resolution */
+/*#define SMALL_SCREEN*/
+
 /* #define DEBUG_SDL */
 
 /* SDL client Flags */
@@ -43,8 +46,6 @@
 #define CF_CITY_STATUS_SPECIAL		(1<<12)
 #define CF_CHANGE_TAXRATE_LUX_BLOCK	(1<<13)
 #define CF_CHANGE_TAXRATE_SCI_BLOCK	(1<<14)
-#define CF_CIV3_CITY_TEXT_STYLE		(1<<15)
-#define CF_DRAW_MAP_DITHER		(1<<16)
 #define CF_DRAW_CITY_GRID		(1<<17)
 #define CF_DRAW_CITY_WORKER_GRID	(1<<18)
 #define CF_DRAW_PLAYERS_WAR_STATUS	(1<<19)
@@ -62,6 +63,8 @@ extern bool LCTRL;
 extern bool RCTRL;
 extern bool LALT;
 extern bool do_focus_animation;
+extern int city_names_font_size;
+extern int city_productions_font_size;
 
 void force_exit_from_event_loop(void);
 void add_autoconnect_to_timer(void);
@@ -79,5 +82,12 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
 	Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
         Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent, void *pData),
         Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent, void *pData));
+
+/* shrink sizes for 320x240 screen */
+#ifdef SMALL_SCREEN
+  #define adj_size(size) (size) / 2
+#else
+  #define adj_size(size) (size)
+#endif
 
 #endif	/* FC__GUI_MAIN_H */

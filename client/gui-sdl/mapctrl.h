@@ -26,11 +26,31 @@
 
 #include "mapctrl_g.h"
 
-#define BLOCK_W			30
-#define HIDDEN_UNITS_W		36  /* BLOCK_W + DOUBLE_FRAME_WH */
-#define HIDDEN_MINI_MAP_W	36  /* BLOCK_W + DOUBLE_FRAME_WH */
-#define DEFAULT_UNITS_W		196 /* 160 + BLOCK_W + DOUBLE_FRAME_WH */
-#define DEFAULT_UNITS_H		106 /* 100 + DOUBLE_FRAME_WH */
+#ifdef SMALL_SCREEN
+
+#define BLOCKM_W		28
+#define BLOCKU_W                15
+#define DEFAULT_MINI_MAP_W	78 + BLOCKM_W + DOUBLE_FRAME_WH
+#define DEFAULT_MINI_MAP_H	52 + DOUBLE_FRAME_WH
+#define DEFAULT_UNITS_W		78 + BLOCKU_W + DOUBLE_FRAME_WH
+#define DEFAULT_UNITS_H		52 + DOUBLE_FRAME_WH
+
+#else
+
+#define BLOCKM_W		56
+#define BLOCKU_W                30
+#define DEFAULT_MINI_MAP_W	156 + BLOCKM_W + DOUBLE_FRAME_WH
+#define DEFAULT_MINI_MAP_H	104 + DOUBLE_FRAME_WH
+#define DEFAULT_UNITS_W		156 + BLOCKU_W + DOUBLE_FRAME_WH
+#define DEFAULT_UNITS_H		104 + DOUBLE_FRAME_WH
+
+#endif
+
+#define HIDDEN_MINI_MAP_W	BLOCKM_W + DOUBLE_FRAME_WH
+#define HIDDEN_UNITS_W		BLOCKU_W + DOUBLE_FRAME_WH
+
+extern int MINI_MAP_W;
+extern int MINI_MAP_H;
 
 void popdown_newcity_dialog(void);
 

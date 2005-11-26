@@ -40,7 +40,7 @@
 #include "gui_string.h"
 
 #define DEFAULT_PTSIZE	18
-#define FONT_NAME "stdfont.ttf"
+#define FONT_NAME "fonts/Vera.ttf"
 
 /* =================================================== */
 
@@ -59,6 +59,35 @@ static TTF_Font *load_font(Uint16 ptsize);
 static SDL_Surface *create_str16_surf(SDL_String16 * pString);
 static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString);
 
+/**************************************************************************
+  ...
+**************************************************************************/
+#ifdef SMALL_SCREEN
+int adj_font(int size) {
+  switch(size) {
+    case 24:
+      return 12;
+    case 20:
+      return 12;
+    case 16:
+      return 10;      
+    case 14:
+      return 8;
+    case 13:
+      return 8;
+    case 12:
+      return 8;
+    case 11:
+      return 7;
+    case 10:
+      return 7;
+    case 8:
+      return 6;
+    default:
+      return size;    
+  }
+}
+#endif
 
 /**************************************************************************
   ...
@@ -594,8 +623,11 @@ static TTF_Font * load_font(Uint16 ptsize)
   if(!pFont_with_FullPath) {
     char *path = datafilename(FONT_NAME);
     if(!path) {
+      path = datafilename("stdfont.ttf");
+      if (!path) {
       die(_("Couldn't find stdfont.ttf file. Please link/copy/move any"
             "unicode ttf font to data dir as stdfont.ttf"));
+    }
     }
     pFont_with_FullPath = mystrdup(path);
     assert(pFont_with_FullPath != NULL);

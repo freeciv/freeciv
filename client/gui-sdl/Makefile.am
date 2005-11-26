@@ -81,6 +81,7 @@ libguiclient_a_SOURCES = \
 	resources.h	\
 	spaceshipdlg.c	\
 	spaceshipdlg.h  \
+	themes.c	\
 	wldlg.c		\
 	wldlg.h		\
 	gui_string.c	\

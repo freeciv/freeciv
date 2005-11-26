@@ -39,28 +39,33 @@
 #include "gui_main.h"
 #include "graphics.h"
 #include "gui_zoom.h"
+#include "game.h"
 
 #include "gui_tilespec.h"
 
-extern SDL_Surface *pDitherMask;
+struct sprite* lookup_sprite_tag_alt(struct tileset *t,
+					    const char *tag, const char *alt,
+					    bool required, const char *what,
+					    const char *name);
 
-static struct {
-    /* Each citizen type has up to MAX_NUM_CITIZEN_SPRITES different
-     * sprites, as defined by the tileset. */
-    int count;
-    SDL_Surface *surface[MAX_NUM_CITIZEN_SPRITES];
-  } citizen[NUM_TILES_CITIZEN];
-
-
-#define load_GUI_surface(pSpr, pStruct, pSurf, tag)		\
-do {								\
-  pSpr = load_sprite(tileset, tag);					\
+#ifdef SMALL_SCREEN
+  #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
+  do {								  \
+    pSpr = lookup_sprite_tag_alt(tileset, tag, "", TRUE, "", ""); \
   pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		\
   assert(pStruct->pSurf != NULL);				\
+    pStruct->pSurf = ZoomSurface(pStruct->pSurf, 0.5, 0.5, 0);    \
   pSpr->psurface = NULL;					\
-  unload_sprite(tileset, tag);						\
-} while(0)
-
+  } while(0)
+#else
+  #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
+  do {								  \
+    pSpr = lookup_sprite_tag_alt(tileset, tag, "", TRUE, "", ""); \
+    pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		  \
+    assert(pStruct->pSurf != NULL);				  \
+    pSpr->psurface = NULL;					  \
+  } while(0)
+#endif
 
 #define load_theme_surface(pSpr, pSurf, tag)		\
 	load_GUI_surface(pSpr, pTheme, pSurf, tag)
@@ -76,105 +81,6 @@ do {							\
     SDL_SetAlpha(pTheme->pSurf, 0x0 , 0x0);		\
   }							\
 } while(0)
-
-/**********************************************************************
-  Returns a text name for the citizen, as used in the tileset.
-***********************************************************************/
-static const char *get_citizen_name(struct citizen_type citizen)
-{
-  /* These strings are used in reading the tileset.  Do not
-   * translate. */
-  switch (citizen) {
-  case CITIZEN_ELVIS:
-    return "entertainer";
-  case CITIZEN_SCIENTIST:
-    return "scientist";
-  case CITIZEN_TAXMAN:
-    return "tax_collector";
-  case CITIZEN_HAPPY:
-    return "happy";
-  case CITIZEN_CONTENT:
-    return "content";
-  case CITIZEN_UNHAPPY:
-    return "unhappy";
-  case CITIZEN_ANGRY:
-    return "angry";
-  default:
-    die("unknown citizen type %d", (int) citizen);
-  }
-  return NULL;
-}
-
-/*******************************************************************************
- * reload citizens "style" icons.
- *******************************************************************************/
-static void real_reload_citizens_icons(int style)
-{
-  char tag[64];
-  char alt_buf[32] = ".";
-  int i , j;
-  struct sprite *pSpr = NULL;
-    
-  if (strcmp("generic" , city_styles[style].citizens_graphic_alt))
-  {
-    my_snprintf(alt_buf , sizeof(alt_buf) , ".%s_",
-                       city_styles[style].citizens_graphic_alt ); 
-  }
-	
-  /* Load the citizen sprite graphics. */
-  for (i = 0; i < NUM_TILES_CITIZEN; i++) {
-	  
-    my_snprintf(tag, sizeof(tag), "citizen.%s_%s",
-	  city_styles[style].citizens_graphic , get_citizen_name(i));  
-    
-    
-    pSpr = load_sprite(tileset, tag);
-    if(!pSpr) {
-      freelog(LOG_DEBUG,"Can't find %s", tag);
-      my_snprintf(tag, sizeof(tag), "citizen%s%s", alt_buf ,get_citizen_name(i));  
-      freelog(LOG_DEBUG,"Trying load alternative %s", tag);
-      pSpr = load_sprite(tileset, tag);
-    }
-    
-    FREESURFACE(citizen[i].surface[0]);
-    citizen[i].surface[0] = (pSpr ? GET_SURF(pSpr) : NULL);
-    
-    if (citizen[i].surface[0]) {
-      /* If this form exists, use it as the only sprite.  This allows
-       * backwards compatability with tilesets that use e.g.,
-       * citizen.entertainer. */
-      citizen[i].count = 1;
-      pSpr->psurface = NULL;
-      unload_sprite(tileset, tag);
-      continue;
-    }
-    for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
-      my_snprintf(tag, sizeof(tag), "citizen.%s_%s_%d",
-	  city_styles[style].citizens_graphic ,get_citizen_name(i) , j );
-      
-      pSpr = load_sprite(tileset, tag);
-      if(!pSpr) {
-        freelog(LOG_DEBUG,"Can't find %s", tag);
-        my_snprintf(tag, sizeof(tag), "citizen%s%s_%d", alt_buf,
-	    				get_citizen_name(i), j);
-        freelog(LOG_DEBUG,"Trying load alternative %s", tag);
-        pSpr = load_sprite(tileset, tag);
-      }
-      
-      FREESURFACE(citizen[i].surface[j]);
-      citizen[i].surface[j] = (pSpr ? GET_SURF(pSpr) : NULL);
-      if (!citizen[i].surface[j]) {
-	break;
-      }
-      pSpr->psurface = NULL;
-      unload_sprite(tileset, tag);
-    }
-    citizen[i].count = j;
-    assert(j > 0);
-  }	
-
-}
-
 
 /*******************************************************************************
  * reload small citizens "style" icons.
@@ -197,58 +103,91 @@ static void reload_small_citizens_icons(int style)
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
 
   /* allocate icons */
-  pIcons->pMale_Happy =
-    ResizeSurface(get_citizen_surface(CITIZEN_HAPPY, 0), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pMale_Happy = ZoomSurface(get_citizen_surface(CITIZEN_HAPPY, 0), 0.5, 0.5, 0);
+  #else
+  pIcons->pMale_Happy = get_citizen_surface(CITIZEN_HAPPY, 0);
+  #endif
   SDL_SetColorKey(pIcons->pMale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pMale_Happy));
     
-  pIcons->pFemale_Happy =
-    ResizeSurface(get_citizen_surface(CITIZEN_HAPPY, 1), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pFemale_Happy = ZoomSurface(get_citizen_surface(CITIZEN_HAPPY, 1), 0.5, 0.5, 0);
+  #else
+  pIcons->pFemale_Happy = get_citizen_surface(CITIZEN_HAPPY, 1);
+  #endif
   SDL_SetColorKey(pIcons->pFemale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Happy));
     
-  pIcons->pMale_Content =
-    ResizeSurface(get_citizen_surface(CITIZEN_CONTENT, 0), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pMale_Content = ZoomSurface(get_citizen_surface(CITIZEN_CONTENT, 0), 0.5, 0.5, 0);
+  #else    
+  pIcons->pMale_Content = get_citizen_surface(CITIZEN_CONTENT, 0);
+  #endif
   SDL_SetColorKey( pIcons->pMale_Content , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pMale_Content ));
     
-  pIcons->pFemale_Content =
-    ResizeSurface(get_citizen_surface(CITIZEN_CONTENT, 1), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pFemale_Content = ZoomSurface(get_citizen_surface(CITIZEN_CONTENT, 1), 0.5, 0.5, 0);
+  #else    
+  pIcons->pFemale_Content = get_citizen_surface(CITIZEN_CONTENT, 1);
+  #endif
   SDL_SetColorKey(pIcons->pFemale_Content, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Content));
     
-  pIcons->pMale_Unhappy =
-    ResizeSurface(get_citizen_surface(CITIZEN_UNHAPPY, 0), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pMale_Unhappy = ZoomSurface(get_citizen_surface(CITIZEN_UNHAPPY, 0), 0.5, 0.5, 0);
+  #else    
+  pIcons->pMale_Unhappy = get_citizen_surface(CITIZEN_UNHAPPY, 0);
+  #endif
   SDL_SetColorKey(pIcons->pMale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    get_first_pixel(pIcons->pMale_Unhappy));
     
-  pIcons->pFemale_Unhappy =
-    ResizeSurface(get_citizen_surface(CITIZEN_UNHAPPY, 1), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pFemale_Unhappy = ZoomSurface(get_citizen_surface(CITIZEN_UNHAPPY, 1), 0.5, 0.5, 0);
+  #else    
+  pIcons->pFemale_Unhappy = get_citizen_surface(CITIZEN_UNHAPPY, 1);
+  #endif
   SDL_SetColorKey(pIcons->pFemale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Unhappy));
     
-  pIcons->pMale_Angry =
-    ResizeSurface(get_citizen_surface(CITIZEN_ANGRY, 0), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pMale_Angry = ZoomSurface(get_citizen_surface(CITIZEN_ANGRY, 0), 0.5, 0.5, 0);
+  #else    
+  pIcons->pMale_Angry = get_citizen_surface(CITIZEN_ANGRY, 0);
+  #endif
   SDL_SetColorKey(pIcons->pMale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    get_first_pixel(pIcons->pMale_Angry));
     
-  pIcons->pFemale_Angry =
-    ResizeSurface(get_citizen_surface(CITIZEN_ANGRY, 1), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pFemale_Angry = ZoomSurface(get_citizen_surface(CITIZEN_ANGRY, 1), 0.5, 0.5, 0);
+  #else    
+  pIcons->pFemale_Angry = get_citizen_surface(CITIZEN_ANGRY, 1);
+  #endif
   SDL_SetColorKey(pIcons->pFemale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Angry));
     
-  pIcons->pSpec_Lux =
-    ResizeSurface(get_citizen_surface(CITIZEN_ELVIS, 0), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pSpec_Lux = ZoomSurface(GET_SURF(get_tax_sprite(tileset, O_LUXURY)), 0.5, 0.5, 0);
+  #else    
+  pIcons->pSpec_Lux = GET_SURF(get_tax_sprite(tileset, O_LUXURY));
+  #endif
   SDL_SetColorKey(pIcons->pSpec_Lux , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pSpec_Lux));
     
-  pIcons->pSpec_Tax =
-    ResizeSurface(get_citizen_surface(CITIZEN_TAXMAN, 0), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pSpec_Tax = ZoomSurface(GET_SURF(get_tax_sprite(tileset, O_GOLD)), 0.5, 0.5, 0);
+  #else    
+  pIcons->pSpec_Tax = GET_SURF(get_tax_sprite(tileset, O_GOLD));
+  #endif
   SDL_SetColorKey(pIcons->pSpec_Tax, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pSpec_Tax));
     
-  pIcons->pSpec_Sci =
-    ResizeSurface(get_citizen_surface(CITIZEN_SCIENTIST, 0), 15, 26, 1);
+  #ifdef SMALL_SCREEN
+  pIcons->pSpec_Sci = ZoomSurface(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)), 0.5, 0.5, 0);  
+  #else    
+  pIcons->pSpec_Sci = GET_SURF(get_tax_sprite(tileset, O_SCIENCE));
+  #endif
   SDL_SetColorKey(pIcons->pSpec_Sci, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pSpec_Sci));
     
@@ -264,9 +203,22 @@ static void reload_small_citizens_icons(int style)
 ***********************************************************************/
 void reload_citizens_icons(int style)
 {
-  real_reload_citizens_icons(style);
   reload_small_citizens_icons(style);
   pIcons->style = style;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void tilespec_setup_city_gfx(void) {
+  struct sprite *pSpr = lookup_sprite_tag_alt(tileset, "theme.city", "", TRUE, "", "");    
+  pCity_Surf = (pSpr ? GET_SURF(pSpr) : NULL);
+  
+  #ifdef SMALL_SCREEN
+  pCity_Surf = ZoomSurface(pCity_Surf, 0.5, 0.5, 0);
+  #endif
+  
+  assert(pCity_Surf != NULL);
 }
 
 /**********************************************************************
@@ -275,7 +227,7 @@ void reload_citizens_icons(int style)
 ***********************************************************************/
 void tilespec_setup_city_icons(void)
 {
-  int i, j;
+
   struct sprite *pSpr = NULL;
   
   pIcons = ( struct City_Icon *)MALLOC( sizeof( struct City_Icon ));
@@ -323,13 +275,8 @@ void tilespec_setup_city_icons(void)
   putline(pIcons->pWorklist, 3, 2, 5, 2, 0xFF000000);
   putline(pIcons->pWorklist, 3, 4, 7, 4, 0xFF000000);
   putline(pIcons->pWorklist, 3, 6, 6, 6, 0xFF000000);
+  
   /* ================================================================= */
-  /* clear all citizens icons pointer */
-  for (i = 0; i < NUM_TILES_CITIZEN; i++) {
-    for (j = 0; j < MAX_NUM_CITIZEN_SPRITES; j++) {
-      citizen[i].surface[j] = NULL;
-    }
-  }
   
   /* force reload citizens icons */
   pIcons->style = 999;
@@ -396,7 +343,7 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!sprite_exists("theme.tech_tree")) {
+  if(!lookup_sprite_tag_alt(tileset, "theme.tech_tree", "", FALSE, "", "")) {  
     freelog(LOG_FATAL, "Your current tileset don't contains ""all"" GUI theme graphic\n"
     "Please use other tileset with ""full"" GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
@@ -500,22 +447,6 @@ void tilespec_setup_theme(void)
   
   /* ------------------------------ */
     
-  /* Map Dithering */
-  
-    if (tileset_is_isometric(tileset))
-    {
-      pBuf = sprites.dither_tile;
-      pDitherMask = GET_SURF(pBuf);
-      pBuf->psurface = NULL;
-      unload_sprite(tileset, "t.dither_tile");
-      assert(pDitherMask != NULL);	  
-  /* ------------------------------ */
-  /* Map Borders */
-      load_theme_surface(pBuf, NWEST_BORDER_Icon, "theme.normal_border_iso_west");
-      load_theme_surface(pBuf, NNORTH_BORDER_Icon, "theme.normal_border_iso_north");
-      load_theme_surface(pBuf, NSOUTH_BORDER_Icon, "theme.normal_border_iso_south");
-      load_theme_surface(pBuf, NEAST_BORDER_Icon, "theme.normal_border_iso_east");
-    }
   return;
 }
 
@@ -560,7 +491,7 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
 do { \
   iter = 0;	\
   my_snprintf(cBuf , sizeof(cBuf), "%s_%d", Tag, iter);	\
-  while(sprite_exists(cBuf)) {	\
+    while(lookup_sprite_tag_alt(tileset, cBuf, "", FALSE, "", "")) { \
     iter++;	\
     my_snprintf(cBuf , sizeof(cBuf), "%s_%d", Tag, iter);	\
   }	\
@@ -569,7 +500,7 @@ do { \
     pAnim->Cursors.Type = CALLOC(num + 1, sizeof(SDL_Cursor *));	\
     for( iter=0; iter<num; iter++) {	\
       my_snprintf(cBuf,sizeof(cBuf), "%s_%d", Tag, iter);	\
-      pSpr = load_sprite(tileset, cBuf);	\
+      pSpr = lookup_sprite_tag_alt(tileset, cBuf, "", FALSE, "", ""); \
       image = (pSpr ? GET_SURF(pSpr) : NULL);	\
       assert(image != NULL);	\
       if (center) {	\
@@ -577,7 +508,6 @@ do { \
       } else {	\
 	pAnim->Cursors.Type[iter] = SurfaceToCursor(image, x, y);	\
       }	\
-      unload_sprite(tileset, cBuf);	\
     }	\
   }	\
 } while(0)
@@ -593,29 +523,6 @@ void tilespec_setup_anim(void)
   int i, num;
   pAnim = MALLOC(sizeof(struct Animation));
     
-  i = 0;
-  my_snprintf(buf , sizeof(buf), "explode.iso_nuke_%d", i);
-  while(sprite_exists(buf)) {
-    i++;
-    my_snprintf(buf , sizeof(buf), "explode.iso_nuke_%d", i);
-  }
-  pAnim->num_tiles_explode_nuke = i;
-  
-  /* focus unit animation */
-  i = 0;
-  my_snprintf(buf , sizeof(buf), "anim.focus_%d", i);
-  while(sprite_exists(buf)) {
-    i++;
-    my_snprintf(buf , sizeof(buf), "anim.focus_%d", i);
-  }
-  pAnim->num_tiles_focused_unit = i;
-  
-  pAnim->Focus = CALLOC(pAnim->num_tiles_focused_unit, sizeof(SDL_Surface *));
-  for( i=0; i<pAnim->num_tiles_focused_unit; i++) {
-    my_snprintf(buf,sizeof(buf), "anim.focus_%d", i);
-    load_GUI_surface(pSpr, pAnim, Focus[i], buf);
-  }
-  
   /* load cursors */
   load_cursor(i, num, pSpr, image, buf, Patrol, "anim.patrol_cursor", 0, 0, TRUE);
   load_cursor(i, num, pSpr, image, buf, Goto, "anim.goto_cursor", 0, 0, TRUE);
@@ -633,10 +540,6 @@ void tilespec_setup_anim(void)
 void tilespec_free_anim(void)
 {
   int i,j;
-  for(i=0; i<pAnim->num_tiles_focused_unit; i++) {
-    FREESURFACE(pAnim->Focus[i]);
-  }
-  FREE(pAnim->Focus);
   
   for(i=0; pAnim->Cursors.Patrol[i]; i++) {
     SDL_FreeCursor(pAnim->Cursors.Patrol[i]);
@@ -760,10 +663,6 @@ void tilespec_unload_theme(void)
   FREESURFACE(pTheme->OReturn_Icon);
   FREESURFACE(pTheme->OAirLift_Icon);
 
-  /* Map Dithering */
-   
-  FREESURFACE(pDitherMask);
-  	
   /* Map Borders */
   FREESURFACE(pTheme->NWEST_BORDER_Icon);
   FREESURFACE(pTheme->NNORTH_BORDER_Icon);
@@ -778,49 +677,18 @@ void tilespec_unload_theme(void)
   Return a surface for the given citizen.  The citizen's type is given,
   as well as their index (in the range [0..pcity->size)).
 **************************************************************************/
-SDL_Surface * get_citizen_surface(struct citizen_type type,
+SDL_Surface * get_citizen_surface(enum citizen_category type,
 				  int citizen_index)
 {
-  assert(type >= 0 && type < NUM_TILES_CITIZEN);
-  citizen_index %= sprites.citizen[type].count;
-  return citizen[type].surface[citizen_index];
+  struct citizen_type ctype = {.type = type};
+
+  return GET_SURF(get_citizen_sprite(tileset, ctype, 0, NULL));
 }
 
-void unload_unused_graphics(void)
+/**************************************************************************
+  ...
+**************************************************************************/
+SDL_Surface * get_city_gfx(void)
 {
-  unload_sprite(tileset, "treaty.disagree_thumb_down");
-  unload_sprite(tileset, "treaty.agree_thumb_up");
-  unload_sprite(tileset, "spaceship.solar_panels");
-  unload_sprite(tileset, "spaceship.life_support");
-  unload_sprite(tileset, "spaceship.habitation");
-  unload_sprite(tileset, "spaceship.structural");
-  unload_sprite(tileset, "spaceship.fuel");
-  unload_sprite(tileset, "spaceship.propulsion");
-  unload_sprite(tileset, "citizen.entertainer");
-  unload_sprite(tileset, "citizen.scientist");
-  unload_sprite(tileset, "citizen.tax_collector");
-  unload_sprite(tileset, "citizen.content_0");
-  unload_sprite(tileset, "citizen.content_1");
-  unload_sprite(tileset, "citizen.happy_0");
-  unload_sprite(tileset, "citizen.happy_1");
-  unload_sprite(tileset, "citizen.unhappy_0");
-  unload_sprite(tileset, "citizen.unhappy_1");
-  unload_sprite(tileset, "citizen.angry_0");
-  unload_sprite(tileset, "citizen.angry_1");
-  unload_sprite(tileset, "s.right_arrow");
-  if (sprite_exists("t.coast_color"))
-  {
-    unload_sprite(tileset, "t.coast_color");
-  }
-  unload_sprite(tileset, "upkeep.gold");
-  unload_sprite(tileset, "upkeep.gold2");
-  unload_sprite(tileset, "upkeep.food");
-  unload_sprite(tileset, "upkeep.food2");
-  unload_sprite(tileset, "upkeep.unhappy");
-  unload_sprite(tileset, "upkeep.unhappy2");
-  unload_sprite(tileset, "upkeep.shield");
-  if (tileset_is_isometric(tileset) && sprite_exists("explode.iso_nuke"))
-  {
-    unload_sprite(tileset, "explode.iso_nuke");
-  }
+  return pCity_Surf;
 }

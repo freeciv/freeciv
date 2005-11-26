@@ -27,6 +27,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
@@ -57,6 +58,8 @@
 #include "gui_zoom.h"
 #include "gui_main.h"
 #include "gui_string.h"
+#include "gui_dither.h"
+#include "gui_tilespec.h"
 
 #ifdef HAVE_MMX1
 #include "mmx.h"
@@ -64,14 +67,14 @@
 
 /* ------------------------------ */
 
-#include "goto_cursor.xbm"
-#include "goto_cursor_mask.xbm"
-#include "drop_cursor.xbm"
-#include "drop_cursor_mask.xbm"
-#include "nuke_cursor.xbm"
-#include "nuke_cursor_mask.xbm"
-#include "patrol_cursor.xbm"
-#include "patrol_cursor_mask.xbm"
+#include "cursors/goto_cursor.xbm"
+#include "cursors/goto_cursor_mask.xbm"
+#include "cursors/drop_cursor.xbm"
+#include "cursors/drop_cursor_mask.xbm"
+#include "cursors/nuke_cursor.xbm"
+#include "cursors/nuke_cursor_mask.xbm"
+#include "cursors/patrol_cursor.xbm"
+#include "cursors/patrol_cursor_mask.xbm"
 
 struct main Main;
 
@@ -422,13 +425,23 @@ void * my_memset16(void *dst_mem, Uint16 var, size_t lenght)
   Uint16 *ptr = (Uint16 *)dst_mem;
   Uint32 color = (var << 16) | var;
 #ifndef HAVE_MMX1  
+  #ifndef ARM_WINCE
   DUFFS_LOOP_DOUBLE2(
   {
     *ptr++ = var;
   },{
-    *(Uint32 *)ptr = color;
+    *(Uint32 *)ptr = color;  /* this statement causes an exception on my StrongARM-PDA */
     ptr += 2;
   }, lenght);
+  #else
+  DUFFS_LOOP_DOUBLE2(
+  {
+    *ptr++ = var;
+  },{
+    *ptr++ = var;
+    *ptr++ = var;
+  }, lenght);
+  #endif
 #else
   movd_m2r(color, mm0); /* color(0000CLCL) -> mm0 */
   punpckldq_r2r(mm0, mm0); /* CLCLCLCL -> mm0 */
@@ -614,7 +627,7 @@ static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
     x1 = y;
   }
   
-  lng = x1 - x0;
+  lng = (x1 - x0) + 1;
   
   if (!lng) return;  
   
@@ -806,7 +819,7 @@ void putframe(SDL_Surface * pDest, Sint16 x0, Sint16 y0,
   }
 
   if ((y1 >= 0) && (y1 < pDest->h)) {	/* botton line */
-    put_hline(pDest, y1, x0, x1 + 1, color);
+    put_hline(pDest, y1, x0, x1, color);
   }
 
   if ((x0 >= 0) && (x0 < pDest->w)) {
@@ -834,9 +847,6 @@ void init_sdl(int iFlags)
   Main.map = NULL;
   Main.rects_count = 0;
   Main.guis_count = 0;
-
-  Main.map_canvas.surf = Main.map;
-  mapview.store = &Main.map_canvas;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
     error = (SDL_InitSubSystem(iFlags) < 0);
@@ -897,7 +907,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
     					"640 x 480 16 bpp SW"));
 
     Main.screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
-  } else /* set video mode */
+  } else { /* set video mode */
     if ((Main.screen = SDL_SetVideoMode(iWidth, iHeight,
 					iDepth, iFlags)) == NULL) {
     freelog(LOG_ERROR, _("Unable to set this resolution: "
@@ -907,15 +917,8 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
     exit(-30);
   }
 
-
   freelog(LOG_DEBUG, _("Setting resolution to: %d x %d %d bpp"),
 	  					iWidth, iHeight, iDepth);
-
-  mapview.width = iWidth;
-  mapview.height = iHeight;
-  if (tileset_tile_width(tileset) > 0) {
-    mapview.tile_width = (iWidth - 1) / tileset_tile_width(tileset) + 1;
-    mapview.tile_height = (iHeight - 1) / tileset_tile_height(tileset) + 1;
   }
 
   FREESURFACE(Main.map);
@@ -3474,23 +3477,6 @@ SDL_Surface * get_logo_gfx(void)
 /**************************************************************************
   ...
 **************************************************************************/
-SDL_Surface * get_city_gfx(void)
-{
-  SDL_Surface *pCity_Surf;
-  struct sprite *pSpr = load_sprite(tileset, "theme.city");
-  
-  pCity_Surf = (pSpr ? GET_SURF(pSpr) : NULL);
-  assert(pCity_Surf != NULL);
-  
-  pSpr->psurface = NULL;
-  unload_sprite(tileset, "theme.city");
-  
-  return pCity_Surf;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
 void draw_intro_gfx(void)
 {
   SDL_Surface *pIntro = get_intro_gfx();
@@ -3605,6 +3591,9 @@ static struct sprite * ctor_sprite(SDL_Surface *pSurface)
   return result;
 }
 
+/****************************************************************************
+  Find the dimensions of the sprite.
+****************************************************************************/
 void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
 {
   *width = GET_SURF(sprite)->w;
@@ -3625,8 +3614,6 @@ struct sprite *crop_sprite(struct sprite *source,
 			   struct sprite *mask,
 			   int mask_offset_x, int mask_offset_y)
 {
-  /* FIXME: this needs to be able to crop from a mask - equivalent to the
-   * code currently in gui_dither.c. */
   SDL_Rect src_rect =
       { (Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height };
   SDL_Surface *pNew, *pTmp =
@@ -3644,6 +3631,19 @@ struct sprite *crop_sprite(struct sprite *source,
     }
 
     FREESURFACE(pTmp);
+  }
+
+  if (mask) {
+    SDL_Surface *pDest = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height,
+       pNew->format->BitsPerPixel, pNew->format->Rmask, pNew->format->Gmask, 
+       pNew->format->Bmask, pNew->format->Amask);
+
+    SDL_FillRect(pDest, NULL, pNew->format->colorkey);
+    SDL_SetColorKey(pDest, SDL_SRCCOLORKEY, pNew->format->colorkey);    
+   
+    dither_surface(pNew, mask->psurface, pDest, x - mask_offset_x, y - mask_offset_y);
+     
+    return ctor_sprite(pDest);
   }
 
   return ctor_sprite(pNew);
@@ -3760,7 +3760,6 @@ struct sprite * load_gfxfile(const char *filename)
 void free_sprite(struct sprite *s)
 {
   FREESURFACE(GET_SURF(s));
-  /*s->psurface=NULL;*/
   free(s);
 }
 

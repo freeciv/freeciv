@@ -25,10 +25,17 @@
 #include "fc_types.h"
 
 #include "gui_mem.h"
+#include "gui_main.h"
 
-#define	WINDOW_TILE_HIGH	20
+#ifdef SMALL_SCREEN
+#define	FRAME_WH		2
+#define	WINDOW_TILE_HIGH	10
+#else
 #define	FRAME_WH		3
-#define	DOUBLE_FRAME_WH		6
+#define	WINDOW_TILE_HIGH	20
+#endif
+
+#define	DOUBLE_FRAME_WH		FRAME_WH * 2
 
 #define STATE_MASK		0x03
 #define TYPE_MASK		0x03FC
@@ -180,6 +187,11 @@ struct ADVANCED_DLG {
   struct ScrollBar *pScroll;
 };
 
+enum scan_direction {
+  SCAN_FORWARD,
+  SCAN_BACKWARD
+};
+
 SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, SDL_bool transp,
 			       Uint8 state, Uint16 Width, Uint16 High);
 
@@ -205,7 +217,9 @@ struct GUI *WidgetListKeyScaner(const struct GUI *pGUI_List,
 				SDL_keysym Key);
 struct GUI *MainWidgetListKeyScaner(SDL_keysym Key);
 
-struct GUI *get_widget_pointer_form_ID(const struct GUI *pGUI_List, Uint16 ID);
+struct GUI *get_widget_pointer_form_ID(const struct GUI *pGUI_List, Uint16 ID,
+                                       enum scan_direction direction);
+
 struct GUI *get_widget_pointer_form_main_list(Uint16 ID);
 
 void widget_sellected_action(struct GUI *pWidget);

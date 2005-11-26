@@ -24,8 +24,12 @@
 
 #include "colors_g.h"
 
+struct color {
+  SDL_Color *color;	
+};
+
 enum SDLClient_std_color {
-  COLOR_STD_RACE14 = COLOR_STD_LAST,
+  COLOR_STD_RACE14 = COLOR_LAST,
   COLOR_STD_RACE15,
   COLOR_STD_RACE16,
   COLOR_STD_RACE17,
@@ -64,7 +68,7 @@ enum SDLClient_std_color {
 };
 
 SDL_Color * get_game_colorRGB(Uint32 color_offset);
-Uint32 get_game_color(Uint32 color_offset, SDL_Surface *pDest);
+Uint32 get_game_color(struct color *pcolor, SDL_Surface *pDest);
 
 /* Blend the RGB values of two pixels based on a source alpha value */
 #define ALPHA_BLEND(sR, sG, sB, A, dR, dG, dB)	\

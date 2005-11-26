@@ -64,7 +64,15 @@ void change_ptsize16(SDL_String16 *pString, Uint16 new_ptsize);
 void unload_font(Uint16 ptsize);
 void free_font_system(void);
 
+/* adjust font sizes on 320x240 screen */
+#ifdef SMALL_SCREEN
+  int adj_font(int size);
+#else
+  #define adj_font(size) size
+#endif
+
 #define str16len(pString16) str16size(pString16).w
+#define str16height(pString16) str16size(pString16).h
 
 /*
  *	here we use ordinary free( ... ) becouse check is made 

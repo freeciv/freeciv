@@ -15,6 +15,9 @@
 #include <config.h>
 #endif
 
+#include "connectdlg_g.h"
+#include "log.h"
+
 #include "pages.h"
 
 /**************************************************************************
@@ -24,5 +27,35 @@
 void set_client_page(enum client_pages page)
 {
   /* PORTME */
+  freelog(LOG_DEBUG, "PORT ME: set_client_page()");
 }
 
+/****************************************************************************
+  Set the list of available rulesets.  The default ruleset should be
+  "default", and if the user changes this then set_ruleset() should be
+  called.
+****************************************************************************/
+void gui_set_rulesets(int num_rulesets, char **rulesets)
+{
+  /* PORTME */
+  freelog(LOG_DEBUG, "PORT ME: gui_set_rulesets()");    
+}
+
+/**************************************************************************
+  Returns current client page
+**************************************************************************/
+enum client_pages get_client_page(void)
+{
+  /* PORTME*/
+  freelog(LOG_DEBUG, "PORT ME: get_client_page()");    
+  return PAGE_MAIN;
+}
+
+/**************************************************************************
+  update the start page.
+**************************************************************************/
+void update_start_page(void)
+{
+  /* PORTME*/    
+  freelog(LOG_DEBUG, "PORT ME: update_start_page()");    
+}

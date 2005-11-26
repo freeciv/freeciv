@@ -27,6 +27,6 @@
 void popup_input_line(void);
 
 #define set_output_window_text( pString )	\
-	real_append_output_window( pString )
+	append_output_window( pString )
 
 #endif	/* FC__CHATLINE_H */

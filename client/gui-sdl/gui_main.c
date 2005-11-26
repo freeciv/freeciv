@@ -36,11 +36,13 @@
 #include <unistd.h>
 #endif
 
-#ifdef WIN32_NATIVE
+#ifdef HAVE_WINSOCK
 #include <winsock.h>
 #endif
 
 #include <SDL/SDL.h>
+
+#include "gui_main.h"
 
 #include "fcintl.h"
 #include "fciconv.h"
@@ -57,6 +59,7 @@
 #include "gui_string.h"
 #include "gui_stuff.h"		/* gui */
 #include "gui_id.h"
+#include "gui_zoom.h"
 
 #include "chatline.h"
 #include "civclient.h"
@@ -68,6 +71,7 @@
 #include "dialogs.h"
 #include "gotodlg.h"
 #include "graphics.h"
+#include "fciconv.h"
 
 #include "timing.h"
 
@@ -87,14 +91,12 @@
 
 #include "repodlgs.h"
 
-#include "gui_main.h"
-
-/*#include "freeciv.ico"*/
-
 #define UNITS_TIMER_INTERVAL 128	/* milliseconds */
 #define MAP_SCROLL_TIMER_INTERVAL 384
 
 const char *client_string = "gui-sdl";
+const char * const gui_character_encoding = "UTF-8";
+const bool gui_use_transliteration = FALSE;
 
 Uint32 SDL_Client_Flags = 0;
 Uint32 widget_info_counter = 0;
@@ -111,6 +113,8 @@ bool LALT;
 bool do_focus_animation = TRUE;
 SDL_Cursor **pAnimCursor = NULL;
 bool do_cursor_animation = TRUE;
+int city_names_font_size = 12;
+int city_productions_font_size = 12;
 
 /* ================================ Private ============================ */
 static SDL_Cursor **pStoreAnimCursor = NULL;
@@ -122,6 +126,17 @@ static SDL_Event *pNet_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
 static SDL_Event *pMap_Scroll_User_Event = NULL;
+
+/* for panning feature */
+#ifdef SMALL_SCREEN
+static bool do_panning = FALSE;
+#else
+static bool do_panning = FALSE;
+#endif
+static bool is_panning = FALSE;
+static int last_x = 0;
+static int last_y = 0;
+
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static void game_focused_unit_anim(void);
@@ -151,8 +166,8 @@ const int num_gui_options = ARRAY_SIZE(gui_options);
 void set_city_names_font_sizes(int my_city_names_font_size,
 			       int my_city_productions_font_size)
 {
-  freelog(LOG_ERROR, "Unimplemented set_city_names_font_sizes.");
-  /* PORTME */
+  city_names_font_size = my_city_names_font_size;
+  city_productions_font_size = my_city_productions_font_size;
 }
 
 /**************************************************************************
@@ -218,9 +233,9 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	    struct unit *pUnit;
 	    struct city *pCity;
 	    if((pUnit = get_unit_in_focus()) != NULL && 
-	      (pCity = map_get_tile(pUnit->x, pUnit->y)->city) != NULL &&
+	      (pCity = pUnit->tile->city) != NULL &&
 	      city_owner(pCity) == game.player_ptr) {
-	      popup_city_dialog(pCity, FALSE);
+	      popup_city_dialog(pCity);
 	    } else {
 	      disable_focus_animation();
 	      key_end_turn();
@@ -249,7 +264,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
               popdown_meswin_dialog();
 	      /* copy_chars_to_string16(pWidget->string16, _("Show Log (F10)")); */
             } else {
-              popup_meswin_dialog();
+              popup_meswin_dialog(true);
 	      /* copy_chars_to_string16(pWidget->string16, _("Hide Log (F10)")); */
             }
 	    flush_dirty();
@@ -293,7 +308,31 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
   if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
+      if (do_panning && (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
+        if (pButtonEvent->button == SDL_BUTTON_LEFT) {
+          last_x = pButtonEvent->x;
+          last_y = pButtonEvent->y;
+        }  
+      } else {
     button_down_on_map(pButtonEvent);
+  }
+  }
+  return ID_ERROR;
+}
+
+static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
+{
+  if (do_panning && (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
+    if (is_panning) {
+      is_panning = FALSE;
+    } else {  
+      static struct GUI *pWidget;
+      if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
+        return ID_ERROR;
+      } else {
+        button_down_on_map(pButtonEvent);
+      }
+    }  
   }
   return ID_ERROR;
 }
@@ -307,6 +346,58 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 {
   static struct GUI *pWidget;
     
+  if (do_panning && (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
+    int dir = 0;
+  
+    if (pMotionEvent->state & SDL_BUTTON_LEFT)  {
+      
+      is_panning = true;
+      
+      if (pMotionEvent->x > last_x + 17) {
+        last_x = pMotionEvent->x;                                   
+        dir = 1;
+      } else if (pMotionEvent->x < last_x - 17) {
+        last_x = pMotionEvent->x;                                      
+        dir = 2;
+      }  
+  
+      if (pMotionEvent->y > last_y + 17) {
+        last_y = pMotionEvent->y;                                                
+        dir |= 4; 
+      } else if (pMotionEvent->y < last_y - 17) {
+        last_y = pMotionEvent->y;                                                                                            
+        dir |= 8;
+      }
+  
+      switch (dir) {
+        case 1:
+          scroll_mapview(DIR8_EAST);
+          break;
+        case (1 | 4):
+          scroll_mapview(DIR8_SOUTHEAST);
+          break;
+        case (4):
+          scroll_mapview(DIR8_SOUTH);
+          break;
+        case (4 | 2):
+          scroll_mapview(DIR8_SOUTHWEST);
+          break;
+        case (2):
+          scroll_mapview(DIR8_WEST);
+          break;
+        case (2 | 8):
+          scroll_mapview(DIR8_NORTHWEST);
+          break;
+        case (8):
+          scroll_mapview(DIR8_NORTH);
+          break;
+        case (8 | 1):
+          scroll_mapview(DIR8_NORTHEAST);
+          break;
+      }
+    }  
+  }
+  
   if(draw_goto_patrol_lines) {
     update_line(pMotionEvent->x, pMotionEvent->y);
   }
@@ -407,13 +498,13 @@ static void game_focused_unit_anim(void)
 
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
 
-    if (game.player_ptr->is_connected && game.player_ptr->is_alive
-	&& !game.player_ptr->turn_done) {
+    if (game.player_ptr && game.player_ptr->is_connected && game.player_ptr->is_alive
+	&& !game.player_ptr->phase_done) {
       int i, is_waiting, is_moving;
 
       for (i = 0, is_waiting = 0, is_moving = 0; i < game.info.nplayers; i++)
 	if (game.players[i].is_alive && game.players[i].is_connected) {
-	  if (game.players[i].turn_done) {
+	  if (game.players[i].phase_done) {
 	    is_waiting++;
 	  } else {
 	    is_moving++;
@@ -425,18 +516,16 @@ static void game_focused_unit_anim(void)
       }
     }
 
-    if(tileset_is_isometric(tileset) && do_focus_animation && pAnim->num_tiles_focused_unit) {
-      real_blink_active_unit();
-    } else {
+    if(do_focus_animation) {
       blink_active_unit();
     }
 
     if (flip) {
       update_timeout_label();
-      if (seconds_to_turndone > 0) {
-	seconds_to_turndone--;
+      if (get_seconds_to_turndone() > 0) {
+	set_seconds_to_turndone(get_seconds_to_turndone() - 1);
       } else {
-	seconds_to_turndone = 0;
+	set_seconds_to_turndone(0);
       }
     }
 
@@ -712,8 +801,6 @@ void ui_init(void)
   SDL_Surface *pBgd, *pTmp;
   Uint32 iSDL_Flags;
 
-  init_character_encodings(INTERNAL_ENCODING);
-
   SDL_Client_Flags = 0;
   iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
   
@@ -726,7 +813,7 @@ void ui_init(void)
 	  SDL_VideoDriverName(device, sizeof(device)));
   
   /* create splash screen */  
-  pBgd = load_surf(datafilename("misc/intro.png"));
+  pBgd = adj_surf(load_surf(datafilename("misc/intro.png")));
   
   if(pBgd && SDL_GetVideoInfo()->wm_available) {
     set_video_mode(pBgd->w, pBgd->h, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
@@ -755,17 +842,16 @@ void ui_init(void)
   }
 
   /* create label beackground */
-  pTmp = create_surf(350, 50, SDL_SWSURFACE);
+  pTmp = create_surf(adj_size(350), adj_size(50), SDL_SWSURFACE);
   pBgd = SDL_DisplayFormatAlpha(pTmp);
   FREESURFACE(pTmp);
   
   SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
-  putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, 0xFF000000);
+  putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, SDL_MapRGB(pBgd->format, 0, 0, 0));
   SDL_SetAlpha(pBgd, 0x0, 0x0);
  
-  
   pInit_String = create_iconlabel(pBgd, Main.gui,
-	create_str16_from_char(_("Initializing Client"), 20),
+	create_str16_from_char(_("Initializing Client"), adj_font(20)),
 				   WF_ICON_CENTER|WF_FREE_THEME);
   pInit_String->string16->style |= SF_CENTER;
   
@@ -845,34 +931,53 @@ void ui_main(int argc, char *argv[])
   draw_city_names = FALSE;
   draw_city_productions = FALSE;
   is_unit_move_blocked = FALSE;
+  
   SDL_Client_Flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS|
   		       CF_DRAW_PLAYERS_WAR_STATUS|
                        CF_DRAW_PLAYERS_CEASEFIRE_STATUS|
                        CF_DRAW_PLAYERS_PEACE_STATUS|
-                       CF_DRAW_PLAYERS_ALLIANCE_STATUS|
-		       CF_CIV3_CITY_TEXT_STYLE|
-		       CF_DRAW_MAP_DITHER);
-		       
-  tileset_load_tiles(tileset);
+                       CF_DRAW_PLAYERS_ALLIANCE_STATUS);
   
   load_cursors();
   tilespec_setup_theme();
   tilespec_setup_anim();
+  tilespec_setup_city_gfx();
   tilespec_setup_city_icons();
-  finish_loading_sprites();
+
+  tileset_load_tiles(tileset);
       
   clear_double_messages_call();
     
   create_units_order_widgets();
 
   setup_auxiliary_tech_icons();
-  unload_unused_graphics();
   
   if((SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) == CF_TOGGLED_FULLSCREEN) {
+    #ifdef SMALL_SCREEN
+      #ifdef UNDER_CE
+        /* set 320x240 fullscreen */
+        set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
+      #else
+        /* small screen on desktop -> don't set 320x240 fullscreen mode */
+        set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+      #endif
+    #else
     set_video_mode(800, 600, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
+    #endif
+    
   } else {
+    
+    #ifdef SMALL_SCREEN
+      #ifdef UNDER_CE    
+      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
+      #else
+      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+      #endif
+    #else
     set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+    #endif
+    
 #if 0    
     /*
      * call this for other that X enviroments - currently not supported.
@@ -884,29 +989,32 @@ void ui_main(int argc, char *argv[])
   /* SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv"); */
   
   draw_intro_gfx();
-
-  mapview.tile_width = (mapview.width - 1)
-	  / tileset_tile_width(tileset) + 1;
-  mapview.tile_height = (mapview.height - 1)
-	  / tileset_tile_height(tileset) + 1;
-
   flush_all();
 
   /* this need correct Main.screen size */
+  init_mapcanvas_and_overview();    
   Init_MapView();
+  
+  #ifndef SMALL_SCREEN
   init_options_button();
+  #endif
+  
   set_new_order_widgets_dest_buffers();
   
   set_client_state(CLIENT_PRE_GAME_STATE);
 
   /* Main game loop */
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,
-  		 main_mouse_button_down_handler, NULL,
+  		 main_mouse_button_down_handler, main_mouse_button_up_handler,
 		 main_mouse_motion_handler);
 
+  #if defined UNDER_CE && defined SMALL_SCREEN
+  /* change back to window mode to restore the title bar */
+  set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
+  #endif
+
   free_auxiliary_tech_icons();
-  tilespec_unload_theme();
-  tilespec_free_city_icons();
+  
   tilespec_free_anim();
   unload_cursors();
   free_font_system();
@@ -938,7 +1046,6 @@ void enable_focus_animation(void)
 **************************************************************************/
 void disable_focus_animation(void)
 {
-  pAnim_User_Event->user.code = EVENT_ERROR;
   SDL_Client_Flags &= ~CF_FOCUS_ANIMATION;
 }
 

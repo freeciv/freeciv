@@ -85,14 +85,14 @@ void popup_intel_dialog(struct player *pPlayer)
     return;
   }
      
-  h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
+  h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
       
   pIntel_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
   
-  pStr = create_str16_from_char(_("Foreign Intelligence Report") , 12);
+  pStr = create_str16_from_char(_("Foreign Intelligence Report") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
     
   pWindow->action = intel_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
@@ -104,7 +104,7 @@ void popup_intel_dialog(struct player *pPlayer)
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
   			  			WF_DRAW_THEME_TRANSPARENT);
-  w += pBuf->size.w + 10;
+  w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_intel_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -112,7 +112,7 @@ void popup_intel_dialog(struct player *pPlayer)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ---------- */
   
-  pLogo = GET_SURF(get_nation_by_idx(pPlayer->nation)->flag_sprite);
+  pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
   pLogo = make_flag_surface_smaler(pLogo);
   
   pText1 = ZoomSurface(pLogo, 4.0 , 4.0, 1);
@@ -130,7 +130,7 @@ void popup_intel_dialog(struct player *pPlayer)
   my_snprintf(cBuf, sizeof(cBuf),
 	      _("Intelligence Information about %s Spaceship"), 
 	      				get_nation_name(pPlayer->nation));
-  pBuf->string16 = create_str16_from_char(cBuf, 12);
+  pBuf->string16 = create_str16_from_char(cBuf, adj_font(12));
 	
   add_to_gui_list(ID_ICON, pBuf);
 	
@@ -139,20 +139,20 @@ void popup_intel_dialog(struct player *pPlayer)
 	      _("Intelligence Information for the %s Empire"), 
 	      				get_nation_name(pPlayer->nation));
   
-  pStr = create_str16_from_char(cBuf, 14);
+  pStr = create_str16_from_char(cBuf, adj_font(14));
   pStr->style |= TTF_STYLE_BOLD;
   pStr->render = 3;
   pStr->bgcol.unused = 128;
   
   pText1 = create_text_surf_from_str16(pStr);
   SDL_SetAlpha(pText1, 0x0, 0x0);
-  w = MAX(w, pText1->w + 20);
-  h += pText1->h + 20;
+  w = MAX(w, pText1->w + adj_size(20));
+  h += pText1->h + adj_size(20);
     
   /* ---------- */
   
   pCapital = find_palace(pPlayer);
-  change_ptsize16(pStr, 10);
+  change_ptsize16(pStr, adj_font(10));
   pStr->style &= ~TTF_STYLE_BOLD;
   my_snprintf(cBuf, sizeof(cBuf),
     _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
@@ -161,17 +161,17 @@ void popup_intel_dialog(struct player *pPlayer)
     pPlayer->name, get_government_name(pPlayer->government),
     (!pCapital) ? _("(Unknown)") : pCapital->name, pPlayer->economic.gold,
     pPlayer->economic.tax, pPlayer->economic.science, pPlayer->economic.luxury,
-    get_tech_name(pPlayer, pPlayer->research.researching),
-    pPlayer->research.bulbs_researched, total_bulbs_required(pPlayer));
+    get_tech_name(pPlayer, get_player_research(pPlayer)->researching),
+    get_player_research(pPlayer)->bulbs_researched, total_bulbs_required(pPlayer));
   
   copy_chars_to_string16(pStr, cBuf);
   pInfo = create_text_surf_from_str16(pStr);
   SDL_SetAlpha(pInfo, 0x0, 0x0);
-  w = MAX(w, pLogo->w + 10 + pInfo->w + 20);
-  h += MAX(pLogo->h + 20, pInfo->h + 20);
+  w = MAX(w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
+  h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
     
   /* ---------- */
-  col = w / (GET_SURF(advances[A_FIRST].sprite)->w + 4);
+  col = w / (GET_SURF(get_tech_sprite(tileset, A_FIRST))->w + adj_size(4));
   n = 0;
   pLast = pBuf;
   for(i = A_FIRST; i<game.control.num_tech_types; i++) {
@@ -179,12 +179,12 @@ void popup_intel_dialog(struct player *pPlayer)
       tech_is_available(game.player_ptr, i) &&
       get_invention(game.player_ptr, i) != TECH_KNOWN) {
       
-      pBuf = create_icon2(GET_SURF(advances[i].sprite), pWindow->dst,
+      pBuf = create_icon2(GET_SURF(get_tech_sprite(tileset, i)), pWindow->dst,
 	(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
       pBuf->action = tech_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
 
-      pBuf->string16 = create_str16_from_char(advances[i].name, 12);
+      pBuf->string16 = create_str16_from_char(advances[i].name, adj_font(12));
 	
       add_to_gui_list(ID_ICON, pBuf);
 	
@@ -204,13 +204,13 @@ void popup_intel_dialog(struct player *pPlayer)
     if(n > 2 * col) {
       pIntel_Dlg->pActiveWidgetList = pLast->prev;
       count = create_vertical_scrollbar(pIntel_Dlg, col, 2, TRUE, TRUE);
-      h += (2 * pBuf->size.h + 10);
+      h += (2 * pBuf->size.h + adj_size(10));
     } else {
       count = 0;
       if(n > col) {
 	h += pBuf->size.h;
       }
-      h += (10 + pBuf->size.h);
+      h += (adj_size(10) + pBuf->size.h);
     }
     
     w = MAX(w, col * pBuf->size.w + count + DOUBLE_FRAME_WH);
@@ -236,30 +236,30 @@ void popup_intel_dialog(struct player *pPlayer)
   pBuf->size.y = pWindow->size.y + 1;
   
   dst.x = (pWindow->size.w - pText1->w) / 2;
-  dst.y = WINDOW_TILE_HIGH + 12;
+  dst.y = WINDOW_TILE_HIGH + adj_size(12);
   
   SDL_BlitSurface(pText1, NULL, pWindow->theme, &dst);
-  dst.y += pText1->h + 10;
+  dst.y += pText1->h + adj_size(10);
   FREESURFACE(pText1);
   
   /* space ship button */
   pBuf = pBuf->prev;
-  dst.x = (pWindow->size.w - (pBuf->size.w + 10 + pInfo->w)) / 2;
+  dst.x = (pWindow->size.w - (pBuf->size.w + adj_size(10) + pInfo->w)) / 2;
   pBuf->size.x = pWindow->size.x + dst.x;
   pBuf->size.y = pWindow->size.y + dst.y;
   
-  dst.x += pBuf->size.w + 10;  
+  dst.x += pBuf->size.w + adj_size(10);  
   SDL_BlitSurface(pInfo, NULL, pWindow->theme, &dst);
-  dst.y += pInfo->h + 10;
+  dst.y += pInfo->h + adj_size(10);
   FREESURFACE(pInfo);
       
   /* --------------------- */
     
   if(n) {
     
-    dst.x = FRAME_WH + 5;
+    dst.x = FRAME_WH + adj_size(5);
     SDL_BlitSurface(pText2, NULL, pWindow->theme, &dst);
-    dst.y += pText2->h + 2;
+    dst.y += pText2->h + adj_size(2);
     FREESURFACE(pText2);
     
     setup_vertical_widgets_position(col,

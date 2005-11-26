@@ -166,10 +166,10 @@ static void redraw_impr_info_dlg(void)
   
   redraw_group(pWindow->prev, pWindow, FALSE);
     
-  dst.x = pStore->pDock->prev->size.x - 10;
-  dst.y = pStore->pDock->prev->size.y - 10;
-  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - 10; 
-  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - 10; 
+  dst.x = pStore->pDock->prev->size.x - adj_size(10);
+  dst.y = pStore->pDock->prev->size.y - adj_size(10);
+  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
+  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
   SDL_FillRectAlpha(pWindow->dst, &dst, &color);
   putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h, 0xFF000000);
   
@@ -208,10 +208,10 @@ void popup_impr_info(Impr_type_id impr)
     pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
     pStore = MALLOC(sizeof(struct UNITS_BUTTONS));
     
-    pStr = create_str16_from_char(_("Help : Improvement"), 12);
+    pStr = create_str16_from_char(_("Help : Improvement"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, 400, 400, WF_FREE_DATA);
+    pWindow = create_window(NULL, pStr, adj_size(400), adj_size(400), WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
@@ -223,7 +223,7 @@ void popup_impr_info(Impr_type_id impr)
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
   			  			WF_DRAW_THEME_TRANSPARENT);
   
-    //w += pBuf->size.w + 10;
+    /*w += pBuf->size.w + 10;*/
     pBuf->action = exit_help_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->key = SDLK_ESCAPE;
@@ -233,10 +233,10 @@ void popup_impr_info(Impr_type_id impr)
     /* ------------------ */
     pDock = pBuf;
     
-    pStr = create_string16(NULL, 0, 10);
+    pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
-    pTmp = create_surf(140, 40, SDL_SWSURFACE);
+    pTmp = create_surf(adj_size(140), adj_size(40), SDL_SWSURFACE);
     pText = SDL_DisplayFormatAlpha(pTmp);
     FREESURFACE(pTmp);
     pTmp = pText;
@@ -250,16 +250,16 @@ void popup_impr_info(Impr_type_id impr)
     {
       pBack = SDL_DisplayFormatAlpha(pTmp);
       copy_chars_to_string16(pStr, get_improvement_name(type));
-      pText = create_text_surf_smaller_that_w(pStr, 100 - 4);
+      pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       /* draw name tech text */ 
-      dst.x = 40 + (pBack->w - pText->w - 40) / 2;
+      dst.x = adj_size(40) + (pBack->w - pText->w - adj_size(40)) / 2;
       dst.y = (pBack->h - pText->h) / 2;
       SDL_BlitSurface(pText, NULL, pBack, &dst);
       FREESURFACE(pText);
     
       /* draw tech icon */
-      pText = GET_SURF(get_improvement_type(type)->sprite);
-      dst.x = 5;
+      pText = adj_surf(GET_SURF(get_building_sprite(tileset, type)));
+      dst.x = adj_size(5);
       dst.y = (pBack->h - pText->h) / 2;
       SDL_BlitSurface(pText, NULL, pBack, &dst);
       
@@ -298,9 +298,9 @@ void popup_impr_info(Impr_type_id impr)
       set_wstate(pBuf, FC_WS_NORMAL);
     }
 */    
-    pBuf->size.w = 160;
-    pBuf->size.h = 15;
-    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_WHITE);
+    pBuf->size.w = adj_size(160);
+    pBuf->size.h = adj_size(15);
+    pBuf->string16->fgcol = (SDL_Color){255, 255, 255, 255};
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
@@ -326,19 +326,19 @@ void popup_impr_info(Impr_type_id impr)
   pImpr_type = get_improvement_type(impr);
   
   pBuf= create_iconlabel_from_chars(
-	  ZoomSurface(GET_SURF(pImpr_type->sprite), 3.0, 3.0, 1),
+	  ZoomSurface(GET_SURF(get_building_sprite(tileset, impr)), 3.0, 3.0, 1),
 	  pWindow->dst, get_impr_name_ex(NULL, impr),
-					      24, WF_FREE_THEME);
+					      adj_font(24), WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if (impr != B_CAPITAL)
+  if (!building_has_effect(impr, EFT_PROD_TO_GOLD))
   {
     sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(impr));
     pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, buffer, 12, 0);
+		    pWindow->dst, buffer, adj_font(12), 0);
     pBuf->ID = ID_LABEL;
     DownAdd(pBuf, pDock);
     pDock = pBuf;
@@ -346,38 +346,40 @@ void popup_impr_info(Impr_type_id impr)
     {
       sprintf(buffer, "%s %d", N_("Upkeep:"), pImpr_type->upkeep);
       pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, buffer, 12, 0);
+		    pWindow->dst, buffer, adj_font(12), 0);
       pBuf->ID = ID_LABEL;
       DownAdd(pBuf, pDock);
       pDock = pBuf;
     }
   }
   pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, N_("Requirement:"), 12, 0);
+		    pWindow->dst, N_("Requirement:"), adj_font(12), 0);
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if(pImpr_type->tech_req==A_LAST || pImpr_type->tech_req==A_NONE)
+  if (!(requirement_vector_size(&pImpr_type->reqs) > 0))
   {
     pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, _("None"), 12, 0);
+		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;
   } else {
+	requirement_vector_iterate(&pImpr_type->reqs, preq) {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	  advances[pImpr_type->tech_req].name, 12,
+	    advances[preq->source.value.tech].name, adj_font(12),
 			  WF_DRAW_THEME_TRANSPARENT);
-    pBuf->ID = MAX_ID - pImpr_type->tech_req;
-    pBuf->string16->fgcol = *get_tech_color(pImpr_type->tech_req);
+      pBuf->ID = MAX_ID - preq->source.value.tech;
+      pBuf->string16->fgcol = *get_tech_color(preq->source.value.tech);
     pBuf->action = change_tech_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
+	} requirement_vector_iterate_end;	
   }
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   pStore->pReq = pBuf;
   
   pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, N_("Obsolete by:"), 12, 0);
+		    pWindow->dst, N_("Obsolete by:"), adj_font(12), 0);
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
   pDock = pBuf;
@@ -385,11 +387,11 @@ void popup_impr_info(Impr_type_id impr)
   if(pImpr_type->obsolete_by==A_LAST || pImpr_type->obsolete_by==A_NONE)
   {
     pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, _("None"), 12, 0);
+		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;
   } else {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	      advances[pImpr_type->obsolete_by].name, 12,
+	      advances[pImpr_type->obsolete_by].name, adj_font(12),
 			  WF_DRAW_THEME_TRANSPARENT);
     pBuf->ID = MAX_ID - pImpr_type->obsolete_by;
     pBuf->string16->fgcol = *get_tech_color(pImpr_type->obsolete_by);
@@ -400,14 +402,14 @@ void popup_impr_info(Impr_type_id impr)
   pDock = pBuf;
   pStore->pObs = pBuf;
     
-  start_x = (FRAME_WH + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + 20);
+  start_x = (FRAME_WH + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), impr, NULL);
   if (buffer[0] != '\0')
   {
-    SDL_String16 *pStr = create_str16_from_char(buffer, 12);
-    convert_string_to_const_surface_width(pStr,	640 - start_x - 20);
+    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+    convert_string_to_const_surface_width(pStr,	adj_size(640) - start_x - adj_size(20));
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 0);
     pBuf->ID = ID_LABEL;
     DownAdd(pBuf, pDock);
@@ -421,8 +423,8 @@ void popup_impr_info(Impr_type_id impr)
   /* --------------------------------------------------------- */ 
   if (created)
   {
-    w = 640;
-    h = 480;
+    w = adj_size(640);
+    h = adj_size(480);
     pWindow->size.x = (Main.screen->w - w) / 2;
     pWindow->size.y = (Main.screen->h - h) / 2;
   
@@ -443,7 +445,7 @@ void popup_impr_info(Impr_type_id impr)
     pStore->pDock->size.y = pWindow->size.y +  WINDOW_TILE_HIGH + 1;
     
     h = setup_vertical_widgets_position(1, pWindow->size.x + FRAME_WH + width,
-		  pWindow->size.y + WINDOW_TILE_HIGH + 17, 0, 0,
+		  pWindow->size.y + WINDOW_TILE_HIGH + adj_size(17), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
     
@@ -451,7 +453,7 @@ void popup_impr_info(Impr_type_id impr)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
 	pWindow->size.x + FRAME_WH,
-    	pWindow->size.y + WINDOW_TILE_HIGH + 17,
+    	pWindow->size.y + WINDOW_TILE_HIGH + adj_size(17),
     	h, FALSE);
     }
   }
@@ -459,10 +461,10 @@ void popup_impr_info(Impr_type_id impr)
   /* unittype  icon and label */
   pBuf = pStore->pDock->prev;
   pBuf->size.x = pWindow->size.x + start_x;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 20;
-  start_y = pBuf->size.y + pBuf->size.h + 10;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(20);
+  start_y = pBuf->size.y + pBuf->size.h + adj_size(10);
   
-  if (impr != B_CAPITAL)
+  if (!building_has_effect(impr, EFT_PROD_TO_GOLD))
   {
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + start_x;
@@ -470,7 +472,7 @@ void popup_impr_info(Impr_type_id impr)
     if (!is_wonder(impr))
     {
       pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + 20;
+      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(20);
       pBuf->size.y = start_y;
     }
     start_y += pBuf->size.h;
@@ -480,21 +482,21 @@ void popup_impr_info(Impr_type_id impr)
   pBuf->size.x = pWindow->size.x + start_x;
   pBuf->size.y = start_y;
   
-  pStore->pReq->size.x = pBuf->size.x + pBuf->size.w + 5;
+  pStore->pReq->size.x = pBuf->size.x + pBuf->size.w + adj_size(5);
   pStore->pReq->size.y = start_y;
   
   if (pStore->pObs)
   {  
     pBuf = pStore->pObs->next;
-    pBuf->size.x = pStore->pReq->size.x + pStore->pReq->size.w + 10;
+    pBuf->size.x = pStore->pReq->size.x + pStore->pReq->size.w + adj_size(10);
     pBuf->size.y = start_y;
   
-    pStore->pObs->size.x = pBuf->size.x + pBuf->size.w + 5;
+    pStore->pObs->size.x = pBuf->size.x + pBuf->size.w + adj_size(5);
     pStore->pObs->size.y = start_y;
     start_y += pStore->pObs->size.h;
   }
   
-  start_y += 30;
+  start_y += adj_size(30);
   if (text)
   {
     pHelpText->size.x = pWindow->size.x + start_x;
@@ -521,10 +523,10 @@ static void redraw_unit_info_dlg(void)
   
   redraw_group(pWindow->prev, pWindow, FALSE);
     
-  dst.x = pStore->pDock->prev->size.x - 10;
-  dst.y = pStore->pDock->prev->size.y - 10;
-  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - 10; 
-  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - 10; 
+  dst.x = pStore->pDock->prev->size.x - adj_size(10);
+  dst.y = pStore->pDock->prev->size.y - adj_size(10);
+  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
+  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
   SDL_FillRectAlpha(pWindow->dst, &dst, &color);
   putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h, 0xFF000000);
   
@@ -563,10 +565,10 @@ void popup_unit_info(Unit_type_id type_id)
     pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
     pStore = MALLOC(sizeof(struct UNITS_BUTTONS));
     
-    pStr = create_str16_from_char(_("Help : Units"), 12);
+    pStr = create_str16_from_char(_("Help : Units"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, 400, 400, WF_FREE_DATA);
+    pWindow = create_window(NULL, pStr, adj_size(400), adj_size(400), WF_FREE_DATA);
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
     pWindow->data.ptr = (void *)pStore;
@@ -587,10 +589,10 @@ void popup_unit_info(Unit_type_id type_id)
     /* ------------------ */
     pDock = pBuf;
     
-    pStr = create_string16(NULL, 0, 10);
+    pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
-    pTmp = create_surf(135, 40, SDL_SWSURFACE);
+    pTmp = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
     pText = SDL_DisplayFormatAlpha(pTmp);
     FREESURFACE(pTmp);
     pTmp = pText;
@@ -601,25 +603,25 @@ void popup_unit_info(Unit_type_id type_id)
     
     h = 0;
     unit_type_iterate(type) {
-      pUnit = get_unit_type(type);
+      pUnit = type;
 	
       pBack = SDL_DisplayFormatAlpha(pTmp);
       
       copy_chars_to_string16(pStr, pUnit->name);
-      pText = create_text_surf_smaller_that_w(pStr, 100 - 4);
+      pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
       
       /* draw name tech text */ 
-      dst.x = 35 + (pBack->w - pText->w - 35) / 2;
+      dst.x = adj_size(35) + (pBack->w - pText->w - adj_size(35)) / 2;
       dst.y = (pBack->h - pText->h) / 2;
       SDL_BlitSurface(pText, NULL, pBack, &dst);
       FREESURFACE(pText);
     
       /* draw tech icon */
       {
-	float zoom = 25.0 / GET_SURF(pUnit->sprite)->h;
-        pText = ZoomSurface(GET_SURF(pUnit->sprite), zoom, zoom, 1);
+	float zoom = 25.0 / GET_SURF(get_unittype_sprite(tileset, type))->h;
+        pText = ZoomSurface(GET_SURF(get_unittype_sprite(tileset, type)), zoom, zoom, 1);
       }
-      dst.x = (35 - pText->w) / 2;;
+      dst.x = (adj_size(35) - pText->w) / 2;;
       dst.y = (pBack->h - pText->h) / 2;
       SDL_BlitSurface(pText, NULL, pBack, &dst);
       FREESURFACE(pText);
@@ -629,7 +631,7 @@ void popup_unit_info(Unit_type_id type_id)
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_unit_callback;
-      add_to_gui_list(MAX_ID - type, pBuf);
+      add_to_gui_list(MAX_ID - type->index, pBuf);
       
       if (++h > 10)
       {
@@ -652,16 +654,16 @@ void popup_unit_info(Unit_type_id type_id)
     
     /* toggle techs list button */
     pBuf = create_themeicon_button_from_chars(pTheme->UP_Icon,
-	      pWindow->dst,  _("Units"), 10, 0);
+	      pWindow->dst,  _("Units"), adj_font(10), 0);
     /*pBuf->action = toggle_full_tree_mode_in_help_dlg_callback;
    if (pStore->show_tree)
     {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
 */    
-    pBuf->size.w = 160;
-    pBuf->size.h = 15;
-    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_WHITE);
+    pBuf->size.w = adj_size(160);
+    pBuf->size.h = adj_size(15);
+    pBuf->string16->fgcol = (SDL_Color){255, 255, 255, 255};
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
@@ -685,8 +687,8 @@ void popup_unit_info(Unit_type_id type_id)
   }
   
   pUnit = get_unit_type(type_id);
-  pBuf= create_iconlabel_from_chars(GET_SURF(pUnit->sprite),
-		    pWindow->dst, pUnit->name, 24, 0);
+  pBuf= create_iconlabel_from_chars(GET_SURF(get_unittype_sprite(tileset,
+                  get_unit_type(type_id))), pWindow->dst, pUnit->name, 24, 0);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -697,8 +699,8 @@ void popup_unit_info(Unit_type_id type_id)
     char local[2048];
     
     my_snprintf(local, sizeof(local), "%s %d %s",
-	      N_("Cost:"), unit_build_shield_cost(type_id),
-	      PL_("shield", "shields", unit_build_shield_cost(type_id)));
+	      N_("Cost:"), unit_build_shield_cost(get_unit_type(type_id)),
+	      PL_("shield", "shields", unit_build_shield_cost(get_unit_type(type_id))));
   
     if(pUnit->pop_cost)
     {
@@ -708,20 +710,20 @@ void popup_unit_info(Unit_type_id type_id)
   
     cat_snprintf(local, sizeof(local), "      %s",  N_("Upkeep:"));
         
-    if(pUnit->shield_cost)
+    if(pUnit->upkeep[O_SHIELD])
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->shield_cost, PL_("shield", "shields", pUnit->shield_cost));
+	  pUnit->upkeep[O_SHIELD], PL_("shield", "shields", pUnit->upkeep[O_SHIELD]));
      }
-    if(pUnit->food_cost)
+    if(pUnit->upkeep[O_FOOD])
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->food_cost, PL_("food", "foods", pUnit->food_cost));
+	  pUnit->upkeep[O_FOOD], PL_("food", "foods", pUnit->upkeep[O_FOOD]));
     }
-    if(pUnit->gold_cost)
+    if(pUnit->upkeep[O_GOLD])
     {
       cat_snprintf(local, sizeof(local), " %d %s",
-	  pUnit->gold_cost, PL_("gold", "golds", pUnit->gold_cost));
+	  pUnit->upkeep[O_GOLD], PL_("gold", "golds", pUnit->upkeep[O_GOLD]));
     }
     if(pUnit->happy_cost)
     {
@@ -733,18 +735,18 @@ void popup_unit_info(Unit_type_id type_id)
 	      N_("Attack:"), pUnit->attack_strength,
 	      N_("Defense:"), pUnit->defense_strength,
               N_("Move:"), pUnit->move_rate / SINGLE_MOVE,
-              N_("Vision:"), pUnit->vision_range,
+              N_("Vision:"), pUnit->vision_radius_sq,
 	      N_("FirePower:"), pUnit->firepower,
               N_("Hitpoints:"), pUnit->hp);
   
     pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, local, 12, 0);
+		    pWindow->dst, local, adj_font(12), 0);
     pBuf->ID = ID_LABEL;
     DownAdd(pBuf, pDock);
     pDock = pBuf;
   }
   pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, N_("Requirement:"), 12, 0);
+		    pWindow->dst, N_("Requirement:"), adj_font(12), 0);
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
   pDock = pBuf;
@@ -752,11 +754,11 @@ void popup_unit_info(Unit_type_id type_id)
   if(pUnit->tech_requirement==A_LAST || pUnit->tech_requirement==A_NONE)
   {
     pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, _("None"), 12, 0);
+		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;
   } else {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	  advances[pUnit->tech_requirement].name, 12,
+	  advances[pUnit->tech_requirement].name, adj_font(12),
 			  WF_DRAW_THEME_TRANSPARENT);
     pBuf->ID = MAX_ID - pUnit->tech_requirement;
     pBuf->string16->fgcol = *get_tech_color(pUnit->tech_requirement);
@@ -768,21 +770,21 @@ void popup_unit_info(Unit_type_id type_id)
   pStore->pReq = pBuf;
   
   pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, N_("Obsolete by:"), 12, 0);
+		    pWindow->dst, N_("Obsolete by:"), adj_font(12), 0);
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
   if (pUnit->obsoleted_by == U_NOT_OBSOLETED) {
     pBuf = create_iconlabel_from_chars(NULL,
-		    pWindow->dst, _("None"), 12, 0);
+		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;  
   } else {
-    struct unit_type *utype = get_unit_type(pUnit->obsoleted_by);
+    struct unit_type *utype = pUnit->obsoleted_by;
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	      utype->name, 12, WF_DRAW_THEME_TRANSPARENT);
+	      utype->name, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
     pBuf->string16->fgcol = *get_tech_color(utype->tech_requirement);
-    pBuf->ID = MAX_ID - pUnit->obsoleted_by;
+    pBuf->ID = MAX_ID - pUnit->obsoleted_by->index;
     pBuf->action = change_unit_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
   }
@@ -790,14 +792,14 @@ void popup_unit_info(Unit_type_id type_id)
   pDock = pBuf;
   pStore->pObs = pBuf;
  
-  start_x = (FRAME_WH + 1 + width + pHelpDlg->pActiveWidgetList->size.w + 20);
+  start_x = (FRAME_WH + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
-  helptext_unit(buffer, type_id, "");
+  helptext_unit(buffer, get_unit_type(type_id), "");
   if (buffer[0] != '\0')
   {
-    SDL_String16 *pStr = create_str16_from_char(buffer, 12);
-    convert_string_to_const_surface_width(pStr,	640 - start_x - 20);
+    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+    convert_string_to_const_surface_width(pStr,	adj_size(640) - start_x - adj_size(20));
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 0);
     pBuf->ID = ID_LABEL;
     DownAdd(pBuf, pDock);
@@ -810,8 +812,8 @@ void popup_unit_info(Unit_type_id type_id)
   /* --------------------------------------------------------- */ 
   if (created)
   {
-    w = 640;
-    h = 480;
+    w = adj_size(640);
+    h = adj_size(480);
     pWindow->size.x = (Main.screen->w - w) / 2;
     pWindow->size.y = (Main.screen->h - h) / 2;
   
@@ -832,7 +834,7 @@ void popup_unit_info(Unit_type_id type_id)
     pStore->pDock->size.y = pWindow->size.y +  WINDOW_TILE_HIGH + 1;
     
     h = setup_vertical_widgets_position(1, pWindow->size.x + FRAME_WH + width,
-		  pWindow->size.y + WINDOW_TILE_HIGH + 17, 0, 0,
+		  pWindow->size.y + WINDOW_TILE_HIGH + adj_size(17), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
     
@@ -840,7 +842,7 @@ void popup_unit_info(Unit_type_id type_id)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
 	pWindow->size.x + FRAME_WH,
-    	pWindow->size.y + WINDOW_TILE_HIGH + 17,
+    	pWindow->size.y + WINDOW_TILE_HIGH + adj_size(17),
     	h, FALSE);
     }
   }
@@ -848,8 +850,8 @@ void popup_unit_info(Unit_type_id type_id)
   /* unittype  icon and label */
   pBuf = pStore->pDock->prev;
   pBuf->size.x = pWindow->size.x + start_x;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 20;
-  start_y = pBuf->size.y + pBuf->size.h + 10;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(20);
+  start_y = pBuf->size.y + pBuf->size.h + adj_size(10);
   
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + start_x;
@@ -860,16 +862,16 @@ void popup_unit_info(Unit_type_id type_id)
   pBuf->size.x = pWindow->size.x + start_x;
   pBuf->size.y = start_y;
   
-  pStore->pReq->size.x = pBuf->size.x + pBuf->size.w + 5;
+  pStore->pReq->size.x = pBuf->size.x + pBuf->size.w + adj_size(5);
   pStore->pReq->size.y = start_y;
     
   pBuf = pStore->pObs->next;
-  pBuf->size.x = pStore->pReq->size.x + pStore->pReq->size.w + 10;
+  pBuf->size.x = pStore->pReq->size.x + pStore->pReq->size.w + adj_size(10);
   pBuf->size.y = start_y;
   
-  pStore->pObs->size.x = pBuf->size.x + pBuf->size.w + 5;
+  pStore->pObs->size.x = pBuf->size.x + pBuf->size.w + adj_size(5);
   pStore->pObs->size.y = start_y;
-  start_y += pStore->pObs->size.h + 20;
+  start_y += pStore->pObs->size.h + adj_size(20);
   
   if (text)
   {
@@ -917,15 +919,15 @@ static void redraw_tech_info_dlg(void)
   
   redraw_group(pWindow->prev, pWindow, FALSE);
     
-  dst.x = pStore->pDock->prev->prev->size.x - 10;
-  dst.y = pStore->pDock->prev->prev->size.y - 10;
-  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - 10; 
-  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - 10; 
+  dst.x = pStore->pDock->prev->prev->size.x - adj_size(10);
+  dst.y = pStore->pDock->prev->prev->size.y - adj_size(10);
+  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
+  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
   SDL_FillRectAlpha(pWindow->dst, &dst, &color);
   putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h, 0xFF000000);
   
   /* -------------------------- */
-  pStr = create_str16_from_char(_("Allows"), 14);
+  pStr = create_str16_from_char(_("Allows"), adj_font(14));
   pStr->style |= TTF_STYLE_BOLD;
   
   pText0 = create_text_surf_from_str16(pStr);
@@ -935,7 +937,7 @@ static void redraw_tech_info_dlg(void)
     dst.y = pStore->pTargets[0]->size.y - pText0->h;
   } else {
     dst.y = pStore->pDock->prev->prev->size.y 
-	      + pStore->pDock->prev->prev->size.h + 10;
+	      + pStore->pDock->prev->prev->size.h + adj_size(10);
   }
   SDL_BlitSurface(pText0, NULL, pWindow->dst, &dst);
   FREESURFACE(pText0);
@@ -944,7 +946,7 @@ static void redraw_tech_info_dlg(void)
   {
     int i;
       
-    change_ptsize16(pStr, 12);
+    change_ptsize16(pStr, adj_font(12));
       
     copy_chars_to_string16(pStr, _("( witch "));
     pText0 = create_text_surf_from_str16(pStr);
@@ -980,7 +982,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   int start_x, start_y, imp_count, unit_count, flags_count, gov_count;
   char *buffer = &long_buffer[0];
   
-  start_x = (FRAME_WH + 1 + width + pHelpDlg->pActiveWidgetList->size.w + 20);
+  start_x = (FRAME_WH + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
   pBuf = create_icon2(pTheme->Tech_Tree_Icon, pWindow->dst,
       		   WF_DRAW_THEME_TRANSPARENT);
@@ -993,7 +995,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   
   /* ----------------------------------- */
   pBuf= create_iconlabel_from_chars(get_tech_icon(tech),
-		    pWindow->dst, advances[tech].name, 24, 0);
+		    pWindow->dst, advances[tech].name, adj_font(24), 0);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -1005,7 +1007,8 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     if ((targets_count<6)
       && (advances[i].req[0] == tech || advances[i].req[1] == tech))
     {
-      pBuf= create_iconlabel_from_chars(NULL, pWindow->dst, advances[i].name, 12, WF_DRAW_THEME_TRANSPARENT);
+      pBuf= create_iconlabel_from_chars(NULL, pWindow->dst, advances[i].name,
+                                    adj_font(12), WF_DRAW_THEME_TRANSPARENT);
       pBuf->string16->fgcol = *get_tech_color(i);
       max_width = MAX(max_width, pBuf->size.w);
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -1041,7 +1044,8 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
 	  continue;
 	}
       }
-      pBuf= create_iconlabel_from_chars(NULL, pWindow->dst, advances[sub_tech].name, 12, WF_DRAW_THEME_TRANSPARENT);
+      pBuf= create_iconlabel_from_chars(NULL, pWindow->dst,
+           advances[sub_tech].name, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
       pBuf->string16->fgcol = *get_tech_color(sub_tech);
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_tech_callback;
@@ -1061,9 +1065,32 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   
   gov_count = 0;
   government_iterate(gov) {
-    if (gov->required_tech == tech)
-    {
-      pBuf = create_iconlabel_from_chars(GET_SURF(gov->sprite),
+      
+  requirement_vector_iterate(&gov->reqs, preq) {
+    if ((preq->source.type == REQ_TECH) && preq->source.value.tech == tech) {
+                
+      pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
+	      pWindow->dst, gov->name, adj_font(14),
+	      WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+      set_wstate(pBuf, FC_WS_NORMAL);
+      pBuf->action = change_gov_callback;
+      pBuf->ID = MAX_ID - gov->index;
+      DownAdd(pBuf, pDock);
+      pDock = pBuf;
+      gov_count++;
+    }
+		  
+  } requirement_vector_iterate_end;		
+
+  /* TODO: check if code replacement above is correct */
+#if 0
+    int j;
+
+    for (j = 0; j < MAX_NUM_REQS; j++) {
+
+      if ((gov->req[j].source.type == REQ_TECH) &&
+           (gov->req[j].source.value.tech == tech)) {
+        pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
 	      pWindow->dst, gov->name, 14,
 	      WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -1073,14 +1100,42 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
       pDock = pBuf;
       gov_count++;
     }
+        
+    }        
+#endif
+	
   } government_iterate_end;
   
   
   imp_count = 0;
   impr_type_iterate(imp) {
+
     struct impr_type *pImpr = get_improvement_type(imp);
-    if (pImpr->tech_req == tech) {
-      pBuf = create_iconlabel_from_chars(GET_SURF(pImpr->sprite),
+	  
+      requirement_vector_iterate(&pImpr->reqs, preq) {
+
+      if (preq->source.value.tech == tech) {
+        pBuf = create_iconlabel_from_chars(GET_SURF(get_building_sprite(tileset, imp)),
+	        pWindow->dst, get_improvement_name(imp), adj_font(14),
+	        WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+        set_wstate(pBuf, FC_WS_NORMAL);
+        if (is_wonder(imp))
+        {
+	       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_LUX);
+        }
+        pBuf->action = change_impr_callback;
+        pBuf->ID = MAX_ID - imp;
+        DownAdd(pBuf, pDock);
+        pDock = pBuf;
+        imp_count++;
+      }
+	
+    } requirement_vector_iterate_end;	
+	  
+    /* TODO: check if code replacement above is correct */
+#if 0
+    if (pImpr->req[0].source.value.tech == tech) {
+      pBuf = create_iconlabel_from_chars(GET_SURF(get_building_sprite(tileset, imp)),
 	      pWindow->dst, get_improvement_name(imp), 14,
 	      WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -1094,26 +1149,27 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
       pDock = pBuf;
       imp_count++;
     }
+#endif	
   } impr_type_iterate_end;
   
   unit_count = 0;
   unit_type_iterate(un) {
-    struct unit_type *pUnit = get_unit_type(un);
+    struct unit_type *pUnit = un;
     if (pUnit->tech_requirement == tech) {
-      if (GET_SURF(pUnit->sprite)->w > 64)
+      if (GET_SURF(get_unittype_sprite(tileset, un))->w > 64)
       {
-	float zoom = 64.0 / GET_SURF(pUnit->sprite)->w;
-        pBuf = create_iconlabel_from_chars(ZoomSurface(GET_SURF(pUnit->sprite), zoom, zoom, 1),
+	float zoom = 64.0 / GET_SURF(get_unittype_sprite(tileset, un))->w;
+        pBuf = create_iconlabel_from_chars(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1),
 	      pWindow->dst, pUnit->name, 14, 
 	      (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
       } else {
-	pBuf = create_iconlabel_from_chars(GET_SURF(pUnit->sprite),
-	      pWindow->dst, pUnit->name, 14,
+	pBuf = create_iconlabel_from_chars(GET_SURF(get_unittype_sprite(tileset, un)),
+	      pWindow->dst, pUnit->name, adj_font(14),
 	      (WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
       }
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_unit_callback;
-      pBuf->ID = MAX_ID - un;
+      pBuf->ID = MAX_ID - un->index;
       DownAdd(pBuf, pDock);
       pDock = pBuf;
       unit_count++;
@@ -1124,8 +1180,8 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   helptext_tech(buffer, tech, "");
   if (buffer[0] != '\0')
   {
-    SDL_String16 *pStr = create_str16_from_char(buffer, 12);
-    convert_string_to_const_surface_width(pStr,	640 - start_x - 20);
+    SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
+    convert_string_to_const_surface_width(pStr,	adj_size(640) - start_x - adj_size(20));
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 0);
     pBuf->ID = ID_LABEL;
     DownAdd(pBuf, pDock);
@@ -1140,14 +1196,14 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     
   /* tree button */
   pBuf = pStore->pDock->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - 20;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 20;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - adj_size(20);
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(20);
   
   /* Tech label */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + start_x;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 20;
-  start_y = pBuf->size.y + pBuf->size.h + 30;
+  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(20);
+  start_y = pBuf->size.y + pBuf->size.h + adj_size(30);
   
   if (targets_count)
   {
@@ -1177,7 +1233,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
       i++;
     }
     
-    start_y += 10;
+    start_y += adj_size(10);
   }
   pBuf = NULL;
   
@@ -1188,7 +1244,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     {
       pBuf->size.x = pWindow->size.x + start_x;
       pBuf->size.y = start_y;
-      start_y += pBuf->size.h + 2;
+      start_y += pBuf->size.h + adj_size(2);
       pBuf = pBuf->prev;
     }
   }
@@ -1203,7 +1259,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     {
       pBuf->size.x = pWindow->size.x + start_x;
       pBuf->size.y = start_y;
-      start_y += pBuf->size.h + 2;
+      start_y += pBuf->size.h + adj_size(2);
       pBuf = pBuf->prev;
     }
   }
@@ -1218,7 +1274,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     {
       pBuf->size.x = pWindow->size.x + start_x;
       pBuf->size.y = start_y;
-      start_y += pBuf->size.h + 2;
+      start_y += pBuf->size.h + adj_size(2);
       pBuf = pBuf->prev;
     }
   }
@@ -1233,7 +1289,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     {
       pBuf->size.x = pWindow->size.x + start_x;
       pBuf->size.y = start_y;
-      start_y += pBuf->size.h + 2;
+      start_y += pBuf->size.h + adj_size(2);
       pBuf = pBuf->prev;
     }
   }
@@ -1256,9 +1312,10 @@ static void redraw_tech_tree_dlg(void)
   /* Redraw Window with exit button */ 
   redraw_group(pWindow->prev, pWindow, FALSE);
     
-  pSurf = ResizeSurface(get_tech_icon(MAX_ID - pTech->ID), 420, 420, 1);
+  pSurf = ResizeSurface(get_tech_icon(MAX_ID - pTech->ID), adj_size(420),
+                                                            adj_size(420), 1);
   SDL_SetAlpha(pSurf, SDL_SRCALPHA, 164);
-  dst.x = pWindow->size.x + pWindow->size.w - pSurf->w - 50;
+  dst.x = pWindow->size.x + pWindow->size.w - pSurf->w - adj_size(50);
   dst.y = pWindow->size.y + (pWindow->size.h - pSurf->h) / 2;;
   SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dst);
   FREESURFACE(pSurf);
@@ -1333,7 +1390,7 @@ static void redraw_tech_tree_dlg(void)
     if (pSub0 || pSub1)
     {
       putline(pStore->pReq[i]->dst,
-        pStore->pReq[i]->size.x - 10,
+        pStore->pReq[i]->size.x - adj_size(10),
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
         pStore->pReq[i]->size.x ,
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
@@ -1343,15 +1400,15 @@ static void redraw_tech_tree_dlg(void)
     if(pSub0)
     {
       putline(pStore->pReq[i]->dst,
-        pStore->pReq[i]->size.x - 10,
+        pStore->pReq[i]->size.x - adj_size(10),
         pSub0->size.y + pSub0->size.h / 2,
-        pStore->pReq[i]->size.x - 10 ,
+        pStore->pReq[i]->size.x - adj_size(10),
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
         color);
       putline(pStore->pReq[i]->dst,
         pSub0->size.x + pSub0->size.w,
         pSub0->size.y + pSub0->size.h / 2,
-        pStore->pReq[i]->size.x - 10 ,
+        pStore->pReq[i]->size.x - adj_size(10),
         pSub0->size.y + pSub0->size.h / 2,
         color);
     }
@@ -1359,15 +1416,15 @@ static void redraw_tech_tree_dlg(void)
     if(pSub1)
     {
       putline(pStore->pReq[i]->dst,
-        pStore->pReq[i]->size.x - 10,
+        pStore->pReq[i]->size.x - adj_size(10),
         pSub1->size.y + pSub1->size.h / 2,
-        pStore->pReq[i]->size.x - 10 ,
+        pStore->pReq[i]->size.x - adj_size(10),
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
         color);
       putline(pStore->pReq[i]->dst,
         pSub1->size.x + pSub1->size.w,
         pSub1->size.y + pSub1->size.h / 2,
-        pStore->pReq[i]->size.x - 10 ,
+        pStore->pReq[i]->size.x - adj_size(10),
         pSub1->size.y + pSub1->size.h / 2,
         color);
     }
@@ -1527,7 +1584,7 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
   SDL_Surface *pSurf;
   struct GUI *pDock = pStore->pDock;
     
-  pStr = create_string16(NULL, 0, 10);
+  pStr = create_string16(NULL, 0, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
   
   copy_chars_to_string16(pStr, advances[tech].name);
@@ -1662,13 +1719,13 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
   /* ------------------------------------------ */
   if (sub_req_count)
   {
-    w = (20 + pStore->pSub_Req[0]->size.w) * 2;
+    w = (adj_size(20) + pStore->pSub_Req[0]->size.w) * 2;
     w += (pWindow->size.w - (20 + pStore->pSub_Req[0]->size.w + w + pTech->size.w)) / 2;
   } else {
     if (req_count)
     {
-      w = (FRAME_WH + 1 + width + pStore->pReq[0]->size.w * 2 + 20);
-      w += (pWindow->size.w - ((20 + pStore->pReq[0]->size.w) + w + pTech->size.w)) / 2;
+      w = (FRAME_WH + 1 + width + pStore->pReq[0]->size.w * 2 + adj_size(20));
+      w += (pWindow->size.w - ((adj_size(20) + pStore->pReq[0]->size.w) + w + pTech->size.w)) / 2;
     } else {
       w = (pWindow->size.w - pTech->size.w) / 2;
     }
@@ -1679,37 +1736,40 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
     
   if(req_count)
   {
-    h = (req_count == 1 ? pStore->pReq[0]->size.h : req_count * (pStore->pReq[0]->size.h + 80) - 80);
+    h = (req_count == 1 ? pStore->pReq[0]->size.h : 
+        req_count * (pStore->pReq[0]->size.h + adj_size(80)) - adj_size(80));
     h = pTech->size.y + (pTech->size.h - h) / 2;
     for(i =0; i <req_count; i++)
     {
-      pStore->pReq[i]->size.x = pTech->size.x - 20 - pStore->pReq[i]->size.w;
+      pStore->pReq[i]->size.x = pTech->size.x - adj_size(20) - pStore->pReq[i]->size.w;
       pStore->pReq[i]->size.y = h;
-      h += (pStore->pReq[i]->size.h + 80);
+      h += (pStore->pReq[i]->size.h + adj_size(80));
     }
   }
   
   if(sub_req_count)
   {
-    h = (sub_req_count == 1 ? pStore->pSub_Req[0]->size.h : sub_req_count * (pStore->pSub_Req[0]->size.h + 20) - 20);
+    h = (sub_req_count == 1 ? pStore->pSub_Req[0]->size.h :
+     sub_req_count * (pStore->pSub_Req[0]->size.h + adj_size(20)) - adj_size(20));
     h = pTech->size.y + (pTech->size.h - h) / 2;
     for(i =0; i <sub_req_count; i++)
     {
-      pStore->pSub_Req[i]->size.x = pTech->size.x - (20 + pStore->pSub_Req[i]->size.w) * 2;
+      pStore->pSub_Req[i]->size.x = pTech->size.x - (adj_size(20) + pStore->pSub_Req[i]->size.w) * 2;
       pStore->pSub_Req[i]->size.y = h;
-      h += (pStore->pSub_Req[i]->size.h + 20);
+      h += (pStore->pSub_Req[i]->size.h + adj_size(20));
     }
   }
   
   if(targets_count)
   {
-    h = (targets_count == 1 ? pStore->pTargets[0]->size.h : targets_count * (pStore->pTargets[0]->size.h + 20) - 20);
+    h = (targets_count == 1 ? pStore->pTargets[0]->size.h :
+     targets_count * (pStore->pTargets[0]->size.h + adj_size(20)) - adj_size(20));
     h = pTech->size.y + (pTech->size.h - h) / 2;
     for(i =0; i <targets_count; i++)
     {  
-      pStore->pTargets[i]->size.x = pTech->size.x + pTech->size.w + 20;
+      pStore->pTargets[i]->size.x = pTech->size.x + pTech->size.w + adj_size(20);
       pStore->pTargets[i]->size.y = h;
-      h += (pStore->pTargets[i]->size.h + 20);
+      h += (pStore->pTargets[i]->size.h + adj_size(20));
     }
   }
   
@@ -1718,11 +1778,11 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
     if(sub_targets_count < 3)
     {
       pStore->pSub_Targets[0]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[0]->size.w;
-      pStore->pSub_Targets[0]->size.y = pTech->size.y - pStore->pSub_Targets[0]->size.h - 10;
+      pStore->pSub_Targets[0]->size.y = pTech->size.y - pStore->pSub_Targets[0]->size.h - adj_size(10);
       if (pStore->pSub_Targets[1])
       {
 	pStore->pSub_Targets[1]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[1]->size.w;
-        pStore->pSub_Targets[1]->size.y = pTech->size.y + pTech->size.h + 10;
+        pStore->pSub_Targets[1]->size.y = pTech->size.y + pTech->size.h + adj_size(10);
       }
     }
     else
@@ -1734,13 +1794,13 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
 	  pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w;
 	  if (i < 2)
 	  {
-            pStore->pSub_Targets[i]->size.y = pTech->size.y - (pStore->pSub_Targets[i]->size.h + 5) * ( 2 - i );
+            pStore->pSub_Targets[i]->size.y = pTech->size.y - (pStore->pSub_Targets[i]->size.h + adj_size(5)) * ( 2 - i );
 	  } else {
-	    pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + 5  + (pStore->pSub_Targets[i]->size.h + 5) * ( i - 2 );
+	    pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + adj_size(5)  + (pStore->pSub_Targets[i]->size.h + adj_size(5)) * ( i - 2 );
 	  }
         }
       } else {
-	h = (pStore->pSub_Targets[0]->size.h + 6);
+	h = (pStore->pSub_Targets[0]->size.h + adj_size(6));
 	for(i =0; i <MIN(sub_targets_count, 6); i++)
         {
 	  switch(i)
@@ -1750,7 +1810,7 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
 	      pStore->pSub_Targets[i]->size.y = pTech->size.y - h * 2;
 	    break;
 	    case 1:
-	      pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w * 2 - 10;
+	      pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w * 2 - adj_size(10);
 	      pStore->pSub_Targets[i]->size.y = pTech->size.y - h - h / 2;
 	    break;
 	    case 2:
@@ -1759,15 +1819,15 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
 	    break;
 	    case 3:
 	      pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w;
-	      pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + 6;
+	      pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + adj_size(6);
 	    break;
 	    case 4:
 	      pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w;
-	      pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + 6 + h;
+	      pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + adj_size(6) + h;
 	    break;
 	    default:
-	      pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w * 2 - 10;
-	      pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + 6 + h / 2 ;
+	      pStore->pSub_Targets[i]->size.x = pTech->size.x + pTech->size.w - pStore->pSub_Targets[i]->size.w * 2 - adj_size(10);
+	      pStore->pSub_Targets[i]->size.y = pTech->size.y + pTech->size.h + adj_size(6) + h / 2 ;
 	    break;
 	  };
         }
@@ -1807,10 +1867,10 @@ void popup_tech_info(Tech_type_id tech)
     pStore->show_tree = FALSE;
     pStore->show_full_tree = FALSE;
     
-    pStr = create_str16_from_char(_("Help : Advances Tree"), 12);
+    pStr = create_str16_from_char(_("Help : Advances Tree"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window(NULL, pStr, 400, 400, WF_FREE_DATA);
+    pWindow = create_window(NULL, pStr, adj_size(400), adj_size(400), WF_FREE_DATA);
     pWindow->data.ptr = (void *)pStore;
     pWindow->action = help_dlg_window_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
@@ -1823,7 +1883,7 @@ void popup_tech_info(Tech_type_id tech)
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
   			  			WF_DRAW_THEME_TRANSPARENT);
   
-    //w += pBuf->size.w + 10;
+    /*w += pBuf->size.w + 10;*/
     pBuf->action = exit_help_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->key = SDLK_ESCAPE;
@@ -1832,7 +1892,7 @@ void popup_tech_info(Tech_type_id tech)
 
     /* ------------------ */
     pDock = pBuf;
-    pStr = create_string16(NULL, 0, 10);
+    pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
     h = 0;
@@ -1870,17 +1930,17 @@ void popup_tech_info(Tech_type_id tech)
     
     /* toggle techs list button */
     pBuf = create_themeicon_button_from_chars(pTheme->UP_Icon,
-	      pWindow->dst,  _("Advances"), 10, 0);
+	      pWindow->dst,  _("Advances"), adj_font(10), 0);
     pBuf->action = toggle_full_tree_mode_in_help_dlg_callback;
     if (pStore->show_tree)
     {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
-    pBuf->size.w = 160;
-    pBuf->size.h = 15;
-    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_WHITE);
+    pBuf->size.w = adj_size(160);
+    pBuf->size.h = adj_size(15);
+    pBuf->string16->fgcol = (SDL_Color){255, 255, 255, 255};
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
-    //pBuf->key = SDLK_ESCAPE;
+    /*pBuf->key = SDLK_ESCAPE;*/
   
     add_to_gui_list(ID_BUTTON, pBuf);
       
@@ -1930,8 +1990,8 @@ void popup_tech_info(Tech_type_id tech)
   /* --------------------------------------------------------- */ 
   if (created)
   {
-    w = 640;
-    h = 480;
+    w = adj_size(640);
+    h = adj_size(480);
     pWindow->size.x = (Main.screen->w - w) / 2;
     pWindow->size.y = (Main.screen->h - h) / 2;
   
@@ -1952,7 +2012,7 @@ void popup_tech_info(Tech_type_id tech)
     pStore->pDock->size.y = pWindow->size.y +  WINDOW_TILE_HIGH + 1;
     
     h = setup_vertical_widgets_position(1, pWindow->size.x + FRAME_WH + width,
-		  pWindow->size.y + WINDOW_TILE_HIGH + 17, 0, 0,
+		  pWindow->size.y + WINDOW_TILE_HIGH + adj_size(17), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
     
@@ -1960,7 +2020,7 @@ void popup_tech_info(Tech_type_id tech)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
 	pWindow->size.x + FRAME_WH,
-    	pWindow->size.y + WINDOW_TILE_HIGH + 17,
+    	pWindow->size.y + WINDOW_TILE_HIGH + adj_size(17),
     	h, FALSE);
     }
   }

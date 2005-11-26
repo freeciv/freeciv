@@ -139,7 +139,6 @@ enum DirScrolling {
 };
 
 struct Animation {
-  SDL_Surface **Focus;
   struct {
     SDL_Cursor **Patrol;
     SDL_Cursor **Goto;
@@ -149,8 +148,6 @@ struct Animation {
     SDL_Cursor **MapScroll[SCROLL_LAST];
   } Cursors;
   
-  int num_tiles_focused_unit;
-  int num_tiles_explode_nuke;
 } *pAnim;
 
 void tilespec_setup_anim(void);
@@ -202,11 +199,13 @@ struct City_Icon {
 
 } *pIcons;
 
+SDL_Surface *pCity_Surf;
+
+void tilespec_setup_city_gfx(void);
 void tilespec_setup_city_icons(void);
 void tilespec_free_city_icons(void);
 void reload_citizens_icons(int style);
-SDL_Surface * get_citizen_surface(struct citizen_type type,
+SDL_Surface * get_city_gfx(void);
+SDL_Surface * get_citizen_surface(enum citizen_category type,
 				  int citizen_index);
-void unload_unused_graphics(void);
-
 #endif  /* FC__GUI_TILESPEC_H */

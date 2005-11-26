@@ -424,11 +424,6 @@ struct tileset *tileset;
 
 int focus_unit_state = 0;
 
-static struct sprite* lookup_sprite_tag_alt(struct tileset *t,
-					    const char *tag, const char *alt,
-					    bool required, const char *what,
-					    const char *name);
-
 
 /****************************************************************************
   Return the name of the given tileset.
@@ -2463,7 +2458,7 @@ void tileset_load_tiles(struct tileset *t)
   Lookup sprite to match tag, or else to match alt if don't find,
   or else return NULL, and emit log message.
 ***********************************************************************/
-static struct sprite* lookup_sprite_tag_alt(struct tileset *t,
+struct sprite* lookup_sprite_tag_alt(struct tileset *t,
 					    const char *tag, const char *alt,
 					    bool required, const char *what,
 					    const char *name)

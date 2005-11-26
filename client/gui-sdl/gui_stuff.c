@@ -42,6 +42,7 @@
 #include "gui_tilespec.h"
 #include "gui_main.h"
 #include "mapview.h"
+#include "log.h"
 
 #include "gui_id.h"
 #include "gui_stuff.h"
@@ -131,8 +132,8 @@ SDL_Surface * get_buffer_layer(bool transparent);
 static void correct_size_bcgnd_surf(SDL_Surface * pTheme,
 				    Uint16 * pWidth, Uint16 * pHigh)
 {
-  *pWidth = MAX(*pWidth, 2 * (pTheme->w / 16));
-  *pHigh = MAX(*pHigh, 2 * (pTheme->h / 16));
+  *pWidth = MAX(*pWidth, 2 * (pTheme->w / adj_size(16)));
+  *pHigh = MAX(*pHigh, 2 * (pTheme->h / adj_size(16)));
 }
 
 /**************************************************************************
@@ -690,25 +691,25 @@ void draw_widget_info_label(void)
   color.unused = 150;
 
 
-  pBcgd = create_filled_surface(pText->w + 10, pText->h + 6, SDL_SWSURFACE,
+  pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6), SDL_SWSURFACE,
 				get_game_colorRGB(COLOR_STD_QUICK_INFO));
 
 
   /* callculate start position */
-  if (pWidget->size.y - pBcgd->h - 6 < 0) {
-    pInfo_Area->y = pWidget->size.y + pWidget->size.h + 3;
+  if (pWidget->size.y - pBcgd->h - adj_size(6) < 0) {
+    pInfo_Area->y = pWidget->size.y + pWidget->size.h + adj_size(3);
   } else {
-    pInfo_Area->y = pWidget->size.y - pBcgd->h - 5;
+    pInfo_Area->y = pWidget->size.y - pBcgd->h - adj_size(5);
   }
 
-  if (pWidget->size.x + pBcgd->w + 5 > Main.screen->w) {
-    pInfo_Area->x = pWidget->size.x - pBcgd->w - 5;
+  if (pWidget->size.x + pBcgd->w + adj_size(5) > Main.screen->w) {
+    pInfo_Area->x = pWidget->size.x - pBcgd->w - adj_size(5);
   } else {
-    pInfo_Area->x = pWidget->size.x + 3;
+    pInfo_Area->x = pWidget->size.x + adj_size(3);
   }
 
-  pInfo_Area->w = pBcgd->w + 2;
-  pInfo_Area->h = pBcgd->h + 2;
+  pInfo_Area->w = pBcgd->w + adj_size(2);
+  pInfo_Area->h = pBcgd->h + adj_size(2);
   
   /* draw theme and text */
   dest = *pInfo_Area;
@@ -719,24 +720,24 @@ void draw_widget_info_label(void)
   SDL_FillRect(Main.gui, &dest , 
      SDL_MapRGBA(Main.gui->format, color.r, color.g, color.b, color.unused));
   */
-  dest.x += 5;
-  dest.y += 3;
+  dest.x += adj_size(5);
+  dest.y += adj_size(3);
   SDL_BlitSurface(pText, NULL, Main.screen, &dest);
 
   /* draw frame */
   putline(Main.screen, pInfo_Area->x + 1, pInfo_Area->y,
-	  pInfo_Area->x + pInfo_Area->w - 2, pInfo_Area->y, 0x0);
+	  pInfo_Area->x + pInfo_Area->w - adj_size(2), pInfo_Area->y, 0x0);
 
   putline(Main.screen, pInfo_Area->x, pInfo_Area->y + 1,
-	  pInfo_Area->x, pInfo_Area->y + pInfo_Area->h - 2, 0x0);
+	  pInfo_Area->x, pInfo_Area->y + pInfo_Area->h - adj_size(2), 0x0);
 
-  putline(Main.screen, pInfo_Area->x + 1, pInfo_Area->y + pInfo_Area->h - 2,
-	  pInfo_Area->x + pInfo_Area->w - 2,
-	  pInfo_Area->y + pInfo_Area->h - 2, 0x0);
+  putline(Main.screen, pInfo_Area->x + 1, pInfo_Area->y + pInfo_Area->h - adj_size(2),
+	  pInfo_Area->x + pInfo_Area->w - adj_size(2),
+	  pInfo_Area->y + pInfo_Area->h - adj_size(2), 0x0);
 
   putline(Main.screen, pInfo_Area->x + pInfo_Area->w - 1, pInfo_Area->y + 1,
 	  pInfo_Area->x + pInfo_Area->w - 1,
-	  pInfo_Area->y + pInfo_Area->h - 2, 0x0);
+	  pInfo_Area->y + pInfo_Area->h - adj_size(2), 0x0);
 
 
   /*flush_rect(*pInfo_Area);*/
@@ -757,13 +758,16 @@ void draw_widget_info_label(void)
   Widgets.
 **************************************************************************/
 struct GUI *get_widget_pointer_form_ID(const struct GUI *pGUI_List,
-				       Uint16 ID)
+				       Uint16 ID, enum scan_direction direction)
 {
   while (pGUI_List) {
     if (pGUI_List->ID == ID) {
       return (struct GUI *) pGUI_List;
     }
+    if (direction == SCAN_FORWARD)
     pGUI_List = pGUI_List->next;
+    else
+      pGUI_List = pGUI_List->prev;  
   }
   return NULL;
 }
@@ -774,7 +778,7 @@ struct GUI *get_widget_pointer_form_ID(const struct GUI *pGUI_List,
 **************************************************************************/
 struct GUI *get_widget_pointer_form_main_list(Uint16 ID)
 {
-  return get_widget_pointer_form_ID(pBeginMainWidgetList, ID);
+  return get_widget_pointer_form_ID(pBeginMainWidgetList, ID, SCAN_FORWARD);
 }
 
 /**************************************************************************
@@ -1058,6 +1062,9 @@ void del_group_of_widgets_from_gui_list(struct GUI *pBeginGroupWidgetList,
   struct GUI *pBufWidget = NULL;
   struct GUI *pTmpWidget = pEndGroupWidgetList;
 
+  if (!pEndGroupWidgetList)
+	return;
+  
   if (pBeginGroupWidgetList == pEndGroupWidgetList) {
     del_widget_from_gui_list(pTmpWidget);
     return;
@@ -1525,8 +1532,12 @@ static int get_position(struct ADVANCED_DLG *pDlg)
     } while (pBuf != pDlg->pBeginActiveWidgetList);
   }
  
+  if (pDlg->pScroll->pScrollBar) {
   return pDlg->pScroll->max - pDlg->pScroll->pScrollBar->size.h -
 					count * (float)step / pDlg->pScroll->step;
+  } else {
+    return pDlg->pScroll->max - count * (float)step / pDlg->pScroll->step;
+  }
 }
 
 /**************************************************************************
@@ -1964,7 +1975,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
     set_wflag(pNew_Widget, WF_HIDDEN);
   }
   
-  if(pDlg->pActiveWidgetList) {
+  if(pDlg->pActiveWidgetList && pDlg->pScroll->pScrollBar) {
     blit_entire_src(pDlg->pScroll->pScrollBar->gfx,
     		    pDlg->pScroll->pScrollBar->dst,
 		    pDlg->pScroll->pScrollBar->size.x,
@@ -2088,7 +2099,9 @@ STD:  while (pBuf != pWidget) {
     pDlg->pScroll->count--;
     
     if(pDlg->pActiveWidgetList) {
+      if (pDlg->pScroll->pScrollBar) {
       pDlg->pScroll->pScrollBar->size.h = scrollbar_size(pDlg->pScroll);
+    }
     }
     
   } else { /* no scrollbar */
@@ -2142,7 +2155,7 @@ STD:  while (pBuf != pWidget) {
 
   del_widget_from_gui_list(pWidget);
   
-  if(pDlg->pScroll && pDlg->pActiveWidgetList) {
+  if(pDlg->pScroll && pDlg->pScroll->pScrollBar && pDlg->pActiveWidgetList) {
     pDlg->pScroll->pScrollBar->size.y = get_position(pDlg);
   }
   
@@ -2579,17 +2592,17 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   Uint32 color;
   SDL_Color RGB_Color = { 255, 255, 255, 128 };
   SDL_Rect dest, src = get_smaller_surface_rect(pIcon);
-  SDL_Surface *pTheme = create_surf((src.w + 4) * 4, src.h + 4,
+  SDL_Surface *pTheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
 				    SDL_SWSURFACE);
 
-  dest.x = 2;
+  dest.x = adj_size(2);
   dest.y = (pTheme->h - src.h) / 2;
 
   /* normal */
   SDL_BlitSurface(pIcon, &src, pTheme, &dest);
 
   /* sellected */
-  dest.x += (src.w + 4);
+  dest.x += (src.w + adj_size(4));
   SDL_BlitSurface(pIcon, &src, pTheme, &dest);
   /* draw sellect frame */
   color = SDL_MapRGB(pTheme->format, 254, 254, 254);
@@ -2597,18 +2610,18 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 	   dest.y + src.h, color);
 
   /* pressed */
-  dest.x += (src.w + 4);
+  dest.x += (src.w + adj_size(4));
   SDL_BlitSurface(pIcon, &src, pTheme, &dest);
   /* draw sellect frame */
   putframe(pTheme, dest.x - 1, dest.y - 1, dest.x + src.w,
 	   dest.y + src.h, color);
   /* draw press frame */
   color = SDL_MapRGB(pTheme->format, 246, 254, 2);
-  putframe(pTheme, dest.x - 2, dest.y - 2, dest.x + (src.w + 1),
+  putframe(pTheme, dest.x - adj_size(2), dest.y - adj_size(2), dest.x + (src.w + 1),
 	   dest.y + (src.h + 1), color);
 
   /* disabled */
-  dest.x += (src.w + 4);
+  dest.x += (src.w + adj_size(4));
   SDL_BlitSurface(pIcon, &src, pTheme, &dest);
   dest.w = src.w;
   dest.h = src.h;
@@ -2766,8 +2779,8 @@ void set_new_icon2_theme(struct GUI *pIcon_Widget, SDL_Surface *pNew_Theme,
       FREESURFACE(pIcon_Widget->theme);
     }
     pIcon_Widget->theme = pNew_Theme;
-    pIcon_Widget->size.w = pNew_Theme->w + 4;
-    pIcon_Widget->size.h = pNew_Theme->h + 4;
+    pIcon_Widget->size.w = pNew_Theme->w + adj_size(4);
+    pIcon_Widget->size.h = pNew_Theme->h + adj_size(4);
   }
 }
 
@@ -2788,8 +2801,8 @@ struct GUI * create_icon2(SDL_Surface *pIcon, SDL_Surface *pDest, Uint32 flags)
   pIcon_Widget->dst = pDest;
   
   if (pIcon) {
-    pIcon_Widget->size.w = pIcon->w + 4;
-    pIcon_Widget->size.h = pIcon->h + 4;
+    pIcon_Widget->size.w = pIcon->w + adj_size(4);
+    pIcon_Widget->size.h = pIcon->h + adj_size(4);
   }
 
   return pIcon_Widget;
@@ -2830,28 +2843,28 @@ int real_redraw_icon2(struct GUI *pIcon)
 
   if (state == FC_WS_SELLECTED) {
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
-	     dest.x + dest.w + 2, dest.y + dest.h + 2,
+	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
 	     SDL_MapRGB(pIcon->dst->format, 254, 254, 254));
   }
 
   if (state == FC_WS_PRESSED) {
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
-	     dest.x + dest.w + 2, dest.y + dest.h + 2,
+	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
 	     SDL_MapRGB(pIcon->dst->format, 254, 254, 254));
 
     putframe(pIcon->dst, dest.x, dest.y,
-	     dest.x + dest.w + 3, dest.y + dest.h + 3,
+	     dest.x + dest.w + adj_size(3), dest.y + dest.h + adj_size(3),
 	     SDL_MapRGB(pIcon->dst->format, 246, 254, 2));
   }
 
   if (state == FC_WS_DISABLED) {
+    SDL_Color c = *get_game_colorRGB(COLOR_STD_DISABLED);
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
-	     dest.x + dest.w + 2, dest.y + dest.h + 2,
-	     get_game_color(COLOR_STD_DISABLED, pIcon->dst));
+	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
+	     SDL_MapRGBA(pIcon->dst->format, c.r, c.g, c.b, c.unused));
   }
-  
-  dest.x += 2;
-  dest.y += 2;
+  dest.x += adj_size(2);
+  dest.y += adj_size(2);
   ret = SDL_BlitSurface(pIcon->theme, NULL, pIcon->dst, &dest);
   if (ret) {
     return ret;
@@ -2916,19 +2929,19 @@ struct GUI * create_icon_button(SDL_Surface *pIcon, SDL_Surface *pDest,
   if (pIcon) {
     if (pStr) {
       if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
-	w = MAX(w, pIcon->w + 2);
-	h = MAX(h, buf.h + pIcon->h + 4);
+	w = MAX(w, pIcon->w + adj_size(2));
+	h = MAX(h, buf.h + pIcon->h + adj_size(4));
       } else {
-	w = MAX(w, buf.w + pIcon->w + 20);
-	h = MAX(h, pIcon->h + 2);
+	w = MAX(w, buf.w + pIcon->w + adj_size(20));
+	h = MAX(h, pIcon->h + adj_size(2));
       }
     } else {
-      w = MAX(w, pIcon->w + 2);
-      h = MAX(h, pIcon->h + 2);
+      w = MAX(w, pIcon->w + adj_size(2));
+      h = MAX(h, pIcon->h + adj_size(2));
     }
   } else {
-    w += 10;
-    h += 2;
+    w += adj_size(10);
+    h += adj_size(2);
   }
 
   correct_size_bcgnd_surf(pTheme->Button, &w, &h);
@@ -3426,10 +3439,10 @@ struct GUI * create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
   if (pString16) {
     pEdit->string16->style |= SF_CENTER;
     buf = str16size(pString16);
-    buf.h += 4;
+    buf.h += adj_size(4);
   }
 
-  length = MAX(length, buf.w + 10);
+  length = MAX(length, buf.w + adj_size(10));
 
   correct_size_bcgnd_surf(pTheme->Edit, &length, &buf.h);
 
@@ -3527,9 +3540,9 @@ int redraw_edit(struct GUI *pEdit_Widget)
         rDest.x += (pEdit->w - pText->w) / 2;
       } else {
         if (pEdit_Widget->string16->style & SF_CENTER_RIGHT) {
-	  rDest.x += pEdit->w - pText->w - 5;
+	  rDest.x += pEdit->w - pText->w - adj_size(5);
         } else {
-	  rDest.x += 5;		/* cennter left */
+	  rDest.x += adj_size(5);		/* cennter left */
         }
       }
 
@@ -3589,9 +3602,9 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       /* move cursor right */
       if (pEdt->pInputChain->next) {
 	
-       if (pEdt->InputChain_X >= (pEdt->pWidget->size.x + pEdt->pBg->w - 10)) {
+       if (pEdt->InputChain_X >= (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10))) {
 	pEdt->Start_X -= pEdt->pInputChain->pTsurf->w -
-		(pEdt->pWidget->size.x + pEdt->pBg->w - 5 - pEdt->InputChain_X);
+		(pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
        }
 
 	pEdt->pInputChain = pEdt->pInputChain->next;
@@ -3609,9 +3622,9 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       if (pEdt->pInputChain->prev) {
         pEdt->pInputChain = pEdt->pInputChain->prev;
 	if ((pEdt->InputChain_X <=
-	       (pEdt->pWidget->size.x + 9)) && (pEdt->Start_X != 5)) {
-	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + 5)) {
-	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + 5);
+	       (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
+	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
+	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
 	  }
 
 	  pEdt->Start_X += (pEdt->pInputChain->pTsurf->w);
@@ -3629,7 +3642,7 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       /* move cursor to begin of chain (and edit field) */
       pEdt->pInputChain = pEdt->pBeginTextChain;
       Redraw = TRUE;
-      pEdt->Start_X = 5;
+      pEdt->Start_X = adj_size(5);
     }
     break;
     case SDLK_KP1:
@@ -3643,7 +3656,7 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       Redraw = TRUE;
 
       if (pEdt->pWidget->size.w - pEdt->Truelength < 0) {
-	  pEdt->Start_X = pEdt->pWidget->size.w - pEdt->Truelength - 5;
+	  pEdt->Start_X = pEdt->pWidget->size.w - pEdt->Truelength - adj_size(5);
       }
     }
     break;
@@ -3653,9 +3666,9 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       if (pEdt->pInputChain->prev) {
 
 	if ((pEdt->InputChain_X <=
-	       (pEdt->pWidget->size.x + 9)) && (pEdt->Start_X != 5)) {
-	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + 5)) {
-	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + 5);
+	       (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
+	  if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
+	      pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
 	  }
 	  pEdt->Start_X += (pEdt->pInputChain->prev->pTsurf->w);
 	}
@@ -3754,12 +3767,12 @@ INPUT:/* add new element of chain (and move cursor right) */
 	  pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
 	}
 
-	if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - 10) {
+	if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10)) {
 	  if (pEdt->pInputChain == pEdt->pEndTextChain) {
-	    pEdt->Start_X = pEdt->pBg->w - 5 - pEdt->Truelength;
+	    pEdt->Start_X = pEdt->pBg->w - adj_size(5) - pEdt->Truelength;
 	  } else {
 	    pEdt->Start_X -= pEdt->pInputChain->prev->pTsurf->w -
-		  (pEdt->pWidget->size.x + pEdt->pBg->w - 5 - pEdt->InputChain_X);
+		  (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
 	  }
 	}
 	
@@ -3801,7 +3814,7 @@ enum Edit_Return_Codes edit_field(struct GUI *pEdit_Widget)
   pEdt.pWidget = pEdit_Widget;
   pEdt.ChainLen = 0;
   pEdt.Truelength = 0;
-  pEdt.Start_X = 5;
+  pEdt.Start_X = adj_size(5);
   pEdt.InputChain_X = 0;
   
   pEdit_Widget->data.ptr = (void *)&pEdt;
@@ -4374,7 +4387,7 @@ struct GUI * create_window(SDL_Surface *pDest, SDL_String16 *pTitle,
 
   if (pTitle) {
     SDL_Rect size = str16size(pTitle);
-    w = MAX(w, size.w + 10);
+    w = MAX(w, size.w + adj_size(10));
     h = MAX(h, size.h);
     h = MAX(h, WINDOW_TILE_HIGH + 1);
   }
@@ -4508,7 +4521,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	
 	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint8));
 	my_memset8(pPixel, (color & 0xFF), w - x);
-	(Uint8 *)pPixelArray += (w - x);
+	pPixelArray = (Uint8 *)pPixelArray + (w - x);
       }
       
       /*left */
@@ -4524,7 +4537,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y < h; y++) {
 	  *(Uint8 *)pPixelArray = *pPixel;
 	  *pPixel = (color & 0xFF);
-	  ((Uint8 *)pPixelArray)++;
+	  pPixelArray = (Uint8 *)pPixelArray + 1; 
 	  pPixel += pitch;
         }
 	
@@ -4550,7 +4563,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	my_memset8(pPixel, (color & 0xFF), w - x);
 	
         pPixel += (w - x) - 1;
-	((Uint8 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint8 *)pPixelArray + (w - x);
 	
         x = w - 1;
       } else {
@@ -4571,7 +4584,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y > y0; y--) {
 	  *(Uint8 *)pPixelArray = *pPixel;
 	  *pPixel = (color & 0xFF);
-	  ((Uint8 *)pPixelArray)++;
+	  pPixelArray = (Uint8 *)pPixelArray + 1;
 	  pPixel -= pitch;
         }
         
@@ -4598,7 +4611,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	
 	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint16));
 	my_memset16(pPixel, (color & 0xFFFF), w - x);
-	((Uint16 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint16 *)pPixelArray + (w - x);
       }
       
       /*left */
@@ -4614,7 +4627,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y < h; y++) {
 	  *(Uint16 *)pPixelArray = *pPixel;
 	  *pPixel = (color & 0xFFFF);
-	  ((Uint16 *)pPixelArray)++;
+	  pPixelArray = (Uint16 *)pPixelArray + 1;
 	  pPixel += pitch;
         }
 	
@@ -4640,7 +4653,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	my_memset16(pPixel, (color & 0xFFFF), w - x);
 	
         pPixel += (w - x) - 1;
-	((Uint16 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint16 *)pPixelArray + (w - x);
 	
         x = w - 1;
       } else {
@@ -4661,7 +4674,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y > y0; y--) {
 	  *(Uint16 *)pPixelArray = *pPixel;
 	  *pPixel = (color & 0xFFFF);
-	  ((Uint16 *)pPixelArray)++;
+	  pPixelArray = (Uint16 *)pPixelArray + 1;
 	  pPixel -= pitch;
         }
         
@@ -4690,7 +4703,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	
 	memcpy(pPixelArray, pPixel, size * sizeof(Uint8));
 	my_memset24(pPixel, (color & 0xFFFFFF), size);
-	((Uint8 *)pPixelArray) += size;
+	pPixelArray = (Uint8 *)pPixelArray + size;
       }
       
       /*left */
@@ -4706,7 +4719,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y < h; y++) {
 	  memmove(pPixelArray, pPixel, 3);
 	  memmove(pPixel, &color, 3);
-	  ((Uint8 *)pPixelArray) += 3;
+	  pPixelArray = (Uint8 *)pPixelArray + 3;
 	  pPixel += pitch;
         }
 	
@@ -4733,7 +4746,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	my_memset24(pPixel, (color & 0xFFFFFF), size);
 	
         pPixel += size - 3;
-	((Uint8 *)pPixelArray) += size;
+	pPixelArray = (Uint8 *)pPixelArray + size;
 	
         x = w - 1;
       } else {
@@ -4754,7 +4767,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y > y0; y--) {
 	  memmove(pPixelArray, pPixel, 3);
 	  memmove(pPixel, &color, 3);
-	  ((Uint8 *)pPixelArray) += 3;
+	  pPixelArray = (Uint8 *)pPixelArray + 3;
 	  pPixel -= pitch;
         }
         
@@ -4781,7 +4794,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	
 	memcpy(pPixelArray, pPixel, (w - x) * sizeof(Uint32));
 	my_memset32(pPixel, color, w - x); 
-	((Uint32 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint32 *)pPixelArray + (w - x);
       }
       
       /*left */
@@ -4797,7 +4810,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y < h; y++) {
 	  *(Uint32 *)pPixelArray = *pPixel;
 	  *pPixel = color;
-	  ((Uint32 *)pPixelArray)++;
+	  pPixelArray = (Uint32 *)pPixelArray + 1;
 	  pPixel += pitch;
         }
 	
@@ -4823,7 +4836,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
 	my_memset32(pPixel, color, w - x);
 	
         pPixel += (w - x) - 1;
-	((Uint32 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint32 *)pPixelArray + (w - x);
 	
         x = w - 1;
       } else {
@@ -4844,7 +4857,7 @@ static void make_copy_of_pixel_and_draw_frame_window(struct GUI *pWindow,
         for (; y > y0; y--) {
 	  *(Uint32 *)pPixelArray = *pPixel;
 	  *pPixel = color;
-	  ((Uint32 *)pPixelArray)++;
+	  pPixelArray = (Uint32 *)pPixelArray + 1;
 	  pPixel -= pitch;
         }
         
@@ -4923,7 +4936,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x;
 	
 	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint8));
-	((Uint8 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint8 *)pPixelArray + (w - x);
 	
       }
       
@@ -4939,7 +4952,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y < h; y++) {
 	  *pPixel = *(Uint8 *)pPixelArray;
-	  ((Uint8 *)pPixelArray)++;
+	  pPixelArray = (Uint8 *)pPixelArray + 1;
 	  pPixel += pitch;
         }
 	
@@ -4964,7 +4977,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint8));
 		
         pPixel += (w - x) - 1;
-	((Uint8 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint8 *)pPixelArray + (w - x);
 	
         x = w - 1;
       } else {
@@ -4984,7 +4997,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y > y0; y--) {
 	  *pPixel = *(Uint8 *)pPixelArray;
-	  ((Uint8 *)pPixelArray)++;
+	  pPixelArray = (Uint8 *)pPixelArray + 1;
 	  pPixel -= pitch;
         }
         
@@ -5009,7 +5022,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	pPixel = (Uint16 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 2);
 	
 	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint16));
-	((Uint16 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint16 *)pPixelArray + (w - x);
 	
       }
       
@@ -5025,7 +5038,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y < h; y++) {
 	  *pPixel = *(Uint16 *)pPixelArray;
-	  ((Uint16 *)pPixelArray)++;
+	  pPixelArray = (Uint16 *)pPixelArray + 1;
 	  pPixel += pitch;
         }
 	
@@ -5050,7 +5063,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint16));
 		
         pPixel += (w - x) - 1;
-	((Uint16 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint16 *)pPixelArray + (w - x);
 	
         x = w - 1;
       } else {
@@ -5070,7 +5083,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y > y0; y--) {
 	  *pPixel = *(Uint16 *)pPixelArray;
-	  ((Uint16 *)pPixelArray)++;
+	  pPixelArray = (Uint16 *)pPixelArray + 1;
 	  pPixel -= pitch;
         }
         
@@ -5097,7 +5110,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	pPixel = (Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 3;
 	
 	memcpy(pPixel, pPixelArray, size * sizeof(Uint8));
-	((Uint8 *)pPixelArray) += size;
+	pPixelArray = (Uint8 *)pPixelArray + size;
 	
       }
       
@@ -5113,7 +5126,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y < h; y++) {
 	  memmove(pPixel, pPixelArray, 3);
-	  ((Uint8 *)pPixelArray) += 3;
+	  pPixelArray = (Uint8 *)pPixelArray + 3;
 	  pPixel += pitch;
         }
 	
@@ -5138,7 +5151,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	memcpy(pPixel, pPixelArray, size * sizeof(Uint8));
 		
         pPixel += size - 3;
-	((Uint8 *)pPixelArray) += size;
+	pPixelArray = (Uint8 *)pPixelArray + size;
 	
         x = w - 1;
       } else {
@@ -5158,7 +5171,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y > y0; y--) {
 	  memmove(pPixel, pPixelArray, 3);
-	  ((Uint8 *)pPixelArray) += 3;
+	  pPixelArray = (Uint8 *)pPixelArray + 3;
 	  pPixel -= pitch;
         }
         
@@ -5183,7 +5196,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	pPixel = (Uint32 *)((Uint8 *)pDest->pixels + (y * pDest->pitch) + x * 4);
 	
 	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint32));
-	((Uint32 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint32 *)pPixelArray + (w - x);
       }
       
       /*left */
@@ -5198,7 +5211,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	
         for (; y < h; y++) {
 	  *pPixel = *(Uint32 *)pPixelArray;
-	  ((Uint32 *)pPixelArray)++;
+	  pPixelArray = (Uint32 *)pPixelArray + 1;
 	  pPixel += pitch;
         }
 	
@@ -5223,7 +5236,7 @@ static void draw_frame_of_window_from_array(struct GUI *pWindow,
 	memcpy(pPixel, pPixelArray, (w - x) * sizeof(Uint32));
 		
         pPixel += (w - x) - 1;
-	((Uint32 *)pPixelArray) += (w - x);
+	pPixelArray = (Uint32 *)pPixelArray + (w - x);
 	
         x = w - 1;
       } else {
@@ -5510,7 +5523,7 @@ void remake_label_size(struct GUI *pLabel)
   Uint16 w = 0, h = 0, space;
 
   if (flags & WF_DRAW_TEXT_LABEL_WITH_SPACE) {
-    space = 10;
+    space = adj_size(10);
   } else {
     space = 0;
   }
@@ -5540,13 +5553,13 @@ void remake_label_size(struct GUI *pLabel)
     if (pText) {
       if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
 	w = MAX(w, pIcon->w + space);
-	h = MAX(h, buf.h + pIcon->h + 3);
+	h = MAX(h, buf.h + pIcon->h + adj_size(3));
       } else {
 	if (flags & WF_ICON_CENTER) {
 	  w = MAX(w, pIcon->w + space);
 	  h = MAX(h, pIcon->h);
 	} else {
-	  w = MAX(w, buf.w + pIcon->w + 5 + space);
+	  w = MAX(w, buf.w + pIcon->w + adj_size(5) + space);
 	  h = MAX(h, pIcon->h);
 	}
       }
@@ -5804,9 +5817,9 @@ static int redraw_themelabel(struct GUI *pLabel)
     x = (pLabel->size.w - pText->w) / 2;
   } else {
     if (pLabel->string16->style & SF_CENTER_RIGHT) {
-      x = pLabel->size.w - pText->w - 5;
+      x = pLabel->size.w - pText->w - adj_size(5);
     } else {
-      x = 5;
+      x = adj_size(5);
     }
   }
 
@@ -5871,7 +5884,7 @@ static int redraw_iconlabel(struct GUI *pLabel)
   flags = get_wflags(pLabel);
 
   if (flags & WF_DRAW_TEXT_LABEL_WITH_SPACE) {
-    space = 5;
+    space = adj_size(5);
   } else {
     space = 0;
   }
@@ -5899,12 +5912,12 @@ static int redraw_iconlabel(struct GUI *pLabel)
 
       if (flags & WF_ICON_ABOVE_TEXT) {
 	yI = 0;
-	y = pLabel->theme->h + 3
-	    + (pLabel->size.h - (pLabel->theme->h + 3) - pText->h) / 2;
+	y = pLabel->theme->h + adj_size(3)
+	    + (pLabel->size.h - (pLabel->theme->h + adj_size(3)) - pText->h) / 2;
       } else {
 	if (flags & WF_ICON_UNDER_TEXT) {
-	  y = (pLabel->size.h - (pLabel->theme->h + 3) - pText->h) / 2;
-	  yI = y + pText->h + 3;
+	  y = (pLabel->size.h - (pLabel->theme->h + adj_size(3)) - pText->h) / 2;
+	  yI = y + pText->h + adj_size(3);
 	} else {
 	  yI = (pLabel->size.h - pLabel->theme->h) / 2;
 	  y = (pLabel->size.h - pText->h) / 2;
@@ -5950,15 +5963,15 @@ static int redraw_iconlabel(struct GUI *pLabel)
 	    goto Alone;
 	  } else {		/* WF_ICON_CENTER_LEFT */
 	    if (pLabel->string16->style & SF_CENTER) {
-	      x = space + pLabel->theme->w + 5 + ((pLabel->size.w -
+	      x = space + pLabel->theme->w + adj_size(5) + ((pLabel->size.w -
 						   (space +
-						    pLabel->theme->w + 5) -
+						    pLabel->theme->w + adj_size(5)) -
 						   pText->w) / 2);
 	    } else {
 	      if (pLabel->string16->style & SF_CENTER_RIGHT) {
 		x = pLabel->size.w - pText->w - space;
 	      } else {
-		x = space + pLabel->theme->w + 5;
+		x = space + pLabel->theme->w + adj_size(5);
 	      }
 	    }
 	  }			/* WF_ICON_CENTER_LEFT */

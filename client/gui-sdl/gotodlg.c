@@ -44,6 +44,7 @@
 #include "gui_zoom.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
+#include "goto.h"
 
 #include "gotodlg.h"
 
@@ -80,7 +81,7 @@ static int goto_city_callback(struct GUI *pWidget)
     struct unit *pUnit = get_unit_in_focus();
     if (pUnit) {
       if(GOTO) {
-        send_goto_tile(pUnit, pDestcity->x, pDestcity->y);
+        send_goto_tile(pUnit, pDestcity->tile);
       } else {
 	request_unit_airlift(pUnit, pDestcity);
       }
@@ -101,7 +102,8 @@ static void update_goto_dialog(void)
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128]; 
-  int i, n = 0, owner = 0xffff;  
+  int i, n = 0/*, owner = 0xffff*/;  
+  struct player *owner = NULL;
   
   if(pGotoDlg->pEndActiveWidgetList) {
     pAdd_Dock = pGotoDlg->pEndActiveWidgetList->next;
@@ -123,7 +125,7 @@ static void update_goto_dialog(void)
     city_list_iterate(game.players[i].cities, pCity) {
       
       /* FIXME: should use unit_can_airlift_to(). */
-      if (!GOTO && !pcity->airlift) {
+      if (!GOTO && !pCity->airlift) {
 	continue;
       }
       
@@ -133,8 +135,8 @@ static void update_goto_dialog(void)
       pStr->style |= TTF_STYLE_BOLD;
    
       if(pCity->owner != owner) {
-        pLogo = GET_SURF(get_nation_by_idx(
-			get_player(pCity->owner)->nation)->flag_sprite);
+        pLogo = GET_SURF(get_nation_flag_sprite(tileset, 
+			get_player(pCity->owner->player_no)->nation));
         pLogo = make_flag_surface_smaler(pLogo);
       }
       
@@ -147,7 +149,7 @@ static void update_goto_dialog(void)
       }
       
       pBuf->string16->fgcol =
-	    *(get_game_colorRGB(player_color(get_player(pCity->owner))));
+	    *(get_player_color(tileset, city_owner(pCity))->color);	  	  
       pBuf->string16->render = 3;
       pBuf->string16->bgcol.unused = 128;      
       pBuf->action = goto_city_callback;
@@ -192,7 +194,7 @@ static void update_goto_dialog(void)
 	pGotoDlg->pEndWidgetList->size.x + FRAME_WH + 1,
         pGotoDlg->pEndWidgetList->size.y + WINDOW_TILE_HIGH + 1,
         pGotoDlg->pScroll->pUp_Left_Button->size.x -
-		  	pGotoDlg->pEndWidgetList->size.x - FRAME_WH - 2,
+		  	pGotoDlg->pEndWidgetList->size.x - FRAME_WH - adj_size(2),
         0, pGotoDlg->pBeginActiveWidgetList, pGotoDlg->pEndActiveWidgetList);
         
   } else {
@@ -224,10 +226,10 @@ static void popup_goto_airlift_dialog(void)
   
   pGotoDlg = MALLOC(sizeof(struct ADVANCED_DLG));
     
-  pStr = create_str16_from_char(_("Select destination"), 12);
+  pStr = create_str16_from_char(_("Select destination"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, 10, 10, WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
   
   pWindow->action = goto_dialog_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -243,21 +245,21 @@ static void popup_goto_airlift_dialog(void)
   pBuf->action = exit_goto_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-  w += (pBuf->size.w + 10);
+  w += (pBuf->size.w + adj_size(10));
   
   add_to_gui_list(ID_BUTTON, pBuf);
   
   col = 0;
   /* --------------------------------------------- */
   for(i = 0; i < game.info.nplayers; i++) {
-    if(i != game.player_idx
+    if(i != game.info.player_idx
       && pplayer_get_diplstate(
     		game.player_ptr, &game.players[i])->type == DS_NO_CONTACT) {
       continue;
     }
     
     pFlag = make_flag_surface_smaler(
-    	GET_SURF(get_nation_by_idx(game.players[i].nation)->flag_sprite));
+    	GET_SURF(get_nation_flag_sprite(tileset, game.players[i].nation)));
   
     if (pFlag->w > 15 || pFlag->h > 15) {
       float zoom = (float)(MAX(pFlag->w, pFlag->h)) / 15;
@@ -277,7 +279,7 @@ static void popup_goto_airlift_dialog(void)
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
     
     pBuf->string16 = create_str16_from_char(
-    			get_nation_by_idx(game.players[i].nation)->name, 12);
+    			game.players[i].nation->name, adj_font(12));
     pBuf->string16->style &= ~SF_CENTER;
     set_wstate(pBuf, FC_WS_NORMAL);
     
@@ -294,16 +296,16 @@ static void popup_goto_airlift_dialog(void)
   create_vertical_scrollbar(pGotoDlg, 1, 17, TRUE, TRUE);
   hide_scrollbar(pGotoDlg->pScroll);
   
-  w = MAX(w, 300);
-  h = 300;
+  w = MAX(w, adj_size(300));
+  h = adj_size(300);
   
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
   
   resize_window(pWindow, NULL, NULL, w, h);
   
-  col = (col + 10) / 11;
-  w = col * pBuf->size.w + (col - 1) * 5 + 10;
+  col = (col + adj_size(10)) / adj_size(11);
+  w = col * pBuf->size.w + (col - 1) * 5 + adj_size(10);
   h = pWindow->size.h - WINDOW_TILE_HIGH - 1 - FRAME_WH;
   
   pFlag = ResizeSurface(pTheme->Block, w, h, 1);
@@ -322,17 +324,17 @@ static void popup_goto_airlift_dialog(void)
   /* nations buttons */
   pBuf = pBuf->prev;
   i = 0;
-  w = pWindow->size.x + block_x + 5;
-  h = pWindow->size.y + WINDOW_TILE_HIGH + 6;
+  w = pWindow->size.x + block_x + adj_size(5);
+  h = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
   while(pBuf) {
     pBuf->size.x = w;
     pBuf->size.y = h;
        
     if(!((i + 1) % col)) {
-      h += pBuf->size.h + 5;
-      w = pWindow->size.x + block_x + 5;
+      h += pBuf->size.h + adj_size(5);
+      w = pWindow->size.x + block_x + adj_size(5);
     } else {
-      w += pBuf->size.w + 5;
+      w += pBuf->size.w + adj_size(5);
     }
     
     if(pBuf == pGotoDlg->pBeginWidgetList) {

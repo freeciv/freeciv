@@ -26,6 +26,8 @@
 
 #include "graphics_g.h"
 
+#include "gui_main.h"
+
 #define	RECT_LIMIT	80
 /* #define	HAVE_MMX1 */
 
@@ -170,6 +172,13 @@ struct sprite {
 
 #define GET_SURF(m_sprite)	(m_sprite->psurface)
 
+/* shrink surface on 320x240 screen*/
+#ifdef SMALL_SCREEN
+#define adj_surf(surf) ZoomSurface(surf, 0.5, 0.5, 0)
+#else
+#define adj_surf(surf) surf
+#endif
+
 struct canvas {
   SDL_Surface *surf;
 };
@@ -239,7 +248,6 @@ void unload_cursors(void);
 
 SDL_Surface *get_logo_gfx(void);
 SDL_Surface *get_intro_gfx(void);
-SDL_Surface *get_city_gfx(void);
 void draw_intro_gfx(void);
 
 SDL_Surface *make_flag_surface_smaler(SDL_Surface *pSrc);

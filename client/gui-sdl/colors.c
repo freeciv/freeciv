@@ -25,41 +25,17 @@
 
 #include <SDL/SDL.h>
 
+#include "tilespec.h"
+#include "mem.h"
+#include "log.h"
+
 #include "colors.h"
 
 /*
   r, g, b, a
 */
-static SDL_Color colors_standard_rgb[COLOR_STD_LAST] = {
-  {0, 0, 0, 255},		/* Black */
-  {255, 255, 255, 255},		/* White */
-  {255, 0, 0, 255},		/* Red */
-  {255, 255, 0, 255},		/* Yellow */
-  {0, 255, 200, 255},		/* Cyan */
-  {0, 200, 0, 255},		/* Ground (green) */
-  {0, 0, 200, 255},		/* Ocean (blue) */
-  {86, 86, 86, 255},		/* Background (gray) */
-  {128, 0, 0, 255},		/* race0 */
-  {128, 255, 255, 255},		/* race1 */
-  {255, 0, 0, 255},		/* race2 */
-  {255, 0, 128, 255},		/* race3 */
-  {0, 0, 128, 255},		/* race4 */
-  {255, 0, 255, 255},		/* race5 */
-  {255, 128, 0, 255},		/* race6 */
-  {255, 255, 128, 255},		/* race7 */
-  {255, 128, 128, 255},		/* race8 */
-  {0, 0, 255, 255},		/* race9 */
-  {0, 255, 0, 255},		/* race10 */
-  {0, 128, 128, 255},		/* race11 */
-  {0, 64, 64, 255},		/* race12 */
-  {198, 198, 198, 255}		/* race13 */
-};
-
-/*
-  r, g, b, a
-*/
 static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
-						COLOR_STD_LAST] = {
+						COLOR_LAST] = {
   {72, 61, 139, 255},		/* race14 */
   {100, 149, 237, 255},		/* race15 */
   {255, 228, 181, 255},		/* race16 */
@@ -98,29 +74,47 @@ static SDL_Color SDLClient_standard_rgba_colors[SDLCLIENT_STD_COLOR_LAST -
 };
 
 /**************************************************************************
-  Initialize colors for the game.
-**************************************************************************/
-void init_color_system(void)
-{
-}
-
-/**************************************************************************
   ...
 **************************************************************************/
-SDL_Color * get_game_colorRGB(Uint32 color_offset)
+SDL_Color * get_game_colorRGB(enum color_std color_offset)
 {
-  if (color_offset >= COLOR_STD_LAST) {
-    return &SDLClient_standard_rgba_colors[color_offset - COLOR_STD_LAST];
+  if (color_offset >= COLOR_LAST) {
+    return &SDLClient_standard_rgba_colors[color_offset - COLOR_LAST];
   }
-  return &colors_standard_rgb[color_offset];
+  return get_color(tileset, color_offset)->color;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-Uint32 get_game_color(Uint32 color_offset , SDL_Surface *pDest)
+Uint32 get_game_color(struct color *pcolor , SDL_Surface *pDest)
 {
-  SDL_Color *pColor = get_game_colorRGB(color_offset);
-  return SDL_MapRGBA(pDest->format, pColor->r, pColor->g,
-		     pColor->b, pColor->unused);
+  if (pcolor)	
+
+  return SDL_MapRGBA(pDest->format, pcolor->color->r, pcolor->color->g,
+		     pcolor->color->b, pcolor->color->unused);
+  
+  else
+  return 0;
+	  
+}
+
+struct color *color_alloc(int r, int g, int b) {
+
+  struct color *result = fc_malloc(sizeof(*result));	
+	
+  SDL_Color *pcolor = fc_malloc(sizeof(*pcolor));
+  pcolor->r = r;
+  pcolor->g = g;
+  pcolor->b = b;
+  pcolor->unused = 255;
+	
+  result->color = pcolor;
+  
+  return result;
+}
+
+void color_free(struct color *pcolor) {
+  free(pcolor->color);
+  free(pcolor);
 }

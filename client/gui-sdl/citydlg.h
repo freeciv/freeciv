@@ -32,5 +32,6 @@ void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
 			       const struct city *pCity,
 			       bool (*worker_check) (const struct city *,
 						     int, int));
+Impr_type_id get_building_for_effect(enum effect_type effect_type);                              
 	  
 #endif	/* FC__CITYDLG_H */
