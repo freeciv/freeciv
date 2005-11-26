@@ -330,7 +330,10 @@ end
 
 /************** Info packets **********************/
 
-PACKET_TILE_INFO=14; sc,lsend
+# Use of is-info on this packet is dangerous but speeds things up greatly.
+# Packet spam from excess sending of tiles has slowed the client greatly in
+# the past.  However see the comment on is_info at the top about the dangers.
+PACKET_TILE_INFO=14; sc,lsend,is-info
   COORD x, y; key
 
   TERRAIN type;

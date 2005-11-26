@@ -3113,7 +3113,7 @@ static int send_packet_tile_info_100(struct connection *pc, const struct packet_
   const struct packet_tile_info *real_packet = packet;
   packet_tile_info_100_fields fields;
   struct packet_tile_info *old, *clone;
-  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  bool differ, old_from_hash, force_send_of_unchanged = FALSE;
   struct hash_table **hash = &pc->phs.sent[PACKET_TILE_INFO];
   int different = 0;
   SEND_PACKET_START(PACKET_TILE_INFO);
