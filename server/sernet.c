@@ -307,8 +307,18 @@ void flush_packets(void)
 	    if(FD_ISSET(pconn->sock, &writefs)) {
 	      flush_connection_send_buffer_all(pconn);
 	    } else {
-	      if (game.info.tcptimeout != 0 && pconn->last_write != 0
-		 && (time(NULL)>pconn->last_write + game.info.tcptimeout)) {
+	      if (game.info.tcptimeout != 0
+		  && pconn->last_write != 0
+		  && conn_list_size(game.all_connections) > 1
+		  && pconn->access_level != ALLOW_HACK
+		  && time(NULL) > pconn->last_write + game.info.tcptimeout) {
+		/* Cut the connections to players who lag too much.  This
+		 * usually happens because client animation slows the client
+		 * too much and it can't keep up with the server.  We don't
+		 * cut HACK connections, or cut in single-player games, since
+		 * it wouldn't help the game progress.  For other connections
+		 * the best thing to do when they lag too much is to be
+		 * disconnected and reconnect. */
 	        freelog(LOG_NORMAL, "cut connection %s due to lagging player",
 			conn_description(pconn));
 		close_socket_callback(pconn);
