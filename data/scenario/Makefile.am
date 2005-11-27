@@ -28,6 +28,6 @@ $(zipped_files): %.sav.gz: %.sav
 
 .PHONY: clean
 clean:
-	rm $(zipped_files)
+	rm -f $(zipped_files)
 
 EXTRA_DIST = $(unzipped_files)
