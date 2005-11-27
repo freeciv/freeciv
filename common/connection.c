@@ -261,7 +261,8 @@ static int write_socket_data(struct connection *pc,
   if (start > 0) {
     buf->ndata -= start;
     memmove(buf->data, buf->data+start, buf->ndata);
-    (void) time(&pc->last_write);
+    pc->last_write = renew_timer_start(pc->last_write,
+				       TIMER_USER, TIMER_ACTIVE);
   }
   return 0;
 }
@@ -619,7 +620,7 @@ void connection_common_init(struct connection *pconn)
 {
   pconn->established = FALSE;
   pconn->used = TRUE;
-  pconn->last_write = 0;
+  pconn->last_write = NULL;
   pconn->buffer = new_socket_packet_buffer();
   pconn->send_buffer = new_socket_packet_buffer();
   pconn->statistics.bytes_send = 0;
@@ -648,6 +649,11 @@ void connection_common_close(struct connection *pconn)
 
     free_socket_packet_buffer(pconn->send_buffer);
     pconn->send_buffer = NULL;
+
+    if (pconn->last_write) {
+      free_timer(pconn->last_write);
+      pconn->last_write = NULL;
+    }
 
     free_compression_queue(pconn);
     free_packet_hashes(pconn);

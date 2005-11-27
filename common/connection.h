@@ -30,6 +30,7 @@
 ***************************************************************************/
 
 #include "shared.h"		/* MAX_LEN_ADDR, bool type */
+#include "timing.h"
 
 #include "fc_types.h"
 
@@ -118,7 +119,7 @@ struct connection {
   bool observer;
   struct socket_packet_buffer *buffer;
   struct socket_packet_buffer *send_buffer;
-  time_t last_write;
+  struct timer *last_write;
 
   double ping_time;
   
