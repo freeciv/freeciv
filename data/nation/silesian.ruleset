@@ -17,7 +17,7 @@ flag="silesia"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",      "female_title",
+ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Prince"),         _("Princess")
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
