@@ -1483,6 +1483,27 @@ void handle_player_info(struct packet_player_info *pinfo)
     pplayer->ai.love[i] = pinfo->love[i];
   }
 
+  /* Check if we detect change to armistice with us. If so,
+   * ready all units for movement out of the territory in
+   * question; otherwise they will be disbanded. */
+  if (game.player_ptr
+      && pplayer->diplstates[game.player_ptr->player_no].type
+      != DS_ARMISTICE
+      && pinfo->diplstates[game.player_ptr->player_no].type
+      == DS_ARMISTICE) {
+    unit_list_iterate(game.player_ptr->units, punit) {
+      if (!punit->tile->owner || punit->tile->owner != pplayer) {
+        continue;
+      }
+      if (punit->focus_status == FOCUS_WAIT) {
+        punit->focus_status = FOCUS_AVAIL;
+      }
+      if (punit->activity != ACTIVITY_IDLE) {
+        request_new_unit_activity(punit, ACTIVITY_IDLE);
+      }
+    } unit_list_iterate_end;
+  }
+
   for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     pplayer->diplstates[i].type =
       pinfo->diplstates[i].type;

@@ -400,6 +400,37 @@ static void update_environmental_upset(enum tile_special_type cause,
 }
 
 /**************************************************************************
+  Remove illegal units when armistice turns into peace treaty.
+**************************************************************************/
+static void remove_illegal_armistice_units(struct player *plr1,
+                                           struct player *plr2)
+{
+  /* Remove illegal units */
+  unit_list_iterate(plr1->units, punit) {
+    if (punit->tile->owner == plr2
+        && is_military_unit(punit)) {
+      notify_player(plr1, NULL, E_DIPLOMACY, _("Your %s unit %s was "
+                    "disbanded in accordance with your peace treaty with "
+                    "the %s."), punit->type->name,
+                    get_location_str_at(plr1, punit->tile),
+                    get_nation_name_plural(plr2->nation));
+      wipe_unit(punit);
+    }
+  } unit_list_iterate_end;
+  unit_list_iterate(plr2->units, punit) {
+    if (punit->tile->owner == plr1
+        && is_military_unit(punit)) {
+      notify_player(plr2, NULL, E_DIPLOMACY, _("Your %s unit %s was "
+                    "disbanded in accordance with your peace treaty with "
+                    "the %s."), punit->type->name,
+                    get_location_str_at(plr2, punit->tile),
+                    get_nation_name_plural(plr1->nation));
+      wipe_unit(punit);
+    }
+  } unit_list_iterate_end;
+}
+
+/**************************************************************************
   Check for cease-fires and armistices running out; update cancelling 
   reasons and contact information.
 **************************************************************************/
@@ -416,6 +447,7 @@ static void update_diplomatics(void)
         state->turns_left--;
         if (state->turns_left <= 0) {
           state->type = DS_PEACE;
+          remove_illegal_armistice_units(plr1, plr2);
         }
       }
 
