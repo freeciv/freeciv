@@ -651,7 +651,7 @@ graphic_alt = "-"
 [advance_stealth]
 name     = _("Stealth")
 req1     = "Superconductors"
-req2     = "Robotics"
+req2     = "Advanced Flight"
 flags    = ""
 graphic     = "a.stealth"
 graphic_alt = "-"
