@@ -72,12 +72,16 @@
 
 #include "mapctrl.h"
 
+#undef SCALE_MINIMAP
+
 extern int OVERVIEW_START_X;
 extern int OVERVIEW_START_Y;
 extern bool is_unit_move_blocked;
 
 static struct SMALL_DLG *pNewCity_Dlg = NULL;
+#ifdef SCALE_MINIMAP
 static struct SMALL_DLG *pScall_MiniMap_Dlg = NULL;
+#endif
 static struct SMALL_DLG *pScall_UnitInfo_Dlg = NULL;
 static struct ADVANCED_DLG *pUnitInfo_Dlg = NULL;
 
@@ -97,7 +101,6 @@ static struct GUI *pRevolution_Button = NULL;
 static struct GUI *pTax_Button = NULL;
 static struct GUI *pResearch_Button = NULL;
 
-static int popdown_scale_minmap_dlg_callback(struct GUI *pWidget);
 static int popdown_scale_unitinfo_dlg_callback(struct GUI *pWidget);
 static void Remake_UnitInfo(int w, int h);
 
@@ -434,9 +437,11 @@ static int toggle_map_window_callback(struct GUI *pMap_Button)
     /* ID_TOGGLE_MAP_WINDOW_BUTTON */
     pMap = pMap->prev;
     real_redraw_icon(pMap);
-  
+
+#ifdef SCALE_MINIMAP
     popdown_scale_minmap_dlg_callback(NULL);
-  
+#endif
+
   } else {
     if (MINI_MAP_W <= pUnits_Info_Window->size.x) {
       
@@ -502,6 +507,8 @@ static int togle_msg_window(struct GUI *pWidget)
   flush_dirty();
   return -1;
 }
+
+#ifdef SCALE_MINIMAP
 /* ============================================================== */
 static int move_scale_minmap_dlg_callback(struct GUI *pWindow)
 {
@@ -786,6 +793,8 @@ static void popup_minimap_scale_dialog(void)
   flush_rect(pWindow->size);
   
 }
+#endif
+
 /* ==================================================================== */
 
 static int move_scale_unitinfo_dlg_callback(struct GUI *pWindow)
@@ -1045,7 +1054,7 @@ static int minimap_window_callback(struct GUI *pWidget)
   switch(Main.event.button.button) {
     case SDL_BUTTON_RIGHT:    
     /* FIXME: scaling needs to be fixed */
-#if 0      
+#ifdef SCALE_MINIMAP
       popup_minimap_scale_dialog();
 #endif    
     break;
