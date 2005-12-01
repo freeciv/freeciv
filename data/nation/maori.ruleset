@@ -28,18 +28,20 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="newzealand"
+civilwar_nations="newzealand", "papuan"
 
-; Note that putting "(ocean)" as a qualifier for every city probably will not
-; give very useful results.
+; English name of city in comment.
+; Later part of list is a random selection of lesser communities:
+; A more historically relevant city list would be welcomed!
 cities =
- "Poneke (ocean)",     ; Maori name for Wellington
- "Akarana",
- "Otautahi (ocean)",
- "Otepoti (ocean)",
+ "Rotorua (swamp, river, !ocean)",
+ "Poneke (hills, ocean)",	; Wellington
+ "Akarana (hills, ocean)",	; Auckland
+ "Otautahi (plains, ocean)",	; Christchurch
+ "Otepoti (ocean)",		; Dunedin
  "Waitakere",
- "Manukau (ocean)",
- "Te Maru (ocean)",
+ "Manukau (grassland, ocean)",
+ "Te Maru (hills, ocean)",	; Timaru
  "Waiheke (ocean)",
  "Matakana",
  "Hokianga (ocean)",
