@@ -637,10 +637,12 @@ static void set_cma_hscrollbars(void)
     
 }
 
+#if 0
 static bool is_worker(const struct city *pCity, int x, int y)
 {
   return pCma && pCma->pResult && pCma->pResult->worker_positions_used[x][y];
 }
+#endif
 
 /* ===================================================================== */
 void update_city_cma_dialog(void)
