@@ -198,7 +198,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
           }
           break;
 	case CLAUSE_ALLIANCE:
-          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_PEACE);
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_ALLIANCE);
           if (diplcheck != DIPL_OK) {
             return;
           }
@@ -292,7 +292,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	case CLAUSE_ALLIANCE:
           /* We need to recheck this way since things might have
            * changed. */
-          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_PEACE);
+          diplcheck = pplayer_can_make_treaty(pplayer, pother, DS_ALLIANCE);
           if (diplcheck != DIPL_OK) {
             goto cleanup;
           }
