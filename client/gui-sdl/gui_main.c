@@ -938,7 +938,6 @@ void ui_main(int argc, char *argv[])
                        CF_DRAW_PLAYERS_PEACE_STATUS|
                        CF_DRAW_PLAYERS_ALLIANCE_STATUS);
   
-  load_cursors();
   tilespec_setup_theme();
   tilespec_setup_anim();
   tilespec_setup_city_gfx();
@@ -946,6 +945,8 @@ void ui_main(int argc, char *argv[])
 
   tileset_load_tiles(tileset);
       
+  load_cursors();  
+
   clear_double_messages_call();
     
   create_units_order_widgets();

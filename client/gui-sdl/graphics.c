@@ -67,15 +67,6 @@
 
 /* ------------------------------ */
 
-#include "cursors/goto_cursor.xbm"
-#include "cursors/goto_cursor_mask.xbm"
-#include "cursors/drop_cursor.xbm"
-#include "cursors/drop_cursor_mask.xbm"
-#include "cursors/nuke_cursor.xbm"
-#include "cursors/nuke_cursor_mask.xbm"
-#include "cursors/patrol_cursor.xbm"
-#include "cursors/patrol_cursor_mask.xbm"
-
 struct main Main;
 
 static SDL_Surface *pIntro_gfx = NULL;
@@ -86,47 +77,7 @@ SDL_Cursor *pDrop_Cursor;
 SDL_Cursor *pNuke_Cursor;
 SDL_Cursor *pPatrol_Cursor;
 
-static SDL_Cursor *init_cursor(const char *image_data,
-			       const char *image_mask, int width,
-			       int height, int hot_x, int hot_y);
-
 /* ============ FreeCiv sdl graphics function =========== */
-
-/**************************************************************************
-  Convert cursor from "xbm" format to SDL_Cursor format and create them.
-**************************************************************************/
-static SDL_Cursor *init_cursor(const char *image_data,
-			       const char *image_mask, int width,
-			       int height, int hot_x, int hot_y)
-{
-  Uint8 *data;
-  Uint8 *mask;
-  SDL_Cursor *mouse;
-  int i = 0;
-  size_t size = height << 2;
-
-  data = MALLOC(size);
-  mask = MALLOC(size);
-
-  while (i != size) {
-    data[i] = image_data[i + 3];
-    mask[i] = image_mask[i + 3];
-    data[i + 1] = image_data[i + 2];
-    mask[i + 1] = image_mask[i + 2];
-    data[i + 2] = image_data[i + 1];
-    mask[i + 2] = image_mask[i + 1];
-    data[i + 3] = image_data[i];
-    mask[i + 3] = image_mask[i];
-    i += 4;
-  }
-
-  mouse = SDL_CreateCursor(data, mask, width, height, hot_x, hot_y);
-  
-  FREE( data );
-  FREE( mask );
-  
-  return mouse;
-}
 
 /**************************************************************************
   Create new surface (pRect->w x pRect->h size) and copy pRect area of
@@ -3525,29 +3476,27 @@ void load_intro_gfx(void)
 **************************************************************************/
 void load_cursors(void)
 {
+  struct sprite *cursor_sprite;
+  int hot_x, hot_y;
+    
   /* standart */
   pStd_Cursor = SDL_GetCursor();
 
   /* goto */
-  pGoto_Cursor = init_cursor(goto_cursor_bits, goto_cursor_mask_bits,
-			     goto_cursor_width, goto_cursor_height,
-			/*     goto_cursor_x_hot, goto_cursor_y_hot);*/
-  				2, 2);
+  cursor_sprite = get_cursor_sprite(tileset, CURSOR_GOTO, &hot_x, &hot_y);
+  pGoto_Cursor = SurfaceToCursor(GET_SURF(cursor_sprite), hot_x, hot_y);
 
   /* drop */
-  pDrop_Cursor = init_cursor(drop_cursor_bits, drop_cursor_mask_bits,
-			     drop_cursor_width, drop_cursor_height,
-			     drop_cursor_x_hot, drop_cursor_y_hot);
+  cursor_sprite = get_cursor_sprite(tileset, CURSOR_PARADROP, &hot_x, &hot_y);
+  pDrop_Cursor = SurfaceToCursor(GET_SURF(cursor_sprite), hot_x, hot_y);
 
   /* nuke */
-  pNuke_Cursor = init_cursor(nuke_cursor_bits, nuke_cursor_mask_bits,
-			     nuke_cursor_width, nuke_cursor_height,
-			     nuke_cursor_x_hot, nuke_cursor_y_hot);
+  cursor_sprite = get_cursor_sprite(tileset, CURSOR_NUKE, &hot_x, &hot_y);  
+  pNuke_Cursor = SurfaceToCursor(GET_SURF(cursor_sprite), hot_x, hot_y);
 
   /* patrol */
-  pPatrol_Cursor = init_cursor(patrol_cursor_bits, patrol_cursor_mask_bits,
-			       patrol_cursor_width, patrol_cursor_height,
-			       patrol_cursor_x_hot, patrol_cursor_y_hot);
+  cursor_sprite = get_cursor_sprite(tileset, CURSOR_PATROL, &hot_x, &hot_y);  
+  pPatrol_Cursor = SurfaceToCursor(GET_SURF(cursor_sprite), hot_x, hot_y);
 }
 
 /**************************************************************************

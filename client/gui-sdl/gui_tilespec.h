@@ -208,4 +208,6 @@ void reload_citizens_icons(int style);
 SDL_Surface * get_city_gfx(void);
 SDL_Surface * get_citizen_surface(enum citizen_category type,
 				  int citizen_index);
+SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy);
+
 #endif  /* FC__GUI_TILESPEC_H */

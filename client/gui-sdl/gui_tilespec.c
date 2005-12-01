@@ -451,7 +451,7 @@ void tilespec_setup_theme(void)
 }
 
 /* Code come from SDL-dev list */
-static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
+SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
         int             w, x, y;
         Uint8           *data, *mask, *d, *m, r, g, b;
         Uint32          color;
