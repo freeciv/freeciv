@@ -8,6 +8,7 @@
 # SUENAGA Yasuo <s_keishi@mutt.freemail.ne.jp>, 2001
 # MITA Yuusuke <clefs@lycos.jp>, 2002
 # TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>, 2003, 2004
+# Daniel MARKSTEDT <himasaram@spray.se>, 2005
 #
 # For Japanese users:
 # こんなことをわざわざ書くのは恥ずかしいんですが、はっきりいって私の訳は
@@ -38,9 +39,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 1.14.1-devel\n"
+"Project-Id-Version: Freeciv 2.0.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-01 03:43-0500\n"
+"POT-Creation-Date: 2005-12-02 15:38+0900\n"
 "PO-Revision-Date: 2004-09-23 11:47+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -55,15 +56,15 @@ msgstr "?redundant:*"
 
 #: common/city.c:267
 msgid "?obsolete:O"
-msgstr "古"
+msgstr "?obsolete:古"
 
 #: common/city.c:272
 msgid "?built:B"
-msgstr "建"
+msgstr "?built:建"
 
 #: common/city.c:274
 msgid "?wonder:w"
-msgstr "不"
+msgstr "?wonder:不"
 
 #: common/connection.c:513
 #, c-format
@@ -909,9 +910,8 @@ msgstr "%2$sによって%1$s近くの住民が動揺しています"
 msgid "Sea raiders seen near %s!"
 msgstr "海賊が%sのそばに見えます!"
 
-# yasu
+# yasu, Daniel
 #: server/cityhand.c:114
-#, fuzzy
 msgid "Game: You don't have a worker here."
 msgstr "Game: ここには労働者はいません。"
 
@@ -961,20 +961,23 @@ msgstr "Game: このターンに買ったので変更できません。"
 msgid "Game: %s"
 msgstr "Game: %s"
 
+# Daniel
 #: server/citytools.c:265
-#, fuzzy, c-format
+#, c-format
 msgid "You already have a city called %s."
-msgstr "Game: 既に%sという名前の都市を持っています"
+msgstr "既に%sという名前の都市を持っています"
 
+# Daniel
 #: server/citytools.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "A city called %s already exists."
-msgstr "Game: %sと呼ばれる都市は既に存在します。"
+msgstr "%sと呼ばれる都市は既に存在します。"
 
+# Daniel
 #: server/citytools.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr "Game: 都市名として%sは利用できません。%sに予約されています"
+msgstr "都市名として%sは利用できません。%sに予約されています"
 
 #: server/citytools.c:322
 #, c-format
@@ -1147,10 +1150,11 @@ msgstr "Game: 警告、資金が足りません。"
 msgid "Game: %s needs %s (being built) to grow any further."
 msgstr "Game: %s がこれ以上大きくなるには %s(建築中)を作る必要があります。"
 
+# Daniel
 #: server/cityturn.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s needs an improvement to grow any further."
-msgstr "Game: %s がこれ以上大きくなるには %s を作る必要があります。"
+msgstr "Game: %s がこれ以上大きくなるにはある施設を作る必要があります。"
 
 #: server/cityturn.c:539
 #, c-format
@@ -1238,14 +1242,16 @@ msgstr "Game: %sは%sを%sに建て終わりました。"
 msgid "Game: %s has finished building %s."
 msgstr "Game: %sで%sを建て終わりました。"
 
+# Daniel
 #: server/cityturn.c:981
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s boosts research; you gain %d immediate advance."
 msgid_plural "Game: %s boosts research; you gain %d immediate advances."
-msgstr[0] "Game: %sは研究を加速させます。即座に科学を2つ覚えます。"
+msgstr[0] "Game: %sは研究を加速させます。即座に科学を%dつ覚えます。"
 
+# Daniel
 #: server/cityturn.c:1000 server/plrhand.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s from %s."
 msgstr "Game: %1$sは%3$sから%2$sを得ました。"
 
@@ -1371,7 +1377,7 @@ msgstr ""
 #: server/civserver.c:161
 #, fuzzy
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-msgstr "  -p, --port PORT\tポート PORT でクライアントを待つ\n"
+msgstr "  -p, --port ADDR\tポート PORT でクライアントを待つ\n"
 
 #: server/civserver.c:163 client/civclient.c:195
 msgid ""
@@ -1722,8 +1728,8 @@ msgstr "メタサーバ情報行を設定する。"
 msgid "metapatch <meta-line>"
 msgstr "metainfo <メタサーバ情報行>"
 
+# Daniel
 #: server/commands.c:163
-#, fuzzy
 msgid "Set metaserver patches line."
 msgstr "メタサーバ情報行を設定する。"
 
@@ -1778,11 +1784,11 @@ msgid ""
 "<player-name> argument is allowed"
 msgstr ""
 
+# Daniel
 #. TRANS: translate text between [] only
 #: server/commands.c:194
-#, fuzzy
 msgid "observe [connection-name] [player-name]"
-msgstr "create <プレイヤー名>"
+msgstr "observe [接続名] <プレイヤー名>"
 
 #: server/commands.c:195
 #, fuzzy
@@ -1798,11 +1804,11 @@ msgid ""
 "global observer."
 msgstr ""
 
+# Daniel
 #. TRANS: translate text between <> only
 #: server/commands.c:204
-#, fuzzy
 msgid "detach <connection-name>"
-msgstr "cut <接続名>"
+msgstr "detach <接続名>"
 
 #: server/commands.c:205
 msgid "detach from a player."
@@ -1842,28 +1848,30 @@ msgstr ""
 msgid "The AI will govern your nation but do minimal changes."
 msgstr ""
 
+# Daniel
 #. TRANS: translate text between <> only
 #: server/commands.c:224
-#, fuzzy
 msgid ""
 "novice\n"
 "novice <player-name>"
-msgstr "remove <プレイヤー名>"
+msgstr ""
+"novice\n"
+"novice <プレイヤー名>"
 
+# Daniel
 #: server/commands.c:226
-#, fuzzy
 msgid "Set one or all AI players to 'novice'."
-msgstr "一人もしくは全ての AI プレイヤーを 'normal' に設定する。"
+msgstr "一人もしくは全ての AI プレイヤーを 'novice' に設定する。"
 
+# Daniel
 #: server/commands.c:227
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'.  With an argument, sets "
 "the skill level for that player only."
 msgstr ""
-"引数なしで呼ばれたら、 AI プレイヤー全ての手腕を 'normal' に設定し、さらに新"
-"しい AI プレイヤーに対する既定値も 'normal' に設定します。引数付きで呼ばれた"
+"引数なしで呼ばれたら、 AI プレイヤー全ての手腕を 'novice' に設定し、さらに新"
+"しい AI プレイヤーに対する既定値も 'novice' に設定します。引数付きで呼ばれた"
 "ら、そのプレイヤーの手腕だけを設定します。"
 
 #. TRANS: translate text between <> only
@@ -2252,8 +2260,9 @@ msgstr ""
 "サーバのバージョン: %d.%d.%d%s クライアントのバージョン: %d.%d.%d%s. バージョ"
 "ンアップで解決するかもしれません。"
 
+# Daniel
 #: server/connecthand.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid username '%s'"
 msgstr "無効な名前 '%s'"
 
@@ -2263,8 +2272,9 @@ msgstr "無効な名前 '%s'"
 msgid "Rejected connection from %s with invalid name."
 msgstr "%s からの接続は無効な名前のため拒否されました。"
 
+# Daniel
 #: server/connecthand.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "'%s' already connected."
 msgstr "残念ですが%sは既に接続されています。"
 
@@ -6490,9 +6500,9 @@ msgstr "Game: 外交行為を行なえません。"
 msgid "Game: Can't attack %s because you are not at war with %s."
 msgstr "Game: %2$sと戦闘を行なっていないので、都市%1$sを攻撃できません。"
 
-# ntaka
+# ntaka, Daniel
 #: server/unithand.c:1063
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Can't attack %s's unit because you are not at war with %s."
 msgstr "Game: %2$sと戦闘を行なっていないので、%1$sのユニットを攻撃できません。"
 
@@ -6505,8 +6515,8 @@ msgstr "Game: この部隊のタイプは落下傘降下させられません。"
 msgid "Game: You can't attack there."
 msgstr "Game: そこへ攻撃できません。"
 
+# Daniel
 #: server/unithand.c:1116
-#, fuzzy
 msgid "Game: This type of troops cannot take over a city."
 msgstr "Game: 地上の軍隊だけが都市を占領できます。"
 
@@ -6860,10 +6870,11 @@ msgstr "Game: %s は補給のため帰還しました。"
 msgid "High landmass - this may take a few seconds."
 msgstr "多大陸 - 少し時間がかかるかもしれません。"
 
+# Daniel
 #: server/generator/mapgen.c:1802 server/generator/mapgen.c:1872
-#, fuzzy, c-format
+#, c-format
 msgid "Falling back to generator %d."
-msgstr "Generator 2 を試みます。"
+msgstr "Generator %d を試みます。"
 
 #: server/generator/mapgen.c:1892
 msgid "Generator 3 didn't place all big islands."
@@ -7645,30 +7656,30 @@ msgstr "実験的"
 msgid "Starting server..."
 msgstr "ゲームを開始しています。"
 
-#: client/connectdlg_common.c:340
+#: client/connectdlg_common.c:342
 #, fuzzy
 msgid "Couldn't start the server."
 msgstr "セーブファイルをロードできません"
 
-#: client/connectdlg_common.c:341 client/connectdlg_common.c:374
+#: client/connectdlg_common.c:343 client/connectdlg_common.c:376
 msgid "You'll have to start one manually. Sorry..."
 msgstr ""
 
-#: client/connectdlg_common.c:372
+#: client/connectdlg_common.c:374
 #, fuzzy
 msgid "Couldn't connect to the server."
 msgstr "クライアントの接続を切ります。"
 
-#: client/connectdlg_common.c:373
+#: client/connectdlg_common.c:375
 msgid "We probably couldn't start it from here."
 msgstr ""
 
-#: client/connectdlg_common.c:494
+#: client/connectdlg_common.c:496
 #, fuzzy
 msgid "We have control of the server (command access level hack)"
 msgstr "コマンド利用権レベルを問い合わせ、または設定する。"
 
-#: client/connectdlg_common.c:499
+#: client/connectdlg_common.c:501
 msgid "We can't take control of server, attempting to kill it."
 msgstr ""
 
@@ -7740,25 +7751,28 @@ msgstr ""
 "このページは自動生成されました。\n"
 "\n"
 
+# Daniel
 #: client/helpdata.c:524
-#, fuzzy, c-format
+#, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
-msgstr "%sが発見されると%sは古くなります。"
+msgstr "* %sが発見されると%sは古くなります。\n"
 
 #: client/helpdata.c:541
 #, fuzzy, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "%sを知っている全てのプレイヤーが%s部隊を作れるようになります。"
 
+# Daniel
 #: client/helpdata.c:575 client/helpdata.c:589
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s (with %s).\n"
-msgstr "可能 %s (共同 %s)\n"
+msgstr "* 可能 %s (共同 %s)\n"
 
+# Daniel
 #: client/helpdata.c:578 client/helpdata.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s.\n"
-msgstr "可能 %s\n"
+msgstr "* 可能 %s\n"
 
 #: client/helpdata.c:660
 #, c-format
@@ -8794,15 +8808,15 @@ msgstr "移動中"
 msgid "R.I.P"
 msgstr "永眠"
 
+# Daniel
 #: client/plrdlg_common.c:222
-#, fuzzy
 msgid "?Player:Name"
-msgstr "プレイヤー名"
+msgstr "?Player:名"
 
+# Daniel
 #: client/plrdlg_common.c:223
-#, fuzzy
 msgid "Username"
-msgstr "改名"
+msgstr "名前"
 
 #: client/plrdlg_common.c:224 client/gui-gtk-2.0/dialogs.c:1609
 #: client/gui-gtk-2.0/pages.c:1512 client/gui-gtk/plrdlg.c:140
@@ -8849,14 +8863,15 @@ msgstr "視界"
 msgid "Reputation"
 msgstr "評判"
 
+# Daniel
 #: client/plrdlg_common.c:235
-#, fuzzy
 msgid "?Player_dlg:Host"
-msgstr "プレイヤー"
+msgstr "?Player_dlg:ホスト"
 
+# Daniel
 #: client/plrdlg_common.c:236
 msgid "?Player_dlg:Idle"
-msgstr ""
+msgstr "?Player_dlg:アイドル"
 
 #: client/plrdlg_common.c:237 client/gui-gtk/plrdlg.c:143
 msgid "Ping"
@@ -9111,10 +9126,11 @@ msgid_plural "Progress: %d turns/advance (%d pts/turn, %d pts/turn from team)"
 msgstr[0] ""
 msgstr[1] ""
 
+# Daniel
 #: client/text.c:512 client/gui-mui/mapview.c:190
 #, c-format
 msgid "Population: %s"
-msgstr "人口:       %s"
+msgstr "人口: %s"
 
 #: client/text.c:515 client/gui-gtk/inteldlg.c:112
 #: client/gui-mui/inteldlg.c:141 client/gui-mui/mapview.c:193
@@ -9123,10 +9139,11 @@ msgstr "人口:       %s"
 msgid "Gold: %d"
 msgstr "金: %d"
 
+# Daniel
 #: client/text.c:516
-#, fuzzy, c-format
+#, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
-msgstr "税:%d 贅沢:%d 科学:%d"
+msgstr "税: %d 贅沢: %d 科学: %d"
 
 #: client/text.c:557
 #, c-format
@@ -10701,15 +10718,15 @@ msgstr "ターン終了"
 msgid "Shift+Return"
 msgstr ""
 
+# Daniel
 #: client/gui-gtk-2.0/gui_main.c:895
-#, fuzzy
 msgid "_Map"
 msgstr "地図(_M)"
 
+# Daniel
 #: client/gui-gtk-2.0/gui_main.c:969
-#, fuzzy
 msgid "_Chat"
-msgstr "チャリオット"
+msgstr "チャット(_C)"
 
 # ama, clefs
 # was "さぁ、地獄へ落ちろ!"
@@ -10747,7 +10764,7 @@ msgid ""
 "Researching %s: %d/%d\n"
 "Government: %s"
 msgstr ""
-"人口 %s\n"
+"人口: %s\n"
 "西暦: %s ターン: %d\n"
 "金: %d\n"
 "純利益: %d\n"
@@ -10755,9 +10772,10 @@ msgstr ""
 "研究中: %s: %d/%d\n"
 "政治体制: %s"
 
+# Daniel
 #: client/gui-gtk-2.0/gui_main.c:1510
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "ゲームを終了してよろしいですか？"
 
 #: client/gui-gtk-2.0/gui_stuff.c:440
 #, c-format
@@ -11111,9 +11129,10 @@ msgstr "現在の贅沢/科学/税の比率; クリックで切り替える"
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr ""
 
+# Daniel
 #: client/gui-gtk-2.0/menu.c:231
 msgid "Leaving a local game will end it!"
-msgstr ""
+msgstr "ローカルゲームを落ちるとゲームは終了しますが、よろしいですか？"
 
 #: client/gui-gtk-2.0/menu.c:628 client/gui-gtk/menu.c:584
 #: client/gui-gtk/menu.c:586 client/gui-gtk/menu.c:588
@@ -11175,10 +11194,10 @@ msgstr "ログの保存(_X)"
 msgid "Clear _Log"
 msgstr "ログの消去(_L)"
 
+# Daniel
 #: client/gui-gtk-2.0/menu.c:660
-#, fuzzy
 msgid "L_eave"
-msgstr "指揮:"
+msgstr "落ちる(_E)"
 
 #: client/gui-gtk-2.0/menu.c:662 client/gui-gtk/menu.c:612
 #: client/gui-mui/connectdlg.c:226 client/gui-mui/dialogs.c:1659
@@ -11186,10 +11205,10 @@ msgstr "指揮:"
 msgid "_Quit"
 msgstr "終了(_Q)"
 
+# Daniel
 #: client/gui-gtk-2.0/menu.c:666
-#, fuzzy
 msgid "Gover_nment"
-msgstr "政治体制"
+msgstr "政治体制(_N)"
 
 #: client/gui-gtk-2.0/menu.c:668 client/gui-gtk-2.0/menu.c:670
 #: client/gui-gtk-2.0/menu.c:672 client/gui-gtk-2.0/menu.c:674
@@ -11219,10 +11238,10 @@ msgstr "作業リスト(_W)"
 msgid "_Change Government"
 msgstr "政治体制の変更(_C)"
 
+# Daniel
 #: client/gui-gtk-2.0/menu.c:682
-#, fuzzy
 msgid "_Revolution..."
-msgstr "革命(_R)"
+msgstr "革命...(_R)"
 
 #: client/gui-gtk-2.0/menu.c:685 client/gui-gtk-2.0/menu.c:874
 #: client/gui-gtk/menu.c:823 client/gui-win32/menu.c:429
@@ -11484,23 +11503,23 @@ msgstr "自動探索(_X)"
 msgid "_Connect"
 msgstr "接続(_C)"
 
+# Daniel
 #: client/gui-gtk-2.0/menu.c:784 client/gui-gtk/menu.c:733
 #: client/gui-win32/menu.c:380
-#, fuzzy
 msgid "_Road"
-msgstr "道路"
+msgstr "道路(_R)"
 
+# Daniel
 #: client/gui-gtk-2.0/menu.c:786 client/gui-gtk/menu.c:735
 #: client/gui-win32/menu.c:381
-#, fuzzy
 msgid "Rai_l"
-msgstr "帆船"
+msgstr "鉄道(_L)"
 
+# Daniel
 #: client/gui-gtk-2.0/menu.c:788 client/gui-gtk/menu.c:737
 #: client/gui-win32/menu.c:382
-#, fuzzy
 msgid "_Irrigate"
-msgstr "灌漑"
+msgstr "灌漑(_I)"
 
 #: client/gui-gtk-2.0/menu.c:790 client/gui-gtk/menu.c:739
 msgid "Patrol (_Q)"
@@ -11738,9 +11757,9 @@ msgid "_About"
 msgstr "Freeciv について(_A)"
 
 #: client/gui-gtk-2.0/menu.c:1199
-#, fuzzy, c-format
+#, c-format
 msgid "%s..."
-msgstr " "
+msgstr "%s..."
 
 #: client/gui-gtk-2.0/menu.c:1266 client/gui-gtk/menu.c:1119
 #, c-format
@@ -11836,24 +11855,24 @@ msgstr "メッセージ"
 msgid "Goto _location"
 msgstr "現場へ移動"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:185
-#, fuzzy
 msgid "Start _New Game"
-msgstr "新しいゲームの開始"
+msgstr "新しいゲームの開始(_N)"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:191
-#, fuzzy
 msgid "Start _Scenario Game"
-msgstr "新しいゲームの開始"
+msgstr "シナリオのロード(_S)"
 
 #: client/gui-gtk-2.0/pages.c:197
 msgid "_Load Saved Game"
 msgstr "保存されたゲームのロード(_L)"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:206
-#, fuzzy
 msgid "C_onnect to Network Game"
-msgstr "ネットワークゲームへ接続"
+msgstr "ネットワークゲームへ接続(_O)"
 
 #: client/gui-gtk-2.0/pages.c:555 client/gui-gtk/connectdlg.c:189
 #: client/gui-win32/connectdlg.c:295 client/gui-xaw/connectdlg.c:311
@@ -11895,16 +11914,15 @@ msgstr "プレイヤー"
 msgid "Comment"
 msgstr "コメント"
 
-# ntaka
+# ntaka, Daniel
 #: client/gui-gtk-2.0/pages.c:688
-#, fuzzy
 msgid "Local _Area Network"
-msgstr "LAN"
+msgstr "L_AN"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:724
-#, fuzzy
 msgid "Internet _Metaserver"
-msgstr "メタサーバ"
+msgstr "メタサーバ(_M)"
 
 #: client/gui-gtk-2.0/pages.c:758
 msgid "_Host:"
@@ -11918,25 +11936,25 @@ msgstr "ポート(_P):"
 msgid "_Login:"
 msgstr "ログイン(_L):"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:810
-#, fuzzy
 msgid "Pass_word:"
-msgstr "ポート(_P):"
+msgstr "パスワード(_W):"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:828
-#, fuzzy
 msgid "Conf_irm Password:"
-msgstr "ポート(_P):"
+msgstr "パスワードの確認(_I):"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:964
-#, fuzzy
 msgid "_Number of Players (including AI):"
-msgstr "プレイヤーの数(AIも含む)"
+msgstr "プレイヤーの数(AIも含む)(_N):"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:987
-#, fuzzy
 msgid "_AI Skill Level:"
-msgstr "AIのレベル"
+msgstr "_AIのレベル:"
 
 #: client/gui-gtk-2.0/pages.c:995
 #, fuzzy
@@ -11951,25 +11969,26 @@ msgstr "開始(_S)"
 msgid "Choose Saved Game to Load"
 msgstr "ロードするセーブファイルを選択"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:1199
-#, fuzzy
 msgid "Choose Saved Game to _Load:"
-msgstr "ロードするセーブファイルを選択"
+msgstr "ロードするセーブファイルを選択(_L):"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:1219 client/gui-gtk-2.0/pages.c:1353
 #: client/gui-gtk-2.0/pages.c:1795
 msgid "_Browse..."
-msgstr ""
+msgstr "ブラウス(_B)..."
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:1266
-#, fuzzy
 msgid "Choose a Scenario"
-msgstr "シナリオのロード"
+msgstr "ロードするシナリオを選択"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:1333
-#, fuzzy
 msgid "Choose a _Scenario:"
-msgstr "シナリオのロード"
+msgstr "シナリオを選択(_S):"
 
 #: client/gui-gtk-2.0/pages.c:1518 client/gui-gtk-2.0/wldlg.c:990
 #: client/gui-gtk/citydlg.c:2798 client/gui-gtk/wldlg.c:314
@@ -11980,15 +11999,15 @@ msgstr "シナリオのロード"
 msgid "Type"
 msgstr "タイプ"
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:1528
-#, fuzzy
 msgid "Choose a _nation to play:"
-msgstr "部隊の行動を選択"
+msgstr "なりたい民族を選択してください(_N)："
 
+# Daniel
 #: client/gui-gtk-2.0/pages.c:1548
-#, fuzzy
 msgid "Game _Options..."
-msgstr "ゲームの設定(_O)"
+msgstr "ゲームの設定(_O)..."
 
 #: client/gui-gtk-2.0/pages.c:1707 client/gui-win32/menu.c:582
 #, fuzzy
@@ -12040,13 +12059,13 @@ msgid "_Spaceship"
 msgstr "宇宙船(_S)"
 
 #: client/gui-gtk-2.0/plrdlg.c:424
-#, fuzzy
 msgid "_AI"
-msgstr "AI"
+msgstr "_AI"
 
+# Daniel
 #: client/gui-gtk-2.0/plrdlg.c:430
 msgid "_Toggle AI Mode"
-msgstr ""
+msgstr "AI状態を切り替える(_T)"
 
 #: client/gui-gtk-2.0/repodlgs.c:195 client/gui-gtk/repodlgs.c:182
 #: client/gui-win32/repodlgs.c:286
@@ -12253,17 +12272,16 @@ msgstr ""
 msgid "Spaceship\n"
 msgstr "宇宙船\n"
 
-# ntaka
+# ntaka, Daniel
 #: client/gui-gtk-2.0/repodlgs.c:1315
-#, fuzzy
 msgid "Score"
-msgstr "取得スコア\n"
+msgstr "スコア"
 
+# Daniel
 #: client/gui-gtk-2.0/repodlgs.c:1449 client/gui-win32/connectdlg.c:1057
 #: client/gui-win32/repodlgs.c:914
-#, fuzzy
 msgid "Game Options"
-msgstr "都市オプション"
+msgstr "ゲームオプション"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:209 client/gui-mui/spaceshipdlg.c:228
 msgid "_Launch"
@@ -12726,10 +12744,10 @@ msgstr "Freeciv サーバへ接続"
 msgid "Freeciv Server Selection"
 msgstr "Freeciv サーバ選択"
 
+# Daniel
 #: client/gui-gtk/connectdlg.c:425 client/gui-win32/connectdlg.c:1078
-#, fuzzy
 msgid "Login:"
-msgstr "軍隊"
+msgstr "ログイン："
 
 #: client/gui-gtk/connectdlg.c:441 client/gui-win32/connectdlg.c:1081
 msgid "Port:"
@@ -12801,20 +12819,20 @@ msgstr "全準備"
 msgid "Nation:"
 msgstr "民族:"
 
+# Daniel
 #: client/gui-gtk/dialogs.c:1947 client/gui-win32/dialogs.c:499
-#, fuzzy
 msgid "Class:"
-msgstr "古典"
+msgstr "クラス："
 
+# Daniel
 #: client/gui-gtk/dialogs.c:1958 client/gui-win32/dialogs.c:508
-#, fuzzy
 msgid "Description"
-msgstr "説明:"
+msgstr "説明"
 
+# Daniel
 #: client/gui-gtk/dialogs.c:1968 data/default/units.ruleset:1888
-#, fuzzy
 msgid "Leader"
-msgstr "指揮:"
+msgstr "指揮"
 
 #: client/gui-gtk/dialogs.c:1975 client/gui-mui/dialogs.c:1591
 #: client/gui-win32/dialogs.c:519
@@ -12893,10 +12911,10 @@ msgstr "金(最大 %d)"
 msgid "Give shared vision"
 msgstr "視界の共有を与える"
 
+# Daniel
 #: client/gui-gtk/diplodlg.c:459 client/gui-gtk/diplodlg.c:470
-#, fuzzy
 msgid "Give embassy"
-msgstr "大使館を与える(_E)"
+msgstr "大使館を与える"
 
 #: client/gui-gtk/diplodlg.c:502 client/gui-mui/diplodlg.c:495
 #: client/gui-mui/diplodlg.c:626 client/gui-win32/diplodlg.c:618
@@ -13114,10 +13132,10 @@ msgstr "作業リスト(_L)"
 msgid "_Revolution!"
 msgstr "革命!(_R)"
 
+# Daniel
 #: client/gui-gtk/menu.c:721 client/gui-xaw/menu.c:188
-#, fuzzy
 msgid "Load"
-msgstr "載せる(_L)"
+msgstr "載せる"
 
 #: client/gui-gtk/menu.c:723 client/gui-mui/gui_main.c:257
 #: client/gui-mui/mapclass.c:1694 client/gui-xaw/menu.c:189
@@ -13239,10 +13257,11 @@ msgstr "はい"
 msgid "No"
 msgstr "いいえ"
 
+# Daniel
 #: client/gui-gtk/repodlgs.c:1063
-#, fuzzy, c-format
+#, c-format
 msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d%s%9d"
-msgstr "合計:                       %s%9d%s%9d%s%9d%s%9d"
+msgstr "合計:                       %s%9d%s%9d%s%9d%s%9d%s%9d"
 
 #: client/gui-gtk/spaceshipdlg.c:215 client/gui-win32/spaceshipdlg.c:239
 #: data/Freeciv.in:1736
@@ -14295,10 +14314,10 @@ msgstr "全て変更"
 msgid "Configure"
 msgstr "設定"
 
+# Daniel
 #: client/gui-win32/cma_fe.c:467
-#, fuzzy
 msgid "New"
-msgstr "新規(_N)"
+msgstr "新規"
 
 #: client/gui-win32/cma_fe.c:488 data/Freeciv.in:1497
 msgid "Apply once"
@@ -14336,10 +14355,10 @@ msgstr "保存されたゲームのロード"
 msgid "Connect To Network Game"
 msgstr "ネットワークゲームへ接続"
 
+# Daniel
 #: client/gui-win32/connectdlg.c:1000
-#, fuzzy
 msgid "Choose a nation to play"
-msgstr "部隊の行動を選択"
+msgstr "なりたい民族を選択してください："
 
 #: client/gui-win32/connectdlg.c:1035
 msgid "Number of players (Including AI):"
@@ -14375,8 +14394,8 @@ msgstr "あなたの指導者名"
 msgid "Select your sex"
 msgstr "男女の選択"
 
+# Daniel
 #: client/gui-win32/dialogs.c:723
-#, fuzzy
 msgid "Unit Selection"
 msgstr "部隊の選択"
 
@@ -14505,8 +14524,8 @@ msgstr ""
 msgid "%s - %s citizens  CMA: %s"
 msgstr "%s - %s 市民%s"
 
+# Daniel
 #: client/gui-xaw/cma_fe.c:434
-#, fuzzy
 msgid "What should we name the new preset?"
 msgstr "新しいプリセットを何と名づけますか?"
 
@@ -14655,20 +14674,20 @@ msgstr "要塞と飛行場"
 msgid "Unload Transporter"
 msgstr "輸送部隊を降ろす"
 
+# Daniel
 #: client/gui-xaw/menu.c:195
-#, fuzzy
 msgid "Connect/Road"
-msgstr "接続"
+msgstr "接続/道路"
 
+# Daniel
 #: client/gui-xaw/menu.c:196
-#, fuzzy
 msgid "Connect/Rail"
-msgstr "接続"
+msgstr "接続/鉄道"
 
+# Daniel
 #: client/gui-xaw/menu.c:197
-#, fuzzy
 msgid "Connect/Irrigation"
-msgstr "灌漑"
+msgstr "接続/灌漑"
 
 #: client/gui-xaw/menu.c:230 data/helpdata.txt:381
 msgid "Languages"
@@ -14737,10 +14756,11 @@ msgid ""
 "\n"
 msgstr "Freeciv サーバ選択"
 
+# Daniel
 #: manual/civmanual.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Level: %s.<br>"
-msgstr "レベル: %s"
+msgstr "レベル: %s.<br>"
 
 #: manual/civmanual.c:146
 #, c-format
@@ -14762,12 +14782,15 @@ msgstr ""
 msgid "Can <b>not</b> be changed during a game. "
 msgstr ""
 
+# Daniel
 #: manual/civmanual.c:159
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
-msgstr "現在値: %d, 最小値: 0, 既定値: %d, 最大値: 1"
+msgstr ""
+"<p class=\"bounds\">最小値: 0, 既定値: %d, 最大値: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:163 manual/civmanual.c:173
 #, c-format
@@ -14776,12 +14799,15 @@ msgid ""
 "\n"
 msgstr ""
 
+# Daniel
 #: manual/civmanual.c:168
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
-msgstr "現在値: %d, 最小値: %d, 既定値: %d, 最大値: %d"
+msgstr ""
+"<p class=\"bounds\">最小値: %d, 既定値: %d, 最大値: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:178
 #, c-format
@@ -14805,11 +14831,13 @@ msgid ""
 msgstr ""
 
 #: manual/civmanual.c:196
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s%s  -  %s%s\n"
 "\n"
-msgstr "%s: %s(%s)\n"
+msgstr ""
+"%s%s  -  %s%s\n"
+"\n"
 
 #: manual/civmanual.c:199
 #, c-format
@@ -14820,12 +14848,15 @@ msgid ""
 "<td>"
 msgstr ""
 
+# Daniel
 #: manual/civmanual.c:203
 #, c-format
 msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">レベル: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:206
 #, c-format
@@ -14834,12 +14865,15 @@ msgid ""
 "\n"
 msgstr ""
 
+# Daniel
 #: manual/civmanual.c:216
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "説明:"
+msgstr ""
+"<p>説明:</p>\n"
+"\n"
 
 #: manual/civmanual.c:223
 #, c-format
@@ -14886,7 +14920,7 @@ msgstr "%sに変える"
 #: manual/civmanual.c:269
 #, c-format
 msgid "</table><br><br><br><table border=1>"
-msgstr ""
+msgstr "</table><br><br><br><table border=1>"
 
 #: manual/civmanual.c:270
 #, c-format
@@ -14957,14 +14991,15 @@ msgid ""
 "\n"
 msgstr ""
 
+# Daniel
 #: data/Freeciv.in:111
 msgid "LAN Servers"
-msgstr ""
+msgstr "LAN サーバ"
 
+# Daniel
 #: data/Freeciv.in:129
-#, fuzzy
 msgid "Freeciv Server List"
-msgstr "Freeciv サーバ選択"
+msgstr "Freeciv サーバ一覧"
 
 #: data/Freeciv.in:132
 msgid ""
@@ -14974,10 +15009,10 @@ msgstr ""
 "サーバ名                           ポート バージョン  状態 プレイヤー コメン"
 "ト"
 
+# Daniel
 #: data/Freeciv.in:215
-#, fuzzy
 msgid "Diplomacy"
-msgstr "外交(_D)"
+msgstr "外交"
 
 #: data/Freeciv.in:474 data/Freeciv.in:483
 msgid "Shared vision"
@@ -15077,15 +15112,15 @@ msgstr "ヘルプ:"
 msgid "CMA..."
 msgstr "CMA..."
 
+# Daniel
 #: data/Freeciv.in:1495
-#, fuzzy
 msgid "Add Preset"
 msgstr "プリセット追加"
 
+# Daniel
 #: data/Freeciv.in:1496
-#, fuzzy
 msgid "Remove Preset"
-msgstr "このプリセットを削除していいですか?"
+msgstr "プリセット削除"
 
 #: data/Freeciv.in:1498
 msgid "Control City"
@@ -15103,8 +15138,8 @@ msgstr "最小黒字:"
 msgid "Factor:"
 msgstr "因子:"
 
+# Daniel
 #: data/Freeciv.in:1518
-#, fuzzy
 msgid "Remove preset?"
 msgstr "このプリセットを削除していいですか?"
 
@@ -15321,8 +15356,8 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  現在の管理者: "
 
+# Daniel
 #: data/helpdata.txt:56
-#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
@@ -15334,9 +15369,9 @@ msgstr ""
 "バグを見つけたら、バグレポートを送って下さい。最良の方法は Freeciv バグ追跡シ"
 "ステムを使うことです。\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
+"  http://bugs.freeciv.org/\n"
 "\n"
-"もしくは bugs@cvs.freeciv.org へメールを送って下さい。"
+"もしくは bugs@freeciv.org へメールを送って下さい。"
 
 #: data/helpdata.txt:63
 msgid ""
@@ -15351,8 +15386,8 @@ msgstr ""
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv は GPL によって保護されています。ここに引用します。"
 
+# Daniel
 #: data/helpdata.txt:382
-#, fuzzy
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -15377,14 +15412,17 @@ msgstr ""
 "\n"
 "もしあなたが自分の言語の地域化(翻訳)の追加をしたければ、\n"
 "\n"
-"  http://www.freeciv.org/l10n.phtml\n"
+"  http://www.freeciv.org/index.php/Localization\n"
 "\n"
-"にある説明を読んで下さい。(そこでまず、既に翻訳が進行していないか調べて下さ"
-"い。)\n"
+"にある説明を読んで下さい。まず、\n"
 "\n"
-"他の質問も歓迎です。メーリングリストへどうぞ。\n"
+"  http://www.freeciv.org/index.php/Translations\n"
 "\n"
-"  freeciv-dev@freeciv.org"
+"にある情報を読んで既に翻訳が進行していないかを調べて下さい。)\n"
+"\n"
+"他の質問も歓迎です。地域化メーリングリストへどうぞ：\n"
+"\n"
+"  freeciv-i18n@freeciv.org"
 
 #: data/helpdata.txt:405
 msgid ""
@@ -17530,10 +17568,11 @@ msgstr ""
 msgid "Library"
 msgstr "図書館"
 
+# Daniel
 #: data/default/buildings.ruleset:637
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the science output in a city by 100%."
-msgstr "都市の研究成果を 50% 増やします。"
+msgstr "都市の研究成果を 100% 増やします。"
 
 #: data/default/buildings.ruleset:642 data/civ2/buildings.ruleset:583
 #: data/civ1/buildings.ruleset:495 data/history/buildings.ruleset:590
@@ -17931,12 +17970,13 @@ msgstr ""
 msgid "University"
 msgstr "大学"
 
+# Daniel
 #: data/default/buildings.ruleset:1355
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 250%."
-msgstr "大学は図書館と連携し、都市の研究成果を 100% 増やします。"
+msgstr "大学は図書館と連携し、都市の研究成果を 250% 増やします。"
 
 #: data/default/buildings.ruleset:1361 data/civ2/buildings.ruleset:1287
 #: data/civ1/buildings.ruleset:964 data/history/buildings.ruleset:1307
@@ -17959,10 +17999,9 @@ msgstr ""
 msgid "A.Smith's Trading Co."
 msgstr "A.スミスの貿易会社"
 
-# ama, clefs
+# ama, clefs, Daniel
 # was "全ての都市で、都市建造物の維持費1をなくします。"
 #: data/default/buildings.ruleset:1411
-#, fuzzy
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
@@ -18000,12 +18039,12 @@ msgstr "建てられた都市の研究成果を 100% 増やします。"
 msgid "Cure For Cancer"
 msgstr "癌の治療"
 
+# Daniel
 #: data/default/buildings.ruleset:1492
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
-msgstr "このすばらしい偉業は、すべての都市の1不幸市民の満足をもたらします。"
+msgstr "このすばらしい偉業は、全ての都市で各々一人の不幸な市民を満足にします。"
 
 #: data/default/buildings.ruleset:1500 data/civ2/buildings.ruleset:1424
 #: data/civ1/buildings.ruleset:1074 data/history/buildings.ruleset:1446
@@ -18139,8 +18178,8 @@ msgstr "一ターンにつき一部隊、古い部隊が新しくなります。"
 msgid "Lighthouse"
 msgstr "大灯台"
 
+# Daniel
 #: data/default/buildings.ruleset:1806
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point and eliminates the risk "
 "of losing Triremes on the high seas.  Makes all your new sea units veterans "
@@ -18266,8 +18305,8 @@ msgstr ""
 msgid "United Nations"
 msgstr "国際連合"
 
+# Daniel
 #: data/default/buildings.ruleset:2107
-#, fuzzy
 msgid "All your units regain two extra hitpoints per turn."
 msgstr "ターンごとに部隊のヒットポイントが2多く回復します。"
 
@@ -18493,10 +18532,10 @@ msgstr ""
 "これは普通の建築物ではありません。都市の生産を現金化にセットすると、生産物を"
 "税金として得ます。"
 
+# Daniel
 #: data/civ1/buildings.ruleset:129
-#, fuzzy
 msgid "Allows a city to grow larger than size 10."
-msgstr "都市を %d より大きくできるようにします。"
+msgstr "都市を 10 より大きくできるようにします。"
 
 #: data/civ1/buildings.ruleset:186 data/civ1/buildings.ruleset:218
 #: data/civ1/buildings.ruleset:250
@@ -21245,15 +21284,15 @@ msgstr ""
 msgid "Caliph"
 msgstr "カリフ"
 
+# Daniel
 #: data/nation/assyrian.ruleset:3
-#, fuzzy
 msgid "Assyrian"
-msgstr "アジア"
+msgstr "アッシリア人"
 
+# Daniel
 #: data/nation/assyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Assyrians"
-msgstr "ロシア民族"
+msgstr "アッシリア民族"
 
 #: data/nation/assyrian.ruleset:14
 #, fuzzy
@@ -21292,15 +21331,15 @@ msgid ""
 "country on earth to occupy an entire continent."
 msgstr ""
 
+# Daniel
 #: data/nation/austrian.ruleset:3
-#, fuzzy
 msgid "Austrian"
-msgstr "オーストラリア人"
+msgstr "オーストリア人"
 
+# Daniel
 #: data/nation/austrian.ruleset:4
-#, fuzzy
 msgid "?plural:Austrians"
-msgstr "オーストラリア人"
+msgstr "オーストリア民族"
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
@@ -21382,14 +21421,15 @@ msgid ""
 "Free State, before being defeated by the British in the war of 1899-1902."
 msgstr ""
 
+# Daniel
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
-msgstr ""
+msgstr "ボスニア人"
 
+# Daniel
 #: data/nation/bosnia.ruleset:4
-#, fuzzy
 msgid "?plural:Bosnians"
-msgstr "バビロニア族"
+msgstr "ボスニア民族"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -21709,13 +21749,15 @@ msgstr "ノルドールの王"
 msgid "Queen of Doriath"
 msgstr "ドリアスの女王"
 
+# Daniel
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr "イギリス人"
+msgstr "イングランド人"
 
+# Daniel
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "イギリス民族"
+msgstr "イングランド民族"
 
 #: data/nation/english.ruleset:6
 msgid ""
@@ -21756,10 +21798,10 @@ msgstr "エチオピア人"
 msgid "?plural:Ethiopians"
 msgstr "エチオピア民族"
 
+# Daniel
 #: data/nation/ethiopian.ruleset:14
-#, fuzzy
 msgid "Emporer"
-msgstr "探索者"
+msgstr "皇帝"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -21814,13 +21856,13 @@ msgstr "ガリシア人"
 msgid "?plural:Galicians"
 msgstr "ガリシア民族"
 
+# Daniel
 #: data/nation/galician.ruleset:14
-#, fuzzy
 msgid "Primeiro Ministro"
 msgstr "総理大臣"
 
+# Daniel
 #: data/nation/galician.ruleset:14
-#, fuzzy
 msgid "Primeira Ministra"
 msgstr "総理大臣"
 
@@ -21829,13 +21871,13 @@ msgstr "総理大臣"
 msgid "Raina"
 msgstr "Reina"
 
+# Daniel
 #: data/nation/galician.ruleset:17
-#, fuzzy
 msgid "Presidente"
 msgstr "大統領"
 
+# Daniel
 #: data/nation/galician.ruleset:17
-#, fuzzy
 msgid "Presidenta"
 msgstr "大統領"
 
@@ -21896,9 +21938,10 @@ msgstr "ホビット族"
 msgid "?plural:Hobbits"
 msgstr "ホビット族"
 
+# Daniel
 #: data/nation/hobbits.ruleset:17
 msgid "Mayor of the Shire"
-msgstr ""
+msgstr "シャイアの村長"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -21983,10 +22026,10 @@ msgstr "隊長"
 msgid "High King"
 msgstr "上王"
 
+# Daniel
 #: data/nation/irish.ruleset:38
-#, fuzzy
 msgid "High Queen"
-msgstr "女王"
+msgstr "上女王"
 
 #: data/nation/irish.ruleset:39
 msgid "Mother Superior"
@@ -22039,14 +22082,15 @@ msgstr "日本人"
 msgid "Shogun"
 msgstr "将軍"
 
+# Daniel
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr ""
+msgstr "カンボジア人"
 
+# Daniel
 #: data/nation/kampuchean.ruleset:4
-#, fuzzy
 msgid "?plural:Kampucheans"
-msgstr "朝鮮民族"
+msgstr "カンボジア民族"
 
 #: data/nation/kampuchean.ruleset:13
 #, fuzzy
@@ -22191,15 +22235,15 @@ msgstr "ナイジェリア人"
 msgid "?plural:Nigerians"
 msgstr "ナイジェリア人"
 
+# Daniel
 #: data/nation/observer.ruleset:3
-#, fuzzy
 msgid "Observer"
-msgstr " (観察者)"
+msgstr "観察者"
 
+# Daniel
 #: data/nation/observer.ruleset:4
-#, fuzzy
 msgid "?plural:Observers"
-msgstr "ボーア民族"
+msgstr "観察者"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -22219,15 +22263,15 @@ msgstr ""
 msgid "Shah"
 msgstr "シャー"
 
+# Daniel
 #: data/nation/phoenician.ruleset:3
-#, fuzzy
 msgid "Phoenician"
-msgstr "スロベニア人"
+msgstr "フェニキア人"
 
+# Daniel
 #: data/nation/phoenician.ruleset:4
-#, fuzzy
 msgid "?plural:Phoenicians"
-msgstr "スロベニア民族"
+msgstr "フェニキア民族"
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
@@ -22269,19 +22313,20 @@ msgid ""
 "the shipbuilding advances funded by Prince Henry the Navigator."
 msgstr ""
 
+# Daniel
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr ""
+msgstr "ケベック人"
 
+# Daniel
 #: data/nation/quebecois.ruleset:4
-#, fuzzy
 msgid "?plural:Quebecois"
-msgstr "スコットランド民族"
+msgstr "ケベック民族"
 
+# Daniel
 #: data/nation/quebecois.ruleset:14
-#, fuzzy
 msgid "Governor"
-msgstr "政治体制"
+msgstr "総督"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -23339,14 +23384,6 @@ msgstr ""
 #~ "Research (F6)\n"
 #~ "%s (%d/%d)"
 #~ msgstr "研究中: %s(%d/%d)"
-
-#, fuzzy
-#~ msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-#~ msgstr ""
-#~ "人口: %s\n"
-#~ "西暦: %s\n"
-#~ "金 %d\n"
-#~ "税: %d 贅沢: %d 科学: %d"
 
 #, fuzzy
 #~ msgid " with "
