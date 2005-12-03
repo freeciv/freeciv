@@ -309,6 +309,9 @@ static void script_vars_save(struct section_file *file)
       if (vars) {
 	secfile_insert_str(file, vars, "script.vars");
       }
+    } else {
+      /* _freeciv_state_dump in api.pkg is busted */
+      freelog(LOG_ERROR, "lua error: Failed to dump variables");
     }
   }
 }
