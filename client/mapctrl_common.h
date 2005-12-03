@@ -58,9 +58,6 @@ void update_turn_done_button_state(void);
 void update_line(int canvas_x, int canvas_y);
 void overview_update_line(int overview_x, int overview_y);
 
-bool get_chance_to_win(int *att_chance, int *def_chance,
-		       struct tile *ptile);
-
 void fill_tile_unit_list(const struct tile *ptile, struct unit **unit_list);
 
 extern struct city *city_workers_display;

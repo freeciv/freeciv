@@ -660,30 +660,6 @@ void overview_update_line(int overview_x, int overview_y)
   }
 }
 
-/**************************************************************************
-  Find the focus unit's chance of success at attacking/defending the
-  given tile.  Return FALSE if the values cannot be determined (e.g., no
-  units on the tile).
-**************************************************************************/
-bool get_chance_to_win(int *att_chance, int *def_chance, struct tile *ptile)
-{
-  struct unit *my_unit, *defender, *attacker;
-
-  if (!(my_unit = get_unit_in_focus())
-      || !(defender = get_defender(my_unit, ptile))
-      || !(attacker = get_attacker(my_unit, ptile))) {
-    return FALSE;
-  }
-
-  /* chance to win when active unit is attacking the selected unit */
-  *att_chance = unit_win_chance(my_unit, defender) * 100;
-
-  /* chance to win when selected unit is attacking the active unit */
-  *def_chance = (1.0 - unit_win_chance(attacker, my_unit)) * 100;
-
-  return TRUE;
-}
-
 /****************************************************************************
   We sort according to the following logic:
 
