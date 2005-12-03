@@ -290,8 +290,8 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
   for (i = 0; i < pwl->length; i++) {
     struct city_production *entry = pwl->entries + i;
     const char *name = (entry->is_unit
-			? get_unit_type(entry->value)->name
-			: get_improvement_type(entry->value)->name);
+			? get_unit_type(entry->value)->name_orig
+			: get_improvement_type(entry->value)->name_orig);
 
     secfile_insert_bool(file, entry->is_unit,
 			"%s.wl_is_unit%d", path_str, i);
