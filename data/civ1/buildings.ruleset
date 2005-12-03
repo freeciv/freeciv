@@ -1062,9 +1062,3 @@ In all cities, the unhappiness effect of every unit is reduced by 1.\
  This means that in a Republic, units do not cause unhappiness, and in\
  a Democracy, aggressive units cause only 1 unhappy citizen each.\
 ")
-
-[b_special]
-
-; Special values:
-
-default="Capitalization"

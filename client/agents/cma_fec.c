@@ -288,7 +288,8 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
   if (pcity->production.is_unit) {
     cost = unit_build_shield_cost(get_unit_type(pcity->production.value));
   } else {
-    if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
+    if (!pcity->production.is_unit
+	&& impr_flag(pcity->production.value, IF_GOLD)) {
       my_snprintf(buffer, sizeof(buffer),
 		  get_improvement_type(pcity->production.value)->name);
       return buffer;

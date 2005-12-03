@@ -277,6 +277,13 @@ static void adjust_building_want_by_effects(struct city *pcity,
     }
   } players_iterate_end;
 
+  if (impr_flag(id, IF_GOLD)) {
+    /* Since coinage contains some entirely spurious ruleset values,
+     * we need to return here with some spurious want. */
+    pcity->ai.building_want[id] = TRADE_WEIGHTING;
+    return;
+  }
+
   /* Base want is calculated above using a more direct approach. */
   v += base_want(pplayer, pcity, id);
   if (v != 0) {
@@ -326,16 +333,11 @@ static void adjust_building_want_by_effects(struct city *pcity,
       int amount = peffect->value, c = cities[mypreq->range];
 
       switch (peffect->type) {
-	case EFT_PROD_TO_GOLD:
-	  /* Since coinage contains some entirely spurious ruleset values,
-	   * we need to return here with some spurious want. */
-	  pcity->ai.building_want[id] = TRADE_WEIGHTING;
-	  return;
-	/* These have already been evaluated in base_want() */
-	case EFT_CAPITAL_CITY:
-	case EFT_UPKEEP_FREE:
-	case EFT_POLLU_POP_PCT:
-	case EFT_POLLU_PROD_PCT:
+      /* These have already been evaluated in base_want() */
+      case EFT_CAPITAL_CITY:
+      case EFT_UPKEEP_FREE:
+      case EFT_POLLU_POP_PCT:
+      case EFT_POLLU_PROD_PCT:
       case EFT_OUTPUT_BONUS:
       case EFT_OUTPUT_BONUS_2:
       case EFT_OUTPUT_ADD_TILE:

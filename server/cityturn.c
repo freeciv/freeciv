@@ -1048,7 +1048,8 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   Impr_type_id id = pcity->production.value;
   struct impr_type *building = get_improvement_type(id);
 
-  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
+  if (!pcity->production.is_unit
+      && impr_flag(pcity->production.value, IF_GOLD)) {
     assert(pcity->surplus[O_SHIELD] >= 0);
     /* pcity->before_change_shields already contains the surplus from
      * this turn. */

@@ -69,7 +69,6 @@ static const char *effect_type_names[EFT_LAST] = {
   "Pollu_Pop_Pct",
   /* TODO: "Pollu_Prod_Adj", */
   "Pollu_Prod_Pct",
-  "Prod_To_Gold",
   "Reveal_Cities",
   "Reveal_Map",
   /* TODO: "Incite_Dist_Adj", */

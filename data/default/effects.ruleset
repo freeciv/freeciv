@@ -1683,14 +1683,6 @@ reqs	=
       "Building", "Women's Suffrage", "Player"
     }
 
-[effect_coinage]
-name	= "Prod_To_Gold"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Coinage", "City"
-    }
-
 [effect_flight_trade_revenue_reduce]
 name    = "Trade_Revenue_Bonus"
 value   = -585

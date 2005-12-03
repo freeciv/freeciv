@@ -223,7 +223,8 @@ void get_city_dialog_production(struct city *pcity,
     cost = impr_build_shield_cost(pcity->production.value);
   }
 
-  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
+  if (!pcity->production.is_unit
+      && impr_flag(pcity->production.value, IF_GOLD)) {
     my_snprintf(buffer, buffer_len, _("%3d gold per turn"),
 		MAX(0, pcity->surplus[O_SHIELD]));
   } else {
@@ -264,8 +265,7 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 				     struct city_production target,
 				     struct city *pcity)
 {
-  if (!target.is_unit
-      && building_has_effect(target.value, EFT_PROD_TO_GOLD)) {
+  if (!target.is_unit && impr_flag(target.value, IF_GOLD)) {
     my_snprintf(buffer, buffer_len, _("%s (XX) %d/turn"),
 		get_impr_name_ex(pcity, target.value),
 		MAX(0, pcity->surplus[O_SHIELD]));
@@ -321,7 +321,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     struct player *pplayer = pcity ? pcity->owner : game.player_ptr;
 
     /* Total & turns left meaningless on capitalization */
-    if (building_has_effect(target.value, EFT_PROD_TO_GOLD)) {
+    if (impr_flag(target.value, IF_GOLD)) {
       my_snprintf(buf[0], column_size, get_improvement_name(target.value));
       buf[1][0] = '\0';
       my_snprintf(buf[2], column_size, "---");
@@ -362,8 +362,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 
   /* Add the turns-to-build entry in the 4th position */
   if (pcity) {
-    if (!target.is_unit
-	&& building_has_effect(target.value, EFT_PROD_TO_GOLD)) {
+    if (!target.is_unit && impr_flag(target.value, IF_GOLD)) {
       my_snprintf(buf[3], column_size, _("%d/turn"),
 		  MAX(0, pcity->surplus[O_SHIELD]));
     } else {
@@ -802,7 +801,7 @@ bool city_can_buy(const struct city *pcity)
 	  && pcity->owner == game.player_ptr
 	  && pcity->turn_founded != game.info.turn
 	  && !pcity->did_buy
-	  && get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) <= 0
+	  && !impr_flag(pcity->production.value, IF_GOLD)
 	  && !(pcity->production.is_unit && pcity->anarchy != 0)
 	  && city_buy_cost(pcity) > 0);
 }

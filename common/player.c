@@ -488,7 +488,8 @@ int player_get_expected_income(const struct player *pplayer)
     income += pcity->surplus[O_GOLD];
 
     /* Capitalization income. */
-    if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
+    if (!pcity->production.is_unit
+	&& impr_flag(pcity->production.value, IF_GOLD)) {
       income += pcity->shield_stock + pcity->surplus[O_SHIELD];
     }
   } city_list_iterate_end;

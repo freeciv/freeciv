@@ -1601,14 +1601,6 @@ reqs	=
       "Building", "Women's Suffrage", "Player"
     }
 
-[effect_capitalization]
-name	= "Prod_To_Gold"
-value	= 1
-reqs	=
-    { "type", "name", "range"
-      "Building", "Capitalization", "City"
-    }
-
 [effect_flight_trade_revenue_reduce]
 name    = "Trade_Revenue_Bonus"
 value   = -585

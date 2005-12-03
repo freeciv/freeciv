@@ -37,8 +37,9 @@ typedef unsigned char Impr_Status;
 
 /* Changing these breaks network compatibility. */
 enum impr_flag_id {
-  IF_VISIBLE_BY_OTHERS, /* improvement should be visible to others without spying */
-  IF_SAVE_SMALL_WONDER, /* this small wonder is moved to another city if game.savepalace is on. */
+  IF_VISIBLE_BY_OTHERS,  /* improvement should be visible to others without spying */
+  IF_SAVE_SMALL_WONDER,  /* this small wonder is moved to another city if game.savepalace is on. */
+  IF_GOLD,		 /* when built, gives gold */
   IF_LAST
 };
 

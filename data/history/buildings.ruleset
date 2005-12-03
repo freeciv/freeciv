@@ -1508,6 +1508,7 @@ Counts as a Police Station in every city.  (That is, for each city,\
 ; */
 name		= _("Coinage")
 genus           = "Special"
+flags		= "Gold"
 reqs	=
     { "type", "name", "range"
 ; Nothing
@@ -1531,10 +1532,3 @@ This is not a normal improvement.  Instead, setting a city's\
  production to Coinage means its shield production is\
  converted to tax output (money, coins!).\
 ")
-
-
-[b_special]
-
-; Special values:
-
-default="Coinage"

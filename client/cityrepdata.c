@@ -358,7 +358,8 @@ static const char *cr_entry_building(const struct city *pcity,
     worklist_is_empty(&pcity->worklist) ? "" :
     concise_city_production ? "+" : _("(worklist)");
 	
-  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
+  if (!pcity->production.is_unit
+      && impr_flag(pcity->production.value, IF_GOLD)) {
     my_snprintf(buf, sizeof(buf), "%s (%d/X/X/X)%s",
 		get_impr_name_ex(pcity, pcity->production.value),
 		MAX(0, pcity->surplus[O_SHIELD]), from_worklist);

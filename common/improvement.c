@@ -32,7 +32,7 @@ static const char *genus_names[IG_LAST] = {
 };
 
 static const char *flag_names[] = {
-  "VisibleByOthers", "SaveSmallWonder"
+  "VisibleByOthers", "SaveSmallWonder", "Gold"
 };
 /* Note that these strings must correspond with the enums in impr_flag_id,
    in common/improvement.h */
@@ -173,7 +173,7 @@ int impr_buy_gold_cost(Impr_type_id id, int shields_in_stock)
   int cost = 0;
   const int missing = impr_build_shield_cost(id) - shields_in_stock;
 
-  if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
+  if (impr_flag(id, IF_GOLD)) {
     /* Can't buy capitalization. */
     return 0;
   }

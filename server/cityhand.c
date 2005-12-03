@@ -229,8 +229,8 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
-    assert(!pcity->production.is_unit);
+  if (!pcity->production.is_unit
+      && impr_flag(pcity->production.value, IF_GOLD)) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND,
                      _("You don't buy %s!"),
 		     get_improvement_name(pcity->production.value));
