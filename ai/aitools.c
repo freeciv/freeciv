@@ -1211,17 +1211,13 @@ bool ai_assess_military_unhappiness(struct city *pcity,
   int unhap = 0;
 
   /* bail out now if happy_cost is 0 */
-  if (g->unit_happy_cost_factor == 0) {
+  if (get_player_bonus(city_owner(pcity), EFT_UNHAPPY_FACTOR) == 0) {
     return FALSE;
   }
-  
-  free_happy  = citygov_free_happy(pcity, g);
-
-  /* ??  This does the right thing for normal Republic and Democ -- dwp */
-  free_happy += get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
+  free_happy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
 
   unit_list_iterate(pcity->units_supported, punit) {
-    int happy_cost = utype_happy_cost(unit_type(punit), g);
+    int happy_cost = utype_happy_cost(unit_type(punit), city_owner(pcity));
 
     if (happy_cost <= 0) {
       continue;

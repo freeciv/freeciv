@@ -84,6 +84,14 @@ reqs	=
       "UnitClass", "Sea", "Local"
     }
 
+[effect_republic]
+name  = "Make_Content_Mil"
+value = 1
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+    }
+
 [effect_airport]
 name	= "Veteran_Build"
 value	= 1

@@ -834,10 +834,6 @@ struct packet_ruleset_government {
   int id;
   int reqs_count;
   struct requirement reqs[MAX_NUM_REQS];
-  int unit_happy_cost_factor;
-  int unit_upkeep_factor[O_MAX];
-  int free_happy;
-  int free_upkeep[O_MAX];
   int output_before_penalty[O_MAX];
   int celeb_output_before_penalty[O_MAX];
   int output_inc_tile[O_MAX];

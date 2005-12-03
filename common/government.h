@@ -54,14 +54,6 @@ struct government
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;
 
-  /* unit cost modifiers */
-  int unit_happy_cost_factor;
-  int unit_upkeep_factor[O_MAX];
-  
-  /* base cost that a city does not have to "pay" for */
-  int free_happy;
-  int free_upkeep[O_MAX];
-  
   /* government production penalties (when celebrating and when not) */
   int output_before_penalty[O_MAX];
   int celeb_output_before_penalty[O_MAX];

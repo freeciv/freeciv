@@ -2258,13 +2258,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   }
   assert(gov->reqs.size == p->reqs_count);
 
-  gov->unit_happy_cost_factor  = p->unit_happy_cost_factor;
-  gov->free_happy          = p->free_happy;
-
   output_type_iterate(o) {
-    gov->free_upkeep[o] = p->free_upkeep[o];
-    gov->unit_upkeep_factor[o] = p->unit_upkeep_factor[o];
-
     gov->output_before_penalty[o] = p->output_before_penalty[o];
     gov->celeb_output_before_penalty[o] = p->celeb_output_before_penalty[o];
     gov->output_inc_tile[o] = p->output_inc_tile[o];

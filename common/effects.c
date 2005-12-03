@@ -109,7 +109,10 @@ static const char *effect_type_names[EFT_LAST] = {
   "Happiness_To_Gold",
   "Fanatics",
   "No_Diplomacy",
-  "Trade_Revenue_Bonus"
+  "Trade_Revenue_Bonus",
+  "Unhappy_Factor",
+  "Upkeep_Factor",
+  "Unit_Upkeep_Free_Per_City"
 };
 
 static bool initialized = FALSE;
@@ -804,6 +807,34 @@ int get_city_tile_output_bonus(const struct city *pcity,
 			 	  city_owner(pcity), pcity, NULL,
 				  ptile, NULL, poutput, NULL,
 				  effect_type);
+}
+
+/**************************************************************************
+  Returns the player effect bonus of an output.
+**************************************************************************/
+int get_player_output_bonus(const struct player *pplayer,
+                            const struct output_type *poutput,
+                            enum effect_type effect_type)
+{
+  assert(pplayer != NULL);
+  assert(poutput != NULL);
+  assert(effect_type != EFT_LAST);
+  return get_target_bonus_effects(NULL, pplayer, NULL, NULL, NULL,
+                                  NULL, poutput, NULL, effect_type);
+}
+
+/**************************************************************************
+  Returns the player effect bonus of an output.
+**************************************************************************/
+int get_city_output_bonus(const struct city *pcity,
+                          const struct output_type *poutput,
+                          enum effect_type effect_type)
+{
+  assert(pcity != NULL);
+  assert(poutput != NULL);
+  assert(effect_type != EFT_LAST);
+  return get_target_bonus_effects(NULL, city_owner(pcity), pcity, NULL,
+                                  NULL, NULL, poutput, NULL, effect_type);
 }
 
 /**************************************************************************

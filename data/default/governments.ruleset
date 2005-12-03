@@ -39,11 +39,6 @@ when_anarchy="Anarchy"
 ; ai_better   = AI will not consider this government for use if the
 ;               government listed here is available
 
-; unit_*_factor = factor applied to individual unit upkeep for different 
-;		  upkeep forms
-; unit_free_*   = base unit upkeep cost which the city gets "free"; only
-;	          upkeep above this value applies; special value: "City_Size"
-
 ; corruption:
  
 ; _level            = percentage factor applied to corruption multiplied 
@@ -85,16 +80,6 @@ name        = _("Anarchy")
 ; No reqs
 graphic     = "gov.anarchy"
 graphic_alt = "-"
-
-unit_unhappy_factor = 0
-unit_shield_factor  = 1
-unit_food_factor    = 1
-unit_gold_factor    = 0   ; ??
-
-unit_free_unhappy = 0
-unit_free_shield  = "City_Size"
-unit_free_food    = 0
-unit_free_gold    = 0
 
 corruption_level            = 250
 corruption_fixed_distance   = 0
@@ -138,16 +123,6 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 ai_better   = "Monarchy"
 
-unit_unhappy_factor = 0 
-unit_shield_factor  = 1
-unit_food_factor    = 1
-unit_gold_factor    = 1 
-
-unit_free_unhappy = 0
-unit_free_shield  = "City_Size"
-unit_free_food    = 0
-unit_free_gold    = 0
-
 corruption_level            = 370
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 2 
@@ -190,16 +165,6 @@ graphic     = "gov.monarchy"
 graphic_alt = "-"
 ai_better   = "Communism"
 
-unit_unhappy_factor = 0
-unit_shield_factor  = 1
-unit_food_factor    = 1
-unit_gold_factor    = 1 
-
-unit_free_unhappy = 0
-unit_free_shield  = 3
-unit_free_food    = 0
-unit_free_gold    = 0
-
 corruption_level            = 150
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 1 
@@ -240,16 +205,6 @@ reqs = { "type", "name", "range"
        }
 graphic     = "gov.communism"
 graphic_alt = "-"
-
-unit_unhappy_factor = 0
-unit_shield_factor  = 1
-unit_food_factor    = 1
-unit_gold_factor    = 1 
-
-unit_free_unhappy = 0
-unit_free_shield  = 3
-unit_free_food    = 0
-unit_free_gold    = 0
 
 corruption_level            = 62
 corruption_fixed_distance   = 10
@@ -298,16 +253,6 @@ reqs = { "type", "name", "range"
 graphic     = "gov.republic"
 graphic_alt = "-"
 
-unit_unhappy_factor = 1
-unit_shield_factor  = 1
-unit_food_factor    = 2
-unit_gold_factor    = 1 
-
-unit_free_unhappy = 1
-unit_free_shield  = 0
-unit_free_food    = 0
-unit_free_gold    = 0
-
 corruption_level            = 150
 corruption_fixed_distance   = 0
 corruption_distance_factor  = 1 
@@ -351,16 +296,6 @@ reqs = { "type", "name", "range"
        }
 graphic     = "gov.democracy"
 graphic_alt = "-"
-
-unit_unhappy_factor = 2
-unit_shield_factor  = 1
-unit_food_factor    = 2
-unit_gold_factor    = 1 
-
-unit_free_unhappy = 0
-unit_free_shield  = 0
-unit_free_food    = 0
-unit_free_gold    = 0
 
 corruption_level            = 0
 corruption_fixed_distance   = 0

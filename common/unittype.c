@@ -102,21 +102,26 @@ struct unit_type *unit_type(const struct unit *punit)
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
 		      const struct government *g, Output_type_id otype)
 {
+  int val = ut->upkeep[otype];
+
   if (get_player_bonus(pplayer, EFT_FANATICS)
       && BV_ISSET(ut->flags, F_FANATIC)) {
     /* Special case: fanatics have no upkeep under fanaticism. */
     return 0;
   }
-  return ut->upkeep[otype] * g->unit_upkeep_factor[otype];
+  val *= get_player_output_bonus(pplayer, get_output_type(otype), 
+                                 EFT_UPKEEP_FACTOR);
+  return val;
 }
 
 /**************************************************************************
   Return the "happy cost" (the number of citizens who are discontented)
   for this unit.
 **************************************************************************/
-int utype_happy_cost(const struct unit_type *ut, const struct government *g)
+int utype_happy_cost(const struct unit_type *ut, 
+                     const struct player *pplayer)
 {
-  return ut->happy_cost * g->unit_happy_cost_factor;
+  return ut->happy_cost * get_player_bonus(pplayer, EFT_UNHAPPY_FACTOR);
 }
 
 /**************************************************************************

@@ -68,8 +68,6 @@ static struct unit_type *lookup_unit_type(struct section_file *file,
 static Impr_type_id lookup_impr_type(struct section_file *file, const char *prefix,
 				     const char *entry, bool required,
 				     const char *filename, const char *description);
-static int lookup_city_cost(struct section_file *file, const char *prefix,
-			    const char *entry, const char *filename);
 static char *lookup_helptext(struct section_file *file, char *prefix);
 
 static struct terrain *lookup_terrain(char *name, struct terrain *tthis);
@@ -585,37 +583,6 @@ static struct government *lookup_government(struct section_file *file,
     exit(EXIT_FAILURE);
   }
   return gov;
-}
-
-/**************************************************************************
-  Lookup entry in the file and return the corresponding city cost:
-  value if int, or G_CITY_SIZE_FREE is entry is "City_Size".
-  Dies if gets some other string.  filename is for error message.
-
-  Returns 0 if no value is given in the ruleset.
-**************************************************************************/
-static int lookup_city_cost(struct section_file *file, const char *prefix,
-			    const char *entry, const char *filename)
-{
-  char *sval;
-  int ival = 0;
-
-  if (!section_file_lookup(file, "%s.%s", prefix, entry)) {
-    /* Default to 0. */
-    return 0;
-  }
-  
-  sval = secfile_lookup_str_int(file, &ival, "%s.%s", prefix, entry);
-  if (sval) {
-    if (mystrcasecmp(sval, "City_Size") == 0) {
-      ival = G_CITY_SIZE_FREE;
-    } else {
-      freelog(LOG_FATAL, "Bad %s \"%s\" for %s (%s)",
-	      entry, sval, prefix, filename);
-      exit(EXIT_FAILURE);
-    }
-  }
-  return ival;
 }
 
 /**************************************************************************
@@ -1727,23 +1694,7 @@ static void load_ruleset_governments(struct section_file *file)
     sz_strlcpy(g->graphic_alt,
 	       secfile_lookup_str(file, "%s.graphic_alt", sec[i]));
     
-    g->free_happy
-      = lookup_city_cost(file, sec[i], "unit_free_unhappy", filename);
-
-    g->unit_happy_cost_factor
-      = secfile_lookup_int(file, "%s.unit_unhappy_factor", sec[i]);
-
     output_type_iterate(o) {
-      char buf[128];
-
-      my_snprintf(buf, sizeof(buf), "unit_free_%s",
-		  get_output_identifier(o));
-      g->free_upkeep[o] = lookup_city_cost(file, sec[i], buf, filename);
-
-      g->unit_upkeep_factor[o]
-	= secfile_lookup_int_default(file, 0, "%s.unit_%s_factor", sec[i],
-				     get_output_identifier(o));
-
       if (waste_name[o]) {
 	g->waste[o].level = secfile_lookup_int(file, "%s.%s_level",
 					       sec[i], waste_name[o]);
@@ -2901,13 +2852,7 @@ static void send_ruleset_governments(struct conn_list *dest)
     } requirement_vector_iterate_end;
     gov.reqs_count = j;
 
-    gov.unit_happy_cost_factor  = g->unit_happy_cost_factor;
-    gov.free_happy  = g->free_happy;
-
     output_type_iterate(o) {
-      gov.free_upkeep[o] = g->free_upkeep[o];
-      gov.unit_upkeep_factor[o] = g->unit_upkeep_factor[o];
-
       gov.output_before_penalty[o] = g->output_before_penalty[o];
       gov.celeb_output_before_penalty[o] = g->celeb_output_before_penalty[o];
       gov.output_inc_tile[o] = g->output_inc_tile[o];

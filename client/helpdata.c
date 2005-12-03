@@ -1236,12 +1236,16 @@ void helptext_terrain(char *buf, const struct terrain *pterrain,
 
 /****************************************************************
   Append text for government.
+
+  FIXME: We need to find a way to generate helptext from effects
+  here. For now lots of stuff is simply commented out.
 *****************************************************************/
 void helptext_government(char *buf, struct government *gov,
 			 const char *user_text)
 {
-  bool active_types[O_MAX];
   const size_t bufsz = 64000; /* FIXME: should be passed in */
+#if 0
+  bool active_types[O_MAX];
 
   /* Try to guess which output types that are active in this 
    * game by checking if _any_ government uses it. */
@@ -1253,7 +1257,8 @@ void helptext_government(char *buf, struct government *gov,
       }
     } output_type_iterate_end;
   } government_iterate_end;
-  
+#endif
+
   buf[0] = '\0';
 
   if (gov->helptext[0] != '\0') {
@@ -1313,7 +1318,6 @@ void helptext_government(char *buf, struct government *gov,
               gov->free_happy);
     }
   }
-#endif
   output_type_iterate(ot) {
     if (gov->free_upkeep[ot] == G_CITY_SIZE_FREE) {
       sprintf(buf + strlen(buf),
@@ -1351,6 +1355,7 @@ void helptext_government(char *buf, struct government *gov,
 		"any of your units.\n"), get_output_name(ot));
     }
   } output_type_iterate_end;
+#endif
   output_type_iterate(ot) {
     if (gov->output_before_penalty[ot] > 0
         && gov->output_before_penalty[ot] 

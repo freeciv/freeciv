@@ -1073,33 +1073,6 @@ int city_name_compare(const void *p1, const void *p2)
 }
 
 /**************************************************************************
-  Return the number of free units of upkeep for unit support the city
-  would get under the given government.
-**************************************************************************/
-int citygov_free_upkeep(const struct city *pcity,
-			const struct government *gov, Output_type_id otype)
-{
-  if (gov->free_upkeep[otype] == G_CITY_SIZE_FREE) {
-    return pcity->size;
-  } else {
-    return gov->free_upkeep[otype];
-  }
-}
-
-/**************************************************************************
-  Return how many citizens may be made content by military garrisons under
-  this government type.
-**************************************************************************/
-int citygov_free_happy(const struct city *pcity, const struct government *gov)
-{
-  if (gov->free_happy == G_CITY_SIZE_FREE) {
-    return pcity->size;
-  } else {
-    return gov->free_happy;
-  }
-}
-
-/**************************************************************************
 Evaluate which style should be used to draw a city.
 **************************************************************************/
 int get_city_style(const struct city *pcity)
@@ -1463,7 +1436,7 @@ static int content_citizens(const struct player *pplayer)
 /**************************************************************************
  Return the factor (in %) by which the city's output should be multiplied.
 **************************************************************************/
-int get_city_output_bonus(const struct city *pcity, Output_type_id otype)
+int get_final_city_output_bonus(const struct city *pcity, Output_type_id otype)
 {
   struct output_type *output = &output_types[otype];
   int bonus1 = 100 + get_city_tile_output_bonus(pcity, NULL, output,
@@ -1585,7 +1558,7 @@ void add_specialist_output(const struct city *pcity, int *output)
 static inline void set_city_bonuses(struct city *pcity)
 {
   output_type_iterate(o) {
-    pcity->bonus[o] = get_city_output_bonus(pcity, o);
+    pcity->bonus[o] = get_final_city_output_bonus(pcity, o);
   } output_type_iterate_end;
 }
 
@@ -1985,15 +1958,12 @@ static inline void city_support(struct city *pcity,
 {
   struct player *plr = city_owner(pcity);
   struct government *g = get_gov_pcity(pcity);
-
-  int free_happy = citygov_free_happy(pcity, g);
   int free_upkeep[O_COUNT];
-
-  /* ??  This does the right thing for normal Republic and Democ -- dwp */
-  free_happy += get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
+  int free_happy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
 
   output_type_iterate(o) {
-    free_upkeep[o] = citygov_free_upkeep(pcity, g, o);
+    free_upkeep[o] = get_city_output_bonus(pcity, get_output_type(o), 
+                                           EFT_UNIT_UPKEEP_FREE_PER_CITY);
   } output_type_iterate_end;
 
   /* Clear all usage values. */
@@ -2033,7 +2003,7 @@ static inline void city_support(struct city *pcity,
   unit_list_iterate(pcity->units_supported, this_unit) {
     struct unit_type *ut = unit_type(this_unit);
     int upkeep_cost[O_COUNT], old_upkeep[O_COUNT];
-    int happy_cost = utype_happy_cost(ut, g);
+    int happy_cost = utype_happy_cost(ut, plr);
     bool changed = FALSE;
 
     /* Save old values so we can decide if the unit info should be resent */
@@ -2247,8 +2217,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
    * roundoff errors. */
   val = total * MAX(dist, 1) * waste->level;
 
-  /* FIXME: should be a get_city_output_bonus? */
-  val -= (val * get_city_tile_output_bonus(pcity, NULL, &output_types[otype],
+  val -= (val * get_city_output_bonus(pcity, &output_types[otype],
 					   EFT_OUTPUT_WASTE_PCT)) / 100;
 
   val /= 100 * 100; /* Level is a % multiplied by 100 */

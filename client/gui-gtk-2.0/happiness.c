@@ -291,9 +291,8 @@ static void happiness_dialog_update_units(struct happiness_dialog *pdialog)
   char buf[512], *bptr = buf;
   int nleft = sizeof(buf);
   struct city *pcity = pdialog->pcity;
-  struct government *g = get_gov_pcity(pcity);
   int mlmax = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
-  int uhcfac = g->unit_happy_cost_factor;
+  int uhcfac = get_city_bonus(pcity, EFT_UNHAPPY_FACTOR);
 
   my_snprintf(bptr, nleft, _("Units: "));
   bptr = end_of_strn(bptr, &nleft);

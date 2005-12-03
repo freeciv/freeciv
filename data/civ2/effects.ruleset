@@ -63,6 +63,114 @@ reqs	=
 name    = "City_Vision_Radius_Sq"
 value   = 5
 
+[effect_republic]
+name  = "Make_Content_Mil"
+value = 1
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+    }
+
+[effect_base_unit_upkeep]
+name  = "Upkeep_Factor"
+value = 1
+
+[effect_communism_unit_upkeep]
+name  = "Upkeep_Factor"
+value = 2
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Communism", "Player"
+      "OutputType", "Food", "Local"
+    }
+
+[effect_fundamentalism_unit_upkeep]
+name  = "Upkeep_Factor"
+value = 2
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Fundamentalism", "Player"
+      "OutputType", "Food", "Local"
+    }
+
+[effect_republic_unit_upkeep]
+name  = "Upkeep_Factor"
+value = 1
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Food", "Local"
+    }
+
+[effect_democracy_unit_upkeep]
+name  = "Upkeep_Factor"
+value = 1
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
+      "OutputType", "Food", "Local"
+    }
+
+[effect_republic_unit_unhappiness]
+name  = "Unhappy_Factor"
+value = 1
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+    }
+
+[effect_democracy_unit_unhappiness]
+name  = "Unhappy_Factor"
+value = 2
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
+    }
+
+[effect_upkeep_free_units_anarchy]
+name  = "Unit_Upkeep_Free_Per_City"
+value = 3
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_upkeep_free_units_despotism]
+name  = "Unit_Upkeep_Free_Per_City"
+value = 3
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_upkeep_free_units_monarchy]
+name  = "Unit_Upkeep_Free_Per_City"
+value = 3
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_upkeep_free_units_communism]
+name  = "Unit_Upkeep_Free_Per_City"
+value = 3
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Communism", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_upkeep_free_units_fundamentalism]
+name  = "Unit_Upkeep_Free_Per_City"
+value = 10
+reqs   =
+    { "type", "name", "range"
+      "Gov", "Fundamentalism", "Player"
+      "OutputType", "Shield", "Local"
+    }
 
 [effect_civil_war_0]
 name    = "Civil_War_Chance"

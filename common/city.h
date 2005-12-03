@@ -452,12 +452,6 @@ struct city *city_list_find_name(struct city_list *This, const char *name);
 
 int city_name_compare(const void *p1, const void *p2);
 
-/* city free cost values depending on government: */
-int citygov_free_upkeep(const struct city *pcity,
-			const struct government *gov, Output_type_id otype);
-int citygov_free_happy(const struct city *pcity,
-		       const struct government *gov);
-
 /* city style functions */
 int get_city_style(const struct city *pcity);
 int get_player_city_style(const struct player *plr);
@@ -498,7 +492,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total);
 int city_specialists(const struct city *pcity);                 /* elv+tax+scie */
 Specialist_type_id best_specialist(Output_type_id otype,
 				   const struct city *pcity);
-int get_city_output_bonus(const struct city *pcity, Output_type_id otype);
+int get_final_city_output_bonus(const struct city *pcity, Output_type_id otype);
 bool city_built_last_turn(const struct city *pcity);
 
 /* city creation / destruction */

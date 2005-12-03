@@ -166,7 +166,7 @@ static inline int city_want(struct player *pplayer, struct city *acity,
   }
   prod[O_GOLD] += get_city_tithes_bonus(acity);
   output_type_iterate(o) {
-    bonus[o] = get_city_output_bonus(acity, o);
+    bonus[o] = get_final_city_output_bonus(acity, o);
     waste[o] = city_waste(acity, o, prod[o] * bonus[o] / 100);
   } output_type_iterate_end;
   add_tax_income(pplayer,
@@ -263,7 +263,6 @@ static void adjust_building_want_by_effects(struct city *pcity,
   struct ai_data *ai = ai_data_get(pplayer);
   struct tile *ptile = pcity->tile;
   bool capital = is_capital(pcity);
-  struct government *gov = get_gov_pplayer(pplayer);
   struct req_source source = {
     .type = REQ_BUILDING,
     .value = {.building = id}
@@ -408,9 +407,8 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	case EFT_MAKE_CONTENT_MIL:
           if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
 	    v += pcity->ppl_unhappy[4] * amount
-	      * MAX(unit_list_size(pcity->units_supported)
-		  - gov->free_happy, 0) * 2;
-	    v += c * MAX(amount + 2 - gov->free_happy, 1);
+	      * MAX(unit_list_size(pcity->units_supported), 0) * 2;
+	    v += c * MAX(amount + 2, 1);
 	  }
 	  break;
 	case EFT_TECH_PARASITE:
@@ -625,6 +623,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
 	  } players_iterate_end;
 	  break;
         /* Currently not supported for building AI - wait for modpack users */
+        case EFT_UNHAPPY_FACTOR:
+        case EFT_UPKEEP_FACTOR:
+        case EFT_UNIT_UPKEEP_FREE_PER_CITY:
         case EFT_CIVIL_WAR_CHANCE:
         case EFT_EMPIRE_SIZE_MOD:
         case EFT_EMPIRE_SIZE_STEP:

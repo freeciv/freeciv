@@ -117,7 +117,6 @@ unit_shield_factor  = 1
 unit_food_factor    = 1
 unit_gold_factor    = 0   ; ??
 
-unit_free_unhappy = 0
 unit_free_shield  = "City_Size"
 unit_free_food    = 0
 unit_free_gold    = 0
@@ -192,7 +191,6 @@ unit_shield_factor  = 1
 unit_food_factor    = 1
 unit_gold_factor    = 1 
 
-unit_free_unhappy = 0
 unit_free_shield  = "City_Size"
 unit_free_food    = 0
 unit_free_gold    = 0
@@ -270,7 +268,6 @@ unit_shield_factor  = 1
 unit_food_factor    = 1
 unit_gold_factor    = 1 
 
-unit_free_unhappy = 0
 unit_free_shield  = 3
 unit_free_food    = 0
 unit_free_gold    = 0
@@ -346,7 +343,6 @@ unit_shield_factor  = 1
 unit_food_factor    = 1
 unit_gold_factor    = 1 
 
-unit_free_unhappy = 0
 unit_free_shield  = 3
 unit_free_food    = 0
 unit_free_gold    = 0
@@ -429,7 +425,6 @@ unit_shield_factor  = 1
 unit_food_factor    = 2
 unit_gold_factor    = 1 
 
-unit_free_unhappy = 1
 unit_free_shield  = 0
 unit_free_food    = 0
 unit_free_gold    = 0
@@ -516,7 +511,6 @@ unit_shield_factor  = 1
 unit_food_factor    = 2
 unit_gold_factor    = 1 
 
-unit_free_unhappy = 0
 unit_free_shield  = 0
 unit_free_food    = 0
 unit_free_gold    = 0

@@ -267,7 +267,7 @@ void calc_civ_score(struct player *pplayer)
     pplayer->score.bnp += pcity->surplus[O_TRADE];
     pplayer->score.mfg += pcity->surplus[O_SHIELD];
 
-    bonus = get_city_output_bonus(pcity, O_SCIENCE) - 100;
+    bonus = get_final_city_output_bonus(pcity, O_SCIENCE) - 100;
     bonus = CLIP(0, bonus, 100);
     pplayer->score.literacy += (city_population(pcity) * bonus) / 100;
   } city_list_iterate_end;

@@ -98,6 +98,9 @@ enum effect_type {
   EFT_FANATICS, /* stupid special case, we hatess it */
   EFT_NO_DIPLOMACY,
   EFT_TRADE_REVENUE_BONUS,
+  EFT_UNHAPPY_FACTOR, /* multiply unhappy upkeep by this effect */
+  EFT_UPKEEP_FACTOR,  /* multiply upkeep by this effect */
+  EFT_UNIT_UPKEEP_FREE_PER_CITY, /* this many units are free from upkeep */
   EFT_LAST	/* keep this last */
 };
 
@@ -172,6 +175,12 @@ int get_city_tile_output_bonus(const struct city *pcity,
 			       const struct tile *ptile,
 			       const struct output_type *poutput,
 			       enum effect_type effect_type);
+int get_player_output_bonus(const struct player *pplayer,
+                            const struct output_type *poutput,
+                            enum effect_type effect_type);
+int get_city_output_bonus(const struct city *pcity,
+                          const struct output_type *poutput,
+                          enum effect_type effect_type);
 int get_building_bonus(const struct city *pcity, Impr_type_id building,
 		       enum effect_type effect_type);
 int get_unittype_bonus(const struct player *pplayer,
