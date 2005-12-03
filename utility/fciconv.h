@@ -43,4 +43,6 @@ char *convert_string(const char *text,
 		     const char *to,
 		     char *buf, size_t bufsz);
 
+size_t get_internal_string_length(const char *text);
+
 #endif /* FC__FCICONV_H */

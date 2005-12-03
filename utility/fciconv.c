@@ -355,3 +355,28 @@ void fc_fprintf(FILE *stream, const char *format, ...)
   fputs(output, stream);
   fflush(stream);
 }
+
+/****************************************************************************
+  Return the length, in *characters*, of the string.  This can be used in
+  place of strlen in some places because it returns the number of characters
+  not the number of bytes (with multi-byte characters in UTF-8, the two
+  may not be the same).
+
+  Use of this function outside of GUI layout code is probably a hack.  For
+  instance the demographics code uses it, but this should instead pass the
+  data directly to the GUI library for formatting.
+****************************************************************************/
+size_t get_internal_string_length(const char *text)
+{
+  int text2[(strlen(text) + 1)]; /* UCS-4 text */
+  int i = 0;
+
+  convert_string(text, internal_encoding, "UCS-4",
+		 (char *)text2, sizeof(text2));
+  assert(text2[0] != 0x0000FEFF && text2[0] != 0xFFFE0000); /* No BOM */
+  for (i = 0; ; i++) {
+    if (text2[i] == 0) {
+      return i;
+    }
+  }
+}
