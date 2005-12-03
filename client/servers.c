@@ -172,16 +172,14 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
 /*****************************************************************
   Returns an uname like string.
 *****************************************************************/
-static const char *my_uname(void)
+static void my_uname(char *buf, size_t len)
 {
-  static char machine_string[128];
-
 #ifdef HAVE_UNAME
   {
     struct utsname un;
 
     uname(&un);
-    my_snprintf(machine_string, sizeof(machine_string),
+    my_snprintf(buf, len,
 		"%s %s [%s]",
 		un.sysname,
 		un.release,
@@ -271,17 +269,16 @@ static const char *my_uname(void)
 	sz_strlcpy(cpuname, "unknown");
 	break;
     }
-    my_snprintf(machine_string, sizeof(machine_string),
-		"%s %ld.%ld [%s]", osname, osvi.dwMajorVersion, osvi.dwMinorVersion,
+    my_snprintf(buf, len,
+		"%s %ld.%ld [%s]",
+		osname, osvi.dwMajorVersion, osvi.dwMinorVersion,
 		cpuname);
   }
 #else
-  my_snprintf(machine_string, sizeof(machine_string),
+  my_snprintf(buf, len,
               "unknown unknown [unknown]");
 #endif
 #endif /* HAVE_UNAME */
-
-  return machine_string;
 }
 
 /****************************************************************************
@@ -293,7 +290,7 @@ static void meta_send_request(struct server_scan *scan)
   char str[MAX_LEN_PACKET];
   char machine_string[128];
 
-  sz_strlcpy(machine_string, my_uname());
+  my_uname(machine_string, sizeof(machine_string));
 
   capstr = my_url_encode(our_capability);
 
