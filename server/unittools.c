@@ -1375,7 +1375,8 @@ static void server_remove_unit(struct unit *punit)
 
   conn_list_iterate(game.est_connections, pconn) {
     if ((!pconn->player && pconn->observer)
-	|| map_is_known_and_seen(punit->tile, pconn->player, V_MAIN)) {
+	|| (pconn->player 
+            && map_is_known_and_seen(punit->tile, pconn->player, V_MAIN))) {
       /* FIXME: this sends the remove packet to all players, even those who
        * can't see the unit.  This potentially allows some limited cheating.
        * However fixing it requires changes elsewhere since sometimes the
