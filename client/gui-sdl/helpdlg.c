@@ -74,12 +74,12 @@ struct UNITS_BUTTONS {
 };
 
 static enum help {
-  TECH,
-  UNITS,
-  IMPR,
-  GOV,
-  TERRAINS,
-  TEXT,
+  HELP_TECH,
+  HELP_UNITS,
+  HELP_IMPR,
+  HELP_GOV,
+  HELP_TERRAINS,
+  HELP_TEXT,
   HELP_LAST
 } current_help_dlg = HELP_LAST;
 
