@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include "events.h"
+#include "fciconv.h"
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
@@ -602,8 +603,11 @@ static void dem_line_item(char *outptr, size_t out_size,
 			  int selcols)
 {
   if (TEST_BIT(selcols, DEM_COL_QUANTITY)) {
-      cat_snprintf(outptr, out_size, " %-18s",
-		   prow->to_text(prow->get_value(pplayer)));
+    const char *text = prow->to_text(prow->get_value(pplayer));
+
+    cat_snprintf(outptr, out_size, " %s", text);
+    cat_snprintf(outptr, out_size, "%*s",
+		 18 - get_internal_string_length(text), "");
   }
 
   if (TEST_BIT(selcols, DEM_COL_RANK)) {
@@ -738,7 +742,11 @@ void report_demographics(struct connection *pconn)
   buffer[0] = '\0';
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
     if (strchr(game.demography, rowtable[i].key)) {
-      cat_snprintf(buffer, sizeof(buffer), "%-18s", _(rowtable[i].name));
+      const char *name = _(rowtable[i].name);
+
+      cat_snprintf(buffer, sizeof(buffer), "%s", name);
+      cat_snprintf(buffer, sizeof(buffer), "%*s",
+		   18 - get_internal_string_length(name), "");
       dem_line_item(buffer, sizeof(buffer), pplayer, &rowtable[i], selcols);
       sz_strlcat(buffer, "\n");
     }

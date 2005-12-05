@@ -38,4 +38,6 @@ char *local_to_internal_string_buffer(const char *text,
 void fc_fprintf(FILE *stream, const char *format, ...)
       fc__attribute((format (printf, 2, 3)));
 
+size_t get_internal_string_length(const char *text);
+
 #endif /* FC__FCICONV_H */
