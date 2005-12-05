@@ -61,16 +61,23 @@ static void sanity_check_size(size_t size, const char *called_as,
 }
 
 
-/**********************************************************************
- Function used by fc_malloc macro, malloc() replacement
- No need to check return value.
-**********************************************************************/ 
+/*******************************************************************************
+  Function used by fc_malloc macro, malloc() replacement
+
+  There's no need for the caller to check return value; this function will
+  always return a valid pointer (even for a 0-byte malloc).
+*******************************************************************************/ 
 void *fc_real_malloc(size_t size,
 		     const char *called_as, int line, const char *file)
 {
   void *ptr;
 
   sanity_check_size(size, called_as, line, file);
+
+  /* Some systems return NULL on malloc(0)
+   * According to ANSI C, the return is implementation-specific, 
+   * this is a safe guard. Having the extra byte is, of course, harmless. */
+  size = MAX(size, 1);
     
   ptr = malloc(size);
   if (!ptr) {
