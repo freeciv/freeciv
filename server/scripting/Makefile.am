@@ -8,11 +8,14 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/lua/include \
 	-I$(top_srcdir)/dependencies/tolua
 
+# api_gen.[ch] are now distributed to aid in cross-compiling.  See PR#13571.
 dist_libscripting_a_SOURCES = \
 		api_actions.c	\
 		api_actions.h	\
 		api_find.c	\
 		api_find.h	\
+		api_gen.c	\
+		api_gen.h	\
 		api_intl.c	\
 		api_intl.h	\
 		api_methods.c	\
@@ -29,13 +32,6 @@ dist_libscripting_a_SOURCES = \
 
 EXTRA_DIST = \
 		api.pkg
-
-nodist_libscripting_a_SOURCES =	\
-		api_gen.c	\
-		api_gen.h
-
-BUILT_SOURCES = $(srcdir)/api_gen.c $(srcdir)/api_gen.h
-CLEANFILES = $(srcdir)/api_gen.c $(srcdir)/api_gen.h
 
 $(srcdir)/api_gen.c $(srcdir)/api_gen.h: $(srcdir)/api.pkg
 	$(top_builddir)/dependencies/tolua/tolua -n api -o $(srcdir)/api_gen.c -H $(srcdir)/api_gen.h $(srcdir)/api.pkg
