@@ -168,7 +168,7 @@ void client_kill_server(bool force)
       }
       server_process = INVALID_HANDLE_VALUE;
       loghandle = INVALID_HANDLE_VALUE;
-#else
+#elif HAVE_WORKING_FORK
       kill(server_pid, SIGTERM);
       waitpid(server_pid, NULL, WUNTRACED);
       server_pid = -1;
