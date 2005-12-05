@@ -310,12 +310,19 @@ if test x`$UNAME -s` = xBeOS ; then
   # necessary with a working automake.
 fi
 
-dnl Windows-specific settings
-AC_DIAGNOSE([obsolete],[AC_MINGW32 is obsolete: use AC_CANONICAL_HOST and $host_os])
 case $host_os in
   *mingw32* ) MINGW32=yes;;
           * ) MINGW32=no;;
+  *amigaos* ) AMIGA=yes;;
 esac
+
+dnl Amiga-specific settings
+if test x"$AMIGA" = "xyes"; then
+  AC_DEFINE(ALWAYS_ROOT, 1, [Amiga-specific setting - root])
+fi
+
+dnl Windows-specific settings
+AC_DIAGNOSE([obsolete],[AC_MINGW32 is obsolete: use AC_CANONICAL_HOST and $host_os])
 
 if test x"$MINGW32" = "xyes"; then
   AC_DEFINE(SOCKET_ZERO_ISNT_STDIN, 1, [Mingw32-specific setting - stdin])
