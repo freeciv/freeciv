@@ -2103,7 +2103,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u = get_unit_type(p->id);
 
   sz_strlcpy(u->name_orig, p->name);
-  u->name = u->name_orig;
+  u->name = Q_(u->name_orig); /* See translate_data_names */
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
   sz_strlcpy(u->sound_move, p->sound_move);
@@ -2164,7 +2164,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a = &advances[p->id];
 
   sz_strlcpy(a->name_orig, p->name);
-  a->name = a->name_orig;
+  a->name = Q_(a->name_orig); /* See translate_data_names */
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->req[0] = p->req[0];
@@ -2195,7 +2195,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
 
   b->genus = p->genus;
   sz_strlcpy(b->name_orig, p->name);
-  b->name = b->name_orig;
+  b->name = Q_(b->name_orig); /* See translate_data_names */
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   for (i = 0; i < p->reqs_count; i++) {
@@ -2274,7 +2274,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->num_ruler_titles    = p->num_ruler_titles;
     
   sz_strlcpy(gov->name_orig, p->name);
-  gov->name = gov->name_orig;
+  gov->name = Q_(gov->name_orig); /* See translate_data_names */
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
 
@@ -2303,11 +2303,13 @@ void handle_ruleset_government_ruler_title
   }
   gov->ruler_titles[p->id].nation = get_nation_by_idx(p->nation);
   sz_strlcpy(gov->ruler_titles[p->id].male_title_orig, p->male_title);
+  /* See translate_data_names */
   gov->ruler_titles[p->id].male_title
-    = gov->ruler_titles[p->id].male_title_orig;
+    = Q_(gov->ruler_titles[p->id].male_title_orig);
   sz_strlcpy(gov->ruler_titles[p->id].female_title_orig, p->female_title);
+  /* See translate_data_names */
   gov->ruler_titles[p->id].female_title
-    = gov->ruler_titles[p->id].female_title_orig;
+    = Q_(gov->ruler_titles[p->id].female_title_orig);
 }
 
 /**************************************************************************
@@ -2325,7 +2327,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   }
 
   sz_strlcpy(pterrain->name_orig, p->name_orig);
-  pterrain->name = pterrain->name_orig;
+  pterrain->name = Q_(pterrain->name_orig); /* See translate_data_names */
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);
   sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
   pterrain->movement_cost = p->movement_cost;
@@ -2338,10 +2340,12 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   } output_type_iterate_end;
 
   sz_strlcpy(pterrain->special[0].name_orig, p->special_1_name);
-  pterrain->special[0].name = pterrain->special[0].name_orig;
+  /* See translate_data_names */
+  pterrain->special[0].name = Q_(pterrain->special[0].name_orig);
 
   sz_strlcpy(pterrain->special[1].name_orig, p->special_2_name);
-  pterrain->special[1].name = pterrain->special[1].name_orig;
+  /* See translate_data_names */
+  pterrain->special[1].name = Q_(pterrain->special[1].name_orig);
 
   sz_strlcpy(pterrain->special[0].graphic_str, p->graphic_str_special_1);
   sz_strlcpy(pterrain->special[0].graphic_alt, p->graphic_alt_special_1);
@@ -2398,9 +2402,9 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   pl = get_nation_by_idx(p->id);
 
   sz_strlcpy(pl->name_orig, p->name);
-  pl->name = pl->name_orig;
+  pl->name = Q_(pl->name_orig); /* See translate_data_names */
   sz_strlcpy(pl->name_plural_orig, p->name_plural);
-  pl->name_plural = pl->name_plural_orig;
+  pl->name_plural = Q_(pl->name_plural_orig); /* See translate_data_names */
   sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
   sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;
@@ -2461,7 +2465,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   cs->replaced_by = packet->replaced_by;
 
   sz_strlcpy(cs->name_orig, packet->name);
-  cs->name = cs->name_orig;
+  cs->name = Q_(cs->name_orig); /* See translate_data_names */
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
   sz_strlcpy(cs->citizens_graphic, packet->citizens_graphic);

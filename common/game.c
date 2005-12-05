@@ -573,6 +573,13 @@ bool is_player_phase(const struct player *pplayer, int phase)
   (These could be in the separate modules, but since they are
   all almost the same, and all needed together, it seems a bit
   easier to just do them all here.)
+
+  FIXME: Because of the way translate_data_names works, ruleset names
+  aren't normally translated at the client until the game starts.  Obviously
+  this is incorrect.  The current workaround is to duplicate the translation
+  inside packhand.c.  The real solution though is to get rid of the
+  translate_data_names function  and do all translation when the text is
+  first generated.
 ***************************************************************/
 void translate_data_names(void)
 {
