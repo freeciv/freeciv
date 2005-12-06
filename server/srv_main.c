@@ -1576,7 +1576,8 @@ static void main_loop(void)
    */
   lsend_packet_freeze_hint(game.est_connections);
 
-  while(server_state==RUN_GAME_STATE) {
+  assert(server_state == RUN_GAME_STATE);
+  while (server_state == RUN_GAME_STATE) {
     /* The beginning of a turn.
      *
      * We have to initialize data as well as do some actions.  However when
@@ -1624,7 +1625,8 @@ static void main_loop(void)
       clear_timer_start(eot_timer);
 
       if (server_state == GAME_OVER_STATE) {
-	break;
+	free_timer(eot_timer);
+	return;
       }
 
       conn_list_do_buffer(game.est_connections);
@@ -1640,9 +1642,6 @@ static void main_loop(void)
 
       conn_list_do_unbuffer(game.est_connections);
     }
-    if (server_state == GAME_OVER_STATE) {
-      break;
-    }
     end_turn();
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     (void) send_server_info_to_metaserver(META_REFRESH);
@@ -1652,12 +1651,7 @@ static void main_loop(void)
     }
   }
 
-  /* 
-   * This will thaw the reports and agents at the client.
-   */
-  lsend_packet_thaw_hint(game.est_connections);
-
-  free_timer(eot_timer);
+  assert(0); /* not reached */
 }
 
 /**************************************************************************
