@@ -55,17 +55,19 @@
 #include <winsock.h>
 #endif
 
-#include "capstr.h"
-#include "dataio.h"
 #include "fcintl.h"
-#include "game.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
-#include "packets.h"
+#include "rand.h" /* myrand() */
 #include "registry.h"
 #include "support.h"
+
+#include "capstr.h"
+#include "dataio.h"
+#include "game.h"
+#include "packets.h"
 #include "version.h"
 
 #include "servers.h"
@@ -331,7 +333,7 @@ static void meta_read_response(struct server_scan *scan)
     char filename[MAX_PATH];
 
     GetTempPath(sizeof(filename), filename);
-    cat_snprintf(filename, sizeof(filename) "fctmp%d", myrand());
+    cat_snprintf(filename, sizeof(filename), "fctmp%d", myrand(1000));
 
     scan->meta.fp = fopen(filename, "w+b");
 #else
@@ -419,7 +421,13 @@ static bool begin_metaserver_scan(struct server_scan *scan)
   my_nonblock(s);
   
   if (connect(s, (struct sockaddr *) &addr.sockaddr, sizeof(addr)) == -1) {
-    if (errno == EINPROGRESS) {
+    if (
+#ifdef HAVE_WINSOCK
+	errno == WSAEINPROGRESS
+#else
+	errno == EINPROGRESS
+#endif
+	) {
       /* With non-blocking sockets this is the expected result. */
       scan->meta.state = META_CONNECTING;
       scan->sock = s;
