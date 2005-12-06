@@ -455,6 +455,10 @@ static int worklist_editor_targets_callback(struct GUI *pWidget)
  */
 static void remove_item_from_worklist(struct GUI *pItem)
 {
+  /* only one item (production) is left */
+  if (worklist_is_empty(pEditor->pCopy_WorkList))
+    return;
+        
   if(pItem->data.ptr) {
     /* correct "data" widget fiels */
     struct GUI *pBuf = pItem;
@@ -471,20 +475,6 @@ static void remove_item_from_worklist(struct GUI *pItem)
     /* remove widget from widget list */
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
   } else {
-    /* change production ... */
-      if(worklist_is_empty(pEditor->pCopy_WorkList)) {
-        /* there is no worklist */
-      if(!(!pEditor->currently_building.is_unit &&
-         building_has_effect(pEditor->currently_building.value, EFT_PROD_TO_GOLD))) {        
-	  /* change to capitalization */
-	  int dummy;   
-        change_production(cid_production(get_building_for_effect(EFT_PROD_TO_GOLD)));
-	  copy_chars_to_string16(pItem->string16,
-           get_production_name(pEditor->pCity, cid_decode(cid_encode_building(get_building_for_effect(EFT_PROD_TO_GOLD))), &dummy));
-	  
-        pItem->ID = MAX_ID - cid_encode_building(get_building_for_effect(EFT_PROD_TO_GOLD));
-        }
-      } else {
         /* change productions to first worklist element */
         struct GUI *pBuf = pItem->prev;
       change_production(pEditor->pCopy_WorkList->entries[0]);
@@ -498,9 +488,8 @@ static void remove_item_from_worklist(struct GUI *pItem)
           } while(pBuf != pEditor->pWork->pBeginActiveWidgetList);
         }
       }
-    }
 
-/* FIXME */
+/* FIXME: fix scrollbar code */
 #if 0    
   /* worklist_length(pEditor->pCopy_WorkList): without production */
   if (worklist_length(pEditor->pCopy_WorkList) <= pEditor->pWork->pScroll->active + 1) {
@@ -928,7 +917,7 @@ static void refresh_production_label(int stock)
     				pEditor->currently_building, &cost);
 
   if (!pEditor->currently_building.is_unit
-     && (pEditor->currently_building.value == get_building_for_effect(EFT_PROD_TO_GOLD)))
+     && impr_flag(pEditor->currently_building.value, IF_GOLD))
   {
      my_snprintf(cBuf, sizeof(cBuf),
       	_("%s\n%d gold per turn"), name, MAX(0, pEditor->pCity->surplus[O_SHIELD]));
@@ -1108,7 +1097,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     /* turns == progress */
     const char *name = get_production_name(pCity, pCity->production, &count);
     
-    if (!pCity->production.is_unit && (pCity->production.value == get_building_for_effect(EFT_PROD_TO_GOLD)))
+    if (!pCity->production.is_unit && impr_flag(pCity->production.value, IF_GOLD))
     {
       my_snprintf(cBuf, sizeof(cBuf),
       	_("%s\n%d gold per turn"), name, MAX(0, pCity->surplus[O_SHIELD]));
@@ -1384,7 +1373,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       }
   
       if(pCity) {
-        if(imp != get_building_for_effect(EFT_PROD_TO_GOLD)) {
+        if(!impr_flag(imp, IF_GOLD)) {
           turns = city_turns_to_build(pCity, cid_production(imp), TRUE);
             
           if (turns == FC_INFINITY) {
@@ -1424,7 +1413,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
         }
       } else {
         /* non city mode */
-        if(imp != get_building_for_effect(EFT_PROD_TO_GOLD)) {
+        if(!impr_flag(imp, IF_GOLD)) {
           if(state) {
             my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d %s"),
 			state, impr_build_shield_cost(imp),

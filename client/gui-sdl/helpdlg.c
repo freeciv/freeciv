@@ -73,15 +73,7 @@ struct UNITS_BUTTONS {
   struct GUI *pDock;
 };
 
-static enum help {
-  HELP_TECH,
-  HELP_UNITS,
-  HELP_IMPR,
-  HELP_GOV,
-  HELP_TERRAINS,
-  HELP_TEXT,
-  HELP_LAST
-} current_help_dlg = HELP_LAST;
+enum help_page_type current_help_dlg = HELP_LAST;
 
 /* HACK: we use a static string for convenience. */
 static char long_buffer[64000];
@@ -193,7 +185,7 @@ void popup_impr_info(Impr_type_id impr)
   struct impr_type *pImpr_type;
   char buffer[64000];
   
-  if(current_help_dlg != IMPR)
+  if(current_help_dlg != HELP_IMPROVEMENT)
   {
     popdown_help_dialog();
   }
@@ -203,7 +195,7 @@ void popup_impr_info(Impr_type_id impr)
     SDL_Surface *pText, *pBack, *pTmp;
     SDL_Rect dst;
     
-    current_help_dlg = IMPR;
+    current_help_dlg = HELP_IMPROVEMENT;
     created = TRUE;
     pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
     pStore = MALLOC(sizeof(struct UNITS_BUTTONS));
@@ -334,7 +326,7 @@ void popup_impr_info(Impr_type_id impr)
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if (!building_has_effect(impr, EFT_PROD_TO_GOLD))
+  if (!impr_flag(impr, IF_GOLD))
   {
     sprintf(buffer, "%s %d", N_("Cost:"), impr_build_shield_cost(impr));
     pBuf = create_iconlabel_from_chars(NULL,
@@ -464,7 +456,7 @@ void popup_impr_info(Impr_type_id impr)
   pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(20);
   start_y = pBuf->size.y + pBuf->size.h + adj_size(10);
   
-  if (!building_has_effect(impr, EFT_PROD_TO_GOLD))
+  if (!impr_flag(impr, IF_GOLD))
   {
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + start_x;
@@ -550,7 +542,7 @@ void popup_unit_info(Unit_type_id type_id)
   struct unit_type *pUnit;
   char *buffer = &long_buffer[0];
   
-  if(current_help_dlg != UNITS)
+  if(current_help_dlg != HELP_UNIT)
   {
     popdown_help_dialog();
   }
@@ -560,7 +552,7 @@ void popup_unit_info(Unit_type_id type_id)
     SDL_Surface *pText, *pBack, *pTmp;
     SDL_Rect dst;
     
-    current_help_dlg = UNITS;
+    current_help_dlg = HELP_UNIT;
     created = TRUE;
     pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
     pStore = MALLOC(sizeof(struct UNITS_BUTTONS));
@@ -1850,7 +1842,7 @@ void popup_tech_info(Tech_type_id tech)
   bool created;
   int width = 0;
   
-  if(current_help_dlg != TECH)
+  if(current_help_dlg != HELP_TECH)
   {
     popdown_help_dialog();
   }
@@ -1858,7 +1850,7 @@ void popup_tech_info(Tech_type_id tech)
   if (!pHelpDlg)
   {
     created = TRUE;
-    current_help_dlg = TECH;
+    current_help_dlg = HELP_TECH;
     pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
     pStore = MALLOC(sizeof(struct TECHS_BUTTONS));
       

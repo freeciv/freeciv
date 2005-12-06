@@ -3258,7 +3258,7 @@ static void redraw_city_dialog(struct city *pCity)
     struct impr_type *pImpr =
 	get_improvement_type(pCity->production.value);
 
-    if (pCity->production.value == get_building_for_effect( EFT_PROD_TO_GOLD)) {
+    if (impr_flag(pCity->production.value, IF_GOLD)) {
 
       if (pCityDlg->pBuy_Button
 	 && get_wstate(pCityDlg->pBuy_Button) != FC_WS_DISABLED) {
