@@ -167,7 +167,7 @@ bool worklist_insert(struct worklist *pwl,
   /* move all active values down an index to get room for new id
    * move from [idx .. len - 1] to [idx + 1 .. len].  Any entries at the
    * end are simply lost. */
-  for (i = new_len - 1; i >= idx; i--) {
+  for (i = new_len - 2; i >= idx; i--) {
     pwl->entries[i + 1] = pwl->entries[i];
   }
   
