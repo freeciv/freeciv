@@ -1624,11 +1624,6 @@ static void main_loop(void)
       /* After sniff, re-zero the timer: (read-out above on next loop) */
       clear_timer_start(eot_timer);
 
-      if (server_state == GAME_OVER_STATE) {
-	free_timer(eot_timer);
-	return;
-      }
-
       conn_list_do_buffer(game.est_connections);
 
       sanity_check();
@@ -1641,6 +1636,10 @@ static void main_loop(void)
       end_phase();
 
       conn_list_do_unbuffer(game.est_connections);
+
+      if (server_state == GAME_OVER_STATE) {
+	break;
+      }
     }
     end_turn();
     freelog(LOG_DEBUG, "Sendinfotometaserver");
@@ -1651,7 +1650,10 @@ static void main_loop(void)
     }
   }
 
-  assert(0); /* not reached */
+  /* This will thaw the reports and agents at the client.  */
+  lsend_packet_thaw_hint(game.est_connections);
+
+  free_timer(eot_timer);
 }
 
 /**************************************************************************
