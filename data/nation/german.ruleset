@@ -42,10 +42,8 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with=
-; Member-nation of the German federation
- "bavarian",
-; Similar flag
- "belgian"
+; "Member-nation" of the German federation
+ "bavarian"
 
 civilwar_nations=
 ; Sub-national nations
@@ -53,9 +51,7 @@ civilwar_nations=
 ; German-speaking nations
  "austrian", "swiss",
 ; A few more closely related nations
- "dutch", "french",
-; I suppose this is because of South Tyrol in Italy
- "italian"
+ "dutch", "french"
 
 cities =
   "Berlin (grassland, !mountains)", 

@@ -28,31 +28,34 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "canadian", "quebecois"
+civilwar_nations = "canadian", "quebecois", "danish"
 
 ; City names are taken from Greenland (a self-governing territory of the
 ; Danish kingdom) and the Canadian territory of Nunavut, both Inuit-
-; dominated political entities. The two last are from northern Quebec.
+; dominated political entities.
 
 cities =
- "Nuuk",
- "Iqaluit",
- "Ilulissat",
- "Igloolik",
+; Alternated Greenlandic and Nunavut communities
+ "Nuuk",		; Godthåb (Danish/Norwegian)
+ "Iqaluit",		; Frobisher Bay
+ "Ilulissat",		; Jakobshavn (Danish/Norwegian)
+ "Igloolik",		
  "Narsarsuaq",
- "Arviat", 
- "Qaanaaq",
- "Kimmirut",
+ "Arviat",		; Eskimo Point
+ "Qaanaaq",		; Thule (Danish/Norwegian)
+ "Kimmirut",		; Lake Harbour
  "Upernavik",
  "Sanikiluaq",
  "Uummannaq",
  "Pangnirtung",
- "Qeqertarsuaq",
+ "Qeqertarsuaq",	; Godhavn (Danish/Norwegian)
  "Quikiqtarjuaq",
- "Kangerlussuaq",
+ "Kangerlussuaq",	; Søndre Strømfjord (Danish/Norwegian)
  "Taloyoak",
+
+; Only Greenlandic communities below
  "Asiaat",
- "Ittoqortoormiut",
+ "Ittoqortoormiut",	; Scoresbysund (Danish/Norwegian)
  "Kuglutuk",
  "Kangaatsiak",
  "Umingmaktok",
@@ -60,10 +63,12 @@ cities =
  "Nanisivik",
  "Nanortalik",
  "Narsaq",
- "Paamiut",
+ "Paamiut",		; Frederikshåb (Danish/Norwegian)
  "Qaqortorq",
  "Qasigiannguit",
  "Sisimiut",
  "Tasiilaq",
+
+; Communities in Quebec with Inuit names
  "Kuujjuaq",
  "Kangiqsualujjuaq"

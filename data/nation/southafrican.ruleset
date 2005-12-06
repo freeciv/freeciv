@@ -16,9 +16,9 @@ leader=
  "Nelson Mandela",
  "Winnie Mandela",
  "Desmond Tutu",
- "Jan Christiaan Smuts",
+ "J.C. Smuts",
  "Mangosuthu Buthelezi",
- "Hendrik Frensch Verwoerd"
+ "H.F. Verwoerd"
 leader_sex="Male", "Male", "Female", "Male", "Male", "Male", "Male"
 flag="south_africa"
 flag_alt = "-"

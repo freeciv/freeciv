@@ -2,19 +2,20 @@
 
 name=_("Australian Aboriginal")
 plural=_("?plural:Aborigines")
-groups=_("Ancient"), _("Oceanian")
+groups=_("Oceanian")
 legend=_("Australian Aborigines is a collective term for the original\
  inhabitants of the Australian continent. Aborigines from different parts of\
  Australia refer to themselves with different names, including Koori,\
  Yamaji, Nunga, and Murri.")
 leader=
- "Bennelong",
  "Yagan",
  "Neville Bonner",
- "David Unaipon",
  "Galarrwuy Yunupingu",
- "Isabell Coe"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
+ "Isabell Coe",
+ "Beruk",		; Also known as William Barak
+ "Gatjil Djerrkura",
+ "Pearl Gibbs"
+leader_sex="Male", "Male", "Male", "Female", "Male", "Male", "Female"
 flag="aborigines"
 flag_alt = "-"
 city_style = "Tropical"
@@ -23,10 +24,10 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "australian"
+civilwar_nations = "australian", "papuan"
 
-; City names are mostly from the state of New South Wales
-; plus the places of birth for a few of the leaders.
+; City names are a more or less random selection of Aboriginal place names
+; in modern Australia, mostly from the state of New South Wales.
 cities =
  "Kamberra", ; Aboriginal name that became Canberra in English
  "Beeliar",

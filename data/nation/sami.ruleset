@@ -7,53 +7,58 @@ legend=_("The Sami, or Lapps, are a people of northern Scandinavia. Their\
  nation spans over the northernmost regions of the Scandinavian countries:\
  Finnmark of Norway and Lapland of Sweden and Finland.")
 leader=
- "Ole Henrik Magga",
- "Aslak Hætta",
- "Matts Heiva",
- "Kuta-Vuorok",
- "Elsa Laula"
+ "Ole Henrik Magga",	; Sami politician and current chairman of UNPFII
+ "Aslak Hætta",		; Rebellion leader against Norwegian rule
+ "Matts Heiva",		; 17th century influential noaydde (shaman)
+ "Kuta-Vuorok",		; 18th century influential noaydde
+ "Elsa Laula"		; Early Sami political activist
 leader_sex="Male", "Male", "Male", "Male", "Female"
 flag="sapmi"
 flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Noyd"),         _("Noyd")
-                 "Republic",        _("Grand Noyd"),   _("Grand Noyd")
+                 "Despotism",       _("Noaydde"),      _("Noaydde")
+                 "Republic",        _("Spokesman"),    _("Spokeswoman")
                }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="finnish"
+civilwar_nations="finnish", "swedish", "norwegian", "russian"
 
 ; Sami city names are taken from the northernmost regions of Norway 
 ; (Finnmark) Sweden and Finland (Lapland) and also a few from Russia.
 ; Some of these names use the classic orthography in the respective
 ; countries while yet some use a more modern native Sami orthography.
+;
+; Some sources:
+; http://www.sametinget.se/sametinget/view.cfm?oid=2130&sat=no
+; http://www.fjallen.nu/besoka/karta.htm
 
 cities =
- "Guovdageaidnu", 		; Kautokeino
- "Kárášjohka (river)",		; Karasjok
- "Giron",			; Kiruna
- "Anar",			; Inari
- "Lujávri (river, swamp)",
- "Garesavvon",			; Karesuando
- "Dálvvadis",
- "Álaheaju",			; Alta
- "Jiellivarre (mountains)",	; Gällivare
- "Guojkkajåhkkå (river)",	; Kvikkjokk
- "Murjek (swamp, river)",
+ "Guovdageaidnu", 		; Kautokeino (Norway)
+ "Kárášjohka (river)",		; Karasjok (Norway)
+ "Giron",			; Kiruna (Sweden)
+ "Anar",			; Inari (Finland)
+ "Lujávri (river, swamp)",	; Lovozero (Russia)
+ "Garesavvon",			; Karesuando (Sweden)
+ "Dálvvadis",			; Jokkmokk (Sweden)
+ "Álaheaju",			; Alta (Norway)
+ "Váhtjer (mountains)",		; Gällivare (Sweden)
+ "Guojkkajåhkkå (river)",	; Kvikkjokk (Sweden)
+ "Muorjek (swamp, river)",	; Murjek (Sweden)
+ "Avvil",			; Ivalo (Finland)
+ "Ohcejohka (river)",		; Utsjoki (Finland)
+ "Bårjås",			; Porjus (Sweden)
+ "Ábeskovvu (ocean)",		; Abisko (Sweden)
+ "Jäggeluokta (ocean)",		; Jäkkvik (Sweden)
+ "Njoammelsasskam",		; Harsprånget (Sweden)
  "Karagasnjarga",
  "Noarvas",
- "Avvil",
  "Aiddejavvre (river, swamp)",
- "Ohcejohka (river)",
- "Bårjås",		; Porjus
- "Ábeskovvu (ocean)",	; Abisko
  "Thohkerasjavre (river, swamp)",
- "Jäggeluokta (ocean)",
  "Galanito",
  "Miron",
  "Jona",
@@ -67,7 +72,6 @@ cities =
  "Jorgastak",
  "Valjok (river)",
  "Skoganvarre (hills, mountains)",
- "Njoammelsasskam",
  "Seida",
  "Nuorgam",
  "Polmak",

@@ -9,12 +9,19 @@ legend=_("Colombia is a country in northern South America. The region was\
  Colombia gained independence.")
 leader=
  "Simón Bolívar",
- "G. J. de Quesada",
- "Álvaro Uribe"
-leader_sex="Male", "Male", "Male"
+ "G. Jiménez de Quesada",
+ "Álvaro Uribe",
+ "T. Cipriano de Mosquera",
+ "Rafael Núñez"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="colombia"
 flag_alt = "columbia"	; For backward compatibility
 city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Anarchy",        _("General"),         _("General")
+                 "Despotism",      _("Governador"),      _("Governadora")
+               }
 
 init_techs=""
 init_buildings=""

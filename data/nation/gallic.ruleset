@@ -6,14 +6,14 @@ groups=_("Ancient"), _("European")
 legend=_("The Gauls were a Celtic people occupying what is now France and\
  Belgium.")
 leader=
- "Ariovistus",
  "Vercingetorix",
- "Syagrius",
  "Ambiorix",
  "Dumnorix",
- "Julia Pacata",
- "Leonnorius"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female", "Male"
+ "Orgetorix",
+ "Leonnorius",
+ "Brennus",
+ "Julia Pacata"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="france_old"
 flag_alt = "france"
 city_style = "Celtic"
@@ -33,42 +33,45 @@ civilwar_nations = "french", "belgian"
 ; http://en.wikipedia.org/wiki/Category:Ancient_Gauls
 ; http://fr.wikipedia.org/wiki/Liste_des_peuples_gaulois_en_France
 
-; Mixed Latin and Gallic names.
+; Some names might be Latin renderings.
+; Modern French names in comment.
 
 cities =
- "Bibracte",
- "Durocortum",
- "Avaricum",
- "Uxellodunum",
+ "Bibracte",		; (Mont) Beuvray
+ "Durocortum",		; Reims
+ "Avaricum",		; Bourges
  "Vesona",
- "Bagacum",
- "Cabillonum",
- "Cenabum",
- "Autricum",
- "Vindinum",
- "Aragenuae",
- "Gergovia",
- "Aginnon",
- "Nemetocenna",
- "Valentia",
- "Nemausus",
- "Noviodunum",
- "Castellum",
- "Limonium",
- "Treverorum",
- "Narbo",
- "Vienne",
- "Agedincum",
- "Metiosedum",
+ "Bagacum",		; Bavai
+ "Cabillonum",		; Chalon-sur-Saône
+ "Cenabum",		; Orléans
+ "Autricum",		; Chartres
+ "Vindinum",		; Le Mans
+ "Aragenuae",		; Vieux
+ "Gergovia Boiorum",	; Gergovie (the Romans called it "Gorgobina")
+ "Aginnon",		; Agen
+ "Nemetocenna",		; Arras (the Romans called it "Atrebatum")
+ "Valentia",		; Valence
+ "Nemausus",		; Nîmes
+ "Noviodunum",		; Jublains
+ "Narbo",		; Narbonne
+ "Vienna",		; Vienne
+ "Agedincum",		; Sens
+ "Metiosedum",		; Melun
+ "Uxellodunum",
  "Vellaunodunum",
+ "Nyrax",		; Nyons
+ "Vesontio",		; Besançon
+ "Arausio",		; Orange
+ "Alesia",
+ "Arelate",		; Arles (founded by Greeks as "Theline")
+
+; Cities of the Belgae
  "Bratuspantium",
  "Bibrax",
- "Nyrax",
- "Vesontio",
- "Massalia", 
- "Arausio",
- "Alesia",
- "Arelate",
- "Genava", 
+
+; Cities founded by Greeks or Romans
+ "Limonium",
+ "Massalia",		; Marseille
+ "Genava",		; Genève (Switzerland)
  "Agirinum",
- "Rotomagus"
+ "Rotomagus"		; Rouen

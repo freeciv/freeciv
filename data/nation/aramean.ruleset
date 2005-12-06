@@ -13,7 +13,7 @@ leader=
  "Hasael",
  "Zenobia",
  "Aryo",
- "Abgar the Great"
+ "Abgar VIII"	; a.k.a. Abgar the Great
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male" 
 flag="aram" 
 flag_alt = "-" 

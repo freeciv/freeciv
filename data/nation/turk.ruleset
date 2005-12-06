@@ -11,9 +11,9 @@ leader=
  "Kemal Atatürk",
  "Süleyman I",
  "Osman I",
- "Murad I",
+ "Murat I",
  "Selim III",
- "Mehmed II"
+ "Mehmet II"
 leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male"
 flag="turkey"
@@ -21,7 +21,7 @@ flag_alt = "-"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Sultan"),       _("Sultan")
+                 "Monarchy",        _("Sultan"),       _("Sultana")
                }
 
 init_techs=""

@@ -27,8 +27,13 @@ init_government="Despotism"
 init_units=""
 civilwar_nations = "mongol", "korean", "chinese"
 
+; City list comprised of a selection of cities in 20th century Manchukuo,
+; selection made to ensure minimal overlap with Chinese city list.
+;
+; Source: http://en.wikipedia.org/wiki/Manchukuo_(administration)
+
 cities =
- "Mukden",
+ "Mukden",	; "Shenyang" in modern China
  "Harbin",
  "Fushum",
  "Fusin",

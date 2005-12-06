@@ -69,4 +69,19 @@ cities =
  "Tjeb-Neter",	; Sebennythos, Samanud
  "Anpet-Djedet", ; Tmuis
  "Gebtiu",	; Koptos, Kuft
- "Taminhor" 	; Hermopolis Parva, Damanhur
+ "Taminhor", 	; Hermopolis Parva, Damanhur
+
+; Cities without Old Egyptian name; Probably founded by Greeks or Romans
+ "Pelusium",
+ "Canopus",
+ "Naucratis",
+ "Aphroditopolis",
+ "Ammonium",
+ "Acoris",
+ "Timonepsis",
+ "Nilopolis",
+ "Ibiu",
+ "Andropolis",
+ "Sele",
+ "Antiphrae",
+ "Apis"
