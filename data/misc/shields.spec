@@ -135,6 +135,7 @@ sprites =
 		"f.shield.switzerland", "flags/swiss-shield"
 		"f.shield.syria", "flags/syria-shield"
 		"f.shield.taiwan", "flags/taiwan-shield"
+		"f.shield.texas", "flags/texas-shield"
 		"f.shield.tibet", "flags/tibet-shield"
 		"f.shield.thailand", "flags/thailand-shield"
 		"f.shield.tunisia", "flags/tunisia-shield"
@@ -149,5 +150,6 @@ sprites =
 		"f.shield.vietnam", "flags/vietnam-shield"
 		"f.shield.viking", "flags/viking-shield"
 		"f.shield.wales", "flags/wales-shield"
+		"f.shield.westphalia", "flags/westphalia-shield"
 		"f.shield.zulu", "flags/zulu-shield"
 	}

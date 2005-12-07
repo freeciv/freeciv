@@ -125,6 +125,7 @@ flag_files =				\
 		swiss.png		\
 		syria.png		\
 		taiwan.png		\
+		texas.png		\
 		thailand.png		\
 		tibet.png		\
 		tunisia.png		\
@@ -139,6 +140,7 @@ flag_files =				\
 		vietnam.png		\
 		viking.png		\
 		wales.png		\
+		westphalia.png		\
 		zulu.png
 
 shield_files =					\
@@ -263,6 +265,7 @@ shield_files =					\
 		swiss-shield.png		\
 		syria-shield.png		\
 		taiwan-shield.png		\
+		texas-shield.png		\
 		thailand-shield.png		\
 		tibet-shield.png		\
 		tunisia-shield.png		\
@@ -277,6 +280,7 @@ shield_files =					\
 		vietnam-shield.png		\
 		viking-shield.png		\
 		wales-shield.png		\
+		westphalia-shield.png		\
 		zulu-shield.png
 
 svg_files = 				\
@@ -401,6 +405,7 @@ svg_files = 				\
 		swiss.svg		\
 		syria.svg		\
 		taiwan.svg		\
+		texas.svg		\
 		thailand.svg		\
 		tibet.svg		\
 		tunisia.svg		\
@@ -415,6 +420,7 @@ svg_files = 				\
 		vietnam.svg		\
 		viking.svg		\
 		wales.svg		\
+		westphalia.svg		\
 		zulu.svg
 
 pkgdata_DATA = $(flag_files) $(shield_files)

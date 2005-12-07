@@ -7,8 +7,8 @@ legend=_("Mexico borrows its name from the Mexica people, another name for\
  the Aztecs.")
 leader=
  "Benito Juárez",
- "Lázaro Cárdenas del Río",
- "Antonio López de Santa Anna",
+ "L. Cárdenas del Río",
+ "A. López de Santa Anna",
  "Guadalupe Victoria"
 leader_sex="Male", "Male", "Male", "Male"
 flag="mexico"
@@ -19,7 +19,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="aztec"
+civilwar_nations="aztec", "texan"
 
 cities =
   "Ciudad de México", "Guadalajara", "Monterrey",

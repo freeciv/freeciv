@@ -305,6 +305,7 @@ data/nation/swazi.ruleset
 data/nation/swedish.ruleset
 data/nation/swiss.ruleset
 data/nation/taiwanese.ruleset
+data/nation/texan.ruleset
 data/nation/thai.ruleset
 data/nation/tibetan.ruleset
 data/nation/tunisian.ruleset
@@ -315,6 +316,7 @@ data/nation/venezuelan.ruleset
 data/nation/vietnamese.ruleset
 data/nation/viking.ruleset
 data/nation/welsh.ruleset
+data/nation/westphalian.ruleset
 data/nation/zulu.ruleset
 data/scenario/british-isles-85x80-v2.80.sav
 data/scenario/earth-160x90-v2.sav

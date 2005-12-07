@@ -116,6 +116,7 @@ pkgdata_DATA = \
 		swedish.ruleset \
 		swiss.ruleset \
 		taiwanese.ruleset \
+		texan.ruleset \
 		thai.ruleset \
 		tibetan.ruleset \
 		tunisian.ruleset \
@@ -126,6 +127,7 @@ pkgdata_DATA = \
 		vietnamese.ruleset \
 		viking.ruleset \
 		welsh.ruleset \
+		westphalian.ruleset \
 		zulu.ruleset 
 
 EXTRA_DIST = $(pkgdata_DATA) Makefile.am.sh

@@ -62,7 +62,9 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "iroquois", "mexican", "canadian", "sioux", "quebecois"
+
+conflicts_with = "texan"
+civilwar_nations = "iroquois", "sioux", "texan"
 
 cities =
   "Washington (ocean, river, swamp, !desert)", 
