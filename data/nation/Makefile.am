@@ -116,7 +116,7 @@ pkgdata_DATA = \
 		swedish.ruleset \
 		swiss.ruleset \
 		taiwanese.ruleset \
-		texan.ruleset \
+		texan.ruleset \
 		thai.ruleset \
 		tibetan.ruleset \
 		tunisian.ruleset \
