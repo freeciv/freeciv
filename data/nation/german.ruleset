@@ -43,7 +43,7 @@ init_units=""
 
 conflicts_with=
 ; "Member-nations" of the German federation
- "bavarian", "westphalian",
+ "bavarian", "westphalian"
 
 civilwar_nations=
 ; Sub-national nations
