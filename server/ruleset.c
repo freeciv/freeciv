@@ -1692,24 +1692,6 @@ static void load_ruleset_governments(struct section_file *file)
     sz_strlcpy(g->graphic_alt,
 	       secfile_lookup_str(file, "%s.graphic_alt", sec[i]));
 
-    output_type_iterate(o) {
-      g->output_inc_tile[o]
-	= secfile_lookup_int_default(file, 0, "%s.production_%s_bonus",
-				     sec[i], get_output_identifier(o));
-      g->celeb_output_inc_tile[o]
-	= secfile_lookup_int_default(file, 0, "%s.production_%s_bonus,1",
-				     sec[i], get_output_identifier(o));
-
-      g->output_before_penalty[o]
-	= secfile_lookup_int_default(file, FC_INFINITY,
-				     "%s.production_%s_penalty", sec[i],
-				     get_output_identifier(o));
-      g->celeb_output_before_penalty[o]
-	= secfile_lookup_int_default(file, FC_INFINITY,
-				     "%s.production_%s_penalty,1", sec[i],
-				     get_output_identifier(o));
-    } output_type_iterate_end;
-    
     g->helptext = lookup_helptext(file, sec[i]);
   } government_iterate_end;
 
@@ -2829,13 +2811,6 @@ static void send_ruleset_governments(struct conn_list *dest)
     } requirement_vector_iterate_end;
     gov.reqs_count = j;
 
-    output_type_iterate(o) {
-      gov.output_before_penalty[o] = g->output_before_penalty[o];
-      gov.celeb_output_before_penalty[o] = g->celeb_output_before_penalty[o];
-      gov.output_inc_tile[o] = g->output_inc_tile[o];
-      gov.celeb_output_inc_tile[o] = g->celeb_output_inc_tile[o];
-    } output_type_iterate_end;
-        
     gov.num_ruler_titles = g->num_ruler_titles;
 
     sz_strlcpy(gov.name, g->name_orig);

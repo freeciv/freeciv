@@ -47,7 +47,9 @@ const char *get_tile_output_text(const struct tile *ptile)
     int x = get_output_tile(ptile, i);
 
     if (game.player_ptr) {
-      before_penalty = game.player_ptr->government->output_before_penalty[i];
+      before_penalty = get_player_output_bonus(game.player_ptr,
+                                               get_output_type(i),
+                                               EFT_OUTPUT_PENALTY_TILE);
     }
 
     if (before_penalty > 0 && x > before_penalty) {

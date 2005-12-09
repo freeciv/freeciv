@@ -23163,7 +23163,7 @@ void lsend_packet_ruleset_tech(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_government_100 cmp_const
 
-BV_DEFINE(packet_ruleset_government_100_fields, 12);
+BV_DEFINE(packet_ruleset_government_100_fields, 8);
 
 static struct packet_ruleset_government *receive_packet_ruleset_government_100(struct connection *pc, enum packet_type type)
 {
@@ -23218,66 +23218,6 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
     }
   }
   if (BV_ISSET(fields, 3)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->output_before_penalty[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 4)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->celeb_output_before_penalty[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 5)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->output_inc_tile[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 6)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->celeb_output_inc_tile[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 7)) {
     {
       int readin;
     
@@ -23285,16 +23225,16 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       real_packet->num_ruler_titles = readin;
     }
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 4)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 5)) {
     dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 6)) {
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 7)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -23355,89 +23295,25 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->output_before_penalty[i] != real_packet->output_before_penalty[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->celeb_output_before_penalty[i] != real_packet->celeb_output_before_penalty[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->output_inc_tile[i] != real_packet->output_inc_tile[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->celeb_output_inc_tile[i] != real_packet->celeb_output_inc_tile[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
-  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
-
-  differ = (strcmp(old->name, real_packet->name) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
-
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
-
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
-
   differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 7);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -23462,58 +23338,18 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
     } 
   }
   if (BV_ISSET(fields, 3)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->output_before_penalty[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 4)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->celeb_output_before_penalty[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 5)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->output_inc_tile[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 6)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->celeb_output_inc_tile[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 7)) {
     dio_put_uint8(&dout, real_packet->num_ruler_titles);
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 4)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 5)) {
     dio_put_string(&dout, real_packet->graphic_str);
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 6)) {
     dio_put_string(&dout, real_packet->graphic_alt);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 7)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 

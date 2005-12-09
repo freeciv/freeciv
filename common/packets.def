@@ -1115,11 +1115,6 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT8 reqs_count;
   REQUIREMENT reqs[MAX_NUM_REQS:reqs_count];
 
-  UINT8 output_before_penalty[O_MAX];
-  UINT8 celeb_output_before_penalty[O_MAX];
-  UINT8 output_inc_tile[O_MAX];
-  UINT8 celeb_output_inc_tile[O_MAX];
-
   UINT8 num_ruler_titles;
        
   STRING name[MAX_LEN_NAME];

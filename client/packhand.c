@@ -2258,13 +2258,6 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   }
   assert(gov->reqs.size == p->reqs_count);
 
-  output_type_iterate(o) {
-    gov->output_before_penalty[o] = p->output_before_penalty[o];
-    gov->celeb_output_before_penalty[o] = p->celeb_output_before_penalty[o];
-    gov->output_inc_tile[o] = p->output_inc_tile[o];
-    gov->celeb_output_inc_tile[o] = p->celeb_output_inc_tile[o];
-  } output_type_iterate_end;
-  
   gov->num_ruler_titles    = p->num_ruler_titles;
     
   sz_strlcpy(gov->name_orig, p->name);

@@ -113,7 +113,9 @@ static const char *effect_type_names[EFT_LAST] = {
   "Upkeep_Factor",
   "Unit_Upkeep_Free_Per_City",
   "Output_Waste",
-  "Output_Waste_By_Distance"
+  "Output_Waste_By_Distance",
+  "Output_Penalty_Tile",
+  "Output_Inc_Tile_Celebrate"
 };
 
 static bool initialized = FALSE;

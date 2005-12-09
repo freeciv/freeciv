@@ -33,9 +33,9 @@ enum effect_type {
   EFT_SPECIALIST_OUTPUT,
   EFT_OUTPUT_BONUS,
   EFT_OUTPUT_BONUS_2,
-  EFT_OUTPUT_ADD_TILE,
-  EFT_OUTPUT_INC_TILE,
-  EFT_OUTPUT_PER_TILE,
+  EFT_OUTPUT_ADD_TILE,  /* add to each worked tile */
+  EFT_OUTPUT_INC_TILE,  /* add to each worked tile that already has output */
+  EFT_OUTPUT_PER_TILE,  /* increase tile output by given % */
   EFT_OUTPUT_WASTE_PCT,
   EFT_FORCE_CONTENT,
   /* TODO: EFT_FORCE_CONTENT_PCT, */
@@ -102,6 +102,8 @@ enum effect_type {
   EFT_UNIT_UPKEEP_FREE_PER_CITY, /* this many units are free from upkeep */
   EFT_OUTPUT_WASTE,
   EFT_OUTPUT_WASTE_BY_DISTANCE,
+  EFT_OUTPUT_PENALTY_TILE, /* -1 penalty to tiles producing more than this */
+  EFT_OUTPUT_INC_TILE_CELEBRATE,
   EFT_LAST	/* keep this last */
 };
 

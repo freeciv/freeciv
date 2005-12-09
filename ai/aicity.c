@@ -347,7 +347,6 @@ static void adjust_building_want_by_effects(struct city *pcity,
       case EFT_OUTPUT_WASTE_BY_DISTANCE:
       case EFT_OUTPUT_WASTE_PCT:
       case EFT_SPECIALIST_OUTPUT:
-      case EFT_NO_DIPLOMACY:
 	  break;
 
       case EFT_CITY_VISION_RADIUS_SQ:
@@ -643,6 +642,9 @@ static void adjust_building_want_by_effects(struct city *pcity,
         case EFT_INSPIRE_PARTISANS:
         case EFT_HAPPINESS_TO_GOLD:
         case EFT_FANATICS:
+        case EFT_NO_DIPLOMACY:
+        case EFT_OUTPUT_PENALTY_TILE:
+        case EFT_OUTPUT_INC_TILE_CELEBRATE:
 	case EFT_TRADE_REVENUE_BONUS:
           break;
 	case EFT_LAST:

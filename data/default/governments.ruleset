@@ -39,11 +39,6 @@ when_anarchy="Anarchy"
 ; ai_better   = AI will not consider this government for use if the
 ;               government listed here is available
 
-; production_*_bonus   = added to base production for each worked tile;
-;			 second value is used instead when city is celebrating
-; production_*_penalty = if non-zero, tile production above this amount is 
-;			 reduced by one; second value used when celebrating
-
 ; ruler_titles = ruler titles by nation, "-" is default, and non-matched 
 ;	         nations are ignored 
 
@@ -57,14 +52,6 @@ name        = _("Anarchy")
 ; No reqs
 graphic     = "gov.anarchy"
 graphic_alt = "-"
-
-production_trade_bonus    = 0, 0
-production_shield_bonus   = 0, 0
-production_food_bonus     = 0, 0
-
-production_trade_penalty  = 2, 0
-production_shield_penalty = 2, 0
-production_food_penalty   = 2, 0
 
 ruler_male_title = _("Mr.")
 ruler_female_title = _("Ms.")
@@ -88,14 +75,6 @@ graphic     = "gov.despotism"
 graphic_alt = "-"
 ai_better   = "Monarchy"
 
-production_trade_bonus    = 0, 0
-production_shield_bonus   = 0, 0
-production_food_bonus     = 0, 0
-
-production_trade_penalty  = 2, 0
-production_shield_penalty = 2, 0
-production_food_penalty   = 2, 0
-
 ruler_male_title = _("Emperor")
 ruler_female_title = _("Empress")
 
@@ -118,14 +97,6 @@ graphic     = "gov.monarchy"
 graphic_alt = "-"
 ai_better   = "Communism"
 
-production_trade_bonus    = 0, 1
-production_shield_bonus   = 0, 0
-production_food_bonus     = 0, 0
-
-production_trade_penalty  = 0, 0
-production_shield_penalty = 0, 0
-production_food_penalty   = 0, 0
-
 ruler_male_title = _("King")
 ruler_female_title = _("Queen")
 
@@ -147,14 +118,6 @@ reqs = { "type", "name", "range"
 graphic     = "gov.communism"
 graphic_alt = "-"
 
-production_trade_bonus    = 0, 1
-production_shield_bonus   = 0, 0
-production_food_bonus     = 0, 0
-
-production_trade_penalty  = 0, 0
-production_shield_penalty = 0, 0
-production_food_penalty   = 0, 0
-
 ruler_male_title = _("Comrade")
 ruler_female_title = _("Comrade")
 
@@ -166,10 +129,7 @@ A Communist government is based on the ideal that all people are\
 \n\n\
 Under Communism, corruption does not vary by distance from\
  the capital; all cities (including the capital) have a modest amount\
- of corruption.  In addition, Communist cities more than 10\
- squares away from the capital are considered to be only 10 squares\
- away when computing the cost of inciting a revolt. \
- See Units, Diplomat.\
+ of corruption.\
 ")
 
 ;------------------------------------------------------------------------
@@ -182,14 +142,6 @@ reqs = { "type", "name", "range"
 graphic     = "gov.republic"
 graphic_alt = "-"
 
-production_trade_bonus    = 1, 1
-production_shield_bonus   = 0, 0
-production_food_bonus     = 0, 0
-
-production_trade_penalty  = 0, 0
-production_shield_penalty = 0, 0
-production_food_penalty   = 0, 0
-
 ruler_male_title = _("Consul")
 ruler_female_title = _("Consul")
 
@@ -200,8 +152,6 @@ Under a Republican government, citizens hold an election to select a\
  degree of freedom.  Citizens under the Republic become unhappy\
  easily, but the self-sufficiency of your citizens allows high levels\
  of trade.\
-\n\n\
-Cities under the Republic suffer a small amount of corruption.\
 ")
 
 ;------------------------------------------------------------------------
@@ -213,14 +163,6 @@ reqs = { "type", "name", "range"
        }
 graphic     = "gov.democracy"
 graphic_alt = "-"
-
-production_trade_bonus    = 1, 1
-production_shield_bonus   = 0, 0
-production_food_bonus     = 0, 0
-
-production_trade_penalty  = 0, 0
-production_shield_penalty = 0, 0
-production_food_penalty   = 0, 0
 
 ruler_male_title = _("President")
 ruler_female_title = _("President")

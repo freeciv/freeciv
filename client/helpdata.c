@@ -1265,14 +1265,16 @@ void helptext_government(char *buf, struct government *gov,
   /* Effects */
   sprintf(buf + strlen(buf), _("Features:\n"));
   effect_list_iterate(get_req_source_effects(&source), peffect) {
-    Output_type_id output = O_LAST;
+    Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
     enum unit_flag_id unitflag = F_LAST;
+    const char *output = "All";
 
     /* Grab output type, if there is one */
     requirement_list_iterate(peffect->reqs, preq) {
       if (preq->source.type == REQ_OUTPUTTYPE) {
-        output = preq->source.value.outputtype;
+        output_type = preq->source.value.outputtype;
+        output = get_output_name(output_type);
       } else if (preq->source.type == REQ_UNITCLASS) {
         unitclass = preq->source.value.unitclass;
       } else if (preq->source.type == REQ_UNITFLAG) {
@@ -1298,20 +1300,19 @@ void helptext_government(char *buf, struct government *gov,
                 peffect->value);
         break;
       case EFT_UPKEEP_FACTOR:
-        if (peffect->value > 1 && output != O_LAST) {
+        if (peffect->value > 1 && output_type != O_LAST) {
           sprintf(buf + strlen(buf), _("* You pay %d times normal %s "
-                  "upkeep for your units.\n"), peffect->value,
-                  get_output_name(output));
+                  "upkeep for your units.\n"), peffect->value, output);
         } else if (peffect->value > 1) {
           sprintf(buf + strlen(buf), _("* You pay %d times normal "
                   "upkeep for your units.\n"), peffect->value);
         }
         break;
       case EFT_UNIT_UPKEEP_FREE_PER_CITY:
-        if (output != O_LAST) {
+        if (output_type != O_LAST) {
           sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
                   "paying %d %s towards unit upkeep.\n"), peffect->value, 
-                  get_output_name(output));
+                  output);
         } else {
           sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
                   "paying %d towards unit upkeep.\n"), peffect->value);
@@ -1404,67 +1405,48 @@ void helptext_government(char *buf, struct government *gov,
           sprintf(buf + strlen(buf), _("* Veteran units.\n"));
         }
         break;
+      case EFT_OUTPUT_PENALTY_TILE:
+        sprintf(buf + strlen(buf), _("* Each worked tile that gives more "
+                "than %d %s will suffer a -1 penalty when not "
+                "celebrating.\n"), peffect->value, output);
+        break;
+      case EFT_OUTPUT_INC_TILE_CELEBRATE:
+        sprintf(buf + strlen(buf), _("* Each worked tile with at least 1 "
+                "%s will yield %d additional %s when celebrating.\n"),
+                output, peffect->value, output);
+        break;
+      case EFT_OUTPUT_INC_TILE:
+        sprintf(buf + strlen(buf), _("* Each worked tile with at least 1 "
+                "%s will yield %d additional %s.\n"), output, 
+                peffect->value, output);
+        break;
+      case EFT_OUTPUT_WASTE:
+        if (peffect->value > 30) {
+          sprintf(buf + strlen(buf), _("* %s production will suffer "
+                  "massive waste.\n"), output);
+        } else if (peffect->value >= 15) {
+          sprintf(buf + strlen(buf), _("* %s production will suffer "
+                  "some waste.\n"), output);
+        } else {
+          sprintf(buf + strlen(buf), _("* %s production will suffer "
+                  "a small amount of waste.\n"), output);
+        }
+        break;
+      case EFT_OUTPUT_WASTE_BY_DISTANCE:
+        if (peffect->value >= 3) {
+          sprintf(buf + strlen(buf), _("* %s waste will increase quickly "
+                  "with distance from capital.\n"), output);
+        } else if (peffect->value == 2) {
+          sprintf(buf + strlen(buf), _("* %s waste will increase "
+                  "with distance from capital.\n"), output);
+        } else {
+          sprintf(buf + strlen(buf), _("* %s waste will increase slowly "
+                  "with distance from capital.\n"), output);
+        }
       default:
         break;
     }
   } effect_list_iterate_end;
-
-  output_type_iterate(ot) {
-    if (gov->output_before_penalty[ot] > 0
-        && gov->output_before_penalty[ot] 
-           == gov->celeb_output_before_penalty[ot]) {
-      sprintf(buf + strlen(buf),
-	      _("* Each worked tile that gives more "
-		"than %d %s will suffer a -1 penalty.\n"), 
-              gov->output_before_penalty[ot], get_output_name(ot));
-    } else if (gov->output_before_penalty[ot] > 0) {
-      sprintf(buf + strlen(buf),
-	      _("* Each worked tile that gives more than %d %s will "
-		"suffer a -1 penalty when not celebrating.\n"), 
-              gov->output_before_penalty[ot], get_output_name(ot));
-    }
-  } output_type_iterate_end;
-  output_type_iterate(ot) {
-    if (gov->celeb_output_before_penalty[ot] > 0
-        && gov->celeb_output_before_penalty[ot] 
-           != gov->output_before_penalty[ot]) {
-      sprintf(buf + strlen(buf),
-	      _("* Each worked tile that gives more "
-		"than %d %s will suffer a -1 penalty when celebrating.\n"), 
-              gov->celeb_output_before_penalty[ot], get_output_name(ot));
-    }
-  } output_type_iterate_end;
-  output_type_iterate(ot) {
-    if (gov->output_inc_tile[ot] > 0
-        && gov->output_inc_tile[ot] == gov->celeb_output_inc_tile[ot]) {
-      sprintf(buf + strlen(buf),
-	      _("* Each worked tile with at least 1 "
-		"%s will yield %d additional %s.\n"), get_output_name(ot), 
-              gov->output_inc_tile[ot], get_output_name(ot));
-    } else if (gov->output_inc_tile[ot] > 0) {
-      sprintf(buf + strlen(buf),
-	      _("* Each worked tile with at least 1 "
-		"%s will yield %d additional %s when not celebrating.\n"), 
-              get_output_name(ot), gov->output_inc_tile[ot], 
-              get_output_name(ot));
-    }
-  } output_type_iterate_end;
-  output_type_iterate(ot) {
-    if (gov->celeb_output_inc_tile[ot] > 0
-        && gov->celeb_output_inc_tile[ot] != gov->output_inc_tile[ot]) {
-      sprintf(buf + strlen(buf),
-	      _("* Each worked tile with at least 1 "
-		"%s will yield %d additional %s when celebrating.\n"), 
-	      get_output_name(ot), gov->celeb_output_inc_tile[ot], 
-	      get_output_name(ot));
-    }
-  } output_type_iterate_end;
-  output_type_iterate(ot) {
-    if (gov->waste[ot].level > 0) {
-      sprintf(buf + strlen(buf), _("* %s production will suffer "
-				   "waste.\n"), get_output_name(ot));
-    }
-  } output_type_iterate_end;
 
   unit_type_iterate(utype) {
     if (utype->gov_requirement == gov) {

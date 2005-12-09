@@ -320,9 +320,7 @@ void ai_best_government(struct player *pplayer)
       bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) ? 3 : 0;
       bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) ? 2 : 0;
       bonus += get_player_bonus(pplayer, EFT_FANATICS) ? 3 : 0;
-      output_type_iterate(o) {
-	val += gov->output_inc_tile[o];
-      } output_type_iterate_end;
+      bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
 
       val += (val * bonus) / 100;
 

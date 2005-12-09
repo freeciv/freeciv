@@ -16,6 +16,67 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+[effect_gov_tile_bonus_0]
+name    = "Output_Penalty_Tile"
+value   = 2
+reqs  =
+    { "type",       "name",      "range"
+      "Gov", "Anarchy", "Player"
+    }
+
+[effect_gov_tile_bonus_1]
+name    = "Output_Penalty_Tile"
+value   = 2
+reqs  =
+    { "type",       "name",      "range"
+      "Gov", "Despotism", "Player"
+    }
+
+[effect_gov_tile_bonus_2]
+name    = "Output_Inc_Tile_Celebrate"
+value   = 1
+reqs  =
+    { "type",       "name",      "range"
+      "OutputType", "Trade", "Local"
+      "Gov", "Monarchy", "Player"
+    }
+
+[effect_gov_tile_bonus_3]
+name    = "Output_Inc_Tile_Celebrate"
+value   = 1
+reqs  =
+    { "type",       "name",      "range"
+      "OutputType", "Trade", "Local"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_gov_tile_bonus_4]
+name    = "Output_Inc_Tile"
+value   = 1
+reqs  =
+    { "type",       "name",      "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_gov_tile_bonus_5]
+name    = "Output_Inc_Tile"
+value   = 1
+reqs  =
+    { "type",       "name",      "range"
+      "Gov", "Democracy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_gov_tile_bonus_6]
+name    = "Output_Inc_Tile_Celebrate"
+value   = 1
+reqs  =
+    { "type",       "name",      "range"
+      "Gov", "Fundamentalism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
 [effect_corruption_anarchy0]
 name  = "Output_Waste"
 value = 37

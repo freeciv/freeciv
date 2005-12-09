@@ -54,26 +54,6 @@ struct government
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;
 
-  /* government production penalties (when celebrating and when not) */
-  int output_before_penalty[O_MAX];
-  int celeb_output_before_penalty[O_MAX];
-
-  /* government production bonuses.  These act as an EFT_XXX_INC_TILE
-   * effect.  There are separate values for celebrating versus normal
-   * cities. */
-  int output_inc_tile[O_MAX];
-  int celeb_output_inc_tile[O_MAX];
-
-  /* waste/corruption modifiers - see governments.ruleset for more detail */
-  struct gov_waste {
-    int level;
-    int modifier;
-    int fixed_distance;
-    int distance_factor;
-    int extra_distance;
-    int max_distance_cap;
-  } waste[O_MAX];
-
   char *helptext;
 
   /* AI cached data for this government. */

@@ -650,28 +650,26 @@ static int base_get_output_tile(const struct tile *ptile,
   }
 
   if (pcity) {
-    struct government *g = get_gov_pcity(pcity);
-    int before_penalty = (is_celebrating
-			  ? g->celeb_output_before_penalty[otype]
-			  : g->output_before_penalty[otype]);
-
     prod += get_city_tile_output_bonus(pcity, ptile, output,
 				       EFT_OUTPUT_ADD_TILE);
-
-    /* Government & effect bonus/penalty. */
     if (prod > 0) {
-      prod += (is_celebrating
-	    ? g->celeb_output_inc_tile[otype]
-	    : g->output_inc_tile[otype]);
+      int penalty_limit = get_city_tile_output_bonus(pcity, ptile, output,
+                                                   EFT_OUTPUT_PENALTY_TILE);
+
+      if (is_celebrating) {
+        prod += get_city_tile_output_bonus(pcity, ptile, output,
+                                           EFT_OUTPUT_INC_TILE_CELEBRATE);
+        penalty_limit = 0; /* no penalty if celebrating */
+      }
       prod += get_city_tile_output_bonus(pcity, ptile, output,
-					 EFT_OUTPUT_INC_TILE);
-    }
-
-    prod += (prod * get_city_tile_output_bonus(pcity, ptile, output,
-					       EFT_OUTPUT_PER_TILE)) / 100;
-
-    if (before_penalty > 0 && prod > before_penalty) {
-      prod--;
+                                         EFT_OUTPUT_INC_TILE);
+      prod += (prod 
+               * get_city_tile_output_bonus(pcity, ptile, output,
+                                            EFT_OUTPUT_PER_TILE)) 
+              / 100;
+      if (!is_celebrating && penalty_limit > 0 && prod > penalty_limit) {
+        prod--;
+      }
     }
   }
 
