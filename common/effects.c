@@ -223,6 +223,7 @@ static struct {
   struct {
     /* This cache shows for each building, which effects it provides. */
     struct effect_list *buildings[B_LAST];
+    struct effect_list *govs[G_MAGIC];
   } reqs;
 } ruleset_cache;
 
@@ -238,7 +239,7 @@ static struct effect_list *get_effects(enum effect_type effect_type)
 /**************************************************************************
   Get a list of effects with this requirement source.
 
-  Note: currently only buildings are supported.
+  Note: currently only buildings and governments are supported.
 **************************************************************************/
 struct effect_list *get_req_source_effects(struct req_source *psource)
 {
@@ -247,6 +248,12 @@ struct effect_list *get_req_source_effects(struct req_source *psource)
   req_source_get_values(psource, &type, &value);
 
   switch (type) {
+  case REQ_GOV:
+    if (value >= 0 && value < game.control.government_count) {
+      return ruleset_cache.reqs.govs[value];
+    } else {
+      return NULL;
+    }
   case REQ_BUILDING:
     if (value >= 0 && value < game.control.num_impr_types) {
       return ruleset_cache.reqs.buildings[value];
@@ -345,6 +352,9 @@ void ruleset_cache_init(void)
   for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.buildings); i++) {
     ruleset_cache.reqs.buildings[i] = effect_list_new();
   }
+  for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.govs); i++) {
+    ruleset_cache.reqs.govs[i] = effect_list_new();
+  }
 }
 
 /**************************************************************************
@@ -382,6 +392,16 @@ void ruleset_cache_free(void)
       effect_list_unlink_all(plist);
       effect_list_free(plist);
       ruleset_cache.reqs.buildings[i] = NULL;
+    }
+  }
+
+  for (i = 0; i < ARRAY_SIZE(ruleset_cache.reqs.govs); i++) {
+    struct effect_list *plist = ruleset_cache.reqs.govs[i];
+
+    if (plist) {
+      effect_list_unlink_all(plist);
+      effect_list_free(plist);
+      ruleset_cache.reqs.govs[i] = NULL;
     }
   }
 
