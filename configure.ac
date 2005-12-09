@@ -312,8 +312,8 @@ fi
 
 case $host_os in
   *mingw32* ) MINGW32=yes;;
-          * ) MINGW32=no;;
   *amigaos* ) AMIGA=yes;;
+  * ) AMIGA=no; MINGW32=no;;
 esac
 
 dnl Amiga-specific settings
