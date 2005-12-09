@@ -2263,12 +2263,6 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
     gov->celeb_output_before_penalty[o] = p->celeb_output_before_penalty[o];
     gov->output_inc_tile[o] = p->output_inc_tile[o];
     gov->celeb_output_inc_tile[o] = p->celeb_output_inc_tile[o];
-
-    gov->waste[o].level = p->waste_level[o];
-    gov->waste[o].fixed_distance = p->fixed_waste_distance[o];
-    gov->waste[o].distance_factor = p->waste_distance_factor[o];
-    gov->waste[o].extra_distance = p->extra_waste_distance[o];
-    gov->waste[o].max_distance_cap = p->waste_max_distance_cap[o];
   } output_type_iterate_end;
   
   gov->num_ruler_titles    = p->num_ruler_titles;

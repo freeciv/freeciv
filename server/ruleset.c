@@ -1675,8 +1675,6 @@ static void load_ruleset_governments(struct section_file *file)
   /* easy ones: */
   government_iterate(g) {
     int i = g->index;
-    const char *waste_name[] = {NULL, "waste", "corruption",
-				NULL, NULL, NULL};
     struct requirement_vector *reqs = lookup_req_list(file, sec[i], "reqs");
 
     if (section_file_lookup(file, "%s.ai_better", sec[i])) {
@@ -1693,27 +1691,6 @@ static void load_ruleset_governments(struct section_file *file)
 	       secfile_lookup_str(file, "%s.graphic", sec[i]));
     sz_strlcpy(g->graphic_alt,
 	       secfile_lookup_str(file, "%s.graphic_alt", sec[i]));
-    
-    output_type_iterate(o) {
-      if (waste_name[o]) {
-	g->waste[o].level = secfile_lookup_int(file, "%s.%s_level",
-					       sec[i], waste_name[o]);
-	g->waste[o].fixed_distance
-	  = secfile_lookup_int(file, "%s.%s_fixed_distance",
-			       sec[i], waste_name[o]);
-	g->waste[o].distance_factor
-	  = secfile_lookup_int(file, "%s.%s_distance_factor",
-			       sec[i], waste_name[o]);
-	g->waste[o].extra_distance
-	  = secfile_lookup_int(file, "%s.%s_extra_distance",
-			       sec[i], waste_name[o]);
-	g->waste[o].max_distance_cap
-	  = secfile_lookup_int_default(file, 36, "%s.%s_max_distance_cap",
-				       sec[i], waste_name[o]); 
-      } else {
-	memset(&g->waste[o], 0, sizeof(g->waste[o]));
-      }
-    } output_type_iterate_end;
 
     output_type_iterate(o) {
       g->output_inc_tile[o]
@@ -2857,12 +2834,6 @@ static void send_ruleset_governments(struct conn_list *dest)
       gov.celeb_output_before_penalty[o] = g->celeb_output_before_penalty[o];
       gov.output_inc_tile[o] = g->output_inc_tile[o];
       gov.celeb_output_inc_tile[o] = g->celeb_output_inc_tile[o];
-
-      gov.waste_level[o] = g->waste[o].level;
-      gov.fixed_waste_distance[o] = g->waste[o].fixed_distance;
-      gov.waste_distance_factor[o] = g->waste[o].distance_factor;
-      gov.extra_waste_distance[o] = g->waste[o].extra_distance;
-      gov.waste_max_distance_cap[o] = g->waste[o].max_distance_cap;
     } output_type_iterate_end;
         
     gov.num_ruler_titles = g->num_ruler_titles;

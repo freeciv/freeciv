@@ -39,30 +39,6 @@ when_anarchy="Anarchy"
 ;               should be a standard tag if preferred is not;
 ;		otherwise may be "-"
 
-; corruption:
- 
-; _level            = percentage factor applied to corruption multiplied
-;		      by 100; if 0, Courthouse effect changes
-;		      TODO: why have both level and modifier??
-; _fixed_distance   = if non-zero, used instead of actual calculation of 
-;		      distance from Palace; also used for distances in 
-;		      unit and city bribe cost calculations
-; _distance_factor  = multiply distance by this factor for corruption 
-;		      (but not bribe costs)
-; _extra_distance   = add this to distance after applying distance factor
-; _max_distance_cap = cap to the max distance from the capital used in
-;                     corruption calculation
-
-; waste:
-
-; _level             = percentage factor applied to waste multiplied by 100
-; _fixed_distance    = used if not 0 instead of actual calculation of 
-;		              distance from Palace;  		     
-; _distance_factor   = multiply distance by this factor for waste
-; _extra_distance    = add this to distance after applying distance factor
-; _max_distance_cap  = cap to the max distance from the capital used in
-;                      waste calculation
-
 ; production_*_bonus   = added to base production for each worked tile;
 ;			 second value is used instead when city is celebrating
 ; production_*_penalty = if non-zero, tile production above this amount is 
@@ -81,18 +57,6 @@ name        = _("Anarchy")
 ; No reqs
 graphic     = "gov.anarchy"
 graphic_alt = "-"
-
-corruption_level            = 250
-corruption_fixed_distance   = 0
-corruption_distance_factor  = 1 
-corruption_extra_distance   = 0 
-corruption_max_distance_cap = 36
-
-waste_level                = 0
-waste_fixed_distance       = 0
-waste_distance_factor      = 0 
-waste_extra_distance       = 0 
-waste_max_distance_cap     = 36
 
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
@@ -137,18 +101,6 @@ name        = _("Despotism")
 graphic     = "gov.despotism"
 graphic_alt = "-"
 ai_better   = "Monarchy"
-
-corruption_level            = 370
-corruption_fixed_distance   = 0
-corruption_distance_factor  = 2 
-corruption_extra_distance   = 3 
-corruption_max_distance_cap = 36
-
-waste_level                = 0
-waste_fixed_distance       = 0
-waste_distance_factor      = 0 
-waste_extra_distance       = 0  
-waste_max_distance_cap     = 36
 
 production_trade_bonus    = 0, 0
 production_shield_bonus   = 0, 0
@@ -195,18 +147,6 @@ graphic     = "gov.monarchy"
 graphic_alt = "-"
 ai_better   = "Communism"
 
-corruption_level            = 150
-corruption_fixed_distance   = 0
-corruption_distance_factor  = 1 
-corruption_extra_distance   = 0 
-corruption_max_distance_cap = 36
-
-waste_level                = 0
-waste_fixed_distance       = 0
-waste_distance_factor      = 0 
-waste_extra_distance       = 0 
-waste_max_distance_cap     = 36
-
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
 production_food_bonus     = 0, 0
@@ -248,18 +188,6 @@ reqs = { "type", "name", "range"
        }
 graphic     = "gov.communism"
 graphic_alt = "-"
-
-corruption_level            = 62
-corruption_fixed_distance   = 10
-corruption_distance_factor  = 1 
-corruption_extra_distance   = 0 
-corruption_max_distance_cap = 36
-
-waste_level                = 0
-waste_fixed_distance       = 0
-waste_distance_factor      = 0 
-waste_extra_distance       = 0 
-waste_max_distance_cap     = 36
 
 production_trade_bonus    = 0, 1
 production_shield_bonus   = 0, 0
@@ -310,18 +238,6 @@ reqs = { "type", "name", "range"
        }
 graphic     = "gov.republic"
 graphic_alt = "-"
-
-corruption_level            = 150
-corruption_fixed_distance   = 0
-corruption_distance_factor  = 1 
-corruption_extra_distance   = 0 
-corruption_max_distance_cap = 36
-
-waste_level                = 0
-waste_fixed_distance       = 0
-waste_distance_factor      = 0 
-waste_extra_distance       = 0 
-waste_max_distance_cap     = 36
 
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0
@@ -375,18 +291,6 @@ reqs = { "type", "name", "range"
        }
 graphic     = "gov.democracy"
 graphic_alt = "-"
-
-corruption_level            = 0
-corruption_fixed_distance   = 0
-corruption_distance_factor  = 0 
-corruption_extra_distance   = 0 
-corruption_max_distance_cap = 36
-
-waste_level                = 0
-waste_fixed_distance       = 0
-waste_distance_factor      = 0 
-waste_extra_distance       = 0 
-waste_max_distance_cap     = 36
 
 production_trade_bonus    = 1, 1
 production_shield_bonus   = 0, 0

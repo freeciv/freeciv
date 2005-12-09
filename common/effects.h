@@ -100,6 +100,8 @@ enum effect_type {
   EFT_UNHAPPY_FACTOR, /* multiply unhappy upkeep by this effect */
   EFT_UPKEEP_FACTOR,  /* multiply upkeep by this effect */
   EFT_UNIT_UPKEEP_FREE_PER_CITY, /* this many units are free from upkeep */
+  EFT_OUTPUT_WASTE,
+  EFT_OUTPUT_WASTE_BY_DISTANCE,
   EFT_LAST	/* keep this last */
 };
 

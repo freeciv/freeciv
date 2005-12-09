@@ -111,7 +111,9 @@ static const char *effect_type_names[EFT_LAST] = {
   "Trade_Revenue_Bonus",
   "Unhappy_Factor",
   "Upkeep_Factor",
-  "Unit_Upkeep_Free_Per_City"
+  "Unit_Upkeep_Free_Per_City",
+  "Output_Waste",
+  "Output_Waste_By_Distance"
 };
 
 static bool initialized = FALSE;

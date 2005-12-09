@@ -2170,11 +2170,13 @@ void adjust_city_free_cost(int *num_free, int *this_cost)
 **************************************************************************/
 int city_waste(const struct city *pcity, Output_type_id otype, int total)
 {
-  struct government *g = get_gov_pcity(pcity);
-  int dist;
-  unsigned int val;
   int penalty = 0;
-  struct gov_waste *waste = &g->waste[otype];
+  int waste_level = get_city_output_bonus(pcity, get_output_type(otype),
+                                          EFT_OUTPUT_WASTE);
+  int waste_by_dist = get_city_output_bonus(pcity, get_output_type(otype),
+                                            EFT_OUTPUT_WASTE_BY_DISTANCE);
+  int waste_pct = get_city_output_bonus(pcity, get_output_type(otype), 
+                                        EFT_OUTPUT_WASTE_PCT);
 
   if (otype == O_TRADE) {
     /* FIXME: special case for trade: it is affected by notradesize and
@@ -2195,34 +2197,24 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
     }
   }
 
-  if (waste->level == 0) {
-    return penalty;
-  }
-  if (waste->fixed_distance != 0) {
-    dist = waste->fixed_distance;
-  } else {
+  if (waste_by_dist > 0) {
     const struct city *capital = find_palace(city_owner(pcity));
 
     if (!capital) {
-      dist = waste->max_distance_cap;
+      return total; /* no capital - no income */
     } else {
-      int tmp = real_map_distance(capital->tile, pcity->tile);
-
-      dist = MIN(waste->max_distance_cap, tmp);
+      waste_level += waste_by_dist 
+                     * real_map_distance(capital->tile, pcity->tile);
     }
   }
-  dist = dist * waste->distance_factor + waste->extra_distance;
 
-  /* Now calculate the final waste.  Ordered to reduce integer
-   * roundoff errors. */
-  val = total * MAX(dist, 1) * waste->level;
+  if (waste_level > 0) {
+    penalty += total * waste_level / 100;
+  }
 
-  val -= (val * get_city_output_bonus(pcity, &output_types[otype],
-					   EFT_OUTPUT_WASTE_PCT)) / 100;
+  penalty -= penalty * waste_pct / 100;
 
-  val /= 100 * 100; /* Level is a % multiplied by 100 */
-  val = CLIP(penalty, val, total);
-  return val;
+  return MIN(MAX(penalty, 0), total);
 }
 
 /**************************************************************************

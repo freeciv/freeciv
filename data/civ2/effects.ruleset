@@ -16,7 +16,203 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+[effect_corruption_anarchy0]
+name  = "Output_Waste"
+value = 37
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
 
+[effect_corruption_anarchy1]
+name  = "Output_Waste_By_Distance"
+value = 2
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_despotism0]
+name  = "Output_Waste"
+value = 30
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_despotism1]
+name  = "Output_Waste_By_Distance"
+value = 4
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_monarchy0]
+name  = "Output_Waste"
+value = 25
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_monarchy1]
+name  = "Output_Waste_By_Distance"
+value = 2
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_communism0]
+name  = "Output_Waste"
+value = 20
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Communism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_republic0]
+name  = "Output_Waste"
+value = 18
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_republic1]
+name  = "Output_Waste_By_Distance"
+value = 2
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_fundamentalism0]
+name  = "Output_Waste"
+value = 2
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_fundamentalism1]
+name  = "Output_Waste_By_Distance"
+value = 2
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_waste_anarchy0]
+name  = "Output_Waste"
+value = 37
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_anarchy1]
+name  = "Output_Waste_By_Distance"
+value = 1
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_despotism0]
+name  = "Output_Waste"
+value = 30
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_despotism1]
+name  = "Output_Waste_By_Distance"
+value = 2
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_monarchy0]
+name  = "Output_Waste"
+value = 25
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_monarchy1]
+name  = "Output_Waste_By_Distance"
+value = 1
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_communism0]
+name  = "Output_Waste"
+value = 3
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Communism", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_republic0]
+name  = "Output_Waste"
+value = 6
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_republic1]
+name  = "Output_Waste_By_Distance"
+value = 1
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_fundamentalism0]
+name  = "Output_Waste"
+value = 2
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Fundamentalism", "Player"
+      "OutputType", "Shield", "Local"
+    }
+
+[effect_waste_fundamentalism1]
+name  = "Output_Waste_By_Distance"
+value = 1
+reqs  =
+    { "type", "name", "range"
+      "Gov", "Fundamentalism", "Player"
+      "OutputType", "Shield", "Local"
+    }
 
 ; Specialist output bonuses
 

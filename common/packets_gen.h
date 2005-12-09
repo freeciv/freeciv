@@ -838,11 +838,6 @@ struct packet_ruleset_government {
   int celeb_output_before_penalty[O_MAX];
   int output_inc_tile[O_MAX];
   int celeb_output_inc_tile[O_MAX];
-  int waste_level[O_MAX];
-  int fixed_waste_distance[O_MAX];
-  int waste_distance_factor[O_MAX];
-  int extra_waste_distance[O_MAX];
-  int waste_max_distance_cap[O_MAX];
   int num_ruler_titles;
   char name[MAX_LEN_NAME];
   char graphic_str[MAX_LEN_NAME];

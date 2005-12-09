@@ -101,6 +101,87 @@ reqs	=
       "Gov", "Republic", "Player"
     }
 
+[effect_corruption_anarchy0]
+name	= "Output_Waste"
+value	= 25
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_anarchy1]
+name	= "Output_Waste_By_Distance"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_despotism0]
+name	= "Output_Waste"
+value	= 37
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_despotism1]
+name	= "Output_Waste_By_Distance"
+value	= 4
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_monarchy0]
+name	= "Output_Waste"
+value	= 15
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_monarchy1]
+name	= "Output_Waste_By_Distance"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_communism0]
+name	= "Output_Waste"
+value	= 20
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Communism", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_republic0]
+name	= "Output_Waste"
+value	= 15
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
+[effect_corruption_republic1]
+name	= "Output_Waste_By_Distance"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+      "OutputType", "Trade", "Local"
+    }
+
 [effect_base_unit_upkeep]
 name	= "Upkeep_Factor"
 value	= 1

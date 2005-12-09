@@ -23163,7 +23163,7 @@ void lsend_packet_ruleset_tech(struct conn_list *dest, const struct packet_rules
 
 #define cmp_packet_ruleset_government_100 cmp_const
 
-BV_DEFINE(packet_ruleset_government_100_fields, 17);
+BV_DEFINE(packet_ruleset_government_100_fields, 12);
 
 static struct packet_ruleset_government *receive_packet_ruleset_government_100(struct connection *pc, enum packet_type type)
 {
@@ -23278,81 +23278,6 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
     }
   }
   if (BV_ISSET(fields, 7)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint16(&din, &readin);
-      real_packet->waste_level[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 8)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->fixed_waste_distance[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 9)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->waste_distance_factor[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 10)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->extra_waste_distance[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 11)) {
-    
-    {
-      int i;
-    
-      for (i = 0; i < O_MAX; i++) {
-        {
-      int readin;
-    
-      dio_get_uint8(&din, &readin);
-      real_packet->waste_max_distance_cap[i] = readin;
-    }
-      }
-    }
-  }
-  if (BV_ISSET(fields, 12)) {
     {
       int readin;
     
@@ -23360,16 +23285,16 @@ static struct packet_ruleset_government *receive_packet_ruleset_government_100(s
       real_packet->num_ruler_titles = readin;
     }
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 8)) {
     dio_get_string(&din, real_packet->name, sizeof(real_packet->name));
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 9)) {
     dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 10)) {
     dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 11)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -23494,105 +23419,25 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->waste_level[i] != real_packet->waste_level[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 7);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->fixed_waste_distance[i] != real_packet->fixed_waste_distance[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (strcmp(old->name, real_packet->name) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 8);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->waste_distance_factor[i] != real_packet->waste_distance_factor[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 9);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->extra_waste_distance[i] != real_packet->extra_waste_distance[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 10);}
 
-
-    {
-      differ = (O_MAX != O_MAX);
-      if(!differ) {
-        int i;
-        for (i = 0; i < O_MAX; i++) {
-          if (old->waste_max_distance_cap[i] != real_packet->waste_max_distance_cap[i]) {
-            differ = TRUE;
-            break;
-          }
-        }
-      }
-    }
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
-
-  differ = (old->num_ruler_titles != real_packet->num_ruler_titles);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
-
-  differ = (strcmp(old->name, real_packet->name) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
-
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
-
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
-  if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
-
   differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
+  if(differ) {BV_SET(fields, 11);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -23657,68 +23502,18 @@ static int send_packet_ruleset_government_100(struct connection *pc, const struc
     } 
   }
   if (BV_ISSET(fields, 7)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint16(&dout, real_packet->waste_level[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 8)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->fixed_waste_distance[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 9)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->waste_distance_factor[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 10)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->extra_waste_distance[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 11)) {
-  
-    {
-      int i;
-
-      for (i = 0; i < O_MAX; i++) {
-        dio_put_uint8(&dout, real_packet->waste_max_distance_cap[i]);
-      }
-    } 
-  }
-  if (BV_ISSET(fields, 12)) {
     dio_put_uint8(&dout, real_packet->num_ruler_titles);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 8)) {
     dio_put_string(&dout, real_packet->name);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_string(&dout, real_packet->graphic_str);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 10)) {
     dio_put_string(&dout, real_packet->graphic_alt);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 

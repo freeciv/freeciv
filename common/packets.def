@@ -1120,12 +1120,6 @@ PACKET_RULESET_GOVERNMENT=100;sc,lsend
   UINT8 output_inc_tile[O_MAX];
   UINT8 celeb_output_inc_tile[O_MAX];
 
-  UINT16 waste_level[O_MAX];
-  UINT8 fixed_waste_distance[O_MAX];
-  UINT8 waste_distance_factor[O_MAX];
-  UINT8 extra_waste_distance[O_MAX];
-  UINT8 waste_max_distance_cap[O_MAX];
-      
   UINT8 num_ruler_titles;
        
   STRING name[MAX_LEN_NAME];
