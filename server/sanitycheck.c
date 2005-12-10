@@ -109,10 +109,15 @@ static void check_fow(void)
 	SANITY_TILE(ptile, plr_tile->seen_count[v] < 60000);
 	SANITY_TILE(ptile, plr_tile->own_seen[v] < 60000);
 
-	if (plr_tile->seen_count[v] > 0) {
-	  SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
-	} else {
-	  SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	/* FIXME: It's not entirely clear that this is correct.  The
+	 * invariants for when fogofwar is turned off are not clearly
+	 * defined. */
+	if (game.info.fogofwar) {
+	  if (plr_tile->seen_count[v] > 0) {
+	    SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	  } else {
+	    SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], pplayer->player_no));
+	  }
 	}
 
 	SANITY_TILE(ptile, plr_tile->own_seen[v] <= plr_tile->seen_count[v]);

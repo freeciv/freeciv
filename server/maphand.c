@@ -804,8 +804,10 @@ bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
 			   enum vision_layer vlayer)
 {
-  assert(BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
-	 == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer] > 0));
+  assert(!game.info.fogofwar
+	 || (BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
+		 > 0)));
   return (BV_ISSET(ptile->tile_known, pplayer->player_no)
 	  && BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no));
 }
@@ -821,8 +823,10 @@ static int map_get_seen(const struct tile *ptile,
 			const struct player *pplayer,
 			enum vision_layer vlayer)
 {
-  assert(BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
-	 == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer] > 0));
+  assert(!game.info.fogofwar
+	 || (BV_ISSET(ptile->tile_seen[vlayer], pplayer->player_no)
+	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
+		 > 0)));
   return map_get_player_tile(ptile, pplayer)->seen_count[vlayer];
 }
 
