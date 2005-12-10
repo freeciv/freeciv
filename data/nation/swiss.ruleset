@@ -12,10 +12,9 @@ leader=
  "Henri Guisan",
  "Adolf Ogi",
  "Ruth Dreifuss",
- "Moritz Leuenberger",
  "Christoph Blocher"
 leader_sex="Male", "Male", "Male", "Male", "Male",
-  "Female", "Male", "Male"
+  "Female", "Male"
 flag="switzerland"
 flag_alt = "-"
 city_style = "European"
