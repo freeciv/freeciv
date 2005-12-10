@@ -363,10 +363,13 @@ void update_rect_at_mouse_pos(void)
 }
 
 /**************************************************************************
-...
+  Triggered by the mouse moving on the mapcanvas, this function will
+  update the mouse cursor and goto lines. 
 **************************************************************************/
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 {
+  struct tile *ptile = NULL;
+
   if (!GTK_WIDGET_HAS_FOCUS(map_canvas)) {
     gtk_widget_grab_focus(map_canvas);
   }
@@ -376,6 +379,22 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
   if (keyboardless_goto_button_down && hover_state == HOVER_NONE) {
     maybe_activate_keyboardless_goto(ev->x, ev->y);
   }
+  ptile = canvas_pos_to_tile(ev->x, ev->y);
+  handle_mouse_cursor(ptile);
+  hover_tile = ptile;
+
+  return TRUE;
+}
+
+/**************************************************************************
+  This function will reset the mouse cursor if it leaves the map.
+**************************************************************************/
+gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
+{
+  struct unit *active_unit = get_unit_in_focus();
+
+  action_state = CURSOR_ACTION_DEFAULT;
+  update_unit_info_label(active_unit); 
   return TRUE;
 }
 

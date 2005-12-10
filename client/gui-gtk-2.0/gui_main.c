@@ -1003,6 +1003,9 @@ static void setup_widgets(void)
   g_signal_connect(map_canvas, "motion_notify_event",
                    G_CALLBACK(move_mapcanvas), NULL);
 
+  g_signal_connect(toplevel, "enter_notify_event",
+                   G_CALLBACK(leave_mapcanvas), NULL);
+
   g_signal_connect(map_canvas, "button_press_event",
                    G_CALLBACK(butt_down_mapcanvas), NULL);
 

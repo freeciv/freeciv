@@ -44,7 +44,7 @@
 struct sprite *intro_gfx_sprite;
 struct sprite *radar_gfx_sprite;
 
-GdkCursor *fc_cursors[CURSOR_LAST];
+GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 /***************************************************************************
 ...
@@ -88,14 +88,18 @@ void load_cursors(void)
 {
   enum cursor_type cursor;
   GdkDisplay *display = gdk_display_get_default();
+  int frame;
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
-    int hot_x, hot_y;
-    struct sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
-    GdkPixbuf *pixbuf = sprite_get_pixbuf(sprite);
+    for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
+      int hot_x, hot_y;
+      struct sprite *sprite
+	= get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
+      GdkPixbuf *pixbuf = sprite_get_pixbuf(sprite);
 
-    fc_cursors[cursor] = gdk_cursor_new_from_pixbuf(display, pixbuf,
-						 hot_x, hot_y);
+      fc_cursors[cursor][frame] = gdk_cursor_new_from_pixbuf(display, pixbuf,
+							     hot_x, hot_y);
+    }
   }
 }
 

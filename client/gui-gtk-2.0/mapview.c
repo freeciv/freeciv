@@ -55,7 +55,7 @@
 #include "mapview.h"
 
 static GtkObject *map_hadj, *map_vadj;
-
+static int cursor_timer_id = 0, cursor_type = -1, cursor_frame = 0;
 
 /**************************************************************************
   If do_restore is FALSE it will invert the turn done button style. If
@@ -157,6 +157,43 @@ void update_info_label( void )
 }
 
 /**************************************************************************
+  This function is used to animate the mouse cursor. 
+**************************************************************************/
+static gint anim_cursor_cb(gpointer data)
+{
+  if (!cursor_timer_id) {
+    return FALSE;
+  }
+
+  cursor_frame++;
+  if (cursor_frame == NUM_CURSOR_FRAMES) {
+    cursor_frame = 0;
+  }
+
+  if (cursor_type == CURSOR_DEFAULT) {
+    gdk_window_set_cursor(root_window, NULL);
+    cursor_timer_id = 0;
+    return FALSE; 
+  }
+
+  gdk_window_set_cursor(root_window,
+                fc_cursors[cursor_type][cursor_frame]);
+  handle_mouse_cursor(NULL);
+  return TRUE;
+}
+
+/**************************************************************************
+  This function will change the current mouse cursor.
+**************************************************************************/
+static void modify_mouse_cursor(enum cursor_type new_cursor_type)
+{
+  cursor_type = new_cursor_type;
+  if (!cursor_timer_id) {
+    cursor_timer_id = gtk_timeout_add(CURSOR_INTERVAL, anim_cursor_cb, NULL);
+  }
+}
+
+/**************************************************************************
   Update the information label which gives info on the current unit and the
   square under the current unit, for specified unit.  Note that in practice
   punit is always the focus unit.
@@ -168,6 +205,7 @@ void update_info_label( void )
 **************************************************************************/
 void update_unit_info_label(struct unit *punit)
 {
+  enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
   GtkWidget *label;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(unit_info_frame));
@@ -177,31 +215,53 @@ void update_unit_info_label(struct unit *punit)
   gtk_label_set_text(GTK_LABEL(unit_info_label),
 		     get_unit_info_label_text2(punit));
 
-  if(punit) {
-    if (hover_unit != punit->id)
-      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-
-    switch (hover_state) {
-    case HOVER_NONE:
-      gdk_window_set_cursor (root_window, NULL);
-      break;
-    case HOVER_PATROL:
-      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_PATROL]);
-      break;
-    case HOVER_GOTO:
-    case HOVER_CONNECT:
-      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_GOTO]);
-      break;
-    case HOVER_NUKE:
-      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_NUKE]);
-      break;
-    case HOVER_PARADROP:
-      gdk_window_set_cursor(root_window, fc_cursors[CURSOR_PARADROP]);
-      break;
+  switch (hover_state) {
+  case HOVER_NONE:
+    if (action_state == CURSOR_ACTION_SELECT) {
+      mouse_cursor_type = CURSOR_SELECT;
+    } else if (action_state == CURSOR_ACTION_PARATROOPER) {
+      mouse_cursor_type = CURSOR_PARADROP;
+    } else if (action_state == CURSOR_ACTION_NUKE) {
+      mouse_cursor_type = CURSOR_NUKE;
+    } else {
+      mouse_cursor_type = CURSOR_DEFAULT;
     }
-  } else {
-    gdk_window_set_cursor(root_window, NULL);
+    break;
+  case HOVER_PATROL:
+    if (action_state == CURSOR_ACTION_INVALID) {
+      mouse_cursor_type = CURSOR_INVALID;
+    } else {
+      mouse_cursor_type = CURSOR_PATROL;
+    }
+    break;
+  case HOVER_GOTO:
+    if (action_state == CURSOR_ACTION_GOTO) {
+      mouse_cursor_type = CURSOR_GOTO;
+    } else if (action_state == CURSOR_ACTION_DEFAULT) {
+      mouse_cursor_type = CURSOR_DEFAULT;
+    } else if (action_state == CURSOR_ACTION_ATTACK) {
+      mouse_cursor_type = CURSOR_ATTACK;
+    } else {
+      mouse_cursor_type = CURSOR_INVALID;
+    }
+    break;
+  case HOVER_CONNECT:
+    if (action_state == CURSOR_ACTION_INVALID) {
+      mouse_cursor_type = CURSOR_INVALID;
+    } else {
+      mouse_cursor_type = CURSOR_GOTO;
+    }
+    break;
+  case HOVER_NUKE:
+    mouse_cursor_type = CURSOR_NUKE;
+    break;
+  case HOVER_PARADROP:
+    mouse_cursor_type = CURSOR_PARADROP;
+    break;
   }
+
+  modify_mouse_cursor(mouse_cursor_type);
+
   update_unit_pix_label(punit);
 }
 

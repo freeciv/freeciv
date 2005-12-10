@@ -157,7 +157,7 @@ struct named_sprites {
   struct sprite *spaceship[SPACESHIP_COUNT];
   struct {
     int hot_x, hot_y;
-    struct sprite *icon;
+    struct sprite *frame[NUM_CURSOR_FRAMES];
   } cursor[CURSOR_LAST];
   struct {
     struct sprite
@@ -1965,7 +1965,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   char buffer[512];
   const char dir_char[] = "nsew";
   const int W = t->normal_tile_width, H = t->normal_tile_height;
-  int i, j;
+  int i, j, f;
   
   assert(t->sprite_hash != NULL);
 
@@ -2006,14 +2006,18 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   }
 
   for (i = 0; i < CURSOR_LAST; i++) {
-    const char *names[CURSOR_LAST] = {"goto", "patrol", "paradrop", "nuke"};
-    struct small_sprite *ss;
+    for (f = 0; f < NUM_CURSOR_FRAMES; f++) {
+      const char *names[CURSOR_LAST] =
+               {"goto", "patrol", "paradrop", "nuke", "select", 
+		"invalid", "attack"};
+      struct small_sprite *ss;
 
-    my_snprintf(buffer, sizeof(buffer), "cursor.%s", names[i]);
-    SET_SPRITE(cursor[i].icon, buffer);
-    ss = hash_lookup_data(t->sprite_hash, buffer);
-    t->sprites.cursor[i].hot_x = ss->hot_x;
-    t->sprites.cursor[i].hot_y = ss->hot_y;
+      my_snprintf(buffer, sizeof(buffer), "cursor.%s%d", names[i], f);
+      SET_SPRITE(cursor[i].frame[f], buffer);
+      ss = hash_lookup_data(t->sprite_hash, buffer);
+      t->sprites.cursor[i].hot_x = ss->hot_x;
+      t->sprites.cursor[i].hot_y = ss->hot_y;
+    }
   }
 
   for (i = 0; i < ICON_COUNT; i++) {
@@ -4528,15 +4532,16 @@ const struct citybar_sprites *get_citybar_sprites(const struct tileset *t)
 /**************************************************************************
   Returns a sprite for the given cursor.  The "hot" coordinates (the
   active coordinates of the mouse relative to the sprite) are placed int
-  (*hot_x, *hot_y).
+  (*hot_x, *hot_y). 
+  A cursor can consist of several frames to be used for animation.
 **************************************************************************/
 struct sprite *get_cursor_sprite(const struct tileset *t,
 				 enum cursor_type cursor,
-				 int *hot_x, int *hot_y)
+				 int *hot_x, int *hot_y, int frame)
 {
   *hot_x = t->sprites.cursor[cursor].hot_x;
   *hot_y = t->sprites.cursor[cursor].hot_y;
-  return t->sprites.cursor[cursor].icon;
+  return t->sprites.cursor[cursor].frame[frame];
 }
 
 /****************************************************************************

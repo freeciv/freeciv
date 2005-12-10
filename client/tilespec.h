@@ -148,8 +148,14 @@ enum cursor_type {
   CURSOR_PATROL,
   CURSOR_PARADROP,
   CURSOR_NUKE,
-  CURSOR_LAST
+  CURSOR_SELECT,
+  CURSOR_INVALID,
+  CURSOR_ATTACK,
+  CURSOR_LAST,
+  CURSOR_DEFAULT,
 };
+
+#define NUM_CURSOR_FRAMES 6
 
 enum indicator_type {
   INDICATOR_BULB,
@@ -209,7 +215,7 @@ const struct sprite_vector *get_unit_explode_animation(const struct
 struct sprite *get_nuke_explode_sprite(const struct tileset *t);
 struct sprite *get_cursor_sprite(const struct tileset *t,
 				 enum cursor_type cursor,
-				 int *hot_x, int *hot_y);
+				 int *hot_x, int *hot_y, int frame);
 const struct citybar_sprites *get_citybar_sprites(const struct tileset *t);
 struct sprite *get_icon_sprite(const struct tileset *t, enum icon_type icon);
 struct sprite *get_attention_crosshair_sprite(const struct tileset *t);

@@ -28,6 +28,8 @@
 
 GdkPixbuf *get_thumb_pixbuf(int onoff);
 
+#define CURSOR_INTERVAL 200 /* milliseconds */
+
 gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
 gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data);
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,

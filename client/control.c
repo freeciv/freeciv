@@ -31,6 +31,7 @@
 #include "climap.h"
 #include "climisc.h"
 #include "clinet.h"
+#include "combat.h"
 #include "dialogs_g.h"
 #include "goto.h"
 #include "gui_main_g.h"
@@ -57,6 +58,8 @@ static int previous_focus_id = -1;
 /* These should be set via set_hover_state() */
 int hover_unit = 0; /* id of unit hover_state applies to */
 enum cursor_hover_state hover_state = HOVER_NONE;
+struct tile *hover_tile = NULL;
+enum cursor_action_state action_state = CURSOR_ACTION_DEFAULT;
 enum unit_activity connect_activity;
 enum unit_orders goto_last_order; /* Last order for goto */
 
@@ -682,13 +685,77 @@ void request_unit_goto(enum unit_orders last_order)
 
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punit, HOVER_GOTO, ACTIVITY_LAST, last_order);
-    update_unit_info_label(punit);
+    handle_mouse_cursor(NULL);
     enter_goto_state(punit);
     create_line_at_mouse_pos();
   } else {
     assert(goto_is_active());
     goto_add_waypoint();
   }
+}
+
+/**************************************************************************
+  Determines which mouse cursor should be used, according to hover_state,
+  and the information gathered from the tile which is under the mouse 
+  cursor (ptile).
+**************************************************************************/
+void handle_mouse_cursor(struct tile *ptile)
+{
+  struct unit *punit = NULL;
+  struct city *pcity = NULL;
+  struct unit *active_unit = get_unit_in_focus();
+
+  if (!ptile) {
+    if (hover_tile) {
+      /* hover_tile is the tile which is currently under the mouse cursor. */
+      ptile = hover_tile;
+    } else {
+      return;
+    }
+  }
+
+  punit = find_visible_unit(ptile);
+  pcity = ptile ? ptile->city : NULL;
+
+  if (hover_state == HOVER_NONE) {
+    if (punit && game.player_ptr == punit->owner) {
+      /* Set mouse cursor to select a unit.  */
+      action_state = CURSOR_ACTION_SELECT;
+    } else if (pcity && can_player_see_city_internals(game.player_ptr, pcity)) {
+      /* Set mouse cursor to select a city. */
+      action_state = CURSOR_ACTION_SELECT;
+    } else {
+      /* Set default mouse cursor, because nothing selectable found. */
+      action_state = CURSOR_ACTION_DEFAULT;
+    }
+
+  } else if (hover_state == HOVER_GOTO) {
+    /* Determine if the goto is valid, invalid or will attack. */
+    if (is_valid_goto_destination(ptile)) {
+      if (is_attack_unit(active_unit)
+         && can_unit_attack_tile(active_unit, ptile)) {
+        /* Goto results in military attack. */
+        action_state = CURSOR_ACTION_ATTACK;
+      } else if (is_enemy_city_tile(ptile, unit_owner(active_unit))
+                && is_attack_unit(active_unit)
+                && can_unit_attack_tile(active_unit, ptile)) {
+        /* Goto results in attack of enemy city. */
+        action_state = CURSOR_ACTION_ATTACK;
+      } else {
+        action_state = CURSOR_ACTION_GOTO;
+      }
+    } else {
+      action_state = CURSOR_ACTION_INVALID;
+    }
+  } else if (hover_state == HOVER_PATROL || hover_state == HOVER_CONNECT) {
+    if (is_valid_goto_destination(ptile)) {
+      action_state = CURSOR_ACTION_GOTO;
+    } else {
+      action_state = CURSOR_ACTION_INVALID;
+    }
+  }
+
+  update_unit_info_label(active_unit);
 }
 
 /**************************************************************************

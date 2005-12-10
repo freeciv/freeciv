@@ -24,6 +24,16 @@ enum cursor_hover_state {
   HOVER_PATROL
 };
 
+enum cursor_action_state {
+  CURSOR_ACTION_DEFAULT,
+  CURSOR_ACTION_GOTO,
+  CURSOR_ACTION_SELECT,
+  CURSOR_ACTION_INVALID,
+  CURSOR_ACTION_ATTACK,
+  CURSOR_ACTION_NUKE,
+  CURSOR_ACTION_PARATROOPER
+};
+
 /* Selecting unit from a stack without popup. */
 enum quickselect_type {
   SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND
@@ -34,9 +44,12 @@ void control_done(void);
 
 extern int hover_unit; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
+extern enum cursor_action_state action_state;
 extern enum unit_activity connect_activity;
 extern enum unit_orders goto_last_order;
 extern bool non_ai_unit_focus;
+
+extern struct tile *hover_tile;
 
 bool can_unit_do_connect(struct unit *punit, enum unit_activity activity);
 
@@ -48,6 +61,7 @@ void do_unit_patrol_to(struct unit *punit, struct tile *ptile);
 void do_unit_connect(struct unit *punit, struct tile *ptile,
 		     enum unit_activity activity);
 void do_map_click(struct tile *ptile, enum quickselect_type qtype);
+void handle_mouse_cursor(struct tile *ptile);
 
 void set_hover_state(struct unit *punit, enum cursor_hover_state state,
 		     enum unit_activity connect_activity,

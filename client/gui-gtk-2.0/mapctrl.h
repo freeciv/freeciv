@@ -25,6 +25,7 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
 gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data);
 gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);
+gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event);
 gboolean move_overviewcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data);
 
 void center_on_unit(void);

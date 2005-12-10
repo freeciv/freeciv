@@ -56,7 +56,7 @@ int hbmp_count = 0;
 
 extern HINSTANCE freecivhinst;
 
-HCURSOR cursors[CURSOR_LAST];
+HCURSOR cursors[CURSOR_LAST * NUM_CURSOR_FRAMES];
 
 struct sprite *intro_gfx_sprite = NULL;
 struct sprite *radar_gfx_sprite = NULL;
@@ -95,6 +95,7 @@ load_cursors(void)
 {
   enum cursor_type cursor;
   ICONINFO ii;
+  int frame, i;
 
   /* For some reason win32 lets you enter a cursor size, which
    * only works as long as it's this size. */
@@ -112,7 +113,11 @@ load_cursors(void)
     int hot_x, hot_y;
     int x, y;
     int minwidth, minheight;
-    struct sprite *sprite = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y);
+
+    for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
+
+    struct sprite *sprite = get_cursor_sprite(tileset, cursor, 
+		                              &hot_x, &hot_y, frame);
 
     ii.xHotspot = MIN(hot_x, width);
     ii.yHotspot = MIN(hot_y, height);
@@ -148,10 +153,14 @@ load_cursors(void)
     ii.hbmMask = BITMAP2HBITMAP(and_bmp);
     ii.hbmColor = BITMAP2HBITMAP(xor_bmp);
 
-    cursors[cursor] = CreateIconIndirect(&ii);
+    i = cursor * NUM_CURSOR_FRAMES + frame;
+
+    cursors[i] = CreateIconIndirect(&ii);
 
     DeleteObject(ii.hbmMask);
     DeleteObject(ii.hbmColor);
+
+    }
   }
 
   bmp_free(xor_bmp);

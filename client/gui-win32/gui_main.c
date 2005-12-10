@@ -711,6 +711,8 @@ static bool test_alphablend()
   return TRUE;
 }
 
+extern void anim_cursor(float time);
+
 /**************************************************************************
 
 **************************************************************************/
@@ -722,6 +724,7 @@ ui_main(int argc, char *argv[])
   bool quit = FALSE;
   bool idle;
   struct timer *callback_timer;
+  struct timer *anim_timer;
   float callback_seconds = 0;
 
   freecivhinst = GetModuleHandle(NULL); /* There is no WinMain! */
@@ -754,6 +757,7 @@ ui_main(int argc, char *argv[])
   callbacks = callback_list_new();
 
   callback_timer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
+  anim_timer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
 
   while (!quit) {
 
@@ -785,12 +789,15 @@ ui_main(int argc, char *argv[])
       }
     }
 
-    /* If nothing happened in the three blocks above, call an idle function */
+    /* If nothing happened in the three blocks above, call an idle function
+     * and do animations */
     if (idle && callbacks && callback_list_size(callbacks) > 0) {
       struct callback *cb = callback_list_get(callbacks, 0);
       callback_list_unlink(callbacks, cb);
       (cb->callback)(cb->data);
       free(cb);
+
+      anim_cursor(read_timer_seconds(anim_timer));
     }
 
     /* If we're idle, give up the CPU. */
@@ -799,6 +806,7 @@ ui_main(int argc, char *argv[])
     }
   }
 
+  free_timer(anim_timer);
   free_timer(callback_timer);
   callback_list_unlink_all(callbacks);
   free(callbacks);

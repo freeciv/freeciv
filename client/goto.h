@@ -26,6 +26,7 @@ struct tile *get_line_dest(void);
 int get_goto_turns(void);
 void goto_add_waypoint(void);
 bool goto_pop_waypoint(void);
+bool is_valid_goto_destination(struct tile *ptile);
 
 void draw_line(struct tile *dest_tile);
 bool is_drawn_line(struct tile *dest_tile, int dir);

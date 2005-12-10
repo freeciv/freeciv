@@ -123,6 +123,31 @@ void free_client_goto(void)
   }
 }
 
+/**********************************************************************
+  Determines if a goto to the destination tile is allowed.
+
+  FIXME: This requires a duplicate and unnecessary PF search, since when
+  we're in hover mode the search is already done once when calculating
+  how to draw the map...then we do it again here.
+***********************************************************************/
+bool is_valid_goto_destination(struct tile *ptile) 
+{
+  struct part *p = &goto_map.parts[goto_map.num_parts - 1];
+  struct pf_path *new_path;
+
+  if (!goto_is_active()) {
+    return FALSE;
+  } 
+
+  new_path = pf_get_path(p->map, ptile);
+
+  if (new_path) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 /********************************************************************** 
   Change the destination of the last part to the given position if a
   path can be found. If not the destination is set to the start.

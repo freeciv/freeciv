@@ -28,7 +28,7 @@ extern struct sprite *radar_gfx_sprite;
 
 /* This name is to avoid a naming conflict with a global 'cursors'
  * variable in GTK+-2.6.  See PR#12459. */
-extern GdkCursor *fc_cursors[CURSOR_LAST];
+extern GdkCursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 void gtk_draw_shadowed_string(GdkDrawable *drawable,
 			      GdkGC *black_gc,

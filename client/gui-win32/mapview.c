@@ -58,12 +58,28 @@ static struct sprite *indicator_sprite[3];
 
 static HBITMAP intro_gfx;
 
+static int cursor_type = -1;
+
 extern void do_mainwin_layout();
 
 extern int seconds_to_turndone;   
 void update_map_canvas_scrollbars_size(void);
 void refresh_overview_viewrect_real(HDC hdcp);
 static void draw_rates(HDC hdc);
+
+/**************************************************************************
+  This function is used to animate the mouse cursor. 
+**************************************************************************/
+void anim_cursor(float time)
+{
+  int cursor_frame = (int)(time * 15.0f) % NUM_CURSOR_FRAMES;
+
+  if (cursor_type == CURSOR_DEFAULT) {
+    SetCursor (LoadCursor(NULL, IDC_ARROW));
+  } else {
+    SetCursor(cursors[cursor_type * NUM_CURSOR_FRAMES + cursor_frame]);
+  }
+}
 
 /**************************************************************************
 
@@ -182,32 +198,52 @@ update_unit_info_label(struct unit *punit)
   SetWindowText(unit_info_frame, get_unit_info_label_text1(punit));
   SetWindowText(unit_info_label, get_unit_info_label_text2(punit));
 
-  if(punit) {
-    if (hover_unit != punit->id)
-      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-    switch (hover_state) {
-      case HOVER_NONE:
-	SetCursor (LoadCursor(NULL, IDC_ARROW));
-	break;
-      case HOVER_PATROL:
-	SetCursor (cursors[CURSOR_PATROL]);
-	break;
-      case HOVER_GOTO:
-      case HOVER_CONNECT:
-	SetCursor (cursors[CURSOR_GOTO]);
-	break;
-      case HOVER_NUKE:
-	SetCursor (cursors[CURSOR_NUKE]);
-	break;
-      case HOVER_PARADROP:
-	SetCursor (cursors[CURSOR_PARADROP]);
-	break;
-    }
-  } else {
-    SetCursor (LoadCursor(NULL, IDC_ARROW));
+  switch (hover_state) {
+    case HOVER_NONE:
+      if (action_state == CURSOR_ACTION_SELECT) {
+        cursor_type = CURSOR_SELECT;
+      } else if (action_state == CURSOR_ACTION_PARATROOPER) {
+        cursor_type = CURSOR_PARADROP;
+      } else if (action_state == CURSOR_ACTION_NUKE) {
+        cursor_type = CURSOR_NUKE;
+      } else {
+        cursor_type = CURSOR_DEFAULT;
+      }
+      break;
+    case HOVER_PATROL:
+      if (action_state == CURSOR_ACTION_INVALID) {
+        cursor_type = CURSOR_INVALID;
+      } else {
+        cursor_type = CURSOR_PATROL;
+      }
+      break;
+    case HOVER_GOTO:
+      if (action_state == CURSOR_ACTION_GOTO) {
+        cursor_type = CURSOR_GOTO;
+      } else if (action_state == CURSOR_ACTION_DEFAULT) {
+        cursor_type = CURSOR_DEFAULT;
+      } else if (action_state == CURSOR_ACTION_ATTACK) {
+        cursor_type = CURSOR_ATTACK;
+      } else {
+        cursor_type = CURSOR_INVALID;
+      }
+      break;
+    case HOVER_CONNECT:
+      if (action_state == CURSOR_ACTION_INVALID) {
+        cursor_type = CURSOR_INVALID;
+      } else {
+        cursor_type = CURSOR_GOTO;
+      }
+      break;
+    case HOVER_NUKE:
+      cursor_type = CURSOR_NUKE;
+      break;
+    case HOVER_PARADROP:
+      cursor_type = CURSOR_PARADROP;
+      break;
   }
 
-    do_mainwin_layout();
+  do_mainwin_layout();
 }
 
 /**************************************************************************
