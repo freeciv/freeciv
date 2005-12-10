@@ -27,13 +27,49 @@
 #include "themes_common.h"
 #include "themes_g.h"
 
+/* Array of default files. First num_default_files positions
+ * are files returned by gtk_rc_get_default_files() on client startup.
+ * There are two extra postions allocated in the array - one for
+ * specific Freeciv file and one for NULL. */
+static char** default_files;
+static int num_default_files;
+
+/****************************************************************************
+  Initialize the default_files array.
+****************************************************************************/
+static void load_default_files()
+{
+  int i;
+  gchar** f;
+  
+  if (default_files != NULL) {
+    return;
+  }
+  
+  f = gtk_rc_get_default_files();
+  
+  for (i = 0; f[i] ; i++) {
+    /* nothing */
+  }
+  num_default_files = i;
+  default_files = fc_malloc(sizeof(char*) * (i + 2));
+  
+  for (i = 0; i < num_default_files; i++) {
+    default_files[i] = mystrdup(f[i]);
+  }
+  default_files[i] = default_files[i + 1] = NULL;
+}
+
 /*****************************************************************************
   Loads a gtk theme directory/theme_name
 *****************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)
 {
   char buf[strlen(directory) + strlen(theme_name) + 32];
-  gchar *default_files[] = {buf, NULL};
+  
+  load_default_files();
+  default_files[num_default_files] = buf;
+  default_files[num_default_files + 1] = NULL;
   
   /* Gtk theme is a directory containing gtk-2.0/gtkrc file */
   my_snprintf(buf, sizeof(buf), "%s/%s/gtk-2.0/gtkrc", directory,
@@ -49,8 +85,8 @@ void gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void gui_clear_theme(void)
 {
-  gchar *default_files[] = {NULL};
-  
+  load_default_files();
+  default_files[num_default_files] = NULL;
   gtk_rc_set_default_files(default_files);
   gtk_rc_reparse_all_for_settings(gtk_settings_get_default(), TRUE);
 }
