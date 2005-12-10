@@ -49,9 +49,7 @@ civilwar_nations=
 ; Sub-national nations
  "bavarian", "westphalian",
 ; German-speaking nations
- "austrian", "swiss",
-; A few more closely related nations
- "dutch", "french"
+ "austrian", "swiss"
 
 cities =
   "Berlin (grassland, !mountains)", 
