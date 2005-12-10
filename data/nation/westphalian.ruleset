@@ -3,9 +3,9 @@
 name=_("Westphalian")
 plural=_("?plural:Westphalians")
 groups=_("Medieval"), _("European")
-legend=_("Westphalia, before becoming a Prussian province, was the Western\
+legend=_("Westphalia, before becoming a Prussian province, was the western\
  region the duchy of Saxony. Present-day it consists of the Northern part of\
- the largest German federal state, Nordrhein-Westphalen.")
+ the largest German federal state, North Rhine-Westphalia.")
 leader =
  "Widukind",
  "Liudger",
@@ -28,7 +28,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "german"
-civilwar_nations = "german"
+civilwar_nations = "german", "bavarian"
 
 cities =
  "Münster",
