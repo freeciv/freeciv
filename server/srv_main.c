@@ -205,7 +205,6 @@ void srv_init(void)
 bool is_game_over(void)
 {
   int barbs = 0, alive = 0;
-  bool all_allied;
   struct player *victor = NULL;
 
   /* quit if we are past the year limit */
@@ -272,30 +271,6 @@ bool is_game_over(void)
     notify_conn(game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw"));
     gamelog(GAMELOG_JUDGE, GL_DRAW);
-    return TRUE;
-  }
-
-  /* quit if all remaining players are allied to each other */
-  all_allied = TRUE;
-  players_iterate(pplayer) {
-    players_iterate(aplayer) {
-      if (!pplayers_allied(pplayer, aplayer)
-          && pplayer->is_alive
-          && aplayer->is_alive
-          && !pplayer->surrendered
-          && !aplayer->surrendered) {
-        all_allied = FALSE;
-        break;
-      }
-    } players_iterate_end;
-    if (!all_allied) {
-      break;
-    }
-  } players_iterate_end;
-  if (all_allied) {
-    notify_conn(game.est_connections, NULL, E_GAME_END, 
-		   _("Game ended in allied victory"));
-    gamelog(GAMELOG_JUDGE, GL_ALLIEDWIN);
     return TRUE;
   }
 

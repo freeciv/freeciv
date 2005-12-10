@@ -50,8 +50,7 @@ enum {
   GL_NONE,
   GL_DRAW,
   GL_LONEWIN,
-  GL_TEAMWIN,
-  GL_ALLIEDWIN
+  GL_TEAMWIN
 };
 
 /* treaty clause types */

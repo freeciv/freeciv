@@ -64,7 +64,6 @@ const char *endgame_strings[] = {
   "Draw",
   "Lone Win",
   "Team Win",
-  "Allied Win"
 };
 
 /**************************************************************************
@@ -536,15 +535,6 @@ void gamelog(int level, ...)
                   ? "The %s spaceship has arrived at Alpha Centauri."
                   : "Game ended in victory for the %s",
                   get_nation_name_plural(pplayer->nation));
-      break;
-    case GL_ALLIEDWIN:
-      my_snprintf(buf, sizeof(buf), "<type>%s</type>", endgame_strings[num]);
-      players_iterate(aplayer) {
-        if (aplayer->is_alive) {
-          cat_snprintf(buf, sizeof(buf), "<n>%d</n>", aplayer->player_no);
-        }
-      } players_iterate_end;
-      my_snprintf(msg, sizeof(msg), "Game ended in allied victory");
       break;
     case GL_TEAMWIN:
       pteam = va_arg(args, struct team *);
