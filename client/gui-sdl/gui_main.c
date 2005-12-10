@@ -84,6 +84,7 @@
 #include "spaceshipdlg.h"
 #include "resources.h"
 #include "tilespec.h"
+#include "themespec.h"
 #include "gui_tilespec.h"
 #include "messagewin.h"
 #include "citydlg.h"
@@ -938,12 +939,8 @@ void ui_main(int argc, char *argv[])
                        CF_DRAW_PLAYERS_PEACE_STATUS|
                        CF_DRAW_PLAYERS_ALLIANCE_STATUS);
   
-  tilespec_setup_theme();
-  tilespec_setup_anim();
-  tilespec_setup_city_gfx();
-  tilespec_setup_city_icons();
-
   tileset_load_tiles(tileset);
+  tileset_use_prefered_theme(tileset);
       
   load_cursors();  
 
@@ -1015,11 +1012,14 @@ void ui_main(int argc, char *argv[])
   #endif
 
   free_auxiliary_tech_icons();
-  
-  tilespec_free_anim();
   unload_cursors();
-  free_font_system();
   
+/* FIXME: the font system cannot be freed yet, because it is still 
+ * needed in civclient.c for message window output */
+#if 0 
+  free_font_system();
+#endif  
+
   quit_sdl();
 }
 

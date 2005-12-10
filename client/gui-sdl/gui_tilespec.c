@@ -34,6 +34,7 @@
 #include "log.h"
 
 #include "tilespec.h"
+#include "themespec.h"
 
 #include "gui_mem.h"
 #include "gui_main.h"
@@ -43,15 +44,10 @@
 
 #include "gui_tilespec.h"
 
-struct sprite* lookup_sprite_tag_alt(struct tileset *t,
-					    const char *tag, const char *alt,
-					    bool required, const char *what,
-					    const char *name);
-
 #ifdef SMALL_SCREEN
   #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
   do {								  \
-    pSpr = lookup_sprite_tag_alt(tileset, tag, "", TRUE, "", ""); \
+    pSpr = themeset_lookup_sprite_tag_alt(themeset, tag, "", TRUE, "", ""); \
   pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		\
   assert(pStruct->pSurf != NULL);				\
     pStruct->pSurf = ZoomSurface(pStruct->pSurf, 0.5, 0.5, 0);    \
@@ -60,7 +56,7 @@ struct sprite* lookup_sprite_tag_alt(struct tileset *t,
 #else
   #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
   do {								  \
-    pSpr = lookup_sprite_tag_alt(tileset, tag, "", TRUE, "", ""); \
+    pSpr = themeset_lookup_sprite_tag_alt(themeset, tag, "", TRUE, "", ""); \
     pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		  \
     assert(pStruct->pSurf != NULL);				  \
     pSpr->psurface = NULL;					  \
@@ -211,12 +207,10 @@ void reload_citizens_icons(int style)
   ...
 **************************************************************************/
 void tilespec_setup_city_gfx(void) {
-  struct sprite *pSpr = lookup_sprite_tag_alt(tileset, "theme.city", "", TRUE, "", "");    
-  pCity_Surf = (pSpr ? GET_SURF(pSpr) : NULL);
-  
-  #ifdef SMALL_SCREEN
-  pCity_Surf = ZoomSurface(pCity_Surf, 0.5, 0.5, 0);
-  #endif
+  struct sprite *pSpr = themeset_lookup_sprite_tag_alt(
+                                    themeset, "theme.city", "", TRUE, "", "");    
+
+  pCity_Surf = (pSpr ? adj_surf(GET_SURF(pSpr)) : NULL);
   
   assert(pCity_Surf != NULL);
 }
@@ -343,7 +337,7 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!lookup_sprite_tag_alt(tileset, "theme.tech_tree", "", FALSE, "", "")) {  
+  if(!themeset_lookup_sprite_tag_alt(themeset, "theme.tech_tree", "", FALSE, "", "")) {  
     freelog(LOG_FATAL, "Your current tileset don't contains ""all"" GUI theme graphic\n"
     "Please use other tileset with ""full"" GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
@@ -491,7 +485,7 @@ SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
 do { \
   iter = 0;	\
   my_snprintf(cBuf , sizeof(cBuf), "%s_%d", Tag, iter);	\
-    while(lookup_sprite_tag_alt(tileset, cBuf, "", FALSE, "", "")) { \
+    while(themeset_lookup_sprite_tag_alt(themeset, cBuf, "", FALSE, "", "")) { \
     iter++;	\
     my_snprintf(cBuf , sizeof(cBuf), "%s_%d", Tag, iter);	\
   }	\
@@ -500,7 +494,7 @@ do { \
     pAnim->Cursors.Type = CALLOC(num + 1, sizeof(SDL_Cursor *));	\
     for( iter=0; iter<num; iter++) {	\
       my_snprintf(cBuf,sizeof(cBuf), "%s_%d", Tag, iter);	\
-      pSpr = lookup_sprite_tag_alt(tileset, cBuf, "", FALSE, "", ""); \
+      pSpr = themeset_lookup_sprite_tag_alt(themeset, cBuf, "", FALSE, "", ""); \
       image = (pSpr ? GET_SURF(pSpr) : NULL);	\
       assert(image != NULL);	\
       if (center) {	\
@@ -568,7 +562,7 @@ void tilespec_free_anim(void)
 /*
  *	Free memmory
  */
-void tilespec_unload_theme(void)
+void tilespec_free_theme(void)
 {
   FREESURFACE(pTheme->Button);
   FREESURFACE(pTheme->Edit);

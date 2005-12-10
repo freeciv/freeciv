@@ -186,6 +186,9 @@ struct datafile {
                                                                                
 char *user_home_dir(void);
 char *user_username(char *buf, size_t bufsz);
+  
+const char **get_data_dirs(int *num_dirs);
+  
 char **datafilelist(const char *suffix);
 struct datafile_list *datafilelist_infix(const char *subpath,
                                          const char *infix, bool nodups);
@@ -232,4 +235,3 @@ bool path_is_absolute(const char *filename);
 
 char scanin(char **buf, char *delimiters, char *dest, int size);
 #endif  /* FC__SHARED_H */
-

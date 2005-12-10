@@ -833,7 +833,7 @@ char *user_username(char *buf, size_t bufsz)
 
   num_dirs, if not NULL, will be set to the number of entries in the list.
 ***************************************************************************/
-static const char **get_data_dirs(int *num_dirs)
+const char **get_data_dirs(int *num_dirs)
 {
   const char *path;
   char *path2, *tok;

@@ -52,7 +52,7 @@
 
 #include "mapview_g.h"
 #include "options.h"
-#include "tilespec.h"
+#include "themespec.h"
 #include "gui_mem.h"
 #include "graphics.h"
 #include "gui_zoom.h"
@@ -3415,13 +3415,15 @@ SDL_Surface * get_intro_gfx(void)
 SDL_Surface * get_logo_gfx(void)
 {
   SDL_Surface *pLogo;
-  SDL_Surface *pLogo_Surf = IMG_Load(tileset_mini_intro_filename(tileset));
+        
+  SDL_Surface *pLogo_Surf = adj_surf(GET_SURF(themeset_lookup_sprite_tag_alt(
+                                  themeset, "theme.logo", "", TRUE, "", "")));
   assert(pLogo_Surf != NULL);
   pLogo = SDL_CreateRGBSurface(SDL_SWSURFACE,
 			pLogo_Surf->w, pLogo_Surf->h,
 				32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x0);
   SDL_BlitSurface(pLogo_Surf, NULL, pLogo, NULL);
-  FREESURFACE(pLogo_Surf);
+  
   return pLogo;
 }
 

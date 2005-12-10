@@ -22,6 +22,8 @@
 #ifndef FC__GUI_TILESPEC_H
 #define FC__GUI_TILESPEC_H
 
+#include <SDL/SDL.h>
+
 #include "citydlg_common.h"	/* struct citizen_type */
   
 struct Theme {
@@ -128,7 +130,7 @@ struct Theme {
 } *pTheme;
 
 void tilespec_setup_theme(void);
-void tilespec_unload_theme(void);
+void tilespec_free_theme(void);
 
 enum DirScrolling {
   SCROLL_NORTH = 0,
@@ -202,8 +204,10 @@ struct City_Icon {
 SDL_Surface *pCity_Surf;
 
 void tilespec_setup_city_gfx(void);
+  
 void tilespec_setup_city_icons(void);
 void tilespec_free_city_icons(void);
+
 void reload_citizens_icons(int style);
 SDL_Surface * get_city_gfx(void);
 SDL_Surface * get_citizen_surface(enum citizen_category type,
