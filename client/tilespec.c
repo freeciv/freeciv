@@ -1875,13 +1875,15 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
     return NULL;
   }
 
-  for (t = 0; t < num_thresholds - 1; t++) {
+  /* We find the sprite with the largest threshold value that's no bigger
+   * than this city size. */
+  for (t = 0; t < num_thresholds; t++) {
     if (pcity->size < city_sprite->styles[style].thresholds[t].city_size) {
       break;
     }
   }
 
-  return city_sprite->styles[style].thresholds[t].sprite;
+  return city_sprite->styles[style].thresholds[MAX(t - 1, 0)].sprite;
 }
 
 /****************************************************************************
