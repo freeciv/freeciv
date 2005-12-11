@@ -55,7 +55,7 @@ void srv_main(void);
 void server_quit(void);
 void save_game_auto(const char *save_reason);
 
-bool is_game_over(void);
+bool check_for_game_over(void);
 
 bool handle_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);

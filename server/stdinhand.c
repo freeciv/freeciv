@@ -3632,7 +3632,7 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
                    _("%s has conceded the game and can no longer win."),
                    caller->player->name);
     caller->player->surrendered = TRUE;
-    if (is_game_over()) {
+    if (check_for_game_over()) {
       server_state = GAME_OVER_STATE;
       force_end_of_sniff = TRUE;
     }

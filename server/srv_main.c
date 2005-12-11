@@ -200,9 +200,13 @@ void srv_init(void)
 }
 
 /**************************************************************************
-  Returns TRUE if any one game end condition is fulfilled, FALSE otherwise
+  Returns TRUE if any one game end condition is fulfilled, FALSE otherwise.
+
+  This function will notify players but will not set the server_state. The
+  caller must set the server state to GAME_OVER_STATE if the function
+  returns TRUE.
 **************************************************************************/
-bool is_game_over(void)
+bool check_for_game_over(void)
 {
   int barbs = 0, alive = 0;
   struct player *victor = NULL, *spacer = NULL;
@@ -1648,7 +1652,7 @@ static void main_loop(void)
     freelog(LOG_DEBUG, "Sendinfotometaserver");
     (void) send_server_info_to_metaserver(META_REFRESH);
 
-    if (server_state != GAME_OVER_STATE && is_game_over()) {
+    if (server_state != GAME_OVER_STATE && check_for_game_over()) {
       server_state=GAME_OVER_STATE;
     }
   }
