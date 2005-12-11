@@ -22,7 +22,7 @@ struct conn_list;
 void spaceship_calc_derived(struct player_spaceship *ship);
 void send_spaceship_info(struct player *src, struct conn_list *dest);
 void spaceship_lost(struct player *pplayer);
-void check_spaceship_arrivals(void);
+struct player *check_spaceship_arrival(void);
 
 void handle_spaceship_launch(struct player *pplayer);
 void handle_spaceship_place(struct player *pplayer,

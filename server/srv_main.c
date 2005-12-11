@@ -205,7 +205,7 @@ void srv_init(void)
 bool is_game_over(void)
 {
   int barbs = 0, alive = 0;
-  struct player *victor = NULL;
+  struct player *victor = NULL, *spacer = NULL;
 
   /* quit if we are past the year limit */
   if (game.info.year > game.info.end_year) {
@@ -237,6 +237,36 @@ bool is_game_over(void)
   if (game.info.nplayers == (barbs + 1)
       && alive >= 1) {
     return FALSE;
+  }
+
+  /* check for a spacerace win */
+  if ((spacer = check_spaceship_arrival())) {
+    bool loner = TRUE;
+    victor = spacer;
+ 
+    notify_player(NULL, NULL, E_SPACESHIP,
+                  _("The %s spaceship has arrived at Alpha Centauri."),
+                  get_nation_name(victor->nation));
+
+    /* this guy has won, now check if anybody else wins with him */
+    players_iterate(pplayer) {
+      if (pplayer->team == victor->team && pplayer != victor) {
+        loner = FALSE;
+        break;
+      }
+    } players_iterate_end;
+
+    if (!loner) {
+      notify_conn(NULL, NULL, E_GAME_END,
+                  _("Team victory to %s"), team_get_name_orig(victor->team));
+      gamelog(GAMELOG_JUDGE, GL_TEAMWIN, victor->team);
+    } else {
+      notify_conn(NULL, NULL, E_GAME_END,
+                  _("Game ended in victory for %s"), victor->name);
+      gamelog(GAMELOG_JUDGE, GL_LONEWIN, victor);
+    }
+
+    return TRUE;
   }
 
   /* quit if we have team victory */
@@ -696,8 +726,6 @@ static void end_turn(void)
 
   freelog(LOG_DEBUG, "Updatetimeout");
   update_timeout();
-
-  check_spaceship_arrivals();
 
   freelog(LOG_DEBUG, "Sendplayerinfo");
   send_player_info(NULL, NULL);

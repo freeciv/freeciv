@@ -359,7 +359,7 @@ void spaceship_lost(struct player *pplayer)
 /**************************************************************************
 Use shuffled order to randomly resolve ties.
 **************************************************************************/
-void check_spaceship_arrivals(void)
+struct player *check_spaceship_arrival(void)
 {
   double arrival, best_arrival = 0.0;
   struct player *best_pplayer = NULL;
@@ -376,13 +376,10 @@ void check_spaceship_arrivals(void)
       }
     }
   } shuffled_players_iterate_end;
+
   if (best_pplayer) {
     best_pplayer->spaceship.state = SSHIP_ARRIVED;
-    server_state = GAME_OVER_STATE;
-    notify_player(NULL, NULL, E_SPACESHIP,
-		     _("The %s spaceship has arrived "
-		       "at Alpha Centauri."),
-		     get_nation_name(best_pplayer->nation));
-    gamelog(GAMELOG_JUDGE, GL_LONEWIN, best_pplayer);
   }
+
+  return best_pplayer;
 }
