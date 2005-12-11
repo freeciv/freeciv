@@ -1603,7 +1603,8 @@ char scanin(char **buf, char *delimiters, char *dest, int size)
   }
 
   if (dest) {
-    strncpy(dest, *buf, size);
+    strncpy(dest, *buf, size-1);
+    dest[size-1] = '\0';
     remove_leading_trailing_spaces(dest);
     ptr = strpbrk(dest, delimiters);
   } else {
