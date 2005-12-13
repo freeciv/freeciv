@@ -669,19 +669,19 @@ AC_DEFINE_UNQUOTED([FC_STORE_CFLAGS], ["$CFLAGS"], [These are the CFLAGS used in
 AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ["$CXXFLAGS"], [These are the CXXFLAGS used in compilation])
 
 AC_CONFIG_FILES([Makefile
-          data/Makefile 
+          data/Makefile
 	  data/amplio/Makefile
 	  data/flags/Makefile
-	  data/misc/Makefile 
-	  data/trident/Makefile 
-	  data/isophex/Makefile 
-	  data/isotrident/Makefile 
-	  data/stdsounds/Makefile 
-	  data/default/Makefile 
-	  data/civ1/Makefile 
-	  data/civ2/Makefile 
-	  data/scenario/Makefile 
-	  data/nation/Makefile 
+	  data/misc/Makefile
+	  data/trident/Makefile
+	  data/isophex/Makefile
+	  data/isotrident/Makefile
+	  data/stdsounds/Makefile
+	  data/default/Makefile
+	  data/civ1/Makefile
+	  data/civ2/Makefile
+	  data/scenario/Makefile
+	  data/nation/Makefile
 	  utility/Makefile
 	  utility/ftwl/Makefile
 	  dependencies/Makefile
@@ -689,20 +689,20 @@ AC_CONFIG_FILES([Makefile
 	  dependencies/tolua/Makefile
 	  dependencies/lua/src/Makefile
 	  dependencies/lua/src/lib/Makefile
-	  common/Makefile 
-	  common/aicore/Makefile 
-	  ai/Makefile 
+	  common/Makefile
+	  common/aicore/Makefile
+	  ai/Makefile
 	  tests/Makefile
-	  client/Makefile 
+	  client/Makefile
 	  client/agents/Makefile
-	  client/include/Makefile 
-	  client/gui-sdl/Makefile 
+	  client/include/Makefile
+	  client/gui-sdl/Makefile
 	  client/gui-gtk-2.0/Makefile
-	  client/gui-xaw/Makefile 
-	  client/gui-win32/Makefile 
+	  client/gui-xaw/Makefile
+	  client/gui-win32/Makefile
 	  client/gui-ftwl/Makefile
-	  client/gui-stub/Makefile 
-	  server/Makefile 
+	  client/gui-stub/Makefile
+	  server/Makefile
 	  server/generator/Makefile
 	  server/userdb/Makefile
 	  server/scripting/Makefile
