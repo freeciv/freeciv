@@ -3172,9 +3172,9 @@ void game_load(struct section_file *file)
 
     if (has_capability("watchtower", savefile_options)) {
       game.watchtower_extra_vision =
-	  secfile_lookup_int(file, "game.watchtower_extra_vision");
+	  secfile_lookup_int_default(file, 0, "game.watchtower_extra_vision");
       game.watchtower_vision =
-	  secfile_lookup_int(file, "game.watchtower_vision");
+	  secfile_lookup_int_default(file, 1, "game.watchtower_vision");
     } else {
       game.watchtower_extra_vision = 0;
       game.watchtower_vision = 1;
