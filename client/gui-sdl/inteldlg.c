@@ -34,6 +34,7 @@
 #include "gui_string.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "repodlgs.h"
 #include "spaceshipdlg.h"
 
 #include "inteldlg.h"
@@ -171,7 +172,7 @@ void popup_intel_dialog(struct player *pPlayer)
   h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
     
   /* ---------- */
-  col = w / (GET_SURF(get_tech_sprite(tileset, A_FIRST))->w + adj_size(4));
+  col = w / (get_tech_icon(A_FIRST)->w + adj_size(4));
   n = 0;
   pLast = pBuf;
   for(i = A_FIRST; i<game.control.num_tech_types; i++) {
@@ -179,7 +180,7 @@ void popup_intel_dialog(struct player *pPlayer)
       tech_is_available(game.player_ptr, i) &&
       get_invention(game.player_ptr, i) != TECH_KNOWN) {
       
-      pBuf = create_icon2(GET_SURF(get_tech_sprite(tileset, i)), pWindow->dst,
+      pBuf = create_icon2(get_tech_icon(i), pWindow->dst,
 	(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
       pBuf->action = tech_callback;
       set_wstate(pBuf, FC_WS_NORMAL);

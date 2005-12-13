@@ -63,6 +63,7 @@
 #include "repodlgs.h"
 
 
+static SDL_Surface *pNeutral_Tech_Icon;
 static SDL_Surface *pNone_Tech_Icon;
 static SDL_Surface *pFuture_Tech_Icon;
 
@@ -2224,22 +2225,26 @@ static struct ADVANCED_DLG *pChangeTechDlg = NULL;
 void setup_auxiliary_tech_icons(void)
 {
   SDL_Surface *pSurf;
+  SDL_Color color = {255, 255, 255, 255};
   SDL_String16 *pStr = create_str16_from_char(_("None"), adj_font(10));
   
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
   /* create icons */
-  pNone_Tech_Icon = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
-  SDL_FillRect(pNone_Tech_Icon, NULL,
-	  SDL_MapRGB(pNone_Tech_Icon->format, 255 , 255 , 255));
-  putframe(pNone_Tech_Icon, 0 , 0,
-	  pNone_Tech_Icon->w - 1, pNone_Tech_Icon->h - 1 , 0x0);
+  pSurf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
+  SDL_SetAlpha(pSurf, SDL_SRCALPHA, 136);
+    
+  SDL_FillRectAlpha(pSurf, NULL, &color);
+  putframe(pSurf, 0 , 0, pSurf->w - 1, pSurf->h - 1, 0x0);
+
+  pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
+  pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);    
+  pFuture_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
   
-  pFuture_Tech_Icon = SDL_DisplayFormat(pNone_Tech_Icon);
-  
+  FREESURFACE(pSurf);
+    
   /* None */
   pSurf = create_text_surf_from_str16(pStr);
-    
   blit_entire_src(pSurf, pNone_Tech_Icon ,
 	  (adj_size(50) - pSurf->w) / 2 , (adj_size(50) - pSurf->h) / 2);
   
@@ -2259,6 +2264,7 @@ void setup_auxiliary_tech_icons(void)
 
 void free_auxiliary_tech_icons(void)
 {
+  FREESURFACE(pNeutral_Tech_Icon);
   FREESURFACE(pNone_Tech_Icon);
   FREESURFACE(pFuture_Tech_Icon);
 }
@@ -2275,7 +2281,11 @@ SDL_Surface * get_tech_icon(Tech_type_id tech)
     case A_FUTURE:
       return pFuture_Tech_Icon;
     default:
-      return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
+      if (get_tech_sprite(tileset, tech)) {
+        return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
+      } else {
+        return pNeutral_Tech_Icon;
+      }
   }
   return NULL;
 }
@@ -3214,19 +3224,8 @@ void popup_science_dialog(bool raise)
     }
   }
 
-  if (get_player_research(game.player_ptr)->researching != A_UNSET)
-  {
-    if(get_player_research(game.player_ptr)->researching != A_FUTURE) {
-      pLogo = adj_surf(GET_SURF(get_tech_sprite(tileset, get_player_research(game.player_ptr)->researching)));
-  } else {
-    /* "Future Tech" icon */
-    pLogo = pFuture_Tech_Icon;
-  }
-  } else {
-    /* "None" icon */
-    pLogo = pNone_Tech_Icon;
-  }
-
+  pLogo = get_tech_icon(get_player_research(game.player_ptr)->researching);
+  
   pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
 
   pBuf->action = change_research;
@@ -3240,13 +3239,7 @@ void popup_science_dialog(bool raise)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pBuf);
 
   /* ------ */
-  if (get_player_research(game.player_ptr)->tech_goal != A_UNSET)
-  {
-    pLogo = adj_surf(GET_SURF(get_tech_sprite(tileset, get_player_research(game.player_ptr)->tech_goal)));
-  } else {
-    /* "None" icon */
-    pLogo = pNone_Tech_Icon;
-  }
+  pLogo = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
   
   pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
   pBuf->action = change_research_goal;
