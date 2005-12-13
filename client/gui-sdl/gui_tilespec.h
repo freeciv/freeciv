@@ -24,6 +24,8 @@
 
 #include <SDL/SDL.h>
 
+#include "tilespec.h"
+
 #include "citydlg_common.h"	/* struct citizen_type */
   
 struct Theme {
@@ -140,18 +142,6 @@ enum DirScrolling {
   SCROLL_LAST
 };
 
-struct Animation {
-  struct {
-    SDL_Cursor **Patrol;
-    SDL_Cursor **Goto;
-    SDL_Cursor **Connect;
-    SDL_Cursor **Nuke;
-    SDL_Cursor **Paradrop;
-    SDL_Cursor **MapScroll[SCROLL_LAST];
-  } Cursors;
-  
-} *pAnim;
-
 void tilespec_setup_anim(void);
 void tilespec_free_anim(void);
 
@@ -202,6 +192,8 @@ struct City_Icon {
 } *pIcons;
 
 SDL_Surface *pCity_Surf;
+
+SDL_Cursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 void tilespec_setup_city_gfx(void);
   

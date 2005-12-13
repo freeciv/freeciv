@@ -112,13 +112,13 @@ bool LCTRL;
 bool RCTRL;
 bool LALT;
 bool do_focus_animation = TRUE;
-SDL_Cursor **pAnimCursor = NULL;
+enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
+bool mouse_cursor_changed = FALSE;
 bool do_cursor_animation = TRUE;
 int city_names_font_size = 12;
 int city_productions_font_size = 12;
 
 /* ================================ Private ============================ */
-static SDL_Cursor **pStoreAnimCursor = NULL;
 static int net_socket = -1;
 static bool autoconnect = FALSE;
 static bool is_map_scrolling = FALSE;
@@ -404,6 +404,8 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   }
       
   if ((pWidget = MainWidgetListScaner(pMotionEvent->x, pMotionEvent->y)) != NULL) {
+    SDL_SetCursor(pStd_Cursor);
+    mouse_cursor_changed = FALSE;
     widget_sellected_action(pWidget);
   } else {
     if (pSellected_Widget) {
@@ -411,19 +413,16 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
     } else {
       if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
         static SDL_Rect rect;
+          
+        handle_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
                   
         rect.x = rect.y = 0;
         rect.w = SCROLL_MAP_AREA;
         rect.h = Main.map->h;
+
         if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
 	  is_map_scrolling = TRUE;
 	  if (scroll_dir != DIR8_WEST) {
-	    pStoreAnimCursor = pAnimCursor;
-	    if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_WEST][1]) {
-	      pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_WEST];
-	    } else {
-	      SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_WEST][0]);
-	    }
 	    scroll_dir = DIR8_WEST;
 	  }
         } else {
@@ -431,12 +430,6 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 	  if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
 	    is_map_scrolling = TRUE;
 	    if (scroll_dir != DIR8_EAST) {
-	      pStoreAnimCursor = pAnimCursor;
-	      if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_EAST][1]) {
-	        pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_EAST];
-	      } else {
-	        SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_EAST][0]);
-	      }
 	      scroll_dir = DIR8_EAST;
 	    }
           } else {
@@ -446,12 +439,6 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 	    if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
 	      is_map_scrolling = TRUE;
 	      if (scroll_dir != DIR8_NORTH) {
-	        pStoreAnimCursor = pAnimCursor;
-		if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_NORTH][1]) {
-	  	  pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_NORTH];
-	        } else {
-	          SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_NORTH][0]);
-	        }
 	        scroll_dir = DIR8_NORTH;
 	      }
             } else {
@@ -459,24 +446,9 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 	      if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
 	        is_map_scrolling = TRUE;
 		if (scroll_dir != DIR8_SOUTH) {
-	          pStoreAnimCursor = pAnimCursor;
-		  if (do_cursor_animation && pAnim->Cursors.MapScroll[SCROLL_SOUTH][1]) {
-	  	    pAnimCursor = pAnim->Cursors.MapScroll[SCROLL_SOUTH];
-	          } else {
-	            SDL_SetCursor(pAnim->Cursors.MapScroll[SCROLL_SOUTH][0]);
-	          }
 	          scroll_dir = DIR8_SOUTH;
 		}
               } else {
-	        if (is_map_scrolling) {
-	          if (pStoreAnimCursor) {
-		    pAnimCursor = pStoreAnimCursor;
-	          } else {
-		    SDL_SetCursor(pStd_Cursor);
-		    pAnimCursor = NULL;
-		  }
-	        }
-	        pStoreAnimCursor = NULL;
 	        is_map_scrolling = FALSE;
 	      }
 	    } 
@@ -538,12 +510,21 @@ static void game_focused_unit_anim(void)
 
 static void game_cursors_anim(void)
 {
-  static int cursor_anim_frame = 0;
-  if(do_cursor_animation && pAnimCursor && pAnimCursor[1]) {
-    SDL_SetCursor(pAnimCursor[cursor_anim_frame++]);
-    if (!pAnimCursor[cursor_anim_frame]) {
-      cursor_anim_frame = 0;
+  static int cursor_frame = 0;
+
+  if (!mouse_cursor_changed) {
+    return;
+  }
+  
+  if (mouse_cursor_type == CURSOR_DEFAULT) {
+    SDL_SetCursor(pStd_Cursor);
+    mouse_cursor_changed = FALSE;
+  } else {
+    if (!do_cursor_animation || (cursor_frame == NUM_CURSOR_FRAMES)) {
+      cursor_frame = 0;
     }
+  
+    SDL_SetCursor(fc_cursors[mouse_cursor_type][cursor_frame++]);    
   }
 }
 
@@ -1072,11 +1053,7 @@ void remove_net_input(void)
   freelog(LOG_DEBUG, "Connection DOWN... ");
   disable_focus_animation();
   draw_goto_patrol_lines = FALSE;
-  if (pAnimCursor) {
-    SDL_SetCursor(pStd_Cursor);
-    pAnimCursor = NULL;
-    pStoreAnimCursor = NULL;
-  }
+  SDL_SetCursor(pStd_Cursor);
 }
 
 /****************************************************************************

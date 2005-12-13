@@ -891,7 +891,6 @@ static void themeset_lookup_sprite_tags(struct themeset *t)
    * functions in gui_tilespec.c instead */
   
   tilespec_setup_theme();
-  tilespec_setup_anim();
   tilespec_setup_city_gfx();
   tilespec_setup_city_icons();
 }
@@ -1049,6 +1048,5 @@ void themeset_free_tiles(struct themeset *t)
    * functions in gui_tilespec.c instead */
 
   tilespec_free_theme();
-  tilespec_free_anim();
   tilespec_free_city_icons();
 }

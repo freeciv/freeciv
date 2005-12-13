@@ -77,7 +77,8 @@
 #include "mapview.h"
 
 extern SDL_Event *pFlush_User_Event;
-extern SDL_Cursor **pAnimCursor;
+extern enum cursor_type mouse_cursor_type;
+extern bool mouse_cursor_changed;
 extern bool do_cursor_animation;
 
 int OVERVIEW_START_X;
@@ -1148,8 +1149,6 @@ void set_unit_icons_more_arrow(bool onoff)
 **************************************************************************/
 void update_unit_info_label(struct unit *pUnit)
 {
-  static bool mutant = FALSE;
-   
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return;
   }
@@ -1167,71 +1166,52 @@ void update_unit_info_label(struct unit *pUnit)
     }
     switch (hover_state) {
     case HOVER_NONE:
-      if (mutant) {
-	SDL_SetCursor(pStd_Cursor);
-	pAnimCursor = NULL;
-	mutant = FALSE;
-      }
-      break;
-    case HOVER_PATROL:
-      if (pAnim->Cursors.Patrol) {
-	if (do_cursor_animation && pAnim->Cursors.Patrol[1]) {
-	  pAnimCursor = pAnim->Cursors.Patrol;
-	} else {
-	  SDL_SetCursor(pAnim->Cursors.Patrol[0]);
-	}
+      if (action_state == CURSOR_ACTION_SELECT) {
+        mouse_cursor_type = CURSOR_SELECT; 
+      } else if (action_state == CURSOR_ACTION_PARATROOPER) {
+        mouse_cursor_type = CURSOR_PARADROP;  
+      } else if (action_state == CURSOR_ACTION_NUKE) {
+        mouse_cursor_type = CURSOR_NUKE;
       } else {
-        SDL_SetCursor(pPatrol_Cursor);
-      }
-      mutant = TRUE;
+        mouse_cursor_type = CURSOR_DEFAULT;
+      }  
+      mouse_cursor_changed = TRUE;      
       break;
     case HOVER_GOTO:
-      if (pAnim->Cursors.Goto) {
-	if (do_cursor_animation && pAnim->Cursors.Goto[1]) {
-	  pAnimCursor = pAnim->Cursors.Goto;
-	} else {
-	  SDL_SetCursor(pAnim->Cursors.Goto[0]);
-	}
+      if (action_state == CURSOR_ACTION_GOTO) {
+        mouse_cursor_type = CURSOR_GOTO;
+      } else if (action_state == CURSOR_ACTION_DEFAULT) {
+        mouse_cursor_type = CURSOR_DEFAULT;
+      } else if (action_state == CURSOR_ACTION_ATTACK) {
+        mouse_cursor_type = CURSOR_ATTACK;  
       } else {
-        SDL_SetCursor(pGoto_Cursor);
+        mouse_cursor_type = CURSOR_INVALID;  
       }
-      mutant = TRUE;
+      mouse_cursor_changed = TRUE;
+      break;
+    case HOVER_PATROL:
+      if (action_state == CURSOR_ACTION_INVALID) {
+        mouse_cursor_type = CURSOR_INVALID;
+      } else {
+        mouse_cursor_type = CURSOR_PATROL;
+      }
+      mouse_cursor_changed = TRUE;
       break;
     case HOVER_CONNECT:
-      if (pAnim->Cursors.Connect) {
-	if (do_cursor_animation && pAnim->Cursors.Connect[1]) {
-	  pAnimCursor = pAnim->Cursors.Connect;
-	} else {
-	  SDL_SetCursor(pAnim->Cursors.Connect[0]);
-	}
+      if (action_state == CURSOR_ACTION_INVALID) {
+        mouse_cursor_type = CURSOR_INVALID;
       } else {
-        SDL_SetCursor(pGoto_Cursor);
+        mouse_cursor_type = CURSOR_GOTO;
       }
-      mutant = TRUE;
+      mouse_cursor_changed = TRUE;
       break;
     case HOVER_NUKE:
-      if (pAnim->Cursors.Nuke) {
-	if (do_cursor_animation && pAnim->Cursors.Nuke[1]) {
-	  pAnimCursor = pAnim->Cursors.Nuke;
-	} else {
-	  SDL_SetCursor(pAnim->Cursors.Nuke[0]);
-	}
-      } else {
-        SDL_SetCursor(pNuke_Cursor);
-      }
-      mutant = TRUE;
+      mouse_cursor_type = CURSOR_NUKE;
+      mouse_cursor_changed = TRUE;
       break;
     case HOVER_PARADROP:
-      if (pAnim->Cursors.Paradrop) {
-	if (do_cursor_animation && pAnim->Cursors.Paradrop[1]) {
-	  pAnimCursor = pAnim->Cursors.Paradrop;
-	} else {
-	  SDL_SetCursor(pAnim->Cursors.Paradrop[0]);
-	}
-      } else {
-        SDL_SetCursor(pDrop_Cursor);
-      }
-      mutant = TRUE;
+      mouse_cursor_type = CURSOR_PARADROP;        
+      mouse_cursor_changed = TRUE;
       break;
     }
   } else {
