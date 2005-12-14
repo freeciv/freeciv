@@ -320,6 +320,8 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
   }
 
   unit_type_iterate(u_type) {
+    struct unit *virtual_unit;
+
     if (!unit_type_flag(u_type, F_PARATROOPERS)) {
       continue;
     }
@@ -343,9 +345,8 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
     }
 
     /* it's worth building that unit? */
-    struct unit *virtual_unit = create_unit_virtual(pplayer, pcity, u_type,
-						    do_make_unit_veteran
-						    (pcity, u_type));
+    virtual_unit = create_unit_virtual(pplayer, pcity, u_type,
+                                       do_make_unit_veteran(pcity, u_type));
     profit = calculate_want_for_paratrooper(virtual_unit, pcity->tile);
     destroy_unit_virtual(virtual_unit);
 
