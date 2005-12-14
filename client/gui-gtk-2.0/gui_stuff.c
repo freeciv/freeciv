@@ -24,6 +24,7 @@
 #include <gdk/gdkkeysyms.h>
 
 #include "fcintl.h"
+#include "log.h"
 #include "mem.h"
 #include "support.h"
 
@@ -335,6 +336,11 @@ static void gui_dialog_destroy_handler(GtkWidget *w, struct gui_dialog *dlg)
       }
     }
   }
+  
+  if (dlg->title) {
+    free(dlg->title);
+  }
+  
   free(dlg);
 }
 
@@ -419,6 +425,67 @@ static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
 }
 
 /**************************************************************************
+  Changes a tab into a window.
+**************************************************************************/
+static void gui_dialog_detach(struct gui_dialog* dlg)
+{
+  gint n;
+  GtkWidget *window, *notebook;
+  gulong handler_id;
+
+  if (dlg->type != GUI_DIALOG_TAB) {
+    return;
+  }
+  dlg->type = GUI_DIALOG_WINDOW;
+  
+  /* Create a new reference to the main widget, so it won't be 
+   * destroyed in gtk_notebook_remove_page() */
+  g_object_ref(dlg->vbox);
+
+  /* Remove widget from the notebook */
+  notebook = dlg->v.tab.notebook;
+  handler_id = dlg->v.tab.handler_id;
+  g_signal_handler_disconnect(notebook, handler_id);
+
+  n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->vbox);
+  gtk_notebook_remove_page(GTK_NOTEBOOK(dlg->v.tab.notebook), n);
+
+
+  /* Create window and put the widget inside */
+  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title(GTK_WINDOW(window), dlg->title);
+  setup_dialog(window, toplevel);
+
+  gtk_container_add(GTK_CONTAINER(window), dlg->vbox);
+  dlg->v.window = window;
+  g_signal_connect(window, "delete_event",
+    G_CALLBACK(gui_dialog_delete_handler), dlg);
+	
+  gtk_window_set_default_size(GTK_WINDOW(dlg->v.window),
+                              dlg->default_width,
+			      dlg->default_height);    
+  gtk_widget_show_all(window);
+}
+
+/***************************************************************************
+  Someone has clicked on a label in a notebook
+***************************************************************************/
+static gboolean click_on_tab_callback(GtkWidget* w,
+                                     GdkEventButton* button,
+				     gpointer data)
+{
+  if (button->type != GDK_2BUTTON_PRESS) {
+    return FALSE;
+  }
+  if (button->button != 1) {
+    return FALSE;
+  }
+  gui_dialog_detach((struct gui_dialog*) data);
+  return TRUE;
+}
+
+
+/**************************************************************************
   Creates a new dialog. It will be a tab or a window depending on the
   current user setting of 'enable_tabs'.
   Sets pdlg to point to the dialog once it is create, Zeroes pdlg on
@@ -438,6 +505,10 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   dlg->source = pdlg;
   *pdlg = dlg;
   dlg->user_data = user_data;
+  dlg->title = NULL;
+  
+  dlg->default_width = 200;
+  dlg->default_height = 300;
 
   if (enable_tabs) {
     dlg->type = GUI_DIALOG_TAB;
@@ -485,7 +556,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     break;
   case GUI_DIALOG_TAB:
     {
-      GtkWidget *hbox, *label, *image, *button;
+      GtkWidget *hbox, *label, *image, *button, *event_box;
       gint w, h;
       char buf[256];
 
@@ -513,8 +584,11 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 0);
 
       gtk_widget_show_all(hbox);
+      
+      event_box = gtk_event_box_new();
+      gtk_container_add(GTK_CONTAINER(event_box), hbox);
 
-      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, hbox);
+      gtk_notebook_append_page(GTK_NOTEBOOK(notebook), vbox, event_box);
       dlg->v.tab.handler_id =
 	g_signal_connect(notebook, "switch_page",
 	    G_CALLBACK(gui_dialog_switch_page_handler), dlg);
@@ -522,6 +596,10 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
 
       dlg->v.tab.label = label;
       dlg->v.tab.notebook = GTK_WIDGET(notebook);
+      
+      gtk_widget_add_events(event_box, GDK_BUTTON2_MOTION_MASK);
+      g_signal_connect(event_box, "button-press-event",
+                       G_CALLBACK(click_on_tab_callback), dlg);
     }
     break;
   }
@@ -811,6 +889,8 @@ void gui_dialog_alert(struct gui_dialog *dlg)
 **************************************************************************/
 void gui_dialog_set_default_size(struct gui_dialog *dlg, int width, int height)
 {
+  dlg->default_width = width;
+  dlg->default_height = height;
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     gtk_window_set_default_size(GTK_WINDOW(dlg->v.window), width, height);
@@ -825,6 +905,10 @@ void gui_dialog_set_default_size(struct gui_dialog *dlg, int width, int height)
 **************************************************************************/
 void gui_dialog_set_title(struct gui_dialog *dlg, const char *title)
 {
+  if (dlg->title) {
+    free(dlg->title);
+  }
+  dlg->title = mystrdup(title);
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     gtk_window_set_title(GTK_WINDOW(dlg->v.window), title);
