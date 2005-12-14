@@ -252,17 +252,16 @@ static int calculate_want_for_paratrooper(struct unit *punit,
   
   square_iterate(ptile_city, range, ptile) {
     int multiplier;
-    
-    if (!map_is_known(ptile, pplayer)) {
-      continue;
-    }
-    
-    struct city* pcity = tile_get_city(ptile);
+    struct city *pcity = tile_get_city(ptile);
     
     if (!pcity) {
       continue;
     }
 
+    if (!map_is_known(ptile, pplayer)) {
+      continue;
+    }
+    
     /* We prefer jumping to other continents. On the same continent we 
      * can fight traditionally */    
     if (tile_get_continent(ptile_city) != tile_get_continent(ptile)) {
