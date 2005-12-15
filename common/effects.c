@@ -685,11 +685,16 @@ bool is_building_replaced(const struct city *pcity, Impr_type_id building)
   source.type = REQ_BUILDING;
   source.value.building = building;
 
+  /* A capitalization production is never redundant. */
+  if (impr_flag(building, IF_GOLD)) {
+    return FALSE;
+  }
+
   plist = get_req_source_effects(&source);
 
-  /* A building that has no effects is never redundant. */
+  /* A building with no effects and no flags is always redundant! */
   if (!plist) {
-    return FALSE;
+    return TRUE;
   }
 
   effect_list_iterate(plist, peffect) {
