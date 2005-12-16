@@ -38,6 +38,7 @@
 #include "gui_tilespec.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "themecolors.h"
 
 #include "cma_fec.h"
 #include "cma_fe.h"
@@ -338,7 +339,7 @@ static int save_cma_callback(struct GUI *pWidget)
   pWindow->size.y = pWidget->size.y - (hh + FRAME_WH);
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
 		ww + DOUBLE_FRAME_WH, hh + FRAME_WH);
 
   /* setup rest of widgets */

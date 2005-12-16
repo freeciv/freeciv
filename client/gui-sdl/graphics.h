@@ -330,4 +330,23 @@ do {									  \
     }									\
 } while(0)
 
+/* Blend the RGB values of two pixels based on a source alpha value */
+#define ALPHA_BLEND(sR, sG, sB, A, dR, dG, dB)	\
+do {						\
+	dR = (((sR-dR)*(A))>>8)+dR;		\
+	dG = (((sG-dG)*(A))>>8)+dG;		\
+	dB = (((sB-dB)*(A))>>8)+dB;		\
+} while(0)
+
+#define ALPHA_BLEND128(sR, sG, sB, dR, dG, dB)	\
+do {						\
+  Uint32 __Src = (sR << 16 | sG << 8 | sB);	\
+  Uint32 __Dst = (dR << 16 | dG << 8 | dB);	\
+  __Dst = ((((__Src & 0x00fefefe) + (__Dst & 0x00fefefe)) >> 1)		\
+			       + (__Src & __Dst & 0x00010101)) | 0xFF000000; \
+  dR = (__Dst >> 16) & 0xFF;			\
+  dG = (__Dst >> 8 ) & 0xFF;			\
+  dB = (__Dst      ) & 0xFF;			\
+} while(0)
+
 #endif				/* FC__GRAPHICS_H */

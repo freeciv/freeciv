@@ -35,7 +35,7 @@
 #include "fcintl.h"
 #include "game.h"
 
-
+#include "citydlg.h"
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
@@ -55,9 +55,10 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "log.h"
+#include "themecolors.h"
 
 #include "wldlg.h"
-#include "citydlg.h"
+
 
 #define TARGETS_COL		4
 #define TARGETS_ROW		4
@@ -1613,7 +1614,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   dst.w = adj_size(130);
   dst.h = adj_size(145);
   
-  c = *get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN);
+  c = *get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN);
   
   SDL_FillRect(pWindow->theme, &dst,
 		SDL_MapRGBA(pWindow->theme->format, c.r, c.g, c.b, c.unused));
@@ -1637,7 +1638,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     dst.w = adj_size(130);
     dst.h = adj_size(99);
 
-    c = *get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN);
+    c = *get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN);
       
     SDL_FillRect(pWindow->theme, &dst,
 		SDL_MapRGBA(pWindow->theme->format, c.r, c.g, c.b, c.unused));

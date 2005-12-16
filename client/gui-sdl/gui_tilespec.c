@@ -47,7 +47,7 @@
 #ifdef SMALL_SCREEN
   #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
   do {								  \
-    pSpr = themeset_lookup_sprite_tag_alt(themeset, tag, "", TRUE, "", ""); \
+    pSpr = theme_lookup_sprite_tag_alt(theme, tag, "", TRUE, "", ""); \
   pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		\
   assert(pStruct->pSurf != NULL);				\
     pStruct->pSurf = ZoomSurface(pStruct->pSurf, 0.5, 0.5, 0);    \
@@ -56,7 +56,7 @@
 #else
   #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
   do {								  \
-    pSpr = themeset_lookup_sprite_tag_alt(themeset, tag, "", TRUE, "", ""); \
+    pSpr = theme_lookup_sprite_tag_alt(theme, tag, "", TRUE, "", ""); \
     pStruct->pSurf = (pSpr ? GET_SURF(pSpr) : NULL);		  \
     assert(pStruct->pSurf != NULL);				  \
     pSpr->psurface = NULL;					  \
@@ -207,8 +207,8 @@ void reload_citizens_icons(int style)
   ...
 **************************************************************************/
 void tilespec_setup_city_gfx(void) {
-  struct sprite *pSpr = themeset_lookup_sprite_tag_alt(
-                                    themeset, "theme.city", "", TRUE, "", "");    
+  struct sprite *pSpr = theme_lookup_sprite_tag_alt(
+                                    theme, "theme.city", "", TRUE, "", "");    
 
   pCity_Surf = (pSpr ? adj_surf(GET_SURF(pSpr)) : NULL);
   
@@ -337,7 +337,7 @@ void tilespec_setup_theme(void)
   
   pTheme = MALLOC(sizeof(struct Theme));
   
-  if(!themeset_lookup_sprite_tag_alt(themeset, "theme.tech_tree", "", FALSE, "", "")) {  
+  if(!theme_lookup_sprite_tag_alt(theme, "theme.tech_tree", "", FALSE, "", "")) {  
     freelog(LOG_FATAL, "Your current tileset don't contains ""all"" GUI theme graphic\n"
     "Please use other tileset with ""full"" GUI graphic pack (use -t tileset options)\n"
     "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"

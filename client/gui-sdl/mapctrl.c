@@ -69,6 +69,7 @@
 #include "plrdlg.h"
 #include "overview_common.h"
 #include "log.h"
+#include "themecolors.h"
 
 #include "mapctrl.h"
 
@@ -996,7 +997,7 @@ static void popup_unitinfo_scale_dialog(void)
   
 
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), w, h);
     
   /* width left button */
   pBuf = pWindow->prev;

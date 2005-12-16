@@ -13,7 +13,7 @@
 
 /**********************************************************************
   Functions for handling the themespec files which describe
-  the files and contents of themesets.
+  the files and contents of themes.
   original author: David Pfitzner <dwp@mso.anu.edu.au>
 ***********************************************************************/
 
@@ -51,6 +51,7 @@
 #include "themes_common.h"
 
 #include "themespec.h"
+#include "themecolors.h"
 
 #include "gui_tilespec.h"
 
@@ -105,7 +106,7 @@ struct small_sprite {
     TYPED_LIST_ITERATE(struct small_sprite, list, pitem)
 #define small_sprite_list_iterate_end  LIST_ITERATE_END
 
-struct themeset {
+struct theme {
   char name[512];
   int priority;
 
@@ -121,9 +122,11 @@ struct themeset {
   struct hash_table *sprite_hash;
 
 /*  struct named_sprites sprites;*/
+  
+  struct theme_color_system *color_system;  
 };
 
-struct themeset *themeset;
+struct theme *theme;
 
 #define THEMESPEC_CAPSTR "+themespec3 duplicates_ok"
 /*
@@ -132,7 +135,7 @@ struct themeset *themeset;
  * +themespec3     -  basic format; required
  *
  * duplicates_ok  -  we can handle existence of duplicate tags
- *                   (lattermost tag which appears is used; themesets which
+ *                   (lattermost tag which appears is used; themes which
  *		     have duplicates should specify "+duplicates_ok")
  */
 
@@ -144,9 +147,9 @@ struct themeset *themeset;
 
 
 /****************************************************************************
-  Return the name of the given themeset.
+  Return the name of the given theme.
 ****************************************************************************/
-const char *themeset_get_name(const struct themeset *t)
+const char *theme_get_name(const struct theme *t)
 {
   return t->name;
 }
@@ -156,7 +159,7 @@ const char *themeset_get_name(const struct themeset *t)
   file can be found.  (It is left up to the GUI code to load and unload this
   file.)
 ****************************************************************************/
-const char *themeset_main_intro_filename(const struct themeset *t)
+const char *theme_main_intro_filename(const struct theme *t)
 {
   return t->main_intro_filename;
 }
@@ -166,7 +169,7 @@ const char *themeset_main_intro_filename(const struct themeset *t)
   file can be found.  (It is left up to the GUI code to load and unload this
   file.)
 ****************************************************************************/
-const char *themeset_mini_intro_filename(const struct themeset *t)
+const char *theme_mini_intro_filename(const struct theme *t)
 {
   return t->minimap_intro_filename;
 }
@@ -174,9 +177,9 @@ const char *themeset_mini_intro_filename(const struct themeset *t)
 /**************************************************************************
   Initialize.
 **************************************************************************/
-static struct themeset *themeset_new(void)
+static struct theme *theme_new(void)
 {
-  struct themeset *t = fc_calloc(1, sizeof(*t));
+  struct theme *t = fc_calloc(1, sizeof(*t));
 
   t->specfiles = specfile_list_new();
   t->small_sprites = small_sprite_list_new();
@@ -184,38 +187,38 @@ static struct themeset *themeset_new(void)
 }
 
 /**********************************************************************
-  Returns a static list of themesets available on the system by
+  Returns a static list of themes available on the system by
   searching all data directories for files matching THEMESPEC_SUFFIX.
   The list is NULL-terminated.
 ***********************************************************************/
-const char **get_themeset_list(void)
+const char **get_theme_list(void)
 {
-  static const char **themesets = NULL;
+  static const char **themes = NULL;
 
-  if (!themesets) {
+  if (!themes) {
     /* Note: this means you must restart the client after installing a new
-       themeset. */
+       theme. */
     char **list = datafilelist(THEMESPEC_SUFFIX);
     int i, count = 0;
 
     for (i = 0; list[i]; i++) {
-      struct themeset *t = themeset_read_toplevel(list[i]);
+      struct theme *t = theme_read_toplevel(list[i]);
 
       if (t) {
- 	themesets = fc_realloc(themesets, (count + 1) * sizeof(*themesets));
- 	themesets[count] = list[i];
+ 	themes = fc_realloc(themes, (count + 1) * sizeof(*themes));
+ 	themes[count] = list[i];
  	count++;
- 	themeset_free(t);
+ 	theme_free(t);
       } else {
 	free(list[i]);
       }
     }
 
-    themesets = fc_realloc(themesets, (count + 1) * sizeof(*themesets));
-    themesets[count] = NULL;
+    themes = fc_realloc(themes, (count + 1) * sizeof(*themes));
+    themes[count] = NULL;
   }
 
-  return themesets;
+  return themes;
 }
 
 /**********************************************************************
@@ -225,13 +228,13 @@ const char **get_themeset_list(void)
   Falls back to default if can't find specified name;
   dies if can't find default.
 ***********************************************************************/
-static char *themespec_fullname(const char *themeset_name)
+static char *themespec_fullname(const char *theme_name)
 {
-  if (themeset_name) {
-    char fname[strlen(themeset_name) + strlen(THEMESPEC_SUFFIX) + 1], *dname;
+  if (theme_name) {
+    char fname[strlen(theme_name) + strlen(THEMESPEC_SUFFIX) + 1], *dname;
 
     my_snprintf(fname, sizeof(fname),
-		"%s%s", themeset_name, THEMESPEC_SUFFIX);
+		"%s%s", theme_name, THEMESPEC_SUFFIX);
 
 /*    dname = datafilename(fname);*/
     dname = fname;
@@ -282,7 +285,7 @@ static bool check_themespec_capabilities(struct section_file *file,
 
   See themespec_read_toplevel().
 ***********************************************************************/
-static void themeset_free_toplevel(struct themeset *t)
+static void theme_free_toplevel(struct theme *t)
 {
   if (t->main_intro_filename) {
     free(t->main_intro_filename);
@@ -292,16 +295,21 @@ static void themeset_free_toplevel(struct themeset *t)
     free(t->minimap_intro_filename);
     t->minimap_intro_filename = NULL;
   }
+  
+  if (t->color_system) {
+    theme_color_system_free(t->color_system);
+    t->color_system = NULL;
+  }
 }
 
 /**************************************************************************
   Clean up.
 **************************************************************************/
-void themeset_free(struct themeset *t)
+void theme_free(struct theme *t)
 {
   if (t) {
-    themeset_free_tiles(t);
-    themeset_free_toplevel(t);
+    theme_free_sprites(t);
+    theme_free_toplevel(t);
     specfile_list_free(t->specfiles);
     small_sprite_list_free(t->small_sprites);
     free(t);
@@ -312,37 +320,37 @@ void themeset_free(struct themeset *t)
 /**********************************************************************
   Read a new themespec in when first starting the game.
 
-  Call this function with the (guessed) name of the themeset, when
+  Call this function with the (guessed) name of the theme, when
   starting the client.
 ***********************************************************************/
-void themespec_try_read(const char *themeset_name)
+void themespec_try_read(const char *theme_name)
 {
-  if (!(themeset = themeset_read_toplevel(themeset_name))) {
+  if (!(theme = theme_read_toplevel(theme_name))) {
     char **list = datafilelist(THEMESPEC_SUFFIX);
     int i;
 
     for (i = 0; list[i]; i++) {
-      struct themeset *t = themeset_read_toplevel(list[i]);
+      struct theme *t = theme_read_toplevel(list[i]);
 
       if (t) {
-	if (!themeset || t->priority > themeset->priority) {
-	  themeset = t;
+	if (!theme || t->priority > theme->priority) {
+	  theme = t;
 	} else {
-	  themeset_free(t);
+	  theme_free(t);
 	}
       }
       free(list[i]);
     }
     free(list);
 
-    if (!themeset) {
-      freelog(LOG_FATAL, _("No usable default themeset found, aborting!"));
+    if (!theme) {
+      freelog(LOG_FATAL, _("No usable default theme found, aborting!"));
       exit(EXIT_FAILURE);
     }
 
-    freelog(LOG_NORMAL, _("Trying \"%s\" themeset."), themeset->name);
+    freelog(LOG_NORMAL, _("Trying \"%s\" theme."), theme->name);
   }
-/*  sz_strlcpy(default_themeset_name, themeset_get_name(themeset));*/
+/*  sz_strlcpy(default_theme_name, theme_get_name(theme));*/
 }
 
 /**********************************************************************
@@ -350,24 +358,24 @@ void themespec_try_read(const char *themeset_name)
 
   Unlike the initial reading code, which reads pieces one at a time,
   this gets rid of the old data and reads in the new all at once.  If the
-  new themeset fails to load the old themeset may be reloaded; otherwise the
-  client will exit.  If a NULL name is given the current themeset will be
+  new theme fails to load the old theme may be reloaded; otherwise the
+  client will exit.  If a NULL name is given the current theme will be
   reread.
 
   It will also call the necessary functions to redraw the graphics.
 ***********************************************************************/
-void themespec_reread(const char *new_themeset_name)
+void themespec_reread(const char *new_theme_name)
 {
   struct tile *center_tile;
   enum client_states state = get_client_state();
-  const char *name = new_themeset_name ? new_themeset_name : themeset->name;
-  char themeset_name[strlen(name) + 1], old_name[strlen(themeset->name) + 1];
+  const char *name = new_theme_name ? new_theme_name : theme->name;
+  char theme_name[strlen(name) + 1], old_name[strlen(theme->name) + 1];
 
   /* Make local copies since these values may be freed down below */
-  sz_strlcpy(themeset_name, name);
-  sz_strlcpy(old_name, themeset->name);
+  sz_strlcpy(theme_name, name);
+  sz_strlcpy(old_name, theme->name);
 
-  freelog(LOG_NORMAL, "Loading themeset %s.", themeset_name);
+  freelog(LOG_NORMAL, "Loading theme %s.", theme_name);
 
   /* Step 0:  Record old data.
    *
@@ -379,20 +387,20 @@ void themespec_reread(const char *new_themeset_name)
    *
    * We free all old data in preparation for re-reading it.
    */
-  themeset_free_tiles(themeset);
-  themeset_free_toplevel(themeset);
+  theme_free_sprites(theme);
+  theme_free_toplevel(theme);
 
   /* Step 2:  Read.
    *
-   * We read in the new themeset.  This should be pretty straightforward.
+   * We read in the new theme.  This should be pretty straightforward.
    */
-  if (!(themeset = themeset_read_toplevel(themeset_name))) {
-    if (!(themeset = themeset_read_toplevel(old_name))) {
-      die("Failed to re-read the currently loaded themeset.");
+  if (!(theme = theme_read_toplevel(theme_name))) {
+    if (!(theme = theme_read_toplevel(old_name))) {
+      die("Failed to re-read the currently loaded theme.");
     }
   }
-/*  sz_strlcpy(default_themeset_name, themeset->name);*/
-  themeset_load_tiles(themeset);
+/*  sz_strlcpy(default_theme_name, theme->name);*/
+  theme_load_sprites(theme);
 
   /* Step 3: Setup
    *
@@ -406,7 +414,7 @@ void themespec_reread(const char *new_themeset_name)
    *
    * The below code just does things straightforwardly, by setting up
    * each possible sprite again.  Hopefully it catches everything, and
-   * doesn't mess up too badly if we change themesets while not connected
+   * doesn't mess up too badly if we change themes while not connected
    * to a server.
    */
   if (state < CLIENT_GAME_RUNNING_STATE) {
@@ -425,7 +433,7 @@ void themespec_reread(const char *new_themeset_name)
   }
   popdown_all_game_dialogs();
   generate_citydlg_dimensions();
-/*  themeset_changed();*/
+/*  theme_changed();*/
   can_slide = FALSE;
   center_tile_mapcanvas(center_tile);
   /* update_map_cavnas_visible forces a full redraw.  Otherwise with fast
@@ -515,7 +523,7 @@ static void ensure_big_sprite(struct specfile *sf)
   positions of the sprites in the big_sprite are saved in the
   small_sprite structs.
 **************************************************************************/
-static void scan_specfile(struct themeset *t, struct specfile *sf,
+static void scan_specfile(struct theme *t, struct specfile *sf,
 			  bool duplicates_ok)
 {
   struct section_file the_file, *file = &the_file;
@@ -683,7 +691,7 @@ static char *themespec_gfx_filename(const char *gfx_filename)
   Sets global variables, including tile sizes and full names for
   intro files.
 ***********************************************************************/
-struct themeset *themeset_read_toplevel(const char *themeset_name)
+struct theme *theme_read_toplevel(const char *theme_name)
 {
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
@@ -692,11 +700,11 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
   char **spec_filenames;
   char *file_capstr;
   bool duplicates_ok;
-  struct themeset *t = themeset_new();
+  struct theme *t = theme_new();
 
-  fname = themespec_fullname(themeset_name);
+  fname = themespec_fullname(theme_name);
   if (!fname) {
-    themeset_free(t);
+    theme_free(t);
     return NULL;
   }
   freelog(LOG_VERBOSE, "themespec file is %s", fname);
@@ -705,7 +713,7 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
     freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
     section_file_free(file);
     free(fname);
-    themeset_free(t);
+    theme_free(t);
     return NULL;
   }
 
@@ -713,7 +721,7 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
 				   THEMESPEC_CAPSTR, fname)) {
     section_file_free(file);
     free(fname);
-    themeset_free(t);
+    theme_free(t);
     return NULL;
   }
   
@@ -722,7 +730,7 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
 
   (void) section_file_lookup(file, "themespec.name"); /* currently unused */
 
-  sz_strlcpy(t->name, themeset_name);
+  sz_strlcpy(t->name, theme_name);
   t->priority = secfile_lookup_int(file, "themespec.priority");
   
   c = secfile_lookup_str(file, "themespec.main_intro_file");
@@ -739,7 +747,7 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
     freelog(LOG_ERROR, "No theme graphics files specified in \"%s\"", fname);
     section_file_free(file);
     free(fname);
-    themeset_free(t);
+    theme_free(t);
     return NULL;
   }
 
@@ -756,7 +764,7 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
     if (!dname) {
       section_file_free(file);
       free(fname);
-      themeset_free(t);
+      theme_free(t);
       return NULL;
     }
     sf->file_name = mystrdup(dname);
@@ -766,6 +774,8 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
   }
   free(spec_filenames);
 
+  t->color_system = theme_color_system_read(file);  
+  
   section_file_check_unused(file, fname);
   
   section_file_free(file);
@@ -781,7 +791,7 @@ struct themeset *themeset_read_toplevel(const char *themeset_name)
   counter is increased. Can return NULL if the sprite couldn't be
   loaded.
 **************************************************************************/
-static struct sprite *load_sprite(struct themeset *t, const char *tag_name)
+static struct sprite *load_sprite(struct theme *t, const char *tag_name)
 {
   /* Lookup information about where the sprite is found. */
   struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
@@ -831,7 +841,7 @@ static struct sprite *load_sprite(struct themeset *t, const char *tag_name)
   Unloads the sprite. Decrease the reference counter. If the last
   reference is removed the sprite is freed.
 **************************************************************************/
-static void unload_sprite(struct themeset *t, const char *tag_name)
+static void unload_sprite(struct theme *t, const char *tag_name)
 {
   struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
 
@@ -877,7 +887,7 @@ static void unload_sprite(struct themeset *t, const char *tag_name)
 
 #define SET_SPRITE_ALT_OPT(field, tag, alt)				    \
   do {									    \
-    t->sprites.field = themeset_lookup_sprite_tag_alt(t, tag, alt, FALSE,	    \
+    t->sprites.field = theme_lookup_sprite_tag_alt(t, tag, alt, FALSE,	    \
 					     "sprite", #field);		    \
   } while (FALSE)
 
@@ -885,7 +895,7 @@ static void unload_sprite(struct themeset *t, const char *tag_name)
   Initialize 'sprites' structure based on hardwired tags which the
   client always requires. 
 ***********************************************************************/
-static void themeset_lookup_sprite_tags(struct themeset *t)
+static void theme_lookup_sprite_tags(struct theme *t)
 {
   /* the 'sprites' structure is currently not used, for now we call some
    * functions in gui_tilespec.c instead */
@@ -901,7 +911,7 @@ static void themeset_lookup_sprite_tags(struct themeset *t)
   call.  This saves a fair amount of memory, but it will take extra time
   the next time we start loading sprites again.
 **************************************************************************/
-static void finish_loading_sprites(struct themeset *t)
+static void finish_loading_sprites(struct theme *t)
 {
   specfile_list_iterate(t->specfiles, sf) {
     if (sf->big_sprite) {
@@ -916,9 +926,9 @@ static void finish_loading_sprites(struct themeset *t)
   to sprites.   Also sets up and populates sprite_hash, and calls func
   to initialize 'sprites' structure.
 ***********************************************************************/
-void themeset_load_tiles(struct themeset *t)
+void theme_load_sprites(struct theme *t)
 {
-  themeset_lookup_sprite_tags(t);
+  theme_lookup_sprite_tags(t);
   finish_loading_sprites(t);
 }
 
@@ -926,7 +936,7 @@ void themeset_load_tiles(struct themeset *t)
   Lookup sprite to match tag, or else to match alt if don't find,
   or else return NULL, and emit log message.
 ***********************************************************************/
-struct sprite* themeset_lookup_sprite_tag_alt(struct themeset *t,
+struct sprite* theme_lookup_sprite_tag_alt(struct theme *t,
 					    const char *tag, const char *alt,
 					    bool required, const char *what,
 					    const char *name)
@@ -976,7 +986,7 @@ struct sprite* themeset_lookup_sprite_tag_alt(struct themeset *t,
   This patch unloads all sprites from the sprite hash (the hash itself
   is left intact).
 ****************************************************************************/
-static void unload_all_sprites(struct themeset *t)
+static void unload_all_sprites(struct theme *t)
 {
   if (t->sprite_hash) {
     int i, entries = hash_num_entries(t->sprite_hash);
@@ -995,7 +1005,7 @@ static void unload_all_sprites(struct themeset *t)
 /**********************************************************************
 ...
 ***********************************************************************/
-void themeset_free_tiles(struct themeset *t)
+void theme_free_sprites(struct theme *t)
 {
   int i;
 
@@ -1049,4 +1059,12 @@ void themeset_free_tiles(struct themeset *t)
 
   tilespec_free_theme();
   tilespec_free_city_icons();
+}
+
+/****************************************************************************
+  Return the theme's color system.
+****************************************************************************/
+struct theme_color_system *theme_get_color_system(const struct theme *t)
+{
+  return t->color_system;
 }

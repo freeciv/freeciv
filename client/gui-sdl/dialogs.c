@@ -80,6 +80,7 @@
 #include "tilespec.h"
 #include "text.h"
 #include "movement.h"
+#include "themecolors.h"
 
 #include "dialogs.h"
 
@@ -323,7 +324,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   pWindow->size.y = (Main.screen->h - h) / 2;
   
   resize_window(pWindow, NULL,
-  	get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
+  	get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), w, h);
 	
   dst.x = (pWindow->size.w - pHeadline->w) / 2;
   dst.y = WINDOW_TILE_HIGH + adj_size(11);
@@ -506,7 +507,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   }
     
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
 		ww + DOUBLE_FRAME_WH, hh);
   
   /* setup rest of widgets */
@@ -1004,7 +1005,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
 
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h, ptile);
   resize_window(pWindow, NULL,
-	  get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN),
+	  get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
 				  pWindow->size.w, pWindow->size.h);
   
   /* ------------------------ */
@@ -3987,7 +3988,7 @@ static int nation_button_callback(struct GUI *pNationButton)
     pWindow->size.y = (pWindow->dst->h - h) / 2;
   
     resize_window(pWindow, NULL,
-  	get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), w, h);
+  	get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), w, h);
   
     area.x = adj_size(10);
     area.y = WINDOW_TILE_HIGH + adj_size(10);

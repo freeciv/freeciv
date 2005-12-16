@@ -42,6 +42,7 @@
 #include "colors.h"
 #include "log.h"
 #include "dialogs_g.h"
+#include "themecolors.h"
 
 #include "diplodlg.h"
 
@@ -780,7 +781,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pWindow->size.y = (Main.screen->h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
   
   setup_vertical_widgets_position(1,
      pWindow->size.x + FRAME_WH + adj_size(2), pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2),
@@ -910,7 +911,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     pWindow->size.y = (Main.screen->h - hh) / 2;
   
     resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
 
     pBuf = pWindow->prev;
     pBuf->size.x = pWindow->size.x + adj_size(20);
@@ -1145,7 +1146,7 @@ static void popup_war_dialog(struct player *pPlayer)
   pWindow->size.y = (Main.screen->h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
 
   /* setup rest of widgets */
   /* label */
@@ -1334,7 +1335,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     pWindow->size.y = (Main.screen->h - hh) / 2;
   
     resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
 
     /* setup rest of widgets */
     /* label */

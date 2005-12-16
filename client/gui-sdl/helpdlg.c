@@ -51,6 +51,7 @@
 #include "tilespec.h"
 #include "gui_tilespec.h"
 #include "repodlgs.h"
+#include "themecolors.h"
 
 #include "helpdlg.h"
 
@@ -1113,7 +1114,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
         set_wstate(pBuf, FC_WS_NORMAL);
         if (is_wonder(imp))
         {
-	       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_STD_CITY_LUX);
+	       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITY_LUX);
         }
         pBuf->action = change_impr_callback;
         pBuf->ID = MAX_ID - imp;

@@ -3416,8 +3416,8 @@ SDL_Surface * get_logo_gfx(void)
 {
   SDL_Surface *pLogo;
         
-  SDL_Surface *pLogo_Surf = adj_surf(GET_SURF(themeset_lookup_sprite_tag_alt(
-                                  themeset, "theme.logo", "", TRUE, "", "")));
+  SDL_Surface *pLogo_Surf = adj_surf(GET_SURF(theme_lookup_sprite_tag_alt(
+                                  theme, "theme.logo", "", TRUE, "", "")));
   assert(pLogo_Surf != NULL);
   pLogo = SDL_CreateRGBSurface(SDL_SWSURFACE,
 			pLogo_Surf->w, pLogo_Surf->h,

@@ -55,6 +55,7 @@
 #include "wldlg.h"
 #include "colors.h"
 #include "connectdlg.h"
+#include "themecolors.h"
 
 #include "optiondlg.h"
 #include "options.h"
@@ -261,7 +262,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   /* No more worklist slots free. */
   if (j == MAX_NUM_WORKLISTS) {
     set_wstate(pWidget, FC_WS_DISABLED);
-    pWidget->string16->fgcol = *(get_game_colorRGB(COLOR_STD_DISABLED));
+    pWidget->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_DISABLED));
   }
   
   

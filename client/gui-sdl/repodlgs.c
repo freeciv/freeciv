@@ -59,6 +59,8 @@
 
 #include "mapview.h"
 #include "mapctrl.h"
+#include "themecolors.h"
+
 #include "repodlgs_common.h"
 #include "repodlgs.h"
 
@@ -262,7 +264,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
 		(pUnitsDlg->pEndWidgetList->size.h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
 		ww + DOUBLE_FRAME_WH, hh);
   
   /* setup rest of widgets */
@@ -1548,7 +1550,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
 		(pEconomyDlg->pEndWidgetList->size.h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_STD_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
 		ww + DOUBLE_FRAME_WH, hh);
   
   /* setup rest of widgets */

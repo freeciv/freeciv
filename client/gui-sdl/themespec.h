@@ -13,7 +13,7 @@
 
 /********************************************************************** 
   Reading and using the themespec files, which describe
-  the files and contents of themesets.
+  the files and contents of themes.
 ***********************************************************************/
 #ifndef FC__THEMESPEC_H
 #define FC__THEMESPEC_H
@@ -24,29 +24,32 @@
 
 struct sprite;			/* opaque; gui-dep */
 
-struct themeset;
+struct theme;
 
-extern struct themeset *themeset;
+extern struct theme *theme;
 
-const char **get_themeset_list(void);
+const char **get_theme_list(void);
 
-struct themeset *themeset_read_toplevel(const char *themeset_name);
-void themeset_free(struct themeset *themeset);
-void themeset_load_tiles(struct themeset *t);
-void themeset_free_tiles(struct themeset *t);
+struct theme *theme_read_toplevel(const char *theme_name);
+void theme_free(struct theme *theme);
+void theme_load_sprites(struct theme *t);
+void theme_free_sprites(struct theme *t);
 
-void themespec_try_read(const char *themeset_name);
-void themespec_reread(const char *themeset_name);
+void themespec_try_read(const char *theme_name);
+void themespec_reread(const char *theme_name);
 void themespec_reread_callback(struct client_option *option);
 
-struct sprite* themeset_lookup_sprite_tag_alt(struct themeset *t,
+struct sprite* theme_lookup_sprite_tag_alt(struct theme *t,
 					    const char *tag, const char *alt,
 					    bool required, const char *what,
 					    const char *name);
 
-/* Themeset accessor functions. */
-const char *themeset_get_name(const struct themeset *t);
-const char *themeset_main_intro_filename(const struct themeset *t);
-const char *themeset_mini_intro_filename(const struct themeset *t);
+struct theme_color_system;
+struct theme_color_system *theme_get_color_system(const struct theme *t);
+
+/* theme accessor functions. */
+const char *theme_get_name(const struct theme *t);
+const char *theme_main_intro_filename(const struct theme *t);
+const char *theme_mini_intro_filename(const struct theme *t);
 
 #endif  /* FC__THEMESPEC_H */

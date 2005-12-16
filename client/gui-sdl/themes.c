@@ -34,12 +34,12 @@ void gui_load_theme(const char *directory, const char *theme_name)
   char buf[strlen(directory) + strlen("/") + strlen(theme_name) + strlen("/theme") + 1];
   
   /* free previous loaded theme, if any */
-  themeset_free(themeset);
+  theme_free(theme);
   
   my_snprintf(buf, sizeof(buf), "%s/%s/theme", directory, theme_name);
   
   themespec_try_read(buf);
-  themeset_load_tiles(themeset);
+  theme_load_sprites(theme);
 }
 
 /*****************************************************************************
@@ -47,7 +47,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void gui_clear_theme(void)
 {
-  themeset_free(themeset);
+  theme_free(theme);
   load_theme(GUI_SDL_DEFAULT_THEME);
 }
 

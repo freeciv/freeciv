@@ -47,6 +47,8 @@
 #include "colors.h"
 #include "mapview.h"
 #include "diplodlg.h"
+#include "themecolors.h"
+
 #include "plrdlg.h"
 
 #ifndef M_PI
@@ -283,7 +285,7 @@ void update_players_dialog(void)
               break;
 	      case DS_ALLIANCE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-			  c = *get_game_colorRGB(COLOR_STD_CITY_GOLD);
+			  c = *get_game_colorRGB(COLOR_THEME_CITY_GOLD);
 	          putline(pPlayer1->dst, x0, y0, x1, y1,
 	    		SDL_MapRGBA(pPlayer1->dst->format, c.r, c.g, c.b, c.unused));			  
 	        }
@@ -497,7 +499,7 @@ void popup_players_dialog(bool raise)
 	  pStr->fgcol = (SDL_Color){0, 200, 0, 255};
         break;
 	case DS_ALLIANCE:
-	  pStr->fgcol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
+	  pStr->fgcol = *(get_game_colorRGB(COLOR_THEME_CITY_GOLD));
 	break;
         default:
 	   /* no contact */
@@ -693,7 +695,7 @@ void popup_players_nations_dialog(void)
             set_wstate(pBuf, FC_WS_NORMAL);
 	    pBuf->string16->fgcol = (SDL_Color){255, 0, 0, 255};
           } else {
-	    pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_RED_DISABLED));
+	    pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_RED_DISABLED));
 	  }
         break;
 	case DS_CEASEFIRE:
@@ -705,11 +707,11 @@ void popup_players_nations_dialog(void)
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
 	case DS_ALLIANCE:
-	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_CITY_GOLD));
+	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_CITY_GOLD));
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
 	case DS_NO_CONTACT:
-	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_STD_DISABLED));
+	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_DISABLED));
 	break;
         default:
 	  set_wstate(pBuf, FC_WS_NORMAL);

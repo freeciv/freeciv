@@ -43,6 +43,7 @@
 #include "gui_main.h"
 #include "mapview.h"
 #include "log.h"
+#include "themecolors.h"
 
 #include "gui_id.h"
 #include "gui_stuff.h"
@@ -687,12 +688,12 @@ void draw_widget_info_label(void)
   /*SDL_SetAlpha(pText, 0x0, 0x0);*/
   pWidget->string16->fgcol = color;
   
-  color = *get_game_colorRGB(COLOR_STD_QUICK_INFO);
+  color = *get_game_colorRGB(COLOR_THEME_QUICK_INFO);
   color.unused = 150;
 
 
   pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6), SDL_SWSURFACE,
-				get_game_colorRGB(COLOR_STD_QUICK_INFO));
+				get_game_colorRGB(COLOR_THEME_QUICK_INFO));
 
 
   /* callculate start position */
@@ -2858,7 +2859,7 @@ int real_redraw_icon2(struct GUI *pIcon)
   }
 
   if (state == FC_WS_DISABLED) {
-    SDL_Color c = *get_game_colorRGB(COLOR_STD_DISABLED);
+    SDL_Color c = *get_game_colorRGB(COLOR_THEME_DISABLED);
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
 	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
 	     SDL_MapRGBA(pIcon->dst->format, c.r, c.g, c.b, c.unused));

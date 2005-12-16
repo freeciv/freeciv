@@ -169,13 +169,16 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 /**************************************************************************
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
-void canvas_put_rectangle(struct canvas *pcanvas,
-		       struct color *pcolor,
-		       int canvas_x, int canvas_y, int width, int height)
+void canvas_put_rectangle(struct canvas *pcanvas, struct color *pcolor,
+		          int canvas_x, int canvas_y, int width, int height)
 {
   SDL_Rect dst = {canvas_x, canvas_y, width, height};
-  SDL_FillRect(pcanvas->surf, &dst,
-	    get_game_color(pcolor, pcanvas->surf));
+  
+  SDL_FillRect(pcanvas->surf, &dst, SDL_MapRGBA(pcanvas->surf->format,
+                                                pcolor->color->r,
+                                                pcolor->color->g,
+		                                 pcolor->color->b,
+                                                pcolor->color->unused));
 }
 
 /**************************************************************************
@@ -186,7 +189,11 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 		  int dx, int dy)
 {
   putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy,
-				get_game_color(pcolor, pcanvas->surf));
+                                    SDL_MapRGBA(pcanvas->surf->format,
+                                                pcolor->color->r,
+                                                pcolor->color->g,
+		                                 pcolor->color->b,
+                                                pcolor->color->unused));
 }
 
 /****************************************************************************
@@ -197,8 +204,13 @@ void canvas_fill_sprite_area(struct canvas *pcanvas,
  			     int canvas_x, int canvas_y)
 {
   SDL_Rect dst = {canvas_x, canvas_y, GET_SURF(psprite)->w,
-                  GET_SURF(psprite)->h};
-  SDL_FillRect(pcanvas->surf, &dst, get_game_color(pcolor, pcanvas->surf));
+                                      GET_SURF(psprite)->h};
+                  
+  SDL_FillRect(pcanvas->surf, &dst, SDL_MapRGBA(pcanvas->surf->format,
+                                                pcolor->color->r,
+                                                pcolor->color->g,
+		                                 pcolor->color->b,
+                                                pcolor->color->unused));
 }
 
 void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
