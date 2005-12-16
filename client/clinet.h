@@ -28,6 +28,8 @@ int connect_to_server(const char *username, const char *hostname, int port,
 int get_server_address(const char *hostname, int port, char *errbuf,
 		       int errbufsize);
 int try_to_connect(const char *username, char *errbuf, int errbufsize);
+void make_connection(int socket, const char *username);
+
 void input_from_server(int fd);
 void input_from_server_till_request_got_processed(int fd,
 						  int expected_request_id);

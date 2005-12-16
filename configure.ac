@@ -33,6 +33,8 @@ AC_DEFINE_UNQUOTED(VERSION_LABEL, "${VERSION_LABEL}", [Version label])
 AC_DEFINE_UNQUOTED(VERSION_STRING, "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}", [Version string])
 AC_DEFINE_UNQUOTED(IS_DEVEL_VERSION, $IS_DEVEL_VERSION, [Is this a devel version])
 AC_DEFINE_UNQUOTED(IS_BETA_VERSION, $IS_BETA_VERSION, [Is this a beta veersion])
+AC_SUBST(MAJOR_VERSION)
+AC_SUBST(MINOR_VERSION)
 
 dnl Initialize automake stuff
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -439,6 +441,9 @@ if test x$client != xno; then
   gui_sources="gui-$client"
 fi
 
+dnl Check for GGZ
+AC_GGZ_CHECK
+
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_CXXFLAGS)
@@ -670,6 +675,9 @@ AC_DEFINE_UNQUOTED([FC_STORE_CXXFLAGS], ["$CXXFLAGS"], [These are the CXXFLAGS u
 
 AC_CONFIG_FILES([Makefile
           data/Makefile
+	  data/civclient.dsc
+	  data/civserver.dsc
+	  data/civserver.room
 	  data/amplio/Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile

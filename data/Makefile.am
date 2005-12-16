@@ -36,6 +36,9 @@ EXTRA_DIST = \
 	freeciv-client.png \
 	freeciv.rc	\
 	freeciv.rc-2.0	\
+	civserver.dsc.in	\
+	civclient.dsc.in	\
+	civserver.room.in	\
 	amplio.tilespec	\
 	isophex.tilespec	\
 	isotrident.tilespec \
@@ -68,3 +71,19 @@ icondir = $(prefix)/share/pixmaps
 icon_DATA=$(ICONS)
 
 SUBDIRS = $(CLIENTDATADIRS) $(SERVERDATADIRS)
+
+if GGZ_CLIENT
+install-data-local:
+	$(GGZ_CONFIG) -D --install --modfile=civclient.dsc --force
+
+uninstall-local:
+	$(GGZ_CONFIG) -D --remove --modfile=civclient.dsc
+endif
+
+if GGZ_SERVER
+ggzroom_DATA = civserver.room
+ggzroomdir = ${prefix}/etc/ggzd/rooms/
+
+ggzgame_DATA = civserver.dsc
+ggzgamedir = ${prefix}/etc/ggzd/games/
+endif

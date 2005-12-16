@@ -79,6 +79,7 @@
 #include "connectdlg_common.h"
 #include "connectdlg_g.h"
 #include "dialogs_g.h"		/* popdown_races_dialog() */
+#include "ggzclient.h"
 #include "gui_main_g.h"		/* add_net_input(), remove_net_input() */
 #include "mapview_common.h"	/* unqueue_mapview_update */
 #include "menu_g.h"
@@ -124,6 +125,9 @@ static void close_socket_callback(struct connection *pc)
   client_kill_server(TRUE);
   append_output_window(_("Lost connection to server!"));
   freelog(LOG_NORMAL, "lost connection to server");
+  if (with_ggz) {
+    ui_exit();
+  }
 }
 
 /**************************************************************************
@@ -182,8 +186,6 @@ int get_server_address(const char *hostname, int port, char *errbuf,
 **************************************************************************/
 int try_to_connect(const char *username, char *errbuf, int errbufsize)
 {
-  struct packet_server_join_req req;
-
   close_socket_set_callback(close_socket_callback);
 
   /* connection in progress? wait. */
@@ -209,7 +211,20 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
 #endif
   }
 
+  make_connection(aconnection.sock, username);
+
+  return 0;
+}
+ 
+/**************************************************************************
+  Called after a connection is completed (e.g., in try_to_connect).
+**************************************************************************/
+void make_connection(int socket, const char *username)
+{
+  struct packet_server_join_req req;
+
   connection_common_init(&aconnection);
+  aconnection.sock = socket;
   aconnection.is_server = FALSE;
   aconnection.client.last_request_id_used = 0;
   aconnection.client.last_processed_request_id_seen = 0;
@@ -230,8 +245,6 @@ int try_to_connect(const char *username, char *errbuf, int errbufsize)
   sz_strlcpy(req.username, username);
   
   send_packet_server_join_req(&aconnection, &req);
-
-  return 0;
 }
 
 /**************************************************************************
@@ -252,6 +265,9 @@ void disconnect_from_server(void)
     client_kill_server(TRUE);
   }
   append_output_window(_("Disconnected from server."));
+  if (with_ggz) {
+    ui_exit();
+  }
 }  
 
 /**************************************************************************

@@ -548,6 +548,7 @@ void gamelog(int level, ...)
 		  team_get_name_orig(pteam));
       break;
     default:
+      assert(0);
       break;
     }
     cat_snprintf(buf, sizeof(buf), "<m>%s</m>", msg);

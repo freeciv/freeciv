@@ -118,7 +118,7 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
 
 bin_PROGRAMS = civclient
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@ @LIBGGZ_INCLUDES@ @GGZMOD_INCLUDES@
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
@@ -145,6 +145,8 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 	colors_common.h		\
 	control.c	\
 	control.h	\
+	ggzclient.c	\
+	ggzclient.h	\
 	goto.c		\
 	goto.h		\
 	helpdata.c	\
@@ -182,7 +184,7 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 	audio_none.c    \
 	audio_none.h
 
-civclient_LDFLAGS = @CLIENT_LDFLAGS@
+civclient_LDFLAGS = @CLIENT_LDFLAGS@ @GGZMOD_LDFLAGS@
 fc_civclient_libs =	../utility/libcivutility.a	\
 			$(LIBFTWL)			\
 			../common/libcivcommon.a	\
@@ -191,7 +193,7 @@ fc_civclient_libs =	../utility/libcivutility.a	\
 		 	@gui_sources@/libguiclient.a
 civclient_DEPENDENCIES = $(fc_civclient_libs)
 civclient_LDADD        = $(fc_civclient_libs) $(fc_civclient_libs) \
-	@INTLLIBS@ @CLIENT_LIBS@ @SOUND_LIBS@
+	@INTLLIBS@ @CLIENT_LIBS@ @SOUND_LIBS@ @LIB_GGZMOD@
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = \
 	freeciv.desktop

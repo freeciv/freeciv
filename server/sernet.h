@@ -27,6 +27,8 @@ void flush_packets(void);
 int sniff_packets(void);
 void close_connections_and_socket(void);
 void init_connections(void);
+int server_make_connection(int new_sock,
+			   const char *client_addr, const char *client_ip);
 void close_connection(struct connection *pconn);
 void handle_conn_pong(struct connection *pconn);
 

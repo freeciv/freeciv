@@ -1,0 +1,28 @@
+# GGZ Server game description file for Freeciv
+
+[GameInfo]
+Author = See http://www.freeciv.org/people.phtml
+Description = Freeciv strategy game
+Homepage = http://www.freeciv.org/
+Name = Freeciv
+Version = @VERSION@
+
+[LaunchInfo]
+ExecutablePath = @prefix@/bin/civserver -z -q 180 -e
+
+[Protocol]
+Engine = Freeciv
+Version = @MAJOR_VERSION@.@MINOR_VERSION@
+
+[TableOptions]
+AllowLeave = 1
+# Freeciv bots are handled internally, but aren't visible to GGZ
+#BotsAllowed = 
+PlayersAllowed = 1..30
+# This should be 0, but civserver doesn't exit correctly in pregame
+KillWhenEmpty = 1
+AllowSpectators = 0
+
+[Statistics]
+Records = 1
+Ratings = 1

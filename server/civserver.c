@@ -41,6 +41,7 @@
 #include "version.h"
 
 #include "console.h"
+#include "ggzserver.h"
 #include "meta.h"
 #include "sernet.h"
 #include "srv_main.h"
@@ -176,6 +177,10 @@ int main(int argc, char *argv[])
       srvarg.saves_pathname = option; /* Never freed. */
     } else if (is_option("--version", argv[inx]))
       showvers = TRUE;
+#ifdef GGZ_SERVER
+    else if (is_option("--zone", argv[inx]))
+      with_ggz = TRUE;
+#endif
     else {
       fc_fprintf(stderr, _("Error: unknown option '%s'\n"), argv[inx]);
       showhelp = TRUE;
@@ -231,12 +236,17 @@ int main(int argc, char *argv[])
 	       _("  -S, --Serverid ID\tSets the server id to ID\n"));
     fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
     fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+#ifdef GGZ_SERVER
+    fc_fprintf(stderr, _("  -z, --zone\t\tEnable GGZ mode\n"));
+#endif
     fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
     exit(EXIT_SUCCESS);
   }
 
   /* disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_server");
+
+  ggz_initialize();
 
   /* have arguments, call the main server loop... */
   srv_main();

@@ -55,6 +55,7 @@
 #include "dialogs.h"
 #include "diplodlg.h"
 #include "gotodlg.h"
+#include "ggzclient.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
@@ -1581,6 +1582,14 @@ static void get_net_input(gpointer data, gint fid, GdkInputCondition condition)
 }
 
 /**************************************************************************
+  Callback for when the GGZ socket has data pending.
+**************************************************************************/
+static void get_ggz_input(gpointer data, gint fid, GdkInputCondition condition)
+{
+  input_from_ggz(fid);
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 static void set_wait_for_writable_socket(struct connection *pc,
@@ -1621,6 +1630,15 @@ void remove_net_input(void)
 {
   gtk_input_remove(input_id);
   gdk_window_set_cursor(root_window, NULL);
+}
+
+/**************************************************************************
+  Called to monitor a GGZ socket.
+**************************************************************************/
+void add_ggz_input(int sock)
+{
+  (void) gtk_input_add_full(sock, GDK_INPUT_READ, get_ggz_input,
+			    NULL, NULL, NULL);
 }
 
 /****************************************************************

@@ -7,7 +7,8 @@ noinst_LIBRARIES = libcivserver.a
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai \
 	-I../intl -I$(top_srcdir)/common/aicore -I$(srcdir)/userdb \
-	-I$(srcdir)/generator -I$(srcdir)/scripting
+	-I$(srcdir)/generator -I$(srcdir)/scripting \
+	@LIBGGZ_INCLUDES@ @GGZDMOD_INCLUDES@
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
@@ -42,6 +43,8 @@ libcivserver_a_SOURCES = \
 		gamelog.h	\
 		gotohand.c	\
 		gotohand.h	\
+		ggzserver.c	\
+		ggzserver.h	\
 		handchat.c	\
 		handchat.h	\
 		hand_gen.h	\
@@ -89,6 +92,7 @@ civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
       ./generator/libgenerator.a $(USER_DB_DEP)
+civserver_LDFLAGS = @GGZDMOD_LDFLAGS@
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a @INTLLIBS@ \
       ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
@@ -98,7 +102,7 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/liblua.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
-      $(USER_DB_LIB) $(SERVER_LIBS)
+      $(USER_DB_LIB) $(SERVER_LIBS) @LIB_GGZDMOD@
 
 
 

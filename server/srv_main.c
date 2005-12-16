@@ -78,6 +78,7 @@
 #include "diplhand.h"
 #include "gamehand.h"
 #include "gamelog.h"
+#include "ggzserver.h"
 #include "handchat.h"
 #include "maphand.h"
 #include "meta.h"
@@ -215,6 +216,7 @@ bool check_for_game_over(void)
   if (game.info.year > game.info.end_year) {
     notify_conn(game.est_connections, NULL, E_GAME_END, 
 		_("Game ended in a draw as end year exceeded"));
+    ggz_report_victory();
     gamelog(GAMELOG_JUDGE, GL_DRAW, 
             "Game ended in a draw as end year exceeded");
     return TRUE;
@@ -263,10 +265,18 @@ bool check_for_game_over(void)
     if (!loner) {
       notify_conn(NULL, NULL, E_GAME_END,
                   _("Team victory to %s"), team_get_name_orig(victor->team));
+      players_iterate(pplayer) {
+	if (pplayer->team == victor->team) {
+	  ggz_report_victor(pplayer);
+	}
+      } players_iterate_end;
+      ggz_report_victory();
       gamelog(GAMELOG_JUDGE, GL_TEAMWIN, victor->team);
     } else {
       notify_conn(NULL, NULL, E_GAME_END,
                   _("Game ended in victory for %s"), victor->name);
+      ggz_report_victor(victor);
+      ggz_report_victory();
       gamelog(GAMELOG_JUDGE, GL_LONEWIN, victor);
     }
 
@@ -290,6 +300,12 @@ bool check_for_game_over(void)
     if (win) {
       notify_conn(game.est_connections, NULL, E_GAME_END,
 		     _("Team victory to %s"), team_get_name_orig(pteam));
+      players_iterate(pplayer) {
+	if (pplayer->is_alive) {
+	  ggz_report_victor(pplayer);
+	}
+      } players_iterate_end;
+      ggz_report_victory();
       gamelog(GAMELOG_JUDGE, GL_TEAMWIN, pteam);
       return TRUE;
     }
@@ -299,11 +315,14 @@ bool check_for_game_over(void)
   if (alive == 1) {
     notify_conn(game.est_connections, NULL, E_GAME_END,
 		   _("Game ended in victory for %s"), victor->name);
+    ggz_report_victor(victor);
+    ggz_report_victory();
     gamelog(GAMELOG_JUDGE, GL_LONEWIN, victor);
     return TRUE;
   } else if (alive == 0) {
     notify_conn(game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw"));
+    ggz_report_victory();
     gamelog(GAMELOG_JUDGE, GL_DRAW);
     return TRUE;
   }
@@ -1694,7 +1713,9 @@ void srv_main(void)
 
   /* init network */  
   init_connections(); 
-  server_open_socket();
+  if (!with_ggz) {
+    server_open_socket();
+  }
 
   /* load a saved game */
   if (srvarg.load_filename[0] != '\0') {

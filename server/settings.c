@@ -22,6 +22,7 @@
 #include "map.h"
 
 #include "gamelog.h"
+#include "ggzserver.h"
 #include "report.h"
 #include "settings.h"
 #include "srv_main.h"
@@ -152,6 +153,15 @@ static bool startunits_callback(const char *value, const char **error_string)
 *************************************************************************/
 static bool maxplayers_callback(int value, const char **error_string)
 {
+#ifdef GGZ_SERVER
+  if (with_ggz) {
+    /* In GGZ mode the maxplayers is the number of actual players - set
+     * when the game is lauched and not changed thereafter.  This may be
+     * changed in future. */
+    *error_string = _("Cannot change maxplayers in GGZ mode.");
+    return FALSE;
+  }
+#endif
   if (value < game.info.nplayers) {
     *error_string =_("Number of players is higher than requested value; "
 		     "Keeping old value.");

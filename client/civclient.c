@@ -55,6 +55,7 @@
 #include "control.h" 
 #include "dialogs_g.h"
 #include "diplodlg_g.h"
+#include "ggzclient.h"
 #include "goto.h"
 #include "gui_main_g.h"
 #include "helpdata.h"		/* boot_help_texts() */
@@ -221,6 +222,9 @@ int main(int argc, char *argv[])
       fc_fprintf(stderr, _("  -t, --tiles FILE\t"
 			   "Use data file FILE.tilespec for tiles\n"));
       fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+#ifdef GGZ_CLIENT
+    fc_fprintf(stderr, _("  -z, --zone\t\tEnable GGZ mode\n"));
+#endif
       fc_fprintf(stderr, _("      --\t\t"
 			   "Pass any following options to the UI.\n"
 			   "\t\t\tTry \"%s -- --help\" for more.\n"), argv[0]);
@@ -271,6 +275,10 @@ int main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--tiles", argv, &i, argc))) {
       sz_strlcpy(tileset_name, option);
       free(option);
+#ifdef GGZ_CLIENT
+    } else if (is_option("--zone", argv[i])) {
+      with_ggz = TRUE;
+#endif
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {
@@ -346,6 +354,8 @@ int main(int argc, char *argv[])
 
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);
+
+  ggz_initialize();
 
   /* run gui-specific client */
   ui_main(argc, argv);

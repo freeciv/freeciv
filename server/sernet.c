@@ -76,6 +76,7 @@
 
 #include "connecthand.h"
 #include "console.h"
+#include "ggzserver.h"
 #include "meta.h"
 #include "plrhand.h"
 #include "srv_main.h"
@@ -576,9 +577,18 @@ int sniff_packets(void)
 #endif
     }
 
-    FD_SET(sock, &readfs);
-    FD_SET(sock, &exceptfs);
-    max_desc = sock;
+    if (with_ggz) {
+#ifdef GGZ_SERVER
+      int ggz_sock = get_ggz_socket();
+
+      FD_SET(ggz_sock, &readfs);
+      max_desc = MAX(sock, ggz_sock);
+#endif
+    } else {
+      FD_SET(sock, &readfs);
+      FD_SET(sock, &exceptfs);
+      max_desc = sock;
+    }
 
     for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
       if (connections[i].used) {
@@ -635,15 +645,15 @@ int sniff_packets(void)
       }
     }
 
-    if (FD_ISSET(sock, &exceptfs)) {
-      /* handle Ctrl-Z suspend/resume */
-      continue;
-    }
-    if (FD_ISSET(sock, &readfs)) {
-      /* new players connects */
-      freelog(LOG_VERBOSE, "got new connection");
-      if (server_accept_connection(sock) == -1) {
-	freelog(LOG_ERROR, "failed accepting connection");
+    if (!with_ggz) { /* No listening socket when using GGZ. */
+      if (FD_ISSET(sock, &exceptfs)) {	     /* handle Ctrl-Z suspend/resume */
+	continue;
+      }
+      if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
+	freelog(LOG_VERBOSE, "got new connection");
+	if(server_accept_connection(sock)==-1) {
+	  freelog(LOG_ERROR, "failed accepting connection");
+	}
       }
     }
     for (i = 0; i < MAX_NUM_CONNECTIONS; i++) {
@@ -656,6 +666,17 @@ int sniff_packets(void)
 	close_socket_callback(pconn);
       }
     }
+#ifdef GGZ_SERVER
+    if (with_ggz) {
+      /* This is intentionally after all the player socket handling because
+       * it may cut a client. */
+      int ggz_sock = get_ggz_socket();
+
+      if (FD_ISSET(ggz_sock, &readfs)) {
+	input_from_ggz(ggz_sock);
+      }
+    }
+#endif
     
 #ifdef SOCKET_ZERO_ISNT_STDIN
     if (!no_input && (bufptr = my_read_console())) {
@@ -782,7 +803,6 @@ static int server_accept_connection(int sockfd)
   int new_sock;
   union my_sockaddr fromend;
   struct hostent *from;
-  int i;
 
   fromlen = sizeof(fromend);
 
@@ -791,11 +811,27 @@ static int server_accept_connection(int sockfd)
     return -1;
   }
 
-  my_nonblock(new_sock);
-
   from =
       gethostbyaddr((char *) &fromend.sockaddr_in.sin_addr,
 		    sizeof(fromend.sockaddr_in.sin_addr), AF_INET);
+
+  return server_make_connection(new_sock,
+				(from ? from->h_name
+				 : inet_ntoa(fromend.sockaddr_in.sin_addr)),
+				inet_ntoa(fromend.sockaddr_in.sin_addr));
+}
+
+/********************************************************************
+  Server accepts connection from client:
+  Low level socket stuff, and basic-initialize the connection struct.
+  Returns 0 on success, -1 on failure (bad accept(), or too many
+  connections).
+********************************************************************/
+int server_make_connection(int new_sock, const char *client_addr, const char *client_ip)
+{
+  int i;
+
+  my_nonblock(new_sock);
 
   for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
     struct connection *pconn = &connections[i];
@@ -822,11 +858,8 @@ static int server_accept_connection(int sockfd)
       pconn->outgoing_packet_notify = NULL;
 
       sz_strlcpy(pconn->username, makeup_connection_name(&pconn->id));
-      sz_strlcpy(pconn->addr,
-		 (from ? from->
-		  h_name : inet_ntoa(fromend.sockaddr_in.sin_addr)));
-      sz_strlcpy(pconn->server.ipaddr,
-                 inet_ntoa(fromend.sockaddr_in.sin_addr));
+      sz_strlcpy(pconn->addr, client_addr);
+      sz_strlcpy(pconn->server.ipaddr, client_ip);
 
       conn_list_append(game.all_connections, pconn);
   
@@ -1037,6 +1070,10 @@ static void get_lanserver_announcement(void)
   int type;
   fd_set readfs, exceptfs;
   struct timeval tv;
+
+  if (with_ggz) {
+    return;
+  }
 
   FD_ZERO(&readfs);
   FD_ZERO(&exceptfs);
