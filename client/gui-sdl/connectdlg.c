@@ -59,7 +59,7 @@
 
 
 static struct server_list *pServer_list = NULL;
-static struct server_scan *pServer_scan = NULL;    
+static struct server_scan *pServer_scan = NULL; 
     
 static struct ADVANCED_DLG *pMeta_Severs = NULL;
 static struct SMALL_DLG *pStartMenu = NULL;
@@ -167,10 +167,12 @@ static void server_scan_error(struct server_scan *scan,
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:
     server_scan_finish(pServer_scan);
+    pServer_scan = NULL;
     pServer_list = NULL;
     break;
   case SERVER_SCAN_GLOBAL:
     server_scan_finish(pServer_scan);
+    pServer_scan = NULL;
     pServer_list = NULL;
     break;
   case SERVER_SCAN_LAST:
@@ -185,15 +187,28 @@ static void server_scan_error(struct server_scan *scan,
 **************************************************************************/
 static struct server_list *sdl_create_server_list(bool lan)
 {
+  struct server_list *server_list = NULL;
+    
   if (lan) {
     pServer_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);      
     } else {
     pServer_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);      
     }
 
-  SDL_Delay(5000);
+  assert(pServer_scan);
   
-  return server_scan_get_servers(pServer_scan);
+  SDL_Delay(5000);
+    
+  int i;
+  for (i = 0; i < 100; i++) {
+    server_list = server_scan_get_servers(pServer_scan);
+    if (server_list) {
+      break;
+    }
+    SDL_Delay(100);
+  }
+  
+  return server_list;
 }
 
 
@@ -242,7 +257,7 @@ static int severs_callback(struct GUI *pWidget)
   
   FREESURFACE(pLogo);
   FREESTRING16(pStr);
-  
+
   pServer_list = sdl_create_server_list(lan_scan);
 
   popup_meswin_dialog(true);        
@@ -281,7 +296,7 @@ static int severs_callback(struct GUI *pWidget)
   /* ------------------------------ */
   
   server_list_iterate(pServer_list, pServer) {
-    
+
     my_snprintf(cBuf, sizeof(cBuf), "%s Port %s Ver: %s %s %s %s\n%s",
     	pServer->host, pServer->port, pServer->version, _(pServer->state),
     		_("Players"), pServer->nplayers, pServer->message);
@@ -308,6 +323,17 @@ static int severs_callback(struct GUI *pWidget)
     }
     
   } server_list_iterate_end;
+
+  if(!count) {
+    if (lan_scan) {
+      append_output_window("No LAN servers found"); 
+    } else {
+      append_output_window("No public servers found"); 
+    }        
+    real_update_meswin_dialog();
+    popup_join_game_callback(NULL);
+    return -1;
+  }
   
   pMeta_Severs->pBeginWidgetList = pNewWidget;
   pMeta_Severs->pBeginActiveWidgetList = pNewWidget;
