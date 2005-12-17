@@ -69,6 +69,7 @@
 #include "timing.h"
 #include "version.h"
 
+#include "auth.h"
 #include "barbarian.h"
 #include "cityhand.h"
 #include "citytools.h"

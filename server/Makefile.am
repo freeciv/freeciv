@@ -1,12 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS=	userdb generator scripting
+SUBDIRS=	generator scripting
 
 bin_PROGRAMS = civserver
 noinst_LIBRARIES = libcivserver.a
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai \
-	-I../intl -I$(top_srcdir)/common/aicore -I$(srcdir)/userdb \
+	-I../intl -I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \
 	@LIBGGZ_INCLUDES@ @GGZDMOD_INCLUDES@
 
@@ -19,6 +19,8 @@ civserver_SOURCES = \
 libcivserver_a_SOURCES = \
 		airgoto.c	\
 		airgoto.h	\
+		auth.c		\
+		auth.h		\
 		barbarian.c	\
 		barbarian.h	\
 		cityhand.c	\
@@ -91,7 +93,7 @@ civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/liblua.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
-      ./generator/libgenerator.a $(USER_DB_DEP)
+      ./generator/libgenerator.a $(AUTH_DEPS)
 civserver_LDFLAGS = @GGZDMOD_LDFLAGS@
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a @INTLLIBS@ \
@@ -102,7 +104,7 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/liblua.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
-      $(USER_DB_LIB) $(SERVER_LIBS) @LIB_GGZDMOD@
+      $(AUTH_LIBS) $(SERVER_LIBS) @LIB_GGZDMOD@
 
 
 

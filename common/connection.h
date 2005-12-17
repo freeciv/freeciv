@@ -187,11 +187,12 @@ struct connection {
     struct timer_list *ping_timers;
    
     /* Holds number of tries for authentication from client. */
-    int authentication_tries;
+    int auth_tries;
 
-    /* the time that the server will reply after receiving an auth reply.
-     * this is used to throttle the connection. */
-    time_t authentication_stop;
+    /* the time that the server will respond after receiving an auth reply.
+     * this is used to throttle the connection. Also used to reject a 
+     * connection if we've waited too long for a password. */
+    time_t auth_settime;
 
     /* used to follow where the connection is in the authentication process */
     enum auth_status status;

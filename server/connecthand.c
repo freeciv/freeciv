@@ -29,7 +29,7 @@
 #include "support.h"
 #include "version.h"
 
-#include "user_db.h"
+#include "auth.h"
 #include "diplhand.h"
 #include "gamehand.h"
 #include "gamelog.h"
@@ -43,25 +43,6 @@
 
 #include "connecthand.h"
 
-#define GUEST_NAME "guest"
-
-#define MIN_PASSWORD_LEN  6  /* minimum length of password */
-#define MIN_PASSWORD_CAPS 0  /* minimum number of capital letters required */
-#define MIN_PASSWORD_NUMS 0  /* minimum number of numbers required */
-
-#define MAX_AUTHENTICATION_TRIES 3
-
-/* after each wrong guess for a password, the server waits this
- * many seconds to reply to the client */
-static const int auth_fail_period[] = { 1, 1, 2, 3 };
-
-static void establish_new_connection(struct connection *pconn);
-static void reject_new_connection(const char *msg, struct connection *pconn);
-
-static bool is_guest_name(const char *name);
-static void get_unique_guest_name(char *name);
-static bool is_good_password(const char *password, char *msg);
-
 /**************************************************************************
   This is used when a new player joins a server, before the game
   has started.  If pconn is NULL, is an AI, else a client.
@@ -69,7 +50,7 @@ static bool is_good_password(const char *password, char *msg);
   N.B. this only attachs a connection to a player if 
        pconn->name == player->username
 **************************************************************************/
-static void establish_new_connection(struct connection *pconn)
+void establish_new_connection(struct connection *pconn)
 {
   struct conn_list *dest = pconn->self;
   struct player *pplayer;
@@ -203,7 +184,7 @@ static void establish_new_connection(struct connection *pconn)
 /**************************************************************************
   send the rejection packet to the client.
 **************************************************************************/
-static void reject_new_connection(const char *msg, struct connection *pconn)
+void reject_new_connection(const char *msg, struct connection *pconn)
 {
   struct packet_server_join_reply packet;
 
@@ -295,253 +276,12 @@ bool handle_login_request(struct connection *pconn,
   } conn_list_iterate_end;
 
   if (srvarg.auth_enabled) {
-    /* assign the client a unique guest name/reject if guests aren't allowed */
-    if (is_guest_name(req->username)) {
-      if (srvarg.auth_allow_guests) {
-        char old_guest_name[MAX_LEN_NAME];
-
-        sz_strlcpy(old_guest_name, req->username);
-        get_unique_guest_name(req->username);
-
-        if (strncmp(old_guest_name, req->username, MAX_LEN_NAME) != 0) {
-          notify_conn(pconn->self, NULL, E_CONNECTION,
-		      _("Warning: the guest name '%s' has been "
-			"taken, renaming to user '%s'."),
-                      old_guest_name, req->username);
-        }
-      } else {
-        reject_new_connection(_("Guests are not allowed on this server. "
-                                "Sorry."), pconn);
-        return FALSE;
-      }
-    } else {
-      /* we are not a guest, we need an extra check as to whether a 
-       * connection can be established: the client must authenticate itself */
-      char tmpname[MAX_LEN_NAME] = "\0";
-      char buffer[MAX_LEN_MSG];
-
-      sz_strlcpy(pconn->username, req->username);
-
-      switch(user_db_load(pconn)) {
-      case USER_DB_ERROR:
-        if (srvarg.auth_allow_guests) {
-          sz_strlcpy(tmpname, pconn->username);
-          get_unique_guest_name(tmpname); /* don't pass pconn->username here */
-          sz_strlcpy(pconn->username, tmpname);
-
-          freelog(LOG_ERROR, "Error reading database; connection -> guest");
-          notify_conn(pconn->self, NULL, E_CONNECTION,
-		      _("There was an error reading the user "
-			"database, logging in as guest "
-			"connection '%s'."), pconn->username);
-          establish_new_connection(pconn);
-        } else {
-          reject_new_connection(_("There was an error reading the user "
-                                  "database and guest logins are not "
-                                  "allowed. Sorry"), pconn);
-          return FALSE;
-        }
-        break;
-      case USER_DB_SUCCESS:
-        /* we found a user */
-        my_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
-                    pconn->username);
-        dsend_packet_authentication_req(pconn, AUTH_LOGIN_FIRST, buffer);
-        pconn->server.status = AS_REQUESTING_OLD_PASS;
-        break;
-      case USER_DB_NOT_FOUND:
-        /* we couldn't find the user, he is new */
-        if (srvarg.auth_allow_newusers) {
-          sz_strlcpy(buffer, _("Enter a new password (and remember it)."));
-          dsend_packet_authentication_req(pconn, AUTH_NEWUSER_FIRST, buffer);
-          pconn->server.status = AS_REQUESTING_NEW_PASS;
-        } else {
-          reject_new_connection(_("This server allows only preregistered "
-                                  "users. Sorry."), pconn);
-          return FALSE;
-        }
-        break;
-      default:
-        assert(0);
-        break;
-      }
-      return TRUE;
-    }
-  }
-
-  sz_strlcpy(pconn->username, req->username);
-  establish_new_connection(pconn);
-  return TRUE;
-}
-
-/**************************************************************************
- sniff_packets calls this when pconn->server.authentication_stop == time(NULL)
- after an authentication fails
-**************************************************************************/
-void unfail_authentication(struct connection *pconn)
-{
-  assert(pconn->server.status == AS_FAILED);
-
-  if (pconn->server.authentication_tries >= MAX_AUTHENTICATION_TRIES) {
-    pconn->server.status = AS_NOT_ESTABLISHED;
-    reject_new_connection(_("Sorry, too many wrong tries..."), pconn);
-    close_connection(pconn);
+    return authenticate_user(pconn, req->username);
   } else {
-    struct packet_authentication_req request;
-
-    pconn->server.status = AS_REQUESTING_OLD_PASS;
-    request.type = AUTH_LOGIN_RETRY;
-    sz_strlcpy(request.message,
-               _("Your password is incorrect. Try again."));
-    send_packet_authentication_req(pconn, &request);
-  }
-}
-
-/**************************************************************************
-  Receives a password from a client and verifies it.
-**************************************************************************/
-bool handle_authentication_reply(struct connection *pconn, char *password)
-{
-  char msg[MAX_LEN_MSG];
-
-  if (pconn->server.status == AS_REQUESTING_NEW_PASS) {
-
-    /* check if the new password is acceptable */
-    if (!is_good_password(password, msg)) {
-      if (pconn->server.authentication_tries++ >= MAX_AUTHENTICATION_TRIES) {
-        reject_new_connection(_("Sorry, too many wrong tries..."), pconn);
-	return FALSE;
-      } else {
-        dsend_packet_authentication_req(pconn, AUTH_NEWUSER_RETRY,msg);
-	return TRUE;
-      }
-    }
-
-    /* the new password is good, create a database entry for
-     * this user; we establish the connection in handle_db_lookup */
-    sz_strlcpy(pconn->server.password, password);
-
-    switch(user_db_save(pconn)) {
-    case USER_DB_SUCCESS:
-      break;
-    case USER_DB_ERROR:
-      notify_conn(pconn->self, NULL, E_CONNECTION,
-		  _("Warning: There was an error in saving "
-		    "to the database. Continuing, but your "
-		    "stats will not be saved."));
-      freelog(LOG_ERROR, "Error writing to database for %s", pconn->username);
-      break;
-    default:
-      assert(0);
-    }
-
+    sz_strlcpy(pconn->username, req->username);
     establish_new_connection(pconn);
-  } else if (pconn->server.status == AS_REQUESTING_OLD_PASS) { 
-    if (userdb_check_password(pconn, password, strlen(password)) == 1) {
-      pconn->server.status = AS_ESTABLISHED;
-      establish_new_connection(pconn);
-    } else {
-      pconn->server.status = AS_FAILED;
-      pconn->server.authentication_tries++;
-      pconn->server.authentication_stop = time(NULL) + 
-                          auth_fail_period[pconn->server.authentication_tries];
-    }
-  } else {
-    freelog(LOG_VERBOSE, "%s is sending unrequested auth packets", 
-            pconn->username);
-    return FALSE;
+    return TRUE;
   }
-
-  return TRUE;
-}
-
-/**************************************************************************
-  see if the name qualifies as a guest login name
-**************************************************************************/
-static bool is_guest_name(const char *name)
-{
-  return (mystrncasecmp(name, GUEST_NAME, strlen(GUEST_NAME)) == 0);
-}
-
-/**************************************************************************
-  return a unique guest name
-  WARNING: do not pass pconn->username to this function: it won't return!
-**************************************************************************/
-static void get_unique_guest_name(char *name)
-{
-  unsigned int i;
-
-  /* first see if the given name is suitable */
-  if (is_guest_name(name) && !find_conn_by_user(name)) {
-    return;
-  } 
-
-  /* next try bare guest name */
-  mystrlcpy(name, GUEST_NAME, MAX_LEN_NAME);
-  if (!find_conn_by_user(name)) {
-    return;
-  }
-
-  /* bare name is taken, append numbers */
-  for (i = 1; ; i++) {
-    my_snprintf(name, MAX_LEN_NAME, "%s%u", GUEST_NAME, i);
-
-
-    /* attempt to find this name; if we can't we're good to go */
-    if (!find_conn_by_user(name)) {
-      break;
-    }
-  }
-}
-
-/**************************************************************************
- Verifies that a password is valid. Does some [very] rudimentary safety 
- checks. TODO: do we want to frown on non-printing characters?
- Fill the msg (length MAX_LEN_MSG) with any worthwhile information that 
- the client ought to know. 
-**************************************************************************/
-static bool is_good_password(const char *password, char *msg)
-{
-  int i, num_caps = 0, num_nums = 0;
-   
-  /* check password length */
-  if (strlen(password) < MIN_PASSWORD_LEN) {
-    my_snprintf(msg, MAX_LEN_MSG,
-                _("Your password is too short, the minimum length is %d. "
-                  "Try again."), MIN_PASSWORD_LEN);
-    return FALSE;
-  }
- 
-  my_snprintf(msg, MAX_LEN_MSG,
-              _("The password must have at least %d capital letters, %d "
-                "numbers, and be at minimum %d [printable] characters long. "
-                "Try again."), 
-              MIN_PASSWORD_CAPS, MIN_PASSWORD_NUMS, MIN_PASSWORD_LEN);
-
-  for (i = 0; i < strlen(password); i++) {
-    if (my_isupper(password[i])) {
-      num_caps++;
-    }
-    if (my_isdigit(password[i])) {
-      num_nums++;
-    }
-  }
-
-  /* check number of capital letters */
-  if (num_caps < MIN_PASSWORD_CAPS) {
-    return FALSE;
-  }
-
-  /* check number of numbers */
-  if (num_nums < MIN_PASSWORD_NUMS) {
-    return FALSE;
-  }
-
-  if (!is_ascii_name(password)) {
-    return FALSE;
-  }
-
-  return TRUE;
 }
 
 /**************************************************************************

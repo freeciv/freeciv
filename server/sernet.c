@@ -74,6 +74,7 @@
 #include "support.h"
 #include "timing.h"
 
+#include "auth.h"
 #include "connecthand.h"
 #include "console.h"
 #include "ggzserver.h"
@@ -547,10 +548,8 @@ int sniff_packets(void)
 
     /* if we've waited long enough after a failure, respond to the client */
     conn_list_iterate(game.all_connections, pconn) {
-      if (pconn->server.status == AS_FAILED
-          && pconn->server.authentication_stop > 0
-          && time(NULL) >= pconn->server.authentication_stop) {
-        unfail_authentication(pconn);
+      if (srvarg.auth_enabled && pconn->server.status != AS_ESTABLISHED) {
+        process_authentication_status(pconn);
       }
     } conn_list_iterate_end
 
@@ -847,8 +846,8 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
       pconn->is_server = TRUE;
       pconn->server.currently_processed_request_id = 0;
       pconn->server.last_request_id_seen = 0;
-      pconn->server.authentication_tries = 0;
-      pconn->server.authentication_stop = 0;
+      pconn->server.auth_tries = 0;
+      pconn->server.auth_settime = 0;
       pconn->server.status = AS_NOT_ESTABLISHED;
       pconn->server.ping_timers =
 	  fc_malloc(sizeof(*pconn->server.ping_timers));
