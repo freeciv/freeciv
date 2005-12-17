@@ -22,8 +22,6 @@
 #ifndef FC__DIALOGS_H
 #define FC__DIALOGS_H
 
-#include "fcintl.h"
-
 #include "dialogs_g.h"
 
 struct GUI;

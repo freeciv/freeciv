@@ -23,40 +23,35 @@
 #include <config.h>
 #endif
 
-#include <errno.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "support.h"
 
+/* client */
 #include "civclient.h"
-#include "chatline.h"
 #include "clinet.h"
 #include "packhand.h"
-
-#include "gui_mem.h"
-
-#include "graphics.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
-#include "gui_tilespec.h"
-#include "gui_id.h"
 #include "servers.h"
 
+/* gui-sdl */
+#include "chatline.h"
+#include "graphics.h"
+#include "gui_iconv.h"
+#include "gui_id.h"
 #include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "gui_tilespec.h"
 #include "gui_zoom.h"
 #include "mapview.h"
-#include "optiondlg.h"
 #include "messagewin.h"
+#include "optiondlg.h"
+
 #include "connectdlg.h"
-
-#include "colors.h"
-
 
 static struct server_list *pServer_list = NULL;
 static struct server_scan *pServer_scan = NULL; 

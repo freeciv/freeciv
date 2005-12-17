@@ -15,14 +15,14 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 
+/* gui-sdl */
 #include "graphics.h"
 #include "gui_dither.h"
 

@@ -23,45 +23,31 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include <SDL/SDL.h>
-
-#include "gui_mem.h"
-
+/* utility */
 #include "fcintl.h"
-#include "log.h"
+
+/* common */
 #include "game.h"
 #include "government.h"
-#include "packets.h"
-#include "shared.h"
-#include "support.h"
 
-#include "cityrep.h"
+/* client */
 #include "civclient.h"
 #include "clinet.h"
+
+/* gui-sdl */
+#include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
-#include "colors.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_string.h"
-#include "gui_zoom.h"
-#include "gui_stuff.h"
-#include "helpdlg.h"
-#include "optiondlg.h"
+#include "gui_mem.h"
 #include "gui_tilespec.h"
-#include "tilespec.h"
-
-#include "mapview.h"
+#include "gui_zoom.h"
+#include "helpdlg.h"
 #include "mapctrl.h"
+#include "mapview.h"
 #include "themecolors.h"
 
-#include "repodlgs_common.h"
 #include "repodlgs.h"
 
 
@@ -1884,14 +1870,11 @@ void popup_economy_report_dialog(bool make_modal)
   if(entries_used) {
     
     /* Create Imprv Background Icon */
-    pMain = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
-    pSurf = SDL_DisplayFormatAlpha(pMain);
-    SDL_FillRect(pSurf, NULL, SDL_MapRGBA(pSurf->format, color.r,
+    pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
+    
+    SDL_FillRect(pMain, NULL, SDL_MapRGBA(pMain->format, color.r,
 					    color.g, color.b, color.unused));
-    putframe(pSurf, 0, 0, pSurf->w - 1, pSurf->h - 1, 0xFF000000);
-    FREESURFACE(pMain);
-    pMain = pSurf;
-    pSurf = NULL;
+    putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1, 0xFF000000);
     
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -2338,9 +2321,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
 
   pText = create_text_surf_smaller_that_w(pStr, 100 - 4);  
   
-  pTmp = create_surf(w, h, SDL_SWSURFACE);
-  pSurf = SDL_DisplayFormatAlpha(pTmp);
-  FREESURFACE(pTmp);
+  pSurf = create_surf_alpha(w, h, SDL_SWSURFACE);
   
   if (get_player_research(game.player_ptr)->researching == tech_id)
   {

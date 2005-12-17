@@ -14,6 +14,8 @@
 #ifndef FC__HELPDLG_H
 #define FC__HELPDLG_H
 
+#include "tech.h"
+
 #include "helpdlg_g.h"
 
 void popup_tech_info(Tech_type_id tech);

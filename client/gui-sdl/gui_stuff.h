@@ -24,8 +24,8 @@
 
 #include "fc_types.h"
 
-#include "gui_mem.h"
 #include "gui_main.h"
+#include "gui_string.h"
 
 #ifdef SMALL_SCREEN
 #define	FRAME_WH		2

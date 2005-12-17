@@ -30,6 +30,8 @@
  * This must be a single-width encoding. */
 #define INTERNAL_ENCODING "UTF-8"
 
+#include <SDL/SDL.h>
+
 Uint16 *convertcopy_to_utf16(Uint16 *pToUniString, size_t ulenght,
 			      const char *pFromString);
 char *convertcopy_to_chars(char *pToString, size_t lenght,

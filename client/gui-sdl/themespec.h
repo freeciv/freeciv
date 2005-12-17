@@ -18,8 +18,6 @@
 #ifndef FC__THEMESPEC_H
 #define FC__THEMESPEC_H
 
-#include "fc_types.h"
-
 #include "options.h"
 
 struct sprite;			/* opaque; gui-dep */

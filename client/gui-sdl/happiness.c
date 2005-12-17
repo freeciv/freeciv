@@ -14,23 +14,7 @@
 #include <config.h>
 #endif
 
-#include <SDL/SDL.h>
-
-#include "city.h"
-#include "fcintl.h"
-#include "game.h"
-#include "government.h"
-
-#include "gui_mem.h"
-
-#include "support.h"
-
-#include "graphics.h"
-#include "gui_main.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
 #include "happiness.h"
-#include "tilespec.h"
 
 /* semi-arbitrary number that controls the width of the happiness widget */
 #define HAPPINESS_PIX_WIDTH 23

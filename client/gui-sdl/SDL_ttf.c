@@ -51,7 +51,6 @@
 #include "SDL.h"
 #include "SDL_endian.h"
 #include "SDL_ttf.h"
-#include "graphics.h"
 
 #ifdef HAVE_MMX1
 #include "mmx.h"

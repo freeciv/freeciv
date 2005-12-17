@@ -17,8 +17,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
-#include "log.h"
-#include "shared.h"
+/* gui-sdl */
 #include "themespec.h"
 
 #include "themes_common.h"

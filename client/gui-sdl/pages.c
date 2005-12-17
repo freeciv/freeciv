@@ -15,8 +15,11 @@
 #include <config.h>
 #endif
 
-#include "connectdlg_g.h"
+/* utility */
 #include "log.h"
+
+/* gui-sdl */
+#include "connectdlg.h"
 
 #include "pages.h"
 

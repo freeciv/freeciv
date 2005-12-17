@@ -237,6 +237,9 @@ int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
 		      SDL_Color *pColor);
 
 /* ================================================================= */
+
+extern struct main Main;
+  
 extern SDL_Cursor *pStd_Cursor;
 extern SDL_Cursor *pGoto_Cursor;
 extern SDL_Cursor *pDrop_Cursor;
@@ -254,6 +257,8 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 
 #define create_surf(w, h, f) \
 	create_surf_with_format(Main.screen->format , w , h, f)
+
+SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags);
 
 #define crop_rect_from_screen(rect) \
 		crop_rect_from_surface(Main.screen, &rect)

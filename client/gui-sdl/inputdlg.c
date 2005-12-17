@@ -15,15 +15,4 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-
-#include <SDL/SDL.h>
-
-#include "fcintl.h"
-
-#include "graphics.h"
-#include "gui_main.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
-
 #include "inputdlg.h"

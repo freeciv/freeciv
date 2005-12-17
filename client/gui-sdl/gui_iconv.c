@@ -47,8 +47,10 @@
 #define ICONV_CONST	const
 #endif /* ICONV_CONST */
 
+/* gui-sdl */
 #include "gui_mem.h"
 #include "unistring.h"
+
 #include "gui_iconv.h"
 
 /**************************************************************************

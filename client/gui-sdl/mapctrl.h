@@ -22,7 +22,11 @@
 #ifndef FC__MAPCTRL_H
 #define FC__MAPCTRL_H
 
+#include <SDL/SDL.h>
+
 #include "fc_types.h"
+
+#include "gui_main.h"
 
 #include "mapctrl_g.h"
 

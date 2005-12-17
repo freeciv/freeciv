@@ -26,8 +26,6 @@
 
 #include "tilespec.h"
 
-#include "citydlg_common.h"	/* struct citizen_type */
-  
 struct Theme {
 	SDL_Surface *Button;
 	SDL_Surface *Edit;

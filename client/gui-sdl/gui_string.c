@@ -24,19 +24,20 @@
 #endif
 
 #include <assert.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "support.h"
 
+/* gui-sdl */
+#include "graphics.h"
+#include "gui_iconv.h"
 #include "gui_main.h"
 #include "gui_mem.h"
-#include "graphics.h"
 #include "unistring.h"
+
 #include "gui_string.h"
 
 #define DEFAULT_PTSIZE	18

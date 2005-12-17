@@ -22,6 +22,8 @@
 #ifndef FC__GUI_DITHER_H
 #define FC__GUI_DITHER_H
 
+#include <SDL/SDL.h>
+
 void dither_surface(SDL_Surface * pDither, SDL_Surface * pMask,
                     SDL_Surface * pDest,
                     int mask_offset_x, int mask_offset_y);

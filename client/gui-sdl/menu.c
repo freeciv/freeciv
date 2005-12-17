@@ -23,34 +23,27 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
-#include "map.h"
 
-#include "gui_mem.h"
-#include "support.h"
-#include "unit.h"
-
+/* client */
 #include "civclient.h" /* get_client_state */
-#include "clinet.h" /* aconection */
 #include "control.h"
-#include "gotodlg.h"
-#include "dialogs.h"
-#include "graphics.h"
-#include "gui_string.h"
-#include "gui_stuff.h"		/* gui */
-#include "gui_id.h"
-#include "gui_tilespec.h"
-#include "gui_main.h"
 
-#include "helpdlg.h"
-#include "mapctrl.h"		/* center_on_unit */
+/* gui-sdl */
+#include "dialogs.h"
+#include "gotodlg.h"
+#include "graphics.h"
+#include "gui_iconv.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"		/* gui */
+#include "gui_tilespec.h"
+#include "mapctrl.h"
 #include "mapview.h"
-#include "log.h"
 
 #include "menu.h"
 

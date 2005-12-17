@@ -15,34 +15,26 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include <SDL/SDL.h>
 
-#include "support.h"
+/* utility */
 #include "fcintl.h"
 
+/* common */
 #include "game.h"
-#include "player.h"
-#include "map.h"
 
-#include "gui_main.h"
-#include "graphics.h"
-#include "gui_zoom.h"
-#include "gui_tilespec.h"
-
-#include "gui_string.h"
-#include "gui_stuff.h"
-#include "gui_id.h"
+/* gui-sdl */
 #include "colors.h"
-
-#include "mapview.h"
+#include "graphics.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "gui_tilespec.h"
 #include "mapctrl.h"
-#include "dialogs.h"
-#include "tilespec.h"
+#include "mapview.h"
 
 #include "finddlg.h"
 

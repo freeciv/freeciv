@@ -23,12 +23,13 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <string.h>
 
 #include <SDL/SDL_types.h>
 
+/* gui-sdl */
 #include "gui_mem.h"
+
 #include "unistring.h"
 
 /**************************************************************************

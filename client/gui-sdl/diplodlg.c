@@ -15,33 +15,33 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
+#include "log.h"
 
+/* common */
 #include "game.h"
 
-#include "gui_mem.h"
-#include "player.h"
-#include "shared.h"
-#include "support.h"
-
-#include "chatline.h"
+/* client */
+#include "civclient.h"
 #include "climisc.h"
 #include "clinet.h"
-#include "civclient.h"
-#include "diptreaty.h"
-#include "graphics.h"
-#include "gui_main.h"
-#include "gui_id.h"
-#include "gui_tilespec.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
-#include "mapview.h"
+#include "packhand.h"
+
+/* gui-sdl */
+#include "chatline.h"
 #include "colors.h"
-#include "log.h"
-#include "dialogs_g.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "gui_iconv.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "gui_tilespec.h"
+#include "mapview.h"
 #include "themecolors.h"
 
 #include "diplodlg.h"

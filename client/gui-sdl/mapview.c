@@ -23,57 +23,34 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <string.h>
-
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
+/* #define SDL_CVS */
 
 #include <SDL/SDL.h>
 
-/* #define SDL_CVS */
-
-#include "gui_mem.h"
-
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"		/* government_graphic() */
 #include "log.h"
-#include "map.h"
-#include "player.h"
-#include "rand.h"
-#include "support.h"
 
+/* common */
+#include "game.h"
+#include "government.h"
+
+/* client */
 #include "civclient.h"
 #include "climisc.h"
-#include "climap.h"
-#include "colors.h"
-#include "control.h"
-#include "goto.h"
-
-#include "chatline.h"
-
-#include "graphics.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
-#include "gui_id.h"
-#include "gui_zoom.h"
-#include "gui_main.h"
-#include "gui_tilespec.h"
 #include "overview_common.h"
-#include "log.h"
-
-#include "menu.h"
-#include "dialogs.h" /*sdl_map_get_tile_info_text(...)*/
-#include "mapctrl.h"
-#include "options.h"
-#include "tilespec.h"
-#include "citydlg.h"
-#include "cma_fe.h"
-#include "gui_dither.h"
-#include "timing.h"
 #include "text.h"
+
+/* gui-sdl */
+#include "dialogs.h" /*sdl_map_get_tile_info_text(...)*/
+#include "graphics.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "gui_zoom.h"
+#include "mapctrl.h"
+
 #include "mapview.h"
 
 extern SDL_Event *pFlush_User_Event;

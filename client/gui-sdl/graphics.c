@@ -25,41 +25,26 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <assert.h>
 
-#include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-
-#include <SDL/SDL_version.h>
 #include <SDL/SDL_syswm.h>
 
-#include "game.h"
-
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 
-#include "shared.h"
-#include "support.h"
-#include "unit.h"
-#include "version.h"
+/* client */
+#include "tilespec.h"
 
-#include "climisc.h"
-#include "colors.h"
-
-#include "gui_iconv.h"
-
-#include "mapview_g.h"
-#include "options.h"
-#include "themespec.h"
-#include "gui_mem.h"
-#include "graphics.h"
-#include "gui_zoom.h"
-#include "gui_main.h"
-#include "gui_string.h"
-#include "gui_dither.h"
+/* gui-sdl */
+#include "SDL_ttf.h"
 #include "gui_tilespec.h"
+#include "gui_zoom.h"
+#include "mapview.h"
+#include "themespec.h"
+
+#include "graphics.h"
 
 #ifdef HAVE_MMX1
 #include "mmx.h"
@@ -205,6 +190,17 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat * pSpf,
   }
 
   return pSurf;
+}
+
+/**************************************************************************
+  create a surface with alpha channel
+**************************************************************************/
+SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags) {
+  SDL_Surface *pTmp = create_surf(iWidth, iHeight, iFlags);
+  SDL_Surface *pNew = SDL_DisplayFormatAlpha(pTmp);
+  FREESURFACE(pTmp);
+  
+  return pNew;
 }
 
 /**************************************************************************

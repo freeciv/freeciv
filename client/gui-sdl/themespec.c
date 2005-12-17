@@ -26,34 +26,27 @@
 #include <stdlib.h>		/* exit */
 #include <string.h>
 
-#include "astring.h"
+/* utility */
 #include "capability.h"
 #include "fcintl.h"
-#include "government.h"
 #include "hash.h"
 #include "log.h"
-#include "map.h"
-#include "mem.h"
-#include "nation.h"
-#include "player.h"
 #include "registry.h"
-#include "shared.h"
-#include "support.h"
-#include "unit.h"
 
-#include "dialogs_g.h"
-#include "graphics_g.h"
-#include "gui_main_g.h"
-#include "mapview_g.h"		/* for update_map_canvas_visible */
-#include "themes_g.h"
+/* common */
+#include "game.h"
 
+/* client */
 #include "civclient.h"		/* for get_client_state() */
-#include "themes_common.h"
 
-#include "themespec.h"
+/* gui-sdl */
+#include "dialogs.h"
+#include "gui_tilespec.h"
+#include "mapview.h"
+#include "sprite.h"
 #include "themecolors.h"
 
-#include "gui_tilespec.h"
+#include "themespec.h"
 
 #define THEMESPEC_SUFFIX ".themespec"
 

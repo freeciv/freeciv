@@ -23,55 +23,37 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
-#include "city.h"
+/* utility */
+#include "fcintl.h"
+
+/* common */
+#include "game.h"
+
+/* client */
 #include "civclient.h"
 #include "climisc.h"
-#include "climap.h"
-#include "fcintl.h"
-#include "game.h"
-#include "map.h"
-#include "improvement.h"
-#include "log.h"
-
-#include "packets.h"
-#include "player.h"
-#include "shared.h"
-#include "support.h"
+#include "clinet.h"
+#include "control.h"
 #include "text.h"
 
+/* gui-sdl */
 #include "cityrep.h"
 #include "cma_fe.h"
 #include "colors.h"
-#include "control.h"
-#include "clinet.h"
 #include "dialogs.h"
 #include "graphics.h"
-#include "gui_main.h"
+#include "gui_iconv.h"
 #include "gui_id.h"
+#include "gui_main.h"
 #include "gui_mem.h"
-#include "gui_string.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
-#include "happiness.h"
-#include "helpdlg.h"
-#include "inputdlg.h"
-#include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
-#include "optiondlg.h"
-#include "options.h"
-#include "repodlgs.h"
 #include "themecolors.h"
-#include "tilespec.h"
 #include "wldlg.h"
 
 #include "citydlg.h"

@@ -14,8 +14,6 @@
 #ifndef FC__SDL_CMA_H
 #define FC__SDL_CMA_H
 
-#include "fc_types.h"
-
 #include "cma_core.h"
 
 void update_city_cma_dialog(void);

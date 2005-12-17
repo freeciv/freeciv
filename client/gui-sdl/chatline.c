@@ -23,39 +23,32 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
 
-#include "gui_mem.h"
-
+/* common */
+#include "game.h"
 #include "packets.h"
-#include "support.h"
 
-#include "climisc.h"
-#include "clinet.h"
+/* client */
 #include "civclient.h"
+#include "clinet.h"
 
-#include "colors.h"
+/* gui-sdl */
+#include "dialogs.h"
 #include "graphics.h"
-#include "unistring.h"
-#include "gui_string.h"
+#include "gui_iconv.h"
 #include "gui_id.h"
-#include "gui_stuff.h"
-#include "gui_zoom.h"
 #include "gui_main.h"
-#include "gui_tilespec.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
 #include "mapview.h"
 #include "messagewin.h"
-#include "chatline.h"
-#include "log.h"
-#include "dialogs.h"
+#include "unistring.h"
 
-#include "connectdlg.h"
+#include "chatline.h"
 
 #define PTSIZE_LOG_FONT adj_font(10)
 

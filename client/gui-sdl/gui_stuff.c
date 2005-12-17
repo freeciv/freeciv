@@ -23,29 +23,21 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
-#include "fcintl.h"
-#include "support.h"
-
-#include "options.h"
+/* gui-sdl */
 #include "colors.h"
-
 #include "graphics.h"
-#include "unistring.h"
-#include "gui_string.h"
-#include "gui_zoom.h"
-#include "gui_tilespec.h"
-#include "gui_main.h"
-#include "mapview.h"
-#include "log.h"
-#include "themecolors.h"
-
+#include "gui_iconv.h"
 #include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_tilespec.h"
+#include "gui_zoom.h"
+#include "mapview.h"
+#include "themecolors.h"
+#include "unistring.h"
+
 #include "gui_stuff.h"
 
 struct GUI *pSellected_Widget;

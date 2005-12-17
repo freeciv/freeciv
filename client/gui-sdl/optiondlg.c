@@ -24,41 +24,40 @@
 #endif
 
 #include <stdlib.h>
-#include <string.h>
 
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
-#include "support.h"
-
-#include "gui_mem.h"
 #include "log.h"
+
+/* common */
+#include "fc_types.h"
+#include "game.h"
+
+/* client */
+#include "civclient.h"
+#include "climisc.h"
 #include "clinet.h"
 
-#include "graphics.h"
-#include "unistring.h"
-#include "gui_string.h"
-#include "gui_id.h"
-#include "gui_stuff.h"
-#include "gui_zoom.h"
-#include "gui_tilespec.h"
-#include "gui_main.h"
-
-#include "civclient.h"
-#include "chatline.h"
-#include "menu.h"
-#include "dialogs.h"
-#include "control.h"
-#include "mapctrl.h"
-#include "mapview.h"
-#include "messagewin.h"
-#include "wldlg.h"
+/* gui-sdl */
 #include "colors.h"
 #include "connectdlg.h"
+#include "dialogs.h"
+#include "graphics.h"
+#include "gui_iconv.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "gui_tilespec.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "menu.h"
 #include "themecolors.h"
+#include "wldlg.h"
 
 #include "optiondlg.h"
-#include "options.h"
 
 static struct OPT_DLG {
   struct GUI *pBeginOptionsWidgetList;

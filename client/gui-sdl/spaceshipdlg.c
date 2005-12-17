@@ -15,44 +15,25 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <SDL/SDL.h>
-
+/* utility */
 #include "fcintl.h"
+
+/* common */
 #include "game.h"
-#include "genlist.h"
-#include "map.h"
-
-#include "gui_mem.h"
-
 #include "packets.h"
-#include "player.h"
-#include "shared.h"
-#include "support.h"
 
+/* client */
 #include "clinet.h"
-#include "colors.h"
-#include "dialogs.h"
+#include "text.h"
+
+/* gui-sdl */
 #include "graphics.h"
-#include "gui_main.h"
 #include "gui_id.h"
-#include "gui_string.h"
+#include "gui_main.h"
+#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
-#include "gui_zoom.h"
-
-#include "helpdlg.h"
-#include "inputdlg.h"
-#include "mapctrl.h"
 #include "mapview.h"
-#include "repodlgs.h"
-#include "spaceship.h"
-#include "tilespec.h"
-#include "climisc.h"
-#include "text.h"
 
 #include "spaceshipdlg.h"
 

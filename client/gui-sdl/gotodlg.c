@@ -15,36 +15,31 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "map.h"
-#include "packets.h"
-#include "player.h"
-#include "support.h"
-#include "unit.h"
 
-#include "tilespec.h"
-#include "clinet.h"
+/* common */
+#include "game.h"
+
+/* client */
 #include "civclient.h"
 #include "control.h"
-#include "dialogs.h"
+#include "goto.h"
+
+/* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
-#include "gui_main.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
 #include "gui_id.h"
-#include "gui_zoom.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
 #include "gui_tilespec.h"
+#include "gui_zoom.h"
 #include "mapview.h"
-#include "goto.h"
 
 #include "gotodlg.h"
 

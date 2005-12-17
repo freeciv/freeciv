@@ -22,43 +22,37 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 
 #include <SDL/SDL.h>
 
-
-#include "gui_mem.h"
-
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 
+/* common */
+#include "game.h"
+#include "unit.h"
+
+/* client */
+#include "climisc.h"
+
+/* gui-sdl */
 #include "citydlg.h"
+#include "colors.h"
 #include "graphics.h"
+#include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_string.h"
-#include "gui_zoom.h"
+#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
-#include "mapview.h"
-#include "colors.h"
-
+#include "gui_zoom.h"
 #include "helpdlg.h"
-#include "inputdlg.h"
-
-#include "packets.h"
-#include "worklist.h"
-#include "support.h"
-#include "climisc.h"
-#include "clinet.h"
-#include "log.h"
+#include "mapview.h"
 #include "themecolors.h"
 
 #include "wldlg.h"
-
 
 #define TARGETS_COL		4
 #define TARGETS_ROW		4
@@ -1018,7 +1012,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   SDL_String16 *pStr = NULL;
   struct GUI *pBuf = NULL, *pWindow, *pLast;
   SDL_Surface *pText = NULL, *pText_Name = NULL, *pZoom = NULL;
-  SDL_Surface *pMain = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
+  SDL_Surface *pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
   SDL_Surface *pIcon, *pDest;
   SDL_Color color = {255,255,255,128};
   SDL_Color c;
@@ -1050,13 +1044,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* --------------- */
   /* create Target Background Icon */
-  pIcon = SDL_DisplayFormatAlpha(pMain);
-  SDL_FillRect(pIcon, NULL, SDL_MapRGBA(pIcon->format, color.r,
+  SDL_FillRect(pMain, NULL, SDL_MapRGBA(pMain->format, color.r,
 					    color.g, color.b, color.unused));
-  putframe(pIcon, 0, 0, pIcon->w - 1, pIcon->h - 1, 0xFF000000);
-  FREESURFACE(pMain);
-  pMain = pIcon;
-  pIcon = NULL;
+  putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1, 0xFF000000);
     
   /* ---------------- */
   /* Create Main Window */

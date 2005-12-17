@@ -25,12 +25,12 @@
 
 #include <SDL/SDL.h>
 
+/* client */
 #include "tilespec.h"
-#include "mem.h"
-#include "log.h"
 
-#include "themespec.h"
+/* gui-sdl */
 #include "themecolors.h"
+#include "themespec.h"
 
 #include "colors.h"
 

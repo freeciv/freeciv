@@ -23,10 +23,7 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <errno.h>
-#include <stdlib.h>
-#include <string.h>
 
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
@@ -42,55 +39,33 @@
 
 #include <SDL/SDL.h>
 
-#include "gui_main.h"
-
+/* utility */
+#include "fciconv.h"
 #include "fcintl.h"
-#include "fciconv.h"
 #include "log.h"
-#include "shared.h"
-#include "support.h"
 
-#include "gui_mem.h"
-
-#include "game.h"
-#include "map.h"
-#include "version.h"
-
-#include "gui_string.h"
-#include "gui_stuff.h"		/* gui */
-#include "gui_id.h"
-#include "gui_zoom.h"
-
-#include "chatline.h"
+/* client */
 #include "civclient.h"
-#include "climisc.h"
 #include "clinet.h"
-#include "colors.h"
-#include "connectdlg.h"
-#include "control.h"
-#include "dialogs.h"
-#include "gotodlg.h"
+#include "tilespec.h"
+
+/* gui-sdl */
+#include "chatline.h"
+#include "citydlg.h"
+#include "cityrep.h"
 #include "graphics.h"
-#include "fciconv.h"
-
-#include "timing.h"
-
-#include "helpdata.h"		/* boot_help_texts() */
+#include "gui_id.h"
+#include "gui_stuff.h"		/* gui */
+#include "gui_tilespec.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
-#include "optiondlg.h"
-#include "options.h"
-#include "spaceshipdlg.h"
-#include "resources.h"
-#include "tilespec.h"
-#include "themespec.h"
-#include "gui_tilespec.h"
 #include "messagewin.h"
-#include "citydlg.h"
-#include "cityrep.h"
-
+#include "optiondlg.h"
 #include "repodlgs.h"
+#include "spaceshipdlg.h"
+
+#include "gui_main.h"
 
 #define UNITS_TIMER_INTERVAL 128	/* milliseconds */
 #define MAP_SCROLL_TIMER_INTERVAL 384
@@ -780,7 +755,7 @@ void ui_init(void)
 {
   char device[20];
   struct GUI *pInit_String = NULL;
-  SDL_Surface *pBgd, *pTmp;
+  SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
 
   SDL_Client_Flags = 0;
@@ -824,9 +799,7 @@ void ui_init(void)
   }
 
   /* create label beackground */
-  pTmp = create_surf(adj_size(350), adj_size(50), SDL_SWSURFACE);
-  pBgd = SDL_DisplayFormatAlpha(pTmp);
-  FREESURFACE(pTmp);
+  pBgd = create_surf_alpha(adj_size(350), adj_size(50), SDL_SWSURFACE);
   
   SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
   putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, SDL_MapRGB(pBgd->format, 0, 0, 0));
@@ -836,7 +809,7 @@ void ui_init(void)
 	create_str16_from_char(_("Initializing Client"), adj_font(20)),
 				   WF_ICON_CENTER|WF_FREE_THEME);
   pInit_String->string16->style |= SF_CENTER;
-  
+
   draw_label(pInit_String,
 	     (Main.screen->w - pInit_String->size.w) / 2,
 	     (Main.screen->h - pInit_String->size.h) / 2);

@@ -22,54 +22,42 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 #include <SDL/SDL.h>
 
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "map.h"
-#include "player.h"
-#include "support.h"
+
+/* common */
 #include "unit.h"
 
-#include "gui_mem.h"
-
-#include "graphics.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
-#include "gui_id.h"
-#include "gui_zoom.h"
-#include "gui_main.h"
-#include "gui_tilespec.h"
-
-#include "chatline.h"
-#include "citydlg.h"
-#include "optiondlg.h"
+/* client */
 #include "civclient.h"
-#include "clinet.h"
 #include "climisc.h"
-#include "colors.h"
-#include "control.h"
-#include "dialogs.h"
-#include "goto.h"
-#include "options.h"
-
-#include "repodlgs.h"
-#include "finddlg.h"
-
-#include "inputdlg.h"
-#include "mapview.h"
-#include "messagewin.h"
-#include "menu.h"
-#include "tilespec.h"
-#include "cma_core.h"
-#include "wldlg.h"
-#include "cityrep.h"
-#include "plrdlg.h"
+#include "clinet.h"
 #include "overview_common.h"
-#include "log.h"
+
+/* gui-sdl */
+#include "citydlg.h"
+#include "cityrep.h"
+#include "colors.h"
+#include "dialogs.h"
+#include "finddlg.h"
+#include "graphics.h"
+#include "gui_iconv.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "gui_tilespec.h"
+#include "gui_zoom.h"
+#include "mapview.h"
+#include "menu.h"
+#include "messagewin.h"
+#include "optiondlg.h"
+#include "plrdlg.h"
+#include "repodlgs.h"
 #include "themecolors.h"
+#include "wldlg.h"
 
 #include "mapctrl.h"
 
@@ -1258,10 +1246,9 @@ void Remake_MiniMap(int w, int h)
   pWidget->size.w = w;
   pWidget->size.h = h;
   
-  pSurf = create_surf(w, h, SDL_SWSURFACE);
   FREESURFACE(pWidget->theme);
-  pWidget->theme = SDL_DisplayFormatAlpha(pSurf);
-  FREESURFACE(pSurf);
+  
+  pWidget->theme = create_surf_alpha(w, h, SDL_SWSURFACE);  
      
   draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
   
@@ -1371,10 +1358,8 @@ static void Remake_UnitInfo(int w, int h)
   pWidget->size.x = Main.gui->w - w;
   pWidget->size.y = Main.gui->h - h;
   
-  pSurf = create_surf(w, h, SDL_SWSURFACE);
   FREESURFACE(pWidget->theme);
-  pWidget->theme = SDL_DisplayFormatAlpha(pSurf);
-  FREESURFACE(pSurf);
+  pWidget->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
      
   draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
   
@@ -1436,7 +1421,6 @@ void Init_MapView(void)
     		    UNITS_H - DOUBLE_FRAME_WH};
                     
   SDL_Surface *pIcon_theme = NULL;
-  SDL_Surface *pSurf = NULL;
 		    
   /* =================== Units Window ======================= */
   pUnitInfo_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
@@ -1447,9 +1431,7 @@ void Init_MapView(void)
   pWidget->size.x = Main.screen->w - UNITS_W;
   pWidget->size.y = Main.screen->h - UNITS_H;
   
-  pSurf = create_surf(UNITS_W, UNITS_H, SDL_SWSURFACE);
-  pWidget->theme = SDL_DisplayFormatAlpha(pSurf);
-  FREESURFACE(pSurf);
+  pWidget->theme = create_surf_alpha(UNITS_W, UNITS_H, SDL_SWSURFACE);
      
   draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
   
@@ -1583,9 +1565,7 @@ void Init_MapView(void)
   pWidget->size.x = 0;
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H;
   
-  pSurf = create_surf(MINI_MAP_W, MINI_MAP_H, SDL_SWSURFACE);
-  pWidget->theme = SDL_DisplayFormatAlpha(pSurf);
-  FREESURFACE(pSurf);
+  pWidget->theme = create_surf_alpha(MINI_MAP_W, MINI_MAP_H, SDL_SWSURFACE);
   
   draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
   

@@ -17,30 +17,27 @@
 
 #include <SDL/SDL.h>
 
-#include <assert.h>
-
+/* utility */
 #include "fcintl.h"
-#include "events.h"
-#include "game.h"
 
-#include "gui_mem.h"
-
-#include "support.h"
+/* client */
 #include "civclient.h" /* can_client_issue_orders() */
-#include "colors.h"
+
+/* gui-sdl */
 #include "citydlg.h"
 #include "cityrep.h"
-#include "gui_main.h"
-#include "gui_id.h"
-#include "gui_zoom.h"
-#include "gui_string.h"
+#include "cma_fec.h"
+#include "colors.h"
 #include "graphics.h"
-#include "gui_tilespec.h"
+#include "gui_iconv.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
 #include "gui_stuff.h"
+#include "gui_tilespec.h"
 #include "mapview.h"
 #include "themecolors.h"
 
-#include "cma_fec.h"
 #include "cma_fe.h"
 
 struct hmove {

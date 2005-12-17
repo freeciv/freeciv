@@ -23,9 +23,6 @@
 #define FC__WLDLG_H
 
 #include "worklist.h"
-#include "improvement.h"
-#include "unittype.h"
-#include "climisc.h"
 
 #include "wldlg_g.h"
 

@@ -23,14 +23,14 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-
 #include <SDL/SDL.h>
-#include <SDL/SDL_endian.h>
 
+/* client */
 #include "tilespec.h"
+
+/* gui-sdl */
 #include "graphics.h"
-#include "log.h"
+
 #include "gui_dither.h"
 
 /**************************************************************************

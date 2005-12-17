@@ -23,64 +23,50 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
-#include "climap.h" /* for client_tile_get_known() */
-#include "combat.h"
+/* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "game.h"
-#include "government.h"
-#include "map.h"
-
-#include "gui_mem.h"
-
-#include "packets.h"
-#include "player.h"
 #include "rand.h"
-#include "support.h"
 
-#include "chatline.h"
+/* common */
+#include "combat.h"
+#include "movement.h"
+
+/* client */
 #include "civclient.h"
+#include "climap.h" /* for client_tile_get_known() */
 #include "clinet.h"
-#include "control.h"
 #include "goto.h"
 #include "packhand.h"
-
-#include "colors.h"
-#include "cma_fe.h"
-
-#include "citydlg.h"
-#include "graphics.h"
-#include "unistring.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
-#include "gui_zoom.h"
-#include "gui_id.h"
-#include "gui_tilespec.h"
-#include "gui_main.h"
-#include "repodlgs.h"
-#include "finddlg.h"
-#include "messagewin.h"
-#include "wldlg.h"
-#include "inteldlg.h"
-#include "plrdlg.h"
-#include "gotodlg.h"
-#include "helpdlg.h"
-
-#include "mapview.h"
-#include "mapctrl.h"
-#include "mapctrl_common.h"
-#include "options.h"
-#include "optiondlg.h"
-#include "tilespec.h"
 #include "text.h"
-#include "movement.h"
+
+/* gui-sdl */
+#include "chatline.h"
+#include "citydlg.h"
+#include "cma_fe.h"
+#include "colors.h"
+#include "finddlg.h"
+#include "gotodlg.h"
+#include "graphics.h"
+#include "gui_iconv.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "gui_tilespec.h"
+#include "gui_zoom.h"
+#include "helpdlg.h"
+#include "inteldlg.h"
+#include "mapctrl.h"
+#include "mapview.h"
+#include "messagewin.h"
+#include "optiondlg.h"
+#include "plrdlg.h"
+#include "repodlgs.h"
 #include "themecolors.h"
+#include "wldlg.h"
 
 #include "dialogs.h"
 
@@ -4138,12 +4124,11 @@ void popup_races_dialog(struct player *pplayer)
   /* create nations list */
 
   /* Create Imprv Background Icon */
-  pTmp_Surf = create_surf(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
-  pMain_Bg = SDL_DisplayFormatAlpha(pTmp_Surf);
+  pMain_Bg = create_surf_alpha(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
+  
   SDL_FillRect(pMain_Bg, NULL, SDL_MapRGBA(pMain_Bg->format, color.r,
 					    color.g, color.b, color.unused));
   putframe(pMain_Bg, 0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1, 0xFF000000);
-  FREESURFACE(pTmp_Surf);
   
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);

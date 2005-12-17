@@ -14,10 +14,6 @@
 #ifndef FC__THEMECOLORS_H
 #define FC__THEMECOLORS_H
 
-#include "registry.h"
-
-#include "fc_types.h"
-
 #include "colors_common.h"
 
 /* The color system is designed on the assumption that almost, but

@@ -14,6 +14,10 @@
 #ifndef FC__REPODLGS_H
 #define FC__REPODLGS_H
 
+#include <SDL/SDL.h>
+
+#include "gui_stuff.h"
+
 #include "repodlgs_g.h"
 
 enum tech_info_mode {

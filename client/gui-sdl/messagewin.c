@@ -22,37 +22,22 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
-#include "events.h"
+/* utility */
 #include "fcintl.h"
 
-#include "game.h"
-#include "map.h"
-
-#include "gui_mem.h"
-
-#include "packets.h"
-#include "player.h"
-
-#include "chatline.h"
-#include "citydlg.h"
-#include "clinet.h"
-#include "colors.h"
-#include "graphics.h"
-#include "gui_main.h"
-#include "gui_string.h"
-#include "gui_id.h"
-#include "gui_stuff.h"
-#include "gui_tilespec.h"
-#include "mapview.h"
+/* client */
 #include "options.h"
-#include "log.h"
+
+/* gui-sdl */
+#include "citydlg.h"
+#include "graphics.h"
+#include "gui_id.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
+#include "mapview.h"
 
 #include "messagewin.h"
 
@@ -226,9 +211,7 @@ void popup_meswin_dialog(bool raise)
   pWindow->size.x = start_x;
   pWindow->size.y = start_y;
 
-  pSurf = create_surf(w, h, SDL_SWSURFACE);
-  pWindow->theme = SDL_DisplayFormatAlpha(pSurf);
-  FREESURFACE(pSurf);
+  pWindow->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
   
   SDL_FillRect(pWindow->theme , NULL, 
     SDL_MapRGBA(pWindow->theme->format,

@@ -54,12 +54,12 @@
 #include <config.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <SDL/SDL.h>
 
-#include "gui_mem.h"
+/* gui-sdl */
 #include "graphics.h"
+#include "gui_mem.h"
+
 #include "gui_zoom.h"
 
 #ifdef HAVE_MMX1

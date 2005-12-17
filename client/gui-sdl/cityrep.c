@@ -14,44 +14,31 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
-#include "packets.h"
-#include "shared.h"
-#include "support.h"
-#include "unit.h"
 
-#include "chatline.h"
+/* common */
+#include "game.h"
+
+/* gui-sdl */
 #include "citydlg.h"
-#include "cityrepdata.h"
-#include "clinet.h"
 #include "cma_fe.h"
+#include "colors.h"
 #include "graphics.h"
-#include "gui_string.h"
-#include "gui_stuff.h"
 #include "gui_id.h"
 #include "gui_main.h"
+#include "gui_mem.h"
+#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
-#include "colors.h"
-#include "wldlg.h"
-#include "mapview.h"
 #include "mapctrl.h"
-#include "optiondlg.h"
-#include "options.h"
+#include "mapview.h"
 #include "repodlgs.h"
-#include "climisc.h"
 #include "themecolors.h"
+#include "wldlg.h"
 
 #include "cityrep.h"
 

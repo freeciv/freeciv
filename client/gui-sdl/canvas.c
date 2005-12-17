@@ -17,13 +17,16 @@
 
 #include <SDL/SDL.h>
 
+/* utility */
 #include "log.h"
 
+/* gui-sdl */
 #include "SDL_ttf.h"
 #include "colors.h"
+#include "graphics.h"
+#include "gui_main.h"
 #include "gui_mem.h"
 #include "gui_string.h"
-#include "graphics.h"
 
 #include "canvas.h"
 

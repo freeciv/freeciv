@@ -23,24 +23,16 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
-#include "hash.h"
-#include "support.h"
+/* utility */
 #include "log.h"
 
-#include "tilespec.h"
-#include "themespec.h"
-
-#include "gui_mem.h"
-#include "gui_main.h"
+/* gui-sdl */
 #include "graphics.h"
-#include "gui_zoom.h"
-#include "game.h"
+#include "gui_main.h"
+#include "gui_mem.h"
+#include "themespec.h"
 
 #include "gui_tilespec.h"
 

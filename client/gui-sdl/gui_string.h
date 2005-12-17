@@ -22,8 +22,12 @@
 #ifndef __STRING_H
 #define __STRING_H
 
-#include "gui_iconv.h"
+#include <SDL/SDL.h>
+
+#include "fc_types.h"
+
 #include "SDL_ttf.h"
+#include "gui_main.h"
 
 #define SF_CENTER	8
 #define SF_CENTER_RIGHT	16

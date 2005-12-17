@@ -17,14 +17,7 @@
 
 #include <assert.h>
 
-#include "hash.h"
-#include "log.h"
-#include "shared.h"
-
-#include "player.h"
-
-#include "colors_g.h"
-
+/* gui-sdl */
 #include "colors.h"
 #include "themespec.h"
 

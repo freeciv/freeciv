@@ -22,10 +22,12 @@
 #ifndef FC__GUI_MAIN_H
 #define FC__GUI_MAIN_H
 
+#include <SDL/SDL.h>
+
 #include "gui_main_g.h"
 
 /* enable this to adjust sizes for 320x240 resolution */
-/*#define SMALL_SCREEN*/
+/* #define SMALL_SCREEN */
 
 /* #define DEBUG_SDL */
 
@@ -54,7 +56,6 @@
 #define CF_DRAW_PLAYERS_ALLIANCE_STATUS	(1<<22)
 #define CF_DRAW_PLAYERS_NEUTRAL_STATUS	(1<<23)
 
-extern struct main Main;
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 extern bool LSHIFT;

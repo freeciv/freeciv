@@ -22,6 +22,8 @@
 #ifndef FC__CITYDLG_H
 #define FC__CITYDLG_H
 
+#include <SDL/SDL.h>
+
 #include "citydlg_g.h"
 
 void free_city_units_lists(void);

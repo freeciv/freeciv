@@ -15,48 +15,33 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <SDL/SDL.h>
 
-#include "city.h"
+/* utility */
 #include "fcintl.h"
 #include "log.h"
+
+/* common */
 #include "game.h"
-#include "genlist.h"
 #include "government.h"
 
-#include "gui_mem.h"
+/* client */
+#include "helpdata.h"
 
-#include "shared.h"
-#include "tech.h"
-#include "unit.h"
-#include "map.h"
-#include "support.h"
-#include "version.h"
-
-#include "climisc.h"
+/* gui-sdl */
 #include "colors.h"
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_string.h"
+#include "gui_mem.h"
 #include "gui_stuff.h"
-#include "gui_zoom.h"
-#include "helpdata.h"
-#include "mapview.h"
-#include "tilespec.h"
 #include "gui_tilespec.h"
+#include "gui_zoom.h"
+#include "mapview.h"
 #include "repodlgs.h"
 #include "themecolors.h"
 
 #include "helpdlg.h"
-
-
-
 
 static struct ADVANCED_DLG *pHelpDlg = NULL;
   
@@ -229,9 +214,7 @@ void popup_impr_info(Impr_type_id impr)
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
-    pTmp = create_surf(adj_size(140), adj_size(40), SDL_SWSURFACE);
-    pText = SDL_DisplayFormatAlpha(pTmp);
-    FREESURFACE(pTmp);
+    pText = create_surf_alpha(adj_size(140), adj_size(40), SDL_SWSURFACE);
     pTmp = pText;
     
     SDL_FillRect(pTmp, NULL,
@@ -585,9 +568,7 @@ void popup_unit_info(Unit_type_id type_id)
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
-    pTmp = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
-    pText = SDL_DisplayFormatAlpha(pTmp);
-    FREESURFACE(pTmp);
+    pText = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
     pTmp = pText;
     
     SDL_FillRect(pTmp, NULL,
