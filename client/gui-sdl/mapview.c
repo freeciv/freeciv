@@ -1304,9 +1304,9 @@ SDL_Surface *get_terrain_surface(struct tile *ptile)
 {
   /* tileset dimensions might have changed, so create a new canvas each time */
   
-  if (!terrain_canvas) {
+  if (terrain_canvas) {
     canvas_free(terrain_canvas);
-    }
+  }
     
   terrain_canvas = canvas_create(tileset_full_tile_width(tileset),
                                       tileset_full_tile_height(tileset));
