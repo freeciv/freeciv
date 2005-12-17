@@ -22,8 +22,12 @@ libguiclient_a_DEPENDENCIES = rc2c
 libguiclient_a_SOURCES = \
 	rc2c		\
 	Freeciv.h	\
-	chatline.h	\
+	SDL_ttf.c	\
+	SDL_ttf.h	\
+	canvas.c	\
+	canvas.h	\
 	chatline.c	\
+	chatline.h	\
 	citydlg.c	\
 	citydlg.h	\
 	cityrep.c	\
@@ -44,12 +48,22 @@ libguiclient_a_SOURCES = \
 	gotodlg.h	\
 	graphics.c	\
 	graphics.h	\
+	gui_dither.c	\
+	gui_dither.h	\
 	gui_iconv.c	\
 	gui_iconv.h	\
+	gui_id.h	\
 	gui_main.c	\
 	gui_main.h	\
+	gui_mem.h	\
+	gui_string.c	\
+	gui_string.h	\
 	gui_stuff.c	\
 	gui_stuff.h	\
+	gui_tilespec.c	\
+	gui_tilespec.h  \
+	gui_zoom.c	\
+	gui_zoom.h	\
 	happiness.c	\
 	happiness.h	\
 	helpdlg.c	\
@@ -68,6 +82,7 @@ libguiclient_a_SOURCES = \
 	messagedlg.h	\
 	messagewin.c	\
 	messagewin.h	\
+	mmx.h		\
 	optiondlg.h	\
 	optiondlg.c	\
 	pages.c		\
@@ -86,22 +101,9 @@ libguiclient_a_SOURCES = \
 	themes.c	\
 	themespec.c	\
 	themespec.h	\
-	wldlg.c		\
-	wldlg.h		\
-	gui_string.c	\
-	gui_string.h	\
-	gui_mem.h	\
 	unistring.c	\
 	unistring.h	\
-	gui_zoom.c	\
-	gui_zoom.h	\
-	gui_id.h	\
-	gui_dither.c	\
-	gui_dither.h	\
-	gui_tilespec.c	\
-	gui_tilespec.h  \
-	SDL_ttf.c	\
-	SDL_ttf.h	\
-	mmx.h
+	wldlg.c		\
+	wldlg.h
 
 EXTRA_DIST = README.SDLClient

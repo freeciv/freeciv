@@ -26,6 +26,7 @@
 
 #include "graphics_g.h"
 
+#include "canvas.h"
 #include "gui_main.h"
 
 #define	RECT_LIMIT	80
@@ -178,10 +179,6 @@ struct sprite {
 #else
 #define adj_surf(surf) surf
 #endif
-
-struct canvas {
-  SDL_Surface *surf;
-};
 
 struct main {
   int rects_count;		/* update rect. array counter */
