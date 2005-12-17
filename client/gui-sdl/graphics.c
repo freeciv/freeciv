@@ -3511,90 +3511,9 @@ void unload_cursors(void)
   return;
 }
 
-/**************************************************************************
-  Return a NULL-terminated, permanently allocated array of possible
-  graphics types extensions.  Extensions listed first will be checked
-  first.
-**************************************************************************/
-const char **gfx_fileextensions(void)
-{
-  static const char *ext[] = {
-    "png",
-    "xpm",
-    NULL
-  };
-
-  return ext;
-}
-
-/**************************************************************************
-  Create a sprite struct and fill it with SDL_Surface pointer
-**************************************************************************/
-static struct sprite * ctor_sprite(SDL_Surface *pSurface)
-{
-  struct sprite *result = fc_malloc(sizeof(struct sprite));
-
-  result->psurface = pSurface;
-
-  return result;
-}
-
-/****************************************************************************
-  Find the dimensions of the sprite.
-****************************************************************************/
-void get_sprite_dimensions(struct sprite *sprite, int *width, int *height)
-{
-  *width = GET_SURF(sprite)->w;
-  *height = GET_SURF(sprite)->h;
-}
-
 void gui_flush(void)
 {
   /* Nothing */
-}
-
-/**************************************************************************
-  Create a new sprite by cropping and taking only the given portion of
-  the image.
-**************************************************************************/
-struct sprite *crop_sprite(struct sprite *source,
-			   int x, int y, int width, int height,
-			   struct sprite *mask,
-			   int mask_offset_x, int mask_offset_y)
-{
-  SDL_Rect src_rect =
-      { (Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height };
-  SDL_Surface *pNew, *pTmp =
-      crop_rect_from_surface(GET_SURF(source), &src_rect);
-
-  if (pTmp->format->Amask) {
-    SDL_SetAlpha(pTmp, SDL_SRCALPHA, 255);
-    pNew = pTmp;
-  } else {
-    SDL_SetColorKey(pTmp, SDL_SRCCOLORKEY | SDL_RLEACCEL, pTmp->format->colorkey);
-    pNew = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
-
-    if (!pNew) {
-      return ctor_sprite(pTmp);
-    }
-
-    FREESURFACE(pTmp);
-  }
-
-  if (mask) {
-    SDL_Surface *pDest = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height,
-       pNew->format->BitsPerPixel, pNew->format->Rmask, pNew->format->Gmask, 
-       pNew->format->Bmask, pNew->format->Amask);
-
-    SDL_FillRect(pDest, NULL, pNew->format->colorkey);
-    SDL_SetColorKey(pDest, SDL_SRCCOLORKEY, pNew->format->colorkey);    
-   
-    dither_surface(pNew, mask->psurface, pDest, x - mask_offset_x, y - mask_offset_y);
-     
-    return ctor_sprite(pDest);
-  }
-
-  return ctor_sprite(pNew);
 }
 
 /**************************************************************************
@@ -3603,7 +3522,7 @@ struct sprite *crop_sprite(struct sprite *source,
   To fix this we change all black {0, 0, 0, 255} to newblack {4, 4, 4, 255}
   (first collor != 0 in 16 bit coding).
 **************************************************************************/
-static bool correct_black(SDL_Surface * pSrc)
+bool correct_black(SDL_Surface * pSrc)
 {
   bool ret = 0;
   register int x;
@@ -3652,65 +3571,6 @@ static bool correct_black(SDL_Surface * pSrc)
 
   return ret;
 }
-
-/**************************************************************************
-  Load the given graphics file into a sprite.  This function loads an
-  entire image file, which may later be broken up into individual sprites
-  with crop_sprite.
-**************************************************************************/
-struct sprite * load_gfxfile(const char *filename)
-{
-  SDL_Surface *pNew = NULL;
-  SDL_Surface *pBuf = NULL;
-
-  if ((pBuf = IMG_Load(filename)) == NULL) {
-    freelog(LOG_ERROR,
-	    _("load_surf: Unable to load graphic file %s!"),
-	    filename);
-    return NULL;		/* Should I use abotr() ? */
-  }
-  
-  if (pBuf->flags & SDL_SRCCOLORKEY) {
-    SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, pBuf->format->colorkey);
-  }
-
-  if (correct_black(pBuf)) {
-    pNew = pBuf;
-    freelog(LOG_DEBUG, _("%s load with own %d bpp format !"), filename,
-	    pNew->format->BitsPerPixel);
-  } else {
-    Uint32 color;
-    
-    freelog(LOG_DEBUG, _("%s (%d bpp) load with screen (%d bpp) format !"),
-	    filename, pBuf->format->BitsPerPixel,
-	    Main.screen->format->BitsPerPixel);
-
-    pNew = create_surf(pBuf->w, pBuf->h, SDL_SWSURFACE);
-    color = SDL_MapRGB(pNew->format, 255, 0, 255);
-    SDL_FillRect(pNew, NULL, color);
-    
-    if (SDL_BlitSurface(pBuf, NULL, pNew, NULL)) {
-      FREESURFACE(pNew);
-      return ctor_sprite(pBuf);
-    }
-
-    FREESURFACE(pBuf);
-    SDL_SetColorKey(pNew, SDL_SRCCOLORKEY, color);
-    
-  }
-
-  return ctor_sprite(pNew);
-}
-
-/**************************************************************************
-  Free a sprite and all associated image data.
-**************************************************************************/
-void free_sprite(struct sprite *s)
-{
-  FREESURFACE(GET_SURF(s));
-  free(s);
-}
-
 
 /**************************************************************************
   Frees the introductory sprites.

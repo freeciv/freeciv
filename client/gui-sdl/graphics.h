@@ -204,6 +204,8 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
 SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 				    SDL_Rect *pRect);
 
+bool correct_black(SDL_Surface * pSrc);
+
 int blit_entire_src(SDL_Surface *pSrc,
 		    SDL_Surface *pDest, Sint16 iDest_x, Sint16 iDest_y);
 
