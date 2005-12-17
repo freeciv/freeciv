@@ -1,10 +1,10 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS=	userdb generator
+SUBDIRS=	generator
 
 bin_PROGRAMS = civserver
 noinst_LIBRARIES = libcivserver.a
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore -I$(srcdir)/userdb -I$(srcdir)/generator
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai -I../intl -I$(top_srcdir)/common/aicore -I$(srcdir)/generator
 
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
@@ -16,6 +16,8 @@ civserver_SOURCES = \
 libcivserver_a_SOURCES = \
 		airgoto.c	\
 		airgoto.h	\
+		auth.c		\
+		auth.h		\
 		autoattack.c	\
 		autoattack.h	\
 		barbarian.c	\
@@ -83,11 +85,11 @@ libcivserver_a_SOURCES = \
 civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
-      ./generator/libgenerator.a $(USER_DB_DEP)
+      ./generator/libgenerator.a $(AUTH_DEPS)
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a @INTLLIBS@ \
       ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
       ../utility/libcivutility.a ./libcivserver.a ../utility/libcivutility.a \
       ../common/aicore/libaicore.a ./generator/libgenerator.a \
-      $(USER_DB_LIB) $(SERVER_LIBS)
+      $(AUTH_LIBS) $(SERVER_LIBS)
 

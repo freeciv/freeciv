@@ -1,5 +1,5 @@
 /**********************************************************************
- Freeciv - Copyright (C) 2003 - M.C. Kaufman
+ Freeciv - Copyright (C) 2005 - M.C. Kaufman
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,12 +10,18 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__LOCKFILE_H
-#define FC__LOCKFILE_H
+#ifndef FC__AUTH_H
+#define FC__AUTH_H
 
 #include "shared.h"
 
-bool create_lock(void);
-void remove_lock(void);
+struct connection;
 
-#endif /* FC__LOCKFILE_H */
+bool is_guest_name(const char *name);
+void get_unique_guest_name(char *name);
+
+bool authenticate_user(struct connection *pconn, char *username);
+void process_authentication_status(struct connection *pconn);
+bool handle_authentication_reply(struct connection *pc, char *password);
+
+#endif /* FC__AUTH_H */

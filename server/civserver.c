@@ -122,12 +122,14 @@ int main(int argc, char *argv[])
 	showhelp = TRUE;
 	break;
       }
+#ifdef HAVE_AUTH
     } else if (is_option("--auth", argv[inx])) {
       srvarg.auth_enabled = TRUE;
     } else if (is_option("--Guests", argv[inx])) {
       srvarg.auth_allow_guests = TRUE;
     } else if (is_option("--Newusers", argv[inx])) {
       srvarg.auth_allow_newusers = TRUE;
+#endif
     } else if ((option = get_option("--Serverid", argv, &inx, argc))) {
       sz_strlcpy(srvarg.serverid, option);
     } else if ((option = get_option("--saves", argv, &inx, argc))) {
@@ -153,11 +155,13 @@ int main(int argc, char *argv[])
   if (showhelp) {
     fc_fprintf(stderr,
 	       _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+#ifdef HAVE_AUTH
     fc_fprintf(stderr, _("  -a  --auth\t\tEnable server authentication.\n"));
     fc_fprintf(stderr, _("  -G  --Guests\t\tAllow guests to "
 			 "login if auth is enabled.\n"));
     fc_fprintf(stderr, _("  -N  --Newusers\tAllow new users to "
 			 "login if auth is enabled.\n"));
+#endif
     fc_fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
 #ifdef DEBUG
     fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"

@@ -23,10 +23,11 @@ struct packet_authentication_reply;
 struct packet_login_request;
 struct packet_server_join_req;
 
+void establish_new_connection(struct connection *pconn);
+void reject_new_connection(const char *msg, struct connection *pconn);
+
 bool handle_login_request(struct connection *pconn,
                           struct packet_server_join_req *req);
-
-void unfail_authentication(struct connection *pconn);
 
 void lost_connection_to_client(struct connection *pconn);
 
@@ -36,6 +37,5 @@ void send_conn_info_remove(struct conn_list *src, struct conn_list *dest);
 bool attach_connection_to_player(struct connection *pconn, 
                                  struct player *pplayer);
 bool unattach_connection_from_player(struct connection *pconn);
-bool handle_authentication_reply(struct connection *pc, char *password);
 
 #endif /* FC__CONNECTHAND_H */
