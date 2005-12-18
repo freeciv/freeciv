@@ -188,6 +188,8 @@ void srv_init(void)
   srvarg.auth_allow_guests = FALSE;
   srvarg.auth_allow_newusers = FALSE;
 
+  srvarg.save_ppm = FALSE;
+
   /* mark as initialized */
   has_been_srv_init = TRUE;
 
@@ -844,6 +846,7 @@ void save_game_auto(const char *save_reason)
   my_snprintf(filename, sizeof(filename),
 	      "%s%+05d.sav", game.save_name, game.info.year);
   save_game(filename, save_reason);
+  save_ppm();
   gamelog(GAMELOG_STATUS);
 }
 

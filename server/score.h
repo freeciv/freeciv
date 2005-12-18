@@ -19,4 +19,6 @@ void calc_civ_score(struct player *pplayer);
 
 int total_player_citizens(const struct player *pplayer);
 
+void save_ppm(void);
+
 #endif /* FC__SCORE_H */

@@ -20,9 +20,12 @@
 
 #include "game.h"
 #include "improvement.h"
+#include "log.h"
 #include "map.h"
 #include "mem.h"
 #include "player.h"
+#include "srv_main.h"
+#include "shared.h"
 #include "score.h"
 #include "unit.h"
 
@@ -337,4 +340,70 @@ int total_player_citizens(const struct player *pplayer)
   } specialist_type_iterate_end;
 
   return count;
+}
+
+/**************************************************************************
+ save a ppm file which is a representation of the map of the current turn.
+ this can later be turned into a animated gif.
+
+ terrain type, units, and cities are saved.
+**************************************************************************/
+void save_ppm(void)
+{
+  char filename[600];
+  char tmpname[600];
+  FILE *fp;
+  int i, j;
+
+  /* put this file in the same place we put savegames */
+  my_snprintf(filename, sizeof(filename),
+              "%s%+05d.int.ppm", game.save_name, game.info.year);
+
+  /* Ensure the saves directory exists. */
+  make_dir(srvarg.saves_pathname);
+
+  sz_strlcpy(tmpname, srvarg.saves_pathname);
+  if (tmpname[0] != '\0') {
+    sz_strlcat(tmpname, "/");
+  }
+  sz_strlcat(tmpname, filename);
+  sz_strlcpy(filename, tmpname);
+
+  fp = fopen(filename, "w");
+
+  if (!fp) {
+    freelog(LOG_ERROR, "couldn't open file ppm save: %s\n", filename);
+    return;
+  }
+
+  fprintf(fp, "P3\n# An intermediate map from saved Freeciv game %s%+05d\n",
+          game.save_name, game.info.year);
+
+  for (i = 0; i < game.info.nplayers; i++) {
+    struct player *pplayer = get_player(i);
+    fprintf(fp, "# playerno:%d:race:%d:name:\"%s\"\n", pplayer->player_no,
+            pplayer->nation->index, pplayer->name);
+  }
+  terrain_type_iterate(pterrain) {
+    fprintf(fp, "# terrain:%d:name:\"%s\"\n", pterrain->index, pterrain->name);
+  } terrain_type_iterate_end;
+
+  fprintf(fp, "%d %d\n", map.xsize, map.ysize);
+  fprintf(fp, "255\n");
+
+  for (j = 0; j < map.ysize; j++) {
+    for (i = 0; i < map.xsize; i++) {
+       struct tile *ptile = native_pos_to_tile(i, j);
+       int R, G, B;
+
+       R = (ptile->city) ? city_owner(ptile->city)->nation->index + 1 : 0;
+       G = (unit_list_size(ptile->units) > 0) ?
+            unit_owner(unit_list_get(ptile->units, 0))->nation->index + 1 : 0;
+       B = tile_get_terrain(ptile)->index;
+
+       fprintf(fp, "%d %d %d\n", R, G, B);
+    }
+  }
+
+  fclose(fp);
 }
