@@ -198,6 +198,8 @@ void srv_init(void)
   /* initialize teams */
   team_init();
 
+  srvarg.save_ppm = FALSE;
+
   /* mark as initialized */
   has_been_srv_init = TRUE;
 
@@ -765,6 +767,7 @@ void save_game_auto(void)
   my_snprintf(filename, sizeof(filename),
 	      "%s%+05d.sav", game.save_name, game.year);
   save_game(filename);
+  save_ppm();
   gamelog(GAMELOG_STATUS);
 }
 

@@ -39,6 +39,8 @@ struct server_arguments {
   char *script_filename;
   char *saves_pathname;
   char serverid[256];
+  /* save a ppm of the map? */
+  bool save_ppm;
   /* quit if there no players after a given time interval */
   int quitidle;
   /* exit the server on game ending */
