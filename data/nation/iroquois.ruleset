@@ -11,7 +11,7 @@ legend=_("The Iroquois Confederacy - known as Haudenosaunee in their own\
  them the most advanced state in North America upon the arrival of the\
  Europeans.")
 leader=
- "Deganawidah",		; The legenday founder of the Iroquois
+ "Deganawidah",		; a.k.a. The Great Peacemaker
  "Hiawatha",
  "Thayendanegea",	; a.k.a. Joseph Brant
  "Kaintwakon",		; a.k.a. Cornplanter
@@ -32,20 +32,77 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "american", "quebecois"
+civilwar_nations = "american", "quebecois", "sioux"
 
-; This city list is a modified version of the list found here:
-; http://www.accessgenealogy.com/native/tribes/iroquioi/iroquoisvillages.htm
 cities =
+ "Onondaga",		; (Onondaga)
+ "Oneida",		; (Oneida)
+ "Teyagon",		; (at Toronto) (Seneca)
+ "Ganaraske (river)",	; (at Port Hope) (Cayuga)
+ "Akwesasne",		; (=Saint Regis) (Mohawk)
+ "Canienga",		; (Canienga=Mohawk)
+ "Oswegatchie",		; (=Ogdensburgh) (Onondaga / Oneida)
+ "Caughnawaga",		; (Mohawk)
+ "Cattaraugus",		; (Seneca)
+ "Kente",		; (Cayuga)
+
+ "Gandesetaiagon",	; (=Oshawa) (Seneca)
+ "Tiohero",		; (Cayuga)
+ "Niagara Falls (river)", ; (Neutral / Tuscarora)
+ "Tonawanda",		; (Seneca)
+ "Owego",		; (Cayuga)
+ "Kanagaro",		; (Mohawk)
+ "Opolopong",		; (Oneida)
+ "Grand River (river)",	; (Seneca)
+ "Deseroken",		; (Onondaga)
+ "Allegany",		; (Seneca)
+
+ "Salamanca",		; (=Bucktooth) (Seneca)
+ "Tuscarora",		; (Tuscarora)
+ "Saratoga",		; (Mohawk)
+ "Geneseo",		; (Seneca)
+ "Chondote",		; (Cayuga)
+ "Tyendinaga",		; (=Brantville) (Mohawk)
+ "Tueadasso",		; (Onondaga)
+ "Buckaloon",		; (Seneca)
+ "Onnontare",		; (Cayuga)
+ "Skohare",		; (Mohawk)
+
+ "Catherine's Town",	; (Seneca)
+ "Ganogeh",		; (Cayuga)
+ "Oka (mountains)",	; (=Lac des Deux-Montagnes) (Mohawk)
+ "Skannayutenate",	; (Cayuga)
+ "Oriska",		; (Oneida)
+ "Canajoharie",		; (Mohawk)
+ "Oil Springs",		; (Seneca)
+ "Gannentaha",		; (Onondaga)
+ "Buffalo Creek",	; (Seneca)
+ "Neodakheat",		; (Cayuga)
+
+ "Cowassalong",		; (Oneida)
+ "Union Springs",  	; (Cayuga)
+ "Venango",		; (Seneca)
+ "Nowadaga",		; (Mohawk)
+ "Chemung",		; (Seneca)
+ "Osquake",		; (Mohawk)
+ "Cittenango",		; (Oneida)
+ "Gadoquat",		; (Onondaga)
+ "Onnahee",		; (Seneca)
+ "Mingo Town",		; (Iroquois)
+
+; More cities in alphabetical order. Source:
+; http://www.accessgenealogy.com/native/tribes/iroquioi/iroquoisvillages.htm
+
  "Adjouquay",
  "Allaquippa", 
  "Anpuaqun", 
- "Aquatsagana", 
+ "Aquatsagana",
  "Aratumquat",
  "Awegen",
+ "Blackleg's Village",
  "Cahunghage",
  "Canowdowsa",
- "Caughnawaga", 
+ "Chartierstown",
  "Chemegaide",
  "Chenango",
  "Chinklacamoose",
@@ -57,17 +114,21 @@ cities =
  "Conejoholo",
  "Conihunta",
  "Connosomothdian",
+ "Conoytown",
+ "Coreorgonel",
  "Cowawago",
  "Cussewago",
  "Ganadoga", 
  "Ganagarahhare",
  "Ganasarage", 
  "Ganeraske",
- "Ganneious", 
- "Gannentaha",
- "Glasswanoge", 
+ "Ganneious",
+ "Glasswanoge",
+ "Goshgoshunk",
+ "Hickorytown",
  "Janundat",
  "Jedakne",
+ "Johnstown",
  "Jonondes",
  "Juniata",
  "Juraken",
@@ -79,61 +140,65 @@ cities =
  "Karhationni",
  "Karhawenradon", 
  "Kayehkwarageh", 
- "Kaygen", 
- "Kente",
+ "Kaygen",
  "Kickenapawling",
  "Kiskiminetas",
  "Kittaning",
- "Lawunkhannek", 
+ "Lawunkhannek",
+ "Logstown",
+ "Loyalhannon",
  "Mahusquechikoken",
  "Mahican",
  "Mahoning",
  "Manckatawangum",
  "Matchasaung",
+ "Middletown",
  "Mohanet",
  "Nescopeck",
+ "Newtown",
+ "Newtychaning",
  "Octageron",
  "Ohrekionni",
  "Onaweron",
- "Onkwe Iyede", 
- "Opolopong", 
+ "Onkwe Iyede",
  "Oquaga",
  "Osewingo",
  "Oskawaserenhon",
  "Ostonwackin", 
- "Oswegatchie",
  "Otiahanague",
  "Otsiningo", 
  "Otskwirakeron",
  "Ousagwentera",
- "Owego",
+ "Paille Coupfle",
+ "Pluggy's Town",
  "Punxatawney", 
  "Runonvea",
  "Sawcunk",
  "Schoharie", 
  "Schohorage",
  "Sconassi",
+ "Scoutash's Town",
+ "Seneca Town",
  "Sevege",
+ "Sewickly's Old Town",
  "Shamokin",
  "Shannopin",
  "Shenango",
  "Sheshequin",
  "Sheoquage", 
  "Sittawingo",
- "Skannayutenate",
  "Skenandowa",
  "Solocka",
  "Swahadowri",
  "Taiaiagon",
  "Tewanondadon",
  "Tioga",
+ "Tohoguses Cabins",
  "Tullihas",
- "Tonihata", 
- "Tuscarora",
+ "Tonihata",
  "Tuskokogie",
  "Tutelo",
  "Unadilla",
- "Venango",
  "Wakatomica",
  "Wakerhon",
  "Wauteghe", 

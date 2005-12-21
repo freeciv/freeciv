@@ -37,6 +37,11 @@ flag="zulu"
 flag_alt = "rwanda"  ; used previously
 city_style = "Tropical"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Chief"),        _("Chief")
+		 "Republic", 	    _("Spokesman"),    _("Spokeswoman")
+               }
+
 init_techs=""
 init_buildings=""
 init_government="Despotism"
@@ -44,8 +49,38 @@ init_units=""
 civilwar_nations="southafrican", "kenyan", "swazi"
 
 cities =
- "Zimbabwe", "Ulundi", "Bapedi", "Hlobane", "Isandhlwana",
- "Intombe", "Mpondo", "Ngome", "Swazi", "Tugela", "Umtata",
- "Umfolozi", "Ibabanago", "Isipezi", "Amatikulu", "Zunguin",
- "Nongoma", "Ixopo", "Isipingo", "Amanzimtoti", "Mtubatuba",
- "Ubombo", "Ngobeni", "Ngutu", "Nkande", "Empangeni"
+ "Zimbabwe",
+ "Ulundi",
+ "Ethekwini",	; Boer name: Durban
+ "Tshwane",	; Boer name: Pretoria
+ "Harare",
+ "Maputo",
+ "Bulaweyo",
+ "Mzizima",
+ "Luanda",
+ "Umgungundlovu", ; Boer name: Pietermaitzburg
+ "Matola",
+ "Benoni",
+ "Gabarone",
+ "Beira",
+ "Tembisa",
+ "Nampula",
+ "Chitungwiza",
+ "Mbabane",
+ "Arusha",
+ "Mbeya",
+ "Huambo",
+ "Molepolole",
+ "Epumalanga",
+ "Ladysmtih",
+ "KwaDukuza",
+ "Eshowe",
+ "Hlobane",
+ "Esikhawini",
+ "Empangeni",
+ "Nongoma",
+ "Magudu",
+ "Mondlo",
+ "Endumeni",
+ "Mtunzini",
+ "Tongati"
