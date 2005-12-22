@@ -86,6 +86,9 @@ static int unit_ids[MAX_NUM_UNITS_BELOW];
 
 static void setup_widgets(void);
 
+void fill_econ_label_pixmaps(void);
+void fill_unit_below_pixmaps(void);
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -450,14 +453,7 @@ void ui_main(int argc, char *argv[])
   InitializeActions(app_context);
 
   /* Do this outside setup_widgets() so after tiles are loaded */
-  for(i=0;i<10;i++)  {
-    struct sprite *s = i < 5 ? get_tax_sprite(tileset, O_SCIENCE) : get_tax_sprite(tileset, O_GOLD);
-
-    XtVaSetValues(econ_label[i], XtNbitmap,
-		  s->pixmap, NULL);
-    XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
-		  INT_TO_XTPOINTER(i));
-  }
+  fill_econ_label_pixmaps();
 		
   XtAddCallback(map_horizontal_scrollbar, XtNjumpProc, 
 		scrollbar_jump_callback, NULL);
@@ -478,10 +474,7 @@ void ui_main(int argc, char *argv[])
 
   init_mapcanvas_and_overview();
 
-  for(i=0; i<num_units_below; i++)
-    unit_below_pixmap[i]=XCreatePixmap(display, XtWindow(overview_canvas), 
-				       tileset_full_tile_width(tileset), tileset_full_tile_height(tileset), 
-				       display_depth);  
+  fill_unit_below_pixmaps();
 
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),
@@ -914,4 +907,73 @@ void add_idle_callback(void (callback)(void *), void *data)
   cb->callback = callback;
   cb->data = data;
   XtAppAddWorkProc(app_context, idle_callback_wrapper, cb);
+}
+
+/**************************************************************************
+  Called to fill econ_label pixmaps (showing tax/lux/sci rates).
+
+  It may be called again if the tileset changes.
+**************************************************************************/
+void fill_econ_label_pixmaps(void)
+{
+  int i;
+  int econ_label_count = 10;
+
+  for(i = 0; i < econ_label_count; i++) {
+    struct sprite *s = i < 5 ? get_tax_sprite(tileset, O_SCIENCE)
+			     : get_tax_sprite(tileset, O_GOLD);
+
+    XtVaSetValues(econ_label[i], XtNbitmap,
+		  s->pixmap, NULL);
+    XtAddCallback(econ_label[i], XtNcallback, taxrates_callback,
+		  INT_TO_XTPOINTER(i));
+  }
+}
+
+/**************************************************************************
+  Called to fill unit_below pixmaps. They are on the left of the
+  screen that shows all of the inactive units in the current tile.
+
+  It may be called again if the tileset changes.
+**************************************************************************/
+void fill_unit_below_pixmaps(void)
+{
+  long i;
+
+  for (i = 0; i < num_units_below; i++) {
+/*    XtVaSetValues(unit_below_canvas[i],
+		  XtNwidth, tileset_full_tile_width(tileset),
+		  XtNheight, tileset_full_tile_height(tileset),
+		  NULL);
+*/    unit_below_pixmap[i] = XCreatePixmap(display, XtWindow(overview_canvas),
+					 tileset_full_tile_width(tileset),
+					 tileset_full_tile_height(tileset),
+					 display_depth);
+  }
+}
+
+/**************************************************************************
+  Called when the tileset is changed to reset indicators pixmaps.
+**************************************************************************/
+void reset_econ_label_pixmaps(void)
+{
+  fill_econ_label_pixmaps();
+}
+
+/**************************************************************************
+  Called when the tileset is changed to reset unit pixmaps.
+**************************************************************************/
+void reset_unit_below_pixmaps(void)
+{
+  long i;
+
+  for (i = 0; i < num_units_below; i++) {
+    XFreePixmap(display, unit_below_pixmap[i]);
+  }
+  xaw_set_bitmap(more_arrow_label, None);
+  fill_unit_below_pixmaps();
+
+  set_unit_icons_more_arrow(FALSE);
+  set_unit_icon(-1, get_unit_in_focus());
+  update_unit_pix_label(get_unit_in_focus());
 }

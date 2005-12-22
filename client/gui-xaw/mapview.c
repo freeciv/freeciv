@@ -832,4 +832,7 @@ void tileset_changed(void)
   /* Here you should do any necessary redraws (for instance, the city
    * dialogs usually need to be resized).
    */
+  reset_econ_label_pixmaps();
+  update_info_label();
+  reset_unit_below_pixmaps();
 }

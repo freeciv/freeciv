@@ -226,10 +226,10 @@ void create_science_dialog(bool make_modal)
   
   if (research->researching == A_UNSET) {
     my_snprintf(current_text, sizeof(current_text),
-		_("Researching %s: %d/%d"),
+		_("Researching %s: %d/%s"),
 		advances[A_NONE].name,
 		research->bulbs_researched,
-		total_bulbs_required(game.player_ptr));
+		_("unknown"));
   } else {
     my_snprintf(current_text, sizeof(current_text),
 		_("Researching %s: %d/%d"),
@@ -504,10 +504,10 @@ void science_dialog_update(void)
 
     if (research->researching == A_UNSET) {
       my_snprintf(text, sizeof(text),
-		  _("Researching %s: %d/%d"),
+		  _("Researching %s: %d/%s"),
 		  advances[A_NONE].name,
 		  research->bulbs_researched,
-		  total_bulbs_required(game.player_ptr));
+		  _("unknown"));
     } else {
       my_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%d"),
