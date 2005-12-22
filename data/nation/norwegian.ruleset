@@ -16,12 +16,9 @@ leader=
  "Jan P. Syse",
  "Torbjørn Jagland",
  "Kjell Magne Bondevik",
- "Jens Stoltenberg",
- "Haakon VII",
- "Harald V"
+ "Haakon VII"
 leader_sex="Male", "Male", "Male", "Male", "Female",
-	   "Male", "Male", "Male", "Male",
-	   "Male", "Male", "Male"
+	   "Male", "Male", "Male", "Male", "Male"
 
 flag="norway"
 flag_alt = "denmark"  ; Now used by Danish

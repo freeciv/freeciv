@@ -4,14 +4,15 @@ name=_("Iraqi")
 plural=_("?plural:Iraqis")
 groups=_("Modern"), _("Asian")
 legend=_("The Republic of Iraq was founded after the fall of the Ottoman\
- empire. It encompasses the ancient region of Mesopotamia at the\
- confluence of the Tigris and Euphrates Rivers.")
+ empire. It is encompassing the ancient region of Mesopotamia at the\
+ confluence of the Tigris and Euphrates rivers.")
 leader=
  "Faisal I",
  "Saddam Hussein",
  "Mohammed Baqir al-Hakim",
- "Jalal Talabani"
-leader_sex="Male", "Male", "Male", "Male"
+ "Abdul Salam Arif",
+ "Bakr Sidqi"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag = "iraq"
 flag_alt = "iraq_old"
 city_style = "Babylonian"

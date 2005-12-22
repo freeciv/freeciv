@@ -10,13 +10,12 @@ leader=
  "Alaungpaya",
  "Mindon",
  "Supayalatt",
- "Than Shwe",
  "Khin Nyunt",
  "Ne Win",
  "U Nu",
  "Aung San Suu Kyi",
  "Maung Aye"
-leader_sex="Male", "Male", "Male", "Female", "Male",
+leader_sex="Male", "Male", "Male", "Female",
            "Male", "Male", "Male", "Female", "Male"
 
 flag="myanmar"

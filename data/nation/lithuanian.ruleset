@@ -3,7 +3,6 @@
 name=_("Lithuanian")
 plural=_("?plural:Lithuanians")
 groups=_("Medieval"), _("Modern"), _("European")
-conflicts_with="bulgarian"	; Similar flags
 legend=_("Lithuania is a small country on the south coast of the Baltic\
  Sea, northeast of Poland. Lithuanian is the most archaic and complex of\
  the northern Indo-European languages")
@@ -24,6 +23,9 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+; Similar flags
+conflicts_with="bulgarian"
 civilwar_nations = "polish", "danish"
 
 cities =

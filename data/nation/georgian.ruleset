@@ -13,10 +13,9 @@ leader=
  "Davit IV",
  "Alexandre Bagrationi",
  "Merab Kostava",
- "Eduard Shevardnadze",
- "Mikheil Saakashvili"
+ "Eduard Shevardnadze"
 leader_sex="Male", "Male", "Male", "Female",
-           "Male", "Male", "Male", "Male", "Male"
+           "Male", "Male", "Male", "Male"
 flag="georgia"
 flag_alt = "-"
 city_style = "European"

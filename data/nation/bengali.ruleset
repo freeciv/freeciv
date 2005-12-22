@@ -16,10 +16,8 @@ leader=
  "Jagat Malla",
  "Siraj Ud Daulah",
  "Ziaur Rahman",
- "Khaleda Zia",
  "Sheikh Hasina"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Female", "Female"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="bangladesh"
 flag_alt = "-"
 city_style = "Asian"

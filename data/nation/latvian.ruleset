@@ -8,11 +8,9 @@ legend=_("Latvia gained independence from the Russian Empire in 1920, was\
  again in 1991.")
 leader=
  "Karlis Ulmanis",
- "Guntis Ulmanis", 
- "Vaira Vike Freiberga",
+ "Guntis Ulmanis",
  "Namejs"
-leader_sex="Male", "Male", 
-  "Female", "Male"
+leader_sex="Male", "Male", "Male"
 flag="latvia"
 flag_alt = "-"
 city_style = "European"

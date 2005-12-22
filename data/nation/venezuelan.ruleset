@@ -19,11 +19,10 @@ leader=
  "Juan Vicente Gómez",
  "Carlos Andrés Pérez",
  "Rafael Caldera",
- "Hugo R. Chávez",
  "Rómulo Betancourt",
  "Marcos Pérez Jiménez"
 leader_sex="Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Male", "Male", "Male"
+           "Male", "Male", "Male", "Male"
 
 flag="venezuela"
 flag_alt = "-"

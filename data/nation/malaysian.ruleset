@@ -13,11 +13,9 @@ leader =
  "Abdul Rahman",
  "Abdul Razak",
  "Mahathir bin Mohamad",
- "Anwar Ibrahim",
- "Abdullah Ahmad Badawi"
- 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male"
+ "Anwar Ibrahim"
+
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag = "malaysia"
 flag_alt = "-"
 city_style = "Tropical"

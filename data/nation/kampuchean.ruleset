@@ -9,10 +9,9 @@ legend=_("Kampuchea is the modern successor state of the mighty Khmer\
 leader=
  "Pol Pot",
  "Norodom Sihanouk",
- "Hun Sen",
  "Ang Chan",
  "Jayavarman II"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male"
 flag="kampuchea"
 flag_alt = "-"
 city_style = "Asian"

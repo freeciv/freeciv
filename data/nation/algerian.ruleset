@@ -13,11 +13,10 @@ leader=
  "Abd al-Qadir",
  "Benjedid Chadly",
  "Mohammad Boudiaff",
- "Liamine Zeroual",
- "Abdelaziz Bouteflika"
+ "Liamine Zeroual"
 
 leader_sex="Male", "Male", 
-  "Female", "Male", "Male", "Male", "Male", "Male", "Male"
+  "Female", "Male", "Male", "Male", "Male", "Male"
 flag="algeria"
 flag_alt = "-"
 city_style = "Classical"

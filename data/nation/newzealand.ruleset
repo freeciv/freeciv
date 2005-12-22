@@ -9,12 +9,11 @@ legend=_("The island group of New Zealand was annexed by Britain in 1840.\
  Following a royal proclamation in 1907, the country became an independent\
  dominion within the Commonwealth of Nations.")
 leader=
- "Helen Clark",
  "Norm Kirk",
  "Dick Seddon",
  "Rob Muldoon",
  "David Lange"
-leader_sex="Female", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male"
 flag="newzealand"
 flag_alt = "australia"
 city_style = "Tropical"

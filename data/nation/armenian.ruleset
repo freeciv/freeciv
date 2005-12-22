@@ -14,9 +14,8 @@ leader=
  "Trdat III",
  "Menuas",
  "Argishtis I",
- "Levon Ter-Petrossian",
- "Robert Kocharian"
-leader_sex="Male", "Male", "Male", "Male", "Male",
+ "Levon Ter-Petrossian"
+leader_sex="Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male"
 flag="armenia"
 flag_alt = "-"

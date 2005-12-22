@@ -9,12 +9,11 @@ leader=
  "Muhammad ibn Abdalla",
  "Gaadar Muhammad Nimeiri",
  "Suwar al-Dahab",
- "Omar Hassan el-Bashir",
  "Ibrahim Abboud",
  "Sadiq el-Mahdi",
  "Jaafar el-Nemery",
  "Abdul Rahman Swaredahab"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="sudan"
 flag_alt = "-"
 city_style = "Classical"

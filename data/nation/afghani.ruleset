@@ -1,7 +1,5 @@
 [nation_afghani]
 
-; Contributors: Daniel Herding, Daniel Markstedt
-
 name=_("Afghani")
 plural=_("?plural:Afghanis")
 groups=_("Modern"), _("Asian")
@@ -17,9 +15,8 @@ leader=
  "Ahmad Shah",
  "Zahir Shah",
  "Daoud Khan",
- "Mohammad Omar",
- "Hamid Karzai"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+ "Mohammad Omar"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="afghanistan"
 flag_alt = "-"
 city_style = "Classical"

@@ -10,9 +10,12 @@ leader=
  "Jón Sigurdsson",
  "Ingólfur Arnarson",
  "Davíð Oddsson",
- "Ólafur Ragnar Grímsson"
+ "Sveinn Björnsson",
+ "Ásgeir Ásgeirsson",
+ "Kristján Eldjárn",
+ "Vigdís Finnbogadóttir"
 
-leader_sex="Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
 
 flag="iceland"
 flag_alt = "norway"

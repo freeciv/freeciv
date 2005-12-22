@@ -13,9 +13,8 @@ leader=
  "George VI",
  "Victoria",
  "Winston Churchill",
- "Margaret Thatcher",
- "Tony Blair"
-leader_sex="Male", "Male", "Male", "Female", "Male", "Female", "Male"
+ "Margaret Thatcher"
+leader_sex="Male", "Male", "Male", "Female", "Male", "Female"
 flag="united_kingdom"
 flag_alt = "-"
 city_style = "European"

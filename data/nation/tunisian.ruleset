@@ -13,17 +13,14 @@ legend=_("The Phoenicians founded Carthage in the area where Tunisia is\
  and was made a French protectorate. The country became independent in\
  1956.")
 leader=
- "Zine El Abidine Ben Ali",
  "Hussein bin Ali Agha",
  "Khair al-Din",
  "Mustafa Khaznadar",
  "Muhammad al-Munsif",
  "Habib Bourguiba",
  "Hedi Amira Nouira",
- "Muhammad Mzali",
- "Zine el-Abidine Ben Ali"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", 
-"Male", "Male"
+ "Muhammad Mzali"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="tunisia"
 flag_alt = "-"
 city_style = "Classical"

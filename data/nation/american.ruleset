@@ -39,7 +39,6 @@ leader="George Washington",
        "Ronald Reagan",
        "George H. W. Bush",
        "Bill Clinton",
-       "George W. Bush",
        "Eleanor Roosevelt"
 leader_sex="Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
@@ -47,7 +46,7 @@ leader_sex="Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
-           "Male", "Male", "Male", "Male", "Male", 
+           "Male", "Male", "Male", "Male",
            "Female"
 flag="usa"
 flag_alt = "-"

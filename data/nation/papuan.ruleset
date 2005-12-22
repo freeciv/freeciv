@@ -6,10 +6,10 @@ groups=_("Modern"), _("Oceanian")
 legend=_("The Papuans are a Melanesian people on the island of New Guinea.")
 leader=
  "Paias Wingti",
- "Michael Somare",
  "Julius Chan",
- "Mekere Morauta", 
- "Paulias Matane"
+ "Mekere Morauta",
+ "Rabbie Namaliu",
+ "Bill Skate"
 leader_sex="Male", "Male", "Male", "Male", "Male"
 flag = "papua_newguinea"
 flag_alt = "-"

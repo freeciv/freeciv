@@ -12,9 +12,8 @@ leader=
  "Maurits",
  "Emma",
  "Wilhelmina",
- "Juliana",
- "Beatrix"
-leader_sex="Male", "Male", "Female", "Female", "Female", "Female"
+ "Juliana"
+leader_sex="Male", "Male", "Female", "Female", "Female"
 flag="netherlands"
 flag_alt = "holland"
 city_style = "European"

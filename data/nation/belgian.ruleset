@@ -13,10 +13,9 @@ leader=
  "Albert I",
  "Leopold III",
  "Baudouin",	; Flemish name: "Boudewijn"
- "Albert II",
  "Philippe",
  "Elisabeth"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="belgium"
 flag_alt = "-"
 city_style = "Celtic"
