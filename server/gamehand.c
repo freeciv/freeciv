@@ -476,7 +476,7 @@ static void send_ruleset_choices(struct connection *pc)
 
   if (pc->access_level != ALLOW_HACK) {
     freelog(LOG_ERROR, "Trying to send ruleset choices to "
-	    "unprivilidged client.");
+	    "unprivileged client.");
     return;
   }
 
