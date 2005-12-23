@@ -102,7 +102,7 @@ static const char *help_ulabel_name[5][5] =
 static const char *help_tlabel_name[4][5] =
 {
     { N_("Move/Defense:"),	NULL, NULL, N_("Food/Res/Trade:"),	NULL },
-    { N_("Sp1 F/R/T:"),		NULL, NULL, N_("Sp2 F/R/T:"),		NULL },
+    { N_("Resources:"),		NULL, NULL, NULL,			NULL },
     { N_("Road Rslt/Time:"),	NULL, NULL, N_("Irrig. Rslt/Time:"),	NULL },
     { N_("Mine Rslt/Time:"),	NULL, NULL, N_("Trans. Rslt/Time:"),	NULL }
 };
@@ -1045,33 +1045,19 @@ static void help_update_terrain(const struct help_item *pitem,
 	    pterrain->output[O_TRADE]);
     gtk_label_set_text(GTK_LABEL(help_tlabel[0][4]), buf);
 
-    if (*(pterrain->special[0].name)) {
-      sprintf(buf, _("%s F/R/T:"),
-	       pterrain->special[0].name);
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][0]), buf);
-      sprintf(buf, "%d/%d/%d",
-	      pterrain->special[0].output[O_FOOD],
-	      pterrain->special[0].output[O_SHIELD],
-	      pterrain->special[0].output[O_TRADE]);
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), buf);
-    } else {
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][0]), "");
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), "");
-    }
+    buf[0] = '\0';
+    if (pterrain->resources[0]) {
+      const struct resource **r;
 
-    if (*(pterrain->special[1].name)) {
-      sprintf(buf, _("%s F/R/T:"),
-	      pterrain->special[1].name);
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][3]), buf);
-      sprintf(buf, "%d/%d/%d",
-	      pterrain->special[1].output[O_FOOD],
-	      pterrain->special[1].output[O_SHIELD],
-	      pterrain->special[1].output[O_TRADE]);
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][4]), buf);
+      for (r = pterrain->resources; *r; r++) {
+	sprintf (buf + strlen (buf), " %s,", _((*r)->name));
+      }
+      buf[strlen (buf) - 1] = '.';
     } else {
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][3]), "");
-      gtk_label_set_text(GTK_LABEL(help_tlabel[1][4]), "");
+      /* TRANS: (none) as in "Resources: (none)". */
+      sprintf (buf + strlen (buf), _("(none)"));
     }
+    gtk_label_set_text(GTK_LABEL(help_tlabel[1][1]), buf);
 
     if (pterrain->road_trade_incr > 0) {
       sprintf(buf, _("+%d Trade / %d"),

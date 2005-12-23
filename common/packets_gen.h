@@ -93,6 +93,7 @@ struct packet_tile_info {
   Terrain_type_id type;
   int known;
   bool special[S_LAST];
+  Resource_type_id resource;
   int owner;
   Continent_id continent;
   char spec_sprite[MAX_LEN_NAME];
@@ -921,14 +922,8 @@ struct packet_ruleset_terrain {
   int movement_cost;
   int defense_bonus;
   int output[O_MAX];
-  char special_1_name[MAX_LEN_NAME];
-  int output_special_1[O_MAX];
-  char graphic_str_special_1[MAX_LEN_NAME];
-  char graphic_alt_special_1[MAX_LEN_NAME];
-  char special_2_name[MAX_LEN_NAME];
-  int output_special_2[O_MAX];
-  char graphic_str_special_2[MAX_LEN_NAME];
-  char graphic_alt_special_2[MAX_LEN_NAME];
+  int num_resources;
+  Resource_type_id resources[MAX_NUM_RESOURCES];
   int road_trade_incr;
   int road_time;
   Terrain_type_id irrigation_result;
@@ -955,6 +950,7 @@ struct packet_ruleset_control {
   int nation_count;
   int styles_count;
   int terrain_count;
+  int resource_count;
   int num_specialist_types;
 };
 
@@ -1018,6 +1014,14 @@ struct packet_ruleset_effect_req {
   enum req_range range;
   bool survives;
   bool negated;
+};
+
+struct packet_ruleset_resource {
+  Resource_type_id id;
+  char name_orig[MAX_LEN_NAME];
+  int output[O_MAX];
+  char graphic_str[MAX_LEN_NAME];
+  char graphic_alt[MAX_LEN_NAME];
 };
 
 enum packet_type {
@@ -1134,6 +1138,7 @@ enum packet_type {
   PACKET_PLAYER_READY,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
+  PACKET_RULESET_RESOURCE,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1603,6 +1608,10 @@ void lsend_packet_ruleset_effect(struct conn_list *dest, const struct packet_rul
 struct packet_ruleset_effect_req *receive_packet_ruleset_effect_req(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_effect_req(struct connection *pc, const struct packet_ruleset_effect_req *packet);
 void lsend_packet_ruleset_effect_req(struct conn_list *dest, const struct packet_ruleset_effect_req *packet);
+
+struct packet_ruleset_resource *receive_packet_ruleset_resource(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_resource(struct connection *pc, const struct packet_ruleset_resource *packet);
+void lsend_packet_ruleset_resource(struct conn_list *dest, const struct packet_ruleset_resource *packet);
 
 
 void delta_stats_report(void);

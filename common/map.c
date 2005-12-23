@@ -118,7 +118,7 @@ void map_init(void)
   map.num_continents        = 0;
   map.num_oceans            = 0;
   map.num_start_positions   = 0;
-  map.have_specials         = FALSE;
+  map.have_resources = FALSE;
   map.have_rivers_overlay   = FALSE;
   map.have_huts             = FALSE;
 }
@@ -267,7 +267,7 @@ void map_init_topology(bool set_sizes)
 static void tile_init(struct tile *ptile)
 {
   ptile->terrain  = T_UNKNOWN;
-  BV_CLR_ALL(ptile->special);
+  tile_clear_all_specials (ptile);
   BV_CLR_ALL(ptile->tile_known);
   vision_layer_iterate(v) {
     BV_CLR_ALL(ptile->tile_seen[v]);
@@ -279,6 +279,7 @@ static void tile_init(struct tile *ptile)
   ptile->owner    = NULL; /* Tile not claimed by any nation. */
   ptile->spec_sprite = NULL;
   ptile->owner_source = NULL;
+  ptile->resource = NULL;
 }
 
 /****************************************************************************

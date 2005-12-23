@@ -98,6 +98,7 @@ static void send_ruleset_techs(struct conn_list *dest);
 static void send_ruleset_units(struct conn_list *dest);
 static void send_ruleset_buildings(struct conn_list *dest);
 static void send_ruleset_terrain(struct conn_list *dest);
+static void send_ruleset_resources(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
@@ -1403,6 +1404,23 @@ static void load_names(struct section_file *file)
   } terrain_type_iterate_end;
 
   free(sec);
+
+  sec = secfile_get_secnames_prefix(file, "resource_", &nval);
+  game.control.resource_count = nval;
+
+  resource_type_iterate(presource) {
+    char *name = secfile_lookup_str(file, "%s.name",
+				    sec[presource->index]);
+
+    name_strlcpy(presource->name_orig, name);
+    if (0 == strcmp(presource->name_orig, "unused")) {
+      presource->name_orig[0] = '\0';
+    }
+    presource->name = NULL;
+  } resource_type_iterate_end;
+
+  free(sec);
+
 }
 
 /**************************************************************************
@@ -1412,7 +1430,7 @@ static void load_ruleset_terrain(struct section_file *file)
 {
   char *datafile_options;
   int nval;
-  char **sec;
+  char **sec, **res;
   int j;
   const char *filename = secfile_filename(file);
 
@@ -1509,28 +1527,17 @@ static void load_ruleset_terrain(struct section_file *file)
 				     get_output_identifier(o));
     } output_type_iterate_end;
 
-    for (j = 0; j < MAX_NUM_SPECIALS; j++) {
-      char *name = secfile_lookup_str(file, "%s.special_%d_name",
-				      sec[i], j + 1);
-
-      name_strlcpy(pterrain->special[j].name_orig, name);
-      if (0 == strcmp(pterrain->special[j].name_orig, "none")) {
-	pterrain->special[j].name_orig[0] = '\0';
+    res = secfile_lookup_str_vec (file, &nval, "%s.resources", sec[i]);
+    pterrain->resources = fc_calloc(nval + 1,
+				    sizeof(*pterrain->resources));
+    for (j = 0; j < nval; j++) {
+      pterrain->resources[j] = get_resource_by_name_orig(res[j]);
+      if (!pterrain->resources[j]) {
+	freelog(LOG_FATAL, "Could not find resource \"%s\".", res[j]);
+	exit(EXIT_FAILURE);
       }
-      pterrain->special[j].name = pterrain->special[j].name_orig;
-      output_type_iterate(o) {
-	pterrain->special[j].output[o]
-	  = secfile_lookup_int_default(file, 0, "%s.%s_special_%d", sec[i],
-				       get_output_identifier(o), j + 1);
-      } output_type_iterate_end;
-
-      sz_strlcpy(pterrain->special[j].graphic_str,
-		 secfile_lookup_str(file,"%s.graphic_special_%d",
-				    sec[i], j+1));
-      sz_strlcpy(pterrain->special[j].graphic_alt,
-		 secfile_lookup_str(file,"%s.graphic_special_%da",
-				    sec[i], j+1));
     }
+    pterrain->resources[nval] = NULL;
 
     pterrain->road_trade_incr
       = secfile_lookup_int(file, "%s.road_trade_incr", sec[i]);
@@ -1614,7 +1621,40 @@ static void load_ruleset_terrain(struct section_file *file)
     pterrain->helptext = lookup_helptext(file, sec[i]);
   } terrain_type_iterate_end;
 
+  sec = secfile_get_secnames_prefix(file, "resource_", &nval);
+  resource_type_iterate(presource) {
+    const int i = presource->index;
+
+    presource->name = Q_(presource->name_orig);
+    output_type_iterate (o) {
+      presource->output[o] =
+	  secfile_lookup_int_default(file, 0, "%s.%s", sec[i],
+				       get_output_identifier(o));
+    } output_type_iterate_end;
+    sz_strlcpy(presource->graphic_str,
+	       secfile_lookup_str(file,"%s.graphic", sec[i]));
+    sz_strlcpy(presource->graphic_alt,
+	       secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
+
+    presource->identifier
+      = secfile_lookup_str(file, "%s.identifier", sec[i])[0];
+    if (presource->identifier == RESOURCE_NULL_IDENTIFIER) {
+      freelog(LOG_FATAL, "Resource %s can't have '%c' as an identifier,"
+	      " it is reserved.", presource->name, presource->identifier);
+      exit(EXIT_FAILURE);
+    }
+    for (j = 0; j < i; j++) {
+      if (presource->identifier == get_resource(j)->identifier) {
+	freelog(LOG_FATAL,
+		/* TRANS: message for an obscure ruleset error. */
+		_("Resources %s and %s have the same identifier."),
+		presource->name, get_resource(j)->name);
+	exit(EXIT_FAILURE);
+      }
+    }
+  } resource_type_iterate_end;
   free(sec);
+
   section_file_check_unused(file, filename);
   section_file_free(file);
 }
@@ -2727,6 +2767,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
   terrain_type_iterate(pterrain) {
     const int i = pterrain->index;
+    const struct resource **r;
 
     packet.id = i;
 
@@ -2739,22 +2780,12 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     output_type_iterate(o) {
       packet.output[o] = pterrain->output[o];
-      packet.output_special_1[o] = pterrain->special[0].output[o];
-      packet.output_special_2[o] = pterrain->special[1].output[o];
     } output_type_iterate_end;
 
-    sz_strlcpy(packet.special_1_name, pterrain->special[0].name_orig);
-    sz_strlcpy(packet.special_2_name, pterrain->special[1].name_orig);
-
-    sz_strlcpy(packet.graphic_str_special_1,
-	       pterrain->special[0].graphic_str);
-    sz_strlcpy(packet.graphic_alt_special_1,
-	       pterrain->special[0].graphic_alt);
-
-    sz_strlcpy(packet.graphic_str_special_2,
-	       pterrain->special[1].graphic_str);
-    sz_strlcpy(packet.graphic_alt_special_2,
-	       pterrain->special[1].graphic_alt);
+    packet.num_resources = 0;
+    for (r = pterrain->resources; *r; r++) {
+      packet.resources[packet.num_resources++] = (*r)->index;
+    }
 
     packet.road_trade_incr = pterrain->road_trade_incr;
     packet.road_time = pterrain->road_time;
@@ -2788,6 +2819,30 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     lsend_packet_ruleset_terrain(dest, &packet);
   } terrain_type_iterate_end;
+}
+
+/****************************************************************************
+  Send the resource ruleset information to the specified connections.
+****************************************************************************/
+static void send_ruleset_resources(struct conn_list *dest)
+{
+  struct packet_ruleset_resource packet;
+
+  resource_type_iterate (presource) {
+    const int i = presource->index;
+
+    packet.id = i;
+
+    sz_strlcpy(packet.name_orig, presource->name_orig);
+    sz_strlcpy(packet.graphic_str, presource->graphic_str);
+    sz_strlcpy(packet.graphic_alt, presource->graphic_alt);
+
+    output_type_iterate(o) {
+      packet.output[o] = presource->output[o];
+    } output_type_iterate_end;
+
+    lsend_packet_ruleset_resource(dest, &packet);
+  } resource_type_iterate_end;
 }
 
 /**************************************************************************
@@ -3036,6 +3091,7 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_governments(dest);
   send_ruleset_units(dest);
   send_ruleset_specialists(dest);
+  send_ruleset_resources(dest);
   send_ruleset_terrain(dest);
   send_ruleset_buildings(dest);
   send_ruleset_nations(dest);

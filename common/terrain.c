@@ -28,6 +28,7 @@
 #include "terrain.h"
 
 static struct terrain civ_terrains[MAX_NUM_TERRAINS];
+static struct resource civ_resources[MAX_NUM_RESOURCES];
 
 enum tile_special_type infrastructure_specials[] = {
   S_ROAD,
@@ -56,6 +57,9 @@ void terrains_init(void)
   for (i = 0; i < ARRAY_SIZE(civ_terrains); i++) {
     /* Can't use get_terrain here because it does a bounds check. */
     civ_terrains[i].index = i;
+  }
+  for (i = 0; i < ARRAY_SIZE(civ_resources); i++) {
+    civ_resources[i].index = i;
   }
 }
 
@@ -165,6 +169,33 @@ void terrains_free(void)
 }
 
 /****************************************************************************
+  Return the resource for the given resource index.
+****************************************************************************/
+struct resource *get_resource(Resource_type_id type)
+{
+  if (type < 0 || type >= game.control.resource_count) {
+    /* This isn't an error; some callers depend on it. */
+    return NULL;
+  }
+  return &civ_resources[type];
+}
+
+/****************************************************************************
+  Return the resource type matching the name, or T_UNKNOWN if none matches.
+****************************************************************************/
+struct resource *get_resource_by_name_orig(const char *name_orig)
+{
+  resource_type_iterate(presource) {
+    if (0 == strcmp(presource->name_orig, name_orig)) {
+      return presource;
+    }
+  } resource_type_iterate_end;
+
+  return NULL;
+}
+
+
+/****************************************************************************
   This iterator behaves like adjc_iterate or cardinal_adjc_iterate depending
   on the value of card_only.
 ****************************************************************************/
@@ -252,7 +283,6 @@ int count_terrain_property_near_tile(const struct tile *ptile,
  */
 static const char *tile_special_type_names[] =
 {
-  N_("Special1"),
   N_("Road"),
   N_("Irrigation"),
   N_("Railroad"),
@@ -260,7 +290,6 @@ static const char *tile_special_type_names[] =
   N_("Pollution"),
   N_("Hut"),
   N_("Fortress"),
-  N_("Special2"),
   N_("River"),
   N_("Farmland"),
   N_("Airbase"),

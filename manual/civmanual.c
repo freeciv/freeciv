@@ -218,15 +218,14 @@ static bool manual_command(void)
 	      VERSION_STRING);
       fprintf(doc, _("<table border=1><tr><th>Terrain</th>"));
       fprintf(doc, _("<th>Food/ Shield/ Trade</th>"));
-      fprintf(doc, _("<th>Special 1</th><th>Food/ Shield/ Trade</th>"));
-      fprintf(doc, _("<th>Special 2</th><th>Food/ Shield/ Trade</th>"));
+      fprintf(doc, _("<th>Resources</th>"));
       fprintf(doc, _("<th>Move cost</th><th>Defense</th><th>Road "
 		     "+trade</th>\n"));
       fprintf(doc, _("<th>Irrigation +food</th><th>Mining +shields</th>\n"));
       fprintf(doc, _("<th>Transform to</th>"));
       fprintf(doc, "</tr>\n");
       terrain_type_iterate(pterrain) {
-	int s;
+	const struct resource **r;
 
 	if (pterrain->defense_bonus == 0) {
 	  /* Must be a disabled piece of terrain */
@@ -240,15 +239,12 @@ static bool manual_command(void)
 		pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
 		pterrain->output[O_TRADE]);
 
-	for (s = 0; s < MAX_NUM_SPECIALS; s++) {
-	  fprintf(doc, "<td>%s%s%s %s</td>", IMAGE_BEGIN,
-		  pterrain->special[s].graphic_str, IMAGE_END,
-		  pterrain->special[s].name);
-	  fprintf(doc, "<td>%d / %d / %d</td>",
-		  pterrain->special[s].output[O_FOOD],
-		  pterrain->special[s].output[O_SHIELD],
-		  pterrain->special[s].output[O_TRADE]);
+	fprintf (doc, "<td>");
+	for (r = pterrain->resources; *r; r++) {
+	  fprintf (doc, "%s%s%s %s", IMAGE_BEGIN,
+		   (*r)->graphic_str, IMAGE_END, (*r)->name);
 	}
+	fprintf (doc, "</td>");
 
 	fprintf(doc, "<td>%d</td>\n", pterrain->movement_cost);
 	fprintf(doc, "<td>%d0%%</td><td>%d</td><td>%d</td><td>%d</td>\n",
@@ -286,6 +282,21 @@ static bool manual_command(void)
       } terrain_type_iterate_end;
 
       fprintf(doc, "</table>\n");
+
+      fprintf(doc, _("<table border=1><tr><th>Resource</th>"));
+      fprintf(doc, _("<th>Food/ Shield/ Trade</th>"));
+
+      resource_type_iterate (presource) {
+	fprintf(doc, "<tr><td>%s%s%s %s</td>", IMAGE_BEGIN,
+		presource->graphic_str, IMAGE_END, presource->name);
+	fprintf(doc, "<td>%d / %d / %d</td>",
+		presource->output[O_FOOD], presource->output[O_SHIELD],
+		presource->output[O_TRADE]);
+	fprintf(doc, "</tr>");
+      } resource_type_iterate_end;
+
+      fprintf(doc, "</table>\n");
+
       break;
 
     case MANUAL_BUILDINGS:

@@ -596,12 +596,9 @@ static int base_get_output_tile(const struct tile *ptile,
     return 0;
   }
 
-  if (tile_has_special(ptile, S_SPECIAL_1)) {
-    prod = pterrain->special[0].output[otype];
-  } else if (tile_has_special(ptile, S_SPECIAL_2)) {
-    prod = pterrain->special[1].output[otype];
-  } else {
-    prod = pterrain->output[otype];
+  prod = pterrain->output[otype];
+  if (ptile->resource) {
+    prod += ptile->resource->output[otype];
   }
 
   /* create dummy tile which has the city center bonuses. */

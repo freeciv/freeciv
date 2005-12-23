@@ -104,6 +104,22 @@ void tile_set_special(struct tile *ptile, enum tile_special_type spe)
 }
 
 /****************************************************************************
+  Return the resource at the specified tile.
+****************************************************************************/
+const struct resource *tile_get_resource(const struct tile *ptile)
+{
+  return ptile->resource;
+}
+
+/****************************************************************************
+  Set the given resource at the specified tile.
+****************************************************************************/
+void tile_set_resource(struct tile *ptile, const struct resource *presource)
+{
+  ptile->resource = presource;
+}
+
+/****************************************************************************
   Clear the given special or specials from the tile.
 
   This function clears all the specials set in the 'spe' mask from the
@@ -260,14 +276,6 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
     tile_clear_special(ptile, S_FARMLAND);
     break;
 
-  case S_SPECIAL_1:
-    tile_clear_special(ptile, S_SPECIAL_2);
-    break;
-
-  case S_SPECIAL_2:
-    tile_clear_special(ptile, S_SPECIAL_1);
-    break;
-
   case S_ROAD:
   case S_POLLUTION:
   case S_HUT:
@@ -296,13 +304,11 @@ void tile_remove_special(struct tile *ptile, enum tile_special_type special)
     tile_clear_special(ptile, S_RAILROAD);
     break;
 
-  case S_SPECIAL_1:
   case S_RAILROAD:
   case S_MINE:
   case S_POLLUTION:
   case S_HUT:
   case S_FORTRESS:
-  case S_SPECIAL_2:
   case S_RIVER:
   case S_FARMLAND:
   case S_AIRBASE:
@@ -422,8 +428,6 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
   return FALSE;
 }
 
-
-
 /****************************************************************************
   Return a (static) string with tile name describing terrain and specials.
 
@@ -443,27 +447,8 @@ const char *tile_get_info_text(const struct tile *ptile)
     sz_strlcat(s, get_special_name(S_RIVER));
   }
 
-  first = TRUE;
-  if (tile_has_special(ptile, S_SPECIAL_1)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, " (");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, ptile->terrain->special[0].name);
-  }
-  if (tile_has_special(ptile, S_SPECIAL_2)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, " (");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, ptile->terrain->special[1].name);
-  }
-  if (!first) {
-    sz_strlcat(s, ")");
+  if (ptile->resource) {
+    cat_snprintf(s, sizeof(s), " (%s)", ptile->resource->name);
   }
 
   first = TRUE;

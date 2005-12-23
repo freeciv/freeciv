@@ -484,6 +484,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
       for (spe = 0; spe < S_LAST; spe++) {
 	info.special[spe] = BV_ISSET(ptile->special, spe);
       }
+      info.resource = ptile->resource ? ptile->resource->index : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     } else if (pplayer && map_is_known(ptile, pplayer)
@@ -495,6 +496,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile)
       for (spe = 0; spe < S_LAST; spe++) {
 	info.special[spe] = BV_ISSET(plrtile->special, spe);
       }
+      info.resource = plrtile->resource ? plrtile->resource->index : -1;
       info.continent = ptile->continent;
       send_packet_tile_info(pconn, &info);
     }
@@ -958,7 +960,8 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
     map_get_player_tile(ptile, pplayer);
 
   plrtile->terrain = T_UNKNOWN;
-  BV_CLR_ALL(plrtile->special);
+  clear_all_specials(&plrtile->special);
+  plrtile->resource = NULL;
   plrtile->city = NULL;
 
   vision_layer_iterate(v) {
@@ -1002,10 +1005,11 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
   if (plrtile->terrain != ptile->terrain
-      || memcmp(&plrtile->special, &ptile->special,
-		sizeof(plrtile->special)) != 0) {
+      || !BV_ARE_EQUAL(plrtile->special, ptile->special)
+      || plrtile->resource != ptile->resource) {
     plrtile->terrain = ptile->terrain;
     plrtile->special = ptile->special;
+    plrtile->resource = ptile->resource;
     return TRUE;
   }
   return FALSE;
@@ -1015,8 +1019,8 @@ bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile)
   Update playermap knowledge for everybody who sees the tile, and send a
   packet to everyone whose info is changed.
 
-  Note this only checks for changing of the terrain or special for the
-  tile, since these are the only values held in the playermap.
+  Note this only checks for changing of the terrain, special, or resource
+  for the tile, since these are the only values held in the playermap.
 
   A tile's owner always can see terrain changes in his or her territory.
 ****************************************************************************/
@@ -1075,6 +1079,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
       map_set_known(ptile, pdest);
       dest_tile->terrain = from_tile->terrain;
       dest_tile->special = from_tile->special;
+      dest_tile->resource = from_tile->resource;
       dest_tile->last_updated = from_tile->last_updated;
       send_tile_info(pdest->connections, ptile);
 	

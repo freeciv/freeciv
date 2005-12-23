@@ -1946,6 +1946,8 @@ void handle_tile_info(struct packet_tile_info *packet)
       }
     }
   }
+
+  ptile->resource = get_resource(packet->resource);
   if (packet->owner == MAP_TILE_OWNER_NULL) {
     if (ptile->owner) {
       ptile->owner = NULL;
@@ -2305,6 +2307,7 @@ void handle_ruleset_government_ruler_title
 void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 {
   struct terrain *pterrain = get_terrain(p->id);
+  int j;
 
   if (!pterrain) {
     freelog(LOG_ERROR,
@@ -2322,23 +2325,18 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 
   output_type_iterate(o) {
     pterrain->output[o] = p->output[o];
-    pterrain->special[0].output[o] = p->output_special_1[o];
-    pterrain->special[1].output[o] = p->output_special_2[o];
   } output_type_iterate_end;
 
-  sz_strlcpy(pterrain->special[0].name_orig, p->special_1_name);
-  /* See translate_data_names */
-  pterrain->special[0].name = Q_(pterrain->special[0].name_orig);
-
-  sz_strlcpy(pterrain->special[1].name_orig, p->special_2_name);
-  /* See translate_data_names */
-  pterrain->special[1].name = Q_(pterrain->special[1].name_orig);
-
-  sz_strlcpy(pterrain->special[0].graphic_str, p->graphic_str_special_1);
-  sz_strlcpy(pterrain->special[0].graphic_alt, p->graphic_alt_special_1);
-
-  sz_strlcpy(pterrain->special[1].graphic_str, p->graphic_str_special_2);
-  sz_strlcpy(pterrain->special[1].graphic_alt, p->graphic_alt_special_2);
+  pterrain->resources = fc_calloc(p->num_resources + 1,
+				  sizeof(*pterrain->resources));
+  for (j = 0; j < p->num_resources; j++) {
+    pterrain->resources[j] = get_resource(p->resources[j]);
+    if (!pterrain->resources[j]) {
+      freelog(LOG_ERROR, "Mismatched resource for terrain %s.",
+	      pterrain->name_orig);
+    }
+  }
+  pterrain->resources[p->num_resources] = NULL;
 
   pterrain->road_time = p->road_time;
   pterrain->road_trade_incr = p->road_trade_incr;
@@ -2361,6 +2359,32 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   pterrain->helptext = mystrdup(p->helptext);
   
   tileset_setup_tile_type(tileset, pterrain);
+}
+
+/****************************************************************************
+  Handle a packet about a particular terrain resource.
+****************************************************************************/
+void handle_ruleset_resource(struct packet_ruleset_resource *p)
+{
+  struct resource *presource = get_resource(p->id);
+
+  if (!presource) {
+    freelog(LOG_ERROR,
+	    "Received bad resource id %d in handle_ruleset_resource",
+	    p->id);
+    return;
+  }
+
+  sz_strlcpy(presource->name_orig, p->name_orig);
+  presource->name = Q_(presource->name_orig);
+  sz_strlcpy(presource->graphic_str, p->graphic_str);
+  sz_strlcpy(presource->graphic_alt, p->graphic_alt);
+
+  output_type_iterate(o) {
+    presource->output[o] = p->output[o];
+  } output_type_iterate_end;
+
+  tileset_setup_resource(tileset, presource);
 }
 
 /**************************************************************************

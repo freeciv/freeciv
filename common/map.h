@@ -57,9 +57,9 @@ struct civ_map {
   int wetness;
   int steepness;
   int num_start_positions;
-  bool have_specials;
+  bool have_resources;
   bool have_huts;
-  bool have_rivers_overlay;	/* only applies if !have_specials */
+  bool have_rivers_overlay;	/* only applies if !have_resources */
   int num_continents;
   int num_oceans;               /* not updated at the client */
   struct tile *tiles;

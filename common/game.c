@@ -604,12 +604,12 @@ void translate_data_names(void)
   terrain_type_iterate(tthis) {
     tthis->name = ((strcmp(tthis->name_orig, "") != 0)
 			   ? Q_(tthis->name_orig) : "");
-
-    tthis->special[0].name = ((strcmp(tthis->special[0].name_orig, "") != 0)
-			      ? Q_(tthis->special[0].name_orig) : "");
-    tthis->special[1].name = ((strcmp(tthis->special[1].name_orig, "") != 0)
-			      ? Q_(tthis->special[1].name_orig) : "");
   } terrain_type_iterate_end;
+
+  resource_type_iterate (tthis) {
+    tthis->name = (*(tthis->name_orig)) ? Q_(tthis->name_orig) : "";
+  } resource_type_iterate_end;
+
 
   government_iterate(tthis) {
     int j;

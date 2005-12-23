@@ -176,6 +176,7 @@ type ACTIVITY		= uint8(enum unit_activity)
 type EVENT		= sint16(enum event_type)
 type TERRAIN		= sint16(Terrain_type_id)
 type SPECIAL		= uint16(enum tile_special_type)
+type RESOURCE           = sint8(Resource_type_id)
 type SPECIALIST		= uint8(Specialist_type_id)
 type DIPLOMAT_ACTION	= uint8(enum diplomat_actions)
 type CMDLEVEL		= uint8(enum cmdlevel_id)
@@ -339,6 +340,7 @@ PACKET_TILE_INFO=14; sc,lsend,is-info
   TERRAIN type;
   UINT8 known;
   BOOL special[S_LAST];
+  RESOURCE resource;
   PLAYER owner;
   CONTINENT continent;
   STRING spec_sprite[MAX_LEN_NAME];
@@ -1213,16 +1215,8 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   SINT8 defense_bonus;
 
   UINT8 output[O_MAX];
-
-  STRING special_1_name[MAX_LEN_NAME];
-  UINT8 output_special_1[O_MAX];
-  STRING graphic_str_special_1[MAX_LEN_NAME];
-  STRING graphic_alt_special_1[MAX_LEN_NAME];
-
-  STRING special_2_name[MAX_LEN_NAME];
-  UINT8 output_special_2[O_MAX];
-  STRING graphic_str_special_2[MAX_LEN_NAME];
-  STRING graphic_alt_special_2[MAX_LEN_NAME];
+  UINT8 num_resources;
+  RESOURCE resources[MAX_NUM_RESOURCES:num_resources];
 
   UINT8 road_trade_incr;
   UINT8 road_time;
@@ -1262,6 +1256,7 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 nation_count;
   UINT8 styles_count;
   UINT8 terrain_count;
+  UINT8 resource_count;
   UINT8 num_specialist_types;
 end
 
@@ -1339,3 +1334,11 @@ PACKET_RULESET_EFFECT_REQ=123;sc,lsend
   BOOL negated;
 end
 
+PACKET_RULESET_RESOURCE=124;sc,lsend
+  RESOURCE id;
+  
+  STRING name_orig[MAX_LEN_NAME];
+  UINT8 output[O_MAX];
+  STRING graphic_str[MAX_LEN_NAME];
+  STRING graphic_alt[MAX_LEN_NAME];
+end

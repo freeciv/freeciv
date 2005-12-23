@@ -181,6 +181,17 @@
   }                                                                         \
 }
 
+/* Iterate on the specials half-bytes */
+#define special_halfbyte_iterate(s)					    \
+{									    \
+  enum tile_special_type s;						    \
+									    \
+  for(s = 0; 4 * s < S_LAST; s++) {
+
+#define special_halfbyte_iterate_end					    \
+  }									    \
+}
+
 /* The following should be removed when compatibility with
    pre-1.13.0 savegames is broken: startoptions, spacerace2
    and rulesets */
@@ -188,9 +199,12 @@
 " diplchance_percent map_editor known32fix turn " \
 "attributes watchtower rulesetdir client_worklists orders " \
 "startunits turn_last_built improvement_order technology_order embassies " \
-"new_owner_map"
+"new_owner_map resources"
 
 static const char hex_chars[] = "0123456789abcdef";
+
+static void set_savegame_special(bv_special *specials,
+		    char ch, const enum tile_special_type *index);
 
 /***************************************************************
 This returns an ascii hex value of the given half-byte of the binary
@@ -613,6 +627,17 @@ static void map_tiles_load(struct section_file *file)
   } whole_map_iterate_end;
 }
 
+/* The order of the special bits, so that we can rebuild the
+ * bitvector from old savegames (where the order of the bits is
+ * unspecified). Here S_LAST means an unused bit (but see also resource
+ * recovery). */
+static const enum tile_special_type default_specials[] = {
+  S_LAST, S_ROAD, S_IRRIGATION, S_RAILROAD,
+  S_MINE, S_POLLUTION, S_HUT, S_FORTRESS,
+  S_LAST, S_RIVER, S_FARMLAND, S_AIRBASE,
+  S_FALLOUT, S_LAST, S_LAST, S_LAST
+};
+
 /****************************************************************************
   Load the rivers overlay map from a savegame file.
 
@@ -628,27 +653,41 @@ static void map_tiles_load(struct section_file *file)
   rivers overlay but no other specials.  Scenarios that encode things this
   way should have the "riversoverlay" capability.
 ****************************************************************************/
-static void map_rivers_overlay_load(struct section_file *file)
+static void map_rivers_overlay_load(struct section_file *file,
+			      const enum tile_special_type *special_order)
 {
-  /* Get the bits of the special flags which contain the river special
-     and extract the rivers overlay from them. */
-  assert(S_LAST <= 32);
-  LOAD_MAP_DATA(ch, line, ptile,
-		secfile_lookup_str_default(file, NULL, "map.n%03d", line),
-		((ascii_hex2bin(ch, 2) & (1 << S_RIVER))
-		 ? tile_set_special(ptile, S_RIVER) : (void)0));
+  /* used by set_savegame_special */
   map.have_rivers_overlay = TRUE;
+
+  if (special_order) {
+    special_halfbyte_iterate(j) {
+      char buf[16]; /* enough for sprintf() below */
+      sprintf (buf, "map.spe%02d%%03d", j);
+
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	secfile_lookup_str(file, buf, nat_y),
+	set_savegame_special(&ptile->special, ch, special_order + 4 * j));
+    } special_halfbyte_iterate_end;
+  } else {
+    /* Get the bits of the special flags which contain the river special
+       and extract the rivers overlay from them. */
+    assert(S_LAST <= 32);
+    LOAD_MAP_DATA(ch, line, ptile,
+      secfile_lookup_str_default(file, NULL, "map.n%03d", line),
+      set_savegame_special(&ptile->special, ch, default_specials + 8));
+  }
 }
 
 /****************************************************************************
   Complicated helper function for loading specials from a savegame.
 
   'ch' gives the character loaded from the savegame.  Specials are packed
-  in four to a character in hex notation.  'which' specifies which set
-  of specials are included in this character.
+  in four to a character in hex notation.  'index' is a mapping of
+  savegame bit -> special bit. S_LAST is used to mark unused savegame bits.
 ****************************************************************************/
 static void set_savegame_special(bv_special *specials,
-				 char ch, int which)
+				 char ch,
+				 const enum tile_special_type *index)
 {
   int i, bin;
   char *pch = strchr(hex_chars, ch);
@@ -661,10 +700,13 @@ static void set_savegame_special(bv_special *specials,
   }
 
   for (i = 0; i < 4; i++) {
-    enum tile_special_type sp = 4 * which + i;
+    enum tile_special_type sp = index[i];
 
     if (sp >= S_LAST) {
-      break;
+      continue;
+    }
+    if (map.have_rivers_overlay && sp != S_RIVER) {
+      continue;
     }
     if (bin & (1 << i)) {
       set_special(specials, sp);
@@ -675,15 +717,16 @@ static void set_savegame_special(bv_special *specials,
 /****************************************************************************
   Complicated helper function for saving specials into a savegame.
 
-  Specials are packed in four to a character in hex notation.  'which'
+  Specials are packed in four to a character in hex notation.  'index'
   specifies which set of specials are included in this character.
 ****************************************************************************/
-static char get_savegame_special(bv_special specials, int which)
+static char get_savegame_special(bv_special specials,
+				 const enum tile_special_type *index)
 {
   int i, bin = 0;
 
   for (i = 0; i < 4; i++) {
-    enum tile_special_type sp = i + 4 * which;
+    enum tile_special_type sp = index[i];
 
     if (sp >= S_LAST) {
       break;
@@ -695,11 +738,61 @@ static char get_savegame_special(bv_special specials, int which)
 
   return hex_chars[bin];
 }
+/****************************************************************************
+  Complicated helper function for reading resources from a savegame.
+  This reads resources saved in the specials bitvector.
+  ch is the character read from the map, and n is the number of the special
+  (0 for special_1, 1 for special_2).
+****************************************************************************/
+static void set_savegame_old_resource(const struct resource **r,
+				      const struct terrain *terrain,
+				      char ch, int n)
+{
+  assert (n == 0 || n == 1);
+  /* If resource is already set to non-NULL or there is no resource found
+   * in this half-byte, then abort */
+  if (*r || !(ascii_hex2bin (ch, 0) & 0x1) || !terrain->resources[0]) {
+    return;
+  }
+  /* Note that we must handle the case of special_2 set when there is
+   * only one resource defined for the terrain (example, Shields on
+   * Grassland terrain where both resources are identical) */
+  if (n == 0 || !terrain->resources[1]) {
+    *r = terrain->resources[0];
+  } else {
+    *r = terrain->resources[1];
+  }
+}
+
+/****************************************************************************
+  Return the resource for the given identifier.
+****************************************************************************/
+static const struct resource *identifier_to_resource(char c)
+{
+  if (c == RESOURCE_NULL_IDENTIFIER) {
+    return NULL;
+  }
+  resource_type_iterate (r) {
+    if (r->identifier == c) {
+      return r;
+    }
+  } resource_type_iterate_end;
+  return NULL;
+}
+
+/****************************************************************************
+  Return the identifier for the given resource.
+****************************************************************************/
+static char resource_to_identifier(const struct resource *presource)
+{
+  return presource ? presource->identifier : RESOURCE_NULL_IDENTIFIER;
+}
 
 /***************************************************************
 load a complete map from a savegame file
 ***************************************************************/
-static void map_load(struct section_file *file)
+static void map_load(struct section_file *file,
+		     const enum tile_special_type *special_order)
 {
   char *savefile_options = secfile_lookup_str(file, "savefile.options");
 
@@ -715,19 +808,42 @@ static void map_load(struct section_file *file)
     map.num_start_positions = 0;
   }
 
-  /* get 4-bit segments of 16-bit "special" field. */
-  LOAD_MAP_DATA(ch, nat_y, ptile,
-		secfile_lookup_str(file, "map.l%03d", nat_y),
-		set_savegame_special(&ptile->special, ch, 0));
-  LOAD_MAP_DATA(ch, nat_y, ptile,
-		secfile_lookup_str(file, "map.u%03d", nat_y),
-		set_savegame_special(&ptile->special, ch, 1));
-  LOAD_MAP_DATA(ch, nat_y, ptile,
-		secfile_lookup_str_default(file, NULL, "map.n%03d", nat_y),
-		set_savegame_special(&ptile->special, ch, 2));
-  LOAD_MAP_DATA(ch, nat_y, ptile,
-		secfile_lookup_str_default(file, NULL, "map.f%03d", nat_y),
-		set_savegame_special(&ptile->special, ch, 3));
+  if (special_order) {
+    /* First load the resources. This is straightforward. */
+    LOAD_MAP_DATA(ch, nat_y, ptile,
+		  secfile_lookup_str(file, "map.res%03d", nat_y),
+		  ptile->resource = identifier_to_resource(ch));
+
+    special_halfbyte_iterate(j) {
+      char buf[16]; /* enough for sprintf() below */
+      sprintf (buf, "map.spe%02d_%%03d", j);
+
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	  secfile_lookup_str(file, buf, nat_y),
+	  set_savegame_special(&ptile->special, ch, special_order + 4 * j));
+    } special_halfbyte_iterate_end;
+  } else {
+    /* get 4-bit segments of 16-bit "special" field. */
+    LOAD_MAP_DATA(ch, nat_y, ptile,
+	    secfile_lookup_str(file, "map.l%03d", nat_y),
+	    set_savegame_special(&ptile->special, ch, default_specials + 0));
+    LOAD_MAP_DATA(ch, nat_y, ptile,
+	    secfile_lookup_str(file, "map.u%03d", nat_y),
+	    set_savegame_special(&ptile->special, ch, default_specials + 4));
+    LOAD_MAP_DATA(ch, nat_y, ptile,
+	    secfile_lookup_str_default(file, NULL, "map.n%03d", nat_y),
+	    set_savegame_special(&ptile->special, ch, default_specials + 8));
+    LOAD_MAP_DATA(ch, nat_y, ptile,
+	    secfile_lookup_str_default(file, NULL, "map.f%03d", nat_y),
+	    set_savegame_special(&ptile->special, ch, default_specials + 12));
+    /* Setup resources (from half-bytes 1 and 3 of old savegames) */
+    LOAD_MAP_DATA(ch, nat_y, ptile,
+	secfile_lookup_str(file, "map.l%03d", nat_y),
+	set_savegame_old_resource(&ptile->resource, ptile->terrain, ch, 0));
+    LOAD_MAP_DATA(ch, nat_y, ptile,
+	secfile_lookup_str(file, "map.n%03d", nat_y),
+	set_savegame_old_resource(&ptile->resource, ptile->terrain, ch, 1));
+  }
 
   /* Owner and ownership source are stored as plain numbers */
   if (has_capability("new_owner_map", savefile_options)) {
@@ -839,7 +955,7 @@ static void map_load(struct section_file *file)
   }
 
 
-  map.have_specials = TRUE;
+  map.have_resources = TRUE;
 }
 
 /***************************************************************
@@ -884,28 +1000,44 @@ static void map_save(struct section_file *file)
   SAVE_NORMAL_MAP_DATA(ptile, file, "map.t%03d",
 		       terrain2char(ptile->terrain));
 
-  if (!map.have_specials) {
+  if (!map.have_resources) {
     if (map.have_rivers_overlay) {
       /* 
        * Save the rivers overlay map; this is a special case to allow
        * re-saving scenarios which have rivers overlay data.  This only
        * applies if don't have rest of specials.
        */
+      special_halfbyte_iterate(j) {
+	char buf[16]; /* enough for sprintf() below */
+	enum tile_special_type mod[4];
+	int l;
 
-      /* bits 8-11 of special flags field */
-      SAVE_NORMAL_MAP_DATA(ptile, file, "map.n%03d",
-			   get_savegame_special(ptile->special, 2));
+	for (l = 0; l < 4; l++) {
+	  mod[l] = (4 * j + l == S_RIVER) ? S_RIVER : S_LAST;
+	}
+	sprintf (buf, "map.spe%02d_%%03d", j);
+	SAVE_NORMAL_MAP_DATA(ptile, file, buf,
+	    get_savegame_special(ptile->special, mod));
+      } special_halfbyte_iterate_end;
     }
     return;
   }
 
-  /* put 4-bit segments of 12-bit "special flags" field */
-  SAVE_NORMAL_MAP_DATA(ptile, file, "map.l%03d",
-		       get_savegame_special(ptile->special, 0));
-  SAVE_NORMAL_MAP_DATA(ptile, file, "map.u%03d",
-		       get_savegame_special(ptile->special, 1));
-  SAVE_NORMAL_MAP_DATA(ptile, file, "map.n%03d",
-		       get_savegame_special(ptile->special, 2));
+  SAVE_NORMAL_MAP_DATA(ptile, file, "map.res%03d",
+		       resource_to_identifier(ptile->resource));
+
+  special_halfbyte_iterate(j) {
+    char buf[16]; /* enough for sprintf() below */
+    enum tile_special_type mod[4];
+    int l;
+
+    for (l = 0; l < 4; l++) {
+      mod[l] = MIN(4 * j + l, S_LAST);
+    }
+    sprintf (buf, "map.spe%02d_%%03d", j);
+    SAVE_NORMAL_MAP_DATA(ptile, file, buf,
+			 get_savegame_special(ptile->special, mod));
+  } special_halfbyte_iterate_end;
 
   /* Store owner and ownership source as plain numbers */
   {
@@ -956,10 +1088,6 @@ static void map_save(struct section_file *file)
   secfile_insert_bool(file, game.save_options.save_known, "game.save_known");
   if (game.save_options.save_known) {
     int known[MAP_INDEX_SIZE];
-
-    /* put the top 4 bits (bits 12-15) of special flags */
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.f%03d",
-			 get_savegame_special(ptile->special, 3));
 
     /* HACK: we convert the data into a 32-bit integer, and then save it as
      * hex. */
@@ -2382,9 +2510,9 @@ static void player_load(struct player *plr, int plrno,
 The private map for fog of war
 ***********************************************************************/
 static void player_map_load(struct player *plr, int plrno,
-			    struct section_file *file,
-			    char** improvement_order,
-			    int improvement_order_size)
+		      struct section_file *file,
+		      char** improvement_order, int improvement_order_size,
+		      const enum tile_special_type *special_order)
 {
   int i;
 
@@ -2406,22 +2534,44 @@ static void player_map_load(struct player *plr, int plrno,
 		  map_get_player_tile(ptile, plr)->terrain =
 		  char2terrain(ch));
 
-    /* get 4-bit segments of 12-bit "special" field. */
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str(file, "player%d.map_l%03d",
-				     plrno, nat_y),
-	set_savegame_special(&map_get_player_tile(ptile, plr)->special,
-			     ch, 0));
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str(file, "player%d.map_u%03d",
-				     plrno, nat_y),
-	set_savegame_special(&map_get_player_tile(ptile, plr)->special,
-			     ch, 1));
-    LOAD_MAP_DATA(ch, nat_y, ptile,
-		  secfile_lookup_str_default
-		  (file, NULL, "player%d.map_n%03d", plrno, nat_y),
-	set_savegame_special(&map_get_player_tile(ptile, plr)->special,
-			     ch, 2));
+    if (special_order) {
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	secfile_lookup_str(file, "player%d.map_res%03d", plrno, nat_y),
+	map_get_player_tile(ptile, plr)->resource
+		    = identifier_to_resource(ch));
+
+      special_halfbyte_iterate(j) {
+	char buf[32]; /* enough for sprintf() below */
+	sprintf (buf, "player%d.map_spe%02d_%%03d", plrno, j);
+	LOAD_MAP_DATA(ch, nat_y, ptile,
+	    secfile_lookup_str(file, buf, nat_y),
+	    set_savegame_special(&map_get_player_tile(ptile, plr)->special,
+				 ch, special_order + 4 * j));
+      } special_halfbyte_iterate_end;
+    } else {
+      /* get 4-bit segments of 12-bit "special" field. */
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	  secfile_lookup_str(file, "player%d.map_l%03d", plrno, nat_y),
+	  set_savegame_special(&map_get_player_tile(ptile, plr)->special,
+			       ch, default_specials + 0));
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	  secfile_lookup_str(file, "player%d.map_u%03d", plrno, nat_y),
+	  set_savegame_special(&map_get_player_tile(ptile, plr)->special,
+			       ch, default_specials + 4));
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	  secfile_lookup_str_default (file, NULL, "player%d.map_n%03d",
+				      plrno, nat_y),
+	  set_savegame_special(&map_get_player_tile(ptile, plr)->special,
+			       ch, default_specials + 8));
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	secfile_lookup_str(file, "map.l%03d", nat_y),
+	set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
+				  ptile->terrain, ch, 0));
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+	secfile_lookup_str(file, "map.n%03d", nat_y),
+	set_savegame_old_resource(&map_get_player_tile(ptile, plr)->resource,
+				  ptile->terrain, ch, 1));
+    }
 
     /* get 4-bit segments of 16-bit "updated" field */
     LOAD_MAP_DATA(ch, nat_y, ptile,
@@ -3002,14 +3152,21 @@ static void player_save(struct player *plr, int plrno,
     SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_t%03d", plrno, 
 			 terrain2char(map_get_player_tile
 				      (ptile, plr)->terrain));
+    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_res%03d", plrno,
+	resource_to_identifier(map_get_player_tile(ptile, plr)->resource));
 
-    /* put 4-bit segments of 12-bit "special flags" field */
-    SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_l%03d", plrno,
-			 get_savegame_special(map_get_player_tile(ptile, plr)->special, 0));
-    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_u%03d", plrno,
-			 get_savegame_special(map_get_player_tile(ptile, plr)->special, 1));
-    SAVE_PLAYER_MAP_DATA(ptile, file, "player%d.map_n%03d", plrno,
-			 get_savegame_special(map_get_player_tile(ptile, plr)->special, 2));
+    special_halfbyte_iterate(j) {
+      char buf[32]; /* enough for sprintf() below */
+      enum tile_special_type mod[4];
+      int l;
+
+      for (l = 0; l < 4; l++) {
+	mod[l] = MIN(4 * j + l, S_LAST);
+      }
+      sprintf (buf, "player%%d.map_spe%02d_%%03d", j);
+      SAVE_PLAYER_MAP_DATA(ptile, file, buf, plrno,
+	get_savegame_special(map_get_player_tile(ptile, plr)->special, mod));
+    } special_halfbyte_iterate_end;
 
     /* put 4-bit segments of 16-bit "updated" field */
     SAVE_PLAYER_MAP_DATA(ptile, file,"player%d.map_ua%03d", plrno,
@@ -3212,6 +3369,7 @@ void game_load(struct section_file *file)
   char** improvement_order = NULL;
   int improvement_order_size = 0;
   char** technology_order = NULL;
+  enum tile_special_type *special_order = NULL;
   int technology_order_size = 0;
   const char* name;
   int civstyle = 0;
@@ -3228,6 +3386,24 @@ void game_load(struct section_file *file)
   if (has_capability("technology_order", savefile_options)) {
     technology_order = secfile_lookup_str_vec(file, &technology_order_size,
                                               "savefile.technology_order");
+  }
+  if (has_capability("resources", savefile_options)) {
+    char **modname;
+    int nmod;
+    enum tile_special_type j;
+
+    modname = secfile_lookup_str_vec(file, &nmod,
+				     "savefile.specials");
+    /* make sure that the size of the array is divisible by 4 */
+    special_order = fc_calloc(nmod + (4 - (nmod % 4)),
+			      sizeof(*special_order));
+    for (j = 0; j < nmod; j++) {
+      special_order[j] = get_special_by_name(modname[j]);
+    }
+    free(modname);
+    for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
+      special_order[j] = S_LAST;
+    }
   }
 
   /* we require at least version 1.9.0 */
@@ -3557,12 +3733,12 @@ void game_load(struct section_file *file)
 	/* generator 0 = map done with map editor */
 	/* aka a "scenario" */
         if (has_capability("specials",savefile_options)) {
-          map_load(file);
+          map_load(file, special_order);
           return;
         }
         map_tiles_load(file);
         if (has_capability("riversoverlay",savefile_options)) {
-	  map_rivers_overlay_load(file);
+	  map_rivers_overlay_load(file, special_order);
 	}
         if (has_capability("startpos",savefile_options)) {
           map_startpos_load(file);
@@ -3611,7 +3787,7 @@ void game_load(struct section_file *file)
   game.info.is_new_game = !secfile_lookup_bool_default(file, TRUE,
 						  "game.save_players");
 
-  map_load(file);
+  map_load(file, special_order);
 
   if (!game.info.is_new_game) {
     /* destroyed wonders: */
@@ -3644,7 +3820,7 @@ void game_load(struct section_file *file)
     players_iterate(pplayer) {
       player_load(pplayer, pplayer->player_no, file, improvement_order,
 		  improvement_order_size, technology_order,
-		  technology_order_size); 
+		  technology_order_size);
     } players_iterate_end;
     players_iterate(pplayer) {
       /* Some players may have invalid nations in the ruleset.  Pick new
@@ -3699,7 +3875,7 @@ void game_load(struct section_file *file)
        player map we do this afterwards */
     for(i = 0; i < game.info.nplayers; i++) {
       player_map_load(&game.players[i], i, file, improvement_order,
-		      improvement_order_size); 
+		      improvement_order_size, special_order); 
     }
 
     /* We do this here since if the did it in player_load, player 1
@@ -3820,10 +3996,10 @@ void game_save(struct section_file *file, const char *save_reason)
     if (map.num_start_positions>0) {
       sz_strlcat(options, " startpos");
     }
-    if (map.have_specials) {
+    if (map.have_resources) {
       sz_strlcat(options, " specials");
     }
-    if (map.have_rivers_overlay && !map.have_specials) {
+    if (map.have_rivers_overlay && !map.have_resources) {
       sz_strlcat(options, " riversoverlay");
     }
   }
@@ -3858,6 +4034,20 @@ void game_save(struct section_file *file, const char *save_reason)
     secfile_insert_str_vec(file, buf, game.control.num_tech_types,
                            "savefile.technology_order");
   }
+  {
+    const char **modname;
+    enum tile_special_type j;
+
+    /* Save specials order */
+    modname = fc_calloc(S_LAST, sizeof(*modname));
+    for (j = 0; j < S_LAST; j++) {
+      modname[j] = get_special_name(j);
+    }
+    secfile_insert_str_vec(file, modname, S_LAST,
+			   "savefile.specials");
+    free(modname);
+  }
+
   
   secfile_insert_int(file, game.info.gold, "game.gold");
   secfile_insert_int(file, game.info.tech, "game.tech");

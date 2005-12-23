@@ -76,8 +76,6 @@ static void check_specials(void)
       SANITY_TILE(ptile, contains_special(special, S_ROAD));
     if (contains_special(special, S_FARMLAND))
       SANITY_TILE(ptile, contains_special(special, S_IRRIGATION));
-    if (contains_special(special, S_SPECIAL_1))
-      SANITY_TILE(ptile, !contains_special(special,  S_SPECIAL_2));
 
     if (contains_special(special, S_MINE)) {
       SANITY_TILE(ptile, pterrain->mining_result == pterrain);

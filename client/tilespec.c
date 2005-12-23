@@ -107,7 +107,6 @@ struct terrain_drawing_data {
   bool is_blended;
   struct sprite *blend[4]; /* indexed by a direction4 */
 
-  struct sprite *special[2];
   struct sprite *mine;
 };
 
@@ -144,6 +143,7 @@ struct named_sprites {
   struct sprite *building[B_LAST];
   struct sprite *government[G_MAGIC];
   struct sprite *unittype[U_LAST];
+  struct sprite *resource[MAX_NUM_RESOURCES];
 
   struct sprite_vector nation_flag;
   struct sprite_vector nation_shield;
@@ -931,6 +931,9 @@ void tilespec_reread(const char *new_tileset_name)
   terrain_type_iterate(pterrain) {
     tileset_setup_tile_type(tileset, pterrain);
   } terrain_type_iterate_end;
+  resource_type_iterate (presource) {
+    tileset_setup_resource(tileset, presource);
+  } resource_type_iterate_end;
   unit_type_iterate(punittype) {
     tileset_setup_unit_type(tileset, punittype);
   } unit_type_iterate_end;
@@ -2545,6 +2548,25 @@ void tileset_setup_tech_type(struct tileset *t, int id)
   }
 }
 
+/****************************************************************************
+  Set resource sprite values; should only happen after
+  tilespec_load_tiles().
+****************************************************************************/
+void tileset_setup_resource(struct tileset *t,
+			    const struct resource *presource)
+{
+  const int id = presource->index;
+
+  assert(id >= 0 && id < game.control.resource_count);
+  t->sprites.resource[id]
+    = lookup_sprite_tag_alt(t, presource->graphic_str,
+			    presource->graphic_alt,
+			    FALSE, "resource_type",
+			    presource->name);
+}
+
+
+
 /**********************************************************************
   Set tile_type sprite values; should only happen after
   tilespec_load_tiles().
@@ -2731,21 +2753,6 @@ void tileset_setup_tile_type(struct tileset *t,
 				     W / 2, H / 2,
 				     t->sprites.dither_tile, 0, 0);
     }
-  }
-
-  for (i = 0; i < MAX_NUM_SPECIALS; i++) {
-    const char *name = pterrain->special[i].name;
-
-    if (name[0] != '\0') {
-      draw->special[i]
-	= lookup_sprite_tag_alt(t, pterrain->special[i].graphic_str,
-				pterrain->special[i].graphic_alt,
-				TRUE, "tile_type special", name);
-      assert(draw->special[i] != NULL);
-    } else {
-      draw->special[i] = NULL;
-    }
-    /* should probably do something if NULL, eg generic default? */
   }
 
   if (draw->mine_tag) {
@@ -4002,10 +4009,8 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_SPECIAL1:
     if (ptile && client_tile_get_known(ptile) != TILE_UNKNOWN) {
       if (draw_specials) {
-	if (contains_special(tspecial, S_SPECIAL_1)) {
-	  ADD_SPRITE_SIMPLE(t->sprites.terrain[pterrain->index]->special[0]);
-	} else if (contains_special(tspecial, S_SPECIAL_2)) {
-	  ADD_SPRITE_SIMPLE(t->sprites.terrain[pterrain->index]->special[1]);
+	if (ptile->resource) {
+	  ADD_SPRITE_SIMPLE(t->sprites.resource[ptile->resource->index]);
 	}
       }
 

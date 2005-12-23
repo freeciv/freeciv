@@ -324,6 +324,10 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_ruleset_effect_req(packet);
     return TRUE;
 
+  case PACKET_RULESET_RESOURCE:
+    handle_ruleset_resource(packet);
+    return TRUE;
+
   default:
     return FALSE;
   }

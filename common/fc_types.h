@@ -94,6 +94,7 @@ struct city_production {
  * not worth it.  Storage space is not an issue for these types. */
 typedef signed short Continent_id;
 typedef int Terrain_type_id;
+typedef int Resource_type_id;
 typedef int Specialist_type_id;
 typedef int Impr_type_id;
 typedef enum output_type_id Output_type_id;

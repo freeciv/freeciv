@@ -105,5 +105,7 @@ struct packet_ruleset_effect;
 void handle_ruleset_effect(struct packet_ruleset_effect *packet);
 struct packet_ruleset_effect_req;
 void handle_ruleset_effect_req(struct packet_ruleset_effect_req *packet);
+struct packet_ruleset_resource;
+void handle_ruleset_resource(struct packet_ruleset_resource *packet);
 
 #endif /* FC__PACKHAND_GEN_H */

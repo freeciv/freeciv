@@ -103,18 +103,6 @@ fallout_trade_penalty=50
 ; food                 = normal food production
 ; shield               = normal shield production
 ; trade                = normal trade production
-; special_1_name       = name of special; if "none", special is not used
-; graphic_special_1    = full tilespec tag
-; graphic_special_1a   = alternate
-; food_special_1       = special (1) food production
-; shield_special_1     = special (1) shield production
-; trade_special_1      = special (1) trade production
-; special_2_name       = name of special; if "none", special is not used
-; graphic_special_2    = full tilespec tag
-; graphic_special_2a   = alternate
-; food_special_2       = special (2) food production
-; shield_special_2     = special (2) shield production
-; trade_special_2      = special (2) trade production
 ; road_trade_incr      = increment to trade if square has road
 ; road_time            = time to build road; if 0, cannot build road
 ; irrigation_result    = result of irrigation; one of:
@@ -171,18 +159,7 @@ defense_bonus        = 0
 food                 = 0
 shield               = 0
 trade                = 0
-special_1_name       = _("Seals")
-graphic_special_1    = "ts.seals"
-graphic_special_1a   = "-"
-food_special_1       = 2
-shield_special_1     = 0
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Seals"
 road_trade_incr      = 0
 road_time            = 4
 irrigation_result    = "no"
@@ -215,18 +192,7 @@ defense_bonus        = 0
 food                 = 0
 shield               = 1
 trade                = 0
-special_1_name       = _("Oasis")
-graphic_special_1    = "ts.oasis"
-graphic_special_1a   = "-"
-food_special_1       = 3
-shield_special_1     = 1
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Oasis"
 road_trade_incr      = 1
 road_time            = 2
 irrigation_result    = "yes"
@@ -258,18 +224,7 @@ defense_bonus        = 50
 food                 = 1
 shield               = 2
 trade                = 0
-special_1_name       = _("?animals:Game")
-graphic_special_1    = "ts.forest_game"
-graphic_special_1a   = "-"
-food_special_1       = 3
-shield_special_1     = 2
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "?animals:Game"
 road_trade_incr      = 0
 road_time            = 4
 irrigation_result    = "Plains"
@@ -302,18 +257,7 @@ defense_bonus        = 0
 food                 = 2
 shield               = 0
 trade                = 0
-special_1_name       = _("Resources")
-graphic_special_1    = "ts.grassland_resources"
-graphic_special_1a   = "-"
-food_special_1       = 2
-shield_special_1     = 1
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Resources"
 road_trade_incr      = 1
 road_time            = 2
 irrigation_result    = "yes"
@@ -345,18 +289,7 @@ defense_bonus        = 100
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = _("Coal")
-graphic_special_1    = "ts.coal"
-graphic_special_1a   = "-"
-food_special_1       = 1
-shield_special_1     = 2
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Coal"
 road_trade_incr      = 0
 road_time            = 4
 irrigation_result    = "yes"
@@ -389,18 +322,7 @@ defense_bonus        = 50
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = _("Gems")
-graphic_special_1    = "ts.gems"
-graphic_special_1a   = "-"
-food_special_1       = 1
-shield_special_1     = 0
-trade_special_1      = 4
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Gems"
 road_trade_incr      = 0
 road_time            = 4
 irrigation_result    = "Grassland"
@@ -432,18 +354,7 @@ defense_bonus        = 200
 food                 = 0
 shield               = 1
 trade                = 0
-special_1_name       = _("Gold")
-graphic_special_1    = "ts.gold"
-graphic_special_1a   = "-"
-food_special_1       = 0
-shield_special_1     = 1
-trade_special_1      = 6
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Gold"
 road_trade_incr      = 0
 road_time            = 6
 irrigation_result    = "no"
@@ -474,18 +385,7 @@ defense_bonus        = 0
 food                 = 1
 shield               = 0
 trade                = 2
-special_1_name       = _("Fish")
-graphic_special_1    = "ts.fish"
-graphic_special_1a   = "-"
-food_special_1       = 3
-shield_special_1     = 0
-trade_special_1      = 2
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Fish"
 road_trade_incr      = 0
 road_time            = 0
 irrigation_result    = "no"
@@ -518,18 +418,7 @@ defense_bonus        = 0
 food                 = 1
 shield               = 1
 trade                = 0
-special_1_name       = _("Horses")
-graphic_special_1    = "ts.horses"
-graphic_special_1a   = "-"
-food_special_1       = 1
-shield_special_1     = 3
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Horses"
 road_trade_incr      = 1
 road_time            = 2
 irrigation_result    = "yes"
@@ -562,18 +451,7 @@ defense_bonus        = 50
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = _("Oil")
-graphic_special_1    = "ts.oil"
-graphic_special_1a   = "-"
-food_special_1       = 1
-shield_special_1     = 4
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "Oil"
 road_trade_incr      = 0
 road_time            = 4
 irrigation_result    = "Grassland"
@@ -605,18 +483,7 @@ defense_bonus        = 0
 food                 = 1
 shield               = 0
 trade                = 0
-special_1_name       = _("?animals:Game")
-graphic_special_1    = "ts.tundra_game"
-graphic_special_1a   = "-"
-food_special_1       = 3
-shield_special_1     = 0
-trade_special_1      = 0
-special_2_name       = "none"
-graphic_special_2    = "-"
-graphic_special_2a   = "-"
-food_special_2       = 0
-shield_special_2     = 0
-trade_special_2      = 0
+resources            = "?animals:Game"
 road_trade_incr      = 0
 road_time            = 2
 irrigation_result    = "no"
@@ -637,3 +504,83 @@ helptext	     = _("\
 Tundra are broad, cold regions, fit for some agriculture and little\
  else.\
 ")
+
+# On forest, tundra.
+[resource__animals_game]
+name        = _("?animals:Game")
+graphic     = "ts.tundra_game"
+graphic_alt = "-"
+identifier  = "A"
+food        = 2
+
+# On hills.
+[resource_coal]
+name        = _("Coal")
+graphic     = "ts.coal"
+graphic_alt = "-"
+identifier  = "C"
+shield      = 2
+
+# On ocean.
+[resource_fish]
+name        = _("Fish")
+graphic     = "ts.fish"
+graphic_alt = "-"
+identifier  = "F"
+food        = 2
+
+# On jungle.
+[resource_gems]
+name        = _("Gems")
+graphic     = "ts.gems"
+graphic_alt = "-"
+identifier  = "G"
+trade       = 4
+
+# On mountains.
+[resource_gold]
+name        = _("Gold")
+graphic     = "ts.gold"
+graphic_alt = "-"
+identifier  = "H"
+trade       = 6
+
+# On plains.
+[resource_horses]
+name        = _("Horses")
+graphic     = "ts.horses"
+graphic_alt = "-"
+identifier  = "I"
+shield      = 2
+
+# On desert.
+[resource_oasis]
+name        = _("Oasis")
+graphic     = "ts.oasis"
+graphic_alt = "-"
+identifier  = "O"
+food        = 3
+
+# On swamp.
+[resource_oil]
+name        = _("Oil")
+graphic     = "ts.oil"
+graphic_alt = "-"
+identifier  = "P"
+shield      = 4
+
+# On grassland.
+[resource_resources]
+name        = _("Resources")
+graphic     = "ts.grassland_resources"
+graphic_alt = "-"
+identifier  = "R"
+shield      = 1
+
+# On arctic.
+[resource_seals]
+name        = _("Seals")
+graphic     = "ts.seals"
+graphic_alt = "-"
+identifier  = "S"
+food        = 2

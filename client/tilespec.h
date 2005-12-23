@@ -120,6 +120,8 @@ void tileset_setup_impr_type(struct tileset *t, int id);
 void tileset_setup_tech_type(struct tileset *t, int id);
 void tileset_setup_tile_type(struct tileset *t,
 			     const struct terrain *pterrain);
+void tileset_setup_resource(struct tileset *t,
+			    const struct resource *presource);
 void tileset_setup_government(struct tileset *t, int id);
 void tileset_setup_nation_flag(struct tileset *t, int id);
 void tileset_setup_city_tiles(struct tileset *t, int style);

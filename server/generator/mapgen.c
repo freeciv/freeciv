@@ -43,7 +43,7 @@
 #define rmap(ptile) (river_map[ptile->index])
 
 static void make_huts(int number);
-static void add_specials(int prob);
+static void add_resources(int prob);
 static void mapgenerator2(void);
 static void mapgenerator3(void);
 static void mapgenerator4(void);
@@ -1192,8 +1192,8 @@ void map_fractal_generate(bool autosize)
   }
   
   /* some scenarios already provide specials */
-  if (!map.have_specials) {
-    add_specials(map.riches);
+  if (!map.have_resources) {
+    add_resources(map.riches);
   }
 
   if (!map.have_huts) {
@@ -1334,14 +1334,13 @@ static void make_huts(int number)
 }
 
 /****************************************************************************
-  Return TRUE iff there's a special (i.e., SPECIAL_1 or SPECIAL_2) within
-  1 tile of the given map position.
+  Return TRUE iff there's a resource within one tile of the given map
+  position.
 ****************************************************************************/
-static bool is_special_close(struct tile *ptile)
+static bool is_resource_close(const struct tile *ptile)
 {
   square_iterate(ptile, 1, tile1) {
-    if (tile_has_special(tile1, S_SPECIAL_1)
-	|| tile_has_special(tile1, S_SPECIAL_2)) {
+    if (tile1->resource) {
       return TRUE;
     }
   } square_iterate_end;
@@ -1352,34 +1351,31 @@ static bool is_special_close(struct tile *ptile)
 /****************************************************************************
   Add specials to the map with given probability (out of 1000).
 ****************************************************************************/
-static void add_specials(int prob)
+static void add_resources(int prob)
 {
   whole_map_iterate(ptile)  {
     const struct terrain *pterrain = tile_get_terrain(ptile);
 
-    if (!is_ocean(pterrain)
-	&& !is_special_close(ptile) 
-	&& myrand(1000) < prob) {
-      if (pterrain->special[0].name[0] != '\0'
-	  && (pterrain->special[1].name[0] == '\0'
-	      || (myrand(100) < 50))) {
-	tile_set_special(ptile, S_SPECIAL_1);
-      } else if (pterrain->special[1].name[0] != '\0') {
-	tile_set_special(ptile, S_SPECIAL_2);
-      }
-    } else if (is_ocean(pterrain) && near_safe_tiles(ptile) 
-	       && myrand(1000) < prob && !is_special_close(ptile)) {
-      if (pterrain->special[0].name[0] != '\0'
-	  && (pterrain->special[1].name[0] == '\0'
-	      || (myrand(100) < 50))) {
-        tile_set_special(ptile, S_SPECIAL_1);
-      } else if (pterrain->special[1].name[0] != '\0') {
-	tile_set_special(ptile, S_SPECIAL_2);
+    if (is_resource_close (ptile) || myrand (1000) > prob) {
+      continue;
+    }
+    if (!is_ocean(pterrain) || near_safe_tiles (ptile)) {
+      int i = 0;
+      const struct resource **r;
+
+      for (r = pterrain->resources; *r; r++) {
+	/* This is a standard way to get a random element from the
+	 * pterrain->resources list, without computing its length in
+	 * advance. Note that if *(pterrain->resources) == NULL, then
+	 * this loop is a no-op. */
+	if (!myrand (++i)) {
+	  tile_set_resource(ptile, *r);
+	}
       }
     }
   } whole_map_iterate_end;
   
-  map.have_specials = TRUE;
+  map.have_resources = TRUE;
 }
 
 /**************************************************************************
