@@ -470,19 +470,19 @@ static void remove_item_from_worklist(struct GUI *pItem)
     /* remove widget from widget list */
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
   } else {
-        /* change productions to first worklist element */
-        struct GUI *pBuf = pItem->prev;
-      change_production(pEditor->pCopy_WorkList->entries[0]);
-        worklist_advance(pEditor->pCopy_WorkList);
-        del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
-        FREE(pBuf->data.ptr);
-        if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
-          do{
-	    pBuf = pBuf->prev;
-	    *((int *)pBuf->data.ptr) = *((int *)pBuf->data.ptr) - 1;
-          } while(pBuf != pEditor->pWork->pBeginActiveWidgetList);
-        }
-      }
+    /* change productions to first worklist element */
+    struct GUI *pBuf = pItem->prev;
+    change_production(pEditor->pCopy_WorkList->entries[0]);
+    worklist_advance(pEditor->pCopy_WorkList);
+    del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
+    FREE(pBuf->data.ptr);
+    if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
+      do{
+        pBuf = pBuf->prev;
+        *((int *)pBuf->data.ptr) = *((int *)pBuf->data.ptr) - 1;
+      } while(pBuf != pEditor->pWork->pBeginActiveWidgetList);
+    }
+  }
 
 /* FIXME: fix scrollbar code */
 #if 0    
@@ -535,6 +535,7 @@ static void swap_item_down_from_worklist(struct GUI *pItem)
   pText = pItem->string16->text;
   ID = pItem->ID;
   
+  /* second item or higher was clicked */
   if(pItem->data.ptr) {
     /* worklist operations -> swap down */
     int row = *((int *)pItem->data.ptr);
@@ -545,7 +546,7 @@ static void swap_item_down_from_worklist(struct GUI *pItem)
       
     changed = TRUE;  
   } else {
-    /* change production ... */
+    /* first item was clicked -> change production */
     change_production(pEditor->pCopy_WorkList->entries[0]);
     pEditor->pCopy_WorkList->entries[0] = cid_decode(MAX_ID - ID);
       changed = TRUE;
@@ -583,12 +584,14 @@ static void swap_item_up_from_worklist(struct GUI *pItem)
   Uint16 ID = pItem->ID;
   bool changed = FALSE;
   struct city_production tmp;  
-  
+
+  /* first item was clicked -> remove */
   if(pItem == pEditor->pWork->pEndActiveWidgetList) {
     remove_item_from_worklist(pItem);
     return;
   }
-    
+
+  /* third item or higher was clicked */  
   if(pItem->data.ptr && *((int *)pItem->data.ptr) > 0) {
     /* worklist operations -> swap up*/
     int row = *((int *)pItem->data.ptr);
@@ -599,13 +602,14 @@ static void swap_item_up_from_worklist(struct GUI *pItem)
       
     changed = TRUE;    
   } else {
-      /* change production ... */
+    /* second item was clicked -> change production ... */
+    tmp = pEditor->currently_building;
     change_production(pEditor->pCopy_WorkList->entries[0]);
-    pEditor->pCopy_WorkList->entries[0] = pEditor->currently_building;
+    pEditor->pCopy_WorkList->entries[0] = tmp;    
       
-      changed = FALSE;
-    }
-  
+    changed = TRUE;
+  }
+
   if(changed) {
     pItem->string16->text = pItem->next->string16->text;
     pItem->ID = pItem->next->ID;
