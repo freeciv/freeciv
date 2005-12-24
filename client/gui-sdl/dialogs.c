@@ -804,62 +804,6 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
   return buffer;
 }
 
-/***************************************************************
-  Return a (static) string with terrain name;
-  eg: "Hills \n Defense : + 100%"
-  eg: "Hills (Coals) \n Defense : + 100%"
-  eg: "Hills (Coals) \n [Pollution] \n Defense : + 100%"
-***************************************************************/
-const char *sdl_map_get_tile_info_text(struct tile *pTile)
-{
-  static char s[128];
-  bool first;
-    
-  my_snprintf(s, sizeof(s), "%s", pTile->terrain->name);
-  if(tile_has_special(pTile, S_RIVER)) {
-    sz_strlcat(s, "/");
-    sz_strlcat(s, get_special_name(S_RIVER));
-  }
-
-  first = TRUE;
-  if (tile_has_special(pTile, S_SPECIAL_1)) {
-    first = FALSE;
-    cat_snprintf(s, sizeof(s), " (%s", pTile->terrain->special[0].name);
-  }
-  if (tile_has_special(pTile, S_SPECIAL_2)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, " (");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, pTile->terrain->special[1].name);
-  }
-  if (!first) {
-    sz_strlcat(s, ")");
-  }
-
-  first = TRUE;
-  if (tile_has_special(pTile, S_POLLUTION)) {
-    first = FALSE;
-    cat_snprintf(s, sizeof(s), "\n[%s", get_special_name(S_POLLUTION));
-  }
-  if (tile_has_special(pTile, S_FALLOUT)) {
-    if (first) {
-      first = FALSE;
-      sz_strlcat(s, "\n[");
-    } else {
-      sz_strlcat(s, "/");
-    }
-    sz_strlcat(s, get_special_name(S_FALLOUT));
-  }
-  if (!first) {
-    sz_strlcat(s, "]");
-  }
-  
-  return s;
-}
-
 /**************************************************************************
   Popup terrain information dialog.
 **************************************************************************/
@@ -895,7 +839,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   if(client_tile_get_known(ptile) >= TILE_KNOWN_FOGGED) {
   
     my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n%s"),
-		sdl_map_get_tile_info_text(ptile),
+		tile_get_info_text(ptile),
 		get_tile_output_text(ptile),
     		sdl_get_tile_defense_info_text(ptile));
         

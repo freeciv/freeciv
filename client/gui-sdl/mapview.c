@@ -42,7 +42,7 @@
 #include "text.h"
 
 /* gui-sdl */
-#include "dialogs.h" /*sdl_map_get_tile_info_text(...)*/
+#include "dialogs.h"
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
@@ -543,7 +543,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
 		  (hover_unit == pUnit->id) ? _("Select destination") :
 		  unit_activity_text(pUnit),
-		  sdl_map_get_tile_info_text(pTile),
+		  tile_get_info_text(pTile),
 		  (infra_count > 0) ?
 		  get_infrastructure_text(infrastructure) : "",
 		  (infra_count > 0) ? "\n" : "", pCity ? pCity->name : _("NONE"));
