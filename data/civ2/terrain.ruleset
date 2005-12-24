@@ -553,7 +553,7 @@ identifier  = "o"
 name        = _("Pheasant")
 graphic     = "ts.pheasant"
 graphic_alt = "-"
-food        = 3
+food        = 2
 identifier  = "p"
 
 [resource_silk]
