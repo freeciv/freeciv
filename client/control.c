@@ -685,9 +685,9 @@ void request_unit_goto(enum unit_orders last_order)
 
   if (hover_state != HOVER_GOTO) {
     set_hover_state(punit, HOVER_GOTO, ACTIVITY_LAST, last_order);
-    handle_mouse_cursor(NULL);
     enter_goto_state(punit);
     create_line_at_mouse_pos();
+    handle_mouse_cursor(NULL);
   } else {
     assert(goto_is_active());
     goto_add_waypoint();

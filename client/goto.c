@@ -81,6 +81,7 @@ static void reset_last_part(void);
 **************************************************************************/
 static bool is_active = FALSE;
 static bool is_init = FALSE;
+static bool is_goto_valid = FALSE;
 static int connect_initial;
 
 /********************************************************************** 
@@ -125,27 +126,10 @@ void free_client_goto(void)
 
 /**********************************************************************
   Determines if a goto to the destination tile is allowed.
-
-  FIXME: This requires a duplicate and unnecessary PF search, since when
-  we're in hover mode the search is already done once when calculating
-  how to draw the map...then we do it again here.
 ***********************************************************************/
 bool is_valid_goto_destination(struct tile *ptile) 
 {
-  struct part *p = &goto_map.parts[goto_map.num_parts - 1];
-  struct pf_path *new_path;
-
-  if (!goto_is_active()) {
-    return FALSE;
-  } 
-
-  new_path = pf_get_path(p->map, ptile);
-
-  if (new_path) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
+  return is_goto_valid;
 }
 
 /********************************************************************** 
@@ -162,6 +146,8 @@ static void update_last_part(struct tile *ptile)
   freelog(LOG_DEBUG, "update_last_part(%d,%d) old (%d,%d)-(%d,%d)",
           TILE_XY(ptile), TILE_XY(p->start_tile), TILE_XY(p->end_tile));
   new_path = pf_get_path(p->map, ptile);
+
+  is_goto_valid = (new_path != NULL);
 
   if (!new_path) {
     freelog(PATH_LOG_LEVEL, "  no path found");
