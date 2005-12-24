@@ -3860,12 +3860,12 @@ static int fill_goto_sprite_array(const struct tileset *t,
     return 0;
   }
   if (ptile && ptile == get_line_dest()) {
-    int length;
-    int units = length % NUM_TILES_DIGITS;
-    int tens = (length / 10) % NUM_TILES_DIGITS;
+    int length, units, tens;
 
     goto_get_turns(NULL, &length);
-    if (length >= 100) {
+    units = length % NUM_TILES_DIGITS;
+    tens = (length / 10) % NUM_TILES_DIGITS;
+    if (length < 0 || length >= 100) {
       static bool reported = FALSE;
 
       if (!reported) {
