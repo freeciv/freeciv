@@ -3475,7 +3475,7 @@ int draw_edit(struct GUI *pEdit, Sint16 start_x, Sint16 start_y)
 **************************************************************************/
 int redraw_edit(struct GUI *pEdit_Widget)
 {
-  if (get_wstate(pEdit_Widget) & FC_WS_PRESSED) {
+  if (get_wstate(pEdit_Widget) == FC_WS_PRESSED) {
     redraw_edit_chain((struct EDIT *)pEdit_Widget->data.ptr);
   } else {
     int iRet = 0;

@@ -37,9 +37,9 @@
 
 #define	DOUBLE_FRAME_WH		FRAME_WH * 2
 
-#define STATE_MASK		0x03
-#define TYPE_MASK		0x03FC
-#define FLAG_MASK		0xFFFFFC00
+#define STATE_MASK		0x03       /* 0..0000000000000011 */
+#define TYPE_MASK		0x03FC     /* 0..0000001111111100 */
+#define FLAG_MASK		0xFFFFFC00 /* 1..1111110000000000 */
 
 #define MAX_ID			0xFFFF
 /* Text cetnter flags has been moved to 'string16->style' */
@@ -68,9 +68,9 @@ enum WFlags {
 
 /* Widget states */
 enum WState {
-  FC_WS_NORMAL	= 0,
+  FC_WS_NORMAL		= 0,
   FC_WS_SELLECTED	= 1,
-  FC_WS_PRESSED	= 2,
+  FC_WS_PRESSED		= 2,
   FC_WS_DISABLED	= 3
 };
 
