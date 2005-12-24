@@ -27,6 +27,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* common */
 #include "game.h"
@@ -1329,6 +1330,7 @@ static int sell_imprvm_dlg_cancel_callback(struct GUI *pCancel_Button)
   unlock_buffer();
   pCityDlg->pEndCityMenuWidgetList = NULL;
   enable_city_dlg_widgets();
+  redraw_city_dialog(pCityDlg->pCity);
   flush_dirty();
   return -1;
 }
@@ -1359,6 +1361,9 @@ static int sell_imprvm_dlg_ok_callback(struct GUI *pOK_Button)
 		    pCityDlg->pImprv->pEndActiveWidgetList, FC_WS_DISABLED);
   }
 
+  redraw_city_dialog(pCityDlg->pCity);
+  flush_dirty();
+  
   return -1;
 }
 
@@ -1473,11 +1478,16 @@ static int sell_imprvm_dlg_callback(struct GUI *pImpr)
   add_to_gui_list(ID_BUTTON, pOK_Button);
   pCityDlg->pBeginCityMenuWidgetList = pOK_Button;
 
+#if 0
   /* redraw */
   redraw_group(pCityDlg->pBeginCityMenuWidgetList,
 	       pCityDlg->pEndCityMenuWidgetList, 0);
 
   flush_rect(pWindow->size);
+#endif
+
+  redraw_city_dialog(pCityDlg->pCity);
+  flush_dirty();
 
   return -1;
 }
@@ -1567,6 +1577,7 @@ static void disable_city_dlg_widgets(void)
 SDL_Surface * get_scaled_city_map(struct city *pCity)
 {
   SDL_Surface *pBuf = create_city_map(pCity);
+  
   if (pBuf->w > adj_size(192) || pBuf->h > adj_size(134))
   {
     city_map_zoom = (pBuf->w > adj_size(192) ?
@@ -1574,7 +1585,6 @@ SDL_Surface * get_scaled_city_map(struct city *pCity)
                      : (float)adj_size(134) / adj_size(pBuf->h));
     
     SDL_Surface *pRet = ZoomSurface(pBuf, city_map_zoom, city_map_zoom, 1);
-/*    FREESURFACE(pBuf);*/
     return pRet;
   } 
    
@@ -1594,7 +1604,7 @@ static int resource_map_city_dlg_callback(struct GUI *pMap)
 
     city_toggle_worker(pCityDlg->pCity, col, row);
   }
-  
+
   return -1;
 }
 
@@ -2520,9 +2530,11 @@ static void redraw_city_dialog(struct city *pCity)
 
     SDL_Client_Flags ^= CF_CITY_STATUS_SPECIAL;
 
+#if 0
     /* upd. resource map */
     FREESURFACE(pCityDlg->pResource_Map->theme);
     pCityDlg->pResource_Map->theme = get_scaled_city_map(pCity);
+#endif	
 
     /* upd. window title */
     rebuild_citydlg_title_str(pCityDlg->pEndCityWidgetList, pCity);
@@ -2530,14 +2542,14 @@ static void redraw_city_dialog(struct city *pCity)
     rebuild_focus_anim_frames();
   }
 
-  /* redraw city dlg */
-  redraw_group(pCityDlg->pBeginCityWidgetList,
-	       			pCityDlg->pEndCityWidgetList, 0);
-  
   /* update resource map */
   FREESURFACE(pCityDlg->pResource_Map->theme);
   pCityDlg->pResource_Map->theme = get_scaled_city_map(pCity);
 
+  /* redraw city dlg */
+  redraw_group(pCityDlg->pBeginCityWidgetList,
+	       			pCityDlg->pEndCityWidgetList, 0);
+  
   /* ================================================================= */
   my_snprintf(cBuf, sizeof(cBuf), _("City map"));
 
@@ -3493,6 +3505,10 @@ static void redraw_city_dialog(struct city *pCity)
 
   }
   
+  /* redraw "sell improvement" dialog */
+  redraw_group(pCityDlg->pBeginCityMenuWidgetList,
+	       pCityDlg->pEndCityMenuWidgetList, 0);
+ 
   sdl_dirty_rect(pWindow->size);
 }
 
