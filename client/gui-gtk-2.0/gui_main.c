@@ -184,6 +184,7 @@ static GtkWidget *unit_below_pixmap[MAX_NUM_UNITS_BELOW];
 static GtkWidget *unit_below_pixmap_button[MAX_NUM_UNITS_BELOW];
 static GtkWidget *more_arrow_pixmap;
 
+static int unit_id_top;
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
                                             * information display: (or 0) */
 GtkTextView *main_message_area;
@@ -441,7 +442,57 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
       }
     }
 
+    assert(MAX_NUM_BATTLEGROUPS == 4);
+#define BATTLEGROUP_CASE(num)						    \
+  if (ev->state & GDK_CONTROL_MASK) {					    \
+    key_unit_assign_battlegroup((num), (ev->state & GDK_SHIFT_MASK) != 0);  \
+  } else {								    \
+    key_unit_select_battlegroup((num), (ev->state & GDK_SHIFT_MASK) != 0);  \
+  }
+#define BATTLEGROUP_SHIFT_CASE(num)					    \
+  if (ev->state & GDK_CONTROL_MASK) {					    \
+    key_unit_assign_battlegroup((num), TRUE);				    \
+  } else {								    \
+    key_unit_select_battlegroup((num), TRUE);				    \
+  }
+    
     switch (ev->keyval) {
+    case GDK_1:
+      BATTLEGROUP_CASE(0);
+      break;
+
+    case GDK_2:
+      BATTLEGROUP_CASE(1);
+      break;
+
+    case GDK_3:
+      BATTLEGROUP_CASE(2);
+      break;
+
+    case GDK_4:
+      BATTLEGROUP_CASE(3);
+      break;
+
+    case GDK_exclam:
+      /* Shift + 1 */
+      BATTLEGROUP_SHIFT_CASE(0);
+      break;
+
+    case GDK_at:
+      /* Shift + 2 */
+      BATTLEGROUP_SHIFT_CASE(1);
+      break;
+
+    case GDK_numbersign:
+      /* Shift + 3 */
+      BATTLEGROUP_SHIFT_CASE(2);
+      break;
+
+    case GDK_dollar:
+      /* Shift + 4 */
+      BATTLEGROUP_SHIFT_CASE(3);
+      break;
+
       case GDK_KP_Up:
       case GDK_8:
       case GDK_KP_8:
@@ -461,25 +512,21 @@ static gboolean keyboard_handler(GtkWidget *w, GdkEventKey *ev, gpointer data)
 	break;
 
       case GDK_KP_Page_Down:
-      case GDK_3:
       case GDK_KP_3:
 	key_unit_move(DIR8_SOUTHEAST);
 	break;
 
       case GDK_KP_Down:
-      case GDK_2:
       case GDK_KP_2:
 	key_unit_move(DIR8_SOUTH);
 	break;
 
       case GDK_KP_End:
-      case GDK_1:
       case GDK_KP_1:
 	key_unit_move(DIR8_SOUTHWEST);
 	break;
 
       case GDK_KP_Left:
-      case GDK_4:
       case GDK_KP_4:
 	key_unit_move(DIR8_WEST);
 	break;
@@ -692,8 +739,12 @@ void reset_unit_table(void)
    * but we have to make the *internal* state consistent). */
   gtk_widget_hide(more_arrow_pixmap);
   set_unit_icons_more_arrow(FALSE);
-  set_unit_icon(-1, get_unit_in_focus());
-  update_unit_pix_label(get_unit_in_focus());
+  if (get_num_units_in_focus() == 1) {
+    set_unit_icon(-1, unit_list_get(get_units_in_focus(), 0));
+  } else {
+    set_unit_icon(-1, NULL);
+  }
+  update_unit_pix_label(get_units_in_focus());
 }
 
 /**************************************************************************
@@ -1446,6 +1497,7 @@ void set_unit_icon(int idx, struct unit *punit)
 
   if (idx == -1) {
     w = unit_pixmap;
+    unit_id_top = punit ? punit->id : 0;
   } else {
     w = unit_below_pixmap[idx];
     unit_ids[idx] = punit ? punit->id : 0;
@@ -1492,7 +1544,8 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   struct unit *punit;
 
   if (i == -1) {
-    if ((punit = get_unit_in_focus())) {
+    punit = find_unit_by_id(unit_id_top);
+    if (punit && unit_is_in_focus(punit)) {
       /* Clicking on the currently selected unit will center it. */
       center_tile_mapcanvas(punit->tile);
     }

@@ -49,6 +49,7 @@ static int rec_w, rec_h;                /* width, heigth in pixels */
 
 bool rbutton_down = FALSE;
 bool rectangle_active = FALSE;
+static bool rectangle_append;
 
 /* This changes the behaviour of left mouse
    button in Area Selection mode. */
@@ -79,7 +80,8 @@ static void define_tiles_within_rectangle(void);
  anchor is not the drawing start point, but is used to calculate
  width, height. Also record the current mapview centering.
 **************************************************************************/
-void anchor_selection_rectangle(int canvas_x, int canvas_y)
+void anchor_selection_rectangle(int canvas_x, int canvas_y,
+				bool append)
 {
   struct tile *ptile = canvas_pos_to_nearest_tile(canvas_x, canvas_y);
 
@@ -89,6 +91,7 @@ void anchor_selection_rectangle(int canvas_x, int canvas_y)
   /* FIXME: This may be off-by-one. */
   rec_canvas_center_tile = get_center_tile_mapcanvas();
   rec_w = rec_h = 0;
+  rectangle_append = append;
 }
 
 /**************************************************************************
@@ -112,8 +115,8 @@ static void define_tiles_within_rectangle(void)
   /* Iteration direction */
   const int inc_x = (rec_w > 0 ? half_W : -half_W);
   const int inc_y = (rec_h > 0 ? half_H : -half_H);
-
   int x, y, x2, y2, xx, yy;
+  int units = 0;
 
   y = rec_corner_y;
   for (yy = 0; yy <= segments_y; yy++, y += inc_y) {
@@ -144,9 +147,20 @@ static void define_tiles_within_rectangle(void)
       /*  Tile passed all tests; process it.
        */
       if (ptile->city && ptile->city->owner == game.player_ptr) {
+	/* FIXME: handle rectangle_append */
         map_deco[ptile->index].hilite = HILITE_CITY;
         tiles_hilited_cities = TRUE;
       }
+      unit_list_iterate(ptile->units, punit) {
+	if (punit->owner == game.player_ptr) {
+	  if (units == 0 && !rectangle_append) {
+	    set_unit_focus(punit);
+	  } else {
+	    add_unit_focus(punit);
+	  }
+	  units++;
+	}
+      } unit_list_iterate_end;
     }
   }
 
@@ -240,6 +254,18 @@ void redraw_selection_rectangle(void)
 {
   if (rectangle_active) {
     draw_selection_rectangle(rec_corner_x, rec_corner_y, rec_w, rec_h);
+  }
+}
+
+/**************************************************************************
+  Redraws the selection rectangle after a map flush.
+**************************************************************************/
+void cancel_selection_rectangle(void)
+{
+  if (rectangle_active) {
+    rectangle_active = FALSE;
+    rbutton_down = FALSE;
+    dirty_rect(rec_corner_x, rec_corner_y, rec_w, rec_h);
   }
 }
 
@@ -438,12 +464,9 @@ void release_goto_button(int canvas_x, int canvas_y)
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
   if (keyboardless_goto_active && hover_state == HOVER_GOTO && ptile) {
-    struct unit *punit =
-        player_find_unit_by_id(game.player_ptr, hover_unit);
-
     do_unit_goto(ptile);
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-    update_unit_info_label(punit);
+    update_unit_info_label(hover_units);
   }
   keyboardless_goto_active = FALSE;
   keyboardless_goto_button_down = FALSE;
@@ -458,7 +481,7 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
 {
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
-  if (ptile && get_unit_in_focus()
+  if (ptile && get_num_units_in_focus() > 0
       && !same_pos(keyboardless_goto_start_tile, ptile)
       && can_client_issue_orders()) {
     keyboardless_goto_active = TRUE;

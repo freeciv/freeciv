@@ -381,7 +381,7 @@ static void unit_select_append(struct unit *punit, GtkTreeIter *it,
       -1);
   g_object_unref(pix);
 
-  if (punit == get_unit_in_focus()) {
+  if (unit_is_in_focus(punit)) {
     unit_select_path =
       gtk_tree_model_get_path(GTK_TREE_MODEL(unit_select_store), it);
   }

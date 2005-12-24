@@ -176,6 +176,12 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_unit_establish_trade *)packet)->unit_id);
     return TRUE;
 
+  case PACKET_UNIT_BATTLEGROUP:
+    handle_unit_battlegroup(pplayer,
+      ((struct packet_unit_battlegroup *)packet)->unit_id,
+      ((struct packet_unit_battlegroup *)packet)->battlegroup);
+    return TRUE;
+
   case PACKET_UNIT_HELP_BUILD_WONDER:
     handle_unit_help_build_wonder(pplayer,
       ((struct packet_unit_help_build_wonder *)packet)->unit_id);

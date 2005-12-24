@@ -22,7 +22,7 @@
 #include "mapview_common.h"
 
 void update_info_label(void);
-void update_unit_info_label(struct unit *punit);
+void update_unit_info_label(struct unit_list *punitlist);
 void update_timeout_label(void);
 void update_turn_done_button(bool do_restore);
 void update_city_descriptions(void);

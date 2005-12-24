@@ -27,9 +27,10 @@ extern bool keyboardless_goto_button_down;
 extern bool keyboardless_goto_active;
 extern struct tile *keyboardless_goto_start_tile;
 
-void anchor_selection_rectangle(int canvas_x, int canvas_y);
+void anchor_selection_rectangle(int canvas_x, int canvas_y, bool append);
 void update_selection_rectangle(int canvas_x, int canvas_y);
 void redraw_selection_rectangle(void);
+void cancel_selection_rectangle(void);
 
 bool is_city_hilited(struct city *pcity);
 

@@ -242,7 +242,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 116.
+The last used packet number is 117.
 ****************************************************/
 
 
@@ -732,6 +732,8 @@ PACKET_UNIT_INFO=49; sc,lsend
   ACTIVITY activity;
   SPECIAL activity_target;
 
+  SINT8 battlegroup;
+
   BOOL has_orders;
   UINT16 orders_length, orders_index;
   BOOL orders_repeat, orders_vigilant;
@@ -789,6 +791,11 @@ end
 
 PACKET_UNIT_ESTABLISH_TRADE=56;cs,dsend
   UNIT unit_id;
+end
+
+PACKET_UNIT_BATTLEGROUP=117;cs,dsend
+  UNIT unit_id;
+  SINT8 battlegroup;
 end
 
 PACKET_UNIT_HELP_BUILD_WONDER=57;cs,dsend

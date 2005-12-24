@@ -474,6 +474,7 @@ struct packet_unit_info {
   int goto_dest_y;
   enum unit_activity activity;
   enum tile_special_type activity_target;
+  int battlegroup;
   bool has_orders;
   int orders_length;
   int orders_index;
@@ -532,6 +533,11 @@ struct packet_unit_change_homecity {
 
 struct packet_unit_establish_trade {
   int unit_id;
+};
+
+struct packet_unit_battlegroup {
+  int unit_id;
+  int battlegroup;
 };
 
 struct packet_unit_help_build_wonder {
@@ -1136,6 +1142,7 @@ enum packet_type {
   PACKET_OPTIONS_SETTABLE,
   PACKET_RULESET_CHOICES = 115,
   PACKET_PLAYER_READY,
+  PACKET_UNIT_BATTLEGROUP,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
   PACKET_RULESET_RESOURCE,
@@ -1368,6 +1375,10 @@ int dsend_packet_unit_change_homecity(struct connection *pc, int unit_id, int ci
 struct packet_unit_establish_trade *receive_packet_unit_establish_trade(struct connection *pc, enum packet_type type);
 int send_packet_unit_establish_trade(struct connection *pc, const struct packet_unit_establish_trade *packet);
 int dsend_packet_unit_establish_trade(struct connection *pc, int unit_id);
+
+struct packet_unit_battlegroup *receive_packet_unit_battlegroup(struct connection *pc, enum packet_type type);
+int send_packet_unit_battlegroup(struct connection *pc, const struct packet_unit_battlegroup *packet);
+int dsend_packet_unit_battlegroup(struct connection *pc, int unit_id, int battlegroup);
 
 struct packet_unit_help_build_wonder *receive_packet_unit_help_build_wonder(struct connection *pc, enum packet_type type);
 int send_packet_unit_help_build_wonder(struct connection *pc, const struct packet_unit_help_build_wonder *packet);

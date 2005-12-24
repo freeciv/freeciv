@@ -164,6 +164,12 @@ struct unit {
 
   int transported_by;
   int occupy; /* number of units that occupy transporter */
+
+  /* The battlegroup ID: defined by the client but stored by the server. */
+#define MAX_NUM_BATTLEGROUPS (4)
+#define BATTLEGROUP_NONE (-1)
+  int battlegroup;
+
   struct {
     /* Equivalent to pcity->client.color.  Only for F_CITIES units. */
     bool colored;

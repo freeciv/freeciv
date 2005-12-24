@@ -1709,6 +1709,10 @@ static void load_player_units(struct player *plr, int plrno,
     punit->done_moving = secfile_lookup_bool_default(file,
 	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
 
+    punit->battlegroup
+      = secfile_lookup_int_default(file, BATTLEGROUP_NONE,
+				   "player%d.u%d.battlegroup", plrno, i);
+
     /* Load the goto information.  Older savegames will not have the
      * "go" field, so we just load the goto destination by default. */
     if (secfile_lookup_bool_default(file, TRUE,
@@ -2905,6 +2909,8 @@ static void player_save(struct player *plr, int plrno,
 		                plrno, i);
     secfile_insert_int(file, punit->fuel, "player%d.u%d.fuel",
 		                plrno, i);
+    secfile_insert_int(file, punit->battlegroup,
+		       "player%d.u%d.battlegroup", plrno, i);
 
     if (punit->goto_tile) {
       secfile_insert_bool(file, TRUE, "player%d.u%d.go", plrno, i);

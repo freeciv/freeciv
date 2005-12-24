@@ -200,6 +200,7 @@ struct named_sprites {
       *transform,
       *connect,
       *patrol,
+      *battlegroup[MAX_NUM_BATTLEGROUPS],
       *lowfuel,
       *tired;
   } unit;
@@ -1967,7 +1968,7 @@ static void free_city_sprite(struct city_sprite *city_sprite)
 ***********************************************************************/
 static void tileset_lookup_sprite_tags(struct tileset *t)
 {
-  char buffer[512];
+  char buffer[512], buffer2[512];
   const char dir_char[] = "nsew";
   const int W = t->normal_tile_width, H = t->normal_tile_height;
   int i, j, f;
@@ -2150,6 +2151,12 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.transform,    "unit.transform");
   SET_SPRITE(unit.connect,      "unit.connect");
   SET_SPRITE(unit.patrol,       "unit.patrol");
+  for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
+    my_snprintf(buffer, sizeof(buffer), "unit.battlegroup_%d", i);
+    my_snprintf(buffer2, sizeof(buffer2), "city.size_%d", i + 1);
+    assert(MAX_NUM_BATTLEGROUPS < NUM_TILES_DIGITS);
+    SET_SPRITE_ALT(unit.battlegroup[i], buffer, buffer2);
+  }
   SET_SPRITE(unit.lowfuel, "unit.lowfuel");
   SET_SPRITE(unit.tired, "unit.tired");
 
@@ -2196,8 +2203,6 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(city.disorder, "city.disorder");
 
   for(i=0; i<NUM_TILES_DIGITS; i++) {
-    char buffer2[512];
-
     my_snprintf(buffer, sizeof(buffer), "city.size_%d", i);
     SET_SPRITE(city.size[i], buffer);
     my_snprintf(buffer2, sizeof(buffer2), "path.turns_%d", i);
@@ -2990,6 +2995,10 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
+  if (punit->battlegroup != BATTLEGROUP_NONE) {
+    ADD_SPRITE_FULL(t->sprites.unit.battlegroup[punit->battlegroup]);
+  }
+
   if (t->sprites.unit.lowfuel
       && unit_type(punit)->fuel > 0
       && punit->fuel == 1
@@ -3724,7 +3733,7 @@ static int fill_grid_sprite_array(const struct tileset *t,
     bool known[NUM_EDGE_TILES], city[NUM_EDGE_TILES];
     bool unit[NUM_EDGE_TILES], worked[NUM_EDGE_TILES];
     int i;
-    struct unit *pfocus = get_unit_in_focus();
+    struct unit_list *pfocus_units = get_units_in_focus();
 
     for (i = 0; i < NUM_EDGE_TILES; i++) {
       const struct tile *tile = pedge->tile[i];
@@ -3732,9 +3741,18 @@ static int fill_grid_sprite_array(const struct tileset *t,
       int dummy_x, dummy_y;
 
       known[i] = tile && client_tile_get_known(tile) != TILE_UNKNOWN;
-      unit[i] = tile && pfocus && unit_flag(pfocus, F_CITIES)
-	&& city_can_be_built_here(pfocus->tile, pfocus)
-	&& base_map_to_city_map(&dummy_x, &dummy_y, pfocus->tile, tile);
+      unit[i] = FALSE;
+      if (tile) {
+	unit_list_iterate(pfocus_units, pfocus_unit) {
+	  if (unit_flag(pfocus_unit, F_CITIES)
+	      && city_can_be_built_here(pfocus_unit->tile, pfocus_unit)
+	      && base_map_to_city_map(&dummy_x, &dummy_y,
+				      pfocus_unit->tile, tile)) {
+	    unit[i] = TRUE;
+	    break;
+	  }
+	} unit_list_iterate_end;
+      }
       worked[i] = FALSE;
 
       city[i] = (tile
@@ -3842,10 +3860,11 @@ static int fill_goto_sprite_array(const struct tileset *t,
     return 0;
   }
   if (ptile && ptile == get_line_dest()) {
-    int length = get_goto_turns();
+    int length;
     int units = length % NUM_TILES_DIGITS;
     int tens = (length / 10) % NUM_TILES_DIGITS;
 
+    goto_get_turns(NULL, &length);
     if (length >= 100) {
       static bool reported = FALSE;
 
@@ -3894,14 +3913,14 @@ int fill_sprite_array(struct tileset *t,
   struct terrain *pterrain = NULL, *tterrain_near[8];
   bv_special tspecial, tspecial_near[8];
   int tileno, dir;
-  struct unit *pfocus = get_unit_in_focus();
   struct drawn_sprite *save_sprs = sprs;
   struct player *owner = NULL;
 
   /* Unit drawing is disabled if the view options is turned off, but only
    * if we're drawing on the mapview. */
   bool do_draw_unit = (punit && (draw_units || !ptile
-				 || (draw_focus_unit && pfocus == punit)));
+				 || (draw_focus_unit
+				     && unit_is_in_focus(punit))));
   bool solid_bg = (solid_color_behind_units
 		   && (do_draw_unit
 		       || (pcity && draw_cities)
@@ -4099,12 +4118,11 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_UNIT:
   case LAYER_FOCUS_UNIT:
-    if (do_draw_unit && XOR(layer == LAYER_UNIT,
-			    punit == get_unit_in_focus())) {
+    if (do_draw_unit && XOR(layer == LAYER_UNIT, unit_is_in_focus(punit))) {
       bool stacked = ptile && (unit_list_size(ptile->units) > 1);
       bool backdrop = !pcity;
 
-      if (ptile && punit == get_unit_in_focus()
+      if (ptile && unit_is_in_focus(punit)
 	  && t->sprites.unit.select[0]) {
 	/* Special case for drawing the selection rectangle.  The blinking
 	 * unit is handled separately, inside get_drawable_unit(). */
@@ -4239,7 +4257,6 @@ struct unit *get_drawable_unit(const struct tileset *t,
 			       const struct city *citymode)
 {
   struct unit *punit = find_visible_unit(ptile);
-  struct unit *pfocus = get_unit_in_focus();
 
   if (!punit)
     return NULL;
@@ -4247,9 +4264,8 @@ struct unit *get_drawable_unit(const struct tileset *t,
   if (citymode && punit->owner == citymode->owner)
     return NULL;
 
-  if (punit != pfocus
-      || t->sprites.unit.select[0] || focus_unit_state == 0
-      || !same_pos(punit->tile, pfocus->tile))
+  if (!unit_is_in_focus(punit)
+      || t->sprites.unit.select[0] || focus_unit_state == 0)
     return punit;
   else
     return NULL;

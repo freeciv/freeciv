@@ -253,9 +253,9 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
     else if (ev->state & GDK_CONTROL_MASK) {
       action_button_pressed(ev->x, ev->y, SELECT_SEA);
     }
-    /* <SHIFT> + LMB: Copy Production. */
+    /* <SHIFT> + LMB: Append focus unit Production. */
     else if (ptile && (ev->state & GDK_SHIFT_MASK)) {
-      clipboard_copy_production(ptile);
+      action_button_pressed(ev->x, ev->y, SELECT_APPEND);
     }
     /* <ALT> + LMB: popit (same as middle-click) */
     /* FIXME: we need a general mechanism for letting freeciv work with
@@ -310,7 +310,8 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEventButton *ev, gpointer data)
       }
       cancel_tile_hiliting();
       if (hover_state == HOVER_NONE) {
-        anchor_selection_rectangle(ev->x, ev->y);
+        anchor_selection_rectangle(ev->x, ev->y,
+				   (ev->state & GDK_SHIFT_MASK) != 0);
         rbutton_down = TRUE; /* causes rectangle updates */
       }
     }
@@ -391,10 +392,10 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEventMotion *ev, gpointer data)
 **************************************************************************/
 gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
 {
-  struct unit *active_unit = get_unit_in_focus();
+  struct unit_list *active_units = get_units_in_focus();
 
   action_state = CURSOR_ACTION_DEFAULT;
-  update_unit_info_label(active_unit); 
+  update_unit_info_label(active_units); 
   return TRUE;
 }
 
@@ -422,7 +423,8 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEventButton *ev, gpointer dat
   if (can_client_change_view() && (ev->button == 3)) {
     center_tile_mapcanvas(map_pos_to_tile(xtile, ytile));
   } else if (can_client_issue_orders() && (ev->button == 1)) {
-    do_map_click(map_pos_to_tile(xtile, ytile), SELECT_POPUP);
+    do_map_click(map_pos_to_tile(xtile, ytile),
+		 (ev->state & GDK_SHIFT_MASK) ? SELECT_POPUP : SELECT_APPEND);
   }
 
   return TRUE;

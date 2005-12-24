@@ -113,4 +113,7 @@ struct city *get_nearest_city(const struct unit *punit, int *sq_dist);
 void cityrep_buy(struct city *pcity);
 void common_taxrates_callback(int i);
 
+bool can_units_do_connect(struct unit_list *punits,
+			  enum unit_activity activity);
+
 #endif  /* FC__CLIMISC_H */

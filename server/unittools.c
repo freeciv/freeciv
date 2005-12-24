@@ -1767,6 +1767,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
     packet->transported_by = punit->transported_by;
   }
   packet->occupy = get_transporter_occupancy(punit);
+  packet->battlegroup = punit->battlegroup;
   packet->has_orders = punit->has_orders;
   if (punit->has_orders) {
     int i;

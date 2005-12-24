@@ -1426,6 +1426,22 @@ void handle_unit_establish_trade(struct player *pplayer, int unit_id)
 }
 
 /**************************************************************************
+  Assign the unit to the battlegroup.
+
+  Battlegroups are handled entirely by the client, so all we have to
+  do here is save the battlegroup ID so that it'll be persistent.
+**************************************************************************/
+void handle_unit_battlegroup(struct player *pplayer,
+			     int unit_id, int battlegroup)
+{
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+
+  if (punit) {
+    punit->battlegroup = CLIP(-1, battlegroup, MAX_NUM_BATTLEGROUPS);
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_unit_autosettlers(struct player *pplayer, int unit_id)

@@ -76,7 +76,7 @@ const char *popup_info_text(struct tile *ptile)
   const char *activity_text;
   struct city *pcity = ptile->city;
   struct unit *punit = find_visible_unit(ptile);
-  struct unit *pfocus_unit = get_unit_in_focus();
+  struct unit *pfocus_unit = get_focus_unit_on_tile(ptile);
   const char *diplo_nation_plural_adjectives[DS_LAST] =
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      Q_("?nation:Neutral"),
@@ -636,16 +636,17 @@ const char *get_info_label_text_popup(void)
 
   FIXME: this should be renamed.
 ****************************************************************************/
-const char *get_unit_info_label_text1(struct unit *punit)
+const char *get_unit_info_label_text1(struct unit_list *punits)
 {
   static struct astring str = ASTRING_INIT;
+  int count = unit_list_size(punits);
 
   astr_clear(&str);
 
-  if (punit) {
-    struct unit_type *ptype = unit_type(punit);
-
-    astr_add(&str, "%s", ptype->name);
+  if (count == 1) {
+    astr_add(&str, "%s", unit_list_get(punits, 0)->type->name);
+  } else {
+    astr_add(&str, PL_("%d unit", "%d units", count), count);
   }
   return str.str;
 }
@@ -655,26 +656,46 @@ const char *get_unit_info_label_text1(struct unit *punit)
 
   FIXME: this should be renamed.
 ****************************************************************************/
-const char *get_unit_info_label_text2(struct unit *punit)
+const char *get_unit_info_label_text2(struct unit_list *punits)
 {
   static struct astring str = ASTRING_INIT;
+  int count = unit_list_size(punits);
 
   astr_clear(&str);
 
   /* This text should always have the same number of lines.  Otherwise the
    * GUI widgets may be confused and try to resize themselves. */
-  if (punit) {
+
+  /* Line 1. Goto or activity text. */
+  if (count > 0 && unit_list_size(hover_units) > 0) {
+    int min, max;
+
+    goto_get_turns(&min, &max);
+    if (min == max) {
+      astr_add_line(&str, _("Turns to target: %d"), max);
+    } else {
+      astr_add_line(&str, _("Turns to target: %d to %d"), min, max);
+    }
+  } else if (count == 1) {
+    astr_add_line(&str, "%s",
+		  unit_activity_text(unit_list_get(punits, 0)));
+  } else if (count > 1) {
+    astr_add_line(&str, PL_("%d unit selected",
+			    "%d units selected",
+			    count),
+		  count);
+  } else {
+    astr_add_line(&str, _("No units selected."));
+  }
+
+  /* Lines 2, 3, and 4 vary. */
+  if (count == 1) {
+    struct unit *punit = unit_list_get(punits, 0);
     struct city *pcity =
 	player_find_city_by_id(punit->owner, punit->homecity);
     int infracount;
     bv_special infrastructure =
       get_tile_infrastructure_set(punit->tile, &infracount);
-
-    if (hover_unit == punit->id) {
-      astr_add_line(&str, _("Turns to target: %d"), get_goto_turns());
-    } else {
-      astr_add_line(&str, "%s", unit_activity_text(punit));
-    }
 
     astr_add_line(&str, "%s", tile_get_info_text(punit->tile));
     if (infracount > 0) {
@@ -687,12 +708,79 @@ const char *get_unit_info_label_text2(struct unit *punit)
     } else {
       astr_add_line(&str, " ");
     }
-#ifdef DEBUG
-    astr_add_line(&str, "(Unit ID %d)", punit->id);
-#endif
+  } else if (count > 1) {
+    int mil = 0, nonmil = 0;
+    int types_count[U_LAST], i;
+    struct unit_type *top[3];
+
+    memset(types_count, 0, sizeof(types_count));
+    unit_list_iterate(punits, punit) {
+      if (unit_flag(punit, F_NONMIL)) {
+	nonmil++;
+      } else {
+	mil++;
+      }
+      types_count[punit->type->index]++;
+    } unit_list_iterate_end;
+
+    top[0] = top[1] = top[2] = NULL;
+    unit_type_iterate(utype) {
+      if (!top[2]
+	  || types_count[top[2]->index] < types_count[utype->index]) {
+	top[2] = utype;
+
+	if (!top[1]
+	    || types_count[top[1]->index] < types_count[top[2]->index]) {
+	  top[2] = top[1];
+	  top[1] = utype;
+
+	  if (!top[0]
+	      || types_count[top[0]->index] < types_count[utype->index]) {
+	    top[1] = top[0];
+	    top[0] = utype;
+	  }
+	}
+      }
+    } unit_type_iterate_end;
+
+    for (i = 0; i < 3; i++) {
+      if (top[i] && types_count[top[i]->index] > 0) {
+	if (unit_type_flag(top[i], F_NONMIL)) {
+	  nonmil -= types_count[top[i]->index];
+	} else {
+	  mil -= types_count[top[i]->index];
+	}
+	astr_add_line(&str, "%d: %s",
+		      types_count[top[i]->index], top[i]->name);
+      } else {
+	astr_add_line(&str, " ");
+      }
+    }
+
+    if (nonmil > 0 && mil > 0) {
+      astr_add_line(&str, _("Others: %d civil; %d military"), nonmil, mil);
+    } else if (nonmil > 0) {
+      astr_add_line(&str, _("Others: %d civilian"), nonmil);
+    } else if (mil > 0) {
+      astr_add_line(&str, _("Others: %d military"), mil);
+    } else {
+      astr_add_line(&str, " ");
+    }
   } else {
-    astr_add(&str, "\n\n\n");
+    astr_add_line(&str, " ");
+    astr_add_line(&str, " ");
+    astr_add_line(&str, " ");
   }
+
+  /* Line 5. Debug text. */
+#ifdef DEBUG
+  if (count == 1) {
+    astr_add_line(&str, "(Unit ID %d)", unit_list_get(punits, 0)->id);
+  } else {
+    astr_add_line(&str, " ");
+  }
+#endif
+
   return str.str;
 }
 

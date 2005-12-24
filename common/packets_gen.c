@@ -209,6 +209,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_UNIT_ESTABLISH_TRADE:
     return receive_packet_unit_establish_trade(pc, type);
 
+  case PACKET_UNIT_BATTLEGROUP:
+    return receive_packet_unit_battlegroup(pc, type);
+
   case PACKET_UNIT_HELP_BUILD_WONDER:
     return receive_packet_unit_help_build_wonder(pc, type);
 
@@ -562,6 +565,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_UNIT_ESTABLISH_TRADE:
     return "PACKET_UNIT_ESTABLISH_TRADE";
+
+  case PACKET_UNIT_BATTLEGROUP:
+    return "PACKET_UNIT_BATTLEGROUP";
 
   case PACKET_UNIT_HELP_BUILD_WONDER:
     return "PACKET_UNIT_HELP_BUILD_WONDER";
@@ -12256,7 +12262,7 @@ static int cmp_packet_unit_info_100(const void *vkey1, const void *vkey2)
   return 0;
 }
 
-BV_DEFINE(packet_unit_info_100_fields, 30);
+BV_DEFINE(packet_unit_info_100_fields, 31);
 
 static struct packet_unit_info *receive_packet_unit_info_100(struct connection *pc, enum packet_type type)
 {
@@ -12445,8 +12451,16 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       real_packet->activity_target = readin;
     }
   }
-  real_packet->has_orders = BV_ISSET(fields, 22);
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 22)) {
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->battlegroup = readin;
+    }
+  }
+  real_packet->has_orders = BV_ISSET(fields, 23);
+  if (BV_ISSET(fields, 24)) {
     {
       int readin;
     
@@ -12454,7 +12468,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       real_packet->orders_length = readin;
     }
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 25)) {
     {
       int readin;
     
@@ -12462,9 +12476,9 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       real_packet->orders_index = readin;
     }
   }
-  real_packet->orders_repeat = BV_ISSET(fields, 25);
-  real_packet->orders_vigilant = BV_ISSET(fields, 26);
-  if (BV_ISSET(fields, 27)) {
+  real_packet->orders_repeat = BV_ISSET(fields, 26);
+  real_packet->orders_vigilant = BV_ISSET(fields, 27);
+  if (BV_ISSET(fields, 28)) {
     
     {
       int i;
@@ -12483,7 +12497,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 29)) {
     
     {
       int i;
@@ -12502,7 +12516,7 @@ static struct packet_unit_info *receive_packet_unit_info_100(struct connection *
       }
     }
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 30)) {
     
     {
       int i;
@@ -12655,25 +12669,29 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 21);}
 
+  differ = (old->battlegroup != real_packet->battlegroup);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 22);}
+
   differ = (old->has_orders != real_packet->has_orders);
   if(differ) {different++;}
-  if(packet->has_orders) {BV_SET(fields, 22);}
+  if(packet->has_orders) {BV_SET(fields, 23);}
 
   differ = (old->orders_length != real_packet->orders_length);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 24);}
 
   differ = (old->orders_index != real_packet->orders_index);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
+  if(differ) {BV_SET(fields, 25);}
 
   differ = (old->orders_repeat != real_packet->orders_repeat);
   if(differ) {different++;}
-  if(packet->orders_repeat) {BV_SET(fields, 25);}
+  if(packet->orders_repeat) {BV_SET(fields, 26);}
 
   differ = (old->orders_vigilant != real_packet->orders_vigilant);
   if(differ) {different++;}
-  if(packet->orders_vigilant) {BV_SET(fields, 26);}
+  if(packet->orders_vigilant) {BV_SET(fields, 27);}
 
 
     {
@@ -12689,7 +12707,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 27);}
+  if(differ) {BV_SET(fields, 28);}
 
 
     {
@@ -12705,7 +12723,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 28);}
+  if(differ) {BV_SET(fields, 29);}
 
 
     {
@@ -12721,7 +12739,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 29);}
+  if(differ) {BV_SET(fields, 30);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -12795,16 +12813,19 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
   if (BV_ISSET(fields, 21)) {
     dio_put_uint16(&dout, real_packet->activity_target);
   }
-  /* field 22 is folded into the header */
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 22)) {
+    dio_put_sint8(&dout, real_packet->battlegroup);
+  }
+  /* field 23 is folded into the header */
+  if (BV_ISSET(fields, 24)) {
     dio_put_uint16(&dout, real_packet->orders_length);
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 25)) {
     dio_put_uint16(&dout, real_packet->orders_index);
   }
-  /* field 25 is folded into the header */
   /* field 26 is folded into the header */
-  if (BV_ISSET(fields, 27)) {
+  /* field 27 is folded into the header */
+  if (BV_ISSET(fields, 28)) {
   
     {
       int i;
@@ -12814,7 +12835,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     } 
   }
-  if (BV_ISSET(fields, 28)) {
+  if (BV_ISSET(fields, 29)) {
   
     {
       int i;
@@ -12824,7 +12845,7 @@ static int send_packet_unit_info_100(struct connection *pc, const struct packet_
       }
     } 
   }
-  if (BV_ISSET(fields, 29)) {
+  if (BV_ISSET(fields, 30)) {
   
     {
       int i;
@@ -14345,6 +14366,184 @@ int dsend_packet_unit_establish_trade(struct connection *pc, int unit_id)
   real_packet->unit_id = unit_id;
   
   return send_packet_unit_establish_trade(pc, real_packet);
+}
+
+#define hash_packet_unit_battlegroup_100 hash_const
+
+#define cmp_packet_unit_battlegroup_100 cmp_const
+
+BV_DEFINE(packet_unit_battlegroup_100_fields, 2);
+
+static struct packet_unit_battlegroup *receive_packet_unit_battlegroup_100(struct connection *pc, enum packet_type type)
+{
+  packet_unit_battlegroup_100_fields fields;
+  struct packet_unit_battlegroup *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_unit_battlegroup *clone;
+  RECEIVE_PACKET_START(packet_unit_battlegroup, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_unit_battlegroup_100, cmp_packet_unit_battlegroup_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint16(&din, &readin);
+      real_packet->unit_id = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    {
+      int readin;
+    
+      dio_get_sint8(&din, &readin);
+      real_packet->battlegroup = readin;
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_unit_battlegroup_100(struct connection *pc, const struct packet_unit_battlegroup *packet)
+{
+  const struct packet_unit_battlegroup *real_packet = packet;
+  packet_unit_battlegroup_100_fields fields;
+  struct packet_unit_battlegroup *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_UNIT_BATTLEGROUP];
+  int different = 0;
+  SEND_PACKET_START(PACKET_UNIT_BATTLEGROUP);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_unit_battlegroup_100, cmp_packet_unit_battlegroup_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->unit_id != real_packet->unit_id);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+  differ = (old->battlegroup != real_packet->battlegroup);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint16(&dout, real_packet->unit_id);
+  }
+  if (BV_ISSET(fields, 1)) {
+    dio_put_sint8(&dout, real_packet->battlegroup);
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_unit_battlegroup(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_UNIT_BATTLEGROUP] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_UNIT_BATTLEGROUP] = variant;
+}
+
+struct packet_unit_battlegroup *receive_packet_unit_battlegroup(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_unit_battlegroup at the client.");
+  }
+  ensure_valid_variant_packet_unit_battlegroup(pc);
+
+  switch(pc->phs.variant[PACKET_UNIT_BATTLEGROUP]) {
+    case 100: return receive_packet_unit_battlegroup_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_unit_battlegroup(struct connection *pc, const struct packet_unit_battlegroup *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_unit_battlegroup from the server.");
+  }
+  ensure_valid_variant_packet_unit_battlegroup(pc);
+
+  switch(pc->phs.variant[PACKET_UNIT_BATTLEGROUP]) {
+    case 100: return send_packet_unit_battlegroup_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+int dsend_packet_unit_battlegroup(struct connection *pc, int unit_id, int battlegroup)
+{
+  struct packet_unit_battlegroup packet, *real_packet = &packet;
+
+  real_packet->unit_id = unit_id;
+  real_packet->battlegroup = battlegroup;
+  
+  return send_packet_unit_battlegroup(pc, real_packet);
 }
 
 #define hash_packet_unit_help_build_wonder_100 hash_const

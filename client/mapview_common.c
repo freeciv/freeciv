@@ -1736,9 +1736,9 @@ void move_unit_map_canvas(struct unit *punit,
     return;
   }
 
-  if (punit == get_unit_in_focus() && hover_state != HOVER_NONE) {
+  if (unit_is_in_focus(punit) && hover_state != HOVER_NONE) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-    update_unit_info_label(punit);
+    update_unit_info_label(get_units_in_focus());
   }
 
   dest_x = src_tile->x + dx;

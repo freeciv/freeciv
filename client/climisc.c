@@ -74,28 +74,23 @@ void client_remove_unit(struct unit *punit)
   struct city *pcity;
   struct tile *ptile = punit->tile;
   int hc = punit->homecity;
-  struct unit *ufocus = get_unit_in_focus();
   struct unit old_unit = *punit;
+  int old = get_num_units_in_focus();
+  bool update;
 
   freelog(LOG_DEBUG, "removing unit %d, %s %s (%d %d) hcity %d",
 	  punit->id, get_nation_name(unit_owner(punit)->nation),
 	  unit_name(punit->type), TILE_XY(punit->tile), hc);
 
-  if (punit == ufocus) {
-    set_unit_focus(NULL);
-    game_remove_unit(punit);
-    punit = ufocus = NULL;
+  update = (get_focus_unit_on_tile(punit->tile) != NULL);
+  control_unit_killed(punit);
+  game_remove_unit(punit);
+  punit = NULL;
+  if (old > 0 && get_num_units_in_focus() == 0) {
     advance_unit_focus();
-  } else {
-    /* calculate before punit disappears, use after punit removed: */
-    bool update = (ufocus
-		   && same_pos(ufocus->tile, punit->tile));
-
-    game_remove_unit(punit);
-    punit = NULL;
-    if (update) {
-      update_unit_pix_label(ufocus);
-    }
+  } else if (update) {
+    update_unit_pix_label(get_units_in_focus());
+    update_unit_info_label(get_units_in_focus());
   }
 
   pcity = tile_get_city(ptile);
@@ -409,8 +404,8 @@ void center_on_something(void)
   }
 
   can_slide = FALSE;
-  if ((punit = get_unit_in_focus())) {
-    center_tile_mapcanvas(punit->tile);
+  if (get_num_units_in_focus() > 0) {
+    center_tile_mapcanvas(unit_list_get(get_units_in_focus(), 0)->tile);
   } else if (game.player_ptr && (pcity = find_palace(game.player_ptr))) {
     /* Else focus on the capital. */
     center_tile_mapcanvas(pcity->tile);
@@ -1080,4 +1075,19 @@ void common_taxrates_callback(int i)
     lux += delta;
   }
   dsend_packet_player_rates(&aconnection, tax, lux, sci);
+}
+
+/****************************************************************************
+  Returns TRUE if any of the units can do the connect activity.
+****************************************************************************/
+bool can_units_do_connect(struct unit_list *punits,
+			  enum unit_activity activity)
+{
+  unit_list_iterate(punits, punit) {
+    if (can_unit_do_connect(punit, activity)) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
 }

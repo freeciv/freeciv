@@ -203,17 +203,17 @@ static void modify_mouse_cursor(enum cursor_type new_cursor_type)
   Also calls update_unit_pix_label() to update the icons for units on this
   square.
 **************************************************************************/
-void update_unit_info_label(struct unit *punit)
+void update_unit_info_label(struct unit_list *punits)
 {
   enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
   GtkWidget *label;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(unit_info_frame));
   gtk_label_set_text(GTK_LABEL(label),
-		     get_unit_info_label_text1(punit));
+		     get_unit_info_label_text1(punits));
 
   gtk_label_set_text(GTK_LABEL(unit_info_label),
-		     get_unit_info_label_text2(punit));
+		     get_unit_info_label_text2(punits));
 
   switch (hover_state) {
   case HOVER_NONE:
@@ -262,7 +262,7 @@ void update_unit_info_label(struct unit *punit)
 
   modify_mouse_cursor(mouse_cursor_type);
 
-  update_unit_pix_label(punit);
+  update_unit_pix_label(punits);
 }
 
 

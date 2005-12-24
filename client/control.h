@@ -36,13 +36,17 @@ enum cursor_action_state {
 
 /* Selecting unit from a stack without popup. */
 enum quickselect_type {
-  SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND
+  SELECT_POPUP = 0, SELECT_SEA, SELECT_LAND, SELECT_APPEND
 };
 
 void control_init(void);
 void control_done(void);
+void control_unit_killed(struct unit *punit);
 
-extern int hover_unit; /* unit hover_state applies to */
+void unit_change_battlegroup(struct unit *punit, int battlegroup);
+void unit_register_battlegroup(struct unit *punit);
+
+extern struct unit_list *hover_units; /* unit hover_state applies to */
 extern enum cursor_hover_state hover_state;
 extern enum cursor_action_state action_state;
 extern enum unit_activity connect_activity;
@@ -57,13 +61,13 @@ void do_move_unit(struct unit *punit, struct unit *target_unit);
 void do_unit_goto(struct tile *ptile);
 void do_unit_nuke(struct unit *punit);
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile);
-void do_unit_patrol_to(struct unit *punit, struct tile *ptile);
-void do_unit_connect(struct unit *punit, struct tile *ptile,
+void do_unit_patrol_to(struct tile *ptile);
+void do_unit_connect(struct tile *ptile,
 		     enum unit_activity activity);
 void do_map_click(struct tile *ptile, enum quickselect_type qtype);
 void handle_mouse_cursor(struct tile *ptile);
 
-void set_hover_state(struct unit *punit, enum cursor_hover_state state,
+void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity connect_activity,
 		     enum unit_orders goto_last_order);
 void request_center_focus_unit(void);
@@ -83,8 +87,8 @@ void request_unit_disband(struct unit *punit);
 void request_unit_fortify(struct unit *punit);
 void request_unit_goto(enum unit_orders last_order);
 void request_unit_move_done(void);
-void request_unit_nuke(struct unit *punit);
-void request_unit_paradrop(struct unit *punit);
+void request_unit_nuke(struct unit_list *punits);
+void request_unit_paradrop(struct unit_list *punits);
 void request_unit_patrol(void);
 void request_unit_pillage(struct unit *punit);
 void request_unit_sentry(struct unit *punit);
@@ -92,8 +96,9 @@ void request_unit_unload_all(struct unit *punit);
 void request_unit_airlift(struct unit *punit, struct city *pcity);
 void request_unit_return(struct unit *punit);
 void request_unit_upgrade(struct unit *punit);
-void request_unit_wait(struct unit *punit);
+void request_units_wait(struct unit_list *punits);
 void request_unit_wakeup(struct unit *punit);
+void request_unit_select_same_type(struct unit_list *punits);
 void request_diplomat_action(enum diplomat_actions action, int dipl_id,
 			     int target_id, int value);
 void request_toggle_city_outlines(void);
@@ -117,17 +122,21 @@ void request_toggle_fog_of_war(void);
 
 void wakeup_sentried_units(struct tile *ptile);
 
+bool unit_is_in_focus(const struct unit *punit);
+struct unit *get_focus_unit_on_tile(const struct tile *ptile);
 void auto_center_on_focus_unit(void);
 void advance_unit_focus(void);
-struct unit *get_unit_in_focus(void);
+struct unit_list *get_units_in_focus(void);
+int get_num_units_in_focus(void);
 void set_unit_focus(struct unit *punit);
+void add_unit_focus(struct unit *punit);
 void set_unit_focus_and_select(struct unit *punit);
 void update_unit_focus(void);
 struct unit *find_visible_unit(struct tile *ptile);
 void set_units_in_combat(struct unit *pattacker, struct unit *pdefender);
 double blink_active_unit(void);
 double blink_turn_done_button(void);
-void update_unit_pix_label(struct unit *punit);
+void update_unit_pix_label(struct unit_list *punitlist);
 
 void process_caravan_arrival(struct unit *punit);
 void process_diplomat_arrival(struct unit *pdiplomat, int victim_id);
@@ -184,6 +193,8 @@ void key_unit_transform(void);
 void key_unit_unload_all(void);
 void key_unit_wait(void);
 void key_unit_wakeup_others(void);
+void key_unit_assign_battlegroup(int battlegroup, bool append);
+void key_unit_select_battlegroup(int battlegroup, bool append);
 
 /* don't change this unless you also put more entries in data/Freeciv */
 #define MAX_NUM_UNITS_BELOW 4

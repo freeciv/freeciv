@@ -115,6 +115,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   } else {
     punit->transported_by = -1;
   }
+  punit->battlegroup = packet->battlegroup;
   punit->has_orders = packet->has_orders;
   punit->orders.length = packet->orders_length;
   punit->orders.index = packet->orders_index;
@@ -227,7 +228,7 @@ void handle_city_remove(int city_id)
   client_remove_city(pcity);
 
   /* update menus if the focus unit is on the tile. */
-  if (get_unit_in_focus()) {
+  if (get_num_units_in_focus() > 0) {
     update_menus();
   }
 }
@@ -358,7 +359,7 @@ void handle_game_state(int value)
 
     update_info_label();	/* get initial population right */
     update_unit_focus();
-    update_unit_info_label(get_unit_in_focus());
+    update_unit_info_label(get_units_in_focus());
 
     /* Find something sensible to display instead of the intro gfx. */
     center_on_something();
@@ -392,7 +393,7 @@ void handle_city_info(struct packet_city_info *packet)
   bool popup, update_descriptions = FALSE, name_changed = FALSE;
   bool shield_stock_changed = FALSE;
   bool production_changed = FALSE;
-  struct unit *pfocus_unit = get_unit_in_focus();
+  struct unit_list *pfocus_units = get_units_in_focus();
   int caravan_city_id;
 
   pcity=find_city_by_id(packet->id);
@@ -562,8 +563,13 @@ void handle_city_info(struct packet_city_info *packet)
   }
 
   /* Update focus unit info label if necessary. */
-  if (name_changed && pfocus_unit && pfocus_unit->homecity == pcity->id) {
-    update_unit_info_label(pfocus_unit);
+  if (name_changed) {
+    unit_list_iterate(pfocus_units, pfocus_unit) {
+      if (pfocus_unit->homecity == pcity->id) {
+	update_unit_info_label(pfocus_units);
+	break;
+      }
+    } unit_list_iterate_end;
   }
 
   /* Update the units dialog if necessary. */
@@ -637,11 +643,8 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
   }
 
   /* update menus if the focus unit is on the tile. */
-  {
-    struct unit *punit = get_unit_in_focus();
-    if (punit && same_pos(punit->tile, pcity->tile)) {
-      update_menus();
-    }
+  if (get_focus_unit_on_tile(pcity->tile)) {
+    update_menus();
   }
 
   if(is_new) {
@@ -790,7 +793,7 @@ void handle_new_year(int year, int turn)
   update_unit_focus();
   auto_center_on_focus_unit();
 
-  update_unit_info_label(get_unit_in_focus());
+  update_unit_info_label(get_units_in_focus());
   update_menus();
 
   set_seconds_to_turndone(game.info.timeout);
@@ -976,7 +979,6 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   bool check_focus = FALSE;     /* conservative focus change */
   bool moved = FALSE;
   bool ret = FALSE;
-  struct unit *focus_unit = get_unit_in_focus();
   
   punit = player_find_unit_by_id(packet_unit->owner, packet_unit->id);
   if (!punit && find_unit_by_id(packet_unit->id)) {
@@ -988,12 +990,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   if (punit) {
     ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
+    unit_change_battlegroup(punit, packet_unit->battlegroup);
     if (punit->ai.control != packet_unit->ai.control) {
       punit->ai.control = packet_unit->ai.control;
       repaint_unit = TRUE;
       /* AI is set:     may change focus */
       /* AI is cleared: keep focus */
-      if (packet_unit->ai.control && punit == get_unit_in_focus()) {
+      if (packet_unit->ai.control && unit_is_in_focus(punit)) {
         check_focus = TRUE;
       }
     }
@@ -1012,7 +1015,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* May change focus if focus unit gets a new activity.
        * But if new activity is Idle, it means user specifically selected
        * the unit */
-      if (punit == get_unit_in_focus()
+      if (unit_is_in_focus(punit)
 	  && (packet_unit->activity != ACTIVITY_IDLE
 	      || packet_unit->has_orders)) {
         check_focus = TRUE;
@@ -1028,9 +1031,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
 	  && is_player_phase(game.player_ptr, game.info.phase)
-          && (!get_unit_in_focus()
               /* only 1 wakeup focus per tile is useful */
-              || !same_pos(packet_unit->tile, get_unit_in_focus()->tile))) {
+          && !get_focus_unit_on_tile(packet_unit->tile)) {
         set_unit_focus(punit);
         check_focus = FALSE; /* and keep it */
 
@@ -1046,7 +1048,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
       punit->transported_by = packet_unit->transported_by;
       if (punit->occupy != packet_unit->occupy
-	  && focus_unit && focus_unit->tile == packet_unit->tile) {
+	  && get_focus_unit_on_tile(packet_unit->tile)) {
 	/* Special case: (un)loading a unit in a transporter on the
 	 * same tile as the focus unit may (dis)allow the focus unit to be
 	 * loaded.  Thus the orders->(un)load menu item needs updating. */
@@ -1074,7 +1076,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     /* These two lines force the menus to be updated as appropriate when
      * the focus unit changes. */
-    if (punit == get_unit_in_focus()) {
+    if (unit_is_in_focus(punit)) {
       need_update_menus = TRUE;
     }
 
@@ -1109,7 +1111,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       if (pcity && (pcity->id != punit->homecity)) {
 	refresh_city_dialog(pcity);
       }
-      if(punit == get_unit_in_focus()) {
+      if (unit_is_in_focus(punit)) {
         /* Update the orders menu -- the unit might have new abilities */
 	need_update_menus = TRUE;
       }
@@ -1117,7 +1119,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
     /* May change focus if an attempted move or attack exhausted unit */
     if (punit->moves_left != packet_unit->moves_left
-        && punit == get_unit_in_focus()) {
+        && unit_is_in_focus(punit)) {
       check_focus = TRUE;
     }
 
@@ -1221,6 +1223,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     unit_list_prepend(punit->owner->units, punit);
     unit_list_prepend(punit->tile->units, punit);
 
+    unit_register_battlegroup(punit);
+
     if((pcity=find_city_by_id(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
     }
@@ -1241,20 +1245,17 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
   assert(punit != NULL);
 
-  if (punit == get_unit_in_focus()) {
-    update_unit_info_label(punit);
-  } else if (get_unit_in_focus()
-	     && (same_pos(get_unit_in_focus()->tile, punit->tile)
-		 || (moved
-		     && same_pos(get_unit_in_focus()->tile, old_tile)))) {
-    update_unit_info_label(get_unit_in_focus());
+  if (unit_is_in_focus(punit)
+      || get_focus_unit_on_tile(punit->tile)
+      || (moved && get_focus_unit_on_tile(old_tile))) {
+    update_unit_info_label(get_units_in_focus());
   }
 
   if (repaint_unit) {
     refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
   }
 
-  if ((check_focus || get_unit_in_focus() == NULL)
+  if ((check_focus || get_num_units_in_focus() == 0)
       && game.player_ptr
       && !game.player_ptr->ai.control
       && is_player_phase(game.player_ptr, game.info.phase)) {
@@ -1565,7 +1566,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       /* If we just learned bridge building and focus is on a settler
 	 on a river the road menu item will remain disabled unless we
 	 do this. (applys in other cases as well.) */
-      if (get_unit_in_focus()) {
+      if (get_num_units_in_focus() > 0) {
 	update_menus();
       }
     }
@@ -2056,8 +2057,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   /* update menus if the focus unit is on the tile. */
   if (tile_changed) {
-    struct unit *punit = get_unit_in_focus();
-    if (punit && same_pos(punit->tile, ptile)) {
+    if (get_focus_unit_on_tile(ptile)) {
       update_menus();
     }
   }
