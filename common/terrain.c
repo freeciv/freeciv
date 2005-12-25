@@ -301,7 +301,7 @@ static const char *tile_special_type_names[] =
 
   FIXME: should be find_special_by_name().
 ****************************************************************************/
-enum tile_special_type get_special_by_name(const char *name)
+enum tile_special_type get_special_by_name_orig(const char *name)
 {
   enum tile_special_type i;
 
@@ -316,13 +316,23 @@ enum tile_special_type get_special_by_name(const char *name)
 }
 
 /****************************************************************************
-  Return the name of the given special.
+  Return the translated name of the given special.
 ****************************************************************************/
 const char *get_special_name(enum tile_special_type type)
 {
   assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
   assert(type >= 0 && type < S_LAST);
   return _(tile_special_type_names[type]);
+}
+
+/****************************************************************************
+  Return the untranslated name of the given special.
+****************************************************************************/
+const char *get_special_name_orig(enum tile_special_type type)
+{
+  assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
+  assert(type >= 0 && type < S_LAST);
+  return tile_special_type_names[type];
 }
 
 /****************************************************************************

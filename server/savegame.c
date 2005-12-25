@@ -3404,7 +3404,7 @@ void game_load(struct section_file *file)
     special_order = fc_calloc(nmod + (4 - (nmod % 4)),
 			      sizeof(*special_order));
     for (j = 0; j < nmod; j++) {
-      special_order[j] = get_special_by_name(modname[j]);
+      special_order[j] = get_special_by_name_orig(modname[j]);
     }
     free(modname);
     for (; j < S_LAST + (4 - (S_LAST % 4)); j++) {
@@ -4047,7 +4047,7 @@ void game_save(struct section_file *file, const char *save_reason)
     /* Save specials order */
     modname = fc_calloc(S_LAST, sizeof(*modname));
     for (j = 0; j < S_LAST; j++) {
-      modname[j] = get_special_name(j);
+      modname[j] = get_special_name_orig(j);
     }
     secfile_insert_str_vec(file, modname, S_LAST,
 			   "savefile.specials");

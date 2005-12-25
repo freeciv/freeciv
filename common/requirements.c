@@ -122,7 +122,7 @@ struct req_source req_source_from_str(const char *type, const char *value)
     }
     break;
   case REQ_SPECIAL:
-    source.value.special = get_special_by_name(value);
+    source.value.special = get_special_by_name_orig(value);
     if (source.value.special != S_LAST) {
       return source;
     }

@@ -195,8 +195,9 @@ int count_terrain_property_near_tile(const struct tile *ptile,
 				     enum mapgen_terrain_property prop);
 
 /* General special accessor functions. */
-enum tile_special_type get_special_by_name(const char * name);
+enum tile_special_type get_special_by_name_orig(const char * name);
 const char *get_special_name(enum tile_special_type type);
+const char *get_special_name_orig(enum tile_special_type type);
 void set_special(bv_special *set, enum tile_special_type to_set);
 void clear_special(bv_special *set, enum tile_special_type to_clear);
 void clear_all_specials(bv_special *set);
