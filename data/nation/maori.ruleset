@@ -30,18 +30,20 @@ init_government="Despotism"
 init_units=""
 civilwar_nations="newzealand", "papuan"
 
-; English name of city in comment.
-; Later part of list is a random selection of lesser communities:
-; A more historically relevant city list would be welcomed!
 cities =
+ "Tamaki (hills, ocean)",	; Auckland (Maorification: Ākarana)
  "Rotorua (swamp, river, !ocean)",
- "Poneke (hills, ocean)",	; Wellington
- "Akarana (hills, ocean)",	; Auckland
+ "Ngaruawahia",
+ "Manukau (grassland, ocean)",
+ "Whakatane",
+ "Wairoa (ocean, plains)",
+ "Kataia",
+ "Whangarei", 
+ "Te Puke",
+ "Te Whanganui (hills, ocean)",	; Wellington; alt. Maori: Poneke
  "Otautahi (plains, ocean)",	; Christchurch
  "Otepoti (ocean)",		; Dunedin
  "Waitakere",
- "Manukau (grassland, ocean)",
- "Te Maru (hills, ocean)",	; Timaru
  "Waiheke (ocean)",
  "Matakana",
  "Hokianga (ocean)",
@@ -54,7 +56,6 @@ cities =
  "Mahia",
  "Waihi (ocean, mountains)",
  "Kaipara (ocean)",
- "Wairoa (ocean, plains)",
  "Hikurangi (mountains)",
  "Heretaunga (plains)",
  "Hikurangi",

@@ -1,7 +1,7 @@
 [nation_mayan]
 
 name=_("Mayan")
-plural=_("?plural:Mayans")
+plural=_("?plural:Mayas")
 groups=_("Ancient"), _("Medieval"), _("American")
 legend=_("The Mayans were a Mesoamerican civilization. Famous for building\
  great pyramids and palaces in the jungle.")
@@ -23,54 +23,65 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "aztec"
+civilwar_nations = "aztec", "inca"
 
-; Cities are archeological sites. Classical name used when known.
+; Oldest names take precedence. Later/alternative names in comment.
 cities =
-  "Tikal",
-  "Lakam Ha",
-  "Oxwitik",
-  "Kalakmul",
-  "Teotihuacan",
-  "Siaan K’aan",
-  "Chichen Itza",
-  "Uxmal",
-  "Izancanac",
-  "Coba",
-  "Becan",
-  "Oxhuitza",
-  "Lamanai",
-  "Chinikiha",
-  "Chinkultic",
-  "Dos Pilas",
-  "Cival",
-  "Comalcalco",
-  "Dzibilchaltun",
-  "Waká",
-  "Altun Ha",
-  "Nakbé",
-  "Edzná",
-  "Gumarcaj",
-  "Iximche",
-  "Izamal",
-  "Jaina",
-  "Kabah",
-  "Kaminaljuyu",
-  "Bonampak",
-  "Labná",
-  "Lubaantun",
-  "Mayapan",
-  "Mixco Viejo",
-  "Uac Cab'nal",
-  "Nim Li Punit",
-  "Yokib",
-  "Quirigua",
-  "Sayil",
-  "Seibal",
-  "Takalik Abaj",
-  "Tazumal",
-  "Tonina",
-  "Tuluum",
-  "Xunantunich",
-  "Yo'okop",
-  "Zac Tz'otz'"
+ "B'ak",
+ "Lakam Ha",	; Palenque
+ "Xukpi",	; Copán, Oxwitik
+ "Siyan Kaan",
+ "Yax Mutal",	; Tikal
+ "Ox Tun",
+ "Ek' Xukpi",
+ "Kaan",
+ "Chich'en",	; Uucyabnal
+ "Yax Ha",
+ "Ak'e",
+ "K'antumak",
+ "Ho Kab",
+ "Ichkantiho",
+ "Mayapan",
+ "Akul",
+ "Man",
+ "Pakab",
+ "Nal",
+ "Po'",
+ "Tzuk",
+ "Wak Yab'nal",
+ "Yokib'",
+ "Kaan Kun",
+ "Waxak Tun",
+ "Siaan K’aan",	; Uaxactun
+ "Uxmal",
+ "Izancanac",	; Yaxchilan
+ "Oxhuitza",	; Caracol
+ "Lam'an'ain",	; Lamanai
+ "Mixco Viejo",	; Pocomam, Saqik'ajol Nimakaqapek
+ "Uac Cab'nal",	; Naranjo
+ "Quirigua",
+ "Tuluum",	; Zama
+ "Yo'okop",
+ "Zac Tz'otz'"	; Zaculeu
+ "Calakmul",
+ "Teotihuacan",
+ "Chinikiha",
+ "Chinkultic",
+ "Cival",
+ "Dzibilchaltun",
+ "Altun Ha",
+ "Gumarcaj",	; Utatlán
+ "Iximche",
+ "Izamal",
+ "Kabah",	; Kabahaucan
+ "Kaminaljuyu",
+ "Bonampak",
+ "Lubaantun",
+ "Nim Li Punit",
+ "Yokib",	; Piedras Negras
+ "Sayil",
+ "Seibal",
+ "Takalik Abaj",
+ "Tazumal",
+ "Tonina",
+ "Xunantunich"

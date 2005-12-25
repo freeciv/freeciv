@@ -46,7 +46,15 @@ cities =
  "Landa",
  "Zallara",
  "Lusna",
+
 ; Kizzuwatna cities (they were Hittite neighbours and alllies):
  "Mersin",
  "Adana",
- "Ursa"
+ "Ursa",
+
+; More cities founded or ruled by the Hittites
+ "Carchemish",
+ "Arpad",
+ "Milid",
+ "Emar",
+ "Alalakh"
