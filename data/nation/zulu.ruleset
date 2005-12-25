@@ -6,33 +6,30 @@ groups=_("African")
 legend=_("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")
-; /*
-; According to <http://www.anglo.50megs.com/zulu_kings.htm>, this is the
-; complete Zulu king list.  It's in regnal order, except that Utshaka
-; (Westernized "Shaka" or "Chaka"), the best known of the kings, has 
-; been moved from between Usenzangakona  and Udingana to the front.
-; */
 leader=
- "Utshaka",
- "Umdhlani",
- "Umalandela",
- "Untombela",
- "Uzulu", 
- "Unkosinkulu",
- "Umageba",
- "Upunga",
- "Undaba",
- "Ujama", 
- "Usenzangakona",
- "Udingana",
- "Umpande",
- "Ucetywayo",
- "Udinuzulu", 
- "Usolomona"
+ "Mnguni",		; Legendary first king of the Zulu and related tribes
+ "Nkosinkulu",
+ "Mdlani",
+ "Malandela kaLuzumana",
+ "Ntombhela kaMalandela",
+ "Zulu kaNtombela",	; Founder of the Zulu clan
+ "Gumede kaZulu",
+ "Phunga kaGumede",
+ "Mageba kaPhunga",
+ "Ndaba kaMageba",
+ "Jama kaNdaba",
+ "Senzangakhona kaJama",
+ "Shaka kaSenzangakhona",	; Shaka Zulu
+ "Dingane kaSenzangakhona",	; Shaka's half-brother
+ "Mpande kaSenzangakhona",	; Shaka's half-brother
+ "Cetshwayo kaMpande",
+ "Dinizulu kaCetshwayo",
+ "Solomon kaDinizulu",
+ "Cyprian Bhekuzulu kaSolomon"
 leader_sex="Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
            "Male", "Male", "Male", "Male", "Male", 
-           "Male"
+           "Male", "Male", "Male", "Male"
 flag="zulu"
 flag_alt = "rwanda"  ; used previously
 city_style = "Tropical"
@@ -46,7 +43,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="southafrican", "kenyan", "swazi"
+civilwar_nations="southafrican", "swazi"
 
 cities =
  "Zimbabwe",
