@@ -541,7 +541,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       change_ptsize16(pStr, adj_font(10));
 
       my_snprintf(buffer, sizeof(buffer), "%s\n%s\n%s%s%s",
-		  (hover_unit == pUnit->id) ? _("Select destination") :
+		  (unit_list_get(hover_units, 0) == pUnit) ? _("Select destination") :
 		  unit_activity_text(pUnit),
 		  tile_get_info_text(pTile),
 		  (infra_count > 0) ?
@@ -928,7 +928,8 @@ static bool is_anim_enabled(void)
 **************************************************************************/
 void set_unit_icon(int idx, struct unit *punit)
 {
-  update_unit_info_label(punit);
+/* FIXME */
+/*  update_unit_info_label(punit);*/
 }
 
 /**************************************************************************
@@ -953,8 +954,10 @@ void set_unit_icons_more_arrow(bool onoff)
   And it may call update_unit_pix_label() to update the icons for units
   on this square.
 **************************************************************************/
-void update_unit_info_label(struct unit *pUnit)
+void update_unit_info_label(struct unit_list *punitlist)
 {
+  struct unit *pUnit = unit_list_get(punitlist, 0);
+    
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     return;
   }
@@ -967,7 +970,7 @@ void update_unit_info_label(struct unit *pUnit)
     if(!is_anim_enabled()) {
       enable_focus_animation();
     }
-    if (hover_unit != pUnit->id) {
+    if (unit_list_get(hover_units, 0) != pUnit) {
       set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     }
     switch (hover_state) {

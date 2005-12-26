@@ -74,7 +74,7 @@ static struct GUI *pOrder_Trade_Button;
 **************************************************************************/
 static int unit_order_callback(struct GUI *pOrder_Widget)
 {
-  struct unit *pUnit = get_unit_in_focus();
+  struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
 
   set_wstate(pOrder_Widget, FC_WS_SELLECTED);
   pSellected_Widget = pOrder_Widget;
@@ -1080,7 +1080,7 @@ void update_menus(void)
       counter = 0;
     }
 
-    pUnit = get_unit_in_focus();
+    pUnit = unit_list_get(get_units_in_focus(), 0);
 
     if (pUnit && !pUnit->ai.control) {
       struct city *pHomecity;

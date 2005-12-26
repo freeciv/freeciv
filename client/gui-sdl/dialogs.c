@@ -607,7 +607,7 @@ void popup_unit_select_dialog(struct tile *ptile)
 {
   struct GUI *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
-  struct unit *pUnit = NULL, *pFocus = get_unit_in_focus();
+  struct unit *pUnit = NULL, *pFocus = unit_list_get(get_units_in_focus(), 0);
   struct unit_type *pUnitType;
   char cBuf[255];  
   int i, w = 0, h, n;
@@ -1131,28 +1131,32 @@ static int goto_here_callback(struct GUI *pWidget)
   popdown_advanced_terrain_dialog();
   
   /* may not work */
-  send_goto_tile(get_unit_in_focus(), map_pos_to_tile(x, y));
+  send_goto_tile(unit_list_get(get_units_in_focus(), 0), map_pos_to_tile(x, y));
   return -1;
 }
-
 
 /**************************************************************************
   ...
 **************************************************************************/
 static int patrol_here_callback(struct GUI *pWidget)
 {
+/* FIXME */
+#if 0    
   int x = pWidget->data.cont->id0;
   int y = pWidget->data.cont->id1;
-  struct unit *pUnit = get_unit_in_focus();
+  struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
+#endif
     
   popdown_advanced_terrain_dialog();
   
+#if 0  
   if(pUnit) {
     enter_goto_state(pUnit);
     /* may not work */
     do_unit_patrol_to(pUnit, map_pos_to_tile(x, y));
     exit_goto_state();
   }
+#endif  
   return -1;
 }
 
@@ -1161,13 +1165,18 @@ static int patrol_here_callback(struct GUI *pWidget)
 **************************************************************************/
 static int paradrop_here_callback(struct GUI *pWidget)
 {
+/* FIXME */    
+#if 0    
   int x = pWidget->data.cont->id0;
   int y = pWidget->data.cont->id1;
+#endif    
     
   popdown_advanced_terrain_dialog();
-  
+
+#if 0    
   /* may not work */
   do_unit_paradrop_to(get_unit_in_focus(), map_pos_to_tile(x, y));
+#endif    
   return -1;
 }
 
@@ -1205,7 +1214,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile)
   
   pCity = ptile->city;
   n = unit_list_size(ptile->units);
-  pFocus_Unit = get_unit_in_focus();
+  pFocus_Unit = unit_list_get(get_units_in_focus(), 0);
   
   if (!n && !pCity && !pFocus_Unit)
   {
@@ -2611,7 +2620,7 @@ void popup_sabotage_dialog(struct city *pCity)
 {
   struct GUI *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
-  struct unit *pUnit = get_unit_in_focus();
+  struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
   SDL_String16 *pStr;
   SDL_Rect area;
   int n, w = 0, h, imp_h = 0;
@@ -2893,7 +2902,7 @@ void popup_incite_dialog(struct city *pCity)
   }
   
   /* ugly hack */
-  pUnit = get_unit_in_focus();
+  pUnit = unit_list_get(get_units_in_focus(), 0);
     
   if (!pUnit || !unit_flag(pUnit,F_SPY)) {
     return;
@@ -3119,7 +3128,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   }
     
   /* ugly hack */
-  pDiplomatUnit = get_unit_in_focus();
+  pDiplomatUnit = unit_list_get(get_units_in_focus(), 0);
   
   if (!pDiplomatUnit || !(unit_flag(pDiplomatUnit, F_SPY) ||
 		    unit_flag(pDiplomatUnit, F_DIPLOMAT))) {

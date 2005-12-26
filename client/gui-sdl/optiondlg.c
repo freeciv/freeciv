@@ -501,7 +501,7 @@ static int change_mode_callback(struct GUI *pWidget)
   } else {
     
     update_info_label();
-    update_unit_info_label(get_unit_in_focus());
+    update_unit_info_label(get_units_in_focus());
     center_on_something();/* with redrawing full map */
     update_order_widget();
     redraw_group(pOption_Dlg->pBeginOptionsWidgetList,

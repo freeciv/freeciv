@@ -214,7 +214,7 @@ static int economy_callback(struct GUI *pButton)
 **************************************************************************/
 static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
 {
-  struct unit *pFocus = get_unit_in_focus();
+  struct unit *pFocus = unit_list_get(get_units_in_focus(), 0);
   struct GUI *pBuf = pUnits_Info_Window;
 
   SDL_BlitSurface(pTheme->UNITS_Icon, NULL, pIcon_Widget->theme, NULL);
@@ -333,7 +333,7 @@ static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
 **************************************************************************/
 static int toggle_map_window_callback(struct GUI *pMap_Button)
 {
-  struct unit *pFocus = get_unit_in_focus();
+  struct unit *pFocus = unit_list_get(get_units_in_focus(), 0);
   struct GUI *pMap = pMiniMap_Window;
     
   /* make new map icon */
@@ -820,7 +820,7 @@ static int resize_unit_info(void)
   }
   
   update_menus();
-  update_unit_info_label(get_unit_in_focus());
+  update_unit_info_label(get_units_in_focus());
       
   return 0;
 }

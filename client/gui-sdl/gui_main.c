@@ -208,7 +208,7 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	  {
 	    struct unit *pUnit;
 	    struct city *pCity;
-	    if((pUnit = get_unit_in_focus()) != NULL && 
+	    if((pUnit = unit_list_get(get_units_in_focus(), 0)) != NULL && 
 	      (pCity = pUnit->tile->city) != NULL &&
 	      city_owner(pCity) == game.player_ptr) {
 	      popup_city_dialog(pCity);
@@ -290,8 +290,8 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
           last_y = pButtonEvent->y;
         }  
       } else {
-    button_down_on_map(pButtonEvent);
-  }
+        button_down_on_map(pButtonEvent);
+      }
   }
   return ID_ERROR;
 }
