@@ -167,10 +167,10 @@ unsigned int hash_fval_int(const void *vkey, unsigned int num_buckets)
 **************************************************************************/
 int hash_fcmp_int(const void *vkey1, const void *vkey2)
 {
-  const int key1 = *(const int*)vkey1;
-  const int key2 = *(const int*)vkey2;
+  const int *key1 = vkey1, *key2 = vkey2;
+
   /* avoid overflow issues: */
-  return (key1 < key2) ? -1 : (key1 > key2) ? 1 : 0;
+  return (*key1 < *key2) ? -1 : (*key1 > *key2) ? 1 : 0;
 }
 
 
