@@ -102,7 +102,7 @@ bool turn_done_sent = FALSE;
   Convert a text string from the internal to the data encoding, when it
   is written to the network.
 **************************************************************************/
-static unsigned char *put_conv(const char *src, size_t *length)
+static char *put_conv(const char *src, size_t *length)
 {
   char *out = internal_to_data_string_malloc(src);
 
@@ -121,7 +121,7 @@ static unsigned char *put_conv(const char *src, size_t *length)
   large enough or the source was bad.
 **************************************************************************/
 static bool get_conv(char *dst, size_t ndst,
-		     const unsigned char *src, size_t nsrc)
+		     const char *src, size_t nsrc)
 {
   char *out = data_to_internal_string_malloc(src);
   bool ret = TRUE;

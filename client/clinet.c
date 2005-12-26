@@ -822,13 +822,13 @@ int begin_lanserver_scan(void)
   Listens for UDP packets broadcasted from a server that responded
   to the request-packet sent from the client. 
 **************************************************************************/
-struct server_list *get_lan_server_list(void) {
-
-# if defined(__VMS) && !defined(_DECC_V4_SOURCE)
-    size_t fromlen;
-# else
-    int fromlen;
-# endif
+struct server_list *get_lan_server_list(void)
+{
+#ifdef HAVE_SOCKLEN_T
+  socklen_t fromlen;
+#else
+  int fromlen;
+#endif
   union my_sockaddr fromend;
   struct hostent *from;
   char msgbuf[128];
