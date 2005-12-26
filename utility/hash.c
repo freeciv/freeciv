@@ -551,7 +551,7 @@ void *hash_delete_entry_full(struct hash_table *h, const void *key,
     const void *ret = bucket->data;
 
     if (old_key) {
-      *old_key = bucket->key;
+      *old_key = (void *)bucket->key;
     }
     zero_hbucket(bucket);
     bucket->used = BUCKET_DELETED;
