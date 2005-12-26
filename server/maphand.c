@@ -30,16 +30,16 @@
 #include "nation.h"
 #include "packets.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "cityturn.h"
+#include "maphand.h"
 #include "plrhand.h"           /* notify_player */
 #include "sernet.h"
 #include "srv_main.h"
 #include "unithand.h"
 #include "unittools.h"
-
-#include "maphand.h"
 
 #define MAXIMUM_CLAIMED_OCEAN_SIZE (20)
 

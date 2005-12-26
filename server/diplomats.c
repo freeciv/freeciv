@@ -17,17 +17,20 @@
 
 #include <stdio.h>
 
-#include "events.h"
 #include "fcintl.h"
+#include "log.h"
+#include "rand.h"
+
+#include "events.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "player.h"
-#include "rand.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
+#include "diplomats.h"
 #include "gamelog.h"
 #include "gotohand.h"
 #include "plrhand.h"
@@ -36,8 +39,6 @@
 #include "unittools.h"
 
 #include "advdiplomacy.h"
-
-#include "diplomats.h"
 
 
 /****************************************************************************/

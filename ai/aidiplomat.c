@@ -32,6 +32,7 @@
 #include "shared.h"
 #include "timing.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "barbarian.h"
 #include "citytools.h"

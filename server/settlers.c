@@ -20,21 +20,24 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "log.h"
+#include "mem.h"
+#include "support.h"
+#include "timing.h"
+
 #include "city.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
-#include "support.h"
-#include "timing.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "settlers.h"
 #include "unithand.h"
 #include "unittools.h"
 
@@ -45,8 +48,6 @@
 #include "aitools.h"
 #include "aiunit.h"
 #include "citymap.h"
-
-#include "settlers.h"
 
 /* This factor is multiplied on when calculating the want.  This is done
  * to avoid rounding errors in comparisons when looking for the best

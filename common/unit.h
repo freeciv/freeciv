@@ -13,8 +13,6 @@
 #ifndef FC__UNIT_H
 #define FC__UNIT_H
 
-#include "mem.h"		/* unit_list_iterate_safe */
-
 #include "fc_types.h"
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
@@ -188,37 +186,10 @@ struct unit {
   } orders;
 };
 
-/* get 'struct unit_list' and related functions: */
-#define SPECLIST_TAG unit
-#define SPECLIST_TYPE struct unit
-#include "speclist.h"
-
-#define unit_list_iterate(unitlist, punit) \
-    TYPED_LIST_ITERATE(struct unit, unitlist, punit)
-#define unit_list_iterate_end  LIST_ITERATE_END
 #define SINGLE_MOVE 3
 #define MOVE_COST_RIVER 1
 #define MOVE_COST_RAIL 0
 #define MOVE_COST_ROAD 1
-
-#define unit_list_iterate_safe(unitlist, punit) \
-{ \
-  int _size = unit_list_size(unitlist); \
-  if (_size > 0) { \
-    int _ids[_size]; \
-    int _i = 0; \
-    unit_list_iterate(unitlist, punit) { \
-      _ids[_i++] = punit->id; \
-    } unit_list_iterate_end; \
-    for (_i=0; _i<_size; _i++) { \
-      struct unit *punit = find_unit_by_id(_ids[_i]); \
-      if (punit) { \
-
-#define unit_list_iterate_safe_end \
-      } \
-    } \
-  } \
-}
 
 /* Iterates over the types of unit activity. */
 #define activity_type_iterate(act)					    \
@@ -230,11 +201,6 @@ struct unit {
 #define activity_type_iterate_end     					    \
   }									    \
 }
-
-struct unit *unit_list_find(const struct unit_list *This, int id);
-
-void unit_list_sort_ord_map(struct unit_list *This);
-void unit_list_sort_ord_city(struct unit_list *This);
 
 bool diplomat_can_do_action(const struct unit *pdiplomat,
 			    enum diplomat_actions action,

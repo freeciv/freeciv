@@ -17,10 +17,12 @@
 
 #include <assert.h>
 
-#include "city.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
+
+#include "city.h"
+#include "unitlist.h"
 
 #include "citydlg_g.h"
 #include "mapview_g.h"

@@ -27,6 +27,7 @@
 #include "player.h"
 #include "terrain.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "maphand.h"

@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include "unitlist.h"
+
 #include "api_methods.h"
 #include "script.h"
 

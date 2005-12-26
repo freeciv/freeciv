@@ -22,6 +22,7 @@
 #include "map.h"
 #include "mem.h"
 #include "pqueue.h"
+#include "unitlist.h"
 
 #include "path_finding.h"
 

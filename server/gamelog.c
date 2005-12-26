@@ -21,15 +21,17 @@
 #include <string.h>
 
 #include "fcintl.h"
-#include "government.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "score.h"
-#include "srv_main.h"
 #include "support.h"
 
+#include "government.h"
+#include "map.h"
+#include "score.h"
+#include "unitlist.h"
+
 #include "gamelog.h"
+#include "srv_main.h"
 #include "stdinhand.h"
 
 int gamelog_level;		/* also accessed from stdinhand.c */

@@ -19,10 +19,12 @@
 
 #include "fcintl.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "movement.h"
 #include "timing.h"
+
+#include "map.h"
+#include "movement.h"
+#include "unitlist.h"
 
 #include "audio.h"
 #include "chatline_g.h"

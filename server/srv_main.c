@@ -44,29 +44,31 @@
 #include <winsock.h>
 #endif
 
+#include "fciconv.h"
+#include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "netintf.h"
+#include "rand.h"
+#include "registry.h"
+#include "shared.h"
+#include "support.h"
+#include "timing.h"
+
 #include "capability.h"
 #include "capstr.h"
 #include "city.h"
 #include "dataio.h"
 #include "effects.h"
 #include "events.h"
-#include "fciconv.h"
-#include "fcintl.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "nation.h"
-#include "netintf.h"
 #include "packets.h"
 #include "player.h"
-#include "rand.h"
-#include "registry.h"
-#include "shared.h"
-#include "support.h"
 #include "tech.h"
-#include "timing.h"
+#include "unitlist.h"
 #include "version.h"
 
 #include "auth.h"
@@ -93,6 +95,7 @@
 #include "sernet.h"
 #include "settlers.h"
 #include "spacerace.h"
+#include "srv_main.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unithand.h"
@@ -107,9 +110,6 @@
 #include "citymap.h"
 
 #include "mapgen.h"
-
-#include "srv_main.h"
-
 
 static void end_turn(void);
 static void announce_player(struct player *pplayer);

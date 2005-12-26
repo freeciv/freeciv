@@ -64,6 +64,8 @@ libcivcommon_a_SOURCES = \
 		tile.h		\
 		unit.c		\
 		unit.h		\
+		unitlist.c	\
+		unitlist.h	\
 		unittype.c	\
 		unittype.h	\
 		worklist.c	\

@@ -20,28 +20,31 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "city.h"
-#include "combat.h"
-#include "events.h"
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
-#include "idex.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "movement.h"
-#include "packets.h"
-#include "player.h"
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
+
+#include "city.h"
+#include "combat.h"
+#include "events.h"
+#include "game.h"
+#include "government.h"
+#include "idex.h"
+#include "map.h"
+#include "movement.h"
+#include "packets.h"
+#include "player.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplhand.h"
+#include "gamehand.h"
 #include "gamelog.h"
 #include "gotohand.h"
 #include "maphand.h"
@@ -50,19 +53,14 @@
 #include "sernet.h"
 #include "settlers.h"
 #include "srv_main.h"
-#include "unithand.h"
 #include "techtools.h"
-#include "gamehand.h"
+#include "unithand.h"
+#include "unittools.h"
 
 #include "advdiplomacy.h"
 #include "aiexplorer.h"
 #include "aitools.h"
 #include "aiunit.h"
-
-// REMOVEME
-#include "ailog.h"
-
-#include "unittools.h"
 
 /* We need this global variable for our sort algorithm */
 static struct tile *autoattack_target;

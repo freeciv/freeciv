@@ -19,11 +19,13 @@
 #include <string.h>
 
 #include "log.h"
-#include "map.h"
 #include "mem.h"
+
+#include "map.h"
 #include "packets.h"
 #include "pf_tools.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "civclient.h"
 #include "clinet.h"

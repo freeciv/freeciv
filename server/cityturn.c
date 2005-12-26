@@ -20,24 +20,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "city.h"
-#include "events.h"
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "player.h"
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
+
+#include "city.h"
+#include "events.h"
+#include "game.h"
+#include "government.h"
+#include "map.h"
+#include "player.h"
 #include "tech.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "script.h"
 
 #include "citytools.h"
+#include "cityturn.h"
 #include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
@@ -56,8 +59,6 @@
 #include "aidata.h"
 #include "ailog.h"
 #include "aitools.h"
-
-#include "cityturn.h"
 
 static void check_pollution(struct city *pcity);
 static void city_populate(struct city *pcity);

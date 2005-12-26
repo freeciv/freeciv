@@ -33,6 +33,7 @@
 #include "player.h"
 #include "shared.h"
 #include "support.h"
+#include "unitlist.h"
 
 #include "cityrep.h"
 #include "civclient.h"

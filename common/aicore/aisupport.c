@@ -23,6 +23,7 @@
 #include "spaceship.h"
 #include "support.h"
 #include "tech.h"
+#include "unitlist.h"
 
 #include "aisupport.h"
 

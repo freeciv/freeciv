@@ -34,6 +34,7 @@
 #include "spaceship.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 #include "worklist.h"
 
 #include "agents.h"

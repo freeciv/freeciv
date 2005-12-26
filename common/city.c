@@ -30,6 +30,7 @@
 #include "mem.h"
 #include "movement.h"
 #include "packets.h"
+#include "unitlist.h"
 
 #include "cm.h"
 

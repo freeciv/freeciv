@@ -19,11 +19,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "city.h"
 #include "fcintl.h"
+#include "support.h"
+
+#include "city.h"
 #include "game.h"
 #include "map.h"
-#include "support.h"
+#include "unitlist.h"
 
 #include "cma_fec.h"
 #include "options.h"

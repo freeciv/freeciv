@@ -24,6 +24,7 @@
 #include "log.h"
 #include "map.h"
 #include "movement.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "cityturn.h"

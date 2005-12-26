@@ -29,6 +29,7 @@
 #include "player.h"
 #include "shared.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "citymap.h"
 #include "path_finding.h"

@@ -30,6 +30,7 @@
 #include "movement.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "chatline.h"
 #include "cityrep.h"
@@ -1180,131 +1181,6 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 
   tile_apply_activity(&newtile, activity);
   return tile_get_info_text(&newtile);
-}
-
-/****************************************************************************
-  Return TRUE if the function returns true for any of the units.
-****************************************************************************/
-static bool can_units_do(struct unit_list *punits,
-			 bool (can_fn)(const struct unit *punit))
-{
-  unit_list_iterate(punits, punit) {
-    if (can_fn(punit)) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Returns TRUE if any of the units can do the activity.
-****************************************************************************/
-static bool can_units_do_activity(struct unit_list *punits,
-				  enum unit_activity activity)
-{
-  unit_list_iterate(punits, punit) {
-    if (can_unit_do_activity(punit, activity)) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Returns TRUE if any of the units can do the activity.
-****************************************************************************/
-static bool can_units_do_diplomat_action(struct unit_list *punits,
-					 enum diplomat_actions action)
-{
-  unit_list_iterate(punits, punit) {
-    if (is_diplomat_unit(punit)
-	&& diplomat_can_do_action(punit, action, punit->tile)) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  If has_flag is true, returns true iff any of the units have the flag.
-
-  If has_flag is false, returns true iff any of the units don't have the
-  flag.
-****************************************************************************/
-static bool units_have_flag(struct unit_list *punits,
-			    enum unit_flag_id flag,
-			    bool has_flag)
-{
-  unit_list_iterate(punits, punit) {
-    if (EQ(has_flag, unit_flag(punit, flag))) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-
-****************************************************************************/
-static bool units_are_occupied(struct unit_list *punits)
-{
-  unit_list_iterate(punits, punit) {
-    if (get_transporter_occupancy(punit) > 0) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Return TRUE iff any of these units can load.
-****************************************************************************/
-static bool units_can_load(struct unit_list *punits)
-{
-  unit_list_iterate(punits, punit) {
-    if (can_unit_load(punit,
-		      find_transporter_for_unit(punit, punit->tile))) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Return TRUE iff any of these units can unload.
-****************************************************************************/
-static bool units_can_unload(struct unit_list *punits)
-{
-  unit_list_iterate(punits, punit) {
-    if (can_unit_unload(punit, find_unit_by_id(punit->transported_by))
-	&& can_unit_exist_at_tile(punit, punit->tile)) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
-}
-
-/****************************************************************************
-  Return TRUE iff any of the units' tiles have the activity running
-  on them.
-****************************************************************************/
-static bool units_have_activity_on_tile(struct unit_list *punits,
-					enum unit_activity activity)
-{
-  unit_list_iterate(punits, punit) {
-    if (is_unit_activity_on_tile(activity, punit->tile)) {
-      return TRUE;
-    }
-  } unit_list_iterate_end;
-
-  return FALSE;
 }
 
 /****************************************************************

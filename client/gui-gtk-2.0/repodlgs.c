@@ -30,6 +30,7 @@
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
+#include "unitlist.h"
 
 #include "chatline_common.h"
 #include "cityrep.h"

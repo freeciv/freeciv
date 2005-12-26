@@ -28,6 +28,7 @@
 #include "mem.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 #include "unittype.h"
 
 #include "citymap.h"

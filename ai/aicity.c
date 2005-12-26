@@ -34,6 +34,7 @@
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "path_finding.h"
 #include "pf_tools.h"

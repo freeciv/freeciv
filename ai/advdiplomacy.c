@@ -34,6 +34,7 @@
 #include "spaceship.h"
 #include "support.h"
 #include "tech.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "diplhand.h"

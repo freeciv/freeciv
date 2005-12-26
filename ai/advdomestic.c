@@ -24,6 +24,7 @@
 #include "map.h"
 #include "mem.h"
 #include "unit.h"
+#include "unitlist.h"
 #include "unittype.h"
 
 #include "citytools.h"

@@ -26,16 +26,18 @@ used throughout the client.
 #include <stdlib.h>
 #include <string.h>
 
+#include "fcintl.h"
+#include "log.h"
+#include "support.h"
+
 #include "city.h"
 #include "diptreaty.h"
-#include "fcintl.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
 #include "packets.h"
 #include "spaceship.h"
-#include "support.h"
+#include "unitlist.h"
 
 #include "chatline_g.h"
 #include "citydlg_g.h"

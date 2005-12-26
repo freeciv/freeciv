@@ -18,10 +18,12 @@
 #include <assert.h>
 
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "mem.h"		/* free */
 #include "support.h"		/* my_snprintf */
+
+#include "game.h"
+#include "government.h"
+#include "unitlist.h"
 
 #include "repodlgs_g.h"
 

@@ -24,7 +24,6 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
-#include "movement.h"
 #include "rand.h"
 #include "registry.h"
 #include "shared.h"
@@ -36,7 +35,9 @@
 #include "government.h"
 #include "idex.h"
 #include "map.h"
+#include "movement.h"
 #include "unit.h"
+#include "unitlist.h"
 #include "version.h"
 
 #include "aicity.h"

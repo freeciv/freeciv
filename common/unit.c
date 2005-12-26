@@ -18,19 +18,20 @@
 #include <assert.h>
 
 #include "fcintl.h"
+#include "mem.h"
+#include "shared.h"
+#include "support.h"
+
+#include "city.h"
 #include "game.h"
 #include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
-#include "support.h"
 #include "tech.h"
-
-#include "city.h"
 #include "unit.h"
+#include "unitlist.h"
 
 
 /**************************************************************************
@@ -1068,67 +1069,6 @@ const char *unit_activity_text(const struct unit *punit)
     die("Unknown unit activity %d in unit_activity_text()", punit->activity);
   }
   return NULL;
-}
-
-/**************************************************************************
-  Look for a unit with the given ID in the unit list.
-**************************************************************************/
-struct unit *unit_list_find(const struct unit_list *This, int id)
-{
-  unit_list_iterate(This, punit) {
-    if (punit->id == id) {
-      return punit;
-    }
-  } unit_list_iterate_end;
-
-  return NULL;
-}
-
-/**************************************************************************
- Comparison function for genlist_sort, sorting by ord_map:
- The indirection is a bit gory:
- Read from the right:
-   1. cast arg "a" to "ptr to void*"   (we're sorting a list of "void*"'s)
-   2. dereference to get the "void*"
-   3. cast that "void*" to a "struct unit*"
-**************************************************************************/
-static int compar_unit_ord_map(const void *a, const void *b)
-{
-  const struct unit *ua, *ub;
-  ua = (const struct unit*) *(const void**)a;
-  ub = (const struct unit*) *(const void**)b;
-  return ua->ord_map - ub->ord_map;
-}
-
-/**************************************************************************
- Comparison function for genlist_sort, sorting by ord_city: see above.
-**************************************************************************/
-static int compar_unit_ord_city(const void *a, const void *b)
-{
-  const struct unit *ua, *ub;
-  ua = (const struct unit*) *(const void**)a;
-  ub = (const struct unit*) *(const void**)b;
-  return ua->ord_city - ub->ord_city;
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void unit_list_sort_ord_map(struct unit_list *This)
-{
-  if (unit_list_size(This) > 1) {
-    unit_list_sort(This, compar_unit_ord_map);
-  }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void unit_list_sort_ord_city(struct unit_list *This)
-{
-  if (unit_list_size(This) > 1) {
-    unit_list_sort(This, compar_unit_ord_city);
-  }
 }
 
 /**************************************************************************

@@ -42,6 +42,7 @@
 #include "mem.h"
 #include "shared.h"
 #include "support.h"
+#include "unitlist.h"
 #include "version.h"
 
 #include "chatline.h"

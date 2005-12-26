@@ -41,6 +41,7 @@
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "dialogs_g.h"
 #include "graphics_g.h"

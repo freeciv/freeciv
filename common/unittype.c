@@ -28,6 +28,7 @@
 #include "shared.h"
 #include "support.h"
 #include "tech.h"
+#include "unitlist.h"
 
 #include "unittype.h"
 

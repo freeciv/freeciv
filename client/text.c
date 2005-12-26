@@ -20,13 +20,16 @@
 #include <string.h>
 
 #include "astring.h"
-#include "map.h"
-#include "combat.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
-#include "climisc.h"
+
+#include "combat.h"
 #include "government.h"
+#include "map.h"
+#include "unitlist.h"
+
+#include "climisc.h"
 #include "civclient.h"
 
 #include "control.h"

@@ -28,6 +28,7 @@
 #include "shared.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "map.h"
 

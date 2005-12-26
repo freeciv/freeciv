@@ -26,6 +26,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "combat.h"
 

@@ -18,19 +18,21 @@
 #include <assert.h>
 #include <stdarg.h>
 
-#include "diptreaty.h"
-#include "events.h"
 #include "fcintl.h"
-#include "government.h"
 #include "log.h"
 #include "mem.h"
-#include "movement.h"
-#include "packets.h"
-#include "player.h"
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
+
+#include "diptreaty.h"
+#include "events.h"
+#include "government.h"
+#include "movement.h"
+#include "packets.h"
+#include "player.h"
 #include "tech.h"
+#include "unitlist.h"
 
 #include "script.h"
 
@@ -41,6 +43,7 @@
 #include "gamehand.h"
 #include "gamelog.h"
 #include "maphand.h"
+#include "plrhand.h"
 #include "sernet.h"
 #include "settlers.h"
 #include "srv_main.h"
@@ -55,8 +58,6 @@
 #include "advmilitary.h"
 #include "aidata.h"
 #include "aihand.h"
-
-#include "plrhand.h"
 
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet);

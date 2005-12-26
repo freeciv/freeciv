@@ -29,22 +29,23 @@
 #endif
 #endif
 
-#include "fciconv.h"
-
 #include "astring.h"
-#include "capability.h"
-#include "events.h"
+#include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
 #include "registry.h"
 #include "shared.h"		/* fc__attribute, bool type, etc. */
 #include "support.h"
 #include "timing.h"
+
+#include "capability.h"
+#include "events.h"
+#include "game.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "unitlist.h"
 #include "version.h"
 
 #include "citytools.h"
@@ -66,11 +67,11 @@
 #include "sernet.h"
 #include "settings.h"
 #include "srv_main.h"
+#include "stdinhand.h"
 
 #include "advmilitary.h"	/* assess_danger_player() */
 #include "ailog.h"
 
-#include "stdinhand.h"
 
 #define TOKEN_DELIMITERS " \t\n,"
 

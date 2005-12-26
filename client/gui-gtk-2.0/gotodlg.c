@@ -29,6 +29,7 @@
 #include "player.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "clinet.h"
 #include "civclient.h"

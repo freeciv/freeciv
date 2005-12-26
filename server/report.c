@@ -19,18 +19,20 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "events.h"
 #include "fciconv.h"
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "log.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
 #include "rand.h"
 #include "support.h"
+
+#include "events.h"
+#include "game.h"
+#include "government.h"
+#include "packets.h"
+#include "player.h"
 #include "version.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "report.h"

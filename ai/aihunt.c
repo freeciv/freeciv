@@ -26,6 +26,7 @@
 #include "pf_tools.h"
 #include "player.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "settlers.h"

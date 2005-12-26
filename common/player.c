@@ -30,6 +30,7 @@
 #include "support.h"
 #include "tech.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "player.h"
 

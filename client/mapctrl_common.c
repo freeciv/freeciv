@@ -18,10 +18,12 @@
 #include <assert.h>
 #include <stdlib.h>		/* qsort */
 
-#include "combat.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
+
+#include "combat.h"
+#include "unitlist.h"
 
 #include "agents.h"
 #include "chatline_common.h"

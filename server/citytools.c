@@ -20,25 +20,28 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "city.h"
-#include "events.h"
 #include "fcintl.h"
-#include "government.h"
-#include "idex.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "movement.h"
-#include "player.h"
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
+
+#include "city.h"
+#include "events.h"
+#include "government.h"
+#include "idex.h"
+#include "map.h"
+#include "movement.h"
+#include "player.h"
 #include "tech.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "script.h"
 
 #include "barbarian.h"
+#include "citytools.h"
 #include "cityturn.h"
 #include "gamelog.h"
 #include "maphand.h"
@@ -54,8 +57,6 @@
 
 #include "aicity.h"
 #include "aiunit.h"
-
-#include "citytools.h"
 
 static int evaluate_city_name_priority(struct tile *ptile,
 				       struct city_name *city_name,

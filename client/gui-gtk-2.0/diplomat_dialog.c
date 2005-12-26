@@ -21,6 +21,7 @@
 
 #include "game.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "dialogs_g.h"
 #include "chatline.h"

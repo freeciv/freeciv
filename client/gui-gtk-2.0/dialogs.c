@@ -34,6 +34,7 @@
 #include "player.h"
 #include "rand.h"
 #include "support.h"
+#include "unitlist.h"
 
 #include "chatline.h"
 #include "choice_dialog.h"

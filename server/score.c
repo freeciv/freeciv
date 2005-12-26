@@ -18,16 +18,19 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+
 #include "game.h"
 #include "improvement.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "player.h"
-#include "srv_main.h"
-#include "shared.h"
-#include "score.h"
 #include "unit.h"
+#include "unitlist.h"
+
+#include "score.h"
+#include "srv_main.h"
 
 static int get_civ_score(const struct player *pplayer);
 

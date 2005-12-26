@@ -19,10 +19,12 @@
 
 #include "fcintl.h"
 #include "log.h"
-#include "map.h"
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
+
+#include "map.h"
+#include "unitlist.h"
 
 #include "graphics_g.h"
 #include "gui_main_g.h"

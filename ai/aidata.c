@@ -25,6 +25,7 @@
 #include "mem.h"
 #include "movement.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "citytools.h"
 #include "diplhand.h"
