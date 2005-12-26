@@ -235,6 +235,7 @@ bool can_unit_load(struct unit *punit, struct unit *ptrans);
 bool can_unit_unload(struct unit *punit, struct unit *ptrans);
 bool can_unit_paradrop(struct unit *punit);
 bool can_unit_bombard(struct unit *punit);
+bool can_unit_change_homecity_to(struct unit *punit, struct city *pcity);
 bool can_unit_change_homecity(struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(struct unit *punit);
