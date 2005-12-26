@@ -2101,10 +2101,7 @@ static gboolean present_unit_callback(GtkWidget * w, GdkEventButton * ev,
       G_CALLBACK(unit_homecity_callback),
       GINT_TO_POINTER(punit->id));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-
-    if (punit->homecity == pcity->id) {
-      gtk_widget_set_sensitive(item, FALSE);
-    }
+    gtk_widget_set_sensitive(item, can_unit_change_homecity_to(punit, pcity));
 
     item = gtk_menu_item_new_with_mnemonic(_("U_pgrade unit"));
     g_signal_connect(item, "activate",
