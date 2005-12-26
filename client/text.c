@@ -639,14 +639,17 @@ const char *get_info_label_text_popup(void)
 const char *get_unit_info_label_text1(struct unit_list *punits)
 {
   static struct astring str = ASTRING_INIT;
-  int count = unit_list_size(punits);
 
   astr_clear(&str);
 
-  if (count == 1) {
-    astr_add(&str, "%s", unit_list_get(punits, 0)->type->name);
-  } else {
-    astr_add(&str, PL_("%d unit", "%d units", count), count);
+  if (punits) {
+    int count = unit_list_size(punits);
+
+    if (count == 1) {
+      astr_add(&str, "%s", unit_list_get(punits, 0)->type->name);
+    } else {
+      astr_add(&str, PL_("%d unit", "%d units", count), count);
+    }
   }
   return str.str;
 }
@@ -659,9 +662,15 @@ const char *get_unit_info_label_text1(struct unit_list *punits)
 const char *get_unit_info_label_text2(struct unit_list *punits)
 {
   static struct astring str = ASTRING_INIT;
-  int count = unit_list_size(punits);
+  int count;
 
   astr_clear(&str);
+
+  if (!punits) {
+    return "";
+  }
+
+  count = unit_list_size(punits);
 
   /* This text should always have the same number of lines.  Otherwise the
    * GUI widgets may be confused and try to resize themselves. */
