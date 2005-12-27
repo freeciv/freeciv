@@ -509,6 +509,17 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   old_type = pplayer->diplstates[other_player_id].type;
   pplayer2 = get_player(other_player_id);
 
+  if (clause == CLAUSE_VISION) {
+    if (!gives_shared_vision(pplayer, pplayer2)) {
+      return;
+    }
+    remove_shared_vision(pplayer, pplayer2);
+    notify_player(pplayer2, NULL, E_TREATY_BROKEN,
+                     _("%s no longer gives us shared vision!"),
+                     pplayer->name);
+    return;
+  }
+
   diplcheck = pplayer_can_cancel_treaty(pplayer, pplayer2);
 
   /* The senate may not allow you to break the treaty.  In this case you
@@ -523,17 +534,6 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   }
 
   if (diplcheck != DIPL_OK) {
-    return;
-  }
-
-  if (clause == CLAUSE_VISION) {
-    if (!gives_shared_vision(pplayer, pplayer2)) {
-      return;
-    }
-    remove_shared_vision(pplayer, pplayer2);
-    notify_player(pplayer2, NULL, E_TREATY_BROKEN,
-                     _("%s no longer gives us shared vision!"),
-                     pplayer->name);
     return;
   }
 
