@@ -62,9 +62,6 @@
 #include "aitools.h"
 #include "aiunit.h"
 
-// REMOVEME
-#include "ailog.h"
-
 /* We need this global variable for our sort algorithm */
 static struct tile *autoattack_target;
 
@@ -788,17 +785,6 @@ static void update_unit_activity(struct unit *punit)
     if (punit->activity_count >= 1) {
       set_unit_activity(punit,ACTIVITY_FORTIFIED);
     }
-  }
-
-  if (activity==ACTIVITY_GOTO) {
-    if (!punit->ai.control && (!is_military_unit(punit) ||
-       punit->ai.passenger != 0 || !pplayer->ai.control)) {
-/* autosettlers otherwise waste time; idling them breaks assignment */
-/* Stalling infantry on GOTO so I can see where they're GOing TO. -- Syela */
-UNIT_LOG(LOG_ERROR, punit, "using old goto code in unittols.c!");
-      (void) do_unit_goto(punit, GOTO_MOVE_ANY, TRUE);
-    }
-    return;
   }
 
   if (find_unit_by_id(id) && unit_has_orders(punit)) {
