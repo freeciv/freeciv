@@ -831,7 +831,7 @@ static void economy_command_callback(struct gui_dialog *dlg, int response,
 void economy_report_dialog_update(void)
 {
   if(!is_report_dialogs_frozen() && economy_dialog_shell) {
-    int tax, total, i, entries_used, nbr_impr;
+    int tax, total_impr, total_unit, i, entries_used, nbr_impr;
     char economy_total[48];
     struct improvement_entry entries[B_LAST];
     struct unit_entry entries_units[U_LAST];
@@ -840,7 +840,7 @@ void economy_report_dialog_update(void)
 
     gtk_list_store_clear(economy_store);
 
-    get_economy_report_data(entries, &entries_used, &total, &tax);
+    get_economy_report_data(entries, &entries_used, &total_impr, &tax);
 
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
@@ -849,9 +849,9 @@ void economy_report_dialog_update(void)
       gtk_list_store_append(economy_store, &it);
       gtk_list_store_set(economy_store, &it,
 			 0, sprite_get_pixbuf(sprite),
-	2, p->count,
-	3, p->cost,
-	4, p->total_cost, -1);
+			 2, p->count,
+			 3, p->cost,
+			 4, p->total_cost, -1);
       g_value_init(&value, G_TYPE_STRING);
       g_value_set_static_string(&value, get_improvement_name(p->type));
       gtk_list_store_set_value(economy_store, &it, 1, &value);
@@ -863,7 +863,7 @@ void economy_report_dialog_update(void)
 
     nbr_impr = entries_used;
     entries_used = 0;
-    get_economy_report_units_data(entries_units, &entries_used, &total);
+    get_economy_report_units_data(entries_units, &entries_used, &total_unit);
 
     for (i = 0; i < entries_used; i++) {
       gtk_list_store_append(economy_store, &it);
@@ -881,7 +881,7 @@ void economy_report_dialog_update(void)
     }
 
     my_snprintf(economy_total, sizeof(economy_total),
-		_("Income: %d    Total Costs: %d"), tax, total); 
+		_("Income: %d    Total Costs: %d"), tax, total_impr + total_unit); 
     gtk_label_set_text(GTK_LABEL(economy_label2), economy_total);
   }  
 }
