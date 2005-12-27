@@ -635,10 +635,10 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 **************************************************************************/
 static struct server_list *get_lan_server_list(struct server_scan *scan)
 {
-# if defined(__VMS) && !defined(_DECC_V4_SOURCE)
-  size_t fromlen;
+#ifdef HAVE_SOCKLEN_T
+  socklen_t fromlen;
 # else
-  unsigned int fromlen;
+  int fromlen;
 # endif
   union my_sockaddr fromend;
   struct hostent *from;
