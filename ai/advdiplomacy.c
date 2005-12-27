@@ -240,7 +240,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
                                struct Clause *pclause,
                                struct ai_data *ai,
                                bool verbose,
-			       enum diplstate_type ds_after)
+                               enum diplstate_type ds_after)
 {
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
@@ -305,7 +305,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
                "ceasefire for a bit longer first, %s."), pplayer->name, 
                aplayer->name);
         worth = -BIG_NUMBER;
-      } else if (adip->countdown >= 0 && adip->countdown < -1) {
+      } else if (adip->countdown >= 0 || adip->countdown < -1) {
         worth = -BIG_NUMBER; /* but say nothing */
       } else {
         worth = greed(pplayer->ai.love[aplayer->player_no]
@@ -626,9 +626,9 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
     gift = (gift && (balance >= 0));
     ai_treaty_react(pplayer, aplayer, pclause);
     if (is_pact_clause(pclause->type)
-        && ai->diplomacy.player_intel[aplayer->player_no].countdown >= 0) {
+        && ai->diplomacy.player_intel[aplayer->player_no].countdown != -1) {
       /* Cancel a countdown towards war if we just agreed to peace... */
-      DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "countdown cancelled");
+      DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "countdown nullified");
       ai->diplomacy.player_intel[aplayer->player_no].countdown = -1;
     }
   } clause_list_iterate_end;
@@ -1017,6 +1017,7 @@ static void suggest_tech_exchange(struct player* player1,
 static void ai_share(struct player *pplayer, struct player *aplayer)
 {
   int index;
+  bool gives_vision;
 
   /* Only share techs with team mates */
   if (players_on_same_team(pplayer, aplayer)) {
@@ -1030,14 +1031,20 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
       }
     }
   }
-  if (!gives_shared_vision(pplayer, aplayer) && 
-      shared_vision_is_safe(pplayer, aplayer)) {
+
+  /* Only give shared vision if safe. Only ask for shared vision if fair. */
+  gives_vision = gives_shared_vision(pplayer, aplayer);
+  if (!gives_vision
+      && shared_vision_is_safe(pplayer, aplayer)) {
     ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_VISION, 0);
+    gives_vision = TRUE;
   }
-  if (!gives_shared_vision(aplayer, pplayer) &&
-      shared_vision_is_safe(aplayer, pplayer)) {
+  if (gives_vision
+      && !gives_shared_vision(aplayer, pplayer)
+      && (!aplayer->ai.control || shared_vision_is_safe(aplayer, pplayer))) {
     ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_VISION, 0);
   }
+
   if (!player_has_embassy(pplayer, aplayer)) {
     ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_EMBASSY, 0);
   }
@@ -1143,6 +1150,12 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
   above has been run for _all_ AI players.
 
   Only ever called for AI players and never for barbarians.
+
+  When the adip->coundown variable is set to a positive value, it 
+  counts down to a declaration of war. When it is set to a value 
+  smaller than -1, it is a countup towards a "neutral" stance of -1,
+  in which time the AI will refuse to make treaties. This is to make
+  the AI more stubborn.
 ***********************************************************************/
 void static war_countdown(struct player *pplayer, struct player *target,
                           int countdown, enum war_reason reason)
@@ -1252,7 +1265,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 
       if (!aplayer->is_alive 
           || aplayer == pplayer
-          || adip->countdown >= 0
+          || adip->countdown >= 0  /* already counting down to war */
           || ship->state == SSHIP_NONE
           || players_on_same_team(pplayer, aplayer)
           || pplayers_at_war(pplayer, aplayer)) {
@@ -1491,13 +1504,11 @@ void ai_diplomacy_actions(struct player *pplayer)
       break;
 
     case DS_PEACE:
-      if (adip->at_war_with_ally) {
-        break;
-      }
       clause.type = CLAUSE_ALLIANCE;
-      if (ai_goldequiv_clause(pplayer, aplayer,
-                              &clause, ai, FALSE, DS_ALLIANCE) < 0
-          || (adip->asked_about_alliance > 0 && !aplayer->ai.control)) {
+      if (adip->at_war_with_ally
+          || (!aplayer->ai.control && adip->asked_about_alliance > 0)
+          || ai_goldequiv_clause(pplayer, aplayer, &clause,
+                                 ai, FALSE, DS_ALLIANCE) < 0) {
         break; 
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, 0);
@@ -1508,14 +1519,12 @@ void ai_diplomacy_actions(struct player *pplayer)
       break;
 
     case DS_CEASEFIRE:
-      if (adip->at_war_with_ally) {
-        break;
-      }
       clause.type = CLAUSE_PEACE;
-      if (ai_goldequiv_clause(pplayer, aplayer, &clause,
-                              ai, FALSE, CLAUSE_PEACE) < 0
-          || (adip->asked_about_peace > 0 && !aplayer->ai.control)) {
-        break; /* never */
+      if (adip->at_war_with_ally
+          || (!aplayer->ai.control && adip->asked_about_peace > 0)
+          || ai_goldequiv_clause(pplayer, aplayer, &clause,
+                                 ai, FALSE, DS_PEACE) < 0) {
+        break;
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
       adip->asked_about_peace = !aplayer->ai.control ? 12 : 0;
@@ -1525,20 +1534,10 @@ void ai_diplomacy_actions(struct player *pplayer)
 
     case DS_NO_CONTACT: /* but we do have embassy! weird. */
     case DS_WAR:
-    {
-      int worth;
-
-      DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "considering ceasefire");
-      if (adip->asked_about_ceasefire > 0 && !aplayer->ai.control) {
-        DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "... do not ask");
-        break;
-      }
-      worth = ai_goldequiv_clause(pplayer, aplayer,
-                                  &clause, ai, FALSE, CLAUSE_CEASEFIRE);
       clause.type = CLAUSE_CEASEFIRE;
-      if (worth < 0) {
-        DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "... unacceptable (w=%d)",
-                  worth);
+      if ((!aplayer->ai.control && adip->asked_about_ceasefire > 0)
+          || ai_goldequiv_clause(pplayer, aplayer, &clause,
+                                 ai, FALSE, DS_CEASEFIRE) < 0) {
         break; /* Fight until the end! */
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
@@ -1547,7 +1546,7 @@ void ai_diplomacy_actions(struct player *pplayer)
              "bloodshed. May we suggest a cessation of hostilities?"), 
              pplayer->name);
       break;
-    }
+
     case DS_ARMISTICE:
       break;
     default:
