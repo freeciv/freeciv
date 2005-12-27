@@ -1747,6 +1747,11 @@ void srv_main(void)
   while (TRUE) {
     srv_loop();
 
+    /* Recalculate the scores in case of a spaceship victory */
+    players_iterate(pplayer) {
+      calc_civ_score(pplayer);
+    } players_iterate_end;
+
     send_game_state(game.est_connections, CLIENT_GAME_OVER_STATE);
     report_final_scores();
     show_map_to_all();
