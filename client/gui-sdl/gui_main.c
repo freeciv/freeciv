@@ -44,6 +44,9 @@
 #include "fcintl.h"
 #include "log.h"
 
+/* common */
+#include "unitlist.h"
+
 /* client */
 #include "civclient.h"
 #include "clinet.h"

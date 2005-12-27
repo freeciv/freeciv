@@ -31,6 +31,7 @@
 
 /* common */
 #include "game.h"
+#include "unitlist.h"
 
 /* client */
 #include "civclient.h"

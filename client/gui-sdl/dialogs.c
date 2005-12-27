@@ -33,6 +33,7 @@
 /* common */
 #include "combat.h"
 #include "movement.h"
+#include "unitlist.h"
 
 /* client */
 #include "civclient.h"

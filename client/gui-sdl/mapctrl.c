@@ -29,6 +29,7 @@
 
 /* common */
 #include "unit.h"
+#include "unitlist.h"
 
 /* client */
 #include "civclient.h"

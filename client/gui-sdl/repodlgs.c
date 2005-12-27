@@ -29,6 +29,7 @@
 /* common */
 #include "game.h"
 #include "government.h"
+#include "unitlist.h"
 
 /* client */
 #include "civclient.h"

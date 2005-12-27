@@ -28,6 +28,9 @@
 /* utility */
 #include "fcintl.h"
 
+/* common */
+#include "unitlist.h"
+
 /* client */
 #include "civclient.h" /* get_client_state */
 #include "control.h"
