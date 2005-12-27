@@ -62,6 +62,9 @@
 #include "aitools.h"
 #include "aiunit.h"
 
+// REMOVEME
+#include "ailog.h"
+
 /* We need this global variable for our sort algorithm */
 static struct tile *autoattack_target;
 
