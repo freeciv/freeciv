@@ -678,9 +678,13 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
 
     s = crop_blankspace(get_nation_flag_sprite(tileset, pnation));
     img = sprite_get_pixbuf(s);
-    used = (pnation->player != NULL);
+    used = (pnation->player != NULL && pnation->player != races_player);
     gtk_list_store_set(store, &it, 0, pnation->index, 1, used, 2, img, -1);
     free_sprite(s);
+
+    if (pnation->player == races_player) {
+      /* FIXME: should select this one by default. */
+    }
 
     g_value_init(&value, G_TYPE_STRING);
     g_value_set_static_string(&value, pnation->name);
