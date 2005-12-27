@@ -33,15 +33,17 @@
 #include <X11/Xaw/Toggle.h>     
 
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
 #include "rand.h"
 #include "support.h"
+
+#include "game.h"
+#include "government.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "unitlist.h"
 
 #include "chatline.h"
 #include "cityrep.h"	/* for popdown_city_report_dialog */

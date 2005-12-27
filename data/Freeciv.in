@@ -969,48 +969,16 @@ Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.borderWidth: 0
 Freeciv*helpdialog.*.help_terrain_food_shield_trade_data.justify: Left
 
 ! dummy label:
-Freeciv*helpdialog.*.help_terrain_special_1.label: _Resources F/R/T:
-Freeciv*helpdialog.*.help_terrain_special_1.fromVert: help_terrain_movement_defense
-Freeciv*helpdialog.*.help_terrain_special_1.left: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_1.right: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_1.top: chainTop
-Freeciv*helpdialog.*.help_terrain_special_1.bottom: chainTop
-Freeciv*helpdialog.*.help_terrain_special_1.justify: Right
-
-Freeciv*helpdialog.*.help_terrain_special_1_data.label: 1/1/1
-Freeciv*helpdialog.*.help_terrain_special_1_data.background: gray84
-Freeciv*helpdialog.*.help_terrain_special_1_data.fromVert: help_terrain_movement_defense
-Freeciv*helpdialog.*.help_terrain_special_1_data.fromHoriz: help_terrain_special_1
-Freeciv*helpdialog.*.help_terrain_special_1_data.left: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_1_data.right: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_1_data.top: chainTop
-Freeciv*helpdialog.*.help_terrain_special_1_data.bottom: chainTop
-Freeciv*helpdialog.*.help_terrain_special_1_data.borderWidth: 0
-Freeciv*helpdialog.*.help_terrain_special_1_data.justify: Left
-
-! dummy label:
-Freeciv*helpdialog.*.help_terrain_special_2.label: _Resources F/R/T:
-Freeciv*helpdialog.*.help_terrain_special_2.fromVert: help_terrain_movement_defense
-Freeciv*helpdialog.*.help_terrain_special_2.fromHoriz: help_terrain_special_1_data
-Freeciv*helpdialog.*.help_terrain_special_2.left: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_2.right: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_2.top: chainTop
-Freeciv*helpdialog.*.help_terrain_special_2.bottom: chainTop
-Freeciv*helpdialog.*.help_terrain_special_2.justify: Right
-
-Freeciv*helpdialog.*.help_terrain_special_2_data.label: 1/1/1
-Freeciv*helpdialog.*.help_terrain_special_2_data.background: gray84
-Freeciv*helpdialog.*.help_terrain_special_2_data.fromVert: help_terrain_movement_defense
-Freeciv*helpdialog.*.help_terrain_special_2_data.fromHoriz: help_terrain_special_2
-Freeciv*helpdialog.*.help_terrain_special_2_data.left: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_2_data.right: chainLeft
-Freeciv*helpdialog.*.help_terrain_special_2_data.top: chainTop
-Freeciv*helpdialog.*.help_terrain_special_2_data.bottom: chainTop
-Freeciv*helpdialog.*.help_terrain_special_2_data.borderWidth: 0
-Freeciv*helpdialog.*.help_terrain_special_2_data.justify: Left
+Freeciv*helpdialog.*.help_terrain_resources.label: _("Resources:")
+Freeciv*helpdialog.*.help_terrain_resources.fromVert: help_terrain_movement_defense
+Freeciv*helpdialog.*.help_terrain_resources.left: chainLeft
+Freeciv*helpdialog.*.help_terrain_resources.right: chainLeft
+Freeciv*helpdialog.*.help_terrain_resources.top: chainTop
+Freeciv*helpdialog.*.help_terrain_resources.bottom: chainTop
+Freeciv*helpdialog.*.help_terrain_resources.justify: Right
 
 Freeciv*helpdialog.*.help_terrain_road_result_time.label: _("Road Result/Time:")
-Freeciv*helpdialog.*.help_terrain_road_result_time.fromVert: help_terrain_special_1
+Freeciv*helpdialog.*.help_terrain_road_result_time.fromVert: help_terrain_resources
 Freeciv*helpdialog.*.help_terrain_road_result_time.left: chainLeft
 Freeciv*helpdialog.*.help_terrain_road_result_time.right: chainLeft
 Freeciv*helpdialog.*.help_terrain_road_result_time.top: chainTop
@@ -1020,7 +988,7 @@ Freeciv*helpdialog.*.help_terrain_road_result_time.justify: Right
 ! dummy label:
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.label: Mountains / 11
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.background: gray84
-Freeciv*helpdialog.*.help_terrain_road_result_time_data.fromVert: help_terrain_special_1
+Freeciv*helpdialog.*.help_terrain_road_result_time_data.fromVert: help_terrain_resources
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.fromHoriz: help_terrain_road_result_time
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.left: chainLeft
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.right: chainLeft
@@ -1030,7 +998,7 @@ Freeciv*helpdialog.*.help_terrain_road_result_time_data.borderWidth: 0
 Freeciv*helpdialog.*.help_terrain_road_result_time_data.justify: Left
 
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time.label: _("Irrig. Result/Time:")
-Freeciv*helpdialog.*.help_terrain_irrigation_result_time.fromVert: help_terrain_special_1
+Freeciv*helpdialog.*.help_terrain_irrigation_result_time.fromVert: help_terrain_resources
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time.fromHoriz: help_terrain_road_result_time_data
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time.left: chainLeft
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time.right: chainLeft
@@ -1041,7 +1009,7 @@ Freeciv*helpdialog.*.help_terrain_irrigation_result_time.justify: Right
 ! dummy label:
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.label: Mountains / 11
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.background: gray84
-Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.fromVert: help_terrain_special_1
+Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.fromVert: help_terrain_resources
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.fromHoriz: help_terrain_irrigation_result_time
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.left: chainLeft
 Freeciv*helpdialog.*.help_terrain_irrigation_result_time_data.right: chainLeft
@@ -2862,14 +2830,22 @@ Freeciv*mapcanvas.translations:\
    <MouseMoved>:      mouse-moved()                    \n\
    Shift<BtnDown>:    btn-adjust-workers()             \n\
    <BtnDown>:         btn-select-mapcanvas()           \n\
+   Shift Ctrl<Key>r:  key-unit-connect-road()          \n\
+   Shift Ctrl<Key>l:  key-unit-connect-rail()          \n\
+   Shift Ctrl<Key>i:  key-unit-connect-irrigate()      \n\
+   Shift Ctrl<Key>1:  key-unit-assign-battlegroup1()   \n\
+   Shift Ctrl<Key>2:  key-unit-assign-battlegroup2()   \n\
+   Shift Ctrl<Key>3:  key-unit-assign-battlegroup3()   \n\
+   Shift Ctrl<Key>4:  key-unit-assign-battlegroup4()   \n\
    Ctrl<Key>b:        key-map-borders-toggle()         \n\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
    Ctrl<Key>n:        key-city-names-toggle()          \n\
    Ctrl<Key>p:        key-city-productions-toggle()    \n\
    Ctrl<Key>w:        key-open-worklists()             \n\
-   Shift Ctrl<Key>r:  key-unit-connect-road()          \n\
-   Shift Ctrl<Key>l:  key-unit-connect-rail()          \n\
-   Shift Ctrl<Key>i:  key-unit-connect-irrigate()      \n\
+   Ctrl<Key>1:        key-unit-select-battlegroup1()   \n\
+   Ctrl<Key>2:        key-unit-select-battlegroup2()   \n\
+   Ctrl<Key>3:        key-unit-select-battlegroup3()   \n\
+   Ctrl<Key>4:        key-unit-select-battlegroup4()   \n\
    Shift<Key>d:       key-unit-disband()               \n\
    Shift<Key>f:       key-open-find-city()             \n\
    Shift<Key>l:       key-open-goto-airlift()          \n\
@@ -2879,6 +2855,12 @@ Freeciv*mapcanvas.translations:\
    Shift<Key>t:       key-open-rates()                 \n\
    Shift<Key>u:       key-unit-unload-all()            \n\
    Shift<Key>w:       key-unit-wakeup-others()         \n\
+   Shift<Key>1:       key-unit-add-to-battlegroup1()   \n\
+   Shift<Key>2:       key-unit-add-to-battlegroup2()   \n\
+   Shift<Key>3:       key-unit-add-to-battlegroup3()   \n\
+   Shift<Key>4:       key-unit-add-to-battlegroup4()   \n\
+   Shift<Key>Return:  key-end-turn()                   \n\
+   Shift<Key>KP_Enter: key-end-turn()                  \n\
    <Key>a:            key-unit-auto-attack-or-settle() \n\
    <Key>b:            key-unit-build-city-or-wonder()  \n\
    <Key>c:            key-center-on-unit()             \n\
@@ -2944,12 +2926,12 @@ Freeciv*mapcanvas.translations:\
 
 Freeciv*overviewcanvas.translations:\
    <BtnDown>:         btn-select-overviewcanvas()      \n\
+   Shift Ctrl<Key>i:  key-unit-connect-irrigate()      \n\
+   Shift Ctrl<Key>l:  key-unit-connect-rail()          \n\
+   Shift Ctrl<Key>r:  key-unit-connect-road()          \n\
    Ctrl<Key>g:        key-map-grid-toggle()            \n\
-   Ctrl<Key>i:        key-unit-connect-irrigate()      \n\
-   Ctrl<Key>l:        key-unit-connect-rail()          \n\
    Ctrl<Key>n:        key-city-names-toggle()          \n\
    Ctrl<Key>p:        key-city-productions-toggle()    \n\
-   Ctrl<Key>r:        key-unit-connect-road()          \n\
    Ctrl<Key>w:        key-open-worklists()             \n\
    Shift<Key>d:       key-unit-disband()               \n\
    Shift<Key>f:       key-open-find-city()             \n\
@@ -2960,6 +2942,8 @@ Freeciv*overviewcanvas.translations:\
    Shift<Key>t:       key-open-rates()                 \n\
    Shift<Key>u:       key-unit-unload-all()            \n\
    Shift<Key>w:       key-unit-wakeup-others()         \n\
+   Shift<Key>Return:  key-end-turn()                   \n\
+   Shift<Key>KP_Enter: key-end-turn()                  \n\
    <Key>a:            key-unit-auto-attack-or-settle() \n\
    <Key>b:            key-unit-build-city-or-wonder()  \n\
    <Key>c:            key-center-on-unit()             \n\

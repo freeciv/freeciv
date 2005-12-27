@@ -32,6 +32,7 @@
 #include "game.h"
 #include "improvement.h"
 #include "tech.h"
+#include "unitlist.h"
 
 #include "clinet.h"
 #include "control.h"

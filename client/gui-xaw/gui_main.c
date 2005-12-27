@@ -45,6 +45,7 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "unitlist.h"
 #include "version.h"
 
 #include "civclient.h"
@@ -974,6 +975,46 @@ void reset_unit_below_pixmaps(void)
   fill_unit_below_pixmaps();
 
   set_unit_icons_more_arrow(FALSE);
-  set_unit_icon(-1, get_unit_in_focus());
-  update_unit_pix_label(get_unit_in_focus());
+  if (get_num_units_in_focus() == 1) {
+    set_unit_icon(-1, unit_list_get(get_units_in_focus(), 0));
+  } else {
+    set_unit_icon(-1, NULL);
+  }
+  update_unit_pix_label(get_units_in_focus());
+}
+
+/****************************************************************************
+  Assigns focus units to given battlegroup.
+****************************************************************************/
+void assign_battlegroup(int battlegroup)
+{
+  key_unit_assign_battlegroup(battlegroup, FALSE);
+}
+
+/****************************************************************************
+  Brings given battlegroup into focus.
+****************************************************************************/
+void select_battlegroup(int battlegroup)
+{
+  key_unit_select_battlegroup(battlegroup, FALSE);
+}
+
+/****************************************************************************
+  Adds focus units to given battlegroup
+  (or removes unit from battlegoup if battlegroup is the same that unit has).
+****************************************************************************/
+void add_unit_to_battlegroup(int battlegroup)
+{
+  if (game.player_ptr && can_client_issue_orders()) {
+    struct unit *punit;
+
+    punit = unit_list_get(get_units_in_focus(), 0);
+    if (punit && punit->battlegroup == battlegroup) {
+      /* If top unit already in the same battlegroup, detach it */
+      unit_change_battlegroup(punit, BATTLEGROUP_NONE);
+      refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
+    } else {
+      key_unit_assign_battlegroup(battlegroup, TRUE);
+    }
+  }
 }

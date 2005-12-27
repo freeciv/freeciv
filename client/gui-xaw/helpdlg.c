@@ -82,8 +82,7 @@ static Widget help_unit_tile;
 
 static Widget help_terrain_movement_defense, help_terrain_movement_defense_data;
 static Widget help_terrain_food_shield_trade, help_terrain_food_shield_trade_data;
-static Widget help_terrain_special_1, help_terrain_special_1_data;
-static Widget help_terrain_special_2, help_terrain_special_2_data;
+static Widget help_terrain_resources;
 static Widget help_terrain_road_result_time, help_terrain_road_result_time_data;
 static Widget help_terrain_irrigation_result_time, help_terrain_irrigation_result_time_data;
 static Widget help_terrain_mining_result_time, help_terrain_mining_result_time_data;
@@ -645,32 +644,10 @@ static void create_help_page(enum help_page_type type)
        help_right_form,
        NULL);
 
-    help_terrain_special_1 =
+    help_terrain_resources =
       XtVaCreateManagedWidget
       (
-       "help_terrain_special_1",
-       labelWidgetClass,
-       help_right_form,
-       NULL);
-    help_terrain_special_1_data =
-      XtVaCreateManagedWidget
-      (
-       "help_terrain_special_1_data",
-       labelWidgetClass,
-       help_right_form,
-       NULL);
-
-    help_terrain_special_2 =
-      XtVaCreateManagedWidget
-      (
-       "help_terrain_special_2",
-       labelWidgetClass,
-       help_right_form,
-       NULL);
-    help_terrain_special_2_data =
-      XtVaCreateManagedWidget
-      (
-       "help_terrain_special_2_data",
+       "help_terrain_resources",
        labelWidgetClass,
        help_right_form,
        NULL);
@@ -1004,31 +981,18 @@ static void help_update_terrain(const struct help_item *pitem,
 	    pterrain->output[O_TRADE]);
     xaw_set_label(help_terrain_food_shield_trade_data, buf);
 
-    if (*(pterrain->special[0].name))	{
-      sprintf(buf, _("%s F/R/T:"), pterrain->special[0].name);
-      xaw_set_label(help_terrain_special_1, buf);
-      sprintf(buf, "%d/%d/%d",
-	      pterrain->special[0].output[O_FOOD],
-	      pterrain->special[0].output[O_SHIELD],
-	      pterrain->special[0].output[O_TRADE]);
-      xaw_set_label(help_terrain_special_1_data, buf);
+    buf[0] = '\0';
+    if (*(pterrain->resources)) {
+      const struct resource **r;
+      for (r = pterrain->resources; *r; r++) {
+	sprintf (buf + strlen (buf), " %s,", _((*r)->name));
+      }
+      buf[strlen (buf) - 1] = '.';
     } else {
-      xaw_set_label(help_terrain_special_1, "");
-      xaw_set_label(help_terrain_special_1_data, "");
+      /* TRANS: (none) as in "Resources: (none)". */
+      sprintf (buf + strlen (buf), _("(none)"));
     }
-
-    if (*(pterrain->special[1].name)) {
-      sprintf(buf, _("%s F/R/T:"), pterrain->special[1].name);
-      xaw_set_label(help_terrain_special_2, buf);
-      sprintf(buf, "%d/%d/%d",
-	      pterrain->special[1].output[O_FOOD],
-	      pterrain->special[1].output[O_SHIELD],
-	      pterrain->special[1].output[O_TRADE]);
-      xaw_set_label(help_terrain_special_2_data, buf);
-    } else {
-      xaw_set_label(help_terrain_special_2, "");
-      xaw_set_label(help_terrain_special_2_data, "");
-    }
+    xaw_set_label(help_terrain_resources, buf);
 
     if (pterrain->road_trade_incr > 0) {
       sprintf(buf, _("+%d Trade / %d"),

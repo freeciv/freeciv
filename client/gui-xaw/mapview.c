@@ -27,15 +27,17 @@
 #include "pixcomm.h"
 
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"		/* government_graphic() */
-#include "map.h"
 #include "mem.h"
-#include "player.h"
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
+
+#include "game.h"
+#include "government.h"		/* government_graphic() */
+#include "map.h"
+#include "player.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "civclient.h"
 #include "climap.h"
@@ -200,17 +202,32 @@ void update_info_label(void)
   Also calls update_unit_pix_label() to update the icons for units on this
   square.
 **************************************************************************/
-void update_unit_info_label(struct unit *punit)
+void update_unit_info_label(struct unit_list *punitlist)
 {
-  if(punit) {
-    char buffer[512];
-    my_snprintf(buffer, sizeof(buffer), "%s\n%s",
-		get_unit_info_label_text1(punit),
-		get_unit_info_label_text2(punit));
-    xaw_set_label(unit_info_label, buffer);
+  char buffer[512];
 
-    if (hover_unit != punit->id)
-      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+  my_snprintf(buffer, sizeof(buffer), "%s\n%s",
+		get_unit_info_label_text1(punitlist),
+		get_unit_info_label_text2(punitlist));
+  xaw_set_label(unit_info_label, buffer);
+
+  if (unit_list_size(punitlist) > 0) {
+#if 0 /* Somebody sures this hack is not needed */
+    if (unit_list_size(hover_units) > 0) {
+      bool is_hover = FALSE;
+
+      unit_list_iterate(hover_units, punit2) {
+	if (hover_unit != punit->id) {
+	  is_hover = TRUE;
+	  break;
+	}
+      } unit_list_iterate_end;
+
+      if (!is_hover) {
+	set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+      }
+    }
+#endif
 
     switch (hover_state) {
     case HOVER_NONE:
@@ -235,7 +252,7 @@ void update_unit_info_label(struct unit *punit)
     XUndefineCursor(display, XtWindow(map_canvas));
   }
 
-  update_unit_pix_label(punit);
+  update_unit_pix_label(punitlist);
 }
 
 /**************************************************************************

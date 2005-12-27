@@ -42,6 +42,7 @@
 #include "game.h"
 #include "government.h"
 #include "packets.h"
+#include "unitlist.h"
 
 #include "chatline_common.h" /* for send_chat() */
 #include "climisc.h"

@@ -29,13 +29,15 @@
 #include <X11/Xaw/Viewport.h>
 #include <X11/Xaw/Toggle.h>     
 
+#include "mem.h"
+#include "support.h"
+
 #include "game.h"
 #include "map.h"
-#include "mem.h"
 #include "packets.h"
 #include "player.h"
-#include "support.h"
 #include "unit.h"
+#include "unitlist.h"
 
 #include "civclient.h"
 #include "clinet.h"
@@ -100,14 +102,11 @@ void popup_goto_dialog(void)
   Dimension width, height;
   Boolean no_player_cities;
 
-  if (!can_client_issue_orders()) {
+  if (!can_client_issue_orders() || get_num_units_in_focus() == 0) {
     return;
   }
 
   no_player_cities = !(city_list_size(game.player_ptr->cities));
-
-  if(get_unit_in_focus()==0)
-    return;
 
   original_tile = get_center_tile_mapcanvas();
   
@@ -266,12 +265,19 @@ void goto_list_callback(Widget w, XtPointer client_data, XtPointer call_data)
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(goto_list);
   
-  if(ret->list_index!=XAW_LIST_NONE) {
+  if (ret->list_index != XAW_LIST_NONE) {
     struct city *pdestcity;
-    if((pdestcity=get_selected_city())) {
-      struct unit *punit=get_unit_in_focus();
+    if ((pdestcity = get_selected_city())) {
+      bool can_airlift = FALSE;
+      unit_list_iterate(get_units_in_focus(), punit) {
+        if (unit_can_airlift_to(punit, pdestcity)) {
+	  can_airlift = TRUE;
+	  break;
+	}
+      } unit_list_iterate_end;
+
       center_tile_mapcanvas(pdestcity->tile);
-      if(punit && unit_can_airlift_to(punit, pdestcity)) {
+      if (can_airlift) {
 	XtSetSensitive(goto_airlift_command, True);
 	return;
       }
@@ -287,11 +293,10 @@ void goto_airlift_command_callback(Widget w, XtPointer client_data,
 				  XtPointer call_data)
 {
   struct city *pdestcity=get_selected_city();
-  if(pdestcity) {
-    struct unit *punit=get_unit_in_focus();
-    if(punit) {
+  if (pdestcity) {
+    unit_list_iterate(get_units_in_focus(), punit) {
       request_unit_airlift(punit, pdestcity);
-    }
+    } unit_list_iterate_end;
   }
   popdown_goto_dialog();
 }
@@ -313,10 +318,9 @@ void goto_goto_command_callback(Widget w, XtPointer client_data,
 {
   struct city *pdestcity = get_selected_city();
   if (pdestcity) {
-    struct unit *punit = get_unit_in_focus();
-    if (punit) {
+    unit_list_iterate(get_units_in_focus(), punit) {
       send_goto_tile(punit, pdestcity->tile);
-    }
+    } unit_list_iterate_end;
   }
   popdown_goto_dialog();
 }

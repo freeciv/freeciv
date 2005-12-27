@@ -17,6 +17,7 @@
 #endif
 
 #include "game.h"
+#include "unitlist.h"
 
 #include "chatline.h"
 #include "citydlg.h"
@@ -380,14 +381,9 @@ static void xaw_key_unit_auto_settle(Widget w, XEvent *event, String *argv,
 static void xaw_key_unit_auto_attack_or_settle(Widget w, XEvent *event,
 					       String *argv, Cardinal *argc)
 {
-  struct unit *punit = get_unit_in_focus();
-  if (punit) {
-    /* Since there is no more auto-attack, do nothing if unit nas no settler flag */
-    if (unit_flag(punit, F_SETTLERS)) {
-      if (is_menu_item_active(MENU_ORDER, MENU_ORDER_AUTO_SETTLER))
-	key_unit_auto_settle();
-    }
-  }
+  unit_list_iterate(get_units_in_focus(), punit) {
+    request_unit_autosettlers(punit);
+  } unit_list_iterate_end;
 }
 
 static void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -398,16 +394,13 @@ static void xaw_key_unit_build_city(Widget w, XEvent *event, String *argv, Cardi
 
 static void xaw_key_unit_build_city_or_wonder(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  struct unit *punit = get_unit_in_focus();
-  if(punit) {
-    if (unit_flag(punit, F_SETTLERS)) {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_BUILD_CITY))
-	key_unit_build_city();
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (can_unit_add_or_build_city(punit)) {
+      request_unit_build_city(punit);
     } else {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_BUILD_WONDER))
-	key_unit_build_wonder();
+      request_unit_caravan_action(punit, PACKET_UNIT_HELP_BUILD_WONDER);
     }
-  }
+  } unit_list_iterate_end;
 }
 
 static void xaw_key_unit_build_wonder(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -466,16 +459,13 @@ static void xaw_key_unit_fortify(Widget w, XEvent *event, String *argv, Cardinal
 
 static void xaw_key_unit_fortify_or_fortress(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  struct unit *punit = get_unit_in_focus();
-  if(punit) {
-    if (unit_flag(punit, F_SETTLERS)) {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_FORTRESS))
-	key_unit_fortress();
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (can_unit_do_activity(punit, ACTIVITY_FORTRESS)) {
+      key_unit_fortress();
     } else {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_FORTIFY))
-	key_unit_fortify();
+      key_unit_fortify();
     }
-  }
+  } unit_list_iterate_end;
 }
 
 static void xaw_key_unit_fortress(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -522,16 +512,13 @@ static void xaw_key_unit_paradrop(Widget w, XEvent *event, String *argv, Cardina
 
 static void xaw_key_unit_paradrop_or_pollution(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  struct unit *punit = get_unit_in_focus();
-  if(punit) {
-    if (unit_flag(punit, F_SETTLERS)) {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_POLLUTION))
-	key_unit_pollution();
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (can_unit_paradrop(punit)) {
+      key_unit_paradrop();
     } else {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_PARADROP))
-	key_unit_paradrop();
+      key_unit_pollution();
     }
-  }
+  } unit_list_iterate_end;
 }
 
 static void xaw_key_unit_pillage(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -560,16 +547,13 @@ static void xaw_key_unit_road(Widget w, XEvent *event, String *argv, Cardinal *a
 
 static void xaw_key_unit_road_or_traderoute(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  struct unit *punit = get_unit_in_focus();
-  if(punit) {
-    if (unit_flag(punit, F_SETTLERS)) {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_ROAD))
-	key_unit_road();
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (unit_can_est_traderoute_here(punit)) {
+      key_unit_traderoute();
     } else {
-      if(is_menu_item_active(MENU_ORDER, MENU_ORDER_TRADEROUTE))
-	key_unit_traderoute();
+      key_unit_road();
     }
-  }
+  } unit_list_iterate_end;
 }
 
 /****************************************************************************
@@ -622,9 +606,10 @@ static void xaw_key_unit_unload_all(Widget w, XEvent *event,
 static void xaw_key_unit_load(Widget w, XEvent *event,
 			      String *argv, Cardinal *argc)
 {
-  if (can_client_issue_orders()
-      && is_menu_item_active(MENU_ORDER, MENU_ORDER_LOAD)) {
-    request_unit_load(get_unit_in_focus(), NULL);
+  if (can_client_issue_orders()) {
+    unit_list_iterate(get_units_in_focus(), punit) {
+      request_unit_load(punit, NULL);
+    } unit_list_iterate_end;
   }
 }
 
@@ -634,9 +619,10 @@ static void xaw_key_unit_load(Widget w, XEvent *event,
 static void xaw_key_unit_unload(Widget w, XEvent *event,
 				String *argv, Cardinal *argc)
 {
-  if (can_client_issue_orders()
-      && is_menu_item_active(MENU_ORDER, MENU_ORDER_UNLOAD)) {
-    request_unit_unload(get_unit_in_focus());
+  if (can_client_issue_orders()) {
+    unit_list_iterate(get_units_in_focus(), punit) {
+      request_unit_unload(punit);
+    } unit_list_iterate_end;
   }
 }
 /****************************************************************************
@@ -659,6 +645,114 @@ static void xaw_key_unit_wakeup_others(Widget w, XEvent *event,
   if (is_menu_item_active(MENU_ORDER, MENU_ORDER_WAKEUP_OTHERS)) {
     key_unit_wakeup_others();
   }
+}
+
+/****************************************************************************
+  Invoked when the key binding for assign_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_assign_battlegroup1(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  assign_battlegroup(0);
+}
+
+/****************************************************************************
+  Invoked when the key binding for assign_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_assign_battlegroup2(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  assign_battlegroup(1);
+}
+
+/****************************************************************************
+  Invoked when the key binding for assign_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_assign_battlegroup3(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  assign_battlegroup(2);
+}
+
+/****************************************************************************
+  Invoked when the key binding for assign_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_assign_battlegroup4(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  assign_battlegroup(3);
+}
+
+/****************************************************************************
+  Invoked when the key binding for select_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_select_battlegroup1(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  select_battlegroup(0);
+}
+
+/****************************************************************************
+  Invoked when the key binding for select_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_select_battlegroup2(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  select_battlegroup(1);
+}
+
+/****************************************************************************
+  Invoked when the key binding for select_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_select_battlegroup3(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  select_battlegroup(2);
+}
+
+/****************************************************************************
+  Invoked when the key binding for select_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_select_battlegroup4(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  select_battlegroup(3);
+}
+
+/****************************************************************************
+  Invoked when the key binding for add_unit_to_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_add_to_battlegroup1(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  add_unit_to_battlegroup(0);
+}
+
+/****************************************************************************
+  Invoked when the key binding for add_unit_to_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_add_to_battlegroup2(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  add_unit_to_battlegroup(1);
+}
+
+/****************************************************************************
+  Invoked when the key binding for add_unit_to_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_add_to_battlegroup3(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  add_unit_to_battlegroup(2);
+}
+
+/****************************************************************************
+  Invoked when the key binding for add_unit_to_battlegroup is pressed.
+****************************************************************************/
+static void xaw_key_unit_add_to_battlegroup4(Widget w, XEvent *event,
+					     String *argv, Cardinal *argc)
+{
+  add_unit_to_battlegroup(3);
 }
 
 static void xaw_msg_close_city(Widget w, XEvent *event, String *argv, Cardinal *argc)
@@ -823,6 +917,18 @@ static XtActionsRec Actions[] = {
   { "key-unit-unload", xaw_key_unit_unload },
   { "key-unit-wait", xaw_key_unit_wait },
   { "key-unit-wakeup-others", xaw_key_unit_wakeup_others },
+  { "key-unit-assign-battlegroup1", xaw_key_unit_assign_battlegroup1 },
+  { "key-unit-assign-battlegroup2", xaw_key_unit_assign_battlegroup2 },
+  { "key-unit-assign-battlegroup3", xaw_key_unit_assign_battlegroup3 },
+  { "key-unit-assign-battlegroup4", xaw_key_unit_assign_battlegroup4 },
+  { "key-unit-select-battlegroup1", xaw_key_unit_select_battlegroup1 },
+  { "key-unit-select-battlegroup2", xaw_key_unit_select_battlegroup2 },
+  { "key-unit-select-battlegroup3", xaw_key_unit_select_battlegroup3 },
+  { "key-unit-select-battlegroup4", xaw_key_unit_select_battlegroup4 },
+  { "key-unit-add-to-battlegroup1", xaw_key_unit_add_to_battlegroup1 },
+  { "key-unit-add-to-battlegroup2", xaw_key_unit_add_to_battlegroup2 },
+  { "key-unit-add-to-battlegroup3", xaw_key_unit_add_to_battlegroup3 },
+  { "key-unit-add-to-battlegroup4", xaw_key_unit_add_to_battlegroup4 },
   { "msg-close-city", xaw_msg_close_city },
   { "msg-close-city-report", xaw_msg_close_city_report },
   { "msg-close-economy-report", xaw_msg_close_economy_report },

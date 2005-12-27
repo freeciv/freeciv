@@ -32,21 +32,24 @@
 #include <X11/Xaw/Toggle.h>     
 #include <X11/IntrinsicP.h>
 
-#include "pixcomm.h"
-#include "canvas.h"
 
-#include "city.h"
 #include "fcintl.h"
-#include "game.h"
-#include "genlist.h"
-#include "map.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
+#include "genlist.h"
 #include "shared.h"
 #include "support.h"
 
+#include "city.h"
+#include "game.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
+#include "unitlist.h"
+
 #include "cma_fec.h"
+
+#include "pixcomm.h"
+#include "canvas.h"
 
 #include "cityrep.h"
 #include "citydlg.h"
