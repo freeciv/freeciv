@@ -69,10 +69,11 @@ enum manuals {
 /* This formats the manual for an HTML wiki. */
 #ifdef USE_HTML
 #define HEADER "<html><head><link rel=\"stylesheet\" type=\"text/css\" "\
-               "href=\"manual.css\" /></head><body>\n\n"
+               "href=\"manual.css\"/><meta http-equiv=\"Content-Type\" "\
+               "content=\"text/html; charset=UTF-8\"/></head><body>\n\n"
 #define SECTION_BEGIN "<h3>"
 #define SECTION_END "</h3>"
-#define IMAGE_BEGIN "<img src="
+#define IMAGE_BEGIN "<img src=\""
 #define IMAGE_END ".png\">"
 #define SEPARATOR " "
 #define TAIL "</body></html>"
@@ -108,6 +109,7 @@ static bool manual_command(void)
   char filename[40];
   enum manuals manuals;
 
+  game_init();
   load_rulesets();
   for (manuals = 0; manuals < MANUAL_COUNT; manuals++) {
     int i;
