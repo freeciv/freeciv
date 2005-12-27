@@ -152,17 +152,28 @@ void popup_intel_dialog(struct player *pPlayer)
   /* ---------- */
   
   pCapital = find_palace(pPlayer);
+  struct player_research* research = get_player_research(pPlayer);
   change_ptsize16(pStr, adj_font(10));
   pStr->style &= ~TTF_STYLE_BOLD;
-  my_snprintf(cBuf, sizeof(cBuf),
-    _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
-      " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
-    get_ruler_title(pPlayer->government, pPlayer->is_male, pPlayer->nation),
-    pPlayer->name, get_government_name(pPlayer->government),
-    (!pCapital) ? _("(Unknown)") : pCapital->name, pPlayer->economic.gold,
-    pPlayer->economic.tax, pPlayer->economic.science, pPlayer->economic.luxury,
-    get_tech_name(pPlayer, get_player_research(pPlayer)->researching),
-    get_player_research(pPlayer)->bulbs_researched, total_bulbs_required(pPlayer));
+  if (research->researching != A_NOINFO) {
+    my_snprintf(cBuf, sizeof(cBuf),
+      _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
+        " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
+      get_ruler_title(pPlayer->government, pPlayer->is_male, pPlayer->nation),
+      pPlayer->name, get_government_name(pPlayer->government),
+      (!pCapital) ? _("(Unknown)") : pCapital->name, pPlayer->economic.gold,
+      pPlayer->economic.tax, pPlayer->economic.science, pPlayer->economic.luxury,
+      get_tech_name(pPlayer, research->researching),
+      research->bulbs_researched, total_bulbs_required(pPlayer));
+  } else {
+    my_snprintf(cBuf, sizeof(cBuf),
+      _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
+        " Science: %d%% Luxury: %d%%\nResearching: Unknown"),
+      get_ruler_title(pPlayer->government, pPlayer->is_male, pPlayer->nation),
+      pPlayer->name, get_government_name(pPlayer->government),
+      (!pCapital) ? _("(Unknown)") : pCapital->name, pPlayer->economic.gold,
+      pPlayer->economic.tax, pPlayer->economic.science, pPlayer->economic.luxury);
+  }
   
   copy_chars_to_string16(pStr, cBuf);
   pInfo = create_text_surf_from_str16(pStr);
