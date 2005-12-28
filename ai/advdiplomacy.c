@@ -797,10 +797,12 @@ static void ai_diplomacy_suggest(struct player *pplayer,
 void ai_diplomacy_first_contact(struct player *pplayer,
                                 struct player *aplayer)
 {
-  notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
-         "while we get to know each other better?"),
-         pplayer->name, aplayer->name);
-  ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
+  if (pplayer->ai.control && !ai_handicap(pplayer, H_AWAY)) {
+    notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
+           "while we get to know each other better?"),
+           pplayer->name, aplayer->name);
+    ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
+  }
 }
 
 /********************************************************************** 
