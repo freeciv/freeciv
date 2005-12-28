@@ -60,6 +60,7 @@
 #include "gui_id.h"
 #include "gui_stuff.h"		/* gui */
 #include "gui_tilespec.h"
+#include "inteldlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
@@ -901,6 +902,8 @@ void ui_main(int argc, char *argv[])
       
   load_cursors();  
 
+  intel_dialog_init();
+
   clear_double_messages_call();
     
   create_units_order_widgets();
@@ -969,6 +972,9 @@ void ui_main(int argc, char *argv[])
   #endif
 
   free_auxiliary_tech_icons();
+  
+  intel_dialog_done();  
+  
   unload_cursors();
   
 /* FIXME: the font system cannot be freed yet, because it is still 
