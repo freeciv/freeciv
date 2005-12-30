@@ -72,7 +72,7 @@
 #include "gui_main.h"
 
 #define UNITS_TIMER_INTERVAL 128	/* milliseconds */
-#define MAP_SCROLL_TIMER_INTERVAL 384
+#define MAP_SCROLL_TIMER_INTERVAL 500
 
 const char *client_string = "gui-sdl";
 const char * const gui_character_encoding = "UTF-8";
@@ -107,19 +107,10 @@ static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
 static SDL_Event *pMap_Scroll_User_Event = NULL;
 
-/* for panning feature */
-#ifdef SMALL_SCREEN
-static bool do_panning = FALSE;
-#else
-static bool do_panning = FALSE;
-#endif
-static bool is_panning = FALSE;
-static int last_x = 0;
-static int last_y = 0;
-
 static void print_usage(const char *argv0);
 static void parse_options(int argc, char **argv);
 static void game_focused_unit_anim(void);
+static int check_scroll_area(int x, int y);
       
 enum USER_EVENT_ID {
   EVENT_ERROR = 0,
@@ -288,32 +279,24 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
   if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
-      if (do_panning && (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
-        if (pButtonEvent->button == SDL_BUTTON_LEFT) {
-          last_x = pButtonEvent->x;
-          last_y = pButtonEvent->y;
-        }  
-      } else {
-        button_down_on_map(pButtonEvent);
-      }
-  }
+#ifdef UNDER_CE
+    check_scroll_area(pButtonEvent->x, pButtonEvent->y);
+#endif        
+  } 
+  
   return ID_ERROR;
 }
 
 static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
-  if (do_panning && (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
-    if (is_panning) {
-      is_panning = FALSE;
-    } else {  
-      static struct GUI *pWidget;
-      if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
-        return ID_ERROR;
-      } else {
-        button_down_on_map(pButtonEvent);
-      }
-    }  
+  if (!MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) {
+    button_down_on_map(pButtonEvent);
   }
+
+#ifdef UNDER_CE
+  is_map_scrolling = FALSE;
+#endif
+  
   return ID_ERROR;
 }
 
@@ -326,58 +309,6 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 {
   static struct GUI *pWidget;
     
-  if (do_panning && (get_client_state() == CLIENT_GAME_RUNNING_STATE)) {
-    int dir = 0;
-  
-    if (pMotionEvent->state & SDL_BUTTON_LEFT)  {
-      
-      is_panning = true;
-      
-      if (pMotionEvent->x > last_x + 17) {
-        last_x = pMotionEvent->x;                                   
-        dir = 1;
-      } else if (pMotionEvent->x < last_x - 17) {
-        last_x = pMotionEvent->x;                                      
-        dir = 2;
-      }  
-  
-      if (pMotionEvent->y > last_y + 17) {
-        last_y = pMotionEvent->y;                                                
-        dir |= 4; 
-      } else if (pMotionEvent->y < last_y - 17) {
-        last_y = pMotionEvent->y;                                                                                            
-        dir |= 8;
-      }
-  
-      switch (dir) {
-        case 1:
-          scroll_mapview(DIR8_EAST);
-          break;
-        case (1 | 4):
-          scroll_mapview(DIR8_SOUTHEAST);
-          break;
-        case (4):
-          scroll_mapview(DIR8_SOUTH);
-          break;
-        case (4 | 2):
-          scroll_mapview(DIR8_SOUTHWEST);
-          break;
-        case (2):
-          scroll_mapview(DIR8_WEST);
-          break;
-        case (2 | 8):
-          scroll_mapview(DIR8_NORTHWEST);
-          break;
-        case (8):
-          scroll_mapview(DIR8_NORTH);
-          break;
-        case (8 | 1):
-          scroll_mapview(DIR8_NORTHEAST);
-          break;
-      }
-    }  
-  }
-  
   if(draw_goto_patrol_lines) {
     update_line(pMotionEvent->x, pMotionEvent->y);
   }
@@ -391,48 +322,10 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
       unsellect_widget_action();
     } else {
       if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-        static SDL_Rect rect;
-          
         handle_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
-                  
-        rect.x = rect.y = 0;
-        rect.w = SCROLL_MAP_AREA;
-        rect.h = Main.map->h;
-
-        if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
-	  is_map_scrolling = TRUE;
-	  if (scroll_dir != DIR8_WEST) {
-	    scroll_dir = DIR8_WEST;
-	  }
-        } else {
-	  rect.x = Main.map->w - SCROLL_MAP_AREA;
-	  if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
-	    is_map_scrolling = TRUE;
-	    if (scroll_dir != DIR8_EAST) {
-	      scroll_dir = DIR8_EAST;
-	    }
-          } else {
-	    rect.x = rect.y = 0;
-            rect.w = Main.map->w;
-            rect.h = SCROLL_MAP_AREA;
-	    if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
-	      is_map_scrolling = TRUE;
-	      if (scroll_dir != DIR8_NORTH) {
-	        scroll_dir = DIR8_NORTH;
-	      }
-            } else {
-              rect.y = Main.map->h - SCROLL_MAP_AREA;
-	      if (is_in_rect_area(pMotionEvent->x, pMotionEvent->y, rect)) {
-	        is_map_scrolling = TRUE;
-		if (scroll_dir != DIR8_SOUTH) {
-	          scroll_dir = DIR8_SOUTH;
-		}
-              } else {
-	        is_map_scrolling = FALSE;
-	      }
-	    } 
-	  }
-        }
+#ifndef UNDER_CE
+        check_scroll_area(pMotionEvent->x, pMotionEvent->y);
+#endif          
       }
     }
   }
@@ -507,6 +400,50 @@ static void game_cursors_anim(void)
   }
 }
 
+static int check_scroll_area(int x, int y) {
+  static SDL_Rect rect;
+          
+  rect.x = rect.y = 0;
+  rect.w = SCROLL_MAP_AREA;
+  rect.h = Main.map->h;
+
+  if (is_in_rect_area(x, y, rect)) {
+    is_map_scrolling = TRUE;
+    if (scroll_dir != DIR8_WEST) {
+      scroll_dir = DIR8_WEST;
+    }
+  } else {
+    rect.x = Main.map->w - SCROLL_MAP_AREA;
+    if (is_in_rect_area(x, y, rect)) {
+      is_map_scrolling = TRUE;
+      if (scroll_dir != DIR8_EAST) {
+        scroll_dir = DIR8_EAST;
+      }
+    } else {
+      rect.x = rect.y = 0;
+      rect.w = Main.map->w;
+      rect.h = SCROLL_MAP_AREA;
+      if (is_in_rect_area(x, y, rect)) {
+        is_map_scrolling = TRUE;
+        if (scroll_dir != DIR8_NORTH) {
+          scroll_dir = DIR8_NORTH;
+        }
+      } else {
+        rect.y = Main.map->h - SCROLL_MAP_AREA;
+        if (is_in_rect_area(x, y, rect)) {
+          is_map_scrolling = TRUE;
+   	  if (scroll_dir != DIR8_SOUTH) {
+            scroll_dir = DIR8_SOUTH;
+  	  }
+        } else {
+	  is_map_scrolling = FALSE;
+	}
+      } 
+    }
+  }
+  
+  return is_map_scrolling;
+}
 
 /* ============================ Public ========================== */
 
