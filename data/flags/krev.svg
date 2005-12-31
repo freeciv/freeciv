@@ -7,13 +7,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="400.00000pt"
-   height="333.33000px"
+   width="97.500000px"
+   height="65.000000px"
    id="svg1"
    sodipodi:version="0.32"
    inkscape:version="0.42"
    sodipodi:docname="krev.svg"
-   sodipodi:docbase="/Users/daniel/Desktop/test">
+   sodipodi:docbase="/Users/daniel/freeciv/data/flags">
   <defs
      id="defs37" />
   <sodipodi:namedview
@@ -24,12 +24,12 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0320104"
-     inkscape:cx="250.00000"
-     inkscape:cy="166.66499"
+     inkscape:cx="250.00001"
+     inkscape:cy="-26.013886"
      inkscape:window-width="743"
      inkscape:window-height="507"
-     inkscape:window-x="15"
-     inkscape:window-y="84"
+     inkscape:window-x="269"
+     inkscape:window-y="147"
      inkscape:current-layer="svg1" />
   <metadata
      id="metadata38">
@@ -45,20 +45,27 @@
   <rect
      style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
      id="rect2225"
-     width="500.00000"
-     height="333.32999"
+     width="97.500000"
+     height="65.000000"
      x="0.0000000"
      y="0.0000000" />
-  <path
-     style="fill:#32cbfe;fill-opacity:1.0000000;stroke:none"
-     d="M 160.00000,34.764482 C 123.85860,101.74001 87.990800,144.95381 0.0000000,165.64252 L 0.0000000,198.36202 C 90.988400,195.92441 128.45360,177.90578 180.00000,116.56326 L 320.00000,329.24006 L 500.00000,198.36202 L 500.00000,165.64252 C 409.01200,168.08013 371.54600,186.09875 320.00000,247.44129 L 160.00000,34.764482 z "
-     id="path1600" />
-  <path
-     style="fill:#32cbfe;fill-opacity:1.0000000;stroke:none"
-     d="M 160.00000,3.0674558 C 123.85860,70.042992 87.990800,113.25679 0.0000000,133.94551 L 0.0000000,166.66499 C 90.988400,164.22739 128.45360,146.20875 179.99999,84.866242 L 320.00000,297.54304 L 500.00000,166.66499 L 500.00000,133.94551 C 409.01200,136.38310 371.54600,154.40173 320.00000,215.74426 L 160.00000,3.0674558 z "
-     id="path2224" />
-  <path
-     style="fill:#ee1212;stroke:none"
-     d="M 160.00000,19.427211 C 123.85860,86.402742 87.990798,129.61654 0.0000000,150.30525 L 0.0000000,183.02475 C 90.988398,180.58715 128.45360,162.56851 180.00000,101.22598 L 320.00000,313.90279 L 500.00000,183.02475 L 500.00000,150.30525 C 409.01200,152.74285 371.54600,170.76149 320.00000,232.10402 L 160.00000,19.427211 z "
-     id="path7" />
+  <g
+     id="g14690"
+     transform="translate(-432.8421,-284.3720)">
+    <path
+       sodipodi:nodetypes="ccccccccccccc"
+       id="path1530"
+       d="M 417.80715,313.31402 L 455.01187,313.31402 L 469.18507,284.96752 L 493.98827,334.57382 L 504.61817,313.31402 L 545.36627,313.31402 L 545.36627,320.40062 L 508.16147,320.40062 L 493.98827,348.74702 L 469.18507,299.14072 L 458.55517,320.40062 L 417.80715,320.40062 L 417.80715,313.31402 z "
+       style="fill:#ff0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0629900;stroke-linecap:butt;stroke-linejoin:bevel;stroke-dasharray:none;stroke-opacity:1.0000000" />
+    <path
+       sodipodi:nodetypes="cccccc"
+       id="path1531"
+       d="M 417.80714,313.31402 L 455.01192,313.31402 L 469.18512,284.96752 L 493.98832,334.57382 L 504.61822,313.31402 L 545.36652,313.31402"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1.0000000" />
+    <path
+       sodipodi:nodetypes="cccccc"
+       id="path1532"
+       d="M 545.36619,320.40055 L 508.16154,320.40055 L 493.98834,348.74705 L 469.18514,299.14075 L 458.55524,320.40055 L 417.80764,320.40055"
+       style="fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0000000pt;stroke-linecap:butt;stroke-linejoin:bevel;stroke-opacity:1.0000000" />
+  </g>
 </svg>
