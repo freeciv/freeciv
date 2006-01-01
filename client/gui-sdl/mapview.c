@@ -95,9 +95,11 @@ void flush_mapcanvas(int canvas_x , int canvas_y ,
       SDL_BlitSurface(Main.map, &src, Main.screen, &dst);
       dst = src;
       SDL_BlitSurface(Main.gui, &src, Main.screen, &dst);
-      while(Main.guis && Main.guis[i] && i < Main.guis_count) {
-        dst = src;
-        SDL_BlitSurface(Main.guis[i++], &src, Main.screen, &dst);
+      if (Main.guis) {
+        while((i < Main.guis_count) && Main.guis[i]) {
+          dst = src;
+          SDL_BlitSurface(Main.guis[i++], &src, Main.screen, &dst);
+        }
       }
       /* flush main buffer to framebuffer */
       SDL_UpdateRect(Main.screen, dst.x, dst.y, dst.w, dst.h);  
@@ -117,9 +119,11 @@ void flush_rect(SDL_Rect rect)
       SDL_BlitSurface(Main.map, &rect, Main.screen, &dst);
       dst = rect;
       SDL_BlitSurface(Main.gui, &rect, Main.screen, &dst);
-      while(Main.guis && Main.guis[i] && i < Main.guis_count) {
-        dst = rect;
-        SDL_BlitSurface(Main.guis[i++], &rect, Main.screen, &dst);
+      if (Main.guis) {
+        while((i < Main.guis_count) && Main.guis[i]) {
+          dst = rect;
+          SDL_BlitSurface(Main.guis[i++], &rect, Main.screen, &dst);
+        }
       }
       i = 0;
       /* flush main buffer to framebuffer */
@@ -224,8 +228,10 @@ void flush_dirty(void)
     SDL_BlitSurface(Main.map, NULL, Main.screen, NULL);
     SDL_BlitSurface(Main.gui, NULL, Main.screen, NULL);
     
-    while(Main.guis && Main.guis[j] && j < Main.guis_count) {
-      SDL_BlitSurface(Main.guis[j++], NULL, Main.screen, NULL);
+    if (Main.guis) {
+      while((j < Main.guis_count) && Main.guis[j]) {
+        SDL_BlitSurface(Main.guis[j++], NULL, Main.screen, NULL);
+      }
     }
     j = 0;
     /* flush main buffer to framebuffer */    
@@ -238,9 +244,11 @@ void flush_dirty(void)
       SDL_BlitSurface(Main.map, &Main.rects[i], Main.screen, &dst);
       dst = Main.rects[i];
       SDL_BlitSurface(Main.gui, &Main.rects[i], Main.screen, &dst);
-      while(Main.guis && Main.guis[j] && j < Main.guis_count) {
-        dst = Main.rects[i];
-        SDL_BlitSurface(Main.guis[j++], &Main.rects[i], Main.screen, &dst);
+      if (Main.guis) {
+        while((j < Main.guis_count) && Main.guis[j]) {
+          dst = Main.rects[i];
+          SDL_BlitSurface(Main.guis[j++], &Main.rects[i], Main.screen, &dst);
+        }
       }
       j = 0;
     }

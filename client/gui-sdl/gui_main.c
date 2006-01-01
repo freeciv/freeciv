@@ -966,13 +966,14 @@ void ui_main(int argc, char *argv[])
   intel_dialog_done();  
   
   unload_cursors();
-  
+
   FREE(button_behavior.event);
   
 /* FIXME: the font system cannot be freed yet, because it is still 
  * needed in civclient.c for message window output */
 #if 0 
   free_font_system();
+  del_main_list();
 #endif  
 
   quit_sdl();

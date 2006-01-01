@@ -89,7 +89,7 @@ static void reload_small_citizens_icons(int style)
   FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
   FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
-
+  
   /* allocate icons */
   #ifdef SMALL_SCREEN
   pIcons->pMale_Happy = ZoomSurface(get_citizen_surface(CITIZEN_HAPPY, 0), 0.5, 0.5, 0);
@@ -270,32 +270,32 @@ void tilespec_setup_city_icons(void)
 
 void tilespec_free_city_icons(void)
 {
-  FREE(pIcons->pBIG_Food_Corr);
-  FREE(pIcons->pBIG_Shield_Corr);
-  FREE(pIcons->pBIG_Trade_Corr);
-  FREE(pIcons->pBIG_Food);
-  FREE(pIcons->pBIG_Food_Surplus);
-  FREE(pIcons->pBIG_Shield);
-  FREE(pIcons->pBIG_Shield_Surplus);
-  FREE(pIcons->pBIG_Trade);
-  FREE(pIcons->pBIG_Luxury);
-  FREE(pIcons->pBIG_Coin);
-  FREE(pIcons->pBIG_Colb);
-  FREE(pIcons->pBIG_Face);
-  FREE(pIcons->pBIG_Coin_Corr);
-  FREE(pIcons->pBIG_Coin_UpKeep);
+  FREESURFACE(pIcons->pBIG_Food_Corr);
+  FREESURFACE(pIcons->pBIG_Shield_Corr);
+  FREESURFACE(pIcons->pBIG_Trade_Corr);
+  FREESURFACE(pIcons->pBIG_Food);
+  FREESURFACE(pIcons->pBIG_Food_Surplus);
+  FREESURFACE(pIcons->pBIG_Shield);
+  FREESURFACE(pIcons->pBIG_Shield_Surplus);
+  FREESURFACE(pIcons->pBIG_Trade);
+  FREESURFACE(pIcons->pBIG_Luxury);
+  FREESURFACE(pIcons->pBIG_Coin);
+  FREESURFACE(pIcons->pBIG_Colb);
+  FREESURFACE(pIcons->pBIG_Face);
+  FREESURFACE(pIcons->pBIG_Coin_Corr);
+  FREESURFACE(pIcons->pBIG_Coin_UpKeep);
   
-  FREE(pIcons->pFood);
-  FREE(pIcons->pShield);
-  FREE(pIcons->pTrade);
-  FREE(pIcons->pFace);
-  FREE(pIcons->pLuxury);
-  FREE(pIcons->pCoin);		  
-  FREE(pIcons->pColb);		  
+  FREESURFACE(pIcons->pFood);
+  FREESURFACE(pIcons->pShield);
+  FREESURFACE(pIcons->pTrade);
+  FREESURFACE(pIcons->pFace);
+  FREESURFACE(pIcons->pLuxury);
+  FREESURFACE(pIcons->pCoin);		  
+  FREESURFACE(pIcons->pColb);		  
     
-  FREE(pIcons->pPollution);
-  FREE(pIcons->pPolice);
-  FREE(pIcons->pWorklist);
+  FREESURFACE(pIcons->pPollution);
+  FREESURFACE(pIcons->pPolice);
+  FREESURFACE(pIcons->pWorklist);
   
   /* small citizens */
   FREESURFACE(pIcons->pMale_Content);

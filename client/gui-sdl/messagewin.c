@@ -184,11 +184,11 @@ void real_update_meswin_dialog(void)
 **************************************************************************/
 void popup_meswin_dialog(bool raise)
 {
+  SDL_String16 *pStr = create_str16_from_char("M", PTSIZE_LOG_FONT);
   Sint16 start_x = (Main.screen->w - adj_size(520)) / 2;
   Sint16 start_y = adj_size(25);
   Uint16 w = adj_size(520);
-  Uint16 h = adj_size(8) + WINDOW_TILE_HIGH
-       + N_MSG_VIEW * str16size(create_str16_from_char("M", PTSIZE_LOG_FONT)).h;
+  Uint16 h = adj_size(8) + WINDOW_TILE_HIGH + N_MSG_VIEW * str16size(pStr).h;
   int len, i = 0;
   struct message *pMsg = NULL;
   struct GUI *pWindow = NULL, *pBuf = NULL;
@@ -197,7 +197,8 @@ void popup_meswin_dialog(bool raise)
   SDL_Rect area;
   SDL_Color active_color = {255, 255, 100, 255};
   SDL_Color color = {255 , 255, 255, 128};
-  SDL_String16 *pStr;
+  
+  FREESTRING16(pStr);
   
   if(pMsg_Dlg) {
     return;

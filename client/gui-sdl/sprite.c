@@ -149,7 +149,9 @@ struct sprite *crop_sprite(struct sprite *source,
     SDL_SetColorKey(pDest, SDL_SRCCOLORKEY, pNew->format->colorkey);    
    
     dither_surface(pNew, mask->psurface, pDest, x - mask_offset_x, y - mask_offset_y);
-     
+    
+    FREESURFACE(pNew);
+    
     return ctor_sprite(pDest);
   }
 

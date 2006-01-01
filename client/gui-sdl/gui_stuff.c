@@ -1035,13 +1035,15 @@ void move_group_to_front_of_gui_list(struct GUI *pBeginGroupWidgetList,
   
   /* Window Buffer Menagment */
   if(pBuffer != Main.gui) {
-    int i = 0;  
-    while(Main.guis && Main.guis[i] && i < Main.guis_count - 1) {
-      if (Main.guis[i] && Main.guis[i + 1] && Main.guis[i] == pBuffer) {
-	Main.guis[i] = Main.guis[i + 1];
-	Main.guis[i + 1] = pBuffer;
+    int i = 0;
+    if (Main.guis) {    
+      while((i < Main.guis_count - 1) && Main.guis[i]) {
+        if (Main.guis[i] && Main.guis[i + 1] && (Main.guis[i] == pBuffer)) {
+	  Main.guis[i] = Main.guis[i + 1];
+	  Main.guis[i + 1] = pBuffer;
+        }
+        i++;
       }
-      i++;
     }
   }
 }

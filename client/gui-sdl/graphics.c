@@ -3499,6 +3499,15 @@ void load_cursors(void)
 **************************************************************************/
 void unload_cursors(void)
 {
+  enum cursor_type cursor;  
+  int frame;
+  
+  for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
+    for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
+      SDL_FreeCursor(fc_cursors[cursor][frame]);
+    }
+  }
+  
   SDL_FreeCursor(pStd_Cursor);
   SDL_FreeCursor(pGoto_Cursor);
   SDL_FreeCursor(pDrop_Cursor);
