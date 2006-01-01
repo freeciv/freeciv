@@ -26,6 +26,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* common */
 #include "unit.h"
@@ -1959,7 +1960,74 @@ void enable_and_redraw_revolution_button(void)
 /**************************************************************************
   mouse click handler
 **************************************************************************/
-void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
+void button_down_on_map(struct mouse_button_behavior *button_behavior)
+{
+  struct tile *ptile;
+  
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    return;
+  }
+  
+  if (button_behavior->event->button == SDL_BUTTON_LEFT) {
+    switch(button_behavior->hold_state) {
+      case MB_HOLD_SHORT:
+        break;
+      case MB_HOLD_MEDIUM:
+        /* switch to goto mode */
+        key_unit_goto();
+        mouse_cursor_type = CURSOR_GOTO;      
+        mouse_cursor_changed = TRUE;
+        break;
+      case MB_HOLD_LONG:
+#ifdef UNDER_CE
+        /* cancel goto mode and open context menu on Pocket PC since we have
+         * only one 'mouse button' */
+        key_cancel_action();
+        draw_goto_patrol_lines = FALSE;
+        mouse_cursor_type = CURSOR_DEFAULT;
+        mouse_cursor_changed = TRUE;
+        /* popup context menu */
+        if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
+                                        (int) button_behavior->event->y))) {
+          popup_advanced_terrain_dialog(ptile);
+        }
+#endif
+        break;
+      default:
+        break;
+    }
+  } else if (button_behavior->event->button == SDL_BUTTON_MIDDLE) {
+    switch(button_behavior->hold_state) {
+      case MB_HOLD_SHORT:
+        break;      
+      case MB_HOLD_MEDIUM:
+        break;
+      case MB_HOLD_LONG:
+        break;
+      default:
+        break;
+    }
+  } else if (button_behavior->event->button == SDL_BUTTON_RIGHT) {
+    switch (button_behavior->hold_state) {
+      case MB_HOLD_SHORT:
+        break;
+      case MB_HOLD_MEDIUM:      
+        /* popup context menu */
+        if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
+                                        (int) button_behavior->event->y))) {
+          popup_advanced_terrain_dialog(ptile);
+        }
+        break;
+      case MB_HOLD_LONG:
+        break;
+      default:
+        break;
+    }
+  }
+    
+}
+
+void button_up_on_map(struct mouse_button_behavior *button_behavior)
 {
   struct tile *ptile;
   struct city *pCity;
@@ -1970,40 +2038,86 @@ void button_down_on_map(SDL_MouseButtonEvent * pButtonEvent)
   
   draw_goto_patrol_lines = FALSE;
   
-  if (pButtonEvent->button == SDL_BUTTON_LEFT) {
-    if(LSHIFT || LALT || LCTRL) {
-      if ((ptile = canvas_pos_to_tile((int) pButtonEvent->x,
-                                      (int) pButtonEvent->y))) {
-	if(LSHIFT) {
-	  popup_advanced_terrain_dialog(ptile);
-	} else {
-	  if(((pCity = ptile->city) != NULL) &&
-	    (pCity->owner == game.player_ptr)) {
-	    if(LCTRL) {
-	      popup_worklist_editor(pCity, &(pCity->worklist));
-	    } else {
-	      /* LALT - this work only with fullscreen mode */
-	      popup_hurry_production_dialog(pCity, NULL);
-	    }
-	  }
-	}		      
-      }
-    } else {
-      action_button_pressed(pButtonEvent->x, pButtonEvent->y, SELECT_POPUP);
+  if (button_behavior->event->button == SDL_BUTTON_LEFT) {
+    switch(button_behavior->hold_state) {
+      case MB_HOLD_SHORT:
+        if(LSHIFT || LALT || LCTRL) {
+          if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
+                                          (int) button_behavior->event->y))) {
+            if(LSHIFT) {
+              popup_advanced_terrain_dialog(ptile);
+            } else {
+              if(((pCity = ptile->city) != NULL) &&
+                (pCity->owner == game.player_ptr)) {
+                if(LCTRL) {
+                  popup_worklist_editor(pCity, &(pCity->worklist));
+                } else {
+                  /* LALT - this work only with fullscreen mode */
+                  popup_hurry_production_dialog(pCity, NULL);
+                }
+              }
+            }		      
+          }
+        } else {
+          mouse_cursor_type = CURSOR_DEFAULT;
+          mouse_cursor_changed = TRUE;
+          action_button_pressed(button_behavior->event->x,
+                                     button_behavior->event->y, SELECT_POPUP);
+        }
+        break;
+      case MB_HOLD_MEDIUM:
+        /* finish goto */
+        mouse_cursor_type = CURSOR_DEFAULT;
+        mouse_cursor_changed = TRUE;
+        action_button_pressed(button_behavior->event->x,
+                                     button_behavior->event->y, SELECT_POPUP);
+        break;
+      case MB_HOLD_LONG:
+#ifndef UNDER_CE
+        /* finish goto */
+        mouse_cursor_type = CURSOR_DEFAULT;
+        mouse_cursor_changed = TRUE;
+        action_button_pressed(button_behavior->event->x,
+                                     button_behavior->event->y, SELECT_POPUP);
+#endif
+        break;
+      default:
+        break;
     }
-  } else {
-    if (pButtonEvent->button == SDL_BUTTON_MIDDLE) {
-      if ((ptile = canvas_pos_to_tile((int) pButtonEvent->x,
-                                      (int) pButtonEvent->y))) {
-        popup_advanced_terrain_dialog(ptile);
-      }
-    } else {
-      recenter_button_pressed(pButtonEvent->x, pButtonEvent->y);
-      flush_dirty();
+  } else if (button_behavior->event->button == SDL_BUTTON_MIDDLE) {
+    switch(button_behavior->hold_state) {
+      case MB_HOLD_SHORT:
+/*        break;*/
+      case MB_HOLD_MEDIUM:
+/*        break;*/
+      case MB_HOLD_LONG:
+/*        break;*/
+      default:
+        /* popup context menu */
+        if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
+                                        (int) button_behavior->event->y))) {
+          popup_advanced_terrain_dialog(ptile);
+        }
+        break;
+    }
+  } else if (button_behavior->event->button == SDL_BUTTON_RIGHT) {
+    switch (button_behavior->hold_state) {
+      case MB_HOLD_SHORT:
+        /* recenter map */
+        recenter_button_pressed(button_behavior->event->x, button_behavior->event->y);
+        flush_dirty();
+        break;
+      case MB_HOLD_MEDIUM:      
+        break;
+      case MB_HOLD_LONG:
+        break;
+      default:
+        break;
     }
   }
+  
 }
-
+  
 /**************************************************************************
   Toggle map drawing stuff.
 **************************************************************************/
@@ -2015,6 +2129,8 @@ bool map_event_handler(SDL_keysym Key)
     case SDLK_ESCAPE:
       key_cancel_action();
       draw_goto_patrol_lines = FALSE;
+      mouse_cursor_type = CURSOR_DEFAULT;
+      mouse_cursor_changed = TRUE;
     return FALSE;
 
     case SDLK_UP:
@@ -2400,7 +2516,10 @@ void set_turn_done_button_state(bool state)
 **************************************************************************/
 void create_line_at_mouse_pos(void)
 {
-  update_line(Main.event.motion.x, Main.event.motion.y);
+  int pos_x, pos_y;
+    
+  SDL_GetMouseState(&pos_x, &pos_y);
+  update_line(pos_x, pos_y);
   draw_goto_patrol_lines = TRUE;
 }
 

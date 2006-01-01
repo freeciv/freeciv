@@ -56,6 +56,24 @@
 #define CF_DRAW_PLAYERS_ALLIANCE_STATUS	(1<<22)
 #define CF_DRAW_PLAYERS_NEUTRAL_STATUS	(1<<23)
 
+/* mouse button behavior */
+#define MB_MEDIUM_HOLD_DELAY  500         /* medium hold:  500ms */
+#define MB_LONG_HOLD_DELAY   2000         /* long hold:   2000ms */
+
+enum mouse_button_hold_state {
+  MB_HOLD_SHORT,
+  MB_HOLD_MEDIUM,
+  MB_HOLD_LONG
+};
+
+struct mouse_button_behavior {
+  Uint32 button_down_ticks;
+  enum mouse_button_hold_state hold_state;
+  SDL_MouseButtonEvent *event;
+  struct tile *ptile;
+};
+
+
 extern struct GUI *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 extern bool LSHIFT;
@@ -66,6 +84,8 @@ extern bool LALT;
 extern bool do_focus_animation;
 extern int city_names_font_size;
 extern int city_productions_font_size;
+extern enum cursor_type mouse_cursor_type;
+extern bool mouse_cursor_changed;
 
 void force_exit_from_event_loop(void);
 void add_autoconnect_to_timer(void);

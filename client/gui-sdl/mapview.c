@@ -55,9 +55,6 @@
 #include "mapview.h"
 
 extern SDL_Event *pFlush_User_Event;
-extern enum cursor_type mouse_cursor_type;
-extern bool mouse_cursor_changed;
-extern bool do_cursor_animation;
 
 int OVERVIEW_START_X;
 int OVERVIEW_START_Y;

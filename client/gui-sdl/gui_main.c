@@ -58,6 +58,7 @@
 #include "cityrep.h"
 #include "graphics.h"
 #include "gui_id.h"
+#include "gui_mem.h"
 #include "gui_stuff.h"		/* gui */
 #include "gui_tilespec.h"
 #include "inteldlg.h"
@@ -102,6 +103,9 @@ static int net_socket = -1;
 static bool autoconnect = FALSE;
 static bool is_map_scrolling = FALSE;
 static enum direction8 scroll_dir;
+
+static struct mouse_button_behavior button_behavior;
+  
 static SDL_Event *pNet_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
 static SDL_Event *pInfo_User_Event = NULL;
@@ -280,9 +284,19 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
     return widget_pressed_action(pWidget);
   } else {
 #ifdef UNDER_CE
-    check_scroll_area(pButtonEvent->x, pButtonEvent->y);
+    if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
 #endif        
-  } 
+    if (!button_behavior.button_down_ticks) {
+      /* start counting */
+      button_behavior.button_down_ticks = SDL_GetTicks();   
+      *button_behavior.event = *pButtonEvent;
+      button_behavior.hold_state = MB_HOLD_SHORT;
+      button_behavior.ptile = canvas_pos_to_tile(pButtonEvent->x, pButtonEvent->y);
+    }
+#ifdef UNDER_CE
+    }
+#endif    
+  }
   
   return ID_ERROR;
 }
@@ -290,9 +304,12 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
 static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
   if (!MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) {
-    button_down_on_map(pButtonEvent);
+    *button_behavior.event = *pButtonEvent;
+    button_up_on_map(&button_behavior);
   }
 
+  button_behavior.button_down_ticks = 0;  
+  
 #ifdef UNDER_CE
   is_map_scrolling = FALSE;
 #endif
@@ -308,7 +325,18 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
 static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
 {
   static struct GUI *pWidget;
-    
+  struct tile *ptile;
+
+  /* stop evaluating button hold time when moving to another tile in medium
+   * hold state or above */
+  if (button_behavior.hold_state >= MB_HOLD_MEDIUM) {
+    ptile = canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y);
+    if ((ptile->x != button_behavior.ptile->x)
+        || (ptile->y != button_behavior.ptile->y)) {
+      button_behavior.button_down_ticks = 0;
+    }
+  }
+  
   if(draw_goto_patrol_lines) {
     update_line(pMotionEvent->x, pMotionEvent->y);
   }
@@ -376,7 +404,28 @@ static void game_focused_unit_anim(void)
 
     flip = !flip;
   }
-    
+  
+  /* button pressed */
+  if (button_behavior.button_down_ticks) {
+    if (((SDL_GetTicks() - button_behavior.button_down_ticks) >= MB_MEDIUM_HOLD_DELAY)
+      && ((SDL_GetTicks() - button_behavior.button_down_ticks) < MB_LONG_HOLD_DELAY)) {
+      
+      if (button_behavior.hold_state != MB_HOLD_MEDIUM) {
+        button_behavior.hold_state = MB_HOLD_MEDIUM;
+        button_down_on_map(&button_behavior);
+      }
+          
+    } else if (((SDL_GetTicks() - button_behavior.button_down_ticks)
+                                                    >= MB_LONG_HOLD_DELAY)) {
+
+      if (button_behavior.hold_state != MB_HOLD_LONG) {
+        button_behavior.hold_state = MB_HOLD_LONG;
+        button_down_on_map(&button_behavior);
+      }
+      
+    }    
+  }
+  
   return;
 }
 
@@ -699,6 +748,10 @@ void ui_init(void)
   SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
 
+  button_behavior.button_down_ticks = 0;
+  button_behavior.hold_state = MB_HOLD_SHORT;
+  button_behavior.event = MALLOC(sizeof(SDL_MouseButtonEvent));
+  
   SDL_Client_Flags = 0;
   iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
   
@@ -913,6 +966,8 @@ void ui_main(int argc, char *argv[])
   intel_dialog_done();  
   
   unload_cursors();
+  
+  FREE(button_behavior.event);
   
 /* FIXME: the font system cannot be freed yet, because it is still 
  * needed in civclient.c for message window output */
