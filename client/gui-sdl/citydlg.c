@@ -1697,16 +1697,21 @@ static int new_name_city_dlg_callback(struct GUI *pEdit)
 {
   char *tmp = convert_to_chars(pEdit->string16->text);
 
-  if(!tmp) {
-    return -1;
-  }
-  
-  if(strcmp(tmp, pCityDlg->pCity->name)) {
-    SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
-    city_rename(pCityDlg->pCity, tmp);
-  }
-  
-  FREE(tmp);
+  if(tmp) {
+    if(strcmp(tmp, pCityDlg->pCity->name)) {
+      SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
+      city_rename(pCityDlg->pCity, tmp);
+    }
+    
+    FREE(tmp);
+  } else {
+    /* empty input -> restore previous content */
+    copy_chars_to_string16(pEdit->string16, pCityDlg->pCity->name);
+    redraw_edit(pEdit);
+    sdl_dirty_rect(pEdit->size);
+    flush_dirty();
+  }  
+ 
   return -1;
 }
 

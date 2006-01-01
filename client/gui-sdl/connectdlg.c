@@ -433,8 +433,18 @@ static int severs_callback(struct GUI *pWidget)
 static int convert_playername_callback(struct GUI *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
-  sz_strlcpy(user_name, tmp);
-  FREE(tmp);
+  
+  if (tmp) {  
+    sz_strlcpy(user_name, tmp);
+    FREE(tmp);
+  } else {
+    /* empty input -> restore previous content */
+    copy_chars_to_string16(pWidget->string16, user_name);
+    redraw_edit(pWidget);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
+  }
+  
   return -1;
 }
 
@@ -444,8 +454,18 @@ static int convert_playername_callback(struct GUI *pWidget)
 static int convert_servername_callback(struct GUI *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
-  sz_strlcpy(server_host, tmp);
-  FREE(tmp);
+  
+  if (tmp) {
+    sz_strlcpy(server_host, tmp);
+    FREE(tmp);
+  } else {
+    /* empty input -> restore previous content */
+    copy_chars_to_string16(pWidget->string16, server_host);
+    redraw_edit(pWidget);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
+  }
+  
   return -1;
 }
 
@@ -454,9 +474,21 @@ static int convert_servername_callback(struct GUI *pWidget)
 **************************************************************************/
 static int convert_portnr_callback(struct GUI *pWidget)
 {
+  char pCharPort[6];
   char *tmp = convert_to_chars(pWidget->string16->text);
-  sscanf(tmp, "%d", &server_port);
-  FREE(tmp);
+  
+  if (tmp) {
+    sscanf(tmp, "%d", &server_port);
+    FREE(tmp);
+  } else {
+    /* empty input -> restore previous content */
+    my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
+    copy_chars_to_string16(pWidget->string16, pCharPort);
+    redraw_edit(pWidget);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
+  }
+  
   return -1;
 }
 

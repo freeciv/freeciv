@@ -86,6 +86,8 @@ struct player *races_player;
 
 extern bool is_unit_move_blocked;
 
+static char *pLeaderName = NULL;
+
 static void popdown_unit_select_dialog(void);
 static void popdown_advanced_terrain_dialog(void);
 static void popdown_terrain_info_dialog(void);
@@ -3697,6 +3699,11 @@ static int next_name_callback(struct GUI *pNext)
   copy_chars_to_string16(pSetup->pName_Edit->string16,
   				leaders[pSetup->selected_leader].name);
   
+  FREE(pLeaderName);
+  pLeaderName = MALLOC(strlen(leaders[pSetup->selected_leader].name) + 1);
+  mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
+                       strlen(leaders[pSetup->selected_leader].name) + 1);
+  
   if ((dim - 1) == pSetup->selected_leader) {
     set_wstate(pSetup->pName_Next, FC_WS_DISABLED);
   }
@@ -3744,6 +3751,11 @@ static int prev_name_callback(struct GUI *pPrev)
   /* change leadaer name */
   copy_chars_to_string16(pSetup->pName_Edit->string16,
   				leaders[pSetup->selected_leader].name);
+  
+  FREE(pLeaderName);
+  pLeaderName = MALLOC(strlen(leaders[pSetup->selected_leader].name) + 1);
+  mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
+                       strlen(leaders[pSetup->selected_leader].name) + 1);
   
   if (!pSetup->selected_leader) {
     set_wstate(pSetup->pName_Prev, FC_WS_DISABLED);
@@ -3955,6 +3967,25 @@ static int nation_button_callback(struct GUI *pNationButton)
   return -1;
 }
 
+/**************************************************************************
+   ...
+**************************************************************************/
+static int leader_name_edit_callback(struct GUI *pEdit)
+{
+  char *name = convert_to_chars(pEdit->string16->text);
+
+  if (name) {
+    FREE(name);
+  } else {
+    /* empty input -> restore previous content */
+    copy_chars_to_string16(pEdit->string16, pLeaderName);
+    redraw_edit(pEdit);
+    sdl_dirty_rect(pEdit->size);
+    flush_dirty();
+  }
+  
+  return -1;
+}
 /* =========================================================== */
 
 /**************************************************************************
@@ -4001,6 +4032,11 @@ static void select_random_leader(Nation_type_id nation)
   pSetup->selected_leader = myrand(dim);
   copy_chars_to_string16(pSetup->pName_Edit->string16,
   				leaders[pSetup->selected_leader].name);
+  
+  FREE(pLeaderName);
+  pLeaderName = MALLOC(strlen(leaders[pSetup->selected_leader].name) + 1);
+  mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
+                       strlen(leaders[pSetup->selected_leader].name) + 1);
   
   /* initialize leader sex */
   pSetup->leader_sex = leaders[pSetup->selected_leader].is_male;
@@ -4185,6 +4221,7 @@ void popup_races_dialog(struct player *pplayer)
   pWidget->size.h = adj_size(24);
   
   set_wstate(pWidget, FC_WS_NORMAL);
+  pWidget->action = leader_name_edit_callback;
   add_to_gui_list(ID_NATION_WIZARD_LEADER_NAME_EDIT, pWidget);
   pSetup->pName_Edit = pWidget;
   
@@ -4386,6 +4423,9 @@ void popdown_races_dialog(void)
 			  pNationDlg->pEndWidgetList);
 
     cancel_help_dlg_callback(NULL);
+    
+    FREE(pLeaderName);
+    
     FREE(pNationDlg->pScroll);
     FREE(pNationDlg);
   }

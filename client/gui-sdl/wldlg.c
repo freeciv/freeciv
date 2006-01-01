@@ -207,7 +207,14 @@ static int rename_worklist_editor_callback(struct GUI *pWidget)
     char *pText = convert_to_chars(pWidget->string16->text);
     my_snprintf(pEditor->pCopy_WorkList->name, MAX_LEN_NAME, "%s", pText);
     FREE(pText);
+  } else {
+    /* empty input -> restore previous content */
+    copy_chars_to_string16(pWidget->string16, pEditor->pCopy_WorkList->name);
+    redraw_edit(pWidget);
+    sdl_dirty_rect(pWidget->size);
+    flush_dirty();
   }
+  
   return -1;
 }
 

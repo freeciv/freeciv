@@ -69,6 +69,7 @@ extern int OVERVIEW_START_X;
 extern int OVERVIEW_START_Y;
 extern bool is_unit_move_blocked;
 
+static char *pSuggestedCityName = NULL;
 static struct SMALL_DLG *pNewCity_Dlg = NULL;
 #ifdef SCALE_MINIMAP
 static struct SMALL_DLG *pScall_MiniMap_Dlg = NULL;
@@ -2316,18 +2317,40 @@ bool map_event_handler(SDL_keysym Key)
 /**************************************************************************
   ...
 **************************************************************************/
+static int newcity_ok_edit_callback(struct GUI *pEdit) {
+  char *input =
+	  convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
+
+  if (input) {
+    FREE(input);
+  } else {
+    /* empty input -> restore previous content */
+    copy_chars_to_string16(pEdit->string16, pSuggestedCityName);
+    redraw_edit(pEdit);
+    sdl_dirty_rect(pEdit->size);
+    flush_dirty();
+  }
+  
+  return -1;
+}
+/**************************************************************************
+  ...
+**************************************************************************/
 static int newcity_ok_callback(struct GUI *pOk_Button)
 {
   char *input =
 	  convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
-
+  
   dsend_packet_unit_build_city(&aconnection, pOk_Button->data.unit->id,
-  			       input);
+		               input);
   FREE(input);
 
   popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
 			      pNewCity_Dlg->pEndWidgetList);
   FREE(pNewCity_Dlg);
+  
+  FREE(pSuggestedCityName);
+  
   flush_dirty();
   return -1;
 }
@@ -2340,6 +2363,9 @@ static int newcity_cancel_callback(struct GUI *pCancel_Button)
   popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
 			      pNewCity_Dlg->pEndWidgetList);
   FREE(pNewCity_Dlg);
+  
+  FREE(pSuggestedCityName);  
+  
   flush_dirty();
   return -1;
 }
@@ -2372,6 +2398,9 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   if(pNewCity_Dlg) {
     return;
   }
+
+  pSuggestedCityName = MALLOC(strlen(pSuggestname) + 1);
+  mystrlcpy(pSuggestedCityName, pSuggestname, strlen(pSuggestname) + 1);
   
   pNewCity_Dlg = MALLOC(sizeof(struct SMALL_DLG));
     
@@ -2416,6 +2445,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   
   /* set actions */
   pWindow->action = move_new_city_dlg_callback;
+  pEdit->action = newcity_ok_edit_callback;
   pCancel_Button->action = newcity_cancel_callback;
   pOK_Button->action = newcity_ok_callback;
 
