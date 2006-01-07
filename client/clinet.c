@@ -126,7 +126,7 @@ static void close_socket_callback(struct connection *pc)
   append_output_window(_("Lost connection to server!"));
   freelog(LOG_NORMAL, "lost connection to server");
   if (with_ggz) {
-    ui_exit();
+    client_exit();
   }
 }
 
@@ -266,7 +266,7 @@ void disconnect_from_server(void)
   }
   append_output_window(_("Disconnected from server."));
   if (with_ggz) {
-    ui_exit();
+    client_exit();
   }
 }  
 

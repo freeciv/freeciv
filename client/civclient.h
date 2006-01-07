@@ -63,7 +63,7 @@ bool can_intel_with_player(const struct player *pplayer);
 
 void client_game_init(void);
 void client_game_free(void);
-void ui_exit(void);
+void client_exit(void);
 
 /* Set in GUI code. */
 extern const char * const gui_character_encoding;

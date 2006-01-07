@@ -1305,6 +1305,14 @@ void ui_main(int argc, char **argv)
 }
 
 /**************************************************************************
+  Do any necessary UI-specific cleanup
+**************************************************************************/
+void ui_exit()
+{
+
+}
+
+/**************************************************************************
  Update the connected users list at pregame state.
 **************************************************************************/
 void update_conn_list_dialog(void)
@@ -1703,7 +1711,7 @@ static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
   gtk_widget_destroy(dialog);
   if (response == GTK_RESPONSE_YES) {
-    ui_exit();
+    client_exit();
   }
 }
 

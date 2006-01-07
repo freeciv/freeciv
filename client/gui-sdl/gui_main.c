@@ -68,6 +68,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "repodlgs.h"
+#include "themespec.h"
 #include "spaceshipdlg.h"
 
 #include "gui_main.h"
@@ -955,12 +956,20 @@ void ui_main(int argc, char *argv[])
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler,
   		 main_mouse_button_down_handler, main_mouse_button_up_handler,
 		 main_mouse_motion_handler);
+                 
+}
 
-  #if defined UNDER_CE && defined SMALL_SCREEN
+/**************************************************************************
+  Do any necessary UI-specific cleanup
+**************************************************************************/
+void ui_exit()
+{
+  
+#if defined UNDER_CE && defined SMALL_SCREEN
   /* change back to window mode to restore the title bar */
   set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
-  #endif
-
+#endif
+  
   free_auxiliary_tech_icons();
   
   intel_dialog_done();  
@@ -968,14 +977,13 @@ void ui_main(int argc, char *argv[])
   unload_cursors();
 
   FREE(button_behavior.event);
-  
-/* FIXME: the font system cannot be freed yet, because it is still 
- * needed in civclient.c for message window output */
-#if 0 
-  free_font_system();
-  del_main_list();
-#endif  
 
+/* FIXME */  
+/*  del_main_list();*/
+  
+  free_font_system();
+  theme_free(theme);
+  
   quit_sdl();
 }
 

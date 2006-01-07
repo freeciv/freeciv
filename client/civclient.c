@@ -363,7 +363,7 @@ int main(int argc, char *argv[])
   ui_main(argc, argv);
 
   /* termination */
-  ui_exit();
+  client_exit();
   
   /* not reached */
   return EXIT_SUCCESS;
@@ -372,7 +372,7 @@ int main(int argc, char *argv[])
 /**************************************************************************
 ...
 **************************************************************************/
-void ui_exit(void)
+void client_exit(void)
 {
   attribute_flush();
   client_remove_all_cli_conn();
@@ -381,13 +381,17 @@ void ui_exit(void)
   if (save_options_on_exit) {
     save_options();
   }
+  
   tileset_free(tileset);
+  
+  ui_exit();
+  
   control_done();
   chatline_common_done();
   message_options_free();
   client_game_free();
 
-  helpdata_done(); /* ui_exit() unlinks help text list */
+  helpdata_done(); /* client_exit() unlinks help text list */
   conn_list_free(game.all_connections);
   conn_list_free(game.est_connections);
   exit(EXIT_SUCCESS);

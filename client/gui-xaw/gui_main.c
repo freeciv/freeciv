@@ -492,6 +492,13 @@ void ui_main(int argc, char *argv[])
   XtAppMainLoop(app_context);
 }
 
+/**************************************************************************
+  Do any necessary UI-specific cleanup
+**************************************************************************/
+void ui_exit()
+{
+
+}
 
 /**************************************************************************
   Callack for when user clicks one of the unit icons on left hand side
@@ -705,7 +712,7 @@ void setup_widgets(void)
 void xaw_ui_exit(void)
 {
   tileset_free_tiles(tileset);
-  ui_exit();
+  client_exit();
 }
 
 /**************************************************************************

@@ -814,6 +814,13 @@ ui_main(int argc, char *argv[])
   FreeLibrary(hmsimg32);
 }
 
+/**************************************************************************
+  Do any necessary UI-specific cleanup
+**************************************************************************/
+void ui_exit()
+{
+
+}
 
 /**************************************************************************
  Update the connected users list at pregame state.

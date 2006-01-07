@@ -590,7 +590,7 @@ void handle_menu(int code)
       disconnect_from_server();
       break;
     case IDM_GAME_QUIT:
-      ui_exit();
+      client_exit();
       break;
 
 
