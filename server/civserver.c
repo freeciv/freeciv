@@ -68,6 +68,9 @@ static void sigint_handler(int sig)
 {
   static struct timer *timer = NULL;
 
+  if (with_ggz) {
+    exit(EXIT_SUCCESS);
+  }
   if (timer && read_timer_seconds(timer) <= 1.0) {
     exit(EXIT_SUCCESS);
   } else if (!timer) {
