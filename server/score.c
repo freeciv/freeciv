@@ -358,6 +358,21 @@ void save_ppm(void)
   FILE *fp;
   int i, j;
 
+  /* the colors for each player. these were selected to give
+   * the most differentiation between all players. YMMV. */
+  int col[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][3] = {
+    {255,   0,   0}, {  0, 128,   0}, {255, 255, 255}, {255, 255,   0},
+    {138,  43, 226}, {255, 140,   0}, {  0, 255, 255}, {139,  69,  19},
+    {211, 211, 211}, {255, 215,   0}, {255,  20, 147}, {124, 252,   0},
+    {218, 112, 214}, { 30, 144, 255}, {250, 128, 114}, {154, 205,  50},
+    { 25,  25, 112}, {  0, 255, 127}, {139,   0,   0}, {100, 149, 237},
+    {  0, 128, 128}, {255, 192, 203}, {255, 250, 205}, {119, 136, 153},
+    {255, 127,  80}, {255,   0, 255}, {128, 128,   0}, {245, 222, 179},
+    {184, 134,  11}, {173, 216, 230}, {102, 205, 170}, {255, 165,   0},
+  };
+  int watercol[3] = {0,0,255}; /* blue */
+  int landcol[3] =  {0,0,0};   /* black */
+
   if (!srvarg.save_ppm) {
     return;
   }
@@ -383,17 +398,16 @@ void save_ppm(void)
     return;
   }
 
-  fprintf(fp, "P3\n# An intermediate map from saved Freeciv game %s%+05d\n",
+  fprintf(fp, "P3\n# version:2\n# gameid: %s\n", game.id);
+  fprintf(fp, "# An intermediate map from saved Freeciv game %s%+05d\n",
           game.save_name, game.info.year);
 
   for (i = 0; i < game.info.nplayers; i++) {
     struct player *pplayer = get_player(i);
-    fprintf(fp, "# playerno:%d:race:%d:name:\"%s\"\n", pplayer->player_no,
-            pplayer->nation->index, pplayer->name);
+    fprintf(fp, "# playerno:%d:color:#%02x%02x%02x:name:\"%s\"\n", 
+            pplayer->player_no, col[i][0], col[i][1], col[i][2],
+            pplayer->name);
   }
-  terrain_type_iterate(pterrain) {
-    fprintf(fp, "# terrain:%d:name:\"%s\"\n", pterrain->index, pterrain->name);
-  } terrain_type_iterate_end;
 
   fprintf(fp, "%d %d\n", map.xsize, map.ysize);
   fprintf(fp, "255\n");
@@ -401,14 +415,20 @@ void save_ppm(void)
   for (j = 0; j < map.ysize; j++) {
     for (i = 0; i < map.xsize; i++) {
        struct tile *ptile = native_pos_to_tile(i, j);
-       int R, G, B;
+       int *color;
 
-       R = (ptile->city) ? city_owner(ptile->city)->nation->index + 1 : 0;
-       G = (unit_list_size(ptile->units) > 0) ?
-            unit_owner(unit_list_get(ptile->units, 0))->nation->index + 1 : 0;
-       B = tile_get_terrain(ptile)->index;
+       /* color for cities first, then units, then land */
+       if (ptile->city) {
+         color = col[city_owner(ptile->city)->player_no];
+       } else if (unit_list_size(ptile->units) > 0) {
+         color = col[unit_owner(unit_list_get(ptile->units, 0))->player_no];
+       } else if (is_ocean(ptile->terrain)) {
+         color = watercol;
+       } else {
+         color = landcol;
+       }
 
-       fprintf(fp, "%d %d %d\n", R, G, B);
+       fprintf(fp, "%d %d %d\n", color[0], color[1], color[2]);
     }
   }
 
