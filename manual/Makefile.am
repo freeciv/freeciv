@@ -18,7 +18,7 @@ civmanual_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/liblua.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
-      ../server/generator/libgenerator.a $(AUTH_DEPS)
+      ../server/generator/libgenerator.a
 civmanual_LDFLAGS = @GGZDMOD_LDFLAGS@
 civmanual_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \

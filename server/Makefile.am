@@ -93,7 +93,7 @@ civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/liblua.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
-      ./generator/libgenerator.a $(AUTH_DEPS)
+      ./generator/libgenerator.a
 civserver_LDFLAGS = @GGZDMOD_LDFLAGS@
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a @INTLLIBS@ \
