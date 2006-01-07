@@ -14,7 +14,7 @@ civmanual_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
       ../client/helpdata.o \
-      ../server/generator/libgenerator.a $(AUTH_DEPS)
+      ../server/generator/libgenerator.a
 civmanual_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \
       @INTLLIBS@ ../client/helpdata.o \

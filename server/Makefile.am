@@ -85,7 +85,7 @@ libcivserver_a_SOURCES = \
 civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
-      ./generator/libgenerator.a $(AUTH_DEPS)
+      ./generator/libgenerator.a
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a @INTLLIBS@ \
       ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
