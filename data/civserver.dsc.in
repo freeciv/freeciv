@@ -19,8 +19,8 @@ AllowLeave = 1
 # Freeciv bots are handled internally, but aren't visible to GGZ
 #BotsAllowed = 
 PlayersAllowed = 1..30
-# This should be 0, but civserver doesn't exit correctly in pregame
-KillWhenEmpty = 1
+# Because of -q 180 -e options, above
+KillWhenEmpty = 0
 AllowSpectators = 0
 
 [Statistics]

@@ -479,11 +479,16 @@ int sniff_packets(void)
 
     get_lanserver_announcement();
 
-    /* end server if no players for 'srvarg.quitidle' seconds */
-    if (srvarg.quitidle != 0 && server_state != PRE_GAME_STATE) {
+    /* end server if no players for 'srvarg.quitidle' seconds,
+     * but only if at least one player has previously connected. */
+    if (srvarg.quitidle != 0) {
       static time_t last_noplayers;
+      static bool connections;
 
-      if (conn_list_size(game.est_connections) == 0) {
+      if (conn_list_size(game.est_connections) > 0) {
+	connections = TRUE;
+      }
+      if (connections && conn_list_size(game.est_connections) == 0) {
 	if (last_noplayers != 0) {
 	  if (time(NULL) > last_noplayers + srvarg.quitidle) {
 	    save_game_auto("Lost all connections");
