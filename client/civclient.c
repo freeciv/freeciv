@@ -355,7 +355,9 @@ int main(int argc, char *argv[])
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);
 
-  ggz_initialize();
+  if (with_ggz) {
+    ggz_initialize();
+  }
 
   /* run gui-specific client */
   ui_main(argc, argv);

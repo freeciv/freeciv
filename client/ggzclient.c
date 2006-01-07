@@ -53,23 +53,21 @@ static void handle_ggzmod_server(GGZMod * ggzmod, GGZModEvent e,
 ****************************************************************************/
 void ggz_initialize(void)
 {
-  if (with_ggz) {
-    int ggz_socket;
+  int ggz_socket;
 
-    /* We're in GGZ mode */
-    ggzmod = ggzmod_new(GGZMOD_GAME);
-    ggzmod_set_handler(ggzmod, GGZMOD_EVENT_SERVER, &handle_ggzmod_server);
-    if (ggzmod_connect(ggzmod) < 0) {
-      exit(EXIT_FAILURE);
-    }
-    ggz_socket = ggzmod_get_fd(ggzmod);
-    if (ggz_socket < 0) {
-      fc_fprintf(stderr, _("Only the GGZ client must call civclient"
-			   " in ggz mode!\n"));
-      exit(EXIT_FAILURE);
-    }
-    add_ggz_input(ggz_socket);
+  /* We're in GGZ mode */
+  ggzmod = ggzmod_new(GGZMOD_GAME);
+  ggzmod_set_handler(ggzmod, GGZMOD_EVENT_SERVER, &handle_ggzmod_server);
+  if (ggzmod_connect(ggzmod) < 0) {
+    exit(EXIT_FAILURE);
   }
+  ggz_socket = ggzmod_get_fd(ggzmod);
+  if (ggz_socket < 0) {
+    fc_fprintf(stderr, _("Only the GGZ client must call civclient"
+			 " in ggz mode!\n"));
+    exit(EXIT_FAILURE);
+  }
+  add_ggz_input(ggz_socket);
 }
 
 /****************************************************************************
