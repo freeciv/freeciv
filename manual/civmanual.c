@@ -128,238 +128,201 @@ static bool manual_command(void)
     case MANUAL_SETTINGS:
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
       for (i = 0; settings[i].name; i++) {
-	struct settings_s *op = &settings[i];
-	static struct astring abuf = ASTRING_INIT;
-	const char *help = _(op->extra_help);
+        struct settings_s *op = &settings[i];
+        static struct astring abuf = ASTRING_INIT;
+        const char *help = _(op->extra_help);
 
-	astr_minsize(&abuf, strlen(help) + 10);
-	strcpy(abuf.str, help);
-	wordwrap_string(abuf.str, 76);
-	fprintf(doc, SEPARATOR);
-	fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, op->name,
-		_(op->short_help), SECTION_END);
-	if (strlen(op->extra_help) > 0) {
-	  fprintf(doc, "<pre>%s</pre>\n\n", abuf.str);
-	}
-	fprintf(doc, "<p class=\"misc\">");
-	fprintf(doc, _("Level: %s.<br>"), _(sset_level_names[op->level]));
-	fprintf(doc, _("Category: %s.<br>"),
-		_(sset_category_names[op->category]));
-	if (op->to_client == SSET_SERVER_ONLY) {
-	  fprintf(doc, _("Can only be used in server console. "));
-	}
-	if (setting_is_changeable(i)) {
-	  fprintf(doc, _("Can be changed during a game. "));
-	} else {
-	  fprintf(doc, _("Can <b>not</b> be changed during a game. "));
-	}
-	fprintf(doc, "</p>\n\n");
-	switch (op->type) {
-	case SSET_BOOL:
-	  fprintf(doc, _("<p class=\"bounds\">Minimum: 0, Default: %d, "
-			 "Maximum: 1</p>\n\n"),
-		  op->bool_default_value ? 1 : 0);
-	  if (*(op->bool_value) != op->bool_default_value) {
-	    fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
-		    *(op->bool_value));
-	  }
-	  break;
-	case SSET_INT:
-	  fprintf(doc, _("<p class=\"bounds\">Minimum: %d, Default: %d, "
-			 "Maximum: %d</p>\n\n"),
-		  op->int_min_value, op->int_default_value,
-		  op->int_max_value);
-	  if (*(op->int_value) != op->int_default_value) {
-	    fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
-		    *(op->int_value));
-	  }
-	  break;
-	case SSET_STRING:
-	  fprintf(doc, _("<p class=\"bounds\">Default: \"%s\"</p>\n\n"),
-		  op->string_default_value);
-	  if (strcmp(op->string_value, op->string_default_value) != 0) {
-	    fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
-		    op->string_value);
-	  }
-	  break;
-	}
+        astr_minsize(&abuf, strlen(help) + 10);
+        strcpy(abuf.str, help);
+        wordwrap_string(abuf.str, 76);
+        fprintf(doc, SEPARATOR);
+        fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, op->name,
+                _(op->short_help), SECTION_END);
+        if (strlen(op->extra_help) > 0) {
+          fprintf(doc, "<pre>%s</pre>\n\n", abuf.str);
+        }
+        fprintf(doc, "<p class=\"misc\">");
+        fprintf(doc, _("Level: %s.<br>"), _(sset_level_names[op->level]));
+        fprintf(doc, _("Category: %s.<br>"),
+                _(sset_category_names[op->category]));
+        if (op->to_client == SSET_SERVER_ONLY) {
+          fprintf(doc, _("Can only be used in server console. "));
+        }
+        if (setting_is_changeable(i)) {
+          fprintf(doc, _("Can be changed during a game. "));
+        } else {
+          fprintf(doc, _("Can <b>not</b> be changed during a game. "));
+        }
+        fprintf(doc, "</p>\n\n");
+        switch (op->type) {
+        case SSET_BOOL:
+          fprintf(doc, _("<p class=\"bounds\">Minimum: 0, Default: %d, "
+                         "Maximum: 1</p>\n\n"),
+                  op->bool_default_value ? 1 : 0);
+          if (*(op->bool_value) != op->bool_default_value) {
+            fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
+                    *(op->bool_value));
+          }
+          break;
+        case SSET_INT:
+          fprintf(doc, _("<p class=\"bounds\">Minimum: %d, Default: %d, "
+                         "Maximum: %d</p>\n\n"),
+                  op->int_min_value, op->int_default_value,
+                  op->int_max_value);
+          if (*(op->int_value) != op->int_default_value) {
+            fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
+                    *(op->int_value));
+          }
+          break;
+        case SSET_STRING:
+          fprintf(doc, _("<p class=\"bounds\">Default: \"%s\"</p>\n\n"),
+                  op->string_default_value);
+          if (strcmp(op->string_value, op->string_default_value) != 0) {
+            fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
+                    op->string_value);
+          }
+          break;
+        }
       }
       break;
 
     case MANUAL_COMMANDS:
       fprintf(doc, _("<h1>Freeciv %s server commands</h1>\n\n"),
-	      VERSION_STRING);
+              VERSION_STRING);
       for (i = 0; i < CMD_NUM; i++) {
-	const struct command *cmd = &commands[i];
+        const struct command *cmd = &commands[i];
 
-	fprintf(doc, SEPARATOR);
-	fprintf(doc, _("%s%s  -  %s%s\n\n"), SECTION_BEGIN, cmd->name,
-		_(cmd->short_help), SECTION_END);
-	if (cmd->synopsis) {
-	  fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
-			 "<pre>Synopsis:</pre></td>\n<td>"));
-	  fprintf(doc, "<pre>%s</pre></td></tr></table>", _(cmd->synopsis));
-	}
-	fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
-		cmdlevel_name(cmd->level));
-	if (cmd->extra_help) {
-	  static struct astring abuf = ASTRING_INIT;
-	  const char *help = _(cmd->extra_help);
+        fprintf(doc, SEPARATOR);
+        fprintf(doc, _("%s%s  -  %s%s\n\n"), SECTION_BEGIN, cmd->name,
+                _(cmd->short_help), SECTION_END);
+        if (cmd->synopsis) {
+          fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
+                         "<pre>Synopsis:</pre></td>\n<td>"));
+          fprintf(doc, "<pre>%s</pre></td></tr></table>", _(cmd->synopsis));
+        }
+        fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
+                cmdlevel_name(cmd->level));
+        if (cmd->extra_help) {
+          static struct astring abuf = ASTRING_INIT;
+          const char *help = _(cmd->extra_help);
 
-	  astr_minsize(&abuf, strlen(help)+1);
-	  strcpy(abuf.str, help);
-	  wordwrap_string(abuf.str, 76);
-	  fprintf(doc, _("<p>Description:</p>\n\n"));
-	  fprintf(doc, "<pre>%s</pre>\n\n", abuf.str);
-	}
+          astr_minsize(&abuf, strlen(help)+1);
+          strcpy(abuf.str, help);
+          wordwrap_string(abuf.str, 76);
+          fprintf(doc, _("<p>Description:</p>\n\n"));
+          fprintf(doc, "<pre>%s</pre>\n\n", abuf.str);
+        }
       }
       break;
 
     case MANUAL_TERRAIN:
       fprintf(doc, _("<h1>Freeciv %s terrain help</h1>\n\n"),
-	      VERSION_STRING);
-      fprintf(doc, _("<table border=1><tr><th>Terrain</th>"));
-      fprintf(doc, _("<th>Food/ Shield/ Trade</th>"));
-      fprintf(doc, _("<th>Resources</th>"));
-      fprintf(doc, _("<th>Move cost</th><th>Defense</th><th>Road "
-		     "+trade</th>\n"));
-      fprintf(doc, _("<th>Irrigation +food</th><th>Mining +shields</th>\n"));
-      fprintf(doc, _("<th>Transform to</th>"));
-      fprintf(doc, "</tr>\n");
+              VERSION_STRING);
+      fprintf(doc, "<table><tr bgcolor=#9bc3d1><th colspan=2>%s</th>", _("Terrain"));
+      fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
+      fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
+      fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
+              _("Irrigation"), _("Mining"), _("Road"), _("Transform"), _("turns"));
+      fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>%s</th></tr>\n\n",
+              _("Airbase"), _("Fortress"), _("Rail"),
+              _("Clean pollution"), _("Clean fallout"));
       terrain_type_iterate(pterrain) {
-	const struct resource **r;
+        const struct resource **r;
 
-	if (pterrain->defense_bonus == 0) {
-	  /* Must be a disabled piece of terrain */
-	  continue;
-	}
+        if (pterrain->name[0] == '\0') {
+          /* Must be a disabled piece of terrain */
+          continue;
+        }
 
-	fprintf(doc, "<tr><td>%s%s%s %s</td>", IMAGE_BEGIN,
-		pterrain->graphic_str,
-		IMAGE_END, get_name(pterrain));
-	fprintf(doc, "<td>%d / %d / %d</td>",
-		pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
-		pterrain->output[O_TRADE]);
+        fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>",
+                pterrain->graphic_str, get_name(pterrain));
+        fprintf(doc, "<td>%d/%d/%d</td>\n",
+                pterrain->output[O_FOOD], pterrain->output[O_SHIELD],
+                pterrain->output[O_TRADE]);
 
-	fprintf (doc, "<td>");
-	for (r = pterrain->resources; *r; r++) {
-	  fprintf (doc, "%s%s%s %s", IMAGE_BEGIN,
-		   (*r)->graphic_str, IMAGE_END, (*r)->name);
-	}
-	fprintf (doc, "</td>");
+        fprintf(doc, "<td><table width=\"100%%\">\n");
+        for (r = pterrain->resources; *r; r++) {
+          fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>"
+                  "<td align=\"right\">%d/%d/%d</td></tr>\n",
+                  (*r)->graphic_str, (*r)->name, (*r)->output[O_FOOD],
+                  (*r)->output[O_SHIELD], (*r)->output[O_TRADE]);
+        }
+        fprintf(doc, "</table></td>\n");
 
-	fprintf(doc, "<td>%d</td>\n", pterrain->movement_cost);
-	fprintf(doc, "<td>%d0%%</td><td>%d</td><td>%d</td><td>%d</td>\n",
-		pterrain->defense_bonus, pterrain->road_trade_incr,
-		pterrain->irrigation_food_incr, pterrain->mining_shield_incr);
-	fprintf(doc, "<td>%s</td></tr>\n\n",
-		get_name(pterrain->transform_result));
+        fprintf(doc, "<td align=\"center\">%d<br/>+%d%%</td>\n",
+                pterrain->movement_cost, pterrain->defense_bonus);
+
+        fprintf(doc, "<td><table width=\"100%%\">\n");
+        if (pterrain->irrigation_result == pterrain) {
+          fprintf(doc, "<tr><td>+%d F</td><td align=\"right\">(%d)</td></tr>\n",
+                  pterrain->irrigation_food_incr, pterrain->irrigation_time);
+        } else if (pterrain->irrigation_result == T_NONE) {
+          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
+        } else {
+          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
+                  get_name(pterrain->irrigation_result), pterrain->irrigation_time);
+        }
+        if (pterrain->mining_result == pterrain) {
+          fprintf(doc, "<tr><td>+%d P</td><td align=\"right\">(%d)</td></tr>\n",
+                  pterrain->mining_shield_incr, pterrain->mining_time);
+        } else if (pterrain->mining_result == T_NONE) {
+          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
+        } else {
+          fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
+                  get_name(pterrain->mining_result), pterrain->mining_time);
+        }
+        fprintf(doc, "<tr><td>+%d T</td><td align=\"right\">(%d)</td></tr>\n",
+                pterrain->road_trade_incr, pterrain->road_time);
+        fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n</table></td>\n",
+                get_name(pterrain->transform_result), pterrain->transform_time);
+
+        fprintf(doc, "<td align=\"center\">%d / %d / %d / %d / %d</td></tr>\n\n",
+                pterrain->airbase_time, pterrain->fortress_time, pterrain->rail_time,
+                pterrain->clean_pollution_time, pterrain->clean_fallout_time);
       } terrain_type_iterate_end;
-      fprintf(doc, _("</table><br><br><br><table border=1>"));
-      fprintf(doc, _("<caption>Time to perform action</caption>"));
-      fprintf(doc, _("<tr><th>Terrain</th>\n"));
-      fprintf(doc, _("<th>Road</th><th>Irrigation</th>\n"));
-      fprintf(doc, _("<th>Mining</th><th>Rail</th>\n"));
-      fprintf(doc, _("<th>Airbase</th><th>Fortress</th>\n"));
-      fprintf(doc, _("<th>Clean pollution</th><th>Clean fallout</th>\n"));
-      fprintf(doc, _("<th>Transform</th></tr>\n"));
-      terrain_type_iterate(pterrain) {
-	const char *name = get_name(pterrain);
-
-	if (pterrain->name[0] == '\0') {
-	  /* Must be a disabled piece of terrain */
-	  continue;
-	}
-
-	fprintf(doc, "<tr><td>%s%s%s %s</td><td>%d</td>\n",
-		IMAGE_BEGIN, pterrain->graphic_str, IMAGE_END, name,
-		pterrain->road_time);
-	fprintf(doc, "<td>%d</td><td>%d</td><td>%d</td><td>%d</td>\n",
-		pterrain->irrigation_time, pterrain->mining_time,
-		pterrain->rail_time, pterrain->airbase_time);
-	fprintf(doc, "<td>%d</td><td>%d</td><td>%d</td><td>%d</td>\n",
-		pterrain->fortress_time, pterrain->clean_pollution_time,
-		pterrain->clean_fallout_time, pterrain->transform_time);
-	fprintf(doc, "</tr>\n\n");
-      } terrain_type_iterate_end;
-
-      fprintf(doc, "</table>\n");
-
-      fprintf(doc, _("<table border=1><tr><th>Resource</th>"));
-      fprintf(doc, _("<th>Food/ Shield/ Trade</th>"));
-
-      resource_type_iterate (presource) {
-	fprintf(doc, "<tr><td>%s%s%s %s</td>", IMAGE_BEGIN,
-		presource->graphic_str, IMAGE_END, presource->name);
-	fprintf(doc, "<td>%d / %d / %d</td>",
-		presource->output[O_FOOD], presource->output[O_SHIELD],
-		presource->output[O_TRADE]);
-	fprintf(doc, "</tr>");
-      } resource_type_iterate_end;
-
       fprintf(doc, "</table>\n");
 
       break;
 
     case MANUAL_BUILDINGS:
-      fprintf(doc, _("<h1>Freeciv %s buildings help</h1>\n\n"), VERSION_STRING);
-      impr_type_iterate(id) {
-	struct impr_type *pimpr = get_improvement_type(id);
-	char buf[64000];
-
-	if (is_great_wonder(id)) {
-	  continue;
-	}
-
-	helptext_building(buf, sizeof(buf), id, NULL);
-	fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN, get_improvement_name(id),
-		SECTION_END);
-	fprintf(doc, "<table>\n");
-	fprintf(doc, _("<tr><td>Cost: <td>%d</tr>\n"), pimpr->build_cost);
-	fprintf(doc, _("<tr><td>Upkeep: <td>%d</tr>\n"), pimpr->upkeep);
-	requirement_vector_iterate(&pimpr->reqs, req) {
-	  char text[512];
-
-	  if (req->source.type != REQ_NONE) {
-	    fprintf(doc, _("<tr><td>Requires: <td>%s</tr>\n"),
-		    get_req_source_text(&req->source, text, sizeof(text)));
-	  }
-	} requirement_vector_iterate_end;
-	if (tech_exists(pimpr->obsolete_by)) {
-	  fprintf(doc, _("<tr><td>Obsoleted by: <td>%s</tr>\n"),
-		  advances[pimpr->obsolete_by].name);
-	}
-	fprintf(doc, "</table>\n\n");
-	fprintf(doc, "<pre>%s</pre>\n\n", buf);
-      } impr_type_iterate_end;
-      break;
-
     case MANUAL_WONDERS:
-      fprintf(doc, _("<h1>Freeciv %s wonders help</h1>\n\n"), VERSION_STRING);
+      if (manuals == MANUAL_BUILDINGS) {
+        fprintf(doc, _("<h1>Freeciv %s buildings help</h1>\n\n"), VERSION_STRING);
+      } else {
+        fprintf(doc, _("<h1>Freeciv %s wonders help</h1>\n\n"), VERSION_STRING);
+      }
+
+      fprintf(doc, "<table>\n<tr bgcolor=#9bc3d1><th colspan=2>%s</th>"
+                   "<th>%s<br/>%s</th><th>%s<br/>%s</th><th>%s</th></tr>\n\n",
+              _("Name"), _("Cost"), _("Upkeep"),
+              _("Requirement"), _("Obsolete by"), _("More info"));
+
       impr_type_iterate(id) {
-	struct impr_type *pimpr = get_improvement_type(id);
-	char buf[64000];
+        struct impr_type *pimpr = get_improvement_type(id);
+        char buf[64000];
 
-	if (!is_great_wonder(id)) {
-	  continue;
-	}
+        if (is_great_wonder(id) == (manuals == MANUAL_BUILDINGS)) {
+          continue;
+        }
 
-	helptext_building(buf, sizeof(buf), id, NULL);
-	fprintf(doc, "%s%s%s\n\n", SECTION_BEGIN, get_improvement_name(id),
-		SECTION_END);
-	fprintf(doc, "<table>\n");
-	fprintf(doc, _("<tr><td>Cost: <td>%d</tr>\n"), pimpr->build_cost);
-	fprintf(doc, _("<tr><td>Upkeep: <td>%d</tr>\n"), pimpr->upkeep);
-	if (tech_exists(pimpr->obsolete_by)) {
-	  fprintf(doc, _("<tr><td>Obsoleted by: <td>%s</tr>\n"),
-		  advances[pimpr->obsolete_by].name);
-	}
-	if (tech_exists(pimpr->obsolete_by)) {
-	  fprintf(doc, _("<tr><td>Obsoleted by: <td>%s</tr>\n"),
-		  advances[pimpr->obsolete_by].name);
-	}
-	fprintf(doc, "</table>\n\n");
-	fprintf(doc, "<pre>%s</pre>\n\n", buf);
+        helptext_building(buf, sizeof(buf), id, NULL);
+
+        fprintf(doc, "<tr><td>" IMAGE_BEGIN "%s" IMAGE_END "</td><td>%s</td>\n"
+                     "<td align=\"center\"><b>%d</b><br/>%d</td>\n<td>",
+                pimpr->graphic_str, get_improvement_name(id),
+                pimpr->build_cost, pimpr->upkeep);
+
+        requirement_vector_iterate(&pimpr->reqs, req) {
+          char text[512];
+          fprintf(doc, "%s<br/>",
+                  req->source.type != REQ_NONE ?
+                  get_req_source_text(&req->source, text, sizeof(text)) : _("None"));
+        } requirement_vector_iterate_end;
+
+        fprintf(doc, "<em>%s</em></td>\n",
+                tech_exists(pimpr->obsolete_by) ?
+                advances[pimpr->obsolete_by].name : _("None"));
+        fprintf(doc, "<td>%s</td>\n</tr>\n\n", buf);
       } impr_type_iterate_end;
       break;
 
@@ -377,8 +340,41 @@ static bool manual_command(void)
 
 int main(int argc, char **argv)
 {
+  int inx;
+  bool showhelp = FALSE;
+  bool showvers = FALSE;
+  char *option = NULL;
+
   init_nls();
-  init_character_encodings("UTF-8", FALSE);
+  init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
+
+  /* parse command-line arguments... */
+  inx = 1;
+  while (inx < argc) {
+    if ((option = get_option_malloc("--file", argv, &inx, argc))) {
+      sz_strlcpy(srvarg.load_filename, option);
+      free(option);
+    } else if (is_option("--help", argv[inx])) {
+      showhelp = TRUE;
+      break;
+    } else if (is_option("--version", argv[inx])) {
+      showvers = TRUE;
+    }
+    inx++;
+  }
+
+  if (showvers && !showhelp) {
+    fc_fprintf(stderr, "%s \n", freeciv_name_version());
+    exit(EXIT_SUCCESS);
+  } else if (showhelp) {
+    fc_fprintf(stderr,
+         _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
+    fc_fprintf(stderr,
+         _("  -h, --help\t\tPrint a summary of the options\n"));
+    fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
+    fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
+    exit(EXIT_SUCCESS);
+  }
 
   manual_command();
 
