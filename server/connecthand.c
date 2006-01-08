@@ -257,8 +257,8 @@ bool handle_login_request(struct connection *pconn,
   if (!is_valid_username(req->username)) {
     my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
     reject_new_connection(msg, pconn);
-    freelog(LOG_NORMAL, _("Rejected connection from %s with invalid name."),
-            pconn->addr);
+    freelog(LOG_NORMAL, _("%s was rejected: Invalid name [%s]."),
+            req->username, pconn->addr);
     return FALSE;
   } 
 
@@ -268,9 +268,8 @@ bool handle_login_request(struct connection *pconn,
       my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
                   req->username);
       reject_new_connection(msg, pconn);
-      freelog(LOG_NORMAL,
-              _("Rejected connection from %s with duplicate login name."),
-              aconn->addr);
+      freelog(LOG_NORMAL, _("%s was rejected: Duplicate login name [%s]."),
+              req->username, pconn->addr);
       return FALSE;
     }
   } conn_list_iterate_end;
