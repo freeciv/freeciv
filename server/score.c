@@ -435,6 +435,7 @@ void save_ppm(void)
   fclose(fp);
 }
 
+#if 0 /* Duplicated? */
 /**************************************************************************
   At the end of a game, figure the winners and losers of the game and
   output to a suitable place.
@@ -542,6 +543,7 @@ void rank_users(void)
 
   fclose(fp);
 }
+#endif
 
 /**************************************************************************
   At the end of a game, figure the winners and losers of the game and
