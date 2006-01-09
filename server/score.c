@@ -434,3 +434,205 @@ void save_ppm(void)
 
   fclose(fp);
 }
+
+/**************************************************************************
+  At the end of a game, figure the winners and losers of the game and
+  output to a suitable place.
+
+  The definition of winners and losers: a winner is one who is alive at the
+  end of the game and has not surrendered, or in the case of a team game, 
+  is alive or a teammate is alive and has not surrendered. A loser is
+  surrendered or dead. Exception: the winner of the spacerace and his 
+  teammates will win of course.
+
+  Barbarians do not count as winners or losers.
+
+  Games ending by endyear results in a draw, we don't rank in that case.
+**************************************************************************/
+void rank_users(void)
+{
+  FILE *fp;
+  int i;
+  enum victory_state { VS_NONE, VS_LOSER, VS_WINNER };
+  enum victory_state plr_state[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  struct player *spacerace_winner = NULL;
+
+  /* game ending via endyear results in a draw. We don't rank. */
+  if (game.info.year > game.info.end_year) {
+    return;
+  }
+
+  /* don't output ranking info if we haven't enabled it via cmdline */
+  if (!srvarg.ranklog_filename) {
+    return;
+  }
+
+  fp = fopen(srvarg.ranklog_filename,"w");
+
+  /* don't fail silently, at least print an error */
+  if (!fp) {
+    freelog(LOG_ERROR, "couldn't open ranking log file: \"%s\"",
+            srvarg.ranklog_filename);
+    return;
+  }
+
+  /* initialize plr_state */
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    plr_state[i] = VS_NONE;
+  }
+
+  /* do we have a spacerace winner? */
+  players_iterate(pplayer) {
+    if (pplayer->spaceship.state == SSHIP_ARRIVED) {
+      spacerace_winner = pplayer;
+      break;
+    }
+  } players_iterate_end;
+
+  /* make this easy: if we have a spacerace winner, then treat all others
+   * who are still alive as surrendered */
+  if (spacerace_winner) {
+    players_iterate(pplayer) {
+      if (pplayer != spacerace_winner) {
+        pplayer->surrendered = TRUE;
+      }
+    } players_iterate_end;
+  }
+
+  /* first pass: locate those alive who haven't surrendered, set them to win;
+   * barbarians won't count, and everybody else is a loser for now. */
+  players_iterate(pplayer) {
+    if (is_barbarian(pplayer)) {
+      plr_state[pplayer->player_no] = VS_NONE;
+    } else if (pplayer->is_alive && !pplayer->surrendered) {
+      plr_state[pplayer->player_no] = VS_WINNER;
+    } else {
+      plr_state[pplayer->player_no] = VS_LOSER;
+    }
+  } players_iterate_end;
+
+  /* second pass: find the teammates of those winners, they win too. */
+  players_iterate(pplayer) {
+    if (plr_state[pplayer->player_no] == VS_WINNER) {
+      players_iterate(aplayer) {
+        if (aplayer->team == pplayer->team) {
+          plr_state[aplayer->player_no] = VS_WINNER;
+        }
+      } players_iterate_end;
+    }
+  } players_iterate_end;
+
+  /* write out ranking information to file */
+  fprintf(fp, "turns: %d\n", game.info.turn);
+  fprintf(fp, "winners: ");
+  players_iterate(pplayer) {
+    if (plr_state[pplayer->player_no] == VS_WINNER) {
+      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username, pplayer->name,
+                                  pplayer->username);
+    }
+  } players_iterate_end;
+  fprintf(fp, "\nlosers: ");
+  players_iterate(pplayer) {
+    if (plr_state[pplayer->player_no] == VS_LOSER) {
+      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username, pplayer->name,
+                                  pplayer->username);
+    }
+  } players_iterate_end;
+  fprintf(fp, "\n");
+
+  fclose(fp);
+}
+
+/**************************************************************************
+  At the end of a game, figure the winners and losers of the game and
+  output to a suitable place.
+
+  The definition of winners and losers: a winner is one who is alive at the
+  end of the game and has not surrendered, or in the case of a team game, 
+  is alive or a teammate is alive and has not surrendered. A loser is
+  surrendered or dead. Exception: the winner of the spacerace and his 
+  teammates will win of course.
+
+  Barbarians do not count as winners or losers.
+**************************************************************************/
+void rank_users(void)
+{
+  FILE *fp;
+  int i;
+  enum victory_state { VS_NONE, VS_LOSER, VS_WINNER };
+  enum victory_state plr_state[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  struct player *spacerace_winner = NULL;
+
+  fp = fopen("ranking.log","w");
+
+  /* oh well, we can fail silently */
+  if (!fp) {
+    return;
+  }
+
+  /* initialize plr_state */
+  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    plr_state[i] = VS_NONE;
+  }
+
+  /* do we have a spacerace winner? */
+  players_iterate(pplayer) {
+    if (pplayer->spaceship.state == SSHIP_ARRIVED) {
+      spacerace_winner = pplayer;
+      break;
+    }
+  } players_iterate_end;
+
+  /* make this easy: if we have a spacerace winner, then treat all others
+   * who are still alive as surrendered */
+  if (spacerace_winner) {
+    players_iterate(pplayer) {
+      if (pplayer != spacerace_winner) {
+        pplayer->surrendered = TRUE;
+      }
+    } players_iterate_end;
+  }
+
+  /* first pass: locate those alive who haven't surrendered, set them to win;
+   * barbarians won't count, and everybody else is a loser for now. */
+  players_iterate(pplayer) {
+    if (is_barbarian(pplayer)) {
+      plr_state[pplayer->player_no] = VS_NONE;
+    } else if (pplayer->is_alive && !pplayer->surrendered) {
+      plr_state[pplayer->player_no] = VS_WINNER;
+    } else {
+      plr_state[pplayer->player_no] = VS_LOSER;
+    }
+  } players_iterate_end;
+
+  /* second pass: find the teammates of those winners, they win too. */
+  players_iterate(pplayer) {
+    if (plr_state[pplayer->player_no] == VS_WINNER) {
+      players_iterate(aplayer) {
+        if (aplayer->team == pplayer->team) {
+          plr_state[aplayer->player_no] = VS_WINNER;
+        }
+      } players_iterate_end;
+    }
+  } players_iterate_end;
+
+  /* write out ranking information to file */
+  fprintf(fp, "turns: %d\n", game.info.turn);
+  fprintf(fp, "winners: ");
+  players_iterate(pplayer) {
+    if (plr_state[pplayer->player_no] == VS_WINNER) {
+      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username, pplayer->name,
+                                  pplayer->username);
+    }
+  } players_iterate_end;
+  fprintf(fp, "\nlosers: ");
+  players_iterate(pplayer) {
+    if (plr_state[pplayer->player_no] == VS_LOSER) {
+      fprintf(fp, "%s (%s,%s), ", pplayer->ranked_username, pplayer->name,
+                                  pplayer->username);
+    }
+  } players_iterate_end;
+  fprintf(fp, "\n");
+
+  fclose(fp);
+}

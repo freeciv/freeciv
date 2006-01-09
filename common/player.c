@@ -177,6 +177,8 @@ void player_init(struct player *plr)
 
   sz_strlcpy(plr->name, ANON_PLAYER_NAME);
   sz_strlcpy(plr->username, ANON_USER_NAME);
+  sz_strlcpy(plr->ranked_username, ANON_USER_NAME);
+  plr->user_turns = 0;
   plr->is_male = TRUE;
   plr->government = NULL;
   plr->target_government = NULL;

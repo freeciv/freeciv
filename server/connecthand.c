@@ -436,6 +436,7 @@ bool attach_connection_to_player(struct connection *pconn,
 
   if (!pconn->observer) {
     sz_strlcpy(pplayer->username, pconn->username);
+    pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
   }
 

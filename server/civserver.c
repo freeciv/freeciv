@@ -130,6 +130,8 @@ int main(int argc, char *argv[])
       srvarg.log_filename = option; /* Never freed. */
     } else if ((option = get_option_malloc("--gamelog", argv, &inx, argc))) {
       srvarg.gamelog_filename = option; /* Never freed. */
+    } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc))) {
+      srvarg.ranklog_filename = option; /* Never freed. */
     } else if (is_option("--nometa", argv[inx])) {
       fc_fprintf(stderr, _("Warning: the %s option is obsolete.  "
 			   "Use -m to enable the metaserver.\n"), argv[inx]);
@@ -246,6 +248,8 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr,
 	     _("  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"));
     fc_fprintf(stderr, _("  -r, --read FILE\tRead startup script FILE\n"));
+    fc_fprintf(stderr,
+	       _("  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"));
     fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
 #ifdef GGZ_SERVER
     fc_fprintf(stderr, _("  -z, --zone\t\tEnable GGZ mode\n"));

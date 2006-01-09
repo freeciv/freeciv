@@ -178,6 +178,7 @@ void srv_init(void)
 
   srvarg.log_filename = NULL;
   srvarg.gamelog_filename = NULL;
+  srvarg.ranklog_filename = NULL;
   srvarg.load_filename[0] = '\0';
   srvarg.script_filename = NULL;
   srvarg.saves_pathname = "";
@@ -551,6 +552,16 @@ static void begin_turn(bool is_new_turn)
       calc_civ_score(pplayer);
     } players_iterate_end;
   }
+
+  /* find out if users attached to players have been attached to those players
+   * for long enough. The first user to do so becomes "associated" to that
+   * player for ranking purposes. */
+  players_iterate(pplayer) {
+    if (strcmp(pplayer->ranked_username, ANON_USER_NAME) == 0
+        && pplayer->user_turns++ > TURNS_NEEDED_TO_RANK) {
+      sz_strlcpy(pplayer->ranked_username, pplayer->username);
+    }
+  } players_iterate_end;
 
   /* See if the value of fog of war has changed */
   if (is_new_turn && game.info.fogofwar != game.fogofwar_old) {
@@ -1676,7 +1687,9 @@ static void main_loop(void)
     (void) send_server_info_to_metaserver(META_REFRESH);
 
     if (server_state != GAME_OVER_STATE && check_for_game_over()) {
-      server_state=GAME_OVER_STATE;
+      server_state = GAME_OVER_STATE;
+      /* this goes here, because we don't rank users after an /endgame */
+      rank_users();
     }
   }
 

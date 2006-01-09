@@ -50,6 +50,10 @@ enum client_states {
 #define CONTAMINATION_POLLUTION 1
 #define CONTAMINATION_FALLOUT   2
 
+/* The number of turns that the first user needs to be attached to a 
+ * player for that user to be ranked as that player */
+#define TURNS_NEEDED_TO_RANK 10
+
 struct civ_game {
   struct packet_game_info info;
   struct government *government_when_anarchy;

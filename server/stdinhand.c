@@ -64,6 +64,7 @@
 #include "ruleset.h"
 #include "sanitycheck.h"
 #include "savegame.h"
+#include "score.h"
 #include "sernet.h"
 #include "settings.h"
 #include "srv_main.h"
@@ -3636,7 +3637,6 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
                    caller->player->name);
     caller->player->surrendered = TRUE;
     if (check_for_game_over()) {
-      server_state = GAME_OVER_STATE;
       force_end_of_sniff = TRUE;
     }
     return TRUE;

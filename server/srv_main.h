@@ -35,6 +35,7 @@ struct server_arguments {
   /* filenames */
   char *log_filename;
   char *gamelog_filename;
+  char *ranklog_filename;
   char load_filename[512]; /* FIXME: may not be long enough? use MAX_PATH? */
   char *script_filename;
   char *saves_pathname;

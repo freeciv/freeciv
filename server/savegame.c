@@ -1872,6 +1872,9 @@ static void player_load(struct player *plr, int plrno,
   sz_strlcpy(plr->name, secfile_lookup_str(file, "player%d.name", plrno));
   sz_strlcpy(plr->username,
 	     secfile_lookup_str_default(file, "", "player%d.username", plrno));
+  sz_strlcpy(plr->ranked_username,
+	     secfile_lookup_str_default(file, "", "player%d.ranked_username", 
+             plrno));
 
   /* 1.15 and later versions store nations by name.  Try that first. */
   p = secfile_lookup_str_default(file, NULL, "player%d.nation", plrno);
@@ -2691,6 +2694,8 @@ static void player_save(struct player *plr, int plrno,
 
   secfile_insert_str(file, plr->name, "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
+  secfile_insert_str(file, plr->ranked_username, "player%d.ranked_username",
+                     plrno);
   secfile_insert_str(file, get_nation_name_orig(plr->nation),
 		     "player%d.nation", plrno);
   /* 1.15 and later won't use the race field, they key on the nation string 

@@ -157,6 +157,8 @@ struct player {
   int player_no;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
+  char ranked_username[MAX_LEN_NAME]; /* the user who will be ranked */
+  int user_turns;            /* number of turns this user has played */
   bool is_male;
   struct government *government; /* may be NULL in pregame */
   struct government *target_government; /* may be NULL */
