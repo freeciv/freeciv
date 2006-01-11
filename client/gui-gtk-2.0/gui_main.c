@@ -194,7 +194,7 @@ static GtkWidget *inputline;
 
 static enum Display_color_type display_color_type;  /* practically unused */
 static gint timer_id;                               /*       ditto        */
-static guint input_id;
+static guint input_id, ggz_input_id;
 
 
 static gboolean show_info_button_release(GtkWidget *w, GdkEventButton *ev, gpointer data);
@@ -1699,8 +1699,17 @@ void remove_net_input(void)
 **************************************************************************/
 void add_ggz_input(int sock)
 {
-  (void) gtk_input_add_full(sock, GDK_INPUT_READ, get_ggz_input,
-			    NULL, NULL, NULL);
+  ggz_input_id = gtk_input_add_full(sock, GDK_INPUT_READ, get_ggz_input,
+				    NULL, NULL, NULL);
+}
+
+/**************************************************************************
+  Called on disconnection to remove monitoring on the GGZ socket.  Only
+  call this if we're actually in GGZ mode.
+**************************************************************************/
+void remove_ggz_input(void)
+{
+  gtk_input_remove(ggz_input_id);
 }
 
 /****************************************************************

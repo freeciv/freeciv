@@ -1039,6 +1039,23 @@ void remove_net_input(void)
   SDL_SetCursor(pStd_Cursor);
 }
 
+/**************************************************************************
+  Called to monitor a GGZ socket.
+**************************************************************************/
+void add_ggz_input(int sock)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Called on disconnection to remove monitoring on the GGZ socket.  Only
+  call this if we're actually in GGZ mode.
+**************************************************************************/
+void remove_ggz_input(void)
+{
+  /* PORTME */
+}
+
 /****************************************************************************
   Enqueue a callback to be called during an idle moment.  The 'callback'
   function should be called sometimes soon, and passed the 'data' pointer

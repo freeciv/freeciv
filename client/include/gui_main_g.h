@@ -28,6 +28,7 @@ void sound_bell(void);
 void add_net_input(int);
 void remove_net_input(void);
 void add_ggz_input(int socket);
+void remove_ggz_input(void);
 
 void set_unit_icon(int idx, struct unit *punit);
 void set_unit_icons_more_arrow(bool onoff);

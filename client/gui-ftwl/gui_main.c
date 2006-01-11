@@ -282,6 +282,23 @@ void remove_net_input(void)
 }
 
 /**************************************************************************
+  Called to monitor a GGZ socket.
+**************************************************************************/
+void add_ggz_input(int sock)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
+  Called on disconnection to remove monitoring on the GGZ socket.  Only
+  call this if we're actually in GGZ mode.
+**************************************************************************/
+void remove_ggz_input(void)
+{
+  /* PORTME */
+}
+
+/**************************************************************************
   Set one of the unit icons in the information area based on punit.
   NULL will be pased to clear the icon. idx==-1 will be passed to
   indicate this is the active unit, or idx in [0..num_units_below-1] for

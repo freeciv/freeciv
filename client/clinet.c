@@ -101,6 +101,9 @@ static union my_sockaddr server_addr;
 **************************************************************************/
 static void close_socket_nomessage(struct connection *pc)
 {
+  if (with_ggz) {
+    remove_ggz_input();
+  }
   connection_common_close(pc);
   remove_net_input();
   popdown_races_dialog(); 
