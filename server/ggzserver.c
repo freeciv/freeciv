@@ -273,7 +273,7 @@ void ggz_report_victory(void)
 	int seat = get_seat_for_player(pplayer);
 
 	if (seat < 0) {
-	  assert(0);
+	  /* FIXME: this can happen for AI players */
 	} else {
 	  teams[get_seat_for_player(pplayer)] = num_teams;
 	}
@@ -319,7 +319,7 @@ void ggz_report_victory(void)
     int seat_num = get_seat_for_player(victors[i]);
 
     if (seat_num < 0) {
-      assert(0);
+      /* FIXME: this can happen for AI players */
     } else {
       results[seat_num] = GGZ_GAME_WIN;
     }

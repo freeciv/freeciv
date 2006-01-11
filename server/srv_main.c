@@ -305,7 +305,8 @@ bool check_for_game_over(void)
       notify_conn(game.est_connections, NULL, E_GAME_END,
 		     _("Team victory to %s"), team_get_name_orig(pteam));
       players_iterate(pplayer) {
-	if (pplayer->is_alive) {
+	if (pplayer->is_alive
+	    && !pplayer->surrendered) {
 	  ggz_report_victor(pplayer);
 	}
       } players_iterate_end;
