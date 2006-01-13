@@ -43,7 +43,6 @@
 
 #include "barbarian.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "srv_main.h"
@@ -188,7 +187,6 @@ static struct player *create_barbarian_player(bool land)
   notify_player(NULL, NULL, E_UPRISING,
                    _("Barbarians gain a leader by the name %s.  Dangerous "
                      "times may lie ahead."), barbarians->name);
-  gamelog(GAMELOG_PLAYER, barbarians);
 
   send_game_info(NULL);
   send_player_info(barbarians, NULL);

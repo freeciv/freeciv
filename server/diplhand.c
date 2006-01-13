@@ -33,7 +33,6 @@
 
 #include "citytools.h"
 #include "cityturn.h"
-#include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "settlers.h"
@@ -350,7 +349,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
                          _("%s allowed you to create an embassy!"),
                          pgiver->name);
-        gamelog(GAMELOG_TREATY, GL_EMBASSY, pgiver, pdest);
         break;
       case CLAUSE_ADVANCE:
         /* It is possible that two players open the diplomacy dialog
@@ -378,8 +376,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			   API_TYPE_TECH_TYPE, &advances[pclause->value],
 			   API_TYPE_PLAYER, pdest,
 			   API_TYPE_STRING, "traded");
-        gamelog(GAMELOG_TECH, pdest, pgiver, pclause->value, "acquire");
-        gamelog(GAMELOG_TREATY, GL_TECH, pgiver, pdest);
 	do_dipl_cost(pdest, pclause->value);
 
 	found_new_tech(pdest, pclause->value, FALSE, TRUE);
@@ -389,21 +385,18 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 		      _("You get %d gold."), pclause->value);
 	pgiver->economic.gold -= pclause->value;
 	pdest->economic.gold += pclause->value;
-        gamelog(GAMELOG_TREATY, GL_GOLD, pgiver, pdest);
 	break;
       case CLAUSE_MAP:
 	give_map_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, NULL, E_DIPLOMACY,
 		      _("You receive %s's worldmap."),
 		      pgiver->name);
-        gamelog(GAMELOG_TREATY, GL_MAP, pgiver, pdest);
 	break;
       case CLAUSE_SEAMAP:
 	give_seamap_from_player_to_player(pgiver, pdest);
 	notify_player(pdest, NULL, E_DIPLOMACY,
 		      _("You receive %s's seamap."),
 		      pgiver->name);
-        gamelog(GAMELOG_TREATY, GL_SEAMAP, pgiver, pdest);
 	break;
       case CLAUSE_CITY:
 	{
@@ -424,8 +417,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			   _("You give city of %s to %s."),
 			   pcity->name, pdest->name);
 
-          gamelog(GAMELOG_LOSECITY, pgiver, pdest, pcity, "acquired");
-          gamelog(GAMELOG_TREATY, GL_CITY, pgiver, pdest, pcity);
 	  transfer_city(pdest, pcity, -1, TRUE, TRUE, FALSE);
 	  break;
 	}
@@ -440,7 +431,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player(pdest, NULL, E_TREATY_CEASEFIRE,
 			 _("You agree on a cease-fire with %s."),
 			 pgiver->name);
-        gamelog(GAMELOG_TREATY, GL_CEASEFIRE, pgiver, pdest);
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}
@@ -464,7 +454,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 _("You agree on an armistice with %s. In %d turns it will turn "
          "into a peace treaty. Move your units out of %s's territory."),
 			 pgiver->name, TURNS_LEFT, pgiver->name);
-        gamelog(GAMELOG_TREATY, GL_PEACE, pgiver, pdest);
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}
@@ -485,7 +474,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 			 _("You agree on an alliance with %s."),
 			 pgiver->name);
 
-        gamelog(GAMELOG_TREATY, GL_ALLIANCE, pgiver, pdest);
 	check_city_workers(pplayer);
 	check_city_workers(pother);
 	break;
@@ -497,7 +485,6 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player(pdest, NULL, E_TREATY_SHARED_VISION,
 			 _("%s gives you shared vision."),
 			 pgiver->name);
-        gamelog(GAMELOG_TREATY, GL_VISION, pgiver, pdest);
 	break;
       case CLAUSE_LAST:
         freelog(LOG_ERROR, "Received bad clause type");

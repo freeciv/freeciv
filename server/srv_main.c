@@ -80,7 +80,6 @@
 #include "console.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "ggzserver.h"
 #include "handchat.h"
 #include "maphand.h"
@@ -177,7 +176,6 @@ void srv_init(void)
   srvarg.loglevel = LOG_NORMAL;
 
   srvarg.log_filename = NULL;
-  srvarg.gamelog_filename = NULL;
   srvarg.ranklog_filename = NULL;
   srvarg.load_filename[0] = '\0';
   srvarg.script_filename = NULL;
@@ -221,8 +219,6 @@ bool check_for_game_over(void)
     notify_conn(game.est_connections, NULL, E_GAME_END, 
 		_("Game ended in a draw as end year exceeded"));
     ggz_report_victory();
-    gamelog(GAMELOG_JUDGE, GL_DRAW, 
-            "Game ended in a draw as end year exceeded");
     return TRUE;
   }
 
@@ -275,13 +271,11 @@ bool check_for_game_over(void)
 	}
       } players_iterate_end;
       ggz_report_victory();
-      gamelog(GAMELOG_JUDGE, GL_TEAMWIN, victor->team);
     } else {
       notify_conn(NULL, NULL, E_GAME_END,
                   _("Game ended in victory for %s"), victor->name);
       ggz_report_victor(victor);
       ggz_report_victory();
-      gamelog(GAMELOG_JUDGE, GL_LONEWIN, victor);
     }
 
     return TRUE;
@@ -311,7 +305,6 @@ bool check_for_game_over(void)
 	}
       } players_iterate_end;
       ggz_report_victory();
-      gamelog(GAMELOG_JUDGE, GL_TEAMWIN, pteam);
       return TRUE;
     }
   } team_iterate_end;
@@ -322,13 +315,11 @@ bool check_for_game_over(void)
 		   _("Game ended in victory for %s"), victor->name);
     ggz_report_victor(victor);
     ggz_report_victory();
-    gamelog(GAMELOG_JUDGE, GL_LONEWIN, victor);
     return TRUE;
   } else if (alive == 0) {
     notify_conn(game.est_connections, NULL, E_GAME_END, 
 		   _("Game ended in a draw"));
     ggz_report_victory();
-    gamelog(GAMELOG_JUDGE, GL_DRAW);
     return TRUE;
   }
 
@@ -735,13 +726,6 @@ static void end_turn(void)
 {
   freelog(LOG_DEBUG, "Endturn");
 
-  /* Output some ranking and AI debugging info here. */
-  if (game.info.turn % 10 == 0) {
-    players_iterate(pplayer) {
-      gamelog(GAMELOG_INFO, pplayer);
-    } players_iterate_end;
-  }
-
   map_calculate_borders();
 
   freelog(LOG_DEBUG, "Season of native unrests");
@@ -847,7 +831,7 @@ void save_game(char *orig_filename, const char *save_reason)
 }
 
 /**************************************************************************
-Save game with autosave filename, and call gamelog_save().
+Save game with autosave filename
 **************************************************************************/
 void save_game_auto(const char *save_reason)
 {
@@ -859,7 +843,6 @@ void save_game_auto(const char *save_reason)
 	      "%s%+05d.sav", game.save_name, game.info.year);
   save_game(filename, save_reason);
   save_ppm();
-  gamelog(GAMELOG_STATUS);
 }
 
 /**************************************************************************
@@ -1713,9 +1696,6 @@ void srv_main(void)
   my_init_network();
 
   con_log_init(srvarg.log_filename, srvarg.loglevel);
-  gamelog_init(srvarg.gamelog_filename);
-  gamelog_set_level(GAMELOG_FULL);
-  gamelog(GAMELOG_BEGIN);
   
 #if IS_BETA_VERSION
   con_puts(C_COMMENT, "");
@@ -1770,7 +1750,6 @@ void srv_main(void)
     report_final_scores();
     show_map_to_all();
     notify_player(NULL, NULL, E_GAME_END, _("The game is over..."));
-    gamelog(GAMELOG_JUDGE, GL_NONE);
     send_server_info_to_metaserver(META_INFO);
     if (game.info.save_nturns > 0
 	&& conn_list_size(game.est_connections) > 0) {
@@ -1778,7 +1757,6 @@ void srv_main(void)
        * the -q parameter. */
       save_game_auto("Game over");
     }
-    gamelog(GAMELOG_END);
 
     /* Remain in GAME_OVER_STATE until players log out */
     while (conn_list_size(game.est_connections) > 0) {
@@ -1862,7 +1840,6 @@ static void srv_loop(void)
     map_fractal_generate(TRUE);
   }
 
-  gamelog(GAMELOG_MAP);
   /* start the game */
 
   server_state = RUN_GAME_STATE;
@@ -1928,16 +1905,6 @@ static void srv_loop(void)
    } players_iterate_end;
   }
   
-  /* tell the gamelog about the players */
-  players_iterate(pplayer) {
-    gamelog(GAMELOG_PLAYER, pplayer);
-  } players_iterate_end;
-
-  /* tell the gamelog who is whose team */
-  team_iterate(pteam) {
-    gamelog(GAMELOG_TEAM, pteam);
-  } team_iterate_end;
-
   players_iterate(pplayer) {
     ai_data_analyze_rulesets(pplayer);
   } players_iterate_end;

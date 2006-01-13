@@ -41,8 +41,6 @@ libcivserver_a_SOURCES = \
 		diplomats.h	\
 		gamehand.c	\
 		gamehand.h	\
-		gamelog.c	\
-		gamelog.h	\
 		gotohand.c	\
 		gotohand.h	\
 		ggzserver.c	\

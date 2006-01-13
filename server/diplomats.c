@@ -31,7 +31,6 @@
 #include "cityturn.h"
 #include "diplhand.h"
 #include "diplomats.h"
-#include "gamelog.h"
 #include "gotohand.h"
 #include "plrhand.h"
 #include "techtools.h"
@@ -294,7 +293,6 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
   notify_player(cplayer, pcity->tile, E_ENEMY_DIPLOMAT_EMBASSY,
 		   _("The %s have established an embassy in %s."),
 		   get_nation_name_plural(pplayer->nation), pcity->name);
-  gamelog(GAMELOG_EMBASSY, pplayer, pcity);
 
   /* Charge a nominal amount of movement for this. */
   (pdiplomat->moves_left)--;
@@ -734,8 +732,6 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   pplayer->economic.gold -= revolt_cost;
 
   /* Notify everybody involved. */
-  gamelog(GAMELOG_LOSECITY, cplayer, pplayer, pcity, "incited to revolt");
-
   notify_player(pplayer, pcity->tile, E_MY_DIPLOMAT_INCITE,
 		   _("Revolt incited in %s, you now rule the city!"),
 		   pcity->name);

@@ -45,7 +45,6 @@
 #include "cityturn.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"
@@ -341,7 +340,6 @@ void player_restore_units(struct player *pplayer)
       notify_player(pplayer, punit->tile, E_UNIT_LOST, 
           _("Your %s has run out of hit points."), 
           unit_name(punit->type));
-      gamelog(GAMELOG_UNITLOSS, punit, NULL, "out of hp");
       wipe_unit(punit);
       continue; /* Continue iterating... */
     }
@@ -358,7 +356,6 @@ void player_restore_units(struct player *pplayer)
         notify_player(pplayer, punit->tile, E_UNIT_LOST, 
                          _("Your %s has been lost on the high seas."),
                          unit_name(punit->type));
-        gamelog(GAMELOG_UNITLOSS, punit, NULL, "lost at sea");
         wipe_unit(punit);
         continue; /* Continue iterating... */
       } else if (loss_chance > 0) {
@@ -377,7 +374,6 @@ void player_restore_units(struct player *pplayer)
       notify_player(pplayer, punit->tile, E_UNIT_LOST,
 		       _("Your %s has been lost on unsafe terrain."),
 		       unit_name(punit->type));
-      gamelog(GAMELOG_UNITLOSS, punit, NULL, "unsafe terrain");
       wipe_unit(punit);
       continue;			/* Continue iterating... */
     }
@@ -429,7 +425,6 @@ void player_restore_units(struct player *pplayer)
       notify_player(pplayer, punit->tile, E_UNIT_LOST, 
 		       _("Your %s has run out of fuel."),
 		       unit_name(punit->type));
-      gamelog(GAMELOG_UNITLOSS, punit, NULL, "fuel");
       wipe_unit(punit);
     } 
   } unit_list_iterate_safe_end;
@@ -1391,7 +1386,6 @@ static void server_remove_unit(struct unit *punit)
     notify_player(unit_owner(punit), punit->tile, E_GAME_END,
 		  _("Losing %s meant losing the game! "
                   "Be more careful next time!"), unit_name(punit->type));
-    gamelog(GAMELOG_UNITGAMELOSS, punit);
     unit_owner(punit)->is_dying = TRUE;
   }
 
@@ -1501,7 +1495,6 @@ void wipe_unit(struct unit *punit)
 			     _("%s lost when %s was lost."),
 			     unit_type(pcargo)->name,
 			     ptype->name);
-	    gamelog(GAMELOG_UNITLOSS, pcargo, NULL, "transport lost");
 	    server_remove_unit(pcargo);
 	  }
 	  if (++capacity >= 0) {
@@ -1586,7 +1579,6 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 		     unit_type(punit)->name, destroyer->name,
 		     unit_name(pkiller->type), loc_str);
 
-    gamelog(GAMELOG_UNITLOSS, punit, destroyer);
     wipe_unit(punit);
   } else { /* unitcount > 1 */
     int i;
@@ -1705,7 +1697,6 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     /* remove the units */
     unit_list_iterate_safe(punit->tile->units, punit2) {
       if (pplayers_at_war(unit_owner(pkiller), unit_owner(punit2))) {
-        gamelog(GAMELOG_UNITLOSS, punit2, destroyer);
 	wipe_unit(punit2);
       }
     } unit_list_iterate_safe_end;
@@ -2159,7 +2150,6 @@ static void hut_get_tech(struct unit *punit)
 		     API_TYPE_TECH_TYPE, &advances[new_tech],
 		     API_TYPE_PLAYER, pplayer,
 		     API_TYPE_STRING, "hut");
-  gamelog(GAMELOG_TECH, pplayer, NULL, new_tech);
   notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 		   _("The %s have acquired %s"
 		     " from ancient scrolls of wisdom."),

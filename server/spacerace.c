@@ -26,7 +26,6 @@
 #include "shared.h"
 #include "spaceship.h"
 
-#include "gamelog.h"
 #include "plrhand.h"
 #include "srv_main.h"
 

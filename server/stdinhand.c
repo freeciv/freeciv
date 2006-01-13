@@ -54,7 +54,6 @@
 #include "console.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "ggzserver.h"
 #include "mapgen.h"
 #include "maphand.h"
@@ -804,9 +803,6 @@ void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
   }
 
   send_player_info(pplayer, NULL);
-  if (server_state == RUN_GAME_STATE) {
-    gamelog(GAMELOG_PLAYER, pplayer);
-  }
 }
 
 /**************************************************************************
@@ -2983,11 +2979,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
     toggle_ai_player_direct(NULL, pplayer);
   }
 
-  /* yes this has to go after the toggle check */
-  if (server_state == RUN_GAME_STATE) {
-    gamelog(GAMELOG_PLAYER, pplayer);
-  }
-
   cmd_reply(CMD_TAKE, caller, C_OK, _("%s now controls %s (%s, %s)"), 
             pconn->username, pplayer->name, 
             is_barbarian(pplayer) ? _("Barbarian") : pplayer->ai.control ?
@@ -3115,10 +3106,6 @@ static bool detach_command(struct connection *caller, char *str, bool check)
     if (is_newgame) {
       sz_strlcpy(pplayer->username, ANON_USER_NAME);
     }
-  }
-
-  if (server_state == RUN_GAME_STATE) {
-    gamelog(GAMELOG_PLAYER, pplayer);
   }
 
   end:;
@@ -3359,8 +3346,6 @@ static bool quit_game(struct connection *caller, bool check)
   if (!check) {
     cmd_reply(CMD_QUIT, caller, C_OK, _("Goodbye."));
     ggz_report_victory();
-    gamelog(GAMELOG_JUDGE, GL_NONE);
-    gamelog(GAMELOG_END);
     server_quit();
   }
   return TRUE;
@@ -3607,8 +3592,6 @@ static bool end_command(struct connection *caller, char *str, bool check)
     }
     notify_conn(game.est_connections, NULL, E_GAME_END,
                    _("Game ended in a draw."));
-    gamelog(GAMELOG_JUDGE, GL_DRAW,
-            "Game ended in a draw by /endgame.");
     server_state = GAME_OVER_STATE;
     force_end_of_sniff = TRUE;
     cmd_reply(CMD_END_GAME, caller, C_OK,

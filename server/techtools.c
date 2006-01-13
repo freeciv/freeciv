@@ -35,7 +35,6 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "techtools.h"
@@ -122,7 +121,6 @@ static void tech_researched(struct player *plr)
   script_signal_emit("tech_researched", 3,
 		     API_TYPE_TECH_TYPE, tech, API_TYPE_PLAYER, plr,
 		     API_TYPE_STRING, "researched");
-  gamelog(GAMELOG_TECH, plr, NULL, research->researching);
 
   /* Deduct tech cost */
   research->bulbs_researched = 
@@ -173,7 +171,6 @@ void do_tech_parasite_effect(struct player *pplayer)
 			     API_TYPE_TECH_TYPE, &advances[i],
 			     API_TYPE_PLAYER, pplayer,
 			     API_TYPE_STRING, "stolen");
-          gamelog(GAMELOG_TECH, pplayer, NULL, i, "steal");
 	  notify_embassies(pplayer, NULL, NULL, E_TECH_GAIN,
 			   _("The %s have acquired %s from %s."),
 			   get_nation_name_plural(pplayer->nation),
@@ -290,8 +287,6 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   was_first = (!game.info.global_advances[tech_found]);
 
   if (was_first) {
-    /* We used to have a gamelog() for first-researched, but not anymore. */
-
     /* Alert the owners of any wonders that have been made obsolete */
     impr_type_iterate(id) {
       if (is_great_wonder(id) && great_wonder_was_built(id)
@@ -693,7 +688,6 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 		     API_TYPE_TECH_TYPE, &advances[stolen_tech],
 		     API_TYPE_PLAYER, pplayer,
 		     API_TYPE_STRING, "stolen");
-  gamelog(GAMELOG_TECH, pplayer, victim, stolen_tech, "steal");
 
   notify_player(pplayer, NULL, E_TECH_GAIN,
 		   _("You steal %s from the %s."),

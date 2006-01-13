@@ -21,7 +21,6 @@
 
 #include "map.h"
 
-#include "gamelog.h"
 #include "ggzserver.h"
 #include "report.h"
 #include "settings.h"
@@ -1015,15 +1014,6 @@ struct settings_s settings[] = {
 	      "the file \"civscore.log\" every turn. These statistics "
 	      "can be used to create power graphs after the game."), NULL,
 	   GAME_DEFAULT_SCORELOG)
-
-  GEN_INT("gamelog", gamelog_level,
-	  SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
-	  N_("Detail level for logging game events"),
-	  N_("Only applies if the game log feature is enabled "
-	     "(with the -g command line option). "
-	     "Levels: 0=no logging, 20=standard logging, 30=detailed "
-	     "logging, 40=debuging logging."), NULL,
-	  0, 40, 20)
 
   GEN_END
 };

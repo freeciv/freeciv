@@ -41,7 +41,6 @@
 
 #include "citytools.h"
 #include "cityturn.h"
-#include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
@@ -550,7 +549,6 @@ static void city_populate(struct city *pcity)
 			 _("Famine feared in %s, %s lost!"), 
 			 pcity->name, unit_type(punit)->name);
  
-        gamelog(GAMELOG_UNITLOSS, punit, NULL, "famine");
         wipe_unit(punit);
 
 	pcity->food_stock = (city_granary_size(pcity->size)
@@ -1109,13 +1107,6 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       pplayer->small_wonders[id] = pcity->id;
     }
 
-    /* TODO: if wonders become just-another-building, remove this */
-    if (is_great_wonder(id)) {
-      gamelog(GAMELOG_WONDER, pcity);
-    } else {
-      gamelog(GAMELOG_BUILD, pcity);
-    }
-
     notify_player(pplayer, pcity->tile, E_IMP_BUILD,
 		     _("%s has finished building %s."), pcity->name,
 		     get_improvement_name(id));
@@ -1242,7 +1233,6 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     script_signal_emit("unit_built",
 		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
-    gamelog(GAMELOG_BUILD, pcity);
 
     /* Done building this unit; time to move on to the next. */
     choose_build_target(pplayer, pcity);
@@ -1569,7 +1559,6 @@ static bool disband_city(struct city *pcity)
 		   _("%s is disbanded into %s."), 
 		   pcity->name,
 		   get_unit_type(pcity->production.value)->name);
-  gamelog(GAMELOG_DISBANDCITY, pcity);
 
   remove_city(pcity);
   return TRUE;

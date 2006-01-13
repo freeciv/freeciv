@@ -43,7 +43,6 @@
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
-#include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
@@ -1035,7 +1034,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
   sanity_check_city(pcity);
 
   script_signal_emit("city_built", 1, API_TYPE_CITY, pcity);
-  gamelog(GAMELOG_FOUNDCITY, pcity);
 }
 
 /**************************************************************************
@@ -1225,7 +1223,6 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
     notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		     _("%s has been destroyed by %s."), 
 		     pcity->name, pplayer->name);
-    gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "destroyed");
     remove_city(pcity);
     if (do_civil_war) {
       civil_war(cplayer);
@@ -1258,7 +1255,6 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
       notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		    _("%s conquered %s."), pplayer->name, pcity->name);
     }
-    gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "conquered");
   } else {
     if (coins > 0) {
       notify_player(pplayer, pcity->tile, E_UNIT_WIN_ATT, 
@@ -1279,7 +1275,6 @@ void handle_unit_enter_city(struct unit *punit, struct city *pcity)
       notify_player(cplayer, pcity->tile, E_CITY_LOST, 
 		    _("%s liberated %s."), pplayer->name, pcity->name);
     }
-    gamelog(GAMELOG_LOSECITY, city_owner(pcity), pplayer, pcity, "liberated");
   }
 
   steal_a_tech(pplayer, cplayer, A_UNSET);

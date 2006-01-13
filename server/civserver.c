@@ -128,8 +128,6 @@ int main(int argc, char *argv[])
       break;
     } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
       srvarg.log_filename = option; /* Never freed. */
-    } else if ((option = get_option_malloc("--gamelog", argv, &inx, argc))) {
-      srvarg.gamelog_filename = option; /* Never freed. */
     } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc))) {
       srvarg.ranklog_filename = option; /* Never freed. */
     } else if (is_option("--nometa", argv[inx])) {
@@ -225,8 +223,6 @@ int main(int argc, char *argv[])
 	       _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
 #endif
     fc_fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
-    fc_fprintf(stderr,
-	       _("  -g, --gamelog FILE\tUse FILE as game logfile\n"));
     fc_fprintf(stderr,
 	       _("  -h, --help\t\tPrint a summary of the options\n"));
     fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile\n"));
@@ -367,8 +363,6 @@ static void Mac_options(int argc)
     /*now, load the dialog items into the corect variables interpritation*/
     GetDItem( optptr, 4, &the_type, &the_handle, &the_rect);
     GetIText( the_handle, (unsigned char *)srvarg.load_filename);
-    GetDItem( optptr, 6, &the_type, &the_handle, &the_rect);
-    GetIText( the_handle, (unsigned char *)srvarg.gamelog_filename);
     GetDItem( optptr, 8, &the_type, &the_handle, &the_rect);
     GetIText( the_handle, (unsigned char *)srvarg.log_filename);
     GetDItem( optptr, 12, &the_type, &the_handle, &the_rect);

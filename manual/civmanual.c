@@ -46,7 +46,6 @@
 #include "console.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"

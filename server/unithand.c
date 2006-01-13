@@ -41,7 +41,6 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
-#include "gamelog.h"
 #include "gotohand.h"
 #include "maphand.h"
 #include "plrhand.h"

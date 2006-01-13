@@ -41,7 +41,6 @@
 #include "connecthand.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "sernet.h"
@@ -143,14 +142,9 @@ void kill_player(struct player *pplayer) {
     map_know_and_see_all(pplayer);
   }
 
-  if (is_barbarian(pplayer)) {
-    gamelog(GAMELOG_GENO, pplayer, 
-                          "The feared barbarian leader %s is no more");
-    return;
-  } else {
+  if (!is_barbarian(pplayer)) {
     notify_player(NULL, NULL, E_DESTROYED, _("The %s are no more!"),
-                     get_nation_name_plural(pplayer->nation));
-    gamelog(GAMELOG_GENO, pplayer, "%s civilization destroyed");
+                  get_nation_name_plural(pplayer->nation));
   }
 
   /* Transfer back all cities not originally owned by player to their
@@ -228,7 +222,6 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.tax = tax;
     pplayer->economic.luxury = luxury;
     pplayer->economic.science = science;
-    gamelog(GAMELOG_RATECHANGE, pplayer);
     conn_list_do_buffer(pplayer->connections);
     global_city_refresh(pplayer);
     send_player_info(pplayer, pplayer);
@@ -266,8 +259,6 @@ static void finish_revolution(struct player *pplayer)
 		   pplayer->name, 
 		   get_nation_name_plural(pplayer->nation),
 		   get_government_name(government));
-
-  gamelog(GAMELOG_GOVERNMENT, pplayer);
 
   if (!pplayer->ai.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
@@ -357,7 +348,6 @@ void handle_player_change_government(struct player *pplayer, int government)
     notify_player(pplayer, NULL, E_REVOLT_START,
 		     _("Revolution: returning to anarchy."));
   }
-  gamelog(GAMELOG_REVOLT, pplayer);
 
   check_player_government_rates(pplayer);
   global_city_refresh(pplayer);
@@ -457,10 +447,6 @@ void check_player_government_rates(struct player *pplayer)
     notify_player(pplayer, NULL, E_NEW_GOVERNMENT,
 		  _("Luxury rate exceeded the max rate for %s; adjusted."), 
 		  get_government_name(pplayer->government));
-  }
-
-  if (changed) {
-    gamelog(GAMELOG_RATECHANGE, pplayer);
   }
 }
 
@@ -565,8 +551,6 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   pplayer->diplstates[pplayer2->player_no].turns_left =
     pplayer2->diplstates[pplayer->player_no].turns_left =
     16;
-
-  gamelog(GAMELOG_DIPLSTATE, pplayer, pplayer2, new_type);
 
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
@@ -1554,8 +1538,6 @@ static struct player *split_player(struct player *pplayer)
   send_game_info(NULL);
   send_player_info(cplayer, NULL);
 
-  gamelog(GAMELOG_PLAYER, cplayer);
-  
   return cplayer;
 }
 

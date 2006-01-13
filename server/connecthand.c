@@ -32,7 +32,6 @@
 #include "auth.h"
 #include "diplhand.h"
 #include "gamehand.h"
-#include "gamelog.h"
 #include "maphand.h"
 #include "meta.h"
 #include "plrhand.h"
@@ -124,8 +123,6 @@ void establish_new_connection(struct connection *pconn)
     if (game.info.auto_ai_toggle && pplayer->ai.control) {
       toggle_ai_player_direct(NULL, pplayer);
     }
-
-    gamelog(GAMELOG_PLAYER, pplayer);
 
   } else if (server_state == PRE_GAME_STATE && game.info.is_new_game) {
     if (!attach_connection_to_player(pconn, NULL)) {
@@ -344,8 +341,6 @@ void lost_connection_to_client(struct connection *pconn)
         && !pplayer->is_connected /* eg multiple controllers */) {
       toggle_ai_player_direct(NULL, pplayer);
     }
-
-    gamelog(GAMELOG_PLAYER, pplayer);
 
     check_for_full_turn_done();
   }
