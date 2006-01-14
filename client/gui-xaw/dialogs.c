@@ -694,7 +694,7 @@ static int create_advances_list(struct player *pplayer,
     I_T(XtVaCreatePopupShell("spystealtechpopup", 
 			     (make_modal ? transientShellWidgetClass :
 			      topLevelShellWidgetClass),
-			     toplevel, 0));  
+			     toplevel, NULL));  
   
   spy_tech_form = XtVaCreateManagedWidget("spystealtechform", 
 					     formWidgetClass,
@@ -779,7 +779,7 @@ static int create_improvements_list(struct player *pplayer,
     I_T(XtVaCreatePopupShell("spysabotageimprovementspopup", 
 			     (make_modal ? transientShellWidgetClass :
 			      topLevelShellWidgetClass),
-			     toplevel, 0));  
+			     toplevel, NULL));  
   
   spy_sabotage_form = XtVaCreateManagedWidget("spysabotageimprovementsform", 
 					     formWidgetClass,

@@ -245,7 +245,7 @@ void create_science_dialog(bool make_modal)
     I_T(XtVaCreatePopupShell("sciencepopup", 
 			     (make_modal ? transientShellWidgetClass :
 			      topLevelShellWidgetClass),
-			     toplevel, 0));
+			     toplevel, NULL));
 
   science_form = XtVaCreateManagedWidget("scienceform", 
 					 formWidgetClass,
@@ -629,7 +629,7 @@ void create_economy_report_dialog(bool make_modal)
     I_T(XtVaCreatePopupShell("reporteconomypopup", 
 			     (make_modal ? transientShellWidgetClass :
 			      topLevelShellWidgetClass),
-			     toplevel, 0));
+			     toplevel, NULL));
 
   economy_form = XtVaCreateManagedWidget("reporteconomyform", 
 					 formWidgetClass,
@@ -865,7 +865,7 @@ void create_activeunits_report_dialog(bool make_modal)
     I_T(XtVaCreatePopupShell("reportactiveunitspopup", 
 			     (make_modal ? transientShellWidgetClass :
 			      topLevelShellWidgetClass),
-			     toplevel, 0));
+			     toplevel, NULL));
 
   activeunits_form = XtVaCreateManagedWidget("reportactiveunitsform", 
 					 formWidgetClass,
