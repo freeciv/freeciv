@@ -12,7 +12,7 @@ dnl This file is common to most GGZ modules, and should be kept in sync
 dnl between them all.  The master copy resides with libggz.
 dnl Currently the following modules use it:
 dnl   kde-games, kde-client, gtk-games, gtk-client, utils, grubby,
-dnl   ggz-client-libs, ggzd, gnome-client, txt-client
+dnl   ggz-client-libs, ggzd, gnome-client, txt-client, sdl-games, libggz
 dnl See /docs/ggz-project/buildsystem for documentation.
 dnl
 dnl ======================================
@@ -695,6 +695,103 @@ fi
 ])
 
 dnl ------------------------------------------------------------------------
+dnl Try to find the ggz-gtk headers and libraries.
+dnl $(GGZGTK_LDFLAGS) will be -L ... (if needed)
+dnl and $(GGZGTK_INCLUDES) will be -I ... (if needed)
+dnl ------------------------------------------------------------------------
+dnl
+AC_DEFUN([AC_GGZ_GTK],
+[
+AC_MSG_CHECKING([for GGZ library: ggz-gtk])
+
+ac_ggz_gtk_includes=NO ac_ggz_gtk_libraries=NO
+ggz_gtk_libraries=""
+ggz_gtk_includes=""
+
+AC_ARG_WITH(ggz-gtk-dir,
+    AC_HELP_STRING([--with-ggz-gtk-dir=DIR], [ggz-gtk installation prefix]),
+    [  ac_ggz_gtk_includes="$withval"/include
+       ac_ggz_gtk_libraries="$withval"/lib
+    ])
+AC_ARG_WITH(ggz-gtk-includes,
+    AC_HELP_STRING([--with-ggz-gtk-includes=DIR], 
+                   [where the ggz-gtk includes are]),
+    [  ac_ggz_gtk_includes="$withval"
+    ])
+AC_ARG_WITH(ggz-gtk-libraries,
+    AC_HELP_STRING([--with-ggz-gtk-libraries=DIR],
+                   [where the ggz-gtk libs are]),
+    [  ac_ggz_gtk_libraries="$withval"
+    ])
+
+AC_CACHE_VAL(ac_cv_have_ggz_gtk,
+[
+ggz_gtk_incdirs="$ac_ggz_gtk_includes $ac_ggz_stdinc"
+AC_GGZ_REMOVEDUPS($ggz_gtk_incdirs, ggz_gtk_incdirs)
+ggz_gtk_header=ggz-gtk.h
+
+AC_GGZ_FIND_FILE($ggz_gtk_header, $ggz_gtk_incdirs, ggz_gtk_incdir)
+ac_ggz_gtk_includes="$ggz_gtk_incdir"
+
+ggz_gtk_libdirs="$ac_ggz_gtk_libraries $ac_ggz_stdlib"
+AC_GGZ_REMOVEDUPS($ggz_gtk_libdirs, ggz_gtk_libdirs)
+
+ggz_gtk_libdir=NO
+for dir in $ggz_gtk_libdirs; do
+  try="ls -1 $dir/libggz-gtk.la $dir/libggz-gtk.so"
+  if test -n "`$try 2> /dev/null`"; then ggz_gtk_libdir=$dir; break; else echo "tried $dir" >&AC_FD_CC ; fi
+done
+
+ac_ggz_gtk_libraries="$ggz_gtk_libdir"
+
+if test "$ac_ggz_gtk_includes" = NO || test "$ac_ggz_gtk_libraries" = NO; then
+  ac_cv_have_ggz_gtk="have_ggz_gtk=no"
+  ac_ggz_gtk_notfound=""
+else
+  have_ggz_gtk="yes"
+fi
+])
+
+eval "$ac_cv_have_ggz_gtk"
+
+if test "$have_ggz_gtk" != yes; then
+  if test "x$2" = "xignore"; then
+    AC_MSG_RESULT([$have_ggz_gtk (intentionally ignored)])
+  else
+    AC_MSG_RESULT([$have_ggz_gtk])
+    if test "x$2" = "x"; then
+      AC_GGZ_ERROR(ggz-gtk, $ggz_gtk_incdirs, $ggz_gtk_libdirs)
+    fi
+
+    # Perform actions given by argument 2.
+    $2
+  fi
+else
+  ac_cv_have_ggz_gtk="have_ggz_gtk=yes \
+    ac_ggz_gtk_includes=$ac_ggz_gtk_includes ac_ggz_gtk_libraries=$ac_ggz_gtk_libraries"
+  AC_MSG_RESULT([$have_ggz_gtk (libraries $ac_ggz_gtk_libraries, headers $ac_ggz_gtk_includes)])
+
+  ggz_gtk_libraries="$ac_ggz_gtk_libraries"
+  ggz_gtk_includes="$ac_ggz_gtk_includes"
+
+  AC_SUBST(ggz_gtk_libraries)
+  AC_SUBST(ggz_gtk_includes)
+
+  GGZ_GTK_INCLUDES="-isystem $ggz_gtk_includes"
+  GGZ_GTK_LDFLAGS="-L$ggz_gtk_libraries"
+
+  AC_SUBST(GGZ_GTK_INCLUDES)
+  AC_SUBST(GGZ_GTK_LDFLAGS)
+
+  LIB_GGZ_GTK='-lggz-gtk'
+  AC_SUBST(LIB_GGZ_GTK)
+
+  # Perform actions given by argument 1.
+  $1
+fi
+])
+
+dnl ------------------------------------------------------------------------
 dnl Setup the game server configuration.
 dnl Sets ggzdconfdir (ggzd configuration).
 dnl Sets ggzddatadir (for game server data).
@@ -864,6 +961,9 @@ fi
 #   Simply call this function in programs that use GGZ.  GGZ_SERVER and
 #   GGZ_CLIENT will be #defined in config.h, and created as conditionals
 #   in Makefile.am files.
+#
+#   The only argument accepted gives the frontend for client embedding:
+#      "gtk" => means the libggz-gtk library will be checked
 AC_DEFUN([AC_GGZ_CHECK],
 [
   AC_GGZ_INIT
@@ -907,6 +1007,17 @@ AC_DEFUN([AC_GGZ_CHECK],
     fi
   fi
 
+  ggz_gtk="no"
+  if test "$ggz_client" = "yes"; then
+    if test "x$1" = "xgtk"; then
+      AC_GGZ_GTK([ggz_gtk="yes"])
+      if test $ggz_gtk = "yes"; then
+        AC_DEFINE(GGZ_GTK, 1, [Support for embedded GGZ through libggz-gtk])
+      fi
+    fi
+  fi
+
   AM_CONDITIONAL(GGZ_CLIENT, test "$ggz_client" = "yes")
   AM_CONDITIONAL(GGZ_SERVER, test "$ggz_server" = "yes")
+  AM_CONDITIONAL(GGZ_GTK, test "$ggz_gtk" = "yes")
 ])

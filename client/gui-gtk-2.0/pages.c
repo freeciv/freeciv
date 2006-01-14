@@ -22,6 +22,10 @@
 
 #include <gtk/gtk.h>
 
+#ifdef GGZ_GTK
+#  include <ggz-gtk.h>
+#endif
+
 #include "dataio.h"
 #include "fcintl.h"
 #include "game.h"
@@ -120,7 +124,7 @@ static void main_callback(GtkWidget *w, gpointer data)
   if (aconnection.used) {
     disconnect_from_server();
   } else {
-    set_client_page(PAGE_MAIN);
+    set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
   }
 }
 
@@ -153,6 +157,17 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
       layout);
   return TRUE;
 }
+
+#ifdef GGZ_GTK
+/****************************************************************************
+  Callback to raise the login dialog when the gaming zone login button is
+  clicked.
+****************************************************************************/
+static void ggz_login(void)
+{
+  ggz_gtk_login_raise("Pubserver");
+}
+#endif
 
 /**************************************************************************
   create the main page.
@@ -217,6 +232,13 @@ GtkWidget *create_main_page(void)
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
       G_CALLBACK(set_page_callback), GUINT_TO_POINTER(PAGE_NETWORK));
+
+#ifdef GGZ_GTK
+  button = gtk_button_new_with_mnemonic(_("Connect to Gaming _Zone"));
+  gtk_size_group_add_widget(size, button);
+  gtk_container_add(GTK_CONTAINER(bbox), button);
+  g_signal_connect(button, "clicked", ggz_login, NULL);
+#endif
 
   bbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(sbox), bbox);
@@ -1880,6 +1902,7 @@ void set_client_page(enum client_pages page)
 
   switch (new_page) {
   case PAGE_MAIN:
+  case PAGE_GGZ:
     break;
   case PAGE_START:
     if (is_server_running()) {
@@ -1923,6 +1946,7 @@ void set_client_page(enum client_pages page)
   switch (new_page) {
   case PAGE_MAIN:
   case PAGE_START:
+  case PAGE_GGZ:
     break;
   case PAGE_NATION:
     gtk_tree_view_focus(gtk_tree_selection_get_tree_view(nation_selection));

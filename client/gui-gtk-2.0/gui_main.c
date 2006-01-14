@@ -32,6 +32,10 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#ifdef GGZ_GTK
+#  include <ggz-gtk.h>
+#endif
+
 #include "dataio.h"
 #include "fciconv.h"
 #include "fcintl.h"
@@ -815,6 +819,11 @@ static void setup_widgets(void)
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       paned, NULL);
 
+#ifdef GGZ_GTK
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
+			   ggz_gtk_create_main_area(toplevel), NULL);
+#endif
+
   /* *** everything in the top *** */
 
   top_vbox = gtk_vbox_new(FALSE, 5);
@@ -1136,11 +1145,46 @@ static void setup_widgets(void)
   }
 }
 
+#ifdef GGZ_GTK
+/****************************************************************************
+  Callback function that's called by the library when a connection is
+  established (or lost) to the GGZ server.  The server parameter gives
+  the server (or NULL).
+****************************************************************************/
+static void ggz_connected(GGZServer *server)
+{
+  in_ggz = (server != NULL);
+  set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
+}
+
+/****************************************************************************
+  Callback function that's called by the library when we launch a game.  This
+  means we now have a connection to a freeciv server so handling can be given
+  back to the regular freeciv code.
+****************************************************************************/
+static void ggz_game_launched(void)
+{
+  ggz_initialize();
+}
+#endif
+
 /**************************************************************************
  called from main().
 **************************************************************************/
 void ui_init(void)
 {
+#ifdef GGZ_GTK
+  char protocol_version[128];
+
+  /* Engine and version match what is provided in civclient.dsc.in and
+   * civserver.dsc.in. */
+  my_snprintf(protocol_version, sizeof(protocol_version),
+	      "%d.%d", MAJOR_VERSION, MINOR_VERSION);
+  ggz_gtk_initialize(FALSE,
+		     ggz_connected, ggz_game_launched,
+		     "Freeciv", protocol_version);
+#endif
+
   log_set_callback(log_callback_utf8);
 }
 

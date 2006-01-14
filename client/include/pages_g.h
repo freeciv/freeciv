@@ -23,7 +23,8 @@ enum client_pages {
   PAGE_LOAD,		/* Load saved game page. */
   PAGE_NETWORK,		/* Connect to network page.  */
   PAGE_NATION,		/* Select a nation page.  */
-  PAGE_GAME		/* In game page. */
+  PAGE_GAME,		/* In game page. */
+  PAGE_GGZ		/* In game page.  This one must be last. */
 };
 
 void set_client_page(enum client_pages page);

@@ -25,6 +25,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#ifdef GGZ_GTK
+#  include <ggz-embed.h>
+#endif
+
 #include "capstr.h"
 #include "dataio.h"
 #include "diptreaty.h"
@@ -88,6 +92,7 @@ char password[MAX_LEN_PASSWORD] = "\0";
 char metaserver[512] = "\0";
 int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
+bool in_ggz = FALSE;
 
 static enum client_states client_state = CLIENT_BOOT_STATE;
 
@@ -358,6 +363,16 @@ int main(int argc, char *argv[])
   if (with_ggz) {
     ggz_initialize();
   }
+#ifdef GGZ_GTK
+  {
+    char buf[128];
+
+    user_username(buf, sizeof(buf));
+    cat_snprintf(buf, sizeof(buf), "%d", myrand(100));
+    ggz_embed_ensure_server("Pubserver", "pubserver.freeciv.org",
+			    5688, buf);
+  }
+#endif
 
   /* run gui-specific client */
   ui_main(argc, argv);
@@ -545,7 +560,7 @@ void set_client_state(enum client_states newstate)
       }
       client_game_init();
       if (!aconnection.established) {
-	set_client_page(PAGE_MAIN);
+	set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
       } else {
 	set_client_page(PAGE_START);
       }

@@ -442,7 +442,12 @@ if test x$client != xno; then
 fi
 
 dnl Check for GGZ
-AC_GGZ_CHECK
+if test "$client" = "gtk-2.0" ; then
+  AC_GGZ_CHECK("gtk")
+  CLIENT_LIBS="$CLIENT_LIBS $LIB_GGZ_GTK"
+else
+  AC_GGZ_CHECK
+fi
 
 AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)

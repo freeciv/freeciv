@@ -58,6 +58,10 @@
 #include <winsock.h>
 #endif
 
+#ifdef GGZ_GTK
+#  include <ggz-embed.h>
+#endif
+
 #include "capstr.h"
 #include "dataio.h"
 #include "fcintl.h"
@@ -101,14 +105,19 @@ static union my_sockaddr server_addr;
 **************************************************************************/
 static void close_socket_nomessage(struct connection *pc)
 {
-  if (with_ggz) {
+  if (with_ggz || in_ggz) {
     remove_ggz_input();
+  }
+  if (in_ggz) {
+#ifdef GGZ_GTK
+    ggz_embed_leave_table();
+#endif
   }
   connection_common_close(pc);
   remove_net_input();
   popdown_races_dialog(); 
   close_connection_dialog();
-  set_client_page(PAGE_MAIN);
+  set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
 
   reports_force_thaw();
   
