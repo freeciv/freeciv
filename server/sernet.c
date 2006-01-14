@@ -665,7 +665,7 @@ static int server_accept_connection(int sockfd)
 # if defined(__VMS) && !defined(_DECC_V4_SOURCE)
     size_t fromlen;
 # else
-    int fromlen;
+    unsigned int fromlen;
 # endif
 
   int new_sock;
