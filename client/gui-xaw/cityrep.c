@@ -218,7 +218,7 @@ void create_city_report_dialog(bool make_modal)
     I_T(XtVaCreatePopupShell("reportcitypopup", 
 			     (make_modal ? transientShellWidgetClass :
 			      topLevelShellWidgetClass),
-			     toplevel, 0));
+			     toplevel, NULL));
 
   city_form = XtVaCreateManagedWidget("reportcityform", 
 				      formWidgetClass,
