@@ -1110,12 +1110,12 @@ static int __FillRectAlpha555(SDL_Surface * pSurface, SDL_Rect * pRect,
 	
 	  pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
 	  pand_r2r(mm0, mm4); /* src & mask -> mm4 */
-	  paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ //w
-	  psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ //q
+	  paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ /*w*/
+	  psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ /*q*/
 	
 	  pand_r2r(mm2, mm3); /* src & dst -> mm3 */
 	  pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
-	  paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ //w
+	  paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ /*w*/
 	  movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
 	  pixel += 4;
         }, end);
@@ -1446,12 +1446,12 @@ static int __FillRectAlpha565(SDL_Surface * pSurface, SDL_Rect * pRect,
 	
 	  pand_r2r(mm0, mm5); /* dst & mask -> mm1 */
 	  pand_r2r(mm0, mm4); /* src & mask -> mm4 */
-	  paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ //w
-	  psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ //q
+	  paddd_r2r(mm5, mm4); /* mm5 + mm4 -> mm4 */ /*w*/
+	  psrld_i2r(1, mm4); /* mm4 >> 1 -> mm4 */ /*q*/
 	
 	  pand_r2r(mm2, mm3); /* src & dst -> mm3 */
 	  pand_r2r(mm1, mm3); /* mm3 & !mask -> mm3 */
-	  paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ //w
+	  paddd_r2r(mm4, mm3); /* mm3 + mm4 -> mm4 */ /*w*/
 	  movq_r2m(mm3, (*pixel));/* mm3 -> 4 dst pixels */
 	  pixel += 4;
         }, end);
