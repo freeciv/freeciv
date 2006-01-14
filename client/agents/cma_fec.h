@@ -24,14 +24,13 @@ void cmafec_set_fe_parameter(struct city *pcity,
 void cmafec_get_fe_parameter(struct city *pcity,
 			     struct cma_parameter *dest);
 
-const char *const cmafec_get_short_descr(const struct cma_parameter *const
-					 parameter);
-const char *const cmafec_get_short_descr_of_city(struct city *pcity);
-const char *const cmafec_get_result_descr(struct city *pcity,
-					  const struct cma_result *const
-					  result,
-					  const struct cma_parameter *const
-					  parameter);
+const char *cmafec_get_short_descr(const struct cma_parameter *const
+				   parameter);
+const char *cmafec_get_short_descr_of_city(struct city *pcity);
+const char *cmafec_get_result_descr(struct city *pcity,
+				    const struct cma_result *const result,
+				    const struct cma_parameter *const
+				    parameter);
 
 /*
  * Preset handling
@@ -41,7 +40,7 @@ void cmafec_preset_remove(int index);
 int cmafec_preset_get_index_of_parameter(const struct cma_parameter
 					 *const parameter);
 char *cmafec_preset_get_descr(int index);
-const struct cma_parameter *const cmafec_preset_get_parameter(int index);
+const struct cma_parameter *cmafec_preset_get_parameter(int index);
 int cmafec_preset_num(void);
 
 #endif
