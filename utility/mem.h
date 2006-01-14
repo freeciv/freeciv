@@ -29,6 +29,8 @@
 					   __LINE__, __FILE__)
 #define fc_calloc(n,esz)   fc_real_calloc((n), (esz), "calloc", \
 					   __LINE__, __FILE__)
+                                           
+#define FC_FREE(ptr)       do { free(ptr); (ptr) = NULL; } while(0)
 
 #define mystrdup(str)      real_mystrdup((str), "strdup", \
 					 __LINE__, __FILE__)
