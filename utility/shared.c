@@ -61,6 +61,8 @@
 #endif
 #endif
 
+#define PARENT_DIR_OPERATOR ".."
+
 /* If no default data path is defined use the default default one */
 #ifndef DEFAULT_DATA_PATH
 #define DEFAULT_DATA_PATH "." PATH_SEPARATOR "data" PATH_SEPARATOR \
@@ -379,9 +381,7 @@ static bool is_ascii(char ch)
 
 /****************************************************************************
   Check if the name is safe security-wise.  This is intended to be used to
-  make sure an untrusted filename is safe to be used.  We disallow filename
-  extensions since we assume these will be appended automatically after
-  this function is called.
+  make sure an untrusted filename is safe to be used. 
 ****************************************************************************/
 bool is_safe_filename(const char *name)
 {
@@ -392,17 +392,22 @@ bool is_safe_filename(const char *name)
     return FALSE; 
   }
 
-  /* Accept only alphanumerics and '-', '_'.  '.' is not allowed so
-   * the untrusted source cannot provide a filename extension (this must
-   * be done by the caller). */
+  /* Accept only alphanumerics and '-', '_', '.' The exception is if
+   * part of PARENT_DIR_OPERATOR is one of these, which is prohibited */  
   for (i = 0; name[i]; i++) {
     if (!((name[i] <= 'z' && name[i] >= 'a')
           || (name[i] <= 'Z' && name[i] >= 'A')
           || (name[i] <= '9' && name[i] >= '0')
           || name[i] == '-'
-          || name[i] == '_')) {
+          || name[i] == '_'
+          || name[i] == '.')) {
       return FALSE;
     }
+  }
+
+  /* we don't allow the filename to ascend directories */
+  if (strstr(name, PARENT_DIR_OPERATOR)) {
+    return FALSE;
   }
 
   /* Otherwise, it is okay... */
