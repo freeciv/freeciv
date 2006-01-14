@@ -58,10 +58,12 @@ const struct command commands[] = {
    "list\n"
    "list players\n"
    "list teams\n"
-   "list connections",
-   N_("Show a list of players, teams, or connections."),
-   N_("Show a list of players, of teams, or of connections to the server.  "
-      "The argument may be abbreviated, and defaults to 'players' if absent.")
+   "list connections\n"
+   "list scenarios",
+   N_("Show a list of players, teams, connections, or scenarios."),
+   N_("Show a list of players, teams, connections, or scenarios "
+      "to the server.  The argument may be abbreviated, and defaults "
+      "to 'players' if absent.")
   },
   {"quit",	ALLOW_HACK,
    "quit",

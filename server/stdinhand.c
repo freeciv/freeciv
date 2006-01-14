@@ -84,6 +84,7 @@ static bool show_help(struct connection *caller, char *arg);
 static bool show_list(struct connection *caller, char *arg);
 static void show_teams(struct connection *caller);
 static void show_connections(struct connection *caller);
+static void show_scenarios(struct connection *caller);
 static bool set_ai_level(struct connection *caller, char *name, int level, 
                          bool check);
 static bool set_away(struct connection *caller, char *name, bool check);
@@ -3935,10 +3936,11 @@ enum LIST_ARGS {
   LIST_PLAYERS,
   LIST_TEAMS,
   LIST_CONNECTIONS,
+  LIST_SCENARIOS,
   LIST_ARG_NUM /* Must be last */
 };
 static const char * const list_args[] = {
-  "players", "teams", "connections", NULL
+  "players", "teams", "connections", "scenarios", NULL
 };
 static const char *listarg_accessor(int i) {
   return list_args[i];
@@ -3978,6 +3980,9 @@ static bool show_list(struct connection *caller, char *arg)
     return TRUE;
   case LIST_CONNECTIONS:
     show_connections(caller);
+    return TRUE;
+  case LIST_SCENARIOS:
+    show_scenarios(caller);
     return TRUE;
   case LIST_ARG_NUM:
     break;
@@ -4147,6 +4152,48 @@ static void show_connections(struct connection *caller)
     }
     conn_list_iterate_end;
   }
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/**************************************************************************
+  List scenarios. We look both in the DATA_PATH and DATA_PATH/scenario
+**************************************************************************/
+static void show_scenarios(struct connection *caller)
+{
+  char buf[MAX_LEN_CONSOLE_LINE];
+  struct datafile_list *files;
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of scenarios available:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
+  files = datafilelist_infix("scenario", ".sav", TRUE);
+  
+  datafile_list_iterate(files, pfile) {
+    my_snprintf(buf, sizeof(buf), "%s", pfile->name);
+    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+
+    free(pfile->name);
+    free(pfile->fullname);
+    free(pfile);
+  } datafile_list_iterate_end;
+
+  datafile_list_unlink_all(files);
+  datafile_list_free(files);
+
+  files = datafilelist_infix(NULL, ".sav", TRUE);
+
+  datafile_list_iterate(files, pfile) {
+    my_snprintf(buf, sizeof(buf), "%s", pfile->name);
+    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+
+    free(pfile->name);
+    free(pfile->fullname);
+    free(pfile); 
+  } datafile_list_iterate_end;
+
+  datafile_list_unlink_all(files);
+  datafile_list_free(files);
+
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
