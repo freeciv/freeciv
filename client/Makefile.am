@@ -118,7 +118,7 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
 
 bin_PROGRAMS = civclient
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@ @LIBGGZ_INCLUDES@ @GGZMOD_INCLUDES@
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@ @LIBGGZ_INCLUDES@ @GGZMOD_INCLUDES@ @GGZ_GTK_INCLUDES@
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
