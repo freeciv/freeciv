@@ -39,11 +39,4 @@
 #define REALLOC(ptr, size) fc_real_realloc((ptr), (size), "realloc", \
 					   __LINE__, __FILE__)
 
-/* Want to use GCC's __extension__ keyword to macros , use it */
-#if defined(__GNUC__)
-#define fc__extension(x)	(__extension__(x))
-#else
-#define fc__extension(x)	(x)
-#endif
-
 #endif

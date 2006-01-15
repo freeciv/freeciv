@@ -166,9 +166,9 @@ struct GUI {
   Uint16 ID;			/* ID in widget list */
 };
 
-#define scrollbar_size(pScroll) 					\
-  fc__extension((float)((float)(pScroll->active * pScroll->step) /	\
-		(float)pScroll->count) * (pScroll->max - pScroll->min))
+#define scrollbar_size(pScroll)				\
+        ((float)((float)(pScroll->active * pScroll->step) /	\
+        (float)pScroll->count) * (pScroll->max - pScroll->min))
 
 /* Struct of basic window group dialog ( without scrollbar ) */
 struct SMALL_DLG {
@@ -400,13 +400,13 @@ do {						\
 	(pWidget)->state_types_flags &= ~((flag) & FLAG_MASK)
 
 #define get_wstate(pWidget)				\
-	fc__extension((enum WState)(pWidget->state_types_flags & STATE_MASK))
+	((enum WState)(pWidget->state_types_flags & STATE_MASK))
 
 #define get_wtype(pWidget)				\
-	fc__extension((enum WTypes)(pWidget->state_types_flags & TYPE_MASK))
+	((enum WTypes)(pWidget->state_types_flags & TYPE_MASK))
 
 #define get_wflags(pWidget)				\
-	fc__extension((enum WFlags)(pWidget->state_types_flags & FLAG_MASK))
+	((enum WFlags)(pWidget->state_types_flags & FLAG_MASK))
 
 
 #define hide_scrollbar(scrollbar)				\
