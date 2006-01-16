@@ -67,6 +67,7 @@ sprites =
 		"f.holland", "flags/netherlands"	; backward compatabiliy
 		"f.hungary", "flags/hungary"
 		"f.iceland", "flags/iceland"
+		"f.illyria", "flags/illyria"
 		"f.india", "flags/india"
 		"f.inca", "flags/inca"
 		"f.indonesia", "flags/indonesia"
