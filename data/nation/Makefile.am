@@ -60,6 +60,7 @@ pkgdata_DATA = \
 		hobbits.ruleset \
 		hungarian.ruleset \
 		icelandic.ruleset \
+		illyrian.ruleset \
 		inca.ruleset \
 		indian.ruleset \
 		indonesian.ruleset \

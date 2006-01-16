@@ -178,4 +178,5 @@ match=2
 *include "nation/swazi.ruleset"
 *include "nation/texan.ruleset"
 *include "nation/westphalian.ruleset"
+*include "nation/illyrian.ruleset"
 *include "nation/barbarian.ruleset"
