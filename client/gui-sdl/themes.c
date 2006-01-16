@@ -17,6 +17,9 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+/* utility */
+#include "log.h"
+
 /* gui-sdl */
 #include "themespec.h"
 
@@ -31,7 +34,7 @@
 void gui_load_theme(const char *directory, const char *theme_name)
 {
   char buf[strlen(directory) + strlen("/") + strlen(theme_name) + strlen("/theme") + 1];
-  
+
   /* free previous loaded theme, if any */
   theme_free(theme);
   
@@ -47,7 +50,12 @@ void gui_load_theme(const char *directory, const char *theme_name)
 void gui_clear_theme(void)
 {
   theme_free(theme);
-  load_theme(GUI_SDL_DEFAULT_THEME);
+  if (!load_theme(GUI_SDL_DEFAULT_THEME)) {
+    freelog(LOG_FATAL, "No gui-sdl theme was found. Please visit");
+    freelog(LOG_FATAL, "http://www.freeciv.org/index.php/Themes");
+    freelog(LOG_FATAL, "for instructions on how to get one.");
+    exit(EXIT_FAILURE);
+  }
 }
 
 /*****************************************************************************

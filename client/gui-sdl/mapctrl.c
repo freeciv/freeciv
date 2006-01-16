@@ -1462,9 +1462,9 @@ void Init_MapView(void)
   pUnits_Info_Window->private_data.adv_dlg = pUnitInfo_Dlg;
   
   /* economy button */
-  pWidget = create_icon2(NULL, Main.gui, WF_FREE_GFX | WF_FREE_THEME
+  pWidget = create_icon2(NULL, Main.gui, WF_FREE_GFX
                       | WF_WIDGET_HAS_INFO_LABEL | WF_DRAW_THEME_TRANSPARENT);
-  
+
   pWidget->string16 = create_str16_from_char(_("Economy (F5)"), adj_font(12));
   
   #ifdef SMALL_SCREEN
@@ -1487,9 +1487,8 @@ void Init_MapView(void)
   pTax_Button = pWidget; 
 
   /* research button */
-  pWidget = create_icon2(NULL, Main.gui,
-                       WF_FREE_GFX | WF_FREE_THEME |
-		       WF_WIDGET_HAS_INFO_LABEL | WF_DRAW_THEME_TRANSPARENT);
+  pWidget = create_icon2(NULL, Main.gui, WF_FREE_GFX
+		       | WF_WIDGET_HAS_INFO_LABEL | WF_DRAW_THEME_TRANSPARENT);
   pWidget->string16 = create_str16_from_char(_("Research (F6)"), adj_font(12));
 
   #ifdef SMALL_SCREEN
@@ -1512,7 +1511,7 @@ void Init_MapView(void)
   pResearch_Button = pWidget;
 
   /* revolution button */
-  pWidget = create_icon2(NULL, Main.gui, (WF_FREE_GFX | WF_FREE_THEME
+  pWidget = create_icon2(NULL, Main.gui, (WF_FREE_GFX
 			| WF_WIDGET_HAS_INFO_LABEL| WF_DRAW_THEME_TRANSPARENT));
   pWidget->string16 = create_str16_from_char(_("Revolution (Shift + R)"), adj_font(12));
 

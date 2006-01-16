@@ -823,6 +823,7 @@ void init_sdl(int iFlags)
 **************************************************************************/
 void quit_sdl(void)
 {
+  FC_FREE(Main.guis);
   FREESURFACE(Main.gui);
   FREESURFACE(Main.map);
 }

@@ -269,6 +269,10 @@ void tilespec_setup_city_icons(void)
 
 void tilespec_free_city_icons(void)
 {
+  if (!pIcons) {
+    return;
+  }
+  
   FREESURFACE(pIcons->pBIG_Food_Corr);
   FREESURFACE(pIcons->pBIG_Shield_Corr);
   FREESURFACE(pIcons->pBIG_Trade_Corr);
@@ -327,14 +331,6 @@ void tilespec_setup_theme(void)
   struct sprite *pBuf = NULL;
   
   pTheme = fc_calloc(1, sizeof(struct Theme));
-  
-  if(!theme_lookup_sprite_tag_alt(theme, "theme.tech_tree", "", FALSE, "", "")) {  
-    freelog(LOG_FATAL, "Your current tileset don't contains ""all"" GUI theme graphic\n"
-    "Please use other tileset with ""full"" GUI graphic pack (use -t tileset options)\n"
-    "If you don't have any tileset with SDLClient GUI theme then go to freeciv\n"
-    "(ftp.freeciv.org/pub/freeciv/incoming) ftp site and download current DELUXE"
-    "tileset theme");
-  }
   
   load_theme_surface(pBuf, Button, "theme.button");
   load_theme_surface(pBuf, Edit, "theme.edit");
@@ -477,6 +473,10 @@ SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
  */
 void tilespec_free_theme(void)
 {
+  if (!pTheme) {
+    return;
+  }
+  
   FREESURFACE(pTheme->Button);
   FREESURFACE(pTheme->Edit);
   FREESURFACE(pTheme->Vertic);

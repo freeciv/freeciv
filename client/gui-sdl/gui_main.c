@@ -970,6 +970,7 @@ void ui_exit()
 #endif
   
   free_auxiliary_tech_icons();
+  free_intro_radar_sprites();
   
   intel_dialog_done();  
   
@@ -977,8 +978,9 @@ void ui_exit()
 
   FC_FREE(button_behavior.event);
 
-/* FIXME */  
-/*  del_main_list();*/
+  popdown_meswin_dialog();
+        
+  del_main_list();
   
   free_font_system();
   theme_free(theme);
