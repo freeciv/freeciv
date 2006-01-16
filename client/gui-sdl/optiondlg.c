@@ -1238,6 +1238,9 @@ static int draw_city_names_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_city_names ^= 1;
+  /* FIXME: cannot call update_map_canvas_visible() here until
+   * add_idle_callback() is fully implemented */
+  update_map_canvas(0, 0, mapview.store_width, mapview.store_height);
   return -1;
 }
 
@@ -1249,6 +1252,9 @@ static int draw_city_productions_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_city_productions ^= 1;
+  /* FIXME: cannot call update_map_canvas_visible() here until
+   * add_idle_callback() is fully implemented */
+  update_map_canvas(0, 0, mapview.store_width, mapview.store_height);
   return -1;
 }
 
@@ -1260,6 +1266,7 @@ static int borders_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_borders ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1271,7 +1278,7 @@ static int draw_terrain_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   sdl_dirty_rect(pWidget->size);
   draw_terrain ^= 1;
-  flush_dirty();
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1301,7 +1308,8 @@ static int map_grid_callback(struct GUI *pWidget)
   redraw_icon(pWidget->prev->prev->prev->prev);
   sdl_dirty_rect(pWidget->prev->prev->prev->prev->size);
   
-  flush_dirty();
+  update_map_canvas_visible();
+  
   return -1;
 }
 
@@ -1320,7 +1328,7 @@ static int draw_city_map_grid_callback(struct GUI *pWidget)
   }
   redraw_icon(pWidget->prev->prev);
   sdl_dirty_rect(pWidget->prev->prev->size);
-  flush_dirty();
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1343,6 +1351,7 @@ static int draw_specials_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_specials ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1354,6 +1363,7 @@ static int draw_pollution_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_pollution ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1365,6 +1375,7 @@ static int draw_cities_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_cities ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1376,6 +1387,7 @@ static int draw_units_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_units ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1387,6 +1399,7 @@ static int draw_fog_of_war_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_fog_of_war ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1398,6 +1411,7 @@ static int draw_roads_rails_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_roads_rails ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1409,6 +1423,7 @@ static int draw_irrigation_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_irrigation ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1420,6 +1435,7 @@ static int draw_mines_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_mines ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1431,6 +1447,7 @@ static int draw_fortress_airbase_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_fortress_airbase ^= 1;
+  update_map_canvas_visible();
   return -1;
 }
 
