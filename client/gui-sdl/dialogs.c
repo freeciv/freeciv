@@ -4258,9 +4258,9 @@ void popup_races_dialog(struct player *pplayer)
   int i = 0;
   while (i < game.control.styles_count) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pWidget = create_icon2(adj_surf(GET_SURF(get_sample_city_sprite(tileset, i))),
-			pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
-      
+      pWidget = create_icon2(adj_surf(ZoomSurface(
+            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0)),
+                                    pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {
         set_wstate(pWidget, FC_WS_NORMAL);
@@ -4277,8 +4277,9 @@ void popup_races_dialog(struct player *pplayer)
 
   for (; (i < game.control.styles_count && i < 64); i++) {
     if (!city_style_has_requirements(&city_styles[i])) {
-      pWidget = create_icon2(adj_surf(GET_SURF(get_sample_city_sprite(tileset, i))),
-				pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+      pWidget = create_icon2(adj_surf(ZoomSurface(
+            GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0)),
+                                    pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {
         set_wstate(pWidget, FC_WS_NORMAL);
@@ -4358,7 +4359,8 @@ void popup_races_dialog(struct player *pplayer)
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
   				(pWindow->size.w/2 - pBuf->size.w) / 2;
-  pBuf->size.y = pWindow->size.y + (pWindow->size.h - pBuf->size.h) / 2;
+  pBuf->size.y = pWindow->size.y + (pWindow->size.h - pBuf->size.h) / 2
+                                 - adj_size(20);
   
   /* Next Leader Name Button */
   pBuf = pBuf->prev;
@@ -4379,7 +4381,7 @@ void popup_races_dialog(struct player *pplayer)
   /* First City Style Button */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x + pWindow->size.w / 2 +
-  				(pWindow->size.w/2 - len) / 2;
+  				(pWindow->size.w/2 - len) / 2 - adj_size(20);
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(20);
   
   /* Rest City Style Buttons */
