@@ -22,8 +22,10 @@
 #ifndef FC__GUI_STUFF_H
 #define FC__GUI_STUFF_H
 
+/* utility */
 #include "fc_types.h"
 
+/* gui-sdl */
 #include "gui_main.h"
 #include "gui_string.h"
 
@@ -48,10 +50,15 @@
 /* default: ICON_CENTER_Y, ICON_ON_LEFT */
 enum WFlags {
   WF_HIDDEN				= (1<<10),	/* 1024 */
+  /* widget->gfx may be freed */
   WF_FREE_GFX	 			= (1<<11),	/* 2048 */
+  /* widget->theme may be freed */
   WF_FREE_THEME				= (1<<12),	/* 4096 */
+  /* widget->string may be freed */
   WF_FREE_STRING			= (1<<13),	/* 8192 */
+  /* widget->data may be freed */
   WF_FREE_DATA			 	= (1<<14),	/* 16384 */
+  /* widget->private_data may be freed */
   WF_FREE_PRIVATE_DATA			= (1<<15),	/* 32768 */
   WF_ICON_ABOVE_TEXT			= (1<<16),	/* 32768 */
   WF_ICON_UNDER_TEXT			= (1<<17),	/* 65536 */

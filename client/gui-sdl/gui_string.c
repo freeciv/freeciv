@@ -388,7 +388,7 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
   /* Free Memmory */
   for (i = 0; i < count; i++) {
     FC_FREE(UniTexts[i]);
-    SDL_FreeSurface(pTmp[i]);
+    FREESURFACE(pTmp[i]);
   }
   
   FC_FREE(pTmp);
