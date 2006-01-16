@@ -1942,10 +1942,10 @@ static int map_setting_callback(struct GUI *pWidget)
 **************************************************************************/
 static int disconnect_callback(struct GUI *pWidget)
 {
+  popdown_optiondlg();
+  
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     SDL_Rect area;
-    
-    podown_optiondlg();
     
     /* undraw buton */
     area = pOptions_Button->size;
@@ -1980,7 +1980,7 @@ static int back_callback(struct GUI *pWidget)
   }
   
   if (SDL_Client_Flags & CF_OPTION_MAIN) {
-    podown_optiondlg();
+    popdown_optiondlg();
     if(aconnection.established) {
       set_wstate(pOptions_Button, FC_WS_NORMAL);
       redraw_icon(pOptions_Button);
@@ -2246,7 +2246,7 @@ void popup_optiondlg(void)
 /**************************************************************************
   ...
 **************************************************************************/
-void podown_optiondlg(void)
+void popdown_optiondlg(void)
 {
   if (pOption_Dlg) {
     popdown_window_group_dialog(pOption_Dlg->pBeginOptionsWidgetList,

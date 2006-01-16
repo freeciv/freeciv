@@ -150,7 +150,7 @@ void popdown_all_game_dialogs(void)
   popdown_advanced_terrain_dialog();
   popdown_terrain_info_dialog();
   popdown_newcity_dialog();
-  podown_optiondlg();
+  popdown_optiondlg();
   popdown_diplomat_dialog();
   popdown_pillage_dialog();
   popdown_incite_dialog();

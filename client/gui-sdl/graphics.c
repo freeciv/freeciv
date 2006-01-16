@@ -3430,7 +3430,7 @@ SDL_Surface * get_logo_gfx(void)
 void draw_intro_gfx(void)
 {
   SDL_Surface *pIntro = get_intro_gfx();
-  
+
   if(pIntro->w != Main.screen->w)
   {
     SDL_Surface *pTmp = ResizeSurface(pIntro, Main.screen->w, Main.screen->h,1);
