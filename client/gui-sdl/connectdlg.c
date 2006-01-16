@@ -43,7 +43,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -268,7 +267,7 @@ static int severs_callback(struct GUI *pWidget)
     return -1;
   }
   
-  pMeta_Severs = MALLOC(sizeof(struct ADVANCED_DLG));
+  pMeta_Severs = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
   pWindow = create_window(pDest, NULL, adj_size(10), adj_size(10), 0);
   pWindow->action = meta_severs_window_callback;
@@ -436,7 +435,7 @@ static int convert_playername_callback(struct GUI *pWidget)
   
   if (tmp) {  
     sz_strlcpy(user_name, tmp);
-    FREE(tmp);
+    FC_FREE(tmp);
   } else {
     /* empty input -> restore previous content */
     copy_chars_to_string16(pWidget->string16, user_name);
@@ -457,7 +456,7 @@ static int convert_servername_callback(struct GUI *pWidget)
   
   if (tmp) {
     sz_strlcpy(server_host, tmp);
-    FREE(tmp);
+    FC_FREE(tmp);
   } else {
     /* empty input -> restore previous content */
     copy_chars_to_string16(pWidget->string16, server_host);
@@ -479,7 +478,7 @@ static int convert_portnr_callback(struct GUI *pWidget)
   
   if (tmp) {
     sscanf(tmp, "%d", &server_port);
-    FREE(tmp);
+    FC_FREE(tmp);
   } else {
     /* empty input -> restore previous content */
     my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
@@ -525,8 +524,8 @@ static int popup_join_game_callback(struct GUI *pWidget)
   queue_flush();
   close_connection_dialog();
   
-  pStartMenu = MALLOC(sizeof(struct SMALL_DLG));
-  area = MALLOC(sizeof(SDL_Rect)); 
+  pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
+  area = fc_calloc(1, sizeof(SDL_Rect)); 
     
   /* -------------------------- */
 
@@ -690,7 +689,7 @@ static int convert_passwd_callback(struct GUI *pWidget)
   char *tmp = convert_to_chars(pWidget->string16->text);
   if(tmp) {
     my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
-    FREE(tmp);
+    FC_FREE(tmp);
   }
   return -1;
 }
@@ -743,8 +742,8 @@ static void popup_user_passwd_dialog(char *pMessage)
   queue_flush();
   close_connection_dialog();
   
-  pStartMenu = MALLOC(sizeof(struct SMALL_DLG));
-  area = MALLOC(sizeof(SDL_Rect)); 
+  pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
+  area = fc_calloc(1, sizeof(SDL_Rect)); 
     
   /* -------------------------- */
 
@@ -756,7 +755,7 @@ static void popup_user_passwd_dialog(char *pMessage)
   /* ====================== INIT =============================== */
   change_ptsize16(pStr, adj_font(16));
   pStr->fgcol = color_black;
-  FREE(pStr->text);
+  FC_FREE(pStr->text);
   
   pBuf = create_edit(NULL, pDest, pStr, adj_size(210),
 		(WF_PASSWD_EDIT|WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
@@ -848,7 +847,7 @@ static int convert_first_passwd_callback(struct GUI *pWidget)
   
   if(tmp) {
     my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
-    FREE(tmp);
+    FC_FREE(tmp);
     set_wstate(pWidget->prev, FC_WS_NORMAL);
     redraw_edit(pWidget->prev);
     flush_rect(pWidget->prev->size);
@@ -871,8 +870,8 @@ static int convert_secound_passwd_callback(struct GUI *pWidget)
     memset(password, 0, MAX_LEN_NAME);
     password[0] = '\0';
     
-    FREE(pWidget->next->string16->text);/* first edit */
-    FREE(pWidget->string16->text); /* secound edit */
+    FC_FREE(pWidget->next->string16->text);/* first edit */
+    FC_FREE(pWidget->string16->text); /* secound edit */
     
     set_wstate(pWidget, FC_WS_DISABLED);
     
@@ -908,8 +907,8 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   queue_flush();
   close_connection_dialog();
   
-  pStartMenu = MALLOC(sizeof(struct SMALL_DLG));
-  area = MALLOC(sizeof(SDL_Rect)); 
+  pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
+  area = fc_calloc(1, sizeof(SDL_Rect)); 
     
   /* -------------------------- */
 
@@ -922,7 +921,7 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   change_ptsize16(pStr, adj_font(16));
   pStr->fgcol = color_black;
   
-  FREE(pStr->text);
+  FC_FREE(pStr->text);
   pStr->n_alloc = 0;
   
   pBuf = create_edit(NULL, pDest, pStr, adj_size(210),
@@ -1052,13 +1051,13 @@ void close_connection_dialog(void)
   
     del_group_of_widgets_from_gui_list(pStartMenu->pBeginWidgetList,
     						pStartMenu->pEndWidgetList);
-    FREE(pStartMenu);
+    FC_FREE(pStartMenu);
   }
   if(pMeta_Severs) {
     popdown_window_group_dialog(pMeta_Severs->pBeginWidgetList,
 				  pMeta_Severs->pEndWidgetList);
-    FREE(pMeta_Severs->pScroll);
-    FREE(pMeta_Severs);
+    FC_FREE(pMeta_Severs->pScroll);
+    FC_FREE(pMeta_Severs);
     if(pServer_list) {
       server_scan_finish(pServer_scan);
       pServer_scan = NULL;
@@ -1117,7 +1116,7 @@ void gui_server_connect(void)
   }
   
   /* create dialog */
-  pStartMenu = MALLOC(sizeof(struct SMALL_DLG));
+  pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* Start New Game */
   pWidget =
@@ -1227,7 +1226,7 @@ void gui_server_connect(void)
 	(pFirst->dst->w - w) - adj_size(20), (pFirst->dst->h - (h * count)) - adj_size(20),
 		w, h, pWidget, pFirst);
 		
-  pArea = MALLOC(sizeof(SDL_Rect));
+  pArea = fc_calloc(1, sizeof(SDL_Rect));
   
   pArea->x = pFirst->size.x - FRAME_WH;
   pArea->y = pFirst->size.y - FRAME_WH;

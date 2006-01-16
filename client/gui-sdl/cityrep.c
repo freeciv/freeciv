@@ -30,7 +30,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -59,12 +58,12 @@ static int exit_city_report_callback(struct GUI *pWidget)
 /*    if (pUnits_Upg_Dlg) {
        del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
 			      pUnits_Upg_Dlg->pEndWidgetList);
-       FREE(pUnits_Upg_Dlg); 
+       FC_FREE(pUnits_Upg_Dlg); 
     } */
     popdown_window_group_dialog(pCityRep->pBeginWidgetList,
 				      pCityRep->pEndWidgetList);
-    FREE(pCityRep->pScroll);
-    FREE(pCityRep);
+    FC_FREE(pCityRep->pScroll);
+    FC_FREE(pCityRep);
     enable_and_redraw_find_city_button();
     flush_dirty();
   }
@@ -138,7 +137,7 @@ static void real_info_city_report_dialog_update(void)
     popdown_window_group_dialog(pCityRep->pBeginWidgetList,
 			      			pCityRep->pEndWidgetList);
   } else {
-    pCityRep = MALLOC(sizeof(struct ADVANCED_DLG));
+    pCityRep = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   }
   
   my_snprintf(cBuf, sizeof(cBuf), _("size"));

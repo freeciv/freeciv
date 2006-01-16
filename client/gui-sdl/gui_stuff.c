@@ -31,7 +31,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
 #include "mapview.h"
@@ -376,7 +375,7 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   widget_info_counter = 0;
   if (pInfo_Area) {
     sdl_dirty_rect(*pInfo_Area);
-    FREE(pInfo_Area);
+    FC_FREE(pInfo_Area);
   }
   
   switch (get_wtype(pWidget)) {
@@ -583,7 +582,7 @@ End:
 
   if (pInfo_Area) {
     flush_rect(*pInfo_Area);
-    FREE(pInfo_Area);
+    FC_FREE(pInfo_Area);
   }
 
   pSellected_Widget = NULL;
@@ -665,7 +664,7 @@ void draw_widget_info_label(void)
     return;
   }
 
-  pInfo_Area = MALLOC(sizeof(SDL_Rect));
+  pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
 
   /*pWidget->string16->render = 3;*/
   
@@ -2248,7 +2247,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
   pWindow = pDlg->pEndWidgetList;
   
   if(!pDlg->pScroll) {
-    pDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+    pDlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
         
     pBuf = pDlg->pEndActiveWidgetList;
     while(pBuf && pBuf != pDlg->pBeginActiveWidgetList->prev) {
@@ -2461,7 +2460,7 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
   pWindow = pDlg->pEndWidgetList;
   
   if(!pDlg->pScroll) {
-    pDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+    pDlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
     
     pDlg->pScroll->active = active;
     
@@ -2634,7 +2633,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 struct GUI * create_themeicon(SDL_Surface *pIcon_theme, SDL_Surface *pDest,
 							  Uint32 flags)
 {
-  struct GUI *pIcon_Widget = MALLOC(sizeof(struct GUI));
+  struct GUI *pIcon_Widget = fc_calloc(1, sizeof(struct GUI));
 
   pIcon_Widget->theme = pIcon_theme;
 
@@ -2785,7 +2784,7 @@ void set_new_icon2_theme(struct GUI *pIcon_Widget, SDL_Surface *pNew_Theme,
 struct GUI * create_icon2(SDL_Surface *pIcon, SDL_Surface *pDest, Uint32 flags)
 {
 
-  struct GUI *pIcon_Widget = MALLOC(sizeof(struct GUI));
+  struct GUI *pIcon_Widget = fc_calloc(1, sizeof(struct GUI));
 
   pIcon_Widget->theme = pIcon;
 
@@ -2895,7 +2894,7 @@ struct GUI * create_icon_button(SDL_Surface *pIcon, SDL_Surface *pDest,
     return NULL;
   }
 
-  pButton = MALLOC(sizeof(struct GUI));
+  pButton = fc_calloc(1, sizeof(struct GUI));
 
   pButton->theme = pTheme->Button;
   pButton->gfx = pIcon;
@@ -3272,12 +3271,12 @@ static void del_chain(struct UniChar *pChain)
     pChain = pChain->next;
     for (i = 0; i < len - 1; i++) {
       FREESURFACE(pChain->prev->pTsurf);
-      FREE(pChain->prev);
+      FC_FREE(pChain->prev);
       pChain = pChain->next;
     }
   }
 
-  FREE(pChain);
+  FC_FREE(pChain);
 }
 
 /**************************************************************************
@@ -3296,13 +3295,13 @@ static struct UniChar *text2chain(const Uint16 * pInText)
     return pOutChain;
   }
 
-  pOutChain = MALLOC(sizeof(struct UniChar));
+  pOutChain = fc_calloc(1, sizeof(struct UniChar));
   pOutChain->chr[0] = pInText[0];
   pOutChain->chr[1] = 0;
   chr_tmp = pOutChain;
 
   for (i = 1; i < len; i++) {
-    chr_tmp->next = MALLOC(sizeof(struct UniChar));
+    chr_tmp->next = fc_calloc(1, sizeof(struct UniChar));
     chr_tmp->next->chr[0] = pInText[i];
     chr_tmp->next->chr[1] = 0;
     chr_tmp->next->prev = chr_tmp;
@@ -3325,7 +3324,7 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
     return pOutText;
   }
 
-  pOutText = CALLOC(len + 1, sizeof(Uint16));
+  pOutText = fc_calloc(len + 1, sizeof(Uint16));
   for (i = 0; i < len; i++) {
     pOutText[i] = pInChain->chr[0];
     pInChain = pInChain->next;
@@ -3416,7 +3415,7 @@ struct GUI * create_edit(SDL_Surface *pBackground, SDL_Surface *pDest,
 {
   SDL_Rect buf = {0, 0, 0, 0};
 
-  struct GUI *pEdit = MALLOC(sizeof(struct GUI));
+  struct GUI *pEdit = fc_calloc(1, sizeof(struct GUI));
 
   pEdit->theme = pTheme->Edit;
   pEdit->gfx = pBackground;
@@ -3489,14 +3488,14 @@ int redraw_edit(struct GUI *pEdit_Widget)
     	get_wflags(pEdit_Widget) & WF_PASSWD_EDIT) {
       Uint16 *backup = pEdit_Widget->string16->text;
       size_t len = unistrlen(backup) + 1;
-      char *cBuf = MALLOC(len);
+      char *cBuf = fc_calloc(1, len);
     
       memset(cBuf, '*', len - 1);
       cBuf[len - 1] = '\0';
       pEdit_Widget->string16->text = convert_to_utf16(cBuf);
       pText = create_text_surf_from_str16(pEdit_Widget->string16);
-      FREE(pEdit_Widget->string16->text);
-      FREE(cBuf);
+      FC_FREE(pEdit_Widget->string16->text);
+      FC_FREE(cBuf);
       pEdit_Widget->string16->text = backup;
     } else {
       pText = create_text_surf_from_str16(pEdit_Widget->string16);
@@ -3673,12 +3672,12 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	  pInputChain_TMP = pEdt->pInputChain->prev->prev;
 	  pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
 	  FREESURFACE(pEdt->pInputChain->prev->pTsurf);
-	  FREE(pEdt->pInputChain->prev);
+	  FC_FREE(pEdt->pInputChain->prev);
 	  pEdt->pInputChain->prev = pInputChain_TMP;
 	} else {
 	  pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
 	  FREESURFACE(pEdt->pInputChain->prev->pTsurf);
-	  FREE(pEdt->pInputChain->prev);
+	  FC_FREE(pEdt->pInputChain->prev);
 	  pEdt->pBeginTextChain = pEdt->pInputChain;
 	}
 	
@@ -3700,7 +3699,7 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	pInputChain_TMP = pEdt->pInputChain->next;
 	pEdt->Truelength -= pEdt->pInputChain->pTsurf->w;
 	FREESURFACE(pEdt->pInputChain->pTsurf);
-	FREE(pEdt->pInputChain);
+	FC_FREE(pEdt->pInputChain);
 	pEdt->pInputChain = pInputChain_TMP;
 	pEdt->ChainLen--;
 	Redraw = TRUE;
@@ -3710,7 +3709,7 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	pEdt->pInputChain = pEdt->pInputChain->next;
 	pEdt->Truelength -= pEdt->pInputChain->prev->pTsurf->w;
 	FREESURFACE(pEdt->pInputChain->prev->pTsurf);
-	FREE(pEdt->pInputChain->prev);
+	FC_FREE(pEdt->pInputChain->prev);
 	pEdt->pBeginTextChain = pEdt->pInputChain;
 	pEdt->ChainLen--;
 	Redraw = TRUE;
@@ -3723,12 +3722,12 @@ INPUT:/* add new element of chain (and move cursor right) */
       if (Key.unicode) {
 	if (pEdt->pInputChain != pEdt->pBeginTextChain) {
 	  pInputChain_TMP = pEdt->pInputChain->prev;
-	  pEdt->pInputChain->prev = MALLOC(sizeof(struct UniChar));
+	  pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
 	  pEdt->pInputChain->prev->next = pEdt->pInputChain;
 	  pEdt->pInputChain->prev->prev = pInputChain_TMP;
 	  pInputChain_TMP->next = pEdt->pInputChain->prev;
 	} else {
-	  pEdt->pInputChain->prev = MALLOC(sizeof(struct UniChar));
+	  pEdt->pInputChain->prev = fc_calloc(1, sizeof(struct UniChar));
 	  pEdt->pInputChain->prev->next = pEdt->pInputChain;
 	  pEdt->pBeginTextChain = pEdt->pInputChain->prev;
 	}
@@ -3903,7 +3902,7 @@ enum Edit_Return_Codes edit_field(struct GUI *pEdit_Widget)
       }
       
       if(ret != ED_ESC) {
-        FREE(pEdit_Widget->string16->text);
+        FC_FREE(pEdit_Widget->string16->text);
         pEdit_Widget->string16->text =
   	    chain2text(pEdt.pBeginTextChain, pEdt.ChainLen);
         pEdit_Widget->string16->n_alloc = (pEdt.ChainLen + 1) * sizeof(Uint16);
@@ -4022,7 +4021,7 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
 struct GUI * create_vertical(SDL_Surface *pVert_theme, SDL_Surface *pDest,
   			Uint16 high, Uint32 flags)
 {
-  struct GUI *pVer = MALLOC(sizeof(struct GUI));
+  struct GUI *pVer = fc_calloc(1, sizeof(struct GUI));
 
   pVer->theme = pVert_theme;
   pVer->size.w = pVert_theme->w;
@@ -4153,7 +4152,7 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
 struct GUI * create_horizontal(SDL_Surface *pHoriz_theme, SDL_Surface *pDest,
   		Uint16 width, Uint32 flags)
 {
-  struct GUI *pHor = MALLOC(sizeof(struct GUI));
+  struct GUI *pHor = fc_calloc(1, sizeof(struct GUI));
 
   pHor->theme = pHoriz_theme;
   pHor->size.w = width;
@@ -4254,7 +4253,7 @@ SDL_Surface * get_buffer_layer(bool transparent)
       }
     }
     Main.guis_count++;
-    Main.guis = REALLOC(Main.guis, Main.guis_count * sizeof(SDL_Surface *));
+    Main.guis = fc_realloc(Main.guis, Main.guis_count * sizeof(SDL_Surface *));
     if(Main.guis[Main.guis_count - 2] == pLocked_buffer) {
       Main.guis[Main.guis_count - 1] = Main.guis[Main.guis_count - 2];
       Main.guis[Main.guis_count - 2] = pBuffer;
@@ -4262,7 +4261,7 @@ SDL_Surface * get_buffer_layer(bool transparent)
       Main.guis[Main.guis_count - 1] = pBuffer;
     }
   } else {
-    Main.guis = MALLOC(sizeof(SDL_Surface *));
+    Main.guis = fc_calloc(1, sizeof(SDL_Surface *));
     Main.guis[0] = pBuffer;
     Main.guis_count = 1;
   }
@@ -4366,7 +4365,7 @@ void remove_locked_buffer(void)
 struct GUI * create_window(SDL_Surface *pDest, SDL_String16 *pTitle, 
   			Uint16 w, Uint16 h, Uint32 flags)
 {
-  struct GUI *pWindow = MALLOC(sizeof(struct GUI));
+  struct GUI *pWindow = fc_calloc(1, sizeof(struct GUI));
 
   pWindow->string16 = pTitle;
   set_wflag(pWindow, WF_FREE_STRING | WF_FREE_GFX | WF_FREE_THEME |
@@ -5282,7 +5281,7 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData
   SDL_Rect update;
   
   if (!pMove->pPixelArray) {
-   pMove->pPixelArray = CALLOC(3 * pMove->pWindow->size.w +
+   pMove->pPixelArray = fc_calloc(3 * pMove->pWindow->size.w +
 			     2 * pMove->pWindow->size.h,
     				pMove->pWindow->dst->format->BytesPerPixel);
    
@@ -5356,7 +5355,7 @@ static Uint16 move_window_button_up(SDL_MouseButtonEvent * pButtonEvent, void *p
     draw_frame_of_window_from_array(pMove->pWindow,
     			pMove->pPixelArray, pMove->pWindow->dst);
     refresh_widget_background(pMove->pWindow);
-    FREE(pMove->pPixelArray);
+    FC_FREE(pMove->pPixelArray);
     return (Uint16)ID_MOVED_WINDOW;
   }
   
@@ -5582,7 +5581,7 @@ struct GUI * create_themelabel(SDL_Surface *pIcon, SDL_Surface *pDest,
     return NULL;
   }
 
-  pLabel = MALLOC(sizeof(struct GUI));
+  pLabel = fc_calloc(1, sizeof(struct GUI));
   pLabel->theme = pIcon;
   pLabel->string16 = pText;
   set_wflag(pLabel,
@@ -5609,7 +5608,7 @@ struct GUI * create_iconlabel(SDL_Surface *pIcon, SDL_Surface *pDest,
 {
   struct GUI *pILabel = NULL;
 
-  pILabel = MALLOC(sizeof(struct GUI));
+  pILabel = fc_calloc(1, sizeof(struct GUI));
 
   pILabel->theme = pIcon;
   pILabel->string16 = pText;
@@ -5640,7 +5639,7 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
     return NULL;
   }
 
-  pLabel = MALLOC(sizeof(struct GUI));
+  pLabel = fc_calloc(1, sizeof(struct GUI));
   pLabel->theme = pIcon;
   pLabel->string16 = pText;
   set_wflag(pLabel, (WF_FREE_THEME | WF_FREE_STRING | WF_FREE_GFX | flags));
@@ -6093,8 +6092,8 @@ int draw_label(struct GUI *pLabel, Sint16 start_x, Sint16 start_y)
 **************************************************************************/
 struct GUI *create_checkbox(SDL_Surface *pDest, bool state, Uint32 flags)
 {
-  struct GUI *pCBox = MALLOC(sizeof(struct GUI));
-  struct CHECKBOX *pTmp = MALLOC(sizeof(struct CHECKBOX));
+  struct GUI *pCBox = fc_calloc(1, sizeof(struct GUI));
+  struct CHECKBOX *pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
     
   if (state) {
     pCBox->theme = pTheme->CBOX_Sell_Icon;
@@ -6132,7 +6131,7 @@ struct GUI * create_textcheckbox(SDL_Surface *pDest, bool state,
     return create_checkbox(pDest, state, flags);
   }
   
-  pTmp = MALLOC(sizeof(struct CHECKBOX));
+  pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
     
   if (state) {
     pSurf = pTheme->CBOX_Sell_Icon;
@@ -6167,7 +6166,7 @@ int set_new_checkbox_theme(struct GUI *pCBox ,
   }
   
   if(!pCBox->private_data.cbox) {
-    pCBox->private_data.cbox = MALLOC(sizeof(struct CHECKBOX));
+    pCBox->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     set_wflag(pCBox, WF_FREE_PRIVATE_DATA);
     pCBox->private_data.cbox->state = FALSE;
   }

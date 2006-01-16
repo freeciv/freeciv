@@ -41,7 +41,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
 #include "helpdlg.h"
@@ -123,7 +122,7 @@ static int ok_upgrade_unit_window_callback(struct GUI *pWidget)
   popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
 			      pUnits_Upg_Dlg->pEndWidgetList);
   unlock_buffer();
-  FREE(pUnits_Upg_Dlg);
+  FC_FREE(pUnits_Upg_Dlg);
    
   dsend_packet_unit_type_upgrade(&aconnection, ut1);
     
@@ -145,7 +144,7 @@ static int cancel_upgrade_unit_callback(struct GUI *pWidget)
     popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
 			      pUnits_Upg_Dlg->pEndWidgetList);
     unlock_buffer();
-    FREE(pUnits_Upg_Dlg);
+    FC_FREE(pUnits_Upg_Dlg);
     flush_dirty();
   }
   return -1;
@@ -174,7 +173,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
   redraw_label(pWidget);
   sdl_dirty_rect(pWidget->size);
   
-  pUnits_Upg_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   ut2 = can_upgrade_unittype(game.player_ptr, &ut1);
   value = unit_upgrade_price(game.player_ptr, &ut1, ut2);
@@ -295,12 +294,12 @@ static int exit_units_dlg_callback(struct GUI *pWidget)
     if (pUnits_Upg_Dlg) {
        del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
 			      pUnits_Upg_Dlg->pEndWidgetList);
-       FREE(pUnits_Upg_Dlg); 
+       FC_FREE(pUnits_Upg_Dlg); 
     }
     popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
 				      pUnitsDlg->pEndWidgetList);
-    FREE(pUnitsDlg->pScroll);
-    FREE(pUnitsDlg);
+    FC_FREE(pUnitsDlg->pScroll);
+    FC_FREE(pUnitsDlg);
     flush_dirty();
   }
   return -1;
@@ -329,7 +328,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
 			      			pUnitsDlg->pEndWidgetList);
   } else {
-    pUnitsDlg = MALLOC(sizeof(struct ADVANCED_DLG));  
+    pUnitsDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));  
   }
   
   my_snprintf(cBuf, sizeof(cBuf), _("active"));
@@ -993,12 +992,12 @@ void popdown_activeunits_report_dialog(void)
     if (pUnits_Upg_Dlg) {
        del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
 			      pUnits_Upg_Dlg->pEndWidgetList);
-       FREE(pUnits_Upg_Dlg); 
+       FC_FREE(pUnits_Upg_Dlg); 
     }
     popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
 				      pUnitsDlg->pEndWidgetList);
-    FREE(pUnitsDlg->pScroll);
-    FREE(pUnitsDlg);
+    FC_FREE(pUnitsDlg->pScroll);
+    FC_FREE(pUnitsDlg);
   }
 }
 /* ===================================================================== */
@@ -1025,12 +1024,12 @@ static int exit_economy_dialog_callback(struct GUI *pWidget)
     if (pEconomy_Sell_Dlg) {
        del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
 			      pEconomy_Sell_Dlg->pEndWidgetList);
-       FREE(pEconomy_Sell_Dlg); 
+       FC_FREE(pEconomy_Sell_Dlg); 
     }
     popdown_window_group_dialog(pEconomyDlg->pBeginWidgetList,
 					    pEconomyDlg->pEndWidgetList);
-    FREE(pEconomyDlg->pScroll);
-    FREE(pEconomyDlg);
+    FC_FREE(pEconomyDlg->pScroll);
+    FC_FREE(pEconomyDlg);
     set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
     redraw_icon2(get_tax_rates_widget());
     sdl_dirty_rect(get_tax_rates_widget()->size);
@@ -1385,7 +1384,7 @@ static int ok_sell_impv_callback(struct GUI *pWidget)
   /* popdown sell dlg */
   del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
 			      pEconomy_Sell_Dlg->pEndWidgetList);
-  FREE(pEconomy_Sell_Dlg);
+  FC_FREE(pEconomy_Sell_Dlg);
   enable_economy_dlg();
   
   /* send sell */
@@ -1418,7 +1417,7 @@ static int cancel_sell_impv_callback(struct GUI *pWidget)
     popdown_window_group_dialog(pEconomy_Sell_Dlg->pBeginWidgetList,
 			      pEconomy_Sell_Dlg->pEndWidgetList);
     unlock_buffer();
-    FREE(pEconomy_Sell_Dlg);
+    FC_FREE(pEconomy_Sell_Dlg);
     enable_economy_dlg();
     flush_dirty();
   }
@@ -1446,7 +1445,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
   redraw_icon2(pWidget);
   sdl_dirty_rect(pWidget->size);
   
-  pEconomy_Sell_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pEconomy_Sell_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   imp = pWidget->data.cont->id0;
   total_count = pWidget->data.cont->id1;
@@ -1635,12 +1634,12 @@ void popdown_economy_report_dialog(void)
     if (pEconomy_Sell_Dlg) {
        del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
 			      pEconomy_Sell_Dlg->pEndWidgetList);
-       FREE(pEconomy_Sell_Dlg); 
+       FC_FREE(pEconomy_Sell_Dlg); 
     }    
     popdown_window_group_dialog(pEconomyDlg->pBeginWidgetList,
 					    pEconomyDlg->pEndWidgetList);
-    FREE(pEconomyDlg->pScroll);
-    FREE(pEconomyDlg);
+    FC_FREE(pEconomyDlg->pScroll);
+    FC_FREE(pEconomyDlg);
     set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
     redraw_icon2(get_tax_rates_widget());
     sdl_dirty_rect(get_tax_rates_widget()->size);
@@ -1676,7 +1675,7 @@ void popup_economy_report_dialog(bool make_modal)
   redraw_icon2(pBuf);
   sdl_dirty_rect(pBuf->size);
   
-  pEconomyDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pEconomyDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   get_economy_report_data(entries, &entries_used, &total, &tax);
   
@@ -1779,7 +1778,7 @@ void popup_economy_report_dialog(bool make_modal)
 			(WF_FREE_DATA | WF_DRAW_THEME_TRANSPARENT));
 
   pBuf->action = horiz_taxrate_callback;
-  pBuf->data.ptr = MALLOC(sizeof(int));
+  pBuf->data.ptr = fc_calloc(1, sizeof(int));
   *(int *)pBuf->data.ptr = game.player_ptr->economic.luxury;
   w2 += adj_size(184);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1820,7 +1819,7 @@ void popup_economy_report_dialog(bool make_modal)
 				(WF_FREE_DATA | WF_DRAW_THEME_TRANSPARENT));
 
   pBuf->action = horiz_taxrate_callback;
-  pBuf->data.ptr = MALLOC(sizeof(int));
+  pBuf->data.ptr = fc_calloc(1, sizeof(int));
   *(int *)pBuf->data.ptr = game.player_ptr->economic.science;
   
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1954,7 +1953,7 @@ void popup_economy_report_dialog(bool make_modal)
       
       set_wstate(pBuf, FC_WS_NORMAL);
       
-      pBuf->data.cont = MALLOC(sizeof(struct CONTAINER));
+      pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
       pBuf->data.cont->id0 = p->type;
       pBuf->data.cont->id1 = p->count;
       pBuf->action = popup_sell_impv_callback;
@@ -2736,7 +2735,7 @@ static int popdown_science_dialog(struct GUI *pButton)
   if(pScienceDlg) {
     popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
 				  pScienceDlg->pEndWidgetList);
-    FREE(pScienceDlg);
+    FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
     redraw_icon2(get_research_widget());
     sdl_dirty_rect(get_research_widget()->size);
@@ -2753,8 +2752,8 @@ static int exit_change_tech_dlg_callback(struct GUI *pWidget)
   if (pChangeTechDlg) {
     popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList, 
   				pChangeTechDlg->pEndWidgetList);
-    FREE(pChangeTechDlg->pScroll);
-    FREE(pChangeTechDlg);
+    FC_FREE(pChangeTechDlg->pScroll);
+    FC_FREE(pChangeTechDlg);
     enable_science_dialog();
     if (pWidget) {
       flush_dirty();
@@ -2821,7 +2820,7 @@ static int change_research(struct GUI *pWidget)
     return -1;
   }
   
-  pChangeTechDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pStr = create_str16_from_char(_("What should we focus on now?"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -3005,7 +3004,7 @@ static int change_research_goal(struct GUI *pWidget)
     return -1;
   }
   
-  pChangeTechDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pStr = create_str16_from_char(_("Sellect target :"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -3174,7 +3173,7 @@ void popup_science_dialog(bool raise)
   redraw_icon2(pBuf);
   sdl_dirty_rect(pBuf->size);
   
-  pScienceDlg = MALLOC(sizeof(struct SMALL_DLG));
+  pScienceDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   pStr = create_str16_from_char(_("Science"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -3267,13 +3266,13 @@ void popdown_all_science_dialogs(void)
     popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
 				  pChangeTechDlg->pEndWidgetList);
     unlock_buffer();
-    FREE(pChangeTechDlg->pScroll);
-    FREE(pChangeTechDlg);
+    FC_FREE(pChangeTechDlg->pScroll);
+    FC_FREE(pChangeTechDlg);
   }
   if(pScienceDlg) {
     popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
 				  pScienceDlg->pEndWidgetList);
-    FREE(pScienceDlg);
+    FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
     redraw_icon2(get_research_widget());
     sdl_dirty_rect(get_research_widget()->size);

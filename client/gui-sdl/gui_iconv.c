@@ -47,8 +47,10 @@
 #define ICONV_CONST	const
 #endif /* ICONV_CONST */
 
+/* utility */
+#include "mem.h"
+
 /* gui-sdl */
-#include "gui_mem.h"
 #include "unistring.h"
 
 #include "gui_iconv.h"
@@ -97,7 +99,7 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
   if (!pResult) {
     /* From 8 bit code to UTF-16 (16 bit code) */
     ulength = length * 2;
-    pResult = MALLOC(ulength);
+    pResult = fc_calloc(1, ulength);
   }
 
   iconv(cd, NULL, NULL, NULL, NULL);	/* return to the initial state */
@@ -121,7 +123,7 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
 	  iconv_close(cd);
 	  errno = saved_errno;
 	  if(!pToUniString) {
-	    FREE(pResult);
+	    FC_FREE(pResult);
 	  }
 	  return pToUniString;
 	}
@@ -135,7 +137,7 @@ Uint16 *convertcopy_to_utf16(Uint16 * pToUniString, size_t ulength,
 	iconv_close(cd);
 	errno = saved_errno;
 	if(!pToUniString) {
-	  FREE(pResult);
+	  FC_FREE(pResult);
 	}
 	return pToUniString;
       }
@@ -188,7 +190,7 @@ char *convertcopy_to_chars(char *pToString, size_t length,
   } else {
     /* From 16 bit code to 8 bit code */
     length = ulength / 2;
-    pResult = MALLOC(length);
+    pResult = fc_calloc(1, length);
   }
   
   iconv(cd, NULL, NULL, NULL, NULL);	/* return to the initial state */
@@ -212,7 +214,7 @@ char *convertcopy_to_chars(char *pToString, size_t length,
 	  iconv_close(cd);
 	  errno = saved_errno;
 	  if(!pToString) {
-	    FREE(pResult);
+	    FC_FREE(pResult);
 	  }
 	  return pToString;
 	}
@@ -226,7 +228,7 @@ char *convertcopy_to_chars(char *pToString, size_t length,
 	iconv_close(cd);
 	errno = saved_errno;
 	if(!pToString) {
-	  FREE(pResult);
+	  FC_FREE(pResult);
 	}
 	return pToString;
       }

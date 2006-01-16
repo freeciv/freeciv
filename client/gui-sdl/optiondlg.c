@@ -48,7 +48,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapctrl.h"
@@ -352,7 +351,7 @@ static int work_lists_callback(struct GUI *pWidget)
   }
   /* ----------------------------- */
   
-  pOption_Dlg->pADlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pOption_Dlg->pADlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pOption_Dlg->pADlg->pEndWidgetList = pOption_Dlg->pEndOptionsWidgetList;   
   
@@ -363,7 +362,7 @@ static int work_lists_callback(struct GUI *pWidget)
   pOption_Dlg->pADlg->pBeginWidgetList = pBuf;
   
   
-  pOption_Dlg->pADlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+  pOption_Dlg->pADlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pOption_Dlg->pADlg->pScroll->count = count;
   pOption_Dlg->pADlg->pScroll->active = 13;
   pOption_Dlg->pADlg->pScroll->step = 1;
@@ -809,7 +808,7 @@ static int smooth_move_unit_msec_callback(struct GUI *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
   sscanf(tmp, "%d", &smooth_move_unit_msec);
-  FREE(tmp);
+  FC_FREE(tmp);
   return -1;
 }
 
@@ -1959,8 +1958,8 @@ static int back_callback(struct GUI *pWidget)
 {
 
   if(pOption_Dlg->pADlg) {
-    FREE(pOption_Dlg->pADlg->pScroll);
-    FREE(pOption_Dlg->pADlg);
+    FC_FREE(pOption_Dlg->pADlg->pScroll);
+    FC_FREE(pOption_Dlg->pADlg);
   }
   
   if (SDL_Client_Flags & CF_OPTION_MAIN) {
@@ -2060,7 +2059,7 @@ void popup_optiondlg(void)
   popdown_all_game_dialogs();
   flush_dirty();
   
-  pOption_Dlg = MALLOC(sizeof(struct OPT_DLG));
+  pOption_Dlg = fc_calloc(1, sizeof(struct OPT_DLG));
   pOption_Dlg->pADlg = NULL;
   pLogo = get_logo_gfx();
   
@@ -2242,7 +2241,7 @@ void podown_optiondlg(void)
     SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
     #endif
     
-    FREE(pOption_Dlg);
+    FC_FREE(pOption_Dlg);
     enable_main_widgets();
   }
 }

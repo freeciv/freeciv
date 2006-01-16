@@ -54,7 +54,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -235,8 +234,8 @@ static int exit_notify_dialog_callback(struct GUI *pWidget)
   if(pNotifyDlg) {
     popdown_window_group_dialog(pNotifyDlg->pBeginWidgetList,
 					    pNotifyDlg->pEndWidgetList);
-    FREE(pNotifyDlg->pScroll);
-    FREE(pNotifyDlg);
+    FC_FREE(pNotifyDlg->pScroll);
+    FC_FREE(pNotifyDlg);
     flush_dirty();
   }
   return -1;
@@ -258,7 +257,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
     return;
   }
   
-  pNotifyDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pNotifyDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
    
   pStr = create_str16_from_char(caption, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -404,7 +403,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   }
   CHECK_UNIT_TYPE(ut1);
     
-  pUnit_Upgrade_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pUnit_Upgrade_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   ut2 = can_upgrade_unittype(game.player_ptr, ut1);
   
@@ -542,7 +541,7 @@ static void popdown_unit_upgrade_dlg(void)
   if (pUnit_Upgrade_Dlg) {
     popdown_window_group_dialog(pUnit_Upgrade_Dlg->pBeginWidgetList,
 			      pUnit_Upgrade_Dlg->pEndWidgetList);
-    FREE(pUnit_Upgrade_Dlg);
+    FC_FREE(pUnit_Upgrade_Dlg);
   }
 }
 
@@ -597,8 +596,8 @@ static void popdown_unit_select_dialog(void)
     popdown_window_group_dialog(pUnit_Select_Dlg->pBeginWidgetList,
 			pUnit_Select_Dlg->pEndWidgetList);
 				   
-    FREE(pUnit_Select_Dlg->pScroll);
-    FREE(pUnit_Select_Dlg);
+    FC_FREE(pUnit_Select_Dlg->pScroll);
+    FC_FREE(pUnit_Select_Dlg);
     flush_dirty();
   }
 }
@@ -624,7 +623,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   }
   
   is_unit_move_blocked = TRUE;  
-  pUnit_Select_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pUnit_Select_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
   my_snprintf(cBuf , sizeof(cBuf),"%s (%d)", _("Unit selection") , n);
   pStr = create_str16_from_char(cBuf , adj_font(12));
@@ -774,7 +773,7 @@ static void popdown_terrain_info_dialog(void)
   if (pTerrain_Info_Dlg) {
     popdown_window_group_dialog(pTerrain_Info_Dlg->pBeginWidgetList,
 				pTerrain_Info_Dlg->pEndWidgetList);
-    FREE(pTerrain_Info_Dlg);
+    FC_FREE(pTerrain_Info_Dlg);
     flush_dirty();
   }
 }
@@ -824,7 +823,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   }
       
   pSurf = get_terrain_surface(ptile);
-  pTerrain_Info_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pTerrain_Info_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* ----------- */  
   my_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), ptile->x , ptile->y);
@@ -979,8 +978,8 @@ static void popdown_advanced_terrain_dialog(void)
     popdown_window_group_dialog(pAdvanced_Terrain_Dlg->pBeginWidgetList,
 			pAdvanced_Terrain_Dlg->pEndWidgetList);
 				   
-    FREE(pAdvanced_Terrain_Dlg->pScroll);
-    FREE(pAdvanced_Terrain_Dlg);
+    FC_FREE(pAdvanced_Terrain_Dlg->pScroll);
+    FC_FREE(pAdvanced_Terrain_Dlg);
   }
 }
 
@@ -1228,9 +1227,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile)
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
   is_unit_move_blocked = TRUE;
     
-  pAdvanced_Terrain_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pAdvanced_Terrain_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
-  pCont = MALLOC(sizeof(struct CONTAINER));
+  pCont = fc_calloc(1, sizeof(struct CONTAINER));
   pCont->id0 = ptile->x;
   pCont->id1 = ptile->y;
   
@@ -1758,7 +1757,7 @@ static void popdown_caravan_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pCaravan_Dlg->pBeginWidgetList,
 				pCaravan_Dlg->pEndWidgetList);
-    FREE(pCaravan_Dlg);
+    FC_FREE(pCaravan_Dlg);
     flush_dirty();
   }
 }
@@ -1783,11 +1782,11 @@ void popup_caravan_dialog(struct unit *pUnit,
     return;
   }
   
-  pCont = MALLOC(sizeof(struct CONTAINER));
+  pCont = fc_calloc(1, sizeof(struct CONTAINER));
   pCont->id0 = pUnit->id;
   pCont->id1 = pDestcity->id;
   
-  pCaravan_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pCaravan_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   is_unit_move_blocked = TRUE;
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
       
@@ -2083,11 +2082,11 @@ static int spy_steal_popup(struct GUI *pWidget)
     return -1;
   }
     
-  pCont = MALLOC(sizeof(struct CONTAINER));
+  pCont = fc_calloc(1, sizeof(struct CONTAINER));
   pCont->id0 = pVcity->id;
   pCont->id1 = id;/* spy id */
   
-  pDiplomat_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pDiplomat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
   pStr = create_str16_from_char(_("Select Advance to Steal"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -2343,8 +2342,8 @@ static void popdown_diplomat_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pDiplomat_Dlg->pBeginWidgetList,
 				pDiplomat_Dlg->pEndWidgetList);
-    FREE(pDiplomat_Dlg->pScroll);
-    FREE(pDiplomat_Dlg);
+    FC_FREE(pDiplomat_Dlg->pScroll);
+    FC_FREE(pDiplomat_Dlg);
     queue_flush();
   }
 }
@@ -2370,7 +2369,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   pCity = tile_get_city(ptile);
   spy = unit_flag(pUnit, F_SPY);
   
-  pDiplomat_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pDiplomat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
     
@@ -2635,9 +2634,9 @@ void popup_sabotage_dialog(struct city *pCity)
   is_unit_move_blocked = TRUE;
   h = WINDOW_TILE_HIGH + 3 + FRAME_WH;
     
-  pAdvanced_Terrain_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pAdvanced_Terrain_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
-  pCont = MALLOC(sizeof(struct CONTAINER));
+  pCont = fc_calloc(1, sizeof(struct CONTAINER));
   pCont->id0 = pCity->id;
   pCont->id1 = pUnit->id;/* spy id */
     
@@ -2882,7 +2881,7 @@ static void popdown_incite_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pIncite_Dlg->pBeginWidgetList,
 				pIncite_Dlg->pEndWidgetList);
-    FREE(pIncite_Dlg);
+    FC_FREE(pIncite_Dlg);
     flush_dirty();
   }
 }
@@ -2912,7 +2911,7 @@ void popup_incite_dialog(struct city *pCity)
   }
     
   is_unit_move_blocked = TRUE;
-  pIncite_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pIncite_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
       
@@ -3108,7 +3107,7 @@ static void popdown_bribe_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pBribe_Dlg->pBeginWidgetList,
 				pBribe_Dlg->pEndWidgetList);
-    FREE(pBribe_Dlg);
+    FC_FREE(pBribe_Dlg);
     flush_dirty();
   }
 }
@@ -3140,7 +3139,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   }
   
   is_unit_move_blocked = TRUE;
-  pBribe_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pBribe_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
       
@@ -3305,7 +3304,7 @@ static void popdown_pillage_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pPillage_Dlg->pBeginWidgetList,
 				pPillage_Dlg->pEndWidgetList);
-    FREE(pPillage_Dlg);
+    FC_FREE(pPillage_Dlg);
     flush_dirty();
   }
 }
@@ -3327,7 +3326,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   }
   
   is_unit_move_blocked = TRUE;
-  pPillage_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pPillage_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
       
@@ -3426,7 +3425,7 @@ static void popdown_connect_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pConnect_Dlg->pBeginWidgetList,
 				pConnect_Dlg->pEndWidgetList);
-    FREE(pConnect_Dlg);
+    FC_FREE(pConnect_Dlg);
   }
 }
 
@@ -3476,7 +3475,7 @@ static void popdown_revolution_dialog(void)
   if(pRevolutionDlg) {
     popdown_window_group_dialog(pRevolutionDlg->pBeginWidgetList,
 			      pRevolutionDlg->pEndWidgetList);
-    FREE(pRevolutionDlg);
+    FC_FREE(pRevolutionDlg);
     enable_and_redraw_revolution_button();
   }
 }
@@ -3500,7 +3499,7 @@ void popup_revolution_dialog(void)
     return;
   }
   
-  pRevolutionDlg = MALLOC(sizeof(struct SMALL_DLG));
+  pRevolutionDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* create ok button */
   pOK_Button =
@@ -3647,7 +3646,7 @@ static int races_dialog_ok_callback(struct GUI *pStart_Button)
   dsend_packet_nation_select_req(&aconnection, races_player->player_no, pSetup->nation,
 				 pSetup->leader_sex, pStr,
 				 pSetup->nation_city_style);
-  FREE(pStr);
+  FC_FREE(pStr);
 
   popdown_races_dialog();  
   flush_dirty();
@@ -3699,8 +3698,8 @@ static int next_name_callback(struct GUI *pNext)
   copy_chars_to_string16(pSetup->pName_Edit->string16,
   				leaders[pSetup->selected_leader].name);
   
-  FREE(pLeaderName);
-  pLeaderName = MALLOC(strlen(leaders[pSetup->selected_leader].name) + 1);
+  FC_FREE(pLeaderName);
+  pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
   mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
                        strlen(leaders[pSetup->selected_leader].name) + 1);
   
@@ -3752,8 +3751,8 @@ static int prev_name_callback(struct GUI *pPrev)
   copy_chars_to_string16(pSetup->pName_Edit->string16,
   				leaders[pSetup->selected_leader].name);
   
-  FREE(pLeaderName);
-  pLeaderName = MALLOC(strlen(leaders[pSetup->selected_leader].name) + 1);
+  FC_FREE(pLeaderName);
+  pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
   mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
                        strlen(leaders[pSetup->selected_leader].name) + 1);
   
@@ -3834,7 +3833,7 @@ static int cancel_help_dlg_callback(struct GUI *pWidget)
   if (pHelpDlg) {
     popdown_window_group_dialog(pHelpDlg->pBeginWidgetList,
 			pHelpDlg->pEndWidgetList);
-    FREE(pHelpDlg);
+    FC_FREE(pHelpDlg);
     if (pWidget) {
       flush_dirty();
     }
@@ -3886,7 +3885,7 @@ static int nation_button_callback(struct GUI *pNationButton)
   
     if (!pHelpDlg) {
     
-      pHelpDlg = MALLOC(sizeof(struct SMALL_DLG));
+      pHelpDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
       pStr = create_str16_from_char("Nation's Legend", adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
@@ -3975,7 +3974,7 @@ static int leader_name_edit_callback(struct GUI *pEdit)
   char *name = convert_to_chars(pEdit->string16->text);
 
   if (name) {
-    FREE(name);
+    FC_FREE(name);
   } else {
     /* empty input -> restore previous content */
     copy_chars_to_string16(pEdit->string16, pLeaderName);
@@ -4033,8 +4032,8 @@ static void select_random_leader(Nation_type_id nation)
   copy_chars_to_string16(pSetup->pName_Edit->string16,
   				leaders[pSetup->selected_leader].name);
   
-  FREE(pLeaderName);
-  pLeaderName = MALLOC(strlen(leaders[pSetup->selected_leader].name) + 1);
+  FC_FREE(pLeaderName);
+  pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
   mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
                        strlen(leaders[pSetup->selected_leader].name) + 1);
   
@@ -4096,7 +4095,7 @@ void popup_races_dialog(struct player *pplayer)
   
   races_player = pplayer;
   
-  pNationDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pNationDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   /* create window widget */
   pStr = create_str16_from_char(_("What nation will you be?"), adj_font(12));
@@ -4105,7 +4104,7 @@ void popup_races_dialog(struct player *pplayer)
   pWindow = create_window(NULL, pStr, w, h, WF_FREE_DATA);
   pWindow->action = nations_dialog_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
-  pSetup = MALLOC(sizeof(struct NAT));
+  pSetup = fc_calloc(1, sizeof(struct NAT));
   pWindow->data.ptr = (void *)pSetup;
     
   pNationDlg->pEndWidgetList = pWindow;
@@ -4424,10 +4423,10 @@ void popdown_races_dialog(void)
 
     cancel_help_dlg_callback(NULL);
     
-    FREE(pLeaderName);
+    FC_FREE(pLeaderName);
     
-    FREE(pNationDlg->pScroll);
-    FREE(pNationDlg);
+    FC_FREE(pNationDlg->pScroll);
+    FC_FREE(pNationDlg);
   }
 }
 

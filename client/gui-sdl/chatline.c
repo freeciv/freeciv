@@ -42,7 +42,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "messagewin.h"
@@ -85,7 +84,7 @@ static int inputline_return_callback(struct GUI *pWidget)
     send_chat(theinput);
 
     append_output_window(theinput);
-    FREE(theinput);
+    FC_FREE(theinput);
   }
   
   return -1;
@@ -136,7 +135,7 @@ void real_append_output_window(const char *astring, int conn_id)
     
     n += 1;
     n *= 2;
-    pUniStr = MALLOC(n);
+    pUniStr = fc_calloc(1, n);
     convertcopy_to_utf16(pUniStr, n, astring);
     add_to_chat_list(pUniStr, n);
   } else {
@@ -265,7 +264,7 @@ static int input_edit_conn_callback(struct GUI *pWidget)
       /*real_append_output_window(theinput);*/
     }
     
-    FREE(pWidget->string16->text);
+    FC_FREE(pWidget->string16->text);
     pWidget->string16->n_alloc = 0;
   }
   return -1;
@@ -323,11 +322,11 @@ void update_conn_list_dialog(void)
       				pConnDlg->pUsers_Dlg->pScroll->pScrollBar;
         pConnDlg->pUsers_Dlg->pScroll->count = 0;
       } else {
-        pConnDlg->pUsers_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+        pConnDlg->pUsers_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
         pConnDlg->pUsers_Dlg->pEndWidgetList = pConnDlg->pBeginWidgetList;
         pConnDlg->pUsers_Dlg->pBeginWidgetList = pConnDlg->pBeginWidgetList;
       
-        pConnDlg->pUsers_Dlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+        pConnDlg->pUsers_Dlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
         pConnDlg->pUsers_Dlg->pScroll->count = 0;
         create_vertical_scrollbar(pConnDlg->pUsers_Dlg, 1,
 					pConnDlg->active, TRUE, TRUE);	
@@ -405,7 +404,7 @@ static void popup_conn_list_dialog(void)
   
   popdown_meswin_dialog();
   
-  pConnDlg = MALLOC(sizeof(struct CONNLIST));
+  pConnDlg = fc_calloc(1, sizeof(struct CONNLIST));
     
   pWindow = create_window(NULL, NULL, 10, 10, 0);
   pWindow->action = conn_dlg_callback;
@@ -457,7 +456,7 @@ static void popup_conn_list_dialog(void)
     
   /* -------------------------------- */
   
-  pConnDlg->pChat_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pConnDlg->pChat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
   n = conn_list_size(game.est_connections);
   
@@ -488,7 +487,7 @@ static void popup_conn_list_dialog(void)
   pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pBuf;
   pConnDlg->pChat_Dlg->pEndActiveWidgetList = pBuf;
   
-  pConnDlg->pChat_Dlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+  pConnDlg->pChat_Dlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pConnDlg->pChat_Dlg->pScroll->count = 1;
   
   n = (pWindow->size.h - adj_size(44)) / pBuf->size.h;
@@ -590,16 +589,16 @@ static bool popdown_conn_list_dialog(void)
     popdown_window_group_dialog(pConnDlg->pBeginWidgetList,
 			                pConnDlg->pEndWidgetList);
     if (pConnDlg->pUsers_Dlg) {
-      FREE(pConnDlg->pUsers_Dlg->pScroll);
-      FREE(pConnDlg->pUsers_Dlg);
+      FC_FREE(pConnDlg->pUsers_Dlg->pScroll);
+      FC_FREE(pConnDlg->pUsers_Dlg);
     }
     
     if (pConnDlg->pChat_Dlg) {
-      FREE(pConnDlg->pChat_Dlg->pScroll);
-      FREE(pConnDlg->pChat_Dlg);
+      FC_FREE(pConnDlg->pChat_Dlg->pScroll);
+      FC_FREE(pConnDlg->pChat_Dlg);
     }
     
-    FREE(pConnDlg);
+    FC_FREE(pConnDlg);
     return TRUE;
   }
   

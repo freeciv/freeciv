@@ -42,7 +42,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"		/* gui */
 #include "gui_tilespec.h"
 #include "mapctrl.h"
@@ -543,7 +542,7 @@ void create_units_order_widgets(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   len = (len + 1) * sizeof(Uint16);
-  unibuf = MALLOC(len);
+  unibuf = fc_calloc(1, len);
   convertcopy_to_utf16(unibuf, len, cBuf);
   pBuf->string16 = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_a;
@@ -757,7 +756,7 @@ void create_units_order_widgets(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   len = (len + 1) * sizeof(Uint16);
-  unibuf = MALLOC(len);
+  unibuf = fc_calloc(1, len);
   convertcopy_to_utf16(unibuf, len, cBuf);
   pBuf->string16 = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_r;
@@ -790,7 +789,7 @@ void create_units_order_widgets(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   len = (len + 1) * sizeof(Uint16);
-  unibuf = MALLOC(len);
+  unibuf = fc_calloc(1, len);
   convertcopy_to_utf16(unibuf, len, cBuf);
   pBuf->string16 = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_b;

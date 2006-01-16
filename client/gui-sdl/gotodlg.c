@@ -36,7 +36,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -220,7 +219,7 @@ static void popup_goto_airlift_dialog(void)
     return;
   }
   
-  pGotoDlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pGotoDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
   pStr = create_str16_from_char(_("Select destination"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -286,7 +285,7 @@ static void popup_goto_airlift_dialog(void)
     
   pGotoDlg->pBeginWidgetList = pBuf;
   
-  pGotoDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+  pGotoDlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pGotoDlg->pScroll->step = 1;
   pGotoDlg->pScroll->active = 17;
   create_vertical_scrollbar(pGotoDlg, 1, 17, TRUE, TRUE);
@@ -383,8 +382,8 @@ void popdown_goto_airlift_dialog(void)
  if(pGotoDlg) {
     popdown_window_group_dialog(pGotoDlg->pBeginWidgetList,
 					    pGotoDlg->pEndWidgetList);
-    FREE(pGotoDlg->pScroll);
-    FREE(pGotoDlg);
+    FC_FREE(pGotoDlg->pScroll);
+    FC_FREE(pGotoDlg);
   }
   GOTO = TRUE;
 }

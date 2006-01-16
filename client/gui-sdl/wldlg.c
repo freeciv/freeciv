@@ -44,7 +44,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -103,21 +102,21 @@ static int popdown_worklist_editor_callback(struct GUI *pWidget)
   if(pEditor) {
     popdown_window_group_dialog(pEditor->pBeginWidgetList,
 					    pEditor->pEndWidgetList);
-    FREE(pEditor->pTargets->pScroll);
-    FREE(pEditor->pWork->pScroll);
+    FC_FREE(pEditor->pTargets->pScroll);
+    FC_FREE(pEditor->pWork->pScroll);
     if(pEditor->pGlobal) {
-      FREE(pEditor->pGlobal->pScroll);
-      FREE(pEditor->pGlobal);
+      FC_FREE(pEditor->pGlobal->pScroll);
+      FC_FREE(pEditor->pGlobal);
     }
-    FREE(pEditor->pTargets);
-    FREE(pEditor->pWork);
-    FREE(pEditor->pCopy_WorkList);
+    FC_FREE(pEditor->pTargets);
+    FC_FREE(pEditor->pWork);
+    FC_FREE(pEditor->pCopy_WorkList);
         
     if(city_dialog_is_open(pEditor->pCity)) {
       enable_city_dlg_widgets();
     }
   
-    FREE(pEditor);
+    FC_FREE(pEditor);
     flush_dirty();
   }
   return -1;
@@ -176,16 +175,16 @@ static int ok_worklist_editor_callback(struct GUI *pWidget)
   /* popdown dlg */
   popdown_window_group_dialog(pEditor->pBeginWidgetList,
 					    pEditor->pEndWidgetList);
-  FREE(pEditor->pTargets->pScroll);
-  FREE(pEditor->pWork->pScroll);
+  FC_FREE(pEditor->pTargets->pScroll);
+  FC_FREE(pEditor->pWork->pScroll);
   if(pEditor->pGlobal) {
-    FREE(pEditor->pGlobal->pScroll);
-    FREE(pEditor->pGlobal);
+    FC_FREE(pEditor->pGlobal->pScroll);
+    FC_FREE(pEditor->pGlobal);
   }
-  FREE(pEditor->pTargets);
-  FREE(pEditor->pWork);
-  FREE(pEditor->pCopy_WorkList);
-  FREE(pEditor);
+  FC_FREE(pEditor->pTargets);
+  FC_FREE(pEditor->pWork);
+  FC_FREE(pEditor->pCopy_WorkList);
+  FC_FREE(pEditor);
   
   if(city_dialog_is_open(pCity)) {
     enable_city_dlg_widgets();
@@ -206,7 +205,7 @@ static int rename_worklist_editor_callback(struct GUI *pWidget)
   if(pWidget->string16->text) {
     char *pText = convert_to_chars(pWidget->string16->text);
     my_snprintf(pEditor->pCopy_WorkList->name, MAX_LEN_NAME, "%s", pText);
-    FREE(pText);
+    FC_FREE(pText);
   } else {
     /* empty input -> restore previous content */
     copy_chars_to_string16(pWidget->string16, pEditor->pCopy_WorkList->name);
@@ -269,7 +268,7 @@ static void add_target_to_worklist(struct GUI *pTarget)
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = worklist_editor_item_callback;
         
-  pBuf->data.ptr = MALLOC(sizeof(int));
+  pBuf->data.ptr = fc_calloc(1, sizeof(int));
   *((int *)pBuf->data.ptr) = worklist_length(pEditor->pCopy_WorkList) - 1;
     
   pBuf->ID = MAX_ID - cid_encode(prod);
@@ -482,7 +481,7 @@ static void remove_item_from_worklist(struct GUI *pItem)
     change_production(pEditor->pCopy_WorkList->entries[0]);
     worklist_advance(pEditor->pCopy_WorkList);
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
-    FREE(pBuf->data.ptr);
+    FC_FREE(pBuf->data.ptr);
     if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
       do{
         pBuf = pBuf->prev;
@@ -710,7 +709,7 @@ static void add_global_worklist(struct GUI *pWidget)
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = worklist_editor_item_callback;
       pBuf->size.w = adj_size(126);  
-      pBuf->data.ptr = MALLOC(sizeof(int));
+      pBuf->data.ptr = fc_calloc(1, sizeof(int));
       *((int *)pBuf->data.ptr) = firstfree;
         
       add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
@@ -808,7 +807,7 @@ static void set_global_worklist(struct GUI *pWidget)
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->action = worklist_editor_item_callback;
         pBuf->size.w = adj_size(126);  
-        pBuf->data.ptr = MALLOC(sizeof(int));
+        pBuf->data.ptr = fc_calloc(1, sizeof(int));
         *((int *)pBuf->data.ptr) = count;
         
         add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
@@ -1041,11 +1040,11 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   assert(pWorkList != NULL);
   
-  pEditor = MALLOC(sizeof(struct EDITOR));
+  pEditor = fc_calloc(1, sizeof(struct EDITOR));
   
   pEditor->pCity = pCity;
   pEditor->pOrginal_WorkList = pWorkList;
-  pEditor->pCopy_WorkList = MALLOC(sizeof(struct worklist));
+  pEditor->pCopy_WorkList = fc_calloc(1, sizeof(struct worklist));
   copy_worklist(pEditor->pCopy_WorkList, pWorkList);
   
   if(pCity) {
@@ -1176,8 +1175,8 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
      will have this field NULL
   */
   
-  pEditor->pWork = MALLOC(sizeof(struct ADVANCED_DLG));
-  pEditor->pWork->pScroll = MALLOC(sizeof(struct ScrollBar));
+  pEditor->pWork = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pEditor->pWork->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pEditor->pWork->pScroll->count = 0;
   pEditor->pWork->pScroll->active = MAX_LEN_WORKLIST;
   pEditor->pWork->pScroll->step = 1;
@@ -1224,7 +1223,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = worklist_editor_item_callback;
         
-    pBuf->data.ptr = MALLOC(sizeof(int));
+    pBuf->data.ptr = fc_calloc(1, sizeof(int));
     *((int *)pBuf->data.ptr) = count;
     
     add_to_gui_list(MAX_ID - cid_encode(prod), pBuf);
@@ -1298,7 +1297,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       }
     }
     if(count) {
-      pEditor->pGlobal = MALLOC(sizeof(struct ADVANCED_DLG));
+      pEditor->pGlobal = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       pEditor->pGlobal->pEndWidgetList = pLast->prev;
       pEditor->pGlobal->pEndActiveWidgetList = pLast->prev;
       pEditor->pGlobal->pBeginWidgetList = pBuf;
@@ -1306,7 +1305,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     
       if(count > 6) {
         pEditor->pGlobal->pActiveWidgetList = pLast->prev;
-        pEditor->pGlobal->pScroll = MALLOC(sizeof(struct ScrollBar));
+        pEditor->pGlobal->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
         pEditor->pGlobal->pScroll->count = count;
         pEditor->pGlobal->pScroll->active = 4;
         pEditor->pGlobal->pScroll->step = 1;
@@ -1572,7 +1571,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     }
   } unit_type_iterate_end;
   
-  pEditor->pTargets = MALLOC(sizeof(struct ADVANCED_DLG));
+  pEditor->pTargets = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pEditor->pTargets->pEndWidgetList = pLast->prev;
   pEditor->pTargets->pBeginWidgetList = pBuf;
@@ -1749,14 +1748,14 @@ void popdown_worklist_editor(void)
     if(pEditor) {
     popdown_window_group_dialog(pEditor->pBeginWidgetList,
 					    pEditor->pEndWidgetList);
-    FREE(pEditor->pTargets->pScroll);
-    FREE(pEditor->pWork->pScroll);
-    FREE(pEditor->pGlobal->pScroll);
-    FREE(pEditor->pGlobal);
-    FREE(pEditor->pTargets);
-    FREE(pEditor->pWork);
-    FREE(pEditor->pCopy_WorkList);
-    FREE(pEditor);
+    FC_FREE(pEditor->pTargets->pScroll);
+    FC_FREE(pEditor->pWork->pScroll);
+    FC_FREE(pEditor->pGlobal->pScroll);
+    FC_FREE(pEditor->pGlobal);
+    FC_FREE(pEditor->pTargets);
+    FC_FREE(pEditor->pWork);
+    FC_FREE(pEditor->pCopy_WorkList);
+    FC_FREE(pEditor);
   }
 
 }

@@ -448,12 +448,12 @@ do {								\
     }								\
   }								\
   if ((get_wflags(pGUI) & WF_FREE_DATA) == WF_FREE_DATA) {	\
-    FREE(pGUI->data.ptr);					\
+    FC_FREE(pGUI->data.ptr);					\
   }								\
   if ((get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) == WF_FREE_PRIVATE_DATA) { 	\
-    FREE(pGUI->private_data.ptr);				\
+    FC_FREE(pGUI->private_data.ptr);				\
   }								\
-  FREE(pGUI);							\
+  FC_FREE(pGUI);							\
 } while(0)
 
 #define redraw_ID(ID) \

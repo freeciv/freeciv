@@ -49,7 +49,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -160,14 +159,14 @@ static void del_city_dialog(void)
       del_group_of_widgets_from_gui_list(pCityDlg->pImprv->pBeginWidgetList,
 					 pCityDlg->pImprv->pEndWidgetList);
     }
-    FREE(pCityDlg->pImprv->pScroll);
-    FREE(pCityDlg->pImprv);
+    FC_FREE(pCityDlg->pImprv->pScroll);
+    FC_FREE(pCityDlg->pImprv);
 
     if (pCityDlg->pPanel) {
       del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
 					 pCityDlg->pPanel->pEndWidgetList);
-      FREE(pCityDlg->pPanel->pScroll);
-      FREE(pCityDlg->pPanel);
+      FC_FREE(pCityDlg->pPanel->pScroll);
+      FC_FREE(pCityDlg->pPanel);
     }
         
     if (pHurry_Prod_Dlg)
@@ -175,14 +174,14 @@ static void del_city_dialog(void)
       del_group_of_widgets_from_gui_list(pHurry_Prod_Dlg->pBeginWidgetList,
 			      		 pHurry_Prod_Dlg->pEndWidgetList);
 
-      FREE(pHurry_Prod_Dlg);
+      FC_FREE(pHurry_Prod_Dlg);
     }
     
     free_city_units_lists();
     del_city_menu_dlg(FALSE);
     del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityWidgetList,
 				       pCityDlg->pEndCityWidgetList);
-    FREE(pCityDlg);
+    FC_FREE(pCityDlg);
   }
 }
 
@@ -761,7 +760,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 
   } unit_list_iterate_end;
   
-  pCityDlg->pPanel = MALLOC(sizeof(struct ADVANCED_DLG));
+  pCityDlg->pPanel = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   pCityDlg->pPanel->pEndWidgetList = pEnd;
   pCityDlg->pPanel->pEndActiveWidgetList = pEnd;
   pCityDlg->pPanel->pBeginWidgetList = pBuf;
@@ -776,7 +775,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   
   if (i > NUM_UNITS_SHOWN * NUM_UNITS_SHOWN) {
     
-    pCityDlg->pPanel->pScroll = MALLOC(sizeof(struct ScrollBar));
+    pCityDlg->pPanel->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
     pCityDlg->pPanel->pScroll->active = NUM_UNITS_SHOWN;
     pCityDlg->pPanel->pScroll->step = NUM_UNITS_SHOWN;
     pCityDlg->pPanel->pScroll->count = i;
@@ -808,8 +807,8 @@ void free_city_units_lists(void)
   if (pCityDlg && pCityDlg->pPanel) {
     del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
 					 pCityDlg->pPanel->pEndWidgetList);
-    FREE(pCityDlg->pPanel->pScroll);
-    FREE(pCityDlg->pPanel);
+    FC_FREE(pCityDlg->pPanel->pScroll);
+    FC_FREE(pCityDlg->pPanel);
   }
 }
 
@@ -972,7 +971,7 @@ static void create_city_options_widget_list(struct city *pCity)
 
   /* ----- */
   
-  pCityDlg->pPanel = MALLOC(sizeof(struct ADVANCED_DLG));
+  pCityDlg->pPanel = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   pCityDlg->pPanel->pEndWidgetList = pBuf;
 
   /* ----- */
@@ -1082,7 +1081,7 @@ static int ok_buy_prod_city_dlg_callback(struct GUI *pButton)
   {
     del_group_of_widgets_from_gui_list(pHurry_Prod_Dlg->pBeginWidgetList,
 			      		pHurry_Prod_Dlg->pEndWidgetList);
-    FREE(pHurry_Prod_Dlg);
+    FC_FREE(pHurry_Prod_Dlg);
     /* enable city dlg */
     enable_city_dlg_widgets();
     unlock_buffer();
@@ -1115,7 +1114,7 @@ static void popdown_hurry_production_dialog(void)
   if (pHurry_Prod_Dlg) {
     popdown_window_group_dialog(pHurry_Prod_Dlg->pBeginWidgetList,
 			      pHurry_Prod_Dlg->pEndWidgetList);
-    FREE(pHurry_Prod_Dlg);
+    FC_FREE(pHurry_Prod_Dlg);
     flush_dirty();
   }
 }
@@ -1147,7 +1146,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
     return;
   }
   
-  pHurry_Prod_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pHurry_Prod_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   if (pCity->production.is_unit) {
     name = get_unit_type(pCity->production.value)->name;
@@ -1650,7 +1649,7 @@ static int next_prev_city_dlg_callback(struct GUI *pButton)
     }
   }
 
-  array = MALLOC(size * sizeof(struct city *));
+  array = fc_calloc(1, size * sizeof(struct city *));
 
   non_open_size = 0;
   for (i = 0; i < size; i++) {
@@ -1660,7 +1659,7 @@ static int next_prev_city_dlg_callback(struct GUI *pButton)
   assert(non_open_size > 0);
 
   if (non_open_size == 1) {
-    FREE(array);
+    FC_FREE(array);
     return -1;
   }
 
@@ -1675,7 +1674,7 @@ static int next_prev_city_dlg_callback(struct GUI *pButton)
 
   assert(i < non_open_size);
   pCityDlg->pCity = array[(i + dir + non_open_size) % non_open_size];
-  FREE(array);
+  FC_FREE(array);
 
   /* free panel widgets */
   free_city_units_lists();
@@ -1703,7 +1702,7 @@ static int new_name_city_dlg_callback(struct GUI *pEdit)
       city_rename(pCityDlg->pCity, tmp);
     }
     
-    FREE(tmp);
+    FC_FREE(tmp);
   } else {
     /* empty input -> restore previous content */
     copy_chars_to_string16(pEdit->string16, pCityDlg->pCity->name);
@@ -1823,8 +1822,8 @@ static void redraw_supported_units_city_dialog(struct GUI *pCityWindow,
     } else {
       del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
 					 pCityDlg->pPanel->pEndWidgetList);
-      FREE(pCityDlg->pPanel->pScroll);
-      FREE(pCityDlg->pPanel);
+      FC_FREE(pCityDlg->pPanel->pScroll);
+      FC_FREE(pCityDlg->pPanel);
     }
   } else {
     if (size) {
@@ -1884,8 +1883,8 @@ static void redraw_army_city_dialog(struct GUI *pCityWindow,
     } else {
       del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
 					 pCityDlg->pPanel->pEndWidgetList);
-      FREE(pCityDlg->pPanel->pScroll);
-      FREE(pCityDlg->pPanel);
+      FC_FREE(pCityDlg->pPanel->pScroll);
+      FC_FREE(pCityDlg->pPanel);
     }
   } else {
     if (size) {
@@ -3534,7 +3533,7 @@ static void rebuild_imprm_list(struct city *pCity)
   struct player *pOwner = city_owner(pCity);
     
   if(!pCityDlg->pImprv) {
-    pCityDlg->pImprv = MALLOC(sizeof(struct ADVANCED_DLG));
+    pCityDlg->pImprv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   }
   
   /* free old list */
@@ -3544,7 +3543,7 @@ static void rebuild_imprm_list(struct city *pCity)
     pCityDlg->pImprv->pEndWidgetList = NULL;
     pCityDlg->pImprv->pBeginWidgetList = NULL;
     pCityDlg->pImprv->pActiveWidgetList = NULL;
-    FREE(pCityDlg->pImprv->pScroll);
+    FC_FREE(pCityDlg->pImprv->pScroll);
   } 
     
   pAdd_Dock = pCityDlg->pAdd_Point;
@@ -3598,7 +3597,7 @@ static void rebuild_imprm_list(struct city *pCity)
     if (count > 8) {
       pCityDlg->pImprv->pActiveWidgetList =
 		    pCityDlg->pImprv->pEndActiveWidgetList;
-      pCityDlg->pImprv->pScroll = MALLOC(sizeof(struct ScrollBar));
+      pCityDlg->pImprv->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
       pCityDlg->pImprv->pScroll->step = 1;  
       pCityDlg->pImprv->pScroll->active = 8;
       pCityDlg->pImprv->pScroll->count = count;
@@ -3663,7 +3662,7 @@ void popup_city_dialog(struct city *pCity)
 
   update_menus();
 
-  pCityDlg = MALLOC(sizeof(struct city_dialog));
+  pCityDlg = fc_calloc(1, sizeof(struct city_dialog));
   pCityDlg->pCity = pCity;
   
   pStr = create_string16(NULL, 0, adj_font(12));
@@ -3940,14 +3939,14 @@ void popdown_all_city_dialogs(void)
       del_group_of_widgets_from_gui_list(pCityDlg->pImprv->pBeginWidgetList,
 					 pCityDlg->pImprv->pEndWidgetList);
     }
-    FREE(pCityDlg->pImprv->pScroll);
-    FREE(pCityDlg->pImprv);
+    FC_FREE(pCityDlg->pImprv->pScroll);
+    FC_FREE(pCityDlg->pImprv);
 
     if (pCityDlg->pPanel) {
       del_group_of_widgets_from_gui_list(pCityDlg->pPanel->pBeginWidgetList,
 					 pCityDlg->pPanel->pEndWidgetList);
-      FREE(pCityDlg->pPanel->pScroll);
-      FREE(pCityDlg->pPanel);
+      FC_FREE(pCityDlg->pPanel->pScroll);
+      FC_FREE(pCityDlg->pPanel);
     }
     
     if (pHurry_Prod_Dlg)
@@ -3955,14 +3954,14 @@ void popdown_all_city_dialogs(void)
       del_group_of_widgets_from_gui_list(pHurry_Prod_Dlg->pBeginWidgetList,
 			      		 pHurry_Prod_Dlg->pEndWidgetList);
 
-      FREE( pHurry_Prod_Dlg );
+      FC_FREE( pHurry_Prod_Dlg );
     }
     
     free_city_units_lists();
     del_city_menu_dlg(FALSE);
     popdown_window_group_dialog(pCityDlg->pBeginCityWidgetList,
 				pCityDlg->pEndCityWidgetList);
-    FREE(pCityDlg);
+    FC_FREE(pCityDlg);
     SDL_Client_Flags &= ~CF_CITY_STATUS_SPECIAL;
   }
   flush_dirty();

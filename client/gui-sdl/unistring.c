@@ -27,8 +27,10 @@
 
 #include <SDL/SDL_types.h>
 
+/* utility */
+#include "mem.h"
+
 /* gui-sdl */
-#include "gui_mem.h"
 
 #include "unistring.h"
 
@@ -54,7 +56,7 @@ Uint16 *unistrcpy(Uint16 *pToUniString, const Uint16 *pFromUniString)
 {
   size_t size = (unistrlen(pFromUniString) + 1) << 1;
   if (!pToUniString) {
-    pToUniString = MALLOC(size);
+    pToUniString = fc_calloc(1, size);
   }
   return memcpy(pToUniString, pFromUniString, size);
 }
@@ -67,7 +69,7 @@ Uint16 *unistrcat(Uint16 *pToUniString,
 {
   size_t src_size = (unistrlen(pFromUniString) + 1) << 1;
   size_t dst_size = unistrlen(pToUniString) << 1;
-  pToUniString = REALLOC(pToUniString, src_size + dst_size);
+  pToUniString = fc_realloc(pToUniString, src_size + dst_size);
   return memcpy((Uint8 *) pToUniString + dst_size,
 		pFromUniString, src_size);
 }
@@ -78,7 +80,7 @@ Uint16 *unistrcat(Uint16 *pToUniString,
 Uint16 *unistrdup(const Uint16 *pUniString)
 {
   size_t size = (unistrlen(pUniString) + 1) << 1;
-  Uint16 *pNewUniString = MALLOC(size);
+  Uint16 *pNewUniString = fc_calloc(1, size);
   return memcpy(pNewUniString, pUniString, size);
 }
 
@@ -94,10 +96,10 @@ Uint16 ** create_new_line_unistrings(const Uint16 *pUnistring)
   while (*pUnistring != 0) {
     if (*pUnistring == 10) {	/* find new line char */
       if (len) {
-	pBuf[count] = CALLOC(len + 1, sizeof(Uint16));
+	pBuf[count] = fc_calloc(len + 1, sizeof(Uint16));
 	memcpy(pBuf[count], pFromUnistring, len * sizeof(Uint16));
       } else {
-	pBuf[count] = CALLOC(2, sizeof(Uint16));
+	pBuf[count] = fc_calloc(2, sizeof(Uint16));
 	pBuf[count][0] = 32;
       }
       pFromUnistring = (Uint16 *)pUnistring + 1;
@@ -110,7 +112,7 @@ Uint16 ** create_new_line_unistrings(const Uint16 *pUnistring)
     pUnistring++;
         
     if ((*pUnistring == 0) && len) {
-      pBuf[count] = CALLOC(len + 1, sizeof(Uint16));
+      pBuf[count] = fc_calloc(len + 1, sizeof(Uint16));
       memcpy(pBuf[count], pFromUnistring, len * sizeof(Uint16));
     }
   }

@@ -55,7 +55,6 @@ libguiclient_a_SOURCES = \
 	gui_id.h	\
 	gui_main.c	\
 	gui_main.h	\
-	gui_mem.h	\
 	gui_string.c	\
 	gui_string.h	\
 	gui_stuff.c	\
