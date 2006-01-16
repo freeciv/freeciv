@@ -935,9 +935,6 @@ void ui_main(int argc, char *argv[])
   }
     
   /* SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv"); */
-  
-  draw_intro_gfx();
-  flush_all();
 
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();    

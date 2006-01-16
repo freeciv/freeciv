@@ -1114,7 +1114,7 @@ void gui_server_connect(void)
   if(pStartMenu) {
     /* error */
   }
-  
+
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
     
@@ -1235,7 +1235,6 @@ void gui_server_connect(void)
   
   pFirst->data.ptr = (void *)pArea;
   
-  /* FIXME: doesn't work after game has finished */
   draw_intro_gfx();
   flush_all();
   
