@@ -33,7 +33,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -98,8 +97,8 @@ void popdown_help_dialog(void)
   {
     popdown_window_group_dialog(pHelpDlg->pBeginWidgetList,
 					   pHelpDlg->pEndWidgetList);
-    FREE(pHelpDlg->pScroll);
-    FREE(pHelpDlg);
+    FC_FREE(pHelpDlg->pScroll);
+    FC_FREE(pHelpDlg);
     current_help_dlg = HELP_LAST;
   }
 }
@@ -183,8 +182,8 @@ void popup_impr_info(Impr_type_id impr)
     
     current_help_dlg = HELP_IMPROVEMENT;
     created = TRUE;
-    pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
-    pStore = MALLOC(sizeof(struct UNITS_BUTTONS));
+    pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
     
     pStr = create_str16_from_char(_("Help : Improvement"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
@@ -538,8 +537,8 @@ void popup_unit_info(Unit_type_id type_id)
     
     current_help_dlg = HELP_UNIT;
     created = TRUE;
-    pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
-    pStore = MALLOC(sizeof(struct UNITS_BUTTONS));
+    pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
     
     pStr = create_str16_from_char(_("Help : Units"), adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
@@ -1833,8 +1832,8 @@ void popup_tech_info(Tech_type_id tech)
   {
     created = TRUE;
     current_help_dlg = HELP_TECH;
-    pHelpDlg = MALLOC(sizeof(struct ADVANCED_DLG));
-    pStore = MALLOC(sizeof(struct TECHS_BUTTONS));
+    pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pStore = fc_calloc(1, sizeof(struct TECHS_BUTTONS));
       
     memset(pStore, 0, sizeof(struct TECHS_BUTTONS));
   

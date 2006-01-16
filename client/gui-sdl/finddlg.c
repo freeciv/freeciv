@@ -30,7 +30,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapctrl.h"
@@ -83,8 +82,8 @@ void popdown_find_dialog(void)
   if (pFind_City_Dlg) {
     popdown_window_group_dialog(pFind_City_Dlg->pBeginWidgetList,
 			pFind_City_Dlg->pEndWidgetList);
-    FREE(pFind_City_Dlg->pScroll);
-    FREE(pFind_City_Dlg);
+    FC_FREE(pFind_City_Dlg->pScroll);
+    FC_FREE(pFind_City_Dlg);
     enable_and_redraw_find_city_button();
   }
 }
@@ -118,7 +117,7 @@ void popup_find_dialog(void)
   
   original = canvas_pos_to_tile(Main.map->w/2, Main.map->h/2);
   
-  pFind_City_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pFind_City_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pStr = create_str16_from_char(_("Find City") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -139,7 +138,7 @@ void popup_find_dialog(void)
   pBuf->action = exit_find_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-  pBuf->data.cont = MALLOC(sizeof(struct CONTAINER));
+  pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
   pBuf->data.cont->id0 = original->x;
   pBuf->data.cont->id1 = original->y;
 

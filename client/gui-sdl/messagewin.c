@@ -35,7 +35,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
@@ -204,7 +203,7 @@ void popup_meswin_dialog(bool raise)
     return;
   }
   
-  pMsg_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pMsg_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
   /* create window */
   pWindow = create_window(NULL, NULL, w, h, WF_DRAW_THEME_TRANSPARENT);
@@ -344,8 +343,8 @@ void popdown_meswin_dialog(void)
   if(pMsg_Dlg) {
     popdown_window_group_dialog(pMsg_Dlg->pBeginWidgetList,
 				  pMsg_Dlg->pEndWidgetList);
-    FREE(pMsg_Dlg->pScroll);
-    FREE(pMsg_Dlg);
+    FC_FREE(pMsg_Dlg->pScroll);
+    FC_FREE(pMsg_Dlg);
   }
   
 }

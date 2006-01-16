@@ -31,7 +31,6 @@
 /* gui-sdl */
 #include "graphics.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "themespec.h"
 
 #include "gui_tilespec.h"
@@ -216,7 +215,7 @@ void tilespec_setup_city_icons(void)
 
   struct sprite *pSpr = NULL;
   
-  pIcons = ( struct City_Icon *)MALLOC( sizeof( struct City_Icon ));
+  pIcons = ( struct City_Icon *)fc_calloc(1,  sizeof( struct City_Icon ));
   
   load_city_icon_surface(pSpr, pBIG_Food_Corr, "city.food_waste");
   load_city_icon_surface(pSpr, pBIG_Shield_Corr, "city.shield_waste");
@@ -311,7 +310,7 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
   
-  FREE(pIcons);
+  FC_FREE(pIcons);
   
 }
 
@@ -327,7 +326,7 @@ void tilespec_setup_theme(void)
 {
   struct sprite *pBuf = NULL;
   
-  pTheme = MALLOC(sizeof(struct Theme));
+  pTheme = fc_calloc(1, sizeof(struct Theme));
   
   if(!theme_lookup_sprite_tag_alt(theme, "theme.tech_tree", "", FALSE, "", "")) {  
     freelog(LOG_FATAL, "Your current tileset don't contains ""all"" GUI theme graphic\n"
@@ -444,7 +443,7 @@ SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
         SDL_Cursor      *cursor;
 
         w = (image->w + 7) / 8;
-        data = (Uint8 *)MALLOC(w * image->h * 2);
+        data = (Uint8 *)fc_calloc(1, w * image->h * 2);
         if (data == NULL)
                 return NULL;
         /*memset(data, 0, w * image->h * 2);*/
@@ -469,7 +468,7 @@ SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
         
         cursor = SDL_CreateCursor(data, mask, w * 8, image->h, hx, hy);
 	
-	FREE(data);
+	FC_FREE(data);
         return cursor;
 }
 
@@ -577,7 +576,7 @@ void tilespec_free_theme(void)
   FREESURFACE(pTheme->NSOUTH_BORDER_Icon);
   FREESURFACE(pTheme->NEAST_BORDER_Icon);
 	
-  FREE(pTheme);
+  FC_FREE(pTheme);
   return;
 }
 

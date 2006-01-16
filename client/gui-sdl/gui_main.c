@@ -58,7 +58,6 @@
 #include "cityrep.h"
 #include "graphics.h"
 #include "gui_id.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"		/* gui */
 #include "gui_tilespec.h"
 #include "inteldlg.h"
@@ -751,7 +750,7 @@ void ui_init(void)
 
   button_behavior.button_down_ticks = 0;
   button_behavior.hold_state = MB_HOLD_SHORT;
-  button_behavior.event = MALLOC(sizeof(SDL_MouseButtonEvent));
+  button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));
   
   SDL_Client_Flags = 0;
   iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
@@ -976,7 +975,7 @@ void ui_exit()
   
   unload_cursors();
 
-  FREE(button_behavior.event);
+  FC_FREE(button_behavior.event);
 
 /* FIXME */  
 /*  del_main_list();*/

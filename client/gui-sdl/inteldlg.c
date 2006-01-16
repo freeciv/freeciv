@@ -28,7 +28,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -120,11 +119,11 @@ static int exit_intel_dlg_callback(struct GUI *pWidget)
 
 static struct intel_dialog *create_intel_dialog(struct player *pPlayer) {
 
-  struct intel_dialog *pdialog = MALLOC(sizeof(struct intel_dialog));
+  struct intel_dialog *pdialog = fc_calloc(1, sizeof(struct intel_dialog));
 
   pdialog->pplayer = pPlayer;
   
-  pdialog->pdialog = MALLOC(sizeof(struct ADVANCED_DLG));
+  pdialog->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
   pdialog->pos_x = 0;
   pdialog->pos_y = 0;
@@ -166,9 +165,9 @@ void popdown_intel_dialog(struct player *p)
       
     dialog_list_unlink(dialog_list, pdialog);
       
-    FREE(pdialog->pdialog->pScroll);
-    FREE(pdialog->pdialog);  
-    FREE(pdialog);
+    FC_FREE(pdialog->pdialog->pScroll);
+    FC_FREE(pdialog->pdialog);  
+    FC_FREE(pdialog);
   }
 }
 

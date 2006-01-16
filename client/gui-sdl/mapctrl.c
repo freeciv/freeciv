@@ -48,7 +48,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -513,7 +512,7 @@ static int popdown_scale_minmap_dlg_callback(struct GUI *pWidget)
   if (pScall_MiniMap_Dlg) {
     popdown_window_group_dialog(pScall_MiniMap_Dlg->pBeginWidgetList,
     				pScall_MiniMap_Dlg->pEndWidgetList);
-    FREE(pScall_MiniMap_Dlg);
+    FC_FREE(pScall_MiniMap_Dlg);
     if (pWidget) {
       flush_dirty();
     }
@@ -637,7 +636,7 @@ static void popup_minimap_scale_dialog(void)
   w = MAX(w, pText2->w + adj_size(30));
   FREESTRING16(pStr);
   
-  pScall_MiniMap_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pScall_MiniMap_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* create window */
   pStr = create_str16_from_char(_("Scale Minimap"), adj_font(12));
@@ -800,7 +799,7 @@ static int popdown_scale_unitinfo_dlg_callback(struct GUI *pWidget)
   if(pScall_UnitInfo_Dlg) {
     popdown_window_group_dialog(pScall_UnitInfo_Dlg->pBeginWidgetList,
     				pScall_UnitInfo_Dlg->pEndWidgetList);
-    FREE(pScall_UnitInfo_Dlg);
+    FC_FREE(pScall_UnitInfo_Dlg);
     if(pWidget) {
       flush_dirty();
     }
@@ -901,7 +900,7 @@ static void popup_unitinfo_scale_dialog(void)
   h += MAX(adj_size(20), pText2->h + adj_size(4));
   FREESTRING16(pStr);
   
-  pScall_UnitInfo_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pScall_UnitInfo_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* create window */
   pStr = create_str16_from_char(_("Scale Unit Info"), adj_font(12));
@@ -1426,7 +1425,7 @@ void Init_MapView(void)
   SDL_Surface *pIcon_theme = NULL;
 		    
   /* =================== Units Window ======================= */
-  pUnitInfo_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pUnitInfo_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
   pWidget = create_window(Main.gui, create_string16(NULL, 0, 12),
     			UNITS_W, UNITS_H, WF_DRAW_THEME_TRANSPARENT);
@@ -2322,7 +2321,7 @@ static int newcity_ok_edit_callback(struct GUI *pEdit) {
 	  convert_to_chars(pNewCity_Dlg->pBeginWidgetList->string16->text);
 
   if (input) {
-    FREE(input);
+    FC_FREE(input);
   } else {
     /* empty input -> restore previous content */
     copy_chars_to_string16(pEdit->string16, pSuggestedCityName);
@@ -2343,13 +2342,13 @@ static int newcity_ok_callback(struct GUI *pOk_Button)
   
   dsend_packet_unit_build_city(&aconnection, pOk_Button->data.unit->id,
 		               input);
-  FREE(input);
+  FC_FREE(input);
 
   popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
 			      pNewCity_Dlg->pEndWidgetList);
-  FREE(pNewCity_Dlg);
+  FC_FREE(pNewCity_Dlg);
   
-  FREE(pSuggestedCityName);
+  FC_FREE(pSuggestedCityName);
   
   flush_dirty();
   return -1;
@@ -2362,9 +2361,9 @@ static int newcity_cancel_callback(struct GUI *pCancel_Button)
 {
   popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
 			      pNewCity_Dlg->pEndWidgetList);
-  FREE(pNewCity_Dlg);
+  FC_FREE(pNewCity_Dlg);
   
-  FREE(pSuggestedCityName);  
+  FC_FREE(pSuggestedCityName);  
   
   flush_dirty();
   return -1;
@@ -2399,10 +2398,10 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
     return;
   }
 
-  pSuggestedCityName = MALLOC(strlen(pSuggestname) + 1);
+  pSuggestedCityName = fc_calloc(1, strlen(pSuggestname) + 1);
   mystrlcpy(pSuggestedCityName, pSuggestname, strlen(pSuggestname) + 1);
   
-  pNewCity_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pNewCity_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* create ok button */
   pOK_Button =
@@ -2519,7 +2518,7 @@ void popdown_newcity_dialog(void)
   if(pNewCity_Dlg) {
     popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
 			      pNewCity_Dlg->pEndWidgetList);
-    FREE(pNewCity_Dlg);
+    FC_FREE(pNewCity_Dlg);
     flush_dirty();
   }
 }

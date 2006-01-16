@@ -85,7 +85,7 @@ void free_font_system(void);
 #define FREESTRING16( pString16 )		\
 do {						\
 	if (pString16) {			\
-		FREE(pString16->text);		\
+		FC_FREE(pString16->text);		\
 		unload_font(pString16->ptsize);	\
 		free(pString16); 		\
 		pString16 = NULL;		\

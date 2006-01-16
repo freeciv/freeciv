@@ -47,7 +47,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_zoom.h"
 #include "mapctrl.h"
@@ -829,7 +828,7 @@ void redraw_unit_info_label(struct unit *pUnit)
     
 	  if (!pDlg->pScroll) {
 	      
-            pDlg->pScroll = MALLOC(sizeof(struct ScrollBar));
+            pDlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
             pDlg->pScroll->active = num_h;
             pDlg->pScroll->step = num_w;
             pDlg->pScroll->count = n;

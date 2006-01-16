@@ -30,7 +30,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
@@ -132,7 +131,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     char cBuf[128];
     int w = 0, h = 0;
   
-    pSpaceShp = MALLOC(sizeof(struct SMALL_DLG));
+    pSpaceShp = fc_calloc(1, sizeof(struct SMALL_DLG));
     
     my_snprintf(cBuf, sizeof(cBuf), _("%s's SpaceShip"),
 				    get_nation_name(pPlayer->nation));
@@ -227,7 +226,7 @@ void popdown_spaceship_dialog(struct player *pPlayer)
     popdown_window_group_dialog(pSpaceShp->pBeginWidgetList,
 					    pSpaceShp->pEndWidgetList);
     dialog_list_unlink(dialog_list, pSpaceShp);
-    FREE(pSpaceShp);
+    FC_FREE(pSpaceShp);
   }
   
 }

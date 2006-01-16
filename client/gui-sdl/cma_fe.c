@@ -32,7 +32,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
@@ -221,7 +220,7 @@ static int ok_save_cma_callback(struct GUI *pWidget)
  
     if(name) { 
       cmafec_preset_add(name, &pCma->edited_cm_parm);
-      FREE(name);
+      FC_FREE(name);
     } else {
       cmafec_preset_add(_("new preset"), &pCma->edited_cm_parm);
     }
@@ -230,7 +229,7 @@ static int ok_save_cma_callback(struct GUI *pWidget)
     remove_locked_buffer();
     del_group_of_widgets_from_gui_list(pCma->pAdv->pBeginWidgetList,
 						pCma->pAdv->pEndWidgetList);
-    FREE(pCma->pAdv);
+    FC_FREE(pCma->pAdv);
     
     update_city_cma_dialog();
   }
@@ -245,8 +244,8 @@ static int cancel_SLD_cma_callback(struct GUI *pWidget)
   if(pCma && pCma->pAdv) {
     popdown_window_group_dialog(pCma->pAdv->pBeginWidgetList,
 				pCma->pAdv->pEndWidgetList);
-    FREE(pCma->pAdv->pScroll);
-    FREE(pCma->pAdv);
+    FC_FREE(pCma->pAdv->pScroll);
+    FC_FREE(pCma->pAdv);
     flush_dirty();
   }
   return -1;
@@ -264,7 +263,7 @@ static int save_cma_callback(struct GUI *pWidget)
     return 1;
   }
   
-  pCma->pAdv = MALLOC(sizeof(struct ADVANCED_DLG));
+  pCma->pAdv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
   hh = WINDOW_TILE_HIGH + adj_size(2);
   pStr = create_str16_from_char(_("Name new preset"), adj_font(12));
@@ -383,8 +382,8 @@ static int LD_cma_callback(struct GUI *pWidget)
   remove_locked_buffer();
   del_group_of_widgets_from_gui_list(pCma->pAdv->pBeginWidgetList,
 						pCma->pAdv->pEndWidgetList);
-  FREE(pCma->pAdv->pScroll);
-  FREE(pCma->pAdv);
+  FC_FREE(pCma->pAdv->pScroll);
+  FC_FREE(pCma->pAdv);
   
   if(load) {
     cm_copy_parameter(&pCma->edited_cm_parm, cmafec_preset_get_parameter(index));
@@ -433,7 +432,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
     return;
   }
   
-  pCma->pAdv = MALLOC(sizeof(struct ADVANCED_DLG));
+  pCma->pAdv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
   pStr = create_str16_from_char(_("Presets"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -812,9 +811,9 @@ void popup_city_cma_dialog(struct city *pCity)
     return;
   }
   
-  pCma = MALLOC(sizeof(struct cma_dialog));
+  pCma = fc_calloc(1, sizeof(struct cma_dialog));
   pCma->pCity = pCity;
-  pCma->pDlg = MALLOC(sizeof(struct SMALL_DLG));
+  pCma->pDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   pCma->pAdv = NULL;
   pCma->pResult = NULL;  
   pCity_Map = get_scaled_city_map(pCity);  
@@ -1170,14 +1169,14 @@ void popdown_city_cma_dialog(void)
   if(pCma) {
     popdown_window_group_dialog(pCma->pDlg->pBeginWidgetList,
 				pCma->pDlg->pEndWidgetList);
-    FREE(pCma->pDlg);
+    FC_FREE(pCma->pDlg);
     if(pCma->pAdv) {
       lock_buffer(pCma->pAdv->pEndWidgetList->dst);
       remove_locked_buffer();
       del_group_of_widgets_from_gui_list(pCma->pAdv->pBeginWidgetList,
 						pCma->pAdv->pEndWidgetList);
-      FREE(pCma->pAdv->pScroll);
-      FREE(pCma->pAdv);
+      FC_FREE(pCma->pAdv->pScroll);
+      FC_FREE(pCma->pAdv);
     }
     if(city_dialog_is_open(pCma->pCity)) {
       /* enable city dlg */
@@ -1185,6 +1184,6 @@ void popdown_city_cma_dialog(void)
       refresh_city_dialog(pCma->pCity);
     }
     city_report_dialog_update();
-    FREE(pCma);
+    FC_FREE(pCma);
   }
 }

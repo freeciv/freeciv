@@ -30,7 +30,6 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
@@ -329,7 +328,7 @@ void popup_players_dialog(bool raise)
     return;
   }
     
-  pPlayers_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pPlayers_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
   pStr = create_str16_from_char(_("Players"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -541,7 +540,7 @@ void popdown_players_dialog(void)
   if (pPlayers_Dlg) {
     popdown_window_group_dialog(pPlayers_Dlg->pBeginWidgetList,
 			pPlayers_Dlg->pEndWidgetList);
-    FREE(pPlayers_Dlg);
+    FC_FREE(pPlayers_Dlg);
   }
 }
 
@@ -610,7 +609,7 @@ void popup_players_nations_dialog(void)
      
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
       
-  pShort_Players_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+  pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   pStr = create_str16_from_char(_("Nations") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -807,7 +806,7 @@ void popdown_players_nations_dialog(void)
   if (pShort_Players_Dlg) {
     popdown_window_group_dialog(pShort_Players_Dlg->pBeginWidgetList,
 			pShort_Players_Dlg->pEndWidgetList);
-    FREE(pShort_Players_Dlg->pScroll);
-    FREE(pShort_Players_Dlg);
+    FC_FREE(pShort_Players_Dlg->pScroll);
+    FC_FREE(pShort_Players_Dlg);
   }
 }

@@ -38,7 +38,6 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
-#include "gui_mem.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
@@ -181,7 +180,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
      pBuf->string16->style |= SF_CENTER_RIGHT;  
   }
 
-  pBuf->data.cont = MALLOC(sizeof(struct CONTAINER));
+  pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
   pBuf->data.cont->id0 = giver;
   pBuf->data.cont->id1 = (int)type;
   pBuf->data.cont->value = value;
@@ -456,8 +455,8 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   				struct player *pPlayer1,
   				struct GUI *pMainWindow, bool L_R)
 {
-  struct ADVANCED_DLG *pDlg = MALLOC(sizeof(struct ADVANCED_DLG));
-  struct CONTAINER *pCont = MALLOC(sizeof(struct CONTAINER));
+  struct ADVANCED_DLG *pDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
   int hh, ww = 0, width, height, count = 0, scroll_w = 0;
   char cBuf[128];
   struct GUI *pBuf = NULL, *pWindow;
@@ -700,7 +699,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     struct city **city_list_ptrs;
 
     if (n > 0) {
-      city_list_ptrs = MALLOC(sizeof(struct city *) * n);
+      city_list_ptrs = fc_calloc(1, sizeof(struct city *) * n);
       city_list_iterate(pPlayer0->cities, pCity) {
         if (!is_capital(pCity)) {
 	  city_list_ptrs[i] = pCity;
@@ -742,7 +741,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	count++;      
       }
       
-      FREE(city_list_ptrs);
+      FC_FREE(city_list_ptrs);
     }
   } /* Cities */
   
@@ -806,7 +805,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
   if(!pClauses_Dlg) {
     struct player *pPlayer0 = &game.players[game.info.player_idx];
     struct player *pPlayer1 = &game.players[counterpart];
-    struct CONTAINER *pCont = MALLOC(sizeof(struct CONTAINER));
+    struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
     int hh, ww = 0;
     char cBuf[128];
     struct GUI *pBuf = NULL, *pWindow;
@@ -814,7 +813,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
     SDL_Rect dst;
     SDL_Color color = {255,255,255,255};
     
-    pClauses_Dlg = MALLOC(sizeof(struct ADVANCED_DLG));
+    pClauses_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
     /*if(game.player_idx != pPlayer0->player_no) {
       pPlayer0 = pPlayer1;
@@ -851,7 +850,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
 						WF_DRAW_THEME_TRANSPARENT));
 						
-    pBuf->private_data.cbox = MALLOC(sizeof(struct CHECKBOX));
+    pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     pBuf->private_data.cbox->state = FALSE;
     pBuf->private_data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
     pBuf->private_data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
@@ -867,7 +866,7 @@ void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 		pWindow->dst, pStr,
 		(WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
     						WF_DRAW_THEME_TRANSPARENT));
-    pBuf->private_data.cbox = MALLOC(sizeof(struct CHECKBOX));
+    pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
     pBuf->private_data.cbox->state = FALSE;
     pBuf->private_data.cbox->pTRUE_Theme = pTheme->OK_PACT_Icon;
     pBuf->private_data.cbox->pFALSE_Theme = pTheme->CANCEL_PACT_Icon;
@@ -973,19 +972,19 @@ static void popdown_diplomacy_dialog(void)
     lock_buffer(pClauses_Dlg->pEndWidgetList->dst);
     popdown_window_group_dialog(pOffers->pBeginWidgetList,
 			      pOffers->pEndWidgetList);
-    FREE(pOffers->pScroll);
-    FREE(pOffers);
+    FC_FREE(pOffers->pScroll);
+    FC_FREE(pOffers);
     
     popdown_window_group_dialog(pWants->pBeginWidgetList,
 			      pWants->pEndWidgetList);
-    FREE(pWants->pScroll);
-    FREE(pWants);
+    FC_FREE(pWants->pScroll);
+    FC_FREE(pWants);
     
     unlock_buffer();
     popdown_window_group_dialog(pClauses_Dlg->pBeginWidgetList,
 			      pClauses_Dlg->pEndWidgetList);
-    FREE(pClauses_Dlg->pScroll);
-    FREE(pClauses_Dlg);
+    FC_FREE(pClauses_Dlg->pScroll);
+    FC_FREE(pClauses_Dlg);
   }
 }
 
@@ -1008,7 +1007,7 @@ static void popdown_sdip_dialog(void)
   if (pSDip_Dlg) {
     popdown_window_group_dialog(pSDip_Dlg->pBeginWidgetList,
 			      pSDip_Dlg->pEndWidgetList);
-    FREE(pSDip_Dlg);
+    FC_FREE(pSDip_Dlg);
   }
 }
 
@@ -1074,7 +1073,7 @@ static void popup_war_dialog(struct player *pPlayer)
     return;
   }
   
-  pSDip_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+  pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
       
     
   my_snprintf(cBuf, sizeof(cBuf),
@@ -1205,7 +1204,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       return;
     }
   
-    pSDip_Dlg = MALLOC(sizeof(struct SMALL_DLG));
+    pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
           
     my_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
     hh = WINDOW_TILE_HIGH + adj_size(2);
