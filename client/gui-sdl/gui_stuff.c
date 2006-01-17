@@ -3731,19 +3731,10 @@ INPUT:/* add new element of chain (and move cursor right) */
 	  pEdt->pInputChain->prev->next = pEdt->pInputChain;
 	  pEdt->pBeginTextChain = pEdt->pInputChain->prev;
 	}
-
-	/* convert and add to chain */
-	/* ugly fix */
-	if(Key.unicode < 0x80 && Key.unicode > 0) {
-	  pEdt->pInputChain->prev->chr[0] = Key.unicode;
-        } else {
-	  convertcopy_to_utf16(pEdt->pInputChain->prev->chr,
-			sizeof(pEdt->pInputChain->prev->chr),
-					    (char *)&Key.unicode);
-        }
-	  
+        
+        pEdt->pInputChain->prev->chr[0] = Key.unicode;        
 	pEdt->pInputChain->prev->chr[1] = '\0';
-	
+
 	if (pEdt->pInputChain->prev->chr) {
 	  if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
 	    Uint16 passwd_chr[2] = {'*', '\0'};
