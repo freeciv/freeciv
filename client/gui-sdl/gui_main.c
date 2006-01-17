@@ -76,6 +76,10 @@
 #define MAP_SCROLL_TIMER_INTERVAL 500
 
 const char *client_string = "gui-sdl";
+
+/* The real GUI character encoding is UTF-16 which is not supported by
+ * fciconv code at this time. Conversion between UTF-8 and UTF-16 is done
+ * in gui_iconv.c */
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
