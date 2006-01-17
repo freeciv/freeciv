@@ -32,7 +32,6 @@ server/console.c
 server/diplhand.c
 server/diplomats.c
 server/gamehand.c
-server/gamelog.c
 server/handchat.c
 server/maphand.c
 server/meta.c
