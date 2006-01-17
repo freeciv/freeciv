@@ -4,31 +4,29 @@
 name=_("Bosnia & Herzegovina")
 plural=_("?plural:Bosnians")
 groups=_("Modern"), _("European")
-legend=_("The nation of Bosnia & Herzegovina was created following the\
- exceedingly bloody Yugoslav wars of the early 90s.")
+legend=_("Bosnia and Herzegovina is a country in south-east Europe, and the\
+ home of three constituent peoples: Bosniaks, Serbs, and Croats.")
 leader=
- "Kulin Ban",
- "Ban Stjepan",
- "Kotromanic",
- "Tvrtko",
- "Stjepan Tvrtko I",
+ "Kulin",
+ "Tvrtko Kotromanić",
  "Prijezda I",
- "Stjepan Tomas",
- "Filipovic Nikola",
+ "Stjepan Tomaš",
+ "Nikola Filipović",
  "Avdo Humo",
  "Seid Maglajlija",
- "Alija",
- "Beg Gradascevic",
- "Bijedic Demal"
-leader_sex="Male", "Male", "Male", "Male",
+ "Alija Izetbegović",
+ "Husein-beg Gradaščević",
+ "Džemal Bijedić"
+leader_sex="Male", "Male", "Male",
            "Male", "Male", "Male",
-           "Male","Male", "Male",
-           "Male", "Male", "Male"
+           "Male", "Male", "Male",
+           "Male"
 flag="bosnia"
-flag_alt = "unknown"
+flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
+        	 "Despotism",       _("Ban"),          _("Ban")
         	 "Monarchy",        _("King"),         _("Queen")
                  "Republic",        _("President"),    _("President")
                  "Democracy",       _("President"),    _("President")
@@ -36,21 +34,83 @@ ruler_titles = { "government",      "male_title",      "female_title"
 
 init_techs=""
 init_buildings=""
-
 init_government="Despotism"
 init_units=""
+
 ciwilwar_nations="croatian", "serbian"
 
 cities =
-  "Sarajevo", "Banja Luka", "Tuzla", "Bihac", "Travnik", "Zenica",
-  "Jajce", "Doboj", "Mostar", "Maglaj", "Gracanica", "Bosanski Novi",
-  "Bijeljina", "Trebinje", "Gorazde", "Livno", "Prijedor",
-  "Cazin", "Derventa", "Konjic", "Modrica", "Bosanska Krupa", "Vitez",
-  "Olovo", "Visoko", "Lukavac", "Gradacac", "Kakanj", "Bosanska Dubica",
-  "Bosanski Brod", "Brcko", "Bugojno", "Gornji Vakuf", "Donji Vakuf",
-  "Kljuc", "Jablanica", "Sanski Most", "Srebrenica", "Gradiska",
-  "Bosanski Samac", "Bosanski Brod", "Neum", "Zivinice", "Banovici",       "Kiseljak","Fojnica", "Visegrad", "Stolac", "Ciluk", "Siroki Brijeg",
-  "Capljina", "Tesanj", "Teslic", "Soko", "Zepce",
-  "Zavidovici", "Orasje", "Mrkonjic Grad", "Bosanski Petrovac",            "Prozor", "Kozarac", "Posusije", "Foca", "Busovaca",
-  "Srebrenik","Titov Drvar", "Otoka", "Pale", "Turbe", "Grude",
-  "Kalesija", "Ljubija", "Crni Lug", "Zepa", "Kulen Vakuf"
+ "Sarajevo",
+ "Banja Luka",
+ "Tuzla",
+ "Bihać",
+ "Travnik",
+ "Zenica",
+ "Jajce",
+ "Doboj",
+ "Mostar",
+ "Maglaj",
+ "Gračanica",
+ "Bosanski Novi",
+ "Bijeljina",
+ "Trebinje",
+ "Goražde",
+ "Livno",
+ "Prijedor",
+ "Cazin",
+ "Derventa",
+ "Konjic",
+ "Modriča",
+ "Bosanska Krupa",
+ "Vitez",
+ "Olovo",
+ "Visoko",
+ "Lukavac",
+ "Gradačac",
+ "Kakanj",
+ "Bosanska Dubica",
+ "Bosanski Brod",
+ "Brčko",
+ "Bugojno",
+ "Gornji Vakuf",
+ "Donji Vakuf",
+ "Ključ",
+ "Jablanica",
+ "Sanski Most",
+ "Srebrenica",
+ "Gradiška",
+ "Bosanski Šamac",
+ "Neum",
+ "Živinice",
+ "Banovići",
+ "Kiseljak",
+ "Fojnica",
+ "Višegrad",
+ "Stolac",
+ "Čitluk",
+ "Široki Brijeg",
+ "Čapljina",
+ "Tešanj",
+ "Teslić",
+ "Soko",
+ "Žepče",
+ "Zavidovići",
+ "Orašje",
+ "Mrkonjić Grad",
+ "Bosanski Petrovac",
+ "Prozor",
+ "Kozarac",
+ "Posusije",
+ "Foča",
+ "Busovača",
+ "Srebrenik",
+ "Titov Drvar",
+ "Otoka",
+ "Pale",
+ "Turbe",
+ "Grude",
+ "Kalesija",
+ "Ljubija",
+ "Crni Lug",
+ "Žepa",
+ "Kulen Vakuf"
