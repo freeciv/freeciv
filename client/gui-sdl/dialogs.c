@@ -3997,17 +3997,20 @@ static void change_nation_label(void)
   struct NAT *pSetup = (struct NAT *)(pWindow->data.ptr);  
   struct GUI *pLabel = pSetup->pName_Edit->next;
   struct nation_type *pNation = get_nation_by_idx(pSetup->nation);
-  
-  pTmp_Surf = make_flag_surface_smaler(GET_SURF(get_nation_flag_sprite(tileset,
+    
+  pTmp_Surf = adj_surf(GET_SURF(get_nation_flag_sprite(tileset,
                                        get_nation_by_idx(pSetup->nation))));
-  pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 1.0, 1.0, 1);
-  SDL_SetColorKey(pTmp_Surf_zoomed, SDL_SRCCOLORKEY|SDL_RLEACCEL,
-    		getpixel(pTmp_Surf_zoomed, pTmp_Surf_zoomed->w - 1,
-  						pTmp_Surf_zoomed->h - 1));
+  pTmp_Surf_zoomed = ZoomSurface(pTmp_Surf, 1.0, 1.0, 1);  
+
+/* only free the flag sprite if it is a copy created by the adj_surf() macro */
+#ifdef SMALL_SCREEN
   FREESURFACE(pTmp_Surf);
-  FREESURFACE(pLabel->theme);
+#endif
   
+  FREESURFACE(pLabel->theme);
   pLabel->theme = pTmp_Surf_zoomed;
+  SDL_SetAlpha(pLabel->theme, 0, 0);
+  
   copy_chars_to_string16(pLabel->string16, Q_(pNation->name_plural));
   
   remake_label_size(pLabel);
