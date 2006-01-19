@@ -136,6 +136,17 @@ client_option gui_options[] = {
 };
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
+struct callback {
+  void (*callback)(void *data);
+  void *data;
+};
+
+#define SPECLIST_TAG callback
+#define SPECLIST_TYPE struct callback
+#include "speclist.h"
+
+struct callback_list *callbacks;
+
 /* =========================================================== */
 
 /****************************************************************************
@@ -371,6 +382,8 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
 **************************************************************************/
 static void game_focused_unit_anim(void)
 {
+/* FIXME: this can probably be removed */
+#if 0
   static int flip;
 
   if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
@@ -408,6 +421,7 @@ static void game_focused_unit_anim(void)
 
     flip = !flip;
   }
+#endif
   
   /* button pressed */
   if (button_behavior.button_down_ticks) {
@@ -556,11 +570,12 @@ Uint16 gui_event_loop(void *pData,
   static struct timeval tv;
   static fd_set civfdset;
   Uint32 t1, t2, t3;
+  Uint32 real_timer_next_call;
   static int result, schot_nr = 0;
   static char schot[32];
 
   ID = ID_ERROR;
-  t3 = t1 = SDL_GetTicks();
+  t3 = t1 = real_timer_next_call = SDL_GetTicks();
   while (ID == ID_ERROR) {
     /* ========================================= */
     /* net check with 10ms delay event loop */
@@ -608,6 +623,11 @@ Uint16 gui_event_loop(void *pData,
       
       t1 = SDL_GetTicks();
     }
+    
+    if (t2 > real_timer_next_call) {
+      real_timer_next_call = t2 + (real_timer_callback() * 1000);
+    }
+      
     /* ========================================= */
     
     if(loop_action) {
@@ -735,6 +755,14 @@ Uint16 gui_event_loop(void *pData,
 	
       }
     }
+    
+    if (callbacks && callback_list_size(callbacks) > 0) {
+      struct callback *cb = callback_list_get(callbacks, 0);
+      callback_list_unlink(callbacks, cb);
+      (cb->callback)(cb->data);
+      free(cb);
+    }
+
   }
   
   return ID;
@@ -880,9 +908,6 @@ void ui_main(int argc, char *argv[])
   __pMap_Scroll_User_Event.user.data2 = NULL;
   pMap_Scroll_User_Event = &__pMap_Scroll_User_Event;
   
-  update_city_text_in_refresh_tile = FALSE;
-  draw_city_names = FALSE;
-  draw_city_productions = FALSE;
   is_unit_move_blocked = FALSE;
   
   SDL_Client_Flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS|
@@ -896,6 +921,8 @@ void ui_main(int argc, char *argv[])
       
   load_cursors();  
 
+  callbacks = callback_list_new();
+  
   intel_dialog_init();
 
   clear_double_messages_call();
@@ -974,6 +1001,9 @@ void ui_exit()
   free_intro_radar_sprites();
   
   intel_dialog_done();  
+
+  callback_list_unlink_all(callbacks);
+  free(callbacks);
   
   unload_cursors();
 
@@ -1065,9 +1095,10 @@ void remove_ggz_input(void)
 ****************************************************************************/
 void add_idle_callback(void (callback)(void *), void *data)
 {
-  /* PORTME */
+  struct callback *cb = fc_malloc(sizeof(*cb));
 
-  /* This is a reasonable fallback if it's not ported. */
-  freelog(LOG_ERROR, "Unimplemented add_idle_callback.");
-  (callback)(data);
+  cb->callback = callback;
+  cb->data = data;
+
+  callback_list_prepend(callbacks, cb);
 }

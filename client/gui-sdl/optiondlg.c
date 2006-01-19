@@ -1238,9 +1238,7 @@ static int draw_city_names_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_city_names ^= 1;
-  /* FIXME: cannot call update_map_canvas_visible() here until
-   * add_idle_callback() is fully implemented */
-  update_map_canvas(0, 0, mapview.store_width, mapview.store_height);
+  update_map_canvas_visible();
   return -1;
 }
 
@@ -1252,9 +1250,7 @@ static int draw_city_productions_callback(struct GUI *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size);
   draw_city_productions ^= 1;
-  /* FIXME: cannot call update_map_canvas_visible() here until
-   * add_idle_callback() is fully implemented */
-  update_map_canvas(0, 0, mapview.store_width, mapview.store_height);
+  update_map_canvas_visible();
   return -1;
 }
 
