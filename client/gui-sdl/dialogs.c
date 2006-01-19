@@ -4048,13 +4048,19 @@ static void select_random_leader(Nation_type_id nation)
   } else {
     copy_chars_to_string16(pSetup->pChange_Sex->string16, _("Female"));
   }
-  
+
+  /* disable navigation buttons */
+  set_wstate(pSetup->pName_Prev, FC_WS_DISABLED);
+  set_wstate(pSetup->pName_Next, FC_WS_DISABLED);
+
   if (dim > 1) {
-    if (pSetup->selected_leader) {
+    /* if selected leader is not the first leader, enable "previous leader" button */
+    if (pSetup->selected_leader > 0) {
       set_wstate(pSetup->pName_Prev, FC_WS_NORMAL);
     }
 
-    if ((dim - 1) != pSetup->selected_leader) {
+    /* if selected leader is not the last leader, enable "next leader" button */
+    if (pSetup->selected_leader < (dim - 1)) {
       set_wstate(pSetup->pName_Next, FC_WS_NORMAL);
     }
   }
