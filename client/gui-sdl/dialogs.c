@@ -923,7 +923,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
     
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= SF_CENTER;
-  pBuf = create_iconlabel(pSurf, pWindow->dst, pStr, WF_FREE_THEME);
+  pBuf = create_iconlabel(pSurf, pWindow->dst, pStr, 0);
   
   pBuf->size.h += tileset_tile_height(tileset) / 2;
   
