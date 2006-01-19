@@ -1197,7 +1197,7 @@ static int unit_help_callback(struct GUI *pWidget)
   Popup a generic dialog to display some generic information about
   terrain : tile, units , cities, etc.
 **************************************************************************/
-void popup_advanced_terrain_dialog(struct tile *ptile)
+void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_y)
 {
   struct GUI *pWindow = NULL, *pBuf = NULL;
   struct city *pCity;
@@ -1629,7 +1629,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile)
   
   h += units_h;
   
-  put_window_near_map_tile(pWindow, w, h, ptile);      
+  pWindow->size.x = pos_x;
+  pWindow->size.y = pos_y;
   resize_window(pWindow, NULL, NULL, w, h);
   
   w -= (DOUBLE_FRAME_WH + adj_size(2));

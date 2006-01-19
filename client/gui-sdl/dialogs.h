@@ -22,11 +22,13 @@
 #ifndef FC__DIALOGS_H
 #define FC__DIALOGS_H
 
+#include <SDL/SDL.h>
+
 #include "dialogs_g.h"
 
 struct GUI;
   
-void popup_advanced_terrain_dialog(struct tile *ptile);
+void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_y);
 const char *sdl_map_get_tile_info_text(struct tile *pTile);
 const char *sdl_get_tile_defense_info_text(struct tile *pTile);
 void put_window_near_map_tile(struct GUI *pWindow,
