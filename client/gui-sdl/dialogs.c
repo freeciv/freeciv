@@ -4137,7 +4137,11 @@ void popup_races_dialog(struct player *pplayer)
   pText_Class = NULL;
     
   nations_iterate(pNation) {
-    
+
+    if (!is_nation_playable(pNation) || !pNation->is_available) {
+      continue;
+    }
+
     pTmp_Surf_zoomed = adj_surf(GET_SURF(get_nation_flag_sprite(tileset, pNation)));    
 
     pTmp_Surf = crop_rect_from_surface(pMain_Bg, NULL);
