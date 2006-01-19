@@ -175,4 +175,5 @@ match=2
 *include "nation/texan.ruleset"
 *include "nation/westphalian.ruleset"
 *include "nation/illyrian.ruleset"
+*include "nation/antarctican.ruleset"
 *include "nation/barbarian.ruleset"
