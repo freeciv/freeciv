@@ -172,8 +172,6 @@ void popdown_all_game_dialogs(void)
   
   /* clear gui buffer */
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
-    draw_city_names = FALSE;
-    draw_city_productions = FALSE;
     SDL_FillRect(Main.gui, NULL, 0x0);
   }
 }
