@@ -38,8 +38,6 @@ flag_files =				\
 		cuba.png		\
 		czech.png		\
 		denmark.png		\
-		dunedain.png		\
-		elves.png		\
 		egypt.png		\
 		england.png		\
 		estonia.png		\
@@ -54,7 +52,6 @@ flag_files =				\
 		greece.png		\
 		greenland.png		\
 		hittite.png		\
-		hobbits.png		\
 		hungary.png		\
 		iceland.png		\
 		illyria.png		\
@@ -72,7 +69,6 @@ flag_files =				\
 		kampuchea.png		\
 		kenya.png		\
 		korea.png		\
-		krev.png		\
 		latvia.png		\
 		libya.png		\
 		lithuania.png		\
@@ -85,7 +81,6 @@ flag_files =				\
 		maya.png		\
 		mexico.png		\
 		mongolia.png		\
-		mordor.png		\
 		myanmar.png		\
 		nato.png		\
 		netherlands.png		\
@@ -179,8 +174,6 @@ shield_files =					\
 		cuba-shield.png			\
 		czech-shield.png		\
 		denmark-shield.png		\
-		dunedain-shield.png		\
-		elves-shield.png		\
 		egypt-shield.png		\
 		england-shield.png		\
 		estonia-shield.png		\
@@ -195,7 +188,6 @@ shield_files =					\
 		greece-shield.png		\
 		greenland-shield.png		\
 		hittite-shield.png		\
-		hobbits-shield.png		\
 		hungary-shield.png		\
 		iceland-shield.png		\
 		illyria-shield.png		\
@@ -213,7 +205,6 @@ shield_files =					\
 		kampuchea-shield.png		\
 		kenya-shield.png		\
 		korea-shield.png		\
-		krev-shield.png			\
 		latvia-shield.png		\
 		libya-shield.png		\
 		lithuania-shield.png		\
@@ -226,7 +217,6 @@ shield_files =					\
 		maya-shield.png			\
 		mexico-shield.png		\
 		mongolia-shield.png		\
-		mordor-shield.png		\
 		myanmar-shield.png		\
 		nato-shield.png			\
 		netherlands-shield.png		\
@@ -320,9 +310,7 @@ svg_files = 				\
 		cuba.svg		\
 		czech.svg		\
 		denmark.svg		\
-		dunedain.svg		\
 		egypt.svg		\
-		elves.svg		\
 		england.svg		\
 		estonia.svg		\
 		ethiopia.svg		\
@@ -336,7 +324,6 @@ svg_files = 				\
 		greece.svg		\
 		greenland.svg		\
 		hittite.svg		\
-		hobbits.svg		\
 		hungary.svg		\
 		iceland.svg		\
 		illyria.svg		\
@@ -354,7 +341,6 @@ svg_files = 				\
 		kampuchea.svg		\
 		kenya.svg		\
 		korea.svg		\
-		krev.svg		\
 		latvia.svg		\
 		libya.svg		\
 		lithuania.svg		\
@@ -367,7 +353,6 @@ svg_files = 				\
 		maya.svg		\
 		mexico.svg		\
 		mongolia.svg		\
-		mordor.svg		\
 		myanmar.svg		\
 		nato.svg		\
 		netherlands.svg		\

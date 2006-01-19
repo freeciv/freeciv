@@ -223,10 +223,8 @@ data/nation/croatian.ruleset
 data/nation/cuban.ruleset
 data/nation/czech.ruleset
 data/nation/danish.ruleset
-data/nation/dunedain.ruleset
 data/nation/dutch.ruleset
 data/nation/egyptian.ruleset
-data/nation/elvish.ruleset
 data/nation/english.ruleset
 data/nation/estonian.ruleset
 data/nation/ethiopian.ruleset
@@ -240,7 +238,6 @@ data/nation/german.ruleset
 data/nation/greek.ruleset
 data/nation/hellenic.ruleset
 data/nation/hittite.ruleset
-data/nation/hobbits.ruleset
 data/nation/hungarian.ruleset
 data/nation/icelandic.ruleset
 data/nation/illyrian.ruleset
@@ -270,7 +267,6 @@ data/nation/martian.ruleset
 data/nation/mayan.ruleset
 data/nation/mexican.ruleset
 data/nation/mongol.ruleset
-data/nation/mordor.ruleset
 data/nation/newzealand.ruleset
 data/nation/nigerian.ruleset
 data/nation/norwegian.ruleset

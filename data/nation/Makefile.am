@@ -40,10 +40,8 @@ pkgdata_DATA = \
 		cuban.ruleset \
 		czech.ruleset \
 		danish.ruleset \
-		dunedain.ruleset \
 		dutch.ruleset \
 		egyptian.ruleset \
-		elvish.ruleset \
 		english.ruleset \
 		estonian.ruleset \
 		ethiopian.ruleset \
@@ -57,7 +55,6 @@ pkgdata_DATA = \
 		greek.ruleset \
 		hellenic.ruleset \
 		hittite.ruleset \
-		hobbits.ruleset \
 		hungarian.ruleset \
 		icelandic.ruleset \
 		illyrian.ruleset \
@@ -87,7 +84,6 @@ pkgdata_DATA = \
 		mayan.ruleset \
 		mexican.ruleset \
 		mongol.ruleset \
-		mordor.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \
 		norwegian.ruleset \
