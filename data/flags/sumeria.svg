@@ -16,7 +16,7 @@
    inkscape:export-filename="/home/jdorje/sumeria.png"
    inkscape:export-xdpi="72.000000"
    inkscape:export-ydpi="72.000000"
-   sodipodi:docbase="/Users/daniel/Desktop">
+   sodipodi:docbase="/home/daniel">
   <defs
      id="defs11" />
   <sodipodi:namedview
@@ -27,20 +27,20 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.2173913"
-     inkscape:cx="178.99726"
+     inkscape:cx="177.14101"
      inkscape:cy="102.79362"
-     inkscape:window-width="736"
+     inkscape:window-width="753"
      inkscape:window-height="579"
      inkscape:window-x="4"
-     inkscape:window-y="24"
+     inkscape:window-y="26"
      inkscape:current-layer="svg1" />
   <rect
-     style="fill:#32cbfe;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+     style="fill:#32cbfe;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
      id="rect1554"
      width="375.00000"
-     height="143.75000"
+     height="250.00000"
      x="0.0000000"
-     y="0.0000000" />
+     y="-6.2172489e-15" />
   <path
      style="fill:#a0a0a0; stroke:none;"
      d="M10 2L11 3L10 2z"
@@ -74,43 +74,8 @@
      sodipodi:ry="18.524096"
      d="M 58.283131 33.584339 A 18.072289 18.524096 0 1 0 22.138554,33.584339 A 18.072289 18.524096 0 1 0 58.283131 33.584339 z"
      transform="matrix(6.916667,0.000000,0.000000,7.422765,-90.62500,-99.28867)" />
-  <rect
-     style="fill:#cccccc;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
-     id="rect1555"
-     width="375.00000"
-     height="119.60912"
-     x="0.0000000"
-     y="130.39087" />
-  <g
-     id="g1378"
-     transform="matrix(1.000000,0.000000,0.000000,0.832063,0.000000,10.78174)">
-    <rect
-       y="231.25000"
-       x="37.500000"
-       height="56.250000"
-       width="300.00000"
-       id="rect4049"
-       style="fill:#ffb012;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000" />
-    <rect
-       y="175.00000"
-       x="62.500000"
-       height="112.50000"
-       width="250.00000"
-       id="rect4050"
-       style="fill:#ffb012;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000" />
-    <rect
-       y="118.75000"
-       x="87.500000"
-       height="168.75000"
-       width="200.00000"
-       id="rect4051"
-       style="fill:#ffb012;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000" />
-    <rect
-       y="62.500000"
-       x="112.50000"
-       height="225.00000"
-       width="150.00000"
-       id="rect4052"
-       style="fill:#ffb012;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000" />
-  </g>
+  <path
+     style="fill:#ffb012;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+     d="M 112.50000 90.718750 L 112.50000 130.53125 L 87.500000 130.53125 L 87.500000 170.34375 L 62.500000 170.34375 L 62.500000 210.18750 L 37.500000 210.18750 L 37.500000 250.00000 L 62.500000 250.00000 L 312.50000 250.00000 L 337.50000 250.00000 L 337.50000 210.18750 L 312.50000 210.18750 L 312.50000 170.34375 L 287.50000 170.34375 L 287.50000 130.53125 L 262.50000 130.53125 L 262.50000 90.718750 L 112.50000 90.718750 z "
+     id="rect4049" />
 </svg>
