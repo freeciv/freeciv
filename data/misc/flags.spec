@@ -47,9 +47,7 @@ sprites =
 		"f.cuba", "flags/cuba"
 		"f.czech", "flags/czech"
 		"f.denmark", "flags/denmark"
-		"f.dunedain", "flags/dunedain"
 		"f.egypt", "flags/egypt"
-		"f.elves", "flags/elves"
 		"f.england", "flags/england"
 		"f.estonia", "flags/estonia"
 		"f.ethiopia", "flags/ethiopia"
@@ -63,7 +61,6 @@ sprites =
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"	; used by Inuit
 		"f.hittite", "flags/hittite"
-		"f.hobbits", "flags/hobbits"
 		"f.holland", "flags/netherlands"	; backward compatabiliy
 		"f.hungary", "flags/hungary"
 		"f.iceland", "flags/iceland"
@@ -82,7 +79,6 @@ sprites =
 		"f.kampuchea", "flags/kampuchea"
 		"f.kenya", "flags/kenya"
 		"f.korea", "flags/korea"
-		"f.krev", "flags/krev"
 		"f.latvia", "flags/latvia"
 		"f.libya", "flags/libya"
 		"f.lithuania", "flags/lithuania"
@@ -95,7 +91,6 @@ sprites =
 		"f.maya", "flags/maya"
 		"f.mexico", "flags/mexico"
 		"f.mongolia", "flags/mongolia"
-		"f.mordor", "flags/mordor"
 		"f.myanmar", "flags/myanmar"
 		"f.nato", "flags/nato"
 		"f.netherlands", "flags/netherlands"
