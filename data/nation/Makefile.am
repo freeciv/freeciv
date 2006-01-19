@@ -9,6 +9,7 @@ pkgdata_DATA = \
 		afghani.ruleset \
 		algerian.ruleset \
 		american.ruleset \
+		antarctican.ruleset \
 		arab.ruleset \
 		aramean.ruleset \
 		argentine.ruleset \

@@ -15,6 +15,7 @@ sprites =
 		"f.aborigines", "flags/aborigines"
 		"f.afghanistan", "flags/afghanistan"
 		"f.algeria", "flags/algeria"
+		"f.antarctica", "flags/antarctica"
 		"f.arab", "flags/arab"
 		"f.aram", "flags/aram"
 		"f.argentina", "flags/argentina"

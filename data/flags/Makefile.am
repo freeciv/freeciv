@@ -7,6 +7,7 @@ flag_files =				\
 		aborigines.png		\
 		afghanistan.png		\
 		algeria.png		\
+		antarctica.png		\
 		arab.png		\
 		aram.png		\
 		argentina.png		\
@@ -143,6 +144,7 @@ shield_files =					\
 		aborigines-shield.png		\
 		afghanistan-shield.png		\
 		algeria-shield.png		\
+		antarctica-shield.png		\
 		arab-shield.png			\
 		aram-shield.png			\
 		argentina-shield.png		\
@@ -279,6 +281,7 @@ svg_files = 				\
 		aborigines.svg		\
 		afghanistan.svg		\
 		algeria.svg		\
+		antarctica.svg		\
 		arab.svg		\
 		aram.svg		\
 		argentina.svg		\
