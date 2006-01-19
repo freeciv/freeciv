@@ -1988,7 +1988,8 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
         /* popup context menu */
         if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
                                         (int) button_behavior->event->y))) {
-          popup_advanced_terrain_dialog(ptile);
+          popup_advanced_terrain_dialog(ptile, button_behavior->event->x, 
+                                               button_behavior->event->y);
         }
 #endif
         break;
@@ -2014,7 +2015,8 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
         /* popup context menu */
         if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
                                         (int) button_behavior->event->y))) {
-          popup_advanced_terrain_dialog(ptile);
+          popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
+                                               button_behavior->event->y);
         }
         break;
       case MB_HOLD_LONG:
@@ -2044,7 +2046,8 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
           if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
                                           (int) button_behavior->event->y))) {
             if(LSHIFT) {
-              popup_advanced_terrain_dialog(ptile);
+              popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
+                                                   button_behavior->event->y);
             } else {
               if(((pCity = ptile->city) != NULL) &&
                 (pCity->owner == game.player_ptr)) {
@@ -2095,7 +2098,8 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
         /* popup context menu */
         if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
                                         (int) button_behavior->event->y))) {
-          popup_advanced_terrain_dialog(ptile);
+          popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
+                                               button_behavior->event->y);
         }
         break;
     }
