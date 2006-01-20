@@ -203,7 +203,7 @@ const char **get_theme_list(void)
  	count++;
  	theme_free(t);
       } else {
-	free(list[i]);
+	FC_FREE(list[i]);
       }
     }
 
@@ -281,11 +281,11 @@ static bool check_themespec_capabilities(struct section_file *file,
 static void theme_free_toplevel(struct theme *t)
 {
   if (t->main_intro_filename) {
-    free(t->main_intro_filename);
+    FC_FREE(t->main_intro_filename);
     t->main_intro_filename = NULL;
   }
   if (t->minimap_intro_filename) {
-    free(t->minimap_intro_filename);
+    FC_FREE(t->minimap_intro_filename);
     t->minimap_intro_filename = NULL;
   }
   
@@ -305,8 +305,7 @@ void theme_free(struct theme *t)
     theme_free_toplevel(t);
     specfile_list_free(t->specfiles);
     small_sprite_list_free(t->small_sprites);
-    free(t);
-    t = NULL;
+    FC_FREE(t);
   }
 }
 
@@ -332,9 +331,9 @@ void themespec_try_read(const char *theme_name)
 	  theme_free(t);
 	}
       }
-      free(list[i]);
+      FC_FREE(list[i]);
     }
-    free(list);
+    FC_FREE(list);
 
     if (!theme) {
       freelog(LOG_FATAL, _("No usable default theme found, aborting!"));
@@ -599,12 +598,10 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
         }
       }
 
-      free(tags);
-      tags = NULL;
+      FC_FREE(tags);
     }
   }
-  free(gridnames);
-  gridnames = NULL;
+  FC_FREE(gridnames);
 
   /* Load "extra" sprites.  Each sprite is one file. */
   i = -1;
@@ -642,7 +639,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
 	(void) hash_replace(t->sprite_hash, mystrdup(tags[k]), ss);
       }
     }
-    free(tags);
+    FC_FREE(tags);
   }
 
   section_file_check_unused(file, sf->file_name);
@@ -667,7 +664,7 @@ static char *themespec_gfx_filename(const char *gfx_filename)
     sprintf(full_name,"%s.%s",gfx_filename,gfx_current_fileext);
 
     real_full_name = datafilename(full_name);
-    free(full_name);
+    FC_FREE(full_name);
     if (real_full_name) {
       return mystrdup(real_full_name);
     }
@@ -705,7 +702,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   if (!section_file_load(file, fname)) {
     freelog(LOG_ERROR, _("Could not open \"%s\"."), fname);
     section_file_free(file);
-    free(fname);
+    FC_FREE(fname);
     theme_free(t);
     return NULL;
   }
@@ -713,7 +710,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   if (!check_themespec_capabilities(file, "themespec",
 				   THEMESPEC_CAPSTR, fname)) {
     section_file_free(file);
-    free(fname);
+    FC_FREE(fname);
     theme_free(t);
     return NULL;
   }
@@ -739,7 +736,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   if (num_spec_files == 0) {
     freelog(LOG_ERROR, "No theme graphics files specified in \"%s\"", fname);
     section_file_free(file);
-    free(fname);
+    FC_FREE(fname);
     theme_free(t);
     return NULL;
   }
@@ -756,7 +753,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
     dname = datafilename(spec_filenames[i]);
     if (!dname) {
       section_file_free(file);
-      free(fname);
+      FC_FREE(fname);
       theme_free(t);
       return NULL;
     }
@@ -765,7 +762,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
 
     specfile_list_prepend(t->specfiles, sf);
   }
-  free(spec_filenames);
+  FC_FREE(spec_filenames);
 
   t->color_system = theme_color_system_read(file);  
   
@@ -773,7 +770,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   
   section_file_free(file);
   freelog(LOG_VERBOSE, "finished reading %s", fname);
-  free(fname);
+  FC_FREE(fname);
 
   return t;
 }
@@ -1023,20 +1020,20 @@ void theme_free_sprites(struct theme *t)
   small_sprite_list_iterate(t->small_sprites, ss) {
     small_sprite_list_unlink(t->small_sprites, ss);
     if (ss->file) {
-      free(ss->file);
+      FC_FREE(ss->file);
     }
     assert(ss->sprite == NULL);
-    free(ss);
+    FC_FREE(ss);
   } small_sprite_list_iterate_end;
 
   specfile_list_iterate(t->specfiles, sf) {
     specfile_list_unlink(t->specfiles, sf);
-    free(sf->file_name);
+    FC_FREE(sf->file_name);
     if (sf->big_sprite) {
       free_sprite(sf->big_sprite);
       sf->big_sprite = NULL;
     }
-    free(sf);
+    FC_FREE(sf);
   } specfile_list_iterate_end;
 
 #if 0  
