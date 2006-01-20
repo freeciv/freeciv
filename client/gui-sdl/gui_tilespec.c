@@ -75,6 +75,8 @@ do {							\
 static void reload_small_citizens_icons(int style)
 {
 
+/* free these icons only if they are zoomed copies of the tileset sprites */
+#ifdef SMALL_SCREEN
   /* free info icons */
   FREESURFACE(pIcons->pMale_Content);
   FREESURFACE(pIcons->pFemale_Content);
@@ -88,93 +90,50 @@ static void reload_small_citizens_icons(int style)
   FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
   FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
+#endif
   
   /* allocate icons */
-  #ifdef SMALL_SCREEN
-  pIcons->pMale_Happy = ZoomSurface(get_citizen_surface(CITIZEN_HAPPY, 0), 0.5, 0.5, 0);
-  #else
-  pIcons->pMale_Happy = get_citizen_surface(CITIZEN_HAPPY, 0);
-  #endif
+  pIcons->pMale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
   SDL_SetColorKey(pIcons->pMale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pMale_Happy));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pFemale_Happy = ZoomSurface(get_citizen_surface(CITIZEN_HAPPY, 1), 0.5, 0.5, 0);
-  #else
-  pIcons->pFemale_Happy = get_citizen_surface(CITIZEN_HAPPY, 1);
-  #endif
+  pIcons->pFemale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 1));
   SDL_SetColorKey(pIcons->pFemale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Happy));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pMale_Content = ZoomSurface(get_citizen_surface(CITIZEN_CONTENT, 0), 0.5, 0.5, 0);
-  #else    
-  pIcons->pMale_Content = get_citizen_surface(CITIZEN_CONTENT, 0);
-  #endif
+  pIcons->pMale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 0));
   SDL_SetColorKey( pIcons->pMale_Content , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pMale_Content ));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pFemale_Content = ZoomSurface(get_citizen_surface(CITIZEN_CONTENT, 1), 0.5, 0.5, 0);
-  #else    
-  pIcons->pFemale_Content = get_citizen_surface(CITIZEN_CONTENT, 1);
-  #endif
+  pIcons->pFemale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 1));
   SDL_SetColorKey(pIcons->pFemale_Content, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Content));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pMale_Unhappy = ZoomSurface(get_citizen_surface(CITIZEN_UNHAPPY, 0), 0.5, 0.5, 0);
-  #else    
-  pIcons->pMale_Unhappy = get_citizen_surface(CITIZEN_UNHAPPY, 0);
-  #endif
+  pIcons->pMale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 0));
   SDL_SetColorKey(pIcons->pMale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    get_first_pixel(pIcons->pMale_Unhappy));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pFemale_Unhappy = ZoomSurface(get_citizen_surface(CITIZEN_UNHAPPY, 1), 0.5, 0.5, 0);
-  #else    
-  pIcons->pFemale_Unhappy = get_citizen_surface(CITIZEN_UNHAPPY, 1);
-  #endif
+  pIcons->pFemale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
   SDL_SetColorKey(pIcons->pFemale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Unhappy));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pMale_Angry = ZoomSurface(get_citizen_surface(CITIZEN_ANGRY, 0), 0.5, 0.5, 0);
-  #else    
-  pIcons->pMale_Angry = get_citizen_surface(CITIZEN_ANGRY, 0);
-  #endif
+  pIcons->pMale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
   SDL_SetColorKey(pIcons->pMale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
 			    get_first_pixel(pIcons->pMale_Angry));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pFemale_Angry = ZoomSurface(get_citizen_surface(CITIZEN_ANGRY, 1), 0.5, 0.5, 0);
-  #else    
-  pIcons->pFemale_Angry = get_citizen_surface(CITIZEN_ANGRY, 1);
-  #endif
+  pIcons->pFemale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
   SDL_SetColorKey(pIcons->pFemale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pFemale_Angry));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pSpec_Lux = ZoomSurface(GET_SURF(get_tax_sprite(tileset, O_LUXURY)), 0.5, 0.5, 0);
-  #else    
-  pIcons->pSpec_Lux = GET_SURF(get_tax_sprite(tileset, O_LUXURY));
-  #endif
+  pIcons->pSpec_Lux = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
   SDL_SetColorKey(pIcons->pSpec_Lux , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pSpec_Lux));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pSpec_Tax = ZoomSurface(GET_SURF(get_tax_sprite(tileset, O_GOLD)), 0.5, 0.5, 0);
-  #else    
-  pIcons->pSpec_Tax = GET_SURF(get_tax_sprite(tileset, O_GOLD));
-  #endif
+  pIcons->pSpec_Tax = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
   SDL_SetColorKey(pIcons->pSpec_Tax, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pSpec_Tax));
     
-  #ifdef SMALL_SCREEN
-  pIcons->pSpec_Sci = ZoomSurface(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)), 0.5, 0.5, 0);  
-  #else    
-  pIcons->pSpec_Sci = GET_SURF(get_tax_sprite(tileset, O_SCIENCE));
-  #endif
+  pIcons->pSpec_Sci = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
   SDL_SetColorKey(pIcons->pSpec_Sci, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
 			    get_first_pixel(pIcons->pSpec_Sci));
     
@@ -287,7 +246,7 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pBIG_Face);
   FREESURFACE(pIcons->pBIG_Coin_Corr);
   FREESURFACE(pIcons->pBIG_Coin_UpKeep);
-  
+
   FREESURFACE(pIcons->pFood);
   FREESURFACE(pIcons->pShield);
   FREESURFACE(pIcons->pTrade);
@@ -295,11 +254,13 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pLuxury);
   FREESURFACE(pIcons->pCoin);		  
   FREESURFACE(pIcons->pColb);		  
-    
+
   FREESURFACE(pIcons->pPollution);
   FREESURFACE(pIcons->pPolice);
   FREESURFACE(pIcons->pWorklist);
-  
+
+/* free these icons only if they are zoomed copies of the tileset sprites */
+#ifdef SMALL_SCREEN
   /* small citizens */
   FREESURFACE(pIcons->pMale_Content);
   FREESURFACE(pIcons->pFemale_Content);
@@ -309,11 +270,12 @@ void tilespec_free_city_icons(void)
   FREESURFACE(pIcons->pFemale_Unhappy);
   FREESURFACE(pIcons->pMale_Angry);
   FREESURFACE(pIcons->pFemale_Angry);
-	
+
   FREESURFACE(pIcons->pSpec_Lux); /* Elvis */
   FREESURFACE(pIcons->pSpec_Tax); /* TaxMan */
   FREESURFACE(pIcons->pSpec_Sci); /* Scientist */
-  
+#endif  
+
   FC_FREE(pIcons);
   
 }
