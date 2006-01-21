@@ -676,6 +676,7 @@ const char **get_tileset_list(void)
 	free(list[i]);
       }
     }
+    free(list);
 
     tilesets = fc_realloc(tilesets, (count + 1) * sizeof(*tilesets));
     tilesets[count] = NULL;
