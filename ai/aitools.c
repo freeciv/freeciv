@@ -1205,8 +1205,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   sure whether it is fully general for all possible parameters/
   combinations." --dwp
 **********************************************************************/
-bool ai_assess_military_unhappiness(struct city *pcity,
-                                    struct government *g)
+bool ai_assess_military_unhappiness(struct city *pcity)
 {
   int free_happy;
   int unhap = 0;

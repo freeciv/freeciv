@@ -96,7 +96,7 @@ void copy_if_better_choice(struct ai_choice *cur, struct ai_choice *best);
 void ai_choose_role_unit(struct player *pplayer, struct city *pcity,
                          struct ai_choice *choice, int role, int want);
 void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice);
-bool ai_assess_military_unhappiness(struct city *pcity, struct government *g);
+bool ai_assess_military_unhappiness(struct city *pcity);
 
 bool ai_wants_no_science(struct player *pplayer);
 

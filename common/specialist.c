@@ -68,7 +68,7 @@ struct specialist *get_specialist(Specialist_type_id spec)
 Specialist_type_id find_specialist_by_name(const char *name)
 {
   specialist_type_iterate(sp) {
-    if (strcmp(specialists[sp].name, name) == 0) {
+    if (mystrcasecmp(specialists[sp].name, name) == 0) {
       return sp;
     }
   } specialist_type_iterate_end;

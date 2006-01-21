@@ -139,6 +139,7 @@ static struct {
   GEN_EV(N_("Chat error messages"), E_CHAT_ERROR),
   GEN_EV(N_("Connect/disconnect messages"), E_CONNECTION),
   GEN_EV(N_("AI Debug messages"), E_AI_DEBUG),
+  GEN_EV(N_("Player settings"), E_PLAYER_SETTINGS),
   GEN_EV_TERMINATOR
 };
 

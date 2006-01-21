@@ -1953,7 +1953,6 @@ static inline void city_support(struct city *pcity,
 						        struct unit *punit))
 {
   struct player *plr = city_owner(pcity);
-  struct government *g = get_gov_pcity(pcity);
   int free_upkeep[O_COUNT];
   int free_happy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
 
@@ -1983,9 +1982,11 @@ static inline void city_support(struct city *pcity,
   /* military units in this city (need _not_ be home city) can make
      unhappy citizens content
    */
-  if (get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX) > 0) {
+  if (get_city_bonus(pcity, EFT_MARTIAL_LAW_EACH) > 0) {
+    int max = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
+
     unit_list_iterate(pcity->tile->units, punit) {
-      if (pcity->martial_law < get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX)
+      if ((pcity->martial_law < max || max == 0)
 	  && is_military_unit(punit)
 	  && punit->owner == pcity->owner) {
 	pcity->martial_law++;
@@ -2006,7 +2007,7 @@ static inline void city_support(struct city *pcity,
     int old_unhappiness = this_unit->unhappiness;
 
     output_type_iterate(o) {
-      upkeep_cost[o] = utype_upkeep_cost(ut, plr, g, o);
+      upkeep_cost[o] = utype_upkeep_cost(ut, plr, o);
       old_upkeep[o] = this_unit->upkeep[o];
     } output_type_iterate_end;
 

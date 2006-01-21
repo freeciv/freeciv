@@ -101,7 +101,7 @@ struct unit_type *unit_type(const struct unit *punit)
   Returns the upkeep of a unit of this type under the given government.
 **************************************************************************/
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
-		      const struct government *g, Output_type_id otype)
+                      Output_type_id otype)
 {
   int val = ut->upkeep[otype];
 

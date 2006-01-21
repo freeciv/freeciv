@@ -122,7 +122,8 @@ void kill_dying_players(void)
 /**************************************************************************
   Murder a player in cold blood.
 **************************************************************************/
-void kill_player(struct player *pplayer) {
+void kill_player(struct player *pplayer)
+{
   bool palace;
 
   pplayer->is_dying = FALSE; /* Can't get more dead than this. */
@@ -1468,7 +1469,6 @@ static struct player *split_player(struct player *pplayer)
   game.info.max_players = game.info.nplayers;
 
   /* Split the resources */
-  
   cplayer->economic.gold = pplayer->economic.gold;
   cplayer->economic.gold /= 2;
   pplayer->economic.gold -= cplayer->economic.gold;

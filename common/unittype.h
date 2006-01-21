@@ -219,7 +219,7 @@ const char *get_unit_name(const struct unit_type *punittype);
 const char *get_units_with_flag_string(int flag);
 
 int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
-                      const struct government *g, Output_type_id otype);
+                      Output_type_id otype);
 int utype_happy_cost(const struct unit_type *ut, const struct player *pplayer);
 
 struct unit_type *can_upgrade_unittype(const struct player *pplayer,

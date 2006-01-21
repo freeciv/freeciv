@@ -139,8 +139,6 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
 				   struct ai_choice *choice)
 {
   struct ai_data *ai = ai_data_get(pplayer);
-  /* Government of the player */
-  struct government *gov = get_gov_pplayer(pplayer);
   /* Unit type with certain role */
   struct unit_type *unit_type;
 
@@ -152,7 +150,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   if (unit_type
       && (pcity->id != ai->wonder_city || unit_type->pop_cost == 0)
       && pcity->surplus[O_FOOD] > utype_upkeep_cost(unit_type,
-			 	                    pplayer, gov, O_FOOD)) {
+                                                    pplayer, O_FOOD)) {
     /* The worker want is calculated in settlers.c called from
      * ai_manage_cities.  The expand value is the % that the AI should
      * value expansion (basically to handicap easier difficutly levels)
@@ -181,7 +179,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
       && (pcity->id != ai->wonder_city
           || unit_type->pop_cost == 0)
       && pcity->surplus[O_FOOD] >= utype_upkeep_cost(unit_type,
-				                     pplayer, gov, O_FOOD)) {
+                                                     pplayer, O_FOOD)) {
     /* founder_want calculated in aisettlers.c */
     int want = pcity->ai.founder_want;
 

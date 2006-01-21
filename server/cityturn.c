@@ -990,11 +990,9 @@ static void upgrade_unit_prod(struct city *pcity)
 static bool city_distribute_surplus_shields(struct player *pplayer,
 					    struct city *pcity)
 {
-  struct government *g = get_gov_pplayer(pplayer);
-
   if (pcity->surplus[O_SHIELD] < 0) {
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      if (utype_upkeep_cost(unit_type(punit), pplayer, g, O_SHIELD) > 0
+      if (utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD) > 0
 	  && pcity->surplus[O_SHIELD] < 0
           && !unit_flag(punit, F_UNDISBANDABLE)) {
 	notify_player(pplayer, pcity->tile, E_UNIT_LOST,
@@ -1012,7 +1010,7 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
      * it! If we make it here all normal units are already disbanded, so only
      * undisbandable ones remain. */
     unit_list_iterate_safe(pcity->units_supported, punit) {
-      int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, g, O_SHIELD);
+      int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
 	assert(unit_flag(punit, F_UNDISBANDABLE));
@@ -1261,14 +1259,15 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Pay for upkeep costs for all buildings, or sell them.
 **************************************************************************/
 static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 {
   built_impr_iterate(pcity, i) {
-    if (can_city_sell_building(pcity, i)
-	&& pplayer->government != game.government_when_anarchy) {
-      if (pplayer->economic.gold - improvement_upkeep(pcity, i) < 0) {
+    if (can_city_sell_building(pcity, i)) {
+      int upkeep = improvement_upkeep(pcity, i);
+
+      if (pplayer->economic.gold - upkeep < 0) {
 	notify_player(pplayer, pcity->tile, E_IMP_AUCTIONED,
 			 _("Can't afford to maintain %s in %s, "
 			   "building sold!"),
@@ -1276,7 +1275,7 @@ static void pay_for_buildings(struct player *pplayer, struct city *pcity)
 	do_sell_building(pplayer, pcity, i);
 	city_refresh(pcity);
       } else
-	pplayer->economic.gold -= improvement_upkeep(pcity, i);
+        pplayer->economic.gold -= upkeep;
     }
   } built_impr_iterate_end;
 }
@@ -1323,7 +1322,6 @@ static void check_pollution(struct city *pcity)
 **************************************************************************/
 int city_incite_cost(struct player *pplayer, struct city *pcity)
 {
-  struct government *g = get_gov_pcity(pcity);
   struct city *capital;
   int dist, size, cost;
 
@@ -1345,13 +1343,11 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   } built_impr_iterate_end;
 
   /* Stability bonuses */
-  if (g != game.government_when_anarchy) {
-    if (!city_unhappy(pcity)) {
-      cost *= 2;
-    }
-    if (city_celebrating(pcity)) {
-      cost *= 2;
-    }
+  if (!city_unhappy(pcity)) {
+    cost *= 2;
+  }
+  if (city_celebrating(pcity)) {
+    cost *= 2;
   }
 
   /* City is empty */
@@ -1450,20 +1446,16 @@ static void update_city_activity(struct player *pplayer, struct city *pcity)
   if (city_build_stuff(pplayer, pcity)) {
     if (city_celebrating(pcity)) {
       pcity->rapture++;
-      if (pcity->rapture == 1)
-	notify_player(pplayer, pcity->tile, E_CITY_LOVE,
-			 _("We Love The %s Day celebrated in %s."), 
-			 get_ruler_title(pplayer->government, pplayer->is_male,
-					 pplayer->nation),
-			 pcity->name);
-    }
-    else {
-      if (pcity->rapture != 0)
-	notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
-			 _("We Love The %s Day canceled in %s."),
-			 get_ruler_title(pplayer->government, pplayer->is_male,
-					 pplayer->nation),
-			 pcity->name);
+      if (pcity->rapture == 1) {
+        notify_player(pplayer, pcity->tile, E_CITY_LOVE,
+                      _("Wild celebrations in your honour in %s."),
+                      pcity->name);
+      }
+    } else {
+      if (pcity->rapture != 0) {
+        notify_player(pplayer, pcity->tile, E_CITY_NORMAL,
+                      _("Celebrations cancelled in %s."), pcity->name);
+      }
       pcity->rapture=0;
     }
     pcity->was_happy=city_happy(pcity);

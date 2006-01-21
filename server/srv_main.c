@@ -1916,7 +1916,7 @@ static void srv_loop(void)
     } players_iterate_end;
   } else {
     players_iterate(pplayer) {
-      ai_data_init(pplayer); /* Initialize this at last moment */
+      ai_data_init(pplayer); /* Initialize this again to be sure */
     } players_iterate_end;
   }
 

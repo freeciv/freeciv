@@ -844,6 +844,10 @@ int get_player_output_bonus(const struct player *pplayer,
                             const struct output_type *poutput,
                             enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   assert(pplayer != NULL);
   assert(poutput != NULL);
   assert(effect_type != EFT_LAST);
@@ -858,6 +862,10 @@ int get_city_output_bonus(const struct city *pcity,
                           const struct output_type *poutput,
                           enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   assert(pcity != NULL);
   assert(poutput != NULL);
   assert(effect_type != EFT_LAST);
@@ -871,6 +879,10 @@ int get_city_output_bonus(const struct city *pcity,
 int get_building_bonus(const struct city *pcity, Impr_type_id id,
 		       enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   assert(pcity != NULL && id != B_LAST);
   return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity,
@@ -892,6 +904,10 @@ int get_unittype_bonus(const struct player *pplayer,
 		       const struct unit_type *punittype,
 		       enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   assert(pplayer != NULL && ptile != NULL && punittype != NULL);
   return get_target_bonus_effects(NULL,
                                  pplayer, ptile->city, NULL, ptile,
@@ -903,6 +919,10 @@ int get_unittype_bonus(const struct player *pplayer,
 **************************************************************************/
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   assert(punit != NULL);
   return get_target_bonus_effects(NULL,
 				  unit_owner(punit),
@@ -922,6 +942,10 @@ int get_player_bonus_effects(struct effect_list *plist,
 			     const struct player *pplayer,
 			     enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   assert(pplayer != NULL);
   return get_target_bonus_effects(plist,
 			  	  pplayer, NULL, NULL,
@@ -940,6 +964,10 @@ int get_city_bonus_effects(struct effect_list *plist,
 			   const struct output_type *poutput,
 			   enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   assert(pcity != NULL);
   return get_target_bonus_effects(plist,
 			 	  city_owner(pcity), pcity, NULL,
@@ -956,6 +984,10 @@ int get_city_bonus_effects(struct effect_list *plist,
 int get_current_construction_bonus(const struct city *pcity,
 				   enum effect_type effect_type)
 {
+  if (!initialized) {
+    return 0;
+  }
+
   if (!pcity->production.is_unit) {
     Impr_type_id id = pcity->production.value;
     int power = 0;

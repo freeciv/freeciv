@@ -801,8 +801,7 @@ static void process_attacker_want(struct city *pcity,
   int orig_move_type = get_unit_type(best_choice->choice)->move_type;
   int victim_count = 1;
   int needferry = 0;
-  bool unhap = ai_assess_military_unhappiness(pcity,
-                                              get_gov_pplayer(pplayer));
+  bool unhap = ai_assess_military_unhappiness(pcity);
 
   assert(orig_move_type == SEA_MOVING || orig_move_type == LAND_MOVING);
 

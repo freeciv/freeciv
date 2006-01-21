@@ -116,9 +116,10 @@ enum event_type {
   E_CHAT_ERROR, /* Chatline errors (bad syntax, etc.) */
   E_CONNECTION, /* Messages about acquired or lost connections */
   E_AI_DEBUG, /* AI debugging messages */
+  E_PLAYER_SETTINGS, /* taxes etc */
   /* 
    * Note: If you add a new event, make sure you make a similar change
-   * to the events array in client/options.c using GEN_EV and to
+   * to the events array in common/events.c using GEN_EV and to
    * data/stdsounds.spec.
    */
   E_LAST

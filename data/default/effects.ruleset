@@ -93,6 +93,14 @@ reqs	=
       "UnitClass", "Sea", "Local"
     }
 
+[effect_anarchy_upkeep]
+name	= "Upkeep_Free"
+value	= 99
+reqs	=
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+    }
+
 [effect_republic]
 name	= "Make_Content_Mil"
 value	= 1

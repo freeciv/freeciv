@@ -258,5 +258,6 @@ e_imp_sold = "stdsounds/metbrk.ogg" ; [pox]
 ;e_wonder_started = ""
 ;e_wonder_stopped = ""
 ;e_worklist = ""
+;e_player_settings = ""
 
 ;music_start = ""
