@@ -49,6 +49,15 @@ static void handle_ggzmod_server(GGZMod * ggzmod, GGZModEvent e,
 }
 
 /****************************************************************************
+  Callback for when the GGZ client tells us player stats.
+****************************************************************************/
+static void handle_ggzmod_stats(GGZMod *ggzmod, GGZModEvent e,
+				const void *data)
+{
+  update_conn_list_dialog();
+}
+
+/****************************************************************************
   Connect to the GGZ client, if GGZ is being used.
 ****************************************************************************/
 void ggz_initialize(void)
@@ -58,6 +67,7 @@ void ggz_initialize(void)
   /* We're in GGZ mode */
   ggzmod = ggzmod_new(GGZMOD_GAME);
   ggzmod_set_handler(ggzmod, GGZMOD_EVENT_SERVER, &handle_ggzmod_server);
+  ggzmod_set_handler(ggzmod, GGZMOD_EVENT_STATS, &handle_ggzmod_stats);
   if (ggzmod_connect(ggzmod) < 0) {
     exit(EXIT_FAILURE);
   }
@@ -76,6 +86,58 @@ void ggz_initialize(void)
 void input_from_ggz(int socket)
 {
   ggzmod_dispatch(ggzmod);
+}
+
+/****************************************************************************
+  Find the seat for the given player (in the seat parameter), or returns
+  FALSE if no seat is found.
+****************************************************************************/
+static bool user_get_seat(const char *name, GGZSeat *seat)
+{
+  int i;
+  int num = ggzmod_get_num_seats(ggzmod);
+
+  for (i = 0; i < num; i++) {
+    *seat = ggzmod_get_seat(ggzmod, i);
+
+    if (seat->type == GGZ_SEAT_PLAYER
+	&& strcasecmp(seat->name, name) == 0) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Find the player's rating, or return FALSE if there is no rating.
+****************************************************************************/
+bool user_get_rating(const char *name, int *rating)
+{
+  GGZSeat seat;
+
+  if (user_get_seat(name, &seat)) {
+    return ggzmod_player_get_rating(ggzmod, &seat, rating);
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Find the player's record, or return FALSE if there is no record.
+****************************************************************************/
+bool user_get_record(const char *name,
+		       int *wins, int *losses, int *ties, int *forfeits)
+{
+  GGZSeat seat;
+
+  if (user_get_seat(name, &seat)) {
+    return ggzmod_player_get_record(ggzmod, &seat,
+				    wins, losses, ties, forfeits);
+  }
+
+  return FALSE;
+
 }
 
 #endif
