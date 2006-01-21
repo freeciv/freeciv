@@ -56,6 +56,7 @@ GtkWidget *start_message_area;
 
 GtkListStore *conn_model;
 static GtkTreeViewColumn *nation_col, *ready_col, *team_col;
+GtkTreeViewColumn *rating_col, *record_col;
 
 static GtkWidget *start_options_table;
 GtkWidget *ready_button;
@@ -1223,8 +1224,9 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_list_store_new(6, G_TYPE_INT,
+  conn_model = gtk_list_store_new(8, G_TYPE_INT,
 				  G_TYPE_STRING, G_TYPE_BOOLEAN,
+				  G_TYPE_STRING, G_TYPE_STRING,
 				  G_TYPE_STRING, G_TYPE_STRING,
 				  G_TYPE_STRING);
 
@@ -1236,6 +1238,16 @@ GtkWidget *create_start_page(void)
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
 					      -1, _("Name"), rend,
 					      "text", 1, NULL);
+
+  rend = gtk_cell_renderer_text_new();
+  record_col = gtk_tree_view_column_new_with_attributes(_("Record"), rend,
+							"text", 6, NULL);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), record_col, -1);
+
+  rend = gtk_cell_renderer_text_new();
+  rating_col = gtk_tree_view_column_new_with_attributes(_("Rating"), rend,
+							"text", 7, NULL);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), rating_col, -1);
 
   /* FIXME: should change to always be minimum-width. */
   rend = gtk_cell_renderer_toggle_new();

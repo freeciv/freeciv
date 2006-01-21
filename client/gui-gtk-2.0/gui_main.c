@@ -1389,10 +1389,14 @@ void update_conn_list_dialog(void)
     gtk_stockbutton_set_label(ready_button, text);
   }
 
+  gtk_tree_view_column_set_visible(record_col, (with_ggz || in_ggz));
+  gtk_tree_view_column_set_visible(rating_col, (with_ggz || in_ggz));
+
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     bool is_ready;
     const char *nation, *leader, *team;
-    char name[MAX_LEN_NAME + 4];
+    char name[MAX_LEN_NAME + 4], rating_text[128], record_text[128];
+    int rating, wins, losses, ties, forfeits;
 
     gtk_list_store_clear(conn_model);
     players_iterate(pplayer) {
@@ -1433,6 +1437,30 @@ void update_conn_list_dialog(void)
       }
       team = pplayer->team ? team_get_name(pplayer->team) : "";
 
+      rating_text[0] = '\0';
+      if ((in_ggz || with_ggz)
+	  && !pplayer->ai.control
+	  && user_get_rating(pplayer->username, &rating)) {
+	my_snprintf(rating_text, sizeof(rating_text), "%d", rating);
+      }
+
+      record_text[0] = '\0';
+      if ((in_ggz || with_ggz)
+	  && !pplayer->ai.control
+	  && user_get_record(pplayer->username,
+			       &wins, &losses, &ties, &forfeits)) {
+	if (forfeits == 0 && ties == 0) {
+	  my_snprintf(record_text, sizeof(record_text), "%d-%d",
+		      wins, losses);
+	} else if (forfeits == 0) {
+	  my_snprintf(record_text, sizeof(record_text), "%d-%d-%d",
+		      wins, losses, ties);
+	} else {
+	  my_snprintf(record_text, sizeof(record_text), "%d-%d-%d-%d",
+		      wins, losses, ties, forfeits);
+	}
+      }
+
       gtk_list_store_append(conn_model, &it);
       gtk_list_store_set(conn_model, &it,
 			 0, pplayer->player_no,
@@ -1441,6 +1469,8 @@ void update_conn_list_dialog(void)
 			 3, leader,
 			 4, nation,
 			 5, team,
+			 6, record_text,
+			 7, rating_text,
 			 -1);
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
