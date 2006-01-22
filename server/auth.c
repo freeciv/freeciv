@@ -246,7 +246,6 @@ bool handle_authentication_reply(struct connection *pconn, char *password)
     establish_new_connection(pconn);
   } else if (pconn->server.status == AS_REQUESTING_OLD_PASS) { 
     if (authdb_check_password(pconn, password, strlen(password)) == 1) {
-      pconn->server.status = AS_ESTABLISHED;
       establish_new_connection(pconn);
     } else {
       pconn->server.status = AS_FAILED;
