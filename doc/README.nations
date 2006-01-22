@@ -12,6 +12,7 @@ The contents of this file is based on this page from the Freeciv wiki:
 http://www.freeciv.org/index.php/Nations
 
 
+
 ----------------------------------------------------------------------
 How to add a Nation:
 --------------------
@@ -62,6 +63,8 @@ po/POTFILES.in
   Here is yet another list of nations files; again add your nation
   (data/nation/<nationname>.ruleset) to it.
 
+
+
 ----------------------------------------------------------------------
 How to add a Flag:
 ------------------
@@ -88,9 +91,9 @@ you fix a flag for a real nation be sure to cite your source so we can
 be sure it's accurate. Good sources for nation flag data are Wikipedia 
 or Flags Of The World.
 
-If you want to add or improve a flag for a fantasy nation, this is also 
-welcome. We recommend you first contact the original author of the flag 
-(see the CREDITS file) to discuss your ideas for changes.
+If you want to improve an imaginary flag, this is also welcome. We
+recommend you first contact the original author of the flag 
+(see the flags/credits file) to discuss your ideas for changes.
 
 
 Flag Guidelines
@@ -136,7 +139,7 @@ data/misc/flags.spec
 
   This file has a reference to the flag PNG graphic. The "tag" here must
   match the flag tag you put in the nation ruleset file
-  (usually f.<flagname>, and the "file" should point to the PNG image at
+  (usually f.<flagname>) and the "file" should point to the PNG image at
   flags/<flagname>.png.
 
 data/misc/shields.spec 
@@ -151,6 +154,8 @@ include them in the diff -- this should be easier for you, and it
 provides a convenient place for us to grab the sprite name. See the 
 section on How to Contribute in the Freeciv wiki for more instructions.
 
+
+
 ----------------------------------------------------------------------
 Contents and Style:
 -------------------
@@ -158,17 +163,28 @@ Contents and Style:
 What nations can be added to Freeciv?
 =====================================
 
-Freeciv supports a classification of nations in an unlimited number of 
-groups. We currently have Ancient, Medieval, Modern, African, American, 
-Asian, European, Oceanian and Fictional groups. Modern nations are 
-existing (independent) states; ancient and medieval nations should have 
-had an independent dynasty or state in ancient or medieval times,
-respectively; fictional nations are those that are products of the 
-fantasy of an author. When adding fictional nations, you must make 
-sure names and flags are copyrighted in a GPL-compatible way.
+A nation in Freeciv should preferrably be a current independent country
+or a historical kingdom or realm. A nation that is currently governed
+by or the part of a greater political entity, or in other ways lacks
+complete independence could in most cases be made a Freeciv nation as
+well, but must never be listed as _modern_ (see 'Nation grouping' below.)
 
-A nation should be added to at least one relevant group, preferably 
-two or more if appropriate.
+Copyrighted content may not be added unless full permission is granted by
+the holder of the copyright. This rule effectively disallows the
+inclusion of nations based on most literary works.
+
+
+Nation grouping
+===============
+
+Freeciv supports a classification of nations in an unlimited number of
+groups and every nation should be assigned to at least one. We currently 
+have Ancient, Medieval, Modern, African, American, Asian, European,
+Oceanian and Fictional groups. Modern nations are existing and politically
+independent countries; a nation listed as ancient or medieval should have
+had an independent dynasty or state in ancient or medieval times
+respectively. Finally, a fictional nation is - as the name suggests - a
+product of someone's imagination.
 
 
 Nation naming
@@ -224,11 +240,10 @@ Leaders
 
 A leader should have a strong historical relation to the nation 
 you create. Try keeping to clearly political (e.g. not cultural, 
-athletes etc) leaders. In addition, a leader should be representative 
-of the entire nation, no clearly regional/provincial ones. In short, 
-list Great Leaders(tm) only. :-) (We gladly make concessions from 
-these rules in order to get any female names on the list; also for 
-non-sovereign nations.)
+athlete etc) leaders. In addition, a leader should rather be
+representative of the entire nation than regional/provincial. In short, 
+list Great Leaders(tm) only. :-) The rules are not as strict for
+female leaders though.
 
 An ideal leader list would consist of at least five, but not 
 many more than ten names. Avoid listing any person currently in
@@ -236,31 +251,28 @@ office as the leader of his/her nation.
 
 Leaders should be written in its native - not Anglicized - form: 
 For example "Karl XII" instead of "Charles XII" for the 
-Swedish king. The exception to this rule is when an (ancient) 
-leader is commonly known under one name, to which the "native" or 
-more correct name is more or less unintelligible. An example is 
-the Egyptian Pharaoh "Cheops" more correctly spelled "Khufu." Common 
-sense has to be used in these cases.
+Swedish king.
 
-Be as specific as possible. A relatively modern leader should 
-be mentioned with both first and last name. Kings should be marked 
-with an appropriate succession number, using Roman numerals. 
-(Ex: Elizabeth II) Please keep to standard English formatting: 
-Not German (Otto II.), Hungarian (IV. Béla) or Danish (Valdemar 4.) 
+Be as specific as possible. Use both personal and family names if 
+applicable. Monarchs should be marked with the appropriate succession
+number, using Roman numerals. Please keep to English formatting, 
+not German (Otto II.), Hungarian (IV. Béla), Danish (Valdemar 4.) 
 etc.
 
 Leader names support any Unicode character, but please keep to 
-Latin letters.
+Latin letters. When transcribing from a non-Latin writing system, 
+be consistent about the system of transcribation you are using.
+Also, try to avoid unnecessarily technical or heavily accented
+systems of transcribation.
 
 For consistency and readability, put only one leader per line. 
 Feel free to provide a hint of the leader's identity or a brief 
 background in a comment beside any leader: This information might 
 be used at a later stage.
 
-Leader titles may be specified in a separate tag. One title for 
-each government type (including Despotism and Anarchy) as well as 
-sex may be provided. Only English ascii can be used in leader 
-titles.
+Leader titles for each government type (including Despotism and
+Anarchy) may be specified in a separate tag. Only English ascii
+may be used in leader titles.
 
 
 Flag
@@ -277,30 +289,38 @@ City style
 
 A nation must specify a default city style. The available city styles 
 depends on the tileset used. Practically every tileset have four city 
-styles: "European", "Classical" (Roman style), "Asian" (Pagoda style) 
-and "Tropical" (African or Polynesian style). In Amplio tileset, 
+styles: "European", "Classical" (Graeco-Roman style), "Asian" (Pagoda
+style) and "Tropical" (African or Polynesian style). In Amplio tileset, 
 "Babylonian" and "Celtic" are also available. If the tileset used by 
 a client does not support a particular city style, a fallback style is 
 used. Selecting a style for your nation is not that strict. Just try 
-to keep it "realistic."
+to keep it somewhat "realistic."
 
 
-City list
-=========
+Cities
+======
 
 As for the list of city names, you should make a clear decision about 
-the group of a nation you add. A modern nation must be restricted on 
-the actual today's territory; you should leave out any cities not on 
-this territory. 
+the type of the nation you add. An _ancient_ or _medieval_ nation may
+list any city that it at some point controlled. However if your
+nation is listed as _modern_, it's city list must be restricted to
+cities within the country's current borders.
 
 The reason for this is, we don't want Freeciv to be used as a political 
-vehicle for discussions about the borders or independence of nations 
-and avoid trouble with other ruleset authors.
+vehicle for discussions about borders or independence of particular
+nations. Another reason is to avoid overlapping with other nations in
+the game.
 
-A city should appear in its native form, not Anglicized. For example, 
-the Danish capital should be named "København" and not "Copenhagen." 
-However, please stick to Latin letters and when transcribing from a 
-foreign writing system, try to avoid unnecessary accents.
+A city should appear in its native form, rather than Anglicized or
+Graeco-Roman forms. For example, the Danish capital is "København"
+rather than "Copenhagen"; and the ancient Persian capital is "Parsa" 
+rather than "Persepolis."
+
+City names support any Unicode character, but please keep to 
+Latin letters. When transcribing from a non-Latin writing system, 
+be consistent about the system of transcribation you are using.
+Also, try to avoid unnecessarily technical or heavily accented
+systems of transcribation.
 
 The ordering of cities should take both chronology of founding and 
 overall historical importance into consideration. Note that a city 
