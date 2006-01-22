@@ -70,6 +70,7 @@ void establish_new_connection(struct connection *pconn)
 
   /* "establish" the connection */
   pconn->established = TRUE;
+  pconn->server.status = AS_ESTABLISHED;
 
   conn_list_append(game.est_connections, pconn);
 
