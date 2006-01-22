@@ -25,6 +25,7 @@
 #include "fcintl.h"
 #include "game.h"
 #include "government.h"
+#include "improvement.h"
 #include "log.h"
 #include "map.h"
 #include "movement.h"
@@ -57,6 +58,14 @@
 #include "aiunit.h"
 
 #include "aicity.h"
+
+#define SPECVEC_TAG tech
+#define SPECVEC_TYPE Tech_type_id
+#include "specvec.h"
+
+#define SPECVEC_TAG impr
+#define SPECVEC_TYPE Impr_type_id
+#include "specvec.h"
 
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
@@ -241,33 +250,511 @@ static int base_want(struct player *pplayer, struct city *pcity,
 }
 
 /************************************************************************** 
-  Calculate effects. A few base variables:
+  Increase want for a technology because of the value of that technology
+  in providing an improvement effect.
+
+  The input building_want gives the desire for the improvement;
+  the value may be negative for technologies that produce undesirable
+  effects.
+
+  This function must convert from units of 'building want' to 'tech want'.
+  We put this conversion in a function because the 'want' scales are
+  unclear and kludged. Consequently, this conversion might require tweaking.
+**************************************************************************/
+static void want_tech_for_improvement_effect(struct player *pplayer,
+					     const struct city *pcity,
+					     const Impr_type_id id,
+					     Tech_type_id tech,
+					     int building_want)
+{
+  /* The conversion factor was determined by experiment,
+   * and might need adjustment.
+   */
+  const int tech_want = building_want * pcity->ai.recalc_interval * 14 / 8;
+#if 0
+  /* This logging is relatively expensive,
+   * so activate it only while necessary. */
+  TECH_LOG(LOG_DEBUG, pplayer, tech,
+    "wanted by %s for %s: %d -> %d",
+    pcity->name, get_improvement_name(id),
+    building_want, tech_want);
+#endif
+  pplayer->ai.tech_want[tech] += tech_want;
+}
+
+/************************************************************************** 
+  How desirable is a particular effect for a particular city?
+  Expressed as an adjustment of the base value (v)
+  given the number of cities in range (c).
+**************************************************************************/
+static int improvement_effect_value(struct player *pplayer,
+				    struct government *gov,
+				    const struct ai_data *ai,
+				    const struct city *pcity,
+				    const bool capital, 
+				    const struct impr_type *pimpr,
+				    const struct effect *peffect,
+				    const int c,
+				    const int nplayers,
+				    int v)
+{
+  int amount = peffect->value;
+
+  switch (peffect->type) {
+  /* These (Wonder) effects have already been evaluated in base_want() */
+  case EFT_CAPITAL_CITY:
+  case EFT_UPKEEP_FREE:
+  case EFT_POLLU_POP_PCT:
+  case EFT_POLLU_PROD_PCT:
+  case EFT_OUTPUT_BONUS:
+  case EFT_OUTPUT_BONUS_2:
+  case EFT_OUTPUT_ADD_TILE:
+  case EFT_OUTPUT_INC_TILE:
+  case EFT_OUTPUT_PER_TILE:
+  case EFT_OUTPUT_WASTE:
+  case EFT_OUTPUT_WASTE_BY_DISTANCE:
+  case EFT_OUTPUT_WASTE_PCT:
+  case EFT_SPECIALIST_OUTPUT:
+    break;
+
+  case EFT_CITY_VISION_RADIUS_SQ:
+  case EFT_UNIT_VISION_RADIUS_SQ:
+    /* Wild guess.  "Amount" is the number of tiles (on average) that
+     * will be revealed by the effect.  Note that with an omniscient
+     * AI this effect is actually not useful at all. */
+    v += c * amount;
+    break;
+
+  case EFT_SLOW_DOWN_TIMELINE:
+    /* AI doesn't care about these. */
+    break;
+
+    /* WAG evaluated effects */
+  case EFT_INCITE_COST_PCT:
+    v += c * amount / 100;
+    break;
+  case EFT_MAKE_HAPPY:
+    v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;
+    if (city_list_size(pplayer->cities)
+	> game.info.cityfactor 
+	+ get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
+      v += c * amount; /* offset large empire size */
+    }
+    v += c * amount;
+    break;
+  case EFT_UNIT_RECOVER:
+    /* TODO */
+    break;
+  case EFT_NO_UNHAPPY:
+    v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 30;
+    break;
+  case EFT_FORCE_CONTENT:
+  case EFT_MAKE_CONTENT:
+    if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
+      int factor = 2;
+
+      v += MIN(amount, pcity->ppl_unhappy[4] + get_entertainers(pcity)) * 35;
+
+      /* Try to build wonders to offset empire size unhappiness */
+      if (city_list_size(pplayer->cities) 
+	  > game.info.cityfactor 
+	  + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
+	if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD) > 0) {
+	  factor += city_list_size(pplayer->cities) 
+	    / get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
+	}
+	factor += 2;
+      }
+      v += factor * c * amount;
+    }
+    break;
+  case EFT_MAKE_CONTENT_MIL_PER:
+    if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
+      v += MIN(pcity->ppl_unhappy[4] + get_entertainers(pcity),
+	       amount) * 25;
+      v += MIN(amount, 5) * c;
+    }
+    break;
+  case EFT_MAKE_CONTENT_MIL:
+    if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
+      v += pcity->ppl_unhappy[4] * amount
+        * MAX(unit_list_size(pcity->units_supported), 0) * 2;
+      v += c * MAX(amount + 2, 1);
+    }
+    break;
+  case EFT_TECH_PARASITE:
+    {
+      int turns;
+      int bulbs;
+      int value;
+	  
+      if (nplayers <= amount) {
+	break;
+      }
+          
+      turns = 9999;
+      bulbs = 0;
+      players_iterate(aplayer) {
+	int potential = aplayer->bulbs_last_turn
+	  + city_list_size(aplayer->cities) + 1;
+	if (tech_exists(pimpr->obsolete_by)) {
+	  turns = MIN(turns, 
+		      total_bulbs_required_for_goal(aplayer, pimpr->obsolete_by)
+		      / (potential + 1));
+	}
+	if (players_on_same_team(aplayer, pplayer)) {
+	  continue;
+	}
+	bulbs += potential;
+      } players_iterate_end;
+  
+      /* For some number of turns we will be receiving bulbs for free
+       * Bulbs should be amortized properly for each turn.
+       * We use formula for the sum of geometric series:
+       */
+      value = bulbs * (1.0 - pow(1.0 - (1.0 / MORT), turns)) * MORT;
+	  
+      value = value  * (100 - game.info.freecost)	  
+	* (nplayers - amount) / (nplayers * amount * 100);
+	  
+      /* WAG */
+      value /= 3;
+
+      CITY_LOG(LOG_DEBUG, pcity,
+	       "%s parasite effect: bulbs %d, turns %d, value %d", 
+	       pimpr->name, bulbs, turns, value);
+	
+      v += value;
+      break;
+    }
+  case EFT_GROWTH_FOOD:
+    v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
+    break;
+  case EFT_AIRLIFT:
+    /* FIXME: We need some smart algorithm here. The below is 
+     * totally braindead. */
+    v += c + MIN(ai->stats.units.land, 13);
+    break;
+  case EFT_ANY_GOVERNMENT:
+    if (!can_change_to_government(pplayer, ai->goal.govt.gov)) {
+      v += MIN(MIN(ai->goal.govt.val, 65),
+	       num_unknown_techs_for_goal(pplayer, ai->goal.govt.req) * 10);
+    }
+    break;
+  case EFT_ENABLE_NUKE:
+    /* Treat nuke as a Cruise Missile upgrade */
+    v += 20 + ai->stats.units.missiles * 5;
+    break;
+  case EFT_ENABLE_SPACE:
+    if (game.info.spacerace) {
+      v += 5;
+      if (ai->diplomacy.production_leader == pplayer) {
+	v += 100;
+      }
+    }
+    break;
+  case EFT_GIVE_IMM_TECH:
+    if (!ai_wants_no_science(pplayer)) {
+      v += amount * (game.info.sciencebox + 1);
+    }
+    break;
+  case EFT_HAVE_EMBASSIES:
+    v += 5 * nplayers;
+    break;
+  case EFT_REVEAL_CITIES:
+  case EFT_NO_ANARCHY:
+    break;  /* Useless for AI */
+  case EFT_NO_SINK_DEEP:
+    v += 15 + ai->stats.units.triremes * 5;
+    break;
+  case EFT_NUKE_PROOF:
+    if (ai->threats.nuclear) {
+      v += pcity->size * unit_list_size(pcity->tile->units) * (capital + 1)
+	* amount / 100;
+    }
+    break;
+  case EFT_REVEAL_MAP:
+    if (!ai->explore.land_done || !ai->explore.sea_done) {
+      v += 10;
+    }
+    break;
+  case EFT_SIZE_UNLIMIT:
+    /* Note we look up the SIZE_UNLIMIT again right below.  This could
+     * be avoided... */
+    if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
+      amount = 20; /* really big city */
+    }
+    /* there not being a break here is deliberate, mind you */
+  case EFT_SIZE_ADJ:
+    if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
+      const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);
+
+      if (!city_can_grow_to(pcity, pcity->size + 1)) {
+	v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
+	if (pcity->size == aqueduct_size) {
+	  v += 30 * pcity->surplus[O_FOOD];
+	}
+      }
+      v += c * amount * 4 / aqueduct_size;
+    }
+    break;
+  case EFT_SS_STRUCTURAL:
+  case EFT_SS_COMPONENT:
+  case EFT_SS_MODULE:
+    if (game.info.spacerace
+	/* If someone has started building spaceship already or
+	 * we have chance to win a spacerace */
+	&& (ai->diplomacy.spacerace_leader
+	    || ai->diplomacy.production_leader == pplayer)) {
+      v += 95;
+    }
+    break;
+  case EFT_SPY_RESISTANT:
+    /* Uhm, problem: City Wall has -50% here!! */
+    break;
+  case EFT_MOVE_BONUS:
+    /* FIXME: check other reqs (e.g., unitclass) */
+    v += (8 * v * amount + ai->stats.units.land
+	  + ai->stats.units.sea + ai->stats.units.air);
+    break;
+  case EFT_UNIT_NO_LOSE_POP:
+    v += unit_list_size(pcity->tile->units) * 2;
+    break;
+  case EFT_HP_REGEN:
+    /* FIXME: check other reqs (e.g., unitclass) */
+    v += (5 * c + ai->stats.units.land
+	  + ai->stats.units.sea + ai->stats.units.air);
+    break;
+  case EFT_VETERAN_COMBAT:
+    /* FIXME: check other reqs (e.g., unitclass) */
+    v += (2 * c + ai->stats.units.land + ai->stats.units.sea
+	  + ai->stats.units.air);
+    break;
+  case EFT_VETERAN_BUILD:
+    /* FIXME: check other reqs (e.g., unitclass, unitflag) */
+    v += (3 * c + ai->stats.units.land + ai->stats.units.sea
+	  + ai->stats.units.air);
+    break;
+  case EFT_UPGRADE_UNIT:
+    v += ai->stats.units.upgradeable;
+    if (amount == 1) {
+      v *= 2;
+    } else if (amount == 2) {
+      v *= 3;
+    } else {
+      v *= 4;
+    }
+    break;
+  case EFT_DEFEND_BONUS:
+    if (ai_handicap(pplayer, H_DEFENSIVE)) {
+      v += amount / 10; /* make AI slow */
+    }
+    if (is_ocean(tile_get_terrain(pcity->tile))) {
+      v += ai->threats.ocean[-tile_get_continent(pcity->tile)]
+	? amount/5 : amount/20;
+    } else {
+      adjc_iterate(pcity->tile, tile2) {
+	if (is_ocean(tile_get_terrain(tile2))) {
+	  if (ai->threats.ocean[-tile_get_continent(tile2)]) {
+	    v += amount/5;
+	    break;
+	  }
+	}
+      } adjc_iterate_end;
+    }
+    v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
+    if (ai->threats.continent[pcity->tile->continent]
+	|| capital
+	|| (ai->threats.invasions
+	    && is_water_adjacent_to_tile(pcity->tile))) {
+      if (ai->threats.continent[pcity->tile->continent]) {
+	v += amount;
+      } else {
+	v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
+      }
+    }
+    break;
+  case EFT_NO_INCITE:
+    if (get_city_bonus(pcity, EFT_NO_INCITE) <= 0) {
+      v += MAX((game.info.diplchance * 2 
+		- game.info.incite_total_factor) / 2
+	       - game.info.incite_improvement_factor * 5
+	       - game.info.incite_unit_factor * 5, 0);
+    }
+    break;
+  case EFT_GAIN_AI_LOVE:
+    players_iterate(aplayer) {
+      if (aplayer->ai.control) {
+	if (ai_handicap(pplayer, H_DEFENSIVE)) {
+	  v += amount / 10;
+	} else {
+	  v += amount / 20;
+	}
+      }
+    } players_iterate_end;
+    break;
+  /* Currently not supported for building AI - wait for modpack users */
+  case EFT_UNHAPPY_FACTOR:
+  case EFT_UPKEEP_FACTOR:
+  case EFT_UNIT_UPKEEP_FREE_PER_CITY:
+  case EFT_CIVIL_WAR_CHANCE:
+  case EFT_EMPIRE_SIZE_MOD:
+  case EFT_EMPIRE_SIZE_STEP:
+  case EFT_MAX_RATES:
+  case EFT_MARTIAL_LAW_EACH:
+  case EFT_MARTIAL_LAW_MAX:
+  case EFT_RAPTURE_GROW:
+  case EFT_UNBRIBABLE_UNITS:
+  case EFT_REVOLUTION_WHEN_UNHAPPY:
+  case EFT_HAS_SENATE:
+  case EFT_INSPIRE_PARTISANS:
+  case EFT_HAPPINESS_TO_GOLD:
+  case EFT_FANATICS:
+  case EFT_NO_DIPLOMACY:
+  case EFT_OUTPUT_PENALTY_TILE:
+  case EFT_OUTPUT_INC_TILE_CELEBRATE:
+  case EFT_TRADE_REVENUE_BONUS:
+    break;
+  case EFT_LAST:
+    freelog(LOG_ERROR, "Bad effect type.");
+    break;
+  }
+
+  return v;
+}
+
+/************************************************************************** 
+  Increase the degree to which we want to meet a set of requirements,
+  because they will enable construction of an improvement
+  with desirable effects.
+
+  v is the desire for the improvement.
+
+  Returns whether all the requirements are met.
+**************************************************************************/
+static bool adjust_wants_for_reqs(struct player *pplayer,
+                                  struct city *pcity, 
+                                  struct impr_type *pimpr,
+                                  const int v)
+{
+  bool all_met = TRUE;
+  int n_needed_techs = 0;
+  int n_needed_improvements = 0;
+  struct tech_vector needed_techs;
+  struct impr_vector needed_improvements;
+
+  tech_vector_init(&needed_techs);
+  impr_vector_init(&needed_improvements);
+
+  requirement_vector_iterate(&pimpr->reqs, preq) {
+    const bool active = is_req_active(pplayer, pcity, pimpr,
+                                      NULL, NULL, NULL, NULL, preq);
+    if (preq->source.type == REQ_TECH && !active) {
+      /* Found a missing technology requirement for this improvement. */
+      tech_vector_append(&needed_techs, &preq->source.value.tech);
+    } else if (preq->source.type == REQ_BUILDING && !active) {
+      /* Found a missing improvement requirement for this improvement.
+       * For example, in the default ruleset a city must have a Library
+       * before it can have a University. */
+      impr_vector_append(&needed_improvements, &preq->source.value.building);
+    }
+    all_met = all_met && active;
+  } requirement_vector_iterate_end;
+
+  /* If v is negative, the improvement is not worth building,
+   * but there is no need to punish research of the technologies
+   * that would make it available.
+   */
+  n_needed_techs = tech_vector_size(&needed_techs);
+  if (0 < v && 0 < n_needed_techs) {
+    /* Because we want this improvements,
+     * we want the techs that will make it possible */
+    const int dv = v / n_needed_techs;
+    int t;
+
+    for (t = 0; t < n_needed_techs; t++) {
+      want_tech_for_improvement_effect(pplayer, pcity, pimpr->index,
+                                       *tech_vector_get(&needed_techs, t), dv);
+    }
+  }
+
+  /* If v is negative, the improvement is not worth building,
+   * but there is no need to punish building the improvements
+   * that would make it available.
+   */
+  n_needed_improvements = impr_vector_size(&needed_improvements);
+  if (0 < v && 0 < n_needed_improvements) {
+    /* Because we want this improvement,
+     * we want the improvements that will make it possible */
+    const int dv = v / (n_needed_improvements * 4); /* WAG */
+    int i;
+
+    for (i = 0; i < n_needed_improvements; i++) {
+      struct impr_type *needed_impr = get_improvement_type(
+                                        *impr_vector_get(&needed_improvements,
+                                                         i));
+      /* TODO: increase the want for the needed_impr,
+       * if we can build it now */
+      /* Recurse */
+      (void)adjust_wants_for_reqs(pplayer, pcity, needed_impr, dv);
+    }
+  }
+
+  /* TODO: use a similar method to increase wants for governments
+   * that will make this improvement possible? */
+
+  tech_vector_free(&needed_techs);
+  impr_vector_free(&needed_improvements);
+
+  return all_met;
+}
+
+/************************************************************************** 
+  Calculate effects of possible improvements and extra effects of existing
+  improvements. Consequently adjust the desirability of those improvements
+  or the technologies that would make them possible.
+
+  This function may (indeed, should) be called even for improvements that a city
+  already has, or can not (yet) build. For existing improvements,
+  it will discourage research of technologies that would make the improvement
+  obsolete or reduce its effectiveness, and encourages technologies that would
+  improve its effectiveness. For improvements that the city can not yet build
+  it will encourage research of the techs and building of the improvements
+  that will make the improvement possible.
+
+  A complexity is that there are two sets of requirements to consider:
+  the requirements for the building itself, and the requirements for
+  the effects for the building.
+
+  A few base variables:
     c - number of cities we have in current range
     u - units we have of currently affected type
     v - the want for the improvement we are considering
 
   This function contains a whole lot of WAGs. We ignore cond_* for now,
-  thinking that one day we may fulfill the cond_s anyway. In general, we
+  thinking that one day we may fulfil the cond_s anyway. In general, we
   first add bonus for city improvements, then for wonders.
 
   IDEA: Calculate per-continent aggregates of various data, and use this
   for wonders below for better wonder placements.
 **************************************************************************/
-static void adjust_building_want_by_effects(struct city *pcity, 
-                                            Impr_type_id id)
+static void adjust_improvement_wants_by_effects(struct player *pplayer,
+                                                struct city *pcity, 
+                                                struct impr_type *pimpr,
+                                                const bool already)
 {
-  struct player *pplayer = city_owner(pcity);
-  struct impr_type *pimpr = get_improvement_type(id);
   int v = 0;
   int cities[REQ_RANGE_LAST];
   int nplayers = game.info.nplayers - game.info.nbarbarians;
   struct ai_data *ai = ai_data_get(pplayer);
-  struct tile *ptile = pcity->tile;
   bool capital = is_capital(pcity);
+  bool can_build = TRUE;
+  struct government *gov = get_gov_pplayer(pplayer);
   struct req_source source = {
     .type = REQ_BUILDING,
-    .value = {.building = id}
+    .value = {.building = pimpr->index}
   };
+  const bool is_coinage = impr_flag(pimpr->index, IF_GOLD);
 
   /* Remove team members from the equation */
   players_iterate(aplayer) {
@@ -278,409 +765,157 @@ static void adjust_building_want_by_effects(struct city *pcity,
     }
   } players_iterate_end;
 
-  if (impr_flag(id, IF_GOLD)) {
+  if (is_coinage) {
     /* Since coinage contains some entirely spurious ruleset values,
-     * we need to return here with some spurious want. */
-    pcity->ai.building_want[id] = TRADE_WEIGHTING;
-    return;
+     * we need to hard-code a sensible want.
+     * We must otherwise handle the special IF_GOLD improvement
+     * like the others, so the AI will research techs that make it available,
+     * for rulesets that do not provide it from the start.
+     */
+    v += TRADE_WEIGHTING;
+  } else {
+    /* Base want is calculated above using a more direct approach. */
+    v += base_want(pplayer, pcity, pimpr->index);
+    if (v != 0) {
+      CITY_LOG(LOG_DEBUG, pcity, "%s base_want is %d (range=%d)", 
+               pimpr->name, v, ai->impr_range[pimpr->index]);
+    }
   }
 
-  /* Base want is calculated above using a more direct approach. */
-  v += base_want(pplayer, pcity, id);
-  if (v != 0) {
-    CITY_LOG(LOG_DEBUG, pcity, "%s base_want is %d (range=%d)", 
-             get_improvement_name(id), v, ai->impr_range[id]);
+  if (!is_coinage) {
+    /* Adjust by building cost */
+    /* FIXME: ought to reduce by upkeep cost and amortise by building cost */
+    v -= (impr_build_shield_cost(pimpr->index)
+         / (pcity->surplus[O_SHIELD] * 10 + 1));
   }
 
   /* Find number of cities per range.  */
   cities[REQ_RANGE_PLAYER] = city_list_size(pplayer->cities);
   cities[REQ_RANGE_WORLD] = cities[REQ_RANGE_PLAYER]; /* kludge. */
 
-  cities[REQ_RANGE_CONTINENT] = ai->stats.cities[ptile->continent];
+  cities[REQ_RANGE_CONTINENT] = ai->stats.cities[pcity->tile->continent];
 
   cities[REQ_RANGE_CITY] = 1;
   cities[REQ_RANGE_LOCAL] = 0;
 
   effect_list_iterate(get_req_source_effects(&source), peffect) {
-    struct requirement *mypreq;
-    bool useful;
+    struct requirement *mypreq = NULL;
+    bool active = TRUE;
+    int n_needed_techs = 0;
+    struct tech_vector needed_techs;
 
     if (is_effect_disabled(pplayer, pcity, pimpr,
 			   NULL, NULL, NULL, NULL,
 			   peffect)) {
-      CITY_LOG(LOG_DEBUG, pcity, "%s has a disabled effect: %s", 
-               get_improvement_name(id), effect_type_name(peffect->type));
       continue;
     }
 
-    mypreq = NULL;
-    useful = TRUE;
+    tech_vector_init(&needed_techs);
+
     requirement_list_iterate(peffect->reqs, preq) {
       /* Check if all the requirements for the currently evaluated effect
        * are met, except for having the building that we are evaluating. */
       if (preq->source.type == REQ_BUILDING
-	  && preq->source.value.building == id) {
+	  && preq->source.value.building == pimpr->index) {
 	mypreq = preq;
         continue;
       }
       if (!is_req_active(pplayer, pcity, pimpr, NULL, NULL, NULL, NULL,
 			 preq)) {
-	useful = FALSE;
-	break;
+	active = FALSE;
+	if (preq->source.type == REQ_TECH) {
+	  /* This missing requirement is a missing tech requirement.
+	   * This will be for some additional effect
+	   * (For example, in the default ruleset, Mysticism increases
+	   * the effect of Temples). */
+          tech_vector_append(&needed_techs, &preq->source.value.tech);
+	}
       }
     } requirement_list_iterate_end;
 
-    if (useful) {
-      int amount = peffect->value, c = cities[mypreq->range];
+    n_needed_techs = tech_vector_size(&needed_techs);
+    if (active || n_needed_techs) {
+      const int v1 = improvement_effect_value(pplayer, gov, ai,
+					      pcity, capital, 
+					      pimpr, peffect,
+					      cities[mypreq->range],
+					      nplayers, v);
+      /* v1 could be negative (the effect could be undesirable),
+       * although it is usually positive.
+       * For example, in the default ruleset, Communism decreases the
+       * effectiveness of a Cathedral. */
 
-      switch (peffect->type) {
-      /* These have already been evaluated in base_want() */
-      case EFT_CAPITAL_CITY:
-      case EFT_UPKEEP_FREE:
-      case EFT_POLLU_POP_PCT:
-      case EFT_POLLU_PROD_PCT:
-      case EFT_OUTPUT_BONUS:
-      case EFT_OUTPUT_BONUS_2:
-      case EFT_OUTPUT_ADD_TILE:
-      case EFT_OUTPUT_INC_TILE:
-      case EFT_OUTPUT_PER_TILE:
-      case EFT_OUTPUT_WASTE:
-      case EFT_OUTPUT_WASTE_BY_DISTANCE:
-      case EFT_OUTPUT_WASTE_PCT:
-      case EFT_SPECIALIST_OUTPUT:
-	  break;
-
-      case EFT_CITY_VISION_RADIUS_SQ:
-      case EFT_UNIT_VISION_RADIUS_SQ:
-	/* Wild guess.  "Amount" is the number of tiles (on average) that
-	 * will be revealed by the effect.  Note that with an omniscient
-	 * AI this effect is actually not useful at all. */
-	v += c * amount;
-	break;
-
-      case EFT_SLOW_DOWN_TIMELINE:
-	/* AI doesn't care about these. */
-	break;
-
-	/* WAG evaluated effects */
-	case EFT_INCITE_COST_PCT:
-	  v += c * amount / 100;
-	  break;
-	case EFT_MAKE_HAPPY:
-	  v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;
-          if (city_list_size(pplayer->cities)
-                > game.info.cityfactor 
-                  + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
-            v += c * amount; /* offset large empire size */
-          }
-          v += c * amount;
-	  break;
-	case EFT_UNIT_RECOVER:
-	  /* TODO */
-	  break;
-	case EFT_NO_UNHAPPY:
-	  v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 30;
-	  break;
-	case EFT_FORCE_CONTENT:
-	case EFT_MAKE_CONTENT:
-	  if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
-            int factor = 2;
-
-	    v += MIN(amount, pcity->ppl_unhappy[4] + get_entertainers(pcity)) * 35;
-
-            /* Try to build wonders to offset empire size unhappiness */
-            if (city_list_size(pplayer->cities) 
-                > game.info.cityfactor 
-                  + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
-              if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD) > 0) {
-                factor += city_list_size(pplayer->cities) 
-                          / get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
-              }
-              factor += 2;
-            }
-	    v += factor * c * amount;
-	  }
-	  break;
-	case EFT_MAKE_CONTENT_MIL_PER:
-          if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
-	    v += MIN(pcity->ppl_unhappy[4] + get_entertainers(pcity),
-		     amount) * 25;
-	    v += MIN(amount, 5) * c;
-	  }
-	  break;
-	case EFT_MAKE_CONTENT_MIL:
-          if (get_city_bonus(pcity, EFT_NO_UNHAPPY) <= 0) {
-	    v += pcity->ppl_unhappy[4] * amount
-	      * MAX(unit_list_size(pcity->units_supported), 0) * 2;
-	    v += c * MAX(amount + 2, 1);
-	  }
-	  break;
-	case EFT_TECH_PARASITE:
-	{
-	  int turns;
-	  int bulbs;
-	  int value;
-	  
-	  if (nplayers <= amount) {
-	    break;
-	  }
-          
-	  turns = 9999;
-	  bulbs = 0;
-	  players_iterate(aplayer) {
-	    int potential = aplayer->bulbs_last_turn
-	                    + city_list_size(aplayer->cities) + 1;
-	    if (tech_exists(pimpr->obsolete_by)) {
-	      turns = MIN(turns, 
-	        total_bulbs_required_for_goal(aplayer, pimpr->obsolete_by)
-		/ (potential + 1));
-	    }
-	    if (players_on_same_team(aplayer, pplayer)) {
-	      continue;
-	    }
-	    bulbs += potential;
-	  } players_iterate_end;
-  
-  	  /* For some number of turns we will be receiving bulbs for free
-	   * Bulbs should be amortized properly for each turn.
-	   * We use formula for the sum of geometric series:
-	   */
-	  value = bulbs * (1.0 - pow(1.0 - (1.0 / MORT), turns)) * MORT;
-	  
-	  value = value  * (100 - game.info.freecost)	  
-	          * (nplayers - amount) / (nplayers * amount * 100);
-	  
-	  /* WAG */
-	  value /= 3;
-
-          CITY_LOG(LOG_DEBUG, pcity,
-	           "%s parasite effect: bulbs %d, turns %d, value %d", 
-                   get_improvement_name(id), bulbs, turns, value);
-	
-	  v += value;
-	  break;
+      if (active) {
+	v = v1;
+      } else { /* n_needed_techs */
+	/* We might want the technology that will enable this
+	 * (additional) effect.
+	 * The better the effect, the more we want the technology.
+	 * Use (v1 - v) rather than v1 in case there are multiple
+	 * effects that have technology requirements and to eliminate the
+	 * 'base' effect of the building.
+         * We are more interested in (additional) effects that enhance
+	 * buildings we already have.
+	 */
+        const int a = already? 5: 4; /* WAG */
+        const int dv = (v1 - v) * a / (4 * n_needed_techs);
+	int t;
+	for (t = 0; t < n_needed_techs; t++) {
+	  want_tech_for_improvement_effect(pplayer, pcity, pimpr->index,
+                                           *tech_vector_get(&needed_techs, t),
+                                           dv);
 	}
-	case EFT_GROWTH_FOOD:
-	  v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
-	  break;
-	case EFT_AIRLIFT:
-	  /* FIXME: We need some smart algorithm here. The below is 
-	   * totally braindead. */
-	  v += c + MIN(ai->stats.units.land, 13);
-	  break;
-	case EFT_ANY_GOVERNMENT:
-	  if (!can_change_to_government(pplayer, ai->goal.govt.gov)) {
-	    v += MIN(MIN(ai->goal.govt.val, 65),
-		num_unknown_techs_for_goal(pplayer, ai->goal.govt.req) * 10);
-	  }
-	  break;
-	case EFT_ENABLE_NUKE:
-	  /* Treat nuke as a Cruise Missile upgrade */
-	  v += 20 + ai->stats.units.missiles * 5;
-	  break;
-	case EFT_ENABLE_SPACE:
-	  if (game.info.spacerace) {
-	    v += 5;
-	    if (ai->diplomacy.production_leader == pplayer) {
-	      v += 100;
-	    }
-	  }
-	  break;
-	case EFT_GIVE_IMM_TECH:
- 	  if (!ai_wants_no_science(pplayer)) {
- 	    v += amount * (game.info.sciencebox + 1);
-          }
-	  break;
-	case EFT_HAVE_EMBASSIES:
-	  v += 5 * nplayers;
-	  break;
-	case EFT_REVEAL_CITIES:
-	case EFT_NO_ANARCHY:
-	  break;  /* Useless for AI */
-	case EFT_NO_SINK_DEEP:
-	  v += 15 + ai->stats.units.triremes * 5;
-	  break;
-	case EFT_NUKE_PROOF:
-	  if (ai->threats.nuclear) {
-	    v += pcity->size * unit_list_size(ptile->units) * (capital + 1)
-	         * amount / 100;
-	  }
-	  break;
-	case EFT_REVEAL_MAP:
-	  if (!ai->explore.land_done || !ai->explore.sea_done) {
-	    v += 10;
-	  }
-	  break;
-	case EFT_SIZE_UNLIMIT:
-	  /* Note we look up the SIZE_UNLIMIT again right below.  This could
-	   * be avoided... */
-	  if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
-	    amount = 20; /* really big city */
-	  }
-	  /* there not being a break here is deliberate, mind you */
-	case EFT_SIZE_ADJ:
-	  if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) == 0) {
-	    const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);
-
-	    if (!city_can_grow_to(pcity, pcity->size + 1)) {
-	      v += pcity->surplus[O_FOOD] * ai->food_priority * amount;
-	      if (pcity->size == aqueduct_size) {
-		v += 30 * pcity->surplus[O_FOOD];
-	      }
-	    }
-	    v += c * amount * 4 / aqueduct_size;
-	  }
-	  break;
-	case EFT_SS_STRUCTURAL:
-	case EFT_SS_COMPONENT:
-	case EFT_SS_MODULE:
-	  if (game.info.spacerace
-	      /* If someone has started building spaceship already or
-	       * we have chance to win a spacerace */
-	      && (ai->diplomacy.spacerace_leader
-		  || ai->diplomacy.production_leader == pplayer)) {
-	    v += 95;
-	  }
-	  break;
-	case EFT_SPY_RESISTANT:
-	  /* Uhm, problem: City Wall has -50% here!! */
-	  break;
-	case EFT_MOVE_BONUS:
-	  /* FIXME: check other reqs (e.g., unitclass) */
-	  v += (8 * v * amount + ai->stats.units.land
-		+ ai->stats.units.sea + ai->stats.units.air);
-	  break;
-	case EFT_UNIT_NO_LOSE_POP:
-	  v += unit_list_size(ptile->units) * 2;
-	  break;
-	case EFT_HP_REGEN:
-	  /* FIXME: check other reqs (e.g., unitclass) */
-	  v += (5 * c + ai->stats.units.land
-		+ ai->stats.units.sea + ai->stats.units.air);
-	  break;
-	case EFT_VETERAN_COMBAT:
-	  /* FIXME: check other reqs (e.g., unitclass) */
-	  v += (2 * c + ai->stats.units.land + ai->stats.units.sea
-		+ ai->stats.units.air);
-	  break;
-	case EFT_VETERAN_BUILD:
-	  /* FIXME: check other reqs (e.g., unitclass, unitflag) */
-	  v += (3 * c + ai->stats.units.land + ai->stats.units.sea
-		+ ai->stats.units.air);
-	  break;
-	case EFT_UPGRADE_UNIT:
-	  v += ai->stats.units.upgradeable;
-	  if (amount == 1) {
-	    v *= 2;
-	  } else if (amount == 2) {
-	    v *= 3;
-	  } else {
-	    v *= 4;
-	  }
-	  break;
-	case EFT_DEFEND_BONUS:
-	  if (ai_handicap(pplayer, H_DEFENSIVE)) {
-	    v += amount / 10; /* make AI slow */
-	  }
-	  if (is_ocean(tile_get_terrain(pcity->tile))) {
-	    v += ai->threats.ocean[-tile_get_continent(pcity->tile)]
-		 ? amount/5 : amount/20;
-	  } else {
-	    adjc_iterate(pcity->tile, tile2) {
-	      if (is_ocean(tile_get_terrain(tile2))) {
-		if (ai->threats.ocean[-tile_get_continent(tile2)]) {
-		  v += amount/5;
-		  break;
-		}
-	      }
-	    } adjc_iterate_end;
-	  }
-	  v += (amount/20 + ai->threats.invasions - 1) * c; /* for wonder */
-	  if (ai->threats.continent[ptile->continent]
-	      || capital
-	      || (ai->threats.invasions
-		  && is_water_adjacent_to_tile(pcity->tile))) {
-	    if (ai->threats.continent[ptile->continent]) {
-	      v += amount;
-	    } else {
-	      v += amount / (!ai->threats.igwall ? (15 - capital * 5) : 15);
-	    }
-	  }
-	  break;
-	case EFT_NO_INCITE:
-	  if (get_city_bonus(pcity, EFT_NO_INCITE) <= 0) {
-	    v += MAX((game.info.diplchance * 2 
-                      - game.info.incite_total_factor) / 2
-		- game.info.incite_improvement_factor * 5
-		- game.info.incite_unit_factor * 5, 0);
-	  }
-	  break;
-	case EFT_GAIN_AI_LOVE:
-	  players_iterate(aplayer) {
-	    if (aplayer->ai.control) {
-	      if (ai_handicap(pplayer, H_DEFENSIVE)) {
-		v += amount / 10;
-	      } else {
-		v += amount / 20;
-	      }
-	    }
-	  } players_iterate_end;
-	  break;
-        /* Currently not supported for building AI - wait for modpack users */
-        case EFT_UNHAPPY_FACTOR:
-        case EFT_UPKEEP_FACTOR:
-        case EFT_UNIT_UPKEEP_FREE_PER_CITY:
-        case EFT_CIVIL_WAR_CHANCE:
-        case EFT_EMPIRE_SIZE_MOD:
-        case EFT_EMPIRE_SIZE_STEP:
-        case EFT_MAX_RATES:
-        case EFT_MARTIAL_LAW_EACH:
-        case EFT_MARTIAL_LAW_MAX:
-        case EFT_RAPTURE_GROW:
-        case EFT_UNBRIBABLE_UNITS:
-        case EFT_REVOLUTION_WHEN_UNHAPPY:
-        case EFT_HAS_SENATE:
-        case EFT_INSPIRE_PARTISANS:
-        case EFT_HAPPINESS_TO_GOLD:
-        case EFT_FANATICS:
-        case EFT_NO_DIPLOMACY:
-        case EFT_OUTPUT_PENALTY_TILE:
-        case EFT_OUTPUT_INC_TILE_CELEBRATE:
-	case EFT_TRADE_REVENUE_BONUS:
-          break;
-	case EFT_LAST:
-	  freelog(LOG_ERROR, "Bad effect type.");
-	  break;
       }
     }
+
+    tech_vector_free(&needed_techs);
   } effect_list_iterate_end;
 
-  /* Reduce want if building gets obsoleted soon */
-  if (tech_exists(pimpr->obsolete_by)) {
-    v -= v / MAX(1, num_unknown_techs_for_goal(pplayer, pimpr->obsolete_by));
+  if (already && tech_exists(pimpr->obsolete_by)) {
+    /* Discourage research of the technology that would make this building
+     * obsolete. The bigger the desire for this building, the more
+     * we want to discourage the technology. */
+    want_tech_for_improvement_effect(pplayer, pcity, pimpr->index,
+				     pimpr->obsolete_by, -v);
+  } else if (!already) {
+    /* Increase the want for technologies that will enable
+     * construction of this improvement, if necessary.
+     */
+    const bool all_met = adjust_wants_for_reqs(pplayer, pcity, pimpr, v);
+    can_build = can_build && all_met;
   }
 
-  /* Adjust by building cost */
-  v -= (impr_build_shield_cost(pimpr->index)
-	/ (pcity->surplus[O_SHIELD] * 10 + 1));
+  if (is_coinage && can_build) {
+    /* Could have a negative want for coinage,
+     * if we have some stock in a building already. */
+    pcity->ai.building_want[pimpr->index] += v;
+  } else if (!already && can_build) {
+    /* Convert the base 'want' into a building want
+     * by applying various adjustments */
 
-  /* Would it mean losing shields? */
-  if ((pcity->production.is_unit 
-       || (is_wonder(pcity->production.value) 
-           && !is_wonder(id))
-       || (!is_wonder(pcity->production.value)
-           && is_wonder(id)))
-      && pcity->turn_last_built != game.info.turn) {
-    v -= (pcity->shield_stock / 2) * (SHIELD_WEIGHTING / 2);
+    /* Would it mean losing shields? */
+    if ((pcity->production.is_unit 
+         || (is_wonder(pcity->production.value) && !is_wonder(pimpr->index))
+	   || (!is_wonder(pcity->production.value) && is_wonder(pimpr->index)))
+        && pcity->turn_last_built != game.info.turn) {
+      v -= (pcity->shield_stock / 2) * (SHIELD_WEIGHTING / 2);
+    }
+
+    /* Reduce want if building gets obsoleted soon */
+    if (tech_exists(pimpr->obsolete_by)) {
+      v -= v / MAX(1, num_unknown_techs_for_goal(pplayer, pimpr->obsolete_by));
+    }
+
+    /* Are we wonder city? Try to avoid building non-wonders very much. */
+    if (pcity->id == ai->wonder_city && !is_wonder(pimpr->index)) {
+      v /= 5;
+    }
+
+    /* Set */
+    pcity->ai.building_want[pimpr->index] += v;
   }
-
-  /* Are we wonder city? Try to avoid building non-wonders very much. */
-  if (pcity->id == ai->wonder_city && !is_wonder(id)) {
-    v /= 5;
-  }
-
-  /* Set */
-  pcity->ai.building_want[id] = v;
+  /* Else we either have the improvement already,
+   * or we can not build it (yet) */
 }
 
 /**************************************************************************
@@ -795,6 +1030,109 @@ static void calculate_wonder_helpers(struct player *pplayer,
 }
 
 /************************************************************************** 
+  Whether the AI should calculate the building wants for this city
+  this turn, ahead of schedule.
+
+  Always recalculate if the city just finished building,
+  so we can make a sensible choice for the next thing to build.
+  Perhaps the improvement we were building has become obsolete,
+  or a different player built the Great Wonder we were building.
+**************************************************************************/
+static bool should_force_recalc(struct city *pcity)
+{
+  return city_built_last_turn(pcity) ||
+        (!pcity->production.is_unit
+         && !impr_flag(pcity->production.value, IF_GOLD)
+         && !can_eventually_build_improvement(pcity, pcity->production.value));
+}
+
+/************************************************************************** 
+  Calculate how much an AI player should want to build particular
+  improvements, because of the effects of those improvements, and
+  increase the want for technologies that will enable buildings with
+  desirable effects.
+**************************************************************************/
+static void adjust_wants_by_effects(struct player *pplayer,
+                                    struct city *wonder_city)
+{
+  /* Clear old building wants.
+   * Do this separately from the iteration over improvement types
+   * because each iteration could actually update more than one improvement,
+   * if improvements have improvements as requirements.
+   */
+  city_list_iterate(pplayer->cities, pcity) {
+    if (pplayer->ai.control && pcity->ai.next_recalc <= game.info.turn) {
+      /* Do a scheduled recalculation this turn */
+      impr_type_iterate(id) {
+        pcity->ai.building_want[id] = 0;
+      } impr_type_iterate_end;
+    } else if (pplayer->ai.control && should_force_recalc(pcity)) {
+      /* Do an emergency recalculation this turn. */
+      pcity->ai.recalc_interval = pcity->ai.next_recalc - game.info.turn;
+      pcity->ai.next_recalc = game.info.turn;
+
+      impr_type_iterate(id) {
+        pcity->ai.building_want[id] = 0;
+      } impr_type_iterate_end;
+    }
+  } city_list_iterate_end;
+
+  impr_type_iterate(id) {
+    /* Handle coinage specially because you can never complete coinage */
+    const bool is_coinage = impr_flag(id, IF_GOLD);
+    if (is_coinage || can_player_eventually_build_improvement(pplayer, id)) {
+      const bool is_wonder_impr = is_wonder(id);
+      struct impr_type *pimpr = get_improvement_type(id);
+
+      city_list_iterate(pplayer->cities, pcity) {
+        if (pcity != wonder_city && is_wonder_impr) {
+          /* Only wonder city should build wonders! */
+          pcity->ai.building_want[id] = 0;
+        } else if ((!is_coinage
+                    && !can_eventually_build_improvement(pcity, id))
+                   || is_building_replaced(pcity, id)) {
+          /* Don't consider impossible or redundant buildings */
+          pcity->ai.building_want[id] = 0;
+        } else if (pplayer->ai.control
+                   && pcity->ai.next_recalc <= game.info.turn) {
+          /* Building wants vary relatively slowly, so not worthwhile
+           * recalculating them every turn.
+           * We DO want to calculate (tech) wants because of buildings
+           * we already have. */
+          const bool already = city_got_building(pcity, id);
+
+          adjust_improvement_wants_by_effects(pplayer, pcity, 
+                                              pimpr, already);
+
+          assert(!(already && 0 < pcity->ai.building_want[id]));
+        } else if (city_got_building(pcity, id)) {
+          /* Never want to build something we already have. */
+          pcity->ai.building_want[id] = 0;
+        }
+        /* else wait until a later turn */
+      } city_list_iterate_end;
+    } else {
+      /* An impossible improvement */
+      city_list_iterate(pplayer->cities, pcity) {
+        pcity->ai.building_want[id] = 0;
+      } city_list_iterate_end;
+    }
+  } impr_type_iterate_end;
+
+#ifdef DEBUG
+  /* This logging is relatively expensive, so activate only if necessary */
+  city_list_iterate(pplayer->cities, pcity) {
+    impr_type_iterate(id) {
+      if (pcity->ai.building_want[id] != 0) {
+        CITY_LOG(LOG_DEBUG, pcity, "want to build %s with %d", 
+                 get_improvement_name(id), pcity->ai.building_want[id]);
+      }
+    } impr_type_iterate_end;
+  } city_list_iterate_end;
+#endif
+}
+
+/************************************************************************** 
   Prime pcity->ai.building_want[]
 **************************************************************************/
 void ai_manage_buildings(struct player *pplayer)
@@ -873,39 +1211,15 @@ void ai_manage_buildings(struct player *pplayer)
     acity->ai.worth = city_want(pplayer, acity, ai, B_LAST);
   } city_list_iterate_end;
 
-  impr_type_iterate(id) {
-    if (!can_player_build_improvement(pplayer, id)
-        || improvement_obsolete(pplayer, id)) {
-      continue;
-    }
-    city_list_iterate(pplayer->cities, pcity) {
-      if (pcity != wonder_city && is_wonder(id)) {
-        /* Only wonder city should build wonders! */
-        continue;
-      }
-      if (pplayer->ai.control && pcity->ai.next_recalc > game.info.turn) {
-        continue; /* do not recalc yet */
-      } else {
-        pcity->ai.building_want[id] = 0; /* do recalc */
-      }
-      if (city_got_building(pcity, id)
-          || !can_build_improvement(pcity, id)
-          || is_building_replaced(pcity, id)) {
-        continue; /* Don't build redundant buildings */
-      }
-      adjust_building_want_by_effects(pcity, id);
-      CITY_LOG(LOG_DEBUG, pcity, "want to build %s with %d", 
-               get_improvement_name(id), pcity->ai.building_want[id]);
-    } city_list_iterate_end;
-  } impr_type_iterate_end;
+  adjust_wants_by_effects(pplayer, wonder_city);
 
   /* Reset recalc counter */
   city_list_iterate(pplayer->cities, pcity) {
     if (pcity->ai.next_recalc <= game.info.turn) {
       /* This will spread recalcs out so that no one turn end is 
        * much longer than others */
-      pcity->ai.next_recalc = game.info.turn + myrand(RECALC_SPEED) 
-                              + RECALC_SPEED;
+      pcity->ai.recalc_interval = myrand(RECALC_SPEED) + RECALC_SPEED;
+      pcity->ai.next_recalc = game.info.turn + pcity->ai.recalc_interval;
     }
   } city_list_iterate_end;
 }

@@ -2438,6 +2438,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->ai.invasion = 0;
   pcity->ai.bcost = 0;
   pcity->ai.attack = 0;
+  pcity->ai.recalc_interval = 1;
   pcity->ai.next_recalc = 0;
 
   memset(pcity->surplus, 0, O_COUNT * sizeof(*pcity->surplus));

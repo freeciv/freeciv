@@ -2219,7 +2219,7 @@ static void ai_set_defenders(struct player *pplayer)
       }
     }
     CITY_LOG(LOG_DEBUG, pcity, "Evaluating defense: %d defense, %d incoming"
-             " %d defenders (out of %d)", total_defense, total_attack, count,
+             ", %d defenders (out of %d)", total_defense, total_attack, count,
              unit_list_size(pcity->tile->units));
   } city_list_iterate_end;
 }

@@ -100,6 +100,7 @@ struct player_ai {
   int prev_gold;
   int maxbuycost;
   int est_upkeep; /* estimated upkeep of buildings in cities */
+  /* The units of tech_want seem to be shields */
   int tech_want[A_LAST+1];
   int handicap;			/* sum of enum handicap_type */
   int skill_level;		/* 0-10 value for save/load/display */
