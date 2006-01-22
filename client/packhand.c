@@ -51,6 +51,7 @@
 #include "connectdlg_g.h"
 #include "control.h"
 #include "dialogs_g.h"
+#include "ggzclient.h"
 #include "goto.h"               /* client_goto_init() */
 #include "graphics_g.h"
 #include "gui_main_g.h"
@@ -201,7 +202,9 @@ void handle_server_join_reply(bool you_can_join, char *message,
       freelog(LOG_NORMAL, "%s", msg);
     }
     gui_server_connect();
-    set_client_page(in_ggz ? PAGE_MAIN : PAGE_GGZ);
+    if (!with_ggz) {
+      set_client_page(in_ggz ? PAGE_MAIN : PAGE_GGZ);
+    }
   }
   if (strcmp(s_capability, our_capability) == 0) {
     return;

@@ -117,7 +117,9 @@ static void close_socket_nomessage(struct connection *pc)
   remove_net_input();
   popdown_races_dialog(); 
   close_connection_dialog();
-  set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
+  if (!with_ggz) {
+    set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
+  }
 
   reports_force_thaw();
   
