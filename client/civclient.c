@@ -559,7 +559,7 @@ void set_client_state(enum client_states newstate)
 	client_game_free();
       }
       client_game_init();
-      if (!aconnection.established) {
+      if (!aconnection.established && !with_ggz) {
 	set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
       } else {
 	set_client_page(PAGE_START);
