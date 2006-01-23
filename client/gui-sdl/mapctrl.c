@@ -2410,11 +2410,20 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   pOK_Button =
     create_themeicon_button_from_chars(pTheme->Small_OK_Icon, Main.gui,
 					  _("OK"), adj_font(10), 0);
-
+  pOK_Button->action = newcity_ok_callback;
+  pOK_Button->key = SDLK_RETURN;  
+  pOK_Button->data.unit = pUnit;  
+  
   /* create cancel button */
   pCancel_Button =
       create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
   			Main.gui, _("Cancel"), adj_font(10), 0);
+  pCancel_Button->action = newcity_cancel_callback;
+  pCancel_Button->key = SDLK_ESCAPE;  
+
+  /* correct sizes */
+  pCancel_Button->size.w += adj_size(5);
+  pOK_Button->size.w = pCancel_Button->size.w;
   
   /* create text label */
   pStr = create_str16_from_char(_("What should we call our new city?"), adj_font(10));
@@ -2424,16 +2433,17 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   /* pStr->forecol.b = 255; */
   pLabel = create_iconlabel(NULL, Main.gui, pStr, WF_DRAW_TEXT_LABEL_WITH_SPACE);
   
-  
   pEdit = create_edit(NULL, Main.gui, create_str16_from_char(pSuggestname, adj_font(12)),
-			adj_size(180), WF_DRAW_THEME_TRANSPARENT);
-  
+			(pOK_Button->size.w + pCancel_Button->size.w + adj_size(15)), WF_DRAW_THEME_TRANSPARENT);
+  pEdit->action = newcity_ok_edit_callback;
+
   /* create window */
   pStr = create_str16_from_char(_("Build New City"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   pWindow = create_window(Main.gui, pStr, pEdit->size.w + adj_size(20), pEdit->size.h +
 			  pOK_Button->size.h + pLabel->size.h +
 			  WINDOW_TILE_HIGH + adj_size(25), 0);
+  pWindow->action = move_new_city_dlg_callback;
 
   /* I make this hack to center label on window */
   if (pLabel->size.w < pWindow->size.w)
@@ -2444,25 +2454,6 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   }
   
   pEdit->size.w = pWindow->size.w - adj_size(20);
-  
-  /* set actions */
-  pWindow->action = move_new_city_dlg_callback;
-  pEdit->action = newcity_ok_edit_callback;
-  pCancel_Button->action = newcity_cancel_callback;
-  pOK_Button->action = newcity_ok_callback;
-
-  /* set keys */
-  pOK_Button->key = SDLK_RETURN;
-
-  pCancel_Button->key = SDLK_ESCAPE;
-  
-  
-  pOK_Button->data.unit = pUnit;
-  
-  /* correct sizes */
-  pCancel_Button->size.w += adj_size(5);
-  /*pOK_Button->size.w += 10; */
-  pOK_Button->size.w = pCancel_Button->size.w;
   
   /* set start positions */
   pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
