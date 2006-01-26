@@ -17,7 +17,7 @@
    id="svg378"
    sodipodi:version="0.32"
    sodipodi:docname="united_nations.svg"
-   sodipodi:docbase="/Users/daniel/Desktop/test"
+   sodipodi:docbase="/home/daniel/freeciv/data/flags"
    inkscape:version="0.42">
   <metadata
      id="metadata6904">
@@ -35,8 +35,8 @@
      inkscape:zoom="0.46230688"
      inkscape:cx="531.49426"
      inkscape:cy="372.04724"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
+     inkscape:window-width="753"
+     inkscape:window-height="513"
      inkscape:window-x="46"
      inkscape:window-y="102"
      inkscape:current-layer="svg378">
@@ -73,7 +73,7 @@
   <rect
      transform="scale(-1.000000,-1.000000)"
      id="rect149"
-     style="font-size:12.000000px;fill:#6699ff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.99914427pt"
+     style="font-size:12.000000px;fill:#3399cc;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.99914427pt"
      y="-708.03552"
      x="-1063.6145"
      height="707.44220"
