@@ -1,7 +1,7 @@
 # Swedish translation for Freeciv
 # Copyright (C) 2000-2004 Erik Sigra
 # Erik Sigra <freeciv@home.se>, <sigra@home.se>.
-# Daniel Markstedt <himasaram@spray.se> 2005
+# Daniel Markstedt <himasaram@spray.se> 2005-2006
 #
 # Jag inledde en omfattande uppdatering av översättningen i oktober 2005 för
 # att komplettera den inför version 2.0.7 av spelet. Det ledde till att jag 
@@ -12290,7 +12290,7 @@ msgstr "Synd"
 #: client/gui-mui/dialogs.c:298 client/gui-mui/dialogs.c:393
 #: client/gui-win32/dialogs.c:1188 client/gui-win32/dialogs.c:1400
 msgid "At Spy's Discretion"
-msgstr "Låt spejaren välja"
+msgstr "Låt spionen välja"
 
 #: client/gui-mui/dialogs.c:302 client/gui-xaw/menu.c:243
 #: data/helpdata.txt:837
@@ -12406,12 +12406,12 @@ msgstr "För_stör industri"
 #: client/gui-mui/dialogs.c:850 client/gui-win32/dialogs.c:1621
 #: data/Freeciv.in:2299
 msgid "Choose Your Spy's Strategy"
-msgstr "Välj vår spejares strategi"
+msgstr "Välj vår spions strategi"
 
 #: client/gui-mui/dialogs.c:851 client/gui-mui/dialogs.c:888
 #: client/gui-win32/dialogs.c:1655
 msgid "Sir, the spy is waiting for your command"
-msgstr "Min herre, spejaren väntar på ditt kommando"
+msgstr "Min herre, spionen väntar på ditt kommando"
 
 #: client/gui-mui/dialogs.c:865 client/gui-win32/dialogs.c:1656
 msgid "_Bribe Enemy Unit"
@@ -14910,6 +14910,8 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.63; 2006-01-26\n"
+"  DM> Uppdateringar.\n"
 "Version 0.62; 2005-11-25\n"
 "  DM> Uppdaterade ytterligare nära 600 strängar för version 2.0.99-devel.\n"
 "Version 0.61; 2005-11-02\n"
@@ -16488,7 +16490,7 @@ msgstr ""
 "- En enhet flyttar till en ruta som besätts av en välvillig enhet.\n"
 "- En enhet flyttar från en havsruta (stiger av en båt).\n"
 "- Ett slags enhet åsidosätter uttryckligen kontrollområdesreglerna (till "
-"exempel budbärare och spejare)."
+"exempel budbärare och spioner)."
 
 #: data/helpdata.txt:1144
 msgid ""
@@ -16539,7 +16541,7 @@ msgid ""
 msgstr ""
 "HÄNVISNING: Man kan infiltrera fiendens kontrollområden genom att först "
 "flytta in en enhet som inte påverkas av kontrollområden (budbärare eller "
-"spejare), och sedan flytta in fler enheter till samma ruta. Genom att "
+"spioner), och sedan flytta in fler enheter till samma ruta. Genom att "
 "upprepa detta förfarande (och eventuellt lämna kvar enheter för att hålla "
 "rutor besatta), kan man göra en väg genom fiendens land."
 
@@ -16901,7 +16903,7 @@ msgid ""
 msgstr ""
 "Om antalet otillfredställda medborgare i en stad överstiger antalet lyckliga "
 "medborgare, blir det upplopp i staden. Då tillverkas ingenting och det är "
-"lättare för fienders budbärare och spejare att anstifta uppror i staden. "
+"lättare för fienders budbärare och spioner att anstifta uppror i staden. "
 "Utdragna upplopp under folkstyre kunna leda till revolution, det vill säga "
 "regeringen störtas."
 
@@ -18829,7 +18831,7 @@ msgstr ""
 "\n"
 "De lyckliga medborgarna i ett folkstyre ha osvikligt förtroende för "
 "regeringen. Krigsenheter tillhörande folkstyrda regeringar kunna ej "
-"mutas, och fientliga budbärare och spejare kunna ej anstifta uppror i "
+"mutas, och fientliga budbärare och spioner kunna ej anstifta uppror i "
 "folkstyrda städer."
 
 #: data/civ1/governments.ruleset:170
@@ -18851,7 +18853,7 @@ msgstr ""
 "\n"
 "De lyckliga medborgarna i ett folkstyre ha osvikligt förtroende för "
 "regeringen. Krigsenheter tillhörande folkstyrda regeringar kunna ej "
-"mutas, och fientliga budbärare och spejare kunna ej anstifta uppror i "
+"mutas, och fientliga budbärare och spioner kunna ej anstifta uppror i "
 "folkstyrda städer."
 
 # DM> tidigare "framskriden flygteknik"
@@ -20014,7 +20016,7 @@ msgid ""
 "fear!"
 msgstr ""
 "- En budbärare kan inrätta beskickningar hos andra civilisationer genom att "
-"förflytta sig in i en annan spelares stad.\n"
+"besöka en annan spelares stad.\n"
 "\n"
 "- En budbärare kan även försöka förstöra fiendens tillverkning, eller stjäla "
 "teknologier från fientliga städer. (Endast 1 teknologi kan stjälas från "
@@ -20026,8 +20028,9 @@ msgstr ""
 "- En budbärare kan till och med anstifta ett uppror i en fientlig stad och "
 "omvända den till sin civilisation om man har tillräckligt med pengar!\n"
 "\n"
-"- I vissa spelstrategier användas horder av budbärare för att stöka till "
-"fienden. Inget under att budbärare ofta ses med misstänksamhet och skräck!"
+"- I vissa spelstrategier användas horder av budbärare för att ställa till "
+"det för fienden. Inget under att budbärare ofta ses med misstänksamhet "
+"och fruktan!"
 
 # DM> Tidigare "spejare" (lämpligt eftersom de kommer ganska sent i spelet)
 #: data/default/units.ruleset:1594 data/civ2/units.ruleset:1536
@@ -20054,23 +20057,23 @@ msgid ""
 "A Spy can also be of aid on the battlefield - sabotaging enemy units as well "
 "as bribing them to change allegiance."
 msgstr ""
-"En spejare är en heltidsanställd yrkesmänniska och som sådan mycket "
-"skickligare på att spana än sin föregångare, budbäraren.\n"
+"En spion är en heltidsanställd yrkesmänniska och som sådan mycket "
+"skickligare på spioneri än sin föregångare, budbäraren.\n"
 "\n"
-"De fredligaste förmågorna hos spejare är att undersöka städer, vilket ger "
-"utförliga upplysningar, och att inrätta beskickningar. Men om ens spejare ha "
-"fått ett rykte om sig att göra saker i smyg, blir den avrättad om den "
+"Spionens fredligaste funktion är att undersöka städer för "
+"utförliga upplysningar, samt att inrätta beskickningar. Men om ens spion ha "
+"fått dåligt rykte, blir den avrättad om den "
 "försöker inrätta en beskickning.\n"
 "\n"
-"Spejaren kan även användas för att förgifta vattenförsörjningen till en "
-"fientlig stad (vilket minskar befolkningsmängden); stjäla särskilda "
+"Spionen kan även användas för att förgifta vattenförsörjningen för en "
+"fientlig stad (vilket minskar befolkningen); stjäla särskilda "
 "teknologier; förstöra förutbestämda mål i fientliga städer (anmärkning: att "
 "förstöra stadsförbättringar i en huvudstad eller att förstöra stadsmurar "
-"ökar risken för tillfångatagande). En spejare kan även infiltrera en stad "
-"och anstifta ett uppror.\n"
+"ökar risken för tillfångatagande). En spion kan även infiltrera en stad "
+"och anstifta uppror.\n"
 "\n"
-"En spejare kan även hjälpa till på slagfältet - förstöra fientliga enheter "
-"såväl som muta dem till att skifta trohet."
+"En spion kan även hjälpa till på slagfältet - förstöra fientliga enheter "
+"såväl som muta dem till att byta sida."
 
 #: data/default/units.ruleset:1641 data/civ2/units.ruleset:1583
 #: data/civ1/units.ruleset:926
