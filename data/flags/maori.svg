@@ -13,7 +13,7 @@
    id="svg2313"
    sodipodi:version="0.32"
    inkscape:version="0.42"
-   sodipodi:docbase="/Users/daniel/Desktop/to be posted"
+   sodipodi:docbase="/home/daniel/freeciv/data/flags"
    sodipodi:docname="maori.svg">
   <defs
      id="defs2315" />
@@ -26,13 +26,15 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.4000000"
      inkscape:cx="202.03038"
-     inkscape:cy="121.44351"
+     inkscape:cy="106.20496"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     inkscape:window-width="701"
-     inkscape:window-height="508"
+     inkscape:window-width="801"
+     inkscape:window-height="602"
      inkscape:window-x="30"
-     inkscape:window-y="50" />
+     inkscape:window-y="50"
+     showguides="true"
+     inkscape:guide-bbox="true" />
   <metadata
      id="metadata2318">
     <rdf:RDF>
@@ -49,7 +51,7 @@
         </dc:creator>
         <dc:rights>
           <cc:Agent>
-            <dc:title></dc:title>
+            <dc:title />
           </cc:Agent>
         </dc:rights>
         <dc:description>Made for inclusion in Freeciv (www.freeciv.org)</dc:description>
@@ -72,21 +74,21 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#ffffff;fill-opacity:1.0000000;stroke-width:0.0000000;stroke-miterlimit:4.0000000;stroke-dasharray:none"
+       style="fill:#000000;fill-opacity:1.0000000;stroke-width:0.0000000;stroke-miterlimit:4.0000000;stroke-dasharray:none"
        id="rect2548"
        width="375.00000"
        height="250.00000"
        x="0.0000000"
        y="0.0000000" />
     <path
-       style="fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000"
-       d="M 0.90523879,0.91021231 L 0.56042489,87.788782 C 0.56042489,87.788782 58.018419,87.417052 90.048203,87.530802 C 97.893211,87.558112 103.62582,88.780632 107.90793,89.869682 C 112.19006,90.958732 115.00717,92.363852 116.97762,94.105002 C 118.94808,95.846152 123.47837,98.722582 125.89521,106.43257 C 127.97366,113.06305 126.78771,115.24842 125.91210,118.41618 C 125.03648,121.58397 123.46888,124.60968 121.76789,127.23608 C 120.06691,129.86248 112.11330,136.14438 112.11330,136.14438 L 374.43957,136.14438 L 374.42307,1.1681923 L 0.90523879,0.91021231 z "
-       id="path2544"
-       sodipodi:nodetypes="ccsssssscccc" />
+       style="fill:#ff0000;fill-opacity:1.0000000;stroke:none;stroke-width:0.62500000;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+       d="M 0.0000000,93.571426 L 110.50000,93.571426 L 111.75000,143.57143 L 375.00000,143.57143 L 375.00000,250.00000 L 0.0000000,250.00000 L 0.0000000,93.571426 z "
+       id="rect2767"
+       sodipodi:nodetypes="ccccccc" />
     <path
-       style="fill:#df0000;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000"
-       d="M 0.56057139,110.06982 L 0.56057139,249.72340 L 374.43943,249.28145 L 374.43943,160.00923 L 89.831885,159.56730 C 89.831885,159.56730 64.218857,154.15884 64.199526,134.27489 C 64.184309,118.62198 77.993227,113.34620 83.852297,114.14899 C 91.311479,115.17103 96.792401,116.69017 99.996451,122.54589 C 103.20048,128.40162 103.53195,135.26050 103.53195,135.26050 C 103.53195,135.26050 109.60857,128.63138 108.83518,122.44419 C 108.06180,116.25700 105.07332,110.65774 100.43838,110.51175 L 98.684441,110.45652 C 77.098569,110.73273 0.56057139,110.06982 0.56057139,110.06982 z "
-       id="path2546"
-       sodipodi:nodetypes="cccccssscsscc" />
+       id="path2544"
+       style="fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#000000;stroke-width:0.0000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000"
+       d="M 374.99986,160.00923 L 375.00000,136.14438 L 111.88731,136.14438 C 111.88731,136.14438 119.86476,129.86248 121.57084,127.23608 C 123.27693,124.60968 124.84923,121.58397 125.72747,118.41618 C 126.60571,115.24842 127.79521,113.06305 125.71053,106.43257 C 123.28645,98.722582 118.74258,95.846152 116.76621,94.105002 C 114.78985,92.363852 111.96430,90.958732 107.66933,89.869682 C 103.37438,88.780632 97.624581,87.558112 89.756054,87.530802 C 57.630248,87.417052 0.0000000,87.788782 0.0000000,87.788782 C 0.0000000,87.788782 0.00014694000,110.06982 0.00014694000,110.06982 C 0.00014694000,110.06982 76.767598,110.73273 98.418183,110.45652 L 100.17738,110.51175 C 104.82622,110.65774 107.82366,116.25700 108.59936,122.44419 C 109.37507,128.63138 103.28023,135.26050 103.28023,135.26050 C 103.28023,135.26050 102.94777,128.40162 99.734125,122.54589 C 96.520471,116.69017 91.023117,115.17103 83.541573,114.14899 C 77.664938,113.34620 63.814622,118.62198 63.829885,134.27489 C 63.849274,154.15884 89.539088,159.56730 89.539088,159.56730 L 374.99986,160.00923 z "
+       sodipodi:nodetypes="cccssssscccccscssscc" />
   </g>
 </svg>
