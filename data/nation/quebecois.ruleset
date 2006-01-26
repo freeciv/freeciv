@@ -4,7 +4,8 @@ name=_("Quebecois")
 plural=_("?plural:Quebecois")
 groups= _("American")
 legend=_("Quebec is the largest province of Canada, housing the majority of\
- the Francophone population of America.")
+ the Francophone population of America. It is also the only political unit\
+ in North America where English is not an official language.")
 leader=
  "Samuel de Champlain",
  "Louis de Frontenac",
