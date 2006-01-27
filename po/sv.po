@@ -18676,7 +18676,7 @@ msgstr ""
 "I en republik håller medborgarna val av en representant som skall regera "
 "dem; eftersom valda ledare måste hålla sig omtyckta för att stanna vid "
 "makten, ha medborgarna större frihet. Medborgare i en republik blir lätt "
-"otillfredställda, men medborgarnas självständighet tillåter mycket handel.\n"
+"otillfredställda, men medborgarnas självständighet tillåter mycket handel."
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:215
