@@ -7,6 +7,6 @@
 rulesetdir default
 
 # HACK: These are included to cancel out the settings from civ2.ruleset, etc.
-set researchcost 20
+set sciencebox 100
 set startunits ccx
 set borders 7
