@@ -111,6 +111,7 @@ flag_files =				\
 		slovakia.png		\
 		slovenia.png		\
 		south_africa.png	\
+		southern_cross.png	\
 		soviet.png		\
 		spain.png		\
 		srilanka.png		\
@@ -248,6 +249,7 @@ shield_files =					\
 		slovakia-shield.png		\
 		slovenia-shield.png		\
 		south_africa-shield.png		\
+		southern_cross-shield.png	\
 		soviet-shield.png		\
 		spain-shield.png		\
 		srilanka-shield.png		\
@@ -385,6 +387,7 @@ svg_files = 				\
 		slovakia.svg		\
 		slovenia.svg		\
 		south_africa.svg	\
+		southern_cross.svg	\
 		soviet.svg		\
 		spain.svg		\
 		srilanka.svg		\

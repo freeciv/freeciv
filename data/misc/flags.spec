@@ -121,6 +121,7 @@ sprites =
 		"f.slovakia", "flags/slovakia"
 		"f.slovenia", "flags/slovenia"
 		"f.south_africa", "flags/south_africa"
+		"f.southern_cross", "flags/southern_cross" ; confederate battle flag
 		"f.soviet", "flags/soviet"
 		"f.spain", "flags/spain"
 		"f.srilanka", "flags/srilanka"

@@ -56,8 +56,10 @@ init_government="Despotism"
 init_units=""
 
 ; Chain of similar flags: Previously "serbian"
-conflicts_with="slovenian", "slovakian"
-civilwar_nations = "ukrainian", "latvian", "polish"
+conflicts_with="slovenian", "slovakian",
+; Transitional state
+ "soviet"
+civilwar_nations = "soviet"
 
 cities =
  "Moskva",

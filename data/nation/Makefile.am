@@ -36,6 +36,7 @@ pkgdata_DATA = \
 		chilean.ruleset \
 		chinese.ruleset \
 		colombian.ruleset \
+		confederate.ruleset \
 		cornish.ruleset \
 		croatian.ruleset \
 		cuban.ruleset \
@@ -107,6 +108,7 @@ pkgdata_DATA = \
 		slovakian.ruleset \
 		slovenian.ruleset \
 		southafrican.ruleset \
+		soviet.ruleset \
 		spanish.ruleset \
 		sudanese.ruleset \
 		sumerian.ruleset \
