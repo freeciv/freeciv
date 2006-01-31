@@ -35,12 +35,10 @@
 #include "graphics.h"
 #include "gui_iconv.h"
 #include "gui_main.h"
+#include "themespec.h"
 #include "unistring.h"
 
 #include "gui_string.h"
-
-#define DEFAULT_PTSIZE	18
-#define FONT_NAME "fonts/Vera.ttf"
 
 /* =================================================== */
 
@@ -165,7 +163,7 @@ SDL_String16 * create_string16(Uint16 *pInTextString,
   SDL_String16 *str = fc_calloc(1, sizeof(SDL_String16));
 
   if (!ptsize) {
-    str->ptsize = DEFAULT_PTSIZE;
+    str->ptsize = theme_default_font_size(theme);
   } else {
     str->ptsize = ptsize;
   }
@@ -621,7 +619,8 @@ static TTF_Font * load_font(Uint16 ptsize)
   }
 
   if(!pFont_with_FullPath) {
-    char *path = datafilename(FONT_NAME);
+    const char *path = theme_font_filename(theme);
+#if 0    
     if(!path) {
       path = datafilename("stdfont.ttf");
       if (!path) {
@@ -629,10 +628,11 @@ static TTF_Font * load_font(Uint16 ptsize)
             "unicode ttf font to data dir as stdfont.ttf"));
     }
     }
+#endif
     pFont_with_FullPath = mystrdup(path);
     assert(pFont_with_FullPath != NULL);
   }
-  
+
   /* Load Font */
   if ((font_tmp = TTF_OpenFont(pFont_with_FullPath, ptsize)) == NULL) {
     freelog(LOG_ERROR,

@@ -776,7 +776,7 @@ Uint16 gui_event_loop(void *pData,
 void ui_init(void)
 {
   char device[20];
-  struct GUI *pInit_String = NULL;
+/*  struct GUI *pInit_String = NULL;*/
   SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
 
@@ -823,7 +823,8 @@ void ui_init(void)
       SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
     }
   }
-
+  
+#if 0
   /* create label beackground */
   pBgd = create_surf_alpha(adj_size(350), adj_size(50), SDL_SWSURFACE);
   
@@ -844,9 +845,12 @@ void ui_init(void)
   
   copy_chars_to_string16(pInit_String->string16,
   			_("Waiting for the beginning of the game"));
-  
+
   init_gui_list(ID_WAITING_LABEL, pInit_String);
-  
+#endif    
+
+  flush_all();
+  init_gui_list(ID_WAITING_LABEL, fc_calloc(1, sizeof(struct GUI)));
 }
 
 /**************************************************************************
