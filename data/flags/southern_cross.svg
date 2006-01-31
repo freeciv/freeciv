@@ -8,23 +8,23 @@
    xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
-   width="445.50000pt"
-   height="297pt"
+   width="556.88000px"
+   height="371.25000px"
    viewBox="0 0 468 297"
    preserveAspectRatio="xMidYMid meet"
    id="svg3708"
    sodipodi:version="0.32"
    inkscape:version="0.42"
-   sodipodi:docname="csa.svg"
-   sodipodi:docbase="/Users/daniel/Desktop"
+   sodipodi:docname="southern_cross.svg"
+   sodipodi:docbase="/home/daniel/freeciv/data/flags"
    inkscape:export-filename="/Users/daniel/Desktop/csa.png"
    inkscape:export-xdpi="13.533821"
    inkscape:export-ydpi="13.533821">
   <defs
      id="defs3725" />
   <sodipodi:namedview
-     inkscape:window-height="507"
-     inkscape:window-width="701"
+     inkscape:window-height="513"
+     inkscape:window-width="753"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -34,8 +34,8 @@
      inkscape:zoom="0.74006732"
      inkscape:cx="326.17282"
      inkscape:cy="185.62500"
-     inkscape:window-x="3"
-     inkscape:window-y="60"
+     inkscape:window-x="480"
+     inkscape:window-y="135"
      inkscape:current-layer="svg3708" />
   <metadata
      id="metadata3710">
@@ -49,6 +49,13 @@ Created by potrace 1.7, written by Peter Selinger 2001-2005
   </cc:Work>
 </rdf:RDF>
 </metadata>
+  <rect
+     style="opacity:1.0000000;fill:#ffffff;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:16.025000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000"
+     id="rect1320"
+     width="468.00000"
+     height="311.99719"
+     x="4.4408921e-16"
+     y="-7.4985943" />
   <path
      style="fill:#0000aa;fill-opacity:1.0000000;stroke:none"
      id="path3714"
@@ -57,22 +64,22 @@ Created by potrace 1.7, written by Peter Selinger 2001-2005
   <path
      style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
      id="path3716"
-     d="M 233.67104,108.82578 L 423.27152,-7.5000000 L 49.727720,-7.5000000 L 233.67104,108.82578 z "
+     d="M 233.67104,97.060244 L 423.27152,-19.265551 L 49.727720,-19.265551 L 233.67104,97.060244 z "
      sodipodi:nodetypes="cccc" />
   <path
      style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
      id="path3718"
-     d="M 0.29902929,253.19920 L 172.12803,148.02056 C 172.12803,148.02056 1.4990323,41.043989 0.64188729,41.043989 C -0.043828710,41.043989 -0.21525771,253.19920 0.29902929,253.19920 z "
+     d="M -11.466522,253.19920 L 160.36250,148.02056 C 160.36250,148.02056 -10.266519,41.043989 -11.123664,41.043989 C -11.809380,41.043989 -11.980809,253.19920 -11.466522,253.19920 z "
      sodipodi:nodetypes="ccss" />
   <path
      style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
      id="path3720"
-     d="M 297.95692,148.20035 C 298.47120,148.73973 467.21448,253.19920 468.41448,253.91837 C 469.95734,254.99713 469.95734,41.163855 469.10020,41.163855 C 468.41448,41.163855 297.78549,148.02056 297.95692,148.20035 z "
+     d="M 309.72245,148.20035 C 310.23673,148.73973 478.98001,253.19920 480.18001,253.91837 C 481.72287,254.99713 481.72287,41.163855 480.86573,41.163855 C 480.18001,41.163855 309.55102,148.02056 309.72245,148.20035 z "
      sodipodi:nodetypes="ccss" />
   <path
      style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
      id="path3722"
-     d="M 47.270575,304.50000 L 421.67152,303.54111 C 421.67152,303.54111 234.52819,186.67596 233.49961,186.67596 C 232.29961,186.67596 46.927726,304.50088 47.270575,304.50000 z "
+     d="M 47.270575,316.26553 L 421.67152,315.30664 C 421.67152,315.30664 234.52819,198.44149 233.49961,198.44149 C 232.29961,198.44149 46.927726,316.26641 47.270575,316.26553 z "
      sodipodi:nodetypes="ccss" />
   <polygon
      transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,244.8896,244.9276)"
