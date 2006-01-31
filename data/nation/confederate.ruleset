@@ -25,6 +25,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+conflicts_with="american", "texan"
 civilwar_nations="american", "texan"
 
 ; Data from http://en.wikipedia.org/wiki/Confederate_States_of_America
