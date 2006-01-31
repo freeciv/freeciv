@@ -105,6 +105,8 @@ struct theme {
 
   char *main_intro_filename;
   char *minimap_intro_filename;
+  char *font_filename;
+  int default_font_size;
 
   struct specfile_list *specfiles;
   struct small_sprite_list *small_sprites;
@@ -165,6 +167,21 @@ const char *theme_main_intro_filename(const struct theme *t)
 const char *theme_mini_intro_filename(const struct theme *t)
 {
   return t->minimap_intro_filename;
+}
+
+/****************************************************************************
+  Return the path within the data directories where the font file can be
+  found.  (It is left up to the GUI code to load and unload this file.)
+****************************************************************************/
+const char *theme_font_filename(const struct theme *t) {
+  return t->font_filename;
+}
+
+/****************************************************************************
+  Return the default font size.
+****************************************************************************/
+const int theme_default_font_size(const struct theme *t) {
+  return t->default_font_size;  
 }
 
 /**************************************************************************
@@ -282,12 +299,17 @@ static void theme_free_toplevel(struct theme *t)
 {
   if (t->main_intro_filename) {
     FC_FREE(t->main_intro_filename);
-    t->main_intro_filename = NULL;
   }
+  
   if (t->minimap_intro_filename) {
     FC_FREE(t->minimap_intro_filename);
-    t->minimap_intro_filename = NULL;
   }
+
+  if (t->font_filename) {
+    FC_FREE(t->font_filename);
+  }
+  
+  t->default_font_size = 0;
   
   if (t->color_system) {
     theme_color_system_free(t->color_system);
@@ -730,6 +752,18 @@ struct theme *theme_read_toplevel(const char *theme_name)
   c = secfile_lookup_str(file, "themespec.minimap_intro_file");
   t->minimap_intro_filename = themespec_gfx_filename(c);
   freelog(LOG_DEBUG, "theme radar file %s", t->minimap_intro_filename);
+
+  c = secfile_lookup_str(file, "themespec.font_file");
+  t->font_filename = datafilename(c);
+  if (t->font_filename) {
+    t->font_filename = mystrdup(t->font_filename);
+  } else {
+    freelog(LOG_ERROR, "Could not open font: %s", c);
+  }
+  freelog(LOG_DEBUG, "theme font file %s", t->font_filename);
+
+  t->default_font_size = secfile_lookup_int (file, "themespec.default_font_size");
+  freelog(LOG_DEBUG, "theme default font size %d", t->default_font_size);
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
 					  "themespec.files");
