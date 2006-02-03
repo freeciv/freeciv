@@ -1219,8 +1219,10 @@ static void adjust_ai_unit_choice(struct city *pcity,
 
   move_type = get_unit_type(choice->choice)->move_type;
 
-  /* TODO: separate checks based on other requirements (e.g., unit class) */
-  if ((id = ai_find_source_building(pplayer, EFT_VETERAN_BUILD)) != B_LAST) {
+  /* TODO: separate checks based on other requirements (e.g., unit class) 
+   *  N.B.: have to check that we haven't already built the building --mck */
+  if ((id = ai_find_source_building(pplayer, EFT_VETERAN_BUILD)) != B_LAST
+       && !city_got_building(pcity, id)) {
     choice->choice = id;
     choice->type = CT_BUILDING;
   }
