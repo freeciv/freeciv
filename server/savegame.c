@@ -3509,11 +3509,9 @@ void game_load(struct section_file *file)
     game.info.coolinglevel  = secfile_lookup_int_default(file, 8, "game.coolinglevel");
     game.info.notradesize   = secfile_lookup_int_default(file, 0, "game.notradesize");
     game.info.fulltradesize = secfile_lookup_int_default(file, 1, "game.fulltradesize");
-    game.info.unhappysize   = secfile_lookup_int(file, "game.unhappysize");
     game.info.angrycitizen  = secfile_lookup_bool_default(file, FALSE, "game.angrycitizen");
 
     if (game.version >= 10100) {
-      game.info.cityfactor  = secfile_lookup_int(file, "game.cityfactor");
       game.info.diplcost    = secfile_lookup_int(file, "game.diplcost");
       game.info.freecost    = secfile_lookup_int(file, "game.freecost");
       game.info.conquercost = secfile_lookup_int(file, "game.conquercost");
@@ -4090,9 +4088,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.info.coolinglevel, "game.coolinglevel");
   secfile_insert_int(file, game.info.notradesize, "game.notradesize");
   secfile_insert_int(file, game.info.fulltradesize, "game.fulltradesize");
-  secfile_insert_int(file, game.info.unhappysize, "game.unhappysize");
   secfile_insert_bool(file, game.info.angrycitizen, "game.angrycitizen");
-  secfile_insert_int(file, game.info.cityfactor, "game.cityfactor");
   secfile_insert_int(file, game.info.citymindist, "game.citymindist");
   secfile_insert_int(file, game.info.civilwarsize, "game.civilwarsize");
   secfile_insert_int(file, game.info.contactturns, "game.contactturns");

@@ -374,9 +374,7 @@ PACKET_GAME_INFO=15; sc
   UINT32 globalwarming, heating, warminglevel;
   UINT32 nuclearwinter, cooling, coolinglevel;
 
-  UINT8 cityfactor;
   UINT8 diplcost, freecost, conquercost;
-  UINT8 unhappysize;
   UINT8 angrycitizen;
   UINT8 techpenalty;
   UINT32 foodbox;

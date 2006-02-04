@@ -169,10 +169,6 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_MIN_TECHLEVEL       0
 #define GAME_MAX_TECHLEVEL       50
 
-#define GAME_DEFAULT_UNHAPPYSIZE 4
-#define GAME_MIN_UNHAPPYSIZE     1
-#define GAME_MAX_UNHAPPYSIZE     6
-
 #define GAME_DEFAULT_ANGRYCITIZEN TRUE
 
 #define GAME_DEFAULT_END_YEAR    5000
@@ -233,10 +229,6 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_DEFAULT_CONQUERCOST     0
 #define GAME_MIN_CONQUERCOST         0
 #define GAME_MAX_CONQUERCOST         100
-
-#define GAME_DEFAULT_CITYFACTOR      14
-#define GAME_MIN_CITYFACTOR          6
-#define GAME_MAX_CITYFACTOR          100
 
 #define GAME_DEFAULT_CITYMINDIST     0
 #define GAME_MIN_CITYMINDIST         0 /* if 0, ruleset will overwrite this */

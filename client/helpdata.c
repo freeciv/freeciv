@@ -1322,10 +1322,10 @@ void helptext_government(char *buf, struct government *gov,
         sprintf(buf + strlen(buf), _("* Chance of civil war is %d%% if you "
                 "lose your capital.\n"), peffect->value);
         break;
-      case EFT_EMPIRE_SIZE_MOD:
+      case EFT_EMPIRE_SIZE_BASE:
         sprintf(buf + strlen(buf), _("* The first unhappy citizen in each "
         	      "city due to civilization size will appear when you have %d"
- 	              " cities.\n"), game.info.cityfactor + peffect->value);
+ 	              " cities.\n"), peffect->value);
         break;
       case EFT_EMPIRE_SIZE_STEP:
         sprintf(buf + strlen(buf), _("* After the first unhappy citizen "

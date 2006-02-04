@@ -1413,10 +1413,13 @@ int city_granary_size(int city_size)
 static int content_citizens(const struct player *pplayer)
 {
   int cities = city_list_size(pplayer->cities);
-  int content = game.info.unhappysize;
-  int basis = game.info.cityfactor + get_player_bonus(pplayer, 
-                                                       EFT_EMPIRE_SIZE_MOD);
+  int content = get_player_bonus(pplayer, EFT_CITY_UNHAPPY_SIZE);
+  int basis = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE);
   int step = get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
+
+  if (basis + step <= 0) {
+    return content; /* Value of zero means effect is inactive */
+  }
 
   if (cities > basis) {
     content--;

@@ -123,11 +123,9 @@ struct packet_game_info {
   int nuclearwinter;
   int cooling;
   int coolinglevel;
-  int cityfactor;
   int diplcost;
   int freecost;
   int conquercost;
-  int unhappysize;
   int angrycitizen;
   int techpenalty;
   int foodbox;

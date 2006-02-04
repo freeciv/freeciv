@@ -95,7 +95,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Gain_AI_Love",
   "Slow_Down_Timeline",
   "Civil_War_Chance",
-  "Empire_Size_Mod",
+  "Empire_Size_Base",
   "Empire_Size_Step",
   "Max_Rates",
   "Martial_Law_Each",
@@ -115,7 +115,8 @@ static const char *effect_type_names[EFT_LAST] = {
   "Output_Waste",
   "Output_Waste_By_Distance",
   "Output_Penalty_Tile",
-  "Output_Inc_Tile_Celebrate"
+  "Output_Inc_Tile_Celebrate",
+  "City_Unhappy_Size"
 };
 
 static bool initialized = FALSE;

@@ -83,8 +83,8 @@ enum effect_type {
   EFT_GAIN_AI_LOVE,
   EFT_SLOW_DOWN_TIMELINE,
   EFT_CIVIL_WAR_CHANCE,
-  EFT_EMPIRE_SIZE_MOD,
-  EFT_EMPIRE_SIZE_STEP,
+  EFT_EMPIRE_SIZE_BASE, /* +1 unhappy when more than this cities */
+  EFT_EMPIRE_SIZE_STEP, /* adds additional +1 unhappy steps to above */
   EFT_MAX_RATES,
   EFT_MARTIAL_LAW_EACH,
   EFT_MARTIAL_LAW_MAX,
@@ -104,6 +104,7 @@ enum effect_type {
   EFT_OUTPUT_WASTE_BY_DISTANCE,
   EFT_OUTPUT_PENALTY_TILE, /* -1 penalty to tiles producing more than this */
   EFT_OUTPUT_INC_TILE_CELEBRATE,
+  EFT_CITY_UNHAPPY_SIZE, /* all citizens after this are unhappy */
   EFT_LAST	/* keep this last */
 };
 

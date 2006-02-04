@@ -16,6 +16,14 @@ options="1.0"
 ; /* <-- avoid gettext warnings
 ; */ <-- avoid gettext warnings
 
+[effect_cityfactor]
+name    = "Empire_Size_Base"
+value   = 14
+
+[effect_unhappysize]
+name    = "City_Unhappy_Size"
+value   = 4
+
 ; Barbarian effects
 
 [effect_barb1]

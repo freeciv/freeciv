@@ -576,25 +576,6 @@ struct settings_s settings[] = {
 	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
 	  GAME_DEFAULT_NOTRADESIZE)
 
-  GEN_INT("unhappysize", game.info.unhappysize,
-	  SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("City size before people become unhappy"),
-	  N_("Before other adjustments, the first unhappysize citizens in a "
-	     "city are content, and subsequent citizens are unhappy. "
-	     "See also cityfactor."), NULL,
-	  GAME_MIN_UNHAPPYSIZE, GAME_MAX_UNHAPPYSIZE,
-	  GAME_DEFAULT_UNHAPPYSIZE)
-
-  GEN_INT("cityfactor", game.info.cityfactor,
-	  SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Number of cities for higher unhappiness"),
-	  N_("When the number of cities a player owns is greater than "
-	     "cityfactor, one extra citizen is unhappy before other "
-	     "adjustments; see also unhappysize. This assumes a "
-	     "Democracy; for other governments the effect occurs at "
-	     "smaller numbers of cities."), NULL, 
-	  GAME_MIN_CITYFACTOR, GAME_MAX_CITYFACTOR, GAME_DEFAULT_CITYFACTOR)
-
   GEN_INT("citymindist", game.info.citymindist,
 	  SSET_RULES, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Minimum distance between cities"),

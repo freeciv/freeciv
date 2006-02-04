@@ -336,8 +336,7 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_MAKE_HAPPY:
     v += (get_entertainers(pcity) + pcity->ppl_unhappy[4]) * 5 * amount;
     if (city_list_size(pplayer->cities)
-	> game.info.cityfactor 
-	+ get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
+	> get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
       v += c * amount; /* offset large empire size */
     }
     v += c * amount;
@@ -357,9 +356,8 @@ static int improvement_effect_value(struct player *pplayer,
 
       /* Try to build wonders to offset empire size unhappiness */
       if (city_list_size(pplayer->cities) 
-	  > game.info.cityfactor 
-	  + get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD)) {
-	if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_MOD) > 0) {
+	  > get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
+	if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE) > 0) {
 	  factor += city_list_size(pplayer->cities) 
 	    / get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
 	}
@@ -594,11 +592,12 @@ static int improvement_effect_value(struct player *pplayer,
     } players_iterate_end;
     break;
   /* Currently not supported for building AI - wait for modpack users */
+  case EFT_CITY_UNHAPPY_SIZE:
   case EFT_UNHAPPY_FACTOR:
   case EFT_UPKEEP_FACTOR:
   case EFT_UNIT_UPKEEP_FREE_PER_CITY:
   case EFT_CIVIL_WAR_CHANCE:
-  case EFT_EMPIRE_SIZE_MOD:
+  case EFT_EMPIRE_SIZE_BASE:
   case EFT_EMPIRE_SIZE_STEP:
   case EFT_MAX_RATES:
   case EFT_MARTIAL_LAW_EACH:
