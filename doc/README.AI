@@ -327,16 +327,6 @@ See farmland_food() and ai_eval_buildings() in advdomestic.c
 big...)
 
 
-THINGS PEOPLE ARE WORKING ON (for latest info ask on AI list)
-===============================================================
-
-* New settler code
-* Army code
-* Hunter code
-* Improvements to ferry code
-* Using new path-finding where it can improve things
-
-
 IDEA SPACE
 ==========
 
@@ -345,10 +335,6 @@ IDEA SPACE
 attackers
 * It would be nice for bodyguard and charge to meet en-route more 
 elegantly.
-* It may be correct to starve workers instead of allowing disorder to 
-continue.  Ideal if CM code or similar is used here.
 * struct choice should have a priority indicator in it.  This will
 reduce the number of "special" want values and remove the necessity to
 have want capped, thus reducing confusion.
-* City tile values could be cached.  However, caching was tried by
-Raimar and was deemed unsuccessful. 
