@@ -1,204 +1,291 @@
+The effects.ruleset file contains all effects in play in a Freeciv scenario. 
+They have the following form (this is perhaps the most complicated example I 
+could find):
 
-Effects can currently be assigned (via rulesets) to buildings.
+[effect_hydro_plant]
+name  = "Output_Bonus"
+value = 25
+reqs  =
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+      "Building", "Hydro Plant", "City"
+      "OutputType", "Shield", "Local"
+    }
+nreqs =
+    { "type", "name", "range"
+      "Building", "Hoover Dam", "Player"
+      "Building", "Nuclear Plant", "City"
+    }
 
-Some effects are not suitable for certain assignments.
+The text in the brackets is the entry name, which just has to be unique, but 
+is otherwise not used. The name field tells Freeciv which effect you are 
+defining.  The value is the effect's value, which depends on which effect it 
+is. The reqs table contain a list of requirements for this effect being in 
+effect. You need to satisfy all requirements listed here for this effect to 
+take effect in the game.  Lastly there is the nreqs table which is the 
+opposite of the reqs field, these are conditions which prevent the effect from 
+taking place. Any one of the nreq conditions will prevent the effect from 
+taking effect.
 
-If you have multiple effects of one type their AMOUNTs will be additively
-cumulative.  For many effects this is undesirable.
+Value is integral amount parameter for many effects (must be in the range 
+-32767 to 32767).
 
+Requirement range may be one of: "None", "Local", "Adjacent", "City", 
+"Continent", "Player", "World". Some requirement types may only work at 
+certain ranges; this is not yet documented. In particular, at present, 
+"Continent" effects can affect only cities and units in cities.
 
-.name may be one of:
+A requirement may have a survives field, and if this is '1', the effect 
+survives destruction (wonders only).
 
-"Tech_Parasite"	- gains advances known by AMOUNT other players.
+A requirement type is the type of the requirement and can be one of "None" 
+(default), "Tech", "Gov", "Building", "Special", "Terrain", "UnitType", 
+"UnitFlag", "UnitClass", "Nation", "OutputType" and "MinSize". MinSize is the 
+minimum size of a city required.
 
-"Airlift"	- allows airlift of units to/from a city (one per turn)
+Effect types 
+============
 
-"Any_Government"- allows the choice of any government form
-		  This must be either a "Player" or "World" ranged effect.
+Tech_Parasite
+    Gain any advance known already by amount number of other players. Note 
+that if you have two such effects, they combine into one much worse effect 
+(the number of players required to gain an advance is increased).
 
-"Capital_City"	- marks the capital city of a nation (many special cases)
+Airlift
+    Allow airlift to/from a city.
 
-"Corrupt_Pct"	- Decreases corruption by AMOUNT percent
+Any_Government
+    Allow instant government changes.
 
-"Waste_Pct"     - Decreases waste by AMOUNT percent
+Capital_City
+    The city with this effect is the capital city.
 
-"Enable_Nuke"	- allows production of nuclear units
-		  This must be either a "Player" or "World" ranged effect.
+Enable_Nuke
+    Allows the production of nuclear weapons.
 
-"Enable_Space"	- allows production of "Space_Part" improvements
-		  This must be either a "Player" or "World" ranged effect.
+Enable_Space
+    Allows the production of space components.
 
-"Food_Add_Tile"	- each worked tile produces AMOUNT additional food
+Specialist_Output
+    Specify what outputs a specialist is producing. Should be used with an 
+OutputType requirement.
 
-"Food_Inc_Tile"	- each worked tile that is already producing some
-		  food produces AMOUNT additional food (applied after
-                  Food_Add_Tile)
+Output_Bonus
+    City production is increased by amount percent.
 
-"Food_Per_Tile"	- increases food generated on each worked tile
-		  by AMOUNT percent
+Output_Bonus_2
+    City production is increased by amount percent after Output_Bonus, so is 
+multiplicative with it.
 
-"Force_Content"	- makes AMOUNT unhappy citizens content
-		  (applied *after* martial law and aggressive units;
-		  all Force_Content's are summed before being applied)
+Output_Add_Tile
+    Add amount to each worked tile.
 
-"Give_Imm_Tech"	- immediately gain AMOUNT advances when built
+Output_Inc_Tile
+    Add amount to each worked tile that already has at least 1 output.
 
-"Growth_Food"	- food left after cities grow or shrink is AMOUNT
-		  percent of the capacity of the city's foodbox
+Output_Per_Tile
+    Increase tile output by amount percent.
 
-"Have_Embassies"- like having embassies with all other players
+Output_Waste_Pct
+    Reduce waste by amount percent.
 
-"Make_Content"	- makes AMOUNT unhappy citizens content
-		  (applied *before* martial law and aggressive units;
-		  all Make_Content's are summed before being applied)
+Force_Content
+    Make amount' unhappy citizens content. Applied after martial law and unit 
+penalties.
 
-"Make_Content_Mil" - makes AMOUNT unhappy citizens caused
-		  by units outside of a city content
+Give_Imm_Tech
+    Give amount techs immediately.
 
-"Make_Content_Mil_Per" - makes AMOUNT _per unit_ of unhappy citizens
-		  caused by units outside of a city content
+Growth_Food
+    Food left after cities grow or shrink is amount percent of the capacity of 
+the city's foodbox.
 
-"Make_Happy"	- makes AMOUNT content citizens happy
-		  (all Make_Happy's are summed before being applied)
+Have_Embassies
+    Like having embassies with all other players.
 
-"No_Anarchy"	- eliminates anarchy period between governments
+Make_Content
+    Make amount unhappy citizens content. Applied before martial law and unit 
+penalties.
 
-"No_Sink_Deep"	- prevent certain sea units from sinking in deep sea
+Make_Content_Mil
+    Make amount unhappy citizens caused by units outside of a city content.
 
-"Nuke_Proof"	- nuclear attacks will fail with amount percent probability
+Make_Content_Mil_Per
+    Make amount per unit of unhappy citizens caused by units outside of a city 
+content.
 
-"Pollu_Pop_Pct"	- increases pollution caused by population by AMOUNT percent
+Make_Happy
+    Make amount citizens happy.
 
-"Pollu_Prod_Pct"- increases pollution caused by shields by AMOUNT percent
+No_Anarchy
+    No period of anarchy between government changes.
 
-"Prod_Add_Tile"	- each worked tile produces AMOUNT additional shield
-		  production
+No_Sink_Deep
+    Triremes no longer sink when on dangerous seas.
 
-"Prod_Inc_Tile"	- each worked tile that is already producing some
-		  shields produces AMOUNT additional shields
+Nuke_Proof
+    City is nuke proof.
 
-"Prod_Per_Tile"	- increases shield production generated on each worked
-		  tile by AMOUNT percent
+Pollu_Pop_Pct
+    Increases pollution caused by population by amount percent.
 
-"Prod_To_Gold"	- convert production to gold at 1:1 ratio
+Pollu_Prod_Pct
+    Increases pollution caused by shields by amount percent.
 
-"Reveal_Cities"	- make all city tiles known
+Reveal_Cities
+    Immediately make all cities known.
 
-"Reveal_Map"	- make entire map known
+Reveal_Map
+    Immediately make entire map known.
 
-"Incite_Cost_Pct" - increases revolt cost by AMOUNT percent
+Incite_Cost_Pct
+    Increases revolt cost by amount percent.
 
-"Defend_Bonus"  - Increases defensive bonuses of units.  Any unit requirements
-                  on this effect will be applied to the _attacking_ unit.
+Size_Adj
+    Increase maximum size of a city by amount.
 
-"Size_Adj"      - Increases maximum city size by AMOUNT
+Size_Unlimit
+    Make the size of a city unlimited.
 
-"Size_Unlimit"	- Removes maximum city size limitation
+SS_Structural, SS_Component and SS_Module
+    A part of a spaceship; this is a "Local" ranged effect. It (for now) 
+applies to improvements which cannot be built unless "Enable_Space" is felt. 
+Buildings which have this effect should probably not be given any other 
+effects.
 
-"SS_Structural"
-"SS_Component"
-"SS_Module"	- a part of a spaceship;
-                  this is a "Local" ranged effect. It (for now) applies
-                  to improvements which cannot be built unless "Enable_Space"
-                  is felt.  Buildings which have this effect should probably
-                  not be given any other effects.
+Spy_Resistant
+    If a spy specifies a target for sabotage, then she has an AMOUNT percent 
+chance to fail. Also in diplomatic combat defending diplomatic units in cities 
+will get an AMOUNT percent bonus. All Spy_Resistant's are summed before being 
+applied.
 
-"Spy_Resistant"	- if a spy specifies a target for sabotage,
-		  then she  has an AMOUNT percent chance to fail.  Also in
-                  diplomatic combat defending diplomatic units in cities will
-                  get an AMOUNT percent bonus.
-		  (all Spy_Resistant's are summed before being applied)
+Move_Bonus
+    Add amount movement to units. Use UnitClass' requirement with range of 
+'Local' to give it a specific class of units only.
 
-"Trade_Add_Tile"- each worked tile produces AMOUNT additional trade
+Unit_No_Lose_Pop
+    No population lost when a city's defender is lost.
 
-"Trade_Inc_Tile" - each worked tile that is already producing some
-		  trade produces AMOUNT additional trade
+Unit_Recover
+    Units recover amount extra hitpoints per turn.
 
-"Trade_Per_Tile" - increases trade generated on each worked tile
-		  by AMOUNT percent
+Upgrade_Unit
+    Upgrade amount obsolete units per turn.
 
-"Specialist_Output" - increases specialist output (food, luxuries, etc.) by
-                  AMOUNT.  This is generally only useful in conjunction with
-                  a Specialist and an OutputType requirement, each at
-                  local range.  See the default ruleset for examples.
+Upkeep_Free
+    Improvements with amount or less upkeep cost become free to upkeep (others 
+are unaffected).
 
-"Food_Bonus"	- city's production is increased by AMOUNT percent
-"Prod_Bonus"
-"Trade_Bonus"
-"Tax_Bonus"
-"Luxury_Bonus"
-"Science_Bonus"
+No_Unhappy
+    No citizens in the city are ever unhappy.
 
-"Food_Bonus_2"	- production is increased by AMOUNT percent.  This is
-"Prod_Bonus_2"    applied after the first bonus so it's multiplicative
-"Trade_Bonus_2"   with it.
-"Tax_Bonus_2"
-"Luxury_Bonus_2"
-"Science_Bonus_2"
+Veteran_Build
+    New land units of this type have veteran class 1. The amount value is 
+ignored, so that you can have multiple Veteran_Build effects, and units will 
+only get 1 free veterancy level. This is considered a feature at the moment.
 
-"Sea_Move"	- adds AMOUNT of movement points to sea units
+Veteran_Combat
+    Increases the chance of units of this type becoming veteran after combat 
+by amount percent.
 
-"Unit_No_Lose_Pop" - no population lost when a city's defender is lost
+HP_Regen
+    Units that do not move recover amount percentage of their full hitpoints 
+per turn.
 
-"Unit_Recover"	- units recover AMOUNT extra hitpoints per turn
+City_Vision_Radius_Sq
+    Increase city vision radius in squared distance by amount tiles.
 
-"Upgrade_Unit" - upgrade AMOUNT obsolete units per turn
+Unit_Vision_Radius_Sq
+    Increase unit vision radius in squared distance by amount tiles.
 
-"Upkeep_Free"	- improvements with AMOUNT or less upkeep cost become
-		  free to upkeep (others are unaffected)
+Defend_Bonus
+    Increases defensive bonuses of units. Any unit requirements on this effect 
+will be applied to the _attacking_ unit.
 
-"No_Unhappy"    - No citizens in the city are ever unhappy
+No_Incite
+    City cannot be incited.
 
-"Land_Veteran"
-"Sea_Veteran"
-"Air_Veteran"	- New land units of this type have veteran class 1
+Gain_AI_Love
+    Gain amount points of "AI love" with AI(s).
 
-"Land_Vet_Combat"
-"Sea_Vet_Combat"
-"Air_Vet_Combat"- Increases the chance of units of this type becoming veteran
-		  after combat by AMOUNT percent
+Slow_Down_Timeline
+    Slow down the timeline based on the AMOUNT. If AMOUNT >= 3 the timeline 
+will be 1 year/turn; with AMOUNT == 2 it is 2 years/turn; with AMOUNT == 1 it 
+is 5 years/turn; with AMOUNT <= 0 the timeline is unaffected. The effect will 
+be ignored if game.spacerace isn't set.
 
-"Gain_AI_Love"  - Increase AI's love for you by AMOUNT units (out of 1000)
-                  per turn
+Civil_War_Chance
+    Chance of player splitting due to civil war when capital captured is 
+increased by amount.
 
-"Regen_Reputation" - Increase your reputation by AMOUNT units (out of 1000)
-                  per turn
+Empire_Size_Mod
+    Once your civilization has more cities than amount + the server setting 
+'cityfactor', each city gets one more unhappy citizen.
 
-"Slow_Down_Timeline" - Slow down the timeline based on the AMOUNT.  If
-                       AMOUNT >= 3 the timeline will be 1 year/turn; with
-                       AMOUNT == 2 it is 2 years/turn; with
-                       AMOUNT == 1 it is 5 years/turn; with
-                       AMOUNT <= 0 the timeline is unaffected.
-                       The effect will be ignored if game.spacerace isn't
-                       set.
-"Trade_Revenue_Bonus" - Trade revenue is multiplied by pow(2, amount/1000).
-                        The amount value is taken from the caravan's home 
-			city.
+Empire_Size_Step
+    After your civilization reaches Empire_Size_Base size, it gets one more 
+unhappy citizen for each amount of cities it gets above that. Set to zero to 
+disable. You can use Empire_Size_Step even though Empire_Size_Base is zero.
 
+Max_Rates
+    The maximum setting for each tax rate is amount.
 
-.range may be one of: 
-             "None", "Local", "Adjacent", "City", "Continent",
-             "Player", "World".  Some requirement types may only work at
-             certain ranges; this is not yet documented.
-             In particular, at present, "Continent" effects can affect only
-             cities and units in cities.
-.value	   = integral AMOUNT parameter for many effects
-	    (must be in the range -32767 to 32767)
-.survives  = 1 if effect survives destruction (wonders only)
-	    (if unspecified, 0 (doesn't survive) is assumed)
-.req_type  = The type of the requirement; one of:
-             "None" (default), "Tech", "Gov", "Building", "Special",
-             "Terrain", "UnitType", "UnitFlag", "UnitClass", 
-             "Nation", "OutputType", "MinSize"
-.req       = The requirement.  The effect will not be active unless this
-             requirement is met.  This is a string containing the name of
-             the technology, government, building, tile special, tile
-             terrain, unit type, unit flag, unit class, nation,
-             or output type that is required. For MinSize it is the
-             minimum (city) size at which the requirement is met.  The
-             requirement applies to the target of the effect (not
-             the source).  Note that a requirement applied at local range
-             means that the requirement simply gives the target of the effect
-             type itself.
+Martial_Law_Each
+    The amount of citizens pacified by each military unit giving martial law.
 
-See data/default/buildings.ruleset for examples.
+Martial_Law_Max
+    The maximum amount of units that will give martial law in city.
+
+Rapture_Grow
+    Can rapture grow cities.
+
+Unbribable_Units
+    Units cannot be bribed.
+
+Revolution_When_Unhappy
+    If a city owned by this player is in revolt for more than two turns, 
+government falls.
+
+Has_Senate
+    Has a senate that prevents declarations of war in most cases.
+
+Inspire_Partisans
+    Partisan units (defined in units.ruleset) may spring up when this player's 
+cities are taken.
+
+Happiness_To_Gold
+    Make all Make_Content and Force_Content effects instead generate gold.
+
+Fanatics
+    Special case for Fanatics unit only.
+
+No_Diplomacy
+    Cannot use any diplomacy.
+
+Trade_Revenue_Bonus
+    Trade revenue is multiplied by pow(2, amount/1000). The amount value is 
+taken from the caravan's home city.
+
+Unhappy_Factor
+    Multiply unhappy unit upkeep by amount.
+
+Upkeep_Factor
+    Multiply unit upkeep by amount.
+
+Unit_Upkeep_Free_Per_City
+    In each city amount of units are free from upkeep. As usual, you can use 
+with OutputType requirement to specify which kind of upkeep this should be.
+
+Output_Waste
+    Base amount in percentage that each city has in waste. Waste can be used 
+with any output type, use an OutputType requirement to specify which.
+
+Output_Waste_By_Distance
+    For each tile in real distance that a city is from your capital, it gets 
+amount of extra waste.
+
+Output_Penalty_Tile
+    When a tile yields more output than amount, it gets a penalty of -1.
+
+Output_Inc_Tile_Celebrate
+    Tiles get amount extra output when city working them is celebrating.
