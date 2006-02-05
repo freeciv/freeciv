@@ -6,12 +6,10 @@ FREECIV_VERSION_COMMENT("  are defined differently depending on          ")
 FREECIV_VERSION_COMMENT("  language used. Don't add comments             ")
 FREECIV_VERSION_COMMENT("  specific to some language into this file.     ")
 
-FREECIV_VERSION_COMMENT("  For now version information in                ")
-FREECIV_VERSION_COMMENT("  common/version.h                              ")
-FREECIV_VERSION_COMMENT("  must be updated manually when ever this file  ")
-FREECIV_VERSION_COMMENT("  changes.                                      ")
-
 FREECIV_VERSION_INFO(2,0,99,"-devel")
 
 FREECIV_DEVEL_VERSION(1)
 FREECIV_BETA_VERSION(0)
+
+FREECIV_NEXT_VERSION("2.1.0")
+FREECIV_RELEASE_MONTH(6)
