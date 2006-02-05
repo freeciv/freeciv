@@ -477,42 +477,41 @@ reqs    =
       "Gov", "Democracy", "Player"
     }
 
-[effect_empire_size_mod_0]
-; base value
-name    = "Empire_Size_Mod"
-value   = -6
+[effect_empire_size_base_0]
+name    = "Empire_Size_Base"
+value   = 9
 reqs    =
     { "type",       "name",      "range"
       "Gov", "Anarchy",   "Player"
     }
 
-[effect_empire_size_mod_1]
-name    = "Empire_Size_Mod"
-value   = -6
+[effect_empire_size_base_1]
+name    = "Empire_Size_Base"
+value   = 10
 reqs    =
     { "type",       "name",      "range"
       "Gov", "Despotism", "Player"
     }
 
-[effect_empire_size_mod_2]
-name    = "Empire_Size_Mod"
-value   = -3
+[effect_empire_size_base_2]
+name    = "Empire_Size_Base"
+value   = 11
 reqs    =
     { "type",       "name",      "range"
       "Gov", "Monarchy",  "Player"
     }
 
-[effect_empire_size_mod_3]
-name    = "Empire_Size_Mod"
-value   = 127 ; unlimited
+[effect_empire_size_base_3]
+name    = "Empire_Size_Base"
+value   = 14
 reqs    =
     { "type",       "name",      "range"
-      "Gov", "Communism", "Player"
+      "Gov", "Republic",  "Player"
     }
 
-[effect_empire_size_mod_4]
-name    = "Empire_Size_Mod"
-value   = 3
+[effect_empire_size_base_4]
+name    = "Empire_Size_Base"
+value   = 17
 reqs    =
     { "type",       "name",      "range"
       "Gov", "Democracy",  "Player"
