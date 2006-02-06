@@ -3,14 +3,26 @@
 name=_("Latvian")
 plural=_("?plural:Latvians")
 groups=_("Modern"), _("European")
-legend=_("Latvia proclaimed independence from the Russian Empire in 1918, was\
- incorporated into the Soviet Union in 1940 and finally gained independence\
- again in 1991.")
-leader=
- "Karlis Ulmanis",
- "Guntis Ulmanis",
- "Namejs"
-leader_sex="Male", "Male", "Male"
+
+legend = _("In the aftermath of WWI Latvia proclaimed its independence\
+ from Russia. In 1940, Latvia was forcibly occupied by the Soviet Union.\
+ After the collapse of Soviet Union in 1991 Latvia restored its\
+ independence.")
+
+leader =
+ "Namiesis",
+ "Viestards",
+ "Tâlibalds",
+ "Visvaldis",
+ "Kriðjânis Valdemârs",
+ "Jânis Balodis",
+ "Pçteris Radziòð",
+ "Jorìis Zemitâns",
+ "Jânis Èakste",
+ "Kârlis Ulmanis"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male"
+
 flag="latvia"
 flag_alt = "-"
 city_style = "European"
@@ -20,14 +32,45 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Similar flags
-conflicts_with="austrian"
-civilwar_nations = "polish", "swedish"
+conflicts_with="austrian" ; Similar flags
+civilwar_nations = "estonian", "lithuanian"
 
 cities =
-  "Riga", "Liepaja", "Jurmala", "Jelgava", "Daugavpils", "Ogre", "Limbazi",
-  "Kuldiga","Valmiera", "Ventspils", "Talsi", "Tukums", "Bauska", "Dobele", 
-  "Livani", "Saldus", "Valdemarpils", "Rezenke", "Aizpute", "Valka", "Balvi",
-  "Sigulda", "Vecaki", "Olaine", "Saulkrasti", "Cesis", "Rujiena", "Smiltene",
-  "Gulbene", "Madona", "Ludza", "Aluksne", "Alsunga", "Jekabpils", "Sabile",
-  "Preili", "Salaspils", "Krustpils", "Auce", "Kandava", "Iecava", "Aglona"
+ "Rîga (grassland, river, ocean)",
+ "Daugavpils (grassland, river, !ocean)",
+ "Liepâja (plains, forest, !river, ocean)",
+ "Jelgava (plains, river, !ocean)",
+ "Ventspils (river, ocean)",
+ "Jûrmala (river, ocean)",
+ "Rçzekne (grassland, !ocean)",
+ "Beverîna (hills, !ocean)",
+ "Jersika (grassland, river, !ocean)",
+ "Koknese (forest, river, !ocean)",
+ "Meþotne (forest, !ocean)",
+ "Sçlpils (plains, forest)",
+ "Tçrvete (forest, !ocean)",
+ "Durbe (grassland, plains)",
+ "Lielvârde (plains, river)",
+ "Aizkraukle (forest, river)",
+ "Alûksne (grassland, !river)",
+ "Balvi (forest, !ocean)",
+ "Bauska (grassland, river)",
+ "Cçsis (plains, river)",
+ "Dobele (grassland, plains)",
+ "Gulbene (grassland, !river)",
+ "Jçkabpils (river)",
+ "Krâslava (river)",
+ "Kuldîga (grassland, river)",
+ "Limbaþi",
+ "Ludza",
+ "Madona (forest, !river)",
+ "Ogre (grassland, river)",
+ "Preiïi",
+ "Saldus",
+ "Talsi",
+ "Tukums (hills, !river)",
+ "Valka (hills)",
+ "Ainaþi (ocean)",
+ "Rûjiena",
+ "Sigulda (hills, river)",
+ "Zilupe (river)"
