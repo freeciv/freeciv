@@ -30,14 +30,13 @@ leader=
  "Pavel I",
  "Nikolay I",
  "Aleksandr II",
- "Iosif Stalin",
  "Anna Ioannovna",
  "Elizaveta Petrovna",
  "Ekaterina II"	; also Yekaterina, Catherine: compare Yekaterinburg
 
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
    "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-   "Male", "Female", "Female", "Female"
+   "Female", "Female", "Female"
 flag="russia"
 flag_alt = "-"
 city_style = "European"
