@@ -2,7 +2,7 @@
 
 name=_("Persian")
 plural=_("?plural:Persians")
-groups=_("Ancient"), _("Modern"), _("Asian")
+groups=_("Ancient"),_("Asian")
 legend=_("The first Persian (Achaemenid) Empire lasted from 550BC to 330BC;\
  the second (Sassanid) from 226AD to 642AD.")
 leader=
@@ -13,8 +13,8 @@ leader=
  "Khosrau I",
  "Shapur I"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
-flag="iran"
-flag_alt = "-"
+flag="iran_ancient"
+flag_alt = "iran"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"

@@ -12,8 +12,8 @@ leader=
  "Alkibiades",
  "Megas Alexandros"	; Alexander the Great
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
-flag="greece"
-flag_alt = "-"
+flag="greece_ancient"
+flag_alt = "greece"
 city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Despot"),       _("Despot")

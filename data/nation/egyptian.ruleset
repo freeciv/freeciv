@@ -2,7 +2,7 @@
 
 name=_("Egyptian")
 plural=_("?plural:Egyptians")
-groups=_("Ancient"), _("Modern"), _("African")
+groups=_("Ancient"), _("African")
 legend=_("Egypt was the second-oldest of the world's civilizations. Since\
  ancient times it has been unusually urbanized, supporting a large\
  population on silt deposited by the annual floodings of the Nile.")
@@ -18,8 +18,8 @@ leader=
  "Akhenaten"
 leader_sex="Male", "Female", "Male", "Male", "Male",
         "Female", "Female", "Male", "Male"
-flag="egypt"
-flag_alt = "-"
+flag="egypt_ancient"
+flag_alt = "egypt"
 city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"

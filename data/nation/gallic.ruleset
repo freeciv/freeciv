@@ -14,8 +14,8 @@ leader=
  "Brennus",
  "Julia Pacata"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
-flag="france_old"
-flag_alt = "france"
+flag="gaul"
+flag_alt = "france_old"
 city_style = "Celtic"
 
 ruler_titles = { "government",     "male_title",    "female_title"
