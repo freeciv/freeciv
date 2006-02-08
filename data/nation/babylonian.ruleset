@@ -14,8 +14,8 @@ leader=
  "Burnaburiash II",
  "Nabonassar"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
-flag = "iraq_old"
-flag_alt = "-"
+flag = "babylon"
+flag_alt = "iraq_old"
 city_style = "Babylonian"
 
 ruler_titles = { "government",	"male_title",	"female_title"

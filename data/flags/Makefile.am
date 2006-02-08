@@ -17,6 +17,7 @@ flag_files =				\
 		austria.png		\
 		azerbaijan.png		\
 		aztec.png		\
+		babylon.png		\
 		bangladesh.png		\
 		barbarian.png		\
 		bavarian.png		\
@@ -39,6 +40,7 @@ flag_files =				\
 		cuba.png		\
 		czech.png		\
 		denmark.png		\
+		egypt_ancient.png	\
 		egypt.png		\
 		england.png		\
 		estonia.png		\
@@ -48,8 +50,10 @@ flag_files =				\
 		france_old.png		\
 		france.png		\
 		galicia.png		\
+		gaul.png		\
 		georgia.png		\
 		germany.png		\
+		greece_ancient.png	\
 		greece.png		\
 		greenland.png		\
 		hittite.png		\
@@ -59,6 +63,7 @@ flag_files =				\
 		inca.png		\
 		india.png		\
 		indonesia.png		\
+		iran_ancient.png	\
 		iran.png		\
 		iraq_old.png		\
 		iraq.png		\
@@ -90,6 +95,7 @@ flag_files =				\
 		norway.png		\
 		observer.png		\
 		pakistan.png		\
+		palmyra.png		\
 		papua_newguinea.png	\
 		peru.png		\
 		philippines.png		\
@@ -158,6 +164,7 @@ shield_files =					\
 		bangladesh-shield.png		\
 		barbarian-shield.png		\
 		bavarian-shield.png		\
+		babylon-shield.png		\
 		belgium-shield.png		\
 		boer-shield.png			\
 		bosnia-shield.png		\
@@ -177,6 +184,7 @@ shield_files =					\
 		cuba-shield.png			\
 		czech-shield.png		\
 		denmark-shield.png		\
+		egypt_ancient-shield.png	\
 		egypt-shield.png		\
 		england-shield.png		\
 		estonia-shield.png		\
@@ -186,8 +194,10 @@ shield_files =					\
 		france_old-shield.png		\
 		france-shield.png		\
 		galicia-shield.png		\
+		gaul-shield.png			\
 		georgia-shield.png		\
 		germany-shield.png		\
+		greece_ancient-shield.png	\
 		greece-shield.png		\
 		greenland-shield.png		\
 		hittite-shield.png		\
@@ -197,6 +207,7 @@ shield_files =					\
 		inca-shield.png			\
 		india-shield.png		\
 		indonesia-shield.png		\
+		iran_ancient-shield.png		\
 		iran-shield.png			\
 		iraq_old-shield.png		\
 		iraq-shield.png			\
@@ -228,6 +239,7 @@ shield_files =					\
 		norway-shield.png		\
 		observer-shield.png		\
 		pakistan-shield.png		\
+		palmyra-shield.png		\
 		papua_newguinea-shield.png	\
 		peru-shield.png			\
 		philippines-shield.png		\
@@ -293,6 +305,7 @@ svg_files = 				\
 		austria.svg		\
 		azerbaijan.svg		\
 		aztec.svg		\
+		babylong.svg		\
 		bangladesh.svg		\
 		barbarian.svg		\
 		bavarian.svg		\
@@ -315,6 +328,7 @@ svg_files = 				\
 		cuba.svg		\
 		czech.svg		\
 		denmark.svg		\
+		egypt_ancient.svg	\
 		egypt.svg		\
 		england.svg		\
 		estonia.svg		\
@@ -324,8 +338,10 @@ svg_files = 				\
 		france_old.svg		\
 		france.svg		\
 		galicia.svg		\
+		gaul.svg		\
 		georgia.svg		\
 		germany.svg		\
+		greece_ancient.svg	\
 		greece.svg		\
 		greenland.svg		\
 		hittite.svg		\
@@ -335,6 +351,7 @@ svg_files = 				\
 		inca.svg		\
 		india.svg		\
 		indonesia.svg		\
+		iran_ancient.svg	\
 		iran.svg		\
 		iraq_old.svg		\
 		iraq.svg		\
@@ -366,6 +383,7 @@ svg_files = 				\
 		norway.svg		\
 		observer.svg		\
 		pakistan.svg		\
+		palmyra.svg		\
 		papua_newguinea.svg	\
 		peru.svg		\
 		philippines.svg		\
