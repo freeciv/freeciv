@@ -11,10 +11,12 @@ leader=
  "Charlemagne",
  "Louis XIV",
  "Charles de Gaulle",
- "Jeanne d'Arc",
+ "Vercingétorix",
  "Chlodwig",
- "Charles Martel"
-leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Male"
+ "Charles Martel",
+ "Jeanne d'Arc"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Female"
 flag="france"
 flag_alt = "-"
 city_style = "Celtic"
