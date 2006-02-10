@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Freeciv-trunk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-07 18:10-0500\n"
-"PO-Revision-Date: 2005-12-23 18:32+0300\n"
+"PO-Revision-Date: 2005-01-30 14:57+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -695,22 +695,24 @@ msgid ""
 "other better?"
 msgstr ""
 "*%s (компьютер)* Приветствую Вас, %s! Может быть нам следует заключить "
-"соглашение о прекращении огня, когда мы получше узнаем друг друга?"
+"соглашение о прекращении огня, пока мы не узнаем друг друга получше?"
 
 #: ai/advdiplomacy.c:1076
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr "*%s (компьютер)* Космос никогда не будет Вашим."
+msgstr "*%s (компьютер)* Космос никогда не будет твоим!"
 
 #: ai/advdiplomacy.c:1080
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr "%s (компьютер) *"
+msgstr ""
+"%s (компьютер)* Я достаточно долго терпел твои злобные выходки! Готовься "
+"к войне!"
 
 #: ai/advdiplomacy.c:1085
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (компьютер)* Мир - в другой раз."
+msgstr "*%s (компьютер)* Мир.. как-нибудь в другой раз."
 
 #: ai/advdiplomacy.c:1090
 #, c-format
@@ -737,6 +739,8 @@ msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
 msgstr ""
+"*%s (компьютер)* Мы начнём всеобщую войну против %s через %d ходов чтобы "
+"остановить запуск космического корабля."
 
 #: ai/advdiplomacy.c:1188
 #, c-format
@@ -744,6 +748,8 @@ msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr ""
+"*%s (компьютер)* Мы ждём от Вас помощи в этом вопросе. Пусть наш славный "
+"союз будет вечен!"
 
 #: ai/advdiplomacy.c:1193
 #, c-format
@@ -752,6 +758,9 @@ msgid ""
 "will answer in force in %d turns and expect you to honour your alliance with "
 "us and do likewise!"
 msgstr ""
+"*%s (компьютер)* %s грубо попрали существующие соглашения с нами ради "
+"собственной выгоды. Мы ответим им силой через %d ходов и ожидаем, что Вы, "
+"уважая наш союз, поступите так же!"
 
 #: ai/advdiplomacy.c:1199
 #, c-format
@@ -759,12 +768,16 @@ msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
 msgstr ""
+"*%s (компьютер)* Мы собираемся пограбить богатую цивилизацию народа %s. Мы "
+"объявим им войну через %d ходов."
 
 #: ai/advdiplomacy.c:1202
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr ""
+"*%s (компьютер)* Если Вы хотите получить свой кусок пирога - присоединяйтесь "
+"к нашей акции!"
 
 #: ai/advdiplomacy.c:1206
 #, c-format
@@ -777,6 +790,8 @@ msgstr ""
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
+"*%s (компьютер)* Мы ждём от Вас, наших славных союзников, помощи в этой "
+"войне."
 
 #: ai/advdiplomacy.c:1214
 #, c-format
@@ -784,6 +799,8 @@ msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr ""
+"*%s (компьютер)* Мы чтим наш союз и объявляем войну народу %s через %d "
+"ходов. Держитесь - помощь идёт!"
 
 #: ai/advdiplomacy.c:1218
 #, c-format
@@ -791,6 +808,8 @@ msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr ""
+"*%s (компьютер)* Мы чтим наш союз с народом %s и объявляем войну народу %s "
+"через %d ходов. Мы ожидаем, что Вы поступите так же."
 
 #: ai/advdiplomacy.c:1280
 #, c-format
@@ -826,13 +845,13 @@ msgstr ""
 "*%s (компьютер)* Извините, но общее зрение с Вами для меня не безопасно."
 
 #: ai/advdiplomacy.c:1480
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
 msgstr ""
-"*%s (компьютер)* Здравствуйте, уважаемый союзник. Помогите нам уничтожить "
-"нашего врага - %s"
+"*%s (компьютер)* Приветствуем нашего самого надёжного союзника. Помогите нам "
+"уничтожить нашего врага - %s."
 
 #: ai/advdiplomacy.c:1485
 #, c-format
@@ -841,42 +860,43 @@ msgid ""
 "s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (компьютер)* Приветствую Вас, союзник. Я вижу Вы все ещё не напали на "
-"нашего врага (%s). Должен ли я напоминать Вам о Ваших обещаниях?"
+"нашего врага (%s). Неужели я должен напоминать Вам о Ваших обещаниях?"
 
 #: ai/advdiplomacy.c:1490
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
 "*%s (компьютер)* Ваше поведение бесчестно! Мы заключили союз, но Вы по-"
-"прежнему не напали на наших врагов (%s). Мы вынуждены расторгнуть наш союз с "
-"Вами!"
+"по-прежнему в мире с нашими смертельными врагами (%s)! Это неприемлемо; "
+"нашего союза с Вами более не существует!"
 
 #: ai/advdiplomacy.c:1518
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr ""
-"*%s (компьютер)* Здравствуйте, друг мой. Не хотите ли поучаствовать в "
-"совместной кампании против %s?"
+"*%s (компьютер)* Здравствуйте, друг мой. Можем ли мы предложить Вам "
+"объединить наши цели и вступить в альянс?"
 
 #: ai/advdiplomacy.c:1533
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr ""
-"*%s (компьютер)* Приветствую Вас, сосед. Не хотите ли поучаствовать в "
-"совместной кампании против %s?"
+"*%s (компьютер)* Приветствую Вас, сосед. Не желаете ли перейти к более "
+"мирным отношениям?"
 
 #: ai/advdiplomacy.c:1547
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* we grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
 msgstr ""
-"*%s (компьютер)* %s угрожает нам обоим. Давайте прекратим военные действия?"
+"*%s (компьютер)* Мы устали от бесконечного кровопролития. Давайте "
+"приостановим военные действия?"
 
 #: ai/advdiplomacy.c:1667
 #, c-format
@@ -2074,12 +2094,12 @@ msgid ""
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
 msgstr ""
-"Команда cmdlevel контролирует к каким командам на сервере пользователе имеют "
-"доступ через строку 'болталки' клиента. Доступные уровни:\n"
+"Уровень командного доступа контролирует какие команды на сервере разрешены "
+"пользователям посредством строки 'болталки' клиента. Доступные уровни:\n"
 "   none - никаких команд\n"
 "   info - только информационные команды\n"
 "   ctrl - команды контролирующие игру и игроков\n"
-"   hack - все команды - опасно!\n"
+"   hack - *все* команды - опасно!\n"
 "Без аргументов - сообщаются текущие уровни команд\n"
 "С одним аргументом уровень устанавливается для всех текущих подключений,\n"
 "а также значение по умолчанию для новых.\n"
@@ -2097,6 +2117,7 @@ msgstr ""
 #: server/commands.c:289
 msgid "If there is none, become the game organizer with increased permissions."
 msgstr ""
+"Если никого нет, станьте организатором игры с увеличенными полномочиями."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:294
@@ -2905,14 +2926,14 @@ msgstr ""
 "      Рабочие неожиданно собираются и строят железные дороги во всех городах."
 
 #: server/maphand.c:1371
-#, fuzzy, c-format
+#, c-format
 msgid "Moved your %s due to changing terrain."
-msgstr "Передвинули Ваш %s в связи с изменением моря на землю."
+msgstr "Передвинули Ваш %s в связи с изменением рельефа."
 
 #: server/maphand.c:1388
-#, fuzzy, c-format
+#, c-format
 msgid "Disbanded your %s due to changing terrain."
-msgstr "Распустили Ваши %s в связи с изменением земли на море.."
+msgstr "Распустили Ваши %s в связи с изменением рельефа."
 
 #: server/meta.c:140
 msgid "Not reporting to the metaserver in this game."
@@ -2957,13 +2978,19 @@ msgid ""
 msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
-msgstr[0] "%s начали революцию! %d шаг будет действовать анархия!"
-msgstr[1] "%s начали революцию! %d шага будет действовать анархия!"
-msgstr[2] "%s начали революцию! %d шагов будет действовать анархия!"
+msgstr[0] ""
+"%s начали революцию! %d шаг будет действовать анархия! Целевое "
+"правительстьво - %s."
+msgstr[1] ""
+"%s начали революцию! %d шага будет действовать анархия! Целевое "
+"правительстьво - %s."
+msgstr[2] ""
+"%s начали революцию! %d шагов будет действовать анархия! Целевое "
+"правительстьво - %s."
 
 #: server/plrhand.c:358
 msgid "Revolution: returning to anarchy."
-msgstr ""
+msgstr "Революция: возвращаемся к анархии."
 
 #: server/plrhand.c:419
 msgid "You should choose a new government from the government menu."
@@ -3423,9 +3450,9 @@ msgstr "Рельеф %s имеет неизвестный флаг %s"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1650
-#, fuzzy, c-format
+#, c-format
 msgid "Resources %s and %s have the same identifier."
-msgstr "У рельефов %s и %s один и тот же идентификатор."
+msgstr "У ресурсов %s и %s один и тот же идентификатор."
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:2396
