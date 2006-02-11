@@ -236,13 +236,8 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     
     pLogo = GET_SURF(get_nation_flag_sprite(tileset, p->nation));
-    pLogo = make_flag_surface_smaler(pLogo);
-    
     pText1 = ZoomSurface(pLogo, 4.0 , 4.0, 1);
-    FREESURFACE(pLogo);
     pLogo = pText1;
-    SDL_SetColorKey(pLogo,
-          SDL_SRCCOLORKEY|SDL_RLEACCEL, getpixel(pLogo, pLogo->w - 1, pLogo->h - 1));
           
     pBuf = create_icon2(pLogo, pWindow->dst,
           (WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|
