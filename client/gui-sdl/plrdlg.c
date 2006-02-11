@@ -409,11 +409,7 @@ void popup_players_dialog(bool raise)
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
    
     pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
-    pLogo = make_flag_surface_smaler(pLogo);
     pZoomed = ZoomSurface(pLogo, 3.0 - n * 0.05, 3.0 - n * 0.05 , 1);
-    SDL_SetColorKey(pZoomed, SDL_SRCCOLORKEY|SDL_RLEACCEL,
-    			getpixel(pZoomed, pZoomed->w - 1, pZoomed->h - 1));
-    FREESURFACE(pLogo);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
     	(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));
@@ -671,10 +667,9 @@ void popup_players_nations_dialog(void)
       pStr->style |= TTF_STYLE_BOLD;
    
       pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
-      pLogo = make_flag_surface_smaler(pLogo);
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
-    	(WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    	(/*WF_FREE_THEME|*/WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
                       
       /* now add some eye candy ... */
       switch (pDS->type) {
