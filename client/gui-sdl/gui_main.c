@@ -318,7 +318,8 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
 
 static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
-  if (!MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) {
+  if (button_behavior.button_down_ticks /* button wasn't pressed over a widget */
+     && !MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) {
     *button_behavior.event = *pButtonEvent;
     button_up_on_map(&button_behavior);
   }
