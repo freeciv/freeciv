@@ -233,7 +233,9 @@ void widget_sellected_action(struct GUI *pWidget);
 Uint16 widget_pressed_action(struct GUI *pWidget);
 
 void unsellect_widget_action(void);
-void draw_widget_info_label(void);
+
+#define draw_widget_info_label() redraw_widget_info_label(NULL);
+void redraw_widget_info_label(SDL_Rect *area);
 
 /* Group */
 Uint16 redraw_group(const struct GUI *pBeginGroupWidgetList,

@@ -29,6 +29,8 @@
 #include "canvas.h"
 #include "gui_main.h"
 
+#define USE_ALPHABLIT
+
 #define	RECT_LIMIT	80
 /* #define	HAVE_MMX1 */
 
@@ -191,6 +193,15 @@ struct main {
   SDL_Surface **guis;		/* gui buffers used by sdlclient widgets window menager */
   SDL_Event event;		/* main event struct */
 };
+
+#ifdef USE_ALPHABLIT
+int pygame_AlphaBlit(SDL_Surface *src, SDL_Rect *srcrect, 
+                     SDL_Surface *dst, SDL_Rect *dstrect);
+int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
+              SDL_Surface *dst, SDL_Rect *dstrect);
+#else
+#define alphablit SDL_BlitSurface
+#endif
 
 SDL_Surface *load_surf(const char *pFname);
 SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags);

@@ -40,6 +40,8 @@
 #include "gui_stuff.h"
 
 struct GUI *pSellected_Widget;
+SDL_Rect *pInfo_Area = NULL;
+SDL_Surface *pInfo_Label = NULL;
 
 extern Uint32 widget_info_counter;
 
@@ -72,7 +74,6 @@ struct UP_DOWN {
   int step;
 };
 
-static SDL_Rect *pInfo_Area = NULL;
 static SDL_Surface *pLocked_buffer = NULL;
 
 static struct GUI *pBeginMainWidgetList;
@@ -376,6 +377,7 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
   if (pInfo_Area) {
     sdl_dirty_rect(*pInfo_Area);
     FC_FREE(pInfo_Area);
+    FREESURFACE(pInfo_Label);
   }
   
   switch (get_wtype(pWidget)) {
@@ -583,6 +585,7 @@ End:
   if (pInfo_Area) {
     flush_rect(*pInfo_Area);
     FC_FREE(pInfo_Area);
+    FREESURFACE(pInfo_Label);    
   }
 
   pSellected_Widget = NULL;
@@ -652,10 +655,10 @@ void widget_sellected_action(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-void draw_widget_info_label(void)
+void redraw_widget_info_label(SDL_Rect *rect)
 {
   SDL_Surface *pText, *pBcgd;
-  SDL_Rect dest;
+  SDL_Rect srcrect, dstrect;
   SDL_Color color;
 
   struct GUI *pWidget = pSellected_Widget;
@@ -664,83 +667,92 @@ void draw_widget_info_label(void)
     return;
   }
 
-  pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
-
-  /*pWidget->string16->render = 3;*/
+  if (!pInfo_Label) {
   
-  color = pWidget->string16->fgcol;
-  pWidget->string16->style |= TTF_STYLE_BOLD;
-  pWidget->string16->fgcol.r = 255;
-  pWidget->string16->fgcol.g = 255;
-  pWidget->string16->fgcol.b = 255;
+    pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
   
-  /* create string and bcgd theme */
-  pText = create_text_surf_from_str16(pWidget->string16);
-  /*SDL_SetAlpha(pText, 0x0, 0x0);*/
-  pWidget->string16->fgcol = color;
+    /*pWidget->string16->render = 3;*/
+    
+    color = pWidget->string16->fgcol;
+    pWidget->string16->style |= TTF_STYLE_BOLD;
+    pWidget->string16->fgcol.r = 255;
+    pWidget->string16->fgcol.g = 255;
+    pWidget->string16->fgcol.b = 255;
+    
+    /* create string and bcgd theme */
+    pText = create_text_surf_from_str16(pWidget->string16);
+
+    pWidget->string16->fgcol = color;
+    
+    color = *get_game_colorRGB(COLOR_THEME_QUICK_INFO);
+    color.unused = 150;
   
-  color = *get_game_colorRGB(COLOR_THEME_QUICK_INFO);
-  color.unused = 150;
+    pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6), SDL_SWSURFACE,
+                                  get_game_colorRGB(COLOR_THEME_QUICK_INFO));
+                                  
+    /* calculate start position */
+    if (pWidget->size.y - pBcgd->h - adj_size(6) < 0) {
+      pInfo_Area->y = pWidget->size.y + pWidget->size.h + adj_size(3);
+    } else {
+      pInfo_Area->y = pWidget->size.y - pBcgd->h - adj_size(5);
+    }
+  
+    if (pWidget->size.x + pBcgd->w + adj_size(5) > Main.screen->w) {
+      pInfo_Area->x = pWidget->size.x - pBcgd->w - adj_size(5);
+    } else {
+      pInfo_Area->x = pWidget->size.x + adj_size(3);
+    }
+  
+    pInfo_Area->w = pBcgd->w + adj_size(2);
+    pInfo_Area->h = pBcgd->h + adj_size(2);
 
-
-  pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6), SDL_SWSURFACE,
-				get_game_colorRGB(COLOR_THEME_QUICK_INFO));
-
-
-  /* callculate start position */
-  if (pWidget->size.y - pBcgd->h - adj_size(6) < 0) {
-    pInfo_Area->y = pWidget->size.y + pWidget->size.h + adj_size(3);
-  } else {
-    pInfo_Area->y = pWidget->size.y - pBcgd->h - adj_size(5);
+    pInfo_Label = SDL_DisplayFormatAlpha(pBcgd);
+    
+    FREESURFACE(pBcgd);
+    
+    /* draw theme and text */
+    dstrect.x = 6;
+    dstrect.y = 4;
+    
+    alphablit(pText, NULL, pInfo_Label, &dstrect);
+    
+    FREESURFACE(pText);    
+    
+    /* draw frame */
+    putline(pInfo_Label, 1, 0,
+            pInfo_Area->w - adj_size(2), 0, 0x0);
+  
+    putline(pInfo_Label, 0, 1,
+            0, pInfo_Area->h - adj_size(2), 0x0);
+  
+    putline(pInfo_Label, 1, pInfo_Area->h - adj_size(2),
+            pInfo_Area->w - adj_size(2),
+            pInfo_Area->h - adj_size(2), 0x0);
+  
+    putline(pInfo_Label, pInfo_Area->w - 1, 1,
+            pInfo_Area->w - 1,
+            pInfo_Area->h - adj_size(2), 0x0);
   }
 
-  if (pWidget->size.x + pBcgd->w + adj_size(5) > Main.screen->w) {
-    pInfo_Area->x = pWidget->size.x - pBcgd->w - adj_size(5);
+  if (rect) {
+    dstrect.x = MAX(rect->x, pInfo_Area->x);
+    dstrect.y = MAX(rect->y, pInfo_Area->y);
+    
+    srcrect.x = dstrect.x - pInfo_Area->x;
+    srcrect.y = dstrect.y - pInfo_Area->y;
+    srcrect.w = MIN((pInfo_Area->x + pInfo_Area->w), (rect->x + rect->w)) - dstrect.x;
+    srcrect.h = MIN((pInfo_Area->y + pInfo_Area->h), (rect->y + rect->h)) - dstrect.y;
+
+    SDL_BlitSurface(pInfo_Label, &srcrect, Main.screen, &dstrect);
   } else {
-    pInfo_Area->x = pWidget->size.x + adj_size(3);
+    SDL_BlitSurface(pInfo_Label, NULL, Main.screen, pInfo_Area);
   }
 
-  pInfo_Area->w = pBcgd->w + adj_size(2);
-  pInfo_Area->h = pBcgd->h + adj_size(2);
-  
-  /* draw theme and text */
-  dest = *pInfo_Area;
-  dest.x += 1;
-  dest.y += 1;
-  SDL_BlitSurface(pBcgd, NULL, Main.screen, &dest);
-  /*
-  SDL_FillRect(Main.gui, &dest , 
-     SDL_MapRGBA(Main.gui->format, color.r, color.g, color.b, color.unused));
-  */
-  dest.x += adj_size(5);
-  dest.y += adj_size(3);
-  SDL_BlitSurface(pText, NULL, Main.screen, &dest);
-
-  /* draw frame */
-  putline(Main.screen, pInfo_Area->x + 1, pInfo_Area->y,
-	  pInfo_Area->x + pInfo_Area->w - adj_size(2), pInfo_Area->y, 0x0);
-
-  putline(Main.screen, pInfo_Area->x, pInfo_Area->y + 1,
-	  pInfo_Area->x, pInfo_Area->y + pInfo_Area->h - adj_size(2), 0x0);
-
-  putline(Main.screen, pInfo_Area->x + 1, pInfo_Area->y + pInfo_Area->h - adj_size(2),
-	  pInfo_Area->x + pInfo_Area->w - adj_size(2),
-	  pInfo_Area->y + pInfo_Area->h - adj_size(2), 0x0);
-
-  putline(Main.screen, pInfo_Area->x + pInfo_Area->w - 1, pInfo_Area->y + 1,
-	  pInfo_Area->x + pInfo_Area->w - 1,
-	  pInfo_Area->y + pInfo_Area->h - adj_size(2), 0x0);
-
-
-  /*flush_rect(*pInfo_Area);*/
   if (correct_rect_region(pInfo_Area)) {
     SDL_UpdateRect(Main.screen, pInfo_Area->x, pInfo_Area->y,
 				    pInfo_Area->w, pInfo_Area->h);
   }
-
-  FREESURFACE(pText);
-  FREESURFACE(pBcgd);
-
+  
   return;
 }
 

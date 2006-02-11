@@ -604,6 +604,11 @@ Uint16 gui_event_loop(void *pData,
     /* ========================================= */
     
     t2 = SDL_GetTicks();
+    
+    if (t2 > real_timer_next_call) {
+      real_timer_next_call = t2 + (real_timer_callback() * 1000);
+    }
+    
     if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
       if (widget_info_counter || autoconnect) {
         if(widget_info_counter > 8) {
@@ -625,10 +630,6 @@ Uint16 gui_event_loop(void *pData,
       t1 = SDL_GetTicks();
     }
     
-    if (t2 > real_timer_next_call) {
-      real_timer_next_call = t2 + (real_timer_callback() * 1000);
-    }
-      
     /* ========================================= */
     
     if(loop_action) {

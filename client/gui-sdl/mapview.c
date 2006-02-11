@@ -54,6 +54,7 @@
 #include "mapview.h"
 
 extern SDL_Event *pFlush_User_Event;
+extern SDL_Rect *pInfo_Area;
 
 int OVERVIEW_START_X;
 int OVERVIEW_START_Y;
@@ -235,7 +236,7 @@ void flush_dirty(void)
       SDL_BlitSurface(Main.map, &Main.rects[i], Main.screen, &dst);
       dst = Main.rects[i];
       SDL_BlitSurface(Main.gui, &Main.rects[i], Main.screen, &dst);
-      
+
       if (Main.guis) {
         while((j < Main.guis_count) && Main.guis[j]) {
           dst = Main.rects[i];
@@ -243,6 +244,16 @@ void flush_dirty(void)
         }
       }
       j = 0;
+      
+      /* restore widget info label if it overlaps with this area */
+      if (pInfo_Area && !(((dst.x + dst.w) < pInfo_Area->x)
+                          || (dst.x > (pInfo_Area->x + pInfo_Area->w)) 
+                          || ((dst.y + dst.h) < pInfo_Area->y) 
+                          || (dst.y > (pInfo_Area->y + pInfo_Area->h)))) {
+                            
+        redraw_widget_info_label(&dst);     
+      }
+      
     }
     /* flush main buffer to framebuffer */    
     SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);

@@ -64,6 +64,23 @@ SDL_Cursor *pPatrol_Cursor;
 
 /* ============ FreeCiv sdl graphics function =========== */
 
+#ifdef USE_ALPHABLIT
+int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
+              SDL_Surface *dst, SDL_Rect *dstrect) {
+
+  if (!(src && dst)) {
+    return 0;
+  }
+
+  /* use for RGBA->RGBA blits only */  
+  if (src->format->Amask && dst->format->Amask) {
+    return pygame_AlphaBlit(src, srcrect, dst, dstrect);
+  } else {
+    return SDL_BlitSurface(src, srcrect, dst, dstrect);
+  }   
+}
+#endif
+
 /**************************************************************************
   Create new surface (pRect->w x pRect->h size) and copy pRect area of
   pSource.
