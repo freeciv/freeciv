@@ -49,8 +49,6 @@ libguiclient_a_SOURCES = \
 	gotodlg.h	\
 	graphics.c	\
 	graphics.h	\
-	gui_dither.c	\
-	gui_dither.h	\
 	gui_iconv.c	\
 	gui_iconv.h	\
 	gui_id.h	\

@@ -24,7 +24,6 @@
 
 /* gui-sdl */
 #include "graphics.h"
-#include "gui_dither.h"
 
 #include "sprite.h"
 
@@ -124,9 +123,7 @@ struct sprite *crop_sprite(struct sprite *source,
   SDL_Rect src_rect = {(Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height};
   SDL_Surface *pTmp = crop_rect_from_surface(GET_SURF(source), &src_rect);
   SDL_Surface *pSrc = NULL;
-  SDL_Surface *pMask = NULL;
   SDL_Surface *pDest = NULL;
-  SDL_Surface *pTmp2 = NULL;
       
   if (pTmp->format->Amask) {
     SDL_SetAlpha(pTmp, SDL_SRCALPHA, 255);
@@ -143,32 +140,8 @@ struct sprite *crop_sprite(struct sprite *source,
   }
 
   if (mask) {
-
-    pMask = mask->psurface;
-
-    /* make sure all surfaces have an alpha channel */
-
-    if (!pMask->format->Amask) {
-      pMask = SDL_DisplayFormatAlpha(pMask);
-    }
-    
-    if (!pSrc->format->Amask) {
-      pTmp2 = SDL_DisplayFormatAlpha(pSrc);
-      FREESURFACE(pSrc);
-      pSrc = pTmp2;
-    }
-   
-    pDest = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height,
-       pSrc->format->BitsPerPixel, pSrc->format->Rmask, pSrc->format->Gmask, 
-       pSrc->format->Bmask, pSrc->format->Amask);
-    
-    SDL_FillRect(pDest, NULL, pSrc->format->colorkey);
-    SDL_SetColorKey(pDest, SDL_SRCCOLORKEY | SDL_RLEACCEL, pSrc->format->colorkey);
-    
-    dither_surface(pSrc, pMask, pDest, x - mask_offset_x, y - mask_offset_y);
-
-    FREESURFACE(pSrc);
-    
+    pDest = mask_surface(pSrc, mask->psurface, x - mask_offset_x, y - mask_offset_y);
+    FREESURFACE(pSrc);    
     return ctor_sprite(pDest);
   }
 
