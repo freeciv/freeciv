@@ -58,15 +58,15 @@ struct sprite * load_gfxfile(const char *filename)
 
   if ((pBuf = IMG_Load(filename)) == NULL) {
     freelog(LOG_ERROR,
-	    _("load_surf: Unable to load graphic file %s!"),
+	    _("load_gfxfile: Unable to load graphic file %s!"),
 	    filename);
     return NULL;		/* Should I use abotr() ? */
   }
-  
+
   if (pBuf->flags & SDL_SRCCOLORKEY) {
     SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, pBuf->format->colorkey);
   }
-
+  
   if (correct_black(pBuf)) {
     pNew = pBuf;
     freelog(LOG_DEBUG, _("%s load with own %d bpp format !"), filename,
@@ -121,19 +121,21 @@ struct sprite *crop_sprite(struct sprite *source,
 			   struct sprite *mask,
 			   int mask_offset_x, int mask_offset_y)
 {
-  SDL_Rect src_rect =
-      { (Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height };
-  SDL_Surface *pNew, *pTmp =
-      crop_rect_from_surface(GET_SURF(source), &src_rect);
-
+  SDL_Rect src_rect = {(Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height};
+  SDL_Surface *pTmp = crop_rect_from_surface(GET_SURF(source), &src_rect);
+  SDL_Surface *pSrc = NULL;
+  SDL_Surface *pMask = NULL;
+  SDL_Surface *pDest = NULL;
+  SDL_Surface *pTmp2 = NULL;
+      
   if (pTmp->format->Amask) {
     SDL_SetAlpha(pTmp, SDL_SRCALPHA, 255);
-    pNew = pTmp;
+    pSrc = pTmp;
   } else {
     SDL_SetColorKey(pTmp, SDL_SRCCOLORKEY | SDL_RLEACCEL, pTmp->format->colorkey);
-    pNew = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
+    pSrc = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
 
-    if (!pNew) {
+    if (!pSrc) {
       return ctor_sprite(pTmp);
     }
 
@@ -141,21 +143,36 @@ struct sprite *crop_sprite(struct sprite *source,
   }
 
   if (mask) {
-    SDL_Surface *pDest = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height,
-       pNew->format->BitsPerPixel, pNew->format->Rmask, pNew->format->Gmask, 
-       pNew->format->Bmask, pNew->format->Amask);
 
-    SDL_FillRect(pDest, NULL, pNew->format->colorkey);
-    SDL_SetColorKey(pDest, SDL_SRCCOLORKEY, pNew->format->colorkey);    
-   
-    dither_surface(pNew, mask->psurface, pDest, x - mask_offset_x, y - mask_offset_y);
+    pMask = mask->psurface;
+
+    /* make sure all surfaces have an alpha channel */
+
+    if (!pMask->format->Amask) {
+      pMask = SDL_DisplayFormatAlpha(pMask);
+    }
     
-    FREESURFACE(pNew);
+    if (!pSrc->format->Amask) {
+      pTmp2 = SDL_DisplayFormatAlpha(pSrc);
+      FREESURFACE(pSrc);
+      pSrc = pTmp2;
+    }
+   
+    pDest = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height,
+       pSrc->format->BitsPerPixel, pSrc->format->Rmask, pSrc->format->Gmask, 
+       pSrc->format->Bmask, pSrc->format->Amask);
+    
+    SDL_FillRect(pDest, NULL, pSrc->format->colorkey);
+    SDL_SetColorKey(pDest, SDL_SRCCOLORKEY | SDL_RLEACCEL, pSrc->format->colorkey);
+    
+    dither_surface(pSrc, pMask, pDest, x - mask_offset_x, y - mask_offset_y);
+
+    FREESURFACE(pSrc);
     
     return ctor_sprite(pDest);
   }
 
-  return ctor_sprite(pNew);
+  return ctor_sprite(pSrc);
 }
 
 /****************************************************************************

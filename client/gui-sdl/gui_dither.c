@@ -40,52 +40,16 @@ static void dither_surface8(SDL_Surface * pDither, SDL_Surface * pMask,
                             SDL_Surface * pDest,
                             int mask_offset_x, int mask_offset_y)
 {
-  int row, col;
-    
-  Uint8 *pDither_Pixel = (Uint8 *)pDither->pixels;
-  Uint8 *pDest_Pixel = (Uint8 *)pDest->pixels;
-  Uint8 *pMask_Pixel = NULL;
-
-  for (row = 0; row < pDither->h; row++) {
-      
-    pMask_Pixel = (Uint8 *)pMask->pixels
-                  + pMask->w * (row + mask_offset_y)
-                  + mask_offset_x;
-    
-    for (col = 0; col < pDither->w; col++) {
-      if (*pMask_Pixel != pMask->format->colorkey) {
-        *pDest_Pixel = *pDither_Pixel;
-      }
-      
-      pDither_Pixel++; pDest_Pixel++; pMask_Pixel++;
-    }
-  }
+  /* IMPLEMENT ME */
+  SDL_BlitSurface(pDither, NULL, pDest, NULL);
 }
 
 static void dither_surface16(SDL_Surface * pDither, SDL_Surface * pMask,
                              SDL_Surface * pDest,
                              int mask_offset_x, int mask_offset_y)
 {
-  int row, col;
-    
-  Uint16 *pDither_Pixel = (Uint16 *)pDither->pixels;
-  Uint16 *pDest_Pixel = (Uint16 *)pDest->pixels;
-  Uint16 *pMask_Pixel = NULL;
-
-  for (row = 0; row < pDither->h; row++) {
-      
-    pMask_Pixel = (Uint16 *)pMask->pixels
-                  + pMask->w * (row + mask_offset_y)
-                  + mask_offset_x;
-    
-    for (col = 0; col < pDither->w; col++) {
-      if (*pMask_Pixel != pMask->format->colorkey) {
-        *pDest_Pixel = *pDither_Pixel;
-      }
-      
-      pDither_Pixel++; pDest_Pixel++; pMask_Pixel++;
-    }
-  }
+  /* IMPLEMENT ME */
+  SDL_BlitSurface(pDither, NULL, pDest, NULL);
 }
 
 static void dither_surface24(SDL_Surface * pDither, SDL_Surface * pMask,
@@ -101,10 +65,13 @@ static void dither_surface32(SDL_Surface * pDither, SDL_Surface * pMask,
                              int mask_offset_x, int mask_offset_y)
 {
   int row, col;
-    
+
   Uint32 *pDither_Pixel = (Uint32 *)pDither->pixels;
   Uint32 *pDest_Pixel = (Uint32 *)pDest->pixels;
   Uint32 *pMask_Pixel = NULL;
+  
+  register Uint32 pDither_RGBmask = ~pDither->format->Amask;
+  register Uint32 pMask_Amask = pMask->format->Amask;
 
   for (row = 0; row < pDither->h; row++) {
       
@@ -113,9 +80,8 @@ static void dither_surface32(SDL_Surface * pDither, SDL_Surface * pMask,
                   + mask_offset_x;
     
     for (col = 0; col < pDither->w; col++) {
-      if (*pMask_Pixel != pMask->format->colorkey) {
-        *pDest_Pixel = *pDither_Pixel;
-      }
+      *pDest_Pixel = (*pDither_Pixel & pDither_RGBmask)
+                     | (*pMask_Pixel & pMask_Amask);
       
       pDither_Pixel++; pDest_Pixel++; pMask_Pixel++;
     }
