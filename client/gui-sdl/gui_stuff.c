@@ -684,12 +684,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
 
     pWidget->string16->fgcol = color;
     
-    color = *get_game_colorRGB(COLOR_THEME_QUICK_INFO);
-    color.unused = 150;
-  
-    pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6), SDL_SWSURFACE,
-                                  get_game_colorRGB(COLOR_THEME_QUICK_INFO));
-                                  
+    pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
+                      SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO));
+   
     /* calculate start position */
     if (pWidget->size.y - pBcgd->h - adj_size(6) < 0) {
       pInfo_Area->y = pWidget->size.y + pWidget->size.h + adj_size(3);
@@ -704,34 +701,25 @@ void redraw_widget_info_label(SDL_Rect *rect)
     }
   
     pInfo_Area->w = pBcgd->w + adj_size(2);
-    pInfo_Area->h = pBcgd->h + adj_size(2);
+    pInfo_Area->h = pBcgd->h + adj_size(3);
 
     pInfo_Label = SDL_DisplayFormatAlpha(pBcgd);
     
     FREESURFACE(pBcgd);
     
-    /* draw theme and text */
+    /* draw text */
     dstrect.x = 6;
-    dstrect.y = 4;
+    dstrect.y = 3;
     
     alphablit(pText, NULL, pInfo_Label, &dstrect);
     
     FREESURFACE(pText);    
     
     /* draw frame */
-    putline(pInfo_Label, 1, 0,
-            pInfo_Area->w - adj_size(2), 0, 0x0);
-  
-    putline(pInfo_Label, 0, 1,
-            0, pInfo_Area->h - adj_size(2), 0x0);
-  
-    putline(pInfo_Label, 1, pInfo_Area->h - adj_size(2),
-            pInfo_Area->w - adj_size(2),
-            pInfo_Area->h - adj_size(2), 0x0);
-  
-    putline(pInfo_Label, pInfo_Area->w - 1, 1,
-            pInfo_Area->w - 1,
-            pInfo_Area->h - adj_size(2), 0x0);
+    putframe(pInfo_Label, 0, 0,
+             pInfo_Label->w - 1, pInfo_Label->h - 1,
+             SDL_MapRGB(pInfo_Label->format, 0, 0, 0));
+    
   }
 
   if (rect) {
