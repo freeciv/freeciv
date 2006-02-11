@@ -24,6 +24,7 @@ libguiclient_a_SOURCES = \
 	Freeciv.h	\
 	SDL_ttf.c	\
 	SDL_ttf.h	\
+	alphablit.c	\
 	canvas.c	\
 	canvas.h	\
 	chatline.c	\
