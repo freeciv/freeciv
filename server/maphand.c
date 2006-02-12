@@ -878,6 +878,11 @@ static void map_change_own_seen(struct tile *ptile, struct player *pplayer,
 void map_set_known(struct tile *ptile, struct player *pplayer)
 {
   BV_SET(ptile->tile_known, pplayer->player_no);
+  vision_layer_iterate(v) {
+    if (map_get_player_tile(ptile, pplayer)->seen_count[v] > 0) {
+      BV_SET(ptile->tile_seen[v], pplayer->player_no);
+    }
+  } vision_layer_iterate_end;
 }
 
 /***************************************************************

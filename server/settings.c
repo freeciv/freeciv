@@ -723,7 +723,7 @@ struct settings_s settings[] = {
 	  GAME_DEFAULT_REVOLUTION_LENGTH)
 
   GEN_BOOL("fogofwar", game.info.fogofwar,
-	   SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+	   SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	   N_("Whether to enable fog of war"),
 	   N_("If this is set to 1, only those units and cities within "
 	      "the vision range of your own units and cities will be "
