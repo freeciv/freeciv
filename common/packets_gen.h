@@ -105,6 +105,7 @@ struct packet_game_info {
   int skill_level;
   int aifill;
   bool is_new_game;
+  bool is_edit_mode;
   float seconds_to_phasedone;
   int timeout;
   int turn;
@@ -1028,6 +1029,97 @@ struct packet_ruleset_resource {
   char graphic_alt[MAX_LEN_NAME];
 };
 
+struct packet_edit_mode {
+  bool state;
+};
+
+struct packet_edit_tile {
+  int x;
+  int y;
+  Terrain_type_id terrain;
+  Resource_type_id resource;
+  bv_special special;
+};
+
+struct packet_edit_unit {
+  int id;
+  bool create_new;
+  bool delete;
+  int owner;
+  int x;
+  int y;
+  int homecity;
+  int veteran;
+  bool paradropped;
+  Unit_type_id type;
+  int transported_by;
+  int movesleft;
+  int hp;
+  int fuel;
+  int activity_count;
+};
+
+struct packet_edit_city {
+  int x;
+  int y;
+  int owner;
+  int size;
+  int food_stock;
+  int shield_stock;
+  int trade[NUM_TRADEROUTES];
+  int turn_last_built;
+  int changed_from_id;
+  bool changed_from_is_unit;
+  int before_change_shields;
+  int disbanded_shields;
+  int caravan_shields;
+  int last_turns_shield_surplus;
+  bv_imprs improvements;
+  bool did_buy;
+  bool did_sell;
+  bool was_happy;
+  bool airlift;
+  bool diplomat_investigate;
+  int turn_founded;
+};
+
+struct packet_edit_player {
+  int playerno;
+  char name[MAX_LEN_NAME];
+  char username[MAX_LEN_NAME];
+  bool is_observer;
+  bool is_male;
+  int government;
+  int target_government;
+  bv_player embassy;
+  int city_style;
+  Nation_type_id nation;
+  int team;
+  bool phase_done;
+  int nturns_idle;
+  bool is_alive;
+  struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  int gold;
+  int tax;
+  int science;
+  int luxury;
+  int bulbs_last_turn;
+  int bulbs_researched;
+  int techs_researched;
+  int researching;
+  int science_cost;
+  int future_tech;
+  int tech_goal;
+  bool is_connected;
+  int revolution_finishes;
+  bool ai;
+  int barbarian_type;
+  unsigned int gives_shared_vision;
+  char inventions[A_LAST+1];
+  int love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  int small_wonders[B_LAST];
+};
+
 enum packet_type {
   PACKET_PROCESSING_STARTED,             /* 0 */
   PACKET_PROCESSING_FINISHED,
@@ -1144,6 +1236,11 @@ enum packet_type {
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
   PACKET_RULESET_RESOURCE,
+  PACKET_EDIT_TILE,
+  PACKET_EDIT_UNIT,
+  PACKET_EDIT_CITY,
+  PACKET_EDIT_PLAYER,
+  PACKET_EDIT_MODE,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1621,6 +1718,26 @@ void lsend_packet_ruleset_effect_req(struct conn_list *dest, const struct packet
 struct packet_ruleset_resource *receive_packet_ruleset_resource(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_resource(struct connection *pc, const struct packet_ruleset_resource *packet);
 void lsend_packet_ruleset_resource(struct conn_list *dest, const struct packet_ruleset_resource *packet);
+
+struct packet_edit_mode *receive_packet_edit_mode(struct connection *pc, enum packet_type type);
+int send_packet_edit_mode(struct connection *pc, const struct packet_edit_mode *packet);
+int dsend_packet_edit_mode(struct connection *pc, bool state);
+
+struct packet_edit_tile *receive_packet_edit_tile(struct connection *pc, enum packet_type type);
+int send_packet_edit_tile(struct connection *pc, const struct packet_edit_tile *packet);
+int dsend_packet_edit_tile(struct connection *pc, int x, int y, Terrain_type_id terrain, Resource_type_id resource, bv_special special);
+
+struct packet_edit_unit *receive_packet_edit_unit(struct connection *pc, enum packet_type type);
+int send_packet_edit_unit(struct connection *pc, const struct packet_edit_unit *packet);
+void lsend_packet_edit_unit(struct conn_list *dest, const struct packet_edit_unit *packet);
+
+struct packet_edit_city *receive_packet_edit_city(struct connection *pc, enum packet_type type);
+int send_packet_edit_city(struct connection *pc, const struct packet_edit_city *packet);
+void lsend_packet_edit_city(struct conn_list *dest, const struct packet_edit_city *packet);
+
+struct packet_edit_player *receive_packet_edit_player(struct connection *pc, enum packet_type type);
+int send_packet_edit_player(struct connection *pc, const struct packet_edit_player *packet);
+void lsend_packet_edit_player(struct conn_list *dest, const struct packet_edit_player *packet);
 
 
 void delta_stats_report(void);

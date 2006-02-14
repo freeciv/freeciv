@@ -40,6 +40,7 @@
 #include "connectdlg.h"
 #include "control.h"
 #include "dialogs.h"
+#include "editdlg.h"
 #include "finddlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
@@ -158,6 +159,9 @@ enum MenuID {
   MENU_REPORT_MESSAGES,
   MENU_REPORT_DEMOGRAPHIC,
   MENU_REPORT_SPACESHIP,
+ 
+  MENU_EDITOR_TOGGLE,
+  MENU_EDITOR_TOOLS,
 
   MENU_HELP_LANGUAGES,
   MENU_HELP_CONNECTING,
@@ -580,6 +584,21 @@ static void reports_menu_callback(gpointer callback_data,
   }
 }
 
+/****************************************************************************
+  Callback function for when an item is chosen from the "editor" menu.
+****************************************************************************/
+static void editor_menu_callback(gpointer callback_data,
+                                 guint callback_action, GtkWidget *widget)
+{   
+  switch(callback_action) {
+  case MENU_EDITOR_TOGGLE:
+    key_editor_toggle();
+    break;
+  case MENU_EDITOR_TOOLS:
+    editdlg_show_tools();
+    break;
+  }
+}
 
 /****************************************************************
 ...
@@ -905,6 +924,15 @@ static GtkItemFactoryEntry menu_items[]	=
 	reports_menu_callback,	MENU_REPORT_DEMOGRAPHIC					},
   { "/" N_("Reports") "/" N_("S_paceship"),		"F12",
 	reports_menu_callback,	MENU_REPORT_SPACESHIP					},
+
+  /* Editor menu */
+  { "/" N_("_Editor"), NULL, NULL, 0, "<Branch>" },
+  { "/" N_("_Editor") "/tearoff1", NULL, NULL, 0, "<Tearoff>" },
+  { "/" N_("_Editor") "/" N_("Editing Mode"), NULL,
+    editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
+  { "/" N_("_Editor") "/" N_("_Tools"), NULL,
+    editor_menu_callback, MENU_EDITOR_TOOLS },
+
   /* Help menu ... */
   { "/" N_("_Help"),					NULL,
 	NULL,			0,					"<Branch>"	},
@@ -1210,6 +1238,7 @@ void update_menus(void)
     menus_set_sensitive("<main>/_Government", FALSE);
     menus_set_sensitive("<main>/_View", FALSE);
     menus_set_sensitive("<main>/_Orders", FALSE);
+    menus_set_sensitive("<main>/_Editor", FALSE);
   } else {
     const char *path =
       menu_path_remove_uline("<main>/_Government/_Change Government");
@@ -1295,6 +1324,10 @@ void update_menus(void)
     menus_set_active("<main>/_View/Fog of War", draw_fog_of_war);
 
     menus_set_active("<main>/_View/_Full Screen", fullscreen_mode);
+
+    menus_set_sensitive("<main>/_Editor", TRUE);
+    menus_set_sensitive("<main>/_Editor/_Tools", game.info.is_edit_mode);
+    menus_set_active("<main>/_Editor/Editing Mode", game.info.is_edit_mode);
 
     /* Remaining part of this function: Update Orders menu */
 

@@ -41,6 +41,17 @@ extern enum tile_special_type infrastructure_specials[];
 
 BV_DEFINE(bv_special, S_LAST);
 
+#define specials_iterate(special)					    \
+{									    \
+  enum tile_special_type special;					    \
+									    \
+  for (special = 0; special < S_LAST; special++) {
+
+#define specials_iterate_end						    \
+  }									    \
+}
+
+
 #define T_NONE (NULL) /* A special flag meaning no terrain type. */
 #define T_UNKNOWN (NULL) /* An unknown terrain. */
 

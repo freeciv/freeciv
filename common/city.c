@@ -729,10 +729,13 @@ int base_city_get_output_tile(int city_x, int city_y,
 			      city_x, city_y, is_celebrating, otype);
 }
 
-/**************************************************************************
+/****************************************************************************
   Returns TRUE if the given unit can build a city at the given map
-  coordinates.  punit is the founding unit.
-**************************************************************************/
+  coordinates.
+
+  punit is the founding unit.  It may be NULL if a city is built out of the
+  blue (e.g., through editing).
+****************************************************************************/
 bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
 {
   int citymindist;
@@ -742,13 +745,13 @@ bool city_can_be_built_here(const struct tile *ptile, const struct unit *punit)
     return FALSE;
   }
 
-  if (!can_unit_exist_at_tile(punit, ptile)) {
+  if (punit && !can_unit_exist_at_tile(punit, ptile)) {
     /* We allow land units to build land cities and sea units to build
      * ocean cities. Air units can build cities anywhere. */
     return FALSE;
   }
 
-  if (ptile->owner && ptile->owner != punit->owner) {
+  if (punit && ptile->owner && ptile->owner != punit->owner) {
     /* Cannot steal borders by settling. This has to be settled by
      * force of arms. */
     return FALSE;
@@ -2376,7 +2379,15 @@ struct city *create_city_virtual(struct player *pplayer,
   /* Set up the worklist */
   init_worklist(&pcity->worklist);
 
-  {
+  if (!ptile) {
+    /* HACK: if a "dummy" city is created with no tile, the regular
+     * operations to choose a build target would fail.  This situation
+     * probably should be forbidden, but currently it might happen during
+     * map editing.  This fallback may also be dangerous if it gives an
+     * invalid production. */
+    pcity->production.is_unit = TRUE;
+    pcity->production.value = 0;
+  } else {
     struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);
 
     if (u) {

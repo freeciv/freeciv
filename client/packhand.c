@@ -1397,6 +1397,7 @@ void handle_game_info(struct packet_game_info *pinfo)
     boot_help_texts();		/* reboot, after setting game.spacerace */
   }
   update_unit_focus();
+  update_menus();
   if (update_aifill_button) {
     update_start_page();
   }

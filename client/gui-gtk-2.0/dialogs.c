@@ -54,6 +54,7 @@
 #include "tilespec.h"
 
 #include "dialogs.h"
+#include "editdlg.h"
 #include "wldlg.h"
 
 /******************************************************************/
@@ -1265,5 +1266,6 @@ gboolean taxrates_callback(GtkWidget * w, GdkEventButton * ev, gpointer data)
 void popdown_all_game_dialogs(void)
 {
   gui_dialog_destroy_all();
+  editdlg_hide_tools();
 }
 

@@ -1,5 +1,5 @@
 /********************************************************************** 
- Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
+ Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2, or (at your option)
@@ -10,24 +10,14 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__GAMEHAND_H
-#define FC__GAMEHAND_H
+#ifndef FC__TOOLSDLG_H
+#define FC__TOOLSDLG_H
 
-struct section_file;
-struct connection;
-struct conn_list;
+#include <gtk/gtk.h>
 
-void init_new_game(void);
-void send_year_to_clients(int year);
-void send_game_info(struct conn_list *dest);
-void send_game_state(struct conn_list *dest, int state);
-void send_start_phase_to_clients(void);
+#include "shared.h"
 
-int update_timeout(void);
-void increase_timeout_because_unit_moved(void);
+void editdlg_show_tools(void);
+void editdlg_hide_tools(void);
 
-const char *new_challenge_filename(struct connection *pc);
-
-struct packet_single_want_hack_req;
-
-#endif  /* FC__GAMEHAND_H */
+#endif  /* FC__TOOLSDLG_H */

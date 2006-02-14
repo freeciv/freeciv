@@ -73,5 +73,15 @@ void handle_report_req(struct connection *pc, enum report_type type);
 void handle_conn_pong(struct connection *pc);
 void handle_spaceship_launch(struct player *pplayer);
 void handle_spaceship_place(struct player *pplayer, enum spaceship_place_type type, int num);
+struct packet_single_want_hack_req;
+void handle_single_want_hack_req(struct connection *pc, struct packet_single_want_hack_req *packet);
+void handle_edit_mode(struct connection *pc, bool state);
+void handle_edit_tile(struct connection *pc, int x, int y, Terrain_type_id terrain, Resource_type_id resource, bv_special special);
+struct packet_edit_unit;
+void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet);
+struct packet_edit_city;
+void handle_edit_city(struct connection *pc, struct packet_edit_city *packet);
+struct packet_edit_player;
+void handle_edit_player(struct connection *pc, struct packet_edit_player *packet);
 
 #endif /* FC__HAND_GEN_H */

@@ -500,8 +500,7 @@ opens a file specified by the packet and compares the packet values with
 the file values. Sends an answer to the client once it's done.
 **************************************************************************/
 void handle_single_want_hack_req(struct connection *pc,
-    				 const struct packet_single_want_hack_req
-				 *packet)
+    				 struct packet_single_want_hack_req *packet)
 {
   struct section_file file;
   char *token = NULL;

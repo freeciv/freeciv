@@ -312,6 +312,36 @@ bool server_handle_packet(enum packet_type type, void *packet,
       ((struct packet_spaceship_place *)packet)->num);
     return TRUE;
 
+  case PACKET_SINGLE_WANT_HACK_REQ:
+    handle_single_want_hack_req(pconn, packet);
+    return TRUE;
+
+  case PACKET_EDIT_MODE:
+    handle_edit_mode(pconn,
+      ((struct packet_edit_mode *)packet)->state);
+    return TRUE;
+
+  case PACKET_EDIT_TILE:
+    handle_edit_tile(pconn,
+      ((struct packet_edit_tile *)packet)->x,
+      ((struct packet_edit_tile *)packet)->y,
+      ((struct packet_edit_tile *)packet)->terrain,
+      ((struct packet_edit_tile *)packet)->resource,
+      ((struct packet_edit_tile *)packet)->special);
+    return TRUE;
+
+  case PACKET_EDIT_UNIT:
+    handle_edit_unit(pconn, packet);
+    return TRUE;
+
+  case PACKET_EDIT_CITY:
+    handle_edit_city(pconn, packet);
+    return TRUE;
+
+  case PACKET_EDIT_PLAYER:
+    handle_edit_player(pconn, packet);
+    return TRUE;
+
   default:
     return FALSE;
   }

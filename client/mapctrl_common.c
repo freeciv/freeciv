@@ -33,15 +33,15 @@
 #include "clinet.h"
 #include "cma_core.h"
 #include "control.h"
+#include "editor.h"
 #include "fcintl.h"
 #include "goto.h"
+#include "mapctrl_common.h"
 #include "mapctrl_g.h"
 #include "mapview_g.h"
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
-
-#include "mapctrl_common.h"
 
 /* Selection Rectangle */
 static int rec_anchor_x, rec_anchor_y;  /* canvas coordinates for anchor */
@@ -531,7 +531,9 @@ void action_button_pressed(int canvas_x, int canvas_y,
 {
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
-  if (can_client_change_view() && ptile) {
+  if (game.info.is_edit_mode) {
+    editor_do_click(ptile);
+  } else if (can_client_change_view() && ptile) {
     /* FIXME: Some actions here will need to check can_client_issue_orders.
      * But all we can check is the lowest common requirement. */
     do_map_click(ptile, qtype);

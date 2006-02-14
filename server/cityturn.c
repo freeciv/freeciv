@@ -523,6 +523,32 @@ static void city_increase_size(struct city *pcity)
   sync_cities();
 }
 
+/****************************************************************************
+  Change the city size.  Return TRUE if the city is still alive afterwards.
+****************************************************************************/
+bool city_change_size(struct city *pcity, int size)
+{
+  assert(size >= 0 && size <= MAX_CITY_SIZE);
+
+  if (size > pcity->size) {
+    while (size > pcity->size) {
+      const int old_size = pcity->size;
+
+      /* city_increase_size can silently fail. Don't get in an infinite
+       * loop. */
+      city_increase_size(pcity);
+      if (pcity->size <= old_size) {
+	return TRUE;
+      }
+    }
+    return TRUE;
+  } else if (size < pcity->size) {
+    return city_reduce_size(pcity, pcity->size - size);
+  } else {
+    return TRUE;
+  }
+}
+
 /**************************************************************************
   Check whether the population can be increased or
   if the city is unable to support a 'settler'...

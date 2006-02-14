@@ -1027,15 +1027,17 @@ bool handle_packet_input(struct connection *pconn, void *packet, int type)
   }
   
   /* valid packets from established connections but non-players */
-  if (type == PACKET_CHAT_MSG_REQ) {
-    handle_chat_msg_req(pconn,
-			((struct packet_chat_msg_req *) packet)->message);
-    return TRUE;
-  }
-
-  if (type == PACKET_SINGLE_WANT_HACK_REQ) {
-    handle_single_want_hack_req(pconn,
-		                (struct packet_single_want_hack_req *) packet);
+  if (type == PACKET_CHAT_MSG_REQ
+      || type == PACKET_SINGLE_WANT_HACK_REQ
+      || type == PACKET_EDIT_MODE
+      || type == PACKET_EDIT_TILE
+      || type == PACKET_EDIT_UNIT
+      || type == PACKET_EDIT_CITY
+      || type == PACKET_EDIT_PLAYER) {
+    if (!server_handle_packet(type, packet, pplayer, pconn)) {
+      freelog(LOG_ERROR, "Received unknown packet %d from %s",
+	      type, conn_description(pconn));
+    }
     return TRUE;
   }
 

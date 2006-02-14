@@ -199,6 +199,8 @@ type BV_FLAGS		= bitvector(bv_flags)
 type BV_ROLES		= bitvector(bv_roles)
 type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
+type BV_SPECIAL         = bitvector(bv_special)
+type BV_PLAYER          = bitvector(bv_player)
 type DIPLSTATE		= diplstate(struct player_diplstate)
 type VISION		= uint32(unsigned int)
 
@@ -242,7 +244,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 117.
+The last used packet number is 129.
 ****************************************************/
 
 
@@ -357,6 +359,7 @@ PACKET_GAME_INFO=15; sc
   UINT8 aifill;
 
   BOOL is_new_game;   # TRUE only in pregame for "new" (not loaded) games
+  BOOL is_edit_mode;  # If set, editing is allowed
   FLOAT seconds_to_phasedone;
   UINT32 timeout;
   TURN turn;
@@ -1269,7 +1272,7 @@ end
 /*********************************************************
  Below are the packets that control single-player mode.  
 *********************************************************/
-PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,no-handle
+PACKET_SINGLE_WANT_HACK_REQ=108;cs,handle-per-conn,handle-via-packet
  STRING token[MAX_LEN_NAME];
 end
 
@@ -1346,4 +1349,93 @@ PACKET_RULESET_RESOURCE=124;sc,lsend
   UINT8 output[O_MAX];
   STRING graphic_str[MAX_LEN_NAME];
   STRING graphic_alt[MAX_LEN_NAME];
+end
+
+/************** Editing hash packets **********************/
+
+PACKET_EDIT_MODE=129;cs,handle-per-conn,dsend
+  BOOL state;
+end
+
+PACKET_EDIT_TILE=125;cs,handle-per-conn,dsend
+  COORD x, y; key
+  TERRAIN terrain;
+  RESOURCE resource;
+  BV_SPECIAL special;
+end
+
+PACKET_EDIT_UNIT=126;cs,handle-per-conn,lsend
+  UNIT id; key
+  BOOL create_new, delete;
+  PLAYER owner;
+  COORD x,y;
+  CITY homecity;
+
+  UINT8 veteran;
+  BOOL paradropped;
+
+  UNIT_TYPE type;
+  UNIT transported_by; /* Only valid if transported is set. */
+  UINT8 movesleft, hp, fuel, activity_count;
+
+  # Other values of the unit (done_moving, orders, etc.) can be set directly
+  # through regular packets.  Some values are simply caches and cannot
+  # be controlled even by a privilidged client.
+end
+
+PACKET_EDIT_CITY=127;cs,handle-per-conn,lsend
+  PLAYER owner;
+  COORD x, y; key # cities are keyed by tile not by ID
+  UINT8 size;
+  UINT16 food_stock, shield_stock;
+  UINT16 trade[NUM_TRADEROUTES];
+  TURN turn_last_built;
+  UINT8 changed_from_id;
+  BOOL changed_from_is_unit;
+  UINT16 before_change_shields;
+  UINT16 disbanded_shields;
+  UINT16 caravan_shields;
+  UINT16 last_turns_shield_surplus;
+  BV_IMPRS improvements;
+  BOOL did_buy, did_sell, was_happy, airlift, diplomat_investigate;
+  TURN turn_founded;
+
+  # Other values of the city (worker placement, worklist, etc.) can be set
+  # directly through regular packets.  Some values are simply caches and
+  # cannot be controlled even by a privilidged client.
+end
+
+PACKET_EDIT_PLAYER=128;cs,handle-per-conn,lsend
+  PLAYER playerno; key 
+  STRING name[MAX_LEN_NAME];
+  STRING username[MAX_LEN_NAME];
+  BOOL is_observer;
+  BOOL is_male;
+  GOVERNMENT government;
+  GOVERNMENT target_government;
+  BV_PLAYER embassy;
+  UINT8 city_style;
+  NATION nation;
+  TEAM team;
+  BOOL phase_done;
+  TURN nturns_idle;
+  BOOL is_alive;
+  DIPLSTATE diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  GOLD gold;
+  PERCENT tax, science,luxury;
+  UINT16 bulbs_last_turn;
+  UINT32 bulbs_researched;
+  UINT32 techs_researched;
+  UINT8 researching;
+  UINT16 science_cost;
+  UINT16 future_tech;
+  UINT8 tech_goal;
+  BOOL is_connected;
+  TURN revolution_finishes;
+  BOOL ai;
+  UINT8 barbarian_type;
+  VISION gives_shared_vision;
+  BIT_STRING inventions[A_LAST+1];
+  SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  UINT16 small_wonders[B_LAST]; diff
 end

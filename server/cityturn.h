@@ -27,6 +27,7 @@ void global_city_refresh(struct player *pplayer); /* tax/govt changed */
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
 void apply_cmresult_to_city(struct city *pcity, struct cm_result *cmr);
 
+bool city_change_size(struct city *pcity, int new_size);
 bool city_reduce_size(struct city *pcity, int pop_loss);
 void send_global_city_turn_notifications(struct conn_list *dest);
 void send_city_turn_notifications(struct conn_list *dest, struct city *pcity);

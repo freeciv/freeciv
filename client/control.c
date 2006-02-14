@@ -2712,3 +2712,11 @@ void key_quickselect(enum quickselect_type qtype)
     set_unit_focus_and_select(punit2);
   } unit_list_iterate_end;
 }
+
+/**************************************************************************
+  Toggle editor mode in the server.
+**************************************************************************/
+void key_editor_toggle(void)
+{
+  dsend_packet_edit_mode(&aconnection, !game.info.is_edit_mode);
+}
