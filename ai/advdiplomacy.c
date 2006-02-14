@@ -1182,44 +1182,70 @@ void static war_countdown(struct player *pplayer, struct player *target,
 
     switch (reason) {
     case WAR_REASON_SPACE:
-      notify(ally, _("*%s (AI)* We will be launching an all-out war "
-                     "against %s in %d turns to stop the spaceship "
-                     "launch."), pplayer->name, target->name, countdown);
+      notify(ally, PL_("*%s (AI)* We will be launching an all-out war "
+		       "against %s in %d turn to stop the spaceship "
+		       "launch.",
+		       "*%s (AI)* We will be launching an all-out war "
+		       "against %s in %d turns to stop the spaceship "
+		       "launch.",
+		       countdown),
+	     pplayer->name, target->name, countdown);
       notify(ally, _("*%s (AI)* Your aid in this matter will be expected. "
                      "Long live our glorious alliance!"), pplayer->name);
       break;
     case WAR_REASON_BEHAVIOUR:
     case WAR_REASON_EXCUSE:
-      notify(ally, _("*%s (AI)* %s has grossly violated his treaties with us "
-                     "for own gain.  We will answer in force in %d turns " 
-                     "and expect you to honour your alliance with us and do "
-                     "likewise!"), pplayer->name, target->name, countdown);
+      notify(ally, PL_("*%s (AI)* %s has grossly violated his treaties "
+		       "with us for own gain.  We will answer in force in "
+		       "%d turn and expect you to honour your alliance "
+		       "with us and do likewise!",
+		       "*%s (AI)* %s has grossly violated his treaties "
+		       "with us for own gain.  We will answer in force in "
+		       "%d turns and expect you to honour your alliance "
+		       "with us and do likewise!", countdown),
+	     pplayer->name, target->name, countdown);
       break;
     case WAR_REASON_NONE:
-      notify(ally, _("*%s (AI)* We intend to pillage and plunder the rich "
-                     "civilization of %s. We declare war in %d turns."), 
-                     pplayer->name, target->name, countdown);
+      notify(ally, PL_("*%s (AI)* We intend to pillage and plunder the rich "
+		       "civilization of %s. We declare war in %d turn.",
+		       "*%s (AI)* We intend to pillage and plunder the rich "
+		       "civilization of %s. We declare war in %d turns.",
+		       countdown), 
+	     pplayer->name, target->name, countdown);
       notify(ally, _("*%s (AI)* If you want a piece of the loot, feel "
                      "free to join in the action!"), pplayer->name);
       break;
     case WAR_REASON_HATRED:
-      notify(ally, _("*%s (AI)* We have had it with %s. Let us tear this "
-                     "pathetic civilization apart. We declare war in %d "
-                     "turns."), pplayer->name, target->name, countdown);
+      notify(ally, PL_("*%s (AI)* We have had it with %s. Let us tear this "
+		       "pathetic civilization apart. We declare war in "
+		       "%d turn.",
+		       "*%s (AI)* We have had it with %s. Let us tear this "
+		       "pathetic civilization apart. We declare war in "
+		       "%d turns.",
+		       countdown),
+	     pplayer->name, target->name, countdown);
       notify(ally, _("*%s (AI)* As our glorious allies, we expect your "
                      "help in this war."), pplayer->name);
       break;
     case WAR_REASON_ALLIANCE:
       if (WAR(ally, target)) {
-        notify(ally, _("*%s (AI)* We will honour our alliance and declare "
-                       "war on %s in %d turns.  Hold on - we are coming!"),
+        notify(ally, PL_("*%s (AI)* We will honour our alliance and declare "
+			 "war on %s in %d turn.  Hold on - we are coming!",
+			 "*%s (AI)* We will honour our alliance and declare "
+			 "war on %s in %d turns.  Hold on - we are coming!",
+			 countdown),
 			pplayer->name, target->name, countdown);
       } else if (adip->at_war_with_ally) {
-        notify(ally, _("*%s (AI)* We will honour our alliance with %s and "
-                       "declare war on %s in %d turns.  We expect you to "
-                       "do likewise."), pplayer->name, 
-                       adip->at_war_with_ally->name, target->name,
-                       countdown);
+        notify(ally, PL_("*%s (AI)* We will honour our alliance with %s and "
+			 "declare war on %s in %d turns.  We expect you to "
+			 "do likewise.",
+			 "*%s (AI)* We will honour our alliance with %s and "
+			 "declare war on %s in %d turns.  We expect you to "
+			 "do likewise.",
+			 countdown),
+	       pplayer->name, 
+	       adip->at_war_with_ally->name, target->name,
+	       countdown);
       } else {
         assert(FALSE); /* Huh? */
       }
