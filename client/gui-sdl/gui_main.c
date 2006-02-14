@@ -56,6 +56,7 @@
 #include "chatline.h"
 #include "citydlg.h"
 #include "cityrep.h"
+#include "diplodlg.h"
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_stuff.h"		/* gui */
@@ -929,6 +930,7 @@ void ui_main(int argc, char *argv[])
 
   callbacks = callback_list_new();
   
+  diplomacy_dialog_init();
   intel_dialog_init();
 
   clear_double_messages_call();
@@ -1006,6 +1008,7 @@ void ui_exit()
   free_auxiliary_tech_icons();
   free_intro_radar_sprites();
   
+  diplomacy_dialog_done();
   intel_dialog_done();  
 
   callback_list_unlink_all(callbacks);
