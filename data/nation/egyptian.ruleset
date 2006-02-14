@@ -32,8 +32,6 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Chain of similar flags
-conflicts_with="iraqi", "croatian"
 civilwar_nations="israeli", "sudanese"
 
 ; Source: http://www.narmer.pl/map/nomy_en.htm
