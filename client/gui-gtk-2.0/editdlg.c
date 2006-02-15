@@ -41,6 +41,25 @@
 #define TABLE_WIDTH 3
 #define TOOL_WIDTH 5
 
+enum unit_param {
+  UPARAM_OWNER,
+  UPARAM_TYPE,
+  UPARAM_MOVES,
+  UPARAM_ACTIVITY,
+  UPARAM_ACTIVITY_TARGET,
+  UPARAM_ACTIVITY_COUNT,
+  UPARAM_LAST
+};
+
+enum city_param {
+  CPARAM_OWNER,
+  CPARAM_SIZE,
+  CPARAM_FOOD,
+  CPARAM_SHIELDS,
+  CPARAM_POLLUTION,
+  CPARAM_LAST
+};
+
 typedef struct {
   const char *name;
   int paint;
@@ -178,28 +197,32 @@ static void set_selected_paint(GtkWidget *w, gpointer data)
 static void unit_callback(GtkSpinButton *spinbutton, gpointer data)
 {
   struct unit *punit = editor_get_selected_unit();
-  int param = GPOINTER_TO_INT(data);
+  enum unit_param param = GPOINTER_TO_INT(data);
 
   switch (param) {
-  case 0:
+  case UPARAM_OWNER:
     punit->owner = get_player(gtk_spin_button_get_value_as_int(spinbutton));
-    break;
-  case 1:
+    return;
+  case UPARAM_TYPE:
     punit->type = get_unit_type(gtk_spin_button_get_value_as_int(spinbutton));
-    break;
-  case 2:
+    return;
+  case UPARAM_MOVES:
     punit->moves_left = gtk_spin_button_get_value_as_int(spinbutton);
-    break;
-  case 3:
+    return;
+  case UPARAM_ACTIVITY:
     punit->activity = gtk_spin_button_get_value_as_int(spinbutton);
-    break;
-  case 4:
+    return;
+  case UPARAM_ACTIVITY_TARGET:
     punit->activity_target = gtk_spin_button_get_value_as_int(spinbutton);
-    break;
-  case 5:
+    return;
+  case UPARAM_ACTIVITY_COUNT:
     punit->activity_count = gtk_spin_button_get_value_as_int(spinbutton);
+    return;
+  case UPARAM_LAST:
     break;
   }
+
+  assert(0);
 }
 
 /****************************************************************************
@@ -209,25 +232,29 @@ static void unit_callback(GtkSpinButton *spinbutton, gpointer data)
 static void city_callback(GtkSpinButton *spinbutton, gpointer data)
 {
   struct city *pcity = editor_get_selected_city();
-  int param = GPOINTER_TO_INT(data);
+  enum city_param param = GPOINTER_TO_INT(data);
 
   switch (param) {
-  case 0:
+  case CPARAM_OWNER:
     pcity->owner = get_player(gtk_spin_button_get_value_as_int(spinbutton));
-    break;
-  case 1:
+    return;
+  case CPARAM_SIZE:
     pcity->size = gtk_spin_button_get_value_as_int(spinbutton);
-    break;
-  case 2:
+    return;
+  case CPARAM_FOOD:
     pcity->food_stock = gtk_spin_button_get_value_as_int(spinbutton);
-    break;
-  case 3:
+    return;
+  case CPARAM_SHIELDS:
     pcity->shield_stock = gtk_spin_button_get_value_as_int(spinbutton);
-    break;
-  case 4:
+    return;
+  case CPARAM_POLLUTION:
     pcity->pollution = gtk_spin_button_get_value_as_int(spinbutton);
+    return;
+  case CPARAM_LAST:
     break;
   }
+
+  assert(0);
 }
 
 #if 0
@@ -310,19 +337,18 @@ static GtkWidget *create_map_palette(void)
 ****************************************************************************/
 static GtkWidget *create_units_palette(void)
 {
-#define NUM_PARAMS 6
   GtkWidget *hbox, *vbox, *label, *sb;
   GtkAdjustment *adj;
   int i;
   struct unit *punit = editor_get_selected_unit();
 
-  const char *names[NUM_PARAMS] = { _("Owner"),
-				    _("Type"),
-                                    _("Moves Left"),
-				    _("Activity"),
-                                    _("Activity Target"),
-				    _("Activity Count") };
-  int inits[NUM_PARAMS][3] = {
+  const char *names[UPARAM_LAST] = { _("Owner"),
+				     _("Type"),
+				     _("Moves Left"),
+				     _("Activity"),
+				     _("Activity Target"),
+				     _("Activity Count") };
+  int inits[UPARAM_LAST][3] = {
     {punit->owner->player_no, 0, game.info.nplayers - 1},
     {punit->type->index, 0, game.control.num_unit_types - 1},
     {punit->moves_left, 0, 200},
@@ -333,9 +359,9 @@ static GtkWidget *create_units_palette(void)
 
   vbox = gtk_vbox_new(FALSE, 5);
 
-  for (i = 0; i < NUM_PARAMS; i++) {
-    adj = (GtkAdjustment *)gtk_adjustment_new(inits[i][0], inits[i][1], 
-                                              inits[i][2], 1.0, 5.0, 5.0);
+  for (i = 0; i < UPARAM_LAST; i++) {
+    adj = GTK_ADJUSTMENT(gtk_adjustment_new(inits[i][0], inits[i][1], 
+					    inits[i][2], 1.0, 5.0, 5.0));
     hbox = gtk_hbox_new(FALSE, 5);
     sb = gtk_spin_button_new(adj, 1, 0);
     label = gtk_label_new(names[i]);
@@ -348,7 +374,6 @@ static GtkWidget *create_units_palette(void)
   }
 
   return vbox;
-#undef NUM_PARAMS
 }
 
 /****************************************************************************
@@ -356,16 +381,15 @@ static GtkWidget *create_units_palette(void)
 ****************************************************************************/
 static GtkWidget *create_city_palette(void)
 {
-#define NUM_PARAMS 5
   GtkWidget *hbox, *vbox, *label, *sb;
   GtkAdjustment *adj;
   int i;
   struct city *pcity = editor_get_selected_city();
 
-  const char *names[NUM_PARAMS] = { _("Owner"), _("Size"),
-                                    _("Food"), _("Shields"),
-                                    _("Pollution") };
-  int inits[NUM_PARAMS][3] = {
+  const char *names[CPARAM_LAST] = { _("Owner"), _("Size"),
+				     _("Food"), _("Shields"),
+				     _("Pollution") };
+  int inits[CPARAM_LAST][3] = {
     {pcity->owner->player_no, 0, game.info.nplayers - 1},
     {pcity->size, 1, 63},
     {pcity->food_stock, 0, 10000},
@@ -375,9 +399,9 @@ static GtkWidget *create_city_palette(void)
 
   vbox = gtk_vbox_new(FALSE, 5);
 
-  for (i = 0; i < NUM_PARAMS; i++) {
-    adj = (GtkAdjustment *)gtk_adjustment_new(inits[i][0], inits[i][1], 
-                                              inits[i][2], 1.0, 5.0, 5.0);
+  for (i = 0; i < CPARAM_LAST; i++) {
+    adj = GTK_ADJUSTMENT(gtk_adjustment_new(inits[i][0], inits[i][1], 
+					    inits[i][2], 1.0, 5.0, 5.0));
     hbox = gtk_hbox_new(FALSE, 5);
     sb = gtk_spin_button_new(adj, 1, 0);
     label = gtk_label_new(names[i]);
@@ -390,7 +414,6 @@ static GtkWidget *create_city_palette(void)
   }
 
   return vbox;
-#undef NUM_PARAMS
 }
 
 #if 0
