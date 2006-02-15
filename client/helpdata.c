@@ -1076,8 +1076,12 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
 /****************************************************************
   Append misc dynamic text for techs.
 *****************************************************************/
-void helptext_tech(char *buf, int i, const char *user_text)
+void helptext_tech(char *buf, size_t bufsz, int i, const char *user_text)
 {
+  struct req_source source = {
+    .type = REQ_TECH,
+    .value = {.tech = i}
+  };
   assert(buf&&user_text);
   strcpy(buf, user_text);
 
@@ -1114,15 +1118,9 @@ void helptext_tech(char *buf, int i, const char *user_text)
     }
   }
 
-  government_iterate(g) {
-    /* FIXME: this should tell the other requirements. */
-    requirement_vector_iterate(&g->reqs, preq) {
-      if (preq->source.type == REQ_TECH && preq->source.value.tech == i) {
-	sprintf(buf + strlen(buf), _("* Allows changing government to %s.\n"),
-		g->name);
-      }
-    } requirement_vector_iterate_end;
-  } government_iterate_end;
+  sprintf(buf + strlen(buf), "\n");
+  insert_allows(&source, buf + strlen(buf), bufsz);
+
   if (tech_flag(i, TF_BONUS_TECH)) {
     sprintf(buf + strlen(buf), _("* The first player to research %s gets "
 				 "an immediate advance.\n"),
@@ -1186,9 +1184,13 @@ void helptext_tech(char *buf, int i, const char *user_text)
 /****************************************************************
   Append text for terrain.
 *****************************************************************/
-void helptext_terrain(char *buf, const struct terrain *pterrain,
+void helptext_terrain(char *buf, size_t bufsz, struct terrain *pterrain,
 		      const char *user_text)
 {
+  struct req_source source = {
+    .type = REQ_TERRAIN,
+    .value = {.terrain = pterrain}
+  };
   buf[0] = '\0';
   
   if (!pterrain) {
@@ -1196,6 +1198,7 @@ void helptext_terrain(char *buf, const struct terrain *pterrain,
     return;
   }
 
+  insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf));
   if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
     sprintf(buf + strlen(buf),
 	    _("* Pollution cannot be generated on this terrain."));
@@ -1242,10 +1245,9 @@ void helptext_terrain(char *buf, const struct terrain *pterrain,
   TODO: Generalize the effects code for use elsewhere. Add
   other requirements.
 *****************************************************************/
-void helptext_government(char *buf, struct government *gov,
+void helptext_government(char *buf, size_t bufsz, struct government *gov,
 			 const char *user_text)
 {
-  const size_t bufsz = 64000; /* FIXME: should be passed in */
   struct req_source source = {
     .type = REQ_GOV,
     .value = {.gov = gov }
@@ -1264,6 +1266,7 @@ void helptext_government(char *buf, struct government *gov,
 
   /* Effects */
   sprintf(buf + strlen(buf), _("Features:\n"));
+  insert_allows(&source, buf, bufsz);
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
