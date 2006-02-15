@@ -882,7 +882,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 {
   int j;
   GtkWidget *w, *hbox;
-  char *buf = &long_buffer[0];
+  char buf[4096];
 
   create_help_page(HELP_TECH);
 
@@ -900,7 +900,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     gtk_widget_show(help_tree_sw);
     gtk_widget_show(help_tree_buttons_hbox);
 
-    helptext_tech(buf, i, pitem->text);
+    helptext_tech(buf, sizeof(buf), i, pitem->text);
     len = strlen(buf);
     my_chomp(buf, len);
 
@@ -1028,7 +1028,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 static void help_update_terrain(const struct help_item *pitem,
 				char *title, struct terrain *pterrain)
 {
-  char *buf = &long_buffer[0];
+  char buf[4096];
 
   create_help_page(HELP_TERRAIN);
 
@@ -1109,7 +1109,7 @@ static void help_update_terrain(const struct help_item *pitem,
     gtk_label_set_text(GTK_LABEL(help_tlabel[3][4]), buf);
   }
 
-  helptext_terrain(buf, pterrain, pitem->text);
+  helptext_terrain(buf, sizeof(buf), pterrain, pitem->text);
   
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
@@ -1123,12 +1123,12 @@ static void help_update_terrain(const struct help_item *pitem,
 static void help_update_government(const struct help_item *pitem,
 				   char *title, struct government *gov)
 {
-  char *buf = &long_buffer[0];
+  char buf[4096];
 
   if (!gov) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, gov, pitem->text);
+    helptext_government(buf, sizeof(buf), gov, pitem->text);
   }
   create_help_page(HELP_TEXT);
   gtk_text_buffer_set_text(help_text, buf, -1);
