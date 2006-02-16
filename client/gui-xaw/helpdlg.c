@@ -891,7 +891,7 @@ static void help_update_unit_type(const struct help_item *pitem,
 **************************************************************************/
 static void help_update_tech(const struct help_item *pitem, char *title, int i)
 {
-  char *buf = &long_buffer[0];
+  char buf[4096];
   int j;
 
   create_help_page(HELP_TECH);
@@ -899,7 +899,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 
   if (!is_future_tech(i)) {
     create_tech_tree(help_tech_tree, 0, i, 3);
-    helptext_tech(buf, i, pitem->text);
+    helptext_tech(buf, sizeof(buf), i, pitem->text);
 
     impr_type_iterate(impr_t) {
       /*if(i==improvement_types[j].tech_req) 
@@ -960,12 +960,12 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 static void help_update_terrain(const struct help_item *pitem,
 				char *title, struct terrain *pterrain)
 {
-  char *buf = &long_buffer[0];
+  char buf[4096];
 
   create_help_page(HELP_TERRAIN);
   set_title_topic(pitem);
 
-  helptext_terrain(buf, pterrain, pitem->text);
+  helptext_terrain(buf, sizeof(buf), pterrain, pitem->text);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 
   if (pterrain) {
@@ -1051,12 +1051,12 @@ static void help_update_government(const struct help_item *pitem,
 				   char *title,
 				   struct government *pgovernment)
 {
-  char *buf = &long_buffer[0];
+  char buf[4096];
 
   if (!pgovernment) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, pgovernment, pitem->text);
+    helptext_government(buf, sizeof(buf), pgovernment, pitem->text);
   }
   create_help_page(HELP_TEXT);
   set_title_topic(pitem);
