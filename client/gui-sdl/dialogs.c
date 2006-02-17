@@ -32,6 +32,7 @@
 
 /* common */
 #include "combat.h"
+#include "government.h"
 #include "movement.h"
 #include "unitlist.h"
 
@@ -3432,7 +3433,7 @@ static void popdown_connect_dialog(void)
                                   Revolutions
 **************************************************************************/
 static struct SMALL_DLG *pRevolutionDlg = NULL;
-
+  
 /**************************************************************************
   ...
 **************************************************************************/
@@ -3441,8 +3442,6 @@ static int revolution_dlg_ok_callback(struct GUI *pButton)
   start_revolution();
 
   popdown_revolution_dialog();
-  
-  SDL_Client_Flags |= CF_REVOLUTION;
   
   flush_dirty();
   return (-1);
@@ -3482,6 +3481,141 @@ static void popdown_revolution_dialog(void)
 /* ==================== Public ========================= */
 
 /**************************************************************************
+                           Sellect Goverment Type
+**************************************************************************/
+static struct SMALL_DLG *pGov_Dlg = NULL;
+
+/**************************************************************************
+  Close the government dialog.
+**************************************************************************/
+static void popdown_government_dialog(void)
+{
+  if(pGov_Dlg) {
+    popdown_window_group_dialog(pGov_Dlg->pBeginWidgetList,
+                                pGov_Dlg->pEndWidgetList);
+    FC_FREE(pGov_Dlg);
+    enable_and_redraw_revolution_button();  
+  }
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int government_dlg_callback(struct GUI *pGov_Button)
+{
+  set_government_choice(get_government(MAX_ID - pGov_Button->ID));
+  
+  popdown_government_dialog();
+  return (-1);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int move_government_dlg_callback(struct GUI *pWindow)
+{
+  return std_move_window_group_callback(pGov_Dlg->pBeginWidgetList, pWindow);
+}
+
+/**************************************************************************
+  Public -
+
+  Popup a dialog asking the player what government to switch to (this
+  happens after a revolution completes).
+**************************************************************************/
+static void popup_government_dialog(void)
+{
+  SDL_Surface *pLogo = NULL;
+  struct SDL_String16 *pStr = NULL;
+  struct GUI *pGov_Button = NULL;
+  struct GUI *pWindow = NULL;
+  struct government *pGov = NULL;
+  int i, j;
+  Uint16 max_w, max_h = 0;
+
+  if (pGov_Dlg) {
+    return;
+  }
+
+  pGov_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  
+  /* create window */
+  pStr = create_str16_from_char(_("Choose Your New Government"), 12);
+  pStr->style |= TTF_STYLE_BOLD;
+  /* this win. size is temp. */
+  pWindow = create_window(NULL, pStr, 10, 30, 0);
+  pWindow->action = move_government_dlg_callback;
+  pGov_Dlg->pEndWidgetList = pWindow;
+  max_w = pWindow->size.w;
+  add_to_gui_list(ID_GOVERNMENT_DLG_WINDOW, pWindow);
+
+  /* create gov. buttons */
+  j = 0;
+  for (i = 0; i < game.control.government_count; i++) {
+
+    if (i == game.government_when_anarchy->index) {
+      continue;
+    }
+
+    if (can_change_to_government(game.player_ptr, get_government(i))) {
+
+      pGov = get_government(i);
+      pStr = create_str16_from_char(pGov->name, 12);
+      pGov_Button =
+          create_icon_button(GET_SURF(get_government_sprite(tileset, pGov)), pWindow->dst, pStr, 0);
+      pGov_Button->action = government_dlg_callback;
+
+      max_w = MAX(max_w, pGov_Button->size.w);
+      max_h = MAX(max_h, pGov_Button->size.h);
+      
+      /* ugly hack */
+      add_to_gui_list((MAX_ID - i), pGov_Button);
+      j++;
+
+    }
+  }
+
+  pGov_Dlg->pBeginWidgetList = pGov_Button;
+
+  max_w += 10;
+  max_h += 4;
+
+  /* set window start positions */
+  pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
+  pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2;
+
+  /* create window background */
+  pLogo = get_logo_gfx();
+  if (resize_window(pWindow, pLogo, NULL, max_w + 20,
+                    j * (max_h + 10) + WINDOW_TILE_HIGH + 6)) {
+    FREESURFACE(pLogo);
+  }
+  
+  pWindow->size.w = max_w + 20;
+  pWindow->size.h = j * (max_h + 10) + WINDOW_TILE_HIGH + 6;
+  
+  /* set buttons start positions and size */
+  j = 1;
+  while (pGov_Button != pGov_Dlg->pEndWidgetList) {
+    pGov_Button->size.w = max_w;
+    pGov_Button->size.h = max_h;
+    pGov_Button->size.x = pWindow->size.x + 10;
+    pGov_Button->size.y = pWindow->size.y + pWindow->size.h -
+        (j++) * (max_h + 10);
+    set_wstate(pGov_Button, FC_WS_NORMAL);
+
+    pGov_Button = pGov_Button->next;
+  }
+
+  set_wstate(pWindow, FC_WS_NORMAL);
+
+  /* redraw */
+  redraw_group(pGov_Dlg->pBeginWidgetList, pWindow, 0);
+
+  flush_rect(pWindow->size);
+}
+
+/**************************************************************************
   Popup a dialog asking if the player wants to start a revolution.
 **************************************************************************/
 void popup_revolution_dialog(void)
@@ -3495,6 +3629,11 @@ void popup_revolution_dialog(void)
   int ww;
 
   if(pRevolutionDlg) {
+    return;
+  }
+  
+  if (game.player_ptr->revolution_finishes >= 0) {
+    popup_government_dialog();
     return;
   }
   

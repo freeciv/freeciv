@@ -40,7 +40,7 @@
 #define CF_OPTION_OPEN			(1<<4)
 #define CF_OPTION_MAIN			(1<<5)
 #define CF_GANE_JUST_STARTED		(1<<6)
-#define CF_REVOLUTION			(1<<7)
+
 #define CF_TOGGLED_FULLSCREEN		(1<<8)
 #define CF_FOCUS_ANIMATION		(1<<9)
 #define CF_CHANGED_PROD			(1<<10)
