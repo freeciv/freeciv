@@ -103,7 +103,6 @@ sprites =
 		"f.newzealand", "flags/newzealand"
 		"f.nigeria", "flags/nigeria"
 		"f.norway", "flags/norway"
-		"f.observer", "flags/observer"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.pakistan", "flags/pakistan"
 		"f.palmyra", "flags/palmyra"

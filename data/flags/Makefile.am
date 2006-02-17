@@ -93,7 +93,6 @@ flag_files =				\
 		newzealand.png		\
 		nigeria.png		\
 		norway.png		\
-		observer.png		\
 		pakistan.png		\
 		palmyra.png		\
 		papua_newguinea.png	\
@@ -237,7 +236,6 @@ shield_files =					\
 		newzealand-shield.png		\
 		nigeria-shield.png		\
 		norway-shield.png		\
-		observer-shield.png		\
 		pakistan-shield.png		\
 		palmyra-shield.png		\
 		papua_newguinea-shield.png	\
@@ -381,7 +379,6 @@ svg_files = 				\
 		newzealand.svg		\
 		nigeria.svg		\
 		norway.svg		\
-		observer.svg		\
 		pakistan.svg		\
 		palmyra.svg		\
 		papua_newguinea.svg	\
