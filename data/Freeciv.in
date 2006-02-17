@@ -3130,11 +3130,15 @@ Freeciv*racespopup.title:		_("What Nation Will You Be?")
 Freeciv*racespopup*translations:	#override \
 			<Key>Return: key-dialog-races-ok()
 
+Freeciv*racesform.background:		gray84
+
 Freeciv*raceslabel.label:		_("Select nation and name:")
 Freeciv*raceslabel.borderWidth:		0
 Freeciv*raceslabel.background:		gray84
 
-Freeciv*racesform.background:		gray84
+Freeciv*racestogglesviewport.height:	412
+Freeciv*racestogglesviewport.useRight:	True
+Freeciv*racestogglesviewport.allowVert:	True
 
 Freeciv*racestogglesform.borderWidth:	1
 Freeciv*racestogglesform.background:	gray84
