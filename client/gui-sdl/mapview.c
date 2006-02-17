@@ -296,23 +296,22 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 	      2 * pBuf->size.w + 2, 2 * pBuf->size.h + 2);
 #endif
 
-  if (SDL_Client_Flags & CF_REVOLUTION) {
-    pBuf = get_revolution_widget();
-    set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), FALSE);    
-    
-    if (game.player_ptr) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"),
-    				get_gov_pplayer(game.player_ptr)->name);
-    } else {
-      my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"), "None");
-    }        
-    copy_chars_to_string16(pBuf->string16, cBuf);
-        
-    redraw_widget(pBuf);
-    sdl_dirty_rect(pBuf->size);
-    SDL_Client_Flags &= ~CF_REVOLUTION;
-  }
 
+  pBuf = get_revolution_widget();
+  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), FALSE);    
+  
+  if (game.player_ptr) {
+    my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"),
+                              get_gov_pplayer(game.player_ptr)->name);
+  } else {
+    my_snprintf(cBuf, sizeof(cBuf), _("Revolution (Shift + R)\n%s"), "None");
+  }        
+  copy_chars_to_string16(pBuf->string16, cBuf);
+      
+  redraw_widget(pBuf);
+  sdl_dirty_rect(pBuf->size);
+
+  
   pBuf = get_tax_rates_widget();
   if(!pBuf->theme) {
 #if 0    
@@ -351,9 +350,9 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
                 "None", 0, 0);
   } else if (get_player_research(game.player_ptr)->researching != A_UNSET) {  
-  my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
+    my_snprintf(cBuf, sizeof(cBuf), _("Research (F6)\n%s (%d/%d)"),
 	      	get_tech_name(game.player_ptr,
-			    get_player_research(game.player_ptr)->researching),
+                get_player_research(game.player_ptr)->researching),
 	      	get_player_research(game.player_ptr)->bulbs_researched,
   		total_bulbs_required(game.player_ptr));
   } else {

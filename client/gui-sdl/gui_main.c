@@ -1065,7 +1065,6 @@ void add_net_input(int sock)
   net_socket = sock;
   autoconnect = FALSE;
   enable_focus_animation();
-  SDL_Client_Flags |= CF_REVOLUTION; /* force update revolution icon */
 }
 
 /**************************************************************************
