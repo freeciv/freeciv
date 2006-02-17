@@ -23,10 +23,11 @@ leader=
  "Stevan Šupljikac",
  "Milan II Obrenović",
  "Petar Karađorđević",
- "Slobodan Milošević"
+ "Slobodan Milošević",
+ "Zoran Đinđić"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
            "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Male"
+           "Male", "Male"
 flag="serbia"
 flag_alt = "-"
 city_style = "European"
