@@ -30,7 +30,8 @@
 #include <X11/Xaw/MenuButton.h>
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
-#include <X11/Xaw/Toggle.h>     
+#include <X11/Xaw/Toggle.h>
+#include <X11/Xaw/Viewport.h>	/* for racesdlg */
 
 #include "fcintl.h"
 #include "log.h"
@@ -73,6 +74,7 @@ static Widget notify_dialog_shell;
 /******************************************************************/
 static Widget races_dialog_shell=NULL;
 static Widget races_form, races_toggles_form, races_label;
+static Widget races_toggles_viewport;
 static Widget *races_toggles=NULL;
 static struct nation_type **races_toggles_to_nations = NULL;
 static int *nation_idx_to_race_toggle = NULL;
@@ -914,11 +916,18 @@ void create_races_dialog(struct player *pplayer)
 				       labelWidgetClass, 
 				       races_form, NULL));  
 
-  races_toggles_form = XtVaCreateManagedWidget("racestogglesform", 
-					       formWidgetClass, 
-					       races_form, 
-					       XtNfromVert, races_label, 
-					       NULL);   
+  races_toggles_viewport =
+    XtVaCreateManagedWidget("racestogglesviewport",
+			    viewportWidgetClass,
+			    races_form,
+			    XtNfromVert, races_label,
+			    NULL);
+
+  races_toggles_form =
+    XtVaCreateManagedWidget("racestogglesform",
+			    formWidgetClass,
+			    races_toggles_viewport,
+			    NULL);
 
   free(races_toggles);
   races_toggles = fc_calloc(game.control.nation_count, sizeof(Widget));
@@ -995,114 +1004,63 @@ void create_races_dialog(struct player *pplayer)
     }
   } nations_iterate_end;
   nat_count = index + 1;
-/*
-  for( i = 0; i < ((game.control.playable_nation_count-1)/per_row)+1; i++) {
-    index = i * per_row;
-    my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
-    if( i == 0 ) {
-      races_toggles[index] =
-	XtVaCreateManagedWidget(namebuf,
-				toggleWidgetClass,
-				races_toggles_form,
-				XtNlabel, maxracename,
-				NULL);
-    } else {
-      races_toggles[index] =
-	XtVaCreateManagedWidget(namebuf,
-				toggleWidgetClass,
-				races_toggles_form,
-				XtNradioGroup,
-				races_toggles[index-1],
-				XtNfromVert,
-				races_toggles[index-per_row],
-				XtNlabel, maxracename,
-				NULL);
-    }
 
-    for( j = 1; j < per_row; j++) {
-      index = i * per_row + j;
-      if( index >= game.control.playable_nation_count ) break;
-      my_snprintf(namebuf, sizeof(namebuf), "racestoggle%d", index);
-      if( i == 0 ) {
-	races_toggles[index] =
-	  XtVaCreateManagedWidget(namebuf,
-				  toggleWidgetClass,
-				  races_toggles_form,
-				  XtNradioGroup,
-				  races_toggles[index-1],
-				  XtNfromHoriz,
-				  races_toggles[index-1],
-				  XtNlabel, maxracename,
-				  NULL);
-      } else {
-	races_toggles[index] =
-	  XtVaCreateManagedWidget(namebuf,
-				  toggleWidgetClass,
-				  races_toggles_form,
-				  XtNradioGroup,
-				  races_toggles[index-1],
-				  XtNfromVert,
-				  races_toggles[index-per_row],
-				  XtNfromHoriz,
-				  races_toggles[index-1],
-				  XtNlabel, maxracename,
-				  NULL);
-      }
-    }
-  }
-*/
-  races_leader_form = XtVaCreateManagedWidget("racesleaderform",
-					      formWidgetClass,
-					      races_form,
-					      XtNfromVert, races_toggles_form,
-					      NULL);
+  races_leader_form =
+    XtVaCreateManagedWidget("racesleaderform",
+			    formWidgetClass,
+			    races_form,
+			    XtNfromVert, races_toggles_viewport,
+/*			    XtNfromHoriz, races_toggles_viewport,*/
+			    NULL);
 
   XtVaGetValues(races_leader_form, XtNdefaultDistance, &space, NULL);
   XtQueryGeometry(races_toggles[0], NULL, &geom);
-  races_leader = XtVaCreateManagedWidget("racesleader",
-					 asciiTextWidgetClass,
-					 races_leader_form,
-					 XtNeditType, XawtextEdit,
-					 XtNwidth,
-					   space + 2*(geom.width + geom.border_width),
-					 XtNstring, "",
-					 NULL);
+  races_leader =
+    XtVaCreateManagedWidget("racesleader",
+			    asciiTextWidgetClass,
+			    races_leader_form,
+			    XtNeditType, XawtextEdit,
+			    XtNwidth,
+			      space + 2*(geom.width + geom.border_width),
+			    XtNstring, "",
+			    NULL);
 
   races_leader_pick_popupmenu = 0;
 
   races_leader_pick_menubutton =
     I_L(XtVaCreateManagedWidget("racesleaderpickmenubutton",
-			    menuButtonWidgetClass,
-			    races_leader_form,
-			    XtNfromHoriz, races_leader,
-			    NULL));
+				menuButtonWidgetClass,
+				races_leader_form,
+/*				XtNfromVert, races_leader,*/
+				XtNfromHoriz, races_leader,
+				NULL));
 
-  races_sex_label = I_L(XtVaCreateManagedWidget("racessexlabel", 
-				            labelWidgetClass, 
-				            races_form, 
-					    XtNfromVert, races_leader_form, 
-					    NULL));  
+  races_sex_label = I_L(XtVaCreateManagedWidget("racessexlabel",
+				            labelWidgetClass,
+				            races_form,
+					    XtNfromVert, races_leader_form,
+					    NULL));
 
-  races_sex_form = XtVaCreateManagedWidget("racessexform", 
-					   formWidgetClass, 
-					   races_form, 
-					   XtNfromVert, races_sex_label, 
-					   NULL);   
+  races_sex_form = XtVaCreateManagedWidget("racessexform",
+					   formWidgetClass,
+					   races_form,
+					   XtNfromVert, races_sex_label,
+					   NULL);
 
   races_sex_toggles[0] =
-    I_L(XtVaCreateManagedWidget("racessextoggle0", 
-				toggleWidgetClass, 
+    I_L(XtVaCreateManagedWidget("racessextoggle0",
+				toggleWidgetClass,
 				races_sex_form,
 				NULL));
 
   races_sex_toggles[1] =
     I_L(XtVaCreateManagedWidget("racessextoggle1",
-				toggleWidgetClass, 
+				toggleWidgetClass,
 				races_sex_form,
-				XtNfromHoriz, 
+				XtNfromHoriz,
 				(XtArgVal)races_sex_toggles[0],
-				XtNradioGroup, 
-				races_sex_toggles[0], 
+				XtNradioGroup,
+				races_sex_toggles[0],
 				NULL));
 
   /* find out styles that can be used at the game beginning */
@@ -1115,17 +1073,21 @@ void create_races_dialog(struct player *pplayer)
     }
   }
 
-  races_style_label = I_L(XtVaCreateManagedWidget("racesstylelabel", 
-					      labelWidgetClass, 
-					      races_form,
-					      XtNfromVert, races_sex_form, 
-					      NULL));  
+  races_style_label =
+    I_L(XtVaCreateManagedWidget("racesstylelabel", 
+				labelWidgetClass, 
+				races_form,
+				XtNfromVert, races_sex_form,
+/*				XtNfromHoriz, races_toggles_viewport,*/
+				NULL));  
 
-  races_style_form = XtVaCreateManagedWidget("racesstyleform", 
-					       formWidgetClass, 
-					       races_form, 
-					       XtNfromVert, races_style_label, 
-					       NULL);   
+  races_style_form =
+    XtVaCreateManagedWidget("racesstyleform", 
+			    formWidgetClass, 
+			    races_form, 
+			    XtNfromVert, races_style_label,
+/*			    XtNfromHoriz, races_toggles_viewport,*/
+			    NULL);   
 
   free(races_style_toggles);
   races_style_toggles = fc_calloc(b_s_num,sizeof(Widget));
