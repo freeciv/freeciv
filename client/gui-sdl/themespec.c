@@ -180,7 +180,7 @@ const char *theme_font_filename(const struct theme *t) {
 /****************************************************************************
   Return the default font size.
 ****************************************************************************/
-const int theme_default_font_size(const struct theme *t) {
+int theme_default_font_size(const struct theme *t) {
   return t->default_font_size;  
 }
 

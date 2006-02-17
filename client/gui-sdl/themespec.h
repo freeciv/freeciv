@@ -50,6 +50,6 @@ const char *theme_get_name(const struct theme *t);
 const char *theme_main_intro_filename(const struct theme *t);
 const char *theme_mini_intro_filename(const struct theme *t);
 const char *theme_font_filename(const struct theme *t);
-const int theme_default_font_size(const struct theme *t);
+int theme_default_font_size(const struct theme *t);
 
 #endif  /* FC__THEMESPEC_H */
