@@ -3339,7 +3339,7 @@ static Uint16 *chain2text(const struct UniChar *pInChain, size_t len)
 static void redraw_edit_chain(struct EDIT *pEdt)
 {
   struct UniChar *pInputChain_TMP;
-  SDL_Rect Dest, Dest_Copy;
+  SDL_Rect Dest, Dest_Copy = {0, 0, 0, 0};
   int iStart_Mod_X;
   
   Dest_Copy.x = pEdt->pWidget->size.x;
@@ -5623,7 +5623,8 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   struct GUI *pLabel = NULL;
   SDL_Surface *pBuf = NULL, *pTheme = NULL;
   SDL_Rect area;
-  SDL_Color store, color = {0,0,255,96};
+  SDL_Color store = {0, 0, 0, 0};
+  SDL_Color color = {0,0,255,96};
   Uint32 colorkey;
   
   if (!pIcon && !pText) {
@@ -5708,7 +5709,8 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
 struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
 {
   SDL_Rect start, area;
-  SDL_Color store, color = {0,0,255,96};
+  SDL_Color store = {0, 0, 0, 0};
+  SDL_Color color = {0,0,255,96};
   Uint32 colorkey, flags = get_wflags(pIconLabel);
   SDL_Surface *pDest, *pTheme, *pBuf = create_surf(pIconLabel->size.w,
 				  pIconLabel->size.h * 2, SDL_SWSURFACE);
