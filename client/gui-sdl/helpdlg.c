@@ -60,8 +60,7 @@ struct UNITS_BUTTONS {
 
 enum help_page_type current_help_dlg = HELP_LAST;
 
-/* HACK: we use a static string for convenience. */
-static char long_buffer[64000];
+static const int bufsz = 8192;
 
 static int change_tech_callback(struct GUI *pWidget);
   
@@ -523,7 +522,7 @@ void popup_unit_info(Unit_type_id type_id)
   bool created, text = FALSE;
   int width = 0;
   struct unit_type *pUnit;
-  char *buffer = &long_buffer[0];
+  char buffer[bufsz];
   
   if(current_help_dlg != HELP_UNIT)
   {
@@ -953,7 +952,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   struct GUI *pDock = pStore->pDock;
   int i, targets_count,sub_targets_count, max_width = 0;
   int start_x, start_y, imp_count, unit_count, flags_count, gov_count;
-  char *buffer = &long_buffer[0];
+  char buffer[bufsz];
   
   start_x = (FRAME_WH + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
@@ -1150,7 +1149,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   } unit_type_iterate_end;
   
   buffer[0] = '\0';
-  helptext_tech(buffer, tech, "");
+  helptext_tech(buffer, sizeof(buffer), tech, "");
   if (buffer[0] != '\0')
   {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
