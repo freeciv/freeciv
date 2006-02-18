@@ -361,22 +361,24 @@ void ui_main(int argc, char *argv[])
     values.graphics_exposures = False;
     civ_gc = XCreateGC(display, root_window, GCGraphicsExposures, &values);
 
-    city_names_font = mystrdup("-*-*-*-*-*--14-*");
+    city_names_font = mystrdup("-*-*-*-*-*-*-14-*");
 
-    city_productions_font_name = mystrdup("-*-*-*-*-*--14-*");
+    city_productions_font_name = mystrdup("-*-*-*-*-*-*-14-*");
 
     main_font_set = XCreateFontSet(display, city_names_font,
 	&missing_charset_list_return,
 	&missing_charset_count_return,
 	&def_string_return);
-    if(!main_font_set) {
+    if (!main_font_set) {
       freelog(LOG_FATAL, _("Unable to open fontset: %s"),
-	  city_names_font);
+	      city_names_font);
+      freelog(LOG_FATAL,
+	      _("Doing 'xset fp rehash' may temporarily solve a problem."));
       exit(EXIT_FAILURE);
     }
-    for(i = 0; i < missing_charset_count_return; i++) {
+    for (i = 0; i < missing_charset_count_return; i++) {
       freelog(LOG_ERROR, _("Font for charset %s is lacking"),
-	  missing_charset_list_return[i]);
+	      missing_charset_list_return[i]);
     }
     values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
     values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
@@ -388,14 +390,16 @@ void ui_main(int argc, char *argv[])
 	&missing_charset_list_return,
 	&missing_charset_count_return,
 	&def_string_return);
-    if(!prod_font_set) {
+    if (!prod_font_set) {
       freelog(LOG_FATAL, _("Unable to open fontset: %s"),
-	  city_productions_font_name);
+	      city_productions_font_name);
+      freelog(LOG_FATAL,
+	      _("Doing 'xset fp rehash' may temporarily solve a problem."));
       exit(EXIT_FAILURE);
     }
-    for(i = 0; i < missing_charset_count_return; i++) {
+    for (i = 0; i < missing_charset_count_return; i++) {
       freelog(LOG_ERROR, _("Font for charset %s is lacking"),
-	  missing_charset_list_return[i]);
+	      missing_charset_list_return[i]);
     }
     values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
     values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
