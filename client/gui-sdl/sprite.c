@@ -121,23 +121,8 @@ struct sprite *crop_sprite(struct sprite *source,
 			   int mask_offset_x, int mask_offset_y)
 {
   SDL_Rect src_rect = {(Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height};
-  SDL_Surface *pTmp = crop_rect_from_surface(GET_SURF(source), &src_rect);
-  SDL_Surface *pSrc = NULL;
+  SDL_Surface *pSrc = crop_rect_from_surface(GET_SURF(source), &src_rect);
   SDL_Surface *pDest = NULL;
-      
-  if (pTmp->format->Amask) {
-    SDL_SetAlpha(pTmp, SDL_SRCALPHA, 255);
-    pSrc = pTmp;
-  } else {
-    SDL_SetColorKey(pTmp, SDL_SRCCOLORKEY | SDL_RLEACCEL, pTmp->format->colorkey);
-    pSrc = SDL_ConvertSurface(pTmp, pTmp->format, pTmp->flags);
-
-    if (!pSrc) {
-      return ctor_sprite(pTmp);
-    }
-
-    FREESURFACE(pTmp);
-  }
 
   if (mask) {
     pDest = mask_surface(pSrc, mask->psurface, x - mask_offset_x, y - mask_offset_y);

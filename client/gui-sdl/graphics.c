@@ -142,26 +142,23 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
   SDL_Surface *pDest = NULL;
   
   int row, col;  
-  bool free_pSrc = FALSE;
   bool free_pMask = FALSE;
   Uint32 *pSrc_Pixel = NULL;
   Uint32 *pDest_Pixel = NULL;
   Uint32 *pMask_Pixel = NULL;
   unsigned char src_alpha, mask_alpha;
-  
-  if (!pSrc->format->Amask) {
-    pSrc = SDL_DisplayFormatAlpha(pSrc);
-    free_pSrc = TRUE;
-  }
-  
+
   if (!pMask->format->Amask) {
     pMask = SDL_DisplayFormatAlpha(pMask);
     free_pMask = TRUE;
   }
-
+  
+  pSrc = SDL_DisplayFormatAlpha(pSrc);
   pDest = SDL_DisplayFormatAlpha(pSrc);
-  SDL_FillRect(pDest, NULL, pSrc->format->colorkey);
-  SDL_SetColorKey(pDest, SDL_SRCCOLORKEY | SDL_RLEACCEL, pSrc->format->colorkey);
+  
+  lock_surf(pSrc);
+  lock_surf(pMask);  
+  lock_surf(pDest);
   
   pSrc_Pixel = (Uint32 *)pSrc->pixels;
   pDest_Pixel = (Uint32 *)pDest->pixels;
@@ -183,14 +180,14 @@ SDL_Surface *mask_surface(SDL_Surface * pSrc, SDL_Surface * pMask,
     }
   }
 
-  if (free_pSrc) {
-    FREESURFACE(pSrc);
-  }
-
+  unlock_surf(pDest);
+  unlock_surf(pMask);    
+  unlock_surf(pSrc);
+  
   if (free_pMask) {
     FREESURFACE(pMask);
   }
-  
+
   return pDest;
 }
 /**************************************************************************
