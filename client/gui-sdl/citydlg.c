@@ -728,10 +728,8 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
       sz_strlcat(cBuf, "\n");
       sz_strlcat(cBuf, get_nearest_city_text(pNear_City, pCity_near_dist));
       pSurf = adj_surf(create_unit_surface(pUnit, 1));
-      SDL_SetColorKey(pSurf, SDL_SRCCOLORKEY, 0);
     } else {
       pSurf = adj_surf(create_unit_surface(pUnit, 0));
-      SDL_SetColorKey(pSurf, SDL_SRCCOLORKEY, 0);      
     }
         
     pStr = create_str16_from_char(cBuf, adj_font(10));
