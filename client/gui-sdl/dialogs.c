@@ -808,16 +808,15 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
 /**************************************************************************
   Popup terrain information dialog.
 **************************************************************************/
-static void popup_terrain_info_dialog(SDL_Surface *pDest,
-					struct tile *ptile)
+static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
 {
   SDL_Surface *pSurf;
   struct GUI *pBuf, *pWindow;
   SDL_String16 *pStr;  
   char cBuf[256];  
-  int infra_count;
 
   if (pTerrain_Info_Dlg) {
+    flush_dirty();
     return;
   }
       
@@ -835,94 +834,9 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest,
   
   add_to_gui_list(ID_TERRAIN_INFO_DLG_WINDOW, pWindow);
   pTerrain_Info_Dlg->pEndWidgetList = pWindow;
+  
   /* ---------- */
-  
-  if(client_tile_get_known(ptile) >= TILE_KNOWN_FOGGED) {
-  
-    my_snprintf(cBuf, sizeof(cBuf), _("Terrain: %s\nFood/Prod/Trade: %s\n%s"),
-		tile_get_info_text(ptile),
-		get_tile_output_text(ptile),
-    		sdl_get_tile_defense_info_text(ptile));
-        
-    if (tile_has_special(ptile, S_HUT))
-    { 
-      sz_strlcat(cBuf, _("\nMinor Tribe Village"));
-    }
-    else
-    {
-      get_tile_infrastructure_set(ptile, &infra_count);  
-      if (infra_count > 0)
-      {
-	cat_snprintf(cBuf, sizeof(cBuf), _("\nInfrastructure: %s"),
-				get_infrastructure_text(ptile->special));
-      }
-    }
-    
-    if (game.info.borders > 0 && !ptile->city) {
-      struct player_diplstate *ds = game.player_ptr->diplstates;
-      const char *diplo_nation_plural_adjectives[DS_LAST] =
-    			{Q_("?nation:Neutral"), Q_("?nation:Hostile"),
-     			"" /* unused, DS_CEASEFIRE*/, Q_("?nation:Peaceful"),
-			  Q_("?nation:Friendly"), Q_("?nation:Mysterious")};
-			  
-      if (ptile->owner == game.player_ptr){
-        cat_snprintf(cBuf, sizeof(cBuf), _("\nOur Territory"));
-      } else if (ptile->owner) {
-        if (ds[ptile->owner->player_no].type == DS_CEASEFIRE){
-	  int turns = ds[ptile->owner->player_no].turns_left;
-
-	  cat_snprintf(cBuf, sizeof(cBuf),
-	  		PL_("\n%s territory (%d turn ceasefire)",
-			    "\n%s territory (%d turn ceasefire)", turns),
-		 		get_nation_name(ptile->owner->nation), turns);
-        } else {
-	  cat_snprintf(cBuf, sizeof(cBuf), _("\nTerritory of the %s %s"),
-		diplo_nation_plural_adjectives[ds[ptile->owner->player_no].type],
-		    	get_nation_name_plural(ptile->owner->nation));
-        }
-      } else {
-        cat_snprintf(cBuf, sizeof(cBuf), _("\nUnclaimed territory"));
-      }
-    }
-    
-    if (ptile->city) {
-      /* Look at city owner, not tile owner (the two should be the same, if
-       * borders are in use). */
-      struct player *pOwner = city_owner(ptile->city);
-      struct player_diplstate *ds = game.player_ptr->diplstates;
-      const char *diplo_city_adjectives[DS_LAST] =
-    		{Q_("?city:Neutral"), Q_("?city:Hostile"),
-     		"" /*unused, DS_CEASEFIRE */, Q_("?city:Peaceful"),
-		  Q_("?city:Friendly"), Q_("?city:Mysterious")};
-		  
-      cat_snprintf(cBuf, sizeof(cBuf), _("\nCity of %s"), ptile->city->name);
-      if (city_got_citywalls(ptile->city)) {
-        cat_snprintf(cBuf, sizeof(cBuf), _(" with City Walls"));
-      }		  
-      if (pOwner && pOwner != game.player_ptr) {
-	if (ds[pOwner->player_no].type == DS_CEASEFIRE) {
-	  int turns = ds[pOwner->player_no].turns_left;
-
-          cat_snprintf(cBuf, sizeof(cBuf), PL_("\n(%s, %d turn ceasefire)",
-				       "\n(%s, %d turn ceasefire)", turns),
-		 		get_nation_name(pOwner->nation), turns);
-        } else {
-          /* TRANS: "\nCity: <name> (<nation>,<diplomatic_state>)" */
-          cat_snprintf(cBuf, sizeof(cBuf), _("\n(%s,%s)"),
-		  get_nation_name(pOwner->nation),
-		  	diplo_city_adjectives[ds[pOwner->player_no].type]);
-	}
-      }
-    }
-  }
-  else
-  {
-    my_snprintf(cBuf, sizeof(cBuf), _("Terrain : UNKNOWN"));
-  }
-  
-   
-    
-  pStr = create_str16_from_char(cBuf, adj_font(12));
+  pStr = create_str16_from_char(popup_info_text(ptile), adj_font(12));
   pStr->style |= SF_CENTER;
   pBuf = create_iconlabel(pSurf, pWindow->dst, pStr, 0);
   
