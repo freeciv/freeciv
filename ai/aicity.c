@@ -359,7 +359,7 @@ static int improvement_effect_value(struct player *pplayer,
 	  > get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE)) {
 	if (get_player_bonus(pplayer, EFT_EMPIRE_SIZE_BASE) > 0) {
 	  factor += city_list_size(pplayer->cities) 
-	    / get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP);
+	    / MAX(get_player_bonus(pplayer, EFT_EMPIRE_SIZE_STEP), 1);
 	}
 	factor += 2;
       }
