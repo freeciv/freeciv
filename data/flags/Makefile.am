@@ -305,7 +305,7 @@ svg_files = 				\
 		austria.svg		\
 		azerbaijan.svg		\
 		aztec.svg		\
-		babylong.svg		\
+		babylon.svg		\
 		bangladesh.svg		\
 		barbarian.svg		\
 		bavarian.svg		\
