@@ -31,6 +31,7 @@
 /* gui-sdl */
 #include "graphics.h"
 #include "gui_main.h"
+#include "gui_zoom.h"
 #include "themespec.h"
 
 #include "gui_tilespec.h"
