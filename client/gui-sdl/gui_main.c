@@ -59,7 +59,7 @@
 #include "diplodlg.h"
 #include "graphics.h"
 #include "gui_id.h"
-#include "gui_stuff.h"		/* gui */
+#include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "inteldlg.h"
 #include "mapctrl.h"
@@ -815,7 +815,13 @@ void ui_init(void)
     FREESURFACE(pBgd);
     SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
   } else {
+    
+#ifndef SMALL_SCREEN
     set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT);
+#else
+    set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
+#endif    
+    
     if(pBgd) {
       blit_entire_src(pBgd, Main.map, (Main.map->w - pBgd->w) / 2,
     				      (Main.map->h - pBgd->h) / 2);

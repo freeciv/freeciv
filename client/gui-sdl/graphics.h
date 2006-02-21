@@ -28,6 +28,7 @@
 
 #include "canvas.h"
 #include "gui_main.h"
+#include "gui_zoom.h"
 
 #define USE_ALPHABLIT
 

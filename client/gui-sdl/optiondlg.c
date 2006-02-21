@@ -696,8 +696,7 @@ static int video_callback(struct GUI *pWidget)
   /* create modes buttons */
   for (i = 0; pModes_Rect[i]; i++) {
     if (i && ((pModes_Rect[i]->w == pModes_Rect[i - 1]->w)
-      || ((pModes_Rect[i]->w < 640 && pModes_Rect[i]->h < 480)
-         && !(pModes_Rect[i]->w == 320 && pModes_Rect[i]->h == 240)))) {
+      || ((pModes_Rect[i]->w < 640 && pModes_Rect[i]->h < 480)))) {
       continue;
     }
   
