@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-30 23:46-0800\n"
-"PO-Revision-Date: 2006-02-20 17:01+0200\n"
+"PO-Revision-Date: 2006-02-21 19:27+0200\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <stikonas@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -2952,6 +2952,7 @@ msgstr ""
 
 # lempučių?
 #: server/report.c:561
+#, fuzzy
 msgid " bulbs"
 msgstr " lemputės"
 
@@ -5603,7 +5604,7 @@ msgstr ""
 #: server/unittools.c:1545
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
-msgstr ""
+msgstr "Sučiuptas barbarų vadas, gauta %d aukso išpirka."
 
 #: server/unittools.c:1563
 #, c-format
@@ -5763,7 +5764,7 @@ msgstr ""
 
 #: server/unittools.c:2185
 msgid "An abandoned village is here."
-msgstr ""
+msgstr "Čia yra apleista gyvennvietė."
 
 #: server/unittools.c:2195
 msgid "You have unleashed a horde of barbarians!"
@@ -5960,11 +5961,11 @@ msgstr ""
 #: client/audio.c:282
 #, c-format
 msgid "Cannot find audio file %s"
-msgstr ""
+msgstr "Negaliu rasti audio failo %s"
 
 #: client/citydlg_common.c:215
 msgid "?filler:XXX/XXX XXX turns"
-msgstr ""
+msgstr "?filler:XXX/XXX XXX ėjimų"
 
 #: client/citydlg_common.c:230
 #, c-format
@@ -6882,15 +6883,17 @@ msgstr "* Reikalauja %d gyventojų, kad pastatytum.\n"
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "* Gali nešti ir papildyti degalais %d aviacijos dalinį.\n"
+msgstr[1] "* Gali nešti ir papildyti degalais %d aviacijos dalinius.\n"
+msgstr[2] "* Gali nešti ir papildyti degalais %d aviacijos dalinių.\n"
 
 #: client/helpdata.c:787
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "* Gali nešti ir papildyti degalais %d raketą.\n"
+msgstr[1] "* Gali nešti ir papildyti degalais %d raketas.\n"
+msgstr[2] "* Gali nešti ir papildyti degalais %d raketų.\n"
 
 #: client/helpdata.c:792
 #, c-format
@@ -7011,7 +7014,7 @@ msgstr "*Negali būti papirktas.\n"
 
 #: client/helpdata.c:900
 msgid "* Can attack enemy air units.\n"
-msgstr "* Gali pulti priešo oro dalinius.\n"
+msgstr "* Gali pulti priešo aviaciją.\n"
 
 #: client/helpdata.c:903
 msgid "* Is invisible except when next to an enemy unit or city.\n"
@@ -7093,7 +7096,7 @@ msgstr "* Niekada netaps veteranu.\n"
 
 #: client/helpdata.c:981
 msgid "* May become veteran through training or combat.\n"
-msgstr ""
+msgstr "* Kovodamas arba treniruodamasis gali tapti veteranu.\n"
 
 #: client/helpdata.c:987
 #, c-format
@@ -7296,7 +7299,7 @@ msgstr ""
 
 #: client/helpdata.c:1369
 msgid "* Your units cannot be bribed.\n"
-msgstr "* Jūsų daliniai negali būti papirkti.\n"
+msgstr "* Tavo daliniai negali būti papirkti.\n"
 
 #: client/helpdata.c:1372
 msgid "* Your cities cannot be incited.\n"
@@ -7312,7 +7315,7 @@ msgstr ""
 
 #: client/helpdata.c:1384
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr ""
+msgstr "* Leidžia partizanus, kai miestus užima priešai.\n"
 
 #: client/helpdata.c:1388
 msgid "* Buildings that normally confer bonuses against unhappiness will instead give gold.\n"
@@ -7324,7 +7327,7 @@ msgstr ""
 
 #: client/helpdata.c:1395
 msgid "* Has no unhappy citizens.\n"
-msgstr ""
+msgstr "* Neturi nelaimingų piliečių.\n"
 
 #: client/helpdata.c:1399
 #: client/helpdata.c:1402
@@ -8370,9 +8373,8 @@ msgstr "Kelionės laikas: %5.1f years"
 # Kaip išvert N/A?
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:920
-#, fuzzy
 msgid "Travel time:        N/A     "
-msgstr "Kelionės laikas:    N/A"
+msgstr "Kelionės laikas:     N/A"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:924
@@ -11518,17 +11520,17 @@ msgstr ""
 
 #: client/gui-mui/citydlg.c:1644
 msgid "Auto attack vs"
-msgstr ""
+msgstr "Automatiškai pulti prieš"
 
 #: client/gui-mui/citydlg.c:1646
 #: client/gui-mui/citydlg.c:1647
 msgid "Land units"
-msgstr ""
+msgstr "Sausumos dalinius"
 
 #: client/gui-mui/citydlg.c:1649
 #: client/gui-mui/citydlg.c:1650
 msgid "Sea units"
-msgstr ""
+msgstr "Jūros dalinius"
 
 #: client/gui-mui/citydlg.c:1652
 #: client/gui-mui/citydlg.c:1653
@@ -11538,7 +11540,7 @@ msgstr "Sraigtasparniai"
 #: client/gui-mui/citydlg.c:1655
 #: client/gui-mui/citydlg.c:1656
 msgid "Air units"
-msgstr ""
+msgstr "Aviaciją"
 
 #: client/gui-mui/citydlg.c:1660
 #: client/gui-mui/citydlg.c:1661
@@ -11561,7 +11563,7 @@ msgstr "_Uždaryti"
 #: client/gui-mui/citydlg.c:1774
 #, c-format
 msgid "%s (%s) (worklist)"
-msgstr ""
+msgstr "%s (%s) (darbų sąrašas)"
 
 #: client/gui-mui/citydlg.c:2044
 #: client/gui-win32/citydlg.c:1264
@@ -11583,12 +11585,12 @@ msgstr ""
 #: client/gui-mui/citydlg.c:2075
 #, c-format
 msgid "%s citizens%s"
-msgstr ""
+msgstr "%s piliečių%s"
 
 #: client/gui-mui/citydlg.c:2079
 #, c-format
 msgid "%s - %s citizens%s"
-msgstr ""
+msgstr "%s - %s piliečių%s"
 
 #: client/gui-mui/citydlg.c:2229
 #, c-format
@@ -11901,7 +11903,7 @@ msgstr "_Užnuodyti miestą"
 
 #: client/gui-mui/dialogs.c:814
 msgid "Industrial _sabotage"
-msgstr ""
+msgstr "Industrinis _sabotažas"
 
 #: client/gui-mui/dialogs.c:850
 #: client/gui-win32/dialogs.c:1621
@@ -14085,9 +14087,8 @@ msgid "Resources"
 msgstr "Resursai"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Move cost"
-msgstr "Ėjimai"
+msgstr "Ėjimo kaina"
 
 #: manual/civmanual.c:222
 #, fuzzy
@@ -14136,14 +14137,13 @@ msgid ""
 msgstr ""
 
 #: manual/civmanual.c:297
-#, fuzzy
 msgid "Requirement"
-msgstr "Reikalinga:"
+msgstr "Reikalavimai:"
 
 #: manual/civmanual.c:297
 #, fuzzy
 msgid "Obsolete by"
-msgstr "Pasensta prie:"
+msgstr "Pasensta prie"
 
 #: manual/civmanual.c:297
 msgid "More info"
@@ -14322,7 +14322,7 @@ msgstr "Automatiškai pulti jūros dalinius: "
 
 #: data/Freeciv.in:1538
 msgid "Auto-attack vs air units:          "
-msgstr "Automatiškai pulti oro dalinius: "
+msgstr "Automatiškai pulti aviaciją: "
 
 #: data/Freeciv.in:1544
 msgid "Auto-attack vs helicopters:        "
@@ -15735,7 +15735,7 @@ msgstr "SAM Baterija"
 #: data/default/buildings.ruleset:704
 #: data/civ2/buildings.ruleset:666
 msgid "Doubles the defense of all units inside the city when attacked by non-nuclear air units."
-msgstr "Padvigubina mieste esančių dalinių gynybą, kai yra puolama ne su branduoliniais oro daliniais."
+msgstr "Padvigubina mieste esančių dalinių gynybą, kai yra puolama su nebranduoline aviacija."
 
 #: data/default/buildings.ruleset:710
 #: data/civ2/buildings.ruleset:672
@@ -18614,9 +18614,8 @@ msgid "Bosnia and Herzegovina is a country in south-east Europe, and the home of
 msgstr ""
 
 #: data/nation/bosnia.ruleset:29
-#, fuzzy
 msgid "Ban"
-msgstr "Bankas"
+msgstr ""
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -18904,20 +18903,17 @@ msgid "Governadora"
 msgstr ""
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Švęsti"
+msgstr ""
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "būrai"
+msgstr ""
 
 #: data/nation/confederate.ruleset:5
 #: data/nation/soviet.ruleset:5
-#, fuzzy
 msgid "Transitional"
-msgstr "Išgalvoti"
+msgstr ""
 
 #: data/nation/confederate.ruleset:6
 msgid "The Confederate States of America was a splinter nation of the United States during the American Civil War. It was formed in 1861 by six Southern states but had to abandon their claims of independence a few years later after several military defeats by United States troops."
@@ -19284,14 +19280,12 @@ msgid "Iceland was discovered and settled by Norwegian Vikings in the late 9th c
 msgstr "Islandija buvo atrasta ir apgyvendinta Norvegijos vikingų IX a. pabaigoje. Sala priklausė Norvegijos karūnai, vėliau - Danijos, kol gavo nepriklausomybę nuo Danijos 1944 m."
 
 #: data/nation/illyrian.ruleset:3
-#, fuzzy
 msgid "Illyrian"
-msgstr "Italų"
+msgstr ""
 
 #: data/nation/illyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Illyrians"
-msgstr "?plural:Italai"
+msgstr ""
 
 #: data/nation/illyrian.ruleset:6
 msgid "Illyrians were Indo-European tribes who appeared in the  western part of the Balkan Peninsula before 1000 BC,  including the Dalmatians to the north,  Corcyra island and Ambracia bay in prehistoric Epirus to the south,  mixing with Thracians in Dardania to the east,  and settling Messapia across the Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until conquered by the Roman Republic."
@@ -19397,14 +19391,10 @@ msgstr "?plural:Airiai"
 msgid "Ireland held out against the Romans and Vikings but was conquered by the Normans in 1171. It was ruled by the English until 1922 when most of the country was granted limited autonomy, becoming a republic in 1949. The North of Ireland was settled in the 17th century by Scottish and English planters and is now part of the United Kingdom."
 msgstr ""
 
-# Didysis Karalius
-# Viršiausiasis Karalius
 #: data/nation/irish.ruleset:56
 msgid "High King"
 msgstr "Didysis Karalius"
 
-# Didžioji Karalienė
-# Aukščiausioji Karalienė
 #: data/nation/irish.ruleset:56
 msgid "High Queen"
 msgstr "Didžioji Karalienė"
@@ -19479,7 +19469,7 @@ msgstr "?plural:Italai"
 
 #: data/nation/italian.ruleset:6
 msgid "The Italian nation was unified in 1870AD after decades of campaigning by indigenous nationalists. It was a monarchy under the House of Savoy until 1922, then a fascist state until 1945 after which democracy was restored by the WWII victors."
-msgstr ""
+msgstr "Italų tauta buvo suvienyta 1870 m. po dešimtmečių vietinių nacionalistų žygių. Ten bvo Savoy'u dinastijos  monarchija iki 1922 m., tada fašistinė valstybė iki 1945 m. po kurios Antrojo Pasaulinio karo nugalėtojai atstatė demokratiją."
 
 #: data/nation/japanese.ruleset:20
 msgid "Japanese"
@@ -19926,9 +19916,8 @@ msgid "?plural:Quebecois"
 msgstr "?plural:Kvebekiečiai"
 
 #: data/nation/quebecois.ruleset:6
-#, fuzzy
 msgid "Quebec is the largest province of Canada, housing the majority of the Francophone population of America."
-msgstr "Kvebekas yra didžiausia Kanados provincija, kur gyvena dauguma Amerikos prancūzų. Tai vienintelis politinis vienetas Šiaurės Amerikoj, kur anglų kalba nėra oficiali."
+msgstr "Kvebekas yra didžiausia Kanados provincija, kur gyvena dauguma Amerikos prancūzų."
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -19960,6 +19949,7 @@ msgstr ""
 
 # Prezidentas?
 #: data/nation/romanian.ruleset:36
+#, fuzzy
 msgid "Presedinte"
 msgstr "Prezidentė"
 
@@ -20242,7 +20232,6 @@ msgid "Swazi"
 msgstr "Svazilando"
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
 msgstr "?plural:Svazilandiečiai"
 
