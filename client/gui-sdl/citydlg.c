@@ -3357,7 +3357,7 @@ static void redraw_city_dialog(struct city *pCity)
     i = 0;
     
     pBuf = pIcons->pBIG_Shield;
-    while (count) {
+    while (count > 0) {
       SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
       dest.x += pBuf->w;
       count--;
