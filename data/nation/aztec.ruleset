@@ -15,7 +15,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male"
 flag="aztec"
 flag_alt = "mexico"	; Used previously
-city_style = "Babylonian"
+city_style = "Tropical"
 
 ruler_titles = { "government",	"male_title",	"female_title"
 		 "Despotism",	_("Tlatoani"),  _("Tlatoani")
