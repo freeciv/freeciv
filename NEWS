@@ -1,14 +1,40 @@
 ======================
-Welcome to Freeciv 2.0
+Welcome to Freeciv 2.1
 ======================
 
-This is release 2.0.
+This is release 2.1.
 
 Thanks again to all our developers, who continue to work so hard.
 
 This release includes lots of changes, outlined below.  Those who
 are interested in seeing the detailed changes should check the
 ChangeLog file.
+
+WHAT'S CHANGED SINCE 2.0.7
+ - Significantly improved features for modmakers.
+ - New default tileset: Amplio.
+ - New city tab on main map.
+ - City outlines.
+ - Added lua as scripting language. New tutorial scenario.
+ - Many new nations, flags and nation information and options.
+ - New /surrender command to yield in multiplayer games.
+ - Score now shown in player dialog.
+ - Reputation removed from the game.
+ - New borders rules. Borders are static, fortresses expand borders
+   and cities expand more borders with city size growth.
+ - New diplomacy rules. Neutral state replaced with Armistice. You
+   now start in War state, and cannot cross borders with military
+   units except in War or Alliance states.
+ - GTK+ 1.2 client removed.
+ - Votes need over 50% of votes to pass. Voting is now only during game.
+ - First player to join becomes game organizer and sets all options.
+ - Many AI changes. Improved AI diplomacy.
+ - Palace has a production bonus of +75% under Despotism and +50%
+   under Monarchy.
+ - New animated cursors.
+ - Support for GGZ Gaming Zone.
+ - Multiple units may be moved at once as a battlegroup.
+ - As usual, tons of changes under the hood.
 
 WHAT'S CHANGED SINCE 1.14.2
  - Research cost has doubled, effects of science buildings doubled. SETI
