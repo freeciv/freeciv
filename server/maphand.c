@@ -1612,7 +1612,7 @@ void map_calculate_borders()
 
   /* Now claim ownership of unclaimed tiles for all sources; we
    * grab one circle each turn as long as we have range left
-   * to better visually displaying expansion hurdles. */
+   * to better visually display expansion. */
   whole_map_iterate(ptile) {
 #ifdef DEBUG
     if (ptile->owner == NULL
@@ -1660,24 +1660,16 @@ void map_calculate_borders()
         if (dist > expand_range || dist > found_unclaimed) {
           continue; /* only expand one extra circle radius each turn */
         }
-        if (map_is_known(atile, ptile->owner)) {
-          if (atile->owner == NULL) {
-            if (!is_ocean(atile->terrain)
-                || is_claimable_ocean(atile, ptile)) {
-              map_claim_ownership(atile, ptile->owner, ptile);
-              atile->owner_source = ptile;
-              if (game.info.happyborders > 0) {
-                add_unique_homecities(cities_to_refresh, atile);
-              }
-            }
-          } else if (atile->owner == ptile->owner
-                     && sq_map_distance(ptile, atile) 
-                        < sq_map_distance(atile->owner_source, atile)) {
-            /* Steal tiles from your own cities when they are closer
-             * to this source than to its current source. This makes
-             * sure that when a source is lost, borders close to
-             * other sources will not go lost as well. */
-            atile->owner_source = ptile;
+        if (map_is_known(atile, ptile->owner)
+            && atile->owner == NULL
+            && ((!is_ocean(atile->terrain) 
+                 && atile->continent == ptile->continent)
+                || (is_ocean(atile->terrain)
+                    && is_claimable_ocean(atile, ptile)))) {
+          map_claim_ownership(atile, ptile->owner, ptile);
+          atile->owner_source = ptile;
+          if (game.info.happyborders > 0) {
+            add_unique_homecities(cities_to_refresh, atile);
           }
         }
       } circle_dxyr_iterate_end;
