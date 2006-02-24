@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-01-30 23:46-0800\n"
-"PO-Revision-Date: 2006-02-21 19:27+0200\n"
+"PO-Revision-Date: 2006-02-24 16:51+0200\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <stikonas@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -139,7 +139,7 @@ msgstr ""
 
 #: common/player.c:647
 msgid "?attitude:Helpful"
-msgstr ""
+msgstr "?attitude:Paslaugus"
 
 #: common/player.c:649
 msgid "?attitude:Enthusiastic"
@@ -657,7 +657,7 @@ msgstr ""
 #: utility/support.c:160
 #, c-format
 msgid "error %d (compiled without strerror)"
-msgstr ""
+msgstr "klaida %d (kompiliuotas be strerror)"
 
 #: ai/aicity.c:1339
 #: server/citytools.c:1833
@@ -6396,7 +6396,7 @@ msgstr "Atliekos"
 
 #: client/cityrepdata.c:493
 msgid "?cma:Governor"
-msgstr ""
+msgstr "?cma:Valdytojas"
 
 #: client/cityrepdata.c:493
 #: client/gui-gtk-2.0/cityrep.c:1214
@@ -6406,7 +6406,7 @@ msgstr ""
 #: data/Freeciv.in:1459
 #: data/helpdata.txt:770
 msgid "Citizen Governor"
-msgstr ""
+msgstr "Piliečių valdytojas"
 
 #: client/cityrepdata.c:495
 #: client/cityrepdata.c:496
@@ -6428,7 +6428,7 @@ msgstr "Specialistai: %s"
 
 #: client/civclient.c:201
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
-msgstr ""
+msgstr "  -a, --autoconnect\tPraleisti prisijungimo dialogą\n"
 
 #: client/civclient.c:211
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
@@ -6444,7 +6444,7 @@ msgstr ""
 
 #: client/civclient.c:217
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr ""
+msgstr "  -p, --port PRIEVADAS\tPrisijungti prie serverio prievado PRIEVADAS\n"
 
 #: client/civclient.c:219
 #, c-format
@@ -6492,7 +6492,7 @@ msgstr ""
 #: client/civclient.c:290
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr ""
+msgstr "Neatpažintas parametras: „%s“\n"
 
 #: client/civclient.c:540
 msgid "Game started."
@@ -6558,12 +6558,12 @@ msgstr "%s duoda %d aukso"
 #: client/climisc.c:270
 #, c-format
 msgid "The %s give their worldmap"
-msgstr ""
+msgstr "%s davė savo pasaulio žemėlapį"
 
 #: client/climisc.c:274
 #, c-format
 msgid "The %s give their seamap"
-msgstr ""
+msgstr "%s davė savo jūros žemėlapį"
 
 #: client/climisc.c:278
 msgid "The parties agree on a cease-fire"
@@ -7706,7 +7706,7 @@ msgstr ""
 #: client/options.c:650
 #, c-format
 msgid "Saved settings to file %s"
-msgstr ""
+msgstr "Išsaugoti nustatymus į failą %s"
 
 #: client/packhand.c:198
 #, c-format
@@ -7891,7 +7891,7 @@ msgstr ""
 #: client/text.c:85
 #: client/text.c:90
 msgid "?nation:Neutral"
-msgstr ""
+msgstr "?nation:Neutrali"
 
 #: client/text.c:84
 msgid "?nation:Hostile"
@@ -7903,7 +7903,7 @@ msgstr ""
 
 #: client/text.c:86
 msgid "?nation:Friendly"
-msgstr ""
+msgstr "?nation:Draugiška"
 
 #: client/text.c:87
 msgid "?nation:Mysterious"
@@ -7911,11 +7911,11 @@ msgstr ""
 
 #: client/text.c:87
 msgid "?nation:Friendly(team)"
-msgstr ""
+msgstr "?nation:Draugiška(komanda)"
 
 #: client/text.c:89
 msgid "?city:Neutral"
-msgstr ""
+msgstr "?city:Neutralus"
 
 #: client/text.c:89
 msgid "?city:Hostile"
@@ -7927,7 +7927,7 @@ msgstr ""
 
 #: client/text.c:91
 msgid "?city:Friendly"
-msgstr ""
+msgstr "?city:Draugiškas"
 
 #: client/text.c:91
 msgid "?city:Mysterious"
@@ -8029,7 +8029,7 @@ msgstr ""
 #: client/text.c:219
 #, c-format
 msgid "Unit: %s (%s%s)"
-msgstr ""
+msgstr "Dalinys: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:231
@@ -8043,7 +8043,7 @@ msgstr[1] ""
 #: client/text.c:239
 #, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr ""
+msgstr "Dalinys: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:264
@@ -8068,12 +8068,12 @@ msgstr ""
 #: client/text.c:347
 #, c-format
 msgid "far from %s"
-msgstr ""
+msgstr "toli nuo %s"
 
 #: client/text.c:348
 #, c-format
 msgid "near %s"
-msgstr ""
+msgstr "\"arti %s"
 
 #: client/text.c:349
 #, c-format
@@ -8084,7 +8084,7 @@ msgstr ""
 #: client/text.c:379
 #, c-format
 msgid "from %s"
-msgstr ""
+msgstr "iš %s"
 
 #: client/text.c:442
 msgid "Progress: no research"
@@ -8169,17 +8169,17 @@ msgstr[2] "%d ėjimų"
 #: client/gui-mui/mapview.c:190
 #, c-format
 msgid "Population: %s"
-msgstr ""
+msgstr "Gyventojai: %s"
 
 #: client/text.c:571
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr ""
+msgstr "Metai: %s (Ė%d)"
 
 #: client/text.c:574
 #, c-format
 msgid "Gold: %d (%+d)"
-msgstr ""
+msgstr "Auksas: %d (%+d)"
 
 #: client/text.c:576
 #, c-format
@@ -8270,12 +8270,13 @@ msgstr ""
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Pažymėtas %d dalinys"
+msgstr[1] "Pažymėti %d daliniai"
+msgstr[2] "Pažymėti %d dalinių"
 
 #: client/text.c:700
 msgid "No units selected."
-msgstr ""
+msgstr "Daliniai nepažymėti."
 
 #: client/text.c:773
 #, c-format
@@ -8488,7 +8489,7 @@ msgstr ""
 #: client/tilespec.c:1254
 #, c-format
 msgid "Could not open \"%s\"."
-msgstr ""
+msgstr "Negaliu atidaryti „%s“"
 
 #: client/tilespec.c:1054
 #, c-format
@@ -8796,7 +8797,7 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:1039
 #: client/gui-mui/citydlg.c:1382
 msgid "Governor page"
-msgstr ""
+msgstr "Valdytojo puslapis"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "This Settings page"
@@ -9274,7 +9275,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:505
 msgid "Unit"
-msgstr ""
+msgstr "Dalinys"
 
 #: client/gui-gtk-2.0/dialogs.c:506
 #: client/gui-gtk-2.0/pages.c:1239
@@ -11183,7 +11184,7 @@ msgstr "Žaidėjas\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1281
 msgid "Score\n"
-msgstr ""
+msgstr "Taškai\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1282
 msgid "Population\n"
@@ -12032,7 +12033,7 @@ msgstr ""
 #: client/gui-win32/diplodlg.c:598
 #: data/Freeciv.in:269
 msgid "Diplomacy meeting"
-msgstr ""
+msgstr "Diplomatinis susitikimas"
 
 #: client/gui-mui/diplodlg.c:487
 #: client/gui-mui/diplodlg.c:522
@@ -12537,7 +12538,7 @@ msgstr " patobulinimas"
 
 #: client/gui-mui/helpdlg.c:774
 msgid " unit"
-msgstr ""
+msgstr " dalinys"
 
 #: client/gui-mui/helpdlg.c:801
 #: client/gui-mui/helpdlg.c:821
@@ -12757,8 +12758,9 @@ msgstr ""
 #, c-format
 msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(neveiklus %d ėjimą)"
+msgstr[1] "(neveiklus %d ėjimus)"
+msgstr[2] "(neveiklus %d ėjimų)"
 
 #: client/gui-mui/plrdlg.c:171
 msgid "Reputation"
@@ -12867,7 +12869,7 @@ msgstr "Galutinė ataslaita:"
 #: client/gui-win32/repodlgs.c:763
 #: client/gui-xaw/repodlgs.c:1178
 msgid "The Greatest Civilizations in the world."
-msgstr ""
+msgstr "Didžiausios pasaulio civilizacijos."
 
 #: client/gui-mui/spaceshipdlg.c:218
 msgid ""
@@ -12900,7 +12902,7 @@ msgstr ""
 
 #: client/gui-mui/wldlg.c:250
 msgid "Freeciv - Edit Worklists"
-msgstr ""
+msgstr "Freeciv - Keisti darbų sąrašą"
 
 #: client/gui-mui/wldlg.c:257
 msgid "Available Worklists"
@@ -12921,7 +12923,7 @@ msgstr "_Šalinti"
 
 #: client/gui-mui/wldlg.c:306
 msgid "Freeciv - Edit Worklist"
-msgstr ""
+msgstr "Freeciv - Keisti darbų sąrašą"
 
 #: client/gui-mui/worklistclass.c:202
 msgid "entry"
@@ -12933,7 +12935,7 @@ msgstr[2] "įrašų"
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/worklistclass.c:229
 msgid "u8Worklistsn"
-msgstr ""
+msgstr "u8Darbų sąrašain"
 
 #: client/gui-mui/worklistclass.c:710
 #: client/gui-win32/wldlg.c:852
@@ -13376,7 +13378,7 @@ msgstr ""
 
 #: client/gui-win32/dialogs.c:1360
 msgid "This unit cannot be bribed!"
-msgstr ""
+msgstr "Šis dalinys negali būti papirktas!"
 
 #: client/gui-win32/dialogs.c:1488
 #: data/Freeciv.in:2408
@@ -13392,7 +13394,7 @@ msgstr ""
 
 #: client/gui-win32/dialogs.c:1600
 msgid " Choose Your Diplomat's Strategy"
-msgstr ""
+msgstr " Pasirink savo diplomato strategiją"
 
 #: client/gui-win32/dialogs.c:1601
 #: client/gui-win32/dialogs.c:1622
@@ -13605,7 +13607,7 @@ msgstr "Paleisti"
 
 #: client/gui-win32/wldlg.c:362
 msgid "Rename Worklist"
-msgstr ""
+msgstr "Pervadinti darbų sąrašą"
 
 #: client/gui-win32/wldlg.c:363
 #: client/gui-xaw/wldlg.c:623
@@ -13836,7 +13838,7 @@ msgstr "Serverio nustatymai"
 #: client/gui-xaw/menu.c:129
 #: data/Freeciv.in:1971
 msgid "Worklists"
-msgstr ""
+msgstr "Darbų sąrašai"
 
 #: client/gui-xaw/menu.c:131
 msgid "Revolution"
@@ -18330,7 +18332,6 @@ msgstr "Arabų"
 msgid "?plural:Arabs"
 msgstr "?plural:Arabai"
 
-# Viduramžiškas - reiks žiūrėt kontekstą manau
 #: data/nation/arab.ruleset:5
 #: data/nation/aztec.ruleset:5
 #: data/nation/bavarian.ruleset:5
@@ -18388,7 +18389,7 @@ msgstr "?plural:Arabai"
 #: data/nation/welsh.ruleset:5
 #: data/nation/westphalian.ruleset:5
 msgid "Medieval"
-msgstr "Viduramžiškas"
+msgstr "Viduramžių"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
