@@ -13,7 +13,7 @@ leader=
 leader_sex="Male", "Female", "Male", "Male"
 flag = "maya"
 flag_alt = "-"
-city_style = "Classical"
+city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Republic",        _("Ajaw"),         _("Ajaw")
