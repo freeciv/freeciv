@@ -1,5 +1,5 @@
 =====================
-Freeciv Version 2.0.0
+Freeciv Version 2.1.0
 =====================
 
 Welcome to Freeciv!
@@ -467,9 +467,6 @@ We maintain 8 mailing lists:
                    documentation, and website, into other languages than
                    English.
   freeciv-dev      Freeciv development.
-  freeciv-data     Freeciv data directory development.
-                   (Discussion of rulesets, tilesets, etc.)
-  freeciv-java     Freeciv Java client development.
   freeciv-ai       Freeciv AI development.
   freeciv-cvs      Notifications of changes to the CVS repository.
                    This is a "Read Only" list, carrying automated messages.
@@ -487,8 +484,6 @@ To join (or leave) these lists follow these steps:
         subscribe freeciv-announce
         subscribe freeciv-i18n
         subscribe freeciv-dev
-        subscribe freeciv-data
-        subscribe freeciv-java
         subscribe freeciv-ai
         subscribe freeciv-cvs
       To leave:
@@ -496,8 +491,6 @@ To join (or leave) these lists follow these steps:
         unsubscribe freeciv-announce
         unsubscribe freeciv-i18n
         unsubscribe freeciv-dev
-        unsubscribe freeciv-data
-        unsubscribe freeciv-java
         unsubscribe freeciv-ai
         unsubscribe freeciv-cvs
 
@@ -506,8 +499,6 @@ To send an email to the lists, address it to:
   For freeciv, mail should be sent to <freeciv@freeciv.org>.
   For freeciv-i18n, mail should be sent to <freeciv-i18n@freeciv.org>.
   For freeciv-dev, mail should be sent to <freeciv-dev@freeciv.org>.
-  For freeciv-data, mail should be sent to <freeciv-data@freeciv.org>.
-  For freeciv-java, mail should be sent to <freeciv-java@freeciv.org>.
   For freeciv-ai, mail should be sent to <freeciv-ai@freeciv.org>.
 
 

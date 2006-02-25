@@ -43,7 +43,6 @@ command line:
 You can choose "none" to mute the client. Freeciv currently supports
 the following plugins:
   - dummy (none)
-  - Esound (esd)
   - SDL with SDL_mixer library (sdl)
 
 To add support for a new plugin, change these files (where "whatever"
