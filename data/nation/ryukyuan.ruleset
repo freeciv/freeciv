@@ -4,7 +4,7 @@ name=_("Ryukyuan")
 plural=_("?plural:Ryukyuans")
 groups=_("Medieval"), _("Asian")
 legend=_("The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a\
- peaceful maritime trading nation eventually invaded, occupied and annexed\
+ peaceful maritime trading nation eventually invaded, occupied, and annexed\
  by Japan.")
 leader=
  "Sho Shisho",

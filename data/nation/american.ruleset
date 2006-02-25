@@ -3,7 +3,7 @@
 name=_("American")
 plural=_("?plural:Americans")
 groups=_("Modern"), _("American")
-legend=_("Formally named the United States of America. Independent from\
+legend=_("Formally named the United States of America.  Independent from\
  Great Britain after a revolution in 1776-1783AD.")
 leader="George Washington",
        "Alexander Hamilton",
