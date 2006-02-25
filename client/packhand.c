@@ -1380,6 +1380,10 @@ void handle_game_info(struct packet_game_info *pinfo)
     update_aifill_button = TRUE;
   }
   
+  if (game.info.is_edit_mode != pinfo->is_edit_mode) {
+    popdown_all_city_dialogs();
+  }
+
   game.info = *pinfo;
 
   game.government_when_anarchy

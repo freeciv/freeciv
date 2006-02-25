@@ -1083,6 +1083,11 @@ struct packet_edit_city {
   int turn_founded;
 };
 
+struct packet_edit_city_size {
+  int id;
+  int size;
+};
+
 struct packet_edit_player {
   int playerno;
   char name[MAX_LEN_NAME];
@@ -1241,6 +1246,7 @@ enum packet_type {
   PACKET_EDIT_CITY,
   PACKET_EDIT_PLAYER,
   PACKET_EDIT_MODE,
+  PACKET_EDIT_CITY_SIZE,                 /* 130 */
 
   PACKET_LAST  /* leave this last */
 };
@@ -1734,6 +1740,10 @@ void lsend_packet_edit_unit(struct conn_list *dest, const struct packet_edit_uni
 struct packet_edit_city *receive_packet_edit_city(struct connection *pc, enum packet_type type);
 int send_packet_edit_city(struct connection *pc, const struct packet_edit_city *packet);
 void lsend_packet_edit_city(struct conn_list *dest, const struct packet_edit_city *packet);
+
+struct packet_edit_city_size *receive_packet_edit_city_size(struct connection *pc, enum packet_type type);
+int send_packet_edit_city_size(struct connection *pc, const struct packet_edit_city_size *packet);
+int dsend_packet_edit_city_size(struct connection *pc, int id, int size);
 
 struct packet_edit_player *receive_packet_edit_player(struct connection *pc, enum packet_type type);
 int send_packet_edit_player(struct connection *pc, const struct packet_edit_player *packet);

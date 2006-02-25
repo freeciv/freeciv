@@ -95,7 +95,7 @@ enum { OVERVIEW_PAGE, WORKLIST_PAGE,
 
 enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 
-#define NUM_CITIZENS_SHOWN 25
+#define NUM_CITIZENS_SHOWN 23
 #define NUM_INFO_FIELDS 11      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
@@ -656,7 +656,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
   gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 0);
   pdialog->citizen_pixmap =
-      gtk_pixcomm_new(tileset_small_sprite_width(tileset) * NUM_CITIZENS_SHOWN,
+      gtk_pixcomm_new(tileset_small_sprite_width(tileset)
+		      * (NUM_CITIZENS_SHOWN + 2),
 		      tileset_small_sprite_height(tileset));
   gtk_misc_set_padding(GTK_MISC(pdialog->citizen_pixmap), 2, 2);
   gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
@@ -1337,7 +1338,7 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 *****************************************************************/
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
-  int i, width;
+  int i, j, width;
   struct city *pcity = pdialog->pcity;
   struct citizen_type citizens[MAX_CITY_SIZE];
 
@@ -1360,9 +1361,18 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
 
   get_city_citizen_types(pcity, 4, citizens);
 
-  for (i = 0; i < pcity->size; i++) {
+  i = 0;
+  if (game.info.is_edit_mode) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
-		       get_citizen_sprite(tileset, citizens[i], i, pcity),
+                       get_arrow_sprite(tileset, ARROW_PLUS),
+		       i++ * width, 0);
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+                       get_arrow_sprite(tileset, ARROW_MINUS),
+		       i++ * width, 0);
+  }
+  for (j = 0; j < pcity->size; i++, j++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
+		       get_citizen_sprite(tileset, citizens[j], j, pcity),
 		       i * width, 0);
   }
 
@@ -2347,16 +2357,31 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
 {
   struct city_dialog *pdialog = data;
   struct city *pcity = pdialog->pcity;
-  int citnum;
+  int citnum, tlen, len;
 
   if (!can_client_issue_orders()) {
     return FALSE;
   }
 
-  if (ev->x > (pcity->size - 1) * pdialog->cwidth + tileset_small_sprite_width(tileset))
-    return FALSE;		/* no citizen that far to the right */
-
-  citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);
+  tlen = tileset_small_sprite_width(tileset);
+  len = (pcity->size - 1) * pdialog->cwidth + tlen;
+  if (game.info.is_edit_mode) {
+    if (ev->x > 0 && ev->x <= tlen) {
+      dsend_packet_edit_city_size(&aconnection, pcity->id, pcity->size + 1);
+      return TRUE;
+    } else if (ev->x > tlen && ev->x <= tlen * 2) {
+      dsend_packet_edit_city_size(&aconnection, pcity->id, pcity->size - 1);
+      return TRUE;
+    } else if (ev->x > len + tlen * 2) {
+      return FALSE;
+    }
+    citnum = MIN(pcity->size - 1, (ev->x - tlen * 2) / pdialog->cwidth);
+  } else {
+    if (ev->x > len) {
+      return FALSE;		/* no citizen that far to the right */
+    }
+    citnum = MIN(pcity->size - 1, ev->x / pdialog->cwidth);
+  }
 
   city_rotate_specialist(pcity, citnum);
 

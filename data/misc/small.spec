@@ -118,4 +118,6 @@ tiles = { "row", "column", "tag"
   1, 8,  "ev.wonderobsolete"
   1, 9,  "ev.wonderwillbebuilt"
   1, 10, "ev.wonderbuilt"
+  1, 11, "s.plus"
+  1, 12, "s.minus"
 }

@@ -702,7 +702,8 @@ static void populate_unit_pixmap_table(void)
   }
 
   more_arrow_pixmap
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(get_arrow_sprite(tileset)));
+    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(get_arrow_sprite(tileset,
+						   ARROW_RIGHT)));
   gtk_widget_ref(more_arrow_pixmap);
   gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
 

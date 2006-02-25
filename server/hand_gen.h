@@ -81,6 +81,7 @@ struct packet_edit_unit;
 void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet);
 struct packet_edit_city;
 void handle_edit_city(struct connection *pc, struct packet_edit_city *packet);
+void handle_edit_city_size(struct connection *pc, int id, int size);
 struct packet_edit_player;
 void handle_edit_player(struct connection *pc, struct packet_edit_player *packet);
 

@@ -338,6 +338,12 @@ bool server_handle_packet(enum packet_type type, void *packet,
     handle_edit_city(pconn, packet);
     return TRUE;
 
+  case PACKET_EDIT_CITY_SIZE:
+    handle_edit_city_size(pconn,
+      ((struct packet_edit_city_size *)packet)->id,
+      ((struct packet_edit_city_size *)packet)->size);
+    return TRUE;
+
   case PACKET_EDIT_PLAYER:
     handle_edit_player(pconn, packet);
     return TRUE;

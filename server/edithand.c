@@ -261,6 +261,29 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
   send_city_info(NULL, pcity);  
 }
 
+/****************************************************************************
+  Allows the editor to change city size directly.
+****************************************************************************/
+void handle_edit_city_size(struct connection *pc,
+			   int id, int size)
+{
+  struct city *pcity = find_city_by_id(id);
+
+  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
+      || !pcity) {
+    return;
+  }
+
+  city_change_size(pcity, CLIP(1, size, MAX_CITY_SIZE));
+  send_city_info(NULL, pcity);
+#if 0 /* city_change_size already sends notification */
+  if (pcity->size != size) {
+    notify_conn(pc->self, NULL, E_BAD_COMMAND,
+		_("Could not change city size."));
+  }
+#endif
+}
+
 /**************************************************************************
  right now there are no checks whatsoever in the server. beware.
 ***************************************************************************/

@@ -125,7 +125,7 @@ struct named_sprites {
   struct sprite
     *indicator[INDICATOR_COUNT][NUM_TILES_PROGRESS],
     *treaty_thumb[2],     /* 0=disagree, 1=agree */
-    *right_arrow,
+    *arrow[ARROW_LAST], /* 0=right arrow, 1=plus, 2=minus */
 
     *icon[ICON_COUNT],
 
@@ -1989,7 +1989,9 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     }
   }
 
-  SET_SPRITE(right_arrow, "s.right_arrow");
+  SET_SPRITE(arrow[ARROW_RIGHT], "s.right_arrow");
+  SET_SPRITE(arrow[ARROW_PLUS], "s.plus");
+  SET_SPRITE(arrow[ARROW_MINUS], "s.minus");
   if (t->is_isometric) {
     SET_SPRITE(dither_tile, "t.dither_tile");
   }
@@ -4485,11 +4487,14 @@ struct sprite *get_sample_city_sprite(const struct tileset *t,
 }
 
 /**************************************************************************
-  Return a sprite with the "right-arrow" theme graphic.
+  Return a sprite with an "arrow" theme graphic.
 **************************************************************************/
-struct sprite *get_arrow_sprite(const struct tileset *t)
+struct sprite *get_arrow_sprite(const struct tileset *t,
+				enum arrow_type arrow)
 {
-  return t->sprites.right_arrow;
+  assert(arrow >= 0 && arrow < ARROW_LAST);
+
+  return t->sprites.arrow[arrow];
 }
 
 /**************************************************************************

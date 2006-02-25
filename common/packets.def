@@ -1405,6 +1405,11 @@ PACKET_EDIT_CITY=127;cs,handle-per-conn,lsend
   # cannot be controlled even by a privilidged client.
 end
 
+PACKET_EDIT_CITY_SIZE=130;cs,handle-per-conn,dsend
+  CITY id;
+  UINT8 size;
+end
+
 PACKET_EDIT_PLAYER=128;cs,handle-per-conn,lsend
   PLAYER playerno; key 
   STRING name[MAX_LEN_NAME];

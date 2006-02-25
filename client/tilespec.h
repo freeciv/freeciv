@@ -99,6 +99,13 @@ enum mapview_layer {
 
 #define NUM_TILES_PROGRESS 8
 
+enum arrow_type {
+  ARROW_RIGHT,
+  ARROW_PLUS,
+  ARROW_MINUS,
+  ARROW_LAST
+};
+
 struct tileset;
 
 extern struct tileset *tileset;
@@ -209,7 +216,8 @@ struct sprite *get_unittype_sprite(const struct tileset *t,
 				   const struct unit_type *punittype);
 struct sprite *get_sample_city_sprite(const struct tileset *t,
 				      int city_style);
-struct sprite *get_arrow_sprite(const struct tileset *t);
+struct sprite *get_arrow_sprite(const struct tileset *t,
+				enum arrow_type arrow);
 struct sprite *get_tax_sprite(const struct tileset *t, Output_type_id otype);
 struct sprite *get_treaty_thumb_sprite(const struct tileset *t, bool on_off);
 const struct sprite_vector *get_unit_explode_animation(const struct
