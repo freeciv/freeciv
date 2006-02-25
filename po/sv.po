@@ -26,12 +26,14 @@
 #
 #  • empire -> rike
 #  • nation -> folk/folkstam
+#  • load (data) -> läsa in
+#  • load (unit) -> lasta på
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-24 12:52+0900\n"
+"POT-Creation-Date: 2006-02-25 16:34+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: Swedish <freeciv@home.se>\n"
@@ -479,7 +481,7 @@ msgid ""
 msgstr ""
 "Du kör Freeciv utan iconv. Om du använder en tecken-\n"
 "uppsättning utöver latin1 kan det hända att vissa\n"
-"bokstäver inte visas korrekt. Du kan ladda ner iconv\n"
+"bokstäver inte visas korrekt. Du kan hämta hem iconv\n"
 "från http://gnu.org/.\n"
 
 #: utility/fciconv.c:203
@@ -688,7 +690,7 @@ msgstr ""
 #: ai/advdiplomacy.c:552
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr ""
+msgstr "*%s (datorstyrd)* Det här är inte ett acceptabelt avtal, %s!"
 
 #: ai/advdiplomacy.c:573
 #, c-format
@@ -758,13 +760,19 @@ msgstr "*%s (datorstyrd)* Dina fientligheter mot %s var ditt sista mistag!"
 #: ai/advdiplomacy.c:1185
 #, c-format
 msgid ""
+"*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
+"the spaceship launch."
+msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
-msgstr ""
+msgstr[0] ""
+"*%s (datorstyrd)* Jag kommer starta krig mot %s om %d omgång för att sätta "
+"stopp för dennes rymdskepp."
+msgstr[1] ""
 "*%s (datorstyrd)* Jag kommer starta krig mot %s om %d omgångar för att sätta "
 "stopp för dennes rymdskepp."
 
-#: ai/advdiplomacy.c:1188
+#: ai/advdiplomacy.c:1193
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
@@ -773,27 +781,41 @@ msgstr ""
 "*%s (datorstyrd)* Jag ser fram emot din hjälp i detta ärende. Länge leve "
 "vårt storslagna förbund!"
 
-#: ai/advdiplomacy.c:1193
+#: ai/advdiplomacy.c:1198
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
+"will answer in force in %d turn and expect you to honour your alliance with "
+"us and do likewise!"
+msgid_plural ""
+"*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
 "will answer in force in %d turns and expect you to honour your alliance with "
 "us and do likewise!"
-msgstr ""
+msgstr[0] ""
+"*%s (datorstyrd)* %s har gjort grava överträdelser på sina förpliktelser för "
+"egen vinnings skull. Jag kommer förklara krig om %d omgång och förväntar mig "
+"att ni gör detsamma!"
+msgstr[1] ""
 "*%s (datorstyrd)* %s har gjort grava överträdelser på sina förpliktelser för "
 "egen vinnings skull. Jag kommer förklara krig om %d omgångar och förväntar "
 "mig att ni gör detsamma!"
 
-#: ai/advdiplomacy.c:1199
+#: ai/advdiplomacy.c:1209
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
+"declare war in %d turn."
+msgid_plural ""
+"*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
-msgstr ""
-"*%s (datorstyrd)* Jag har för avsikt att bränna och plundra de rika %sna och "
-"förklarar krig om %d omgångar."
+msgstr[0] ""
+"*%s (datorstyrd)* Jag har för avsikt förklara krig mot %s om %d omgång för "
+"att plundra dem på deras rikedomar."
+msgstr[1] ""
+"*%s (datorstyrd)* Jag har för avsikt förklara krig mot %s om %d omgångar för "
+"att plundra dem på deras rikedomar."
 
-#: ai/advdiplomacy.c:1202
+#: ai/advdiplomacy.c:1215
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
@@ -801,41 +823,59 @@ msgstr ""
 "*%s (datorstyrd)* Önskar du ha del i krigsbytet så varsågod att ta del i "
 "kampen också."
 
-#: ai/advdiplomacy.c:1206
+#: ai/advdiplomacy.c:1219
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
+"apart. We declare war in %d turn."
+msgid_plural ""
+"*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
-msgstr ""
+msgstr[0] ""
+"*%s (datorstyrd)* Jag har fått nog av %s. Tiden har kommit att slita dem i "
+"stycken. Jag förklarar krig om %d omgång."
+msgstr[1] ""
 "*%s (datorstyrd)* Jag har fått nog av %s. Tiden har kommit att slita dem i "
 "stycken. Jag förklarar krig om %d omgångar."
 
-#: ai/advdiplomacy.c:1209
+#: ai/advdiplomacy.c:1227
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (datorstyrd)* Jag förutsätter att ni, min betrodde bundsförvant, "
 "medverkar i detta krig."
 
-#: ai/advdiplomacy.c:1214
+#: ai/advdiplomacy.c:1232
 #, c-format
 msgid ""
+"*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
+"Hold on - we are coming!"
+msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
-msgstr ""
+msgstr[0] ""
 "*%s (datorstyrd)* Jag har för avsikt att hedra vårt förbund och förklara "
-"krig mot %s om %d omgångar. Håll ut, vi är på väg!"
+"krig mot %s om %d omgång. Håll ut - vi är på väg!"
+msgstr[1] ""
+"*%s (datorstyrd)* Jag har för avsikt att hedra vårt förbund och förklara "
+"krig mot %s om %d omgångar. Håll ut - vi är på väg!"
 
-#: ai/advdiplomacy.c:1218
+#: ai/advdiplomacy.c:1239
 #, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
-msgstr ""
+msgid_plural ""
+"*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
+"turns.  We expect you to do likewise."
+msgstr[0] ""
 "*%s (datorstyrd)* Jag har för avsikt att hedra mitt förbund med %s och "
-"förklara krig mot %s om %d omgångar. Jag förutsätter att du gör detsamma."
+"förklara krig mot %s om %d omgång. Vi förutsätter att ni gör detsamma."
+msgstr[1] ""
+"*%s (datorstyrd)* Jag har för avsikt att hedra mitt förbund med %s och "
+"förklara krig mot %s om %d omgångar. Vi förutsätter att ni gör detsamma."
 
-#: ai/advdiplomacy.c:1280
+#: ai/advdiplomacy.c:1306
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
@@ -844,7 +884,7 @@ msgstr ""
 "*%s (datorstyrd)* Ditt försök att erövra utrymme för endast dig själv "
 "avslöjar dina sanna avsikter, så jag har nog av vårt förbund!"
 
-#: ai/advdiplomacy.c:1294
+#: ai/advdiplomacy.c:1320
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
@@ -853,7 +893,7 @@ msgstr ""
 "*%s (datorstyrd)* Ditt försök att ensam härska i yttre rymden är mycket "
 "anstötligt."
 
-#: ai/advdiplomacy.c:1296
+#: ai/advdiplomacy.c:1322
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -862,14 +902,14 @@ msgstr ""
 "*%s (datorstyrd)* Såvida du inte avbrytter ditt rymdskeppsbygge måste jag "
 "vidtaga åtgärder!"
 
-#: ai/advdiplomacy.c:1403
+#: ai/advdiplomacy.c:1429
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr ""
 "*%s (datorstyrd)* Jag är rädd för att det inte längre äro vist att dela "
 "anblick med Er."
 
-#: ai/advdiplomacy.c:1480
+#: ai/advdiplomacy.c:1506
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -878,7 +918,7 @@ msgstr ""
 "*%s (datorstyrd)* Var hälsad vår mest pålitliga bundsförvant, vi uppmanar er "
 "att utplåna vår fiende, %s"
 
-#: ai/advdiplomacy.c:1485
+#: ai/advdiplomacy.c:1511
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
@@ -888,7 +928,7 @@ msgstr ""
 "förklarat krig mot vår fiende, %s. Varför behöver jag påminna dig om dina "
 "löften?"
 
-#: ai/advdiplomacy.c:1490
+#: ai/advdiplomacy.c:1516
 #, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
@@ -899,7 +939,7 @@ msgstr ""
 "fred med vår dödsfiende, %s! Detta är ej godtagbard, vårt förbund har "
 "upphört."
 
-#: ai/advdiplomacy.c:1518
+#: ai/advdiplomacy.c:1544
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -908,12 +948,12 @@ msgstr ""
 "*%s (datorstyrd)* Var hälsad vän, får jag föreslå att vi ingår ett förbund "
 "med varandra?"
 
-#: ai/advdiplomacy.c:1533
+#: ai/advdiplomacy.c:1559
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr "*%s (datorstyrd)* Var hälsad granne, vad sägs om ett fredsfördrag?"
 
-#: ai/advdiplomacy.c:1547
+#: ai/advdiplomacy.c:1573
 #, c-format
 msgid ""
 "*%s (AI)* we grow weary of this constant bloodshed. May we suggest a "
@@ -922,7 +962,7 @@ msgstr ""
 "*%s (datorstyrd)* All denna blodspillan leder ingen vart. Är det inte dags "
 "att gräva ner stridsyxan?"
 
-#: ai/advdiplomacy.c:1667
+#: ai/advdiplomacy.c:1693
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
@@ -1013,7 +1053,7 @@ msgstr "Kan inte använda %s som stadsnamn. Det är förbehållet %s."
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
-"%s är ej ett giltigt namn. Endast ASCII eller regeluppsättningsnamn är "
+"%s är ej ett giltigt namn. När du matar in ett egen namn är endast ASCII "
 "tillåtna för städer."
 
 #: server/citytools.c:447
@@ -1479,7 +1519,7 @@ msgstr "  -d, --debug NUMMER\tSätt avlusningsloggningsläge (0 till 3)\n"
 
 #: server/civserver.c:225
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
-msgstr "  -f, --file FIL\tLadda sparat spel FIL\n"
+msgstr "  -f, --file FIL\tLäs in sparat spel FIL\n"
 
 #: server/civserver.c:227 client/civclient.c:210 manual/civmanual.c:372
 msgid "  -h, --help\t\tPrint a summary of the options\n"
@@ -1520,7 +1560,7 @@ msgstr "  -S, --Serverid VÄRD\tAnslut till server vid VÄRD\n"
 
 #: server/civserver.c:245
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tSpara ppm-bilder av kartan när spelet sparas.\n"
 
 #: server/civserver.c:246
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -1536,7 +1576,7 @@ msgstr "  -v, --verison\t\tSkriv versionsnumret\n"
 
 #: server/civserver.c:251 client/civclient.c:231
 msgid "  -z, --zone\t\tEnable GGZ mode\n"
-msgstr ""
+msgstr "  -z, --zone\t\tAktivera GGZ-läge\n"
 
 #: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:263
 #: client/gui-mui/gui_main.c:119 client/gui-xaw/gui_main.c:245
@@ -1559,14 +1599,13 @@ msgid ""
 "savegame for the game to recommence.  Once the game is running this command "
 "is no longer available, since it would have no effect."
 msgstr ""
-"Detta kommando sätter i gång ett spel. När ett nytt spel sätts i gång, skall "
-"kommandot användas efter det att alla mänskliga spelare ha anslutit, alla "
-"(eventuella) datorstyrda ha skapats, och alla önskade ändringar av "
-"förinställda valmöjligheter ha utförts. Efter \"start\" kan varje spelare "
-"välja sin folkstam, och sedan börjar spelet. Detta kommando krävs även efter "
-"laddandet av ett sparat spel för att sätta i gång det igen. När spelet väl "
-"pågår är detta kommando inte längre tillgängligt, eftersom det inte skulle "
-"ha någon verkan."
+"Detta kommando sätter i gång ett spel. Efter det att alla mänskliga spelare "
+"ha anslutit, alla (eventuella) datorstyrda ha skapats, samt alla överiga "
+"inställningar ha gjorts, använder man kommandot. Efter \"start\" kan varje "
+"spelare välja sin folkstam, och sedan börjar spelet. Detta kommando krävs "
+"även efter man laddat in ett sparat spel för att sätta i gång det igen. När "
+"spelet väl pågår är detta kommando inte längre tillgängligt, eftersom det "
+"inte skulle ha någon verkan."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:42
@@ -1787,15 +1826,15 @@ msgstr "rulesetdir <katalog>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
-msgstr "Välj katalog för ny regeluppsättning eller ändringssamling."
+msgstr "Välj katalog för regler eller modifikation."
 
 #: server/commands.c:144
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
 msgstr ""
-"Välj en ny katalog för regeluppsättning eller ändringssamling. Att anropa "
-"detta utan argument visar den valda regeluppsättningen."
+"Välj en ny katalog för regler eller modifikation. Att anropa detta utan "
+"argument visar den valda regeluppsättningen."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:150
@@ -2212,7 +2251,7 @@ msgid ""
 msgstr ""
 "Sparar pågående spel till filen <filnamn>. Om inget filnamn anges sparas "
 "spelet till \"<namnförstavelse för självständig sparning><år>m.sav[.gz]\".\n"
-"För att återladda ett sparat spel skapat med \"save\", kör servern med "
+"För att läsa in ett sparat spel skapat med \"save\", kör servern med "
 "kommandoradsargumentet:\n"
 "    --file <filnamn>\n"
 "och använd kommandot \"start\" när alla spelare ha återanslutit sig."
@@ -2228,16 +2267,15 @@ msgstr ""
 
 #: server/commands.c:338
 msgid "Load game from file."
-msgstr "Laddar spel från fil."
+msgstr "Läser in spel från fil."
 
 #: server/commands.c:339
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
 msgstr ""
-"Läser in ett spel från <filnamn>. Alla nuvarande data om spelare, "
-"regeluppsättningar och servervalmöjligheter går förlorade ty de ersätts med "
-"data från filen.\n"
+"Läser in ett spel från <filnamn>. All nuvarande data om spelare, regler och "
+"servervalmöjligheter går förlorade ty de ersätts med data från filen.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:344
@@ -2931,12 +2969,12 @@ msgstr ""
 "järnväg.\n"
 "      Arbetare samlas frivilligt och bygger järnvägar genom alla städer."
 
-#: server/maphand.c:1371
+#: server/maphand.c:1376
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Vår %s har flyttats på grund av landskapsförändringar."
 
-#: server/maphand.c:1388
+#: server/maphand.c:1393
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Vår %s har upplösts på grund av landskapsförändringar."
@@ -3369,29 +3407,29 @@ msgstr "%2$ss %1$s (%3$s)"
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:132
 msgid "Trying alternative ruleset filename syntax."
-msgstr "Provar alternativ filnamnssyntax för regeluppsättningar."
+msgstr "Provar alternativ filnamnssyntax för regelfiler."
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:140
 #, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr "Kunde inte finna en läsbar regeluppsättningsfil med namnet \"%s.%s\"."
+msgstr "Kunde inte finna en läsbar regelfil med namnet \"%s.%s\"."
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:168
 #, c-format
 msgid "Could not load ruleset file \"%s\"."
-msgstr "Kunde inte ladda regeluppsättningsfil \"%s\"."
+msgstr "Kunde inte läsa in regelfil \"%s\"."
 
 #. TRANS: message for an obscure script error.
 #: server/ruleset.c:185
 #, c-format
 msgid "Could not load ruleset script file \"%s\"."
-msgstr "Kunde inte ladda regeluppsättningsskriptfil \"%s\"."
+msgstr "Kunde inte ladda regelskriptfil \"%s\"."
 
 #: server/ruleset.c:202
 msgid "Ruleset datafile appears incompatible:"
-msgstr "Regeluppsättningsdatafil verkar inte passa:"
+msgstr "Regeldatafil verkar inte passa:"
 
 #: server/ruleset.c:203 server/ruleset.c:211 client/audio.c:229
 #: client/audio.c:237
@@ -3413,8 +3451,7 @@ msgstr "tillhandahållna valmöjligheter: %s"
 
 #: server/ruleset.c:209
 msgid "Ruleset datafile claims required option(s) which we don't support:"
-msgstr ""
-"Regeluppsättningsdatafil kräver valmöjlighet(er) som vi ej tillhandahålla:"
+msgstr "Regeldatafil kräver valmöjlighet(er) som vi ej tillhandahålla:"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:257
@@ -3466,7 +3503,7 @@ msgstr "Section %s lists unknown effect type: \"%s\" (%s)"
 
 #: server/ruleset.c:3027
 msgid "Loading rulesets"
-msgstr "Laddar regeluppsättningar"
+msgstr "Läser in reglerna"
 
 #. TRANS: Error message.
 #: server/savegame.c:156
@@ -3563,13 +3600,13 @@ msgstr "Unsupported city style found in player%d section. Changed to %s"
 msgid "Savegame too old, at least version 1.9.0 required."
 msgstr "Sparat spel är för gammalt. Minst version 1.9.0 krävs."
 
-#: server/savegame.c:3632
+#: server/savegame.c:3637
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 
-#: server/savegame.c:3641
+#: server/savegame.c:3646
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -3578,7 +3615,7 @@ msgstr ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 
-#: server/savegame.c:3860
+#: server/savegame.c:3865
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
@@ -3663,7 +3700,7 @@ msgstr ""
 
 #: server/settings.c:160
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "Kan inte justera högsta tillåtna antal spelare i GGZ-läge."
 
 #: server/settings.c:165
 msgid "Number of players is higher than requested value; Keeping old value."
@@ -4048,8 +4085,8 @@ msgid ""
 msgstr ""
 "Vid spelets börjar erhåller varje spelare detta antal framsteg. Urvalet är "
 "slumpmässigt och kan skilja sig åt mellan spelare. Beroende på värdet på "
-"tech_cost_style i regeluppsättningen, kan ett stort värde på techlevel göra "
-"framtida teknologier riktigt kostsamma."
+"tech_cost_style i reglerna, kan ett stort värde på techlevel göra framtida "
+"teknologier riktigt kostsamma."
 
 #: server/settings.c:475
 msgid "Technology cost multiplier percentage"
@@ -4063,8 +4100,7 @@ msgid ""
 msgstr ""
 "Detta påverkar hur snabbt spelare forskar fram nya teknologier. All kostnad "
 "för teknologier multipliceras med detta procentvärde. Den grundläggande "
-"teknologikostnaden avgörs av regeluppsättningen eller andra "
-"spelinställningar."
+"teknologikostnaden avgörs av reglerna eller andra inställningar."
 
 #: server/settings.c:485
 msgid "Percentage penalty when changing tech"
@@ -4138,8 +4174,8 @@ msgid ""
 "the size of the city."
 msgstr ""
 "Detta är den mängd mat som krävs för en stad att växa. Värdet kan komma att "
-"multipliceras med en faktor som bestäms i regeluppsättningen och hänger "
-"samman med stadens storlek."
+"multipliceras med en faktor som bestäms i reglerna och hänger samman med "
+"stadens storlek."
 
 #: server/settings.c:535
 msgid "Percentage food lost when need aqueduct"
@@ -4242,7 +4278,7 @@ msgstr ""
 "När en spelare försöker grunda en ny stad kontrolleras det att det inte "
 "finns någon annan stad inom avståndet citymindist. Om citymindist till "
 "exempel är 3 så måste det vara minst 2 tomma rutor mellan varje stad. Om det "
-"är satt till 0 (standard) så används värdet i regeluppsättningen i stället."
+"är satt till 0 (standard) så används värdet i reglerna i stället."
 
 #: server/settings.c:612
 msgid "Number of turns between rapture effect"
@@ -4387,7 +4423,7 @@ msgstr ""
 "2 = Ett stadsnamn får endast användas för en av de städer som finns i hela "
 "spelet.\n"
 "3 = En spelare får inte välja ett namn som finns uppräknat i en annan "
-"folkstams regeluppsättning."
+"folkstams stadslista."
 
 #: server/settings.c:718
 msgid "Barbarian appearance frequency"
@@ -4923,7 +4959,7 @@ msgstr "Spelet slutade oavgjort"
 msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
 "s."
-msgstr ""
+msgstr "Vår %s enhet %s upplöstes i enlighet med vårt fredsavtal med %s."
 
 #: server/srv_main.c:482
 #, c-format
@@ -5253,7 +5289,7 @@ msgstr "Ingen kommandoskript med nanmet \"%s\" kunde finnas."
 #: server/stdinhand.c:1028
 #, c-format
 msgid "Loading script file: %s"
-msgstr "Laddar skriptfil: %s"
+msgstr "Läser in skriptfil: %s"
 
 #: server/stdinhand.c:1043
 #, c-format
@@ -5887,27 +5923,27 @@ msgstr "Kunde inte öppna sparfil: %s"
 #: server/stdinhand.c:3285
 #, c-format
 msgid "Current ruleset directory is \"%s\""
-msgstr "Den nuvarande katalogen för regeluppsättningar är \"%s\"."
+msgstr "Den nuvarande katalogen för regler är \"%s\"."
 
 #: server/stdinhand.c:3291
 #, c-format
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-msgstr "Fick ej tillgång till regeluppsättningskatalogen \"%s\""
+msgstr "Fick ej tillgång till regelkatalogen \"%s\""
 
 #: server/stdinhand.c:3299
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
-msgstr "Kunde inte hitta regeluppsättningskatalogen \"%s\""
+msgstr "Kunde inte hitta regelkatalogen \"%s\""
 
 #: server/stdinhand.c:3305
 #, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr "Regeluppsättningskatalog är redan \"%s\""
+msgstr "Regelkatalog är redan \"%s\""
 
 #: server/stdinhand.c:3309
 #, c-format
 msgid "Ruleset directory set to \"%s\""
-msgstr "Regeluppsättningskatalog satt till \"%s\""
+msgstr "Regelkatalog satt till \"%s\""
 
 #: server/stdinhand.c:3348
 msgid "Goodbye."
@@ -6798,7 +6834,7 @@ msgstr "Kan inte finna ljudupplysningsfilen \"%s\"."
 
 #: client/audio.c:214
 msgid "To get sound you need to download a sound set!"
-msgstr "Man måste hämta en ljuduppsättning för att få ljud!"
+msgstr "Man måste hämta hem en ljuduppsättning för att få ljud!"
 
 #: client/audio.c:215
 #, c-format
@@ -6922,10 +6958,11 @@ msgstr "%+4d : Beskattad handel\n"
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Handelsled med %s\n"
 
+# ?
 #: client/citydlg_common.c:433
 #, c-format
 msgid "%+4d : Building tithes\n"
-msgstr ""
+msgstr "%+4d : Samlar kollekt\n"
 
 #: client/citydlg_common.c:456
 #, c-format
@@ -8056,12 +8093,12 @@ msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
 msgstr[0] "* Enhet måste vara i en stad, eller på en %s efter %d omgång.\n"
 msgstr[1] "* Enhet måste vara i en stad, eller på en %s efter %d omgångar.\n"
 
-#: client/helpdata.c:1093
+#: client/helpdata.c:1097
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr "Om vi började med %s nu skulle vi behöva %d enheter forskning."
 
-#: client/helpdata.c:1098
+#: client/helpdata.c:1102
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8070,115 +8107,108 @@ msgstr ""
 "För att nå %s behöva vi %d andra teknologier först. Det hela kommer att "
 "förbruka %d glödlampor."
 
-#: client/helpdata.c:1106
+#: client/helpdata.c:1110
 #, c-format
 msgid "You cannot research this technology."
 msgstr "Vi kunna ej forska fram denna teknologi."
 
-#: client/helpdata.c:1110
+#: client/helpdata.c:1114
 #, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr "Detta tal kan ändra sig beroende på vad andra spelare forskar fram.\n"
 
-#: client/helpdata.c:1121
-#, c-format
-msgid "* Allows changing government to %s.\n"
-msgstr "* Möjliggör byte av regeringsform till %s.\n"
-
-#: client/helpdata.c:1127
+#: client/helpdata.c:1125
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "* Den första spelaren att forska fram %s får ett omedelbart framsteg.\n"
 
-#: client/helpdata.c:1132
+#: client/helpdata.c:1130
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
 msgstr "* Minskar risken att förlora båtar på öppna havet till 25%%.\n"
 
-#: client/helpdata.c:1135
+#: client/helpdata.c:1133
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 msgstr "* Minskar risken att förlora båtar på öppna havet till 12%%.\n"
 
-#: client/helpdata.c:1138
+#: client/helpdata.c:1136
 #, c-format
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Ökar mängden utsläpp som orsakas av befolkning.\n"
 
-#: client/helpdata.c:1143
+#: client/helpdata.c:1141
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "* Möjliggör %s att bygga vägar på flodrutor.\n"
 
-#: client/helpdata.c:1150
+#: client/helpdata.c:1148
 #, c-format
 msgid "* Allows %s to build fortresses.\n"
 msgstr "* Möjliggör %s att bygga fästningar.\n"
 
-#: client/helpdata.c:1158
+#: client/helpdata.c:1156
 #, c-format
 msgid "* Allows %s to build airbases.\n"
 msgstr "* Möjliggör %s att bygga flygbaser.\n"
 
-#: client/helpdata.c:1167
+#: client/helpdata.c:1165
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* Möjliggör %s att ersätta vägar med järnvägar.\n"
 
-#: client/helpdata.c:1174
+#: client/helpdata.c:1172
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Möjliggör %s att ersätta bevattning med åker.\n"
 
-#: client/helpdata.c:1201
+#: client/helpdata.c:1204
 #, c-format
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Utsläpp drabbar aldrig denna terräng."
 
-#: client/helpdata.c:1206
+#: client/helpdata.c:1209
 #, c-format
 msgid "* You cannot build cities on this terrain."
 msgstr "* Det går inte att grunda nya städer här."
 
-#: client/helpdata.c:1212
+#: client/helpdata.c:1215
 #, c-format
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Denna terrängs kust är riskabel."
 
-#: client/helpdata.c:1217
+#: client/helpdata.c:1220
 #, c-format
 msgid "* This terrain is unsafe for units to travel on."
 msgstr "* Denna terräng är riskabel."
 
-#: client/helpdata.c:1222
+#: client/helpdata.c:1225
 #, c-format
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Landenheter kunna ej passera hav."
 
 # ?
-#: client/helpdata.c:1266
+#: client/helpdata.c:1268
 #, c-format
 msgid "Features:\n"
 msgstr "Innehåller:\n"
 
-#: client/helpdata.c:1288
+#: client/helpdata.c:1291
 #, c-format
 msgid ""
 "* Military units away from home and field units will cause one citizen to "
 "become unhappy.\n"
-msgstr ""
-"* Krigsenheter i fält orsaka otillfredsställdhet hos en medborgare.\n"
+msgstr "* Krigsenheter i fält orsaka otillfredsställdhet hos en medborgare.\n"
 
-#: client/helpdata.c:1291
+#: client/helpdata.c:1294
 #, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr ""
-"* Krigsenheter i fält orsaka otillfredsställdhet hos %d medborgare.\n"
+msgstr "* Krigsenheter i fält orsaka otillfredsställdhet hos %d medborgare.\n"
 
-#: client/helpdata.c:1298
+#: client/helpdata.c:1301
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
@@ -8187,32 +8217,32 @@ msgstr ""
 "* Varje stad slipper %d otillfredsställhet som annars skulle orsakas av "
 "enheter.\n"
 
-#: client/helpdata.c:1304
+#: client/helpdata.c:1307
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr "* Du betalar %d ggr vanligt %s underhåll för dina enheter.\n"
 
-#: client/helpdata.c:1307
+#: client/helpdata.c:1310
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr "* Du betalar %d ggr normalt underhåll för dina enheter.\n"
 
-#: client/helpdata.c:1313
+#: client/helpdata.c:1316
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
 msgstr "* Varje stad slipper betala %d %s i underhåll för enheter.\n"
 
-#: client/helpdata.c:1317
+#: client/helpdata.c:1320
 #, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
 msgstr "* Varje stad slipper betala %d i underhåll för enheter.\n"
 
-#: client/helpdata.c:1322
+#: client/helpdata.c:1325
 #, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
 msgstr "* Risken för inbördeskrig är %d%% om du förlorar din huvudstad.\n"
 
-#: client/helpdata.c:1326
+#: client/helpdata.c:1329
 #, c-format
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
@@ -8221,25 +8251,27 @@ msgstr ""
 "* Den första otillfredsställda medborgaren i varje stad beroende på "
 "storleken av en civilisation kommer framträda när man har %d städer.\n"
 
-#: client/helpdata.c:1331
+#: client/helpdata.c:1334
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
+"* Efter den första otillfredsställda medborgaren till följd av en stads "
+"storlek framträtt, ännu en kommer framträda per ytterligare %d städer.\n"
 
-#: client/helpdata.c:1338
+#: client/helpdata.c:1341
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr "Den högsta tillåtna forsknings- skatte- eller överflödssatsen är "
-"%d%%.\n"
+msgstr ""
+"Den högsta tillåtna forsknings- skatte- eller överflödssatsen är %d%%.\n"
 
-#: client/helpdata.c:1342
+#: client/helpdata.c:1345
 #, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
 msgstr "Har obegränsade forsknings/skatte/överflödssatser.\n"
 
-#: client/helpdata.c:1347
+#: client/helpdata.c:1350
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8248,7 +8280,7 @@ msgstr ""
 "* Man kunna införa undantagstillstånd. Varje krigsenhet stationerad i en "
 "stad göra en medborgare tillfredsställd.\n"
 
-#: client/helpdata.c:1351
+#: client/helpdata.c:1354
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8257,12 +8289,12 @@ msgstr ""
 "* Man kunna införa undantagstillstånd. Varje krigsenhet stationerad i en "
 "stad göra %d medborgare tillfredsställda.\n"
 
-#: client/helpdata.c:1358
+#: client/helpdata.c:1361
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr ""
+msgstr "* Som högst kan %d enheter i varje stad införa undantagstillstånd.\n"
 
-#: client/helpdata.c:1363
+#: client/helpdata.c:1366
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
@@ -8271,17 +8303,17 @@ msgstr ""
 "* Du kan låta dina städer växa genom hänryckning. En stad måste minst vara "
 "av storlek %d innan de kan växa på detta sätt.\n"
 
-#: client/helpdata.c:1369
+#: client/helpdata.c:1372
 #, c-format
 msgid "* Your units cannot be bribed.\n"
 msgstr "* Dina enhet kan inte mutas.\n"
 
-#: client/helpdata.c:1372
+#: client/helpdata.c:1375
 #, c-format
 msgid "* Your cities cannot be incited.\n"
 msgstr "* Dina städer kan inte försättas i revolt.\n"
 
-#: client/helpdata.c:1375
+#: client/helpdata.c:1378
 #, c-format
 msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
@@ -8290,17 +8322,17 @@ msgstr ""
 "* Riket störtas i anarki om någon stad befinner sig i uppror mer än två "
 "omgångar på raken.\n"
 
-#: client/helpdata.c:1380
+#: client/helpdata.c:1383
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* Har en senat som kan förhindra krigsförklaring.\n"
 
-#: client/helpdata.c:1384
+#: client/helpdata.c:1387
 #, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "* Gerillasoldater uppenbarar sig när städer erövras av en fiende.\n"
 
-#: client/helpdata.c:1388
+#: client/helpdata.c:1391
 #, c-format
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
@@ -8309,27 +8341,27 @@ msgstr ""
 "* Byggnader som vanligtvis motarbetar otillfredsställdhet ger istället "
 "guld.\n"
 
-#: client/helpdata.c:1392
+#: client/helpdata.c:1395
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Betalar inget underhåll för fanatiker.\n"
 
-#: client/helpdata.c:1395
+#: client/helpdata.c:1398
 #, c-format
 msgid "* Has no unhappy citizens.\n"
 msgstr "* Saknar otillfredsställda medborgare.\n"
 
-#: client/helpdata.c:1399 client/helpdata.c:1402
+#: client/helpdata.c:1402 client/helpdata.c:1405
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr "* Erfarna %s-enheter.\n"
 
-#: client/helpdata.c:1405
+#: client/helpdata.c:1408
 #, c-format
 msgid "* Veteran units.\n"
 msgstr "* Erfarna enheter.\n"
 
-#: client/helpdata.c:1409
+#: client/helpdata.c:1412
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
@@ -8338,7 +8370,7 @@ msgstr ""
 "* Varje nyttjad ruta med åtminstone %d %s drabbas av en förlust på -1 "
 "närfolket inte firar.\n"
 
-#: client/helpdata.c:1414
+#: client/helpdata.c:1417
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when "
@@ -8347,54 +8379,54 @@ msgstr ""
 "* Varje nyttjad ruta med åtminstone 1 %s ger ytterligare %d %s när folket "
 "firar.\n"
 
-#: client/helpdata.c:1419
+#: client/helpdata.c:1422
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
 msgstr "* Varje nyttjad ruta med åtminstone 1 %s ger ytterligare %d %s.\n"
 
-#: client/helpdata.c:1425
+#: client/helpdata.c:1428
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr "* %s tillverkning drabbas av omfattande spill.\n"
 
-#: client/helpdata.c:1428
+#: client/helpdata.c:1431
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr "* %s tillverkning drabbas av visst spill.\n"
 
-#: client/helpdata.c:1431
+#: client/helpdata.c:1434
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr "* %s tillverkning drabbas av en liten aning spill.\n"
 
-#: client/helpdata.c:1437
+#: client/helpdata.c:1440
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr "* %s spill ökar drastiskt vid större avstånd från huvudstaden.\n"
 
-#: client/helpdata.c:1440
+#: client/helpdata.c:1443
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr "* %s spill ökar vid större avstånd från huvudstaden.\n"
 
-#: client/helpdata.c:1443
+#: client/helpdata.c:1446
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr "* %s spill ökar något vid större avstånd från huvudstaden.\n"
 
-#: client/helpdata.c:1454
+#: client/helpdata.c:1457
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Möjliggör byggandet av %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1479
+#: client/helpdata.c:1482
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1487
+#: client/helpdata.c:1490
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d otillfredställda"
@@ -8480,6 +8512,9 @@ msgid ""
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
+"Metaservern är en tjänst som klienten ansluter till för att få reda på spel "
+"tillgängliga på Internet. Ändra inte värdet här om du inte är helt säker på "
+"din sak."
 
 #: client/options.c:121
 msgid "Soundset"
@@ -8490,6 +8525,8 @@ msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
+"Detta är den ljuduppsättning som kommer användas. Detta motsvarar "
+"kommandoradsparametern -S."
 
 #: client/options.c:127
 msgid "Sound plugin"
@@ -8501,6 +8538,9 @@ msgid ""
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
 msgstr ""
+"Om du har problem att få ljudet att fungera, försök byta insticksprogram. Du "
+"måste starta om klienten för att använda det nya insticksprogrammet. Detta "
+"motsvarar kommandoradsparametern -P."
 
 #: client/options.c:133
 msgid "Tileset"
@@ -8511,16 +8551,20 @@ msgid ""
 "By changing this option you change the active tileset. This is the same as "
 "using the -t command-line parameter."
 msgstr ""
+"Här kan du byta rutbildsuppsättning. Detta motsvarar kommandoradsparametern -"
+"t."
 
 #: client/options.c:141
 msgid "Solid unit background color"
-msgstr "Fast enhetsbakgrundsfärg"
+msgstr "Enkel bakgrundsfärg för enheter"
 
 #: client/options.c:142
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
+"Är detta påslaget visas enheter på kartan med enkel bakgrundsfärg istället "
+"för en flagga eller sköld."
 
 #: client/options.c:146
 msgid "Sound bell at new turn"
@@ -8532,6 +8576,8 @@ msgid ""
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
+"Är detta påslaget genereras en \"bell\"-händelse i början av varje omgång. "
+"Du kan ändra \"bell\"-händelsens funktion i meddelandevalmöjligheter."
 
 #: client/options.c:153
 msgid "Unit movement animation time (milliseconds)"
@@ -8542,6 +8588,8 @@ msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
+"Detta påverkar hur lång tid animationen av enheter tar när de rör sig på "
+"kartan. Sätt det till 0 för att avaktivera animationen."
 
 #: client/options.c:159
 msgid "Mapview recentering time (milliseconds)"
@@ -8553,6 +8601,9 @@ msgid ""
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
+"När kartvyn centreras någonstans, glider den över kartan till sitt nya läge. "
+"Detta tillval påverkar hur lång tid denna glidning får ta. Sätt det till 0 "
+"för att avaktivera effekten."
 
 #: client/options.c:165
 msgid "Show combat animation"
@@ -8562,27 +8613,31 @@ msgstr "Visa kampanimationer"
 msgid ""
 "If this option is disabled them combat animation between units on the "
 "mapview will be turned off."
-msgstr ""
+msgstr "Detta avgör om kamp mellan enheter på kartan är animerad."
 
 #: client/options.c:169
 msgid "Draw a larger citybar"
-msgstr "Visa utökad stadsdata"
+msgstr "Visa utökad stadsfält"
 
 #: client/options.c:170
 msgid ""
 "If this option is set then instead of just the city name and attributes, a "
 "large amount of data will be drawn beneath each city in the 'citybar'."
 msgstr ""
+"Är detta påslaget visas ett s.k. stadsfält under varje stad som innehåller "
+"en smärre mängd data om denna."
 
 #: client/options.c:175
 msgid "Show icons in the technology tree"
-msgstr ""
+msgstr "Visa ikoner i teknologiträdet."
 
 #: client/options.c:176
 msgid ""
 "If this options is set then there will be icons displayed on the technology "
 "tree diagram. Turning this option off makes the technology tree more compact."
 msgstr ""
+"Är detta påslaget visas ikoner i teknologiträdet. Utan detta blir "
+"teknologiträdet kompaktare."
 
 #: client/options.c:181
 msgid "Draw shield graphics for units"
@@ -8593,6 +8648,7 @@ msgid ""
 "If set, then special shield graphics will be drawn as the flags on units.  "
 "If unset, the full flag will be drawn."
 msgstr ""
+"Är detta påslaget visas sköldikoner vid varje enhet istället för flaggor."
 
 #: client/options.c:186
 msgid "Manual Turn Done in AI Mode"
@@ -8603,6 +8659,8 @@ msgid ""
 "If this option is disabled, then you will not have to press the turn done "
 "button manually when watching an AI player."
 msgstr ""
+"Med detta avslaget behöver du inte trycka på avsluta omgång-knappen när du "
+"är betraktare av en datorspelare."
 
 #: client/options.c:191
 msgid "Auto Center on Units"
@@ -8612,7 +8670,7 @@ msgstr "Självcentrering på enheter"
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
-msgstr ""
+msgstr "Med detta påslaget fokuseras vyn på nyligen aktiverade enheter direkt."
 
 #: client/options.c:195
 msgid "Auto Center on Combat"
@@ -8624,14 +8682,16 @@ msgid ""
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
+"Med detta påslaget fokuseras vyn på strid automatiskt. Är det inte påslaget "
+"snabbas en omgång upp, men du riskerar gå miste om striderna."
 
 #: client/options.c:201
 msgid "Focus on Awakened Units"
-msgstr "Fokus på uppvaknade enheter"
+msgstr "Fokus på väckta enheter"
 
 #: client/options.c:202
 msgid "Set this option to have newly awoken units be focused automatically."
-msgstr "Slå på detta val så fokuseras vyn på nyligen aktiverade enheter direkt."
+msgstr "Slå på detta val så fokuseras vyn på nyligen väckta enheter direkt."
 
 #: client/options.c:205
 msgid "Allow goto into the unknown"
@@ -9511,7 +9571,7 @@ msgstr ""
 
 #: client/tilespec.c:855
 msgid "No usable default tileset found, aborting!"
-msgstr "Hittade ingen användbar standardrutbildsuppsättning, avbryter!"
+msgstr "Hittade ingen användbar standardrutbildsuppsättning; avbryter!"
 
 #: client/tilespec.c:859
 #, c-format
@@ -9526,7 +9586,7 @@ msgstr "Kunde inte öppna \"%s\"."
 #: client/tilespec.c:1054
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
-msgstr "Kunde inte ladda grafikfil för angivelsefilen %s"
+msgstr "Kunde inte läsa in grafikfil för angivelsefilen %s"
 
 #: client/tilespec.c:1223
 #, c-format
@@ -10196,7 +10256,7 @@ msgid "_Popup City"
 msgstr "Ö_ppna stad"
 
 #: client/gui-gtk-2.0/dialogs.c:255 client/gui-mui/dialogs.c:1043
-#: client/gui-win32/dialogs.c:980 client/gui-xaw/dialogs.c:511
+#: client/gui-win32/dialogs.c:980 client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
 msgstr "Vill du ha revolution?"
 
@@ -10232,11 +10292,11 @@ msgstr "Välj enhet"
 
 #: client/gui-gtk-2.0/dialogs.c:581
 msgid "_Ready all"
-msgstr "Gö_r alla tillgängliga"
+msgstr "Aktive_ra alla"
 
 #: client/gui-gtk-2.0/dialogs.c:589
 msgid "_Sentry idle"
-msgstr "_Sätt overksamma enheter på vakt"
+msgstr "_Sätt overksamma på vakt"
 
 #: client/gui-gtk-2.0/dialogs.c:717
 msgid "_Nations:"
@@ -10278,16 +10338,16 @@ msgstr "_Stadstyper:"
 msgid "L_egend"
 msgstr "F_örklaring"
 
-#: client/gui-gtk-2.0/dialogs.c:1222 client/gui-xaw/dialogs.c:1514
+#: client/gui-gtk-2.0/dialogs.c:1222 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
 msgstr "Du måste välja ditt kön."
 
-#: client/gui-gtk-2.0/dialogs.c:1227 client/gui-xaw/dialogs.c:1519
+#: client/gui-gtk-2.0/dialogs.c:1227 client/gui-xaw/dialogs.c:1481
 msgid "You must select your city style."
 msgstr "Du måste välja en stadstyp."
 
 #: client/gui-gtk-2.0/dialogs.c:1236 client/gui-mui/dialogs.c:1519
-#: client/gui-win32/dialogs.c:354 client/gui-xaw/dialogs.c:1527
+#: client/gui-win32/dialogs.c:354 client/gui-xaw/dialogs.c:1489
 msgid "You must type a legal name."
 msgstr "Du måste skriva ett tillåtet namn."
 
@@ -10896,7 +10956,7 @@ msgstr "_Meddelandevalmöjligheter"
 
 #: client/gui-gtk-2.0/menu.c:692
 msgid "_Reload Tileset"
-msgstr "Ladda om _rutbildsuppsättning"
+msgstr "Läs om _rutbildsuppsättning"
 
 #: client/gui-gtk-2.0/menu.c:695
 msgid "Save Options on _Exit"
@@ -10975,7 +11035,7 @@ msgstr "Re_gering"
 
 #: client/gui-gtk-2.0/menu.c:747 client/gui-win32/menu.c:333
 msgid "_View"
-msgstr "_Anblick"
+msgstr "_Vy"
 
 #: client/gui-gtk-2.0/menu.c:749 client/gui-gtk-2.0/menu.c:751
 #: client/gui-gtk-2.0/menu.c:753 client/gui-gtk-2.0/menu.c:755
@@ -10992,7 +11052,7 @@ msgstr "_Anblick"
 #: client/gui-gtk-2.0/menu.c:798 client/gui-gtk-2.0/menu.c:800
 #: client/gui-mui/gui_main.c:231 data/Freeciv.in:2028
 msgid "View"
-msgstr "Anblick"
+msgstr "Vy"
 
 #: client/gui-gtk-2.0/menu.c:751
 msgid "City Outlines"
@@ -11069,7 +11129,7 @@ msgstr "_Fullskärmsläge"
 
 #: client/gui-gtk-2.0/menu.c:800
 msgid "_Center View"
-msgstr "_Centrera anblick"
+msgstr "_Centrera vy"
 
 #: client/gui-gtk-2.0/menu.c:803 client/gui-win32/menu.c:357
 msgid "_Orders"
@@ -11466,8 +11526,8 @@ msgstr "Öpp"
 
 #: client/gui-gtk-2.0/messagewin.c:155 client/gui-mui/messagewin.c:130
 #: client/gui-mui/messagewin.c:197 client/gui-win32/messagewin.c:132
-#: client/gui-xaw/menu.c:226 data/Freeciv.in:3269 data/Freeciv.in:3270
-#: data/Freeciv.in:3279
+#: client/gui-xaw/menu.c:226 data/Freeciv.in:3273 data/Freeciv.in:3274
+#: data/Freeciv.in:3283
 msgid "Messages"
 msgstr "Meddelanden"
 
@@ -11482,7 +11542,7 @@ msgstr "?show:Besegrade spelare"
 #: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:706
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
 #: client/gui-win32/connectdlg.c:869 client/gui-win32/plrdlg.c:341
-#: client/gui-xaw/menu.c:220 data/Freeciv.in:3188 data/Freeciv.in:3189
+#: client/gui-xaw/menu.c:220 data/Freeciv.in:3192 data/Freeciv.in:3193
 msgid "Players"
 msgstr "Spelare"
 
@@ -11607,7 +11667,7 @@ msgstr "Datorspelarens färdighetsnivå"
 
 #: client/gui-gtk-2.0/pages.c:1212
 msgid "_Ruleset:"
-msgstr "_Regeluppsättning:"
+msgstr "_Regler:"
 
 #: client/gui-gtk-2.0/pages.c:1220
 msgid "More Game _Options..."
@@ -11637,11 +11697,11 @@ msgstr "Välj ditt _folk"
 
 #: client/gui-gtk-2.0/pages.c:1392
 msgid "Choose Saved Game to Load"
-msgstr "Välj sparat spel att ladda"
+msgstr "Välj sparat spel att läsa in"
 
 #: client/gui-gtk-2.0/pages.c:1484
 msgid "Choose Saved Game to _Load:"
-msgstr "Välj sparat spel att _ladda:"
+msgstr "Välj sparat spel att _läsa in:"
 
 #: client/gui-gtk-2.0/pages.c:1504 client/gui-gtk-2.0/pages.c:1692
 #: client/gui-gtk-2.0/pages.c:2109
@@ -11875,8 +11935,8 @@ msgstr ""
 msgid "Spaceship\n"
 msgstr "Rymdskepp\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1450 data/Freeciv.in:3386
-#: data/Freeciv.in:3395
+#: client/gui-gtk-2.0/repodlgs.c:1450 data/Freeciv.in:3390
+#: data/Freeciv.in:3399
 msgid "Game Settings"
 msgstr "Spelinställningar"
 
@@ -12046,7 +12106,7 @@ msgstr "Denna sida"
 
 #: client/gui-mui/citydlg.c:1406
 msgid "Freeciv - Cityview"
-msgstr "Freeciv - Stadsanblick"
+msgstr "Freeciv - Stadsvy"
 
 #: client/gui-mui/citydlg.c:1433
 msgid "City Output"
@@ -12427,7 +12487,7 @@ msgid "Subvert Enemy Unit"
 msgstr "Omvänd fientlig enhet"
 
 #: client/gui-mui/dialogs.c:973 client/gui-win32/dialogs.c:1042
-#: client/gui-xaw/dialogs.c:441
+#: client/gui-xaw/dialogs.c:443
 #, c-format
 msgid ""
 "Your caravan from %s reaches the city of %s.\n"
@@ -12482,7 +12542,7 @@ msgid "Male"
 msgstr "Man"
 
 #: client/gui-mui/dialogs.c:1592 client/gui-win32/dialogs.c:571
-#: data/Freeciv.in:3155
+#: data/Freeciv.in:3159
 msgid "Female"
 msgstr "Kvinna"
 
@@ -12656,12 +12716,12 @@ msgid "Clear Log"
 msgstr "Rensa logg"
 
 #: client/gui-mui/gui_main.c:219 client/gui-xaw/menu.c:120
-#: data/Freeciv.in:3174
+#: data/Freeciv.in:3178
 msgid "Disconnect"
 msgstr "Koppla från"
 
 #: client/gui-mui/gui_main.c:221 client/gui-win32/connectdlg.c:1052
-#: client/gui-xaw/menu.c:121 data/Freeciv.in:115 data/Freeciv.in:3176
+#: client/gui-xaw/menu.c:121 data/Freeciv.in:115 data/Freeciv.in:3180
 msgid "Quit"
 msgstr "Avsluta"
 
@@ -12704,7 +12764,7 @@ msgstr "Vägar & järnvägar"
 #: client/gui-mui/gui_main.c:250 client/gui-win32/menu.c:354
 #: client/gui-xaw/menu.c:161
 msgid "Center View"
-msgstr "Centrera anblick"
+msgstr "Centrera vy"
 
 #: client/gui-mui/gui_main.c:252
 msgid "Order"
@@ -12863,7 +12923,7 @@ msgid "Demographics"
 msgstr "Demografi"
 
 #: client/gui-mui/gui_main.c:298 client/gui-win32/plrdlg.c:357
-#: client/gui-xaw/menu.c:228 data/Freeciv.in:3258
+#: client/gui-xaw/menu.c:228 data/Freeciv.in:3262
 msgid "Spaceship"
 msgstr "Rymdskepp"
 
@@ -13064,7 +13124,7 @@ msgid "Tile %s"
 msgstr "Ruta %s"
 
 #: client/gui-mui/mapclass.c:1650 client/gui-win32/messagewin.c:151
-#: data/Freeciv.in:3318
+#: data/Freeciv.in:3322
 msgid "Popup City"
 msgstr "Öppna stad"
 
@@ -13397,8 +13457,8 @@ msgstr "Understödda enheter"
 #: data/Freeciv.in:1449 data/Freeciv.in:1467 data/Freeciv.in:1606
 #: data/Freeciv.in:1702 data/Freeciv.in:1733 data/Freeciv.in:1869
 #: data/Freeciv.in:1944 data/Freeciv.in:1989 data/Freeciv.in:2360
-#: data/Freeciv.in:2402 data/Freeciv.in:3053 data/Freeciv.in:3219
-#: data/Freeciv.in:3303
+#: data/Freeciv.in:2402 data/Freeciv.in:3053 data/Freeciv.in:3223
+#: data/Freeciv.in:3307
 msgid "Close"
 msgstr "Stäng"
 
@@ -13434,7 +13494,7 @@ msgstr "Ändra tillverkning"
 #: data/Freeciv.in:1358 data/Freeciv.in:1553 data/Freeciv.in:1808
 #: data/Freeciv.in:2095 data/Freeciv.in:2176 data/Freeciv.in:2293
 #: data/Freeciv.in:2328 data/Freeciv.in:2437 data/Freeciv.in:2505
-#: data/Freeciv.in:2515 data/Freeciv.in:3360 data/Freeciv.in:3418
+#: data/Freeciv.in:2515 data/Freeciv.in:3364 data/Freeciv.in:3422
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -13564,7 +13624,7 @@ msgstr "Lösenord:"
 
 #: client/gui-win32/connectdlg.c:167
 msgid "Couldn't load the savegame"
-msgstr "Kunde inte ladda sparfil"
+msgstr "Kunde inte läsa in sparfil"
 
 #: client/gui-win32/connectdlg.c:289 client/gui-xaw/connectdlg.c:311
 msgid "Verify Password"
@@ -13572,7 +13632,7 @@ msgstr "Bekräfta lösenord"
 
 #: client/gui-win32/connectdlg.c:738
 msgid "Load Game"
-msgstr "_Öppna spel"
+msgstr "Öppna sparat spel"
 
 #: client/gui-win32/connectdlg.c:866 data/Freeciv.in:73
 msgid "Freeciv Server Selection"
@@ -13614,7 +13674,7 @@ msgstr "Datorspelarens färdighetsnivå"
 msgid "Game Options"
 msgstr "Spelinställningar"
 
-#: client/gui-win32/connectdlg.c:990 data/Freeciv.in:3367
+#: client/gui-win32/connectdlg.c:990 data/Freeciv.in:3371
 msgid "Pick Nation"
 msgstr "Välj din folkstam"
 
@@ -13860,19 +13920,19 @@ msgstr "Omvandla till %s"
 #: client/gui-win32/messagedlg.c:215 client/gui-win32/ratesdlg.c:327
 #: client/gui-win32/wldlg.c:854 client/gui-xaw/inputdlg.c:103
 #: data/Freeciv.in:1245 data/Freeciv.in:1278 data/Freeciv.in:1355
-#: data/Freeciv.in:1550 data/Freeciv.in:3415
+#: data/Freeciv.in:1550 data/Freeciv.in:3419
 msgid "Ok"
 msgstr "Ok"
 
-#: client/gui-win32/messagewin.c:149 data/Freeciv.in:3310
+#: client/gui-win32/messagewin.c:149 data/Freeciv.in:3314
 msgid "Goto location"
 msgstr "Gå till plats"
 
-#: client/gui-win32/plrdlg.c:352 data/Freeciv.in:3226
+#: client/gui-win32/plrdlg.c:352 data/Freeciv.in:3230
 msgid "Intelligence"
 msgstr "Underrättelse"
 
-#: client/gui-win32/plrdlg.c:353 data/Freeciv.in:3234
+#: client/gui-win32/plrdlg.c:353 data/Freeciv.in:3238
 msgid "Meet"
 msgstr "Möt"
 
@@ -13880,7 +13940,7 @@ msgstr "Möt"
 msgid "Cancel Treaty"
 msgstr "Avbryt Avtal"
 
-#: client/gui-win32/plrdlg.c:355 data/Freeciv.in:3250
+#: client/gui-win32/plrdlg.c:355 data/Freeciv.in:3254
 msgid "Withdraw vision"
 msgstr "Återkalla anblick"
 
@@ -14036,7 +14096,7 @@ msgstr "Nästa"
 msgid "Pass"
 msgstr "Lösenord"
 
-#: client/gui-xaw/dialogs.c:1509
+#: client/gui-xaw/dialogs.c:1471
 msgid "You must select a nation."
 msgstr "Du måste välja en folkstam"
 
@@ -14089,12 +14149,16 @@ msgstr "Faller tillbaka på nödtillgångar - vilket är OK"
 msgid "Only color displays are supported for now..."
 msgstr "Endast färgskärmar stöds än så länge..."
 
-#: client/gui-xaw/gui_main.c:373 client/gui-xaw/gui_main.c:392
+#: client/gui-xaw/gui_main.c:373 client/gui-xaw/gui_main.c:394
 #, c-format
 msgid "Unable to open fontset: %s"
-msgstr "Misslyckades med att ladda typsnitt: %s"
+msgstr "Misslyckades med att läsa in typsnitt: %s"
 
-#: client/gui-xaw/gui_main.c:378 client/gui-xaw/gui_main.c:397
+#: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
+msgid "Doing 'xset fp rehash' may temporarily solve a problem."
+msgstr ""
+
+#: client/gui-xaw/gui_main.c:380 client/gui-xaw/gui_main.c:401
 #, c-format
 msgid "Font for charset %s is lacking"
 msgstr "Font for charset %s is lacking"
@@ -14775,31 +14839,31 @@ msgstr "Understödda enheter:"
 msgid "Units present:"
 msgstr "Närvarande enheter:"
 
-#: data/Freeciv.in:3133
+#: data/Freeciv.in:3135
 msgid "Select nation and name:"
 msgstr "Välj en folkstam och ett namn:"
 
-#: data/Freeciv.in:3146
+#: data/Freeciv.in:3150
 msgid "Pick Name"
 msgstr "Välj ett namn"
 
-#: data/Freeciv.in:3150
+#: data/Freeciv.in:3154
 msgid "Select your sex:"
 msgstr "Välj ett kön:"
 
-#: data/Freeciv.in:3154
+#: data/Freeciv.in:3158
 msgid "Male  "
 msgstr "Man   "
 
-#: data/Freeciv.in:3161
+#: data/Freeciv.in:3165
 msgid "Select city style:"
 msgstr "Välj stadstyp:"
 
-#: data/Freeciv.in:3172
+#: data/Freeciv.in:3176
 msgid " Ok "
 msgstr " Ok "
 
-#: data/Freeciv.in:3205
+#: data/Freeciv.in:3209
 msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
@@ -14807,20 +14871,20 @@ msgstr ""
 "Namn             Stat         Beskickn Dipl. Tillstånd Anblick  "
 "Rykte         Tillst.  Värd"
 
-#: data/Freeciv.in:3242
+#: data/Freeciv.in:3246
 msgid "Cancel pact"
 msgstr "Avbryt pakt"
 
 # DM> tidigare "Förspel". jag är inte negativ mot sexuella referenser men.. =)
-#: data/Freeciv.in:3329 data/Freeciv.in:3330
+#: data/Freeciv.in:3333 data/Freeciv.in:3334
 msgid "Pregame"
 msgstr "Förbereder"
 
-#: data/Freeciv.in:3346
+#: data/Freeciv.in:3350
 msgid "Name              Ready Leader          Nation          "
 msgstr "Namn              Redo  Ledare          Folkstam        "
 
-#: data/Freeciv.in:3375
+#: data/Freeciv.in:3379
 msgid "Start"
 msgstr "Sätt igång"
 
@@ -15171,7 +15235,7 @@ msgstr ""
 "  b: grunda stad (bosättarenheter)\n"
 "  b: hjälp till att (b)ygga underverk (karavanenheter)\n"
 "  C: förbind (vänsterklicka sedan på målet)\n"
-"  c: (c)entrera anblicken på enheten\n"
+"  c: (c)entrera vyn på enheten\n"
 "  d: bu(d)bärar/spejarhandlingar (budbärarenheter)\n"
 "  D: Upplös enhet\n"
 "  e: bygg flygbas (flygbasenheter)\n"
@@ -15231,7 +15295,7 @@ msgstr ""
 "  5: fokusera på föregående enhet\n"
 "  w: fokusera på nästa enhet\n"
 "  W: väck övriga enheter på rutan\n"
-"  c: centrera anblick på enhet\n"
+"  c: centrera vyn på enhet\n"
 
 #: data/helpdata.txt:484
 msgid ""
@@ -15289,7 +15353,7 @@ msgstr ""
 "  Vänsterkick på enhet:         Gör enhet verksam\n"
 "  Vänsterkick och dra på enhet: Ger enhet gå till-kommando\n"
 "  Mittklick:                    Visa rutupplysningar\n"
-"  Högerklick:                   Centrera anblick på ruta\n"
+"  Högerklick:                   Centrera vyn på ruta\n"
 "\n"
 "  Skift-Vänsterklick:           Kopiera tillverkning (GTK)\n"
 "  Skift-Högerklick på stad:     Klistra in tillverkning i stad (GTK)\n"
@@ -16694,7 +16758,7 @@ msgstr ""
 "Stadskärnan (den ruta staden befinner sig på) behandlas speciellt. En "
 "stadskärna erhåller terrängförbättringar utan kostnad: Väg (eller järnväg) "
 "samt bevattning (trots att de i själva verket inte är bevattnade). Slutligen "
-"kan en stadskärna producera en regeluppsättningsbestämt minsta möjliga mängd "
+"kan en stadskärna producera en i reglerna fastställd minsta möjliga mängd "
 "mat, sköldar och handel."
 
 #: data/helpdata.txt:1253
@@ -17010,7 +17074,7 @@ msgstr ""
 "Katedral, Bot mot Cancer, Shakespeares Teater, och Kvinnlig Rösträtt; märk "
 "dock att Michelangelos Kapell saknar inverkan i detta fall, eftersom det "
 "räknas som en katedral i varje stad eller fördubblar katedralernas verkan, "
-"beroende på regeluppsättning), eller avsätta en del av handeln till överflöd."
+"beroende på reglerna), eller avsätta en del av handeln till överflöd."
 
 #: data/helpdata.txt:1424
 msgid ""
@@ -18490,24 +18554,23 @@ msgstr "Industriell"
 #: data/nation/colombian.ruleset:5 data/nation/croatian.ruleset:5
 #: data/nation/cuban.ruleset:5 data/nation/czech.ruleset:5
 #: data/nation/danish.ruleset:5 data/nation/dutch.ruleset:5
-#: data/nation/egyptian.ruleset:5 data/nation/estonian.ruleset:5
-#: data/nation/ethiopian.ruleset:5 data/nation/filipino.ruleset:5
-#: data/nation/finnish.ruleset:5 data/nation/french.ruleset:5
-#: data/nation/georgian.ruleset:5 data/nation/german.ruleset:5
-#: data/nation/hellenic.ruleset:5 data/nation/hungarian.ruleset:5
-#: data/nation/icelandic.ruleset:5 data/nation/indian.ruleset:5
-#: data/nation/indonesian.ruleset:5 data/nation/iraqi.ruleset:5
-#: data/nation/irish.ruleset:5 data/nation/israeli.ruleset:5
-#: data/nation/italian.ruleset:5 data/nation/japanese.ruleset:22
-#: data/nation/kampuchean.ruleset:5 data/nation/kenyan.ruleset:5
-#: data/nation/korean.ruleset:5 data/nation/lankese.ruleset:5
-#: data/nation/latvian.ruleset:5 data/nation/libyan.ruleset:5
-#: data/nation/lithuanian.ruleset:5 data/nation/malagasy.ruleset:5
-#: data/nation/malaysian.ruleset:5 data/nation/malian.ruleset:5
-#: data/nation/mexican.ruleset:5 data/nation/mongol.ruleset:5
-#: data/nation/newzealand.ruleset:6 data/nation/nigerian.ruleset:5
-#: data/nation/norwegian.ruleset:5 data/nation/papuan.ruleset:5
-#: data/nation/persian.ruleset:5 data/nation/polish.ruleset:5
+#: data/nation/estonian.ruleset:5 data/nation/ethiopian.ruleset:5
+#: data/nation/filipino.ruleset:5 data/nation/finnish.ruleset:5
+#: data/nation/french.ruleset:5 data/nation/georgian.ruleset:5
+#: data/nation/german.ruleset:5 data/nation/hellenic.ruleset:5
+#: data/nation/hungarian.ruleset:5 data/nation/icelandic.ruleset:5
+#: data/nation/indian.ruleset:5 data/nation/indonesian.ruleset:5
+#: data/nation/iraqi.ruleset:5 data/nation/irish.ruleset:5
+#: data/nation/israeli.ruleset:5 data/nation/italian.ruleset:5
+#: data/nation/japanese.ruleset:22 data/nation/kampuchean.ruleset:5
+#: data/nation/kenyan.ruleset:5 data/nation/korean.ruleset:5
+#: data/nation/lankese.ruleset:5 data/nation/latvian.ruleset:5
+#: data/nation/libyan.ruleset:5 data/nation/lithuanian.ruleset:5
+#: data/nation/malagasy.ruleset:5 data/nation/malaysian.ruleset:5
+#: data/nation/malian.ruleset:5 data/nation/mexican.ruleset:5
+#: data/nation/mongol.ruleset:5 data/nation/newzealand.ruleset:6
+#: data/nation/nigerian.ruleset:5 data/nation/norwegian.ruleset:5
+#: data/nation/papuan.ruleset:5 data/nation/polish.ruleset:5
 #: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
 #: data/nation/russian.ruleset:5 data/nation/serbian.ruleset:5
 #: data/nation/singaporean.ruleset:17 data/nation/slovenian.ruleset:5
@@ -18593,7 +18656,7 @@ msgstr "monarki"
 #: data/default/governments.ruleset:100 data/civ2/governments.ruleset:98
 #: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:30
 #: data/nation/burmese.ruleset:28 data/nation/croatian.ruleset:34
-#: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:36
+#: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/slovakian.ruleset:27 data/nation/spanish.ruleset:30
 msgid "King"
 msgstr "Konung"
@@ -18601,7 +18664,7 @@ msgstr "Konung"
 #: data/default/governments.ruleset:101 data/civ2/governments.ruleset:99
 #: data/civ1/governments.ruleset:101 data/nation/bosnia.ruleset:30
 #: data/nation/burmese.ruleset:28 data/nation/croatian.ruleset:34
-#: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:36
+#: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/spanish.ruleset:30
 msgid "Queen"
 msgstr "Drottning"
@@ -18624,7 +18687,7 @@ msgid "Communism"
 msgstr "kommunism"
 
 #: data/default/governments.ruleset:121 data/civ2/governments.ruleset:119
-#: data/civ1/governments.ruleset:121
+#: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:25
 msgid "Comrade"
 msgstr "Kamrat"
 
@@ -18693,8 +18756,8 @@ msgstr "folkstyre"
 #: data/nation/croatian.ruleset:36 data/nation/finnish.ruleset:20
 #: data/nation/german.ruleset:33 data/nation/icelandic.ruleset:25
 #: data/nation/polish.ruleset:30 data/nation/polish.ruleset:31
-#: data/nation/quebecois.ruleset:22 data/nation/serbian.ruleset:37
-#: data/nation/serbian.ruleset:38 data/nation/singaporean.ruleset:40
+#: data/nation/quebecois.ruleset:21 data/nation/serbian.ruleset:38
+#: data/nation/serbian.ruleset:39 data/nation/singaporean.ruleset:40
 #: data/nation/slovenian.ruleset:19 data/nation/slovenian.ruleset:20
 #: data/nation/slovakian.ruleset:28
 msgid "President"
@@ -18827,12 +18890,11 @@ msgstr ""
 "Vid folkstyre röstar medborgarna direkt i folkomröstningar. Folkstyre "
 "erbjuder högsta möjliga handel, men även högst möjlighet till "
 "otillfredställdhet. Det förekommer ingen korruption eller spill vid "
-"folkstyre, men medborgarna blir mycket upprörda under krig."
-"\n"
+"folkstyre, men medborgarna blir mycket upprörda under krig.\n"
 "De lyckliga medborgarna i ett folkstyre ha osvikligt förtroende för "
-"regeringen. Krigsenheter tillhörande folkstyrda regeringar kunna ej "
-"mutas, och fientliga budbärare och spioner kunna ej anstifta uppror i "
-"folkstyrda städer."
+"regeringen. Krigsenheter tillhörande folkstyrda regeringar kunna ej mutas, "
+"och fientliga budbärare och spioner kunna ej anstifta uppror i folkstyrda "
+"städer."
 
 #: data/civ1/governments.ruleset:170
 msgid ""
@@ -18848,13 +18910,12 @@ msgid ""
 msgstr ""
 "Vid folkstyre röstar medborgarna direkt i folkomröstningar. Folkstyre "
 "erbjuder högsta möjliga handel, men även högst möjlighet till "
-"otillfredställdhet. Det förekommer ingen korruption vid "
-"folkstyre, men medborgarna blir mycket upprörda under krig."
-"\n"
+"otillfredställdhet. Det förekommer ingen korruption vid folkstyre, men "
+"medborgarna blir mycket upprörda under krig.\n"
 "De lyckliga medborgarna i ett folkstyre ha osvikligt förtroende för "
-"regeringen. Krigsenheter tillhörande folkstyrda regeringar kunna ej "
-"mutas, och fientliga budbärare och spioner kunna ej anstifta uppror i "
-"folkstyrda städer."
+"regeringen. Krigsenheter tillhörande folkstyrda regeringar kunna ej mutas, "
+"och fientliga budbärare och spioner kunna ej anstifta uppror i folkstyrda "
+"städer."
 
 # DM> tidigare "framskriden flygteknik"
 #: data/default/techs.ruleset:54 data/civ2/techs.ruleset:42
@@ -20029,8 +20090,8 @@ msgstr ""
 "omvända den till sin civilisation om man har tillräckligt med pengar!\n"
 "\n"
 "- I vissa spelstrategier användas horder av budbärare för att ställa till "
-"det för fienden. Inget under att budbärare ofta ses med misstänksamhet "
-"och fruktan!"
+"det för fienden. Inget under att budbärare ofta ses med misstänksamhet och "
+"fruktan!"
 
 # DM> Tidigare "spejare" (lämpligt eftersom de kommer ganska sent i spelet)
 #: data/default/units.ruleset:1594 data/civ2/units.ruleset:1536
@@ -20060,17 +20121,16 @@ msgstr ""
 "En spion är en heltidsanställd yrkesmänniska och som sådan mycket "
 "skickligare på spioneri än sin föregångare, budbäraren.\n"
 "\n"
-"Spionens fredligaste funktion är att undersöka städer för "
-"utförliga upplysningar, samt att inrätta beskickningar. Men om ens spion ha "
-"fått dåligt rykte, blir den avrättad om den "
-"försöker inrätta en beskickning.\n"
+"Spionens fredligaste funktion är att undersöka städer för utförliga "
+"upplysningar, samt att inrätta beskickningar. Men om ens spion ha fått "
+"dåligt rykte, blir den avrättad om den försöker inrätta en beskickning.\n"
 "\n"
 "Spionen kan även användas för att förgifta vattenförsörjningen för en "
-"fientlig stad (vilket minskar befolkningen); stjäla särskilda "
-"teknologier; förstöra förutbestämda mål i fientliga städer (anmärkning: att "
-"förstöra stadsförbättringar i en huvudstad eller att förstöra stadsmurar "
-"ökar risken för tillfångatagande). En spion kan även infiltrera en stad "
-"och anstifta uppror.\n"
+"fientlig stad (vilket minskar befolkningen); stjäla särskilda teknologier; "
+"förstöra förutbestämda mål i fientliga städer (anmärkning: att förstöra "
+"stadsförbättringar i en huvudstad eller att förstöra stadsmurar ökar risken "
+"för tillfångatagande). En spion kan även infiltrera en stad och anstifta "
+"uppror.\n"
 "\n"
 "En spion kan även hjälpa till på slagfältet - förstöra fientliga enheter "
 "såväl som muta dem till att byta sida."
@@ -20348,6 +20408,7 @@ msgid "Emir"
 msgstr "Emir"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:31
+#: data/nation/soviet.ruleset:26
 msgid "General Secretary"
 msgstr "Generalsekreterare"
 
@@ -20396,7 +20457,8 @@ msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
 msgstr ""
-"Algeriet är en Arabisk nation i Nordafrika, historiskt bebodd av berberfolket."
+"Algeriet är en Arabisk nation i Nordafrika, historiskt bebodd av "
+"berberfolket."
 
 #: data/nation/american.ruleset:3 data/nation/american.ruleset:5
 #: data/nation/argentine.ruleset:6 data/nation/aztec.ruleset:5
@@ -20415,8 +20477,9 @@ msgid "?plural:Americans"
 msgstr "?plural:amerikanerna"
 
 #: data/nation/american.ruleset:6
+#, fuzzy
 msgid ""
-"Formally named the United States of America. Independent from Great Britain "
+"Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
 msgstr ""
 "Statsbildningen heter Amerikas Förenta Stater. Självständigt från "
@@ -20624,13 +20687,13 @@ msgstr "Aztek"
 msgid "?plural:Aztecs"
 msgstr "?plural:aztekerna"
 
-# DM> Försöker göra prosan lite mer neutral
 #: data/nation/aztec.ruleset:6
+#, fuzzy
 msgid ""
-"The Azteca, a group of barbarians from the Sonoran desert, seized control of "
-"the Toltec-derived civilizations of Central Mexico during the 15th century "
-"AD, reviving the practice of human sacrifice. They were conquered by the "
-"Spanish under Cortez in 1524."
+"The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
+"control of the Toltec-derived civilizations of Central Mexico during the "
+"15th century AD, reviving the practice of human sacrifice.  They were "
+"conquered by the Spanish under Cortez in 1524."
 msgstr ""
 "Aztekerna var ett nahuatl-talande folk som invandrade norrifrån, från "
 "Sonoranöknen till nuvarande Mexiko. Deras närvaro i området sammanföll med "
@@ -20743,9 +20806,10 @@ msgid "?plural:Boers"
 msgstr "?plural:boerna"
 
 #: data/nation/boer.ruleset:6
+#, fuzzy
 msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
-"1650AD. They briefly controlled two republics, the Transvaal and the Orange "
+"1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
 msgstr ""
 "Boerna var nederländska bosättare i Sydafrika från år 1650. De styrde "
@@ -20859,7 +20923,7 @@ msgid "Drugarkata"
 msgstr "Drugarkata"
 
 #: data/nation/bulgarian.ruleset:37 data/nation/byzantium.ruleset:26
-#: data/nation/russian.ruleset:50
+#: data/nation/russian.ruleset:49
 msgid "Patriarch"
 msgstr "Patriark"
 
@@ -20880,6 +20944,7 @@ msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
 msgstr ""
+"Burma - officiellt benämnt \"Myanmar\" - är Sydostasienst största land."
 
 #: data/nation/burmese.ruleset:26
 msgid "Bohmugyi"
@@ -20902,14 +20967,20 @@ msgid "?plural:Byzantines"
 msgstr "?plural:bysantinerna"
 
 #: data/nation/byzantium.ruleset:6
+#, fuzzy
 msgid ""
-"At the time of the decline of the old Roman empire, the Emperor Constanine "
+"At the time of the decline of the old Roman empire, the Emperor Constantine "
 "moved the empire's capital to Byzantium and formed a new empire mostly known "
 "as the Eastern Roman empire or the Byzantine empire. This empire lasted "
 "until 1453 when its capital fell to the Ottomans. At the time of Justinian "
 "I, the Byzanines controlled nearly all of Middle East, nothern Africa, Italy "
 "and parts of Spain."
 msgstr ""
+"Vid tiden av den gamla Romarrikets nedgång, beslutade kejsar Konstantin att "
+"år 325 flytta rikets huvudstad till Bysans och grundlade vad som brukar "
+"benämnas Bysantiska riket. Detta rike kom att vara till 1453 då det föll för "
+"de Osmanska Turkarna. Under kejsar Justinianus I:s tid härskade bysanterna "
+"över så gott som hela Mellanöstern, Nordafrika, Italien och delar av Spanien."
 
 #: data/nation/byzantium.ruleset:27
 msgid "Basileus"
@@ -20928,6 +20999,8 @@ msgid ""
 "Canada is the geographically northernmost country in world: The Magnetic "
 "North Pole currently lies on Canadian territory."
 msgstr ""
+"Kanada är det geografiskt mest nordligt belägna landet i världen: Den "
+"magnetiska nordpolen ligger f n på kanadensiskt territorium."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -21011,7 +21084,7 @@ msgstr "Chile är ett land med spansktalande befolkning i Sydamerika."
 msgid "Captain General"
 msgstr "Kaptensgeneral"
 
-#: data/nation/chilean.ruleset:25 data/nation/french.ruleset:25
+#: data/nation/chilean.ruleset:25 data/nation/french.ruleset:27
 #: data/nation/german.ruleset:35 data/nation/irish.ruleset:57
 msgid "Archbishop"
 msgstr "Ärkebiskop"
@@ -21029,14 +21102,15 @@ msgid "?plural:Chinese"
 msgstr "?plural:kineserna"
 
 #: data/nation/chinese.ruleset:6
+#, fuzzy
 msgid ""
 "China is the oldest major civilization that is still in existence today, "
-"with written records dating back over 3,500 years. After first being unified "
-"by the Qin dynasty in 221BC, China alternated between periods of unity and "
-"disunity, and was often conquered by external ethnicities. Today, the "
-"People's Republic of China, established by the Communists in 1949, occupies "
-"the mainland, while the former Nationalist government of the Republic of "
-"China had fled to the island of Taiwan after the civil war."
+"with written records dating back over 3,500 years.  After first being "
+"unified by the Qin dynasty in 221BC, China alternated between periods of "
+"unity and disunity, and was often conquered by external ethnicities.  Today, "
+"the People's Republic of China, established by the Communists in 1949, "
+"occupies the mainland, while the former Nationalist government of the "
+"Republic of China had fled to the island of Taiwan after the civil war."
 msgstr ""
 "Kina är världens älsta existerande civilisation med över 3500 års nedtecknad "
 "historia. Enades som nation av Qin-dynastin i 221 f.Kr. men genomgick "
@@ -21085,6 +21159,26 @@ msgstr "Guvernör"
 msgid "Governadora"
 msgstr "Guvernörska"
 
+#: data/nation/confederate.ruleset:3
+msgid "Confederate"
+msgstr "Sydstatare"
+
+#: data/nation/confederate.ruleset:4
+msgid "?plural:Confederates"
+msgstr "?plural:sydstatarna"
+
+#: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
+msgid "Transitional"
+msgstr "Övergående"
+
+#: data/nation/confederate.ruleset:6
+msgid ""
+"The Confederate States of America was a splinter nation of the United States "
+"during the American Civil War. It was formed in 1861 by six Southern states "
+"but had to abandon their claims of independence a few years later after "
+"several military defeats by United States troops."
+msgstr ""
+
 # ?
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -21103,7 +21197,7 @@ msgstr ""
 "Cornwall är en halvö i sydvästra England som enligt sagan var kung Arturs "
 "hemland."
 
-#: data/nation/cornish.ruleset:20 data/nation/french.ruleset:23
+#: data/nation/cornish.ruleset:20 data/nation/french.ruleset:25
 #: data/nation/gallic.ruleset:22 data/nation/irish.ruleset:55
 #: data/nation/scottish.ruleset:24 data/nation/welsh.ruleset:25
 msgid "Chieftain"
@@ -21161,7 +21255,7 @@ msgid ""
 "until 1918 part of the Austro-Hungarian Empire."
 msgstr ""
 "Dagens tjeckiska republik var fram till år 1993 en del av Tjeckoslovakien, "
-"som tillhörde Österrike-Ungern  till år 1918."
+"som tillhörde Österrike-Ungern fram till år 1918."
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
@@ -21215,8 +21309,9 @@ msgid "?plural:Egyptians"
 msgstr "?plural:egyptierna"
 
 #: data/nation/egyptian.ruleset:6
+#, fuzzy
 msgid ""
-"Egypt was the second-oldest of the world's civilizations. Since ancient "
+"Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
@@ -21268,9 +21363,10 @@ msgid "?plural:Estonians"
 msgstr "?plur:esterna"
 
 #: data/nation/estonian.ruleset:6
+#, fuzzy
 msgid ""
-"Estonia is a small country on the south shore of the eastern Baltic Sea. Its "
-"people and language are closely related to those of Finland."
+"Estonia is a small country on the south shore of the eastern Baltic Sea.  "
+"Its people and language are closely related to those of Finland."
 msgstr ""
 "Estland ligger vid Östersjön och har tillhört Tyska Orden, Danmark, Sverige, "
 "Ryssland och Sovjetunionen. Det var självständigt från 1918 till 1939 och "
@@ -21353,7 +21449,7 @@ msgid ""
 "flag."
 msgstr ""
 
-#: data/nation/french.ruleset:24
+#: data/nation/french.ruleset:26
 msgid "Premier"
 msgstr "Premiärminister"
 
@@ -21671,12 +21767,13 @@ msgid "?plural:Irish"
 msgstr "?plural:irerna"
 
 #: data/nation/irish.ruleset:6
+#, fuzzy
 msgid ""
 "Ireland held out against the Romans and Vikings but was conquered by the "
-"Normans in 1171. It was ruled by the English until 1922 when most of the "
-"country was granted limited autonomy, becoming a republic in 1949. The North "
-"of Ireland was settled in the 17th century by Scottish and English planters "
-"and is now part of the United Kingdom."
+"Normans in 1171.  It was ruled by the English until 1922 when most of the "
+"country was granted limited autonomy, becoming a republic in 1949.  The "
+"North of Ireland was settled in the 17th century by Scottish and English "
+"planters and is now part of the United Kingdom."
 msgstr ""
 "Irland höll ut mot romarna och vikingarna, men erövrades av normanderna år "
 "1171. Under Engelskt styre till 1922 då större delen av landet erhöll "
@@ -21853,7 +21950,7 @@ msgid ""
 "1953."
 msgstr ""
 
-#: data/nation/korean.ruleset:32
+#: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
 msgid "Great Leader"
 msgstr "Storledare"
 
@@ -21882,7 +21979,7 @@ msgstr "Prins"
 msgid "Princess"
 msgstr "Prinsessa"
 
-#: data/nation/lankese.ruleset:22 data/nation/quebecois.ruleset:21
+#: data/nation/lankese.ruleset:22 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
 msgid "Governor"
 msgstr "Guvernör"
@@ -21899,10 +21996,11 @@ msgstr "Lett"
 msgid "?plural:Latvians"
 msgstr "?plural:letterna"
 
-#: data/nation/latvian.ruleset:6
+#: data/nation/latvian.ruleset:7
 msgid ""
-"Latvia gained independence from the Russian Empire in 1920, was incorporated "
-"into the Soviet Union in 1940 and finally gained independence again in 1991."
+"In the aftermath of WWI Latvia proclaimed its independence from Russia. In "
+"1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
+"of Soviet Union in 1991 Latvia restored its independence."
 msgstr ""
 
 #: data/nation/libyan.ruleset:3
@@ -21938,9 +22036,10 @@ msgid "?plural:Lithuanians"
 msgstr "?plural:litauerna"
 
 #: data/nation/lithuanian.ruleset:6
+#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
-"of Poland. Lithuanian is the most archaic and complex of the northern Indo-"
+"of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
 msgstr ""
 "Litauen ligger vid Östersjöns sydkust. Litauiskan är det mest ålderdomliga "
@@ -22050,6 +22149,9 @@ msgid ""
 "group that is now New Zealand. According to archeological evidence, the "
 "migration commenced in the 900s and continued until the 1400s."
 msgstr ""
+"Maorierna är ett Polynesiskt folk som bosatte sig på ögruppen som idag går "
+"under namnet Nya Zeeland. Arkeologiska fynd visar att folkförflyttningen "
+"troligen inleddes under 900-taled och fortskred fram till 1400-talet."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -22061,7 +22163,7 @@ msgstr "?plural:marsianerna"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr ""
+msgstr "Marsianerna anlände till Jorden år 4000 f.Kr.!"
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
@@ -22076,6 +22178,8 @@ msgid ""
 "The Mayans were a Mesoamerican civilization. Famous for building great "
 "pyramids and palaces in the jungle."
 msgstr ""
+"Mayariket var en mellanamerikansk civilisation som uppförde många storslagna "
+"byggnadsverk som står än idag."
 
 #: data/nation/mayan.ruleset:19
 msgid "Ajaw"
@@ -22093,6 +22197,8 @@ msgstr "?plural:mexikanarna"
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs."
 msgstr ""
+"Mexico är ett land i södra Nordamerika. Landet har härlett sitt namn från "
+"Mexicafolket, vilket är en annan benämning på Aztekerfolket."
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
@@ -22134,6 +22240,9 @@ msgid ""
 "royal proclamation in 1907, the country became an independent dominion "
 "within the Commonwealth of Nations."
 msgstr ""
+"Ögruppen Nya Zeeland annekterades av Storbritannien år 1840. 1907 förklarade "
+"brittiska kronan denna en självständig besittning inom imperiet, en status "
+"som landet fortfarande innehar."
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
@@ -22162,6 +22271,9 @@ msgid ""
 "in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
 "independence after a union with Sweden."
 msgstr ""
+"Efter århundraden av danskt styre antog norrmännen den 17 maj 1814 sin "
+"moderna grundlag, Eidsvollförfattningen. Norge tvingades dock snart in i en "
+"personalunion med Sverige, vilken sedemera upplöstes år 1905."
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
@@ -22174,6 +22286,8 @@ msgstr "?plural:papuanerna"
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
 msgstr ""
+"Papua Nya Guinea är en stat på östra halvan av ön Nya Guinea i västra Stilla "
+"havet."
 
 #: data/nation/papuan.ruleset:19
 msgid "Governor-General"
@@ -22220,6 +22334,8 @@ msgid ""
 "Phoenicia was an ancient civilization, based in what is now the coastal "
 "regions of Lebanon and Syria."
 msgstr ""
+"Fenicien var en uråldrig civilisation och sjöfararrike med sitt hemland i "
+"dagens Libanon och Syrien."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
@@ -22234,6 +22350,8 @@ msgid ""
 "The Polish state was formed about a millennium ago, and reached its Golden "
 "Age near the end of the 16th century."
 msgstr ""
+"Den polska staten formades för nära ett årtusende sedan och upplevde sin "
+"gyllene ålder i slutet av 1500-talet."
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
@@ -22281,9 +22399,10 @@ msgstr "?plural:quebecarna"
 #: data/nation/quebecois.ruleset:6
 msgid ""
 "Quebec is the largest province of Canada, housing the majority of the "
-"Francophone population of America. It is also the only political unit in "
-"North America where English is not an official language."
+"Francophone population of America."
 msgstr ""
+"Quebec är Kanadas största provins och hemvist för Amerikas största "
+"fransktalande befolkning."
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -22301,10 +22420,15 @@ msgid ""
 "Rome. It's history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
 msgstr ""
+"Rumänien som en enad nation framträdde i början av 1900-talet då "
+"furstendömena Transsylvanien, Valakiet och Moldavien gick samman. Det "
+"rumänska språket är ett romanskt språk som står nära det klassiska latinet. "
+"Genom historien har Rumänien legat i periferin av mäktiga riken, så som det "
+"Romerska, Osmanska, Österrikisk-Ungerska och Ryska."
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
-msgstr "Voievod"
+msgstr "Vojvod"
 
 #: data/nation/romanian.ruleset:34
 msgid "Doamna"
@@ -22379,23 +22503,23 @@ msgstr ""
 "\n"
 "Källa: Kunskapens Bok, fjärde upplagan, bokförlaget Natur och Kultur"
 
-#: data/nation/russian.ruleset:48 data/nation/serbian.ruleset:35
+#: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
 msgstr "Hertig"
 
-#: data/nation/russian.ruleset:48 data/nation/serbian.ruleset:35
+#: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duchess"
 msgstr "Hertiginna"
 
-#: data/nation/russian.ruleset:49
+#: data/nation/russian.ruleset:48
 msgid "Tsar"
 msgstr "Tsar"
 
-#: data/nation/russian.ruleset:49
+#: data/nation/russian.ruleset:48
 msgid "Tsaritsa"
 msgstr "Tsaritsa"
 
-#: data/nation/russian.ruleset:50
+#: data/nation/russian.ruleset:49
 msgid "Matriarch"
 msgstr "Matriark"
 
@@ -22408,9 +22532,10 @@ msgid "?plural:Ryukyuans"
 msgstr "?plural:ryukyuerna"
 
 #: data/nation/ryukyuan.ruleset:6
+#, fuzzy
 msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
-"maritime trading nation eventually invaded, occupied and annexed by Japan."
+"maritime trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
 "Ryukyuriket (1372-1879) var en välmående sjöfartsnation som sedemera "
 "invaderades, ockuperades och annekterades av Japan."
@@ -22437,6 +22562,8 @@ msgid ""
 "over the northernmost regions of the Scandinavian countries: Finnmark of "
 "Norway and Lapland of Sweden and Finland."
 msgstr ""
+"Samerna är ursprungsbefolkningen i norra Skandinavien. Deras nation Sapmi "
+"sträcker sig från Finnmark i Nordnorge till Kolahalvön i Ryssland."
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
@@ -22472,10 +22599,11 @@ msgid "?plural:Serbians"
 msgstr "?plural:serberna"
 
 #: data/nation/serbian.ruleset:6
+#, fuzzy
 msgid ""
 "Serbia is part of the region of the Southern Slavs that was conquered by the "
-"Ottomans after the collapse of the Byzantine Empire. During most of the 20th "
-"century it was part of the Yugoslav Federation."
+"Ottomans after the collapse of the Byzantine Empire.  During most of the "
+"20th century it was part of the Yugoslav Federation."
 msgstr ""
 "Serbien är en del av det sydslaviska område som erövrades av ottomanerna "
 "efter det bysantinska rikets sammanbrott. Under större delen av 1900-talet "
@@ -22565,6 +22693,9 @@ msgid ""
 "Slovakia is a country in the heart of Europe. Formerly part of "
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
 msgstr ""
+"Slovakien är ett land i hjärtat av Europa. Tidigare den ena av två nationer "
+"i förbundsrepubliken Tjeckoslovakien, samt innan dess en del av kejsardömet "
+"Österrike-Ungern."
 
 #: data/nation/slovakian.ruleset:27
 msgid "Qween"
@@ -22597,6 +22728,36 @@ msgid ""
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
 msgstr ""
+"Nybyggare från Nederländerna började bosätta sig i södra Afrika på 1600-"
+"talet. Flera krig mellan dessas ättlingar boerna, zulustammar och britter "
+"ledde till att Sydafrikanska unionen bildas år 1910 under brittiskt styre. "
+"Den sydafrikanska regeringen blev sedemera ökända för sin rasistiska "
+"apartheidpolitik. Slutligen år 1994 antogs en ickerasistisk grundlag som "
+"tillät fria och jämlika folkval, varvid den världsberömde aktivisten och f d "
+"politiske fången Nelson Mandela valdes till landets förste i sanning "
+"folkvalde president."
+
+#: data/nation/soviet.ruleset:3
+msgid "Soviet"
+msgstr "Sovjeter"
+
+#: data/nation/soviet.ruleset:4
+msgid "?plural:Soviets"
+msgstr "?plural:sovjeterna"
+
+#: data/nation/soviet.ruleset:6
+msgid ""
+"Soviet Union's history starts in November 1917, when under Lenin's "
+"leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet "
+"republics integrated into one country. Soviet Union became one of most "
+"powerful states in the 20th century. But by the end of 1991 due to many "
+"social shocks it disintegrated into fifteen independent countries"
+msgstr ""
+"Sovjetunionens historia börjar i november 1917, då det kommunistiska "
+"Bolsjevikpartiet grep makten efter det ryska tsardömets fall. I december "
+"1922 gick fyra sovjetrepubliker samman och bildade en gemensam stat, vilken "
+"kom att bli en av 1900-talets mäktigaste. Sedan 1991 har unionen fallit "
+"sönder i femton enskilda stater."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -22683,8 +22844,8 @@ msgid ""
 "the southern frontier with the Zulus."
 msgstr ""
 "Swazierna är ett bantufolk från södra Afrika. Under kung Mswati II styre "
-"(1820 - 1868) utökade de sitt territorium och stabiliserade sina gränser "
-"mot Zulufolket."
+"(1820 - 1868) utökade de sitt territorium och stabiliserade sina gränser mot "
+"Zulufolket."
 
 # DM> Ja, faktiska översättningar av dessa Swazititlar =)
 #: data/nation/swazi.ruleset:24
@@ -22713,6 +22874,13 @@ msgid ""
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
 msgstr ""
+"Konungariket Sverige hade på 1100-talet till stora delar kristnats och "
+"börjat framträda som en politisk enhet i regionen. Under storhetstiden på "
+"1600-talet var landet erkänt som en av Europas stormakter, mycket tack vare "
+"flertalet framgångsrika erövringståg av en rad krigarkungar. Dålig ekonomi "
+"på hemmaplan kombinerat med svåra militära bakslag - i synnerhet mot "
+"ärkefienden Ryssland - knäckte till slut Sverige som fick ge upp erövrat "
+"territorium. Landet har inte varit inblandat i en väpnad konflikt sedan 1814."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -22728,7 +22896,7 @@ msgid ""
 "years of history as a confederacy."
 msgstr ""
 "Schweiz är en förbundsstad bestående av 23 kantoner, varav vissa har en över "
-"700 år lång historia i förbund med varandra."
+"700 år lång historia av ömsesidigt förbund."
 
 #: data/nation/swiss.ruleset:24
 msgid "Bailiff"
@@ -22876,10 +23044,11 @@ msgid "?plural:Turks"
 msgstr "?plural:turkarna"
 
 #: data/nation/turk.ruleset:6
+#, fuzzy
 msgid ""
 "Modern Turkey is the successor state of the Ottoman Empire, which collapsed "
 "and was dismembered by the victors in World War I after backing the Central "
-"Powers. The country was subsequently reformed and secularized by Kemal "
+"Powers.  The country was subsequently reformed and secularized by Kemal "
 "Mustapha, the hero of the defense of Gallipoli."
 msgstr ""
 "Dagens turkiska stat är efterföljarstaten till det Ottomanska väldet som "
@@ -22926,6 +23095,12 @@ msgid ""
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
 msgstr ""
+"Uighurerna var ett östturkiskt folk och storvälde, vilket under sin "
+"storhetstid på 800-talet kontrollerade nästan hela central- och nordasien. "
+"Efter århundraden av konflikt med kineserna underkuvades de på 1700-talet "
+"slutligen av Qingdynastin. Uighurfolkets ättlingar är den turkiska "
+"befolkningen i flertalet centralasiatiska republiker, samt en betydande "
+"muslimsk minoritet i Kinas Xinjiangprovins."
 
 #: data/nation/venezuelan.ruleset:4
 msgid "Venezuela"
@@ -22945,6 +23120,9 @@ msgid ""
 "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
 "Liberator."
 msgstr ""
+"Venezuela är det nordligaste belägna landet i Sydamerika. Landet slog sig i "
+"juli 1811 fritt från spanskt kolonialstyre under Simón Bolivar \"Befriarens"
+"\" ledarskap."
 
 #: data/nation/venezuelan.ruleset:33
 msgid "Terrateniente"
@@ -22999,7 +23177,7 @@ msgid ""
 "driven into the mountainous western reaches by invading Saxons."
 msgstr ""
 "Wales är ett område dit keltiska stammar undanträngdes av de Angler, Saxare "
-"och Jutar som erövrade England."
+"och Jutar som invaderade de brittiska öarna."
 
 # DM> Det är iof vanligare att skriva "Westfaler"
 #: data/nation/westphalian.ruleset:3
@@ -23016,6 +23194,9 @@ msgid ""
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
+"Västfalen utgjorde den västra delen av hertigdömet Sachsen, innan det föll "
+"under preussiskt styre. Idag är den huvuddel av det tyska förbundslandet "
+"Nordrhein-Westfalen."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
@@ -23032,8 +23213,8 @@ msgid ""
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
 "Zuluerna är en krigisk bantustam som utvandrade från Västafrika till "
-"Sydafrika i början av 1700-talet. De underkuvade Khosiastammen och stred mot "
-"europeiska bosättare."
+"Sydafrika i början av 1700-talet. De underkuvade Khosiastammarna och stred "
+"mot europeiska bosättare."
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
@@ -23084,3 +23265,6 @@ msgstr "Nybörjarhandledning"
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
 msgstr "Handledning för nybörjare."
+
+#~ msgid "* Allows changing government to %s.\n"
+#~ msgstr "* Möjliggör byte av regeringsform till %s.\n"
