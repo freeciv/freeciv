@@ -692,31 +692,60 @@ static void put_line(SDL_Surface * pDest, Sint16 x0, Sint16 y0, Sint16 x1,
   int sx, sy;
   int swaptmp;
   register Uint8 *pPixel;
+  float m;
+  int n;
 
+  if (((x0 < 0) && (x1 < 0))
+     || ((y0 < 0) && (y1 < 0))
+     || ((x0 >= pDest->w) && (x1 >= pDest->w))
+     || ((y0 >= pDest->h) && (y1 >= pDest->h))) {
+    return;
+  }
+  
   /* correct x0, x1 position ( must be inside 'pDest' surface ) */
   if (x0 < 0) {
+    m = (y1 - y0) / (x1 - x0);
+    n = y1 - m * x1;
     x0 = 0;
+    y0 = n;                        /* y0 = m * x0 + n; */
   } else if (x0 > pDest->w - 1) {
+    m = (y1 - y0) / (x1 - x0);
+    n = y1 - m * x1;
     x0 = pDest->w - 1;
-  }
-
-  if (x1 < 0) {
+    y0 = m * x0 + n;
+  } else if (x1 < 0) {
+    m = (y1 - y0) / (x1 - x0);
+    n = y1 - m * x1;
     x1 = 0;
+    y1 = n;                        /* y1 = m * x1 + n; */
   } else if (x1 > pDest->w - 1) {
+    m = (y1 - y0) / (x1 - x0);
+    n = y1 - m * x1;
     x1 = pDest->w - 1;
+    y1 = m * x1 + n;
   }
 
   /* correct y0, y1 position ( must be inside 'pDest' surface ) */
   if (y0 < 0) {
+    m = (x1 - x0) / (y1 - y0);
+    n = x1 - m * y1;
     y0 = 0;
+    x0 = n;                        /* x0 = m * y0 + n; */
   } else if (y0 > pDest->h - 1) {
+    m = (x1 - x0) / (y1 - y0);
+    n = x1 - m * y1;
     y0 = pDest->h - 1;
-  }
-
-  if (y1 < 0) {
+    x0 = m * y0 + n;    
+  } else if (y1 < 0) {
+    m = (x1 - x0) / (y1 - y0);
+    n = x1 - m * y1;
     y1 = 0;
+    x1 = n;                        /* x1 = m * y1 + n; */
   } else if (y1 > pDest->h - 1) {
+    m = (x1 - x0) / (y1 - y0);
+    n = x1 - m * y1;
     y1 = pDest->h - 1;
+    x1 = m * y1 + n;
   }
 
   /* basic */
