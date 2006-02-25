@@ -5,7 +5,7 @@ plural=_("?plural:Aztecs")
 groups=_("Medieval"), _("American")
 legend=_("The Azteca, a Nahuatl speaking people from the Sonoran desert,\
  seized control of the Toltec-derived civilizations of Central Mexico\
- during the 15th century AD, reviving the practice of human sacrifice.\
+ during the 15th century AD, reviving the practice of human sacrifice. \
  They were conquered by the Spanish under Cortez in 1524.")
 leader=
  "Moctezuma II",

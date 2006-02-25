@@ -4,7 +4,7 @@ name=_("Serbian")
 plural=_("?plural:Serbians")
 groups=_("Modern"), _("Medieval"), _("European")
 legend=_("Serbia is part of the region of the Southern Slavs that was\
- conquered by the Ottomans after the collapse of the Byzantine Empire.\
+ conquered by the Ottomans after the collapse of the Byzantine Empire. \
  During most of the 20th century it was part of the Yugoslav Federation.")
 leader=
  "Vlastimir",
