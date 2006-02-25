@@ -152,46 +152,13 @@ static void do_unit(struct tile *ptile)
 ****************************************************************************/
 static void do_city(struct tile *ptile)
 {
-  struct packet_edit_city packet;
-  struct city *pcity = selected_city;
-  int i;
+  struct packet_edit_create_city packet = {
+    .owner = selected_city->owner->player_no,
+    .x = ptile->x,
+    .y = ptile->y
+  };
 
-  packet.owner = pcity->owner->player_no;
-  packet.x = ptile->x;
-  packet.y = ptile->y;
-
-  packet.size = pcity->size;
-  for (i = 0; i < NUM_TRADEROUTES; i++) {
-    packet.trade[i] = pcity->trade[i];
-  }
-
-  packet.food_stock = pcity->food_stock;
-  packet.shield_stock = pcity->shield_stock;
-
-  packet.turn_last_built = pcity->turn_last_built;
-  packet.turn_founded = pcity->turn_founded;
-  packet.changed_from_is_unit = pcity->changed_from.is_unit;
-  packet.changed_from_id = pcity->changed_from.value;
-  packet.before_change_shields = pcity->before_change_shields;
-  packet.disbanded_shields = pcity->disbanded_shields;
-  packet.caravan_shields = pcity->caravan_shields;
-  packet.last_turns_shield_surplus = pcity->last_turns_shield_surplus;
-
-  packet.diplomat_investigate = FALSE; /* FIXME: this overwrites the value! */
-
-  packet.airlift = pcity->airlift;
-  packet.did_buy = pcity->did_buy;
-  packet.did_sell = pcity->did_sell;
-  packet.was_happy = pcity->was_happy;
-
-  BV_CLR_ALL(packet.improvements);
-  impr_type_iterate(building) {
-    if (city_got_building(pcity, building)) {
-      BV_SET(packet.improvements, building);
-    }
-  } impr_type_iterate_end;
-
-  send_packet_edit_city(&aconnection, &packet);
+  send_packet_edit_create_city(&aconnection, &packet);
 }
 
 #if 0

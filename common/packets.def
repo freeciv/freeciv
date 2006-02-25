@@ -1383,26 +1383,9 @@ PACKET_EDIT_UNIT=126;cs,handle-per-conn,lsend
   # be controlled even by a privilidged client.
 end
 
-PACKET_EDIT_CITY=127;cs,handle-per-conn,lsend
+PACKET_EDIT_CREATE_CITY=127;cs,handle-per-conn
   PLAYER owner;
-  COORD x, y; key # cities are keyed by tile not by ID
-  UINT8 size;
-  UINT16 food_stock, shield_stock;
-  UINT16 trade[NUM_TRADEROUTES];
-  TURN turn_last_built;
-  UINT8 changed_from_id;
-  BOOL changed_from_is_unit;
-  UINT16 before_change_shields;
-  UINT16 disbanded_shields;
-  UINT16 caravan_shields;
-  UINT16 last_turns_shield_surplus;
-  BV_IMPRS improvements;
-  BOOL did_buy, did_sell, was_happy, airlift, diplomat_investigate;
-  TURN turn_founded;
-
-  # Other values of the city (worker placement, worklist, etc.) can be set
-  # directly through regular packets.  Some values are simply caches and
-  # cannot be controlled even by a privilidged client.
+  COORD x, y;
 end
 
 PACKET_EDIT_CITY_SIZE=130;cs,handle-per-conn,dsend

@@ -334,8 +334,11 @@ bool server_handle_packet(enum packet_type type, void *packet,
     handle_edit_unit(pconn, packet);
     return TRUE;
 
-  case PACKET_EDIT_CITY:
-    handle_edit_city(pconn, packet);
+  case PACKET_EDIT_CREATE_CITY:
+    handle_edit_create_city(pconn,
+      ((struct packet_edit_create_city *)packet)->owner,
+      ((struct packet_edit_create_city *)packet)->x,
+      ((struct packet_edit_create_city *)packet)->y);
     return TRUE;
 
   case PACKET_EDIT_CITY_SIZE:

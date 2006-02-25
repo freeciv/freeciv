@@ -53,9 +53,6 @@ enum unit_param {
 
 enum city_param {
   CPARAM_OWNER,
-  CPARAM_SIZE,
-  CPARAM_FOOD,
-  CPARAM_SHIELDS,
   CPARAM_LAST
 };
 
@@ -237,15 +234,6 @@ static void city_callback(GtkSpinButton *spinbutton, gpointer data)
   case CPARAM_OWNER:
     pcity->owner = get_player(gtk_spin_button_get_value_as_int(spinbutton));
     return;
-  case CPARAM_SIZE:
-    pcity->size = gtk_spin_button_get_value_as_int(spinbutton);
-    return;
-  case CPARAM_FOOD:
-    pcity->food_stock = gtk_spin_button_get_value_as_int(spinbutton);
-    return;
-  case CPARAM_SHIELDS:
-    pcity->shield_stock = gtk_spin_button_get_value_as_int(spinbutton);
-    return;
   case CPARAM_LAST:
     break;
   }
@@ -382,13 +370,9 @@ static GtkWidget *create_city_palette(void)
   int i;
   struct city *pcity = editor_get_selected_city();
 
-  const char *names[CPARAM_LAST] = { _("Owner"), _("Size"),
-				     _("Food"), _("Shields") };
+  const char *names[CPARAM_LAST] = { _("Owner"), };
   int inits[CPARAM_LAST][3] = {
     {pcity->owner->player_no, 0, game.info.nplayers - 1},
-    {pcity->size, 1, 63},
-    {pcity->food_stock, 0, 10000},
-    {pcity->shield_stock, 0, 10000},
   };
 
   vbox = gtk_vbox_new(FALSE, 5);

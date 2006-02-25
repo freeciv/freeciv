@@ -174,7 +174,43 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
 }
 
 /****************************************************************************
+  Allows the editing client to create a city and the given position.
+****************************************************************************/
+void handle_edit_create_city(struct connection *pc,
+			     int owner, int x, int y)
+{
+  struct tile *ptile = map_pos_to_tile(x, y);
+  struct city *pcity;
+  struct player *pplayer = get_player(owner);
+  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
+      || !pplayer || !ptile) {
+    return;
+  }
+
+  if (!city_can_be_built_here(ptile, NULL)) {
+    notify_conn(pc->self, ptile, E_BAD_COMMAND,
+		_("Cannot build city on this tile."));
+    return;
+  }
+
+  /* new city */
+  create_city(pplayer, ptile, city_name_suggestion(pplayer, ptile));
+  pcity = tile_get_city(ptile);
+
+  if (!pcity) {
+    notify_conn(pc->self, ptile, E_BAD_COMMAND,
+		_("Could not create city."));
+    return;
+  }
+}
+
+#if 0
+/****************************************************************************
   We do some checking of input but not enough.
+
+  This function is deprecated and should be replaced by individual edit
+  packets.  However this is incomplete so the code hasn't been cut out
+  yet.
 ****************************************************************************/
 void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
 {
@@ -260,6 +296,7 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
   /* send update back to client */
   send_city_info(NULL, pcity);  
 }
+#endif
 
 /****************************************************************************
   Allows the editor to change city size directly.

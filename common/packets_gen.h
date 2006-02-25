@@ -1059,28 +1059,10 @@ struct packet_edit_unit {
   int activity_count;
 };
 
-struct packet_edit_city {
+struct packet_edit_create_city {
+  int owner;
   int x;
   int y;
-  int owner;
-  int size;
-  int food_stock;
-  int shield_stock;
-  int trade[NUM_TRADEROUTES];
-  int turn_last_built;
-  int changed_from_id;
-  bool changed_from_is_unit;
-  int before_change_shields;
-  int disbanded_shields;
-  int caravan_shields;
-  int last_turns_shield_surplus;
-  bv_imprs improvements;
-  bool did_buy;
-  bool did_sell;
-  bool was_happy;
-  bool airlift;
-  bool diplomat_investigate;
-  int turn_founded;
 };
 
 struct packet_edit_city_size {
@@ -1243,7 +1225,7 @@ enum packet_type {
   PACKET_RULESET_RESOURCE,
   PACKET_EDIT_TILE,
   PACKET_EDIT_UNIT,
-  PACKET_EDIT_CITY,
+  PACKET_EDIT_CREATE_CITY,
   PACKET_EDIT_PLAYER,
   PACKET_EDIT_MODE,
   PACKET_EDIT_CITY_SIZE,                 /* 130 */
@@ -1737,9 +1719,8 @@ struct packet_edit_unit *receive_packet_edit_unit(struct connection *pc, enum pa
 int send_packet_edit_unit(struct connection *pc, const struct packet_edit_unit *packet);
 void lsend_packet_edit_unit(struct conn_list *dest, const struct packet_edit_unit *packet);
 
-struct packet_edit_city *receive_packet_edit_city(struct connection *pc, enum packet_type type);
-int send_packet_edit_city(struct connection *pc, const struct packet_edit_city *packet);
-void lsend_packet_edit_city(struct conn_list *dest, const struct packet_edit_city *packet);
+struct packet_edit_create_city *receive_packet_edit_create_city(struct connection *pc, enum packet_type type);
+int send_packet_edit_create_city(struct connection *pc, const struct packet_edit_create_city *packet);
 
 struct packet_edit_city_size *receive_packet_edit_city_size(struct connection *pc, enum packet_type type);
 int send_packet_edit_city_size(struct connection *pc, const struct packet_edit_city_size *packet);
