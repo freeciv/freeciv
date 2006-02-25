@@ -1576,9 +1576,8 @@ SDL_Surface * get_scaled_city_map(struct city *pCity)
 {
   SDL_Surface *pBuf = create_city_map(pCity);
   
-  if (pBuf->w > adj_size(192) || pBuf->h > adj_size(134))
-  {
-    city_map_zoom = (pBuf->w > adj_size(192) ?
+  if (pBuf->w > adj_size(192) || pBuf->h > adj_size(134)) {
+    city_map_zoom = ((pBuf->w > pBuf->h) ?
                        (float)adj_size(192) / adj_size(pBuf->w) 
                      : (float)adj_size(134) / adj_size(pBuf->h));
     
