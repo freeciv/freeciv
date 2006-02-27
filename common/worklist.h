@@ -18,7 +18,7 @@
 
 #include "fc_types.h"
 
-#define MAX_LEN_WORKLIST 16
+#define MAX_LEN_WORKLIST 64
 #define MAX_NUM_WORKLISTS 16
 
 /* a worklist */
