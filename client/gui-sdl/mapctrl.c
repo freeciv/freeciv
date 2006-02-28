@@ -498,6 +498,26 @@ static int togle_msg_window(struct GUI *pWidget)
   return -1;
 }
 
+int resize_minimap(void)
+{
+  int w = OVERVIEW_TILE_WIDTH * map.xsize;
+  int h = OVERVIEW_TILE_HEIGHT * map.ysize;
+  int current_w = pMiniMap_Window->size.w - BLOCKM_W - DOUBLE_FRAME_WH;
+  int current_h = pMiniMap_Window->size.h - DOUBLE_FRAME_WH;
+  
+  if ((((current_w > DEFAULT_MINI_MAP_W - BLOCKM_W - DOUBLE_FRAME_WH)
+   || (w > DEFAULT_MINI_MAP_W - BLOCKM_W - DOUBLE_FRAME_WH)) && (current_w != w)) ||
+    (((current_h > DEFAULT_MINI_MAP_H - DOUBLE_FRAME_WH)
+   || (h > DEFAULT_MINI_MAP_H - DOUBLE_FRAME_WH)) && (current_h != h))) {
+    Remake_MiniMap(w, h);
+  }
+  center_minimap_on_minimap_window();
+  refresh_overview();
+  update_menus();
+  
+  return 0;
+}
+
 #ifdef SCALE_MINIMAP
 /* ============================================================== */
 static int move_scale_minmap_dlg_callback(struct GUI *pWindow)
@@ -517,26 +537,6 @@ static int popdown_scale_minmap_dlg_callback(struct GUI *pWidget)
     }
   }
   return -1;
-}
-
-static int resize_minimap(void)
-{
-  int w = OVERVIEW_TILE_WIDTH * map.xsize;
-  int h = OVERVIEW_TILE_HEIGHT * map.ysize;
-  int current_w = pMiniMap_Window->size.w - BLOCKM_W - DOUBLE_FRAME_WH;
-  int current_h = pMiniMap_Window->size.h - DOUBLE_FRAME_WH;
-  
-  if ((((current_w > DEFAULT_MINI_MAP_W - BLOCKM_W - DOUBLE_FRAME_WH)
-   || (w > DEFAULT_MINI_MAP_W - BLOCKM_W - DOUBLE_FRAME_WH)) && (current_w != w)) ||
-    (((current_h > DEFAULT_MINI_MAP_H - DOUBLE_FRAME_WH)
-   || (h > DEFAULT_MINI_MAP_H - DOUBLE_FRAME_WH)) && (current_h != h))) {
-    Remake_MiniMap(w, h);
-  }
-  center_minimap_on_minimap_window();
-  refresh_overview();
-  update_menus();
-  
-  return 0;
 }
 
 static int up_width_callback(struct GUI *pWidget)
@@ -806,7 +806,7 @@ static int popdown_scale_unitinfo_dlg_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int resize_unit_info(void)
+int resize_unit_info(void)
 {
   int w = INFO_WIDTH * map.xsize;
   int h = INFO_HEIGHT * map.ysize;
@@ -1225,11 +1225,7 @@ void Remake_MiniMap(int w, int h)
   SDL_Surface *pSurf;
   struct GUI *pWidget = pMiniMap_Window;
     
-  if(w < DEFAULT_MINI_MAP_W - BLOCKM_W - DOUBLE_FRAME_WH) {
-    w = DEFAULT_MINI_MAP_W;
-  } else {
-    w += BLOCKM_W + DOUBLE_FRAME_WH;
-  }
+  w += BLOCKM_W + DOUBLE_FRAME_WH;
   
   if(h < DEFAULT_MINI_MAP_H - DOUBLE_FRAME_WH) {
     h = DEFAULT_MINI_MAP_H;

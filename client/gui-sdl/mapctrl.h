@@ -63,6 +63,8 @@ void Remake_MiniMap(int w, int h);
 void reset_main_widget_dest_buffer(void);
 void set_new_units_window_pos(void);
 void set_new_mini_map_window_pos(void);
+int resize_minimap(void);
+int resize_unit_info(void);
 struct GUI * get_unit_info_window_widget(void);
 struct GUI * get_minimap_window_widget(void);
 struct GUI * get_tax_rates_widget(void);

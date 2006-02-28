@@ -386,10 +386,9 @@ void overview_size_changed(void)
     canvas_free(overview_canvas);
   }      
   
-  overview_canvas = canvas_create(MINI_MAP_W - BLOCKM_W - DOUBLE_FRAME_WH,
-                                  MINI_MAP_H - DOUBLE_FRAME_WH);
+  overview_canvas = canvas_create(overview.width, overview.height);
   
-  center_minimap_on_minimap_window();  
+  resize_minimap();
 }
 
 /**************************************************************************
@@ -1069,9 +1068,11 @@ void update_city_descriptions(void)
 **************************************************************************/
 void center_minimap_on_minimap_window(void)
 {
-  /* FIXME: really center */
-  OVERVIEW_START_X = FRAME_WH;
-  OVERVIEW_START_Y = FRAME_WH;
+  int width, height;
+  get_overview_area_dimensions(&width, &height);
+
+  OVERVIEW_START_X = FRAME_WH + (width - overview.width)/2;
+  OVERVIEW_START_Y = FRAME_WH + (height - overview.height)/2;
 }
 
 /**************************************************************************
