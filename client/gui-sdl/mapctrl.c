@@ -218,7 +218,7 @@ static int toggle_unit_info_window_callback(struct GUI *pIcon_Widget)
   struct unit *pFocus = unit_list_get(get_units_in_focus(), 0);
   struct GUI *pBuf = pUnits_Info_Window;
 
-  SDL_BlitSurface(pTheme->UNITS_Icon, NULL, pIcon_Widget->theme, NULL);
+  SDL_BlitSurface(pTheme->MAP_Icon, NULL, pIcon_Widget->theme, NULL);
 
   if (pFocus) {
     undraw_order_widgets();
@@ -1534,9 +1534,9 @@ void Init_MapView(void)
   /* show/hide unit's window button */
 
   /* make UNITS Icon */
-  pIcon_theme = create_surf(pTheme->UNITS_Icon->w,
-			    pTheme->UNITS_Icon->h, SDL_SWSURFACE);
-  SDL_BlitSurface(pTheme->UNITS_Icon, NULL, pIcon_theme, NULL);
+  pIcon_theme = create_surf(pTheme->MAP_Icon->w,
+			    pTheme->MAP_Icon->h, SDL_SWSURFACE);
+  SDL_BlitSurface(pTheme->MAP_Icon, NULL, pIcon_theme, NULL);
   SDL_BlitSurface(pTheme->R_ARROW_Icon, NULL, pIcon_theme, NULL);
   SDL_SetColorKey(pIcon_theme, SDL_SRCCOLORKEY, 0x0);
 
