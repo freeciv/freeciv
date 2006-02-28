@@ -797,6 +797,57 @@ const char *get_unit_info_label_text2(struct unit_list *punits)
 }
 
 /****************************************************************************
+  Return text about upgrading these unit lists.
+
+  Returns TRUE iff any units can be upgraded.
+****************************************************************************/
+bool get_units_upgrade_info(char *buf, size_t bufsz,
+			    struct unit_list *punits)
+{
+  if (unit_list_size(punits) == 0) {
+    my_snprintf(buf, bufsz, _("No units to upgrade!"));
+    return FALSE;
+  } else if (unit_list_size(punits) == 1) {
+    return (get_unit_upgrade_info(buf, bufsz, unit_list_get(punits, 0))
+	    == UR_OK);
+  } else {
+    int upgrade_cost = 0;
+    int num_upgraded = 0;
+    int min_upgrade_cost = FC_INFINITY;
+
+    unit_list_iterate(punits, punit) {
+      if (punit->owner == game.player_ptr
+	  && test_unit_upgrade(punit, FALSE) == UR_OK) {
+	struct unit_type *from_unittype = punit->type;
+	struct unit_type *to_unittype = can_upgrade_unittype(game.player_ptr,
+							     punit->type);
+	int cost = unit_upgrade_price(punit->owner,
+					   from_unittype, to_unittype);
+
+	num_upgraded++;
+	upgrade_cost += cost;
+	min_upgrade_cost = MIN(min_upgrade_cost, cost);
+      }
+    } unit_list_iterate_end;
+    if (num_upgraded == 0) {
+      my_snprintf(buf, bufsz, _("None of these units may be upgraded."));
+      return FALSE;
+    } else {
+      /* This may trigger sometimes if you don't have enough money for
+       * a full upgrade.  If you have enough to upgrade at least one, it
+       * will do it. */
+      my_snprintf(buf, bufsz, PL_("Upgrade %d unit for %d gold?\n"
+				  "Treasury contains %d gold.", 
+				  "Upgrade %d units for %d gold?\n"
+				  "Treasury contains %d gold.",
+				  num_upgraded),
+		  num_upgraded, upgrade_cost, game.player_ptr->economic.gold);
+      return TRUE;
+    }
+  }
+}
+
+/****************************************************************************
   Get a tooltip text for the info panel research indicator.  See
   client_research_sprite().
 ****************************************************************************/

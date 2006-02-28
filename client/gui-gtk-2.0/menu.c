@@ -143,6 +143,7 @@ enum MenuID {
   MENU_ORDER_GOTO_CITY,
   MENU_ORDER_RETURN,
   MENU_ORDER_DISBAND,
+  MENU_ORDER_UPGRADE,
   MENU_ORDER_DIPLOMAT_DLG,
   MENU_ORDER_NUKE,
   MENU_ORDER_SELECT_SAME_TYPE,
@@ -526,6 +527,9 @@ static void orders_menu_callback(gpointer callback_data,
    case MENU_ORDER_DISBAND:
     key_unit_disband();
     break;
+  case MENU_ORDER_UPGRADE:
+    popup_upgrade_dialog(get_units_in_focus());
+    break;
    case MENU_ORDER_DIPLOMAT_DLG:
     key_unit_diplomat_actions();
     break;
@@ -885,6 +889,8 @@ static GtkItemFactoryEntry menu_items[]	=
 	NULL,			0,					"<Separator>"	},
   { "/" N_("Orders") "/" N_("Disband Unit"),		"<shift>d",
 	orders_menu_callback,	MENU_ORDER_DISBAND					},
+  { "/" N_("Orders") "/" N_("Upgrade unit"), "<ctrl>u",
+    orders_menu_callback, MENU_ORDER_UPGRADE },
   { "/" N_("Orders") "/" N_("Diplomat\\/Spy Actions"),	"d",
 	orders_menu_callback,	MENU_ORDER_DIPLOMAT_DLG					},
   { "/" N_("Orders") "/" N_("Explode Nuclear"),        "<shift>n",
@@ -1381,6 +1387,8 @@ void update_menus(void)
 			  can_units_do_activity(punits, ACTIVITY_PILLAGE));
       menus_set_sensitive("<main>/_Orders/_Disband Unit",
 			  units_have_flag(punits, F_UNDISBANDABLE, FALSE));
+      menus_set_sensitive("<main>/_Orders/_Upgrade unit",
+			  TRUE /* FIXME: what check should we do? */);
       menus_set_sensitive("<main>/_Orders/Make _Homecity",
 			  can_units_do(punits, can_unit_change_homecity));
       menus_set_sensitive("<main>/_Orders/_Unload Transporter",

@@ -2317,34 +2317,17 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit = player_find_unit_by_id(game.player_ptr,
 					      (size_t) data);
-  GtkWidget *shell;
-  char buf[512];
+  struct unit_list *punits;
 
   if (!punit) {
     return;
   }
 
-  if (get_unit_upgrade_info(buf, sizeof(buf), punit) != UR_OK) {
-    shell = gtk_message_dialog_new(NULL, 0,
-				   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, buf);
-    gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Unit!"));
-    setup_dialog(shell, toplevel);
-    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
-                    NULL);
-    gtk_window_present(GTK_WINDOW(shell));
-  } else {
-    shell = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
-				   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-				   buf);
-    gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
-    setup_dialog(shell, toplevel);
-    gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_YES);
-
-    if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-      request_unit_upgrade(punit);
-    }
-    gtk_widget_destroy(shell);
-  }
+  punits = unit_list_new();
+  unit_list_append(punits, punit);
+  popup_upgrade_dialog(punits);
+  unit_list_unlink_all(punits);
+  unit_list_free(punits);
 }
 
 /*** Callbacks for citizen bar, map funcs that are not update ***/
