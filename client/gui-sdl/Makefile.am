@@ -12,6 +12,7 @@ libguiclient_a_SOURCES = \
 	alphablit.c	\
 	canvas.c	\
 	canvas.h	\
+	caravan_dialog.c \
 	chatline.c	\
 	chatline.h	\
 	citydlg.c	\
