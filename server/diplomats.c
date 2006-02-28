@@ -1245,12 +1245,12 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
       break;
     case DIPLOMAT_STEAL:
       notify_player(offender, victim_tile, E_DIPLOMATIC_INCIDENT,
- 		       _("You have caused an incident while stealing "
- 			 "tech from %s."),
+ 		       _("You have caused an incident while attempting "
+ 			 "to steal tech from %s."),
  		       victim_player->name);
       notify_player(victim_player, victim_tile, E_DIPLOMATIC_INCIDENT,
-		       _("%s has caused an incident while stealing "
-			 "tech from you."),
+		       _("%s has caused an incident while attempting "
+ 			 "to steal tech from you."),
 		       offender->name);
       break;
     case DIPLOMAT_INCITE:
