@@ -1551,22 +1551,3 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     flush_dirty();
   }
 }
-
-/****************************************************************
-  Returns id of a diplomat currently handled in diplomat dialog
-*****************************************************************/
-int diplomat_handled_in_diplomat_dialog(void)
-{
-  /* PORTME */    
-  freelog(LOG_NORMAL, "PORT ME: diplomat_handled_in diplomat_dialog()");
-  return -1;  
-}
-
-/****************************************************************
-  Closes the diplomat dialog
-****************************************************************/
-void close_diplomat_dialog(void)
-{
-  /* PORTME */
-  freelog(LOG_NORMAL, "PORT ME: close_diplomat_dialog()");    
-}

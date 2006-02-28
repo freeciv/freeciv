@@ -82,7 +82,15 @@ do { 									 \
   pBuf->action = pCallback;						 \
 } while(0)
 
+struct diplomat_dialog {
+  int diplomat_id;
+  struct ADVANCED_DLG *pdialog;
+};
+
 struct player *races_player;
+
+static int caravan_city_id;
+static int caravan_unit_id;
 
 extern bool is_unit_move_blocked;
 
@@ -1640,9 +1648,9 @@ static int caravan_dlg_window_callback(struct GUI *pWindow)
 *****************************************************************/
 static int caravan_establish_trade_callback(struct GUI *pWidget)
 {
-  popdown_caravan_dialog();
-
   dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
+  
+  popdown_caravan_dialog();
   return -1;
 }
 
@@ -1652,9 +1660,9 @@ static int caravan_establish_trade_callback(struct GUI *pWidget)
 *****************************************************************/
 static int caravan_help_build_wonder_callback(struct GUI *pWidget)
 {
-  popdown_caravan_dialog();
-
   dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
+  
+  popdown_caravan_dialog();  
   return -1;
 }
 
@@ -1695,6 +1703,9 @@ void popup_caravan_dialog(struct unit *pUnit,
   if (pCaravan_Dlg) {
     return;
   }
+
+  caravan_unit_id=pUnit->id;
+  caravan_city_id=pDestcity->id;
   
   pCont = fc_calloc(1, sizeof(struct CONTAINER));
   pCont->id0 = pUnit->id;
@@ -1808,6 +1819,13 @@ void popup_caravan_dialog(struct unit *pUnit,
 **************************************************************************/
 bool caravan_dialog_is_open(int *unit_id, int *city_id)
 {
+  if (unit_id) {
+    *unit_id = caravan_unit_id;
+  }
+  if (city_id) {
+    *city_id = caravan_city_id;
+  }
+
   return pCaravan_Dlg != NULL;
 }
 
@@ -1822,14 +1840,15 @@ void caravan_dialog_update(void)
 /* ====================================================================== */
 /* ============================ DIPLOMAT DIALOG ========================= */
 /* ====================================================================== */
-static struct ADVANCED_DLG *pDiplomat_Dlg = NULL;
+static struct diplomat_dialog *pDiplomat_Dlg = NULL;
 
 /****************************************************************
 ...
 *****************************************************************/
 static int diplomat_dlg_window_callback(struct GUI *pWindow)
 {
-  return std_move_window_group_callback(pDiplomat_Dlg->pBeginWidgetList, pWindow);
+  return std_move_window_group_callback(pDiplomat_Dlg->pdialog->pBeginWidgetList,
+                                        pWindow);
 }
 
 /****************************************************************
@@ -1840,12 +1859,11 @@ static int diplomat_embassy_callback(struct GUI *pWidget)
   struct city *pCity = pWidget->data.city;
   int id = MAX_ID - pWidget->ID;
   
-  popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
     request_diplomat_action(DIPLOMAT_EMBASSY, id, pCity->id, 0);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  popdown_diplomat_dialog();  
   return -1;
 }
 
@@ -1858,12 +1876,12 @@ static int diplomat_investigate_callback(struct GUI *pWidget)
   int id = MAX_ID - pWidget->ID;
 
   lock_buffer(pWidget->dst);
-  popdown_diplomat_dialog();
+
   if(pCity && find_unit_by_id(id)) { 
     request_diplomat_action(DIPLOMAT_INVESTIGATE, id, pCity->id, 0);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  popdown_diplomat_dialog();
   return -1;
 }
 
@@ -1875,12 +1893,11 @@ static int spy_poison_callback( struct GUI *pWidget )
   struct city *pCity = pWidget->data.city;
   int id = MAX_ID - pWidget->ID;
 
-  popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
     request_diplomat_action(SPY_POISON, id, pCity->id, 0);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  popdown_diplomat_dialog();
   return -1;
 }
 
@@ -1909,25 +1926,24 @@ static int diplomat_sabotage_callback(struct GUI *pWidget)
   struct city *pCity = pWidget->data.city;
   int id = MAX_ID - pWidget->ID;
   
-  popdown_diplomat_dialog();
   if(pCity && find_unit_by_id(id)) { 
     request_diplomat_action(DIPLOMAT_SABOTAGE, id, pCity->id, -1);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  popdown_diplomat_dialog();
   return -1;
 }
 /* --------------------------------------------------------- */
 
 static int spy_steal_dlg_window_callback(struct GUI *pWindow)
 {
-  return std_move_window_group_callback(pDiplomat_Dlg->pBeginWidgetList, pWindow);
+  return std_move_window_group_callback(pDiplomat_Dlg->pdialog->pBeginWidgetList,
+                                        pWindow);
 }
 
 static int exit_spy_steal_dlg_callback(struct GUI *pWidget)
 {
   popdown_diplomat_dialog();
-  process_diplomat_arrival(NULL, 0);
   return -1;  
 }
 
@@ -1937,14 +1953,13 @@ static int spy_steal_callback(struct GUI *pWidget)
   int diplomat_target_id = pWidget->data.cont->id0;
   int diplomat_id = pWidget->data.cont->id1;
     
-  popdown_diplomat_dialog();
   if(find_unit_by_id(diplomat_id) && 
     find_city_by_id(diplomat_target_id)) { 
     request_diplomat_action(DIPLOMAT_STEAL, diplomat_id,
 			    diplomat_target_id, steal_advance);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  popdown_diplomat_dialog();
   return -1;
 }
 
@@ -2000,7 +2015,9 @@ static int spy_steal_popup(struct GUI *pWidget)
   pCont->id0 = pVcity->id;
   pCont->id1 = id;/* spy id */
   
-  pDiplomat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
+  pDiplomat_Dlg->diplomat_id = id;
+  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
   pStr = create_str16_from_char(_("Select Advance to Steal"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
@@ -2013,7 +2030,7 @@ static int spy_steal_popup(struct GUI *pWidget)
   w = MAX(0, pWindow->size.w + adj_size(8));
   
   add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
-  pDiplomat_Dlg->pEndWidgetList = pWindow;
+  pDiplomat_Dlg->pdialog->pEndWidgetList = pWindow;
   /* ------------------ */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
@@ -2097,9 +2114,9 @@ static int spy_steal_popup(struct GUI *pWidget)
   
   /* --------------------------------------------------------- */
   FREESTRING16(pStr);
-  pDiplomat_Dlg->pBeginWidgetList = pBuf;
-  pDiplomat_Dlg->pBeginActiveWidgetList = pBuf;
-  pDiplomat_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
+  pDiplomat_Dlg->pdialog->pBeginWidgetList = pBuf;
+  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
+  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pWindow->prev->prev;
   
   /* -------------------------------------------------------------- */
   
@@ -2107,9 +2124,9 @@ static int spy_steal_popup(struct GUI *pWidget)
   if (count > col) {
     count = (count + (col - 1)) / col;
     if (count > max_row) {
-      pDiplomat_Dlg->pActiveWidgetList = pWindow->prev->prev;
+      pDiplomat_Dlg->pdialog->pActiveWidgetList = pWindow->prev->prev;
       count = max_row;
-      i = create_vertical_scrollbar(pDiplomat_Dlg, col, count, TRUE, TRUE);  
+      i = create_vertical_scrollbar(pDiplomat_Dlg->pdialog, col, count, TRUE, TRUE);  
     }
   } else {
     count = 1;
@@ -2134,17 +2151,17 @@ static int spy_steal_popup(struct GUI *pWidget)
   
   setup_vertical_widgets_position(col, pWindow->size.x + FRAME_WH + 1,
 		  pWindow->size.y + WINDOW_TILE_HIGH + 1, 0, 0,
-		  pDiplomat_Dlg->pBeginActiveWidgetList,
-  		  pDiplomat_Dlg->pEndActiveWidgetList);
+		  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList,
+  		  pDiplomat_Dlg->pdialog->pEndActiveWidgetList);
     
-  if(pDiplomat_Dlg->pScroll) {
-    setup_vertical_scrollbar_area(pDiplomat_Dlg->pScroll,
+  if(pDiplomat_Dlg->pdialog->pScroll) {
+    setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
 	pWindow->size.x + pWindow->size.w - FRAME_WH,
     	pWindow->size.y + WINDOW_TILE_HIGH + 1,
     	pWindow->size.h - (FRAME_WH + WINDOW_TILE_HIGH + 1), TRUE);
   }
 
-  redraw_group(pDiplomat_Dlg->pBeginWidgetList, pWindow, FALSE);
+  redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, FALSE);
   sdl_dirty_rect(pWindow->size);
   
   return -1;
@@ -2158,13 +2175,11 @@ static int diplomat_steal_callback(struct GUI *pWidget)
   struct city *pCity = pWidget->data.city;
   int id = MAX_ID - pWidget->ID;
   
-  popdown_diplomat_dialog();
-  
   if(pCity && find_unit_by_id(id)) { 
-    request_diplomat_action(DIPLOMAT_STEAL, id, pCity->id, 0);
+    request_diplomat_action(DIPLOMAT_STEAL, id, pCity->id, A_UNSET);
   }
 
-  process_diplomat_arrival(NULL, 0);
+  popdown_diplomat_dialog();  
   return -1;
 }
 
@@ -2195,13 +2210,11 @@ static int diplomat_keep_moving_callback(struct GUI *pWidget)
   struct unit *pUnit = find_unit_by_id(MAX_ID - pWidget->ID);
   struct city *pCity = pWidget->data.city;
   
-  popdown_diplomat_dialog();
-  
   if(pUnit && pCity && !same_pos(pUnit->tile, pCity->tile)) {
     request_diplomat_action(DIPLOMAT_MOVE, pUnit->id, pCity->id, 0);
   }
-  process_diplomat_arrival(NULL, 0);
-  
+
+  popdown_diplomat_dialog();  
   return -1;
 }
 
@@ -2242,7 +2255,6 @@ static int spy_sabotage_unit_callback(struct GUI *pWidget)
 static int diplomat_close_callback(struct GUI *pWidget)
 {
   popdown_diplomat_dialog();
-  process_diplomat_arrival(NULL, 0);
   return -1;
 }
 
@@ -2254,9 +2266,10 @@ static void popdown_diplomat_dialog(void)
 {
   if (pDiplomat_Dlg) {
     is_unit_move_blocked = FALSE;
-    popdown_window_group_dialog(pDiplomat_Dlg->pBeginWidgetList,
-				pDiplomat_Dlg->pEndWidgetList);
-    FC_FREE(pDiplomat_Dlg->pScroll);
+    popdown_window_group_dialog(pDiplomat_Dlg->pdialog->pBeginWidgetList,
+				pDiplomat_Dlg->pdialog->pEndWidgetList);
+    FC_FREE(pDiplomat_Dlg->pdialog->pScroll);
+    FC_FREE(pDiplomat_Dlg->pdialog);
     FC_FREE(pDiplomat_Dlg);
     queue_flush();
   }
@@ -2283,7 +2296,9 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   pCity = tile_get_city(ptile);
   spy = unit_flag(pUnit, F_SPY);
   
-  pDiplomat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
+  pDiplomat_Dlg->diplomat_id = pUnit->id;
+  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
   h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
     
@@ -2312,7 +2327,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   w = MAX(w, pWindow->size.w + adj_size(8));
   
   add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pWindow);
-  pDiplomat_Dlg->pEndWidgetList = pWindow;
+  pDiplomat_Dlg->pdialog->pEndWidgetList = pWindow;
     
   /* ---------- */
   if((pCity))
@@ -2472,7 +2487,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   w = MAX(w , pBuf->size.w);
   h += pBuf->size.h;
   /* ---------- */
-  pDiplomat_Dlg->pBeginWidgetList = pBuf;
+  pDiplomat_Dlg->pdialog->pBeginWidgetList = pBuf;
   
   /* setup window size and start position */
   
@@ -2490,14 +2505,34 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   setup_vertical_widgets_position(1,
 	pWindow->size.x + FRAME_WH,
   	pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2), w, 0,
-	pDiplomat_Dlg->pBeginWidgetList, pBuf);
+	pDiplomat_Dlg->pdialog->pBeginWidgetList, pBuf);
   
   /* --------------------- */
   /* redraw */
-  redraw_group(pDiplomat_Dlg->pBeginWidgetList, pWindow, 0);
+  redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
   flush_rect(pWindow->size);
   
+}
+
+/****************************************************************
+  Returns id of a diplomat currently handled in diplomat dialog
+*****************************************************************/
+int diplomat_handled_in_diplomat_dialog(void)
+{
+  if (!pDiplomat_Dlg) {
+    return -1;
+  }
+
+  return pDiplomat_Dlg->diplomat_id;
+}
+
+/****************************************************************
+  Closes the diplomat dialog
+****************************************************************/
+void close_diplomat_dialog(void)
+{
+  popdown_diplomat_dialog();
 }
 
 /* ====================================================================== */
@@ -2524,7 +2559,6 @@ static int sabotage_impr_callback(struct GUI *pWidget)
 			    diplomat_target_id, sabotage_improvement + 1);
   }
 
-  process_diplomat_arrival(NULL, 0);
   return -1;
 }
 
@@ -2781,7 +2815,6 @@ static int diplomat_incite_yes_callback(struct GUI *pWidget)
 static int exit_incite_dlg_callback(struct GUI *pWidget)
 {
   popdown_incite_dialog();
-  process_diplomat_arrival(NULL, 0);
   return -1;
 }
 
