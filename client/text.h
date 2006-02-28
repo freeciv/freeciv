@@ -37,6 +37,8 @@ const char *get_nuclear_winter_tooltip(void);
 const char *get_government_tooltip(void);
 const char *get_unit_info_label_text1(struct unit_list *punits);
 const char *get_unit_info_label_text2(struct unit_list *punits);
+bool get_units_upgrade_info(char *buf, size_t bufsz,
+			    struct unit_list *punits);
 const char *get_spaceship_descr(struct player_spaceship *pship);
 const char *get_timeout_label_text(void);
 const char *format_duration(int duration);
