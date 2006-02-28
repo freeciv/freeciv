@@ -447,13 +447,23 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	pdest->diplstates[pgiver->player_no].max_state = 
           MAX(DS_PEACE, pdest->diplstates[pgiver->player_no].max_state);
 	notify_player(pgiver, NULL, E_TREATY_PEACE,
-			 _("You agree on an armistice with %s. In %d turns it will turn "
-         "into a peace treaty. Move your units out of %s's territory."),
-			 pdest->name, TURNS_LEFT, pdest->name);
+		      PL_("You agree on an armistice with %s. In %d turn "
+			  "it will turn into a peace treaty. Move your "
+			  "units out of %s's territory.",
+			  "You agree on an armistice with %s. In %d turns "
+			  "it will turn into a peace treaty. Move your "
+			  "units out of %s's territory.",
+			  TURNS_LEFT),
+		      pdest->name, TURNS_LEFT, pdest->name);
 	notify_player(pdest, NULL, E_TREATY_PEACE,
-			 _("You agree on an armistice with %s. In %d turns it will turn "
-         "into a peace treaty. Move your units out of %s's territory."),
-			 pgiver->name, TURNS_LEFT, pgiver->name);
+		      PL_("You agree on an armistice with %s. In %d turn "
+			  "it will turn into a peace treaty. Move your "
+			  "units out of %s's territory.",
+			  "You agree on an armistice with %s. In %d turns "
+			  "it will turn into a peace treaty. Move your "
+			  "units out of %s's territory.",
+			  TURNS_LEFT),
+		      pgiver->name, TURNS_LEFT, pgiver->name);
 	if (old_diplstate == DS_ALLIANCE) {
 	  update_players_after_alliance_breakup(pgiver, pdest);
 	}
