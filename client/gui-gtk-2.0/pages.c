@@ -54,7 +54,6 @@
 
 GtkWidget *start_message_area;
 
-static GtkTreeViewColumn *nation_col, *ready_col, *team_col;
 GtkTreeViewColumn *rating_col, *record_col;
 
 static GtkWidget *start_options_table;
@@ -1009,60 +1008,180 @@ void update_start_page(void)
   send_new_aifill_to_server = old;
 }
 
-static struct player *team_menu_player;
+static struct player *conn_menu_player;
+static struct connection *conn_menu_conn;
 
 /****************************************************************************
-  Callback for when a team is chosen from the team menu.
+  Callback for when a team is chosen from the conn menu.
 ****************************************************************************/
-static void team_menu_entry_chosen(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
 {
   struct team *pteam = data;
   char buf[1024];
 
-  if (pteam != team_menu_player->team) {
+  if (pteam != conn_menu_player->team) {
     my_snprintf(buf, sizeof(buf), "/team \"%s\" \"%s\"",
-		team_menu_player->name, team_get_name_orig(pteam));
+		conn_menu_player->name, team_get_name_orig(pteam));
     send_chat(buf);
   }
 }
 
 /****************************************************************************
-  Called when you click on a player's team; this function pops up a menu
+  Callback for when the "ready" entry is chosen from the conn menu.
+****************************************************************************/
+static void conn_menu_ready_chosen(GtkMenuItem *menuitem, gpointer data)
+{
+  struct player *pplayer = conn_menu_player;
+
+  dsend_packet_player_ready(&aconnection,
+			    pplayer->player_no, !pplayer->is_ready);
+}
+
+/****************************************************************************
+  Callback for when the pick-nation entry is chosen from the conn menu.
+****************************************************************************/
+static void conn_menu_nation_chosen(GtkMenuItem *menuitem, gpointer data)
+{
+  popup_races_dialog(conn_menu_player);
+}
+
+/****************************************************************************
+  Callback for when the "observe" entry is chosen from the conn menu.
+****************************************************************************/
+static void conn_menu_observe_chosen(GtkMenuItem *menuitem, gpointer data)
+{
+  char buf[1024];
+
+  my_snprintf(buf, sizeof(buf), "/observe \"%s\"",
+	      conn_menu_player->name);
+  send_chat(buf);
+}
+
+/**************************************************************************
+ Show details about a user in the Connected Users dialog in a popup.
+**************************************************************************/
+static void show_conn_popup(struct player *pplayer, struct connection *pconn)
+{
+  GtkWidget *popup;
+  char buf[1024] = "";
+
+  cat_snprintf(buf, sizeof(buf), _("Player name: %s"),
+	       pconn ? pconn->username : pplayer->name);
+  cat_snprintf(buf, sizeof(buf), "\n");
+  if (pconn) {
+    cat_snprintf(buf, sizeof(buf), _("Host: %s"), pconn->addr);
+  }
+  cat_snprintf(buf, sizeof(buf), "\n");
+
+  /* Show popup. */
+  popup = gtk_message_dialog_new(NULL, 0,
+				 GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, buf);
+  gtk_window_set_title(GTK_WINDOW(popup), _("Player/conn info"));
+  setup_dialog(popup, toplevel);
+  g_signal_connect(popup, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+  gtk_window_present(GTK_WINDOW(popup));
+}
+
+/****************************************************************************
+  Callback for when the "info" entry is chosen from the conn menu.
+****************************************************************************/
+static void conn_menu_info_chosen(GtkMenuItem *menuitem, gpointer data)
+{
+  show_conn_popup(conn_menu_player, conn_menu_conn);
+}
+
+/****************************************************************************
+  Called when you click on a player; this function pops up a menu
   to allow changing the team.
 ****************************************************************************/
-static GtkWidget *create_team_menu(struct player *pplayer)
+static GtkWidget *create_conn_menu(struct player *pplayer,
+				   struct connection *pconn)
 {
   GtkWidget *menu;
   GtkWidget *entry;
-  const int count = pplayer->team ? pplayer->team->players : 0;
-  bool need_empty_team = (count != 1);
-  int index;
+  char buf[128];
 
   menu = gtk_menu_new();
 
-  /* Can't use team_iterate here since it skips empty teams. */
-  for (index = 0; index < MAX_NUM_TEAMS; index++) {
-    struct team *pteam = team_get_by_id(index);
+  my_snprintf(buf, sizeof(buf), _("%s info"),
+	      pconn ? pconn->username : pplayer->name);
+  entry = gtk_menu_item_new_with_label(buf);
+  g_object_set_data_full(G_OBJECT(menu),
+			 "info", entry,
+			 (GtkDestroyNotify) gtk_widget_unref);
+  gtk_container_add(GTK_CONTAINER(menu), entry);
+  g_signal_connect(GTK_OBJECT(entry), "activate",
+		   GTK_SIGNAL_FUNC(conn_menu_info_chosen), NULL);
 
-    if (pteam->players == 0) {
-      if (!need_empty_team) {
-	continue;
-      }
-      need_empty_team = FALSE;
-    }
+  entry = gtk_menu_item_new_with_label(_("Toggle player ready"));
+  gtk_widget_set_sensitive(entry, pplayer && !pplayer->ai.control);
+  g_object_set_data_full(G_OBJECT(menu),
+			 "ready", entry,
+			 (GtkDestroyNotify) gtk_widget_unref);
+  gtk_container_add(GTK_CONTAINER(menu), entry);
+  g_signal_connect(GTK_OBJECT(entry), "activate",
+		   GTK_SIGNAL_FUNC(conn_menu_ready_chosen), NULL);
 
-    entry = gtk_menu_item_new_with_label(team_get_name(pteam));
+  entry = gtk_menu_item_new_with_label(_("Pick nation"));
+  gtk_widget_set_sensitive(entry,
+			   pplayer
+			   && can_conn_edit_players_nation(&aconnection,
+							   pplayer));
+  g_object_set_data_full(G_OBJECT(menu),
+			 "nation", entry,
+			 (GtkDestroyNotify) gtk_widget_unref);
+  gtk_container_add(GTK_CONTAINER(menu), entry);
+  g_signal_connect(GTK_OBJECT(entry), "activate",
+		   GTK_SIGNAL_FUNC(conn_menu_nation_chosen), NULL);
+
+  entry = gtk_menu_item_new_with_label(_("Observe this player"));
+  g_object_set_data_full(G_OBJECT(menu),
+			 "observe", entry,
+			 (GtkDestroyNotify) gtk_widget_unref);
+  gtk_container_add(GTK_CONTAINER(menu), entry);
+  g_signal_connect(GTK_OBJECT(entry), "activate",
+		   GTK_SIGNAL_FUNC(conn_menu_observe_chosen), NULL);
+
+  if (pplayer && game.info.is_new_game) {
+    const int count = pplayer->team ? pplayer->team->players : 0;
+    bool need_empty_team = (count != 1);
+    int index;
+
+    entry = gtk_separator_menu_item_new();
     g_object_set_data_full(G_OBJECT(menu),
-			   team_get_name_orig(pteam), entry,
+			   "sep1", entry,
 			   (GtkDestroyNotify) gtk_widget_unref);
-    gtk_widget_show(entry);
     gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-		     GTK_SIGNAL_FUNC(team_menu_entry_chosen),
-		     pteam);
+
+    /* Can't use team_iterate here since it skips empty teams. */
+    for (index = 0; index < MAX_NUM_TEAMS; index++) {
+      struct team *pteam = team_get_by_id(index);
+      char text[128];
+
+      if (pteam->players == 0) {
+	if (!need_empty_team) {
+	  continue;
+	}
+	need_empty_team = FALSE;
+      }
+
+      /* TRANS: e.g., "Put on Team 5" */
+      my_snprintf(text, sizeof(text), _("Put on %s"), team_get_name(pteam));
+      entry = gtk_menu_item_new_with_label(text);
+      g_object_set_data_full(G_OBJECT(menu),
+			     team_get_name_orig(pteam), entry,
+			     (GtkDestroyNotify) gtk_widget_unref);
+      gtk_container_add(GTK_CONTAINER(menu), entry);
+      g_signal_connect(GTK_OBJECT(entry), "activate",
+		       GTK_SIGNAL_FUNC(conn_menu_team_chosen),
+		       pteam);
+    }
   }
 
-  team_menu_player = pplayer;
+  conn_menu_player = pplayer;
+  conn_menu_conn = pconn;
+
+  gtk_widget_show_all(menu);
 
   return menu;
 }
@@ -1078,10 +1197,12 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   GtkTreeIter iter;
   GtkTreePath *path = NULL;
   GtkTreeViewColumn *column = NULL;
-  int player_no;
+  int player_no, conn_id;
   struct player *pplayer;
+  struct connection *pconn;
 
   if (event->type != GDK_BUTTON_PRESS
+      || event->button != 3
       || !gtk_tree_view_get_path_at_pos(tree,
 					event->x, event->y,
 					&path, &column, NULL, NULL)) {
@@ -1092,36 +1213,16 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   gtk_tree_path_free(path);
   gtk_tree_model_get(model, &iter, 0, &player_no, -1);
   pplayer = get_player(player_no);
+  gtk_tree_model_get(model, &iter, 8, &conn_id, -1);
+  pconn = find_conn_by_id(conn_id);
 
-  if (column == nation_col) {
-    if (!pplayer || !can_conn_edit_players_nation(&aconnection, pplayer)) {
-      return FALSE;
-    }
-
-    popup_races_dialog(pplayer);
-    return TRUE;
-  } else if (column == ready_col) {
-    gboolean is_ready;
-
-    if (!pplayer) {
-      return FALSE;
-    }
-
-    gtk_tree_model_get(model, &iter, 2, &is_ready, -1);
-    dsend_packet_player_ready(&aconnection, pplayer->player_no, !is_ready);
-    return TRUE;
-  } else if (column == team_col) {
-    if (pplayer && game.info.is_new_game) {
-      GtkWidget *menu = create_team_menu(pplayer);
-
-      gtk_menu_popup(GTK_MENU(menu), NULL, NULL, NULL, NULL,
-		     event->button, 0);
-      return TRUE;
-    }
-    return FALSE;
-  } else {
-    return show_conn_popup(widget, event, data);
-  }
+  gtk_menu_popup(GTK_MENU(create_conn_menu(pplayer, pconn)),
+		 NULL, NULL, NULL, NULL,
+		 event->button, 0);
+  return TRUE;
+#if 0
+  return show_conn_popup(widget, event, data);
+#endif
 }
 
 /**************************************************************************
@@ -1134,7 +1235,7 @@ GtkWidget *create_start_page(void)
   GtkWidget *view, *sw, *text, *entry, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
   GtkCellRenderer *rend;
-
+  GtkTreeViewColumn *col;
   int i;
 
   box = gtk_vbox_new(FALSE, 8);
@@ -1223,11 +1324,12 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_tree_store_new(8, G_TYPE_INT,
+  conn_model = gtk_tree_store_new(9, G_TYPE_INT,
 				  G_TYPE_STRING, G_TYPE_BOOLEAN,
 				  G_TYPE_STRING, G_TYPE_STRING,
 				  G_TYPE_STRING, G_TYPE_STRING,
-				  G_TYPE_STRING);
+				  G_TYPE_STRING,
+				  G_TYPE_INT);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
   g_object_unref(conn_model);
@@ -1251,10 +1353,10 @@ GtkWidget *create_start_page(void)
 
   /* FIXME: should change to always be minimum-width. */
   rend = gtk_cell_renderer_toggle_new();
-  ready_col = gtk_tree_view_column_new_with_attributes(_("Ready"),
+  col = gtk_tree_view_column_new_with_attributes(_("Ready"),
 						       rend,
 						       "active", 2, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), ready_col, -1);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
 
   rend = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
@@ -1262,16 +1364,16 @@ GtkWidget *create_start_page(void)
 					      "text", 3, NULL);
 
   rend = gtk_cell_renderer_text_new();
-  nation_col = gtk_tree_view_column_new_with_attributes(_("Nation"),
+  col = gtk_tree_view_column_new_with_attributes(_("Nation"),
 							rend,
 							"text", 4, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), nation_col, -1);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
 
   rend = gtk_cell_renderer_text_new();
-  team_col = gtk_tree_view_column_new_with_attributes(_("Team"),
+  col = gtk_tree_view_column_new_with_attributes(_("Team"),
 						      rend,
 						      "text", 5, NULL);
-  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), team_col, -1);
+  gtk_tree_view_insert_column(GTK_TREE_VIEW(view), col, -1);
 
   g_signal_connect(view, "button-press-event",
 		   G_CALLBACK(playerlist_event), NULL);
