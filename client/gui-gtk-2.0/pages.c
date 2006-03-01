@@ -54,7 +54,6 @@
 
 GtkWidget *start_message_area;
 
-GtkListStore *conn_model;
 static GtkTreeViewColumn *nation_col, *ready_col, *team_col;
 GtkTreeViewColumn *rating_col, *record_col;
 
@@ -1224,7 +1223,7 @@ GtkWidget *create_start_page(void)
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
 
-  conn_model = gtk_list_store_new(8, G_TYPE_INT,
+  conn_model = gtk_tree_store_new(8, G_TYPE_INT,
 				  G_TYPE_STRING, G_TYPE_BOOLEAN,
 				  G_TYPE_STRING, G_TYPE_STRING,
 				  G_TYPE_STRING, G_TYPE_STRING,
@@ -1233,6 +1232,7 @@ GtkWidget *create_start_page(void)
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(conn_model));
   g_object_unref(conn_model);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
+  gtk_tree_view_expand_all(GTK_TREE_VIEW(view));
 
   rend = gtk_cell_renderer_text_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),

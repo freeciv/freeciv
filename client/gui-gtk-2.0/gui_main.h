@@ -71,6 +71,7 @@ extern GtkWidget *	toplevel_tabs;
 extern GtkWidget *	top_notebook;
 extern GtkWidget *	bottom_notebook;
 extern GtkTextBuffer *	message_buffer;
+extern GtkTreeStore *conn_model;
 
 void enable_menus(bool enable);
 
