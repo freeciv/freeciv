@@ -89,6 +89,7 @@ pkgdata_DATA = \
 		newzealand.ruleset \
 		nigerian.ruleset \
 		norwegian.ruleset \
+		ottoman.ruleset \
 		papuan.ruleset \
 		persian.ruleset \
 		phoenician.ruleset \
