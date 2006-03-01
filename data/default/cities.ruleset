@@ -126,8 +126,8 @@ replaced_by = "Renaissance"
 
 [citystyle_renaissance]
 name        = _("Renaissance")
-graphic     = "city.industrial"
-graphic_alt = "-"
+graphic     = "city.renaissance"
+graphic_alt = "city.industrial"
 citizens_graphic     = "renaissance"
 citizens_graphic_alt = "generic"
 reqs = { "type", "name", "range"
