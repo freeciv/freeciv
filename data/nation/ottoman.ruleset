@@ -1,0 +1,141 @@
+[nation_ottoman]
+
+name=_("Ottoman")
+plural=_("?plural:Ottomans")
+groups=_("Medieval"), _("Asian"), _("European")
+legend=_("In the beginning of the 14th century Osman, a leader of a\
+ minor Turkic tribe in western Anatolia, conquered all his neigboring\
+ tribes. A century later the Byzantine capital fell to\
+ Turkic rule which gave the Ottoman empire access to Europe. The\
+ Ottomans subsequently conquered large parts of south-eastern\
+ Europe, the Islamic Arab world as well as\
+ Egypt and much of north Africa, making it a regional superpower
+ until its dissolution in the aftermath of WWI.")
+leader=
+ "Fatih sultan Mehmed",
+ "Yavuz sultan Selim",
+ "Osman Gâzi",
+ "Orhan Gâzi",
+ "Kânûnî sultan Süleyman"
+leader_sex="Male", "Male", "Male", "Male", "Male"
+flag ="ottoman"
+flag_alt = "turkey"
+city_style = "Classical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Bey"),          _("Bey")
+                 "Monarchy",        _("Hakan"),        _("Hakan")
+		 "Republic",	    _("Padisah"),      _("Padisah")
+		 "Democracy",	    _("Imparator"),    _("Imparator")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+conflicts_with="turk"
+civilwar_nations="arab", "armenian", "hellenic"
+
+; Cities from all over the empire
+cities =
+ "Söğüt",
+ "Bilecik",
+ "Çorum",
+ "Içeriçumra",
+ "Yekbas",
+ "Konya",
+ "Maraş",
+ "Evren Köyü",
+ "Ankara",
+ "Mekke",
+ "Medine",
+ "Kostantiniye",
+ "Edirne",
+ "Kirklareli",
+ "Adana",
+ "Tekirdag",
+ "Izmir",
+ "Antalya",
+ "Sam",
+ "Cidde",
+ "Mekke",
+ "Kahire",
+ "Riyad",
+ "Sana",
+ "Trabzon",
+ "Yozgat",
+ "Kirikkale",
+ "Çorum",
+ "Çankiri",
+ "Çanakkale",
+ "Malatya",
+ "Bolu",
+ "Çumra",
+ "Bartin",
+ "Gazipasa",
+ "Alanya",
+ "Artvin",
+ "Kars",
+ "Zeytinburnu",
+ "Eregli",
+ "Gaziantep",
+ "Sanliurfa",
+ "Diyarbakir",
+ "Erzurum",
+ "Erzincan",
+ "Bayburt",
+ "Hakkari",
+ "Siirt",
+ "Bakü",
+ "Alma-ata",
+ "Sirnak",
+ "Güneysinir",
+ "Kâzimkarabekir",
+ "Mut",
+ "Silifke",
+ "Posof",
+ "Ardahan",
+ "Kasinhani",
+ "Sille",
+ "Zonguldak",
+ "Kastamonu",
+ "Kibris",
+ "Lefkosa",
+ "Gazimagusa",
+ "Halep",
+ "Bagdat",
+ "Cizre",
+ "Sofya",
+ "Selanik",
+ "Atina",
+ "Saraybosna",
+ "Bukareste",
+ "Budapeste",
+ "Lüleburgaz",
+ "Selçuklu",
+ "Karatay",
+ "Meram",
+ "Denizli",
+ "Mugla",
+ "Pamukkale",
+ "Mersin",
+ "Tarsus",
+ "Seyhan",
+ "Ceyhan",
+ "Beysehir",
+ "Seydisehir",
+ "Sinop",
+ "Aksehir",
+ "Sarkikaraagaç",
+ "Egridir",
+ "Osmaniye",
+ "Bursa",
+ "Bingöl",
+ "Kayseri",
+ "Elazig",
+ "Igdir",
+ "Erdemli",
+ "Melikgazi",
+ "Aktas",
+ "Kuzayca"

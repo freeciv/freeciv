@@ -104,6 +104,7 @@ sprites =
 		"f.nigeria", "flags/nigeria"
 		"f.norway", "flags/norway"
 		"f.observer", "flags/observer"
+ 		"f.ottoman", "flags/ottoman"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.pakistan", "flags/pakistan"
 		"f.palmyra", "flags/palmyra"

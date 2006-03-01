@@ -138,6 +138,7 @@ match=0
 *include "nation/newzealand.ruleset"
 *include "nation/nigerian.ruleset"
 *include "nation/norwegian.ruleset"
+*include "nation/ottoman.ruleset"
 *include "nation/papuan.ruleset"
 *include "nation/persian.ruleset"
 *include "nation/phoenician.ruleset"
