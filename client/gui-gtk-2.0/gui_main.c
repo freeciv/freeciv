@@ -120,7 +120,7 @@ GtkWidget *main_frame_civ_name;
 GtkWidget *main_label_info;
 
 GtkWidget *avbox, *ahbox, *vbox, *conn_box;
-GtkListStore *conn_model;       
+GtkTreeStore *conn_model;
 GtkWidget* scroll_panel;
 
 GtkWidget *econ_label[10];
@@ -1362,7 +1362,7 @@ void ui_exit()
 **************************************************************************/
 void update_conn_list_dialog(void)
 {
-  GtkTreeIter it;
+  GtkTreeIter it[game.info.nplayers];
 
   if (game.player_ptr) {
     char *text;
@@ -1399,7 +1399,7 @@ void update_conn_list_dialog(void)
     char name[MAX_LEN_NAME + 4], rating_text[128], record_text[128];
     int rating, wins, losses, ties, forfeits;
 
-    gtk_list_store_clear(conn_model);
+    gtk_tree_store_clear(conn_model);
     players_iterate(pplayer) {
       enum cmdlevel_id access_level = ALLOW_NONE;
 
@@ -1462,8 +1462,8 @@ void update_conn_list_dialog(void)
 	}
       }
 
-      gtk_list_store_append(conn_model, &it);
-      gtk_list_store_set(conn_model, &it,
+      gtk_tree_store_append(conn_model, &it[pplayer->player_no], NULL);
+      gtk_tree_store_set(conn_model, &it[pplayer->player_no],
 			 0, pplayer->player_no,
 			 1, name,
 			 2, is_ready,
@@ -1475,17 +1475,20 @@ void update_conn_list_dialog(void)
 			 -1);
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
+      GtkTreeIter conn_it, *parent;
+
       if (pconn->player && !pconn->observer) {
 	continue; /* Already listed above. */
       }
       sz_strlcpy(name, pconn->username);
-      is_ready = FALSE;
+      is_ready = TRUE;
       nation = "";
       leader = "";
-      team = "";
+      team = pconn->observer ? _("Observer") : _("Detached");
+      parent = pconn->player ? &it[pconn->player->player_no] : NULL;
 
-      gtk_list_store_append(conn_model, &it);
-      gtk_list_store_set(conn_model, &it,
+      gtk_tree_store_append(conn_model, &conn_it, parent);
+      gtk_tree_store_set(conn_model, &conn_it,
 			 0, -1,
 			 1, name,
 			 2, is_ready,
