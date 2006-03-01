@@ -220,7 +220,6 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
 					    gpointer data);
 static gint timer_callback(gpointer data);
-gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data);
 static gboolean quit_dialog_callback(void);
 
 
@@ -1402,6 +1401,7 @@ void update_conn_list_dialog(void)
     gtk_tree_store_clear(conn_model);
     players_iterate(pplayer) {
       enum cmdlevel_id access_level = ALLOW_NONE;
+      int conn_id = -1;
 
       conn_list_iterate(pplayer->connections, pconn) {
         access_level = MAX(pconn->access_level, access_level);
@@ -1462,6 +1462,13 @@ void update_conn_list_dialog(void)
 	}
       }
 
+      conn_list_iterate(game.est_connections, pconn) {
+	if (pconn->player == pplayer && !pconn->observer) {
+	  assert(conn_id == -1);
+	  conn_id = pconn->id;
+	}
+      } conn_list_iterate_end;
+
       gtk_tree_store_append(conn_model, &it[pplayer->player_no], NULL);
       gtk_tree_store_set(conn_model, &it[pplayer->player_no],
 			 0, pplayer->player_no,
@@ -1472,6 +1479,7 @@ void update_conn_list_dialog(void)
 			 5, team,
 			 6, record_text,
 			 7, rating_text,
+			 8, conn_id,
 			 -1);
     } players_iterate_end;
     conn_list_iterate(game.est_connections, pconn) {
@@ -1495,71 +1503,10 @@ void update_conn_list_dialog(void)
 			 3, leader,
 			 4, nation,
 			 5, team,
+			 8, pconn->id,
 			 -1);
     } conn_list_iterate_end;
   }
-}
-
-/**************************************************************************
- Show details about a user in the Connected Users dialog in a popup.
-**************************************************************************/
-gboolean show_conn_popup(GtkWidget *view, GdkEventButton *ev, gpointer data)
-{
-  GtkTreePath *path;
-  GtkTreeIter it;
-  GtkWidget *popup, *table, *label;
-  gchar *name;
-  struct connection *pconn;
-
-  /* Get the current selection in the Connected Users list */
-  if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(view),
-				     ev->x, ev->y, &path, NULL, NULL, NULL)) {
-    return FALSE;
-  }
-
-  gtk_tree_model_get_iter(GTK_TREE_MODEL(conn_model), &it, path);
-  gtk_tree_path_free(path);
-
-  gtk_tree_model_get(GTK_TREE_MODEL(conn_model), &it, 1, &name, -1);
-  pconn = find_conn_by_user(name);
-
-  if (!pconn) {
-    return FALSE;
-  }
-
-  /* Show popup. */
-  popup = gtk_window_new(GTK_WINDOW_POPUP);
-  gtk_widget_set_app_paintable(popup, TRUE);
-  gtk_container_set_border_width(GTK_CONTAINER(popup), 4);
-  gtk_window_set_position(GTK_WINDOW(popup), GTK_WIN_POS_MOUSE);
-
-  table = gtk_table_new(2, 2, FALSE);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 6);
-  gtk_container_add(GTK_CONTAINER(popup), table);
-
-  label = gtk_label_new(_("Name:"));
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
-  label = gtk_label_new(pconn->username);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 0, 1);
-
-  label = gtk_label_new(_("Host:"));
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 1, 2);
-  label = gtk_label_new(pconn->addr);
-  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 1, 2, 1, 2);
-
-  gtk_widget_show_all(table);
-  gtk_widget_show(popup);
-
-  gdk_pointer_grab(popup->window, TRUE, GDK_BUTTON_RELEASE_MASK,
-		   NULL, NULL, ev->time);
-  gtk_grab_add(popup);
-  g_signal_connect_after(popup, "button_release_event",
-			 G_CALLBACK(show_info_button_release), NULL);
-  return FALSE;
 }
 
 /**************************************************************************
