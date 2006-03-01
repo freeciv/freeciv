@@ -62,6 +62,7 @@ bool ai_manual_turn_done = TRUE;
 bool auto_center_on_unit = TRUE;
 bool auto_center_on_combat = FALSE;
 bool wakeup_focus = TRUE;
+bool goto_into_unknown = TRUE;
 bool center_when_popup_city = TRUE;
 bool concise_city_production = FALSE;
 bool auto_turn_done = FALSE;
@@ -103,6 +104,7 @@ static client_option common_options[] = {
   GEN_BOOL_OPTION(auto_center_on_unit,      N_("Auto Center on Units")),
   GEN_BOOL_OPTION(auto_center_on_combat,    N_("Auto Center on Combat")),
   GEN_BOOL_OPTION(wakeup_focus,             N_("Focus on Awakened Units")),
+  GEN_BOOL_OPTION(goto_into_unknown, N_("Allow goto into the unknown")),
   GEN_BOOL_OPTION(center_when_popup_city,   N_("Center map when Popup city")),
   GEN_BOOL_OPTION(concise_city_production,  N_("Concise City Production")),
   GEN_BOOL_OPTION(auto_turn_done,           N_("End Turn when done moving")),

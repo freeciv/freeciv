@@ -349,10 +349,11 @@ static enum tile_behavior get_TB_aggr(const struct tile *ptile,
                                       struct pf_parameter *param)
 {
   if (known == TILE_UNKNOWN) {
-    return TB_IGNORE;
-  }
-  if (is_non_allied_unit_tile(ptile, param->owner)
-      || is_non_allied_city_tile(ptile, param->owner)) {
+    if (!goto_into_unknown) {
+      return TB_IGNORE;
+    }
+  } else if (is_non_allied_unit_tile(ptile, param->owner)
+	     || is_non_allied_city_tile(ptile, param->owner)) {
     /* Can attack but can't count on going through */
     return TB_DONT_LEAVE;
   }
@@ -368,7 +369,9 @@ static enum tile_behavior get_TB_caravan(const struct tile *ptile,
 					 struct pf_parameter *param)
 {
   if (known == TILE_UNKNOWN) {
-    return TB_IGNORE;
+    if (!goto_into_unknown) {
+      return TB_IGNORE;
+    }
   } else if (is_non_allied_city_tile(ptile, param->owner)) {
     /* F_TRADE_ROUTE units can travel to, but not through, enemy cities.
      * FIXME: F_HELP_WONDER units cannot.  */
@@ -630,6 +633,22 @@ static int get_connect_irrig(const struct tile *src_tile,
 }
 
 /********************************************************************** 
+  PF callback to prohibit going into the unknown (conditionally).  Also
+  makes sure we don't plan to attack anyone.
+***********************************************************************/
+static enum tile_behavior no_fights_or_unknown_goto(const struct tile *ptile,
+						    enum known_type known,
+						    struct pf_parameter *p)
+{
+  if (known == TILE_UNKNOWN && goto_into_unknown) {
+    /* Special case allowing goto into the unknown. */
+    return TB_NORMAL;
+  }
+
+  return no_fights_or_unknown(ptile, known, p);
+}
+
+/********************************************************************** 
   Fill the PF parameter with the correct client-goto values.
 ***********************************************************************/
 static void fill_client_goto_parameter(struct unit *punit,
@@ -671,7 +690,7 @@ static void fill_client_goto_parameter(struct unit *punit,
 	     || unit_flag(punit, F_HELP_WONDER)) {
     parameter->get_TB = get_TB_caravan;
   } else {
-    parameter->get_TB = no_fights_or_unknown;
+    parameter->get_TB = no_fights_or_unknown_goto;
   }
 
   /* Note that in connect mode the "time" does not correspond to any actual

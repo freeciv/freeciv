@@ -42,9 +42,12 @@
  *   path: a list of steps which leads from the start to the end
  *
  *   move cost (MC): move cost of a _single_ step.  MC is always >= 0. 
- *   Note that the MC of a step is taken to be 0 if the target is
- *   unknown.  The idea is that the user can set the unknown move cost
- *   via EC callback.
+ *     [The parameter can specify what the MC of a step into the unknown is
+ *      to be (this is a constant for each map).  This defaults to a
+ *      slightly large value meaning unknown tiles are avoided slightly.
+ *      It's also possible to use 0 here and use TB or EC to control
+ *      movement through unknown tiles, or to use PF_IMPOSSIBLE_MC to
+ *      easily avoid unknown tiles.]
  *
  *   extra cost (EC): extra cost of a _single_ tile.  EC is always >= 0.
  *   The intended meaning for EC is "how much we want to avoid this tile",
@@ -215,8 +218,8 @@
  * path_finding_tools or a mix of these.
  *
  * Hints:
- * 1. Since MC into unknown is 0, it is useful to limit the expansion of 
- * unknown tiles with a get_TB callback.
+ * 1. It is useful to limit the expansion of unknown tiles with a get_TB
+ * callback.  In this case you might set the unknown_MC to be 0.
  * 2. If there are two paths of the same cost to a tile (x,y), you are
  * not guaranteed to get the one with the least steps in it.  If you care,
  * specifying EC to be 1 will do the job.
@@ -311,6 +314,7 @@ struct pf_parameter {
    * implementation of the callback. */
   int (*get_MC) (const struct tile *from_tile, enum direction8 dir,
 		 const struct tile *to_tile, struct pf_parameter * param);
+  int unknown_MC; /* Move cost into unknown - very large by default */
 
   /* Callback which determines the behavior of a tile. If NULL
    * TB_NORMAL is assumed. It can be assumed that the implementation

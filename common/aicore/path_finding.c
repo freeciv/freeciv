@@ -27,9 +27,6 @@
 
 /* For explanations on how to use this module, see path_finding.h */
 
-/* Default move cost into the unknown (see path_finding.h) */
-#define MOVE_COST_UNKNOWN 0
-
 #define INITIAL_QUEUE_SIZE 100
 
 /* Since speed is quite important to us and alloccation of large arrays is
@@ -360,14 +357,17 @@ bool pf_next(struct pf_map *pf_map)
 
       /* Evaluate the cost of the move */
       if (node1->node_known_type == TILE_UNKNOWN) {
-	cost = MOVE_COST_UNKNOWN;
+	cost = pf_map->params->unknown_MC;
       } else {
 	cost = pf_map->params->get_MC(pf_map->tile, dir, tile1,
 				      pf_map->params);
-	if (cost == PF_IMPOSSIBLE_MC) {
-	  continue;
-	}
-	cost = adjust_cost(pf_map, cost);
+      }
+      if (cost == PF_IMPOSSIBLE_MC) {
+	continue;
+      }
+      cost = adjust_cost(pf_map, cost);
+      if (cost == PF_IMPOSSIBLE_MC) {
+	continue;
       }
 
       /* Total cost at xy1.  Cost may be negative; see get_turn(). */
@@ -909,17 +909,20 @@ static bool danger_iterate_map(struct pf_map *pf_map)
 
       /* Evaluate the cost of the move */
       if (node1->node_known_type == TILE_UNKNOWN) {
-	cost = MOVE_COST_UNKNOWN;
+	cost = pf_map->params->unknown_MC;
       } else {
 	cost = pf_map->params->get_MC(pf_map->tile, dir, tile1,
 				      pf_map->params);
-        cost = danger_adjust_cost(pf_map, cost, d_node1->is_dangerous,
-                                  get_moves_left(pf_map, loc_cost));
-        
-	if (cost == PF_IMPOSSIBLE_MC) {
-          /* This move is deemed impossible */
-	  continue;
-	}
+      }
+      if (cost == PF_IMPOSSIBLE_MC) {
+	continue;
+      }
+      cost = danger_adjust_cost(pf_map, cost, d_node1->is_dangerous,
+				get_moves_left(pf_map, loc_cost));
+
+      if (cost == PF_IMPOSSIBLE_MC) {
+	/* This move is deemed impossible */
+	continue;
       }
 
       /* Total cost at xy1 */
