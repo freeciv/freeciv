@@ -162,11 +162,11 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 
 char *end_of_strn(char *str, int *nleft);
 int cat_snprintf(char *str, size_t n, const char *format, ...)
-     fc__attribute((format (printf, 3, 4)));
+     fc__attribute((__format__ (__printf__, 3, 4)));
 
 #define die(...) real_die(__FILE__, __LINE__, __VA_ARGS__)
 void real_die(const char *file, int line, const char *format, ...)
-      fc__attribute((format (printf, 3, 4)));
+      fc__attribute((__format__ (__printf__, 3, 4)));
 
 /**************************************************************************
 ...

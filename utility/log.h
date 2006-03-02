@@ -58,7 +58,7 @@ void log_set_level(int level);
 void log_set_callback(log_callback_fn callback);
 
 void real_freelog(int level, const char *message, ...)
-                  fc__attribute((format (printf, 2, 3)));
+                  fc__attribute((__format__ (__printf__, 2, 3)));
 void vreal_freelog(int level, const char *message, va_list ap);
 
 

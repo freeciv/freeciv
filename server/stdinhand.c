@@ -417,7 +417,7 @@ static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
 static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
 			     enum rfc_status rfc_status, const char *prefix,
 			     const char *format, ...)
-     fc__attribute((format (printf, 5, 6)));
+     fc__attribute((__format__ (__printf__, 5, 6)));
 static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
 			     enum rfc_status rfc_status, const char *prefix,
 			     const char *format, ...)
@@ -433,7 +433,7 @@ static void cmd_reply_prefix(enum command_id cmd, struct connection *caller,
 **************************************************************************/
 static void cmd_reply(enum command_id cmd, struct connection *caller,
 		      enum rfc_status rfc_status, const char *format, ...)
-     fc__attribute((format (printf, 4, 5)));
+     fc__attribute((__format__ (__printf__, 4, 5)));
 static void cmd_reply(enum command_id cmd, struct connection *caller,
 		      enum rfc_status rfc_status, const char *format, ...)
 {
