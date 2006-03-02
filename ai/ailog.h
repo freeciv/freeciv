@@ -32,11 +32,11 @@ struct ai_data;
 
 void PLAYER_LOG(int level, struct player *pplayer, struct ai_data *ai,
                 const char *msg, ...)
-     fc__attribute((format (printf, 4, 5)));
+     fc__attribute((__format__ (__printf__, 4, 5)));
 void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
-     fc__attribute((format (printf, 3, 4)));
+     fc__attribute((__format__ (__printf__, 3, 4)));
 void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
-     fc__attribute((format (printf, 3, 4)));
+     fc__attribute((__format__ (__printf__, 3, 4)));
 void BODYGUARD_LOG(int level, struct unit *punit, const char *msg);
 
 #endif  /* FC__AILOG_H */

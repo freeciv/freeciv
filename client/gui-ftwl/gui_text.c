@@ -50,10 +50,10 @@
 
 static void real_add_line(char **buffer, size_t * buffer_size,
 			  const char *format, ...)
-fc__attribute((format(printf, 3, 4)));
+fc__attribute((__format__(__printf__, 3, 4)));
 static void real_add(char **buffer, size_t * buffer_size,
 		     const char *format, ...)
-fc__attribute((format(printf, 3, 4)));
+fc__attribute((__format__(__printf__, 3, 4)));
 
 #define add_line(...) real_add_line(&out,&out_size, __VA_ARGS__)
 #define add(...) real_add(&out,&out_size, __VA_ARGS__)
