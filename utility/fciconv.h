@@ -36,7 +36,7 @@ char *local_to_internal_string_buffer(const char *text,
 
 #define fc_printf(...) fc_fprintf(stdout, __VA_ARGS__)
 void fc_fprintf(FILE *stream, const char *format, ...)
-      fc__attribute((format (printf, 2, 3)));
+      fc__attribute((__format__ (__printf__, 2, 3)));
 
 char *convert_string(const char *text,
 		     const char *from,

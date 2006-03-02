@@ -100,7 +100,7 @@ void handle_event(char *message, struct tile *ptile,
 		  enum event_type event, int conn_id);
 void create_event(struct tile *ptile, enum event_type event,
 		  const char *format, ...)
-     fc__attribute((format (printf, 3, 4)));
+     fc__attribute((__format__ (__printf__, 3, 4)));
 void write_chatline_content(const char *txt);
 
 void reports_freeze(void);

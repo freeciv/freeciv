@@ -51,10 +51,10 @@ bool are_worklists_equal(const struct worklist *wlist1,
  * the same for saving and loading). */
 void worklist_load(struct section_file *file, struct worklist *pwl,
 		   const char *path, ...)
-  fc__attribute((format (printf, 3, 4)));
+  fc__attribute((__format__ (__printf__, 3, 4)));
 void worklist_save(struct section_file *file, struct worklist *pwl,
 		   const char *path, ...)
-  fc__attribute((format (printf, 3, 4)));
+  fc__attribute((__format__ (__printf__, 3, 4)));
 
 /* Iterate over all entries in the worklist. */
 #define worklist_iterate(worklist, prod)				    \

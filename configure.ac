@@ -345,6 +345,18 @@ else
   AC_DEFINE_UNQUOTED(LOCALEDIR, "$LOCALEDIR", [Locale directory])
 fi  
 
+dnl Check libUTF8
+AC_ARG_WITH(libutf8,
+            AC_HELP_STRING([--with-libutf8],
+               [Use the libutf8 library (needed for some systems)]),
+            [with_libutf8=$withval], [with_libutf8=no])
+if test "$MINGW32" = yes || test "$with_libutf8" = yes; then
+  AC_CHECK_HEADER(libutf8.h, [],
+                  AC_MSG_ERROR([Could not find libutf8 library (libutf8.h)]))
+  AC_DEFINE(HAVE_LIBUTF8_H, 1, [Use libutf8's stdio functions])
+  LIBS="$LIBS -lutf8"
+fi
+
 dnl Check for zlib (needed for libpng)
 AC_CHECK_LIB(z, gzgets, , 
   AC_MSG_ERROR([Could not find zlib library.]), )

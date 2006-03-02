@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,9 @@
 
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
+#endif
+#ifdef HAVE_LIBUTF8_H
+#include <libutf8.h>
 #endif
 
 #ifdef TRUE
@@ -84,7 +87,7 @@ size_t mystrlcat(char *dest, const char *src, size_t n);
 #define sz_strlcat(dest,src) ((void)mystrlcat((dest),(src),sizeof(dest)))
 
 int my_snprintf(char *str, size_t n, const char *format, ...)
-     fc__attribute((format (printf, 3, 4)));
+     fc__attribute((__format__ (__printf__, 3, 4)));
 
 int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
 

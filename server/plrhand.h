@@ -50,23 +50,23 @@ void send_player_info_c(struct player *src, struct conn_list *dest);
 
 void notify_conn(struct conn_list *dest, struct tile *ptile,
 		 enum event_type event, const char *format, ...)
-                 fc__attribute((format (printf, 4, 5)));
+                 fc__attribute((__format__ (__printf__, 4, 5)));
 void vnotify_conn(struct conn_list *dest, struct tile *ptile,
 		  enum event_type event, const char *format,
 		  va_list vargs);
 void notify_player(const struct player *pplayer, struct tile *ptile,
 		   enum event_type event, const char *format, ...)
-                   fc__attribute((format (printf, 4, 5)));
+                   fc__attribute((__format__ (__printf__, 4, 5)));
 void notify_embassies(struct player *pplayer, struct player *exclude,
 		      struct tile *ptile, enum event_type event,
 		      const char *format, ...)
-		      fc__attribute((format (printf, 5, 6)));
+		      fc__attribute((__format__ (__printf__, 5, 6)));
 void notify_team(struct player* pplayer, struct tile *ptile,
                  enum event_type event, const char *format, ...)
-                 fc__attribute((format (printf, 4, 5)));
+                 fc__attribute((__format__ (__printf__, 4, 5)));
 void notify_research(struct player *pplayer,
 		     enum event_type event, const char *format, ...)
-                     fc__attribute((format (printf, 3, 4)));
+                     fc__attribute((__format__ (__printf__, 3, 4)));
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 

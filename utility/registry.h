@@ -47,68 +47,68 @@ const char *secfile_filename(const struct section_file *file);
 
 void secfile_insert_int(struct section_file *my_section_file, 
 			int val, const char *path, ...)
-                        fc__attribute((format (printf, 3, 4)));
+                        fc__attribute((__format__ (__printf__, 3, 4)));
 void secfile_insert_int_comment(struct section_file *my_section_file,
 				int val, const char *const comment, 
 				const char *path, ...)
-                                fc__attribute((format(printf, 4, 5)));
+                                fc__attribute((__format__(__printf__, 4, 5)));
 void secfile_insert_bool(struct section_file *my_section_file,
 			 bool val, const char *path, ...)
-                         fc__attribute((format(printf, 3, 4)));
+                         fc__attribute((__format__(__printf__, 3, 4)));
 
 void secfile_insert_str(struct section_file *my_section_file, 
 			const char *sval, const char *path, ...)
-                        fc__attribute((format (printf, 3, 4)));
+                        fc__attribute((__format__ (__printf__, 3, 4)));
 void secfile_insert_str_comment(struct section_file *my_section_file,
 				char *sval, const char *const comment,
 				const char *path, ...)
-                                fc__attribute((format (printf, 4, 5)));
+                                fc__attribute((__format__ (__printf__, 4, 5)));
 void secfile_insert_str_vec(struct section_file *my_section_file, 
 			    const char **values, int dim,
 			    const char *path, ...)
-                            fc__attribute((format (printf, 4, 5)));
+                            fc__attribute((__format__ (__printf__, 4, 5)));
 
 bool section_file_lookup(struct section_file *my_section_file, 
 			const char *path, ...)
-                        fc__attribute((format (printf, 2, 3)));
+                        fc__attribute((__format__ (__printf__, 2, 3)));
 
 int secfile_lookup_int(struct section_file *my_section_file, 
 		       const char *path, ...)
-                       fc__attribute((format (printf, 2, 3)));
+                       fc__attribute((__format__ (__printf__, 2, 3)));
 
 bool secfile_lookup_bool(struct section_file *my_section_file, 
 		        const char *path, ...)
-                        fc__attribute((format (printf, 2, 3)));
+                        fc__attribute((__format__ (__printf__, 2, 3)));
 		       
 char *secfile_lookup_str(struct section_file *my_section_file, 
 			 const char *path, ...)
-                         fc__attribute((format (printf, 2, 3)));
+                         fc__attribute((__format__ (__printf__, 2, 3)));
 
 char *secfile_lookup_str_int(struct section_file *my_section_file, 
 			     int *ival, const char *path, ...)
-                             fc__attribute((format (printf, 3, 4)));
+                             fc__attribute((__format__ (__printf__, 3, 4)));
 
 int secfile_lookup_int_default(struct section_file *my_section_file,
                                int def, const char *path, ...)
-                               fc__attribute((format (printf, 3, 4)));
+                               fc__attribute((__format__ (__printf__, 3, 4)));
 
 bool secfile_lookup_bool_default(struct section_file *my_section_file,
 				 bool def, const char *path, ...)
-                                 fc__attribute((format (printf, 3, 4)));
+                                 fc__attribute((__format__ (__printf__, 3, 4)));
 
 char *secfile_lookup_str_default(struct section_file *my_section_file, 
 				 const char *def, const char *path, ...)
-                                 fc__attribute((format (printf, 3, 4)));
+                                 fc__attribute((__format__ (__printf__, 3, 4)));
 
 int secfile_lookup_vec_dimen(struct section_file *my_section_file, 
 			     const char *path, ...)
-                             fc__attribute((format (printf, 2, 3)));
+                             fc__attribute((__format__ (__printf__, 2, 3)));
 int *secfile_lookup_int_vec(struct section_file *my_section_file,
 			    int *dimen, const char *path, ...)
-                            fc__attribute((format (printf, 3, 4)));
+                            fc__attribute((__format__ (__printf__, 3, 4)));
 char **secfile_lookup_str_vec(struct section_file *my_section_file,
 			      int *dimen, const char *path, ...)
-                              fc__attribute((format (printf, 3, 4)));
+                              fc__attribute((__format__ (__printf__, 3, 4)));
 
 char **secfile_get_secnames_prefix(struct section_file *my_section_file,
 				   const char *prefix, int *num);

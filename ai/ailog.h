@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -73,14 +73,14 @@ enum ai_timer_activity  {
 
 void TECH_LOG(int level, const struct player *pplayer, Tech_type_id id,
               const char *msg, ...)
-     fc__attribute((format (printf, 4, 5)));
+     fc__attribute((__format__ (__printf__, 4, 5)));
 void DIPLO_LOG(int level, const struct player *pplayer,
 	       const struct player *aplayer, const char *msg, ...)
-     fc__attribute((format (printf, 4, 5)));
+     fc__attribute((__format__ (__printf__, 4, 5)));
 void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
-     fc__attribute((format (printf, 3, 4)));
+     fc__attribute((__format__ (__printf__, 3, 4)));
 void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
-     fc__attribute((format (printf, 3, 4)));
+     fc__attribute((__format__ (__printf__, 3, 4)));
 void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg);
 void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity);
 void TIMING_RESULTS(void);
