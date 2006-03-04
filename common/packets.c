@@ -348,13 +348,13 @@ void *get_packet_from_connection(struct connection *pc,
   }
 #endif
 
-  if (whole_packet_len > pc->buffer->ndata) {
+  if ((unsigned)whole_packet_len > pc->buffer->ndata) {
     return NULL;		/* not all data has been read */
   }
 
 #ifdef USE_COMPRESSION
   if (compressed_packet) {
-    int compressed_size = whole_packet_len - header_size;
+    uLong compressed_size = whole_packet_len - header_size;
     /* 
      * We don't know the decompressed size. We assume a bad case
      * here: an expansion by an factor of 100. 
@@ -406,7 +406,7 @@ void *get_packet_from_connection(struct connection *pc,
 
     buffer->ndata += decompressed_size;
     
-    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: decompressed %d into %ld",
+    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: decompressed %ld into %ld",
 	    compressed_size, decompressed_size);
 
     return get_packet_from_connection(pc, ptype, presult);
