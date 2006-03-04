@@ -115,6 +115,10 @@ void handle_diplomacy_accept_treaty(int counterpart, bool I_accepted,
 				    bool other_accepted)
 {
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
+
+  if (!pdialog) {
+    return;
+  }
   
   pdialog->treaty.accept0 = I_accepted;
   pdialog->treaty.accept1 = other_accepted;
@@ -1115,6 +1119,14 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
 void handle_diplomacy_init_meeting(int counterpart, int initiated_from)
 {
   struct diplomacy_dialog *pdialog;
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
+  if (game.player_ptr->ai.control) {
+    return;			/* Don't show if we are AI controlled. */
+  }
 
   if (!(pdialog = get_diplomacy_dialog(counterpart))) {
     pdialog = create_diplomacy_dialog(game.player_ptr,
