@@ -6,9 +6,9 @@
 # Jag inledde en omfattande uppdatering av översättningen i oktober 2005 för
 # att komplettera den inför version 2.0.7 av spelet. Det ledde till att jag 
 # fortsatte och tog hand om mycket av det som saknades i utvecklingsversionen
-# som den såg ut i november månad -05. För att underlätta för flera översättare
-# att jobba med Eriks suveräna skapelse, har jag infört följande små 
-# konventioner (inspirerad av den tyska översättningen):
+# som den såg ut i november månad -05. För att underlätta för flera
+# översättare att jobba med Eriks suveräna skapelse, har jag infört följande
+# små konventioner (inspirerad av den tyska översättningen):
 #
 # Strängar jag har omtolkat eller gjort betydande ändringar av markeras med
 # mina initialer i en kommentar: <# DM>
@@ -31,9 +31,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv 2.0.99-devel\n"
+"Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-25 16:34+0900\n"
+"POT-Creation-Date: 2006-03-04 23:10+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: Swedish <freeciv@home.se>\n"
@@ -161,7 +161,7 @@ msgstr "?attitude:Dyrkande"
 
 #: common/player.c:665
 msgid "?diplomatic_state:Armistice"
-msgstr "?diplomatic_state:vapenstillestånd"
+msgstr "?diplomatic_state:vapenvila"
 
 #: common/player.c:666
 msgid "?diplomatic_state:War"
@@ -171,7 +171,7 @@ msgstr "?diplomatic_state:krig"
 #: client/gui-mui/diplodlg.c:633 client/gui-win32/diplodlg.c:307
 #: client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
-msgstr "?diplomatic_state:eldupphör"
+msgstr "?diplomatic_state:vapenstillestånd"
 
 #: common/player.c:668 client/gui-gtk-2.0/diplodlg.c:366
 #: client/gui-mui/diplodlg.c:637 client/gui-win32/diplodlg.c:308
@@ -282,7 +282,7 @@ msgstr "Väg"
 msgid "Mine"
 msgstr "Gruva"
 
-#: common/unit.c:546 client/gui-gtk-2.0/menu.c:776
+#: common/unit.c:546 client/gui-gtk-2.0/menu.c:780
 #: client/gui-mui/gui_main.c:240 client/gui-win32/menu.c:343
 #: client/gui-xaw/menu.c:151 manual/civmanual.c:224
 msgid "Irrigation"
@@ -311,7 +311,7 @@ msgstr "Vakta"
 msgid "Railroad"
 msgstr "Järnväg"
 
-#: common/unit.c:558 client/gui-gtk-2.0/menu.c:829
+#: common/unit.c:558 client/gui-gtk-2.0/menu.c:833
 #: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1682
 #: client/gui-win32/menu.c:369 client/gui-xaw/menu.c:185
 msgid "Pillage"
@@ -666,7 +666,8 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
-"*%s (datorstyrd)* Jag vill se att du kan hålla vårt eldupphör först, %s."
+"*%s (datorstyrd)* Jag vill se att du kan hålla vårt vapenstillestånd först, %"
+"s."
 
 #: ai/advdiplomacy.c:326
 #, c-format
@@ -718,8 +719,8 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
-"*%s (datorstyrd)* Var hälsad %s! Får vi lov att föreslå ett eldupphör medan "
-"vi lär känna varandra bättre?"
+"*%s (datorstyrd)* Var hälsad %s! Får vi lov att föreslå ett vapenstillestånd "
+"medan vi lär känna varandra bättre?"
 
 #: ai/advdiplomacy.c:1076
 #, c-format
@@ -1027,7 +1028,7 @@ msgstr "%d guld krävs och vi ha bara %d guld."
 msgid "You have bought this turn, can't change."
 msgstr "Ändring ej tillåten efter köp samma omgång."
 
-#: server/cityhand.c:387 client/text.c:1084 client/text.c:1121
+#: server/cityhand.c:387 client/text.c:1135 client/text.c:1172
 #: client/gui-mui/citydlg.c:2042 client/gui-win32/citydlg.c:1262
 #, c-format
 msgid "%s"
@@ -1578,7 +1579,7 @@ msgstr "  -v, --verison\t\tSkriv versionsnumret\n"
 msgid "  -z, --zone\t\tEnable GGZ mode\n"
 msgstr "  -z, --zone\t\tAktivera GGZ-läge\n"
 
-#: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:263
+#: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:262
 #: client/gui-mui/gui_main.c:119 client/gui-xaw/gui_main.c:245
 #: manual/civmanual.c:374
 #, c-format
@@ -2529,44 +2530,50 @@ msgstr "Vi gåvo staden %s till %s."
 #: server/diplhand.c:429 server/diplhand.c:432
 #, c-format
 msgid "You agree on a cease-fire with %s."
-msgstr "Vi kommo överens om eldupphör med %s."
+msgstr "Vi kommo överens om vapenstillestånd med %s."
 
-#: server/diplhand.c:450 server/diplhand.c:454
+#: server/diplhand.c:450 server/diplhand.c:459
 #, c-format
 msgid ""
+"You agree on an armistice with %s. In %d turn it will turn into a peace "
+"treaty. Move your units out of %s's territory."
+msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
-msgstr ""
-"Vi kommo överens om vapenstillestånd med %s. Om %d omgångar övergår det i "
-"ett fredsavtal. Flytta snarast ut dina trupper ur %ss land."
+msgstr[0] ""
+"Vi kommo överens om vapenvila med %s. Om %d omgång övergår det i ett "
+"fredsavtal. Flytta snarast ut dina trupper ur %ss land."
+msgstr[1] ""
+"Vi kommo överens om vapenvila med %s. Om %d omgångar övergår det i ett "
+"fredsavtal. Flytta snarast ut dina trupper ur %ss land."
 
-#: server/diplhand.c:471 server/diplhand.c:474
+#: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
 msgid "You agree on an alliance with %s."
 msgstr "Vi kommo överens om ett förbund med %s."
 
-#: server/diplhand.c:483
+#: server/diplhand.c:493
 #, c-format
 msgid "You give shared vision to %s."
 msgstr "Vi ge delad anblick till %s."
 
-#: server/diplhand.c:486
+#: server/diplhand.c:496
 #, c-format
 msgid "%s gives you shared vision."
 msgstr "%s ge oss delad anblick."
 
-#: server/diplhand.c:624
+#: server/diplhand.c:634
 #, c-format
 msgid "%s canceled the meeting!"
 msgstr "%s avbröt mötet!"
 
 # DM> Utvecklade prosan en smula
-#: server/diplhand.c:631
+#: server/diplhand.c:641
 #, c-format
 msgid "Meeting with %s canceled."
 msgstr "Mötet med %s ledde ej till någon överenskommelse."
 
-#: server/diplhand.c:673
+#: server/diplhand.c:683
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "Vårt diplomatiska ombud avrättades!"
 
@@ -2849,12 +2856,12 @@ msgstr "%s ha orsakat en incident vid mutandet av vår %s."
 
 #: server/diplomats.c:1248
 #, c-format
-msgid "You have caused an incident while stealing tech from %s."
+msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "Vi ha orsakat en incident vid stjälandet av teknologi från %s."
 
 #: server/diplomats.c:1252
 #, c-format
-msgid "%s has caused an incident while stealing tech from you."
+msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s ha orsakat en incident vid stjälandet av teknologi från oss."
 
 #: server/diplomats.c:1258
@@ -2939,7 +2946,7 @@ msgstr "Global uppvärmning har inträffat!"
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr "Kuster har översvämmats och stora ytor gräsland har blivit öken."
+msgstr "Kuster har översvämmats och stora ytor ängsmark har blivit öken."
 
 #: server/maphand.c:297
 msgid "Nuclear winter has occurred!"
@@ -2947,7 +2954,7 @@ msgstr "Vi har drabbats av atomvinter!"
 
 #: server/maphand.c:299
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr "Sumpmarker ha uttorkats och stora ytor gräsland ha blivit tundra."
+msgstr "Sumpmarker ha uttorkats och stora ytor ängsmark ha blivit tundra."
 
 #: server/maphand.c:320
 msgid ""
@@ -3280,9 +3287,10 @@ msgstr "skrattretande"
 msgid "Worthless"
 msgstr "värdelösa"
 
+# DM> tidigare "löjliga"
 #: server/report.c:149
 msgid "Pathetic"
-msgstr "löjliga"
+msgstr "patetiska"
 
 #: server/report.c:150
 msgid "Useless"
@@ -3297,10 +3305,11 @@ msgstr "%2d: De %s %s\n"
 msgid "Historian Publishes!"
 msgstr "Historikern publicerar!"
 
+# %2$s (%1$s) är bättre men jag får error
 #: server/report.c:267
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
-msgstr "%2d: %s-folkets stad %s med storlek %d, "
+msgstr "%2d: (%s) Staden %s med storlek %d, "
 
 #: server/report.c:273
 msgid "with no wonders\n"
@@ -3315,7 +3324,7 @@ msgstr[1] "med %d underverk\n"
 
 #: server/report.c:279 server/report.c:323
 msgid "Traveler's Report:"
-msgstr "En reseskildring:"
+msgstr "En reseskildring"
 
 #: server/report.c:280
 msgid "The Five Greatest Cities in the World!"
@@ -3393,7 +3402,7 @@ msgstr ""
 
 #: server/report.c:735 server/report.c:758
 msgid "Demographics Report:"
-msgstr "Demografi:"
+msgstr "Demografi"
 
 #: server/report.c:736
 msgid "Sorry, the Demographics report is unavailable."
@@ -3652,7 +3661,7 @@ msgstr "Internt"
 msgid "Networking"
 msgstr "Nätverk"
 
-#: server/settings.c:41 client/gui-gtk-2.0/dialogs.c:730
+#: server/settings.c:41 client/gui-gtk-2.0/dialogs.c:731
 #: client/gui-win32/dialogs.c:536
 msgid "All"
 msgstr "Alla"
@@ -4929,7 +4938,7 @@ msgstr "Vårt rymdskepp har redan det största möjliga antalet solpanelsmoduler
 #: server/spacerace.c:351
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
-msgstr "Utan vägledning från huvudstaden är %s-folkets rymdskepp förlorat!"
+msgstr "Utan vägledning från huvudstaden är rymdskeppet förlorat (%s)!"
 
 #: server/srv_main.c:220
 msgid "Game ended in a draw as end year exceeded"
@@ -4938,7 +4947,7 @@ msgstr "Spelet slutade oavgjort efter slutåret."
 #: server/srv_main.c:254
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
-msgstr "%s-folkets rymdskepp har anlänt vid Alfa Kentauri."
+msgstr "Ett rymdskepp har anlänt vid Alfa Kentauri (%s)."
 
 #: server/srv_main.c:267 server/srv_main.c:300
 #, c-format
@@ -4966,12 +4975,14 @@ msgstr "Vår %s enhet %s upplöstes i enlighet med vårt fredsavtal med %s."
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
-"Bekymrade medborgare påpekar att eldupphöret med %s kommer att löpa ut snart."
+"Bekymrade medborgare påpekar att vapenstilleståndet med %s kommer att löpa "
+"ut snart."
 
 #: server/srv_main.c:486
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr "Eldupphöret med %s har upphört. Vi befinner oss nu i krig med %s."
+msgstr ""
+"Vapenstilleståndet med %s har upphört. Vi befinner oss nu i krig med %s."
 
 #: server/srv_main.c:822
 #, c-format
@@ -5036,7 +5047,7 @@ msgstr "En annan spelare har redan namnet '%s'. Försök välja ett annat namn."
 
 #: server/srv_main.c:1220
 msgid "Please choose a name containing only ASCII characters."
-msgstr "Var god välj ett namn bestående endast av ASCII-tecken."
+msgstr "Var god välj ett namn bestående av endast ASCII-tecken."
 
 #: server/srv_main.c:1299
 #, c-format
@@ -5051,7 +5062,7 @@ msgstr "Folkstammen %s är upptagen."
 #: server/srv_main.c:1322
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr "%s är %s-folkets härskare %s."
+msgstr "%1$s styr %3$s (%2$s)."
 
 #: server/srv_main.c:1383
 #, c-format
@@ -5852,24 +5863,24 @@ msgid "Barbarian"
 msgstr "Barbar"
 
 #: server/stdinhand.c:2986 server/stdinhand.c:4033 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:1757 client/gui-win32/connectdlg.c:199
+#: client/gui-gtk-2.0/pages.c:1859 client/gui-win32/connectdlg.c:199
 #: client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "Datorstyrd"
 
 #: server/stdinhand.c:2986 server/stdinhand.c:4035
-#: client/gui-gtk-2.0/pages.c:1757 client/gui-gtk-2.0/pages.c:1787
+#: client/gui-gtk-2.0/pages.c:1859 client/gui-gtk-2.0/pages.c:1889
 #: client/gui-win32/connectdlg.c:199 client/gui-win32/connectdlg.c:218
 msgid "Human"
 msgstr "Mänsklig"
 
-#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1756
-#: client/gui-gtk-2.0/pages.c:1786 client/gui-win32/connectdlg.c:198
+#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1858
+#: client/gui-gtk-2.0/pages.c:1888 client/gui-win32/connectdlg.c:198
 #: client/gui-win32/connectdlg.c:217
 msgid "Alive"
 msgstr "Verksam"
 
-#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1756
+#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1858
 #: client/gui-win32/connectdlg.c:198
 msgid "Dead"
 msgstr "Besegrad"
@@ -7122,7 +7133,7 @@ msgstr "Bästa försvarande enheter"
 #: client/cityrepdata.c:457 client/cityrepdata.c:459
 #: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk-2.0/cityrep.c:1229
 #: client/gui-gtk-2.0/cityrep.c:1248 client/gui-gtk-2.0/cityrep.c:1267
-#: client/gui-gtk-2.0/menu.c:788 client/gui-gtk-2.0/repodlgs.c:958
+#: client/gui-gtk-2.0/menu.c:792 client/gui-gtk-2.0/repodlgs.c:958
 #: client/gui-mui/citydlg.c:1371 client/gui-mui/gui_main.c:246
 #: client/gui-win32/menu.c:350 client/gui-win32/repodlgs.c:612
 #: client/gui-win32/repodlgs.c:697 client/gui-win32/repodlgs.c:706
@@ -7450,7 +7461,7 @@ msgstr "%s ge sina sjökort"
 
 #: client/climisc.c:278
 msgid "The parties agree on a cease-fire"
-msgstr "Parterna kommer överens om eldupphör"
+msgstr "Parterna kommer överens om vapenstillestånd"
 
 #: client/climisc.c:281
 msgid "The parties agree on a peace"
@@ -8762,7 +8773,7 @@ msgstr "Är detta påslaget visas en nygrundad stads stadsdialog direkt."
 
 #: client/options.c:233
 msgid "Background layer"
-msgstr "Bakgrundslager"
+msgstr "Bakgrund"
 
 #: client/options.c:234
 msgid "The background layer of the overview shows just ocean and land."
@@ -8770,7 +8781,7 @@ msgstr "Visar vad som är hav och land på översiktskartan."
 
 #: client/options.c:237
 msgid "Terrain relief map layer"
-msgstr "Landskapslager"
+msgstr "Landskap"
 
 #: client/options.c:238
 msgid "The relief layer shows all terrains on the map."
@@ -8778,7 +8789,7 @@ msgstr "Visar allt landskap på översiktskartan."
 
 #: client/options.c:241
 msgid "Borders layer"
-msgstr "Gränslagret"
+msgstr "Gränser"
 
 #: client/options.c:242
 msgid ""
@@ -8787,7 +8798,7 @@ msgstr "Visar varje rutas ägare på översiktskartan."
 
 #: client/options.c:246
 msgid "Units layer"
-msgstr "Enhetslager"
+msgstr "Enheter"
 
 #: client/options.c:247
 msgid "If enabled then units will be drawn on the overview."
@@ -8795,7 +8806,7 @@ msgstr "Visar enheter på översiktskartan."
 
 #: client/options.c:251
 msgid "Cities layer"
-msgstr "Städslager"
+msgstr "Städer"
 
 #: client/options.c:252
 msgid "If enabled then cities will be drawn on the overview."
@@ -8803,7 +8814,7 @@ msgstr "Visar städer på översiktskartan."
 
 #: client/options.c:256
 msgid "Overview fog of war"
-msgstr "Krigsdimmelager"
+msgstr "Krigsdimma"
 
 #: client/options.c:257
 msgid "If enabled, fog of war is shown on the overview."
@@ -8894,13 +8905,13 @@ msgstr "Namn"
 msgid "Username"
 msgstr "Användarnamn"
 
-#: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:650
-#: client/gui-gtk-2.0/pages.c:1819
+#: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
+#: client/gui-gtk-2.0/pages.c:1921
 msgid "Flag"
 msgstr "Flagga"
 
-#: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:654
-#: client/gui-gtk-2.0/pages.c:1265 client/gui-gtk-2.0/pages.c:1821
+#: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:655
+#: client/gui-gtk-2.0/pages.c:1367 client/gui-gtk-2.0/pages.c:1923
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:942
 #: client/gui-win32/dialogs.c:546 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -8914,7 +8925,7 @@ msgstr "Gräns"
 msgid "Score"
 msgstr "Värdering"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1271
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1373
 msgid "Team"
 msgstr "Lag"
 
@@ -9078,8 +9089,8 @@ msgstr "%ss land"
 #, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] "%ss land (%d omgång eldupphör)"
-msgstr[1] "%ss land (%d omgångar eldupphör)"
+msgstr[0] "(%s, %d omgång vapenstillestånd)"
+msgstr[1] "(%s, %d omgångar vapenstillestånd)"
 
 #: client/text.c:133
 #, c-format
@@ -9101,8 +9112,8 @@ msgstr "Stad: %s (%s)"
 #, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
-msgstr[0] "Stad: %s (%s, %d omgång eldupphör)"
-msgstr[1] "Stad: %s (%s, %d omgångar eldupphör)"
+msgstr[0] "Stad: %s (%s, %d omgång vapenstillestånd)"
+msgstr[1] "Stad: %s (%s, %d omgångar vapenstillestånd)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:166
@@ -9141,8 +9152,8 @@ msgstr "Enhet: %s (%s%s)"
 #, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Enhet: %s (%s, %d omgång eldupphör)"
-msgstr[1] "Enhet: %s (%s, %d omgångar eldupphör)"
+msgstr[0] "Enhet: %s (%s, %d omgång vapenstillestånd)"
+msgstr[1] "Enhet: %s (%s, %d omgångar vapenstillestånd)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:239
@@ -9384,71 +9395,94 @@ msgstr "Övriga: %d civila"
 msgid "Others: %d military"
 msgstr "Övriga: %d militära"
 
-#: client/text.c:809
+#: client/text.c:808
+msgid "No units to upgrade!"
+msgstr "Inga enheter att ersätta!"
+
+#: client/text.c:833
+msgid "None of these units may be upgraded."
+msgstr "Inga av dessa enheter kan ersättas."
+
+#: client/text.c:839
+#, c-format
+msgid ""
+"Upgrade %d unit for %d gold?\n"
+"Treasury contains %d gold."
+msgid_plural ""
+"Upgrade %d units for %d gold?\n"
+"Treasury contains %d gold."
+msgstr[0] ""
+"Ersätt %d enhet för %d guld?\n"
+"Skattkistan innehåller %d guld."
+msgstr[1] ""
+"Ersätt %d enheter för %d guld?\n"
+"Skattkistan innehåller %d guld."
+
+#: client/text.c:860
 msgid "Shows your progress in researching the current technology."
 msgstr "Visar fortskridandet för utforskandet av nuvarande teknologi."
 
-#: client/text.c:813
+#: client/text.c:864
 msgid "no research target."
 msgstr "inget forskningsmål."
 
-#: client/text.c:818
+#: client/text.c:869
 #, c-format
 msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
-#: client/text.c:838
+#: client/text.c:889
 msgid "Shows the progress of global warming:"
 msgstr "Visar fortskridandet av global uppvärmning:"
 
-#: client/text.c:839
+#: client/text.c:890
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Utsläpp: %d%%"
 
-#: client/text.c:841
+#: client/text.c:892
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "Risken för katastrofal uppvärmning varje omgång: %d%%"
 
-#: client/text.c:857
+#: client/text.c:908
 msgid "Shows the progress of nuclear winter:"
 msgstr "Visar fortskridandet av atomvinter:"
 
-#: client/text.c:858
+#: client/text.c:909
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Nedfall: %d%%"
 
-#: client/text.c:860
+#: client/text.c:911
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Risken för katastrofal vinterkyla varje omgång: %d%%"
 
-#: client/text.c:875
+#: client/text.c:926
 msgid "Shows your current government:"
 msgstr "Visar vår nuvarande regeringsform:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:899
+#: client/text.c:950
 #, c-format
 msgid "Population:      %5d"
 msgstr "Folkmängd:      %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:902
+#: client/text.c:953
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Underhåll:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:906
+#: client/text.c:957
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Energi:          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:910
+#: client/text.c:961
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -9456,90 +9490,90 @@ msgstr[0] "Massa:           %5d ton"
 msgstr[1] "Massa:           %5d ton"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:916
+#: client/text.c:967
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Restid:          %5.1f år"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:920
+#: client/text.c:971
 msgid "Travel time:        N/A     "
 msgstr "Restid:             E/A     "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:924
+#: client/text.c:975
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Sannolikh.lyck.: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:928
+#: client/text.c:979
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Ankomstår:       %8s"
 
-#: client/text.c:948
+#: client/text.c:999
 msgid "?timeout:off"
 msgstr "av"
 
-#: client/text.c:972
+#: client/text.c:1023
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "%02ds"
 
-#: client/text.c:974
+#: client/text.c:1025
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "%02dm %02ds"
 
-#: client/text.c:976
+#: client/text.c:1027
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "%02dtim %02d'"
 
-#: client/text.c:978
+#: client/text.c:1029
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "%02dd %02dtim"
 
-#: client/text.c:981
+#: client/text.c:1032
 msgid "?duration:overflow"
 msgstr "överflöde"
 
-#: client/text.c:1002
+#: client/text.c:1053
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: "Republic of the Polish"
-#: client/text.c:1045
+#: client/text.c:1096
 #, c-format
 msgid "%s of the %s"
 msgstr "%ss %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1057
+#: client/text.c:1108
 #, c-format
 msgid "Observer: %s"
 msgstr "Iakttagare: %s"
 
-#: client/text.c:1075
+#: client/text.c:1126
 msgid "Buildings: "
 msgstr "Byggnader: "
 
-#: client/text.c:1081 client/text.c:1118
+#: client/text.c:1132 client/text.c:1169
 msgid ", "
 msgstr ", "
 
-#: client/text.c:1091 client/text.c:1129
+#: client/text.c:1142 client/text.c:1180
 msgid "None. "
 msgstr "Inga. "
 
-#: client/text.c:1093 client/text.c:1131
+#: client/text.c:1144 client/text.c:1182
 msgid "."
 msgstr "."
 
-#: client/text.c:1111
+#: client/text.c:1162
 msgid "Wonders: "
 msgstr "Underverk: "
 
@@ -9993,20 +10027,7 @@ msgstr "Gör till ny _hemstad"
 msgid "U_pgrade unit"
 msgstr "Ersätt enhet"
 
-#: client/gui-gtk-2.0/citydlg.c:2320 client/gui-mui/dialogs.c:1747
-#: client/gui-mui/dialogs.c:1771 client/gui-win32/citydlg.c:1459
-#: data/Freeciv.in:2484
-msgid "Upgrade Unit!"
-msgstr "Ersätt enhet!"
-
-#: client/gui-gtk-2.0/citydlg.c:2329 client/gui-gtk-2.0/repodlgs.c:1161
-#: client/gui-mui/dialogs.c:1760 client/gui-mui/repodlgs.c:724
-#: client/gui-win32/citydlg.c:1452 client/gui-win32/repodlgs.c:573
-#: data/Freeciv.in:2473
-msgid "Upgrade Obsolete Units"
-msgstr "Ersätt föråldrade enheter"
-
-#: client/gui-gtk-2.0/citydlg.c:2441 client/gui-mui/citydlg.c:960
+#: client/gui-gtk-2.0/citydlg.c:2424 client/gui-mui/citydlg.c:960
 #: client/gui-win32/citydlg.c:908 client/gui-xaw/citydlg.c:1892
 #, c-format
 msgid ""
@@ -10016,14 +10037,14 @@ msgstr ""
 "Vill du köpa %s för %d guld\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk-2.0/citydlg.c:2444 client/gui-gtk-2.0/citydlg.c:2456
+#: client/gui-gtk-2.0/citydlg.c:2427 client/gui-gtk-2.0/citydlg.c:2439
 #: client/gui-mui/citydlg.c:963 client/gui-mui/citydlg.c:973
 #: client/gui-win32/citydlg.c:911 client/gui-win32/citydlg.c:920
 #: data/Freeciv.in:2220 data/Freeciv.in:2250
 msgid "Buy It!"
 msgstr "Köp det!"
 
-#: client/gui-gtk-2.0/citydlg.c:2453 client/gui-mui/citydlg.c:970
+#: client/gui-gtk-2.0/citydlg.c:2436 client/gui-mui/citydlg.c:970
 #: client/gui-win32/citydlg.c:917 client/gui-xaw/citydlg.c:1901
 #, c-format
 msgid ""
@@ -10033,22 +10054,22 @@ msgstr ""
 "%s kostar %d guld.\n"
 "Skattkistan innehåller %d guld."
 
-#: client/gui-gtk-2.0/citydlg.c:2507 client/gui-mui/citydlg.c:998
+#: client/gui-gtk-2.0/citydlg.c:2490 client/gui-mui/citydlg.c:998
 #: client/gui-win32/citydlg.c:961 client/gui-xaw/citydlg.c:2304
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "Sälj %s för %d guld?"
 
-#: client/gui-gtk-2.0/citydlg.c:2512 client/gui-mui/citydlg.c:1003
+#: client/gui-gtk-2.0/citydlg.c:2495 client/gui-mui/citydlg.c:1003
 #: client/gui-win32/citydlg.c:966 data/Freeciv.in:2239
 msgid "Sell It!"
 msgstr "Sälj det!"
 
-#: client/gui-gtk-2.0/citydlg.c:2588 client/gui-win32/citydlg.c:1206
+#: client/gui-gtk-2.0/citydlg.c:2571 client/gui-win32/citydlg.c:1206
 msgid "Rename City"
 msgstr "Byt namn på stad"
 
-#: client/gui-gtk-2.0/citydlg.c:2590 client/gui-win32/citydlg.c:1207
+#: client/gui-gtk-2.0/citydlg.c:2573 client/gui-win32/citydlg.c:1207
 #: client/gui-xaw/citydlg.c:1381
 msgid "What should we rename the city to?"
 msgstr "Vad skola vi kalla staden?"
@@ -10078,7 +10099,7 @@ msgstr "_Välj"
 msgid "S_how"
 msgstr "_Visa"
 
-#: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:786
+#: client/gui-gtk-2.0/cityrep.c:787 client/gui-gtk-2.0/menu.c:790
 #: client/gui-mui/diplodlg.c:489 client/gui-mui/diplodlg.c:524
 #: client/gui-mui/diplodlg.c:605 client/gui-mui/diplodlg.c:615
 #: client/gui-mui/gui_main.c:245 client/gui-win32/diplodlg.c:610
@@ -10095,9 +10116,9 @@ msgstr "Ö_ppna"
 
 #: client/gui-gtk-2.0/cityrep.c:1210 client/gui-gtk-2.0/cityrep.c:1231
 #: client/gui-gtk-2.0/cityrep.c:1250 client/gui-gtk-2.0/cityrep.c:1269
-#: client/gui-gtk-2.0/menu.c:770 client/gui-gtk-2.0/menu.c:772
 #: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
 #: client/gui-gtk-2.0/menu.c:778 client/gui-gtk-2.0/menu.c:780
+#: client/gui-gtk-2.0/menu.c:782 client/gui-gtk-2.0/menu.c:784
 #: client/gui-mui/gui_main.c:238 client/gui-win32/menu.c:341
 #: client/gui-xaw/menu.c:239
 msgid "Improvements"
@@ -10246,110 +10267,123 @@ msgstr "Vad skola vi kalla det förvalde värdet?"
 msgid "Remove this preset?"
 msgstr "Tag bort detta förvalda värde?"
 
-#: client/gui-gtk-2.0/dialogs.c:194
+#: client/gui-gtk-2.0/dialogs.c:195
 msgid "_Goto location"
 msgstr "_Gå till plats"
 
-#: client/gui-gtk-2.0/dialogs.c:199 client/gui-gtk-2.0/messagewin.c:190
+#: client/gui-gtk-2.0/dialogs.c:200 client/gui-gtk-2.0/messagewin.c:190
 #: client/gui-mui/messagewin.c:210
 msgid "_Popup City"
 msgstr "Ö_ppna stad"
 
-#: client/gui-gtk-2.0/dialogs.c:255 client/gui-mui/dialogs.c:1043
+#: client/gui-gtk-2.0/dialogs.c:256 client/gui-mui/dialogs.c:1043
 #: client/gui-win32/dialogs.c:980 client/gui-xaw/dialogs.c:513
 msgid "You say you wanna revolution?"
 msgstr "Vill du ha revolution?"
 
-#: client/gui-gtk-2.0/dialogs.c:256 client/gui-mui/dialogs.c:1043
+#: client/gui-gtk-2.0/dialogs.c:257 client/gui-mui/dialogs.c:1043
 #: client/gui-win32/dialogs.c:979 data/Freeciv.in:2462
 msgid "Revolution!"
 msgstr "Revolution!"
 
-#: client/gui-gtk-2.0/dialogs.c:309 client/gui-win32/dialogs.c:1728
+#: client/gui-gtk-2.0/dialogs.c:310 client/gui-win32/dialogs.c:1728
 #: data/Freeciv.in:2500
 msgid "What To Pillage"
 msgstr "Plundra vad?"
 
-#: client/gui-gtk-2.0/dialogs.c:310 client/gui-mui/dialogs.c:1117
+#: client/gui-gtk-2.0/dialogs.c:311 client/gui-mui/dialogs.c:1117
 #: client/gui-win32/dialogs.c:1735 data/Freeciv.in:2502
 msgid "Select what to pillage:"
 msgstr "Välj något att plundra:"
 
-#: client/gui-gtk-2.0/dialogs.c:505
+#: client/gui-gtk-2.0/dialogs.c:506
 msgid "Unit"
 msgstr "Enhet"
 
-#: client/gui-gtk-2.0/dialogs.c:506 client/gui-gtk-2.0/pages.c:1239
-#: client/gui-gtk-2.0/pages.c:1817 client/gui-gtk-2.0/wldlg.c:1030
+#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:1341
+#: client/gui-gtk-2.0/pages.c:1919 client/gui-gtk-2.0/wldlg.c:1030
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:937
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:296 data/Freeciv.in:80
 msgid "Name"
 msgstr "Namn"
 
-#: client/gui-gtk-2.0/dialogs.c:518
+#: client/gui-gtk-2.0/dialogs.c:519
 msgid "Unit selection"
 msgstr "Välj enhet"
 
-#: client/gui-gtk-2.0/dialogs.c:581
+#: client/gui-gtk-2.0/dialogs.c:582
 msgid "_Ready all"
 msgstr "Aktive_ra alla"
 
-#: client/gui-gtk-2.0/dialogs.c:589
+#: client/gui-gtk-2.0/dialogs.c:590
 msgid "_Sentry idle"
 msgstr "_Sätt overksamma på vakt"
 
-#: client/gui-gtk-2.0/dialogs.c:717
+#: client/gui-gtk-2.0/dialogs.c:718
 msgid "_Nations:"
 msgstr "Folksta_mmar:"
 
-#: client/gui-gtk-2.0/dialogs.c:761 data/Freeciv.in:3128
+#: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
 msgstr "Vilken folkstam vill du styra?"
 
-#: client/gui-gtk-2.0/dialogs.c:764
+#: client/gui-gtk-2.0/dialogs.c:765
 msgid "Random Nation"
-msgstr "Slumpmässig folkstam"
+msgstr "Slumpvald folkstam"
 
-#: client/gui-gtk-2.0/dialogs.c:776 client/gui-win32/dialogs.c:521
+#: client/gui-gtk-2.0/dialogs.c:777 client/gui-win32/dialogs.c:521
 msgid "Select a nation"
 msgstr "Välj en folkstam"
 
-#: client/gui-gtk-2.0/dialogs.c:794
+#: client/gui-gtk-2.0/dialogs.c:795
 msgid "_Properties"
 msgstr "Egenska_per"
 
-#: client/gui-gtk-2.0/dialogs.c:814
+#: client/gui-gtk-2.0/dialogs.c:815
 msgid "_Leader:"
 msgstr "_Ledare:"
 
-#: client/gui-gtk-2.0/dialogs.c:821
+#: client/gui-gtk-2.0/dialogs.c:822
 msgid "_Female"
 msgstr "_Kvinna"
 
-#: client/gui-gtk-2.0/dialogs.c:826
+#: client/gui-gtk-2.0/dialogs.c:827
 msgid "_Male"
 msgstr "_Man"
 
-#: client/gui-gtk-2.0/dialogs.c:853
+#: client/gui-gtk-2.0/dialogs.c:854
 msgid "_City Styles:"
 msgstr "_Stadstyper:"
 
-#: client/gui-gtk-2.0/dialogs.c:892
+#: client/gui-gtk-2.0/dialogs.c:893
 msgid "L_egend"
 msgstr "F_örklaring"
 
-#: client/gui-gtk-2.0/dialogs.c:1222 client/gui-xaw/dialogs.c:1476
+#: client/gui-gtk-2.0/dialogs.c:1223 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
 msgstr "Du måste välja ditt kön."
 
-#: client/gui-gtk-2.0/dialogs.c:1227 client/gui-xaw/dialogs.c:1481
+#: client/gui-gtk-2.0/dialogs.c:1228 client/gui-xaw/dialogs.c:1481
 msgid "You must select your city style."
 msgstr "Du måste välja en stadstyp."
 
-#: client/gui-gtk-2.0/dialogs.c:1236 client/gui-mui/dialogs.c:1519
+#: client/gui-gtk-2.0/dialogs.c:1237 client/gui-mui/dialogs.c:1519
 #: client/gui-win32/dialogs.c:354 client/gui-xaw/dialogs.c:1489
 msgid "You must type a legal name."
 msgstr "Du måste skriva ett tillåtet namn."
+
+#: client/gui-gtk-2.0/dialogs.c:1277 client/gui-mui/dialogs.c:1747
+#: client/gui-mui/dialogs.c:1771 client/gui-win32/citydlg.c:1459
+#: data/Freeciv.in:2484
+msgid "Upgrade Unit!"
+msgstr "Ersätt enhet!"
+
+#: client/gui-gtk-2.0/dialogs.c:1286 client/gui-gtk-2.0/repodlgs.c:1161
+#: client/gui-mui/dialogs.c:1760 client/gui-mui/repodlgs.c:724
+#: client/gui-win32/citydlg.c:1452 client/gui-win32/repodlgs.c:573
+#: data/Freeciv.in:2473
+msgid "Upgrade Obsolete Units"
+msgstr "Ersätt föråldrade enheter"
 
 #: client/gui-gtk-2.0/diplodlg.c:231 client/gui-win32/diplodlg.c:151
 #: client/gui-xaw/diplodlg.c:383 client/gui-xaw/diplodlg.c:401
@@ -10369,7 +10403,7 @@ msgstr "_Kartor"
 msgid "_Advances"
 msgstr "Fr_amsteg"
 
-#: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:886
+#: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:892
 #: client/gui-win32/menu.c:398
 msgid "_Cities"
 msgstr "Städe_r"
@@ -10538,29 +10572,29 @@ msgstr ""
 "Detta aktiverar en bättre metod att generera krigsdimma. Metoden är inte "
 "långsammare, men drar ungefär dubbelt så mycket minne."
 
-#: client/gui-gtk-2.0/gui_main.c:612 client/gui-gtk-2.0/gui_main.c:1230
+#: client/gui-gtk-2.0/gui_main.c:611 client/gui-gtk-2.0/gui_main.c:1229
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:978 client/gui-gtk-2.0/gui_main.c:992
+#: client/gui-gtk-2.0/gui_main.c:977 client/gui-gtk-2.0/gui_main.c:991
 #: client/gui-win32/gui_main.c:481 data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Avsluta omgång"
 
-#: client/gui-gtk-2.0/gui_main.c:992
+#: client/gui-gtk-2.0/gui_main.c:991
 msgid "Shift+Return"
 msgstr "Skift+Retur"
 
-#: client/gui-gtk-2.0/gui_main.c:1024
+#: client/gui-gtk-2.0/gui_main.c:1023
 msgid "_Map"
 msgstr "_Karta"
 
 # DM> tidigare "_Tjatt" - Onödig försvenskning!
-#: client/gui-gtk-2.0/gui_main.c:1101
+#: client/gui-gtk-2.0/gui_main.c:1100
 msgid "_Chat"
 msgstr "_Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:1117 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1116 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -10570,15 +10604,15 @@ msgstr ""
 "Freeciv är fri programvara och du är välkommen att sprida kopior av det "
 "under särskilda villkor; Se objektet \"Kopiering\" i hjälpmenyn."
 
-#: client/gui-gtk-2.0/gui_main.c:1370
+#: client/gui-gtk-2.0/gui_main.c:1369
 msgid "Not _ready"
 msgstr "Inte _redo"
 
-#: client/gui-gtk-2.0/gui_main.c:1381 client/gui-gtk-2.0/pages.c:1329
+#: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk-2.0/pages.c:1431
 msgid "_Ready"
 msgstr "_Redo"
 
-#: client/gui-gtk-2.0/gui_main.c:1385 client/gui-gtk-2.0/pages.c:1866
+#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/pages.c:1968
 msgid "_Start"
 msgstr "_Sätt igång"
 
@@ -10604,17 +10638,17 @@ msgstr "<svår dator>"
 
 #: client/gui-gtk-2.0/gui_main.c:1432 client/gui-win32/dialogs.c:598
 msgid "Random"
-msgstr "Slumpmässig"
+msgstr "Slumpvald"
 
-#: client/gui-gtk-2.0/gui_main.c:1536 client/gui-mui/citydlg.c:1556
-msgid "Name:"
-msgstr "Namn:"
+#: client/gui-gtk-2.0/gui_main.c:1494
+msgid "Observer"
+msgstr "Iakttagare"
 
-#: client/gui-gtk-2.0/gui_main.c:1543 client/gui-win32/connectdlg.c:1013
-msgid "Host:"
-msgstr "Värd:"
+#: client/gui-gtk-2.0/gui_main.c:1494
+msgid "Detached"
+msgstr "Frånkopplad"
 
-#: client/gui-gtk-2.0/gui_main.c:1814
+#: client/gui-gtk-2.0/gui_main.c:1764
 msgid "Are you sure you want to quit?"
 msgstr "Vill du verkligen avsluta?"
 
@@ -10904,7 +10938,7 @@ msgstr "_Teknologi"
 #: client/gui-gtk-2.0/inteldlg.c:299
 #, c-format
 msgid "Foreign Intelligence: %s Empire"
-msgstr "Underrättelser från %s-folkets rike"
+msgstr "Underrättelser (%s)"
 
 #: client/gui-gtk-2.0/mapctrl.c:194 client/gui-win32/mapctrl.c:356
 msgid "Build New City"
@@ -10925,122 +10959,121 @@ msgstr ""
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr "Bättre krigsdimma fungerar endast under truecolor. Avaktiverar den"
 
-#: client/gui-gtk-2.0/menu.c:247
+#: client/gui-gtk-2.0/menu.c:248
 msgid "Leaving a local game will end it!"
 msgstr "Att hoppa av ett lokalt spel innebär att det upphör!"
 
-#: client/gui-gtk-2.0/menu.c:681 client/gui-win32/menu.c:302
+#: client/gui-gtk-2.0/menu.c:685 client/gui-win32/menu.c:302
 msgid "_Game"
 msgstr "_Spel"
 
-#: client/gui-gtk-2.0/menu.c:683 client/gui-gtk-2.0/menu.c:685
 #: client/gui-gtk-2.0/menu.c:687 client/gui-gtk-2.0/menu.c:689
-#: client/gui-gtk-2.0/menu.c:692 client/gui-gtk-2.0/menu.c:695
-#: client/gui-gtk-2.0/menu.c:697 client/gui-gtk-2.0/menu.c:699
+#: client/gui-gtk-2.0/menu.c:691 client/gui-gtk-2.0/menu.c:693
+#: client/gui-gtk-2.0/menu.c:696 client/gui-gtk-2.0/menu.c:699
 #: client/gui-gtk-2.0/menu.c:701 client/gui-gtk-2.0/menu.c:703
-#: client/gui-gtk-2.0/menu.c:705 client/gui-gtk-2.0/menu.c:708
-#: client/gui-gtk-2.0/menu.c:711 client/gui-gtk-2.0/menu.c:713
+#: client/gui-gtk-2.0/menu.c:705 client/gui-gtk-2.0/menu.c:707
+#: client/gui-gtk-2.0/menu.c:709 client/gui-gtk-2.0/menu.c:712
 #: client/gui-gtk-2.0/menu.c:715 client/gui-gtk-2.0/menu.c:717
 #: client/gui-gtk-2.0/menu.c:719 client/gui-gtk-2.0/menu.c:721
+#: client/gui-gtk-2.0/menu.c:723 client/gui-gtk-2.0/menu.c:725
 #: client/gui-mui/gui_main.c:208 data/Freeciv.in:2026
 msgid "Game"
 msgstr "Spel"
 
-#: client/gui-gtk-2.0/menu.c:685 client/gui-win32/menu.c:303
+#: client/gui-gtk-2.0/menu.c:689 client/gui-win32/menu.c:303
 msgid "Local _Options"
 msgstr "Lokala _valmöjligheter"
 
-#: client/gui-gtk-2.0/menu.c:687 client/gui-win32/menu.c:304
+#: client/gui-gtk-2.0/menu.c:691 client/gui-win32/menu.c:304
 msgid "_Message Options"
 msgstr "_Meddelandevalmöjligheter"
 
-#: client/gui-gtk-2.0/menu.c:692
+#: client/gui-gtk-2.0/menu.c:696
 msgid "_Reload Tileset"
 msgstr "Läs om _rutbildsuppsättning"
 
-#: client/gui-gtk-2.0/menu.c:695
+#: client/gui-gtk-2.0/menu.c:699
 msgid "Save Options on _Exit"
 msgstr "Spara val vid avsl_ut"
 
-#: client/gui-gtk-2.0/menu.c:697
+#: client/gui-gtk-2.0/menu.c:701
 msgid "Sa_ve Options"
 msgstr "Spara _val nu"
 
-#: client/gui-gtk-2.0/menu.c:701 client/gui-win32/menu.c:307
+#: client/gui-gtk-2.0/menu.c:705 client/gui-win32/menu.c:307
 msgid "Server O_ptions"
 msgstr "_Servervalmöjligheter"
 
-#: client/gui-gtk-2.0/menu.c:705 client/gui-win32/menu.c:309
+#: client/gui-gtk-2.0/menu.c:709 client/gui-win32/menu.c:309
 msgid "_Save Game"
 msgstr "_Spara spel"
 
-#: client/gui-gtk-2.0/menu.c:708 client/gui-win32/menu.c:310
+#: client/gui-gtk-2.0/menu.c:712 client/gui-win32/menu.c:310
 msgid "Save Game _As..."
 msgstr "Spara spel s_om..."
 
-#: client/gui-gtk-2.0/menu.c:713 client/gui-win32/menu.c:312
+#: client/gui-gtk-2.0/menu.c:717 client/gui-win32/menu.c:312
 msgid "E_xport Log"
 msgstr "E_xportera logg"
 
-#: client/gui-gtk-2.0/menu.c:715
+#: client/gui-gtk-2.0/menu.c:719
 msgid "_Clear Log"
 msgstr "_Rensa logg"
 
-#: client/gui-gtk-2.0/menu.c:719
+#: client/gui-gtk-2.0/menu.c:723
 msgid "_Leave"
 msgstr "_Hoppa av"
 
-#: client/gui-gtk-2.0/menu.c:721 client/gui-mui/connectdlg.c:226
+#: client/gui-gtk-2.0/menu.c:725 client/gui-mui/connectdlg.c:226
 #: client/gui-mui/dialogs.c:1659 client/gui-win32/menu.c:316
 msgid "_Quit"
 msgstr "_Avsluta"
 
-#: client/gui-gtk-2.0/menu.c:725
+#: client/gui-gtk-2.0/menu.c:729
 msgid "Gover_nment"
 msgstr "R_egering"
 
-#: client/gui-gtk-2.0/menu.c:727 client/gui-gtk-2.0/menu.c:729
 #: client/gui-gtk-2.0/menu.c:731 client/gui-gtk-2.0/menu.c:733
 #: client/gui-gtk-2.0/menu.c:735 client/gui-gtk-2.0/menu.c:737
 #: client/gui-gtk-2.0/menu.c:739 client/gui-gtk-2.0/menu.c:741
+#: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
 #: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1279
 msgid "Government"
 msgstr "Regering"
 
-#: client/gui-gtk-2.0/menu.c:729
+#: client/gui-gtk-2.0/menu.c:733
 msgid "_Tax Rates"
 msgstr "Ska_ttesatser"
 
-#: client/gui-gtk-2.0/menu.c:733 client/gui-win32/menu.c:323
+#: client/gui-gtk-2.0/menu.c:737 client/gui-win32/menu.c:323
 msgid "_Find City"
 msgstr "_Finn stad"
 
-#: client/gui-gtk-2.0/menu.c:735
+#: client/gui-gtk-2.0/menu.c:739
 msgid "_Worklists"
 msgstr "Ar_betslistor"
 
-#: client/gui-gtk-2.0/menu.c:739 client/gui-gtk-2.0/menu.c:741
-#: client/gui-gtk-2.0/menu.c:744 client/gui-win32/menu.c:326
+#: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
+#: client/gui-gtk-2.0/menu.c:748 client/gui-win32/menu.c:326
 msgid "_Change Government"
 msgstr "_Byt regering"
 
-#: client/gui-gtk-2.0/menu.c:741
+#: client/gui-gtk-2.0/menu.c:745
 msgid "_Revolution..."
 msgstr "_Revolution..."
 
-#: client/gui-gtk-2.0/menu.c:744 client/gui-gtk-2.0/menu.c:943
+#: client/gui-gtk-2.0/menu.c:748 client/gui-gtk-2.0/menu.c:949
 #: client/gui-win32/menu.c:428
 msgid "_Government"
 msgstr "Re_gering"
 
-#: client/gui-gtk-2.0/menu.c:747 client/gui-win32/menu.c:333
+#: client/gui-gtk-2.0/menu.c:751 client/gui-win32/menu.c:333
 msgid "_View"
-msgstr "_Vy"
+msgstr "_Visa"
 
-#: client/gui-gtk-2.0/menu.c:749 client/gui-gtk-2.0/menu.c:751
 #: client/gui-gtk-2.0/menu.c:753 client/gui-gtk-2.0/menu.c:755
 #: client/gui-gtk-2.0/menu.c:757 client/gui-gtk-2.0/menu.c:759
-#: client/gui-gtk-2.0/menu.c:762 client/gui-gtk-2.0/menu.c:764
+#: client/gui-gtk-2.0/menu.c:761 client/gui-gtk-2.0/menu.c:763
 #: client/gui-gtk-2.0/menu.c:766 client/gui-gtk-2.0/menu.c:768
 #: client/gui-gtk-2.0/menu.c:770 client/gui-gtk-2.0/menu.c:772
 #: client/gui-gtk-2.0/menu.c:774 client/gui-gtk-2.0/menu.c:776
@@ -11050,92 +11083,92 @@ msgstr "_Vy"
 #: client/gui-gtk-2.0/menu.c:790 client/gui-gtk-2.0/menu.c:792
 #: client/gui-gtk-2.0/menu.c:794 client/gui-gtk-2.0/menu.c:796
 #: client/gui-gtk-2.0/menu.c:798 client/gui-gtk-2.0/menu.c:800
+#: client/gui-gtk-2.0/menu.c:802 client/gui-gtk-2.0/menu.c:804
 #: client/gui-mui/gui_main.c:231 data/Freeciv.in:2028
 msgid "View"
-msgstr "Vy"
+msgstr "Visa"
 
-#: client/gui-gtk-2.0/menu.c:751
+#: client/gui-gtk-2.0/menu.c:755
 msgid "City Outlines"
 msgstr "Stadsomf_ång"
 
-#: client/gui-gtk-2.0/menu.c:753 client/gui-win32/menu.c:334
+#: client/gui-gtk-2.0/menu.c:757 client/gui-win32/menu.c:334
 msgid "Map _Grid"
 msgstr "Kart_rutnät"
 
-#: client/gui-gtk-2.0/menu.c:755 client/gui-win32/menu.c:335
+#: client/gui-gtk-2.0/menu.c:759 client/gui-win32/menu.c:335
 msgid "National _Borders"
 msgstr "Nationsgr_änser"
 
-#: client/gui-gtk-2.0/menu.c:757 client/gui-win32/menu.c:336
+#: client/gui-gtk-2.0/menu.c:761 client/gui-win32/menu.c:336
 msgid "City _Names"
 msgstr "Stads_namn"
 
-#: client/gui-gtk-2.0/menu.c:759 client/gui-win32/menu.c:337
+#: client/gui-gtk-2.0/menu.c:763 client/gui-win32/menu.c:337
 msgid "City G_rowth"
 msgstr "Stadstillvä_xt"
 
-#: client/gui-gtk-2.0/menu.c:762 client/gui-win32/menu.c:338
+#: client/gui-gtk-2.0/menu.c:766 client/gui-win32/menu.c:338
 msgid "City _Productions"
 msgstr "Stads_tillverkning"
 
-#: client/gui-gtk-2.0/menu.c:766 client/gui-mui/gui_main.c:236
+#: client/gui-gtk-2.0/menu.c:770 client/gui-mui/gui_main.c:236
 #: client/gui-win32/menu.c:339 client/gui-xaw/menu.c:148
 #: client/gui-xaw/menu.c:244 manual/civmanual.c:220 data/helpdata.txt:1179
 msgid "Terrain"
 msgstr "Landskap"
 
-#: client/gui-gtk-2.0/menu.c:768 client/gui-mui/gui_main.c:237
+#: client/gui-gtk-2.0/menu.c:772 client/gui-mui/gui_main.c:237
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:149
 msgid "Coastline"
 msgstr "Kustlinje"
 
-#: client/gui-gtk-2.0/menu.c:774 client/gui-win32/menu.c:342
+#: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:342
 msgid "Roads & Rails"
 msgstr "Vägar & järnvägar"
 
-#: client/gui-gtk-2.0/menu.c:778 client/gui-mui/gui_main.c:241
+#: client/gui-gtk-2.0/menu.c:782 client/gui-mui/gui_main.c:241
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:152
 msgid "Mines"
 msgstr "Gruvor"
 
-#: client/gui-gtk-2.0/menu.c:780 client/gui-mui/gui_main.c:242
+#: client/gui-gtk-2.0/menu.c:784 client/gui-mui/gui_main.c:242
 #: client/gui-win32/menu.c:345
 msgid "Fortress & Airbase"
 msgstr "Fästning & flygbas"
 
-#: client/gui-gtk-2.0/menu.c:782 client/gui-mui/gui_main.c:243
+#: client/gui-gtk-2.0/menu.c:786 client/gui-mui/gui_main.c:243
 #: client/gui-win32/menu.c:347 client/gui-xaw/menu.c:154
 msgid "Specials"
 msgstr "Specialresurser"
 
-#: client/gui-gtk-2.0/menu.c:784 client/gui-mui/gui_main.c:244
+#: client/gui-gtk-2.0/menu.c:788 client/gui-mui/gui_main.c:244
 #: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:155
 msgid "Pollution & Fallout"
 msgstr "Utsläpp & nedfall"
 
-#: client/gui-gtk-2.0/menu.c:790 client/gui-mui/gui_main.c:247
+#: client/gui-gtk-2.0/menu.c:794 client/gui-mui/gui_main.c:247
 #: client/gui-win32/menu.c:351 client/gui-xaw/menu.c:158
 msgid "Focus Unit"
 msgstr "Fokusenhet"
 
-#: client/gui-gtk-2.0/menu.c:792 client/gui-mui/gui_main.c:248
+#: client/gui-gtk-2.0/menu.c:796 client/gui-mui/gui_main.c:248
 #: client/gui-win32/menu.c:352 client/gui-xaw/menu.c:159
 msgid "Fog of War"
 msgstr "Krigsdimma"
 
-#: client/gui-gtk-2.0/menu.c:796
+#: client/gui-gtk-2.0/menu.c:800
 msgid "_Full Screen"
 msgstr "_Fullskärmsläge"
 
-#: client/gui-gtk-2.0/menu.c:800
+#: client/gui-gtk-2.0/menu.c:804
 msgid "_Center View"
 msgstr "_Centrera vy"
 
-#: client/gui-gtk-2.0/menu.c:803 client/gui-win32/menu.c:357
+#: client/gui-gtk-2.0/menu.c:807 client/gui-win32/menu.c:357
 msgid "_Orders"
 msgstr "_Befallningar"
 
-#: client/gui-gtk-2.0/menu.c:805 client/gui-gtk-2.0/menu.c:807
 #: client/gui-gtk-2.0/menu.c:809 client/gui-gtk-2.0/menu.c:811
 #: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:815
 #: client/gui-gtk-2.0/menu.c:817 client/gui-gtk-2.0/menu.c:819
@@ -11154,221 +11187,226 @@ msgstr "_Befallningar"
 #: client/gui-gtk-2.0/menu.c:869 client/gui-gtk-2.0/menu.c:871
 #: client/gui-gtk-2.0/menu.c:873 client/gui-gtk-2.0/menu.c:875
 #: client/gui-gtk-2.0/menu.c:877 client/gui-gtk-2.0/menu.c:879
-#: data/Freeciv.in:2029
+#: client/gui-gtk-2.0/menu.c:881 client/gui-gtk-2.0/menu.c:883
+#: client/gui-gtk-2.0/menu.c:885 data/Freeciv.in:2029
 msgid "Orders"
 msgstr "Befallningar"
 
-#: client/gui-gtk-2.0/menu.c:807 client/gui-gtk-2.0/menu.c:1394
-#: client/gui-gtk-2.0/menu.c:1397 client/gui-win32/menu.c:358
+#: client/gui-gtk-2.0/menu.c:811 client/gui-gtk-2.0/menu.c:1402
+#: client/gui-gtk-2.0/menu.c:1405 client/gui-win32/menu.c:358
 msgid "_Build City"
 msgstr "_Bygg stad"
 
-#: client/gui-gtk-2.0/menu.c:809 client/gui-gtk-2.0/menu.c:1417
-#: client/gui-gtk-2.0/menu.c:1423 client/gui-win32/menu.c:359
+#: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:1425
+#: client/gui-gtk-2.0/menu.c:1431 client/gui-win32/menu.c:359
 msgid "Build _Road"
 msgstr "Bygg väg (_R)"
 
-#: client/gui-gtk-2.0/menu.c:811 client/gui-gtk-2.0/menu.c:1314
+#: client/gui-gtk-2.0/menu.c:815 client/gui-gtk-2.0/menu.c:1320
 #: client/gui-win32/menu.c:360
 msgid "Build _Irrigation"
 msgstr "Anlägg bevattn_ing"
 
-#: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:1315
+#: client/gui-gtk-2.0/menu.c:817 client/gui-gtk-2.0/menu.c:1321
 #: client/gui-win32/menu.c:361
 msgid "Build _Mine"
 msgstr "Gräv gruva (_M)"
 
-#: client/gui-gtk-2.0/menu.c:815 client/gui-gtk-2.0/menu.c:1316
+#: client/gui-gtk-2.0/menu.c:819 client/gui-gtk-2.0/menu.c:1322
 msgid "Transf_orm Terrain"
 msgstr "_Omvandla landskap"
 
-#: client/gui-gtk-2.0/menu.c:817 client/gui-gtk-2.0/menu.c:1459
+#: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:1467
 #: client/gui-win32/menu.c:363
 msgid "Build _Fortress"
 msgstr "Bygg _fästning"
 
-#: client/gui-gtk-2.0/menu.c:819 client/gui-win32/menu.c:364
+#: client/gui-gtk-2.0/menu.c:823 client/gui-win32/menu.c:364
 msgid "Build Airbas_e"
 msgstr "Bygg flygbas (_E)"
 
-#: client/gui-gtk-2.0/menu.c:821 client/gui-gtk-2.0/menu.c:1465
+#: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:1473
 #: client/gui-win32/menu.c:365
 msgid "Clean _Pollution"
 msgstr "Rensa utslä_pp"
 
-#: client/gui-gtk-2.0/menu.c:823 client/gui-win32/menu.c:366
+#: client/gui-gtk-2.0/menu.c:827 client/gui-win32/menu.c:366
 msgid "Clean _Nuclear Fallout"
 msgstr "Rensa radioaktivt _nedfall"
 
-#: client/gui-gtk-2.0/menu.c:827 client/gui-win32/menu.c:368
+#: client/gui-gtk-2.0/menu.c:831 client/gui-win32/menu.c:368
 msgid "_Sentry"
 msgstr "Vakta (_S)"
 
-#: client/gui-gtk-2.0/menu.c:833 client/gui-win32/menu.c:371
+#: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:371
 msgid "Make _Homecity"
 msgstr "Gör till _hemstad"
 
-#: client/gui-gtk-2.0/menu.c:835 client/gui-win32/menu.c:372
+#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:372
 msgid "_Load"
 msgstr "_Lasta på"
 
-#: client/gui-gtk-2.0/menu.c:837
+#: client/gui-gtk-2.0/menu.c:841
 msgid "_Unload Transporter"
 msgstr "Lasta av från fraktskepp"
 
-#: client/gui-gtk-2.0/menu.c:839 client/gui-win32/menu.c:373
+#: client/gui-gtk-2.0/menu.c:843 client/gui-win32/menu.c:373
 msgid "_Unload"
 msgstr "Lasta _ur"
 
-#: client/gui-gtk-2.0/menu.c:841 client/gui-win32/menu.c:374
+#: client/gui-gtk-2.0/menu.c:845 client/gui-win32/menu.c:374
 msgid "Wake up o_thers"
 msgstr "_Väck övriga"
 
-#: client/gui-gtk-2.0/menu.c:845
+#: client/gui-gtk-2.0/menu.c:849
 msgid "_Auto Settler"
 msgstr "Förbättr_a landskap självständigt"
 
-#: client/gui-gtk-2.0/menu.c:847 client/gui-win32/menu.c:377
+#: client/gui-gtk-2.0/menu.c:851 client/gui-win32/menu.c:377
 msgid "Auto E_xplore"
 msgstr "Utforska självständigt (_X)"
 
-#: client/gui-gtk-2.0/menu.c:849 client/gui-gtk-2.0/menu.c:851
-#: client/gui-gtk-2.0/menu.c:853 client/gui-mui/connectdlg.c:225
+#: client/gui-gtk-2.0/menu.c:853 client/gui-gtk-2.0/menu.c:855
+#: client/gui-gtk-2.0/menu.c:857 client/gui-mui/connectdlg.c:225
 msgid "_Connect"
 msgstr "Anslut (_C)"
 
-#: client/gui-gtk-2.0/menu.c:849 client/gui-win32/menu.c:379
+#: client/gui-gtk-2.0/menu.c:853 client/gui-win32/menu.c:379
 msgid "_Road"
 msgstr "_Väg"
 
-#: client/gui-gtk-2.0/menu.c:851 client/gui-win32/menu.c:380
+#: client/gui-gtk-2.0/menu.c:855 client/gui-win32/menu.c:380
 msgid "Rai_l"
 msgstr "_Järnväg"
 
-#: client/gui-gtk-2.0/menu.c:853 client/gui-win32/menu.c:381
+#: client/gui-gtk-2.0/menu.c:857 client/gui-win32/menu.c:381
 msgid "_Irrigate"
 msgstr "_Bevattning"
 
-#: client/gui-gtk-2.0/menu.c:855
+#: client/gui-gtk-2.0/menu.c:859
 msgid "Go _to"
 msgstr "Gå _till"
 
-#: client/gui-gtk-2.0/menu.c:855
+#: client/gui-gtk-2.0/menu.c:859
 msgid "_Build city"
 msgstr "_Bygg stad"
 
-#: client/gui-gtk-2.0/menu.c:857
+#: client/gui-gtk-2.0/menu.c:861
 msgid "Patrol (_Q)"
 msgstr "Gå vaktrunda (_Q)"
 
-#: client/gui-gtk-2.0/menu.c:859 client/gui-win32/menu.c:384
+#: client/gui-gtk-2.0/menu.c:863 client/gui-win32/menu.c:384
 msgid "_Go to"
 msgstr "_Gå till"
 
-#: client/gui-gtk-2.0/menu.c:861
+#: client/gui-gtk-2.0/menu.c:865
 msgid "Go\\/Airlift to City"
 msgstr "Gå\\/Flyg till stad"
 
-#: client/gui-gtk-2.0/menu.c:863 client/gui-win32/menu.c:386
+#: client/gui-gtk-2.0/menu.c:867 client/gui-win32/menu.c:386
 #: client/gui-xaw/menu.c:203
 msgid "Return to nearest city"
 msgstr "Återvänd till närmaste stad"
 
-#: client/gui-gtk-2.0/menu.c:867 client/gui-mui/gui_main.c:280
+#: client/gui-gtk-2.0/menu.c:871 client/gui-mui/gui_main.c:280
 #: client/gui-win32/menu.c:388 client/gui-xaw/menu.c:205
 msgid "Disband Unit"
 msgstr "Upplös enhet"
 
-#: client/gui-gtk-2.0/menu.c:869
+#: client/gui-gtk-2.0/menu.c:873 data/Freeciv.in:1186
+msgid "Upgrade unit"
+msgstr "Ersätt enhet"
+
+#: client/gui-gtk-2.0/menu.c:875
 msgid "Diplomat\\/Spy Actions"
 msgstr "Bu_dbärar\\/spejarhandlingar"
 
-#: client/gui-gtk-2.0/menu.c:871 client/gui-mui/gui_main.c:284
+#: client/gui-gtk-2.0/menu.c:877 client/gui-mui/gui_main.c:284
 #: client/gui-mui/mapclass.c:1692 client/gui-win32/menu.c:390
 #: client/gui-xaw/menu.c:209
 msgid "Explode Nuclear"
 msgstr "Utlös _kärnvapen"
 
-#: client/gui-gtk-2.0/menu.c:875
+#: client/gui-gtk-2.0/menu.c:881
 msgid "Select same type"
 msgstr "Välj samma typ"
 
-#: client/gui-gtk-2.0/menu.c:877 client/gui-win32/menu.c:392
+#: client/gui-gtk-2.0/menu.c:883 client/gui-win32/menu.c:392
 msgid "_Wait"
 msgstr "Vänta (_W)"
 
-#: client/gui-gtk-2.0/menu.c:879 client/gui-mui/gui_main.c:287
+#: client/gui-gtk-2.0/menu.c:885 client/gui-mui/gui_main.c:287
 #: client/gui-win32/menu.c:393 client/gui-xaw/menu.c:213
 msgid "Done"
 msgstr "Färdig"
 
-#: client/gui-gtk-2.0/menu.c:882 client/gui-win32/menu.c:397
+#: client/gui-gtk-2.0/menu.c:888 client/gui-win32/menu.c:397
 msgid "_Reports"
 msgstr "_Redogörelser"
 
-#: client/gui-gtk-2.0/menu.c:884 client/gui-gtk-2.0/menu.c:886
-#: client/gui-gtk-2.0/menu.c:888 client/gui-gtk-2.0/menu.c:890
-#: client/gui-gtk-2.0/menu.c:892 client/gui-gtk-2.0/menu.c:894
-#: client/gui-gtk-2.0/menu.c:896 client/gui-gtk-2.0/menu.c:898
-#: client/gui-gtk-2.0/menu.c:900 client/gui-gtk-2.0/menu.c:902
-#: client/gui-gtk-2.0/menu.c:904 client/gui-gtk-2.0/menu.c:906
+#: client/gui-gtk-2.0/menu.c:890 client/gui-gtk-2.0/menu.c:892
+#: client/gui-gtk-2.0/menu.c:894 client/gui-gtk-2.0/menu.c:896
+#: client/gui-gtk-2.0/menu.c:898 client/gui-gtk-2.0/menu.c:900
+#: client/gui-gtk-2.0/menu.c:902 client/gui-gtk-2.0/menu.c:904
+#: client/gui-gtk-2.0/menu.c:906 client/gui-gtk-2.0/menu.c:908
+#: client/gui-gtk-2.0/menu.c:910 client/gui-gtk-2.0/menu.c:912
 #: data/Freeciv.in:2030
 msgid "Reports"
 msgstr "Redogörelser"
 
-#: client/gui-gtk-2.0/menu.c:888 client/gui-gtk-2.0/menu.c:931
+#: client/gui-gtk-2.0/menu.c:894 client/gui-gtk-2.0/menu.c:937
 #: client/gui-win32/menu.c:399 client/gui-win32/menu.c:422
 msgid "_Units"
 msgstr "_Enheter"
 
-#: client/gui-gtk-2.0/menu.c:890 client/gui-win32/menu.c:400
+#: client/gui-gtk-2.0/menu.c:896 client/gui-win32/menu.c:400
 msgid "_Players"
 msgstr "_Spelare"
 
-#: client/gui-gtk-2.0/menu.c:892 client/gui-win32/menu.c:401
+#: client/gui-gtk-2.0/menu.c:898 client/gui-win32/menu.c:401
 msgid "_Economy"
 msgstr "_Ekonomi"
 
-#: client/gui-gtk-2.0/menu.c:894 client/gui-win32/menu.c:402
+#: client/gui-gtk-2.0/menu.c:900 client/gui-win32/menu.c:402
 msgid "_Science"
 msgstr "For_skning"
 
-#: client/gui-gtk-2.0/menu.c:898 client/gui-win32/menu.c:404
+#: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:404
 msgid "_Wonders of the World"
 msgstr "_Världens underverk"
 
-#: client/gui-gtk-2.0/menu.c:900 client/gui-win32/menu.c:405
+#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:405
 msgid "_Top Five Cities"
 msgstr "De fem bäs_ta städerna"
 
-#: client/gui-gtk-2.0/menu.c:902 client/gui-win32/menu.c:406
+#: client/gui-gtk-2.0/menu.c:908 client/gui-win32/menu.c:406
 msgid "_Messages"
 msgstr "_Meddelanden"
 
-#: client/gui-gtk-2.0/menu.c:904 client/gui-win32/menu.c:407
+#: client/gui-gtk-2.0/menu.c:910 client/gui-win32/menu.c:407
 msgid "_Demographics"
 msgstr "_Demografi"
 
-#: client/gui-gtk-2.0/menu.c:906 client/gui-win32/menu.c:408
+#: client/gui-gtk-2.0/menu.c:912 client/gui-win32/menu.c:408
 msgid "S_paceship"
 msgstr "Rymdske_pp"
 
-#: client/gui-gtk-2.0/menu.c:909 client/gui-mui/citydlg.c:1248
+#: client/gui-gtk-2.0/menu.c:915 client/gui-mui/citydlg.c:1248
 #: client/gui-win32/menu.c:412
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: client/gui-gtk-2.0/menu.c:911 client/gui-gtk-2.0/menu.c:913
-#: client/gui-gtk-2.0/menu.c:915 client/gui-gtk-2.0/menu.c:917
-#: client/gui-gtk-2.0/menu.c:919 client/gui-gtk-2.0/menu.c:921
-#: client/gui-gtk-2.0/menu.c:923 client/gui-gtk-2.0/menu.c:925
-#: client/gui-gtk-2.0/menu.c:927 client/gui-gtk-2.0/menu.c:929
-#: client/gui-gtk-2.0/menu.c:931 client/gui-gtk-2.0/menu.c:933
-#: client/gui-gtk-2.0/menu.c:935 client/gui-gtk-2.0/menu.c:937
-#: client/gui-gtk-2.0/menu.c:939 client/gui-gtk-2.0/menu.c:941
-#: client/gui-gtk-2.0/menu.c:943 client/gui-gtk-2.0/menu.c:945
-#: client/gui-gtk-2.0/menu.c:947 client/gui-gtk-2.0/menu.c:949
-#: client/gui-gtk-2.0/menu.c:951 client/gui-gtk-2.0/menu.c:953
+#: client/gui-gtk-2.0/menu.c:917 client/gui-gtk-2.0/menu.c:919
+#: client/gui-gtk-2.0/menu.c:921 client/gui-gtk-2.0/menu.c:923
+#: client/gui-gtk-2.0/menu.c:925 client/gui-gtk-2.0/menu.c:927
+#: client/gui-gtk-2.0/menu.c:929 client/gui-gtk-2.0/menu.c:931
+#: client/gui-gtk-2.0/menu.c:933 client/gui-gtk-2.0/menu.c:935
+#: client/gui-gtk-2.0/menu.c:937 client/gui-gtk-2.0/menu.c:939
+#: client/gui-gtk-2.0/menu.c:941 client/gui-gtk-2.0/menu.c:943
+#: client/gui-gtk-2.0/menu.c:945 client/gui-gtk-2.0/menu.c:947
+#: client/gui-gtk-2.0/menu.c:949 client/gui-gtk-2.0/menu.c:951
+#: client/gui-gtk-2.0/menu.c:953 client/gui-gtk-2.0/menu.c:955
+#: client/gui-gtk-2.0/menu.c:957 client/gui-gtk-2.0/menu.c:959
 #: client/gui-gtk-2.0/repodlgs.c:311 client/gui-mui/gui_main.c:300
 #: client/gui-mui/helpdlg.c:285 client/gui-mui/repodlgs.c:277
 #: client/gui-win32/citydlg.c:1081 client/gui-win32/repodlgs.c:286
@@ -11377,119 +11415,119 @@ msgstr "_Hjälp"
 msgid "Help"
 msgstr "Hjälp"
 
-#: client/gui-gtk-2.0/menu.c:913 client/gui-win32/menu.c:413
+#: client/gui-gtk-2.0/menu.c:919 client/gui-win32/menu.c:413
 msgid "Language_s"
 msgstr "_Språk"
 
-#: client/gui-gtk-2.0/menu.c:915 client/gui-win32/menu.c:414
+#: client/gui-gtk-2.0/menu.c:921 client/gui-win32/menu.c:414
 msgid "Co_nnecting"
 msgstr "A_nsluta"
 
-#: client/gui-gtk-2.0/menu.c:917 client/gui-win32/menu.c:415
+#: client/gui-gtk-2.0/menu.c:923 client/gui-win32/menu.c:415
 msgid "C_ontrols"
 msgstr "St_yrning"
 
-#: client/gui-gtk-2.0/menu.c:919 client/gui-win32/menu.c:416
+#: client/gui-gtk-2.0/menu.c:925 client/gui-win32/menu.c:416
 msgid "C_hatline"
 msgstr "C_hatrad"
 
-#: client/gui-gtk-2.0/menu.c:921 client/gui-win32/menu.c:417
+#: client/gui-gtk-2.0/menu.c:927 client/gui-win32/menu.c:417
 msgid "_Worklist Editor"
 msgstr "Arbetslisteredigerare"
 
-#: client/gui-gtk-2.0/menu.c:923 client/gui-win32/menu.c:418
+#: client/gui-gtk-2.0/menu.c:929 client/gui-win32/menu.c:418
 msgid "Citizen _Management"
 msgstr "Stadsförvalt_ning"
 
-#: client/gui-gtk-2.0/menu.c:925 client/gui-win32/menu.c:419
+#: client/gui-gtk-2.0/menu.c:931 client/gui-win32/menu.c:419
 msgid "_Playing"
 msgstr "S_pela"
 
-#: client/gui-gtk-2.0/menu.c:929 client/gui-win32/menu.c:421
+#: client/gui-gtk-2.0/menu.c:935 client/gui-win32/menu.c:421
 msgid "City _Improvements"
 msgstr "Stadsförbättr_ingar"
 
-#: client/gui-gtk-2.0/menu.c:933 client/gui-win32/menu.c:423
+#: client/gui-gtk-2.0/menu.c:939 client/gui-win32/menu.c:423
 msgid "Com_bat"
 msgstr "Ka_mp"
 
-#: client/gui-gtk-2.0/menu.c:935 client/gui-win32/menu.c:424
+#: client/gui-gtk-2.0/menu.c:941 client/gui-win32/menu.c:424
 msgid "_ZOC"
 msgstr "Kontroll_område"
 
-#: client/gui-gtk-2.0/menu.c:937 client/gui-win32/menu.c:425
+#: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:425
 msgid "Techno_logy"
 msgstr "Tekno_logi"
 
-#: client/gui-gtk-2.0/menu.c:939 client/gui-win32/menu.c:426
+#: client/gui-gtk-2.0/menu.c:945 client/gui-win32/menu.c:426
 msgid "_Terrain"
 msgstr "L_andskap"
 
-#: client/gui-gtk-2.0/menu.c:941 client/gui-win32/menu.c:427
+#: client/gui-gtk-2.0/menu.c:947 client/gui-win32/menu.c:427
 msgid "Won_ders"
 msgstr "Värl_dsunder"
 
-#: client/gui-gtk-2.0/menu.c:945 client/gui-win32/menu.c:429
+#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:429
 msgid "Happin_ess"
 msgstr "Lyckligh_et"
 
-#: client/gui-gtk-2.0/menu.c:947 client/gui-win32/menu.c:430
+#: client/gui-gtk-2.0/menu.c:953 client/gui-win32/menu.c:430
 msgid "Space _Race"
 msgstr "_Rymdkapplöpning"
 
-#: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:432
+#: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:432
 msgid "_Copying"
 msgstr "_Kopiering"
 
-#: client/gui-gtk-2.0/menu.c:953 client/gui-win32/menu.c:433
+#: client/gui-gtk-2.0/menu.c:959 client/gui-win32/menu.c:433
 msgid "_About"
 msgstr "_Om"
 
-#: client/gui-gtk-2.0/menu.c:1235
+#: client/gui-gtk-2.0/menu.c:1241
 #, c-format
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:1306
+#: client/gui-gtk-2.0/menu.c:1312
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Ändra till %s (_I)"
 
-#: client/gui-gtk-2.0/menu.c:1307
+#: client/gui-gtk-2.0/menu.c:1313
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Ändra till %s (_M)"
 
-#: client/gui-gtk-2.0/menu.c:1308
+#: client/gui-gtk-2.0/menu.c:1314
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "_Omvandla till %s"
 
-#: client/gui-gtk-2.0/menu.c:1378
+#: client/gui-gtk-2.0/menu.c:1386
 msgid "Help _Build Wonder"
 msgstr "Hjälp till att _bygga underverk"
 
-#: client/gui-gtk-2.0/menu.c:1392
+#: client/gui-gtk-2.0/menu.c:1400
 msgid "Add to City (_B)"
 msgstr "Utöka stad (_B)"
 
-#: client/gui-gtk-2.0/menu.c:1400
+#: client/gui-gtk-2.0/menu.c:1408
 msgid "Make Trade _Route"
 msgstr "In_rätta handelsled"
 
-#: client/gui-gtk-2.0/menu.c:1414
+#: client/gui-gtk-2.0/menu.c:1422
 msgid "Build _Railroad"
 msgstr "Bygg jä_rnväg"
 
-#: client/gui-gtk-2.0/menu.c:1437
+#: client/gui-gtk-2.0/menu.c:1445
 msgid "Bu_ild Farmland"
 msgstr "Gör t_ill åker"
 
-#: client/gui-gtk-2.0/menu.c:1457
+#: client/gui-gtk-2.0/menu.c:1465
 msgid "_Fortify"
 msgstr "Be_fäst"
 
-#: client/gui-gtk-2.0/menu.c:1463
+#: client/gui-gtk-2.0/menu.c:1471
 msgid "_Paradrop"
 msgstr "Ho_ppa fallskärm"
 
@@ -11539,7 +11577,7 @@ msgstr "Gå till plats"
 msgid "?show:Dead Players"
 msgstr "?show:Besegrade spelare"
 
-#: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:706
+#: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:704
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
 #: client/gui-win32/connectdlg.c:869 client/gui-win32/plrdlg.c:341
 #: client/gui-xaw/menu.c:220 data/Freeciv.in:3192 data/Freeciv.in:3193
@@ -11574,149 +11612,186 @@ msgstr "_Återkalla anblick"
 msgid "_Spaceship"
 msgstr "Rymd_skepp"
 
-#: client/gui-gtk-2.0/pages.c:210
+#: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
 msgstr "Påbörja _nytt spel"
 
-#: client/gui-gtk-2.0/pages.c:216
+#: client/gui-gtk-2.0/pages.c:214
 msgid "Start _Scenario Game"
 msgstr "Påbörja _scenariospel"
 
-#: client/gui-gtk-2.0/pages.c:222
+#: client/gui-gtk-2.0/pages.c:220
 msgid "_Load Saved Game"
 msgstr "_Återuppta sparat spel"
 
-#: client/gui-gtk-2.0/pages.c:231
+#: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
 msgstr "Delta i _nätverksspel"
 
-#: client/gui-gtk-2.0/pages.c:238
+#: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
 msgstr "Delta i nätverksspel (Gaming _Zone)"
 
-#: client/gui-gtk-2.0/pages.c:612 client/gui-win32/connectdlg.c:305
+#: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "Lösenorden är olika, ange lösenord."
 
-#: client/gui-gtk-2.0/pages.c:702 client/gui-mui/connectdlg.c:160
+#: client/gui-gtk-2.0/pages.c:700 client/gui-mui/connectdlg.c:160
 #: client/gui-win32/connectdlg.c:868
 msgid "Server Name"
 msgstr "Servernamn"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-mui/connectdlg.c:161
+#: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:161
 #: client/gui-win32/connectdlg.c:868 data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:704 client/gui-mui/connectdlg.c:162
+#: client/gui-gtk-2.0/pages.c:702 client/gui-mui/connectdlg.c:162
 #: client/gui-win32/connectdlg.c:869
 msgid "Version"
 msgstr "Version"
 
-#: client/gui-gtk-2.0/pages.c:705 client/gui-gtk-2.0/pages.c:1823
+#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:1925
 #: client/gui-mui/connectdlg.c:163 client/gui-win32/connectdlg.c:869
 #: client/gui-win32/connectdlg.c:947
 msgid "Status"
 msgstr "Status"
 
-#: client/gui-gtk-2.0/pages.c:707 client/gui-mui/connectdlg.c:165
+#: client/gui-gtk-2.0/pages.c:705 client/gui-mui/connectdlg.c:165
 #: client/gui-win32/connectdlg.c:870
 msgid "Comment"
 msgstr "Anmärkning"
 
-#: client/gui-gtk-2.0/pages.c:745
+#: client/gui-gtk-2.0/pages.c:743
 msgid "Local _Area Network"
 msgstr "Lokalt _nätverk"
 
-#: client/gui-gtk-2.0/pages.c:781
+#: client/gui-gtk-2.0/pages.c:779
 msgid "Internet _Metaserver"
 msgstr "Internet _metaserver"
 
-#: client/gui-gtk-2.0/pages.c:815
+#: client/gui-gtk-2.0/pages.c:813
 msgid "_Host:"
 msgstr "_Värd:"
 
-#: client/gui-gtk-2.0/pages.c:832
+#: client/gui-gtk-2.0/pages.c:830
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:849
+#: client/gui-gtk-2.0/pages.c:847
 msgid "_Login:"
 msgstr "_Logga in som:"
 
-#: client/gui-gtk-2.0/pages.c:867
+#: client/gui-gtk-2.0/pages.c:865
 msgid "Pass_word:"
 msgstr "L_ösenord:"
 
-#: client/gui-gtk-2.0/pages.c:885
+#: client/gui-gtk-2.0/pages.c:883
 msgid "Conf_irm Password:"
 msgstr "_Bekräfta lösenord:"
 
-#: client/gui-gtk-2.0/pages.c:910
+#: client/gui-gtk-2.0/pages.c:908
 msgid "C_onnect"
 msgstr "An_slut hit"
 
-#: client/gui-gtk-2.0/pages.c:1173
+#: client/gui-gtk-2.0/pages.c:1068
+#, c-format
+msgid "Player name: %s"
+msgstr "Spelarnamn: %s"
+
+#: client/gui-gtk-2.0/pages.c:1072
+#, c-format
+msgid "Host: %s"
+msgstr "Värd: %s"
+
+#: client/gui-gtk-2.0/pages.c:1079
+msgid "Player/conn info"
+msgstr "Spelar/anslutn. info"
+
+#: client/gui-gtk-2.0/pages.c:1106
+#, c-format
+msgid "%s info"
+msgstr "%s info"
+
+#: client/gui-gtk-2.0/pages.c:1116
+msgid "Toggle player ready"
+msgstr "Växla redoläge för spelare"
+
+#: client/gui-gtk-2.0/pages.c:1125
+msgid "Pick nation"
+msgstr "Välj folkstam"
+
+#: client/gui-gtk-2.0/pages.c:1137
+msgid "Observe this player"
+msgstr "Iaktag spelare"
+
+#. TRANS: e.g., "Put on Team 5"
+#: client/gui-gtk-2.0/pages.c:1169
+#, c-format
+msgid "Put on %s"
+msgstr "Gör till medlem i %s"
+
+#: client/gui-gtk-2.0/pages.c:1273
 msgid "_Number of Players (including AI):"
 msgstr "Antal spelare att (inklusive datorstyrda):"
 
-#: client/gui-gtk-2.0/pages.c:1196
+#: client/gui-gtk-2.0/pages.c:1296
 msgid "_AI Skill Level:"
 msgstr "Datorspelarens färdighetsnivå"
 
-#: client/gui-gtk-2.0/pages.c:1212
+#: client/gui-gtk-2.0/pages.c:1312
 msgid "_Ruleset:"
 msgstr "_Regler:"
 
-#: client/gui-gtk-2.0/pages.c:1220
+#: client/gui-gtk-2.0/pages.c:1320
 msgid "More Game _Options..."
 msgstr "_Fler spelinställningar..."
 
 # ?
-#: client/gui-gtk-2.0/pages.c:1243
+#: client/gui-gtk-2.0/pages.c:1345
 msgid "Record"
 msgstr "Rekord"
 
-#: client/gui-gtk-2.0/pages.c:1248
+#: client/gui-gtk-2.0/pages.c:1350
 msgid "Rating"
 msgstr "Grad"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1356
 msgid "Ready"
 msgstr "Redo"
 
-#: client/gui-gtk-2.0/pages.c:1261 data/default/units.ruleset:1739
+#: client/gui-gtk-2.0/pages.c:1363 data/default/units.ruleset:1739
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Ledare"
 
-#: client/gui-gtk-2.0/pages.c:1324
+#: client/gui-gtk-2.0/pages.c:1426
 msgid "Pick _Nation"
 msgstr "Välj ditt _folk"
 
-#: client/gui-gtk-2.0/pages.c:1392
+#: client/gui-gtk-2.0/pages.c:1494
 msgid "Choose Saved Game to Load"
 msgstr "Välj sparat spel att läsa in"
 
-#: client/gui-gtk-2.0/pages.c:1484
+#: client/gui-gtk-2.0/pages.c:1586
 msgid "Choose Saved Game to _Load:"
 msgstr "Välj sparat spel att _läsa in:"
 
-#: client/gui-gtk-2.0/pages.c:1504 client/gui-gtk-2.0/pages.c:1692
-#: client/gui-gtk-2.0/pages.c:2109
+#: client/gui-gtk-2.0/pages.c:1606 client/gui-gtk-2.0/pages.c:1794
+#: client/gui-gtk-2.0/pages.c:2211
 msgid "_Browse..."
 msgstr "_Bläddra..."
 
-#: client/gui-gtk-2.0/pages.c:1571
+#: client/gui-gtk-2.0/pages.c:1673
 msgid "Choose a Scenario"
 msgstr "Öppna scenario"
 
-#: client/gui-gtk-2.0/pages.c:1653
+#: client/gui-gtk-2.0/pages.c:1755
 msgid "Choose a _Scenario:"
 msgstr "Öppna scenario"
 
-#: client/gui-gtk-2.0/pages.c:1825 client/gui-gtk-2.0/repodlgs.c:632
+#: client/gui-gtk-2.0/pages.c:1927 client/gui-gtk-2.0/repodlgs.c:632
 #: client/gui-gtk-2.0/wldlg.c:1030 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
 #: client/gui-win32/citydlg.c:1087 client/gui-win32/connectdlg.c:952
@@ -11724,27 +11799,27 @@ msgstr "Öppna scenario"
 msgid "Type"
 msgstr "Typ"
 
-#: client/gui-gtk-2.0/pages.c:1835
+#: client/gui-gtk-2.0/pages.c:1937
 msgid "Choose a _nation to play:"
 msgstr "Välj en folkstam att spela:"
 
-#: client/gui-gtk-2.0/pages.c:1855
+#: client/gui-gtk-2.0/pages.c:1957
 msgid "Game _Options..."
 msgstr "Spelinställningar"
 
-#: client/gui-gtk-2.0/pages.c:2021 client/gui-win32/menu.c:578
+#: client/gui-gtk-2.0/pages.c:2123 client/gui-win32/menu.c:578
 msgid "Select Location to Save"
 msgstr "Välj plats att spara till"
 
-#: client/gui-gtk-2.0/pages.c:2106
+#: client/gui-gtk-2.0/pages.c:2208
 msgid "Save Game"
 msgstr "Spara spel"
 
-#: client/gui-gtk-2.0/pages.c:2147
+#: client/gui-gtk-2.0/pages.c:2249
 msgid "Saved _Games:"
 msgstr "Sparade spel:"
 
-#: client/gui-gtk-2.0/pages.c:2174
+#: client/gui-gtk-2.0/pages.c:2276
 msgid "Save _Filename:"
 msgstr "Filnamn:"
 
@@ -12137,6 +12212,10 @@ msgstr "Lägg till förv_alt värde"
 msgid "_Delete preset"
 msgstr "Radera förvalt värde"
 
+#: client/gui-mui/citydlg.c:1556
+msgid "Name:"
+msgstr "Namn:"
+
 #: client/gui-mui/citydlg.c:1581
 msgid "People (W/E/S/T):"
 msgstr "Invånare (A/U/V/S)"
@@ -12431,7 +12510,7 @@ msgstr "_Undersök staden"
 
 #: client/gui-mui/dialogs.c:747
 msgid "_Sabotage city"
-msgstr "För_stör i staden"
+msgstr "_Sabotera staden"
 
 #: client/gui-mui/dialogs.c:755 client/gui-mui/dialogs.c:822
 msgid "Steal _technology"
@@ -13042,7 +13121,7 @@ msgstr "Underrättelser om utlandet"
 #: client/gui-xaw/inteldlg.c:182
 #, c-format
 msgid "Intelligence Information for the %s Empire"
-msgstr "Underrättelser från %s-folkets rike"
+msgstr "Underrättelser (%s)"
 
 #: client/gui-mui/inteldlg.c:139 client/gui-win32/inteldlg.c:99
 #: client/gui-xaw/inteldlg.c:191 client/gui-xaw/inteldlg.c:430
@@ -13686,6 +13765,10 @@ msgstr "Sätt igång"
 #: client/gui-win32/connectdlg.c:1011
 msgid "Login:"
 msgstr "Logga in som:"
+
+#: client/gui-win32/connectdlg.c:1013
+msgid "Host:"
+msgstr "Värd:"
 
 #: client/gui-win32/connectdlg.c:1014
 msgid "Port:"
@@ -14607,10 +14690,6 @@ msgstr "Befäst enhet"
 msgid "Disband unit"
 msgstr "Upplös enhet"
 
-#: data/Freeciv.in:1186
-msgid "Upgrade unit"
-msgstr "Ersätt enhet"
-
 #: data/Freeciv.in:1217
 msgid "Options"
 msgstr "Valmöjligheter"
@@ -14974,6 +15053,10 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
+"Version 0.63; 2006-03-04\n"
+"  DM> Uppdateringar för 2.1-beta1. Har på prov börjat lägga in material\n"
+"  från Nordisk familjebok via Runeberg. Sekelskiftesspråket passar bra\n"
+"  i sammanhanget!\n"
 "Version 0.63; 2006-01-26\n"
 "  DM> Uppdateringar.\n"
 "Version 0.62; 2005-11-25\n"
@@ -16456,7 +16539,7 @@ msgid ""
 "on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
 "Antag att ett slagskepp (A:12, F:12, TP:40, E:2) med 3 drag kvar angriper "
-"erfarna bergstrupper (A:5, F:5, TP:20, E:1) inuti en stad på gräsland med "
+"erfarna bergstrupper (A:5, F:5, TP:20, E:1) inuti en stad på ängsmark med "
 "stadsmurar och kustförsvar."
 
 #: data/helpdata.txt:1092
@@ -16808,8 +16891,8 @@ msgstr ""
 "flygbas, järnväg eller väg) kunna ej plundras. Ej heller kunna "
 "landskapsomvandlingar upphävas genom plundring. Om man till exempel har "
 "byggt en bevattningsanläggning i en skogsruta så att den omvandlats till "
-"slätt kan plundring inte omvandla tillbaka den till skog. För att göra det "
-"måste man omvandla tillbaka den med en bosättare eller en ingenjör."
+"slättland kan plundring inte omvandla tillbaka den till skog. För att göra "
+"det måste man omvandla tillbaka den med en bosättare eller en ingenjör."
 
 #: data/helpdata.txt:1280
 msgid ""
@@ -18485,16 +18568,16 @@ msgstr "S"
 #: data/nation/icelandic.ruleset:5 data/nation/illyrian.ruleset:5
 #: data/nation/irish.ruleset:5 data/nation/italian.ruleset:5
 #: data/nation/latvian.ruleset:5 data/nation/lithuanian.ruleset:5
-#: data/nation/norwegian.ruleset:5 data/nation/polish.ruleset:5
-#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
-#: data/nation/roman.ruleset:5 data/nation/russian.ruleset:5
-#: data/nation/sami.ruleset:5 data/nation/scottish.ruleset:5
-#: data/nation/serbian.ruleset:5 data/nation/silesian.ruleset:5
-#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
-#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
-#: data/nation/swiss.ruleset:5 data/nation/ukrainian.ruleset:5
-#: data/nation/viking.ruleset:5 data/nation/welsh.ruleset:5
-#: data/nation/westphalian.ruleset:5
+#: data/nation/norwegian.ruleset:5 data/nation/ottoman.ruleset:5
+#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
+#: data/nation/romanian.ruleset:5 data/nation/roman.ruleset:5
+#: data/nation/russian.ruleset:5 data/nation/sami.ruleset:5
+#: data/nation/scottish.ruleset:5 data/nation/serbian.ruleset:5
+#: data/nation/silesian.ruleset:5 data/nation/slovenian.ruleset:5
+#: data/nation/slovakian.ruleset:5 data/nation/spanish.ruleset:5
+#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
+#: data/nation/ukrainian.ruleset:5 data/nation/viking.ruleset:5
+#: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
 msgid "European"
 msgstr "Europeisk"
 
@@ -18517,18 +18600,19 @@ msgstr "Tropisk"
 #: data/nation/japanese.ruleset:22 data/nation/kampuchean.ruleset:5
 #: data/nation/korean.ruleset:5 data/nation/lankese.ruleset:5
 #: data/nation/malaysian.ruleset:5 data/nation/manchu.ruleset:5
-#: data/nation/mongol.ruleset:5 data/nation/persian.ruleset:5
-#: data/nation/phoenician.ruleset:5 data/nation/ryukyuan.ruleset:5
-#: data/nation/singaporean.ruleset:17 data/nation/sumerian.ruleset:5
-#: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
-#: data/nation/tibetan.ruleset:5 data/nation/turk.ruleset:5
-#: data/nation/uyghur.ruleset:5 data/nation/vietnamese.ruleset:5
+#: data/nation/mongol.ruleset:5 data/nation/ottoman.ruleset:5
+#: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
+#: data/nation/ryukyuan.ruleset:5 data/nation/singaporean.ruleset:17
+#: data/nation/sumerian.ruleset:5 data/nation/taiwanese.ruleset:5
+#: data/nation/thai.ruleset:5 data/nation/tibetan.ruleset:5
+#: data/nation/turk.ruleset:5 data/nation/uyghur.ruleset:5
+#: data/nation/vietnamese.ruleset:5
 msgid "Asian"
 msgstr "Asiatisk"
 
 #: data/default/cities.ruleset:110 data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr "Babylon"
+msgstr "Babylonier"
 
 #: data/default/cities.ruleset:119
 msgid "Celtic"
@@ -19410,15 +19494,16 @@ msgstr "Skog"
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
 msgstr "Skogar är tätbevuxna med träd, vilket gör jordbruk något besvärligt."
 
+# DM> tidigare "Gräsland"
 #: data/default/terrain.ruleset:296 data/civ2/terrain.ruleset:261
 #: data/civ1/terrain.ruleset:251
 msgid "Grassland"
-msgstr "Gräsland"
+msgstr "Ängsmark"
 
 #: data/default/terrain.ruleset:328 data/civ2/terrain.ruleset:288
 #: data/civ1/terrain.ruleset:278
 msgid "Grasslands afford exceptional agricultural opportunities."
-msgstr "Gräsland erbjuder utomordentliga möjligheter till jordbruk."
+msgstr "Ängsmark erbjuder utomordentliga möjligheter till jordbruk."
 
 #: data/default/terrain.ruleset:333 data/civ2/terrain.ruleset:293
 #: data/civ1/terrain.ruleset:283
@@ -19479,7 +19564,7 @@ msgstr ""
 #: data/default/terrain.ruleset:486 data/civ2/terrain.ruleset:425
 #: data/civ1/terrain.ruleset:412
 msgid "Plains"
-msgstr "Slätt"
+msgstr "Slättland"
 
 #: data/default/terrain.ruleset:518 data/civ2/terrain.ruleset:452
 #: data/civ1/terrain.ruleset:439
@@ -20363,7 +20448,7 @@ msgstr ""
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
-msgstr "Aboriginer"
+msgstr "aboriginer"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
@@ -20373,7 +20458,7 @@ msgstr "?plural:aboriginerna"
 #: data/nation/maori.ruleset:5 data/nation/newzealand.ruleset:6
 #: data/nation/papuan.ruleset:5
 msgid "Oceanian"
-msgstr "Oceanien"
+msgstr "oceanien"
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -20388,7 +20473,7 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr "Afghan"
+msgstr "afghan"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
@@ -20405,16 +20490,16 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
-msgstr "Emir"
+msgstr "emir"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:31
 #: data/nation/soviet.ruleset:26
 msgid "General Secretary"
-msgstr "Generalsekreterare"
+msgstr "generalsekreterare"
 
 #: data/nation/afghani.ruleset:27
 msgid "Mullah"
-msgstr "Mulla"
+msgstr "mulla"
 
 #: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:19
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:29
@@ -20431,11 +20516,11 @@ msgstr "Mulla"
 #: data/nation/swedish.ruleset:33 data/nation/tibetan.ruleset:29
 #: data/nation/welsh.ruleset:27
 msgid "Prime Minister"
-msgstr "Premiärminister"
+msgstr "premiärminister"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
-msgstr "Algerier"
+msgstr "algerier"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
@@ -20450,7 +20535,7 @@ msgstr "?plural:algerierna"
 #: data/nation/sudanese.ruleset:5 data/nation/swazi.ruleset:5
 #: data/nation/tunisian.ruleset:5 data/nation/zulu.ruleset:5
 msgid "African"
-msgstr "Afrika"
+msgstr "afrika"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -20470,14 +20555,13 @@ msgstr ""
 #: data/nation/quebecois.ruleset:5 data/nation/sioux.ruleset:5
 #: data/nation/texan.ruleset:5 data/nation/venezuelan.ruleset:6
 msgid "American"
-msgstr "Amerikan"
+msgstr "amerikan"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
 msgstr "?plural:amerikanerna"
 
 #: data/nation/american.ruleset:6
-#, fuzzy
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
@@ -20487,15 +20571,15 @@ msgstr ""
 
 #: data/nation/american.ruleset:56 data/nation/scottish.ruleset:25
 msgid "Speaker"
-msgstr "Talare"
+msgstr "talare"
 
 #: data/nation/american.ruleset:57 data/nation/texan.ruleset:20
 msgid "Reverend"
-msgstr "Pastor"
+msgstr "pastor"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr "Antarktiker"
+msgstr "antarktiker"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
@@ -20503,15 +20587,15 @@ msgstr "?plural:antarktikerna"
 
 #: data/nation/antarctican.ruleset:5 data/nation/martian.ruleset:5
 msgid "Fictional"
-msgstr "Påhittade"
+msgstr "påhittade"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "Självständiga Sydpolen, pingvinernas paradis."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
-msgstr "Arab"
+msgstr "arab"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
@@ -20534,19 +20618,19 @@ msgstr "?plural:araberna"
 #: data/nation/lithuanian.ruleset:5 data/nation/malagasy.ruleset:5
 #: data/nation/malian.ruleset:5 data/nation/manchu.ruleset:5
 #: data/nation/mayan.ruleset:5 data/nation/mongol.ruleset:5
-#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
-#: data/nation/romanian.ruleset:5 data/nation/russian.ruleset:5
-#: data/nation/ryukyuan.ruleset:5 data/nation/scottish.ruleset:5
-#: data/nation/serbian.ruleset:5 data/nation/silesian.ruleset:5
-#: data/nation/sioux.ruleset:5 data/nation/slovenian.ruleset:5
-#: data/nation/slovakian.ruleset:5 data/nation/spanish.ruleset:5
-#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
-#: data/nation/thai.ruleset:5 data/nation/tibetan.ruleset:5
-#: data/nation/turk.ruleset:5 data/nation/uyghur.ruleset:5
+#: data/nation/ottoman.ruleset:5 data/nation/polish.ruleset:5
+#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
+#: data/nation/russian.ruleset:5 data/nation/ryukyuan.ruleset:5
+#: data/nation/scottish.ruleset:5 data/nation/serbian.ruleset:5
+#: data/nation/silesian.ruleset:5 data/nation/sioux.ruleset:5
+#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
+#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
+#: data/nation/swiss.ruleset:5 data/nation/thai.ruleset:5
+#: data/nation/tibetan.ruleset:5 data/nation/uyghur.ruleset:5
 #: data/nation/vietnamese.ruleset:5 data/nation/viking.ruleset:5
 #: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
 msgid "Medieval"
-msgstr "Medeltida"
+msgstr "medeltida"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -20554,11 +20638,11 @@ msgstr "Den arabisk-muslimska civilisationen under åren 622 - 1495 f.Kr.."
 
 #: data/nation/arab.ruleset:20
 msgid "Caliph"
-msgstr "Kalif"
+msgstr "kalif"
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
-msgstr "Araméer"
+msgstr "araméer"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
@@ -20575,7 +20659,7 @@ msgstr "?plural:araméerna"
 #: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
 #: data/nation/roman.ruleset:5 data/nation/sumerian.ruleset:5
 msgid "Ancient"
-msgstr "Forntida"
+msgstr "forntida"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -20585,7 +20669,7 @@ msgstr "Araméerna är enligt sagan ättlingarna till Aram, Noaks barnbarn."
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
-msgstr "Armenier"
+msgstr "armenier"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
@@ -20602,7 +20686,7 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr "Assyrier"
+msgstr "assyrier"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
@@ -20617,15 +20701,15 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malka"
-msgstr "Malka"
+msgstr "malka"
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malikta"
-msgstr "Malikta"
+msgstr "malikta"
 
 #: data/nation/argentine.ruleset:4
 msgid "Argentine"
-msgstr "Argentinare"
+msgstr "argentinare"
 
 #: data/nation/argentine.ruleset:5
 msgid "?plural:Argentines"
@@ -20649,7 +20733,7 @@ msgstr ""
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr "Australier"
+msgstr "australier"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
@@ -20665,7 +20749,7 @@ msgstr ""
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
-msgstr "Österrikare"
+msgstr "österrikare"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
@@ -20681,14 +20765,13 @@ msgstr ""
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
-msgstr "Aztek"
+msgstr "aztek"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
 msgstr "?plural:aztekerna"
 
 #: data/nation/aztec.ruleset:6
-#, fuzzy
 msgid ""
 "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
 "control of the Toltec-derived civilizations of Central Mexico during the "
@@ -20703,11 +20786,11 @@ msgstr ""
 
 #: data/nation/aztec.ruleset:21
 msgid "Tlatoani"
-msgstr "Tlatoani"
+msgstr "tlatoani"
 
 #: data/nation/aztec.ruleset:22
 msgid "Huey Tlatoani"
-msgstr "Huey Tlatoani"
+msgstr "huey tlatoani"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
@@ -20725,7 +20808,7 @@ msgstr ""
 
 #: data/nation/babylonian.ruleset:22 data/nation/sumerian.ruleset:21
 msgid "Lugal"
-msgstr "Lugal"
+msgstr "lugal"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -20740,7 +20823,7 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "Bayrare"
+msgstr "bayrare"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
@@ -20755,7 +20838,7 @@ msgstr ""
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr "Belgare"
+msgstr "belgare"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
@@ -20774,7 +20857,7 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr "Bengaler"
+msgstr "bengaler"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
@@ -20791,22 +20874,21 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:26
 msgid "Nabob"
-msgstr "Nabob"
+msgstr "nawab"
 
 #: data/nation/bengali.ruleset:27
 msgid "Major"
-msgstr "Major"
+msgstr "major"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr "Boer"
+msgstr "boer"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
 msgstr "?plural:boerna"
 
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
@@ -20818,7 +20900,7 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:4
 msgid "Bosnia & Herzegovina"
-msgstr "Bosnier"
+msgstr "bosnier"
 
 #: data/nation/bosnia.ruleset:5
 msgid "?plural:Bosnians"
@@ -20832,11 +20914,11 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:29
 msgid "Ban"
-msgstr "Ban"
+msgstr "ban"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr "Brasilian"
+msgstr "brasilian"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
@@ -20852,33 +20934,33 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:22 data/nation/roman.ruleset:39
 msgid "Dictatrix"
-msgstr "Härskarinna"
+msgstr "härskarinna"
 
 #: data/nation/brazilian.ruleset:23 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperator"
-msgstr "Imperator"
+msgstr "kejsare"
 
 #: data/nation/brazilian.ruleset:23 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperatrix"
-msgstr "Kejsarinna"
+msgstr "kejsarinna"
 
 #: data/nation/brazilian.ruleset:25 data/nation/chinese.ruleset:32
 msgid "Chairman"
-msgstr "Ordförande"
+msgstr "ordförande"
 
 #: data/nation/brazilian.ruleset:25 data/nation/chinese.ruleset:32
 msgid "Chairperson"
-msgstr "Ordförande"
+msgstr "ordförande"
 
 #: data/nation/brazilian.ruleset:26 data/nation/romanian.ruleset:38
 msgid "Director-President"
-msgstr "Direktörpresident"
+msgstr "direktörpresident"
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr "Britt"
+msgstr "britt"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:Britons"
@@ -20894,7 +20976,7 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr "Bulgar"
+msgstr "bulgar"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
@@ -20908,15 +20990,15 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:33
 msgid "Tzar"
-msgstr "Tsar"
+msgstr "tsar"
 
 #: data/nation/bulgarian.ruleset:33
 msgid "Tzaritza"
-msgstr "Tsaritsa"
+msgstr "tsarinna"
 
 #: data/nation/bulgarian.ruleset:36
 msgid "Drugariat"
-msgstr "Drugariat"
+msgstr "drugariat"
 
 #: data/nation/bulgarian.ruleset:36
 msgid "Drugarkata"
@@ -20925,15 +21007,15 @@ msgstr "Drugarkata"
 #: data/nation/bulgarian.ruleset:37 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
 msgid "Patriarch"
-msgstr "Patriark"
+msgstr "patriark"
 
 #: data/nation/bulgarian.ruleset:37
 msgid "Sveta Maika"
-msgstr "Sveta Maika"
+msgstr "sveta maika"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr "Burmes"
+msgstr "burmes"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
@@ -20948,26 +21030,25 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:26
 msgid "Bohmugyi"
-msgstr "Bohmugyi"
+msgstr "bohmugyi"
 
 #: data/nation/burmese.ruleset:27
 msgid "Saya"
-msgstr "Saya"
+msgstr "saya"
 
 #: data/nation/burmese.ruleset:27
 msgid "Sayama"
-msgstr "Sayama"
+msgstr "sayama"
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr "Bysantiner"
+msgstr "bysantiner"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
 msgstr "?plural:bysantinerna"
 
 #: data/nation/byzantium.ruleset:6
-#, fuzzy
 msgid ""
 "At the time of the decline of the old Roman empire, the Emperor Constantine "
 "moved the empire's capital to Byzantium and formed a new empire mostly known "
@@ -20984,11 +21065,11 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:27
 msgid "Basileus"
-msgstr "Basileus"
+msgstr "konung"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr "Kanadensare"
+msgstr "kanadensare"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
@@ -21004,7 +21085,7 @@ msgstr ""
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr "Kartager"
+msgstr "kartager"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
@@ -21022,7 +21103,7 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr "Katalan"
+msgstr "katalan"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
@@ -21036,41 +21117,41 @@ msgstr "Katalonien är ett område i nordöstra Spanien, vid foten av Pyrenéern
 
 #: data/nation/catalan.ruleset:22
 msgid "Primer Ministre"
-msgstr "Premiärminister"
+msgstr "premiärminister"
 
 #: data/nation/catalan.ruleset:22
 msgid "Primera Ministre"
-msgstr "Premiärminister"
+msgstr "premiärminister"
 
 #: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:34
 msgid "Dictador"
-msgstr "Diktator"
+msgstr "diktator"
 
 #: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
 #: data/nation/venezuelan.ruleset:34
 msgid "Dictadora"
-msgstr "Diktator"
+msgstr "diktatorska"
 
 #: data/nation/catalan.ruleset:24 data/nation/galician.ruleset:24
 msgid "Rei"
-msgstr "Kung"
+msgstr "konung"
 
 #: data/nation/catalan.ruleset:24
 msgid "Reina"
-msgstr "Drottning"
+msgstr "drottning"
 
 #: data/nation/catalan.ruleset:26
 msgid "Arquebisbe"
-msgstr "Ärkebiskop"
+msgstr "ärkebiskop"
 
 #: data/nation/catalan.ruleset:26
 msgid "Gran Bruixa"
-msgstr "Storbruxia"
+msgstr "storbruxia"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr "Chilenare"
+msgstr "chilenare"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
@@ -21082,27 +21163,26 @@ msgstr "Chile är ett land med spansktalande befolkning i Sydamerika."
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr "Kaptensgeneral"
+msgstr "kaptensgeneral"
 
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:27
 #: data/nation/german.ruleset:35 data/nation/irish.ruleset:57
 msgid "Archbishop"
-msgstr "Ärkebiskop"
+msgstr "ärkebiskop"
 
 #: data/nation/chilean.ruleset:26
 msgid "Supreme Director"
-msgstr "Överdirektör"
+msgstr "överdirektör"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr "Kines"
+msgstr "kines"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
 msgstr "?plural:kineserna"
 
 #: data/nation/chinese.ruleset:6
-#, fuzzy
 msgid ""
 "China is the oldest major civilization that is still in existence today, "
 "with written records dating back over 3,500 years.  After first being "
@@ -21122,15 +21202,15 @@ msgstr ""
 #: data/nation/chinese.ruleset:31 data/nation/japanese.ruleset:37
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
 msgid "Emperor"
-msgstr "Kejsare"
+msgstr "kejsare"
 
 #: data/nation/chinese.ruleset:31
 msgid "Dowager"
-msgstr "Änkedrottning"
+msgstr "änkedrottning"
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
-msgstr "Colombian"
+msgstr "colombian"
 
 #: data/nation/colombian.ruleset:4
 msgid "?plural:Colombians"
@@ -21149,19 +21229,19 @@ msgstr ""
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:23
 msgid "General"
-msgstr "General"
+msgstr "general"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:32
 msgid "Governador"
-msgstr "Guvernör"
+msgstr "guvernör"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:32
 msgid "Governadora"
-msgstr "Guvernörska"
+msgstr "guvernörska"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr "Sydstatare"
+msgstr "sydstatare"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
@@ -21169,7 +21249,7 @@ msgstr "?plural:sydstatarna"
 
 #: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
 msgid "Transitional"
-msgstr "Övergående"
+msgstr "övergående"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -21182,7 +21262,7 @@ msgstr ""
 # ?
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr "Kornier"
+msgstr "kornier"
 
 # ?
 #: data/nation/cornish.ruleset:4
@@ -21201,11 +21281,11 @@ msgstr ""
 #: data/nation/gallic.ruleset:22 data/nation/irish.ruleset:55
 #: data/nation/scottish.ruleset:24 data/nation/welsh.ruleset:25
 msgid "Chieftain"
-msgstr "Hövding"
+msgstr "hövding"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr "Kroatier"
+msgstr "kroatier"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
@@ -21225,7 +21305,7 @@ msgstr ""
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
-msgstr "Kuban"
+msgstr "kuban"
 
 #: data/nation/cuban.ruleset:4
 msgid "?plural:Cubans"
@@ -21243,7 +21323,7 @@ msgstr ""
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr "Tjeck"
+msgstr "tjeck"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
@@ -21259,15 +21339,15 @@ msgstr ""
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
-msgstr "Tan"
+msgstr "tan"
 
 #: data/nation/czech.ruleset:36
 msgid "Prophetess"
-msgstr "Spåkvinna"
+msgstr "spåkvinna"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr "Dansk"
+msgstr "dansk"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
@@ -21286,7 +21366,7 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr "Nederländare"
+msgstr "nederländare"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
@@ -21302,14 +21382,13 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr "Egyptier"
+msgstr "egyptier"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
 msgstr "?plural:egyptierna"
 
 #: data/nation/egyptian.ruleset:6
-#, fuzzy
 msgid ""
 "Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
@@ -21322,15 +21401,15 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:26
 msgid "Pharaoh"
-msgstr "Farao"
+msgstr "farao"
 
 #: data/nation/egyptian.ruleset:27
 msgid "Great Pharaoh"
-msgstr "Storfarao"
+msgstr "storfarao"
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr "Engländare"
+msgstr "engländare"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
@@ -21348,22 +21427,21 @@ msgstr ""
 
 #: data/nation/english.ruleset:26
 msgid "Lord Protector"
-msgstr "Herrebeskyddare"
+msgstr "beskyddare"
 
 #: data/nation/english.ruleset:26
 msgid "Lady Protector"
-msgstr "Dambeskyddare"
+msgstr "beskyddarinna"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr "Est"
+msgstr "est"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
 msgstr "?plur:esterna"
 
 #: data/nation/estonian.ruleset:6
-#, fuzzy
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
@@ -21374,7 +21452,7 @@ msgstr ""
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr "Etiopier"
+msgstr "etiopier"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
@@ -21388,11 +21466,11 @@ msgstr ""
 
 #: data/nation/ethiopian.ruleset:24
 msgid "Emporer"
-msgstr "Kejsare"
+msgstr "kejsare"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr "Filippinare"
+msgstr "filippinare"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
@@ -21408,7 +21486,7 @@ msgstr ""
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr "Finne"
+msgstr "finne"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
@@ -21436,7 +21514,7 @@ msgstr ""
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr "Fransos"
+msgstr "fransos"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
@@ -21451,11 +21529,11 @@ msgstr ""
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
-msgstr "Premiärminister"
+msgstr "premiärminister"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr "Galicier"
+msgstr "galicier"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
@@ -21467,37 +21545,38 @@ msgstr ""
 
 #: data/nation/galician.ruleset:22
 msgid "Primeiro Ministro"
-msgstr "Premiärminister"
+msgstr "premiärminister"
 
 #: data/nation/galician.ruleset:22
 msgid "Primeira Ministra"
-msgstr "Premiärminister"
+msgstr "premiärminister"
 
 #: data/nation/galician.ruleset:24
 msgid "Raina"
-msgstr "Drottning"
+msgstr "drottning"
 
 #: data/nation/galician.ruleset:25 data/nation/venezuelan.ruleset:35
 #: data/nation/venezuelan.ruleset:36 data/nation/venezuelan.ruleset:37
 msgid "Presidente"
-msgstr "President"
+msgstr "president"
 
+# DM> "presidentska" brukar betyda "hustru till presidenten"
 #: data/nation/galician.ruleset:25 data/nation/venezuelan.ruleset:35
 #: data/nation/venezuelan.ruleset:36 data/nation/venezuelan.ruleset:37
 msgid "Presidenta"
-msgstr "Presidentska"
+msgstr "president"
 
 #: data/nation/galician.ruleset:26
 msgid "Gran Bardo"
-msgstr "Storbard"
+msgstr "storbard"
 
 #: data/nation/galician.ruleset:26
 msgid "Grande Bardesa"
-msgstr "Storbardessa"
+msgstr "storbardessa"
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr "Galler"
+msgstr "galler"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
@@ -21510,11 +21589,11 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:23
 msgid "Druid"
-msgstr "Druid"
+msgstr "druid"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr "Georgier"
+msgstr "georgier"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
@@ -21528,7 +21607,7 @@ msgstr ""
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr "Tysk"
+msgstr "tysk"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
@@ -21553,15 +21632,15 @@ msgstr ""
 
 #: data/nation/german.ruleset:34
 msgid "Chancellor"
-msgstr "Kansler"
+msgstr "kansler"
 
 #: data/nation/german.ruleset:36
 msgid "First Secretary"
-msgstr "Förste sekreterare"
+msgstr "förstesekreterare"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr "Grek"
+msgstr "grek"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
@@ -21569,15 +21648,15 @@ msgstr "?plural:grekerna"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
-msgstr "Det forntida Grekland från Mycenae till den romerska erövringen."
+msgstr "Det forntida Grekland från Mykene till den romerska erövringen."
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
-msgstr "Despot"
+msgstr "despot"
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr "Hellener"
+msgstr "hellener"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
@@ -21591,7 +21670,7 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr "Hettit"
+msgstr "hettit"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
@@ -21607,7 +21686,7 @@ msgstr ""
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr "Ungrare"
+msgstr "ungrare"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
@@ -21615,11 +21694,11 @@ msgstr "?plural:ungrarna"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
-msgstr ""
+msgstr "Sagan förtäljer att Ungern grundlades av Árpád på 800-talet."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr "Islänning"
+msgstr "islänning"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
@@ -21634,7 +21713,7 @@ msgstr ""
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr "Illyrer"
+msgstr "illyrer"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
@@ -21652,7 +21731,7 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr "Inkan"
+msgstr "inkan"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
@@ -21668,19 +21747,19 @@ msgid ""
 msgstr ""
 "Inkafolket var ett amerindiskt folk i norra Anderna som erövrade ett rike "
 "längs Sydamerikas västkust. Några årtionden senare, i mitten av 1500-talet, "
-"anlände de spanska erövranrna."
+"anlände de spanska conquistadorerna..."
 
 #: data/nation/inca.ruleset:22
 msgid "?title:Inca"
-msgstr "Inka"
+msgstr "inka"
 
 #: data/nation/inca.ruleset:23
 msgid "Sapa Inca"
-msgstr "Sapa Inka"
+msgstr "sapa inka"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr "Indier"
+msgstr "indier"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
@@ -21691,22 +21770,53 @@ msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
 msgstr ""
+"Indiens historia kan sägas börja med den ariska invandringen. Dessförinnan "
+"kan man med fornforskningens hjälp urskilja först lågt stående stammar, "
+"hvilkas knifvar af agat och redskap af grofarbetad flinta man funnit bl. a. "
+"i Narbada-dalen, och senare ett folk, som jagade och krigade med redskap af "
+"slipad flinta. Därefter följa andra stammar, hvilka kände järnets bruk och "
+"buro prydnader af koppar och guld. Af de -- när vet man icke-- från nordväst "
+"invandrande arierna kallades dessa icke-ariska stammar dasyu (\"fiender\") "
+"l. dasa (\"slafvar\"). Vedaskalderna skildra dem som \"näslösa\" eller "
+"plattnästa, \"utan gudar\" och \"utan offer\", hvilka sistnämnda föraktliga "
+"omdömen säkerligen innebära en öfverdrift. Ättlingar af denna icke-ariska "
+"befolkning kvarlefva ännu mångenstädes i Indien; de tillhöra kolh- och "
+"dravida-folken, och dit räknas bl. a. bhilerna i Vindhyabergen, gonder, "
+"santaler m. fl.; äfvenledes hade från nordväst invandrade tibetansk-"
+"burmanska stammar före den ariska invandringen slagit sig ned på Himalayas "
+"sluttningar.\n"
+"\n"
+"Om ariernas äldsta civilisation i Indien lämnas många värdefulla "
+"upplysningar i de äldsta Veda-sångerna. De stredo från stridsvagnar och "
+"slogo sig ned som jordbrukare, använde plog, bodde i byar och brände sina "
+"döda. Kastväsendet var ännu okändt, och hvarje jordbrukande familjefader var "
+"äfven krigare och präst. Under eröfringens fortgång uppstodo småningom de "
+"fyra kasterna, bramaner l. präster, ksjatrija l. krigarkasten, vaisya l. "
+"jordbrukare och sudra l. trälar, underkufvade urinvånare af icke-arisk "
+"härkomst. I spetsen för stammen stod en (troligen vald) konung, hvars äldsta "
+"titel var vis-pati (\"nybyggarnas herre\"). Bramankasten blef småningom den "
+"ledande och utbildade icke blott gudstjänsten och gudaläran, utan äfven "
+"samhällsskicket och lagstiftningen. Den bramanska sedvanerätten i norra "
+"Indien samlades, relativt sent, i Manus lagbok (se Manu), och litteraturen "
+"på sanskritspråket fick en rik blomstring.\n"
+"\n"
+"Källa: Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
-msgstr "Raja"
+msgstr "raja"
 
 #: data/nation/indian.ruleset:20
 msgid "Maharaja"
-msgstr "Maharaja"
+msgstr "maharaja"
 
 #: data/nation/indian.ruleset:21
 msgid "Mahatma"
-msgstr "Mahatma"
+msgstr "mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr "Indonesier"
+msgstr "indonesier"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
@@ -21721,7 +21831,7 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr "Inuit"
+msgstr "inuit"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
@@ -21737,15 +21847,15 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:23
 msgid "Shaman"
-msgstr "Shaman"
+msgstr "shaman"
 
 #: data/nation/inuit.ruleset:24
 msgid "Great Shaman"
-msgstr "Storshaman"
+msgstr "storshaman"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
-msgstr "Irakier"
+msgstr "irakier"
 
 #: data/nation/iraqi.ruleset:4
 msgid "?plural:Iraqis"
@@ -21760,14 +21870,13 @@ msgstr ""
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr "Irer"
+msgstr "irer"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
 msgstr "?plural:irerna"
 
 #: data/nation/irish.ruleset:6
-#, fuzzy
 msgid ""
 "Ireland held out against the Romans and Vikings but was conquered by the "
 "Normans in 1171.  It was ruled by the English until 1922 when most of the "
@@ -21783,23 +21892,23 @@ msgstr ""
 
 #: data/nation/irish.ruleset:56
 msgid "High King"
-msgstr "Storkonung"
+msgstr "storkonung"
 
 #: data/nation/irish.ruleset:56
 msgid "High Queen"
-msgstr "Stordrottning"
+msgstr "stordrottning"
 
 #: data/nation/irish.ruleset:57
 msgid "Mother Superior"
-msgstr "Överstenunna"
+msgstr "överstenunna"
 
 #: data/nation/irish.ruleset:58
 msgid "Taoiseach"
-msgstr "Taoiseach"
+msgstr "klanledare"
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr "Irokes"
+msgstr "irokes"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
@@ -21819,25 +21928,25 @@ msgstr ""
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
 #: data/nation/swazi.ruleset:23 data/nation/zulu.ruleset:38
 msgid "Chief"
-msgstr "Hövding"
+msgstr "hövding"
 
 #: data/nation/iroquois.ruleset:27 data/nation/sioux.ruleset:29
 msgid "Great Chief"
-msgstr "Storhövding"
+msgstr "storhövding"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokesman"
-msgstr "Talesman"
+msgstr "talesman"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr "Taleskvinna"
+msgstr "taleskvinna"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr "Israel"
+msgstr "israel"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
@@ -21855,7 +21964,7 @@ msgstr ""
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr "Italienare"
+msgstr "italienare"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
@@ -21874,7 +21983,7 @@ msgstr ""
 
 #: data/nation/japanese.ruleset:20
 msgid "Japanese"
-msgstr "Japan"
+msgstr "japan"
 
 #: data/nation/japanese.ruleset:21
 msgid "?plural:Japanese"
@@ -21889,15 +21998,15 @@ msgstr ""
 #: data/nation/japanese.ruleset:37 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
 msgid "Empress"
-msgstr "Kejsarinna"
+msgstr "kejsarinna"
 
 #: data/nation/japanese.ruleset:38
 msgid "Shogun"
-msgstr "Shogun"
+msgstr "general"
 
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr "Kambodjan"
+msgstr "kambodjan"
 
 #: data/nation/kampuchean.ruleset:4
 msgid "?plural:Kampucheans"
@@ -21911,19 +22020,19 @@ msgstr ""
 
 #: data/nation/kampuchean.ruleset:20 data/nation/manchu.ruleset:20
 msgid "Warlord"
-msgstr "Krigsherre"
+msgstr "krigsherre"
 
 #: data/nation/kampuchean.ruleset:21
 msgid "Brother"
-msgstr "Broder"
+msgstr "broder"
 
 #: data/nation/kampuchean.ruleset:21
 msgid "Sister"
-msgstr "Syster"
+msgstr "syster"
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr "Kenyan"
+msgstr "kenyan"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
@@ -21935,7 +22044,7 @@ msgstr ""
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr "Korean"
+msgstr "korean"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
@@ -21952,11 +22061,11 @@ msgstr ""
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
 msgid "Great Leader"
-msgstr "Storledare"
+msgstr "storledare"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr "Lankes"
+msgstr "lankes"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
@@ -21968,29 +22077,41 @@ msgid ""
 "the 6th century BC and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
 msgstr ""
+"\"Om ön Ceylons (Sanskrit: Länka) första kolonisation känner man föga. Den "
+"stora hjeltedikten Ramajana förtäljer om en eröfring genom Rama och hans "
+"följeslagare. Omkr. 540 f. Kr. invandrade från fastlandet en indisk furste, "
+"Vidsjaja, hvilken upphäfda sig till ensam herskare på ön. Den vigtigaste "
+"tilldragelsen i äldre tider var införandet af buddhaismen, i slutet af 4:de "
+"årh. f. Kr. Denna religion har C. att tacka för sin skönaste blomstring, "
+"hvarom de många i klippor uthuggna templen, ruinerna af de gamla "
+"hufvudstäderna Anarå-dhåpura och Palanarua, många kolossala dagoper, "
+"jättestora, af sten huggna buddhabilder och flere andra minnen bära vittne."
+"\"\n"
+"\n"
+"Källa: Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/lankese.ruleset:21 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Prince"
-msgstr "Prins"
+msgstr "prins"
 
 #: data/nation/lankese.ruleset:21 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Princess"
-msgstr "Prinsessa"
+msgstr "prinsessa"
 
 #: data/nation/lankese.ruleset:22 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
 msgid "Governor"
-msgstr "Guvernör"
+msgstr "guvernör"
 
 #: data/nation/lankese.ruleset:23
 msgid "Supreme Commander"
-msgstr "Överbefälhavare"
+msgstr "överbefälhavare"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr "Lett"
+msgstr "lett"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
@@ -22002,10 +22123,18 @@ msgid ""
 "1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
 "of Soviet Union in 1991 Latvia restored its independence."
 msgstr ""
+"\"Letterna bebodde på 1100-talet nästan hela Lettland; i dem uppgingo "
+"liverna, medan esterna trängdes längre norrut. På 1100-talet inträngde "
+"eröfrande tyska invandrare, under polska herraväldet på 1500-talet polacker "
+"och judar. Mot 1800-talets slut medförde russifieringspolitiken en rysk "
+"invandring. Letterna utgöra dock alltjämt omkr. 73 proc. af befolkningen, "
+"hvadan Lettland i stort sedt är att anse som en lettisk nationalstat.\"\n"
+"\n"
+"Källa: Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr "Libyer"
+msgstr "libyer"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
@@ -22021,22 +22150,21 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
-msgstr "Dey"
+msgstr "härold"
 
 #: data/nation/libyan.ruleset:25
 msgid "Colonel"
-msgstr "Överste"
+msgstr "överste"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "Litauer"
+msgstr "litauer"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
 msgstr "?plural:litauerna"
 
 #: data/nation/lithuanian.ruleset:6
-#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
@@ -22047,15 +22175,15 @@ msgstr ""
 
 #: data/nation/lithuanian.ruleset:19
 msgid "Great Duke"
-msgstr "Storhertig"
+msgstr "storhertig"
 
 #: data/nation/lithuanian.ruleset:19
 msgid "Great Duchess"
-msgstr "Storhertiginna"
+msgstr "storhertiginna"
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr "Madagask"
+msgstr "madagask"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
@@ -22066,14 +22194,31 @@ msgid ""
 "The Malagasy are the people of Madagascar. For centuries, tribes from "
 "Indonesia, East Africa and the Arab world have gathered on the island."
 msgstr ""
+"\"Arabiska nybyggen funnos på Madagaskar långt tillbaka i tiden, och språket "
+"har rönt inflytande af arabiskan. 1500 sågs ön sannolikt första gången af en "
+"europé, portugisen Diogo Diaz i Pedro Cabrals indiska flotta. Bland "
+"stammarna på Madagaskar framträdde sakalava (i s. v.) mot midten af 1600-"
+"talet som ett eröfrande folk. De trängde mot n., underkufvade en stor del af "
+"ön samt bildade två riken, hvilka hade öfverväldet till slutet af 1700-"
+"talet. Då reste sig hovastammen i den centrala prov. Imerina under sina "
+"krigiska och energiska höfdingar Andrianimpoina och hans son Radama, gjorde "
+"sig oberoende af sakalava, underkufvade de kringboende stammarna och "
+"svingade sig upp till öns mäktigaste folk, därvid understödda af "
+"engelsmännen med vapen och ammunition. Med Radama I, som 1810 grundlade "
+"hovariket, börjar M:s egentliga historia. Denne härskare blef tillika sitt "
+"folks civilisator. Han uppförde skolor och sände ynglingar till Mauritius "
+"och England för att undervisas i tekniska yrken, förbjöd slafhandeln och "
+"tillät missionärer att inkomma (1820).\"\n"
+"\n"
+"Källa: Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
-msgstr "Överkomissionär"
+msgstr "överkomissionär"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr "Malaysier"
+msgstr "malaysier"
 
 #: data/nation/malaysian.ruleset:4
 msgid "?plural:Malaysians"
@@ -22084,23 +22229,25 @@ msgid ""
 "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in "
 "the early 14th century."
 msgstr ""
+"Malaysiens historia börjar med anläggandet av staden Malakka under tidigt "
+"1300-tal."
 
 #: data/nation/malaysian.ruleset:24 data/nation/singaporean.ruleset:38
 #: data/nation/turk.ruleset:24
 msgid "Sultan"
-msgstr "Sultan"
+msgstr "sultan"
 
 #: data/nation/malaysian.ruleset:24 data/nation/turk.ruleset:24
 msgid "Sultana"
-msgstr "Sultana"
+msgstr "sultaninna"
 
 #: data/nation/malaysian.ruleset:25
 msgid "Tun"
-msgstr "Tun"
+msgstr "tun"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
-msgstr "Malier"
+msgstr "malier"
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
@@ -22118,11 +22265,11 @@ msgstr ""
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
-msgstr "Mansa"
+msgstr "mansa"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr "Manchuer"
+msgstr "manchuer"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
@@ -22137,7 +22284,7 @@ msgstr ""
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr "Maorier"
+msgstr "maorier"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
@@ -22155,7 +22302,7 @@ msgstr ""
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
-msgstr "Marsian"
+msgstr "marsian"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
@@ -22167,7 +22314,7 @@ msgstr "Marsianerna anlände till Jorden år 4000 f.Kr.!"
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
-msgstr "Mayan"
+msgstr "mayan"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
@@ -22183,11 +22330,11 @@ msgstr ""
 
 #: data/nation/mayan.ruleset:19
 msgid "Ajaw"
-msgstr "Ajaw"
+msgstr "ahau"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
-msgstr "Mexikan"
+msgstr "mexikan"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
@@ -22202,7 +22349,7 @@ msgstr ""
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
-msgstr "Mongol"
+msgstr "mongol"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
@@ -22220,15 +22367,15 @@ msgstr ""
 
 #: data/nation/mongol.ruleset:29 data/nation/uyghur.ruleset:29
 msgid "Khan"
-msgstr "Khan"
+msgstr "kan"
 
 #: data/nation/mongol.ruleset:30 data/nation/uyghur.ruleset:30
 msgid "Khagan"
-msgstr "Khagan"
+msgstr "storkan"
 
 #: data/nation/newzealand.ruleset:4
 msgid "New Zealand"
-msgstr "Nyzeeländare"
+msgstr "nyzeeländare"
 
 #: data/nation/newzealand.ruleset:5
 msgid "?plural:New Zealanders"
@@ -22246,7 +22393,7 @@ msgstr ""
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr "Nigerian"
+msgstr "nigerian"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
@@ -22254,12 +22401,11 @@ msgstr "?plural:nigerianerna"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr ""
+msgstr "Nigeria erhöllo fullständig självständighet från britterna år 1960."
 
-# DM> Adjektiv, men bättre än "Norrman"
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
-msgstr "Norsk"
+msgstr "norrman"
 
 #: data/nation/norwegian.ruleset:4
 msgid "?plural:Norwegians"
@@ -22275,9 +22421,44 @@ msgstr ""
 "moderna grundlag, Eidsvollförfattningen. Norge tvingades dock snart in i en "
 "personalunion med Sverige, vilken sedemera upplöstes år 1905."
 
+#: data/nation/ottoman.ruleset:3
+msgid "Ottoman"
+msgstr "osman"
+
+#: data/nation/ottoman.ruleset:4
+msgid "?plural:Ottomans"
+msgstr "?plural:osmanerna"
+
+#: data/nation/ottoman.ruleset:6
+msgid ""
+"In the beginning of the 14th century Osman, a leader of a minor Turkic tribe "
+"in western Anatolia, conquered all his neigboring tribes. A century later "
+"the Byzantine capital fell to Turkic rule which gave the Ottoman empire "
+"access to Europe. The Ottomans subsequently conquered large parts of south-"
+"eastern Europe, the Islamic Arab world as well as Egypt and much of north "
+"Africa, making it a regional superpower until its dissolution in the "
+"aftermath of WWI."
+msgstr ""
+
+#: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
+msgid "Bey"
+msgstr "bej"
+
+#: data/nation/ottoman.ruleset:27
+msgid "Hakan"
+msgstr "hakan"
+
+#: data/nation/ottoman.ruleset:28
+msgid "Padisah"
+msgstr "padisah"
+
+#: data/nation/ottoman.ruleset:29
+msgid "Imparator"
+msgstr "kejsare"
+
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr "Papuan"
+msgstr "papuan"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
@@ -22291,11 +22472,11 @@ msgstr ""
 
 #: data/nation/papuan.ruleset:19
 msgid "Governor-General"
-msgstr "Generalguvernör"
+msgstr "generalguvernör"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr "Perser"
+msgstr "perser"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
@@ -22311,19 +22492,19 @@ msgstr ""
 
 #: data/nation/persian.ruleset:21
 msgid "Shah"
-msgstr "Shah"
+msgstr "shah"
 
 #: data/nation/persian.ruleset:21
 msgid "Shahbanu"
-msgstr "Shahbanu"
+msgstr "shahbanu"
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr "Ayatolla"
+msgstr "ayatolla"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "Fenicier"
+msgstr "fenicier"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
@@ -22339,7 +22520,7 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Polack"
+msgstr "polack"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
@@ -22355,23 +22536,23 @@ msgstr ""
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
-msgstr "Diktator"
+msgstr "diktator"
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktatorka"
-msgstr "Diktatorska"
+msgstr "diktatorska"
 
 #: data/nation/polish.ruleset:27
 msgid "Prymas"
-msgstr "Prymas"
+msgstr "biskop"
 
 #: data/nation/polish.ruleset:29
 msgid "Pierwszy Sekretarz"
-msgstr "Förste sekreterare"
+msgstr "förste sekreterare"
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr "Portugis"
+msgstr "portugis"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
@@ -22390,7 +22571,7 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "Quebecare"
+msgstr "quebecare"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
@@ -22406,7 +22587,7 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
-msgstr "Rumän"
+msgstr "rumän"
 
 #: data/nation/romanian.ruleset:4
 msgid "?plural:Romanians"
@@ -22428,35 +22609,35 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
-msgstr "Vojvod"
+msgstr "vojvod"
 
 #: data/nation/romanian.ruleset:34
 msgid "Doamna"
-msgstr "Doamna"
+msgstr "fru"
 
 #: data/nation/romanian.ruleset:35
 msgid "Rege"
-msgstr "Konung"
+msgstr "konung"
 
 #: data/nation/romanian.ruleset:35
 msgid "Regina"
-msgstr "Drottning"
+msgstr "drottning"
 
 #: data/nation/romanian.ruleset:36
 msgid "Presedinte"
-msgstr "President"
+msgstr "president"
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovaras"
-msgstr "Tovaras"
+msgstr "kamrat"
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovarasa"
-msgstr "Tovarasa"
+msgstr "kamrat"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr "Romare"
+msgstr "romare"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
@@ -22472,7 +22653,7 @@ msgstr ""
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr "Ryss"
+msgstr "ryss"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
@@ -22505,52 +22686,51 @@ msgstr ""
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
-msgstr "Hertig"
+msgstr "hertig"
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duchess"
-msgstr "Hertiginna"
+msgstr "hertiginna"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
-msgstr "Tsar"
+msgstr "tsar"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsaritsa"
-msgstr "Tsaritsa"
+msgstr "tsarinna"
 
 #: data/nation/russian.ruleset:49
 msgid "Matriarch"
-msgstr "Matriark"
+msgstr "matriark"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr "Ryukyuer"
+msgstr "ryukyuer"
 
 #: data/nation/ryukyuan.ruleset:4
 msgid "?plural:Ryukyuans"
 msgstr "?plural:ryukyuerna"
 
 #: data/nation/ryukyuan.ruleset:6
-#, fuzzy
 msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
 "Ryukyuriket (1372-1879) var en välmående sjöfartsnation som sedemera "
-"invaderades, ockuperades och annekterades av Japan."
+"invaderades, ockuperades samt annekterades av Japan."
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
-msgstr "Kung"
+msgstr "konung"
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Jo-o"
-msgstr "Drottning"
+msgstr "drottning"
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr "Same"
+msgstr "same"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
@@ -22567,11 +22747,11 @@ msgstr ""
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
-msgstr "Nåjd"
+msgstr "nåjd"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr "Skotte"
+msgstr "skotte"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
@@ -22588,18 +22768,17 @@ msgstr ""
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
-msgstr "Försteminister"
+msgstr "försteminister"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr "Serb"
+msgstr "serb"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
 msgstr "?plural:serberna"
 
 #: data/nation/serbian.ruleset:6
-#, fuzzy
 msgid ""
 "Serbia is part of the region of the Southern Slavs that was conquered by the "
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
@@ -22611,7 +22790,7 @@ msgstr ""
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr "Schlesier"
+msgstr "schlesier"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
@@ -22629,7 +22808,7 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr "Singaporian"
+msgstr "singaporian"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
@@ -22643,15 +22822,15 @@ msgstr "Singapore är en handelsstadsstat på Malackahalvöns sydspets."
 
 #: data/nation/singaporean.ruleset:37
 msgid "Ah"
-msgstr "Ah"
+msgstr "ah"
 
 #: data/nation/singaporean.ruleset:39
 msgid "Encik"
-msgstr "Encik"
+msgstr "herr"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr "Sioux"
+msgstr "sioux"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
@@ -22666,7 +22845,7 @@ msgstr ""
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr "Sloven"
+msgstr "sloven"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
@@ -22682,7 +22861,7 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:3
 msgid "Slovakian"
-msgstr "Slovak"
+msgstr "slovak"
 
 #: data/nation/slovakian.ruleset:4
 msgid "?plural:Slovakians"
@@ -22699,11 +22878,11 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:27
 msgid "Qween"
-msgstr "Drottning"
+msgstr "drottning"
 
 #: data/nation/slovakian.ruleset:30
 msgid "Pope"
-msgstr "Påve"
+msgstr "påve"
 
 #: data/nation/slovakian.ruleset:30
 msgid "Priestess"
@@ -22711,7 +22890,7 @@ msgstr "Översteprästinna"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
-msgstr "Sydafrikan"
+msgstr "sydafrikan"
 
 #: data/nation/southafrican.ruleset:4
 msgid "?plural:South Africans"
@@ -22739,7 +22918,7 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr "Sovjeter"
+msgstr "sovjeter"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
@@ -22761,7 +22940,7 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr "Spanjor"
+msgstr "spanjor"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
@@ -22781,19 +22960,19 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudillo"
-msgstr "Kaudill"
+msgstr "kaudill"
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudilla"
-msgstr "Kaudillinna"
+msgstr "kaudillinna"
 
 #: data/nation/spanish.ruleset:29
 msgid "Cardinal"
-msgstr "Kardinal"
+msgstr "kardinal"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr "Sudanes"
+msgstr "sudanes"
 
 #: data/nation/sudanese.ruleset:4
 msgid "?plural:Sudanese"
@@ -22809,7 +22988,7 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr "Sumer"
+msgstr "sumer"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
@@ -22827,11 +23006,11 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
-msgstr "Ensi"
+msgstr "ensi"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
-msgstr "Swazier"
+msgstr "swazier"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
@@ -22850,15 +23029,15 @@ msgstr ""
 # DM> Ja, faktiska översättningar av dessa Swazititlar =)
 #: data/nation/swazi.ruleset:24
 msgid "Ngwenyama"
-msgstr "Hanlejon"
+msgstr "hanlejon"
 
 #: data/nation/swazi.ruleset:24
 msgid "Indovuzaki"
-msgstr "Honelefant"
+msgstr "honelefant"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr "Svensk"
+msgstr "svensk"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
@@ -22884,7 +23063,7 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
-msgstr "Schweizare"
+msgstr "schweizare"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
@@ -22900,31 +23079,31 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:24
 msgid "Bailiff"
-msgstr "Fogde"
+msgstr "fogde"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
-msgstr "Folkvald konung"
+msgstr "folkvald konung"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected Queen"
-msgstr "Folkvald drottning"
+msgstr "folkvald drottning"
 
 #: data/nation/swiss.ruleset:26
 msgid "Elected Priest"
-msgstr "Folkvald präst"
+msgstr "folkvald överstepräst"
 
 #: data/nation/swiss.ruleset:26
 msgid "Elected Priestess"
-msgstr "Folkvald prästinna"
+msgstr "folkvald översteprästinna"
 
 #: data/nation/swiss.ruleset:27 data/nation/swiss.ruleset:28
 msgid "President of the Confederation"
-msgstr "Förbundspresident"
+msgstr "förbundspresident"
 
 #: data/nation/swiss.ruleset:29
 msgid "Federal Chancellor"
-msgstr "Federal kansler"
+msgstr "federal kansler"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -22947,7 +23126,7 @@ msgstr ""
 # ?
 #: data/nation/texan.ruleset:3
 msgid "Texan"
-msgstr "Texan"
+msgstr "texan"
 
 # ?
 #: data/nation/texan.ruleset:4
@@ -22959,10 +23138,32 @@ msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for it's \"larger than life\" cowboy mentality."
 msgstr ""
+"Inom det nuv. området anlades det första nybygget 1685 af La Salle, i Lavaca "
+"vid kusten. Långt tidigare hade emellertid spanska upptäcktsfarare, t. ex. "
+"De Veca och Coronado, färdats genom landet. Af spanjorerna upprättades "
+"åtskilliga missionsstationer i olika delar af Texas, som fått sitt namn "
+"efter en sammanslutning af indianstammar, hvilka benämnde sig \"Tejas\" och "
+"omkr. 1690 kommo i beröring med spanska missionen. Denna fick 1718 ett "
+"centrum i San Antonio (se d. o.). Denna plats befästes och var under spanska "
+"herraväldet hufvudstad i Texas. Efter Louisianaköpet 1803, då landet utmed "
+"Mississippis västra sida af Napoleon Bonaparte försåldes till "
+"unionsstaterna, började anglo-amerikanska äfventyrare företaga ströftåg in "
+"på Texas område, och sedan Texas jämte Coahuila 1824 blifvit en stat i den "
+"nya republiken Mexico, erhöllo amerikanska kolonister tillåtelse att slå sig "
+"ned där. Inom några få år funnos 20,000 sådana mellan Sabine och Colorado. "
+"Mexikanska regeringen ställde dem 1830 under militärisk uppsikt, och denna "
+"jämte åtskilliga tvångsåtgärder gaf anledning till ett texasiskt "
+"frihetskrig, i hvilket anglo-amerikanerna understöddes af frivilliga från "
+"Förenta staterna. 1836-45 var Texas en oberoende republik. I dec. 1845 "
+"upptogs det som stat i unionen, trots Mexicos protester. Ett krig mellan "
+"detta land och unionen följde omedelbart och slutade 2 febr. 1848 genom "
+"freden i Guadalupe Hidalgo.\n"
+"\n"
+"Källa: Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
-msgstr "Thailändare"
+msgstr "thailändare"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
@@ -22978,7 +23179,7 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr "Tibetan"
+msgstr "tibetan"
 
 #: data/nation/tibetan.ruleset:4
 msgid "?plural:Tibetans"
@@ -23005,15 +23206,15 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:27
 msgid "Lama"
-msgstr "Lama"
+msgstr "lama"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
-msgstr "Dalai Lama"
+msgstr "Daläi-lama"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
-msgstr "Tunisier"
+msgstr "tunisier"
 
 #: data/nation/tunisian.ruleset:4
 msgid "?plural:Tunisians"
@@ -23030,21 +23231,23 @@ msgid ""
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
 msgstr ""
-
-#: data/nation/tunisian.ruleset:29
-msgid "Bey"
-msgstr "Bey"
+"\"Tunisiens historia börjar med anläggningen af de feniciska kolonierna . De "
+"puniske (feniciske) kolonisterna semitiserade kusten, men lämnade berberna i "
+"det inre landet oberörda. Romarna öfvertogo (146 f. Kr.) arfvet efter "
+"kartagerna och vasallkonungarna i Numidien, och punernas språk och "
+"civilisation gåfvo vika för romarnas.\n"
+"\n"
+"Källa: Nordisk familjebok \"uggleupplagan\""
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
-msgstr "Turk"
+msgstr "turk"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
 msgstr "?plural:turkarna"
 
 #: data/nation/turk.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Turkey is the successor state of the Ottoman Empire, which collapsed "
 "and was dismembered by the victors in World War I after backing the Central "
@@ -23057,7 +23260,7 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr "Ukrainare"
+msgstr "ukrainare"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
@@ -23067,19 +23270,16 @@ msgstr "?plural:ukrainarna"
 msgid ""
 "The Ukraine is a vast region on the westernmost marches of the former Soviet "
 "Union. It includes some of the most fertile black-soil cropland on Earth."
-msgstr ""
-"Ukraina är ett mycket bördigt slättland norr om Svarta Havet. Här har "
-"jordens värsta olycka genom tiderna inträffat; härdsmältan i Tjernobyl år "
-"1986."
+msgstr "Ukraina är ett mycket bördigt slättland norr om Svarta Havet."
 
 #: data/nation/ukrainian.ruleset:18
 msgid "Hetman"
-msgstr "Hetman"
+msgstr "hetman"
 
 # ?
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr "Uigurer"
+msgstr "uigurer"
 
 # ?
 #: data/nation/uyghur.ruleset:4
@@ -23104,7 +23304,7 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:4
 msgid "Venezuela"
-msgstr "Venezuelare"
+msgstr "venezuelare"
 
 #: data/nation/venezuelan.ruleset:5
 msgid "?plural:Venezuelans"
@@ -23126,11 +23326,11 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:33
 msgid "Terrateniente"
-msgstr "Terrateniente"
+msgstr "länsherre"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr "Vietnames"
+msgstr "vietnames"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
@@ -23147,7 +23347,7 @@ msgstr ""
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr "Viking"
+msgstr "viking"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
@@ -23165,7 +23365,7 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr "Walesare"
+msgstr "walesare"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
@@ -23182,7 +23382,7 @@ msgstr ""
 # DM> Det är iof vanligare att skriva "Westfaler"
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr "Västfaler"
+msgstr "västfaler"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
@@ -23200,7 +23400,7 @@ msgstr ""
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
-msgstr "Zulu"
+msgstr "zulu"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
@@ -23265,6 +23465,3 @@ msgstr "Nybörjarhandledning"
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
 msgstr "Handledning för nybörjare."
-
-#~ msgid "* Allows changing government to %s.\n"
-#~ msgstr "* Möjliggör byte av regeringsform till %s.\n"
