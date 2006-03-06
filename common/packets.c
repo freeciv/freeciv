@@ -420,7 +420,7 @@ void *get_packet_from_connection(struct connection *pc,
 
     buffer->ndata += decompressed_size;
     
-    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: decompressed %d into %ld",
+    freelog(COMPRESS_LOG_LEVEL, "COMPRESS: decompressed %ld into %ld",
 	    compressed_size, decompressed_size);
 
     return get_packet_from_connection(pc, ptype, presult);
