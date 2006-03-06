@@ -289,9 +289,15 @@ SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags) {
   MUST NOT BE USED IF NO SDLSCREEN IS SET
 **************************************************************************/
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
-				   SDL_Color * pColor)
+				   SDL_Color * pColor, bool add_alpha)
 {
-  SDL_Surface *pNew = create_surf(w, h, iFlags);
+  SDL_Surface *pNew;
+
+  if (add_alpha) {
+    pNew = create_surf_alpha(w, h, iFlags);
+  } else {
+    pNew = create_surf(w, h, iFlags);
+  }
   
   if (!pNew) {
     return NULL;

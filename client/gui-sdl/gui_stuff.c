@@ -684,8 +684,8 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pWidget->string16->fgcol = color;
     
     pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
-                      SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO));
-   
+              SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO), TRUE);
+    
     /* calculate start position */
     if (pWidget->size.y - pBcgd->h - adj_size(6) < 0) {
       pInfo_Area->y = pWidget->size.y + pWidget->size.h + adj_size(3);
@@ -703,7 +703,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pInfo_Area->h = pBcgd->h + adj_size(3);
 
     pInfo_Label = SDL_DisplayFormatAlpha(pBcgd);
-    
+
     FREESURFACE(pBcgd);
     
     /* draw text */
