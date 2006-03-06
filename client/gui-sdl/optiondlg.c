@@ -667,9 +667,9 @@ static int video_callback(struct GUI *pWidget)
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER_RIGHT);
   
   /* fullscreen mode label */
-  pTmpGui =
-      create_themelabel(create_filled_surface(adj_size(150), adj_size(30), SDL_SWSURFACE, NULL),
-      		pWindow->dst, pStr, adj_size(150), adj_size(30), 0);
+  pTmpGui = create_themelabel(create_filled_surface(adj_size(150), adj_size(30),
+              SDL_SWSURFACE, NULL, TRUE),
+              pWindow->dst, pStr, adj_size(150), adj_size(30), 0);
 			
   xxx = pTmpGui->size.x = pWindow->size.x +
       ((pWindow->size.w - pTmpGui->size.w) / 2);

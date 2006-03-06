@@ -211,7 +211,7 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat *pSpf,
 				     int w, int h, Uint32 f);
 
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
-				   SDL_Color *pColor);
+				   SDL_Color *pColor, bool add_alpha);
 
 SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 				    SDL_Rect *pRect);
