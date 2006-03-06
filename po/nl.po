@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-01 13:46+0100\n"
+"POT-Creation-Date: 2006-03-05 20:45-0500\n"
 "PO-Revision-Date: 2006-03-01 21:18+0100\n"
 "Last-Translator:  <>\n"
 "Language-Team:  <en@li.org>\n"
@@ -1356,11 +1356,9 @@ msgstr "Spel: %s is klaar met het bouwen van %s."
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] ""
-"Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang."
+msgstr[0] "Spel: %s versnelt onderzoek, u krijgt een onmiddelijke vooruitgang."
 msgstr[1] ""
-"Spel: %s "
-"versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
+"Spel: %s versnelt onderzoek, u krijgt %d onmiddelijke vooruitgangen."
 
 #: server/cityturn.c:1134
 #, c-format
@@ -1567,7 +1565,7 @@ msgstr "  -v, --version\t\tToon het versienummer\n"
 msgid "  -z, --zone\t\tEnable GGZ mode\n"
 msgstr "··-z,·--zone\t\tZet GGZ module aan\n"
 
-#: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:263
+#: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:262
 #: client/gui-mui/gui_main.c:119 client/gui-xaw/gui_main.c:245
 #: manual/civmanual.c:374
 #, c-format
@@ -4999,7 +4997,8 @@ msgstr "Spel eindigde in een gelijkspel"
 #: server/srv_main.c:436 server/srv_main.c:447
 #, c-format
 msgid ""
-"Your %s unit %s was disbanded in accordance with your peace treaty with the %s."
+"Your %s unit %s was disbanded in accordance with your peace treaty with the %"
+"s."
 msgstr ""
 "Uw %s eenheid %s is ontbonden zoals volgens uw vredesverdrag met de %s."
 
@@ -5896,24 +5895,24 @@ msgid "Barbarian"
 msgstr "Barbaars"
 
 #: server/stdinhand.c:2986 server/stdinhand.c:4033 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:1757 client/gui-win32/connectdlg.c:199
+#: client/gui-gtk-2.0/pages.c:1859 client/gui-win32/connectdlg.c:199
 #: client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "KI"
 
 #: server/stdinhand.c:2986 server/stdinhand.c:4035
-#: client/gui-gtk-2.0/pages.c:1757 client/gui-gtk-2.0/pages.c:1787
+#: client/gui-gtk-2.0/pages.c:1859 client/gui-gtk-2.0/pages.c:1889
 #: client/gui-win32/connectdlg.c:199 client/gui-win32/connectdlg.c:218
 msgid "Human"
 msgstr "Menselijk"
 
-#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1756
-#: client/gui-gtk-2.0/pages.c:1786 client/gui-win32/connectdlg.c:198
+#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1858
+#: client/gui-gtk-2.0/pages.c:1888 client/gui-win32/connectdlg.c:198
 #: client/gui-win32/connectdlg.c:217
 msgid "Alive"
 msgstr "Actief"
 
-#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1756
+#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1858
 #: client/gui-win32/connectdlg.c:198
 msgid "Dead"
 msgstr "Dood"
@@ -8959,12 +8958,12 @@ msgid "Username"
 msgstr "Gebruikersnaam"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
-#: client/gui-gtk-2.0/pages.c:1819
+#: client/gui-gtk-2.0/pages.c:1921
 msgid "Flag"
 msgstr "Vlag"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:655
-#: client/gui-gtk-2.0/pages.c:1265 client/gui-gtk-2.0/pages.c:1821
+#: client/gui-gtk-2.0/pages.c:1367 client/gui-gtk-2.0/pages.c:1923
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:942
 #: client/gui-win32/dialogs.c:546 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -8978,7 +8977,7 @@ msgstr "Grens"
 msgid "Score"
 msgstr "Score"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1271
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1373
 msgid "Team"
 msgstr "Team"
 
@@ -10348,8 +10347,8 @@ msgstr "Kies wat te plunderen:"
 msgid "Unit"
 msgstr "Eenheid"
 
-#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:1239
-#: client/gui-gtk-2.0/pages.c:1817 client/gui-gtk-2.0/wldlg.c:1030
+#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:1341
+#: client/gui-gtk-2.0/pages.c:1919 client/gui-gtk-2.0/wldlg.c:1030
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:937
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:296 data/Freeciv.in:80
 msgid "Name"
@@ -10623,28 +10622,28 @@ msgstr ""
 "schaduw te tekenen. Dit is niet trager maar verbruikt wel twee keer zoveel "
 "geheugen."
 
-#: client/gui-gtk-2.0/gui_main.c:612 client/gui-gtk-2.0/gui_main.c:1230
+#: client/gui-gtk-2.0/gui_main.c:611 client/gui-gtk-2.0/gui_main.c:1229
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:978 client/gui-gtk-2.0/gui_main.c:992
+#: client/gui-gtk-2.0/gui_main.c:977 client/gui-gtk-2.0/gui_main.c:991
 #: client/gui-win32/gui_main.c:481 data/Freeciv.in:2618
 msgid "Turn Done"
 msgstr "Beurt Klaar"
 
-#: client/gui-gtk-2.0/gui_main.c:992
+#: client/gui-gtk-2.0/gui_main.c:991
 msgid "Shift+Return"
 msgstr "Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1024
+#: client/gui-gtk-2.0/gui_main.c:1023
 msgid "_Map"
 msgstr "Kaart (_M)"
 
-#: client/gui-gtk-2.0/gui_main.c:1101
+#: client/gui-gtk-2.0/gui_main.c:1100
 msgid "_Chat"
 msgstr "_Praat"
 
-#: client/gui-gtk-2.0/gui_main.c:1117 client/gui-mui/gui_main.c:1044
+#: client/gui-gtk-2.0/gui_main.c:1116 client/gui-mui/gui_main.c:1044
 #: client/gui-win32/gui_main.c:537 data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -10656,15 +10655,15 @@ msgstr ""
 "menu.\n"
 "Nu.. Geef ze van katoen!"
 
-#: client/gui-gtk-2.0/gui_main.c:1370
+#: client/gui-gtk-2.0/gui_main.c:1369
 msgid "Not _ready"
 msgstr "Niet klaa_r"
 
-#: client/gui-gtk-2.0/gui_main.c:1381 client/gui-gtk-2.0/pages.c:1329
+#: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk-2.0/pages.c:1431
 msgid "_Ready"
 msgstr "Klaa_r "
 
-#: client/gui-gtk-2.0/gui_main.c:1385 client/gui-gtk-2.0/pages.c:1866
+#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/pages.c:1968
 msgid "_Start"
 msgstr "Begin (_S)"
 
@@ -10692,23 +10691,15 @@ msgstr "<Moeilijke KI>"
 msgid "Random"
 msgstr "Willekeurig"
 
-#: client/gui-gtk-2.0/gui_main.c:1486
+#: client/gui-gtk-2.0/gui_main.c:1494
 msgid "Observer"
 msgstr "Waarnemer"
 
-#: client/gui-gtk-2.0/gui_main.c:1486
+#: client/gui-gtk-2.0/gui_main.c:1494
 msgid "Detached"
 msgstr "Losgekoppeld"
 
-#: client/gui-gtk-2.0/gui_main.c:1539 client/gui-mui/citydlg.c:1556
-msgid "Name:"
-msgstr "Naam:"
-
-#: client/gui-gtk-2.0/gui_main.c:1546 client/gui-win32/connectdlg.c:1013
-msgid "Host:"
-msgstr "Server:"
-
-#: client/gui-gtk-2.0/gui_main.c:1817
+#: client/gui-gtk-2.0/gui_main.c:1764
 msgid "Are you sure you want to quit?"
 msgstr "Ben je zeker dat je het spel wil verlaten?"
 
@@ -11638,7 +11629,7 @@ msgstr "Ga naar _locatie"
 msgid "?show:Dead Players"
 msgstr "?show: Dode Spelers"
 
-#: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:705
+#: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:704
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
 #: client/gui-win32/connectdlg.c:869 client/gui-win32/plrdlg.c:341
 #: client/gui-xaw/menu.c:220 data/Freeciv.in:3192 data/Freeciv.in:3193
@@ -11673,148 +11664,187 @@ msgstr "Ontneem _waarneming"
 msgid "_Spaceship"
 msgstr "Ruimte_schip"
 
-#: client/gui-gtk-2.0/pages.c:209
+#: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
 msgstr "Begin _nieuw spel"
 
-#: client/gui-gtk-2.0/pages.c:215
+#: client/gui-gtk-2.0/pages.c:214
 msgid "Start _Scenario Game"
 msgstr "Begin _Scenario Spel"
 
-#: client/gui-gtk-2.0/pages.c:221
+#: client/gui-gtk-2.0/pages.c:220
 msgid "_Load Saved Game"
 msgstr "_Laad Bewaard Spel"
 
-#: client/gui-gtk-2.0/pages.c:230
+#: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
 msgstr "Verbind met netwerkspel (_o)"
 
-#: client/gui-gtk-2.0/pages.c:237
+#: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
 msgstr "Verbind met Gaming _Zone"
 
-#: client/gui-gtk-2.0/pages.c:611 client/gui-win32/connectdlg.c:305
+#: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
 msgstr "Wachtwoorden komen niet overeen, geef wachtwoord."
 
-#: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:160
+#: client/gui-gtk-2.0/pages.c:700 client/gui-mui/connectdlg.c:160
 #: client/gui-win32/connectdlg.c:868
 msgid "Server Name"
 msgstr "Servernaam"
 
-#: client/gui-gtk-2.0/pages.c:702 client/gui-mui/connectdlg.c:161
+#: client/gui-gtk-2.0/pages.c:701 client/gui-mui/connectdlg.c:161
 #: client/gui-win32/connectdlg.c:868 data/Freeciv.in:96
 msgid "Port"
 msgstr "Poort"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-mui/connectdlg.c:162
+#: client/gui-gtk-2.0/pages.c:702 client/gui-mui/connectdlg.c:162
 #: client/gui-win32/connectdlg.c:869
 msgid "Version"
 msgstr "Versie"
 
-#: client/gui-gtk-2.0/pages.c:704 client/gui-gtk-2.0/pages.c:1823
+#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:1925
 #: client/gui-mui/connectdlg.c:163 client/gui-win32/connectdlg.c:869
 #: client/gui-win32/connectdlg.c:947
 msgid "Status"
 msgstr "Status"
 
-#: client/gui-gtk-2.0/pages.c:706 client/gui-mui/connectdlg.c:165
+#: client/gui-gtk-2.0/pages.c:705 client/gui-mui/connectdlg.c:165
 #: client/gui-win32/connectdlg.c:870
 msgid "Comment"
 msgstr "Commentaar"
 
-#: client/gui-gtk-2.0/pages.c:744
+#: client/gui-gtk-2.0/pages.c:743
 msgid "Local _Area Network"
 msgstr "Lok_aal netwerk"
 
-#: client/gui-gtk-2.0/pages.c:780
+#: client/gui-gtk-2.0/pages.c:779
 msgid "Internet _Metaserver"
 msgstr "Internet _Metaserver"
 
-#: client/gui-gtk-2.0/pages.c:814
+#: client/gui-gtk-2.0/pages.c:813
 msgid "_Host:"
 msgstr "_Host:"
 
-#: client/gui-gtk-2.0/pages.c:831
+#: client/gui-gtk-2.0/pages.c:830
 msgid "_Port:"
 msgstr "_Poort:"
 
-#: client/gui-gtk-2.0/pages.c:848
+#: client/gui-gtk-2.0/pages.c:847
 msgid "_Login:"
 msgstr "_Login:"
 
-#: client/gui-gtk-2.0/pages.c:866
+#: client/gui-gtk-2.0/pages.c:865
 msgid "Pass_word:"
 msgstr "Wacht_woord:"
 
-#: client/gui-gtk-2.0/pages.c:884
+#: client/gui-gtk-2.0/pages.c:883
 msgid "Conf_irm Password:"
 msgstr "Bevest_ig Wachtwoord:"
 
-#: client/gui-gtk-2.0/pages.c:909
+#: client/gui-gtk-2.0/pages.c:908
 msgid "C_onnect"
 msgstr "Maak verbinding (o)"
 
-#: client/gui-gtk-2.0/pages.c:1172
+#: client/gui-gtk-2.0/pages.c:1068
+#, fuzzy, c-format
+msgid "Player name: %s"
+msgstr "Spelersnaam :"
+
+#: client/gui-gtk-2.0/pages.c:1072
+#, fuzzy, c-format
+msgid "Host: %s"
+msgstr "Server:"
+
+#: client/gui-gtk-2.0/pages.c:1079
+msgid "Player/conn info"
+msgstr ""
+
+#: client/gui-gtk-2.0/pages.c:1106
+#, fuzzy, c-format
+msgid "%s info"
+msgstr "Stadsinfo"
+
+#: client/gui-gtk-2.0/pages.c:1116
+#, fuzzy
+msgid "Toggle player ready"
+msgstr "aitoggle <naam van de speler>"
+
+#: client/gui-gtk-2.0/pages.c:1125
+#, fuzzy
+msgid "Pick nation"
+msgstr "Kies Natie"
+
+#: client/gui-gtk-2.0/pages.c:1137
+msgid "Observe this player"
+msgstr ""
+
+#. TRANS: e.g., "Put on Team 5"
+#: client/gui-gtk-2.0/pages.c:1169
+#, fuzzy, c-format
+msgid "Put on %s"
+msgstr "Bevolking: %s"
+
+#: client/gui-gtk-2.0/pages.c:1273
 msgid "_Number of Players (including AI):"
 msgstr "Aantal spelers (KI inbegrepen): (_N)"
 
-#: client/gui-gtk-2.0/pages.c:1195
+#: client/gui-gtk-2.0/pages.c:1296
 msgid "_AI Skill Level:"
 msgstr "KI sterkte: (_A)"
 
-#: client/gui-gtk-2.0/pages.c:1211
+#: client/gui-gtk-2.0/pages.c:1312
 msgid "_Ruleset:"
 msgstr "Regelset:"
 
-#: client/gui-gtk-2.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1320
 msgid "More Game _Options..."
 msgstr "Meer Spel _Opties"
 
-#: client/gui-gtk-2.0/pages.c:1243
+#: client/gui-gtk-2.0/pages.c:1345
 msgid "Record"
 msgstr "Record"
 
-#: client/gui-gtk-2.0/pages.c:1248
+#: client/gui-gtk-2.0/pages.c:1350
 msgid "Rating"
 msgstr "Score"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1356
 msgid "Ready"
 msgstr "Klaar"
 
-#: client/gui-gtk-2.0/pages.c:1261 data/default/units.ruleset:1739
+#: client/gui-gtk-2.0/pages.c:1363 data/default/units.ruleset:1739
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Leider"
 
-#: client/gui-gtk-2.0/pages.c:1324
+#: client/gui-gtk-2.0/pages.c:1426
 msgid "Pick _Nation"
 msgstr "Kies _Natie"
 
-#: client/gui-gtk-2.0/pages.c:1392
+#: client/gui-gtk-2.0/pages.c:1494
 msgid "Choose Saved Game to Load"
 msgstr "Kies opgeslagen spel om te laden"
 
-#: client/gui-gtk-2.0/pages.c:1484
+#: client/gui-gtk-2.0/pages.c:1586
 msgid "Choose Saved Game to _Load:"
 msgstr "Kies opgeslagen spel om te _Laden"
 
-#: client/gui-gtk-2.0/pages.c:1504 client/gui-gtk-2.0/pages.c:1692
-#: client/gui-gtk-2.0/pages.c:2109
+#: client/gui-gtk-2.0/pages.c:1606 client/gui-gtk-2.0/pages.c:1794
+#: client/gui-gtk-2.0/pages.c:2211
 msgid "_Browse..."
 msgstr "_Bladeren..."
 
-#: client/gui-gtk-2.0/pages.c:1571
+#: client/gui-gtk-2.0/pages.c:1673
 msgid "Choose a Scenario"
 msgstr "Kies een Scenario"
 
-#: client/gui-gtk-2.0/pages.c:1653
+#: client/gui-gtk-2.0/pages.c:1755
 msgid "Choose a _Scenario:"
 msgstr "Kies een _Scenario:"
 
-#: client/gui-gtk-2.0/pages.c:1825 client/gui-gtk-2.0/repodlgs.c:632
+#: client/gui-gtk-2.0/pages.c:1927 client/gui-gtk-2.0/repodlgs.c:632
 #: client/gui-gtk-2.0/wldlg.c:1030 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
 #: client/gui-win32/citydlg.c:1087 client/gui-win32/connectdlg.c:952
@@ -11822,27 +11852,27 @@ msgstr "Kies een _Scenario:"
 msgid "Type"
 msgstr "Type"
 
-#: client/gui-gtk-2.0/pages.c:1835
+#: client/gui-gtk-2.0/pages.c:1937
 msgid "Choose a _nation to play:"
 msgstr "Kies een natie om te spelen:"
 
-#: client/gui-gtk-2.0/pages.c:1855
+#: client/gui-gtk-2.0/pages.c:1957
 msgid "Game _Options..."
 msgstr "Spel _Opties"
 
-#: client/gui-gtk-2.0/pages.c:2021 client/gui-win32/menu.c:578
+#: client/gui-gtk-2.0/pages.c:2123 client/gui-win32/menu.c:578
 msgid "Select Location to Save"
 msgstr "Kies opslag locatie"
 
-#: client/gui-gtk-2.0/pages.c:2106
+#: client/gui-gtk-2.0/pages.c:2208
 msgid "Save Game"
 msgstr "Bewaar Spel"
 
-#: client/gui-gtk-2.0/pages.c:2147
+#: client/gui-gtk-2.0/pages.c:2249
 msgid "Saved _Games:"
 msgstr "Bewaarde Spelen: (_g)"
 
-#: client/gui-gtk-2.0/pages.c:2174
+#: client/gui-gtk-2.0/pages.c:2276
 msgid "Save _Filename:"
 msgstr "Bewaar Spel in Bestand: (_f)"
 
@@ -12231,6 +12261,10 @@ msgstr "Snelkeuze toevoegen (_a)"
 #: client/gui-mui/citydlg.c:1550
 msgid "_Delete preset"
 msgstr "Snelkeuze verwij_deren"
+
+#: client/gui-mui/citydlg.c:1556
+msgid "Name:"
+msgstr "Naam:"
 
 #: client/gui-mui/citydlg.c:1581
 msgid "People (W/E/S/T):"
@@ -13779,6 +13813,10 @@ msgstr "Begin Spel"
 #: client/gui-win32/connectdlg.c:1011
 msgid "Login:"
 msgstr "Login:"
+
+#: client/gui-win32/connectdlg.c:1013
+msgid "Host:"
+msgstr "Server:"
 
 #: client/gui-win32/connectdlg.c:1014
 msgid "Port:"
@@ -18496,16 +18534,16 @@ msgstr "?Belastingscontroleur:T"
 #: data/nation/icelandic.ruleset:5 data/nation/illyrian.ruleset:5
 #: data/nation/irish.ruleset:5 data/nation/italian.ruleset:5
 #: data/nation/latvian.ruleset:5 data/nation/lithuanian.ruleset:5
-#: data/nation/norwegian.ruleset:5 data/nation/polish.ruleset:5
-#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
-#: data/nation/roman.ruleset:5 data/nation/russian.ruleset:5
-#: data/nation/sami.ruleset:5 data/nation/scottish.ruleset:5
-#: data/nation/serbian.ruleset:5 data/nation/silesian.ruleset:5
-#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
-#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
-#: data/nation/swiss.ruleset:5 data/nation/ukrainian.ruleset:5
-#: data/nation/viking.ruleset:5 data/nation/welsh.ruleset:5
-#: data/nation/westphalian.ruleset:5
+#: data/nation/norwegian.ruleset:5 data/nation/ottoman.ruleset:5
+#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
+#: data/nation/romanian.ruleset:5 data/nation/roman.ruleset:5
+#: data/nation/russian.ruleset:5 data/nation/sami.ruleset:5
+#: data/nation/scottish.ruleset:5 data/nation/serbian.ruleset:5
+#: data/nation/silesian.ruleset:5 data/nation/slovenian.ruleset:5
+#: data/nation/slovakian.ruleset:5 data/nation/spanish.ruleset:5
+#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
+#: data/nation/ukrainian.ruleset:5 data/nation/viking.ruleset:5
+#: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
 msgid "European"
 msgstr "Europees"
 
@@ -18528,12 +18566,13 @@ msgstr "Tropisch"
 #: data/nation/japanese.ruleset:22 data/nation/kampuchean.ruleset:5
 #: data/nation/korean.ruleset:5 data/nation/lankese.ruleset:5
 #: data/nation/malaysian.ruleset:5 data/nation/manchu.ruleset:5
-#: data/nation/mongol.ruleset:5 data/nation/persian.ruleset:5
-#: data/nation/phoenician.ruleset:5 data/nation/ryukyuan.ruleset:5
-#: data/nation/singaporean.ruleset:17 data/nation/sumerian.ruleset:5
-#: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
-#: data/nation/tibetan.ruleset:5 data/nation/turk.ruleset:5
-#: data/nation/uyghur.ruleset:5 data/nation/vietnamese.ruleset:5
+#: data/nation/mongol.ruleset:5 data/nation/ottoman.ruleset:5
+#: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
+#: data/nation/ryukyuan.ruleset:5 data/nation/singaporean.ruleset:17
+#: data/nation/sumerian.ruleset:5 data/nation/taiwanese.ruleset:5
+#: data/nation/thai.ruleset:5 data/nation/tibetan.ruleset:5
+#: data/nation/turk.ruleset:5 data/nation/uyghur.ruleset:5
+#: data/nation/vietnamese.ruleset:5
 msgid "Asian"
 msgstr "Aziatisch"
 
@@ -20555,15 +20594,15 @@ msgstr "?plural:Arabieren"
 #: data/nation/lithuanian.ruleset:5 data/nation/malagasy.ruleset:5
 #: data/nation/malian.ruleset:5 data/nation/manchu.ruleset:5
 #: data/nation/mayan.ruleset:5 data/nation/mongol.ruleset:5
-#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
-#: data/nation/romanian.ruleset:5 data/nation/russian.ruleset:5
-#: data/nation/ryukyuan.ruleset:5 data/nation/scottish.ruleset:5
-#: data/nation/serbian.ruleset:5 data/nation/silesian.ruleset:5
-#: data/nation/sioux.ruleset:5 data/nation/slovenian.ruleset:5
-#: data/nation/slovakian.ruleset:5 data/nation/spanish.ruleset:5
-#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
-#: data/nation/thai.ruleset:5 data/nation/tibetan.ruleset:5
-#: data/nation/turk.ruleset:5 data/nation/uyghur.ruleset:5
+#: data/nation/ottoman.ruleset:5 data/nation/polish.ruleset:5
+#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
+#: data/nation/russian.ruleset:5 data/nation/ryukyuan.ruleset:5
+#: data/nation/scottish.ruleset:5 data/nation/serbian.ruleset:5
+#: data/nation/silesian.ruleset:5 data/nation/sioux.ruleset:5
+#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
+#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
+#: data/nation/swiss.ruleset:5 data/nation/thai.ruleset:5
+#: data/nation/tibetan.ruleset:5 data/nation/uyghur.ruleset:5
 #: data/nation/vietnamese.ruleset:5 data/nation/viking.ruleset:5
 #: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
 msgid "Medieval"
@@ -22385,6 +22424,46 @@ msgstr ""
 "Na eeuwen onder Denemarken vestigden de Noren hun eigen grondwet in Eidsvoll "
 "in 1814. De onafhankelijkheid kwam pas in 1905, na een unie met Zweden."
 
+#: data/nation/ottoman.ruleset:3
+#, fuzzy
+msgid "Ottoman"
+msgstr "Romeinse"
+
+#: data/nation/ottoman.ruleset:4
+#, fuzzy
+msgid "?plural:Ottomans"
+msgstr "?plural:Romeinen"
+
+#: data/nation/ottoman.ruleset:6
+msgid ""
+"In the beginning of the 14th century Osman, a leader of a minor Turkic tribe "
+"in western Anatolia, conquered all his neigboring tribes. A century later "
+"the Byzantine capital fell to Turkic rule which gave the Ottoman empire "
+"access to Europe. The Ottomans subsequently conquered large parts of south-"
+"eastern Europe, the Islamic Arab world as well as Egypt and much of north "
+"Africa, making it a regional superpower until its dissolution in the "
+"aftermath of WWI."
+msgstr ""
+
+#: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
+msgid "Bey"
+msgstr "Bey"
+
+#: data/nation/ottoman.ruleset:27
+#, fuzzy
+msgid "Hakan"
+msgstr "Maya"
+
+#: data/nation/ottoman.ruleset:28
+#, fuzzy
+msgid "Padisah"
+msgstr "Partisaan"
+
+#: data/nation/ottoman.ruleset:29
+#, fuzzy
+msgid "Imparator"
+msgstr "Imperator"
+
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
 msgstr "Papua"
@@ -23149,10 +23228,6 @@ msgstr ""
 "eeuw. Tunesië werd grotendeels onafhankelijk van het Ottomaanse rijk in "
 "1861. Maar in 1881 werd het binnengevallen door de Fransen en tot een Frans "
 "protectoriaat gemaakt. Het land werd in 1956 onafhankelijk."
-
-#: data/nation/tunisian.ruleset:29
-msgid "Bey"
-msgstr "Bey"
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -26376,9 +26451,6 @@ msgstr "Inleidingsscenario"
 
 #~ msgid "Creating Server List..."
 #~ msgstr "Maak serverlijst"
-
-#~ msgid "Player Name :"
-#~ msgstr "Spelersnaam :"
 
 #~ msgid "Freeciv Server :"
 #~ msgstr "Freeciv Server :"
