@@ -3,7 +3,7 @@
 name=_("Iraqi")
 plural=_("?plural:Iraqis")
 groups=_("Modern"), _("Asian")
-legend=_("The Republic of Iraq was founded after the fall of the Ottoman\
+legend=_("Iraq was founded after the fall of the Ottoman\
  empire. It is encompassing the ancient region of Mesopotamia at the\
  confluence of the Tigris and Euphrates rivers.")
 leader=
