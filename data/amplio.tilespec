@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+tilespec3 +Freeciv.Devel.2005.Nov.25"
+options = "+tilespec4"
 
 ; A simple name for the tileset specified by this file:
 name = "amplio"
