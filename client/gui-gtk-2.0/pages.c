@@ -996,6 +996,14 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
+  Called when "observe" is clicked.
+**************************************************************************/
+static void observe_callback(GtkWidget *w, gpointer data)
+{
+  send_chat("/observe");
+}
+
+/**************************************************************************
   update the start page.
 **************************************************************************/
 void update_start_page(void)
@@ -1426,6 +1434,11 @@ GtkWidget *create_start_page(void)
   button = gtk_stockbutton_new(GTK_STOCK_PROPERTIES, _("Pick _Nation"));
   g_signal_connect(button, "clicked",
 		   G_CALLBACK(pick_nation_callback), NULL);
+  gtk_container_add(GTK_CONTAINER(bbox), button);
+
+  button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
+  g_signal_connect(button, "clicked",
+		   G_CALLBACK(observe_callback), NULL);
   gtk_container_add(GTK_CONTAINER(bbox), button);
 
   ready_button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Ready"));
