@@ -1,4 +1,391 @@
 
+Sun, 05 Mar 2006 20:01:30 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/NEWS
+	   M /branches/S2_0/common/version.h
+	   M /branches/S2_0/doc/BUGS
+	   M /branches/S2_0/version.in
+
+	Bump version to 2.0.8.
+
+
+Sun, 05 Mar 2006 19:47:21 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/packets.c
+
+	Fix log compiler warning from PR#15713.
+
+
+Sun, 05 Mar 2006 17:58:35 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/po/ca.po
+	   M /branches/S2_0/po/cs.po
+	   M /branches/S2_0/po/da.po
+	   M /branches/S2_0/po/de.po
+	   M /branches/S2_0/po/en_GB.po
+	   M /branches/S2_0/po/es.po
+	   M /branches/S2_0/po/et.po
+	   M /branches/S2_0/po/fi.po
+	   M /branches/S2_0/po/fr.po
+	   M /branches/S2_0/po/he_IL.po
+	   M /branches/S2_0/po/hu.po
+	   M /branches/S2_0/po/it.po
+	   M /branches/S2_0/po/ja.po
+	   M /branches/S2_0/po/nl.po
+	   M /branches/S2_0/po/no.po
+	   M /branches/S2_0/po/pl.po
+	   M /branches/S2_0/po/pt.po
+	   M /branches/S2_0/po/pt_BR.po
+	   M /branches/S2_0/po/ro.po
+	   M /branches/S2_0/po/ru.po
+	   M /branches/S2_0/po/sv.po
+	   M /branches/S2_0/po/uk.po
+
+	Run 'make update-po'.
+
+
+Fri, 03 Mar 2006 18:42:00 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/packets.c
+
+	Fix a potential crash in the packet reading code.
+
+	Reported by Luigi Auriemma <aluigi@autistici.org> in PR#15762.
+
+
+Wed, 01 Mar 2006 23:20:48 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/ai/ailog.h
+	   M /branches/S2_0/client/climisc.h
+	   M /branches/S2_0/client/gui-ftwl/gui_text.c
+	   M /branches/S2_0/client/text.c
+	   M /branches/S2_0/configure.ac
+	   M /branches/S2_0/configure.in
+	   M /branches/S2_0/server/console.h
+	   M /branches/S2_0/server/plrhand.h
+	   M /branches/S2_0/server/stdinhand.c
+	   M /branches/S2_0/utility/astring.h
+	   M /branches/S2_0/utility/fciconv.h
+	   M /branches/S2_0/utility/ioz.h
+	   M /branches/S2_0/utility/log.h
+	   M /branches/S2_0/utility/registry.h
+	   M /branches/S2_0/utility/shared.h
+	   M /branches/S2_0/utility/support.h
+
+	Use libutf8 to replace printf functions.  This happens automatically on
+	windoes, or if --with-libutf8 is given on the configure line.  This replaces
+	buggy printf functions on some systems that do not allow reordering of
+	arguments (needed for localization support in some languages).
+
+	Reported by Laurent Vogel <lvl@club-internet.fr>,
+	Naoki Atagi <atagi@toki.waseda.jp>, and many others in PR#12932.  Patch by
+	Christian Prochaska <cp.ml.freeciv.dev@googlemail.com>.
+
+
+Wed, 01 Mar 2006 13:15:49 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/goto.c
+	   M /branches/S2_0/client/options.c
+	   M /branches/S2_0/client/options.h
+	   M /branches/S2_0/common/aicore/path_finding.c
+	   M /branches/S2_0/common/aicore/path_finding.h
+	   M /branches/S2_0/common/aicore/pf_tools.c
+
+	Backport: allow goto into the unknown.
+
+	See PR#6977.
+
+
+Mon, 27 Feb 2006 18:54:52 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/unit.c
+
+	Fix a bug that allowed unlimited airlifts into a city.
+
+	Reported by Jaroslav Libak <jarol1@seznam.cz> in PR#15582.
+
+
+Sat, 21 Jan 2006 16:20:25 -0800  kauf:
+
+	Changed paths:
+	   M /branches/S2_0/server/auth.c
+	   M /branches/S2_0/server/connecthand.c
+
+	Fix bug where pconn->server.status wasn't updated.
+
+	See PR#15098 for the gory details (and they are gory). Patch by me.
+
+
+Sat, 21 Jan 2006 13:56:35 -0800  per:
+
+	Changed paths:
+	   M /branches/S2_0/po/es.po
+
+	Additional Spanish translation by Jordi Negrevernis i Font
+	<jnegrevernis@jnfprogramari.com>, posted in PR#14697.
+
+
+Sat, 21 Jan 2006 13:54:07 -0800  per:
+
+	Changed paths:
+	   M /branches/S2_0/client/tilespec.c
+	   M /branches/S2_0/server/score.c
+	   M /branches/S2_0/server/unittools.c
+
+	Silence silly gcc v4 warnings about possibly uninitialized
+	variables (yeah, right).
+
+
+Sun, 15 Jan 2006 16:04:49 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-xaw
+
+	svn:ignore
+
+
+Fri, 13 Jan 2006 22:04:20 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-xaw/cityrep.c
+	   M /branches/S2_0/client/gui-xaw/dialogs.c
+	   M /branches/S2_0/client/gui-xaw/repodlgs.c
+
+	Backport: fix compiler warnings (and possible bugs) with wrongly terminated
+	varargs function calls.
+
+
+Sun, 08 Jan 2006 08:52:28 -0800  kauf:
+
+	Changed paths:
+	   M /branches/S2_0/server/auth.c
+	   M /branches/S2_0/server/connecthand.c
+
+	standardized logging to console for connection rejection. Add logging for
+	all rejection cases.
+
+	see PR#15101
+
+
+Fri, 06 Jan 2006 21:35:48 -0800  kauf:
+
+	Changed paths:
+	   M /branches/S2_0/m4/auth.m4
+	   M /branches/S2_0/manual/Makefile.am
+	   M /branches/S2_0/server/Makefile.am
+
+	attempt to find the correct LIBRARY_PATH for the mysql lib
+	(for authentication) and put it in LDFLAGS. backport to S2_0
+
+	see PR#14851.
+
+
+Fri, 06 Jan 2006 21:21:59 -0800  kauf:
+
+	Changed paths:
+	   M /branches/S2_0/server/score.c
+
+	remove the rest of the pre-post-processing needed to create
+	the animated gifs for postgame. With this patch, you can simply do
+	ppmtogif and then gifsicle. backport to S2_0
+
+	see PR#14827.
+
+
+Fri, 30 Dec 2005 10:38:29 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/score.c
+
+	PR#14981 - don't always save ppm files.
+
+
+Mon, 26 Dec 2005 15:17:38 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/civclient.c
+	   M /branches/S2_0/client/clinet.c
+	   M /branches/S2_0/client/gui-gtk-2.0/gui_main.c
+	   M /branches/S2_0/client/packhand.c
+	   M /branches/S2_0/common/dataio.c
+	   M /branches/S2_0/common/dataio.h
+
+	Fix compiler warnings in client.
+
+
+Mon, 26 Dec 2005 14:52:28 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/common/aicore/cm.c
+	   M /branches/S2_0/common/packets.c
+	   M /branches/S2_0/server/sernet.c
+	   M /branches/S2_0/utility/hash.c
+
+	Backport: fix compiler warnings in server.
+
+
+Mon, 26 Dec 2005 14:02:22 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/configure.in
+
+	PR#12519: Missing socklen_t check in configure.in.
+
+
+Mon, 26 Dec 2005 13:50:52 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/client/gui-gtk-2.0/citydlg.c
+	   M /branches/S2_0/common/unit.c
+	   M /branches/S2_0/common/unit.h
+	   M /branches/S2_0/server/unithand.c
+
+	Backport: fixes for changing homecity.
+
+	Patch by me in PR#14983.
+
+
+Sun, 25 Dec 2005 18:19:24 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/configure.ac
+	   M /branches/S2_0/server/sernet.c
+
+	Backport: check for and use a socklen_t type.
+
+	See PR#12519.
+
+
+Thu, 22 Dec 2005 23:18:05 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/configure.ac
+
+	Backport: remove excess whitespace from AC_CONFIG_FILES lines, because it
+	caused autoconf to fail in mingw/msys.
+
+	Patch by Daniel Markstedt <himasaram@spray.se> in PR#14850.
+
+
+Sun, 18 Dec 2005 19:00:03 -0800  kauf:
+
+	Changed paths:
+	   M /branches/S2_0/server/civserver.c
+	   M /branches/S2_0/server/score.c
+	   M /branches/S2_0/server/score.h
+	   M /branches/S2_0/server/srv_main.c
+	   M /branches/S2_0/server/srv_main.h
+
+	to make animated gifs for reviewing pubserver games, we currently make ppms
+	of the maps from savegames, then after some manipulation, do ppm2gif to
+	make the gif.
+
+	This patch moves the ppm-making into the server. To turn it on, pass -Ppm
+	to the server on the command line. The ppms are put wherever the savegames are.
+
+	Patch by me. See PR#14827
+
+
+Fri, 16 Dec 2005 19:38:17 -0800  kauf:
+
+	Changed paths:
+	   M /branches/S2_0/common/connection.h
+	   M /branches/S2_0/configure.ac
+	   M /branches/S2_0/m4/auth.m4
+	   M /branches/S2_0/manual/Makefile.am
+	   M /branches/S2_0/server/Makefile.am
+	   A /branches/S2_0/server/auth.c
+	   A /branches/S2_0/server/auth.h
+	   M /branches/S2_0/server/civserver.c
+	   M /branches/S2_0/server/connecthand.c
+	   M /branches/S2_0/server/connecthand.h
+	   M /branches/S2_0/server/sernet.c
+	   M /branches/S2_0/server/srv_main.c
+	   D /branches/S2_0/server/userdb
+	   M /branches/S2_0/utility/Makefile.am
+	   A /branches/S2_0/utility/md5.c
+	   A /branches/S2_0/utility/md5.h
+
+	Remove registry-based authentication database in server/userdb.
+	Add mysql authentication to the server. This requires --enable-auth
+	passed to ./autogen.sh and mysql present. Also move authentication-related
+	functions including the new auth database accessors to new files
+	server/auth.[ch]. Also add utility/md5.[ch]
+
+	Patch by me. See PR#14851
+
+
+Mon, 12 Dec 2005 20:29:17 -0800  kauf:
+
+	Changed paths:
+	   M /branches/S2_0/server/savegame.c
+
+	fix an issue to allow loading of savegames created by 2.0.99 servers.
+
+	Patch by me. See PR#14836
+
+
+Sun, 04 Dec 2005 23:17:07 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/server/report.c
+	   M /branches/S2_0/utility/fciconv.c
+	   M /branches/S2_0/utility/fciconv.h
+
+	Improve the fixed-width spacing of strings in the demographics report text.
+
+	Reported by Daniel Markstedt <himasaram@spray.se> in PR#14731.  Patch by me.
+
+
+Thu, 01 Dec 2005 23:01:51 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/po/ja.po
+
+	Updates to ja.po with input from Keishi Suenaga <s_keishi@mutt.freemail.ne.jp>.
+
+
+Sat, 26 Nov 2005 01:40:14 -0800  dmarks:
+
+	Changed paths:
+	   M /branches/S2_0/data/misc/flags.spec
+
+	Remove reference to nonexistent flag sprite 'alien'. See PR#14668.
+
+
+Mon, 21 Nov 2005 13:09:38 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/utility/specvec.h
+
+	Remove a duplicated set of #defines from specvec.h.
+
+	Reported by <skips@users.sourceforge.net> in PR#14654.
+
+
+Sat, 19 Nov 2005 01:00:34 -0800  mstefek:
+
+	Changed paths:
+	   M /branches/S2_0/client/connectdlg_common.c
+
+	S2_0: The log file was created without write permission under Windows. Bug reported by Homr Zodyssey in PR#14454
+
+
+Sat, 05 Nov 2005 13:22:36 -0800  jdorje:
+
+	Changed paths:
+	   M /branches/S2_0/ChangeLog
+
+	Update ChangeLog for 2.0.7.
+
+
 Sat, 05 Nov 2005 13:01:42 -0800  jdorje:
 
 	Changed paths:
