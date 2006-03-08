@@ -2193,14 +2193,12 @@ bool map_event_handler(SDL_keysym Key)
       
     case SDLK_g:
       if(LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_map_grid();
       }
       return FALSE;
 
     case SDLK_b:
       if(LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_map_borders();
       }
       return FALSE;
@@ -2227,56 +2225,48 @@ bool map_event_handler(SDL_keysym Key)
 
     case SDLK_t:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_terrain();
       }
       return FALSE;
 
     case SDLK_r:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_roads_rails();
       }
       return FALSE;
 
     case SDLK_i:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_irrigation();
       }
       return FALSE;
 
     case SDLK_m:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_mines();
       }
       return FALSE;
 
     case SDLK_f:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_fortress_airbase();
       }
       return FALSE;
 
     case SDLK_s:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_specials();
       }
       return FALSE;
 
     case SDLK_o:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_pollution();
       }
       return FALSE;
 
     case SDLK_c:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_cities();
       } else {
 	 request_center_focus_unit();
@@ -2285,14 +2275,12 @@ bool map_event_handler(SDL_keysym Key)
 
     case SDLK_u:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_units();
       }
       return FALSE;
 
     case SDLK_w:
       if (LCTRL || RCTRL) {
-        rebuild_focus_anim_frames();
         request_toggle_fog_of_war();
       }
       return FALSE;

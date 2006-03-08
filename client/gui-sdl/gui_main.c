@@ -519,12 +519,6 @@ static int check_scroll_area(int x, int y) {
 /**************************************************************************
 ...
 **************************************************************************/
-void add_autoconnect_to_timer(void)
-{
-  autoconnect = TRUE;
-  pInfo_User_Event->user.code = TRY_AUTO_CONNECT;
-}
-
 void force_exit_from_event_loop(void)
 {
   SDL_Event Event;
@@ -1050,7 +1044,6 @@ void enable_focus_animation(void)
 {
   pAnim_User_Event->user.code = ANIM;
   SDL_Client_Flags |= CF_FOCUS_ANIMATION;
-  rebuild_focus_anim_frames();
 }
 
 /**************************************************************************
