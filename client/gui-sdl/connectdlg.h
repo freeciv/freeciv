@@ -24,7 +24,4 @@
 
 #include "connectdlg_g.h"
 
-/* nothing yet */
-double try_to_autoconnect(void);
-
 #endif				/* FC__CONNECTDLG_H */

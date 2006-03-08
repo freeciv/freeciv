@@ -140,9 +140,6 @@ enum DirScrolling {
   SCROLL_LAST
 };
 
-void tilespec_setup_anim(void);
-void tilespec_free_anim(void);
-
 struct City_Icon {
   int style;
   SDL_Surface *pBIG_Food_Corr;

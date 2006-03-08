@@ -2540,8 +2540,6 @@ static void redraw_city_dialog(struct city *pCity)
 
     /* upd. window title */
     rebuild_citydlg_title_str(pCityDlg->pEndCityWidgetList, pCity);
-	
-    rebuild_focus_anim_frames();
   }
 
   /* update resource map */

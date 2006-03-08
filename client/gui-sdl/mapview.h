@@ -31,9 +31,6 @@ void center_minimap_on_minimap_window(void);
 void redraw_unit_info_label(struct unit *pUnit);
 SDL_Surface * create_city_map(struct city *pCity);
 SDL_Surface * get_terrain_surface(struct tile *ptile);  
-void put_unit_pixmap_draw(struct unit *pUnit, SDL_Surface *pDest,
-			  Sint16 map_x, Sint16 map_y);
-void rebuild_focus_anim_frames(void);
 void toggle_overview_mode(void);
 void refresh_overview(void);
 
@@ -42,8 +39,5 @@ void sdl_dirty_rect(SDL_Rect rect);
 void unqueue_flush(void);
 void queue_flush(void);
 void flush_all(void);
-
-#define sdl_contains_special(store, special)	\
-	((store & special) == special)
 
 #endif	/* FC__MAPVIEW_H */

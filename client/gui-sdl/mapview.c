@@ -1244,16 +1244,6 @@ void refresh_overview(void)
   
 }
 
-static bool reset_anim = FALSE;
-
-/**************************************************************************
-  Force rebuild sellecting unit animation frames
-**************************************************************************/
-void rebuild_focus_anim_frames(void)
-{
-  reset_anim = TRUE;
-}
-
 /**************************************************************************
   Update (refresh) the locations of the mapview scrollbars (if it uses
   them).

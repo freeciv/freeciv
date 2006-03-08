@@ -126,8 +126,6 @@ static int ok_upgrade_unit_window_callback(struct GUI *pWidget)
    
   dsend_packet_unit_type_upgrade(&aconnection, ut1);
     
-  rebuild_focus_anim_frames();
-
   return -1;
 }
 
