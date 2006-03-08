@@ -180,7 +180,9 @@ const struct command commands[] = {
    N_("Take over a player's place in the game."),
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to take over a player. If you're not one of these, "
-      "only the <player-name> argument is allowed")
+      "only the <player-name> argument is allowed.  If '-' is given for the "
+      "player name and the connection does not already control a player, one "
+      "is created and assigned to the connection.")
   },
   {"observe",    ALLOW_INFO,
    /* TRANS: translate text between [] only */

@@ -1387,6 +1387,15 @@ void update_conn_list_dialog(void)
     }
 
     gtk_stockbutton_set_label(ready_button, text);
+  } else {
+    gtk_stockbutton_set_label(ready_button, _("_Start"));
+  }
+  gtk_widget_set_sensitive(ready_button, (game.player_ptr != NULL));
+
+  if (game.player_ptr && !aconnection.observer) {
+    gtk_stockbutton_set_label(take_button, _("_Observe"));
+  } else {
+    gtk_stockbutton_set_label(take_button, _("_Take player"));
   }
 
   gtk_tree_view_column_set_visible(record_col, (with_ggz || in_ggz));

@@ -89,9 +89,6 @@ static bool set_ai_level(struct connection *caller, char *name, int level,
                          bool check);
 static bool set_away(struct connection *caller, char *name, bool check);
 
-static bool is_allowed_to_take(struct player *pplayer, bool will_obs, 
-                               char *msg);
-
 static bool observe_command(struct connection *caller, char *name, bool check);
 static bool take_command(struct connection *caller, char *name, bool check);
 static bool detach_command(struct connection *caller, char *name, bool check);
@@ -2584,7 +2581,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
 {
   const char *allow;
 
-  if (!pplayer) {
+  if (!pplayer && will_obs) {
     /* Observer */
     if (!(allow = strchr(game.allow_take, (game.info.is_new_game ? 'O' : 'o')))) {
       if (will_obs) {
@@ -2597,6 +2594,9 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       }
       return FALSE;
     }
+  } else if (!pplayer && !will_obs) {
+    /* Auto-taking a new player */
+    return game.info.is_new_game && server_state == PRE_GAME_STATE;
   } else if (is_barbarian(pplayer)) {
     if (!(allow = strchr(game.allow_take, 'b'))) {
       if (will_obs) {
@@ -2844,7 +2844,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];
   bool is_newgame = server_state == PRE_GAME_STATE && game.info.is_new_game;
   enum m_pre_result match_result;
-  struct connection *pconn = NULL;
+  struct connection *pconn = caller;
   struct player *pplayer = NULL;
   bool res = FALSE;
   
@@ -2879,14 +2879,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
     i++; /* found a conn, now reference the second argument */
   }
 
-  if (!(pplayer = find_player_by_name_prefix(arg[i], &match_result))) {
+  if (strcmp(arg[i], "-") == 0) {
+    pplayer = NULL;
+  } else if (!(pplayer = find_player_by_name_prefix(arg[i], &match_result))) {
     cmd_reply_no_such_player(CMD_TAKE, caller, arg[i], match_result);
     goto end;
-  }
-
-  /* if we don't assign other connections to players, assign us to be pconn. */
-  if (!pconn) {
-    pconn = caller;
   }
 
   /******** PART II: do the attaching ********/
@@ -2898,11 +2895,12 @@ static bool take_command(struct connection *caller, char *str, bool check)
   }
 
   /* taking your own player makes no sense. */
-  if (pconn->player == pplayer && !pconn->observer) {
+  if ((pplayer && !pconn->observer && pconn->player == pplayer)
+      || (!pplayer && !pconn->observer && pconn->player)) {
     cmd_reply(CMD_TAKE, caller, C_FAIL, _("%s already controls %s"),
-              pconn->username, pplayer->name);
+              pconn->username, pconn->player->name);
     goto end;
-  } 
+  }
 
   res = TRUE;
   if (check) {
@@ -2920,32 +2918,38 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   /* if we're taking another player with a user attached, 
    * forcibly detach the user from the player. */
-  conn_list_iterate(pplayer->connections, aconn) {
-    if (!aconn->observer) {
-      if (server_state == RUN_GAME_STATE) {
-        send_game_state(aconn->self, CLIENT_PRE_GAME_STATE);
-	send_rulesets(aconn->self);
-	send_server_settings(aconn->self);
+  if (pplayer) {
+    conn_list_iterate(pplayer->connections, aconn) {
+      if (!aconn->observer) {
+	if (server_state == RUN_GAME_STATE) {
+	  send_game_state(aconn->self, CLIENT_PRE_GAME_STATE);
+	  send_rulesets(aconn->self);
+	  send_server_settings(aconn->self);
+	}
+	notify_conn(aconn->self, NULL, E_CONNECTION,
+		    _("being detached from %s."), pplayer->name);
+	unattach_connection_from_player(aconn);
+	send_conn_info(aconn->self, game.est_connections);
       }
-      notify_conn(aconn->self, NULL, E_CONNECTION,
-		  _("being detached from %s."), pplayer->name);
-      unattach_connection_from_player(aconn);
-      send_conn_info(aconn->self, game.est_connections);
-    }
-  } conn_list_iterate_end;
+    } conn_list_iterate_end;
+  }
 
   /* if the connection is already attached to a player,
    * unattach and cleanup old player (rename, remove, etc) */
   if (pconn->player) {
     char name[MAX_LEN_NAME];
 
-    /* if a pconn->player is removed, we'll lose pplayer */
-    sz_strlcpy(name, pplayer->name);
+    if (pplayer) {
+      /* if a pconn->player is removed, we'll lose pplayer */
+      sz_strlcpy(name, pplayer->name);
+    }
 
     detach_command(NULL, pconn->username, FALSE);
 
-    /* find pplayer again, the pointer might have been changed */
-    pplayer = find_player_by_name(name);
+    if (pplayer) {
+      /* find pplayer again; the pointer might have been changed */
+      pplayer = find_player_by_name(name);
+    }
   }
 
   /* we don't want the connection's username on another player */
@@ -2956,11 +2960,13 @@ static bool take_command(struct connection *caller, char *str, bool check)
   } players_iterate_end;
 
   /* now attach to new player */
+  pconn->observer = FALSE; /* do this before attach! */
   attach_connection_to_player(pconn, pplayer);
   send_conn_info(pconn->self, game.est_connections);
+  pplayer = pconn->player; /* In case pplayer was NULL. */
  
   /* if pplayer wasn't /created, and we're still in pregame, change its name */
-  if (!pplayer->was_created && is_newgame) {
+  if (!pplayer->was_created && is_newgame && !pplayer->nation) {
     sz_strlcpy(pplayer->name, pconn->username);
   }
 
