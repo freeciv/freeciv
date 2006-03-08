@@ -57,7 +57,7 @@ GtkWidget *start_message_area;
 GtkTreeViewColumn *rating_col, *record_col;
 
 static GtkWidget *start_options_table;
-GtkWidget *ready_button;
+GtkWidget *take_button, *ready_button;
 
 static GtkWidget *scenario_description;
 
@@ -998,9 +998,13 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
 /**************************************************************************
   Called when "observe" is clicked.
 **************************************************************************/
-static void observe_callback(GtkWidget *w, gpointer data)
+static void take_callback(GtkWidget *w, gpointer data)
 {
-  send_chat("/observe");
+  if (game.player_ptr && !aconnection.observer) {
+    send_chat("/observe");
+  } else {
+    send_chat("/take -");
+  }
 }
 
 /**************************************************************************
@@ -1436,10 +1440,10 @@ GtkWidget *create_start_page(void)
 		   G_CALLBACK(pick_nation_callback), NULL);
   gtk_container_add(GTK_CONTAINER(bbox), button);
 
-  button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
-  g_signal_connect(button, "clicked",
-		   G_CALLBACK(observe_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
+  take_button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
+  g_signal_connect(take_button, "clicked",
+		   G_CALLBACK(take_callback), NULL);
+  gtk_container_add(GTK_CONTAINER(bbox), take_button);
 
   ready_button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Ready"));
   g_signal_connect(ready_button, "clicked",
