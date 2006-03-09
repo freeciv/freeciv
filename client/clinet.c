@@ -605,7 +605,7 @@ struct server_list *create_server_list(char *errbuf, int n_errbuf)
   struct utsname un;
 #endif 
 
-  urlpath = my_lookup_httpd(metaname, &metaport, METALIST_ADDR);//metaserver);
+  urlpath = my_lookup_httpd(metaname, &metaport, metaserver);
   if (!urlpath) {
     (void) mystrlcpy(errbuf, _("Invalid $http_proxy or metaserver value, must "
                               "start with 'http://'"), n_errbuf);
