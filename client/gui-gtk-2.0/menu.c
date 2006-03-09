@@ -163,6 +163,7 @@ enum MenuID {
  
   MENU_EDITOR_TOGGLE,
   MENU_EDITOR_TOOLS,
+  MENU_EDITOR_RECALC_BORDERS,
 
   MENU_HELP_LANGUAGES,
   MENU_HELP_CONNECTING,
@@ -601,6 +602,9 @@ static void editor_menu_callback(gpointer callback_data,
   case MENU_EDITOR_TOOLS:
     editdlg_show_tools();
     break;
+  case MENU_EDITOR_RECALC_BORDERS:
+    key_editor_recalc_borders();
+    break;
   }
 }
 
@@ -938,6 +942,8 @@ static GtkItemFactoryEntry menu_items[]	=
     editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
   { "/" N_("_Editor") "/" N_("_Tools"), NULL,
     editor_menu_callback, MENU_EDITOR_TOOLS },
+  { "/" N_("_Editor") "/" N_("_Recalculate Borders"), NULL,
+    editor_menu_callback, MENU_EDITOR_RECALC_BORDERS },
 
   /* Help menu ... */
   { "/" N_("_Help"),					NULL,
@@ -1333,6 +1339,8 @@ void update_menus(void)
 
     menus_set_sensitive("<main>/_Editor", TRUE);
     menus_set_sensitive("<main>/_Editor/_Tools", game.info.is_edit_mode);
+    menus_set_sensitive("<main>/_Editor/_Recalculate Borders",
+			game.info.is_edit_mode);
     menus_set_active("<main>/_Editor/Editing Mode", game.info.is_edit_mode);
 
     /* Remaining part of this function: Update Orders menu */

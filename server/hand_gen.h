@@ -83,5 +83,6 @@ void handle_edit_create_city(struct connection *pc, int owner, int x, int y);
 void handle_edit_city_size(struct connection *pc, int id, int size);
 struct packet_edit_player;
 void handle_edit_player(struct connection *pc, struct packet_edit_player *packet);
+void handle_edit_recalculate_borders(struct connection *pc);
 
 #endif /* FC__HAND_GEN_H */

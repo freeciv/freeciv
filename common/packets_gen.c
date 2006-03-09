@@ -407,6 +407,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_EDIT_PLAYER:
     return receive_packet_edit_player(pc, type);
 
+  case PACKET_EDIT_RECALCULATE_BORDERS:
+    return receive_packet_edit_recalculate_borders(pc, type);
+
   default:
     freelog(LOG_ERROR, "unknown packet type %d received from %s",
 	    type, conn_description(pc));
@@ -781,6 +784,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_EDIT_PLAYER:
     return "PACKET_EDIT_PLAYER";
+
+  case PACKET_EDIT_RECALCULATE_BORDERS:
+    return "PACKET_EDIT_RECALCULATE_BORDERS";
 
   default:
     return "unknown";
@@ -29919,5 +29925,75 @@ void lsend_packet_edit_player(struct conn_list *dest, const struct packet_edit_p
   conn_list_iterate(dest, pconn) {
     send_packet_edit_player(pconn, packet);
   } conn_list_iterate_end;
+}
+
+static struct packet_edit_recalculate_borders *receive_packet_edit_recalculate_borders_100(struct connection *pc, enum packet_type type)
+{
+  RECEIVE_PACKET_START(packet_edit_recalculate_borders, real_packet);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_edit_recalculate_borders_100(struct connection *pc)
+{
+  SEND_PACKET_START(PACKET_EDIT_RECALCULATE_BORDERS);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_edit_recalculate_borders(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_EDIT_RECALCULATE_BORDERS] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_EDIT_RECALCULATE_BORDERS] = variant;
+}
+
+struct packet_edit_recalculate_borders *receive_packet_edit_recalculate_borders(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_edit_recalculate_borders at the client.");
+  }
+  ensure_valid_variant_packet_edit_recalculate_borders(pc);
+
+  switch(pc->phs.variant[PACKET_EDIT_RECALCULATE_BORDERS]) {
+    case 100: return receive_packet_edit_recalculate_borders_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_edit_recalculate_borders(struct connection *pc)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_edit_recalculate_borders from the server.");
+  }
+  ensure_valid_variant_packet_edit_recalculate_borders(pc);
+
+  switch(pc->phs.variant[PACKET_EDIT_RECALCULATE_BORDERS]) {
+    case 100: return send_packet_edit_recalculate_borders_100(pc);
+    default: die("unknown variant"); return -1;
+  }
 }
 

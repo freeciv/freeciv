@@ -1107,6 +1107,10 @@ struct packet_edit_player {
   int small_wonders[B_LAST];
 };
 
+struct packet_edit_recalculate_borders {
+  char __dummy;			/* to avoid malloc(0); */
+};
+
 enum packet_type {
   PACKET_PROCESSING_STARTED,             /* 0 */
   PACKET_PROCESSING_FINISHED,
@@ -1229,6 +1233,7 @@ enum packet_type {
   PACKET_EDIT_PLAYER,
   PACKET_EDIT_MODE,
   PACKET_EDIT_CITY_SIZE,                 /* 130 */
+  PACKET_EDIT_RECALCULATE_BORDERS,
 
   PACKET_LAST  /* leave this last */
 };
@@ -1729,6 +1734,9 @@ int dsend_packet_edit_city_size(struct connection *pc, int id, int size);
 struct packet_edit_player *receive_packet_edit_player(struct connection *pc, enum packet_type type);
 int send_packet_edit_player(struct connection *pc, const struct packet_edit_player *packet);
 void lsend_packet_edit_player(struct conn_list *dest, const struct packet_edit_player *packet);
+
+struct packet_edit_recalculate_borders *receive_packet_edit_recalculate_borders(struct connection *pc, enum packet_type type);
+int send_packet_edit_recalculate_borders(struct connection *pc);
 
 
 void delta_stats_report(void);

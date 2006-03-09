@@ -244,7 +244,7 @@ grouped together. There are the following groups:
   Spaceship
   Ruleset
 
-The last used packet number is 129.
+The last used packet number is 131.
 ****************************************************/
 
 
@@ -1426,4 +1426,7 @@ PACKET_EDIT_PLAYER=128;cs,handle-per-conn,lsend
   BIT_STRING inventions[A_LAST+1];
   SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   UINT16 small_wonders[B_LAST]; diff
+end
+
+PACKET_EDIT_RECALCULATE_BORDERS=131;cs,handle-per-conn
 end

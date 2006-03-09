@@ -197,6 +197,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append);
 void key_unit_select_battlegroup(int battlegroup, bool append);
 
 void key_editor_toggle(void);
+void key_editor_recalc_borders(void);
 
 /* don't change this unless you also put more entries in data/Freeciv */
 #define MAX_NUM_UNITS_BELOW 4

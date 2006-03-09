@@ -401,3 +401,15 @@ void handle_edit_player(struct connection *pc,
   /* send update back to client */
   send_player_info(NULL, pplayer);  
 }
+
+/****************************************************************************
+  Client editor requests us to recalculate borders. Note that this does
+  not necessarily extend borders to their maximum due to the way the
+  borders code is written. This may be considered a feature or limitation.
+****************************************************************************/
+void handle_edit_recalculate_borders(struct connection *pc)
+{
+  if (game.info.is_edit_mode) {
+    map_calculate_borders();
+  }
+}

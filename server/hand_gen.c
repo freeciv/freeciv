@@ -351,6 +351,10 @@ bool server_handle_packet(enum packet_type type, void *packet,
     handle_edit_player(pconn, packet);
     return TRUE;
 
+  case PACKET_EDIT_RECALCULATE_BORDERS:
+    handle_edit_recalculate_borders(pconn);
+    return TRUE;
+
   default:
     return FALSE;
   }

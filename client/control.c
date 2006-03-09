@@ -2720,3 +2720,11 @@ void key_editor_toggle(void)
 {
   dsend_packet_edit_mode(&aconnection, !game.info.is_edit_mode);
 }
+
+/**************************************************************************
+  Recalculate borders.
+**************************************************************************/
+void key_editor_recalc_borders(void)
+{
+  send_packet_edit_recalculate_borders(&aconnection);
+}
