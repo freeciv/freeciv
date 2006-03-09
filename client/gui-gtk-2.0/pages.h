@@ -18,6 +18,7 @@
 #include "pages_g.h"
 
 extern GtkWidget *start_message_area;
+extern GtkListStore *conn_model;
 
 GtkWidget *create_main_page(void);
 GtkWidget *create_start_page(void);

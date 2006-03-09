@@ -115,7 +115,6 @@ GtkWidget *main_frame_civ_name;
 GtkWidget *main_label_info;
 
 GtkWidget *avbox, *ahbox, *vbox, *conn_box;
-GtkListStore *conn_model;       
 GtkWidget* scroll_panel;
 
 GtkWidget *econ_label[10];
