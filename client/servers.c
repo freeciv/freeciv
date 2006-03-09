@@ -70,6 +70,7 @@
 #include "packets.h"
 #include "version.h"
 
+#include "civclient.h"
 #include "servers.h"
 
 #include "gui_main_g.h"
@@ -400,7 +401,7 @@ static bool begin_metaserver_scan(struct server_scan *scan)
   int s;
 
   scan->meta.urlpath = my_lookup_httpd(scan->meta.name, &scan->meta.port,
-				       METALIST_ADDR);
+				       metaserver);
   if (!scan->meta.urlpath) {
     (scan->error_func)(scan,
 		       _("Invalid $http_proxy or metaserver value, must "
