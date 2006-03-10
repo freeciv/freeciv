@@ -71,7 +71,7 @@ changable_tax = 1		; set to zero to disallow changing of tax rates
 ; replaced_by = which style replaced this one
 
 [citystyle_european]
-name        = _("European")
+name        = _("?citystyle:European")
 graphic     = "city.european"
 graphic_alt = "-"
 citizens_graphic     = "ancient"
@@ -80,7 +80,7 @@ citizens_graphic_alt = "generic"
 replaced_by = "Renaissance"
 
 [citystyle_classical]
-name        = _("Classical")
+name        = _("?citystyle:Classical")
 graphic     = "city.classical"
 graphic_alt = "-"
 citizens_graphic     = "ancient"
@@ -89,7 +89,7 @@ citizens_graphic_alt = "generic"
 replaced_by = "Renaissance"
 
 [citystyle_tropical]
-name        = _("Tropical")
+name        = _("?citystyle:Tropical")
 graphic     = "city.tropical"
 graphic_alt = "city.european"
 citizens_graphic     = "ancient"
@@ -98,7 +98,7 @@ citizens_graphic_alt = "generic"
 replaced_by = "Renaissance"
 
 [citystyle_asian]
-name        = _("Asian")
+name        = _("?citystyle:Asian")
 graphic     = "city.asian"
 graphic_alt = "city.classical"
 citizens_graphic     = "ancient"
@@ -107,7 +107,7 @@ citizens_graphic_alt = "generic"
 replaced_by = "Renaissance"
 
 [citystyle_babylonian]
-name        = _("Babylonian")
+name        = _("?citystyle:Babylonian")
 graphic     = "city.babylonian"
 graphic_alt = "city.classical"
 citizens_graphic     = "ancient"
@@ -116,7 +116,7 @@ citizens_graphic_alt = "generic"
 replaced_by = "Renaissance"
 
 [citystyle_celtic]
-name        = _("Celtic")
+name        = _("?citystyle:Celtic")
 graphic     = "city.celtic"
 graphic_alt = "city.european"
 citizens_graphic     = "ancient"
@@ -125,7 +125,7 @@ citizens_graphic_alt = "generic"
 replaced_by = "Renaissance"
 
 [citystyle_renaissance]
-name        = _("Renaissance")
+name        = _("?citystyle:Renaissance")
 graphic     = "city.renaissance"
 graphic_alt = "city.industrial"
 citizens_graphic     = "renaissance"
@@ -136,7 +136,7 @@ reqs = { "type", "name", "range"
 replaced_by = "Industrial"
 
 [citystyle_industrial]
-name        = _("Industrial")
+name        = _("?citystyle:Industrial")
 graphic     = "city.industrial"
 graphic_alt = "-"
 citizens_graphic     = "industrial"
@@ -147,7 +147,7 @@ reqs = { "type", "name", "range"
 replaced_by = "Modern"
 
 [citystyle_modern]
-name        = _("Modern")
+name        = _("?citystyle:Modern")
 graphic     = "city.modern"
 graphic_alt = "-"
 citizens_graphic     = "modern"
@@ -158,7 +158,7 @@ reqs = { "type", "name", "range"
 replaced_by = "PostModern"
 
 [citystyle_postmodern]
-name        = _("PostModern")
+name        = _("?citystyle:PostModern")
 graphic     = "city.postmodern"
 graphic_alt = "-"
 citizens_graphic     = "postmodern"
