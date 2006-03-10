@@ -1058,14 +1058,17 @@ static void conn_menu_nation_chosen(GtkMenuItem *menuitem, gpointer data)
 }
 
 /****************************************************************************
-  Callback for when the "observe" entry is chosen from the conn menu.
+  Miscellaneous callback for the conn menu that allows an arbitrary command
+  (/observe, /take, /hard) to be run on the player.
 ****************************************************************************/
-static void conn_menu_observe_chosen(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
 {
   char buf[1024];
+  char *command = data;
 
-  my_snprintf(buf, sizeof(buf), "/observe \"%s\"",
-	      conn_menu_player->name);
+  /* FIXME: We should use quotes here, but because of a bug in the server
+   * it doesn't parse the quotes properly for some commands (e.g. "hard")! */
+  my_snprintf(buf, sizeof(buf), "/%s %s", command, conn_menu_player->name);
   send_chat(buf);
 }
 
@@ -1152,7 +1155,96 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 			 (GtkDestroyNotify) gtk_widget_unref);
   gtk_container_add(GTK_CONTAINER(menu), entry);
   g_signal_connect(GTK_OBJECT(entry), "activate",
-		   GTK_SIGNAL_FUNC(conn_menu_observe_chosen), NULL);
+		   GTK_SIGNAL_FUNC(conn_menu_player_command), "observe");
+
+  entry = gtk_menu_item_new_with_label(_("Take this player"));
+  g_object_set_data_full(G_OBJECT(menu), "take", entry,
+			 (GtkDestroyNotify) gtk_widget_unref);
+  gtk_container_add(GTK_CONTAINER(menu), entry);
+  g_signal_connect(GTK_OBJECT(entry), "activate",
+		   GTK_SIGNAL_FUNC(conn_menu_player_command), "take");
+
+  if (aconnection.access_level >= ALLOW_CTRL && pconn) {
+    entry = gtk_separator_menu_item_new();
+    g_object_set_data_full(G_OBJECT(menu),
+			   "ctrl", entry,
+			   (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+
+    if (pconn->id != aconnection.id) {
+      entry = gtk_menu_item_new_with_label(_("Cut connection"));
+      g_object_set_data_full(G_OBJECT(menu), "cut", entry,
+			     (GtkDestroyNotify) gtk_widget_unref);
+      gtk_container_add(GTK_CONTAINER(menu), entry);
+      g_signal_connect(GTK_OBJECT(entry), "activate",
+		       GTK_SIGNAL_FUNC(conn_menu_player_command), "cut");
+    }
+  }
+
+  if (aconnection.access_level >= ALLOW_CTRL && pplayer) {
+    entry = gtk_menu_item_new_with_label(_("Aitoggle player"));
+    g_object_set_data_full(G_OBJECT(menu), "aitoggle", entry,
+			   (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+		     GTK_SIGNAL_FUNC(conn_menu_player_command), "aitoggle");
+
+    if (pplayer->player_no != game.info.player_idx) {
+      entry = gtk_menu_item_new_with_label(_("Remove player"));
+      g_object_set_data_full(G_OBJECT(menu), "remove", entry,
+			     (GtkDestroyNotify) gtk_widget_unref);
+      gtk_container_add(GTK_CONTAINER(menu), entry);
+      g_signal_connect(GTK_OBJECT(entry), "activate",
+		       GTK_SIGNAL_FUNC(conn_menu_player_command), "remove");
+    }
+  }
+
+  if (aconnection.access_level == ALLOW_HACK && pconn
+      && pconn->id != aconnection.id) {
+    entry = gtk_menu_item_new_with_label(_("Give info access"));
+    g_object_set_data_full(G_OBJECT(menu), "cmdlevel-info", entry,
+			   (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+		     GTK_SIGNAL_FUNC(conn_menu_player_command),
+		     "cmdlevel info");
+
+    entry = gtk_menu_item_new_with_label(_("Give ctrl access"));
+    g_object_set_data_full(G_OBJECT(menu), "cmdlevel-ctrl", entry,
+			   (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+		     GTK_SIGNAL_FUNC(conn_menu_player_command), "cut");
+
+    /* No entry for hack access; that would be a serious security hole. */
+  }
+
+  if (aconnection.access_level >= ALLOW_CTRL
+      && pplayer && pplayer->ai.control) {
+    char *difficulty[] = {N_("novice"), N_("easy"),
+			  N_("normal"), N_("hard")};
+    int i;
+
+    entry = gtk_separator_menu_item_new();
+    g_object_set_data_full(G_OBJECT(menu),
+			   "sep-ai-skill", entry,
+			   (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+
+    for (i = 0; i < ARRAY_SIZE(difficulty); i++) {
+      char text[128];
+
+      my_snprintf(text, sizeof(text), "%s", _(difficulty[i]));
+      entry = gtk_menu_item_new_with_label(text);
+      g_object_set_data_full(G_OBJECT(menu),
+			     difficulty[i], entry,
+			     (GtkDestroyNotify) gtk_widget_unref);
+      gtk_container_add(GTK_CONTAINER(menu), entry);
+      g_signal_connect(GTK_OBJECT(entry), "activate",
+		       GTK_SIGNAL_FUNC(conn_menu_player_command),
+		       difficulty[i]);
+    }
+  }
 
   if (pplayer && game.info.is_new_game) {
     const int count = pplayer->team ? pplayer->team->players : 0;
@@ -1161,7 +1253,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
     entry = gtk_separator_menu_item_new();
     g_object_set_data_full(G_OBJECT(menu),
-			   "sep1", entry,
+			   "sep-team", entry,
 			   (GtkDestroyNotify) gtk_widget_unref);
     gtk_container_add(GTK_CONTAINER(menu), entry);
 
