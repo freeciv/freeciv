@@ -1,23 +1,23 @@
-# Copyright (C) 1999-2005 Free Software Foundation, Inc.
-#  Dmitriy Genzel <dg@cs.brown.edu>, 2001-2005.
-#  Egor Vyscrebentov <evyscr@murom.net>, 2003-2005.
-#  Alexandr Menovchicov <orders@kypi.ru>, 2003-2005.
+# Copyright (C) 1999-2006 Free Software Foundation, Inc.
+#  Dmitriy Genzel <dg@cs.brown.edu>, 2001-2006.
+#  Egor Vyscrebentov <evyscr@murom.net>, 2003-2006.
+#  Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #
-#  Email all translators at: freeciv-ru@yahoogroups.com
+#  Email all translators at: freeciv.ru@freelists.org
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-05 20:42-0500\n"
-"PO-Revision-Date: 2005-10-25 12:31+0400\n"
+"PO-Revision-Date: 2006-03-10 21:31+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:266
 msgid "?redundant:*"
@@ -1406,7 +1406,7 @@ msgstr "  -S, --ServerID ID\tУстановить идентификатор сервера в ID\n"
 
 #: server/civserver.c:197
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tСохранять ppm-файлы карты при сохранении игры.\n"
 
 #: server/civserver.c:198
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -2248,12 +2248,12 @@ msgstr ""
 #: server/connecthand.c:244
 #, c-format
 msgid "Invalid username '%s'"
-msgstr "Неверное имя пользователя '%s'"
+msgstr "Недопустимое имя пользователя '%s'"
 
 #: server/connecthand.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s было отказано в подключении: возможности не совпадают."
+msgstr "%s было отказано в подключении: Недопустимое имя [%s]."
 
 #: server/connecthand.c:254
 #, c-format
@@ -2261,9 +2261,9 @@ msgid "'%s' already connected."
 msgstr "'%s' уже подключен."
 
 #: server/connecthand.c:257
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s было отказано в подключении: возможности не совпадают."
+msgstr "%s было отказано в подключении: Дублирующий логин [%s]."
 
 #: server/connecthand.c:285
 #, c-format
@@ -8304,11 +8304,11 @@ msgstr "Конец хода вручн. комп.реж."
 
 #: client/options.c:104
 msgid "Auto Center on Units"
-msgstr "Авто центрировать на соединении"
+msgstr "Авто-центрировать на соединении"
 
 #: client/options.c:105
 msgid "Auto Center on Combat"
-msgstr "Авто центрировать на битве"
+msgstr "Авто-центрировать на битве"
 
 #: client/options.c:106
 msgid "Focus on Awakened Units"
@@ -8316,7 +8316,7 @@ msgstr "Фокус на проснувшихся соединениях"
 
 #: client/options.c:107
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Разрешить ИДТИ К в неразведанные"
 
 #: client/options.c:108
 msgid "Center map when Popup city"
