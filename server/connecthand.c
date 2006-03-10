@@ -377,6 +377,10 @@ static void send_conn_info_arg(struct conn_list *src,
                                struct conn_list *dest, bool remove)
 {
   struct packet_conn_info packet;
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
   
   conn_list_iterate(src, psrc) {
     package_conn_info(psrc, &packet);

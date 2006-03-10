@@ -32,6 +32,7 @@
 #include "shared.h"
 #include "support.h"
 
+#include "connecthand.h"
 #include "maphand.h"
 #include "plrhand.h"
 #include "unittools.h"
@@ -523,4 +524,5 @@ void handle_single_want_hack_req(struct connection *pc,
   dsend_packet_single_want_hack_reply(pc, you_have_hack);
 
   send_ruleset_choices(pc);
+  send_conn_info(pc->self, NULL);
 }
