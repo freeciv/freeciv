@@ -3,19 +3,21 @@
 #  Egor Vyscrebentov <evyscr@murom.net>, 2003-2006.
 #  Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #
+# Emai all translators at: <freeciv.ru@freelists.org>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-05 20:45-0500\n"
-"PO-Revision-Date: 2006-01-30 14:57+0300\n"
+"PO-Revision-Date: 2006-03-11 00:43+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=KOI8-R\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : "
+"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: common/city.c:53 client/cityrepdata.c:483 client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-mui/citydlg.c:1596 client/gui-mui/repodlgs.c:668
@@ -732,7 +734,7 @@ msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (компьютер)* Агрессия против %s была твоей последней ошибкой!"
 
 #: ai/advdiplomacy.c:1185
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
 "the spaceship launch."
@@ -740,13 +742,13 @@ msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
 msgstr[0] ""
-"*%s (компьютер)* Мы начнём всеобщую войну против %s через %d ходов чтобы "
+"*%s (компьютер)* Мы начнём всеобщую войну против %s через %d ход, чтобы "
 "остановить запуск космического корабля."
 msgstr[1] ""
-"*%s (компьютер)* Мы начнём всеобщую войну против %s через %d ходов чтобы "
+"*%s (компьютер)* Мы начнём всеобщую войну против %s через %d хода, чтобы "
 "остановить запуск космического корабля."
 msgstr[2] ""
-"*%s (компьютер)* Мы начнём всеобщую войну против %s через %d ходов чтобы "
+"*%s (компьютер)* Мы начнём всеобщую войну против %s через %d ходов, чтобы "
 "остановить запуск космического корабля."
 
 #: ai/advdiplomacy.c:1193
@@ -759,7 +761,7 @@ msgstr ""
 "союз будет вечен!"
 
 #: ai/advdiplomacy.c:1198
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
 "will answer in force in %d turn and expect you to honour your alliance with "
@@ -770,11 +772,11 @@ msgid_plural ""
 "us and do likewise!"
 msgstr[0] ""
 "*%s (компьютер)* %s грубо попрали существующие соглашения с нами ради "
-"собственной выгоды. Мы ответим им силой через %d ходов и ожидаем, что Вы, "
+"собственной выгоды. Мы ответим им силой через %d ход и ожидаем, что Вы, "
 "уважая наш союз, поступите так же!"
 msgstr[1] ""
 "*%s (компьютер)* %s грубо попрали существующие соглашения с нами ради "
-"собственной выгоды. Мы ответим им силой через %d ходов и ожидаем, что Вы, "
+"собственной выгоды. Мы ответим им силой через %d хода и ожидаем, что Вы, "
 "уважая наш союз, поступите так же!"
 msgstr[2] ""
 "*%s (компьютер)* %s грубо попрали существующие соглашения с нами ради "
@@ -782,7 +784,7 @@ msgstr[2] ""
 "уважая наш союз, поступите так же!"
 
 #: ai/advdiplomacy.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turn."
@@ -791,10 +793,10 @@ msgid_plural ""
 "declare war in %d turns."
 msgstr[0] ""
 "*%s (компьютер)* Мы собираемся пограбить богатую цивилизацию народа %s. Мы "
-"объявим им войну через %d ходов."
+"объявим им войну через %d ход."
 msgstr[1] ""
 "*%s (компьютер)* Мы собираемся пограбить богатую цивилизацию народа %s. Мы "
-"объявим им войну через %d ходов."
+"объявим им войну через %d хода."
 msgstr[2] ""
 "*%s (компьютер)* Мы собираемся пограбить богатую цивилизацию народа %s. Мы "
 "объявим им войну через %d ходов."
@@ -808,7 +810,7 @@ msgstr ""
 "к нашей акции!"
 
 #: ai/advdiplomacy.c:1219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turn."
@@ -816,14 +818,14 @@ msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
 msgstr[0] ""
-"*%s (компьютер)* Мы собираемся пограбить богатую цивилизацию народа %s. Мы "
-"объявим им войну через %d ходов."
+"*%s (компьютер)* Мы разобрались с %s. Дайте нам разорвать эту патетичную "
+"цивилизацию в клочья! Мы объявим им войну через %d ход."
 msgstr[1] ""
-"*%s (компьютер)* Мы собираемся пограбить богатую цивилизацию народа %s. Мы "
-"объявим им войну через %d ходов."
+"*%s (компьютер)* Мы разобрались с %s. Дайте нам разорвать эту патетичную "
+"цивилизацию в клочья! Мы объявим им войну через %d хода."
 msgstr[2] ""
-"*%s (компьютер)* Мы собираемся пограбить богатую цивилизацию народа %s. Мы "
-"объявим им войну через %d ходов."
+"*%s (компьютер)* Мы разобрались с %s. Дайте нам разорвать эту патетичную "
+"цивилизацию в клочья! Мы объявим им войну через %d ходов."
 
 #: ai/advdiplomacy.c:1227
 #, c-format
@@ -833,7 +835,7 @@ msgstr ""
 "войне."
 
 #: ai/advdiplomacy.c:1232
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
 "Hold on - we are coming!"
@@ -842,16 +844,16 @@ msgid_plural ""
 "Hold on - we are coming!"
 msgstr[0] ""
 "*%s (компьютер)* Мы чтим наш союз и объявляем войну народу %s через %d "
-"ходов. Держитесь - помощь идёт!"
+"ход. Держитесь - помощь идёт!"
 msgstr[1] ""
 "*%s (компьютер)* Мы чтим наш союз и объявляем войну народу %s через %d "
-"ходов. Держитесь - помощь идёт!"
+"хода. Держитесь - помощь идёт!"
 msgstr[2] ""
 "*%s (компьютер)* Мы чтим наш союз и объявляем войну народу %s через %d "
 "ходов. Держитесь - помощь идёт!"
 
 #: ai/advdiplomacy.c:1239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
@@ -860,10 +862,10 @@ msgid_plural ""
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 "*%s (компьютер)* Мы чтим наш союз с народом %s и объявляем войну народу %s "
-"через %d ходов. Мы ожидаем, что Вы поступите так же."
+"через %d ход. Мы ожидаем, что Вы поступите так же."
 msgstr[1] ""
 "*%s (компьютер)* Мы чтим наш союз с народом %s и объявляем войну народу %s "
-"через %d ходов. Мы ожидаем, что Вы поступите так же."
+"через %d хода. Мы ожидаем, что Вы поступите так же."
 msgstr[2] ""
 "*%s (компьютер)* Мы чтим наш союз с народом %s и объявляем войну народу %s "
 "через %d ходов. Мы ожидаем, что Вы поступите так же."
@@ -961,6 +963,9 @@ msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 "Honour our glorious alliance and your name will never be forgotten!"
 msgstr ""
+"*%s (компьютер)* Мы были злобно атакованы %s и нуждаемся в Вашей помощи! "
+"Соблюдите обязательства нашего славного союза - и Ваше имя никогда не будет "
+"забыто!"
 
 #: server/barbarian.c:188
 #, c-format
@@ -1570,18 +1575,16 @@ msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\tУстанавливает идентификатор сервера в ID\n"
 
 #: server/civserver.c:245
-#, fuzzy
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr "  -P, --Ppm\t\tСохранять ppm карты при сохранении игры.\n"
+msgstr "  -P, --Ppm\t\tСохранять ppm-файлы карты при сохранении игры.\n"
 
 #: server/civserver.c:246
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\tПрочитать начальный скрипт FILE\n"
 
 #: server/civserver.c:248
-#, fuzzy
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr "  -l, --log FILE\tИспользовать FILE для записи журнала\n"
+msgstr "  -R, --Ranklog FILE\tИспользовать FILE для записи рейтинга\n"
 
 #: server/civserver.c:249 client/civclient.c:229 manual/civmanual.c:373
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -1656,9 +1659,8 @@ msgstr ""
 "где это не вызывает конфликтов."
 
 #: server/commands.c:63
-#, fuzzy
 msgid "Show a list of players, teams, connections, or scenarios."
-msgstr "Показывать список игроков, команд или подключений."
+msgstr "Показывать список игроков, команд, подключений или сценариев."
 
 #: server/commands.c:64
 #, fuzzy
@@ -1666,8 +1668,8 @@ msgid ""
 "Show a list of players, teams, connections, or scenarios to the server.  The "
 "argument may be abbreviated, and defaults to 'players' if absent."
 msgstr ""
-"Показать список игроков, команд или подключений к серверу. Аргумент может "
-"быть сокращен, по умолчанию - 'players'."
+"Показать список игроков, команд, подключений к серверу или сценариев. "
+"Аргумент может быть сокращен, по умолчанию - 'players'."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -2414,9 +2416,9 @@ msgid "Invalid username '%s'"
 msgstr "Неверное имя пользователя '%s'"
 
 #: server/connecthand.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s было отказано в подключении: возможности не совпадают."
+msgstr "%s было отказано в подключении: Недопустимое имя [%s]."
 
 #: server/connecthand.c:266
 #, c-format
@@ -2424,9 +2426,9 @@ msgid "'%s' already connected."
 msgstr "'%s' уже подключен."
 
 #: server/connecthand.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s было отказано в подключении: возможности не совпадают."
+msgstr "%s было отказано в подключении: Дублирующий логин [%s]."
 
 #: server/connecthand.c:297 server/connecthand.c:306
 #, c-format
@@ -2864,12 +2866,12 @@ msgid "%s has caused an incident while bribing your %s."
 msgstr "%s вызвали инцидент при попытке подкупа Ваших %s."
 
 #: server/diplomats.c:1248
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "Вы вызвали инцидент при попытке похитить технологию из %s."
 
 #: server/diplomats.c:1252
-#, fuzzy, c-format
+#, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s вызвали инцидент при попытке похитить Вашу технологию."
 
@@ -2893,8 +2895,8 @@ msgstr ""
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr ""
-"Морские начальные соединения пока ещё не поддерживаются. Никто не получает %"
-"s."
+"Морские начальные соединения пока ещё не поддерживаются. Никто не получает "
+"%s."
 
 #: server/gamehand.c:301 client/text.c:604 client/gui-mui/mapview.c:192
 #, c-format
@@ -3032,7 +3034,7 @@ msgstr "%s сейчас правит народом %s при форме правления %s."
 #. TRANS: this is a message event so don't make it
 #. * too long.
 #: server/plrhand.c:337
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
 "government is %s."
@@ -3040,14 +3042,14 @@ msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
 msgstr[0] ""
-"%s начали революцию! %d шаг будет действовать анархия! Целевое "
-"правительстьво - %s."
+"%s начали революцию! %d ход будет действовать анархия! Целевое "
+"правительство - %s."
 msgstr[1] ""
-"%s начали революцию! %d шага будет действовать анархия! Целевое "
-"правительстьво - %s."
+"%s начали революцию! %d хода будет действовать анархия! Целевое "
+"правительство - %s."
 msgstr[2] ""
-"%s начали революцию! %d шагов будет действовать анархия! Целевое "
-"правительстьво - %s."
+"%s начали революцию! %d ходов будет действовать анархия! Целевое "
+"правительство - %s."
 
 #: server/plrhand.c:349
 msgid "Revolution: returning to anarchy."
@@ -3099,6 +3101,8 @@ msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
 msgstr ""
+"Сенат отказывается разорвать договор с народом %s, но у Вас нет проблем с "
+"поисками нового сената."
 
 #: server/plrhand.c:605
 #, c-format
@@ -3124,7 +3128,8 @@ msgstr "%s атаковал Вашего союзника %s! Вы отменили Ваш союз с агрессором."
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
-msgstr "Ваш союзник %s объявил войну %s. Вы обязаны отменить альянс с %s."
+msgstr ""
+"Игрок из Вашей команды %s объявил войну %s. Вы обязаны отменить союз с %s."
 
 #: server/plrhand.c:1096
 #, c-format
@@ -3722,7 +3727,7 @@ msgstr ""
 
 #: server/settings.c:160
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "Невозможно менять параметр maxplayers в режиме GGZ."
 
 #: server/settings.c:165
 msgid "Number of players is higher than requested value; Keeping old value."
@@ -3917,18 +3922,18 @@ msgstr ""
 "Меньшие значения дадут холодную карту, тогда как большие значения дадут "
 "более горячую карту.\n"
 "\n"
-"100 значит очень засушливая и горячая планета без полярных арктических зон, "
-"только тропические и засушливые зоны.\n"
+"100 означает очень засушливую и горячую планету без полярных арктических "
+"зон, только тропические и засушливые зоны.\n"
 "\n"
-"70 значит горячая планета с небольшим полярным льдом.\n"
+"70 означает горячую планету с небольшим полярным льдом.\n"
 "\n"
-"50 значит умеренная планета с нормальными полюсными, холодными, умеренными и "
-"тропическими зонами; пустынные зоны совпадают с тропическими и умеренными "
+"50 означает умеренную планету с нормальными полюсными, холодными, умеренными "
+"и тропическими зонами; пустынные зоны совпадают с тропическими и умеренными "
 "зонами.\n"
 "\n"
-"30 значит холодная планета с небольшими тропическими зонами.\n"
+"30 означает холодную планету с небольшими тропическими зонами.\n"
 "\n"
-"0 значит очень холодная планета с большими полярными зонами и без тропиков"
+"0 означает очень холодную планету с большими полярными зонами и без тропиков"
 
 #: server/settings.c:337
 msgid "Percentage of the map that is land"
@@ -4518,6 +4523,8 @@ msgid ""
 "The chance of a spy returning from a successful mission and the base chance "
 "of success for diplomats and spies."
 msgstr ""
+"Шанс для шпиона возвратиться после успешно завершённого задания и базовый "
+"шанс успеха для дипломатов и шпионов."
 
 #: server/settings.c:764
 msgid "Whether to allow space race"
@@ -4853,12 +4860,12 @@ msgid ""
 "this server was not compiled to use zlib."
 msgstr ""
 "Если не ноль, сохранённые игры будут сжаты с помоощью zlib (формат gzip). "
-"Большие числа дачт лучшую компрессию, но занимают дольше. Если максимум "
-"равен нулю, сервер не был скомпилирован, чтобы использовать zlib."
+"Большие числа дают лучшую компрессию, но требуют больше времени. Если "
+"максимум равен нулю, сервер не был скомпилирован, чтобы использовать zlib."
 
 #: server/settings.c:1004
 msgid "Auto-save name prefix"
-msgstr "Префикс имен авто-сохранения"
+msgstr "Префикс имён автосохранения"
 
 #: server/settings.c:1005
 msgid ""
@@ -5005,9 +5012,10 @@ msgstr ""
 "Озабоченные граждане напоминают, что прекращение огня с %s скоро закончится"
 
 #: server/srv_main.c:486
-#, fuzzy, c-format
+#, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr "Перемирие с %s закончилось. Теперь Вы нейтральны по отношению к %s"
+msgstr ""
+"Прекращение огня с народом %s закончилось. Теперь Вы в войне с народом %s."
 
 #: server/srv_main.c:822
 #, c-format
@@ -5027,6 +5035,7 @@ msgstr "Игра уже запущена."
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
+"%s лишился уровня доступа cmdlevel. С этих пор используйте голосование."
 
 #: server/srv_main.c:869
 msgid "Starting game."
@@ -5049,12 +5058,12 @@ msgid ""
 msgstr ""
 "Ваш клиент слишком стар. Если Вы хотите использовать этот сервер, обновите "
 "ваш клиент до CVS версии после 28/11/2003, либо до Freeciv версии 1.15.0 или "
-"позже."
+"выше."
 
 #: server/srv_main.c:1072
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
-msgstr "Получил пакет типа %d от мертвого игрока или наблюдателя"
+msgstr "Получен пакет типа %d от мёртвого игрока или наблюдателя"
 
 #: server/srv_main.c:1173
 msgid "Please choose a non-blank name."
@@ -5068,12 +5077,12 @@ msgstr "Этот народ уже используется."
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
-"Другой игрок назвавший себя '%s' уже присоединился к игре. Пожалуйста "
+"Другой игрок, назвавший себя '%s', уже присоединился к игре. Пожалуйста, "
 "выберите другое имя."
 
 #: server/srv_main.c:1220
 msgid "Please choose a name containing only ASCII characters."
-msgstr "Выберите имя, содержащее только ASCII символы."
+msgstr "Пожалуйста, выберите имя, содержащее только ASCII символы."
 
 #: server/srv_main.c:1299
 #, c-format
@@ -5249,9 +5258,8 @@ msgid "Server id: %s"
 msgstr "Код сервера: %s"
 
 #: server/stdinhand.c:755
-#, fuzzy
 msgid "You cannot save games manually on this server."
-msgstr "Закончить игру и выключить сервер."
+msgstr "Вы не можете сохранить игру вручную на этом сервере."
 
 #: server/stdinhand.c:772
 msgid "Cannot toggle a barbarian player."
@@ -5318,12 +5326,12 @@ msgstr "Удален игрок %s из игры."
 #: server/stdinhand.c:1007 server/stdinhand.c:3177
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "Имя \"%s\" запрещено по соображениям безопасности."
 
 #: server/stdinhand.c:1020
-#, fuzzy, c-format
+#, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Нет подключения с именем '%s'."
+msgstr "Командный скрипт с именем \"%s\" не найден."
 
 #: server/stdinhand.c:1028
 #, c-format
@@ -5348,6 +5356,8 @@ msgstr "Не удалось записать скрипт-файл '%s'."
 #: server/stdinhand.c:1148
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
+"Вы не можете использовать на этом сервере команду write по соображениям "
+"безопасности."
 
 #: server/stdinhand.c:1176
 #, c-format
@@ -5359,12 +5369,11 @@ msgstr ""
 "только '%s'."
 
 #: server/stdinhand.c:1231
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
-"Кто угодно может сейчас получить уровень доступа '%s', выполнив команду "
-"firstlevel."
+"Кто угодно может стать организатором игры '%s', выполнив команду 'first'."
 
 #: server/stdinhand.c:1264
 msgid "Command access levels in effect:"
@@ -5414,9 +5423,8 @@ msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Уровень команд для первого взявшего его игрока: '%s'"
 
 #: server/stdinhand.c:1390
-#, fuzzy
 msgid "The 'first' command makes no sense from the server command line."
-msgstr "Команда 'firstlevel' не имеет смысла в командной строке сервера."
+msgstr "Команда 'first' не имеет смысла в командной строке сервера."
 
 #: server/stdinhand.c:1394
 #, c-format
@@ -5424,9 +5432,8 @@ msgid "You already have command access level '%s' or better."
 msgstr "Вы сейчас имеете уровень доступа '%s' или выше."
 
 #: server/stdinhand.c:1399
-#, fuzzy
 msgid "Someone else already is game organizer."
-msgstr "Кто-либо уже имеет уровень команд '%s' или выше."
+msgstr "Кто-то уже является организатором игры."
 
 #: server/stdinhand.c:1404
 #, c-format
@@ -5441,7 +5448,7 @@ msgstr "Неверный аргумент %d"
 #: server/stdinhand.c:1462
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr ""
-"Использование: timeoutincreate <ход> <инкремент-хода> <значение> <множитель-"
+"Использование: timeoutincrease <ход> <инкремент-хода> <значение> <множитель-"
 "значения>."
 
 #: server/stdinhand.c:1470
@@ -5965,7 +5972,7 @@ msgstr "Использование: load <имя-файла>"
 #: server/stdinhand.c:3193
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
-msgstr ""
+msgstr "Невозможно найти игру или сценарий с именем \"%s\"."
 
 #: server/stdinhand.c:3208
 #, fuzzy
@@ -5983,9 +5990,11 @@ msgid "Current ruleset directory is \"%s\""
 msgstr "Текущий путь для данных: \"%s\""
 
 #: server/stdinhand.c:3291
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-msgstr "Каталог набора правил \"%s\" не найден"
+msgstr ""
+"Наименование каталога набора правил \"%s\" запрещено по соображениям "
+"безопасности."
 
 #: server/stdinhand.c:3299
 #, c-format
@@ -6069,11 +6078,11 @@ msgstr "Недостаточно игроков, игра не начнется."
 #: server/stdinhand.c:3688
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
-msgstr "Не возможно начать игру: ждем пока все клиенты отключатся."
+msgstr "Невозможно начать игру: ждем пока все клиенты отключатся."
 
 #: server/stdinhand.c:3695
 msgid "Cannot start the game: it is already running."
-msgstr "Не возможно начать игру: она уже идет."
+msgstr "Невозможно начать игру: она уже идет."
 
 #: server/stdinhand.c:3724
 #, c-format
@@ -6240,9 +6249,8 @@ msgid "<no connections>"
 msgstr "<нет соединений>"
 
 #: server/stdinhand.c:4166
-#, fuzzy
 msgid "List of scenarios available:"
-msgstr "Нет доступных соединений"
+msgstr "Список доступных сценариев:"
 
 #: server/unithand.c:99
 #, c-format
@@ -6574,25 +6582,34 @@ msgid "%s lost to an attack by %s's %s%s."
 msgstr "Вы потеряли %s в результате атаки %s %s%s."
 
 #: server/unittools.c:1610
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
 "more experienced!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
-msgstr[0] "Ваши атакующие %s победили %s %s%s и стали более опытными!"
-msgstr[1] "Ваши атакующие %s победили %s %s%s и стали более опытными!"
-msgstr[2] "Ваши атакующие %s победили %s %s%s и стали более опытными!"
+msgstr[0] ""
+"Ваши атакующие %s победили %s %s (и %d другое соединение)%s и стали более "
+"опытными!"
+msgstr[1] ""
+"Ваши атакующие %s победили %s %s (и %d других соединения)%s и стали более "
+"опытными!"
+msgstr[2] ""
+"Ваши атакующие %s победили %s %s (и %d других соединений)%s и стали более "
+"опытными!"
 
 #: server/unittools.c:1622
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Ваши атакующие %s победили %s %s%s!"
-msgstr[1] "Ваши атакующие %s победили %s %s%s!"
-msgstr[2] "Ваши атакующие %s победили %s %s%s!"
+msgstr[0] ""
+"Ваши атакующие %s победили %s %s (и %d другое соединение)%s!"
+msgstr[1] ""
+"Ваши атакующие %s победили %s %s (и %d других соединения)%s!"
+msgstr[2] ""
+"Ваши атакующие %s победили %s %s (и %d других соединений)%s!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
@@ -6604,38 +6621,38 @@ msgstr "Вы потеряли %s в результате атаки %s %s."
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
 #: server/unittools.c:1654
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
-msgstr "Вы потеряли %s в результате атаки %s %s."
+msgstr "Вы потеряли %s в результате атаки %s %s на %s %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from John's Destroyer."
 #: server/unittools.c:1667
-#, fuzzy, c-format
+#, c-format
 msgid "%s (and %s) lost to an attack from %s's %s."
-msgstr "Вы потеряли %s в результате атаки %s %s."
+msgstr "Вы потеряли %s (и %s) в результате атаки %s %s."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from John's Destroyer." (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1675
-#, fuzzy, c-format
+#, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
-msgstr[0] "Вы потеряли %s в результате атаки %s %s."
-msgstr[1] "Вы потеряли %s в результате атаки %s %s."
-msgstr[2] "Вы потеряли %s в результате атаки %s %s."
+msgstr[0] "Вы потеряли %s и %d другое соединение в результате атаки %s %s."
+msgstr[1] "Вы потеряли %s и %d других соединения в результате атаки %s %s."
+msgstr[2] "Вы потеряли %s и %d других соединений в результате атаки %s %s."
 
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1687
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
-msgstr[0] "Вы потеряли %s в результате атаки %s %s."
-msgstr[1] "Вы потеряли %s в результате атаки %s %s."
-msgstr[2] "Вы потеряли %s в результате атаки %s %s."
+msgstr[0] "Вы потеряли %d соединение в результате атаки %s %s на %s %s."
+msgstr[1] "Вы потеряли %d соединения в результате атаки %s %s на %s %s."
+msgstr[2] "Вы потеряли %d соединений в результате атаки %s %s на %s %s."
 
 #: server/unittools.c:1934
 #, c-format
@@ -6742,26 +6759,26 @@ msgstr "Вы нашли дружественный город."
 #: server/unittools.c:2219
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
-"К Вам присоединились дружественные кочевники, потрясенные Вашим могуществом."
+"К Вам присоединились дружественные кочевники, потрясённые Вашим могуществом."
 
 #: server/unittools.c:2244
 msgid "Your overflight frightens the tribe; they scatter in terror."
-msgstr "Ваш перелет пугает племя, оно разбегается в ужасе."
+msgstr "Ваш перелёт пугает племя, оно разбегается в ужасе."
 
 #: server/unittools.c:2500
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
-msgstr "Приказ для %s отменён, невозможно выполнить приказ."
+msgstr "Приказы для %s отменены после обнаружения движения противника."
 
 #: server/unittools.c:2943
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
-msgstr "Приказ для %s отменён, невозможно выполнить приказ."
+msgstr "Приказы для %s отменены, так как поблизости обнаружены соединения."
 
 #: server/unittools.c:2995
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
-msgstr "Приказ для %s отменён потому что строительство города прервалось."
+msgstr "Приказы для %s отменены, поскольку строительство города прервалось."
 
 #: server/unittools.c:3007
 #, c-format
@@ -6822,15 +6839,15 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "Генератор 3 оставил %li процентов земли неиспользованными."
 
 #: server/generator/startpos.c:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
 "Maybe the number of players is too high for this map.\n"
 "Please report this bug at %s."
 msgstr ""
-"Сервер, похоже, вошел в бесконечный цикл при распределении стартовых позиций "
-"и его функционирование будет прервано.\n"
+"Сервер, похоже, вошел в бесконечный цикл при распределении стартовых "
+"позиций.\n"
 "Возможно, количество игроков слишком велико для данной карты.\n"
 "Пожалуйста, сообщите об этой ошибке по адресу %s."
 
@@ -8249,12 +8266,9 @@ msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Наземеные соединения не могут перемещаться по морскому рельефу."
 
 #: client/helpdata.c:1268
-#, fuzzy, c-format
+#, c-format
 msgid "Features:\n"
-msgstr ""
-"\n"
-"\n"
-"Особенности:\n"
+msgstr "Особенности:\n"
 
 #: client/helpdata.c:1291
 #, fuzzy, c-format
