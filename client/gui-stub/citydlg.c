@@ -21,7 +21,7 @@
   Pop up (or bring to the front) a dialog for the given city.  It may or
   may not be modal.
 **************************************************************************/
-void popup_city_dialog(struct city *pcity, bool make_modal)
+void popup_city_dialog(struct city *pcity)
 {
   /* PORTME */
 }

@@ -43,7 +43,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
 /**************************************************************************
   Popup the nation selection dialog.
 **************************************************************************/
-void popup_races_dialog(void)
+void popup_races_dialog(struct player *pplayer)
 {
   /* PORTME */
 }
@@ -69,7 +69,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
 **************************************************************************/
-void races_toggles_set_sensitive(bool *nations_used)
+void races_toggles_set_sensitive(void)
 {
   /* PORTME */
 }
@@ -99,7 +99,7 @@ void popup_caravan_dialog(struct unit *punit,
   Is there currently a caravan dialog open?  This is important if there
   can be only one such dialog at a time; otherwise return FALSE.
 **************************************************************************/
-bool caravan_dialog_is_open(void)
+bool caravan_dialog_is_open(int *unit_id, int *city_id)
 {
   /* PORTME */
   return FALSE;
@@ -112,16 +112,6 @@ bool caravan_dialog_is_open(void)
 void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
 {
   /* PORTME */
-}
-
-/**************************************************************************
-  Return whether a diplomat dialog is open.  This is important if there
-  can be only one such dialog at a time; otherwise return FALSE.
-**************************************************************************/
-bool diplomat_dialog_is_open(void)
-{
-  /* PORTME */
-  return FALSE;
 }
 
 /**************************************************************************
@@ -155,8 +145,7 @@ void popup_sabotage_dialog(struct city *pcity)
   Popup a dialog asking the unit which improvement they would like to
   pillage.
 **************************************************************************/
-void popup_pillage_dialog(struct unit *punit,
-			  enum tile_special_type may_pillage)
+void popup_pillage_dialog(struct unit *punit, bv_special may_pillage)
 {
   /* PORTME */
 }
@@ -166,6 +155,31 @@ void popup_pillage_dialog(struct unit *punit,
   over.  It should close all dialog windows for that game.
 **************************************************************************/
 void popdown_all_game_dialogs(void)
+{
+  /* PORTME */
+}
+
+/****************************************************************
+  Returns id of a diplomat currently handled in diplomat dialog
+*****************************************************************/
+int diplomat_handled_in_diplomat_dialog(void)
+{
+  /* PORTME */    
+  return -1;  
+}
+
+/****************************************************************
+  Closes the diplomat dialog
+****************************************************************/
+void close_diplomat_dialog(void)
+{
+  /* PORTME */
+}
+
+/****************************************************************
+  Updates caravan dialog
+****************************************************************/
+void caravan_dialog_update(void)
 {
   /* PORTME */
 }

@@ -62,7 +62,7 @@ void update_info_label(void)
   prompt etc).  And it may call update_unit_pix_label() to update the
   icons for units on this tile.
 ****************************************************************************/
-void update_unit_info_label(struct unit *punit)
+void update_unit_info_label(struct unit_list *punitlist)
 {
   /* PORTME */
 }
@@ -107,17 +107,6 @@ void update_turn_done_button(bool do_restore)
 ****************************************************************************/
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 			 struct sprite *flake, struct sprite *gov)
-{
-  /* PORTME */
-}
-
-/****************************************************************************
-  Called when the map size changes. This may be used to change the
-  size of the GUI element holding the overview canvas. The
-  overview.width and overview.height are updated if this function is
-  called.
-****************************************************************************/
-void map_size_changed(void)
 {
   /* PORTME */
 }
@@ -228,4 +217,26 @@ void tileset_changed(void)
   /* PORTME */
   /* Here you should do any necessary redraws (for instance, the city
    * dialogs usually need to be resized). */
+}
+
+/****************************************************************************
+  Return the dimensions of the area (container widget; maximum size) for
+  the overview.
+****************************************************************************/
+void get_overview_area_dimensions(int *width, int *height)
+{
+  /* PORTME */
+  *width = 0;
+  *height = 0;  
+}
+
+/****************************************************************************
+  Called when the map size changes. This may be used to change the
+  size of the GUI element holding the overview canvas. The
+  overview.width and overview.height are updated if this function is
+  called.
+****************************************************************************/
+void overview_size_changed(void)
+{
+  /* PORTME */
 }

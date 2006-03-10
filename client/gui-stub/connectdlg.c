@@ -29,9 +29,6 @@
 #include "connectdlg.h"
 #include "packhand_gen.h"
 
-static void try_to_autoconnect(void);
-
-
 /**************************************************************************
  Really close and destroy the dialog.
 **************************************************************************/
@@ -104,4 +101,3 @@ void gui_server_connect(void)
 {
   /* PORTME */
 }
-

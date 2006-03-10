@@ -36,3 +36,20 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 {
   /* PORTME */
 }
+
+/**************************************************************************
+  Returns current client page
+**************************************************************************/
+enum client_pages get_client_page(void)
+{
+  /* PORTME */
+  return PAGE_MAIN;
+}
+
+/**************************************************************************
+  update the start page.
+**************************************************************************/
+void update_start_page(void)
+{
+  /* PORTME */    
+}
