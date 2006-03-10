@@ -48,6 +48,11 @@
 
 #endif
 
+/* This provides an untranslated version of Q_ that allows the caller to
+ * get access to the original string.  This may be needed for comparisons,
+ * for instance. */
+#define Qn_(String) skip_intl_qualifier_prefix(String)
+
 const char *skip_intl_qualifier_prefix(const char *str);
 
 #endif  /* FC__FCINTL_H */

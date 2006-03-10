@@ -1109,7 +1109,9 @@ int get_style_by_name(const char *style_name)
   int i;
 
   for (i = 0; i < game.control.styles_count; i++) {
-    if (strcmp(style_name, city_styles[i].name) == 0) {
+    /* City styles use Q_ so a city style may be called "?citystyle:Asian".
+     * We use Qn_ so that this string will match against "Asian". */
+    if (strcmp(Qn_(style_name), Qn_(city_styles[i].name)) == 0) {
       break;
     }
   }
