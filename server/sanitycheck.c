@@ -87,10 +87,6 @@ static void check_specials(void)
 
     SANITY_TILE(ptile, pterrain->index >= T_FIRST 
                        && pterrain->index < T_COUNT);
-
-    if (contains_special(special, S_FORTRESS)) {
-      SANITY_TILE(ptile, ptile->owner != NULL);
-    }
   } whole_map_iterate_end;
 }
 
