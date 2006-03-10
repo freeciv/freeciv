@@ -17,6 +17,8 @@
 
 #include "fc_types.h"
 #include "events.h"
+#include "unittype.h"
+#include "unitlist.h"
 
 struct Clause;
 
