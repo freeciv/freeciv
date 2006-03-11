@@ -957,11 +957,6 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* Ignores terrain effects (treats all squares as roads).\n"));
   }
-  if (unit_type_flag(utype, F_IGTIRED)) {
-    sprintf(buf + strlen(buf),
-	    _("* Attacks with full strength even if less than "
-	      "one movement left.\n"));
-  }
   if (unit_type_flag(utype, F_IGZOC)) {
     sprintf(buf + strlen(buf), _("* Ignores zones of control.\n"));
   }

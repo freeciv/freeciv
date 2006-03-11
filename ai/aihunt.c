@@ -90,9 +90,6 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
     if (unit_type_flag(ut, F_IGTER)) {
       desire += desire / 2;
     }
-    if (unit_type_flag(ut, F_IGTIRED)) {
-      desire += desire / 8;
-    }
     if (unit_type_flag(ut, F_PARTIAL_INVIS)) {
       desire += desire / 4;
     }

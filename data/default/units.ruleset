@@ -116,7 +116,6 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "Paratroopers"= (land only) can paradrop
 ; "Airbase"	= (land only) can produce airbases
 ; "Cities"	= can disband to produce a city
-; "IgTired"	= ignore tired penalty when attacking
 ; "No_Land_Attack" = (sea only) cannot attack targets on land
 ; "AddToCity"	= can disband to add a single point of population to a city
 ;		  (see cities.ruleset for limitation of this ability)

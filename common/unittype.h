@@ -69,7 +69,6 @@ enum unit_flag_id {
   F_PARATROOPERS,
   F_AIRBASE,          /* Can build Airbases */
   F_CITIES,           /* Can build cities */
-  F_IGTIRED,          /* Ignore tired negative bonus when attacking */
   F_MISSILE_CARRIER,  /* Like F_CARRIER, but missiles only (Submarine) */
   F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
   F_ADD_TO_CITY,      /* unit can add to city population */

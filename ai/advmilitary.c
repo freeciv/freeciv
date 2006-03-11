@@ -640,9 +640,6 @@ int ai_unit_attack_desirability(const struct unit_type *punittype)
   if (unit_type_flag(punittype, F_CITYBUSTER)) {
     desire += desire / 2;
   }
-  if (unit_type_flag(punittype, F_IGTIRED)) {
-    desire += desire / 4;
-  }
   if (unit_type_flag(punittype, F_MARINES)) {
     desire += desire / 4;
   }
