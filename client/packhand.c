@@ -1402,6 +1402,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   }
   update_unit_focus();
   update_menus();
+  update_players_dialog();
   if (update_aifill_button) {
     update_start_page();
   }
@@ -1629,6 +1630,10 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   if (is_new_nation) {
     races_toggles_set_sensitive();
+
+    /* When changing nation during a running game, some refreshing is needed.
+     * This may not be the only one! */
+    update_map_canvas_visible();
   }
   if (can_client_change_view()) {
     /* Just about any changes above require an update to the intelligence

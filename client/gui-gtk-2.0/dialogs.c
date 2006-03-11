@@ -758,16 +758,27 @@ static void create_races_dialog(struct player *pplayer)
   GtkTreeViewColumn *column;
   
   int i;
-  
-  shell =
-    gtk_dialog_new_with_buttons(_("What Nation Will You Be?"),
-				NULL,
-				0,
-				_("Random Nation"),
-				GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK,
-				GTK_RESPONSE_ACCEPT,
-				NULL);
+  char *title;
+
+  if (game.info.is_edit_mode
+      && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    title = _("Edit Nation");
+  } else if (pplayer && pplayer == game.player_ptr) {
+    title = _("What Nation Will You Be?");
+  } else {
+    title = _("Pick Nation");
+  }
+
+  shell = gtk_dialog_new_with_buttons(title,
+				      NULL,
+				      0,
+				      GTK_STOCK_CANCEL,
+				      GTK_RESPONSE_CANCEL,
+				      _("Random Nation"),
+				      GTK_RESPONSE_NO, /* arbitrary */
+				      GTK_STOCK_OK,
+				      GTK_RESPONSE_ACCEPT,
+				      NULL);
   races_shell = shell;
   races_player = pplayer;
   setup_dialog(shell, toplevel);
@@ -925,7 +936,16 @@ static void create_races_dialog(struct player *pplayer)
   selected_nation = -1;
 
   /* Finish up. */
-  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT);
+  gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CANCEL);
+
+  /* Don't allow ok without a selection */
+  gtk_dialog_set_response_sensitive(GTK_DIALOG(shell), GTK_RESPONSE_ACCEPT,
+                                    FALSE);                                          
+  /* You can't assign NO_NATION during a running game. */
+  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(shell), GTK_RESPONSE_NO,
+                                      FALSE);
+  }
 
   gtk_widget_show_all(GTK_DIALOG(shell)->vbox);
 }
@@ -1144,6 +1164,9 @@ static void races_nation_callback(GtkTreeSelection *select, gpointer data)
       gtk_text_buffer_set_text(races_text, nation->legend , -1);
     }
 
+    /* Once we've made a selection, allow user to ok */
+    gtk_dialog_set_response_sensitive(GTK_DIALOG(races_shell), 
+                                      GTK_RESPONSE_ACCEPT, TRUE);
   } else {
     selected_nation = -1;
   }
@@ -1212,11 +1235,8 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
   if (response == GTK_RESPONSE_ACCEPT) {
     const char *s;
 
+    /* This shouldn't be possible but... */
     if (selected_nation == -1) {
-      dsend_packet_nation_select_req(&aconnection,
-				     races_player->player_no,
-				     -1, FALSE, "", 0);
-      popdown_races_dialog();
       return;
     }
 
@@ -1242,11 +1262,12 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     dsend_packet_nation_select_req(&aconnection,
 				   races_player->player_no, selected_nation,
 				   selected_sex, s, selected_city_style);
-  } else if (response == GTK_RESPONSE_CANCEL) {
+  } else if (response == GTK_RESPONSE_NO) {
     dsend_packet_nation_select_req(&aconnection,
 				   races_player->player_no,
 				   -1, FALSE, "", 0);
   }
+
   popdown_races_dialog();
 }
 

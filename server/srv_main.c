@@ -1279,7 +1279,9 @@ void handle_nation_select_req(struct player *requestor,
   struct nation_type *old_nation, *new_nation;
   struct player *pplayer = get_player(player_no);
 
-  if (server_state != PRE_GAME_STATE || !pplayer) {
+  if (!(requestor->current_conn->access_level == ALLOW_HACK 
+        && game.info.is_edit_mode) 
+      && (server_state != PRE_GAME_STATE || !pplayer)) {
     return;
   }
 
