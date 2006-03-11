@@ -1614,16 +1614,6 @@ void map_calculate_borders()
    * grab one circle each turn as long as we have range left
    * to better visually display expansion. */
   whole_map_iterate(ptile) {
-#ifdef DEBUG
-    if (ptile->owner == NULL
-        && (ptile->city || tile_has_special(ptile, S_FORTRESS))) {
-      /* Sanity problem */
-      freelog(LOG_ERROR, "city or fortress at (%d, %d) has no owner",
-              ptile->x, ptile->y);
-      assert(FALSE);
-      continue;
-    }
-#endif
     if (ptile->owner
         && (ptile->city || tile_has_special(ptile, S_FORTRESS))) {
       /* We have an ownership source */
