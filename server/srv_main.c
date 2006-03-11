@@ -1179,6 +1179,10 @@ static bool is_allowed_player_name(struct player *pplayer,
 
   /* Any name already taken is not allowed. */
   players_iterate(other_player) {
+    if (other_player == pplayer) {
+      /* We don't care if we're the one using the name/nation. */
+      continue;
+    }
     if (other_player->nation == nation) {
       if (error_buf) {
 	my_snprintf(error_buf, bufsz, _("That nation is already in use."));
@@ -1194,8 +1198,7 @@ static bool is_allowed_player_name(struct player *pplayer,
        * times (for server commands etc), including during nation
        * allocation phase.
        */
-      if (other_player->player_no != pplayer->player_no
-	  && mystrcasecmp(other_player->name, name) == 0) {
+      if (mystrcasecmp(other_player->name, name) == 0) {
 	if (error_buf) {
 	  my_snprintf(error_buf, bufsz,
 		      _("Another player already has the name '%s'.  Please "
