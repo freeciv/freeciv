@@ -51,6 +51,10 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
     notify_conn(NULL, NULL, E_SETTING,
 		_(" *** Server set to edit mode! *** "));
   }
+  if (game.info.is_edit_mode && !is_edit_mode) {
+    notify_conn(NULL, NULL, E_SETTING,
+		_(" *** Server is leaving edit mode. *** "));
+  }
   if (!EQ(game.info.is_edit_mode, is_edit_mode)) {
     game.info.is_edit_mode = is_edit_mode;
     send_game_info(NULL);
