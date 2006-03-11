@@ -110,10 +110,6 @@ static const char *help_tlabel_name[4][5] =
 #define REQ_NONE _("None")
 #define REQ_NEVER _("(Never)")
 
-/* HACK: we use a static string for convenience. */
-static char long_buffer[64000];
-
-
 static void create_help_dialog(void);
 static void help_update_dialog(const struct help_item *pitem);
 static void create_help_page(enum help_page_type type);
@@ -688,7 +684,7 @@ static void create_help_page(enum help_page_type type)
 static void help_update_improvement(const struct help_item *pitem,
 				    char *title, int which)
 {
-  char buf[64000];
+  char buf[8192];
   
   create_help_page(HELP_IMPROVEMENT);
   
@@ -732,7 +728,7 @@ static void help_update_improvement(const struct help_item *pitem,
 static void help_update_wonder(const struct help_item *pitem,
 			       char *title, int which)
 {
-  char buf[64000];
+  char buf[8192];
 
   create_help_page(HELP_WONDER);
 
@@ -784,7 +780,7 @@ static void help_update_wonder(const struct help_item *pitem,
 static void help_update_unit_type(const struct help_item *pitem,
 				  char *title, struct unit_type *utype)
 {
-  char *buf = &long_buffer[0];
+  char buf[8192];
 
   create_help_page(HELP_UNIT);
 
@@ -882,7 +878,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 {
   int j;
   GtkWidget *w, *hbox;
-  char buf[4096];
+  char buf[8192];
 
   create_help_page(HELP_TECH);
 
@@ -1028,7 +1024,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 static void help_update_terrain(const struct help_item *pitem,
 				char *title, struct terrain *pterrain)
 {
-  char buf[4096];
+  char buf[8192];
 
   create_help_page(HELP_TERRAIN);
 
@@ -1123,7 +1119,7 @@ static void help_update_terrain(const struct help_item *pitem,
 static void help_update_government(const struct help_item *pitem,
 				   char *title, struct government *gov)
 {
-  char buf[4096];
+  char buf[8192];
 
   if (!gov) {
     strcat(buf, pitem->text);
