@@ -757,9 +757,16 @@ static void create_races_dialog(struct player *pplayer)
   GtkTreeViewColumn *column;
   
   int i;
-  
+  char *title;
+
+  if (pplayer && pplayer == game.player_ptr) {
+    title = _("What Nation Will You Be?");
+  } else {
+    title = _("Pick Nation");
+  }
+
   shell =
-    gtk_dialog_new_with_buttons(_("What Nation Will You Be?"),
+    gtk_dialog_new_with_buttons(title,
 				NULL,
 				0,
 				GTK_STOCK_CANCEL,
