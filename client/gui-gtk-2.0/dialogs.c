@@ -762,8 +762,10 @@ static void create_races_dialog(struct player *pplayer)
     gtk_dialog_new_with_buttons(_("What Nation Will You Be?"),
 				NULL,
 				0,
-				_("Random Nation"),
+				GTK_STOCK_CANCEL,
 				GTK_RESPONSE_CANCEL,
+				_("Random Nation"),
+				GTK_RESPONSE_NO,
 				GTK_STOCK_OK,
 				GTK_RESPONSE_ACCEPT,
 				NULL);
@@ -1241,10 +1243,14 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
     dsend_packet_nation_select_req(&aconnection,
 				   races_player->player_no, selected_nation,
 				   selected_sex, s, selected_city_style);
-  } else if (response == GTK_RESPONSE_CANCEL) {
+
+  } else if (response == GTK_RESPONSE_NO) {
     dsend_packet_nation_select_req(&aconnection,
 				   races_player->player_no,
 				   -1, FALSE, "", 0);
+  } else if (response == GTK_RESPONSE_CANCEL) {
+    /* Nothing - this allows the player to keep his currently selected
+     * nation. */
   }
   popdown_races_dialog();
 }
