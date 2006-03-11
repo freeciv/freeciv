@@ -322,6 +322,7 @@ static GtkWidget *create_map_palette(void)
 static GtkWidget *create_units_palette(void)
 {
   GtkWidget *hbox, *vbox, *label, *sb;
+  GtkSizeGroup *label_group, *sb_group;
   GtkAdjustment *adj;
   int i;
   struct unit *punit = editor_get_selected_unit();
@@ -343,13 +344,19 @@ static GtkWidget *create_units_palette(void)
 
   vbox = gtk_vbox_new(FALSE, 5);
 
+  label_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+  sb_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+
   for (i = 0; i < UPARAM_LAST; i++) {
     adj = GTK_ADJUSTMENT(gtk_adjustment_new(inits[i][0], inits[i][1], 
 					    inits[i][2], 1.0, 5.0, 5.0));
     hbox = gtk_hbox_new(FALSE, 5);
     sb = gtk_spin_button_new(adj, 1, 0);
+    gtk_size_group_add_widget(label_group, sb);
     label = gtk_label_new(names[i]);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
+    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+    gtk_size_group_add_widget(label_group, label);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
     gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
     gtk_box_pack_start(GTK_BOX(hbox), sb, TRUE, TRUE, 0);
 
