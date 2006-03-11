@@ -72,7 +72,7 @@ static void create_messageopt_dialog(void)
       "<b>Out</b>put window ; "
       "<b>Mes</b>sages window ; "
       "<b>Pop</b>up individual window"));
-  gtk_widget_set_name(explanation, "comment label");
+  gtk_widget_set_name(explanation, "comment_label");
   gtk_box_pack_start(GTK_BOX(shell->vbox), explanation, FALSE, FALSE, 4);
   gtk_widget_show(explanation);	
 

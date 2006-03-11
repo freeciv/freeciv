@@ -250,7 +250,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gtk_misc_set_alignment(GTK_MISC(pdialog->info_label), 0.0, 0.0);
 
   gtk_box_pack_start(GTK_BOX(hbox), pdialog->info_label, FALSE, FALSE, 0);
-  gtk_widget_set_name(pdialog->info_label, "spaceship label");
+  gtk_widget_set_name(pdialog->info_label, "spaceship_label");
 
   dialog_list_prepend(dialog_list, pdialog);
 

@@ -826,7 +826,7 @@ static void create_city_report_dialog(bool make_modal)
 
   city_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(city_model));
   g_object_unref(city_model);
-  gtk_widget_set_name(city_view, "small font");
+  gtk_widget_set_name(city_view, "small_font");
   g_signal_connect(city_view, "row_activated",
 		   G_CALLBACK(city_activated_callback), NULL);
   city_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(city_view));

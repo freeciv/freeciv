@@ -88,7 +88,8 @@ const char *client_option_class_names[COC_MAX] = {
   N_("Overview"),
   N_("Sound"),
   N_("Interface"),
-  N_("Network")
+  N_("Network"),
+  N_("Font")
 };
 
 static client_option common_options[] = {
@@ -490,6 +491,7 @@ void load_general_options(void)
 				      prefix, o->name);
       break;
     case COT_STR:
+    case COT_FONT:
       mystrlcpy(o->p_string_value,
                      secfile_lookup_str_default(&sf, o->p_string_value, "%s.%s",
                      prefix, o->name), o->string_length);
@@ -596,6 +598,7 @@ void save_options(void)
       secfile_insert_int(&sf, *(o->p_int_value), "client.%s", o->name);
       break;
     case COT_STR:
+    case COT_FONT:
       secfile_insert_str(&sf, o->p_string_value, "client.%s", o->name);
       break;
     }

@@ -551,7 +551,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     label = gtk_label_new(buf);
-    gtk_widget_set_name(label, "city info label");
+    gtk_widget_set_name(label, "city_info_label");
     gtk_container_add(GTK_CONTAINER(p), label);
     gtk_widget_show_all(p);
 
@@ -602,7 +602,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
 
   for (i = 0; i < NUM_INFO_FIELDS; i++) {
     label = gtk_label_new(output_label[i]);
-    gtk_widget_set_name(label, "city label");	/* for font style? */
+    gtk_widget_set_name(label, "city_label");	/* for font style? */
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
     gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1, GTK_FILL, 0,
 		     0, 0);
@@ -615,7 +615,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
 
     label = gtk_label_new("");
     info_label[i] = label;
-    gtk_widget_set_name(label, "city label");	/* ditto */
+    gtk_widget_set_name(label, "city_label");	/* ditto */
     gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
 
     gtk_container_add(GTK_CONTAINER(ebox), label);
@@ -765,7 +765,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-  gtk_widget_set_name(view, "small font");
+  gtk_widget_set_name(view, "small_font");
   pdialog->overview.improvement_list = view;
 
   gtk_tooltips_set_tip(pdialog->tips,

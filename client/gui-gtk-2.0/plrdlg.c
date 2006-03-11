@@ -356,7 +356,7 @@ void create_players_dialog(void)
 
   players_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   g_object_unref(store);
-  gtk_widget_set_name(players_list, "small font");
+  gtk_widget_set_name(players_list, "small_font");
 
   players_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(players_list));
   g_signal_connect(players_selection, "changed",

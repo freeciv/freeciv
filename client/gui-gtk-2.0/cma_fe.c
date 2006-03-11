@@ -304,7 +304,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   pdialog->result_label =
       gtk_label_new("food\n prod\n trade\n\n people\n grow\n prod\n name");
-  gtk_widget_set_name(pdialog->result_label, "city label");
+  gtk_widget_set_name(pdialog->result_label, "city_label");
   gtk_container_add(GTK_CONTAINER(frame), pdialog->result_label);
   gtk_label_set_justify(GTK_LABEL(pdialog->result_label), GTK_JUSTIFY_LEFT);
 
@@ -406,7 +406,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
   gtk_box_pack_start(GTK_BOX(vbox), pdialog->active_image, FALSE, FALSE, 0);
 
   pdialog->active_label = gtk_label_new(NULL);
-  gtk_widget_set_name(pdialog->active_label, "comment label");
+  gtk_widget_set_name(pdialog->active_label, "comment_label");
   gtk_box_pack_end(GTK_BOX(vbox), pdialog->active_label, FALSE, FALSE, 0);
 
   gtk_widget_show_all(pdialog->shell);

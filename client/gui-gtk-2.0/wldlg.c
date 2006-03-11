@@ -1105,7 +1105,7 @@ GtkWidget *create_worklist(void)
   src_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(src_store));
   g_object_unref(src_store);
   gtk_size_group_add_widget(group, src_view);
-  gtk_widget_set_name(src_view, "small font");
+  gtk_widget_set_name(src_view, "small_font");
 
   populate_view(GTK_TREE_VIEW(src_view), &ptr->pcity, &ptr->src_col);
   gtk_container_add(GTK_CONTAINER(sw), src_view);
@@ -1197,7 +1197,7 @@ GtkWidget *create_worklist(void)
   dst_view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(dst_store));
   g_object_unref(dst_store);
   gtk_size_group_add_widget(group, dst_view);
-  gtk_widget_set_name(dst_view, "small font");
+  gtk_widget_set_name(dst_view, "small_font");
 
   populate_view(GTK_TREE_VIEW(dst_view), &ptr->pcity, &ptr->dst_col);
   gtk_container_add(GTK_CONTAINER(sw), dst_view);

@@ -51,10 +51,24 @@ extern bool update_city_text_in_refresh_tile;
 extern bool keyboardless_goto;
 extern bool show_task_icons;
 
+extern char font_city_label[512];
+extern char font_notify_label[512];
+extern char font_spaceship_label[512];
+extern char font_help_label[512];
+extern char font_help_link[512];
+extern char font_help_text[512];
+extern char font_chatline[512];
+extern char font_beta_label[512];
+extern char font_small[512];
+extern char font_comment_label[512];
+extern char font_city_names[512];
+extern char font_city_productions[512];
+
 enum client_option_type {
   COT_BOOL,
   COT_INT,
-  COT_STR
+  COT_STR,
+  COT_FONT
 };
 
 enum client_option_class {
@@ -63,6 +77,7 @@ enum client_option_class {
   COC_SOUND,
   COC_INTERFACE,
   COC_NETWORK,
+  COC_FONT,
   COC_MAX
 };
 
@@ -102,6 +117,9 @@ extern client_option *options;
 #define GEN_STR_OPTION(oname, desc, help, category, str_defaults, callback) \
   { #oname, desc, help, category, COT_STR,			    \
       NULL, NULL, oname, sizeof(oname), callback, str_defaults, NULL }
+#define GEN_FONT_OPTION(value, oname, desc, help, category) \
+  { #oname, desc, help, category, COT_FONT,		    \
+      NULL, NULL, value, sizeof(value), NULL, NULL, NULL }
 
 extern int num_options;
 

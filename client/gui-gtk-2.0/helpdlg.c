@@ -310,7 +310,7 @@ static GtkWidget *help_hyperlink_new(GtkWidget *label, enum help_page_type type)
   button = gtk_button_new();
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
-  gtk_widget_set_name(label, "help link");
+  gtk_widget_set_name(label, "help_link");
   gtk_container_add(GTK_CONTAINER(button), label);
   gtk_widget_show(button);
   g_signal_connect_swapped(button, "clicked",
@@ -524,7 +524,7 @@ static void create_help_dialog(void)
     } else {
       gtk_table_attach_defaults(GTK_TABLE(help_itable),
 			        help_ilabel[i], i, i+1, 0, 1);
-      gtk_widget_set_name(help_ilabel[i], "help label");
+      gtk_widget_set_name(help_ilabel[i], "help_label");
     }
     gtk_widget_show(help_ilabel[i]);
   }
@@ -542,7 +542,7 @@ static void create_help_dialog(void)
     } else {
       gtk_table_attach_defaults(GTK_TABLE(help_wtable),
 			        help_wlabel[i], i, i+1, 0, 1);
-      gtk_widget_set_name(help_wlabel[i], "help label");
+      gtk_widget_set_name(help_wlabel[i], "help_label");
     }
     gtk_widget_show(help_wlabel[i]);
   }
@@ -567,7 +567,7 @@ static void create_help_dialog(void)
       } else {
         gtk_table_attach_defaults(GTK_TABLE(help_utable),
 			          help_ulabel[j][i], i, i+1, j, j+1);
-        gtk_widget_set_name(help_ulabel[j][i], "help label");
+        gtk_widget_set_name(help_ulabel[j][i], "help_label");
       }
       gtk_widget_show(help_ulabel[j][i]);
     }
@@ -580,7 +580,7 @@ static void create_help_dialog(void)
     for (j=0; j<4; j++) {
       help_tlabel[j][i] =
 	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
-      gtk_widget_set_name(help_tlabel[j][i], "help label");
+      gtk_widget_set_name(help_tlabel[j][i], "help_label");
 
       gtk_table_attach_defaults(GTK_TABLE(help_ttable),
 					  help_tlabel[j][i], i, i+1, j, j+1);
@@ -598,7 +598,7 @@ static void create_help_dialog(void)
   gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
   gtk_container_set_border_width(GTK_CONTAINER(text), 5);
   gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(text), GTK_WRAP_WORD);
-  gtk_widget_set_name(text, "help text");
+  gtk_widget_set_name(text, "help_text");
   help_text = gtk_text_view_get_buffer(GTK_TEXT_VIEW(text));
   gtk_widget_show(text);
 
@@ -904,7 +904,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
       GdkPixbuf *pixbuf = sprite_get_pixbuf(get_tech_sprite(tileset, i));
 
       w = gtk_image_new_from_pixbuf(pixbuf);
-      gtk_widget_set_name(w, "help tech image");
+      gtk_widget_set_name(w, "help_tech_image");
       gtk_box_pack_start(GTK_BOX(help_vbox), w, FALSE, FALSE, 0);
       gtk_widget_show(w);
     }
@@ -912,7 +912,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
     w = gtk_text_view_new();
     gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(w), FALSE);
     gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(w), GTK_WRAP_WORD);
-    gtk_widget_set_name(w, "help text");
+    gtk_widget_set_name(w, "help_text");
     gtk_container_set_border_width(GTK_CONTAINER(w), 5);
     gtk_text_view_set_editable(GTK_TEXT_VIEW(w), FALSE);
     gtk_box_pack_start(GTK_BOX(help_vbox), w, TRUE, TRUE, 0);

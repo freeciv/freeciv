@@ -666,7 +666,7 @@ void create_economy_report_dialog(bool make_modal)
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(economy_store));
   g_object_unref(economy_store);
-  gtk_widget_set_name(view, "small font");
+  gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
   economy_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   g_signal_connect(economy_selection, "changed",
@@ -972,7 +972,7 @@ void create_activeunits_report_dialog(bool make_modal)
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(activeunits_store));
   g_object_unref(activeunits_store);
-  gtk_widget_set_name(view, "small font");
+  gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
   activeunits_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   g_signal_connect(activeunits_selection, "changed",
@@ -1322,7 +1322,7 @@ static void create_endgame_report(struct packet_endgame_report *packet)
   scores_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
   scores_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scores_store));
   g_object_unref(scores_store);
-  gtk_widget_set_name(scores_list, "small font");
+  gtk_widget_set_name(scores_list, "small_font");
     
   for (i = 0; i < NUM_SCORE_COLS; i++) {
     GtkCellRenderer *renderer;

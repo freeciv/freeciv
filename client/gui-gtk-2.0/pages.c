@@ -253,7 +253,7 @@ GtkWidget *create_main_page(void)
     GtkWidget *label;
 
     label = gtk_label_new(beta_message());
-    gtk_widget_set_name(label, "beta label");
+    gtk_widget_set_name(label, "beta_label");
     gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
     gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_CENTER);
     gtk_container_add(GTK_CONTAINER(sbox), label);

@@ -120,4 +120,7 @@ void gui_dialog_response_set_callback(struct gui_dialog *dlg,
 void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
                                   struct gui_dialog *return_dialog);
 
+struct client_option;
+void gui_update_font_from_option(struct client_option *o);
+
 #endif  /* FC__GUI_STUFF_H */

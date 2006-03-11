@@ -1,22 +1,17 @@
 style "city_label"
 {
-  font_name = "Monospace 8"
 }
 
 style "notify_label"
 {
-  font_name = "Monospace Bold 9"
 }
 
 style "spaceship_label"
 {
-  font_name = "Monospace 8"
 }
 
 style "help_label"
 {
-  font_name = "Sans Bold 10"
-
   fg[PRELIGHT] = "red"
   fg[ACTIVE] = "red"
   fg[NORMAL] = "red"
@@ -25,8 +20,6 @@ style "help_label"
 
 style "help_link"
 {
-  font_name = "Sans 9"
-
   fg[PRELIGHT] = "blue"
   fg[ACTIVE] = "blue"
   fg[NORMAL] = "blue"
@@ -35,8 +28,6 @@ style "help_link"
 
 style "help_text"
 {
-  font_name = "LucidaTypewriter,Monospace 8"
-
   bg[NORMAL] = { 0.9, 0.9, 0.9 }
   base[NORMAL] = { 0.9, 0.9, 0.9 }
   text[NORMAL] = "black"
@@ -44,7 +35,6 @@ style "help_text"
 
 style "chatline"
 {
-  font_name = "LucidaTypewrite,Monospace 8"
   base[NORMAL] = "white"
   text[NORMAL] = "black"
   base[INSENSITIVE] = "white"
@@ -53,46 +43,41 @@ style "chatline"
 
 style "beta_label"
 {
-  font_name = "Sans Italic 10"
   fg[NORMAL] = "red"
   fg[PRELIGHT] = "red"
 }
 
 style "small_font"
 {
-  font_name = "Sans 9"
 }
 
 style "comment_label"
 {
-  font_name = "Sans Italic 9"
 }
 
 style "city_names_font"
 {
-  font_name = "Sans Bold 10"
 }
 
 style "city_productions_font"
 {
-  font_name = "Serif 10"
 }
 
 style "tooltips"
 {
-  font_name = "LucidaTypewrite,Monospace 8"
+  font_name = "Monospace 8"
 }
 
-widget	"Freeciv*.city label"		style	"city_label"
-widget	"Freeciv*.notify label"		style	"notify_label"
-widget	"Freeciv*.spaceship label"	style	"spaceship_label"
-widget	"Freeciv*.help label"		style	"help_label"
-widget	"Freeciv*.help link"		style	"help_link"
-widget	"Freeciv*.help text"		style	"help_text"
+widget	"Freeciv*.city_label"		style	"city_label"
+widget	"Freeciv*.notify_label"		style	"notify_label"
+widget	"Freeciv*.spaceship_label"	style	"spaceship_label"
+widget	"Freeciv*.help_label"		style	"help_label"
+widget	"Freeciv*.help_link"		style	"help_link"
+widget	"Freeciv*.help_text"		style	"help_text"
 widget	"Freeciv*.chatline"		style	"chatline"
-widget	"Freeciv*.beta label"		style	"beta_label"
-widget	"Freeciv*.small font"		style	"small_font"
-widget	"Freeciv*.comment label"	style	"comment_label"
-widget	"Freeciv*.city names"		style	"city_names_font"
-widget	"Freeciv*.city productions"	style	"city_productions_font"
+widget	"Freeciv*.beta_label"		style	"beta_label"
+widget	"Freeciv*.small_font"		style	"small_font"
+widget	"Freeciv*.comment_label"	style	"comment_label"
+widget	"Freeciv*.city_names"		style	"city_names_font"
+widget	"Freeciv*.city_productions"	style	"city_productions_font"
 widget	"gtk-tooltips*.*"		style	"tooltips"

@@ -974,3 +974,25 @@ void gui_dialog_set_return_dialog(struct gui_dialog *dlg,
     dlg->return_dialog_id = return_dialog->id;
   }
 }
+
+/**************************************************************************
+  Updates a gui font style from a client option.
+**************************************************************************/
+void gui_update_font_from_option(struct client_option *o) {
+  if (o->type == COT_FONT) {
+    char str[512];
+
+    my_snprintf(str, sizeof(str),
+	"style \"ext-%s\" {\n"
+	"  font_name = \"%s\"\n"
+	"}\n"
+	"\n"
+	"widget \"Freeciv*.%s\" style \"ext-%s\"",
+	o->name,
+	o->p_string_value,
+	o->name, o->name);
+
+    gtk_rc_parse_string(str);
+  }
+}
+
