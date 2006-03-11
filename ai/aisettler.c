@@ -261,7 +261,7 @@ void cityresult_fill(struct player *pplayer,
 
   pplayer->government = curr_govt;
   if (virtual_city) {
-    remove_city_virtual(pcity);
+    destroy_city_virtual(pcity);
   }
 
   assert(result->city_center >= 0);

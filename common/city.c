@@ -2482,7 +2482,7 @@ struct city *create_city_virtual(struct player *pplayer,
   Removes the virtual skeleton of a city. You should already have removed
   all buildings and units you have added to the city before this.
 **************************************************************************/
-void remove_city_virtual(struct city *pcity)
+void destroy_city_virtual(struct city *pcity)
 {
   unit_list_free(pcity->units_supported);
   free(pcity);

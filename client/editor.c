@@ -55,7 +55,7 @@ void editor_init_tools(void)
   selected_unit = create_unit_virtual(pplayer, 0, get_unit_type(0), 0);
 
   if (selected_city) {
-    remove_city_virtual(selected_city);
+    destroy_city_virtual(selected_city);
   }
   selected_city = create_city_virtual(pplayer, NULL, "");
 
