@@ -366,8 +366,7 @@ int get_attack_power(const struct unit *punit)
 
 /**************************************************************************
  Returns the attack power, modified by moves left, and veteran
- status. Set moves_left to SINGLE_MOVE to disable the reduction of
- power caused by tired units.
+ status.
 **************************************************************************/
 int base_get_attack_power(const struct unit_type *punittype,
 			  int veteran, int moves_left)
@@ -377,9 +376,6 @@ int base_get_attack_power(const struct unit_type *punittype,
   power = punittype->attack_strength * POWER_FACTOR;
   power *= punittype->veteran[veteran].power_fact;
 
-  if (!unit_type_flag(punittype, F_IGTIRED) && moves_left < SINGLE_MOVE) {
-    power = (power * moves_left) / SINGLE_MOVE;
-  }
   return power;
 }
 
