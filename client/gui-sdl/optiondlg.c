@@ -129,8 +129,7 @@ static int edit_worklist_callback(struct GUI *pWidget)
   switch(Main.event.button.button) {
     case SDL_BUTTON_LEFT:
       pEdited_WorkList_Name = pWidget;
-      popup_worklist_editor(NULL,
-		  &game.player_ptr->worklists[MAX_ID - pWidget->ID]);
+      popup_worklist_editor(NULL, &client.worklists[MAX_ID - pWidget->ID]);
     break;
     case SDL_BUTTON_MIDDLE:
       /* nothing */
@@ -141,16 +140,16 @@ static int edit_worklist_callback(struct GUI *pWidget)
       bool scroll = (pOption_Dlg->pADlg->pActiveWidgetList != NULL);
       
       for(; i < MAX_NUM_WORKLISTS; i++) {
-	if (!game.player_ptr->worklists[i].is_valid) {
+	if (!client.worklists[i].is_valid) {
       	  break;
 	}
 	if (i + 1 < MAX_NUM_WORKLISTS &&
-	    game.player_ptr->worklists[i + 1].is_valid) {
-	  copy_worklist(&game.player_ptr->worklists[i],
-			  &game.player_ptr->worklists[i + 1]);
+	    client.worklists[i + 1].is_valid) {
+	  copy_worklist(&client.worklists[i],
+			  &client.worklists[i + 1]);
 	} else {
-	  game.player_ptr->worklists[i].is_valid = FALSE;
-	  strcpy(game.player_ptr->worklists[i].name, "\n");
+	  client.worklists[i].is_valid = FALSE;
+	  strcpy(client.worklists[i].name, "\n");
 	}
       
       }
@@ -170,7 +169,7 @@ static int edit_worklist_callback(struct GUI *pWidget)
       
       /* find if that was no empty list */
       for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-        if (!game.player_ptr->worklists[i].is_valid)
+        if (!client.worklists[i].is_valid)
           break;
 
       /* No more worklist slots free. */
@@ -212,7 +211,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   /* Find the next free worklist for this player */
 
   for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-    if (!game.player_ptr->worklists[j].is_valid)
+    if (!client.worklists[j].is_valid)
       break;
 
   /* No more worklist slots free.  (!!!Maybe we should tell the user?) */
@@ -221,13 +220,13 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   }
   
   /* Validate this slot. */
-  init_worklist(&game.player_ptr->worklists[j]);
-  game.player_ptr->worklists[j].is_valid = TRUE;
-  strcpy(game.player_ptr->worklists[j].name, _("empty worklist"));
+  init_worklist(&client.worklists[j]);
+  client.worklists[j].is_valid = TRUE;
+  strcpy(client.worklists[j].name, _("empty worklist"));
   
   /* create list element */
   pNew_WorkList_Widget = create_iconlabel_from_chars(NULL, pWidget->dst, 
-      		game.player_ptr->worklists[j].name, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+      		client.worklists[j].name, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
   pNew_WorkList_Widget->ID = MAX_ID - j;
   pNew_WorkList_Widget->string16->style |= SF_CENTER;
   set_wstate(pNew_WorkList_Widget, FC_WS_NORMAL);
@@ -254,7 +253,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   
   /* find if that was last empty list */
   for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-    if (!game.player_ptr->worklists[j].is_valid)
+    if (!client.worklists[j].is_valid)
       break;
 
   /* No more worklist slots free. */
@@ -320,9 +319,9 @@ static int work_lists_callback(struct GUI *pWidget)
   
   /* ----------------------------- */
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    if (game.player_ptr->worklists[i].is_valid) {
+    if (client.worklists[i].is_valid) {
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
-      		game.player_ptr->worklists[i].name, adj_font(12),
+      		client.worklists[i].name, adj_font(12),
 					      WF_DRAW_THEME_TRANSPARENT);
       set_wstate(pBuf, FC_WS_NORMAL);
       add_to_gui_list(MAX_ID - i, pBuf);
@@ -2271,7 +2270,7 @@ void update_worklist_report_dialog(void)
     /* this is no NULL when inside worklist editors */
     if(pEdited_WorkList_Name) {
       copy_chars_to_string16(pEdited_WorkList_Name->string16,
-        game.player_ptr->worklists[MAX_ID - pEdited_WorkList_Name->ID].name);
+        client.worklists[MAX_ID - pEdited_WorkList_Name->ID].name);
       pEdited_WorkList_Name = NULL;
     }
   
