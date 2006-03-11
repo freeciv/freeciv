@@ -547,7 +547,7 @@ void load_ruleset_specific_options(void)
   if (game.player_ptr) {
     /* load global worklists */
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-      worklist_load(&sf, &(game.player_ptr->worklists[i]),
+      worklist_load(&sf, &client.worklists[i],
 		    "worklists.worklist%d", i);
     }
   }
@@ -623,8 +623,8 @@ void save_options(void)
   /* insert global worklists */
   if (game.player_ptr) {
     for(i = 0; i < MAX_NUM_WORKLISTS; i++){
-      if (game.player_ptr->worklists[i].is_valid) {
-	worklist_save(&sf, &(game.player_ptr->worklists[i]),
+      if (client.worklists[i].is_valid) {
+	worklist_save(&sf, &client.worklists[i],
 		      "worklists.worklist%d", i);
       }
     }

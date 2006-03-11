@@ -106,7 +106,6 @@ static void worklists_destroy_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 void update_worklist_report_dialog(void)
 {
-  struct player *plr;
   int i;
   GtkTreeIter it;
 
@@ -114,20 +113,14 @@ void update_worklist_report_dialog(void)
     return;
   }
 
-  plr = game.player_ptr;
-
   gtk_list_store_clear(worklists_store);
 
-  if (!game.player_ptr) {
-    return;
-  }
-
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    if (plr->worklists[i].is_valid) {
+    if (client.worklists[i].is_valid) {
       gtk_list_store_append(worklists_store, &it);
       
        gtk_list_store_set(worklists_store, &it,
-			  0, plr->worklists[i].name,
+			  0, client.worklists[i].name,
 			  1, i,
 			  -1); 
     }
@@ -139,20 +132,13 @@ void update_worklist_report_dialog(void)
 *****************************************************************/
 static void worklists_response(GtkWidget *w, gint response)
 {
-  struct player *plr;
   int i, pos;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
   GtkTreeIter it;
 
-  plr = game.player_ptr;
-
-  if (!game.player_ptr) {
-    return;
-  }
-
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    if (!plr->worklists[i].is_valid) {
+    if (!client.worklists[i].is_valid) {
       break;
     }
   }
@@ -173,9 +159,9 @@ static void worklists_response(GtkWidget *w, gint response)
       }
 
       /* Validate this slot. */
-      init_worklist(&plr->worklists[i]);
-      plr->worklists[i].is_valid = TRUE;
-      strcpy(plr->worklists[i].name, _("new"));
+      init_worklist(&client.worklists[i]);
+      client.worklists[i].is_valid = TRUE;
+      strcpy(client.worklists[i].name, _("new"));
 
       update_worklist_report_dialog();
       return;
@@ -185,10 +171,10 @@ static void worklists_response(GtkWidget *w, gint response)
 	return;
       }
 
-      popdown_worklist(&plr->worklists[pos]);
+      popdown_worklist(&client.worklists[pos]);
 
-      plr->worklists[pos].is_valid = FALSE;
-      plr->worklists[pos].name[0] = '\0';
+      client.worklists[pos].is_valid = FALSE;
+      client.worklists[pos].name[0] = '\0';
 
       update_worklist_report_dialog();
       return;
@@ -198,7 +184,7 @@ static void worklists_response(GtkWidget *w, gint response)
 	return;
       }
 
-      popup_worklist(&plr->worklists[pos]);
+      popup_worklist(&client.worklists[pos]);
       return;
 
     default:
@@ -217,14 +203,13 @@ static void cell_edited(GtkCellRendererText *cell,
   GtkTreePath *path;
   GtkTreeIter it;
   int pos;
-  struct player *plr = game.player_ptr;
 
   path = gtk_tree_path_new_from_string(spath);
   gtk_tree_model_get_iter(GTK_TREE_MODEL(worklists_store), &it, path);
   
   gtk_tree_model_get(GTK_TREE_MODEL(worklists_store), &it, 1, &pos, -1);
 
-  sz_strlcpy(plr->worklists[pos].name, text);
+  sz_strlcpy(client.worklists[pos].name, text);
   gtk_list_store_set(worklists_store, &it, 0, text, -1);
 
   gtk_tree_path_free(path);
@@ -476,7 +461,6 @@ static void worklist_destroy(GtkWidget *editor, gpointer data)
 *****************************************************************/
 static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
 {
-  struct player *plr;
   gint pos;
   struct worklist *pwl;
 
@@ -484,10 +468,9 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
     return;
   }
 
-  plr = game.player_ptr;
   pos = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(item), "pos"));
 
-  pwl = &plr->worklists[pos];
+  pwl = &client.worklists[pos];
 
   if (pwl->is_valid) {
     int i;
@@ -511,21 +494,15 @@ static void menu_item_callback(GtkMenuItem *item, struct worklist_data *ptr)
 *****************************************************************/
 static void popup_add_menu(GtkMenuShell *menu, gpointer data)
 {
-  struct player *plr;
   int i;
   GtkWidget *item;
 
   gtk_container_foreach(GTK_CONTAINER(menu),
 			(GtkCallback) gtk_widget_destroy, NULL);
-  plr = game.player_ptr;
-
-  if (!game.player_ptr) {
-    return;
-  }
 
   for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
-    if (plr->worklists[i].is_valid) {
-      item = gtk_menu_item_new_with_label(plr->worklists[i].name);
+    if (client.worklists[i].is_valid) {
+      item = gtk_menu_item_new_with_label(client.worklists[i].name);
       g_object_set_data(G_OBJECT(item), "pos", GINT_TO_POINTER(i));
       gtk_widget_show(item);
 
@@ -994,7 +971,6 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     }
   } else {
     struct city **pcity = data;
-    struct player *plr;
     gint column;
     char *row[4];
     char  buf[4][64];
@@ -1010,8 +986,7 @@ static void cell_render_func(GtkTreeViewColumn *col, GtkCellRenderer *rend,
     g_object_set(rend, "text", row[column], NULL);
 
     if (!target.is_unit && *pcity) {
-      plr = city_owner(*pcity);
-      useless = improvement_obsolete(plr, target.value)
+      useless = improvement_obsolete(city_owner(*pcity), target.value)
 	|| is_building_replaced(*pcity, target.value);
       g_object_set(rend, "strikethrough", useless, NULL);
     } else {

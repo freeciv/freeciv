@@ -94,6 +94,8 @@ int  server_port = -1;
 bool auto_connect = FALSE; /* TRUE = skip "Connect to Freeciv Server" dialog */
 bool in_ggz = FALSE;
 
+struct civclient client;
+
 static enum client_states client_state = CLIENT_BOOT_STATE;
 
 /* TRUE if an end turn request is blocked by busy agents */
