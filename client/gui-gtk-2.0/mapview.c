@@ -185,7 +185,7 @@ static gint anim_cursor_cb(gpointer data)
 /**************************************************************************
   This function will change the current mouse cursor.
 **************************************************************************/
-static void modify_mouse_cursor(enum cursor_type new_cursor_type)
+void update_mouse_cursor(enum cursor_type new_cursor_type)
 {
   cursor_type = new_cursor_type;
   if (!cursor_timer_id) {
@@ -205,7 +205,6 @@ static void modify_mouse_cursor(enum cursor_type new_cursor_type)
 **************************************************************************/
 void update_unit_info_label(struct unit_list *punits)
 {
-  enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
   GtkWidget *label;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(unit_info_frame));
@@ -214,53 +213,6 @@ void update_unit_info_label(struct unit_list *punits)
 
   gtk_label_set_text(GTK_LABEL(unit_info_label),
 		     get_unit_info_label_text2(punits));
-
-  switch (hover_state) {
-  case HOVER_NONE:
-    if (action_state == CURSOR_ACTION_SELECT) {
-      mouse_cursor_type = CURSOR_SELECT;
-    } else if (action_state == CURSOR_ACTION_PARATROOPER) {
-      mouse_cursor_type = CURSOR_PARADROP;
-    } else if (action_state == CURSOR_ACTION_NUKE) {
-      mouse_cursor_type = CURSOR_NUKE;
-    } else {
-      mouse_cursor_type = CURSOR_DEFAULT;
-    }
-    break;
-  case HOVER_PATROL:
-    if (action_state == CURSOR_ACTION_INVALID) {
-      mouse_cursor_type = CURSOR_INVALID;
-    } else {
-      mouse_cursor_type = CURSOR_PATROL;
-    }
-    break;
-  case HOVER_GOTO:
-    if (action_state == CURSOR_ACTION_GOTO) {
-      mouse_cursor_type = CURSOR_GOTO;
-    } else if (action_state == CURSOR_ACTION_DEFAULT) {
-      mouse_cursor_type = CURSOR_DEFAULT;
-    } else if (action_state == CURSOR_ACTION_ATTACK) {
-      mouse_cursor_type = CURSOR_ATTACK;
-    } else {
-      mouse_cursor_type = CURSOR_INVALID;
-    }
-    break;
-  case HOVER_CONNECT:
-    if (action_state == CURSOR_ACTION_INVALID) {
-      mouse_cursor_type = CURSOR_INVALID;
-    } else {
-      mouse_cursor_type = CURSOR_GOTO;
-    }
-    break;
-  case HOVER_NUKE:
-    mouse_cursor_type = CURSOR_NUKE;
-    break;
-  case HOVER_PARADROP:
-    mouse_cursor_type = CURSOR_PARADROP;
-    break;
-  }
-
-  modify_mouse_cursor(mouse_cursor_type);
 
   update_unit_pix_label(punits);
 }

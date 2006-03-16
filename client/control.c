@@ -61,7 +61,6 @@ static struct unit_list *previous_focus;
 struct unit_list *hover_units;
 enum cursor_hover_state hover_state = HOVER_NONE;
 struct tile *hover_tile = NULL;
-enum cursor_action_state action_state = CURSOR_ACTION_DEFAULT;
 enum unit_activity connect_activity;
 enum unit_orders goto_last_order; /* Last order for goto */
 
@@ -883,6 +882,7 @@ void handle_mouse_cursor(struct tile *ptile)
   struct unit *punit = NULL;
   struct city *pcity = NULL;
   struct unit_list *active_units = get_units_in_focus();
+  enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 
   if (!ptile) {
     if (hover_tile) {
@@ -896,42 +896,60 @@ void handle_mouse_cursor(struct tile *ptile)
   punit = find_visible_unit(ptile);
   pcity = ptile ? ptile->city : NULL;
 
-  if (hover_state == HOVER_NONE) {
+  switch (hover_state) {
+  case HOVER_NONE:
     if (punit && game.player_ptr == punit->owner) {
       /* Set mouse cursor to select a unit.  */
-      action_state = CURSOR_ACTION_SELECT;
-    } else if (pcity && can_player_see_city_internals(game.player_ptr, pcity)) {
+      mouse_cursor_type = CURSOR_SELECT;
+    } else if (pcity
+	       && can_player_see_city_internals(game.player_ptr, pcity)) {
       /* Set mouse cursor to select a city. */
-      action_state = CURSOR_ACTION_SELECT;
+      mouse_cursor_type = CURSOR_SELECT;
     } else {
       /* Set default mouse cursor, because nothing selectable found. */
-      action_state = CURSOR_ACTION_DEFAULT;
     }
-
-  } else if (hover_state == HOVER_GOTO) {
+    break;
+  case HOVER_GOTO:
     /* Determine if the goto is valid, invalid or will attack. */
     if (is_valid_goto_destination(ptile)) {
       if (can_units_attack_at(active_units, ptile)) {
         /* Goto results in military attack. */
-        action_state = CURSOR_ACTION_ATTACK;
+	mouse_cursor_type = CURSOR_ATTACK;
       } else if (is_enemy_city_tile(ptile, game.player_ptr)) {
         /* Goto results in attack of enemy city. */
-        action_state = CURSOR_ACTION_ATTACK;
+	mouse_cursor_type = CURSOR_ATTACK;
       } else {
-        action_state = CURSOR_ACTION_GOTO;
+	mouse_cursor_type = CURSOR_GOTO;
       }
     } else {
-      action_state = CURSOR_ACTION_INVALID;
+      mouse_cursor_type = CURSOR_INVALID;
     }
-  } else if (hover_state == HOVER_PATROL || hover_state == HOVER_CONNECT) {
+    break;
+  case HOVER_PATROL:
     if (is_valid_goto_destination(ptile)) {
-      action_state = CURSOR_ACTION_GOTO;
+      mouse_cursor_type = CURSOR_PATROL;
     } else {
-      action_state = CURSOR_ACTION_INVALID;
+      mouse_cursor_type = CURSOR_INVALID;
     }
+    break;
+  case HOVER_CONNECT:
+    if (is_valid_goto_destination(ptile)) {
+      mouse_cursor_type = CURSOR_GOTO;
+    } else {
+      mouse_cursor_type = CURSOR_INVALID;
+    }
+    break;
+  case HOVER_NUKE:
+    /* FIXME: check for invalid tiles. */
+    mouse_cursor_type = CURSOR_NUKE;
+    break;
+  case HOVER_PARADROP:
+    /* FIXME: check for invalid tiles. */
+    mouse_cursor_type = CURSOR_PARADROP;
+    break;
   }
 
-  update_unit_info_label(active_units);
+  update_mouse_cursor(mouse_cursor_type);
 }
 
 /**************************************************************************
