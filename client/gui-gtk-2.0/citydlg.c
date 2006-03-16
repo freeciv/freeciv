@@ -1362,7 +1362,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   get_city_citizen_types(pcity, 4, citizens);
 
   i = 0;
-  if (game.info.is_edit_mode) {
+  if (can_conn_edit(&aconnection)) {
     gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
                        get_arrow_sprite(tileset, ARROW_PLUS),
 		       i++ * width, 0);
@@ -2348,7 +2348,7 @@ static gboolean citizens_callback(GtkWidget * w, GdkEventButton * ev,
 
   tlen = tileset_small_sprite_width(tileset);
   len = (pcity->size - 1) * pdialog->cwidth + tlen;
-  if (game.info.is_edit_mode) {
+  if (can_conn_edit(&aconnection)) {
     if (ev->x > 0 && ev->x <= tlen) {
       dsend_packet_edit_city_size(&aconnection, pcity->id, pcity->size + 1);
       return TRUE;

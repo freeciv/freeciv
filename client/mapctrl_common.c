@@ -531,7 +531,7 @@ void action_button_pressed(int canvas_x, int canvas_y,
 {
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
-  if (!ptile->city && game.info.is_edit_mode) {
+  if (!ptile->city && can_conn_edit(&aconnection)) {
     editor_do_click(ptile);
   } else if (can_client_change_view() && ptile) {
     /* FIXME: Some actions here will need to check can_client_issue_orders.

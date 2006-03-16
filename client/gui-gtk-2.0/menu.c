@@ -938,7 +938,7 @@ static GtkItemFactoryEntry menu_items[]	=
   /* Editor menu */
   { "/" N_("_Editor"), NULL, NULL, 0, "<Branch>" },
   { "/" N_("_Editor") "/tearoff1", NULL, NULL, 0, "<Tearoff>" },
-  { "/" N_("_Editor") "/" N_("Editing Mode"), NULL,
+  { "/" N_("_Editor") "/" N_("_Editing Mode"), NULL,
     editor_menu_callback, MENU_EDITOR_TOGGLE, "<CheckItem>" },
   { "/" N_("_Editor") "/" N_("_Tools"), NULL,
     editor_menu_callback, MENU_EDITOR_TOOLS },
@@ -1337,11 +1337,14 @@ void update_menus(void)
 
     menus_set_active("<main>/_View/_Full Screen", fullscreen_mode);
 
-    menus_set_sensitive("<main>/_Editor", TRUE);
-    menus_set_sensitive("<main>/_Editor/_Tools", game.info.is_edit_mode);
+    menus_set_sensitive("<main>/_Editor",
+			can_conn_enable_editing(&aconnection));
+    menus_set_sensitive("<main>/_Editor/_Tools",
+			can_conn_edit(&aconnection));
     menus_set_sensitive("<main>/_Editor/_Recalculate Borders",
-			game.info.is_edit_mode);
-    menus_set_active("<main>/_Editor/Editing Mode", game.info.is_edit_mode);
+			can_conn_edit(&aconnection));
+    menus_set_active("<main>/_Editor/Editing Mode",
+		     can_conn_edit(&aconnection));
 
     /* Remaining part of this function: Update Orders menu */
 

@@ -21,7 +21,7 @@ bool server_handle_packet(enum packet_type type, void *packet,
 {
   switch(type) {
   case PACKET_NATION_SELECT_REQ:
-    handle_nation_select_req(pplayer,
+    handle_nation_select_req(pconn,
       ((struct packet_nation_select_req *)packet)->player_no,
       ((struct packet_nation_select_req *)packet)->nation_no,
       ((struct packet_nation_select_req *)packet)->is_male,

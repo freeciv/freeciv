@@ -269,6 +269,9 @@ void conn_clear_packet_cache(struct connection *pconn);
 
 const char *conn_description(const struct connection *pconn);
 
+bool can_conn_edit(const struct connection *pconn);
+bool can_conn_enable_editing(const struct connection *pconn);
+
 int get_next_request_id(int old_request_id);
 
 extern const char blank_addr_str[];

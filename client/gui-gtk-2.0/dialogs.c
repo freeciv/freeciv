@@ -760,8 +760,7 @@ static void create_races_dialog(struct player *pplayer)
   int i;
   char *title;
 
-  if (game.info.is_edit_mode
-      && get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
     title = _("Edit Nation");
   } else if (pplayer && pplayer == game.player_ptr) {
     title = _("What Nation Will You Be?");

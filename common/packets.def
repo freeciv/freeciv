@@ -296,7 +296,7 @@ end
 PACKET_SERVER_SHUTDOWN=8;sc,lsend
 end
 
-PACKET_NATION_SELECT_REQ=10;cs,dsend
+PACKET_NATION_SELECT_REQ=10;cs,handle-per-conn,dsend
   PLAYER player_no;
   NATION nation_no;
   BOOL is_male;

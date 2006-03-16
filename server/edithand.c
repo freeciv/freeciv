@@ -43,7 +43,7 @@
 ****************************************************************************/
 void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 {
-  if (pc->access_level != ALLOW_HACK) {
+  if (!can_conn_enable_editing(pc)) {
     return;
   }
   if (!game.info.is_edit_mode && is_edit_mode) {
@@ -75,8 +75,7 @@ void handle_edit_tile(struct connection *pc, int x, int y,
   struct terrain *pterrain = get_terrain(terrain), *old_terrain;
   struct resource *presource = get_resource(resource);
 
-  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
-      || !ptile || !pterrain) {
+  if (!can_conn_edit(pc) || !ptile || !pterrain) {
     return;
   }
 
@@ -114,7 +113,7 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
   struct player *pplayer = get_player(packet->owner);
   struct unit *punit;
 
-  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
+  if (!can_conn_edit(pc)
       || !ptile || !punittype || !pplayer
       || (packet->create_new && packet->delete)) {
     return;
@@ -186,8 +185,8 @@ void handle_edit_create_city(struct connection *pc,
   struct tile *ptile = map_pos_to_tile(x, y);
   struct city *pcity;
   struct player *pplayer = get_player(owner);
-  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
-      || !pplayer || !ptile) {
+
+  if (!can_conn_edit(pc) || !pplayer || !ptile) {
     return;
   }
 
@@ -224,8 +223,7 @@ void handle_edit_city(struct connection *pc, struct packet_edit_city *packet)
   int i;
   int old_traderoutes[NUM_TRADEROUTES];
 
-  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
-      || !pplayer || !ptile) {
+  if (!can_conn_edit(pc) || !pplayer || !ptile) {
     return;
   }
 
@@ -310,8 +308,7 @@ void handle_edit_city_size(struct connection *pc,
 {
   struct city *pcity = find_city_by_id(id);
 
-  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
-      || !pcity) {
+  if (!can_conn_edit(pc) || !pcity) {
     return;
   }
 
@@ -341,7 +338,7 @@ void handle_edit_player(struct connection *pc,
 #endif
 
   /* FIXME: Are NULL teams allowed? */
-  if (pc->access_level != ALLOW_HACK || !game.info.is_edit_mode
+  if (!can_conn_edit(pc)
       || !pplayer || !pnation || !pteam || !pgov) {
     return;
   }
@@ -413,7 +410,7 @@ void handle_edit_player(struct connection *pc,
 ****************************************************************************/
 void handle_edit_recalculate_borders(struct connection *pc)
 {
-  if (game.info.is_edit_mode) {
+  if (can_conn_edit(pc)) {
     map_calculate_borders();
   }
 }

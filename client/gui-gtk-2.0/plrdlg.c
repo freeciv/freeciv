@@ -516,7 +516,7 @@ void create_players_dialog(void)
 
   players_edit_menu = gtk_menu_item_new_with_mnemonic(_("_Editor"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), players_edit_menu);
-  gtk_widget_set_sensitive(players_edit_menu, game.info.is_edit_mode);
+  gtk_widget_set_sensitive(players_edit_menu, can_conn_edit(&aconnection));
 
   menu = gtk_menu_new();
   gtk_menu_item_set_submenu(GTK_MENU_ITEM(players_edit_menu), menu);
@@ -726,7 +726,7 @@ void update_players_dialog(void)
     } players_iterate_end;
 
     /* menu needs to be updated with edit mode changes */
-    gtk_widget_set_sensitive(players_edit_menu, game.info.is_edit_mode);
+    gtk_widget_set_sensitive(players_edit_menu, can_conn_edit(&aconnection));
 
     update_players_menu();
     update_views();

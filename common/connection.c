@@ -530,6 +530,22 @@ const char *conn_description(const struct connection *pconn)
   return buffer;
 }
 
+/****************************************************************************
+  Return TRUE iff the connection is currently allowed to edit.
+****************************************************************************/
+bool can_conn_edit(const struct connection *pconn)
+{
+  return can_conn_enable_editing(pconn) && game.info.is_edit_mode;
+}
+
+/****************************************************************************
+  Return TRUE iff the connection is allowed to start editing.
+****************************************************************************/
+bool can_conn_enable_editing(const struct connection *pconn)
+{
+  return pconn->access_level == ALLOW_HACK;
+}
+
 /**************************************************************************
   Get next request id. Takes wrapping of the 16 bit wide unsigned int
   into account.

@@ -20,7 +20,7 @@ struct connection;
 bool server_handle_packet(enum packet_type type, void *packet,
 			  struct player *pplayer, struct connection *pconn);
 
-void handle_nation_select_req(struct player *pplayer, int player_no, Nation_type_id nation_no, bool is_male, char *name, int city_style);
+void handle_nation_select_req(struct connection *pc, int player_no, Nation_type_id nation_no, bool is_male, char *name, int city_style);
 void handle_player_ready(struct player *pplayer, int player_no, bool is_ready);
 void handle_chat_msg_req(struct connection *pc, char *message);
 void handle_city_sell(struct player *pplayer, int city_id, int build_id);
