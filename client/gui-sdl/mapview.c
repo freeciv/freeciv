@@ -973,66 +973,21 @@ void update_unit_info_label(struct unit_list *punitlist)
   redraw_unit_info_label(pUnit);
   
   if (pUnit) {
-
     if(!is_anim_enabled()) {
       enable_focus_animation();
     }
     if (unit_list_get(hover_units, 0) != pUnit) {
       set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
     }
-    switch (hover_state) {
-    case HOVER_NONE:
-      if (action_state == CURSOR_ACTION_SELECT) {
-        mouse_cursor_type = CURSOR_SELECT; 
-      } else if (action_state == CURSOR_ACTION_PARATROOPER) {
-        mouse_cursor_type = CURSOR_PARADROP;  
-      } else if (action_state == CURSOR_ACTION_NUKE) {
-        mouse_cursor_type = CURSOR_NUKE;
-      } else {
-        mouse_cursor_type = CURSOR_DEFAULT;
-      }  
-      mouse_cursor_changed = TRUE;      
-      break;
-    case HOVER_GOTO:
-      if (action_state == CURSOR_ACTION_GOTO) {
-        mouse_cursor_type = CURSOR_GOTO;
-      } else if (action_state == CURSOR_ACTION_DEFAULT) {
-        mouse_cursor_type = CURSOR_DEFAULT;
-      } else if (action_state == CURSOR_ACTION_ATTACK) {
-        mouse_cursor_type = CURSOR_ATTACK;  
-      } else {
-        mouse_cursor_type = CURSOR_INVALID;  
-      }
-      mouse_cursor_changed = TRUE;
-      break;
-    case HOVER_PATROL:
-      if (action_state == CURSOR_ACTION_INVALID) {
-        mouse_cursor_type = CURSOR_INVALID;
-      } else {
-        mouse_cursor_type = CURSOR_PATROL;
-      }
-      mouse_cursor_changed = TRUE;
-      break;
-    case HOVER_CONNECT:
-      if (action_state == CURSOR_ACTION_INVALID) {
-        mouse_cursor_type = CURSOR_INVALID;
-      } else {
-        mouse_cursor_type = CURSOR_GOTO;
-      }
-      mouse_cursor_changed = TRUE;
-      break;
-    case HOVER_NUKE:
-      mouse_cursor_type = CURSOR_NUKE;
-      mouse_cursor_changed = TRUE;
-      break;
-    case HOVER_PARADROP:
-      mouse_cursor_type = CURSOR_PARADROP;        
-      mouse_cursor_changed = TRUE;
-      break;
-    }
   } else {
     disable_focus_animation();
   }
+}
+
+void update_mouse_cursor(enum cursor_type new_cursor_type)
+{
+  mouse_cursor_type = new_cursor_type;
+  mouse_cursor_changed = TRUE;
 }
 
 void update_timeout_label(void)
