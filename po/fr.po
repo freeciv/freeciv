@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 20:45-0500\n"
+"POT-Creation-Date: 2006-03-16 22:25-0500\n"
 "PO-Revision-Date: 2005-09-05 15:36+0200\n"
 "Last-Translator: Frederic Rodrigo <f.rodrigo free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -1611,8 +1611,9 @@ msgstr "Montrer une liste des joueurs, des équipes ou des connexions."
 #: server/commands.c:64
 #, fuzzy
 msgid ""
-"Show a list of players, teams, connections, or scenarios to the server.  The "
-"argument may be abbreviated, and defaults to 'players' if absent."
+"Show a list of players in the game, teams of players, connections to the "
+"server, or available scenarios.  The argument may be abbreviated, and "
+"defaults to 'players' if absent."
 msgstr ""
 "Montre une liste des joueurs, des équipes ou des connexions au serveur. "
 "L'argument peut être abrégé, et prend 'players' comme valeur par défaut s'il "
@@ -1862,25 +1863,30 @@ msgid "Take over a player's place in the game."
 msgstr "Prend la place d'un joueur dans une partie."
 
 #: server/commands.c:181
+#, fuzzy
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
-"<player-name> argument is allowed"
+"<player-name> argument is allowed.  If '-' is given for the player name and "
+"the connection does not already control a player, one is created and "
+"assigned to the connection."
 msgstr ""
 "Seules la console et les connexions avec le niveau de commande 'hack' "
-"peuvent forcer d'autres connexions à prendre la place d'un joueur. Si vous "
-"n'êtes pas de celles-ci, seul l'argument <nom-joueur> est autorisé"
+"peuvent forcer d'autres connexions à observer un joueur. Si vous n'êtes pas "
+"de celles-ci, seul l'argument [nom-joueur] est autorisé. Si, depuis la "
+"console, aucun nom de joueur n'est donné ou que la connexion ne donne pas "
+"d'arguments, alors la connexion est attachée à un observateur global."
 
 #. TRANS: translate text between [] only
-#: server/commands.c:187
+#: server/commands.c:189
 msgid "observe [connection-name] [player-name]"
 msgstr "observe [nom-connexion] [nom-joueur]"
 
-#: server/commands.c:188
+#: server/commands.c:190
 msgid "Observe a player or the whole game."
 msgstr "Observer un joueur ou une partie en entier."
 
-#: server/commands.c:189
+#: server/commands.c:191
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to observe a player. If you're not one of these, only the "
@@ -1895,15 +1901,15 @@ msgstr ""
 "d'arguments, alors la connexion est attachée à un observateur global."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:197
+#: server/commands.c:199
 msgid "detach <connection-name>"
 msgstr "detach <nom-connexion>"
 
-#: server/commands.c:198
+#: server/commands.c:200
 msgid "detach from a player."
 msgstr "détachement d'un joueur."
 
-#: server/commands.c:199
+#: server/commands.c:201
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to detach from a player."
@@ -1913,21 +1919,21 @@ msgstr ""
 "pas de celles-ci, seul l'argument <nom-joueur> est autorisé."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:204
+#: server/commands.c:206
 msgid "create <player-name>"
 msgstr "create <nom-joueur>"
 
-#: server/commands.c:205
+#: server/commands.c:207
 msgid "Create an AI player with a given name."
 msgstr "Crée un joueur IA avec le nom spécifié."
 
-#: server/commands.c:206
+#: server/commands.c:208
 msgid ""
 "The 'create' command is only available before the game has been started."
 msgstr ""
 "La commande 'create' n'est disponible qu'avant le démarrage d'une partie."
 
-#: server/commands.c:210
+#: server/commands.c:212
 msgid ""
 "away\n"
 "away"
@@ -1935,16 +1941,16 @@ msgstr ""
 "away\n"
 "away"
 
-#: server/commands.c:212
+#: server/commands.c:214
 msgid "Set yourself in away mode. The AI will watch your back."
 msgstr "Vous met en mode away. L'IA assurera vos arrières."
 
-#: server/commands.c:213
+#: server/commands.c:215
 msgid "The AI will govern your nation but do minimal changes."
 msgstr "L'IA gouvernera votre nation mais effectuera des changements minimes."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:217
+#: server/commands.c:219
 msgid ""
 "novice\n"
 "novice <player-name>"
@@ -1952,11 +1958,11 @@ msgstr ""
 "novice\n"
 "novice <nom-joueur>"
 
-#: server/commands.c:219
+#: server/commands.c:221
 msgid "Set one or all AI players to 'novice'."
 msgstr "Règle le niveau d'un ou de tous les joueurs IA à 'novice'."
 
-#: server/commands.c:220
+#: server/commands.c:222
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'.  With an argument, sets "
@@ -1967,7 +1973,7 @@ msgstr ""
 "règle le niveau que du joueur IA concerné."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:226
+#: server/commands.c:228
 msgid ""
 "easy\n"
 "easy <player-name>"
@@ -1975,11 +1981,11 @@ msgstr ""
 "easy\n"
 "easy <nom-joueur>"
 
-#: server/commands.c:228
+#: server/commands.c:230
 msgid "Set one or all AI players to 'easy'."
 msgstr "Règle le niveau du ou des joueurs IA à 'facile'."
 
-#: server/commands.c:229
+#: server/commands.c:231
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
@@ -1990,7 +1996,7 @@ msgstr ""
 "règle le niveau que du joueur IA concerné."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:235
+#: server/commands.c:237
 msgid ""
 "normal\n"
 "normal <player-name>"
@@ -1998,11 +2004,11 @@ msgstr ""
 "normal\n"
 "normal <nom-joueur>"
 
-#: server/commands.c:237
+#: server/commands.c:239
 msgid "Set one or all AI players to 'normal'."
 msgstr "Règle le niveau du ou des joueurs IA à 'normal'."
 
-#: server/commands.c:238
+#: server/commands.c:240
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
@@ -2013,7 +2019,7 @@ msgstr ""
 "règle le niveau que du joueur IA concerné."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:244
+#: server/commands.c:246
 msgid ""
 "hard\n"
 "hard <player-name>"
@@ -2021,11 +2027,11 @@ msgstr ""
 "hard\n"
 "hard <nom-joueur>"
 
-#: server/commands.c:246
+#: server/commands.c:248
 msgid "Set one or all AI players to 'hard'."
 msgstr "Règle le niveau du ou des joueurs IA à 'difficile'."
 
-#: server/commands.c:247
+#: server/commands.c:249
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
@@ -2036,7 +2042,7 @@ msgstr ""
 "règle le niveau que du joueur IA concerné."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:253
+#: server/commands.c:255
 msgid ""
 "experimental\n"
 "experimental <player-name>"
@@ -2044,11 +2050,11 @@ msgstr ""
 "experimental\n"
 "experimental <nom-joueur>"
 
-#: server/commands.c:255
+#: server/commands.c:257
 msgid "Set one or all AI players to 'experimental'."
 msgstr "Règle un ou tous les joueurs IA à 'experimental'."
 
-#: server/commands.c:256
+#: server/commands.c:258
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this.  With an argument, sets the "
@@ -2062,7 +2068,7 @@ msgstr ""
 "pas d'effet."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:264
+#: server/commands.c:266
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -2076,11 +2082,11 @@ msgstr ""
 "cmdlevel <niveau> first\n"
 "cmdlevel <niveau> <nom-connexion>"
 
-#: server/commands.c:269
+#: server/commands.c:271
 msgid "Query or set command access level access."
 msgstr "Affiche ou règle le niveau de commande autorisé."
 
-#: server/commands.c:270
+#: server/commands.c:272
 #, fuzzy
 msgid ""
 "The command access level controls which server commands are available\n"
@@ -2125,20 +2131,20 @@ msgstr ""
 "connecter reçoit le statut de 'first'. Note : cette commande utilise à "
 "présent les noms de connexion, et plus les noms de joueurs."
 
-#: server/commands.c:291
+#: server/commands.c:293
 msgid "If there is none, become the game organizer with increased permissions."
 msgstr ""
 
 #. TRANS: translate text between <> only
-#: server/commands.c:296
+#: server/commands.c:298
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <tour> <accr> <valeur> <multiplicateur>"
 
-#: server/commands.c:297
+#: server/commands.c:299
 msgid "See \"help timeoutincrease\"."
 msgstr "voir \"help timeoutincrease\"."
 
-#: server/commands.c:298
+#: server/commands.c:300
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
@@ -2150,24 +2156,24 @@ msgstr ""
 "0 0 1"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:304
+#: server/commands.c:306
 msgid "endgame"
 msgstr "endgame"
 
-#: server/commands.c:305
+#: server/commands.c:307
 msgid "End the game immediately in a draw."
 msgstr "Partie finissant par une égalité."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:309
+#: server/commands.c:311
 msgid "surrender"
 msgstr "se rendre"
 
-#: server/commands.c:310
+#: server/commands.c:312
 msgid "Concede the game."
 msgstr "S'avouer vaincu."
 
-#: server/commands.c:311
+#: server/commands.c:313
 msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
@@ -2176,15 +2182,15 @@ msgstr ""
 "tous les joueurs (ou équipes) sauf un on concédé la partie, elle ce termine."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:317
+#: server/commands.c:319
 msgid "remove <player-name>"
 msgstr "remove <joueur>"
 
-#: server/commands.c:318
+#: server/commands.c:320
 msgid "Fully remove player from game."
 msgstr "Enlève complètement le joueur de la partie."
 
-#: server/commands.c:319
+#: server/commands.c:321
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
@@ -2193,7 +2199,7 @@ msgstr ""
 "villes et ses unités. A utiliser avec précaution!"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:324
+#: server/commands.c:326
 msgid ""
 "save\n"
 "save <file-name>"
@@ -2201,11 +2207,11 @@ msgstr ""
 "save\n"
 "save <nom-fichier>"
 
-#: server/commands.c:326
+#: server/commands.c:328
 msgid "Save game to file."
 msgstr "Sauvegarde la partie dans le fichier."
 
-#: server/commands.c:327
+#: server/commands.c:329
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
@@ -2221,7 +2227,7 @@ msgstr ""
 "et utilisez la commande 'start' une fois que les joueurs se sont reconnectés."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:336
+#: server/commands.c:338
 msgid ""
 "load\n"
 "load <file-name>"
@@ -2229,11 +2235,11 @@ msgstr ""
 "load\n"
 "load <nom-fichier>"
 
-#: server/commands.c:338
+#: server/commands.c:340
 msgid "Load game from file."
 msgstr "Charge une partie depuis un fichier."
 
-#: server/commands.c:339
+#: server/commands.c:341
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
@@ -2242,31 +2248,31 @@ msgstr ""
 "compris joueurs, jeu de règles et options du serveur sont perdues.\n"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:344
+#: server/commands.c:346
 msgid "read <file-name>"
 msgstr "read <nom-fichier>"
 
-#: server/commands.c:345
+#: server/commands.c:347
 msgid "Process server commands from file."
 msgstr "Exécute les commandes du serveur provenant du fichier."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:349
+#: server/commands.c:351
 msgid "write <file-name>"
 msgstr "write <nom-fichier>"
 
-#: server/commands.c:350
+#: server/commands.c:352
 msgid "Write current settings as server commands to file."
 msgstr ""
 "Sauvegarde les réglages actuels en tant que commandes du serveur dans un "
 "fichier."
 
 # AR
-#: server/commands.c:354
+#: server/commands.c:356
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr "Bascule la sortie du serveur entre 'RFC-STYLE' et style normal."
 
-#: server/commands.c:358
+#: server/commands.c:360
 msgid "Simply returns the id of the server."
 msgstr "Retourne l'identifiant du serveur."
 
@@ -2851,29 +2857,29 @@ msgstr ""
 msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr "%s a provoqué un incident diplomatique en fomentant une révolte a %s."
 
-#: server/gamehand.c:131
+#: server/gamehand.c:132
 #, c-format
 msgid "Sea moving start units are not yet supported, %s not created."
 msgstr ""
 "Les unités maritimes au démarrage ne sont pas encore supportées, %s pas créé."
 
-#: server/gamehand.c:134
+#: server/gamehand.c:135
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr ""
 "Les unités maritimes au démarrage ne sont pas encore supportées. Personne "
 "n'a de %s."
 
-#: server/gamehand.c:301 client/text.c:604 client/gui-mui/mapview.c:192
+#: server/gamehand.c:302 client/text.c:604 client/gui-mui/mapview.c:192
 #, c-format
 msgid "Year: %s"
 msgstr "Année : %s"
 
-#: server/gamehand.c:376
+#: server/gamehand.c:377
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
 msgstr "Le timeout a dépassé sa valeur maximale, mis au maximum"
 
-#: server/gamehand.c:384
+#: server/gamehand.c:385
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Le timeout est inférieur à zéro, mis à zéro."
 
@@ -3336,7 +3342,7 @@ msgid "(building %s in %s (%s))\n"
 msgstr "(construction de %s à %s (%s))\n"
 
 #: server/report.c:324 client/gui-mui/gui_main.c:295 client/gui-xaw/menu.c:224
-#: data/helpdata.txt:848
+#: data/helpdata.txt:847
 msgid "Wonders of the World"
 msgstr "Merveilles du monde"
 
@@ -5075,297 +5081,297 @@ msgstr ""
 msgid "Please choose a non-blank name."
 msgstr "Veuillez choisir un nom non vide."
 
-#: server/srv_main.c:1182
+#: server/srv_main.c:1186
 msgid "That nation is already in use."
 msgstr "Cette nation est déjà prise."
 
-#: server/srv_main.c:1199
+#: server/srv_main.c:1202
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Un autre joueur a déjà le nom '%s'. Veuillez choisir un autre nom."
 
-#: server/srv_main.c:1220
+#: server/srv_main.c:1223
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Veuillez choisir un nom ne contenant que des caractère ASCII."
 
-#: server/srv_main.c:1299
+#: server/srv_main.c:1302
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "La nation %s n'est pas disponible pour ce scénario."
 
-#: server/srv_main.c:1305
+#: server/srv_main.c:1308
 #, c-format
 msgid "%s nation is already in use."
 msgstr "La nation %s est déjà prise."
 
-#: server/srv_main.c:1322
+#: server/srv_main.c:1325
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s est le chef %s %s."
 
-#: server/srv_main.c:1383
+#: server/srv_main.c:1386
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "En attente du démarrage de la partie : %d joueurs sur %d sont prêts."
 
-#: server/srv_main.c:1388
+#: server/srv_main.c:1391
 msgid "All players are ready; starting game."
 msgstr "Tous les joueurs sont prêts; la partie peut commencer."
 
-#: server/srv_main.c:1430 server/srv_main.c:1434
+#: server/srv_main.c:1433 server/srv_main.c:1437
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s a été ajouté en tant que joueur contrôlé par une IA de niveau %s."
 
-#: server/srv_main.c:1561
+#: server/srv_main.c:1564
 #, c-format
 msgid "Player %d"
 msgstr "Joueur %d"
 
-#: server/srv_main.c:1572 server/srv_main.c:1577
+#: server/srv_main.c:1575 server/srv_main.c:1580
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s dirige les %s."
 
-#: server/srv_main.c:1724
+#: server/srv_main.c:1727
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr "Envoi d'information au métaserveur [%s]"
 
-#: server/srv_main.c:1752
+#: server/srv_main.c:1755
 msgid "The game is over..."
 msgstr "La partie est terminée..."
 
-#: server/srv_main.c:1808
+#: server/srv_main.c:1811
 msgid "Now accepting new client connections."
 msgstr "Accepte dorénavant la connexion de nouveaux clients."
 
-#: server/stdinhand.c:250
+#: server/stdinhand.c:247
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr "Vote \"%s\" est passé %d à %d avec %d abstentions."
 
-#: server/stdinhand.c:257
+#: server/stdinhand.c:254
 #, c-format
 msgid "Vote \"%s\" failed with %d against, %d for and %d abstentions."
 msgstr "Vote \"%s\" n'est pas passé avec %d contre, %d pour et %d abstentions."
 
-#: server/stdinhand.c:366
+#: server/stdinhand.c:363
 msgid "(ambiguous)"
 msgstr "(ambigu)"
 
-#: server/stdinhand.c:367 client/citydlg_common.c:422 client/packhand.c:1241
+#: server/stdinhand.c:364 client/citydlg_common.c:422 client/packhand.c:1241
 msgid "(unknown)"
 msgstr "(inconnu)"
 
-#: server/stdinhand.c:457
+#: server/stdinhand.c:454
 msgid "Name is empty, so cannot be a player."
 msgstr "Le nom est vide, et ne peut donc être celui d'un joueur."
 
-#: server/stdinhand.c:461
+#: server/stdinhand.c:458
 msgid "Name is too long, so cannot be a player."
 msgstr "Le nom est trop long pour être celui d'un joueur."
 
-#: server/stdinhand.c:465
+#: server/stdinhand.c:462
 #, c-format
 msgid "Player name prefix '%s' is ambiguous."
 msgstr "Le préfixe du nom du joueur '%s' est ambigu."
 
-#: server/stdinhand.c:469
+#: server/stdinhand.c:466
 #, c-format
 msgid "No player by the name of '%s'."
 msgstr "Aucun joueur du nom de '%s'."
 
-#: server/stdinhand.c:473 server/stdinhand.c:508
+#: server/stdinhand.c:470 server/stdinhand.c:505
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
 msgstr "match_result inattendu : %d (%s) pour '%s'."
 
-#: server/stdinhand.c:492
+#: server/stdinhand.c:489
 msgid "Name is empty, so cannot be a connection."
 msgstr "Le nom est vide, et ne peut donc être un nom de connexion."
 
-#: server/stdinhand.c:496
+#: server/stdinhand.c:493
 msgid "Name is too long, so cannot be a connection."
 msgstr "Le nom est trop long pour être un nom de connexion."
 
-#: server/stdinhand.c:500
+#: server/stdinhand.c:497
 #, c-format
 msgid "Connection name prefix '%s' is ambiguous."
 msgstr "Le préfixe du nom de connexion '%s' est ambigu."
 
-#: server/stdinhand.c:504
+#: server/stdinhand.c:501
 #, c-format
 msgid "No connection by the name of '%s'."
 msgstr "Aucune connexion du nom de '%s'."
 
-#: server/stdinhand.c:524
+#: server/stdinhand.c:521
 #, c-format
 msgid "Open metaserver connection to [%s]."
 msgstr "Ouvrir la connexion avec le méta-serveur de '%s'."
 
-#: server/stdinhand.c:537
+#: server/stdinhand.c:534
 #, c-format
 msgid "Close metaserver connection to [%s]."
 msgstr "Interrompre la connexion avec le méta-serveur de '%s'."
 
-#: server/stdinhand.c:552
+#: server/stdinhand.c:549
 msgid "Metaserver connection is open."
 msgstr "Connexion métaserveur ouverte."
 
-#: server/stdinhand.c:555
+#: server/stdinhand.c:552
 msgid "Metaserver connection is closed."
 msgstr "Connexion au métaserveur fermée."
 
-#: server/stdinhand.c:565
+#: server/stdinhand.c:562
 msgid "Metaserver connection is already open."
 msgstr "Connexion métaserveur déjà ouverte."
 
-#: server/stdinhand.c:576
+#: server/stdinhand.c:573
 msgid "Metaserver connection is already closed."
 msgstr "Connexion au métaserveur déjà fermée."
 
-#: server/stdinhand.c:581
+#: server/stdinhand.c:578
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
 msgstr "L'argument doit être 'u', 'up', 'd', 'down', ou '?'."
 
-#: server/stdinhand.c:602
+#: server/stdinhand.c:599
 #, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "Chaîne des patches du métaserveur positionnée à '%s'."
 
-#: server/stdinhand.c:605
+#: server/stdinhand.c:602
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
 "Chaîne des patches du métaserveur positionnée à '%s', pas de rapport au "
 "métaserveur."
 
-#: server/stdinhand.c:626
+#: server/stdinhand.c:623
 #, c-format
 msgid "Metaserver message string set to '%s'."
 msgstr "Chaîne de message du métaserveur positionnée à '%s'."
 
-#: server/stdinhand.c:629
+#: server/stdinhand.c:626
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
 "Chaîne de message du métaserveur positionnée à '%s', pas de rapport au "
 "métaserveur."
 
-#: server/stdinhand.c:649
+#: server/stdinhand.c:646
 #, c-format
 msgid "Metaserver is now [%s]."
 msgstr "Le métaserveur est dorénavant '%s'."
 
-#: server/stdinhand.c:659
+#: server/stdinhand.c:656
 #, c-format
 msgid "Server id: %s"
 msgstr "Identifiant du serveur: %s"
 
-#: server/stdinhand.c:755
+#: server/stdinhand.c:752
 #, fuzzy
 msgid "You cannot save games manually on this server."
 msgstr "Quitte la partie et arrête le serveur."
 
-#: server/stdinhand.c:772
+#: server/stdinhand.c:769
 msgid "Cannot toggle a barbarian player."
 msgstr "Impossible de sélectionner un joueur barbare."
 
-#: server/stdinhand.c:779
+#: server/stdinhand.c:776
 #, c-format
 msgid "%s is now under AI control."
 msgstr "%s est à présent contrôlé par l'IA."
 
-#: server/stdinhand.c:795
+#: server/stdinhand.c:792
 #, c-format
 msgid "%s is now under human control."
 msgstr "%s est à présent contrôlé par un humain."
 
-#: server/stdinhand.c:840
+#: server/stdinhand.c:837
 msgid "Can't add AI players once the game has begun."
 msgstr "Impossible d'ajouter des joueurs IA après le début de la partie."
 
-#: server/stdinhand.c:859
+#: server/stdinhand.c:856
 msgid "Can't add more players, server is full."
 msgstr "Impossible d'ajouter des joueurs, le serveur est complet."
 
-#: server/stdinhand.c:866
+#: server/stdinhand.c:863
 msgid "Can't use an empty name."
 msgstr "Impossible d'utiliser un nom vide."
 
-#: server/stdinhand.c:873
+#: server/stdinhand.c:870
 #, c-format
 msgid "That name exceeds the maximum of %d chars."
 msgstr "Ce nom est trop long (%d caractères maximum)."
 
-#: server/stdinhand.c:879
+#: server/stdinhand.c:876
 msgid "That name is not allowed."
 msgstr "Ce nom n'est pas autorisé."
 
-#: server/stdinhand.c:885
+#: server/stdinhand.c:882
 msgid "A player already exists by that name."
 msgstr "Un autre joueur a déjà pris ce nom."
 
-#: server/stdinhand.c:891
+#: server/stdinhand.c:888
 msgid "A user already exists by that name."
 msgstr "Un autre joueur de ce nom existe déjà."
 
-#: server/stdinhand.c:917
+#: server/stdinhand.c:914
 #, c-format
 msgid "%s has been added as an AI-controlled player."
 msgstr "%s a été ajouté en tant que joueur contrôlé par une IA."
 
-#: server/stdinhand.c:924
+#: server/stdinhand.c:921
 #, c-format
 msgid "Error creating new AI player: %s."
 msgstr "Erreur lors de la création d'un nouveau joueur IA : %s."
 
-#: server/stdinhand.c:957
+#: server/stdinhand.c:954
 msgid "Players cannot be removed once the game has started."
 msgstr ""
 "Les joueurs ne peuvent pas être supprimés une fois que la partie a commencé."
 
-#: server/stdinhand.c:968
+#: server/stdinhand.c:965
 #, c-format
 msgid "Removed player %s from the game."
 msgstr "Joueur %s retiré de la partie."
 
-#: server/stdinhand.c:1007 server/stdinhand.c:3177
+#: server/stdinhand.c:1004 server/stdinhand.c:3183
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr ""
 
-#: server/stdinhand.c:1020
+#: server/stdinhand.c:1017
 #, fuzzy, c-format
 msgid "No command script found by the name \"%s\"."
 msgstr "Aucune connexion du nom de '%s'."
 
-#: server/stdinhand.c:1028
+#: server/stdinhand.c:1025
 #, c-format
 msgid "Loading script file: %s"
 msgstr "Chargement du fichier de script : %s"
 
-#: server/stdinhand.c:1043
+#: server/stdinhand.c:1040
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
 msgstr "Impossible de lire le fichier de script '%s'."
 
-#: server/stdinhand.c:1045
+#: server/stdinhand.c:1042
 #, c-format
 msgid "Could not read script file '%s'."
 msgstr "Impossible de lire le fichier de script '%s'."
 
-#: server/stdinhand.c:1137
+#: server/stdinhand.c:1134
 #, c-format
 msgid "Could not write script file '%s'."
 msgstr "Impossible d'écrire dans le fichier de script '%s'."
 
-#: server/stdinhand.c:1148
+#: server/stdinhand.c:1145
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
 
-#: server/stdinhand.c:1176
+#: server/stdinhand.c:1173
 #, c-format
 msgid ""
 "Cannot decrease command access level '%s' for connection '%s'; you only have "
@@ -5374,7 +5380,7 @@ msgstr ""
 "Impossible de diminuer le niveau de commande '%s' pour la connexion '%s' ; "
 "vous n'avez que '%s'."
 
-#: server/stdinhand.c:1231
+#: server/stdinhand.c:1228
 #, fuzzy, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
@@ -5382,27 +5388,27 @@ msgstr ""
 "Chacun peut prendre maintenant le niveau d'accès '%s' en utilisant la "
 "commande 'firstlevel'."
 
-#: server/stdinhand.c:1264
+#: server/stdinhand.c:1261
 msgid "Command access levels in effect:"
 msgstr "Niveaux de commandes effectifs :"
 
-#: server/stdinhand.c:1272
+#: server/stdinhand.c:1269
 #, c-format
 msgid "Command access level for new connections: %s"
 msgstr "Niveau de commande pour les nouvelles connexions : %s"
 
-#: server/stdinhand.c:1275
+#: server/stdinhand.c:1272
 #, c-format
 msgid "Command access level for first player to take it: %s"
 msgstr "Niveau de commande d'accès pour le premier joueur qui le prend : %s"
 
-#: server/stdinhand.c:1284
+#: server/stdinhand.c:1281
 msgid ""
 "Error: command access level must be one of 'none', 'info', 'ctrl', or 'hack'."
 msgstr ""
 "Erreur : le niveau de commande doit être 'none', 'info', 'ctrl', ou 'hack'."
 
-#: server/stdinhand.c:1289
+#: server/stdinhand.c:1286
 #, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
@@ -5410,282 +5416,282 @@ msgstr ""
 "Impossible d'incrémenter le niveau de commande à '%s' ; vous n'avez vous-"
 "même que '%s'."
 
-#: server/stdinhand.c:1316 server/stdinhand.c:1364
+#: server/stdinhand.c:1313 server/stdinhand.c:1361
 #, c-format
 msgid "Command access level set to '%s' for connection %s."
 msgstr "Niveau d'accès aux commandes à '%s' pour la connexion %s."
 
-#: server/stdinhand.c:1320 server/stdinhand.c:1368
+#: server/stdinhand.c:1317 server/stdinhand.c:1365
 #, c-format
 msgid "Command access level could not be set to '%s' for connection %s."
 msgstr ""
 "Le niveau d'accès aux commandes ne peut être à '%s' pour la connexion %s."
 
-#: server/stdinhand.c:1330 server/stdinhand.c:1340 server/stdinhand.c:1357
+#: server/stdinhand.c:1327 server/stdinhand.c:1337 server/stdinhand.c:1354
 #, c-format
 msgid "Command access level set to '%s' for new players."
 msgstr "Niveau d'accès aux commandes à '%s' pour les nouveaux joueurs."
 
-#: server/stdinhand.c:1334 server/stdinhand.c:1345 server/stdinhand.c:1352
+#: server/stdinhand.c:1331 server/stdinhand.c:1342 server/stdinhand.c:1349
 #, c-format
 msgid "Command access level set to '%s' for first player to grab it."
 msgstr ""
 "Niveau d'accès aux commandes à '%s' pour le premier joueur qui le prend."
 
-#: server/stdinhand.c:1390
+#: server/stdinhand.c:1387
 #, fuzzy
 msgid "The 'first' command makes no sense from the server command line."
 msgstr ""
 "La commande 'firstlevel' n'a aucun sens dans la ligne de commande du serveur."
 
-#: server/stdinhand.c:1394
+#: server/stdinhand.c:1391
 #, c-format
 msgid "You already have command access level '%s' or better."
 msgstr "Vous avez déjà le niveau d'accès '%s' ou plus élevé."
 
-#: server/stdinhand.c:1399
+#: server/stdinhand.c:1396
 #, fuzzy
 msgid "Someone else already is game organizer."
 msgstr "Quelqu'un d'autre à déjà le niveau d'accès '%s' ou plus élevé."
 
-#: server/stdinhand.c:1404
+#: server/stdinhand.c:1401
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
 msgstr ""
 
-#: server/stdinhand.c:1455
+#: server/stdinhand.c:1452
 #, c-format
 msgid "Invalid argument %d."
 msgstr "Argument %d invalide."
 
-#: server/stdinhand.c:1462
+#: server/stdinhand.c:1459
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
 msgstr "Utilisation : timeoutincrease <turn> <turnadd> <value> <valuemult>."
 
-#: server/stdinhand.c:1470
+#: server/stdinhand.c:1467
 #, c-format
 msgid "Dynamic timeout set to %d %d %d %d"
 msgstr "Délai de jeu dynamique réglé sur %d %d %d %d"
 
-#: server/stdinhand.c:1530 server/stdinhand.c:1533
+#: server/stdinhand.c:1527 server/stdinhand.c:1530
 msgid "Option:"
 msgstr "Option :"
 
-#: server/stdinhand.c:1543 server/stdinhand.c:3802
+#: server/stdinhand.c:1540 server/stdinhand.c:3808
 msgid "Description:"
 msgstr "Description :"
 
-#: server/stdinhand.c:1548
+#: server/stdinhand.c:1545
 #, c-format
 msgid "Status: %s"
 msgstr "État : %s"
 
-#: server/stdinhand.c:1549
+#: server/stdinhand.c:1546
 msgid "changeable"
 msgstr "modifiable"
 
-#: server/stdinhand.c:1549
+#: server/stdinhand.c:1546
 msgid "fixed"
 msgstr "fixe"
 
-#: server/stdinhand.c:1555
+#: server/stdinhand.c:1552
 #, c-format
 msgid "Value: %d, Minimum: 0, Default: %d, Maximum: 1"
 msgstr "Valeur : %d, Minimum : 0, Défaut : %d, Maximum : 1"
 
-#: server/stdinhand.c:1560
+#: server/stdinhand.c:1557
 #, c-format
 msgid "Value: %d, Minimum: %d, Default: %d, Maximum: %d"
 msgstr "Valeur : %d, Minimum : %d, Défaut : %d, Maximum : %d"
 
-#: server/stdinhand.c:1566
+#: server/stdinhand.c:1563
 #, c-format
 msgid "Value: \"%s\", Default: \"%s\""
 msgstr "Valeur : \"%s\", Défaut : \"%s\""
 
-#: server/stdinhand.c:1585
+#: server/stdinhand.c:1582
 msgid "Explanations are available for the following server options:"
 msgstr "Explications disponibles pour les options suivantes du serveur :"
 
-#: server/stdinhand.c:1630
+#: server/stdinhand.c:1627
 msgid "No explanation for that yet."
 msgstr "Pas encore d'explication pour ceci."
 
-#: server/stdinhand.c:1633 server/stdinhand.c:2463
+#: server/stdinhand.c:1630 server/stdinhand.c:2460
 msgid "Ambiguous option name."
 msgstr "Nom d'option ambigu."
 
-#: server/stdinhand.c:1653
+#: server/stdinhand.c:1650
 #, c-format
 msgid "Server Operator: %s"
 msgstr "Opérateur du serveur: %s"
 
-#: server/stdinhand.c:1775 server/stdinhand.c:1801 server/stdinhand.c:1817
+#: server/stdinhand.c:1772 server/stdinhand.c:1798 server/stdinhand.c:1814
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
 msgstr "Le joueur '%s' a maintenant le niveau IA '%s'."
 
-#: server/stdinhand.c:1805
+#: server/stdinhand.c:1802
 #, c-format
 msgid "%s is not controlled by the AI."
 msgstr "%s n'est pas contrôlé par l'IA."
 
-#: server/stdinhand.c:1823
+#: server/stdinhand.c:1820
 #, c-format
 msgid "Default AI skill level set to '%s'."
 msgstr "Niveau AI par défaut positionné à '%s'."
 
-#: server/stdinhand.c:1838 server/stdinhand.c:2148
+#: server/stdinhand.c:1835 server/stdinhand.c:2145
 msgid "This command is client only."
 msgstr "Cette commande ne concerne que le client."
 
-#: server/stdinhand.c:1841
+#: server/stdinhand.c:1838
 msgid "Usage: away"
 msgstr "Utilisation : away"
 
-#: server/stdinhand.c:1846
+#: server/stdinhand.c:1843
 msgid "Only players may use the away command."
 msgstr "Uniquement les joueurs peuvent utiliser la commande away."
 
-#: server/stdinhand.c:1850
+#: server/stdinhand.c:1847
 #, c-format
 msgid "%s set to away mode."
 msgstr "%s mis en mode away."
 
-#: server/stdinhand.c:1858
+#: server/stdinhand.c:1855
 #, c-format
 msgid "%s returned to game."
 msgstr "%s est revenu dans la partie."
 
-#: server/stdinhand.c:1900
+#: server/stdinhand.c:1897
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Désolé, vous n'avez pas accès à l'option '%s'."
 
-#: server/stdinhand.c:1906
+#: server/stdinhand.c:1903
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Erreur : option '%s' inconnue."
 
-#: server/stdinhand.c:1931
+#: server/stdinhand.c:1928
 #, fuzzy
 msgid "All options with non-default values"
 msgstr "= signifie que l'option a sa valeur par défaut"
 
-#: server/stdinhand.c:1934
+#: server/stdinhand.c:1931
 msgid "All options"
 msgstr "Toutes les options"
 
-#: server/stdinhand.c:1937
+#: server/stdinhand.c:1934
 msgid "Vital options"
 msgstr "Options vitales"
 
-#: server/stdinhand.c:1940
+#: server/stdinhand.c:1937
 msgid "Situational options"
 msgstr "Options occasionnelles"
 
-#: server/stdinhand.c:1943
+#: server/stdinhand.c:1940
 msgid "Rarely used options"
 msgstr "Options rarement utilisées"
 
-#: server/stdinhand.c:1946
+#: server/stdinhand.c:1943
 msgid "+ means you may change the option"
 msgstr "+ signifie que vous pouvez modifier cette option"
 
-#: server/stdinhand.c:1947
+#: server/stdinhand.c:1944
 msgid "= means the option is on its default value"
 msgstr "= signifie que l'option a sa valeur par défaut"
 
-#: server/stdinhand.c:1950
+#: server/stdinhand.c:1947
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s valeur  (min,max)      "
 
-#: server/stdinhand.c:1950
+#: server/stdinhand.c:1947
 msgid "Option"
 msgstr "Option"
 
-#: server/stdinhand.c:1953
+#: server/stdinhand.c:1950
 msgid "description"
 msgstr "description"
 
-#: server/stdinhand.c:2028
+#: server/stdinhand.c:2025
 #, fuzzy
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
 msgstr "Essayez 'show situational' ou 'show rare' pour voir plus d'options"
 
-#: server/stdinhand.c:2078
+#: server/stdinhand.c:2075
 msgid "Cannot change teams once game has begun."
 msgstr "Impossible de modifier les équipes après le début de la partie."
 
-#: server/stdinhand.c:2088
+#: server/stdinhand.c:2085
 msgid "Undefined argument.  Usage: team <player> <team>."
 msgstr "Argument non défini. Usage : team <joueur> <équipe>."
 
-#: server/stdinhand.c:2108
+#: server/stdinhand.c:2105
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr "Pas d'équipe %s. Donnez un nom d'équipe ou un nombre valide."
 
-#: server/stdinhand.c:2115
+#: server/stdinhand.c:2112
 msgid "Cannot team a barbarian."
 msgstr "Impossible d'affecter un barbare à une équipe."
 
-#: server/stdinhand.c:2121
+#: server/stdinhand.c:2118
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Joueur %s assigné à l'équipe %s."
 
-#: server/stdinhand.c:2142
+#: server/stdinhand.c:2139
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
 msgstr "Arguments non définis. Usage : vote yes|no [n° de vote]."
 
-#: server/stdinhand.c:2151
+#: server/stdinhand.c:2148
 msgid "Observers cannot vote."
 msgstr "Les observateurs ne peuvent pas voter."
 
-#: server/stdinhand.c:2154
+#: server/stdinhand.c:2151
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
 msgstr ""
 
-#: server/stdinhand.c:2167
+#: server/stdinhand.c:2164
 #, c-format
 msgid "Vote %d \"%s\": %d for, %d against"
 msgstr "Vote %d \"%s\" : %d pour, %d contre"
 
-#: server/stdinhand.c:2174
+#: server/stdinhand.c:2171
 msgid "There are no votes going on."
 msgstr "Il n'y a pas de vote en cours."
 
-#: server/stdinhand.c:2195
+#: server/stdinhand.c:2192
 msgid "No legal last vote."
 msgstr "Dernier vote illégal."
 
-#: server/stdinhand.c:2200
+#: server/stdinhand.c:2197
 msgid "Value must be integer."
 msgstr "La valeur doit être un entier."
 
-#: server/stdinhand.c:2211
+#: server/stdinhand.c:2208
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Aucun vote %d."
 
 # AR
-#: server/stdinhand.c:2215
+#: server/stdinhand.c:2212
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Vous avez voté pour \"%s\""
 
-#: server/stdinhand.c:2219
+#: server/stdinhand.c:2216
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Vous avez voté contre \"%s\""
 
-#: server/stdinhand.c:2246
+#: server/stdinhand.c:2243
 msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
@@ -5693,110 +5699,110 @@ msgstr ""
 "Arguments indéfinis. Usage : debug <diplomacy <joueur> | city <x> <y> | "
 "units <x> <y> | unit <id>| tech <joueur> | timing | info>."
 
-#: server/stdinhand.c:2252
+#: server/stdinhand.c:2249
 msgid "Can only use this command once game has begun."
 msgstr "Cette commande ne peut être utilisée qu'après le début de la partie."
 
-#: server/stdinhand.c:2281
+#: server/stdinhand.c:2278
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "La diplomatie de %s n'est plus déboguée"
 
-#: server/stdinhand.c:2285
+#: server/stdinhand.c:2282
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "La diplomatie de est %s deboguée"
 
-#: server/stdinhand.c:2304
+#: server/stdinhand.c:2301
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "La technologie de %s n'est plus déboguée"
 
-#: server/stdinhand.c:2308
+#: server/stdinhand.c:2305
 #, c-format
 msgid "%s tech debugged"
 msgstr "La technologie de %s n'est plus deboguée"
 
-#: server/stdinhand.c:2339 server/stdinhand.c:2369
+#: server/stdinhand.c:2336 server/stdinhand.c:2366
 msgid "Value 2 & 3 must be integer."
 msgstr "Les valeurs 2 & 3 doivent être entières."
 
-#: server/stdinhand.c:2343 server/stdinhand.c:2373
+#: server/stdinhand.c:2340 server/stdinhand.c:2370
 msgid "Bad map coordinates."
 msgstr "Mauvaises coordonnées."
 
-#: server/stdinhand.c:2348
+#: server/stdinhand.c:2345
 msgid "No city at this coordinate."
 msgstr "Pas de ville à ces coordonnées."
 
-#: server/stdinhand.c:2353
+#: server/stdinhand.c:2350
 #, c-format
 msgid "%s no longer debugged"
 msgstr "%s n'est plus débogué"
 
-#: server/stdinhand.c:2379 server/stdinhand.c:2407
+#: server/stdinhand.c:2376 server/stdinhand.c:2404
 #, c-format
 msgid "%s's %s no longer debugged."
 msgstr "%2$s de %1$s n'est plus débogué."
 
-#: server/stdinhand.c:2383 server/stdinhand.c:2411
+#: server/stdinhand.c:2380 server/stdinhand.c:2408
 #, c-format
 msgid "%s's %s debugged."
 msgstr "%2$s de %1$s débogué."
 
-#: server/stdinhand.c:2398
+#: server/stdinhand.c:2395
 msgid "Value 2 must be integer."
 msgstr "La valeur 2 doit être un entier."
 
-#: server/stdinhand.c:2402
+#: server/stdinhand.c:2399
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "L'unité %d n'existe pas."
 
-#: server/stdinhand.c:2458
+#: server/stdinhand.c:2455
 msgid "Undefined argument.  Usage: set <option> <value>."
 msgstr "Argument non défini. Usage : set <option> <valeur>."
 
-#: server/stdinhand.c:2468
+#: server/stdinhand.c:2465
 msgid "You are not allowed to set this option."
 msgstr "Vous n'êtes pas autorisé à régler cette option."
 
-#: server/stdinhand.c:2473
+#: server/stdinhand.c:2470
 msgid "This setting can't be modified after the game has started."
 msgstr "Ce paramètre ne peut pas être modifié : la partie a commencé."
 
-#: server/stdinhand.c:2485 server/stdinhand.c:2511
+#: server/stdinhand.c:2482 server/stdinhand.c:2508
 msgid "Value must be an integer."
 msgstr "La valeur doit être un entier."
 
-#: server/stdinhand.c:2489
+#: server/stdinhand.c:2486
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Valeur incorrecte (minimum : 0, maximum : 1)."
 
-#: server/stdinhand.c:2502 server/stdinhand.c:2528
+#: server/stdinhand.c:2499 server/stdinhand.c:2525
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Option : %s a été positionnée à %d."
 
-#: server/stdinhand.c:2515
+#: server/stdinhand.c:2512
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Valeur incorrecte (minimum : %d, maximum : %d)."
 
-#: server/stdinhand.c:2538
+#: server/stdinhand.c:2535
 msgid "String value too long.  Usage: set <option> <value>."
 msgstr "Chaîne trop longue. Usage : set <option> <valeur>."
 
-#: server/stdinhand.c:2550
+#: server/stdinhand.c:2547
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Option : %s a été positionnée à \"%s\"."
 
-#: server/stdinhand.c:2591
+#: server/stdinhand.c:2588
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Désolé, on ne peut pas être observateur global de cette partie."
 
-#: server/stdinhand.c:2594
+#: server/stdinhand.c:2591
 msgid "Sorry, you can't take a global observer. Observe it instead."
 msgstr ""
 "Désolé, on ne peut prendre la place d'un observateur global. Observez-le "
@@ -5898,205 +5904,205 @@ msgstr "Utilisation : take <nom-joueur>"
 msgid "Usage: take [connection-name] <player-name>"
 msgstr "Utilisation : take [nom-connexion] <nom-joueur>"
 
-#: server/stdinhand.c:2902
+#: server/stdinhand.c:2900
 #, c-format
 msgid "%s already controls %s"
 msgstr "%s contrôle déjà %s"
 
-#: server/stdinhand.c:2931
+#: server/stdinhand.c:2930
 #, c-format
 msgid "being detached from %s."
 msgstr "détachement de %s."
 
-#: server/stdinhand.c:2983
+#: server/stdinhand.c:2989
 #, c-format
 msgid "%s now controls %s (%s, %s)"
 msgstr "%s contrôle maintenant %s (%s, %s)"
 
 # AR
-#: server/stdinhand.c:2985 server/stdinhand.c:4031
+#: server/stdinhand.c:2991 server/stdinhand.c:4037
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbare"
 
-#: server/stdinhand.c:2986 server/stdinhand.c:4033 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:1859 client/gui-win32/connectdlg.c:199
+#: server/stdinhand.c:2992 server/stdinhand.c:4039 client/plrdlg_common.c:256
+#: client/gui-gtk-2.0/pages.c:1968 client/gui-win32/connectdlg.c:199
 #: client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr "IA"
 
 # AR
-#: server/stdinhand.c:2986 server/stdinhand.c:4035
-#: client/gui-gtk-2.0/pages.c:1859 client/gui-gtk-2.0/pages.c:1889
+#: server/stdinhand.c:2992 server/stdinhand.c:4041
+#: client/gui-gtk-2.0/pages.c:1968 client/gui-gtk-2.0/pages.c:1998
 #: client/gui-win32/connectdlg.c:199 client/gui-win32/connectdlg.c:218
 msgid "Human"
 msgstr "Humain"
 
-#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1858
-#: client/gui-gtk-2.0/pages.c:1888 client/gui-win32/connectdlg.c:198
+#: server/stdinhand.c:2992 client/gui-gtk-2.0/pages.c:1967
+#: client/gui-gtk-2.0/pages.c:1997 client/gui-win32/connectdlg.c:198
 #: client/gui-win32/connectdlg.c:217
 msgid "Alive"
 msgstr "Vivant"
 
-#: server/stdinhand.c:2986 client/gui-gtk-2.0/pages.c:1858
+#: server/stdinhand.c:2992 client/gui-gtk-2.0/pages.c:1967
 #: client/gui-win32/connectdlg.c:198
 msgid "Dead"
 msgstr "Mort"
 
-#: server/stdinhand.c:3019
+#: server/stdinhand.c:3025
 msgid "Usage: detach <connection-name>"
 msgstr "Utilisation : detach <nom-connexion>"
 
-#: server/stdinhand.c:3039
+#: server/stdinhand.c:3045
 msgid "You can not detach other users."
 msgstr "Vous ne pouvez pas détacher d'autres utilisateurs."
 
-#: server/stdinhand.c:3048
+#: server/stdinhand.c:3054
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s n'est attaché à aucun joueur."
 
-#: server/stdinhand.c:3071
+#: server/stdinhand.c:3077
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s détaché de %s"
 
-#: server/stdinhand.c:3075
+#: server/stdinhand.c:3081
 #, fuzzy, c-format
 msgid "%s no longer observing."
 msgstr "%s n'est plus débogué"
 
-#: server/stdinhand.c:3091
+#: server/stdinhand.c:3097
 #, c-format
 msgid "detaching from %s."
 msgstr "détachement de %s."
 
-#: server/stdinhand.c:3173
+#: server/stdinhand.c:3179
 #, fuzzy
 msgid "Usage: load <game name>"
 msgstr "Utilisation : load <nom-fichier>"
 
-#: server/stdinhand.c:3193
+#: server/stdinhand.c:3199
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr ""
 
-#: server/stdinhand.c:3208
+#: server/stdinhand.c:3214
 #, fuzzy
 msgid "Cannot load a game while another is running."
 msgstr "Impossible de charger une partie pendant qu'une autre est active."
 
-#: server/stdinhand.c:3217
+#: server/stdinhand.c:3223
 #, fuzzy, c-format
 msgid "Could not load savefile: %s"
 msgstr "Impossible de charger le fichier de sauvegarde : %s"
 
-#: server/stdinhand.c:3285
+#: server/stdinhand.c:3291
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Le répertoire du jeu de règles actuel est : \"%s\""
 
-#: server/stdinhand.c:3291
+#: server/stdinhand.c:3297
 #, fuzzy, c-format
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
 msgstr "Le répertoire du jeu de règles \"%s\" n'a pas été trouvé"
 
-#: server/stdinhand.c:3299
+#: server/stdinhand.c:3305
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Le répertoire du jeu de règles \"%s\" n'a pas été trouvé"
 
-#: server/stdinhand.c:3305
+#: server/stdinhand.c:3311
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Le répertoire du jeu de règles est déjà \"%s\""
 
-#: server/stdinhand.c:3309
+#: server/stdinhand.c:3315
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "Le répertoire du jeu de règles est \"%s\""
 
-#: server/stdinhand.c:3348
+#: server/stdinhand.c:3354
 msgid "Goodbye."
 msgstr "Au revoir."
 
-#: server/stdinhand.c:3379
+#: server/stdinhand.c:3385
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Désolé, vous n'êtes pas autorisé à utiliser les commandes du serveur."
 
-#: server/stdinhand.c:3415
+#: server/stdinhand.c:3421
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr "Attention : '%s' interprété comme '%s', mais ambigu. Essayez '%shelp'."
 
-#: server/stdinhand.c:3420
+#: server/stdinhand.c:3426
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Commande inconnue. Essayez '%shelp'."
 
-#: server/stdinhand.c:3435
+#: server/stdinhand.c:3441
 msgid "Your new vote cancelled your previous vote."
 msgstr "Votre nouveau vote a annulé le précédent."
 
-#: server/stdinhand.c:3444
+#: server/stdinhand.c:3450
 #, c-format
 msgid "New vote (number %d) by %s: %s."
 msgstr "Nouveau vote (numéro %d) par %s: %s."
 
-#: server/stdinhand.c:3463
+#: server/stdinhand.c:3469
 msgid "You are not allowed to use this command."
 msgstr "Vous n'êtes pas autorisé à utiliser cette commande."
 
-#: server/stdinhand.c:3488
+#: server/stdinhand.c:3494
 msgid "(server prompt)"
 msgstr "(invite du serveur)"
 
-#: server/stdinhand.c:3595
+#: server/stdinhand.c:3601
 msgid "Game ended in a draw."
 msgstr "Partie finissant par une égalité."
 
-#: server/stdinhand.c:3599
+#: server/stdinhand.c:3605
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Fin de la partie. Le serveur redémarrera une fois que tous les clients se "
 "seront déconnectés."
 
-#: server/stdinhand.c:3604
+#: server/stdinhand.c:3610
 msgid "Cannot end the game: no game running."
 msgstr "Impossible de terminer la partie : il n'y a pas de partie en cours."
 
-#: server/stdinhand.c:3620
+#: server/stdinhand.c:3626
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s s'est avoué vaincu et ne peut plus dorénavant gagner la partie."
 
-#: server/stdinhand.c:3625
+#: server/stdinhand.c:3631
 #, fuzzy
 msgid "You cannot surrender now."
 msgstr "Vous ne pouvez pas congédier d'unité."
 
-#: server/stdinhand.c:3671
+#: server/stdinhand.c:3677
 msgid "Not enough players, game will not start."
 msgstr "Pas assez de joueurs, partie non lancée."
 
-#: server/stdinhand.c:3688
+#: server/stdinhand.c:3694
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "Impossible de lancer la partie : le jeu attend que tous les client se "
 "déconnectent."
 
-#: server/stdinhand.c:3695
+#: server/stdinhand.c:3701
 msgid "Cannot start the game: it is already running."
 msgstr "Impossible de lancer la partie : elle est déjà en cours."
 
-#: server/stdinhand.c:3724
+#: server/stdinhand.c:3730
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Coupure de la connexion %s."
 
-#: server/stdinhand.c:3743
+#: server/stdinhand.c:3749
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6135,125 +6141,125 @@ msgstr ""
 "  save  - pour sauver la partie en cours\n"
 "  quit  - pour quitter"
 
-#: server/stdinhand.c:3778 server/stdinhand.c:3781
+#: server/stdinhand.c:3784 server/stdinhand.c:3787
 msgid "Command:"
 msgstr "Commande :"
 
-#: server/stdinhand.c:3785
+#: server/stdinhand.c:3791
 msgid "Synopsis: "
 msgstr "Synopsis : "
 
-#: server/stdinhand.c:3794
+#: server/stdinhand.c:3800
 #, c-format
 msgid "Level: %s"
 msgstr "Niveau : %s"
 
-#: server/stdinhand.c:3819
+#: server/stdinhand.c:3825
 msgid "The following server commands are available:"
 msgstr "Les commandes suivantes du serveur sont disponibles :"
 
-#: server/stdinhand.c:3894
+#: server/stdinhand.c:3900
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "L'argument '%s' de 'help' est ambigu."
 
-#: server/stdinhand.c:3899
+#: server/stdinhand.c:3905
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Pas de correspondance pour l'argument '%s' de 'help'."
 
-#: server/stdinhand.c:3965
+#: server/stdinhand.c:3971
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Mauvais argument pour 'list' : '%s' . Essayez '%shelp list'."
 
-#: server/stdinhand.c:4005
+#: server/stdinhand.c:4011
 msgid "List of players:"
 msgstr "Liste des joueurs :"
 
-#: server/stdinhand.c:4010
+#: server/stdinhand.c:4016
 msgid "<no players>"
 msgstr "<aucun joueur>"
 
-#: server/stdinhand.c:4027
+#: server/stdinhand.c:4033
 #, c-format
 msgid "user %s, "
 msgstr "utilisateur %s, "
 
-#: server/stdinhand.c:4038
+#: server/stdinhand.c:4044
 msgid ", Dead"
 msgstr ", Mort"
 
-#: server/stdinhand.c:4041
+#: server/stdinhand.c:4047
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", niveau de difficulté %s"
 
-#: server/stdinhand.c:4045
+#: server/stdinhand.c:4051
 #, c-format
 msgid ", nation %s"
 msgstr ", nation %s"
 
-#: server/stdinhand.c:4048
+#: server/stdinhand.c:4054
 #, c-format
 msgid ", team %s"
 msgstr ", équipe %s"
 
-#: server/stdinhand.c:4052
+#: server/stdinhand.c:4058
 msgid ", ready"
 msgstr ", prêt"
 
-#: server/stdinhand.c:4054
+#: server/stdinhand.c:4060
 msgid ", not ready"
 msgstr ", pas prêt"
 
-#: server/stdinhand.c:4062
+#: server/stdinhand.c:4068
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d connexion :"
 msgstr[1] " %d connexions :"
 
-#: server/stdinhand.c:4068
+#: server/stdinhand.c:4074
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s depuis %s (niveau de commande %s), taille du tampon=%dkb"
 
-#: server/stdinhand.c:4073
+#: server/stdinhand.c:4079
 msgid " (observer mode)"
 msgstr " (mode observateur)"
 
-#: server/stdinhand.c:4091
+#: server/stdinhand.c:4097
 msgid "List of teams:"
 msgstr "Liste des équipes :"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4101
+#: server/stdinhand.c:4107
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : '%s' : %d joueur"
 msgstr[1] "%2d : '%s' : %d joueurs"
 
-#: server/stdinhand.c:4121
+#: server/stdinhand.c:4127
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : 1 joueur : %s"
 
-#: server/stdinhand.c:4127
+#: server/stdinhand.c:4133
 #, c-format
 msgid "Empty team: %s"
 msgstr "Équipe vide : %s"
 
-#: server/stdinhand.c:4138
+#: server/stdinhand.c:4144
 msgid "List of connections to server:"
 msgstr "Liste des connexions au serveur :"
 
-#: server/stdinhand.c:4142
+#: server/stdinhand.c:4148
 msgid "<no connections>"
 msgstr "<pas de connexions>"
 
-#: server/stdinhand.c:4166
+#: server/stdinhand.c:4172
 #, fuzzy
 msgid "List of scenarios available:"
 msgstr "Aucune unité disponible"
@@ -7115,7 +7121,7 @@ msgid "Concise *=Rapture, X=Disorder"
 msgstr "*=Extase, X=Troubles"
 
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
-#: client/gui-xaw/citydlg.c:2404 data/default/units.ruleset:239
+#: client/gui-xaw/citydlg.c:2404 data/default/units.ruleset:238
 msgid "Workers"
 msgstr "Travailleurs"
 
@@ -7200,7 +7206,7 @@ msgstr "Meilleures unités défensives"
 #: client/gui-win32/repodlgs.c:697 client/gui-win32/repodlgs.c:706
 #: client/gui-xaw/menu.c:157 client/gui-xaw/menu.c:219
 #: client/gui-xaw/menu.c:240 client/gui-xaw/repodlgs.c:898
-#: client/gui-xaw/repodlgs.c:1085 data/Freeciv.in:1895 data/helpdata.txt:859
+#: client/gui-xaw/repodlgs.c:1085 data/Freeciv.in:1895 data/helpdata.txt:858
 msgid "Units"
 msgstr "Unités"
 
@@ -7354,7 +7360,7 @@ msgstr "Gouverneur"
 
 #: client/cityrepdata.c:493 client/gui-gtk-2.0/cityrep.c:1214
 #: client/gui-gtk-2.0/cityrep.c:1487 client/gui-mui/citydlg.c:1374
-#: client/gui-win32/citydlg.c:729 data/Freeciv.in:1459 data/helpdata.txt:770
+#: client/gui-win32/citydlg.c:729 data/Freeciv.in:1459 data/helpdata.txt:769
 msgid "Citizen Governor"
 msgstr "Gouverneur"
 
@@ -7544,28 +7550,28 @@ msgid "The %s gives an embassy"
 msgstr "Les %s donnent une ambassade"
 
 # AR
-#: client/climisc.c:892
+#: client/climisc.c:896
 msgid "Popup Request"
 msgstr "Ouverture de fenêtre"
 
-#: client/climisc.c:922
+#: client/climisc.c:926
 msgid "Exporting output window to civgame.log ..."
 msgstr "Fenêtre de sortie exportée vers civgame.log ..."
 
-#: client/climisc.c:926
+#: client/climisc.c:930
 msgid "Export complete."
 msgstr "Exportation achevée."
 
-#: client/climisc.c:928
+#: client/climisc.c:932
 msgid "Export failed, couldn't write to file."
 msgstr "L'exportation a échoué, impossible d'écrire dans le fichier."
 
-#: client/climisc.c:1028
+#: client/climisc.c:1032
 #, c-format
 msgid "You don't buy %s in %s!"
 msgstr "Vous n'achetez pas %s dans %s !"
 
-#: client/climisc.c:1046
+#: client/climisc.c:1050
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s coûte %d lingots et vous n'en avez que %d."
@@ -7615,19 +7621,19 @@ msgstr ""
 "Autoconnexion au server \"%s\" port %d en tant que \"%s\" chaque %f secondes "
 "pendant %d essais"
 
-#: client/connectdlg_common.c:78
+#: client/connectdlg_common.c:78 client/gui-gtk-2.0/pages.c:1224
 msgid "novice"
 msgstr "novice"
 
-#: client/connectdlg_common.c:79
+#: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1224
 msgid "easy"
 msgstr "facile"
 
-#: client/connectdlg_common.c:80
+#: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1225
 msgid "normal"
 msgstr "normal"
 
-#: client/connectdlg_common.c:81
+#: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1225
 msgid "hard"
 msgstr "difficile"
 
@@ -8118,42 +8124,35 @@ msgstr ""
 "* Ignore les différences entre types de terrain (traite toutes les cases "
 "comme des routes).\n"
 
-#: client/helpdata.c:962
-#, c-format
-msgid "* Attacks with full strength even if less than one movement left.\n"
-msgstr ""
-"* Attaque à pleine puissance même avec moins d'un point de mouvement "
-"restant.\n"
-
-#: client/helpdata.c:966
+#: client/helpdata.c:961
 #, c-format
 msgid "* Ignores zones of control.\n"
 msgstr "* Ignore les zones de contrôle.\n"
 
-#: client/helpdata.c:969
+#: client/helpdata.c:964
 #, c-format
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Unité non militaire (ne peut attaquer ; pas de loi martiale).\n"
 
-#: client/helpdata.c:973
+#: client/helpdata.c:968
 #, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 "* Une unité de campagne : crée du mécontentement, même si elle n'est pas "
 "agressive.\n"
 
-#: client/helpdata.c:978
+#: client/helpdata.c:973
 #, c-format
 msgid "* Will never achieve veteran status.\n"
 msgstr "* N'obtiendra jamais le statut de vétéran.\n"
 
-#: client/helpdata.c:981
+#: client/helpdata.c:976
 #, c-format
 msgid "* May become veteran through training or combat.\n"
 msgstr "* Peut devenir vétéran par voie d'entraînement ou du combat.\n"
 
 # AR
-#: client/helpdata.c:987
+#: client/helpdata.c:982
 #, c-format
 msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
@@ -8162,38 +8161,38 @@ msgstr ""
 "* Doit terminer son tour dans une ville ou près des terres, ou bien a 50%% "
 "de chances de disparaître en mer.\n"
 
-#: client/helpdata.c:991
+#: client/helpdata.c:986
 #, c-format
 msgid "* The discovery of %s reduces the risk to 25%%.\n"
 msgstr "* La découverte de %s réduit le risque à 25%%.\n"
 
-#: client/helpdata.c:996
+#: client/helpdata.c:991
 #, c-format
 msgid "* %s reduces the risk to 12%%.\n"
 msgstr "* %s réduit le risque à 12%%.\n"
 
-#: client/helpdata.c:1045
+#: client/helpdata.c:1040
 msgid " or "
 msgstr " ou "
 
-#: client/helpdata.c:1047
+#: client/helpdata.c:1042
 msgid "?or:, "
 msgstr "?ou:, "
 
-#: client/helpdata.c:1059
+#: client/helpdata.c:1054
 #, c-format
 msgid "* Unit has to be in a city, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or on a %s after %d turns.\n"
 msgstr[0] "* L'unité doit être dans une ville ou %s après %d tour.\n"
 msgstr[1] "* L'unité doit être dans une ville ou %s après %d tours.\n"
 
-#: client/helpdata.c:1097
+#: client/helpdata.c:1092
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr ""
 "Si nous commencions maintenant avec %s nous aurions besoin de %d ampoules."
 
-#: client/helpdata.c:1102
+#: client/helpdata.c:1097
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -8202,90 +8201,90 @@ msgstr ""
 "Afin d'obtenir %s nous devons auparavant obtenir %d autre(s) technologie(s). "
 "La completion de l'ensemble du projet requiert %d ampoule(s)."
 
-#: client/helpdata.c:1110
+#: client/helpdata.c:1105
 #, c-format
 msgid "You cannot research this technology."
 msgstr "Vous ne pouvez pas rechercher cette technologie."
 
-#: client/helpdata.c:1114
+#: client/helpdata.c:1109
 #, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
 " Ce nombre peut varier selon les recherches faites par les autres joueurs.\n"
 
-#: client/helpdata.c:1125
+#: client/helpdata.c:1120
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "* Le premier joueur qui découvre %s obtient immédiatement une découverte.\n"
 
-#: client/helpdata.c:1130
+#: client/helpdata.c:1125
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
 msgstr "* Ramène la chance de perdre des bateaux en haute mer à 25%%.\n"
 
-#: client/helpdata.c:1133
+#: client/helpdata.c:1128
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 msgstr "* Ramène la chance de perdre des bateaux en haute mer à 12%%.\n"
 
-#: client/helpdata.c:1136
+#: client/helpdata.c:1131
 #, c-format
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Accroît la pollution générée par la population.\n"
 
-#: client/helpdata.c:1141
+#: client/helpdata.c:1136
 #, c-format
 msgid "* Allows %s to build roads on river squares.\n"
 msgstr "* Permet aux %s de construire des routes sur les rivières.\n"
 
-#: client/helpdata.c:1148
+#: client/helpdata.c:1143
 #, c-format
 msgid "* Allows %s to build fortresses.\n"
 msgstr "* Permet aux %s de construire des forteresses.\n"
 
-#: client/helpdata.c:1156
+#: client/helpdata.c:1151
 #, c-format
 msgid "* Allows %s to build airbases.\n"
 msgstr "* Permet aux %s de construire des bases aériennes.\n"
 
-#: client/helpdata.c:1165
+#: client/helpdata.c:1160
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* Permet aux %s de transformer les routes en chemin de fer.\n"
 
-#: client/helpdata.c:1172
+#: client/helpdata.c:1167
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Permet aux %s de transformer les zones irriguées en champs.\n"
 
-#: client/helpdata.c:1204
+#: client/helpdata.c:1199
 #, c-format
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Aucune pollution ne peut apparaître sur ce terrain."
 
-#: client/helpdata.c:1209
+#: client/helpdata.c:1204
 #, c-format
 msgid "* You cannot build cities on this terrain."
 msgstr "* Vous ne pouvez pas construire de ville sur ce terrain."
 
-#: client/helpdata.c:1215
+#: client/helpdata.c:1210
 #, c-format
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Les lignes côtières de ce terrain sont dangereuses."
 
-#: client/helpdata.c:1220
+#: client/helpdata.c:1215
 #, c-format
 msgid "* This terrain is unsafe for units to travel on."
 msgstr "* Ce terrain est dangereux pour les unités qui s'y déplacent."
 
-#: client/helpdata.c:1225
+#: client/helpdata.c:1220
 #, c-format
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr ""
 "* Les unités terrestres ne peuvent se déplacer sur les terrains océaniques."
 
-#: client/helpdata.c:1268
+#: client/helpdata.c:1263
 #, fuzzy, c-format
 msgid "Features:\n"
 msgstr ""
@@ -8293,7 +8292,7 @@ msgstr ""
 "\n"
 "Caractéristiques :\n"
 
-#: client/helpdata.c:1291
+#: client/helpdata.c:1286
 #, fuzzy, c-format
 msgid ""
 "* Military units away from home and field units will cause one citizen to "
@@ -8302,7 +8301,7 @@ msgstr ""
 "* Les unités militaires loin de leur base et les unités  de campagne "
 "causeront du mécontentement.\n"
 
-#: client/helpdata.c:1294
+#: client/helpdata.c:1289
 #, fuzzy, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizens to "
@@ -8311,7 +8310,7 @@ msgstr ""
 "* Les unités militaires loin de leur base et les unités  de campagne "
 "causeront du mécontentement.\n"
 
-#: client/helpdata.c:1301
+#: client/helpdata.c:1296
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
@@ -8320,38 +8319,38 @@ msgstr ""
 "* Chacune de vos villes évitera %d mécontentement qui serait autrement causé "
 "par les unités.\n"
 
-#: client/helpdata.c:1307
+#: client/helpdata.c:1302
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr "* Vous payez %d fois l'entretien normal en %s pour vos unités.\n"
 
-#: client/helpdata.c:1310
+#: client/helpdata.c:1305
 #, fuzzy, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr "* Vous payez %d fois l'entretien normal en %s pour vos unités.\n"
 
-#: client/helpdata.c:1316
+#: client/helpdata.c:1311
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
 msgstr ""
 "* Chaque ville économisera %d %s sur l'entretien de l'ensemble de ses "
 "unités.\n"
 
-#: client/helpdata.c:1320
+#: client/helpdata.c:1315
 #, fuzzy, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
 msgstr ""
 "* Chaque ville économisera %d %s sur l'entretien de l'ensemble de ses "
 "unités.\n"
 
-#: client/helpdata.c:1325
+#: client/helpdata.c:1320
 #, fuzzy, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
 msgstr ""
 "La probabilité de guerre civile est de %d%% si vous perdez votre capitale.\n"
 "\n"
 
-#: client/helpdata.c:1329
+#: client/helpdata.c:1324
 #, fuzzy, c-format
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
@@ -8360,14 +8359,14 @@ msgstr ""
 "Le premier citoyen mécontent dans chaque ville dû à la taille de la "
 "civilisation apparaît quand vous avez %d villes."
 
-#: client/helpdata.c:1334
+#: client/helpdata.c:1329
 #, c-format
 msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
 
-#: client/helpdata.c:1341
+#: client/helpdata.c:1336
 #, fuzzy, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
@@ -8375,14 +8374,14 @@ msgstr ""
 "%%.\n"
 "\n"
 
-#: client/helpdata.c:1345
+#: client/helpdata.c:1340
 #, fuzzy, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
 msgstr ""
 "N'a pas de limite pour les taux de science/or/luxe.\n"
 "\n"
 
-#: client/helpdata.c:1350
+#: client/helpdata.c:1345
 #, fuzzy, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8392,7 +8391,7 @@ msgstr ""
 "d'une ville jusqu'à un maximum de %d, forcera %d citoyens mécontents à "
 "devenir content.\n"
 
-#: client/helpdata.c:1354
+#: client/helpdata.c:1349
 #, fuzzy, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -8402,12 +8401,12 @@ msgstr ""
 "d'une ville jusqu'à un maximum de %d, forcera %d citoyens mécontents à "
 "devenir content.\n"
 
-#: client/helpdata.c:1361
+#: client/helpdata.c:1356
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr ""
 
-#: client/helpdata.c:1366
+#: client/helpdata.c:1361
 #, c-format
 msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
@@ -8416,19 +8415,19 @@ msgstr ""
 "* Vous pouvez faire grossir vos villes par l'extase.  Elles doivent être au "
 "moins de taille %d avant de pouvoir grossir de cette manière.\n"
 
-#: client/helpdata.c:1372
+#: client/helpdata.c:1367
 #, fuzzy, c-format
 msgid "* Your units cannot be bribed.\n"
 msgstr "Cette unité ne peut pas être soudoyée !"
 
-#: client/helpdata.c:1375
+#: client/helpdata.c:1370
 #, fuzzy, c-format
 msgid "* Your cities cannot be incited.\n"
 msgstr ""
 "* Vos unités et villes ne peuvent pas être soudoyées ou incitées à la "
 "révolte.\n"
 
-#: client/helpdata.c:1378
+#: client/helpdata.c:1373
 #, c-format
 msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
@@ -8437,18 +8436,18 @@ msgstr ""
 "* Le gouvernement tombera en anarchie si une ville reste en désordre civil "
 "plus de deux tours d'affilée.\n"
 
-#: client/helpdata.c:1383
+#: client/helpdata.c:1378
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr ""
 
-#: client/helpdata.c:1387
+#: client/helpdata.c:1382
 #, fuzzy, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr ""
 "* Des partisans sont créés quand les villes sont prises par les ennemis. "
 
-#: client/helpdata.c:1391
+#: client/helpdata.c:1386
 #, c-format
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
@@ -8457,27 +8456,27 @@ msgstr ""
 "* Les bâtiments qui habituellement confèrent un bonus contre le "
 "mécontentement produiront de l'or à la place.\n"
 
-#: client/helpdata.c:1395
+#: client/helpdata.c:1390
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Ne paye pas d'entretien pour les fanatiques.\n"
 
-#: client/helpdata.c:1398
+#: client/helpdata.c:1393
 #, c-format
 msgid "* Has no unhappy citizens.\n"
 msgstr "* N'a pas de citoyen mécontent.\n"
 
-#: client/helpdata.c:1402 client/helpdata.c:1405
+#: client/helpdata.c:1397 client/helpdata.c:1400
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr ""
 
-#: client/helpdata.c:1408
+#: client/helpdata.c:1403
 #, fuzzy, c-format
 msgid "* Veteran units.\n"
 msgstr "Unités marines"
 
-#: client/helpdata.c:1412
+#: client/helpdata.c:1407
 #, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
@@ -8486,7 +8485,7 @@ msgstr ""
 "*  Chaque case travaillée qui rend plus de %d %s subira une pénalité de -1 "
 "quand la ville n'est pas en extase.\n"
 
-#: client/helpdata.c:1417
+#: client/helpdata.c:1412
 #, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when "
@@ -8495,55 +8494,55 @@ msgstr ""
 "* Chaque case travaillée avec au moins 1 %s rendra %d %s supplémentaire "
 "quand la ville est en extase.\n"
 
-#: client/helpdata.c:1422
+#: client/helpdata.c:1417
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
 msgstr ""
 "* Chaque case travaillée avec au moins 1 %s rendra %d %s supplémentaire.\n"
 
-#: client/helpdata.c:1428
+#: client/helpdata.c:1423
 #, fuzzy, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr "* La production de %s subira du gaspillage.\n"
 
-#: client/helpdata.c:1431
+#: client/helpdata.c:1426
 #, fuzzy, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr "* La production de %s subira du gaspillage.\n"
 
-#: client/helpdata.c:1434
+#: client/helpdata.c:1429
 #, fuzzy, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr "* La production de %s subira du gaspillage.\n"
 
-#: client/helpdata.c:1440
+#: client/helpdata.c:1435
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1443
+#: client/helpdata.c:1438
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1446
+#: client/helpdata.c:1441
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
 
-#: client/helpdata.c:1457
+#: client/helpdata.c:1452
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* Vous permet de construire %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:1482
+#: client/helpdata.c:1477
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:1490
+#: client/helpdata.c:1485
 #, c-format
 msgid "%s%d unhappy"
 msgstr "%s%d mécontents"
@@ -9029,12 +9028,12 @@ msgid "Username"
 msgstr "Nom d'utilisateur"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:2030
 msgid "Flag"
 msgstr "Drapeau"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:655
-#: client/gui-gtk-2.0/pages.c:1367 client/gui-gtk-2.0/pages.c:1923
+#: client/gui-gtk-2.0/pages.c:1471 client/gui-gtk-2.0/pages.c:2032
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:942
 #: client/gui-win32/dialogs.c:546 client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -9049,7 +9048,7 @@ msgid "Score"
 msgstr "Score"
 
 # AR
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1373
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1477
 msgid "Team"
 msgstr "Équipe"
 
@@ -9120,18 +9119,18 @@ msgid "No %s could be disbanded."
 msgstr "Aucun %s n'a pu être congédié."
 
 # AR
-#: client/servers.c:344
+#: client/servers.c:345
 #, fuzzy
 msgid "Could not open temp file."
 msgstr "Impossible d'ouvrir \"%s\"."
 
-#: client/servers.c:406
+#: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr ""
 "La valeur de $http_proxy ou metaserver est incorrecte, elle doit commencer "
 "par 'http://'"
 
-#: client/servers.c:412
+#: client/servers.c:413
 msgid "Failed looking up metaserver's host"
 msgstr "Échec de la recherche de la machine hôte du métaserveur"
 
@@ -10442,8 +10441,8 @@ msgstr "Choisissez ce que vous voulez piller :"
 msgid "Unit"
 msgstr "Unité"
 
-#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:1341
-#: client/gui-gtk-2.0/pages.c:1919 client/gui-gtk-2.0/wldlg.c:1030
+#: client/gui-gtk-2.0/dialogs.c:507 client/gui-gtk-2.0/pages.c:1445
+#: client/gui-gtk-2.0/pages.c:2028 client/gui-gtk-2.0/wldlg.c:1030
 #: client/gui-mui/plrdlg.c:166 client/gui-win32/connectdlg.c:937
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:296 data/Freeciv.in:80
 msgid "Name"
@@ -10465,62 +10464,67 @@ msgstr "Veiller les unité_s inactives"
 msgid "_Nations:"
 msgstr "_Nations :"
 
-#: client/gui-gtk-2.0/dialogs.c:762 data/Freeciv.in:3128
+#: client/gui-gtk-2.0/dialogs.c:763 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
 msgstr "Quelle nation voulez-vous être ?"
 
-#: client/gui-gtk-2.0/dialogs.c:765
+#: client/gui-gtk-2.0/dialogs.c:765 client/gui-win32/connectdlg.c:990
+#: data/Freeciv.in:3371
+msgid "Pick Nation"
+msgstr "Prendre un nation"
+
+#: client/gui-gtk-2.0/dialogs.c:774
 msgid "Random Nation"
 msgstr "Nation aléatoire"
 
-#: client/gui-gtk-2.0/dialogs.c:777 client/gui-win32/dialogs.c:521
+#: client/gui-gtk-2.0/dialogs.c:786 client/gui-win32/dialogs.c:521
 msgid "Select a nation"
 msgstr "Choisissez une nation"
 
-#: client/gui-gtk-2.0/dialogs.c:795
+#: client/gui-gtk-2.0/dialogs.c:804
 msgid "_Properties"
 msgstr "_Propriétés"
 
-#: client/gui-gtk-2.0/dialogs.c:815
+#: client/gui-gtk-2.0/dialogs.c:824
 msgid "_Leader:"
 msgstr "_Chef :"
 
-#: client/gui-gtk-2.0/dialogs.c:822
+#: client/gui-gtk-2.0/dialogs.c:831
 msgid "_Female"
 msgstr "_Femme"
 
-#: client/gui-gtk-2.0/dialogs.c:827
+#: client/gui-gtk-2.0/dialogs.c:836
 msgid "_Male"
 msgstr "Ho_mme"
 
-#: client/gui-gtk-2.0/dialogs.c:854
+#: client/gui-gtk-2.0/dialogs.c:863
 msgid "_City Styles:"
 msgstr "Styles des villes (_c) :"
 
-#: client/gui-gtk-2.0/dialogs.c:893
+#: client/gui-gtk-2.0/dialogs.c:902
 msgid "L_egend"
 msgstr "Lég_ende"
 
-#: client/gui-gtk-2.0/dialogs.c:1223 client/gui-xaw/dialogs.c:1476
+#: client/gui-gtk-2.0/dialogs.c:1232 client/gui-xaw/dialogs.c:1476
 msgid "You must select your sex."
 msgstr "Vous devez choisir entre homme ou femme."
 
-#: client/gui-gtk-2.0/dialogs.c:1228 client/gui-xaw/dialogs.c:1481
+#: client/gui-gtk-2.0/dialogs.c:1237 client/gui-xaw/dialogs.c:1481
 msgid "You must select your city style."
 msgstr "Vous devez choisir le style de vos villes."
 
-#: client/gui-gtk-2.0/dialogs.c:1237 client/gui-mui/dialogs.c:1519
+#: client/gui-gtk-2.0/dialogs.c:1246 client/gui-mui/dialogs.c:1519
 #: client/gui-win32/dialogs.c:354 client/gui-xaw/dialogs.c:1489
 msgid "You must type a legal name."
 msgstr "Vous devez taper un nom valide."
 
-#: client/gui-gtk-2.0/dialogs.c:1277 client/gui-mui/dialogs.c:1747
+#: client/gui-gtk-2.0/dialogs.c:1290 client/gui-mui/dialogs.c:1747
 #: client/gui-mui/dialogs.c:1771 client/gui-win32/citydlg.c:1459
 #: data/Freeciv.in:2484
 msgid "Upgrade Unit!"
 msgstr "Mettre à jour l'unité !"
 
-#: client/gui-gtk-2.0/dialogs.c:1286 client/gui-gtk-2.0/repodlgs.c:1161
+#: client/gui-gtk-2.0/dialogs.c:1299 client/gui-gtk-2.0/repodlgs.c:1161
 #: client/gui-mui/dialogs.c:1760 client/gui-mui/repodlgs.c:724
 #: client/gui-win32/citydlg.c:1452 client/gui-win32/repodlgs.c:573
 #: data/Freeciv.in:2473
@@ -10753,51 +10757,62 @@ msgstr ""
 msgid "Not _ready"
 msgstr "Pas p_rêt"
 
-#: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk-2.0/pages.c:1431
+#: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk-2.0/pages.c:1540
 msgid "_Ready"
 msgstr "P_rêt"
 
-#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/pages.c:1968
+#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/gui_main.c:1390
+#: client/gui-gtk-2.0/pages.c:2077
 msgid "_Start"
 msgstr "_Démarrage"
 
-#: client/gui-gtk-2.0/gui_main.c:1410
+#: client/gui-gtk-2.0/gui_main.c:1395 client/gui-gtk-2.0/pages.c:1535
+#, fuzzy
+msgid "_Observe"
+msgstr "Observateur"
+
+#: client/gui-gtk-2.0/gui_main.c:1397
+#, fuzzy
+msgid "_Take player"
+msgstr "Marché"
+
+#: client/gui-gtk-2.0/gui_main.c:1419
 msgid "<AI>"
 msgstr "<IA>"
 
-#: client/gui-gtk-2.0/gui_main.c:1413
+#: client/gui-gtk-2.0/gui_main.c:1422
 msgid "<Novice AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1416
+#: client/gui-gtk-2.0/gui_main.c:1425
 #, fuzzy
 msgid "<Easy AI>"
 msgstr "<IA>"
 
-#: client/gui-gtk-2.0/gui_main.c:1419
+#: client/gui-gtk-2.0/gui_main.c:1428
 msgid "<Normal AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1422
+#: client/gui-gtk-2.0/gui_main.c:1431
 #, fuzzy
 msgid "<Hard AI>"
 msgstr "<IA>"
 
-#: client/gui-gtk-2.0/gui_main.c:1432 client/gui-win32/dialogs.c:598
+#: client/gui-gtk-2.0/gui_main.c:1441 client/gui-win32/dialogs.c:598
 msgid "Random"
 msgstr "Aléatoire"
 
-#: client/gui-gtk-2.0/gui_main.c:1494
+#: client/gui-gtk-2.0/gui_main.c:1503
 #, fuzzy
 msgid "Observer"
 msgstr "Observateur"
 
-#: client/gui-gtk-2.0/gui_main.c:1494
+#: client/gui-gtk-2.0/gui_main.c:1503
 #, fuzzy
 msgid "Detached"
 msgstr "Mort"
 
-#: client/gui-gtk-2.0/gui_main.c:1764
+#: client/gui-gtk-2.0/gui_main.c:1773
 msgid "Are you sure you want to quit?"
 msgstr "Voulez-vous vraiment quitter?"
 
@@ -10817,7 +10832,7 @@ msgstr "Ctrl+W"
 #: client/gui-gtk-2.0/happiness.c:122 client/gui-mui/citydlg.c:1373
 #: client/gui-mui/citydlg.c:1510 client/gui-win32/citydlg.c:729
 #: client/gui-win32/happiness.c:94 client/gui-xaw/menu.c:247
-#: data/helpdata.txt:1350
+#: data/helpdata.txt:1340
 msgid "Happiness"
 msgstr "Bonheur"
 
@@ -11187,7 +11202,7 @@ msgstr "_Gouvernement"
 #: client/gui-gtk-2.0/menu.c:735 client/gui-gtk-2.0/menu.c:737
 #: client/gui-gtk-2.0/menu.c:739 client/gui-gtk-2.0/menu.c:741
 #: client/gui-gtk-2.0/menu.c:743 client/gui-gtk-2.0/menu.c:745
-#: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1279
+#: client/gui-xaw/menu.c:246 data/Freeciv.in:2027 data/helpdata.txt:1269
 msgid "Government"
 msgstr "Gouvernement"
 
@@ -11265,7 +11280,7 @@ msgstr "_Productions de la ville"
 
 #: client/gui-gtk-2.0/menu.c:770 client/gui-mui/gui_main.c:236
 #: client/gui-win32/menu.c:339 client/gui-xaw/menu.c:148
-#: client/gui-xaw/menu.c:244 manual/civmanual.c:220 data/helpdata.txt:1179
+#: client/gui-xaw/menu.c:244 manual/civmanual.c:220 data/helpdata.txt:1169
 msgid "Terrain"
 msgstr "Terrain"
 
@@ -11807,7 +11822,7 @@ msgstr "Port"
 msgid "Version"
 msgstr "Version"
 
-#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:1925
+#: client/gui-gtk-2.0/pages.c:703 client/gui-gtk-2.0/pages.c:2034
 #: client/gui-mui/connectdlg.c:163 client/gui-win32/connectdlg.c:869
 #: client/gui-win32/connectdlg.c:947
 msgid "Status"
@@ -11850,106 +11865,134 @@ msgstr "Conf_irmer le mot de passe:"
 msgid "C_onnect"
 msgstr "C_onnexion"
 
-#: client/gui-gtk-2.0/pages.c:1068
+#: client/gui-gtk-2.0/pages.c:1083
 #, fuzzy, c-format
 msgid "Player name: %s"
 msgstr "?joueur:Nom"
 
-#: client/gui-gtk-2.0/pages.c:1072
+#: client/gui-gtk-2.0/pages.c:1087
 #, fuzzy, c-format
 msgid "Host: %s"
 msgstr "Hôte :"
 
-#: client/gui-gtk-2.0/pages.c:1079
+#: client/gui-gtk-2.0/pages.c:1094
 msgid "Player/conn info"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1106
+#: client/gui-gtk-2.0/pages.c:1121
 #, fuzzy, c-format
 msgid "%s info"
 msgstr "Informations"
 
-#: client/gui-gtk-2.0/pages.c:1116
+#: client/gui-gtk-2.0/pages.c:1131
 #, fuzzy
 msgid "Toggle player ready"
 msgstr "aitoggle <nom-joueur>"
 
-#: client/gui-gtk-2.0/pages.c:1125
+#: client/gui-gtk-2.0/pages.c:1140
 #, fuzzy
 msgid "Pick nation"
 msgstr "Prendre un nation"
 
-#: client/gui-gtk-2.0/pages.c:1137
+#: client/gui-gtk-2.0/pages.c:1152
 msgid "Observe this player"
 msgstr ""
 
+#: client/gui-gtk-2.0/pages.c:1160
+#, fuzzy
+msgid "Take this player"
+msgstr "Villes"
+
+#: client/gui-gtk-2.0/pages.c:1175
+#, fuzzy
+msgid "Cut connection"
+msgstr "Coupure de la connexion %s."
+
+#: client/gui-gtk-2.0/pages.c:1185
+#, fuzzy
+msgid "Aitoggle player"
+msgstr "aitoggle <nom-joueur>"
+
+#: client/gui-gtk-2.0/pages.c:1193
+#, fuzzy
+msgid "Remove player"
+msgstr "Joueur %s retiré."
+
+#: client/gui-gtk-2.0/pages.c:1204
+msgid "Give info access"
+msgstr ""
+
+#: client/gui-gtk-2.0/pages.c:1212
+msgid "Give ctrl access"
+msgstr ""
+
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1169
+#: client/gui-gtk-2.0/pages.c:1273
 #, fuzzy, c-format
 msgid "Put on %s"
 msgstr "Population : %s"
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1377
 msgid "_Number of Players (including AI):"
 msgstr "Nombre de _joueurs (y compris IA) :"
 
-#: client/gui-gtk-2.0/pages.c:1296
+#: client/gui-gtk-2.0/pages.c:1400
 msgid "_AI Skill Level:"
 msgstr "Niveau de l'I_A :"
 
-#: client/gui-gtk-2.0/pages.c:1312
+#: client/gui-gtk-2.0/pages.c:1416
 msgid "_Ruleset:"
 msgstr "Jeu de _règles :"
 
-#: client/gui-gtk-2.0/pages.c:1320
+#: client/gui-gtk-2.0/pages.c:1424
 msgid "More Game _Options..."
 msgstr "Plus d'_options..."
 
-#: client/gui-gtk-2.0/pages.c:1345
+#: client/gui-gtk-2.0/pages.c:1449
 #, fuzzy
 msgid "Record"
 msgstr "Rapport"
 
-#: client/gui-gtk-2.0/pages.c:1350
+#: client/gui-gtk-2.0/pages.c:1454
 #, fuzzy
 msgid "Rating"
 msgstr "en attente"
 
-#: client/gui-gtk-2.0/pages.c:1356
+#: client/gui-gtk-2.0/pages.c:1460
 msgid "Ready"
 msgstr "Prêt"
 
-#: client/gui-gtk-2.0/pages.c:1363 data/default/units.ruleset:1739
+#: client/gui-gtk-2.0/pages.c:1467 data/default/units.ruleset:1738
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "Chef"
 
-#: client/gui-gtk-2.0/pages.c:1426
+#: client/gui-gtk-2.0/pages.c:1530
 msgid "Pick _Nation"
 msgstr "Prendre une _nation"
 
-#: client/gui-gtk-2.0/pages.c:1494
+#: client/gui-gtk-2.0/pages.c:1603
 msgid "Choose Saved Game to Load"
 msgstr "Choisissez la partie à charger"
 
-#: client/gui-gtk-2.0/pages.c:1586
+#: client/gui-gtk-2.0/pages.c:1695
 msgid "Choose Saved Game to _Load:"
 msgstr "Choisissez _la partie à charger :"
 
-#: client/gui-gtk-2.0/pages.c:1606 client/gui-gtk-2.0/pages.c:1794
-#: client/gui-gtk-2.0/pages.c:2211
+#: client/gui-gtk-2.0/pages.c:1715 client/gui-gtk-2.0/pages.c:1903
+#: client/gui-gtk-2.0/pages.c:2320
 msgid "_Browse..."
 msgstr "_Parcourir..."
 
-#: client/gui-gtk-2.0/pages.c:1673
+#: client/gui-gtk-2.0/pages.c:1782
 msgid "Choose a Scenario"
 msgstr "Choisissez un scénario"
 
-#: client/gui-gtk-2.0/pages.c:1755
+#: client/gui-gtk-2.0/pages.c:1864
 msgid "Choose a _Scenario:"
 msgstr "Choisissez un _scénario :"
 
-#: client/gui-gtk-2.0/pages.c:1927 client/gui-gtk-2.0/repodlgs.c:632
+#: client/gui-gtk-2.0/pages.c:2036 client/gui-gtk-2.0/repodlgs.c:632
 #: client/gui-gtk-2.0/wldlg.c:1030 client/gui-mui/citydlg.c:633
 #: client/gui-mui/citydlg.c:662 client/gui-mui/worklistclass.c:237
 #: client/gui-win32/citydlg.c:1087 client/gui-win32/connectdlg.c:952
@@ -11957,27 +12000,27 @@ msgstr "Choisissez un _scénario :"
 msgid "Type"
 msgstr "Type"
 
-#: client/gui-gtk-2.0/pages.c:1937
+#: client/gui-gtk-2.0/pages.c:2046
 msgid "Choose a _nation to play:"
 msgstr "Choisissez une _nation à diriger :"
 
-#: client/gui-gtk-2.0/pages.c:1957
+#: client/gui-gtk-2.0/pages.c:2066
 msgid "Game _Options..."
 msgstr "_Options du jeu..."
 
-#: client/gui-gtk-2.0/pages.c:2123 client/gui-win32/menu.c:578
+#: client/gui-gtk-2.0/pages.c:2232 client/gui-win32/menu.c:578
 msgid "Select Location to Save"
 msgstr "Choisissez l'endroit où sauvegarder"
 
-#: client/gui-gtk-2.0/pages.c:2208
+#: client/gui-gtk-2.0/pages.c:2317
 msgid "Save Game"
 msgstr "Sauvegarder la partie"
 
-#: client/gui-gtk-2.0/pages.c:2249
+#: client/gui-gtk-2.0/pages.c:2358
 msgid "Saved _Games:"
 msgstr "Parties sauve_gardées :"
 
-#: client/gui-gtk-2.0/pages.c:2276
+#: client/gui-gtk-2.0/pages.c:2385
 msgid "Save _Filename:"
 msgstr "Sauvegarder le _fichier :"
 
@@ -12356,7 +12399,7 @@ msgid "Units present"
 msgstr "Unités présentes"
 
 # AR
-#: client/gui-mui/citydlg.c:1469 data/helpdata.txt:820
+#: client/gui-mui/citydlg.c:1469 data/helpdata.txt:819
 msgid "City Improvements"
 msgstr "Bâtiments"
 
@@ -12592,7 +12635,7 @@ msgid "At Spy's Discretion"
 msgstr "Au choix de l'espion"
 
 #: client/gui-mui/dialogs.c:302 client/gui-xaw/menu.c:243
-#: data/helpdata.txt:837
+#: data/helpdata.txt:836
 msgid "Technology"
 msgstr "Technologie"
 
@@ -13917,10 +13960,6 @@ msgstr "Niveau de l'IA :"
 msgid "Game Options"
 msgstr "Options du jeu"
 
-#: client/gui-win32/connectdlg.c:990 data/Freeciv.in:3371
-msgid "Pick Nation"
-msgstr "Prendre un nation"
-
 #: client/gui-win32/connectdlg.c:992
 #, fuzzy
 msgid "Start Game"
@@ -14513,7 +14552,7 @@ msgstr "Connexion"
 msgid "Controls"
 msgstr "Contrôles"
 
-#: client/gui-xaw/menu.c:236 data/helpdata.txt:542
+#: client/gui-xaw/menu.c:236 data/helpdata.txt:541
 msgid "Chatline"
 msgstr "Discussion"
 
@@ -14521,7 +14560,7 @@ msgstr "Discussion"
 msgid "Playing"
 msgstr "Jouer"
 
-#: client/gui-xaw/menu.c:241 data/helpdata.txt:936
+#: client/gui-xaw/menu.c:241 data/helpdata.txt:935
 msgid "Combat"
 msgstr "Combat"
 
@@ -14529,7 +14568,7 @@ msgstr "Combat"
 msgid "ZOC"
 msgstr "ZDC"
 
-#: client/gui-xaw/menu.c:248 data/helpdata.txt:1423
+#: client/gui-xaw/menu.c:248 data/helpdata.txt:1413
 msgid "Space Race"
 msgstr "Course à l'espace"
 
@@ -15288,11 +15327,11 @@ msgstr ""
 "joueurs."
 
 #: data/helpdata.txt:433
+#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
 "    a: (a)uto-settler  (settler/worker units)\n"
-"    a: (a)uto-attack  (military units)\n"
 "    b: (b)uild city  (settler units)\n"
 "    b: help (b)uild wonder  (caravan units)\n"
 "    C: unit (c)onnect  (then left-click mouse to select destination)\n"
@@ -15361,7 +15400,7 @@ msgstr ""
 "  U: Décharge toutes les unités d'un bateau\n"
 "  x: auto-e(x)plore\n"
 
-#: data/helpdata.txt:468
+#: data/helpdata.txt:467
 msgid ""
 "Unit Movement:\n"
 "==============\n"
@@ -15395,7 +15434,7 @@ msgstr ""
 "  W: réveille les autres unités de la case\n"
 "  c: centre la vue sur l'unité\n"
 
-#: data/helpdata.txt:484
+#: data/helpdata.txt:483
 msgid ""
 "Main Map (Keys):\n"
 "================\n"
@@ -15419,7 +15458,7 @@ msgstr ""
 "        Ctrl-P: montre la production des villes on/off\n"
 "             t: montre les travailleurs (souris sur ou près de la ville)\n"
 
-#: data/helpdata.txt:495
+#: data/helpdata.txt:494
 msgid ""
 "Main Map (Mouse):\n"
 "=================\n"
@@ -15470,7 +15509,7 @@ msgstr ""
 "  Les villes qui sont en surbrillance sur la carte,\n"
 "  le sont aussi dans la fenêtre du rapport des villes."
 
-#: data/helpdata.txt:519
+#: data/helpdata.txt:518
 msgid ""
 "Dialogs and Reports:\n"
 "====================\n"
@@ -15512,7 +15551,7 @@ msgstr ""
 "\n"
 "Maj-Entrée: Fin du tour"
 
-#: data/helpdata.txt:543
+#: data/helpdata.txt:542
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -15520,7 +15559,7 @@ msgstr ""
 "Le client a une interface de discussion très simple. Les lignes que vous "
 "tapez sont envoyées à tous les joueurs, à l'exception :"
 
-#: data/helpdata.txt:546
+#: data/helpdata.txt:545
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
@@ -15528,7 +15567,7 @@ msgstr ""
 "  - des messages commençant par '/' qui sont interprétés comme des commandes "
 "et sont exécutés si vous avez les droits d'accès requis."
 
-#: data/helpdata.txt:549
+#: data/helpdata.txt:548
 msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
@@ -15539,7 +15578,7 @@ msgstr ""
 "'john' correspondra et s'il ne trouve rien, cherche un nom d'utilisateur "
 "commençant par 'John' (comme'Johnathan')."
 
-#: data/helpdata.txt:554
+#: data/helpdata.txt:553
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
@@ -15548,17 +15587,17 @@ msgstr ""
 "l'utilisateur nommé 'John' (pas le joueur). 'Johnathan' correspondra "
 "également ;"
 
-#: data/helpdata.txt:558
+#: data/helpdata.txt:557
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr ""
 "  - Les message commençant par '.' seront envoyés à tous vos alliés et à eux "
 "seulement."
 
-#: data/helpdata.txt:563
+#: data/helpdata.txt:562
 msgid "Worklist Editor"
 msgstr "Éditeur de liste de travail"
 
-#: data/helpdata.txt:564
+#: data/helpdata.txt:563
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor you can create lists "
@@ -15569,7 +15608,7 @@ msgstr ""
 "globales. En utilisant cet éditeur vous pouvez établir des listes spécifiant "
 "ce que vous voulez construire dans les tours à venir."
 
-#: data/helpdata.txt:568
+#: data/helpdata.txt:567
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -15580,7 +15619,7 @@ msgstr ""
 "bouton d'aide pour obtenir des informations sur l'article sélectionné. "
 "Presser Aide sans avoir sélectionner d'article affichera cette page."
 
-#: data/helpdata.txt:572
+#: data/helpdata.txt:571
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -15589,7 +15628,7 @@ msgstr ""
 "sur l'article à enlever. Utiliser les boutons en dessous de la liste de "
 "travail pour déplacer les articles vers le haut et/ou le bas de la liste."
 
-#: data/helpdata.txt:575
+#: data/helpdata.txt:574
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -15603,7 +15642,7 @@ msgstr ""
 "des articles de la liste des articles disponibles dans la liste de travail "
 "et Suppr pour effacer l'article sélectionné dans la liste de travail."
 
-#: data/helpdata.txt:581
+#: data/helpdata.txt:580
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
@@ -15611,11 +15650,11 @@ msgstr ""
 "Si vous voulez acheter la première des unités sur la liste, vous pouvez le "
 "faire depuis le dialogue général de la ville."
 
-#: data/helpdata.txt:587
+#: data/helpdata.txt:586
 msgid "Strategy and tactics"
 msgstr "Stratégie et Tactiques"
 
-#: data/helpdata.txt:588
+#: data/helpdata.txt:587
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -15623,7 +15662,7 @@ msgstr ""
 "Bien que chaque partie soit différente, il y a une stratégie simple que la "
 "plupart des joueurs suivent, surtout au début de la partie."
 
-#: data/helpdata.txt:591
+#: data/helpdata.txt:590
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
@@ -15631,7 +15670,7 @@ msgstr ""
 "Ces étapes peuvent varier selon les options du serveur, mais en général, les "
 "étapes sont : "
 
-#: data/helpdata.txt:594
+#: data/helpdata.txt:593
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -15657,7 +15696,7 @@ msgstr ""
 " 9. Élaborer sa propre stratégie pour la partie.\n"
 "10. Interagir avec les autres joueurs (diplomatie).\n"
 
-#: data/helpdata.txt:606
+#: data/helpdata.txt:605
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -15680,7 +15719,7 @@ msgstr ""
 "à rechercher un bon emplacement et l'avantage d'avoir votre première ville "
 "construite le plus tôt possible."
 
-#: data/helpdata.txt:617
+#: data/helpdata.txt:616
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -15700,7 +15739,7 @@ msgstr ""
 "et utiliser la seconde pour explorer. Bien évidemment, si vous commencez la "
 "partie avec un explorateur, utilisez le à cet effet !"
 
-#: data/helpdata.txt:626
+#: data/helpdata.txt:625
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -15720,7 +15759,7 @@ msgstr ""
 "l'ordre de leur force) : Guerrier, Phalange, Garde, Mousquetaires, et "
 "Fusiliers."
 
-#: data/helpdata.txt:636
+#: data/helpdata.txt:635
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -15736,7 +15775,7 @@ msgstr ""
 "était retranchée. Quand une nouvelle ville est construite, elle commence par "
 "fabriquer la meilleure unité défensive disponible de la liste ci-dessus."
 
-#: data/helpdata.txt:643
+#: data/helpdata.txt:642
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -15759,7 +15798,7 @@ msgstr ""
 "population importante accroît à la fois la production et le taux de "
 "recherche de votre civilisation."
 
-#: data/helpdata.txt:654
+#: data/helpdata.txt:653
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -15776,7 +15815,7 @@ msgstr ""
 "terrains peuvent être améliorés en construisant des routes, en irriguant, en "
 "creusant des mines, etc."
 
-#: data/helpdata.txt:662
+#: data/helpdata.txt:661
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -15797,7 +15836,7 @@ msgstr ""
 "des terres, mais gardez à l'esprit qu'il sera plus difficile pour vos "
 "ennemis de trouver une ville qui se situe à l'intérieur des terres."
 
-#: data/helpdata.txt:671
+#: data/helpdata.txt:670
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -15821,7 +15860,7 @@ msgstr ""
 
 # FR : le terme 'band' fait allusion à la bande en haut à gauche de la fenetre
 # de ville. Perdu dans la traduction.
-#: data/helpdata.txt:681
+#: data/helpdata.txt:680
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -15831,7 +15870,7 @@ msgstr ""
 "campagne en cliquant sur une case de campagne occupée. L'habitant peut alors "
 "être transféré vers une des autres activités mentionnées plus haut."
 
-#: data/helpdata.txt:686
+#: data/helpdata.txt:685
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -15841,7 +15880,7 @@ msgstr ""
 "la case centrale, ils seront réaffectés afin d'obtenir la production "
 "agricole maximale."
 
-#: data/helpdata.txt:692
+#: data/helpdata.txt:691
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -15854,7 +15893,7 @@ msgstr ""
 "aucune de vos villes, car les villes mécontentes ne produisent rien, et se "
 "révolteront rapidement."
 
-#: data/helpdata.txt:698
+#: data/helpdata.txt:697
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -15876,7 +15915,7 @@ msgstr ""
 "technologiques. Les Diplomates sont très pratiques et SERONT rentables par "
 "la suite."
 
-#: data/helpdata.txt:708
+#: data/helpdata.txt:707
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -15900,7 +15939,7 @@ msgstr ""
 "  - Certaines merveilles sont rendues inefficaces par la découverte de "
 "certaines technologies."
 
-#: data/helpdata.txt:719
+#: data/helpdata.txt:718
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -15923,7 +15962,7 @@ msgstr ""
 "Vous y découvrirez d'autres astuces sur le jeu, et des informations sur "
 "comment contacter d'autres joueurs."
 
-#: data/helpdata.txt:730
+#: data/helpdata.txt:729
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -15944,7 +15983,7 @@ msgstr ""
 "l'autre joueur est connecté (ou bien est une IA) alors le menu diplomatique "
 "s'affichera."
 
-#: data/helpdata.txt:740
+#: data/helpdata.txt:739
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -15966,7 +16005,7 @@ msgstr ""
 "\n"
 "    - et donner de l'or."
 
-#: data/helpdata.txt:750
+#: data/helpdata.txt:749
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can consider this buying and selling."
@@ -15976,7 +16015,7 @@ msgstr ""
 "considérer cela comme du commerce."
 
 # AR
-#: data/helpdata.txt:754
+#: data/helpdata.txt:753
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -15991,7 +16030,7 @@ msgstr ""
 "   - Si vous ne pouvez pas voir la ville sur la carte, alors vous ne pourrez "
 "pas la demander."
 
-#: data/helpdata.txt:760
+#: data/helpdata.txt:759
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -16006,7 +16045,7 @@ msgstr ""
 "d'autres villes). Faites donc attention à ne pas donner plus à votre "
 "adversaire que ce que vous pensiez."
 
-#: data/helpdata.txt:771
+#: data/helpdata.txt:770
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
 "It deploys the available workers on the free tiles around the city to "
@@ -16097,7 +16136,7 @@ msgstr ""
 "informations de fond et des exemples de préréglages dans le fichier README."
 "cma.fr fourni avec Freeciv.\n"
 
-#: data/helpdata.txt:821
+#: data/helpdata.txt:820
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -16109,7 +16148,7 @@ msgstr ""
 "dépenses d'entretien à chaque tour. Si vous ne pouvez pas payer les dépenses "
 "pour un bâtiment, alors il sera vendu d'office."
 
-#: data/helpdata.txt:838
+#: data/helpdata.txt:837
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -16118,7 +16157,7 @@ msgstr ""
 "capacités de votre civilisation à développer de nouvelles unités et "
 "constructions urbaines."
 
-#: data/helpdata.txt:849
+#: data/helpdata.txt:848
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -16126,7 +16165,7 @@ msgstr ""
 "Chaque merveille a des avantages spécifiques pour votre civilisation. Chaque "
 "merveille est unique et se situe dans la ville qui l'a construite."
 
-#: data/helpdata.txt:860
+#: data/helpdata.txt:859
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -16136,7 +16175,7 @@ msgstr ""
 "reconnaissance. L'utilité d'une unité particulière dans chacun de ces rôles "
 "dépend de sa force en attaque, en défense et son aptitude à se mouvoir."
 
-#: data/helpdata.txt:865
+#: data/helpdata.txt:864
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
@@ -16146,7 +16185,7 @@ msgstr ""
 "Hélicoptère (les Hélicoptères sont suffisamment différents des autres unités "
 "aériennes pour qu'on les considère comme un type d'unité séparé)."
 
-#: data/helpdata.txt:870
+#: data/helpdata.txt:869
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -16176,7 +16215,7 @@ msgstr ""
 "n'ont pas d'effet sur les gens, et ne peuvent attaquer les unités ennemies "
 "ou capturer des villes adverses."
 
-#: data/helpdata.txt:883
+#: data/helpdata.txt:882
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -16193,7 +16232,7 @@ msgstr ""
 "dans les villes côtières, mais ne peuvent pas entrer dans une ville ennemie "
 "pour la capturer, même si la ville est sans défense."
 
-#: data/helpdata.txt:890
+#: data/helpdata.txt:889
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -16219,7 +16258,7 @@ msgstr ""
 "village survolé peut disparaître."
 
 # FR: manque traduction de "The number of turns..."
-#: data/helpdata.txt:902
+#: data/helpdata.txt:901
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -16237,7 +16276,7 @@ msgstr ""
 "autres unités aériennes, les Hélicoptères peuvent capturer des villes "
 "ennemies."
 
-#: data/helpdata.txt:909
+#: data/helpdata.txt:908
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -16270,7 +16309,7 @@ msgstr ""
 "terminent pas dans une ville. Les unités endommagées en sentinelle se "
 "réveillent quand elles ont regagné tous leurs points de vie."
 
-#: data/helpdata.txt:926
+#: data/helpdata.txt:925
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -16280,7 +16319,7 @@ msgstr ""
 "réduire d'un point la population d'une ville sans Remparts en cas d'attaque "
 "victorieuse."
 
-#: data/helpdata.txt:937
+#: data/helpdata.txt:936
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
@@ -16288,7 +16327,7 @@ msgstr ""
 "Règles par défaut des combats\n"
 "------------------------------"
 
-#: data/helpdata.txt:938
+#: data/helpdata.txt:937
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -16299,36 +16338,24 @@ msgstr ""
 "était un missile). Le résultat dépend de plusieurs facteurs, y compris la "
 "chance."
 
-#: data/helpdata.txt:943
+#: data/helpdata.txt:942
 msgid "First, the attacker's strength is modified."
 msgstr "Tout d'abord, la force de l'attaquant est modifiée."
 
-#: data/helpdata.txt:945
+#: data/helpdata.txt:944
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " - Si l'attaquant est vétéran, sa force est multipliée par 1,5."
 
-#: data/helpdata.txt:947
-msgid ""
-" - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 movement "
-"point left, its strength is divided by 3; if it has 2/3 movement point, its "
-"strength is multiplied by 2/3.  If the attacker has 1 or more movement "
-"points left, no further modifications occur."
-msgstr ""
-" - les attaquants \"épuisés\" sont plus faibles: si l'attaquant n'a plus "
-"qu'1/3 de ses points de mouvement, sa force est divisée par 3, s'il ne lui "
-"reste plus que les 2/3, sa force est multiplié par 2/3. Si l'attaquant a "
-"gardé au moins 1 point de mouvement, aucune modification n'interviendra ;"
-
-#: data/helpdata.txt:953
+#: data/helpdata.txt:946
 msgid "Next, the defender's strength is modified."
 msgstr "Ensuite, la force du défenseur est modifiée."
 
-#: data/helpdata.txt:955
+#: data/helpdata.txt:948
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - si le défenseur est vétéran, sa force est multipliée par 1,5 ;"
 
-#: data/helpdata.txt:958
+#: data/helpdata.txt:951
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
@@ -16336,7 +16363,7 @@ msgstr ""
 " - dès lors, la force du défenseur est multipliée par le facteur de défense "
 "du terrain qu'il occupe ;"
 
-#: data/helpdata.txt:961
+#: data/helpdata.txt:954
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
@@ -16344,7 +16371,7 @@ msgstr ""
 " - Ensuite, la force de défense est doublée si il s'agit d'un Lancier se "
 "défendant contre des unités montées."
 
-#: data/helpdata.txt:964
+#: data/helpdata.txt:957
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -16352,7 +16379,7 @@ msgstr ""
 " - si le défenseur est un Croiseur AEGIS se défendant contre des unités "
 "volantes (y compris missiles et Hélicoptères), la défense est quintuplée ;"
 
-#: data/helpdata.txt:968
+#: data/helpdata.txt:961
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -16362,7 +16389,7 @@ msgstr ""
 "possédant une Batterie SAM et si l'attaquant est une unité aérienne (sauf si "
 "c'est un Hélicoptère) ou un missile."
 
-#: data/helpdata.txt:972
+#: data/helpdata.txt:965
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
@@ -16370,7 +16397,7 @@ msgstr ""
 " - une défense SDI double encore la force du défenseur contre les attaques "
 "des missiles ;"
 
-#: data/helpdata.txt:975
+#: data/helpdata.txt:968
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -16378,7 +16405,7 @@ msgstr ""
 " - si l'attaquant est un navire et si le défenseur est dans une ville avec "
 "une Défense Côtière, la force du défenseur est doublée ;"
 
-#: data/helpdata.txt:978
+#: data/helpdata.txt:971
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -16387,7 +16414,7 @@ msgstr ""
 "Hélicoptères, les unités défendant une ville avec des Remparts ont leur "
 "force triplée ;"
 
-#: data/helpdata.txt:982
+#: data/helpdata.txt:975
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
@@ -16395,7 +16422,7 @@ msgstr ""
 " - si un défenseur est dans une forteresse (hors d'une ville), sa force est "
 "doublée ;"
 
-#: data/helpdata.txt:985
+#: data/helpdata.txt:978
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
@@ -16403,7 +16430,7 @@ msgstr ""
 " - enfin, si le défenseur est une unité au sol, et s'il est soit retranché "
 "soit à l'intérieur d'une ville, sa force est multipliée par 1,5."
 
-#: data/helpdata.txt:988
+#: data/helpdata.txt:981
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -16413,12 +16440,12 @@ msgstr ""
 "automatiquement perdu. Sinon, si le défenseur a une force de 0, il sera "
 "perdu."
 
-#: data/helpdata.txt:992
+#: data/helpdata.txt:985
 msgid "The firepower of the attacker and defender are also modified."
 msgstr ""
 "Les puissances de de feu de l'attaquant et du défenseur sont aussi modifiées."
 
-#: data/helpdata.txt:994
+#: data/helpdata.txt:987
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -16427,7 +16454,7 @@ msgstr ""
 "puissance de feu de l'attaquant est doublée et la puissance de feu du bateau "
 "est réduite à 1."
 
-#: data/helpdata.txt:997
+#: data/helpdata.txt:990
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
@@ -16435,7 +16462,7 @@ msgstr ""
 " - Si un Chasseur attaque un hélicoptère, la puissance de feu de "
 "l'hélicoptère est réduite à 1."
 
-#: data/helpdata.txt:1000
+#: data/helpdata.txt:993
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
@@ -16443,7 +16470,7 @@ msgstr ""
 " - Si un bateau attaque une unité terrestre sur la terre, la puissance de "
 "feu de chacun d'entre eux est réduite à 1."
 
-#: data/helpdata.txt:1003
+#: data/helpdata.txt:996
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -16462,7 +16489,7 @@ msgstr ""
 "puissance de feu du défenseur. La première unité à atteindre 0 (ou moins) "
 "point de vie perd. "
 
-#: data/helpdata.txt:1018
+#: data/helpdata.txt:1011
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -16475,7 +16502,7 @@ msgstr ""
 "l'Académie de Guerre de Sun Tzu (et si elle n'est pas obsolète), l'unité "
 "sera d'office vétéran. Sinon, la chance de devenir un vétéran est de 50%."
 
-#: data/helpdata.txt:1024
+#: data/helpdata.txt:1017
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -16483,7 +16510,7 @@ msgstr ""
 "Si l'attaquant est une unité au sol et gagne, et si le défenseur est dans "
 "une ville sans Remparts, la taille de la ville est réduite de 1."
 
-#: data/helpdata.txt:1027
+#: data/helpdata.txt:1020
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -16492,11 +16519,11 @@ msgstr ""
 "forteresse, toutes les autres unités se situant sur la même case seront "
 "détruites avec le défenseur."
 
-#: data/helpdata.txt:1034
+#: data/helpdata.txt:1027
 msgid " Modifying Combat Rules"
 msgstr " Modifier les règles des combats"
 
-#: data/helpdata.txt:1035
+#: data/helpdata.txt:1028
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
@@ -16504,7 +16531,7 @@ msgstr ""
 "Modifier les règles des combats\n"
 "--------------------------------"
 
-#: data/helpdata.txt:1036
+#: data/helpdata.txt:1029
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
@@ -16512,7 +16539,7 @@ msgstr ""
 "Les règles de combat décrites plus haut peuvent être modifiées en changeant "
 "les entrées suivantes dans game.ruleset, dans la section combat_rules : "
 
-#: data/helpdata.txt:1039
+#: data/helpdata.txt:1032
 msgid ""
 " - killstack. (default: 1) If set to 0, units in the same tile of a lost "
 "defender are not destroyed. "
@@ -16520,30 +16547,22 @@ msgstr ""
 " - killstack. (défaut : 1) Si positionné à 0, les unités sur la même case "
 "qu'un défenseur perdant ne sont pas détruites. "
 
-#: data/helpdata.txt:1045
+#: data/helpdata.txt:1038
 msgid " Combat example 1"
 msgstr " Premier exemple de combat"
 
-#: data/helpdata.txt:1046
+#: data/helpdata.txt:1039
+#, fuzzy
 msgid ""
-"Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement points "
-"left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
-"with City Walls built on a Forest tile."
+"Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
+"HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
+"are veteran."
 msgstr ""
 "Supposons qu'un Canon vétéran (A:8, D:1, PV:20, F:1) ayant 2/3 points de "
 "mouvement attaque un Mousquetaire non vétéran (A:3, D:3, PV:20, F:1) à l' "
 "intérieur d'une ville ayant un Rempart construit sur une case de Forêt."
 
-#: data/helpdata.txt:1050
-msgid ""
-"The attacker's base strength is 8.  Veteran status makes this 12, but "
-"because it only has 2/3 movement points its final strength is 8."
-msgstr ""
-"La force de base de l'attaquant est 8. Le statut de vétéran donne 12, mais "
-"puisqu'il ne reste que 2/3 points de mouvement, sa force d'attaque finale "
-"est 8."
-
-#: data/helpdata.txt:1053
+#: data/helpdata.txt:1043
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -16555,7 +16574,7 @@ msgstr ""
 "donne 13,5. C'est aussi une unité au sol à l'intérieur d'une ville, donc sa "
 "force passe à 20,25."
 
-#: data/helpdata.txt:1058
+#: data/helpdata.txt:1048
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -16565,11 +16584,11 @@ msgstr ""
 "les décimales tronquées, ce qui donne une force de 80 pour l'attaquant, et "
 "de 202 pour le défenseur."
 
-#: data/helpdata.txt:1062
+#: data/helpdata.txt:1052
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "Chacune des unités garde sa puissance de feu de 1 inchangée."
 
-#: data/helpdata.txt:1065
+#: data/helpdata.txt:1055
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -16580,7 +16599,7 @@ msgstr ""
 "ce nombre est supérieur à 202 (à peu près 28% de chance), le défenseur perd "
 "1 point de vie. Sinon (à peu près 72% de chance), l'attaquant perd 1 point."
 
-#: data/helpdata.txt:1076
+#: data/helpdata.txt:1066
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -16596,11 +16615,11 @@ msgstr ""
 "pourrait bien s'en sortir sans dommages, ou il pourrait perdre la plupart de "
 "ses points de vie, voire même perdre la bataille."
 
-#: data/helpdata.txt:1086
+#: data/helpdata.txt:1076
 msgid " Combat example 2"
 msgstr " Deuxième exemple de combat"
 
-#: data/helpdata.txt:1087
+#: data/helpdata.txt:1077
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -16611,12 +16630,12 @@ msgstr ""
 "l'intérieur d'une ville construite sur une case de Prairie, avec un Rempart "
 "et une Défense Côtière."
 
-#: data/helpdata.txt:1092
+#: data/helpdata.txt:1082
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr ""
 "La force de l'attaquant vaut 12, qui monte à 18 à cause du statut de vétéran."
 
-#: data/helpdata.txt:1095
+#: data/helpdata.txt:1085
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -16630,7 +16649,7 @@ msgstr ""
 "unités attaquant depuis la mer). Le défenseur est une unité au sol dans une "
 "ville, donc sa force totale est de 22,5."
 
-#: data/helpdata.txt:1101
+#: data/helpdata.txt:1091
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
@@ -16638,11 +16657,11 @@ msgstr ""
 "En interne, les valeurs pour la force de l'attaquant et du défenseur sont "
 "respectivement de 180 et 225."
 
-#: data/helpdata.txt:1104
+#: data/helpdata.txt:1094
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "La puissance de feu du bateau de guerre est ramenée de 2 à 1."
 
-#: data/helpdata.txt:1107
+#: data/helpdata.txt:1097
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -16653,7 +16672,7 @@ msgstr ""
 "est supérieur à 225 (à peu près 44% de chance) le défenseur perd 1 point de "
 "vie. Sinon, l'attaquant perd 1 point de vie."
 
-#: data/helpdata.txt:1118
+#: data/helpdata.txt:1108
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -16668,11 +16687,11 @@ msgstr ""
 "ses points durant le combat et doit s'attendre à ce qu'il ne lui reste plus "
 "de points de mouvement."
 
-#: data/helpdata.txt:1127
+#: data/helpdata.txt:1117
 msgid "Zones of Control"
 msgstr "Zones de Contrôle"
 
-#: data/helpdata.txt:1128
+#: data/helpdata.txt:1118
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -16681,7 +16700,7 @@ msgstr ""
 "empêche de vous déplacer librement dans une zone contrôlée (ou partiellement "
 "contrôlée) par les troupes ennemies."
 
-#: data/helpdata.txt:1132
+#: data/helpdata.txt:1122
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -16695,7 +16714,7 @@ msgstr ""
 "par l'ennemi signifie qu'une unité ennemie est placée dessus. Une case "
 "adjacente correspond à une des huit cases entourant l'unité."
 
-#: data/helpdata.txt:1138
+#: data/helpdata.txt:1128
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -16710,7 +16729,7 @@ msgstr ""
 "- un type d'unité qui ignore explicitement la ZDC, ie. : Diplomates et "
 "Espions."
 
-#: data/helpdata.txt:1144
+#: data/helpdata.txt:1134
 msgid ""
 "Notes:\n"
 "\n"
@@ -16752,7 +16771,7 @@ msgstr ""
 "déplacement VERS une case d'océan (embarquement) est aussi permis, grâce au "
 "cas spécial du déplacement vers une unité amie (ici, un bateau)."
 
-#: data/helpdata.txt:1164
+#: data/helpdata.txt:1154
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -16767,7 +16786,7 @@ msgstr ""
 "continuer à occuper les cases du parcours), vous pouvez faire votre chemin à "
 "travers le territoire ennemi."
 
-#: data/helpdata.txt:1171
+#: data/helpdata.txt:1161
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -16779,7 +16798,7 @@ msgstr ""
 "- les villes ennemies sans unités n'imposent plus de ZDC ;\n"
 "- le cas spécial du débarquement est nouveau."
 
-#: data/helpdata.txt:1180
+#: data/helpdata.txt:1170
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -16790,7 +16809,7 @@ msgstr ""
 "d'avoir assez de cases fertiles pour pouvoir supporter la croissance de la "
 "population."
 
-#: data/helpdata.txt:1185
+#: data/helpdata.txt:1175
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
@@ -16798,11 +16817,11 @@ msgstr ""
 "Le bénéfice net d'une case pour votre ville dépend du type de gouvernement "
 "et aussi des bâtiments et merveilles de la ville."
 
-#: data/helpdata.txt:1194
+#: data/helpdata.txt:1184
 msgid " Terrain Alterations"
 msgstr " Altérations de Terrain"
 
-#: data/helpdata.txt:1195
+#: data/helpdata.txt:1185
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
@@ -16810,7 +16829,7 @@ msgstr ""
 "Les colons et les ingénieurs ont la capacité de modifier les parcelles de "
 "terrain de différentes manières."
 
-#: data/helpdata.txt:1198
+#: data/helpdata.txt:1188
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -16826,7 +16845,7 @@ msgstr ""
 "tour. De plus, avec la technologie nécessaire, vous pouvez irriguer une case "
 "une deuxième fois, la transformant en champs labourés encore plus productifs."
 
-#: data/helpdata.txt:1206
+#: data/helpdata.txt:1196
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -16834,7 +16853,7 @@ msgstr ""
 "Certains types de terrains peuvent être minés, ce qui accroît le nombre de "
 "ressources (production) produit par une case."
 
-#: data/helpdata.txt:1209
+#: data/helpdata.txt:1199
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -16847,7 +16866,7 @@ msgstr ""
 "routes et voies ferrées permettent à vos unités de se déplacer plus "
 "rapidement, et accroissent le nombre de ressources produites par vos villes."
 
-#: data/helpdata.txt:1214
+#: data/helpdata.txt:1204
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -16855,7 +16874,7 @@ msgstr ""
 " - les unités utilisent seulement un tiers de point de mouvement quand elles "
 "se déplacent d'une case à une autre, si les deux cases sont une route ;"
 
-#: data/helpdata.txt:1217
+#: data/helpdata.txt:1207
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -16864,14 +16883,14 @@ msgstr ""
 "déplacent le long d'une voie ferrée. Vous pouvez vous déplacer indéfiniment "
 "dessus ;"
 
-#: data/helpdata.txt:1220
+#: data/helpdata.txt:1210
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 " - une route peut accroître le commerce produit par certains types de "
 "terrain ;"
 
-#: data/helpdata.txt:1223
+#: data/helpdata.txt:1213
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -16882,7 +16901,7 @@ msgstr ""
 "production agricole et le commerce, ou la production minière d'un "
 "pourcentage différent de 50%)."
 
-#: data/helpdata.txt:1228
+#: data/helpdata.txt:1218
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -16893,14 +16912,14 @@ msgstr ""
 "une seule unité peut être détruite à la fois. Voir la section d'aide sur les "
 "Combats pour plus de détails."
 
-#: data/helpdata.txt:1233
+#: data/helpdata.txt:1223
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 "Vous pouvez aussi construire des Bases Aériennes, où vos unités aériennes "
 "peuvent atterrir et se ravitailler."
 
-#: data/helpdata.txt:1236
+#: data/helpdata.txt:1226
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -16913,7 +16932,7 @@ msgstr ""
 "encore réduites en empilant plusieurs Colons/Ingénieurs, travaillant en "
 "équipe."
 
-#: data/helpdata.txt:1243
+#: data/helpdata.txt:1233
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -16932,11 +16951,11 @@ msgstr ""
 "peut avoir un minimum de rendement en nourriture production commerce (en "
 "fonction du jeu de règles)."
 
-#: data/helpdata.txt:1253
+#: data/helpdata.txt:1243
 msgid "  Pillaging"
 msgstr "  Pillage"
 
-#: data/helpdata.txt:1254
+#: data/helpdata.txt:1244
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -16948,7 +16967,7 @@ msgstr ""
 "et par unité. Selon les options du serveur, vous pouvez choisir quelle "
 "altération sera pillée, ou elles seront pillées dans l'ordre suivant:"
 
-#: data/helpdata.txt:1260
+#: data/helpdata.txt:1250
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -16966,7 +16985,7 @@ msgstr ""
 " - un chemin-de-fer ;\n"
 " - une route."
 
-#: data/helpdata.txt:1268
+#: data/helpdata.txt:1258
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -16982,7 +17001,7 @@ msgstr ""
 "Plaine, le pillage ne la reconvertira pas en Forêt -- pour cela, vous devrez "
 "convertir la case à nouveau avec un Colon ou un Ingénieur."
 
-#: data/helpdata.txt:1280
+#: data/helpdata.txt:1270
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -16990,7 +17009,7 @@ msgstr ""
 "Le type de gouvernement influe sur la productivité des villes et leur "
 "commerce, le moral des citoyens et de nombreux autres facteurs du jeu."
 
-#: data/helpdata.txt:1283
+#: data/helpdata.txt:1273
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -17004,7 +17023,7 @@ msgstr ""
 "révolution. Ceci entraînera une période d'Anarchie pendant 1 à 5 tours, puis "
 "vous pourrez choisir votre nouveau type de gouvernement."
 
-#: data/helpdata.txt:1290
+#: data/helpdata.txt:1280
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -17018,7 +17037,7 @@ msgstr ""
 "capitale, vos villes subiront un taux de corruption très élevé). Un Tribunal "
 "réduira le niveau de corruption dans une ville."
 
-#: data/helpdata.txt:1297
+#: data/helpdata.txt:1287
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -17033,7 +17052,7 @@ msgstr ""
 "réduira le niveau de gaspillage dans une ville. Le gaspillage peut aboutir à "
 "ce que vos villes ne produisent rien."
 
-#: data/helpdata.txt:1304
+#: data/helpdata.txt:1294
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -17046,7 +17065,7 @@ msgstr ""
 "conquérir d'autres civilisations, il est peut-être souhaitable de choisir un "
 "type de gouvernement plus orienté vers la guerre."
 
-#: data/helpdata.txt:1310
+#: data/helpdata.txt:1300
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -17058,11 +17077,11 @@ msgstr ""
 "Pensez à passer en République aussitôt que vous le pouvez ; obtenir des "
 "technologies avancées tôt dans la partie vous donne un sérieux avantage."
 
-#: data/helpdata.txt:1319
+#: data/helpdata.txt:1309
 msgid " Civil War"
 msgstr " Guerre Civile"
 
-#: data/helpdata.txt:1320
+#: data/helpdata.txt:1310
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -17075,7 +17094,7 @@ msgstr ""
 "(contrôlé par l'ordinateur), qui récupérera la moitié de votre trésorerie et "
 "toutes vos recherches."
 
-#: data/helpdata.txt:1326
+#: data/helpdata.txt:1316
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
@@ -17083,7 +17102,7 @@ msgstr ""
 "Les joueurs vont rester dans une période de guerre civile pendant juste un "
 "tour, après quoi l'empire entre dans un état d'Anarchie."
 
-#: data/helpdata.txt:1329
+#: data/helpdata.txt:1319
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -17095,7 +17114,7 @@ msgstr ""
 "conserver leur loyauté. Chaque ville qui vous célèbre réduit les chances de "
 "guerre civile, tandis que chaque ville en révolte les augmente."
 
-#: data/helpdata.txt:1335
+#: data/helpdata.txt:1325
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -17106,7 +17125,7 @@ msgstr ""
 "beaucoup moins de risque d'être contestés que ceux qui sont de nature plus "
 "tyrannique."
 
-#: data/helpdata.txt:1339
+#: data/helpdata.txt:1329
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -17118,7 +17137,7 @@ msgstr ""
 "possédant moins de 10 villes ne peuvent pas subir de guerre civile. Mais ce "
 "nombre est une option du serveur, et peut descendre jusqu'à au moins 6."
 
-#: data/helpdata.txt:1351
+#: data/helpdata.txt:1341
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -17133,7 +17152,7 @@ msgstr ""
 "mais quand vos habitants sont heureux, vos villes vous célèbrent, et votre "
 "production va s'accroître de façon importante."
 
-#: data/helpdata.txt:1358
+#: data/helpdata.txt:1348
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -17149,7 +17168,7 @@ msgstr ""
 "renversant votre gouvernement."
 
 # AR disorder ?
-#: data/helpdata.txt:1365
+#: data/helpdata.txt:1355
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -17163,7 +17182,7 @@ msgstr ""
 "une célébration. Ceci est désigné par le terme \"Extase\" dans le Rapport de "
 "Ville. Les effets de la célébration varient selon le type de gouvernement:"
 
-#: data/helpdata.txt:1372
+#: data/helpdata.txt:1362
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -17173,7 +17192,7 @@ msgstr ""
 "production pour les cases qui produisent plus de 2 unités de ressource "
 "(agricole, minière ou commerciale) ;"
 
-#: data/helpdata.txt:1376
+#: data/helpdata.txt:1366
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -17183,7 +17202,7 @@ msgstr ""
 "commerce des régimes Républicains/Démocratiques : 1 bonus de commerce pour "
 "toutes les cases qui produisent déjà au moins 1 commerce ;"
 
-#: data/helpdata.txt:1380
+#: data/helpdata.txt:1370
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -17193,7 +17212,7 @@ msgstr ""
 "s'accroître d'un point chaque tour tant qu'il y a suffisamment de nourriture "
 "et que le nombre d'habitants heureux est suffisant pour la célébration."
 
-#: data/helpdata.txt:1385
+#: data/helpdata.txt:1375
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -17210,7 +17229,7 @@ msgstr ""
 "votre gouvernement et de l'option 'cityfactor' du serveur), cette limite est "
 "réduite à 3."
 
-#: data/helpdata.txt:1395
+#: data/helpdata.txt:1385
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -17232,7 +17251,7 @@ msgstr ""
 "le bonheur des habitants (voir les sections correspondantes pour plus de "
 "détails)."
 
-#: data/helpdata.txt:1405
+#: data/helpdata.txt:1395
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -17262,7 +17281,7 @@ msgstr ""
 "règles choisies), ou en convertissant une partie de votre commerce en "
 "produits de luxe."
 
-#: data/helpdata.txt:1424
+#: data/helpdata.txt:1414
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -17274,7 +17293,7 @@ msgstr ""
 "arrive le premier sur Alpha du Centaure, la partie sera finie et vous aurez "
 "gagné (à moins que cette option du serveur ait été désactivée.)"
 
-#: data/helpdata.txt:1430
+#: data/helpdata.txt:1420
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -17291,7 +17310,7 @@ msgstr ""
 "d'aide pour ces articles, cela veut sans doute signifier que la course à "
 "l'espace est désactivée dans le serveur pour votre partie.)"
 
-#: data/helpdata.txt:1438
+#: data/helpdata.txt:1428
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -17302,7 +17321,7 @@ msgstr ""
 "des autres joueurs, choisissez le joueur dans le dialogue Joueurs et cliquez "
 "sur \"Vaisseau\"."
 
-#: data/helpdata.txt:1443
+#: data/helpdata.txt:1433
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -17313,7 +17332,7 @@ msgstr ""
 "offert pour l'arrivée à Alpha du Centaure, mais cela comptera quand même "
 "comme une victoire."
 
-#: data/helpdata.txt:1447
+#: data/helpdata.txt:1437
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -17321,7 +17340,7 @@ msgstr ""
 "Si la capitale d'une civilisation est capturée, le vaisseau qui a été lancé "
 "sera perdu, vous avez donc intérêt à bien défendre votre capitale!"
 
-#: data/helpdata.txt:1450
+#: data/helpdata.txt:1440
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -18696,125 +18715,54 @@ msgstr "percepteurs"
 msgid "?Taxman:T"
 msgstr "?Percepteurs:P"
 
-#: data/default/cities.ruleset:74 data/nation/armenian.ruleset:5
-#: data/nation/austrian.ruleset:5 data/nation/bavarian.ruleset:5
-#: data/nation/belgian.ruleset:5 data/nation/bosnia.ruleset:6
-#: data/nation/british.ruleset:5 data/nation/bulgarian.ruleset:5
-#: data/nation/byzantium.ruleset:5 data/nation/catalan.ruleset:5
-#: data/nation/cornish.ruleset:5 data/nation/croatian.ruleset:5
-#: data/nation/czech.ruleset:5 data/nation/danish.ruleset:5
-#: data/nation/dutch.ruleset:5 data/nation/english.ruleset:5
-#: data/nation/estonian.ruleset:5 data/nation/finnish.ruleset:5
-#: data/nation/french.ruleset:5 data/nation/galician.ruleset:5
-#: data/nation/gallic.ruleset:5 data/nation/georgian.ruleset:5
-#: data/nation/german.ruleset:5 data/nation/greek.ruleset:5
-#: data/nation/hellenic.ruleset:5 data/nation/hungarian.ruleset:5
-#: data/nation/icelandic.ruleset:5 data/nation/illyrian.ruleset:5
-#: data/nation/irish.ruleset:5 data/nation/italian.ruleset:5
-#: data/nation/latvian.ruleset:5 data/nation/lithuanian.ruleset:5
-#: data/nation/norwegian.ruleset:5 data/nation/ottoman.ruleset:5
-#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
-#: data/nation/romanian.ruleset:5 data/nation/roman.ruleset:5
-#: data/nation/russian.ruleset:5 data/nation/sami.ruleset:5
-#: data/nation/scottish.ruleset:5 data/nation/serbian.ruleset:5
-#: data/nation/silesian.ruleset:5 data/nation/slovenian.ruleset:5
-#: data/nation/slovakian.ruleset:5 data/nation/spanish.ruleset:5
-#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
-#: data/nation/ukrainian.ruleset:5 data/nation/viking.ruleset:5
-#: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
-msgid "European"
-msgstr "Européen"
+#: data/default/cities.ruleset:74
+#, fuzzy
+msgid "?citystyle:European"
+msgstr "?city_state:Extase"
 
 #: data/default/cities.ruleset:83
-msgid "Classical"
+#, fuzzy
+msgid "?citystyle:Classical"
 msgstr "Classique"
 
 #: data/default/cities.ruleset:92
-msgid "Tropical"
-msgstr "Tropical"
-
-#: data/default/cities.ruleset:101 data/nation/afghani.ruleset:5
-#: data/nation/arab.ruleset:5 data/nation/aramean.ruleset:5
-#: data/nation/assyrian.ruleset:5 data/nation/babylonian.ruleset:5
-#: data/nation/bengali.ruleset:5 data/nation/burmese.ruleset:5
-#: data/nation/byzantium.ruleset:5 data/nation/chinese.ruleset:5
-#: data/nation/filipino.ruleset:5 data/nation/hittite.ruleset:5
-#: data/nation/indian.ruleset:5 data/nation/indonesian.ruleset:5
-#: data/nation/iraqi.ruleset:5 data/nation/israeli.ruleset:5
-#: data/nation/japanese.ruleset:22 data/nation/kampuchean.ruleset:5
-#: data/nation/korean.ruleset:5 data/nation/lankese.ruleset:5
-#: data/nation/malaysian.ruleset:5 data/nation/manchu.ruleset:5
-#: data/nation/mongol.ruleset:5 data/nation/ottoman.ruleset:5
-#: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
-#: data/nation/ryukyuan.ruleset:5 data/nation/singaporean.ruleset:17
-#: data/nation/sumerian.ruleset:5 data/nation/taiwanese.ruleset:5
-#: data/nation/thai.ruleset:5 data/nation/tibetan.ruleset:5
-#: data/nation/turk.ruleset:5 data/nation/uyghur.ruleset:5
-#: data/nation/vietnamese.ruleset:5
-msgid "Asian"
-msgstr "Asiatique"
-
-#: data/default/cities.ruleset:110 data/nation/babylonian.ruleset:3
-msgid "Babylonian"
-msgstr "Babylonien"
-
-#: data/default/cities.ruleset:119
-msgid "Celtic"
+msgid "?citystyle:Tropical"
 msgstr ""
 
+#: data/default/cities.ruleset:101
+#, fuzzy
+msgid "?citystyle:Asian"
+msgstr "?city:Hostile"
+
+#: data/default/cities.ruleset:110
+#, fuzzy
+msgid "?citystyle:Babylonian"
+msgstr "?plural:Babyloniens"
+
+#: data/default/cities.ruleset:119
+#, fuzzy
+msgid "?citystyle:Celtic"
+msgstr "?city_state:Paix"
+
 #: data/default/cities.ruleset:128
-msgid "Renaissance"
+#, fuzzy
+msgid "?citystyle:Renaissance"
 msgstr "Renaissance"
 
 #: data/default/cities.ruleset:139
-msgid "Industrial"
-msgstr "Industriel"
+#, fuzzy
+msgid "?citystyle:Industrial"
+msgstr "?city:Neutre"
 
-#: data/default/cities.ruleset:150 data/nation/afghani.ruleset:5
-#: data/nation/algerian.ruleset:5 data/nation/american.ruleset:5
-#: data/nation/armenian.ruleset:5 data/nation/argentine.ruleset:6
-#: data/nation/australian.ruleset:5 data/nation/austrian.ruleset:5
-#: data/nation/belgian.ruleset:5 data/nation/bengali.ruleset:5
-#: data/nation/bosnia.ruleset:6 data/nation/brazilian.ruleset:5
-#: data/nation/british.ruleset:5 data/nation/bulgarian.ruleset:5
-#: data/nation/burmese.ruleset:5 data/nation/canadian.ruleset:5
-#: data/nation/chilean.ruleset:5 data/nation/chinese.ruleset:5
-#: data/nation/colombian.ruleset:5 data/nation/croatian.ruleset:5
-#: data/nation/cuban.ruleset:5 data/nation/czech.ruleset:5
-#: data/nation/danish.ruleset:5 data/nation/dutch.ruleset:5
-#: data/nation/estonian.ruleset:5 data/nation/ethiopian.ruleset:5
-#: data/nation/filipino.ruleset:5 data/nation/finnish.ruleset:5
-#: data/nation/french.ruleset:5 data/nation/georgian.ruleset:5
-#: data/nation/german.ruleset:5 data/nation/hellenic.ruleset:5
-#: data/nation/hungarian.ruleset:5 data/nation/icelandic.ruleset:5
-#: data/nation/indian.ruleset:5 data/nation/indonesian.ruleset:5
-#: data/nation/iraqi.ruleset:5 data/nation/irish.ruleset:5
-#: data/nation/israeli.ruleset:5 data/nation/italian.ruleset:5
-#: data/nation/japanese.ruleset:22 data/nation/kampuchean.ruleset:5
-#: data/nation/kenyan.ruleset:5 data/nation/korean.ruleset:5
-#: data/nation/lankese.ruleset:5 data/nation/latvian.ruleset:5
-#: data/nation/libyan.ruleset:5 data/nation/lithuanian.ruleset:5
-#: data/nation/malagasy.ruleset:5 data/nation/malaysian.ruleset:5
-#: data/nation/malian.ruleset:5 data/nation/mexican.ruleset:5
-#: data/nation/mongol.ruleset:5 data/nation/newzealand.ruleset:6
-#: data/nation/nigerian.ruleset:5 data/nation/norwegian.ruleset:5
-#: data/nation/papuan.ruleset:5 data/nation/polish.ruleset:5
-#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
-#: data/nation/russian.ruleset:5 data/nation/serbian.ruleset:5
-#: data/nation/singaporean.ruleset:17 data/nation/slovenian.ruleset:5
-#: data/nation/slovakian.ruleset:5 data/nation/southafrican.ruleset:5
-#: data/nation/spanish.ruleset:5 data/nation/sudanese.ruleset:5
-#: data/nation/swazi.ruleset:5 data/nation/swedish.ruleset:5
-#: data/nation/swiss.ruleset:5 data/nation/taiwanese.ruleset:5
-#: data/nation/thai.ruleset:5 data/nation/tunisian.ruleset:5
-#: data/nation/turk.ruleset:5 data/nation/ukrainian.ruleset:5
-#: data/nation/venezuelan.ruleset:6 data/nation/vietnamese.ruleset:5
-msgid "Modern"
-msgstr "Moderne"
+#: data/default/cities.ruleset:150
+#, fuzzy
+msgid "?citystyle:Modern"
+msgstr "?city_state:Troubles"
 
 #: data/default/cities.ruleset:161
-msgid "PostModern"
-msgstr "Contemporain"
+#, fuzzy
+msgid "?citystyle:PostModern"
+msgstr "?city_state:Troubles"
 
 #: data/default/governments.ruleset:51 data/civ2/governments.ruleset:49
 #: data/civ1/governments.ruleset:51
@@ -19887,12 +19835,12 @@ msgstr "aguerri"
 msgid "elite"
 msgstr "élite"
 
-#: data/default/units.ruleset:195 data/civ2/units.ruleset:89
+#: data/default/units.ruleset:194 data/civ2/units.ruleset:89
 #: data/civ1/units.ruleset:97
 msgid "Settlers"
 msgstr "Colons"
 
-#: data/default/units.ruleset:221
+#: data/default/units.ruleset:220
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -19923,7 +19871,7 @@ msgstr ""
 "efforts excessifs peuvent être gâchés, et un groupe de Colons/Ingénieurs est "
 "très vulnérable aux attaques ennemies."
 
-#: data/default/units.ruleset:265
+#: data/default/units.ruleset:264
 msgid ""
 "Workers are one of the key units in the game.  They can be used to irrigate "
 "land, build roads, railroads, fortresses, airbases and mines, and clean up "
@@ -19951,11 +19899,11 @@ msgstr ""
 "Travailleurs, Colons et/ou Ingénieurs est très vulnérable aux attaques "
 "ennemies."
 
-#: data/default/units.ruleset:280 data/civ2/units.ruleset:133
+#: data/default/units.ruleset:279 data/civ2/units.ruleset:133
 msgid "Engineers"
 msgstr "Ingénieurs"
 
-#: data/default/units.ruleset:306
+#: data/default/units.ruleset:305
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast.  Engineers may also perform major terrain transformations (for "
@@ -19982,11 +19930,11 @@ msgstr ""
 "les Explosifs avant que ce dernier ne soit obsolète. Ainsi, vos Travailleurs "
 "seront gratuitement mis à jour en ingénieurs."
 
-#: data/default/units.ruleset:321 data/civ2/units.ruleset:174
+#: data/default/units.ruleset:320 data/civ2/units.ruleset:174
 msgid "Warriors"
 msgstr "Guerriers"
 
-#: data/default/units.ruleset:347 data/civ2/units.ruleset:200
+#: data/default/units.ruleset:346 data/civ2/units.ruleset:200
 #: data/civ1/units.ruleset:167
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
@@ -19994,34 +19942,34 @@ msgstr ""
 "Cette unité peut être construite dès le début de la partie. C'est l'unité la "
 "plus faible."
 
-#: data/default/units.ruleset:353 data/civ2/units.ruleset:206
+#: data/default/units.ruleset:352 data/civ2/units.ruleset:206
 #: data/civ1/units.ruleset:173
 msgid "Phalanx"
 msgstr "Phalange"
 
-#: data/default/units.ruleset:381 data/civ2/units.ruleset:234
+#: data/default/units.ruleset:380 data/civ2/units.ruleset:234
 msgid "Archers"
 msgstr "Archers"
 
-#: data/default/units.ruleset:409 data/civ2/units.ruleset:262
+#: data/default/units.ruleset:408 data/civ2/units.ruleset:262
 #: data/civ1/units.ruleset:201
 msgid "Legion"
 msgstr "Légion"
 
-#: data/default/units.ruleset:437 data/civ2/units.ruleset:290
+#: data/default/units.ruleset:436 data/civ2/units.ruleset:290
 msgid "Pikemen"
 msgstr "Gardes"
 
-#: data/default/units.ruleset:465 data/civ2/units.ruleset:318
+#: data/default/units.ruleset:464 data/civ2/units.ruleset:318
 #: data/civ1/units.ruleset:229
 msgid "Musketeers"
 msgstr "Mousquetaires"
 
-#: data/default/units.ruleset:494 data/civ2/units.ruleset:380
+#: data/default/units.ruleset:493 data/civ2/units.ruleset:380
 msgid "Partisan"
 msgstr "Partisan"
 
-#: data/default/units.ruleset:520 data/civ2/units.ruleset:406
+#: data/default/units.ruleset:519 data/civ2/units.ruleset:406
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -20045,29 +19993,29 @@ msgstr ""
 "\n"
 " - Vous devez être sous un régime démocratique ou communiste."
 
-#: data/default/units.ruleset:534 data/civ2/units.ruleset:420
+#: data/default/units.ruleset:533 data/civ2/units.ruleset:420
 msgid "Alpine Troops"
 msgstr "Chasseurs Alpins"
 
-#: data/default/units.ruleset:562 data/civ2/units.ruleset:448
+#: data/default/units.ruleset:561 data/civ2/units.ruleset:448
 #: data/civ1/units.ruleset:258
 msgid "Riflemen"
 msgstr "Fusiliers"
 
-#: data/default/units.ruleset:590 data/civ2/units.ruleset:476
+#: data/default/units.ruleset:589 data/civ2/units.ruleset:476
 msgid "Marines"
 msgstr "Fusiliers Marins"
 
-#: data/default/units.ruleset:618 data/civ2/units.ruleset:504
+#: data/default/units.ruleset:617 data/civ2/units.ruleset:504
 msgid "Paratroopers"
 msgstr "Parachutistes"
 
-#: data/default/units.ruleset:650 data/civ2/units.ruleset:536
+#: data/default/units.ruleset:649 data/civ2/units.ruleset:536
 #: data/civ1/units.ruleset:286
 msgid "Mech. Inf."
 msgstr "Infanterie mobile"
 
-#: data/default/units.ruleset:676 data/civ2/units.ruleset:562
+#: data/default/units.ruleset:675 data/civ2/units.ruleset:562
 #: data/civ1/units.ruleset:312
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
@@ -20077,68 +20025,68 @@ msgstr ""
 "unités terrestres, mais elle n'est disponible qu'avec les dernières "
 "technologies."
 
-#: data/default/units.ruleset:683 data/civ2/units.ruleset:569
+#: data/default/units.ruleset:682 data/civ2/units.ruleset:569
 msgid "Horsemen"
 msgstr "Cavaliers"
 
-#: data/default/units.ruleset:711 data/civ2/units.ruleset:597
+#: data/default/units.ruleset:710 data/civ2/units.ruleset:597
 #: data/civ1/units.ruleset:347
 msgid "Chariot"
 msgstr "Chars"
 
-#: data/default/units.ruleset:739 data/civ2/units.ruleset:681
+#: data/default/units.ruleset:738 data/civ2/units.ruleset:681
 #: data/civ1/units.ruleset:375
 msgid "Knights"
 msgstr "Chevaliers"
 
-#: data/default/units.ruleset:768 data/civ2/units.ruleset:710
+#: data/default/units.ruleset:767 data/civ2/units.ruleset:710
 msgid "Dragoons"
 msgstr "Dragons"
 
-#: data/default/units.ruleset:797 data/civ2/units.ruleset:739
+#: data/default/units.ruleset:796 data/civ2/units.ruleset:739
 #: data/civ1/units.ruleset:319
 msgid "Cavalry"
 msgstr "Cavalerie"
 
-#: data/default/units.ruleset:825 data/civ2/units.ruleset:767
+#: data/default/units.ruleset:824 data/civ2/units.ruleset:767
 #: data/civ1/units.ruleset:404
 msgid "Armor"
 msgstr "Tank"
 
-#: data/default/units.ruleset:853 data/civ2/units.ruleset:795
+#: data/default/units.ruleset:852 data/civ2/units.ruleset:795
 #: data/civ1/units.ruleset:432
 msgid "Catapult"
 msgstr "Catapulte"
 
-#: data/default/units.ruleset:881 data/civ2/units.ruleset:823
+#: data/default/units.ruleset:880 data/civ2/units.ruleset:823
 #: data/civ1/units.ruleset:460
 msgid "Cannon"
 msgstr "Canon"
 
-#: data/default/units.ruleset:909 data/civ2/units.ruleset:851
+#: data/default/units.ruleset:908 data/civ2/units.ruleset:851
 #: data/civ1/units.ruleset:488
 msgid "Artillery"
 msgstr "Artillerie"
 
-#: data/default/units.ruleset:937 data/civ2/units.ruleset:879
+#: data/default/units.ruleset:936 data/civ2/units.ruleset:879
 msgid "Howitzer"
 msgstr "Obusier"
 
-#: data/default/units.ruleset:965 data/civ2/units.ruleset:907
+#: data/default/units.ruleset:964 data/civ2/units.ruleset:907
 #: data/civ1/units.ruleset:516
 msgid "Fighter"
 msgstr "Chasseur"
 
-#: data/default/units.ruleset:993 data/civ2/units.ruleset:935
+#: data/default/units.ruleset:992 data/civ2/units.ruleset:935
 #: data/civ1/units.ruleset:544
 msgid "Bomber"
 msgstr "Bombardier"
 
-#: data/default/units.ruleset:1021 data/civ2/units.ruleset:963
+#: data/default/units.ruleset:1020 data/civ2/units.ruleset:963
 msgid "Helicopter"
 msgstr "Hélicoptère"
 
-#: data/default/units.ruleset:1047 data/civ2/units.ruleset:989
+#: data/default/units.ruleset:1046 data/civ2/units.ruleset:989
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -20150,55 +20098,55 @@ msgstr ""
 "perdent des points de vie à chaque tour passé hors d'une ville, à moins de "
 "posséder les Nations Unies."
 
-#: data/default/units.ruleset:1055 data/civ2/units.ruleset:997
+#: data/default/units.ruleset:1054 data/civ2/units.ruleset:997
 msgid "Stealth Fighter"
 msgstr "Chasseur furtif"
 
-#: data/default/units.ruleset:1081 data/civ2/units.ruleset:1023
+#: data/default/units.ruleset:1080 data/civ2/units.ruleset:1023
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Un chasseur amélioré, avec une attaque plus performante et un champ d'action "
 "plus important."
 
-#: data/default/units.ruleset:1087 data/civ2/units.ruleset:1029
+#: data/default/units.ruleset:1086 data/civ2/units.ruleset:1029
 msgid "Stealth Bomber"
 msgstr "Bombardier furtif"
 
-#: data/default/units.ruleset:1113 data/civ2/units.ruleset:1055
+#: data/default/units.ruleset:1112 data/civ2/units.ruleset:1055
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 "Un bombardier amélioré avec une attaque plus performante et un champ "
 "d'action plus important."
 
-#: data/default/units.ruleset:1119 data/civ2/units.ruleset:1061
+#: data/default/units.ruleset:1118 data/civ2/units.ruleset:1061
 #: data/civ1/units.ruleset:572
 msgid "Trireme"
 msgstr "Trirème"
 
-#: data/default/units.ruleset:1147 data/civ2/units.ruleset:1089
+#: data/default/units.ruleset:1146 data/civ2/units.ruleset:1089
 msgid "Caravel"
 msgstr "Caravelle"
 
-#: data/default/units.ruleset:1175 data/civ2/units.ruleset:1117
+#: data/default/units.ruleset:1174 data/civ2/units.ruleset:1117
 msgid "Galleon"
 msgstr "Galion"
 
-#: data/default/units.ruleset:1203 data/civ2/units.ruleset:1145
+#: data/default/units.ruleset:1202 data/civ2/units.ruleset:1145
 #: data/civ1/units.ruleset:628
 msgid "Frigate"
 msgstr "Frégate"
 
-#: data/default/units.ruleset:1231 data/civ2/units.ruleset:1173
+#: data/default/units.ruleset:1230 data/civ2/units.ruleset:1173
 #: data/civ1/units.ruleset:656
 msgid "Ironclad"
 msgstr "Patrouilleur"
 
 # AR j'ai rien trouve de mieux
-#: data/default/units.ruleset:1259 data/civ2/units.ruleset:1201
+#: data/default/units.ruleset:1258 data/civ2/units.ruleset:1201
 msgid "Destroyer"
 msgstr "Destroyer"
 
-#: data/default/units.ruleset:1285 data/civ2/units.ruleset:1227
+#: data/default/units.ruleset:1284 data/civ2/units.ruleset:1227
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -20206,26 +20154,26 @@ msgstr ""
 "CONSEIL : Une unité très rapide, très utile pour éliminer les transports de "
 "troupe ennemis."
 
-#: data/default/units.ruleset:1291 data/civ2/units.ruleset:1233
+#: data/default/units.ruleset:1290 data/civ2/units.ruleset:1233
 #: data/civ1/units.ruleset:684
 msgid "Cruiser"
 msgstr "Croiseur"
 
-#: data/default/units.ruleset:1319 data/civ2/units.ruleset:1261
+#: data/default/units.ruleset:1318 data/civ2/units.ruleset:1261
 msgid "AEGIS Cruiser"
 msgstr "Croiseur EGIDE"
 
-#: data/default/units.ruleset:1347 data/civ2/units.ruleset:1289
+#: data/default/units.ruleset:1346 data/civ2/units.ruleset:1289
 #: data/civ1/units.ruleset:712
 msgid "Battleship"
 msgstr "Cuirassé"
 
-#: data/default/units.ruleset:1375 data/civ2/units.ruleset:1317
+#: data/default/units.ruleset:1374 data/civ2/units.ruleset:1317
 #: data/civ1/units.ruleset:740
 msgid "Submarine"
 msgstr "Sous-marin"
 
-#: data/default/units.ruleset:1402 data/civ2/units.ruleset:1344
+#: data/default/units.ruleset:1401 data/civ2/units.ruleset:1344
 #: data/civ1/units.ruleset:766
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr ""
@@ -20233,12 +20181,12 @@ msgstr ""
 "défense."
 
 # AR
-#: data/default/units.ruleset:1408 data/civ2/units.ruleset:1350
+#: data/default/units.ruleset:1407 data/civ2/units.ruleset:1350
 #: data/civ1/units.ruleset:772
 msgid "Carrier"
 msgstr "Porte-avions"
 
-#: data/default/units.ruleset:1434 data/civ2/units.ruleset:1376
+#: data/default/units.ruleset:1433 data/civ2/units.ruleset:1376
 #: data/civ1/units.ruleset:798
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
@@ -20247,16 +20195,16 @@ msgstr ""
 "ASTUCE : Escortez vos porte-avions par quelques navires rapides et un "
 "cuirassé car la perte d'un tel bâtiment (surtout chargé) est TRÈS ennuyeuse."
 
-#: data/default/units.ruleset:1441 data/civ2/units.ruleset:1383
+#: data/default/units.ruleset:1440 data/civ2/units.ruleset:1383
 #: data/civ1/units.ruleset:805
 msgid "Transport"
 msgstr "Transporteur"
 
-#: data/default/units.ruleset:1469 data/civ2/units.ruleset:1411
+#: data/default/units.ruleset:1468 data/civ2/units.ruleset:1411
 msgid "Cruise Missile"
 msgstr "Missile de croisière"
 
-#: data/default/units.ruleset:1495 data/civ2/units.ruleset:1437
+#: data/default/units.ruleset:1494 data/civ2/units.ruleset:1437
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -20264,12 +20212,12 @@ msgstr ""
 "ASTUCE : Quelques missiles peuvent protéger efficacement vos eaux "
 "territoriales des navires ennemis."
 
-#: data/default/units.ruleset:1501 data/civ2/units.ruleset:1443
+#: data/default/units.ruleset:1500 data/civ2/units.ruleset:1443
 #: data/civ1/units.ruleset:833
 msgid "Nuclear"
 msgstr "Missile Nucléaire"
 
-#: data/default/units.ruleset:1527 data/civ2/units.ruleset:1469
+#: data/default/units.ruleset:1526 data/civ2/units.ruleset:1469
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -20305,12 +20253,12 @@ msgstr ""
 "lors du même tour que l'attaque nucléaire. Cela réduit le risque d'un hiver "
 "nucléaire. Une attaque nucléaire écologique, en quelque sorte !"
 
-#: data/default/units.ruleset:1548 data/civ2/units.ruleset:1490
+#: data/default/units.ruleset:1547 data/civ2/units.ruleset:1490
 #: data/civ1/units.ruleset:880
 msgid "Diplomat"
 msgstr "Diplomate"
 
-#: data/default/units.ruleset:1574 data/civ2/units.ruleset:1516
+#: data/default/units.ruleset:1573 data/civ2/units.ruleset:1516
 #: data/civ1/units.ruleset:906
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
@@ -20346,11 +20294,11 @@ msgstr ""
 "pour semer le désordre chez l'ennemi. Pas étonnant que les diplomates soient "
 "souvent regardés avec suspicion et inquiétude !"
 
-#: data/default/units.ruleset:1594 data/civ2/units.ruleset:1536
+#: data/default/units.ruleset:1593 data/civ2/units.ruleset:1536
 msgid "Spy"
 msgstr "Espion"
 
-#: data/default/units.ruleset:1620 data/civ2/units.ruleset:1562
+#: data/default/units.ruleset:1619 data/civ2/units.ruleset:1562
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -20389,12 +20337,12 @@ msgstr ""
 "Un Espion est aussi un soutien précieux dans un champ de bataille - en "
 "sabotant des unités adverses ou bien en les corrompant."
 
-#: data/default/units.ruleset:1641 data/civ2/units.ruleset:1583
+#: data/default/units.ruleset:1640 data/civ2/units.ruleset:1583
 #: data/civ1/units.ruleset:926
 msgid "Caravan"
 msgstr "Caravane"
 
-#: data/default/units.ruleset:1667 data/civ2/units.ruleset:1609
+#: data/default/units.ruleset:1666 data/civ2/units.ruleset:1609
 #: data/civ1/units.ruleset:952
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
@@ -20411,37 +20359,37 @@ msgstr ""
 "même temps vers une ville où se trouve une merveille à construire, on peut "
 "la finir en un tour !"
 
-#: data/default/units.ruleset:1677 data/civ2/units.ruleset:1619
+#: data/default/units.ruleset:1676 data/civ2/units.ruleset:1619
 msgid "Freight"
 msgstr "Fret"
 
-#: data/default/units.ruleset:1703 data/civ2/units.ruleset:1645
+#: data/default/units.ruleset:1702 data/civ2/units.ruleset:1645
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "Les unités de fret remplacent les caravanes, et se déplacent deux fois plus "
 "rapidement."
 
-#: data/default/units.ruleset:1708 data/civ2/units.ruleset:1650
+#: data/default/units.ruleset:1707 data/civ2/units.ruleset:1650
 msgid "Explorer"
 msgstr "Explorateur"
 
-#: data/default/units.ruleset:1734 data/civ2/units.ruleset:1676
+#: data/default/units.ruleset:1733 data/civ2/units.ruleset:1676
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr ""
 "Les explorateurs sont très pratiques pour découvrir de nouveaux territoires."
 
-#: data/default/units.ruleset:1767
+#: data/default/units.ruleset:1766
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "C'est vous. Si vous perdez cette unité, vous perdez la partie. Faites y "
 "attention."
 
-#: data/default/units.ruleset:1772 data/civ2/units.ruleset:1681
+#: data/default/units.ruleset:1771 data/civ2/units.ruleset:1681
 #: data/civ1/units.ruleset:962
 msgid "Barbarian Leader"
 msgstr "Chef des barbares"
 
-#: data/default/units.ruleset:1799 data/civ2/units.ruleset:1707
+#: data/default/units.ruleset:1798 data/civ2/units.ruleset:1707
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -20450,11 +20398,11 @@ msgstr ""
 "unité défensive, une rançon de 100 lingots est payée, mais uniquement s'il "
 "s'agit d'une unité terrestre où d'un Hélicoptère."
 
-#: data/default/units.ruleset:1805
+#: data/default/units.ruleset:1804
 msgid "AWACS"
 msgstr "AWACS"
 
-#: data/default/units.ruleset:1831
+#: data/default/units.ruleset:1830
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -20656,6 +20604,68 @@ msgstr "Afghan"
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
 msgstr "?plural:Afghans"
+
+#: data/nation/afghani.ruleset:5 data/nation/algerian.ruleset:5
+#: data/nation/american.ruleset:5 data/nation/armenian.ruleset:5
+#: data/nation/argentine.ruleset:6 data/nation/australian.ruleset:5
+#: data/nation/austrian.ruleset:5 data/nation/belgian.ruleset:5
+#: data/nation/bengali.ruleset:5 data/nation/bosnia.ruleset:6
+#: data/nation/brazilian.ruleset:5 data/nation/british.ruleset:5
+#: data/nation/bulgarian.ruleset:5 data/nation/burmese.ruleset:5
+#: data/nation/canadian.ruleset:5 data/nation/chilean.ruleset:5
+#: data/nation/chinese.ruleset:5 data/nation/colombian.ruleset:5
+#: data/nation/croatian.ruleset:5 data/nation/cuban.ruleset:5
+#: data/nation/czech.ruleset:5 data/nation/danish.ruleset:5
+#: data/nation/dutch.ruleset:5 data/nation/estonian.ruleset:5
+#: data/nation/ethiopian.ruleset:5 data/nation/filipino.ruleset:5
+#: data/nation/finnish.ruleset:5 data/nation/french.ruleset:5
+#: data/nation/georgian.ruleset:5 data/nation/german.ruleset:5
+#: data/nation/hellenic.ruleset:5 data/nation/hungarian.ruleset:5
+#: data/nation/icelandic.ruleset:5 data/nation/indian.ruleset:5
+#: data/nation/indonesian.ruleset:5 data/nation/iraqi.ruleset:5
+#: data/nation/irish.ruleset:5 data/nation/israeli.ruleset:5
+#: data/nation/italian.ruleset:5 data/nation/japanese.ruleset:22
+#: data/nation/kampuchean.ruleset:5 data/nation/kenyan.ruleset:5
+#: data/nation/korean.ruleset:5 data/nation/lankese.ruleset:5
+#: data/nation/latvian.ruleset:5 data/nation/libyan.ruleset:5
+#: data/nation/lithuanian.ruleset:5 data/nation/malagasy.ruleset:5
+#: data/nation/malaysian.ruleset:5 data/nation/malian.ruleset:5
+#: data/nation/mexican.ruleset:5 data/nation/mongol.ruleset:5
+#: data/nation/newzealand.ruleset:6 data/nation/nigerian.ruleset:5
+#: data/nation/norwegian.ruleset:5 data/nation/papuan.ruleset:5
+#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
+#: data/nation/romanian.ruleset:5 data/nation/russian.ruleset:5
+#: data/nation/serbian.ruleset:5 data/nation/singaporean.ruleset:17
+#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
+#: data/nation/southafrican.ruleset:5 data/nation/spanish.ruleset:5
+#: data/nation/sudanese.ruleset:5 data/nation/swazi.ruleset:5
+#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
+#: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
+#: data/nation/tunisian.ruleset:5 data/nation/turk.ruleset:5
+#: data/nation/ukrainian.ruleset:5 data/nation/venezuelan.ruleset:6
+#: data/nation/vietnamese.ruleset:5
+msgid "Modern"
+msgstr "Moderne"
+
+#: data/nation/afghani.ruleset:5 data/nation/arab.ruleset:5
+#: data/nation/aramean.ruleset:5 data/nation/assyrian.ruleset:5
+#: data/nation/babylonian.ruleset:5 data/nation/bengali.ruleset:5
+#: data/nation/burmese.ruleset:5 data/nation/byzantium.ruleset:5
+#: data/nation/chinese.ruleset:5 data/nation/filipino.ruleset:5
+#: data/nation/hittite.ruleset:5 data/nation/indian.ruleset:5
+#: data/nation/indonesian.ruleset:5 data/nation/iraqi.ruleset:5
+#: data/nation/israeli.ruleset:5 data/nation/japanese.ruleset:22
+#: data/nation/kampuchean.ruleset:5 data/nation/korean.ruleset:5
+#: data/nation/lankese.ruleset:5 data/nation/malaysian.ruleset:5
+#: data/nation/manchu.ruleset:5 data/nation/mongol.ruleset:5
+#: data/nation/ottoman.ruleset:5 data/nation/persian.ruleset:5
+#: data/nation/phoenician.ruleset:5 data/nation/ryukyuan.ruleset:5
+#: data/nation/singaporean.ruleset:17 data/nation/sumerian.ruleset:5
+#: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
+#: data/nation/tibetan.ruleset:5 data/nation/turk.ruleset:5
+#: data/nation/uyghur.ruleset:5 data/nation/vietnamese.ruleset:5
+msgid "Asian"
+msgstr "Asiatique"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -20860,6 +20870,35 @@ msgstr "Américain"
 msgid "?plural:Armenians"
 msgstr "?plural:Américains"
 
+#: data/nation/armenian.ruleset:5 data/nation/austrian.ruleset:5
+#: data/nation/bavarian.ruleset:5 data/nation/belgian.ruleset:5
+#: data/nation/bosnia.ruleset:6 data/nation/british.ruleset:5
+#: data/nation/bulgarian.ruleset:5 data/nation/byzantium.ruleset:5
+#: data/nation/catalan.ruleset:5 data/nation/cornish.ruleset:5
+#: data/nation/croatian.ruleset:5 data/nation/czech.ruleset:5
+#: data/nation/danish.ruleset:5 data/nation/dutch.ruleset:5
+#: data/nation/english.ruleset:5 data/nation/estonian.ruleset:5
+#: data/nation/finnish.ruleset:5 data/nation/french.ruleset:5
+#: data/nation/galician.ruleset:5 data/nation/gallic.ruleset:5
+#: data/nation/georgian.ruleset:5 data/nation/german.ruleset:5
+#: data/nation/greek.ruleset:5 data/nation/hellenic.ruleset:5
+#: data/nation/hungarian.ruleset:5 data/nation/icelandic.ruleset:5
+#: data/nation/illyrian.ruleset:5 data/nation/irish.ruleset:5
+#: data/nation/italian.ruleset:5 data/nation/latvian.ruleset:5
+#: data/nation/lithuanian.ruleset:5 data/nation/norwegian.ruleset:5
+#: data/nation/ottoman.ruleset:5 data/nation/polish.ruleset:5
+#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
+#: data/nation/roman.ruleset:5 data/nation/russian.ruleset:5
+#: data/nation/sami.ruleset:5 data/nation/scottish.ruleset:5
+#: data/nation/serbian.ruleset:5 data/nation/silesian.ruleset:5
+#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
+#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
+#: data/nation/swiss.ruleset:5 data/nation/ukrainian.ruleset:5
+#: data/nation/viking.ruleset:5 data/nation/welsh.ruleset:5
+#: data/nation/westphalian.ruleset:5
+msgid "European"
+msgstr "Européen"
+
 #: data/nation/armenian.ruleset:6
 msgid ""
 "According to legend, the Armenian people are the descendants of Haik - the "
@@ -20966,6 +21005,10 @@ msgstr ""
 #: data/nation/aztec.ruleset:22
 msgid "Huey Tlatoani"
 msgstr ""
+
+#: data/nation/babylonian.ruleset:3
+msgid "Babylonian"
+msgstr "Babylonien"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
@@ -22038,9 +22081,9 @@ msgstr "?plural:Irlandais"
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
-"The Republic of Iraq was founded after the fall of the Ottoman empire. It is "
-"encompassing the ancient region of Mesopotamia at the confluence of the "
-"Tigris and Euphrates rivers."
+"Iraq was founded after the fall of the Ottoman empire. It is encompassing "
+"the ancient region of Mesopotamia at the confluence of the Tigris and "
+"Euphrates rivers."
 msgstr ""
 
 #: data/nation/irish.ruleset:3
@@ -23564,6 +23607,49 @@ msgstr "Industriel"
 #, fuzzy
 msgid "Tutorial Scenario."
 msgstr "Choisissez un scénario"
+
+#~ msgid ""
+#~ "Only the console and connections with cmdlevel 'hack' can force other "
+#~ "connections to take over a player. If you're not one of these, only the "
+#~ "<player-name> argument is allowed"
+#~ msgstr ""
+#~ "Seules la console et les connexions avec le niveau de commande 'hack' "
+#~ "peuvent forcer d'autres connexions à prendre la place d'un joueur. Si "
+#~ "vous n'êtes pas de celles-ci, seul l'argument <nom-joueur> est autorisé"
+
+#~ msgid "* Attacks with full strength even if less than one movement left.\n"
+#~ msgstr ""
+#~ "* Attaque à pleine puissance même avec moins d'un point de mouvement "
+#~ "restant.\n"
+
+#~ msgid ""
+#~ " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 "
+#~ "movement point left, its strength is divided by 3; if it has 2/3 movement "
+#~ "point, its strength is multiplied by 2/3.  If the attacker has 1 or more "
+#~ "movement points left, no further modifications occur."
+#~ msgstr ""
+#~ " - les attaquants \"épuisés\" sont plus faibles: si l'attaquant n'a plus "
+#~ "qu'1/3 de ses points de mouvement, sa force est divisée par 3, s'il ne "
+#~ "lui reste plus que les 2/3, sa force est multiplié par 2/3. Si "
+#~ "l'attaquant a gardé au moins 1 point de mouvement, aucune modification "
+#~ "n'interviendra ;"
+
+#~ msgid ""
+#~ "The attacker's base strength is 8.  Veteran status makes this 12, but "
+#~ "because it only has 2/3 movement points its final strength is 8."
+#~ msgstr ""
+#~ "La force de base de l'attaquant est 8. Le statut de vétéran donne 12, "
+#~ "mais puisqu'il ne reste que 2/3 points de mouvement, sa force d'attaque "
+#~ "finale est 8."
+
+#~ msgid "Tropical"
+#~ msgstr "Tropical"
+
+#~ msgid "Industrial"
+#~ msgstr "Industriel"
+
+#~ msgid "PostModern"
+#~ msgstr "Contemporain"
 
 #~ msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 #~ msgstr "  -g, --gamelog FICH\tSauver le journal de la partie dans FICH\n"
