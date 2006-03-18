@@ -172,6 +172,13 @@ void kill_player(struct player *pplayer)
   } city_list_iterate_end;
   game.info.savepalace = palace;
 
+  /* Remove ownership of tiles */
+  whole_map_iterate(ptile) {
+    if (ptile->owner == pplayer) {
+      map_claim_ownership(ptile, NULL, NULL);
+    }
+  } whole_map_iterate_end;
+
   /* Ensure this dead player doesn't win with a spaceship.
    * Now that would be truly unbelievably dumb - Per */
   spaceship_init(&pplayer->spaceship);

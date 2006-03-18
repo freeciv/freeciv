@@ -1602,7 +1602,9 @@ void map_calculate_borders()
   /* Third remove undue ownership. */
   whole_map_iterate(ptile) {
     if (ptile->owner
-        && (ptile->owner != ptile->owner_source->owner
+        && (!ptile->owner_source
+            || !ptile->owner->is_alive
+            || ptile->owner != ptile->owner_source->owner
             || (!ptile->owner_source->city
                 && !tile_has_special(ptile->owner_source, S_FORTRESS)))) {
       /* Ownership source gone */
