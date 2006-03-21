@@ -35,6 +35,7 @@
 #include "clinet.h"
 #include "combat.h"
 #include "dialogs_g.h"
+#include "editor.h"
 #include "goto.h"
 #include "gui_main_g.h"
 #include "mapctrl_g.h"
@@ -889,6 +890,7 @@ void handle_mouse_cursor(struct tile *ptile)
       /* hover_tile is the tile which is currently under the mouse cursor. */
       ptile = hover_tile;
     } else {
+      update_mouse_cursor(mouse_cursor_type);
       return;
     }
   }
@@ -898,7 +900,9 @@ void handle_mouse_cursor(struct tile *ptile)
 
   switch (hover_state) {
   case HOVER_NONE:
-    if (punit && game.player_ptr == punit->owner) {
+    if (can_do_editor_click(ptile)) {
+      mouse_cursor_type = editor_test_click(ptile);
+    } else if (punit && game.player_ptr == punit->owner) {
       /* Set mouse cursor to select a unit.  */
       mouse_cursor_type = CURSOR_SELECT;
     } else if (pcity

@@ -30,6 +30,7 @@
 #include "clinet.h"
 #include "control.h"
 #include "editor.h"
+#include "tilespec.h"
 
 /* where the selected terrain and specials for editing are stored */
 static enum editor_tool_type selected_tool = ETOOL_PAINT;
@@ -117,48 +118,60 @@ struct city *editor_get_selected_city(void)
  problem: could be multiple units on a particular tile
  TODO: edit existing units
 ****************************************************************************/
-static void do_unit(struct tile *ptile)
+static enum cursor_type editor_unit(struct tile *ptile, bool testing)
 {
-  struct packet_edit_unit packet;
+  /* FIXME: Do checks to see if the placement is allowed, so that the
+   * cursor can be set properly. */
+  if (!testing) {
+    struct packet_edit_unit packet;
 
-  packet.create_new = TRUE; /* ? */
-  packet.delete = FALSE;
+    packet.create_new = TRUE; /* ? */
+    packet.delete = FALSE;
 
-  packet.id = selected_unit->id;
-  packet.owner = selected_unit->owner->player_no;
+    packet.id = selected_unit->id;
+    packet.owner = selected_unit->owner->player_no;
 
-  packet.x = ptile->x;
-  packet.y = ptile->y;
+    packet.x = ptile->x;
+    packet.y = ptile->y;
 
-  packet.homecity = selected_unit->homecity;
+    packet.homecity = selected_unit->homecity;
 
-  packet.veteran = selected_unit->veteran;
-  packet.paradropped = selected_unit->paradropped;
+    packet.veteran = selected_unit->veteran;
+    packet.paradropped = selected_unit->paradropped;
 
-  packet.type = selected_unit->type->index;
-  packet.transported_by = selected_unit->transported_by;
+    packet.type = selected_unit->type->index;
+    packet.transported_by = selected_unit->transported_by;
 
-  packet.movesleft = selected_unit->moves_left;
-  packet.hp = selected_unit->hp;
-  packet.fuel = selected_unit->fuel;
+    packet.movesleft = selected_unit->moves_left;
+    packet.hp = selected_unit->hp;
+    packet.fuel = selected_unit->fuel;
 
-  packet.activity_count = selected_unit->activity_count;
+    packet.activity_count = selected_unit->activity_count;
 
-  send_packet_edit_unit(&aconnection, &packet);
+    send_packet_edit_unit(&aconnection, &packet);
+  }
+
+  return CURSOR_EDIT_ADD;
 }
 
 /****************************************************************************
  basically package_city in citytools.c
 ****************************************************************************/
-static void do_city(struct tile *ptile)
+static enum cursor_type editor_city(struct tile *ptile, bool testing)
 {
-  struct packet_edit_create_city packet = {
-    .owner = selected_city->owner->player_no,
-    .x = ptile->x,
-    .y = ptile->y
-  };
+  /* FIXME: Do checks to see if the placement is allowed, so that the
+   * cursor can be set properly. */
+  if (!testing) {
+    struct packet_edit_create_city packet = {
+      .owner = selected_city->owner->player_no,
+      .x = ptile->x,
+      .y = ptile->y
+    };
 
-  send_packet_edit_create_city(&aconnection, &packet);
+    send_packet_edit_create_city(&aconnection, &packet);
+  }
+
+  return CURSOR_EDIT_ADD;
 }
 
 #if 0
@@ -179,34 +192,87 @@ void do_edit_player(void)
   For instance, if the paint operation is paint-terrain, then we just change
   the current tile's terrain to the selected terrain.
 ****************************************************************************/
-static void do_paint(struct tile *ptile)
+static enum cursor_type editor_paint(struct tile *ptile, bool testing)
 {
   struct tile tile = *ptile;
 
   switch (selected_paint_type) {
   case EPAINT_TERRAIN:
-    if (selected_terrain) {
+    if (selected_terrain && tile.terrain != selected_terrain) {
       tile.terrain = selected_terrain;
+    } else {
+      return CURSOR_INVALID;
     }
     break;
   case EPAINT_SPECIAL:
     /* add new special to existing specials on the tile */
-    if (selected_special == S_LAST) {
+    if (selected_special == S_LAST && tile_has_any_specials(&tile)) {
       tile_clear_all_specials(&tile);
-    } else {
+    } else if (selected_special != S_LAST
+	       && !tile_has_special(&tile, selected_special)) {
       tile_add_special(&tile, selected_special);
+    } else {
+      return CURSOR_INVALID;
     }
     break;
   case EPAINT_LAST:
-    return;
-  } 
+  default:
+    return CURSOR_INVALID;
+  }
 
-  /* send the result to the server for changing */
-  /* FIXME: No way to change resources. */
-  dsend_packet_edit_tile(&aconnection, ptile->x, ptile->y,
-			 tile.terrain->index,
-			 tile.resource ? tile.resource->index : -1,
-			 tile.special);
+  if (!testing) {
+    /* send the result to the server for changing */
+    /* FIXME: No way to change resources. */
+    dsend_packet_edit_tile(&aconnection, ptile->x, ptile->y,
+			   tile.terrain->index,
+			   tile.resource ? tile.resource->index : -1,
+			   tile.special);
+  }
+
+  return CURSOR_EDIT_PAINT;
+}
+
+/****************************************************************************
+  if the client is in edit_mode, then this function captures clicks on the
+  map canvas.
+
+  If the testing parameter is given then no actions are taken, but the
+  return value indicates what would happen if a click was made.
+****************************************************************************/
+static enum cursor_type editor_click(struct tile *ptile, bool testing)
+{
+  /* Editing tiles that we can't see (or are fogged) will only lead to
+   * problems. */
+  if (client_tile_get_known(ptile) != TILE_KNOWN) {
+    return CURSOR_INVALID;
+  }
+
+  switch (selected_tool) {
+  case ETOOL_PAINT:
+    return editor_paint(ptile, testing);
+  case ETOOL_UNIT:
+    return editor_unit(ptile, testing);
+  case ETOOL_CITY:
+    return editor_city(ptile, testing);
+  case ETOOL_PLAYER:
+  case ETOOL_DELETE:
+  case ETOOL_LAST:
+    break;
+  }
+  return CURSOR_INVALID;
+}
+
+/****************************************************************************
+  Return TRUE if an editor click on this tile is allowed - if not then a
+  normal click should be done instead.
+****************************************************************************/
+bool can_do_editor_click(struct tile *ptile)
+{
+  /* Previously, editor clicks were not allowed on city tiles; instead
+   * a click here would cause a regular click and the citydlg would open.
+   * This made it impossible to add a unit or paint a terrain underneath
+   * a city. */
+  return can_conn_edit(&aconnection);
 }
 
 /****************************************************************************
@@ -215,25 +281,16 @@ static void do_paint(struct tile *ptile)
 ****************************************************************************/
 void editor_do_click(struct tile *ptile)
 {
-  /* Editing tiles that we can't see (or are fogged) will only lead to
-   * problems. */
-  if (client_tile_get_known(ptile) != TILE_KNOWN) {
-    return;
-  }
+  (void) editor_click(ptile, FALSE);
+}
 
-  switch (selected_tool) {
-  case ETOOL_PAINT:
-    do_paint(ptile);
-    break;
-  case ETOOL_UNIT:
-    do_unit(ptile);
-    break;
-  case ETOOL_CITY:
-    do_city(ptile);
-    break;
-  case ETOOL_PLAYER:
-  case ETOOL_DELETE:
-  case ETOOL_LAST:
-    break;
-  }
+/****************************************************************************
+  if the client is in edit_mode, then this function returns the cursor_type
+  indicating what action would be taken on a click.  This can be used by
+  the code to set the cursor so the user can anticipate what clicking will
+  do.
+****************************************************************************/
+enum cursor_type editor_test_click(struct tile *ptile)
+{
+  return editor_click(ptile, TRUE);
 }

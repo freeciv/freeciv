@@ -91,6 +91,14 @@ bool tile_has_special(const struct tile *ptile,
 }
 
 /****************************************************************************
+  Returns TRUE iff the given tile has any specials.
+****************************************************************************/
+bool tile_has_any_specials(const struct tile *ptile)
+{
+  return contains_any_specials(ptile->special);
+}
+
+/****************************************************************************
   Add the given special or specials to the tile.
 
   Note that this does not erase any existing specials already on the tile

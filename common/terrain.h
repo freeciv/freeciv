@@ -214,6 +214,7 @@ void clear_special(bv_special *set, enum tile_special_type to_clear);
 void clear_all_specials(bv_special *set);
 bool contains_special(bv_special all,
 		      enum tile_special_type to_test_for);
+bool contains_any_specials(bv_special all);
 
 /* Functions to operate on a terrain special. */
 bool is_special_near_tile(const struct tile *ptile,

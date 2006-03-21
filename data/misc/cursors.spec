@@ -8,6 +8,9 @@ options = "+spec3"
 
 artists = "
     Andreas Røsdal <andrearo@stud.ntnu.no>
+
+    edit_paint cursor take from GIMP
+    
 "
 
 [file]
@@ -64,4 +67,16 @@ tiles = { "row", "column", "tag", "hot_x", "hot_y"
        3, 6, "cursor.attack3", 16, 16
        4, 6, "cursor.attack4", 16, 16
        5, 6, "cursor.attack5", 16, 16
+       0, 7, "cursor.edit_paint0", 16, 16
+       1, 7, "cursor.edit_paint1", 16, 16
+       2, 7, "cursor.edit_paint2", 16, 16
+       3, 7, "cursor.edit_paint3", 16, 16
+       4, 7, "cursor.edit_paint4", 16, 16
+       5, 7, "cursor.edit_paint5", 16, 16
+       0, 8, "cursor.edit_add0", 16, 16
+       1, 8, "cursor.edit_add1", 16, 16
+       2, 8, "cursor.edit_add2", 16, 16
+       3, 8, "cursor.edit_add3", 16, 16
+       4, 8, "cursor.edit_add4", 16, 16
+       5, 8, "cursor.edit_add5", 16, 16
 }

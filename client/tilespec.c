@@ -2019,9 +2019,10 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     for (f = 0; f < NUM_CURSOR_FRAMES; f++) {
       const char *names[CURSOR_LAST] =
                {"goto", "patrol", "paradrop", "nuke", "select", 
-		"invalid", "attack"};
+		"invalid", "attack", "edit_paint", "edit_add"};
       struct small_sprite *ss;
 
+      assert(ARRAY_SIZE(names) == CURSOR_LAST);
       my_snprintf(buffer, sizeof(buffer), "cursor.%s%d", names[i], f);
       SET_SPRITE(cursor[i].frame[f], buffer);
       ss = hash_lookup_data(t->sprite_hash, buffer);

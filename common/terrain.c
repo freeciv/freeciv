@@ -372,6 +372,14 @@ bool contains_special(bv_special set,
 }
 
 /****************************************************************************
+ Returns TRUE iff any specials are set on the tile.
+****************************************************************************/
+bool contains_any_specials(bv_special set)
+{
+  return BV_ISSET_ANY(set);
+}
+
+/****************************************************************************
   Returns TRUE iff any tile adjacent to (map_x,map_y) has the given special.
 ****************************************************************************/
 bool is_special_near_tile(const struct tile *ptile, enum tile_special_type spe)

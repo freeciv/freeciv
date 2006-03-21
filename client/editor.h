@@ -44,6 +44,8 @@ void editor_set_selected_special(enum tile_special_type special);
 struct unit *editor_get_selected_unit(void);
 struct city *editor_get_selected_city(void);
 
+bool can_do_editor_click(struct tile *ptile);
 void editor_do_click(struct tile *ptile);
+enum cursor_type editor_test_click(struct tile *ptile);
 
 #endif /* FC__TOOLS_H */
