@@ -82,6 +82,8 @@ struct packet_ruleset_government;
 void handle_ruleset_government(struct packet_ruleset_government *packet);
 struct packet_ruleset_terrain_control;
 void handle_ruleset_terrain_control(struct packet_ruleset_terrain_control *packet);
+struct packet_ruleset_nation_groups;
+void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet);
 struct packet_ruleset_nation;
 void handle_ruleset_nation(struct packet_ruleset_nation *packet);
 struct packet_ruleset_city;

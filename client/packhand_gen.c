@@ -275,6 +275,10 @@ bool client_handle_packet(enum packet_type type, void *packet)
     handle_ruleset_terrain_control(packet);
     return TRUE;
 
+  case PACKET_RULESET_NATION_GROUPS:
+    handle_ruleset_nation_groups(packet);
+    return TRUE;
+
   case PACKET_RULESET_NATION:
     handle_ruleset_nation(packet);
     return TRUE;

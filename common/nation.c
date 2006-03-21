@@ -343,46 +343,89 @@ int get_nation_city_style(const struct nation_type *pnation)
 }
 
 /***************************************************************
-  Add new group into the array of groups. If a group with
-  the same name already exists don't create new one, but return
-  old one
+  Add new group into the array of groups.
 ***************************************************************/
-struct nation_group* add_new_nation_group(const char* name)
+struct nation_group *add_new_nation_group(const char *name)
 {
   int i;
+  struct nation_group *group;
+
+  if (strlen(name) >= ARRAY_SIZE(group->name)) {
+    freelog(LOG_FATAL, "Too-long group name %s.", group->name);
+    exit(EXIT_FAILURE);
+  }
+
   for (i = 0; i < num_nation_groups; i++) {
-    if (mystrcasecmp(name, nation_groups[i].name) == 0) {
-      return &nation_groups[i];
+    if (mystrcasecmp(Qn_(name), Qn_(nation_groups[i].name)) == 0) {
+      freelog(LOG_FATAL, "Duplicate group name %s.",
+	      Qn_(group->name));
+      exit(EXIT_FAILURE);
     }
   }
-  if (i == MAX_NUM_NATION_GROUPS) {
-    die("Too many groups of nations");
+  if (num_nation_groups == MAX_NUM_NATION_GROUPS) {
+    freelog(LOG_FATAL, "Too many groups of nations (%d is the maximum)",
+	    MAX_NUM_NATION_GROUPS);
+    exit(EXIT_FAILURE);
   }
-  sz_strlcpy(nation_groups[i].name, name);
-  nation_groups[i].match = 0;
-  return &nation_groups[num_nation_groups++];
+
+  group = nation_groups + num_nation_groups;
+  group->index = num_nation_groups;
+  sz_strlcpy(group->name, name);
+  group->match = 0;
+
+  num_nation_groups++;
+
+  return group;
 }
 
-/***************************************************************
-***************************************************************/
+/****************************************************************************
+  Return the number of nation groups.
+****************************************************************************/
 int get_nation_groups_count(void)
 {
   return num_nation_groups;
 }
 
+/****************************************************************************
+  Return a specific nation group, by index.
+****************************************************************************/
 struct nation_group* get_nation_group_by_id(int id)
 {
-  return &nation_groups[id];
+  if (id >= 0 && id < num_nation_groups) {
+    return &nation_groups[id];
+  } else {
+    return NULL;
+  }
 }
 
-/***************************************************************
-  Check if the given nation is in a given group
-***************************************************************/
-bool nation_in_group(struct nation_type* nation, const char* group_name)
+/****************************************************************************
+  Return a specific nation group, by (untranslated) name.
+
+  Returns NULL if no group is found.
+****************************************************************************/
+struct nation_group *find_nation_group_by_name_orig(const char *name)
 {
   int i;
+
+  for (i = 0; i < num_nation_groups; i++) {
+    if (mystrcasecmp(Qn_(name), Qn_(nation_groups[i].name)) == 0) {
+      return nation_groups + i;
+    }
+  }
+
+  return NULL;
+}
+
+/****************************************************************************
+  Check if the given nation is in a given group
+****************************************************************************/
+bool is_nation_in_group(struct nation_type *nation,
+			struct nation_group *group)
+{
+  int i;
+
   for (i = 0; i < nation->num_groups; i++) {
-    if (mystrcasecmp(nation->groups[i]->name, group_name) == 0) {
+    if (nation->groups[i] == group) {
       return TRUE;
     }
   }

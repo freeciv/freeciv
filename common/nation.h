@@ -58,6 +58,8 @@ struct leader {
 };
 
 struct nation_group {
+  int index;
+
   char name[MAX_LEN_NAME];
   
   /* How much the AI will try to select a nation in the same group */
@@ -130,11 +132,23 @@ void nations_free(void);
 void nation_city_names_free(struct city_name *city_names);
 int get_nation_city_style(const struct nation_type *nation);
 
-struct nation_group* add_new_nation_group(const char* name);
+struct nation_group *add_new_nation_group(const char *name);
 int get_nation_groups_count(void);
 struct nation_group* get_nation_group_by_id(int id);
+struct nation_group *find_nation_group_by_name_orig(const char *name);
+bool is_nation_in_group(struct nation_type *nation,
+			struct nation_group *group);
 
-bool nation_in_group(struct nation_type* nation, const char* group_name);
+#define nation_groups_iterate(pgroup)					    \
+{									    \
+  int _index;								    \
+									    \
+  for (_index = 0; _index < get_nation_groups_count(); _index++) {	    \
+    struct nation_group *pgroup = get_nation_group_by_id(_index);
+
+#define nation_groups_iterate_end					    \
+  }									    \
+}
 
 bool can_conn_edit_players_nation(const struct connection *pconn,
 				  const struct player *pplayer);

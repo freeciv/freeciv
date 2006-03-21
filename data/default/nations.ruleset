@@ -17,34 +17,34 @@ options="1.9"
 ;                 group
 
 [ngroup_ancient]
-name="Ancient"
+name=_("?nationgroup:Ancient")
 match=2
 [ngroup_medieval]
-name="Medieval"
+name=_("?nationgroup:Medieval")
 match=2
 [ngroup_modern]
-name="Modern"
+name=_("?nationgroup:Modern")
 match=1
 [ngroup_african]
-name="African"
+name=_("?nationgroup:African")
 match=0
 [ngroup_american]
-name="American"
+name=_("?nationgroup:American")
 match=0
 [ngroup_asian]
-name="Asian"
+name=_("?nationgroup:Asian")
 match=0
 [ngroup_european]
-name="European"
+name=_("?nationgroup:European")
 match=0
 [ngroup_oceanian]
-name="Oceanian"
+name=_("?nationgroup:Oceanian")
 match=0
 [ngroup_transitional]
-name="Transitional"
+name=_("?nationgroup:Transitional")
 match=2
 [ngroup_fictional]
-name="Fictional"
+name=_("?nationgroup:Fictional")
 match=0
 
 ; Below: nations data loaded from ruleset files for
