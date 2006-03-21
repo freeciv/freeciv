@@ -865,6 +865,11 @@ struct packet_ruleset_terrain_control {
   int fallout_tile_penalty[O_MAX];
 };
 
+struct packet_ruleset_nation_groups {
+  int ngroups;
+  char groups[MAX_NUM_NATION_GROUPS][MAX_LEN_NAME];
+};
+
 struct packet_ruleset_nation {
   Nation_type_id id;
   char name[MAX_LEN_NAME];
@@ -883,8 +888,8 @@ struct packet_ruleset_nation {
   bool is_available;
   bool is_playable;
   bool is_barbarian;
-  int group_count;
-  char group_name[MAX_NUM_NATION_GROUPS][MAX_LEN_NAME];
+  int ngroups;
+  int groups[MAX_NUM_NATION_GROUPS];
 };
 
 struct packet_ruleset_city {
@@ -1224,6 +1229,7 @@ enum packet_type {
   PACKET_RULESET_CHOICES = 115,
   PACKET_PLAYER_READY,
   PACKET_UNIT_BATTLEGROUP,
+  PACKET_RULESET_NATION_GROUPS,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
   PACKET_RULESET_RESOURCE,
@@ -1657,6 +1663,10 @@ void lsend_packet_ruleset_government(struct conn_list *dest, const struct packet
 struct packet_ruleset_terrain_control *receive_packet_ruleset_terrain_control(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_terrain_control(struct connection *pc, const struct packet_ruleset_terrain_control *packet);
 void lsend_packet_ruleset_terrain_control(struct conn_list *dest, const struct packet_ruleset_terrain_control *packet);
+
+struct packet_ruleset_nation_groups *receive_packet_ruleset_nation_groups(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_nation_groups(struct connection *pc, const struct packet_ruleset_nation_groups *packet);
+void lsend_packet_ruleset_nation_groups(struct conn_list *dest, const struct packet_ruleset_nation_groups *packet);
 
 struct packet_ruleset_nation *receive_packet_ruleset_nation(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_nation(struct connection *pc, const struct packet_ruleset_nation *packet);

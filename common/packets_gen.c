@@ -347,6 +347,9 @@ void *get_packet_from_connection_helper(struct connection *pc,
   case PACKET_RULESET_TERRAIN_CONTROL:
     return receive_packet_ruleset_terrain_control(pc, type);
 
+  case PACKET_RULESET_NATION_GROUPS:
+    return receive_packet_ruleset_nation_groups(pc, type);
+
   case PACKET_RULESET_NATION:
     return receive_packet_ruleset_nation(pc, type);
 
@@ -724,6 +727,9 @@ const char *get_packet_name(enum packet_type type)
 
   case PACKET_RULESET_TERRAIN_CONTROL:
     return "PACKET_RULESET_TERRAIN_CONTROL";
+
+  case PACKET_RULESET_NATION_GROUPS:
+    return "PACKET_RULESET_NATION_GROUPS";
 
   case PACKET_RULESET_NATION:
     return "PACKET_RULESET_NATION";
@@ -24074,6 +24080,206 @@ void lsend_packet_ruleset_terrain_control(struct conn_list *dest, const struct p
   } conn_list_iterate_end;
 }
 
+#define hash_packet_ruleset_nation_groups_100 hash_const
+
+#define cmp_packet_ruleset_nation_groups_100 cmp_const
+
+BV_DEFINE(packet_ruleset_nation_groups_100_fields, 2);
+
+static struct packet_ruleset_nation_groups *receive_packet_ruleset_nation_groups_100(struct connection *pc, enum packet_type type)
+{
+  packet_ruleset_nation_groups_100_fields fields;
+  struct packet_ruleset_nation_groups *old;
+  struct hash_table **hash = &pc->phs.received[type];
+  struct packet_ruleset_nation_groups *clone;
+  RECEIVE_PACKET_START(packet_ruleset_nation_groups, real_packet);
+
+  DIO_BV_GET(&din, fields);
+
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_nation_groups_100, cmp_packet_ruleset_nation_groups_100);
+  }
+  old = hash_delete_entry(*hash, real_packet);
+
+  if (old) {
+    *real_packet = *old;
+  } else {
+    memset(real_packet, 0, sizeof(*real_packet));
+  }
+
+  if (BV_ISSET(fields, 0)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->ngroups = readin;
+    }
+  }
+  if (BV_ISSET(fields, 1)) {
+    
+    {
+      int i;
+    
+      if(real_packet->ngroups > MAX_NUM_NATION_GROUPS) {
+        freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+        real_packet->ngroups = MAX_NUM_NATION_GROUPS;
+      }
+      for (i = 0; i < real_packet->ngroups; i++) {
+        dio_get_string(&din, real_packet->groups[i], sizeof(real_packet->groups[i]));
+      }
+    }
+  }
+
+  clone = fc_malloc(sizeof(*clone));
+  *clone = *real_packet;
+  if (old) {
+    free(old);
+  }
+  hash_insert(*hash, clone, clone);
+
+  RECEIVE_PACKET_END(real_packet);
+}
+
+static int send_packet_ruleset_nation_groups_100(struct connection *pc, const struct packet_ruleset_nation_groups *packet)
+{
+  const struct packet_ruleset_nation_groups *real_packet = packet;
+  packet_ruleset_nation_groups_100_fields fields;
+  struct packet_ruleset_nation_groups *old, *clone;
+  bool differ, old_from_hash, force_send_of_unchanged = TRUE;
+  struct hash_table **hash = &pc->phs.sent[PACKET_RULESET_NATION_GROUPS];
+  int different = 0;
+  SEND_PACKET_START(PACKET_RULESET_NATION_GROUPS);
+
+  if (!*hash) {
+    *hash = hash_new(hash_packet_ruleset_nation_groups_100, cmp_packet_ruleset_nation_groups_100);
+  }
+  BV_CLR_ALL(fields);
+
+  old = hash_lookup_data(*hash, real_packet);
+  old_from_hash = (old != NULL);
+  if (!old) {
+    old = fc_malloc(sizeof(*old));
+    memset(old, 0, sizeof(*old));
+    force_send_of_unchanged = TRUE;
+  }
+
+  differ = (old->ngroups != real_packet->ngroups);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 0);}
+
+
+    {
+      differ = (old->ngroups != real_packet->ngroups);
+      if(!differ) {
+        int i;
+        for (i = 0; i < real_packet->ngroups; i++) {
+          if (strcmp(old->groups[i], real_packet->groups[i]) != 0) {
+            differ = TRUE;
+            break;
+          }
+        }
+      }
+    }
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 1);}
+
+  if (different == 0 && !force_send_of_unchanged) {
+    return 0;
+  }
+
+  DIO_BV_PUT(&dout, fields);
+
+  if (BV_ISSET(fields, 0)) {
+    dio_put_uint8(&dout, real_packet->ngroups);
+  }
+  if (BV_ISSET(fields, 1)) {
+  
+    {
+      int i;
+
+      for (i = 0; i < real_packet->ngroups; i++) {
+        dio_put_string(&dout, real_packet->groups[i]);
+      }
+    } 
+  }
+
+
+  if (old_from_hash) {
+    hash_delete_entry(*hash, old);
+  }
+
+  clone = old;
+
+  *clone = *real_packet;
+  hash_insert(*hash, clone, clone);
+  SEND_PACKET_END;
+}
+
+static void ensure_valid_variant_packet_ruleset_nation_groups(struct connection *pc)
+{
+  int variant = -1;
+
+  if(pc->phs.variant[PACKET_RULESET_NATION_GROUPS] != -1) {
+    return;
+  }
+
+  if(FALSE) {
+  } else if(TRUE) {
+    variant = 100;
+  } else {
+    die("unknown variant");
+  }
+  pc->phs.variant[PACKET_RULESET_NATION_GROUPS] = variant;
+}
+
+struct packet_ruleset_nation_groups *receive_packet_ruleset_nation_groups(struct connection *pc, enum packet_type type)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to read data from the closed connection %s",
+	    conn_description(pc));
+    return NULL;
+  }
+  assert(pc->phs.variant != NULL);
+  if (pc->is_server) {
+    freelog(LOG_ERROR, "Receiving packet_ruleset_nation_groups at the server.");
+  }
+  ensure_valid_variant_packet_ruleset_nation_groups(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_NATION_GROUPS]) {
+    case 100: return receive_packet_ruleset_nation_groups_100(pc, type);
+    default: die("unknown variant"); return NULL;
+  }
+}
+
+int send_packet_ruleset_nation_groups(struct connection *pc, const struct packet_ruleset_nation_groups *packet)
+{
+  if(!pc->used) {
+    freelog(LOG_ERROR,
+	    "WARNING: trying to send data to the closed connection %s",
+	    conn_description(pc));
+    return -1;
+  }
+  assert(pc->phs.variant != NULL);
+  if (!pc->is_server) {
+    freelog(LOG_ERROR, "Sending packet_ruleset_nation_groups from the client.");
+  }
+  ensure_valid_variant_packet_ruleset_nation_groups(pc);
+
+  switch(pc->phs.variant[PACKET_RULESET_NATION_GROUPS]) {
+    case 100: return send_packet_ruleset_nation_groups_100(pc, packet);
+    default: die("unknown variant"); return -1;
+  }
+}
+
+void lsend_packet_ruleset_nation_groups(struct conn_list *dest, const struct packet_ruleset_nation_groups *packet)
+{
+  conn_list_iterate(dest, pconn) {
+    send_packet_ruleset_nation_groups(pconn, packet);
+  } conn_list_iterate_end;
+}
+
 static unsigned int hash_packet_ruleset_nation_100(const void *vkey, unsigned int num_buckets)
 {
   const struct packet_ruleset_nation *key = (const struct packet_ruleset_nation *) vkey;
@@ -24237,7 +24443,7 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->group_count = readin;
+      real_packet->ngroups = readin;
     }
   }
   if (BV_ISSET(fields, 17)) {
@@ -24245,12 +24451,17 @@ static struct packet_ruleset_nation *receive_packet_ruleset_nation_100(struct co
     {
       int i;
     
-      if(real_packet->group_count > MAX_NUM_NATION_GROUPS) {
+      if(real_packet->ngroups > MAX_NUM_NATION_GROUPS) {
         freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
-        real_packet->group_count = MAX_NUM_NATION_GROUPS;
+        real_packet->ngroups = MAX_NUM_NATION_GROUPS;
       }
-      for (i = 0; i < real_packet->group_count; i++) {
-        dio_get_string(&din, real_packet->group_name[i], sizeof(real_packet->group_name[i]));
+      for (i = 0; i < real_packet->ngroups; i++) {
+        {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->groups[i] = readin;
+    }
       }
     }
   }
@@ -24412,17 +24623,17 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
   if(differ) {different++;}
   if(packet->is_barbarian) {BV_SET(fields, 15);}
 
-  differ = (old->group_count != real_packet->group_count);
+  differ = (old->ngroups != real_packet->ngroups);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 16);}
 
 
     {
-      differ = (old->group_count != real_packet->group_count);
+      differ = (old->ngroups != real_packet->ngroups);
       if(!differ) {
         int i;
-        for (i = 0; i < real_packet->group_count; i++) {
-          if (strcmp(old->group_name[i], real_packet->group_name[i]) != 0) {
+        for (i = 0; i < real_packet->ngroups; i++) {
+          if (old->groups[i] != real_packet->groups[i]) {
             differ = TRUE;
             break;
           }
@@ -24510,15 +24721,15 @@ static int send_packet_ruleset_nation_100(struct connection *pc, const struct pa
   /* field 14 is folded into the header */
   /* field 15 is folded into the header */
   if (BV_ISSET(fields, 16)) {
-    dio_put_uint8(&dout, real_packet->group_count);
+    dio_put_uint8(&dout, real_packet->ngroups);
   }
   if (BV_ISSET(fields, 17)) {
   
     {
       int i;
 
-      for (i = 0; i < real_packet->group_count; i++) {
-        dio_put_string(&dout, real_packet->group_name[i]);
+      for (i = 0; i < real_packet->ngroups; i++) {
+        dio_put_uint8(&dout, real_packet->groups[i]);
       }
     } 
   }
