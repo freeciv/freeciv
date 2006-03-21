@@ -2414,6 +2414,20 @@ void handle_ruleset_terrain_control(struct packet_ruleset_terrain_control *p)
 }
 
 /**************************************************************************
+  Handle the list of groups, sent by the ruleset.
+**************************************************************************/
+void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
+{
+  int i;
+
+  for (i = 0; i < packet->ngroups; i++) {
+    struct nation_group *group = add_new_nation_group(packet->groups[i]);
+
+    assert(group != NULL && group->index == i);
+  }
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void handle_ruleset_nation(struct packet_ruleset_nation *p)
@@ -2458,10 +2472,15 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
     pl->legend = mystrdup("");
   }
 
-  pl->num_groups = p->group_count;
+  pl->num_groups = p->ngroups;
   pl->groups = malloc(sizeof(*(pl->groups)) * pl->num_groups);
-  for (i = 0; i < p->group_count; i++) {
-    pl->groups[i] = add_new_nation_group(p->group_name[i]);
+  for (i = 0; i < p->ngroups; i++) {
+    pl->groups[i] = get_nation_group_by_id(p->groups[i]);
+    if (!pl->groups[i]) {
+      freelog(LOG_FATAL, "Unknown nation group %d for nation %s.",
+	      p->groups[i], pl->name);
+      exit(EXIT_FAILURE);
+    }
   }
 
   pl->is_available = p->is_available;

@@ -172,6 +172,7 @@ manual/civmanual.c
 data/Freeciv.in
 data/helpdata.txt
 data/default/buildings.ruleset
+data/default/nations.ruleset
 data/civ2/buildings.ruleset
 data/civ1/buildings.ruleset
 data/default/cities.ruleset

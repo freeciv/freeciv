@@ -2026,7 +2026,11 @@ static void load_ruleset_nations(struct section_file *file)
     pl->num_groups = dim;
     pl->groups = fc_malloc(sizeof(*(pl->groups)) * dim);
     for (j = 0; j < dim; j++) {
-      pl->groups[j] = add_new_nation_group(groups[j]);
+      pl->groups[j] = find_nation_group_by_name_orig(groups[j]);
+      if (!pl->groups[j]) {
+	freelog(LOG_FATAL, "Unknown group %s for nation %s.",
+		groups[j], pl->name);
+      }
     }
     free(groups);
     
@@ -2902,8 +2906,15 @@ static void send_ruleset_governments(struct conn_list *dest)
 void send_ruleset_nations(struct conn_list *dest)
 {
   struct packet_ruleset_nation packet;
+  struct packet_ruleset_nation_groups groups_packet;
   struct nation_type *n;
   int i, k;
+
+  groups_packet.ngroups = get_nation_groups_count();
+  nation_groups_iterate(pgroup) {
+    sz_strlcpy(groups_packet.groups[pgroup->index], pgroup->name);
+  } nation_groups_iterate_end;
+  lsend_packet_ruleset_nation_groups(dest, &groups_packet);
 
   assert(sizeof(packet.init_techs) == sizeof(n->init_techs));
   assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
@@ -2934,9 +2945,9 @@ void send_ruleset_nations(struct conn_list *dest)
     sz_strlcpy(packet.legend, n->legend);
 
      /* client needs only the names */
-     packet.group_count = n->num_groups;
+     packet.ngroups = n->num_groups;
      for (i = 0; i < n->num_groups; i++) {
-       sz_strlcpy(packet.group_name[i], n->groups[i]->name);
+       packet.groups[i] = n->groups[i]->index;
      }
 
     lsend_packet_ruleset_nation(dest, &packet);

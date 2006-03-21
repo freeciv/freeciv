@@ -1301,7 +1301,7 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2,
     }
   }
   for (i = 0; i < n1->num_groups; i++) {
-    if (nation_in_group(n2, n1->groups[i]->name)) {
+    if (is_nation_in_group(n2, n1->groups[i])) {
       sum += n1->groups[i]->match;
     }
   }

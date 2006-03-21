@@ -1155,6 +1155,11 @@ PACKET_RULESET_TERRAIN_CONTROL=101;sc,lsend
   UINT8 fallout_tile_penalty[O_MAX]; /* % taken from output if polluted */
 end
 
+PACKET_RULESET_NATION_GROUPS=118;sc,lsend
+  UINT8 ngroups;
+  STRING groups[MAX_NUM_NATION_GROUPS:ngroups][MAX_LEN_NAME];
+end
+
 PACKET_RULESET_NATION=102;sc,lsend
   NATION id; key
 
@@ -1176,8 +1181,8 @@ PACKET_RULESET_NATION=102;sc,lsend
 
   BOOL is_available, is_playable, is_barbarian;
   
-  UINT8 group_count;
-  STRING group_name[MAX_NUM_NATION_GROUPS:group_count][MAX_LEN_NAME];
+  UINT8 ngroups;
+  UINT8 groups[MAX_NUM_NATION_GROUPS:ngroups];
 end
 
 PACKET_RULESET_CITY=103;sc,lsend

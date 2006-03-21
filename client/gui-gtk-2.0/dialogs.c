@@ -672,7 +672,7 @@ static GtkWidget* create_list_of_nations_in_group(struct nation_group* group,
       continue;
     }
 
-    if (group != NULL && !nation_in_group(pnation, group->name)) {
+    if (group != NULL && !is_nation_in_group(pnation, group)) {
       continue;
     }
 
@@ -729,7 +729,7 @@ static GtkWidget* create_nation_selection_list(void)
   for (i = 0; i <= get_nation_groups_count(); i++) {
     struct nation_group* group = (i == 0 ? NULL: get_nation_group_by_id(i - 1));
     nation_list = create_list_of_nations_in_group(group, i);
-    group_name_label = gtk_label_new(group ? _(group->name) : _("All"));
+    group_name_label = gtk_label_new(group ? Q_(group->name) : _("All"));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), nation_list, group_name_label);
   }
 
