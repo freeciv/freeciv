@@ -25,15 +25,16 @@
 # (Inkomplett) lista med konventioner
 #
 #  • empire -> rike
-#  • nation -> folk/folkstam
+#  • nation -> folk/folkslag
 #  • load (data) -> läsa in
 #  • load (unit) -> lasta på
+#  • unhappy -> missnöjd
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-16 22:25-0500\n"
+"POT-Creation-Date: 2006-03-21 18:40+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: Swedish <freeciv@home.se>\n"
@@ -1479,7 +1480,7 @@ msgstr "Detta är servern för %s."
 #: server/civserver.c:204
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr "Man kan lära sig mycket om Freeciv vid %s."
+msgstr "Man kan lära sig mycket om Freeciv från %s."
 
 #: server/civserver.c:209 client/civclient.c:199 manual/civmanual.c:370
 #, c-format
@@ -1603,7 +1604,7 @@ msgstr ""
 "Detta kommando sätter i gång ett spel. Efter det att alla mänskliga spelare "
 "ha anslutit, alla (eventuella) datorstyrda ha skapats, samt alla överiga "
 "inställningar ha gjorts, använder man kommandot. Efter \"start\" kan varje "
-"spelare välja sin folkstam, och sedan börjar spelet. Detta kommando krävs "
+"spelare välja sitt folkslag, och sedan börjar spelet. Detta kommando krävs "
 "även efter man laddat in ett sparat spel för att sätta i gång det igen. När "
 "spelet väl pågår är detta kommando inte längre tillgängligt, eftersom det "
 "inte skulle ha någon verkan."
@@ -1648,14 +1649,13 @@ msgid "Show a list of players, teams, connections, or scenarios."
 msgstr "Visa en lista över spelare, lag, anslutningar eller scenarion."
 
 #: server/commands.c:64
-#, fuzzy
 msgid ""
 "Show a list of players in the game, teams of players, connections to the "
 "server, or available scenarios.  The argument may be abbreviated, and "
 "defaults to 'players' if absent."
 msgstr ""
-"Visa en lista över spelare, lag, anslutningar eller scenarion till servern. "
-"Argumentet kan förkortas, och har 'players' som standard."
+"Visa en lista över spelare, lag, anslutningar till servern, eller scenarion. "
+"Argumentet kan förkortas, och visar spelare om inget annat angetts."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -1901,7 +1901,6 @@ msgid "Take over a player's place in the game."
 msgstr "Ta över en spelares plats i spelet."
 
 #: server/commands.c:181
-#, fuzzy
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
@@ -1910,10 +1909,10 @@ msgid ""
 "assigned to the connection."
 msgstr ""
 "Endast konsollen och anslutningar med cmdlevel 'hack' kan tvinga andra "
-"anslutningar att iaktaga spelare. Om man inte är någon av dem är endast "
-"argumentet [spelarnamn] tillåtet. I det fall konsollen inte visar något "
-"spelarnamn eller om anslutningen ej avänder argument, då är anslutningen "
-"kopplad till en global iaktagare."
+"anslutningar att ta över en spelare. Om man inte är någon av dem är endast "
+"argumentet [spelarnamn] tillåtet. I det fall \"-\" är angivet som spelarnamn "
+"samt om anslutningen inte redan kontrollerar en spelare, skapas en sådan och "
+"tilldelas denna anslutning."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:189
@@ -1922,7 +1921,7 @@ msgstr "observe [anslutningsnamn] [spelarnamn]"
 
 #: server/commands.c:190
 msgid "Observe a player or the whole game."
-msgstr "Iaktag en spelare eller hela spelet."
+msgstr "Iakttag en spelare eller hela spelet."
 
 #: server/commands.c:191
 msgid ""
@@ -1933,10 +1932,10 @@ msgid ""
 "global observer."
 msgstr ""
 "Endast konsollen och anslutningar med cmdlevel 'hack' kan tvinga andra "
-"anslutningar att iaktaga spelare. Om man inte är någon av dem är endast "
+"anslutningar att iakttaga spelare. Om man inte är någon av dem är endast "
 "argumentet [spelarnamn] tillåtet. I det fall konsollen inte visar något "
 "spelarnamn eller om anslutningen ej avänder argument, då är anslutningen "
-"kopplad till en global iaktagare."
+"kopplad till en global iakttagare."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:199
@@ -1984,7 +1983,7 @@ msgstr "Försätt dig själv i bortaläge. Då styr datorn spelet åt dig."
 
 #: server/commands.c:215
 msgid "The AI will govern your nation but do minimal changes."
-msgstr "Datorn kommer att styra din folkstam med mista möjliga ingripande."
+msgstr "Datorn kommer att styra ditt folkslag med mista möjliga ingripande."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:219
@@ -3037,7 +3036,11 @@ msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
 msgstr[0] ""
+"%s har anstiftat ett uppror! Om %d omgång av regeringslöshet övergår det i %"
+"s."
 msgstr[1] ""
+"%s har anstiftat ett uppror! Om %d omgångar av regeringslöshet övergår det i "
+"%s."
 
 #: server/plrhand.c:349
 msgid "Revolution: returning to anarchy."
@@ -3050,17 +3053,17 @@ msgstr "Välj en ny regeringtyp från regeringsmenyn istället."
 #: server/plrhand.c:436
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
-msgstr "Skattesats överskred högsta tillåtna satsen för %s; anpassad."
+msgstr "Skattesats överskred högsta tillåtna satsen för %s och justerades."
 
 #: server/plrhand.c:442
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
-msgstr "Forskningssatsen överskred högsta tillåtna satsen för %s; justerades."
+msgstr "Forskningssats överskred högsta tillåtna satsen för %s och justerades."
 
 #: server/plrhand.c:448
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
-msgstr "Överflödssatsen överskred högsta tillåtna satsen för %s, justerades."
+msgstr "Överflödssats överskred högsta tillåtna satsen för %s och justerades."
 
 #: server/plrhand.c:504
 #, c-format
@@ -3512,12 +3515,12 @@ msgid "Resources %s and %s have the same identifier."
 msgstr "Resources %s and %s have the same identifier."
 
 #. TRANS: Obscure ruleset error
-#: server/ruleset.c:2396
+#: server/ruleset.c:2400
 #, c-format
 msgid "Section %s lists unknown effect type: \"%s\" (%s)"
 msgstr "Section %s lists unknown effect type: \"%s\" (%s)"
 
-#: server/ruleset.c:3027
+#: server/ruleset.c:3038
 msgid "Loading rulesets"
 msgstr "Läser in reglerna"
 
@@ -3552,7 +3555,7 @@ msgstr "Unknown terrain identifier '%c' in savegame."
 #: server/savegame.c:561
 #, c-format
 msgid "Warning: Unknown nation %s for starting position no %d"
-msgstr "Varning: Okänd folkstam %s i startposition nr %d"
+msgstr "Varning: Okänt folkslag %s i startposition nr %d"
 
 #: server/savegame.c:588
 #, c-format
@@ -4381,11 +4384,11 @@ msgid ""
 msgstr ""
 "Om nollskild tillfaller alla rutor inom denna radie av en stad denna stads "
 "ägare. Särskilda regler gäller havsrutor samt rutor inom radien av fler än "
-"en folkstams stad."
+"ett folks stad."
 
 #: server/settings.c:672
 msgid "Units inside borders cause no unhappiness"
-msgstr "Enheter inom ens gränser orsakar ej otillfredsställdhet"
+msgstr "Enheter inom ens gränser orsakar ej missnöjdhet"
 
 #: server/settings.c:673
 msgid ""
@@ -4438,8 +4441,8 @@ msgstr ""
 "\n"
 "2 = Ett stadsnamn får endast användas för en av de städer som finns i hela "
 "spelet.\n"
-"3 = En spelare får inte välja ett namn som finns uppräknat i en annan "
-"folkstams stadslista."
+"3 = En spelare får inte välja ett namn som finns uppräknat i ett annat folks "
+"stadslista."
 
 #: server/settings.c:718
 msgid "Barbarian appearance frequency"
@@ -4610,7 +4613,7 @@ msgstr ""
 "iakttaga de spelare som passar något av de angivna tecknen. Detta påverkar "
 "endast framtida användningar av kommandona take och observe och är inte "
 "restriktivt. Tecknen och deras innebörder är:\n"
-"    o,O = Globala iaktagare\n"
+"    o,O = Globala iakttagare\n"
 "    b   = Barbarspelare\n"
 "    d   = Besegrade spelare\n"
 "    A,a = Datorstyrda spelare\n"
@@ -5045,7 +5048,7 @@ msgstr "Var god välj ett ickeblankt namn."
 
 #: server/srv_main.c:1186
 msgid "That nation is already in use."
-msgstr "Folkstammen är upptagen."
+msgstr "Folkslaget är upptaget."
 
 #: server/srv_main.c:1202
 #, c-format
@@ -5059,12 +5062,12 @@ msgstr "Var god välj ett namn bestående av endast ASCII-tecken."
 #: server/srv_main.c:1302
 #, c-format
 msgid "%s nation is not available in this scenario."
-msgstr "Folkstammen %s är inte tillgänglig i scenariot"
+msgstr "Folkslaget %s är inte tillgängligt i scenariot"
 
 #: server/srv_main.c:1308
 #, c-format
 msgid "%s nation is already in use."
-msgstr "Folkstammen %s är upptagen."
+msgstr "Folkslaget %s är upptaget."
 
 #: server/srv_main.c:1325
 #, c-format
@@ -5758,7 +5761,7 @@ msgstr "Beklagar, man kan ej iakttaga globalt i detta spel."
 
 #: server/stdinhand.c:2591
 msgid "Sorry, you can't take a global observer. Observe it instead."
-msgstr "Beklagar, du kan ej taga global iaktagare. Iaktag denne istället."
+msgstr "Beklagar, du kan ej taga global iakttagare. Iakttag denne istället."
 
 #: server/stdinhand.c:2603
 msgid "Sorry, one can't observe barbarians in this game."
@@ -5913,7 +5916,7 @@ msgstr "%s kopplar bort från %s"
 #: server/stdinhand.c:3081
 #, c-format
 msgid "%s no longer observing."
-msgstr "%s är ej längre iaktagare."
+msgstr "%s är ej längre iakttagare."
 
 #: server/stdinhand.c:3097
 #, c-format
@@ -6138,7 +6141,7 @@ msgstr ", skicklighetsläge %s"
 #: server/stdinhand.c:4051
 #, c-format
 msgid ", nation %s"
-msgstr ", folkstam %s"
+msgstr ", folkslag %s"
 
 #: server/stdinhand.c:4054
 #, c-format
@@ -6167,7 +6170,7 @@ msgstr " %s från %s (kommandoåtkomstläge %s), bufsize=%dkb"
 
 #: server/stdinhand.c:4079
 msgid " (observer mode)"
-msgstr " (iaktagarläge)"
+msgstr " (iakttagarläge)"
 
 #: server/stdinhand.c:4097
 msgid "List of teams:"
@@ -7095,7 +7098,7 @@ msgstr "O"
 
 #: client/cityrepdata.c:445
 msgid "Workers: Unhappy"
-msgstr "Arbetare: Otillfredsställda"
+msgstr "Arbetare: Missnöjda"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
@@ -7694,7 +7697,7 @@ msgid ""
 "Requires the %s nation.\n"
 "\n"
 msgstr ""
-"Kräver folkstammen %s.\n"
+"Kräver folkslaget %s.\n"
 "\n"
 
 #: client/helpdata.c:190 client/helpdata.c:194 client/helpdata.c:198
@@ -8078,7 +8081,7 @@ msgid ""
 "* Must end turn in a city or next to land, or has a 50%% risk of being lost "
 "at sea.\n"
 msgstr ""
-"* Måste avsluta sin omgång i en stad eller intill land. Löper annars 50%%s "
+"* Måste avsluta sin omgång i en stad eller intill land. Löper annars 50%% "
 "risk att gå förlorad till sjöss.\n"
 
 #: client/helpdata.c:986
@@ -8212,14 +8215,14 @@ msgstr "Innehåller:\n"
 msgid ""
 "* Military units away from home and field units will cause one citizen to "
 "become unhappy.\n"
-msgstr "* Krigsenheter i fält orsaka otillfredsställdhet hos en medborgare.\n"
+msgstr "* Krigsenheter i fält orsaka missnöjdhet hos en medborgare.\n"
 
 #: client/helpdata.c:1289
 #, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr "* Krigsenheter i fält orsaka otillfredsställdhet hos %d medborgare.\n"
+msgstr "* Krigsenheter i fält orsaka missnöjdhet hos %d medborgare.\n"
 
 #: client/helpdata.c:1296
 #, c-format
@@ -8227,8 +8230,7 @@ msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
 "caused by units.\n"
 msgstr ""
-"* Varje stad slipper %d otillfredsställhet som annars skulle orsakas av "
-"enheter.\n"
+"* Varje stad slipper %d missnöjdhet som annars skulle orsakas av enheter.\n"
 
 #: client/helpdata.c:1302
 #, c-format
@@ -8261,8 +8263,8 @@ msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
 "appear when you have %d cities.\n"
 msgstr ""
-"* Den första otillfredsställda medborgaren i varje stad beroende på "
-"storleken av en civilisation kommer framträda när man har %d städer.\n"
+"* Den första missnöjda medborgaren i varje stad beroende på storleken av en "
+"civilisation kommer framträda när man har %d städer.\n"
 
 #: client/helpdata.c:1329
 #, c-format
@@ -8270,8 +8272,8 @@ msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
-"* Efter den första otillfredsställda medborgaren till följd av en stads "
-"storlek framträtt, ännu en kommer framträda per ytterligare %d städer.\n"
+"* Efter den första missnöjda medborgaren till följd av en stads storlek "
+"framträtt, ännu en kommer framträda per ytterligare %d städer.\n"
 
 #: client/helpdata.c:1336
 #, c-format
@@ -8350,9 +8352,7 @@ msgstr "* Gerillasoldater uppenbarar sig när städer erövras av en fiende.\n"
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
-msgstr ""
-"* Byggnader som vanligtvis motarbetar otillfredsställdhet ger istället "
-"guld.\n"
+msgstr "* Byggnader som vanligtvis motarbetar missnöjdhet ger istället guld.\n"
 
 #: client/helpdata.c:1390
 #, c-format
@@ -8362,7 +8362,7 @@ msgstr "* Betalar inget underhåll för fanatiker.\n"
 #: client/helpdata.c:1393
 #, c-format
 msgid "* Has no unhappy citizens.\n"
-msgstr "* Saknar otillfredsställda medborgare.\n"
+msgstr "* Saknar missnöjda medborgare.\n"
 
 #: client/helpdata.c:1397 client/helpdata.c:1400
 #, c-format
@@ -8917,7 +8917,7 @@ msgstr "Flagga"
 #: client/gui-mui/plrdlg.c:167 client/gui-win32/connectdlg.c:942
 #: client/gui-win32/dialogs.c:546 client/gui-win32/plrdlg.c:335
 msgid "Nation"
-msgstr "Folkstam"
+msgstr "Folkslag"
 
 #: client/plrdlg_common.c:253
 msgid "Border"
@@ -9260,8 +9260,8 @@ msgstr[1] "%d steg"
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d glödlampa"
+msgstr[1] "%d glödlampor"
 
 #: client/text.c:546 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
 #: client/gui-gtk-2.0/citydlg.c:1419 client/gui-mui/citydlg.c:125
@@ -10327,20 +10327,20 @@ msgstr "Folksta_mmar:"
 
 #: client/gui-gtk-2.0/dialogs.c:763 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
-msgstr "Vilken folkstam vill du styra?"
+msgstr "Vilket folkslag vill du styra?"
 
 #: client/gui-gtk-2.0/dialogs.c:765 client/gui-win32/connectdlg.c:990
 #: data/Freeciv.in:3371
 msgid "Pick Nation"
-msgstr "Välj din folkstam"
+msgstr "Välj folk"
 
 #: client/gui-gtk-2.0/dialogs.c:774
 msgid "Random Nation"
-msgstr "Slumpvald folkstam"
+msgstr "Slumpvalt folkslag"
 
 #: client/gui-gtk-2.0/dialogs.c:786 client/gui-win32/dialogs.c:521
 msgid "Select a nation"
-msgstr "Välj en folkstam"
+msgstr "Välj ett folkslag"
 
 #: client/gui-gtk-2.0/dialogs.c:804
 msgid "_Properties"
@@ -10625,14 +10625,12 @@ msgid "_Start"
 msgstr "_Sätt igång"
 
 #: client/gui-gtk-2.0/gui_main.c:1395 client/gui-gtk-2.0/pages.c:1535
-#, fuzzy
 msgid "_Observe"
-msgstr "Iakttagare"
+msgstr "_Iakttag"
 
 #: client/gui-gtk-2.0/gui_main.c:1397
-#, fuzzy
 msgid "_Take player"
-msgstr "marknadsplats"
+msgstr "_Ta spelare"
 
 #: client/gui-gtk-2.0/gui_main.c:1419
 msgid "<AI>"
@@ -10706,7 +10704,7 @@ msgstr "%d nöjda före straff med "
 #: client/gui-win32/happiness.c:203
 #, c-format
 msgid "%d additional unhappy citizens."
-msgstr "%d ytterligare otillfredsställda medborgare."
+msgstr "%d ytterligare missnöjda medborgare."
 
 #: client/gui-gtk-2.0/happiness.c:270 client/gui-win32/happiness.c:220
 #, c-format
@@ -10745,11 +10743,11 @@ msgstr "%d per enhet). "
 #: client/gui-gtk-2.0/happiness.c:316 client/gui-mui/citydlg.c:2260
 #: client/gui-win32/happiness.c:267
 msgid "Military units in the field may cause unhappiness. "
-msgstr "Krigsenheter i fält kunna orsaka otillfredsställdhet. "
+msgstr "Krigsenheter i fält kunna orsaka missnöjdhet. "
 
 #: client/gui-gtk-2.0/happiness.c:320 client/gui-win32/happiness.c:271
 msgid "Military units have no happiness effect. "
-msgstr "Krigsenheter ha ingen belåtenhetpåsverkan."
+msgstr "Krigsenheter ha ingen påsverkan på belåtenhet."
 
 #: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-mui/helpdlg.c:487
@@ -11738,39 +11736,35 @@ msgstr "Växla redoläge för spelare"
 
 #: client/gui-gtk-2.0/pages.c:1140
 msgid "Pick nation"
-msgstr "Välj folkstam"
+msgstr "Välj folkslag"
 
 #: client/gui-gtk-2.0/pages.c:1152
 msgid "Observe this player"
-msgstr "Iaktag spelare"
+msgstr "Iakttag spelareen"
 
 #: client/gui-gtk-2.0/pages.c:1160
-#, fuzzy
 msgid "Take this player"
-msgstr "Iaktag spelare"
+msgstr "Ta spelaren"
 
 #: client/gui-gtk-2.0/pages.c:1175
-#, fuzzy
 msgid "Cut connection"
-msgstr "Bryter anslutningen till %s."
+msgstr "Bryt anslutningen"
 
 #: client/gui-gtk-2.0/pages.c:1185
-#, fuzzy
 msgid "Aitoggle player"
-msgstr "aitoggle <spelarnamn>"
+msgstr "Slå av/på datorstyrning"
 
 #: client/gui-gtk-2.0/pages.c:1193
-#, fuzzy
 msgid "Remove player"
-msgstr "Avlägsnar spelare %s."
+msgstr "Avlägsna spelaren"
 
 #: client/gui-gtk-2.0/pages.c:1204
 msgid "Give info access"
-msgstr ""
+msgstr "Ge info access"
 
 #: client/gui-gtk-2.0/pages.c:1212
 msgid "Give ctrl access"
-msgstr ""
+msgstr "Ge ctrl access"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1273
@@ -11835,7 +11829,7 @@ msgstr "Öppna scenario"
 
 #: client/gui-gtk-2.0/pages.c:1864
 msgid "Choose a _Scenario:"
-msgstr "Öppna scenario"
+msgstr "Öppna _scenario:"
 
 #: client/gui-gtk-2.0/pages.c:2036 client/gui-gtk-2.0/repodlgs.c:632
 #: client/gui-gtk-2.0/wldlg.c:1030 client/gui-mui/citydlg.c:633
@@ -11847,7 +11841,7 @@ msgstr "Typ"
 
 #: client/gui-gtk-2.0/pages.c:2046
 msgid "Choose a _nation to play:"
-msgstr "Välj en folkstam att spela:"
+msgstr "Välj ett _folkslag att spela:"
 
 #: client/gui-gtk-2.0/pages.c:2066
 msgid "Game _Options..."
@@ -12673,7 +12667,7 @@ msgstr "Kvinna"
 
 #: client/gui-mui/dialogs.c:1612
 msgid "Freeciv - Select a Nation"
-msgstr "Freeciv - Välj en folkstam"
+msgstr "Freeciv - Välj ett folkslag"
 
 #: client/gui-mui/dialogs.c:1635
 msgid "_Leader Name"
@@ -12681,7 +12675,7 @@ msgstr "_Ledarnamn"
 
 #: client/gui-mui/dialogs.c:1650 client/gui-mui/dialogs.c:1651
 msgid "_City Style"
-msgstr "_Stadsnamn"
+msgstr "_Stadstyp"
 
 #: client/gui-mui/dialogs.c:1658 client/gui-win32/menu.c:315
 msgid "_Disconnect"
@@ -13785,7 +13779,7 @@ msgstr "Delta i nätverksspel"
 
 #: client/gui-win32/connectdlg.c:931
 msgid "Choose a nation to play"
-msgstr "Välj en folkstam"
+msgstr "Välj ett folkslag att spela"
 
 #: client/gui-win32/connectdlg.c:966
 msgid "Number of players (Including AI):"
@@ -13793,7 +13787,7 @@ msgstr "Antal spelare (inklusive datorstyrda):"
 
 #: client/gui-win32/connectdlg.c:974
 msgid "AI skill level:"
-msgstr "Datorspelarens färdighetsnivå"
+msgstr "Datorspelarens färdighetsnivå:"
 
 #: client/gui-win32/connectdlg.c:988 client/gui-win32/repodlgs.c:923
 msgid "Game Options"
@@ -13831,7 +13825,7 @@ msgstr "Gå till och stäng"
 
 #: client/gui-win32/dialogs.c:509
 msgid "What nation will you be?"
-msgstr "Vilken folkstam ska du styra?"
+msgstr "Vilket folk ska du styra?"
 
 #: client/gui-win32/dialogs.c:559
 msgid "Leader:"
@@ -14223,7 +14217,7 @@ msgstr "Lösenord"
 
 #: client/gui-xaw/dialogs.c:1471
 msgid "You must select a nation."
-msgstr "Du måste välja en folkstam"
+msgstr "Du måste välja ett folk"
 
 #: client/gui-xaw/graphics.c:342
 #, c-format
@@ -14281,7 +14275,8 @@ msgstr "Misslyckades med att läsa in typsnitt: %s"
 
 #: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "Du kan möjligen tillfälligt lösa problemet genom att utföra kommandot "
+"\"xset fp rehash\" först."
 
 #: client/gui-xaw/gui_main.c:380 client/gui-xaw/gui_main.c:401
 #, c-format
@@ -14962,7 +14957,7 @@ msgstr "Närvarande enheter:"
 
 #: data/Freeciv.in:3135
 msgid "Select nation and name:"
-msgstr "Välj en folkstam och ett namn:"
+msgstr "Välj ett folkslag och ett namn:"
 
 #: data/Freeciv.in:3150
 msgid "Pick Name"
@@ -14970,7 +14965,7 @@ msgstr "Välj ett namn"
 
 #: data/Freeciv.in:3154
 msgid "Select your sex:"
-msgstr "Välj ett kön:"
+msgstr "Välj kön:"
 
 #: data/Freeciv.in:3158
 msgid "Male  "
@@ -15003,7 +14998,7 @@ msgstr "Förbereder"
 
 #: data/Freeciv.in:3350
 msgid "Name              Ready Leader          Nation          "
-msgstr "Namn              Redo  Ledare          Folkstam        "
+msgstr "Namn              Redo  Ledare          Folk            "
 
 #: data/Freeciv.in:3379
 msgid "Start"
@@ -15095,7 +15090,7 @@ msgstr ""
 "\n"
 "Versionshistorik:\n"
 "=================\n"
-"Version 0.63; 2006-03-04\n"
+"Version 0.64; 2006-03-04\n"
 "  DM> Uppdateringar för 2.1-beta1. Har på prov börjat lägga in material\n"
 "  från Nordisk familjebok via Runeberg. Sekelskiftesspråket passar bra\n"
 "  i sammanhanget!\n"
@@ -15317,7 +15312,6 @@ msgstr ""
 "finns spelarnamnen där."
 
 #: data/helpdata.txt:433
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15356,11 +15350,9 @@ msgstr ""
 "Tangentbord:\n"
 "============\n"
 "  a: självständig bosätt(a)re (bosättarenheter)\n"
-"  a: självständigt (a)ngrepp (krigsenheter)\n"
 "  b: grunda stad (bosättarenheter)\n"
 "  b: hjälp till att (b)ygga underverk (karavanenheter)\n"
 "  C: förbind (vänsterklicka sedan på målet)\n"
-"  c: (c)entrera vyn på enheten\n"
 "  d: bu(d)bärar/spejarhandlingar (budbärarenheter)\n"
 "  D: Upplös enhet\n"
 "  e: bygg flygbas (flygbasenheter)\n"
@@ -15370,12 +15362,13 @@ msgstr ""
 "  g: lägg till (g)å till-waypoint (i gå till-läge)\n"
 "  h: ändra (h)emstad (till staden på nuvarande plats)\n"
 "  i: anlägg bevattn(i)ng/åker (bosättarenheter)\n"
-"  l: (l)asta på enhet på fraktskepp  L: gå/f(l)yg till stad\n"
+"  l: (l)asta på enhet på fraktskepp\n"
+"  L: gå/f(l)yg till stad\n"
 "  m: bygg gruva (bosättarenheter)\n"
 "  n: rensa radioaktivt (n)edfall\n"
 "  N: utlös kär(N)vapen\n"
 "  o: (o)mvandla landskap (ingenjörenheter)\n"
-"  p: rensa utsläpp (bosättarenheter)\n"
+"  p: rensa utslä(p)p (bosättarenheter)\n"
 "  p: ho(p)pa fallskärm (fallskärmsenheter)\n"
 "  P: (P)lundra landskapsförändring\n"
 "  q: gå vaktrunda (vänsterklicka sedan på målet)\n"
@@ -16491,15 +16484,13 @@ msgid " Combat example 1"
 msgstr " Kampexempel 1"
 
 #: data/helpdata.txt:1039
-#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
-"Antag att en erfaren kanon (A:8, F:1, TP:20, E:1) med 2/3 drag kvar angriper "
-"en oerfaren musketerare (A:3, F:3, TP:20, E:1) inuti en stad (med "
-"stadsmurar) på en skogsruta."
+"Antag att en kanon (A:8, F:1, TP:20, E:1) angriper en musketerare (A:3, F:3, "
+"TP:20, E:1) inuti en stad (med stadsmurar) på en skogsruta. Ingen är erfaren."
 
 #: data/helpdata.txt:1043
 msgid ""
@@ -18217,6 +18208,46 @@ msgstr ""
 "Detta är ingen vanlig stadsförbättring, utan ett sätt att omsätta en stads "
 "sköldtillverkning till guldinkomst."
 
+#: data/default/nations.ruleset:20
+msgid "?nationgroup:Ancient"
+msgstr "forntida"
+
+#: data/default/nations.ruleset:23
+msgid "?nationgroup:Medieval"
+msgstr "medeltida"
+
+#: data/default/nations.ruleset:26
+msgid "?nationgroup:Modern"
+msgstr "nutida"
+
+#: data/default/nations.ruleset:29
+msgid "?nationgroup:African"
+msgstr "afrikanska"
+
+#: data/default/nations.ruleset:32
+msgid "?nationgroup:American"
+msgstr "amerikanska"
+
+#: data/default/nations.ruleset:35
+msgid "?nationgroup:Asian"
+msgstr "asiatiska"
+
+#: data/default/nations.ruleset:38
+msgid "?nationgroup:European"
+msgstr "europeiska"
+
+#: data/default/nations.ruleset:41
+msgid "?nationgroup:Oceanian"
+msgstr "oceaniska"
+
+#: data/default/nations.ruleset:44
+msgid "?nationgroup:Transitional"
+msgstr "övergående"
+
+#: data/default/nations.ruleset:47
+msgid "?nationgroup:Fictional"
+msgstr "påhittade"
+
 #: data/civ2/buildings.ruleset:248
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
@@ -18576,53 +18607,44 @@ msgid "?Taxman:T"
 msgstr "S"
 
 #: data/default/cities.ruleset:74
-#, fuzzy
 msgid "?citystyle:European"
-msgstr "Hänryckning"
+msgstr "europeisk"
 
 #: data/default/cities.ruleset:83
-#, fuzzy
 msgid "?citystyle:Classical"
-msgstr "Klassisk"
+msgstr "klassisk"
 
 #: data/default/cities.ruleset:92
 msgid "?citystyle:Tropical"
-msgstr ""
+msgstr "tropisk"
 
 #: data/default/cities.ruleset:101
-#, fuzzy
 msgid "?citystyle:Asian"
-msgstr "?city:fientlig"
+msgstr "orientalisk"
 
 #: data/default/cities.ruleset:110
-#, fuzzy
 msgid "?citystyle:Babylonian"
-msgstr "?plural:babylonierna"
+msgstr "mesopotamisk"
 
 #: data/default/cities.ruleset:119
-#, fuzzy
 msgid "?citystyle:Celtic"
-msgstr "Frid"
+msgstr "keltisk"
 
 #: data/default/cities.ruleset:128
-#, fuzzy
 msgid "?citystyle:Renaissance"
-msgstr "Rennässans"
+msgstr "renässans"
 
 #: data/default/cities.ruleset:139
-#, fuzzy
 msgid "?citystyle:Industrial"
-msgstr "?city:neutral"
+msgstr "industriell"
 
 #: data/default/cities.ruleset:150
-#, fuzzy
 msgid "?citystyle:Modern"
-msgstr "Upplopp"
+msgstr "modern"
 
 #: data/default/cities.ruleset:161
-#, fuzzy
 msgid "?citystyle:PostModern"
-msgstr "Upplopp"
+msgstr "senmodern"
 
 #: data/default/governments.ruleset:51 data/civ2/governments.ruleset:49
 #: data/civ1/governments.ruleset:51
@@ -18632,12 +18654,12 @@ msgstr "regeringslöshet"
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
 msgid "Usurper"
-msgstr "Upprorsmakare"
+msgstr "upprorsmakare"
 
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:55
 #: data/civ1/governments.ruleset:57
 msgid "?female:Usurper"
-msgstr "Upprorsmakarinna"
+msgstr "upprorsmakarinna"
 
 #: data/default/governments.ruleset:59 data/civ1/governments.ruleset:59
 msgid ""
@@ -18664,12 +18686,12 @@ msgstr "envälde"
 #: data/civ1/governments.ruleset:78 data/nation/brazilian.ruleset:22
 #: data/nation/iraqi.ruleset:21 data/nation/roman.ruleset:39
 msgid "Dictator"
-msgstr "Envåldshärskare"
+msgstr "envåldshärskare"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
 msgid "Dictatress"
-msgstr "Envåldshärskarinna"
+msgstr "envåldshärskarinna"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -18695,7 +18717,7 @@ msgstr "monarki"
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/slovakian.ruleset:27 data/nation/spanish.ruleset:30
 msgid "King"
-msgstr "Konung"
+msgstr "konung"
 
 #: data/default/governments.ruleset:101 data/civ2/governments.ruleset:99
 #: data/civ1/governments.ruleset:101 data/nation/bosnia.ruleset:30
@@ -18703,7 +18725,7 @@ msgstr "Konung"
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/spanish.ruleset:30
 msgid "Queen"
-msgstr "Drottning"
+msgstr "drottning"
 
 #: data/default/governments.ruleset:103 data/civ1/governments.ruleset:103
 msgid ""
@@ -18725,12 +18747,12 @@ msgstr "kommunism"
 #: data/default/governments.ruleset:121 data/civ2/governments.ruleset:119
 #: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:25
 msgid "Comrade"
-msgstr "Kamrat"
+msgstr "kamrat"
 
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:120
 #: data/civ1/governments.ruleset:122
 msgid "?female:Comrade"
-msgstr "Kamrat"
+msgstr "kamrat"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
 msgid ""
@@ -18756,12 +18778,12 @@ msgstr "republik"
 #: data/default/governments.ruleset:145 data/civ2/governments.ruleset:171
 #: data/civ1/governments.ruleset:145
 msgid "Consul"
-msgstr "Konsul"
+msgstr "konsul"
 
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:146
 msgid "?female:Consul"
-msgstr "Konsul"
+msgstr "konsul"
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:174
 #: data/civ1/governments.ruleset:148
@@ -18797,12 +18819,12 @@ msgstr "folkstyre"
 #: data/nation/slovenian.ruleset:19 data/nation/slovenian.ruleset:20
 #: data/nation/slovakian.ruleset:28
 msgid "President"
-msgstr "President"
+msgstr "president"
 
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
 msgid "?female:President"
-msgstr "President"
+msgstr "president"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -18881,11 +18903,11 @@ msgstr "fundamentalism"
 
 #: data/civ2/governments.ruleset:143
 msgid "High Priest"
-msgstr "Överstepräst"
+msgstr "överstepräst"
 
 #: data/civ2/governments.ruleset:144
 msgid "High Priestess"
-msgstr "Översteprästinna"
+msgstr "översteprästinna"
 
 #: data/civ2/governments.ruleset:146
 msgid ""
@@ -20471,7 +20493,7 @@ msgstr "?plural:afghanerna"
 #: data/nation/ukrainian.ruleset:5 data/nation/venezuelan.ruleset:6
 #: data/nation/vietnamese.ruleset:5
 msgid "Modern"
-msgstr "Nutida"
+msgstr "nutida"
 
 #: data/nation/afghani.ruleset:5 data/nation/arab.ruleset:5
 #: data/nation/aramean.ruleset:5 data/nation/assyrian.ruleset:5
@@ -20491,7 +20513,7 @@ msgstr "Nutida"
 #: data/nation/tibetan.ruleset:5 data/nation/turk.ruleset:5
 #: data/nation/uyghur.ruleset:5 data/nation/vietnamese.ruleset:5
 msgid "Asian"
-msgstr "Asiatisk"
+msgstr "asiatisk"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -20501,6 +20523,17 @@ msgid ""
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
+"\"Afganistan är den persiska, nu allmänt antagna, "
+"benämningen på afganernas land, 29°--36° n. br. och "
+"78°--91° ö. lgd. Genom läge, historia och språk "
+"bildar detta högland öfvergången mellan Indien "
+"och vestra Asien och gränsar i ö. till Pendsjab, "
+"i s. till Belutsjistan. i v. till persiska Korasan, "
+"i n. till Turkistan. Längs norra gränsen framstryker "
+"Hindu-kuhs väldiga bergskedja med toppar af ända "
+"till 20,000 fots höjd.\"\n"
+"\n"
+"Ur Nordisk familjebok \"1800-talsutgåvan\""
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
@@ -20716,7 +20749,7 @@ msgstr "?plural:armenierna"
 #: data/nation/viking.ruleset:5 data/nation/welsh.ruleset:5
 #: data/nation/westphalian.ruleset:5
 msgid "European"
-msgstr "Europeisk"
+msgstr "europeisk"
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -20837,7 +20870,7 @@ msgstr "huey tlatoani"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr "Babylonier"
+msgstr "babylonier"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
@@ -20870,18 +20903,27 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "bayrare"
+msgstr "bajrare"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "?plural:bayrarna"
+msgstr "?plural:bajrarna"
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
 "Bavaria, before national unification in 1870AD, was one of the largest of "
 "the German kingdoms."
 msgstr ""
-"Bayern var ett av de största tyska kungadömena före Tysklands enande år 1870."
+"\"Bajern söder om Donau hörde "
+"under den romerska kejsaretiden till provinserna "
+"Rhætia (Vindelicia) och Noricum samt beboddes "
+"af de keltiske bojerna, hvilka äfven innehade "
+"en del af landet norr om floden. I början af "
+"500-talet invandrade der bajuvarierna, som "
+"sannolikt utgjorde ett förbund af flere germanska "
+"folk (heruler, rugier, turcilinger, skyrer).\"\n"
+"\n"
+"Ur Nordisk familjebok \"1800-talsutgåvan\""
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
@@ -21072,8 +21114,7 @@ msgstr "?plural:burmesarna"
 msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
-msgstr ""
-"Burma - officiellt benämnt \"Myanmar\" - är Sydostasienst största land."
+msgstr "Burma - officiellt benämnt \"Myanmar\" - är Sydostasiens största land."
 
 #: data/nation/burmese.ruleset:26
 msgid "Bohmugyi"
@@ -21528,7 +21569,7 @@ msgid ""
 "After centuries of Spanish rule, the Philippines were ceded to the Americans "
 "in 1898. They attained home rule in 1935 and independence in 1946."
 msgstr ""
-"Filipinerna styrdes under århundraden av Spanjorerna fram till år 1898, då "
+"Filippinerna styrdes under århundraden av Spanjorerna fram till år 1898, då "
 "amerikaner tog över styret. Filipinerna blev självständigt år 1946."
 
 #: data/nation/finnish.ruleset:3
@@ -21714,6 +21755,8 @@ msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
 msgstr ""
+"Den Hellenska republiken - även känd som Grekland - bildades efter det "
+"grekiska folket gjort sig fria från det Ottomanska riket 1832."
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
@@ -21817,23 +21860,7 @@ msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
 msgstr ""
-"Indiens historia kan sägas börja med den ariska invandringen. Dessförinnan "
-"kan man med fornforskningens hjälp urskilja först lågt stående stammar, "
-"hvilkas knifvar af agat och redskap af grofarbetad flinta man funnit bl. a. "
-"i Narbada-dalen, och senare ett folk, som jagade och krigade med redskap af "
-"slipad flinta. Därefter följa andra stammar, hvilka kände järnets bruk och "
-"buro prydnader af koppar och guld. Af de -- när vet man icke-- från nordväst "
-"invandrande arierna kallades dessa icke-ariska stammar dasyu (\"fiender\") "
-"l. dasa (\"slafvar\"). Vedaskalderna skildra dem som \"näslösa\" eller "
-"plattnästa, \"utan gudar\" och \"utan offer\", hvilka sistnämnda föraktliga "
-"omdömen säkerligen innebära en öfverdrift. Ättlingar af denna icke-ariska "
-"befolkning kvarlefva ännu mångenstädes i Indien; de tillhöra kolh- och "
-"dravida-folken, och dit räknas bl. a. bhilerna i Vindhyabergen, gonder, "
-"santaler m. fl.; äfvenledes hade från nordväst invandrade tibetansk-"
-"burmanska stammar före den ariska invandringen slagit sig ned på Himalayas "
-"sluttningar.\n"
-"\n"
-"Om ariernas äldsta civilisation i Indien lämnas många värdefulla "
+"\"Om ariernas äldsta civilisation i Indien lämnas många värdefulla "
 "upplysningar i de äldsta Veda-sångerna. De stredo från stridsvagnar och "
 "slogo sig ned som jordbrukare, använde plog, bodde i byar och brände sina "
 "döda. Kastväsendet var ännu okändt, och hvarje jordbrukande familjefader var "
@@ -21845,7 +21872,7 @@ msgstr ""
 "ledande och utbildade icke blott gudstjänsten och gudaläran, utan äfven "
 "samhällsskicket och lagstiftningen. Den bramanska sedvanerätten i norra "
 "Indien samlades, relativt sent, i Manus lagbok (se Manu), och litteraturen "
-"på sanskritspråket fick en rik blomstring.\n"
+"på sanskritspråket fick en rik blomstring.\"\n"
 "\n"
 "Källa: Nordisk familjebok \"uggleupplagan\""
 
@@ -21875,6 +21902,9 @@ msgid ""
 "government on the island of Java. The country has a Muslim majority and is "
 "one of the most populous in the world."
 msgstr ""
+"Indonesien är ett stort örike i Sydostasien med regeringssäte på ön Java. "
+"Landet är ett av världens folkrikaste, samt det folkrikaste med en muslimsk "
+"majoritet."
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
@@ -21914,6 +21944,8 @@ msgid ""
 "the ancient region of Mesopotamia at the confluence of the Tigris and "
 "Euphrates rivers."
 msgstr ""
+"Irak grundades efter Osmanska rikets fall. Landet är beläget kring floderna "
+"Eufrat och Tigris, ett område som har tusentals år av kulturhistoria."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -22087,7 +22119,7 @@ msgstr "?plural:kenyanerna"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr ""
+msgstr "Kenya erhöllo självständighet från britterna år 1963."
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -22410,7 +22442,7 @@ msgid ""
 "warfare."
 msgstr ""
 "Under århundradena efter sitt enande under Djingis Kahn erövrade mongolerna "
-"stora delar av Asien och Europa. De blev kända för sin grymhet i krig."
+"stora delar av Asien och Europa. De blev kända för sin hänsynslöshet i krig."
 
 #: data/nation/mongol.ruleset:29 data/nation/uyghur.ruleset:29
 msgid "Khan"
@@ -22470,11 +22502,11 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
-msgstr "osman"
+msgstr "ottoman"
 
 #: data/nation/ottoman.ruleset:4
 msgid "?plural:Ottomans"
-msgstr "?plural:osmanerna"
+msgstr "?plural:ottomanerna"
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -22486,6 +22518,20 @@ msgid ""
 "Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
 msgstr ""
+"\"De osmanske turkarnas historia före 1200-talets sista årtionde förlorar "
+"sig i dunkel och är omspunnen af legendariska traditioner af växlande "
+"tillförlitlighet. En stam oghuziska turkar under Sulejman schah uppges ha "
+"omkr. 1220 flytt från sitt hemvist i Chorassan undan mongolerna och tagit "
+"vägen genom Persien till Armenien, där den en tid ströfvade omkring. "
+"Sulejmans son och efterträdare (omkr. 1230) som höfding för en del af "
+"stammen, Ertogrul, fick af den seldschukiske sultanen af Ikonion, Ala-ed-"
+"din, ett stycke land i nordvästra Mindre Asien vid Östromerska (Bysantinska) "
+"rikets gräns omkring staden Sögüd (Sukut, i Bitynien). I Sögüd föddes 1259 "
+"Ertogruls äldste son, Osman, som 1288 (enligt en annan uppgift 1281) "
+"efterträdde honom och efter hvilken hans stam sedermera kallades osmanli, "
+"ottomaner l. osmaner.\"\n"
+"\n"
+"Ur Nordisk familjebok"
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
 msgid "Bey"
@@ -22514,8 +22560,21 @@ msgstr "?plural:papuanerna"
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
 msgstr ""
-"Papua Nya Guinea är en stat på östra halvan av ön Nya Guinea i västra Stilla "
-"havet."
+"\"Papu'a (af malaj, papuwah, krusig) kallas med ett gemensamt namn den till "
+"ung. l mill. uppgående befolkningen på Nya Guinea och en del angränsande "
+"öar, hvilken i kroppsligt hänseende väsentligen skiljer sig från de "
+"egentlige melanesierna. Papua själfva utgöra dock ingen antropologisk enhet, "
+"utan visa två hufvudgrupper och en mängd lokala varieteter, uppkomna till "
+"följd af smågruppernas starka, urgamla isolering. Följden häraf gör sig "
+"märkbar bl. a. och främst i en språkförbistring så stor, att endast några få "
+"angränsande byar kunna förstå hvarandra. - De antropologiska och "
+"etnografiska fakta öfverensstämma i stort sedt och ge vid handen, att papua "
+"ej af ålder varit inhemska, där de nu återfinnas. Den äldsta kulturen - och "
+"med den dess bärare - har kommit till Melanesien från Australien och "
+"utgjorts af den till hela det sydekvatoriala området och den svarta rasen "
+"hörande nigritiska kulturen.\"\n"
+"\n"
+"Ur Nordisk familjebok"
 
 #: data/nation/papuan.ruleset:19
 msgid "Governor-General"
@@ -22889,6 +22948,8 @@ msgid ""
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
 msgstr ""
+"Siouxerna var ett nordamerikanskt folk som stred mot Förenta Staterna. De "
+"utgjordes av tre distinkta grupper: Lakota, Dakota samt Nakota."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -23154,7 +23215,7 @@ msgstr "federal kansler"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr "Taiwanes"
+msgstr "taiwanes"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
@@ -23512,45 +23573,3 @@ msgstr "Nybörjarhandledning"
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
 msgstr "Handledning för nybörjare."
-
-#~ msgid ""
-#~ "Only the console and connections with cmdlevel 'hack' can force other "
-#~ "connections to take over a player. If you're not one of these, only the "
-#~ "<player-name> argument is allowed"
-#~ msgstr ""
-#~ "Endast konsollen och ansluttningar med cmdlevel \"hack\" kan låta andra "
-#~ "anslutningar ta över en spelare. Om man inte är någon av dem är endast "
-#~ "argumentet <spelarnamn> tillåtet."
-
-#~ msgid "* Attacks with full strength even if less than one movement left.\n"
-#~ msgstr "* Angriper med full styrka även med < 1 drag kvar.\n"
-
-#~ msgid ""
-#~ " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 "
-#~ "movement point left, its strength is divided by 3; if it has 2/3 movement "
-#~ "point, its strength is multiplied by 2/3.  If the attacker has 1 or more "
-#~ "movement points left, no further modifications occur."
-#~ msgstr ""
-#~ " - \"Utmattade\" angripare äro svagare: om en angripare bara har 1/3 drag "
-#~ "kvar, delas dennas styrka med 3. ; om den har 2/3 drag kvar, "
-#~ "multipliceras dennes styrka med 2/3. Om angriparen har 1 eller fler drag "
-#~ "kvar, sker inga ytterligare förändringar."
-
-#~ msgid ""
-#~ "The attacker's base strength is 8.  Veteran status makes this 12, but "
-#~ "because it only has 2/3 movement points its final strength is 8."
-#~ msgstr ""
-#~ "Angriparens grundstyrka är 8. Erfarenheten gör detta till 12, men på "
-#~ "grund av att den bara har 2/3 drag kvar blir styrkan 8."
-
-#~ msgid "Tropical"
-#~ msgstr "Tropisk"
-
-#~ msgid "Celtic"
-#~ msgstr "Keltisk"
-
-#~ msgid "Industrial"
-#~ msgstr "Industriell"
-
-#~ msgid "PostModern"
-#~ msgstr "Postmodern"
