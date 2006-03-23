@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-22 18:39+0100\n"
+"POT-Creation-Date: 2006-03-23 11:17+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -668,7 +668,8 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
-"*%s (KI)* Ich möchte erst unseren Waffenstillstand ein wenig länger eingehalten wissen, %s."
+"*%s (KI)* Ich möchte erst unseren Waffenstillstand ein wenig länger "
+"eingehalten wissen, %s."
 
 #: ai/advdiplomacy.c:326
 #, c-format
@@ -717,7 +718,7 @@ msgstr "*%s (KI)* Einverstanden. Keine Feindseligkeiten mehr, %s."
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
-msgstr 
+msgstr ""
 "*%s (KI)* Sei gegrüßt, %s! Dürfen wir einen Waffenstillstand vorschlagen, "
 "damit wir uns besser kennenlernen können?"
 
@@ -869,8 +870,8 @@ msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
-"*%s (KI)* Wir werden unsere Allianz mit %s hochhalten und %s in %d Runde "
-"den Krieg erklären. Wir erwarten, das Du ebenso handelst."
+"*%s (KI)* Wir werden unsere Allianz mit %s hochhalten und %s in %d Runde den "
+"Krieg erklären. Wir erwarten, das Du ebenso handelst."
 msgstr[1] ""
 "*%s (KI)* Wir werden unsere Allianz mit %s hochhalten und %s in %d Runden "
 "den Krieg erklären. Wir erwarten, das Du ebenso handelst."
@@ -945,8 +946,8 @@ msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr ""
-"*%s (KI)* Sei gegrüßt, Freund, dürfen wir vorschlagen, unsere Anstrengungen zu "
-"bündeln, und eine Allianz zu bilden?"
+"*%s (KI)* Sei gegrüßt, Freund, dürfen wir vorschlagen, unsere Anstrengungen "
+"zu bündeln, und eine Allianz zu bilden?"
 
 #: ai/advdiplomacy.c:1559
 #, c-format
@@ -1301,32 +1302,32 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
 msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, zunächst muß %s vorhanden "
-"sein. Der Auftrag wird zurückgestellt."
+"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, zunächst muß %s "
+"vorhanden sein. Der Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:745
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, hierfür ist die Regierungsform %s "
-"notwendig. Der Auftrag wird zurückgestellt."
+"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, hierfür ist die "
+"Regierungsform %s notwendig. Der Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:757
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da %s benötigt wird. "
-"Der Auftrag wird zurückgestellt."
+"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, da %s benötigt wird. Der "
+"Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:769
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
 msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, die Geländeform %s ist erforderlich. "
-"Der Auftrag wird zurückgestellt."
+"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, die Geländeform %s ist "
+"erforderlich. Der Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:783
 #, fuzzy, c-format
@@ -1341,15 +1342,15 @@ msgstr ""
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
-"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, die Stadt muß die Größe %d "
-"haben. Der Auftrag wird zurückgestellt."
+"Spiel: %s kann %s aus der Arbeitsliste nicht bauen, die Stadt muß die Größe %"
+"d haben. Der Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:824
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
-"%s can't build %s from the worklist - die Gründe sind nicht bekannt."
-"Der Auftrag wird zurückgestellt."
+"%s can't build %s from the worklist - die Gründe sind nicht bekannt.Der "
+"Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:858
 #, c-format
@@ -1677,8 +1678,9 @@ msgid ""
 "server, or available scenarios.  The argument may be abbreviated, and "
 "defaults to 'players' if absent."
 msgstr ""
-"Zeigt eine Liste der Spieler, Spielerteams, Serververbindungen oder der verfügbaren "
-"Szenarios. Das Argument kann abgekürzt werden, Standard ist 'players'."
+"Zeigt eine Liste der Spieler, Spielerteams, Serververbindungen oder der "
+"verfügbaren Szenarios. Das Argument kann abgekürzt werden, Standard ist "
+"'players'."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -1802,7 +1804,7 @@ msgstr ""
 msgid ""
 "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
-msgstr 
+msgstr ""
 "debug [ player <Spieler> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
 
@@ -2165,7 +2167,8 @@ msgid ""
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
 msgstr ""
-"Mit 'cmdlevel' wird die Zugangsberechtigung der Spieler zu den verschiedenen\n"
+"Mit 'cmdlevel' wird die Zugangsberechtigung der Spieler zu den "
+"verschiedenen\n"
 "Serverbefehlen geregelt. Es gibt folgende Berechtigungen:\n"
 "   none - kein Zugriff\n"
 "   info - Befehle zur Informationsabfrage\n"
@@ -2904,8 +2907,8 @@ msgstr ""
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr ""
-"Die %s haben durch den Diebstahl eines Forschungsergebnisses von Dir "
-"einen diplomatischen Zwischenfall verursacht."
+"Die %s haben durch den Diebstahl eines Forschungsergebnisses von Dir einen "
+"diplomatischen Zwischenfall verursacht."
 
 #: server/diplomats.c:1258
 #, c-format
@@ -3616,8 +3619,8 @@ msgid ""
 "Number of starts (%d) are lower than rules.max_players (%d), lowering rules."
 "max_players."
 msgstr ""
-"Anzahl der Startspieler (%d) ist kleiner als max. Anzahl der Spieler (%d); max. "
-"Anzahl der Spieler wird verkleinert."
+"Anzahl der Startspieler (%d) ist kleiner als max. Anzahl der Spieler (%d); "
+"max. Anzahl der Spieler wird verkleinert."
 
 # CK: TECHNICAL
 #: server/savegame.c:1294 server/savegame.c:1300 server/savegame.c:1306
@@ -4111,8 +4114,8 @@ msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount."
 msgstr ""
-"Bei positiver Angabe werden automatisch KI-Spieler erzeugt oder entfernt, um die "
-"Gesamtzahl der Spieler auf diesem Wert zu halten."
+"Bei positiver Angabe werden automatisch KI-Spieler erzeugt oder entfernt, um "
+"die Gesamtzahl der Spieler auf diesem Wert zu halten."
 
 #: server/settings.c:433
 msgid "List of players' initial units"
@@ -4760,9 +4763,8 @@ msgstr ""
 "Zeitablauf der Runde auf mindestens diesen Wert gesetzt."
 
 #: server/settings.c:887
-#, fuzzy
 msgid "Whether to have simultaneous player phases."
-msgstr "Spielerstatistiken"
+msgstr "Spielerzüge gleichzeitig oder nacheinander."
 
 #: server/settings.c:888
 msgid ""
@@ -4845,8 +4847,8 @@ msgid ""
 "has expired, even if all players have clicked on \"Turn Done\"."
 msgstr ""
 "Wenn dieser Wert auf 1 gesetzt ist, wird die Spielrunde erst beendet, wenn "
-"die vorgegebene Zeit abgelaufen ist, selbst wenn alle Spieler bereits "
-"auf 'Fertig' gedrückt haben."
+"die vorgegebene Zeit abgelaufen ist, selbst wenn alle Spieler bereits auf "
+"'Fertig' gedrückt haben."
 
 #: server/settings.c:945
 msgid "What is in the Demographics report"
@@ -5057,7 +5059,8 @@ msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
 "s."
 msgstr ""
-"Die %s %s wurde aufgelöst, in Übereinstimmung mit dem Freidensvertrag mit den %s."
+"Die %s %s wurde aufgelöst, in Übereinstimmung mit dem Freidensvertrag mit "
+"den %s."
 
 #: server/srv_main.c:482
 #, c-format
@@ -5070,9 +5073,9 @@ msgstr ""
 #: server/srv_main.c:486
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr 
-"Der Waffenstillstand mit %s ist beendet. Du befindest Dich jetzt "
-"im Krieg mit den %s."
+msgstr ""
+"Der Waffenstillstand mit %s ist beendet. Du befindest Dich jetzt im Krieg "
+"mit den %s."
 
 #: server/srv_main.c:822
 #, c-format
@@ -5091,9 +5094,9 @@ msgstr "Das Spiel hat bereits angefangen."
 #: server/srv_main.c:862
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
-msgstr 
-"%s hat seit Spielbeginn nicht mehr die Kontrollgewalt. "
-"Bitte von jetzt an Abstimmungen verwenden."
+msgstr ""
+"%s hat seit Spielbeginn nicht mehr die Kontrollgewalt. Bitte von jetzt an "
+"Abstimmungen verwenden."
 
 #: server/srv_main.c:869
 msgid "Starting game."
@@ -5669,7 +5672,7 @@ msgstr "Beschreibung"
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
-msgstr 
+msgstr ""
 "Weitere Optionen mit 'show situational' oder 'show rare'\n"
 "Geänderte Optionen mit 'show changed'."
 
@@ -5685,8 +5688,8 @@ msgstr "Falscher Parameter. Anwendung: team <Spieler> <Team>."
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
-"Ein Team %s gibt es nicht. Bitte gebe einen gültigen Teamnamen oder -"
-"nummer an."
+"Ein Team %s gibt es nicht. Bitte gebe einen gültigen Teamnamen oder -nummer "
+"an."
 
 #: server/stdinhand.c:2112
 msgid "Cannot team a barbarian."
@@ -5750,8 +5753,8 @@ msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
 msgstr ""
-"Fehlende Parameter. Anwendung: debug diplomacy <Spieler> | city <x> <y> | units "
-"<x> <y> | unit <id> | tech <Spieler> | timing | info."
+"Fehlende Parameter. Anwendung: debug diplomacy <Spieler> | city <x> <y> | "
+"units <x> <y> | unit <id> | tech <Spieler> | timing | info."
 
 #: server/stdinhand.c:2249
 msgid "Can only use this command once game has begun."
@@ -5927,9 +5930,9 @@ msgid "%s is already observing %s."
 msgstr "%s beobachtet %s bereits."
 
 #: server/stdinhand.c:2761
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already observing."
-msgstr "%s beobachtet %s bereits."
+msgstr "%s beobachtet bereits."
 
 #: server/stdinhand.c:2817
 #, c-format
@@ -5937,9 +5940,9 @@ msgid "%s now observes %s"
 msgstr "%s beobachtet jetzt den Spieler %s"
 
 #: server/stdinhand.c:2820
-#, fuzzy, c-format
+#, c-format
 msgid "%s now observes"
-msgstr "%s beobachtet jetzt den Spieler %s"
+msgstr "%s beobachtet jetzt"
 
 #: server/stdinhand.c:2859
 msgid "Usage: take <connection-name> <player-name>"
@@ -6015,9 +6018,9 @@ msgid "%s detaching from %s"
 msgstr "%s löst die Verbindung zu %s."
 
 #: server/stdinhand.c:3081
-#, fuzzy, c-format
+#, c-format
 msgid "%s no longer observing."
-msgstr "Fehlersuche für %s ausgeschaltet."
+msgstr "%s beobachtet nicht mehr."
 
 #: server/stdinhand.c:3097
 #, c-format
@@ -6105,9 +6108,8 @@ msgid "(server prompt)"
 msgstr "Serverbefehl"
 
 #: server/stdinhand.c:3601
-#, fuzzy
 msgid "Game ended in a draw."
-msgstr "Spiel endete unentschieden"
+msgstr "Spiel endete unentschieden."
 
 #: server/stdinhand.c:3605
 msgid ""
@@ -6247,14 +6249,13 @@ msgid ", nation %s"
 msgstr ", Nation %s"
 
 #: server/stdinhand.c:4054
-#, fuzzy, c-format
+#, c-format
 msgid ", team %s"
-msgstr " in der Nähe von %s"
+msgstr ", Team %s"
 
 #: server/stdinhand.c:4058
-#, fuzzy
 msgid ", ready"
-msgstr ", Tot"
+msgstr ", bereit"
 
 #: server/stdinhand.c:4060
 msgid ", not ready"
@@ -6277,9 +6278,8 @@ msgid " (observer mode)"
 msgstr " (Beobachtermodus)"
 
 #: server/stdinhand.c:4097
-#, fuzzy
 msgid "List of teams:"
-msgstr "Spieler:"
+msgstr "Liste der Teams:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:4107
@@ -6308,9 +6308,8 @@ msgid "<no connections>"
 msgstr "<keine Verbindungen>"
 
 #: server/stdinhand.c:4172
-#, fuzzy
 msgid "List of scenarios available:"
-msgstr "Keine Einheiten erhältlich"
+msgstr "Liste der verfügbaren Szenarios:"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/unithand.c:99
@@ -6647,7 +6646,7 @@ msgid "%s lost to an attack by %s's %s%s."
 msgstr "Spiel: %s beim Angriff von %ss %s%s verloren."
 
 #: server/unittools.c:1610
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
 "more experienced!"
@@ -6655,19 +6654,19 @@ msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
 msgstr[0] ""
-"Spiel: Der Angriff der %s gegen %ss %s%s ist geglückt und sie sammelten "
+"Der Angriff der %s gegen %ss %s (und %d weitere Einheit)%s ist geglückt und sie sammelten "
 "Erfahrung!"
 msgstr[1] ""
-"Spiel: Der Angriff der %s gegen %ss %s%s ist geglückt und sie sammelten "
+"Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt und sie sammelten "
 "Erfahrung!"
 
 #: server/unittools.c:1622
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Spiel: Der Angriff der %s gegen %ss %s%s ist geglückt!"
-msgstr[1] "Spiel: Der Angriff der %s gegen %ss %s%s ist geglückt!"
+msgstr[0] "Der Angriff der %s gegen %ss %s (und %d weitere Einheit)%s ist geglückt!"
+msgstr[1] "Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
@@ -6679,36 +6678,36 @@ msgstr "Spiel: %s beim Angriff von %ss %s verloren."
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
 #: server/unittools.c:1654
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost when %s's %s attacked %s's %s."
-msgstr "Spiel: %s beim Angriff von %ss %s verloren."
+msgstr "%s beim Angriff von %ss %s auf %ss %s verloren."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from John's Destroyer."
 #: server/unittools.c:1667
-#, fuzzy, c-format
+#, c-format
 msgid "%s (and %s) lost to an attack from %s's %s."
-msgstr "Spiel: %s beim Angriff von %ss %s verloren."
+msgstr "%s (und %s) beim Angriff von %ss %s verloren."
 
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from John's Destroyer." (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1675
-#, fuzzy, c-format
+#, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
-msgstr[0] "Spiel: %s beim Angriff von %ss %s verloren."
-msgstr[1] "Spiel: %s beim Angriff von %ss %s verloren."
+msgstr[0] "%s und %d weitere Einheit beim Angriff von %ss %s verloren."
+msgstr[1] "%s und %d weitere Einheiten beim Angriff von %ss %s verloren."
 
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1687
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
-msgstr[0] "Spiel (automatisch): %ss %s greifen %ss %s an"
-msgstr[1] "Spiel (automatisch): %ss %s greifen %ss %s an"
+msgstr[0] "%d Einheit beim Angriff von %ss %s auf %ss %s verloren."
+msgstr[1] "%d Einheiten beim Angriff von %ss %s auf %ss %s verloren."
 
 #: server/unittools.c:1934
 #, c-format
@@ -6757,9 +6756,9 @@ msgid "The destination location is not known."
 msgstr "Spiel: Der Zielort ist nicht bekannt."
 
 #: server/unittools.c:2066
-#, fuzzy, c-format
+#, c-format
 msgid "This unit cannot paradrop into %s."
-msgstr "Spiel: Diese Einheit kann nicht über dem Ozean abspringen."
+msgstr "Diese Einheit kann nicht über %s abspringen."
 
 #: server/unittools.c:2085
 #, c-format
@@ -6769,9 +6768,9 @@ msgstr ""
 "i)."
 
 #: server/unittools.c:2096
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s paradropped into the %s and was lost."
-msgstr "Spiel: Die %s landeten im Ozean und ertranken."
+msgstr "Die %s sind über %s abgesprungen und gingen verloren."
 
 #: server/unittools.c:2108
 #, c-format
@@ -6828,22 +6827,19 @@ msgstr ""
 "       daß sie in alle Himmelsrichtungen flohen."
 
 #: server/unittools.c:2500
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
-msgstr ""
-"Spiel: %s konnte Befehl nicht ausführen, da Einheiten in der Nähe sind."
+msgstr "Befehle für %s verworfen, weil eine Feindbewegung entdeckt wurde."
 
 #: server/unittools.c:2943
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
-msgstr ""
-"Spiel: %s konnte Befehl nicht ausführen, da Einheiten in der Nähe sind."
+msgstr "Befehle für %s verworfen, da Einheiten in der Nähe sind."
 
 #: server/unittools.c:2995
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted because building of city failed."
-msgstr ""
-"Spiel: Befehle für %s verworfen, da die Stadt nicht gegründet werden konnte."
+msgstr "Befehle für %s verworfen, da die Stadt nicht gegründet werden konnte."
 
 #: server/unittools.c:3007
 #, c-format
@@ -6867,9 +6863,9 @@ msgstr ""
 "Spiel: Befehle für %s verworfen, da der Zug nicht ausgeführt werden konnte."
 
 #: server/unittools.c:3098
-#, fuzzy, c-format
+#, c-format
 msgid "Attempt to change homecity for %s failed."
-msgstr "Spiel: Heimatstadt von %s in %s geändert."
+msgstr "Der Versuch, die Heimatstadt der %s zu ändern, schlug fehl."
 
 #: server/unittools.c:3109
 #, c-format
@@ -6905,7 +6901,7 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "Kartengenerator 3 hat %li Land nicht plaziert."
 
 #: server/generator/startpos.c:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -6957,12 +6953,10 @@ msgid "No real audio plugin present, proceeding with sound support disabled"
 msgstr "Kein Audio-Plugin vorhanden, Sound wird abgeschaltet"
 
 #: client/audio.c:200
-#, fuzzy
 msgid "For sound support, install SDL_mixer"
-msgstr "Für Audio muß entweder 'esound' oder 'SDL_mixer' installiert sein"
+msgstr "Für Sound muß 'SDL_mixer' installiert sein"
 
 #: client/audio.c:201
-#, fuzzy
 msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
 msgstr "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
 
@@ -7730,11 +7724,8 @@ msgid "Only transporter units can be unloaded."
 msgstr "Spiel: Nur Schiffe können entladen werden."
 
 #: client/control.c:1264
-#, fuzzy
 msgid "Only settler units can be put into auto mode."
-msgstr ""
-"Spiel: Nur Siedler und militärische Einheiten in Städten können selbständig "
-"agieren."
+msgstr "Nur Siedler können automatisch agieren."
 
 #: client/control.c:1354
 msgid "Only nuclear units can do this."
@@ -7767,46 +7758,58 @@ msgstr ""
 "Runden.)"
 
 #: client/helpdata.c:166
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s technology.\n"
 "\n"
-msgstr "Sie können diese Technology nicht erforschen."
+msgstr ""
+"Erfordert den Fortschritt %s.\n"
+"\n"
 
 #: client/helpdata.c:170
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s government.\n"
 "\n"
-msgstr "Sie können diese Technology nicht erforschen."
+msgstr ""
+"Erfordert %s als Regierungsform.\n"
+"\n"
 
 #: client/helpdata.c:174
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s building.\n"
 "\n"
-msgstr "Sie können diese Technology nicht erforschen."
+msgstr ""
+"Erfordert die Stadtverbesserung %s.\n"
+"\n"
 
 #: client/helpdata.c:178
 #, fuzzy, c-format
 msgid ""
 "Requires the %s terrain special.\n"
 "\n"
-msgstr "Sie können diese Technology nicht erforschen."
+msgstr ""
+"Requires the %s terrain special.\n"
+"\n"
 
 #: client/helpdata.c:182
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s terrain.\n"
 "\n"
-msgstr "Sie können diese Technology nicht erforschen."
+msgstr ""
+"Geländeform %s erforderlich.\n"
+"\n"
 
 #: client/helpdata.c:186
 #, fuzzy, c-format
 msgid ""
 "Requires the %s nation.\n"
 "\n"
-msgstr "Sie können diese Technology nicht erforschen."
+msgstr ""
+"Requires the %s nation.\n"
+"\n"
 
 #: client/helpdata.c:190 client/helpdata.c:194 client/helpdata.c:198
 #, c-format
@@ -7836,14 +7839,14 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s."
-msgstr "Ermöglicht %s.\n"
+msgstr "Ermöglicht %s."
 
 #: client/helpdata.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s (with %s)."
-msgstr "Ermöglicht %s (mit %s).\n"
+msgstr "Ermöglicht %s (mit %s)."
 
 #. TRANS: preserve single space at beginning
 #: client/helpdata.c:408
@@ -8320,26 +8323,23 @@ msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Landeinheiten können sich nicht auf dem Ozean bewegen."
 
 #: client/helpdata.c:1263
-#, fuzzy, c-format
+#, c-format
 msgid "Features:\n"
-msgstr ""
-"\n"
-"\n"
-"Besonderheiten:\n"
+msgstr "Besonderheiten:\n"
 
 #: client/helpdata.c:1286
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Military units away from home and field units will cause one citizen to "
 "become unhappy.\n"
-msgstr "* Kampfeinheiten im Einsatz verursachen Unzufriedenheit.\n"
+msgstr "* Kampfeinheiten im Einsatz machen einen Bürger unzufrieden.\n"
 
 #: client/helpdata.c:1289
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr "* Kampfeinheiten im Einsatz verursachen Unzufriedenheit.\n"
+msgstr "* Kampfeinheiten im Einsatz machen %d Bürger unzufrieden.\n"
 
 #: client/helpdata.c:1296
 #, c-format
@@ -8347,6 +8347,8 @@ msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
 "caused by units.\n"
 msgstr ""
+"* Jede Deiner Städte vermeidet %d durch Einheiten unzufrieden gemachte "
+"Bürger.\n"
 
 #: client/helpdata.c:1302
 #, c-format
