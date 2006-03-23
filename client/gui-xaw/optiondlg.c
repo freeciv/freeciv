@@ -84,6 +84,9 @@ void popup_option_dialog(void)
 		    o->p_string_vals ? "label" : XtNstring,
 		    o->p_string_value, NULL);
       break;
+    case COT_FONT:
+      /* FIXME */
+      break;
     }
   } client_options_iterate_end;
 
@@ -265,6 +268,9 @@ void create_option_dialog(void)
 				  NULL);
       }
       break;
+    case COT_FONT:
+      /* FIXME */
+      break;
     }
 
     /* store the final widget */
@@ -341,6 +347,9 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
 	  (o->change_callback)(o);
 	}
       }
+      break;
+    case COT_FONT:
+      /* FIXME */
       break;
     }
   } client_options_iterate_end;

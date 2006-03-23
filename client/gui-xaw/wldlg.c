@@ -621,7 +621,7 @@ void rename_worklist_callback(Widget w, XtPointer client_data,
   input_dialog_create(worklist_report_shell,
 		      "renameworklist",
 		      _("What should the new name be?"),
-		      pdialog->pplr->worklists[pdialog->wl_idx].name,
+		      client.worklists[pdialog->wl_idx].name,
 		      rename_worklist_sub_callback,
 		      (XtPointer)pdialog,
 		      rename_worklist_sub_callback,
@@ -639,9 +639,9 @@ void rename_worklist_sub_callback(Widget w, XtPointer client_data,
   pdialog = (struct worklist_report_dialog *)client_data;
 
   if (pdialog) {
-    strncpy(pdialog->pplr->worklists[pdialog->wl_idx].name,
+    strncpy(client.worklists[pdialog->wl_idx].name,
             input_dialog_get_input(w), MAX_LEN_NAME);
-    pdialog->pplr->worklists[pdialog->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
+    client.worklists[pdialog->wl_idx].name[MAX_LEN_NAME - 1] = '\0';
 
     update_worklist_report_dialog();
   }
@@ -663,7 +663,7 @@ void insert_worklist_callback(Widget w, XtPointer client_data,
   /* Find the next free worklist for this player */
 
   for (j = 0; j < MAX_NUM_WORKLISTS; j++)
-    if (!pdialog->pplr->worklists[j].is_valid)
+    if (!client.worklists[j].is_valid)
       break;
 
   /* No more worklist slots free.  (!!!Maybe we should tell the user?) */
@@ -671,9 +671,9 @@ void insert_worklist_callback(Widget w, XtPointer client_data,
     return;
 
   /* Validate this slot. */
-  init_worklist(&pdialog->pplr->worklists[j]);
-  pdialog->pplr->worklists[j].is_valid = TRUE;
-  strcpy(pdialog->pplr->worklists[j].name, _("empty worklist"));
+  init_worklist(&client.worklists[j]);
+  client.worklists[j].is_valid = TRUE;
+  strcpy(client.worklists[j].name, _("empty worklist"));
 
   update_worklist_report_dialog();
 }
@@ -697,18 +697,18 @@ void delete_worklist_callback(Widget w, XtPointer client_data,
 
   /* Look for the last free worklist */
   for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-    if (!pdialog->pplr->worklists[i].is_valid)
+    if (!client.worklists[i].is_valid)
       break;
 
   for (j = retList->list_index; j < i-1; j++) {
-    copy_worklist(&pdialog->pplr->worklists[j], 
-                  &pdialog->pplr->worklists[j+1]);
+    copy_worklist(&client.worklists[j], 
+                  &client.worklists[j+1]);
   }
 
   /* The last worklist in the set is no longer valid -- it's been slid up
    * one slot. */
-  pdialog->pplr->worklists[i-1].is_valid = FALSE;
-  strcpy(pdialog->pplr->worklists[i-1].name, "\0");
+  client.worklists[i-1].is_valid = FALSE;
+  strcpy(client.worklists[i-1].name, "\0");
   
   update_worklist_report_dialog();
 }
@@ -744,7 +744,7 @@ void commit_player_worklist(struct worklist *pwl, void *data)
 
   pdialog = (struct worklist_report_dialog *)data;
 
-  copy_worklist(&pdialog->pplr->worklists[pdialog->wl_idx], pwl);
+  copy_worklist(&client.worklists[pdialog->wl_idx], pwl);
 }
 
 /****************************************************************
@@ -767,10 +767,10 @@ void populate_worklist_report_list(struct worklist_report_dialog *pdialog)
   int i, n;
 
   for (i = 0, n = 0; i < MAX_NUM_WORKLISTS; i++) {
-    if (pdialog->pplr->worklists[i].is_valid) {
-      strcpy(pdialog->worklist_names[n], pdialog->pplr->worklists[i].name);
+    if (client.worklists[i].is_valid) {
+      strcpy(pdialog->worklist_names[n], client.worklists[i].name);
       pdialog->worklist_names_ptrs[n] = pdialog->worklist_names[n];
-      pdialog->worklist_ptr[n] = &pdialog->pplr->worklists[i];
+      pdialog->worklist_ptr[n] = &client.worklists[i];
       n++;
     }
   }
@@ -947,9 +947,9 @@ void worklist_insert_common_callback(struct worklist_dialog *pdialog,
 
   if (retAvail->list_index >= pdialog->worklist_avail_num_targets) {
     /* target is a global worklist id */
-    struct player *pplr = city_owner(pdialog->pcity);
+    /* struct player *pplr = city_owner(pdialog->pcity); */
     int wl_idx = pdialog->worklist_avail_ids[retAvail->list_index];
-    struct worklist *pwl = &pplr->worklists[wl_idx];
+    struct worklist *pwl = &client.worklists[wl_idx];
 
     for (i = 0; i < MAX_LEN_WORKLIST && uni_id(pwl, i) != WORKLIST_END; i++) {
       insert_into_worklist(pdialog, where, uni_id(pwl, i));
@@ -1373,8 +1373,8 @@ void worklist_populate_targets(struct worklist_dialog *pdialog)
   if (pdialog->pcity) {
     /* Now fill in the global worklists. */
     for (i = 0; i < MAX_NUM_WORKLISTS; i++)
-      if (pplr->worklists[i].is_valid) {
-	strcpy(pdialog->worklist_avail_names[n], pplr->worklists[i].name);
+      if (client.worklists[i].is_valid) {
+	strcpy(pdialog->worklist_avail_names[n], client.worklists[i].name);
 	pdialog->worklist_avail_names_ptrs[n]=pdialog->worklist_avail_names[n];
 	pdialog->worklist_avail_ids[n++]=i;
       }

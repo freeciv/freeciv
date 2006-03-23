@@ -897,7 +897,8 @@ void set_unit_icons_more_arrow(bool onoff)
 
   if (onoff && !showing) {
     /* FIXME: what about the mask? */
-    xaw_set_bitmap(more_arrow_label, get_arrow_sprite(tileset)->pixmap);
+    xaw_set_bitmap(more_arrow_label,
+		   get_arrow_sprite(tileset, ARROW_RIGHT)->pixmap);
     showing = TRUE;
   }
   else if(!onoff && showing) {

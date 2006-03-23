@@ -256,6 +256,14 @@ void update_unit_info_label(struct unit_list *punitlist)
 }
 
 /**************************************************************************
+  This function will change the current mouse cursor.
+**************************************************************************/
+void update_mouse_cursor(enum cursor_type new_cursor_type)
+{
+  /* PORT ME */
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 Pixmap get_thumb_pixmap(int onoff)
