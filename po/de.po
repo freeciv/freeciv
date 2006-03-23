@@ -1588,7 +1588,7 @@ msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
 #: server/civserver.c:248
 #, fuzzy
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr "  -l, --log DATEI\tDATEI als Logfile benutzen\n"
+msgstr "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 
 #: server/civserver.c:249 client/civclient.c:229 manual/civmanual.c:373
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -1803,7 +1803,7 @@ msgid ""
 "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
 msgstr 
-"debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
+"debug [ player <Spieler> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
 
 #: server/commands.c:124
@@ -3611,12 +3611,12 @@ msgid "Warning: Unknown nation %s for starting position no %d"
 msgstr "Warnung: Unbekannte Nation %s an Startposition %d"
 
 #: server/savegame.c:588
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Number of starts (%d) are lower than rules.max_players (%d), lowering rules."
 "max_players."
 msgstr ""
-"Anzahl der Spieler (%d) ist kleiner als max. Anzahl der Spieler (%d); max. "
+"Anzahl der Startspieler (%d) ist kleiner als max. Anzahl der Spieler (%d); max. "
 "Anzahl der Spieler wird verkleinert."
 
 # CK: TECHNICAL
@@ -3754,9 +3754,8 @@ msgid "Rare"
 msgstr "selten"
 
 #: server/settings.c:45
-#, fuzzy
 msgid "Changed"
-msgstr "Ändern"
+msgstr "Geändert"
 
 #: server/settings.c:100
 msgid ""
@@ -4108,13 +4107,12 @@ msgid "Total number of players (including AI players)"
 msgstr "Gesamtzahl der Spieler (einschließlich KI-Spieler)"
 
 #: server/settings.c:421
-#, fuzzy
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount."
 msgstr ""
-"Wenn bei Spielbeginn weniger Spieler vorhanden sind, werden für die\n"
-"an der Mindestanzahl fehlenden Spieler KI-Spieler erzeugt."
+"Bei positiver Angabe werden automatisch KI-Spieler erzeugt oder entfernt, um die "
+"Gesamtzahl der Spieler auf diesem Wert zu halten."
 
 #: server/settings.c:433
 msgid "List of players' initial units"
@@ -4829,28 +4827,26 @@ msgid "Turn-blocking game play mode"
 msgstr "Runden-Sperre"
 
 #: server/settings.c:930
-#, fuzzy
 msgid ""
 "If this is set to 1 the game.info.turn is not advanced until all players "
 "have finished their turn, including disconnected players."
 msgstr ""
 "Wenn dieser Wert auf 1 gesetzt ist, wird die Spielrunde erst beendet, wenn "
 "alle Spieler ihren Zug beendet haben (einschließlich der Spieler, zu denen "
-"der Server keine Verbindung mehr hat)."
+"der Server keine Verbindung hat)."
 
 #: server/settings.c:937
 msgid "Fixed-length turns play mode"
 msgstr "Spielzüge mit vorgegebener Zeit"
 
 #: server/settings.c:938
-#, fuzzy
 msgid ""
 "If this is set to 1 the game.info.turn will not advance until the timeout "
 "has expired, even if all players have clicked on \"Turn Done\"."
 msgstr ""
 "Wenn dieser Wert auf 1 gesetzt ist, wird die Spielrunde erst beendet, wenn "
-"die vorgegebene Zeit abgelaufen ist (unabhängig davon, ob die Spieler "
-"'Fertig' gedrückt haben oder nicht)."
+"die vorgegebene Zeit abgelaufen ist, selbst wenn alle Spieler bereits "
+"auf 'Fertig' gedrückt haben."
 
 #: server/settings.c:945
 msgid "What is in the Demographics report"
@@ -5072,9 +5068,11 @@ msgstr ""
 "bald endet."
 
 #: server/srv_main.c:486
-#, fuzzy, c-format
+#, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr "Der Waffenstillstand mit %s ist beendet. Die %s sind jetzt neutral."
+msgstr 
+"Der Waffenstillstand mit %s ist beendet. Du befindest Dich jetzt "
+"im Krieg mit den %s."
 
 #: server/srv_main.c:822
 #, c-format
@@ -5161,19 +5159,18 @@ msgid "%s is the %s ruler %s."
 msgstr "Spiel: %s ist der %se Herrscher %s."
 
 #: server/srv_main.c:1386
-#, fuzzy, c-format
+#, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr "Spiel kann nicht gestartet werden: es läuft bereits."
+msgstr "Warten auf Spielstart: %d von %d Spielern sind bereit zu starten."
 
 #: server/srv_main.c:1391
-#, fuzzy
 msgid "All players are ready; starting game."
-msgstr "Es gibt schon einen Spieler dieses Namens."
+msgstr "Alle Spieler sind bereit, das Spiel wird gestartet."
 
 #: server/srv_main.c:1433 server/srv_main.c:1437
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as %s level AI-controlled player."
-msgstr "%s ist als KI-Spieler dazu gekommen."
+msgstr "%s ist als KI-Spieler mit dem Level '%s' dazu gekommen."
 
 #: server/srv_main.c:1564
 #, c-format
@@ -5327,9 +5324,8 @@ msgid "Server id: %s"
 msgstr "Server-ID: %s"
 
 #: server/stdinhand.c:752
-#, fuzzy
 msgid "You cannot save games manually on this server."
-msgstr "Spiel beenden und Server herunterfahren"
+msgstr "Du kannst das Spiel auf diesem Server nicht manuell speichern."
 
 #: server/stdinhand.c:769
 msgid "Cannot toggle a barbarian player."
@@ -5399,9 +5395,9 @@ msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Der Name \"%s\" ist aus Sicherheitsgründen nicht erlaubt."
 
 #: server/stdinhand.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Keine Verbindung mit der Bezeichnung '%s'."
+msgstr "Keine Kommandoscript gefunden mit der Bezeichnung '%s'."
 
 #: server/stdinhand.c:1025
 #, c-format
@@ -5438,13 +5434,14 @@ msgstr ""
 "Die Zugangsberechtigung '%s' für '%s' wird nicht beschränkt;\n"
 "da Sie selbst nur Zugangsberechtigung '%s' haben."
 
+# CK: ?
 #: server/stdinhand.c:1228
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
-"Spiel: Ein beliebiger Spieler hat die Möglichkeit durch Eingabe des Befehls "
-"'firstlevel' die Zugangsberechtigung '%s' zu beantragen."
+"Ein beliebiger Spieler hat nun die Möglichkeit, durch Eingabe des Befehls "
+"'first' Spielleiter '%s' zu werden."
 
 #: server/stdinhand.c:1261
 msgid "Command access levels in effect:"
@@ -5496,10 +5493,8 @@ msgid "Command access level set to '%s' for first player to grab it."
 msgstr "Zugangsberechtigung für den ersten Spieler: %s"
 
 #: server/stdinhand.c:1387
-#, fuzzy
 msgid "The 'first' command makes no sense from the server command line."
-msgstr ""
-"Es ist sinnlos, den 'firstlevel'-Befehl über die Server Konsole zu erteilen."
+msgstr "Es ist sinnlos, den 'first'-Befehl über die Serverkonsole zu erteilen."
 
 #: server/stdinhand.c:1391
 #, c-format
@@ -5507,9 +5502,8 @@ msgid "You already have command access level '%s' or better."
 msgstr "Sie haben bereits die Zugangsberechtigung '%s' oder besser."
 
 #: server/stdinhand.c:1396
-#, fuzzy
 msgid "Someone else already is game organizer."
-msgstr "Jemand anders hat bereits die Zugangsberechtigung '%s' oder besser."
+msgstr "Jemand anders ist bereits Spielleiter."
 
 #: server/stdinhand.c:1401
 #, c-format
@@ -5631,9 +5625,8 @@ msgid "Unknown option '%s'."
 msgstr "Unbekannte Option '%s'."
 
 #: server/stdinhand.c:1928
-#, fuzzy
 msgid "All options with non-default values"
-msgstr "= heißt, daß diese Einstellung standard ist"
+msgstr "Alle Optionen, die vom Standardwert abweichen"
 
 #: server/stdinhand.c:1931
 msgid "All options"
@@ -5673,27 +5666,27 @@ msgid "description"
 msgstr "Beschreibung"
 
 #: server/stdinhand.c:2025
-#, fuzzy
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
-msgstr "Weitere Optionen mit 'show situational' oder 'show rare'"
+msgstr 
+"Weitere Optionen mit 'show situational' oder 'show rare'\n"
+"Geänderte Optionen mit 'show changed'."
 
 #: server/stdinhand.c:2075
 msgid "Cannot change teams once game has begun."
 msgstr "Nach Spielbeginn können Teams nicht mehr geändert werden."
 
 #: server/stdinhand.c:2085
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> <team>."
-msgstr "Option nicht definiert. Anwendung: team <Spieler> [team]."
+msgstr "Falscher Parameter. Anwendung: team <Spieler> <Team>."
 
 #: server/stdinhand.c:2105
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
-"Ein Team %s gibt es nicht. Bitte wähle einen gültigen Team-Namen oder -"
-"Nummer."
+"Ein Team %s gibt es nicht. Bitte gebe einen gültigen Teamnamen oder -"
+"nummer an."
 
 #: server/stdinhand.c:2112
 msgid "Cannot team a barbarian."
@@ -5753,13 +5746,12 @@ msgid "You voted against \"%s\""
 msgstr "Sie haben gegen '%s' gestimmt."
 
 #: server/stdinhand.c:2243
-#, fuzzy
 msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
 msgstr ""
-"Fehlende Parameter. Syntax: debug [ player <Spieler> | city <x> <y> | units "
-"<x> <y> | unit <ID> ]."
+"Fehlende Parameter. Anwendung: debug diplomacy <Spieler> | city <x> <y> | units "
+"<x> <y> | unit <id> | tech <Spieler> | timing | info."
 
 #: server/stdinhand.c:2249
 msgid "Can only use this command once game has begun."
@@ -6033,9 +6025,8 @@ msgid "detaching from %s."
 msgstr "Löse Verbindung zu %s."
 
 #: server/stdinhand.c:3179
-#, fuzzy
 msgid "Usage: load <game name>"
-msgstr "Syntax: load <Dateiname>"
+msgstr "Anwendung: load <Spielname>"
 
 #: server/stdinhand.c:3199
 #, c-format
@@ -6057,9 +6048,9 @@ msgid "Current ruleset directory is \"%s\""
 msgstr "Derzeitiges Verzeichnis für rulesets: '%s'"
 
 #: server/stdinhand.c:3297
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-msgstr "Ruleset Verzeichnis '%s' nicht gefunden"
+msgstr "Ruleset Verzeichnis '%s' aus Sicherheitsgründen nicht erlaubt."
 
 #: server/stdinhand.c:3305
 #, c-format
@@ -6067,9 +6058,9 @@ msgid "Ruleset directory \"%s\" not found"
 msgstr "Ruleset Verzeichnis '%s' nicht gefunden"
 
 #: server/stdinhand.c:3311
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr "Ruleset Verzeichnis ist jetzt '%s'"
+msgstr "Ruleset Verzeichnis ist bereits '%s'"
 
 #: server/stdinhand.c:3315
 #, c-format
