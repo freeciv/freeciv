@@ -16467,8 +16467,8 @@ msgid ""
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
-"Kanonen (A:8, V:1, TP:20, FK:1) greifen "
-"Musketiere (A:3, V:3, TP:20, FK:1) in einer Stadt mit Stadtmauern im Wald an."
+"Kanonen (A:8, V:1, TP:20, FK:1) greifen Musketiere (A:3, V:3, TP:20, FK:1) "
+"in einer Stadt mit Stadtmauern im Wald an."
 
 #: data/helpdata.txt:1043
 msgid ""
@@ -17360,7 +17360,8 @@ msgid ""
 "the city 4 times bigger."
 msgstr ""
 "Halbiert die Korruption und den Müllanfall. In einer Demokratie macht es 1 "
-"Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte vervierfacht."
+"Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte "
+"vervierfacht."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -20530,9 +20531,8 @@ msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
 msgstr ""
-"Formell die Vereinigten Staaten von Amerika. Errangen durch eine "
-"Revolution in den Jahren 1776 bis 1783 ihre Unabhängigkeit von "
-"Großbritannien."
+"Formell die Vereinigten Staaten von Amerika. Errangen durch eine Revolution "
+"in den Jahren 1776 bis 1783 ihre Unabhängigkeit von Großbritannien."
 
 #: data/nation/american.ruleset:56 data/nation/scottish.ruleset:25
 msgid "Speaker"
@@ -20607,14 +20607,12 @@ msgid "Caliph"
 msgstr "Kalif"
 
 #: data/nation/aramean.ruleset:3
-#, fuzzy
 msgid "Aramean"
-msgstr "amerikanisch"
+msgstr "aramäisch"
 
 #: data/nation/aramean.ruleset:4
-#, fuzzy
 msgid "?plural:Arameans"
-msgstr "?plural:Amerikaner"
+msgstr "Aramäer"
 
 #: data/nation/aramean.ruleset:5 data/nation/armenian.ruleset:5
 #: data/nation/assyrian.ruleset:5 data/nation/babylonian.ruleset:5
@@ -20638,11 +20636,11 @@ msgstr ""
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
-msgstr ""
+msgstr "armenisch"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
-msgstr ""
+msgstr "Armenier"
 
 #: data/nation/armenian.ruleset:5 data/nation/austrian.ruleset:5
 #: data/nation/bavarian.ruleset:5 data/nation/belgian.ruleset:5
@@ -20820,7 +20818,7 @@ msgstr "bajuwarisch"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr "?plural:Bajuwaren"
+msgstr "Bajuwaren"
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
@@ -20852,11 +20850,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr ""
+msgstr "bengalisch"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
-msgstr ""
+msgstr "Bengalier"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -20881,7 +20879,7 @@ msgstr "burisch"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr "?plural:Buren"
+msgstr "Buren"
 
 #: data/nation/boer.ruleset:6
 #, fuzzy
@@ -20919,7 +20917,7 @@ msgstr "brasilianisch"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr "?plural:Brasilianer"
+msgstr "Brasilianer"
 
 #: data/nation/brazilian.ruleset:6
 msgid ""
@@ -20956,14 +20954,12 @@ msgid "Director-President"
 msgstr "Präsident"
 
 #: data/nation/british.ruleset:3
-#, fuzzy
 msgid "British"
-msgstr "irisch"
+msgstr "britisch"
 
 #: data/nation/british.ruleset:4
-#, fuzzy
 msgid "?plural:Britons"
-msgstr "?plural:Iren"
+msgstr "Briten"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -20975,11 +20971,11 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr ""
+msgstr "bulgarisch"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr ""
+msgstr "Bulgarier"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
@@ -20988,19 +20984,16 @@ msgid ""
 msgstr ""
 
 #: data/nation/bulgarian.ruleset:33
-#, fuzzy
 msgid "Tzar"
 msgstr "Zar"
 
 #: data/nation/bulgarian.ruleset:33
-#, fuzzy
 msgid "Tzaritza"
 msgstr "Zarin"
 
 #: data/nation/bulgarian.ruleset:36
-#, fuzzy
 msgid "Drugariat"
-msgstr "ungarisch"
+msgstr ""
 
 #: data/nation/bulgarian.ruleset:36
 msgid "Drugarkata"
@@ -21017,12 +21010,11 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr ""
+msgstr "burmesisch"
 
 #: data/nation/burmese.ruleset:4
-#, fuzzy
 msgid "?plural:Burmese"
-msgstr "?plural:Türken"
+msgstr "Burmesen"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -21035,14 +21027,12 @@ msgid "Bohmugyi"
 msgstr ""
 
 #: data/nation/burmese.ruleset:27
-#, fuzzy
 msgid "Saya"
-msgstr "Vorsitzender"
+msgstr ""
 
 #: data/nation/burmese.ruleset:27
-#, fuzzy
 msgid "Sayama"
-msgstr "Vorsitzender"
+msgstr ""
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
@@ -21093,7 +21083,7 @@ msgstr "karthagisch"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr "?plural:Karthager"
+msgstr "Karthager"
 
 #: data/nation/carthaginian.ruleset:8
 msgid ""
@@ -21111,7 +21101,7 @@ msgstr "katalanisch"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr "?plural:Katalanen"
+msgstr "Katalanen"
 
 #: data/nation/catalan.ruleset:6
 msgid ""
@@ -21190,7 +21180,7 @@ msgstr "chinesisch"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr "?plural:Chinesen"
+msgstr "Chinesen"
 
 #: data/nation/chinese.ruleset:6
 #, fuzzy
@@ -21223,12 +21213,10 @@ msgid "Dowager"
 msgstr "Dowager"
 
 #: data/nation/colombian.ruleset:3
-#, fuzzy
 msgid "Colombian"
 msgstr "kolumbianisch"
 
 #: data/nation/colombian.ruleset:4
-#, fuzzy
 msgid "?plural:Colombians"
 msgstr "Kolumbianer"
 
@@ -21253,19 +21241,16 @@ msgid "Governadora"
 msgstr "Gouverneurin"
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Begeisterung"
+msgstr ""
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "?plural:Buren"
+msgstr ""
 
 #: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
-#, fuzzy
 msgid "Transitional"
-msgstr "Literarisch"
+msgstr ""
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -21281,7 +21266,7 @@ msgstr "kornisch"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr "?plural:Kornier"
+msgstr "Kornier"
 
 #: data/nation/cornish.ruleset:6
 msgid ""
@@ -21303,7 +21288,7 @@ msgstr "kroatisch"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr "?plural:Kroaten"
+msgstr "Kroaten"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
@@ -21317,14 +21302,12 @@ msgstr ""
 "des 20. Jahrhunderts war es Teil der Bundesrepublik Jugoslawien."
 
 #: data/nation/cuban.ruleset:3
-#, fuzzy
 msgid "Cuban"
-msgstr "kolumbianisch"
+msgstr "kubanisch"
 
 #: data/nation/cuban.ruleset:4
-#, fuzzy
 msgid "?plural:Cubans"
-msgstr "Kolumbianer"
+msgstr "Kubaner"
 
 #: data/nation/cuban.ruleset:6
 msgid ""
@@ -21339,7 +21322,7 @@ msgstr "tschechisch"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr "?plural:Tschechen"
+msgstr "Tschechen"
 
 #: data/nation/czech.ruleset:6
 msgid ""
@@ -21363,7 +21346,7 @@ msgstr "dänisch"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr "?plural:Dänen"
+msgstr "Dänen"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
@@ -21383,7 +21366,7 @@ msgstr "holländisch"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr "?plural:Holländer"
+msgstr "Holländer"
 
 #: data/nation/dutch.ruleset:6
 msgid ""
@@ -21399,7 +21382,7 @@ msgstr "ägyptisch"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr "?plural:Ägypter"
+msgstr "Ägypter"
 
 #: data/nation/egyptian.ruleset:6
 #, fuzzy
@@ -21426,7 +21409,7 @@ msgstr "englisch"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "?plural:Engländer"
+msgstr "Engländer"
 
 #: data/nation/english.ruleset:6
 msgid ""
@@ -21454,7 +21437,7 @@ msgstr "estnisch"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr "?plural:Esten"
+msgstr "Esten"
 
 #: data/nation/estonian.ruleset:6
 #, fuzzy
@@ -21506,7 +21489,7 @@ msgstr "finnisch"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr "?plural:Finnen"
+msgstr "Finnen"
 
 #: data/nation/finnish.ruleset:6
 msgid ""
@@ -21522,7 +21505,7 @@ msgstr "französisch"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr "?plural:Franzosen"
+msgstr "Franzosen"
 
 #: data/nation/french.ruleset:6
 msgid ""
@@ -21580,14 +21563,12 @@ msgid "Grande Bardesa"
 msgstr "Große Bardin"
 
 #: data/nation/gallic.ruleset:3
-#, fuzzy
 msgid "Gallic"
-msgstr "galizisch"
+msgstr "gallisch"
 
 #: data/nation/gallic.ruleset:4
-#, fuzzy
 msgid "?plural:Gauls"
-msgstr "?plural:Zulus"
+msgstr "Gallier"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -21595,19 +21576,16 @@ msgid ""
 msgstr ""
 
 #: data/nation/gallic.ruleset:23
-#, fuzzy
 msgid "Druid"
-msgstr "Frucht"
+msgstr "Druide"
 
 #: data/nation/georgian.ruleset:3
-#, fuzzy
 msgid "Georgian"
-msgstr "deutsch"
+msgstr "georgisch"
 
 #: data/nation/georgian.ruleset:4
-#, fuzzy
 msgid "?plural:Georgians"
-msgstr "?plural:Deutschen"
+msgstr "Georgier"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
@@ -21621,7 +21599,7 @@ msgstr "deutsch"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr "?plural:Deutschen"
+msgstr "Deutschen"
 
 #: data/nation/german.ruleset:7
 msgid ""
@@ -21650,26 +21628,23 @@ msgstr "griechisch"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr "?plural:Griechen"
+msgstr "Griechen"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "Die alten Griechen, zwischen Mykene und der römischen Eroberung."
 
 #: data/nation/greek.ruleset:19
-#, fuzzy
 msgid "Despot"
-msgstr "Diktatur"
+msgstr ""
 
 #: data/nation/hellenic.ruleset:3
-#, fuzzy
 msgid "Hellenic"
-msgstr "Geheimdienst"
+msgstr "hellenisch"
 
 #: data/nation/hellenic.ruleset:4
-#, fuzzy
 msgid "?plural:Hellenes"
-msgstr "Isländer"
+msgstr "Hellenen"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -21699,7 +21674,7 @@ msgstr "ungarisch"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr "?plural:Ungarn"
+msgstr "Ungarn"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
@@ -21744,7 +21719,7 @@ msgstr "inkaisch"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr "?plural:Inkas"
+msgstr "Inkas"
 
 #: data/nation/inca.ruleset:6
 #, fuzzy
@@ -21762,14 +21737,12 @@ msgstr ""
 "Teil der Welt eintrafen."
 
 #: data/nation/inca.ruleset:22
-#, fuzzy
 msgid "?title:Inca"
-msgstr "völkermordend"
+msgstr ""
 
 #: data/nation/inca.ruleset:23
-#, fuzzy
 msgid "Sapa Inca"
-msgstr "inkaisch"
+msgstr ""
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
@@ -21777,7 +21750,7 @@ msgstr "indisch"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr "?plural:Inder"
+msgstr "Inder"
 
 #: data/nation/indian.ruleset:6
 msgid ""
@@ -21794,9 +21767,8 @@ msgid "Maharaja"
 msgstr "Maharadscha"
 
 #: data/nation/indian.ruleset:21
-#, fuzzy
 msgid "Mahatma"
-msgstr "Maharadscha"
+msgstr ""
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -21830,24 +21802,20 @@ msgid ""
 msgstr ""
 
 #: data/nation/inuit.ruleset:23
-#, fuzzy
 msgid "Shaman"
-msgstr "Vorsitzender"
+msgstr ""
 
 #: data/nation/inuit.ruleset:24
-#, fuzzy
 msgid "Great Shaman"
-msgstr "Großen Khan"
+msgstr ""
 
 #: data/nation/iraqi.ruleset:3
-#, fuzzy
 msgid "Iraqi"
-msgstr "israelisch"
+msgstr "irakisch"
 
 #: data/nation/iraqi.ruleset:4
-#, fuzzy
 msgid "?plural:Iraqis"
-msgstr "?plural:Iren"
+msgstr "Iraker"
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
@@ -21862,7 +21830,7 @@ msgstr "irisch"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "?plural:Iren"
+msgstr "Iren"
 
 #: data/nation/irish.ruleset:6
 #, fuzzy
@@ -21896,14 +21864,12 @@ msgid "Taoiseach"
 msgstr "Taoiseach"
 
 #: data/nation/iroquois.ruleset:3
-#, fuzzy
 msgid "Iroquois"
-msgstr "irisch"
+msgstr ""
 
 #: data/nation/iroquois.ruleset:4
-#, fuzzy
 msgid "?plural:Iroquois"
-msgstr "?plural:Iren"
+msgstr ""
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -21927,14 +21893,13 @@ msgstr "Großer Häuptling"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
-#, fuzzy
 msgid "Spokesman"
-msgstr "singapurisch"
+msgstr "Sprecher"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "Sprecherin"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -21942,7 +21907,7 @@ msgstr "israelisch"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "?plural:Israelis"
+msgstr "Israelis"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
@@ -21961,7 +21926,7 @@ msgstr "italienisch"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr "?plural:Italiener"
+msgstr "Italiener"
 
 #: data/nation/italian.ruleset:6
 msgid ""
@@ -21981,7 +21946,7 @@ msgstr "japanisch"
 
 #: data/nation/japanese.ruleset:21
 msgid "?plural:Japanese"
-msgstr "?plural:Japaner"
+msgstr "Japaner"
 
 #: data/nation/japanese.ruleset:23
 msgid ""
@@ -22030,7 +21995,7 @@ msgstr "kenianisch"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "?plural:Kenianer"
+msgstr "Kenianer"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -22042,7 +22007,7 @@ msgstr "koreanisch"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr "?plural:Koreaner"
+msgstr "Koreaner"
 
 #: data/nation/korean.ruleset:6
 msgid ""
@@ -22054,19 +22019,16 @@ msgid ""
 msgstr ""
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
-#, fuzzy
 msgid "Great Leader"
-msgstr "Großes Wunder"
+msgstr "Großer Führer"
 
 #: data/nation/lankese.ruleset:3
-#, fuzzy
 msgid "Lankese"
-msgstr "japanisch"
+msgstr ""
 
 #: data/nation/lankese.ruleset:4
-#, fuzzy
 msgid "?plural:Lankese"
-msgstr "?plural:Dänen"
+msgstr ""
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -22091,9 +22053,8 @@ msgid "Governor"
 msgstr "Gouverneur"
 
 #: data/nation/lankese.ruleset:23
-#, fuzzy
 msgid "Supreme Commander"
-msgstr "Supreme Director"
+msgstr ""
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -22101,7 +22062,7 @@ msgstr "lettisch"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr "?plural:Letten"
+msgstr "Letten"
 
 #: data/nation/latvian.ruleset:7
 msgid ""
@@ -22111,14 +22072,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/libyan.ruleset:3
-#, fuzzy
 msgid "Libyan"
-msgstr "Einheit auflösen"
+msgstr ""
 
 #: data/nation/libyan.ruleset:4
-#, fuzzy
 msgid "?plural:Libyans"
-msgstr "?plural:Letten"
+msgstr ""
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -22133,9 +22092,8 @@ msgid "Dey"
 msgstr ""
 
 #: data/nation/libyan.ruleset:25
-#, fuzzy
 msgid "Colonel"
-msgstr "Schließen"
+msgstr ""
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -22143,7 +22101,7 @@ msgstr "litauisch"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "?plural:Litauer"
+msgstr "Litauer"
 
 #: data/nation/lithuanian.ruleset:6
 #, fuzzy
@@ -22171,9 +22129,8 @@ msgid "Malagasy"
 msgstr "Malka"
 
 #: data/nation/malagasy.ruleset:4
-#, fuzzy
 msgid "?plural:Malagasies"
-msgstr "Malaysier"
+msgstr ""
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -22205,24 +22162,20 @@ msgid "Sultan"
 msgstr "Sultan"
 
 #: data/nation/malaysian.ruleset:24 data/nation/turk.ruleset:24
-#, fuzzy
 msgid "Sultana"
-msgstr "Sultan"
+msgstr "Sultanin"
 
 #: data/nation/malaysian.ruleset:25
-#, fuzzy
 msgid "Tun"
-msgstr "Runden"
+msgstr ""
 
 #: data/nation/malian.ruleset:3
-#, fuzzy
 msgid "Malian"
-msgstr "malaysisch"
+msgstr ""
 
 #: data/nation/malian.ruleset:4
-#, fuzzy
 msgid "?plural:Malians"
-msgstr "Malaysier"
+msgstr ""
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -22235,19 +22188,16 @@ msgid ""
 msgstr ""
 
 #: data/nation/malian.ruleset:27
-#, fuzzy
 msgid "Mansa"
-msgstr "Marines"
+msgstr ""
 
 #: data/nation/manchu.ruleset:3
-#, fuzzy
 msgid "Manchu"
-msgstr "März"
+msgstr ""
 
 #: data/nation/manchu.ruleset:4
-#, fuzzy
 msgid "?plural:Manchus"
-msgstr "?plural:Inkas"
+msgstr ""
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -22257,14 +22207,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/maori.ruleset:3
-#, fuzzy
 msgid "Maori"
-msgstr "marsianisch"
+msgstr "maorisch"
 
 #: data/nation/maori.ruleset:4
-#, fuzzy
 msgid "?plural:Maori"
-msgstr "Marsianer"
+msgstr "Maori"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -22283,17 +22231,15 @@ msgstr "Marsianer"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr ""
+msgstr "Die Marsmenschen landeten auf der Erde im Jahre 4000 v.Chr.!"
 
 #: data/nation/mayan.ruleset:3
-#, fuzzy
 msgid "Mayan"
-msgstr "Mai"
+msgstr ""
 
 #: data/nation/mayan.ruleset:4
-#, fuzzy
 msgid "?plural:Mayas"
-msgstr "Malaysier"
+msgstr ""
 
 #: data/nation/mayan.ruleset:6
 msgid ""
@@ -22324,7 +22270,7 @@ msgstr "mongolisch"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr "?plural:Mongolen"
+msgstr "Mongolen"
 
 #: data/nation/mongol.ruleset:6
 msgid ""
@@ -22343,18 +22289,16 @@ msgid "Khan"
 msgstr "Khan"
 
 #: data/nation/mongol.ruleset:30 data/nation/uyghur.ruleset:30
-#, fuzzy
 msgid "Khagan"
-msgstr "Khan"
+msgstr ""
 
 #: data/nation/newzealand.ruleset:4
 msgid "New Zealand"
-msgstr ""
+msgstr "neuseeländisch"
 
 #: data/nation/newzealand.ruleset:5
-#, fuzzy
 msgid "?plural:New Zealanders"
-msgstr "Isländer"
+msgstr "Neuseeländer"
 
 #: data/nation/newzealand.ruleset:8
 msgid ""
@@ -22376,14 +22320,12 @@ msgid "Nigeria won full independence from British rule in 1960."
 msgstr ""
 
 #: data/nation/norwegian.ruleset:3
-#, fuzzy
 msgid "Norwegian"
-msgstr "koreanisch"
+msgstr "norwegisch"
 
 #: data/nation/norwegian.ruleset:4
-#, fuzzy
 msgid "?plural:Norwegians"
-msgstr "?plural:Koreaner"
+msgstr "Norweger"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -22393,14 +22335,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ottoman.ruleset:3
-#, fuzzy
 msgid "Ottoman"
-msgstr "römisch"
+msgstr "ottomanisch"
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "?plural:Römer"
+msgstr "Ottomanen"
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -22414,43 +22354,36 @@ msgid ""
 msgstr ""
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
-#, fuzzy
 msgid "Bey"
-msgstr "Kaufen"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:27
-#, fuzzy
 msgid "Hakan"
-msgstr "Mai"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:28
-#, fuzzy
 msgid "Padisah"
-msgstr "Partisanen"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:29
-#, fuzzy
 msgid "Imparator"
-msgstr "Kaiser"
+msgstr ""
 
 #: data/nation/papuan.ruleset:3
-#, fuzzy
 msgid "Papuan"
-msgstr "Bevölkerung"
+msgstr ""
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "?plural:Japaner"
+msgstr ""
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
 msgstr ""
 
 #: data/nation/papuan.ruleset:19
-#, fuzzy
 msgid "Governor-General"
-msgstr "Gouverneurin"
+msgstr ""
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -22458,7 +22391,7 @@ msgstr "persisch"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr "?plural:Perser"
+msgstr "Perser"
 
 #: data/nation/persian.ruleset:6
 msgid ""
@@ -22473,9 +22406,8 @@ msgid "Shah"
 msgstr "Schah"
 
 #: data/nation/persian.ruleset:21
-#, fuzzy
 msgid "Shahbanu"
-msgstr "Vorsitzender"
+msgstr ""
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
@@ -22500,9 +22432,8 @@ msgid "Polish"
 msgstr "polnisch"
 
 #: data/nation/polish.ruleset:4
-#, fuzzy
 msgid "?plural:Poles"
-msgstr "?plural:Polen"
+msgstr "Polen"
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -22532,7 +22463,7 @@ msgstr "portugiesisch"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr "?plural:Portugiesen"
+msgstr "Portugiesen"
 
 #: data/nation/portuguese.ruleset:6
 msgid ""
@@ -22557,14 +22488,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/romanian.ruleset:3
-#, fuzzy
 msgid "Romanian"
-msgstr "römisch"
+msgstr "rumänisch"
 
 #: data/nation/romanian.ruleset:4
-#, fuzzy
 msgid "?plural:Romanians"
-msgstr "?plural:Römer"
+msgstr "Rumänen"
 
 #: data/nation/romanian.ruleset:6
 msgid ""
@@ -22580,14 +22509,12 @@ msgid "Voievod"
 msgstr ""
 
 #: data/nation/romanian.ruleset:34
-#, fuzzy
 msgid "Doamna"
-msgstr "Abwärts"
+msgstr ""
 
 #: data/nation/romanian.ruleset:35
-#, fuzzy
 msgid "Rege"
-msgstr "Entfernen"
+msgstr ""
 
 # EH: Diese Meldung sollte mE nicht übersetzt werden.
 #: data/nation/romanian.ruleset:35
@@ -22596,14 +22523,12 @@ msgid "Regina"
 msgstr "Reina"
 
 #: data/nation/romanian.ruleset:36
-#, fuzzy
 msgid "Presedinte"
-msgstr "Präsident"
+msgstr ""
 
 #: data/nation/romanian.ruleset:37
-#, fuzzy
 msgid "Tovaras"
-msgstr "Kosten gesamt"
+msgstr ""
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovarasa"
@@ -22615,7 +22540,7 @@ msgstr "römisch"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr "?plural:Römer"
+msgstr "Römer"
 
 #: data/nation/roman.ruleset:6
 msgid ""
@@ -22631,7 +22556,7 @@ msgstr "russisch"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "?plural:Russen"
+msgstr "Russen"
 
 #: data/nation/russian.ruleset:6
 msgid ""
@@ -22661,9 +22586,8 @@ msgid "Tsar"
 msgstr ""
 
 #: data/nation/russian.ruleset:48
-#, fuzzy
 msgid "Tsaritsa"
-msgstr "Partisanen"
+msgstr ""
 
 #: data/nation/russian.ruleset:49
 msgid "Matriarch"
@@ -22674,9 +22598,8 @@ msgid "Ryukyuan"
 msgstr ""
 
 #: data/nation/ryukyuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ryukyuans"
-msgstr "?plural:Russen"
+msgstr ""
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -22693,14 +22616,12 @@ msgid "Jo-o"
 msgstr ""
 
 #: data/nation/sami.ruleset:3
-#, fuzzy
 msgid "Sami"
-msgstr "Segelschiff"
+msgstr ""
 
 #: data/nation/sami.ruleset:4
-#, fuzzy
 msgid "?plural:Sami"
-msgstr "?plural:Thailänder"
+msgstr ""
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -22710,9 +22631,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/sami.ruleset:21
-#, fuzzy
 msgid "Noaydde"
-msgstr "Nein"
+msgstr ""
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -22720,7 +22640,7 @@ msgstr "schottisch"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr "?plural:Schotten"
+msgstr "Schotten"
 
 #: data/nation/scottish.ruleset:6
 msgid ""
@@ -22742,7 +22662,7 @@ msgstr "serbisch"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr "?plural:Serben"
+msgstr "Serben"
 
 #: data/nation/serbian.ruleset:6
 #, fuzzy
@@ -22761,7 +22681,7 @@ msgstr "schlesisch"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr "?plural:Schlesier"
+msgstr "Schlesier"
 
 #: data/nation/silesian.ruleset:6
 msgid ""
@@ -22777,7 +22697,7 @@ msgstr "singapurisch"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "?plural:Singapurer"
+msgstr "Singapurer"
 
 #: data/nation/singaporean.ruleset:18
 #, fuzzy
@@ -22802,7 +22722,7 @@ msgstr "siouanisch"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr "?plural:Sioux"
+msgstr "Sioux"
 
 #: data/nation/sioux.ruleset:6
 msgid ""
@@ -22817,7 +22737,7 @@ msgstr "slowenisch"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr "?plural:Slowenen"
+msgstr "Slowenen"
 
 #: data/nation/slovenian.ruleset:6
 msgid ""
@@ -22827,14 +22747,12 @@ msgstr ""
 "Slowenien war die nordwestliche Teilrepublik des früheren Jugoslawiens."
 
 #: data/nation/slovakian.ruleset:3
-#, fuzzy
 msgid "Slovakian"
-msgstr "slowenisch"
+msgstr "slowakisch"
 
 #: data/nation/slovakian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovakians"
-msgstr "?plural:Slowenen"
+msgstr "Slowaken"
 
 #: data/nation/slovakian.ruleset:6
 #, fuzzy
@@ -22851,24 +22769,20 @@ msgid "Qween"
 msgstr "Königin"
 
 #: data/nation/slovakian.ruleset:30
-#, fuzzy
 msgid "Pope"
-msgstr "Eig:"
+msgstr ""
 
 #: data/nation/slovakian.ruleset:30
-#, fuzzy
 msgid "Priestess"
-msgstr "Hohe Priesterin"
+msgstr "Priesterin"
 
 #: data/nation/southafrican.ruleset:3
-#, fuzzy
 msgid "South African"
-msgstr "amerikanisch"
+msgstr "südafrikanisch"
 
 #: data/nation/southafrican.ruleset:4
-#, fuzzy
 msgid "?plural:South Africans"
-msgstr "?plural:Amerikaner"
+msgstr "Südafrikaner"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -22883,14 +22797,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/soviet.ruleset:3
-#, fuzzy
 msgid "Soviet"
-msgstr "Anfänger"
+msgstr "sowjetisch"
 
 #: data/nation/soviet.ruleset:4
-#, fuzzy
 msgid "?plural:Soviets"
-msgstr "?plural:Schotten"
+msgstr ""
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -22907,7 +22819,7 @@ msgstr "spanisch"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr "?plural:Spanier"
+msgstr "Spanier"
 
 #: data/nation/spanish.ruleset:6
 msgid ""
@@ -22934,14 +22846,12 @@ msgid "Cardinal"
 msgstr "Kardinal"
 
 #: data/nation/sudanese.ruleset:3
-#, fuzzy
 msgid "Sudanese"
-msgstr "Klangset"
+msgstr "sudanesisch"
 
 #: data/nation/sudanese.ruleset:4
-#, fuzzy
 msgid "?plural:Sudanese"
-msgstr "?plural:Dänen"
+msgstr "Sudanesen"
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
@@ -22969,14 +22879,12 @@ msgid "Ensi"
 msgstr "Stadtfürst"
 
 #: data/nation/swazi.ruleset:3
-#, fuzzy
 msgid "Swazi"
-msgstr "Segelschiff"
+msgstr ""
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
-msgstr "Schweizer"
+msgstr ""
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -22999,7 +22907,7 @@ msgstr "schwedisch"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "?plural:Schweden"
+msgstr "Schweden"
 
 #: data/nation/swedish.ruleset:6
 msgid ""
@@ -23027,9 +22935,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/swiss.ruleset:24
-#, fuzzy
 msgid "Bailiff"
-msgstr "brasilianisch"
+msgstr ""
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
@@ -23040,23 +22947,20 @@ msgid "Elected Queen"
 msgstr ""
 
 #: data/nation/swiss.ruleset:26
-#, fuzzy
 msgid "Elected Priest"
-msgstr "Vorgabe _löschen"
+msgstr ""
 
 #: data/nation/swiss.ruleset:26
-#, fuzzy
 msgid "Elected Priestess"
-msgstr "Hohe Priesterin"
+msgstr ""
 
 #: data/nation/swiss.ruleset:27 data/nation/swiss.ruleset:28
 msgid "President of the Confederation"
 msgstr ""
 
 #: data/nation/swiss.ruleset:29
-#, fuzzy
 msgid "Federal Chancellor"
-msgstr "Kanzler"
+msgstr "Bundeskanzler"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -23074,14 +22978,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/texan.ruleset:3
-#, fuzzy
 msgid "Texan"
-msgstr "Häuptling"
+msgstr "texanisch"
 
 #: data/nation/texan.ruleset:4
-#, fuzzy
 msgid "?plural:Texans"
-msgstr "Mexikaner"
+msgstr "Texaner"
 
 #: data/nation/texan.ruleset:6
 msgid ""
@@ -23095,7 +22997,7 @@ msgstr "thailändisch"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
-msgstr "?plural:Thailänder"
+msgstr "Thailänder"
 
 #: data/nation/thai.ruleset:6
 msgid ""
@@ -23106,14 +23008,12 @@ msgstr ""
 "18. und 19. Jahrhundert seine Unabhängigkeit bewahrte."
 
 #: data/nation/tibetan.ruleset:3
-#, fuzzy
 msgid "Tibetan"
-msgstr "Häuptling"
+msgstr "tibetisch"
 
 #: data/nation/tibetan.ruleset:4
-#, fuzzy
 msgid "?plural:Tibetans"
-msgstr "?plural:Chilenen"
+msgstr "Tibeter"
 
 #: data/nation/tibetan.ruleset:6
 msgid ""
@@ -23128,23 +23028,20 @@ msgid ""
 msgstr ""
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy
 msgid "Lama"
-msgstr "Abwärts"
+msgstr ""
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
-msgstr ""
+msgstr "Dalai Lama"
 
 #: data/nation/tunisian.ruleset:3
-#, fuzzy
 msgid "Tunisian"
-msgstr "russisch"
+msgstr "tunesisch"
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "?plural:Russen"
+msgstr "Tunesier"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -23164,7 +23061,7 @@ msgstr "türkisch"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr "?plural:Türken"
+msgstr "Türken"
 
 #: data/nation/turk.ruleset:6
 #, fuzzy
@@ -23185,7 +23082,7 @@ msgstr "ukrainisch"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr "?plural:Ukrainer"
+msgstr "Ukrainer"
 
 #: data/nation/ukrainian.ruleset:6
 msgid ""
@@ -23204,9 +23101,8 @@ msgid "Uyghur"
 msgstr ""
 
 #: data/nation/uyghur.ruleset:4
-#, fuzzy
 msgid "?plural:Uyghurs"
-msgstr "?plural:Türken"
+msgstr ""
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -23220,12 +23116,11 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:4
 msgid "Venezuela"
-msgstr "Venezuela"
+msgstr "venezuleanisch"
 
 #: data/nation/venezuelan.ruleset:5
-#, fuzzy
 msgid "?plural:Venezuelans"
-msgstr "?plural:Venezuleaner"
+msgstr "Venezuleaner"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -23248,7 +23143,7 @@ msgstr "vietnamesisch"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
-msgstr "?plural:Vietnamesen"
+msgstr "Vietnamesen"
 
 #: data/nation/vietnamese.ruleset:6
 msgid ""
@@ -23264,7 +23159,7 @@ msgstr "wikingisch"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr "?plural:Wikinger"
+msgstr "Wikinger"
 
 #: data/nation/viking.ruleset:6
 msgid ""
@@ -23282,7 +23177,7 @@ msgstr "walisisch"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr "?plural:Waliser"
+msgstr "Waliser"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
@@ -23294,14 +23189,12 @@ msgstr ""
 "wurden."
 
 #: data/nation/westphalian.ruleset:3
-#, fuzzy
 msgid "Westphalian"
-msgstr "italienisch"
+msgstr "westfälisch"
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "?plural:Italiener"
+msgstr "Westfalen"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -23316,7 +23209,7 @@ msgstr "zuluanisch"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
-msgstr "?plural:Zulus"
+msgstr "Zulus"
 
 #: data/nation/zulu.ruleset:6
 msgid ""
@@ -23374,8 +23267,8 @@ msgstr ""
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
-msgstr ""
+msgstr "Einführung"
 
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
-msgstr ""
+msgstr "Einführungsszenario"
