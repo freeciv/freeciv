@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Freeciv-2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-16 22:25-0500\n"
-"PO-Revision-Date: 2006-03-11 00:43+0300\n"
+"PO-Revision-Date: 2006-03-24 18:41+0300\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1663,14 +1663,13 @@ msgid "Show a list of players, teams, connections, or scenarios."
 msgstr "Показывать список игроков, команд, подключений или сценариев."
 
 #: server/commands.c:64
-#, fuzzy
 msgid ""
 "Show a list of players in the game, teams of players, connections to the "
 "server, or available scenarios.  The argument may be abbreviated, and "
 "defaults to 'players' if absent."
 msgstr ""
-"Показать список игроков, команд, подключений к серверу или сценариев. "
-"Аргумент может быть сокращен, по умолчанию - 'players'."
+"Показать список игроков, команд игроков, подключений к серверу или "
+"доступных сценариев. Аргумент может быть сокращен, по умолчанию - 'players'."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -1916,7 +1915,6 @@ msgid "Take over a player's place in the game."
 msgstr "Занять место игрока в игре."
 
 #: server/commands.c:181
-#, fuzzy
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
@@ -1925,10 +1923,10 @@ msgid ""
 "assigned to the connection."
 msgstr ""
 "Только консоль и подключения с уровнем команд (cmdlevel) 'hack' могут "
-"заставить чужие подключения наблюдать за игроком. Если к Вам это не "
-"относится, Вы можете использовать только аргумент <имя-игрока>. Если консоль "
-"не дает имени игрока, или у подсоединения нет параметров, подосоединение "
-"подключается к глобальному наблюдателю."
+"дать чужим подключениям управление игроком. Если к Вам это не относится, Вы "
+"можете использовать только аргумент <имя-игрока>. Если в качестве имени "
+"игрока задаётся '-', и подключение ещё не управляет игроком, то новый игрок "
+"будет создан и связан с подключением."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:189
@@ -5009,6 +5007,8 @@ msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
 "s."
 msgstr ""
+"Ваше соединение %s %s было распущено в соответствии с мирным договором между "
+"Вами и %s."
 
 #: server/srv_main.c:482
 #, c-format
@@ -5444,7 +5444,7 @@ msgstr "Кто-то уже является организатором игры."
 #: server/stdinhand.c:1401
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
-msgstr ""
+msgstr "Подключение %s выбрано в качестве организатора игры."
 
 #: server/stdinhand.c:1452
 #, c-format
@@ -5649,6 +5649,8 @@ msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
 msgstr ""
+"Вы можете голосовать только в начавшейся игре. Используйте команду 'first', "
+"чтобы стать организатором игры, если такового ещё нет."
 
 #: server/stdinhand.c:2164
 #, c-format
@@ -5873,9 +5875,9 @@ msgid "%s is already observing %s."
 msgstr "%s уже контролирует %s."
 
 #: server/stdinhand.c:2761
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already observing."
-msgstr "%s уже контролирует %s."
+msgstr "%s уже является наблюдателем."
 
 #: server/stdinhand.c:2817
 #, c-format
@@ -5883,9 +5885,9 @@ msgid "%s now observes %s"
 msgstr "%s сейчас наблюдает за %s"
 
 #: server/stdinhand.c:2820
-#, fuzzy, c-format
+#, c-format
 msgid "%s now observes"
-msgstr "%s сейчас наблюдает за %s"
+msgstr "%s сейчас является наблюдателем"
 
 #: server/stdinhand.c:2859
 msgid "Usage: take <connection-name> <player-name>"
@@ -5961,9 +5963,9 @@ msgid "%s detaching from %s"
 msgstr "%s отключается от %s"
 
 #: server/stdinhand.c:3081
-#, fuzzy, c-format
+#, c-format
 msgid "%s no longer observing."
-msgstr "Отладка %s закончена"
+msgstr "%s более не является обозревателем."
 
 #: server/stdinhand.c:3097
 #, c-format
@@ -5971,9 +5973,8 @@ msgid "detaching from %s."
 msgstr "отключается от %s."
 
 #: server/stdinhand.c:3179
-#, fuzzy
 msgid "Usage: load <game name>"
-msgstr "Использование: load <имя-файла>"
+msgstr "Использование: load <имя-игры>"
 
 #: server/stdinhand.c:3199
 #, c-format
@@ -5981,12 +5982,11 @@ msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "Невозможно найти игру или сценарий с именем \"%s\"."
 
 #: server/stdinhand.c:3214
-#, fuzzy
 msgid "Cannot load a game while another is running."
 msgstr "Невозможно загрузить игру во время работы другой игры."
 
 #: server/stdinhand.c:3223
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load savefile: %s"
 msgstr "Невозможно загрузить файл: %s"
 
@@ -8269,18 +8269,22 @@ msgid "Features:\n"
 msgstr "Особенности:\n"
 
 #: client/helpdata.c:1286
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Military units away from home and field units will cause one citizen to "
 "become unhappy.\n"
-msgstr "* Военные соединения вне городов могут вызвать недовольство.\n"
+msgstr ""
+"* Каждое военное соединение вне города и каждое полевое соединение "
+"сделают одного жителя недовольным.\n"
 
 #: client/helpdata.c:1289
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr "* Военные соединения вне городов могут вызвать недовольство.\n"
+msgstr ""
+"* Каждое военное соединение вне города и каждое полевое соединение сделают "
+"%d жителей недовольными.\n"
 
 #: client/helpdata.c:1296
 #, c-format
@@ -8297,9 +8301,9 @@ msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr "* Вы платите %d раз по %s за содержание Ваших соединений.\n"
 
 #: client/helpdata.c:1305
-#, fuzzy, c-format
+#, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
-msgstr "* Вы платите %d раз по %s за содержание Ваших соединений.\n"
+msgstr "* Вы платите в %d раз больше за содержание Ваших соединений.\n"
 
 #: client/helpdata.c:1311
 #, c-format
@@ -8314,12 +8318,11 @@ msgstr ""
 "* Каждый из Ваших городов избежит платы за содержание %d %s соединений.\n"
 
 #: client/helpdata.c:1320
-#, fuzzy, c-format
+#, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
 msgstr ""
-"В случае потери Вашей столицы, вероятность начала гражданской войны равна %d%"
-"%.\n"
-"\n"
+"* В случае потери Вашей столицы, вероятность начала гражданской войны равна "
+"%d%%.\n"
 
 #: client/helpdata.c:1324
 #, fuzzy, c-format
@@ -8338,42 +8341,41 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:1336
-#, fuzzy, c-format
+#, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 "Максимальный уровень, который Вы можете установить для науки, золота, "
-"роскоши - это %d%%.\n"
-"\n"
+"роскоши - %d%%.\n"
 
 #: client/helpdata.c:1340
-#, fuzzy, c-format
+#, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
-msgstr ""
-"Нет ограничений на значения уровня науки/золота/роскоши.\n"
-"\n"
+msgstr "Нет ограничений на значения уровня науки/золота/роскоши.\n"
 
 #: client/helpdata.c:1345
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force an unhappy citizen to become content.\n"
 msgstr ""
 "* Вы можете ввести военное положение. Каждое военное соединение в городе "
-"(максимум %d) заставит %d несчастных жителей стать нейтральными.\n"
+"сделает недовольного жителя нейтральным.\n"
 
 #: client/helpdata.c:1349
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
 msgstr ""
 "* Вы можете ввести военное положение. Каждое военное соединение в городе "
-"(максимум %d) заставит %d несчастных жителей стать нейтральными.\n"
+"сделает %d недовольных жителей нейтральными.\n"
 
 #: client/helpdata.c:1356
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr ""
+"* Максимум %d соединений в каждом городе может использоваться для введения "
+"военного положения.\n"
 
 #: client/helpdata.c:1361
 #, c-format
@@ -8386,14 +8388,14 @@ msgstr ""
 "способом.\n"
 
 #: client/helpdata.c:1367
-#, fuzzy, c-format
+#, c-format
 msgid "* Your units cannot be bribed.\n"
-msgstr "Это соединение не может быть завербовано!"
+msgstr "* Ваши соединения не могут быть завербованы противником.\n"
 
 #: client/helpdata.c:1370
-#, fuzzy, c-format
+#, c-format
 msgid "* Your cities cannot be incited.\n"
-msgstr "* Ваши соединения и города нельзя подкупать или подстрекать.\n"
+msgstr "* Ваши города нельзя подстрекать к мятежу.\n"
 
 #: client/helpdata.c:1373
 #, c-format
@@ -8441,7 +8443,7 @@ msgstr ""
 #: client/helpdata.c:1403
 #, fuzzy, c-format
 msgid "* Veteran units.\n"
-msgstr "Морские соединения"
+msgstr "* Соединения-ветераны.\n"
 
 #: client/helpdata.c:1407
 #, c-format
@@ -8713,7 +8715,6 @@ msgid ""
 msgstr ""
 
 #: client/options.c:175
-#, fuzzy
 msgid "Show icons in the technology tree"
 msgstr "Показывать иконки в дереве технологий"
 
@@ -9074,9 +9075,8 @@ msgid "No %s could be disbanded."
 msgstr "Нельзя распустить %s."
 
 #: client/servers.c:345
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "Невозможно открыть \"%s\"."
+msgstr "Невозможно открыть временный файл."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -9205,7 +9205,6 @@ msgid "City: %s (%s, %s)"
 msgstr "Город: %s (%s, %s)"
 
 #: client/text.c:177
-#, fuzzy
 msgid " with "
 msgstr " с "
 
@@ -9288,20 +9287,19 @@ msgstr "из %s"
 
 #: client/text.c:442
 msgid "Progress: no research"
-msgstr "Скорость исследований: не ведутся"
+msgstr "Прогресс: нет исследований"
 
 #: client/text.c:446
-#, fuzzy
 msgid "Progress: no research target"
-msgstr "Скорость исследований: нет цели исследований"
+msgstr "Прогресс: нет цели исследований"
 
 #: client/text.c:451
 #, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "Скорость исследований: %d ход/открытие"
-msgstr[1] "Скорость исследований: %d хода/открытие"
-msgstr[2] "Скорость исследований: %d ходов/открытие"
+msgstr[0] "Прогресс: %d ход/открытие"
+msgstr[1] "Прогресс: %d хода/открытие"
+msgstr[2] "Прогресс: %d ходов/открытие"
 
 #: client/text.c:456
 #, fuzzy, c-format
@@ -9391,12 +9389,12 @@ msgstr "Двигается: %s"
 
 #: client/text.c:584
 msgid "(Click for more info)"
-msgstr ""
+msgstr "(Нажмите для большей информации)"
 
 #: client/text.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "%s People"
-msgstr "Народ: %s"
+msgstr "Народ %s"
 
 #: client/text.c:605
 #, c-format
@@ -9417,9 +9415,9 @@ msgstr ""
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:611
-#, fuzzy, c-format
+#, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr " Нал: %d Рос: %d Нау: %d"
+msgstr "Налоги: Золото:%d%% Роскошь:%d%% Наука:%d%%"
 
 #: client/text.c:615
 #, c-format
@@ -9429,12 +9427,12 @@ msgstr "Изучаем %s: %s"
 #: client/text.c:622
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Вероятность глобального потепления: %d%% (%+d%%/ход)"
 
 #: client/text.c:625
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Вероятность ядерной зимы: %d%% (%+d%%/ход)"
 
 #: client/text.c:630 client/gui-mui/inteldlg.c:140
 #: client/gui-win32/inteldlg.c:103 client/gui-xaw/inteldlg.c:202
@@ -9443,12 +9441,12 @@ msgid "Government: %s"
 msgstr "Форма правления: %s"
 
 #: client/text.c:654
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] " соединение"
-msgstr[1] " соединение"
-msgstr[2] " соединение"
+msgstr[0] "%d соединение"
+msgstr[1] "%d соединения"
+msgstr[2] "%d соединений"
 
 #: client/text.c:687
 #, c-format
@@ -9456,47 +9454,44 @@ msgid "Turns to target: %d"
 msgstr "Ходов до цели: %d"
 
 #: client/text.c:689
-#, fuzzy, c-format
+#, c-format
 msgid "Turns to target: %d to %d"
-msgstr "Ходов до цели: %d"
+msgstr "Ходов до цели: от %d до %d"
 
 #: client/text.c:695
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] "Выбор соединений"
-msgstr[1] "Выбор соединений"
-msgstr[2] "Выбор соединений"
+msgstr[0] "Выбрано %d соединение"
+msgstr[1] "Выбрано %d соединения"
+msgstr[2] "Выбрано %d соединений"
 
 #: client/text.c:700
-#, fuzzy
 msgid "No units selected."
-msgstr "Выбор соединений"
+msgstr "Нет выбранных соединений."
 
 #: client/text.c:773
 #, c-format
 msgid "Others: %d civil; %d military"
-msgstr ""
+msgstr "Другие: %d гражданских; %d военных"
 
 #: client/text.c:775
 #, c-format
 msgid "Others: %d civilian"
-msgstr ""
+msgstr "Другие: %d гражданских"
 
 #: client/text.c:777
 #, c-format
 msgid "Others: %d military"
-msgstr ""
+msgstr "Другие: %d военных"
 
 #: client/text.c:808
-#, fuzzy
 msgid "No units to upgrade!"
-msgstr "Нет соединений для модернизации."
+msgstr "Нет соединений для модернизации!"
 
 #: client/text.c:833
-#, fuzzy
 msgid "None of these units may be upgraded."
-msgstr "Нет соединений для модернизации."
+msgstr "Ни одно из этих соединений не может быть модернизировано."
 
 #: client/text.c:839
 #, fuzzy, c-format
@@ -9507,13 +9502,13 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Модернизировать %s до %s за %d золота?\n"
+"Модернизировать %d соедиение за %d золота?\n"
 "В казне %d золота."
 msgstr[1] ""
-"Модернизировать %s до %s за %d золота?\n"
+"Модернизировать %d соедиения за %d золота?\n"
 "В казне %d золота."
 msgstr[2] ""
-"Модернизировать %s до %s за %d золота?\n"
+"Модернизировать %d соедиений за %d золота?\n"
 "В казне %d золота."
 
 #: client/text.c:860
@@ -10722,12 +10717,12 @@ msgstr "_Начать"
 #: client/gui-gtk-2.0/gui_main.c:1395 client/gui-gtk-2.0/pages.c:1535
 #, fuzzy
 msgid "_Observe"
-msgstr "Наблюдатель: %s"
+msgstr "Наблюдать"
 
 #: client/gui-gtk-2.0/gui_main.c:1397
 #, fuzzy
 msgid "_Take player"
-msgstr "Рынок"
+msgstr "Управлять игроком"
 
 #: client/gui-gtk-2.0/gui_main.c:1419
 msgid "<AI>"
@@ -10754,14 +10749,12 @@ msgid "Random"
 msgstr "Случайный"
 
 #: client/gui-gtk-2.0/gui_main.c:1503
-#, fuzzy
 msgid "Observer"
-msgstr "Наблюдатель: %s"
+msgstr "Наблюдатель"
 
 #: client/gui-gtk-2.0/gui_main.c:1503
-#, fuzzy
 msgid "Detached"
-msgstr "Умер"
+msgstr "Отсоединён"
 
 #: client/gui-gtk-2.0/gui_main.c:1773
 msgid "Are you sure you want to quit?"
@@ -10920,25 +10913,24 @@ msgid "Food/Res/Trade:"
 msgstr "Еда/Рес/Торг:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 data/Freeciv.in:972
-#, fuzzy
 msgid "Resources:"
-msgstr "Ресурсы"
+msgstr "Ресурсы:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 msgid "Road Rslt/Time:"
-msgstr "Дорога Рзлт/Время:"
+msgstr "Дорога Резлт/Время:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 msgid "Irrig. Rslt/Time:"
-msgstr "Орош. Рзлт/Время:"
+msgstr "Орош. Резлт/Время:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:101
 msgid "Mine Rslt/Time:"
-msgstr "Шахта Рзлт/Время:"
+msgstr "Шахта Резлт/Время:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:101
 msgid "Trans. Rslt/Time:"
-msgstr "Транс. Рзлт/Время:"
+msgstr "Транс. Резлт/Время:"
 
 #: client/gui-gtk-2.0/helpdlg.c:111 client/gui-mui/helpdlg.c:159
 #: client/gui-mui/helpdlg.c:226 client/gui-win32/helpdlg.c:168
@@ -11842,7 +11834,6 @@ msgid "Toggle player ready"
 msgstr "aitoggle <имя-игрока>"
 
 #: client/gui-gtk-2.0/pages.c:1140
-#, fuzzy
 msgid "Pick nation"
 msgstr "Выбрать народ"
 
@@ -11872,11 +11863,11 @@ msgstr "Убираем игрока %s."
 
 #: client/gui-gtk-2.0/pages.c:1204
 msgid "Give info access"
-msgstr ""
+msgstr "Дать уровень доступа info"
 
 #: client/gui-gtk-2.0/pages.c:1212
 msgid "Give ctrl access"
-msgstr ""
+msgstr "Дать уровень доступа ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1273
@@ -14395,7 +14386,7 @@ msgstr "Не удалось открыть набор шрифтов: %s"
 
 #: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "Выполнение 'xset fp rehash' может временно решить проблему."
 
 #: client/gui-xaw/gui_main.c:380 client/gui-xaw/gui_main.c:401
 #, c-format
@@ -14715,7 +14706,7 @@ msgstr "Мельницы"
 #: manual/civmanual.c:224
 #, fuzzy
 msgid "turns"
-msgstr "Ходы"
+msgstr "ходов"
 
 #: manual/civmanual.c:226
 #, fuzzy
@@ -18551,53 +18542,44 @@ msgid "?Taxman:T"
 msgstr "?Налогосборщик:Н"
 
 #: data/default/cities.ruleset:74
-#, fuzzy
 msgid "?citystyle:European"
-msgstr "?горсост:Бум"
+msgstr "?citystyle:Европейский"
 
 #: data/default/cities.ruleset:83
-#, fuzzy
 msgid "?citystyle:Classical"
-msgstr "Классический"
+msgstr "?citystyle:Классический"
 
 #: data/default/cities.ruleset:92
 msgid "?citystyle:Tropical"
-msgstr ""
+msgstr "?citystyle:Тропический"
 
 #: data/default/cities.ruleset:101
-#, fuzzy
 msgid "?citystyle:Asian"
-msgstr "?city:Враждебные"
+msgstr "?citystyle:Азиатский"
 
 #: data/default/cities.ruleset:110
-#, fuzzy
 msgid "?citystyle:Babylonian"
-msgstr "Вавилоняне"
+msgstr "?citystyle:Вавилонский"
 
 #: data/default/cities.ruleset:119
-#, fuzzy
 msgid "?citystyle:Celtic"
-msgstr "?горсост:Порядок"
+msgstr "?citystyle:Кельтский"
 
 #: data/default/cities.ruleset:128
-#, fuzzy
 msgid "?citystyle:Renaissance"
-msgstr "Ренессанс"
+msgstr "?citystyle:Ренессанс"
 
 #: data/default/cities.ruleset:139
-#, fuzzy
 msgid "?citystyle:Industrial"
-msgstr "?city:Нейтральные"
+msgstr "?citystyle:Индустриальный"
 
 #: data/default/cities.ruleset:150
-#, fuzzy
 msgid "?citystyle:Modern"
-msgstr "?горсост:Беспорядки"
+msgstr "?citystyle:Модерн"
 
 #: data/default/cities.ruleset:161
-#, fuzzy
 msgid "?citystyle:PostModern"
-msgstr "?горсост:Беспорядки"
+msgstr "?citystyle:Постмодерн"
 
 #: data/default/governments.ruleset:51 data/civ2/governments.ruleset:49
 #: data/civ1/governments.ruleset:51
