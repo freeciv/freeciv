@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-05 20:45-0500\n"
-"PO-Revision-Date: 2006-02-05 18:40+0100\n"
+"PO-Revision-Date: 2006-03-19 14:27+0100\n"
 "Last-Translator: Frederic Rodrigo <f.rodrigo free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.11\n"
+"X-Generator: KBabel 1.11.1\n"
 
 #: common/city.c:53 client/cityrepdata.c:483 client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-mui/citydlg.c:1596 client/gui-mui/repodlgs.c:668
@@ -535,7 +535,7 @@ msgstr "Argument manquant pour \"%s\".\n"
 #: utility/shared.c:463
 #, c-format
 msgid "%d BC"
-msgstr "%d av. JC"
+msgstr "%d av. J.-C."
 
 #: utility/shared.c:465
 #, c-format
@@ -736,7 +736,7 @@ msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (IA)* Votre agression contre %s sera votre dernière erreur !"
 
 #: ai/advdiplomacy.c:1185
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
 "the spaceship launch."
@@ -745,7 +745,7 @@ msgid_plural ""
 "the spaceship launch."
 msgstr[0] ""
 "*%s (IA)* Nos allons nous engager dans une guerre totale contre %s dans %d "
-"tours pour stopper le lancement du vaisseau spatial."
+"tour pour stopper le lancement du vaisseau spatial."
 msgstr[1] ""
 "*%s (IA)* Nos allons nous engager dans une guerre totale contre %s dans %d "
 "tours pour stopper le lancement du vaisseau spatial."
@@ -760,7 +760,7 @@ msgstr ""
 "alliance !"
 
 #: ai/advdiplomacy.c:1198
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
 "will answer in force in %d turn and expect you to honour your alliance with "
@@ -771,7 +771,7 @@ msgid_plural ""
 "us and do likewise!"
 msgstr[0] ""
 "*%s (IA)* %s à grandement violé notre traité dans son seul intérêt. Nous "
-"allons lui demander des comptes dans %d tours, et nous attendons que vous "
+"allons lui demander des comptes dans %d tour, et nous attendons que vous "
 "honoriez votre traité et en faisant de même !"
 msgstr[1] ""
 "*%s (IA)* %s à grandement violé notre traité dans son seul intérêt. Nous "
@@ -779,7 +779,7 @@ msgstr[1] ""
 "honoriez votre traité et en faisant de même !"
 
 #: ai/advdiplomacy.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turn."
@@ -788,7 +788,7 @@ msgid_plural ""
 "declare war in %d turns."
 msgstr[0] ""
 "*%s (IA)* Nous avons l'intention de saccager et piller la richesse de la "
-"civilisation %s. Nous déclarons la guerre dans %d tours."
+"civilisation %s. Nous déclarons la guerre dans %d tour."
 msgstr[1] ""
 "*%s (IA)* Nous avons l'intention de saccager et piller la richesse de la "
 "civilisation %s. Nous déclarons la guerre dans %d tours."
@@ -802,7 +802,7 @@ msgstr ""
 "notre action !"
 
 #: ai/advdiplomacy.c:1219
-#, fuzzy, c-format
+#, fuzzy
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turn."
@@ -811,7 +811,7 @@ msgid_plural ""
 "apart. We declare war in %d turns."
 msgstr[0] ""
 "*%s (IA)* %s. Mettons en débâcle cette pathétique civilisation. Nous "
-"déclarons la guerre dans %d tours."
+"déclarons la guerre dans %d tour."
 msgstr[1] ""
 "*%s (IA)* %s. Mettons en débâcle cette pathétique civilisation. Nous "
 "déclarons la guerre dans %d tours."
@@ -824,7 +824,7 @@ msgstr ""
 "cette guerre."
 
 #: ai/advdiplomacy.c:1232
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
 "Hold on - we are coming!"
@@ -833,13 +833,13 @@ msgid_plural ""
 "Hold on - we are coming!"
 msgstr[0] ""
 "*%s (IA)* Nous allons honorer notre alliance et déclarer la guerre à %s dans "
-"%d tours. Faite place, on arrive !"
+"%d tour. Faite place, on arrive !"
 msgstr[1] ""
 "*%s (IA)* Nous allons honorer notre alliance et déclarer la guerre à %s dans "
 "%d tours. Faite place, on arrive !"
 
 #: ai/advdiplomacy.c:1239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
@@ -848,7 +848,7 @@ msgid_plural ""
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 "*%s (IA)* Nous allons honorer notre alliance avec %s et déclarer la guerre à "
-"%s dans %d tours. Nous attendons à ce que en fassiez de même."
+"%s dans %d tour. Nous attendons à ce que en fassiez de même."
 msgstr[1] ""
 "*%s (IA)* Nous allons honorer notre alliance avec %s et déclarer la guerre à "
 "%s dans %d tours. Nous attendons à ce que en fassiez de même."
@@ -1643,19 +1643,17 @@ msgstr ""
 "L'argument peut être abrégé s'il n'y a pas d'ambiguïté."
 
 #: server/commands.c:63
-#, fuzzy
 msgid "Show a list of players, teams, connections, or scenarios."
-msgstr "Montrer la liste des joueurs, équipes ou connexions."
+msgstr "Montrer la liste des joueurs, équipes, connexions ou scénarios."
 
 #: server/commands.c:64
-#, fuzzy
 msgid ""
 "Show a list of players, teams, connections, or scenarios to the server.  The "
 "argument may be abbreviated, and defaults to 'players' if absent."
 msgstr ""
-"Montre la liste des joueurs (players), équipes (teams) ou connexions "
-"(connections) du serveur. L'argument peut être abrégé, et prend \"players\" "
-"comme valeur par défaut s'il n'est pas précisé."
+"Montre la liste des joueurs (players), équipes (teams), connexions "
+"(connections) ou scénarios (scenarios) du serveur. L'argument peut être "
+"abrégé, et prend \"players\" comme valeur par défaut s'il n'est pas précisé."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -1950,8 +1948,7 @@ msgid ""
 "connections to detach from a player."
 msgstr ""
 "Seules la console et les connexions avec le niveau de commande \"hack\" "
-"peuvent forcer d'autres connexions à se détacher d'un joueur. Si vous n'êtes "
-"pas de celles-ci, seul l'argument <nom-joueur> est autorisé."
+"peuvent forcer d'autres connexions à se détacher d'un joueur."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:204
@@ -2544,7 +2541,7 @@ msgid "You agree on a cease-fire with %s."
 msgstr "Vous acceptez un cessez-le-feu avec %s."
 
 #: server/diplhand.c:450 server/diplhand.c:459
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You agree on an armistice with %s. In %d turn it will turn into a peace "
 "treaty. Move your units out of %s's territory."
@@ -2552,11 +2549,11 @@ msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
 msgstr[0] ""
-"Vous êtes d'accord pour un armistice avec %s. Dans %d cela deviendra un "
+"Vous êtes d'accord pour un armistice avec %s. Dans %d tour cela deviendra un "
 "traité de paix. Retirez vous unités du territoire des %s."
 msgstr[1] ""
-"Vous êtes d'accord pour un armistice avec %s. Dans %d cela deviendra un "
-"traité de paix. Retirez vous unités du territoire des %s."
+"Vous êtes d'accord pour un armistice avec %s. Dans %d tours cela deviendra "
+"un traité de paix. Retirez vous unités du territoire des %s."
 
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
@@ -2873,14 +2870,14 @@ msgid "%s has caused an incident while bribing your %s."
 msgstr "%s a provoqué un incident diplomatique en soudoyant votre %s."
 
 #: server/diplomats.c:1248
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr ""
 "Vous avez provoqué un incident diplomatique en essayant de voler une "
 "technologie à %s."
 
 #: server/diplomats.c:1252
-#, fuzzy, c-format
+#, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr ""
 "%s a provoqué un incident diplomatique en essayant de vous voler une "
@@ -5890,11 +5887,11 @@ msgstr ""
 
 #: server/stdinhand.c:2692
 msgid "Usage: observe [connection-name [player-name]]"
-msgstr "Utilisation : observe [nom-connexion] <nom-joueur>"
+msgstr "Utilisation : observe [nom-connexion [nom-joueur]]"
 
 #: server/stdinhand.c:2698
 msgid "Usage: observe [player-name]"
-msgstr "Utilisation : observe <nom-joueur>"
+msgstr "Utilisation : observe [nom-joueur]"
 
 #: server/stdinhand.c:2748
 #, c-format
@@ -9305,7 +9302,7 @@ msgstr "Unité: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
 msgstr[0] "Unité : %s (%s, cessez-le-feu %d tour)"
@@ -9531,7 +9528,7 @@ msgstr[1] "%d unités sélectionnées"
 
 #: client/text.c:700
 msgid "No units selected."
-msgstr "Pas d'unité sélectionné"
+msgstr "Pas d'unité sélectionné."
 
 #: client/text.c:773
 #, c-format
@@ -9549,17 +9546,15 @@ msgid "Others: %d military"
 msgstr ""
 
 #: client/text.c:808
-#, fuzzy
 msgid "No units to upgrade!"
-msgstr "Aucune unité n'a pu être mise à jour."
+msgstr "Aucune unité à mettre à jour !"
 
 #: client/text.c:833
-#, fuzzy
 msgid "None of these units may be upgraded."
-msgstr "Aucune unité n'a pu être mise à jour."
+msgstr "Aucune de ces unités ne peut être mise à jour."
 
 #: client/text.c:839
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9567,10 +9562,10 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Transformer %s en %s pour %d lingots ?\n"
+"Transformer %d unité pour %d lingots ?\n"
 "Les finances sont à %d lingots."
 msgstr[1] ""
-"Transformer %s en %s pour %d lingots ?\n"
+"Transformer %d unités pour %d lingots ?\n"
 "Les finances sont à %d lingots."
 
 #: client/text.c:860
@@ -9817,7 +9812,7 @@ msgstr ""
 #: client/tilespec.c:1692
 #, c-format
 msgid "Couldn't load gfx file %s for sprite %s"
-msgstr "Impossible de charger le fichier gfx %s pour l'icône %s"
+msgstr "Impossible de charger le fichier de gfx %s pour l'icône %s"
 
 #: client/tilespec.c:1829
 #, c-format
@@ -10802,14 +10797,12 @@ msgid "Random"
 msgstr "Aléatoire"
 
 #: client/gui-gtk-2.0/gui_main.c:1495
-#, fuzzy
 msgid "Observer"
-msgstr "Observateur : %s"
+msgstr "Observateur"
 
 #: client/gui-gtk-2.0/gui_main.c:1495
-#, fuzzy
 msgid "Detached"
-msgstr "Mort"
+msgstr "Détaché"
 
 #: client/gui-gtk-2.0/gui_main.c:1765
 msgid "Are you sure you want to quit?"
@@ -11557,18 +11550,16 @@ msgstr "Vaisseau s_patial"
 
 #: client/gui-gtk-2.0/menu.c:935 client/gui-gtk-2.0/menu.c:936
 #: client/gui-gtk-2.0/menu.c:937 client/gui-gtk-2.0/menu.c:939
-#, fuzzy
 msgid "_Editor"
-msgstr "Modifi_er"
+msgstr "_Éditeur"
 
 #: client/gui-gtk-2.0/menu.c:937
 msgid "Editing Mode"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:939
-#, fuzzy
 msgid "_Tools"
-msgstr "Totaux"
+msgstr "Ou_tils"
 
 #: client/gui-gtk-2.0/menu.c:943 client/gui-mui/citydlg.c:1248
 #: client/gui-win32/menu.c:412
@@ -11877,31 +11868,29 @@ msgid "C_onnect"
 msgstr "C_onnexion"
 
 #: client/gui-gtk-2.0/pages.c:1068
-#, fuzzy, c-format
+#, c-format
 msgid "Player name: %s"
-msgstr "?joueur:Nom"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1072
-#, fuzzy, c-format
+#, c-format
 msgid "Host: %s"
-msgstr "Hôte :"
+msgstr "Hôte : %s"
 
 #: client/gui-gtk-2.0/pages.c:1079
 msgid "Player/conn info"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1106
-#, fuzzy, c-format
+#, c-format
 msgid "%s info"
-msgstr "Informations"
+msgstr "%s info"
 
 #: client/gui-gtk-2.0/pages.c:1116
-#, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <nom-joueur>"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1125
-#, fuzzy
 msgid "Pick nation"
 msgstr "Prendre un nation"
 
@@ -11911,9 +11900,9 @@ msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1169
-#, fuzzy, c-format
+#, c-format
 msgid "Put on %s"
-msgstr "Population : %s"
+msgstr "Ajouté dans %s"
 
 #: client/gui-gtk-2.0/pages.c:1273
 msgid "_Number of Players (including AI):"
@@ -11932,14 +11921,12 @@ msgid "More Game _Options..."
 msgstr "Plus d'_options..."
 
 #: client/gui-gtk-2.0/pages.c:1345
-#, fuzzy
 msgid "Record"
-msgstr "Rapport"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1350
-#, fuzzy
 msgid "Rating"
-msgstr "en attente"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1356
 msgid "Ready"
@@ -14746,9 +14733,8 @@ msgid "Defense bonus"
 msgstr "Bonus de défense"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "Mining"
-msgstr "Raffinerie"
+msgstr ""
 
 #: manual/civmanual.c:224
 msgid "turns"
@@ -18874,7 +18860,6 @@ msgstr "Dictateur"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
-#, fuzzy
 msgid "Dictatress"
 msgstr "Dictateur"
 
@@ -18943,7 +18928,6 @@ msgid "?female:Comrade"
 msgstr ""
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -18959,9 +18943,7 @@ msgstr ""
 "\n"
 "Sous le Communisme, la corruption ne varie pas avec l'éloignement de la "
 "capitale; toutes les villes (y compris la capitale) ont un faible taux de "
-"corruption. De plus, les villes communistes qui sont éloignées de plus de 10 "
-"cases sont considérés comme éloignées de 10 cases pour les calculs du coût "
-"de l'incitation à la révolte (cf. Unités, Diplomate)."
+"corruption."
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -18980,7 +18962,6 @@ msgstr ""
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:174
 #: data/civ1/governments.ruleset:148
-#, fuzzy
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -18992,11 +18973,7 @@ msgstr ""
 "les gouvernent; puisque les dirigeants élus doivent être populaires pour "
 "rester au pouvoir, les citoyens ont un très haut degré de liberté. Les "
 "citoyens sous une République deviennent mécontents facilement, mais en "
-"contrepartie, les libertés supplémentaires développent fortement le "
-"commerce.\n"
-"\n"
-"Les villes sous la République ne souffrent que d'un léger niveau de "
-"corruption."
+"contrepartie, les libertés supplémentaires développent fortement le commerce."
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:215
@@ -19039,7 +19016,6 @@ msgstr ""
 "citoyens deviennent très insatisfaits pendant les guerres."
 
 #: data/civ2/governments.ruleset:57
-#, fuzzy
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -19050,14 +19026,13 @@ msgid ""
 msgstr ""
 "L'Anarchie est l'absence totale de réel gouvernement. Les citoyens sont "
 "désorganisés et non productifs ; ils dépenseront tout leur revenu aussi vite "
-"que possible, plutôt que de payer des taxes ou conduire des recherches "
+"que possible, plutôt que de payer des taxes ou mener des recherches "
 "scientifiques.\n"
 "\n"
 "L'Anarchie génère un peu moins de corruption et gaspillage que le "
 "despotisme, mais crée un peu plus de mécontents."
 
 #: data/civ2/governments.ruleset:79
-#, fuzzy
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -19069,10 +19044,9 @@ msgstr ""
 "contrôle sur la population est largement maintenu par la loi martiale.\n"
 "\n"
 "De tous les régimes, c'est le despotisme qui souffre du plus haut niveau de "
-"corruption."
+"gaspillage et de corruption."
 
 #: data/civ2/governments.ruleset:101
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -19083,11 +19057,10 @@ msgstr ""
 "Sous une Monarchie, le roi ou la reine servent de représentants héréditaires "
 "de votre gouvernement.\n"
 "\n"
-"La Monarchie souffre d'un niveau modéré de corruption similaire à celui "
-"d'une République."
+"La Monarchie souffre d'un niveau modéré de gaspillage et de corruption "
+"similaire à celui d'une République."
 
 #: data/civ2/governments.ruleset:122
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -19102,11 +19075,9 @@ msgstr ""
 "équilibre entre un régime de style militaire et un régime orienté vers le "
 "commerce.\n"
 "\n"
-"Sous le Communisme, la corruption ne varie pas avec l'éloignement de la "
-"capitale; toutes les villes (y compris la capitale) ont un faible taux de "
-"corruption. De plus, les villes communistes qui sont éloignées de plus de 10 "
-"cases sont considérés comme éloignées de 10 cases pour les calculs du coût "
-"de l'incitation à la révolte (cf. Unités, Diplomate)."
+"Sous le Communisme, le gaspillage et la corruption ne varie pas avec "
+"l'éloignement de la capitale; toutes les villes (y compris la capitale) ont "
+"un faible taux de corruption."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:296
 #: data/civ2/techs.ruleset:224 data/civ1/techs.ruleset:222
@@ -19122,7 +19093,6 @@ msgid "High Priestess"
 msgstr "Grande Prêtresse"
 
 #: data/civ2/governments.ruleset:146
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -19143,28 +19113,6 @@ msgstr ""
 "Dans une société fondamentaliste, le peuple et ses dirigeants sont "
 "entièrement soumis à leurs croyances, et sont prêts à mourir pour les "
 "conserver.\n"
-"\n"
-"Sous le Fondamentalisme, vos villes peuvent supporter jusqu'à 10 unités "
-"militaires sans payer aucune ressource pour la soutenir. (chaque unité "
-"supplémentaire, à part les Fanatiques qui en nécessitent 0, nécessite 1 "
-"point de production.)\n"
-"\n"
-"Les Colons consomment 2 points de nourriture par tour sous le "
-"Fondamentalisme.\n"
-"\n"
-"Le taux maximum que vous pouvez allouer à la science, aux impôts ou au luxe "
-"est de 80%.\n"
-"\n"
-"Si une ville sous régime Fondamentaliste vous célèbre, vous recevez un bonus "
-"de 1 point de commerce pour chaque case de la ville qui produit déjà au "
-"moins 1 point de commerce. Voir Bonheur pour plus de détails.\n"
-"\n"
-"Le taux maximal effectif que vous pouvez allouer à la science est de 50%, le "
-"surplus est utilisé pour collecter des impôts. De plus, le production de "
-"science est divisée de moitié.\n"
-"\n"
-"Les villes en fondamentalisme souffrent d'un modeste niveau de corruption et "
-"gaspillage.\n"
 "Les bâtiments qui normalement redonnent un peu de joie à vos habitants, "
 "produisent une quantité d'or équivalente au nombre d'habitants qu'ils "
 "rendent heureux, et ne nécessitent aucun entretien."
@@ -20773,13 +20721,12 @@ msgid "?plural:Americans"
 msgstr "?plural:Américains"
 
 #: data/nation/american.ruleset:6
-#, fuzzy
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
 msgstr ""
 "Officiellement nommés les États Unis d'Amérique. Indépendants de la Grande "
-"Bretagne après une révolution (1776-1783 ap. J.-C.)."
+"Bretagne après une révolution en 1776-1783 ap. J.-C."
 
 #: data/nation/american.ruleset:56 data/nation/scottish.ruleset:25
 msgid "Speaker"
@@ -20790,14 +20737,12 @@ msgid "Reverend"
 msgstr "Révérend"
 
 #: data/nation/antarctican.ruleset:3
-#, fuzzy
 msgid "Antarctican"
-msgstr "Arctique"
+msgstr ""
 
 #: data/nation/antarctican.ruleset:4
-#, fuzzy
 msgid "?plural:Antarcticans"
-msgstr "?plural:Martiens"
+msgstr ""
 
 #: data/nation/antarctican.ruleset:5 data/nation/martian.ruleset:5
 msgid "Fictional"
@@ -20950,7 +20895,7 @@ msgid ""
 "Australia was founded as a British penal colony in 1788AD. It is the only "
 "country on earth to occupy an entire continent."
 msgstr ""
-"L'Australie a été fondée comme une colonie pénitentiare anglaise en 1788. "
+"L'Australie a été fondée comme une colonie pénitentiaire anglaise en 1788. "
 "C'est le seul pays du monde à occuper un continent entier."
 
 #: data/nation/austrian.ruleset:3
@@ -21094,7 +21039,6 @@ msgid "?plural:Boers"
 msgstr "?plural:Boers"
 
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
@@ -21120,9 +21064,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/bosnia.ruleset:29
-#, fuzzy
 msgid "Ban"
-msgstr "Banque"
+msgstr ""
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -21257,7 +21200,6 @@ msgid "?plural:Byzantines"
 msgstr "?plural:Byzantins"
 
 #: data/nation/byzantium.ruleset:6
-#, fuzzy
 msgid ""
 "At the time of the decline of the old Roman empire, the Emperor Constantine "
 "moved the empire's capital to Byzantium and formed a new empire mostly known "
@@ -21382,7 +21324,7 @@ msgstr "Archevêque"
 
 #: data/nation/chilean.ruleset:26
 msgid "Supreme Director"
-msgstr "Directeur Suprème"
+msgstr "Directeur Suprême"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
@@ -21393,7 +21335,6 @@ msgid "?plural:Chinese"
 msgstr "Chinois"
 
 #: data/nation/chinese.ruleset:6
-#, fuzzy
 msgid ""
 "China is the oldest major civilization that is still in existence today, "
 "with written records dating back over 3,500 years.  After first being "
@@ -21450,19 +21391,16 @@ msgid "Governadora"
 msgstr "Governadora"
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Célébrer"
+msgstr ""
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "?plural:Boers"
+msgstr ""
 
 #: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
-#, fuzzy
 msgid "Transitional"
-msgstr "Fictif"
+msgstr ""
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -21598,7 +21536,6 @@ msgid "?plural:Egyptians"
 msgstr "?plural:Égyptiens"
 
 #: data/nation/egyptian.ruleset:6
-#, fuzzy
 msgid ""
 "Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
@@ -21651,13 +21588,12 @@ msgid "?plural:Estonians"
 msgstr "?plural:Estoniens"
 
 #: data/nation/estonian.ruleset:6
-#, fuzzy
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
 msgstr ""
 "L'Estonie est un petit pays sur la côte sud de la mer Baltique orientale. "
-"Ses peuple et langage sont relativement proches de ceux de Finlande."
+"Ses peuples et langages sont relativement proches de ceux de Finlande."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -21905,14 +21841,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/illyrian.ruleset:3
-#, fuzzy
 msgid "Illyrian"
-msgstr "Italien"
+msgstr ""
 
 #: data/nation/illyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Illyrians"
-msgstr "?plural:Italiens"
+msgstr ""
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -21933,7 +21867,6 @@ msgid "?plural:Incas"
 msgstr "?plural:Incas"
 
 #: data/nation/inca.ruleset:6
-#, fuzzy
 msgid ""
 "The Inca were an Amerind people of the Northern Andes who conquered an "
 "empire stretching along the west coast of South America from what is now "
@@ -22044,7 +21977,6 @@ msgid "?plural:Irish"
 msgstr "?plural:Irlandais"
 
 #: data/nation/irish.ruleset:6
-#, fuzzy
 msgid ""
 "Ireland held out against the Romans and Vikings but was conquered by the "
 "Normans in 1171.  It was ruled by the English until 1922 when most of the "
@@ -22315,7 +22247,6 @@ msgid "?plural:Lithuanians"
 msgstr "?plural:Lituaniens"
 
 #: data/nation/lithuanian.ruleset:6
-#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
@@ -22544,14 +22475,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ottoman.ruleset:3
-#, fuzzy
 msgid "Ottoman"
-msgstr "Romain"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "?plural:Romains"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -22569,19 +22498,16 @@ msgid "Bey"
 msgstr ""
 
 #: data/nation/ottoman.ruleset:27
-#, fuzzy
 msgid "Hakan"
-msgstr "Malka"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:28
-#, fuzzy
 msgid "Padisah"
-msgstr "Partisan"
+msgstr ""
 
 #: data/nation/ottoman.ruleset:29
-#, fuzzy
 msgid "Imparator"
-msgstr "Empereur"
+msgstr ""
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
@@ -22879,7 +22805,6 @@ msgid "?plural:Serbians"
 msgstr "?plural:Serbes"
 
 #: data/nation/serbian.ruleset:6
-#, fuzzy
 msgid ""
 "Serbia is part of the region of the Southern Slavs that was conquered by the "
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
@@ -22915,13 +22840,12 @@ msgid "?plural:Singaporeans"
 msgstr "?plural:Singapouriens"
 
 #: data/nation/singaporean.ruleset:18
-#, fuzzy
 msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula."
 msgstr ""
 "Singapour est une cité-état marchande situé à la pointe sud de la péninsule "
-"malaisienne"
+"malaisienne."
 
 #: data/nation/singaporean.ruleset:37
 msgid "Ah"
@@ -23011,14 +22935,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/soviet.ruleset:3
-#, fuzzy
 msgid "Soviet"
-msgstr "novice"
+msgstr ""
 
 #: data/nation/soviet.ruleset:4
-#, fuzzy
 msgid "?plural:Soviets"
-msgstr "?plural:Écossais"
+msgstr ""
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -23280,7 +23202,6 @@ msgid "?plural:Turks"
 msgstr "?plural:Turcs"
 
 #: data/nation/turk.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Turkey is the successor state of the Ottoman Empire, which collapsed "
 "and was dismembered by the victors in World War I after backing the Central "
