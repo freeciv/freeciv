@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-23 11:17+0100\n"
+"POT-Creation-Date: 2006-03-24 09:29+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -6654,19 +6654,21 @@ msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
 msgstr[0] ""
-"Der Angriff der %s gegen %ss %s (und %d weitere Einheit)%s ist geglückt und sie sammelten "
-"Erfahrung!"
+"Der Angriff der %s gegen %ss %s (und %d weitere Einheit)%s ist geglückt und "
+"sie sammelten Erfahrung!"
 msgstr[1] ""
-"Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt und sie sammelten "
-"Erfahrung!"
+"Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt "
+"und sie sammelten Erfahrung!"
 
 #: server/unittools.c:1622
 #, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "Der Angriff der %s gegen %ss %s (und %d weitere Einheit)%s ist geglückt!"
-msgstr[1] "Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt!"
+msgstr[0] ""
+"Der Angriff der %s gegen %ss %s (und %d weitere Einheit)%s ist geglückt!"
+msgstr[1] ""
+"Der Angriff der %s gegen %ss %s (und %d weitere Einheiten)%s ist geglückt!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
@@ -8373,20 +8375,18 @@ msgstr ""
 "zu einer ihrer Größe entsprechenden Zahl.\n"
 
 #: client/helpdata.c:1320
-#, fuzzy, c-format
+#, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-msgstr ""
-"Das Risiko eines Bürgerkriegs beträgt %d%% beim Verlust der Hauptstadt.\n"
-"\n"
+msgstr "* %d%% Risiko eines Bürgerkriegs beim Verlust der Hauptstadt.\n"
 
 #: client/helpdata.c:1324
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
 "appear when you have %d cities.\n"
 msgstr ""
-"Ein zusätzlicher unzufriedener Bürger tritt bei einer Zivilisationsgröße von "
-"%d Städten auf."
+"* Zusätzliche unzufriedene Bürger aufgrund der Zivilisationsgröße "
+"gibt es ab %d Städten.\n"
 
 #: client/helpdata.c:1329
 #, c-format
@@ -8396,41 +8396,37 @@ msgid ""
 msgstr ""
 
 #: client/helpdata.c:1336
-#, fuzzy, c-format
+#, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr ""
-"Die Höchstrate für Forschung, Steuern und Luxus beträgt %d%%.\n"
-"\n"
+msgstr "Die Höchstrate für Forschung, Steuern und Luxus beträgt %d%%.\n"
 
 #: client/helpdata.c:1340
-#, fuzzy, c-format
+#, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
-msgstr ""
-"Die Raten für Forschung, Steuern und Luxus sind unbegrenzt.\n"
-"\n"
+msgstr "Die Raten für Forschung, Steuern und Luxus sind frei wählbar.\n"
 
 #: client/helpdata.c:1345
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force an unhappy citizen to become content.\n"
 msgstr ""
-"* Das Kriegsrecht kann angewendet werden. Jede von bis zu %d militärischen "
-"Einheiten  innerhalb einer Stadt macht %d unzufriedene Bürger zufrieden.\n"
+"* Ihre Einheiten können Kriegsrecht anwenden. Jede militärische "
+"Einheit in einer Stadt macht einen unzufriedenen Bürger zufrieden.\n"
 
 #: client/helpdata.c:1349
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
 msgstr ""
-"* Das Kriegsrecht kann angewendet werden. Jede von bis zu %d militärischen "
-"Einheiten  innerhalb einer Stadt macht %d unzufriedene Bürger zufrieden.\n"
+"* Ihre Einheiten können Kriegsrecht anwenden. Jede militärische "
+"Einheit in einer Stadt macht %d unzufriedene Bürger zufrieden.\n"
 
 #: client/helpdata.c:1356
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr ""
+msgstr "* Höchstens %d Einheiten in jeder Stadt können Kriegsrecht anwenden.\n"
 
 #: client/helpdata.c:1361
 #, c-format
@@ -8438,16 +8434,18 @@ msgid ""
 "* You may grow your cities by means of celebrations.  Your cities must be at "
 "least size %d before they can grown in this manner.\n"
 msgstr ""
+"* Deine Städte können wachsen, wenn sie feiern. Die Städte müssen mindestens "
+"die Größe %d haben, bevor sie auf diese Art wachsen können.\n"
 
 #: client/helpdata.c:1367
-#, fuzzy, c-format
+#, c-format
 msgid "* Your units cannot be bribed.\n"
-msgstr "Diese Einheit ist unbestechlich!"
+msgstr "* Deine Einheiten sind unbestechlich.\n"
 
 #: client/helpdata.c:1370
-#, fuzzy, c-format
+#, c-format
 msgid "* Your cities cannot be incited.\n"
-msgstr "Eine Revolte ist hier z.Zt. nicht möglich!"
+msgstr "* In Deinen Städten kann es keine Revolte geben.\n"
 
 #: client/helpdata.c:1373
 #, c-format
@@ -8455,16 +8453,18 @@ msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
 "two turns in a row.\n"
 msgstr ""
+"* Die Regierung fällt in Anarchie, wenn irgendeine Stadt sich mehr als zwei "
+"Runden nacheinander in Aufruhr befindet.\n"
 
 #: client/helpdata.c:1378
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Es gibt einen Senat, der die Kriegserklärung verhindern kann.\n"
 
 #: client/helpdata.c:1382
 #, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr ""
+msgstr "* Von Feinden eroberte Städte können Partisanen bilden.\n"
 
 #: client/helpdata.c:1386
 #, c-format
@@ -8476,22 +8476,22 @@ msgstr ""
 #: client/helpdata.c:1390
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
-msgstr ""
+msgstr "* Fanatiker benötigen keinen Unterhalt.\n"
 
 #: client/helpdata.c:1393
-#, fuzzy, c-format
+#, c-format
 msgid "* Has no unhappy citizens.\n"
-msgstr "%d zusätzliche unzufriedene Bürger."
+msgstr "* Es gibt keine unzufriedenen Bürger.\n"
 
 #: client/helpdata.c:1397 client/helpdata.c:1400
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr ""
+msgstr "* %s sind Veteranen.\n"
 
 #: client/helpdata.c:1403
-#, fuzzy, c-format
+#, c-format
 msgid "* Veteran units.\n"
-msgstr "Schiffe"
+msgstr "* Veteranen.\n"
 
 #: client/helpdata.c:1407
 #, c-format
@@ -8578,9 +8578,8 @@ msgid "Graphics"
 msgstr "Grafik"
 
 #: client/options.c:88
-#, fuzzy
 msgid "Overview"
-msgstr "_Übersicht"
+msgstr "Übersicht"
 
 #: client/options.c:89
 msgid "Sound"
@@ -8890,45 +8889,38 @@ msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
 #: client/options.c:241
-#, fuzzy
 msgid "Borders layer"
-msgstr "Grenze"
+msgstr "Anzeige der Grenzen"
 
 #: client/options.c:242
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
+"Die Grenzanzeige in der Übersicht zeigt, welche Felder welchen Spielern gehören."
 
 #: client/options.c:246
-#, fuzzy
 msgid "Units layer"
-msgstr "Einheiten"
+msgstr "Anzeige der Einheiten"
 
 #: client/options.c:247
-#, fuzzy
 msgid "If enabled then units will be drawn on the overview."
-msgstr ""
-"Falls aktiviert, werden die Standardnamen abhängig von der Umgebung vergeben."
+msgstr "In der Übersicht werden die Einheiten angezeigt."
 
 #: client/options.c:251
-#, fuzzy
 msgid "Cities layer"
-msgstr "Städte"
+msgstr "Anzeige der Städte"
 
 #: client/options.c:252
-#, fuzzy
 msgid "If enabled then cities will be drawn on the overview."
-msgstr ""
-"Falls aktiviert, werden die Standardnamen abhängig von der Umgebung vergeben."
+msgstr "In der Übersicht werden die Städte angezeigt."
 
 #: client/options.c:256
-#, fuzzy
 msgid "Overview fog of war"
-msgstr "Übersicht"
+msgstr "Anzeige des Nebel des Krieges"
 
 #: client/options.c:257
 msgid "If enabled, fog of war is shown on the overview."
-msgstr ""
+msgstr "In der Übersicht wird der Nebel des Krieges angezeigt."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/options.c:425
@@ -8996,9 +8988,8 @@ msgid "R.I.P"
 msgstr "tot"
 
 #: client/plrdlg_common.c:202
-#, fuzzy
 msgid "waiting"
-msgstr "Schrift"
+msgstr "wartet"
 
 #: client/plrdlg_common.c:204 client/gui-mui/plrdlg.c:119
 #: client/gui-win32/plrdlg.c:155 client/gui-xaw/plrdlg.c:238
@@ -9108,10 +9099,10 @@ msgstr "Spiel: %d %s aufgelöst."
 msgid "No %s could be disbanded."
 msgstr "Es konnten keine %s aufgelöst werden."
 
+# CK: TECHNICAL
 #: client/servers.c:345
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "'%s' konnte nicht geöffnet werden."
+msgstr "Could not open temp file."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -9196,13 +9187,13 @@ msgstr "Unser Gebiet"
 
 #. TRANS: "Territory of the Polish"
 #: client/text.c:115
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of the %s"
-msgstr "Gebiet der %2$s, %1$s"
+msgstr "Gebiet der %s"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:124
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
 msgstr[0] "%ses Gebiet (%d Runde Waffenstillstand)"
@@ -9225,7 +9216,7 @@ msgstr "Stadt: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
 #: client/text.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
 msgstr[0] "Stadt: %s (%s, %d Runde Waffenstillstand)"
@@ -9238,9 +9229,8 @@ msgid "City: %s (%s, %s)"
 msgstr "Stadt: %s (%s, %s)"
 
 #: client/text.c:177
-#, fuzzy
 msgid " with "
-msgstr " (mit "
+msgstr " mit "
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:192
@@ -9266,7 +9256,7 @@ msgstr "Einheit: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:231
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
 msgstr[0] "Einheit: %s (%s, %d Runde Waffenstillstand)"
@@ -9287,15 +9277,15 @@ msgstr "Siegchance: A:%d%% V:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
-msgstr "A:%d V:%d FK:%d TP:%d/%d%s"
+msgstr "A:%d V:%d FK:%d TP:%d/%d (%s)"
 
 #. TRANS: "5 more" units on this tile
 #: client/text.c:280 client/gui-mui/mapclass.c:158
 #, c-format
 msgid "  (%d more)"
-msgstr " (noch %d)"
+msgstr " (und %d weitere)"
 
 #: client/text.c:347
 #, c-format
@@ -9320,64 +9310,63 @@ msgstr "aus %s"
 
 #: client/text.c:442
 msgid "Progress: no research"
-msgstr "Fortschritt: keine Forschung"
+msgstr "Tempo: keine Forschung"
 
 #: client/text.c:446
-#, fuzzy
 msgid "Progress: no research target"
-msgstr "Fortschritt: keine Forschung"
+msgstr "Tempo: kein Forschungsziel"
 
 #: client/text.c:451
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
-msgstr[0] "Tempo: %d Runde pro Fortschritt (%d Punkte/Runde)"
-msgstr[1] "Tempo: %d Runden pro Fortschritt (%d Punkte/Runde)"
+msgstr[0] "Tempo: %d Runde pro Fortschritt"
+msgstr[1] "Tempo: %d Runden pro Fortschritt"
 
 #: client/text.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "1 Runde"
-msgstr[1] "%d Runden"
+msgstr[0] "%d Punkt/Runde"
+msgstr[1] "%d Punkte/Runde"
 
 #: client/text.c:461
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d Punkt/Runde im Team"
+msgstr[1] ", %d Punkte/Runde im Team"
 
 #: client/text.c:488
-#, fuzzy, c-format
+#, c-format
 msgid "%d/- (never)"
-msgstr "(Nie)"
+msgstr "%d/- (Nie)"
 
 #: client/text.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
-msgstr[0] "%d/%d %d Runden"
-msgstr[1] "%d/%d %d Runden"
+msgstr[0] "%d/%d (%d Runde)"
+msgstr[1] "%d/%d (%d Runden)"
 
 #: client/text.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (never)"
-msgstr "(Nie)"
+msgstr "%d/%d (Nie)"
 
 #: client/text.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "%d step"
 msgid_plural "%d steps"
-msgstr[0] "(1 Schritt)"
-msgstr[1] "(%d Schritte)"
+msgstr[0] "%d Schritt"
+msgstr[1] "%d Schritte"
 
 #: client/text.c:542
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d Punkt"
+msgstr[1] "%d Punkte"
 
 #: client/text.c:546 client/agents/cma_fec.c:269 client/agents/cma_fec.c:313
 #: client/gui-gtk-2.0/citydlg.c:1419 client/gui-mui/citydlg.c:125
@@ -9395,14 +9384,14 @@ msgid "Population: %s"
 msgstr "Bevölkerung: %s"
 
 #: client/text.c:571
-#, fuzzy, c-format
+#, c-format
 msgid "Year: %s (T%d)"
-msgstr "Jahr: %s"
+msgstr "Jahr: %s (Ru. %d)"
 
 #: client/text.c:574
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%+d)"
-msgstr "Gold: %d"
+msgstr "Gold: %d (%+d)"
 
 #: client/text.c:576
 #, c-format
@@ -9410,23 +9399,23 @@ msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Ste: %d Lux: %d For: %d"
 
 #: client/text.c:582
-#, fuzzy, c-format
+#, c-format
 msgid "Moving: %s"
-msgstr "in %s"
+msgstr "Am Zug: %s"
 
 #: client/text.c:584
 msgid "(Click for more info)"
-msgstr ""
+msgstr "(Klicken für mehr Inf.)"
 
 #: client/text.c:601
-#, fuzzy, c-format
+#, c-format
 msgid "%s People"
-msgstr "Willkommen %s"
+msgstr "%s Einwohner"
 
 #: client/text.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "Turn: %d"
-msgstr "Gelände: %s"
+msgstr "Zug: %d"
 
 #: client/text.c:607 client/gui-mui/inteldlg.c:141
 #: client/gui-mui/mapview.c:193 client/gui-win32/inteldlg.c:110
