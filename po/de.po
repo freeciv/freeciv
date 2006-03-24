@@ -3451,9 +3451,9 @@ msgid "Sorry, the Demographics report is unavailable."
 msgstr "Der Bericht zur Lage der Nation ist leider nicht verfügbar."
 
 #: server/report.c:740
-#, fuzzy, c-format
+#, c-format
 msgid "The %s of the %s (%s)"
-msgstr "Die %s der %s"
+msgstr "Die %s der %s (%s)"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:132
@@ -7758,12 +7758,12 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:178
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s terrain special.\n"
 "\n"
 msgstr ""
-"Requires the %s terrain special.\n"
+"Erfordert die Geländeressource %s.\n"
 "\n"
 
 #: client/helpdata.c:182
@@ -7776,12 +7776,12 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:186
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s nation.\n"
 "\n"
 msgstr ""
-"Requires the %s nation.\n"
+"Erfordert die %s Nation.\n"
 "\n"
 
 #: client/helpdata.c:190 client/helpdata.c:194 client/helpdata.c:198
@@ -8336,14 +8336,12 @@ msgstr "* Du zahlst den %d-fachen Unterhalt für Deine Einheiten.\n"
 #: client/helpdata.c:1311
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
-msgstr ""
+msgstr "* Jede Stadt erspart %d %s für den Unterhalt von Einheiten.\n"
 
 #: client/helpdata.c:1315
-#, fuzzy, c-format
+#, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
-msgstr ""
-"* Jede Stadt vermeidet Unzufriedenheit durch Kampfeinheiten im Einsatz bis "
-"zu einer ihrer Größe entsprechenden Zahl.\n"
+msgstr "* Jede Stadt erspart %d Goldstücke für den Unterhalt von Einheiten.\n"
 
 #: client/helpdata.c:1320
 #, c-format
@@ -9416,9 +9414,9 @@ msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
 msgstr "Steuerquoten: Steuern: %d%% Luxus: %d%% Forschung: %d%%"
 
 #: client/text.c:615
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %s"
-msgstr "Erforsche: %s: %d/%d"
+msgstr "Erforsche %s: %s"
 
 #: client/text.c:622
 #, c-format
@@ -9437,11 +9435,11 @@ msgid "Government: %s"
 msgstr "Regierungsform: %s"
 
 #: client/text.c:654
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] " Einheit"
-msgstr[1] " Einheit"
+msgstr[0] "%d Einheit"
+msgstr[1] "%d Einheiten"
 
 #: client/text.c:687
 #, c-format
@@ -9449,21 +9447,20 @@ msgid "Turns to target: %d"
 msgstr "Runden zum Ziel: %d"
 
 #: client/text.c:689
-#, fuzzy, c-format
+#, c-format
 msgid "Turns to target: %d to %d"
-msgstr "Runden zum Ziel: %d"
+msgstr "Runden zum Ziel: %d bis %d"
 
 #: client/text.c:695
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] "Einheit auswählen"
-msgstr[1] "Einheit auswählen"
+msgstr[0] "%d Einheit ausgewählt"
+msgstr[1] "%d Einheiten ausgewählt"
 
 #: client/text.c:700
-#, fuzzy
 msgid "No units selected."
-msgstr "Einheit auswählen"
+msgstr "Keine Einheiten ausgewählt"
 
 #: client/text.c:773
 #, c-format
@@ -9489,7 +9486,7 @@ msgid "None of these units may be upgraded."
 msgstr "Keine dieser Einheiten können erneuert werden."
 
 #: client/text.c:839
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9497,10 +9494,10 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"%s zu %s für %d Goldstücke modernisieren?\n"
+"%d Einheit für %d Goldstücke modernisieren?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 msgstr[1] ""
-"%s zu %s für %d Goldstücke modernisieren?\n"
+"%d Einheiten für %d Goldstücke modernisieren?\n"
 "Die Schatzkammer enthält %d Goldstücke."
 
 #: client/text.c:860
@@ -9638,9 +9635,9 @@ msgstr "Die %s der %s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1108
-#, fuzzy, c-format
+#, c-format
 msgid "Observer: %s"
-msgstr "Beobachter"
+msgstr "Beobachter: %s"
 
 #: client/text.c:1126
 msgid "Buildings: "
@@ -10427,14 +10424,12 @@ msgstr "Wählen Sie eine Nation!"
 
 #: client/gui-gtk-2.0/dialogs.c:765 client/gui-win32/connectdlg.c:990
 #: data/Freeciv.in:3371
-#, fuzzy
 msgid "Pick Nation"
-msgstr "Polizeiwache"
+msgstr "Wähle Nation"
 
 #: client/gui-gtk-2.0/dialogs.c:774
-#, fuzzy
 msgid "Random Nation"
-msgstr "die Vereinten Nationen"
+msgstr "zufällige Auswahl"
 
 #: client/gui-gtk-2.0/dialogs.c:786 client/gui-win32/dialogs.c:521
 msgid "Select a nation"
@@ -10526,9 +10521,9 @@ msgid "_Pacts"
 msgstr "_Abkommen"
 
 #: client/gui-gtk-2.0/diplodlg.c:469
-#, fuzzy, c-format
+#, c-format
 msgid "Diplomacy: %s"
-msgstr "Diplomatie"
+msgstr "Diplomatie: %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:476 client/gui-mui/diplodlg.c:535
 msgid "_Cancel meeting"
@@ -10918,9 +10913,8 @@ msgid "Food/Res/Trade:"
 msgstr "Nahrung/Produktion/Handel:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 data/Freeciv.in:972
-#, fuzzy
 msgid "Resources:"
-msgstr "Ressourcen"
+msgstr "Ressourcen:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 msgid "Road Rslt/Time:"
@@ -11215,9 +11209,8 @@ msgid "View"
 msgstr "Ansicht"
 
 #: client/gui-gtk-2.0/menu.c:755
-#, fuzzy
 msgid "City Outlines"
-msgstr "Allgemeine Einstellungen"
+msgstr "Stadtgrenzen"
 
 #: client/gui-gtk-2.0/menu.c:757 client/gui-win32/menu.c:334
 msgid "Map _Grid"
@@ -11666,16 +11659,13 @@ msgid "Message Options"
 msgstr "Nachrichtendarstellung"
 
 #: client/gui-gtk-2.0/messagedlg.c:71
-#, fuzzy
 msgid ""
 "Where to display messages?\n"
 "<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual "
 "window"
 msgstr ""
-"Anzeige der Nachrichten im\n"
-"\t<b>Text</b>fenster ;\n"
-"\t<b>Nach</b>richtenfenster ;\n"
-"\t<b>eig</b>enes Fenster"
+"Wo sollen die Nachrichten angezeigt werden?\n"
+"<b>Text</b>fenster - <b>Nach</b>richtenfenster - <b>Eig</b>enes Fenster"
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -11824,19 +11814,18 @@ msgid "Conf_irm Password:"
 msgstr "Passwort _wiederholen:"
 
 #: client/gui-gtk-2.0/pages.c:908
-#, fuzzy
 msgid "C_onnect"
 msgstr "Verbinden"
 
 #: client/gui-gtk-2.0/pages.c:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Player name: %s"
-msgstr "Name"
+msgstr "Spielername: %s"
 
 #: client/gui-gtk-2.0/pages.c:1087
-#, fuzzy, c-format
+#, c-format
 msgid "Host: %s"
-msgstr "Server:"
+msgstr "Server: %s"
 
 #: client/gui-gtk-2.0/pages.c:1094
 msgid "Player/conn info"
@@ -11860,24 +11849,20 @@ msgid "Observe this player"
 msgstr "Diesen Spieler beobachten"
 
 #: client/gui-gtk-2.0/pages.c:1160
-#, fuzzy
 msgid "Take this player"
-msgstr "Städte"
+msgstr "Spieler übernehmen"
 
 #: client/gui-gtk-2.0/pages.c:1175
-#, fuzzy
 msgid "Cut connection"
-msgstr "Verbindung zu %s wird beendet."
+msgstr "Verbindung trennen"
 
 #: client/gui-gtk-2.0/pages.c:1185
-#, fuzzy
 msgid "Aitoggle player"
-msgstr "aitoggle <Spieler>"
+msgstr "KI ein/ausschalten"
 
 #: client/gui-gtk-2.0/pages.c:1193
-#, fuzzy
 msgid "Remove player"
-msgstr "Spieler %s wird entfernt."
+msgstr "Spieler entfernen"
 
 #: client/gui-gtk-2.0/pages.c:1204
 msgid "Give info access"
@@ -11915,14 +11900,12 @@ msgid "Record"
 msgstr "Berichte"
 
 #: client/gui-gtk-2.0/pages.c:1454
-#, fuzzy
 msgid "Rating"
-msgstr "Schrift"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1460
-#, fuzzy
 msgid "Ready"
-msgstr "Alle aktivieren"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1467 data/default/units.ruleset:1738
 #: data/nation/slovakian.ruleset:26
@@ -11930,9 +11913,8 @@ msgid "Leader"
 msgstr "Anführer"
 
 #: client/gui-gtk-2.0/pages.c:1530
-#, fuzzy
 msgid "Pick _Nation"
-msgstr "Polizeiwache"
+msgstr "Wähle Nation"
 
 #: client/gui-gtk-2.0/pages.c:1603
 msgid "Choose Saved Game to Load"
@@ -13917,9 +13899,8 @@ msgid "Game Options"
 msgstr "Spieloptionen"
 
 #: client/gui-win32/connectdlg.c:992
-#, fuzzy
 msgid "Start Game"
-msgstr "Neues Spiel beginnen"
+msgstr "Spiel beginnen"
 
 #: client/gui-win32/connectdlg.c:1011
 msgid "Login:"
@@ -13955,9 +13936,8 @@ msgid "Leader:"
 msgstr "Anführer:"
 
 #: client/gui-win32/dialogs.c:579
-#, fuzzy
 msgid "City Style:"
-msgstr "Bauwei_se:"
+msgstr "Bauweise:"
 
 #: client/gui-win32/dialogs.c:597 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:978
@@ -14408,7 +14388,7 @@ msgstr "Z.Zt. werden nur Farbbildschirme unterstützt..."
 msgid "Unable to open fontset: %s"
 msgstr "Unable to open fontset: %s"
 
-#CK: TECHNICAL
+# CK: TECHNICAL
 #: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
 msgstr "Doing 'xset fp rehash' may temporarily solve a problem."
@@ -14435,9 +14415,9 @@ msgid "Allows %s (with %s).\n"
 msgstr "Ermöglicht %s (mit %s).\n"
 
 #: client/gui-xaw/inteldlg.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr "Erforsche: %s(%d/%d)"
+msgstr "Erforsche: Nichts (%d/-)"
 
 #: client/gui-xaw/inteldlg.c:420
 #, c-format
@@ -14459,9 +14439,8 @@ msgid "Local Options"
 msgstr "Lokale Optionen"
 
 #: client/gui-xaw/menu.c:115
-#, fuzzy
 msgid "Server Options"
-msgstr "Server_optionen"
+msgstr "Serveroptionen"
 
 #: client/gui-xaw/menu.c:129 data/Freeciv.in:1971
 msgid "Worklists"
@@ -14549,14 +14528,13 @@ msgid "Copying"
 msgstr "Lizenz"
 
 #: client/gui-xaw/repodlgs.c:230 client/gui-xaw/repodlgs.c:508
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %d/%s"
-msgstr "Erforsche: %s: %d/%d"
+msgstr "Erforsche: %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:233 client/gui-xaw/repodlgs.c:511
-#, fuzzy
 msgid "unknown"
-msgstr "(unbekannt)"
+msgstr "unbekannt"
 
 #: client/gui-xaw/repodlgs.c:236 client/gui-xaw/repodlgs.c:414
 #: client/gui-xaw/repodlgs.c:514
@@ -14728,39 +14706,32 @@ msgid "Resources"
 msgstr "Ressourcen"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Move cost"
-msgstr "Bewegungskosten: %ld"
+msgstr "Bewegungskosten"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Defense bonus"
-msgstr "Verteidigung:"
+msgstr "Verteidigungsbonus"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "Mining"
-msgstr "Metallbearbeitung"
+msgstr ""
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "turns"
 msgstr "Runden"
 
 #: manual/civmanual.c:226
-#, fuzzy
 msgid "Rail"
-msgstr "_Eisenbahn"
+msgstr "Eisenbahn"
 
 #: manual/civmanual.c:227
-#, fuzzy
 msgid "Clean pollution"
 msgstr "Umweltverschmutzung beseitigen"
 
 #: manual/civmanual.c:227
-#, fuzzy
 msgid "Clean fallout"
-msgstr "Umweltverschmutzung beseitigen"
+msgstr "Fallout beseitigen"
 
 #: manual/civmanual.c:259 manual/civmanual.c:268
 msgid "impossible"
@@ -14785,14 +14756,12 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:297
-#, fuzzy
 msgid "Requirement"
-msgstr "Voraussetzung:"
+msgstr "Voraussetzung"
 
 #: manual/civmanual.c:297
-#, fuzzy
 msgid "Obsolete by"
-msgstr "Veraltet durch:"
+msgstr "Veraltet durch"
 
 #: manual/civmanual.c:297
 msgid "More info"
@@ -15146,9 +15115,8 @@ msgid "Cancel pact"
 msgstr "Abkommen aufkündigen"
 
 #: data/Freeciv.in:3333 data/Freeciv.in:3334
-#, fuzzy
 msgid "Pregame"
-msgstr "Premier"
+msgstr ""
 
 #: data/Freeciv.in:3350
 #, fuzzy
@@ -15158,9 +15126,8 @@ msgstr ""
 "Kommentar"
 
 #: data/Freeciv.in:3379
-#, fuzzy
 msgid "Start"
-msgstr "_Start"
+msgstr "Start"
 
 # EH: Das ist keine Übersetzung, dafür aber inhaltlich richtig!
 #: data/helpdata.txt:38
@@ -15311,7 +15278,6 @@ msgstr ""
 "ersehen."
 
 #: data/helpdata.txt:433
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15349,17 +15315,16 @@ msgid ""
 msgstr ""
 "Tastatur:\n"
 "=========\n"
-"   a: Selbständig arbeiten (Siedler und Arbeiter)\n"
-"   a: Selbständig angreifen (Truppen)\n"
-"   b: Stadt erbauen (Siedler)\n"
-"   b: Zum Bau eines Weltwunders beitragen (Karawanen)\n"
-"   C: Mit Straße u.a. verbinden (Ziel per Mausklick bestimmen)\n"
+"   a: Selbständig (a)rbeiten (Siedler und Arbeiter)\n"
+"   b: Stadt er(b)auen (Siedler)\n"
+"   b: Zum Bau eines Weltwunders (b)eitragen (Karawanen)\n"
+"   C: Mit Straße u.a. verbinden (Ziel mit Mausklick bestimmen)\n"
 "   d: diplomatische Aktionen (Diplomaten/Spione)\n"
 "   D: Einheit auflösen\n"
-"   e: Fliegerhorst bauen\n"
+"   e: Fli(e)gerhorst bauen\n"
 "   f: Einheit eingraben (Truppen)\n"
 "   f: Festung errichten (Siedler und Arbeiter)\n"
-"   g: gehe nach (Ziel per Mausklick bestimmen)\n"
+"   g: (g)ehe nach (Ziel mit Mausklick bestimmen)\n"
 "   g: Wegpunkt hinzufügen (im Gehe-nach Modus)\n"
 "   h: Standort zur neuen Heimatstadt machen\n"
 "   i: Bewässerung oder Geländeveränderung (Siedler und Arbeiter)\n"
@@ -15370,9 +15335,9 @@ msgstr ""
 "   N: Atombombe zünden\n"
 "   o: Gelände verändern (Ingenieure)\n"
 "   p: Umweltverschmutzung beseitigen (Siedler und Arbeiter)\n"
-"   p: abspringen (Fallschirmspringer)\n"
+"   p: abs(p)ringen (Fallschirmspringer)\n"
 "   P: brandschatzen (Truppen)\n"
-"   q: patrouillieren (Ziel per Mausklick bestimmen)\n"
+"   q: patrouillieren (Ziel mit Mausklick bestimmen)\n"
 "   q: Wegpunkt hinzufügen (im Patrouilleren-Modus)\n"
 "   r: Straße/Eisenbahn bauen (Siedler oder Arbeiter)\n"
 "   r: Handelsweg einrichten (Karawanen)\n"
@@ -16497,13 +16462,12 @@ msgid " Combat example 1"
 msgstr " Kampfbeispiel 1"
 
 #: data/helpdata.txt:1039
-#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
-"Kanonen (Veteran, A:8, V:1, TP:20, FK:1) mit 2/3 Bewegungspunkten greifen "
+"Kanonen (A:8, V:1, TP:20, FK:1) greifen "
 "Musketiere (A:3, V:3, TP:20, FK:1) in einer Stadt mit Stadtmauern im Wald an."
 
 #: data/helpdata.txt:1043
@@ -17390,15 +17354,13 @@ msgid "Courthouse"
 msgstr "Gerichtsgebäude"
 
 #: data/default/buildings.ruleset:290
-#, fuzzy
 msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
 msgstr ""
 "Halbiert die Korruption und den Müllanfall. In einer Demokratie macht es 1 "
-"Unzufriedenen zufrieden. Erhöht die Kosten einer Revolte, indem der "
-"Entfernungseffekt zur Hauptstadt halbiert wird."
+"Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte vervierfacht."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -18249,9 +18211,9 @@ msgstr ""
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
-msgstr 
-"Unterhält die Bürger einer Stadt und macht 3 (nach Entdeckung der "
-"Elektronik 4) Unzufriedene zufrieden."
+msgstr ""
+"Unterhält die Bürger einer Stadt und macht 3 (nach Entdeckung der Elektronik "
+"4) Unzufriedene zufrieden."
 
 #: data/civ2/buildings.ruleset:268
 msgid ""
@@ -18656,9 +18618,8 @@ msgstr "Anarchie"
 
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
-#, fuzzy
 msgid "Usurper"
-msgstr "aufgeben"
+msgstr ""
 
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:55
 #: data/civ1/governments.ruleset:57
@@ -18688,9 +18649,8 @@ msgstr "Diktator"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
-#, fuzzy
 msgid "Dictatress"
-msgstr "Diktator"
+msgstr "Diktatorin"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -18743,9 +18703,8 @@ msgstr "Genosse"
 
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:120
 #: data/civ1/governments.ruleset:122
-#, fuzzy
 msgid "?female:Comrade"
-msgstr "Genosse"
+msgstr "Genossin"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
 #, fuzzy
@@ -18793,9 +18752,8 @@ msgstr "Konsul"
 
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:146
-#, fuzzy
 msgid "?female:Consul"
-msgstr "Konsul"
+msgstr "Konsulin"
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:174
 #: data/civ1/governments.ruleset:148
@@ -18831,9 +18789,8 @@ msgstr "Präsident"
 
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
-#, fuzzy
 msgid "?female:President"
-msgstr "Präsident"
+msgstr "Präsidentin"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -19262,9 +19219,8 @@ msgid "Nuclear Power"
 msgstr "Atomkraft"
 
 #: data/default/techs.ruleset:527 data/civ2/techs.ruleset:397
-#, fuzzy
 msgid "Gives sea units one extra move."
-msgstr "* Marine-Einheiten erhalten einen zusätzlichen Bewegungspunkt.\n"
+msgstr "Marine-Einheiten erhalten einen zusätzlichen Bewegungspunkt."
 
 #: data/default/techs.ruleset:530 data/civ2/techs.ruleset:400
 #: data/civ1/techs.ruleset:397
@@ -19651,9 +19607,8 @@ msgid "Furs"
 msgstr "Pelz"
 
 #: data/civ2/terrain.ruleset:539
-#, fuzzy
 msgid "Petroleum"
-msgstr "Patrouillieren"
+msgstr "Erdöl"
 
 #: data/civ1/terrain.ruleset:153
 msgid "Arctic"
@@ -20505,9 +20460,8 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:31
 #: data/nation/soviet.ruleset:26
-#, fuzzy
 msgid "General Secretary"
-msgstr "Erster Sekretär"
+msgstr "Generalsekretär"
 
 #: data/nation/afghani.ruleset:27
 msgid "Mullah"
@@ -20531,14 +20485,12 @@ msgid "Prime Minister"
 msgstr "Premierminister"
 
 #: data/nation/algerian.ruleset:3
-#, fuzzy
 msgid "Algerian"
-msgstr "amerikanisch"
+msgstr ""
 
 #: data/nation/algerian.ruleset:4
-#, fuzzy
 msgid "?plural:Algerians"
-msgstr "Nigerier"
+msgstr ""
 
 #: data/nation/algerian.ruleset:5 data/nation/arab.ruleset:5
 #: data/nation/boer.ruleset:5 data/nation/carthaginian.ruleset:5
@@ -20548,9 +20500,8 @@ msgstr "Nigerier"
 #: data/nation/nigerian.ruleset:5 data/nation/southafrican.ruleset:5
 #: data/nation/sudanese.ruleset:5 data/nation/swazi.ruleset:5
 #: data/nation/tunisian.ruleset:5 data/nation/zulu.ruleset:5
-#, fuzzy
 msgid "African"
-msgstr "amerikanisch"
+msgstr ""
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -20575,12 +20526,11 @@ msgid "?plural:Americans"
 msgstr "?plural:Amerikaner"
 
 #: data/nation/american.ruleset:6
-#, fuzzy
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
 msgstr ""
-"Formelle Bezeichnung: Vereinigte Staaten von Amerika. Errangen durch eine "
+"Formell die Vereinigten Staaten von Amerika. Errangen durch eine "
 "Revolution in den Jahren 1776 bis 1783 ihre Unabhängigkeit von "
 "Großbritannien."
 
@@ -20593,14 +20543,12 @@ msgid "Reverend"
 msgstr "Pfarrer"
 
 #: data/nation/antarctican.ruleset:3
-#, fuzzy
 msgid "Antarctican"
-msgstr "Arktis"
+msgstr ""
 
 #: data/nation/antarctican.ruleset:4
-#, fuzzy
 msgid "?plural:Antarcticans"
-msgstr "Marsianer"
+msgstr ""
 
 #: data/nation/antarctican.ruleset:5 data/nation/martian.ruleset:5
 msgid "Fictional"
@@ -20924,9 +20872,8 @@ msgid "Nabob"
 msgstr ""
 
 #: data/nation/bengali.ruleset:27
-#, fuzzy
 msgid "Major"
-msgstr "marsianisch"
+msgstr "Major"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -23421,9 +23368,9 @@ msgstr "Iberische Halbinsel (klassisch, groß)"
 msgid ""
 "Large classic-style map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
-msgstr 
-"Große Karte der Iberischen Halbinsel im klassischen Stil (heutiges "
-"Spanien und Portugal)."
+msgstr ""
+"Große Karte der Iberischen Halbinsel im klassischen Stil (heutiges Spanien "
+"und Portugal)."
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
