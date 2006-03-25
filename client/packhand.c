@@ -2432,6 +2432,7 @@ void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
 {
   int i;
 
+  nation_groups_free();
   for (i = 0; i < packet->ngroups; i++) {
     struct nation_group *group = add_new_nation_group(packet->groups[i]);
 

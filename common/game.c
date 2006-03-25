@@ -358,6 +358,7 @@ void ruleset_data_free()
   city_styles_free();
   terrains_free();
   ruleset_cache_free();
+  nation_groups_free();
 }
 
 /***************************************************************

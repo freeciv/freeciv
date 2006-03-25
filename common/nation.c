@@ -358,7 +358,7 @@ struct nation_group *add_new_nation_group(const char *name)
   for (i = 0; i < num_nation_groups; i++) {
     if (mystrcasecmp(Qn_(name), Qn_(nation_groups[i].name)) == 0) {
       freelog(LOG_FATAL, "Duplicate group name %s.",
-	      Qn_(group->name));
+	      Qn_(name));
       exit(EXIT_FAILURE);
     }
   }
@@ -430,6 +430,14 @@ bool is_nation_in_group(struct nation_type *nation,
     }
   }
   return FALSE;
+}
+
+/****************************************************************************
+  Frees and resets all nation group data.
+****************************************************************************/
+void nation_groups_free(void)
+{
+  num_nation_groups = 0;
 }
 
 /****************************************************************************

@@ -138,6 +138,7 @@ struct nation_group* get_nation_group_by_id(int id);
 struct nation_group *find_nation_group_by_name_orig(const char *name);
 bool is_nation_in_group(struct nation_type *nation,
 			struct nation_group *group);
+void nation_groups_free(void);
 
 #define nation_groups_iterate(pgroup)					    \
 {									    \
