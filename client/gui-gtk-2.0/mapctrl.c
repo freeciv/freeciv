@@ -399,7 +399,8 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEventCrossing *event)
    * the map canvas, for instance, it gets called any time the mouse is
    * clicked. */
   gdk_window_get_pointer(map_canvas->window, &canvas_x, &canvas_y, NULL);
-  if (canvas_x >= 0 && canvas_y >= 0
+  if (map_exists()
+      && canvas_x >= 0 && canvas_y >= 0
       && canvas_x < mapview.width && canvas_y < mapview.height) {
     handle_mouse_cursor(canvas_pos_to_tile(canvas_x, canvas_y));
   } else {
