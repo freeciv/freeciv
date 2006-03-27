@@ -351,7 +351,7 @@ struct nation_group *add_new_nation_group(const char *name)
   struct nation_group *group;
 
   if (strlen(name) >= ARRAY_SIZE(group->name)) {
-    freelog(LOG_FATAL, "Too-long group name %s.", group->name);
+    freelog(LOG_FATAL, "Too-long group name %s.", name);
     exit(EXIT_FAILURE);
   }
 
