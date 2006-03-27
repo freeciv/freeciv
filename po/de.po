@@ -1576,7 +1576,8 @@ msgstr "  -S, --Serverid ID\tSetzt die Server-ID auf ID\n"
 
 #: server/civserver.c:245
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr "  -P, --Ppm\t\tSpeichern von PPMs der Karte beim Speichern des Spielstandes\n"
+msgstr ""
+"  -P, --Ppm\t\tSpeichern von PPMs der Karte beim Speichern des Spielstandes\n"
 
 #: server/civserver.c:246
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -1592,7 +1593,7 @@ msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
 #: server/civserver.c:251 client/civclient.c:231
 msgid "  -z, --zone\t\tEnable GGZ mode\n"
-msgstr "  -z, --zone\t\tOnlinespiele mit GUI kontrollieren\n"
+msgstr "  -z, --zone\t\tGGZ-Modus einschalten\n"
 
 #: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:262
 #: client/gui-mui/gui_main.c:119 client/gui-xaw/gui_main.c:245
@@ -8469,7 +8470,7 @@ msgstr "* Veteranen.\n"
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
 "not celebrating.\n"
-msgstr 
+msgstr ""
 "* Jedes bearbeitete Feld, das mehr als %d %s liefert, erleidet einen Verlust "
 "von 1, wenn die Stadt nicht feiert.\n"
 
@@ -8485,7 +8486,8 @@ msgstr ""
 #: client/helpdata.c:1417
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
-msgstr "* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzliches %s.\n"
+msgstr ""
+"* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzliches %s.\n"
 
 #: client/helpdata.c:1423
 #, c-format
@@ -8991,7 +8993,7 @@ msgstr "Name"
 
 #: client/plrdlg_common.c:250
 msgid "Username"
-msgstr "Username"
+msgstr "User"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
 #: client/gui-gtk-2.0/pages.c:2030
@@ -9011,7 +9013,7 @@ msgstr "Grenze"
 
 #: client/plrdlg_common.c:254 client/gui-gtk-2.0/repodlgs.c:1316
 msgid "Score"
-msgstr "Punktestand"
+msgstr "Punkte"
 
 #: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1477
 msgid "Team"
@@ -9043,7 +9045,7 @@ msgstr "Adresse"
 
 #: client/plrdlg_common.c:263
 msgid "?Player_dlg:Idle"
-msgstr "Untätig"
+msgstr "untätig"
 
 #: client/plrdlg_common.c:264
 msgid "Ping"
@@ -10712,11 +10714,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1369
 msgid "Not _ready"
-msgstr "Nicht bereit"
+msgstr "Nicht _bereit"
 
 #: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk-2.0/pages.c:1540
 msgid "_Ready"
-msgstr "Bereit"
+msgstr "_Bereit"
 
 #: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/gui_main.c:1390
 #: client/gui-gtk-2.0/pages.c:2077
@@ -10725,11 +10727,11 @@ msgstr "_Start"
 
 #: client/gui-gtk-2.0/gui_main.c:1395 client/gui-gtk-2.0/pages.c:1535
 msgid "_Observe"
-msgstr "Beobachten"
+msgstr "Be_obachten"
 
 #: client/gui-gtk-2.0/gui_main.c:1397
 msgid "_Take player"
-msgstr "Spieler übernehmen"
+msgstr "Spieler _übernehmen"
 
 #: client/gui-gtk-2.0/gui_main.c:1419
 msgid "<AI>"
@@ -11756,7 +11758,7 @@ msgstr "Mit Netzwerkspiel _verbinden"
 
 #: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
-msgstr "Mit Online-Spielbereich verbinden"
+msgstr "Mit Gaming _Zone verbinden"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:326
@@ -11819,7 +11821,7 @@ msgstr "Passwort _wiederholen:"
 
 #: client/gui-gtk-2.0/pages.c:908
 msgid "C_onnect"
-msgstr "Verbinden"
+msgstr "_Verbinden"
 
 #: client/gui-gtk-2.0/pages.c:1083
 #, c-format
@@ -11917,7 +11919,7 @@ msgstr "Anführer"
 
 #: client/gui-gtk-2.0/pages.c:1530
 msgid "Pick _Nation"
-msgstr "Wähle Nation"
+msgstr "Wähle _Nation"
 
 #: client/gui-gtk-2.0/pages.c:1603
 msgid "Choose Saved Game to Load"
@@ -12081,7 +12083,7 @@ msgstr "Spieler\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1281
 msgid "Score\n"
-msgstr "Punktestand\n"
+msgstr "Punkte\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1282
 msgid "Population\n"
@@ -18806,8 +18808,8 @@ msgid ""
 msgstr ""
 "In der Demokratie regieren die Bürger direkt durch Abstimmungen und Wahlen. "
 "Demokratie erlaubt den größtmöglichen Handel, aber auch das größte Potential "
-"für Unzufriedenheit. Es gibt keine Korruption, aber Bürger werden durch Kriege "
-"sehr unruhig."
+"für Unzufriedenheit. Es gibt keine Korruption, aber Bürger werden durch "
+"Kriege sehr unruhig."
 
 #: data/civ2/governments.ruleset:57
 msgid ""
@@ -18850,7 +18852,8 @@ msgstr ""
 "In der Monarchie dient ein König oder eine Königin als Aushängeschild Deiner "
 "Regierung.\n"
 "\n"
-"Die Monarchie leidet wie die Republik unter geringer Korruption und geringem Müll."
+"Die Monarchie leidet wie die Republik unter geringer Korruption und geringem "
+"Müll."
 
 #: data/civ2/governments.ruleset:122
 msgid ""
@@ -18942,8 +18945,8 @@ msgid ""
 msgstr ""
 "In der Demokratie regieren die Bürger direkt durch Abstimmungen und Wahlen. "
 "Demokratie erlaubt den größtmöglichen Handel, aber auch das größte Potential "
-"für Unzufriedenheit. Es gibt keine Korruption, aber Bürger werden durch Kriege "
-"sehr unruhig.\n"
+"für Unzufriedenheit. Es gibt keine Korruption, aber Bürger werden durch "
+"Kriege sehr unruhig.\n"
 "\n"
 "Weil zufriedene Bürger fest an die Regierung glauben, ist ihre Loyalität "
 "unerschütterlich. Truppen können nicht bestochen werden, und feindliche "
@@ -20462,10 +20465,15 @@ msgid ""
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
+"Afghanistan, auch die Verkehrskreuzung Zentralasiens genannt, hat eine sehr "
+"turbulente Geschichte. Durch die Jahrhunderte war das Land von vielen Mächten "
+"besetzt, eingeschlossen Persien, Genghis Khan und Alexander der Große. Der "
+"afghanische Nationalstaat, so wie er heute bekannt ist, enstand 1746, als Ahmad "
+"Khan das durannische Reich gründete."
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
-msgstr ""
+msgstr "Emir"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:31
 #: data/nation/soviet.ruleset:26
@@ -20517,6 +20525,8 @@ msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
 msgstr ""
+"Algerien ist eine arabische Nation in Nordafrika. Es wird seit jeher von den "
+"Berbern bewohnt."
 
 #: data/nation/american.ruleset:3 data/nation/american.ruleset:5
 #: data/nation/argentine.ruleset:6 data/nation/aztec.ruleset:5
@@ -20639,6 +20649,7 @@ msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
 msgstr ""
+"Nach der Legende sind die Aramäer die Nachfahren von Aram, einem Enkel Noahs."
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
@@ -20683,6 +20694,9 @@ msgid ""
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from Soviet in 1991 AD"
 msgstr ""
+"Nach der Legende sind die Armenier die Nachfahren von Haik - dem Ururenkel "
+"von Noah. Die moderne Republik Armenien erlangte 1991 die Unabhängigkeit von "
+"der Sowjetunion."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -20696,6 +20710,8 @@ msgstr "Assyrer"
 msgid ""
 "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
+"Assyrien war ein Reich in Nordmesopotamien, benannt nach seiner Hauptstadt "
+"Ashur."
 
 # CK: Originalform, Bedeutung: König
 #: data/nation/assyrian.ruleset:21
