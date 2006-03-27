@@ -1568,7 +1568,7 @@ msgstr "  -e, --exit-on-end\tBei Spielende stoppen, kein Neustart\n"
 
 #: server/civserver.c:241
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
-msgstr "  -s, --saves VERZ\tSpielstände im Verzeichnis VERZ speichern.\n"
+msgstr "  -s, --saves VERZ\tSpielstände im Verzeichnis VERZ speichern\n"
 
 #: server/civserver.c:243
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
@@ -1576,7 +1576,7 @@ msgstr "  -S, --Serverid ID\tSetzt die Server-ID auf ID\n"
 
 #: server/civserver.c:245
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tSpeichern von PPMs der Karte beim Speichern des Spielstandes\n"
 
 #: server/civserver.c:246
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -1592,7 +1592,7 @@ msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
 #: server/civserver.c:251 client/civclient.c:231
 msgid "  -z, --zone\t\tEnable GGZ mode\n"
-msgstr ""
+msgstr "  -z, --zone\t\tOnlinespiele mit GUI kontrollieren\n"
 
 #: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:262
 #: client/gui-mui/gui_main.c:119 client/gui-xaw/gui_main.c:245
@@ -3768,7 +3768,7 @@ msgstr ""
 
 #: server/settings.c:160
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "Die Spielerzahl kann im GGZ-Modus nicht geändert werden."
 
 #: server/settings.c:165
 msgid "Number of players is higher than requested value; Keeping old value."
@@ -6262,13 +6262,13 @@ msgstr "Liste der Teams:"
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2d : '%s' : %d Spieler"
+msgstr[1] "%2d : '%s' : %d Spieler"
 
 #: server/stdinhand.c:4127
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
-msgstr ""
+msgstr "%2d : '%s' : 1 Spieler : %s"
 
 #: server/stdinhand.c:4133
 #, c-format
@@ -8361,6 +8361,8 @@ msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
+"* Wenn bereits ein Bürger aufgrund der Stadtgröße unzufrieden ist, wird für "
+"je %d zusätzliche Städte ein weiterer Bürger unzufrieden.\n"
 
 #: client/helpdata.c:1336
 #, c-format
@@ -8439,6 +8441,8 @@ msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr ""
+"* Stadterweiterungen, die normalerweise die Zahl der unzufriedenen Bürger "
+"verringern, liefern stattdessen Goldstücke.\n"
 
 #: client/helpdata.c:1390
 #, c-format
@@ -8465,7 +8469,9 @@ msgstr "* Veteranen.\n"
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty when "
 "not celebrating.\n"
-msgstr ""
+msgstr 
+"* Jedes bearbeitete Feld, das mehr als %d %s liefert, erleidet einen Verlust "
+"von 1, wenn die Stadt nicht feiert.\n"
 
 #: client/helpdata.c:1412
 #, c-format
@@ -8473,41 +8479,43 @@ msgid ""
 "* Each worked tile with at least 1 %s will yield %d additional %s when "
 "celebrating.\n"
 msgstr ""
+"* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzliches %s, "
+"wenn die Stadt feiert.\n"
 
 #: client/helpdata.c:1417
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
-msgstr ""
+msgstr "* Jedes bearbeitete Feld mit mindestens 1 %s liefert %d zusätzliches %s.\n"
 
 #: client/helpdata.c:1423
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr ""
+msgstr "* Die %s-Produktion verursacht große Mengen Mülls.\n"
 
 #: client/helpdata.c:1426
 #, c-format
 msgid "* %s production will suffer some waste.\n"
-msgstr ""
+msgstr "* Die %s-Produktion verursacht einigen Müll.\n"
 
 #: client/helpdata.c:1429
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
-msgstr ""
+msgstr "* Die %s-Produktion verursacht geringe Mengen von Müll.\n"
 
 #: client/helpdata.c:1435
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr ""
+msgstr "* %s-Müll nimmt mit der Entfernung von der Hauptstadt schnell zu.\n"
 
 #: client/helpdata.c:1438
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* %s-Müll nimmt mit der Entfernung von der Hauptstadt zu.\n"
 
 #: client/helpdata.c:1441
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr ""
+msgstr "* %s-Müll nimmt mit der Entfernung von der Hauptstadt langsam zu.\n"
 
 #: client/helpdata.c:1452
 #, c-format
@@ -11825,16 +11833,16 @@ msgstr "Server: %s"
 
 #: client/gui-gtk-2.0/pages.c:1094
 msgid "Player/conn info"
-msgstr ""
+msgstr "Spieler/Verbindungsinfo"
 
 #: client/gui-gtk-2.0/pages.c:1121
 #, c-format
 msgid "%s info"
-msgstr ""
+msgstr "%s Info"
 
 #: client/gui-gtk-2.0/pages.c:1131
 msgid "Toggle player ready"
-msgstr ""
+msgstr "Spieler bereit / nicht bereit"
 
 #: client/gui-gtk-2.0/pages.c:1140
 msgid "Pick nation"
@@ -11866,7 +11874,7 @@ msgstr "Zugriffsberechtigung Info"
 
 #: client/gui-gtk-2.0/pages.c:1212
 msgid "Give ctrl access"
-msgstr ""
+msgstr "Zugriffsberechtigung Ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1273
@@ -11896,11 +11904,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1454
 msgid "Rating"
-msgstr ""
+msgstr "Bewertung"
 
 #: client/gui-gtk-2.0/pages.c:1460
 msgid "Ready"
-msgstr ""
+msgstr "Bereit"
 
 #: client/gui-gtk-2.0/pages.c:1467 data/default/units.ruleset:1738
 #: data/nation/slovakian.ruleset:26
@@ -14709,7 +14717,7 @@ msgstr "Verteidigungsbonus"
 
 #: manual/civmanual.c:224
 msgid "Mining"
-msgstr ""
+msgstr "Bergbau"
 
 #: manual/civmanual.c:224
 msgid "turns"
@@ -15110,7 +15118,7 @@ msgstr "Abkommen aufkündigen"
 
 #: data/Freeciv.in:3333 data/Freeciv.in:3334
 msgid "Pregame"
-msgstr ""
+msgstr "Spielvorbereitung"
 
 #: data/Freeciv.in:3350
 msgid "Name              Ready Leader          Nation          "
@@ -17530,14 +17538,12 @@ msgid ""
 "Monarchy a +50% production bonus."
 msgstr ""
 "Macht die Stadt zur Hauptstadt und somit zum Regierungssitz. Außer bei "
-"'Demokratie' und 'Kommunismus' ist die Korruption davon abhängig, "
-"wie weit eine Stadt von der Hauptstadt entfernt ist. Auch die für das "
-"Anzetteln einer Revolution benötigten Kosten hängen davon ab, unter allen "
-"Regierungsformen.\n"
+"'Demokratie' und 'Kommunismus' ist die Korruption davon abhängig, wie weit "
+"eine Stadt von der Hauptstadt entfernt ist. Auch die für das Anzetteln einer "
+"Revolution benötigten Kosten hängen davon ab, unter allen Regierungsformen.\n"
 "\n"
-"Der Verlust der Hauptstadt kann einen Bürgerkrieg verursachen. Außerdem "
-"geht ein vielleicht vorhandenen Raumschiff verloren."
-"\n"
+"Der Verlust der Hauptstadt kann einen Bürgerkrieg verursachen. Außerdem geht "
+"ein vielleicht vorhandenen Raumschiff verloren.\n"
 "In einer Diktatur gibt der Palast einen Produktionsbonus von 75%, in einer "
 "Monarchie 50%."
 
@@ -18079,8 +18085,8 @@ msgid ""
 "famine.  Cumulative with Granary."
 msgstr ""
 "Wenn die Stadt ihre Größe verändert, wird der Kornvorrat um 25% "
-"wiederaufgefüllt. Das hilft der Stadt zu wachsen und einer Hungersnot "
-"besser zu widerstehen. Summiert sich mit dem Effekt von Kornspeichern."
+"wiederaufgefüllt. Das hilft der Stadt zu wachsen und einer Hungersnot besser "
+"zu widerstehen. Summiert sich mit dem Effekt von Kornspeichern."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -18166,43 +18172,43 @@ msgstr ""
 
 #: data/default/nations.ruleset:20
 msgid "?nationgroup:Ancient"
-msgstr ""
+msgstr "Altertum"
 
 #: data/default/nations.ruleset:23
 msgid "?nationgroup:Medieval"
-msgstr ""
+msgstr "Mittelalter"
 
 #: data/default/nations.ruleset:26
 msgid "?nationgroup:Modern"
-msgstr ""
+msgstr "Modern"
 
 #: data/default/nations.ruleset:29
 msgid "?nationgroup:African"
-msgstr ""
+msgstr "Afrika"
 
 #: data/default/nations.ruleset:32
 msgid "?nationgroup:American"
-msgstr ""
+msgstr "Amerika"
 
 #: data/default/nations.ruleset:35
 msgid "?nationgroup:Asian"
-msgstr ""
+msgstr "Asien"
 
 #: data/default/nations.ruleset:38
 msgid "?nationgroup:European"
-msgstr ""
+msgstr "Europa"
 
 #: data/default/nations.ruleset:41
 msgid "?nationgroup:Oceanian"
-msgstr ""
+msgstr "Ozeanien"
 
 #: data/default/nations.ruleset:44
 msgid "?nationgroup:Transitional"
-msgstr ""
+msgstr "Übergangszeit"
 
 #: data/default/nations.ruleset:47
 msgid "?nationgroup:Fictional"
-msgstr ""
+msgstr "Fantasy"
 
 #: data/civ2/buildings.ruleset:248
 msgid ""
@@ -18632,6 +18638,12 @@ msgid ""
 "Anarchy offers slightly less corruption than Despotism, but slightly more "
 "unhappiness."
 msgstr ""
+"Anarchie ist einfach die Abwesenheit jeder erkennbarer Regierung. Die Bürger "
+"sind unorganisiert und unproduktiv, und geben alles Einkommen so schnell wie "
+"möglich aus, anstatt Steuern zu zahlen und Forschung zu betreiben.\n"
+"\n"
+"In der Anarchie gibt es etwas weniger Korruption, aber etwas mehr "
+"Unzufriedenheit als in der Diktatur."
 
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
@@ -18656,6 +18668,10 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
+"In der Diktatur bist Du der unumschränkte Herrscher Deines Volkes. Du "
+"kontrollierst Deine Bürger hauptsächlich mit Hilfe des Kriegsrechts.\n"
+"\n"
+"In der Diktatur gibt es von allen Regierungsformen die höchste Korruption."
 
 #: data/default/governments.ruleset:92 data/civ2/governments.ruleset:90
 #: data/civ1/governments.ruleset:92 data/default/techs.ruleset:480
@@ -18686,6 +18702,10 @@ msgid ""
 "\n"
 "Monarchy suffers the same small amount of corruption that the Republic does."
 msgstr ""
+"In der Monarchie dient ein König oder eine Königin als Aushängeschild Deiner "
+"Regierung.\n"
+"\n"
+"Die Monarchie leidet unter der gleichen geringen Korruption wie die Republik."
 
 #: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
 #: data/civ1/governments.ruleset:114 data/default/techs.ruleset:174
@@ -18744,6 +18764,11 @@ msgid ""
 "freedom.  Citizens under the Republic become unhappy easily, but the self-"
 "sufficiency of your citizens allows high levels of trade."
 msgstr ""
+"In der Republik halten die Bürger Wahlen ab, um einen Repräsentanten zu "
+"bestimmen, der sie regiert. Da gewählte Führer beliebt bleiben müssen, um "
+"die Kontrolle zu behalten, geben sie den Bürgern ein größeres Maß an "
+"Freiheit. Bürger werden in der Republik leicht unzufrieden, aber ihre "
+"Selbstgenügsamkeit erlaubt es, lukrativen Handel zu betreiben."
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:215
@@ -18779,6 +18804,10 @@ msgid ""
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
 msgstr ""
+"In der Demokratie regieren die Bürger direkt durch Abstimmungen und Wahlen. "
+"Demokratie erlaubt den größtmöglichen Handel, aber auch das größte Potential "
+"für Unzufriedenheit. Es gibt keine Korruption, aber Bürger werden durch Kriege "
+"sehr unruhig."
 
 #: data/civ2/governments.ruleset:57
 msgid ""
@@ -18789,6 +18818,12 @@ msgid ""
 "Anarchy offers slightly less corruption and waste than Despotism, but "
 "slightly more unhappiness."
 msgstr ""
+"Anarchie ist einfach die Abwesenheit jeder erkennbarer Regierung. Die Bürger "
+"sind unorganisiert und unproduktiv, und geben alles Einkommen so schnell wie "
+"möglich aus, anstatt Steuern zu zahlen und Forschung zu betreiben.\n"
+"\n"
+"In der Anarchie gibt es etwas weniger Korruption und Müll, aber etwas mehr "
+"Unzufriedenheit als in der Diktatur."
 
 #: data/civ2/governments.ruleset:79
 msgid ""
@@ -18798,6 +18833,11 @@ msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
 msgstr ""
+"In der Diktatur bist Du der unumschränkte Herrscher Deines Volkes. Du "
+"kontrollierst Deine Bürger hauptsächlich mit Hilfe des Kriegsrechts.\n"
+"\n"
+"In der Diktatur gibt es von allen Regierungsformen die höchste Korruption "
+"und den meisten Müll."
 
 #: data/civ2/governments.ruleset:101
 msgid ""
@@ -18807,6 +18847,10 @@ msgid ""
 "Monarchy suffers the same small amount of corruption and waste that the "
 "Republic does."
 msgstr ""
+"In der Monarchie dient ein König oder eine Königin als Aushängeschild Deiner "
+"Regierung.\n"
+"\n"
+"Die Monarchie leidet wie die Republik unter geringer Korruption und geringem Müll."
 
 #: data/civ2/governments.ruleset:122
 msgid ""
@@ -18859,9 +18903,9 @@ msgstr ""
 "In einer fundamentalistischen Gesellschaft sind Volk und Herrscher ihrem "
 "Glauben völlig ergeben und bereit, zu seiner Verteidigung zu sterben.\n"
 "\n"
-"Stadterweiterungen, die unter anderen Regierungsformen unzufriedene "
-"Bürger zufrieden stellen, produzieren in fundamentalistischen Staaten Gold "
-"und benötigen keinen Unterhalt."
+"Stadterweiterungen, die unter anderen Regierungsformen unzufriedene Bürger "
+"zufrieden stellen, produzieren in fundamentalistischen Staaten Gold und "
+"benötigen keinen Unterhalt."
 
 #: data/civ2/governments.ruleset:196
 msgid ""
@@ -18875,6 +18919,14 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"In der Demokratie regieren die Bürger direkt durch Abstimmungen und Wahlen. "
+"Demokratie erlaubt den größtmöglichen Handel, aber auch das größte Potential "
+"für Unzufriedenheit. Es gibt keine Korruption oder Müll, aber Bürger werden "
+"durch Kriege sehr unruhig.\n"
+"\n"
+"Weil zufriedene Bürger fest an die Regierung glauben, ist ihre Loyalität "
+"unerschütterlich. Truppen können nicht bestochen werden, und feindliche "
+"Diplomaten und Spione können in den Städten keine Revolte entfachen."
 
 #: data/civ1/governments.ruleset:170
 msgid ""
@@ -18888,6 +18940,14 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"In der Demokratie regieren die Bürger direkt durch Abstimmungen und Wahlen. "
+"Demokratie erlaubt den größtmöglichen Handel, aber auch das größte Potential "
+"für Unzufriedenheit. Es gibt keine Korruption, aber Bürger werden durch Kriege "
+"sehr unruhig.\n"
+"\n"
+"Weil zufriedene Bürger fest an die Regierung glauben, ist ihre Loyalität "
+"unerschütterlich. Truppen können nicht bestochen werden, und feindliche "
+"Diplomaten und Spione können in den Städten keine Revolte entfachen."
 
 #: data/default/techs.ruleset:54 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -20310,7 +20370,7 @@ msgstr "Aborigines"
 #: data/nation/maori.ruleset:5 data/nation/newzealand.ruleset:6
 #: data/nation/papuan.ruleset:5
 msgid "Oceanian"
-msgstr ""
+msgstr "Ozeanien"
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -20435,11 +20495,11 @@ msgstr "Premierminister"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
-msgstr ""
+msgstr "algerisch"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
-msgstr ""
+msgstr "Algerier"
 
 #: data/nation/algerian.ruleset:5 data/nation/arab.ruleset:5
 #: data/nation/boer.ruleset:5 data/nation/carthaginian.ruleset:5
@@ -20450,7 +20510,7 @@ msgstr ""
 #: data/nation/sudanese.ruleset:5 data/nation/swazi.ruleset:5
 #: data/nation/tunisian.ruleset:5 data/nation/zulu.ruleset:5
 msgid "African"
-msgstr ""
+msgstr "Afrika"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -20492,11 +20552,11 @@ msgstr "Pfarrer"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr ""
+msgstr "antarktisch"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
-msgstr ""
+msgstr "Antarktiker"
 
 #: data/nation/antarctican.ruleset:5 data/nation/martian.ruleset:5
 msgid "Fictional"
@@ -20712,18 +20772,18 @@ msgid ""
 "15th century AD, reviving the practice of human sacrifice.  They were "
 "conquered by the Spanish under Cortez in 1524."
 msgstr ""
-"Die Azteken, ein Nahuatl sprechendes Volk aus der Wüste Sonora, errangen im 15. "
-"Jahrhundert die Herrschaft über die Nachfahren der Tolteken in Zentralmexiko "
-"und führten wieder Menschenopfer ein. 1524 wurden sie von den Spaniern unter "
-"Cortez besiegt."
+"Die Azteken, ein Nahuatl sprechendes Volk aus der Wüste Sonora, errangen im "
+"15. Jahrhundert die Herrschaft über die Nachfahren der Tolteken in "
+"Zentralmexiko und führten wieder Menschenopfer ein. 1524 wurden sie von den "
+"Spaniern unter Cortez besiegt."
 
 #: data/nation/aztec.ruleset:21
 msgid "Tlatoani"
-msgstr ""
+msgstr "Sprecher"
 
 #: data/nation/aztec.ruleset:22
 msgid "Huey Tlatoani"
-msgstr ""
+msgstr "Großer Sprecher"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -21141,8 +21201,8 @@ msgstr ""
 "wurde, wechselte es zwischen Perioden der Einheit und Zersplitterung, und "
 "wurde oft von fremden Völkern erobert. Die heutige Volksrepublik China, 1949 "
 "von den Kommunisten errichtet, belegt das Festland, während sich die frühere "
-"Nationalistische Regierung der Chinesischen Republik nach dem Bürgerkrieg auf "
-"die Insel Taiwan zurückgezogen hat."
+"Nationalistische Regierung der Chinesischen Republik nach dem Bürgerkrieg "
+"auf die Insel Taiwan zurückgezogen hat."
 
 #: data/nation/chinese.ruleset:31 data/nation/japanese.ruleset:37
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
@@ -21184,15 +21244,15 @@ msgstr "Gouverneurin"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr ""
+msgstr "konföderierte"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr ""
+msgstr "Konföderierten"
 
 #: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
 msgid "Transitional"
-msgstr ""
+msgstr "Übergangszeit"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -21576,7 +21636,7 @@ msgstr "Die alten Griechen, zwischen Mykene und der römischen Eroberung."
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
-msgstr ""
+msgstr "Despot"
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
@@ -21594,11 +21654,11 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr ""
+msgstr "hittitisch"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
-msgstr ""
+msgstr "Hittiter"
 
 #: data/nation/hittite.ruleset:6
 msgid ""
@@ -21637,11 +21697,11 @@ msgstr ""
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr ""
+msgstr "illyrisch"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
-msgstr ""
+msgstr "Illyrier"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -21726,11 +21786,11 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr ""
+msgstr "inuitisch"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr ""
+msgstr "Inuit"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -21803,11 +21863,11 @@ msgstr "Taoiseach"
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr ""
+msgstr "irokesich"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr ""
+msgstr "Irokesen"
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -21962,11 +22022,11 @@ msgstr "Großer Führer"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr ""
+msgstr "lankesisch"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
-msgstr ""
+msgstr "Lankesen"
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -22011,11 +22071,11 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr ""
+msgstr "libysch"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
-msgstr ""
+msgstr "Libyer"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -22047,8 +22107,8 @@ msgid ""
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
 msgstr ""
-"Litauen ist ein kleines Land an der Südküste der Ostsee, nordöstlich "
-"Polens. Litauisch ist die archaischste und komplexeste der nördlichen "
+"Litauen ist ein kleines Land an der Südküste der Ostsee, nordöstlich Polens. "
+"Litauisch ist die archaischste und komplexeste der nördlichen "
 "indogermanischen Sprachen."
 
 #: data/nation/lithuanian.ruleset:19
@@ -22106,11 +22166,11 @@ msgstr ""
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
-msgstr ""
+msgstr "malisch"
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
-msgstr ""
+msgstr "Mali"
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -22128,11 +22188,11 @@ msgstr ""
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr ""
+msgstr "manschurisch"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr ""
+msgstr "Manschuren"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -22170,11 +22230,11 @@ msgstr "Die Marsmenschen landeten auf der Erde im Jahre 4000 v.Chr.!"
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
-msgstr ""
+msgstr "mayaisch"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
-msgstr ""
+msgstr "Maya"
 
 #: data/nation/mayan.ruleset:6
 msgid ""
@@ -22306,11 +22366,11 @@ msgstr ""
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr ""
+msgstr "papuaisch"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr ""
+msgstr "Papua"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -22731,7 +22791,7 @@ msgstr "sowjetisch"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr ""
+msgstr "Sowjets"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
