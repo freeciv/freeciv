@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-24 09:29+0100\n"
+"POT-Creation-Date: 2006-03-27 10:26+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -1583,9 +1583,8 @@ msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
 
 #: server/civserver.c:248
-#, fuzzy
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
+msgstr "  -R, --Ranklog DATEI\tSchreibe Ranking-Informationen in DATEI\n"
 
 #: server/civserver.c:249 client/civclient.c:229 manual/civmanual.c:373
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -1796,13 +1795,12 @@ msgstr ""
 "erreicht ist."
 
 #: server/commands.c:122
-#, fuzzy
 msgid ""
 "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
 msgstr ""
 "debug [ player <Spieler> | city <x> <y> | units <x> <y> | unit <id> | tech "
-"<player> | timing | info]"
+"<Spieler> | timing | info]"
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
@@ -11448,9 +11446,8 @@ msgid "Explode Nuclear"
 msgstr "Atombombe zünden"
 
 #: client/gui-gtk-2.0/menu.c:881
-#, fuzzy
 msgid "Select same type"
-msgstr "Wähle eine Stadt"
+msgstr "Einheiten gleichen Typs auswählen"
 
 #: client/gui-gtk-2.0/menu.c:883 client/gui-win32/menu.c:392
 msgid "_Wait"
@@ -11750,9 +11747,8 @@ msgid "C_onnect to Network Game"
 msgstr "Mit Netzwerkspiel _verbinden"
 
 #: client/gui-gtk-2.0/pages.c:236
-#, fuzzy
 msgid "Connect to Gaming _Zone"
-msgstr "Mit Netzwerkspiel verbinden"
+msgstr "Mit Online-Spielbereich verbinden"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:326
@@ -11895,9 +11891,8 @@ msgid "More Game _Options..."
 msgstr "Weitere Spiel_optionen..."
 
 #: client/gui-gtk-2.0/pages.c:1449
-#, fuzzy
 msgid "Record"
-msgstr "Berichte"
+msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1454
 msgid "Rating"
@@ -14487,9 +14482,8 @@ msgid "Connect/Irrigation"
 msgstr "Verbinden/Bewässerung"
 
 #: client/gui-xaw/menu.c:211
-#, fuzzy
 msgid "Select Same Type"
-msgstr "Wähle eine Stadt"
+msgstr "Einheiten gleichen Typs auswählen"
 
 #: client/gui-xaw/menu.c:233 data/helpdata.txt:381
 msgid "Languages"
@@ -15119,11 +15113,8 @@ msgid "Pregame"
 msgstr ""
 
 #: data/Freeciv.in:3350
-#, fuzzy
 msgid "Name              Ready Leader          Nation          "
-msgstr ""
-"Server Name                         Port  Version     Status  Spieler  "
-"Kommentar"
+msgstr "Name            Bereit Herrscher       Nation          "
 
 #: data/Freeciv.in:3379
 msgid "Start"
@@ -17523,7 +17514,7 @@ msgid "Palace"
 msgstr "Palast"
 
 #: data/default/buildings.ruleset:552
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -17538,11 +17529,17 @@ msgid ""
 "Under Despotism the palace gives you a +75% production bonus, and under "
 "Monarchy a +50% production bonus."
 msgstr ""
-"Macht die Stadt zur Hauptstadt und somit zum Regierungssitz.\n"
-"Außer bei 'Demokratie' und 'Kommunismus' ist die Korruption davon abhängig, "
+"Macht die Stadt zur Hauptstadt und somit zum Regierungssitz. Außer bei "
+"'Demokratie' und 'Kommunismus' ist die Korruption davon abhängig, "
 "wie weit eine Stadt von der Hauptstadt entfernt ist. Auch die für das "
-"Anzetteln einer Revolution benötigten Kosten hängen davon ab. Außerdem kann "
-"der Verlust der Hauptstadt einen Bürgerkrieg verursachen."
+"Anzetteln einer Revolution benötigten Kosten hängen davon ab, unter allen "
+"Regierungsformen.\n"
+"\n"
+"Der Verlust der Hauptstadt kann einen Bürgerkrieg verursachen. Außerdem "
+"geht ein vielleicht vorhandenen Raumschiff verloren."
+"\n"
+"In einer Diktatur gibt der Palast einen Produktionsbonus von 75%, in einer "
+"Monarchie 50%."
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:538
 msgid "Police Station"
@@ -18076,15 +18073,14 @@ msgid "Pyramids"
 msgstr "die Pyramiden"
 
 #: data/default/buildings.ruleset:1392
-#, fuzzy
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
 msgstr ""
-"Wenn die Stadt ihre Größe verändert, wird der Kornvorrat bis zur Hälfte "
-"aufgefüllt. Das hilft der Stadt zu wachsen und einer Hungersnot besser zu "
-"widerstehen."
+"Wenn die Stadt ihre Größe verändert, wird der Kornvorrat um 25% "
+"wiederaufgefüllt. Das hilft der Stadt zu wachsen und einer Hungersnot "
+"besser zu widerstehen. Summiert sich mit dem Effekt von Kornspeichern."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -18708,7 +18704,6 @@ msgid "?female:Comrade"
 msgstr "Genossin"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -18718,28 +18713,12 @@ msgid ""
 "cities (including the capital) have a modest amount of corruption."
 msgstr ""
 "Eine kommunistische Regierung geht von dem Ideal aus, daß alle Menschen "
-"gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. Der "
+"gleich sind. Alle Güter gehören dem Staat, anstatt Privatpersonen. Der "
 "Kommunismus ermöglicht ein Gleichgewicht zwischen militärisch und "
 "wirtschaftlich orientierter Staatsführung.\n"
 "\n"
 "Es gibt eine mäßige Korruption, die nicht von der Entfernung zur Hauptstadt "
-"abhängig ist. Die Kosten für den Gegner, eine Revolte zu verursachen, sind "
-"hoch, da sie so berechnet werden, als wenn keine Stadt mehr als zehn Felder "
-"von der Hauptstadt entfernt wäre.\n"
-"\n"
-"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
-"\n"
-"Wenn eine Stadt im Kommunismus feiert, erhält sie einen Bonus von 1 "
-"Handelspunkt für jedes Feld, dass bereits Handel erzeugt. Einzelheiten unter "
-"'Zufriedenheit'.\n"
-"\n"
-"Neue Diplomaten und Spione haben immer Veteranenstatus.\n"
-"\n"
-"Jede Stadt kann bis zu 3 Militäreinheiten ohne Kosten unterhalten. Jede "
-"weitere Einheit kostet 1 Schild Unterhalt pro Runde.\n"
-"\n"
-"Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten innerhalb einer Stadt "
-"macht 2 Unzufriedene zufrieden."
+"abhängig ist."
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -18830,7 +18809,6 @@ msgid ""
 msgstr ""
 
 #: data/civ2/governments.ruleset:122
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -18841,28 +18819,12 @@ msgid ""
 "corruption."
 msgstr ""
 "Eine kommunistische Regierung geht von dem Ideal aus, daß alle Menschen "
-"gleich sind. Alle Güter gehören dem Staat anstatt Privatpersonen. Der "
+"gleich sind. Alle Güter gehören dem Staat, anstatt Privatpersonen. Der "
 "Kommunismus ermöglicht ein Gleichgewicht zwischen militärisch und "
 "wirtschaftlich orientierter Staatsführung.\n"
 "\n"
 "Es gibt eine mäßige Korruption, die nicht von der Entfernung zur Hauptstadt "
-"abhängig ist. Die Kosten für den Gegner, eine Revolte zu verursachen, sind "
-"hoch, da sie so berechnet werden, als wenn keine Stadt mehr als zehn Felder "
-"von der Hauptstadt entfernt wäre.\n"
-"\n"
-"Siedler verbrauchen 1 Einheit Nahrungsmittel pro Runde.\n"
-"\n"
-"Wenn eine Stadt im Kommunismus feiert, erhält sie einen Bonus von 1 "
-"Handelspunkt für jedes Feld, dass bereits Handel erzeugt. Einzelheiten unter "
-"'Zufriedenheit'.\n"
-"\n"
-"Neue Diplomaten und Spione haben immer Veteranenstatus.\n"
-"\n"
-"Jede Stadt kann bis zu 3 Militäreinheiten ohne Kosten unterhalten. Jede "
-"weitere Einheit kostet 1 Schild Unterhalt pro Runde.\n"
-"\n"
-"Kriegsrecht gilt: Jede von bis zu 3 Militäreinheiten innerhalb einer Stadt "
-"macht 2 Unzufriedene zufrieden."
+"abhängig ist. Auch der Müll hängt nicht von der Hauptstadtentfernung ab."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:296
 #: data/civ2/techs.ruleset:224 data/civ1/techs.ruleset:222
@@ -18878,7 +18840,6 @@ msgid "High Priestess"
 msgstr "Hohe Priesterin"
 
 #: data/civ2/governments.ruleset:146
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -18898,22 +18859,9 @@ msgstr ""
 "In einer fundamentalistischen Gesellschaft sind Volk und Herrscher ihrem "
 "Glauben völlig ergeben und bereit, zu seiner Verteidigung zu sterben.\n"
 "\n"
-"In einem solchen Staat können die Städte bis zu 10 Militäreinheiten ohne "
-"Kosten unterhalten. Zusätzliche Einheiten benötigen jeweils einen Schild. "
-"Fanatiker kosten nichts.\n"
-"\n"
-"Siedler verbrauchen 2 Einheiten Nahrungsmittel pro Runde.\n"
-"\n"
-"Die Quoten für Forschung, Steuern und Luxus können bis zu 80 % betragen. "
-"Allerdings kann die effektive Quote für Forschung 50 % nicht übersteigen, da "
-"der Rest gebraucht wird, um die Steuern einzutreiben. Außerdem wird "
-"Forschung nur mit der halben Geschwindigkeit vorgenommen.\n"
-"\n"
-"Es gibt geringfügige Korruption und Müll.\n"
-"\n"
-"(Stadt-)erweiterungen, die unter anderen Regierungsformen unzufriedene "
+"Stadterweiterungen, die unter anderen Regierungsformen unzufriedene "
 "Bürger zufrieden stellen, produzieren in fundamentalistischen Staaten Gold "
-"und benötigen keinen Erhaltungsaufwand."
+"und benötigen keinen Unterhalt."
 
 #: data/civ2/governments.ruleset:196
 msgid ""
@@ -20594,9 +20542,8 @@ msgstr "?plural:Araber"
 #: data/nation/tibetan.ruleset:5 data/nation/uyghur.ruleset:5
 #: data/nation/vietnamese.ruleset:5 data/nation/viking.ruleset:5
 #: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
-#, fuzzy
 msgid "Medieval"
-msgstr "mittelmäßigen"
+msgstr "mittelalterlich"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -20624,9 +20571,8 @@ msgstr "Aramäer"
 #: data/nation/lankese.ruleset:5 data/nation/mayan.ruleset:5
 #: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
 #: data/nation/roman.ruleset:5 data/nation/sumerian.ruleset:5
-#, fuzzy
 msgid "Ancient"
-msgstr "Forscher"
+msgstr "altertümlich"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -20760,14 +20706,13 @@ msgid "?plural:Aztecs"
 msgstr "?plural:Azteken"
 
 #: data/nation/aztec.ruleset:6
-#, fuzzy
 msgid ""
 "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
 "control of the Toltec-derived civilizations of Central Mexico during the "
 "15th century AD, reviving the practice of human sacrifice.  They were "
 "conquered by the Spanish under Cortez in 1524."
 msgstr ""
-"Die Azteken, eine Gruppe von Barbaren aus der Wüste Sonora, errangen im 15. "
+"Die Azteken, ein Nahuatl sprechendes Volk aus der Wüste Sonora, errangen im 15. "
 "Jahrhundert die Herrschaft über die Nachfahren der Tolteken in Zentralmexiko "
 "und führten wieder Menschenopfer ein. 1524 wurden sie von den Spaniern unter "
 "Cortez besiegt."
@@ -20882,7 +20827,6 @@ msgid "?plural:Boers"
 msgstr "Buren"
 
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
@@ -21043,7 +20987,6 @@ msgid "?plural:Byzantines"
 msgstr "Byzantiner"
 
 #: data/nation/byzantium.ruleset:6
-#, fuzzy
 msgid ""
 "At the time of the decline of the old Roman empire, the Emperor Constantine "
 "moved the empire's capital to Byzantium and formed a new empire mostly known "
@@ -21183,7 +21126,6 @@ msgid "?plural:Chinese"
 msgstr "Chinesen"
 
 #: data/nation/chinese.ruleset:6
-#, fuzzy
 msgid ""
 "China is the oldest major civilization that is still in existence today, "
 "with written records dating back over 3,500 years.  After first being "
@@ -21199,8 +21141,8 @@ msgstr ""
 "wurde, wechselte es zwischen Perioden der Einheit und Zersplitterung, und "
 "wurde oft von fremden Völkern erobert. Die heutige Volksrepublik China, 1949 "
 "von den Kommunisten errichtet, belegt das Festland, während sich die frühere "
-"Nationalistische Regierung nach dem Bürgerkrieg auf die Insel Taiwan "
-"zurückgezogen hat."
+"Nationalistische Regierung der Chinesischen Republik nach dem Bürgerkrieg auf "
+"die Insel Taiwan zurückgezogen hat."
 
 #: data/nation/chinese.ruleset:31 data/nation/japanese.ruleset:37
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
@@ -21385,7 +21327,6 @@ msgid "?plural:Egyptians"
 msgstr "Ägypter"
 
 #: data/nation/egyptian.ruleset:6
-#, fuzzy
 msgid ""
 "Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
@@ -21440,7 +21381,6 @@ msgid "?plural:Estonians"
 msgstr "Esten"
 
 #: data/nation/estonian.ruleset:6
-#, fuzzy
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
@@ -21722,7 +21662,6 @@ msgid "?plural:Incas"
 msgstr "Inkas"
 
 #: data/nation/inca.ruleset:6
-#, fuzzy
 msgid ""
 "The Inca were an Amerind people of the Northern Andes who conquered an "
 "empire stretching along the west coast of South America from what is now "
@@ -21833,7 +21772,6 @@ msgid "?plural:Irish"
 msgstr "Iren"
 
 #: data/nation/irish.ruleset:6
-#, fuzzy
 msgid ""
 "Ireland held out against the Romans and Vikings but was conquered by the "
 "Normans in 1171.  It was ruled by the English until 1922 when most of the "
@@ -22104,13 +22042,12 @@ msgid "?plural:Lithuanians"
 msgstr "Litauer"
 
 #: data/nation/lithuanian.ruleset:6
-#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
 msgstr ""
-"Litauen ist ein kleines Land an der Südküste der Nordsee, nordöstlich "
+"Litauen ist ein kleines Land an der Südküste der Ostsee, nordöstlich "
 "Polens. Litauisch ist die archaischste und komplexeste der nördlichen "
 "indogermanischen Sprachen."
 
@@ -22122,15 +22059,13 @@ msgstr "Großherzog"
 msgid "Great Duchess"
 msgstr "Großherzogin"
 
-# CK: Originalform, Bedeutung: König
 #: data/nation/malagasy.ruleset:3
-#, fuzzy
 msgid "Malagasy"
-msgstr "Malka"
+msgstr "madagassisch"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
-msgstr ""
+msgstr "Madagassen"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -22514,13 +22449,11 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:35
 msgid "Rege"
-msgstr ""
+msgstr "König"
 
-# EH: Diese Meldung sollte mE nicht übersetzt werden.
 #: data/nation/romanian.ruleset:35
-#, fuzzy
 msgid "Regina"
-msgstr "Reina"
+msgstr "Königin"
 
 #: data/nation/romanian.ruleset:36
 msgid "Presedinte"
@@ -22577,9 +22510,8 @@ msgid "Duke"
 msgstr ""
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
-#, fuzzy
 msgid "Duchess"
-msgstr "Großherzogin"
+msgstr "Herzogin"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
@@ -22665,7 +22597,6 @@ msgid "?plural:Serbians"
 msgstr "Serben"
 
 #: data/nation/serbian.ruleset:6
-#, fuzzy
 msgid ""
 "Serbia is part of the region of the Southern Slavs that was conquered by the "
 "Ottomans after the collapse of the Byzantine Empire.  During most of the "
@@ -22700,7 +22631,6 @@ msgid "?plural:Singaporeans"
 msgstr "Singapurer"
 
 #: data/nation/singaporean.ruleset:18
-#, fuzzy
 msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula."
@@ -22755,16 +22685,15 @@ msgid "?plural:Slovakians"
 msgstr "Slowaken"
 
 #: data/nation/slovakian.ruleset:6
-#, fuzzy
 msgid ""
 "Slovakia is a country in the heart of Europe. Formerly part of "
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
 msgstr ""
-"Die heutige Tschechische Republik war bis 1993 Teil der Tschechoslowakei, "
-"die bis 1918 zum österreich-ungarischen Kaiserreich gehörte."
+"Die heutige Tschechische Republik liegt im Herzen von Europa. Früher war es "
+"Teil der Tschechoslowakei, die bis 1918 zum österreich-ungarischen "
+"Kaiserreich gehörte."
 
 #: data/nation/slovakian.ruleset:27
-#, fuzzy
 msgid "Qween"
 msgstr "Königin"
 
@@ -23064,7 +22993,6 @@ msgid "?plural:Turks"
 msgstr "Türken"
 
 #: data/nation/turk.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Turkey is the successor state of the Ottoman Empire, which collapsed "
 "and was dismembered by the victors in World War I after backing the Central "
