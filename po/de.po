@@ -10914,11 +10914,11 @@ msgstr "Sichtweite:"
 
 #: client/gui-gtk-2.0/helpdlg.c:104 client/gui-win32/helpdlg.c:98
 msgid "Move/Defense:"
-msgstr "Bewegen/Verteidigen:"
+msgstr "Bewegen/Verteid.:"
 
 #: client/gui-gtk-2.0/helpdlg.c:104 client/gui-win32/helpdlg.c:98
 msgid "Food/Res/Trade:"
-msgstr "Nahrung/Produktion/Handel:"
+msgstr "Nahr./Prod./Handel:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 data/Freeciv.in:972
 msgid "Resources:"
@@ -10926,19 +10926,19 @@ msgstr "Ressourcen:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 msgid "Road Rslt/Time:"
-msgstr "Straße Erg./Zeit:"
+msgstr "Straße Erg/Zeit:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 msgid "Irrig. Rslt/Time:"
-msgstr "Bewäss. Erg./Zeit:"
+msgstr "Bewäss. Erg/Zeit:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:101
 msgid "Mine Rslt/Time:"
-msgstr "Bergwerk Erg./Zeit:"
+msgstr "Bergwerk Erg/Zeit:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:101
 msgid "Trans. Rslt/Time:"
-msgstr "Verw. Rslt/Zeit:"
+msgstr "Verwand. Erg/Zeit:"
 
 #: client/gui-gtk-2.0/helpdlg.c:111 client/gui-mui/helpdlg.c:159
 #: client/gui-mui/helpdlg.c:226 client/gui-win32/helpdlg.c:168
@@ -11022,7 +11022,7 @@ msgstr "+%d Nahrung / %d"
 #: client/gui-xaw/helpdlg.c:1025
 #, c-format
 msgid "+%d Res. / %d"
-msgstr "+%d Handel / %d"
+msgstr "+%d Prod. / %d"
 
 #: client/gui-gtk-2.0/inteldlg.c:41
 msgid "Ruler:"
@@ -21888,8 +21888,8 @@ msgid ""
 msgstr ""
 "Die Inuit, oder Eskimos, bewohnen Nordkanada und Grönland. Nach der Legende "
 "führte der Große Schamane Qitdlarssuaq sein Volk im 10. Jahrhundert nach "
-"Thule (Qaanaaq) an der Westküste Grönlands. Alle heutigen Inuit sind Nachfahren "
-"der Thule-Kultur."
+"Thule (Qaanaaq) an der Westküste Grönlands. Alle heutigen Inuit sind "
+"Nachfahren der Thule-Kultur."
 
 #: data/nation/inuit.ruleset:23
 msgid "Shaman"
@@ -21913,8 +21913,9 @@ msgid ""
 "the ancient region of Mesopotamia at the confluence of the Tigris and "
 "Euphrates rivers."
 msgstr ""
-"Der Irak wurde nach dem Niedergang des Ottomanischen Kaiserreiches gegründet. "
-"Es umfaßt die antike Region Mesopotamien am Zusammenfluß von Euphrat und Tigris."
+"Der Irak wurde nach dem Niedergang des Ottomanischen Kaiserreiches "
+"gegründet. Es umfaßt die antike Region Mesopotamien am Zusammenfluß von "
+"Euphrat und Tigris."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -21971,13 +21972,13 @@ msgid ""
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
 msgstr ""
-"Die Irokesische Konföderation - in ihrer eigenen Sprache Haudenosaunee - "
-"war eine nordamerikanische Gruppe von Nationen mit gemeinsamer Sprache und "
+"Die Irokesische Konföderation - in ihrer eigenen Sprache Haudenosaunee - war "
+"eine nordamerikanische Gruppe von Nationen mit gemeinsamer Sprache und "
 "Kultur. Ihr Zentrum war das nördliche Hinterland des heutigen Bundesstaates "
-"New York und bestand ursprünglich aus fünf Nationen: Seneca, Cayuga, Onondaga, "
-"Oneida und Mohawk. Die Konföderation besaß eine geschriebene Verfassung und ein "
-"Währungssystem, wodurch sie die fortschrittlichste Nation in Nordamerika bis "
-"zum Eintreffen der Europäer waren."
+"New York und bestand ursprünglich aus fünf Nationen: Seneca, Cayuga, "
+"Onondaga, Oneida und Mohawk. Die Konföderation besaß eine geschriebene "
+"Verfassung und ein Währungssystem, wodurch sie die fortschrittlichste Nation "
+"in Nordamerika bis zum Eintreffen der Europäer waren."
 
 #: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:26
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
@@ -22120,11 +22121,11 @@ msgid ""
 "North and South Korea as a result of the stalemate after the Korean war in "
 "1953."
 msgstr ""
-"Nach der Legende wurde das erste koreanische Königreich in vorgeschichtlicher "
-"Zeit von Tangun in der südlichen Mandschurei gegründet. 668 wurden die koreanischen "
-"Königreiche von König Munmu geeint. Heute ist die koreanische Halbinsel in zwei "
-"Staaten geteilt, Nord- und Südkorea entstanden als ein Ergebnis des militärischen "
-"Patts nach dem Koreakrieg 1953."
+"Nach der Legende wurde das erste koreanische Königreich in "
+"vorgeschichtlicher Zeit von Tangun in der südlichen Mandschurei gegründet. "
+"668 wurden die koreanischen Königreiche von König Munmu geeint. Heute ist "
+"die koreanische Halbinsel in zwei Staaten geteilt, Nord- und Südkorea "
+"entstanden als ein Ergebnis des militärischen Patts nach dem Koreakrieg 1953."
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
 msgid "Great Leader"
@@ -22144,9 +22145,9 @@ msgid ""
 "the 6th century BC and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
 msgstr ""
-"Prinz Vijaya kam von Orissa in Nordostindien während des 6. Jahrhunderts "
-"v. Chr. nach Sri Lanka und gründete dort das Singhalesische Königreich. "
-"Während der britischen Kolonisation wurde das Land Ceylon genannt."
+"Prinz Vijaya kam von Orissa in Nordostindien während des 6. Jahrhunderts v. "
+"Chr. nach Sri Lanka und gründete dort das Singhalesische Königreich. Während "
+"der britischen Kolonisation wurde das Land Ceylon genannt."
 
 #: data/nation/lankese.ruleset:21 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
@@ -22202,9 +22203,10 @@ msgid ""
 "condition of the Allied peace treaty with Italy."
 msgstr ""
 "Das Gebiet des heutigen Libyens war eine römische Kolonie, bis es im 7. "
-"Jahrhundert von der arabischen Zivilisation erorbert wurde. 1912 kam es unter "
-"die Kontrolle von Italien, und nach dem zweiten Weltkrieg wurde Libyen aufgrund "
-"des alliierten Friedensvertrages mit Italien die Unabhängigkeit gewährt."
+"Jahrhundert von der arabischen Zivilisation erorbert wurde. 1912 kam es "
+"unter die Kontrolle von Italien, und nach dem zweiten Weltkrieg wurde Libyen "
+"aufgrund des alliierten Friedensvertrages mit Italien die Unabhängigkeit "
+"gewährt."
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
@@ -22273,8 +22275,8 @@ msgid ""
 "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in "
 "the early 14th century."
 msgstr ""
-"Malaysia entstand mit der Gründung von Malakka durch Parameswara "
-"im frühen 14. Jahrhundert."
+"Malaysia entstand mit der Gründung von Malakka durch Parameswara im frühen "
+"14. Jahrhundert."
 
 #: data/nation/malaysian.ruleset:24 data/nation/singaporean.ruleset:38
 #: data/nation/turk.ruleset:24
@@ -22307,11 +22309,11 @@ msgid ""
 "The modern Republic of Mali derives its name from this empire."
 msgstr ""
 "Das Afrika südlich der Sahara ist seit Jahrtausenden ein kultureller und "
-"ethnischer Schmelztiegel. Im Mittelalter gab es dort verschiedene Königreiche. "
-"Eines davon, das islamische Großreich Mali mit der Hauptstadt Timbuktu, war "
-"das Einflußreichste. Es herrschte vom 14. bis 17. Jahrhundert und war berühmt "
-"für seine wohlhabenden und wohlwollenden Könige. Die heutige Republik Mali "
-"hat hiervon seinen Namen abgeleitet."
+"ethnischer Schmelztiegel. Im Mittelalter gab es dort verschiedene "
+"Königreiche. Eines davon, das islamische Großreich Mali mit der Hauptstadt "
+"Timbuktu, war das Einflußreichste. Es herrschte vom 14. bis 17. Jahrhundert "
+"und war berühmt für seine wohlhabenden und wohlwollenden Könige. Die heutige "
+"Republik Mali hat hiervon seinen Namen abgeleitet."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
