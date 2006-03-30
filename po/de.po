@@ -9468,7 +9468,7 @@ msgstr[1] "%d Einheiten ausgewählt"
 
 #: client/text.c:700
 msgid "No units selected."
-msgstr "Keine Einheiten ausgewählt"
+msgstr "Keine ausgewählt"
 
 #: client/text.c:773
 #, c-format
@@ -21767,9 +21767,9 @@ msgid ""
 "century. The island was kept initially under the Norwegian and later the "
 "Danish crown until independence from Denmark in 1944."
 msgstr ""
-"Island wurde von norwegischen Wikingern am Ende des 9. Jahrhunderts "
-"entdeckt und besiedelt. Die Insel war zunächst der norwegischen und dann "
-"der dänischen Krone unterstellt, bis es 1944 von Dänemark unabhängig wurde."
+"Island wurde von norwegischen Wikingern am Ende des 9. Jahrhunderts entdeckt "
+"und besiedelt. Die Insel war zunächst der norwegischen und dann der "
+"dänischen Krone unterstellt, bis es 1944 von Dänemark unabhängig wurde."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -21790,10 +21790,10 @@ msgid ""
 msgstr ""
 "Die Illyrer waren indoeuropäische Stämme, die vor 1000 v. Chr. im westlichen "
 "Balkan auftauchten, einschließlich der Dalmatier im Norden, Korfu und dem "
-"Ambrakischen Golf im prähistorischen Epirus im Süden, den Thrakern in Daldanien "
-"im Osten und siedelnden Messapiern jenseits der Adria. Die illyrischen "
-"Königreiche waren jahrhundertelang unabhängig, bis sie von der Römischen "
-"Republik erobert wurden."
+"Ambrakischen Golf im prähistorischen Epirus im Süden, den Thrakern in "
+"Daldanien im Osten und siedelnden Messapiern jenseits der Adria. Die "
+"illyrischen Königreiche waren jahrhundertelang unabhängig, bis sie von der "
+"Römischen Republik erobert wurden."
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
@@ -21867,6 +21867,9 @@ msgid ""
 "government on the island of Java. The country has a Muslim majority and is "
 "one of the most populous in the world."
 msgstr ""
+"Indonesien ist das größte Land auf dem indonesisches Archipel mit einer "
+"Zentralregierung auf der Insel Java. Das Land hat eine muslimische "
+"Bevölkerungsmehrheit und ist eines der dichtbesiedelsten der Erde."
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
@@ -21883,6 +21886,10 @@ msgid ""
 "west coast of Greenland in the 10th century. All Inuit of today are "
 "descendents of the Thule culture."
 msgstr ""
+"Die Inuit, oder Eskimos, bewohnen Nordkanada und Grönland. Nach der Legende "
+"führte der Große Schamane Qitdlarssuaq sein Volk im 10. Jahrhundert nach "
+"Thule (Qaanaaq) an der Westküste Grönlands. Alle heutigen Inuit sind Nachfahren "
+"der Thule-Kultur."
 
 #: data/nation/inuit.ruleset:23
 msgid "Shaman"
@@ -21906,6 +21913,8 @@ msgid ""
 "the ancient region of Mesopotamia at the confluence of the Tigris and "
 "Euphrates rivers."
 msgstr ""
+"Der Irak wurde nach dem Niedergang des Ottomanischen Kaiserreiches gegründet. "
+"Es umfaßt die antike Region Mesopotamien am Zusammenfluß von Euphrat und Tigris."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -21962,6 +21971,13 @@ msgid ""
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
 msgstr ""
+"Die Irokesische Konföderation - in ihrer eigenen Sprache Haudenosaunee - "
+"war eine nordamerikanische Gruppe von Nationen mit gemeinsamer Sprache und "
+"Kultur. Ihr Zentrum war das nördliche Hinterland des heutigen Bundesstaates "
+"New York und bestand ursprünglich aus fünf Nationen: Seneca, Cayuga, Onondaga, "
+"Oneida und Mohawk. Die Konföderation besaß eine geschriebene Verfassung und ein "
+"Währungssystem, wodurch sie die fortschrittlichste Nation in Nordamerika bis "
+"zum Eintreffen der Europäer waren."
 
 #: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:26
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
@@ -22035,6 +22051,8 @@ msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
 msgstr ""
+"Nach der traditionellen japanischen Mythologie wurde Japan im 7. Jahrhundert "
+"v. Chr. von Kaiser Jimmu gegründet."
 
 #: data/nation/japanese.ruleset:37 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
@@ -22058,6 +22076,9 @@ msgid ""
 "Kampuchea is the modern successor state of the mighty Khmer Empire, which "
 "ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
 msgstr ""
+"Kambodscha ist der moderne Nachfolgestaat des mächtigen Khmer-Reiches, das "
+"vom 11. bis zum 14. Jahrhundert den größten Teil der Indonesischen Halbinsel "
+"beherrschte."
 
 #: data/nation/kampuchean.ruleset:20 data/nation/manchu.ruleset:20
 msgid "Warlord"
@@ -22081,7 +22102,7 @@ msgstr "Kenianer"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr ""
+msgstr "Kenia errang 1963 die Unabhängigkeit von Großbritannien."
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -22099,6 +22120,11 @@ msgid ""
 "North and South Korea as a result of the stalemate after the Korean war in "
 "1953."
 msgstr ""
+"Nach der Legende wurde das erste koreanische Königreich in vorgeschichtlicher "
+"Zeit von Tangun in der südlichen Mandschurei gegründet. 668 wurden die koreanischen "
+"Königreiche von König Munmu geeint. Heute ist die koreanische Halbinsel in zwei "
+"Staaten geteilt, Nord- und Südkorea entstanden als ein Ergebnis des militärischen "
+"Patts nach dem Koreakrieg 1953."
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
 msgid "Great Leader"
@@ -22118,6 +22144,9 @@ msgid ""
 "the 6th century BC and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
 msgstr ""
+"Prinz Vijaya kam von Orissa in Nordostindien während des 6. Jahrhunderts "
+"v. Chr. nach Sri Lanka und gründete dort das Singhalesische Königreich. "
+"Während der britischen Kolonisation wurde das Land Ceylon genannt."
 
 #: data/nation/lankese.ruleset:21 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
@@ -22152,6 +22181,10 @@ msgid ""
 "1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
 "of Soviet Union in 1991 Latvia restored its independence."
 msgstr ""
+"Nach dem ersten Weltkrieg proklamierte Lettland seine Unabhängigkeit von "
+"Russland. 1940 wurde es gewaltsam von der Sowjetunion besetzt. Nach dem "
+"Zusammenbruch der Sowjetunion 1991 stellte Lettland seine Unabhängigkeit "
+"wieder her."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -22168,6 +22201,10 @@ msgid ""
 "of Italy and after the Second World War Libya was granted independence as a "
 "condition of the Allied peace treaty with Italy."
 msgstr ""
+"Das Gebiet des heutigen Libyens war eine römische Kolonie, bis es im 7. "
+"Jahrhundert von der arabischen Zivilisation erorbert wurde. 1912 kam es unter "
+"die Kontrolle von Italien, und nach dem zweiten Weltkrieg wurde Libyen aufgrund "
+"des alliierten Friedensvertrages mit Italien die Unabhängigkeit gewährt."
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
@@ -22216,6 +22253,8 @@ msgid ""
 "The Malagasy are the people of Madagascar. For centuries, tribes from "
 "Indonesia, East Africa and the Arab world have gathered on the island."
 msgstr ""
+"Die Madagassen sind das Volk von Madagaskar. Seit Jahrhunderten streben "
+"Stämme aus Indonesien, Ostafrika und der arabischen Welt auf die Insel."
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
@@ -22234,6 +22273,8 @@ msgid ""
 "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in "
 "the early 14th century."
 msgstr ""
+"Malaysia entstand mit der Gründung von Malakka durch Parameswara "
+"im frühen 14. Jahrhundert."
 
 #: data/nation/malaysian.ruleset:24 data/nation/singaporean.ruleset:38
 #: data/nation/turk.ruleset:24
@@ -22265,6 +22306,12 @@ msgid ""
 "14th to the 17th century and was famed for it's wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
 msgstr ""
+"Das Afrika südlich der Sahara ist seit Jahrtausenden ein kultureller und "
+"ethnischer Schmelztiegel. Im Mittelalter gab es dort verschiedene Königreiche. "
+"Eines davon, das islamische Großreich Mali mit der Hauptstadt Timbuktu, war "
+"das Einflußreichste. Es herrschte vom 14. bis 17. Jahrhundert und war berühmt "
+"für seine wohlhabenden und wohlwollenden Könige. Die heutige Republik Mali "
+"hat hiervon seinen Namen abgeleitet."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
