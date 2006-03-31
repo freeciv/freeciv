@@ -11902,7 +11902,7 @@ msgstr "Weitere Spiel_optionen..."
 
 #: client/gui-gtk-2.0/pages.c:1449
 msgid "Record"
-msgstr ""
+msgstr "Rekord"
 
 #: client/gui-gtk-2.0/pages.c:1454
 msgid "Rating"
@@ -22333,6 +22333,9 @@ msgid ""
 "Manchuria in Northeast Asia. In the 17th century they conquered and ruled "
 "China as the Manchu Empire until 1911."
 msgstr ""
+"Die Mandschu waren ein halbnomadisch lebendes Volk und kamen aus der "
+"Mandschurei in Nordostasien. Im 17. Jahrhundert eroberten und regierten sie "
+"China in der Mandschu-Dynastie bis 1911."
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
@@ -22348,6 +22351,9 @@ msgid ""
 "group that is now New Zealand. According to archeological evidence, the "
 "migration commenced in the 900s and continued until the 1400s."
 msgstr ""
+"Die Maori sind ein polynesisches Volk, das nach Neuseeland auswanderte und "
+"sich dort niederließ. Nach archäologischen Funden begann die Migration im "
+"10. Jahrhundert, und setzte sich bis ins 15. Jahrhundert fort."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -22374,6 +22380,8 @@ msgid ""
 "The Mayans were a Mesoamerican civilization. Famous for building great "
 "pyramids and palaces in the jungle."
 msgstr ""
+"Die Maya waren eine mesoamerikanische Zivilisation. Bekannt sind die "
+"großen Pyramiden und Paläste, die sie im Dschungel errichteten."
 
 #: data/nation/mayan.ruleset:19
 msgid "Ajaw"
@@ -22390,7 +22398,9 @@ msgstr "Mexikaner"
 #: data/nation/mexican.ruleset:6
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs."
-msgstr ""
+msgstr 
+"Der Name Mexico stammt von dem Volk der Mexica, eine andere Bezeichnung "
+"für die Azteken."
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
@@ -22434,6 +22444,9 @@ msgid ""
 "royal proclamation in 1907, the country became an independent dominion "
 "within the Commonwealth of Nations."
 msgstr ""
+"Die Inselgruppe von Neuseeland wurde 1840 von den Briten annektiert. Nach "
+"der Königsproklamation 1907 wurde das Land eine selbstverwaltete Kolonie "
+"innerhalb des Commenwealth."
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
@@ -22445,7 +22458,7 @@ msgstr "Nigerier"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr ""
+msgstr "Nigeria errang 1960 die volle Unabhängigkeit von britischer Herrschaft."
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
@@ -22461,6 +22474,8 @@ msgid ""
 "in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
 "independence after a union with Sweden."
 msgstr ""
+"Nach Jahrhunderten dänischer Herrschaft gaben sich die Norweger 1814 in Eidsvoll "
+"ihre eigene Verfassung. Nach einer Union mit Schweden wurden sie 1905 unabhängig."
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -22480,6 +22495,13 @@ msgid ""
 "Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
 msgstr ""
+"Zu Beginn des 14. Jahrhunderts eroberte Osman, der Führer eines kleinen "
+"türkischen Stammes in Westanatolien, alle ihn umgebenden Stämme. Ein "
+"Jahrhundert später fiel die byzantinische Hauptstadt unter türkische "
+"Herrschaft, wodurch das Ottomanische Kaiserreich Zugriff auf Europa erhielt. "
+"Darauf eroberten die Ottomanen große Teile von Südosteuropa, der islamischen "
+"Welt, sowie Ägypten und Teile Nordafrikas, und schufen so eine regionale "
+"Supermacht, die erst nach dem ersten Weltkrieg aufgelöst wurde."
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
 msgid "Bey"
@@ -22507,7 +22529,7 @@ msgstr "Papua"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
-msgstr ""
+msgstr "Die Papue sind ein melanesisches Volk auf der Insel Neuguinea."
 
 #: data/nation/papuan.ruleset:19
 msgid "Governor-General"
@@ -22554,6 +22576,8 @@ msgid ""
 "Phoenicia was an ancient civilization, based in what is now the coastal "
 "regions of Lebanon and Syria."
 msgstr ""
+"Phönizien war eine Zivilisation im Altertum, in den Küstenregionen des "
+"heutigen Libanons und Syriens."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
@@ -22568,6 +22592,8 @@ msgid ""
 "The Polish state was formed about a millennium ago, and reached its Golden "
 "Age near the end of the 16th century."
 msgstr ""
+"Der polnische Staat wurde vor über einem Jahrtausend gebildet und erreichte seine "
+"goldene Zeit am Ende des 16. Jahrhunderts."
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
@@ -22614,6 +22640,8 @@ msgid ""
 "Quebec is the largest province of Canada, housing the majority of the "
 "Francophone population of America."
 msgstr ""
+"Québec ist die größte Provinz Kanadas und beherbergt die Mehrheit der "
+"frankophonen Bevölkerung Amerikas."
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -22631,6 +22659,11 @@ msgid ""
 "Rome. It's history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
 msgstr ""
+"Die rumänische Nation entstand am Beginn des 20. Jahrhunderts, als "
+"Siebenbürgen, die Walachei und Moldavien verschmolzen. Seine Sprache erinnert "
+"stark an die des alten Roms. Die rumänische Geschichte ist abwechslungsreich, "
+"da es sich stets an den Grenzen großer Reiche befand: des Römischen, "
+"Ottomanischen, Österreich-Ungarischen und des Russischen Reiches."
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
@@ -22697,6 +22730,15 @@ msgid ""
 "dissolution in 1991 Russia appeared on world map again, now as a federative "
 "republic."
 msgstr ""
+"Nach der Legende luden slawische und finnische Stämme 862 den Wikingerkönig "
+"Rurik ein, Ordnung in ihr Land zu bringen. Rurik gründete die Kiewer Rus, den "
+"ersten russischen Staat. Im 11. Jahrhundert hatte sich die Kiewer Rus in kleinere "
+"Fürstentümer aufgelöst, die im 15. Jahrhundert noch einmal von Ivan III. in "
+"einem Staat vereinigt wurden. Nach seinem entscheidenden Sieg über Schweden und "
+"großen Landgewinnen rief Peter I. 1721 das Russische Reich aus. Das Russische Reich "
+"bestand bis 1917, als eine sozialistische Revolution den letzten russischen Kaiser "
+"entthronisierte. Nach Auflösung der UdSSR erschien Russland 1991 erneut auf der "
+"Weltkarte, dieses Mal als föderale Republik."
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
@@ -22731,6 +22773,9 @@ msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
+"Die Ryūkyū-Inseln waren ein Land des Besitzes, eine friedliche "
+"Seehandelsnation, die am Ende von Japan überfallen, besetzt und annektiert "
+"wurde."
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
@@ -22754,6 +22799,9 @@ msgid ""
 "over the northernmost regions of the Scandinavian countries: Finnmark of "
 "Norway and Lapland of Sweden and Finland."
 msgstr ""
+"Die Sami, oder Lappen, sind ein Volk in Nordskandinavien. Ihre Nation dehnt sich "
+"über die nördlichsten Regionen der slandinavischen Länder aus: die Finnmark in "
+"Norwegen, und Lappland in Schweden und Finnland."
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
@@ -22853,6 +22901,9 @@ msgid ""
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
 msgstr ""
+"Die Sioux waren eine nordamerikanische Nation, die mehrere entscheidende "
+"Schlachten gegen die Vereinigten Staaten fochten. Sie bestanden aus drei "
+"verschiedenen Gruppen von Stämmen: den Lakota, den Dakota und den Nakota."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -22917,6 +22968,14 @@ msgid ""
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
 msgstr ""
+"Holländische Siedler begannen im 17. Jahrhundert mit der Kolonisierung "
+"Südafrikas. Nach vielen Kriegen, hauptsächlich zwischen den Buren (Nachfahren "
+"der Siedler), britischen Streitkräften und Zulu, wurde 1910 die Südafrikanische "
+"Union gegründet. Die südafrikanische Regierung wurde berüchtigt für ihre "
+"'Apartheid'-Politik der Rassendiskriminierung. Nach der Annahme der ersten "
+"nichtrassitischen Verfassung 1994 wurde der lange Zeit aus politischen Gründen "
+"inhaftierte Nelson Mandela der erste wirklich demokratisch gewählte Präsident "
+"Südafrikas."
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
@@ -22934,6 +22993,11 @@ msgid ""
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
 msgstr ""
+"Die sowjetische Geschichte begann im November 1917 mit der bolschewikischen "
+"Revolution unter der Führerschaft Lenins. Am 31. Dezember 1922 wurden vier "
+"Sowjetrepubliken zu einem Land integriert. Die Sowjetunion wurde einer der "
+"mächtigsten Staaten im 20. Jahrhundert. Aufgrund zahlreicher sozialer Umbrüche "
+"zerfiel jedoch Ende 1991 in 15 unabhängige Länder."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -22980,6 +23044,8 @@ msgid ""
 "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became "
 "independent in 1956."
 msgstr ""
+"Der Sudan kam 1820 unter ägyptische und später unter britische Herrschaft. "
+"Der Sudan wurde 1956 unabhängig."
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
@@ -22995,6 +23061,9 @@ msgid ""
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
 msgstr ""
+"Die Sumerer kontrollierten das südliche Mesopotamien bis zum Aufstieg "
+"Babylons. Die ältesten gefundenen Tafeln mit sumerischer Schrift sind etwa "
+"5550 Jahre alt, älter als jedes andere schriftliche Zeugnis der Geschichte."
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
@@ -23014,6 +23083,9 @@ msgid ""
 "Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized "
 "the southern frontier with the Zulus."
 msgstr ""
+"Die Swasi sind ein Bantu-Volk im südlichen Afrika. Unter der Führerschaft "
+"von Mswati II. (1820 - 1868) dehnten die Swasi ihr Gebiet aus und stabilisierten "
+"den südliche Grenze zu den Zulu."
 
 #: data/nation/swazi.ruleset:24
 msgid "Ngwenyama"
@@ -23041,6 +23113,13 @@ msgid ""
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
 msgstr ""
+"Das Königreich Schweden wurde im 12. Jahrhundert christianisiert und als "
+"politische Einheit konsolidiert. Das Land wurde eines der größten Mächte "
+"Europas im 17. Jahrhundert, vorausgegangen waren wichtige militärische "
+"Eroberungen durch die sogenannten Kriegskönige. Durch eine schlechtere "
+"Wirtschaft und mehrere vernichtende Niederlagen gegen Russland verlor "
+"Schweden jedoch die meisten seiner errungenen Gebiete. Das Land ist seit 1814 "
+"nicht mehr an einem bewaffneten Konflikt beteiligt gewesen."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -23055,6 +23134,8 @@ msgid ""
 "Switzerland is a federation of cantons, some of which have more than 700 "
 "years of history as a confederacy."
 msgstr ""
+"Die Schweiz ist eine Föderation von Kantonen, von denen einige mehr als "
+"700 Jahre Teil der Konföderation sind."
 
 #: data/nation/swiss.ruleset:24
 msgid "Bailiff"
@@ -23098,6 +23179,9 @@ msgid ""
 "communists, the nationalist government evacuated to the island of Taiwan "
 "where they formed the Republic of China."
 msgstr ""
+"Als die chinesischen Nationalisten ihren bewaffneten Kampf gegen die "
+"chinesischen Kommunisten verloren, flüchtete die nationalistische Regierung "
+"auf die Insel Taiwan und bildete dort die Republik von China."
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -23112,6 +23196,8 @@ msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for it's \"larger than life\" cowboy mentality."
 msgstr ""
+"Texas ist der zweitgrößte und zweitbevölkerungsreichste Staat der USA, "
+"berühmt für seine Cowboy-Mentalität ('Larger than Life')."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -23148,6 +23234,14 @@ msgid ""
 "established a buddhist religious state under the control of the Gelugpa "
 "school of Tibetan Buddhism."
 msgstr ""
+"Das tibetische Heimatland wird auch das 'Dach der Welt' genannt, die "
+"höchstgelegene Region der Erde. Im 7. Jahrhundert entstand Tibet als "
+"ansehnliches Kaiserreich unter der Führerschaft von Songtsen Gampo, sowohl "
+"von China als auch von Indien anerkannt. Die Dynastie dauerte bis zum 11. "
+"Jahrhundert, als Tibet von den Mongolen überfallen wurde. Jahrhunderte "
+"später, als die mongolische Herrschaft schwächer wurde, etablierte "
+"Lozang Gyatso - 1617 als der 5. Dalai Lama geboren - einen buddhistischen "
+"Staat unter der Kontrolle der Gelugpa-Schule des Tibetischen Buddhismus."
 
 #: data/nation/tibetan.ruleset:27
 msgid "Lama"
@@ -23176,6 +23270,15 @@ msgid ""
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
 msgstr ""
+"Die Phönizier gründeten auf dem Gebiet des heutigen Tunesiens Karthago. "
+"Karthago wurde später eine Hauptmacht der Mittelmeerregion, bis es 146 v. Chr. "
+"von den Römern besiegt wurde. Später führten Eroberungen arabischer Muslime "
+"im 7. Jahrhundert zu Einwanderungen aus arabischen und ottomanischen Staaten. "
+"Aber es gab ebenso eine Menge Juden und spanischer Mauren, die Ende des "
+"16. Jahrhunderts in das Gebiet zogen. Tunesien erhielt 1861 weitgehende "
+"Autonomie vom Ottomanischen Reich. Aber 1861 wurde Tunesien von Frankreich "
+"besetzt und zu einem französischen Protektorat gemacht. Das Land wurde 1956 "
+"unabhängig."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -23234,6 +23337,13 @@ msgid ""
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
 msgstr ""
+"Die Uiguren waren ein osttürkisches Reich und Zivilisation. An ihrem Höhepunkt "
+"kontrollierten sie 820 die meisten Teile von Zentral- und Nordasien. Nach "
+"jahrhundertelangen Zusammenstößen mit den Chinesen wurden sie schließlich "
+"von der Qing-Dynastie im 18. Jahrhundert unterworfen. Heute bilden die "
+"Nachfahren der Uiguren die Bevölkerungen von Usbekistan, Kasachstan und "
+"Kirgisistan. Sie bilden außerdem die größte Minderheit in der chinesischen "
+"Provinz Xinjiang."
 
 #: data/nation/venezuelan.ruleset:4
 msgid "Venezuela"
@@ -23253,6 +23363,9 @@ msgid ""
 "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
 "Liberator."
 msgstr ""
+"Venezuela ist das nördlichste Land Südamerikas. Seit dem 16. Jahrhundert eine "
+"spanische Kolonie, wurde das Land am 5. Juli 1811 unter der Führerschaft von "
+"'El Libertador' - dem Befreier - Simón Bolívar unabhängig."
 
 #: data/nation/venezuelan.ruleset:33
 msgid "Terrateniente"
@@ -23323,6 +23436,9 @@ msgid ""
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
+"Westfalen bildete den Westen des Herzogtums Sachsen, bevor es eine preußische "
+"Provinz wurde. Heute ist es der nördliche Teil des größten deutschen "
+"Bundeslandes Nordrhein-Westfalen."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
