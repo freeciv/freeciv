@@ -24,7 +24,6 @@ flag_alt = "-" ; former CzechoSlovakia has the same flag as Czech
 city_style = "European"
 ruler_titles = { "government",      "male_title",        "female_title"
                   "Despotism",      _("Leader"),         _("Leader")
-                  "Monarchy",       _("King"),           _("Qween")
                   "Republic",       _("President"),      _("President")
                   "Democracy",      _("Prime Minister"), _("Prime Minister")
                   "Fundamentalism", _("Pope"),           _("Priestess")
