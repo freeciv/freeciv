@@ -1,7 +1,7 @@
 # German Translation for Freeciv
 # Copyright (C) 1999-2005 Free Software Foundation, Inc.
 # Egbert Hinzen <egbert@hinzen-koeln.de>, 1999-2002.
-# Christian Knoke <chrisk@cknoke.de>, 2003-2005.
+# Christian Knoke <chrisk@cknoke.de>, 2003-2006.
 #
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # + '# ?'  markiert Stellen, die noch nicht übersetzt wurden.           +
@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 20:42-0500\n"
+"POT-Creation-Date: 2006-04-04 08:56+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -1438,7 +1438,7 @@ msgstr "  -S, --Serverid ID\tSetze Server-ID\n"
 
 #: server/civserver.c:197
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tSpeichern von PPMs der Karte beim Speichern des Spielstandes\n"
 
 #: server/civserver.c:198
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -1448,7 +1448,7 @@ msgstr "  -r, --read DATEI\tStartscript DATEI laden\n"
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tGibt die Versionsnummer aus\n"
 
-#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:210
+#: server/civserver.c:200 client/gui-gtk-2.0/gui_main.c:209
 #: client/gui-gtk/gui_main.c:162 client/gui-mui/gui_main.c:108
 #: client/gui-xaw/gui_main.c:228
 #, c-format
@@ -2282,9 +2282,9 @@ msgid "Invalid username '%s'"
 msgstr "Unzulässiger Name '%s'"
 
 #: server/connecthand.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s abgewiesen: inkompatible Versionen."
+msgstr "%s abgewiesen: ungültiger Name [%s]."
 
 #: server/connecthand.c:254
 #, c-format
@@ -2292,9 +2292,9 @@ msgid "'%s' already connected."
 msgstr "Verbindung zu %s besteht schon."
 
 #: server/connecthand.c:257
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s abgewiesen: inkompatible Versionen."
+msgstr "%s abgewiesen: doppelter Username [%s]."
 
 #: server/connecthand.c:285
 #, c-format
@@ -7629,28 +7629,28 @@ msgstr "Die %s erlauben uns ihre Karte einzusehen"
 msgid "The %s gives an embassy"
 msgstr "Die %s gestatten, eine Botschaft zu eröffnen"
 
-#: client/climisc.c:869
+#: client/climisc.c:873
 msgid "Popup Request"
 msgstr "Sondermeldung"
 
-#: client/climisc.c:899
+#: client/climisc.c:903
 msgid "Exporting output window to civgame.log ..."
 msgstr "Speichere Textfenster in 'civgame.log'..."
 
-#: client/climisc.c:903
+#: client/climisc.c:907
 msgid "Export complete."
 msgstr "Fertig."
 
-#: client/climisc.c:905
+#: client/climisc.c:909
 msgid "Export failed, couldn't write to file."
 msgstr "NICHT GESPEICHERT: Datei konnte nicht geschrieben werden."
 
-#: client/climisc.c:1017
+#: client/climisc.c:1021
 #, c-format
 msgid "Game: You don't buy %s in %s!"
 msgstr "Spiel: %s kann in %s nicht gekauft werden!"
 
-#: client/climisc.c:1037
+#: client/climisc.c:1041
 #, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
 msgstr "Spiel: %s kosten %d Goldstücke. Vorhanden sind nur %d Goldstücke."
@@ -8406,7 +8406,7 @@ msgstr "Ansicht auf alarmierte Einheiten zentrieren"
 
 #: client/options.c:107
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "'Gehe nach' auch in unbekannte Gebiete"
 
 #: client/options.c:108
 msgid "Center map when Popup city"
@@ -10718,67 +10718,67 @@ msgstr "Bestimmungsort wählen"
 msgid "Show _All Cities"
 msgstr "_Zeige Alle Städte"
 
-#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:128
+#: client/gui-gtk-2.0/gui_main.c:139 client/gui-gtk/gui_main.c:128
 msgid "Use Alt/Meta for accelerators"
 msgstr "Alt/Meta-Taste für Tastaturkürzel verwenden"
 
-#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:129
+#: client/gui-gtk-2.0/gui_main.c:140 client/gui-gtk/gui_main.c:129
 msgid "Show Map Scrollbars"
 msgstr "Laufbalken für Karte anzeigen"
 
-#: client/gui-gtk-2.0/gui_main.c:142 client/gui-gtk/gui_main.c:130
+#: client/gui-gtk-2.0/gui_main.c:141 client/gui-gtk/gui_main.c:130
 msgid "Keyboardless goto"
 msgstr "Mausgesteuerte GeheNach Funktion"
 
-#: client/gui-gtk-2.0/gui_main.c:143
+#: client/gui-gtk-2.0/gui_main.c:142
 msgid "Keep dialogs on top"
 msgstr "Dialoge immer sichtbar"
 
-#: client/gui-gtk-2.0/gui_main.c:144
+#: client/gui-gtk-2.0/gui_main.c:143
 msgid "Show worklist task icons"
 msgstr "Zeige Icons in der Arbeitsliste"
 
-#: client/gui-gtk-2.0/gui_main.c:145
+#: client/gui-gtk-2.0/gui_main.c:144
 msgid "Fullscreen Mode"
 msgstr "Ganzer Bildschirm"
 
-#: client/gui-gtk-2.0/gui_main.c:146
+#: client/gui-gtk-2.0/gui_main.c:145
 msgid "Enable status report tabs"
 msgstr "Kartenreiteranzeige für Berichte"
 
 # CK: Originalmeldung eventuell fehlerhaft
-#: client/gui-gtk-2.0/gui_main.c:148
+#: client/gui-gtk-2.0/gui_main.c:147
 msgid "Solid unit icon background color in city dialog"
 msgstr "Einfarbiger Hintergrund für Icons im Stadtdialog"
 
-#: client/gui-gtk-2.0/gui_main.c:150 client/gui-win32/gui_main.c:100
+#: client/gui-gtk-2.0/gui_main.c:149 client/gui-win32/gui_main.c:100
 msgid "Better fog-of-war drawing"
 msgstr "Bessere Darstellung des 'Nebel des Krieges'"
 
-#: client/gui-gtk-2.0/gui_main.c:490 client/gui-gtk-2.0/gui_main.c:1082
+#: client/gui-gtk-2.0/gui_main.c:489 client/gui-gtk-2.0/gui_main.c:1081
 #: client/gui-gtk/gui_main.c:385 client/gui-gtk/gui_main.c:857
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:849 client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:848 client/gui-gtk-2.0/gui_main.c:862
 #: client/gui-gtk/gui_main.c:678 client/gui-win32/gui_main.c:406
 #: data/Freeciv.in:2645
 msgid "Turn Done"
 msgstr "Fertig!"
 
-#: client/gui-gtk-2.0/gui_main.c:863
+#: client/gui-gtk-2.0/gui_main.c:862
 msgid "Shift+Return"
 msgstr "Shift+Eingabe"
 
-#: client/gui-gtk-2.0/gui_main.c:895
+#: client/gui-gtk-2.0/gui_main.c:894
 msgid "_Map"
 msgstr "_Karte"
 
-#: client/gui-gtk-2.0/gui_main.c:969
+#: client/gui-gtk-2.0/gui_main.c:968
 msgid "_Chat"
 msgstr "_Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:985 client/gui-gtk/gui_main.c:783
+#: client/gui-gtk-2.0/gui_main.c:984 client/gui-gtk/gui_main.c:783
 #: client/gui-mui/gui_main.c:1032 client/gui-win32/gui_main.c:462
 #: data/Freeciv.in:2836
 msgid ""
@@ -10790,16 +10790,16 @@ msgstr ""
 "Sie darf unter Beachtung der unter 'Lizenz' aufgeführten Bedingungen kopiert "
 "und weitergegeben werden."
 
-#: client/gui-gtk-2.0/gui_main.c:1241 client/gui-mui/citydlg.c:1557
+#: client/gui-gtk-2.0/gui_main.c:1240 client/gui-mui/citydlg.c:1557
 msgid "Name:"
 msgstr "Spielername:"
 
-#: client/gui-gtk-2.0/gui_main.c:1248 client/gui-gtk/connectdlg.c:433
+#: client/gui-gtk-2.0/gui_main.c:1247 client/gui-gtk/connectdlg.c:433
 #: client/gui-win32/connectdlg.c:1080
 msgid "Host:"
 msgstr "Server:"
 
-#: client/gui-gtk-2.0/gui_main.c:1385 client/gui-gtk/gui_main.c:1090
+#: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk/gui_main.c:1090
 #: client/gui-xaw/gui_main.c:709
 #, c-format
 msgid ""
@@ -10819,7 +10819,7 @@ msgstr ""
 "Forschungsprojekt: %s (%d/%d)\n"
 "Staatsform: %s"
 
-#: client/gui-gtk-2.0/gui_main.c:1510
+#: client/gui-gtk-2.0/gui_main.c:1509
 msgid "Are you sure you want to quit?"
 msgstr "Wollen Sie das Programm wirklich beenden?"
 
