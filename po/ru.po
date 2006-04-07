@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-16 22:25-0500\n"
-"PO-Revision-Date: 2006-03-24 18:41+0300\n"
+"POT-Creation-Date: 2006-04-05 12:40+0400\n"
+"PO-Revision-Date: 2006-04-07 14:38+0400\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1668,8 +1668,8 @@ msgid ""
 "server, or available scenarios.  The argument may be abbreviated, and "
 "defaults to 'players' if absent."
 msgstr ""
-"Показать список игроков, команд игроков, подключений к серверу или "
-"доступных сценариев. Аргумент может быть сокращен, по умолчанию - 'players'."
+"Показать список игроков, команд игроков, подключений к серверу или доступных "
+"сценариев. Аргумент может быть сокращен, по умолчанию - 'players'."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -1922,8 +1922,8 @@ msgid ""
 "the connection does not already control a player, one is created and "
 "assigned to the connection."
 msgstr ""
-"Только консоль и подключения с уровнем команд (cmdlevel) 'hack' могут "
-"дать чужим подключениям управление игроком. Если к Вам это не относится, Вы "
+"Только консоль и подключения с уровнем команд (cmdlevel) 'hack' могут дать "
+"чужим подключениям управление игроком. Если к Вам это не относится, Вы "
 "можете использовать только аргумент <имя-игрока>. Если в качестве имени "
 "игрока задаётся '-', и подключение ещё не управляет игроком, то новый игрок "
 "будет создан и связан с подключением."
@@ -2140,7 +2140,6 @@ msgid "Query or set command access level access."
 msgstr "Запросить или установить уровень доступа к командам."
 
 #: server/commands.c:272
-#, fuzzy
 msgid ""
 "The command access level controls which server commands are available\n"
 "to users via the client chatline.  The available levels are:\n"
@@ -2161,11 +2160,11 @@ msgid ""
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
 msgstr ""
-"Уровень командного доступа контролирует какие команды на сервере разрешены "
+"Уровень командного доступа контролирует, какие команды на сервере разрешены "
 "пользователям посредством строки 'болталки' клиента. Доступные уровни:\n"
 "   none - никаких команд\n"
 "   info - только информационные команды\n"
-"   ctrl - команды контролирующие игру и игроков\n"
+"   ctrl - команды, контролирующие игру и игроков\n"
 "   hack - *все* команды - опасно!\n"
 "Без аргументов - сообщаются текущие уровни команд\n"
 "С одним аргументом уровень устанавливается для всех текущих подключений,\n"
@@ -2173,13 +2172,13 @@ msgstr ""
 "Если дан аргумент 'new' - устанавливается уровень по умолчанию для новых "
 "подключений.\n"
 "Если дан аргумент 'first come' - уровень устанавливается для первого\n"
-"подключившегося игрока, или (если игроки уже подключены) тому кто первым "
-"подаст команду 'firstlevel'.\n"
+"подключившегося игрока, или (если игроки уже подключены) тому, кто первым "
+"выполнит команду 'first'.\n"
 "Если дано имя подключения - уровень устанавливается только для этого "
 "соединения.\n"
-"Если игрок отключается, его уровень не остается в силе, т.к. кто-то другой "
-"может подключиться под его именем. Обратите внимание, что указывается "
-"название подключения, не имя игрока."
+"Если игрок отключается, его уровень не остается в силе, так как кто-то "
+"другой может подключиться под его именем. Обратите внимание, что "
+"указывается название подключения, не имя игрока."
 
 #: server/commands.c:293
 msgid "If there is none, become the game organizer with increased permissions."
@@ -3525,12 +3524,12 @@ msgid "Resources %s and %s have the same identifier."
 msgstr "У ресурсов %s и %s один и тот же идентификатор."
 
 #. TRANS: Obscure ruleset error
-#: server/ruleset.c:2396
+#: server/ruleset.c:2400
 #, c-format
 msgid "Section %s lists unknown effect type: \"%s\" (%s)"
 msgstr "Список секции %s включает неизвестный тип эффекта: \"%s\" (%s)"
 
-#: server/ruleset.c:3027
+#: server/ruleset.c:3038
 msgid "Loading rulesets"
 msgstr "Загрузка правил"
 
@@ -4230,13 +4229,15 @@ msgstr ""
 
 #: server/settings.c:545
 msgid "Multiplier percentage for production costs"
-msgstr ""
+msgstr "Процентный множитель стоимости продукции"
 
 #: server/settings.c:546
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
 msgstr ""
+"Этот параметр влияет на то, как быстро будут создаваться соединения и "
+"здания. Базовая стоимость умножается на это значение (в процентах)."
 
 #: server/settings.c:560
 msgid "Minimum city size to get full trade"
@@ -4340,7 +4341,7 @@ msgstr ""
 
 #: server/settings.c:629
 msgid "Chance of moving into tile after attack"
-msgstr "Вероятность движения вперед после атаки"
+msgstr "Вероятность движения вперёд после атаки"
 
 #: server/settings.c:630
 msgid ""
@@ -8274,8 +8275,8 @@ msgid ""
 "* Military units away from home and field units will cause one citizen to "
 "become unhappy.\n"
 msgstr ""
-"* Каждое военное соединение вне города и каждое полевое соединение "
-"сделают одного жителя недовольным.\n"
+"* Каждое военное соединение вне города и каждое полевое соединение сделают "
+"одного жителя недовольным.\n"
 
 #: client/helpdata.c:1289
 #, c-format
@@ -8283,8 +8284,8 @@ msgid ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
 msgstr ""
-"* Каждое военное соединение вне города и каждое полевое соединение сделают "
-"%d жителей недовольными.\n"
+"* Каждое военное соединение вне города и каждое полевое соединение сделают %"
+"d жителей недовольными.\n"
 
 #: client/helpdata.c:1296
 #, c-format
@@ -8312,26 +8313,26 @@ msgstr ""
 "* Каждый из Ваших городов избежит платы за содержание %d %s соединений.\n"
 
 #: client/helpdata.c:1315
-#, fuzzy, c-format
+#, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
 msgstr ""
-"* Каждый из Ваших городов избежит платы за содержание %d %s соединений.\n"
+"* Каждый из Ваших городов избежит платы %d золота за содержание соединений.\n"
 
 #: client/helpdata.c:1320
 #, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
 msgstr ""
-"* В случае потери Вашей столицы, вероятность начала гражданской войны равна "
-"%d%%.\n"
+"* В случае потери Вашей столицы, вероятность начала гражданской войны равна %"
+"d%%.\n"
 
 #: client/helpdata.c:1324
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* The first unhappy citizen in each city due to civilization size will "
 "appear when you have %d cities.\n"
 msgstr ""
-"Первый несчастный житель в каждом городе, в связи с размером цивилизации, "
-"появится, когда у вас будет %d городов."
+"* Первый несчастный житель в каждом городе, в связи с размером цивилизации, "
+"появится, когда у вас будет %d городов.\n"
 
 #: client/helpdata.c:1329
 #, c-format
@@ -8339,6 +8340,8 @@ msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
+"* После первого несчастного жителя в связи с размером цивилизации, на "
+"каждые %d дополнительных городов ещё один житель станет несчастным.\n"
 
 #: client/helpdata.c:1336
 #, c-format
@@ -8438,12 +8441,11 @@ msgstr "* Нет несчастных граждан.\n"
 #: client/helpdata.c:1397 client/helpdata.c:1400
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr ""
+msgstr "* Соединения %s создаются ветеранами.\n"
 
 #: client/helpdata.c:1403
-#, fuzzy, c-format
 msgid "* Veteran units.\n"
-msgstr "* Соединения-ветераны.\n"
+msgstr "* Соединения создаются ветеранами.\n"
 
 #: client/helpdata.c:1407
 #, c-format
@@ -8470,34 +8472,34 @@ msgstr ""
 "* Каждый рабочий квадрат с как минимум 1 %s даст дополнительно %d %s.\n"
 
 #: client/helpdata.c:1423
-#, fuzzy, c-format
+#, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr "* Произвоство %s страдает от растрат.\n"
+msgstr "* Производство %s страдает от массовых растрат.\n"
 
 #: client/helpdata.c:1426
-#, fuzzy, c-format
+#, c-format
 msgid "* %s production will suffer some waste.\n"
-msgstr "* Произвоство %s страдает от растрат.\n"
+msgstr "* Производство %s страдает от растрат.\n"
 
 #: client/helpdata.c:1429
-#, fuzzy, c-format
+#, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
-msgstr "* Произвоство %s страдает от растрат.\n"
+msgstr "* Производство %s страдает от малого количества растрат.\n"
 
 #: client/helpdata.c:1435
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr ""
+msgstr "* Растраты %s быстро растут по мере удаления от столицы.\n"
 
 #: client/helpdata.c:1438
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* Растраты %s растут по мере удаления от столицы.\n"
 
 #: client/helpdata.c:1441
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr ""
+msgstr "* Растраты %s медленно растут по мере удаления от столицы.\n"
 
 #: client/helpdata.c:1452
 #, c-format
@@ -8713,6 +8715,8 @@ msgid ""
 "If this option is set then instead of just the city name and attributes, a "
 "large amount of data will be drawn beneath each city in the 'citybar'."
 msgstr ""
+"Если эта опция становлена, то вместо только имени города и атрибутов будет "
+"выводиться большое количество данных под каждым городом в 'полоске города'."
 
 #: client/options.c:175
 msgid "Show icons in the technology tree"
@@ -9302,12 +9306,12 @@ msgstr[1] "Прогресс: %d хода/открытие"
 msgstr[2] "Прогресс: %d ходов/открытие"
 
 #: client/text.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d ход"
-msgstr[1] "%d хода"
-msgstr[2] "%d ходов"
+msgstr[0] "%d лампочка/ход"
+msgstr[1] "%d лампочки/хода"
+msgstr[2] "%d лампочек/ходов"
 
 #: client/text.c:461
 #, c-format
@@ -9411,7 +9415,7 @@ msgstr "Золото: %d"
 #: client/text.c:608
 #, c-format
 msgid "Net Income: %d"
-msgstr ""
+msgstr "Ожидаемый доход: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:611
@@ -9494,7 +9498,7 @@ msgid "None of these units may be upgraded."
 msgstr "Ни одно из этих соединений не может быть модернизировано."
 
 #: client/text.c:839
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9502,13 +9506,13 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Модернизировать %d соедиение за %d золота?\n"
+"Модернизировать %d соединение за %d золота?\n"
 "В казне %d золота."
 msgstr[1] ""
-"Модернизировать %d соедиения за %d золота?\n"
+"Модернизировать %d соединения за %d золота?\n"
 "В казне %d золота."
 msgstr[2] ""
-"Модернизировать %d соедиений за %d золота?\n"
+"Модернизировать %d соединений за %d золота?\n"
 "В казне %d золота."
 
 #: client/text.c:860
@@ -10703,7 +10707,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1369
 msgid "Not _ready"
-msgstr "_Не готов"
+msgstr "Не _готов"
 
 #: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk-2.0/pages.c:1540
 msgid "_Ready"
@@ -10715,14 +10719,12 @@ msgid "_Start"
 msgstr "_Начать"
 
 #: client/gui-gtk-2.0/gui_main.c:1395 client/gui-gtk-2.0/pages.c:1535
-#, fuzzy
 msgid "_Observe"
-msgstr "Наблюдать"
+msgstr "Н_аблюдать"
 
 #: client/gui-gtk-2.0/gui_main.c:1397
-#, fuzzy
 msgid "_Take player"
-msgstr "Управлять игроком"
+msgstr "_Управлять игроком"
 
 #: client/gui-gtk-2.0/gui_main.c:1419
 msgid "<AI>"
@@ -11439,9 +11441,8 @@ msgid "Explode Nuclear"
 msgstr "Взорвать атомную бомбу"
 
 #: client/gui-gtk-2.0/menu.c:881
-#, fuzzy
 msgid "Select same type"
-msgstr "Выберите город"
+msgstr "Выбрать тот же тип"
 
 #: client/gui-gtk-2.0/menu.c:883 client/gui-win32/menu.c:392
 msgid "_Wait"
@@ -11742,9 +11743,8 @@ msgid "C_onnect to Network Game"
 msgstr "_Подключиться к сетевой игре"
 
 #: client/gui-gtk-2.0/pages.c:236
-#, fuzzy
 msgid "Connect to Gaming _Zone"
-msgstr "Подключиться к сетевой игре"
+msgstr "Подключиться к Gaming _Zone"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:326
@@ -11810,14 +11810,14 @@ msgid "C_onnect"
 msgstr "_Подключиться"
 
 #: client/gui-gtk-2.0/pages.c:1083
-#, fuzzy, c-format
+#, c-format
 msgid "Player name: %s"
-msgstr "?Игрок:Имя"
+msgstr "Имя игрока: %s"
 
 #: client/gui-gtk-2.0/pages.c:1087
-#, fuzzy, c-format
+#, c-format
 msgid "Host: %s"
-msgstr "Хост:"
+msgstr "Хост: %s"
 
 #: client/gui-gtk-2.0/pages.c:1094
 msgid "Player/conn info"
@@ -11826,12 +11826,11 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:1121
 #, fuzzy, c-format
 msgid "%s info"
-msgstr "Информация о городе"
+msgstr "Информация о %s"
 
 #: client/gui-gtk-2.0/pages.c:1131
-#, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <имя-игрока>"
+msgstr "Изменить готовность игрока"
 
 #: client/gui-gtk-2.0/pages.c:1140
 msgid "Pick nation"
@@ -11839,27 +11838,25 @@ msgstr "Выбрать народ"
 
 #: client/gui-gtk-2.0/pages.c:1152
 msgid "Observe this player"
-msgstr ""
+msgstr "Наблюдать за этим игроком"
 
 #: client/gui-gtk-2.0/pages.c:1160
-#, fuzzy
 msgid "Take this player"
-msgstr "Слой города"
+msgstr "Управлять этим игроком"
 
 #: client/gui-gtk-2.0/pages.c:1175
 #, fuzzy
 msgid "Cut connection"
-msgstr "Прерываем подключение %s."
+msgstr "Прервать подключение"
 
 #: client/gui-gtk-2.0/pages.c:1185
 #, fuzzy
 msgid "Aitoggle player"
-msgstr "aitoggle <имя-игрока>"
+msgstr "Сменить статус компьютерного управления"
 
 #: client/gui-gtk-2.0/pages.c:1193
-#, fuzzy
 msgid "Remove player"
-msgstr "Убираем игрока %s."
+msgstr "Удалить игрока"
 
 #: client/gui-gtk-2.0/pages.c:1204
 msgid "Give info access"
@@ -11871,9 +11868,9 @@ msgstr "Дать уровень доступа ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1273
-#, fuzzy, c-format
+#, c-format
 msgid "Put on %s"
-msgstr "Население: %s"
+msgstr "Включить в %s"
 
 #: client/gui-gtk-2.0/pages.c:1377
 msgid "_Number of Players (including AI):"
@@ -11899,7 +11896,7 @@ msgstr "Отчет"
 #: client/gui-gtk-2.0/pages.c:1454
 #, fuzzy
 msgid "Rating"
-msgstr "ожидает"
+msgstr "Рейтинг"
 
 #: client/gui-gtk-2.0/pages.c:1460
 msgid "Ready"
@@ -14472,9 +14469,8 @@ msgid "Connect/Irrigation"
 msgstr "Соединить/Орошение"
 
 #: client/gui-xaw/menu.c:211
-#, fuzzy
 msgid "Select Same Type"
-msgstr "Выберите город"
+msgstr "Выбрать тот же тип"
 
 #: client/gui-xaw/menu.c:233 data/helpdata.txt:381
 msgid "Languages"
@@ -14689,29 +14685,24 @@ msgid "Resources"
 msgstr "Ресурсы"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Move cost"
-msgstr "Стоимость движения: %ld"
+msgstr "Стоимость движения"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Defense bonus"
-msgstr "Защита:"
+msgstr "Бонус защиты"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "Mining"
-msgstr "Мельницы"
+msgstr "Шахты"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "turns"
 msgstr "ходов"
 
 #: manual/civmanual.c:226
-#, fuzzy
 msgid "Rail"
-msgstr "_Железная дорога"
+msgstr "Железная дорога"
 
 #: manual/civmanual.c:227
 #, fuzzy
@@ -14725,7 +14716,7 @@ msgstr "Очистить загрязнение"
 
 #: manual/civmanual.c:259 manual/civmanual.c:268
 msgid "impossible"
-msgstr ""
+msgstr "невозможно"
 
 #: manual/civmanual.c:289
 #, c-format
@@ -14748,12 +14739,12 @@ msgstr ""
 #: manual/civmanual.c:297
 #, fuzzy
 msgid "Requirement"
-msgstr "Требования:"
+msgstr "Требования"
 
 #: manual/civmanual.c:297
 #, fuzzy
 msgid "Obsolete by"
-msgstr "Упраздняется:"
+msgstr "Упраздняется"
 
 #: manual/civmanual.c:297
 msgid "More info"
@@ -15258,7 +15249,6 @@ msgstr ""
 "метасерверу, имена игроков могут быть найдены на метасервере."
 
 #: data/helpdata.txt:433
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -15297,7 +15287,6 @@ msgstr ""
 "Клавиатура:\n"
 "=========\n"
 "  a: авто-колонисты (колонисты/инженеры)\n"
-"  a: авто-атаковать (военные соединения)\n"
 "  b: построить город (колонисты/инженеры)\n"
 "  b: помочь строить чудо (караванные соединения)\n"
 "  C: связать соединение (потом выбрать цель левой кнопкой мыши)\n"
@@ -15307,7 +15296,7 @@ msgstr ""
 "  f: укрепиться (военные соединения)\n"
 "  f: построить крепость (колонисты/инженеры)\n"
 "  g: соединение - идти к... (потом выбрать цель левой кнопкой мыши)\n"
-"  g: добавить маршрут для команды идти к... (когда выбрано идти к...)\n"
+"  g: добавить маршрут для команды идти к... (находясь в режиме идти к...)\n"
 "  h: изменить домашний город (на город в котором находимся)\n"
 "  i: построить орошение/ферму или изменить рельеф (колонисты/инженеры)\n"
 "  l: загрузить соединение на корабль\n"
@@ -16449,15 +16438,14 @@ msgid " Combat example 1"
 msgstr " Сражение, пример 1"
 
 #: data/helpdata.txt:1039
-#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
-"Предположим ветеран-Пушка (А:8, З:1, Зд:20, Ог:1) с 2/3 хода атакует не-"
-"ветерана Мушкетера (А:3, З:3, Зд:20, Ог:1) внутри города со стенами "
-"построенном на лесном квадрате."
+"Предположим, Пушка (А:8, З:1, Зд:20, Ог:1) атакует Мушкетера (А:3, З:3, "
+"Зд:20, Ог:1) внутри города со стенами построенном на лесном квадрате. Ни "
+"одно соединение не является ветераном."
 
 #: data/helpdata.txt:1043
 msgid ""
@@ -18182,6 +18170,47 @@ msgstr ""
 "Это не обычное здание. Устанавливая производство в Монетный двор, Вы "
 "направляете производство щитов на производство налогов (денег, монет)."
 
+#: data/default/nations.ruleset:20
+msgid "?nationgroup:Ancient"
+msgstr "?nationgroup:Древние"
+
+#: data/default/nations.ruleset:23
+msgid "?nationgroup:Medieval"
+msgstr "?nationgroup:Средневековые"
+
+#: data/default/nations.ruleset:26
+msgid "?nationgroup:Modern"
+msgstr "?nationgroup:Современные"
+
+#: data/default/nations.ruleset:29
+msgid "?nationgroup:African"
+msgstr "?nationgroup:Африканские"
+
+#: data/default/nations.ruleset:32
+msgid "?nationgroup:American"
+msgstr "?nationgroup:Американские"
+
+#: data/default/nations.ruleset:35
+msgid "?nationgroup:Asian"
+msgstr "?nationgroup:Азиатские"
+
+#: data/default/nations.ruleset:38
+msgid "?nationgroup:European"
+msgstr "?nationgroup:Европейские"
+
+#: data/default/nations.ruleset:41
+msgid "?nationgroup:Oceanian"
+msgstr "?nationgroup:Океанические"
+
+#: data/default/nations.ruleset:44
+#, fuzzy
+msgid "?nationgroup:Transitional"
+msgstr "?nationgroup:Прошедшие"
+
+#: data/default/nations.ruleset:47
+msgid "?nationgroup:Fictional"
+msgstr "?nationgroup:Выдуманные"
+
 #: data/civ2/buildings.ruleset:248
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
@@ -18588,14 +18617,13 @@ msgstr "Анархия"
 
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
-#, fuzzy
 msgid "Usurper"
-msgstr "сдался"
+msgstr "Узурпатор"
 
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:55
 #: data/civ1/governments.ruleset:57
 msgid "?female:Usurper"
-msgstr ""
+msgstr "?женск:Узурпатор"
 
 #: data/default/governments.ruleset:59 data/civ1/governments.ruleset:59
 msgid ""
@@ -18626,7 +18654,6 @@ msgstr "Диктатор"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
-#, fuzzy
 msgid "Dictatress"
 msgstr "Диктатор"
 
@@ -18652,7 +18679,7 @@ msgstr "Монархия"
 #: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:30
 #: data/nation/burmese.ruleset:28 data/nation/croatian.ruleset:34
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
-#: data/nation/slovakian.ruleset:27 data/nation/spanish.ruleset:30
+#: data/nation/spanish.ruleset:30
 msgid "King"
 msgstr "Король"
 
@@ -18756,7 +18783,7 @@ msgstr "Демократия"
 #: data/nation/quebecois.ruleset:21 data/nation/serbian.ruleset:38
 #: data/nation/serbian.ruleset:39 data/nation/singaporean.ruleset:40
 #: data/nation/slovenian.ruleset:19 data/nation/slovenian.ruleset:20
-#: data/nation/slovakian.ruleset:28
+#: data/nation/slovakian.ruleset:27
 msgid "President"
 msgstr "Президент"
 
@@ -18778,7 +18805,6 @@ msgstr ""
 "коррупции, но жители очень часто теряют спокойствие во время войн."
 
 #: data/civ2/governments.ruleset:57
-#, fuzzy
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -18788,14 +18814,13 @@ msgid ""
 "slightly more unhappiness."
 msgstr ""
 "Анархия это просто отсутствие любого правительства. При этом жители "
-"неорганизованы и не выполняют своей работы, тратя все деньги, не платя "
+"дезорганизованы и не выполняют своей работы, тратя все деньги, не платя "
 "налогов и ничего не исследуя.\n"
 "\n"
-"Коррупция при анархии немного меньше, чем при Деспотизме, но люди немного "
-"более несчастливы."
+"Коррупция и растраты при анархии немного меньше, чем при Деспотизме, но "
+"люди немного более несчастливы."
 
 #: data/civ2/governments.ruleset:79
-#, fuzzy
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law.\n"
@@ -18803,13 +18828,13 @@ msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
 msgstr ""
-"При Деспотизме Вы - абсолютный монарх. Контроль над жителями поддерживается, "
-"в основном, военным положением.\n"
+"При Деспотизме Вы являетесь абсолютным правителем Ваших людей. Контроль над "
+"жителями поддерживается, в основном, военным положением.\n"
 "\n"
-"Уровень коррупции при деспотизме выше, чем при всех прочих формах правления."
+"Уровень коррупции и растрат при деспотизме выше, чем при всех прочих формах "
+"правления."
 
 #: data/civ2/governments.ruleset:101
-#, fuzzy
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government.\n"
@@ -18817,13 +18842,13 @@ msgid ""
 "Monarchy suffers the same small amount of corruption and waste that the "
 "Republic does."
 msgstr ""
-"При Монархии король или королева служит наследственным лидером Вашего "
+"При Монархии король или королева является наследственным лидером Вашего "
 "правительства.\n"
 "\n"
-"При Монархии размах коррупции невелик, такой же, как и при Республике."
+"При Монархии размах коррупции и растрат невелик, такой же, как и при "
+"Республике."
 
 #: data/civ2/governments.ruleset:122
-#, fuzzy
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -18835,13 +18860,11 @@ msgid ""
 msgstr ""
 "Коммунизм основывается на той идее, что все люди равны. Собственником всех "
 "товаров является государство, а не частные граждане. Коммунизм даёт баланс "
-"между военным и коммерческим стилем управления\n"
+"между военным и коммерческим стилем управления.\n"
 "\n"
-"При Коммунизме коррупция не варьируется в зависимости от расстояния до "
-"столицы; все города (включая столицу) имеют скромный уровень коррупции.  "
-"Вдобавок, коммунистические города, находящиеся далее чем в 10 квадратах от "
-"столицы, считаются расположенными на расстоянии в 10 квадратов, когда "
-"вычисляется стоимость восстания (смотрите Соединения, Дипломат)"
+"При Коммунизме коррупция и растраты не варьируются в зависимости от "
+"расстояния до столицы; все города (включая столицу) имеют скромный уровень "
+"коррупции."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:296
 #: data/civ2/techs.ruleset:224 data/civ1/techs.ruleset:222
@@ -18857,7 +18880,6 @@ msgid "High Priestess"
 msgstr "Пepвocвящeнницa"
 
 #: data/civ2/governments.ruleset:146
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -18878,27 +18900,9 @@ msgstr ""
 "В фундаменталистском обществе народ и правители полностью преданы своим "
 "убеждениям и скорее умрут, нежели изменят им.\n"
 "\n"
-"При Фундаментализме Ваши города могут бесплатно поддерживать до 10 военных "
-"соединений.  (Каждая дополнительная единица требует по одному ресурсу. "
-"Соединения-фанатики не требуют поддержки.)\n"
-"\n"
-"Колонисты потребляют две единицы пищи за ход.\n"
-"\n"
-"Если в фундаменталистском городе проходит празднование, то город получает "
-"бонус в 1 единицу торговли на каждый квадрат, который уже производит по "
-"меньшей мере 1 единицу торговли.  Смотрите раздел Счастье.\n"
-"\n"
-"Максимальный уровень налогов, науки или роскоши, который Вы можете "
-"установить, равен 80%.\n"
-"\n"
-"Максимальный эффективный уровень науки равен 50%, излишек идет в сбор "
-"налогов; далее научная продукция уменьшается вдвое.\n"
-"\n"
-"Города при Фундаментализме слабо подвержены коррупции.\n"
-"\n"
 "Здания, изначально делающие несчастных граждан нейтральными, производят "
 "`церковную десятину' (золото) соответственно числу жителей, которых они "
-"могли преобразовать, и не требуют поддержки."
+"могли бы преобразовать, и не требуют поддержки."
 
 #: data/civ2/governments.ruleset:196
 #, fuzzy
@@ -18916,7 +18920,7 @@ msgstr ""
 "При Демократии граждане непосредственно управляют государством прямым "
 "голосованием по вопросам. Демократия даёт высочайший уровень торговли, но "
 "также даёт и наибольшее потенциальное несчастье.  При Демократии нет "
-"коррупции, но жители очень часто теряют спокойствие во время войн."
+"коррупции, но жители очень часто теряют спокойствие во время войн.\n"
 
 #: data/civ1/governments.ruleset:170
 #, fuzzy
@@ -19607,7 +19611,7 @@ msgstr "Меха"
 #: data/civ2/terrain.ruleset:539
 #, fuzzy
 msgid "Petroleum"
-msgstr "Патрулировать"
+msgstr "Нефть"
 
 #: data/civ1/terrain.ruleset:153
 msgid "Arctic"
@@ -20455,7 +20459,7 @@ msgstr ""
 msgid "Emir"
 msgstr "Эмир"
 
-#: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:31
+#: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:26
 msgid "General Secretary"
 msgstr "Генеральный Секретарь"
@@ -20475,7 +20479,7 @@ msgstr "Мулла"
 #: data/nation/newzealand.ruleset:22 data/nation/norwegian.ruleset:28
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:22
 #: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:41
-#: data/nation/slovakian.ruleset:29 data/nation/spanish.ruleset:31
+#: data/nation/slovakian.ruleset:28 data/nation/spanish.ruleset:31
 #: data/nation/swedish.ruleset:33 data/nation/tibetan.ruleset:29
 #: data/nation/welsh.ruleset:27
 msgid "Prime Minister"
@@ -20486,7 +20490,6 @@ msgid "Algerian"
 msgstr "Алжирцы"
 
 #: data/nation/algerian.ruleset:4
-#, fuzzy
 msgid "?plural:Algerians"
 msgstr "?plural:Алжирцы"
 
@@ -20526,13 +20529,12 @@ msgid "?plural:Americans"
 msgstr "Американцы"
 
 #: data/nation/american.ruleset:6
-#, fuzzy
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
 msgstr ""
-"Соединенные Штаты Америки. Получили независимость от Великобритании в "
-"результате революции 1776-1783 годов."
+"Официально именуются Соединенные Штаты Америки. Получили независимость от "
+"Великобритании в результате революции 1776-1783 годов."
 
 #: data/nation/american.ruleset:56 data/nation/scottish.ruleset:25
 msgid "Speaker"
@@ -20545,7 +20547,7 @@ msgstr "Преподобный"
 #: data/nation/antarctican.ruleset:3
 #, fuzzy
 msgid "Antarctican"
-msgstr "Ледник"
+msgstr "Анктарты"
 
 #: data/nation/antarctican.ruleset:4
 #, fuzzy
@@ -20558,7 +20560,7 @@ msgstr "Выдуманные"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "Независимый Южный полюс, страна пингвинов."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -20566,7 +20568,7 @@ msgstr "Арабы"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr "Арабы"
+msgstr "?plural:Арабы"
 
 #: data/nation/arab.ruleset:5 data/nation/aztec.ruleset:5
 #: data/nation/bavarian.ruleset:5 data/nation/bengali.ruleset:5
@@ -20608,14 +20610,12 @@ msgid "Caliph"
 msgstr "Калиф"
 
 #: data/nation/aramean.ruleset:3
-#, fuzzy
 msgid "Aramean"
 msgstr "Арамейцы"
 
 #: data/nation/aramean.ruleset:4
-#, fuzzy
 msgid "?plural:Arameans"
-msgstr "?plural:Арамейские"
+msgstr "?plural:Арамейцы"
 
 #: data/nation/aramean.ruleset:5 data/nation/armenian.ruleset:5
 #: data/nation/assyrian.ruleset:5 data/nation/babylonian.ruleset:5
@@ -20635,16 +20635,15 @@ msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
 msgstr ""
+"Согласно легенде, арамейцы являются потомками Арама, внука Ноя."
 
 #: data/nation/armenian.ruleset:3
-#, fuzzy
 msgid "Armenian"
 msgstr "Армяне"
 
 #: data/nation/armenian.ruleset:4
-#, fuzzy
 msgid "?plural:Armenians"
-msgstr "Американцы"
+msgstr "?plural:Армяне"
 
 #: data/nation/armenian.ruleset:5 data/nation/austrian.ruleset:5
 #: data/nation/bavarian.ruleset:5 data/nation/belgian.ruleset:5
@@ -20813,6 +20812,7 @@ msgid ""
 "Since the dawn of civilization, barbarians have been a threat to cultured "
 "peoples everywhere."
 msgstr ""
+"На заре цивилизации варвары были повсеместной угрозой для культурных людей."
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -20851,12 +20851,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr ""
+msgstr "Бенгальцы"
 
 #: data/nation/bengali.ruleset:4
-#, fuzzy
 msgid "?plural:Bengalis"
-msgstr "Англичане"
+msgstr "?plural:Бенгальцы"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -20869,12 +20868,12 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:26
 msgid "Nabob"
-msgstr ""
+msgstr "Набоб"
 
 #: data/nation/bengali.ruleset:27
 #, fuzzy
 msgid "Major"
-msgstr "Марсиане"
+msgstr "Мэр,Майор"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -20910,9 +20909,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/bosnia.ruleset:29
-#, fuzzy
 msgid "Ban"
-msgstr "Банк"
+msgstr "Ван"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -20957,14 +20955,12 @@ msgid "Director-President"
 msgstr "Директор-Президент"
 
 #: data/nation/british.ruleset:3
-#, fuzzy
 msgid "British"
 msgstr "Британцы"
 
 #: data/nation/british.ruleset:4
-#, fuzzy
 msgid "?plural:Britons"
-msgstr "Баварцы"
+msgstr "?plural:Британцы"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -21015,12 +21011,11 @@ msgstr "Святая мать"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr ""
+msgstr "Бирманцы"
 
 #: data/nation/burmese.ruleset:4
-#, fuzzy
 msgid "?plural:Burmese"
-msgstr "Турки"
+msgstr "?plural:Бирманцы"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -21048,7 +21043,7 @@ msgstr "Византийцы"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
-msgstr "Византийцы"
+msgstr "?plural:Византийцы"
 
 #: data/nation/byzantium.ruleset:6
 #, fuzzy
@@ -21077,7 +21072,7 @@ msgstr "Канадцы"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr "Канадцы"
+msgstr "?plural:Канадцы"
 
 #: data/nation/canadian.ruleset:7
 msgid ""
@@ -21091,7 +21086,7 @@ msgstr "Карфагеняне"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr "Карфагеняне"
+msgstr "?plural:Карфагеняне"
 
 #: data/nation/carthaginian.ruleset:8
 msgid ""
@@ -21109,7 +21104,7 @@ msgstr "Каталонцы"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr "Каталонцы"
+msgstr "?plural:Каталонцы"
 
 #: data/nation/catalan.ruleset:6
 msgid ""
@@ -21157,7 +21152,7 @@ msgstr "Чилийцы"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr "Чилийцы"
+msgstr "?plural:Чилийцы"
 
 #: data/nation/chilean.ruleset:6
 msgid "Chile is located on the south-western coast of South America."
@@ -21182,10 +21177,9 @@ msgstr "Китайцы"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr "Китайцы"
+msgstr "?plural:Китайцы"
 
 #: data/nation/chinese.ruleset:6
-#, fuzzy
 msgid ""
 "China is the oldest major civilization that is still in existence today, "
 "with written records dating back over 3,500 years.  After first being "
@@ -21197,13 +21191,13 @@ msgid ""
 msgstr ""
 "Китай - древнейшая крупная цивилизация в мире, существует по сей день, чьи "
 "записи имеют давность более 3500 лет. Китай был в первый раз объединен "
-"династией Цинь в 221 г. до н.э. С тех пор, Китай пережил многочисленные "
+"династией Цинь в 221 г. до н.э. С тех пор Китай пережил многочисленные "
 "периоды раздробленности и объединения, и бывал многократно покорен "
-"разнообразными захватчиками из-за его пределов. Сегодня на большей части "
-"территории Китая находится Китайская Народная Республика (КНР), основанная "
-"коммунистами в 1949 году. На острове Тайвань находится националистическая "
-"Китайская Республика, куда ее лидеры бежали после поражения в гражданской "
-"войне."
+"разнообразными захватчиками из-за его пределов. Сегодня на материковой "
+"части территории Китая находится Китайская Народная Республика (КНР), "
+"основанная коммунистами в 1949 году, в то время как на острове Тайвань "
+"находится националистическая Китайская Республика, куда ее лидеры бежали "
+"после поражения в гражданской войне."
 
 #: data/nation/chinese.ruleset:31 data/nation/japanese.ruleset:37
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
@@ -21215,14 +21209,12 @@ msgid "Dowager"
 msgstr "Вдова"
 
 #: data/nation/colombian.ruleset:3
-#, fuzzy
 msgid "Colombian"
 msgstr "Колумбийцы"
 
 #: data/nation/colombian.ruleset:4
-#, fuzzy
 msgid "?plural:Colombians"
-msgstr "Колумбийцы"
+msgstr "?plural:Колумбийцы"
 
 #: data/nation/colombian.ruleset:6
 msgid ""
@@ -21233,9 +21225,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:23
-#, fuzzy
 msgid "General"
-msgstr "Внутренние"
+msgstr "Генерал"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:32
 msgid "Governador"
@@ -21246,14 +21237,12 @@ msgid "Governadora"
 msgstr "Губернаторша"
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Праздновать"
+msgstr "Конфедераты"
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "Буры"
+msgstr "?plural:Конфедераты"
 
 #: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
 #, fuzzy
@@ -21310,14 +21299,12 @@ msgstr ""
 "части ХХ века, Хорватия была частью Югославии."
 
 #: data/nation/cuban.ruleset:3
-#, fuzzy
 msgid "Cuban"
-msgstr "Колумбийцы"
+msgstr "Кубинцы"
 
 #: data/nation/cuban.ruleset:4
-#, fuzzy
 msgid "?plural:Cubans"
-msgstr "Колумбийцы"
+msgstr "?plural:Кубинцы"
 
 #: data/nation/cuban.ruleset:6
 msgid ""
@@ -21394,15 +21381,14 @@ msgid "?plural:Egyptians"
 msgstr "Египтяне"
 
 #: data/nation/egyptian.ruleset:6
-#, fuzzy
 msgid ""
 "Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
-"Египет был второй из стрейших цивилизаций мира. С древности он имел высокий "
+"Египет был второй из старейших цивилизаций мира. С древности он имел высокий "
 "процент городского населения и поддерживал большое население на территории, "
-"нанесенной илом, принесенным ежегодными разливами Нила."
+"нанесённой илом, принесенным ежегодными разливами Нила."
 
 #: data/nation/egyptian.ruleset:26
 msgid "Pharaoh"
@@ -21418,7 +21404,7 @@ msgstr "Англичане"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr "Англичане"
+msgstr "?plural:Англичане"
 
 #: data/nation/english.ruleset:6
 msgid ""
@@ -21447,7 +21433,6 @@ msgid "?plural:Estonians"
 msgstr "Эстонцы"
 
 #: data/nation/estonian.ruleset:6
-#, fuzzy
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
@@ -21461,7 +21446,7 @@ msgstr "Эфиопы"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
-msgstr "Эфиопы"
+msgstr "?plural:Эфиопы"
 
 #: data/nation/ethiopian.ruleset:6
 msgid ""
@@ -21479,7 +21464,7 @@ msgstr "Филиппинцы"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr "Филиппинцы"
+msgstr "?plural:Филиппинцы"
 
 #: data/nation/filipino.ruleset:7
 msgid ""
@@ -21495,7 +21480,7 @@ msgstr "Финны"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr "Финны"
+msgstr "?plural:Финны"
 
 #: data/nation/finnish.ruleset:6
 msgid ""
@@ -21512,7 +21497,7 @@ msgstr "Французы"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr "Французы"
+msgstr "?plural:Французы"
 
 #: data/nation/french.ruleset:6
 msgid ""
@@ -21531,7 +21516,7 @@ msgstr "Галисийцы"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr "Галисийцы"
+msgstr "?plural:Галисийцы"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -21568,14 +21553,12 @@ msgid "Grande Bardesa"
 msgstr "Великий бард"
 
 #: data/nation/gallic.ruleset:3
-#, fuzzy
 msgid "Gallic"
-msgstr "Галисийцы"
+msgstr "Галлы"
 
 #: data/nation/gallic.ruleset:4
-#, fuzzy
 msgid "?plural:Gauls"
-msgstr "Зулусы"
+msgstr "?plural:Галлы"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -21583,25 +21566,24 @@ msgid ""
 msgstr ""
 
 #: data/nation/gallic.ruleset:23
-#, fuzzy
 msgid "Druid"
-msgstr "Фрукты"
+msgstr "Друид"
 
 #: data/nation/georgian.ruleset:3
-#, fuzzy
 msgid "Georgian"
-msgstr "Немцы"
+msgstr "Грузины"
 
 #: data/nation/georgian.ruleset:4
-#, fuzzy
 msgid "?plural:Georgians"
-msgstr "Немцы"
+msgstr "?plural:Грузины"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s AD."
 msgstr ""
+"Грузины были одной из первых наций в истории, принавших христианство "
+"(в 300-х годах н.э.)"
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -21644,9 +21626,8 @@ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "Древние греки, между Микенами и римским завоеванием."
 
 #: data/nation/greek.ruleset:19
-#, fuzzy
 msgid "Despot"
-msgstr "Деспотизм"
+msgstr "Деспот"
 
 #: data/nation/hellenic.ruleset:3
 #, fuzzy
@@ -21692,7 +21673,7 @@ msgstr "Венгры"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
-msgstr ""
+msgstr "Легенда гласит, что Венгрия была основана Арпадом в 9-м веке."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -21710,14 +21691,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/illyrian.ruleset:3
-#, fuzzy
 msgid "Illyrian"
-msgstr "Итальянцы"
+msgstr "Иллирийцы"
 
 #: data/nation/illyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Illyrians"
-msgstr "Итальянцы"
+msgstr "?plural:Иллирийцы"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -21754,7 +21733,7 @@ msgstr ""
 #: data/nation/inca.ruleset:22
 #, fuzzy
 msgid "?title:Inca"
-msgstr "?attitude:Геноцид"
+msgstr "?title:Инка"
 
 #: data/nation/inca.ruleset:23
 #, fuzzy
@@ -21776,18 +21755,16 @@ msgid ""
 msgstr ""
 
 #: data/nation/indian.ruleset:19
-#, fuzzy
 msgid "Raja"
-msgstr "Королева"
+msgstr "Раджа"
 
 #: data/nation/indian.ruleset:20
 msgid "Maharaja"
 msgstr "Магараджа"
 
 #: data/nation/indian.ruleset:21
-#, fuzzy
 msgid "Mahatma"
-msgstr "Магараджа"
+msgstr "Махатма"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -21795,7 +21772,7 @@ msgstr "Индонезийцы"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
-msgstr "Индонезийцы"
+msgstr "?plural:Индонезийцы"
 
 #: data/nation/indonesian.ruleset:6
 msgid ""
@@ -21805,14 +21782,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/inuit.ruleset:3
-#, fuzzy
 msgid "Inuit"
-msgstr "Выйти"
+msgstr "Инуиты"
 
 #: data/nation/inuit.ruleset:4
-#, fuzzy
 msgid "?plural:Inuits"
-msgstr "Индийцы"
+msgstr "?plural:Инуиты"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -21823,24 +21798,20 @@ msgid ""
 msgstr ""
 
 #: data/nation/inuit.ruleset:23
-#, fuzzy
 msgid "Shaman"
-msgstr "Председатель"
+msgstr "Шаман"
 
 #: data/nation/inuit.ruleset:24
-#, fuzzy
 msgid "Great Shaman"
-msgstr "Великий хан"
+msgstr "Верховный шаман"
 
 #: data/nation/iraqi.ruleset:3
-#, fuzzy
 msgid "Iraqi"
-msgstr "Израильтяне"
+msgstr "Иракцы"
 
 #: data/nation/iraqi.ruleset:4
-#, fuzzy
 msgid "?plural:Iraqis"
-msgstr "Ирландцы"
+msgstr "?plural:Иракцы"
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
@@ -21889,14 +21860,12 @@ msgid "Taoiseach"
 msgstr "Премьер-министр"
 
 #: data/nation/iroquois.ruleset:3
-#, fuzzy
 msgid "Iroquois"
 msgstr "Ирокезы"
 
 #: data/nation/iroquois.ruleset:4
-#, fuzzy
 msgid "?plural:Iroquois"
-msgstr "Ирландцы"
+msgstr "?plural:Ирокезы"
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -21935,7 +21904,7 @@ msgstr "Израильтяне"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr "Израильтяне"
+msgstr "?plural:Израильтяне"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
@@ -21953,7 +21922,7 @@ msgstr "Итальянцы"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr "Итальянцы"
+msgstr "?plural:Итальянцы"
 
 #: data/nation/italian.ruleset:6
 msgid ""
@@ -21973,7 +21942,7 @@ msgstr "Японцы"
 
 #: data/nation/japanese.ruleset:21
 msgid "?plural:Japanese"
-msgstr "Японцы"
+msgstr "?plural:Японцы"
 
 #: data/nation/japanese.ruleset:23
 msgid ""
@@ -21992,11 +21961,11 @@ msgstr "Сегун"
 
 #: data/nation/kampuchean.ruleset:3
 msgid "Kampuchean"
-msgstr "Кампучиане"
+msgstr "Кампучийцы"
 
 #: data/nation/kampuchean.ruleset:4
 msgid "?plural:Kampucheans"
-msgstr "Кампучиане"
+msgstr "?plural:Кампучийцы"
 
 #: data/nation/kampuchean.ruleset:6
 msgid ""
@@ -22022,7 +21991,7 @@ msgstr "Кенийцы"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr "Кенийцы"
+msgstr "?plural:Кенийцы"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -22034,7 +22003,7 @@ msgstr "Корейцы"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr "Корейцы"
+msgstr "?plural:Корейцы"
 
 #: data/nation/korean.ruleset:6
 msgid ""
@@ -22048,7 +22017,7 @@ msgstr ""
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
 #, fuzzy
 msgid "Great Leader"
-msgstr "Великое чудо"
+msgstr "Великий лидер"
 
 #: data/nation/lankese.ruleset:3
 #, fuzzy
@@ -22103,14 +22072,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/libyan.ruleset:3
-#, fuzzy
 msgid "Libyan"
-msgstr "Распустить"
+msgstr "Ливийцы"
 
 #: data/nation/libyan.ruleset:4
-#, fuzzy
 msgid "?plural:Libyans"
-msgstr "Латыши"
+msgstr "?plural:Ливийцы"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -22122,12 +22089,11 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
-msgstr ""
+msgstr "Дей"
 
 #: data/nation/libyan.ruleset:25
-#, fuzzy
 msgid "Colonel"
-msgstr "Закрыть"
+msgstr "Полковник"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -22157,14 +22123,12 @@ msgid "Great Duchess"
 msgstr "Великая княгиня"
 
 #: data/nation/malagasy.ruleset:3
-#, fuzzy
 msgid "Malagasy"
-msgstr "Королева"
+msgstr "Малагасийцы"
 
 #: data/nation/malagasy.ruleset:4
-#, fuzzy
 msgid "?plural:Malagasies"
-msgstr "Малайцы"
+msgstr "?plural:Малагасийцы"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -22206,14 +22170,12 @@ msgid "Tun"
 msgstr "Ходы"
 
 #: data/nation/malian.ruleset:3
-#, fuzzy
 msgid "Malian"
-msgstr "Малайцы"
+msgstr "Малийцы"
 
 #: data/nation/malian.ruleset:4
-#, fuzzy
 msgid "?plural:Malians"
-msgstr "Малайцы"
+msgstr "?plural:Малийцы"
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -22231,14 +22193,12 @@ msgid "Mansa"
 msgstr "Морская пехота"
 
 #: data/nation/manchu.ruleset:3
-#, fuzzy
 msgid "Manchu"
-msgstr "Март"
+msgstr "Манчжуры"
 
 #: data/nation/manchu.ruleset:4
-#, fuzzy
 msgid "?plural:Manchus"
-msgstr "Инки"
+msgstr "?plural:Манчжуры"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -22248,12 +22208,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/maori.ruleset:3
-#, fuzzy
 msgid "Maori"
 msgstr "Маори"
 
 #: data/nation/maori.ruleset:4
-#, fuzzy
 msgid "?plural:Maori"
 msgstr "?plural:Маори"
 
@@ -22270,19 +22228,17 @@ msgstr "Марсиане"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
-msgstr "Марсиане"
+msgstr "?plural:Марсиане"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr ""
+msgstr "Марсиане высадились на Земле в 4000 году до н.э!"
 
 #: data/nation/mayan.ruleset:3
-#, fuzzy
 msgid "Mayan"
 msgstr "Майя"
 
 #: data/nation/mayan.ruleset:4
-#, fuzzy
 msgid "?plural:Mayas"
 msgstr "?plural:Майя"
 
@@ -22302,7 +22258,7 @@ msgstr "Мексиканцы"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
-msgstr "Мексиканцы"
+msgstr "?plural:Мексиканцы"
 
 #: data/nation/mexican.ruleset:6
 msgid ""
@@ -22315,7 +22271,7 @@ msgstr "Монголы"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr "Монголы"
+msgstr "?plural:Монголы"
 
 #: data/nation/mongol.ruleset:6
 msgid ""
@@ -22357,7 +22313,7 @@ msgstr "Нигерийцы"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
-msgstr "Нигерийцы"
+msgstr "?plural:Нигерийцы"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
@@ -22368,9 +22324,8 @@ msgid "Norwegian"
 msgstr "Норвежцы"
 
 #: data/nation/norwegian.ruleset:4
-#, fuzzy
 msgid "?plural:Norwegians"
-msgstr "Корейцы"
+msgstr "?plural:Норвежцы"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -22380,14 +22335,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/ottoman.ruleset:3
-#, fuzzy
 msgid "Ottoman"
-msgstr "Римляне"
+msgstr "Османы"
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "Римляне"
+msgstr "?plural:Османы"
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -22410,9 +22363,8 @@ msgid "Hakan"
 msgstr "Майя"
 
 #: data/nation/ottoman.ruleset:28
-#, fuzzy
 msgid "Padisah"
-msgstr "Партизаны"
+msgstr "Падишах"
 
 #: data/nation/ottoman.ruleset:29
 #, fuzzy
@@ -22434,9 +22386,8 @@ msgid "The Papuans are a Melanesian people on the island of New Guinea."
 msgstr ""
 
 #: data/nation/papuan.ruleset:19
-#, fuzzy
 msgid "Governor-General"
-msgstr "Губернаторша"
+msgstr "Генерал-губернатор"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -22486,7 +22437,6 @@ msgid "Polish"
 msgstr "Поляки"
 
 #: data/nation/polish.ruleset:4
-#, fuzzy
 msgid "?plural:Poles"
 msgstr "?plural:Поляки"
 
@@ -22670,14 +22620,12 @@ msgid "Jo-o"
 msgstr ""
 
 #: data/nation/sami.ruleset:3
-#, fuzzy
 msgid "Sami"
-msgstr "Парусник"
+msgstr "Саами"
 
 #: data/nation/sami.ruleset:4
-#, fuzzy
 msgid "?plural:Sami"
-msgstr "Тайцы"
+msgstr "?plural:Саами"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -22818,15 +22766,11 @@ msgstr ""
 "Словакия - это страна в сердце Европы. В прошлом часть Чехословакии, до 1918 "
 "года была частью Австро-Венгрской империи. "
 
-#: data/nation/slovakian.ruleset:27
-msgid "Qween"
-msgstr "Королева"
-
-#: data/nation/slovakian.ruleset:30
+#: data/nation/slovakian.ruleset:29
 msgid "Pope"
 msgstr "Папа"
 
-#: data/nation/slovakian.ruleset:30
+#: data/nation/slovakian.ruleset:29
 msgid "Priestess"
 msgstr "Жрица"
 
@@ -22835,7 +22779,6 @@ msgid "South African"
 msgstr "Южноафриканцы"
 
 #: data/nation/southafrican.ruleset:4
-#, fuzzy
 msgid "?plural:South Africans"
 msgstr "?plural:Южноафриканцы"
 
@@ -22905,7 +22848,7 @@ msgstr "Кардинал"
 #: data/nation/sudanese.ruleset:3
 #, fuzzy
 msgid "Sudanese"
-msgstr "Набор звуков"
+msgstr "Суданцы"
 
 #: data/nation/sudanese.ruleset:4
 #, fuzzy
@@ -22938,14 +22881,12 @@ msgid "Ensi"
 msgstr "Энси"
 
 #: data/nation/swazi.ruleset:3
-#, fuzzy
 msgid "Swazi"
-msgstr "Парусник"
+msgstr "Свази"
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
-msgstr "Швейцарцы"
+msgstr "?plural:Свази"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -22968,7 +22909,7 @@ msgstr "Шведы"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "Шведы"
+msgstr "?plural:Шведы"
 
 #: data/nation/swedish.ruleset:6
 msgid ""
@@ -22996,9 +22937,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/swiss.ruleset:24
-#, fuzzy
 msgid "Bailiff"
-msgstr "Бразильцы"
+msgstr "Бейлиф"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
@@ -23020,12 +22960,11 @@ msgstr "Жрица"
 
 #: data/nation/swiss.ruleset:27 data/nation/swiss.ruleset:28
 msgid "President of the Confederation"
-msgstr ""
+msgstr "Президент конфедерации"
 
 #: data/nation/swiss.ruleset:29
-#, fuzzy
 msgid "Federal Chancellor"
-msgstr "Канцлер"
+msgstr "Федеральный канцлер"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -23033,7 +22972,7 @@ msgstr "Тайванцы"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
-msgstr "Тайванцы"
+msgstr "?plural:Тайванцы"
 
 #: data/nation/taiwanese.ruleset:6
 msgid ""
@@ -23098,23 +23037,20 @@ msgid ""
 msgstr ""
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy
 msgid "Lama"
-msgstr "Королева"
+msgstr "Лама"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
-msgstr ""
+msgstr "Далай Лама"
 
 #: data/nation/tunisian.ruleset:3
-#, fuzzy
 msgid "Tunisian"
-msgstr "Русские"
+msgstr "Тунисцы"
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "Русские"
+msgstr "?plural:Тунисцы"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -23134,10 +23070,9 @@ msgstr "Турки"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr "Турки"
+msgstr "?plural:Турки"
 
 #: data/nation/turk.ruleset:6
-#, fuzzy
 msgid ""
 "Modern Turkey is the successor state of the Ottoman Empire, which collapsed "
 "and was dismembered by the victors in World War I after backing the Central "
@@ -23174,7 +23109,6 @@ msgid "Uyghur"
 msgstr "Уйгуры"
 
 #: data/nation/uyghur.ruleset:4
-#, fuzzy
 msgid "?plural:Uyghurs"
 msgstr "?plural:Уйгуры"
 
@@ -23193,9 +23127,8 @@ msgid "Venezuela"
 msgstr "Венесуэльцы"
 
 #: data/nation/venezuelan.ruleset:5
-#, fuzzy
 msgid "?plural:Venezuelans"
-msgstr "Венесуэльцы"
+msgstr "?plural:Венесуэльцы"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -23263,14 +23196,12 @@ msgstr ""
 "изгнаны в гористую западаную часть вторгшимися саксами."
 
 #: data/nation/westphalian.ruleset:3
-#, fuzzy
 msgid "Westphalian"
-msgstr "Итальянцы"
+msgstr "Вестфальцы"
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "Итальянцы"
+msgstr "?plural:Вестфальцы"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -23299,7 +23230,7 @@ msgstr ""
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr ""
+msgstr "Британские острова (средняя/классическая)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
@@ -23307,7 +23238,7 @@ msgstr ""
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
-msgstr ""
+msgstr "Земля (классическая, большая)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
@@ -23315,7 +23246,7 @@ msgstr ""
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
-msgstr ""
+msgstr "Земля (классическая, малая)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
@@ -23323,7 +23254,7 @@ msgstr ""
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
-msgstr ""
+msgstr "Земля (классическая, средняя)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
@@ -23340,14 +23271,15 @@ msgid ""
 msgstr ""
 
 #: data/scenario/tutorial.sav:3
-#, fuzzy
 msgid "Tutorial"
-msgstr "Индустриальный"
+msgstr "Обучение"
 
 #: data/scenario/tutorial.sav:4
-#, fuzzy
 msgid "Tutorial Scenario."
-msgstr "Выберите сценарий"
+msgstr "Обучающий сценарий."
+
+#~ msgid "Qween"
+#~ msgstr "Королева"
 
 #~ msgid ""
 #~ "Only the console and connections with cmdlevel 'hack' can force other "
