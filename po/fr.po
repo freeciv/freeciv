@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-05 20:45-0500\n"
-"PO-Revision-Date: 2006-03-19 14:27+0100\n"
+"PO-Revision-Date: 2006-03-25 11:21+0100\n"
 "Last-Translator: Frederic Rodrigo <f.rodrigo free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "MIME-Version: 1.0\n"
@@ -698,6 +698,8 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
+"*%s (IA)* Salutations %s ! Pouvons nous suggérer un cessez-le-feu tant que "
+"nous ne nous connaissont pas d'avantage ?"
 
 #: ai/advdiplomacy.c:1076
 #, c-format
@@ -802,7 +804,6 @@ msgstr ""
 "notre action !"
 
 #: ai/advdiplomacy.c:1219
-#, fuzzy
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turn."
@@ -810,11 +811,11 @@ msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
 msgstr[0] ""
-"*%s (IA)* %s. Mettons en débâcle cette pathétique civilisation. Nous "
-"déclarons la guerre dans %d tour."
+"*%s (IA)* %s. Nous allons nous faire les %s. Allons mettre en débâcle cette "
+"pathétique civilisation. Nous déclarons la guerre dans %d tour."
 msgstr[1] ""
-"*%s (IA)* %s. Mettons en débâcle cette pathétique civilisation. Nous "
-"déclarons la guerre dans %d tours."
+"*%s (IA)* %s. Nous allons nous faire les %s. Allons mettre en débâcle cette "
+"pathétique civilisation. Nous déclarons la guerre dans %d tours."
 
 #: ai/advdiplomacy.c:1227
 #, c-format
@@ -5029,7 +5030,7 @@ msgstr "Partie finissant par une égalité"
 msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
 "s."
-msgstr ""
+msgstr "Votre %s %s a été congédié confomément au traité de paix avec les %s."
 
 #: server/srv_main.c:482
 #, c-format
@@ -8397,6 +8398,8 @@ msgid ""
 "* After the first unhappy citizen due to city size, for each %d additional "
 "cities, another unhappy citizen will appear.\n"
 msgstr ""
+"* Après le premier citoyen mécontent dû à la taille de la ville, pour chaque "
+"%d villes supplémentaires, un autre citoyen mécontent apparaîtra.\n"
 
 #: client/helpdata.c:1341
 #, c-format
@@ -8432,6 +8435,8 @@ msgstr ""
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr ""
+"* Un maximum de %d unitées par ville peuvent faire appliquer la loi "
+"martiale.\n"
 
 #: client/helpdata.c:1366
 #, c-format
@@ -8464,7 +8469,7 @@ msgstr ""
 #: client/helpdata.c:1383
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Avoir un sénat peut empêcher de déclarer la guère.\n"
 
 #: client/helpdata.c:1387
 #, c-format
@@ -8494,12 +8499,12 @@ msgstr "* N'a pas de citoyen mécontent.\n"
 #: client/helpdata.c:1402 client/helpdata.c:1405
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr ""
+msgstr "* %s unités vétérantes.\n"
 
 #: client/helpdata.c:1408
 #, c-format
 msgid "* Veteran units.\n"
-msgstr ""
+msgstr "* Unité vétérante.\n"
 
 #: client/helpdata.c:1412
 #, c-format
@@ -8544,16 +8549,18 @@ msgstr "* La production de %s sera un petit peu sujette au gaspillage.\n"
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr ""
+"* Le gaspillage de %s augmentera rapidement avec la distance à la capitale.\n"
 
 #: client/helpdata.c:1443
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* Le gaspillage de %s augmentera avec la distance à la capitale.\n"
 
 #: client/helpdata.c:1446
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr ""
+"* Le gaspillage de %s augmentera peu suivant la distance à la capitale.\n"
 
 #: client/helpdata.c:1457
 #, c-format
@@ -9533,17 +9540,17 @@ msgstr "Pas d'unité sélectionné."
 #: client/text.c:773
 #, c-format
 msgid "Others: %d civil; %d military"
-msgstr ""
+msgstr "Autres : %d civil ; %d militaire"
 
 #: client/text.c:775
 #, c-format
 msgid "Others: %d civilian"
-msgstr ""
+msgstr "Autres : %d civil"
 
 #: client/text.c:777
 #, c-format
 msgid "Others: %d military"
-msgstr ""
+msgstr "Autres : %d militaire"
 
 #: client/text.c:808
 msgid "No units to upgrade!"
@@ -11486,7 +11493,7 @@ msgstr "Explosion Nucléaire"
 
 #: client/gui-gtk-2.0/menu.c:900
 msgid "Select same type"
-msgstr ""
+msgstr "Sélection même type"
 
 #: client/gui-gtk-2.0/menu.c:902 client/gui-win32/menu.c:392
 msgid "_Wait"
@@ -11555,7 +11562,7 @@ msgstr "_Éditeur"
 
 #: client/gui-gtk-2.0/menu.c:937
 msgid "Editing Mode"
-msgstr ""
+msgstr "Mode éditeur"
 
 #: client/gui-gtk-2.0/menu.c:939
 msgid "_Tools"
@@ -11870,7 +11877,7 @@ msgstr "C_onnexion"
 #: client/gui-gtk-2.0/pages.c:1068
 #, c-format
 msgid "Player name: %s"
-msgstr ""
+msgstr "Nom du jouer : %s"
 
 #: client/gui-gtk-2.0/pages.c:1072
 #, c-format
@@ -11879,7 +11886,7 @@ msgstr "Hôte : %s"
 
 #: client/gui-gtk-2.0/pages.c:1079
 msgid "Player/conn info"
-msgstr ""
+msgstr "Info jouer/connect"
 
 #: client/gui-gtk-2.0/pages.c:1106
 #, c-format
@@ -11888,7 +11895,7 @@ msgstr "%s info"
 
 #: client/gui-gtk-2.0/pages.c:1116
 msgid "Toggle player ready"
-msgstr ""
+msgstr "Permuter jouer prêt"
 
 #: client/gui-gtk-2.0/pages.c:1125
 msgid "Pick nation"
@@ -11896,7 +11903,7 @@ msgstr "Prendre un nation"
 
 #: client/gui-gtk-2.0/pages.c:1137
 msgid "Observe this player"
-msgstr ""
+msgstr "Observer ce jouer"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1169
@@ -11922,11 +11929,11 @@ msgstr "Plus d'_options..."
 
 #: client/gui-gtk-2.0/pages.c:1345
 msgid "Record"
-msgstr ""
+msgstr "Enregistré"
 
 #: client/gui-gtk-2.0/pages.c:1350
 msgid "Rating"
-msgstr ""
+msgstr "Classement"
 
 #: client/gui-gtk-2.0/pages.c:1356
 msgid "Ready"
@@ -14507,7 +14514,7 @@ msgstr "Connecter/Irrigation"
 
 #: client/gui-xaw/menu.c:211
 msgid "Select Same Type"
-msgstr ""
+msgstr "Sélection même type"
 
 #: client/gui-xaw/menu.c:233 data/helpdata.txt:381
 msgid "Languages"
@@ -14734,7 +14741,7 @@ msgstr "Bonus de défense"
 
 #: manual/civmanual.c:224
 msgid "Mining"
-msgstr ""
+msgstr "Mines"
 
 #: manual/civmanual.c:224
 msgid "turns"
@@ -18823,12 +18830,12 @@ msgstr "Anarchie"
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
 msgid "Usurper"
-msgstr ""
+msgstr "Usurpateur"
 
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:55
 #: data/civ1/governments.ruleset:57
 msgid "?female:Usurper"
-msgstr ""
+msgstr "?female:Usurpatrice"
 
 #: data/default/governments.ruleset:59 data/civ1/governments.ruleset:59
 msgid ""
@@ -18925,7 +18932,7 @@ msgstr "Camarade"
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:120
 #: data/civ1/governments.ruleset:122
 msgid "?female:Comrade"
-msgstr ""
+msgstr "?female:Camarade"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
 msgid ""
@@ -18958,7 +18965,7 @@ msgstr "Consul"
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:146
 msgid "?female:Consul"
-msgstr ""
+msgstr "?female:Consul"
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:174
 #: data/civ1/governments.ruleset:148
@@ -19000,7 +19007,7 @@ msgstr "Président"
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
 msgid "?female:President"
-msgstr ""
+msgstr "?female:President"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -19118,7 +19125,6 @@ msgstr ""
 "rendent heureux, et ne nécessitent aucun entretien."
 
 #: data/civ2/governments.ruleset:196
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -19133,11 +19139,17 @@ msgstr ""
 "Sous une Démocratie, le peuple gouverne directement en s'exprimant sur les "
 "grandes questions par le vote. La Démocratie offre le plus haut niveau de "
 "commerce, mais présente aussi les plus grandes probabilités de "
-"mécontentement. Il n'y a pas de corruption sous une Démocratie, mais les "
-"citoyens deviennent très insatisfaits pendant les guerres."
+"mécontentement. Il n'y a pas de gaspillage ou de corruption sous une "
+"Démocratie, mais les citoyens deviennent très insatisfaits pendant les "
+"guerres.\n"
+"\n"
+"Parce que les citoyens (heureux) des démocraties croient fortement en leur "
+"gouvernement, leur loyauté est sans limite. Les unités militaires des "
+"civilisations démocratiques ne peuvent être corrompues, et les villes des "
+"Démocraties ne peuvent être incitées à la révolte par un diplomate ou un "
+"espion ennemi."
 
 #: data/civ1/governments.ruleset:170
-#, fuzzy
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -19153,7 +19165,13 @@ msgstr ""
 "grandes questions par le vote. La Démocratie offre le plus haut niveau de "
 "commerce, mais présente aussi les plus grandes probabilités de "
 "mécontentement. Il n'y a pas de corruption sous une Démocratie, mais les "
-"citoyens deviennent très insatisfaits pendant les guerres."
+"citoyens deviennent très insatisfaits pendant les guerres.\n"
+"\n"
+"Parce que les citoyens (heureux) des démocraties croient fortement en leur "
+"gouvernement, leur loyauté est sans limite. Les unités militaires des "
+"civilisations démocratiques ne peuvent être corrompues, et les villes des "
+"Démocraties ne peuvent être incitées à la révolte par un diplomate ou un "
+"espion ennemi."
 
 # AR
 #: data/default/techs.ruleset:54 data/civ2/techs.ruleset:42
@@ -19833,7 +19851,7 @@ msgstr "Fourrures"
 
 #: data/civ2/terrain.ruleset:539
 msgid "Petroleum"
-msgstr ""
+msgstr "Pétrole"
 
 #: data/civ1/terrain.ruleset:153
 msgid "Arctic"
@@ -23361,45 +23379,46 @@ msgstr ""
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr ""
+msgstr "Îles Britaniques (classique, moyen)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
-msgstr ""
+msgstr "Carte des Îles Britaniques de 85x80, classique."
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
-msgstr ""
+msgstr "Terre (classique, grand)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
-msgstr ""
+msgstr "Scénario de la terre 160x90, classique."
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
-msgstr ""
+msgstr "Terre (classique, petit)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
-msgstr ""
+msgstr "Scénario de la terre 80x50, classique."
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
-msgstr ""
+msgstr "Terre (classique, moyen)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
-msgstr ""
+msgstr "Scénario de la terre 160x60, classique."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
-msgstr ""
+msgstr "Peninsule Ibérique (classqie, grand)"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
 msgid ""
 "Large classic-style map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
 msgstr ""
+"Carte classique de la péninsule Ibérique (Espagne moderne et Portugal)."
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
