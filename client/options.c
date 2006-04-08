@@ -164,70 +164,70 @@ static client_option common_options[] = {
 		    "0 to disable mapview sliding entirely."),
 		 COC_GRAPHICS),
   GEN_BOOL_OPTION(do_combat_animation, N_("Show combat animation"),
-		  N_("If this option is disabled them combat animation "
-		     "between units on the mapview will be turned off."),
+		  N_("Disabling this option will turn off combat animation "
+		     "between units on the mapview."),
 		  COC_GRAPHICS),
-  GEN_BOOL_OPTION_CB(draw_full_citybar, N_("Draw a larger citybar"),
-		     N_("If this option is set then instead of just the "
-			"city name and attributes, a large amount of data "
-			"will be drawn beneath each city in the 'citybar'."),
+  GEN_BOOL_OPTION_CB(draw_full_citybar, N_("Draw the citybar"),
+		     N_("Setting this option will display a 'citybar' "
+			"containing useful information beneath each city. "
+			"Disabling this option will display only the city's "
+			"name and optionally, production."),
 		     COC_GRAPHICS, mapview_redraw_callback),
   GEN_BOOL_OPTION_CB(reqtree_show_icons,
                      N_("Show icons in the technology tree"),
-                     N_("If this options is set then there will be icons "
-		        "displayed on the technology tree diagram. Turning "
+                     N_("Setting this option will display icons "
+		        "on the technology tree diagram. Turning "
 		        "this option off makes the technology tree "
 		        "more compact."),
 		     COC_GRAPHICS, reqtree_show_icons_callback),
   GEN_BOOL_OPTION_CB(draw_unit_shields, N_("Draw shield graphics for units"),
-		     N_("If set, then special shield graphics will be drawn "
+		     N_("Setting this option will draw a shield icon "
 			"as the flags on units.  If unset, the full flag will "
 			"be drawn."),
 		     COC_GRAPHICS, mapview_redraw_callback),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
-		  N_("If this option is disabled, then you will not have "
-		     "to press the turn done button manually when watching "
+		  N_("Disable this option if you do not want to "
+		     "press the Turn Done button manually when watching "
 		     "an AI player."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(auto_center_on_unit,      N_("Auto Center on Units"),
+  GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto Center on Units"),
 		  N_("Set this option to have the active unit centered "
 		     "automatically when the unit focus changes."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(auto_center_on_combat,    N_("Auto Center on Combat"),
+  GEN_BOOL_OPTION(auto_center_on_combat, N_("Auto Center on Combat"),
 		  N_("Set this option to have any combat be centered "
 		     "automatically.  Disabled this will speed up the time "
 		     "between turns but may cause you to miss combat "
 		     "entirely."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(wakeup_focus,             N_("Focus on Awakened Units"),
+  GEN_BOOL_OPTION(wakeup_focus, N_("Focus on Awakened Units"),
 		  N_("Set this option to have newly awoken units be "
 		     "focused automatically."),
 		  COC_INTERFACE),
   GEN_BOOL_OPTION(goto_into_unknown, N_("Allow goto into the unknown"),
-		  N_("If this option is set then goto will consider moving "
-		     "into unknown tiles.  If not, then goto routes will "
-		     "detour around or be blocked by unknown tiles."),
+		  N_("Setting this option will make the game consider "
+		     "moving into unknown tiles.  If not, then goto routes "
+		     "will detour around or be blocked by unknown tiles."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(center_when_popup_city,   N_("Center map when Popup city"),
-		  N_("If this option is set then when a city dialog is "
-		     "popped up, the city will be centered automatically."),
+  GEN_BOOL_OPTION(center_when_popup_city, N_("Center map when Popup city"),
+		  N_("Setting this option makes the mapview center on a "
+		     "city when its city dialog is popped up."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(concise_city_production,  N_("Concise City Production"),
+  GEN_BOOL_OPTION(concise_city_production, N_("Concise City Production"),
 		  N_("Set this option to make the city production (as shown "
 		     "in the city dialog) to be more compact."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(auto_turn_done,           N_("End Turn when done moving"),
-		  N_("If this option is set then when all your units are "
-		     "done moving the turn will be ended for you "
-		     "automatically."),
+  GEN_BOOL_OPTION(auto_turn_done, N_("End Turn when done moving"),
+		  N_("Setting this option makes your turn end automatically "
+		     "when all your units are done moving."),
 		  COC_INTERFACE),
-  GEN_BOOL_OPTION(ask_city_name,            N_("Prompt for city names"),
-		  N_("If this option is disabled then city names will be "
-		     "chosen for you automatically by the server."),
+  GEN_BOOL_OPTION(ask_city_name, N_("Prompt for city names"),
+		  N_("Disabling this option will make the names of newly "
+		     "founded cities chosen automatically by the server."),
 		  COC_INTERFACE),
   GEN_BOOL_OPTION(popup_new_cities, N_("Pop up city dialog for new cities"),
-		  N_("If this option is set then a newly-founded city will "
-		     "havce its city dialog popped up automatically."),
+		  N_("Setting this option will pop up a newly-founded "
+		     "city's city dialog automatically."),
 		  COC_INTERFACE),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
@@ -245,17 +245,16 @@ static client_option common_options[] = {
 		     COC_OVERVIEW, overview_redraw_callback),
   GEN_BOOL_OPTION_CB(overview.layers[OLAYER_UNITS],
 		     N_("Units layer"),
-		     N_("If enabled then units will be "
-			"drawn on the overview."),
+		     N_("Enabling this will draw units on the overview."),
 		     COC_OVERVIEW, overview_redraw_callback),
   GEN_BOOL_OPTION_CB(overview.layers[OLAYER_CITIES],
 		     N_("Cities layer"),
-		     N_("If enabled then cities will be "
-			"drawn on the overview."),
+		     N_("Enabling this will draw cities on the overview."),
 		     COC_OVERVIEW, overview_redraw_callback),
   GEN_BOOL_OPTION_CB(overview.fog,
 		     N_("Overview fog of war"),
-		     N_("If enabled, fog of war is shown on the overview."),
+		     N_("Enabling this will show fog of war on the "
+		        "overview."),
 		     COC_OVERVIEW, overview_redraw_callback)
 };
 #undef GEN_INT_OPTION

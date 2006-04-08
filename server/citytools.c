@@ -1014,7 +1014,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
   sync_cities(); /* Will also send pcity. */
 
   notify_player(pplayer, ptile, E_CITY_BUILD,
-		   _("You have founded %s"), pcity->name);
+		   _("You have founded %s."), pcity->name);
   maybe_make_contact(ptile, city_owner(pcity));
 
   unit_list_iterate((ptile)->units, punit) {

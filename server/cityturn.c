@@ -1203,7 +1203,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
 		       API_TYPE_STRING, "unavailable");
-    freelog(LOG_VERBOSE, _("%s's %s tried build %s, which is not available"),
+    freelog(LOG_VERBOSE, _("%s's %s tried to build %s, which is not available."),
             pplayer->name, pcity->name, unit_name(utype));
     return TRUE;
   }
