@@ -1570,7 +1570,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
       adip->asked_about_ceasefire = !aplayer->ai.control ? 9 : 0;
-      notify(aplayer, _("*%s (AI)* we grow weary of this constant "
+      notify(aplayer, _("*%s (AI)* We grow weary of this constant "
              "bloodshed. May we suggest a cessation of hostilities?"), 
              pplayer->name);
       break;
