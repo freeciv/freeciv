@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-31 10:33+0200\n"
+"POT-Creation-Date: 2006-04-09 21:14+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -484,7 +484,9 @@ msgstr ""
 "deutschen Texte korrekt anzuzeigen. Sie erhalten 'iconv' bei\n"
 "http://gnu.org/.\n"
 
-#: utility/fciconv.c:203
+#. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
+#. * TRANS: <error string>."
+#: utility/fciconv.c:205
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Kann Text nicht von %s nach %s konvertieren: %s"
@@ -959,10 +961,10 @@ msgstr ""
 #: ai/advdiplomacy.c:1573
 #, c-format
 msgid ""
-"*%s (AI)* we grow weary of this constant bloodshed. May we suggest a "
+"*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
 msgstr ""
-"*%s (KI)* wir sind des andauernden Blutvergießens müde. Dürfen wir die "
+"*%s (KI)* Wir sind des andauernden Blutvergießens müde. Dürfen wir eine "
 "Einstellung der Feindseligkeiten vorschlagen?"
 
 #: ai/advdiplomacy.c:1693
@@ -1116,8 +1118,8 @@ msgstr ""
 
 #: server/citytools.c:1017
 #, c-format
-msgid "You have founded %s"
-msgstr "%s gegründet."
+msgid "You have founded %s."
+msgstr "Du hast %s gegründet."
 
 #: server/citytools.c:1087
 #, c-format
@@ -1403,7 +1405,7 @@ msgstr "Die %s haben mit dem Bau eines Raumschiffs begonnen!"
 
 #: server/cityturn.c:1182
 #, c-format
-msgid "%s's %s tried build %s, which is not available"
+msgid "%s's %s tried to build %s, which is not available."
 msgstr "%s' Stadt %s baut %s, obwohl das nicht erhältlich ist."
 
 #: server/cityturn.c:1198
@@ -2566,7 +2568,7 @@ msgid ""
 msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
-msgstr[0] 
+msgstr[0] ""
 "Du hast einem Waffenstillstand mit %s zugestimmt. In %d Runde wird daraus "
 "ein Friedensvertrag. Entferne Deine Einheiten aus %ss Gebiet."
 msgstr[1] ""
@@ -8713,73 +8715,75 @@ msgstr "Kampfanimationen zeigen"
 
 #: client/options.c:166
 msgid ""
-"If this option is disabled them combat animation between units on the "
-"mapview will be turned off."
+"Disabling this option will turn off combat animation between units on the "
+"mapview."
 msgstr "Hiermit können Sie die Kampfanimation von Einheiten einschalten."
 
 #: client/options.c:169
-msgid "Draw a larger citybar"
+msgid "Draw the citybar"
 msgstr "Größere Stadtanzeige"
 
 #: client/options.c:170
 msgid ""
-"If this option is set then instead of just the city name and attributes, a "
-"large amount of data will be drawn beneath each city in the 'citybar'."
+"Setting this option will display a 'citybar' containing useful information "
+"beneath each city. Disabling this option will display only the city's name "
+"and optionally, production."
 msgstr ""
-"Neben jede Stadt wird ein Feld gezeichnet mit zahlreichen Informationen über "
-"die Stadt."
+"Hiermit wird neben jeder Stadt eine Tafel mit nützlichen Informationen "
+"angezeigt. Anderenfalls wird nur der Stadtname und optional die Produktion "
+"angezeigt."
 
-#: client/options.c:175
+#: client/options.c:176
 msgid "Show icons in the technology tree"
 msgstr "Zeige Icons im Technologiebaum"
 
-#: client/options.c:176
+#: client/options.c:177
 msgid ""
-"If this options is set then there will be icons displayed on the technology "
-"tree diagram. Turning this option off makes the technology tree more compact."
+"Setting this option will display icons on the technology tree diagram. "
+"Turning this option off makes the technology tree more compact."
 msgstr ""
 "Im Baumdiagramm für die Technologien werden Icons für jeden Fortschritt "
-"gezeichnet."
+"eingezeichnet."
 
-#: client/options.c:181
+#: client/options.c:182
 msgid "Draw shield graphics for units"
 msgstr "Schildergraphik für Einheiten"
 
-#: client/options.c:182
+#: client/options.c:183
 msgid ""
-"If set, then special shield graphics will be drawn as the flags on units.  "
-"If unset, the full flag will be drawn."
+"Setting this option will draw a shield icon as the flags on units.  If "
+"unset, the full flag will be drawn."
 msgstr ""
 "Mit dieser Option wird eine spezielle Schild-Graphik für die Flagge "
 "verwendet. Ohne die Option wird die ganze Flagge gezeichnet."
 
-#: client/options.c:186
+#: client/options.c:187
 msgid "Manual Turn Done in AI Mode"
 msgstr "Rundenende auch im KI-Modus manuell bestätigen"
 
-#: client/options.c:187
+#: client/options.c:188
 msgid ""
-"If this option is disabled, then you will not have to press the turn done "
-"button manually when watching an AI player."
+"Disable this option if you do not want to press the Turn Done button "
+"manually when watching an AI player."
 msgstr ""
 "Sie können einstellen, ob Sie bei Beobachtung eines KI-Spielers den "
 "'Fertig!' Knopf am Rundenende betätigen müssen."
 
-#: client/options.c:191
+#: client/options.c:192
 msgid "Auto Center on Units"
 msgstr "Ansicht automatisch auf die aktive Einheit zentrieren"
 
-#: client/options.c:192
+#: client/options.c:193
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr "Wenn die aktive Einheit wechselt, wird die Karte darauf zentriert."
 
-#: client/options.c:195
+#: client/options.c:196
 msgid "Auto Center on Combat"
 msgstr "Ansicht automatisch auf Kämpfe zentrieren"
 
-#: client/options.c:196
+#: client/options.c:197
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
@@ -8788,58 +8792,57 @@ msgstr ""
 "Die Karte wird automatisch auf Kämpfe zentriert. Abschalten beschleunigt das "
 "Spiel, aber kann dazu führen, daß Sie Kämpfe übersehen."
 
-#: client/options.c:201
+#: client/options.c:202
 msgid "Focus on Awakened Units"
 msgstr "Ansicht auf alarmierte Einheiten zentrieren"
 
-#: client/options.c:202
+#: client/options.c:203
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr "Neu aktivierte Einheiten werden automatisch auf der Karte zentriert."
 
-#: client/options.c:205
+#: client/options.c:206
 msgid "Allow goto into the unknown"
 msgstr "GOTO auch in unbekannte Gebiete"
 
-#: client/options.c:206
+#: client/options.c:207
 msgid ""
-"If this option is set then goto will consider moving into unknown tiles.  If "
-"not, then goto routes will detour around or be blocked by unknown tiles."
+"Setting this option will make the game consider moving into unknown tiles.  "
+"If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
-"Der GOTO-Befehl kann Einheiten auch in unentdeckte Gebiete führen. "
+"Hiermit kann der GOTO-Befehl Einheiten auch in unentdeckte Gebiete führen. "
 "Anderenfalls werden unentdeckte Gebiete umgangen."
 
-#: client/options.c:210
+#: client/options.c:211
 msgid "Center map when Popup city"
 msgstr "Ansicht auf die Stadt im Stadtfenster zentrieren"
 
-#: client/options.c:211
+#: client/options.c:212
 msgid ""
-"If this option is set then when a city dialog is popped up, the city will be "
-"centered automatically."
-msgstr ""
-"Wenn sich ein Stadtfenster öffnet, wird die Karte auf die Stadt zentriert."
+"Setting this option makes the mapview center on a city when its city dialog "
+"is popped up."
+msgstr 
+"Wenn ein Stadtfenster geöffnet wird, wird die Karte automatisch auf die Stadt "
+"zentriert."
 
-#: client/options.c:214
+#: client/options.c:215
 msgid "Concise City Production"
 msgstr "Kurzdarstellung der Stadtproduktion"
 
-#: client/options.c:215
+#: client/options.c:216
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr "Im Stadtfenster wird die Produktion kompakter dargestellt."
 
-#: client/options.c:218
+#: client/options.c:219
 msgid "End Turn when done moving"
 msgstr "Automatisches Rundenende"
 
-#: client/options.c:219
+#: client/options.c:220
 msgid ""
-"If this option is set then when all your units are done moving the turn will "
-"be ended for you automatically."
-msgstr ""
-"Der Zug wird automatisch beendet, wenn alle Einheiten ihre Bewegung beendet "
-"haben."
+"Setting this option makes your turn end automatically when all your units "
+"are done moving."
+msgstr "Hiermit endet Dein Zug automatisch, wenn alle Einheiten gezogen haben."
 
 #: client/options.c:223
 msgid "Prompt for city names"
@@ -8847,9 +8850,9 @@ msgstr "Nach Stadtnamen fragen"
 
 #: client/options.c:224
 msgid ""
-"If this option is disabled then city names will be chosen for you "
+"Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
-msgstr "Sie können bei der Stadtgründung den Stadtnamen wählen."
+msgstr "Sie können bei der Stadtgründung den Stadtnamen auswählen."
 
 #: client/options.c:227
 msgid "Pop up city dialog for new cities"
@@ -8857,8 +8860,8 @@ msgstr "Stadtfenster bei Stadtgründung öffnen"
 
 #: client/options.c:228
 msgid ""
-"If this option is set then a newly-founded city will havce its city dialog "
-"popped up automatically."
+"Setting this option will pop up a newly-founded city's city dialog "
+"automatically."
 msgstr "Bei einer Stadtgründung wird das Stadtfenster automatisch geöffnet."
 
 #: client/options.c:233
@@ -8893,46 +8896,46 @@ msgid "Units layer"
 msgstr "Anzeige der Einheiten"
 
 #: client/options.c:247
-msgid "If enabled then units will be drawn on the overview."
+msgid "Enabling this will draw units on the overview."
 msgstr "In der Übersicht werden die Einheiten angezeigt."
 
-#: client/options.c:251
+#: client/options.c:250
 msgid "Cities layer"
 msgstr "Anzeige der Städte"
 
-#: client/options.c:252
-msgid "If enabled then cities will be drawn on the overview."
+#: client/options.c:251
+msgid "Enabling this will draw cities on the overview."
 msgstr "In der Übersicht werden die Städte angezeigt."
 
-#: client/options.c:256
+#: client/options.c:254
 msgid "Overview fog of war"
-msgstr "Anzeige des Nebel des Krieges"
+msgstr "Übersicht mit Nebel des Krieges"
 
-#: client/options.c:257
-msgid "If enabled, fog of war is shown on the overview."
+#: client/options.c:255
+msgid "Enabling this will show fog of war on the overview."
 msgstr "In der Übersicht wird der Nebel des Krieges angezeigt."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/options.c:425
+#: client/options.c:424
 msgid "Cannot find your home directory"
 msgstr "Cannot find your home directory"
 
-#: client/options.c:578
+#: client/options.c:577
 msgid "Save failed, cannot find a filename."
 msgstr "NICHT GESPEICHERT: Kein Dateiname."
 
-#: client/options.c:636
+#: client/options.c:635
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Wenn manuell eine Vorgabe hinzugefügt wird, muß auch 'number_of_presets' "
 "geändert werden."
 
-#: client/options.c:647
+#: client/options.c:646
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "NICHT GESPEICHERT: Kann nicht in Datei '%s' schreiben."
 
-#: client/options.c:650
+#: client/options.c:649
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Einstellungen in Datei %s gespeichert."
@@ -18689,7 +18692,7 @@ msgstr "Monarchie"
 #: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:30
 #: data/nation/burmese.ruleset:28 data/nation/croatian.ruleset:34
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
-#: data/nation/slovakian.ruleset:27 data/nation/spanish.ruleset:30
+#: data/nation/spanish.ruleset:30
 msgid "King"
 msgstr "König"
 
@@ -18794,7 +18797,7 @@ msgstr "Demokratie"
 #: data/nation/quebecois.ruleset:21 data/nation/serbian.ruleset:38
 #: data/nation/serbian.ruleset:39 data/nation/singaporean.ruleset:40
 #: data/nation/slovenian.ruleset:19 data/nation/slovenian.ruleset:20
-#: data/nation/slovakian.ruleset:28
+#: data/nation/slovakian.ruleset:27
 msgid "President"
 msgstr "Präsident"
 
@@ -20479,7 +20482,7 @@ msgstr ""
 msgid "Emir"
 msgstr "Emir"
 
-#: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:31
+#: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:26
 msgid "General Secretary"
 msgstr "Generalsekretär"
@@ -20499,7 +20502,7 @@ msgstr "Mullah"
 #: data/nation/newzealand.ruleset:22 data/nation/norwegian.ruleset:28
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:22
 #: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:41
-#: data/nation/slovakian.ruleset:29 data/nation/spanish.ruleset:31
+#: data/nation/slovakian.ruleset:28 data/nation/spanish.ruleset:31
 #: data/nation/swedish.ruleset:33 data/nation/tibetan.ruleset:29
 #: data/nation/welsh.ruleset:27
 msgid "Prime Minister"
@@ -22943,15 +22946,11 @@ msgstr ""
 "Teil der Tschechoslowakei, die bis 1918 zum österreich-ungarischen "
 "Kaiserreich gehörte."
 
-#: data/nation/slovakian.ruleset:27
-msgid "Qween"
-msgstr "Königin"
-
-#: data/nation/slovakian.ruleset:30
+#: data/nation/slovakian.ruleset:29
 msgid "Pope"
 msgstr "Papst"
 
-#: data/nation/slovakian.ruleset:30
+#: data/nation/slovakian.ruleset:29
 msgid "Priestess"
 msgstr "Priesterin"
 
