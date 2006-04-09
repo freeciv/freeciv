@@ -7,7 +7,6 @@ options = "+spec3"
 
 artists = "
     Falk Hueffner <falk.hueffner@student.uni-tuebingen.de>
-    Jeff Mallatt <jjm@codewell.com> (occupation indicator)
 "
 
 [file]
@@ -34,16 +33,5 @@ tiles = { "row", "column", "tag"
 0,  8, "unit.hp_20"
 0,  9, "unit.hp_10"
 0, 10, "unit.hp_0"
-
-; Default occupied flag
-0, 11, "cd.occupied"
-
-; City occupied flags
-0, 11, "city.european_occupied_0"
-0, 11, "city.classical_occupied_0"
-0, 11, "city.industrial_occupied_0"
-0, 11, "city.modern_occupied_0"
-0, 11, "city.postmodern_occupied_0"
-0, 11, "cd.occupied"
 
 }
