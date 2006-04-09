@@ -1327,8 +1327,8 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
         break;
       case EFT_EMPIRE_SIZE_STEP:
         sprintf(buf + strlen(buf), _("* After the first unhappy citizen "
-                "due to city size, for each %d additional cities, another "
-                "unhappy citizen will appear.\n"), peffect->value);
+                "due to civilization size, for each %d additional cities, "
+                "another unhappy citizen will appear.\n"), peffect->value);
         break;
       case EFT_MAX_RATES:
         if (peffect->value < 100 && game.info.changable_tax) {
