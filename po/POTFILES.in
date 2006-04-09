@@ -45,6 +45,7 @@ server/sernet.c
 server/spacerace.c
 server/srv_main.c
 server/stdinhand.c
+server/techtools.c
 server/unithand.c
 server/unittools.c
 server/generator/mapgen.c
