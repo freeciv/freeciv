@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-09 21:14+0200\n"
+"POT-Creation-Date: 2006-04-10 11:49+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -267,27 +267,62 @@ msgstr "Zukunftstechnologie %d"
 msgid "Future Tech."
 msgstr "Zukunftstechnologie"
 
-#: common/unit.c:538 client/gui-mui/plrdlg.c:174 client/gui-win32/plrdlg.c:337
-msgid "Idle"
-msgstr "untätig"
-
-#: common/unit.c:540 server/report.c:123 client/cityrepdata.c:485
-msgid "Pollution"
-msgstr "Verschmutzung"
-
-#: common/unit.c:542 manual/civmanual.c:224
+#: common/terrain.c:286 common/terrain.c:470 common/unit.c:542
+#: manual/civmanual.c:224
 msgid "Road"
 msgstr "Straße"
 
-#: common/unit.c:544
+#: common/terrain.c:287 common/terrain.c:477 common/unit.c:546
+#: client/gui-gtk-2.0/menu.c:780 client/gui-mui/gui_main.c:240
+#: client/gui-win32/menu.c:343 client/gui-xaw/menu.c:151
+#: manual/civmanual.c:224
+msgid "Irrigation"
+msgstr "Bewässerung"
+
+#: common/terrain.c:288 common/terrain.c:468 common/unit.c:556
+#: data/default/techs.ruleset:580 data/civ2/techs.ruleset:436
+#: data/civ1/techs.ruleset:433
+msgid "Railroad"
+msgstr "Eisenbahn"
+
+#: common/terrain.c:289 common/terrain.c:481 common/unit.c:544
 msgid "Mine"
 msgstr "Bergwerk"
 
-#: common/unit.c:546 client/gui-gtk-2.0/menu.c:780
-#: client/gui-mui/gui_main.c:240 client/gui-win32/menu.c:343
-#: client/gui-xaw/menu.c:151 manual/civmanual.c:224
-msgid "Irrigation"
-msgstr "Bewässerung"
+#: common/terrain.c:290 common/unit.c:540 server/report.c:123
+#: client/cityrepdata.c:485
+msgid "Pollution"
+msgstr "Verschmutzung"
+
+#: common/terrain.c:291
+msgid "Hut"
+msgstr "Dorf"
+
+#: common/terrain.c:292 common/terrain.c:485 common/unit.c:552
+#: manual/civmanual.c:226
+msgid "Fortress"
+msgstr "Befestigung"
+
+#: common/terrain.c:293
+msgid "River"
+msgstr "Fluß"
+
+#: common/terrain.c:294 common/terrain.c:475
+msgid "Farmland"
+msgstr "Ackerland"
+
+#: common/terrain.c:295 common/terrain.c:489 common/unit.c:566
+#: manual/civmanual.c:226
+msgid "Airbase"
+msgstr "Fliegerhorst"
+
+#: common/terrain.c:296 common/unit.c:568
+msgid "Fallout"
+msgstr "Fallout"
+
+#: common/unit.c:538 client/gui-mui/plrdlg.c:174 client/gui-win32/plrdlg.c:337
+msgid "Idle"
+msgstr "untätig"
 
 #: common/unit.c:548
 msgid "Fortifying"
@@ -297,20 +332,11 @@ msgstr "beim befestigen"
 msgid "Fortified"
 msgstr "Befestigt"
 
-#: common/unit.c:552 manual/civmanual.c:226
-msgid "Fortress"
-msgstr "Befestigung"
-
 #: common/unit.c:554 client/gui-mui/gui_main.c:265
 #: client/gui-mui/mapclass.c:1680 client/gui-mui/mapclass.c:2968
 #: client/gui-xaw/menu.c:184
 msgid "Sentry"
 msgstr "Bewachen"
-
-#: common/unit.c:556 data/default/techs.ruleset:580
-#: data/civ2/techs.ruleset:436 data/civ1/techs.ruleset:433
-msgid "Railroad"
-msgstr "Eisenbahn"
 
 #: common/unit.c:558 client/gui-gtk-2.0/menu.c:833
 #: client/gui-mui/gui_main.c:266 client/gui-mui/mapclass.c:1682
@@ -329,14 +355,6 @@ msgstr "Erkunde"
 #: common/unit.c:564 manual/civmanual.c:224
 msgid "Transform"
 msgstr "Verändern"
-
-#: common/unit.c:566 manual/civmanual.c:226
-msgid "Airbase"
-msgstr "Fliegerhorst"
-
-#: common/unit.c:568
-msgid "Fallout"
-msgstr "Fallout"
 
 #: common/unit.c:576 client/gui-mui/citydlg.c:2042
 #: client/gui-win32/citydlg.c:1262 client/gui-xaw/citydlg.c:1424
@@ -1393,7 +1411,7 @@ msgstr[0] ""
 msgstr[1] ""
 "%s beschleunigt die Forschung; Sie erhalten %d zusätzliche Fortschritte."
 
-#: server/cityturn.c:1134
+#: server/cityturn.c:1134 server/techtools.c:175
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "Die %s haben %s von den %s übernommen."
@@ -6294,6 +6312,88 @@ msgstr "<keine Verbindungen>"
 msgid "List of scenarios available:"
 msgstr "Liste der verfügbaren Szenarios:"
 
+#: server/techtools.c:110
+#, c-format
+msgid "The %s have researched %s."
+msgstr "Die %s haben %s erforscht."
+
+#: server/techtools.c:116
+#, c-format
+msgid "The %s have researched Future Tech. %d."
+msgstr "Die %s haben Zukunftstechnologie %d erforscht."
+
+#: server/techtools.c:168
+#, c-format
+msgid "%s acquired from %s!"
+msgstr "Du hast %s von den %s übernommen!"
+
+#: server/techtools.c:218
+#, c-format
+msgid ""
+"Discovery of %s makes the government form %s available. You may want to "
+"start a revolution."
+msgstr ""
+"Die Entdeckung von %s macht die Regierungsform %s verfügbar. Vielleicht willst "
+"Du eine Revolution beginnen?"
+
+#: server/techtools.c:296
+#, c-format
+msgid "Discovery of %s OBSOLETES %s in %s!"
+msgstr "Die Entdeckung von %s veraltet %s in %s!"
+
+#: server/techtools.c:346
+#, c-format
+msgid "Learned %s. Our scientists focus on %s; goal is %s."
+msgstr "%s erforscht. Unsere Wissenschaftler konzentrieren sich auf %s - das Ziel ist %s."
+
+#: server/techtools.c:364
+#, c-format
+msgid "Learned %s.  Scientists choose to research %s."
+msgstr "%s erforscht. Unsere Wissenschaftler entscheiden sich für die Erforschung von %s."
+
+#: server/techtools.c:371
+#, c-format
+msgid "Learned %s. "
+msgstr "%s erforscht. "
+
+#: server/techtools.c:374
+#, c-format
+msgid "Researching %s."
+msgstr "Erforsche %s."
+
+#: server/techtools.c:380
+#, c-format
+msgid "Learned %s.  Scientists do not know what to research next."
+msgstr "%s erforscht. Unsere Wissenschaftler wissen nicht, was sie als nächstes erforschen sollen."
+
+#: server/techtools.c:397
+msgid ""
+"Great scientists from all the world join your civilization: you get an "
+"immediate advance."
+msgstr ""
+"Große Wissenschaftler aus aller Welt haben sich Deiner Nation angeschlossen: "
+"Ein direkter Fortschritt ist die Folge."
+
+#: server/techtools.c:565
+#, c-format
+msgid "Technology goal is %s."
+msgstr "Unser Forschungsziel ist %s."
+
+#: server/techtools.c:693
+#, c-format
+msgid "You steal %s from the %s."
+msgstr "Du hast %s von den %s gestohlen."
+
+#: server/techtools.c:698
+#, c-format
+msgid "The %s stole %s from you!"
+msgstr "Die %s haben %s von Dir gestohlen!"
+
+#: server/techtools.c:703
+#, c-format
+msgid "The %s have stolen %s from the %s."
+msgstr "Die %s haben %s von den %s gestohlen."
+
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: server/unithand.c:99
 #, c-format
@@ -8820,9 +8920,9 @@ msgstr "Ansicht auf die Stadt im Stadtfenster zentrieren"
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
-msgstr 
-"Wenn ein Stadtfenster geöffnet wird, wird die Karte automatisch auf die Stadt "
-"zentriert."
+msgstr ""
+"Wenn ein Stadtfenster geöffnet wird, wird die Karte automatisch auf die "
+"Stadt zentriert."
 
 #: client/options.c:215
 msgid "Concise City Production"
