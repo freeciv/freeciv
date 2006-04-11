@@ -1,7 +1,7 @@
 # Keep this section first
 [scenario]
-name="Europe (giant/classic)"
-description="Very large classic-style map of Europe."
+name=_("Europe (giant/classic)")
+description=_("Very large classic-style map of Europe.")
 
 [game]
 version=11105
