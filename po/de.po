@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-10 11:49+0200\n"
+"POT-Creation-Date: 2006-04-11 21:38+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -6333,8 +6333,8 @@ msgid ""
 "Discovery of %s makes the government form %s available. You may want to "
 "start a revolution."
 msgstr ""
-"Die Entdeckung von %s macht die Regierungsform %s verfügbar. Vielleicht willst "
-"Du eine Revolution beginnen?"
+"Die Entdeckung von %s macht die Regierungsform %s verfügbar. Vielleicht "
+"willst Du eine Revolution beginnen?"
 
 #: server/techtools.c:296
 #, c-format
@@ -6344,12 +6344,16 @@ msgstr "Die Entdeckung von %s veraltet %s in %s!"
 #: server/techtools.c:346
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr "%s erforscht. Unsere Wissenschaftler konzentrieren sich auf %s - das Ziel ist %s."
+msgstr ""
+"%s erforscht. Unsere Wissenschaftler konzentrieren sich auf %s - das Ziel "
+"ist %s."
 
 #: server/techtools.c:364
 #, c-format
 msgid "Learned %s.  Scientists choose to research %s."
-msgstr "%s erforscht. Unsere Wissenschaftler entscheiden sich für die Erforschung von %s."
+msgstr ""
+"%s erforscht. Unsere Wissenschaftler entscheiden sich für die Erforschung "
+"von %s."
 
 #: server/techtools.c:371
 #, c-format
@@ -6364,7 +6368,9 @@ msgstr "Erforsche %s."
 #: server/techtools.c:380
 #, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
-msgstr "%s erforscht. Unsere Wissenschaftler wissen nicht, was sie als nächstes erforschen sollen."
+msgstr ""
+"%s erforscht. Unsere Wissenschaftler wissen nicht, was sie als nächstes "
+"erforschen sollen."
 
 #: server/techtools.c:397
 msgid ""
@@ -9969,6 +9975,42 @@ msgstr "Max. Gold"
 msgid "?cma:Max science"
 msgstr "Max. Forschung"
 
+#: client/gui-gtk-2.0/caravan_dialog.c:80
+#, c-format
+msgid "Help build _Wonder (%d remaining)"
+msgstr "Beim Bau des _Weltwunders helfen (noch %d)"
+
+#: client/gui-gtk-2.0/caravan_dialog.c:85 client/gui-win32/dialogs.c:1057
+msgid "Help build _Wonder"
+msgstr "Beim Bau des _Weltwunders helfen"
+
+#: client/gui-gtk-2.0/caravan_dialog.c:100 client/gui-mui/dialogs.c:973
+#: client/gui-win32/dialogs.c:1042 client/gui-xaw/dialogs.c:443
+#, c-format
+msgid ""
+"Your caravan from %s reaches the city of %s.\n"
+"What now?"
+msgstr "Karawane aus %s erreicht die Stadt %s."
+
+#: client/gui-gtk-2.0/caravan_dialog.c:114 client/gui-mui/dialogs.c:1016
+#: client/gui-win32/dialogs.c:1053 data/Freeciv.in:2259
+msgid "Your Caravan Has Arrived"
+msgstr "Karawane ist angekommen"
+
+#: client/gui-gtk-2.0/caravan_dialog.c:116 client/gui-win32/dialogs.c:1055
+msgid "Establish _Traderoute"
+msgstr "_Handelsweg gründen"
+
+#: client/gui-gtk-2.0/caravan_dialog.c:117 client/gui-win32/dialogs.c:1056
+msgid "Enter Marketplace"
+msgstr "Marktplatz betreten"
+
+#: client/gui-gtk-2.0/caravan_dialog.c:119 client/gui-mui/dialogs.c:771
+#: client/gui-mui/dialogs.c:838 client/gui-mui/dialogs.c:1010
+#: client/gui-win32/dialogs.c:1058
+msgid "_Keep moving"
+msgstr "_Weiterziehen"
+
 #: client/gui-gtk-2.0/chatline.c:144 client/gui-win32/chatline.c:134
 #: client/gui-xaw/chatline.c:120
 msgid "Cleared output window."
@@ -12777,11 +12819,6 @@ msgstr "_Forschungergebnisse stehlen"
 msgid "Incite a _revolt"
 msgstr "Zur _Revolte anstiften"
 
-#: client/gui-mui/dialogs.c:771 client/gui-mui/dialogs.c:838
-#: client/gui-mui/dialogs.c:1010 client/gui-win32/dialogs.c:1058
-msgid "_Keep moving"
-msgstr "_Weiterziehen"
-
 #: client/gui-mui/dialogs.c:783 data/Freeciv.in:2273
 msgid "Choose Your Diplomat's Strategy"
 msgstr "Strategie des Diplomaten wählen"
@@ -12822,14 +12859,6 @@ msgstr "Feindliche Einheit _sabotieren"
 msgid "Subvert Enemy Unit"
 msgstr "Feindliche Einheit unterwandern"
 
-#: client/gui-mui/dialogs.c:973 client/gui-win32/dialogs.c:1042
-#: client/gui-xaw/dialogs.c:443
-#, c-format
-msgid ""
-"Your caravan from %s reaches the city of %s.\n"
-"What now?"
-msgstr "Karawane aus %s erreicht die Stadt %s."
-
 #: client/gui-mui/dialogs.c:985
 msgid "_Establish traderoute"
 msgstr "_Handelsweg gründen"
@@ -12841,11 +12870,6 @@ msgstr "_Marktplatz betreten"
 #: client/gui-mui/dialogs.c:1003
 msgid "_Help build Wonder"
 msgstr "Beim Bau des _Weltwunders helfen"
-
-#: client/gui-mui/dialogs.c:1016 client/gui-win32/dialogs.c:1053
-#: data/Freeciv.in:2259
-msgid "Your Caravan Has Arrived"
-msgstr "Karawane ist angekommen"
 
 #: client/gui-mui/dialogs.c:1116
 msgid "Freeciv - Pillage"
@@ -14063,18 +14087,6 @@ msgstr "Alle aktivieren"
 #: client/gui-win32/dialogs.c:783
 msgid "Unit Selection"
 msgstr "Einheit auswählen"
-
-#: client/gui-win32/dialogs.c:1055
-msgid "Establish _Traderoute"
-msgstr "_Handelsweg gründen"
-
-#: client/gui-win32/dialogs.c:1056
-msgid "Enter Marketplace"
-msgstr "Marktplatz betreten"
-
-#: client/gui-win32/dialogs.c:1057
-msgid "Help build _Wonder"
-msgstr "Beim Bau des _Weltwunders helfen"
 
 #: client/gui-win32/dialogs.c:1193
 msgid "NONE"
@@ -23586,6 +23598,14 @@ msgstr "Erde (klassisch, klein)"
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
 msgstr "Klassische 80x50 Erdkarte."
+
+#: data/scenario/europe-200x100-v2.sav:3
+msgid "Europe (giant/classic)"
+msgstr "Europa (riesig, klassisch)"
+
+#: data/scenario/europe-200x100-v2.sav:4
+msgid "Very large classic-style map of Europe."
+msgstr "Sehr große Europakarte im klassischen Stil."
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
