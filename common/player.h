@@ -27,8 +27,8 @@
 #define PLAYER_DEFAULT_SCIENCE_RATE 100
 #define PLAYER_DEFAULT_LUXURY_RATE 0
 
-#define ANON_PLAYER_NAME _("noname")
-#define ANON_USER_NAME _("Unassigned")
+#define ANON_PLAYER_NAME "noname"
+#define ANON_USER_NAME "Unassigned"
 
 /*
  * pplayer->ai.barbarian_type uses this enum. Note that the values
