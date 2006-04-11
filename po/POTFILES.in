@@ -73,6 +73,7 @@ client/text.c
 client/tilespec.c
 client/agents/cma_core.c
 client/agents/cma_fec.c
+client/gui-gtk-2.0/caravan_dialog.c
 client/gui-gtk-2.0/chatline.c
 client/gui-gtk-2.0/citydlg.c
 client/gui-gtk-2.0/cityrep.c
