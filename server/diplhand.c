@@ -702,7 +702,7 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
 
 /**************************************************************************
   Send information on any on-going diplomatic meetings for connection's
-  player.  (For re-connection in multi-connect case.)
+  player.  For re-connections.
 **************************************************************************/
 void send_diplomatic_meetings(struct connection *dest)
 {
@@ -711,18 +711,29 @@ void send_diplomatic_meetings(struct connection *dest)
   if (!pplayer) {
     return;
   }
-  players_iterate(other_player) {
-    struct Treaty *ptreaty = find_treaty(pplayer, other_player);
+  players_iterate(other) {
+    struct Treaty *ptreaty = find_treaty(pplayer, other);
 
     if (ptreaty) {
-      dsend_packet_diplomacy_init_meeting(dest, pplayer->player_no,
-					  other_player->player_no);
+      assert(pplayer != other);
+      dsend_packet_diplomacy_init_meeting(dest, other->player_no,
+                                          pplayer->player_no);
       clause_list_iterate(ptreaty->clauses, pclause) {
-	dsend_packet_diplomacy_create_clause(dest, pplayer->player_no,
-					     other_player->player_no,
-					     pclause->type,
-					     pclause->from->player_no);
+        dsend_packet_diplomacy_create_clause(dest, 
+                                             other->player_no,
+                                             pclause->from->player_no,
+                                             pclause->type,
+                                             pclause->value);
       } clause_list_iterate_end;
+      if (ptreaty->plr0 == pplayer) {
+        dsend_packet_diplomacy_accept_treaty(dest, other->player_no,
+                                             ptreaty->accept0, 
+                                             ptreaty->accept1);
+      } else {
+        dsend_packet_diplomacy_accept_treaty(dest, other->player_no,
+                                             ptreaty->accept1, 
+                                             ptreaty->accept0);
+      }
     }
   } players_iterate_end;
 }
