@@ -322,15 +322,6 @@ void lost_connection_to_client(struct connection *pconn)
   }
   notify_if_first_access_level_is_available();
 
-  /* Cancel diplomacy meetings */
-  if (!pplayer->is_connected) { /* may be still true if multiple connections */
-    players_iterate(other_player) {
-      if (find_treaty(pplayer, other_player)) {
-        handle_diplomacy_cancel_meeting_req(pplayer, other_player->player_no);
-      }
-    } players_iterate_end;
-  }
-
   if (game.info.is_new_game
       && !pplayer->is_connected /* eg multiple controllers */
       && !pplayer->ai.control    /* eg created AI player */
