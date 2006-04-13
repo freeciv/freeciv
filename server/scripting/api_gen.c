@@ -1,6 +1,6 @@
 /*
 ** Lua binding: api
-** Generated automatically by tolua 5.0a on Mon Dec  5 00:39:12 2005.
+** Generated automatically by tolua 5.0a on Sun Apr  9 15:07:51 2006.
 */
 
 #ifndef __cplusplus
@@ -1534,8 +1534,8 @@ static int tolua_api_give_technology00(lua_State* tolua_S)
   Player* pplayer = ((Player*)  tolua_tousertype(tolua_S,1,0));
   Tech_Type* ptech = ((Tech_Type*)  tolua_tousertype(tolua_S,2,0));
  {
-  bool tolua_ret = (bool)  api_actions_give_technology(pplayer,ptech);
- tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  Tech_Type* tolua_ret = (Tech_Type*)  api_actions_give_technology(pplayer,ptech);
+ tolua_pushusertype(tolua_S,(void*)tolua_ret,"Tech_Type");
  }
  }
  return 1;
