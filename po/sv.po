@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.61\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 20:42-0500\n"
+"POT-Creation-Date: 2006-04-13 23:34+0900\n"
 "PO-Revision-Date: 2004-01-16 01:47+0100\n"
 "Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: Swedish <sigra@home.se>\n"
@@ -1397,7 +1397,7 @@ msgstr "  -S, --Serverid VÄRD\tAnslut till server vid VÄRD\n"
 
 #: server/civserver.c:197
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tSpara ppm-bilder av kartan när spelet sparas.\n"
 
 #: server/civserver.c:198
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -2245,9 +2245,9 @@ msgid "Invalid username '%s'"
 msgstr "\"%s\" är ett ogiltigt användarnamn"
 
 #: server/connecthand.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr "%s avvisades: opassande förmågor."
+msgstr "%s avvisades: Otillåtet namn [%s]."
 
 #: server/connecthand.c:254
 #, c-format
@@ -2255,9 +2255,9 @@ msgid "'%s' already connected."
 msgstr "\"%s\" är redan ansluten."
 
 #: server/connecthand.c:257
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr "%s avvisades: opassande förmågor."
+msgstr "%s avvisades: Upptaget namn [%s]."
 
 #: server/connecthand.c:285
 #, c-format
@@ -8273,7 +8273,7 @@ msgstr "Fokus på uppvaknade enheter"
 
 #: client/options.c:107
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Tillåt gå-till genom det okända"
 
 #: client/options.c:108
 msgid "Center map when Popup city"
