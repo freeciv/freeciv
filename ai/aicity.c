@@ -1060,12 +1060,17 @@ static void adjust_wants_by_effects(struct player *pplayer,
    * if improvements have improvements as requirements.
    */
   city_list_iterate(pplayer->cities, pcity) {
-    if (pplayer->ai.control && pcity->ai.next_recalc <= game.info.turn) {
+    if (!pplayer->ai.control) {
+      /* For a human player, any building is worth building until discarded */
+      impr_type_iterate(id) {
+        pcity->ai.building_want[id] = 1;
+      } impr_type_iterate_end;
+    } else if (pcity->ai.next_recalc <= game.info.turn) {
       /* Do a scheduled recalculation this turn */
       impr_type_iterate(id) {
         pcity->ai.building_want[id] = 0;
       } impr_type_iterate_end;
-    } else if (pplayer->ai.control && should_force_recalc(pcity)) {
+    } else if (should_force_recalc(pcity)) {
       /* Do an emergency recalculation this turn. */
       pcity->ai.recalc_interval = pcity->ai.next_recalc - game.info.turn;
       pcity->ai.next_recalc = game.info.turn;
