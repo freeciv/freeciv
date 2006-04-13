@@ -21,7 +21,7 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 			      int moves_left);
 void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name);
 void api_actions_change_gold(Player *pplayer, int amount);
-bool api_actions_give_technology(Player *pplayer, Tech_Type *ptech);
+Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech);
 
 #endif
 

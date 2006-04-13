@@ -411,6 +411,6 @@ Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
 void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
 					    const char *name);
 void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
-bool api_actions_give_technology @ give_technology (Player *pplayer,
+Tech_Type *api_actions_give_technology @ give_technology (Player *pplayer,
 						    Tech_Type *ptech);
 
