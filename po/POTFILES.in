@@ -35,7 +35,6 @@ server/connecthand.c
 server/console.c
 server/diplhand.c
 server/diplomats.c
-server/edithand.c
 server/gamehand.c
 server/ggzserver.c
 server/handchat.c
@@ -80,7 +79,6 @@ client/agents/cma_core.c
 client/agents/cma_fec.c
 client/gui-gtk-2.0/connectdlg.c
 client/gui-gtk-2.0/diplomat_dialog.c
-client/gui-gtk-2.0/editdlg.c
 client/gui-gtk-2.0/caravan_dialog.c
 client/gui-gtk-2.0/chatline.c
 client/gui-gtk-2.0/citydlg.c
