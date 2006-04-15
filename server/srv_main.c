@@ -724,9 +724,32 @@ static void end_phase(void)
 **************************************************************************/
 static void end_turn(void)
 {
+  int food = 0, shields = 0, trade = 0, settlers = 0;
+
   freelog(LOG_DEBUG, "Endturn");
 
   map_calculate_borders();
+
+  /* Output some AI measurement information */
+  players_iterate(pplayer) {
+    if (!pplayer->ai.control || is_barbarian(pplayer)) {
+      continue;
+    }
+    unit_list_iterate(pplayer->units, punit) {
+      if (unit_flag(punit, F_CITIES)) {
+        settlers++;
+      }
+    } unit_list_iterate_end;
+    city_list_iterate(pplayer->cities, pcity) {
+      shields += pcity->prod[O_SHIELD];
+      food += pcity->prod[O_FOOD];
+      trade += pcity->prod[O_TRADE];
+    } city_list_iterate_end;
+    freelog(LOG_DEBUG, "%s T%d cities:%d pop:%d food:%d prod:%d "
+            "trade:%d settlers:%d units:%d", pplayer->name, game.info.turn,
+            city_list_size(pplayer->cities), total_player_citizens(pplayer),
+            food, shields, trade, settlers, unit_list_size(pplayer->units));
+  } players_iterate_end;
 
   freelog(LOG_DEBUG, "Season of native unrests");
   summon_barbarians(); /* wild guess really, no idea where to put it, but
