@@ -16,8 +16,8 @@ leader=
  "Carlos I",
  "Felipe II",
  "Carlos III",
- "Francisco Franco",
- "Mortadelo"
+ "Manuel Azaña",
+ "Francisco Franco"
 leader_sex="Male", "Male", "Male", "Male", "Female",
            "Male", "Male", "Male", "Male", "Male"
 flag="spain"
