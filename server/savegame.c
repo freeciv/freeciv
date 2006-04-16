@@ -1055,7 +1055,7 @@ static void map_save(struct section_file *file)
         if (ptile->owner == NULL) {
           strcpy(token, "-");
         } else {
-          snprintf(token, sizeof(token), "%d", ptile->owner->player_no);
+          my_snprintf(token, sizeof(token), "%d", ptile->owner->player_no);
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {
@@ -1075,7 +1075,7 @@ static void map_save(struct section_file *file)
         if (ptile->owner_source == NULL) {
           strcpy(token, "-");
         } else {
-          snprintf(token, sizeof(token), "%d", ptile->owner_source->index);
+          my_snprintf(token, sizeof(token), "%d", ptile->owner_source->index);
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {

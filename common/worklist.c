@@ -221,7 +221,7 @@ void worklist_load(struct section_file *file, struct worklist *pwl,
   /* The first part of the registry path is taken from the varargs to the
    * function. */
   va_start(ap, path);
-  vsnprintf(path_str, sizeof(path_str), path, ap);
+  my_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
   init_worklist(pwl);
@@ -280,7 +280,7 @@ void worklist_save(struct section_file *file, struct worklist *pwl,
   /* The first part of the registry path is taken from the varargs to the
    * function. */
   va_start(ap, path);
-  vsnprintf(path_str, sizeof(path_str), path, ap);
+  my_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
   secfile_insert_int(file, pwl->length, "%s.wl_length", path_str);

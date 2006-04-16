@@ -2486,7 +2486,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   }
 
   pl->num_groups = p->ngroups;
-  pl->groups = malloc(sizeof(*(pl->groups)) * pl->num_groups);
+  pl->groups = fc_malloc(sizeof(*(pl->groups)) * pl->num_groups);
   for (i = 0; i < p->ngroups; i++) {
     pl->groups[i] = get_nation_group_by_id(p->groups[i]);
     if (!pl->groups[i]) {
