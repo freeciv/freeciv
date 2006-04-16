@@ -77,7 +77,7 @@ graphic_alt = "-"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
 ; No reqs
-replaced_by = "Industrial"
+replaced_by = "Renaissance"
 
 [citystyle_classical]
 name        = _("?citystyle:Classical")
@@ -86,7 +86,7 @@ graphic_alt = "-"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
 ; No reqs
-replaced_by = "Industrial"
+replaced_by = "Renaissance"
 
 [citystyle_tropical]
 name        = _("?citystyle:Tropical")
@@ -95,7 +95,7 @@ graphic_alt = "city.european"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
 ; No reqs
-replaced_by = "Industrial"
+replaced_by = "Renaissance"
 
 [citystyle_asian]
 name        = _("?citystyle:Asian")
@@ -104,7 +104,7 @@ graphic_alt = "city.classical"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
 ; No reqs
-replaced_by = "Industrial"
+replaced_by = "Renaissance"
 
 [citystyle_babylonian]
 name        = _("?citystyle:Babylonian")
@@ -113,7 +113,7 @@ graphic_alt = "city.classical"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
 ; No reqs
-replaced_by = "Industrial"
+replaced_by = "Renaissance"
 
 [citystyle_celtic]
 name        = _("?citystyle:Celtic")
@@ -122,6 +122,17 @@ graphic_alt = "city.european"
 citizens_graphic     = "ancient"
 citizens_graphic_alt = "generic"
 ; No reqs
+replaced_by = "Renaissance"
+
+[citystyle_renaissance]
+name        = _("?citystyle:Renaissance")
+graphic     = "city.renaissance"
+graphic_alt = "city.industrial"
+citizens_graphic     = "renaissance"
+citizens_graphic_alt = "generic"
+reqs = { "type", "name", "range"
+         "tech", "University", "Player"
+       }
 replaced_by = "Industrial"
 
 [citystyle_industrial]
