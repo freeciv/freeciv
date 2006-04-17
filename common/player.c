@@ -286,7 +286,7 @@ struct player *find_player_by_name_prefix(const char *name,
   int ind;
 
   *result = match_prefix(pname_accessor, game.info.nplayers, MAX_LEN_NAME-1,
-			 mystrncasecmp, name, &ind);
+			 mystrncasequotecmp, name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
     return get_player(ind);

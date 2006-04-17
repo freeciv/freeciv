@@ -20,7 +20,7 @@
 #include "pages_g.h"
 
 extern GtkWidget *start_message_area;
-extern GtkWidget *take_button, *ready_button;
+extern GtkWidget *take_button, *ready_button, *nation_button;
 extern GtkTreeViewColumn *rating_col, *record_col;
 
 GtkWidget *create_main_page(void);
