@@ -2696,7 +2696,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   /* Claim ownership of fortress? */
   if (tile_has_special(pdesttile, S_FORTRESS)
-      && pplayers_at_war(pdesttile->owner, pplayer)) {
+      && (!pdesttile->owner || pplayers_at_war(pdesttile->owner, pplayer))) {
     map_claim_ownership(pdesttile, pplayer, pdesttile);
   }
 
