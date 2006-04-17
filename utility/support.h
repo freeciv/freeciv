@@ -75,6 +75,7 @@ typedef unsigned int fc_bool;
 
 int mystrcasecmp(const char *str0, const char *str1);
 int mystrncasecmp(const char *str0, const char *str1, size_t n);
+int mystrncasequotecmp(const char *str0, const char *str1, size_t n);
 
 const char *mystrerror(void);
 void myusleep(unsigned long usec);

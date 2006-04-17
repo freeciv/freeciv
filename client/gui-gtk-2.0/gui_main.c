@@ -1469,10 +1469,19 @@ void update_conn_list_dialog(void)
   }
   gtk_widget_set_sensitive(ready_button, (game.player_ptr != NULL));
 
-  if (game.player_ptr && !aconnection.observer) {
+  if (aconnection.player) {
+    gtk_stockbutton_set_label(nation_button, _("Pick _Nation"));
+  } else {
+    gtk_stockbutton_set_label(nation_button, _("Create _player"));
+    gtk_widget_set_sensitive(nation_button, game.info.is_new_game);
+  }
+
+  if (aconnection.player) {
+    gtk_stockbutton_set_label(take_button, _("_Release player"));
+  } else if (!aconnection.observer) {
     gtk_stockbutton_set_label(take_button, _("_Observe"));
   } else {
-    gtk_stockbutton_set_label(take_button, _("_Take player"));
+    gtk_stockbutton_set_label(take_button, _("_Do not observe"));
   }
 
   gtk_tree_view_column_set_visible(record_col, (with_ggz || in_ggz));

@@ -57,7 +57,7 @@ GtkWidget *start_message_area;
 GtkTreeViewColumn *rating_col, *record_col;
 
 static GtkWidget *start_options_table;
-GtkWidget *take_button, *ready_button;
+GtkWidget *take_button, *ready_button, *nation_button;
 
 static GtkWidget *scenario_description;
 
@@ -990,8 +990,10 @@ static void start_start_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void pick_nation_callback(GtkWidget *w, gpointer data)
 {
-  if (game.player_ptr) {
+  if (aconnection.player) {
     popup_races_dialog(game.player_ptr);
+  } else if (game.info.is_new_game) {
+    send_chat("/take -");
   }
 }
 
@@ -1000,10 +1002,21 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void take_callback(GtkWidget *w, gpointer data)
 {
-  if (game.player_ptr && !aconnection.observer) {
+  if (aconnection.player) {
+    if (!aconnection.player->ai.control) {
+      /* Make sure player reverts to AI control. This is much more neat,
+       * and hides the ugly double username in the name list because
+       * the player username equals the connection username. */
+      char buf[512];
+
+      my_snprintf(buf, sizeof(buf), "/ai %s", aconnection.player->name);
+      send_chat(buf);
+    }
+    send_chat("/detach");
+  } else if (!aconnection.observer) {
     send_chat("/observe");
   } else {
-    send_chat("/take -");
+    send_chat("/detach");
   }
 }
 
@@ -1066,9 +1079,24 @@ static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
   char buf[1024];
   char *command = data;
 
-  /* FIXME: We should use quotes here, but because of a bug in the server
-   * it doesn't parse the quotes properly for some commands (e.g. "hard")! */
-  my_snprintf(buf, sizeof(buf), "/%s %s", command, conn_menu_player->name);
+  my_snprintf(buf, sizeof(buf), "/%s \"%s\"", command, 
+              conn_menu_player->name);
+  send_chat(buf);
+}
+
+/****************************************************************************
+  Take command in the conn menu.
+****************************************************************************/
+static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
+{
+  char buf[1024];
+
+  if (conn_menu_player->ai.control) {
+    /* See comment on detach command for why */
+    my_snprintf(buf, sizeof(buf), "/ai \"%s\"", conn_menu_player->name);
+    send_chat(buf);
+  }
+  my_snprintf(buf, sizeof(buf), "/take \"%s\"", conn_menu_player->name);
   send_chat(buf);
 }
 
@@ -1080,8 +1108,13 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
   GtkWidget *popup;
   char buf[1024] = "";
 
-  cat_snprintf(buf, sizeof(buf), _("Player name: %s"),
-	       pconn ? pconn->username : pplayer->name);
+  if (pconn) {
+    cat_snprintf(buf, sizeof(buf), _("Connection name: %s"),
+                 pconn->username);
+  } else {
+    cat_snprintf(buf, sizeof(buf), _("Player name: %s"),
+                 pplayer->name);
+  }
   cat_snprintf(buf, sizeof(buf), "\n");
   if (pconn) {
     cat_snprintf(buf, sizeof(buf), _("Host: %s"), pconn->addr);
@@ -1128,43 +1161,42 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   g_signal_connect(GTK_OBJECT(entry), "activate",
 		   GTK_SIGNAL_FUNC(conn_menu_info_chosen), NULL);
 
-  entry = gtk_menu_item_new_with_label(_("Toggle player ready"));
-  gtk_widget_set_sensitive(entry, pplayer && !pplayer->ai.control);
-  g_object_set_data_full(G_OBJECT(menu),
-			 "ready", entry,
-			 (GtkDestroyNotify) gtk_widget_unref);
-  gtk_container_add(GTK_CONTAINER(menu), entry);
-  g_signal_connect(GTK_OBJECT(entry), "activate",
-		   GTK_SIGNAL_FUNC(conn_menu_ready_chosen), NULL);
+  if (pplayer) {
+    entry = gtk_menu_item_new_with_label(_("Toggle player ready"));
+    gtk_widget_set_sensitive(entry, pplayer && !pplayer->ai.control);
+    g_object_set_data_full(G_OBJECT(menu), "ready", entry,
+                           (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+                     GTK_SIGNAL_FUNC(conn_menu_ready_chosen), NULL);
 
-  entry = gtk_menu_item_new_with_label(_("Pick nation"));
-  gtk_widget_set_sensitive(entry,
-			   pplayer
-			   && can_conn_edit_players_nation(&aconnection,
-							   pplayer));
-  g_object_set_data_full(G_OBJECT(menu),
-			 "nation", entry,
-			 (GtkDestroyNotify) gtk_widget_unref);
-  gtk_container_add(GTK_CONTAINER(menu), entry);
-  g_signal_connect(GTK_OBJECT(entry), "activate",
-		   GTK_SIGNAL_FUNC(conn_menu_nation_chosen), NULL);
+    entry = gtk_menu_item_new_with_label(_("Pick nation"));
+    gtk_widget_set_sensitive(entry,
+                             can_conn_edit_players_nation(&aconnection,
+                                                          pplayer));
+    g_object_set_data_full(G_OBJECT(menu), "nation", entry,
+                           (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+                     GTK_SIGNAL_FUNC(conn_menu_nation_chosen), NULL);
 
-  entry = gtk_menu_item_new_with_label(_("Observe this player"));
-  g_object_set_data_full(G_OBJECT(menu),
-			 "observe", entry,
-			 (GtkDestroyNotify) gtk_widget_unref);
-  gtk_container_add(GTK_CONTAINER(menu), entry);
-  g_signal_connect(GTK_OBJECT(entry), "activate",
-		   GTK_SIGNAL_FUNC(conn_menu_player_command), "observe");
+    entry = gtk_menu_item_new_with_label(_("Observe this player"));
+    g_object_set_data_full(G_OBJECT(menu), "observe", entry,
+                           (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+                     GTK_SIGNAL_FUNC(conn_menu_player_command), "observe");
 
-  entry = gtk_menu_item_new_with_label(_("Take this player"));
-  g_object_set_data_full(G_OBJECT(menu), "take", entry,
-			 (GtkDestroyNotify) gtk_widget_unref);
-  gtk_container_add(GTK_CONTAINER(menu), entry);
-  g_signal_connect(GTK_OBJECT(entry), "activate",
-		   GTK_SIGNAL_FUNC(conn_menu_player_command), "take");
+    entry = gtk_menu_item_new_with_label(_("Take this player"));
+    g_object_set_data_full(G_OBJECT(menu), "take", entry,
+                           (GtkDestroyNotify) gtk_widget_unref);
+    gtk_container_add(GTK_CONTAINER(menu), entry);
+    g_signal_connect(GTK_OBJECT(entry), "activate",
+                     GTK_SIGNAL_FUNC(conn_menu_player_take), "take");
+  }
 
-  if (aconnection.access_level >= ALLOW_CTRL && pconn) {
+  if (aconnection.access_level >= ALLOW_CTRL && pconn
+      && (pconn->id != aconnection.id || pplayer)) {
     entry = gtk_separator_menu_item_new();
     g_object_set_data_full(G_OBJECT(menu),
 			   "ctrl", entry,
@@ -1189,7 +1221,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     g_signal_connect(GTK_OBJECT(entry), "activate",
 		     GTK_SIGNAL_FUNC(conn_menu_player_command), "aitoggle");
 
-    if (pplayer->player_no != game.info.player_idx) {
+    if (pplayer->player_no != game.info.player_idx
+        && game.info.is_new_game) {
       entry = gtk_menu_item_new_with_label(_("Remove player"));
       g_object_set_data_full(G_OBJECT(menu), "remove", entry,
 			     (GtkDestroyNotify) gtk_widget_unref);
@@ -1527,10 +1560,10 @@ GtkWidget *create_start_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(main_callback), NULL);
 
-  button = gtk_stockbutton_new(GTK_STOCK_PROPERTIES, _("Pick _Nation"));
-  g_signal_connect(button, "clicked",
+  nation_button = gtk_stockbutton_new(GTK_STOCK_PROPERTIES, _("Pick _Nation"));
+  g_signal_connect(nation_button, "clicked",
 		   G_CALLBACK(pick_nation_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
+  gtk_container_add(GTK_CONTAINER(bbox), nation_button);
 
   take_button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
   g_signal_connect(take_button, "clicked",
