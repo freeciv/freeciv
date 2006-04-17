@@ -50,12 +50,10 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
   if (p1 == p2 || ds == DS_WAR) {
     return DIPL_ERROR;
   }
-  if (players_on_same_team(p1, p2)
-      && ds == DS_ALLIANCE) {
+  if (players_on_same_team(p1, p2)) {
     return DIPL_ERROR;
   }
   if (p1->diplstates[p2->player_no].has_reason_to_cancel == 0
-      && ds != DS_TEAM
       && get_player_bonus(p1, EFT_HAS_SENATE) > 0
       && get_player_bonus(p1, EFT_ANY_GOVERNMENT) == 0) {
     return DIPL_SENATE_BLOCKING;
@@ -117,19 +115,15 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
   if (treaty == DS_WAR 
       || treaty == DS_NO_CONTACT 
       || treaty == DS_ARMISTICE 
+      || treaty == DS_TEAM
       || treaty == DS_LAST) {
-    return DIPL_ERROR; /* these are not positive treaties */
+    return DIPL_ERROR; /* these are not negotiable treaties */
   }
   if (treaty == DS_CEASEFIRE && existing != DS_WAR) {
     return DIPL_ERROR; /* only available from war */
   }
   if (treaty == DS_PEACE 
       && (existing != DS_WAR && existing != DS_CEASEFIRE)) {
-    return DIPL_ERROR;
-  }
-  if (treaty == DS_TEAM
-      && (!players_on_same_team(p1, p2)
-          || existing == DS_TEAM)) {
     return DIPL_ERROR;
   }
   if (treaty == DS_ALLIANCE
