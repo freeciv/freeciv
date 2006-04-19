@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-04-17 13:33+0200\n"
+"POT-Creation-Date: 2006-04-19 08:22+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -380,164 +380,144 @@ msgid "Hut: Unit Spared by Barbarians"
 msgstr ""
 
 #: common/events.c:107
-#, fuzzy
 msgid "Improvement: Bought"
-msgstr "Stadterweiterung"
+msgstr "Stadterweiterung: gekauft"
 
 #: common/events.c:108
-#, fuzzy
 msgid "Improvement: Built"
-msgstr "Stadterweiterung"
+msgstr "Stadterweiterung: fertiggestellt"
 
 #: common/events.c:109
 msgid "Improvement: Forced to Sell"
-msgstr ""
+msgstr "Stadterweiterung: wegen Geldmangel verkauft"
 
 #: common/events.c:110
 msgid "Improvement: New Improvement Selected"
-msgstr ""
+msgstr "Stadterweiterung: Bauauftrag geändert"
 
 #: common/events.c:111
-#, fuzzy
 msgid "Improvement: Sold"
-msgstr "Stadterweiterung"
+msgstr "Stadterweiterung: verkauft"
 
 #: common/events.c:112
 msgid "Tech: Learned From Great Library"
-msgstr ""
+msgstr "Forschung: Fortschritt aus der Großen Bibliothek"
 
 #: common/events.c:113
 msgid "Tech: Learned New Tech"
-msgstr ""
+msgstr "Forschung: neuer Fortschritt"
 
 #: common/events.c:114
 msgid "Treaty: Alliance"
-msgstr ""
+msgstr "Abkommen: Allianz"
 
 #: common/events.c:115
 msgid "Treaty: Broken"
-msgstr ""
+msgstr "Abkommen: gebrochen"
 
 #: common/events.c:116
-#, fuzzy
 msgid "Treaty: Cease-fire"
-msgstr "Großer Führer"
+msgstr "Abkommen: Waffenstillstand"
 
 #: common/events.c:117
-#, fuzzy
 msgid "Treaty: Peace"
-msgstr "Großer Führer"
+msgstr "Abkommen: Frieden"
 
 #: common/events.c:118
-#, fuzzy
 msgid "Treaty: Shared Vision"
-msgstr "Karteneinsicht"
+msgstr "Abkommen: Karteneinsicht"
 
 #: common/events.c:119
 msgid "Unit: Attack Failed"
-msgstr ""
+msgstr "Einheit: Angriff fehlgeschlagen"
 
 #: common/events.c:120
 msgid "Unit: Attack Succeeded"
-msgstr ""
+msgstr "Einheit: Angriff erfolgreich"
 
 #: common/events.c:121
-#, fuzzy
 msgid "Unit: Bought"
-msgstr "Einheiten: "
+msgstr "Einheit: gekauft"
 
 #: common/events.c:122
-#, fuzzy
 msgid "Unit: Built"
-msgstr "Liste aller Einheiten"
+msgstr "Einheit: fertiggestellt"
 
 #: common/events.c:123
 msgid "Unit: Defender Destroyed"
-msgstr ""
+msgstr "Einheit: Verteidiger zerstört"
 
 #: common/events.c:124
 msgid "Unit: Defender Survived"
-msgstr ""
+msgstr "Einheit: Verteidiger überlebt"
 
 #: common/events.c:125
 msgid "Unit: Became More Veteran"
-msgstr ""
+msgstr "Einheit: Erfahrungszuwachs"
 
 #: common/events.c:126
-#, fuzzy
 msgid "Unit: Production Upgraded"
-msgstr "Produktion"
+msgstr "Einheit: Produktion modernisiert"
 
 #: common/events.c:127
-#, fuzzy
 msgid "Unit: Relocated"
-msgstr "%d Einheit ausgewählt"
+msgstr "Einheit: verschoben"
 
 #: common/events.c:128
 msgid "Unit: Orders / goto events"
-msgstr ""
+msgstr "Einheit: Befehle / Gehe nach"
 
 #: common/events.c:129
-#, fuzzy
 msgid "Wonder: Finished"
-msgstr "Weltwunder"
+msgstr "Weltwunder: fertiggestellt"
 
 #: common/events.c:130
-#, fuzzy
 msgid "Wonder: Made Obsolete"
-msgstr "Modernisiere veraltete Einheiten"
+msgstr "Weltwunder: ist veraltet"
 
 #: common/events.c:131
-#, fuzzy
 msgid "Wonder: Started"
-msgstr "Weltwunder: "
+msgstr "Weltwunder: Bau begonnen"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Wonder: Stopped"
-msgstr "Weltwunder: "
+msgstr "Weltwunder: Bau gestoppt"
 
 #: common/events.c:133
-#, fuzzy
 msgid "Wonder: Will Finish Next Turn"
-msgstr "Hinweis: %s in %s in der nächsten Runde fertig."
+msgstr "Weltwunder: in der nächsten Runde fertig"
 
 #: common/events.c:134
-#, fuzzy
 msgid "Diplomatic Message"
-msgstr "Diplomatie: %s"
+msgstr "Diplomatie: Mitteilungen"
 
 #: common/events.c:135
-#, fuzzy
 msgid "Treaty: Embassy"
-msgstr "Botschaft"
+msgstr "Abkommen: Botschaft"
 
 #: common/events.c:136
 msgid "Error message from bad command"
-msgstr ""
+msgstr "Fehlermeldung bei ungültigem Befehl"
 
 #: common/events.c:137
-#, fuzzy
 msgid "Server settings changed"
-msgstr "Lokale Einstellungen speichern"
+msgstr "Server-Einstellungen geändert"
 
 #: common/events.c:138
-#, fuzzy
 msgid "Chat messages"
-msgstr "Nachrichtenfenster"
+msgstr ""
 
 #: common/events.c:139
 msgid "Chat error messages"
 msgstr ""
 
 #: common/events.c:140
-#, fuzzy
 msgid "Connect/disconnect messages"
-msgstr "Verbindungsaufbau."
+msgstr "Mitteilungen zu Verbindungen"
 
 #: common/events.c:141
 msgid "AI Debug messages"
-msgstr ""
+msgstr "KI Debug-Meldungen"
 
 #: common/player.c:627
 msgid "?attitude:Genocidal"
@@ -1427,17 +1407,16 @@ msgstr ""
 #: server/auth.c:136
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
-msgstr ""
+msgstr "Achtung, der Name '%s' ist vergeben, Gast in '%s' umbenannt."
 
 #: server/auth.c:142
-#, fuzzy
 msgid "Guests are not allowed on this server. Sorry."
-msgstr "Keine Berechtigung zur Erteilung von Serverbefehlen."
+msgstr "Tut mir leid, auf diesem Server sind keine Gäste zugelassen."
 
 #: server/auth.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s wurde abgewiesen: doppelter Name [%s]."
+msgstr "%s wurde abgewiesen: keine Gäste zugelassen."
 
 #: server/auth.c:163
 #, c-format
@@ -1445,73 +1424,78 @@ msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr ""
+"Fehler beim Lesen der Spielerdatenbank, Verbindung als Gast '%s' eingerichtet."
+
 
 #: server/auth.c:168
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
 msgstr ""
+"Fehler beim Lesen der Spielerdatenbank, und Gäste sind nicht zugelassen. "
+"Tut mir leid."
 
 #: server/auth.c:172
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr ""
+msgstr "%s wurde abgewiesen: Datenbankfehler und Gäste nicht erlaubt."
 
 #: server/auth.c:179
 #, c-format
 msgid "Enter password for %s:"
-msgstr ""
+msgstr "Passwort für %s eingeben:"
 
 #: server/auth.c:188
 msgid "Enter a new password (and remember it)."
-msgstr ""
+msgstr "Neues Password eingeben (und merken)."
 
 #: server/auth.c:193
 msgid "This server allows only preregistered users. Sorry."
-msgstr ""
+msgstr "Tut mir leid, auf diesem Server sind nur bereits registrierte Spieler zugelassen."
 
 #: server/auth.c:196
 #, c-format
 msgid "%s was rejected: Only preregister users allowed."
-msgstr ""
+msgstr "%s wurde abgewiesen: Nur registrierte Spieler erlaubt."
 
 #: server/auth.c:224 server/auth.c:282
 msgid "Sorry, too many wrong tries..."
-msgstr ""
+msgstr "Tur mit leid, zu viele Versuche..."
 
 #: server/auth.c:225
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr ""
+msgstr "%s wurde abgewiesen: Zu viele fehlgeschlagene Passwortüberprüfungen für neuen Spieler."
 
 #: server/auth.c:241
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
 msgstr ""
+"Achtung: Fehler beim Schreiben der Datenbank. Spielen ohne Statistik ist möglich."
 
 #: server/auth.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s abgewiesen: inkompatible Versionen."
+msgstr "%s abgewiesen: zu viele falsche Passworteingaben."
 
 #: server/auth.c:293
 msgid "Your password is incorrect. Try again."
-msgstr ""
+msgstr "Dein Passwort ist falsch. Versuche es nochmals."
 
 #: server/auth.c:303
 msgid "Sorry, your connection timed out..."
-msgstr ""
+msgstr "Tut mir leid, Deine Verbindungszeit ist abgelaufen..."
 
 #: server/auth.c:305
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr ""
+msgstr "%s wurde abgewiesen: Verbindungszeitablauf bei der Passworteingabe."
 
 #: server/auth.c:370
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
-msgstr ""
+msgstr "Dein Passwort ist zu kurz, minestens %d Zeichen erforderlich. Versuche es nochmals."
 
 #: server/auth.c:376
 #, c-format
@@ -1519,6 +1503,8 @@ msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
 msgstr ""
+"Das Passwort muss mindestens %d Großbuchstaben und %d Ziffern enthalten, sowie "
+"mindestens %d (druckbare) Zeichen lang. Versuche es nochmals."
 
 #: server/barbarian.c:188
 #, c-format
@@ -10580,7 +10566,6 @@ msgid "Select Advance to Steal"
 msgstr "Wähle das zu stehlende Forschungsergebnis"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:266
-#, fuzzy
 msgid "_Advances:"
 msgstr "_Forschungsergebnisse:"
 
@@ -11656,23 +11641,20 @@ msgid "Pick _Nation"
 msgstr "Wähle _Nation"
 
 #: client/gui-gtk-2.0/gui_main.c:1397
-#, fuzzy
 msgid "Create _player"
-msgstr "create <Spieler>"
+msgstr "Spieler hinzufügen"
 
 #: client/gui-gtk-2.0/gui_main.c:1402
-#, fuzzy
 msgid "_Release player"
-msgstr "Spieler _übernehmen"
+msgstr "Spieler freigeben"
 
 #: client/gui-gtk-2.0/gui_main.c:1404 client/gui-gtk-2.0/pages.c:1568
 msgid "_Observe"
 msgstr "Be_obachten"
 
 #: client/gui-gtk-2.0/gui_main.c:1406
-#, fuzzy
 msgid "_Do not observe"
-msgstr "%s beobachtet jetzt"
+msgstr "Nicht beobachten"
 
 #: client/gui-gtk-2.0/gui_main.c:1428
 msgid "<AI>"
@@ -11791,7 +11773,7 @@ msgstr "Kampfeinheiten im Einsatz könnten zu Unzufriedenheit führen. "
 msgid "Military units have no happiness effect. "
 msgstr "Kampfeinheiten wirken sich nicht auf die Zufriedenheit aus. "
 
-#: client/gui-gtk-2.0/helpdlg.#:88 client/gui-gtk-2.0/helpdlg.c:91
+#: client/gui-gtk-2.0/helpdlg.c:88 client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-mui/helpdlg.c:487
 #: client/gui-mui/helpdlg.c:503 client/gui-sdl/helpdlg.c:313
 #: client/gui-sdl/helpdlg.c:674 client/gui-win32/helpdlg.c:82
@@ -12784,9 +12766,9 @@ msgid "C_onnect"
 msgstr "_Verbinden"
 
 #: client/gui-gtk-2.0/pages.c:1112
-#, fuzzy, c-format
+#, c-format
 msgid "Connection name: %s"
-msgstr "Verbindungsaufbau."
+msgstr "Verbindungsname: %s"
 
 #: client/gui-gtk-2.0/pages.c:1115
 #, c-format
@@ -14489,19 +14471,19 @@ msgid "Name of Worklist"
 msgstr "Name der Arbeitsliste"
 
 #: client/gui-sdl/caravan_dialog.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "Your caravan has arrived at %s"
-msgstr "Karawane ist angekommen"
+msgstr "Deine Karawane ist in %s angekommen"
 
 #: client/gui-sdl/caravan_dialog.c:145
 #, c-format
 msgid "Establish Traderoute with %s ( %d R&G + %d trade )"
-msgstr ""
+msgstr "Handelsweg mit %s einrichten (%d Forschung + Gold, %d Handel)"
 
 #: client/gui-sdl/caravan_dialog.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr "Marktplatz betreten"
+msgstr "Marktplatz betreten (%d Forschung + Gold)"
 
 #: client/gui-sdl/caravan_dialog.c:169 data/Freeciv.in:2263
 msgid "Help build Wonder"
@@ -14518,30 +14500,33 @@ msgid "Total users logged in : %d"
 msgstr ""
 
 #: client/gui-sdl/chatline.c:506
-#, fuzzy
 msgid ""
 "Start\n"
 "Game"
-msgstr "Spiel beginnen"
+msgstr ""
+"Spiel\n"
+"beginnen"
 
 #: client/gui-sdl/chatline.c:517
-#, fuzzy
 msgid ""
 "Select\n"
 "Nation"
-msgstr "Nation wählen"
+msgstr ""
+"Nation\n"
+"wählen"
 
 #: client/gui-sdl/chatline.c:529
-#, fuzzy
 msgid ""
 "Server\n"
 "Settings"
-msgstr "Lokale Einstellungen speichern"
+msgstr ""
+"Server\n"
+"Einstellungen"
 
 #: client/gui-sdl/citydlg.c:435 client/gui-win32/citydlg.c:1482
 #: client/gui-win32/citydlg.c:1513 data/Freeciv.in:1160 data/Freeciv.in:1196
 msgid "Unit Commands"
-msgstr "Befehle"
+msgstr "Befehle an Einheiten"
 
 #: client/gui-sdl/citydlg.c:460 data/Freeciv.in:1162 data/Freeciv.in:1198
 msgid "Activate unit"
@@ -14587,158 +14572,149 @@ msgid "Cancel"
 msgstr "Abbrechen"
 
 #: client/gui-sdl/citydlg.c:719 client/gui-sdl/mapview.c:772
-#, fuzzy
 msgid ""
 "\n"
 "veteran"
-msgstr "Veteran"
+msgstr ""
+"\n"
+"Veteran"
 
 #: client/gui-sdl/citydlg.c:956
-#, fuzzy
 msgid ""
 "Disband if build\n"
 "settler at size 1"
-msgstr "Stadt der Größe 1 bei Siedlerbau auflösen"
+msgstr ""
+"Stadt der Größe 1\n"
+"bei Siedlerbau auflösen"
 
 #: client/gui-sdl/citydlg.c:1170
-#, fuzzy
 msgid "Sorry, You have already bought here in this turn"
-msgstr "In dieser Runde wurde bereits gekauft."
+msgstr "Tut mir leid, Du hast hier in dieser Runde schon gekauft."
 
 #: client/gui-sdl/citydlg.c:1174
-#, fuzzy
 msgid "Buy It?"
-msgstr "Kaufen!"
+msgstr "Kaufen?"
 
 #: client/gui-sdl/citydlg.c:1387 client/gui-win32/citydlg.c:790
 msgid "Sell"
 msgstr "Verkaufen"
 
 #: client/gui-sdl/citydlg.c:1415 client/gui-sdl/repodlgs.c:1472
-#, fuzzy
 msgid "Sell It?"
-msgstr "Verkaufen!"
+msgstr "Verkaufen?"
 
 #: client/gui-sdl/citydlg.c:1749 client/gui-sdl/citydlg.c:3789
-#, fuzzy
 msgid "Options panel"
-msgstr "Optionen"
+msgstr "Optionenpanel"
 
 #: client/gui-sdl/citydlg.c:1796
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
-msgstr ""
+msgstr "Einheitenpanel (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1797 client/gui-sdl/citydlg.c:1858
-#, fuzzy
 msgid "unit"
 msgid_plural "units"
-msgstr[0] " Einheit"
-msgstr[1] " Einheit"
+msgstr[0] "Einheit"
+msgstr[1] "Einheiten"
 
 #: client/gui-sdl/citydlg.c:1857
 #, c-format
 msgid "Garrison Panel (%d %s)"
-msgstr ""
+msgstr "Garnisonenpanel (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1909
 msgid "Info Panel"
-msgstr ""
+msgstr "Infopanel"
 
 #: client/gui-sdl/citydlg.c:1934
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution : %d"
-msgstr "Umweltverschmutzung: %3d"
+msgstr "Umweltverschmutzung : %d"
 
 #: client/gui-sdl/citydlg.c:1962
-#, fuzzy
 msgid "Pollution : none"
-msgstr "Verschmutzung:"
+msgstr "Verschmutzung : keine"
 
 #: client/gui-sdl/citydlg.c:1975
-#, fuzzy
 msgid "Trade routes : "
-msgstr "Handelswege"
+msgstr "Handelswege : "
 
 #: client/gui-sdl/citydlg.c:2024
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : +%d"
-msgstr "+%d Handel / %d"
+msgstr "Handel : +%d"
 
 #: client/gui-sdl/citydlg.c:2069 client/gui-sdl/citydlg.c:3732
-#, fuzzy
 msgid "Happiness panel"
-msgstr "Zufriedenheit"
+msgstr "Zufriedenheitspanel"
 
 #: client/gui-sdl/citydlg.c:2569
-#, fuzzy
 msgid "Citizens"
-msgstr "Städte"
+msgstr "Bürger"
 
 #: client/gui-sdl/citydlg.c:2598
-#, fuzzy, c-format
+#, c-format
 msgid "Food : %d per turn"
-msgstr "%3d Goldstücke pro Runde"
+msgstr "Nahrung : %d pro Runde"
 
 #: client/gui-sdl/citydlg.c:2635
-#, fuzzy, c-format
+#, c-format
 msgid "?food:Surplus : %d"
-msgstr "?Food surplus:N+"
+msgstr "Überschuß : %d"
 
 #: client/gui-sdl/citydlg.c:2683
 #, c-format
 msgid "Production : %d (%d) per turn"
-msgstr ""
+msgstr "Produktion : %d (%d) pro Runde"
 
 #: client/gui-sdl/citydlg.c:2729
 #, c-format
 msgid "?production:Support : %d"
-msgstr ""
+msgstr "Unterhalt : %d"
 
 #: client/gui-sdl/citydlg.c:2766
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : %d per turn"
-msgstr "%3d Goldstücke pro Runde"
+msgstr "Handel : %d pro Runde"
 
 #: client/gui-sdl/citydlg.c:2800
-#, fuzzy, c-format
+#, c-format
 msgid "Corruption : %d"
-msgstr "Korruption"
+msgstr "Korruption : %d"
 
 #: client/gui-sdl/citydlg.c:2839
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%d) per turn"
-msgstr "Gold: %d (%+d)"
+msgstr "Gold: %d (%d) pro Runde"
 
 #: client/gui-sdl/citydlg.c:2886
-#, fuzzy, c-format
+#, c-format
 msgid "Upkeep : %d"
-msgstr "Unterhalt:"
+msgstr "Unterhalt : %d"
 
 #: client/gui-sdl/citydlg.c:2925
-#, fuzzy, c-format
+#, c-format
 msgid "Science: %d per turn"
-msgstr "Forschung: %d%%"
+msgstr "Forschung: %d pro Runde"
 
 #: client/gui-sdl/citydlg.c:2965
-#, fuzzy, c-format
+#, c-format
 msgid "Luxury: %d per turn"
-msgstr "Luxus: %d gesamt."
+msgstr "Luxus: %d pro Runde"
 
 #: client/gui-sdl/citydlg.c:3003
-#, fuzzy
 msgid "City growth : blocked"
-msgstr "Stadt wächst:"
+msgstr "Stadt wächst : blockiert"
 
 #: client/gui-sdl/citydlg.c:3005
-#, fuzzy
 msgid "City growth : never"
-msgstr "Städtewachstum"
+msgstr "Stadt wächst : nie"
 
 #: client/gui-sdl/citydlg.c:3009
-#, fuzzy, c-format
+#, c-format
 msgid "City shrinks : %d %s"
-msgstr "Stadt: %s (%s)"
+msgstr "Stadt schrumpft : %d %s"
 
 #: client/gui-sdl/citydlg.c:3010 client/gui-sdl/citydlg.c:3014
 #: client/gui-sdl/citydlg.c:3327 client/gui-sdl/cityrep.c:513
@@ -14753,16 +14729,15 @@ msgstr "Stadt: %s (%s)"
 #: client/gui-sdl/repodlgs.c:2547 client/gui-sdl/wldlg.c:938
 #: client/gui-sdl/wldlg.c:1113 client/gui-sdl/wldlg.c:1401
 #: client/gui-sdl/wldlg.c:1407 client/gui-sdl/wldlg.c:1521
-#, fuzzy
 msgid "turn"
 msgid_plural "turns"
-msgstr[0] "Runden"
+msgstr[0] "Runde"
 msgstr[1] "Runden"
 
 #: client/gui-sdl/citydlg.c:3013
-#, fuzzy, c-format
+#, c-format
 msgid "City growth : %d %s"
-msgstr "Städtewachstum"
+msgstr "Stadt wächst : %d %s"
 
 #: client/gui-sdl/citydlg.c:3063 data/default/buildings.ruleset:317
 #: data/civ2/buildings.ruleset:296 data/civ1/buildings.ruleset:243
@@ -14770,28 +14745,25 @@ msgid "Granary"
 msgstr "Kornspeicher"
 
 #: client/gui-sdl/citydlg.c:3331
-#, fuzzy
 msgid "finished"
-msgstr "finnisch"
+msgstr "beendet"
 
 #: client/gui-sdl/citydlg.c:3617
 #, c-format
 msgid "City of %s (Population %s citizens)"
-msgstr ""
+msgstr "Stadt %s (%s Bürger)"
 
 #: client/gui-sdl/citydlg.c:3633
-#, fuzzy
 msgid " - under CMA control."
-msgstr "%s wird jetzt von der KI kontrolliert."
+msgstr " - Kontrolle durch Bürgermeister."
 
 #: client/gui-sdl/citydlg.c:3720
-#, fuzzy
 msgid "Information panel"
-msgstr "Nähere Informationen über"
+msgstr "Information Panel"
 
 #: client/gui-sdl/citydlg.c:3744
 msgid "Garrison panel"
-msgstr ""
+msgstr "Garnisonspanel"
 
 #: client/gui-sdl/citydlg.c:3756
 msgid "Maintenance panel"
@@ -14803,78 +14775,68 @@ msgid "Change Production"
 msgstr "Produktion ändern"
 
 #: client/gui-sdl/citydlg.c:3813 client/gui-sdl/dialogs.c:1221
-#, fuzzy
 msgid "Hurry production"
-msgstr "Produktion ändern"
+msgstr "Produktion beschleunigen"
 
 #: client/gui-sdl/citydlg.c:3828 client/gui-sdl/cma_fe.c:828
-#, fuzzy
 msgid "Citizen Management Agent"
-msgstr "_Automatisierte Stadtverwaltung"
+msgstr "Bürgermeister"
 
 #: client/gui-sdl/citydlg.c:3842
-#, fuzzy
 msgid "Prev city"
-msgstr "_Vorherige Stadt"
+msgstr "Vorherige Stadt"
 
 #: client/gui-sdl/citydlg.c:3855
-#, fuzzy
 msgid "Next city"
-msgstr "_Nächste Stadt"
+msgstr "Nächste Stadt"
 
 #: client/gui-sdl/cityrep.c:142
-#, fuzzy
 msgid "size"
 msgstr "Größe"
 
 #: client/gui-sdl/cityrep.c:147
-#, fuzzy
 msgid ""
 "time\n"
 "to grow"
-msgstr "Stadt wächst:"
+msgstr ""
+"Stadt\n"
+"wächst in"
 
 #: client/gui-sdl/cityrep.c:166
-#, fuzzy
 msgid "Cities Report"
 msgstr "Stadtbericht"
 
 #: client/gui-sdl/cityrep.c:183
-#, fuzzy
 msgid "Exit Report"
-msgstr "Stadtbericht"
+msgstr ""
 
 #: client/gui-sdl/cityrep.c:194
-#, fuzzy
 msgid "Information Report"
-msgstr "Nähere Informationen über"
+msgstr ""
 
 #: client/gui-sdl/cityrep.c:205
-#, fuzzy
 msgid "Happiness Report"
-msgstr "Zufriedenheit"
+msgstr "Zufriedenheitsbericht"
 
 #: client/gui-sdl/cityrep.c:216
-#, fuzzy
 msgid "Garrison Report"
-msgstr "Abschlußbericht:"
+msgstr "Garnisonsreport"
 
 #: client/gui-sdl/cityrep.c:227
-#, fuzzy
 msgid "Maintenance Report"
-msgstr "Forschungsbericht..."
+msgstr ""
 
 #: client/gui-sdl/cityrep.c:495 client/gui-sdl/cityrep.c:1023
-#, fuzzy
 msgid "worklist"
-msgstr "(Arbeitsliste)"
+msgstr "Arbeitsliste"
 
 #: client/gui-sdl/cityrep.c:499
-#, fuzzy
 msgid ""
 "\n"
 "finshed"
-msgstr "fest"
+msgstr ""
+"\n"
+"beendet"
 
 #: client/gui-sdl/cma_fe.c:437 client/gui-win32/cma_fe.c:458
 msgid "Presets"
@@ -14886,14 +14848,12 @@ msgid "City of %s (Population %s citizens) : %s"
 msgstr ""
 
 #: client/gui-sdl/cma_fe.c:941
-#, fuzzy
 msgid "Save settings as..."
-msgstr "Lokale Einstellungen speichern"
+msgstr "Einstellungen speichern als..."
 
 #: client/gui-sdl/cma_fe.c:950
-#, fuzzy
 msgid "Load settings"
-msgstr "Lokale Einstellungen speichern"
+msgstr "Einstellungen laden"
 
 #: client/gui-sdl/cma_fe.c:959
 #, fuzzy
