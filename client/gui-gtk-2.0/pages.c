@@ -1009,7 +1009,7 @@ static void take_callback(GtkWidget *w, gpointer data)
        * the player username equals the connection username. */
       char buf[512];
 
-      my_snprintf(buf, sizeof(buf), "/ai %s", aconnection.player->name);
+      my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", aconnection.player->name);
       send_chat(buf);
     }
     send_chat("/detach");
@@ -1093,7 +1093,7 @@ static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
 
   if (conn_menu_player->ai.control) {
     /* See comment on detach command for why */
-    my_snprintf(buf, sizeof(buf), "/ai \"%s\"", conn_menu_player->name);
+    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", conn_menu_player->name);
     send_chat(buf);
   }
   my_snprintf(buf, sizeof(buf), "/take \"%s\"", conn_menu_player->name);
@@ -1587,18 +1587,10 @@ void handle_game_load(struct packet_game_load *packet)
   if (!packet->load_successful) {
   } else {
     if (game.info.is_new_game) {
-      char message[MAX_LEN_MSG];
-
       set_client_page(PAGE_START);
       
       /* It's pregame. Create a player and connect to him */
-      my_snprintf(message, sizeof(message), "/create %s", user_name);
-      send_chat(message);
-      my_snprintf(message, sizeof(message), "/ai %s", user_name);
-      send_chat(message);
-      my_snprintf(message, sizeof(message), "/take \"%s\"", user_name);
-      send_chat(message);
-
+      send_chat("/take -");
     } else {
       update_nation_page(packet);
       set_client_page(PAGE_NATION);
@@ -2014,14 +2006,7 @@ static void update_nation_page(struct packet_game_load *packet)
   /* if nplayers is zero, we suppose it's a scenario */
   if (packet->nplayers == 0) {
     GtkTreeIter iter;
-    char message[MAX_LEN_MSG];
-
-    my_snprintf(message, sizeof(message), "/create %s", user_name);
-    send_chat(message);
-    my_snprintf(message, sizeof(message), "/ai %s", user_name);
-    send_chat(message);
-    my_snprintf(message, sizeof(message), "/take \"%s\"", user_name);
-    send_chat(message);
+    send_chat("/take -");
 
     /* create a false entry */
     gtk_list_store_append(nation_store, &iter);

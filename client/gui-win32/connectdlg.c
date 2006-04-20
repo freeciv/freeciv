@@ -202,14 +202,7 @@ void handle_game_load(struct packet_game_load *packet)
 
   /* if nplayers is zero, we suppose it's a scenario */
   if (packet->load_successful && packet->nplayers == 0) {
-    char message[MAX_LEN_MSG];
-
-    my_snprintf(message, sizeof(message), "/create %s", user_name);
-    send_chat(message);
-    my_snprintf(message, sizeof(message), "/ai %s", user_name);
-    send_chat(message);
-    my_snprintf(message, sizeof(message), "/take %s", user_name);
-    send_chat(message);
+    send_chat("/take -");
 
     /* create a false entry */
     row[0] = user_name;
