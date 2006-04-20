@@ -84,7 +84,7 @@ static int quit_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static void popup_start_menu()
+static void show_main_page()
 {
   int w = 0 , h = 0, count = 0;
   struct GUI *pWidget = NULL, *pFirst;
@@ -270,7 +270,7 @@ static void popdown_start_menu()
 void set_client_page(enum client_pages page)
 {
   if (page == PAGE_MAIN) {
-    popup_start_menu();
+    show_main_page();
   }  
   
   old_page = page;
