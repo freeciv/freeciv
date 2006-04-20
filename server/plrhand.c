@@ -903,6 +903,7 @@ static void package_player_info(struct player *plr,
 {
   int i;
   enum plr_info_level info_level;
+  enum plr_info_level highest_team_level;
   struct player_research* research = get_player_research(plr);
 
   if (receiver) {
@@ -911,6 +912,17 @@ static void package_player_info(struct player *plr,
   } else {
     info_level = min_info_level;
   }
+
+  /* We need to send all tech info for all players on the same
+   * team, even if they are not in contact yet; otherwise we will
+   * overwrite team research or confuse the client. */
+  highest_team_level = info_level;
+  players_iterate(aplayer) {
+    if (players_on_same_team(plr, aplayer) && receiver) {
+      highest_team_level = MAX(highest_team_level,
+                               player_info_level(aplayer, receiver));
+    }
+  } players_iterate_end;
 
   /* Only send score if we have contact */
   if (info_level >= INFO_MEETING) {
@@ -981,7 +993,7 @@ static void package_player_info(struct player *plr,
 
   /* Send most civ info about the player only to players who have an
    * embassy. */
-  if (info_level >= INFO_EMBASSY) {
+  if (highest_team_level >= INFO_EMBASSY) {
     for (i = A_FIRST; i < game.control.num_tech_types; i++) {
       packet->inventions[i] = 
         research->inventions[i].state + '0';
