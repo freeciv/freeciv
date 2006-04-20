@@ -835,7 +835,7 @@ static void players_ai_toggle_callback(GtkMenuItem *item, gpointer data)
 
     gtk_tree_model_get(model, &it, ncolumns - 1, &plrno, -1);
 
-    my_snprintf(buf, sizeof(buf), "/aitoggle %s", get_player(plrno)->name);
+    my_snprintf(buf, sizeof(buf), "/aitoggle \"%s\"", get_player(plrno)->name);
     send_chat(buf);
   }
 }
