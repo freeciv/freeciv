@@ -53,6 +53,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "menu.h"
+#include "pages.h"
 #include "themecolors.h"
 #include "wldlg.h"
 
@@ -1981,7 +1982,7 @@ static int back_callback(struct GUI *pWidget)
       sdl_dirty_rect(pOptions_Button->size);
       flush_dirty();
     } else {
-      gui_server_connect();
+      set_client_page(PAGE_MAIN);
     }
     return -1;
   }
