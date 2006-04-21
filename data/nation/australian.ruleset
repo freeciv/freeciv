@@ -3,19 +3,28 @@
 name=_("Australian")
 plural=_("?plural:Australians")
 groups=_("Modern"), _("Oceanian")
-legend=_("Australia was founded as a British penal colony in 1788AD. It is\
- the only country on earth to occupy an entire continent.")
+legend=_("Australia was founded as a British penal colony in 1788AD.\
+ Originally comprising of several colonies (New South Wales, Victora,\
+ Queensland, South Australia, Western Australia and Tasmania) it\
+ became a single country in 1902.\
+ It is the only country on earth to occupy an entire continent.")
 leader =
  "Robert Menzies",
  "Helen Leonard",
  "John Curtin",
- "Edna Lyon"
-leader_sex = "Male", "Female", "Male", "Female"
+ "Edna Lyon",
+ "Harold Holt",
+ "Edmond Barton",
+ "Elizabeth Nicholls",
+ "Edith Cowan"
+leader_sex = "Male", "Female", "Male", "Female", "Male", "Male", "Female",
+ "Female"
+
 flag="australia"
 flag_alt = "-"
 city_style = "Tropical"
 
-ruler_titles = { "government",      "male_title",      "female_title"
+ruler_titles = { "government",      "male_title",        "female_title"
                  "Democracy",       _("Prime Minister"), _("Prime Minister")
                }
 
@@ -25,19 +34,85 @@ init_government="Despotism"
 init_units=""
 civilwar_nations="aborigines", "british"
 
-; Some of these cities could be moved to Aborigines nation.
 cities =
-  "Canberra", "Sydney", "Melbourne", "Brisbane", "Adelaide", "Perth",
-  "Darwin", "Hobart", "Wollongong", "Rockhampton", "Launceston",
-  "Townsville", "Albany", "Bunbury", "Kalgoorlie", "Meekatharra",
-  "Winton", "Alice Springs", "Quilpie", "Cairns", "Southport", "Ballarat",
-  "Waneroo", "Fremantle", "Whyalla", "Albury", "Bathurst", "Dubbo",
-  "Mackay", "Newcastle", "Byron Bay", "Monkey Mia", "Grafton",
-  "Wagga Wagga", "Lismore", "Bourke", "Tamworth", "Woomera", "Carnarvon",
-  "Esperance", "Katherine", "Oodnadatta", "Broken Hill", "Hughenden",
-  "Geelong", "Mt. Isa", "Pine Creek", "Daly Waters", "Wyndham", "Broome",
-  "Onslow", "Geraldton", "Meekathrra", "Tennant Creek", "Ceduna",
-  "Longreach", "Renmark", "Mildura", "Hay", "Bega", "Toowoomba",
-  "Queenstown", "Coober Pedy", "Bendigo", "Derby", "Cunnamulla", "Walgett",
-  "Dampier", "Exmouth", "Yorketown", "Kiama", "Moe", "Warwick", "Gosford",
-  "Bowen", "Ingham", "Gympie", "Caloundra", "Taree", "Katoomba", "Proserpine"
+"Canberra (river, hills, forest, !desert, !ocean)",
+"Sydney (ocean, grassland, !river, !desert)",
+"Melbourne (ocean, river)",
+"Brisbane (mountains, river, forest)",
+"Adelaide (ocean, hills)",
+"Perth (ocean, forest)",
+"Darwin (ocean, swamp)",
+"Hobart (river, ocean, forest)",
+"Wollongong (ocean)",
+"Rockhampton (hills, mountains, !ocean)",
+"Launceston (river, forest, !ocean)",
+"Townsville (mountains, ocean, !desert)",
+"Albany (grassland, ocean)",
+"Bunbury (ocean, !desert)",
+"Kalgoorlie (river, desert, plains, !ocean)",
+"Winton (mountains, plains, !ocean)",
+"Griffith (!ocean, !mountains)",
+"Alice Springs (desert, !ocean, mountains)",
+"Quilpie (river, !ocean)",
+"Cairns (forest, ocean)",
+"Southport (ocean)",
+"Ballarat",
+"Waneroo",
+"Fremantle",
+"Whyalla",
+"Albury",
+"Bathurst (hills)",
+"Dubbo",
+"Mackay",
+"Newcastle (mountains, ocean)",
+"Byron Bay (ocean)",
+"Monkey Mia",
+"Grafton",
+"Wagga Wagga",
+"Lismore (plains)",
+"Bourke",
+"Tamworth (desert, !ocean, grassland)",
+"Woomera",
+"Carnarvon",
+"Esperance",
+"Katherine",
+"Oodnadatta",
+"Broken Hill (hills)",
+"Hughenden",
+"Geelong",
+"Mt. Isa (mountains, !ocean, plains)",
+"Pine Creek (river)",
+"Daly Waters (ocean, river)",
+"Wyndham",
+"Broome",
+"Onslow",
+"Geraldton",
+"Meekathrra",
+"Tennant Creek (river)",
+"Ceduna",
+"Longreach",
+"Renmark",
+"Mildura",
+"Hay (desert)",
+"Bega",
+"Toowoomba (river, mountains, swamp, !ocean)",
+"Queenstown",
+"Coober Pedy",
+"Bendigo",
+"Derby",
+"Cunnamulla",
+"Walgett",
+"Dampier",
+"Exmouth",
+"Yorketown",
+"Kiama",
+"Moe",
+"Warwick (plains, hills, !ocean)",
+"Gosford",
+"Bowen",
+"Ingham",
+"Gympie (!ocean)",
+"Caloundra",
+"Taree",
+"Katoomba",
+"Proserpine"
