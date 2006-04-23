@@ -14,7 +14,7 @@ leader=
  "Zenobia",
  "Aryo",
  "Abgar VIII"	; a.k.a. Abgar the Great
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male" 
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male" 
 flag="aram" 
 flag_alt = "-" 
 city_style = "Classical" 
