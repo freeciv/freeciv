@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-18 17:48+0300\n"
-"PO-Revision-Date: 2006-04-23 17:59+0200\n"
+"PO-Revision-Date: 2006-04-23 20:57+0300\n"
 "Last-Translator: Claudio M. Camacho <claudiomkd@gmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3667,6 +3667,8 @@ msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
 msgstr ""
+"El Senado se niega a romper el paco con los %s, pero puedes buscarte "
+"un Senado nuevo sin problema."
 
 #: server/plrhand.c:605
 #, c-format
@@ -4125,7 +4127,7 @@ msgstr "Motivo: la línea es demasiado corta (se esperaba %d y hay %lu"
 #: server/savegame.c:262
 #, c-format
 msgid "Unknown terrain identifier '%c' in savegame."
-msgstr ""
+msgstr "Nombre de terreno desconocido '%c' en el juego guardado."
 
 #: server/savegame.c:561
 #, c-format
@@ -4133,62 +4135,64 @@ msgid "Warning: Unknown nation %s for starting position no %d"
 msgstr "Aviso: Nación %s desconocida para la posición de arranque no %d"
 
 #: server/savegame.c:588
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Number of starts (%d) are lower than rules.max_players (%d), lowering rules."
 "max_players."
 msgstr ""
-"El número de posiciones iniciales (%d) es menor que max_players (%d), "
-"reduciendo max_players."
+"El número de posiciones iniciales (%d) es menor que rules.max_players (%d), "
+"reduciendo rules.max_players."
 
 #: server/savegame.c:1294 server/savegame.c:1300 server/savegame.c:1306
 #, c-format
 msgid "Wrong unit type id value (%d)"
-msgstr ""
+msgstr "Tipo de unidad incorrecto (%d)"
 
 #: server/savegame.c:1341
 #, c-format
 msgid "Wrong improvement type id value (%d)"
-msgstr ""
+msgstr "Tipo de mejora incorrecto (%d)"
 
 #: server/savegame.c:1440
 #, c-format
 msgid "Wrong tech type id value (%d)"
-msgstr ""
+msgstr "Tipo de tecnología incorrecto (%d)"
 
 #: server/savegame.c:1522
 #, c-format
 msgid "Unknown technology (%s)"
-msgstr ""
+msgstr "Tecnología desconocida (%s)"
 
 #: server/savegame.c:1598 server/savegame.c:1604 server/savegame.c:1610
 #, c-format
 msgid "Wrong government type id value (%d)"
-msgstr ""
+msgstr "Tipo de gobierno incorrecto (%d)"
 
 #: server/savegame.c:1648
 #, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
-msgstr ""
+msgstr "Jugador player%d.u%d incorrecto (%d)"
 
 #: server/savegame.c:1658
 #, c-format
 msgid "Unknown unit type '%s' in player%d section"
-msgstr ""
+msgstr "Tipo de unidad '%s' desconocido en la sección player%d"
 
 #: server/savegame.c:1792
 msgid "Savegame error: invalid unit orders."
-msgstr ""
+msgstr "Error en la partida guardada: órdenes de unidad inválidas."
 
 #: server/savegame.c:1933
 #, c-format
 msgid "Unsupported government found (%s)"
-msgstr ""
+msgstr "Se encontró un gobierno no soportado (%s)"
 
 #: server/savegame.c:1987
 #, c-format
 msgid "Unsupported city style found in player%d section. Changed to %s"
 msgstr ""
+"Se encontró un estilo de ciudad no soportado en la sección player%d. "
+"Cambiando a %s"
 
 #: server/savegame.c:3424
 msgid "Savegame too old, at least version 1.9.0 required."
@@ -4267,9 +4271,8 @@ msgid "Rare"
 msgstr "Raras"
 
 #: server/settings.c:45
-#, fuzzy
 msgid "Changed"
-msgstr "Cambiar"
+msgstr "Cambiado"
 
 #: server/settings.c:100
 msgid ""
@@ -4299,7 +4302,7 @@ msgstr ""
 
 #: server/settings.c:160
 msgid "Cannot change maxplayers in GGZ mode."
-msgstr ""
+msgstr "No se puede cambiar maxplayers en modo GGZ"
 
 #: server/settings.c:165
 msgid "Number of players is higher than requested value; Keeping old value."
@@ -4626,14 +4629,15 @@ msgstr ""
 "Número total de jugadores (incluyendo los jugadores controlados por "
 "ordenador)"
 
+
 #: server/settings.c:421
 #, fuzzy
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount."
 msgstr ""
-"Si en el momento de comenzar la partida el número de jugadores es menor que "
-"este valor, el ordenador añadirá jugadores artificiales hasta completarlo."
+"Si es un valor positivo, los jugadores del Ordenador serán creados/eliminados "
+"automáticamente para mantener el total de jugadores en esta cantidad."
 
 #: server/settings.c:433
 msgid "List of players' initial units"
@@ -4654,6 +4658,17 @@ msgid ""
 "    a   = Fast attack unit (eg., Horsemen)\n"
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
+"Esto debería ser una cadena de carácteres, de los cuales cada uno especifica"
+"un papel de una unidad. Tiene que haber al menos una ciudad fundadora in esta "
+"    c   = Ciudad fundadora (ej., Colonos)\n"
+"    w   = Trabajador del terreno (ej., Ingenieros)\n"
+"    x   = Explorador (ej., Explorador)\n"
+"    k   = Pérdida del juego (eg., Rey)\n"
+"    s   = Diplomático (ej., Diplomático)\n"
+"    d   = Unidad de ataque mediocre (ej., Guerreros)\n"
+"    D   = Unidad de defensa buena (eg., Falange)\n"
+"    a   = Unidad de ataque rápida (eg., Caballeros)\n"
+"    A   = Unidad de ataque fuerte (eg., Catapulta)\n"
 
 #: server/settings.c:451
 msgid "Area where initial units are located"
@@ -4680,7 +4695,6 @@ msgid "Number of initial techs per player"
 msgstr "Número de tecnologías iniciales para cada jugador"
 
 #: server/settings.c:466
-#, fuzzy
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player. Depending on the value "
@@ -4688,22 +4702,24 @@ msgid ""
 "next techs really expensive."
 msgstr ""
 "Al comienzo de la partida, cada jugador recibirá este número de tecnologías. "
-"La tecnologías serán escogidas aleatoriamente."
+"La tecnologías serán escogidas aleatoriamente para cada jugador. Dependiendo "
+"del valor de tech_cost_style en el ruleset, un valor alto en techlevel puede "
+"hacer que las siguientes tecnologías sean demasiado caras."
 
 #: server/settings.c:475
 msgid "Technology cost multiplier percentage"
-msgstr ""
+msgstr "Porcentaje multiplicador del coste de la tecnología"
 
 #: server/settings.c:476
-#, fuzzy
 msgid ""
 "This affects how quickly players can research new technology. All tech costs "
 "are multiplied by this amount (as a percentage). The base tech costs are "
 "determined by the ruleset or other game settings."
 msgstr ""
 "Esto afecta a la rapidez con la que los jugadores van obteniendo nuevas "
-"tecnologías. Doblar este valor hará que todas las tecnologías cuenten el "
-"doble de desarrollar."
+"tecnologías. Todos los costes tecnológicos se multiplican por esta cantidad "
+"(como un porcentaje). La base de los costes tecnológicos está determinada por "
+"el ruleset u otras configuraciones del juego."
 
 #: server/settings.c:485
 msgid "Percentage penalty when changing tech"
@@ -4797,13 +4813,15 @@ msgstr ""
 
 #: server/settings.c:545
 msgid "Multiplier percentage for production costs"
-msgstr ""
+msgstr "Porcentaje multiplicador para los costes de producción"
 
 #: server/settings.c:546
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
 msgstr ""
+"Esto afecta a la rapidez en que las unidades y los edificios se construyen. "
+"La base de los costes se multiplica por este valor (como un porcentaje)."
 
 #: server/settings.c:560
 msgid "Minimum city size to get full trade"
@@ -4928,13 +4946,15 @@ msgstr ""
 
 #: server/settings.c:641
 msgid "Turn on/off server-side autoattack"
-msgstr ""
+msgstr "Activa/Desactiva el autoataque en el servidor"
 
 #: server/settings.c:642
 msgid ""
 "If set to on, units with move left will automatically consider attacking "
 "enemy units that move adjacent to them."
 msgstr ""
+"Si está activado, las unidades en movimiento atacarán automáticamente "
+"a las unidades enemigas que pasen al lado de ellas."
 
 #: server/settings.c:648
 msgid "Reduce city population after attack"
@@ -4990,7 +5010,6 @@ msgid "Ability to do diplomacy with other players"
 msgstr "Posibilidad de diplomacia entre jugadores"
 
 #: server/settings.c:680
-#, fuzzy
 msgid ""
 "0 = default; diplomacy is enabled for everyone.\n"
 "1 = diplomacy is only allowed between human players.\n"
@@ -4999,18 +5018,11 @@ msgid ""
 "4 = diplomacy is disabled for everyone."
 msgstr ""
 "0 = por defecto; todos los jugadores pueden usar la diplomacia.\n"
-"\n"
 "1 = sólo se permite la diplomacia entre jugadores humanos.\n"
-"\n"
 "2 = sólo se permite la diplomacia entre jugadores controlados por el "
 "ordenador.\n"
-"\n"
 "3 = sólo se permite la diplomacia entre equipos.\n"
-"\n"
-"4 = nadie puede usar la diplomacia.\n"
-"\n"
-"Los jugadores de un mismo equipo siempre pueden usar la diplomacia entre "
-"ellos."
+"4 = nadie puede usar la diplomacia."
 
 #: server/settings.c:689
 msgid "Allowed city names"
@@ -5083,7 +5095,7 @@ msgstr ""
 
 #: server/settings.c:746
 msgid "Whether to enable fog of war"
-msgstr "Activar la \"niebla de guerra\""
+msgstr "Activar la niebla en la guerra"
 
 #: server/settings.c:747
 msgid ""
@@ -5098,6 +5110,8 @@ msgstr ""
 #: server/settings.c:755
 msgid "Base chance for diplomats and spies to succeed."
 msgstr ""
+"Oportunidad inicial de los diplomáticos y los espías de conseguir "
+"su objetivo."
 
 #: server/settings.c:757
 #, no-c-format
@@ -5105,6 +5119,8 @@ msgid ""
 "The chance of a spy returning from a successful mission and the base chance "
 "of success for diplomats and spies."
 msgstr ""
+"Oportunidad de que un espía vuelva de su misión victoriosa y la oportunidad "
+"inicial de que los diplomáticos y espías consigan su objetivo."
 
 #: server/settings.c:764
 msgid "Whether to allow space race"
@@ -5297,15 +5313,16 @@ msgstr ""
 "es menor a este valor se asigna a este."
 
 #: server/settings.c:887
-#, fuzzy
 msgid "Whether to have simultaneous player phases."
-msgstr "Registrar las estadísticas de los jugadores"
+msgstr "Posibilidad de tener fases simultáneas de jugador."
 
 #: server/settings.c:888
 msgid ""
 "If true, all players' movement phases will occur simultaneously; if false "
 "then players will alternate movement."
 msgstr ""
+"Si es verdadero, todas las fases de movimiento de los jugadores ocurrirán "
+"al mismo tiempo; si no, los jugadores moverán alternativamente."
 
 #: server/settings.c:895
 msgid "Seconds to let a client's network connection block"
@@ -5362,27 +5379,25 @@ msgid "Turn-blocking game play mode"
 msgstr "Modo de juego con bloqueo de turnos"
 
 #: server/settings.c:930
-#, fuzzy
 msgid ""
 "If this is set to 1 the game.info.turn is not advanced until all players "
 "have finished their turn, including disconnected players."
 msgstr ""
-"Si esta opción vale 1 no se avanza el turno del juego hasta que todos los "
-"jugadores (incluyendo los desconectados) hayan finalizado su turno."
+"Si esta opción vale 1, game.info.turn no se avanza hasta que todos los "
+"jugadores hayan terminado su turno, inclusive los jugadores desconectados."
 
 #: server/settings.c:937
 msgid "Fixed-length turns play mode"
 msgstr "Modo de juego con turnos de duración fija"
 
 #: server/settings.c:938
-#, fuzzy
 msgid ""
 "If this is set to 1 the game.info.turn will not advance until the timeout "
 "has expired, even if all players have clicked on \"Turn Done\"."
 msgstr ""
-"Si esta opción vale 1 no se avanza el turno del juego hasta que transcurra "
-"el plazo estipulado, aunque todos los jugadores hayan pulsado \"Finalizar "
-"Turno\"."
+"Si esta opción vale 1, game.info.turn se avanza hasta que el límite de "
+"tiempo haya expirado, aunque todos los jugadores hayan hecho click en "
+"\"Fin del Turno\""
 
 #: server/settings.c:945
 msgid "What is in the Demographics report"
@@ -5494,100 +5509,86 @@ msgid "Server: bad address: [%s:%d]."
 msgstr "Servidor: dirección incorrecta: [%s:%d]."
 
 #: server/spacerace.c:165
-#, fuzzy
 msgid "You need to have a capital in order to launch your spaceship."
-msgstr "Juego: Necesitas una capital para lanzar tu nave espacial."
+msgstr "Necesitas una capital para lanzar tu nave espacial."
 
 #: server/spacerace.c:171
-#, fuzzy
 msgid "Your spaceship is already launched!"
-msgstr "Juego: ¡Ya has lanzado tu nave espacial!"
+msgstr "¡Ya has lanzado tu nave espacial!"
 
 #: server/spacerace.c:177
-#, fuzzy
 msgid "Your spaceship can't be launched yet!"
-msgstr "Juego: ¡Todavía no puedes lanzar tu nave espacial!"
+msgstr "¡Todavía no puedes lanzar tu nave espacial!"
 
 #: server/spacerace.c:186
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
-"Juego: ¡Los %s han lanzado una nave espacial!  Se calcula que llegará a Alfa "
+"¡Los %s han lanzado una nave espacial! Se calcula que llegará a Alfa "
 "Centauri en %s."
 
 #: server/spacerace.c:204
-#, fuzzy
 msgid "Spaceship action received, but you don't have a spaceship!"
 msgstr ""
-"Juego: ¡Se ha recibido una acción sobre la nave espacial, pero no tienes una "
+"¡Se ha recibido una acción sobre la nave espacial, pero no tienes una "
 "nave espacial!"
 
 #: server/spacerace.c:210
-#, fuzzy
 msgid "You can't modify your spaceship after launch!"
-msgstr "Juego: ¡No puedes modificar tu nave espacial después de lanzarla!"
+msgstr "¡No puedes modificar tu nave espacial después de lanzarla!"
 
 #: server/spacerace.c:219
-#, fuzzy
 msgid "You don't have any unplaced Space Structurals!"
-msgstr "Juego: ¡No tienes ninguna Estructura Espacial sin colocar!"
+msgstr "¡No tienes ninguna Estructura Espacial sin colocar!"
 
 #: server/spacerace.c:224
-#, fuzzy
 msgid "That Space Structural would not be connected!"
-msgstr "Juego: ¡Esa Estructura Espacial no quedaría conectada!"
+msgstr "¡Esa Estructura Espacial no quedaría conectada!"
 
 #: server/spacerace.c:239 server/spacerace.c:260
-#, fuzzy
 msgid "You don't have any unplaced Space Components!"
-msgstr "Juego: ¡No tienes ningún Componente Espacial sin conectar!"
+msgstr "¡No tienes ningún Componente Espacial sin conectar!"
 
 #: server/spacerace.c:245
-#, fuzzy
 msgid "Your spaceship already has the maximum number of Fuel Components!"
 msgstr ""
-"Juego: ¡Tu nave espacial ya tiene el número máximo de Componentes de "
+"¡Tu nave espacial ya tiene el número máximo de Componentes de "
 "Combustible!"
 
 #: server/spacerace.c:266
-#, fuzzy
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
 msgstr ""
-"Juego: ¡Tu nave espacial ya tiene el número máximo de Componentes de "
+"¡Tu nave espacial ya tiene el número máximo de Componentes de "
 "Propulsión!"
 
 #: server/spacerace.c:282 server/spacerace.c:304 server/spacerace.c:326
-#, fuzzy
 msgid "You don't have any unplaced Space Modules!"
-msgstr "Juego: ¡No tienes ningún Módulo Espacial sin colocar!"
+msgstr "¡No tienes ningún Módulo Espacial sin colocar!"
 
 #: server/spacerace.c:288
-#, fuzzy
 msgid "Your spaceship already has the maximum number of Habitation Modules!"
 msgstr ""
-"Juego: ¡Tu nave espacial ya tiene el número máximo de Módulos Habitables!"
+"¡Tu nave espacial ya tiene el número máximo de Módulos Habitables!"
 
 #: server/spacerace.c:310
-#, fuzzy
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
 msgstr ""
-"Juego: ¡Tu nave espacial ya tiene el número máximo de Módulos de Soporte "
+"¡Tu nave espacial ya tiene el número máximo de Módulos de Soporte "
 "Vital!"
 
 #: server/spacerace.c:332
-#, fuzzy
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
 msgstr ""
-"Juego: ¡Tu nave espacial ya tiene el número máximo de Módulos de Paneles "
+"¡Tu nave espacial ya tiene el número máximo de Módulos de Paneles "
 "Solares!"
 
 #: server/spacerace.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr ""
-"Juego: ¡Al no ser guiada desde la capital, la nave espacial %s se ha perdido!"
+"¡Al no ser guiada desde la capital, la nave espacial %s se ha perdido!"
 
 #: server/srv_main.c:220
 msgid "Game ended in a draw as end year exceeded"
@@ -5618,20 +5619,22 @@ msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
 "s."
 msgstr ""
+"Tu %s unidad %s ha sido desarticulada de acuerdo con tu tratado de paz con "
+"los %s."
 
 #: server/srv_main.c:482
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
-"Juego: Los preocupados ciudadanos te recuerdan que la tregua con %s se "
+"Los ciudadanos, preocupados, te recuerdan que la tregua con %s se "
 "acabará pronto."
 
 #: server/srv_main.c:486
-#, fuzzy, c-format
+#, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
-"Juego: La tregua con %s se ha acabado. Ahora eres neutral hacia los %s."
+"La tregua con %s se ha acabado. Ahora eres neutral para con los %s."
 
 #: server/srv_main.c:822
 #, c-format
@@ -5651,15 +5654,17 @@ msgstr "La partida ya está en marcha."
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
+"%s perdió el control a nivel de comandos al comienzo de la partida. "
+"Utiliza el voto a partir de ahora."
 
 #: server/srv_main.c:869
 msgid "Starting game."
 msgstr "Empezando la partida."
 
 #: server/srv_main.c:914
-#, fuzzy, c-format
+#, c-format
 msgid "request for unknown report (type %d)"
-msgstr "Juego: solicitud de informe desconocido (tipo %d)"
+msgstr "solicitud de informe desconocido (tipo %d)"
 
 #: server/srv_main.c:976
 #, c-format
@@ -5702,17 +5707,17 @@ msgstr "Por favor, elige un nombre que contenga sólo caracteres ASCII."
 #: server/srv_main.c:1302
 #, c-format
 msgid "%s nation is not available in this scenario."
-msgstr ""
+msgstr "La nación %s no está disponible en este escenario."
 
 #: server/srv_main.c:1308
-#, fuzzy, c-format
+#, c-format
 msgid "%s nation is already in use."
-msgstr "La nation ya se está usando."
+msgstr "La nacion %s está en uso."
 
 #: server/srv_main.c:1325
-#, fuzzy, c-format
+#, c-format
 msgid "%s is the %s ruler %s."
-msgstr "Juego: %s es el gobernante %s %s."
+msgstr "%s es el gobernante %s."
 
 #: server/srv_main.c:1386
 #, c-format
@@ -5726,9 +5731,9 @@ msgid "All players are ready; starting game."
 msgstr "Todos los jugadorres están preparados; comenzando la partida."
 
 #: server/srv_main.c:1433 server/srv_main.c:1437
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as %s level AI-controlled player."
-msgstr "Se ha unido el jugador %s, controlado por el ordenador."
+msgstr "Se ha añadido %s como el jugador %s controlado por el Ordenador."
 
 #: server/srv_main.c:1564
 #, c-format
@@ -5736,9 +5741,9 @@ msgid "Player %d"
 msgstr "Jugador %d"
 
 #: server/srv_main.c:1575 server/srv_main.c:1580
-#, fuzzy, c-format
+#, c-format
 msgid "%s rules the %s."
-msgstr "Juego: %s gobierna a los %s."
+msgstr "%s gobierna a los %s."
 
 #: server/srv_main.c:1727
 #, c-format
@@ -5746,7 +5751,6 @@ msgid "Sending info to metaserver [%s]"
 msgstr "Enviando información al metaservidor [%s]"
 
 #: server/srv_main.c:1755
-#, fuzzy
 msgid "The game is over..."
 msgstr "¡La partida ha finalizado!"
 
@@ -5846,22 +5850,26 @@ msgstr "El argumento debe ser 'u', 'up', 'd', 'down', o '?'."
 #: server/stdinhand.c:599
 #, c-format
 msgid "Metaserver patches string set to '%s'."
-msgstr ""
+msgstr "El metaservidor parchea la cadena configurada a '%s'."
 
 #: server/stdinhand.c:602
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
+"El metaservidor parchea la cadena configurada a '%s', sin informar "
+"al metaservidor."
 
 #: server/stdinhand.c:623
 #, c-format
 msgid "Metaserver message string set to '%s'."
-msgstr ""
+msgstr "El mensaje del metaservidor se cambió a '%s'."
 
 #: server/stdinhand.c:626
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
+"El mensaje del metaservidor se cambió a '%s', sin informar al "
+"metaservidor."
 
 #: server/stdinhand.c:646
 #, c-format
@@ -5874,9 +5882,8 @@ msgid "Server id: %s"
 msgstr "Servidor id: %s"
 
 #: server/stdinhand.c:752
-#, fuzzy
 msgid "You cannot save games manually on this server."
-msgstr "Termina el juego y sale del servidor."
+msgstr "No se pueden guardar las partidas manualmente en este servidor."
 
 #: server/stdinhand.c:769
 msgid "Cannot toggle a barbarian player."
@@ -5946,12 +5953,12 @@ msgstr "Se ha eliminado al jugador %s de la partida."
 #: server/stdinhand.c:1004 server/stdinhand.c:3183
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr ""
+msgstr "El nombre \"%s\" se ha prohibido por motivos de seguridad."
 
 #: server/stdinhand.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "No hay ninguna conexión llamada '%s'."
+msgstr "No hay ningún comando con el nombre \"%s\"."
 
 #: server/stdinhand.c:1025
 #, c-format
@@ -5976,6 +5983,8 @@ msgstr "No se puede escribir el fichero de comandos '%s'."
 #: server/stdinhand.c:1145
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
+"No se pueden usar los comandos de escritura en este servidor por"
+"razones de seguridad."
 
 #: server/stdinhand.c:1173
 #, c-format
@@ -5987,12 +5996,12 @@ msgstr ""
 "tienes '%s'."
 
 #: server/stdinhand.c:1228
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
-"Juego: Cualquiera puede asumir ahora el nivel de acceso a comandos '%s' "
-"usando el comando 'firstlevel'."
+"Cualquiera puede asumir ahora el nivel organizador '%s' usando el comando "
+"'first'."
 
 #: server/stdinhand.c:1261
 msgid "Command access levels in effect:"
@@ -6047,10 +6056,9 @@ msgstr ""
 "establecido en %s."
 
 #: server/stdinhand.c:1387
-#, fuzzy
 msgid "The 'first' command makes no sense from the server command line."
 msgstr ""
-"El comando 'firstlevel' no tiene sentido en la línea de comandos del "
+"El comando 'first' no tiene sentido en la línea de comandos del "
 "servidor."
 
 #: server/stdinhand.c:1391
@@ -6059,14 +6067,13 @@ msgid "You already have command access level '%s' or better."
 msgstr "Juego: Ya tienes el nivel de acceso a comandos '%s' o uno superior."
 
 #: server/stdinhand.c:1396
-#, fuzzy
 msgid "Someone else already is game organizer."
-msgstr "Ya hay alguien con nivel de acceso a comandos '%s' o mejor."
+msgstr "Ya hay alguien que es organizador del juego."
 
 #: server/stdinhand.c:1401
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
-msgstr ""
+msgstr "La conexión %s optó por asumir la organización del juego."
 
 #: server/stdinhand.c:1452
 #, c-format
@@ -6138,7 +6145,7 @@ msgstr "Operador del servidor: %s"
 #: server/stdinhand.c:1772 server/stdinhand.c:1798 server/stdinhand.c:1814
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr "Juego: '%s' ahora juega según la dificultad '%s'."
+msgstr "El jugador '%s' ahora juega según la dificultad '%s'."
 
 #: server/stdinhand.c:1802
 #, c-format
@@ -6183,9 +6190,8 @@ msgid "Unknown option '%s'."
 msgstr "Opción desconocida: '%s'."
 
 #: server/stdinhand.c:1928
-#, fuzzy
 msgid "All options with non-default values"
-msgstr "= quiere decir que la opción está en su valor por defecto"
+msgstr "Todas las opciones sin valor por defecto"
 
 #: server/stdinhand.c:1931
 msgid "All options"
@@ -6225,25 +6231,26 @@ msgid "description"
 msgstr "descripción"
 
 #: server/stdinhand.c:2025
-#, fuzzy
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
-msgstr "Prueba 'show situational' o 'show rare' para enseñar más opciones"
+msgstr 
+"Prueba 'show situational' o 'show rare' para ver más opciones.\n"
+"Prueba 'show changed' para ver las opciones sin valor por defecto."
 
 #: server/stdinhand.c:2075
 msgid "Cannot change teams once game has begun."
 msgstr "No se pueden cambiar los equipos tras el inicio de la partida."
 
 #: server/stdinhand.c:2085
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> <team>."
-msgstr "Argumento indefinido.  Uso: team <nombre-de-jugador> [equipo]."
+msgstr "Argumento indefinido. Uso: team <jugador> <equipo>."
 
 #: server/stdinhand.c:2105
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
-msgstr ""
+msgstr "No existe el equipo %s. Por favor, introduce un nombre o número de "
+"equipo válidos."
 
 #: server/stdinhand.c:2112
 msgid "Cannot team a barbarian."
@@ -6267,6 +6274,8 @@ msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
 msgstr ""
+"Sólo se puede votar en una partida en curso. Usa 'first' para ser el "
+"organizador de la partida si no hay ninguno actualmente."
 
 #: server/stdinhand.c:2164
 #, c-format
@@ -6305,6 +6314,8 @@ msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
 msgstr ""
+"Argumentos indefinidos. Uso: debug <diplomaciy <jugador> | city <x> <y> | "
+"units <x> <y> | unit <id> | tech <player> | timing | info>."
 
 #: server/stdinhand.c:2249
 msgid "Can only use this command once game has begun."
