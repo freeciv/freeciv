@@ -5717,7 +5717,7 @@ msgstr "La nacion %s está en uso."
 #: server/srv_main.c:1325
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr "%s es el gobernante %s."
+msgstr "%s es %s, el gobernante de los %s."
 
 #: server/srv_main.c:1386
 #, c-format
