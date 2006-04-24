@@ -444,7 +444,43 @@ void create_players_dialog(void)
   gtk_box_pack_start(GTK_BOX(players_dialog_shell->vbox), sw,
 		     TRUE, TRUE, 0);
 
+  players_int_command = gtk_button_new_with_mnemonic(_("_Intelligence"));
+  g_signal_connect(players_int_command, "clicked",
+      G_CALLBACK(players_intel_callback), NULL);
+  gui_dialog_add_widget(players_dialog_shell, players_int_command);  
+  gtk_size_group_add_widget(players_dialog_shell->gui_button, 
+      players_int_command);
+
+  players_meet_command = gtk_button_new_with_mnemonic(_("_Meet"));
+  g_signal_connect(players_meet_command, "clicked",
+      G_CALLBACK(players_meet_callback), NULL);
+  gui_dialog_add_widget(players_dialog_shell, players_meet_command);
+  gtk_size_group_add_widget(players_dialog_shell->gui_button, 
+      players_meet_command);
+
+  players_war_command = gtk_button_new_with_mnemonic(_("_Cancel Treaty"));
+  g_signal_connect(players_war_command, "clicked",
+      G_CALLBACK(players_war_callback), NULL);
+  gui_dialog_add_widget(players_dialog_shell, players_war_command);  
+  gtk_size_group_add_widget(players_dialog_shell->gui_button,
+      players_war_command);
+
+  players_vision_command  = gtk_button_new_with_mnemonic(_("_Withdraw vision"));
+  g_signal_connect(players_vision_command, "clicked",
+      G_CALLBACK(players_vision_callback), NULL);
+  gui_dialog_add_widget(players_dialog_shell, players_vision_command);  
+  gtk_size_group_add_widget(players_dialog_shell->gui_button,
+     players_vision_command);
+
+  players_sship_command = gtk_button_new_with_mnemonic(_("_Spaceship"));
+  g_signal_connect(players_sship_command, "clicked",
+      G_CALLBACK(players_sship_callback), NULL);
+  gui_dialog_add_widget(players_dialog_shell, players_sship_command);
+  gtk_size_group_add_widget(players_dialog_shell->gui_button,
+      players_sship_command);
+
   vbox = gtk_vbox_new(FALSE, 0);
+  
   sep = gtk_hseparator_new();
   gtk_box_pack_start(GTK_BOX(vbox), sep, FALSE, FALSE, 0);
 
@@ -482,38 +518,6 @@ void create_players_dialog(void)
   }
   gtk_widget_show_all(menu);
 
-  item = gtk_menu_item_new_with_mnemonic(_("_Diplomacy"));
-  gtk_menu_shell_append(GTK_MENU_SHELL(menubar), item);
-
-  menu = gtk_menu_new();
-  gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-
-  players_int_command = gtk_menu_item_new_with_mnemonic(_("_Intelligence"));
-  gtk_widget_set_sensitive(players_int_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_int_command);
-
-  sep = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
-
-  players_meet_command = gtk_menu_item_new_with_mnemonic(_("_Meet"));
-  gtk_widget_set_sensitive(players_meet_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_meet_command);
-
-  players_war_command = gtk_menu_item_new_with_mnemonic(_("_Cancel Treaty"));
-  gtk_widget_set_sensitive(players_war_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_war_command);
-
-  players_vision_command=gtk_menu_item_new_with_mnemonic(_("_Withdraw vision"));
-  gtk_widget_set_sensitive(players_vision_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_vision_command);
-
-  sep = gtk_separator_menu_item_new();
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), sep);
-
-  players_sship_command = gtk_menu_item_new_with_mnemonic(_("_Spaceship"));
-  gtk_widget_set_sensitive(players_sship_command, FALSE);
-  gtk_menu_shell_append(GTK_MENU_SHELL(menu), players_sship_command);
-
   players_edit_menu = gtk_menu_item_new_with_mnemonic(_("_Editor"));
   gtk_menu_shell_append(GTK_MENU_SHELL(menubar), players_edit_menu);
   gtk_widget_set_sensitive(players_edit_menu, can_conn_edit(&aconnection));
@@ -527,16 +531,6 @@ void create_players_dialog(void)
 
   gui_dialog_show_all(players_dialog_shell);
 
-  g_signal_connect(players_meet_command, "activate",
-    G_CALLBACK(players_meet_callback), NULL);
-  g_signal_connect(players_war_command, "activate",
-    G_CALLBACK(players_war_callback), NULL);
-  g_signal_connect(players_vision_command, "activate",
-    G_CALLBACK(players_vision_callback), NULL);
-  g_signal_connect(players_int_command, "activate",
-    G_CALLBACK(players_intel_callback), NULL);
-  g_signal_connect(players_sship_command, "activate",
-    G_CALLBACK(players_sship_callback), NULL);
   g_signal_connect(players_edit_nation_command, "activate",
     G_CALLBACK(players_edit_nation_callback), NULL);
 
@@ -892,4 +886,3 @@ static void update_views(void)
     gtk_tree_view_column_set_visible(col, player_dlg_columns[i].show);
   }
 };
-
