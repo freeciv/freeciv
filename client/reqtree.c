@@ -895,15 +895,20 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
       width = node->node_width;
       height = node->node_height;
 
-      canvas_put_rectangle(pcanvas,
-			   get_color(tileset, COLOR_REQTREE_BACKGROUND),
-			   startx, starty, width, height);
-
-      if (!node->is_dummy) {
+      if (node->is_dummy) {
+        /* Use the same layout as lines for dummy nodes */
+        canvas_put_line(pcanvas,
+			get_color(tileset, COLOR_REQTREE_BACKGROUND),
+			LINE_NORMAL,
+			startx, starty, width, 0);
+      } else {
 	const char *text = get_tech_name(game.player_ptr, node->tech);
 	int text_w, text_h;
 	int icon_startx;
 	
+        canvas_put_rectangle(pcanvas,
+                             get_color(tileset, COLOR_REQTREE_BACKGROUND),
+                             startx, starty, width, height);
 
 	/* Print color rectangle with text inside. */
 	canvas_put_rectangle(pcanvas, get_color(tileset, node_color(node)),
@@ -972,7 +977,6 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
              } requirement_vector_iterate_end;
            } government_iterate_end;
 	 }
-			
       }
 
       /* Draw all outgoing edges */
