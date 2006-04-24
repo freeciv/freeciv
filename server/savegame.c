@@ -3288,6 +3288,9 @@ void game_load(struct section_file *file)
     sz_strlcpy(game.demography,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
 					  "game.demography"));
+    sz_strlcpy(game.allow_take,
+	       secfile_lookup_str_default(file, GAME_DEFAULT_ALLOW_TAKE,
+					  "game.allow_take"));
 
     game.spacerace = secfile_lookup_bool_default(file, game.spacerace,
 						"game.spacerace");
@@ -3709,6 +3712,7 @@ void game_save(struct section_file *file)
   secfile_insert_int(file, game.revolution_length, "game.revolen");
   secfile_insert_int(file, game.occupychance, "game.occupychance");
   secfile_insert_str(file, game.demography, "game.demography");
+  secfile_insert_str(file, game.allow_take, "game.allow_take");
   secfile_insert_int(file, game.borders, "game.borders");
   secfile_insert_bool(file, game.happyborders, "game.happyborders");
   secfile_insert_int(file, game.diplomacy, "game.diplomacy");
