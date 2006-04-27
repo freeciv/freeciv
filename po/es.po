@@ -10,7 +10,7 @@
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
 # Jordi Negrevernis i Font <jorneg@retemail.es>, 2005.
-# Claudio M. Camacho <claudiomkd@gmail.com>, 2006
+# Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
@@ -4631,7 +4631,6 @@ msgstr ""
 
 
 #: server/settings.c:421
-#, fuzzy
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount."
@@ -6324,22 +6323,22 @@ msgstr "Sólo se pueden usar este comando después del inicio de la partida."
 #: server/stdinhand.c:2278
 #, c-format
 msgid "%s diplomacy no longer debugged"
-msgstr ""
+msgstr "La diplomacia %s ya no será depurada"
 
 #: server/stdinhand.c:2282
 #, c-format
 msgid "%s diplomacy debugged"
-msgstr ""
+msgstr "La diplomacia %s fue depurada"
 
 #: server/stdinhand.c:2301
 #, c-format
 msgid "%s tech no longer debugged"
-msgstr ""
+msgstr "La tecnología %s ya no será depurada"
 
 #: server/stdinhand.c:2305
 #, c-format
 msgid "%s tech debugged"
-msgstr ""
+msgstr "La tecnología %s fue depurada"
 
 #: server/stdinhand.c:2336 server/stdinhand.c:2366
 msgid "Value 2 & 3 must be integer."
@@ -6356,17 +6355,17 @@ msgstr "No hay ninguna ciudad en estas coordenadas."
 #: server/stdinhand.c:2350
 #, c-format
 msgid "%s no longer debugged"
-msgstr ""
+msgstr "%s ya no será depurado"
 
 #: server/stdinhand.c:2376 server/stdinhand.c:2404
 #, c-format
 msgid "%s's %s no longer debugged."
-msgstr ""
+msgstr "El %2$s de %1$s ya no será depurado"
 
 #: server/stdinhand.c:2380 server/stdinhand.c:2408
 #, c-format
 msgid "%s's %s debugged."
-msgstr ""
+msgstr "El %2$s de %1$s fue depurado."
 
 #: server/stdinhand.c:2395
 msgid "Value 2 must be integer."
@@ -6496,9 +6495,8 @@ msgid "%s is already observing %s."
 msgstr "%s ya observa %s."
 
 #: server/stdinhand.c:2761
-#, fuzzy, c-format
 msgid "%s is already observing."
-msgstr "%s ya observa %s."
+msgstr "%s ya está observando."
 
 #: server/stdinhand.c:2817
 #, c-format
@@ -6506,9 +6504,9 @@ msgid "%s now observes %s"
 msgstr "%s ahora observa %s"
 
 #: server/stdinhand.c:2820
-#, fuzzy, c-format
+#, c-format
 msgid "%s now observes"
-msgstr "%s ahora observa %s"
+msgstr "%s ahora observa"
 
 #: server/stdinhand.c:2859
 msgid "Usage: take <connection-name> <player-name>"
@@ -6585,9 +6583,9 @@ msgid "%s detaching from %s"
 msgstr "%s se desconecta de %s."
 
 #: server/stdinhand.c:3081
-#, fuzzy, c-format
+#, c-format
 msgid "%s no longer observing."
-msgstr "%s ya observa %s."
+msgstr "%s ya no está observando."
 
 #: server/stdinhand.c:3097
 #, c-format
@@ -6595,24 +6593,24 @@ msgid "detaching from %s."
 msgstr "desconectado de %s."
 
 #: server/stdinhand.c:3179
-#, fuzzy
 msgid "Usage: load <game name>"
-msgstr "Uso: load <nombre-de-fichero>"
+msgstr "Uso: load <nombre juego>"
 
 #: server/stdinhand.c:3199
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr ""
+"No se pudo encontrar una partida guardada o un escenario con el "
+"nombre \"%s\"."
 
 #: server/stdinhand.c:3214
-#, fuzzy
 msgid "Cannot load a game while another is running."
 msgstr "No se puede cargar una partida mientras hay otra en marcha."
 
 #: server/stdinhand.c:3223
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load savefile: %s"
-msgstr "No he podido cargar la partida salvada en el fichero: %s"
+msgstr "No he podido cargar la partida guardada en el fichero: %s"
 
 #: server/stdinhand.c:3291
 #, c-format
@@ -6620,9 +6618,11 @@ msgid "Current ruleset directory is \"%s\""
 msgstr "El directorio de ruleset actual es \"%s\"."
 
 #: server/stdinhand.c:3297
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-msgstr "El directorio de ruleset \"%s\" no existe."
+msgstr ""
+"El directorio de ruleset \"%s\" no está permitido por razones de "
+"seguridad."
 
 #: server/stdinhand.c:3305
 #, c-format
@@ -6630,9 +6630,9 @@ msgid "Ruleset directory \"%s\" not found"
 msgstr "El directorio de ruleset \"%s\" no existe."
 
 #: server/stdinhand.c:3311
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr "Se ha cambiado el directorio de ruleset a \"%s\""
+msgstr "El directorio de ruleset ya es \"%s\""
 
 #: server/stdinhand.c:3315
 #, c-format
@@ -6663,9 +6663,9 @@ msgid "Your new vote cancelled your previous vote."
 msgstr "Tu nuevo voto ha cancelado el previo."
 
 #: server/stdinhand.c:3450
-#, fuzzy, c-format
+#, c-format
 msgid "New vote (number %d) by %s: %s."
-msgstr "Nuevo voto, no %d, `por %s: %s."
+msgstr "Nuevo voto, (número %d), por %s: %s."
 
 #: server/stdinhand.c:3469
 msgid "You are not allowed to use this command."
