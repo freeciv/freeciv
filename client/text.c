@@ -79,7 +79,6 @@ const char *popup_info_text(struct tile *ptile)
   const char *activity_text;
   struct city *pcity = ptile->city;
   struct unit *punit = find_visible_unit(ptile);
-  struct unit *pfocus_unit = get_focus_unit_on_tile(ptile);
   const char *diplo_nation_plural_adjectives[DS_LAST] =
     {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
      Q_("?nation:Neutral"),
@@ -182,7 +181,7 @@ const char *popup_info_text(struct tile *ptile)
       }
     } impr_type_iterate_end;
 
-    if (pfocus_unit) {
+    unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       struct city *hcity = find_city_by_id(pfocus_unit->homecity);
 
       if (unit_flag(pfocus_unit, F_TRADE_ROUTE)
@@ -192,7 +191,7 @@ const char *popup_info_text(struct tile *ptile)
 	astr_add_line(&str, _("Trade from %s: %d"),
 		      hcity->name, trade_between_cities(hcity, pcity));
       }
-    } 
+    } unit_list_iterate_end;
   }
   infra = get_tile_infrastructure_set(ptile, &infracount);
   if (infracount > 0) {
@@ -242,7 +241,7 @@ const char *popup_info_text(struct tile *ptile)
       }
     }
 
-    if (pfocus_unit) {
+    unit_list_iterate(get_units_in_focus(), pfocus_unit) {
       int att_chance = FC_INFINITY, def_chance = FC_INFINITY;
       bool found = FALSE;
 
@@ -264,7 +263,7 @@ const char *popup_info_text(struct tile *ptile)
 	astr_add_line(&str, _("Chance to win: A:%d%% D:%d%%"),
 		      att_chance, def_chance);	
       }
-    }
+    } unit_list_iterate_end;
 
     /* TRANS: A is attack power, D is defense power, FP is firepower,
      * HP is hitpoints (current and max). */
