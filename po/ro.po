@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-05 20:45-0500\n"
-"PO-Revision-Date: 2006-04-26 12:26+0200\n"
+"PO-Revision-Date: 2006-04-29 16:56+0200\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -132,9 +132,8 @@ msgid "?attitude:Uneasy"
 msgstr "?atitudine:Dificil"
 
 #: common/player.c:643
-#, fuzzy
 msgid "?attitude:Neutral"
-msgstr "?diplomatic_state:Neutral"
+msgstr "?attitude:Neutru"
 
 #: common/player.c:645
 msgid "?attitude:Respectful"
@@ -153,14 +152,12 @@ msgid "?attitude:Admiring"
 msgstr "?atitudine:Admirativ"
 
 #: common/player.c:654
-#, fuzzy
 msgid "?attitude:Worshipful"
-msgstr "?atitudine:Veneraţie"
+msgstr "?attitude:Plin de adoraţie"
 
 #: common/player.c:665
-#, fuzzy
 msgid "?diplomatic_state:Armistice"
-msgstr "?diplomatic_state:Aliat"
+msgstr "?diplomatic_state:Armistiţiu"
 
 #: common/player.c:666
 msgid "?diplomatic_state:War"
@@ -195,9 +192,8 @@ msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:Fără contact"
 
 #: common/player.c:671
-#, fuzzy
 msgid "?diplomatic_state:Team"
-msgstr "?diplomatic_state:Pace"
+msgstr "?diplomatic_state:Echipă"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:456
@@ -230,20 +226,20 @@ msgstr "nimic"
 
 #: common/requirements.c:1026
 #: common/requirements.c:1030
-#, fuzzy, c-format
+#, c-format
 msgid "%s units"
-msgstr " unitate"
+msgstr "%s unităţi"
 
 #: common/requirements.c:1040
-#, fuzzy, c-format
+#, c-format
 msgid "Size %d"
-msgstr "Mărime"
+msgstr "Mărime %d"
 
 #. TRANS: Obscure ruleset error
 #: common/tech.c:138
 #, c-format
 msgid "tech \"%s\": requires itself"
-msgstr ""
+msgstr "Tehnologia \"%s\": are nevoie de ea însăşi."
 
 #. TRANS: "Unknown" tech
 #: common/tech.c:642
@@ -318,9 +314,8 @@ msgid "Irrigation"
 msgstr "Irigaţie"
 
 #: common/unit.c:548
-#, fuzzy
 msgid "Fortifying"
-msgstr "De pază."
+msgstr "Fortifică."
 
 #: common/unit.c:550
 msgid "Fortified"
@@ -401,9 +396,9 @@ msgstr ""
 "Trezoreria conţine %d galbeni."
 
 #: common/unit.c:1588
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
-msgstr "Din păcate nu pot moderniza %s."
+msgstr "Din păcate nu pot (încă) moderniza %s."
 
 #: common/unit.c:1594
 #: client/gui-mui/dialogs.c:1766
@@ -536,43 +531,43 @@ msgid "Could not convert text from %s to %s: %s"
 msgstr "Joc: Aţi pierdut %1$d unitate într-un atac al unui %3$s a lui %2$s%4$s."
 
 #: utility/log.c:84
-#, c-format
+#, fuzzy, c-format
 msgid "Bad log level \"%s\".\n"
-msgstr ""
+msgstr "Nivel de jurnal (log) eronat \"%s\".\n"
 
 #: utility/log.c:90
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr ""
+msgstr "Nivel de jurnal %d eronat în \"%s\".\n"
 
 #: utility/log.c:92
 #: utility/log.c:103
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
-msgstr ""
+msgstr "Freeciv trebuie compilat cu opţiunea DEBUG pentru a putea folosi nivelul de depanare %d.\n"
 
 #: utility/log.c:108
 #: utility/log.c:120
 #: utility/log.c:161
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr ""
+msgstr "Argument de jurnal prost format \"%s\".\n"
 
 #: utility/log.c:138
 #: utility/log.c:143
 #, c-format
 msgid "Not an integer: '%s'\n"
-msgstr ""
+msgstr "Nu este un întreg: '%s'\n"
 
 #: utility/log.c:150
 #, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
-msgstr ""
+msgstr "Nume de fişier gol ca argument pentru nivelul jurnalului \"%s\".\n"
 
 #: utility/log.c:276
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr ""
+msgstr "Nu am putut deschide fişierul jurnal: %s pentru adăugare \"%s\".\n"
 
 #: utility/log.c:290
 #: utility/log.c:309
@@ -598,7 +593,7 @@ msgstr "Argument nul pentru \"%s\".\n"
 #: utility/shared.c:175
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr ""
+msgstr "Argument lipsă pentru \"%s\".\n"
 
 #: utility/shared.c:463
 #, c-format
@@ -612,35 +607,35 @@ msgstr "%d e.n."
 
 #: utility/shared.c:862
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr ""
+msgstr "Variablia FREECIV_PATH este setatată, dar este goala; folosesc valoarea predefinită."
 
 #: utility/shared.c:966
 #, c-format
 msgid "Could not read data directory %s: %s."
-msgstr ""
+msgstr "Nu am putu citi directorul pentru date %s: %s."
 
 #: utility/shared.c:1217
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr ""
+msgstr "Calea pentru date poate fi stabilită prin intermediul variabilei FREECIV_PATH."
 
 #: utility/shared.c:1219
 #, c-format
 msgid "Current data path is: \"%s\""
-msgstr ""
+msgstr "Calea curentă pentru date este: \"%s\""
 
 #: utility/shared.c:1221
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr ""
+msgstr "Este necesar fişierul \"%s\" pornire eşuată!"
 
 #: utility/shared.c:1345
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr ""
+msgstr "%s: Eroare fatală: încerci să rulezi jocul cu drepturi de super-utilizator!\n"
 
 #: utility/shared.c:1347
 msgid "Use a non-privileged account instead.\n"
-msgstr ""
+msgstr "Foloseşte în schimb un cont de utilizator fără privilegii.\n"
 
 #: utility/shared.c:1363
 msgid "exact match"
@@ -669,7 +664,7 @@ msgstr "nepotrivire"
 #: utility/support.c:150
 #, c-format
 msgid "error %ld (failed FormatMessage)"
-msgstr ""
+msgstr "eroarer %ld (FormatMessage a eşuat)"
 
 #: utility/support.c:160
 #, c-format
@@ -696,7 +691,7 @@ msgstr "Joc: %s vinde %s (inutil) pentru %d."
 #: ai/advdiplomacy.c:278
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr ""
+msgstr "*%s (AI)* În modul absent  AI-ul nu poate semna un asemenea tratat."
 
 #: ai/advdiplomacy.c:288
 #, c-format
@@ -711,7 +706,7 @@ msgstr "*%s (AI)* Mai întâi să întrerupem ostilităţile, %s."
 #: ai/advdiplomacy.c:304
 #, c-format
 msgid "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer first, %s."
-msgstr ""
+msgstr "*%s (AI)* Vreau să menţii starea curentă de încetare a focului ceva mai mult timp, %s."
 
 #: ai/advdiplomacy.c:326
 #, c-format
@@ -792,88 +787,88 @@ msgstr "*%s (AI)* Agresiunea faţă de %s a fost ultima ta greşeală!"
 #, c-format
 msgid "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop the spaceship launch."
 msgid_plural "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop the spaceship launch."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Vom lansa un război total împotriva lui %s în %d rundă pentru a opri lansarea navei spaţiale."
+msgstr[1] "*%s (AI)* Vom lansa un război total împotriva lui %s în %d runde pentru a opri lansarea navei spaţiale."
 
 #: ai/advdiplomacy.c:1193
 #, c-format
 msgid "*%s (AI)* Your aid in this matter will be expected. Long live our glorious alliance!"
-msgstr ""
+msgstr "*%s (AI)* Ajutorul tău va fi aşteptat în această problemă.Fie ca glorioasa noastră alianţă să dureze!"
 
 #: ai/advdiplomacy.c:1198
 #, c-format
 msgid "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will answer in force in %d turn and expect you to honour your alliance with us and do likewise!"
 msgid_plural "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will answer in force in %d turns and expect you to honour your alliance with us and do likewise!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* %s a nesocotit grav tratatele încheiate pentru propriul câştig. Vom raspunde cu forţa în %d rundă şi te aşteptăm să'-ţi onorezi alianţa cu noi şi să faci la fel!"
+msgstr[1] "*%s (AI)* %s a nesocotit grav tratatele încheiate pentru propriul câştig. Vom raspunde cu forţa în %d runde şi te aşteptăm să'-ţi onorezi alianţa cu noi şi să faci la fel!"
 
 #: ai/advdiplomacy.c:1209
 #, c-format
 msgid "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We declare war in %d turn."
 msgid_plural "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Intenţionăm să jefuim şi să distrugem bogata civilizaţie a %s. Vom declara război în %d rundă."
+msgstr[1] "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We declare war in %d turns."
 
 #: ai/advdiplomacy.c:1215
 #, c-format
 msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr ""
+msgstr "*%s (AI)* Dacă vrei o parte din pradă, ni te poţi alătura!"
 
 #: ai/advdiplomacy.c:1219
 #, c-format
 msgid "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization apart. We declare war in %d turn."
 msgid_plural "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization apart. We declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Ne-am săturat de %s. să distrugem această civilizaţie patetică. Vom declara război în %d rundă."
+msgstr[1] "*%s (AI)* Ne-am săturat de %s. să distrugem această civilizaţie patetică. Vom declara război în %d runde."
 
 #: ai/advdiplomacy.c:1227
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr ""
+msgstr "*%s (AI)* Ca aliat de nadejde, aşteptăm ajutorul tău în acest război."
 
 #: ai/advdiplomacy.c:1232
 #, c-format
 msgid "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  Hold on - we are coming!"
 msgid_plural "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  Hold on - we are coming!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Vom onora alianţa şi-i vom declara război lui %s în %d rundă.  Rezistă - suntem pe drum!"
+msgstr[1] "*%s (AI)* Vom onora alianţa şi-i vom declara război lui %s în %d runde.  Rezistă - suntem pe drum!"
 
 #: ai/advdiplomacy.c:1239
 #, c-format
 msgid "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
 msgid_plural "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Vom onora alianţa noastră cu %s şi-i vom declara război lui %s în %d rundă.  Ne aşteptăm ca şi tu să faci la fel."
+msgstr[1] "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d turns.  We expect you to do likewise."
 
 #: ai/advdiplomacy.c:1306
 #, c-format
 msgid "*%s (AI)* Your attempt to conquer space for yourself alone betray your true intentions, and I will have no more of our alliance!"
-msgstr ""
+msgstr "*%s (AI)* Încercarea ta de a cucerii spaţiul de unul singur îţi tradează adevaratele intenţii, si voi renunţa la alianţa noastră!"
 
 #: ai/advdiplomacy.c:1320
 #, c-format
 msgid "*%s (AI)* Your attempt to unilaterally dominate outer space is highly offensive."
-msgstr ""
+msgstr "*%s (AI)* Încercarea ta de a domina spaţiul de unul singur este insultătoare."
 
 #: ai/advdiplomacy.c:1322
 #, c-format
 msgid "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to take action!"
-msgstr ""
+msgstr "*%s (AI)* Dacă nu încetezi construcţia navei spaţiale, voi fi nevoit să iau măsuri!"
 
 #: ai/advdiplomacy.c:1429
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr ""
+msgstr "*%s (AI)* Regret, nu mai este sigur să împart vederea cu tine."
 
 #: ai/advdiplomacy.c:1506
 #, c-format
 msgid "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy our enemy, %s."
-msgstr ""
+msgstr "*%s (AI)* Salutări aliatul nostru de încredere. Îţi solicităm să distrugi inamicul nostru, %s."
 
 #: ai/advdiplomacy.c:1511
 #, c-format
 msgid "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. Why do I need to remind you of your promises?"
-msgstr ""
+msgstr "*%s (AI)* Salutări aliatule, Văd că încă nu ai declarat război inamicului nostru, %s. De ce este nevoie să-ţi amintesc promisiunile tale?"
 
 #: ai/advdiplomacy.c:1516
 #, c-format
@@ -20439,51 +20434,44 @@ msgid "New Zealand"
 msgstr ""
 
 #: data/nation/newzealand.ruleset:5
-#, fuzzy
 msgid "?plural:New Zealanders"
-msgstr "Incaşi"
+msgstr "?plural:Neo Zeelandezi"
 
 #: data/nation/newzealand.ruleset:8
 msgid "The island group of New Zealand was annexed by Britain in 1840. Following a royal proclamation in 1907, the country became an independent dominion within the Commonwealth of Nations."
 msgstr ""
 
 #: data/nation/nigerian.ruleset:3
-#, fuzzy
 msgid "Nigerian"
-msgstr "sîrb"
+msgstr "Nigerian"
 
 #: data/nation/nigerian.ruleset:4
-#, fuzzy
 msgid "?plural:Nigerians"
-msgstr "Perşi"
+msgstr "?plural:Nigerieni"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
 msgstr ""
 
 #: data/nation/norwegian.ruleset:3
-#, fuzzy
 msgid "Norwegian"
-msgstr "corean"
+msgstr "Norvegian"
 
 #: data/nation/norwegian.ruleset:4
-#, fuzzy
 msgid "?plural:Norwegians"
-msgstr "Coreeni"
+msgstr "?plural:Norvegieni"
 
 #: data/nation/norwegian.ruleset:6
 msgid "After centuries of Danish rule, the Norwegians made their own constitution in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their independence after a union with Sweden."
 msgstr ""
 
 #: data/nation/ottoman.ruleset:3
-#, fuzzy
 msgid "Ottoman"
-msgstr "roman"
+msgstr "Otoman"
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "Romani"
+msgstr "?plural:Otomani"
 
 #: data/nation/ottoman.ruleset:6
 msgid "In the beginning of the 14th century Osman, a leader of a minor Turkic tribe in western Anatolia, conquered all his neigboring tribes. A century later the Byzantine capital fell to Turkic rule which gave the Ottoman empire access to Europe. The Ottomans subsequently conquered large parts of south-eastern Europe, the Islamic Arab world as well as Egypt and much of north Africa, making it a regional superpower until its dissolution in the aftermath of WWI."
@@ -20491,9 +20479,8 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:26
 #: data/nation/tunisian.ruleset:29
-#, fuzzy
 msgid "Bey"
-msgstr "Cumpară"
+msgstr "Bei"
 
 #: data/nation/ottoman.ruleset:27
 #, fuzzy
@@ -20511,23 +20498,20 @@ msgid "Imparator"
 msgstr "Împărat"
 
 #: data/nation/papuan.ruleset:3
-#, fuzzy
 msgid "Papuan"
-msgstr "Populaţia"
+msgstr "Papuaş"
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "Japonezi"
+msgstr "?plural:Papuaşi"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
 msgstr ""
 
 #: data/nation/papuan.ruleset:19
-#, fuzzy
 msgid "Governor-General"
-msgstr "Forme de guvernământ"
+msgstr "Guvernator General"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -20555,14 +20539,12 @@ msgid "Ayatollah"
 msgstr ""
 
 #: data/nation/phoenician.ruleset:3
-#, fuzzy
 msgid "Phoenician"
-msgstr "slovenian"
+msgstr "Fenician"
 
 #: data/nation/phoenician.ruleset:4
-#, fuzzy
 msgid "?plural:Phoenicians"
-msgstr "Slovenieni"
+msgstr "?plural:Fenicieni"
 
 #: data/nation/phoenician.ruleset:6
 msgid "Phoenicia was an ancient civilization, based in what is now the coastal regions of Lebanon and Syria."
@@ -20623,14 +20605,12 @@ msgid "Quebec is the largest province of Canada, housing the majority of the Fra
 msgstr ""
 
 #: data/nation/romanian.ruleset:3
-#, fuzzy
 msgid "Romanian"
-msgstr "roman"
+msgstr "Român"
 
 #: data/nation/romanian.ruleset:4
-#, fuzzy
 msgid "?plural:Romanians"
-msgstr "Romani"
+msgstr "?plural:Români"
 
 #: data/nation/romanian.ruleset:6
 msgid "Romania as a nation was formed at the beginning of the 20th century, when the states of Transylvania, Wallachia, and Moldavia merged. It is a country inhabited by people speaking a language reminiscent from the time of ancient Rome. It's history is convoluted as it was always at the borders of great empires: Roman, Ottoman, Austro-Hungarian, and Russian."
@@ -20696,7 +20676,7 @@ msgstr ""
 #: data/nation/russian.ruleset:47
 #: data/nation/serbian.ruleset:36
 msgid "Duke"
-msgstr ""
+msgstr "Duce"
 
 #: data/nation/russian.ruleset:47
 #: data/nation/serbian.ruleset:36
@@ -20706,7 +20686,7 @@ msgstr "Mare ducesă"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
-msgstr ""
+msgstr "Ţar"
 
 #: data/nation/russian.ruleset:48
 #, fuzzy
