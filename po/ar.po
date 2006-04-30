@@ -1,6 +1,4 @@
 # translation of freeciv_2_1b_ar.po to Arabic
-# translation of freeciv_2_1b_ar.po to
-# translation of freeciv_2_1b.po to
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -10,13 +8,13 @@ msgstr ""
 "Project-Id-Version: freeciv_2_1b_ar\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-16 22:25-0500\n"
-"PO-Revision-Date: 2006-04-25 22:46+0000\n"
+"PO-Revision-Date: 2006-04-30 20:12+0000\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
-"Language-Team: Arabic <en@li.org>\n"
+"Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3, plural=(n !=1);\n"
+"Plural-Forms: nplurals=3; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.1\n"
 
 #: common/city.c:53 client/cityrepdata.c:483 client/gui-gtk-2.0/repodlgs.c:936
@@ -877,7 +875,7 @@ msgstr ""
 #: server/barbarian.c:188
 #, c-format
 msgid "Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
-msgstr ""
+msgstr "حصل البرابرة على قائد اسمه %s. يمكن أن تكون هناك أوقات صعبة في المستقبل."
 
 #: server/barbarian.c:475
 #, c-format
@@ -996,7 +994,7 @@ msgstr "لقد خسرت %s. تم بناء %s من جديد في %s."
 #: server/citytools.c:805
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
-msgstr ""
+msgstr "عندك أصلا مدينة اسمها %s. تم اعادة تسميتها إلى %s."
 
 #: server/citytools.c:894
 #, c-format
@@ -1004,6 +1002,8 @@ msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
+"يتفاجئ الناس في %s بامكانياتك التكنولوجية!\n"
+"      يقوم العمال لوحدهم بجمع وتطوير المدينة بالسكك الحديدية."
 
 #: server/citytools.c:1017
 #, c-format
@@ -1013,12 +1013,12 @@ msgstr "لقد انشأت %s"
 #: server/citytools.c:1087
 #, c-format
 msgid "Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "تم تحريك %s خارج المدينة المسرحة %s لتجنب قلة الأراضي."
 
 #: server/citytools.c:1096 server/citytools.c:1107
 #, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr ""
+msgstr "عندما تم تسريح %s ال %s لم تستطع الخروج، ولهذا فقدت."
 
 #: server/citytools.c:1222
 #, c-format
@@ -1096,12 +1096,12 @@ msgstr ""
 #: server/cityturn.c:124
 #, c-format
 msgid "%s is selling %s (obsolete) for %d."
-msgstr ""
+msgstr "%s يبيع %s (قديم) ب %d."
 
 #: server/cityturn.c:302
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr ""
+msgstr "ملاحظة: الأعجوبة %s في %s سينتهي بنائها فب الدور القادم."
 
 #: server/cityturn.c:336
 #, c-format
@@ -1111,7 +1111,7 @@ msgstr ""
 #: server/cityturn.c:347
 #, c-format
 msgid "%s may soon grow to size %i."
-msgstr ""
+msgstr "%s يمكن أن تتوسع إلى حجم %i."
 
 #: server/cityturn.c:355
 #, c-format
@@ -1125,7 +1125,7 @@ msgstr "تحذير, هنالك القليل من الأموال يا سيدي."
 #: server/cityturn.c:470
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
-msgstr ""
+msgstr "%s يحتاج إلى %s (جاري البناء) للتوسع أكثر."
 
 #: server/cityturn.c:475
 #, c-format
@@ -1166,7 +1166,7 @@ msgstr ""
 #: server/cityturn.c:980
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
-msgstr ""
+msgstr "تم تطوير الانتاج  من %s إلى %s في %s."
 
 #: server/cityturn.c:719
 #, c-format
@@ -1213,32 +1213,32 @@ msgstr ""
 #: server/cityturn.c:858
 #, c-format
 msgid "%s's worklist is now empty."
-msgstr ""
+msgstr "قائمة عمل الخاصة ب%s فارغة اﻵن."
 
 #: server/cityturn.c:1001
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr ""
+msgstr "لا يستطيع %s تحمل أجور صيانة %s, تم تسريح الوحدة."
 
 #: server/cityturn.c:1020
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
-msgstr ""
+msgstr "مات المواطنون في %s لعدم قدرتهم على تحمل أجور صيانة %s!"
 
 #: server/cityturn.c:1063 server/cityturn.c:1176
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr ""
+msgstr "يبني %s ال %s, الذي ليس متوفر بعد اﻵن."
 
 #: server/cityturn.c:1101
 #, c-format
 msgid "The %s have finished building %s in %s."
-msgstr ""
+msgstr "استطاع %s انهاء بناء %s في %s."
 
 #: server/cityturn.c:1111
 #, c-format
 msgid "%s has finished building %s."
-msgstr "%s اكمل بناية %s."
+msgstr "انهى %s  بناء %s."
 
 #: server/cityturn.c:1125
 #, c-format
@@ -1250,12 +1250,12 @@ msgstr[1] ""
 #: server/cityturn.c:1134
 #, c-format
 msgid "The %s have acquired %s from %s."
-msgstr ""
+msgstr "استحوذ %s على %s من %s."
 
 #: server/cityturn.c:1142
 #, c-format
 msgid "The %s have started building a spaceship!"
-msgstr ""
+msgstr "بدأ %s ببناء سفينة فضاء!"
 
 #: server/cityturn.c:1182
 #, c-format
@@ -1265,18 +1265,18 @@ msgstr ""
 #: server/cityturn.c:1198
 #, c-format
 msgid "%s can't build %s yet."
-msgstr ""
+msgstr "لا يستطيع %s بناء %s حتى اﻵن."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1230
 #, c-format
 msgid "%s is finished building %s."
-msgstr ""
+msgstr "انهى %s بناء %s."
 
 #: server/cityturn.c:1273
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
-msgstr ""
+msgstr "لا يمكن الاحتفاظ ب %s في %s, تم بيع البناية!"
 
 #: server/cityturn.c:1308
 #, c-format
@@ -1322,11 +1322,11 @@ msgstr ""
 #: server/cityturn.c:1559
 #, c-format
 msgid "%s is disbanded into %s."
-msgstr ""
+msgstr "تم تسريح %s إلى %s."
 
 #: server/civserver.c:77
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
-msgstr ""
+msgstr "يجب عليك مقاطعة برنامج  Freeciv مرتين خلال ثانية واحدة لجعلها تنتهي.\n"
 
 #: server/civserver.c:134
 #, c-format
@@ -1336,17 +1336,17 @@ msgstr ""
 #: server/civserver.c:192
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr ""
+msgstr "خطأ: خيار مجهول '%s'\n"
 
 #: server/civserver.c:203
 #, c-format
 msgid "This is the server for %s"
-msgstr ""
+msgstr "هذا هو الخادم ل %s"
 
 #: server/civserver.c:204
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr ""
+msgstr "يمكنك تعلم الكثير عن برنامج  Freeciv على %s"
 
 #: server/civserver.c:209 client/civclient.c:199 manual/civmanual.c:370
 #, c-format
@@ -1354,22 +1354,24 @@ msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
+"طريقة الاستعمال: %s [الخيار ...]\n"
+"الخيارات المقبولة:\n"
 
 #: server/civserver.c:211
 msgid "  -a  --auth\t\tEnable server authentication.\n"
-msgstr ""
+msgstr "  -a  --auth\t\tتفعيل التحقق من هوية عند الخادم.\n"
 
 #: server/civserver.c:212
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
-msgstr ""
+msgstr "  -G  --Guests\t\tالسماح للضيوف بالدخول إذا كانت auth مفعلة.\n"
 
 #: server/civserver.c:214
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
-msgstr ""
+msgstr "  -N  --Newusers\tالسماح لمتسخدمين جدد بالدخول إذا كانت auth مفعلة.\n"
 
 #: server/civserver.c:217
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-msgstr ""
+msgstr "  -b  --bind ADDR\tانتظار العملاء على العنوان ADDR\n"
 
 #: server/civserver.c:219 client/civclient.c:203
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
@@ -1381,15 +1383,15 @@ msgstr ""
 
 #: server/civserver.c:225
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
-msgstr ""
+msgstr "  -f, --file FILE\tتحميل اللعبة المحفوظة في  FILE\n"
 
 #: server/civserver.c:227 client/civclient.c:210 manual/civmanual.c:372
 msgid "  -h, --help\t\tPrint a summary of the options\n"
-msgstr ""
+msgstr "  -h, --help\t\tطباعة ملخص عن الخيارات\n"
 
 #: server/civserver.c:228
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
-msgstr ""
+msgstr "  -l, --log FILE\tاستعمال ملف FILE كملف السجل\n"
 
 #: server/civserver.c:229
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
@@ -1433,22 +1435,22 @@ msgstr ""
 
 #: server/civserver.c:249 client/civclient.c:229 manual/civmanual.c:373
 msgid "  -v, --version\t\tPrint the version number\n"
-msgstr ""
+msgstr "  -v, --version\t\tطباعة رقم اصدارة البرنامج\n"
 
 #: server/civserver.c:251 client/civclient.c:231
 msgid "  -z, --zone\t\tEnable GGZ mode\n"
-msgstr ""
+msgstr "  -z, --zone\t\tتفعيل نمط GGZ\n"
 
 #: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:262
 #: client/gui-mui/gui_main.c:119 client/gui-xaw/gui_main.c:245
 #: manual/civmanual.c:374
 #, c-format
 msgid "Report bugs to <%s>.\n"
-msgstr ""
+msgstr "ارسل تقارير المشاكل إلى <%s>.\n"
 
 #: server/commands.c:28
 msgid "Start the game, or restart after loading a savegame."
-msgstr ""
+msgstr "بدء اللعبة، أو اعادة التشغيل بعد تحميل لعبة محفوظة."
 
 #: server/commands.c:29
 msgid ""
@@ -1470,6 +1472,11 @@ msgid ""
 "help <command-name>\n"
 "help <option-name>"
 msgstr ""
+"help\n"
+"help commands\n"
+"help options\n"
+"help <اسم الأمر>\n"
+"help <اسم الخيار>"
 
 #: server/commands.c:47
 msgid "Show help about server commands and server options."
@@ -1487,7 +1494,7 @@ msgstr ""
 
 #: server/commands.c:63
 msgid "Show a list of players, teams, connections, or scenarios."
-msgstr ""
+msgstr "إظهار قائمة اللاعبيين، الفرق، الاتصالات، أو السيناريوهات."
 
 #: server/commands.c:64
 msgid ""
@@ -1498,12 +1505,12 @@ msgstr ""
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
-msgstr ""
+msgstr "الخروج من اللعبة وإغلاق الخادم."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:74
 msgid "cut <connection-name>"
-msgstr "فصل <connection-name>"
+msgstr "cut <اسم الاتصال>"
 
 #: server/commands.c:75
 msgid "Cut a client's connection to server."
@@ -1523,6 +1530,8 @@ msgid ""
 "explain\n"
 "explain <option-name>"
 msgstr ""
+"explain\n"
+"explain <اسم الخيار>"
 
 #: server/commands.c:85
 msgid "Explain server options."
@@ -1543,6 +1552,9 @@ msgid ""
 "show <option-name>\n"
 "show <option-prefix>"
 msgstr ""
+"show\n"
+"show <اسم الخيار>\n"
+"show <بادئة الخيار>"
 
 #: server/commands.c:96
 msgid "Show server options."
@@ -1557,11 +1569,11 @@ msgstr ""
 
 #: server/commands.c:102
 msgid "wall <message>"
-msgstr ""
+msgstr "wall <رسالة>"
 
 #: server/commands.c:103
 msgid "Send message to all connections."
-msgstr ""
+msgstr "بعث رسالة إلى كل الاتصالات."
 
 #: server/commands.c:104
 msgid "For each connected client, pops up a window showing the message entered."
@@ -1569,7 +1581,7 @@ msgstr ""
 
 #: server/commands.c:108
 msgid "vote yes|no [vote number]"
-msgstr ""
+msgstr "vote yes|no [رقم التصويت]"
 
 #: server/commands.c:109
 msgid "Cast a vote."
@@ -1593,6 +1605,8 @@ msgid ""
 "debug [ player <player> | city <x> <y> | units <x> <y> | unit <id> | tech "
 "<player> | timing | info]"
 msgstr ""
+"debug [ player <اللاعب> | city <س> <ص> | units <س> <ص> | unit <رقم التعريف> | tech "
+"<اللاعب> | timing | info]"
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
@@ -1606,7 +1620,7 @@ msgstr ""
 
 #: server/commands.c:129
 msgid "set <option-name> <value>"
-msgstr ""
+msgstr "set <اسم الخيار> <قيمة>"
 
 #: server/commands.c:130
 msgid "Set server option."
@@ -1614,7 +1628,7 @@ msgstr ""
 
 #: server/commands.c:133
 msgid "team <player> [team]"
-msgstr ""
+msgstr "team <اللاعب> [team]"
 
 #: server/commands.c:134
 msgid "Change, add or remove a player's team affiliation."
@@ -1630,7 +1644,7 @@ msgstr ""
 
 #: server/commands.c:142
 msgid "rulesetdir <directory>"
-msgstr ""
+msgstr "rulesetdir <الدليل>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
@@ -1674,7 +1688,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:169
 msgid "metaserver <address>"
-msgstr ""
+msgstr "metaserver <عنوان انترنت>"
 
 #: server/commands.c:170
 msgid "Set address (URL) for metaserver to report to."
@@ -1683,7 +1697,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:174
 msgid "aitoggle <player-name>"
-msgstr ""
+msgstr "aitoggle <اسم اللاعب>"
 
 #: server/commands.c:175
 msgid "Toggle AI status of player."
@@ -1692,7 +1706,7 @@ msgstr ""
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:179
 msgid "take [connection-name] <player-name>"
-msgstr ""
+msgstr "take [connection-name] <اسم اللاعب>"
 
 #: server/commands.c:180
 msgid "Take over a player's place in the game."
@@ -1710,11 +1724,11 @@ msgstr ""
 #. TRANS: translate text between [] only
 #: server/commands.c:189
 msgid "observe [connection-name] [player-name]"
-msgstr ""
+msgstr "observe [اسم الاتصال] [اسم اللاعب]"
 
 #: server/commands.c:190
 msgid "Observe a player or the whole game."
-msgstr ""
+msgstr "مراقبة لاعب أو كل اللعية."
 
 #: server/commands.c:191
 msgid ""
@@ -1728,7 +1742,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:199
 msgid "detach <connection-name>"
-msgstr ""
+msgstr "detach <اسم الاتصال>"
 
 #: server/commands.c:200
 msgid "detach from a player."
@@ -1743,11 +1757,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:206
 msgid "create <player-name>"
-msgstr ""
+msgstr "create <اسم اللاعب>"
 
 #: server/commands.c:207
 msgid "Create an AI player with a given name."
-msgstr ""
+msgstr "انشاء لاعب ذ.ا باسم معطى."
 
 #: server/commands.c:208
 msgid "The 'create' command is only available before the game has been started."
@@ -1765,7 +1779,7 @@ msgstr ""
 
 #: server/commands.c:215
 msgid "The AI will govern your nation but do minimal changes."
-msgstr ""
+msgstr "سيحكم ال ذ.ا أمتك ولكنه سيفعل تغييرات بسيطة."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:219
@@ -1773,6 +1787,8 @@ msgid ""
 "novice\n"
 "novice <player-name>"
 msgstr ""
+"novice\n"
+"novice <اسم اللاعب>"
 
 #: server/commands.c:221
 msgid "Set one or all AI players to 'novice'."
@@ -1791,6 +1807,8 @@ msgid ""
 "easy\n"
 "easy <player-name>"
 msgstr ""
+"easy\n"
+"easy <اسم اللاعب>"
 
 #: server/commands.c:230
 msgid "Set one or all AI players to 'easy'."
@@ -1809,6 +1827,8 @@ msgid ""
 "normal\n"
 "normal <player-name>"
 msgstr ""
+"normal\n"
+"normal <اسم اللاعب>"
 
 #: server/commands.c:239
 msgid "Set one or all AI players to 'normal'."
@@ -1827,6 +1847,8 @@ msgid ""
 "hard\n"
 "hard <player-name>"
 msgstr ""
+"hard\n"
+"hard <اسم اللاعب>"
 
 #: server/commands.c:248
 msgid "Set one or all AI players to 'hard'."
@@ -1845,6 +1867,8 @@ msgid ""
 "experimental\n"
 "experimental <player-name>"
 msgstr ""
+"experimental\n"
+"experimental <اسم اللاعب>"
 
 #: server/commands.c:257
 msgid "Set one or all AI players to 'experimental'."
@@ -1867,6 +1891,11 @@ msgid ""
 "cmdlevel <level> first\n"
 "cmdlevel <level> <connection-name>"
 msgstr ""
+"cmdlevel\n"
+"cmdlevel <المستوى>\n"
+"cmdlevel <المستوى> new\n"
+"cmdlevel <المستوى> first\n"
+"cmdlevel <المستوى> <اسم الاتصال>"
 
 #: server/commands.c:271
 msgid "Query or set command access level access."
@@ -1921,7 +1950,7 @@ msgstr ""
 
 #: server/commands.c:307
 msgid "End the game immediately in a draw."
-msgstr ""
+msgstr "الخروج من اللعبة فورا بتعادل."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:311
@@ -1930,7 +1959,7 @@ msgstr ""
 
 #: server/commands.c:312
 msgid "Concede the game."
-msgstr ""
+msgstr "خسارة اللعبة."
 
 #: server/commands.c:313
 msgid ""
@@ -1941,11 +1970,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:319
 msgid "remove <player-name>"
-msgstr ""
+msgstr "remove <اسم اللاعب>"
 
 #: server/commands.c:320
 msgid "Fully remove player from game."
-msgstr ""
+msgstr "إزالة اللاعب من اللعبة بشكل كامل."
 
 #: server/commands.c:321
 msgid ""
@@ -1959,10 +1988,12 @@ msgid ""
 "save\n"
 "save <file-name>"
 msgstr ""
+"save\n"
+"save <اسم الملف>"
 
 #: server/commands.c:328
 msgid "Save game to file."
-msgstr ""
+msgstr "حفظ اللعية على ملف."
 
 #: server/commands.c:329
 msgid ""
@@ -1980,10 +2011,12 @@ msgid ""
 "load\n"
 "load <file-name>"
 msgstr ""
+"load\n"
+"load <اسم الملف>"
 
 #: server/commands.c:340
 msgid "Load game from file."
-msgstr ""
+msgstr "تحميل اللعبة من ملف."
 
 #: server/commands.c:341
 msgid ""
@@ -1994,20 +2027,20 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:346
 msgid "read <file-name>"
-msgstr ""
+msgstr "read <اسم الملف>"
 
 #: server/commands.c:347
 msgid "Process server commands from file."
-msgstr ""
+msgstr "قراءة و تنفيد أوامر الخادم من ملف."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:351
 msgid "write <file-name>"
-msgstr ""
+msgstr "write <اسم الملف>"
 
 #: server/commands.c:352
 msgid "Write current settings as server commands to file."
-msgstr ""
+msgstr "كتابة الاعدادات الحالية كأوامر للخادم على ملف."
 
 #: server/commands.c:356
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -2015,32 +2048,32 @@ msgstr ""
 
 #: server/commands.c:360
 msgid "Simply returns the id of the server."
-msgstr ""
+msgstr "ببساطة يعيد رقم تعريف الخادم."
 
 #: server/connecthand.c:65
 #, c-format
 msgid "%s Welcome"
-msgstr ""
+msgstr "مرحبا بك %s"
 
 #: server/connecthand.c:80
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr ""
+msgstr "مرحبا بك على  الخادم %s الذي يعمل على %s والمنفذ %d."
 
 #: server/connecthand.c:84
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr ""
+msgstr "مرحبا بك على الخادم %s الذي يعمل على المنفذ %d."
 
 #: server/connecthand.c:92
 #, c-format
 msgid "%s has connected from %s."
-msgstr ""
+msgstr "تم اتصال %s من %s."
 
 #: server/connecthand.c:97
 #, c-format
 msgid "Server: %s has connected from %s."
-msgstr ""
+msgstr "الخادم: تم اتصال %s من %s."
 
 #: server/connecthand.c:131
 msgid "Couldn't attach your connection to new player."
@@ -2049,17 +2082,17 @@ msgstr ""
 #: server/connecthand.c:141
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
-msgstr ""
+msgstr "أنت متصل ك '%s' وغير موصول إلى أي لاعب."
 
 #: server/connecthand.c:145
 #, c-format
 msgid "You are logged in as '%s' connected to an anonymous player."
-msgstr ""
+msgstr "أنت متصل ك '%s' و موصول إلى لاعب مجهول الهوية."
 
 #: server/connecthand.c:150
 #, c-format
 msgid "You are logged in as '%s' connected to %s."
-msgstr ""
+msgstr "أنت متصل ك '%s' و موصول إلى %s."
 
 #: server/connecthand.c:162
 #, c-format
@@ -2069,17 +2102,17 @@ msgstr ""
 #: server/connecthand.c:198
 #, c-format
 msgid "Client rejected: %s."
-msgstr ""
+msgstr "رفض العميل: %s."
 
 #: server/connecthand.c:211
 #, c-format
 msgid "Connection request from %s from %s"
-msgstr ""
+msgstr "طلب الاتصال من %s من %s"
 
 #: server/connecthand.c:215
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
-msgstr ""
+msgstr "%s عنده اصدار عميل %d.%d.%d%s"
 
 #: server/connecthand.c:225
 #, c-format
@@ -2091,7 +2124,7 @@ msgstr ""
 #: server/connecthand.c:232 server/connecthand.c:247
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
-msgstr ""
+msgstr "تم رفض %s: الامكانيات غير مطابقة."
 
 #: server/connecthand.c:240
 #, c-format
@@ -2103,27 +2136,27 @@ msgstr ""
 #: server/connecthand.c:256
 #, c-format
 msgid "Invalid username '%s'"
-msgstr ""
+msgstr "اسم المستخدم غير صحيح '%s'"
 
 #: server/connecthand.c:258
 #, c-format
 msgid "%s was rejected: Invalid name [%s]."
-msgstr ""
+msgstr "تم رفض%s: الاسم غير صحيح [%s]."
 
 #: server/connecthand.c:266
 #, c-format
 msgid "'%s' already connected."
-msgstr ""
+msgstr "'%s' أصلا متصل."
 
 #: server/connecthand.c:269
 #, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
-msgstr ""
+msgstr "تم رفض %s: اسم المستخدم مكرر [%s]."
 
 #: server/connecthand.c:297 server/connecthand.c:306
 #, c-format
 msgid "Lost connection: %s."
-msgstr ""
+msgstr "تم فقد الاتصال: %s."
 
 #: server/console.c:167
 msgid "Ok. RFC-style set."
@@ -2135,12 +2168,12 @@ msgstr ""
 
 #: server/console.c:189
 msgid "For introductory help, type 'help'."
-msgstr ""
+msgstr "لمساعدة مساعدة تمهيدية, اطبع 'help'."
 
 #: server/diplhand.c:148
 #, c-format
 msgid "The %s can't accept %s."
-msgstr ""
+msgstr "لا يستطيع %s قبول %s."
 
 #: server/diplhand.c:160
 #, c-format
@@ -2190,12 +2223,12 @@ msgstr ""
 #: server/diplhand.c:347
 #, c-format
 msgid "You gave an embassy to %s."
-msgstr ""
+msgstr "لقد اعطيت سفارة ل %s."
 
 #: server/diplhand.c:350
 #, c-format
 msgid "%s allowed you to create an embassy!"
-msgstr ""
+msgstr "سمح %s لك ببناء سفارة!"
 
 #: server/diplhand.c:366
 #, c-format
@@ -2210,32 +2243,32 @@ msgstr ""
 #: server/diplhand.c:385
 #, c-format
 msgid "You get %d gold."
-msgstr ""
+msgstr "لقد حصلت على %d ذهب."
 
 #: server/diplhand.c:392
 #, c-format
 msgid "You receive %s's worldmap."
-msgstr ""
+msgstr "لقد حصلت على خريطة  العالم الخاصة ب %s."
 
 #: server/diplhand.c:398
 #, c-format
 msgid "You receive %s's seamap."
-msgstr ""
+msgstr "لقد حصلت على الخريطة البحرية الخاصة ب  %s."
 
 #: server/diplhand.c:413
 #, c-format
 msgid "You receive city of %s from %s."
-msgstr ""
+msgstr "لقد حصلت علة مدينة ال %s من %s."
 
 #: server/diplhand.c:417
 #, c-format
 msgid "You give city of %s to %s."
-msgstr ""
+msgstr "لقد أعطيت مدينة ال %s إلى %s."
 
 #: server/diplhand.c:429 server/diplhand.c:432
 #, c-format
 msgid "You agree on a cease-fire with %s."
-msgstr ""
+msgstr "لقد وافقت على وقف اطلاق نار مع %s."
 
 #: server/diplhand.c:450 server/diplhand.c:459
 #, c-format
@@ -2251,46 +2284,46 @@ msgstr[1] ""
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
 msgid "You agree on an alliance with %s."
-msgstr ""
+msgstr "لقد وافقت على تحالف مع %s."
 
 #: server/diplhand.c:493
 #, c-format
 msgid "You give shared vision to %s."
-msgstr ""
+msgstr "لقد اعطيت رؤية مشتركة ل %s."
 
 #: server/diplhand.c:496
 #, c-format
 msgid "%s gives you shared vision."
-msgstr ""
+msgstr "اعطى %s رؤية مشتركة لك."
 
 #: server/diplhand.c:634
 #, c-format
 msgid "%s canceled the meeting!"
-msgstr ""
+msgstr "ألغى %s الاجتماع!"
 
 #: server/diplhand.c:641
 #, c-format
 msgid "Meeting with %s canceled."
-msgstr ""
+msgstr "تم الغاء الاجتماع مع %s."
 
 #: server/diplhand.c:683
 msgid "Your diplomatic envoy was decapitated!"
-msgstr ""
+msgstr "تم قطع رأس سفيرك الدبلوماسي!"
 
 #: server/diplomats.c:97
 #, c-format
 msgid "Your %s could not poison the water supply in %s."
-msgstr ""
+msgstr "وحدتك %s لا تستطيع تسميم مخزون المياه في %s."
 
 #: server/diplomats.c:111
 #, c-format
 msgid "Your %s poisoned the water supply of %s."
-msgstr ""
+msgstr "سممت وحدتك %s مخزون المياه في %s."
 
 #: server/diplomats.c:114
 #, c-format
 msgid "%s is suspected of poisoning the water supply of %s."
-msgstr ""
+msgstr "يشتبه ب %s في تسميم مخزون المياه في %s."
 
 #: server/diplomats.c:261
 #, c-format
@@ -2314,12 +2347,12 @@ msgstr ""
 #: server/diplomats.c:291
 #, c-format
 msgid "You have established an embassy in %s."
-msgstr ""
+msgstr "لقد انشأت سفارة في %s."
 
 #: server/diplomats.c:294
 #, c-format
 msgid "The %s have established an embassy in %s."
-msgstr ""
+msgstr "انشئ %s سفارة في %s."
 
 #: server/diplomats.c:349
 #, c-format
@@ -2334,11 +2367,11 @@ msgstr ""
 #: server/diplomats.c:375
 #, c-format
 msgid "Your %s was sabotaged by %s!"
-msgstr ""
+msgstr "تم تخريب وحدتك %s من قبل %s!"
 
 #: server/diplomats.c:429
 msgid "You can't bribe a unit from this nation."
-msgstr ""
+msgstr "لا تستطيع رشوة أي وحدة من هذه الأمة."
 
 #: server/diplomats.c:437
 #, c-format
@@ -2348,7 +2381,7 @@ msgstr ""
 #: server/diplomats.c:446
 #, c-format
 msgid "You cannot bribe %s!"
-msgstr ""
+msgstr "لا تستطيع رشوة %s!"
 
 #: server/diplomats.c:464
 #, c-format
@@ -2961,7 +2994,7 @@ msgstr ""
 
 #: server/report.c:205
 msgid "Historian Publishes!"
-msgstr ""
+msgstr "المؤرخ ينشر!"
 
 #: server/report.c:267
 #, c-format
@@ -2970,37 +3003,38 @@ msgstr ""
 
 #: server/report.c:273
 msgid "with no wonders\n"
-msgstr ""
+msgstr "بدون أي أعجوبة\n"
 
 #: server/report.c:276
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "مع %d أعجوبة\n"
+msgstr[1] "مع %d أعجوبتان\n"
+msgstr[2] "مع %d عجائب\n"
 
 #: server/report.c:279 server/report.c:323
 msgid "Traveler's Report:"
-msgstr ""
+msgstr "تقرير المسافر:"
 
 #: server/report.c:280
 msgid "The Five Greatest Cities in the World!"
-msgstr ""
+msgstr "أعظم خمس مدن في العالم!"
 
 #: server/report.c:298
 #, c-format
 msgid "%s in %s (%s)\n"
-msgstr ""
+msgstr "%s في %s (%s)\n"
 
 #: server/report.c:302
 #, c-format
 msgid "%s has been DESTROYED\n"
-msgstr ""
+msgstr "تم تدمير%s \n"
 
 #: server/report.c:314
 #, c-format
 msgid "(building %s in %s (%s))\n"
-msgstr ""
+msgstr "(جاري بناء %s في %s (%s))\n"
 
 #: server/report.c:324 client/gui-mui/gui_main.c:295 client/gui-xaw/menu.c:224
 #: data/helpdata.txt:847
@@ -3009,11 +3043,11 @@ msgstr "عجائب الدنيا"
 
 #: server/report.c:541
 msgid " sq. mi."
-msgstr ""
+msgstr "ميل مربع."
 
 #: server/report.c:551
 msgid " M tons"
-msgstr ""
+msgstr "مليون طن"
 
 #: server/report.c:556
 msgid " M goods"
@@ -3059,16 +3093,16 @@ msgstr ""
 
 #: server/report.c:735 server/report.c:758
 msgid "Demographics Report:"
-msgstr ""
+msgstr "تقرير الديغرافية:"
 
 #: server/report.c:736
 msgid "Sorry, the Demographics report is unavailable."
-msgstr ""
+msgstr "آسف، تقرير الديمغرافية غير متوفر."
 
 #: server/report.c:740
 #, c-format
 msgid "The %s of the %s (%s)"
-msgstr ""
+msgstr "ال %s من %s (%s)"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:132
@@ -3101,19 +3135,19 @@ msgstr ""
 #: client/audio.c:237
 #, c-format
 msgid "file: \"%s\""
-msgstr ""
+msgstr "الملف: \"%s\""
 
 #: server/ruleset.c:204 server/ruleset.c:212 client/audio.c:230
 #: client/audio.c:238
 #, c-format
 msgid "file options: %s"
-msgstr ""
+msgstr "خيارات الملف: %s"
 
 #: server/ruleset.c:205 server/ruleset.c:213 client/audio.c:231
 #: client/audio.c:239
 #, c-format
 msgid "supported options: %s"
-msgstr ""
+msgstr "الخيارات المدعومة: %s"
 
 #: server/ruleset.c:209
 msgid "Ruleset datafile claims required option(s) which we don't support:"
@@ -3182,7 +3216,7 @@ msgstr ""
 #. TRANS: Error message.
 #: server/savegame.c:162
 msgid "Reason: line not found"
-msgstr ""
+msgstr "السبب: السطر غير موجود"
 
 #. TRANS: Error message.
 #: server/savegame.c:165
@@ -3305,7 +3339,7 @@ msgstr "داخلي"
 
 #: server/settings.c:37
 msgid "Networking"
-msgstr ""
+msgstr "شبكي"
 
 #: server/settings.c:41 client/gui-gtk-2.0/dialogs.c:731
 #: client/gui-win32/dialogs.c:536
@@ -3409,7 +3443,7 @@ msgstr ""
 
 #: server/settings.c:272
 msgid "Method used to generate map"
-msgstr ""
+msgstr "الطريقة المستخدمة لعمل الخريطة"
 
 #: server/settings.c:273
 msgid ""
@@ -3442,7 +3476,7 @@ msgstr ""
 
 #: server/settings.c:300
 msgid "Presence of 1x1 islands"
-msgstr ""
+msgstr "وجود جزر حجم 1x1"
 
 #: server/settings.c:301
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
@@ -3466,7 +3500,7 @@ msgstr ""
 
 #: server/settings.c:319
 msgid "Average temperature of the planet"
-msgstr ""
+msgstr "معدل حرارة الكوكب"
 
 #: server/settings.c:320
 msgid ""
@@ -3488,7 +3522,7 @@ msgstr ""
 
 #: server/settings.c:337
 msgid "Percentage of the map that is land"
-msgstr ""
+msgstr "نسبة الأرض المئوبة في الخريطة"
 
 #: server/settings.c:338
 msgid ""
@@ -3498,7 +3532,7 @@ msgstr ""
 
 #: server/settings.c:344
 msgid "Amount of hills/mountains"
-msgstr ""
+msgstr "كمية التلال/الجبال"
 
 #: server/settings.c:345
 msgid ""
@@ -3508,7 +3542,7 @@ msgstr ""
 
 #: server/settings.c:351
 msgid "Amount of water on lands"
-msgstr ""
+msgstr "كمية المياه على الأراضي"
 
 #: server/settings.c:352
 msgid ""
@@ -3559,7 +3593,7 @@ msgstr ""
 
 #: server/settings.c:403
 msgid "Minimum number of players"
-msgstr ""
+msgstr "أقل حد لعدد اللاعبيين"
 
 #: server/settings.c:404
 msgid ""
@@ -3569,7 +3603,7 @@ msgstr ""
 
 #: server/settings.c:411
 msgid "Maximum number of players"
-msgstr ""
+msgstr "أعلى حد لعدد اللاعبيين"
 
 #: server/settings.c:412
 msgid ""
@@ -3580,7 +3614,7 @@ msgstr ""
 
 #: server/settings.c:420
 msgid "Total number of players (including AI players)"
-msgstr ""
+msgstr "مجموع عدد اللاعبيين الكلي (مع لاعبيين ذ.ا)"
 
 #: server/settings.c:421
 msgid ""
@@ -3618,7 +3652,7 @@ msgstr ""
 
 #: server/settings.c:458
 msgid "Starting gold per player"
-msgstr ""
+msgstr "كمية الذهب لكل لاعب عند البداية"
 
 #: server/settings.c:459
 msgid "At the beginning of the game, each player is given this much gold."
@@ -3626,7 +3660,7 @@ msgstr ""
 
 #: server/settings.c:465
 msgid "Number of initial techs per player"
-msgstr ""
+msgstr "عدد التكنولوجيات لكل لاعب عند البداية"
 
 #: server/settings.c:466
 msgid ""
@@ -3694,7 +3728,7 @@ msgstr ""
 
 #: server/settings.c:526
 msgid "Food required for a city to grow"
-msgstr ""
+msgstr "كمية الطعام المتطلب لتوسع المدينة"
 
 #: server/settings.c:527
 msgid ""
@@ -3726,7 +3760,7 @@ msgstr ""
 
 #: server/settings.c:560
 msgid "Minimum city size to get full trade"
-msgstr ""
+msgstr "أقل حجم مدينة للحصول على تجارة كاملة"
 
 #: server/settings.c:561
 msgid ""
@@ -3738,7 +3772,7 @@ msgstr ""
 
 #: server/settings.c:571
 msgid "Maximum size of a city without trade"
-msgstr ""
+msgstr "أكبر حجم لمدينة بدون تجارة"
 
 #: server/settings.c:572
 msgid ""
@@ -3749,7 +3783,7 @@ msgstr ""
 
 #: server/settings.c:581
 msgid "City size before people become unhappy"
-msgstr ""
+msgstr "حجم المدينة قبل أن يصبح الناس تعيسين"
 
 #: server/settings.c:582
 msgid ""
@@ -3759,7 +3793,7 @@ msgstr ""
 
 #: server/settings.c:590
 msgid "Number of cities for higher unhappiness"
-msgstr ""
+msgstr "عدد المدن لزيادة التعاسة"
 
 #: server/settings.c:591
 msgid ""
@@ -3771,7 +3805,7 @@ msgstr ""
 
 #: server/settings.c:600
 msgid "Minimum distance between cities"
-msgstr ""
+msgstr "أقل مسافة بين مدينتين"
 
 #: server/settings.c:601
 msgid ""
@@ -3826,7 +3860,7 @@ msgstr ""
 
 #: server/settings.c:648
 msgid "Reduce city population after attack"
-msgstr ""
+msgstr "تقليل عدد سكان مدينة بعد أي هجوم"
 
 #: server/settings.c:649
 msgid ""
@@ -3840,7 +3874,7 @@ msgstr ""
 
 #: server/settings.c:661
 msgid "National borders radius"
-msgstr ""
+msgstr "نصف قطر الحدود الاقليمية"
 
 #: server/settings.c:662
 msgid ""
@@ -3874,7 +3908,7 @@ msgstr ""
 
 #: server/settings.c:689
 msgid "Allowed city names"
-msgstr ""
+msgstr "أسماء المدن المسموحة"
 
 #: server/settings.c:690
 msgid ""
@@ -3924,7 +3958,7 @@ msgstr ""
 
 #: server/settings.c:746
 msgid "Whether to enable fog of war"
-msgstr ""
+msgstr "تشغيل ضباب الحرب"
 
 #: server/settings.c:747
 msgid ""
@@ -3946,7 +3980,7 @@ msgstr ""
 
 #: server/settings.c:764
 msgid "Whether to allow space race"
-msgstr ""
+msgstr "السماح بسباق الفضاء"
 
 #: server/settings.c:765
 msgid "If this option is set to 1, players can build spaceships."
@@ -3954,7 +3988,7 @@ msgstr ""
 
 #: server/settings.c:771
 msgid "Minimum number of cities for civil war"
-msgstr ""
+msgstr "أقل عدد مدن للحرب الأهلية"
 
 #: server/settings.c:772
 msgid ""
@@ -4403,31 +4437,31 @@ msgstr ""
 #: server/srv_main.c:1325
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr ""
+msgstr "%s حاكم %s على %s."
 
 #: server/srv_main.c:1386
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
-msgstr ""
+msgstr "جاري الانتظار لبدء اللعبة، %d من %d لاعب جاهز لبدء اللعب."
 
 #: server/srv_main.c:1391
 msgid "All players are ready; starting game."
-msgstr ""
+msgstr "كل اللاعبيين جاهزين، جاري بدء اللعبة."
 
 #: server/srv_main.c:1433 server/srv_main.c:1437
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
-msgstr ""
+msgstr "تم إضافة %s كلاعب ذكاء اصتناعي من مستوى %s."
 
 #: server/srv_main.c:1564
 #, c-format
 msgid "Player %d"
-msgstr ""
+msgstr "اللاعب %d"
 
 #: server/srv_main.c:1575 server/srv_main.c:1580
 #, c-format
 msgid "%s rules the %s."
-msgstr ""
+msgstr "%s يحكم %s."
 
 #: server/srv_main.c:1727
 #, c-format
@@ -4804,7 +4838,7 @@ msgstr ""
 #: server/stdinhand.c:1772 server/stdinhand.c:1798 server/stdinhand.c:1814
 #, c-format
 msgid "Player '%s' now has AI skill level '%s'."
-msgstr ""
+msgstr "لدى اللاعب '%s' اﻵن مستوى ذ.ا '%s'."
 
 #: server/stdinhand.c:1802
 #, c-format
@@ -5407,50 +5441,51 @@ msgstr ""
 
 #: server/stdinhand.c:4011
 msgid "List of players:"
-msgstr ""
+msgstr "قائمة اللاعبيين:"
 
 #: server/stdinhand.c:4016
 msgid "<no players>"
-msgstr ""
+msgstr "<بلا لاعبيين>"
 
 #: server/stdinhand.c:4033
 #, c-format
 msgid "user %s, "
-msgstr ""
+msgstr "المستخدم %s, "
 
 #: server/stdinhand.c:4044
 msgid ", Dead"
-msgstr ""
+msgstr ", ميت"
 
 #: server/stdinhand.c:4047
 #, c-format
 msgid ", difficulty level %s"
-msgstr ""
+msgstr ", مستوى الصعوبة %s"
 
 #: server/stdinhand.c:4051
 #, c-format
 msgid ", nation %s"
-msgstr ""
+msgstr ", الأمة %s"
 
 #: server/stdinhand.c:4054
 #, c-format
 msgid ", team %s"
-msgstr ""
+msgstr ", الفريق %s"
 
 #: server/stdinhand.c:4058
 msgid ", ready"
-msgstr ""
+msgstr ", جاهز"
 
 #: server/stdinhand.c:4060
 msgid ", not ready"
-msgstr ""
+msgstr ", غير جاهز"
 
 #: server/stdinhand.c:4068
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " %d اتصال:"
+msgstr[1] "%d اتصالان:"
+msgstr[2] "%d اتصالات:"
 
 #: server/stdinhand.c:4074
 #, c-format
@@ -5459,11 +5494,11 @@ msgstr ""
 
 #: server/stdinhand.c:4079
 msgid " (observer mode)"
-msgstr ""
+msgstr " (نمط المراقبة)"
 
 #: server/stdinhand.c:4097
 msgid "List of teams:"
-msgstr ""
+msgstr "قائمة الفرق:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:4107
@@ -5481,19 +5516,19 @@ msgstr ""
 #: server/stdinhand.c:4133
 #, c-format
 msgid "Empty team: %s"
-msgstr ""
+msgstr "فريق فارغ: %s"
 
 #: server/stdinhand.c:4144
 msgid "List of connections to server:"
-msgstr ""
+msgstr "قائمة الاتصالات إلى الخادم:"
 
 #: server/stdinhand.c:4148
 msgid "<no connections>"
-msgstr ""
+msgstr "<بلا اتصال>"
 
 #: server/stdinhand.c:4172
 msgid "List of scenarios available:"
-msgstr ""
+msgstr "قائمة السيناريوهات المتوفرة:"
 
 #: server/unithand.c:99
 #, c-format
@@ -5512,16 +5547,16 @@ msgstr ""
 #: server/unithand.c:158
 #, c-format
 msgid "%s upgraded to %s for %d gold."
-msgstr ""
+msgstr "تطوير %s إلى %s ب %d ذهب."
 
 #: server/unithand.c:349
 #, c-format
 msgid "%s refuses to disband!"
-msgstr ""
+msgstr "%s يرفض التسريح!"
 
 #: server/unithand.c:402
 msgid "Can't place city here."
-msgstr ""
+msgstr "لا يمكن إقامة المدينة هنا."
 
 #: server/unithand.c:409
 #, c-format
@@ -5530,7 +5565,7 @@ msgstr ""
 
 #: server/unithand.c:414
 msgid "Can't build a city."
-msgstr ""
+msgstr "لا يمكن بناء مدينة."
 
 #: server/unithand.c:423
 #, c-format
@@ -5539,7 +5574,7 @@ msgstr ""
 
 #: server/unithand.c:428
 msgid "Can't add to a city."
-msgstr ""
+msgstr "لا يمكن الاضافة إلى مدينة."
 
 #: server/unithand.c:434
 #, c-format
@@ -6202,7 +6237,7 @@ msgstr[1] ""
 #: client/citydlg_common.c:341 client/citydlg_common.c:354
 #: client/gui-mui/citydlg.c:608 client/gui-mui/worklistclass.c:113
 msgid "Obsolete"
-msgstr ""
+msgstr "قديم"
 
 #: client/citydlg_common.c:343 client/citydlg_common.c:351
 #: client/gui-mui/citydlg.c:606 client/gui-mui/worklistclass.c:111
@@ -6211,11 +6246,11 @@ msgstr ""
 
 #: client/citydlg_common.c:345
 msgid "Great Wonder"
-msgstr ""
+msgstr "أعجوبة عظيمة"
 
 #: client/citydlg_common.c:349
 msgid "Small Wonder"
-msgstr ""
+msgstr "أعجوبة صغيرة"
 
 #: client/citydlg_common.c:368
 #, c-format
@@ -6277,11 +6312,11 @@ msgstr ""
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Disorder"
-msgstr ""
+msgstr "?city_state:الفوضى"
 
 #: client/cityrepdata.c:75
 msgid "?city_state:Peace"
-msgstr ""
+msgstr "?city_state:السلام"
 
 #: client/cityrepdata.c:361
 msgid "(worklist)"
@@ -6293,7 +6328,7 @@ msgstr ""
 
 #: client/cityrepdata.c:429
 msgid "City Name"
-msgstr ""
+msgstr "اسم المدينة"
 
 #: client/cityrepdata.c:431
 msgid "?size:Sz"
@@ -6301,7 +6336,7 @@ msgstr ""
 
 #: client/cityrepdata.c:431
 msgid "Size"
-msgstr ""
+msgstr "الحجم"
 
 #: client/cityrepdata.c:433 client/plrdlg_common.c:261
 #: client/gui-mui/plrdlg.c:172 client/gui-win32/plrdlg.c:337
@@ -6319,7 +6354,7 @@ msgstr ""
 #: client/cityrepdata.c:437 client/gui-mui/citydlg.c:1365
 #: client/gui-xaw/citydlg.c:2404 data/default/units.ruleset:238
 msgid "Workers"
-msgstr ""
+msgstr "العمال"
 
 #: client/cityrepdata.c:438
 msgid "?happy/content/unhappy/angry:H/C/U/A"
@@ -6335,7 +6370,7 @@ msgstr ""
 
 #: client/cityrepdata.c:441
 msgid "Workers: Happy"
-msgstr ""
+msgstr "العمال: سعيدون"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
@@ -6343,7 +6378,7 @@ msgstr ""
 
 #: client/cityrepdata.c:443
 msgid "Workers: Content"
-msgstr ""
+msgstr "العمال: راضون"
 
 #: client/cityrepdata.c:445
 msgid "?Unhappy workers:U"
@@ -6351,7 +6386,7 @@ msgstr ""
 
 #: client/cityrepdata.c:445
 msgid "Workers: Unhappy"
-msgstr ""
+msgstr "العمال: تعيسون"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
@@ -6359,7 +6394,7 @@ msgstr ""
 
 #: client/cityrepdata.c:447
 msgid "Workers: Angry"
-msgstr ""
+msgstr "العمال: غاطبون"
 
 #: client/cityrepdata.c:449
 msgid "Special"
@@ -6375,23 +6410,23 @@ msgstr ""
 
 #: client/cityrepdata.c:453 client/cityrepdata.c:455
 msgid "Best"
-msgstr ""
+msgstr "أفضل"
 
 #: client/cityrepdata.c:453
 msgid "attack"
-msgstr ""
+msgstr "الهجوم"
 
 #: client/cityrepdata.c:454
 msgid "Best attacking units"
-msgstr ""
+msgstr "أفضل الوحدات الهجومية"
 
 #: client/cityrepdata.c:455
 msgid "defense"
-msgstr ""
+msgstr "الدفاع"
 
 #: client/cityrepdata.c:456
 msgid "Best defending units"
-msgstr ""
+msgstr "أفضل الوحدات الدفاعية"
 
 #: client/cityrepdata.c:457 client/cityrepdata.c:459
 #: client/gui-gtk-2.0/cityrep.c:1208 client/gui-gtk-2.0/cityrep.c:1229
@@ -6404,7 +6439,7 @@ msgstr ""
 #: client/gui-xaw/menu.c:240 client/gui-xaw/repodlgs.c:898
 #: client/gui-xaw/repodlgs.c:1085 data/Freeciv.in:1895 data/helpdata.txt:858
 msgid "Units"
-msgstr ""
+msgstr "الوحدات"
 
 #: client/cityrepdata.c:457
 msgid "?Supported (units):Sup"
@@ -6412,7 +6447,7 @@ msgstr ""
 
 #: client/cityrepdata.c:458
 msgid "Number of units supported"
-msgstr ""
+msgstr "عدد الوحدات المدعومة"
 
 #: client/cityrepdata.c:459
 msgid "?Present (units):Prs"
@@ -6420,11 +6455,11 @@ msgstr ""
 
 #: client/cityrepdata.c:460
 msgid "Number of units present"
-msgstr ""
+msgstr "عدد الوحدات الموجودة"
 
 #: client/cityrepdata.c:462
 msgid "Surplus"
-msgstr ""
+msgstr "الفائض"
 
 #: client/cityrepdata.c:462
 msgid "?food/prod/trade:F/P/T"
@@ -6440,7 +6475,7 @@ msgstr ""
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
-msgstr ""
+msgstr "الفائض: الطعام"
 
 #: client/cityrepdata.c:467
 msgid "?Production surplus:P+"
@@ -6448,7 +6483,7 @@ msgstr ""
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
-msgstr ""
+msgstr "الفائض: الانتاج"
 
 #: client/cityrepdata.c:469
 msgid "?Trade surplus:T+"
@@ -6456,14 +6491,14 @@ msgstr ""
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
-msgstr ""
+msgstr "الفائض: التجارة"
 
 #: client/cityrepdata.c:471 client/gui-gtk-2.0/repodlgs.c:652
 #: client/gui-win32/repodlgs.c:331 client/gui-xaw/menu.c:221
 #: client/gui-xaw/repodlgs.c:662 client/gui-xaw/repodlgs.c:791
 #: data/Freeciv.in:1819
 msgid "Economy"
-msgstr ""
+msgstr "الاقتصاد"
 
 #: client/cityrepdata.c:471
 msgid "?gold/lux/sci:G/L/S"
@@ -6479,7 +6514,7 @@ msgstr ""
 
 #: client/cityrepdata.c:474
 msgid "Economy: Gold"
-msgstr ""
+msgstr "الاقتصاد: الذهب"
 
 #: client/cityrepdata.c:476
 msgid "?Luxury:L"
@@ -6487,7 +6522,7 @@ msgstr ""
 
 #: client/cityrepdata.c:476
 msgid "Economy: Luxury"
-msgstr ""
+msgstr "الاقتصاد: الرفاهية"
 
 #: client/cityrepdata.c:478
 msgid "?Science:S"
@@ -6507,15 +6542,15 @@ msgstr ""
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
-msgstr ""
+msgstr "عدد طرق التجارة"
 
 #: client/cityrepdata.c:483
 msgid "Stock"
-msgstr ""
+msgstr "المخزون"
 
 #: client/cityrepdata.c:483
 msgid "Food Stock"
-msgstr ""
+msgstr "مخزون الطعام"
 
 #: client/cityrepdata.c:485
 msgid "?pollution:Pol"
@@ -6528,7 +6563,7 @@ msgstr ""
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1030
 #: client/gui-win32/citydlg.c:1096 client/gui-win32/wldlg.c:809
 msgid "Turns"
-msgstr ""
+msgstr "الأدوار"
 
 #: client/cityrepdata.c:487
 msgid "Turns until growth/famine"
@@ -6540,7 +6575,7 @@ msgstr ""
 
 #: client/cityrepdata.c:489
 msgid "Corruption"
-msgstr ""
+msgstr "الفساد"
 
 #: client/cityrepdata.c:491
 msgid "?waste:Was"
@@ -6803,31 +6838,31 @@ msgstr ""
 
 #: client/connectdlg_common.c:78 client/gui-gtk-2.0/pages.c:1224
 msgid "novice"
-msgstr ""
+msgstr "مبتدئ"
 
 #: client/connectdlg_common.c:79 client/gui-gtk-2.0/pages.c:1224
 msgid "easy"
-msgstr ""
+msgstr "سهل"
 
 #: client/connectdlg_common.c:80 client/gui-gtk-2.0/pages.c:1225
 msgid "normal"
-msgstr ""
+msgstr "عادي"
 
 #: client/connectdlg_common.c:81 client/gui-gtk-2.0/pages.c:1225
 msgid "hard"
-msgstr ""
+msgstr "صعب"
 
 #: client/connectdlg_common.c:82
 msgid "experimental"
-msgstr ""
+msgstr "تجريبي"
 
 #: client/connectdlg_common.c:225
 msgid "Starting server..."
-msgstr ""
+msgstr "جاري تشغيل الخادم..."
 
 #: client/connectdlg_common.c:342
 msgid "Couldn't start the server."
-msgstr ""
+msgstr "فشل بدء الخادم."
 
 #: client/connectdlg_common.c:343 client/connectdlg_common.c:376
 msgid "You'll have to start one manually. Sorry..."
@@ -6835,7 +6870,7 @@ msgstr ""
 
 #: client/connectdlg_common.c:374
 msgid "Couldn't connect to the server."
-msgstr ""
+msgstr "لا يمكن الاتصال بالخادم."
 
 #: client/connectdlg_common.c:375
 msgid "We probably couldn't start it from here."
@@ -6961,7 +6996,7 @@ msgstr ""
 #. TRANS: preserve single space at beginning
 #: client/helpdata.c:408
 msgid " Rivers"
-msgstr ""
+msgstr "الأنهار"
 
 #: client/helpdata.c:565
 #, c-format
@@ -10389,7 +10424,7 @@ msgstr "_بناء مدينة"
 
 #: client/gui-gtk-2.0/menu.c:861
 msgid "Patrol (_Q)"
-msgstr "خفر (_خ)"
+msgstr "حراسة الخفر (_خ)"
 
 #: client/gui-gtk-2.0/menu.c:863 client/gui-win32/menu.c:384
 msgid "_Go to"
@@ -10521,7 +10556,7 @@ msgstr "جاري ال_اتصال"
 
 #: client/gui-gtk-2.0/menu.c:923 client/gui-win32/menu.c:415
 msgid "C_ontrols"
-msgstr ""
+msgstr "_مفاتيح التحكم"
 
 #: client/gui-gtk-2.0/menu.c:925 client/gui-win32/menu.c:416
 msgid "C_hatline"
@@ -10529,55 +10564,55 @@ msgstr "خط ال_دردشة"
 
 #: client/gui-gtk-2.0/menu.c:927 client/gui-win32/menu.c:417
 msgid "_Worklist Editor"
-msgstr ""
+msgstr "محرر _قائمة العمل"
 
 #: client/gui-gtk-2.0/menu.c:929 client/gui-win32/menu.c:418
 msgid "Citizen _Management"
-msgstr ""
+msgstr "إ_دارة المواطنة"
 
 #: client/gui-gtk-2.0/menu.c:931 client/gui-win32/menu.c:419
 msgid "_Playing"
-msgstr ""
+msgstr "ال_لعب"
 
 #: client/gui-gtk-2.0/menu.c:935 client/gui-win32/menu.c:421
 msgid "City _Improvements"
-msgstr ""
+msgstr "_تحسينات المدينة"
 
 #: client/gui-gtk-2.0/menu.c:939 client/gui-win32/menu.c:423
 msgid "Com_bat"
-msgstr ""
+msgstr "ال_معركة"
 
 #: client/gui-gtk-2.0/menu.c:941 client/gui-win32/menu.c:424
 msgid "_ZOC"
-msgstr ""
+msgstr "_مناطق المعارك"
 
 #: client/gui-gtk-2.0/menu.c:943 client/gui-win32/menu.c:425
 msgid "Techno_logy"
-msgstr ""
+msgstr "ال_تكنولوجيا"
 
 #: client/gui-gtk-2.0/menu.c:945 client/gui-win32/menu.c:426
 msgid "_Terrain"
-msgstr ""
+msgstr "_طبيعة الأرض"
 
 #: client/gui-gtk-2.0/menu.c:947 client/gui-win32/menu.c:427
 msgid "Won_ders"
-msgstr ""
+msgstr "ال_أعاجيب"
 
 #: client/gui-gtk-2.0/menu.c:951 client/gui-win32/menu.c:429
 msgid "Happin_ess"
-msgstr ""
+msgstr "ال_سعادة"
 
 #: client/gui-gtk-2.0/menu.c:953 client/gui-win32/menu.c:430
 msgid "Space _Race"
-msgstr ""
+msgstr "_سباق الفضاء"
 
 #: client/gui-gtk-2.0/menu.c:957 client/gui-win32/menu.c:432
 msgid "_Copying"
-msgstr ""
+msgstr "ال_نسخ"
 
 #: client/gui-gtk-2.0/menu.c:959 client/gui-win32/menu.c:433
 msgid "_About"
-msgstr ""
+msgstr "_عن البرنامج"
 
 #: client/gui-gtk-2.0/menu.c:1241
 #, c-format
@@ -10587,51 +10622,51 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:1312
 #, c-format
 msgid "Change to %s (_I)"
-msgstr ""
+msgstr "تغيير إلى %s (_ا)"
 
 #: client/gui-gtk-2.0/menu.c:1313
 #, c-format
 msgid "Change to %s (_M)"
-msgstr ""
+msgstr "تغيير إلى %s (_م)"
 
 #: client/gui-gtk-2.0/menu.c:1314
 #, c-format
 msgid "Transf_orm to %s"
-msgstr ""
+msgstr "تح_ويل إلى %s"
 
 #: client/gui-gtk-2.0/menu.c:1386
 msgid "Help _Build Wonder"
-msgstr ""
+msgstr "المساعدة ببناء الأ_عجوبة"
 
 #: client/gui-gtk-2.0/menu.c:1400
 msgid "Add to City (_B)"
-msgstr ""
+msgstr "إضافة إلى مدينة (_ب)"
 
 #: client/gui-gtk-2.0/menu.c:1408
 msgid "Make Trade _Route"
-msgstr ""
+msgstr "انشاء _طريق للتجارة"
 
 #: client/gui-gtk-2.0/menu.c:1422
 msgid "Build _Railroad"
-msgstr ""
+msgstr "بناء _سكة حديد"
 
 #: client/gui-gtk-2.0/menu.c:1445
 msgid "Bu_ild Farmland"
-msgstr ""
+msgstr "بناء أرض _زارعية"
 
 #: client/gui-gtk-2.0/menu.c:1465
 msgid "_Fortify"
-msgstr ""
+msgstr "ت_حصين"
 
 #: client/gui-gtk-2.0/menu.c:1471
 msgid "_Paradrop"
-msgstr ""
+msgstr "ا_سقاط جوي"
 
 #: client/gui-gtk-2.0/messagedlg.c:62 client/gui-mui/messagedlg.c:68
 #: client/gui-win32/messagedlg.c:175 client/gui-xaw/menu.c:112
 #: data/Freeciv.in:1254
 msgid "Message Options"
-msgstr ""
+msgstr "خيارات الرسالة"
 
 #: client/gui-gtk-2.0/messagedlg.c:71
 msgid ""
@@ -10665,11 +10700,11 @@ msgstr "الرسائل"
 
 #: client/gui-gtk-2.0/messagewin.c:186
 msgid "Goto _location"
-msgstr ""
+msgstr "الذهاب إلى _موقع"
 
 #: client/gui-gtk-2.0/plrdlg.c:329
 msgid "?show:Dead Players"
-msgstr ""
+msgstr "?show:اللاعبيين الموتى"
 
 #: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:704
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
@@ -10680,47 +10715,47 @@ msgstr "اللاعبين"
 
 #: client/gui-gtk-2.0/plrdlg.c:457
 msgid "_AI"
-msgstr ""
+msgstr "_ذ.ا"
 
 #: client/gui-gtk-2.0/plrdlg.c:463
 msgid "_Toggle AI Mode"
-msgstr ""
+msgstr "تفعيل أو تعطيل نمط ذ.ا"
 
 #: client/gui-gtk-2.0/plrdlg.c:485 client/gui-mui/plrdlg.c:332
 msgid "_Intelligence"
-msgstr ""
+msgstr "_الاستخبارات"
 
 #: client/gui-gtk-2.0/plrdlg.c:492 client/gui-mui/plrdlg.c:333
 msgid "_Meet"
-msgstr ""
+msgstr "ا_جتماع"
 
 #: client/gui-gtk-2.0/plrdlg.c:496 client/gui-mui/plrdlg.c:334
 msgid "_Cancel Treaty"
-msgstr ""
+msgstr "ال_غاء المعاهدة"
 
 #: client/gui-gtk-2.0/plrdlg.c:500 client/gui-mui/plrdlg.c:335
 msgid "_Withdraw vision"
-msgstr ""
+msgstr "_سحب الرؤية"
 
 #: client/gui-gtk-2.0/plrdlg.c:507 client/gui-mui/plrdlg.c:336
 msgid "_Spaceship"
-msgstr ""
+msgstr "سفينة _فضاء"
 
 #: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
-msgstr ""
+msgstr "بدأ لعبة _جديدة"
 
 #: client/gui-gtk-2.0/pages.c:214
 msgid "Start _Scenario Game"
-msgstr ""
+msgstr "بدأ لعبة _سيناريو"
 
 #: client/gui-gtk-2.0/pages.c:220
 msgid "_Load Saved Game"
-msgstr ""
+msgstr "تحميل لعبة محفوظة"
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
-msgstr ""
+msgstr "الا_تصال بلعبة على الشبكة"
 
 #: client/gui-gtk-2.0/pages.c:236
 msgid "Connect to Gaming _Zone"
@@ -10729,7 +10764,7 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
-msgstr ""
+msgstr "كلمات السر غير مطابقة، إدخل كلمة السر."
 
 #: client/gui-gtk-2.0/pages.c:700 client/gui-mui/connectdlg.c:160
 #: client/gui-win32/connectdlg.c:868
@@ -10881,11 +10916,11 @@ msgstr "جاهز"
 #: client/gui-gtk-2.0/pages.c:1467 data/default/units.ruleset:1738
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
-msgstr "الرئيس"
+msgstr "القائد"
 
 #: client/gui-gtk-2.0/pages.c:1530
 msgid "Pick _Nation"
-msgstr ""
+msgstr "اختيار الأ_مة"
 
 #: client/gui-gtk-2.0/pages.c:1603
 msgid "Choose Saved Game to Load"
@@ -10977,20 +11012,20 @@ msgstr "الكلفة الكلية:"
 
 #: client/gui-gtk-2.0/repodlgs.c:712 client/gui-mui/repodlgs.c:521
 msgid "Sell _Obsolete"
-msgstr ""
+msgstr "بيع ال_قديم"
 
 #: client/gui-gtk-2.0/repodlgs.c:717 client/gui-mui/repodlgs.c:522
 msgid "Sell _All"
-msgstr ""
+msgstr "بيع ال_كل"
 
 #: client/gui-gtk-2.0/repodlgs.c:795
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
-msgstr ""
+msgstr "هل تريد فعلا بيع  %s?\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:798
 msgid "Sell Improvements"
-msgstr ""
+msgstr "بيع التحسينات"
 
 #: client/gui-gtk-2.0/repodlgs.c:824
 msgid "Sell-Off: Results"
@@ -11027,7 +11062,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1012 client/gui-mui/repodlgs.c:764
 msgid "_Upgrade"
-msgstr ""
+msgstr "ت_طوير"
 
 #: client/gui-gtk-2.0/repodlgs.c:1154 client/gui-mui/repodlgs.c:718
 #: client/gui-win32/repodlgs.c:565 client/gui-xaw/repodlgs.c:1022
@@ -11078,6 +11113,8 @@ msgid ""
 "Military Service\n"
 "(months)"
 msgstr ""
+"خدمة العلم\n"
+"(أشهر)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1288
 msgid "Wonders\n"
@@ -11096,18 +11133,24 @@ msgid ""
 "Land Area\n"
 "(sq. mi.)"
 msgstr ""
+"مساحة الأرض\n"
+"(ميل مربع)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1291
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
 msgstr ""
+"الأرض المستعمرة\n"
+"(ميل مربع)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1292
 msgid ""
 "Literacy\n"
 "(%)"
 msgstr ""
+"القراءة والكتابة\n"
+"(%)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1293
 msgid "Spaceship\n"
@@ -11132,23 +11175,23 @@ msgstr "(مخفي)"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:221 client/gui-mui/spaceshipdlg.c:228
 msgid "_Launch"
-msgstr ""
+msgstr "إ_طلاق"
 
 #: client/gui-gtk-2.0/wldlg.c:178
 msgid "new"
-msgstr ""
+msgstr "جديد"
 
 #: client/gui-gtk-2.0/wldlg.c:242 client/gui-win32/wldlg.c:415
 msgid "Edit worklists"
-msgstr ""
+msgstr "تحرير قوائم العمل"
 
 #: client/gui-gtk-2.0/wldlg.c:292
 msgid "_Worklists:"
-msgstr ""
+msgstr "_قوائم العمل:"
 
 #: client/gui-gtk-2.0/wldlg.c:543
 msgid "Edit Global _Worklists"
-msgstr ""
+msgstr "تحرير قوائم ال_عمل العالمية"
 
 #: client/gui-gtk-2.0/wldlg.c:1141
 msgid "Source _Tasks:"
@@ -11156,7 +11199,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:1146
 msgid "Show _Future Targets"
-msgstr ""
+msgstr "إظهاء الأهداف ال_مستقبلية"
 
 #: client/gui-gtk-2.0/wldlg.c:1233
 msgid "Target _Worklist:"
@@ -11164,38 +11207,38 @@ msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:1251
 msgid "_Add Global Worklist"
-msgstr ""
+msgstr "إ_ضافة قائمة عمل عالمية"
 
 #: client/gui-gtk-2.0/wldlg.c:1267
 msgid "Chan_ge Production"
-msgstr ""
+msgstr "ت_غيير الانتاج"
 
 #: client/gui-mui/chatline.c:79
 msgid "Cleared output window.\n"
-msgstr ""
+msgstr "محو نافذة المستخرجات.\n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:551 client/gui-mui/worklistclass.c:213
 msgid "\033u\0338Units\033n"
-msgstr ""
+msgstr "\033u\0338الوحدات\033n"
 
 #. TRANS: \033u\0338 before and \033n after the text are required
 #: client/gui-mui/citydlg.c:558 client/gui-mui/worklistclass.c:221
 msgid "\033u\0338Improvements\033n"
-msgstr ""
+msgstr "\033u\0338التحسينات\033n"
 
 #: client/gui-mui/citydlg.c:604 client/gui-mui/worklistclass.c:114
 msgid "Wonder"
-msgstr "أعجوبة"
+msgstr "الأعجوبة"
 
 #: client/gui-mui/citydlg.c:635
 msgid "Rounds"
-msgstr ""
+msgstr "الأدوار"
 
 #: client/gui-mui/citydlg.c:663 client/gui-win32/citydlg.c:852
 #: manual/civmanual.c:296
 msgid "Upkeep"
-msgstr ""
+msgstr "أجور الصيانة"
 
 #: client/gui-mui/citydlg.c:964 client/gui-mui/citydlg.c:1004
 #: client/gui-mui/dialogs.c:493 client/gui-mui/dialogs.c:1044
@@ -11204,7 +11247,7 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1453 client/gui-win32/dialogs.c:981
 #: client/gui-win32/dialogs.c:1368 client/gui-win32/dialogs.c:1552
 msgid "_Yes"
-msgstr ""
+msgstr "_نعم"
 
 #: client/gui-mui/citydlg.c:965 client/gui-mui/citydlg.c:1005
 #: client/gui-mui/dialogs.c:494 client/gui-mui/dialogs.c:1045
@@ -11213,12 +11256,12 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1455 client/gui-win32/dialogs.c:982
 #: client/gui-win32/dialogs.c:1369 client/gui-win32/dialogs.c:1553
 msgid "_No"
-msgstr ""
+msgstr "_لا"
 
 #: client/gui-mui/citydlg.c:974 client/gui-mui/dialogs.c:1748
 #: client/gui-mui/dialogs.c:1772
 msgid "_Darn"
-msgstr ""
+msgstr "_تبا"
 
 #: client/gui-mui/citydlg.c:1234
 msgid "Freeciv - Cityproduction"
@@ -11236,7 +11279,7 @@ msgstr ""
 #: client/gui-win32/dialogs.c:1606 client/gui-win32/dialogs.c:1628
 #: client/gui-win32/dialogs.c:1658
 msgid "_Cancel"
-msgstr ""
+msgstr "_الغاء"
 
 #: client/gui-mui/citydlg.c:1324
 msgid "Shields"
@@ -11250,7 +11293,7 @@ msgstr "ملخص عن المدينة"
 #: client/gui-win32/citydlg.c:728 client/gui-win32/wldlg.c:1088
 #: client/gui-win32/wldlg.c:1138
 msgid "Worklist"
-msgstr "قائمة الأعمال"
+msgstr "قائمة العمل"
 
 #: client/gui-mui/citydlg.c:1375 client/gui-win32/citydlg.c:730
 #: data/Freeciv.in:2231
@@ -11372,7 +11415,7 @@ msgstr ""
 #: client/gui-mui/plrdlg.c:331 client/gui-mui/repodlgs.c:520
 #: client/gui-mui/repodlgs.c:763 client/gui-mui/spaceshipdlg.c:233
 msgid "_Close"
-msgstr ""
+msgstr "إ_غلاق"
 
 #: client/gui-mui/citydlg.c:1774
 #, c-format
@@ -13852,7 +13895,7 @@ msgstr ""
 
 #: data/Freeciv.in:2278 data/Freeciv.in:2304
 msgid "Establish Embassy"
-msgstr ""
+msgstr "انشاء سفارة"
 
 #: data/Freeciv.in:2280
 msgid "Investigate City"
@@ -13860,7 +13903,7 @@ msgstr ""
 
 #: data/Freeciv.in:2283
 msgid "Sabotage City"
-msgstr ""
+msgstr "تخريب مدينة"
 
 #: data/Freeciv.in:2288 data/Freeciv.in:2321
 msgid "Incite a Revolt"
@@ -13872,83 +13915,83 @@ msgstr ""
 
 #: data/Freeciv.in:2311
 msgid "Poison City"
-msgstr ""
+msgstr "تسميم مدينة"
 
 #: data/Freeciv.in:2314
 msgid "Industrial Sabotage"
-msgstr ""
+msgstr "تخريب صناعي"
 
 #: data/Freeciv.in:2434
 msgid "Sabotage Enemy Unit"
-msgstr ""
+msgstr "تخريب وحدة العدو"
 
 #: data/Freeciv.in:2492
 msgid "Your New Government"
-msgstr ""
+msgstr "حكومتك الجديدة"
 
 #: data/Freeciv.in:2494
 msgid "Select government type:"
-msgstr ""
+msgstr "اختيار نوع الحكومة:"
 
 #: data/Freeciv.in:3051
 msgid " Sell "
-msgstr ""
+msgstr "بيع"
 
 #: data/Freeciv.in:3058
 msgid "Rename..."
-msgstr ""
+msgstr "اعادة تسمية..."
 
 #: data/Freeciv.in:3064
 msgid "Unit List..."
-msgstr ""
+msgstr "قائمة الوحدات..."
 
 #: data/Freeciv.in:3066
 msgid "City Options..."
-msgstr ""
+msgstr "خيارات المدينة..."
 
 #: data/Freeciv.in:3068
 msgid " Buy "
-msgstr ""
+msgstr "شراء"
 
 #: data/Freeciv.in:3070
 msgid "Change..."
-msgstr ""
+msgstr "تغيير..."
 
 #: data/Freeciv.in:3072
 msgid "Worklist..."
-msgstr ""
+msgstr "قائمة العمل..."
 
 #: data/Freeciv.in:3074
 msgid "Supported units:"
-msgstr ""
+msgstr "الوحدات المدعومة:"
 
 #: data/Freeciv.in:3097
 msgid "Units present:"
-msgstr ""
+msgstr "الوحدات الموجودة:"
 
 #: data/Freeciv.in:3135
 msgid "Select nation and name:"
-msgstr ""
+msgstr "اختيار الأمة والاسم:"
 
 #: data/Freeciv.in:3150
 msgid "Pick Name"
-msgstr ""
+msgstr "اختيار الاسم"
 
 #: data/Freeciv.in:3154
 msgid "Select your sex:"
-msgstr ""
+msgstr "اختيار الجنس:"
 
 #: data/Freeciv.in:3158
 msgid "Male  "
-msgstr ""
+msgstr "ذكر"
 
 #: data/Freeciv.in:3165
 msgid "Select city style:"
-msgstr ""
+msgstr "اختيار أسلوب المدينة:"
 
 #: data/Freeciv.in:3176
 msgid " Ok "
-msgstr ""
+msgstr "موافق"
 
 #: data/Freeciv.in:3209
 msgid ""
@@ -13958,7 +14001,7 @@ msgstr ""
 
 #: data/Freeciv.in:3246
 msgid "Cancel pact"
-msgstr ""
+msgstr "الغاء التحالف"
 
 #: data/Freeciv.in:3333 data/Freeciv.in:3334
 msgid "Pregame"
@@ -13970,7 +14013,7 @@ msgstr ""
 
 #: data/Freeciv.in:3379
 msgid "Start"
-msgstr ""
+msgstr "بدء"
 
 #: data/helpdata.txt:38
 msgid ""
@@ -14211,7 +14254,7 @@ msgstr ""
 
 #: data/helpdata.txt:562
 msgid "Worklist Editor"
-msgstr ""
+msgstr "محرر قائمة العمل"
 
 #: data/helpdata.txt:563
 msgid ""
@@ -14250,7 +14293,7 @@ msgstr ""
 
 #: data/helpdata.txt:586
 msgid "Strategy and tactics"
-msgstr ""
+msgstr "الاستراتيجية والتكتيك"
 
 #: data/helpdata.txt:587
 msgid ""
@@ -14804,7 +14847,7 @@ msgstr ""
 
 #: data/helpdata.txt:1038
 msgid " Combat example 1"
-msgstr ""
+msgstr "المعركة مثال 1"
 
 #: data/helpdata.txt:1039
 msgid ""
@@ -14852,7 +14895,7 @@ msgstr ""
 
 #: data/helpdata.txt:1076
 msgid " Combat example 2"
-msgstr ""
+msgstr "المعركة مثال 2"
 
 #: data/helpdata.txt:1077
 msgid ""
@@ -14984,7 +15027,7 @@ msgstr ""
 
 #: data/helpdata.txt:1184
 msgid " Terrain Alterations"
-msgstr ""
+msgstr "تغييرات على طبيعة الأرض"
 
 #: data/helpdata.txt:1185
 msgid ""
@@ -15071,7 +15114,7 @@ msgstr ""
 
 #: data/helpdata.txt:1243
 msgid "  Pillaging"
-msgstr ""
+msgstr "نهب"
 
 #: data/helpdata.txt:1244
 msgid ""
@@ -15153,7 +15196,7 @@ msgstr ""
 
 #: data/helpdata.txt:1309
 msgid " Civil War"
-msgstr ""
+msgstr "حرب أهلية"
 
 #: data/helpdata.txt:1310
 msgid ""
@@ -15325,7 +15368,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:45 data/civ2/buildings.ruleset:28
 msgid "Airport"
-msgstr ""
+msgstr "مطار"
 
 #: data/default/buildings.ruleset:59 data/civ2/buildings.ruleset:42
 msgid ""
@@ -15341,7 +15384,7 @@ msgstr ""
 #: data/default/buildings.ruleset:71 data/civ2/buildings.ruleset:54
 #: data/civ1/buildings.ruleset:28
 msgid "Aqueduct"
-msgstr ""
+msgstr "قناة مائية"
 
 #: data/default/buildings.ruleset:85 data/civ2/buildings.ruleset:68
 msgid ""
@@ -15352,7 +15395,7 @@ msgstr ""
 #: data/default/buildings.ruleset:91 data/civ2/buildings.ruleset:74
 #: data/civ1/buildings.ruleset:47
 msgid "Bank"
-msgstr ""
+msgstr "بنك"
 
 #: data/default/buildings.ruleset:107 data/civ2/buildings.ruleset:90
 #: data/civ1/buildings.ruleset:63
@@ -15390,7 +15433,7 @@ msgstr ""
 #: data/default/buildings.ruleset:184 data/civ2/buildings.ruleset:165
 #: data/civ1/buildings.ruleset:138
 msgid "Cathedral"
-msgstr ""
+msgstr "كاثدرائية"
 
 #: data/default/buildings.ruleset:199 data/civ2/buildings.ruleset:179
 msgid ""
@@ -15417,7 +15460,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:233 data/civ2/buildings.ruleset:213
 msgid "Coastal Defense"
-msgstr ""
+msgstr "دفاع ساحلي"
 
 #: data/default/buildings.ruleset:248 data/civ2/buildings.ruleset:228
 msgid ""
@@ -15428,7 +15471,7 @@ msgstr ""
 #: data/default/buildings.ruleset:254 data/civ2/buildings.ruleset:234
 #: data/civ1/buildings.ruleset:182
 msgid "Colosseum"
-msgstr ""
+msgstr "كولوسيم"
 
 #: data/default/buildings.ruleset:268
 msgid ""
@@ -15439,7 +15482,7 @@ msgstr ""
 #: data/default/buildings.ruleset:276 data/civ2/buildings.ruleset:254
 #: data/civ1/buildings.ruleset:201
 msgid "Courthouse"
-msgstr ""
+msgstr "محكمة"
 
 #: data/default/buildings.ruleset:290
 msgid ""
@@ -15451,7 +15494,7 @@ msgstr ""
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
 msgid "Factory"
-msgstr ""
+msgstr "مصنع"
 
 #: data/default/buildings.ruleset:311 data/civ2/buildings.ruleset:290
 #: data/civ1/buildings.ruleset:237
@@ -15463,7 +15506,7 @@ msgstr ""
 #: data/default/buildings.ruleset:317 data/civ2/buildings.ruleset:296
 #: data/civ1/buildings.ruleset:243
 msgid "Granary"
-msgstr ""
+msgstr "مخزن الحبوب"
 
 #: data/default/buildings.ruleset:331 data/civ2/buildings.ruleset:310
 #: data/civ1/buildings.ruleset:257
@@ -15475,7 +15518,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:341 data/civ2/buildings.ruleset:320
 msgid "Harbour"
-msgstr ""
+msgstr "مرفأ"
 
 #: data/default/buildings.ruleset:356 data/civ2/buildings.ruleset:335
 msgid ""
@@ -15504,7 +15547,7 @@ msgstr ""
 #: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:373
 #: data/civ1/buildings.ruleset:297
 msgid "Library"
-msgstr ""
+msgstr "مكتبة"
 
 #: data/default/buildings.ruleset:412
 #, no-c-format
@@ -15550,7 +15593,7 @@ msgstr ""
 #: data/default/buildings.ruleset:480 data/civ2/buildings.ruleset:456
 #: data/civ1/buildings.ruleset:380
 msgid "Nuclear Plant"
-msgstr ""
+msgstr "محطة نووية"
 
 #: data/default/buildings.ruleset:495
 msgid ""
@@ -15576,7 +15619,7 @@ msgstr ""
 #: data/default/buildings.ruleset:536 data/civ2/buildings.ruleset:509
 #: data/civ1/buildings.ruleset:410
 msgid "Palace"
-msgstr ""
+msgstr "القصر"
 
 #: data/default/buildings.ruleset:552
 #, no-c-format
@@ -15597,7 +15640,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:538
 msgid "Police Station"
-msgstr ""
+msgstr "مركز البوليس"
 
 #: data/default/buildings.ruleset:583 data/civ2/buildings.ruleset:552
 msgid ""
@@ -15619,7 +15662,7 @@ msgstr ""
 #: data/default/buildings.ruleset:615 data/civ2/buildings.ruleset:581
 #: data/civ1/buildings.ruleset:439
 msgid "Power Plant"
-msgstr ""
+msgstr "محطة الطاقة"
 
 #: data/default/buildings.ruleset:631
 #, no-c-format
@@ -15635,7 +15678,7 @@ msgstr ""
 #: data/default/buildings.ruleset:646 data/civ2/buildings.ruleset:608
 #: data/civ1/buildings.ruleset:466
 msgid "Recycling Center"
-msgstr ""
+msgstr "مركز إعادة التصنيع"
 
 #: data/default/buildings.ruleset:661 data/civ2/buildings.ruleset:623
 #: data/civ1/buildings.ruleset:481
@@ -15647,7 +15690,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:667 data/civ2/buildings.ruleset:629
 msgid "Research Lab"
-msgstr ""
+msgstr "مختبر أبحاث علمية"
 
 #: data/default/buildings.ruleset:682
 msgid ""
@@ -15658,7 +15701,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:690 data/civ2/buildings.ruleset:652
 msgid "SAM Battery"
-msgstr ""
+msgstr "بطارية سام الدفاعية"
 
 #: data/default/buildings.ruleset:704 data/civ2/buildings.ruleset:666
 msgid ""
@@ -15681,7 +15724,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:733 data/civ2/buildings.ruleset:695
 msgid "Sewer System"
-msgstr ""
+msgstr "نظام المجاري"
 
 #: data/default/buildings.ruleset:748 data/civ2/buildings.ruleset:710
 msgid ""
@@ -15748,7 +15791,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:838 data/civ2/buildings.ruleset:827
 msgid "Stock Exchange"
-msgstr ""
+msgstr "بورصة الأوراق المالية"
 
 #: data/default/buildings.ruleset:854 data/civ2/buildings.ruleset:843
 #, no-c-format
@@ -15768,7 +15811,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:883 data/civ2/buildings.ruleset:870
 msgid "Supermarket"
-msgstr ""
+msgstr "السوبرماركت"
 
 #: data/default/buildings.ruleset:898 data/civ2/buildings.ruleset:885
 #, no-c-format
@@ -15781,7 +15824,7 @@ msgstr ""
 #: data/default/buildings.ruleset:905 data/civ2/buildings.ruleset:892
 #: data/civ1/buildings.ruleset:591
 msgid "Temple"
-msgstr ""
+msgstr "المعبد"
 
 #: data/default/buildings.ruleset:919 data/civ2/buildings.ruleset:906
 #: data/civ1/buildings.ruleset:605
@@ -15795,7 +15838,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:612 data/default/techs.ruleset:741
 #: data/civ2/techs.ruleset:557 data/civ1/techs.ruleset:553
 msgid "University"
-msgstr ""
+msgstr "الجامعة"
 
 #: data/default/buildings.ruleset:942
 #, no-c-format
@@ -15807,7 +15850,7 @@ msgstr ""
 #: data/default/buildings.ruleset:948 data/civ2/buildings.ruleset:935
 #: data/civ1/buildings.ruleset:634
 msgid "Apollo Program"
-msgstr ""
+msgstr "يرنامج أبولو للفضاء"
 
 #: data/default/buildings.ruleset:962 data/civ2/buildings.ruleset:949
 msgid ""
@@ -15818,7 +15861,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:969 data/civ2/buildings.ruleset:956
 msgid "A.Smith's Trading Co."
-msgstr ""
+msgstr "شركة أ. سميث للتجارة."
 
 #: data/default/buildings.ruleset:983
 msgid ""
@@ -15852,7 +15895,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1029 data/civ2/buildings.ruleset:1016
 #: data/civ1/buildings.ruleset:693
 msgid "Cure For Cancer"
-msgstr ""
+msgstr "علاج للسرطان"
 
 #: data/default/buildings.ruleset:1043
 msgid ""
@@ -15863,7 +15906,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1051 data/civ2/buildings.ruleset:1036
 #: data/civ1/buildings.ruleset:713
 msgid "Darwin's Voyage"
-msgstr ""
+msgstr "رحلة داروين"
 
 #: data/default/buildings.ruleset:1065 data/civ2/buildings.ruleset:1050
 #: data/civ1/buildings.ruleset:727
@@ -15875,7 +15918,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1072 data/civ2/buildings.ruleset:1057
 msgid "Eiffel Tower"
-msgstr ""
+msgstr "برج ايفل"
 
 #: data/default/buildings.ruleset:1087
 #, no-c-format
@@ -15888,7 +15931,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1094 data/civ2/buildings.ruleset:1080
 #: data/civ1/buildings.ruleset:734
 msgid "Great Library"
-msgstr ""
+msgstr "المكتبة العظمى"
 
 #: data/default/buildings.ruleset:1108 data/civ2/buildings.ruleset:1094
 #: data/civ1/buildings.ruleset:748
@@ -15900,7 +15943,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1114 data/civ2/buildings.ruleset:1100
 #: data/civ1/buildings.ruleset:754
 msgid "Great Wall"
-msgstr ""
+msgstr "سور الصين العظيم"
 
 #: data/default/buildings.ruleset:1128
 msgid "Works as a City Wall in all your cities."
@@ -15909,7 +15952,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1136 data/civ2/buildings.ruleset:1121
 #: data/civ1/buildings.ruleset:775
 msgid "Hanging Gardens"
-msgstr ""
+msgstr "الحدائق المعلقة"
 
 #: data/default/buildings.ruleset:1150 data/civ2/buildings.ruleset:1135
 #: data/civ1/buildings.ruleset:789
@@ -15924,7 +15967,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1159 data/civ2/buildings.ruleset:1144
 #: data/civ1/buildings.ruleset:798
 msgid "Hoover Dam"
-msgstr ""
+msgstr "سد هوڤر"
 
 #: data/default/buildings.ruleset:1173 data/civ2/buildings.ruleset:1158
 msgid ""
@@ -15935,7 +15978,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1179 data/civ2/buildings.ruleset:1164
 #: data/civ1/buildings.ruleset:822
 msgid "Isaac Newton's College"
-msgstr ""
+msgstr "جامعة اسحاق نيوتن"
 
 #: data/default/buildings.ruleset:1194
 #, no-c-format
@@ -15947,7 +15990,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1200 data/civ2/buildings.ruleset:1184
 #: data/civ1/buildings.ruleset:842
 msgid "J.S. Bach's Cathedral"
-msgstr ""
+msgstr "كاثدرائية ج. س. باخ"
 
 #: data/default/buildings.ruleset:1214 data/civ2/buildings.ruleset:1198
 msgid "Makes two unhappy citizens content in every city."
@@ -15955,7 +15998,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1219 data/civ2/buildings.ruleset:1203
 msgid "King Richard's Crusade"
-msgstr ""
+msgstr "حملة الملك ريتشارد الصليبية"
 
 #: data/default/buildings.ruleset:1233 data/civ2/buildings.ruleset:1217
 msgid ""
@@ -15965,7 +16008,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1239 data/civ2/buildings.ruleset:1223
 msgid "Leonardo's Workshop"
-msgstr ""
+msgstr "ورشة ليوناردو"
 
 #: data/default/buildings.ruleset:1253 data/civ2/buildings.ruleset:1237
 msgid "Upgrades one obsolete unit per game turn."
@@ -15974,7 +16017,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1258 data/civ2/buildings.ruleset:1242
 #: data/civ1/buildings.ruleset:862
 msgid "Lighthouse"
-msgstr ""
+msgstr "المنارة"
 
 #: data/default/buildings.ruleset:1272
 msgid ""
@@ -15986,7 +16029,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1279 data/civ2/buildings.ruleset:1263
 #: data/civ1/buildings.ruleset:885
 msgid "Magellan's Expedition"
-msgstr ""
+msgstr "رحلة ماجلان الاستكشافية"
 
 #: data/default/buildings.ruleset:1293
 msgid "Gives all your sea units 2 additional movement points."
@@ -15995,11 +16038,11 @@ msgstr ""
 #: data/default/buildings.ruleset:1298 data/civ2/buildings.ruleset:1282
 #: data/civ1/buildings.ruleset:904
 msgid "Manhattan Project"
-msgstr ""
+msgstr "مشروع مانهاتن"
 
 #: data/default/buildings.ruleset:1316 data/civ2/buildings.ruleset:1300
 msgid "Marco Polo's Embassy"
-msgstr ""
+msgstr "سفارة ماركو بولو"
 
 #: data/default/buildings.ruleset:1330 data/civ2/buildings.ruleset:1314
 msgid "The player who owns it gets an embassy with all players."
@@ -16008,7 +16051,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1335 data/civ2/buildings.ruleset:1319
 #: data/civ1/buildings.ruleset:922
 msgid "Michelangelo's Chapel"
-msgstr ""
+msgstr "كنيسة مايكل أنجلو"
 
 #: data/default/buildings.ruleset:1349 data/civ2/buildings.ruleset:1333
 msgid ""
@@ -16022,7 +16065,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1359 data/civ2/buildings.ruleset:1343
 #: data/civ1/buildings.ruleset:941
 msgid "Oracle"
-msgstr ""
+msgstr "العراف"
 
 #: data/default/buildings.ruleset:1373
 msgid "Makes two of your unhappy citizens content in every city with a temple."
@@ -16031,7 +16074,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1378 data/civ2/buildings.ruleset:1362
 #: data/civ1/buildings.ruleset:960
 msgid "Pyramids"
-msgstr ""
+msgstr "الأهرام"
 
 #: data/default/buildings.ruleset:1392
 msgid ""
@@ -16043,7 +16086,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
 msgid "SETI Program"
-msgstr ""
+msgstr "برنامج سيتي"
 
 #: data/default/buildings.ruleset:1413
 msgid "Boosts science production in each city with a Research Lab by 100%. "
@@ -16052,7 +16095,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1418 data/civ2/buildings.ruleset:1401
 #: data/civ1/buildings.ruleset:1001
 msgid "Shakespeare's Theatre"
-msgstr ""
+msgstr "مسرح شكسبير"
 
 #: data/default/buildings.ruleset:1432 data/civ2/buildings.ruleset:1415
 #: data/civ1/buildings.ruleset:1015
@@ -16061,7 +16104,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1437 data/civ2/buildings.ruleset:1420
 msgid "Statue of Liberty"
-msgstr ""
+msgstr "تمثال الحرية"
 
 #: data/default/buildings.ruleset:1451 data/civ2/buildings.ruleset:1434
 #: data/civ1/buildings.ruleset:974 data/civ1/buildings.ruleset:1034
@@ -16073,7 +16116,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1458 data/civ2/buildings.ruleset:1441
 msgid "Sun Tzu's War Academy"
-msgstr ""
+msgstr "اكاديمية سن تزو الحربية"
 
 #: data/default/buildings.ruleset:1472
 msgid ""
@@ -16084,7 +16127,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1479 data/civ2/buildings.ruleset:1462
 #: data/civ1/buildings.ruleset:1020
 msgid "United Nations"
-msgstr ""
+msgstr "الأمم المتحدة"
 
 #: data/default/buildings.ruleset:1493
 msgid "All your units regain two extra hitpoints per turn."
@@ -16093,7 +16136,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1506 data/civ2/buildings.ruleset:1489
 #: data/civ1/buildings.ruleset:1046
 msgid "Women's Suffrage"
-msgstr ""
+msgstr "تصويت النساء"
 
 #: data/default/buildings.ruleset:1520 data/civ2/buildings.ruleset:1503
 msgid ""
@@ -16104,7 +16147,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1531
 msgid "Coinage"
-msgstr ""
+msgstr "العملة"
 
 #: data/default/buildings.ruleset:1552
 msgid ""
@@ -16188,7 +16231,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
-msgstr ""
+msgstr "محطة الطاقة الشمسية"
 
 #: data/civ2/buildings.ruleset:731
 #, no-c-format
@@ -16272,7 +16315,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1511
 msgid "Capitalization"
-msgstr ""
+msgstr "الرسملة"
 
 #: data/civ2/buildings.ruleset:1524
 msgid ""
@@ -16370,55 +16413,55 @@ msgstr ""
 
 #: data/default/cities.ruleset:37
 msgid "scientist"
-msgstr ""
+msgstr "عالم"
 
 #: data/default/cities.ruleset:38
 msgid "?Scientist:S"
-msgstr ""
+msgstr "?Scientist:ع"
 
 #: data/default/cities.ruleset:45
 msgid "taxman"
-msgstr ""
+msgstr "جابي الضرائب"
 
 #: data/default/cities.ruleset:46
 msgid "?Taxman:T"
-msgstr ""
+msgstr "?Taxman:ج"
 
 #: data/default/cities.ruleset:74
 msgid "?citystyle:European"
-msgstr ""
+msgstr "?citystyle:أوروبي"
 
 #: data/default/cities.ruleset:83
 msgid "?citystyle:Classical"
-msgstr ""
+msgstr "?citystyle:كلاسيكي"
 
 #: data/default/cities.ruleset:92
 msgid "?citystyle:Tropical"
-msgstr ""
+msgstr "?citystyle:استوائي"
 
 #: data/default/cities.ruleset:101
 msgid "?citystyle:Asian"
-msgstr ""
+msgstr "?citystyle:اسيوي"
 
 #: data/default/cities.ruleset:110
 msgid "?citystyle:Babylonian"
-msgstr ""
+msgstr "?citystyle:بابلي"
 
 #: data/default/cities.ruleset:119
 msgid "?citystyle:Celtic"
-msgstr ""
+msgstr "?citystyle:الكيلتي"
 
 #: data/default/cities.ruleset:128
 msgid "?citystyle:Renaissance"
-msgstr ""
+msgstr "?citystyle:عهد النهضة"
 
 #: data/default/cities.ruleset:139
 msgid "?citystyle:Industrial"
-msgstr ""
+msgstr "?citystyle:صناعي"
 
 #: data/default/cities.ruleset:150
 msgid "?citystyle:Modern"
-msgstr ""
+msgstr "?citystyle:حديث"
 
 #: data/default/cities.ruleset:161
 msgid "?citystyle:PostModern"
@@ -16427,7 +16470,7 @@ msgstr ""
 #: data/default/governments.ruleset:51 data/civ2/governments.ruleset:49
 #: data/civ1/governments.ruleset:51
 msgid "Anarchy"
-msgstr ""
+msgstr "الفوضوية"
 
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
@@ -16458,12 +16501,12 @@ msgstr ""
 #: data/civ1/governments.ruleset:78 data/nation/brazilian.ruleset:22
 #: data/nation/iraqi.ruleset:21 data/nation/roman.ruleset:39
 msgid "Dictator"
-msgstr ""
+msgstr "ديكتاتور"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
 msgid "Dictatress"
-msgstr ""
+msgstr "ديكتاتورة"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -16477,7 +16520,7 @@ msgstr ""
 #: data/civ1/governments.ruleset:92 data/default/techs.ruleset:480
 #: data/civ2/techs.ruleset:362 data/civ1/techs.ruleset:360
 msgid "Monarchy"
-msgstr ""
+msgstr "الحك الملكي"
 
 #: data/default/governments.ruleset:100 data/civ2/governments.ruleset:98
 #: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:30
@@ -16485,7 +16528,7 @@ msgstr ""
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/slovakian.ruleset:27 data/nation/spanish.ruleset:30
 msgid "King"
-msgstr ""
+msgstr "الملك"
 
 #: data/default/governments.ruleset:101 data/civ2/governments.ruleset:99
 #: data/civ1/governments.ruleset:101 data/nation/bosnia.ruleset:30
@@ -16493,7 +16536,7 @@ msgstr ""
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/spanish.ruleset:30
 msgid "Queen"
-msgstr ""
+msgstr "الملكة"
 
 #: data/default/governments.ruleset:103 data/civ1/governments.ruleset:103
 msgid ""
@@ -16507,17 +16550,17 @@ msgstr ""
 #: data/civ1/governments.ruleset:114 data/default/techs.ruleset:174
 #: data/civ2/techs.ruleset:132 data/civ1/techs.ruleset:132
 msgid "Communism"
-msgstr ""
+msgstr "الشيوعية"
 
 #: data/default/governments.ruleset:121 data/civ2/governments.ruleset:119
 #: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:25
 msgid "Comrade"
-msgstr ""
+msgstr "الرفيق"
 
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:120
 #: data/civ1/governments.ruleset:122
 msgid "?female:Comrade"
-msgstr ""
+msgstr "?female:الرفيق"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:124
 msgid ""
@@ -16532,17 +16575,17 @@ msgstr ""
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
 msgid "Republic"
-msgstr ""
+msgstr "الحكم الجمهوري"
 
 #: data/default/governments.ruleset:145 data/civ2/governments.ruleset:171
 #: data/civ1/governments.ruleset:145
 msgid "Consul"
-msgstr ""
+msgstr "القنصل"
 
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:146
 msgid "?female:Consul"
-msgstr ""
+msgstr "?female:القنصل"
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:174
 #: data/civ1/governments.ruleset:148
@@ -16558,7 +16601,7 @@ msgstr ""
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:215
 #: data/civ2/techs.ruleset:163 data/civ1/techs.ruleset:162
 msgid "Democracy"
-msgstr ""
+msgstr "الحكم الديقراطي"
 
 #: data/default/governments.ruleset:167 data/civ2/governments.ruleset:193
 #: data/civ1/governments.ruleset:167 data/nation/assyrian.ruleset:22
@@ -16574,12 +16617,12 @@ msgstr ""
 #: data/nation/slovenian.ruleset:19 data/nation/slovenian.ruleset:20
 #: data/nation/slovakian.ruleset:28
 msgid "President"
-msgstr ""
+msgstr "الرئيس"
 
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
 msgid "?female:President"
-msgstr ""
+msgstr "?female:الرئيسة"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -16631,15 +16674,15 @@ msgstr ""
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:296
 #: data/civ2/techs.ruleset:224 data/civ1/techs.ruleset:222
 msgid "Fundamentalism"
-msgstr ""
+msgstr "الأصولية"
 
 #: data/civ2/governments.ruleset:143
 msgid "High Priest"
-msgstr ""
+msgstr "الكاهن الأعلى"
 
 #: data/civ2/governments.ruleset:144
 msgid "High Priestess"
-msgstr ""
+msgstr "الكاهنة العليا"
 
 #: data/civ2/governments.ruleset:146
 msgid ""
@@ -16957,7 +17000,7 @@ msgstr "الانشطار النووي"
 #: data/default/techs.ruleset:521 data/civ2/techs.ruleset:393
 #: data/civ1/techs.ruleset:391
 msgid "Nuclear Power"
-msgstr ""
+msgstr "القوة النووية"
 
 #: data/default/techs.ruleset:527 data/civ2/techs.ruleset:397
 msgid "Gives sea units one extra move."
@@ -17095,7 +17138,7 @@ msgstr "نظرية الجاذبية"
 #: data/default/techs.ruleset:749 data/civ2/techs.ruleset:563
 #: data/civ1/techs.ruleset:559
 msgid "Warrior Code"
-msgstr ""
+msgstr "طريقة حياة المحارب"
 
 #: data/default/techs.ruleset:757 data/civ2/techs.ruleset:569
 #: data/civ1/techs.ruleset:565
@@ -17313,7 +17356,7 @@ msgstr "التوابل"
 #: data/default/terrain.ruleset:730 data/civ2/terrain.ruleset:661
 #: data/civ1/terrain.ruleset:510
 msgid "?animals:Game"
-msgstr ""
+msgstr "?animals:صيد الحيوانات"
 
 #: data/default/terrain.ruleset:738 data/civ2/terrain.ruleset:669
 msgid "Furs"
@@ -17496,12 +17539,12 @@ msgstr ""
 
 #: data/default/units.ruleset:682 data/civ2/units.ruleset:569
 msgid "Horsemen"
-msgstr ""
+msgstr "الخيالة"
 
 #: data/default/units.ruleset:710 data/civ2/units.ruleset:597
 #: data/civ1/units.ruleset:347
 msgid "Chariot"
-msgstr ""
+msgstr "العربة"
 
 #: data/default/units.ruleset:738 data/civ2/units.ruleset:681
 #: data/civ1/units.ruleset:375
@@ -17515,12 +17558,12 @@ msgstr ""
 #: data/default/units.ruleset:796 data/civ2/units.ruleset:739
 #: data/civ1/units.ruleset:319
 msgid "Cavalry"
-msgstr ""
+msgstr "سلاح الفرسان"
 
 #: data/default/units.ruleset:824 data/civ2/units.ruleset:767
 #: data/civ1/units.ruleset:404
 msgid "Armor"
-msgstr ""
+msgstr "دروع"
 
 #: data/default/units.ruleset:852 data/civ2/units.ruleset:795
 #: data/civ1/units.ruleset:432
@@ -17539,7 +17582,7 @@ msgstr "مدفعيه"
 
 #: data/default/units.ruleset:936 data/civ2/units.ruleset:879
 msgid "Howitzer"
-msgstr ""
+msgstr "مدفع هاوتزر"
 
 #: data/default/units.ruleset:964 data/civ2/units.ruleset:907
 #: data/civ1/units.ruleset:516
@@ -17565,7 +17608,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1054 data/civ2/units.ruleset:997
 msgid "Stealth Fighter"
-msgstr ""
+msgstr "طائرة حربية خفية"
 
 #: data/default/units.ruleset:1080 data/civ2/units.ruleset:1023
 msgid "An improved Fighter, with improved attack and a higher movement radius."
@@ -17582,11 +17625,11 @@ msgstr ""
 #: data/default/units.ruleset:1118 data/civ2/units.ruleset:1061
 #: data/civ1/units.ruleset:572
 msgid "Trireme"
-msgstr ""
+msgstr "السفينة"
 
 #: data/default/units.ruleset:1146 data/civ2/units.ruleset:1089
 msgid "Caravel"
-msgstr ""
+msgstr "سفينة صغيرة"
 
 #: data/default/units.ruleset:1174 data/civ2/units.ruleset:1117
 msgid "Galleon"
@@ -17595,12 +17638,12 @@ msgstr ""
 #: data/default/units.ruleset:1202 data/civ2/units.ruleset:1145
 #: data/civ1/units.ruleset:628
 msgid "Frigate"
-msgstr ""
+msgstr "فرقاطة"
 
 #: data/default/units.ruleset:1230 data/civ2/units.ruleset:1173
 #: data/civ1/units.ruleset:656
 msgid "Ironclad"
-msgstr ""
+msgstr "المدرعة"
 
 #: data/default/units.ruleset:1258 data/civ2/units.ruleset:1201
 msgid "Destroyer"
@@ -17615,11 +17658,11 @@ msgstr ""
 #: data/default/units.ruleset:1290 data/civ2/units.ruleset:1233
 #: data/civ1/units.ruleset:684
 msgid "Cruiser"
-msgstr ""
+msgstr "الطراد"
 
 #: data/default/units.ruleset:1318 data/civ2/units.ruleset:1261
 msgid "AEGIS Cruiser"
-msgstr ""
+msgstr "طراد إيجس"
 
 #: data/default/units.ruleset:1346 data/civ2/units.ruleset:1289
 #: data/civ1/units.ruleset:712
@@ -19065,11 +19108,11 @@ msgstr ""
 
 #: data/nation/german.ruleset:34
 msgid "Chancellor"
-msgstr ""
+msgstr "المستشار"
 
 #: data/nation/german.ruleset:36
 msgid "First Secretary"
-msgstr ""
+msgstr "السكرتير الأول"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -19246,11 +19289,11 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:23
 msgid "Shaman"
-msgstr ""
+msgstr "شامان"
 
 #: data/nation/inuit.ruleset:24
 msgid "Great Shaman"
-msgstr ""
+msgstr "الشامان الأعظم"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
@@ -19286,15 +19329,15 @@ msgstr ""
 
 #: data/nation/irish.ruleset:56
 msgid "High King"
-msgstr ""
+msgstr "الملك الأعلى"
 
 #: data/nation/irish.ruleset:56
 msgid "High Queen"
-msgstr ""
+msgstr "الملكة العليا"
 
 #: data/nation/irish.ruleset:57
 msgid "Mother Superior"
-msgstr ""
+msgstr "الأم العظمى"
 
 #: data/nation/irish.ruleset:58
 msgid "Taoiseach"
@@ -19408,7 +19451,7 @@ msgstr ""
 
 #: data/nation/kampuchean.ruleset:20 data/nation/manchu.ruleset:20
 msgid "Warlord"
-msgstr ""
+msgstr "سيد الحرب"
 
 #: data/nation/kampuchean.ruleset:21
 msgid "Brother"
@@ -19449,7 +19492,7 @@ msgstr ""
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
 msgid "Great Leader"
-msgstr ""
+msgstr "القائد الأعظم"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
@@ -19487,11 +19530,11 @@ msgstr "القائد الأعلى"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr ""
+msgstr "اللاتفي"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr ""
+msgstr "?plural:اللاتفيين"
 
 #: data/nation/latvian.ruleset:7
 msgid ""
@@ -19526,11 +19569,11 @@ msgstr "كولونيل"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr ""
+msgstr "ليتواني"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr ""
+msgstr "?plural:ليتوانيين"
 
 #: data/nation/lithuanian.ruleset:6
 msgid ""
@@ -19549,11 +19592,11 @@ msgstr "الدوقة العظمى"
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr ""
+msgstr "مدغشقري"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
-msgstr ""
+msgstr "?plural:مدغشقريين"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -19563,7 +19606,7 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
-msgstr ""
+msgstr "المفوض الأعلى"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -19631,11 +19674,11 @@ msgstr ""
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr ""
+msgstr "ماوري"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
-msgstr ""
+msgstr "?plural:ماوريين"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -19680,7 +19723,7 @@ msgstr "مكسيكي"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
-msgstr ""
+msgstr "?plural:المكسيكيين"
 
 #: data/nation/mexican.ruleset:6
 msgid "Mexico borrows its name from the Mexica people, another name for the Aztecs."
@@ -19692,7 +19735,7 @@ msgstr "منغولي"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr "?plural:مغول"
+msgstr "?plural:المغول"
 
 #: data/nation/mongol.ruleset:6
 msgid ""
@@ -19789,11 +19832,11 @@ msgstr ""
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr ""
+msgstr "بابوي"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr ""
+msgstr "?plural:البابويين"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -19835,7 +19878,7 @@ msgstr "فنيقي"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
-msgstr "?plural:فنيقيين"
+msgstr "?plural:الفنيقيين"
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
@@ -19849,7 +19892,7 @@ msgstr "بولندي"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
-msgstr "?plural:بولنديين"
+msgstr "?plural:البولنديين"
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -19879,7 +19922,7 @@ msgstr "برتغالي"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr "?plural:برتغاليين"
+msgstr "?plural:البرتغاليين"
 
 #: data/nation/portuguese.ruleset:6
 msgid ""
@@ -19907,7 +19950,7 @@ msgstr "روماني"
 
 #: data/nation/romanian.ruleset:4
 msgid "?plural:Romanians"
-msgstr "?plural:رومانيين"
+msgstr "?plural:الرومانيين"
 
 #: data/nation/romanian.ruleset:6
 msgid ""
@@ -20049,7 +20092,7 @@ msgstr "اسكتلندي"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr "?plural:اسكتلنديين"
+msgstr "?plural:الاسكتلنديين"
 
 #: data/nation/scottish.ruleset:6
 msgid ""
@@ -20079,11 +20122,11 @@ msgstr ""
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr ""
+msgstr "مواطن من سيليسيا"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr ""
+msgstr "?plural:أهل سيليسيا"
 
 #: data/nation/silesian.ruleset:6
 msgid ""
@@ -20097,7 +20140,7 @@ msgstr "سنغافوري"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr "?plural:سنغافوريين"
+msgstr "?plural:السنغافوريين"
 
 #: data/nation/singaporean.ruleset:18
 msgid ""
