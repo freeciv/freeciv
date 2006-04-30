@@ -546,7 +546,8 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
 	  change_ptsize16(pString, pString->ptsize - 1);
 	  w = str16size(pString).w;
 	} else {
-	  die("Can't convert string to const width");
+	  freelog(LOG_ERROR, "Can't convert string to const width");
+          break;
 	}
       }  
       

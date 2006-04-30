@@ -89,7 +89,7 @@ Uint16 *unistrdup(const Uint16 *pUniString)
 **************************************************************************/
 Uint16 ** create_new_line_unistrings(const Uint16 *pUnistring)
 {
-  static Uint16 *pBuf[32];
+  static Uint16 *pBuf[64];
   Uint16 *pFromUnistring = (Uint16 *)pUnistring;
   size_t len = 0, count = 0;
   

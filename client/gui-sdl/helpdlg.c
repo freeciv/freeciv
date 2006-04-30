@@ -332,21 +332,24 @@ void popup_impr_info(Impr_type_id impr)
   DownAdd(pBuf, pDock);
   pDock = pBuf;
   
-  if (!(requirement_vector_size(&pImpr_type->reqs) > 0))
-  {
+  if (!(requirement_vector_size(&pImpr_type->reqs) > 0)) {
     pBuf = create_iconlabel_from_chars(NULL,
 		    pWindow->dst, _("None"), adj_font(12), 0);
     pBuf->ID = ID_LABEL;
   } else {
-	requirement_vector_iterate(&pImpr_type->reqs, preq) {
-    pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	    advances[preq->source.value.tech].name, adj_font(12),
-			  WF_DRAW_THEME_TRANSPARENT);
+    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
+     * definition. */
+    requirement_vector_iterate(&pImpr_type->reqs, preq) {
+      pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
+	            get_req_source_text(&preq->source, buffer, sizeof(buffer)),
+                    adj_font(12), WF_DRAW_THEME_TRANSPARENT);
       pBuf->ID = MAX_ID - preq->source.value.tech;
       pBuf->string16->fgcol = *get_tech_color(preq->source.value.tech);
-    pBuf->action = change_tech_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-	} requirement_vector_iterate_end;	
+      pBuf->action = change_tech_callback;
+      set_wstate(pBuf, FC_WS_NORMAL);
+      break;
+    } requirement_vector_iterate_end;	
   }
   DownAdd(pBuf, pDock);
   pDock = pBuf;
@@ -1037,22 +1040,20 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   
   gov_count = 0;
   government_iterate(gov) {
-      
-  requirement_vector_iterate(&gov->reqs, preq) {
-    if ((preq->source.type == REQ_TECH) && preq->source.value.tech == tech) {
-                
-      pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
-	      pWindow->dst, gov->name, adj_font(14),
-	      WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
-      set_wstate(pBuf, FC_WS_NORMAL);
-      pBuf->action = change_gov_callback;
-      pBuf->ID = MAX_ID - gov->index;
-      DownAdd(pBuf, pDock);
-      pDock = pBuf;
-      gov_count++;
-    }
-		  
-  } requirement_vector_iterate_end;		
+    requirement_vector_iterate(&gov->reqs, preq) {
+      if ((preq->source.type == REQ_TECH) && preq->source.value.tech == tech) {
+                  
+        pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
+                pWindow->dst, gov->name, adj_font(14),
+                WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+        set_wstate(pBuf, FC_WS_NORMAL);
+        pBuf->action = change_gov_callback;
+        pBuf->ID = MAX_ID - gov->index;
+        DownAdd(pBuf, pDock);
+        pDock = pBuf;
+        gov_count++;
+      }
+    } requirement_vector_iterate_end;		
 
   /* TODO: check if code replacement above is correct */
 #if 0
@@ -1083,17 +1084,20 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   impr_type_iterate(imp) {
 
     struct impr_type *pImpr = get_improvement_type(imp);
-	  
-      requirement_vector_iterate(&pImpr->reqs, preq) {
 
+    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs. 
+     * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
+     * definition. */
+    requirement_vector_iterate(&pImpr->reqs, preq) {
+  
       if (preq->source.value.tech == tech) {
         pBuf = create_iconlabel_from_chars(GET_SURF(get_building_sprite(tileset, imp)),
-	        pWindow->dst, get_improvement_name(imp), adj_font(14),
-	        WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+                pWindow->dst, get_improvement_name(imp), adj_font(14),
+                WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
         if (is_wonder(imp))
         {
-	       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITY_LUX);
+               pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITY_LUX);
         }
         pBuf->action = change_impr_callback;
         pBuf->ID = MAX_ID - imp;
@@ -1101,7 +1105,8 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
         pDock = pBuf;
         imp_count++;
       }
-	
+      
+      break;
     } requirement_vector_iterate_end;	
 	  
     /* TODO: check if code replacement above is correct */
