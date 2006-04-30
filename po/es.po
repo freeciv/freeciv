@@ -13,10 +13,10 @@
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-04-18 17:48+0300\n"
-"PO-Revision-Date: 2006-04-23 20:57+0300\n"
+"PO-Revision-Date: 2006-04-30 20:57+0300\n"
 "Last-Translator: Claudio M. Camacho <claudiomkd@gmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9651,7 +9651,7 @@ msgstr "Si se activa, se mostrarán las ciudades en la vista general."
 
 #: client/options.c:254
 msgid "Overview fog of war"
-msgstr "Vista general de la niebla de la guerra"
+msgstr "Vista general de la niebla en la guerra"
 
 #: client/options.c:255
 msgid "Enabling this will show fog of war on the overview."
@@ -10391,9 +10391,9 @@ msgstr "%s de los %s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1108
-#, fuzzy, c-format
+#, c-format
 msgid "Observer: %s"
-msgstr "Observador"
+msgstr "Observador: %s"
 
 #: client/text.c:1126
 msgid "Buildings: "
@@ -10401,7 +10401,7 @@ msgstr "Instalaciones: "
 
 #: client/text.c:1132 client/text.c:1169
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: client/text.c:1142 client/text.c:1180
 msgid "None. "
@@ -10409,7 +10409,7 @@ msgstr "Ninguna. "
 
 #: client/text.c:1144 client/text.c:1182
 msgid "."
-msgstr ""
+msgstr "."
 
 #: client/text.c:1162
 msgid "Wonders: "
@@ -10423,6 +10423,10 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"El fichero %s parece incompatible:\n"
+"Fichero: \"%s\"\n"
+"Opciones del fichero: %s\n"
+"Opciones soportadas: %s"
 
 #: client/tilespec.c:734 client/gui-sdl/themespec.c:281
 #, c-format
@@ -10432,6 +10436,10 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"El fichero %s necesita una o más opciones que no están soportadas:\n"
+"Fichero: \"%s\"\n"
+"Opciones del fichero: %s\n"
+"Opciones soportadas: %s"
 
 #: client/tilespec.c:855
 msgid "No usable default tileset found, aborting!"
@@ -10478,7 +10486,7 @@ msgstr ""
 
 #: client/tilespec.c:1361
 msgid "Invalid darkness style set in tileset."
-msgstr ""
+msgstr "Estilo de oscuridad inválido en el tileset."
 
 #: client/tilespec.c:1522
 #, c-format
@@ -10486,6 +10494,8 @@ msgid ""
 "Error in %s layer %d: you cannot have tall terrain or\n"
 "a sprite offset with a cell-based drawing method."
 msgstr ""
+"Error en %s, capa %d: no se puede tener terreno alto o\n"
+"un offset de sprite con un método de dibujado por celdas."
 
 #: client/tilespec.c:1692 client/gui-sdl/themespec.c:836
 #, c-format
@@ -10495,12 +10505,12 @@ msgstr "No se ha podido cargar el fichero de gráficos %s para el spec %s"
 #: client/tilespec.c:1829
 #, c-format
 msgid "No graphics for specialist %s."
-msgstr ""
+msgstr "No hay gráficos para los especialistas %s."
 
 #: client/tilespec.c:1860
 #, c-format
 msgid "No graphics for citizen %s."
-msgstr ""
+msgstr "No hay gráficos para los ciudadanos %s."
 
 #: client/tilespec.c:2501 client/gui-sdl/themespec.c:987
 #, c-format
@@ -10511,7 +10521,7 @@ msgstr "No tengo etiquetas gráficas %s o %s para %s %s"
 #: client/tilespec.c:2622
 #, c-format
 msgid "Missing base sprite tag \"%s1\"."
-msgstr ""
+msgstr "No se encontró la etiqueta del sprite \"%s1\"."
 
 #: client/tilespec.c:3875
 msgid ""
@@ -10522,7 +10532,7 @@ msgstr ""
 "Informa de este error a bugs@freeciv.org."
 
 #: client/agents/cma_core.c:398
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The citizen governor can't fulfill the requirements for %s. Passing back "
 "control."
@@ -10535,7 +10545,7 @@ msgstr ""
 msgid ""
 "The citizen governor has gotten confused dealing with %s.  You may want to "
 "have a look."
-msgstr ""
+msgstr "CMA: Hubo una confusión con %s. Mejor que eches un vistazo."
 
 #: client/agents/cma_fec.c:218 client/gui-gtk-2.0/cityrep.c:546
 #: client/gui-gtk-2.0/cityrep.c:565 client/gui-sdl/citydlg.c:2036
@@ -10814,9 +10824,9 @@ msgid "_Sabotage Enemy Unit"
 msgstr "_Sabotear una unidad enemiga"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:80
-#, fuzzy, c-format
+#, c-format
 msgid "Help build _Wonder (%d remaining)"
-msgstr "Ayudar a construir la _maravilla"
+msgstr "Ayudar a construir la _Maravilla (quedan %d)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:85 client/gui-win32/dialogs.c:1057
 msgid "Help build _Wonder"
@@ -10952,9 +10962,8 @@ msgid "_Happiness"
 msgstr "_Felicidad"
 
 #: client/gui-gtk-2.0/citydlg.c:1002
-#, fuzzy
 msgid "_Governor"
-msgstr "Governador"
+msgstr "_Gobernador"
 
 #: client/gui-gtk-2.0/citydlg.c:1025
 msgid "_Settings"
@@ -10991,9 +11000,8 @@ msgid "Happiness page"
 msgstr "Página de felicidad"
 
 #: client/gui-gtk-2.0/citydlg.c:1039 client/gui-mui/citydlg.c:1382
-#, fuzzy
 msgid "Governor page"
-msgstr "Governador"
+msgstr "Página de Gobernador"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 msgid "This Settings page"
@@ -11293,14 +11301,14 @@ msgid "Available Wonders"
 msgstr "Maravillas disponibles"
 
 #: client/gui-gtk-2.0/cma_fe.c:253 client/gui-xaw/cma_fe.c:78
-#, fuzzy
 msgid ""
 "For information on\n"
 "the citizen governor and governor presets,\n"
 "including sample presets,\n"
 "see README.cma."
 msgstr ""
-"Para información sobre el CMA y su configuración, incluyendo configuraciones "
+"Para información sobre la configuración de\n"
+"CMA y Gobernador, incluyendo las configuraciones\n"
 "de ejemplo, lee README.cma."
 
 #: client/gui-gtk-2.0/cma_fe.c:269
@@ -11331,14 +11339,12 @@ msgid "Celebrate"
 msgstr "Celebraciones"
 
 #: client/gui-gtk-2.0/cma_fe.c:463
-#, fuzzy
 msgid "Governor Enabl_ed"
-msgstr "Governador"
+msgstr "Gobernador Activa_do"
 
 #: client/gui-gtk-2.0/cma_fe.c:468
-#, fuzzy
 msgid "Governor Disabl_ed"
-msgstr "CMA Deshabilitado(_E)"
+msgstr "CMA Deshabilita_do"
 
 #: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:225
 #: client/gui-sdl/cma_fe.c:295 client/gui-win32/cma_fe.c:385
@@ -11424,14 +11430,12 @@ msgstr "¿Qué nación quieres ser?"
 
 #: client/gui-gtk-2.0/dialogs.c:765 client/gui-win32/connectdlg.c:990
 #: data/Freeciv.in:3371
-#, fuzzy
 msgid "Pick Nation"
-msgstr "Comisaría"
+msgstr "Eleigr Nación"
 
 #: client/gui-gtk-2.0/dialogs.c:774
-#, fuzzy
 msgid "Random Nation"
-msgstr "Las Naciones Unidas"
+msgstr "Nación al azar"
 
 #: client/gui-gtk-2.0/dialogs.c:786 client/gui-win32/dialogs.c:521
 msgid "Select a nation"
@@ -11525,9 +11529,9 @@ msgid "_Pacts"
 msgstr "_Pactos"
 
 #: client/gui-gtk-2.0/diplodlg.c:469
-#, fuzzy, c-format
+#, c-format
 msgid "Diplomacy: %s"
-msgstr "Diplomacia"
+msgstr "Diplomacia: %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:476 client/gui-mui/diplodlg.c:535
 msgid "_Cancel meeting"
@@ -11556,9 +11560,8 @@ msgstr ""
 #: client/gui-gtk-2.0/diplodlg.c:906 client/gui-mui/diplodlg.c:382
 #: client/gui-sdl/diplodlg.c:354 client/gui-win32/diplodlg.c:263
 #: client/gui-xaw/diplodlg.c:948
-#, fuzzy
 msgid "Invalid amount of gold specified."
-msgstr "Juego: Se ha especificado una cantidad inválida de oro."
+msgstr "Se ha especificado una cantidad inválida de oro."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-mui/finddlg.c:96
 #: client/gui-sdl/finddlg.c:122 client/gui-win32/finddlg.c:116
@@ -11629,6 +11632,9 @@ msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
+"Si esta opción está activada, los eventos de 'Ir a' se pueden hacer con "
+"un click (botón izquierdo del ratón) y manteniendo el botón presionado "
+"mientras se arrastra la unidad a otra casilla."
 
 #: client/gui-gtk-2.0/gui_main.c:160
 msgid "Keep dialogs on top"
@@ -11639,6 +11645,9 @@ msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
+"Si esta opción está activada, los diálogos permanecerán siempre al frente "
+"de la ventana principal de Freeciv. Desactivándola, no tiene efecto a "
+"pantalla completa."
 
 #: client/gui-gtk-2.0/gui_main.c:165
 msgid "Show worklist task icons"
@@ -11649,6 +11658,8 @@ msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
+"Desactivando esto, se desactivarán los iconos de unidades y edificios de "
+"la lista de tareas y de la pestaña de producción en el diálogo de la ciudad."
 
 #: client/gui-gtk-2.0/gui_main.c:170
 msgid "Enable status report tabs"
@@ -11659,6 +11670,8 @@ msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
+"Si esta opción está activada, los diálogos de mensajes se mostrarán en "
+"pestañas separadas en lugar de mostrar una ventana emergente."
 
 #: client/gui-gtk-2.0/gui_main.c:176 client/gui-win32/gui_main.c:109
 msgid "Better fog-of-war drawing"
@@ -11669,6 +11682,8 @@ msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
 msgstr ""
+"Si esto está activado, se utilizará un método mejorado para dibujar la "
+"niebla en la guerra. No es más lento, pero consume casi el doble de memoria."
 
 #: client/gui-gtk-2.0/gui_main.c:611 client/gui-gtk-2.0/gui_main.c:1229
 msgid "Freeciv"
@@ -11703,14 +11718,12 @@ msgstr ""
 "Y ahora... ¡a por ellos!"
 
 #: client/gui-gtk-2.0/gui_main.c:1369
-#, fuzzy
 msgid "Not _ready"
-msgstr ", no preparado"
+msgstr "No _preparado"
 
 #: client/gui-gtk-2.0/gui_main.c:1380 client/gui-gtk-2.0/pages.c:1573
-#, fuzzy
 msgid "_Ready"
-msgstr "_Activar todas"
+msgstr "_Listo"
 
 #: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/gui_main.c:1390
 #: client/gui-gtk-2.0/pages.c:2110
@@ -11718,64 +11731,56 @@ msgid "_Start"
 msgstr "_Comenzar"
 
 #: client/gui-gtk-2.0/gui_main.c:1395 client/gui-gtk-2.0/pages.c:1563
-#, fuzzy
 msgid "Pick _Nation"
-msgstr "Comisaría"
+msgstr "Elegir _Nación"
 
 #: client/gui-gtk-2.0/gui_main.c:1397
-#, fuzzy
 msgid "Create _player"
-msgstr "create <nombre-del-jugador>"
+msgstr "Crear _jugador"
 
 #: client/gui-gtk-2.0/gui_main.c:1402
-#, fuzzy
 msgid "_Release player"
-msgstr "_Jugador"
+msgstr "_Liberar jugador"
 
 #: client/gui-gtk-2.0/gui_main.c:1404 client/gui-gtk-2.0/pages.c:1568
-#, fuzzy
 msgid "_Observe"
-msgstr "Observador"
+msgstr "_Observar"
 
 #: client/gui-gtk-2.0/gui_main.c:1406
-#, fuzzy
 msgid "_Do not observe"
-msgstr "%s ahora observa %s"
+msgstr "_No observar"
 
 #: client/gui-gtk-2.0/gui_main.c:1428
-#, fuzzy
 msgid "<AI>"
-msgstr "Ordenador"
+msgstr "<Ordenador>"
 
 #: client/gui-gtk-2.0/gui_main.c:1431
 msgid "<Novice AI>"
-msgstr ""
+msgstr "<Ordenador principiante>"
 
 #: client/gui-gtk-2.0/gui_main.c:1434
 msgid "<Easy AI>"
-msgstr ""
+msgstr "<Ordenador fácil>"
 
 #: client/gui-gtk-2.0/gui_main.c:1437
 msgid "<Normal AI>"
-msgstr ""
+msgstr "<Ordenador normal>"
 
 #: client/gui-gtk-2.0/gui_main.c:1440
 msgid "<Hard AI>"
-msgstr ""
+msgstr "<Ordenador difícil>"
 
 #: client/gui-gtk-2.0/gui_main.c:1450 client/gui-win32/dialogs.c:598
-#, fuzzy
 msgid "Random"
-msgstr "Radio"
+msgstr "Aleatorio"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
 msgid "Observer"
 msgstr "Observador"
 
 #: client/gui-gtk-2.0/gui_main.c:1512
-#, fuzzy
 msgid "Detached"
-msgstr "Muerto"
+msgstr "Separado"
 
 #: client/gui-gtk-2.0/gui_main.c:1782
 msgid "Are you sure you want to quit?"
@@ -11943,9 +11948,8 @@ msgid "Food/Res/Trade:"
 msgstr "Alimento/Producción/Comercio:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105 data/Freeciv.in:972
-#, fuzzy
 msgid "Resources:"
-msgstr "Recursos"
+msgstr "Recursos:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 msgid "Road Rslt/Time:"
@@ -12133,19 +12137,16 @@ msgid "_Message Options"
 msgstr "Opciones sobre _mensajes"
 
 #: client/gui-gtk-2.0/menu.c:696
-#, fuzzy
 msgid "_Reload Tileset"
-msgstr "Tileset"
+msgstr "_Recargar Tileset"
 
 #: client/gui-gtk-2.0/menu.c:699
-#, fuzzy
 msgid "Save Options on _Exit"
-msgstr "Opciones del servidor (actuales)"
+msgstr "Guardar opciones al Salir(_E)"
 
 #: client/gui-gtk-2.0/menu.c:701
-#, fuzzy
 msgid "Sa_ve Options"
-msgstr "Opciones de Juego"
+msgstr "Guarar(_v) Opciones"
 
 #: client/gui-gtk-2.0/menu.c:705 client/gui-win32/menu.c:307
 msgid "Server O_ptions"
@@ -12168,9 +12169,8 @@ msgid "_Clear Log"
 msgstr "_Borrar registro"
 
 #: client/gui-gtk-2.0/menu.c:723
-#, fuzzy
 msgid "_Leave"
-msgstr "D_ejar Partida"
+msgstr "Abandonar(_L) partida"
 
 #: client/gui-gtk-2.0/menu.c:725 client/gui-mui/connectdlg.c:226
 #: client/gui-mui/dialogs.c:1659 client/gui-win32/menu.c:316
@@ -12237,9 +12237,8 @@ msgid "View"
 msgstr "Ver"
 
 #: client/gui-gtk-2.0/menu.c:755
-#, fuzzy
 msgid "City Outlines"
-msgstr "Opciones de la ciudad"
+msgstr "Contornos de ciudad"
 
 #: client/gui-gtk-2.0/menu.c:757 client/gui-win32/menu.c:334
 msgid "Map _Grid"
@@ -12310,9 +12309,8 @@ msgid "Fog of War"
 msgstr "Niebla de guerra"
 
 #: client/gui-gtk-2.0/menu.c:800
-#, fuzzy
 msgid "_Full Screen"
-msgstr "Pantalla completa"
+msgstr "Pantalla(_F) completa"
 
 #: client/gui-gtk-2.0/menu.c:804
 msgid "_Center View"
@@ -12437,12 +12435,10 @@ msgid "_Irrigate"
 msgstr "_Irrigar"
 
 #: client/gui-gtk-2.0/menu.c:859
-#, fuzzy
 msgid "Go _to"
-msgstr "Ir a"
+msgstr "Ir a (_t)"
 
 #: client/gui-gtk-2.0/menu.c:859
-#, fuzzy
 msgid "_Build city"
 msgstr "Construir ciudad (_B)"
 
@@ -12484,9 +12480,8 @@ msgid "Explode Nuclear"
 msgstr "Explosión nuclear"
 
 #: client/gui-gtk-2.0/menu.c:881
-#, fuzzy
 msgid "Select same type"
-msgstr "Elige una ciudad"
+msgstr "Elegir el mismo tipo"
 
 #: client/gui-gtk-2.0/menu.c:883 client/gui-win32/menu.c:392
 msgid "_Wait"
@@ -12695,16 +12690,14 @@ msgid "Message Options"
 msgstr "Opciones sobre mensajes"
 
 #: client/gui-gtk-2.0/messagedlg.c:71
-#, fuzzy
 msgid ""
 "Where to display messages?\n"
 "<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual "
 "window"
 msgstr ""
-"Dónde mostrar los mensajes?\n"
-"\tVentana <b>pri</b>ncipal ;\n"
-"\tVentana de <b>men</b>sajes ; \n"
-"\tCrear una ventana <b>emer</b>jente"
+"¿Dónde mostrar los mensajes?\n"
+"Ventana de <b>sal</b>ida ; Ventana de <b>men</b>sajes ; Ventana "
+"<b>eme</b>rgente individual."
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -12735,7 +12728,7 @@ msgstr "Ir a _lugar"
 
 #: client/gui-gtk-2.0/plrdlg.c:329
 msgid "?show:Dead Players"
-msgstr ""
+msgstr "Jugadores muertos"
 
 #: client/gui-gtk-2.0/plrdlg.c:348 client/gui-gtk-2.0/pages.c:704
 #: client/gui-mui/connectdlg.c:164 client/gui-mui/plrdlg.c:321
@@ -12790,9 +12783,8 @@ msgid "C_onnect to Network Game"
 msgstr "C_onectar con un juego en red"
 
 #: client/gui-gtk-2.0/pages.c:236
-#, fuzzy
 msgid "Connect to Gaming _Zone"
-msgstr "Conectar a Partida en Red"
+msgstr "Conectar con _Zona de Juegos"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:305
 #: client/gui-xaw/connectdlg.c:326
@@ -12855,75 +12847,68 @@ msgid "Conf_irm Password:"
 msgstr "Conf_irme Contraseña:"
 
 #: client/gui-gtk-2.0/pages.c:908
-#, fuzzy
 msgid "C_onnect"
-msgstr "Conectar"
+msgstr "C_onectar"
 
 #: client/gui-gtk-2.0/pages.c:1112
-#, fuzzy, c-format
+#, c-format
 msgid "Connection name: %s"
-msgstr "Conectando."
+msgstr "Nombre de la conexión: %s"
 
 #: client/gui-gtk-2.0/pages.c:1115
-#, fuzzy, c-format
+#, c-format
 msgid "Player name: %s"
-msgstr "Nombre:"
+msgstr "Nombre del jugador: %s"
 
 #: client/gui-gtk-2.0/pages.c:1120
-#, fuzzy, c-format
+#, c-format
 msgid "Host: %s"
-msgstr "Host:"
+msgstr "Host: %s"
 
 #: client/gui-gtk-2.0/pages.c:1127
 msgid "Player/conn info"
-msgstr ""
+msgstr "Información de jugad/conex"
 
 #: client/gui-gtk-2.0/pages.c:1154
-#, fuzzy, c-format
+#, c-format
 msgid "%s info"
-msgstr "%s%d alimento"
+msgstr "Info. de %s"
 
 #: client/gui-gtk-2.0/pages.c:1165
-#, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <nombre-del-jugador>"
+msgstr "Activa/Desact. jugador listo"
 
 #: client/gui-gtk-2.0/pages.c:1173
-#, fuzzy
 msgid "Pick nation"
-msgstr "Comisaría"
+msgstr "Elegir nación"
 
 #: client/gui-gtk-2.0/pages.c:1183
 msgid "Observe this player"
-msgstr ""
+msgstr "Observar a este jugador"
 
 #: client/gui-gtk-2.0/pages.c:1190
-#, fuzzy
 msgid "Take this player"
-msgstr "Informe de ciudades"
+msgstr "Elegir este jugador"
 
 #: client/gui-gtk-2.0/pages.c:1207
-#, fuzzy
 msgid "Cut connection"
-msgstr "Cortando la conexión %s."
+msgstr "Cerrar la conexión"
 
 #: client/gui-gtk-2.0/pages.c:1217
-#, fuzzy
 msgid "Aitoggle player"
-msgstr "aitoggle <nombre-del-jugador>"
+msgstr "Aitoggle jugador"
 
 #: client/gui-gtk-2.0/pages.c:1226
-#, fuzzy
 msgid "Remove player"
-msgstr "Se ha eliminado al jugador %s de la partida."
+msgstr "Eliminar jugador"
 
 #: client/gui-gtk-2.0/pages.c:1237
 msgid "Give info access"
-msgstr ""
+msgstr "Dar información de acceso"
 
 #: client/gui-gtk-2.0/pages.c:1245
 msgid "Give ctrl access"
-msgstr ""
+msgstr "Dar acceso de control"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1306
