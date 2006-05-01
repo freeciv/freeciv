@@ -12957,7 +12957,7 @@ msgstr "Kosten gesamt"
 
 #: client/gui-gtk-2.0/repodlgs.c:706
 msgid "Total Cost:"
-msgstr "Gesamtkosten:"
+msgstr "Gesamtausgaben:"
 
 #: client/gui-gtk-2.0/repodlgs.c:712 client/gui-mui/repodlgs.c:521
 msgid "Sell _Obsolete"
@@ -14612,12 +14612,12 @@ msgstr "Verkaufen?"
 
 #: client/gui-sdl/citydlg.c:1749 client/gui-sdl/citydlg.c:3789
 msgid "Options panel"
-msgstr "Optionenpanel"
+msgstr "Optionen"
 
 #: client/gui-sdl/citydlg.c:1796
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
-msgstr "Einheitenpanel (%d %s)"
+msgstr "Unterstütze Einheiten (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1797 client/gui-sdl/citydlg.c:1858
 msgid "unit"
@@ -14632,7 +14632,7 @@ msgstr "Garnisonenpanel (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1909
 msgid "Info Panel"
-msgstr "Infopanel"
+msgstr "Übersicht"
 
 #: client/gui-sdl/citydlg.c:1934
 #, c-format
@@ -14654,7 +14654,7 @@ msgstr "Handel : +%d"
 
 #: client/gui-sdl/citydlg.c:2069 client/gui-sdl/citydlg.c:3732
 msgid "Happiness panel"
-msgstr "Zufriedenheitspanel"
+msgstr "Zufriedenheit"
 
 #: client/gui-sdl/citydlg.c:2569
 msgid "Citizens"
@@ -14770,7 +14770,7 @@ msgstr "Information Panel"
 
 #: client/gui-sdl/citydlg.c:3744
 msgid "Garrison panel"
-msgstr "Garnisonspanel"
+msgstr "Stationierte Einheiten"
 
 #: client/gui-sdl/citydlg.c:3756
 msgid "Maintenance panel"
@@ -14976,7 +14976,7 @@ msgstr "Gelände"
 
 #: client/gui-sdl/dialogs.c:1142
 msgid "Advanced Menu"
-msgstr ""
+msgstr "Feldmenü"
 
 #: client/gui-sdl/dialogs.c:1195
 #, c-format
@@ -14989,19 +14989,19 @@ msgstr "Ändere Bürgermeister"
 
 #: client/gui-sdl/dialogs.c:1254
 msgid "Goto here"
-msgstr ""
+msgstr "Gehe hierher"
 
 #: client/gui-sdl/dialogs.c:1265
 msgid "Patrol here"
-msgstr ""
+msgstr "Patroulliere hierher"
 
 #: client/gui-sdl/dialogs.c:1278
 msgid "Connect here"
-msgstr ""
+msgstr "Verbinde hierher"
 
 #: client/gui-sdl/dialogs.c:1299
 msgid "Paradrop here"
-msgstr ""
+msgstr "Springe hier ab"
 
 #: client/gui-sdl/dialogs.c:1347 client/gui-sdl/dialogs.c:1463
 #, c-format
@@ -15206,8 +15206,8 @@ msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
 msgstr ""
-"  -e,  --eventthread\tVerwende zweiten Thread für das Event Subsystem (nur Linux und "
-"BeOS)\n"
+"  -e,  --eventthread\tVerwende zweiten Thread für das Event Subsystem (nur "
+"Linux und BeOS)\n"
 
 #: client/gui-sdl/gui_main.c:792
 #, c-format
@@ -15493,7 +15493,7 @@ msgstr ""
 #: client/gui-sdl/mapview.c:422
 #, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr "%s Bevölkerung: %s  Jahr: %s  Gold %d St: %d Lux: %d For: %d "
+msgstr "%se Bevölkerung: %s  Jahr: %s  Gold %d St: %d Lux: %d For: %d "
 
 #: client/gui-sdl/mapview.c:539 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
@@ -15808,13 +15808,13 @@ msgstr "aktiv"
 msgid ""
 "under\n"
 "construction"
-msgstr "Baustelle"
+msgstr "Im Bau"
 
 #: client/gui-sdl/repodlgs.c:341
 msgid ""
 "soonest\n"
 "completion"
-msgstr "In Bälde"
+msgstr "Fertig in"
 
 #: client/gui-sdl/repodlgs.c:345
 msgid "Total"
@@ -15851,7 +15851,7 @@ msgstr "Aktualisieren"
 
 #: client/gui-sdl/repodlgs.c:1994
 msgid "Treasury: "
-msgstr "Staatsschatz:"
+msgstr "Staatsschatz: "
 
 #: client/gui-sdl/repodlgs.c:2001
 msgid "Tax Rate: "
@@ -15902,7 +15902,7 @@ msgid ""
 "Research speed : %d %s/advance\n"
 "%s"
 msgstr ""
-"Forschungsleistung : %d Punkte pro Runde\n"
+"Forschungspunkte : %d pro Runde\n"
 "Forschungsgeschwindigkeit : %d %s pro Fortschritt\n"
 "%s"
 
@@ -15965,7 +15965,7 @@ msgid ""
 "%d gold per turn"
 msgstr ""
 "%s\n"
-"%d Goldstücke pro Runde"
+"%d Gold pro Runde"
 
 #: client/gui-sdl/wldlg.c:935 client/gui-sdl/wldlg.c:1110
 #, c-format
@@ -15992,7 +15992,7 @@ msgid ""
 "finished!"
 msgstr ""
 "%s\n"
-"beendet!"
+"fertiggestellt"
 
 #: client/gui-sdl/wldlg.c:983 client/gui-sdl/wldlg.c:1088
 #, c-format
@@ -16051,7 +16051,7 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1412
 #, c-format
 msgid "%d gold per turn"
-msgstr "%d Goldstücke pro Runde"
+msgstr "%d Gold pro Runde"
 
 #: client/gui-sdl/wldlg.c:1419
 #, c-format
