@@ -15942,7 +15942,7 @@ msgstr "máxima tasa en %s: %d%%"
 
 #: client/gui-sdl/repodlgs.c:2237
 msgid "FT"
-msgstr ""
+msgstr "TL"
 
 #: client/gui-sdl/repodlgs.c:2530
 msgid ""
@@ -15962,15 +15962,15 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: client/gui-sdl/repodlgs.c:2544
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Current output : %d per turn\n"
 "Research speed : %d %s/advance\n"
 "%s"
 msgstr ""
-"Investigación actual       : %d per turno\n"
+"Investigación actual       : %d por turno\n"
 "Velocidad de investigación : %d %s/avance\n"
-"El siguiente avance será en: %d %s"
+"%s"
 
 #: client/gui-sdl/repodlgs.c:2676 client/gui-sdl/repodlgs.c:3070
 msgid "step"
@@ -15987,9 +15987,9 @@ msgid "Sellect target :"
 msgstr "Elige la producción: "
 
 #: client/gui-sdl/spaceshipdlg.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "%s's SpaceShip"
-msgstr "Nave espacial"
+msgstr "La nave espacial de %s"
 
 #: client/gui-sdl/spaceshipdlg.c:165 client/gui-win32/spaceshipdlg.c:240
 #: data/Freeciv.in:1709
@@ -15997,9 +15997,9 @@ msgid "Launch"
 msgstr "Lanzar"
 
 #: client/gui-sdl/sprite.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "load_gfxfile: Unable to load graphic file %s!"
-msgstr "load?surf: ¡No se puede cargar el fichero gráfico %s!"
+msgstr "load_gfxfile: ¡No se puede cargar el fichero gráfico %s!"
 
 #: client/gui-sdl/sprite.c:71
 #, c-format
@@ -16012,15 +16012,13 @@ msgid "%s (%d bpp) load with screen (%d bpp) format !"
 msgstr "¡Se carga %s (%d bpp) con formato de la pantalla (%d bpp)!"
 
 #: client/gui-sdl/themespec.c:361
-#, fuzzy
 msgid "No usable default theme found, aborting!"
-msgstr ""
-"No encuentro un aspecto (tileset) por defecto que pueda usar, ¡cancelando!"
+msgstr "No se encontró un tema usable por defecto, ¡abortando!"
 
 #: client/gui-sdl/themespec.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "Trying \"%s\" theme."
-msgstr "Intentando el aspecto (tileset) \"%s\"."
+msgstr "Intentando usar el tema \"%s\"."
 
 #: client/gui-sdl/wldlg.c:928 client/gui-sdl/wldlg.c:1104
 #, c-format
@@ -16041,7 +16039,7 @@ msgstr ""
 "¡bloqueado!"
 
 #: client/gui-sdl/wldlg.c:937 client/gui-sdl/wldlg.c:1112
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "%d %s"
@@ -16059,9 +16057,9 @@ msgstr ""
 "¡acabado!"
 
 #: client/gui-sdl/wldlg.c:983 client/gui-sdl/wldlg.c:1088
-#, fuzzy, c-format
+#, c-format
 msgid "( %d entries )"
-msgstr "(%d elementos)"
+msgstr "( %d elementos )"
 
 #: client/gui-sdl/wldlg.c:1075
 #, c-format
@@ -16073,41 +16071,43 @@ msgstr ""
 "%s"
 
 #: client/gui-sdl/wldlg.c:1382
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%s"
 msgstr ""
 "(%s)\n"
-"%d/%d producción\n"
+"%d/%d %s\n"
 "%s"
 
 #: client/gui-sdl/wldlg.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%s"
-msgstr "%3d/%3d %s"
+msgstr ""
+"%d/%d %s\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1396
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
 "(%s)\n"
-"%d/%d producción\n"
+"%d/%d %s\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
-"%d/%d producción\n"
+"%d/%d %s\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1412
@@ -16116,55 +16116,53 @@ msgid "%d gold per turn"
 msgstr "%d monedas de oro por turno"
 
 #: client/gui-sdl/wldlg.c:1419
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d %s"
 msgstr ""
-"%s\n"
+"(%s)\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1424
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s"
-msgstr ""
-"%s\n"
-"%d %s"
+msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1430
 msgid "shields into gold"
 msgstr "producción en oro"
 
 #: client/gui-sdl/wldlg.c:1509
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%d)\n"
 "%d/%d %s\n"
 "never"
 msgstr ""
-"(%d/%d%d)\n"
-"%d/%d producción\n"
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
 "nunca"
 
 #: client/gui-sdl/wldlg.c:1516
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%d)\n"
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
-"(%d/%d%d)\n"
-"%d/%d producción\n"
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
 "%d %s"
 
 #: client/gui-sdl/wldlg.c:1525
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%d)\n"
 "%d %s"
 msgstr ""
 "(%d/%d/%d)\n"
-"%d producción"
+"%d %s"
 
 #: client/gui-win32/citydlg.c:284
 #, c-format
@@ -16252,19 +16250,16 @@ msgid "Available To Build"
 msgstr "Producciones disponibles"
 
 #: client/gui-win32/cityrep.c:683
-#, fuzzy
 msgid "Select a unit or improvement to change production from."
-msgstr "Juego: Elige qué unidad o instalación quieres dejar de producir."
+msgstr "Elige qué unidad o instalación quieres dejar de producir."
 
 #: client/gui-win32/cityrep.c:692
-#, fuzzy
 msgid "Select a unit or improvement to change production to."
-msgstr "Juego: Elige qué unidad o instalación quieres pasar a producir."
+msgstr "Elige qué unidad o instalación quieres pasar a producir."
 
 #: client/gui-win32/cityrep.c:698
-#, fuzzy
 msgid "That's the same thing!"
-msgstr "Juego: ¡Es lo mismo!"
+msgstr "¡Es lo mismo!"
 
 #: client/gui-win32/cityrep.c:733 data/Freeciv.in:1739
 msgid "Change Production Everywhere"
@@ -16402,9 +16397,8 @@ msgid "Leader:"
 msgstr "Líder:"
 
 #: client/gui-win32/dialogs.c:579
-#, fuzzy
 msgid "City Style:"
-msgstr "Estilo de las _ciudades:"
+msgstr "Estilo de Ciudad:"
 
 #: client/gui-win32/dialogs.c:783
 msgid "Unit Selection"
@@ -16443,7 +16437,7 @@ msgstr "Elige una ciudad:"
 
 #: client/gui-win32/gui_main.c:115
 msgid "Enable alpha blending"
-msgstr ""
+msgstr "Activar alpha blending (transparencias)"
 
 #: client/gui-win32/gui_main.c:116
 msgid ""
@@ -16451,6 +16445,9 @@ msgid ""
 "of an ordered dither.  If there is no hardware support for alpha blending, "
 "this is much slower."
 msgstr ""
+"Si esto está activado, el alpha blending (transparencias) será utilizado, "
+"en lugar del dibujado 'dither'. Si no hay soporte hardware para el alpha "
+"blending, irá muy lento."
 
 #: client/gui-win32/helpdlg.c:99
 msgid "Sp1 F/R/T:"
@@ -16661,9 +16658,9 @@ msgstr ""
 "Comercio total: %d Productos/Año\n"
 
 #: client/gui-xaw/citydlg.c:1769
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens  Governor: %s"
-msgstr "%s - %s ciudadanos  CMA: %s"
+msgstr "%s - %s ciudadanos  Gobernador: %s"
 
 #: client/gui-xaw/cma_fe.c:430
 msgid "What should we name the new preset?"
@@ -16741,7 +16738,7 @@ msgstr "No se ha podido abrir la fuente: %s"
 
 #: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "Usando 'xset fp rehash' se puede resolver el problema temporalmente."
 
 #: client/gui-xaw/gui_main.c:380 client/gui-xaw/gui_main.c:401
 #, c-format
@@ -16765,9 +16762,9 @@ msgid "Allows %s (with %s).\n"
 msgstr "Permite %s (con %s).\n"
 
 #: client/gui-xaw/inteldlg.c:244
-#, fuzzy, c-format
+#, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr "Investigando: %s(%d/%d)"
+msgstr "Investigando: Desconocido(%d/-)"
 
 #: client/gui-xaw/inteldlg.c:420
 #, c-format
@@ -16779,9 +16776,8 @@ msgid "Local Options"
 msgstr "Opciones locales"
 
 #: client/gui-xaw/menu.c:115
-#, fuzzy
 msgid "Server Options"
-msgstr "O_pciones del servidor"
+msgstr "Opciones del servidor"
 
 #: client/gui-xaw/menu.c:131
 msgid "Revolution"
@@ -16812,9 +16808,8 @@ msgid "Connect/Irrigation"
 msgstr "Conectar/Regadío"
 
 #: client/gui-xaw/menu.c:211
-#, fuzzy
 msgid "Select Same Type"
-msgstr "Elige una ciudad"
+msgstr "Elegir el mismo tipo"
 
 #: client/gui-xaw/menu.c:233 data/helpdata.txt:381
 msgid "Languages"
@@ -16853,14 +16848,13 @@ msgid "Copying"
 msgstr "Copiar"
 
 #: client/gui-xaw/repodlgs.c:230 client/gui-xaw/repodlgs.c:508
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %d/%s"
-msgstr "Investigando %s: %d/%d"
+msgstr "Investigando %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:233 client/gui-xaw/repodlgs.c:511
-#, fuzzy
 msgid "unknown"
-msgstr "(desconocido)"
+msgstr "desconocido"
 
 #: client/gui-xaw/repodlgs.c:236 client/gui-xaw/repodlgs.c:414
 #: client/gui-xaw/repodlgs.c:514
@@ -16895,31 +16889,33 @@ msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
+"<h1>Opciones Freeciv del servidor %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:144
 #, c-format
 msgid "Level: %s.<br>"
-msgstr ""
+msgstr "Nivel: %s.<br>"
 
 #: manual/civmanual.c:145
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "Categoría: %s.<br>"
 
 #: manual/civmanual.c:148
 #, c-format
 msgid "Can only be used in server console. "
-msgstr ""
+msgstr "Sólo se puede usar en la consola del servidor. "
 
 #: manual/civmanual.c:151
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "Puede cambiarse durante una partida. "
 
 #: manual/civmanual.c:153
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "<b>No</b> se puede cambiar durante una partida. "
 
 #: manual/civmanual.c:158
 #, c-format
@@ -16927,6 +16923,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: 0, Default: %d, Maximum: 1</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Mínimo: 0, Por defecto: %d, Máximo: 1</p>\n"
+"\n"
 
 #: manual/civmanual.c:162 manual/civmanual.c:172
 #, c-format
@@ -16934,6 +16932,8 @@ msgid ""
 "<p class=\"changed\">Value set to %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Valor puesto a %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:167
 #, c-format
@@ -16948,6 +16948,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Por defecto: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:180
 #, c-format
@@ -16955,6 +16957,8 @@ msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">Valor puesto a %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:189
 #, c-format
@@ -16962,6 +16966,8 @@ msgid ""
 "<h1>Freeciv %s server commands</h1>\n"
 "\n"
 msgstr ""
+"<h1>Comandos Freeciv del servidor %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:195
 #, c-format
@@ -16969,6 +16975,8 @@ msgid ""
 "%s%s  -  %s%s\n"
 "\n"
 msgstr ""
+"%s%s  -  %s%s\n"
+"\n"
 
 #: manual/civmanual.c:198
 #, c-format
@@ -16978,6 +16986,10 @@ msgid ""
 "<td valign=\"top\"><pre>Synopsis:</pre></td>\n"
 "<td>"
 msgstr ""
+"<table>\n"
+"<tr>\n"
+"<td valign=\"top\"><pre>Sinopsis:</pre></td>\n"
+"<td>"
 
 #: manual/civmanual.c:202
 #, c-format
@@ -16985,6 +16997,8 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">Nivel: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:211
 #, c-format
@@ -16992,6 +17006,8 @@ msgid ""
 "<p>Description:</p>\n"
 "\n"
 msgstr ""
+"<p>Descripción:</p>\n"
+"\n"
 
 #: manual/civmanual.c:218
 #, c-format
@@ -16999,6 +17015,8 @@ msgid ""
 "<h1>Freeciv %s terrain help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Ayuda de Freeciv sobre Terrenos %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:221 data/default/terrain.ruleset:636
 #: data/civ2/terrain.ruleset:567 data/civ1/terrain.ruleset:574
@@ -17006,43 +17024,36 @@ msgid "Resources"
 msgstr "Recursos"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Move cost"
-msgstr "Coste de movimiento: %ld"
+msgstr "Coste de movimiento"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Defense bonus"
-msgstr "Defensa:"
+msgstr "Prima por defensa"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "Mining"
-msgstr "Molinos"
+msgstr "Minería"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "turns"
-msgstr "turno"
+msgstr "turnos"
 
 #: manual/civmanual.c:226
-#, fuzzy
 msgid "Rail"
-msgstr "Ferrocarri_l"
+msgstr "Ferrocarril"
 
 #: manual/civmanual.c:227
-#, fuzzy
 msgid "Clean pollution"
-msgstr "Descontaminar"
+msgstr "Reducir la contaminación"
 
 #: manual/civmanual.c:227
-#, fuzzy
 msgid "Clean fallout"
-msgstr "Descontaminar"
+msgstr "Reducir las emisiones radiactivas"
 
 #: manual/civmanual.c:259 manual/civmanual.c:268
 msgid "impossible"
-msgstr ""
+msgstr "imposible"
 
 #: manual/civmanual.c:289
 #, c-format
@@ -17050,6 +17061,8 @@ msgid ""
 "<h1>Freeciv %s buildings help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Ayuda de Freeciv sobre Edificios %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:291
 #, c-format
@@ -17057,20 +17070,20 @@ msgid ""
 "<h1>Freeciv %s wonders help</h1>\n"
 "\n"
 msgstr ""
+"<h1>Ayuda Freeciv sobre Maravillas %s</h1>\n"
+"\n"
 
 #: manual/civmanual.c:297
-#, fuzzy
 msgid "Requirement"
-msgstr "Se requiere:"
+msgstr "Requisito"
 
 #: manual/civmanual.c:297
-#, fuzzy
 msgid "Obsolete by"
-msgstr "Obsoleto con:"
+msgstr "Obsoleto con"
 
 #: manual/civmanual.c:297
 msgid "More info"
-msgstr ""
+msgstr "Más información"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
@@ -17165,9 +17178,8 @@ msgid "Help:"
 msgstr "Ayuda:"
 
 #: data/Freeciv.in:1465
-#, fuzzy
 msgid "Citizen governor..."
-msgstr "Informe de ciudades..."
+msgstr "Gobernador del Pueblo..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
@@ -17370,16 +17382,12 @@ msgid "Pregame"
 msgstr "Prepartida"
 
 #: data/Freeciv.in:3350
-#, fuzzy
 msgid "Name              Ready Leader          Nation          "
-msgstr ""
-"Nombre del Servidor                Puerto Versión     Estado Jugadores "
-"Comentario"
+msgstr "Nombre				Listo Líder			Nación			"
 
 #: data/Freeciv.in:3379
-#, fuzzy
 msgid "Start"
-msgstr "_Comenzar"
+msgstr "Comenzar"
 
 #: data/helpdata.txt:38
 msgid ""
@@ -17522,7 +17530,6 @@ msgstr ""
 "los jugadores."
 
 #: data/helpdata.txt:433
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -17561,7 +17568,6 @@ msgstr ""
 "Órdenes para Unidades:\n"
 "========\n"
 "    a: colonización (a)utomática  (unidades de colonización/obreros)\n"
-"    a: ataque (a)utomático  (unidades militares)\n"
 "    b: construir ciudad  (unidades de colonización)\n"
 "    b: ayudar a construir maravilla  (unidades de comercio)\n"
 "    C: conectar  (y click-izquierdo para indicar el destino)\n"
@@ -17586,6 +17592,7 @@ msgstr ""
 "    q: patrullar (y click-izquierdo para elegir el destino)\n"
 "    q: añadir punto de paso (cuando estamos en modo patrulla)    r: "
 "construir camino/vía férrea  (unidades de colonización/trabajadores)\n"
+"    r: construir ca(r)retera/ferrocarril  (colono/trabajadores)\n"
 "    r: establecer ruta comercial  (unidades de comercio)\n"
 "    s: unidad en vigilancia\n"
 "    u: descargar unidad en un transporte\n"
@@ -18198,7 +18205,6 @@ msgstr ""
 "de que no le das al otro jugador más de lo que creías."
 
 #: data/helpdata.txt:770
-#, fuzzy
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
 "It deploys the available workers on the free tiles around the city to "
@@ -18707,16 +18713,14 @@ msgid " Combat example 1"
 msgstr " Ejemplo de combate 1"
 
 #: data/helpdata.txt:1039
-#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
-"Supongamos que un Cañón veterano (A:8, D:1, PV:20, PF:1) al que le quedan "
-"2/3 puntos de movimiento ataca a unos Mosqueteros no veteranos (A:3, D:3, "
-"PV:20, PF:1) que están dentro de una ciudad con Murallas construida en una "
-"casilla de Bosque."
+"Supongamos que un Cañón veterano (A:8, D:1, PV:20, PF:1) ataca a unos "
+"Mosqueteros (A:3, D:3, PV:20, PF:1) que están dentro de una ciudad con "
+"murallas construida en una casilla de Bosque. Y sin ser veteranos."
 
 #: data/helpdata.txt:1043
 msgid ""
@@ -19494,7 +19498,7 @@ msgid ""
 "build a light spaceship with many propulsion units that will arrive "
 "earlier.  The only other option is to capture their capital."
 msgstr ""
-"CONSEJO:  Si una civilización enemiga ha lanzado una nave espacial, intenta "
+"CONSEJO: Si una civilización enemiga ha lanzado una nave espacial, intenta "
 "construir rápidamente una nave ligera con muchas unidades de propulsión para "
 "que llegue antes.  La única otra posibilidad es capturar su capital."
 
@@ -19636,16 +19640,15 @@ msgid "Courthouse"
 msgstr "Juzgados"
 
 #: data/default/buildings.ruleset:290
-#, fuzzy
 msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
 msgstr ""
-"Reduce en un 50% la corrupción y la desidia de una ciudad.  Bajo una "
-"Democracia, los Juzgados transforman a 1 ciudadano descontento en conforme.  "
-"Además reduce a la mitad la distancia efectiva a la capital, para el "
-"propósito de calcular el coste de provocar una sublevación."
+"Reduce en un 50% la corrupción y la desidia de una ciudad. Bajo una "
+"Democracia, los juzgados hacen que 1 ciudadano descontento pase a estar "
+"conforme. Además hace que el coste de una revolución en la ciudad sea 4 "
+"veces mayor."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -19804,7 +19807,7 @@ msgid "Palace"
 msgstr "Palacio"
 
 #: data/default/buildings.ruleset:552
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
@@ -19819,15 +19822,18 @@ msgid ""
 "Under Despotism the palace gives you a +75% production bonus, and under "
 "Monarchy a +50% production bonus."
 msgstr ""
-"La ciudad en la que está es la capital y el centro de tu gobierno.  La "
+"Convierte a la ciudad en capital y centro de tu gobierno. La "
 "corrupción de otras ciudades depende de lo lejos que estén de la capital, "
-"salvo si la forma de gobierno es Democracia o Comunismo.  El coste de "
+"salvo si la forma de gobierno es Democracia o Comunismo. El coste de "
 "provocar una sublevación en una ciudad también depende de la distancia de "
 "esa ciudad a la capital (con todas las formas de gobierno).\n"
 "\n"
 "Protege tu capital a conciencia, ya que su pérdida podría originar una "
-"guerra civil en tu civilización.  Si conquistan tu capital, también perderas "
-"tu nave espacial."
+"guerra civil en tu civilización. Si conquistan tu capital, también perderás "
+"tu nave espacial.\n"
+"\n"
+"Bajo Despotismo, el palacio te da un +75% extra en la producción, y bajo "
+"Monarquía, un +50% extra (también en producción)."
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:538
 msgid "Police Station"
@@ -20378,15 +20384,14 @@ msgid "Pyramids"
 msgstr "Las Pirámides"
 
 #: data/default/buildings.ruleset:1392
-#, fuzzy
 msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
 msgstr ""
-"La cantidad de alimento almacenado pasará a ser medio lleno cuando una "
-"ciudad con Granero crezca o decrezca.  Esto permite que las ciudades crezcan "
-"más deprisa y aguanten mejor las hambrunas."
+"La cantidad de alimento almacenado que se pierde cuando una ciudad crece o "
+"decrece será reducido en un 25%. Esto ayuda a que la ciudad crezca más "
+"rápidamente o que resista mejor a las hambrunas. Acumulativo con Granero."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -20477,52 +20482,44 @@ msgstr ""
 "Acuñación la producción se transforma en impuestos (monedas de oro)."
 
 #: data/default/nations.ruleset:20
-#, fuzzy
 msgid "?nationgroup:Ancient"
-msgstr "Amigable"
+msgstr "Antiguo"
 
 #: data/default/nations.ruleset:23
-#, fuzzy
 msgid "?nationgroup:Medieval"
-msgstr "Neutral"
+msgstr "Medieval"
 
 #: data/default/nations.ruleset:26
 msgid "?nationgroup:Modern"
-msgstr ""
+msgstr "Moderno"
 
 #: data/default/nations.ruleset:29
-#, fuzzy
 msgid "?nationgroup:African"
-msgstr "Amigable"
+msgstr "Africano"
 
 #: data/default/nations.ruleset:32
-#, fuzzy
 msgid "?nationgroup:American"
-msgstr "Neutral"
+msgstr "Americano"
 
 #: data/default/nations.ruleset:35
-#, fuzzy
 msgid "?nationgroup:Asian"
-msgstr "Misterioso"
+msgstr "Asiático"
 
 #: data/default/nations.ruleset:38
-#, fuzzy
 msgid "?nationgroup:European"
-msgstr "Neutral"
+msgstr "Europeo"
 
 #: data/default/nations.ruleset:41
 msgid "?nationgroup:Oceanian"
-msgstr ""
+msgstr "de Oceanía"
 
 #: data/default/nations.ruleset:44
-#, fuzzy
 msgid "?nationgroup:Transitional"
-msgstr "Fantástico"
+msgstr "Transicional"
 
 #: data/default/nations.ruleset:47
-#, fuzzy
 msgid "?nationgroup:Fictional"
-msgstr "Amigable"
+msgstr "Ficticio"
 
 #: data/civ2/buildings.ruleset:248
 msgid ""
@@ -20875,98 +20872,83 @@ msgstr ""
 
 #: data/default/cities.ruleset:29 data/civ2/cities.ruleset:29
 #: data/civ2/cities.ruleset:198 data/civ2/cities.ruleset:367
-#, fuzzy
 msgid "elvis"
-msgstr "Hosteleros"
+msgstr "bufón"
 
 #: data/default/cities.ruleset:30 data/civ2/cities.ruleset:30
 #: data/civ2/cities.ruleset:199 data/civ2/cities.ruleset:368
-#, fuzzy
 msgid "?Elvis:E"
-msgstr "Hosteleros"
+msgstr "B"
 
 #: data/default/cities.ruleset:37 data/civ2/cities.ruleset:37
 #: data/civ2/cities.ruleset:206 data/civ2/cities.ruleset:375
-#, fuzzy
 msgid "scientist"
-msgstr "Científicos"
+msgstr "científico"
 
 #: data/default/cities.ruleset:38 data/civ2/cities.ruleset:38
 #: data/civ2/cities.ruleset:207 data/civ2/cities.ruleset:376
-#, fuzzy
 msgid "?Scientist:S"
 msgstr "C"
 
 #: data/default/cities.ruleset:45 data/civ2/cities.ruleset:45
 #: data/civ2/cities.ruleset:214 data/civ2/cities.ruleset:383
-#, fuzzy
 msgid "taxman"
-msgstr "Hetman"
+msgstr "recaudador"
 
 #: data/default/cities.ruleset:46 data/civ2/cities.ruleset:46
 #: data/civ2/cities.ruleset:215 data/civ2/cities.ruleset:384
-#, fuzzy
 msgid "?Taxman:T"
 msgstr "R"
 
 #: data/default/cities.ruleset:74 data/civ2/cities.ruleset:74
 #: data/civ2/cities.ruleset:243 data/civ2/cities.ruleset:412
-#, fuzzy
 msgid "?citystyle:European"
-msgstr "Celebraciones"
+msgstr "Europeo"
 
 #: data/default/cities.ruleset:83 data/civ2/cities.ruleset:83
 #: data/civ2/cities.ruleset:252 data/civ2/cities.ruleset:421
-#, fuzzy
 msgid "?citystyle:Classical"
 msgstr "Clásico"
 
 #: data/default/cities.ruleset:92 data/civ2/cities.ruleset:92
 #: data/civ2/cities.ruleset:261 data/civ2/cities.ruleset:430
 msgid "?citystyle:Tropical"
-msgstr ""
+msgstr "Tropical"
 
 #: data/default/cities.ruleset:101 data/civ2/cities.ruleset:101
 #: data/civ2/cities.ruleset:270 data/civ2/cities.ruleset:439
-#, fuzzy
 msgid "?citystyle:Asian"
-msgstr "Hostil"
+msgstr "Asiático"
 
 #: data/default/cities.ruleset:110 data/civ2/cities.ruleset:110
 #: data/civ2/cities.ruleset:279 data/civ2/cities.ruleset:448
-#, fuzzy
 msgid "?citystyle:Babylonian"
-msgstr "Babilonios"
+msgstr "Babilónico"
 
 #: data/default/cities.ruleset:119 data/civ2/cities.ruleset:119
 #: data/civ2/cities.ruleset:288 data/civ2/cities.ruleset:457
-#, fuzzy
 msgid "?citystyle:Celtic"
-msgstr "Paz"
+msgstr "Celta"
 
 #: data/default/cities.ruleset:128 data/civ2/cities.ruleset:139
 #: data/civ2/cities.ruleset:308 data/civ2/cities.ruleset:477
-#, fuzzy
 msgid "?citystyle:Industrial"
-msgstr "Neutral"
+msgstr "Industrial"
 
 #: data/default/cities.ruleset:139 data/civ2/cities.ruleset:150
 #: data/civ2/cities.ruleset:319 data/civ2/cities.ruleset:488
-#, fuzzy
 msgid "?citystyle:Modern"
-msgstr "Disturbios"
+msgstr "Moderno"
 
 #: data/default/cities.ruleset:150 data/civ2/cities.ruleset:161
 #: data/civ2/cities.ruleset:330 data/civ2/cities.ruleset:499
-#, fuzzy
 msgid "?citystyle:PostModern"
-msgstr "Disturbios"
+msgstr "Posmoderno"
 
 #: data/civ2/cities.ruleset:128 data/civ2/cities.ruleset:297
 #: data/civ2/cities.ruleset:466
-#, fuzzy
 msgid "?citystyle:Renaissance"
-msgstr "Renacimiento"
+msgstr "Renacentista"
 
 #: data/default/governments.ruleset:51 data/civ2/governments.ruleset:49
 #: data/civ1/governments.ruleset:51
@@ -20976,12 +20958,12 @@ msgstr "Anarquía"
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
 msgid "Usurper"
-msgstr ""
+msgstr "Usurpador"
 
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:55
 #: data/civ1/governments.ruleset:57
 msgid "?female:Usurper"
-msgstr ""
+msgstr "Usurpadora"
 
 #: data/default/governments.ruleset:59 data/civ1/governments.ruleset:59
 msgid ""
@@ -20992,6 +20974,13 @@ msgid ""
 "Anarchy offers slightly less corruption than Despotism, but slightly more "
 "unhappiness."
 msgstr ""
+"La Anarquía es la carencia de gobierno. Los ciudadanos están desorganizados "
+"y son improductivos, y todos los beneficios serán gastados tan pronto como "
+"lleguen, en lugar de pagar los impuestos o aprovecharlos para el avance "
+"tecnológico.\n"
+"\n"
+"La Anarquía ofrece un poco menos de corrupción que el Despotismo, pero "
+"un poco más de descontento general."
 
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
@@ -21006,9 +20995,8 @@ msgstr "Dictador"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:77
 #: data/civ1/governments.ruleset:79
-#, fuzzy
 msgid "Dictatress"
-msgstr "Dictador"
+msgstr "Dictadora"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:81
 msgid ""
@@ -21017,6 +21005,11 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
+"Bajo Despotismo, tendrás absoluto control el Pueblo. Y esto puede prolongarse "
+"con la imposición de la Ley Marcial.\n"
+"\n"
+"El Despotismo ofrece el mayor nivel de corrupción de entre todos los tipos "
+"de gobierno."
 
 #: data/default/governments.ruleset:92 data/civ2/governments.ruleset:90
 #: data/civ1/governments.ruleset:92 data/default/techs.ruleset:480
@@ -21047,6 +21040,9 @@ msgid ""
 "\n"
 "Monarchy suffers the same small amount of corruption that the Republic does."
 msgstr ""
+"Bajo Monarquía, un rey o una reina serán los sucesores de tu gobierno.\n"
+"\n"
+"La Monarquía sufre la misma (pequeña) corrupción que la República."
 
 #: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
 #: data/civ1/governments.ruleset:114 data/default/techs.ruleset:174
@@ -21061,7 +21057,6 @@ msgstr "Camarada"
 
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:120
 #: data/civ1/governments.ruleset:122
-#, fuzzy
 msgid "?female:Comrade"
 msgstr "Camarada"
 
@@ -21074,6 +21069,13 @@ msgid ""
 "Under Communism, corruption does not vary by distance from the capital; all "
 "cities (including the capital) have a modest amount of corruption."
 msgstr ""
+"Un gobierno Comunista se basa en la idea de que todos son iguales. Todo lo "
+"bueno pertenece al estado, en lugar de pertenecer a ciudadanos privados. "
+"El Comunismo ofrece un balance entre lo militar y lo comercial de cada "
+"gobierno.\n"
+"\n"
+"Bajo Comunismo, la corrupción no varía con la distancia a la capital; todas "
+"las ciudades (inclusive la capital) tienen una modesta cantidad de corrupción."
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -21087,9 +21089,8 @@ msgstr "Cónsul"
 
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:172
 #: data/civ1/governments.ruleset:146
-#, fuzzy
 msgid "?female:Consul"
-msgstr "Cónsul"
+msgstr "Cónsula"
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:174
 #: data/civ1/governments.ruleset:148
@@ -21100,6 +21101,12 @@ msgid ""
 "freedom.  Citizens under the Republic become unhappy easily, but the self-"
 "sufficiency of your citizens allows high levels of trade."
 msgstr ""
+"Bajo un gobierno de República, los ciudadanos eligen representativamente "
+"quién los gobernará; de modo que los líderes son elegidos popularmente y "
+"permanecen en su control, aparte de que los ciudadanos tienen un mayor "
+"grado de libertad. Los ciudadanos bajo República se vuelven descontentos "
+"fácilmente, pero la autosuficiencia de estos te permite emplear mayores "
+"niveles de comercio."
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
 #: data/civ1/governments.ruleset:160 data/default/techs.ruleset:215
@@ -21125,9 +21132,8 @@ msgstr "Presidente"
 
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
-#, fuzzy
 msgid "?female:President"
-msgstr "Presidente"
+msgstr "Presidenta"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -21136,6 +21142,11 @@ msgid ""
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
 msgstr ""
+"Bajo Democracia, los ciudadanos gobiernan directamente mediante sufragio. "
+"La Democracia ofrece el mayor nivel de comercio posible, pero también "
+"ofrece el mayor descontento en potencia. La corrupción no tiene lugar "
+"cuando hay Democracia, pero los ciudadanos se enfadan bastante cuando "
+"vienen guerras."
 
 #: data/civ2/governments.ruleset:57
 msgid ""
@@ -21146,6 +21157,13 @@ msgid ""
 "Anarchy offers slightly less corruption and waste than Despotism, but "
 "slightly more unhappiness."
 msgstr ""
+"La Anarquía es la carencia de gobierno. Los ciudadanos están desorganizados "
+"y son improductivos, y todos los beneficios serán gastados tan pronto como "
+"lleguen, en lugar de pagar los impuestos o aprovecharlos para el avance "
+"tecnológico.\n"
+"\n"
+"La Anarquía ofrece un poco menos de corrupción que el Despotismo, pero "
+"un poco más de descontento general."
 
 #: data/civ2/governments.ruleset:79
 msgid ""
@@ -21155,6 +21173,11 @@ msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
 msgstr ""
+"Bajo Despotismo, tendrás absoluto control el Pueblo. Y esto puede prolongarse "
+"con la imposición de la Ley Marcial.\n"
+"\n"
+"El Despotismo ofrece el mayor nivel de corrupción de entre todos los tipos "
+"de gobierno."
 
 #: data/civ2/governments.ruleset:101
 msgid ""
@@ -21164,6 +21187,9 @@ msgid ""
 "Monarchy suffers the same small amount of corruption and waste that the "
 "Republic does."
 msgstr ""
+"Bajo Monarquía, un rey o una reina serán los sucesores de tu gobierno.\n"
+"\n"
+"La Monarquía sufre la misma (pequeña) corrupción que la República."
 
 #: data/civ2/governments.ruleset:122
 msgid ""
@@ -21175,6 +21201,13 @@ msgid ""
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
 msgstr ""
+"Un gobierno Comunista se basa en la idea de que todos son iguales. Todo lo "
+"bueno pertenece al estado, en lugar de pertenecer a ciudadanos privados. "
+"El Comunismo ofrece un balance entre lo militar y lo comercial de cada "
+"gobierno.\n"
+"\n"
+"Bajo Comunismo, la corrupción no varía con la distancia a la capital; todas "
+"las ciudades (inclusive la capital) tienen una modesta cantidad de corrupción."
 
 #: data/civ2/governments.ruleset:136 data/default/techs.ruleset:296
 #: data/civ2/techs.ruleset:224 data/civ1/techs.ruleset:222
@@ -21204,37 +21237,17 @@ msgid ""
 "convert, and require no maintenance."
 msgstr ""
 "El Fundamentalismo es una forma de gobierno organizada en torno a un "
-"conjunto de creencias.  Estas creencias, normalmente religiosas, constituyen "
+"conjunto de creencias. Estas creencias, normalmente religiosas, constituyen "
 "una rígida guía para las acciones y reacciones tanto de los gobernantes como "
-"del pueblo.\n"
+"del Pueblo.\n"
 "\n"
 "En una sociedad fundamentalista, el pueblo y los gobernantes se dedican por "
 "completo a sus creencias, y normalmente están dispuestos a morir para "
 "preservarlas.\n"
 "\n"
-"Bajo el Fundamentalismo, tus ciudades pueden mantener hasta 10 unidades "
-"militares sin gastar producción para mantenerlas.  (Las unidades adicionales "
-"necesitan un escudo de producción cada una.  Las unidades fanáticas no "
-"necesitan mantenimiento).\n"
-"\n"
-"Los Colonos consumen 2 unidades de comida cada turno en un Fundamentalismo.\n"
-"\n"
-"Si una ciudad bajo un gobierno fundamentalista está en celebraciones, "
-"recibirá una bonificación de una unidad de comercio en cada casilla que ya "
-"produzca al menos una unidad de comercio.  Véase Felicidad para más "
-"detalles.\n"
-"\n"
-"La máxima tasa para ciencia, impuestos o lujos es del 80%\n"
-"\n"
-"La máxima tasa efectiva para la ciencia es del 50%, el exceso se usa para "
-"impuestos.  Además, la producción científica se reduce a la mitad.\n"
-"\n"
-"Las ciudades sufren una pequeña cantidad de corrupción y desidia bajo el "
-"Fundamentalismo.\n"
-"\n"
-"Las instalaciones que normalmente transformarían ciudadanos descontentos en "
-"conformes producen `diezmos' (dinero) en cantidad equivalente al número de "
-"ciudadanos que transformarían, y no necesitan mantenimiento."
+"Las mejoras que normalmente hacen que los ciudadanos descontentos pasen a "
+"contentos, producen diezmos (oro) equivalente al número de gente que pasaría "
+"a contenta, y no requiere ningún tipo de mantenimiento."
 
 #: data/civ2/governments.ruleset:196
 msgid ""
@@ -21248,6 +21261,17 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"Bajo Democracia, los ciudadanos gobiernan directamente mediante sufragio. "
+"La Democracia ofrece el mayor nivel de comercio posible, pero también "
+"ofrece el mayor descontento en potencia. La corrupción no tiene lugar "
+"cuando hay Democracia, pero los ciudadanos se enfadan bastante cuando "
+"vienen guerras.\n"
+"\n"
+"Porque los ciudadanos (felices) en Democracia creen profundamente in su "
+"gobierno, su lealtad es indiscutible. Las unidades militares de las "
+"civilizaciones en Democracia no pueden ser sobornadas, y las ciudades "
+"democráticas no pueden ser llamadas a la revolución por los espías o "
+"diplomáticos enemigos."
 
 #: data/civ1/governments.ruleset:170
 msgid ""
@@ -21261,6 +21285,17 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+"Bajo Democracia, los ciudadanos gobiernan directamente mediante sufragio. "
+"La Democracia ofrece el mayor nivel de comercio posible, pero también "
+"ofrece el mayor descontento en potencia. La corrupción no tiene lugar "
+"cuando hay Democracia, pero los ciudadanos se enfadan bastante cuando "
+"vienen guerras.\n"
+"\n"
+"Porque los ciudadanos (felices) en Democracia creen profundamente in su "
+"gobierno, su lealtad es indiscutible. Las unidades militares de las "
+"civilizaciones en Democracia no pueden ser sobornadas, y las ciudades "
+"democráticas no pueden ser llamadas a la revolución por los espías o "
+"diplomáticos enemigos."
 
 #: data/default/techs.ruleset:54 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -21338,9 +21373,8 @@ msgid "Combustion"
 msgstr "Combustión"
 
 #: data/default/techs.ruleset:180 data/civ2/techs.ruleset:136
-#, fuzzy
 msgid "Reduces the effect of Cathedrals."
-msgstr "* Disminuye el efecto de las Catedrales.\n"
+msgstr "Disminuye el efecto de las Catedrales."
 
 #: data/default/techs.ruleset:183 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:138
@@ -21368,9 +21402,8 @@ msgid "Electricity"
 msgstr "Electricidad"
 
 #: data/default/techs.ruleset:237 data/civ2/techs.ruleset:179
-#, fuzzy
 msgid "Improves the effect of Colosseums."
-msgstr "* Aumenta el efecto de los Coliseos.\n"
+msgstr "Aumenta el efecto de los Coliseos."
 
 #: data/default/techs.ruleset:240 data/civ2/techs.ruleset:182
 #: data/civ1/techs.ruleset:180
@@ -21524,9 +21557,8 @@ msgstr "Misticismo"
 
 #: data/default/techs.ruleset:502 data/civ2/techs.ruleset:378
 #: data/civ1/techs.ruleset:376
-#, fuzzy
 msgid "Improves the effect of Temples."
-msgstr "* Aumenta el efecto de los Templos.\n"
+msgstr "Aumenta el efecto de los Templos."
 
 #: data/default/techs.ruleset:505 data/civ2/techs.ruleset:381
 #: data/civ1/techs.ruleset:379
@@ -21544,11 +21576,8 @@ msgid "Nuclear Power"
 msgstr "Energía nuclear"
 
 #: data/default/techs.ruleset:527 data/civ2/techs.ruleset:397
-#, fuzzy
 msgid "Gives sea units one extra move."
-msgstr ""
-"* Permite que las unidades marítimas efectúen un movimiento adicional cada "
-"turno.\n"
+msgstr "Les da a las unidades marítimas un punto de movimiento extra."
 
 #: data/default/techs.ruleset:530 data/civ2/techs.ruleset:400
 #: data/civ1/techs.ruleset:397
@@ -21673,9 +21702,8 @@ msgid "Theology"
 msgstr "Teología"
 
 #: data/default/techs.ruleset:722 data/civ2/techs.ruleset:542
-#, fuzzy
 msgid "Improves the effect of Cathedrals."
-msgstr "* Aumenta el efecto de las Catedrales.\n"
+msgstr "Aumenta el efecto de las Catedrales."
 
 #: data/default/techs.ruleset:725 data/civ2/techs.ruleset:545
 #: data/civ1/techs.ruleset:541
@@ -21938,9 +21966,8 @@ msgid "Furs"
 msgstr "Pieles"
 
 #: data/civ2/terrain.ruleset:539
-#, fuzzy
 msgid "Petroleum"
-msgstr "Patrullar"
+msgstr "Petróleo"
 
 #: data/civ1/terrain.ruleset:153
 msgid "Arctic"
@@ -22384,7 +22411,7 @@ msgstr ""
 "usar una unidad Nuclear, reune unos cuantos Colonos y/o Ingenieros cerca de "
 "la ciudad y prepáralos para que limpien la radiactividad en el mismo turno "
 "en que aparece.  Esto reduce al mínimo la probabilidad del invierno "
-"nuclear.  ¡Explosiones nucleares ecológicas!"
+"nuclear. ¡Explosiones nucleares ecológicas!"
 
 #: data/default/units.ruleset:1547 data/civ2/units.ruleset:1490
 #: data/civ1/units.ruleset:880
