@@ -10161,7 +10161,7 @@ msgstr "Oro: %d"
 #: client/text.c:608
 #, c-format
 msgid "Net Income: %d"
-msgstr "Beneficios: %d"
+msgstr "Beneficios netos: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:611
@@ -12912,9 +12912,9 @@ msgstr "Dar acceso de control"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid "Put on %s"
-msgstr "Población: %s"
+msgstr "Poner en %s"
 
 #: client/gui-gtk-2.0/pages.c:1410
 msgid "_Number of Players (including AI):"
@@ -12926,28 +12926,24 @@ msgid "_AI Skill Level:"
 msgstr "Nivell de los Jugadores Controlados por Ordenador:"
 
 #: client/gui-gtk-2.0/pages.c:1449
-#, fuzzy
 msgid "_Ruleset:"
-msgstr "Gobernante:"
+msgstr "_Ruleset:"
 
 #: client/gui-gtk-2.0/pages.c:1457
 msgid "More Game _Options..."
 msgstr "Más _Opciones del Juego..."
 
 #: client/gui-gtk-2.0/pages.c:1482
-#, fuzzy
 msgid "Record"
-msgstr "Informes"
+msgstr "Registro"
 
 #: client/gui-gtk-2.0/pages.c:1487
-#, fuzzy
 msgid "Rating"
-msgstr "Esperando"
+msgstr "Grado"
 
 #: client/gui-gtk-2.0/pages.c:1493
-#, fuzzy
 msgid "Ready"
-msgstr "Activar todas"
+msgstr "Listo"
 
 #: client/gui-gtk-2.0/pages.c:1500 data/default/units.ruleset:1738
 #: data/nation/slovakian.ruleset:26
@@ -13017,9 +13013,8 @@ msgid "Goal"
 msgstr "Meta"
 
 #: client/gui-gtk-2.0/repodlgs.c:633
-#, fuzzy
 msgid "?Building:Name"
-msgstr "Instalación"
+msgstr "Nombre"
 
 #: client/gui-gtk-2.0/repodlgs.c:634 client/gui-mui/repodlgs.c:460
 #: client/gui-win32/repodlgs.c:459
@@ -13198,22 +13193,20 @@ msgstr "Nave espacial\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1450 data/Freeciv.in:3390
 #: data/Freeciv.in:3399
-#, fuzzy
 msgid "Game Settings"
-msgstr "Guardar preferencias"
+msgstr "Preferencias de la partida"
 
 #: client/gui-gtk-2.0/repodlgs.c:1555 client/gui-xaw/repodlgs.c:1410
 msgid "true"
-msgstr ""
+msgstr "activado"
 
 #: client/gui-gtk-2.0/repodlgs.c:1555 client/gui-xaw/repodlgs.c:1410
-#, fuzzy
 msgid "false"
-msgstr "Varón"
+msgstr "desactivado"
 
 #: client/gui-gtk-2.0/repodlgs.c:1565 client/gui-xaw/repodlgs.c:1420
 msgid "(hidden)"
-msgstr ""
+msgstr "(oculto)"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:221 client/gui-mui/spaceshipdlg.c:228
 msgid "_Launch"
@@ -14367,9 +14360,8 @@ msgstr "Host"
 
 #: client/gui-mui/plrdlg.c:255 client/gui-win32/plrdlg.c:72
 #: client/gui-xaw/plrdlg.c:361
-#, fuzzy
 msgid "You need an embassy to establish a diplomatic meeting."
-msgstr "Juego: Necesitas una embajada para preparar una cumbre diplomática."
+msgstr "Necesitas una embajada para preparar una cumbre diplomática."
 
 #: client/gui-mui/repodlgs.c:129 client/gui-mui/repodlgs.c:355
 #, c-format
@@ -14589,7 +14581,7 @@ msgid "Keep moving"
 msgstr "Seguir moviéndose"
 
 #: client/gui-sdl/chatline.c:465
-#, fuzzy, c-format
+#, c-format
 msgid "Total users logged in : %d"
 msgstr "Usuarios conectados : %d"
 
@@ -14602,11 +14594,12 @@ msgstr ""
 "la partida"
 
 #: client/gui-sdl/chatline.c:517
-#, fuzzy
 msgid ""
 "Select\n"
 "Nation"
-msgstr "Elige tu nación"
+msgstr
+"Elige\n"
+"Nación"
 
 #: client/gui-sdl/chatline.c:529
 msgid ""
@@ -14706,11 +14699,10 @@ msgid "Unit maintenance panel (%d %s)"
 msgstr "Panel de mantenimiento de unidades (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1797 client/gui-sdl/citydlg.c:1858
-#, fuzzy
 msgid "unit"
 msgid_plural "units"
-msgstr[0] " unidad"
-msgstr[1] " unidad"
+msgstr[0] "unidad"
+msgstr[1] "unidades"
 
 #: client/gui-sdl/citydlg.c:1857
 #, c-format
@@ -14722,32 +14714,30 @@ msgid "Info Panel"
 msgstr "Panel informativo"
 
 #: client/gui-sdl/citydlg.c:1934
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution : %d"
-msgstr "Contaminación: %3d"
+msgstr "Contaminación : %d"
 
 #: client/gui-sdl/citydlg.c:1962
 msgid "Pollution : none"
 msgstr "Contaminación: no hay"
 
 #: client/gui-sdl/citydlg.c:1975
-#, fuzzy
 msgid "Trade routes : "
-msgstr "Comercio"
+msgstr "Rutas comerciales : "
 
 #: client/gui-sdl/citydlg.c:2024
-#, fuzzy, c-format
+#, c-format
 msgid "Trade : +%d"
-msgstr "+%d Comercio / %d"
+msgstr "Comercio : +%d"
 
 #: client/gui-sdl/citydlg.c:2069 client/gui-sdl/citydlg.c:3732
 msgid "Happiness panel"
 msgstr "Panel de felicidad"
 
 #: client/gui-sdl/citydlg.c:2569
-#, fuzzy
 msgid "Citizens"
-msgstr "Ciudades"
+msgstr "Ciudadanos"
 
 #: client/gui-sdl/citydlg.c:2598
 #, c-format
@@ -14825,11 +14815,10 @@ msgstr "La ciudad decrece : %d %s"
 #: client/gui-sdl/repodlgs.c:2547 client/gui-sdl/wldlg.c:938
 #: client/gui-sdl/wldlg.c:1113 client/gui-sdl/wldlg.c:1401
 #: client/gui-sdl/wldlg.c:1407 client/gui-sdl/wldlg.c:1521
-#, fuzzy
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "turno"
-msgstr[1] "turno"
+msgstr[1] "turnos"
 
 #: client/gui-sdl/citydlg.c:3013
 #, c-format
@@ -14898,18 +14887,16 @@ msgid ""
 msgstr "crecimiento"
 
 #: client/gui-sdl/cityrep.c:166
-#, fuzzy
 msgid "Cities Report"
-msgstr "Informe de ciudades"
+msgstr "Informe de Ciudades"
 
 #: client/gui-sdl/cityrep.c:183
 msgid "Exit Report"
 msgstr "Informe de Producción"
 
 #: client/gui-sdl/cityrep.c:194
-#, fuzzy
 msgid "Information Report"
-msgstr "Panel de información"
+msgstr "Informe general"
 
 #: client/gui-sdl/cityrep.c:205
 msgid "Happiness Report"
@@ -14974,14 +14961,12 @@ msgid "Creating Server List..."
 msgstr "Creando lista de servidores..."
 
 #: client/gui-sdl/connectdlg.c:531
-#, fuzzy
 msgid "Player Name :"
-msgstr "Nombre:"
+msgstr "Nombre del jugador:"
 
 #: client/gui-sdl/connectdlg.c:533
-#, fuzzy
 msgid "Freeciv Server :"
-msgstr "Lista de Servidores Freeciv"
+msgstr "Servidor de Freeciv :"
 
 #: client/gui-sdl/connectdlg.c:535
 msgid "Port :"
@@ -15001,7 +14986,6 @@ msgid "Load Game"
 msgstr "Cargar partida"
 
 #: client/gui-sdl/connectdlg.c:1152
-#, fuzzy
 msgid "Join Game"
 msgstr "Unirse a una partida"
 
@@ -15010,9 +14994,8 @@ msgid "Join Pubserver"
 msgstr "Conectar con servidor público"
 
 #: client/gui-sdl/connectdlg.c:1178
-#, fuzzy
 msgid "Join LAN Server"
-msgstr "Servidores LAN"
+msgstr "Unirse a un servidor LAN"
 
 #: client/gui-sdl/connectdlg.c:1191 client/gui-sdl/mapctrl.c:1677
 #: client/gui-sdl/optiondlg.c:2040 client/gui-sdl/optiondlg.c:2079
@@ -15058,9 +15041,9 @@ msgstr "%s %s %s(A:%d D:%d M:%d PF:%d) PV:%d0%%"
 
 #: client/gui-sdl/dialogs.c:674 client/gui-sdl/dialogs.c:1377
 #: client/gui-sdl/dialogs.c:1502
-#, fuzzy, c-format
+#, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
-msgstr "Prop. de ganar: A:%d%% D:%d%%"
+msgstr "Prob. ganar: A:%d%% D:%d%%"
 
 #: client/gui-sdl/dialogs.c:820 client/gui-sdl/dialogs.c:1166
 msgid "Terrain Info"
@@ -15088,9 +15071,8 @@ msgid "Patrol here"
 msgstr "Patrullar aquí"
 
 #: client/gui-sdl/dialogs.c:1278
-#, fuzzy
 msgid "Connect here"
-msgstr "Conectar"
+msgstr "Conectarse aquí"
 
 #: client/gui-sdl/dialogs.c:1299
 msgid "Paradrop here"
@@ -15316,9 +15298,9 @@ msgid "Error in create_string16: Aborting ..."
 msgstr "Error en create_string16: Saliendo..."
 
 #: client/gui-sdl/gui_string.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't blit text to display: %s"
-msgstr "No se pudo convertir el texto desde: %s a %s: %s"
+msgstr "No se pudo convertir el texto a mostrar: %s"
 
 #: client/gui-sdl/gui_string.c:273
 #, c-format
@@ -15371,14 +15353,12 @@ msgstr ""
 "ARRAY"
 
 #: client/gui-sdl/helpdlg.c:187
-#, fuzzy
 msgid "Help : Improvement"
-msgstr "Vender Instalaciones Urbanas"
+msgstr "Ayuda : Instalación urbana"
 
 #: client/gui-sdl/helpdlg.c:542
-#, fuzzy
 msgid "Help : Units"
-msgstr "helicópteros"
+msgstr "Ayuda : Unidades"
 
 #: client/gui-sdl/helpdlg.c:675 client/gui-sdl/helpdlg.c:688
 #: client/gui-sdl/wldlg.c:1385 client/gui-sdl/wldlg.c:1391
@@ -15386,51 +15366,45 @@ msgstr "helicópteros"
 #: client/gui-sdl/wldlg.c:1421 client/gui-sdl/wldlg.c:1426
 #: client/gui-sdl/wldlg.c:1513 client/gui-sdl/wldlg.c:1520
 #: client/gui-sdl/wldlg.c:1529
-#, fuzzy
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] "Producción"
-msgstr[1] "Producción"
+msgstr[0] "escudo"
+msgstr[1] "escudos"
 
 #: client/gui-sdl/helpdlg.c:680 client/gui-sdl/helpdlg.c:703
-#, fuzzy
 msgid "citizen"
 msgid_plural "citizens"
-msgstr[0] "%s ciudadanos%s"
-msgstr[1] "%s ciudadanos%s"
+msgstr[0] "ciudadano"
+msgstr[1] "ciudadanos"
 
 #: client/gui-sdl/helpdlg.c:693
-#, fuzzy
 msgid "food"
 msgid_plural "foods"
-msgstr[0] "Alimento"
-msgstr[1] "Alimento"
+msgstr[0] "alimento"
+msgstr[1] "alimentos"
 
 #: client/gui-sdl/helpdlg.c:698
-#, fuzzy
 msgid "gold"
 msgid_plural "golds"
-msgstr[0] "Oro"
-msgstr[1] "Oro"
+msgstr[0] "moneda de oro"
+msgstr[1] "monedas de oro"
 
 #: client/gui-sdl/helpdlg.c:923
-#, fuzzy
 msgid "( witch "
-msgstr " (con "
+msgstr "( con "
 
 #: client/gui-sdl/helpdlg.c:926
-#, fuzzy
 msgid " )"
-msgstr ")"
+msgstr " )"
 
 #: client/gui-sdl/helpdlg.c:1842
 msgid "Help : Advances Tree"
-msgstr ""
+msgstr "Ayuda : Árbol de avances"
 
 #: client/gui-sdl/inteldlg.c:249
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Information about %s Spaceship"
-msgstr "Información sobre la Civilización %s"
+msgstr "Información de Inteligencia acerca de la nave espacial %s"
 
 #: client/gui-sdl/inteldlg.c:278
 #, c-format
@@ -15446,7 +15420,7 @@ msgstr ""
 "Investigando: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:288
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -15456,7 +15430,7 @@ msgstr ""
 "Gobernante: %s %s  Gobierno: %s\n"
 "Capital: %s  Oro: %d\n"
 "Impuestos: %d%% Ciencia: %d%% Lujo: %d%%\n"
-"Investigando: %s(%d/%d)"
+"Investigando: Desconocido"
 
 #: client/gui-sdl/inteldlg.c:347
 msgid "Their techs that we don't have :"
@@ -15503,19 +15477,16 @@ msgid "Exit"
 msgstr "Salir"
 
 #: client/gui-sdl/mapctrl.c:892
-#, fuzzy
 msgid "Width"
-msgstr "Esperar"
+msgstr "Ancho"
 
 #: client/gui-sdl/mapctrl.c:896
-#, fuzzy
 msgid "Height"
-msgstr "Convoy"
+msgstr "Altura"
 
 #: client/gui-sdl/mapctrl.c:905
-#, fuzzy
 msgid "Scale Unit Info"
-msgstr "Mostrar información de unidades"
+msgstr "Información sobre la unidad de escalado"
 
 #: client/gui-sdl/mapctrl.c:1463
 msgid "Economy (F5)"
@@ -15599,43 +15570,53 @@ msgid "NONE"
 msgstr "NINGUNA"
 
 #: client/gui-sdl/mapview.c:576
-#, fuzzy
 msgid ""
 "\n"
 "Our Territory"
-msgstr "Nuestro Territorio"
+msgstr ""
+"\n"
+"Nuestro Territorio"
 
 #: client/gui-sdl/mapview.c:582
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "%s territory (%d turn ceasefire)"
 msgid_plural ""
 "\n"
 "%s territory (%d turn ceasefire)"
-msgstr[0] "territorio de %s (%d turno de alto el fuego)"
-msgstr[1] "territorio de %s (%d turnos de alto el fuego)"
+msgstr[0] ""
+"\n"
+"Territorio %s (%d turno de alto el fuego)"
+msgstr[1] ""
+"\n"
+"Territorio %s (%d turnos de alto el fuego)"
 
 #: client/gui-sdl/mapview.c:586
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Territory of the %s %s"
-msgstr "Territorio de %s %s"
+msgstr ""
+"\n"
+"Territorio de los %s %s"
 
 #: client/gui-sdl/mapview.c:592
-#, fuzzy
 msgid ""
 "\n"
 "Unclaimed territory"
-msgstr "Territorio sin reclamar"
+msgstr ""
+"\n"
+"Tierra de nadie"
 
 #: client/gui-sdl/mapview.c:608
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "City of %s"
-msgstr "Villa de %s"
+msgstr ""
+"\n"
+"Villa de %s"
 
 #: client/gui-sdl/mapview.c:622 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
@@ -15661,11 +15642,13 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/mapview.c:657
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Food/Prod/Trade: %s"
-msgstr "Alimento/Producción/Comercio: %s"
+msgstr ""
+"\n"
+"Alimento/Producción/Comercio: %s"
 
 #: client/gui-sdl/mapview.c:898
 msgid ""
@@ -15676,9 +15659,8 @@ msgstr ""
 "(Pulsa Retorno)"
 
 #: client/gui-sdl/menu.c:370
-#, fuzzy
 msgid "No orders"
-msgstr "Fronteras nacionales"
+msgstr "No hay órdenes"
 
 #: client/gui-sdl/menu.c:409
 msgid "Diplomat|Spy Actions"
@@ -15737,23 +15719,20 @@ msgid "Trade with %s ( %d R&G bonus ) (R)"
 msgstr "Comercio con %s (%d R&G) (R)"
 
 #: client/gui-sdl/menu.c:1171
-#, fuzzy
 msgid "Cut Down to"
-msgstr "Cortando la conexión %s."
+msgstr "Cortando desde"
 
 #: client/gui-sdl/menu.c:1177 client/gui-sdl/menu.c:1201
-#, fuzzy
 msgid "Irrigate to"
-msgstr "_Irrigar"
+msgstr "Construir regadío en"
 
 #: client/gui-sdl/menu.c:1211
 msgid "Plant Forest"
 msgstr "Plantar bosque"
 
 #: client/gui-sdl/menu.c:1232
-#, fuzzy
 msgid "Transform to"
-msgstr "Transformar a %s"
+msgstr "Transformar a"
 
 #: client/gui-sdl/messagewin.c:233
 msgid "Log"
@@ -15790,7 +15769,6 @@ msgid "All resolutions available."
 msgstr "Todas las resoluciones están disponibles."
 
 #: client/gui-sdl/optiondlg.c:666
-#, fuzzy
 msgid "Fullscreen Mode"
 msgstr "Pantalla completa"
 
@@ -15799,14 +15777,12 @@ msgid "Smooth unit move steps"
 msgstr "Pasos del movimiento suave"
 
 #: client/gui-sdl/optiondlg.c:1025
-#, fuzzy
 msgid "Show focus animation"
-msgstr "Animar los combates"
+msgstr "Enfocar y mostrar la animación"
 
 #: client/gui-sdl/optiondlg.c:1052
-#, fuzzy
 msgid "Show cursors animation"
-msgstr "Animar los combates"
+msgstr "Mostrar la animación en los cursores"
 
 #: client/gui-sdl/optiondlg.c:1531 client/gui-xaw/menu.c:141
 msgid "National Borders"
@@ -15845,19 +15821,16 @@ msgid "Video options"
 msgstr "Opciones gráficas"
 
 #: client/gui-sdl/optiondlg.c:2165
-#, fuzzy
 msgid "Sound options"
 msgstr "Opciones de sonido"
 
 #: client/gui-sdl/optiondlg.c:2178
-#, fuzzy
 msgid "Game options"
-msgstr "Opciones de Juego"
+msgstr "Opciones del juego"
 
 #: client/gui-sdl/optiondlg.c:2189
-#, fuzzy
 msgid "Map options"
-msgstr "Opciones principales"
+msgstr "Opciones del mapa"
 
 #: client/gui-sdl/optiondlg.c:2201 client/gui-xaw/menu.c:129
 #: data/Freeciv.in:1971
@@ -15869,7 +15842,7 @@ msgid "disconnected"
 msgstr "desconectado"
 
 #: client/gui-sdl/plrdlg.c:228
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name : %s\n"
 "Nation : %s\n"
@@ -15878,13 +15851,12 @@ msgid ""
 "State : %s\n"
 "Idle : %d %s"
 msgstr ""
-"Nombre: %s\n"
-"Nación: %s\n"
-"Equipo: %s\n"
-"Reputación: %s\n"
-"Embajada: %s\n"
-"Estado: %s\n"
-"Inactividad: %d %s"
+"Nombre : %s\n"
+"Nación : %s\n"
+"Equipo : %s\n"
+"Embajada : %s\n"
+"Estado : %s\n"
+"Inactividad : %d %s"
 
 #: client/gui-sdl/plrdlg.c:610
 msgid "Nations"
@@ -15911,9 +15883,8 @@ msgstr ""
 "en acabar"
 
 #: client/gui-sdl/repodlgs.c:345
-#, fuzzy
 msgid "Total"
-msgstr "Totales"
+msgstr "Total"
 
 #: client/gui-sdl/repodlgs.c:356
 msgid "Units Report"
@@ -15961,9 +15932,8 @@ msgid "Total Cost: "
 msgstr "Costes totales: "
 
 #: client/gui-sdl/repodlgs.c:2016
-#, fuzzy
 msgid "Net Income: "
-msgstr "Beneficios: "
+msgstr "Beneficios netos: "
 
 #: client/gui-sdl/repodlgs.c:2103
 #, c-format
