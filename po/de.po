@@ -11649,11 +11649,11 @@ msgstr "Wähle _Nation"
 
 #: client/gui-gtk-2.0/gui_main.c:1397
 msgid "Create _player"
-msgstr "Spieler hinzufügen"
+msgstr "Spieler _hinzufügen"
 
 #: client/gui-gtk-2.0/gui_main.c:1402
 msgid "_Release player"
-msgstr "Spieler freigeben"
+msgstr "Spieler _freigeben"
 
 #: client/gui-gtk-2.0/gui_main.c:1404 client/gui-gtk-2.0/pages.c:1568
 msgid "_Observe"
@@ -11661,7 +11661,7 @@ msgstr "Be_obachten"
 
 #: client/gui-gtk-2.0/gui_main.c:1406
 msgid "_Do not observe"
-msgstr "Nicht beobachten"
+msgstr "_Nicht beobachten"
 
 #: client/gui-gtk-2.0/gui_main.c:1428
 msgid "<AI>"
@@ -14774,7 +14774,7 @@ msgstr "Stationierte Einheiten"
 
 #: client/gui-sdl/citydlg.c:3756
 msgid "Maintenance panel"
-msgstr ""
+msgstr "Unterstütze Einheiten"
 
 #: client/gui-sdl/citydlg.c:3801 client/gui-sdl/dialogs.c:1209
 #: client/gui-win32/citydlg.c:1062 data/Freeciv.in:2073
@@ -14827,11 +14827,11 @@ msgstr "Zufriedenheitsbericht"
 
 #: client/gui-sdl/cityrep.c:216
 msgid "Garrison Report"
-msgstr "Garnisonsreport"
+msgstr "Bericht über stationierte Einheiten"
 
 #: client/gui-sdl/cityrep.c:227
 msgid "Maintenance Report"
-msgstr ""
+msgstr "Bericht über unterstützte Einheiten"
 
 #: client/gui-sdl/cityrep.c:495 client/gui-sdl/cityrep.c:1023
 msgid "worklist"
@@ -15020,7 +15020,7 @@ msgstr "Alle aktivieren"
 
 #: client/gui-sdl/dialogs.c:1435
 msgid "Sentry idle"
-msgstr ""
+msgstr "Alle Wartenden Bewachen"
 
 #: client/gui-sdl/dialogs.c:1521
 #, c-format
@@ -15658,7 +15658,7 @@ msgstr "Handel mit %s ( %d F&G-Bonus ) (R)"
 
 #: client/gui-sdl/menu.c:1171
 msgid "Cut Down to"
-msgstr ""
+msgstr "Umwandeln zu"
 
 #: client/gui-sdl/menu.c:1177 client/gui-sdl/menu.c:1201
 msgid "Irrigate to"
@@ -15874,9 +15874,10 @@ msgstr "Nettoeinkommen: "
 msgid "%s max rate : %d%%"
 msgstr "%s Maximum : %d%%"
 
+# CK: Zukunftstechnologie
 #: client/gui-sdl/repodlgs.c:2237
 msgid "FT"
-msgstr ""
+msgstr "ZT"
 
 #: client/gui-sdl/repodlgs.c:2530
 msgid ""
@@ -16069,7 +16070,7 @@ msgstr "%d %s"
 
 #: client/gui-sdl/wldlg.c:1430
 msgid "shields into gold"
-msgstr ""
+msgstr "Schilder in Gold"
 
 #: client/gui-sdl/wldlg.c:1509
 #, c-format
