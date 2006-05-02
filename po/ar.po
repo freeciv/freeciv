@@ -1,5 +1,5 @@
-# translation of freeciv_2_1b_ar.po to Arabic
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# translation of ar.po to Arabic
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Ahmad M. Zawawi <zeus_go64@yahoo.com>, 2006.
