@@ -9017,6 +9017,8 @@ msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities, another unhappy citizen will appear.\n"
 msgstr ""
+"* Wenn bereits ein Bürger aufgrund der Zivilisationsgröße unzufrieden ist, wird "
+"für je %d zusätzliche Städte ein weiterer Bürger unzufrieden.\n"
 
 #: client/helpdata.c:1336
 #, c-format
@@ -11668,23 +11670,23 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:196
 msgid "City Label"
-msgstr ""
+msgstr "Stadt"
 
 #: client/gui-gtk-2.0/gui_main.c:201
 msgid "Notify Label"
-msgstr ""
+msgstr "Mitteilungen"
 
 #: client/gui-gtk-2.0/gui_main.c:206
 msgid "Spaceship Label"
-msgstr ""
+msgstr "Raumschiff"
 
 #: client/gui-gtk-2.0/gui_main.c:211
 msgid "Help Label"
-msgstr ""
+msgstr "Hilfe"
 
 #: client/gui-gtk-2.0/gui_main.c:216
 msgid "Help Link"
-msgstr ""
+msgstr "Hilfe-Links"
 
 #: client/gui-gtk-2.0/gui_main.c:221
 msgid "Help Text"
@@ -11696,7 +11698,7 @@ msgstr "Chat-Eingabe"
 
 #: client/gui-gtk-2.0/gui_main.c:231
 msgid "Beta Label"
-msgstr ""
+msgstr "Beta-Hinweis"
 
 #: client/gui-gtk-2.0/gui_main.c:236
 msgid "Small Font"
@@ -11704,7 +11706,7 @@ msgstr "Kleiner Font"
 
 #: client/gui-gtk-2.0/gui_main.c:241
 msgid "Comment Label"
-msgstr ""
+msgstr "Kommentare"
 
 #: client/gui-gtk-2.0/gui_main.c:246 client/gui-mui/gui_main.c:233
 #: client/gui-sdl/optiondlg.c:1479 client/gui-xaw/menu.c:143
@@ -23039,6 +23041,11 @@ msgid ""
 "Australia, Western Australia and Tasmania) it became a single country in "
 "1902. It is the only country on earth to occupy an entire continent."
 msgstr ""
+"Australien wurde 1788 als britische Sträflingskolonie gegründet. Es bestand "
+"zunächst aus mehreren Kolonien, Neusüdwales, Victora, Queensland, "
+"Südaustralien, Westaustralien und Tasmanien, aus denen 1902 ein einziges "
+"Land gebildet wurde. Es ist das einzige Land auf der Erde, das einen ganzen "
+"Kontinent einnimmt."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -25952,71 +25959,3 @@ msgstr "Team 31"
 #: data/default/game.ruleset:160
 msgid "Team 32"
 msgstr "Team 32"
-
-#~ msgid "We Love The %s Day celebrated in %s."
-#~ msgstr "%ss Ehrentag wird in %s gefeiert."
-
-#~ msgid "We Love The %s Day canceled in %s."
-#~ msgstr "%ss Ehrentag wurde in %s abgeschafft."
-
-#~ msgid "City size before people become unhappy"
-#~ msgstr "Anzahl der zufriedenen Bürger"
-
-#~ msgid ""
-#~ "Before other adjustments, the first unhappysize citizens in a city are "
-#~ "content, and subsequent citizens are unhappy. See also cityfactor."
-#~ msgstr ""
-#~ "Die Anzahl der Bürger einer Stadt, die (vor der Berücksichtigung von "
-#~ "Modifikationen) zufrieden sind. Siehe auch 'cityfactor'."
-
-#~ msgid "Number of cities for higher unhappiness"
-#~ msgstr "Gesteigerte Unzufriedenheit"
-
-#~ msgid ""
-#~ "When the number of cities a player owns is greater than cityfactor, one "
-#~ "extra citizen is unhappy before other adjustments; see also unhappysize. "
-#~ "This assumes a Democracy; for other governments the effect occurs at "
-#~ "smaller numbers of cities."
-#~ msgstr ""
-#~ "Wenn die Anzahl der Städte diesen Wert übersteigt, wird die 'Anzahl der "
-#~ "zufriedenen Bürger' um 1 reduziert. Dieser Wert bezieht sich auf "
-#~ "Demokratie; bei anderen Staatsformen tritt dieser Effekt früher ein."
-
-#~ msgid ""
-#~ "* After the first unhappy citizen due to city size, for each %d "
-#~ "additional cities, another unhappy citizen will appear.\n"
-#~ msgstr ""
-#~ "* Wenn bereits ein Bürger aufgrund der Stadtgröße unzufrieden ist, wird "
-#~ "für je %d zusätzliche Städte ein weiterer Bürger unzufrieden.\n"
-
-#~ msgid "Join Game"
-#~ msgstr "Am Spiel teilnehmen"
-
-#~ msgid "Join Pubserver"
-#~ msgstr "Internetspiel"
-
-#~ msgid "Join LAN Server"
-#~ msgstr "LAN-Spiel"
-
-#~ msgid "SDLClient welcomes you..."
-#~ msgstr "Willkommen beim SDL-Client..."
-
-#~ msgid ""
-#~ "Freeciv is free software and you are welcome to distribute copies of it "
-#~ "under certain conditions;"
-#~ msgstr ""
-#~ "Freeciv ist freie Software und darf unter bestimmten Bedingungen kopiert "
-#~ "und weitergegeben werden;"
-
-#~ msgid "See the \"Copying\" item on the Help menu."
-#~ msgstr "Siehe den Abschnitt 'Lizenz' in der Hilfe."
-
-#~ msgid "Now.. Go give'em hell!"
-#~ msgstr "Spiel begonnen."
-
-#~ msgid ""
-#~ "Australia was founded as a British penal colony in 1788AD. It is the only "
-#~ "country on earth to occupy an entire continent."
-#~ msgstr ""
-#~ "Australien wurde 1788 als britische Sträflingskolonie gegründet. Es ist "
-#~ "das einzige Land auf der Erde, das einen ganzen Kontinent einnimmt."
