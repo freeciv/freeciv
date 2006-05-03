@@ -198,54 +198,44 @@ msgid "Civ: Revolt Started"
 msgstr "الحضارة: بداية الثورة"
 
 #: common/events.c:69
-#, fuzzy
 msgid "Civ: Spaceship Events"
-msgstr "سفينة فضائية"
+msgstr "الحضارة: أحداث السفينة الفضائية"
 
 #: common/events.c:70
-#, fuzzy
 msgid "Diplomat Action: Bribe"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: الرشوة"
 
 #: common/events.c:71
-#, fuzzy
 msgid "Diplomat Action: Caused Incident"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: سبب حادثا"
 
 #: common/events.c:72
-#, fuzzy
 msgid "Diplomat Action: Escape"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: هروب"
 
 #: common/events.c:73
-#, fuzzy
 msgid "Diplomat Action: Embassy"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: سفارة"
 
 #: common/events.c:74
-#, fuzzy
 msgid "Diplomat Action: Failed"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: فشل"
 
 #: common/events.c:75
-#, fuzzy
 msgid "Diplomat Action: Incite"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: تحريض"
 
 #: common/events.c:76
-#, fuzzy
 msgid "Diplomat Action: Poison"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: تسميم"
 
 #: common/events.c:77
-#, fuzzy
 msgid "Diplomat Action: Sabotage"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: تخريب"
 
 #: common/events.c:78
-#, fuzzy
 msgid "Diplomat Action: Theft"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال الدبلوماسي: سرقة"
 
 #: common/events.c:79
 msgid "Enemy Diplomat: Bribe"
@@ -472,9 +462,8 @@ msgid "Diplomatic Message"
 msgstr "رسالة دبلوماسية"
 
 #: common/events.c:135
-#, fuzzy
 msgid "Treaty: Embassy"
-msgstr "سفارة"
+msgstr "المعاهدة: سفارة"
 
 #: common/events.c:136
 msgid "Error message from bad command"
@@ -690,14 +679,12 @@ msgid "Fortress"
 msgstr "حصن"
 
 #: common/terrain.c:293
-#, fuzzy
 msgid "River"
-msgstr "الأنهار"
+msgstr "النهر"
 
 #: common/terrain.c:294 common/terrain.c:475
-#, fuzzy
 msgid "Farmland"
-msgstr "بناء أرض زراعية"
+msgstr "أرض زراعية"
 
 #: common/terrain.c:295 common/terrain.c:489 common/unit.c:566
 #: manual/civmanual.c:226
@@ -3259,7 +3246,7 @@ msgstr ""
 #: server/plrhand.c:211 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-win32/ratesdlg.c:309
 msgid "Tax"
-msgstr ""
+msgstr "الضريبة"
 
 #: server/plrhand.c:219
 #, c-format
@@ -3893,8 +3880,9 @@ msgid "Vital"
 msgstr "مهم"
 
 #: server/settings.c:43
+#, fuzzy
 msgid "Situational"
-msgstr ""
+msgstr "موقعي"
 
 #: server/settings.c:44
 msgid "Rare"
@@ -3902,7 +3890,7 @@ msgstr "نادر"
 
 #: server/settings.c:45
 msgid "Changed"
-msgstr ""
+msgstr "متغيّر"
 
 #: server/settings.c:100
 msgid ""
@@ -5459,7 +5447,7 @@ msgstr ""
 
 #: server/stdinhand.c:1947
 msgid "Option"
-msgstr ""
+msgstr "الخيار"
 
 #: server/stdinhand.c:1950
 msgid "description"
@@ -6867,7 +6855,7 @@ msgstr "قديم"
 #: client/gui-mui/citydlg.c:606 client/gui-mui/worklistclass.c:111
 #: client/gui-sdl/repodlgs.c:1895 client/gui-sdl/wldlg.c:1367
 msgid "Built"
-msgstr ""
+msgstr "تم البناء"
 
 #: client/citydlg_common.c:345
 msgid "Great Wonder"
@@ -6966,7 +6954,7 @@ msgstr "الحجم"
 #: client/cityrepdata.c:433 client/plrdlg_common.c:261
 #: client/gui-mui/plrdlg.c:172 client/gui-win32/plrdlg.c:337
 msgid "State"
-msgstr ""
+msgstr "الحالة"
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
@@ -7023,7 +7011,7 @@ msgstr "العمال: غاطبون"
 
 #: client/cityrepdata.c:449
 msgid "Special"
-msgstr ""
+msgstr "خاص"
 
 #: client/cityrepdata.c:450
 msgid "?entertainers/scientists/taxmen:E/S/T"
@@ -7186,7 +7174,7 @@ msgstr ""
 
 #: client/cityrepdata.c:487
 msgid "Grow"
-msgstr ""
+msgstr "توسع"
 
 #: client/cityrepdata.c:487 client/gui-gtk-2.0/wldlg.c:1030
 #: client/gui-win32/citydlg.c:1096 client/gui-win32/wldlg.c:809
@@ -7211,7 +7199,7 @@ msgstr ""
 
 #: client/cityrepdata.c:491
 msgid "Waste"
-msgstr ""
+msgstr "النفاية"
 
 #: client/cityrepdata.c:493
 msgid "?cma:Governor"
@@ -8765,7 +8753,7 @@ msgstr ""
 
 #: client/plrdlg_common.c:264
 msgid "Ping"
-msgstr ""
+msgstr "بينج"
 
 #: client/repodlgs_common.c:329
 msgid "You cannot sell improvements."
@@ -10914,7 +10902,7 @@ msgstr "يسمح"
 
 #: client/gui-gtk-2.0/helpdlg.c:954
 msgid "Obsoletes"
-msgstr ""
+msgstr "يلغي"
 
 #: client/gui-gtk-2.0/helpdlg.c:994 client/gui-gtk-2.0/helpdlg.c:1011
 msgid "with"
@@ -11173,7 +11161,7 @@ msgstr "طبيعة الأرض"
 #: client/gui-gtk-2.0/menu.c:772 client/gui-mui/gui_main.c:237
 #: client/gui-win32/menu.c:340 client/gui-xaw/menu.c:149
 msgid "Coastline"
-msgstr ""
+msgstr "الشريط الساحلي"
 
 #: client/gui-gtk-2.0/menu.c:778 client/gui-win32/menu.c:342
 msgid "Roads & Rails"
@@ -11193,7 +11181,7 @@ msgstr "الحصن والقاعدة الجوية"
 #: client/gui-gtk-2.0/menu.c:786 client/gui-mui/gui_main.c:243
 #: client/gui-win32/menu.c:347 client/gui-xaw/menu.c:154
 msgid "Specials"
-msgstr ""
+msgstr "الأشياء الخاصة"
 
 #: client/gui-gtk-2.0/menu.c:788 client/gui-mui/gui_main.c:244
 #: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:155
@@ -11604,16 +11592,18 @@ msgid "Event"
 msgstr "الحدث"
 
 #: client/gui-gtk-2.0/messagedlg.c:127
+#, fuzzy
 msgid "Out"
-msgstr ""
+msgstr "خارج"
 
 #: client/gui-gtk-2.0/messagedlg.c:134
 msgid "Mes"
 msgstr ""
 
 #: client/gui-gtk-2.0/messagedlg.c:141
+#, fuzzy
 msgid "Pop"
-msgstr ""
+msgstr "البوب"
 
 #: client/gui-gtk-2.0/messagewin.c:155 client/gui-mui/messagewin.c:130
 #: client/gui-mui/messagewin.c:197 client/gui-win32/messagewin.c:132
@@ -11834,11 +11824,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1482
 msgid "Record"
-msgstr ""
+msgstr "السجل"
 
 #: client/gui-gtk-2.0/pages.c:1487
 msgid "Rating"
-msgstr ""
+msgstr "التقدير"
 
 #: client/gui-gtk-2.0/pages.c:1493
 msgid "Ready"
@@ -11971,21 +11961,21 @@ msgstr "نوع الوحدة"
 #: client/gui-gtk-2.0/repodlgs.c:932 client/gui-mui/repodlgs.c:664
 #: client/gui-win32/repodlgs.c:690
 msgid "U"
-msgstr ""
+msgstr "يو"
 
 #: client/gui-gtk-2.0/repodlgs.c:933 client/gui-mui/repodlgs.c:665
 #: client/gui-win32/repodlgs.c:691
 msgid "In-Prog"
-msgstr ""
+msgstr "جاري العمل"
 
 #: client/gui-gtk-2.0/repodlgs.c:934 client/gui-mui/repodlgs.c:666
 #: client/gui-win32/repodlgs.c:691
 msgid "Active"
-msgstr ""
+msgstr "فعال"
 
 #: client/gui-gtk-2.0/repodlgs.c:1007
 msgid "Find _Nearest"
-msgstr ""
+msgstr "البحث عن الأ_قرب"
 
 #: client/gui-gtk-2.0/repodlgs.c:1012 client/gui-mui/repodlgs.c:764
 msgid "_Upgrade"
@@ -12477,7 +12467,7 @@ msgstr "لا"
 #: client/gui-win32/dialogs.c:1545 client/gui-win32/dialogs.c:1560
 #: data/Freeciv.in:2252 data/Freeciv.in:2456 data/Freeciv.in:2486
 msgid "Darn"
-msgstr ""
+msgstr "يا إلاهي"
 
 #: client/gui-mui/dialogs.c:302 client/gui-xaw/menu.c:243
 #: data/helpdata.txt:836
@@ -12557,13 +12547,13 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:2541 client/gui-sdl/dialogs.c:2754
 #: client/gui-win32/dialogs.c:569
 msgid "Male"
-msgstr ""
+msgstr "ذكر"
 
 #: client/gui-mui/dialogs.c:1592 client/gui-sdl/dialogs.c:2159
 #: client/gui-sdl/dialogs.c:2543 client/gui-win32/dialogs.c:571
 #: data/Freeciv.in:3159
 msgid "Female"
-msgstr ""
+msgstr "أنثى"
 
 #: client/gui-mui/dialogs.c:1612
 msgid "Freeciv - Select a Nation"
@@ -12612,7 +12602,7 @@ msgstr "خرائط"
 #: client/gui-win32/diplodlg.c:609 client/gui-win32/diplodlg.c:657
 #: data/Freeciv.in:392 data/Freeciv.in:401
 msgid "Advances"
-msgstr ""
+msgstr "يتّقدّم"
 
 #: client/gui-mui/diplodlg.c:494 client/gui-mui/diplodlg.c:529
 #: client/gui-sdl/diplodlg.c:488 client/gui-win32/diplodlg.c:617
@@ -13236,7 +13226,7 @@ msgstr "السمعة"
 #: client/gui-mui/plrdlg.c:173 client/gui-win32/plrdlg.c:337
 #: data/Freeciv.in:88
 msgid "Host"
-msgstr ""
+msgstr "المضيف"
 
 #: client/gui-mui/plrdlg.c:255 client/gui-win32/plrdlg.c:72
 #: client/gui-xaw/plrdlg.c:361
@@ -13392,7 +13382,7 @@ msgstr "u8قوائم العملn"
 
 #: client/gui-mui/worklistclass.c:710 client/gui-win32/wldlg.c:852
 msgid "Undo"
-msgstr ""
+msgstr "الإلغاء"
 
 #: client/gui-mui/worklistclass.c:711
 msgid "Accept"
@@ -13600,7 +13590,7 @@ msgstr "المواطنيين"
 #: client/gui-sdl/citydlg.c:2598
 #, c-format
 msgid "Food : %d per turn"
-msgstr ""
+msgstr "الطعام : %d لكل دور"
 
 #: client/gui-sdl/citydlg.c:2635
 #, c-format
@@ -13700,7 +13690,7 @@ msgstr "مدينة %s (عدد السكان %s مواطن)"
 
 #: client/gui-sdl/citydlg.c:3633
 msgid " - under CMA control."
-msgstr ""
+msgstr " - تحت سيطرة عميل ."
 
 #: client/gui-sdl/citydlg.c:3720
 #, fuzzy
@@ -13773,7 +13763,6 @@ msgid "Maintenance Report"
 msgstr "تقرير الصيانة"
 
 #: client/gui-sdl/cityrep.c:495 client/gui-sdl/cityrep.c:1023
-#, fuzzy
 msgid "worklist"
 msgstr "قائمة العمل"
 
@@ -13787,7 +13776,7 @@ msgstr ""
 
 #: client/gui-sdl/cma_fe.c:437 client/gui-win32/cma_fe.c:458
 msgid "Presets"
-msgstr ""
+msgstr "التجهيزات المسبقة"
 
 #: client/gui-sdl/cma_fe.c:826
 #, c-format
@@ -13912,7 +13901,7 @@ msgstr "معلومات التضاريص"
 
 #: client/gui-sdl/dialogs.c:1142
 msgid "Advanced Menu"
-msgstr ""
+msgstr "قائمة الأشياء المتطورة"
 
 #: client/gui-sdl/dialogs.c:1195
 #, c-format
@@ -13920,9 +13909,8 @@ msgid "Zoom to : %s"
 msgstr ""
 
 #: client/gui-sdl/dialogs.c:1233
-#, fuzzy
 msgid "Change C.M.A Settings"
-msgstr "اعدادات اللعبة"
+msgstr "تغيير اعدادات عميل إدارة المواطنة"
 
 #: client/gui-sdl/dialogs.c:1254
 msgid "Goto here"
@@ -14153,9 +14141,9 @@ msgid "Error in create_string16: Aborting ..."
 msgstr ""
 
 #: client/gui-sdl/gui_string.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't blit text to display: %s"
-msgstr "لا يمكن تحويل النص من  %s إلى %s: %s"
+msgstr "لا يمكن رسم النص إلى الشاشة: %s"
 
 #: client/gui-sdl/gui_string.c:273
 #, c-format
@@ -14223,7 +14211,6 @@ msgstr[1] "مواطنان"
 msgstr[2] "مواطنيين"
 
 #: client/gui-sdl/helpdlg.c:696
-#, fuzzy
 msgid "food"
 msgid_plural "foods"
 msgstr[0] "الطعام"
@@ -14231,7 +14218,6 @@ msgstr[1] "الطعام"
 msgstr[2] "الطعام"
 
 #: client/gui-sdl/helpdlg.c:701
-#, fuzzy
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] "الذهب"
@@ -14239,9 +14225,8 @@ msgstr[1] "الذهب"
 msgstr[2] "الذهب"
 
 #: client/gui-sdl/helpdlg.c:926
-#, fuzzy
 msgid "( witch "
-msgstr " (مع "
+msgstr "(مع "
 
 #: client/gui-sdl/helpdlg.c:929
 msgid " )"
@@ -14252,9 +14237,9 @@ msgid "Help : Advances Tree"
 msgstr ""
 
 #: client/gui-sdl/inteldlg.c:249
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Information about %s Spaceship"
-msgstr "معلومات المخابرات لامبراطوية %s "
+msgstr "معلومات الاستخبارات عن سفينة الفضاء  %s"
 
 #: client/gui-sdl/inteldlg.c:278
 #, c-format
@@ -14395,13 +14380,9 @@ msgstr ""
 "%s (%d/%d)"
 
 #: client/gui-sdl/mapview.c:422
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr ""
-"عدد السكان: %s\n"
-"السنة: %s\n"
-"الذهب: %d\n"
-"الضريبة: %d الرفاهية: %d العلوم: %d"
+msgstr "%s عدد السكان: %s السنة: %s الذهب: %d الضريبة: %d الرفاهية: %d العلوم: %d"
 
 #: client/gui-sdl/mapview.c:539 data/default/units.ruleset:24
 #: data/civ2/units.ruleset:18 data/civ1/units.ruleset:18
@@ -14555,9 +14536,8 @@ msgid "Trade with %s ( %d R&G bonus ) (R)"
 msgstr ""
 
 #: client/gui-sdl/menu.c:1171
-#, fuzzy
 msgid "Cut Down to"
-msgstr "فصل الاتصال"
+msgstr "تخفيض إلى"
 
 #: client/gui-sdl/menu.c:1177 client/gui-sdl/menu.c:1201
 msgid "Irrigate to"
@@ -14614,13 +14594,12 @@ msgid "Smooth unit move steps"
 msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1025
-#, fuzzy
 msgid "Show focus animation"
-msgstr "التطهير"
+msgstr "إظهار رسوم التركيز المتحركة"
 
 #: client/gui-sdl/optiondlg.c:1052
 msgid "Show cursors animation"
-msgstr ""
+msgstr "إظهار رسوم المؤشرات المتحركة"
 
 #: client/gui-sdl/optiondlg.c:1531 client/gui-xaw/menu.c:141
 msgid "National Borders"
@@ -14744,26 +14723,26 @@ msgstr "تحديث"
 
 #: client/gui-sdl/repodlgs.c:1994
 msgid "Treasury: "
-msgstr "الخزينة:"
+msgstr "الخزينة: "
 
 #: client/gui-sdl/repodlgs.c:2001
 msgid "Tax Rate: "
-msgstr "نسبة الضريبة:"
+msgstr "نسبة الضريبة: "
 
 #: client/gui-sdl/repodlgs.c:2006
 msgid "Total Income: "
-msgstr "الدخل الكلي:"
+msgstr "الدخل الكلي: "
 
 #: client/gui-sdl/repodlgs.c:2011
 msgid "Total Cost: "
-msgstr "الكلفة الكلية:"
+msgstr "الكلفة الكلية: "
 
 #: client/gui-sdl/repodlgs.c:2016
 msgid "Net Income: "
-msgstr "الدخل الصافي:"
+msgstr "الدخل الصافي: "
 
 #: client/gui-sdl/repodlgs.c:2103
-#, fuzzy, c-format
+#, c-format
 msgid "%s max rate : %d%%"
 msgstr "%s النسبة الأعلى: %d%%"
 
@@ -14802,9 +14781,8 @@ msgstr[1] "خطوتان"
 msgstr[2] "خطوات"
 
 #: client/gui-sdl/repodlgs.c:2823
-#, fuzzy
 msgid "What should we focus on now?"
-msgstr "ماذا تريد أن نسمي مدينتنا الجديدة?"
+msgstr "على ماذا تريدنا أن نركز اﻵن?"
 
 #: client/gui-sdl/repodlgs.c:3007
 msgid "Sellect target :"
@@ -14879,9 +14857,9 @@ msgstr ""
 "انتهى!"
 
 #: client/gui-sdl/wldlg.c:983 client/gui-sdl/wldlg.c:1088
-#, fuzzy, c-format
+#, c-format
 msgid "( %d entries )"
-msgstr "(%ld خطوات)"
+msgstr "(%d المداخل)"
 
 #: client/gui-sdl/wldlg.c:1075
 #, c-format
@@ -14901,26 +14879,26 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/wldlg.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%s"
-msgstr "%d/%d %d أدوار"
+msgstr ""
 
 #: client/gui-sdl/wldlg.c:1396
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%s)\n"
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d أدوار"
+msgstr ""
 
 #: client/gui-sdl/wldlg.c:1403
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%d/%d %s\n"
 "%d %s"
-msgstr "%d/%d %d أدوار"
+msgstr ""
 
 #: client/gui-sdl/wldlg.c:1412
 #, c-format
@@ -14935,9 +14913,9 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/wldlg.c:1424
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s"
-msgstr "%d بعد الميلاد"
+msgstr ""
 
 #: client/gui-sdl/wldlg.c:1430
 msgid "shields into gold"
@@ -14960,11 +14938,11 @@ msgid ""
 msgstr ""
 
 #: client/gui-sdl/wldlg.c:1525
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "(%d/%d/%d)\n"
 "%d %s"
-msgstr "%d/%d %d أدوار"
+msgstr ""
 
 #: client/gui-win32/citydlg.c:284
 #, c-format
@@ -15082,7 +15060,7 @@ msgstr "توسيط"
 
 #: client/gui-win32/cityrep.c:877 data/Freeciv.in:1621
 msgid "Popup"
-msgstr ""
+msgstr "قافزة"
 
 #: client/gui-win32/cityrep.c:880
 msgid "Change All"
@@ -15462,7 +15440,7 @@ msgstr "هل تريد فعلا إزالة %s?"
 
 #: client/gui-xaw/connectdlg.c:178
 msgid "Pass"
-msgstr ""
+msgstr "الترخيص"
 
 #: client/gui-xaw/dialogs.c:1471
 msgid "You must select a nation."
@@ -15782,7 +15760,7 @@ msgstr ""
 #: manual/civmanual.c:221 data/default/terrain.ruleset:636
 #: data/civ2/terrain.ruleset:567 data/civ1/terrain.ruleset:574
 msgid "Resources"
-msgstr ""
+msgstr "المصادر"
 
 #: manual/civmanual.c:222
 msgid "Move cost"
@@ -16028,7 +16006,7 @@ msgstr ""
 
 #: data/Freeciv.in:2146
 msgid "Prepend"
-msgstr ""
+msgstr "يضيف على البداية"
 
 #: data/Freeciv.in:2182
 msgid "  Ok  "
@@ -17663,7 +17641,7 @@ msgstr ""
 #: data/default/buildings.ruleset:417 data/civ2/buildings.ruleset:393
 #: data/civ1/buildings.ruleset:317
 msgid "Marketplace"
-msgstr ""
+msgstr " السوق"
 
 #: data/default/buildings.ruleset:432 data/civ2/buildings.ruleset:408
 #: data/civ1/buildings.ruleset:332
@@ -17978,7 +17956,7 @@ msgstr ""
 #: data/default/buildings.ruleset:989 data/civ2/buildings.ruleset:976
 #: data/civ1/buildings.ruleset:653
 msgid "Colossus"
-msgstr ""
+msgstr "العملاق"
 
 #: data/default/buildings.ruleset:1003 data/civ2/buildings.ruleset:990
 #: data/civ1/buildings.ruleset:667
@@ -18637,7 +18615,7 @@ msgstr "الفوضوية"
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56 data/nation/roman.ruleset:41
 msgid "Usurper"
-msgstr ""
+msgstr "المغتصب"
 
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:55
 #: data/civ1/governments.ruleset:57
@@ -18657,7 +18635,7 @@ msgstr ""
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
 msgid "Despotism"
-msgstr ""
+msgstr " الإستبداد"
 
 #: data/default/governments.ruleset:78 data/civ2/governments.ruleset:76
 #: data/civ1/governments.ruleset:78 data/nation/brazilian.ruleset:22
@@ -19649,7 +19627,7 @@ msgstr "حملة بندقية المسكيت"
 
 #: data/default/units.ruleset:493 data/civ2/units.ruleset:380
 msgid "Partisan"
-msgstr ""
+msgstr " المحارب"
 
 #: data/default/units.ruleset:519 data/civ2/units.ruleset:406
 msgid ""
@@ -19710,7 +19688,7 @@ msgstr "الفرسان"
 
 #: data/default/units.ruleset:767 data/civ2/units.ruleset:710
 msgid "Dragoons"
-msgstr ""
+msgstr "الفرسان"
 
 #: data/default/units.ruleset:796 data/civ2/units.ruleset:739
 #: data/civ1/units.ruleset:319
@@ -19749,7 +19727,7 @@ msgstr "طائرة محاربة"
 #: data/default/units.ruleset:992 data/civ2/units.ruleset:935
 #: data/civ1/units.ruleset:544
 msgid "Bomber"
-msgstr ""
+msgstr "قاذفة قنابل"
 
 #: data/default/units.ruleset:1020 data/civ2/units.ruleset:963
 msgid "Helicopter"
@@ -19851,7 +19829,7 @@ msgstr ""
 #: data/default/units.ruleset:1440 data/civ2/units.ruleset:1383
 #: data/civ1/units.ruleset:805
 msgid "Transport"
-msgstr ""
+msgstr "الناقلة"
 
 #: data/default/units.ruleset:1468 data/civ2/units.ruleset:1411
 msgid "Cruise Missile"
@@ -19955,7 +19933,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1676 data/civ2/units.ruleset:1619
 msgid "Freight"
-msgstr ""
+msgstr " الشحن"
 
 #: data/default/units.ruleset:1702 data/civ2/units.ruleset:1645
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -20029,7 +20007,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:347
 msgid "Fanatics"
-msgstr ""
+msgstr "المتعصّبون"
 
 #: data/civ2/units.ruleset:374
 msgid ""
@@ -20164,7 +20142,7 @@ msgstr "?plural:أفغانيين"
 #: data/nation/ukrainian.ruleset:5 data/nation/venezuelan.ruleset:6
 #: data/nation/vietnamese.ruleset:5
 msgid "Modern"
-msgstr ""
+msgstr "حديث"
 
 #: data/nation/afghani.ruleset:5 data/nation/arab.ruleset:5
 #: data/nation/aramean.ruleset:5 data/nation/assyrian.ruleset:5
@@ -20206,7 +20184,7 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:27
 msgid "Mullah"
-msgstr ""
+msgstr "الملا"
 
 #: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:19
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:29
@@ -20227,7 +20205,7 @@ msgstr "رئيس وزراء"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
-msgstr ""
+msgstr "الجزائريّ"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
@@ -20333,7 +20311,7 @@ msgstr ""
 #: data/nation/vietnamese.ruleset:5 data/nation/viking.ruleset:5
 #: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
 msgid "Medieval"
-msgstr ""
+msgstr "من القرون الوسطى"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -20362,7 +20340,7 @@ msgstr ""
 #: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
 #: data/nation/roman.ruleset:5 data/nation/sumerian.ruleset:5
 msgid "Ancient"
-msgstr ""
+msgstr "قديم"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -20416,7 +20394,7 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr ""
+msgstr "الأشوريّ"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
@@ -20588,11 +20566,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:27
 msgid "Major"
-msgstr ""
+msgstr "مايجور"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr ""
+msgstr "البويري"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
@@ -20620,8 +20598,9 @@ msgid ""
 msgstr ""
 
 #: data/nation/bosnia.ruleset:29
+#, fuzzy
 msgid "Ban"
-msgstr ""
+msgstr "الحظر"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -20653,11 +20632,12 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:25 data/nation/chinese.ruleset:32
 msgid "Chairman"
-msgstr ""
+msgstr "الرئيس"
 
 #: data/nation/brazilian.ruleset:25 data/nation/chinese.ruleset:32
+#, fuzzy
 msgid "Chairperson"
-msgstr ""
+msgstr "الرئيس"
 
 #: data/nation/brazilian.ruleset:26 data/nation/romanian.ruleset:38
 msgid "Director-President"
@@ -20695,7 +20675,7 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:33
 msgid "Tzar"
-msgstr ""
+msgstr "القيصر"
 
 #: data/nation/bulgarian.ruleset:33
 msgid "Tzaritza"
@@ -20712,7 +20692,7 @@ msgstr ""
 #: data/nation/bulgarian.ruleset:37 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
 msgid "Patriarch"
-msgstr ""
+msgstr "الأبّ"
 
 #: data/nation/bulgarian.ruleset:37
 msgid "Sveta Maika"
@@ -20720,7 +20700,7 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr ""
+msgstr "البورميّ"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
@@ -20746,7 +20726,7 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr ""
+msgstr "بيزنطي"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
@@ -20845,7 +20825,7 @@ msgstr ""
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr ""
+msgstr "التشيلي"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
@@ -20862,7 +20842,7 @@ msgstr ""
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:27
 #: data/nation/german.ruleset:35 data/nation/irish.ruleset:57
 msgid "Archbishop"
-msgstr ""
+msgstr "رئيس الأساقفة"
 
 #: data/nation/chilean.ruleset:26
 msgid "Supreme Director"
@@ -20893,8 +20873,9 @@ msgid "Emperor"
 msgstr "امبراطور"
 
 #: data/nation/chinese.ruleset:31
+#, fuzzy
 msgid "Dowager"
-msgstr ""
+msgstr "الأرملة"
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
@@ -20926,15 +20907,15 @@ msgstr ""
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr ""
+msgstr "كونفيدرالية"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr ""
+msgstr "?plural:كونفيدراليات"
 
 #: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
 msgid "Transitional"
-msgstr ""
+msgstr "إنتقالي"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -20946,7 +20927,7 @@ msgstr ""
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr ""
+msgstr "كورنيشي"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
@@ -20962,7 +20943,7 @@ msgstr ""
 #: data/nation/gallic.ruleset:22 data/nation/irish.ruleset:55
 #: data/nation/scottish.ruleset:24 data/nation/welsh.ruleset:25
 msgid "Chieftain"
-msgstr ""
+msgstr "الزعيم"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -21015,7 +20996,7 @@ msgstr ""
 
 #: data/nation/czech.ruleset:36
 msgid "Prophetess"
-msgstr ""
+msgstr "النبية"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
@@ -21173,7 +21154,7 @@ msgstr ""
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
-msgstr ""
+msgstr "رئيس الوزراء"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
@@ -21235,7 +21216,7 @@ msgstr "الدرويد"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr ""
+msgstr "الجورجي"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
@@ -21285,15 +21266,15 @@ msgstr ""
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
-msgstr ""
+msgstr "الطاغية"
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr ""
+msgstr "إغريقيّ"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr ""
+msgstr "?plural:الإغريق"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -21364,7 +21345,7 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr ""
+msgstr "إنكا"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
@@ -21502,7 +21483,7 @@ msgstr ""
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr ""
+msgstr "إيروكويسي"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
@@ -21522,7 +21503,7 @@ msgstr ""
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
 #: data/nation/swazi.ruleset:23 data/nation/zulu.ruleset:38
 msgid "Chief"
-msgstr ""
+msgstr "الرئيس"
 
 #: data/nation/iroquois.ruleset:27 data/nation/sioux.ruleset:29
 msgid "Great Chief"
@@ -21531,12 +21512,12 @@ msgstr ""
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokesman"
-msgstr ""
+msgstr "الناطق"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "الناطقة"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -21717,8 +21698,9 @@ msgid ""
 msgstr ""
 
 #: data/nation/libyan.ruleset:24
+#, fuzzy
 msgid "Dey"
-msgstr ""
+msgstr "دي"
 
 #: data/nation/libyan.ruleset:25
 msgid "Colonel"
@@ -21789,8 +21771,9 @@ msgid "Sultana"
 msgstr "سلطانة"
 
 #: data/nation/malaysian.ruleset:25
+#, fuzzy
 msgid "Tun"
-msgstr ""
+msgstr "البرميل"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
@@ -21973,7 +21956,7 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
 msgid "Bey"
-msgstr ""
+msgstr "البك"
 
 #: data/nation/ottoman.ruleset:27
 msgid "Hakan"
@@ -22132,7 +22115,7 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:35
 msgid "Regina"
-msgstr ""
+msgstr "ريجينا"
 
 #: data/nation/romanian.ruleset:36
 msgid "Presedinte"
@@ -22307,15 +22290,16 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:37
 msgid "Ah"
-msgstr ""
+msgstr "آه"
 
 #: data/nation/singaporean.ruleset:39
 msgid "Encik"
 msgstr ""
 
 #: data/nation/sioux.ruleset:3
+#, fuzzy
 msgid "Sioux"
-msgstr ""
+msgstr "مواطن من قبيلة السّو الأمريكية الهندية"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
@@ -22427,7 +22411,7 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:29
 msgid "Cardinal"
-msgstr ""
+msgstr "الكاردينال"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -22520,7 +22504,7 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:24
 msgid "Bailiff"
-msgstr ""
+msgstr "المأمور"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
@@ -22540,11 +22524,11 @@ msgstr "الكاهنة المنتخبة"
 
 #: data/nation/swiss.ruleset:27 data/nation/swiss.ruleset:28
 msgid "President of the Confederation"
-msgstr ""
+msgstr "رئيس الكوتفيدرالية"
 
 #: data/nation/swiss.ruleset:29
 msgid "Federal Chancellor"
-msgstr ""
+msgstr "مستشار الكونفيدرالية"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -22669,7 +22653,7 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:18
 msgid "Hetman"
-msgstr ""
+msgstr "هيتمان"
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
@@ -22728,7 +22712,7 @@ msgstr ""
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr ""
+msgstr "الفايكنك"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
@@ -22743,11 +22727,11 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr ""
+msgstr "ويلزي"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr ""
+msgstr "?plural:ويلزيين"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
