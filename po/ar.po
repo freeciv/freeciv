@@ -1387,7 +1387,7 @@ msgstr ""
 #: server/auth.c:370
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
-msgstr ""
+msgstr "كلمة السر قصيرة جدا، أقل طول هو %d. حاول مرة أخرى."
 
 #: server/auth.c:376
 #, c-format
@@ -1404,7 +1404,7 @@ msgstr "حصل البرابرة على قائد اسمه %s. يمكن أن تك�
 #: server/barbarian.c:475
 #, c-format
 msgid "Native unrest near %s led by %s."
-msgstr ""
+msgstr "إضطراب محلي قرب %s بقيادة %s."
 
 #: server/barbarian.c:479
 #, c-format
@@ -3880,7 +3880,6 @@ msgid "Vital"
 msgstr "مهم"
 
 #: server/settings.c:43
-#, fuzzy
 msgid "Situational"
 msgstr "موقعي"
 
@@ -4783,7 +4782,7 @@ msgstr ""
 #: server/sernet.c:906
 #, c-format
 msgid "Server: bad address: [%s:%d]."
-msgstr ""
+msgstr "الخادم: العنوان سيء: [%s:%d]."
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
@@ -4791,11 +4790,11 @@ msgstr ""
 
 #: server/spacerace.c:171
 msgid "Your spaceship is already launched!"
-msgstr ""
+msgstr "تم أصلا إطلاق سفينتك الفضائية!"
 
 #: server/spacerace.c:177
 msgid "Your spaceship can't be launched yet!"
-msgstr ""
+msgstr "لا يمكن إطلاق سفينتك الفضائية حتى اﻵن!"
 
 #: server/spacerace.c:186
 #, c-format
@@ -4846,35 +4845,35 @@ msgstr ""
 
 #: server/spacerace.c:332
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr ""
+msgstr "تحتوي سفينتك الفضائية على أعلى عدد من وحدات اللوحات الشمسية!"
 
 #: server/spacerace.c:351
 #, c-format
 msgid "Without guidance from the capital, the %s spaceship is lost!"
-msgstr ""
+msgstr "بدون توجيه من العاصمة، ستفقد سفينة %s الفضائية!"
 
 #: server/srv_main.c:220
 msgid "Game ended in a draw as end year exceeded"
-msgstr ""
+msgstr "تم انهاء اللعبة بتعادل عندما تجاوزت نهاية المدة"
 
 #: server/srv_main.c:254
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
-msgstr ""
+msgstr "وصلت سفينة الفضاء الخاصة ب %s إلى ألفا سنتوري."
 
 #: server/srv_main.c:267 server/srv_main.c:300
 #, c-format
 msgid "Team victory to %s"
-msgstr ""
+msgstr "فوز الفريق ل %s"
 
 #: server/srv_main.c:276 server/srv_main.c:315
 #, c-format
 msgid "Game ended in victory for %s"
-msgstr ""
+msgstr "تم انهاء اللعبة بفوز %s"
 
 #: server/srv_main.c:321
 msgid "Game ended in a draw"
-msgstr ""
+msgstr "تم انهاء اللعبة بتعادل"
 
 #: server/srv_main.c:436 server/srv_main.c:447
 #, c-format
@@ -4891,21 +4890,21 @@ msgstr ""
 #: server/srv_main.c:486
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr ""
+msgstr "انتهى وقف إطلاق النار مع %s. أنت اﻵن في حرب مع %s."
 
 #: server/srv_main.c:822
 #, c-format
 msgid "Failed saving game as %s"
-msgstr ""
+msgstr "فشل حفظ اللعبة ك %s"
 
 #: server/srv_main.c:824
 #, c-format
 msgid "Game saved as %s"
-msgstr ""
+msgstr "تم حفظ اللعبة ك %s"
 
 #: server/srv_main.c:854
 msgid "The game is already running."
-msgstr ""
+msgstr "اللعبة أصلا شغالة."
 
 #: server/srv_main.c:862
 #, c-format
@@ -4914,17 +4913,17 @@ msgstr ""
 
 #: server/srv_main.c:869
 msgid "Starting game."
-msgstr ""
+msgstr "جاري بدء اللعبة."
 
 #: server/srv_main.c:914
 #, c-format
 msgid "request for unknown report (type %d)"
-msgstr ""
+msgstr "طلب لتقرير مجهول (نوع %d)"
 
 #: server/srv_main.c:976
 #, c-format
 msgid "Warning: rejecting old client %s"
-msgstr ""
+msgstr "تحذير: جاري رفض عميل قديم %s"
 
 #: server/srv_main.c:985
 msgid ""
@@ -4939,11 +4938,11 @@ msgstr ""
 
 #: server/srv_main.c:1173
 msgid "Please choose a non-blank name."
-msgstr ""
+msgstr "الرجاء إختيار اسم بدون فراغات."
 
 #: server/srv_main.c:1186
 msgid "That nation is already in use."
-msgstr ""
+msgstr "هذه الأمة أصلا مستعملة."
 
 #: server/srv_main.c:1202
 #, c-format
@@ -4952,17 +4951,17 @@ msgstr ""
 
 #: server/srv_main.c:1223
 msgid "Please choose a name containing only ASCII characters."
-msgstr ""
+msgstr "الرجاء اختيار اسم يحتوي على أحرف  ASCII فقط."
 
 #: server/srv_main.c:1302
 #, c-format
 msgid "%s nation is not available in this scenario."
-msgstr ""
+msgstr "الأمة %s غير متوفرة في هذا السيناريو."
 
 #: server/srv_main.c:1308
 #, c-format
 msgid "%s nation is already in use."
-msgstr ""
+msgstr "الأمة %s أصلا مستعملة."
 
 #: server/srv_main.c:1325
 #, c-format
@@ -5000,11 +4999,11 @@ msgstr ""
 
 #: server/srv_main.c:1755
 msgid "The game is over..."
-msgstr ""
+msgstr "انتهت اللعبة..."
 
 #: server/srv_main.c:1811
 msgid "Now accepting new client connections."
-msgstr ""
+msgstr "جاري اﻵن استقبال اتصالات عملاء جدد."
 
 #: server/stdinhand.c:247
 #, c-format
@@ -5018,11 +5017,11 @@ msgstr ""
 
 #: server/stdinhand.c:363
 msgid "(ambiguous)"
-msgstr ""
+msgstr "(مبهم)"
 
 #: server/stdinhand.c:364 client/citydlg_common.c:422 client/packhand.c:1241
 msgid "(unknown)"
-msgstr ""
+msgstr "(مجهول)"
 
 #: server/stdinhand.c:454
 msgid "Name is empty, so cannot be a player."
@@ -10232,7 +10231,7 @@ msgstr "النتائج"
 #: client/gui-gtk-2.0/cma_fe.c:316 client/gui-mui/citydlg.c:1593
 #: client/gui-sdl/cma_fe.c:856 client/gui-win32/cma_fe.c:215
 msgid "Minimal Surplus"
-msgstr ""
+msgstr "أقل ما يمكن من الفائض"
 
 #: client/gui-gtk-2.0/cma_fe.c:319 client/gui-mui/citydlg.c:1594
 #: client/gui-sdl/cma_fe.c:859 client/gui-win32/cma_fe.c:216
@@ -10248,11 +10247,11 @@ msgstr "احتفال"
 
 #: client/gui-gtk-2.0/cma_fe.c:463
 msgid "Governor Enabl_ed"
-msgstr ""
+msgstr "الحاكم م_فعل"
 
 #: client/gui-gtk-2.0/cma_fe.c:468
 msgid "Governor Disabl_ed"
-msgstr ""
+msgstr "الحاكم م_عطل"
 
 #: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:225
 #: client/gui-sdl/cma_fe.c:295 client/gui-win32/cma_fe.c:385
@@ -10417,7 +10416,7 @@ msgstr "_خرائط"
 
 #: client/gui-gtk-2.0/diplodlg.c:274
 msgid "_Advances"
-msgstr ""
+msgstr "الت_قدم"
 
 #: client/gui-gtk-2.0/diplodlg.c:324 client/gui-gtk-2.0/menu.c:892
 #: client/gui-win32/menu.c:398
@@ -10517,7 +10516,7 @@ msgstr "تحميل _جوا"
 #: client/gui-gtk-2.0/gotodlg.c:140 client/gui-mui/mapview.c:247
 #: client/gui-sdl/gotodlg.c:224 client/gui-sdl/mapview.c:551
 msgid "Select destination"
-msgstr "اختيار المكان المقصود"
+msgstr "اختيار الإتجاه"
 
 #: client/gui-gtk-2.0/gotodlg.c:183
 msgid "Show _All Cities"
@@ -10608,7 +10607,7 @@ msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
-msgstr ""
+msgstr "برنامج Freeciv هو برنامج مجاني و يرحب بك أن توزع نسخ منه \nضمن بعض الشروط، انظر إلى عنصر  \"النسخ\" على قائمة المساعدة.\nاﻵن.. اذقهم الجحيم!"
 
 #: client/gui-gtk-2.0/gui_main.c:1369
 msgid "Not _ready"
@@ -10709,7 +10708,7 @@ msgstr "المدن: %d المجموع, %d فوق حد %d من المدن.\n"
 #: client/gui-win32/happiness.c:201
 #, c-format
 msgid "%d content before penalty with "
-msgstr ""
+msgstr "%d السعادة قبل العقوبة مع"
 
 #: client/gui-gtk-2.0/happiness.c:254 client/gui-mui/citydlg.c:2223
 #: client/gui-win32/happiness.c:203
@@ -10791,7 +10790,7 @@ msgstr "المتطلب:"
 #: client/gui-win32/helpdlg.c:85 client/gui-win32/helpdlg.c:93
 #: data/Freeciv.in:732
 msgid "Obsolete by:"
-msgstr ""
+msgstr "يلغى من:"
 
 #: client/gui-gtk-2.0/helpdlg.c:95 client/gui-mui/helpdlg.c:554
 #: client/gui-sdl/helpdlg.c:710 client/gui-win32/helpdlg.c:89
@@ -10996,11 +10995,11 @@ msgstr "إظهار النسب الحالية للرفاهية/العلوم/ال�
 
 #: client/gui-gtk-2.0/mapview.c:688 client/gui-win32/canvas.c:275
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr ""
+msgstr "سيعمل الضباب الأفضل فقط في نمط الألوان الحقيقية. جاري تعطيله"
 
 #: client/gui-gtk-2.0/menu.c:248
 msgid "Leaving a local game will end it!"
-msgstr ""
+msgstr "تركك للعبة داخلية سينهيها!"
 
 #: client/gui-gtk-2.0/menu.c:685 client/gui-win32/menu.c:302
 msgid "_Game"
@@ -11029,7 +11028,7 @@ msgstr "خيارات ال_رسالة"
 
 #: client/gui-gtk-2.0/menu.c:696
 msgid "_Reload Tileset"
-msgstr ""
+msgstr "إ_عادة تحميل مجموعة البلاط"
 
 #: client/gui-gtk-2.0/menu.c:699
 msgid "Save Options on _Exit"
@@ -11145,7 +11144,7 @@ msgstr "أ_سماء المدن"
 
 #: client/gui-gtk-2.0/menu.c:763 client/gui-win32/menu.c:337
 msgid "City G_rowth"
-msgstr ""
+msgstr "_توسع المدينة"
 
 #: client/gui-gtk-2.0/menu.c:766 client/gui-win32/menu.c:338
 msgid "City _Productions"
@@ -11592,7 +11591,6 @@ msgid "Event"
 msgstr "الحدث"
 
 #: client/gui-gtk-2.0/messagedlg.c:127
-#, fuzzy
 msgid "Out"
 msgstr "خارج"
 
@@ -11710,7 +11708,7 @@ msgstr "ملاحظة"
 
 #: client/gui-gtk-2.0/pages.c:743
 msgid "Local _Area Network"
-msgstr ""
+msgstr "الشبكة الداخلية"
 
 #: client/gui-gtk-2.0/pages.c:779
 msgid "Internet _Metaserver"
@@ -11774,11 +11772,11 @@ msgstr "اختيار الأمة"
 
 #: client/gui-gtk-2.0/pages.c:1183
 msgid "Observe this player"
-msgstr ""
+msgstr "مراقبة هذا اللاعب"
 
 #: client/gui-gtk-2.0/pages.c:1190
 msgid "Take this player"
-msgstr ""
+msgstr "أخد هذا اللاعب"
 
 #: client/gui-gtk-2.0/pages.c:1207
 msgid "Cut connection"
@@ -11790,7 +11788,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1226
 msgid "Remove player"
-msgstr ""
+msgstr "إزالة اللاعب"
 
 #: client/gui-gtk-2.0/pages.c:1237
 msgid "Give info access"
@@ -13535,14 +13533,13 @@ msgid "Sell It?"
 msgstr "هل تريد بيعها?"
 
 #: client/gui-sdl/citydlg.c:1749 client/gui-sdl/citydlg.c:3789
-#, fuzzy
 msgid "Options panel"
-msgstr "الخيارات"
+msgstr "لوحة الخيارات"
 
 #: client/gui-sdl/citydlg.c:1796
 #, c-format
 msgid "Unit maintenance panel (%d %s)"
-msgstr ""
+msgstr "لوحة صيانة الوحدة (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1797 client/gui-sdl/citydlg.c:1858
 msgid "unit"
@@ -13554,11 +13551,11 @@ msgstr[2] "وحدات"
 #: client/gui-sdl/citydlg.c:1857
 #, c-format
 msgid "Garrison Panel (%d %s)"
-msgstr ""
+msgstr "لوحة الحامية (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1909
 msgid "Info Panel"
-msgstr ""
+msgstr "لوحة المعلومات"
 
 #: client/gui-sdl/citydlg.c:1934
 #, c-format
@@ -13579,9 +13576,8 @@ msgid "Trade : +%d"
 msgstr "التجارة: +%d"
 
 #: client/gui-sdl/citydlg.c:2069 client/gui-sdl/citydlg.c:3732
-#, fuzzy
 msgid "Happiness panel"
-msgstr "صفحة السعادة"
+msgstr "لوحة السعادة"
 
 #: client/gui-sdl/citydlg.c:2569
 msgid "Citizens"
@@ -13693,17 +13689,16 @@ msgid " - under CMA control."
 msgstr " - تحت سيطرة عميل ."
 
 #: client/gui-sdl/citydlg.c:3720
-#, fuzzy
 msgid "Information panel"
-msgstr "للمزيد من المعلومات"
+msgstr "لوحة المعلومات"
 
 #: client/gui-sdl/citydlg.c:3744
 msgid "Garrison panel"
-msgstr ""
+msgstr "لوحة الحامية"
 
 #: client/gui-sdl/citydlg.c:3756
 msgid "Maintenance panel"
-msgstr ""
+msgstr "لوحة الصيانة"
 
 #: client/gui-sdl/citydlg.c:3801 client/gui-sdl/dialogs.c:1209
 #: client/gui-win32/citydlg.c:1062 data/Freeciv.in:2073
@@ -13867,7 +13862,7 @@ msgstr "برنامج Freeciv هو برنامج مجاني و يرحب بك أن 
 
 #: client/gui-sdl/connectdlg.c:1260
 msgid "See the \"Copying\" item on the Help menu."
-msgstr "انظر إلى العنصر  \"النسخ\" على قائمة المساعدة."
+msgstr "انظر إلى عنصر  \"النسخ\" على قائمة المساعدة."
 
 #: client/gui-sdl/connectdlg.c:1262
 msgid "Now.. Go give'em hell!"
@@ -15399,7 +15394,7 @@ msgstr "(فارغ)"
 
 #: client/gui-xaw/citydlg.c:310
 msgid "(in prog.)"
-msgstr ""
+msgstr "(جاري العمل به)"
 
 #: client/gui-xaw/citydlg.c:1410
 #, c-format
@@ -15408,8 +15403,9 @@ msgstr "تم انشاء طرق التجارة هذه ب %s:\n"
 
 #: client/gui-xaw/citydlg.c:1420 client/gui-xaw/citydlg.c:1424
 #, c-format
+#, fuzzy
 msgid "%32s: %2d Trade/Year\n"
-msgstr ""
+msgstr "%32s: %2d تجارة/سنة\n"
 
 #: client/gui-xaw/citydlg.c:1430
 msgid "No trade routes exist.\n"
@@ -15431,7 +15427,7 @@ msgstr "%s - %s حاكم المواطنيين: %s"
 
 #: client/gui-xaw/cma_fe.c:430
 msgid "What should we name the new preset?"
-msgstr ""
+msgstr "ماذا تريد أن نسمي التجهيزات المسبقة الجديدة?"
 
 #: client/gui-xaw/cma_fe.c:447
 #, c-format
@@ -15467,7 +15463,7 @@ msgstr "لا يحتوي ملف PNG على  palette: %s"
 
 #: client/gui-xaw/gui_main.c:321
 msgid "No version number in resources."
-msgstr ""
+msgstr "بلا رقم اصدار في المصادر."
 
 #: client/gui-xaw/gui_main.c:322
 msgid "You probably have an old (circa V1.0) Freeciv resource file somewhere."
@@ -15475,16 +15471,16 @@ msgstr ""
 
 #: client/gui-xaw/gui_main.c:330
 msgid "Game version does not match Resource version."
-msgstr ""
+msgstr "اصدار اللعبة لا يتوافق من إصدار مصادر اللعبة."
 
 #: client/gui-xaw/gui_main.c:331
 #, c-format
 msgid "Game version: %s - Resource version: %s"
-msgstr ""
+msgstr "إصدار اللعبة: %s - إصدار مصادر اللعبة: %s"
 
 #: client/gui-xaw/gui_main.c:333
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr ""
+msgstr "لديك نسخة قديمة من ملف Freeciv resourcefile في /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:339
 msgid "Using fallback resources - which is OK"
@@ -15492,12 +15488,12 @@ msgstr ""
 
 #: client/gui-xaw/gui_main.c:350
 msgid "Only color displays are supported for now..."
-msgstr ""
+msgstr "فقط الشاشات الملونة مدعومة حتى الآن..."
 
 #: client/gui-xaw/gui_main.c:373 client/gui-xaw/gui_main.c:394
 #, c-format
 msgid "Unable to open fontset: %s"
-msgstr ""
+msgstr "لا يمكن فتح fontset: %s"
 
 #: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
@@ -15517,7 +15513,7 @@ msgstr "السماح ب %s.\n"
 #: client/gui-xaw/helpdlg.c:920
 #, c-format
 msgid "Obsoletes %s.\n"
-msgstr ""
+msgstr "يلغى %s.\n"
 
 #: client/gui-xaw/helpdlg.c:935 client/gui-xaw/helpdlg.c:939
 #, c-format
@@ -15532,7 +15528,7 @@ msgstr "جاري البحث العلمي: مجهول(%d/-)"
 #: client/gui-xaw/inteldlg.c:420
 #, c-format
 msgid "Intelligence Diplomacy Information for the %s Empire"
-msgstr ""
+msgstr "معلومات مخابرات الدبلوماسية للامبراطورية %s"
 
 #: client/gui-xaw/menu.c:111
 msgid "Local Options"
@@ -15548,7 +15544,7 @@ msgstr "ثورة"
 
 #: client/gui-xaw/menu.c:144
 msgid "City Growth"
-msgstr ""
+msgstr "توسع المدينة"
 
 #: client/gui-xaw/menu.c:188
 msgid "Unload Transporter"
@@ -15560,27 +15556,27 @@ msgstr "تحميل"
 
 #: client/gui-xaw/menu.c:197
 msgid "Connect/Road"
-msgstr ""
+msgstr "اتصال/طريق"
 
 #: client/gui-xaw/menu.c:198
 msgid "Connect/Rail"
-msgstr ""
+msgstr "اتصال/سكة حديد"
 
 #: client/gui-xaw/menu.c:199
 msgid "Connect/Irrigation"
-msgstr ""
+msgstr "اتصال/قناة الري"
 
 #: client/gui-xaw/menu.c:211
 msgid "Select Same Type"
-msgstr ""
+msgstr "إختيار نفس النوع"
 
 #: client/gui-xaw/menu.c:233 data/helpdata.txt:381
 msgid "Languages"
-msgstr "لغات"
+msgstr "اللغات"
 
 #: client/gui-xaw/menu.c:234 data/helpdata.txt:404
 msgid "Connecting"
-msgstr "جاري الاتصال"
+msgstr "الاتصال"
 
 #: client/gui-xaw/menu.c:235 data/helpdata.txt:432
 msgid "Controls"
@@ -15600,7 +15596,7 @@ msgstr "معركة"
 
 #: client/gui-xaw/menu.c:242
 msgid "ZOC"
-msgstr ""
+msgstr "مناطق المعارك"
 
 #: client/gui-xaw/menu.c:248 data/helpdata.txt:1413
 msgid "Space Race"
@@ -15623,7 +15619,7 @@ msgstr "مجهول"
 #: client/gui-xaw/repodlgs.c:514
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr ""
+msgstr "جاري البحث العلمي %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:245 client/gui-xaw/repodlgs.c:250
 #: client/gui-xaw/repodlgs.c:438 client/gui-xaw/repodlgs.c:525
@@ -15639,12 +15635,12 @@ msgstr "المجاميع: ..."
 #: client/gui-xaw/repodlgs.c:1140
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
-msgstr ""
+msgstr "المجموع:                     %9d%9d%9d%9d"
 
 #: manual/civmanual.c:120
 #, c-format
 msgid "Could not write manual file %s."
-msgstr ""
+msgstr "لا يمكن كتابة ملف الدليل %s."
 
 #: manual/civmanual.c:128
 #, c-format
@@ -15652,16 +15648,18 @@ msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
 msgstr ""
+"<h1>برنامج Freeciv %s خيارات الخادم</h1>\n"
+"\n"
 
 #: manual/civmanual.c:144
 #, c-format
 msgid "Level: %s.<br>"
-msgstr ""
+msgstr "المستوى: %s.<br>"
 
 #: manual/civmanual.c:145
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "الصنف: %s.<br>"
 
 #: manual/civmanual.c:148
 #, c-format
@@ -15671,12 +15669,12 @@ msgstr ""
 #: manual/civmanual.c:151
 #, c-format
 msgid "Can be changed during a game. "
-msgstr ""
+msgstr "يمكن تغييره خلال اللعبة. "
 
 #: manual/civmanual.c:153
 #, c-format
 msgid "Can <b>not</b> be changed during a game. "
-msgstr ""
+msgstr "لا <b>يمكن</b> التغيير خلال لعبة. "
 
 #: manual/civmanual.c:158
 #, c-format
@@ -15698,6 +15696,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">أقل حد: %d, الافتراضي: %d, أعلى حد: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -15705,6 +15705,8 @@ msgid ""
 "<p class=\"bounds\">Default: \"%s\"</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">الافتراضي: \"%s\"</p>\n"
+"\n"
 
 #: manual/civmanual.c:180
 #, c-format
@@ -15712,6 +15714,8 @@ msgid ""
 "<p class=\"changed\">Value set to %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"changed\">غيرت القيمة إلى %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:189
 #, c-format
@@ -15742,6 +15746,8 @@ msgid ""
 "<p class=\"level\">Level: %s</p>\n"
 "\n"
 msgstr ""
+"<p class=\"level\">المستوى: %s</p>\n"
+"\n"
 
 #: manual/civmanual.c:211
 #, c-format
@@ -15749,6 +15755,8 @@ msgid ""
 "<p>Description:</p>\n"
 "\n"
 msgstr ""
+"<p>الوصف:</p>\n"
+"\n"
 
 #: manual/civmanual.c:218
 #, c-format
@@ -15814,7 +15822,7 @@ msgstr "شرط"
 
 #: manual/civmanual.c:297
 msgid "Obsolete by"
-msgstr ""
+msgstr "يلغى ب"
 
 #: manual/civmanual.c:297
 msgid "More info"
@@ -15840,7 +15848,7 @@ msgstr "دبلوماسية"
 
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
-msgstr ""
+msgstr "تم الاتفاق على البنود التالية:"
 
 #: data/Freeciv.in:474 data/Freeciv.in:483
 msgid "Shared vision"
@@ -20598,7 +20606,6 @@ msgid ""
 msgstr ""
 
 #: data/nation/bosnia.ruleset:29
-#, fuzzy
 msgid "Ban"
 msgstr "الحظر"
 
@@ -21698,7 +21705,6 @@ msgid ""
 msgstr ""
 
 #: data/nation/libyan.ruleset:24
-#, fuzzy
 msgid "Dey"
 msgstr "دي"
 
@@ -22297,13 +22303,12 @@ msgid "Encik"
 msgstr ""
 
 #: data/nation/sioux.ruleset:3
-#, fuzzy
 msgid "Sioux"
 msgstr "مواطن من قبيلة السّو الأمريكية الهندية"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "?plural:قبيلة السّو الأمريكية الهندية"
 
 #: data/nation/sioux.ruleset:6
 msgid ""
