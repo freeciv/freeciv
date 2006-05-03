@@ -22624,15 +22624,12 @@ msgid "Fanatics"
 msgstr "Fanáticos"
 
 #: data/civ2/units.ruleset:374
-#, fuzzy
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
 msgstr ""
-"Sólo las naciones Fundamentalistas pueden producir unidades Fanáticas.\n"
-"\n"
-"Las naciones Fundamentalistas pueden mantener unidades Fanáticas sin gasto "
-"de producción."
+"Sólo las naciones Fundamentalistas pueden sustentar unidades Fanáticas sin "
+"la necesidad de pagar ningún escudo por su sustento."
 
 #: data/civ2/units.ruleset:625
 msgid "Elephants"
@@ -22725,21 +22722,18 @@ msgstr ""
 "defensivas, se obtiene un rescate de 100 monedas de oro."
 
 #: data/nation/aborigines.ruleset:3
-#, fuzzy
 msgid "Australian Aboriginal"
-msgstr "Australiano"
+msgstr "Aborigen australiano"
 
 #: data/nation/aborigines.ruleset:4
-#, fuzzy
 msgid "?plural:Aborigines"
-msgstr "Argentinos"
+msgstr "Aborígenes"
 
 #: data/nation/aborigines.ruleset:5 data/nation/australian.ruleset:5
 #: data/nation/maori.ruleset:5 data/nation/newzealand.ruleset:6
 #: data/nation/papuan.ruleset:5
-#, fuzzy
 msgid "Oceanian"
-msgstr "Océano"
+msgstr "Océanico"
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -22748,6 +22742,10 @@ msgid ""
 "to themselves with different names, including Koori, Yamaji, Nunga, and "
 "Murri."
 msgstr ""
+"Los aborígenes australianos son un colectivo de los habitantes originarios "
+"del Continente Australiano. Los aborígenes de diferentes partes de Australia "
+"se refieren a sí mismos con diferentes nombres, entre los que se encuentran "
+"los Koori, los Yamaji, los Nunga y los Murri."
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
@@ -22827,20 +22825,24 @@ msgid ""
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
+"Afganistán, comúnmente llamado el 'cruce de caminos de Asia Central, a "
+"tenido una historia turbulenta. A través de los tiempos, el país ha sido "
+"ocupado por muchas fuerzas, incluyendo el Impero Persa, Genghis Khan y "
+"Alejandro el Grande. El estado-nación de Afganistán, como es conocido hoy, "
+"surgió en 1746 cuando Ahmad Shah fundó el Imperio Durrani."
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
-msgstr ""
+msgstr "Emir"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:26
-#, fuzzy
 msgid "General Secretary"
-msgstr "Primer Secretario"
+msgstr "Secretario General"
 
 #: data/nation/afghani.ruleset:27
 msgid "Mullah"
-msgstr ""
+msgstr "Mullah"
 
 #: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:19
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:29
@@ -22860,14 +22862,12 @@ msgid "Prime Minister"
 msgstr "Primer Ministro"
 
 #: data/nation/algerian.ruleset:3
-#, fuzzy
 msgid "Algerian"
-msgstr "Estadounidense"
+msgstr "Argelino"
 
 #: data/nation/algerian.ruleset:4
-#, fuzzy
 msgid "?plural:Algerians"
-msgstr "Nigerianos"
+msgstr "Argelinos"
 
 #: data/nation/algerian.ruleset:5 data/nation/arab.ruleset:5
 #: data/nation/boer.ruleset:5 data/nation/carthaginian.ruleset:5
@@ -22877,9 +22877,8 @@ msgstr "Nigerianos"
 #: data/nation/nigerian.ruleset:5 data/nation/southafrican.ruleset:5
 #: data/nation/sudanese.ruleset:5 data/nation/swazi.ruleset:5
 #: data/nation/tunisian.ruleset:5 data/nation/zulu.ruleset:5
-#, fuzzy
 msgid "African"
-msgstr "Estadounidense"
+msgstr "Africano"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
