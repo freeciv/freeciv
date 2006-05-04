@@ -22885,6 +22885,8 @@ msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
 msgstr ""
+"Argelia es una nación árabe de África del Norte. Ha sido habitada "
+"históricamente por las gentes Bereberes."
 
 #: data/nation/american.ruleset:3 data/nation/american.ruleset:5
 #: data/nation/argentine.ruleset:6 data/nation/aztec.ruleset:5
@@ -22919,14 +22921,12 @@ msgid "Reverend"
 msgstr "Reverendo"
 
 #: data/nation/antarctican.ruleset:3
-#, fuzzy
 msgid "Antarctican"
-msgstr "Ártico"
+msgstr "Ántártico"
 
 #: data/nation/antarctican.ruleset:4
-#, fuzzy
 msgid "?plural:Antarcticans"
-msgstr "Marcianos"
+msgstr "Antárticos"
 
 #: data/nation/antarctican.ruleset:5 data/nation/martian.ruleset:5
 msgid "Fictional"
@@ -22934,7 +22934,7 @@ msgstr "Fantástico"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "Polo Sur Independiente, tierra de pingüinos."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -22972,9 +22972,8 @@ msgstr "Árabes"
 #: data/nation/tibetan.ruleset:5 data/nation/uyghur.ruleset:5
 #: data/nation/vietnamese.ruleset:5 data/nation/viking.ruleset:5
 #: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
-#, fuzzy
 msgid "Medieval"
-msgstr "Pasables"
+msgstr "Medieval"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -22985,14 +22984,12 @@ msgid "Caliph"
 msgstr "Califa"
 
 #: data/nation/aramean.ruleset:3
-#, fuzzy
 msgid "Aramean"
-msgstr "Estadounidense"
+msgstr "Arameo"
 
 #: data/nation/aramean.ruleset:4
-#, fuzzy
 msgid "?plural:Arameans"
-msgstr "Estadounidenses"
+msgstr "Arameos"
 
 #: data/nation/aramean.ruleset:5 data/nation/armenian.ruleset:5
 #: data/nation/assyrian.ruleset:5 data/nation/babylonian.ruleset:5
@@ -23004,25 +23001,24 @@ msgstr "Estadounidenses"
 #: data/nation/lankese.ruleset:5 data/nation/mayan.ruleset:5
 #: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
 #: data/nation/roman.ruleset:5 data/nation/sumerian.ruleset:5
-#, fuzzy
 msgid "Ancient"
-msgstr "Decentes"
+msgstr "Antiguo"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
 msgstr ""
+"Según cuenta la leyenda, los Arameos son desdencientes de Aram, el nieto "
+"de Noah."
 
 #: data/nation/armenian.ruleset:3
-#, fuzzy
 msgid "Armenian"
-msgstr "Estadounidense"
+msgstr "Armenio"
 
 #: data/nation/armenian.ruleset:4
-#, fuzzy
 msgid "?plural:Armenians"
-msgstr "Estadounidenses"
+msgstr "Armenios"
 
 #: data/nation/armenian.ruleset:5 data/nation/austrian.ruleset:5
 #: data/nation/bavarian.ruleset:5 data/nation/belgian.ruleset:5
@@ -23059,6 +23055,9 @@ msgid ""
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from Soviet in 1991 AD"
 msgstr ""
+"Según cuenta la leyenda, los Armenios son descendientes de Haik - el "
+"tátaranieto de Noah. La moderna República de Armenia ganó su Independencia "
+"de los Soviéticos en 1991."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -23072,6 +23071,8 @@ msgstr "Asirios"
 msgid ""
 "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
+"Assyria fue un imperio al norte de Mesopotamia, nombrado después de su "
+"capital Ashur."
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malka"
@@ -23100,6 +23101,11 @@ msgid ""
 "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita\" "
 "Peron."
 msgstr ""
+"Argentina se encuentra en la costa sureste de América del Sur. Desde la "
+"independencia de España en 1816, varios conflictos internos y externos han "
+"plagado el país. En las décadas posteriores a la Segunda Guerra Mundial, "
+"la política del país ha sido dominada por Juan Perón y su carismática "
+"esposa Eva \"Evita\" Perón."
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
@@ -23130,6 +23136,8 @@ msgid ""
 "Austria means Eastern Realm, given its position as the far east territory of "
 "the medieval Holy Roman Empire."
 msgstr ""
+"Austria significa Reino del Este, dado a su posición lejos en el territorio "
+"medieval del Imperio Sagrado Romano, en el Este."
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
@@ -23147,18 +23155,19 @@ msgid ""
 "15th century AD, reviving the practice of human sacrifice.  They were "
 "conquered by the Spanish under Cortez in 1524."
 msgstr ""
-"La bárbara civilización azteca procedía del desierto de Sonora.  Durante el "
-"siglo XV consiguió controlar las civilizaciones descendientes de los "
-"toltecas que ocupaban el centro de México y reimplantó la práctica de los "
-"sacrificios humanos.  Hernán Cortés la conquistó para España en 1524."
+"Los Aztecas, una gente procedente del desierto Sonoran y que habla el "
+"Nahuatl, agarraon el control de las civilizaciones derivadas del Toltec "
+"de Centro México durante el siglo XV D.C., reviviendo la práctica del "
+"sacrificio humano. Fueron conquistados por los Españoles bajo Cortés en "
+"1524."
 
 #: data/nation/aztec.ruleset:21
 msgid "Tlatoani"
-msgstr ""
+msgstr "Tlatoani"
 
 #: data/nation/aztec.ruleset:22
 msgid "Huey Tlatoani"
-msgstr ""
+msgstr "Huey Tlatoani"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -23191,6 +23200,8 @@ msgid ""
 "Since the dawn of civilization, barbarians have been a threat to cultured "
 "peoples everywhere."
 msgstr ""
+"Desce el alba de la Civilización, los bárbaros han sido una amenaza para "
+"la gente culturizada en todos sitios."
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -23233,9 +23244,8 @@ msgid "Bengali"
 msgstr ""
 
 #: data/nation/bengali.ruleset:4
-#, fuzzy
 msgid "?plural:Bengalis"
-msgstr "Ingleses"
+msgstr "Bengalíes"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -23245,15 +23255,19 @@ msgid ""
 "eastern part of the region, while the western part is the Indian state of "
 "West Bengal."
 msgstr ""
+"Bengala es una región muy al Este del subcontinente Indio. El primer rey "
+"que marcó una independencia en el Pueblo Bengalí fue Shashanka, quien "
+"reinó sobre el año 606 D.C. Hoy en día, la gente de la República de "
+"Bangladesh ocupan la parte este de la región, mientras que la parte oeste "
+"es el estado indio de Bengala Oeste."
 
 #: data/nation/bengali.ruleset:26
 msgid "Nabob"
-msgstr ""
+msgstr "Nabab"
 
 #: data/nation/bengali.ruleset:27
-#, fuzzy
 msgid "Major"
-msgstr "Albañilería"
+msgstr "Mayor"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -23287,11 +23301,12 @@ msgid ""
 "Bosnia and Herzegovina is a country in south-east Europe, and the home of "
 "three constituent peoples: Bosniaks, Serbs, and Croats."
 msgstr ""
+"Bosnia Herzegovina es un país en el sureste de Europa, y la casa de sus "
+"tres gentes constituyentes: Bosnios, Serbios y Croatas."
 
 #: data/nation/bosnia.ruleset:29
-#, fuzzy
 msgid "Ban"
-msgstr "Banco"
+msgstr "Prohibición"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -23336,14 +23351,12 @@ msgid "Director-President"
 msgstr "Director-Presidente"
 
 #: data/nation/british.ruleset:3
-#, fuzzy
 msgid "British"
-msgstr "Irlandés"
+msgstr "Británico"
 
 #: data/nation/british.ruleset:4
-#, fuzzy
 msgid "?plural:Britons"
-msgstr "Bávaros"
+msgstr "Británicos"
 
 #: data/nation/british.ruleset:6
 msgid ""
