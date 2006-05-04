@@ -1,6 +1,5 @@
 [nation_newzealand]
 
-; Nation name should be "New Zealandic" (like "Icelandic") for consistency.
 name=_("New Zealand")
 plural=_("?plural:New Zealanders")
 groups=_("Modern"), _("Oceanian")
@@ -28,7 +27,6 @@ init_government="Despotism"
 init_units=""
 civilwar_nations="maori", "british"
 
-; Part of this city list can be moved to Maori nation
 cities =
  "Wellington (hills, ocean)",
  "Auckland (hills, ocean)",

@@ -1,6 +1,5 @@
 [nation_venezuelan]
 
-; Nation name should be "Venezuelan" for consistency.
 name=_("Venezuela")
 plural=_("?plural:Venezuelans")
 groups=_("American"), _("Modern")
