@@ -47,6 +47,7 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
+#include "gui_mouse.h"
 #include "gui_stuff.h"
 #include "gui_zoom.h"
 #include "mapctrl.h"
@@ -982,12 +983,6 @@ void update_unit_info_label(struct unit_list *punitlist)
   } else {
     disable_focus_animation();
   }
-}
-
-void update_mouse_cursor(enum cursor_type new_cursor_type)
-{
-  mouse_cursor_type = new_cursor_type;
-  mouse_cursor_changed = TRUE;
 }
 
 void update_timeout_label(void)

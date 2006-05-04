@@ -394,43 +394,6 @@ void tilespec_setup_theme(void)
   return;
 }
 
-/* Code come from SDL-dev list */
-SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
-        int             w, x, y;
-        Uint8           *data, *mask, *d, *m, r, g, b, a;
-        Uint32          color;
-        SDL_Cursor      *cursor;
-
-        w = (image->w + 7) / 8;
-        data = (Uint8 *)fc_calloc(1, w * image->h * 2);
-        if (data == NULL)
-                return NULL;
-        /*memset(data, 0, w * image->h * 2);*/
-        mask = data + w * image->h;
-	lock_surf(image);
-        for (y = 0; y < image->h; y++) {
-                d = data + y * w;
-                m = mask + y * w;
-                for (x = 0; x < image->w; x++) {
-                        color = getpixel(image, x, y);
-                        SDL_GetRGBA(color, image->format, &r, &g, &b, &a);                    
-                        if (((image->flags & SDL_SRCCOLORKEY) == 0)
-			    || (a != 0)) {
-                                color = (r + g + b) / 3;
-                                m[x / 8] |= 128 >> (x & 7);
-                                if (color < 128)
-                                        d[x / 8] |= 128 >> (x & 7);
-                        }
-                }
-        }
-	unlock_surf(image);
-        
-        cursor = SDL_CreateCursor(data, mask, w * 8, image->h, hx, hy);
-	
-	FC_FREE(data);
-        return cursor;
-}
-
 /*
  *	Free memmory
  */

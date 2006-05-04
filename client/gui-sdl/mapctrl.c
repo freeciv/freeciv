@@ -48,6 +48,7 @@
 #include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
+#include "gui_mouse.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
@@ -1969,8 +1970,7 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
       case MB_HOLD_MEDIUM:
         /* switch to goto mode */
         key_unit_goto();
-        mouse_cursor_type = CURSOR_GOTO;      
-        mouse_cursor_changed = TRUE;
+        update_mouse_cursor(CURSOR_GOTO);
         break;
       case MB_HOLD_LONG:
 #ifdef UNDER_CE
@@ -1978,8 +1978,7 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
          * only one 'mouse button' */
         key_cancel_action();
         draw_goto_patrol_lines = FALSE;
-        mouse_cursor_type = CURSOR_DEFAULT;
-        mouse_cursor_changed = TRUE;
+        update_mouse_cursor(CURSOR_DEFAULT);      
         /* popup context menu */
         if ((ptile = canvas_pos_to_tile((int) button_behavior->event->x,
                                         (int) button_behavior->event->y))) {
@@ -2056,24 +2055,21 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
             }		      
           }
         } else {
-          mouse_cursor_type = CURSOR_DEFAULT;
-          mouse_cursor_changed = TRUE;
+          update_mouse_cursor(CURSOR_DEFAULT);
           action_button_pressed(button_behavior->event->x,
                                      button_behavior->event->y, SELECT_POPUP);
         }
         break;
       case MB_HOLD_MEDIUM:
         /* finish goto */
-        mouse_cursor_type = CURSOR_DEFAULT;
-        mouse_cursor_changed = TRUE;
+        update_mouse_cursor(CURSOR_DEFAULT);
         action_button_pressed(button_behavior->event->x,
                                      button_behavior->event->y, SELECT_POPUP);
         break;
       case MB_HOLD_LONG:
 #ifndef UNDER_CE
         /* finish goto */
-        mouse_cursor_type = CURSOR_DEFAULT;
-        mouse_cursor_changed = TRUE;
+        update_mouse_cursor(CURSOR_DEFAULT);
         action_button_pressed(button_behavior->event->x,
                                      button_behavior->event->y, SELECT_POPUP);
 #endif
@@ -2127,8 +2123,7 @@ bool map_event_handler(SDL_keysym Key)
     case SDLK_ESCAPE:
       key_cancel_action();
       draw_goto_patrol_lines = FALSE;
-      mouse_cursor_type = CURSOR_DEFAULT;
-      mouse_cursor_changed = TRUE;
+      update_mouse_cursor(CURSOR_DEFAULT);
     return FALSE;
 
     case SDLK_UP:

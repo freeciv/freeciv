@@ -84,8 +84,6 @@ extern bool LALT;
 extern bool do_focus_animation;
 extern int city_names_font_size;
 extern int city_productions_font_size;
-extern enum cursor_type mouse_cursor_type;
-extern bool mouse_cursor_changed;
 
 void force_exit_from_event_loop(void);
 void enable_focus_animation(void);

@@ -59,6 +59,7 @@
 #include "diplodlg.h"
 #include "graphics.h"
 #include "gui_id.h"
+#include "gui_mouse.h"
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "inteldlg.h"
@@ -97,9 +98,6 @@ bool LCTRL;
 bool RCTRL;
 bool LALT;
 bool do_focus_animation = TRUE;
-enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
-bool mouse_cursor_changed = FALSE;
-bool do_cursor_animation = TRUE;
 int city_names_font_size = 12;
 int city_productions_font_size = 12;
 
@@ -359,8 +357,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
   }
       
   if ((pWidget = MainWidgetListScaner(pMotionEvent->x, pMotionEvent->y)) != NULL) {
-    SDL_SetCursor(pStd_Cursor);
-    mouse_cursor_changed = FALSE;
+    update_mouse_cursor(CURSOR_DEFAULT);
     widget_sellected_action(pWidget);
   } else {
     if (pSellected_Widget) {
@@ -447,26 +444,6 @@ static void game_focused_unit_anim(void)
   }
   
   return;
-}
-
-static void game_cursors_anim(void)
-{
-  static int cursor_frame = 0;
-
-  if (!mouse_cursor_changed) {
-    return;
-  }
-  
-  if (mouse_cursor_type == CURSOR_DEFAULT) {
-    SDL_SetCursor(pStd_Cursor);
-    mouse_cursor_changed = FALSE;
-  } else {
-    if (!do_cursor_animation || (cursor_frame == NUM_CURSOR_FRAMES)) {
-      cursor_frame = 0;
-    }
-  
-    SDL_SetCursor(fc_cursors[mouse_cursor_type][cursor_frame++]);    
-  }
 }
 
 static int check_scroll_area(int x, int y) {
@@ -726,7 +703,7 @@ Uint16 gui_event_loop(void *pData,
 	  break;
 	  case ANIM:
 	    game_focused_unit_anim();
-	    game_cursors_anim();
+	    animate_mouse_cursor();
 	  break;
 	  case SHOW_WIDGET_INFO_LABBEL:
 	    draw_widget_info_label();
