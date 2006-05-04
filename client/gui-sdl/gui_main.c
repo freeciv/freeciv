@@ -1052,7 +1052,7 @@ void remove_net_input(void)
   freelog(LOG_DEBUG, "Connection DOWN... ");
   disable_focus_animation();
   draw_goto_patrol_lines = FALSE;
-  SDL_SetCursor(pStd_Cursor);
+  update_mouse_cursor(CURSOR_DEFAULT);
 }
 
 /**************************************************************************

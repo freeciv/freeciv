@@ -255,12 +255,6 @@ int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
 
 extern struct main Main;
   
-extern SDL_Cursor *pStd_Cursor;
-extern SDL_Cursor *pGoto_Cursor;
-extern SDL_Cursor *pDrop_Cursor;
-extern SDL_Cursor *pNuke_Cursor;
-extern SDL_Cursor *pPatrol_Cursor;
-
 void unload_cursors(void);
 
 SDL_Surface *get_logo_gfx(void);

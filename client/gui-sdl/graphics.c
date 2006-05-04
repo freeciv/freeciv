@@ -56,12 +56,6 @@ struct main Main;
 
 static SDL_Surface *pIntro_gfx = NULL;
 
-SDL_Cursor *pStd_Cursor;
-SDL_Cursor *pGoto_Cursor;
-SDL_Cursor *pDrop_Cursor;
-SDL_Cursor *pNuke_Cursor;
-SDL_Cursor *pPatrol_Cursor;
-
 /* ============ FreeCiv sdl graphics function =========== */
 
 #ifdef USE_ALPHABLIT

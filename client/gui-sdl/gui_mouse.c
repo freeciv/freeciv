@@ -31,6 +31,8 @@ bool do_cursor_animation = TRUE;
 enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 bool mouse_cursor_changed = FALSE;
 
+SDL_Cursor *pStd_Cursor;
+
 /**************************************************************************
   convert SDL surface to SDL cursor format (code from SDL-dev mailing list)
 **************************************************************************/
@@ -111,10 +113,6 @@ void unload_cursors(void)
   }
   
   SDL_FreeCursor(pStd_Cursor);
-  SDL_FreeCursor(pGoto_Cursor);
-  SDL_FreeCursor(pDrop_Cursor);
-  SDL_FreeCursor(pNuke_Cursor);
-  SDL_FreeCursor(pPatrol_Cursor);
   return;
 }
 
