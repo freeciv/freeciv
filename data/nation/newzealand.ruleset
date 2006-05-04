@@ -1,10 +1,8 @@
 [nation_newzealand]
 
-; Nation name should be "New Zealandic" (like "Icelandic") for consistency.
 name=_("New Zealand")
 plural=_("?plural:New Zealanders")
 groups=_("Modern"), _("Oceanian")
-conflicts_with="australian"	; Similar flags
 legend=_("The island group of New Zealand was annexed by Britain in 1840.\
  Following a royal proclamation in 1907, the country became an independent\
  dominion within the Commonwealth of Nations.")
@@ -26,9 +24,11 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
+
+; Similar flags
+conflicts_with="australian"
 civilwar_nations="maori", "british"
 
-; Part of this city list can be moved to Maori nation
 cities =
  "Wellington (hills, ocean)",
  "Auckland (hills, ocean)",

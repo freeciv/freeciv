@@ -1,7 +1,6 @@
 [nation_venezuelan]
 
-; Nation name should be "Venezuelan" for consistency.
-name=_("Venezuela")
+name=_("Venezuelan")
 plural=_("?plural:Venezuelans")
 groups=_("American"), _("Modern")
 ; /* TRANS: The fourth letter in "Simon" should be */

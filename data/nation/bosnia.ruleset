@@ -1,7 +1,6 @@
 [nation_bosnia]
 
-; Nation name should be "Bosnian-Herzegovinian" for consistency.
-name=_("Bosnia & Herzegovina")
+name=_("Bosnian-Herzegovinian")
 plural=_("?plural:Bosnians")
 groups=_("Modern"), _("European")
 legend=_("Bosnia and Herzegovina is a country in south-east Europe, and the\
