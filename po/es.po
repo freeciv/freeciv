@@ -23365,41 +23365,43 @@ msgid ""
 "Great Britain - became the leading industrial and maritime power in the 19th "
 "century."
 msgstr ""
+"El Reino Unido fue creado en 1707 como acuerdo entre el reino de Inglaterra "
+"y el reino de Escocia. El país, también conocido como Gran Bretaña, se "
+"convirtió en el líder de la Industria y en una potencia marítima durante "
+"el siglo XIX."
 
 #: data/nation/bulgarian.ruleset:3
-#, fuzzy
 msgid "Bulgarian"
-msgstr "Húngaro"
+msgstr "Búlgaro"
 
 #: data/nation/bulgarian.ruleset:4
-#, fuzzy
 msgid "?plural:Bulgarians"
-msgstr "Húngaros"
+msgstr "Búlgaros"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
 "Bulgar leader Khan Asparukh led his people into the northern Balkans, and "
 "founded Bulgaria in 681. This was the first Slavic nation-state in history."
 msgstr ""
+"El líder búlgaro Khan Asparukh llevó a esta gente al norte de los Balcanes "
+"y fundó Bulgaria en 681. Esta fue la primera nación-estado eslava in la "
+"Historia."
 
 #: data/nation/bulgarian.ruleset:33
-#, fuzzy
 msgid "Tzar"
 msgstr "Zar"
 
 #: data/nation/bulgarian.ruleset:33
-#, fuzzy
 msgid "Tzaritza"
 msgstr "Zarina"
 
 #: data/nation/bulgarian.ruleset:36
-#, fuzzy
-msgid "Drugariat"
-msgstr "Húngaro"
+msgid "Drugarita"
+msgstr "Drugarita"
 
 #: data/nation/bulgarian.ruleset:36
 msgid "Drugarkata"
-msgstr ""
+msgstr "Drugarkata"
 
 #: data/nation/bulgarian.ruleset:37 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
@@ -23408,45 +23410,43 @@ msgstr "Patriarca"
 
 #: data/nation/bulgarian.ruleset:37
 msgid "Sveta Maika"
-msgstr ""
+msgstr "Maika del Sveta"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr ""
+msgstr "Birmanio"
 
 #: data/nation/burmese.ruleset:4
-#, fuzzy
 msgid "?plural:Burmese"
-msgstr "Turcos"
+msgstr "Birmanios"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
 msgstr ""
+"La Unión de Birmania (oficialmente \"Myanmar\") es el país más grande in "
+"la península de Asia del Sureste."
 
 #: data/nation/burmese.ruleset:26
 msgid "Bohmugyi"
-msgstr ""
+msgstr "Bohmugyi"
 
 #: data/nation/burmese.ruleset:27
 msgid "Saya"
-msgstr ""
+msgstr "Saya"
 
 #: data/nation/burmese.ruleset:27
-#, fuzzy
 msgid "Sayama"
-msgstr "Mapa marítimo"
+msgstr "Sayama"
 
 #: data/nation/byzantium.ruleset:3
-#, fuzzy
 msgid "Byzantine"
-msgstr "Banca"
+msgstr "Bizantino"
 
 #: data/nation/byzantium.ruleset:4
-#, fuzzy
 msgid "?plural:Byzantines"
-msgstr "Argentinos"
+msgstr "Bizantinos"
 
 #: data/nation/byzantium.ruleset:6
 msgid ""
@@ -23457,11 +23457,16 @@ msgid ""
 "I, the Byzanines controlled nearly all of Middle East, nothern Africa, Italy "
 "and parts of Spain."
 msgstr ""
+"En el momento de la decadencia del Imperio Romano, el Emperador Constantino "
+"movió la capital del imperio a Bizantio y formó un nuevo imperio conocido "
+"como el imperio de Roma del Este o el Imperio Bizantino. Este imperio duró "
+"hasta 1453 cuando su capital calló en manos de los Otomanos. Al tiempo que "
+"Justiniano I, los Bizantinos controlaron casi todo el Medio Este, el norte "
+"de África, Italia y parte de España."
 
 #: data/nation/byzantium.ruleset:27
-#, fuzzy
 msgid "Basileus"
-msgstr "Oasis"
+msgstr "Basileus"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
@@ -23476,6 +23481,8 @@ msgid ""
 "Canada is the geographically northernmost country in world: The Magnetic "
 "North Pole currently lies on Canadian territory."
 msgstr ""
+"Canadá es el país más al norte geográficamente hablando: De hecho, el Polo "
+"Norte Magnético reside en territorio canadiense."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -23607,14 +23614,12 @@ msgid "Dowager"
 msgstr "Mandarín"
 
 #: data/nation/colombian.ruleset:3
-#, fuzzy
 msgid "Colombian"
 msgstr "Colombiano"
 
 #: data/nation/colombian.ruleset:4
-#, fuzzy
 msgid "?plural:Colombians"
-msgstr "Colombiano"
+msgstr "Colombianos"
 
 #: data/nation/colombian.ruleset:6
 msgid ""
@@ -23623,36 +23628,34 @@ msgid ""
 "Colombia's north coast around 1500. In 1819 the The Republic of Colombia "
 "gained independence."
 msgstr ""
+"Colombia es un país situado al norte de Sudamérica. La región fue un "
+"centro cultural de la América India en los tiempos pre-Europeos. Los "
+"Españoles comenzaron a colonizar el norte de la costa colombiana alrededor "
+"del año 1500. En 1819 la República de Colombia adquirió su independencia."
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:23
-#, fuzzy
 msgid "General"
-msgstr "Internas"
+msgstr "General"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:32
-#, fuzzy
 msgid "Governador"
-msgstr "Governador"
+msgstr "Gobernador"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:32
-#, fuzzy
 msgid "Governadora"
-msgstr "Governador"
+msgstr "Gobernadora"
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Celebraciones"
+msgstr "Confederado"
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "Bóers"
+msgstr "Confederados"
 
 #: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
-#, fuzzy
 msgid "Transitional"
-msgstr "Fantástico"
+msgstr "Transicional"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -23661,6 +23664,11 @@ msgid ""
 "but had to abandon their claims of independence a few years later after "
 "several military defeats by United States troops."
 msgstr ""
+"Los Estados Confederados de América fueron una nación astilla de los Estados "
+"Unidos durante la Guerra Civil Americana. Fueron formados en el año 1861 "
+"por seis estados del Sur, pero tuvieron que abandonar sus ánimos de "
+"independencia unos años más tarde, cuando varios militares fueron derrotados "
+"por tropas estadounidenses."
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -23705,14 +23713,12 @@ msgstr ""
 "formado parte de la Federación Yugoslava."
 
 #: data/nation/cuban.ruleset:3
-#, fuzzy
 msgid "Cuban"
-msgstr "Colombiano"
+msgstr "Cubano"
 
 #: data/nation/cuban.ruleset:4
-#, fuzzy
 msgid "?plural:Cubans"
-msgstr "Colombiano"
+msgstr "Cubanos"
 
 #: data/nation/cuban.ruleset:6
 msgid ""
@@ -23720,6 +23726,9 @@ msgid ""
 "centuries, the island became one of the leading producers of tobacco, sugar "
 "and coffee in the world. Cuba was granted nominal independence in 1902."
 msgstr ""
+"Cuba se puso bajo control Español en el siglo XVI. En los siglos "
+"posteriores, la isla se puso al frente de la producción tabacera, de azúcar "
+"y de café en todo el mundo. Cuba recibió su independencia en 1902."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -23779,6 +23788,10 @@ msgid ""
 "forming the Union of Utrecht in 1579. The Netherlands grew to be a dominant "
 "maritime and economic power in the 17th century."
 msgstr ""
+"Cuando el Sagrado Emperador Romano sentenció a toda la población a muerte, "
+"la gente de los Países Bajos se amotinó y se proclamó autoindependiente, "
+"formando la Unión de Utrech en 1579. Los Países Bajos crecieron hasta ser "
+"una potencia marítima y económica en el siglo XVII."
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
@@ -23861,6 +23874,8 @@ msgid ""
 "Ethiopia is the oldest nation in Africa and the only one to remain "
 "independent during European colonialism."
 msgstr ""
+"Etiopía es una de las naciones más viejas de África y la única que ha "
+"permanecido independiente durante el colonialismo europeo."
 
 #: data/nation/ethiopian.ruleset:24
 msgid "Emporer"
@@ -23913,6 +23928,9 @@ msgid ""
 "Napoleon and Charlemagne each united large parts of Europe under the French "
 "flag."
 msgstr ""
+"Francia siempre ha sido una gran potencia en Europa. Conquistadores "
+"franceses como Napoleón y Carlo Magno unieron grandes partes de Europa "
+"bajo la bandera francesa."
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
@@ -23928,7 +23946,7 @@ msgstr "Gallegos"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
-msgstr ""
+msgstr "Galicia es una región al norte de España, justo encima de Portugal."
 
 #: data/nation/galician.ruleset:22
 msgid "Primeiro Ministro"
@@ -23961,34 +23979,31 @@ msgid "Grande Bardesa"
 msgstr "Grande Bardesa"
 
 #: data/nation/gallic.ruleset:3
-#, fuzzy
 msgid "Gallic"
-msgstr "Gallego"
+msgstr "Galo"
 
 #: data/nation/gallic.ruleset:4
-#, fuzzy
 msgid "?plural:Gauls"
-msgstr "Zulúes"
+msgstr "Galos"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
 "The Gauls were a Celtic people occupying what is now France and Belgium."
 msgstr ""
+"Los Galos fueron una gente celta que ocuparon lo que ahora se conoce como "
+"Francia y Bélgica."
 
 #: data/nation/gallic.ruleset:23
-#, fuzzy
 msgid "Druid"
-msgstr "Fruta"
+msgstr "Druída"
 
 #: data/nation/georgian.ruleset:3
-#, fuzzy
 msgid "Georgian"
-msgstr "Alemán"
+msgstr "Georgiano"
 
 #: data/nation/georgian.ruleset:4
-#, fuzzy
 msgid "?plural:Georgians"
-msgstr "Alemanes"
+msgstr "Georgianos"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
