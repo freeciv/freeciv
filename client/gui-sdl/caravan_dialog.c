@@ -214,7 +214,7 @@ void popup_caravan_dialog(struct unit *pUnit,
   /* redraw */
   redraw_group(pCaravan_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************

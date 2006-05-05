@@ -173,7 +173,7 @@ static int cities_action_callback(struct GUI *pButton)
 static int end_turn_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
-  flush_rect(pButton->size);
+  flush_rect(pButton->size, FALSE);
   disable_focus_animation();
   key_end_turn();
   return -1;
@@ -781,7 +781,7 @@ static void popup_minimap_scale_dialog(void)
   
   /* -------------------- */
   redraw_group(pScall_MiniMap_Dlg->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   
 }
 #endif
@@ -1034,7 +1034,7 @@ static void popup_unitinfo_scale_dialog(void)
   
   /* -------------------- */
   redraw_group(pScall_UnitInfo_Dlg->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   
 }
 
@@ -2479,7 +2479,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   /* redraw */
   redraw_group(pEdit, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************
@@ -2508,7 +2508,7 @@ void set_turn_done_button_state(bool state)
       set_wstate(pNew_Turn_Button, FC_WS_DISABLED);
     }
     redraw_icon(pNew_Turn_Button);
-    flush_rect(pNew_Turn_Button->size);
+    flush_rect(pNew_Turn_Button->size, FALSE);
   }
 }
 

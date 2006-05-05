@@ -378,7 +378,7 @@ void update_conn_list_dialog(void)
       /* redraw */
       redraw_group(pConnDlg->pBeginWidgetList, pConnDlg->pEndWidgetList, 0);
 
-      flush_rect(pConnDlg->pEndWidgetList->size);
+      flush_rect(pConnDlg->pEndWidgetList->size, FALSE);
     } else {
       popup_conn_list_dialog();
     }

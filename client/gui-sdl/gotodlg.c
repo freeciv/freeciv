@@ -198,7 +198,7 @@ static void update_goto_dialog(void)
     
   /* redraw */
   redraw_group(pGotoDlg->pBeginWidgetList, pGotoDlg->pEndWidgetList, 0);
-  flush_rect(pGotoDlg->pEndWidgetList->size);
+  flush_rect(pGotoDlg->pEndWidgetList->size, FALSE);
   
 }
 

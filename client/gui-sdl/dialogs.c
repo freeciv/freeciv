@@ -329,7 +329,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
     
   /* redraw */
   redraw_group(pNotifyDlg->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* =======================================================================*/
@@ -739,7 +739,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   /* redraw */
   redraw_group(pUnit_Select_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* ====================================================================== */
@@ -1615,7 +1615,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   /* redraw */
   redraw_group(pAdvanced_Terrain_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* ====================================================================== */
@@ -1763,7 +1763,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   /* redraw */
   redraw_group(pPillage_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* ======================================================================= */
@@ -1968,7 +1968,7 @@ static void popup_government_dialog(void)
   /* redraw */
   redraw_group(pGov_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************
@@ -2114,7 +2114,7 @@ static void change_nation_label(void);
 static int nations_dialog_callback(struct GUI *pWindow)
 {
   if(sellect_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
-    flush_rect(pWindow->size);
+    flush_rect(pWindow->size, FALSE);
   }      
   return -1;
 }
@@ -2133,7 +2133,7 @@ static int races_dialog_ok_callback(struct GUI *pStart_Button)
     pSellected_Widget = pStart_Button;
     set_wstate(pStart_Button, FC_WS_SELLECTED);
     redraw_tibutton(pStart_Button);
-    flush_rect(pStart_Button->size);
+    flush_rect(pStart_Button->size, FALSE);
     return (-1);
   }
 
@@ -2167,7 +2167,7 @@ static int change_sex_callback(struct GUI *pSex)
     set_wstate(pSex, FC_WS_SELLECTED);
 
     redraw_ibutton(pSex);
-    flush_rect(pSex->size);
+    flush_rect(pSex->size, FALSE);
   }
   return -1;
 }
@@ -2349,7 +2349,7 @@ static int nation_button_callback(struct GUI *pNationButton)
       
     if (pSetup->nation == MAX_ID - pNationButton->ID) {
       redraw_widget(pNationButton);
-      flush_rect(pNationButton->size);
+      flush_rect(pNationButton->size, FALSE);
       return -1;
     }
   
@@ -2364,7 +2364,7 @@ static int nation_button_callback(struct GUI *pNationButton)
     select_random_leader(pSetup->nation);
     
     redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-    flush_rect(pNationDlg->pEndWidgetList->size);
+    flush_rect(pNationDlg->pEndWidgetList->size, FALSE);
   } else {
     /* pop up legend info */
     int w = 0, h;
@@ -2917,7 +2917,7 @@ void popup_races_dialog(struct player *pplayer)
   
   redraw_group(pNationDlg->pBeginWidgetList, pWindow, 0);
   
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************
@@ -2985,5 +2985,5 @@ void races_toggles_set_sensitive()
     select_random_leader(pSetup->nation);
   }
   redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-  flush_rect(pNationDlg->pEndWidgetList->size);
+  flush_rect(pNationDlg->pEndWidgetList->size, FALSE);
 }

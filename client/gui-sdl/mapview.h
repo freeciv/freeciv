@@ -34,7 +34,7 @@ SDL_Surface * get_terrain_surface(struct tile *ptile);
 void toggle_overview_mode(void);
 void refresh_overview(void);
 
-void flush_rect(SDL_Rect rect);
+void flush_rect(SDL_Rect rect, bool force_flush);
 void sdl_dirty_rect(SDL_Rect rect);
 void unqueue_flush(void);
 void queue_flush(void);

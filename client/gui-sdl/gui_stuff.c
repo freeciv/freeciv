@@ -476,7 +476,7 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     redraw_horiz(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -502,7 +502,7 @@ Uint16 widget_pressed_action(struct GUI * pWidget)
     set_wstate(pWidget, FC_WS_PRESSED);
     ID = pWidget->ID;
     redraw_textcheckbox(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
     set_wstate(pWidget, FC_WS_SELLECTED);
     togle_checkbox(pWidget);
     SDL_Delay(300);
@@ -572,7 +572,7 @@ void unsellect_widget_action(void)
       break;
     }
 
-    flush_rect(pSellected_Widget->size);
+    flush_rect(pSellected_Widget->size, FALSE);
 
     /* turn off quick info timer/counter */ 
     widget_info_counter = 0;
@@ -582,7 +582,7 @@ void unsellect_widget_action(void)
 End:
 
   if (pInfo_Area) {
-    flush_rect(*pInfo_Area);
+    flush_rect(*pInfo_Area, FALSE);
     FC_FREE(pInfo_Area);
     FREESURFACE(pInfo_Label);    
   }
@@ -643,7 +643,7 @@ void widget_sellected_action(struct GUI *pWidget)
   }
 
   if (get_wstate(pWidget) == FC_WS_SELLECTED) {
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
     pSellected_Widget = pWidget;
     if (get_wflags(pWidget) & WF_WIDGET_HAS_INFO_LABEL) {
       widget_info_counter = 1;
@@ -1257,10 +1257,10 @@ int std_move_window_group_callback(struct GUI *pBeginWidgetList,
   if (move_window_group_dialog(pBeginWidgetList, pWindow)) {
     sellect_window_group_dialog(pBeginWidgetList, pWindow);
     redraw_group(pBeginWidgetList, pWindow, 0);
-    flush_rect(pWindow->size);
+    flush_rect(pWindow->size, FALSE);
   } else {
     if(sellect_window_group_dialog(pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size);
+      flush_rect(pWindow->size, FALSE);
     }
   }
   return (-1);
@@ -2179,7 +2179,7 @@ static int std_up_advanced_dlg(struct GUI *pWidget)
   pSellected_Widget = pWidget;
   set_wstate(pWidget, FC_WS_SELLECTED);
   redraw_tibutton(pWidget);
-  flush_rect(pWidget->size);
+  flush_rect(pWidget->size, FALSE);
   return -1;
 }
 
@@ -2203,7 +2203,7 @@ static int std_down_advanced_dlg(struct GUI *pWidget)
   pSellected_Widget = pWidget;
   set_wstate(pWidget, FC_WS_SELLECTED);
   redraw_tibutton(pWidget);
-  flush_rect(pWidget->size);
+  flush_rect(pWidget->size, FALSE);
   return -1;
 }
 
@@ -2226,7 +2226,7 @@ static int std_vscroll_advanced_dlg(struct GUI *pScrollBar)
   set_wstate(pScrollBar, FC_WS_SELLECTED);
   pSellected_Widget = pScrollBar;
   redraw_vert(pScrollBar);
-  flush_rect(pScrollBar->size);
+  flush_rect(pScrollBar->size, FALSE);
   return -1;
 }
 
@@ -3390,7 +3390,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
     pInputChain_TMP = pInputChain_TMP->next;
   }	/* while - draw loop */
 
-  flush_rect(pEdt->pWidget->size);
+  flush_rect(pEdt->pWidget->size, FALSE);
   
 }
 

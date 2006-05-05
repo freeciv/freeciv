@@ -151,7 +151,7 @@ static void redraw_impr_info_dlg(void)
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 
@@ -509,7 +509,7 @@ static void redraw_unit_info_dlg(void)
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 
@@ -945,7 +945,7 @@ static void redraw_tech_info_dlg(void)
   FREESTRING16(pStr);
   
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *pWindow, struct TECHS_BUTTONS *pStore)
@@ -1534,7 +1534,7 @@ static void redraw_tech_tree_dlg(void)
   /* Redraw rest */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
   
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 static int toggle_full_tree_mode_in_help_dlg_callback(struct GUI *pWidget)

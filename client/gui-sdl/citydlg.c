@@ -222,7 +222,7 @@ static int city_dlg_callback(struct GUI *pWindow)
   
   if(!pCityDlg->lock &&
     	sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
-    flush_rect(pWindow->size);
+    flush_rect(pWindow->size, FALSE);
   }      
   return -1;
 }
@@ -616,7 +616,7 @@ static int units_orders_city_dlg_callback(struct GUI *pButton)
   /* ================================================== */
   /* redraw */
   redraw_group(pCityDlg->pBeginCityMenuWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   return -1;
 }
 
@@ -823,7 +823,7 @@ static int army_city_dlg_callback(struct GUI *pButton)
     flush_dirty();
   } else {
     redraw_icon(pButton);
-    flush_rect(pButton->size);
+    flush_rect(pButton->size, FALSE);
   }
 
   return -1;
@@ -841,7 +841,7 @@ static int supported_unit_city_dlg_callback(struct GUI *pButton)
     flush_dirty();
   } else {
     redraw_icon(pButton);
-    flush_rect(pButton->size);
+    flush_rect(pButton->size, FALSE);
   }
 
   return -1;
@@ -861,7 +861,7 @@ static int info_city_dlg_callback(struct GUI *pButton)
     flush_dirty();
   } else {
     redraw_icon(pButton);
-    flush_rect(pButton->size);
+    flush_rect(pButton->size, FALSE);
   }
 
   return -1;
@@ -880,7 +880,7 @@ static int happy_city_dlg_callback(struct GUI *pButton)
     flush_dirty();
   } else {
     redraw_icon(pButton);
-    flush_rect(pButton->size);
+    flush_rect(pButton->size, FALSE);
   }
 
   return -1;
@@ -915,7 +915,7 @@ static int misc_panel_city_dlg_callback(struct GUI *pWidget)
     pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
     pWidget->ID = MAX_ID - 0x40;
     redraw_ibutton(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
     break;
   case 0x40:
     BV_CLR(new_options, CITYO_NEW_EINSTEIN);
@@ -923,7 +923,7 @@ static int misc_panel_city_dlg_callback(struct GUI *pWidget)
     pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
     pWidget->ID = MAX_ID - 0x60;
     redraw_ibutton(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
     break;
   case 0x60:
     if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN))
@@ -933,7 +933,7 @@ static int misc_panel_city_dlg_callback(struct GUI *pWidget)
     pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
     pWidget->ID = MAX_ID - 0x20;
     redraw_ibutton(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
     break;
   }
 
@@ -1020,7 +1020,7 @@ static int options_city_dlg_callback(struct GUI *pButton)
     flush_dirty();
   } else {
     redraw_icon(pButton);
-    flush_rect(pButton->size);
+    flush_rect(pButton->size, FALSE);
   }
 
   return -1;
@@ -1097,7 +1097,7 @@ static int ok_buy_prod_city_dlg_callback(struct GUI *pButton)
 static int buy_prod_city_dlg_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
-  flush_rect(pButton->size);
+  flush_rect(pButton->size, FALSE);
   disable_city_dlg_widgets();
   lock_buffer(pButton->dst);
   popup_hurry_production_dialog(pCityDlg->pCity, pButton->dst);
@@ -1306,7 +1306,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 static int change_prod_dlg_callback(struct GUI *pButton)
 {
   redraw_icon(pButton);
-  flush_rect(pButton->size);
+  flush_rect(pButton->size, FALSE);
 
   disable_city_dlg_widgets();
   popup_worklist_editor(pCityDlg->pCity, &pCityDlg->pCity->worklist);
@@ -1481,7 +1481,7 @@ static int sell_imprvm_dlg_callback(struct GUI *pImpr)
   redraw_group(pCityDlg->pBeginCityMenuWidgetList,
 	       pCityDlg->pEndCityMenuWidgetList, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 #endif
 
   redraw_city_dialog(pCityDlg->pCity);

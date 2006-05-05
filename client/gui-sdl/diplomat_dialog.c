@@ -728,7 +728,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   /* redraw */
   redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   
 }
 
@@ -997,7 +997,7 @@ void popup_sabotage_dialog(struct city *pCity)
   /* redraw */
   redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   
 }
 
@@ -1240,7 +1240,7 @@ void popup_incite_dialog(struct city *pCity)
   /* redraw */
   redraw_group(pIncite_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   
 }
 
@@ -1441,5 +1441,5 @@ void popup_bribe_dialog(struct unit *pUnit)
   /* redraw */
   redraw_group(pBribe_Dlg->pdialog->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }

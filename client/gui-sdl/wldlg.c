@@ -233,7 +233,7 @@ static void add_target_to_worklist(struct GUI *pTarget)
   
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  flush_rect(pTarget->size);
+  flush_rect(pTarget->size, FALSE);
   
   /* Deny adding currently building Impr/Wonder Target */ 
   if(pEditor->pCity && !prod.is_unit && !pEditor->currently_building.is_unit &&
@@ -368,7 +368,7 @@ static void add_target_to_production(struct GUI *pTarget)
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  flush_rect(pTarget->size);
+  flush_rect(pTarget->size, FALSE);
   
   prod = cid_decode(MAX_ID - pTarget->ID);
   
@@ -404,7 +404,7 @@ static void get_target_help_data(struct GUI *pTarget)
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  /*flush_rect(pTarget->size);*/
+  /*flush_rect(pTarget->size, FALSE);*/
   
   prod = cid_decode(MAX_ID - pTarget->ID);
 
@@ -1741,7 +1741,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   FREESURFACE(pMain);
   
   redraw_group(pEditor->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
   
 void popdown_worklist_editor(void)

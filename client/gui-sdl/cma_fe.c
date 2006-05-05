@@ -536,7 +536,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
   /* redraw */
   redraw_group(pCma->pAdv->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 static int load_cma_callback(struct GUI *pWidget)
@@ -793,7 +793,7 @@ void update_city_cma_dialog(void)
   redraw_group(pCma->pDlg->pBeginWidgetList,
   		pCma->pDlg->pEndWidgetList->prev->prev, 0);
   
-  flush_rect(pCma->pDlg->pEndWidgetList->size);
+  flush_rect(pCma->pDlg->pEndWidgetList->size, FALSE);
 }
 
 void popup_city_cma_dialog(struct city *pCity)

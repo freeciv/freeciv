@@ -89,9 +89,9 @@ void flush_mapcanvas(int canvas_x , int canvas_y ,
   SDL_BlitSurface(mapview.store->surf, &rect, Main.map, &rect);
 }
 
-void flush_rect(SDL_Rect rect)
+void flush_rect(SDL_Rect rect, bool force_flush)
 {
-  if(is_flush_queued) {
+  if (is_flush_queued && !force_flush) {
     sdl_dirty_rect(rect);
   } else {
     static SDL_Rect dst;
@@ -111,6 +111,7 @@ void flush_rect(SDL_Rect rect)
         }
       }
       i = 0;
+
       /* flush main buffer to framebuffer */
       SDL_UpdateRect(Main.screen, rect.x, rect.y, rect.w, rect.h);
     }
@@ -221,9 +222,11 @@ void flush_dirty(void)
       }
     }
     j = 0;
+
+    draw_mouse_cursor();    
+    
     /* flush main buffer to framebuffer */    
     SDL_UpdateRect(Main.screen, 0, 0, 0, 0);
-    
   } else {
     static int i;
     static SDL_Rect dst;
@@ -256,11 +259,13 @@ void flush_dirty(void)
       }
       
     }
+
+    draw_mouse_cursor();            
+    
     /* flush main buffer to framebuffer */    
     SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
   }
   Main.rects_count = 0;
-
 }
 
 /* ===================================================================== */

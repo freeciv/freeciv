@@ -1259,7 +1259,7 @@ END:
   pSellected_Widget = pHoriz_Src;
   set_wstate(pHoriz_Src, FC_WS_SELLECTED);
   redraw_horiz(pHoriz_Src);
-  flush_rect(pHoriz_Src->size);
+  flush_rect(pHoriz_Src->size, FALSE);
 
   return -1;
 }
@@ -1294,7 +1294,7 @@ static int apply_taxrates_callback(struct GUI *pButton)
   }
 
   redraw_tibutton(pButton);
-  flush_rect(pButton->size);
+  flush_rect(pButton->size, FALSE);
 
   return -1;
 }
@@ -1619,7 +1619,7 @@ void economy_report_dialog_update(void)
   
     /* ---------------- */
     redraw_group(pEconomyDlg->pBeginWidgetList, pEconomyDlg->pEndWidgetList, 0);
-    flush_rect(pEconomyDlg->pEndWidgetList->size);
+    flush_rect(pEconomyDlg->pEndWidgetList->size, FALSE);
   }
 }
 
@@ -2781,7 +2781,7 @@ static int change_research_callback(struct GUI *pWidget)
 static int change_research_goal_dialog_callback(struct GUI *pWindow)
 {
   if(sellect_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size);
+      flush_rect(pWindow->size, FALSE);
   }      
   return -1;
 }
@@ -2800,7 +2800,7 @@ static int change_research(struct GUI *pWidget)
   set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_icon2(pWidget);
-  flush_rect(pWidget->size);
+  flush_rect(pWidget->size, FALSE);
     
   if (is_future_tech(get_player_research(game.player_ptr)->researching)) {
     return -1;
@@ -2943,7 +2943,7 @@ static int change_research(struct GUI *pWidget)
 
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   
   return -1;
 }
@@ -2983,7 +2983,7 @@ static int change_research_goal(struct GUI *pWidget)
   set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
   redraw_icon2(pWidget);
-  flush_rect(pWidget->size);
+  flush_rect(pWidget->size, FALSE);
       
   /* collect all techs which are reachable in under 11 steps
    * hist will hold afterwards the techid of the current choice
@@ -3133,7 +3133,7 @@ static int change_research_goal(struct GUI *pWidget)
 
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
   
   return -1;
 }
@@ -3147,7 +3147,7 @@ static int science_dialog_callback(struct GUI *pWindow)
   } else {
     if(!pChangeTechDlg &&
       	sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size);
+      flush_rect(pWindow->size, FALSE);
     }      
   }
   return -1;

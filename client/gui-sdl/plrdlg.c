@@ -91,7 +91,7 @@ static int players_window_dlg_callback(struct GUI *pWindow)
     update_players_dialog();
   } else {
     if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size);
+      flush_rect(pWindow->size, FALSE);
     }      
   }
   return -1;

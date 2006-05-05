@@ -371,6 +371,8 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void
       }
     }
   }
+
+  draw_mouse_cursor();
   
   return ID_ERROR;
 }

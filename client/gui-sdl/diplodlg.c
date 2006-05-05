@@ -357,7 +357,7 @@ static int gold_callback(struct GUI *pWidget)
   if(amount || !pWidget->string16->text) {
     copy_chars_to_string16(pWidget->string16, "0");
     redraw_widget(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
   }
   
   return -1;
@@ -972,7 +972,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
   
   redraw_widget(pLabel);
-  flush_rect(pLabel->size);
+  flush_rect(pLabel->size, FALSE);
   
   /* updates other player's acceptance status */
   pLabel = pdialog->pdialog->pEndWidgetList->prev->prev;
@@ -992,7 +992,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
   
   redraw_widget(pLabel);
-  flush_rect(pLabel->size);
+  flush_rect(pLabel->size, FALSE);
 }
 
 /****************************************************************
@@ -1046,10 +1046,10 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     /* redraw */
     if(redraw_all) {
       redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
-      flush_rect(pWindow->size);
+      flush_rect(pWindow->size, FALSE);
     } else {
       redraw_widget(pBuf);
-      flush_rect(pBuf->size);
+      flush_rect(pBuf->size, FALSE);
     }
     
   } clause_list_iterate_end;

@@ -209,7 +209,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
   } else {
     if (sellect_window_group_dialog(pSpaceShp->pBeginWidgetList,
 				   pSpaceShp->pEndWidgetList)) {
-      flush_rect(pSpaceShp->pEndWidgetList->size);
+      flush_rect(pSpaceShp->pEndWidgetList->size, FALSE);
     }
   }
   

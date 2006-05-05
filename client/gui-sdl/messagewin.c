@@ -175,7 +175,7 @@ void real_update_meswin_dialog(void)
   } /* if */
   
   redraw_group(pMsg_Dlg->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************

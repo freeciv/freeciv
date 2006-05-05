@@ -22,54 +22,107 @@
 
 /* gui-sdl */
 #include "graphics.h"
+#include "mapview.h"
 
 #include "gui_mouse.h"
+
+struct color_cursor {
+  SDL_Surface *cursor;
+  int hot_x;
+  int hot_y;
+};
 
 SDL_Cursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
 bool do_cursor_animation = TRUE;
+bool use_color_cursors = TRUE;
+
 enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 bool mouse_cursor_changed = FALSE;
 
-SDL_Cursor *pStd_Cursor;
+SDL_Cursor *pStd_Cursor = NULL;
+
+struct color_cursor previous_color_cursor;
+struct color_cursor current_color_cursor;
 
 /**************************************************************************
   convert SDL surface to SDL cursor format (code from SDL-dev mailing list)
 **************************************************************************/
 static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
-        int             w, x, y;
-        Uint8           *data, *mask, *d, *m, r, g, b, a;
-        Uint32          color;
-        SDL_Cursor      *cursor;
+  int w, x, y;
+  Uint8 *data, *mask, *d, *m, r, g, b, a;
+  Uint32 color;
+  SDL_Cursor *cursor;
 
-        w = (image->w + 7) / 8;
-        data = (Uint8 *)fc_calloc(1, w * image->h * 2);
-        if (data == NULL)
-                return NULL;
-        /*memset(data, 0, w * image->h * 2);*/
-        mask = data + w * image->h;
-	lock_surf(image);
-        for (y = 0; y < image->h; y++) {
-                d = data + y * w;
-                m = mask + y * w;
-                for (x = 0; x < image->w; x++) {
-                        color = getpixel(image, x, y);
-                        SDL_GetRGBA(color, image->format, &r, &g, &b, &a);                    
-                        if (((image->flags & SDL_SRCCOLORKEY) == 0)
-			    || (a != 0)) {
-                                color = (r + g + b) / 3;
-                                m[x / 8] |= 128 >> (x & 7);
-                                if (color < 128)
-                                        d[x / 8] |= 128 >> (x & 7);
-                        }
-                }
+  w = (image->w + 7) / 8;
+  data = (Uint8 *)fc_calloc(1, w * image->h * 2);
+  if (data == NULL) {
+    return NULL;
+  }
+  /*memset(data, 0, w * image->h * 2);*/
+  mask = data + w * image->h;
+  lock_surf(image);
+  for (y = 0; y < image->h; y++) {
+    d = data + y * w;
+    m = mask + y * w;
+    for (x = 0; x < image->w; x++) {
+      color = getpixel(image, x, y);
+      SDL_GetRGBA(color, image->format, &r, &g, &b, &a);                    
+      if (((image->flags & SDL_SRCCOLORKEY) == 0) || (a != 0)) {
+        color = (r + g + b) / 3;
+        m[x / 8] |= 128 >> (x & 7);
+        if (color < 128) {
+          d[x / 8] |= 128 >> (x & 7);
         }
-	unlock_surf(image);
+      }
+    }
+  }
+  
+  unlock_surf(image);
         
-        cursor = SDL_CreateCursor(data, mask, w * 8, image->h, hx, hy);
+  cursor = SDL_CreateCursor(data, mask, w * 8, image->h, hx, hy);
 	
-	FC_FREE(data);
-        return cursor;
+  FC_FREE(data);
+  
+  return cursor;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void draw_mouse_cursor() {
+  int cursor_x = 0;
+  int cursor_y = 0;
+  static SDL_Rect area = {0, 0, 0, 0};
+  
+  if (use_color_cursors) {
+    
+    /* restore background */
+    flush_rect(area, TRUE);
+    
+    SDL_GetMouseState(&cursor_x, &cursor_y);
+
+    if (previous_color_cursor.cursor != NULL) {
+      area.x = cursor_x - previous_color_cursor.hot_x;
+      area.y = cursor_y - previous_color_cursor.hot_y;
+      area.w = previous_color_cursor.cursor->w;
+      area.h = previous_color_cursor.cursor->h;
+      previous_color_cursor.cursor = NULL;
+    } else if (current_color_cursor.cursor != NULL) {
+      area.x = cursor_x - current_color_cursor.hot_x;
+      area.y = cursor_y - current_color_cursor.hot_y;
+      area.w = current_color_cursor.cursor->w;
+      area.h = current_color_cursor.cursor->h;
+    }
+
+    if (current_color_cursor.cursor != NULL) {    
+      /* show cursor */    
+      SDL_BlitSurface(current_color_cursor.cursor, NULL, Main.screen, &area);
+      
+      /* update screen */
+      SDL_UpdateRect(Main.screen, area.x, area.y, area.w, area.h);
+    }
+  }  
 }
 
 /**************************************************************************
@@ -83,12 +136,12 @@ void load_cursors(void)
   SDL_Surface *pSurf;
 
   pStd_Cursor = SDL_GetCursor();
-    
+
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
       int hot_x, hot_y;
       struct sprite *sprite
-	= get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
+        = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
       
       pSurf = GET_SURF(sprite);
       SDL_SetColorKey(pSurf, SDL_SRCCOLORKEY, 0);
@@ -105,13 +158,13 @@ void unload_cursors(void)
 {
   enum cursor_type cursor;  
   int frame;
-  
+
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
       SDL_FreeCursor(fc_cursors[cursor][frame]);
     }
   }
-  
+
   SDL_FreeCursor(pStd_Cursor);
   return;
 }
@@ -127,15 +180,21 @@ void animate_mouse_cursor(void)
     return;
   }
   
-  if (mouse_cursor_type == CURSOR_DEFAULT) {
-    SDL_SetCursor(pStd_Cursor);
-    mouse_cursor_changed = FALSE;
-  } else {
+  if (mouse_cursor_type != CURSOR_DEFAULT) {
     if (!do_cursor_animation || (cursor_frame == NUM_CURSOR_FRAMES)) {
       cursor_frame = 0;
     }
-  
-    SDL_SetCursor(fc_cursors[mouse_cursor_type][cursor_frame++]);    
+    
+    if (use_color_cursors) {
+      current_color_cursor.cursor = GET_SURF(get_cursor_sprite(tileset,
+                                    mouse_cursor_type,
+                                    &current_color_cursor.hot_x,
+                                    &current_color_cursor.hot_y, cursor_frame));      
+    } else {
+      SDL_SetCursor(fc_cursors[mouse_cursor_type][cursor_frame]);          
+    }
+    
+    cursor_frame++;
   }
 }
 
@@ -144,6 +203,24 @@ void animate_mouse_cursor(void)
 **************************************************************************/
 void update_mouse_cursor(enum cursor_type new_cursor_type)
 {
+  if (new_cursor_type == mouse_cursor_type) {
+    return;
+  }
+
   mouse_cursor_type = new_cursor_type;
-  mouse_cursor_changed = TRUE;
+  previous_color_cursor = current_color_cursor;
+  
+  if (mouse_cursor_type == CURSOR_DEFAULT) {
+    SDL_SetCursor(pStd_Cursor);
+    if (use_color_cursors) {
+      SDL_ShowCursor(SDL_ENABLE);      
+      current_color_cursor.cursor = NULL;
+    }
+    mouse_cursor_changed = FALSE;    
+  } else {
+    if (use_color_cursors) {
+      SDL_ShowCursor(SDL_DISABLE);    
+    }
+    mouse_cursor_changed = TRUE;
+  }
 }

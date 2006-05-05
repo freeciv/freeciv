@@ -17,5 +17,6 @@
 #include "mapview_g.h"
 
 void animate_mouse_cursor(void);
+void draw_mouse_cursor(void);
 
 #endif /* FC__GUI_MOUSE_H */

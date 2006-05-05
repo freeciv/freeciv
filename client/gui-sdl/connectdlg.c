@@ -101,7 +101,7 @@ static int connect_callback(struct GUI *pWidget)
     set_wstate(pWidget, FC_WS_SELLECTED);
     pSellected_Widget = pWidget;
     redraw_tibutton(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
   }
   return -1;
 }
@@ -417,7 +417,7 @@ void popup_connection_dialog(struct GUI *pWidget)
   		pWindow->size.y + pWindow->size.h - 1,
   		0xffffffff);
     
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************
@@ -842,7 +842,7 @@ static int convert_first_passwd_callback(struct GUI *pWidget)
     FC_FREE(tmp);
     set_wstate(pWidget->prev, FC_WS_NORMAL);
     redraw_edit(pWidget->prev);
-    flush_rect(pWidget->prev->size);
+    flush_rect(pWidget->prev->size, FALSE);
   }
   return -1;
 }
@@ -857,7 +857,7 @@ static int convert_secound_passwd_callback(struct GUI *pWidget)
   if (tmp && strncmp(password, tmp, MAX_LEN_NAME) == 0) {
     set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
     redraw_tibutton(pWidget->prev);
-    flush_rect(pWidget->prev->size);
+    flush_rect(pWidget->prev->size, FALSE);
   } else {
     memset(password, 0, MAX_LEN_NAME);
     password[0] = '\0';
