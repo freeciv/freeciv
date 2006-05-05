@@ -42,7 +42,6 @@ bool mouse_cursor_changed = FALSE;
 
 SDL_Cursor *pStd_Cursor = NULL;
 
-struct color_cursor previous_color_cursor;
 struct color_cursor current_color_cursor;
 
 /**************************************************************************
@@ -102,13 +101,7 @@ void draw_mouse_cursor() {
     
     SDL_GetMouseState(&cursor_x, &cursor_y);
 
-    if (previous_color_cursor.cursor != NULL) {
-      area.x = cursor_x - previous_color_cursor.hot_x;
-      area.y = cursor_y - previous_color_cursor.hot_y;
-      area.w = previous_color_cursor.cursor->w;
-      area.h = previous_color_cursor.cursor->h;
-      previous_color_cursor.cursor = NULL;
-    } else if (current_color_cursor.cursor != NULL) {
+    if (current_color_cursor.cursor != NULL) {
       area.x = cursor_x - current_color_cursor.hot_x;
       area.y = cursor_y - current_color_cursor.hot_y;
       area.w = current_color_cursor.cursor->w;
@@ -208,7 +201,6 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
   }
 
   mouse_cursor_type = new_cursor_type;
-  previous_color_cursor = current_color_cursor;
   
   if (mouse_cursor_type == CURSOR_DEFAULT) {
     SDL_SetCursor(pStd_Cursor);
