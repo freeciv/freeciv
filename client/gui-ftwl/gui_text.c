@@ -367,59 +367,6 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
   RETURN;
 }  
 
-/************************************************************************
-  Text to popup on middle-click
-************************************************************************/
-const char *mapview_get_terrain_info_text(struct tile *ptile)
-{
-  const char *activity_text = concat_tile_activity_text(ptile);
-  const char *diplo_nation_plural_adjectives[DS_LAST] =
-    {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
-     "" /* unused, DS_CEASEFIRE*/,
-     Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
-     Q_("?nation:Mysterious")};
-  INIT;
-
-  add_line(_("Terrain: %s"),
-	   map_get_tile_info_text(ptile));
-  add_line(_("Food/Prod/Trade: %s"),
-	   map_get_tile_fpt_text(ptile));
-  if (tile_has_special(ptile, S_HUT)) {
-    add_line(_("Minor Tribe Village"));
-  }
-  if (game.borders > 0) {
-    struct player *owner = map_get_owner(ptile);
-    struct player_diplstate *ds = game.player_ptr->diplstates;
-
-    if (owner == game.player_ptr){
-      add_line(_("Our Territory"));
-    } else if (owner) {
-      if (ds[owner->player_no].type == DS_CEASEFIRE) {
-	int turns = ds[owner->player_no].turns_left;
-
-	add_line(PL_("%s territory (%d turn ceasefire)",
-				       "%s territory (%d turn ceasefire)",
-				       turns),
-		 get_nation_name(owner->nation), turns);
-      } else {
-	add_line(_("Territory of the %s %s"),
-		 diplo_nation_plural_adjectives[ds[owner->player_no].type],
-		 get_nation_name_plural(owner->nation));
-      }
-    } else {
-      add_line(_("Unclaimed territory"));
-    }
-  }
-  if (get_tile_infrastructure_set(ptile)) {
-    add_line(_("Infrastructure: %s"),
-	     map_get_infrastructure_text(ptile->special));
-  }
-  if (strlen(activity_text)) {
-    add_line(_("Activity: %s"), activity_text);
-  }
-  RETURN;
-}
-
 /****************************************************************************
   Get a short tooltip for a city.
 ****************************************************************************/

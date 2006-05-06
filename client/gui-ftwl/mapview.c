@@ -768,7 +768,7 @@ static void update_focus_tile_list(void)
     item->selected = create_selected_osda(item->unselected);
     item->button = NULL;
     item->tooltip=mystrdup(mapview_get_terrain_tooltip_text(ptile));
-    item->info_text=mystrdup(mapview_get_terrain_info_text(ptile));
+    item->info_text=mystrdup(popup_info_text(ptile));
   }
 
   if(map_get_city(ptile)) {
