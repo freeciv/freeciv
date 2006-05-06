@@ -15,14 +15,36 @@
 #include <config.h>
 #endif
 
+#include "chatline.h"
+#include "mapview.h"
+
 #include "pages.h"
+
+static enum client_pages old_page = PAGE_MAIN;
+
+static void show_main_page()
+{
+  append_output_window("Connection dialog not yet implemented. Start client "
+                       "using the -a option.");
+}
 
 /**************************************************************************
   Does a toplevel window page transition.
 **************************************************************************/
 void set_client_page(enum client_pages page)
 {
-  /* PORTME */
+  if ((page == old_page) && (page != PAGE_MAIN)) {
+    return;
+  }
+  
+  old_page = page;    
+    
+  if (page == PAGE_MAIN) {
+    show_main_page();
+  } else if (page == PAGE_START) {
+    popup_mapcanvas();
+  }
+  
 }
 
 /**************************************************************************
@@ -31,7 +53,7 @@ void set_client_page(enum client_pages page)
 enum client_pages get_client_page(void)
 {
   /* PORTME */    
-  return PAGE_MAIN;
+  return old_page;
 }
 
 /**************************************************************************

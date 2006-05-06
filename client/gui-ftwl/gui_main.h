@@ -18,9 +18,6 @@
 #include "gui_main_g.h"
 #include "common_types.h"
 
-void popup_mapcanvas(void);
-void popdown_mapcanvas(void);
-
 extern struct sw_widget *root_window;
 
 be_color enum_color_to_be_color(int color);

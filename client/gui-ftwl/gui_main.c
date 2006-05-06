@@ -224,10 +224,10 @@ void ui_main(int argc, char *argv[])
     freelog(LOG_ERROR, "The resolution '%s' doesn't parse", resolution);
   }
   free(resolution);
-  
+
   if (!auto_connect) {
-    die("Connection dialog not yet implemented. Start client using "
-        "the -a option.");
+    freelog(LOG_ERROR, "Connection dialog not yet implemented. Start client "
+                       "using the -a option.");
   }
 
   sw_init();
@@ -244,15 +244,15 @@ void ui_main(int argc, char *argv[])
   get_colors();
   root_window = sw_create_root_window();
   sw_widget_set_background_color(root_window,
-				 enum_color_to_be_color(COLOR_EXT_GREEN));
+				 enum_color_to_be_color(COLOR_STD_BACKGROUND));
 
   chat_create(); 
   chatline_create();
+  
   tileset_load_tiles(tileset);
   timer_callback(NULL);
   sw_window_set_key_notify(root_window, my_key_handler, NULL);
 
-  popup_mapcanvas();
   set_client_state(CLIENT_PRE_GAME_STATE);
   sw_mainloop(input_from_server);
 }
