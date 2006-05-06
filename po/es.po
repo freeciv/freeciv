@@ -23629,7 +23629,7 @@ msgid ""
 "gained independence."
 msgstr ""
 "Colombia es un país situado al norte de Sudamérica. La región fue un "
-"centro cultural de la América India en los tiempos pre-Europeos. Los "
+"centro cultural de la Amerindia en los tiempos pre-Europeos. Los "
 "Españoles comenzaron a colonizar el norte de la costa colombiana alrededor "
 "del año 1500. En 1819 la República de Colombia adquirió su independencia."
 
@@ -23807,7 +23807,7 @@ msgid ""
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
-"La civilización egipcia fue la segunda más antigua del mundo.  Desde tiempos "
+"La civilización egipcia fue la segunda más antigua del mundo. Desde tiempos "
 "remotos estuvo inusualmente urbanizada; sus numerosos habitantes subsistían "
 "gracias a los sedimentos depositados por las inundaciones anuales del Nilo."
 
@@ -23834,7 +23834,7 @@ msgid ""
 "successful invasion of the country."
 msgstr ""
 "Inglaterra fue unificada por Alfredo el Grande de Wessex a finales del siglo "
-"IX.  Guillermo de Normandía la conquistó un siglo más tarde; desde entonces "
+"IX. Guillermo de Normandía la conquistó un siglo más tarde; desde entonces "
 "no ha vuelto a ser invadida con éxito."
 
 #: data/nation/english.ruleset:26
@@ -23858,7 +23858,7 @@ msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
 msgstr ""
-"Estonia es un pequeño país en la costa sur del Mar Báltico oriental.  Sus "
+"Estonia es un pequeño país en la costa sur del Mar Báltico oriental. Sus "
 "habitantes e idioma están estrechamente emparentados con los de Finlandia."
 
 #: data/nation/ethiopian.ruleset:3
@@ -23910,7 +23910,7 @@ msgid ""
 "Finland is a small, cold country on the northern fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
 msgstr ""
-"Finlandia es un pequeño y frío país en la frontera norte de Europa.  Destaca "
+"Finlandia es un pequeño y frío país en la frontera norte de Europa. Destaca "
 "por sus exportaciones de madera, teléfonos móviles y sistemas operativos de "
 "calidad \"extra\"."
 
@@ -24010,6 +24010,8 @@ msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s AD."
 msgstr ""
+"Los Georgianos fueron unos de los primeros en la Historia en adoptar "
+"el Cristianismo, en el año 300 D.C."
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -24053,35 +24055,32 @@ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "Los antiguos griegos, desde Micenas hasta la conquista romana."
 
 #: data/nation/greek.ruleset:19
-#, fuzzy
 msgid "Despot"
-msgstr "Despotismo"
+msgstr "Déspota"
 
 #: data/nation/hellenic.ruleset:3
-#, fuzzy
 msgid "Hellenic"
-msgstr "Información"
+msgstr "Helénico"
 
 #: data/nation/hellenic.ruleset:4
-#, fuzzy
 msgid "?plural:Hellenes"
-msgstr "Islandeses"
+msgstr "Helénicos"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
 msgstr ""
+"La República Helénica, también conocida como Grecia, fue creada cuando los "
+"Helénicos adquirieron la independencia del Imperio Otomano en 1832."
 
 #: data/nation/hittite.ruleset:3
-#, fuzzy
 msgid "Hittite"
-msgstr "Actitud"
+msgstr "Hitita"
 
 #: data/nation/hittite.ruleset:4
-#, fuzzy
 msgid "?plural:Hittites"
-msgstr "Hobbits"
+msgstr "Hititas"
 
 #: data/nation/hittite.ruleset:6
 msgid ""
@@ -24090,6 +24089,10 @@ msgid ""
 "controlled central Anatolia, north-western Syria and Mesopotamia down to "
 "Babylon."
 msgstr ""
+"El Reino Hitita duró aproximadamente desde el 1680 A.C. hasta el 1180 D.C. "
+"Fueron la primera civilización en descubrir el trabajo del hierro. A su "
+"altura, controlaron Anatolia Central, el noroeste de Siria y desde "
+"Mesopotamia hasta Babilonia"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -24101,7 +24104,7 @@ msgstr "Húngaros"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
-msgstr ""
+msgstr "Dice la leyenda que Hungría fue fundada por Árpád en el siglo IX."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -24117,16 +24120,17 @@ msgid ""
 "century. The island was kept initially under the Norwegian and later the "
 "Danish crown until independence from Denmark in 1944."
 msgstr ""
+"Islandia fue descubierta y colonizada por los Vikingos Noruegos al final "
+"del siglo IX. La isla estuvo bajo dominio noruego y más tarde pasó a estar "
+"en manos de la corona danesa hasta que recibieron su independencia en 1944."
 
 #: data/nation/illyrian.ruleset:3
-#, fuzzy
 msgid "Illyrian"
-msgstr "Italiano"
+msgstr "Illyriano"
 
 #: data/nation/illyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Illyrians"
-msgstr "Italianos"
+msgstr "Illyrianos"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -24137,6 +24141,13 @@ msgid ""
 "Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until "
 "conquered by the Roman Republic."
 msgstr ""
+"Los Illyrianos fueron una de las tribus Indoeuropeas que aparecieron en la "
+"parte oeste de la Península Balcánica antes del año 1000 A.C., incluyendo a "
+"los Dalmáticos en el norte, la isla de Corfú y la bahía de Arta en la "
+"prehistórica Epira, al sur, mezclados con los Thracianos de Dardania del "
+"Este, y conquistando Mesapia por todo el Mar Adriático. Los reinos de Illyria "
+"fueron independientes durante siglos, hasta que fueron conquistados por el "
+"Imperio Romano."
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
@@ -24147,7 +24158,6 @@ msgid "?plural:Incas"
 msgstr "Incas"
 
 #: data/nation/inca.ruleset:6
-#, fuzzy
 msgid ""
 "The Inca were an Amerind people of the Northern Andes who conquered an "
 "empire stretching along the west coast of South America from what is now "
@@ -24155,21 +24165,19 @@ msgid ""
 "a few decades before the Spanish conquistadors arrived in their part of the "
 "world in the mid-1500s AD."
 msgstr ""
-"Los incas eran un pueblo amerindio del norte de los Andes.  Conquistaron un "
+"Los incas eran un pueblo amerindio del norte de los Andes. Conquistaron un "
 "imperio a lo largo de la costa occidental de Sudamérica, desde el Chile "
 "actual hasta casi el Ecuador.  La duración de este imperio fue breve, pues "
 "desapareció sólo unas décadas más tarde, a mediados del siglo XVI, con la "
-"llegada de los conquistadores españoles."
+"llegada de los Españoles."
 
 #: data/nation/inca.ruleset:22
-#, fuzzy
 msgid "?title:Inca"
-msgstr "Genocida"
+msgstr "Inca"
 
 #: data/nation/inca.ruleset:23
-#, fuzzy
 msgid "Sapa Inca"
-msgstr "Inca"
+msgstr "Emperador Inca"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
@@ -24184,20 +24192,20 @@ msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
 msgstr ""
+"La horquilla de la Antigua Civilización India residía en los valles de los "
+"ríos indús en lo que hoy conocemos como Pakistán."
 
 #: data/nation/indian.ruleset:19
-#, fuzzy
 msgid "Raja"
-msgstr "Reina"
+msgstr "Raja"
 
 #: data/nation/indian.ruleset:20
 msgid "Maharaja"
 msgstr "Marajá"
 
 #: data/nation/indian.ruleset:21
-#, fuzzy
 msgid "Mahatma"
-msgstr "Marajá"
+msgstr "Mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -24213,16 +24221,17 @@ msgid ""
 "government on the island of Java. The country has a Muslim majority and is "
 "one of the most populous in the world."
 msgstr ""
+"Indonesia es uno de los grandes países de la Insulindia, con un gobierno "
+"central en la isla de Java. El país tiene una mayoría musulmana y es "
+"uno de los más poblados del mundo."
 
 #: data/nation/inuit.ruleset:3
-#, fuzzy
 msgid "Inuit"
-msgstr "unidad"
+msgstr "Inuit"
 
 #: data/nation/inuit.ruleset:4
-#, fuzzy
 msgid "?plural:Inuits"
-msgstr "Indios"
+msgstr "Inuits"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -24231,26 +24240,26 @@ msgid ""
 "west coast of Greenland in the 10th century. All Inuit of today are "
 "descendents of the Thule culture."
 msgstr ""
+"Los Inuits, o Esquimales, habitan el norte de Canadá y Groenlandia. Cuenta "
+"la leyenda que el Gran Chamán Qitdlarssuaq llevó a su gente a Thule (Qaanaaq) "
+"hacia la costa oeste de Groenlandia en el siglo X. Todos los Inuits, a día "
+"de hoy, son descendientes de la cultura de Thule."
 
 #: data/nation/inuit.ruleset:23
-#, fuzzy
 msgid "Shaman"
-msgstr "Director"
+msgstr "Chamán"
 
 #: data/nation/inuit.ruleset:24
-#, fuzzy
 msgid "Great Shaman"
-msgstr "Gran Khan"
+msgstr "Gran Chamán"
 
 #: data/nation/iraqi.ruleset:3
-#, fuzzy
 msgid "Iraqi"
-msgstr "Israelí"
+msgstr "Iraquí"
 
 #: data/nation/iraqi.ruleset:4
-#, fuzzy
 msgid "?plural:Iraqis"
-msgstr "Irlandeses"
+msgstr "Iraquíes"
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
@@ -24258,6 +24267,9 @@ msgid ""
 "the ancient region of Mesopotamia at the confluence of the Tigris and "
 "Euphrates rivers."
 msgstr ""
+"Iráq fue fundado después de la caída del Imperio Otomano. Está atravesando "
+"la antigua región de Mesopotamia en el encuentro de los ríos Tigris y "
+"Éufrates."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -24299,14 +24311,12 @@ msgid "Taoiseach"
 msgstr "Taoiseach"
 
 #: data/nation/iroquois.ruleset:3
-#, fuzzy
 msgid "Iroquois"
-msgstr "Irlandés"
+msgstr "Iroqués"
 
 #: data/nation/iroquois.ruleset:4
-#, fuzzy
 msgid "?plural:Iroquois"
-msgstr "Irlandeses"
+msgstr "Iroqueses"
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -24317,6 +24327,13 @@ msgid ""
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
 msgstr ""
+"La Confederación Iroquesa, conocida como Haudenosaunee en su propia lengua, "
+"fue un grupo de naciones norteamericanas con un idioma y una cultura en "
+"común. Estuvieron asentados en lo que se conoce como el Estado de Nueva York "
+"y consistía originalmente de cinco naciones: Seneca, Cayuga, Onondaga, Oneida "
+"y Mohawk. La confederación había escrito una constitución y tenían un sistema "
+"monetario, haciéndolos el estado más avanzado de América del Norte, hasta "
+"la llegada de los Europeos."
 
 #: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:26
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
@@ -24330,14 +24347,13 @@ msgstr "Gran Jefe"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
-#, fuzzy
 msgid "Spokesman"
-msgstr "Singapurés"
+msgstr "Portavoz"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "Portavoz"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -24390,6 +24406,8 @@ msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
 msgstr ""
+"De acuerdo con la tradición de la mitología japonesa, Japón fue fundado "
+"en el siglo VII A.C. por el ancestral Emperador Jimmu."
 
 #: data/nation/japanese.ruleset:37 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
@@ -24413,6 +24431,9 @@ msgid ""
 "Kampuchea is the modern successor state of the mighty Khmer Empire, which "
 "ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
 msgstr ""
+"Camboya es el estado sucesor actual del todopoderso Impero Khmer, el cual "
+"gobernó sobre casi toda la Península de Indonesia entre los siglos XI y "
+"XIV."
 
 #: data/nation/kampuchean.ruleset:20 data/nation/manchu.ruleset:20
 msgid "Warlord"
@@ -24436,7 +24457,7 @@ msgstr "Kenyanos"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr ""
+msgstr "Kenia adquirió su independencia de Gran Bretaña en Diciembre de 1963."
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -24454,21 +24475,24 @@ msgid ""
 "North and South Korea as a result of the stalemate after the Korean war in "
 "1953."
 msgstr ""
+"Según cuenta la leyenda, el primer reino Coreano fue fundado en la "
+"Prehistoria por el ancestral Tangun en el sur de Manchuria. Los reinos "
+"coreanos fueron unificados en el 668 por el rey Munmu. Hoy en día, la "
+"península de Corea está dividida en dos estados, Corea del Norte y Corea del "
+"Sur, como resultado del acuerdo después de la guerra de Corea en el año "
+"1953."
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
-#, fuzzy
 msgid "Great Leader"
-msgstr "La Gran Biblioteca"
+msgstr "Gran Líder"
 
 #: data/nation/lankese.ruleset:3
-#, fuzzy
 msgid "Lankese"
-msgstr "Japonés"
+msgstr "Cingalés"
 
 #: data/nation/lankese.ruleset:4
-#, fuzzy
 msgid "?plural:Lankese"
-msgstr "Daneses"
+msgstr "Cingaleses"
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -24476,6 +24500,9 @@ msgid ""
 "the 6th century BC and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
 msgstr ""
+"El Príncipe Vijaya vino a Sri Lanka de Orissa, del noreste de la India, "
+"durante el siglo VI A.C. y fundó el reino Sinhalés ahí. Durante el "
+"colonialismo británico, el país fue conocido como Ceylon."
 
 #: data/nation/lankese.ruleset:21 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
@@ -24493,9 +24520,8 @@ msgid "Governor"
 msgstr "Governador"
 
 #: data/nation/lankese.ruleset:23
-#, fuzzy
 msgid "Supreme Commander"
-msgstr "Director Supremo"
+msgstr "Comandante Supremo"
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
@@ -24511,16 +24537,18 @@ msgid ""
 "1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
 "of Soviet Union in 1991 Latvia restored its independence."
 msgstr ""
+"En la secuela de la Primera Guerra Mundial, Letonia proclamó su "
+"independencia de Rusia. En 1940, Letonia fue ocupada a la fuerza por la "
+"Unión Soviética. Después del colapso de la Unión Soviética en 1991, Letonia "
+"recuperó su independencia."
 
 #: data/nation/libyan.ruleset:3
-#, fuzzy
 msgid "Libyan"
-msgstr "Desarticular unidad"
+msgstr "Libiano"
 
 #: data/nation/libyan.ruleset:4
-#, fuzzy
 msgid "?plural:Libyans"
-msgstr "Letones"
+msgstr "Libianos"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -24529,15 +24557,19 @@ msgid ""
 "of Italy and after the Second World War Libya was granted independence as a "
 "condition of the Allied peace treaty with Italy."
 msgstr ""
+"La región que se conoce hoy como Libia fue una colonia romana hasta que "
+"fue conquistada por la civilización Árabe en el siglo VII. En 1912, se "
+"puso bajo el control de Italia y, después de la Segunda Guerra Mundial, "
+"Libia recibió su independencia como una condición de la Alianza del tratado "
+"de paz con Italia."
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
-msgstr ""
+msgstr "Dey"
 
 #: data/nation/libyan.ruleset:25
-#, fuzzy
 msgid "Colonel"
-msgstr "Cerrar"
+msgstr "Coronel"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -24566,24 +24598,24 @@ msgid "Great Duchess"
 msgstr "Gran Duquesa"
 
 #: data/nation/malagasy.ruleset:3
-#, fuzzy
 msgid "Malagasy"
-msgstr "Malka"
+msgstr "Malgache"
 
 #: data/nation/malagasy.ruleset:4
-#, fuzzy
 msgid "?plural:Malagasies"
-msgstr "Malayos"
+msgstr "Malagaches"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
 "The Malagasy are the people of Madagascar. For centuries, tribes from "
 "Indonesia, East Africa and the Arab world have gathered on the island."
 msgstr ""
+"Los Malgaches eran la gente de Madagascar. Durante siglos, tribus de "
+"Indonesia, Este de África y del mundo Árabe fueron acogidos en la isla."
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
-msgstr ""
+msgstr "Comisionado superior"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -24598,6 +24630,8 @@ msgid ""
 "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in "
 "the early 14th century."
 msgstr ""
+"Malasia comenzó con la fundación de Malaca (Melaka) por Parameswara a "
+"principios del siglo XIV."
 
 #: data/nation/malaysian.ruleset:24 data/nation/singaporean.ruleset:38
 #: data/nation/turk.ruleset:24
@@ -24605,24 +24639,20 @@ msgid "Sultan"
 msgstr "Sultán"
 
 #: data/nation/malaysian.ruleset:24 data/nation/turk.ruleset:24
-#, fuzzy
 msgid "Sultana"
-msgstr "Sultán"
+msgstr "Sultana"
 
 #: data/nation/malaysian.ruleset:25
-#, fuzzy
 msgid "Tun"
-msgstr "Turnos"
+msgstr "Tuno"
 
 #: data/nation/malian.ruleset:3
-#, fuzzy
 msgid "Malian"
-msgstr "Malayo"
+msgstr "Malí"
 
 #: data/nation/malian.ruleset:4
-#, fuzzy
 msgid "?plural:Malians"
-msgstr "Malayos"
+msgstr "Malíes"
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -24633,21 +24663,25 @@ msgid ""
 "14th to the 17th century and was famed for it's wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
 msgstr ""
+"La África Sub-Sahariana ha sido cultural y étnicamente un crisol para "
+"los milenarios. En tiempos medievales, la región fue casa para una "
+"suecesión de imperios denominados Imperios Sahelianos. De estos, el "
+"Imperio Islámico Malí con su capital en Timbuktu fue el más influente. Este "
+"imperio reinó desde el siglo XIV hasta el XVII y fue famoso por su "
+"buena vida y benévolos reyes. La moderna República de Malí recibe su nombre "
+"de aquel imperio."
 
 #: data/nation/malian.ruleset:27
-#, fuzzy
 msgid "Mansa"
-msgstr "Marines"
+msgstr "Mansa"
 
 #: data/nation/manchu.ruleset:3
-#, fuzzy
 msgid "Manchu"
-msgstr "Marzo"
+msgstr "Manchú"
 
 #: data/nation/manchu.ruleset:4
-#, fuzzy
 msgid "?plural:Manchus"
-msgstr "Incas"
+msgstr "Manchúes"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -24655,16 +24689,17 @@ msgid ""
 "Manchuria in Northeast Asia. In the 17th century they conquered and ruled "
 "China as the Manchu Empire until 1911."
 msgstr ""
+"Los Manchués fueron un pueblo semi-nómada original de una región llamada "
+"Manchuria al norte de Asia. En el siglo XVII, conquistaron y gobernaron "
+"sobre China como el Imperio Manchú hasta 1911."
 
 #: data/nation/maori.ruleset:3
-#, fuzzy
 msgid "Maori"
-msgstr "Marciano"
+msgstr "Maorí"
 
 #: data/nation/maori.ruleset:4
-#, fuzzy
 msgid "?plural:Maori"
-msgstr "Marcianos"
+msgstr "Maorís"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -24672,6 +24707,10 @@ msgid ""
 "group that is now New Zealand. According to archeological evidence, the "
 "migration commenced in the 900s and continued until the 1400s."
 msgstr ""
+"Los Maorís son un pueblo de Polinesia que emigró y conquistó el grupo de "
+"islas conocido hoy como Nueva Zelanda. En coherencia con evidencias "
+"arqueológicas, la emigración comenzó en los años 900 y se postergó hasta "
+"los años 1400."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -24683,27 +24722,27 @@ msgstr "Marcianos"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr ""
+msgstr "¡Marsmen llegó a la Tierra en el año 4000 A.C.!"
 
 #: data/nation/mayan.ruleset:3
-#, fuzzy
-msgid "Mayan"
-msgstr "Mayo"
+msgid "Maya"
+msgstr "Maya"
 
 #: data/nation/mayan.ruleset:4
-#, fuzzy
 msgid "?plural:Mayas"
-msgstr "Malayos"
+msgstr "Mayas"
 
 #: data/nation/mayan.ruleset:6
 msgid ""
 "The Mayans were a Mesoamerican civilization. Famous for building great "
 "pyramids and palaces in the jungle."
 msgstr ""
+"Los Mayas fueron una civilización de Mesoamérica. Famosos por construir "
+"grandes pirámides y palacios en medio de la selva."
 
 #: data/nation/mayan.ruleset:19
 msgid "Ajaw"
-msgstr ""
+msgstr "Ajaw"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -24717,6 +24756,8 @@ msgstr "Mejicanos"
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs."
 msgstr ""
+"Méjico toma prestado su nombre de la gente Méjica, otro de los nombres que "
+"recibieron los Aztecas."
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
@@ -24742,18 +24783,16 @@ msgid "Khan"
 msgstr "Khan"
 
 #: data/nation/mongol.ruleset:30 data/nation/uyghur.ruleset:30
-#, fuzzy
 msgid "Khagan"
-msgstr "Khan"
+msgstr "Khagan"
 
 #: data/nation/newzealand.ruleset:4
 msgid "New Zealand"
-msgstr ""
+msgstr "Nuevo Zelandés"
 
 #: data/nation/newzealand.ruleset:5
-#, fuzzy
 msgid "?plural:New Zealanders"
-msgstr "Islandeses"
+msgstr "Nuevo Zelandeses"
 
 #: data/nation/newzealand.ruleset:8
 msgid ""
