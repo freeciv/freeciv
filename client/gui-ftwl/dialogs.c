@@ -266,17 +266,6 @@ void races_toggles_set_sensitive(bool *nations_used)
 }
 
 /**************************************************************************
-  Popup a dialog asking if the player wants to start a revolution.
-**************************************************************************/
-void popup_revolution_dialog(void)
-{
-  /* PORTME */
-#if 0				/* Demo code */
-  popup_message_dialog(_("Revolution!"), _("You say you wanna revolution?"));
-#endif
-}
-
-/**************************************************************************
   Popup a dialog giving a player choices when their caravan arrives at
   a city (other than its home city).  Example:
     - Establish traderoute.
