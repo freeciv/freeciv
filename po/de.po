@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-01 13:35+0200\n"
+"POT-Creation-Date: 2006-05-04 08:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -349,35 +349,35 @@ msgstr "Global: Atombombenabwurf"
 
 #: common/events.c:99
 msgid "Hut: Barbarians in a Hut Roused"
-msgstr "Dorf: Barbarenaufstand"
+msgstr "Hütten: Barbarenaufstand"
 
 #: common/events.c:100
 msgid "Hut: City Founded from Hut"
-msgstr "Dorf: Stadt gegründet"
+msgstr "Hütten: Stadt gegründet"
 
 #: common/events.c:101
 msgid "Hut: Gold Found in Hut"
-msgstr "Dorf: Gold gefunden"
+msgstr "Hütten: Gold gefunden"
 
 #: common/events.c:102
 msgid "Hut: Killed by Barbarians in a Hut"
-msgstr "Dorf: Von Barbaren getötet"
+msgstr "Hütten: Von Barbaren getötet"
 
 #: common/events.c:103
 msgid "Hut: Mercenaries Found in Hut"
-msgstr "Dorf: Söldner gefunden"
+msgstr "Hütten: Söldner gefunden"
 
 #: common/events.c:104
 msgid "Hut: Settler Found in Hut"
-msgstr "Dorf: Siedler entdeckt"
+msgstr "Hütten: Siedler entdeckt"
 
 #: common/events.c:105
 msgid "Hut: Tech Found in Hut"
-msgstr "Dorf: Fortschritt entdeckt"
+msgstr "Hütten: Fortschritt entdeckt"
 
 #: common/events.c:106
 msgid "Hut: Unit Spared by Barbarians"
-msgstr "Dorf: Einheit von Barbaren ermordet"
+msgstr "Hütten: Einheit von Barbaren ermordet"
 
 #: common/events.c:107
 msgid "Improvement: Bought"
@@ -701,7 +701,7 @@ msgstr "Verschmutzung"
 
 #: common/terrain.c:291
 msgid "Hut"
-msgstr "Dorf"
+msgstr "Hütte"
 
 #: common/terrain.c:292 common/terrain.c:485 common/unit.c:552
 #: manual/civmanual.c:226
@@ -1096,9 +1096,7 @@ msgstr "*%s (KI)* Lass uns erst die Feindseligkeiten beenden, %s"
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
-msgstr ""
-"*%s (KI)* Ich möchte erst unseren Waffenstillstand ein wenig länger "
-"eingehalten wissen, %s."
+msgstr "*%s (KI)* Ich will erst abwarten, ob Du die Feuerpause einhältst, %s."
 
 #: ai/advdiplomacy.c:326
 #, c-format
@@ -1148,7 +1146,7 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
-"*%s (KI)* Sei gegrüßt, %s! Dürfen wir einen Waffenstillstand vorschlagen, "
+"*%s (KI)* Sei gegrüßt, %s! Dürfen wir eine Feuerpause vorschlagen, "
 "damit wir uns besser kennenlernen können?"
 
 #: ai/advdiplomacy.c:1076
@@ -2765,7 +2763,7 @@ msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
 msgstr ""
-"Allen wird mitgeteilt, das Du aus dem Spiel ausscheidest, und wenn alle bis "
+"Allen wird mitgeteilt, das du aus dem Spiel ausscheidest, und wenn alle bis "
 "auf einen Spieler (oder ein Team) ausgeschieden sind, endet das Spiel."
 
 #. TRANS: translate text between <> only
@@ -3049,12 +3047,12 @@ msgstr ""
 #: server/diplhand.c:347
 #, c-format
 msgid "You gave an embassy to %s."
-msgstr "Sie haben den %s eine Botschaft bei Ihnen gegeben."
+msgstr "Du hast %s erlaubt, eine Botschaft bei dir zu eröffnen."
 
 #: server/diplhand.c:350
 #, c-format
 msgid "%s allowed you to create an embassy!"
-msgstr "Die %s haben Ihnen erlaubt, eine Botschaft zu eröffnen!"
+msgstr "%s hat dir erlaubt, eine Botschaft zu eröffnen!"
 
 #: server/diplhand.c:366
 #, c-format
@@ -3094,7 +3092,7 @@ msgstr "Stadt %s an %s abgegeben."
 #: server/diplhand.c:429 server/diplhand.c:432
 #, c-format
 msgid "You agree on a cease-fire with %s."
-msgstr "Waffenstillstand mit %s."
+msgstr "Du stimmst einer Feuerpause mit %s zu."
 
 #: server/diplhand.c:450 server/diplhand.c:459
 #, c-format
@@ -3671,7 +3669,7 @@ msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
 msgstr ""
-"Der Senat weigert sich den Pakt mit den %s zu brechen, aber Du hast keine "
+"Der Senat weigert sich den Pakt mit den %s zu brechen, aber du hast keine "
 "Schwierigkeiten, einen neuen Senat zu finden."
 
 #: server/plrhand.c:605
@@ -4242,31 +4240,31 @@ msgstr ""
 
 #: server/settings.c:31
 msgid "Geological"
-msgstr "Geologisch"
+msgstr "Geologie"
 
 #: server/settings.c:32
 msgid "Sociological"
-msgstr "Soziologisch"
+msgstr "Gesellschaft"
 
 #: server/settings.c:33
 msgid "Economic"
-msgstr "Ökonomisch"
+msgstr "Wirtschaft"
 
 #: server/settings.c:34
 msgid "Military"
-msgstr "Militärisch"
+msgstr "Militär"
 
 #: server/settings.c:35
 msgid "Scientific"
-msgstr "Wissenschaftlich"
+msgstr "Wissenschaft"
 
 #: server/settings.c:36
 msgid "Internal"
-msgstr "Intern"
+msgstr "Spiel"
 
 #: server/settings.c:37
 msgid "Networking"
-msgstr "Netzwerk"
+msgstr "Netz"
 
 #: server/settings.c:41 client/gui-gtk-2.0/dialogs.c:731
 #: client/gui-win32/dialogs.c:536
@@ -4461,15 +4459,15 @@ msgstr ""
 
 #: server/settings.c:300
 msgid "Presence of 1x1 islands"
-msgstr "1x1 Inseln"
+msgstr "1x1-Inseln"
 
 #: server/settings.c:301
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
-msgstr "0 = Es gibt keine 1x1 Inseln; 1 = Es kann 1x1 Inseln geben"
+msgstr "0 = Es gibt keine 1x1-Inseln; 1 = Es kann 1x1-Inseln geben"
 
 #: server/settings.c:306
 msgid "Whether the poles are separate continents"
-msgstr "Pol-Kontinente"
+msgstr "Pole sind Kontinente"
 
 #: server/settings.c:307
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
@@ -4585,7 +4583,7 @@ msgstr "Bei 0 wird aus der Zeit eine Zufallszahl abgeleitet."
 
 #: server/settings.c:381
 msgid "Amount of \"special\" resource squares"
-msgstr "Anzahl der 'besonderen' Ressourcenfelder"
+msgstr "Anzahl der besonderen Ressourcen"
 
 # ? Original scheint fehlerhaft, siehe PR#11053
 #: server/settings.c:382
@@ -5056,14 +5054,14 @@ msgid ""
 "4 = raging hordes, lots of barbarians"
 msgstr ""
 "0 - keine Barbaren\n"
-"1 - Barbaren nur in Dörfern (Hütten)\n"
+"1 - Barbaren nur in Hütten\n"
 "2 - normale Barbarenhäufigkeit\n"
 "3 - häufige Barbarenaufstände\n"
 "4 - Barbaren sind wütende Horden"
 
 #: server/settings.c:729
 msgid "Barbarian onset year"
-msgstr "Barbaren-Startjahr"
+msgstr "Startjahr für Barbaren"
 
 #: server/settings.c:730
 msgid "Barbarians will not appear before this year."
@@ -5084,7 +5082,7 @@ msgstr ""
 
 #: server/settings.c:746
 msgid "Whether to enable fog of war"
-msgstr "'Nebel des Krieges' (de)aktivieren"
+msgstr "Nebel des Krieges"
 
 #: server/settings.c:747
 msgid ""
@@ -5093,7 +5091,7 @@ msgid ""
 "cities or terrain changes in tiles not observed."
 msgstr ""
 "Bei 1 verhindern die 'Nebel des Krieges', daß Einheiten außer Sichtweite "
-"eigener Einheiten angezeigt werden. Auch neue Städte oder Terrainänderungen "
+"eigener Einheiten angezeigt werden. Auch neue Städte oder Landschaftsänderungen "
 "auf unbeobachteten Feldern bleiben unbemerkt."
 
 #: server/settings.c:755
@@ -5134,7 +5132,7 @@ msgstr ""
 
 #: server/settings.c:781
 msgid "Turns until player contact is lost"
-msgstr "Anzahl der Züge, bis Spielerkontakt verloren geht (für Verhandlungen)."
+msgstr "Zeit für Verhandlungen nach Spielerkontakt (Runden)"
 
 #: server/settings.c:782
 msgid ""
@@ -5163,7 +5161,7 @@ msgstr ""
 
 #: server/settings.c:803
 msgid "Whether to use natural city names"
-msgstr "Terrainbezogene Städtenamen"
+msgstr "Geländebezogene Städtenamen"
 
 #: server/settings.c:804
 msgid ""
@@ -5279,9 +5277,7 @@ msgstr ""
 
 #: server/settings.c:877
 msgid "Timeout at least n seconds when enemy moved"
-msgstr ""
-"Automatisches Rundenende frühestens n Sekunden nach dem letzten Zug des "
-"Gegners."
+msgstr "Wartezeit bis Rundenende nach dem letzten Zug eines Spielers (Sekunden)"
 
 #: server/settings.c:878
 msgid ""
@@ -5293,7 +5289,7 @@ msgstr ""
 
 #: server/settings.c:887
 msgid "Whether to have simultaneous player phases."
-msgstr "Spielerzüge gleichzeitig oder nacheinander."
+msgstr "Alle Spieler ziehen gleichzeitig"
 
 #: server/settings.c:888
 msgid ""
@@ -5305,7 +5301,7 @@ msgstr ""
 
 #: server/settings.c:895
 msgid "Seconds to let a client's network connection block"
-msgstr "Maximale TCP Blockierung (in Sekunden)"
+msgstr "Maximale TCP-Blockierung (Sekunden)"
 
 #: server/settings.c:896
 msgid ""
@@ -5319,7 +5315,7 @@ msgstr ""
 
 #: server/settings.c:905
 msgid "Max seconds for network buffers to drain"
-msgstr "Sekunden zur Leerung der TCP Buffer"
+msgstr "Leerung der TCP-Puffer (Sekunden)"
 
 #: server/settings.c:906
 msgid ""
@@ -5332,7 +5328,7 @@ msgstr ""
 
 #: server/settings.c:914
 msgid "Seconds between PINGs"
-msgstr "PING Pause"
+msgstr "PING-Intervall (Sekunden)"
 
 #: server/settings.c:915
 msgid ""
@@ -5340,11 +5336,11 @@ msgid ""
 "period elapses."
 msgstr ""
 "Der Server fordert am Ende dieser Zeitspanne (in Sek.) ein PING von den "
-"Klienten. "
+"Klienten."
 
 #: server/settings.c:922
 msgid "Time to cut a client"
-msgstr "Klient trennen"
+msgstr "Inaktiven Klient trennen (Sekunden)"
 
 #: server/settings.c:923
 msgid ""
@@ -5355,7 +5351,7 @@ msgstr ""
 
 #: server/settings.c:929
 msgid "Turn-blocking game play mode"
-msgstr "Runden-Sperre"
+msgstr "Rundensperre"
 
 #: server/settings.c:930
 msgid ""
@@ -5424,7 +5420,7 @@ msgstr ""
 
 #: server/settings.c:970
 msgid "Turns per auto-save"
-msgstr "Automatisches Speichern"
+msgstr "Automatisch speichern (Runden)"
 
 #: server/settings.c:971
 msgid ""
@@ -5436,7 +5432,7 @@ msgstr ""
 
 #: server/settings.c:981 server/settings.c:992
 msgid "Savegame compression level"
-msgstr "Komprimierungsebene"
+msgstr "Dateikomprimierung"
 
 #: server/settings.c:982 server/settings.c:993
 msgid ""
@@ -5450,7 +5446,7 @@ msgstr ""
 
 #: server/settings.c:1004
 msgid "Auto-save name prefix"
-msgstr "Namenspräfix für automatisches Speichern"
+msgstr "Namenvorsatz für das automatische Speichern"
 
 #: server/settings.c:1005
 msgid ""
@@ -5591,14 +5587,14 @@ msgstr ""
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
-"Besorgte Bürger weisen darauf hin, daß der Waffenstillstand mit %s bald "
+"Besorgte Bürger weisen darauf hin, daß die Feuerpause mit %s bald "
 "endet."
 
 #: server/srv_main.c:486
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
-"Der Waffenstillstand mit %s ist beendet. Du befindest Dich jetzt im Krieg "
+"Die Feuerpause mit %s ist beendet. Du befindest Dich jetzt im Krieg "
 "mit den %s."
 
 #: server/srv_main.c:822
@@ -6858,7 +6854,7 @@ msgid ""
 "start a revolution."
 msgstr ""
 "Die Entdeckung von %s macht die Regierungsform %s verfügbar. Vielleicht "
-"willst Du eine Revolution beginnen?"
+"willst du eine Revolution beginnen?"
 
 #: server/techtools.c:296
 #, c-format
@@ -8195,7 +8191,7 @@ msgstr "Die %s geben ihre Seekarte"
 
 #: client/climisc.c:278
 msgid "The parties agree on a cease-fire"
-msgstr "Die Verhandlungspartner vereinbaren einen Waffenstillstand"
+msgstr "Die Verhandlungspartner vereinbaren eine Feuerpause"
 
 #: client/climisc.c:281
 msgid "The parties agree on a peace"
@@ -9831,8 +9827,8 @@ msgstr "Gebiet der %s"
 #, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] "%ses Gebiet (%d Runde Waffenstillstand)"
-msgstr[1] "%ses Gebiet (%d Runden Waffenstillstand)"
+msgstr[0] "%ses Gebiet (%d Runde Feuerpause)"
+msgstr[1] "%ses Gebiet (%d Runden Feuerpause)"
 
 #: client/text.c:132
 #, c-format
@@ -9854,8 +9850,8 @@ msgstr "Stadt: %s (%s)"
 #, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
-msgstr[0] "Stadt: %s (%s, %d Runde Waffenstillstand)"
-msgstr[1] "Stadt: %s (%s, %d Runden Waffenstillstand)"
+msgstr[0] "Stadt: %s (%s, %d Runde Feuerpause)"
+msgstr[1] "Stadt: %s (%s, %d Runden Feuerpause)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:165
@@ -9894,8 +9890,8 @@ msgstr "Einheit: %s (%s%s)"
 #, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Einheit: %s (%s, %d Runde Waffenstillstand)"
-msgstr[1] "Einheit: %s (%s, %d Runden Waffenstillstand)"
+msgstr[0] "Einheit: %s (%s, %d Runde Feuerpause)"
+msgstr[1] "Einheit: %s (%s, %d Runden Feuerpause)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:238
@@ -14596,7 +14592,7 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:1170
 msgid "Sorry, You have already bought here in this turn"
-msgstr "Tut mir leid, Du hast hier in dieser Runde schon gekauft."
+msgstr "Tut mir leid, du hast hier in dieser Runde schon gekauft."
 
 #: client/gui-sdl/citydlg.c:1174
 msgid "Buy It?"
@@ -15037,7 +15033,7 @@ msgstr "REVOLUTION!"
 
 #: client/gui-sdl/dialogs.c:2604 client/gui-win32/dialogs.c:509
 msgid "What nation will you be?"
-msgstr "Welche Nation nimmst Du?"
+msgstr "Welche Nation nimmst du?"
 
 #: client/gui-sdl/dialogs.c:2812 client/gui-sdl/mapctrl.c:2395
 #: client/gui-win32/dialogs.c:597 client/gui-win32/inputdlg.c:145
@@ -15522,10 +15518,10 @@ msgid_plural ""
 "%s territory (%d turn ceasefire)"
 msgstr[0] ""
 "\n"
-"%ses Gebiet (%d Runde Waffenstillstand)"
+"%ses Gebiet (%d Runde Feuerpause)"
 msgstr[1] ""
 "\n"
-"%ses Gebiet (%d Runden Waffenstillstand)"
+"%ses Gebiet (%d Runden Feuerpause)"
 
 #: client/gui-sdl/mapview.c:586
 #, c-format
@@ -20112,7 +20108,7 @@ msgid ""
 "otherwise."
 msgstr ""
 "Deine Reputation und Deine Anerkennung bei anderen Nationen steigt, solange "
-"Du dieses Wunder besitzt. Deine Reputation wird doppelt so schnell "
+"du dieses Wunder besitzt. Deine Reputation wird doppelt so schnell "
 "wiederhergestellt als sonst."
 
 #: data/default/buildings.ruleset:1094 data/civ2/buildings.ruleset:1080
@@ -20884,7 +20880,7 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
-"In der Diktatur bist Du der unumschränkte Herrscher Deines Volkes. Du "
+"In der Diktatur bist du der unumschränkte Herrscher Deines Volkes. Du "
 "kontrollierst Deine Bürger hauptsächlich mit Hilfe des Kriegsrechts.\n"
 "\n"
 "In der Diktatur gibt es von allen Regierungsformen die höchste Korruption."
@@ -20896,7 +20892,7 @@ msgid "Monarchy"
 msgstr "Monarchie"
 
 #: data/default/governments.ruleset:100 data/civ2/governments.ruleset:98
-#: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:30
+#: data/civ1/governments.ruleset:100 data/nation/bosnia.ruleset:29
 #: data/nation/burmese.ruleset:28 data/nation/croatian.ruleset:34
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/spanish.ruleset:30
@@ -20904,7 +20900,7 @@ msgid "King"
 msgstr "König"
 
 #: data/default/governments.ruleset:101 data/civ2/governments.ruleset:99
-#: data/civ1/governments.ruleset:101 data/nation/bosnia.ruleset:30
+#: data/civ1/governments.ruleset:101 data/nation/bosnia.ruleset:29
 #: data/nation/burmese.ruleset:28 data/nation/croatian.ruleset:34
 #: data/nation/polish.ruleset:28 data/nation/serbian.ruleset:37
 #: data/nation/spanish.ruleset:30
@@ -20994,7 +20990,7 @@ msgstr "Demokratie"
 
 #: data/default/governments.ruleset:167 data/civ2/governments.ruleset:193
 #: data/civ1/governments.ruleset:167 data/nation/assyrian.ruleset:22
-#: data/nation/bosnia.ruleset:31 data/nation/bosnia.ruleset:32
+#: data/nation/bosnia.ruleset:30 data/nation/bosnia.ruleset:31
 #: data/nation/brazilian.ruleset:24 data/nation/bulgarian.ruleset:34
 #: data/nation/bulgarian.ruleset:35 data/nation/catalan.ruleset:25
 #: data/nation/chilean.ruleset:27 data/nation/croatian.ruleset:35
@@ -21049,7 +21045,7 @@ msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
 msgstr ""
-"In der Diktatur bist Du der unumschränkte Herrscher Deines Volkes. Du "
+"In der Diktatur bist du der unumschränkte Herrscher Deines Volkes. Du "
 "kontrollierst Deine Bürger hauptsächlich mit Hilfe des Kriegsrechts.\n"
 "\n"
 "In der Diktatur gibt es von allen Regierungsformen die höchste Korruption "
@@ -22385,7 +22381,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1766
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr "Dies bist Du! Wenn Du diese Einheit verlierst, ist das Spiel verloren."
+msgstr "Dies bist du selbst! Wenn du diese Einheit verlierst, ist das Spiel verloren."
 
 #: data/default/units.ruleset:1771 data/civ2/units.ruleset:1681
 #: data/civ1/units.ruleset:962
@@ -22579,7 +22575,7 @@ msgid "?plural:Aborigines"
 msgstr "Aborigines"
 
 #: data/nation/aborigines.ruleset:5 data/nation/australian.ruleset:5
-#: data/nation/maori.ruleset:5 data/nation/newzealand.ruleset:6
+#: data/nation/maori.ruleset:5 data/nation/newzealand.ruleset:5
 #: data/nation/papuan.ruleset:5
 msgid "Oceanian"
 msgstr "Ozeanien"
@@ -22606,9 +22602,9 @@ msgstr "Afghanen"
 
 #: data/nation/afghani.ruleset:5 data/nation/algerian.ruleset:5
 #: data/nation/american.ruleset:5 data/nation/armenian.ruleset:5
-#: data/nation/argentine.ruleset:6 data/nation/australian.ruleset:5
+#: data/nation/argentine.ruleset:5 data/nation/australian.ruleset:5
 #: data/nation/austrian.ruleset:5 data/nation/belgian.ruleset:5
-#: data/nation/bengali.ruleset:5 data/nation/bosnia.ruleset:6
+#: data/nation/bengali.ruleset:5 data/nation/bosnia.ruleset:5
 #: data/nation/brazilian.ruleset:5 data/nation/british.ruleset:5
 #: data/nation/bulgarian.ruleset:5 data/nation/burmese.ruleset:5
 #: data/nation/canadian.ruleset:5 data/nation/chilean.ruleset:5
@@ -22630,7 +22626,7 @@ msgstr "Afghanen"
 #: data/nation/lithuanian.ruleset:5 data/nation/malagasy.ruleset:5
 #: data/nation/malaysian.ruleset:5 data/nation/malian.ruleset:5
 #: data/nation/mexican.ruleset:5 data/nation/mongol.ruleset:5
-#: data/nation/newzealand.ruleset:6 data/nation/nigerian.ruleset:5
+#: data/nation/newzealand.ruleset:5 data/nation/nigerian.ruleset:5
 #: data/nation/norwegian.ruleset:5 data/nation/papuan.ruleset:5
 #: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
 #: data/nation/romanian.ruleset:5 data/nation/russian.ruleset:5
@@ -22641,7 +22637,7 @@ msgstr "Afghanen"
 #: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
 #: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
 #: data/nation/tunisian.ruleset:5 data/nation/turk.ruleset:5
-#: data/nation/ukrainian.ruleset:5 data/nation/venezuelan.ruleset:6
+#: data/nation/ukrainian.ruleset:5 data/nation/venezuelan.ruleset:5
 #: data/nation/vietnamese.ruleset:5
 msgid "Modern"
 msgstr "modern"
@@ -22701,7 +22697,7 @@ msgstr "Mullah"
 #: data/nation/hellenic.ruleset:19 data/nation/israeli.ruleset:21
 #: data/nation/japanese.ruleset:39 data/nation/kampuchean.ruleset:22
 #: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:26
-#: data/nation/newzealand.ruleset:22 data/nation/norwegian.ruleset:28
+#: data/nation/newzealand.ruleset:21 data/nation/norwegian.ruleset:28
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:22
 #: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:41
 #: data/nation/slovakian.ruleset:28 data/nation/spanish.ruleset:31
@@ -22738,14 +22734,14 @@ msgstr ""
 "Berbern bewohnt."
 
 #: data/nation/american.ruleset:3 data/nation/american.ruleset:5
-#: data/nation/argentine.ruleset:6 data/nation/aztec.ruleset:5
+#: data/nation/argentine.ruleset:5 data/nation/aztec.ruleset:5
 #: data/nation/brazilian.ruleset:5 data/nation/canadian.ruleset:5
 #: data/nation/chilean.ruleset:5 data/nation/colombian.ruleset:5
 #: data/nation/cuban.ruleset:5 data/nation/inca.ruleset:5
 #: data/nation/inuit.ruleset:5 data/nation/iroquois.ruleset:5
 #: data/nation/mayan.ruleset:5 data/nation/mexican.ruleset:5
 #: data/nation/quebecois.ruleset:5 data/nation/sioux.ruleset:5
-#: data/nation/texan.ruleset:5 data/nation/venezuelan.ruleset:6
+#: data/nation/texan.ruleset:5 data/nation/venezuelan.ruleset:5
 msgid "American"
 msgstr "amerikanisch"
 
@@ -22870,7 +22866,7 @@ msgstr "Armenier"
 
 #: data/nation/armenian.ruleset:5 data/nation/austrian.ruleset:5
 #: data/nation/bavarian.ruleset:5 data/nation/belgian.ruleset:5
-#: data/nation/bosnia.ruleset:6 data/nation/british.ruleset:5
+#: data/nation/bosnia.ruleset:5 data/nation/british.ruleset:5
 #: data/nation/bulgarian.ruleset:5 data/nation/byzantium.ruleset:5
 #: data/nation/catalan.ruleset:5 data/nation/cornish.ruleset:5
 #: data/nation/croatian.ruleset:5 data/nation/czech.ruleset:5
@@ -22932,18 +22928,18 @@ msgstr "Malka"
 msgid "Malikta"
 msgstr "Malikta"
 
-#: data/nation/argentine.ruleset:4
+#: data/nation/argentine.ruleset:3
 msgid "Argentine"
 msgstr "argentinisch"
 
-#: data/nation/argentine.ruleset:5
+#: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
 msgstr "?plural:Argentinier"
 
 #. TRANS: The fourth letter in "Peron" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
-#: data/nation/argentine.ruleset:10
+#: data/nation/argentine.ruleset:9
 msgid ""
 "Argentina is located on the south-eastern coast of South America. Since "
 "independence from Spain in 1816, it has been plagued by several internal and "
@@ -23134,15 +23130,15 @@ msgstr ""
 "und den Oranje-Freistaat, bis sie in dem Krieg von 1899-1902 von den Briten "
 "niedergerungen wurden."
 
-#: data/nation/bosnia.ruleset:4
+#: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
 msgstr "Bosnien und Herzegowina"
 
-#: data/nation/bosnia.ruleset:5
+#: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
 msgstr "?plural:Bosnier"
 
-#: data/nation/bosnia.ruleset:7
+#: data/nation/bosnia.ruleset:6
 msgid ""
 "Bosnia and Herzegovina is a country in south-east Europe, and the home of "
 "three constituent peoples: Bosniaks, Serbs, and Croats."
@@ -23150,7 +23146,7 @@ msgstr ""
 "Bosnien und Herzegowina ist ein Land in Südosteuropa, deren Bevölkerung von "
 "Bosniern, Serben und Kroaten gebildet wird."
 
-#: data/nation/bosnia.ruleset:29
+#: data/nation/bosnia.ruleset:28
 msgid "Ban"
 msgstr "Graf"
 
@@ -23373,12 +23369,12 @@ msgid "Primera Ministre"
 msgstr "Premierminister"
 
 #: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
-#: data/nation/venezuelan.ruleset:34
+#: data/nation/venezuelan.ruleset:33
 msgid "Dictador"
 msgstr "Diktator"
 
 #: data/nation/catalan.ruleset:23 data/nation/galician.ruleset:23
-#: data/nation/venezuelan.ruleset:34
+#: data/nation/venezuelan.ruleset:33
 msgid "Dictadora"
 msgstr "Diktator"
 
@@ -23488,11 +23484,11 @@ msgstr ""
 msgid "General"
 msgstr "General"
 
-#: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:32
+#: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:31
 msgid "Governador"
 msgstr "Gouverneur"
 
-#: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:32
+#: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:31
 msgid "Governadora"
 msgstr "Gouverneurin"
 
@@ -23815,13 +23811,13 @@ msgstr "Premierministerin"
 msgid "Raina"
 msgstr "Raina"
 
-#: data/nation/galician.ruleset:25 data/nation/venezuelan.ruleset:35
-#: data/nation/venezuelan.ruleset:36 data/nation/venezuelan.ruleset:37
+#: data/nation/galician.ruleset:25 data/nation/venezuelan.ruleset:34
+#: data/nation/venezuelan.ruleset:35 data/nation/venezuelan.ruleset:36
 msgid "Presidente"
 msgstr "Präsident"
 
-#: data/nation/galician.ruleset:25 data/nation/venezuelan.ruleset:35
-#: data/nation/venezuelan.ruleset:36 data/nation/venezuelan.ruleset:37
+#: data/nation/galician.ruleset:25 data/nation/venezuelan.ruleset:34
+#: data/nation/venezuelan.ruleset:35 data/nation/venezuelan.ruleset:36
 msgid "Presidenta"
 msgstr "Präsidentin"
 
@@ -24639,15 +24635,15 @@ msgstr "Khan"
 msgid "Khagan"
 msgstr "Khagan"
 
-#: data/nation/newzealand.ruleset:4
+#: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
 msgstr "neuseeländisch"
 
-#: data/nation/newzealand.ruleset:5
+#: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
 msgstr "Neuseeländer"
 
-#: data/nation/newzealand.ruleset:8
+#: data/nation/newzealand.ruleset:7
 msgid ""
 "The island group of New Zealand was annexed by Britain in 1840. Following a "
 "royal proclamation in 1907, the country became an independent dominion "
@@ -25374,7 +25370,7 @@ msgstr "Bundeskanzler"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr "taiwanisch"
+msgstr "taiwanesisch"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
@@ -25552,18 +25548,18 @@ msgstr ""
 "Kasachstan und Kirgisistan. Sie bilden außerdem die größte Minderheit in der "
 "chinesischen Provinz Xinjiang."
 
-#: data/nation/venezuelan.ruleset:4
+#: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
 msgstr "venezuleanisch"
 
-#: data/nation/venezuelan.ruleset:5
+#: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
 msgstr "Venezuleaner"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
-#: data/nation/venezuelan.ruleset:10
+#: data/nation/venezuelan.ruleset:9
 msgid ""
 "Venezuela is the most northern country in South America. Having been a "
 "Spanish colony since the 16th century, the country gained independence on "
@@ -25574,7 +25570,7 @@ msgstr ""
 "eine spanische Kolonie, wurde das Land am 5. Juli 1811 unter der "
 "Führerschaft von 'El Libertador' - dem Befreier - Simón Bolívar unabhängig."
 
-#: data/nation/venezuelan.ruleset:33
+#: data/nation/venezuelan.ruleset:32
 msgid "Terrateniente"
 msgstr "Terrateniente"
 
