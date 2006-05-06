@@ -17,6 +17,8 @@
 #include "mapview_g.h"
 
 void mapview_update_actions(void);
+void popup_mapcanvas(void);
+void popdown_mapcanvas(void);
 
 void set_focus_tile(struct tile *ptile);
 void clear_focus_tile(void);
