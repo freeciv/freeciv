@@ -24,10 +24,12 @@
 #include "movement.h"
 #include "registry.h"
 #include "support.h"
+#include "unitlist.h"
 
 #include "civclient.h"
 #include "climap.h"
 #include "climisc.h"
+#include "colors.h"
 #include "combat.h"
 #include "control.h"
 #include "mapctrl_common.h"
@@ -180,7 +182,7 @@ void update_info_label(void)
   And it may call update_unit_pix_label() to update the icons for units
   on this square.
 **************************************************************************/
-void update_unit_info_label(struct unit *punit)
+void update_unit_info_label(struct unit_list *punitlist)
 {
   /* PORTME */
 }
@@ -651,7 +653,7 @@ static void update_focus_tile_list2(void)
 
   ptile = get_focus_tile();
   unit_list_iterate(ptile->units, aunit) {
-    if (game.info.player_idx == aunit->owner) {
+    if (game.info.player_idx == aunit->owner->player_no) {
       set_unit_focus(aunit);
       break;
     }
@@ -676,7 +678,7 @@ static void update_focus_tile_list2(void)
     item->selected = create_selected_osda(item->unselected);
     item->button = NULL;
     item->tooltip=mystrdup(mapview_get_terrain_tooltip_text(ptile));
-    item->info_text=mystrdup(mapview_get_terrain_info_text(ptile));
+    item->info_text=mystrdup(popup_info_text(ptile));
   }
 
   if (tile_get_city(ptile)) {
@@ -1306,7 +1308,7 @@ static void fill_actions(void)
     X(ACTIVITY_SENTRY,  "unit_sentry");
     X(ACTIVITY_TRANSFORM,  "unit_transform");
 
-    if (can_unit_do_auto(punit)) {
+    if (can_unit_do_autosettlers(punit)) {
       if (unit_flag(punit, F_SETTLERS)) {
 	ADD("unit_auto_settler");
       } else {
@@ -1526,4 +1528,12 @@ void set_city_names_font_sizes(int my_city_names_font_size,
 {
   freelog(LOG_ERROR, "Ignore set_city_names_font_sizes call.");
   /* PORTME */
+}
+
+/**************************************************************************
+  This function will change the current mouse cursor.
+**************************************************************************/
+void update_mouse_cursor(enum cursor_type new_cursor_type)
+{
+  /* PORT ME */
 }

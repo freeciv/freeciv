@@ -18,6 +18,7 @@
 #include <assert.h>
 
 #include "climisc.h"		/* for write_chatline_content */
+#include "colors.h"
 #include "widget.h"
 #include "gui_main.h"
 #include "chat.h"

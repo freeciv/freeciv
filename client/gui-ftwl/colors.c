@@ -15,12 +15,29 @@
 #include <config.h>
 #endif
 
+#include "mem.h"
+
+#include "back_end.h"
+
 #include "colors.h"
 
-/**************************************************************************
-  Initialize colors for the game.
-**************************************************************************/
-void init_color_system(void)
+/****************************************************************************
+  Allocate a color (adjusting it for our colormap if necessary on paletted
+  systems) and return a pointer to it.
+****************************************************************************/
+struct color *color_alloc(int r, int g, int b)
 {
-  /* PORTME */
+  struct color *color = fc_malloc(sizeof(*color));
+
+  color->color = be_get_color(r, g, b, MAX_OPACITY);
+
+  return color;
+}
+
+/****************************************************************************
+  Free a previously allocated color.  See color_alloc.
+****************************************************************************/
+void color_free(struct color *color)
+{
+  free(color);
 }

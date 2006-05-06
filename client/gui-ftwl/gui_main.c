@@ -24,6 +24,8 @@
 #include "registry.h"
 
 #include "chatline.h"
+#include "colors_common.h"
+#include "colors.h"
 #include "back_end.h"
 #include "widget.h"
 #include "graphics_g.h"
@@ -253,6 +255,14 @@ void ui_main(int argc, char *argv[])
   popup_mapcanvas();
   set_client_state(CLIENT_PRE_GAME_STATE);
   sw_mainloop(input_from_server);
+}
+
+/**************************************************************************
+  Do any necessary UI-specific cleanup
+**************************************************************************/
+void ui_exit()
+{
+  /* PORTME */
 }
 
 /**************************************************************************

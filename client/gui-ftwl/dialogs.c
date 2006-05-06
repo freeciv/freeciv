@@ -154,7 +154,7 @@ static void leaders_list_selection_changed(struct sw_widget *widget,
 /**************************************************************************
   Popup the nation selection dialog.
 **************************************************************************/
-void popup_races_dialog(void)
+void popup_races_dialog(struct player *pplayer)
 {
 #if 0
   struct ct_string *string;
@@ -282,10 +282,18 @@ void popup_caravan_dialog(struct unit *punit,
   Is there currently a caravan dialog open?  This is important if there
   can be only one such dialog at a time; otherwise return FALSE.
 **************************************************************************/
-bool caravan_dialog_is_open(void)
+bool caravan_dialog_is_open(int* unit_id, int* city_id)
 {
   /* PORTME */
   return FALSE;
+}
+
+/****************************************************************
+  Updates caravan dialog
+****************************************************************/
+void caravan_dialog_update(void)
+{
+  /* PORTME */
 }
 
 /**************************************************************************
@@ -297,14 +305,21 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
   /* PORTME */
 }
 
-/**************************************************************************
-  Return whether a diplomat dialog is open.  This is important if there
-  can be only one such dialog at a time; otherwise return FALSE.
-**************************************************************************/
-bool diplomat_dialog_is_open(void)
+/****************************************************************
+  Returns id of a diplomat currently handled in diplomat dialog
+*****************************************************************/
+int diplomat_handled_in_diplomat_dialog(void)
+{
+  /* PORTME */    
+  return -1;  
+}
+
+/****************************************************************
+  Closes the diplomat dialog
+****************************************************************/
+void close_diplomat_dialog(void)
 {
   /* PORTME */
-  return FALSE;
 }
 
 /**************************************************************************
@@ -338,8 +353,7 @@ void popup_sabotage_dialog(struct city *pcity)
   Popup a dialog asking the unit which improvement they would like to
   pillage.
 **************************************************************************/
-void popup_pillage_dialog(struct unit *punit,
-			  enum tile_special_type may_pillage)
+void popup_pillage_dialog(struct unit *punit, bv_special may_pillage)
 {
   /* PORTME */
 }

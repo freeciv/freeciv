@@ -19,6 +19,7 @@
 
 #include "log.h"
 #include "back_end.h"
+#include "colors.h"
 #include "gui_main.h"		/* for enum_color_to_be_color() */
 #include "widget.h"
 #include "mapview.h"		/* for text_templates */
@@ -118,14 +119,15 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   Draw a filled-in colored rectangle onto the mapview or citydialog canvas.
 **************************************************************************/
 void canvas_put_rectangle(struct canvas *pcanvas,
-			  enum color_std color,
+			  struct color *pcolor,
 			  int canvas_x, int canvas_y, int width, int height)
 {
   struct ct_rect rect = { canvas_x, canvas_y, width, height };
-
-  freelog(LOG_DEBUG, "gui_put_rectangle(,%d,%d,%d,%d,%d)", color, canvas_x, 
-          canvas_y, width, height);
-  be_draw_region(pcanvas->osda, &rect, enum_color_to_be_color(color));
+  
+  freelog(LOG_DEBUG, "gui_put_rectangle(,%lu,%d,%d,%d,%d)", pcolor->color,
+          canvas_x, canvas_y, width, height);
+  
+  be_draw_region(pcanvas->osda, &rect, pcolor->color);
   if (pcanvas->widget) {
     sw_window_canvas_background_region_needs_repaint(pcanvas->widget,
 						     &rect);
@@ -136,7 +138,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
   Fill the area covered by the sprite with the given color.
 ****************************************************************************/
 void canvas_fill_sprite_area(struct canvas *pcanvas,
-                             struct sprite *psprite, enum color_std color,
+                             struct sprite *psprite, struct color *pcolor,
                              int canvas_x, int canvas_y)
 {
   /* PORTME */
@@ -154,7 +156,7 @@ void canvas_fog_sprite_area(struct canvas *pcanvas, struct sprite *psprite,
 /**************************************************************************
   Draw a 1-pixel-width colored line onto the mapview or citydialog canvas.
 **************************************************************************/
-void canvas_put_line(struct canvas *pcanvas, enum color_std color,
+void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 		     enum line_type ltype, int start_x, int start_y,
 		     int dx, int dy)
 {
@@ -167,11 +169,9 @@ void canvas_put_line(struct canvas *pcanvas, enum color_std color,
   freelog(LOG_DEBUG, "gui_put_line(...)");
 
   if (ltype == LINE_NORMAL) {
-    be_draw_line(pcanvas->osda, &start, &end, 1, FALSE,
-		 enum_color_to_be_color(color));
+    be_draw_line(pcanvas->osda, &start, &end, 1, FALSE, pcolor->color);
   } else if (ltype == LINE_BORDER) {
-    be_draw_line(pcanvas->osda, &start, &end, 2, TRUE,
-		 enum_color_to_be_color(color));
+    be_draw_line(pcanvas->osda, &start, &end, 2, TRUE, pcolor->color);
   } else {
     assert(0);
   }
@@ -209,12 +209,12 @@ void get_text_size(int *width, int *height,
   take care of this manually.  The text will not be NULL but may be empty.
 ****************************************************************************/
 void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
-		     enum client_font font, enum color_std color,
+		     enum client_font font, struct color *pcolor,
 		     const char *text)
 {
     struct ct_point position={canvas_x, canvas_y};
-    struct ct_string *string=ct_string_clone4(text_templates[font],
-					      text,color);
+    struct ct_string *string=ct_string_clone4(text_templates[font], text,
+                                                              pcolor->color);
     tr_draw_string(pcanvas->osda,&position,string);
     ct_string_destroy(string);
 }
