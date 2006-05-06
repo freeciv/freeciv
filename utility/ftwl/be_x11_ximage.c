@@ -28,6 +28,7 @@
 
 #include "back_end.h"
 #include "be_common_24.h"
+#include "be_common_pixels.h"
 
 #include "shared.h"
 
