@@ -20,6 +20,7 @@
 
 #include "connection.h"
 #include "climisc.h"      /* for write_chatline_content */
+#include "colors.h"
 #include "log.h"
 #include "widget.h"
 #include "gui_main.h"
@@ -232,7 +233,7 @@ void chat_add(const char *astring, int conn_id)
   struct sw_widget *label;
   struct ct_rect rect;
   struct connection *conn = find_conn_by_id(conn_id);
-  enum color_std color=COLOR_STD_BLACK;
+  struct color *pcolor = color_alloc(0, 0, 0);
   struct player *pplayer=NULL;
 
   freelog(LOG_NORMAL,"ogg_add(%d,%s)",conn_id, astring);
@@ -246,15 +247,14 @@ void chat_add(const char *astring, int conn_id)
 
   if (conn && conn->player) {
     pplayer = conn->player;
-    color = player_color(pplayer);
+    color_free(pcolor);
+    pcolor = get_player_color(tileset, pplayer);
   }
 
   freelog(LOG_NORMAL, "id=%d conn=%p player=%s", conn_id, conn,
 	  pplayer ? pplayer->name : "none");
   
-  string =
-      ct_string_clone4(output.template, astring,
-		       enum_color_to_be_color(color));
+  string = ct_string_clone4(output.template, astring, pcolor->color);
   string = ct_string_wrap(string, output.inner_bounds.width);
   label = sw_label_create_text(output.window, string);
   sw_widget_set_position(label, 0, 0);

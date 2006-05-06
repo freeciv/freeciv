@@ -23,7 +23,6 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
 const char *mapview_get_city_action_tooltip(struct city *pcity,
 					    const char *action,
 					    const char *shortcut_);
-const char *mapview_get_terrain_info_text(struct tile *ptile);
 const char *mapview_get_city_tooltip_text(struct city *pcity);
 const char *mapview_get_city_info_text(struct city *pcity);
 const char *mapview_get_unit_tooltip_text(struct unit *punit);

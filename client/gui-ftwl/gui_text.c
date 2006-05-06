@@ -33,6 +33,7 @@
 #include "control.h"
 #include "goto.h"
 #include "text.h"
+#include "unitlist.h"
 
 #include "gui_text.h"
 
@@ -134,7 +135,10 @@ static void real_add(char **buffer, size_t * buffer_size, const char *format,
 ****************************************************************************/
 const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
 {
-  int infrastructure = get_tile_infrastructure_set(ptile);
+  int count;
+    
+  bv_special infrastructure = get_tile_infrastructure_set(ptile, &count);
+               
   INIT;
 
 #ifdef DEBUG
@@ -142,7 +146,7 @@ const char *mapview_get_terrain_tooltip_text(struct tile *ptile)
 	   ptile->x, ptile->y, ptile->continent);
 #endif
   add_line("%s", tile_get_info_text(ptile));
-  if (infrastructure) {
+  if (count > 0) {
     add_line("%s",
 	     get_infrastructure_text(infrastructure));
   }
@@ -346,8 +350,7 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
     add_line(_("Cost: %d (%d in treasury)"),
 	     city_buy_cost(pcity), game.player_ptr->economic.gold);
     add_line(_("Producting: %s (%d turns)"), name,
-	     city_turns_to_build(pcity, pcity->production.value,
-				 pcity->production.is_unit, TRUE));
+	     city_turns_to_build(pcity, pcity->production, TRUE));
   } else {
     add_line("tooltip for action %s isn't written yet", action);
     freelog(LOG_NORMAL,
@@ -355,59 +358,6 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
   }
   RETURN;
 }  
-
-/************************************************************************
-  Text to popup on middle-click
-************************************************************************/
-const char *mapview_get_terrain_info_text(struct tile *ptile)
-{
-  const char *activity_text = concat_tile_activity_text(ptile);
-  const char *diplo_nation_plural_adjectives[DS_LAST] =
-    {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
-     "" /* unused, DS_CEASEFIRE*/,
-     Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
-     Q_("?nation:Mysterious")};
-  INIT;
-
-  add_line(_("Terrain: %s"),
-	   tile_get_info_text(ptile));
-  add_line(_("Food/Prod/Trade: %s"),
-	   get_tile_output_text(ptile));
-  if (tile_has_special(ptile, S_HUT)) {
-    add_line(_("Minor Tribe Village"));
-  }
-  if (game.info.borders > 0) {
-    struct player *owner = tile_get_owner(ptile);
-    struct player_diplstate *ds = game.player_ptr->diplstates;
-
-    if (owner == game.player_ptr){
-      add_line(_("Our Territory"));
-    } else if (owner) {
-      if (ds[owner->player_no].type == DS_CEASEFIRE) {
-	int turns = ds[owner->player_no].turns_left;
-
-	add_line(PL_("%s territory (%d turn ceasefire)",
-				       "%s territory (%d turn ceasefire)",
-				       turns),
-		 get_nation_name(owner->nation), turns);
-      } else {
-	add_line(_("Territory of the %s %s"),
-		 diplo_nation_plural_adjectives[ds[owner->player_no].type],
-		 get_nation_name_plural(owner->nation));
-      }
-    } else {
-      add_line(_("Unclaimed territory"));
-    }
-  }
-  if (get_tile_infrastructure_set(ptile)) {
-    add_line(_("Infrastructure: %s"),
-	     get_infrastructure_text(ptile->special));
-  }
-  if (strlen(activity_text)) {
-    add_line(_("Activity: %s"), activity_text);
-  }
-  RETURN;
-}
 
 /****************************************************************************
   Get a short tooltip for a city.
@@ -476,7 +426,7 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     char tmp[64] = { 0 };
     struct unit_type *ptype = unit_type(punit);
 
-    if (punit->owner == game.info.player_idx) {
+    if (punit->owner->player_no == game.info.player_idx) {
       struct city *pcity =
 	  player_find_city_by_id(game.player_ptr, punit->homecity);
 
@@ -486,8 +436,8 @@ const char *mapview_get_unit_info_text(struct unit *punit)
     }
     add_line(_("Unit: %s(%s%s)"), ptype->name,
 	     get_nation_name(unit_owner(punit)->nation), tmp);
-    if (punit->owner != game.info.player_idx) {
-      struct unit *apunit = get_unit_in_focus();
+    if (punit->owner->player_no != game.info.player_idx) {
+      struct unit *apunit = unit_list_get(get_units_in_focus(), 0);
 
       if (apunit) {
 	/* chance to win when active unit is attacking the selected unit */

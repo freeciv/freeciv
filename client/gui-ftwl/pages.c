@@ -24,3 +24,20 @@ void set_client_page(enum client_pages page)
 {
   /* PORTME */
 }
+
+/**************************************************************************
+  Returns current client page
+**************************************************************************/
+enum client_pages get_client_page(void)
+{
+  /* PORTME */    
+  return PAGE_MAIN;
+}
+
+/**************************************************************************
+  update the start page.
+**************************************************************************/
+void update_start_page(void)
+{
+  /* PORTME*/    
+}

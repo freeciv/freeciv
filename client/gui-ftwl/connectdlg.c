@@ -37,8 +37,6 @@
 
 static struct te_screen *screen;
 
-static void try_to_autoconnect(void *data);
-
 /**************************************************************************
   this regenerates the player information from a loaded game on the server.
 **************************************************************************/
