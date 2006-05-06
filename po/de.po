@@ -19,7 +19,7 @@
 # an Christian Knoke <chrisk@cknoke.de>".
 #
 # Wenn Sie an der Verbesserung der deutschen Übersetzung mitarbeiten möchten, 
-# abonnieren Sie doch unsere Mailingliste mit einer Email mit dem 
+# abonnieren Sie doch unsere Mailingliste mit einer e-Mail mit dem 
 # Subject: subscribe an: <freeciv.de-request@freelists.org>.
 #
 # Achtung: Mails von Nichtabonnenten werden von der Liste nicht angenommen 
@@ -121,8 +121,8 @@ msgstr " (Beobachter)"
 
 #: common/events.c:42
 msgid "City: Building Unavailable Item"
-msgstr "Stadt: Nichtverfügbar Erweiterung im Bau"
-
+msgstr "Stadt: Nicht verfügbare Erweiterung im Bau"
+	
 #: common/events.c:43
 msgid "City: Captured/Destroyed"
 msgstr "Stadt: erobert/zerstört"
@@ -1146,8 +1146,8 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
-"*%s (KI)* Sei gegrüßt, %s! Dürfen wir eine Feuerpause vorschlagen, "
-"damit wir uns besser kennenlernen können?"
+"*%s (KI)* Sei gegrüßt, %s! Dürfen wir eine Feuerpause vorschlagen, damit wir "
+"uns besser kennenlernen können?"
 
 #: ai/advdiplomacy.c:1076
 #, c-format
@@ -1499,7 +1499,7 @@ msgstr "%s wurde abgewiesen: Verbindungszeitablauf bei der Passworteingabe."
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
-"Dein Passwort ist zu kurz, minestens %d Zeichen erforderlich. Versuche es "
+"Dein Passwort ist zu kurz, mindestens %d Zeichen erforderlich. Versuche es "
 "nochmals."
 
 #: server/auth.c:376
@@ -1830,7 +1830,7 @@ msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
 "Postponing..."
 msgstr ""
-"%s kann %s aus der Arbeitsliste nicht bauen, da die Kenntniss von %s fehlt. "
+"%s kann %s aus der Arbeitsliste nicht bauen, da die Kenntnis von %s fehlt. "
 "Der Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:732
@@ -2058,7 +2058,7 @@ msgstr "  -N  --Newusers\tNeue Benutzer bei Authentifizierung erlauben.\n"
 
 #: server/civserver.c:217
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-msgstr "  -b, --bind ADDR\tNur an ADDR auf Klienten warten\n"
+msgstr "  -b, --bind ADDR\tNur an ADDR auf Client warten\n"
 
 #: server/civserver.c:219 client/civclient.c:203
 msgid ""
@@ -2080,7 +2080,7 @@ msgstr "  -h, --help\t\tZeige diesen Text\n"
 
 #: server/civserver.c:228
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
-msgstr "  -l, --log DATEI\tDATEI als Logfile benutzen\n"
+msgstr "  -l, --log DATEI\tDATEI als Logdatei benutzen\n"
 
 #: server/civserver.c:229
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
@@ -2140,9 +2140,9 @@ msgstr ""
 " \n"
 "Bitte informieren Sie uns\n"
 "- über Programmfehler in ENGLISCH\n"
-"  mit einer Email an <%s>.\n"
+"  mit einer e-Mail an <%s>.\n"
 "- über Probleme mit der deutschen Übersetzung\n"
-"  mit einer Email an <chrisk@cknoke.de>.\n"
+"  mit einer e-Mail an <chrisk@cknoke.de>.\n"
 "\n"
 
 #: server/commands.c:28
@@ -2236,7 +2236,7 @@ msgid ""
 msgstr ""
 "Beendet eine bestimmte Client-Server-Verbindung, indem dieser Client aus "
 "Spiel entfernt wird. Falls das Spiel noch nicht begonnen hat, wird der "
-"Spieler dieses Clienten aus dem Spiel entfernt, ansonsten hat es keine "
+"Spieler dieses Client aus dem Spiel entfernt, ansonsten hat es keine "
 "Wirkung. HINWEIS: Ab sofort benötigt dieser Befehl nicht mehr den "
 "Spielernamen, sondern die Bezeichnung der Verbindung als Argument."
 
@@ -2386,15 +2386,15 @@ msgstr "rulesetdir <Verzeichnis>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
-msgstr "Neues Regelverzeichnis oder Modpack wählen."
+msgstr "Neues Regelsatzverzeichnis oder Modpack wählen."
 
 #: server/commands.c:144
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
 msgstr ""
-"Neues ruleset Verzeichnis oder modpack auswählen. Wird dieser Befehl ohne "
-"Argumente aufgerufen, wird das derzeitige ruleset angezeigt."
+"Neues Regelsatz-Verzeichnis oder modpack auswählen. Wird dieser Befehl ohne "
+"Argumente aufgerufen, wird der derzeitige Regelsatz angezeigt."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:150
@@ -3478,7 +3478,7 @@ msgstr "Die zulässige Rundenzeit ist negativ, sie wird auf Null gesetzt."
 
 #: server/ggzserver.c:205 client/ggzclient.c:76
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
-msgstr "Nur der GGZ-Klient darf civclient im GGZ-Modus benutzen!\n"
+msgstr "Nur der GGZ-Client darf civclient im GGZ-Modus benutzen!\n"
 
 #: server/handchat.c:66
 #, c-format
@@ -4014,7 +4014,7 @@ msgstr "Could not find a readable \"%s.%s\" ruleset file."
 #: server/ruleset.c:168
 #, c-format
 msgid "Could not load ruleset file \"%s\"."
-msgstr "Konnte ruleset '%s' nicht laden."
+msgstr "Konnte den Regelsatz '%s' nicht laden."
 
 #. TRANS: message for an obscure script error.
 #: server/ruleset.c:185
@@ -4024,7 +4024,7 @@ msgstr "Could not load ruleset script file \"%s\"."
 
 #: server/ruleset.c:202
 msgid "Ruleset datafile appears incompatible:"
-msgstr "Inkompatibles ruleset:"
+msgstr "Inkompatibler Regelsatz:"
 
 #: server/ruleset.c:203 server/ruleset.c:211 client/audio.c:229
 #: client/audio.c:237
@@ -4046,7 +4046,7 @@ msgstr "unterstützte Optionen: %s"
 
 #: server/ruleset.c:209
 msgid "Ruleset datafile claims required option(s) which we don't support:"
-msgstr "Ruleset-Datei benötigt Optionen, die nicht unterstützt werden:"
+msgstr "Regelsatz-Datei benötigt Optionen, die nicht unterstützt werden:"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:257
@@ -4103,7 +4103,7 @@ msgstr "Section %s lists unknown effect type: \"%s\" (%s)"
 
 #: server/ruleset.c:3038
 msgid "Loading rulesets"
-msgstr "Lade rulesets"
+msgstr "Lade Regelsatzdateien"
 
 #. TRANS: Error message.
 #: server/savegame.c:156
@@ -4216,7 +4216,7 @@ msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
-"Das im abgespeicherten Spiel benutzte 'terrain ruleset' wird nicht mehr "
+"Der im abgespeicherten Spiel benutzte Gelände-Regelsatz wird nicht mehr "
 "unterstützt."
 
 #: server/savegame.c:3646
@@ -4225,7 +4225,7 @@ msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 msgstr ""
-"Warnung: Die 'ruleset'-Verzeichnisse '%s' und '%s' werden nicht mehr "
+"Warnung: Die Regelsatz-Verzeichnisse '%s' und '%s' werden nicht mehr "
 "unterstützt. Stattdessen wird das Verzeichnis '%s' benutzt."
 
 # CK: TECHNICAL
@@ -4477,14 +4477,14 @@ msgstr ""
 
 #: server/settings.c:313
 msgid "All the map is temperate"
-msgstr "Die Karte ist gleichmäßig temperiert"
+msgstr "Die Landkarte ist gleichmäßig warm"
 
 #: server/settings.c:314
 msgid "0 = normal Earth-like planet; 1 = all-temperate planet "
 msgstr ""
 "Die Karte besitzt kalte (Pole) und warme (Äquator) Zonen, oder die "
 "Temperatur ist überall gleich mild:  0 = erdähnlicher Planet; 1 = "
-"gleichtemperierter Planet "
+"gleichmäßig warmer Planet "
 
 #: server/settings.c:319
 msgid "Average temperature of the planet"
@@ -4514,7 +4514,7 @@ msgstr ""
 "\n"
 "70 bedeutet einen heißen Planeten mit wenig Polareis.\n"
 "\n"
-"50 bedeutet einen normaltemperierten Planeten mit Polar-, kalten, warmen und "
+"50 bedeutet einen normalwarmen Planeten mit Polar-, kalten, warmen und "
 "tropischen Zonen; eine Wüstenzone überlagert tropische und warme Zonen.\n"
 "\n"
 "30 bedeutet einen kalten Planeten mit kleineren Tropenzonen.\n"
@@ -5091,8 +5091,8 @@ msgid ""
 "cities or terrain changes in tiles not observed."
 msgstr ""
 "Bei 1 verhindern die 'Nebel des Krieges', daß Einheiten außer Sichtweite "
-"eigener Einheiten angezeigt werden. Auch neue Städte oder Landschaftsänderungen "
-"auf unbeobachteten Feldern bleiben unbemerkt."
+"eigener Einheiten angezeigt werden. Auch neue Städte oder "
+"Landschaftsänderungen auf unbeobachteten Feldern bleiben unbemerkt."
 
 #: server/settings.c:755
 msgid "Base chance for diplomats and spies to succeed."
@@ -5277,7 +5277,8 @@ msgstr ""
 
 #: server/settings.c:877
 msgid "Timeout at least n seconds when enemy moved"
-msgstr "Wartezeit bis Rundenende nach dem letzten Zug eines Spielers (Sekunden)"
+msgstr ""
+"Wartezeit bis Rundenende nach dem letzten Zug eines Spielers (Sekunden)"
 
 #: server/settings.c:878
 msgid ""
@@ -5309,7 +5310,7 @@ msgid ""
 "the connection is closed. Zero means there is no timeout (although "
 "connections will be automatically disconnected eventually)."
 msgstr ""
-"Falls ein Klient länger als diese Zeit die TCP-Verbindung blockiert, wird "
+"Falls ein Client länger als diese Zeit die TCP-Verbindung blockiert, wird "
 "diese geschlossen. 0 bedeutet, es gibt nur das Zeitlimit aus der TCP "
 "Protokoll Vereinbarung."
 
@@ -5336,17 +5337,17 @@ msgid ""
 "period elapses."
 msgstr ""
 "Der Server fordert am Ende dieser Zeitspanne (in Sek.) ein PING von den "
-"Klienten."
+"Clients."
 
 #: server/settings.c:922
 msgid "Time to cut a client"
-msgstr "Inaktiven Klient trennen (Sekunden)"
+msgstr "Inaktiven Client trennen (Sekunden)"
 
 #: server/settings.c:923
 msgid ""
 "If a client doesn't reply to a PING in this time the client is disconnected."
 msgstr ""
-"Falls ein Klient innerhalb dieser Zeit nicht auf ein PING reagiert, wird die "
+"Falls ein Client innerhalb dieser Zeit nicht auf ein PING reagiert, wird die "
 "Verbindung zu ihm getrennt."
 
 #: server/settings.c:929
@@ -5579,7 +5580,7 @@ msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
 "s."
 msgstr ""
-"Die %s %s wurde aufgelöst, in Übereinstimmung mit dem Freidensvertrag mit "
+"Die %s %s wurde aufgelöst, in Übereinstimmung mit dem Friedensvertrag mit "
 "den %s."
 
 #: server/srv_main.c:482
@@ -5587,15 +5588,14 @@ msgstr ""
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
-"Besorgte Bürger weisen darauf hin, daß die Feuerpause mit %s bald "
-"endet."
+"Besorgte Bürger weisen darauf hin, daß die Feuerpause mit %s bald endet."
 
 #: server/srv_main.c:486
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
-"Die Feuerpause mit %s ist beendet. Du befindest Dich jetzt im Krieg "
-"mit den %s."
+"Die Feuerpause mit %s ist beendet. Du befindest Dich jetzt im Krieg mit den %"
+"s."
 
 #: server/srv_main.c:822
 #, c-format
@@ -5638,7 +5638,7 @@ msgid ""
 "Your client is too old. To use this server please upgrade your client to a "
 "CVS version later than 2003-11-28 or Freeciv 1.15.0 or later."
 msgstr ""
-"Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen Sie eine CVS "
+"Ihr Client ist zu alt. Um diesen Server zu benutzen, benötigen Sie eine SVN "
 "Version nach dem 28.11.2004 oder Freeciv 1.15.0 oder neuer."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
@@ -5920,27 +5920,27 @@ msgstr "Der Name \"%s\" ist aus Sicherheitsgründen nicht erlaubt."
 #: server/stdinhand.c:1017
 #, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Keine Kommandoscript gefunden mit der Bezeichnung '%s'."
+msgstr "Keine Kommandoskript mit der Bezeichnung '%s' gefunden."
 
 #: server/stdinhand.c:1025
 #, c-format
 msgid "Loading script file: %s"
-msgstr "Lade Script '%s'"
+msgstr "Lade Skriptdatei '%s'"
 
 #: server/stdinhand.c:1040
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
-msgstr "Kann das Scriptfile '%s' nicht lesen."
+msgstr "Kann die Skriptdatei '%s' nicht lesen."
 
 #: server/stdinhand.c:1042
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr "Kann das Scriptfile '%s' nicht lesen."
+msgstr "Kann die Skriptdatei '%s' nicht lesen."
 
 #: server/stdinhand.c:1134
 #, c-format
 msgid "Could not write script file '%s'."
-msgstr "Kann das Scriptfile '%s' nicht schreiben."
+msgstr "Kann die Skriptdatei '%s' nicht schreiben."
 
 #: server/stdinhand.c:1145
 msgid "You cannot use the write command on this server for security reasons."
@@ -6569,7 +6569,7 @@ msgstr "Kann Spielstand '%s' nicht laden."
 #: server/stdinhand.c:3291
 #, c-format
 msgid "Current ruleset directory is \"%s\""
-msgstr "Derzeitiges Verzeichnis für rulesets: '%s'"
+msgstr "Derzeitiges Verzeichnis für Regelsätze: '%s'"
 
 #: server/stdinhand.c:3297
 #, c-format
@@ -7351,7 +7351,7 @@ msgstr "%s transportiert."
 
 #: server/unittools.c:2044
 msgid "This unit type can not be paradropped."
-msgstr "Diese Einheit kann nicht Fallschirmspringen."
+msgstr "Diese Einheit kann nicht fallschirmspringen."
 
 #: server/unittools.c:2054
 msgid "You cannot paradrop a transporter unit."
@@ -7521,8 +7521,8 @@ msgstr ""
 msgid ""
 "There has been a CMA error.  Your citizen governor settings may be broken."
 msgstr ""
-"In der ASV ist ein Fehler aufgetreten. Möglicherweise sind die Einstellungen "
-"für den Bürgermeister fehlerhaft."
+"In der automatischen Stadtverwaltung ist ein Fehler aufgetreten. "
+"Möglicherweise sind die Einstellungen für den Bürgermeister fehlerhaft."
 
 #: client/attribute.c:295
 msgid "Old attributes detected and removed."
@@ -8055,7 +8055,7 @@ msgstr "  -a, --autoconnect\tAuswahlmenü zur Serverwahl unterdrücken\n"
 #: client/civclient.c:211
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
-"  -l, --log DATEI\tDATEI als Logfile benutzen (auch für gestarteten Server)\n"
+"  -l, --log DATEI\tDATEI als Logdatei benutzen (auch für gestarteten Server)\n"
 
 #: client/civclient.c:213
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
@@ -8077,7 +8077,7 @@ msgstr "  -P, --Plugin PLUGIN\tPLUGIN zur Soundausgabe benutzen %s\n"
 #: client/civclient.c:221
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
-"  -r, --read DATEI\tStartscript DATEI laden (nur für gestarteten Server)\n"
+"  -r, --read DATEI\tStartskript DATEI laden (nur für gestarteten Server)\n"
 
 #: client/civclient.c:224
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
@@ -11536,7 +11536,7 @@ msgstr "Ein/Ausschalten der Rollbalken für die Karte."
 
 #: client/gui-gtk-2.0/gui_main.c:154
 msgid "Keyboardless goto"
-msgstr "Mausgesteuerte GeheNach Funktion"
+msgstr "Mausgesteuerte Gehe-nach Funktion"
 
 #: client/gui-gtk-2.0/gui_main.c:155
 msgid ""
@@ -15212,7 +15212,7 @@ msgstr "Videoausgabe auf : %s"
 
 #: client/gui-sdl/gui_main.c:839
 msgid "Initializing Client"
-msgstr "Initialisiere Klient"
+msgstr "Initialisiere Client"
 
 # CK: TECHNICAL
 #: client/gui-sdl/gui_main.c:850
@@ -16240,7 +16240,7 @@ msgstr "Nähere Informationen über"
 
 #: client/gui-win32/cma_fe.c:309
 msgid "CMA and presets"
-msgstr "die ASV und mögliche Vorgaben"
+msgstr "den Bürgermeister und mögliche Vorgaben"
 
 #: client/gui-win32/cma_fe.c:310
 msgid "including sample presets,"
@@ -17382,7 +17382,7 @@ msgstr ""
 "\n"
 "  http://bugs.freeciv.org/\n"
 "\n"
-"oder mittels einer Email an 'bugs@freeciv.org'."
+"oder mittels einer e-Mail an 'bugs@freeciv.org'."
 
 #: data/helpdata.txt:63
 msgid ""
@@ -17430,7 +17430,7 @@ msgstr ""
 "civclient' aufruft, wobei 'xx' der Ländercode ist.\n"
 "\n"
 "Bitte informieren Sie uns über Fehler bzw. Verbesserungsmöglichkeiten der "
-"deutschen Übersetzung, indem Sie eine Email an den Übersetzer schicken.\n"
+"deutschen Übersetzung, indem Sie eine e-Mail an den Übersetzer schicken.\n"
 "\n"
 "Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich mit der "
 "deutschen Übersetzung beschäftigt. Sie können sie mit einer Mail an <freeciv."
@@ -17448,7 +17448,7 @@ msgid ""
 "hostname and port number (5555 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
 msgstr ""
-"Vor Spielbeginn kann man sich bei einem CivServer anmelden, wenn man dessen "
+"Vor Spielbeginn kann man sich bei einem civserver anmelden, wenn man dessen "
 "Adresse und Portnummer (Standard ist 5555) kennt. Falls der Server mit '-m' "
 "gestartet wurde, meldet er sich bei dem Metaserver"
 
@@ -17463,11 +17463,11 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
-"Diese Seite kann auch von dem CivClient benutzt werden: Öffnen Sie das "
+"Diese Seite kann auch vom civclient benutzt werden: Öffnen Sie das "
 "Metaserver-Register im Startfenster zum Verbindungsaufbau und benutzen Sie "
 "das Feld 'Aktualisieren'. Falls dies bei Ihnen nicht funktionieren sollte, "
 "überprüfen Sie bitte, ob Ihr Webbrowser einen sogenannten HTTP-Proxyserver "
-"benutzt. Falls ja, kann er auch von Ihrem CivClient verwendet werden, wenn "
+"benutzt. Falls ja, kann er auch vom civclient verwendet werden, wenn "
 "sie vor dessen Aufruf die Umgebungsvariable $http_proxy entsprechend "
 "setzen:\n"
 "\n"
@@ -19912,7 +19912,7 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
-"Die Raumschiffmodule sind die teuersten Raumschiffsteile. Es gibt drei "
+"Die Raumschiffmodule sind die teuersten Raumschiffteile. Es gibt drei "
 "verschiedene Typen:\n"
 "\n"
 "- Passagiermodul für 10.000 Passagiere\n"
@@ -22381,7 +22381,8 @@ msgstr ""
 
 #: data/default/units.ruleset:1766
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr "Dies bist du selbst! Wenn du diese Einheit verlierst, ist das Spiel verloren."
+msgstr ""
+"Dies bist du selbst! Wenn du diese Einheit verlierst, ist das Spiel verloren."
 
 #: data/default/units.ruleset:1771 data/civ2/units.ruleset:1681
 #: data/civ1/units.ruleset:962
@@ -23208,7 +23209,7 @@ msgid ""
 "century."
 msgstr ""
 "Das Vereinigte Königreich wurde 1707 als Ergebnis einer Übereinkunft "
-"zwischen dem Königreich England und dem Königreich Schottland gergündet. Das "
+"zwischen dem Königreich England und dem Königreich Schottland gegründet. Das "
 "Land - auch bekannt als Großbritannien - wurde die führende Industrie- und "
 "Seemacht im 19. Jahrhundert."
 
@@ -23267,7 +23268,7 @@ msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
 msgstr ""
-"Burma - die offizielle Bzeichnung ist 'Myanmar' - ist das größte Land in "
+"Burma - die offizielle Bezeichnung ist 'Myanmar' - ist das größte Land in "
 "Südostasien."
 
 #: data/nation/burmese.ruleset:26
@@ -24836,7 +24837,7 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "Quebecisch"
+msgstr "quebecisch"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
@@ -25176,7 +25177,7 @@ msgstr ""
 "(Nachfahren der Siedler), britischen Streitkräften und Zulu, wurde 1910 die "
 "Südafrikanische Union gegründet. Die südafrikanische Regierung wurde "
 "berüchtigt für ihre 'Apartheid'-Politik der Rassendiskriminierung. Nach der "
-"Annahme der ersten nichtrassitischen Verfassung 1994 wurde der lange Zeit "
+"Annahme der ersten nichtrassistischen Verfassung 1994 wurde der lange Zeit "
 "aus politischen Gründen inhaftierte Nelson Mandela der erste wirklich "
 "demokratisch gewählte Präsident Südafrikas."
 
@@ -25699,7 +25700,7 @@ msgstr "Erde (klassisch, mittelgroß)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
-msgstr "Klassiche Erdkarte in 120x60."
+msgstr "Klassische Erdkarte in 120x60."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
