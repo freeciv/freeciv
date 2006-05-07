@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-02 19:58+0000\n"
+"POT-Creation-Date: 2006-05-03 01:58+0000\n"
 "PO-Revision-Date: 2006-05-02 10:26+0000\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
@@ -543,9 +543,9 @@ msgid "Empty filename in log level argument \"%s\".\n"
 msgstr "فارغ"
 
 #: utility/log.c:271
-#, c-format
+#, fuzzy, c-format
 msgid "Couldn't open logfile: %s for appending.\n"
-msgstr ""
+msgstr "فشل فتح ملف السجل: %s للإضافة \"%s\".\n"
 
 #: utility/log.c:285 utility/log.c:304
 #, c-format
@@ -616,9 +616,8 @@ msgstr ""
 "مُهلِك :: مشؤوم :: لا سبيل إلى مقاومته"
 
 #: utility/shared.c:1314
-#, fuzzy
 msgid "Use a non-privileged account instead.\n"
-msgstr "الإستعمال"
+msgstr "استعمل حساب بلا صلاحيات بدلا من ذلك.\n"
 
 #: utility/shared.c:1330
 msgid "exact match"
@@ -1483,9 +1482,8 @@ msgstr ""
 "explain <اسم الخيار>"
 
 #: server/commands.c:82
-#, fuzzy
 msgid "Explain server options."
-msgstr "وضّح."
+msgstr "توضيح خيارات الخادم."
 
 #: server/commands.c:83
 #, fuzzy
@@ -1508,9 +1506,8 @@ msgstr ""
 "show <بادئة الخيار>"
 
 #: server/commands.c:93
-#, fuzzy
 msgid "Show server options."
-msgstr "المعرض."
+msgstr "إظهار خيارات الخادم."
 
 #: server/commands.c:94
 #, fuzzy
@@ -1592,18 +1589,16 @@ msgid "set <option-name> <value>"
 msgstr "set <اسم الخيار> <قيمة>"
 
 #: server/commands.c:132
-#, fuzzy
 msgid "Set server option."
-msgstr "المجموعة."
+msgstr "تحديد خيار الخادم."
 
 #: server/commands.c:135
 msgid "team <player> [team]"
 msgstr "team <اللاعب> [team]"
 
 #: server/commands.c:136
-#, fuzzy
 msgid "Change, add or remove a player's team affiliation."
-msgstr "التغيير."
+msgstr "تغيير، إضافة أو إزالة عضوية لاعب لفريق."
 
 #: server/commands.c:137
 #, fuzzy
@@ -1690,9 +1685,8 @@ msgid "aitoggle <player-name>"
 msgstr "aitoggle <اسم اللاعب>"
 
 #: server/commands.c:182
-#, fuzzy
 msgid "Toggle AI status of player."
-msgstr "المسمار الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "تفعييل أو تعطيل حالة الذّكاء الاصطناعيّ للاعب."
 
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:186
@@ -1700,9 +1694,8 @@ msgid "take [connection-name] <player-name>"
 msgstr "take [connection-name] <اسم اللاعب>"
 
 #: server/commands.c:187
-#, fuzzy
 msgid "Take over a player's place in the game."
-msgstr "الوارد."
+msgstr "الاستيلاء على مكان لاعب في اللعبة."
 
 #: server/commands.c:188
 #, fuzzy
@@ -1738,7 +1731,7 @@ msgstr "detach <اسم الاتصال>"
 
 #: server/commands.c:205
 msgid "detach from a player."
-msgstr ""
+msgstr "الانفصال عن لاعب."
 
 #: server/commands.c:206
 #, fuzzy
@@ -1767,11 +1760,12 @@ msgid ""
 "away\n"
 "away"
 msgstr ""
+"away\n"
+"away"
 
 #: server/commands.c:219
-#, fuzzy
 msgid "Set yourself in away mode. The AI will watch your back."
-msgstr "المجموعة الـ الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "وضع نفسك في نمط away. سيحمي الذكاء الاصطناعي ظهرك."
 
 #: server/commands.c:220
 msgid "The AI will govern your nation but do minimal changes."
@@ -1914,9 +1908,8 @@ msgstr ""
 "cmdlevel <المستوى> <اسم الاتصال>"
 
 #: server/commands.c:276
-#, fuzzy
 msgid "Query or set command access level access."
-msgstr "الإستفسار."
+msgstr "الإستفسار أو تحديد مستوى صلاحية الأوامر."
 
 #: server/commands.c:277
 #, fuzzy
@@ -1949,7 +1942,7 @@ msgstr ""
 #: server/commands.c:299
 #, fuzzy
 msgid "Grab the 'first come' command access level."
-msgstr "الإستفسار."
+msgstr "الإستفسار أو تحديد مستوى صلاحية الأوامر."
 
 #: server/commands.c:300
 msgid ""
@@ -1963,9 +1956,8 @@ msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr ""
 
 #: server/commands.c:306
-#, fuzzy
 msgid "See \"help timeoutincrease\"."
-msgstr "شاهد."
+msgstr "انظر \"help timeoutincrease\"."
 
 #: server/commands.c:307
 #, fuzzy
@@ -2427,7 +2419,7 @@ msgstr "لا تستطيع رشوة أي وحدة من هذه الأمة."
 #: server/diplomats.c:436
 #, fuzzy, c-format
 msgid "Game: You don't have enough gold to bribe %s's %s."
-msgstr "أنت الذهب."
+msgstr "لا تملك الكفاية من الذهب لرشوة %s %s."
 
 #: server/diplomats.c:445
 #, fuzzy, c-format
@@ -2437,37 +2429,37 @@ msgstr "لا تستطيع رشوة %s!"
 #: server/diplomats.c:463
 #, fuzzy, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s and became more experienced."
-msgstr "ملكك."
+msgstr "نجحت وحدتك %s برشوة %s %s وأصبحت أكثر خبرة."
 
 #: server/diplomats.c:469
 #, fuzzy, c-format
 msgid "Game: Your %s succeeded in bribing %s's %s."
-msgstr "ملكك."
+msgstr "نجحت وحدتك %s برشوة %s %s."
 
 #: server/diplomats.c:473
 #, fuzzy, c-format
 msgid "Game: Your %s was bribed by %s."
-msgstr "ملكك."
+msgstr "تم رشو وحدتك %s من قبل %s."
 
 #: server/diplomats.c:570
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of stealing technology from %s."
-msgstr "ملكك."
+msgstr "تم القبض على وحدتك %s عند محاولة سرقة التكنولوجيا من %s."
 
 #: server/diplomats.c:574
 #, fuzzy, c-format
 msgid "Game: %s's %s failed to steal technology from %s."
-msgstr "ملكك."
+msgstr "تم القبض على وحدتك %s عند محاولة سرقة التكنولوجيا من %s."
 
 #: server/diplomats.c:607
 #, fuzzy, c-format
 msgid "Game: No new technology found in %s."
-msgstr "لا جديد."
+msgstr "لا توجد تكنولوجيا جديدة في %s."
 
 #: server/diplomats.c:644
 #, fuzzy, c-format
 msgid "Game: Your %s could not find the %s technology to steal in %s."
-msgstr "ملكك."
+msgstr "لم تستطع وحدتك %s العثور على %s للتخريب في %s."
 
 #: server/diplomats.c:665
 #, c-format
@@ -2502,195 +2494,196 @@ msgstr "لا تستطيع رشوة أي وحدة من هذه الأمة."
 #: server/diplomats.c:757
 #, fuzzy
 msgid "Game: You can't subvert this city."
-msgstr "أنت."
+msgstr "لا تستطيع تخريب هذه المدينة."
 
 #: server/diplomats.c:768
 #, fuzzy, c-format
 msgid "Game: You don't have enough gold to subvert %s."
-msgstr "أنت الذهب."
+msgstr "لا تملك الذهب الكافي لتخريب %s."
 
 #: server/diplomats.c:785
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of inciting a revolt!"
-msgstr "ملكك!"
+msgstr "تم القبض على وحدتك %s عند محاولة التحريض على ثورة!"
 
 #: server/diplomats.c:789
 #, fuzzy, c-format
 msgid "Game: You caught %s %s attempting to incite a revolt in %s!"
-msgstr "أنت!"
+msgstr "لقد قبضت على وحدة %s %s عند محاولة التحريض على ثورة في %s!"
 
 #: server/diplomats.c:813
 #, fuzzy, c-format
 msgid "Game: Revolt incited in %s, you now rule the city!"
-msgstr "الثورة!"
+msgstr "تم التحريض على ثورة في %s، أنت اﻵن تحكم المدينة!"
 
 #: server/diplomats.c:816
-#, c-format
+#, fuzzy, c-format
 msgid "Game: %s has revolted, %s influence suspected."
-msgstr ""
+msgstr "ثورة في%s ، المشتبه بالتحريض على الثورة هو %s."
 
 #: server/diplomats.c:896
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of industrial sabotage!"
-msgstr "ملكك!"
+msgstr "تم القبض على وحدتك  %s عند محاولة التخريب الصناعي!"
 
 #: server/diplomats.c:900
 #, fuzzy, c-format
 msgid "Game: You caught %s %s attempting sabotage in %s!"
-msgstr "أنت!"
+msgstr "لقد قبضت على وحدة %s %s عند محاولة التخريب في %s!"
 
 #: server/diplomats.c:934
 #, fuzzy, c-format
 msgid "Game: Your %s could not find anything to sabotage in %s."
-msgstr "ملكك."
+msgstr "لم تستطع وحدتك %s العثور على أي شئ قابل للتخريب في %s."
 
 #: server/diplomats.c:976
 #, fuzzy, c-format
 msgid "Game: You cannot sabotage a %s!"
-msgstr "أنت!"
+msgstr "لا تستطيع تخريب %s!"
 
 #: server/diplomats.c:986
 #, fuzzy, c-format
 msgid "Game: Your %s could not find the %s to sabotage in %s."
-msgstr "ملكك."
+msgstr "لم تستطع وحدتك %s العثور على %s للتخريب في %s."
 
 #: server/diplomats.c:1011
 #, fuzzy, c-format
 msgid "Game: Your %s succeeded in destroying the production of %s in %s."
-msgstr "ملكك."
+msgstr "لقد نجحت وحدتك %s في تدمير انتاج ال of %s في %s."
 
 #: server/diplomats.c:1015
 #, fuzzy, c-format
 msgid "Game: The production of %s was destroyed in %s, %s are suspected."
-msgstr "الـ."
+msgstr "تم تدمير انتاج ال %s في %s, المشتبه به هو %s."
 
 #: server/diplomats.c:1036
 #, fuzzy, c-format
 msgid "Game: Your %s was caught in the attempt of sabotage!"
-msgstr "ملكك!"
+msgstr "تم القبض على وحدتك %s عند محاولة التخريب!"
 
 #: server/diplomats.c:1040
 #, fuzzy, c-format
 msgid "Game: You caught %s %s attempting to sabotage the %s in %s!"
-msgstr "أنت!"
+msgstr "لقد قبضت على وحدة %s %s عند محاولة تخريب %s في %s!"
 
 #: server/diplomats.c:1052
 #, fuzzy, c-format
 msgid "Game: Your %s destroyed the %s in %s."
-msgstr "ملكك."
+msgstr "لقد دمرت وحدتك %s ال %s في %s."
 
 #: server/diplomats.c:1056
 #, fuzzy, c-format
 msgid "Game: The %s destroyed the %s in %s."
-msgstr "الـ."
+msgstr "دمر %s ال %s في %s."
 
 #: server/diplomats.c:1160
 #, fuzzy, c-format
 msgid "Game: Your %s has been eliminated defending %s against a %s."
-msgstr "ملكك."
+msgstr "تم تدمير وحدتك %s عند الدفاع عن %s ضد %s."
 
 #: server/diplomats.c:1164
 #, fuzzy, c-format
 msgid "Game: An enemy %s has been eliminated defending %s."
-msgstr "أداة تعريف."
+msgstr "تم تدمير وحدة العدو %s عند الدفاع عن %s."
 
 #: server/diplomats.c:1178
 #, fuzzy, c-format
 msgid "Game: Your %s was eliminated by a defending %s."
-msgstr "ملكك."
+msgstr "تم تدمير وحدتك %s عند الدفاع عن %s."
 
 #: server/diplomats.c:1185
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating %s. The defender became more "
 "experienced."
-msgstr "مزال الـ."
+msgstr "تم تدمير وحدة %s %s عند محاولة اختراق %s. أصبح المدافع أكثر خبرة."
 
 #: server/diplomats.c:1192
 #, fuzzy, c-format
 msgid ""
 "Game: Eliminated %s %s while infiltrating our troops. The defender became "
 "more experienced."
-msgstr "مزال الـ."
+msgstr "تم تدمير وحدة %s %s عند محاولة اختراق قواتنا. أصبح المدافع أكثر خبرة."
 
 #: server/diplomats.c:1202
 #, fuzzy, c-format
 msgid "Game: Eliminated %s %s while infiltrating %s."
-msgstr "مزال."
+msgstr "تم تدمير وحدة %s %s عند محاولة اختراق %s."
 
 #: server/diplomats.c:1208
 #, fuzzy, c-format
 msgid "Game: Eliminated %s %s while infiltrating our troops."
-msgstr "مزال."
+msgstr "تم تدمير وحدة %s %s عند محاولة اختراق قواتنا."
 
 #: server/diplomats.c:1261
 #, fuzzy, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s and has become more experienced."
-msgstr "ملكك."
+msgstr "أتمت وحدتك %s مهمتها بنجاح ورجعت سالمة إلى %s وأصبحت أكثر خبرة."
 
 #: server/diplomats.c:1267
 #, fuzzy, c-format
 msgid ""
 "Game: Your %s has successfully completed her mission and returned unharmed "
 "to %s."
-msgstr "ملكك."
+msgstr "أتمت وحدتك %s مهمتها بنجاح ورجعت سالمة إلى %s."
 
 #: server/diplomats.c:1283
 #, fuzzy, c-format
 msgid "Game: Your %s was captured after completing her mission in %s."
-msgstr "ملكك."
+msgstr "تم القبض على وحدتك %s بعد اتمام مهمتها في %s."
 
 #: server/diplomats.c:1288
 #, fuzzy, c-format
 msgid "Game: Your %s was captured after completing her mission."
-msgstr "ملكك."
+msgstr "تم القبض على وحدتك %s بعد اتمام مهمتها."
 
 #: server/diplomats.c:1323
 #, fuzzy, c-format
 msgid "Game: You have caused an incident while bribing %s's %s."
-msgstr "أنت."
+msgstr "لقد سببت حادثا عند رشوة وحدة %s%s."
 
 #: server/diplomats.c:1328
 #, fuzzy, c-format
 msgid "Game: %s has caused an incident while bribing your %s."
-msgstr "أنت."
+msgstr "لقد سبب %s حادثا عند رشوة وحدتك %s."
 
 #: server/diplomats.c:1335
 #, fuzzy, c-format
 msgid "Game: You have caused an incident while stealing tech from %s."
-msgstr "أنت."
+msgstr "لقد سببت حادثا عند محاولة سرقة تكنولوجيا من %s."
 
 #: server/diplomats.c:1339
 #, fuzzy, c-format
 msgid "Game: %s has caused an incident while stealing tech from you."
-msgstr "أنت."
+msgstr "لقد سبب %s حادثا عند محاولة سرقة تكنولوجيا منك."
 
 #: server/diplomats.c:1345
 #, fuzzy, c-format
 msgid "Game: You have caused an incident while inciting a revolt in %s."
-msgstr "أنت."
+msgstr "لقد سببت حادثا عند محاولة التحريض على ثورة في %s."
 
 #: server/diplomats.c:1348
 #, fuzzy, c-format
 msgid "Game: %s have caused an incident while inciting a revolt in %s."
-msgstr "أنت."
+msgstr "لقد سبب %s حادثا عند محاولة التحريض على ثورة في %s."
 
 #: server/gamehand.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Sea moving start units are not yet supported, %s not created."
-msgstr "البحر متحرك."
+msgstr "الوحدات البحرية البادئة غير مدعومة حتى اﻵن, لم يتم بناء %s."
 
 #: server/gamehand.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
-msgstr "البحر متحرك لا أحد."
+msgstr ""
+"الوحدات البحرية البادئة غير مدعومة حتى اﻵن, لا يستطيع أي أحد الحصول على %s."
 
 #: server/gamehand.c:283 client/text.c:514 client/gui-mui/mapview.c:192
-#, fuzzy, c-format
+#, c-format
 msgid "Year: %s"
-msgstr "السّنة :: سنة :: عام ::العام"
+msgstr "السنة: %s"
 
 #: server/gamehand.c:384
 #, fuzzy
@@ -2703,9 +2696,9 @@ msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "الـ دوران."
 
 #: server/gamelog.c:202
-#, c-format
+#, fuzzy, c-format
 msgid "Couldn't open gamelogfile \"%s\" for appending."
-msgstr ""
+msgstr "فشل فتح ملف السجل: %s للإضافة \"%s\".\n"
 
 #: server/handchat.c:66
 #, fuzzy, c-format
@@ -2720,49 +2713,49 @@ msgstr "مبهم."
 #: server/handchat.c:74
 #, fuzzy, c-format
 msgid "Game: %s is an anonymous name. Use connection name"
-msgstr "الإستعمال"
+msgstr "اسم %s هو اسم مجهول. استعمل اسم الاتصال"
 
 #: server/handchat.c:186
 #, fuzzy
 msgid "Game: You are not attached to a player."
-msgstr "أنت."
+msgstr "أنت غير مربوط بأي لاعب."
 
 #: server/handchat.c:194
 #, c-format
 msgid "%s to allies: %s"
-msgstr ""
+msgstr "%s إلى الحلفاء: %s"
 
 #: server/handchat.c:288
 #, fuzzy, c-format
 msgid "Game: %s is not connected."
-msgstr "الخادم: تم اتصال %s من %s."
+msgstr "ال %s غير متصل."
 
 #: server/handchat.c:300
 #, fuzzy, c-format
 msgid "Game: There is no connection by the name %s."
-msgstr "هناك."
+msgstr "لا يوجد هناك اتصال باسم %s."
 
 #: server/handchat.c:303
 #, fuzzy, c-format
 msgid "Game: There is no player nor connection by the name %s."
-msgstr "هناك."
+msgstr "لا يوجد هناك لاعب أو اتصال باسم %s."
 
 #: server/maphand.c:237
 #, fuzzy
 msgid "Game: Global warming has occurred!"
-msgstr "عالمي!"
+msgstr "ارتفعت درجة الحرارة عالميا!"
 
 #: server/maphand.c:238
 #, fuzzy
 msgid ""
 "Game: Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr "الأهوار."
+msgstr "تم غمر الشرائط الساحلية وتصحر مساحات شاسعة من الأرض العشبية."
 
 #: server/maphand.c:279
 #, fuzzy
 msgid "Game: Nuclear winter has occurred!"
-msgstr "نووي!"
+msgstr "حدث الشتاء النووي!"
 
 #: server/maphand.c:280
 #, fuzzy
@@ -2808,34 +2801,34 @@ msgstr "تم الحصول على %s من %s!"
 #: server/plrhand.c:224
 #, fuzzy, c-format
 msgid "Game: The %s are no more!"
-msgstr "الـ!"
+msgstr "ال %s غير موجودين بعد اﻵن!"
 
 #: server/plrhand.c:329
 #, fuzzy, c-format
 msgid "Game: Discovery of %s OBSOLETES %s in %s!"
-msgstr "الإكتشاف!"
+msgstr "اكتشاف %s يلغي %s في %s!"
 
 #: server/plrhand.c:340
 #, fuzzy, c-format
 msgid ""
 "Game: Discovery of %s makes the government form %s available. You may want "
 "to start a revolution."
-msgstr "الإكتشاف أنت."
+msgstr "سيجعل اكتشاف %s شكل الحكومة  %s متوفرا. تستطيع بدء ثورة."
 
 #: server/plrhand.c:380
 #, fuzzy, c-format
 msgid "Game: Learned %s.  Our scientists focus on %s, goal is %s."
-msgstr "متعلّم نا."
+msgstr "تم تعلم %s. يركز علمائنا على %s; الهدف هو %s."
 
 #: server/plrhand.c:398
 #, fuzzy, c-format
 msgid "Game: Learned %s.  Scientists choose to research %s."
-msgstr "متعلّم العلماء."
+msgstr "تم تعلم %s.  يختار علمائنا بحث %s."
 
 #: server/plrhand.c:406
 #, fuzzy, c-format
 msgid "Game: Learned %s. "
-msgstr "متعلّم "
+msgstr "تم تعلم %s. "
 
 #: server/plrhand.c:409
 #, c-format
@@ -2845,32 +2838,32 @@ msgstr "جاري البحث العلمي %s."
 #: server/plrhand.c:415
 #, fuzzy, c-format
 msgid "Game: Learned %s.  Scientists do not know what to research next."
-msgstr "متعلّم العلماء."
+msgstr "تم تعلم %s.  لا يدري العلماء ما هو البحث التالي."
 
 #: server/plrhand.c:434
 #, fuzzy
 msgid ""
 "Game: Great scientists from all the world join your civilization: you get an "
 "immediate advance."
-msgstr "عظيم."
+msgstr "ينضم علماء عظماء من كل العالم إلى حضارتك: ستحصل على تطور فورا."
 
 #: server/plrhand.c:494
 #, fuzzy, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists choose to research %s."
-msgstr "متعلّم العلماء."
+msgstr "تم تعلم %s.  يختار علمائنا بحث %s."
 
 #: server/plrhand.c:500
 #, fuzzy, c-format
 msgid ""
 "Game: Learned %s in cooperation with %s. Scientists do not know what to "
 "research next."
-msgstr "متعلّم العلماء."
+msgstr "تم تعلم %s.  لا يدري العلماء ما هو البحث التالي."
 
 #: server/plrhand.c:529
 #, fuzzy, c-format
 msgid "Game: The %s have researched %s."
-msgstr "الـ."
+msgstr "طوّر  %s ال %s."
 
 #: server/plrhand.c:535
 #, fuzzy, c-format
@@ -2895,7 +2888,7 @@ msgstr "سرق %s ال %s منك!"
 #: server/plrhand.c:852
 #, fuzzy
 msgid "Game: Cannot change rates before game start."
-msgstr "لا يستطيع."
+msgstr "لا يمكن تغيير النسب قبل بدء اللعبة."
 
 #: server/plrhand.c:868 client/gui-gtk-2.0/gamedlgs.c:242
 #: client/gui-gtk/gamedlgs.c:241 client/gui-win32/ratesdlg.c:309
@@ -2905,7 +2898,7 @@ msgstr "الضريبة"
 #: server/plrhand.c:875
 #, fuzzy, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
-msgstr "الضريبة."
+msgstr "تفوق نسبة %s حد النسبة الأعلى ل %s."
 
 #: server/plrhand.c:977
 #, c-format
@@ -2918,29 +2911,28 @@ msgid "Game: The %s have incited a revolt!"
 msgstr ""
 
 #: server/plrhand.c:1129
-#, fuzzy
 msgid "You should choose a new government from the government menu."
-msgstr "أنت جديد."
+msgstr "يجب عليك اختيار حكومة جديدة من قائمة الحكومة."
 
 #: server/plrhand.c:1156
 #, fuzzy, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
-msgstr "الضريبة."
+msgstr "تعدت نسبة الضريبة الحد الأعلى ل %s، تم التعديل."
 
 #: server/plrhand.c:1162
 #, fuzzy, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
-msgstr "العلم."
+msgstr "تعدت نسبة العلوم الحد الأعلى ل %s، تم التعديل."
 
 #: server/plrhand.c:1168
 #, fuzzy, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
-msgstr "الترف."
+msgstr "تعدت نسبة الرفاهية الحد الأعلى ل %s، تم التعديل."
 
 #: server/plrhand.c:1239
 #, c-format
 msgid "%s no longer gives us shared vision!"
-msgstr ""
+msgstr "لا يعطينا %s رؤية مشتركة بعد اﻵن!"
 
 #: server/plrhand.c:1300
 #, fuzzy, c-format
@@ -2986,24 +2978,24 @@ msgid ""
 msgstr "ملكك أنت مع."
 
 #: server/plrhand.c:1796
-#, fuzzy, c-format
+#, c-format
 msgid "Removing player %s."
-msgstr "الإزالة."
+msgstr "إزالة اللاعب %s."
 
 #: server/plrhand.c:1797
 #, fuzzy
 msgid "Game: You've been removed from the game!"
-msgstr "أنت!"
+msgstr "لقد تم إزالتك من اللعبة!"
 
 #: server/plrhand.c:1800
 #, fuzzy, c-format
 msgid "Game: %s has been removed from the game."
-msgstr "أنت!"
+msgstr "لقد تم إزالة %s من اللعبة."
 
 #: server/plrhand.c:1843 server/plrhand.c:1847
 #, fuzzy, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
-msgstr "أنت مع."
+msgstr "لقد اتصلت لأول مرة مع %s, المحكوم من %s."
 
 #: server/plrhand.c:2240
 #, fuzzy, c-format
@@ -3036,80 +3028,73 @@ msgstr ""
 "."
 
 #: server/report.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the RICHEST Civilizations in the World."
-msgstr "الحضارات العالم."
+msgstr "تقرير %s على أغنى حضارات العالم."
 
 #: server/report.c:54
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World."
-msgstr "الحضارات العالم."
+msgstr "تقرير %s على أكثر حضارات العالم تطورا."
 
 #: server/report.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the most MILITARIZED Civilizations in the World."
-msgstr "الحضارات العالم."
+msgstr "تقرير %s على أكبر حضارات العالم عسكريا."
 
 #: server/report.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the HAPPIEST Civilizations in the World."
-msgstr "الحضارات العالم."
+msgstr "تقرير %s على أسعد حضارات العالم."
 
 #: server/report.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "%s report on the LARGEST Civilizations in the World."
-msgstr "الحضارات العالم."
+msgstr "تقرير %s على أكبر حضارات العالم."
 
 #: server/report.c:61
-#, fuzzy
 msgid "Herodotus'"
-msgstr "هيرودوتس - أبو التاريخ"
+msgstr "هيرودوتس"
 
 #: server/report.c:62
 msgid "Thucydides'"
-msgstr ""
+msgstr "ثيسي ديديس"
 
 #: server/report.c:63
-#, fuzzy
 msgid "Pliny the Elder's"
 msgstr "بلني الشيخ"
 
 #: server/report.c:64
 msgid "Livy's"
-msgstr ""
+msgstr "ليڤي"
 
 #: server/report.c:65
-#, fuzzy
 msgid "Toynbee's"
-msgstr " توينبي - مؤرّخ و معلّم بريطاني"
+msgstr "توينبي"
 
 #: server/report.c:66
-#, fuzzy
 msgid "Gibbon's"
 msgstr "غيبون"
 
 #: server/report.c:67
 msgid "Ssu-ma Ch'ien's"
-msgstr ""
+msgstr "سسو ما شيين"
 
 #: server/report.c:68
-#, fuzzy
 msgid "Pan Ku's"
-msgstr "المقلاة جامعة الكويت"
+msgstr "بان كو"
 
 #: server/report.c:110
 msgid "Population"
 msgstr "عدد السكان"
 
 #: server/report.c:111
-#, fuzzy
 msgid "Land Area"
-msgstr "الأرض المنطقة"
+msgstr "مساحة الأرض"
 
 #: server/report.c:112
-#, fuzzy
 msgid "Settled Area"
-msgstr "مستقر المنطقة"
+msgstr "مساحة الأرض المستعمرة"
 
 #: server/report.c:113
 msgid "Research Speed"
@@ -3172,18 +3157,18 @@ msgid "Useless"
 msgstr "عديم الجدوى"
 
 #: server/report.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s %s\n"
-msgstr "الـ"
+msgstr "%2d: ال %s %s\n"
 
 #: server/report.c:206
 msgid "Historian Publishes!"
 msgstr "المؤرخ ينشر!"
 
 #: server/report.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The %s City of %s of size %d, "
-msgstr "الـ المدينة الحجم "
+msgstr "%2d: مدينة %s ال %s التي بحجم %d, "
 
 #: server/report.c:275
 msgid "with no wonders\n"
@@ -3234,9 +3219,8 @@ msgid " M tons"
 msgstr "مليون طن"
 
 #: server/report.c:562
-#, fuzzy
 msgid " M goods"
-msgstr "الحرف الثالث عشر في اللغة الإنجليزية"
+msgstr "مليون بضاعة"
 
 #: server/report.c:567
 msgid " month"
@@ -3254,28 +3238,29 @@ msgstr[2] "أطنان"
 
 #: server/report.c:586
 msgid "st"
-msgstr ""
+msgstr " "
 
 #: server/report.c:588
 msgid "nd"
-msgstr ""
+msgstr " "
 
 #: server/report.c:590
 msgid "rd"
-msgstr ""
+msgstr " "
 
 #: server/report.c:592
 msgid "th"
-msgstr ""
+msgstr " "
 
 #: server/report.c:693
-#, fuzzy
 msgid "Demography string contains invalid characters. Try \"help demography\"."
-msgstr "علم السكان المحاولة."
+msgstr ""
+"تحتوي السلسلة الحرفية للديمغرافيا على أحرف غير صحيحة. جرّب \"help demography"
+"\"."
 
 #: server/report.c:733 server/report.c:755
 msgid "Demographics Report:"
-msgstr "تقرير الديغرافية:"
+msgstr "تقرير الديمغرافية:"
 
 #: server/report.c:734
 msgid "Sorry, the Demographics report is unavailable."
@@ -3401,7 +3386,7 @@ msgstr ""
 #: server/ruleset.c:1438
 #, fuzzy
 msgid "Cannot find any palace building"
-msgstr "لا يستطيع"
+msgstr "فشل العثور على ملف الصوت %s"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:1446
@@ -3459,20 +3444,20 @@ msgstr "السبب: السطر غير موجود"
 
 #. TRANS: Error message.
 #: server/savegame.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "Reason: line too short (expected %d got %lu"
-msgstr "السبب"
+msgstr "السبب: السطر قصير جدا (توقعت %d حصلت على %lu"
 
 #. TRANS: message for an obscure savegame error.
 #: server/savegame.c:239
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown terrain identifier '%c' in savegame."
-msgstr "مجهول."
+msgstr "رقم تعريف تضاريص مجهول '%c' في اللعبة المحفوظة."
 
 #: server/savegame.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: Unknown nation %s for starting position no %d"
-msgstr "التحذير مجهول"
+msgstr "تحذير: أمة مجهولة %s في رقم وضع البدء %d"
 
 #: server/savegame.c:542
 #, fuzzy, c-format
@@ -3496,9 +3481,9 @@ msgid "Wrong tech type id value (%d)"
 msgstr "الخطأ"
 
 #: server/savegame.c:1163
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown technology (%s)"
-msgstr "مجهول"
+msgstr "تكنولوجيا مجهولة (%s)"
 
 #: server/savegame.c:1239 server/savegame.c:1245 server/savegame.c:1251
 #, fuzzy, c-format
@@ -3526,9 +3511,8 @@ msgid "Unknown unit type '%s' in player%d section"
 msgstr "مجهول وحدات"
 
 #: server/savegame.c:1539
-#, fuzzy
 msgid "Savegame error: invalid unit orders."
-msgstr "وحدات."
+msgstr "خطأ في اللعبة المحفوظة: أوامر الوحدة خاطئة."
 
 #: server/savegame.c:1659
 #, fuzzy, c-format
@@ -3536,9 +3520,9 @@ msgid "Nation %s (used by %s) isn't available."
 msgstr "حاول %s %s بناء %s, الذي لم يعد متوفرا."
 
 #: server/savegame.c:1692
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported government found (%s)"
-msgstr "غير مدعوم"
+msgstr "عثر على حكومة غير مدعومة (%s)"
 
 #: server/savegame.c:1727
 #, fuzzy, c-format
@@ -3554,7 +3538,7 @@ msgstr "غير شرعي."
 
 #: server/savegame.c:3068
 msgid "Savegame too old, at least version 1.9.0 required."
-msgstr ""
+msgstr "ملف اللعبة المحفوظة قديم جدا، يشترط على الأقل 1.9.0."
 
 #: server/savegame.c:3257
 #, fuzzy
@@ -3782,9 +3766,8 @@ msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
 msgstr ""
 
 #: server/settings.c:283
-#, fuzzy
 msgid "Whether the poles are separate continents"
-msgstr "سواء"
+msgstr "اعتبار الأقطاب قارات منفصلة"
 
 #: server/settings.c:284
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
@@ -4671,11 +4654,11 @@ msgstr "الأدوار"
 msgid ""
 "The game will be automatically saved per this number of turns. Zero means "
 "never auto-save."
-msgstr "الـ أدوار الصّفر :: النّكرة - شخص عديم الشّأن."
+msgstr "الـ أدوار الصّفر :: النّكرة - شخص عديم الشّأن مستحيل."
 
 #: server/settings.c:975 server/settings.c:986
 msgid "Savegame compression level"
-msgstr ""
+msgstr "مستوى ضغط اللعبة المحفوظة"
 
 #: server/settings.c:976 server/settings.c:987
 #, fuzzy
@@ -4686,9 +4669,8 @@ msgid ""
 msgstr "إذا أكبر إذا."
 
 #: server/settings.c:998
-#, fuzzy
 msgid "Auto-save name prefix"
-msgstr "السّيّارة"
+msgstr "بادئة اسم الحفظ التلقائي"
 
 #: server/settings.c:999
 #, fuzzy
@@ -4698,9 +4680,8 @@ msgid ""
 msgstr "تلقائيًّا<prefix><year> هذا<prefix>."
 
 #: server/settings.c:1006
-#, fuzzy
 msgid "Whether to log player statistics"
-msgstr "سواء"
+msgstr "تسجيل احصائيات اللاعب"
 
 #: server/settings.c:1007
 #, fuzzy
@@ -4756,12 +4737,12 @@ msgstr "الـ هو الألفا."
 #: server/spacerace.c:200
 #, fuzzy
 msgid "Game: Spaceship action received, but you don't have a spaceship!"
-msgstr "السفينة الفضائية!"
+msgstr "تم الحصول على أمر لسفينة فضائية، ولكنك لا تملك واحدة!"
 
 #: server/spacerace.c:205
 #, fuzzy
 msgid "Game: You can't modify your spaceship after launch!"
-msgstr "أنت!"
+msgstr "لا تستطيع تغيير سفينة فضائية بعد الاطلاق!"
 
 #: server/spacerace.c:214
 #, fuzzy
@@ -4792,19 +4773,19 @@ msgstr "ملكك الدفع المكوّنات!"
 #: server/spacerace.c:272 server/spacerace.c:292 server/spacerace.c:312
 #, fuzzy
 msgid "Game: You don't have any unplaced Space Modules!"
-msgstr "أنت الفضاء الوحدات!"
+msgstr "ليس عندك أي وحدات فضائية غير موضوعة!"
 
 #: server/spacerace.c:277
 #, fuzzy
 msgid ""
 "Game: Your spaceship already has the maximum number of Habitation Modules!"
-msgstr "ملكك السكن الوحدات!"
+msgstr "تملك سفينتك الفضائية أصلا الحد الأعلى من وحدات المعيشة!"
 
 #: server/spacerace.c:297
 #, fuzzy
 msgid ""
 "Game: Your spaceship already has the maximum number of Life Support Modules!"
-msgstr "ملكك الحياة الدعم الوحدات!"
+msgstr "تملك سفينتك الفضائية أصلا الحد الأعلى من وحدات الدعم!"
 
 #: server/spacerace.c:317
 #, fuzzy
@@ -4927,7 +4908,7 @@ msgstr "%s حاكم %s على %s."
 #: server/srv_main.c:1187
 #, fuzzy, c-format
 msgid "No nations left: Removing player %s."
-msgstr "الإزالة."
+msgstr "إزالة اللاعب %s."
 
 #: server/srv_main.c:1190
 msgid "Game: Sorry, there are no nations left."
@@ -4949,19 +4930,19 @@ msgid "Maxplayers smaller than aifill; aifill reduced to %d."
 msgstr ""
 
 #: server/srv_main.c:1407
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as an AI-controlled player."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "تم إضافة %s كلاعب مسيطر من ال ذ.ا."
 
 #: server/srv_main.c:1410 server/stdinhand.c:930
 #, fuzzy, c-format
 msgid "Game: %s has been added as an AI-controlled player."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "تم إضافة %s كلاعب مسيطر من ال ذ.ا."
 
 #: server/srv_main.c:1417
 #, fuzzy, c-format
 msgid "Error creating new AI player: %s\n"
-msgstr "الخطأ جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "خطأ انشاء لاعب ذ.ا جديد: %s."
 
 #: server/srv_main.c:1480
 #, c-format
@@ -5126,14 +5107,14 @@ msgid "Metaserver is now [%s]."
 msgstr ""
 
 #: server/stdinhand.c:677
-#, fuzzy, c-format
+#, c-format
 msgid "Server id: %s"
-msgstr "الخادم"
+msgstr "رقم تعريف الخادم: %s"
 
 #: server/stdinhand.c:772
 #, fuzzy
 msgid "The game cannot be saved before it is started."
-msgstr "اللاعبون."
+msgstr "لا يمكن إزالة اللاعبيين متى بدأت اللعبة."
 
 #: server/stdinhand.c:788
 #, fuzzy
@@ -5141,14 +5122,14 @@ msgid "Cannot toggle a barbarian player."
 msgstr "لا يستطيع."
 
 #: server/stdinhand.c:795
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now under AI control."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "ال %s هو تحت سيطرة ذ.ا."
 
 #: server/stdinhand.c:811
 #, c-format
 msgid "%s is now under human control."
-msgstr ""
+msgstr "ال %s هو تحت السيطرة البشرية."
 
 #: server/stdinhand.c:875
 #, fuzzy
@@ -5156,69 +5137,63 @@ msgid "Can't add AI players once the game has begun."
 msgstr "يمكن أن الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
 
 #: server/stdinhand.c:884
-#, fuzzy
 msgid "Can't add more players, server is full."
-msgstr "يمكن أن."
+msgstr "لا يمكن إضافة لاعبيين جدد، الخادم مشغول."
 
 #: server/stdinhand.c:890
-#, fuzzy
 msgid "Can't use an empty name."
-msgstr "يمكن أن فارغ."
+msgstr "لا يمكن استعمال اسم فارغ."
 
 #: server/stdinhand.c:897
-#, fuzzy, c-format
+#, c-format
 msgid "That name exceeds the maximum of %d chars."
-msgstr "ذلك."
+msgstr "يزيد ذلك الاسم على الحد الأعلى من عدد الأحرف %d."
 
 #: server/stdinhand.c:903
-#, fuzzy
 msgid "That name is not allowed."
-msgstr "ذلك."
+msgstr "ذلك الاسم غير مسموح."
 
 #: server/stdinhand.c:909
-#, fuzzy
 msgid "A player already exists by that name."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
+msgstr "هناك لاعب موجود أصلا بهذا الاسم."
 
 #: server/stdinhand.c:915
-#, fuzzy
 msgid "A user already exists by that name."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
+msgstr "هناك مستخدم موجود أصلا بهذا الاسم."
 
 #: server/stdinhand.c:937
-#, fuzzy, c-format
+#, c-format
 msgid "Error creating new AI player: %s."
-msgstr "الخطأ جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "خطأ انشاء لاعب ذ.ا جديد: %s."
 
 #: server/stdinhand.c:967
-#, fuzzy
 msgid "Players cannot be removed once the game has started."
-msgstr "اللاعبون."
+msgstr "لا يمكن إزالة اللاعبيين متى بدأت اللعبة."
 
 #: server/stdinhand.c:979
-#, fuzzy, c-format
+#, c-format
 msgid "Removed player %s from the game."
-msgstr "مزال."
+msgstr "إزالة اللاعب %s من اللعبة."
 
 #: server/stdinhand.c:992
-#, fuzzy, c-format
+#, c-format
 msgid "Loading script file: %s"
-msgstr "التحميل"
+msgstr "جاري تحميل ملف السكربت: %s"
 
 #: server/stdinhand.c:1006
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read command line scriptfile '%s'."
-msgstr "لا يستطيع."
+msgstr "لا يمكن قراءة ملف السكربت لسطر الأوامر '%s'."
 
 #: server/stdinhand.c:1008
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read script file '%s'."
-msgstr "يمكن أن."
+msgstr "لا يمكن قراءة ملف السكربت '%s'."
 
 #: server/stdinhand.c:1103
-#, fuzzy, c-format
+#, c-format
 msgid "Could not write script file '%s'."
-msgstr "يمكن أن."
+msgstr "لا يمكن كتابة ملف السكربت '%s'."
 
 #: server/stdinhand.c:1138
 #, fuzzy, c-format
@@ -5259,7 +5234,7 @@ msgstr "الخطأ لا يوجد."
 #, fuzzy, c-format
 msgid ""
 "Cannot increase command access level to '%s'; you only have '%s' yourself."
-msgstr "لا يستطيع."
+msgstr "لا يستطيع نفسك."
 
 #: server/stdinhand.c:1277 server/stdinhand.c:1325
 #, fuzzy, c-format
@@ -5307,9 +5282,9 @@ msgid "Invalid argument %d."
 msgstr "العاجز."
 
 #: server/stdinhand.c:1425
-#, fuzzy
 msgid "Usage: timeoutincrease <turn> <turnadd> <value> <valuemult>."
-msgstr "الإستعمال<turn><turnadd><value><valuemult>."
+msgstr ""
+"Usage: timeoutincrease <الدور> <إضافة إلى الدور> <القيمة> <مضاعف القيمة>."
 
 #: server/stdinhand.c:1433
 #, fuzzy, c-format
@@ -5320,27 +5295,25 @@ msgstr ""
 "والنّشاط"
 
 #: server/stdinhand.c:1493 server/stdinhand.c:1496
-#, fuzzy
 msgid "Option:"
 msgstr "الخيار:"
 
 #: server/stdinhand.c:1506 server/stdinhand.c:3814
-#, fuzzy
 msgid "Description:"
 msgstr "الوصف:"
 
 #: server/stdinhand.c:1511
-#, fuzzy, c-format
+#, c-format
 msgid "Status: %s"
-msgstr "المنزلة"
+msgstr "الحالة: %s"
 
 #: server/stdinhand.c:1512
 msgid "changeable"
-msgstr ""
+msgstr "قابل للتغيير"
 
 #: server/stdinhand.c:1512
 msgid "fixed"
-msgstr ""
+msgstr "غير قابل للتغيير"
 
 #: server/stdinhand.c:1518
 #, fuzzy, c-format
@@ -5358,24 +5331,21 @@ msgid "Value: \"%s\", Default: \"%s\""
 msgstr "القيمة التقصير، تخلف عن الدفع، فقدان، يهمل"
 
 #: server/stdinhand.c:1548
-#, fuzzy
 msgid "Explanations are available for the following server options:"
-msgstr "التفسيرات:"
+msgstr "تتوفر التفسيرات لخيارات الخادم التالية:"
 
 #: server/stdinhand.c:1593
-#, fuzzy
 msgid "No explanation for that yet."
-msgstr "لا."
+msgstr "لا يوجد تفسير لهذا حتى اﻵن."
 
 #: server/stdinhand.c:1596 server/stdinhand.c:2420
-#, fuzzy
 msgid "Ambiguous option name."
-msgstr "ملتبس."
+msgstr "اسم خيار مبهم."
 
 #: server/stdinhand.c:1616
-#, fuzzy, c-format
+#, c-format
 msgid "Server Operator: %s"
-msgstr "الخادم المشغل"
+msgstr "مشغل الخادم: %s"
 
 #: server/stdinhand.c:1636
 #, c-format
@@ -5402,20 +5372,18 @@ msgid "Player '%s' now has AI skill level '%s'."
 msgstr "لدى اللاعب '%s' اﻵن مستوى ذ.ا '%s'."
 
 #: server/stdinhand.c:1828
-#, fuzzy, c-format
+#, c-format
 msgid "%s is not controlled by the AI."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "يسيطر ال ذ.ا على %s."
 
 #: server/stdinhand.c:1845
-#, fuzzy, c-format
+#, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr ""
-"التقصير، تخلف عن الدفع، فقدان، يهمل الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "تحديد مستوى لعب ال ذ.ا الاقتراضي ب '%s'."
 
 #: server/stdinhand.c:1860 server/stdinhand.c:2153
-#, fuzzy
 msgid "This command is client only."
-msgstr "هذا."
+msgstr "هذا الأمر هو للعميل فقط."
 
 #: server/stdinhand.c:1863
 msgid "Usage: away"
@@ -5428,7 +5396,7 @@ msgstr "يسمح للاعبيين فقط استخدام أمر away."
 #: server/stdinhand.c:1870
 #, c-format
 msgid "%s set to away mode."
-msgstr ""
+msgstr "وضع %s في نمط away."
 
 #: server/stdinhand.c:1876
 #, c-format
@@ -5731,7 +5699,7 @@ msgstr "يراقب %s أصلا %s."
 #: server/stdinhand.c:2808
 #, c-format
 msgid "%s now observes %s"
-msgstr ""
+msgstr "يراقب %s اﻵن %s"
 
 #: server/stdinhand.c:2848
 msgid "Usage: take <connection-name> <player-name>"
@@ -5758,12 +5726,12 @@ msgstr "يسيطر %s أصلا على %s"
 #: server/stdinhand.c:2922
 #, c-format
 msgid "being detached from %s."
-msgstr ""
+msgstr "تم الفصل عن %s."
 
 #: server/stdinhand.c:2979
 #, c-format
 msgid "%s now controls %s (%s, %s)"
-msgstr ""
+msgstr "يملك %s اﻵن %s (%s, %s)"
 
 #: server/stdinhand.c:2981 server/stdinhand.c:4028
 #: data/nation/barbarian.ruleset:3
@@ -5805,17 +5773,17 @@ msgstr "أنت."
 #: server/stdinhand.c:3042
 #, c-format
 msgid "%s is not attached to any player."
-msgstr ""
+msgstr "ال %s هو غير متصل إلى أي لاعب."
 
 #: server/stdinhand.c:3069
 #, c-format
 msgid "%s detaching from %s"
-msgstr ""
+msgstr "يفصل %s عن %s"
 
 #: server/stdinhand.c:3081
 #, c-format
 msgid "detaching from %s."
-msgstr ""
+msgstr "جاري الفصل عن %s."
 
 #: server/stdinhand.c:3174
 #, fuzzy
@@ -5825,7 +5793,7 @@ msgstr "الاستعمال: load <اسم اللعبة>"
 #: server/stdinhand.c:3180
 #, fuzzy
 msgid "Can't load a game while another is running."
-msgstr "لا يستطيع."
+msgstr "لا يمكن تحميل لعبة عند وجود لعبة أخرى جارية."
 
 #: server/stdinhand.c:3189
 #, fuzzy, c-format
@@ -6068,17 +6036,17 @@ msgstr "<بلا اتصال>"
 #: server/unithand.c:117
 #, fuzzy, c-format
 msgid "Game: Illegal packet, can't upgrade %s (yet)."
-msgstr "غير شرعي."
+msgstr "رزمة ممنوعة, لا تستطيع تطوير %s (حتى اﻵن)."
 
 #: server/unithand.c:144
 #, fuzzy, c-format
 msgid "Game: %d %s upgraded to %s for %d gold."
-msgstr "الذهب."
+msgstr "تم تطوير %d %s إلى %s ب %d ذهب."
 
 #: server/unithand.c:150
 #, fuzzy
 msgid "Game: No units could be upgraded."
-msgstr "لا."
+msgstr "لا توجد أي وحدات قابلة للتطوير."
 
 #: server/unithand.c:173
 #, fuzzy, c-format
@@ -6088,7 +6056,7 @@ msgstr "تطوير %s إلى %s ب %d ذهب."
 #: server/unithand.c:345
 #, fuzzy, c-format
 msgid "Game: %s refuses to disband!"
-msgstr "%s يرفض التسريح!"
+msgstr "يرفض %s التسريح!"
 
 #: server/unithand.c:368
 #, fuzzy
@@ -6098,7 +6066,7 @@ msgstr "لا يمكن إقامة المدينة هنا."
 #: server/unithand.c:375
 #, fuzzy, c-format
 msgid "Game: Only %s can build a city."
-msgstr "فقط."
+msgstr "يستطيع %s فقط بناء مدينة."
 
 #: server/unithand.c:380
 #, fuzzy
@@ -6108,7 +6076,7 @@ msgstr "لا يمكن بناء مدينة."
 #: server/unithand.c:389
 #, fuzzy, c-format
 msgid "Game: Only %s can add to a city."
-msgstr "فقط."
+msgstr "يستطيع %s فقط الأضافة إلى مدينة."
 
 #: server/unithand.c:394
 #, fuzzy
@@ -6118,17 +6086,17 @@ msgstr "لا يمكن الاضافة إلى مدينة."
 #: server/unithand.c:400
 #, fuzzy, c-format
 msgid "Game: %s unit has no moves left to add to %s."
-msgstr "وحدات."
+msgstr "لم يبق للوحدة %s أي حركات للاضافة إلى %s."
 
 #: server/unithand.c:405
 #, fuzzy, c-format
 msgid "Game: %s unit has no moves left to build city."
-msgstr "وحدات."
+msgstr "لم يبق للوحدة %s أي حركات لبناء مدينة."
 
 #: server/unithand.c:410
 #, fuzzy, c-format
 msgid "Game: %s is too big to add %s."
-msgstr "اللاعب %s مع فريق %s."
+msgstr "الوحدة %s كبيرة جدا لتضاف إلى %s."
 
 #: server/unithand.c:415
 #, fuzzy, c-format
@@ -6138,27 +6106,27 @@ msgstr "تحتاج %s إلى تحسين لتكبر أكثر ."
 #: server/unithand.c:424
 #, fuzzy, c-format
 msgid "Game: Can't add %s to %s."
-msgstr "يمكن أن."
+msgstr "لا يمكن إضافة %s إلى %s."
 
 #: server/unithand.c:448
-#, c-format
+#, fuzzy, c-format
 msgid "Game: %s added to aid %s in growing."
-msgstr ""
+msgstr "تم إضافة %s لمساعدة %s في التوسع."
 
 #: server/unithand.c:691
 #, fuzzy, c-format
 msgid "Game: Your bombarding %s%s became more experienced!"
-msgstr "ملكك!"
+msgstr "أصبحت وحدتك القاذفة %s%s أكثر خبرة!"
 
 #: server/unithand.c:733
 #, fuzzy
 msgid "Game: Your Nuclear missile was shot down by SDI defences, what a waste."
-msgstr "ملكك نووي."
+msgstr "تم اسقاط صاروخك النووي من دفاع SDI، يا لا الخسارة."
 
 #: server/unithand.c:736
 #, fuzzy, c-format
 msgid "Game: The nuclear attack on %s was avoided by your SDI defense."
-msgstr "الـ الهجوم الدفاع."
+msgstr "تم تجنب الهجوم النووي على %s بواسطة دفاع SDI الخاص بك."
 
 #: server/unithand.c:804
 #, fuzzy, c-format
@@ -6196,17 +6164,17 @@ msgstr ""
 #: server/unithand.c:922
 #, fuzzy, c-format
 msgid "Game: Only %s can attack from sea."
-msgstr "فقط الهجوم."
+msgstr "يستطيع  %s فقط الهجوم من البحر."
 
 #: server/unithand.c:927
 #, fuzzy
 msgid "Game: Cannot attack from sea."
-msgstr "لا يستطيع الهجوم."
+msgstr "لا تستطيع الهجوم من البحر."
 
 #: server/unithand.c:932 server/unittools.c:2220
 #, fuzzy
 msgid "Game: Cannot attack unless you declare war first."
-msgstr "لا يستطيع الهجوم."
+msgstr "لا تستطيع الهجوم إلا بعد إعلانك الحرب أولا."
 
 #: server/unithand.c:935
 #, c-format
@@ -6216,22 +6184,22 @@ msgstr ""
 #: server/unithand.c:972
 #, fuzzy
 msgid "Game: This unit has no moves left."
-msgstr "هذا وحدات."
+msgstr "لم يبق لهذه الوحدة أي حركات."
 
 #: server/unithand.c:1026
 #, fuzzy
 msgid "Game: Unit must be on land to perform diplomatic action."
-msgstr "الوحدة."
+msgstr "يجب أن تكون الوحدة على الأرض لتنفيذ الأمر الدبلوماسي."
 
 #: server/unithand.c:1028
 #, fuzzy
 msgid "Game: No diplomat action possible."
-msgstr "لا."
+msgstr "لا امكانية لأي أمر دبلوموسي."
 
 #: server/unithand.c:1043
 #, fuzzy, c-format
 msgid "Game: Can't attack %s because you are not at war with %s."
-msgstr "لا يستطيع الهجوم."
+msgstr "لا تستطيع الهجوم إلا بعد إعلانك الحرب أولا."
 
 #: server/unithand.c:1054
 #, fuzzy, c-format
@@ -6241,17 +6209,17 @@ msgstr "انتهى وقف إطلاق النار مع %s. أنت اﻵن في ح�
 #: server/unithand.c:1072
 #, fuzzy
 msgid "Game: This unit is being transported, and so cannot bombard."
-msgstr "هذا وحدات."
+msgstr "يتم نقل هذه الوحدة، ولهذا لا تستطيع القصف."
 
 #: server/unithand.c:1087
 #, fuzzy
 msgid "Game: You can't attack there."
-msgstr "أنت الهجوم."
+msgstr "لا تستطيع الهجوم هناك."
 
 #: server/unithand.c:1107
 #, fuzzy
 msgid "Game: This type of troops cannot take over a city."
-msgstr "هذا."
+msgstr "لا يستطيع هذا النوع من القوات الاستيلاء على مدينة."
 
 #: server/unithand.c:1125
 #, fuzzy
@@ -6309,9 +6277,9 @@ msgid "Game: %s was upgraded for free to %s%s."
 msgstr ""
 
 #: server/unittools.c:268
-#, fuzzy, c-format
+#, c-format
 msgid "Not enough gold. %s disbanded"
-msgstr "ليس، أداة نفي الذهب"
+msgstr "الذهب غير كافي. تم تسريح %s"
 
 #: server/unittools.c:313
 #, fuzzy, c-format
@@ -6321,7 +6289,7 @@ msgstr "ملكك."
 #: server/unittools.c:330
 #, fuzzy, c-format
 msgid "Game: Your %s has been lost on the high seas."
-msgstr "ملكك."
+msgstr "تم فقد %s في البحر الهائج."
 
 #: server/unittools.c:338
 #, fuzzy, c-format
@@ -6331,12 +6299,12 @@ msgstr "ملكك!"
 #: server/unittools.c:349
 #, fuzzy, c-format
 msgid "Game: Your %s has been lost on unsafe terrain."
-msgstr "ملكك."
+msgstr "تم فقد %s على تضاريص خطرة."
 
 #: server/unittools.c:375
 #, fuzzy, c-format
 msgid "Game: Your %s has returned to refuel."
-msgstr "ملكك."
+msgstr "رجعت وحدتك %s للتزود بالوقود."
 
 #: server/unittools.c:401
 #, fuzzy, c-format
@@ -6346,57 +6314,57 @@ msgstr "ملكك."
 #: server/unittools.c:582
 #, fuzzy, c-format
 msgid "Game: Your %s became more experienced!"
-msgstr "ملكك!"
+msgstr "أصبحت وحدتك %s أكثر خبرة!"
 
 #: server/unittools.c:862
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing land to sea."
-msgstr "متحرّك."
+msgstr "تم تحريك وحدتك %s لتغير التضاريص."
 
 #: server/unittools.c:883
 #, fuzzy, c-format
 msgid "Game: Embarked your %s due to changing land to sea."
-msgstr "محلول."
+msgstr "تم تسريح وحدتك %s لتغير التضاريص."
 
 #: server/unittools.c:898
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing land to sea."
-msgstr "محلول."
+msgstr "تم تسريح وحدتك %s لتغير التضاريص."
 
 #: server/unittools.c:920
 #, fuzzy, c-format
 msgid "Game: Moved your %s due to changing sea to land."
-msgstr "متحرّك."
+msgstr "تم تحريك وحدتك %s لتغير التضاريص."
 
 #: server/unittools.c:940
 #, fuzzy, c-format
 msgid "Game: Docked your %s due to changing sea to land."
-msgstr "متحرّك."
+msgstr "تم تحريك وحدتك %s لتغير التضاريص."
 
 #: server/unittools.c:955
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s due to changing sea to land."
-msgstr "محلول."
+msgstr "تم تسريح وحدتك %s لتغير التضاريص."
 
 #: server/unittools.c:987
 #, c-format
 msgid " at %s"
-msgstr ""
+msgstr " على %s"
 
 #: server/unittools.c:989
 #, c-format
 msgid " in %s"
-msgstr ""
+msgstr " في %s"
 
 #: server/unittools.c:996
 #, c-format
 msgid " outside %s"
-msgstr ""
+msgstr " خارج %s"
 
 #: server/unittools.c:999
 #, c-format
 msgid " near %s"
-msgstr ""
+msgstr " قرب %s"
 
 #: server/unittools.c:1209
 #, c-format
@@ -6406,12 +6374,12 @@ msgstr ""
 #: server/unittools.c:1238
 #, fuzzy, c-format
 msgid "Game: Disbanded your %s."
-msgstr "محلول."
+msgstr "تم تسريح وحدتك %s."
 
 #: server/unittools.c:1562
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to defend %s, %s has lost the game."
-msgstr "عاجز."
+msgstr "لا يمكن الدفاع عن %s، خسر %s اللعبة."
 
 #: server/unittools.c:1564
 #, fuzzy, c-format
@@ -6419,19 +6387,19 @@ msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "الخسران كن!"
 
 #: server/unittools.c:1668
-#, c-format
+#, fuzzy, c-format
 msgid "Game: %s escaped the destruction of %s, and fled to %s."
-msgstr ""
+msgstr "هرب %s من دمار %s إلى %s."
 
 #: server/unittools.c:1675
-#, c-format
+#, fuzzy, c-format
 msgid "Game: %s lost when %s was lost."
-msgstr ""
+msgstr "خسر %s عند خسارة %s."
 
 #: server/unittools.c:1734
 #, fuzzy, c-format
 msgid "Game: Barbarian leader captured, %d gold ransom paid."
-msgstr "الهمجيّ الذهب."
+msgstr "تم القبض على القائد البربري، ودفع فدية ذهب بقيمة %d."
 
 #: server/unittools.c:1751
 #, fuzzy, c-format
@@ -6454,82 +6422,82 @@ msgstr "الهجوم."
 #: server/unittools.c:2065
 #, fuzzy, c-format
 msgid "Game: Your %s was nuked by %s."
-msgstr "ملكك."
+msgstr "تم قصف وحدتك %s بالسلاح النووي من قبل %s."
 
 #: server/unittools.c:2067 server/unittools.c:2083
 msgid "yourself"
-msgstr ""
+msgstr "نفسك"
 
 #: server/unittools.c:2071
-#, c-format
+#, fuzzy, c-format
 msgid "Game: %s's %s was nuked."
-msgstr ""
+msgstr "تم قصف وحدة %s %s بالسلاح النووي."
 
 #: server/unittools.c:2081
 #, fuzzy, c-format
 msgid "Game: %s was nuked by %s."
-msgstr "ملكك."
+msgstr "تم قصف %s بالسلاح النووي من قبل %s."
 
 #: server/unittools.c:2088
 #, fuzzy, c-format
 msgid "Game: You nuked %s."
-msgstr "أنت."
+msgstr "لقد قصفت %s بالسلاح النووي."
 
 #: server/unittools.c:2126
-#, c-format
+#, fuzzy, c-format
 msgid "Game: %s detonated a nuke!"
-msgstr ""
+msgstr "فجر %s سلاحا نوويا!"
 
 #: server/unittools.c:2166
-#, c-format
+#, fuzzy, c-format
 msgid "Game: %s transported succesfully."
-msgstr ""
+msgstr "تم نقل %s بنجاح."
 
 #: server/unittools.c:2189
 #, fuzzy
 msgid "Game: This unit type can not be paradropped."
-msgstr "هذا وحدات."
+msgstr "لا يمكن اسقاط نوع هذه الوحدة بالمظلة."
 
 #: server/unittools.c:2199
 #, fuzzy
 msgid "Game: You cannot paradrop a transporter unit."
-msgstr "أنت وحدات."
+msgstr "لا تستطيع اسقاط وحدة منقولة بالمظلة."
 
 #: server/unittools.c:2204
 #, fuzzy
 msgid "Game: The destination location is not known."
-msgstr "الـ."
+msgstr "موقع الاتجاه مجهول."
 
 #: server/unittools.c:2211
 #, fuzzy
 msgid "Game: This unit cannot paradrop into ocean."
-msgstr "هذا وحدات."
+msgstr "لا تستطيع اسقاط هذه الوحدة بالمظلة على %s."
 
 #: server/unittools.c:2229
 #, fuzzy, c-format
 msgid ""
 "Game: The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr "الـ وحدات."
+msgstr "المسافة إلى الهدف (%i) أكبر من مدى تحرك الوحدة (%i)."
 
 #: server/unittools.c:2243
 #, fuzzy, c-format
 msgid "Game: Your %s paradropped into the ocean and was lost."
-msgstr "ملكك."
+msgstr "تم اسقاط وحدتك %s بالمظلة على %s، وفقدانها."
 
 #: server/unittools.c:2256
 #, fuzzy, c-format
 msgid "Game: Your %s was killed by enemy units at the paradrop destination."
-msgstr "ملكك."
+msgstr "تم قتل وحدتك %s من قبل وحدات العدو عند موقع اسقاط المظليين."
 
 #: server/unittools.c:2278
 #, fuzzy, c-format
 msgid "Game: You found %d gold."
-msgstr "أنت الذهب."
+msgstr "لقد عثرت على %d من الذهب."
 
 #: server/unittools.c:2295
 #, fuzzy, c-format
 msgid "Game: You found %s in ancient scrolls of wisdom."
-msgstr "أنت."
+msgstr "لقد عثرت على %s في مخطوطات قديمة للحكمة."
 
 #: server/unittools.c:2298
 #, fuzzy, c-format
@@ -6539,32 +6507,32 @@ msgstr "الـ."
 #: server/unittools.c:2311
 #, fuzzy
 msgid "Game: A band of friendly mercenaries joins your cause."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
+msgstr "تنضم زمرة من المرتزقة إلى قضيتك."
 
 #: server/unittools.c:2329
 #, fuzzy
 msgid "Game: An abandoned village is here."
-msgstr "أداة تعريف."
+msgstr "توجد قرية مهجورة هنا."
 
 #: server/unittools.c:2339
 #, fuzzy
 msgid "Game: You have unleashed a horde of barbarians!"
-msgstr "أنت!"
+msgstr "لقد أطلقت العنان لحشود من البرابرة!"
 
 #: server/unittools.c:2342
 #, fuzzy, c-format
 msgid "Game: Your %s has been killed by barbarians!"
-msgstr "ملكك!"
+msgstr "تم قتل وحدتك %s من قبل البرابرة!"
 
 #: server/unittools.c:2358
 #, fuzzy
 msgid "Game: You found a friendly city."
-msgstr "أنت."
+msgstr "لقد عثرت على مدينة صديقة."
 
 #: server/unittools.c:2363
 #, fuzzy
 msgid "Game: Friendly nomads are impressed by you, and join you."
-msgstr "ودّي."
+msgstr "أعجب بدو وديون بك، وانضموا إليك."
 
 #: server/unittools.c:2388
 #, fuzzy
@@ -6605,7 +6573,7 @@ msgstr "الطلبات."
 #: server/unittools.c:3078
 #, fuzzy, c-format
 msgid "Game: Your %s has invalid orders."
-msgstr "ملكك."
+msgstr "لدى وحدتك %s أوامر خاطئة."
 
 #: server/generator/mapgen.c:1611
 #, fuzzy
@@ -6652,14 +6620,14 @@ msgid "Plugin '%s' isn't available. Available are %s"
 msgstr "البرنامج المساعد متاح، متوفّر"
 
 #: client/audio.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Plugin %s found but can't be initialized."
-msgstr "البرنامج المساعد."
+msgstr "تم العثور على البرنامج المساعد %s ولكن لا يمكن تشغيله."
 
 #: client/audio.c:142
-#, fuzzy, c-format
+#, c-format
 msgid "Plugin '%s' is now selected"
-msgstr "البرنامج المساعد"
+msgstr "تم اختيار البرنامج المساعد '%s'"
 
 #: client/audio.c:198
 #, c-format
@@ -6710,9 +6678,8 @@ msgid "Get sound sets from <%s>."
 msgstr "أصبح."
 
 #: client/audio.c:243
-#, fuzzy
 msgid "Will continue with disabled sounds."
-msgstr "سوف مع."
+msgstr "سوف يتم الاستمرار بدون أي صوت."
 
 #: client/audio.c:248
 #, fuzzy, c-format
@@ -6738,9 +6705,9 @@ msgid "Perhaps there is some misconfigurationg or bad permissions"
 msgstr "ربما"
 
 #: client/audio.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot find audio file %s"
-msgstr "لا يستطيع"
+msgstr "فشل العثور على ملف الصوت %s"
 
 #: client/audio_esd.c:121
 #, c-format
@@ -6763,12 +6730,12 @@ msgid "%3d gold per turn"
 msgstr "الذهب دوران"
 
 #: client/citydlg_common.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "%3d turn"
 msgid_plural "%3d turns"
-msgstr[0] "دوران"
-msgstr[1] "دوران"
-msgstr[2] "دوران"
+msgstr[0] "%3d دور"
+msgstr[1] "%3d دوران"
+msgstr[2] "%3d أدوار"
 
 #: client/citydlg_common.c:256 client/citydlg_common.c:374
 #: client/agents/cma_fec.c:251 client/agents/cma_fec.c:285
@@ -6776,30 +6743,30 @@ msgstr[2] "دوران"
 #: client/gui-mui/citydlg.c:105 client/gui-mui/citydlg.c:140
 #: client/gui-mui/citydlg.c:1825 client/gui-win32/citydlg.c:465
 msgid "never"
-msgstr ""
+msgstr "مستحيل"
 
 #: client/citydlg_common.c:260
 #, c-format
 msgid "%3d/%3d:%s"
-msgstr ""
+msgstr "%3d/%3d:%s"
 
 #: client/citydlg_common.c:262
 #, c-format
 msgid "%3d/%3d %s"
-msgstr ""
+msgstr "%3d/%3d %s"
 
 #: client/citydlg_common.c:283
-#, fuzzy, c-format
+#, c-format
 msgid "%s (XX) %d/turn"
-msgstr "دوران"
+msgstr "%s (XX) %d/دور"
 
 #: client/citydlg_common.c:300
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d) %d turn"
 msgid_plural "%s (%d) %d turns"
-msgstr[0] "دوران"
-msgstr[1] "دوران"
-msgstr[2] "دوران"
+msgstr[0] "%s (%d) %d دور"
+msgstr[1] "%s (%d) %d دوران"
+msgstr[2] "%s (%d) %d أدوار"
 
 #: client/citydlg_common.c:348 client/gui-mui/citydlg.c:604
 #: client/gui-mui/worklistclass.c:114
@@ -6817,9 +6784,9 @@ msgid "Obsolete"
 msgstr "قديم"
 
 #: client/citydlg_common.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "%d/turn"
-msgstr "دوران"
+msgstr "%d/دور"
 
 #: client/cityrepdata.c:67
 #, fuzzy
@@ -6835,23 +6802,20 @@ msgid "?city_state:Peace"
 msgstr "?city_state:السلام"
 
 #: client/cityrepdata.c:346
-#, fuzzy
 msgid "(worklist)"
-msgstr "قائمة العمل"
+msgstr "(قائمة العمل)"
 
 #: client/cityrepdata.c:411
-#, fuzzy
 msgid "?city:Name"
-msgstr "الاسم"
+msgstr "?city:الاسم"
 
 #: client/cityrepdata.c:411
 msgid "City Name"
 msgstr "اسم المدينة"
 
 #: client/cityrepdata.c:413
-#, fuzzy
 msgid "?size:Sz"
-msgstr "الحجم"
+msgstr "?size:الحجم"
 
 #: client/cityrepdata.c:413
 msgid "Size"
@@ -7157,9 +7121,8 @@ msgid "Turns"
 msgstr "الأدوار"
 
 #: client/cityrepdata.c:475
-#, fuzzy
 msgid "Turns until growth/famine"
-msgstr "الأدوار"
+msgstr "الأدوار حتى التوسع/المجاعة"
 
 #: client/cityrepdata.c:477
 msgid "?corruption:Cor"
@@ -7202,7 +7165,7 @@ msgstr "السهم الهدف الأدوار اشتر"
 
 #: client/civclient.c:193
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
-msgstr ""
+msgstr "  -a, --autoconnect\tتخطي مربع حوار الاتصال\n"
 
 #: client/civclient.c:203
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
@@ -7214,11 +7177,11 @@ msgstr ""
 
 #: client/civclient.c:207
 msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr ""
+msgstr "  -n, --name NAME\tاستعمال NAME كاسم\n"
 
 #: client/civclient.c:209
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr ""
+msgstr "  -p, --port PORT\tالاتصال بالخادم على منفد PORT\n"
 
 #: client/civclient.c:211
 #, fuzzy, c-format
@@ -7231,7 +7194,7 @@ msgstr ""
 
 #: client/civclient.c:216
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
-msgstr ""
+msgstr "  -s, --server HOST\tالاتصال بالخادم على العنوان HOST\n"
 
 #: client/civclient.c:217
 #, fuzzy
@@ -7255,9 +7218,8 @@ msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "العاجز مع"
 
 #: client/civclient.c:245 client/civclient.c:258
-#, fuzzy
 msgid "Try using --help.\n"
-msgstr "المحاولة"
+msgstr "حاول استعمال --help.\n"
 
 #: client/civclient.c:256
 #, fuzzy, c-format
@@ -7265,114 +7227,101 @@ msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "العاجز مع"
 
 #: client/civclient.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr "غير معترف به"
+msgstr "الخيار غير معترف به: \"%s\"\n"
 
 #: client/civclient.c:498
-#, fuzzy
 msgid "Game started."
-msgstr "اللعبة."
+msgstr "تم بدء اللعبة."
 
 #: client/civclient.c:531
-#, fuzzy
 msgid "There was an error while auto connecting; aborting."
-msgstr "هناك."
+msgstr "حصل خطأ عند إعادة الاتصال التلقائي، سيتم الالغاء."
 
 #: client/climisc.c:162
 #, fuzzy, c-format
 msgid "Game: Changing production of every %s into %s."
-msgstr "التغيير."
+msgstr "تغيير انتاج كل %s إلى %s."
 
 #: client/climisc.c:202
-#, fuzzy
 msgid "?embassy:Both"
-msgstr "كلاهما"
+msgstr "?embassy:كلاهما"
 
 #: client/climisc.c:204
-#, fuzzy
 msgid "?embassy:Yes"
-msgstr "نعم"
+msgstr "?embassy:نعم"
 
 #: client/climisc.c:207
-#, fuzzy
 msgid "?embassy:With Us"
-msgstr "مع نحن"
+msgstr "?embassy:معنا"
 
 #: client/climisc.c:210
-#, fuzzy
 msgid "?embassy:Contact"
-msgstr "الإتصال"
+msgstr "?embassy:اتصال"
 
 #: client/climisc.c:212
-#, fuzzy
 msgid "?embassy:No Contact"
-msgstr "لا الإتصال"
+msgstr "?embassy:بدون اتصال"
 
 #: client/climisc.c:223
-#, fuzzy
 msgid "?vision:Both"
-msgstr "كلاهما"
+msgstr "?vision:كلاهما"
 
 #: client/climisc.c:225
-#, fuzzy
 msgid "?vision:To Them"
-msgstr "إلى هم"
+msgstr "?vision:إليهم"
 
 #: client/climisc.c:228
-#, fuzzy
 msgid "?vision:To Us"
-msgstr "إلى نحن"
+msgstr "?vision:إلينا"
 
 #: client/climisc.c:244 client/climisc.c:251
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give %s"
-msgstr "الـ"
+msgstr "يعطي %s ال%s"
 
 #: client/climisc.c:255
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give unknown city."
-msgstr "الـ مجهول."
+msgstr "يعطي %s مدينة مجهولة."
 
 #: client/climisc.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give %d gold"
-msgstr "الـ الذهب"
+msgstr "يعطي %s كمية %d ذهب"
 
 #: client/climisc.c:265
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give their worldmap"
-msgstr "الـ"
+msgstr "يعطي %s خريطتهم للعالم"
 
 #: client/climisc.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give their seamap"
-msgstr "الـ"
+msgstr "يعطي %s خريطتهم البحرية"
 
 #: client/climisc.c:273
-#, fuzzy
 msgid "The parties agree on a cease-fire"
-msgstr "الـ"
+msgstr "يوافق الأطراف على وقف إطلاق النار"
 
 #: client/climisc.c:276
-#, fuzzy
 msgid "The parties agree on a peace"
-msgstr "الـ"
+msgstr "يوافق الأطراف على السلام"
 
 #: client/climisc.c:279
-#, fuzzy
 msgid "The parties create an alliance"
-msgstr "الـ"
+msgstr "يوافق الأطراف على التحالف"
 
 #: client/climisc.c:282
-#, fuzzy, c-format
+#, c-format
 msgid "The %s gives shared vision"
-msgstr "الـ"
+msgstr "يعطي %s رؤية مشتركة"
 
 #: client/climisc.c:286
-#, fuzzy, c-format
+#, c-format
 msgid "The %s gives an embassy"
-msgstr "الـ"
+msgstr "يعطي %s سفارة"
 
 #: client/climisc.c:873
 #, fuzzy
@@ -7385,44 +7334,38 @@ msgid "Exporting output window to civgame.log ..."
 msgstr "التصدير."
 
 #: client/climisc.c:907
-#, fuzzy
 msgid "Export complete."
-msgstr "التصدير."
+msgstr "تم التصدير."
 
 #: client/climisc.c:909
-#, fuzzy
 msgid "Export failed, couldn't write to file."
-msgstr "التصدير."
+msgstr "فشل التصدير، لا يمكن الكتابة على ملف."
 
 #: client/climisc.c:1021
 #, fuzzy, c-format
 msgid "Game: You don't buy %s in %s!"
-msgstr "أنت!"
+msgstr "لا تستطيع شراء %s في %s!"
 
 #: client/climisc.c:1041
 #, fuzzy, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr "الذهب الذهب."
+msgstr "يكلف %s  %d ذهب ولكن عندك فقط %d ذهب."
 
 #: client/clinet.c:127
-#, fuzzy
 msgid "Lost connection to server!"
-msgstr "مفقود!"
+msgstr "تم فقد الاتصال إلى الخادم!"
 
 #: client/clinet.c:167
-#, fuzzy
 msgid "Failed looking up host."
-msgstr "فاشل."
+msgstr "فشل العثور على عنوان المضيف."
 
 #: client/clinet.c:193
-#, fuzzy
 msgid "Connection in progress."
-msgstr "الإتّصال."
+msgstr "جاري الإتّصال."
 
 #: client/clinet.c:255
-#, fuzzy
 msgid "Disconnected from server."
-msgstr "منقطع."
+msgstr "تم الانفصال عن الخادم."
 
 #: client/clinet.c:610
 #, fuzzy
@@ -7432,7 +7375,7 @@ msgstr "العاجز مع"
 #: client/clinet.c:616
 #, fuzzy
 msgid "Failed looking up host"
-msgstr "فاشل."
+msgstr "فشل العثور على عنوان المضيف."
 
 #. TRANS: This means a network error when trying to connect to
 #. * the metaserver.  The message will be shown directly to the user.
@@ -7470,9 +7413,8 @@ msgid "Couldn't start the server."
 msgstr "فشل بدء الخادم."
 
 #: client/connectdlg_common.c:343 client/connectdlg_common.c:376
-#, fuzzy
 msgid "You'll have to start one manually. Sorry..."
-msgstr "أنت آسف."
+msgstr "يجب عليك بدء هذا يدويا. متأسف..."
 
 #: client/connectdlg_common.c:374
 msgid "Couldn't connect to the server."
@@ -7535,7 +7477,7 @@ msgstr ""
 #: client/control.c:1754
 #, fuzzy
 msgid "Game: Oh my! You seem to have no capital!"
-msgstr "أوه أنت!"
+msgstr "أوه! يبدو أنك بدون عاصمة!"
 
 #: client/helpdata.c:104
 #, fuzzy
@@ -7553,22 +7495,25 @@ msgid " Rivers"
 msgstr "الأنهار"
 
 #: client/helpdata.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, no help topic for %s.\n"
-msgstr "آسف"
+msgstr "آسف, لا يوجد موضوع مساعدة ل %s.\n"
 
 #: client/helpdata.c:442
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sorry, no help topic for %s.\n"
 "This page was auto-generated.\n"
 "\n"
-msgstr "آسف"
+msgstr ""
+"آسف, لا يوجد موضوع مساعدة ل %s.\n"
+"تم انشاء هذه الصفحة تلقائيا.\n"
+"\n"
 
 #: client/helpdata.c:524
-#, fuzzy, c-format
+#, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
-msgstr "الـ"
+msgstr "* سيجعل اكتشاف %s ال %s قديما.\n"
 
 #: client/helpdata.c:541
 #, fuzzy, c-format
@@ -7576,14 +7521,14 @@ msgid "* Allows all players with knowledge of %s to build %s units.\n"
 msgstr "يسمح مع"
 
 #: client/helpdata.c:575 client/helpdata.c:589
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s (with %s).\n"
-msgstr "يسمح مع"
+msgstr "* يسمح %s (مع %s).\n"
 
 #: client/helpdata.c:578 client/helpdata.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s.\n"
-msgstr "يسمح"
+msgstr "* يسمح %s.\n"
 
 #: client/helpdata.c:660
 #, fuzzy, c-format
@@ -7649,9 +7594,9 @@ msgid "* Can help build wonders (adds %d production).\n"
 msgstr "يمكن أن"
 
 #: client/helpdata.c:709
-#, fuzzy, c-format
+#, c-format
 msgid "* May not be disbanded.\n"
-msgstr "مايو"
+msgstr "* لا يمكن تسريحها.\n"
 
 #: client/helpdata.c:711
 #, fuzzy, c-format
@@ -7659,9 +7604,9 @@ msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
 msgstr "مايو"
 
 #: client/helpdata.c:715
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build new cities.\n"
-msgstr "يمكن أن جديد"
+msgstr "* يستطيع بناء مدن جديدة.\n"
 
 #: client/helpdata.c:718
 #, fuzzy, c-format
@@ -7669,29 +7614,29 @@ msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "يمكن أن الحجم"
 
 #: client/helpdata.c:726
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build roads and railroads.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء طرق وسكك حديدية.\n"
 
 #: client/helpdata.c:727
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build mines on tiles.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء مناجم على المربعات.\n"
 
 #: client/helpdata.c:728
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build irrigation on tiles.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء قنوات ري على المربعات.\n"
 
 #: client/helpdata.c:733
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء أرض زراعية.\n"
 
 #: client/helpdata.c:737
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland (if %s is known).\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء أرض زراعية (إذا كان %s معروفا).\n"
 
 #: client/helpdata.c:741
 #, fuzzy, c-format
@@ -7699,84 +7644,84 @@ msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "يمكن أن"
 
 #: client/helpdata.c:749
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build fortresses.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء القلاع.\n"
 
 #: client/helpdata.c:753
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build fortresses (if %s is known).\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء القلاع (إذا كان %s معروفا).\n"
 
 #: client/helpdata.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء القلاع (إذا كان أي من التالى معروفا: %s).\n"
 
 #: client/helpdata.c:763
-#, fuzzy, c-format
+#, c-format
 msgid "* Can clean pollution from tiles.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع تنظيف التلوث من المربعات.\n"
 
 #: client/helpdata.c:765
-#, fuzzy, c-format
+#, c-format
 msgid "* Can clean nuclear fallout from tiles.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع تنظيف الغبار الذري من المربعات.\n"
 
 #: client/helpdata.c:768
-#, fuzzy, c-format
+#, c-format
 msgid "* Can transform tiles.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع تحويل مربعات.\n"
 
 #: client/helpdata.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build airbases.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع بناء قواعد جوية.\n"
 
 #: client/helpdata.c:775
-#, fuzzy, c-format
+#, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr "مايو"
+msgstr "* يستطيع التحصن، فيعطى مكافأة دفاع بمقدار 50%%.\n"
 
 #: client/helpdata.c:779
-#, fuzzy, c-format
+#, c-format
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr "مايو"
+msgstr "* يستطيع النهب لتدمير البنية التحتية من المربعات.\n"
 
 #: client/helpdata.c:783
-#, fuzzy, c-format
+#, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع تنفيذ أوامر دبلوماسية، بالاضافة إلى امكانيات التجسس الخاصة.\n"
 
 #: client/helpdata.c:786
-#, fuzzy, c-format
+#, c-format
 msgid "* Can perform diplomatic actions.\n"
-msgstr "يمكن أن"
+msgstr "* يستطيع تنفيذ أوامر دبلوماسية.\n"
 
 #: client/helpdata.c:790
 #, fuzzy, c-format
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
-msgstr "سوف"
+msgstr "سوف مستحيل"
 
 #: client/helpdata.c:794
-#, fuzzy, c-format
+#, c-format
 msgid "* May not be bribed.\n"
-msgstr "مايو"
+msgstr "* لا تستطيع رشوته.\n"
 
 #: client/helpdata.c:797
-#, fuzzy, c-format
+#, c-format
 msgid "* Can attack enemy air units.\n"
-msgstr "يمكن أن الهجوم"
+msgstr "* يستطيع مهاجمة وحدات العدو الجوية.\n"
 
 #: client/helpdata.c:800
-#, fuzzy, c-format
+#, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
-msgstr "هل وحدات"
+msgstr "* يكون خفيا إلا قرب وحدة أو مدينة العدو.\n"
 
 #: client/helpdata.c:804
-#, fuzzy, c-format
+#, c-format
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
-msgstr "يمكن أن الهجوم"
+msgstr "* يستطيع فقط مهاجمة الوحدات على مربعات المحيط (بدون هجوم بري ).\n"
 
 #: client/helpdata.c:809
 #, fuzzy, c-format
@@ -7786,9 +7731,9 @@ msgid ""
 msgstr "يمكن أن الهجوم"
 
 #: client/helpdata.c:814
-#, fuzzy, c-format
+#, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
-msgstr "يمكن أن المدى"
+msgstr "* يمكن اسقاطه بالمظلة من مدينة صديقة (المدى: %d).\n"
 
 #: client/helpdata.c:818
 #, fuzzy, c-format
@@ -7821,16 +7766,16 @@ msgid "* Gets double firepower when attacking cities.\n"
 msgstr "يصبح"
 
 #: client/helpdata.c:841
-#, fuzzy, c-format
+#, c-format
 msgid "* Ignores the effects of city walls.\n"
-msgstr "يهمل"
+msgstr "* يهمل آثار جدران المدينة.\n"
 
 #: client/helpdata.c:845
 #, fuzzy, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
 "kill) the defender but has no risk to the attacker.\n"
-msgstr "يعمل دوران هذه"
+msgstr "يعمل دوران هذه مستحيل"
 
 #: client/helpdata.c:851
 #, fuzzy, c-format
@@ -7848,9 +7793,9 @@ msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr ""
 
 #: client/helpdata.c:863
-#, fuzzy, c-format
+#, c-format
 msgid "* Ignores zones of control.\n"
-msgstr "يهمل"
+msgstr "* يهمل مناطق السيطرة.\n"
 
 #: client/helpdata.c:866
 #, fuzzy, c-format
@@ -7863,9 +7808,9 @@ msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات"
 
 #: client/helpdata.c:875
-#, fuzzy, c-format
+#, c-format
 msgid "* Will never achieve veteran status.\n"
-msgstr "سوف خيير"
+msgstr "* لا يستطيع أبدا الحصول على  وضع الخبير.\n"
 
 #: client/helpdata.c:878
 #, fuzzy, c-format
@@ -7887,15 +7832,15 @@ msgstr "الـ"
 #: client/helpdata.c:893
 #, c-format
 msgid "* %s reduces the risk to 12%%.\n"
-msgstr ""
+msgstr "* يخفض %s المخاطرة إلى 12%%.\n"
 
 #: client/helpdata.c:940
 msgid " or "
-msgstr ""
+msgstr " أو "
 
 #: client/helpdata.c:942
 msgid "?or:, "
-msgstr ""
+msgstr "?or:، "
 
 #: client/helpdata.c:954
 #, fuzzy, c-format
@@ -7918,14 +7863,14 @@ msgid ""
 msgstr "إلى الـ."
 
 #: client/helpdata.c:995
-#, fuzzy, c-format
+#, c-format
 msgid "You cannot research this technology."
-msgstr "أنت."
+msgstr "لا تستطيع بحث هذه التكنولوجيا."
 
 #: client/helpdata.c:999
-#, fuzzy, c-format
+#, c-format
 msgid " This number may vary depending on what other players will research.\n"
-msgstr "هذا"
+msgstr "هذا الرقم متغيير حسب أبحاث اللاعبيين اﻵخرين.\n"
 
 #: client/helpdata.c:1008
 #, c-format
@@ -7943,19 +7888,19 @@ msgid "* Gives sea units one extra move.\n"
 msgstr "إعطاء الوحدات البحرية خطوة اضافية."
 
 #: client/helpdata.c:1020
-#, fuzzy, c-format
+#, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-msgstr "يخفّض"
+msgstr "* يخفض من فرصة خسارة مراكب في الأمواج العارمة إلى 25%%.\n"
 
 #: client/helpdata.c:1023
-#, fuzzy, c-format
+#, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-msgstr "يخفّض"
+msgstr "* يخفض من فرصة خسارة مراكب في الأمواج العارمة إلى 12%%.\n"
 
 #: client/helpdata.c:1026
-#, fuzzy, c-format
+#, c-format
 msgid "* Increases the pollution generated by the population.\n"
-msgstr "الزيادات"
+msgstr "* يزيد من التلوث الصادر من عدد السكان.\n"
 
 #: client/helpdata.c:1029
 #, fuzzy, c-format
@@ -7978,54 +7923,54 @@ msgid "* Improves the effect of Temples.\n"
 msgstr "تحسين أثر المعابد."
 
 #: client/helpdata.c:1039
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build roads on river squares.\n"
-msgstr "يسمح"
+msgstr "* يسمح  %s ببناء طرق على مربعات الأنهار.\n"
 
 #: client/helpdata.c:1046
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build fortresses.\n"
-msgstr "يسمح"
+msgstr "* يسمح %s ببناء القلاع.\n"
 
 #: client/helpdata.c:1054
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build airbases.\n"
-msgstr "يسمح"
+msgstr "* يسمح %s ببناء القواعد الجوية.\n"
 
 #: client/helpdata.c:1063
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
-msgstr "يسمح"
+msgstr "* يسمح %s بتطوير الطرق إلى سكك حديدية.\n"
 
 #: client/helpdata.c:1070
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "يسمح"
+msgstr "* يسمح %s بتطوير قنوات الري إلى أرض زراعية.\n"
 
 #: client/helpdata.c:1097
-#, fuzzy, c-format
+#, c-format
 msgid "* Pollution cannot be generated on this terrain."
-msgstr "التلوث."
+msgstr "* لا تستطيع توليد التلوث على هذه التضاريص."
 
 #: client/helpdata.c:1102
-#, fuzzy, c-format
+#, c-format
 msgid "* You cannot build cities on this terrain."
-msgstr "أنت."
+msgstr "* لا تستطيع بناء المدن على هذه التضاريص."
 
 #: client/helpdata.c:1108
-#, fuzzy, c-format
+#, c-format
 msgid "* The coastline of this terrain is unsafe."
-msgstr "الـ."
+msgstr "* الشريط الساحلي لهذه التضاريص خطر."
 
 #: client/helpdata.c:1113
-#, fuzzy, c-format
+#, c-format
 msgid "* This terrain is unsafe for units to travel on."
-msgstr "هذا."
+msgstr "* هذه التضاريص خطرة لترحال الوحدات عليها."
 
 #: client/helpdata.c:1118
-#, fuzzy, c-format
+#, c-format
 msgid "* Land units cannot travel on oceanic terrains."
-msgstr "الأرض."
+msgstr "* لا تستطيع الوحدات الأرضية الترحال على تضاريص محيطية."
 
 #: client/helpdata.c:1164
 #, fuzzy, c-format
@@ -8035,32 +7980,32 @@ msgstr "درع"
 #: client/helpdata.c:1169
 #, fuzzy, c-format
 msgid "%s%d food"
-msgstr "معلومات %s "
+msgstr "%s%d %s"
 
 #: client/helpdata.c:1174
 #, c-format
 msgid "%s%d unhappy"
-msgstr ""
+msgstr "%s%d تعساء"
 
 #: client/helpdata.c:1179
 #, fuzzy, c-format
 msgid "%s%d gold"
-msgstr "الـ الذهب"
+msgstr "يعطي %s كمية %d ذهب"
 
 #: client/mapctrl_common.c:352
 #, fuzzy, c-format
 msgid "Game: You don't know how to build %s!"
-msgstr "أنت!"
+msgstr "لا تعرف كيفية بناء %s!"
 
 #: client/mapctrl_common.c:362
 #, fuzzy, c-format
 msgid "Game: Copy %s to clipboard."
-msgstr "النسخة."
+msgstr "نسخ %s إلى ذاكرة النصوص."
 
 #: client/mapctrl_common.c:379
 #, fuzzy
 msgid "Game: Clipboard is empty."
-msgstr "ذاكرة النصوص فارغ."
+msgstr "ذاكرة النصوص فارغة."
 
 #: client/mapview_common.c:816
 #, fuzzy
@@ -9119,9 +9064,9 @@ msgid "Buildings: "
 msgstr "المباني :: العمارات "
 
 #: client/text.c:791 client/text.c:816 client/text.c:823 client/text.c:830
-#, c-format
+#, fuzzy, c-format
 msgid "%s. "
-msgstr ""
+msgstr "%s"
 
 #: client/text.c:796 client/text.c:835
 #, fuzzy
@@ -9580,7 +9525,7 @@ msgstr "الوحدات الموجودة %d"
 #: client/gui-mui/citydlg.c:2040 client/gui-win32/citydlg.c:1275
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: client/gui-gtk-2.0/citydlg.c:1752 client/gui-gtk/citydlg.c:2199
 #: client/gui-mui/citydlg.c:2043 client/gui-win32/citydlg.c:1278
@@ -9942,9 +9887,8 @@ msgstr "فاشل"
 
 #: client/gui-gtk-2.0/connectdlg.c:151 client/gui-gtk-2.0/connectdlg.c:153
 #: client/gui-gtk/connectdlg.c:652 client/gui-gtk/connectdlg.c:654
-#, fuzzy
 msgid "Connection to server refused. Please start the server."
-msgstr "الإتّصال رجاء."
+msgstr "الإتّصال بالخادم مرفوض. رجاء شغّل الخادم."
 
 #: client/gui-gtk-2.0/connectdlg.c:161 client/gui-gtk-2.0/connectdlg.c:190
 #: client/gui-gtk/connectdlg.c:662 client/gui-gtk/connectdlg.c:692
@@ -12272,7 +12216,7 @@ msgstr "%s - %s مواطنيين%s"
 #: client/gui-gtk/citydlg.c:1811
 #, fuzzy
 msgid " (worklist)"
-msgstr "قائمة العمل"
+msgstr "(قائمة العمل)"
 
 #: client/gui-gtk/citydlg.c:1879 client/gui-win32/citydlg.c:278
 #, c-format
@@ -15293,7 +15237,7 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
-"الـ إذا الشبكة العالميّة\n"
+"الـ إذا مستحيل الشبكة العالميّة\n"
 "http://proxyhost."
 
 #: data/helpdata.txt:421
@@ -16100,7 +16044,7 @@ msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
-msgstr "متى وحدات وحدات الـ."
+msgstr "متى وحدات وحدات مستحيل الـ."
 
 #: data/helpdata.txt:943
 msgid "First, the attacker's strength is modified."
@@ -16350,7 +16294,7 @@ msgid ""
 "points during the fight.  But the outcome is never certain as long as both "
 "units have non-zero strengths; the defender might emerge untouched, or it "
 "might lose most of its hit points, or it might even lose the battle."
-msgstr "منذ الـ لكنّ."
+msgstr "منذ الـ لكنّ مستحيل."
 
 #: data/helpdata.txt:1086
 msgid " Combat example 2"
@@ -19408,7 +19352,7 @@ msgid ""
 "boats) can travel on them.\n"
 "\n"
 "Ocean squares can never be polluted or subjected to fallout."
-msgstr "المحيطات السّفن."
+msgstr "المحيطات السّفن مستحيل."
 
 #: data/default/terrain.ruleset:562 data/civ2/terrain.ruleset:514
 #: data/civ1/terrain.ruleset:503 data/history/terrain.ruleset:554
@@ -19652,9 +19596,8 @@ msgstr ""
 
 #: data/default/units.ruleset:562 data/civ2/units.ruleset:421
 #: data/civ1/units.ruleset:398 data/history/units.ruleset:488
-#, fuzzy
 msgid "Alpine Troops"
-msgstr "جبليّ القوّات"
+msgstr "القوات الجبلية"
 
 #: data/default/units.ruleset:590 data/civ2/units.ruleset:449
 #: data/civ1/units.ruleset:426 data/history/units.ruleset:516
@@ -19773,7 +19716,7 @@ msgstr "الـ المروحية وحدات العناية المروحيات د�
 #: data/default/units.ruleset:1138 data/civ2/units.ruleset:997
 #: data/civ1/units.ruleset:964 data/history/units.ruleset:1064
 msgid "Stealth Fighter"
-msgstr "طائرة حربية خفية"
+msgstr "الطائرة الحربية الخفية"
 
 #: data/default/units.ruleset:1164 data/civ2/units.ruleset:1023
 #: data/history/units.ruleset:1090
@@ -19783,9 +19726,8 @@ msgstr "أداة تعريف المقاتل مع الهجوم."
 
 #: data/default/units.ruleset:1170 data/civ2/units.ruleset:1029
 #: data/civ1/units.ruleset:992 data/history/units.ruleset:1096
-#, fuzzy
 msgid "Stealth Bomber"
-msgstr "الخلسة منفذ العملية"
+msgstr "القاذفة الخفية"
 
 #: data/default/units.ruleset:1196 data/civ2/units.ruleset:1055
 #: data/history/units.ruleset:1122
@@ -20198,9 +20140,8 @@ msgid "Arab"
 msgstr "عربي"
 
 #: data/nation/arab.ruleset:4
-#, fuzzy
 msgid "?plural:Arabs"
-msgstr "العرب"
+msgstr "?plural:العرب"
 
 #: data/nation/arab.ruleset:5 data/nation/assyrian.ruleset:5
 #: data/nation/aztec.ruleset:5 data/nation/babylonian.ruleset:5
@@ -20233,7 +20174,7 @@ msgstr "الأشوريّ"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
-msgstr ""
+msgstr "?plural:الأشوريّون"
 
 #: data/nation/assyrian.ruleset:14
 msgid "Malka"
@@ -20249,7 +20190,7 @@ msgstr "أرجنتيني"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
-msgstr ""
+msgstr "?plural:أرجنتينيون"
 
 #: data/nation/argentine.ruleset:6
 #, fuzzy
@@ -20316,17 +20257,16 @@ msgid ""
 msgstr "بابل بلاد ما بين النهرين السّابع."
 
 #: data/nation/barbarian.ruleset:4
-#, fuzzy
 msgid "?plural:Barbarians"
-msgstr "الهمجيّون"
+msgstr "?plural:الهمجيّون"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr "بافاري"
+msgstr "باڤاري"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr ""
+msgstr "?plural:باڤاريون"
 
 #: data/nation/bavarian.ruleset:6
 #, fuzzy
@@ -20340,7 +20280,6 @@ msgid "Belgian"
 msgstr "بلجيكي"
 
 #: data/nation/belgian.ruleset:4
-#, fuzzy
 msgid "?plural:Belgians"
 msgstr "البلجيكيّون"
 
@@ -20360,7 +20299,7 @@ msgstr "البويري"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr ""
+msgstr "?plural:أهل البوير"
 
 #: data/nation/boer.ruleset:6
 #, fuzzy
@@ -20400,11 +20339,12 @@ msgstr "ديكتاتور"
 
 #: data/nation/brazilian.ruleset:17 data/nation/roman.ruleset:19
 msgid "Dictatrix"
-msgstr ""
+msgstr "دكتاتورة"
 
 #: data/nation/brazilian.ruleset:18 data/nation/roman.ruleset:20
+#, fuzzy
 msgid "Imperator"
-msgstr ""
+msgstr "دكتاتورة"
 
 #: data/nation/brazilian.ruleset:18 data/nation/roman.ruleset:20
 msgid "Imperatrix"
@@ -20585,7 +20525,7 @@ msgstr "كرواتي"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr ""
+msgstr "?plural:كرواتيون"
 
 #: data/nation/croatian.ruleset:6
 #, fuzzy
@@ -20687,7 +20627,7 @@ msgstr "مصر منذ النيل."
 
 #: data/nation/egyptian.ruleset:18
 msgid "Pharaoh"
-msgstr "فرعون"
+msgstr "الفرعون"
 
 #: data/nation/egyptian.ruleset:19
 msgid "Great Pharaoh"
@@ -20728,14 +20668,12 @@ msgid ""
 msgstr "إنجلترا ألفريد عظيم التّاسع وليام نورماندي."
 
 #: data/nation/english.ruleset:19
-#, fuzzy
 msgid "Lord Protector"
 msgstr "اللورد الحامي"
 
 #: data/nation/english.ruleset:19
-#, fuzzy
 msgid "Lady Protector"
-msgstr "السيدة الحامي"
+msgstr "السيدة الحامية"
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -21197,7 +21135,7 @@ msgstr "متفرج"
 #: data/nation/observer.ruleset:4
 #, fuzzy
 msgid "?plural:Observers"
-msgstr "?plural:اسرائيليين"
+msgstr "?plural:أهل البوير"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -21711,7 +21649,7 @@ msgstr ""
 
 #, fuzzy
 #~ msgid "*%s (AI)* Space will never be yours. "
-#~ msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة الفضاء "
+#~ msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة الفضاء مستحيل "
 
 #, fuzzy
 #~ msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
@@ -21811,7 +21749,7 @@ msgstr ""
 #~ msgid ""
 #~ "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 #~ "Honour our glorious alliance and your name will never be forgotten!"
-#~ msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن الشرف!"
+#~ msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن الشرف مستحيل!"
 
 #, fuzzy
 #~ msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
@@ -21961,8 +21899,14 @@ msgstr ""
 #~ "If there is none, become the game organizer with increased permissions."
 #~ msgstr "إذا لا يوجد مع."
 
+#~ msgid "endgame"
+#~ msgstr "endgame"
+
 #~ msgid "End the game immediately in a draw."
 #~ msgstr "الخروج من اللعبة فورا بتعادل."
+
+#~ msgid "surrender"
+#~ msgstr "surrender"
 
 #~ msgid "Concede the game."
 #~ msgstr "خسارة اللعبة."
@@ -22006,9 +21950,8 @@ msgstr ""
 #~ msgstr[1] "الـ دوران الهدف."
 #~ msgstr[2] "الـ دوران الهدف."
 
-#, fuzzy
 #~ msgid "Revolution: returning to anarchy."
-#~ msgstr "الثورة."
+#~ msgstr "الثورة : العودة إلى حكم الفوضوية."
 
 #, fuzzy
 #~ msgid ""
@@ -22021,6 +21964,9 @@ msgstr ""
 #~ "The senate refuses to break treaty with the %s, but you have no trouble "
 #~ "finding a new senate."
 #~ msgstr "الـ مع جديد."
+
+#~ msgid " bulbs"
+#~ msgstr " شمعات"
 
 #, fuzzy
 #~ msgid "Could not load ruleset script file \"%s\"."
@@ -22100,26 +22046,22 @@ msgstr ""
 #~ msgid "%s has been added as %s level AI-controlled player."
 #~ msgstr "تم إضافة %s كلاعب ذكاء اصتناعي من مستوى %s."
 
-#, fuzzy
 #~ msgid "You cannot save games manually on this server."
-#~ msgstr "أنت."
+#~ msgstr "لا تستطيع حفظ اللعب يدويا على هذا الخادم."
 
-#, fuzzy
 #~ msgid "Name \"%s\" disallowed for security reasons."
-#~ msgstr "الاسم."
+#~ msgstr "الاسم \"%s\" ممنوع لأسباب أمنية."
 
-#, fuzzy
 #~ msgid "No command script found by the name \"%s\"."
-#~ msgstr "لا."
+#~ msgstr "لا يوجد سكربت أوامر بهذا الاسم \"%s\"."
 
 #, fuzzy
 #~ msgid ""
 #~ "You cannot use the write command on this server for security reasons."
 #~ msgstr "أنت."
 
-#, fuzzy
 #~ msgid "Someone else already is game organizer."
-#~ msgstr "شخص ما."
+#~ msgstr "شخص ما هو أصلا منظم اللعبة."
 
 #, fuzzy
 #~ msgid "Connection %s has opted to become the game organizer."
@@ -22142,6 +22084,12 @@ msgstr ""
 #~ msgid "%s is already observing."
 #~ msgstr "يراقب %s أصلا."
 
+#~ msgid "%s now observes"
+#~ msgstr "يراقب %s اﻵن"
+
+#~ msgid "%s no longer observing."
+#~ msgstr "لا يقوم  %s بالمراقبة بعد اﻵن."
+
 #, fuzzy
 #~ msgid "Cannot find savegame or scenario with the name \"%s\"."
 #~ msgstr "لا يستطيع مع."
@@ -22154,6 +22102,15 @@ msgstr ""
 
 #~ msgid "List of teams:"
 #~ msgstr "قائمة الفرق:"
+
+#~ msgid "%2d : '%s' : %d player"
+#~ msgid_plural "%2d : '%s' : %d players"
+#~ msgstr[0] "%2d : '%s' : %d لاعب"
+#~ msgstr[1] "%2d : '%s' : %d لاعبان"
+#~ msgstr[2] "%2d : '%s' : %d لاعبيين"
+
+#~ msgid "%2d : '%s' : 1 player : %s"
+#~ msgstr "%2d : '%s' : 1 لاعب : %s"
 
 #~ msgid "Empty team: %s"
 #~ msgstr "فريق فارغ: %s"
@@ -22195,9 +22152,8 @@ msgstr ""
 #~ msgstr[1] "وحدات الهجوم."
 #~ msgstr[2] "وحدات الهجوم."
 
-#, fuzzy
 #~ msgid "Orders for %s aborted after enemy movement was spotted."
-#~ msgstr "الطلبات."
+#~ msgstr "تم الغاء الأوامر ل %s بعد اكتشاف تحرك للعدو."
 
 #, fuzzy
 #~ msgid "Orders for %s aborted because building of city failed."
@@ -22206,13 +22162,11 @@ msgstr ""
 #~ msgid "Attempt to change homecity for %s failed."
 #~ msgstr "فشل محاولة تغيير مدينة المنشأ ل %s."
 
-#, fuzzy
 #~ msgid "Attempt to establish trade route for %s failed."
-#~ msgstr "المحاولة."
+#~ msgstr "فشل محاولة انشاء طريق للتجارة ل %s."
 
-#, fuzzy
 #~ msgid "Attempt to build wonder for %s failed."
-#~ msgstr "المحاولة."
+#~ msgstr "فشل محاولة بناء أعجوبة ل %s."
 
 #~ msgid "Great Wonder"
 #~ msgstr "أعجوبة عظيمة"
@@ -22220,45 +22174,37 @@ msgstr ""
 #~ msgid "Small Wonder"
 #~ msgstr "أعجوبة صغيرة"
 
-#, fuzzy
 #~ msgid "%+4d : Citizens\n"
-#~ msgstr "المواطنيين"
+#~ msgstr "%+4d : المواطنيين\n"
 
-#, fuzzy
 #~ msgid "%+4d : Taxed from trade\n"
-#~ msgstr "مفروض عليه ضريبة"
+#~ msgstr "%+4d : مفروض عليه ضريبة من التجارة\n"
 
-#, fuzzy
 #~ msgid "%+4d : Trade route with %s\n"
-#~ msgstr "التجارة مع"
+#~ msgstr "%+4d : طريق تجارة مع %s\n"
 
 #, fuzzy
 #~ msgid "%+4d : Building tithes\n"
 #~ msgstr "المبنى :: صناعة البناء"
 
-#, fuzzy
 #~ msgid "%+4d : Bonus from %s (%+d%%)\n"
-#~ msgstr "المكافأة"
+#~ msgstr "%+4d : مكافأة من %s (%+d%%)\n"
 
-#, fuzzy
 #~ msgid "%+4d : Waste\n"
-#~ msgstr "النفاية"
+#~ msgstr "%+4d : النفاية\n"
 
-#, fuzzy
 #~ msgid "%+4d : Disorder\n"
-#~ msgstr "الفوضى"
+#~ msgstr "%+4d : الفوضى\n"
 
-#, fuzzy
 #~ msgid "%+4d : Used\n"
-#~ msgstr "مستعمل"
+#~ msgstr "%+4d : مستعمل\n"
 
 #, fuzzy
 #~ msgid "==== : Adds up to\n"
 #~ msgstr "يضيف"
 
-#, fuzzy
 #~ msgid "%4d : Total surplus"
-#~ msgstr "المجموع"
+#~ msgstr "%4d : مجموع الفائض"
 
 #, fuzzy
 #~ msgid "?cma:Governor"
@@ -22272,79 +22218,84 @@ msgstr ""
 #~ msgid "?specialist:S"
 #~ msgstr "أس - الحرف التاسع عشر في اللغة الإنجليزية"
 
-#, fuzzy
 #~ msgid "Specialists: %s"
-#~ msgstr "الإختصاصيون"
+#~ msgstr "الإختصاصيون: %s"
 
-#, fuzzy
 #~ msgid ""
 #~ "Requires the %s technology.\n"
 #~ "\n"
-#~ msgstr "يتطلّب"
+#~ msgstr ""
+#~ "يتطلّب التكنولوجيا %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Requires the %s government.\n"
 #~ "\n"
-#~ msgstr "يتطلّب"
+#~ msgstr ""
+#~ "يتطلّب الحكومة %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Requires the %s building.\n"
 #~ "\n"
-#~ msgstr "يتطلّب"
+#~ msgstr ""
+#~ "يتطلّب البناية %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Requires the %s terrain special.\n"
 #~ "\n"
-#~ msgstr "يتطلّب"
+#~ msgstr ""
+#~ "يتطلّب التضاريص الخاصة %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Requires the %s terrain.\n"
 #~ "\n"
-#~ msgstr "يتطلّب"
+#~ msgstr ""
+#~ "يتطلّب التضاريص %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Requires the %s nation.\n"
 #~ "\n"
-#~ msgstr "يتطلّب"
+#~ msgstr ""
+#~ "يتطلّب الأمة %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Only applies to %s units.\n"
 #~ "\n"
-#~ msgstr "فقط"
+#~ msgstr ""
+#~ "ينطبق فقط على وحدات %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Applies only to %s.\n"
 #~ "\n"
-#~ msgstr "ينطبق"
+#~ msgstr ""
+#~ "ينطبق فقط على %s.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Requires a minimum size of %d.\n"
 #~ "\n"
-#~ msgstr "يتطلّب الحجم"
+#~ msgstr ""
+#~ "يتطلّب الحد الأدنى من الحجم %d.\n"
+#~ " \n"
 
-#, fuzzy
 #~ msgid "Allows %s."
-#~ msgstr "يسمح."
+#~ msgstr "يسمح %s."
 
-#, fuzzy
 #~ msgid "Allows %s (with %s)."
-#~ msgstr "يسمح مع."
+#~ msgstr "يسمح %s (مع %s)."
 
 #, fuzzy
 #~ msgid "* Can only be built with %s as government.\n"
 #~ msgstr "يمكن أن مع"
 
-#, fuzzy
 #~ msgid "Features:\n"
-#~ msgstr "الميزّات"
+#~ msgstr "الميزّات:\n"
 
 #, fuzzy
 #~ msgid ""
@@ -22499,9 +22450,8 @@ msgstr ""
 #~ msgid "* %s waste will increase slowly with distance from capital.\n"
 #~ msgstr "مع"
 
-#, fuzzy
 #~ msgid "* Allows you to build %s.\n"
-#~ msgstr "يسمح"
+#~ msgstr "* يسمح لك ببناء %s.\n"
 
 #~ msgid "Graphics"
 #~ msgstr "الجرافيكس"
@@ -22801,11 +22751,19 @@ msgstr ""
 #~ msgstr[2] "دوران"
 
 #, fuzzy
+#~ msgid "%d/- (never)"
+#~ msgstr "مستحيل"
+
+#, fuzzy
 #~ msgid "%d/%d (%d turn)"
 #~ msgid_plural "%d/%d (%d turns)"
 #~ msgstr[0] "دوران"
 #~ msgstr[1] "دوران"
 #~ msgstr[2] "دوران"
+
+#, fuzzy
+#~ msgid "%d/%d (never)"
+#~ msgstr "مستحيل"
 
 #, fuzzy
 #~ msgid "%d step"
@@ -23085,6 +23043,9 @@ msgstr ""
 
 #~ msgid "Player/conn info"
 #~ msgstr "معلومات اللاعب والاتصال"
+
+#~ msgid "%s info"
+#~ msgstr "معلومات %s "
 
 #, fuzzy
 #~ msgid "Toggle player ready"
@@ -23978,7 +23939,7 @@ msgstr ""
 #~ "Current output : 0\n"
 #~ "Research speed : none\n"
 #~ "Next's advance time : never"
-#~ msgstr "التيار لا يوجد"
+#~ msgstr "التيار لا يوجد مستحيل"
 
 #, fuzzy
 #~ msgid "Next advance in %d turn"
@@ -24414,9 +24375,8 @@ msgstr ""
 #~ msgid "Emir"
 #~ msgstr "أمير"
 
-#, fuzzy
 #~ msgid "General Secretary"
-#~ msgstr "الجنرال السكرتير"
+#~ msgstr "السكرتير العام"
 
 #~ msgid "Mullah"
 #~ msgstr "الملا"
@@ -24440,6 +24400,12 @@ msgstr ""
 #~ msgid "Medieval"
 #~ msgstr "من القرون الوسطى"
 
+#~ msgid "Aramean"
+#~ msgstr "آرامي"
+
+#~ msgid "?plural:Arameans"
+#~ msgstr "?plural:آراميون"
+
 #~ msgid "Ancient"
 #~ msgstr "قديم"
 
@@ -24447,10 +24413,13 @@ msgstr ""
 #~ msgid ""
 #~ "According to legend, the Aramean people are the descendants of Aram, the "
 #~ "grandson of Noah."
-#~ msgstr "التّوافق نوح."
+#~ msgstr "التّوافق آرامي نوح."
 
 #~ msgid "Armenian"
 #~ msgstr "أرميني"
+
+#~ msgid "?plural:Armenians"
+#~ msgstr "?plural:الأرمن"
 
 #, fuzzy
 #~ msgid ""
@@ -24493,6 +24462,9 @@ msgstr ""
 #~ msgid "Bengali"
 #~ msgstr "بنغالي"
 
+#~ msgid "?plural:Bengalis"
+#~ msgstr "?plural:بنغاليون"
+
 #, fuzzy
 #~ msgid ""
 #~ "Bengal is a region in the easternmost part of the Indian subcontinent. "
@@ -24519,7 +24491,6 @@ msgstr ""
 #~ msgid "British"
 #~ msgstr "بريطاني"
 
-#, fuzzy
 #~ msgid "?plural:Britons"
 #~ msgstr "البريطانيّون"
 
@@ -24534,6 +24505,9 @@ msgstr ""
 #~ msgid "Bulgarian"
 #~ msgstr "بلغاري"
 
+#~ msgid "?plural:Bulgarians"
+#~ msgstr "?plural:بلغاريين"
+
 #, fuzzy
 #~ msgid ""
 #~ "Bulgar leader Khan Asparukh led his people into the northern Balkans, and "
@@ -24541,12 +24515,14 @@ msgstr ""
 #~ "history."
 #~ msgstr "خان دول البلقان بلغاريا هذا سلافي."
 
+#~ msgid "Tzaritza"
+#~ msgstr "القيصرة"
+
 #~ msgid "Burmese"
 #~ msgstr "البورميّ"
 
-#, fuzzy
 #~ msgid "?plural:Burmese"
-#~ msgstr "البورميّ"
+#~ msgstr "?plural:البورميون"
 
 #, fuzzy
 #~ msgid ""
@@ -24556,6 +24532,9 @@ msgstr ""
 
 #~ msgid "Byzantine"
 #~ msgstr "بيزنطي"
+
+#~ msgid "?plural:Byzantines"
+#~ msgstr "?plural:بيزنطيين"
 
 #, fuzzy
 #~ msgid ""
@@ -24587,7 +24566,7 @@ msgstr ""
 #~ "كولومبيا."
 
 #~ msgid "General"
-#~ msgstr "جنرال"
+#~ msgstr "الجنرال"
 
 #~ msgid "Confederate"
 #~ msgstr "كونفيدرالية"
@@ -24919,9 +24898,14 @@ msgstr ""
 #~ "migration commenced in the 900s and continued until the 1400s."
 #~ msgstr "الـ ماوري بولينيزي جديد زيلاند التّوافق."
 
-#, fuzzy
 #~ msgid "Marsmen landed on Earth in 4000 BC!"
-#~ msgstr "الأرض!"
+#~ msgstr "هبط المريخيون على الأرض في 4000 بعد الميلاد!"
+
+#~ msgid "Mayan"
+#~ msgstr "مواطن من المايا"
+
+#~ msgid "?plural:Mayas"
+#~ msgstr "?plural:أهل المايا"
 
 #, fuzzy
 #~ msgid ""
