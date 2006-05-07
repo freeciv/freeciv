@@ -497,9 +497,8 @@ msgid "AI Debug messages"
 msgstr "Mensajes de debug del Ordenador"
 
 #: common/events.c:142
-#, fuzzy
 msgid "Player settings"
-msgstr "Borrar configuración"
+msgstr "Configuración del jugador"
 
 #: common/player.c:627
 msgid "?attitude:Genocidal"
@@ -1949,12 +1948,12 @@ msgstr "Contaminación cerca de %s."
 #: server/cityturn.c:1477
 #, c-format
 msgid "Wild celebrations in your honour in %s."
-msgstr ""
+msgstr "Celebraciones a lo grande en tu honor, en %s."
 
 #: server/cityturn.c:1483
 #, c-format
 msgid "Celebrations cancelled in %s."
-msgstr ""
+msgstr "Celebraciones canceladas en %s."
 
 #: server/cityturn.c:1511
 #, c-format
@@ -2099,7 +2098,7 @@ msgstr "  -S, --Serverid ID\tAsigna al servidor id a ID\n"
 
 #: server/civserver.c:245
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr " -P, --Ppm\t\tGuarda los ppm del mapa al guardar la partida.\n"
 
 #: server/civserver.c:246
 msgid "  -r, --read FILE\tRead startup script FILE\n"
@@ -2115,7 +2114,7 @@ msgstr "  -v, --version\t\tImprimir el número de versión\n"
 
 #: server/civserver.c:251 client/civclient.c:233
 msgid "  -z, --zone\t\tEnable GGZ mode\n"
-msgstr ""
+msgstr " -z, --zone\t\tActiva el modo GGZ\n"
 
 #: server/civserver.c:253 client/gui-gtk-2.0/gui_main.c:335
 #: client/gui-mui/gui_main.c:119 client/gui-sdl/gui_main.c:169
@@ -3099,7 +3098,11 @@ msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
 msgstr[0] ""
+"Aceptas el armisticio con %s. En %d turno se convertirá en un paco de paz. "
+"Mueve tus unidades fuera del territorio de los %s."
 msgstr[1] ""
+"Aceptas el armisticio con %s. En %d turnos se convertirá en un paco de paz. "
+"Mueve tus unidades fuera del territorio de los %s."
 
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
@@ -3431,36 +3434,31 @@ msgstr "%s ha causado un incidente al provocar disturbios en %s."
 
 #: server/edithand.c:52
 msgid " *** Server set to edit mode! *** "
-msgstr ""
+msgstr " *** ¡Servidor puesto en modo edición! *** "
 
 #: server/edithand.c:56
 msgid " *** Server is leaving edit mode. *** "
-msgstr ""
+msgstr " *** Servidor sale del modo edición. *** "
 
 #: server/edithand.c:130
-#, fuzzy
 msgid "Cannot create unit on enemy tile."
-msgstr "No puedo crear la tubería"
+msgstr "No se puede crear la unidad en casilla enemiga."
 
 #: server/edithand.c:139
-#, fuzzy, c-format
 msgid "Cannot create %s unit on this terrain."
-msgstr "* No se pueden construir ciudades en este terreno."
+msgstr "No se puede crear la unidad %s en este terreno."
 
 #: server/edithand.c:195 server/edithand.c:234
-#, fuzzy
 msgid "Cannot build city on this tile."
-msgstr "* No se pueden construir ciudades en este terreno."
+msgstr "No se puede construir una ciudad en esta casilla."
 
 #: server/edithand.c:205 server/edithand.c:244
-#, fuzzy
 msgid "Could not create city."
-msgstr "No se ha podido abrir \"%s\"."
+msgstr "No se pudo crear la ciudad."
 
 #: server/edithand.c:320
-#, fuzzy
 msgid "Could not change city size."
-msgstr "No se pudo abrir el fichero temporal."
+msgstr "No se pudo cambiar el tamaño de la ciudad."
 
 #: server/gamehand.c:132
 #, c-format
@@ -3491,7 +3489,7 @@ msgstr "La duración máxima del turno es negativa, quedará a cero."
 
 #: server/ggzserver.c:205 client/ggzclient.c:76
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
-msgstr ""
+msgstr "¡Sólo los clientes GGZ pueden llamar a civclient en modo ggz!\n"
 
 #: server/handchat.c:66
 #, c-format
@@ -4069,49 +4067,49 @@ msgstr "El fichero ruleset necesita opciones que no aceptamos:"
 #: server/ruleset.c:257
 #, c-format
 msgid "Section %s has unknown req: \"%s\" \"%s\" (%s)"
-msgstr ""
+msgstr "La sección %s tiene un req. desconocido: \"%s\" \"%s\" (%s)"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:634
 #, c-format
 msgid "Unknown terrain %s in entry %s."
-msgstr ""
+msgstr "Terreno %s desconocido en la entrada %s."
 
 #. TRANS: Obscure ruleset error.  "%s" is a filename.
 #: server/ruleset.c:1389
 #, c-format
 msgid "Ruleset doesn't have any terrains (%s)"
-msgstr ""
+msgstr "El ruleset no contiene ningún terreno (%s)"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1507
 #, c-format
 msgid "Terrains %s and %s have the same identifier."
-msgstr ""
+msgstr "Los terrenos %s y %s tienen el mismo identificador"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1514
 #, c-format
 msgid "'%c' cannot be used as a terrain identifier; it is reserved."
-msgstr ""
+msgstr "'%c' no se puede usar como identificador de terreno; está reservado."
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1599
 #, c-format
 msgid "Terrain %s has unknown flag %s"
-msgstr ""
+msgstr "El terreno %s tiene un flag %s desconocido"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1650
 #, c-format
 msgid "Resources %s and %s have the same identifier."
-msgstr ""
+msgstr "Los recursos %s y %s tienen el mismo identificador."
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:2400
 #, c-format
 msgid "Section %s lists unknown effect type: \"%s\" (%s)"
-msgstr ""
+msgstr "La sección %s contiene un tipo de efecto desconocido: \"%s\" (%s)"
 
 #: server/ruleset.c:3038
 msgid "Loading rulesets"
@@ -8396,11 +8394,13 @@ msgstr ""
 "los terrenos)."
 
 #: client/helpdata.c:166
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Requires the %s technology.\n"
 "\n"
-msgstr "No puedes investigar este avance."
+msgstr ""
+"Requiere la tecnología %s.\n"
+"\n"
 
 #: client/helpdata.c:170
 #, c-format
@@ -9033,13 +9033,12 @@ msgstr ""
 "civilización, aparecerá cuando tengas %d ciudades.\n"
 
 #: client/helpdata.c:1329
-#, fuzzy, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
 "additional cities, another unhappy citizen will appear.\n"
 msgstr ""
-"* Después del primer ciudadano descontento, debido al tamaño de la ciudad, "
-"por cada %d ciudades adicionales, aparecerá otro ciudadano descontento.\n"
+"* Después del primer ciudadano descontento por el tamaño de la civilización, "
+"for cada %d ciudades adicionales, otro ciudadano descontento aparecerá.\n"
 
 #: client/helpdata.c:1336
 #, c-format
@@ -9254,9 +9253,8 @@ msgid "Network"
 msgstr "De Red"
 
 #: client/options.c:92
-#, fuzzy
 msgid "Font"
-msgstr "Número"
+msgstr "Fuente"
 
 #: client/options.c:97
 msgid "Login name"
@@ -10104,7 +10102,7 @@ msgstr "Moviendo: %s"
 
 #: client/text.c:583
 msgid "(Click for more info)"
-msgstr ""
+msgstr "(Haz click para más info)"
 
 #: client/text.c:600
 #, c-format
@@ -10789,14 +10787,12 @@ msgid "_Sabotage Enemy Unit"
 msgstr "_Sabotear una unidad enemiga"
 
 #: client/gui-gtk-2.0/editdlg.c:67
-#, fuzzy
 msgid "clear all"
-msgstr "Activar todas"
+msgstr "borrar todas"
 
 #: client/gui-gtk-2.0/editdlg.c:82
-#, fuzzy
 msgid "Paint"
-msgstr "Llanuras"
+msgstr "Pinta"
 
 #: client/gui-gtk-2.0/editdlg.c:82 client/gui-gtk-2.0/dialogs.c:507
 msgid "Unit"
@@ -10807,9 +10803,8 @@ msgid "City"
 msgstr "Ciudad"
 
 #: client/gui-gtk-2.0/editdlg.c:82
-#, fuzzy
 msgid "Player"
-msgstr "Jugadores"
+msgstr "Jugador"
 
 #: client/gui-gtk-2.0/editdlg.c:82 client/gui-win32/cma_fe.c:470
 #: client/gui-win32/wldlg.c:432 data/Freeciv.in:2016 data/Freeciv.in:2158
@@ -10817,9 +10812,8 @@ msgid "Delete"
 msgstr "Borrar"
 
 #: client/gui-gtk-2.0/editdlg.c:330 client/gui-gtk-2.0/editdlg.c:380
-#, fuzzy
 msgid "Owner"
-msgstr " maravilla"
+msgstr "Propietario"
 
 #: client/gui-gtk-2.0/editdlg.c:331 client/gui-gtk-2.0/pages.c:2054
 #: client/gui-gtk-2.0/repodlgs.c:632 client/gui-gtk-2.0/wldlg.c:1005
@@ -10831,29 +10825,24 @@ msgid "Type"
 msgstr "Tipo"
 
 #: client/gui-gtk-2.0/editdlg.c:332
-#, fuzzy
 msgid "Moves Left"
-msgstr "Movimientos"
+msgstr "Mueve a la izquierda"
 
 #: client/gui-gtk-2.0/editdlg.c:333
-#, fuzzy
 msgid "Activity"
-msgstr "Actividad: %s"
+msgstr "Actividad"
 
 #: client/gui-gtk-2.0/editdlg.c:334
-#, fuzzy
 msgid "Activity Target"
-msgstr "Actividad: %s"
+msgstr "Actividad objetivo"
 
 #: client/gui-gtk-2.0/editdlg.c:335
-#, fuzzy
 msgid "Activity Count"
-msgstr "Activar unidad"
+msgstr "Contador de actividad"
 
 #: client/gui-gtk-2.0/editdlg.c:436
-#, fuzzy
 msgid "Editing Tools"
-msgstr "Maquinaria"
+msgstr "Editando herramientas"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:80
 #, c-format
@@ -11449,9 +11438,8 @@ msgid "_Nations:"
 msgstr "_Naciones:"
 
 #: client/gui-gtk-2.0/dialogs.c:764
-#, fuzzy
 msgid "Edit Nation"
-msgstr "Eleigr Nación"
+msgstr "Editar Nación"
 
 #: client/gui-gtk-2.0/dialogs.c:766 data/Freeciv.in:3128
 msgid "What Nation Will You Be?"
@@ -11584,7 +11572,7 @@ msgstr "_Añadir Cláusula..."
 
 #: client/gui-gtk-2.0/diplodlg.c:700
 msgid "--- This treaty is blank. Please add some clauses. ---"
-msgstr ""
+msgstr "--- Este pacto está vacío. Por favor, añade algunas cláusulas. ---"
 
 #: client/gui-gtk-2.0/diplodlg.c:906 client/gui-mui/diplodlg.c:382
 #: client/gui-sdl/diplodlg.c:354 client/gui-win32/diplodlg.c:263
@@ -11651,6 +11639,7 @@ msgstr "Mostrar barras de desplazamiento en el mapa"
 #: client/gui-gtk-2.0/gui_main.c:163
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr ""
+"Desactiva esta opción para ocultar las barras laterales en la vista del mapa."
 
 #: client/gui-gtk-2.0/gui_main.c:167
 msgid "Keyboardless goto"
@@ -11715,9 +11704,8 @@ msgstr ""
 "niebla en la guerra. No es más lento, pero consume casi el doble de memoria."
 
 #: client/gui-gtk-2.0/gui_main.c:196
-#, fuzzy
 msgid "City Label"
-msgstr "Nombre de la ciudad"
+msgstr "Etiqueta de la ciudad"
 
 #: client/gui-gtk-2.0/gui_main.c:197 client/gui-gtk-2.0/gui_main.c:202
 #: client/gui-gtk-2.0/gui_main.c:207 client/gui-gtk-2.0/gui_main.c:212
@@ -11726,49 +11714,43 @@ msgstr "Nombre de la ciudad"
 #: client/gui-gtk-2.0/gui_main.c:237 client/gui-gtk-2.0/gui_main.c:242
 #: client/gui-gtk-2.0/gui_main.c:247 client/gui-gtk-2.0/gui_main.c:252
 msgid "FIXME"
-msgstr ""
+msgstr "CORRÍGEME"
 
 #: client/gui-gtk-2.0/gui_main.c:201
 msgid "Notify Label"
-msgstr ""
+msgstr "Etiqueta de notificación"
 
 #: client/gui-gtk-2.0/gui_main.c:206
-#, fuzzy
 msgid "Spaceship Label"
-msgstr "Nave espacial"
+msgstr "Etiqueta de la nave espacial"
 
 #: client/gui-gtk-2.0/gui_main.c:211
 msgid "Help Label"
-msgstr ""
+msgstr "Etiqueta de ayuda"
 
 #: client/gui-gtk-2.0/gui_main.c:216
-#, fuzzy
 msgid "Help Link"
-msgstr "Ayuda"
+msgstr "Enlace de ayuda"
 
 #: client/gui-gtk-2.0/gui_main.c:221
-#, fuzzy
 msgid "Help Text"
-msgstr "Ayuda"
+msgstr "Texto de Ayuda"
 
 #: client/gui-gtk-2.0/gui_main.c:226
-#, fuzzy
 msgid "Chatline Area"
-msgstr "Línea de chat"
+msgstr "Área de chat"
 
 #: client/gui-gtk-2.0/gui_main.c:231
 msgid "Beta Label"
-msgstr ""
+msgstr "Etiqueta Beta"
 
 #: client/gui-gtk-2.0/gui_main.c:236
-#, fuzzy
 msgid "Small Font"
-msgstr "Pequeña Maravilla"
+msgstr "Fuente pequeña"
 
 #: client/gui-gtk-2.0/gui_main.c:241
-#, fuzzy
 msgid "Comment Label"
-msgstr "Comentario"
+msgstr "Etiqueta de Comentario"
 
 #: client/gui-gtk-2.0/gui_main.c:246 client/gui-mui/gui_main.c:233
 #: client/gui-sdl/optiondlg.c:1518 client/gui-xaw/menu.c:143
@@ -12645,9 +12627,8 @@ msgid "_Editor"
 msgstr "_Editor"
 
 #: client/gui-gtk-2.0/menu.c:941
-#, fuzzy
 msgid "_Editing Mode"
-msgstr "_Editar"
+msgstr "_Editando Modo"
 
 #: client/gui-gtk-2.0/menu.c:943
 msgid "_Tools"
@@ -12655,7 +12636,7 @@ msgstr "_Herramientas"
 
 #: client/gui-gtk-2.0/menu.c:945
 msgid "_Recalculate Borders"
-msgstr ""
+msgstr "_Recalcular Bordes"
 
 #: client/gui-gtk-2.0/menu.c:949 client/gui-mui/citydlg.c:1248
 #: client/gui-win32/menu.c:412
@@ -12881,9 +12862,8 @@ msgid "_Toggle AI Mode"
 msgstr "Cambiar Modo _Ordenador"
 
 #: client/gui-gtk-2.0/plrdlg.c:529
-#, fuzzy
 msgid "_Edit Nation..."
-msgstr "Opciones de la ciudad..."
+msgstr "_Editando Nación..."
 
 #: client/gui-gtk-2.0/pages.c:208
 msgid "Start _New Game"
@@ -15700,6 +15680,8 @@ msgid ""
 "\n"
 "(%s,%s)"
 msgstr ""
+"\n"
+"(%s,%s)"
 
 #: client/gui-sdl/mapview.c:663
 #, c-format
@@ -15846,7 +15828,7 @@ msgstr "Mostrar la animación en los cursores"
 
 #: client/gui-sdl/optiondlg.c:1091
 msgid "Use color cursors"
-msgstr ""
+msgstr "Utilizar cursores de color"
 
 #: client/gui-sdl/optiondlg.c:1570 client/gui-xaw/menu.c:141
 msgid "National Borders"
@@ -16022,8 +16004,8 @@ msgstr ""
 #, c-format
 msgid "Next advance in %d turn"
 msgid_plural "Next advance in %d turns"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Próximo avance en %d turno"
+msgstr[1] "Próximo avance en %d turnos"
 
 #: client/gui-sdl/repodlgs.c:2544
 #, c-format
@@ -17008,6 +16990,8 @@ msgid ""
 "<p class=\"bounds\">Minimum: %d, Default: %d, Maximum: %d</p>\n"
 "\n"
 msgstr ""
+"<p class=\"bounds\">Mínimo: %d, Por defecto: %d, Máximo: %d</p>\n"
+"\n"
 
 #: manual/civmanual.c:177
 #, c-format
@@ -17752,6 +17736,29 @@ msgid ""
 "  The cities that become highlighted on the map,\n"
 "  will also be highlighted in the City Report."
 msgstr ""
+"Mapa Principal (Ratón):\n"
+"=======================\n"
+"  Botón izquierdo en la ciudad:          Muestra el cuadro de la ciudad\n"
+"  Botón izuierdo en la unidad:           Activa la unidad\n"
+"  Botón izquierdo y arrastrar la unidad: Comando 'Ir a' para la unidad\n"
+"  Botón central:               \t      Muestra la info de la casilla\n"
+"  Botón central:                         Centrar la vista a esta casilla\n"
+"\n"
+"  Shift + botón izquierdo:            \t  Copia la producción (GTK)\n"
+"  Shift + botón derecho en la ciudad:    Pega la producción en ciudad (GTK)\n"
+"\n"
+"  Shift + Control + botón izquierdo:     Ajusta los trabajadores en ciudad\n"
+"  Control + botón central:               Despierta la unidad actual\n"
+"\n"
+"  Modo de selección de área (GTK):\n"
+"  ================================\n"
+"  Botón derecho y arrastrar:     Entra en el modo de selec. de área\n"
+"  Botón izquierdo:               Activa la iluminación de casillas\n"
+"  Shift + botón derecho:         Pega la producción en una ciudad resaltada\n"
+"  Botón derecho:                 Cancela el modo de selección de área\n"
+"\n"
+"  Las ciudades que se resalten en el mapa\n"
+"  serán también resaltadas en el Informe de Ciudades."
 
 #: data/helpdata.txt:518
 msgid ""
@@ -21275,7 +21282,6 @@ msgid "High Priestess"
 msgstr "Sumo Sacerdotisa"
 
 #: data/civ2/governments.ruleset:146
-#, fuzzy
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -23172,6 +23178,11 @@ msgid ""
 "Australia, Western Australia and Tasmania) it became a single country in "
 "1902. It is the only country on earth to occupy an entire continent."
 msgstr ""
+"Australia fue fundada como una colonia penal Británica en 1788 A.C. "
+"Originalmente, abarcando varias colonias (Nueva Gales del Sur, Victoria, "
+"Queensland, Sudaustralia, Australia del Este y Tasmania) se convirtió en "
+"un único país en 1902. Es el único país en el Mundo que ocupa un continente "
+"entero."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -23198,7 +23209,6 @@ msgid "?plural:Aztecs"
 msgstr "Aztecas"
 
 #: data/nation/aztec.ruleset:6
-#, fuzzy
 msgid ""
 "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
 "control of the Toltec-derived civilizations of Central Mexico during the "
@@ -23290,7 +23300,7 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr ""
+msgstr "Bengalí"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
@@ -23338,9 +23348,8 @@ msgstr ""
 "duró de 1899 a 1902."
 
 #: data/nation/bosnia.ruleset:3
-#, fuzzy
 msgid "Bosnian-Herzegovinian"
-msgstr "Bosnia-Herzegovina"
+msgstr "Bosnio-herzegovino"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
@@ -23446,13 +23455,12 @@ msgid "Tzaritza"
 msgstr "Zarina"
 
 #: data/nation/bulgarian.ruleset:36
-#, fuzzy
 msgid "Drugariat"
-msgstr "Húngaro"
+msgstr "Camarada"
 
 #: data/nation/bulgarian.ruleset:36
 msgid "Drugarkata"
-msgstr "Drugarkata"
+msgstr "Camarada"
 
 #: data/nation/bulgarian.ruleset:37 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
@@ -24773,9 +24781,8 @@ msgid "Marsmen landed on Earth in 4000 BC!"
 msgstr "¡Marsmen llegó a la Tierra en el año 4000 A.C.!"
 
 #: data/nation/mayan.ruleset:3
-#, fuzzy
 msgid "Mayan"
-msgstr "Mayo"
+msgstr "Maya"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
@@ -25753,9 +25760,8 @@ msgstr ""
 "perteneciente a China."
 
 #: data/nation/venezuelan.ruleset:3
-#, fuzzy
 msgid "Venezuelan"
-msgstr "Venezuela"
+msgstr "Venezolano"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
@@ -26120,6 +26126,14 @@ msgstr "Equipo 32"
 #~ "Esto es bajo Democracia; para otros tipos de gobierno el efecto sucede "
 #~ "para un número menor de ciudades."
 
+#~ msgid ""
+#~ "* After the first unhappy citizen due to city size, for each %d "
+#~ "additional cities, another unhappy citizen will appear.\n"
+#~ msgstr ""
+#~ "* Después del primer ciudadano descontento, debido al tamaño de la "
+#~ "ciudad, por cada %d ciudades adicionales, aparecerá otro ciudadano "
+#~ "descontento.\n"
+
 #~ msgid "Join Game"
 #~ msgstr "Unirse a una partida"
 
@@ -26160,6 +26174,9 @@ msgstr "Equipo 32"
 
 #~ msgid "Maya"
 #~ msgstr "Maya"
+
+#~ msgid "Venezuela"
+#~ msgstr "Venezuela"
 
 #~ msgid "If enabled then cities will be drawn on the overview."
 #~ msgstr "Si se activa, las ciudades serán mostradas en la vista general"
