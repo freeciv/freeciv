@@ -24800,6 +24800,9 @@ msgid ""
 "royal proclamation in 1907, the country became an independent dominion "
 "within the Commonwealth of Nations."
 msgstr ""
+"El grupo de islas que forman Nueva Zelanda fue anexado a Gran Bretaña en "
+"1840. Siguiendo con la proclamación real en 1907, el país pasó a ser "
+"dominio independiente, perteneciendo a las Naciones Federadas."
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
@@ -24811,17 +24814,15 @@ msgstr "Nigerianos"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr ""
+msgstr "Nigeria ganó plena independencia de los Británicos en 1960."
 
 #: data/nation/norwegian.ruleset:3
-#, fuzzy
 msgid "Norwegian"
-msgstr "Coreano"
+msgstr "Noruego"
 
 #: data/nation/norwegian.ruleset:4
-#, fuzzy
 msgid "?plural:Norwegians"
-msgstr "Coreanos"
+msgstr "Noruegos"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -24829,16 +24830,18 @@ msgid ""
 "in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
 "independence after a union with Sweden."
 msgstr ""
+"Después de siglos de haber sido gobernados por los Daneses, los Noruegos "
+"hicieron su propia constitución en Eidsvoll, en el año 1814. Finalmente, "
+"en el año 1905, los Noruegos recibieron su independencia después de unirse "
+"a Suecia."
 
 #: data/nation/ottoman.ruleset:3
-#, fuzzy
 msgid "Ottoman"
-msgstr "Romano"
+msgstr "Otomano"
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "Romanos"
+msgstr "Otomanos"
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -24850,45 +24853,45 @@ msgid ""
 "Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
 msgstr ""
+"A principios del siglo XIV, Osman, un líder de una pequeña tribu Turkic al "
+"oeste de Anatolia, conquistó todas las tribus vecinas. Un silgo después, la "
+"capital Bizantina cayó en manos del gobierno Turkic, el cual dio al imperio "
+"Otomano el acceso a Europa. Los Otomanos, posteriormente, conquiestaron "
+"grandes partes del sureste de Europa, el mundo Islámico Árabe, Egipto, y "
+"gran parte del norte de África, convirtiéndose en una superpotencia regional "
+"hasta el momento de su disolución en la secuela de la Primera Guerra Mundial."
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
-#, fuzzy
 msgid "Bey"
-msgstr "Comprar"
+msgstr "Bey"
 
 #: data/nation/ottoman.ruleset:27
-#, fuzzy
 msgid "Hakan"
-msgstr "Malka"
+msgstr "Hakan"
 
 #: data/nation/ottoman.ruleset:28
-#, fuzzy
 msgid "Padisah"
-msgstr "Partisanos"
+msgstr "Padisah"
 
 #: data/nation/ottoman.ruleset:29
-#, fuzzy
 msgid "Imparator"
 msgstr "Emperador"
 
 #: data/nation/papuan.ruleset:3
-#, fuzzy
 msgid "Papuan"
-msgstr "Población"
+msgstr "Papuano"
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "Japoneses"
+msgstr "Papuanos"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
-msgstr ""
+msgstr "Los Papuanos son una gente de Melanesia, en la isla de Nueva Guinea."
 
 #: data/nation/papuan.ruleset:19
-#, fuzzy
 msgid "Governor-General"
-msgstr "Governador"
+msgstr "Gobernador General"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -24911,13 +24914,12 @@ msgid "Shah"
 msgstr "Sha"
 
 #: data/nation/persian.ruleset:21
-#, fuzzy
 msgid "Shahbanu"
-msgstr "Sha"
+msgstr "Shahbanu"
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr ""
+msgstr "Ayatolá"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -24932,13 +24934,14 @@ msgid ""
 "Phoenicia was an ancient civilization, based in what is now the coastal "
 "regions of Lebanon and Syria."
 msgstr ""
+"Fenicia fue una civilización antigua, asentada en lo que hoy se conoce como "
+"las rebiones del Líbano y Siria."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
 msgstr "Polaco"
 
 #: data/nation/polish.ruleset:4
-#, fuzzy
 msgid "?plural:Poles"
 msgstr "Polacos"
 
@@ -24947,6 +24950,8 @@ msgid ""
 "The Polish state was formed about a millennium ago, and reached its Golden "
 "Age near the end of the 16th century."
 msgstr ""
+"El Estado Polaco fue formado hace aproximadamente un milenio y alcanzó su "
+"Edad de Oro a finales del siglo XVI."
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
@@ -24994,16 +24999,16 @@ msgid ""
 "Quebec is the largest province of Canada, housing the majority of the "
 "Francophone population of America."
 msgstr ""
+"Quebec es una de las provincias más grandes de Canadá, albergando la mayoría "
+"de la población sajona de América."
 
 #: data/nation/romanian.ruleset:3
-#, fuzzy
 msgid "Romanian"
-msgstr "Romano"
+msgstr "Rumano"
 
 #: data/nation/romanian.ruleset:4
-#, fuzzy
 msgid "?plural:Romanians"
-msgstr "Romanos"
+msgstr "Rumanos"
 
 #: data/nation/romanian.ruleset:6
 msgid ""
@@ -25013,39 +25018,39 @@ msgid ""
 "Rome. It's history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
 msgstr ""
+"Rumanía, como nación, fue formada a principios del siglo XX, cuando los "
+"estados de Transilvania, Valaquia y Moldavia se unificaron. Es un país "
+"habitado por gente que habla un idioma con reminiscencias de los tiempos "
+"de la antigua Roma. Su historia cuenta que siempre fue un país fronterizo "
+"con grandes imperios: el Romano, el Otomano, el Austro-Húngaro y el Ruso."
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
-msgstr ""
+msgstr "Voivoda"
 
 #: data/nation/romanian.ruleset:34
-#, fuzzy
 msgid "Doamna"
-msgstr "Abajo"
+msgstr "Doamna"
 
 #: data/nation/romanian.ruleset:35
-#, fuzzy
 msgid "Rege"
-msgstr "Eliminar"
+msgstr "Rey"
 
 #: data/nation/romanian.ruleset:35
-#, fuzzy
 msgid "Regina"
 msgstr "Reina"
 
 #: data/nation/romanian.ruleset:36
-#, fuzzy
 msgid "Presedinte"
 msgstr "Presidente"
 
 #: data/nation/romanian.ruleset:37
-#, fuzzy
 msgid "Tovaras"
-msgstr "Totales"
+msgstr "Tovaras"
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovarasa"
-msgstr ""
+msgstr "Tovarasa"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -25084,24 +25089,32 @@ msgid ""
 "dissolution in 1991 Russia appeared on world map again, now as a federative "
 "republic."
 msgstr ""
+"Dice la leyenda que las tribus Eslavas y Finesas de Novgorod pidieron, "
+"en el año 862 al rey Rurik de Varangia (Vikingo), que pusiera orden en sus "
+"tierras. Rurik estableció Kievan Rus en su reino, el primer estado Ruso. "
+"Durante el siglo XI, Kievan Rus fue desintegrada en principados menores, "
+"los cuales fueron reunificados de nuevo en un único estado por Ivan III en "
+"el siglo XV. Después de una victoria decisiva sobre Suecia y grandes "
+"conquistas terrenales, Pedro I de Rusia proclamó el Imperio Ruso en 1721. "
+"El Imperio Ruso duró hasta 1917, cuando la revolución socialista destronó "
+"al emperador ruso. Después de la disolución de la URSS en 1991, apareció "
+"Rusia en el mapa de nuevo, ahora como una república federal."
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
-msgstr ""
+msgstr "Duque"
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
-#, fuzzy
 msgid "Duchess"
 msgstr "Gran Duquesa"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
-msgstr ""
+msgstr "Zar"
 
 #: data/nation/russian.ruleset:48
-#, fuzzy
 msgid "Tsaritsa"
-msgstr "Partisanos"
+msgstr "Zarina"
 
 #: data/nation/russian.ruleset:49
 msgid "Matriarch"
@@ -25109,36 +25122,36 @@ msgstr "Matriarca"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr ""
+msgstr "Ryukyuano"
 
 #: data/nation/ryukyuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ryukyuans"
-msgstr "Rusos"
+msgstr "Ryukyuanos"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
+"El Reino Ryukyuano (1372-1879) fue una Tierra de Propiedad, una nación "
+"de comercio marítimo que fue eventualmente invadida, ocupada y anexada a "
+"Japón."
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
-msgstr ""
+msgstr "Koku-o"
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Jo-o"
-msgstr ""
+msgstr "Jo-o"
 
 #: data/nation/sami.ruleset:3
-#, fuzzy
 msgid "Sami"
-msgstr "Barco"
+msgstr "Saami"
 
 #: data/nation/sami.ruleset:4
-#, fuzzy
 msgid "?plural:Sami"
-msgstr "Tailandeses"
+msgstr "Saamis"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -25146,10 +25159,13 @@ msgid ""
 "over the northernmost regions of the Scandinavian countries: Finnmark of "
 "Norway and Lapland of Sweden and Finland."
 msgstr ""
+"Los Saamis, o Laponios, son gente que viven al norte de Escandinavia. Se "
+"extienden al norte de regiones escandinavas siguientes: Finnmark de Noruega, "
+"Laponia de Suecia y Laponia de Finlandia."
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
-msgstr ""
+msgstr "Noaydde"
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -25216,12 +25232,11 @@ msgid "?plural:Singaporeans"
 msgstr "Singapureses"
 
 #: data/nation/singaporean.ruleset:18
-#, fuzzy
 msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula."
 msgstr ""
-"Singapur es una ciudad-estado comercial ubicada en el extremo sur de la "
+"Singapur es una ciudad-estado mercantil ubicada en el extremo sur de la "
 "Península Malaya."
 
 #: data/nation/singaporean.ruleset:37
@@ -25246,6 +25261,9 @@ msgid ""
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
 msgstr ""
+"Sioux fue una nación de Norteamérica que luchó en varias batallas decisivas "
+"contra los Estados Unidos. Consistía en tres grupos de tribus distintos: "
+"los Lakota, los Dakota y los Nakota."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -25264,42 +25282,36 @@ msgstr ""
 "Federación Yugoslava."
 
 #: data/nation/slovakian.ruleset:3
-#, fuzzy
 msgid "Slovakian"
-msgstr "Esloveno"
+msgstr "Eslovaco"
 
 #: data/nation/slovakian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovakians"
-msgstr "Eslovenos"
+msgstr "Eslovacos"
 
 #: data/nation/slovakian.ruleset:6
-#, fuzzy
 msgid ""
 "Slovakia is a country in the heart of Europe. Formerly part of "
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
 msgstr ""
-"La República Checa actual formó parte hasta 1993 de Checoslovaquia, que a su "
-"vez perteneció al Imperio Austrohúngaro hasta 1918."
+"Eslovaquia es un país situado en el corazón de Europa. Formalmente, parte "
+"de Checoslovaquia, fue parte del Imperio Austro-Húngaro hasta el año 1918."
 
 #: data/nation/slovakian.ruleset:29
-#, fuzzy
 msgid "Pope"
-msgstr "Ind"
+msgstr "Papa"
 
 #: data/nation/slovakian.ruleset:29
-#, fuzzy
 msgid "Priestess"
-msgstr "Sumo Sacerdotisa"
+msgstr "Presbítera"
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
-msgstr ""
+msgstr "Sudafricano"
 
 #: data/nation/southafrican.ruleset:4
-#, fuzzy
 msgid "?plural:South Africans"
-msgstr "Estadounidenses"
+msgstr "Sudafricanos"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -25312,16 +25324,23 @@ msgid ""
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
 msgstr ""
+"Los colonos Holandeses empezaron a colonizar el sur de África en el siglo "
+"XVII. Después de muchas guerras entre los Boers (descendientes de los "
+"colonos holandeses), fuerzas británicas y Zulúes, la Unión de Sudáfrica "
+"fue creada en 1910. El gobierno de Sudáfrica se hico notorio por su "
+"política \"apartheid\" de desigualdad legal basada en el tráfico de pieles "
+"humanas. Continuando con la adopción de la primera constitución no racial "
+"del país en 1994, el que había sido preso político por mucho tiempo,  Nelson "
+"Mandela, fue elegido como el primer presidente de Sudáfrica democráticamente "
+"seleccionado."
 
 #: data/nation/soviet.ruleset:3
-#, fuzzy
 msgid "Soviet"
-msgstr "novato"
+msgstr "Soviético"
 
 #: data/nation/soviet.ruleset:4
-#, fuzzy
 msgid "?plural:Soviets"
-msgstr "Escoceses"
+msgstr "Soviéticos"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -25331,6 +25350,12 @@ msgid ""
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
 msgstr ""
+"La historia de la Unión Soviética comienza en Noviembre de 1917, cuando "
+"tuvo lugar la revolución Bolchevique bajo el mando de Lenin. El 31 de "
+"Diciembre de 1922, cuatro repúblicas soviéticas fueron unificadas en un "
+"país. La Unión Soviética pasó a ser uno de los estados más potentes en "
+"el siglo XX. Pero a finales del año 1991, debido a varios conflictos "
+"sociales, se desintegró en quince países independientes."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -25365,20 +25390,20 @@ msgid "Cardinal"
 msgstr "Cardenal"
 
 #: data/nation/sudanese.ruleset:3
-#, fuzzy
 msgid "Sudanese"
-msgstr "Avances"
+msgstr "Sudanés"
 
 #: data/nation/sudanese.ruleset:4
-#, fuzzy
 msgid "?plural:Sudanese"
-msgstr "Daneses"
+msgstr "Sudaneses"
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
 "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became "
 "independent in 1956."
 msgstr ""
+"En 1820, Sudán cayó en manos del gobierno Egipcio y, más tarde, en manos de "
+"los Británicos. Sudán se hizo independiente en 1956."
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
@@ -25394,20 +25419,21 @@ msgid ""
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
 msgstr ""
+"Sumeria controlaba el sur de Mesopotamia hasta el alzamiento de Babilonia. "
+"Tablas sumerianas escritas hace más de 5500 años han sido encontradas, "
+"precediendo a cualquier otra escritura histórica."
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
 msgstr "Ensi"
 
 #: data/nation/swazi.ruleset:3
-#, fuzzy
 msgid "Swazi"
-msgstr "Barco"
+msgstr "Swazi"
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
-msgstr "Suizos"
+msgstr "Swazis"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -25415,14 +25441,17 @@ msgid ""
 "Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized "
 "the southern frontier with the Zulus."
 msgstr ""
+"Los Swazis son una gente de Bantu, al sur de África. Bajo el liderazgo de "
+"Mswati II (1820 -1868), los Swazis expandieron su territorio y estabilizaron "
+"el la frontera sur con los Zulúes."
 
 #: data/nation/swazi.ruleset:24
 msgid "Ngwenyama"
-msgstr ""
+msgstr "Ngwenyama"
 
 #: data/nation/swazi.ruleset:24
 msgid "Indovuzaki"
-msgstr ""
+msgstr "Indovukati"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -25442,6 +25471,13 @@ msgid ""
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
 msgstr ""
+"El Reino de Suecia fue cristianizado y consolidado como entidad política "
+"en el siglo XII D.C. El país se alzó como una de las grandes potencias "
+"europeas en el siglo XVII, sucediendo con varias conquistas militares por "
+"los llamados Reyes Guerreros. Sea como fuere, debido a una economía en "
+"decadencia y varias derrotas desastrosas contra Rusia, Suecia perdió pronto "
+"casi todo el territorio que previamente había ganado. El país no se ha vuelto "
+"a ver envuelto en conflictos armados desde 1814."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -25456,36 +25492,34 @@ msgid ""
 "Switzerland is a federation of cantons, some of which have more than 700 "
 "years of history as a confederacy."
 msgstr ""
+"Suiza es una federación de cantones, algunos de los cuales tienen más de "
+"700 años de historia como confedero."
 
 #: data/nation/swiss.ruleset:24
-#, fuzzy
 msgid "Bailiff"
-msgstr "Brasileño"
+msgstr "Baili"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
-msgstr ""
+msgstr "Rey Electo"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected Queen"
-msgstr ""
+msgstr "Reina Electa"
 
 #: data/nation/swiss.ruleset:26
-#, fuzzy
 msgid "Elected Priest"
-msgstr "Borrar configuración"
+msgstr "Presbítero Electo"
 
 #: data/nation/swiss.ruleset:26
-#, fuzzy
 msgid "Elected Priestess"
-msgstr "Sumo Sacerdotisa"
+msgstr "Presbítera Electa"
 
 #: data/nation/swiss.ruleset:27 data/nation/swiss.ruleset:28
 msgid "President of the Confederation"
-msgstr ""
+msgstr "Presidente de la Confederación"
 
 #: data/nation/swiss.ruleset:29
-#, fuzzy
 msgid "Federal Chancellor"
 msgstr "Canciller"
 
@@ -25503,22 +25537,25 @@ msgid ""
 "communists, the nationalist government evacuated to the island of Taiwan "
 "where they formed the Republic of China."
 msgstr ""
+"Cuando los Chinos nacionalistas perdieron la batalla armada contra los "
+"Chinos comunistas, el gobierno nacionalista se trasladó la isla de Taiwan, "
+"donde formaron la República de China."
 
 #: data/nation/texan.ruleset:3
-#, fuzzy
 msgid "Texan"
-msgstr "Mejicano"
+msgstr "Texano"
 
 #: data/nation/texan.ruleset:4
-#, fuzzy
 msgid "?plural:Texans"
-msgstr "Mejicanos"
+msgstr "Texanos"
 
 #: data/nation/texan.ruleset:6
 msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for it's \"larger than life\" cowboy mentality."
 msgstr ""
+"Texas es el segundo estado más grande y más conocido de Estados Unidos, "
+"famoso por su \"exagerada\" mentalidad de cowboy."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -25537,14 +25574,12 @@ msgstr ""
 "su independencia durante la era colonial de los siglos XVIII y XIX A.C."
 
 #: data/nation/tibetan.ruleset:3
-#, fuzzy
 msgid "Tibetan"
-msgstr "Capitán"
+msgstr "Tibetano"
 
 #: data/nation/tibetan.ruleset:4
-#, fuzzy
 msgid "?plural:Tibetans"
-msgstr "Chilenos"
+msgstr "Tibetanos"
 
 #: data/nation/tibetan.ruleset:6
 msgid ""
@@ -25557,24 +25592,30 @@ msgid ""
 "established a buddhist religious state under the control of the Gelugpa "
 "school of Tibetan Buddhism."
 msgstr ""
+"La tierra de los Tibetanos es llamada, a veces, \"El cielo del Mundo\", la "
+"región más elevada de la Tierra. En el siglo VII, el Tibet emergió como "
+"un imperio formidable bajo el mando del rey Songtsen Gampo, siendo "
+"reconocido tanto por China como por India. Esta dinastía duró hasta el siglo "
+"XI, cuando el Tibet fue invadido por los Mongoles. Siglos depués, cuando "
+"el gobierno de los Mongoles se había debilitado, Lozang Gyatso (nacido en "
+"1617 y el 5º Dalai Lama) estableció un estado religioso budista bajo el "
+"control de la escuela de Budismo Tibetano, llamada Gelugpa."
 
 #: data/nation/tibetan.ruleset:27
 msgid "Lama"
-msgstr ""
+msgstr "Lama"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
-msgstr ""
+msgstr "Dalai Lama"
 
 #: data/nation/tunisian.ruleset:3
-#, fuzzy
 msgid "Tunisian"
-msgstr "Ruso"
+msgstr "Tunecino"
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "Rusos"
+msgstr "Tunecinos"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -25587,6 +25628,15 @@ msgid ""
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
 msgstr ""
+"Los Fenicios fundaron Cartago in el área donde Túnez se ubica hoy en día. "
+"Más tarde, Cartago se convirtió en una potencia mayor en la región del "
+"Mediterráneo, hasta que fue derrotada por los Romanos en el año 146 A.C. "
+"Después, con la conquista Árabe Musulmana en el siglo VII, tuvo lugar la "
+"migración desde países árabes y otomanos. Pero hubo también muchos Judíos "
+"y Moriscos Españoles que tuvieron que marcharse a finales del siglo XVI. "
+"Túnez pasó a ser más independiente de los Otomanos en el año 1861. Pero en "
+"1881, Túnez fue invadida por los Franceses y convertido en un protectorado "
+"francés. El país adquirió su independencia en 1956."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -25631,12 +25681,11 @@ msgstr "Hetman"
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr ""
+msgstr "Uigur"
 
 #: data/nation/uyghur.ruleset:4
-#, fuzzy
 msgid "?plural:Uyghurs"
-msgstr "Turcos"
+msgstr "Uigurs"
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -25647,15 +25696,21 @@ msgid ""
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
 msgstr ""
+"Uigur fue imperio y civilización turco situado al Este. A su altura en "
+"el año 820 D.C., controlaba la mayoría de Asia Central y del Norte. Después "
+"de muchos conflictos con los Chinos durante siglos, fueron finalmente "
+"sometidos por la dinastía Qing en los años 1700. Hoy en día, los "
+"descendientes de Uigur son poblaciones los estados de Asia Central: "
+"Uzbekistán, Kazajstán y Kirguistán. Estos son también una minoría de la "
+"provincia de Xinjiang, perteneciente a China."
 
 #: data/nation/venezuelan.ruleset:4
 msgid "Venezuela"
-msgstr ""
+msgstr "Venezuela"
 
 #: data/nation/venezuelan.ruleset:5
-#, fuzzy
 msgid "?plural:Venezuelans"
-msgstr "Kenyanos"
+msgstr "Venezolanos"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -25667,11 +25722,14 @@ msgid ""
 "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
 "Liberator."
 msgstr ""
+"Venezuela es uno de los países al norte de Sudamérica. Habiendo sido una "
+"colonia de los Españoles desde el siglo XVI, el país adquirió su "
+"independencia el día 5 de Julio de 1811 bajo el mando del liberador "
+"Simón Bolívar, conocido como El Liberador."
 
 #: data/nation/venezuelan.ruleset:33
-#, fuzzy
 msgid "Terrateniente"
-msgstr "Terreno"
+msgstr "Terrateniente"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
@@ -25726,14 +25784,12 @@ msgstr ""
 "invasión de los sajones."
 
 #: data/nation/westphalian.ruleset:3
-#, fuzzy
 msgid "Westphalian"
-msgstr "Italiano"
+msgstr "Westfaliano"
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "Italianos"
+msgstr "Westfalianos"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -25741,6 +25797,9 @@ msgid ""
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
+"Westfalia, antes de ser una provincia de Prusia, fue la región oeste del "
+"ducado de Sajonia. Actualmente es la parte norte del estado federal más "
+"grande de Alemania, Rhine-Westfalia del Norte."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
@@ -25762,243 +25821,213 @@ msgstr ""
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr ""
+msgstr "Islas británicas (medio/clásico)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
-msgstr ""
+msgstr "Mapa al estilo clásico, 85x80, de las islas británicas."
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
-msgstr ""
+msgstr "La Tierra (clásico, grande)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
-msgstr ""
+msgstr "Escenario de la Tierra, estilo clásico, 160x90."
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
-msgstr ""
+msgstr "La Tierra (clásico, pequeño)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
-msgstr ""
+msgstr "Escenario de la Tierra, estilo clásico, 80x50"
 
 #: data/scenario/europe-200x100-v2.sav:3
 msgid "Europe (giant/classic)"
-msgstr ""
+msgstr "Europa (gigante/clásico)"
 
 #: data/scenario/europe-200x100-v2.sav:4
 msgid "Very large classic-style map of Europe."
-msgstr ""
+msgstr "Mapa muy grande de Europa, estilo clásico."
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
-msgstr ""
+msgstr "La Tierra (clásico, medio)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
-msgstr ""
+msgstr "Escenario de la Tierra, estilo clásico, 120x60."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
-msgstr ""
+msgstr "Península Ibérica (clásico/grande)"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
 msgid ""
 "Large classic-style map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
 msgstr ""
+"Mapa grande, estilo clásico, de la Península Ibérica (actualmente, España "
+"y Portual)."
 
 #: data/scenario/tutorial.sav:3
-#, fuzzy
 msgid "Tutorial"
-msgstr "Histórico"
+msgstr "Tutorial"
 
 #: data/scenario/tutorial.sav:4
-#, fuzzy
 msgid "Tutorial Scenario."
-msgstr "Escoger un Escenario"
+msgstr "Escenario de tutorial"
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:129
-#, fuzzy
 msgid "Team 1"
-msgstr "Equipo"
+msgstr "Equipo 1"
 
 #: data/civ1/game.ruleset:102 data/civ2/game.ruleset:102
 #: data/default/game.ruleset:130
-#, fuzzy
 msgid "Team 2"
-msgstr "Equipo"
+msgstr "Equipo 2"
 
 #: data/civ1/game.ruleset:103 data/civ2/game.ruleset:103
 #: data/default/game.ruleset:131
-#, fuzzy
 msgid "Team 3"
-msgstr "Equipo"
+msgstr "Equipo 3"
 
 #: data/civ1/game.ruleset:104 data/civ2/game.ruleset:104
 #: data/default/game.ruleset:132
-#, fuzzy
 msgid "Team 4"
-msgstr "Equipo"
+msgstr "Equipo 4"
 
 #: data/civ1/game.ruleset:105 data/civ2/game.ruleset:105
 #: data/default/game.ruleset:133
-#, fuzzy
 msgid "Team 5"
-msgstr "Equipo"
+msgstr "Equipo 5"
 
 #: data/civ1/game.ruleset:106 data/civ2/game.ruleset:106
 #: data/default/game.ruleset:134
-#, fuzzy
 msgid "Team 6"
-msgstr "Equipo"
+msgstr "Equipo 6"
 
 #: data/civ1/game.ruleset:107 data/civ2/game.ruleset:107
 #: data/default/game.ruleset:135
-#, fuzzy
 msgid "Team 7"
-msgstr "Equipo"
+msgstr "Equipo 7"
 
 #: data/civ1/game.ruleset:108 data/civ2/game.ruleset:108
 #: data/default/game.ruleset:136
-#, fuzzy
 msgid "Team 8"
-msgstr "Equipo"
+msgstr "Equipo 8"
 
 #: data/civ1/game.ruleset:109 data/civ2/game.ruleset:109
 #: data/default/game.ruleset:137
-#, fuzzy
 msgid "Team 9"
-msgstr "Equipo"
+msgstr "Equipo 9"
 
 #: data/civ1/game.ruleset:110 data/civ2/game.ruleset:110
 #: data/default/game.ruleset:138
-#, fuzzy
 msgid "Team 10"
-msgstr "Equipo"
+msgstr "Equipo 10"
 
 #: data/civ1/game.ruleset:111 data/civ2/game.ruleset:111
 #: data/default/game.ruleset:139
-#, fuzzy
 msgid "Team 11"
-msgstr "Equipo"
+msgstr "Equipo 11"
 
 #: data/civ1/game.ruleset:112 data/civ2/game.ruleset:112
 #: data/default/game.ruleset:140
-#, fuzzy
 msgid "Team 12"
-msgstr "Equipo"
+msgstr "Equipo 12"
 
 #: data/civ1/game.ruleset:113 data/civ2/game.ruleset:113
 #: data/default/game.ruleset:141
-#, fuzzy
 msgid "Team 13"
-msgstr "Equipo"
+msgstr "Equipo 13"
 
 #: data/civ1/game.ruleset:114 data/civ2/game.ruleset:114
 #: data/default/game.ruleset:142
-#, fuzzy
 msgid "Team 14"
-msgstr "Equipo"
+msgstr "Equipo 14"
 
 #: data/civ1/game.ruleset:115 data/civ2/game.ruleset:115
 #: data/default/game.ruleset:143
-#, fuzzy
 msgid "Team 15"
-msgstr "Equipo"
+msgstr "Equipo 15"
 
 #: data/civ1/game.ruleset:116 data/civ2/game.ruleset:116
 #: data/default/game.ruleset:144
-#, fuzzy
 msgid "Team 16"
-msgstr "Equipo"
+msgstr "Equipo 16"
 
 #: data/civ1/game.ruleset:117 data/civ2/game.ruleset:117
 #: data/default/game.ruleset:145
-#, fuzzy
 msgid "Team 17"
-msgstr "Equipo"
+msgstr "Equipo 17"
 
 #: data/civ1/game.ruleset:118 data/civ2/game.ruleset:118
 #: data/default/game.ruleset:146
-#, fuzzy
 msgid "Team 18"
-msgstr "Equipo"
+msgstr "Equipo 18"
 
 #: data/civ1/game.ruleset:119 data/civ2/game.ruleset:119
 #: data/default/game.ruleset:147
-#, fuzzy
 msgid "Team 19"
-msgstr "Equipo"
+msgstr "Equipo 19"
 
 #: data/civ1/game.ruleset:120 data/civ2/game.ruleset:120
 #: data/default/game.ruleset:148
-#, fuzzy
 msgid "Team 20"
-msgstr "Equipo"
+msgstr "Equipo 20"
 
 #: data/civ1/game.ruleset:121 data/civ2/game.ruleset:121
 #: data/default/game.ruleset:149
-#, fuzzy
 msgid "Team 21"
-msgstr "Equipo"
+msgstr "Equipo 21"
 
 #: data/civ1/game.ruleset:122 data/civ2/game.ruleset:122
 #: data/default/game.ruleset:150
-#, fuzzy
 msgid "Team 22"
-msgstr "Equipo"
+msgstr "Equipo 22"
 
 #: data/civ1/game.ruleset:123 data/civ2/game.ruleset:123
 #: data/default/game.ruleset:151
-#, fuzzy
 msgid "Team 23"
-msgstr "Equipo"
+msgstr "Equipo 23"
 
 #: data/civ1/game.ruleset:124 data/civ2/game.ruleset:124
 #: data/default/game.ruleset:152
-#, fuzzy
 msgid "Team 24"
-msgstr "Equipo"
+msgstr "Equipo 24"
 
 #: data/civ1/game.ruleset:125 data/civ2/game.ruleset:125
 #: data/default/game.ruleset:153
-#, fuzzy
 msgid "Team 25"
-msgstr "Equipo"
+msgstr "Equipo 25"
 
 #: data/civ1/game.ruleset:126 data/civ2/game.ruleset:126
 #: data/default/game.ruleset:154
-#, fuzzy
 msgid "Team 26"
-msgstr "Equipo"
+msgstr "Equipo 26"
 
 #: data/civ1/game.ruleset:127 data/civ2/game.ruleset:127
 #: data/default/game.ruleset:155
-#, fuzzy
 msgid "Team 27"
-msgstr "Equipo"
+msgstr "Equipo 27"
 
 #: data/civ1/game.ruleset:128 data/civ2/game.ruleset:128
 #: data/default/game.ruleset:156
-#, fuzzy
 msgid "Team 28"
-msgstr "Equipo"
+msgstr "Equipo 28"
 
 #: data/civ1/game.ruleset:129 data/civ2/game.ruleset:129
 #: data/default/game.ruleset:157
-#, fuzzy
 msgid "Team 29"
-msgstr "Equipo"
+msgstr "Equipo 29"
 
 #: data/civ1/game.ruleset:130 data/civ2/game.ruleset:130
 #: data/default/game.ruleset:158
-#, fuzzy
 msgid "Team 30"
-msgstr "Equipo"
+msgstr "Equipo 30"
 
 #: data/civ1/game.ruleset:131 data/civ2/game.ruleset:131
 #: data/default/game.ruleset:159
@@ -26010,13 +26039,9 @@ msgstr "Equipo 31"
 msgid "Team 32"
 msgstr "Equipo 32"
 
-#, fuzzy
 #~ msgid "If enabled then cities will be drawn on the overview."
-#~ msgstr ""
-#~ "Si se activa, los nombres por defecto para las ciudades se elegirán de "
-#~ "acuerdo con el terreno circundante."
+#~ msgstr "Si se activa, las ciudades serán mostradas en la vista general"
 
-#, fuzzy
 #~ msgid "Qween"
 #~ msgstr "La Reina"
 
@@ -26062,13 +26087,11 @@ msgstr "Equipo 32"
 #~ msgid "PostModern"
 #~ msgstr "Posmoderno"
 
-#, fuzzy
 #~ msgid "_Editor"
-#~ msgstr "_Editar"
+#~ msgstr "_Editor"
 
-#, fuzzy
 #~ msgid "_Tools"
-#~ msgstr "Totales"
+#~ msgstr "_Herramientas"
 
 #~ msgid "Special1"
 #~ msgstr "Especial1"
