@@ -122,7 +122,7 @@ msgstr " (Beobachter)"
 #: common/events.c:42
 msgid "City: Building Unavailable Item"
 msgstr "Stadt: Nicht verfügbare Erweiterung im Bau"
-	
+
 #: common/events.c:43
 msgid "City: Captured/Destroyed"
 msgstr "Stadt: erobert/zerstört"
@@ -417,7 +417,7 @@ msgstr "Abkommen: gebrochen"
 
 #: common/events.c:116
 msgid "Treaty: Cease-fire"
-msgstr "Abkommen: Waffenstillstand"
+msgstr "Abkommen: Feuerpause"
 
 #: common/events.c:117
 msgid "Treaty: Peace"
@@ -569,33 +569,33 @@ msgstr "Waffenstillstand"
 
 #: common/player.c:660
 msgid "?diplomatic_state:War"
-msgstr "?diplomatic_state:Krieg"
+msgstr "Krieg"
 
 #: common/player.c:661 client/gui-gtk-2.0/diplodlg.c:361
 #: client/gui-mui/diplodlg.c:633 client/gui-sdl/diplodlg.c:439
 #: client/gui-win32/diplodlg.c:307 client/gui-xaw/diplodlg.c:524
 msgid "?diplomatic_state:Cease-fire"
-msgstr "?diplomatic_state:Waffenstillstand"
+msgstr "Feuerpause"
 
 #: common/player.c:662 client/gui-gtk-2.0/diplodlg.c:366
 #: client/gui-mui/diplodlg.c:637 client/gui-sdl/diplodlg.c:453
 #: client/gui-win32/diplodlg.c:308 client/gui-xaw/diplodlg.c:528
 msgid "?diplomatic_state:Peace"
-msgstr "?diplomatic_state:Frieden"
+msgstr "Frieden"
 
 #: common/player.c:663 client/gui-gtk-2.0/diplodlg.c:371
 #: client/gui-mui/diplodlg.c:641 client/gui-sdl/diplodlg.c:468
 #: client/gui-win32/diplodlg.c:309 client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Alliance"
-msgstr "?diplomatic_state:Allianz"
+msgstr "Allianz"
 
 #: common/player.c:664
 msgid "?diplomatic_state:Never met"
-msgstr "?diplomatic_state:Unbekannt"
+msgstr "Unbekannt"
 
 #: common/player.c:665
 msgid "?diplomatic_state:Team"
-msgstr "?diplomatic_state:Team"
+msgstr "Team"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:456 common/requirements.c:471
@@ -8055,7 +8055,8 @@ msgstr "  -a, --autoconnect\tAuswahlmenü zur Serverwahl unterdrücken\n"
 #: client/civclient.c:211
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
-"  -l, --log DATEI\tDATEI als Logdatei benutzen (auch für gestarteten Server)\n"
+"  -l, --log DATEI\tDATEI als Logdatei benutzen (auch für gestarteten "
+"Server)\n"
 
 #: client/civclient.c:213
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
@@ -17467,9 +17468,8 @@ msgstr ""
 "Metaserver-Register im Startfenster zum Verbindungsaufbau und benutzen Sie "
 "das Feld 'Aktualisieren'. Falls dies bei Ihnen nicht funktionieren sollte, "
 "überprüfen Sie bitte, ob Ihr Webbrowser einen sogenannten HTTP-Proxyserver "
-"benutzt. Falls ja, kann er auch vom civclient verwendet werden, wenn "
-"sie vor dessen Aufruf die Umgebungsvariable $http_proxy entsprechend "
-"setzen:\n"
+"benutzt. Falls ja, kann er auch vom civclient verwendet werden, wenn sie vor "
+"dessen Aufruf die Umgebungsvariable $http_proxy entsprechend setzen:\n"
 "\n"
 "  http://Proxyserver:Proxyport/"
 
