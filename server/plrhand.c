@@ -616,7 +616,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 		   get_nation_name_plural(pplayer2->nation),
 		   diplstate_text(new_type));
   notify_player(pplayer2, NULL, E_TREATY_BROKEN,
-		   _(" %s cancelled the diplomatic agreement! "
+		   _(" %s canceled the diplomatic agreement! "
 		     "The diplomatic state between the %s and the %s "
 		     "is now %s."), pplayer->name,
 		   get_nation_name_plural(pplayer2->nation),

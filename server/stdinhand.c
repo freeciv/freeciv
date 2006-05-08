@@ -3438,7 +3438,7 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
      * vote command. You can only have one vote at a time. */
     if (votes[idx].command[0] != '\0') {
       cmd_reply(CMD_VOTE, caller, C_COMMENT,
-		_("Your new vote cancelled your "
+		_("Your new vote canceled your "
 		  "previous vote."));
       votes[idx].command[0] = '\0';
     }
