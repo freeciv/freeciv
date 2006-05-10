@@ -27,8 +27,8 @@
 #include <X11/Shell.h>
 
 #include "back_end.h"
-#include "be_common_24.h"
 #include "be_common_pixels.h"
+#include "be_common_32.h"
 
 #include "shared.h"
 

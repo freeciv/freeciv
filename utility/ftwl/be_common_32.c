@@ -25,7 +25,9 @@
 #include "support.h"
 
 #include "back_end.h"
-#include "be_common_24.h"
+#include "be_common_pixels.h"
+
+#include "be_common_32.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -67,6 +69,211 @@ static void set_color(be_color color, unsigned char *dest)
 }
 
 /*************************************************************************
+  Draw an empty rectangle in given osda with given drawing type.
+*************************************************************************/
+void be_draw_rectangle(struct osda *target, const struct ct_rect *spec,
+		       int line_width, be_color color)
+{
+  int i;
+
+  for (i = 0; i < line_width; i++) {
+    struct ct_point nw = { spec->x + i, spec->y + i }, ne = nw, sw = ne, se =
+	nw;
+
+    ne.x += spec->width  - 2 * i;
+    se.x += spec->width  - 2 * i;
+
+    sw.y += spec->height  - 2 * i;
+    se.y += spec->height  - 2 * i;
+
+    be_draw_line(target, &nw, &ne, 1, FALSE, color);
+    be_draw_line(target, &sw, &se, 1, FALSE, color);
+    be_draw_line(target, &nw, &sw, 1, FALSE, color);
+    be_draw_line(target, &ne, &se, 1, FALSE, color);
+  }
+}
+
+/*************************************************************************
+  Draw a vertical line (only).
+*************************************************************************/
+static void draw_vline(struct image *image, unsigned char *src,
+		       int x, int y0, int y1, int line_width, bool dashed)
+{
+  int y;
+
+  if (dashed) {
+    for (y = y0; y < y1; y++) {
+      if (y & (1 << 3)) {
+	IMAGE_CHECK(image, x, y);
+	memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
+      }
+    }
+  } else {
+    for (y = y0; y < y1; y++) {
+      IMAGE_CHECK(image, x, y);
+      memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
+    }
+  }
+}
+
+/*************************************************************************
+  Draw a horisontal line (only).
+*************************************************************************/
+static void draw_hline(struct image *image, unsigned char *src,
+		       int y, int x0, int x1, int line_width, bool dashed)
+{
+  int x;
+
+  if (dashed) {
+    for (x = x0; x < x1; x++) {
+      if (x & (1 << 3)) {
+	IMAGE_CHECK(image, x, y);
+	memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
+      }
+    }
+  } else {
+    for (x = x0; x < x1; x++) {
+      IMAGE_CHECK(image, x, y);
+      memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
+    }
+  }
+}
+
+/*************************************************************************
+  Draw any line.
+*************************************************************************/
+static void draw_line(struct image *image, unsigned char *src,
+		      int x1, int y1, int x2, int y2, int line_width,
+		      bool dashed)
+{
+  int dx = abs(x2 - x1);
+  int dy = abs(y2 - y1);
+  int xinc1, xinc2, yinc1, yinc2;
+  int den, num, numadd, numpixels;
+  int x, y;
+  int curpixel;
+
+  xinc1 = xinc2 = (x2 >= x1) ? 1 : -1;
+  yinc1 = yinc2 = (y2 >= y1) ? 1 : -1;
+
+  if (dx >= dy) {
+    xinc1 = 0;
+    yinc2 = 0;
+    den = dx;
+    num = dx / 2;
+    numadd = dy;
+    numpixels = dx;
+  } else {
+    xinc2 = 0;
+    yinc1 = 0;
+    den = dy;
+    num = dy / 2;
+    numadd = dx;
+    numpixels = dy;
+  }
+
+  x = x1;
+  y = y1;
+
+  for (curpixel = 0; curpixel <= numpixels; curpixel++) {
+    struct ct_point pos = { x, y };
+
+    if (ct_point_in_rect(&pos, &image->full_rect)) {
+      IMAGE_CHECK(image, x, y);
+      memcpy(IMAGE_GET_ADDRESS(image, x, y), src, 4);
+    }
+    num += numadd;
+    if (num >= den) {
+      num -= den;
+      x += xinc1;
+      y += yinc1;
+    }
+    x += xinc2;
+    y += yinc2;
+  }
+}
+
+/*************************************************************************
+  Draw a line in given osda with given drawing type.
+*************************************************************************/
+void be_draw_line(struct osda *target,
+		  const struct ct_point *start,
+		  const struct ct_point *end,
+		  int line_width, bool dashed, be_color color)
+{
+  unsigned char tmp[4];
+  struct ct_rect bounds =
+      { 0, 0, target->image->width, target->image->height };
+
+  set_color(color, tmp);
+
+  if (start->x == end->x) {
+    struct ct_point start2 = *start;
+    struct ct_point end2 = *end;
+
+    ct_clip_point(&start2, &bounds);
+    ct_clip_point(&end2, &bounds);
+
+    draw_vline(target->image, tmp, start2.x, MIN(start2.y, end2.y),
+	       MAX(start2.y, end2.y), line_width, dashed);
+  } else if (start->y == end->y) {
+    struct ct_point start2 = *start;
+    struct ct_point end2 = *end;
+
+    ct_clip_point(&start2, &bounds);
+    ct_clip_point(&end2, &bounds);
+
+    draw_hline(target->image, tmp, start2.y, MIN(start2.x, end2.x),
+	       MAX(start2.x, end2.x), line_width, dashed);
+  } else {
+    draw_line(target->image, tmp, start->x, start->y, end->x, end->y,
+	      line_width, dashed);
+  }
+}
+
+/*************************************************************************
+  Fill a square region in given osda with given colour and drawing type.
+*************************************************************************/
+void be_draw_region(struct osda *target, 
+		    const struct ct_rect *region, be_color color)
+{
+  unsigned char tmp[4];
+  int x, y;
+  struct ct_rect actual = *region,
+      bounds = { 0, 0, target->image->width, target->image->height };
+  int width;
+
+  set_color(color, tmp);
+
+  ct_clip_rect(&actual, &bounds);
+
+  width = actual.width;
+  for (y = actual.y; y < actual.y + actual.height; y++) {
+    unsigned char *pdest = IMAGE_GET_ADDRESS(target->image, actual.x, y);
+    IMAGE_CHECK(target->image, actual.x, y);
+
+    for (x = 0; x < width; x++) {
+      memcpy(pdest, tmp, 4);
+      pdest += 4;
+    }
+  }
+}
+
+/*************************************************************************
+  Return TRUE iff pixel in given osda is transparent or out of bounds.
+*************************************************************************/
+bool be_is_transparent_pixel(struct osda *osda, const struct ct_point *pos)
+{
+  struct ct_rect bounds = { 0, 0, osda->image->width, osda->image->height };
+  if (!ct_point_in_rect(pos, &bounds)) {
+    return FALSE;
+  }
+
+  IMAGE_CHECK(osda->image, pos->x, pos->y);
+  return IMAGE_GET_ADDRESS(osda->image, pos->x, pos->y)[3] != MAX_OPACITY;
+}
+
+/*************************************************************************
   Image blit with transparency.  Alpha value lifted from src.
   MIN_OPACITY means the pixel should not be drawn.  MAX_OPACITY means
   the pixels should not be blended.
@@ -94,7 +301,7 @@ void image_blit_masked_trans(const struct ct_size *size,
   int extra_src = (src->width - size->width) * 4;
   int extra_dest = (dest->width - size->width) * 4;
 
-  //printf("BLITTING %dx%d",size->width,size->height);
+  /*printf("BLITTING %dx%d",size->width,size->height);*/
 
   for (y = h; y > 0; y--) {
     for (x = w; x > 0; x--) {
@@ -350,7 +557,7 @@ struct image *image_create(int width, int height)
   struct image *result = fc_malloc(sizeof(*result));
 
   result->pitch = width * 4;
-  result->data = fc_malloc(result->pitch * height);
+  result->data = fc_calloc(result->pitch * height, 1);
   result->width = width;
   result->height = height;
   result->full_rect.x = 0;
@@ -368,6 +575,21 @@ void image_destroy(struct image *image)
 {
   free(image->data);
   free(image);
+}
+
+/*************************************************************************
+  Get image properties
+*************************************************************************/
+int image_get_width(struct image *image) {
+  return image->width;
+}
+
+int image_get_height(struct image *image) {
+  return image->height;
+}
+
+struct ct_rect *image_get_full_rect(struct image *image) {
+  return &image->full_rect;	
 }
 
 /*************************************************************************
@@ -472,4 +694,40 @@ struct image *image_load_gfxfile(const char *filename)
   }
 
   return xi;
+}
+
+/*************************************************************************
+  Write an image buffer to file.
+*************************************************************************/
+void be_write_osda_to_file(struct osda *osda, const char *filename)
+{
+  FILE *file;
+  unsigned char *line_buffer = fc_malloc(3 * osda->image->width), *pout;
+  int x, y;
+
+  const char *fileext = ".png";
+  char *real_filename = fc_malloc(strlen(filename) + strlen(fileext));
+
+  mystrlcpy(real_filename, filename, strlen(filename));
+  mystrlcat(real_filename, fileext, strlen(fileext));
+  
+  file = fopen(real_filename, "w");
+
+  fprintf(file, "P6\n");
+  fprintf(file, "%d %d\n", osda->image->width, osda->image->height);
+  fprintf(file, "255\n");
+
+  for (y = 0; y < osda->image->height; y++) {
+    pout = line_buffer;
+
+    for (x = 0; x < osda->image->width; x++) {
+      IMAGE_CHECK(osda->image, x, y);
+      memcpy(pout, IMAGE_GET_ADDRESS(osda->image, x, y), 3);
+      pout += 3;
+    }
+    fwrite(line_buffer, 3 * osda->image->width, 1, file);
+  }
+  free(line_buffer);
+  fclose(file);
+  free(real_filename);  
 }

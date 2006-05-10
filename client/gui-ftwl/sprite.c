@@ -58,7 +58,7 @@ struct sprite *crop_sprite(struct sprite *source,
   struct sprite *result = be_crop_sprite(source, x, y, width, height);
 
   if (mask) {
-    struct ct_point pos = { mask_offset_x, mask_offset_y };
+    struct ct_point pos = { x - mask_offset_x, y - mask_offset_y };
 
     be_multiply_alphas(result, mask, &pos);
   }
