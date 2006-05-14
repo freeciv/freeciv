@@ -3,7 +3,8 @@
 name=_("Icelandic")
 plural=_("?plural:Icelanders")
 groups=_("Modern"), _("European")
-legend=_("Iceland was discovered and settled by Norwegian Vikings in the\
+legend=_("Iceland was long one of the largest uninhabited islands in the\
+ world, until it was settled by Norwegian Vikings in the\
  late 9th century. The island was kept initially under the Norwegian and\
  later the Danish crown until independence from Denmark in 1944.")
 leader=
