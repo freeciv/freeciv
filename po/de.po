@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-04 08:44+0200\n"
+"POT-Creation-Date: 2006-05-15 11:14+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -20995,7 +20995,7 @@ msgstr "Demokratie"
 #: data/nation/bulgarian.ruleset:35 data/nation/catalan.ruleset:25
 #: data/nation/chilean.ruleset:27 data/nation/croatian.ruleset:35
 #: data/nation/croatian.ruleset:36 data/nation/finnish.ruleset:20
-#: data/nation/german.ruleset:33 data/nation/icelandic.ruleset:25
+#: data/nation/german.ruleset:33 data/nation/icelandic.ruleset:26
 #: data/nation/polish.ruleset:30 data/nation/polish.ruleset:31
 #: data/nation/quebecois.ruleset:21 data/nation/serbian.ruleset:38
 #: data/nation/serbian.ruleset:39 data/nation/singaporean.ruleset:40
@@ -23969,13 +23969,15 @@ msgstr "Isländer"
 
 #: data/nation/icelandic.ruleset:6
 msgid ""
-"Iceland was discovered and settled by Norwegian Vikings in the late 9th "
-"century. The island was kept initially under the Norwegian and later the "
-"Danish crown until independence from Denmark in 1944."
+"Iceland was long one of the largest uninhabited islands in the world, until "
+"it was settled by Norwegian Vikings in the late 9th century. The island was "
+"kept initially under the Norwegian and later the Danish crown until "
+"independence from Denmark in 1944."
 msgstr ""
-"Island wurde von norwegischen Wikingern am Ende des 9. Jahrhunderts entdeckt "
-"und besiedelt. Die Insel war zunächst der norwegischen und dann der "
-"dänischen Krone unterstellt, bis es 1944 von Dänemark unabhängig wurde."
+"Island war vor langer Zeit die größte unbewohnte Insel der Welt, bis sie "
+"von norwegischen Wikingern gegen Ende des 9. Jahrhunderts besiedelt wurde. "
+"Die Insel war zunächst der norwegischen und dann der dänischen Krone "
+"unterstellt, bis sie 1944 von Dänemark unabhängig wurde."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
