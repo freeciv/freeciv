@@ -130,18 +130,19 @@ msgid "City: Needs Aqueduct"
 msgstr "Город: требуется Акведук"
 
 #: common/events.c:51
+#, fuzzy
 msgid "City: Needs Aqueduct Being Built"
-msgstr ""
+msgstr "Город: требуется строящийся Акведук"
 
 #: common/events.c:52
 #, fuzzy
 msgid "City: Normal"
-msgstr "Карта города"
+msgstr "Город: Порядок"
 
 #: common/events.c:53
 #, fuzzy
 msgid "City: Nuked"
-msgstr "Название города"
+msgstr "Город: "
 
 #: common/events.c:54
 msgid "City: Released from citizen governor"
@@ -154,31 +155,29 @@ msgstr ""
 #: common/events.c:56
 #, fuzzy
 msgid "City: Transfer"
-msgstr "Преобразовать"
+msgstr "Город: перевод"
 
 #: common/events.c:57
 #, fuzzy
 msgid "City: Was Built"
-msgstr "Городские стены"
+msgstr "Город: построено"
 
 #: common/events.c:58
-#, fuzzy
 msgid "City: Worklist Events"
-msgstr "Редактировать списки работ"
+msgstr "Город: события списка работ"
 
 #: common/events.c:59
 #, fuzzy
 msgid "City: Production changed"
-msgstr "Городское производство"
+msgstr "Город: производство изменено"
 
 #: common/events.c:60
 msgid "Civ: Barbarian Uprising"
 msgstr ""
 
 #: common/events.c:61
-#, fuzzy
 msgid "Civ: Civil War"
-msgstr " Гражданская война"
+msgstr "Цивилизация: гражданская война"
 
 #: common/events.c:62
 msgid "Civ: Collapse to Anarchy"
@@ -186,87 +185,80 @@ msgstr ""
 
 #: common/events.c:63
 msgid "Civ: First Contact"
-msgstr ""
+msgstr "Цивилизация: первый контакт"
 
 #: common/events.c:64
-#, fuzzy
 msgid "Civ: Learned New Government"
-msgstr "Ваша новая форма правления"
+msgstr "Цивилизация: изучена новая форма правления"
 
 #: common/events.c:65
 msgid "Civ: Low Funds"
-msgstr ""
+msgstr "Цивилизация: нехватка денег"
 
 #: common/events.c:66
-#, fuzzy
 msgid "Civ: Pollution"
-msgstr "Загрязнение"
+msgstr "Цивилизация: загрязнение"
 
 #: common/events.c:67
 msgid "Civ: Revolt Ended"
-msgstr ""
+msgstr "Цивилизация: революция закончена"
 
 #: common/events.c:68
 msgid "Civ: Revolt Started"
-msgstr ""
+msgstr "Цивилизация: революция начата"
 
 #: common/events.c:69
-#, fuzzy
 msgid "Civ: Spaceship Events"
-msgstr "Космический корабль"
+msgstr "Цивилизация: события космического корабля"
 
 #: common/events.c:70
-#, fuzzy
 msgid "Diplomat Action: Bribe"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата: подкуп"
 
 #: common/events.c:71
 #, fuzzy
 msgid "Diplomat Action: Caused Incident"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата: вызван инцидент"
 
 #: common/events.c:72
 #, fuzzy
 msgid "Diplomat Action: Escape"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата: побег"
 
 #: common/events.c:73
-#, fuzzy
 msgid "Diplomat Action: Embassy"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата: посольство"
 
 #: common/events.c:74
 #, fuzzy
 msgid "Diplomat Action: Failed"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата/шпиона"
 
 #: common/events.c:75
 #, fuzzy
 msgid "Diplomat Action: Incite"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата/шпиона"
 
 #: common/events.c:76
 #, fuzzy
 msgid "Diplomat Action: Poison"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата: отравление"
 
 #: common/events.c:77
-#, fuzzy
 msgid "Diplomat Action: Sabotage"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата: саботаж"
 
 #: common/events.c:78
-#, fuzzy
 msgid "Diplomat Action: Theft"
-msgstr "Действия дипломата/шпиона"
+msgstr "Действие дипломата: кража"
 
 #: common/events.c:79
 msgid "Enemy Diplomat: Bribe"
-msgstr ""
+msgstr "Вражеский дипломат: подкуп"
 
 #: common/events.c:80
 msgid "Enemy Diplomat: Embassy"
-msgstr ""
+msgstr "Вражеский дипломат: посольство"
 
 #: common/events.c:81
 msgid "Enemy Diplomat: Failed"
@@ -282,21 +274,19 @@ msgstr ""
 
 #: common/events.c:84
 msgid "Enemy Diplomat: Sabotage"
-msgstr ""
+msgstr "Вражеский дипломат: саботаж"
 
 #: common/events.c:85
 msgid "Enemy Diplomat: Theft"
-msgstr ""
+msgstr "Вражеский дипломат: кража"
 
 #: common/events.c:86
-#, fuzzy
 msgid "Caravan actions"
-msgstr "Караван"
+msgstr "Действия каравана"
 
 #: common/events.c:87
-#, fuzzy
 msgid "Tutorial message"
-msgstr "Обучение"
+msgstr "Обучающее сообщение"
 
 #: common/events.c:88
 #, fuzzy
@@ -318,7 +308,7 @@ msgstr "Сообщение от оператора сервера"
 #: common/events.c:92
 #, fuzzy
 msgid "Nation Selected"
-msgstr "Нет выбранных соединений."
+msgstr "Выбран народ"
 
 #: common/events.c:93
 msgid "Player Destroyed"
@@ -379,35 +369,33 @@ msgid "Hut: Unit Spared by Barbarians"
 msgstr ""
 
 #: common/events.c:107
-#, fuzzy
 msgid "Improvement: Bought"
-msgstr "Здание"
+msgstr "Здание: куплено"
 
 #: common/events.c:108
-#, fuzzy
 msgid "Improvement: Built"
-msgstr "Здание"
+msgstr "Здание: построено"
 
 #: common/events.c:109
 msgid "Improvement: Forced to Sell"
-msgstr ""
+msgstr "Здание: вынуждены продать"
 
 #: common/events.c:110
 msgid "Improvement: New Improvement Selected"
 msgstr ""
 
 #: common/events.c:111
-#, fuzzy
 msgid "Improvement: Sold"
-msgstr "Здание"
+msgstr "Здание: продано"
 
 #: common/events.c:112
+#, fuzzy
 msgid "Tech: Learned From Great Library"
-msgstr ""
+msgstr "Технология: изучена из Великой Библиотеки"
 
 #: common/events.c:113
 msgid "Tech: Learned New Tech"
-msgstr ""
+msgstr "Технология: изучена новая технология"
 
 #: common/events.c:114
 msgid "Treaty: Alliance"
@@ -415,7 +403,7 @@ msgstr "Договор: союз"
 
 #: common/events.c:115
 msgid "Treaty: Broken"
-msgstr ""
+msgstr "Договор: разорван"
 
 #: common/events.c:116
 msgid "Treaty: Cease-fire"
@@ -431,38 +419,35 @@ msgstr "Договор: общее зрение"
 
 #: common/events.c:119
 msgid "Unit: Attack Failed"
-msgstr ""
+msgstr "Соедниение: атака неудачна"
 
 #: common/events.c:120
 msgid "Unit: Attack Succeeded"
-msgstr ""
+msgstr "Соединение: атака успешна"
 
 #: common/events.c:121
-#, fuzzy
 msgid "Unit: Bought"
-msgstr "Соединения: "
+msgstr "Соединение: куплено"
 
 #: common/events.c:122
-#, fuzzy
 msgid "Unit: Built"
-msgstr "Список соединений"
+msgstr "Соединение: построено"
 
 #: common/events.c:123
 msgid "Unit: Defender Destroyed"
-msgstr ""
+msgstr "Соединение: защитник уничтожен"
 
 #: common/events.c:124
 msgid "Unit: Defender Survived"
-msgstr ""
+msgstr "Соедининение: защитник выжил"
 
 #: common/events.c:125
 msgid "Unit: Became More Veteran"
 msgstr ""
 
 #: common/events.c:126
-#, fuzzy
 msgid "Unit: Production Upgraded"
-msgstr "Производство"
+msgstr "Соединение: производство модернизировано"
 
 #: common/events.c:127
 #, fuzzy
@@ -474,39 +459,32 @@ msgid "Unit: Orders / goto events"
 msgstr ""
 
 #: common/events.c:129
-#, fuzzy
 msgid "Wonder: Finished"
-msgstr "Чудеса в городе"
+msgstr "Чудо Света: завершено"
 
 #: common/events.c:130
-#, fuzzy
 msgid "Wonder: Made Obsolete"
-msgstr "Модернизировать устаревшие войска"
+msgstr "Чудо Света: устарело"
 
 #: common/events.c:131
-#, fuzzy
 msgid "Wonder: Started"
-msgstr "Чудеса: "
+msgstr "Чудо Света: начато"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Wonder: Stopped"
-msgstr "Чудеса: "
+msgstr "Чудо Света: остановлено"
 
 #: common/events.c:133
-#, fuzzy
 msgid "Wonder: Will Finish Next Turn"
-msgstr "Сообщение: Чудо %s в %s будет готово на следующий ход."
+msgstr "Чудо Света: будет готово на следующий ход"
 
 #: common/events.c:134
-#, fuzzy
 msgid "Diplomatic Message"
-msgstr "Дипломатия: %s"
+msgstr "Дипломатическое сообщение"
 
 #: common/events.c:135
-#, fuzzy
 msgid "Treaty: Embassy"
-msgstr "Посольство"
+msgstr "Договор: посольство"
 
 #: common/events.c:136
 msgid "Error message from bad command"
@@ -14673,7 +14651,7 @@ msgstr[2] " соединений"
 #: client/gui-sdl/citydlg.c:1857
 #, c-format
 msgid "Garrison Panel (%d %s)"
-msgstr "Панель гарнизона"
+msgstr "Панель гарнизона (%d %s)"
 
 #: client/gui-sdl/citydlg.c:1909
 msgid "Info Panel"
