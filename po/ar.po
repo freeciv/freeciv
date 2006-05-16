@@ -1159,10 +1159,10 @@ msgstr[2] "ال *%s (ذ.ا)* سنقوم بشن حرب كاملة ضد %s في %d
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
-msgstr "ال *%s (ذ.ا)* إن مساعدتك في هذا الأمر متوقعة. ليعش تحالفنا العظيم طويلا!"
+msgstr "ال *%s (ذ.ا)* إن مساعدتك في هذا الأمر متوقعة. ليعش تحالفنا المجيد طويلا!"
 
 #: ai/advdiplomacy.c:1198
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
 "will answer in force in %d turn and expect you to honour your alliance with "
@@ -1171,141 +1171,155 @@ msgid_plural ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
 "will answer in force in %d turns and expect you to honour your alliance with "
 "us and do likewise!"
-msgstr[0] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مع نحن دوران مع!"
-msgstr[1] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مع نحن دوران مع!"
-msgstr[2] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مع نحن دوران مع!"
+msgstr[0] "ال *%s (ذ.ا)* لقد انتهك %s معاهداته معنا بشكل فظيع لمصلحته الشخصية.  سنرد عليه بالقوة في %d دور ونتوقع منك الايفاء بتحالفك معنا والعمل مثلنا!"
+msgstr[1] "ال *%s (ذ.ا)* لقد انتهك %s معاهداته معنا بشكل فظيع لمصلحته الشخصية.  سنرد عليه بالقوة في %d دوران ونتوقع منك الايفاء بتحالفك معنا والعمل مثلنا!"
+msgstr[2] "ال *%s (ذ.ا)* لقد انتهك %s معاهداته معنا بشكل فظيع لمصلحته الشخصية.  سنرد عليه بالقوة في %d أدوار ونتوقع منك الايفاء بتحالفك معنا والعمل مثلنا!"
 
 #: ai/advdiplomacy.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turn."
 msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
-msgstr[0] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن نحن دوران."
-msgstr[1] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن نحن دوران."
-msgstr[2] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن نحن دوران."
+msgstr[0] "ال *%s (ذ.ا)* نود نهب وسلب حضارة %s الغنية. سنعلن الحرب في %d دور."
+msgstr[1] "ال *%s (ذ.ا)* نود نهب وسلب حضارة %s الغنية. سنعلن الحرب في %d دوران."
+msgstr[2] "ال *%s (ذ.ا)* نود نهب وسلب حضارة %s الغنية. سنعلن الحرب في %d أدوار."
 
 #: ai/advdiplomacy.c:1215
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة إذا!"
+msgstr "ال *%s (ذ.ا)* إذا كنت تريد جزءا من الغنيمة،شاركنا بالعملية!"
 
 #: ai/advdiplomacy.c:1219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turn."
 msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
-msgstr[0] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن مع دع نحن دوران."
-msgstr[1] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن مع دع نحن دوران."
-msgstr[2] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن مع دع نحن دوران."
+msgstr[0] "ال *%s (ذ.ا)* لقد أخذنا بما فيه الكفاية من %s. دعنا نمزق هذه الحضارة المثيرة للشفقة. سنعلن الحرب في %d دور."
+msgstr[1] "ال *%s (ذ.ا)* لقد أخذنا بما فيه الكفاية من %s. دعنا نمزق هذه الحضارة المثيرة للشفقة. سنعلن الحرب في %d دوران."
+msgstr[2] "ال *%s (ذ.ا)* لقد أخذنا بما فيه الكفاية من %s. دعنا نمزق هذه الحضارة المثيرة للشفقة. سنعلن الحرب في %d أدوار."
 
 #: ai/advdiplomacy.c:1227
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة ك."
+msgstr "ال *%s (ذ.ا)* كحلفائك المجيدين، نتوقع مساعدتك في هذه الحرب."
 
 #: ai/advdiplomacy.c:1232
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
 "Hold on - we are coming!"
 msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
-msgstr[0] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن دوران القبضة!"
-msgstr[1] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن دوران القبضة!"
-msgstr[2] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن دوران القبضة!"
+msgstr[0] ""
+"ال *%s (ذ.ا)* سنوفي بتحالفنا وسنعلن الحرب على %s في %d دور.  "
+"اصمد - نحن قادمون!"
+msgstr[1] ""
+"ال *%s (ذ.ا)* سنوفي بتحالفنا وسنعلن الحرب على %s في %d دوران.  "
+"اصمد - نحن قادمون!"
+msgstr[2] ""
+"ال *%s (ذ.ا)* سنوفي بتحالفنا وسنعلن الحرب على %s في %d أدوار.  "
+"اصمد - نحن قادمون!"
 
 #: ai/advdiplomacy.c:1239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
-msgstr[0] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن مع أدوار نحن."
-msgstr[1] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن مع أدوار نحن."
-msgstr[2] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن مع أدوار نحن."
+msgstr[0] ""
+"ال *%s (ذ.ا)* سنوفي بتحالفنا مع %s وسنعلن الحرب على %s في %d دور.  "
+"نتوقع منك العمل مثلنا."
+msgstr[1] ""
+"ال *%s (ذ.ا)* سنوفي بتحالفنا مع %s وسنعلن الحرب على %s في %d دوران.  "
+"نتوقع منك العمل مثلنا."
+msgstr[2] ""
+"ال *%s (ذ.ا)* سنوفي بتحالفنا مع %s وسنعلن الحرب على %s في %d أدوار.  "
+"نتوقع منك العمل مثلنا."
 
 #: ai/advdiplomacy.c:1306
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة ملكك صحيح آي - الحرف التاسع في اللغة الإنجليزية، انا!"
+msgstr "ال *%s (ذ.ا)* محاولتك لاحتلال الفضاء لنفسك تخون بها نواياك الحقيقية، ولن أكون بهذا التحالف بعد اﻵن!"
 
 #: ai/advdiplomacy.c:1320
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة ملكك."
+msgstr "ال *%s (ذ.ا)* تعبر محاولتك للسيطرة الفردية على الفضاء الخارجي مهينة جدا."
 
 #: ai/advdiplomacy.c:1322
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة إذا آي - الحرف التاسع في اللغة الإنجليزية، انا!"
+msgstr "ال *%s (ذ.ا)* إذا لم توقف بناء سفينك الفضائية، سأجبر على اتخاد عمل!"
 
 #: ai/advdiplomacy.c:1429
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة آسف مع."
+msgstr "ال *%s (ذ.ا)* آسف، الرؤية المشتركة معاك ليست آمنة بعد اﻵن."
 
 #: ai/advdiplomacy.c:1506
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة التحيات نحن."
+msgstr "ال *%s (ذ.ا)* تحياتي يا أكثر حليف جدير بالثقة. نطلب منك تدمير عدونا، %s."
 
 #: ai/advdiplomacy.c:1511
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
 "s. Why do I need to remind you of your promises?"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة التحيات آي - الحرف التاسع في اللغة الإنجليزية، انا مع لماذا آي - الحرف التاسع في اللغة الإنجليزية، انا?"
+msgstr "ال *%s (ذ.ا)* تحياتي أيها الحليف، أرى أنك لم تعلن الحرب على عدونا، %s. لماذا يجب علي أن أذكرك بوعودك?"
 
 #: ai/advdiplomacy.c:1516
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مع هذا!"
+msgstr "ال *%s (ذ.ا)* يا خائن الشرف، لقد دخلنا في تحالف، ولكنك حتى اﻵن في حالة سلام مع عدونا اللدود، %s! هذا غير مقبول، لا تحالف بيننا بعد اﻵن!"
 
 #: ai/advdiplomacy.c:1544
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة التحيات?"
+msgstr "ال *%s (ذ.ا)* تحياتي أيها الصديق، هل من الممكن أن نقترح هدفا موحدا وانضماما لتحالف?"
 
 #: ai/advdiplomacy.c:1559
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة التحيات?"
+msgstr "ال *%s (ذ.ا)* تحياتي أيها الجار، هل من الممكن أن نقترح علاقات سلمية أكثر?"
 
 #: ai/advdiplomacy.c:1573
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن مايو?"
+msgstr "ال *%s (ذ.ا)* لقد أرهقنا اراقة الدماء المستمر. هل من الممكن أن نقترح التوقف عن العداوات?"
 
 #: ai/advdiplomacy.c:1693
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 "Honour our glorious alliance and your name will never be forgotten!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن الشرف مستحيل!"
+msgstr ""
+"ال *%s (ذ.ا)* لقد هوجمنا بضراوة من %s، ونحتاج مساعدتك! "
+"أوفي بتحالفنا المجيد واسمك لن ينسى أبدا!"
 
 #: server/auth.c:136
 #, c-format
@@ -1322,11 +1336,11 @@ msgid "%s was rejected: Guests not allowed."
 msgstr "تم رفض %s: الضيوف غير مسموح بهم."
 
 #: server/auth.c:163
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
-msgstr "هناك."
+msgstr "خطأ قراءة قاعدة معلومات المستخدمين، جاري الدخول كاتصال الضيف '%s'."
 
 #: server/auth.c:168
 msgid ""
@@ -1741,9 +1755,9 @@ msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing
 msgstr "قائمة العمل الحجم التأجيل."
 
 #: server/cityturn.c:824
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
-msgstr "قائمة العمل السبب مجهول التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; السبب مجهول!  سيتم التأجيل..."
 
 #: server/cityturn.c:858
 #, c-format
@@ -1864,9 +1878,9 @@ msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
 msgstr "يجب عليك مقاطعة برنامج  Freeciv مرتين خلال ثانية واحدة لجعلها تنتهي.\n"
 
 #: server/civserver.c:134
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr "التحذير الإستعمال"
+msgstr "تحذير: الخيار %s قديم وملغي.  استعمل -m لتفعيل ال metaserver.\n"
 
 #: server/civserver.c:192
 #, c-format
@@ -1910,11 +1924,11 @@ msgstr "  -b  --bind ADDR\tانتظار العملاء على العنوان ADD
 
 #: server/civserver.c:219 client/civclient.c:203
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
-msgstr ""
+msgstr "  -d, --debug NUM\tتحديد مستوى سجل التنقيح (0 إلى 4, أو 4:file1,min,max:...)\n"
 
 #: server/civserver.c:223 client/civclient.c:207
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
-msgstr ""
+msgstr "  -d, --debug NUM\tتحديد مستوى سجل التنقيح (0 إلى 3)\n"
 
 #: server/civserver.c:225
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
@@ -1930,33 +1944,31 @@ msgstr "  -l, --log FILE\tاستعمال ملف FILE كملف السجل\n"
 
 #: server/civserver.c:229
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
-msgstr ""
+msgstr "  -m, --meta\t\tإعلام metaserver وارسال معلومات الخادم\n"
 
 #: server/civserver.c:231
-#, fuzzy
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
-msgstr "الحرف الثالث عشر في اللغة الإنجليزية"
+msgstr "  -M, --Metaserver ADDR\tتحديد ADDR كعنوان metaserver\n"
 
 #: server/civserver.c:234
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
-msgstr ""
+msgstr "  -p, --port PORT\tالسماع للعملاء على المنفذ PORT\n"
 
 #: server/civserver.c:236
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
-msgstr ""
+msgstr "  -q, --quitidle TIME\tقم الخروج إذا يوجد لاعبين خلال TIME ثواني\n"
 
 #: server/civserver.c:238
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr ""
+msgstr "  -e, --exit-on-end\tعند انتهاء اللعبة، قم بالخروج بدلا من اعادة التشغيل\n"
 
 #: server/civserver.c:241
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
-msgstr ""
+msgstr "  -s, --saves DIR\tقم بحفظ اللعب على الدليل DIR\n"
 
 #: server/civserver.c:243
-#, fuzzy
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr "أس - الحرف التاسع عشر في اللغة الإنجليزية"
+msgstr "  -S, --Serverid ID\tتحديد رقم تعريف الخادم ب ID\n"
 
 #: server/civserver.c:245
 #, fuzzy
@@ -1965,7 +1977,7 @@ msgstr "بي - الحرف السادس عشر في اللغة الإنجليزي
 
 #: server/civserver.c:246
 msgid "  -r, --read FILE\tRead startup script FILE\n"
-msgstr ""
+msgstr "  -r, --read FILE\tقراءة سكربت البداية FILE\n"
 
 #: server/civserver.c:248
 #, fuzzy
