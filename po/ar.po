@@ -1376,16 +1376,15 @@ msgid "Sorry, too many wrong tries..."
 msgstr "آسف، محاولات خاطئة كثيرة..."
 
 #: server/auth.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr "أيضا جديد."
+msgstr "تم رفض %s: محاولات التحقق من كلمة السر خاطئة وكثيرة لمستخدم جديد."
 
 #: server/auth.c:241
-#, fuzzy
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
-msgstr "التحذير هناك الإستمرار."
+msgstr "تحذير: فشل الحفظ في قاعدة المعلومات. سيتم الاستمرار، ولكن لن تحفظ احصائياتك."
 
 #: server/auth.c:284
 #, c-format
@@ -1401,9 +1400,9 @@ msgid "Sorry, your connection timed out..."
 msgstr "متأسف، اتصالك انفصل بعد عدم الاستخدام..."
 
 #: server/auth.c:305
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr "الإتّصال جاري الانتظار."
+msgstr "تم رفض %s: انتهت مدة الخروج للاتصال بينما جاري الانتظار لكلمة السر."
 
 #: server/auth.c:370
 #, c-format
@@ -1411,11 +1410,11 @@ msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr "كلمة السر قصيرة جدا، أقل طول هو %d. حاول مرة أخرى."
 
 #: server/auth.c:376
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
-msgstr "الـ المحاولة."
+msgstr "يجب أن تحتوي كلمة السر على الأقل %d أحرف capital, %d أرقام, وتكون على الأقل ذو حد أدنى %d من عدد الأحرف المطبوعة. حاول مرة أخرى."
 
 #: server/barbarian.c:188
 #, c-format
@@ -1653,9 +1652,9 @@ msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "ملاحظة: الأعجوبة %s في %s سينتهي بنائها فب الدور القادم."
 
 #: server/cityturn.c:336
-#, fuzzy, c-format
+#, c-format
 msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr "إقترح."
+msgstr ""
 
 #: server/cityturn.c:347
 #, c-format
@@ -1702,14 +1701,14 @@ msgid "Famine destroys %s entirely."
 msgstr "تدمر المجاعة %s كليا."
 
 #: server/cityturn.c:639
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
-msgstr "قائمة العمل التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; التكنولوجيا غير متوفرة حتى اﻵن!  سيتم التأجيل..."
 
 #: server/cityturn.c:651 server/cityturn.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
-msgstr "قائمة العمل التطهير."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل. سيتم الالغاء..."
 
 #: server/cityturn.c:671 server/cityturn.c:833 server/cityturn.c:932
 #: server/cityturn.c:980
@@ -1718,41 +1717,41 @@ msgid "Production of %s is upgraded to %s in %s."
 msgstr "تم تطوير الانتاج  من %s إلى %s في %s."
 
 #: server/cityturn.c:719
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
 "Postponing..."
-msgstr "قائمة العمل التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; التكنولوجيا %s غير متوفرة ختى اﻵن.  سيتم التأجيل..."
 
 #: server/cityturn.c:732
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
-msgstr "قائمة العمل التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; يجب أن يكون %s موجودا أولا.  سيتم التأجيل..."
 
 #: server/cityturn.c:745
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
-msgstr "قائمة العمل التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; تحناج إلى حكومة %s.  سيتم التأجيل..."
 
 #: server/cityturn.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
-msgstr "قائمة العمل التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; الخاص %s مطلوب.  سيتم التأجيل..."
 
 #: server/cityturn.c:769
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
-msgstr "قائمة العمل التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; التضاريص %s مطلوبة.  سيتم التأجيل..."
 
 #: server/cityturn.c:783
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
-msgstr "قائمة العمل التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; يستطيع %s فقط بناء هذه. سيتم التأجيل..."
 
 #: server/cityturn.c:802
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
-msgstr "قائمة العمل الحجم التأجيل."
+msgstr "لا يستطيع %s بناء %s من قائمة العمل; يجب أن تكمون حجم المدينة %d.  سيتم التأجيل..."
 
 #: server/cityturn.c:824
 #, c-format
