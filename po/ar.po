@@ -905,9 +905,9 @@ msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
 msgstr "يجب ترجمة برنامج Freeciv مع علامة DEBUG لاستعمال مستوى اكتشاف الأخطاء %d.\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr "على نحو رديء"
+msgstr "باراميتر مستوى السجل رديء الشكل \"%s\".\n"
 
 #: utility/log.c:138 utility/log.c:143
 #, c-format
@@ -915,9 +915,9 @@ msgid "Not an integer: '%s'\n"
 msgstr "ليس رقم صحيح: '%s'\n"
 
 #: utility/log.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Empty filename in log level argument \"%s\".\n"
-msgstr "فارغ"
+msgstr "اسم ملف فارغ في باراميتر مستوى السجل \"%s\".\n"
 
 #: utility/log.c:276
 #, c-format
@@ -941,14 +941,14 @@ msgstr[1] " (المجموع %d مكررة مرتين)"
 msgstr[2] " (المجموع %d مكرر مرات)"
 
 #: utility/shared.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "Empty argument for \"%s\".\n"
-msgstr "فارغ"
+msgstr "باراميتر فارغ ل \"%s\".\n"
 
 #: utility/shared.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr "الفقدان"
+msgstr "باراميتر مفقود ل \"%s\".\n"
 
 #: utility/shared.c:463
 #, c-format
@@ -961,9 +961,8 @@ msgid "%d AD"
 msgstr "%d بعد الميلاد"
 
 #: utility/shared.c:862
-#, fuzzy
 msgid "FREECIV_PATH is set but empty; using default path instead."
-msgstr "فارغ."
+msgstr "المتغير FREECIV_PATH محدد ولكنه فارغ; جاري استعمال الدليل الافتراضي بدلا عنه."
 
 #: utility/shared.c:966
 #, c-format
@@ -971,26 +970,23 @@ msgid "Could not read data directory %s: %s."
 msgstr "لا يمكن قراءة مجلد البيانات %s: %s."
 
 #: utility/shared.c:1217
-#, fuzzy
 msgid "The data path may be set via the environment variable FREECIV_PATH."
-msgstr "الـ."
+msgstr "دليل البيانات يمكن تحديده بواسطة متغير البيئة FREECIV_PATH."
 
 #: utility/shared.c:1219
-#, fuzzy, c-format
+#, c-format
 msgid "Current data path is: \"%s\""
-msgstr "التيار"
+msgstr "دليل البيانات الحالي هو: \"%s\""
 
 #: utility/shared.c:1221
-#, fuzzy, c-format
+#, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr "الـ!"
+msgstr "الملف \"%s\" مطلوب ... جاري الغاء العملية!"
 
 #: utility/shared.c:1345
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
-msgstr ""
-"حاسم :: قَدَريّ :: نُبوئي :: مُقدّر أو محتوم :: مقرّر لمصير المرء :: مُميت :: "
-"مُهلِك :: مشؤوم :: لا سبيل إلى مقاومته"
+msgstr "ال %s: خطأ قاتل: أنت تحاول تشغيلي كمستخدم الكومبيوتر ذو الصلاحيات العليا  !\n"
 
 #: utility/shared.c:1347
 msgid "Use a non-privileged account instead.\n"
@@ -1046,124 +1042,124 @@ msgid "%s is selling %s (not needed) for %d."
 msgstr "%s يبيع %s (غير محتاج) ب %d."
 
 #: ai/advdiplomacy.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة في الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "ال *%s (ذ.ا)* في نمط away، لا يستطيع ذ.ا أن يوقع هكذا معاهدة."
 
 #: ai/advdiplomacy.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة أولا مع."
+msgstr "ال *%s (ذ.ا)* أول نقض للتحالف مع %s, %s."
 
 #: ai/advdiplomacy.c:300
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة دع."
+msgstr "ال *%s (AI)* دعنا نوقف العداوات أولا، %s."
 
 #: ai/advdiplomacy.c:304
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة آي - الحرف التاسع في اللغة الإنجليزية، انا."
+msgstr "ال *%s (ذ.ا)* أرغب أولا ابقاء وقف اطلاق النار الحالي لمدة أطول قليلا  ، %s."
 
 #: ai/advdiplomacy.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة آي - الحرف التاسع في اللغة الإنجليزية، انا مع."
+msgstr "ال *%s (ذ.ا)* أنا لا أثق بك للتحالف حتى اﻵن, %s."
 
 #: ai/advdiplomacy.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* I do not know the city you mention."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة آي - الحرف التاسع في اللغة الإنجليزية، انا."
+msgstr "ال *%s (ذ.ا)* أنا لا أعرف المدينة التي ذكرتها."
 
 #: ai/advdiplomacy.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة آسف مع."
+msgstr "ال *%s (ذ.ا)* متأسف، الرؤية المشتركة معاك ليست آمنة."
 
 #: ai/advdiplomacy.c:552
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة هذا!"
+msgstr "ال *%s (ذ.ا)* هذه الصفقة ليست جيدة جدا لنا، %s!"
 
 #: ai/advdiplomacy.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مرحّب!"
+msgstr "ال *%s (ذ.ا)* مرحبا بك بِحِلفنا %s!"
 
 #: ai/advdiplomacy.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نعم."
+msgstr "ال *%s (ذ.ا)* نعم، يمكننا البقاء متحدين للأبد، %s."
 
 #: ai/advdiplomacy.c:582
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نعم!"
+msgstr "ال *%s (ذ.ا)* نعم، السلام في وقتنا!"
 
 #: ai/advdiplomacy.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة اتّفق لا."
+msgstr "ال *%s (ذ.ا)* موافق. لا مزيد من العداوات، %s."
 
 #: ai/advdiplomacy.c:801
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة التحيات مايو?"
+msgstr "ال *%s (ذ.ا)* تحياتي يا %s! هل من الممكن اقتراح وقف اطلاق نار بينما نتعارف أكثر?"
 
 #: ai/advdiplomacy.c:1076
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة الفضاء مستحيل "
+msgstr "ال *%s (ذ.ا)* لن يكون الفضاء ملكك أبدا. "
 
 #: ai/advdiplomacy.c:1080
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة آي - الحرف التاسع في اللغة الإنجليزية، انا إلى!"
+msgstr "ال *%s (ذ.ا)* لقد تحملت أعمالك الشريرة لوقت طويل بما فيه الكفاية! إلى الحرب!"
 
 #: ai/advdiplomacy.c:1085
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة السلام."
+msgstr "ال *%s (ذ.ا)* السلام في ... وقت آخر."
 
 #: ai/advdiplomacy.c:1090
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة أخيرا آي - الحرف التاسع في اللغة الإنجليزية، انا عمل مع?"
+msgstr "ال *%s (ذ.ا)* أخيرا أصل إليك! هل فكرت أنك تستطيع حقا الهروب من جرائمك?"
 
 #: ai/advdiplomacy.c:1096
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة ملكك!"
+msgstr "ال *%s (ذ.ا)* عداواتك الخفية جلبت هذه الحرب عليك!"
 
 #: ai/advdiplomacy.c:1102
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة ملكك!"
+msgstr "ال *%s (ذ.ا)* عنفك ضد %s كان آخر خطأ لك!"
 
 #: ai/advdiplomacy.c:1185
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
 "the spaceship launch."
 msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
-msgstr[0] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن دوران."
-msgstr[1] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن دوران."
-msgstr[2] "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن دوران."
+msgstr[0] "ال *%s (ذ.ا)* سنقوم بشن حرب كاملة ضد %s في %d دور لايقاف إطلاق السفينة الفضائية."
+msgstr[1] "ال *%s (ذ.ا)* سنقوم بشن حرب كاملة ضد %s في %d دوران لايقاف إطلاق السفينة الفضائية."
+msgstr[2] "ال *%s (ذ.ا)* سنقوم بشن حرب كاملة ضد %s في %d أدوار لايقاف إطلاق السفينة الفضائية."
 
 #: ai/advdiplomacy.c:1193
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
-msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة ملكك لمدة طويلة!"
+msgstr "ال *%s (ذ.ا)* إن مساعدتك في هذا الأمر متوقعة. ليعش تحالفنا العظيم طويلا!"
 
 #: ai/advdiplomacy.c:1198
 #, fuzzy, c-format
@@ -1312,19 +1308,18 @@ msgid ""
 msgstr "الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة نحن الشرف مستحيل!"
 
 #: server/auth.c:136
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
-msgstr "التحذير."
+msgstr "تحذير: تم أخذ اسم الضيف '%s' ، جاري إعادة التسمية إلى المستخدم '%s'."
 
 #: server/auth.c:142
-#, fuzzy
 msgid "Guests are not allowed on this server. Sorry."
-msgstr "الضيوف آسف."
+msgstr "الضيوف غير مسموح بهم على هذا الخادم. آسف."
 
 #: server/auth.c:144
 #, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "تم رفض %s: الضيوف غير مسموحون."
+msgstr "تم رفض %s: الضيوف غير مسموح بهم."
 
 #: server/auth.c:163
 #, fuzzy, c-format
@@ -1334,16 +1329,15 @@ msgid ""
 msgstr "هناك."
 
 #: server/auth.c:168
-#, fuzzy
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
-msgstr "هناك آسف"
+msgstr "خطأ قراءة قاعدة معلومات المستخدمين والدخول للضيوف غير مسموح به. متأسف"
 
 #: server/auth.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr "قاعدة البيانات."
+msgstr "تم رفض %s: خطأ قاعدة المعلومات والضيوف غير مسموح بهم."
 
 #: server/auth.c:179
 #, c-format
@@ -3489,7 +3483,7 @@ msgstr "تقرير %s على أغنى حضارات العالم."
 #: server/report.c:56
 #, c-format
 msgid "%s report on the most ADVANCED Civilizations in the World."
-msgstr "تقرير %s على أكثر حضارات العالم تطورا."
+msgstr "تقرير %s على أكثر حضارات العالم تقدما."
 
 #: server/report.c:57
 #, c-format
