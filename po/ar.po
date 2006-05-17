@@ -9980,11 +9980,13 @@ msgstr "لا يمكن رشوة هذه الوحدة!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:91 client/gui-mui/dialogs.c:221
 #: client/gui-sdl/diplomat_dialog.c:1346 client/gui-win32/dialogs.c:1364
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bribe unit for %d gold?\n"
 "Treasury contains %d gold."
-msgstr "الرّشوة وحدات الذهب الذهب."
+msgstr ""
+"هل تريد رشوة الوحدة ب %d ذهب?\n"
+"تحتوي الخزينة على %d ذهب."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:93 client/gui-mui/dialogs.c:224
 #: client/gui-sdl/diplomat_dialog.c:667 client/gui-sdl/diplomat_dialog.c:1329
@@ -9994,11 +9996,13 @@ msgstr "رشوة وحدة العدو"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:99 client/gui-mui/dialogs.c:230
 #: client/gui-sdl/diplomat_dialog.c:1392 client/gui-win32/dialogs.c:1372
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bribing the unit costs %d gold.\n"
 "Treasury contains %d gold."
-msgstr "الرّشو وحدات الذهب الذهب."
+msgstr ""
+"تكلف رشوة الوحدة %d ذهب.\n"
+"تحتوي الخزينة على %d ذهب."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:101
 #: client/gui-gtk-2.0/diplomat_dialog.c:556 client/gui-mui/dialogs.c:233
@@ -10015,30 +10019,26 @@ msgid "Steal Technology"
 msgstr "سرقة تكنولوجيا"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:237 client/gui-mui/dialogs.c:331
-#, fuzzy
 msgid "_Steal"
-msgstr "إسرق"
+msgstr "ال_سرقة"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:246 client/gui-mui/dialogs.c:322
 #: client/gui-sdl/diplomat_dialog.c:236 client/gui-win32/dialogs.c:1285
 #: data/Freeciv.in:2350
-#, fuzzy
 msgid "Select Advance to Steal"
-msgstr "منتقى التّقدّم :: سلّف :: زحف :: قرض :: يرقي إسرق"
+msgstr "اختيار التقدم لسرقته"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:266
-#, fuzzy
 msgid "_Advances:"
-msgstr "يتّقدّم :: يترقّى:"
+msgstr "التقدمات:"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:306
 #: client/gui-gtk-2.0/diplomat_dialog.c:439 client/gui-mui/dialogs.c:298
 #: client/gui-mui/dialogs.c:393 client/gui-sdl/diplomat_dialog.c:317
 #: client/gui-sdl/diplomat_dialog.c:891 client/gui-win32/dialogs.c:1188
 #: client/gui-win32/dialogs.c:1400
-#, fuzzy
 msgid "At Spy's Discretion"
-msgstr "في الجاسوس التقدير"
+msgstr "بتقدير الجاسوس"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:376 client/gui-mui/dialogs.c:409
 #: client/gui-win32/dialogs.c:1474 data/Freeciv.in:2377
@@ -10046,16 +10046,14 @@ msgid "Sabotage Improvements"
 msgstr "تحسينات التخريب"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:381 client/gui-mui/dialogs.c:422
-#, fuzzy
 msgid "_Sabotage"
-msgstr "التخريب"
+msgstr "ال_تخريب"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:390 client/gui-mui/dialogs.c:413
 #: client/gui-sdl/diplomat_dialog.c:810 client/gui-win32/dialogs.c:1484
 #: data/Freeciv.in:2392
-#, fuzzy
 msgid "Select Improvement to Sabotage"
-msgstr "منتقى التحسين التخريب"
+msgstr "اختيار التحسين لتخريبه"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:410 client/gui-gtk-2.0/citydlg.c:840
 msgid "_Improvements:"
@@ -10069,38 +10067,40 @@ msgstr "انتاج المدينة"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:538 client/gui-mui/dialogs.c:483
 #: client/gui-sdl/diplomat_dialog.c:1122 client/gui-win32/dialogs.c:1542
-#, fuzzy, c-format
+#, c-format
 msgid "You can't incite a revolt in %s."
-msgstr "أنت."
+msgstr "لا تستطيع التحريض على ثورة في %s."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:540 client/gui-mui/dialogs.c:485
 #: client/gui-sdl/diplomat_dialog.c:1133 client/gui-win32/dialogs.c:1544
-#, fuzzy
 msgid "City can't be incited!"
-msgstr "المدينة!"
+msgstr "لا يمكن التحريض على ثورة في هذه المدينة!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:546 client/gui-mui/dialogs.c:488
 #: client/gui-sdl/diplomat_dialog.c:1142 client/gui-win32/dialogs.c:1548
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
 "Treasury contains %d gold."
-msgstr "حرّض الذهب الذهب."
+msgstr ""
+"هل تريد التحريض على ثورة مقابل %d ذهب?\n"
+"تحتوي الخزينة على %d ذهب."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:548 client/gui-mui/dialogs.c:492
 #: client/gui-sdl/diplomat_dialog.c:1093 client/gui-win32/dialogs.c:1551
 #: data/Freeciv.in:2443
-#, fuzzy
 msgid "Incite a Revolt!"
-msgstr "حرّض الثورة!"
+msgstr "تحريض على الثورة!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:554 client/gui-mui/dialogs.c:499
 #: client/gui-sdl/diplomat_dialog.c:1190 client/gui-win32/dialogs.c:1556
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
 "Treasury contains %d gold."
-msgstr "التحريض الذهب الذهب."
+msgstr ""
+"يكلف التحريض على ثورة %d ذهب.\n"
+"تحتوي الخرينة على %d ذهب."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:617 client/gui-win32/dialogs.c:1595
 #, c-format
@@ -10148,16 +10148,14 @@ msgstr "اشعال _ثورة"
 #: client/gui-gtk-2.0/caravan_dialog.c:119 client/gui-mui/dialogs.c:771
 #: client/gui-mui/dialogs.c:838 client/gui-mui/dialogs.c:1010
 #: client/gui-win32/dialogs.c:1058
-#, fuzzy
 msgid "_Keep moving"
-msgstr "العيش متحرك"
+msgstr "البقاء _متحركا"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:646 client/gui-mui/dialogs.c:850
 #: client/gui-sdl/diplomat_dialog.c:521 client/gui-win32/dialogs.c:1621
 #: data/Freeciv.in:2299
-#, fuzzy
 msgid "Choose Your Spy's Strategy"
-msgstr "إختر ملكك الجاسوس الإستراتيجية"
+msgstr "اختيار إستراتيجية جاسوسك"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:649 client/gui-win32/dialogs.c:1624
 msgid "_Poison City"
@@ -10170,33 +10168,28 @@ msgstr "تخريب _صناعي"
 #: client/gui-gtk-2.0/diplomat_dialog.c:687 client/gui-mui/dialogs.c:885
 #: client/gui-sdl/diplomat_dialog.c:530 client/gui-win32/dialogs.c:1652
 #: data/Freeciv.in:2430
-#, fuzzy
 msgid "Subvert Enemy Unit"
-msgstr "خرّب العدو الوحدة"
+msgstr "تخريب وحدة العدو"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:689 client/gui-mui/dialogs.c:784
 #: client/gui-mui/dialogs.c:887 client/gui-win32/dialogs.c:1654
-#, fuzzy
 msgid "Sir, the diplomat is waiting for your command"
-msgstr "السيد جاري الانتظار"
+msgstr "يا سيدي، ينتظر الدبلوماسي أوامرك"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:690 client/gui-mui/dialogs.c:851
 #: client/gui-mui/dialogs.c:888 client/gui-win32/dialogs.c:1655
-#, fuzzy
 msgid "Sir, the spy is waiting for your command"
-msgstr "السيد جاري الانتظار"
+msgstr "يا سيدي، ينتظر الجاسوس أوامرك"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:691 client/gui-mui/dialogs.c:865
 #: client/gui-win32/dialogs.c:1656
-#, fuzzy
 msgid "_Bribe Enemy Unit"
-msgstr "الرّشوة العدو الوحدة"
+msgstr "_رشوة وحدة العدو"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:692 client/gui-mui/dialogs.c:873
 #: client/gui-win32/dialogs.c:1657
-#, fuzzy
 msgid "_Sabotage Enemy Unit"
-msgstr "التخريب العدو الوحدة"
+msgstr "_تخريب وحدة العدو"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:80
 #, c-format
@@ -10209,17 +10202,18 @@ msgstr "المساعدة ببناء الأ_عجوبة"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:100 client/gui-mui/dialogs.c:973
 #: client/gui-win32/dialogs.c:1042 client/gui-xaw/dialogs.c:443
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your caravan from %s reaches the city of %s.\n"
 "What now?"
-msgstr "ملكك?"
+msgstr ""
+"لقد وصلت قافلتك من %s إلى مشارف مدينة %s.\n"
+"ماذا الآن?"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:114 client/gui-mui/dialogs.c:1016
 #: client/gui-win32/dialogs.c:1053 data/Freeciv.in:2259
-#, fuzzy
 msgid "Your Caravan Has Arrived"
-msgstr "ملكك القافلة له وصل"
+msgstr "لقد وصلت قافلتك"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:116 client/gui-win32/dialogs.c:1055
 msgid "Establish _Traderoute"
@@ -10231,9 +10225,8 @@ msgstr "الدخول إلى السوق"
 
 #: client/gui-gtk-2.0/chatline.c:144 client/gui-win32/chatline.c:134
 #: client/gui-xaw/chatline.c:120
-#, fuzzy
 msgid "Cleared output window."
-msgstr "بريء."
+msgstr "تم محو نافذة المخرجات."
 
 #: client/gui-gtk-2.0/citydlg.c:578 client/gui-mui/citydlg.c:1322
 #: client/gui-mui/citydlg.c:1561 client/gui-win32/citydlg.c:665
@@ -10274,9 +10267,8 @@ msgstr "مخزن القمح:"
 
 #: client/gui-gtk-2.0/citydlg.c:585 client/gui-mui/citydlg.c:1338
 #: client/gui-win32/citydlg.c:672
-#, fuzzy
 msgid "Change in:"
-msgstr "التغيير:"
+msgstr "التغيير في:"
 
 #: client/gui-gtk-2.0/citydlg.c:586 client/gui-mui/citydlg.c:1341
 #: client/gui-win32/citydlg.c:673
@@ -10687,9 +10679,8 @@ msgid ""
 msgstr "لـ مواطنيين."
 
 #: client/gui-gtk-2.0/cma_fe.c:269
-#, fuzzy
 msgid "_Presets:"
-msgstr "التجهيزات المسبقة:"
+msgstr "ال_تجهيزات المسبقة:"
 
 #: client/gui-gtk-2.0/cma_fe.c:302 client/gui-mui/citydlg.c:1554
 #: client/gui-mui/repodlgs.c:491 client/gui-win32/cma_fe.c:482
@@ -10725,26 +10716,22 @@ msgstr "الحاكم م_عطل"
 #: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:225
 #: client/gui-sdl/cma_fe.c:295 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:431
-#, fuzzy
 msgid "new preset"
-msgstr "جديد"
+msgstr "تجهير مسبق جديد"
 
 #: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:269
 #: client/gui-win32/cma_fe.c:383
-#, fuzzy
 msgid "Name new preset"
-msgstr "الاسم جديد"
+msgstr "اسم التجهيز المسبق الجديد"
 
 #: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:283
 #: client/gui-win32/cma_fe.c:384
-#, fuzzy
 msgid "What should we name the preset?"
-msgstr "أي?"
+msgstr "ماذا تريدنا أن نسمي التجهيز المسبق?"
 
 #: client/gui-gtk-2.0/cma_fe.c:648
-#, fuzzy
 msgid "Remove this preset?"
-msgstr "الخطوة?"
+msgstr "هل تريد إزالة هذا التجهيز المسبق?"
 
 #: client/gui-gtk-2.0/dialogs.c:195
 msgid "_Goto location"
@@ -11029,9 +11016,8 @@ msgid ""
 msgstr "إذا برنامج Freeciv التعطيل."
 
 #: client/gui-gtk-2.0/gui_main.c:165
-#, fuzzy
 msgid "Show worklist task icons"
-msgstr "المعرض قائمة العمل"
+msgstr "اعرض أيقونات مهام قائمة العمل"
 
 #: client/gui-gtk-2.0/gui_main.c:166
 #, fuzzy
@@ -12164,11 +12150,8 @@ msgid "C_onnect to Network Game"
 msgstr "الا_تصال بلعبة على الشبكة"
 
 #: client/gui-gtk-2.0/pages.c:236
-#, fuzzy
 msgid "Connect to Gaming _Zone"
-msgstr ""
-"أوصل اللعب المنطقة الكرويّة :: نِطاق :: حزام :: طَوْق :: زُنّار :: منطقة :: يُطوّق (بحزام) :: "
-"يُمَنْطِق :: يتمَنْطق"
+msgstr "الاتصال ب_منطقة اللعب"
 
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:298
 #: client/gui-xaw/connectdlg.c:326
@@ -12207,9 +12190,8 @@ msgid "Local _Area Network"
 msgstr "الشبكة الداخلية"
 
 #: client/gui-gtk-2.0/pages.c:779
-#, fuzzy
 msgid "Internet _Metaserver"
-msgstr "الإنترنت Metaserver"
+msgstr "إنترنت _Metaserver"
 
 #: client/gui-gtk-2.0/pages.c:813
 msgid "_Host:"
@@ -12314,9 +12296,8 @@ msgid "_Ruleset:"
 msgstr "مجموعة ال_قواعد:"
 
 #: client/gui-gtk-2.0/pages.c:1457
-#, fuzzy
 msgid "More Game _Options..."
-msgstr "أكثر اللعبة الخيارات."
+msgstr "خيارات اللعبة أكثر..."
 
 #: client/gui-gtk-2.0/pages.c:1482
 msgid "Record"
@@ -12336,30 +12317,25 @@ msgid "Leader"
 msgstr "القائد"
 
 #: client/gui-gtk-2.0/pages.c:1628
-#, fuzzy
 msgid "Choose Saved Game to Load"
-msgstr "إختر منقذ اللعبة الحمل"
+msgstr "اختيار اللعبة المحفوظة للتحميل"
 
 #: client/gui-gtk-2.0/pages.c:1720
-#, fuzzy
 msgid "Choose Saved Game to _Load:"
-msgstr "إختر منقذ اللعبة الحمل:"
+msgstr "اختيار اللعبة المحفوظة لل_تحميل:"
 
 #: client/gui-gtk-2.0/pages.c:1740 client/gui-gtk-2.0/pages.c:1928
 #: client/gui-gtk-2.0/pages.c:2338
-#, fuzzy
 msgid "_Browse..."
-msgstr "تصفّح."
+msgstr "ال_تصفّح..."
 
 #: client/gui-gtk-2.0/pages.c:1807
-#, fuzzy
 msgid "Choose a Scenario"
-msgstr "إختر السيناريو"
+msgstr "إختيار سيناريو"
 
 #: client/gui-gtk-2.0/pages.c:1889
-#, fuzzy
 msgid "Choose a _Scenario:"
-msgstr "إختر السيناريو:"
+msgstr "إختيار _سيناريو:"
 
 #: client/gui-gtk-2.0/pages.c:2054 client/gui-gtk-2.0/repodlgs.c:632
 #: client/gui-gtk-2.0/wldlg.c:1030 client/gui-mui/citydlg.c:633
@@ -12370,33 +12346,28 @@ msgid "Type"
 msgstr "النوع"
 
 #: client/gui-gtk-2.0/pages.c:2064
-#, fuzzy
 msgid "Choose a _nation to play:"
-msgstr "إختر:"
+msgstr "اختيار الأمة للعب بها:"
 
 #: client/gui-gtk-2.0/pages.c:2084
-#, fuzzy
 msgid "Game _Options..."
-msgstr "اللعبة الخيارات."
+msgstr "_خيارات اللعبة..."
 
 #: client/gui-gtk-2.0/pages.c:2250 client/gui-win32/menu.c:578
-#, fuzzy
 msgid "Select Location to Save"
-msgstr "منتقى الموقع أنقذ"
+msgstr "اختيار موقع الحفظ"
 
 #: client/gui-gtk-2.0/pages.c:2335
 msgid "Save Game"
 msgstr "حفظ اللعبة"
 
 #: client/gui-gtk-2.0/pages.c:2376
-#, fuzzy
 msgid "Saved _Games:"
-msgstr "منقذ الألعاب:"
+msgstr "ال_لعب المحفوظة:"
 
 #: client/gui-gtk-2.0/pages.c:2403
-#, fuzzy
 msgid "Save _Filename:"
-msgstr "أنقذ اسم الملف:"
+msgstr "اسم ملف الحفظ:"
 
 #: client/gui-gtk-2.0/repodlgs.c:293 client/gui-win32/repodlgs.c:280
 msgid "Researching"
@@ -12408,9 +12379,8 @@ msgid "Goal"
 msgstr "الهدف"
 
 #: client/gui-gtk-2.0/repodlgs.c:633
-#, fuzzy
 msgid "?Building:Name"
-msgstr "المبنى :: صناعة البناء الاسم"
+msgstr "?Building:اسم"
 
 #: client/gui-gtk-2.0/repodlgs.c:634 client/gui-mui/repodlgs.c:460
 #: client/gui-win32/repodlgs.c:459
@@ -12458,9 +12428,9 @@ msgid "Sell-Off: Results"
 msgstr "بيع من النتائج"
 
 #: client/gui-gtk-2.0/repodlgs.c:884
-#, fuzzy, c-format
+#, c-format
 msgid "Income: %d    Total Costs: %d"
-msgstr "الدخل المجموع الكلف"
+msgstr "الدخل: %d    التكاليف الكلية: %d"
 
 #: client/gui-gtk-2.0/repodlgs.c:931 client/gui-mui/repodlgs.c:663
 #: client/gui-win32/repodlgs.c:690
@@ -12493,11 +12463,13 @@ msgstr "ت_طوير"
 #: client/gui-gtk-2.0/repodlgs.c:1154 client/gui-mui/repodlgs.c:718
 #: client/gui-sdl/repodlgs.c:180 client/gui-win32/repodlgs.c:565
 #: client/gui-xaw/repodlgs.c:1022
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
 "Treasury contains %d gold."
-msgstr "الترقية الذهب الذهب."
+msgstr ""
+"تطوير أكثر عدد من %s إلى %s ممكن مقابل %d ذهب لكل واحد?\n"
+"تحتوي الخرينة على %d ذهب."
 
 #: client/gui-gtk-2.0/repodlgs.c:1257
 msgid "Totals:"
@@ -12516,18 +12488,20 @@ msgid "Population\n"
 msgstr "عدد السكان\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1283
-#, fuzzy
 msgid ""
 "Trade\n"
 "(M goods)"
-msgstr "التجارة الحرف الثالث عشر في اللغة الإنجليزية"
+msgstr ""
+"التجارة\n"
+"(مليون بضاعة)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1284
-#, fuzzy
 msgid ""
 "Production\n"
 "(M tons)"
-msgstr "الإنتاج الحرف الثالث عشر في اللغة الإنجليزية"
+msgstr ""
+"الانتاج\n"
+"(مليون طن)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1285
 msgid "Cities\n"
@@ -12754,9 +12728,8 @@ msgid "Trade Routes page"
 msgstr "صفحة طرق التجارة"
 
 #: client/gui-mui/citydlg.c:1384
-#, fuzzy
 msgid "This Misc. Settings page"
-msgstr "هذا متفرقات أماكن :: أوضاع :: إعدادات"
+msgstr "صفحة الإعدادات المتفرقة هذه"
 
 #: client/gui-mui/citydlg.c:1406
 #, fuzzy
@@ -12764,9 +12737,8 @@ msgid "Freeciv - Cityview"
 msgstr "برنامج Freeciv"
 
 #: client/gui-mui/citydlg.c:1433
-#, fuzzy
 msgid "City Output"
-msgstr "المدينة الناتج"
+msgstr "ناتج المدينة"
 
 #: client/gui-mui/citydlg.c:1438
 msgid "Citymap"
@@ -12783,22 +12755,18 @@ msgid "City Improvements"
 msgstr "تحسينات المدينة"
 
 #: client/gui-mui/citydlg.c:1478
-#, fuzzy
 msgid "_Sell"
-msgstr "بيع"
+msgstr "_بيع"
 
 #: client/gui-mui/citydlg.c:1549
-#, fuzzy
 msgid "_Add preset"
-msgstr "أضف"
+msgstr "إ_ضافة تجهيز مسبق"
 
 #: client/gui-mui/citydlg.c:1550
-#, fuzzy
 msgid "_Delete preset"
-msgstr "إحذف"
+msgstr "_حذف تجهيز مسبق"
 
 #: client/gui-mui/citydlg.c:1556
-#, fuzzy
 msgid "Name:"
 msgstr "الاسم:"
 
@@ -12808,34 +12776,28 @@ msgid "People (W/E/S/T):"
 msgstr "الناس دبليو - الحرف الثالث والعشرون في اللغة الإنجليزية إي - الحرف الخامس في اللغة الإنجليزية أس - الحرف التاسع عشر في اللغة الإنجليزية تي - الحرف العشرون في اللغة الإنجليزية:"
 
 #: client/gui-mui/citydlg.c:1584
-#, fuzzy
 msgid "City grows:"
-msgstr "المدينة:"
+msgstr "توسع المدينة:"
 
 #: client/gui-mui/citydlg.c:1587
-#, fuzzy
 msgid "Production completed:"
-msgstr "الإنتاج:"
+msgstr "الإنتاج المنتهي:"
 
 #: client/gui-mui/citydlg.c:1628
-#, fuzzy
 msgid "_Change"
-msgstr "التغيير"
+msgstr "ال_تغيير"
 
 #: client/gui-mui/citydlg.c:1629
-#, fuzzy
 msgid "C_hange permanent"
-msgstr "سي - الحرف الثالث في اللغة الإنجليزية"
+msgstr "الت_غيير دائم"
 
 #: client/gui-mui/citydlg.c:1630
-#, fuzzy
 msgid "_Release city"
-msgstr "الإطلاق"
+msgstr "_ترك مدينة"
 
 #: client/gui-mui/citydlg.c:1644
-#, fuzzy
 msgid "Auto attack vs"
-msgstr "السّيّارة الهجوم"
+msgstr "الهجوم التلقائي ضد"
 
 #: client/gui-mui/citydlg.c:1646 client/gui-mui/citydlg.c:1647
 msgid "Land units"
@@ -12854,9 +12816,8 @@ msgid "Air units"
 msgstr "الوحدات الجوية"
 
 #: client/gui-mui/citydlg.c:1660 client/gui-mui/citydlg.c:1661
-#, fuzzy
 msgid "_Disband if build settler at size 1"
-msgstr "حلّ الحجم"
+msgstr ""
 
 #: client/gui-mui/citydlg.c:1678 client/gui-mui/cityrep.c:366
 #: client/gui-mui/dialogs.c:137 client/gui-mui/dialogs.c:185
@@ -12867,24 +12828,23 @@ msgid "_Close"
 msgstr "إ_غلاق"
 
 #: client/gui-mui/citydlg.c:1774
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%s) (worklist)"
-msgstr "قائمة العمل"
+msgstr "%s (%s) (قائمة العمل)"
 
 #: client/gui-mui/citydlg.c:2044 client/gui-win32/citydlg.c:1264
-#, fuzzy, c-format
+#, c-format
 msgid "Trade with %s gives %d trade.\n"
-msgstr "التجارة مع"
+msgstr "تعطي التجارة مع %s من %d تجارة.\n"
 
 #: client/gui-mui/citydlg.c:2049 client/gui-win32/citydlg.c:1269
-#, fuzzy
 msgid "No trade routes exist."
-msgstr "لا."
+msgstr "بل أي طرق للتجارة."
 
 #: client/gui-mui/citydlg.c:2051 client/gui-win32/citydlg.c:1271
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade routes: %d"
-msgstr "المجموع"
+msgstr "مجموع التجارة من طرق التجارة: %d"
 
 #: client/gui-mui/citydlg.c:2075
 #, c-format
@@ -12897,9 +12857,9 @@ msgid "%s - %s citizens%s"
 msgstr "%s - %s مواطنيين%s"
 
 #: client/gui-mui/citydlg.c:2229
-#, fuzzy, c-format
+#, c-format
 msgid "Luxury: %d total (maximum %d usable). "
-msgstr "الترف "
+msgstr "الرفاهية: %d المجموع (الحدد الأعلى القابل للاستخدام %d). "
 
 #: client/gui-mui/cityrep.c:270 client/gui-win32/cityrep.c:99
 msgid "Configure City Report"
@@ -12907,24 +12867,21 @@ msgstr "تعريف تقرير المدينة"
 
 #: client/gui-mui/cityrep.c:273 client/gui-win32/cityrep.c:127
 #: data/Freeciv.in:1725
-#, fuzzy
 msgid "Set columns shown"
-msgstr "المجموعة"
+msgstr "تحديد الأعمدة الظاهره"
 
 #: client/gui-mui/cityrep.c:282 client/gui-mui/dialogs.c:1657
 #: client/gui-mui/finddlg.c:109 client/gui-mui/gamedlgs.c:237
 #: client/gui-mui/gamedlgs.c:325 client/gui-mui/gotodlg.c:169
 #: client/gui-mui/inputdlg.c:81 client/gui-mui/messagedlg.c:90
 #: client/gui-mui/wldlg.c:266 client/gui-mui/worklistclass.c:716
-#, fuzzy
 msgid "_Ok"
-msgstr "موافق"
+msgstr "_موافق"
 
 #: client/gui-mui/cityrep.c:351 client/gui-mui/cityrep.c:379
 #: client/gui-win32/cityrep.c:1077
-#, fuzzy
 msgid "City Report"
-msgstr "المدينة التقرير"
+msgstr "تقرير المدينة"
 
 #: client/gui-mui/cityrep.c:371
 #, fuzzy
@@ -12932,9 +12889,8 @@ msgid "_Refresh"
 msgstr "أنعش"
 
 #: client/gui-mui/cityrep.c:372
-#, fuzzy
 msgid "Con_figure"
-msgstr "إخدع"
+msgstr "_تعريف"
 
 #: client/gui-mui/cityrep.c:412 client/gui-win32/cityrep.c:885
 #: client/gui-win32/cityrep.c:1151
