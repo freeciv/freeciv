@@ -3429,23 +3429,23 @@ msgid "%s no longer gives us shared vision!"
 msgstr "لا يعطينا %s رؤية مشتركة بعد اﻵن!"
 
 #: server/plrhand.c:515
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
-msgstr "الـ مع أنت."
+msgstr "لن يسمح لك مجلس الشيوخ بنقض المعاهدة مع %s. يجب عليك حل المجلس أو الانتظار لوقف أفضل."
 
 #: server/plrhand.c:568
-#, fuzzy, c-format
+#, c-format
 msgid "The senate passes your bill because of the constant provocations of the %s."
-msgstr "الـ."
+msgstr "وافق مجلس الشيوخ على مشروع قانونك بسبب الاستفزازات المستمرة من %s."
 
 #: server/plrhand.c:573
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
-msgstr "الـ مع جديد."
+msgstr "يرفض مجلس الشيوخ انهاء المعاهدة مع %s، ولكن لن تجد صعوبة في العثور على مجلس جديد."
 
 #: server/plrhand.c:605
 #, c-format
@@ -3493,16 +3493,16 @@ msgid "You have made contact with the %s, ruled by %s."
 msgstr "لقد اتصلت لأول مرة مع %s, المحكوم من %s."
 
 #: server/plrhand.c:1640
-#, fuzzy, c-format
+#, c-format
 msgid "Could not throw %s into civil war - too many players"
-msgstr "يمكن أن"
+msgstr "لا يمكن اشعال الحرب الأهلية في %s  - لوجود لاعبيين كثر"
 
 #: server/plrhand.c:1662
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
 "rebel states."
-msgstr "ملكك."
+msgstr "أمتك في حرب أهلية تحت قيادة %s للولايات الثائرة."
 
 #: server/plrhand.c:1682
 #, c-format
@@ -5590,7 +5590,7 @@ msgid "Connection %s has opted to become the game organizer."
 msgstr "اختار الإتّصال %s أن يصير منظم اللعبة."
 
 #: server/stdinhand.c:1452
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid argument %d."
 msgstr "باراميتر خاطئ %d."
 
@@ -5757,9 +5757,8 @@ msgid "Cannot change teams once game has begun."
 msgstr "لا تستطيع تغيير الفرق متى بدأت اللعبة."
 
 #: server/stdinhand.c:2085
-#, fuzzy
 msgid "Undefined argument.  Usage: team <player> <team>."
-msgstr "غير معرّف الإستعمال<player><team>."
+msgstr "باراميتر غير معرف.  الاستعمال: team <اسم اللاعب> <الفريق>."
 
 #: server/stdinhand.c:2105
 #, c-format
