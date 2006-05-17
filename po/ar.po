@@ -2178,47 +2178,44 @@ msgstr "اللعبة : تم طلب عاصمتك (%s) ، لا يمكنك قبول
 
 #: server/diplhand.c:182 server/diplhand.c:290
 #, c-format
-#, fuzzy
 msgid ""
 "Game: You are at war with one of %s's allies - an alliance with %s is "
 "impossible."
-msgstr "اللعبة أنت مع مع مستحيل."
+msgstr "اللعبة: أنت بحالة حارب مع حلفاء %s - التحالف مع  %s مستحيل."
 
 #: server/diplhand.c:189 server/diplhand.c:286
 #, c-format
-#, fuzzy
 msgid ""
 "Game: %s is at war with one of your allies - an alliance with %s is "
 "impossible."
-msgstr "اللعبة مع مع مستحيل."
+msgstr "اللعبة: إن %s بحالة حارب مع أحد حلفائك - التحالف مع  %s مستحيل."
 
 #: server/diplhand.c:198
-#, fuzzy
 msgid "Game: You don't have enough gold, you can't accept treaty."
-msgstr "أنت الذهب."
+msgstr "اللعبة: ليس لديك ما يكفي من الذهب، إذا لا يمكنك قبول المعاهدة."
 
 #: server/diplhand.c:230 server/diplhand.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "Game: A treaty containing %d clause was agreed upon."
 msgid_plural "Game: A treaty containing %d clauses was agreed upon."
-msgstr[0] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
-msgstr[1] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
-msgstr[2] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
+msgstr[0] "اللعبة: تم الاتفاق على معاهدة  من %d بند."
+msgstr[1] "اللعبة: تم الاتفاق على معاهدة  من %d بندان."
+msgstr[2] "اللعبة: تم الاتفاق على معاهدة  من %d بنود."
 
 #: server/diplhand.c:251 server/diplhand.c:255
-#, fuzzy, c-format
+#, c-format
 msgid "Game: One of the cities %s is giving away is destroyed! Treaty canceled!"
-msgstr "واحد المعاهدة!"
+msgstr ""
 
 #: server/diplhand.c:262 server/diplhand.c:267
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s no longer control %s! Treaty canceled!"
-msgstr "الـ المعاهدة!"
+msgstr "اللعبة : لا يسيطر %s على %s بعد اﻵن! تم الغاء المعاهدة!"
 
 #: server/diplhand.c:299 server/diplhand.c:303
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr "الـ الذهب المعاهدة!"
+msgstr "اللعبة : ليس لدى %s الكمية الموعودة من الذهب! تم الغاء المعاهدة!"
 
 #: server/diplhand.c:332
 #, c-format
@@ -2231,93 +2228,93 @@ msgid "Game: %s allowed you to create an embassy!"
 msgstr "اللعبة : سمح %s لك ببناء سفارة!"
 
 #: server/diplhand.c:352
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You are taught the knowledge of %s."
-msgstr "أنت."
+msgstr "اللعبة : لقد عُلّمت معرفة ال %s."
 
 #: server/diplhand.c:356
-#, fuzzy, c-format
+#, c-format
 msgid "Game: The %s have acquired %s from the %s."
-msgstr "الـ."
+msgstr "اللعبة : لقد استولى %s على %s من %s."
 
 #: server/diplhand.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You get %d gold."
-msgstr "لقد حصلت على %d ذهب."
+msgstr "اللعبة : لقد حصلت على %d ذهب."
 
 #: server/diplhand.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You receive %s's worldmap."
-msgstr "لقد حصلت على خريطة  العالم الخاصة ب %s."
+msgstr "اللعبة : لقد حصلت على خريطة  العالم الخاصة ب %s."
 
 #: server/diplhand.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You receive %s's seamap."
-msgstr "لقد حصلت على الخريطة البحرية الخاصة ب  %s."
+msgstr "اللعبة : لقد حصلت على الخريطة البحرية الخاصة ب  %s."
 
 #: server/diplhand.c:397
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You receive city of %s from %s."
-msgstr "لقد حصلت علة مدينة ال %s من %s."
+msgstr "اللعبة : لقد حصلت على مدينة ال %s من %s."
 
 #: server/diplhand.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You give city of %s to %s."
-msgstr "لقد أعطيت مدينة ال %s إلى %s."
+msgstr "اللعبة : لقد أعطيت مدينة ال %s إلى %s."
 
 #: server/diplhand.c:415 server/diplhand.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You agree on a cease-fire with %s."
-msgstr "لقد وافقت على وقف اطلاق نار مع %s."
+msgstr "اللعبة : لقد وافقت على وقف اطلاق نار مع %s."
 
 #: server/diplhand.c:431 server/diplhand.c:434
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You agree on a peace treaty with %s."
-msgstr "لقد وافقت على وقف اطلاق نار مع %s."
+msgstr "اللعبة : لقد وافقت على معاهدة سلام مع %s."
 
 #: server/diplhand.c:447 server/diplhand.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You agree on an alliance with %s."
-msgstr "لقد وافقت على تحالف مع %s."
+msgstr "اللعبة : لقد وافقت على تحالف مع %s."
 
 #: server/diplhand.c:460
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You give shared vision to %s."
-msgstr "لقد اعطيت رؤية مشتركة ل %s."
+msgstr "اللعبة : لقد اعطيت رؤية مشتركة ل %s."
 
 #: server/diplhand.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s gives you shared vision."
-msgstr "اعطى %s رؤية مشتركة لك."
+msgstr "اللعبة : اعطى %s رؤية مشتركة لك."
 
 #: server/diplhand.c:602
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s canceled the meeting!"
-msgstr "ألغى %s الاجتماع!"
+msgstr "اللعبة : ألغى %s الاجتماع!"
 
 #: server/diplhand.c:608
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Meeting with %s canceled."
-msgstr "تم الغاء الاجتماع مع %s."
+msgstr "اللعبة : تم الغاء الاجتماع مع %s."
 
 #: server/diplhand.c:648
 msgid "Your diplomatic envoy was decapitated!"
 msgstr "تم قطع رأس سفيرك الدبلوماسي!"
 
 #: server/diplomats.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s could not poison the water supply in %s."
-msgstr "وحدتك %s لا تستطيع تسميم مخزون المياه في %s."
+msgstr "اللعبة : وحدتك %s لا تستطيع تسميم مخزون المياه في %s."
 
 #: server/diplomats.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Your %s poisoned the water supply of %s."
-msgstr "سممت وحدتك %s مخزون المياه في %s."
+msgstr "اللعبة : سممت وحدتك %s مخزون المياه في %s."
 
 #: server/diplomats.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s is suspected of poisoning the water supply of %s."
-msgstr "يشتبه ب %s في تسميم مخزون المياه في %s."
+msgstr "اللعبة : يشتبه ب %s في تسميم مخزون المياه في %s."
 
 #: server/diplomats.c:257
 #, fuzzy, c-format
@@ -6579,10 +6576,9 @@ msgstr "لدعم الصوت، قم بتثبيت SDL_mixer"
 
 #: client/audio.c:226
 msgid "Esound: http://www.tux.org/~ricdude/EsounD.html"
-msgstr ""
+msgstr "برنامج Esound: http://www.tux.org/~ricdude/EsounD.html"
 
 #: client/audio.c:227
-#, fuzzy
 msgid "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
 msgstr "موقع http://www.libsdl.org/projects/SDL_mixer/index.html"
 
@@ -6818,9 +6814,8 @@ msgid "Entertainers, Scientists, Taxmen"
 msgstr "الهزليون،العلماء،جباة الضريبة"
 
 #: client/cityrepdata.c:435
-#, fuzzy
 msgid "?Entertainers:E"
-msgstr "المغنيين"
+msgstr "?Entertainers:م"
 
 #: client/cityrepdata.c:435 client/gui-gtk-2.0/citydlg.c:931
 #: client/gui-gtk/citydlg.c:1267
@@ -6828,7 +6823,6 @@ msgid "Entertainers"
 msgstr "المغنيين"
 
 #: client/cityrepdata.c:437
-#, fuzzy
 msgid "?Scientists:S"
 msgstr "?Scientist:ع"
 
@@ -6839,7 +6833,6 @@ msgid "Scientists"
 msgstr "العلماء"
 
 #: client/cityrepdata.c:439
-#, fuzzy
 msgid "?Taxmen:T"
 msgstr "?Taxman:ج"
 
@@ -7034,10 +7027,9 @@ msgstr "النفاية"
 #: client/gui-gtk/cityrep.c:937 client/gui-mui/citydlg.c:1375
 #: client/gui-win32/citydlg.c:740
 msgid "CMA"
-msgstr ""
+msgstr "CMA"
 
 #: client/cityrepdata.c:480
-#, fuzzy
 msgid "City Management Agent"
 msgstr "عميل إدارة المواطنة"
 
@@ -7126,9 +7118,9 @@ msgid "There was an error while auto connecting; aborting."
 msgstr "حصل خطأ عند إعادة الاتصال التلقائي، سيتم الالغاء."
 
 #: client/climisc.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Game: Changing production of every %s into %s."
-msgstr "تغيير انتاج كل %s إلى %s."
+msgstr "اللعبة : تغيير انتاج كل %s إلى %s."
 
 #: client/climisc.c:202
 msgid "?embassy:Both"
@@ -7228,14 +7220,14 @@ msgid "Export failed, couldn't write to file."
 msgstr "فشل التصدير، لا يمكن الكتابة على ملف."
 
 #: client/climisc.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Game: You don't buy %s in %s!"
-msgstr "لا تستطيع شراء %s في %s!"
+msgstr "اللعبة : لا تستطيع شراء %s في %s!"
 
 #: client/climisc.c:1041
-#, fuzzy, c-format
+#, c-format
 msgid "Game: %s costs %d gold and you only have %d gold."
-msgstr "يكلف %s  %d ذهب ولكن عندك فقط %d ذهب."
+msgstr "اللعبة : يكلف %s  %d ذهب ولكن عندك فقط %d ذهب."
 
 #: client/clinet.c:127
 msgid "Lost connection to server!"
@@ -7259,9 +7251,8 @@ msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "العاجز مع"
 
 #: client/clinet.c:616
-#, fuzzy
 msgid "Failed looking up host"
-msgstr "فشل العثور على عنوان المضيف."
+msgstr "اللعبة : فشل العثور على عنوان المضيف."
 
 #. TRANS: This means a network error when trying to connect to
 #. * the metaserver.  The message will be shown directly to the user.
@@ -7334,14 +7325,12 @@ msgid ""
 msgstr "فقط."
 
 #: client/control.c:989
-#, fuzzy
 msgid "Game: Only nuclear units can do this."
-msgstr "فقط."
+msgstr "اللعبة : تستطيع الوحدات النووية فقط فعل هذا."
 
 #: client/control.c:1006
-#, fuzzy
 msgid "Game: Only paratrooper units can do this."
-msgstr "فقط."
+msgstr "اللعبة : يستطيع المظلبون فقط فعل هذا."
 
 #: client/control.c:1028 client/control.c:1674
 #, fuzzy
@@ -7349,9 +7338,8 @@ msgid "Game: Sorry, airunit patrol not yet implemented."
 msgstr "اللعبة آسف."
 
 #: client/control.c:1437
-#, fuzzy
 msgid "Game: Too far for this unit."
-msgstr "أيضا وحدات."
+msgstr "اللعبة : بعيد جدا لهذه الوحدة."
 
 #: client/control.c:1644 client/control.c:1685 client/control.c:1709
 #, fuzzy
@@ -8072,7 +8060,6 @@ msgid "City: Nuked"
 msgstr "المدينة: تفجيير نووي"
 
 #: client/options.c:199
-#, fuzzy
 msgid "City: Released from CMA"
 msgstr "المدينة: تحرير من حاكم المواطنيين"
 
@@ -8197,49 +8184,40 @@ msgid "Enemy Diplomat: Theft"
 msgstr "دبلوماسي العدو: سرقة"
 
 #: client/options.c:230
-#, fuzzy
 msgid "Game: Broadcast Report"
-msgstr "تقرير البث"
+msgstr "اللعبة : تقرير البث"
 
 #: client/options.c:231
-#, fuzzy
 msgid "Game: Game Ended"
-msgstr "تم انهاء اللعبة"
+msgstr "اللعبة : تم انهاء اللعبة"
 
 #: client/options.c:232
-#, fuzzy
 msgid "Game: Game Started"
-msgstr "تم بدء اللعبة"
+msgstr "اللعبة : تم بدء اللعبة"
 
 #: client/options.c:233
-#, fuzzy
 msgid "Game: Message from Server Operator"
-msgstr "رسالة من مشغل الخادم"
+msgstr "اللعبة : رسالة من مشغل الخادم"
 
 #: client/options.c:234
-#, fuzzy
 msgid "Game: Nation Selected"
-msgstr "تم اختيار الأمة"
+msgstr "اللعبة : تم اختيار الأمة"
 
 #: client/options.c:235
-#, fuzzy
 msgid "Game: Player Destroyed"
-msgstr "تم تدمير اللاعب "
+msgstr "اللعبة : تم تدمير اللاعب "
 
 #: client/options.c:236
-#, fuzzy
 msgid "Game: Report"
-msgstr "تقرير التجارة"
+msgstr "اللعبة : تقرير التجارة"
 
 #: client/options.c:237
-#, fuzzy
 msgid "Game: Turn Bell"
-msgstr "جرس الدور"
+msgstr "اللعبة : جرس الدور"
 
 #: client/options.c:238
-#, fuzzy
 msgid "Game: Year Advance"
-msgstr "تقدم سنة"
+msgstr "اللعبة : تقدم سنة"
 
 #: client/options.c:239
 msgid "Global: Eco-Disaster"
@@ -8318,7 +8296,6 @@ msgid "Treaty: Broken"
 msgstr "المعاهدة: تم النقض"
 
 #: client/options.c:258
-#, fuzzy
 msgid "Treaty: Ceasefire"
 msgstr "المعاهدة: ايقاف إطلاق نار"
 
@@ -8459,9 +8436,8 @@ msgid "OFF"
 msgstr "مطفئ"
 
 #: client/packhand.c:2618
-#, fuzzy
 msgid "Other"
-msgstr "أخ"
+msgstr "آخر"
 
 #: client/plrdlg_common.c:181 client/gui-gtk/plrdlg.c:325
 #: client/gui-mui/plrdlg.c:119 client/gui-win32/plrdlg.c:155
@@ -8688,13 +8664,12 @@ msgstr[2] "المدينة دورانالمدينة دوران"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:252
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s,%s)"
 msgstr "المدينة: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:259
-#, fuzzy
 msgid " with City Walls"
 msgstr "مع جدران المدينة"
 
@@ -8731,7 +8706,7 @@ msgstr[2] "الوحدة دوران"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s,%s)"
 msgstr "الوحدة: %s (%s, %s)"
 
@@ -8830,25 +8805,31 @@ msgid ""
 msgstr "المعارض."
 
 #: client/text.c:604
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows the progress of global warming:\n"
 "%d."
-msgstr "يعرض لك تقدم الاحترار العالمي:"
+msgstr ""
+"يعرض لك تقدم الاحترار العالمي:\n"
+"%d"
 
 #: client/text.c:617
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows the progress of nuclear winter:\n"
 "%d."
-msgstr "يعرض لك تقدم الشتاء النووي:"
+msgstr ""
+"يعرض لك تقدم الشتاء النووي:\n"
+"%d."
 
 #: client/text.c:630
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Shows your current government:\n"
 "%s."
-msgstr "يظهر لك حكومتك الحالية:"
+msgstr ""
+"يظهر لك حكومتك الحالية:\n"
+"%s."
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:650
@@ -8944,7 +8925,7 @@ msgid "Buildings: "
 msgstr "المباني : "
 
 #: client/text.c:791 client/text.c:816 client/text.c:823 client/text.c:830
-#, fuzzy, c-format
+#, c-format
 msgid "%s. "
 msgstr "%s..."
 
@@ -9257,14 +9238,12 @@ msgid "_Happiness"
 msgstr "ال_سعادة"
 
 #: client/gui-gtk-2.0/citydlg.c:883
-#, fuzzy
 msgid "C_MA"
-msgstr "سي - الحرف الثالث في اللغة الإنجليزية"
+msgstr "C_MA"
 
 #: client/gui-gtk-2.0/citydlg.c:903
-#, fuzzy
 msgid "Trade Ro_utes"
-msgstr "طرق التجارة"
+msgstr "_طرق التجارة"
 
 #: client/gui-gtk-2.0/citydlg.c:928
 msgid "_Settings"
@@ -9415,7 +9394,7 @@ msgid "No trade routes exist."
 msgstr "بل أي طرق للتجارة."
 
 #: client/gui-gtk-2.0/citydlg.c:1761
-#, fuzzy, c-format
+#, c-format
 msgid "Total trade from trade route %d"
 msgstr "مجموع التجارة من طرق التجارة: %d"
 
@@ -9720,12 +9699,10 @@ msgid "Celebrate"
 msgstr "احتفال"
 
 #: client/gui-gtk-2.0/cma_fe.c:460
-#, fuzzy
 msgid "CMA Enabl_ed"
 msgstr "الحاكم م_فعل"
 
 #: client/gui-gtk-2.0/cma_fe.c:465
-#, fuzzy
 msgid "CMA Disabl_ed"
 msgstr "الحاكم م_عطل"
 
@@ -10232,9 +10209,8 @@ msgstr "_إضافة بند..."
 #: client/gui-gtk-2.0/diplodlg.c:838 client/gui-gtk/diplodlg.c:910
 #: client/gui-mui/diplodlg.c:382 client/gui-win32/diplodlg.c:262
 #: client/gui-xaw/diplodlg.c:948
-#, fuzzy
 msgid "Game: Invalid amount of gold specified."
-msgstr "خطأ في كمية الذهب."
+msgstr "اللعبة : خطأ في كمية الذهب المحددة."
 
 #: client/gui-gtk-2.0/finddlg.c:64 client/gui-gtk/finddlg.c:62
 #: client/gui-mui/finddlg.c:96 client/gui-win32/finddlg.c:116
@@ -10828,7 +10804,6 @@ msgid "Clear _Log"
 msgstr "محو ال_سجل"
 
 #: client/gui-gtk-2.0/menu.c:660
-#, fuzzy
 msgid "L_eave"
 msgstr "_ترك"
 
@@ -11432,9 +11407,8 @@ msgid "_Paradrop"
 msgstr "ا_سقاط جوي"
 
 #: client/gui-gtk-2.0/menu.c:1408 client/gui-gtk/menu.c:1257
-#, fuzzy
 msgid "_Auto Attack"
-msgstr "هجوم تلقائي"
+msgstr "_هجوم تلقائي"
 
 #: client/gui-gtk-2.0/messagedlg.c:61 client/gui-gtk/messagedlg.c:78
 #: client/gui-mui/messagedlg.c:68 client/gui-win32/messagedlg.c:175
@@ -11637,9 +11611,8 @@ msgid "Save _Filename:"
 msgstr "اسم ملف الحفظ:"
 
 #: client/gui-gtk-2.0/plrdlg.c:391
-#, fuzzy
 msgid "_Player"
-msgstr "اللا_عبيين"
+msgstr "اللا_عب"
 
 #: client/gui-gtk-2.0/plrdlg.c:397 client/gui-gtk/plrdlg.c:188
 #: client/gui-mui/plrdlg.c:332
@@ -11931,7 +11904,6 @@ msgid "Chan_ge Production"
 msgstr "ت_غيير الانتاج"
 
 #: client/gui-gtk/citydlg.c:619
-#, fuzzy
 msgid "City improvements"
 msgstr "تحسينات المدينة"
 
@@ -11941,9 +11913,8 @@ msgid "Upkeep"
 msgstr "أجور الصيانة"
 
 #: client/gui-gtk/citydlg.c:623
-#, fuzzy
 msgid "City _Overview"
-msgstr "ملخص عن المدينة"
+msgstr "_ملخص عن المدينة"
 
 #: client/gui-gtk/citydlg.c:647 client/gui-win32/citydlg.c:792
 msgid "City info"
@@ -11979,9 +11950,8 @@ msgid "Units present"
 msgstr "الوحدات الموجودة"
 
 #: client/gui-gtk/citydlg.c:1096
-#, fuzzy
 msgid "Acti_vate present units"
-msgstr "تفعيل الوحدة"
+msgstr "_تفعيل الوحدات الموجودة"
 
 #: client/gui-gtk/citydlg.c:1102
 #, fuzzy
@@ -11989,34 +11959,28 @@ msgid "_Sentry idle units"
 msgstr "ح_راسة الوحدة"
 
 #: client/gui-gtk/citydlg.c:1108
-#, fuzzy
 msgid "_List present units"
-msgstr "_تعداد الوحدات الموجودة..."
+msgstr "_تعداد الوحدات الموجودة"
 
 #: client/gui-gtk/citydlg.c:1133
-#, fuzzy
 msgid "_Worklist"
-msgstr "_قوائم العمل"
+msgstr "_قائمة العمل"
 
 #: client/gui-gtk/citydlg.c:1210
-#, fuzzy
 msgid "CM_A"
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة"
+msgstr "CM_A"
 
 #: client/gui-gtk/citydlg.c:1232
-#, fuzzy
 msgid "_Trade Routes"
-msgstr "طرق التجارة"
+msgstr "_طرق التجارة"
 
 #: client/gui-gtk/citydlg.c:1242
-#, fuzzy
 msgid "Established trade routes"
-msgstr "انشاء طريق تجارة"
+msgstr "انشاء طرق التجارة"
 
 #: client/gui-gtk/citydlg.c:1264
-#, fuzzy
 msgid "_Misc. Settings"
-msgstr "خيارات متفرقة"
+msgstr "خيارات _متفرقة"
 
 #: client/gui-gtk/citydlg.c:1281 client/gui-mui/citydlg.c:1379
 msgid "City Overview page"
@@ -12035,14 +11999,12 @@ msgid "This Misc. Settings page"
 msgstr "صفحة الإعدادات المتفرقة هذه"
 
 #: client/gui-gtk/citydlg.c:1306
-#, fuzzy
 msgid "City options"
 msgstr "خيارات المدينة"
 
 #: client/gui-gtk/citydlg.c:1372
-#, fuzzy
 msgid "City name"
-msgstr "ا_سم المدينة"
+msgstr "اسم المدينة"
 
 #: client/gui-gtk/citydlg.c:1378 client/gui-gtk/wldlg.c:226
 #: client/gui-win32/citydlg.c:835 client/gui-win32/wldlg.c:310
@@ -12051,24 +12013,20 @@ msgid "Rename"
 msgstr "تغيير اسم"
 
 #: client/gui-gtk/citydlg.c:1478 client/gui-gtk/citydlg.c:1486
-#, fuzzy, c-format
+#, c-format
 msgid "City of %s"
-msgstr ""
-"\n"
-"مدينة ال %s"
+msgstr "مدينة ال %s"
 
 #: client/gui-gtk/citydlg.c:1544
-#, fuzzy
 msgid "Close dialog"
-msgstr "الإنتهاء"
+msgstr "إغلاق مربع الحوار"
 
 #: client/gui-gtk/citydlg.c:1619
-#, fuzzy, c-format
+#, c-format
 msgid "%s - %s citizens"
-msgstr "%s - %s مواطنيين%s"
+msgstr "%s - %s مواطنيين"
 
 #: client/gui-gtk/citydlg.c:1811
-#, fuzzy
 msgid " (worklist)"
 msgstr "(قائمة العمل)"
 
@@ -12078,14 +12036,14 @@ msgid "Upkeep (Total: %d)"
 msgstr "أجور الصيانة (المجموع: %d)"
 
 #: client/gui-gtk/citydlg.c:2031
-#, fuzzy, c-format
+#, c-format
 msgid "Supported units (%d)"
-msgstr "الوحدات المدعومة %d"
+msgstr "الوحدات المدعومة (%d)"
 
 #: client/gui-gtk/citydlg.c:2169
-#, fuzzy, c-format
+#, c-format
 msgid "Present units (%d)"
-msgstr "الوحدات الموجودة %d"
+msgstr "الوحدات الموجودة (%d)"
 
 #: client/gui-gtk/citydlg.c:2208 client/gui-mui/citydlg.c:2052
 #: client/gui-win32/citydlg.c:1287
@@ -12163,14 +12121,13 @@ msgid "Change Production"
 msgstr "تغيير الانتاج"
 
 #: client/gui-gtk/citydlg.c:2854
-#, fuzzy
 msgid "Ca_ncel"
-msgstr "إلغاء"
+msgstr "إ_لغاء"
 
 #: client/gui-gtk/citydlg.c:3061
-#, fuzzy, c-format
+#, c-format
 msgid "Sell (worth %d gold)"
-msgstr "بيع %s ب %d ذهب?"
+msgstr "بيع (ب %d ذهب)"
 
 #: client/gui-gtk/cityrep.c:349 client/gui-win32/cityrep.c:246
 msgid "No Buildings Available"
@@ -12190,29 +12147,24 @@ msgstr "تغيير الكل..."
 
 #: client/gui-gtk/cityrep.c:629 client/gui-gtk/plrdlg.c:182
 #: client/gui-gtk/repodlgs.c:1144
-#, fuzzy
 msgid "C_lose"
-msgstr "اغلاق"
+msgstr "ا_غلاق"
 
 #: client/gui-gtk/cityrep.c:650
-#, fuzzy
 msgid "_Change..."
-msgstr "تغيير..."
+msgstr "_تغيير..."
 
 #: client/gui-gtk/cityrep.c:655
-#, fuzzy
 msgid "_Select..."
-msgstr "ا_ختيار"
+msgstr "ا_ختيار..."
 
 #: client/gui-gtk/cityrep.c:660
-#, fuzzy
 msgid "Con_figure..."
-msgstr "تعريف..."
+msgstr "ت_عريف..."
 
 #: client/gui-gtk/cityrep.c:966 client/gui-win32/cityrep.c:693
-#, fuzzy
 msgid "Game: Select a unit or improvement to change production to."
-msgstr "اختيار الوحدة أو التحسين لتغيير الانتاج إليه."
+msgstr "اللعبة : اختيار الوحدة أو التحسين لتغيير الانتاج إليه."
 
 #: client/gui-gtk/cityrep.c:1000 client/gui-win32/cityrep.c:742
 #: data/Freeciv.in:1772
@@ -12298,24 +12250,20 @@ msgid "Citizen Management Agent"
 msgstr "عميل إدارة المواطنة"
 
 #: client/gui-gtk/cma_fe.c:184
-#, fuzzy
 msgid "Add preset"
-msgstr "إ_ضافة تجهيز مسبق"
+msgstr "إضافة تجهيز مسبق"
 
 #: client/gui-gtk/cma_fe.c:191
-#, fuzzy
 msgid "Delete preset"
-msgstr "_حذف تجهيز مسبق"
+msgstr "حذف تجهيز مسبق"
 
 #: client/gui-gtk/cma_fe.c:293
-#, fuzzy
 msgid "Apply onc_e"
-msgstr "تطبيق لمرة واحدة"
+msgstr "تطبيق ل_مرة واحدة"
 
 #: client/gui-gtk/cma_fe.c:299
-#, fuzzy
 msgid "Control c_ity"
-msgstr "السيطرة على مدينة"
+msgstr "السيطرة على _مدينة"
 
 #: client/gui-gtk/cma_fe.c:306 client/gui-mui/citydlg.c:1631
 msgid "_Release city"
@@ -12366,9 +12314,8 @@ msgid "Select"
 msgstr "اختيار"
 
 #: client/gui-gtk/connectdlg.c:403
-#, fuzzy
 msgid " Connect to Freeciv Server"
-msgstr "اتصال بخادم Freeciv"
+msgstr " اتصال بخادم Freeciv"
 
 #: client/gui-gtk/connectdlg.c:409 client/gui-win32/connectdlg.c:935
 #: data/Freeciv.in:73
@@ -12414,9 +12361,8 @@ msgid ""
 msgstr "السّيّارة"
 
 #: client/gui-gtk/dialogs.c:374
-#, fuzzy
 msgid "Message:"
-msgstr "الرسائل"
+msgstr "الرسالة:"
 
 #: client/gui-gtk/dialogs.c:391 client/gui-win32/dialogs.c:181
 #: data/Freeciv.in:549
@@ -12444,9 +12390,8 @@ msgid "Ready all"
 msgstr "الكل جاهز"
 
 #: client/gui-gtk/dialogs.c:1929
-#, fuzzy
 msgid "Nation:"
-msgstr "أمة"
+msgstr "الأمة:"
 
 #: client/gui-gtk/dialogs.c:1947 client/gui-win32/dialogs.c:499
 #, fuzzy
@@ -12454,9 +12399,8 @@ msgid "Class:"
 msgstr "ال_فقرات:"
 
 #: client/gui-gtk/dialogs.c:1958 client/gui-win32/dialogs.c:508
-#, fuzzy
 msgid "Description"
-msgstr "الوصف:"
+msgstr "الوصف"
 
 #: client/gui-gtk/dialogs.c:1968 data/default/units.ruleset:1888
 msgid "Leader"
@@ -12477,9 +12421,8 @@ msgid "Leader:"
 msgstr "القائد:"
 
 #: client/gui-gtk/dialogs.c:2013 client/gui-win32/dialogs.c:525
-#, fuzzy
 msgid "Select your city style"
-msgstr "اختيار أسلوب المدينة:"
+msgstr "اختيار أسلوب المدينة"
 
 #: client/gui-gtk/dialogs.c:2056 client/gui-gtk/gamedlgs.c:303
 #: client/gui-gtk/inputdlg.c:129 client/gui-gtk/messagedlg.c:118
@@ -12594,7 +12537,6 @@ msgid "Center"
 msgstr "توسيط"
 
 #: client/gui-gtk/gotodlg.c:111
-#, fuzzy
 msgid "_Goto"
 msgstr "ال_ذهاب إلى"
 
@@ -12620,7 +12562,6 @@ msgstr "يسمح "
 
 #: client/gui-gtk/helpdlg.c:838 client/gui-gtk/helpdlg.c:849
 #: client/gui-gtk/helpdlg.c:862 client/gui-gtk/helpdlg.c:875
-#, fuzzy
 msgid "?techhelp:."
 msgstr "?techhelp:)."
 
@@ -12711,19 +12652,16 @@ msgstr ""
 "الضريبة: %d الرفاهية: %d العلوم: %d"
 
 #: client/gui-gtk/menu.c:590
-#, fuzzy
 msgid "_Local Options"
-msgstr "الخيارات الداخلية"
+msgstr "الخيارات ال_داخلية"
 
 #: client/gui-gtk/menu.c:592
-#, fuzzy
 msgid "Messa_ge Options"
-msgstr "خيارات الرسالة"
+msgstr "خيارات ال_رسالة"
 
 #: client/gui-gtk/menu.c:594
-#, fuzzy
 msgid "_Save Settings"
-msgstr "حفظ الاعدادات"
+msgstr "_حفظ الاعدادات"
 
 #: client/gui-gtk/menu.c:598
 #, fuzzy
@@ -12736,9 +12674,8 @@ msgid "Server Opt _ongoing"
 msgstr "الخادم."
 
 #: client/gui-gtk/menu.c:604
-#, fuzzy
 msgid "_Export Log"
-msgstr "تصدير السجل"
+msgstr "_تصدير السجل"
 
 #: client/gui-gtk/menu.c:606
 msgid "_Clear Log"
@@ -12758,9 +12695,8 @@ msgid "Work_lists"
 msgstr "_قوائم العمل"
 
 #: client/gui-gtk/menu.c:631
-#, fuzzy
 msgid "_Revolution!"
-msgstr "ثورة!"
+msgstr "_ثورة!"
 
 #: client/gui-gtk/menu.c:721 client/gui-xaw/menu.c:188
 msgid "Load"
@@ -12772,28 +12708,24 @@ msgid "Unload"
 msgstr "تنزيل"
 
 #: client/gui-gtk/menu.c:743
-#, fuzzy
 msgid "Go|Airlift to City"
-msgstr "الذهاب/التحميل جوا إلى مدينة"
+msgstr "الذهاب|التحميل جوا إلى مدينة"
 
 #: client/gui-gtk/menu.c:749
-#, fuzzy
 msgid "_Disband Unit"
-msgstr "تسريح الوحدة"
+msgstr "_تسريح الوحدة"
 
 #: client/gui-gtk/menu.c:751
 msgid "Diplomat|Spy Actions"
 msgstr "أعمال الدبلوماسي|الجاسوس"
 
 #: client/gui-gtk/menu.c:924
-#, fuzzy
 msgid "Go/Air_lift to City"
 msgstr "الذهاب/التحميل جوا إلى مدينة"
 
 #: client/gui-gtk/menu.c:925
-#, fuzzy
 msgid "_Diplomat/Spy Actions"
-msgstr "أعمال الدبلوماسي/الجاسوس"
+msgstr "أعمال ال_دبلوماسي/الجاسوس"
 
 #: client/gui-gtk/messagedlg.c:83
 #, fuzzy
@@ -12828,9 +12760,8 @@ msgstr[2] "(عاطل %d أدوار)"
 
 #: client/gui-gtk/plrdlg.c:568 client/gui-mui/plrdlg.c:255
 #: client/gui-win32/plrdlg.c:72 client/gui-xaw/plrdlg.c:355
-#, fuzzy
 msgid "Game: You need an embassy to establish a diplomatic meeting."
-msgstr "تحتاج إلى سفارة لانشاء اجتماع دبلوماسي."
+msgstr "اللعبة : تحتاج إلى سفارة لانشاء اجتماع دبلوماسي."
 
 #: client/gui-gtk/repodlgs.c:626 client/gui-win32/repodlgs.c:454
 #: data/Freeciv.in:1903
@@ -12894,9 +12825,9 @@ msgid "No"
 msgstr "لا"
 
 #: client/gui-gtk/repodlgs.c:1063
-#, fuzzy, c-format
+#, c-format
 msgid "Totals:                     %s%9d%s%9d%s%9d%s%9d%s%9d"
-msgstr "المجموع:                     %9d%9d%9d%9d"
+msgstr "المجموع:                     %s%9d%s%9d%s%9d%s%9d%s%9d"
 
 #: client/gui-gtk/spaceshipdlg.c:215 client/gui-win32/spaceshipdlg.c:239
 #: data/Freeciv.in:1736
@@ -12924,7 +12855,6 @@ msgid "Delete"
 msgstr "محو"
 
 #: client/gui-gtk/wldlg.c:276
-#, fuzzy
 msgid "Production worklist"
 msgstr "قائمة عمل الإنتاج"
 
@@ -13911,22 +13841,18 @@ msgid "Elvises"
 msgstr ""
 
 #: client/gui-win32/citydlg.c:2021
-#, fuzzy
 msgid "Auto-attack vs land units"
 msgstr "هجوم تلقائي ضد الوحدات الأرضية: "
 
 #: client/gui-win32/citydlg.c:2023
-#, fuzzy
 msgid "Auto-attack vs sea units"
 msgstr "هجوم تلقائي ضد الوحدات البحرية: "
 
 #: client/gui-win32/citydlg.c:2025
-#, fuzzy
 msgid "Auto-attack vs air units"
 msgstr "هجوم تلقائي ضد الوحدات الجوية: "
 
 #: client/gui-win32/citydlg.c:2027
-#, fuzzy
 msgid "Auto-attack vs helicopters"
 msgstr "هجوم تلقائي ضد الطائرات العمودية: "
 
@@ -13935,14 +13861,12 @@ msgid "Available To Build"
 msgstr "متوفر للبناء"
 
 #: client/gui-win32/cityrep.c:684
-#, fuzzy
 msgid "Game: Select a unit or improvement to change production from."
-msgstr "اختيار الوحدة أو التحسين لتغيير الانتاج منه."
+msgstr "اللعبة : اختيار الوحدة أو التحسين لتغيير الانتاج منه."
 
 #: client/gui-win32/cityrep.c:699
-#, fuzzy
 msgid "Game: That's the same thing!"
-msgstr "هذا نفس الشيء!"
+msgstr "اللعبة : هذا نفس الشيء!"
 
 #: client/gui-win32/cityrep.c:878 data/Freeciv.in:1648
 msgid "Popup"
@@ -14022,19 +13946,16 @@ msgid "What nation will you be?"
 msgstr "أي أمة تريد أن تكون?"
 
 #: client/gui-win32/dialogs.c:494
-#, fuzzy
 msgid "Select nation and name"
-msgstr "اختيار الأمة والاسم:"
+msgstr "اختيار الأمة والاسم"
 
 #: client/gui-win32/dialogs.c:512
-#, fuzzy
 msgid "Your leader name"
-msgstr "اسم ال_قائد"
+msgstr "اسم القائد"
 
 #: client/gui-win32/dialogs.c:517
-#, fuzzy
 msgid "Select your sex"
-msgstr "اختيار الجنس:"
+msgstr "اختيار الجنس"
 
 #: client/gui-win32/dialogs.c:723
 msgid "Unit Selection"
@@ -14260,7 +14181,7 @@ msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "معلومات مخابرات الدبلوماسية للامبراطورية %s"
 
 #: client/gui-xaw/mapview.c:160
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s People\n"
 "Year: %s\n"
@@ -14377,7 +14298,7 @@ msgid "Goal: %s (%d steps)"
 msgstr "الهدف: %s (%d خطوات)"
 
 #: client/gui-xaw/repodlgs.c:1115
-#, fuzzy, c-format
+#, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "المجموع:                     %9d%9d%9d%9d"
 
@@ -14528,9 +14449,8 @@ msgstr "<h1> برنامج Freeciv</h1>"
 
 #: manual/civmanual.c:225
 #, c-format
-#, fuzzy
 msgid "<table border=1><tr><th>Terrain</th>"
-msgstr "<table border=1><tr><th> التضاريس</th>"
+msgstr "<table border=1><tr><th>التضاريس</th>"
 
 #: manual/civmanual.c:226
 #, c-format
@@ -14563,9 +14483,9 @@ msgid "<th>Irrigation +food</th><th>Mining +shields</th>\n"
 msgstr "<th> الريّ الطعام</th><th> التعدين</th>"
 
 #: manual/civmanual.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "<th>Transform to</th>"
-msgstr "تحويل إلى"
+msgstr "<th>تحويل إلى</th>"
 
 #: manual/civmanual.c:269
 #, c-format
@@ -14580,15 +14500,13 @@ msgstr "<caption> الوقت</caption>"
 
 #: manual/civmanual.c:271
 #, c-format
-#, fuzzy
 msgid "<tr><th>Terrain</th>\n"
-msgstr "<tr><th> التضاريس</th>"
+msgstr "<tr><th>التضاريس</th>\n"
 
 #: manual/civmanual.c:272
 #, c-format
-#, fuzzy
 msgid "<th>Road</th><th>Irrigation</th>\n"
-msgstr "<th> الطريق</th><th> الريّ</th>"
+msgstr "<th>الطريق</th><th>الريّ</th>\n"
 
 #: manual/civmanual.c:273
 #, c-format
@@ -14598,9 +14516,8 @@ msgstr "<th> التعدين</th><th> السكّة</th>"
 
 #: manual/civmanual.c:274
 #, c-format
-#, fuzzy
 msgid "<th>Airbase</th><th>Fortress</th>\n"
-msgstr "<th> قاعدة جوية</th><th> القلعة</th>"
+msgstr "<th>قاعدة جوية</th><th>القلعة</th>\n"
 
 #: manual/civmanual.c:275
 #, c-format
@@ -14623,9 +14540,8 @@ msgstr "<h1> برنامج Freeciv</h1>"
 
 #: manual/civmanual.c:315 manual/civmanual.c:344
 #, c-format
-#, fuzzy
 msgid "<tr><td>Cost: <td>%d</tr>\n"
-msgstr "<tr><td> الكلفة<td></tr>"
+msgstr "<tr><td>الكلفة: <td>%d</tr>\n"
 
 #: manual/civmanual.c:316 manual/civmanual.c:345
 #, c-format
