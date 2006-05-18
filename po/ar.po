@@ -2073,9 +2073,8 @@ msgstr ""
 "help <اسم الخيار>"
 
 #: server/commands.c:47
-#, fuzzy
 msgid "Show help about server commands and server options."
-msgstr "المعرض."
+msgstr "عرض المساعدة عن أوامر وخيارات الخادم."
 
 #: server/commands.c:48
 #, fuzzy
@@ -2176,9 +2175,8 @@ msgid "Send message to all connections."
 msgstr "بعث رسالة إلى كل الاتصالات."
 
 #: server/commands.c:104
-#, fuzzy
 msgid "For each connected client, pops up a window showing the message entered."
-msgstr "لـ."
+msgstr "يظهر لكل عميل متصل نافذة تعرض الرسالة المدخلة."
 
 #: server/commands.c:108
 msgid "vote yes|no [vote number]"
@@ -2210,16 +2208,14 @@ msgstr ""
 "| tech <اللاعب> | timing | info]"
 
 #: server/commands.c:124
-#, fuzzy
 msgid "Turn on or off AI debugging of given entity."
-msgstr "الدور الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "يفعل أو يعطل تنقيح الذكاء الاصطناعي (ذ.ا) لكيان معطى."
 
 #: server/commands.c:125
-#, fuzzy
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
-msgstr "الطبعة الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة دوران."
+msgstr "إظهار أو اخفاء معلومات تنقيح ال ذ.ا ومخرجات التنقيح عن كيان معطى."
 
 #: server/commands.c:129
 msgid "set <option-name> <value>"
@@ -2251,9 +2247,8 @@ msgid "rulesetdir <directory>"
 msgstr "rulesetdir <الدليل>"
 
 #: server/commands.c:143
-#, fuzzy
 msgid "Choose new ruleset directory or modpack."
-msgstr "إختر جديد."
+msgstr "اختيار دليل مجموعة القواعد  أو رزمة التغيير  modpack الجديدة."
 
 #: server/commands.c:144
 #, fuzzy
@@ -2299,9 +2294,8 @@ msgid "metaserver <address>"
 msgstr "metaserver <عنوان انترنت>"
 
 #: server/commands.c:170
-#, fuzzy
 msgid "Set address (URL) for metaserver to report to."
-msgstr "المجموعة موقع."
+msgstr "اختيار عنوان موقع الانترنت لارسال التقارير له من metaserver."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:174
@@ -2549,9 +2543,8 @@ msgstr ""
 " جديد مع الملاحظة."
 
 #: server/commands.c:293
-#, fuzzy
 msgid "If there is none, become the game organizer with increased permissions."
-msgstr "إذا لا شيئ مع."
+msgstr "إذا لم يكن هناك أحد ، ستصبح منظم اللعبة مع صلاحيات أكثر."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:298
@@ -2651,11 +2644,10 @@ msgid "Load game from file."
 msgstr "تحميل اللعبة من ملف."
 
 #: server/commands.c:341
-#, fuzzy
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
-msgstr "الحمل<file-name> أيّ"
+msgstr "تحميل اللعبة من <اسم الملف>. ، ستفقد أي بيانات حالية بضمن ذلك اللاعبيون، مجموعات القواعد وخيارات الخادم.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:346
@@ -2676,9 +2668,8 @@ msgid "Write current settings as server commands to file."
 msgstr "كتابة الاعدادات الحالية كأوامر للخادم على ملف."
 
 #: server/commands.c:356
-#, fuzzy
 msgid "Switch server output between 'RFC-style' and normal style."
-msgstr "المفتاح عادي."
+msgstr "تحويل مخرجات الخادم بين 'أسلوب RFC' والأسلوب العادي."
 
 #: server/commands.c:360
 msgid "Simply returns the id of the server."
@@ -2710,9 +2701,8 @@ msgid "Server: %s has connected from %s."
 msgstr "الخادم: تم اتصال %s من %s."
 
 #: server/connecthand.c:131
-#, fuzzy
 msgid "Couldn't attach your connection to new player."
-msgstr "جديد."
+msgstr "فشل فصل اتصالك بلاعب جديد."
 
 #: server/connecthand.c:141
 #, c-format
@@ -2794,12 +2784,10 @@ msgid "Lost connection: %s."
 msgstr "تم فقد الاتصال: %s."
 
 #: server/console.c:167
-#, fuzzy
 msgid "Ok. RFC-style set."
 msgstr "موافق. تم تحديد أسلوب RFC."
 
 #: server/console.c:169
-#, fuzzy
 msgid "Ok. Standard style set."
 msgstr "موافق. تم تحديد الأسلوب المعياري."
 
@@ -2813,52 +2801,50 @@ msgid "The %s can't accept %s."
 msgstr "لا يستطيع %s قبول %s."
 
 #: server/diplhand.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "You don't have tech %s, you can't accept treaty."
 msgstr "ليس لديك تكنولوجيا %s ، لا يمكنك قبول المعاهدة."
 
 #: server/diplhand.c:169
-#, fuzzy
 msgid "City you are trying to give no longer exists, you can't accept treaty."
 msgstr "المدينة التي تحاول إعطائها غير موجودة بعد اﻵن ، لا يمكنك قبول المعاهدة."
 
 #: server/diplhand.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "You are not owner of %s, you can't accept treaty."
 msgstr "أنت لست مالك  %s، لا تستطيع قبول المعاهدة."
 
 #: server/diplhand.c:181 server/diplhand.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "Your capital (%s) is requested, you can't accept treaty."
 msgstr "تم طلب عاصمتك (%s) ، لا يمكنك قبول المعاهدة."
 
 #: server/diplhand.c:208
-#, fuzzy
 msgid "You don't have enough gold, you can't accept treaty."
-msgstr "أنت الذهب."
+msgstr "ليس لديك ما يكفي من الذهب، لذا لا يمكنك قبول المعاهدة."
 
 #: server/diplhand.c:240 server/diplhand.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
-msgstr[0] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
-msgstr[1] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
-msgstr[2] "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة."
+msgstr[0] "تم الاتفاق على معاهدة  من %d بند."
+msgstr[1] "تم الاتفاق على معاهدة  من %d بندان."
+msgstr[2] "تم الاتفاق على معاهدة  من %d بنود."
 
 #: server/diplhand.c:261 server/diplhand.c:265
-#, fuzzy, c-format
+#, c-format
 msgid "One of the cities %s is giving away is destroyed! Treaty canceled!"
-msgstr "واحد المعاهدة!"
+msgstr "لقد دمرت احدى المدن التي اعطاها لنا  %s ! تم الغاء المعاهدة!"
 
 #: server/diplhand.c:272 server/diplhand.c:277
-#, fuzzy, c-format
+#, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr "الـ المعاهدة!"
+msgstr "لا يسيطر %s على %s بعد اﻵن! تم الغاء المعاهدة!"
 
 #: server/diplhand.c:314 server/diplhand.c:318
-#, fuzzy, c-format
+#, c-format
 msgid "The %s don't have the promised amount of gold! Treaty canceled!"
-msgstr "الـ الذهب المعاهدة!"
+msgstr "ليس لدى %s الكمية الموعودة من الذهب! تم الغاء المعاهدة!"
 
 #: server/diplhand.c:347
 #, c-format
@@ -2871,14 +2857,14 @@ msgid "%s allowed you to create an embassy!"
 msgstr "سمح %s لك ببناء سفارة!"
 
 #: server/diplhand.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "You are taught the knowledge of %s."
-msgstr "أنت."
+msgstr "لقد عُلّمت معرفة ال %s."
 
 #: server/diplhand.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from the %s."
-msgstr "الـ."
+msgstr "استحوذ %s على %s من %s."
 
 #: server/diplhand.c:385
 #, c-format
@@ -2911,16 +2897,16 @@ msgid "You agree on a cease-fire with %s."
 msgstr "لقد وافقت على وقف اطلاق نار مع %s."
 
 #: server/diplhand.c:450 server/diplhand.c:459
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You agree on an armistice with %s. In %d turn it will turn into a peace "
 "treaty. Move your units out of %s's territory."
 msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
-msgstr[0] "أنت مع في دوران دوران التحرّك."
-msgstr[1] "أنت مع في دوران دوران التحرّك."
-msgstr[2] "أنت مع في دوران دوران التحرّك."
+msgstr[0] "لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d دور إلى معاهدة سلام. قم بتحريك وحداتك خارج أراضي %s."
+msgstr[1] "لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d دوران إلى معاهدة سلام. قم بتحريك وحداتك خارج أراضي %s."
+msgstr[2] "لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d أدوار إلى معاهدة سلام. قم بتحريك وحداتك خارج أراضي %s."
 
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
@@ -2967,23 +2953,23 @@ msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "يشتبه ب %s في تسميم مخزون المياه في %s."
 
 #: server/diplomats.c:261
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
 "diplomatic efforts providing the Ambassador is reputable."
-msgstr "ملكك الـ السّفير."
+msgstr "لقد اعدمت وحدتك %s في %s لاشتباهها بالتجسس.  يرحب %s أي جهود دبلوماسية مستقبلية بشرط أن يكون السفير محترما."
 
 #: server/diplomats.c:267
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You executed a %s the %s had sent to establish an embassy in %s for being "
 "untrustworthy"
-msgstr "أنت"
+msgstr "لقد اعدمت %s الذي ارسل لانشاء سفارة من قبل %s في %s لأنه غير جدير بالثقة"
 
 #: server/diplomats.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was executed in %s by primitive %s."
-msgstr "ملكك."
+msgstr "تم اعدام وحدتك %s في %s من البدائي %s."
 
 #: server/diplomats.c:291
 #, c-format
@@ -2996,14 +2982,14 @@ msgid "The %s have established an embassy in %s."
 msgstr "انشئ %s سفارة في %s."
 
 #: server/diplomats.c:349
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s could not sabotage %s's %s."
-msgstr "ملكك."
+msgstr "لم تستطع وحدتك %s تخريب %s %s."
 
 #: server/diplomats.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in sabotaging %s's %s."
-msgstr "ملكك."
+msgstr "نجحت وحدتك %s في تخريب %s %s."
 
 #: server/diplomats.c:375
 #, c-format
@@ -3040,11 +3026,11 @@ msgid "Your %s was bribed by %s."
 msgstr "تم رشو وحدتك %s من قبل %s."
 
 #: server/diplomats.c:604
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
 "and executed."
-msgstr "ملكك."
+msgstr "توقع %s محاولتك لسرقة التكنولوجيا مرة أخرى. تم ايقاف واعدام وحدتك %s."
 
 #: server/diplomats.c:609
 #, c-format
@@ -3250,14 +3236,12 @@ msgid "Year: %s"
 msgstr "السنة: %s"
 
 #: server/gamehand.c:377
-#, fuzzy
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
-msgstr "الـ دوران"
+msgstr "زادت مدة الخروج من الدور الحد الاعلى، جاري تثبيت على الحد الأعلى"
 
 #: server/gamehand.c:385
-#, fuzzy
 msgid "The turn timeout is smaller than zero, fixing at zero."
-msgstr "الـ دوران."
+msgstr "مدة الخروج أقل من الصفر، جاري تثبيت على الصفر."
 
 #: server/ggzserver.c:205 client/ggzclient.c:76
 #, fuzzy
@@ -3265,14 +3249,14 @@ msgid "Only the GGZ client must call civclient in ggz mode!\n"
 msgstr "فقط"
 
 #: server/handchat.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "%s is an ambiguous player name-prefix."
-msgstr "مبهم."
+msgstr "بادئة اسم اللاعب مبهمة %s."
 
 #: server/handchat.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "%s is an ambiguous connection name-prefix."
-msgstr "مبهم."
+msgstr "بادئة اسم الاتصال مبهمة %s."
 
 #: server/handchat.c:74
 #, c-format
@@ -3318,9 +3302,8 @@ msgid "Nuclear winter has occurred!"
 msgstr "حدث الشتاء النووي!"
 
 #: server/maphand.c:299
-#, fuzzy
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr "الأهوار."
+msgstr "جفت الأهوار وتحولت سهول كثيرة من الأرض الزراعية إلى التندرا."
 
 #: server/maphand.c:320
 #, fuzzy
@@ -3936,8 +3919,9 @@ msgstr "خطأ في قيمة تعريف نوع الحكومة (%d)"
 
 #: server/savegame.c:1648
 #, c-format
+#, fuzzy
 msgid "Wrong player%d.u%d.type value (%d)"
-msgstr ""
+msgstr "الخطأ"
 
 #: server/savegame.c:1658
 #, c-format
@@ -9330,8 +9314,8 @@ msgstr "المدينة: %s (%s)"
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
 msgstr[0] "المدينة دوران"
-msgstr[1] "المدينة دورانالمدينة دوران"
-msgstr[2] "المدينة دورانالمدينة دوران"
+msgstr[1] "المدينة دوران"
+msgstr[2] "المدينة دوران"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:165
@@ -12815,8 +12799,9 @@ msgid "Air units"
 msgstr "الوحدات الجوية"
 
 #: client/gui-mui/citydlg.c:1660 client/gui-mui/citydlg.c:1661
+#, fuzzy
 msgid "_Disband if build settler at size 1"
-msgstr ""
+msgstr "حلّ الحجم"
 
 #: client/gui-mui/citydlg.c:1678 client/gui-mui/cityrep.c:366
 #: client/gui-mui/dialogs.c:137 client/gui-mui/dialogs.c:185
@@ -17473,7 +17458,7 @@ msgid ""
 "to manage all cities on an island either by hand or by governor. Read more "
 "hints, some background information, and some preset examples in the file "
 "README.cma, included with Freeciv.\n"
-msgstr "الـ المواطن الحاكم هو هو و مفتوح هناك على أقل ما يمكن الفائض معدن الذّهب الذهب على الذهب أنت أقل ما يمكن الفائض مستحيل حينما لذا إحتفل به هذا مع شاهد السعادة السيطرة الإطلاق مع إنقر أنت أيضًا و المواطن الحاكم اللعبة أنقذ أماكن :: أوضاع :: إعدادات إذا مع هو إقرأ مع برنامج Freeciv"
+msgstr "الـ المواطن الحاكم CMA هو هو و مفتوح هناك على أقل ما يمكن الفائض معدن الذّهب الذهب على الذهب أنت أقل ما يمكن الفائض مستحيل حينما لذا إحتفل به هذا مع شاهد السعادة السيطرة الإطلاق مع إنقر أنت أيضًا و المواطن الحاكم اللعبة أنقذ أماكن :: أوضاع :: إعدادات إذا مع هو إقرأ مع برنامج Freeciv"
 
 #: data/helpdata.txt:820
 #, fuzzy
