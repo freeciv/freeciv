@@ -714,7 +714,7 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
 
   /* Tech lead is worrisome. FIXME: Only consider 'military' techs. */
   fear += MAX(get_player_research(target)->techs_researched
-              - get_player_research(target)->techs_researched, 0) * 100;
+              - get_player_research(pplayer)->techs_researched, 0) * 100;
 
   /* Spacerace loss we will not allow! */
   if (ship->state >= SSHIP_STARTED) {
