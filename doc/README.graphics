@@ -57,19 +57,7 @@ reloaded later as necessary.
 Graphics formats:
 -----------------
 
-Different clients support different graphics formats.  All of them should
-support PNG, however, so this is what you should use.  The XAW client
-currently only supports indexed PNGs.
-
-Using GIMP, you can use the following steps to convert an image to an
-indexed PNG:
-
-  * Choose the menu entry "Image" -> "Mode" -> "Indexed" (alt-I).
-  * Choose the "Generate Optimal Palette" option, with no color dithering.
-  * Accept these options.
-  * Choose the menu entry "File" -> "Save As..."
-  * Save the file as xxx.png.
-  * I recommend choosing a high level of compression.
+All clients currently use 24/32 bit PNGs.
 
 ----------------------------------------------------------------------
 Tileset options:
