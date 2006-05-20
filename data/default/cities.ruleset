@@ -38,7 +38,7 @@ name		= _("scientist")
 short_name	= _("?Scientist:S")
 reqs		=
     { "type", "name", "range"
-      "MinSize", "5", "City"
+; Nothing
     }
 
 [specialist_taxman]
@@ -46,7 +46,7 @@ name		= _("taxman")
 short_name	= _("?Taxman:T")
 reqs		=
     { "type", "name", "range"
-      "MinSize", "5", "City"
+; Nothing
     }
 
 [parameters]
