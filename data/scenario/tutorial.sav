@@ -20,9 +20,9 @@ signal.connect('turn_started', 'turn_callback')
 function unit_moved_callback(unit, src_tile, dst_tile)
   if unit.owner:is_human() then
     if citiesbuilt == 0
-      and unit:type().name == 'Settlers'
-      and (dst_tile:terrain().name == 'Grassland'
-           or dst_tile:terrain().name == 'Plains') then  
+      and unit.type.name == 'Settlers'
+      and (dst_tile.terrain.name == 'Grassland'
+           or dst_tile.terrain.name == 'Plains') then  
       notify.event(unit.owner, dst_tile, E.TUTORIAL,
 _('This looks like a good place to build a city.  The next time this\\n\
 unit gets a chance to move, press (b) to found a city.\\n\
@@ -148,7 +148,7 @@ on each building type).  As you get more large cities, it may pay off\\n\
 to change your tax rates (by pressing shift-T) to dedicate some of\\n\
 your taxes directly to luxuries (every two luxuries will pacify one\\n\
 citizen).  Building a marketplace enhances the benefit from this\\n\
-by providing +50% luxuries to the city.'))
+by providing +50%% luxuries to the city.'))
       growth5msg = true
     elseif size == 8 and not growth8msg then
       notify.event(city.owner, city.tile, E.TUTORIAL,
@@ -195,7 +195,7 @@ function unit_built_callback(unit)
   if not unit.owner:is_human() then
     return
   end
-  if unit:type().name == 'Settlers' then
+  if unit.type.name == 'Settlers' then
     if settlersbuilt == 0 then
       notify.event(unit.owner, unit.tile, E.TUTORIAL,
 _('You have built a settler unit.  Settlers are best used to build \\n\
