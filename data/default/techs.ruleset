@@ -25,7 +25,7 @@ options="1.9"
 ; root_req      = tech required before acquiring this tech, by any
 ;     means, inherited by all techs that require this tech in turn unless
 ;     "None" is given here explicitly; and you can make a tech available
-;     only through a nation's init_tech by making it root_req itself.
+;     only through the init_tech of a nation by making it root_req itself.
 ; flags         = special flag strings
 ; graphic       = icon for technology
 ; graphic_alt   = alternate icon
