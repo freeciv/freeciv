@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-17 09:12+0000\n"
+"POT-Creation-Date: 2006-05-18 09:27+0000\n"
 "PO-Revision-Date: 2006-05-02 10:26+0000\n"
 "Last-Translator: Ahmad M. Zawawi <zeus_go64@yahoo.com>\n"
 "Language-Team: Arabic <freeciv-i18n@freeciv.org>\n"
@@ -30,7 +30,7 @@ msgid "Shield"
 msgstr "الدرع"
 
 #: common/city.c:55 client/gui-mui/citydlg.c:1604 data/Freeciv.in:3060
-#: data/default/techs.ruleset:733 data/civ2/techs.ruleset:551
+#: data/default/techs.ruleset:734 data/civ2/techs.ruleset:551
 #: data/civ1/techs.ruleset:547
 msgid "Trade"
 msgstr "التجارة"
@@ -655,7 +655,7 @@ msgid "Irrigation"
 msgstr "الري"
 
 #: common/terrain.c:288 common/terrain.c:468 common/unit.c:556
-#: data/default/techs.ruleset:580 data/civ2/techs.ruleset:436
+#: data/default/techs.ruleset:581 data/civ2/techs.ruleset:436
 #: data/civ1/techs.ruleset:433
 msgid "Railroad"
 msgstr "سكة حديد"
@@ -2013,18 +2013,16 @@ msgid "  -S, --Serverid ID\tSets the server id to ID\n"
 msgstr "  -S, --Serverid ID\tتحديد رقم تعريف الخادم ب ID\n"
 
 #: server/civserver.c:245
-#, fuzzy
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr "بي - الحرف السادس عشر في اللغة الإنجليزية بم"
+msgstr "  -P, --Ppm\t\tحفظ ppms الخريطة عند حفظ اللعبة.\n"
 
 #: server/civserver.c:246
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\tقراءة سكربت البداية FILE\n"
 
 #: server/civserver.c:248
-#, fuzzy
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr "آر - الحرف الثامن عشر في اللغة الإنجليزية"
+msgstr "  -R, --Ranklog FILE\tاستعمال FILE كملف سجل تصنيف الرتب\n"
 
 #: server/civserver.c:249 client/civclient.c:229 manual/civmanual.c:373
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -2055,7 +2053,7 @@ msgid ""
 "and then the game will begin.  This command is also required after loading a "
 "savegame for the game to recommence.  Once the game is running this command "
 "is no longer available, since it would have no effect."
-msgstr "هذا متى جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة فيما بعد هذا عندما."
+msgstr "هذا متى جديد ذكاء اصطناعي فيما بعد هذا عندما."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:42
@@ -2408,7 +2406,7 @@ msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'.  With an argument, sets "
 "the skill level for that player only."
-msgstr "مع الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مبتدئ جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مبتدئ مع."
+msgstr "مع ذكاء اصطناعي مبتدئ جديد ذكاء اصطناعي مبتدئ مع."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:228
@@ -2429,7 +2427,7 @@ msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
 "skill level for that player only."
-msgstr "مع الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة سهل جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة سهل مع."
+msgstr "مع ذكاء اصطناعي سهل جديد ذكاء اصطناعي سهل مع."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:237
@@ -2450,7 +2448,7 @@ msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
 "the skill level for that player only."
-msgstr "مع الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة عادي جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة عادي مع."
+msgstr "مع ذكاء اصطناعي عادي جديد ذكاء اصطناعي عادي مع."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:246
@@ -2471,7 +2469,7 @@ msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
 "skill level for that player only."
-msgstr "مع الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة صعب جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة صعب مع."
+msgstr "مع ذكاء اصطناعي صعب جديد ذكاء اصطناعي صعب مع."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:255
@@ -2493,7 +2491,7 @@ msgid ""
 "default level for any new AI players to this.  With an argument, sets the "
 "skill level for that player only. THIS IS ONLY FOR TESTING OF NEW AI "
 "FEATURES! For ordinary servers, this option has no effect."
-msgstr "مع الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة تجريبي جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة مع الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة لـ."
+msgstr "مع ذكاء اصطناعي تجريبي جديد ذكاء اصطناعي مع ذكاء اصطناعي لـ."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:266
@@ -2647,7 +2645,9 @@ msgstr "تحميل اللعبة من ملف."
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
-msgstr "تحميل اللعبة من <اسم الملف>. ، ستفقد أي بيانات حالية بضمن ذلك اللاعبيون، مجموعات القواعد وخيارات الخادم.\n"
+msgstr ""
+"تحميل اللعبة من <اسم الملف>. ، ستفقد أي بيانات حالية بضمن ذلك اللاعبيون، "
+"مجموعات القواعد وخيارات الخادم.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:346
@@ -2740,11 +2740,13 @@ msgid "%s has client version %d.%d.%d%s"
 msgstr "%s عنده اصدار عميل %d.%d.%d%s"
 
 #: server/connecthand.c:225
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
-msgstr "الـ الزبون الترقية!"
+msgstr ""
+"ينقص العميل امكانية يحتاجها هذا الخادم.\n"
+"اصدار الخادم: %d.%d.%d%s اصدار العميل: %d.%d.%d%s.  يمكن أن يحل ذلك تطوير العميل!"
 
 #: server/connecthand.c:232 server/connecthand.c:247
 #, c-format
@@ -2752,11 +2754,13 @@ msgid "%s was rejected: Mismatched capabilities."
 msgstr "تم رفض %s: الامكانيات غير مطابقة."
 
 #: server/connecthand.c:240
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
-msgstr "الـ الزبون الترقية!"
+msgstr ""
+"ينقص الخادم امكانية يحتاجها العميل.\n"
+"اصدار الخادم: %d.%d.%d%s اصدار العميل: %d.%d.%d%s.  يمكن أن يحل ذلك تطوير الخادم!"
 
 #: server/connecthand.c:256
 #, c-format
@@ -2904,9 +2908,15 @@ msgid ""
 msgid_plural ""
 "You agree on an armistice with %s. In %d turns it will turn into a peace "
 "treaty. Move your units out of %s's territory."
-msgstr[0] "لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d دور إلى معاهدة سلام. قم بتحريك وحداتك خارج أراضي %s."
-msgstr[1] "لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d دوران إلى معاهدة سلام. قم بتحريك وحداتك خارج أراضي %s."
-msgstr[2] "لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d أدوار إلى معاهدة سلام. قم بتحريك وحداتك خارج أراضي %s."
+msgstr[0] ""
+"لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d دور إلى معاهدة سلام. قم "
+"بتحريك وحداتك خارج أراضي %s."
+msgstr[1] ""
+"لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d دوران إلى معاهدة سلام. قم "
+"بتحريك وحداتك خارج أراضي %s."
+msgstr[2] ""
+"لقد وافقت على هدنة مع %s. ستتحول الهدنة في خلال %d أدوار إلى معاهدة سلام. قم "
+"بتحريك وحداتك خارج أراضي %s."
 
 #: server/diplhand.c:481 server/diplhand.c:484
 #, c-format
@@ -2957,7 +2967,9 @@ msgstr "يشتبه ب %s في تسميم مخزون المياه في %s."
 msgid ""
 "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
 "diplomatic efforts providing the Ambassador is reputable."
-msgstr "لقد اعدمت وحدتك %s في %s لاشتباهها بالتجسس.  يرحب %s أي جهود دبلوماسية مستقبلية بشرط أن يكون السفير محترما."
+msgstr ""
+"لقد اعدمت وحدتك %s في %s لاشتباهها بالتجسس.  يرحب %s أي جهود دبلوماسية "
+"مستقبلية بشرط أن يكون السفير محترما."
 
 #: server/diplomats.c:267
 #, c-format
@@ -3244,9 +3256,8 @@ msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "مدة الخروج أقل من الصفر، جاري تثبيت على الصفر."
 
 #: server/ggzserver.c:205 client/ggzclient.c:76
-#, fuzzy
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
-msgstr "فقط"
+msgstr "يسمح فقط لعميل GGZ مناداة civclient في نمط ggz!\n"
 
 #: server/handchat.c:66
 #, c-format
@@ -3306,24 +3317,22 @@ msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr "جفت الأهوار وتحولت سهول كثيرة من الأرض الزراعية إلى التندرا."
 
 #: server/maphand.c:320
-#, fuzzy
 msgid ""
 "New hope sweeps like fire through the country as the discovery of railroad "
 "is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"جديد\n"
-" العمّال مع."
+"ينتشر أمل جديد كالنار في كل أنحاء المدينة عند اعلان اكتشاف سكة الحديد.\n"
+"      يجتمع العمال بعفوية ويطورون كل مدنك إلى سكك الحديد."
 
 #: server/maphand.c:326
-#, fuzzy
 msgid ""
 "The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
-"الـ\n"
-" العمّال مع."
+"يفرح الناس عند سماع معرفة علمائك عن سكك الحديد.\n"
+"      يجتمع العمال بعفوية ويطورون كل مدنك إلى سكك الحديد."
 
 #: server/maphand.c:1376
 #, c-format
@@ -3336,9 +3345,8 @@ msgid "Disbanded your %s due to changing terrain."
 msgstr "تم تسريح وحدتك %s لتغير التضاريص."
 
 #: server/meta.c:140
-#, fuzzy
 msgid "Not reporting to the metaserver in this game."
-msgstr "ليس، أداة نفي."
+msgstr "بدون اصدار أي تقارير ل  metaserver في هذه اللعبة."
 
 #: server/meta.c:380
 #, c-format
@@ -3372,16 +3380,16 @@ msgstr "يحكم %s الآن %s ك %s."
 #. TRANS: this is a message event so don't make it
 #. * too long.
 #: server/plrhand.c:337
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
 "government is %s."
 msgid_plural ""
 "The %s have incited a revolt! %d turns of anarchy will ensue! Target "
 "government is %s."
-msgstr[0] "الـ دوران الهدف."
-msgstr[1] "الـ دوران الهدف."
-msgstr[2] "الـ دوران الهدف."
+msgstr[0] "حرض %s على ثورة! في خلال %d دور ستحدث الفوضى! الحكومة الهدف هي %s."
+msgstr[1] "حرض %s على ثورة! في خلال %d دوران ستحدث الفوضى! الحكومة الهدف هي %s."
+msgstr[2] "حرض %s على ثورة! في خلال %d أدوار ستحدث الفوضى! الحكومة الهدف هي %s."
 
 #: server/plrhand.c:349
 msgid "Revolution: returning to anarchy."
@@ -3416,7 +3424,9 @@ msgstr "لا يعطينا %s رؤية مشتركة بعد اﻵن!"
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
 "dissolve the senate or wait until a more timely moment."
-msgstr "لن يسمح لك مجلس الشيوخ بنقض المعاهدة مع %s. يجب عليك حل المجلس أو الانتظار لوقف أفضل."
+msgstr ""
+"لن يسمح لك مجلس الشيوخ بنقض المعاهدة مع %s. يجب عليك حل المجلس أو الانتظار "
+"لوقف أفضل."
 
 #: server/plrhand.c:568
 #, c-format
@@ -3428,7 +3438,9 @@ msgstr "وافق مجلس الشيوخ على مشروع قانونك بسبب �
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
 "finding a new senate."
-msgstr "يرفض مجلس الشيوخ انهاء المعاهدة مع %s، ولكن لن تجد صعوبة في العثور على مجلس جديد."
+msgstr ""
+"يرفض مجلس الشيوخ انهاء المعاهدة مع %s، ولكن لن تجد صعوبة في العثور على مجلس "
+"جديد."
 
 #: server/plrhand.c:605
 #, c-format
@@ -3441,8 +3453,8 @@ msgid ""
 " %s cancelled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
-"الغى  %s الاتفاقية الدبلوماسية! الحالة الدبلوماسية بين ال %s "
-"و ال %s هي اﻵن %s."
+"الغى  %s الاتفاقية الدبلوماسية! الحالة الدبلوماسية بين ال %s و ال %s هي اﻵن %"
+"s."
 
 #: server/plrhand.c:628
 #, c-format
@@ -3578,7 +3590,7 @@ msgstr "مساحة الأرض المستعمرة"
 msgid "Research Speed"
 msgstr "سرعة البحث العلمي"
 
-#: server/report.c:119 data/default/techs.ruleset:392
+#: server/report.c:119 data/default/techs.ruleset:393
 #: data/civ2/techs.ruleset:296 data/civ1/techs.ruleset:294
 msgid "Literacy"
 msgstr "معرفة القراءة والكتابة"
@@ -3588,7 +3600,7 @@ msgstr "معرفة القراءة والكتابة"
 msgid "Production"
 msgstr "انتاج"
 
-#: server/report.c:121 data/default/techs.ruleset:223
+#: server/report.c:121 data/default/techs.ruleset:224
 #: data/civ2/techs.ruleset:169 data/civ1/techs.ruleset:168
 msgid "Economics"
 msgstr "اقتصاد"
@@ -3890,7 +3902,9 @@ msgstr "تحذير: أمة مجهولة %s في رقم وضع البدء %d"
 msgid ""
 "Number of starts (%d) are lower than rules.max_players (%d), lowering rules."
 "max_players."
-msgstr "عدد البدايات (%d) أقل من الحد الأعلى من عدد اللاعبيين (%d), جاري تخفيض قيمة rules. max_players."
+msgstr ""
+"عدد البدايات (%d) أقل من الحد الأعلى من عدد اللاعبيين (%d), جاري تخفيض قيمة "
+"rules. max_players."
 
 #: server/savegame.c:1294 server/savegame.c:1300 server/savegame.c:1306
 #, c-format
@@ -3918,8 +3932,7 @@ msgid "Wrong government type id value (%d)"
 msgstr "خطأ في قيمة تعريف نوع الحكومة (%d)"
 
 #: server/savegame.c:1648
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Wrong player%d.u%d.type value (%d)"
 msgstr "الخطأ"
 
@@ -3957,7 +3970,9 @@ msgstr ""
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
-msgstr "تحذير: دلائل مجموعة القواعد المختلفة ('%s' و '%s') غير مدعومة بعد اﻵن. جاري استعمال '%s'."
+msgstr ""
+"تحذير: دلائل مجموعة القواعد المختلفة ('%s' و '%s') غير مدعومة بعد اﻵن. جاري "
+"استعمال '%s'."
 
 #: server/savegame.c:3868
 #, c-format
@@ -4183,7 +4198,9 @@ msgstr "اعتبار الأقطاب قارات منفصلة"
 
 #: server/settings.c:307
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
-msgstr "تعني قيمة  0 أن القارات يمكن أن تتحد مع الأقطاب و قيمة 1 تعني أن الأقطاب منفصلة عادة"
+msgstr ""
+"تعني قيمة  0 أن القارات يمكن أن تتحد مع الأقطاب و قيمة 1 تعني أن الأقطاب "
+"منفصلة عادة"
 
 #: server/settings.c:313
 msgid "All the map is temperate"
@@ -4234,7 +4251,9 @@ msgstr "كمية التلال/الجبال"
 msgid ""
 "Small values give flat maps, while higher values give a steeper map with "
 "more hills and mountains."
-msgstr "تعطي القيم الصغيرة خرائط مسطحة بينما تعطي القيم الأعلى خريطة مع تلال وجبال أكثر."
+msgstr ""
+"تعطي القيم الصغيرة خرائط مسطحة بينما تعطي القيم الأعلى خريطة مع تلال وجبال "
+"أكثر."
 
 #: server/settings.c:351
 msgid "Amount of water on lands"
@@ -4244,7 +4263,9 @@ msgstr "كمية المياه على الأراضي"
 msgid ""
 "Small values mean lots of dry, desert-like land; higher values give a wetter "
 "map with more swamps, jungles, and rivers."
-msgstr "تعني القيم الصغيرة أرضا صحراوية جافة بينما تعطي القيم الأعلى خريطة أكثر بللا مع مستنقعات وأدغال وأنهار."
+msgstr ""
+"تعني القيم الصغيرة أرضا صحراوية جافة بينما تعطي القيم الأعلى خريطة أكثر بللا "
+"مع مستنقعات وأدغال وأنهار."
 
 #: server/settings.c:359
 msgid "Map generation random seed"
@@ -4266,7 +4287,9 @@ msgstr "القيمة الأولية لعشوائية اللعبة"
 msgid ""
 "For zero (the default) a seed will be chosen based on the time. This setting "
 "is usually only of interest while debugging the game"
-msgstr "إذا كانت صفرا (الافتراضي) فإن القيمة الأولية للعشوائية ستختار بناء على الوقت. هذا الاعداد عادة مهم فقط عند تنقيح اللعبة"
+msgstr ""
+"إذا كانت صفرا (الافتراضي) فإن القيمة الأولية للعشوائية ستختار بناء على "
+"الوقت. هذا الاعداد عادة مهم فقط عند تنقيح اللعبة"
 
 #: server/settings.c:381
 msgid "Amount of \"special\" resource squares"
@@ -4285,11 +4308,10 @@ msgid "Amount of huts (minor tribe villages)"
 msgstr "كمية الأكواخ (قرى قبائل الأقليات)"
 
 #: server/settings.c:390
-#, fuzzy
 msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investiged by units."
-msgstr "هذا الأكواخ."
+msgstr "يعطي هذا الاعداد عدد الأكواخ بالضبط التي ستوضع على الخريطة. الأكواخ هي قرى قبائل صغيرة الممكن التحقق منها من قبل الوحدات."
 
 #: server/settings.c:403
 msgid "Minimum number of players"
@@ -4349,15 +4371,15 @@ msgid ""
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
 "هذا وحدات هناك الـ\n"
-" المدينة المستوطنون\n"
-" التضاريس المهندسون\n"
-" المستكشف المستكشف\n"
+" المدينة مستعمرين\n"
+" طبيعة الأرض مهندسين\n"
+" مستكشف مستكشف\n"
 " الملك\n"
-" الدبلوماسي الدبلوماسي\n"
-" موافق الدفاع وحدات المحاربون\n"
-" دي - الحرف الرابع في اللغة الإنجليزية جيّد الدفاع وحدات الكتيبة\n"
+" دبلوماسي دبلوماسي\n"
+" موافق الدفاع وحدات محاربين\n"
+" دي - الحرف الرابع في اللغة الإنجليزية جيّد الدفاع وحدات كتيبة\n"
 " يصوم، سريع الهجوم وحدات الخيالة\n"
-" أي - الحرف الأوّل في الأبجديّة اللّاتينيّة قوي الهجوم وحدات المصيادة"
+" أي - الحرف الأوّل في الأبجديّة اللّاتينيّة قوي الهجوم وحدات منجنيق"
 
 #: server/settings.c:451
 msgid "Area where initial units are located"
@@ -4398,7 +4420,7 @@ msgid ""
 "This affects how quickly players can research new technology. All tech costs "
 "are multiplied by this amount (as a percentage). The base tech costs are "
 "determined by the ruleset or other game settings."
-msgstr "هذا جديد الكلّ الـ."
+msgstr "هذا جديد الكل الـ."
 
 #: server/settings.c:485
 msgid "Percentage penalty when changing tech"
@@ -4447,7 +4469,7 @@ msgid ""
 "conquercost: specifically, from huts or from Great Library effects), you "
 "lose research points equal to this percentage of the cost to research a new "
 "technology. You can end up with negative research points if this is non-zero."
-msgstr "لـ عظيم المكتبة جديد أنت مع."
+msgstr "لـ رائع مكتبة جديد أنت مع."
 
 #: server/settings.c:526
 msgid "Food required for a city to grow"
@@ -4471,7 +4493,7 @@ msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount if it "
 "has a Granary)."
-msgstr "إذا القناة البالوعة النظام السايلو."
+msgstr "إذا قناة مائية البالوعة النظام مخزن الحبوب."
 
 #: server/settings.c:545
 msgid "Multiplier percentage for production costs"
@@ -4531,7 +4553,7 @@ msgid ""
 "extra citizen is unhappy before other adjustments; see also unhappysize. "
 "This assumes a Democracy; for other governments the effect occurs at smaller "
 "numbers of cities."
-msgstr "متى مواطنيين هذا الديمقراطية."
+msgstr "متى مواطنيين هذا الحكم الديقراطي."
 
 #: server/settings.c:600
 msgid "Minimum distance between cities"
@@ -4623,7 +4645,7 @@ msgid ""
 "If this is set to greater than 0, then any land tiles within the given "
 "radius of a city will be owned by that nation. Special rules apply for ocean "
 "tiles or tiles within range of more than one nation's cities."
-msgstr "إذا خاصّ."
+msgstr "إذا خاص."
 
 #: server/settings.c:672
 msgid "Units inside borders cause no unhappiness"
@@ -4765,7 +4787,7 @@ msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
 "last met, even if they do not have an embassy. If set to zero then players "
 "cannot meet unless they have an embassy."
-msgstr "اللاعبون أدوار إذا."
+msgstr "اللاعبين أدوار إذا."
 
 #: server/settings.c:792
 msgid "Rebuild palace if capital is conquered"
@@ -4830,10 +4852,10 @@ msgid ""
 msgstr ""
 "هذا الزبائن هذا الـ\n"
 " أو - الحرف الخامس عشر في اللغة الإنجليزية عالمي\n"
-" الهمجيّ\n"
+" بربري\n"
 " ميت\n"
-" أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة\n"
-" إتش - الحرف الثامن في اللغة الإنجليزية الإنسان الوصف هكذا الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة أعلى لا شيئ جهاز السيطرة الإزاحة جهاز السيطرة جهاز السيطرة جهاز السيطرة لا"
+" أي - الحرف الأوّل في الأبجديّة اللّاتينيّة ذكاء اصطناعي\n"
+" إتش - الحرف الثامن في اللغة الإنجليزية انساني الوصف هكذا ذكاء اصطناعي أعلى لا شيئ جهاز السيطرة الإزاحة جهاز السيطرة جهاز السيطرة جهاز السيطرة لا"
 
 #: server/settings.c:853
 msgid "Whether AI-status toggles with connection"
@@ -4866,7 +4888,7 @@ msgid ""
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
 "with debugging, a timeout of -1 sets the autogame test mode. Use this with "
 "the command \"timeoutincrease\" to have a dynamic timer."
-msgstr "إذا الدور معمول دوران الصّفر :: النّكرة - شخص عديم الشّأن في مع الإستعمال مع."
+msgstr "إذا الدور انتهى دوران الصّفر :: النّكرة - شخص عديم الشّأن في مع الإستعمال مع."
 
 #: server/settings.c:877
 msgid "Timeout at least n seconds when enemy moved"
@@ -4955,7 +4977,7 @@ msgstr "نمط لعب ادوار المدة المحددة"
 msgid ""
 "If this is set to 1 the game.info.turn will not advance until the timeout "
 "has expired, even if all players have clicked on \"Turn Done\"."
-msgstr "إذا دوران الدور معمول."
+msgstr "إذا دوران الدور انتهى."
 
 #: server/settings.c:945
 msgid "What is in the Demographics report"
@@ -4983,16 +5005,16 @@ msgid ""
 "    b = display \"best nation\" column\n"
 "The order of characters is not significant, but their capitalization is."
 msgstr ""
-"هذا الخصائص السكانية\n"
-" أن - الحرف الرابع عشر في اللغة الإنجليزية السكان\n"
-" بي - الحرف السادس عشر في اللغة الإنجليزية الإنتاج\n"
+"هذا ديمغرافية\n"
+" أن - الحرف الرابع عشر في اللغة الإنجليزية عدد السكان\n"
+" بي - الحرف السادس عشر في اللغة الإنجليزية انتاج\n"
 " أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الأرض المنطقة\n"
 " إل - الحرف الثاني عشر في اللغة الإنجليزية معرفة القراءة والكتابة\n"
 " آر - الحرف الثامن عشر في اللغة الإنجليزية البحث السرعة\n"
 " أس - الحرف التاسع عشر في اللغة الإنجليزية مستقر المنطقة\n"
-" إي - الحرف الخامس في اللغة الإنجليزية الإقتصاد\n"
-" الحرف الثالث عشر في اللغة الإنجليزية الجيش الخدمة\n"
-" أو - الحرف الخامس عشر في اللغة الإنجليزية التلوث\n"
+" إي - الحرف الخامس في اللغة الإنجليزية اقتصاد\n"
+" الحرف الثالث عشر في اللغة الإنجليزية عسكري الخدمة\n"
+" أو - الحرف الخامس عشر في اللغة الإنجليزية تلوث\n"
 "\n"
 "\n"
 "."
@@ -5363,19 +5385,16 @@ msgid "Metaserver connection is already closed."
 msgstr "انصال metaserver أصلا مغلق."
 
 #: server/stdinhand.c:578
-#, fuzzy
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
-msgstr "يمكن أن يكون الباراميتر 'u', 'up', 'd', 'down', أو '?'."
+msgstr "يجب أن يكون الباراميتر 'u', 'up', 'd', 'down', أو '?'."
 
 #: server/stdinhand.c:599
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Metaserver patches string set to '%s'."
 msgstr "Metaserver."
 
 #: server/stdinhand.c:602
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr "Metaserver."
 
@@ -5385,8 +5404,7 @@ msgid "Metaserver message string set to '%s'."
 msgstr "حددت السلسلة لحرفية لرسالة  Metaserver  ب '%s'."
 
 #: server/stdinhand.c:626
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr "Metaserver."
 
@@ -5759,20 +5777,18 @@ msgid "Player %s set to team %s."
 msgstr "اللاعب %s مع فريق %s."
 
 #: server/stdinhand.c:2139
-#, fuzzy
 msgid "Undefined arguments. Usage: vote yes|no [vote number]."
-msgstr "غير معرّف الإستعمال."
+msgstr "باريمترات غير معرفة. الاستعمال: vote yes|no [رقم التصويت]."
 
 #: server/stdinhand.c:2148
 msgid "Observers cannot vote."
 msgstr "لا يستطيع المراقبون التصويت."
 
 #: server/stdinhand.c:2151
-#, fuzzy
 msgid ""
 "You can only vote in a running game.  Use 'first' to become the game "
 "organizer if there currently is none."
-msgstr "أنت الإستعمال لا شيئ."
+msgstr "تستطيع التصويت فقط في لعبة شغالة.  استعمل 'first' لتصبح منظم اللعبة إذا لم يكن هناك حاليا أحد."
 
 #: server/stdinhand.c:2164
 #, c-format
@@ -5784,9 +5800,8 @@ msgid "There are no votes going on."
 msgstr "لا يوجد أي تصويت جاري."
 
 #: server/stdinhand.c:2192
-#, fuzzy
 msgid "No legal last vote."
-msgstr "لا."
+msgstr "بلا تصويت أخير شرعي."
 
 #: server/stdinhand.c:2197
 msgid "Value must be integer."
@@ -5808,11 +5823,12 @@ msgid "You voted against \"%s\""
 msgstr "لقد صَوّت ضد \"%s\""
 
 #: server/stdinhand.c:2243
-#, fuzzy
 msgid ""
 "Undefined arguments. Usage: debug <diplomacy <player> | city <x> <y> | units "
 "<x> <y> | unit <id> | tech <player> | timing | info>."
-msgstr "غير معرّف الإستعمال<diplomacy <player><x><y><x><y> وحدات<id><player>."
+msgstr ""
+"باريمترات غير معرفة. الاستعمال: debug <diplomacy <اللاعب> | city <س> <ص> | units "
+"<س> <ص> | unit <رقم التعريف> | tech <اللاعب> | timing | info>."
 
 #: server/stdinhand.c:2249
 msgid "Can only use this command once game has begun."
@@ -5875,9 +5891,8 @@ msgid "Unit %d does not exist."
 msgstr "لا وجود للوحدة %d."
 
 #: server/stdinhand.c:2455
-#, fuzzy
 msgid "Undefined argument.  Usage: set <option> <value>."
-msgstr "غير معرّف الإستعمال<option><value>."
+msgstr "باريمتر غير معرف.  الاستعمال: set <الخيار> <القيمة>."
 
 #: server/stdinhand.c:2465
 msgid "You are not allowed to set this option."
@@ -6060,9 +6075,8 @@ msgid "Usage: detach <connection-name>"
 msgstr "الاستعمال: detach <اسم الاتصال>"
 
 #: server/stdinhand.c:3045
-#, fuzzy
 msgid "You can not detach other users."
-msgstr "أنت."
+msgstr "لا تستطيع فصل اللاعبين اﻵخرين."
 
 #: server/stdinhand.c:3054
 #, c-format
@@ -6245,19 +6259,19 @@ msgid "The following server commands are available:"
 msgstr "أوامر الخادم التالية متوفرة:"
 
 #: server/stdinhand.c:3900
-#, fuzzy, c-format
+#, c-format
 msgid "Help argument '%s' is ambiguous."
-msgstr "المساعدة مبهم."
+msgstr "باريمتر المساعدة '%s' مبهم."
 
 #: server/stdinhand.c:3905
-#, fuzzy, c-format
+#, c-format
 msgid "No match for help argument '%s'."
-msgstr "لا."
+msgstr "بلا مطابقة لبراميتر المساعدة '%s'."
 
 #: server/stdinhand.c:3971
-#, fuzzy, c-format
+#, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
-msgstr "سيّئ المحاولة."
+msgstr "خطأ باريمتر القائمة: '%s'.  جرب '%shelp القائمة'."
 
 #: server/stdinhand.c:4011
 msgid "List of players:"
@@ -6520,11 +6534,11 @@ msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "تم تجنب الهجوم النووي على %s بواسطة دفاع SDI الخاص بك."
 
 #: server/unithand.c:846
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s%s survived the pathetic attack from %s's %s and became more "
 "experienced!"
-msgstr "ملكك الهجوم!"
+msgstr "لقد نجا %s%s من الهجوم المثير للشفقة من %s %s وأصبح أكثر خبرة!"
 
 #: server/unithand.c:855
 #, c-format
@@ -6567,9 +6581,9 @@ msgid "No diplomat action possible."
 msgstr "لا امكانية لأي أمر دبلوموسي."
 
 #: server/unithand.c:1060
-#, fuzzy, c-format
+#, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
-msgstr "أنت المحاولة."
+msgstr "يجب عليك إعلان الحرب على %s أولا.  جرب استعمال مربع حوار اللاعبين (F3)."
 
 #: server/unithand.c:1076
 msgid "This unit is being transported, and so cannot bombard."
@@ -6584,51 +6598,52 @@ msgid "This type of troops cannot take over a city."
 msgstr "لا يستطيع هذا النوع من القوات الاستيلاء على مدينة."
 
 #: server/unithand.c:1129
-#, fuzzy
 msgid "A transported unit is not allied to all units or city on target tile."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات."
+msgstr "الوحدة المنقولة غير متحالفة مع كل الوحدات أو المدينة على البلاطة المستهدفة."
 
 #: server/unithand.c:1171
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
-msgstr "ملكك."
+msgstr "تساعد وحدتك %s في بناء ال %s في %s (%d باقي)."
 
 #: server/unithand.c:1173
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
-msgstr "ملكك."
+msgstr "تساعد وحدتك %s في بناء ال %s في %s (%d فائض)."
 
 #: server/unithand.c:1217
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, your %s cannot establish a trade route because it has no home city"
-msgstr "آسف"
+msgstr "آسف، لا تستطيع وحدتك %s انشاء طريق للتجارة لعدم وجود مدينة أصل لها"
 
 #: server/unithand.c:1227
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
-msgstr "آسف"
+msgstr "آسف، لا تستطيع وحدتك %s انشاء طريق للتجارة بين %s و %s"
 
 #: server/unithand.c:1255 server/unithand.c:1272
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
-msgstr "آسف!"
+msgstr "آسف، لا تستطيع وحدتك %s انشاء طريق للتجارة هنا!"
 
 #: server/unithand.c:1258 server/unithand.c:1275
-#, fuzzy, c-format
+#, c-format
 msgid "      The city of %s already has %d better trade routes!"
-msgstr "الـ!"
+msgstr "      لدى مدينة ال %s أصلا %d طرق تجارة أفضل!"
 
 #: server/unithand.c:1287 server/unithand.c:1298
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
-msgstr "آسف."
+msgstr "آسف, الغى %s طريق التجارة من %s إلى مدينتك %s."
 
 #: server/unithand.c:1330
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
 "research."
-msgstr "ملكك الذهب."
+msgstr ""
+"وصلت وحدتك %s من %s إلى %s، و بلغ الدخل إلى  %d من الذهب و "
+"البحث العلمي."
 
 #: server/unittools.c:253
 #, c-format
@@ -6641,9 +6656,9 @@ msgid "Not enough gold. %s disbanded"
 msgstr "الذهب غير كافي. تم تسريح %s"
 
 #: server/unittools.c:341
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has run out of hit points."
-msgstr "ملكك."
+msgstr "لقد انتهت نقاط تحمل وحدتك %s ."
 
 #: server/unittools.c:357
 #, c-format
@@ -6711,9 +6726,9 @@ msgid "Unable to defend %s, %s has lost the game."
 msgstr "لا يمكن الدفاع عن %s، خسر %s اللعبة."
 
 #: server/unittools.c:1387
-#, fuzzy, c-format
+#, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
-msgstr "الخسران كن!"
+msgstr "تعني خسارة %s خسارة اللعبة! كل حذرا في المرة القادمة!"
 
 #: server/unittools.c:1488
 #, c-format
@@ -6731,46 +6746,46 @@ msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "تم القبض على القائد البربري، ودفع فدية ذهب بقيمة %d."
 
 #: server/unittools.c:1563
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against %s's %s%s and became more experienced!"
-msgstr "ملكك!"
+msgstr "نجحت وحدتك المهاجمة %s ضد %s %s%s وأصبحت أكثر خبرة!"
 
 #: server/unittools.c:1571
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against %s's %s%s!"
-msgstr "ملكك!"
+msgstr "نجحت وحدتك المهاجمة %s ضد %s %s%s!"
 
 #: server/unittools.c:1578
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost to an attack by %s's %s%s."
-msgstr "الهجوم."
+msgstr "خسارة %s بسبب الهجوم من %s %s%s."
 
 #: server/unittools.c:1610
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
 "more experienced!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s and "
 "became more experienced!"
-msgstr[0] "ملكك وحدات!"
-msgstr[1] "ملكك وحدات!"
-msgstr[2] "ملكك وحدات!"
+msgstr[0] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدة أخرى)%s وأصبحت أكثر خبرة!"
+msgstr[1] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدتان أخرى)%s وأصبحت أكثر خبرة!"
+msgstr[2] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدات أخرى)%s وأصبحت أكثر خبرة!"
 
 #: server/unittools.c:1622
-#, fuzzy, c-format
+#, c-format
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
-msgstr[0] "ملكك وحدات!"
-msgstr[1] "ملكك وحدات!"
-msgstr[2] "ملكك وحدات!"
+msgstr[0] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدة أخرى)%s!"
+msgstr[1] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدتان أخرى)%s!"
+msgstr[2] "نجحت وحدتك المهاجمة %s ضد %s %s (و %d وحدات أخرى)%s!"
 
 #. TRANS: "Cannon lost to an attack from John's
 #. * Destroyer."
 #: server/unittools.c:1646
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost to an attack from %s's %s."
-msgstr "الهجوم."
+msgstr "خسارة %s لهجوم من %s %s."
 
 #. TRANS: "Cannon lost when John's Destroyer
 #. * attacked Mark's Musketeers."
@@ -6790,23 +6805,23 @@ msgstr "تم فقد %s (و %s) عند هجوم من %s %s."
 #. * an attack from John's Destroyer." (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1675
-#, fuzzy, c-format
+#, c-format
 msgid "%s and %d other unit lost to an attack from %s's %s."
 msgid_plural "%s and %d other units lost to an attack from %s's %s."
-msgstr[0] "وحدات الهجوم."
-msgstr[1] "وحدات الهجوم."
-msgstr[2] "وحدات الهجوم."
+msgstr[0] "خسارة %s و %d وحدة أخرى لهجوم من %s %s."
+msgstr[1] "خسارة %s و %d وحدتان أخرى لهجوم من %s %s."
+msgstr[2] "خسارة %s و %d وحدات أخرى لهجوم من %s %s."
 
 #. TRANS: "2 units lost when John's Destroyer
 #. * attacked Mark's Musketeers."  (only happens
 #. * with at least 2 other units)
 #: server/unittools.c:1687
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit lost when %s's %s attacked %s's %s."
 msgid_plural "%d units lost when %s's %s attacked %s's %s."
-msgstr[0] "وحدات."
-msgstr[1] "وحدات."
-msgstr[2] "وحدات."
+msgstr[0] "خسارة %d وحدة عندما هاجم %s %s ال %s %s."
+msgstr[1] "خسارة %d وحدتان عندما هاجم %s %s ال %s %s."
+msgstr[2] "خسارة %d وحدات عندما هاجم %s %s ال %s %s."
 
 #: server/unittools.c:1934
 #, c-format
@@ -6885,9 +6900,9 @@ msgid "You found %s in ancient scrolls of wisdom."
 msgstr "لقد عثرت على %s في مخطوطات قديمة للحكمة."
 
 #: server/unittools.c:2154
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
-msgstr "الـ."
+msgstr "حصل %s على %s من مخطوطات حكمة قديمة."
 
 #: server/unittools.c:2167
 msgid "A band of friendly mercenaries joins your cause."
@@ -7547,9 +7562,9 @@ msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tالاتصال بالخادم على منفد PORT\n"
 
 #: client/civclient.c:219
-#, fuzzy, c-format
+#, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
-msgstr "بي - الحرف السادس عشر في اللغة الإنجليزية البرنامج المساعد"
+msgstr "  -P, --Plugin PLUGIN\tستعمال PLUGIN لمخرج الصوت %s\n"
 
 #: client/civclient.c:221
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
@@ -7692,9 +7707,8 @@ msgid "Popup Request"
 msgstr "قافزة الطلب"
 
 #: client/climisc.c:926
-#, fuzzy
 msgid "Exporting output window to civgame.log ..."
-msgstr "التصدير."
+msgstr "جاري تصدير نافذة المخرجات لملف civgame.log ..."
 
 #: client/climisc.c:930
 msgid "Export complete."
@@ -7790,9 +7804,8 @@ msgid "Couldn't connect to the server."
 msgstr "لا يمكن الاتصال بالخادم."
 
 #: client/connectdlg_common.c:375
-#, fuzzy
 msgid "We probably couldn't start it from here."
-msgstr "نحن."
+msgstr "لن نستطيع غالبا تشغيلها من هنا."
 
 #: client/connectdlg_common.c:495
 #, fuzzy
@@ -7805,29 +7818,24 @@ msgid "We can't take control of server, attempting to kill it."
 msgstr "نحن."
 
 #: client/control.c:1035
-#, fuzzy
 msgid "Only transporter units can be unloaded."
-msgstr "فقط."
+msgstr "يمكن فقط تنزيل الوحدات المنقولة."
 
 #: client/control.c:1264
-#, fuzzy
 msgid "Only settler units can be put into auto mode."
-msgstr "فقط."
+msgstr "يمكن فقط وضع الوحدات المستعمرة في النمط التلقائي."
 
 #: client/control.c:1354
-#, fuzzy
 msgid "Only nuclear units can do this."
-msgstr "فقط."
+msgstr "تستطيع فقط الوحدات النووية فعل هذا."
 
 #: client/control.c:1383
-#, fuzzy
 msgid "Only paratrooper units can do this."
-msgstr "فقط."
+msgstr "تستطيع فقط الوحدات المظلية فعل هذا."
 
 #: client/control.c:1832
-#, fuzzy
 msgid "Too far for this unit."
-msgstr "أيضا وحدات."
+msgstr "بعيد جدا لهذه الوحدة."
 
 #: client/control.c:2045 client/control.c:2081 client/control.c:2101
 msgid "Didn't find a route to the destination!"
@@ -7840,12 +7848,11 @@ msgstr "أوه يا! يبدو أنك بدون عاصمة!"
 #: client/helpdata.c:120
 #, fuzzy
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
-msgstr "التضاريس الطريق الريّ التعدين تحوّل"
+msgstr "طبيعة الأرض طريق الري التعدين تحول"
 
 #: client/helpdata.c:146
-#, fuzzy
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
-msgstr "سكك الحديد أدوار"
+msgstr "(تحتاج السكك الحديدية و القلاع إلى 3 أدوار، مهما كانت التضاريص.)"
 
 #: client/helpdata.c:166
 #, c-format
@@ -7965,9 +7972,9 @@ msgid "* The discovery of %s will make %s obsolete.\n"
 msgstr "* سيجعل اكتشاف %s ال %s قديما.\n"
 
 #: client/helpdata.c:678
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
-msgstr "يسمح مع"
+msgstr "* السماح لكل اللاعبين مع معرفة ال %s ببناء وحدات %s.\n"
 
 #: client/helpdata.c:689
 #, c-format
@@ -7980,34 +7987,34 @@ msgid "* Allows %s.\n"
 msgstr "* يسمح %s.\n"
 
 #: client/helpdata.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "* Can only be built with %s as government.\n"
-msgstr "يمكن أن مع"
+msgstr "* يمكن فقط بنائها مع حكومة %s \n"
 
 #: client/helpdata.c:762
-#, fuzzy, c-format
+#, c-format
 msgid "* May not be built in cities.\n"
-msgstr "مايو"
+msgstr "* لا يمكن بنائها في المدن.\n"
 
 #: client/helpdata.c:765
-#, fuzzy, c-format
+#, c-format
 msgid "* Never has a home city.\n"
-msgstr "أبدا"
+msgstr "* لا مدينة الأصل أبدا.\n"
 
 #: client/helpdata.c:769
-#, fuzzy, c-format
+#, c-format
 msgid "* Losing this unit will lose you the game!\n"
-msgstr "الخسران وحدات"
+msgstr "* خسارة هذه الوحدة تعني خسارة اللعبة!\n"
 
 #: client/helpdata.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "* Each player may only have one of this type of unit.\n"
-msgstr "كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد وحدات"
+msgstr "* يمكن لكل لاعب الحصول على واحدة من نوع هذه الوحدة.\n"
 
 #: client/helpdata.c:776
-#, fuzzy, c-format
+#, c-format
 msgid "* Requires %d population to build.\n"
-msgstr "يتطلّب"
+msgstr "* يحتاج إلى عدد السكان %d للبناء.\n"
 
 #: client/helpdata.c:782
 #, fuzzy, c-format
@@ -8055,7 +8062,7 @@ msgstr "* لا يمكن تسريحها.\n"
 #: client/helpdata.c:813
 #, fuzzy, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
-msgstr "مايو"
+msgstr "أيار"
 
 #: client/helpdata.c:817
 #, c-format
@@ -8264,7 +8271,7 @@ msgstr "* لا يستطيع أبدا الحصول على  وضع الخبير.\n
 #: client/helpdata.c:976
 #, fuzzy, c-format
 msgid "* May become veteran through training or combat.\n"
-msgstr "مايو خيير"
+msgstr "أيار خيير"
 
 #: client/helpdata.c:982
 #, fuzzy, c-format
@@ -8401,14 +8408,14 @@ msgstr "الميزّات:\n"
 msgid ""
 "* Military units away from home and field units will cause one citizen to "
 "become unhappy.\n"
-msgstr "الجيش مواطنيين"
+msgstr "عسكري مواطنيين"
 
 #: client/helpdata.c:1289
 #, fuzzy, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizens to "
 "become unhappy.\n"
-msgstr "الجيش"
+msgstr "عسكري"
 
 #: client/helpdata.c:1296
 #, fuzzy, c-format
@@ -8507,7 +8514,7 @@ msgstr "ملكك"
 msgid ""
 "* Government will fall into anarchy if any city is in disorder for more than "
 "two turns in a row.\n"
-msgstr "الحكومة أدوار"
+msgstr "حكومة أدوار"
 
 #: client/helpdata.c:1378
 #, fuzzy, c-format
@@ -8768,7 +8775,7 @@ msgstr "هذا وحدات وحدات المجموعة."
 
 #: client/options.c:159
 msgid "Mapview recentering time (milliseconds)"
-msgstr ""
+msgstr "وقت إعادة توسيط عرض الخريطة (ملي ثانية)"
 
 #: client/options.c:160
 #, fuzzy
@@ -8836,19 +8843,19 @@ msgstr ""
 #: client/options.c:187
 #, fuzzy
 msgid "Manual Turn Done in AI Mode"
-msgstr "الدليل الدور معمول الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة النمط"
+msgstr "الدليل الدور انتهى ذكاء اصطناعي النمط"
 
 #: client/options.c:188
 #, fuzzy
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
-msgstr "يضعف، يعجز، يفقد الأهلية الدور معمول الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "يضعف، يعجز، يفقد الأهلية الدور انتهى ذكاء اصطناعي."
 
 #: client/options.c:192 client/gui-sdl/optiondlg.c:1078
 #, fuzzy
 msgid "Auto Center on Units"
-msgstr "السّيّارة المركز الوحدات"
+msgstr "السّيّارة توسيط الوحدات"
 
 #: client/options.c:193
 #, fuzzy
@@ -8860,7 +8867,7 @@ msgstr "المجموعة مفعل وحدات وحدات."
 #: client/options.c:196 client/gui-sdl/optiondlg.c:1104
 #, fuzzy
 msgid "Auto Center on Combat"
-msgstr "السّيّارة المركز المعركة"
+msgstr "السّيّارة توسيط معركة"
 
 #: client/options.c:197
 #, fuzzy
@@ -8897,7 +8904,7 @@ msgstr ""
 #: client/options.c:211
 #, fuzzy
 msgid "Center map when Popup city"
-msgstr "المركز قافزة"
+msgstr "توسيط قافزة"
 
 #: client/options.c:212
 #, fuzzy
@@ -8911,7 +8918,7 @@ msgstr ""
 #: client/options.c:215
 #, fuzzy
 msgid "Concise City Production"
-msgstr "مصغّر المدينة الإنتاج"
+msgstr "مصغّر المدينة انتاج"
 
 #: client/options.c:216
 #, fuzzy
@@ -8972,7 +8979,7 @@ msgstr "الـ."
 #: client/options.c:237
 #, fuzzy
 msgid "Terrain relief map layer"
-msgstr "التضاريس"
+msgstr "طبيعة الأرض"
 
 #: client/options.c:238
 #, fuzzy
@@ -9309,8 +9316,7 @@ msgstr "المدينة: %s (%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
 #: client/text.c:157
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
 msgstr[0] "المدينة دوران"
@@ -9367,8 +9373,7 @@ msgstr "الوحدة: %s (%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:263
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "الفرصة أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية"
 
@@ -9622,9 +9627,9 @@ msgid ""
 msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
-msgstr[0] "الترقية وحدات الذهب الذهب."
-msgstr[1] "الترقية وحدات الذهب الذهب."
-msgstr[2] "الترقية وحدات الذهب الذهب."
+msgstr[0] "تطوير وحدات الذهب الذهب."
+msgstr[1] "تطوير وحدات الذهب الذهب."
+msgstr[2] "تطوير وحدات الذهب الذهب."
 
 #: client/text.c:859
 #, fuzzy
@@ -9748,7 +9753,7 @@ msgstr ""
 
 #: client/text.c:1031
 msgid "?duration:overflow"
-msgstr ""
+msgstr "?duration:فائض"
 
 #: client/text.c:1052
 #, c-format
@@ -9825,7 +9830,7 @@ msgstr "فشل فتح \"%s\"."
 #: client/tilespec.c:1054 client/gui-sdl/themespec.c:528
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
-msgstr ""
+msgstr "فشل تحميل ملف الجرافيس لملف المواصفات %s"
 
 #: client/tilespec.c:1223 client/gui-sdl/themespec.c:695
 #, c-format
@@ -9929,7 +9934,7 @@ msgid ""
 "          City grows: %s\n"
 "Production completed: %s"
 msgstr ""
-"الاسم معدن الذّهب الترف العلم\n"
+"الاسم الذهب الرفاهية العلوم\n"
 " الناس دبليو - الحرف الثالث والعشرون في اللغة الإنجليزية إي - الحرف الخامس في اللغة الإنجليزية أس - الحرف التاسع عشر في اللغة الإنجليزية تي - الحرف العشرون في اللغة الإنجليزية\n"
 " المدينة"
 
@@ -11302,7 +11307,7 @@ msgstr "الموارد:"
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 #, fuzzy
 msgid "Road Rslt/Time:"
-msgstr "الطريق الوقت:"
+msgstr "طريق الوقت:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:100
 #, fuzzy
@@ -11312,7 +11317,7 @@ msgstr "الوقت:"
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:101
 #, fuzzy
 msgid "Mine Rslt/Time:"
-msgstr "اللغم الوقت:"
+msgstr "منجم الوقت:"
 
 #: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:101
 #, fuzzy
@@ -12058,7 +12063,7 @@ msgstr "خارج"
 
 #: client/gui-gtk-2.0/messagedlg.c:134
 msgid "Mes"
-msgstr ""
+msgstr "رسالة"
 
 #: client/gui-gtk-2.0/messagedlg.c:141
 #, fuzzy
@@ -12382,7 +12387,7 @@ msgstr "الكلفة"
 #: client/gui-sdl/repodlgs.c:1895 client/gui-win32/repodlgs.c:465
 #, fuzzy
 msgid "U Total"
-msgstr "يو - الحرف الحادي والعشرون في اللغة الإنجليزية المجموع"
+msgstr "يو المجموع"
 
 #: client/gui-gtk-2.0/repodlgs.c:706
 msgid "Total Cost:"
@@ -12801,7 +12806,7 @@ msgstr "الوحدات الجوية"
 #: client/gui-mui/citydlg.c:1660 client/gui-mui/citydlg.c:1661
 #, fuzzy
 msgid "_Disband if build settler at size 1"
-msgstr "حلّ الحجم"
+msgstr "تسريح الحجم"
 
 #: client/gui-mui/citydlg.c:1678 client/gui-mui/cityrep.c:366
 #: client/gui-mui/dialogs.c:137 client/gui-mui/dialogs.c:185
@@ -12870,7 +12875,7 @@ msgstr "تقرير المدينة"
 #: client/gui-mui/cityrep.c:371
 #, fuzzy
 msgid "_Refresh"
-msgstr "أنعش"
+msgstr "اعادة تحميل"
 
 #: client/gui-mui/cityrep.c:372
 msgid "Con_figure"
@@ -13127,7 +13132,7 @@ msgstr "الذهب(أعلى حد %d)"
 #: client/gui-xaw/diplodlg.c:578 client/gui-xaw/diplodlg.c:589
 #, c-format
 msgid "%s view:"
-msgstr ""
+msgstr "عرض %s:"
 
 #: client/gui-mui/diplodlg.c:654
 #, fuzzy, c-format
@@ -13464,7 +13469,7 @@ msgstr "بناء سكة حديد"
 #: client/gui-mui/gui_main.c:1445
 #, c-format
 msgid "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
-msgstr ""
+msgstr "فشل فتج النافذة الرئيسية (مشكلة في ذاكرة الجرافيكس أو حجم الشاشة صغير جدا)\n"
 
 #: client/gui-mui/helpdlg.c:562 data/Freeciv.in:859
 msgid "Firepower:"
@@ -13669,7 +13674,7 @@ msgstr "ضريبة:%d رفاهية:%d علوم:%d"
 msgid ""
 "Where to Display Messages\n"
 "Out = Output window, Mes = Messages window, Pop = Popup individual window"
-msgstr "أين العرض رسائل الناتج رسائل البوب قافزة"
+msgstr "أين العرض الرسائل الناتج الرسائل البوب قافزة"
 
 #: client/gui-mui/messagedlg.c:100 client/gui-win32/messagedlg.c:138
 #: client/gui-win32/messagedlg.c:142
@@ -13680,7 +13685,7 @@ msgstr "خارج:"
 #: client/gui-mui/messagedlg.c:101 client/gui-win32/messagedlg.c:139
 #: client/gui-win32/messagedlg.c:143
 msgid "Mes:"
-msgstr ""
+msgstr "رسالة:"
 
 #: client/gui-mui/messagedlg.c:102 client/gui-win32/messagedlg.c:140
 #: client/gui-win32/messagedlg.c:144
@@ -13784,8 +13789,7 @@ msgstr "التقرير العسكري"
 
 #: client/gui-mui/repodlgs.c:861 client/gui-sdl/repodlgs.c:3308
 #: client/gui-win32/repodlgs.c:754 client/gui-xaw/repodlgs.c:1169
-#, c-format
-#, fuzzy
+#, fuzzy, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "الـ"
@@ -13922,7 +13926,7 @@ msgstr "ينشئ مع"
 #: client/gui-sdl/caravan_dialog.c:151
 #, fuzzy, c-format
 msgid "Enter Marketplace ( %d R&G bonus )"
-msgstr "إدخل السوق"
+msgstr "إدخل  السوق"
 
 #: client/gui-sdl/caravan_dialog.c:169 data/Freeciv.in:2263
 msgid "Help build Wonder"
@@ -14678,7 +14682,7 @@ msgstr "الخيط"
 #: client/gui-sdl/gui_string.c:592
 #, fuzzy
 msgid "Error in change_ptsize: Change ptsize failed"
-msgstr "الخطأ التغيير"
+msgstr "الخطأ تغيير"
 
 #: client/gui-sdl/gui_string.c:628
 #, fuzzy
@@ -14754,7 +14758,7 @@ msgstr " )"
 #: client/gui-sdl/helpdlg.c:1847
 #, fuzzy
 msgid "Help : Advances Tree"
-msgstr "المساعدة يتّقدّم :: يترقّى الشجرة"
+msgstr "المساعدة يتّقدّم الشجرة"
 
 #: client/gui-sdl/inteldlg.c:249
 #, c-format
@@ -14768,7 +14772,7 @@ msgid ""
 "Capital: %s  Gold: %d\n"
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: %s(%d/%d)"
-msgstr "الحاكم الحكومة معدن الذّهب العلم الترف"
+msgstr "الحاكم حكومة الذهب العلوم الرفاهية"
 
 #: client/gui-sdl/inteldlg.c:288
 #, fuzzy, c-format
@@ -14777,7 +14781,7 @@ msgid ""
 "Capital: %s  Gold: %d\n"
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
 "Researching: Unknown"
-msgstr "الحاكم الحكومة معدن الذّهب العلم الترف مجهول"
+msgstr "الحاكم حكومة الذهب العلوم الرفاهية مجهول"
 
 #: client/gui-sdl/inteldlg.c:347
 msgid "Their techs that we don't have :"
@@ -14837,7 +14841,7 @@ msgstr "الطول"
 #: client/gui-sdl/mapctrl.c:905
 #, fuzzy
 msgid "Scale Unit Info"
-msgstr "المقياس الوحدة المعلومات"
+msgstr "المقياس الوحدة معلومات"
 
 #: client/gui-sdl/mapctrl.c:1463
 msgid "Economy (F5)"
@@ -16062,7 +16066,7 @@ msgstr "لديك نسخة قديمة من ملف Freeciv resourcefile في /usr/
 #: client/gui-xaw/gui_main.c:339
 #, fuzzy
 msgid "Using fallback resources - which is OK"
-msgstr "الإستعمال الموافقة"
+msgstr "الإستعمال موافق"
 
 #: client/gui-xaw/gui_main.c:350
 msgid "Only color displays are supported for now..."
@@ -16426,7 +16430,7 @@ msgstr "قائمة خادمات Freeciv"
 msgid ""
 "Server Name                         Port  Version     Status  Players  "
 "Comment"
-msgstr "الخادم الاسم الميناء النسخة المنزلة اللاعبون التعليق"
+msgstr "الخادم الاسم المنفذ اصدار الحالة اللاعبين ملاحظة"
 
 #: data/Freeciv.in:215
 msgid "Diplomacy"
@@ -16486,7 +16490,7 @@ msgstr "أين تعرض الرسائل"
 msgid ""
 "Out = Output window, Mes = Messages window,\n"
 "Pop = Popup individual window"
-msgstr "خارج الناتج رسائل قافزة"
+msgstr "خارج الناتج الرسائل قافزة"
 
 #: data/Freeciv.in:1276
 #, fuzzy
@@ -16548,7 +16552,7 @@ msgstr "صنع المواطنيين الجدد في: "
 #: data/Freeciv.in:1520
 #, fuzzy
 msgid "Disband if build settler at size 1:"
-msgstr "حلّ الحجم:"
+msgstr "تسريح الحجم:"
 
 #: data/Freeciv.in:1526
 msgid "Auto-attack vs land units:         "
@@ -16699,7 +16703,7 @@ msgstr "موافق"
 msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
-msgstr "الاسم الأمة السفارة الحالة، الدولة، يقرّ الرؤية السمعة الحالة، الدولة، يقرّ المضيّف"
+msgstr "الاسم أمة سفارة الحالة الرؤية السمعة الحالة المضيف"
 
 #: data/Freeciv.in:3246
 msgid "Cancel pact"
@@ -16712,7 +16716,7 @@ msgstr "قبل اللعبة"
 #: data/Freeciv.in:3350
 #, fuzzy
 msgid "Name              Ready Leader          Nation          "
-msgstr "الاسم جاهز الزعيم الأمة "
+msgstr "الاسم جاهز القائد أمة "
 
 #: data/Freeciv.in:3379
 msgid "Start"
@@ -16824,7 +16828,7 @@ msgid ""
 "you lose connection early in the game and reconnect, use the name you chose "
 "for your ruler, not your original nickname!  If the server is reporting on "
 "the metaserver, the player names can be found there."
-msgstr "متى الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة فقط الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة إذا إذا."
+msgstr "متى ذكاء اصطناعي فقط ذكاء اصطناعي إذا إذا."
 
 #: data/helpdata.txt:433
 #, fuzzy
@@ -16863,7 +16867,7 @@ msgid ""
 "    x: auto-e(x)plore\n"
 "space: unit stay put\n"
 msgstr ""
-"الوحدة الطلبات\n"
+"الوحدة الأوامر\n"
 "\n"
 "\n"
 "\n"
@@ -16892,7 +16896,7 @@ msgstr ""
 "\n"
 " مادة وحدات\n"
 " وحدات\n"
-" يو - الحرف الحادي والعشرون في اللغة الإنجليزية يو - الحرف الحادي والعشرون في اللغة الإنجليزية\n"
+" يو يو\n"
 " وحدات"
 
 #: data/helpdata.txt:467
@@ -16980,20 +16984,20 @@ msgid ""
 msgstr ""
 "رئيسي الخريطة الفأر\n"
 " اليسار البوب\n"
-" اليسار وحدات نشّط وحدات\n"
-" اليسار وحدات القفز من مكان إلى آخر في البرمجيات وحدات\n"
-" المركز المعرض\n"
-" يمين المركز\n"
+" اليسار وحدات تفعيل وحدات\n"
+" اليسار وحدات اذهب وحدات\n"
+" توسيط المعرض\n"
+" يمين توسيط\n"
 " التغيير اليسار النسخة\n"
 " التغيير يمين المعجون\n"
 " التغيير السيطرة اليسار كيّف :: ضبط :: عدّل :: يكيف :: ينظم\n"
-" السيطرة المركز الصحوة\n"
+" السيطرة توسيط الصحوة\n"
 " المنطقة الإختيار\n"
 "\n"
 " يمين إدخل المنطقة الإختيار\n"
 " اليسار المسمار\n"
 " التغيير يمين المعجون\n"
-" يمين الإلغاء المنطقة الإختيار\n"
+" يمين إلغاء المنطقة الإختيار\n"
 " الـ\n"
 " المدينة التقرير."
 
@@ -17023,18 +17027,18 @@ msgstr ""
 "الحوارات التقارير\n"
 " المدينة التقرير\n"
 " الوحدة التقرير\n"
-" اللاعبون\n"
-" الإقتصاد التقرير\n"
-" العلم التقرير\n"
-" العالم المعجزات\n"
+" اللاعبين\n"
+" الاقتصاد التقرير\n"
+" العلوم التقرير\n"
+" العالم العجائب\n"
 " القمّة خمسة المدن\n"
-" رسائل\n"
-" الخصائص السكانية\n"
-" السفينة الفضائية\n"
+" الرسائل\n"
+" ديمغرافية\n"
+" سفينة فضائية\n"
 " تي - الحرف العشرون في اللغة الإنجليزية الضريبة لاكس إختصار كلمة عِلم النسب\n"
 " اف - الحرف السادس في اللغة الإنجليزية البحث المدينة\n"
 " السيطرة إل - الحرف الثاني عشر في اللغة الإنجليزية قوائم العمل\n"
-" آر - الحرف الثامن عشر في اللغة الإنجليزية الثورة يعود :: يَرجع :: يجيب :: يرفع تقريراً :: ينتخب :: يُعيد :: يُرجع :: يغلّ :: يقابل "
+" آر - الحرف الثامن عشر في اللغة الإنجليزية ثورة يعود :: يَرجع :: يجيب :: يرفع تقريراً :: ينتخب :: يُعيد :: يُرجع :: يغلّ :: يقابل "
 "شيءً بمثله :: يعكس (الضوء) :: يُرجّع :: عودة :: رجعة :: تسليم :: انعطاف :: "
 "التواء :: رِبْح :: عائد :: إعادة :: إرجاع :: مُرتجع :: جواب :: متكرّر الدور منتهي"
 
@@ -17050,7 +17054,7 @@ msgstr "الـ الـ:"
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
-msgstr "رسائل مع."
+msgstr "الرسائل مع."
 
 #: data/helpdata.txt:548
 #, fuzzy
@@ -17058,19 +17062,19 @@ msgid ""
 "  - Messages starting with 'John:' are private messages to 'John'. Names can "
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
-msgstr "رسائل مع جون جون الأسماء الـ جون مع جون."
+msgstr "الرسائل مع جون جون الأسماء الـ جون مع جون."
 
 #: data/helpdata.txt:553
 #, fuzzy
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
-msgstr "رسائل مع جون جون."
+msgstr "الرسائل مع جون جون."
 
 #: data/helpdata.txt:557
 #, fuzzy
 msgid "  - Messages starting with '.' will be sent only to all your allies."
-msgstr "رسائل مع."
+msgstr "الرسائل مع."
 
 #: data/helpdata.txt:562
 msgid "Worklist Editor"
@@ -17107,7 +17111,7 @@ msgid ""
 "list, PageUp/Down to move items up/down in the worklist, Insert to insert "
 "items from the available list into the worklist and Delete to delete the "
 "selected item from the worklist."
-msgstr "لوحة المفاتيح البيت قائمة العمل النهاية فوق أسفل قائمة العمل أسفل قائمة العمل الملحق، ادخل، يدخل قائمة العمل إحذف قائمة العمل."
+msgstr "لوحة المفاتيح البيت قائمة العمل النهاية إلى الأعلى إلى الأسفل قائمة العمل إلى الأسفل قائمة العمل إدخال قائمة العمل محو قائمة العمل."
 
 #: data/helpdata.txt:580
 #, fuzzy
@@ -17158,7 +17162,7 @@ msgstr ""
 " الأخذ\n"
 " الإستكشاف\n"
 " الأشياء\n"
-" الجعل التفاعل مع الدبلوماسية"
+" الجعل التفاعل مع دبلوماسية"
 
 #: data/helpdata.txt:605
 #, fuzzy
@@ -17204,7 +17208,7 @@ msgid ""
 "Warrior, Phalanx, Pikemen, Musketeers, and Riflemen."
 msgstr ""
 "الدفاع\n"
-" في وحدات ك مع الدفاع مع جديد الدفاع الـ الدفاع المحارب الكتيبة حملة  الرماح حملة بندقية المسكيت الرّماة."
+" في وحدات ك مع الدفاع مع جديد الدفاع الـ الدفاع المحارب كتيبة حملة  الرماح حملة بندقية المسكيت حملة البنادق."
 
 #: data/helpdata.txt:635
 #, fuzzy, no-c-format
@@ -17230,7 +17234,7 @@ msgid ""
 "civilization's research rate."
 msgstr ""
 "التقرير :: الحسم :: الفصل :: القضاء بحكم\n"
-" فيما بعد المحارب المستوطنون الـ المستوطن جديد المستوطن المستوطن العيش."
+" فيما بعد المحارب مستعمرين الـ المستوطن جديد المستوطن المستوطن العيش."
 
 #: data/helpdata.txt:653
 #, fuzzy
@@ -17243,7 +17247,7 @@ msgid ""
 "irrigation, mines, and others."
 msgstr ""
 "المبنى :: صناعة البناء\n"
-" كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد الطعام هذا المستوطنون الـ مع."
+" كلّ :: كلّ امرئ :: لكل قطعة :: لكل واحد الطعام هذا مستعمرين الـ مع."
 
 #: data/helpdata.txt:661
 #, fuzzy
@@ -17362,8 +17366,8 @@ msgid ""
 "under the embassy column is not blank and the other player is connected (or "
 "is a server AI) then a diplomacy menu will pop up."
 msgstr ""
-"التفاعل مع الدبلوماسية\n"
-" إذا مع هذا منتهي التقارير اللاعبون مع إجتمع اللاعب إذا مادة الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+"التفاعل مع دبلوماسية\n"
+" إذا مع هذا منتهي التقارير اللاعبين مع اجتماع اللاعب إذا مادة ذكاء اصطناعي."
 
 #: data/helpdata.txt:739
 #, fuzzy
@@ -17379,10 +17383,10 @@ msgid ""
 "   - and Give Gold."
 msgstr ""
 "في\n"
-" التجارة الخرائط البحر\n"
+" التجارة خرائط البحر\n"
 " التجارة\n"
 " التجارة المدن\n"
-" أعط معدن الذّهب."
+" أعط الذهب."
 
 #: data/helpdata.txt:749
 #, fuzzy
@@ -17458,7 +17462,7 @@ msgid ""
 "to manage all cities on an island either by hand or by governor. Read more "
 "hints, some background information, and some preset examples in the file "
 "README.cma, included with Freeciv.\n"
-msgstr "الـ المواطن الحاكم CMA هو هو و مفتوح هناك على أقل ما يمكن الفائض معدن الذّهب الذهب على الذهب أنت أقل ما يمكن الفائض مستحيل حينما لذا إحتفل به هذا مع شاهد السعادة السيطرة الإطلاق مع إنقر أنت أيضًا و المواطن الحاكم اللعبة أنقذ أماكن :: أوضاع :: إعدادات إذا مع هو إقرأ مع برنامج Freeciv"
+msgstr "الـ المواطن محافظ CMA هو هو و مفتوح هناك على أقل ما يمكن الفائض الذهب الذهب على الذهب أنت أقل ما يمكن الفائض مستحيل حينما لذا احتفال هذا مع شاهد السعادة السيطرة الإطلاق مع إنقر أنت أيضًا و المواطن محافظ اللعبة أنقذ أماكن :: أوضاع :: إعدادات إذا مع هو إقرأ مع برنامج Freeciv"
 
 #: data/helpdata.txt:820
 #, fuzzy
@@ -17497,7 +17501,7 @@ msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
-msgstr "هناك وحدات الأرض البحر الهواء المروحية المروحيات وحدات"
+msgstr "هناك وحدات الأرض البحر الهواء طائرة عامودية الطائرات لعامودية وحدات"
 
 #: data/helpdata.txt:869
 #, fuzzy, no-c-format
@@ -17524,7 +17528,7 @@ msgid ""
 "advance of Nuclear Power.  Most sea units can attack units on the coast and "
 "in coastal cities, but they cannot enter an enemy city to capture it, even "
 "if the city is undefended."
-msgstr "البحر المحيط المحيط هم الـ الفنار البعثة نووي القوّة أكثر الهجوم."
+msgstr "البحر المحيط المحيط هم الـ المنارة البعثة نووي القوّة أكثر الهجوم."
 
 #: data/helpdata.txt:889
 #, fuzzy
@@ -17539,7 +17543,7 @@ msgid ""
 "attacked by Fighters (or Stealth Fighters).  Air units cannot be used to "
 "explore villages; depending upon server options, an overflown village may "
 "disband."
-msgstr "الهواء وحدات الـ الهواء دوران قاعدة جوية الناقل الغوّاصة الـ أدوار وحدات وحدات مثل فارغ متى المقاتلون الخلسة المقاتلون الهواء."
+msgstr "الهواء وحدات الـ الهواء دوران قاعدة جوية حاملة طائرات غواصة الـ أدوار وحدات وحدات مثل فارغ متى المقاتلون الانسلال خلسة المقاتلون الهواء."
 
 #: data/helpdata.txt:901
 #, fuzzy
@@ -17550,7 +17554,7 @@ msgid ""
 "health for every turn not spent in a city or an Airbase, unless you have the "
 "United Nations wonder.  Unlike other air units, Helicopters can capture "
 "enemy cities."
-msgstr "مثل المروحيات وحدات المروحيات دوران قاعدة جوية متّحد الأمم على خلاف المروحيات."
+msgstr "مثل الطائرات لعامودية وحدات الطائرات لعامودية دوران قاعدة جوية متّحد الأمم على خلاف الطائرات لعامودية."
 
 #: data/helpdata.txt:908
 #, fuzzy
@@ -17569,7 +17573,7 @@ msgid ""
 "points (or gain two hit points less than they otherwise would) each turn "
 "that they do not end in a city.  Damaged units in Sentry mode will wake up "
 "when they have regained all of their hit points."
-msgstr "الوحدات دوران عادة وحدات دوران أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات مع الثكنة وحدات مع الميناء الوسيلة وحدات مع المطار دوران متحرك ما عدا ذلك وحدات دوران أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات دوران الوحدات إذا متّحد الأمم دوران في المروحيات دوران متضرّر الحارس."
+msgstr "الوحدات دوران عادة وحدات دوران أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات مع الثكنة وحدات مع المنفذ الوسيلة وحدات مع المطار دوران متحرك ما عدا ذلك وحدات دوران أي - الحرف الأوّل في الأبجديّة اللّاتينيّة وحدات دوران الوحدات إذا متّحد الأمم دوران في الطائرات لعامودية دوران متضرّر حرس."
 
 #: data/helpdata.txt:925
 #, fuzzy
@@ -17630,7 +17634,7 @@ msgstr "التالي وحدات وحدات."
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
-msgstr "إذا الطرّاد المروحيات الدفاع."
+msgstr "إذا الطراد الطائرات لعامودية الدفاع."
 
 #: data/helpdata.txt:961
 #, fuzzy
@@ -17638,7 +17642,7 @@ msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
 "missile."
-msgstr "الـ مع البطّاريّة وحدات المروحية."
+msgstr "الـ مع البطّاريّة وحدات طائرة عامودية."
 
 #: data/helpdata.txt:965
 #, fuzzy
@@ -17659,7 +17663,7 @@ msgstr "إذا مع ساحلي الدفاع."
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
-msgstr "ضدّ المروحيات مع المدينة الحوائط."
+msgstr "ضدّ الطائرات لعامودية مع المدينة الحوائط."
 
 #: data/helpdata.txt:975
 #, fuzzy
@@ -17700,7 +17704,7 @@ msgstr "إذا."
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
-msgstr "إذا المقاتل المروحية المروحية."
+msgstr "إذا طائرة محاربة طائرة عامودية طائرة عامودية."
 
 #: data/helpdata.txt:993
 #, fuzzy
@@ -17780,7 +17784,7 @@ msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
-msgstr "إفترض المدفع أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية الفارس أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية مع المدينة الحوائط الغابة لا خيير."
+msgstr "إفترض مدفع أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية الفارس أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية مع المدينة الحوائط الغابات لا خيير."
 
 #: data/helpdata.txt:1043
 #, fuzzy
@@ -17789,7 +17793,7 @@ msgid ""
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
 "to 13.5.  It is a ground unit inside a city, so its strength is increased to "
 "20.25."
-msgstr "الـ لأنّ الغابة هو المدينة الحوائط هو وحدات."
+msgstr "الـ لأنّ الغابات هو المدينة الحوائط هو وحدات."
 
 #: data/helpdata.txt:1048
 #, fuzzy
@@ -17832,7 +17836,7 @@ msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
 "on a Grassland tile, with City Walls and a Coastal Defense."
-msgstr "إفترض خيير سفينة حربية أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية مع خيير جبليّ القوّات أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية الأرض المعشبة مع المدينة الحوائط ساحلي الدفاع."
+msgstr "إفترض خيير سفينة حربية أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية مع خيير جبليّ القوّات أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دي - الحرف الرابع في اللغة الإنجليزية شركه هولت باكرد اف - الحرف السادس في اللغة الإنجليزية الأرض العشبية مع المدينة الحوائط ساحلي الدفاع."
 
 #: data/helpdata.txt:1082
 #, fuzzy
@@ -17940,7 +17944,7 @@ msgid ""
 "now occupied by the Diplomat. By repeating this process (and optionally "
 "leaving some units behind to keep squares occupied), you can make a path "
 "through enemy territory."
-msgstr "أنت متحرك الدبلوماسي وحدات مناطق المعارك متحرك الدبلوماسي ب."
+msgstr "أنت متحرك دبلوماسي وحدات مناطق المعارك متحرك دبلوماسي ب."
 
 #: data/helpdata.txt:1161
 #, fuzzy
@@ -17975,7 +17979,7 @@ msgstr "تغييرات على طبيعة الأرض"
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
-msgstr "المستوطنون المهندسون."
+msgstr "مستعمرين مهندسين."
 
 #: data/helpdata.txt:1188
 #, fuzzy
@@ -17986,7 +17990,7 @@ msgid ""
 "west.  Irrigating a square causes it to produce some extra food each turn.  "
 "In addition, given sufficient technology, you may irrigate a square a second "
 "time, turning it into even more productive Farmland."
-msgstr "مناسب هذا المحيط النهر السقاية الطعام دوران في الأرض الزراعية."
+msgstr "مناسب هذا المحيط النهر السقاية الطعام دوران في أرض زراعية."
 
 #: data/helpdata.txt:1196
 #, fuzzy
@@ -18037,7 +18041,7 @@ msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
 "destroyed one at a time.  See the Combat help section for further details."
-msgstr "المستوطنون المهندسون الوحدات عادي شاهد المعركة."
+msgstr "مستعمرين مهندسين الوحدات عادي شاهد معركة."
 
 #: data/helpdata.txt:1223
 #, fuzzy
@@ -18051,7 +18055,7 @@ msgid ""
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
 "up) for Engineers, and they can be reduced further by stockpiling several "
 "Settlers/Engineers, doing teamwork."
-msgstr "الـ أدوار وحدات المستوطنون هذه المهندسون المستوطنون المهندسون."
+msgstr "الـ أدوار وحدات مستعمرين هذه مهندسين مستعمرين مهندسين."
 
 #: data/helpdata.txt:1233
 #, fuzzy
@@ -18076,7 +18080,7 @@ msgid ""
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
 "Depending upon server settings, you may be given a choice of which terrain "
 "alteration to pillage, or they will be pillaged in the following order:"
-msgstr "الكلّ السلب دوران وحدات الإعتماد:"
+msgstr "الكل السلب دوران وحدات الإعتماد:"
 
 #: data/helpdata.txt:1250
 msgid ""
@@ -18105,7 +18109,7 @@ msgid ""
 "example, if you have irrigated a Forest tile to convert it into a Plain, "
 "pillaging will not convert it back into a Forest -- to do so, you would have "
 "to convert the tile again with a Settler or Engineer."
-msgstr "البلاط في لـ الغابة السهل الغابة مع المستوطن المهندس."
+msgstr "البلاط في لـ الغابات السهل الغابات مع المستوطن المهندس."
 
 #: data/helpdata.txt:1270
 #, fuzzy
@@ -18122,7 +18126,7 @@ msgid ""
 "to change your form of government, you must start a revolution.  This will "
 "cause your civilization to undergo a period of Anarchy (lasting 1-5 turns); "
 "at the end of this time, you will be able to choose your new government."
-msgstr "ملكك الإستبداد ك في هذا الفوضويّة أدوار جديد."
+msgstr "ملكك  الإستبداد ك في هذا الفوضوية أدوار جديد."
 
 #: data/helpdata.txt:1280
 #, fuzzy
@@ -18132,7 +18136,7 @@ msgid ""
 "trade will be lost to corruption.  (If you do not have a capital, your "
 "cities will suffer extremely high levels of corruption.)  A Courthouse will "
 "reduce the level of corruption in a city."
-msgstr "الفساد تحت إذا أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دار العدل."
+msgstr "الفساد تحت إذا أي - الحرف الأوّل في الأبجديّة اللّاتينيّة محكمة."
 
 #: data/helpdata.txt:1287
 #, fuzzy
@@ -18142,7 +18146,7 @@ msgid ""
 "will be lost to waste.  (If you do not have a capital, your cities will "
 "suffer extremely high levels of waste.)  A Courthouse will reduce the level "
 "of waste in a city. Waste can result in your cities not building anything."
-msgstr "النفاية تحت إذا أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دار العدل النفاية."
+msgstr "النفاية تحت إذا أي - الحرف الأوّل في الأبجديّة اللّاتينيّة محكمة النفاية."
 
 #: data/helpdata.txt:1294
 #, fuzzy
@@ -18160,7 +18164,7 @@ msgid ""
 "easier to achieve under Republican and Democratic governments.  Consider "
 "switching to the Republic as soon as you can; gaining advanced technology "
 "early in the game puts you at an advantage."
-msgstr "علمي الجمهوري الديمقراطي إعتبر الجمهورية."
+msgstr "علمي الجمهوري الديمقراطي إعتبر الحكم الجمهوري."
 
 #: data/helpdata.txt:1309
 msgid " Civil War"
@@ -18173,14 +18177,14 @@ msgid ""
 "capital (palace).  Up to half of your cities will rebel and declare "
 "allegiance to a new (AI) leader, who will loot half of your treasury and "
 "retain all of your scientific advances."
-msgstr "مدني فوق جديد الذّكاء الاصطناعيّ :: منظّمة العفو الدّوليّة."
+msgstr "مدني إلى الأعلى جديد ذكاء اصطناعي."
 
 #: data/helpdata.txt:1316
 #, fuzzy
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
-msgstr "اللاعبون دوران."
+msgstr "اللاعبين دوران."
 
 #: data/helpdata.txt:1319
 #, fuzzy
@@ -18226,7 +18230,7 @@ msgid ""
 "produces nothing.  Cities which are in disorder are easier for enemy "
 "Diplomats and Spies to incite to revolt. Prolonged disorder under Democracy "
 "can lead to a spontaneous revolution, overthrowing your government."
-msgstr "إذا متى المدن الدبلوماسيون الجواسيس مطوّل الديمقراطية."
+msgstr "إذا متى المدن الدبلوماسيون الجواسيس مطوّل الحكم الديقراطي."
 
 #: data/helpdata.txt:1355
 #, fuzzy
@@ -18244,7 +18248,7 @@ msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
 "shields or trade)."
-msgstr "تحت الفوضويّة الإستبداد عادي الطعام."
+msgstr "تحت الفوضوية  الإستبداد عادي الطعام."
 
 #: data/helpdata.txt:1366
 #, fuzzy
@@ -18252,7 +18256,7 @@ msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
 "produces at least 1 trade."
-msgstr "تحت الحكم الملكي الشيوعية الجمهوري الديمقراطي."
+msgstr "تحت الحك الملكي الشيوعية الجمهوري الديمقراطي."
 
 #: data/helpdata.txt:1370
 #, fuzzy
@@ -18260,7 +18264,7 @@ msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
-msgstr "تحت الجمهورية الديمقراطية دوران الطعام."
+msgstr "تحت الحكم الجمهوري الحكم الديقراطي دوران الطعام."
 
 #: data/helpdata.txt:1375
 #, fuzzy
@@ -18284,7 +18288,7 @@ msgid ""
 "After converting all content citizens to happy citizens, unhappy citizens "
 "are converted to happy and/or content.  Some wonders of the world have also "
 "effects on citizens' happiness (see the appropriate sections for details)."
-msgstr "في المعبد استاد الكاثدرائية دار العدل الديمقراطية لـ مواطنيين فيما بعد البعض."
+msgstr "في المعبد كولوسيم كاثدرائية محكمة الحكم الديقراطي لـ مواطنيين فيما بعد البعض."
 
 #: data/helpdata.txt:1395
 #, fuzzy
@@ -18301,7 +18305,7 @@ msgid ""
 "this case, since it counts as a Cathedral in every city or double effects of "
 "Cathedrals, depending on ruleset), or converting part of your trade into "
 "luxuries."
-msgstr "تحت تحت الجمهورية الديمقراطية الحكومة هو هذا الشرطة المحطة الشنق الحدائق جي - الحرف العاشر في اللغة الإنجليزية أس - الحرف التاسع عشر في اللغة الإنجليزية باخ الكاثدرائية العلاج السرطان شكسبير المسرح النّساء التصويت ميتشيلانجيلو المصلى الكاثدرائية الكاثدرائيات."
+msgstr "تحت تحت الحكم الجمهوري الحكم الديقراطي حكومة هو هذا الشرطة المحطة الشنق الحدائق جي - الحرف العاشر في اللغة الإنجليزية أس - الحرف التاسع عشر في اللغة الإنجليزية باخ كاثدرائية العلاج السرطان شكسبير المسرح النّساء التصويت ميتشيلانجيلو المصلى كاثدرائية الكاثدرائيات."
 
 #: data/helpdata.txt:1414
 #, fuzzy
@@ -18329,7 +18333,7 @@ msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Players dialog and click \"Spaceship\"."
-msgstr "متى مع السفينة الفضائية التقرير إلى اللاعبون السفينة الفضائية."
+msgstr "متى مع سفينة فضائية التقرير إلى اللاعبين سفينة فضائية."
 
 #: data/helpdata.txt:1433
 #, fuzzy
@@ -18389,7 +18393,7 @@ msgstr "بنك"
 msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
-msgstr "سوية مع السوق البنك."
+msgstr "سوية مع  السوق بنك."
 
 #: data/default/buildings.ruleset:128 data/default/buildings.ruleset:152
 #: data/default/buildings.ruleset:175 data/civ2/buildings.ruleset:110
@@ -18425,7 +18429,7 @@ msgid ""
 "of a Cathedral, making an additional unhappy citizen content.  The discovery "
 "of Communism lessens the effect of a Cathedral, reducing by one the number "
 "of unhappy citizens made content."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الكاثدرائية الـ نظام اللاهوت الكاثدرائية مواطنيين الـ الشيوعية الكاثدرائية."
+msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة كاثدرائية الـ اللاهوت كاثدرائية مواطنيين الـ الشيوعية كاثدرائية."
 
 #: data/default/buildings.ruleset:224 data/civ2/buildings.ruleset:204
 #, fuzzy
@@ -18471,7 +18475,7 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
-msgstr "يخفّض تحت الديمقراطية دار العدل مواطنيين أيضًا."
+msgstr "يخفّض تحت الحكم الديقراطي محكمة مواطنيين أيضًا."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -18493,7 +18497,7 @@ msgid ""
 "The amount of stored food will be set to half full whenever a city with a "
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
-msgstr "الـ الطعام مع السايلو هذا."
+msgstr "الـ الطعام مع مخزن الحبوب هذا."
 
 #: data/default/buildings.ruleset:341 data/civ2/buildings.ruleset:320
 msgid "Harbour"
@@ -18523,7 +18527,7 @@ msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
-msgstr "يخفّض هو درع المصنع النبات المصنع المصحة المائية النبات المصنع النبات المصحة المائية النبات المصحة المائية النبات القوّة النبات نووي النبات أي - الحرف الأوّل في الأبجديّة اللّاتينيّة المصحة المائية النبات الجبل النهر."
+msgstr "يخفّض هو درع مصنع النبات مصنع المصحة المائية النبات مصنع النبات المصحة المائية النبات المصحة المائية النبات القوّة النبات نووي النبات أي - الحرف الأوّل في الأبجديّة اللّاتينيّة المصحة المائية النبات الجبل النهر."
 
 #: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:373
 #: data/civ1/buildings.ruleset:297
@@ -18570,7 +18574,7 @@ msgstr "محطة التصنيع"
 msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
-msgstr "سوية مع المصنع التصنيع النبات درع."
+msgstr "سوية مع مصنع التصنيع النبات درع."
 
 #: data/default/buildings.ruleset:480 data/civ2/buildings.ruleset:456
 #: data/civ1/buildings.ruleset:380
@@ -18587,7 +18591,7 @@ msgid ""
 "bonus.\n"
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
-msgstr "يخفّض هو درع المصنع النبات المصنع نووي النبات المصنع النبات نووي النبات المصحة المائية النبات القوّة النبات نووي النبات."
+msgstr "يخفّض هو درع مصنع النبات مصنع نووي النبات مصنع النبات نووي النبات المصحة المائية النبات القوّة النبات نووي النبات."
 
 #: data/default/buildings.ruleset:515 data/civ2/buildings.ruleset:488
 #, fuzzy
@@ -18621,7 +18625,7 @@ msgid ""
 "\n"
 "Under Despotism the palace gives you a +75% production bonus, and under "
 "Monarchy a +50% production bonus."
-msgstr "الطرازات الفساد الديمقراطية الشيوعية الـ الخسران الإستبداد الحكم الملكي."
+msgstr "الطرازات الفساد الحكم الديقراطي الشيوعية الـ الخسران  الإستبداد الحك الملكي."
 
 #: data/default/buildings.ruleset:569 data/civ2/buildings.ruleset:538
 msgid "Police Station"
@@ -18633,12 +18637,12 @@ msgid ""
 "Reduces the unhappiness caused by military units outside the city by 2 under "
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
-msgstr "يخفّض الديمقراطية الجمهورية هذا."
+msgstr "يخفّض الحكم الديقراطي الحكم الجمهوري هذا."
 
 #: data/default/buildings.ruleset:593 data/civ2/buildings.ruleset:559
 #, fuzzy
 msgid "Port Facility"
-msgstr "الميناء الوسيلة"
+msgstr "المنفذ الوسيلة"
 
 #: data/default/buildings.ruleset:608 data/civ2/buildings.ruleset:574
 #, fuzzy
@@ -18661,7 +18665,7 @@ msgid ""
 "The extra production may lead to the city generating more pollution.\n"
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
-msgstr "الزيادات درع المصنع النبات المصنع القوّة النبات المصنع النبات القوّة النبات الـ المصحة المائية النبات القوّة النبات نووي النبات."
+msgstr "الزيادات درع مصنع النبات مصنع القوّة النبات مصنع النبات القوّة النبات الـ المصحة المائية النبات القوّة النبات نووي النبات."
 
 #: data/default/buildings.ruleset:646 data/civ2/buildings.ruleset:608
 #: data/civ1/buildings.ruleset:466
@@ -18674,7 +18678,7 @@ msgstr "مركز إعادة التصنيع"
 msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
-msgstr "المبنى :: صناعة البناء الإعادة المركز."
+msgstr "المبنى :: صناعة البناء اعادة التصنيع توسيط."
 
 #: data/default/buildings.ruleset:667 data/civ2/buildings.ruleset:629
 msgid "Research Lab"
@@ -18686,7 +18690,7 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 200%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 450%."
-msgstr "سوية مع المكتبة البحث المختبر سوية مع المكتبة الجامعة البحث المختبر."
+msgstr "سوية مع مكتبة البحث المختبر سوية مع مكتبة الجامعة البحث المختبر."
 
 #: data/default/buildings.ruleset:690 data/civ2/buildings.ruleset:652
 msgid "SAM Battery"
@@ -18722,7 +18726,7 @@ msgstr "نظام المجاري"
 msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
-msgstr "يسمح الحجم أداة تعريف القناة الحجم."
+msgstr "يسمح الحجم أداة تعريف قناة مائية الحجم."
 
 #: data/default/buildings.ruleset:754 data/civ2/buildings.ruleset:746
 #: data/civ1/buildings.ruleset:510
@@ -18782,7 +18786,7 @@ msgid ""
 "\n"
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
-msgstr "الفضاء الكلّ أنت الفضاء أبولّو البرنامج."
+msgstr "الفضاء الكل أنت الفضاء أبولّو البرنامج."
 
 #: data/default/buildings.ruleset:838 data/civ2/buildings.ruleset:827
 msgid "Stock Exchange"
@@ -18793,7 +18797,7 @@ msgstr "بورصة الأوراق المالية"
 msgid ""
 "Together with a Marketplace and a Bank, a Stock Exchange boosts tax and "
 "luxury production in a city by 150%."
-msgstr "سوية مع السوق البنك السهم التبادل."
+msgstr "سوية مع  السوق بنك المخزون التبادل."
 
 #: data/default/buildings.ruleset:860 data/civ2/buildings.ruleset:849
 msgid "Super Highways"
@@ -18814,7 +18818,7 @@ msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
 "used around the city.  Farmland squares are those which have been irrigated "
 "a second time."
-msgstr "الزيادات الطعام الأرض الزراعية."
+msgstr "الزيادات الطعام أرض زراعية."
 
 #: data/default/buildings.ruleset:905 data/civ2/buildings.ruleset:892
 #: data/civ1/buildings.ruleset:591
@@ -18828,10 +18832,10 @@ msgid ""
 "Makes one unhappy citizen content.  Both the Mysticism advance and the "
 "Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
 "citizens are made content."
-msgstr "الطرازات مواطنيين كلاهما الروحانية العرّاف :: العرّافة :: إسم تجاري لقاعدة بيانات مع الروحانية العرّاف :: العرّافة :: إسم تجاري لقاعدة بيانات."
+msgstr "الطرازات مواطنيين كلاهما التصوف العراف مع التصوف العراف."
 
 #: data/default/buildings.ruleset:926 data/civ2/buildings.ruleset:913
-#: data/civ1/buildings.ruleset:612 data/default/techs.ruleset:741
+#: data/civ1/buildings.ruleset:612 data/default/techs.ruleset:742
 #: data/civ2/techs.ruleset:557 data/civ1/techs.ruleset:553
 msgid "University"
 msgstr "الجامعة"
@@ -18939,7 +18943,7 @@ msgstr "المكتبة العظمى"
 msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
-msgstr "الـ عظيم المكتبة."
+msgstr "الـ رائع مكتبة."
 
 #: data/default/buildings.ruleset:1114 data/civ2/buildings.ruleset:1100
 #: data/civ1/buildings.ruleset:754
@@ -19065,7 +19069,7 @@ msgid ""
 "effect of a Cathedral, making an additional unhappy citizen content.  The "
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
-msgstr "التهم الكاثدرائية هذا الـ نظام اللاهوت الكاثدرائية مواطنيين الـ الشيوعية الكاثدرائية."
+msgstr "التهم كاثدرائية هذا الـ اللاهوت كاثدرائية مواطنيين الـ الشيوعية كاثدرائية."
 
 #: data/default/buildings.ruleset:1359 data/civ2/buildings.ruleset:1343
 #: data/civ1/buildings.ruleset:941
@@ -19087,7 +19091,7 @@ msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
-msgstr "الـ الطعام هذا متراكم مع السايلو."
+msgstr "الـ الطعام هذا متراكم مع مخزن الحبوب."
 
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
@@ -19119,7 +19123,7 @@ msgid ""
 "Allows you to choose any government, including those that have not yet been "
 "researched by your civilization, and without the transition period of "
 "Anarchy."
-msgstr "يسمح الفوضويّة."
+msgstr "يسمح الفوضوية."
 
 #: data/default/buildings.ruleset:1458 data/civ2/buildings.ruleset:1441
 msgid "Sun Tzu's War Academy"
@@ -19130,7 +19134,7 @@ msgstr "اكاديمية سن تزو الحربية"
 msgid ""
 "All your new ground units start at the first veteran level. The  chance of a "
 "unit getting the next veteran level after a battle  increases by half."
-msgstr "الكلّ جديد خيير الـ وحدات خيير."
+msgstr "الكل جديد خيير الـ وحدات خيير."
 
 #: data/default/buildings.ruleset:1479 data/civ2/buildings.ruleset:1462
 #: data/civ1/buildings.ruleset:1020
@@ -19152,7 +19156,7 @@ msgid ""
 "Counts as a Police Station in every city.  (That is, for each city, reduces "
 "unhappiness for military units outside the city by 2 under Democracy and 1 "
 "under Republic.  This wonder has no effect under other governments.)"
-msgstr "التهم الشرطة المحطة ذلك الديمقراطية الجمهورية هذا"
+msgstr "التهم الشرطة المحطة ذلك الحكم الديقراطي الحكم الجمهوري هذا"
 
 #: data/default/buildings.ruleset:1531
 msgid "Coinage"
@@ -19211,7 +19215,7 @@ msgstr "?nationgroup:خيالي"
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)"
-msgstr "يسلّي أربعة الإلكترونيات"
+msgstr "يسلّي أربعة الالكترونيات"
 
 #: data/civ2/buildings.ruleset:268
 #, fuzzy
@@ -19219,7 +19223,7 @@ msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
-msgstr "يخفّض تحت الديمقراطية دار العدل مواطنيين أيضًا."
+msgstr "يخفّض تحت الحكم الديقراطي محكمة مواطنيين أيضًا."
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
 #, fuzzy
@@ -19233,7 +19237,7 @@ msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
-msgstr "يخفّض هو درع المصنع النبات المصنع المصحة المائية النبات المصنع النبات المصحة المائية النبات المصحة المائية النبات القوّة النبات نووي النبات أي - الحرف الأوّل في الأبجديّة اللّاتينيّة المصحة المائية النبات الجبل النهر."
+msgstr "يخفّض هو درع مصنع النبات مصنع المصحة المائية النبات مصنع النبات المصحة المائية النبات المصحة المائية النبات القوّة النبات نووي النبات أي - الحرف الأوّل في الأبجديّة اللّاتينيّة المصحة المائية النبات الجبل النهر."
 
 #: data/civ2/buildings.ruleset:388 data/civ1/buildings.ruleset:312
 #, no-c-format
@@ -19250,7 +19254,7 @@ msgid ""
 "bonus.\n"
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
-msgstr "يخفّض هو درع المصنع النبات المصنع نووي النبات المصنع النبات نووي النبات المصحة المائية النبات القوّة النبات نووي النبات."
+msgstr "يخفّض هو درع مصنع النبات مصنع نووي النبات مصنع النبات نووي النبات المصحة المائية النبات القوّة النبات نووي النبات."
 
 #: data/civ2/buildings.ruleset:524 data/civ1/buildings.ruleset:425
 #, fuzzy
@@ -19264,7 +19268,7 @@ msgid ""
 "Take good care of your capital, as its loss may result in your empire "
 "plunging into civil war. Losing your current palace also results in losing "
 "whatever spaceship you might have."
-msgstr "الطرازات الفساد الديمقراطية الشيوعية الـ الخسران."
+msgstr "الطرازات الفساد الحكم الديقراطي الشيوعية الـ الخسران."
 
 #: data/civ2/buildings.ruleset:596 data/civ1/buildings.ruleset:454
 #, fuzzy, no-c-format
@@ -19275,7 +19279,7 @@ msgid ""
 "The extra production may lead to the city generating more pollution.\n"
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
-msgstr "الزيادات درع المصنع النبات المصنع القوّة النبات المصنع النبات القوّة النبات الـ المصحة المائية النبات القوّة النبات نووي النبات."
+msgstr "الزيادات درع مصنع النبات مصنع القوّة النبات مصنع النبات القوّة النبات الـ المصحة المائية النبات القوّة النبات نووي النبات."
 
 #: data/civ2/buildings.ruleset:644
 #, fuzzy
@@ -19283,7 +19287,7 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
-msgstr "سوية مع المكتبة البحث المختبر سوية مع المكتبة الجامعة البحث المختبر."
+msgstr "سوية مع مكتبة البحث المختبر سوية مع مكتبة الجامعة البحث المختبر."
 
 #: data/civ2/buildings.ruleset:716
 msgid "Solar Plant"
@@ -19299,14 +19303,14 @@ msgid ""
 "\n"
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
-msgstr "يزيل هو درع المصنع النبات المصنع شمسي النبات المصنع النبات شمسي النبات شمسي النبات المصحة المائية النبات القوّة النبات نووي النبات."
+msgstr "يزيل هو درع مصنع النبات مصنع شمسي النبات مصنع النبات شمسي النبات شمسي النبات المصحة المائية النبات القوّة النبات نووي النبات."
 
 #: data/civ2/buildings.ruleset:929 data/civ1/buildings.ruleset:628
 #, fuzzy, no-c-format
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
-msgstr "سوية مع المكتبة الجامعة."
+msgstr "سوية مع مكتبة الجامعة."
 
 #: data/civ2/buildings.ruleset:970
 #, fuzzy
@@ -19358,21 +19362,21 @@ msgstr "الأضعاف المعابد."
 #: data/civ2/buildings.ruleset:1376
 #, fuzzy
 msgid "Counts as having a Granary in every city."
-msgstr "التهم السايلو."
+msgstr "التهم مخزن الحبوب."
 
 #: data/civ2/buildings.ruleset:1395
 #, fuzzy
 msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
-msgstr "الدّفعات مع المكتبة التهم البحث المختبر"
+msgstr "الدّفعات مع مكتبة التهم البحث المختبر"
 
 #: data/civ2/buildings.ruleset:1455
 #, fuzzy
 msgid ""
 "All your new ground units become veterans (for all cities).  The chance of a "
 "unit becoming a veteran after a battle increases from 50% to 100%."
-msgstr "الكلّ جديد الـ وحدات خيير."
+msgstr "الكل جديد الـ وحدات خيير."
 
 #: data/civ2/buildings.ruleset:1476
 #, fuzzy
@@ -19411,7 +19415,7 @@ msgstr "مع الثكنة جديد وحدات الخبير الهجوم أيضً
 msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الكاثدرائية."
+msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة كاثدرائية."
 
 #: data/civ1/buildings.ruleset:173
 #, fuzzy
@@ -19421,7 +19425,7 @@ msgid ""
 "units.  They are ineffective against non-helicopter airborne units as well "
 "as Artillery.  City Walls also prevent the loss of population which occurs "
 "when a defending unit is destroyed by a land unit."
-msgstr "المدينة الحوائط هم هم المدفعيّة المدينة الحوائط وحدات وحدات."
+msgstr "المدينة الحوائط هم هم مدفعيه المدينة الحوائط وحدات وحدات."
 
 #: data/civ1/buildings.ruleset:196
 #, fuzzy
@@ -19434,7 +19438,7 @@ msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
-msgstr "يخفّض تحت الديمقراطية دار العدل مواطنيين أيضًا."
+msgstr "يخفّض تحت الحكم الديقراطي محكمة مواطنيين أيضًا."
 
 #: data/civ1/buildings.ruleset:646
 #, fuzzy
@@ -19442,7 +19446,7 @@ msgid ""
 "All cities on the map become visible for the player who owns it.  It allows "
 "all players to start building spaceship parts (assuming they have researched "
 "the necessary technologies)."
-msgstr "الكلّ هو."
+msgstr "الكل هو."
 
 #: data/civ1/buildings.ruleset:814
 #, fuzzy
@@ -19480,7 +19484,7 @@ msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
 "means that in a Republic, units do not cause unhappiness, and in a "
 "Democracy, aggressive units cause only 1 unhappy citizen each."
-msgstr "في وحدات هذا الجمهورية الديمقراطية مواطنيين."
+msgstr "في وحدات هذا الحكم الجمهوري الحكم الديقراطي مواطنيين."
 
 #: data/default/cities.ruleset:29 data/civ2/cities.ruleset:29
 #: data/civ2/cities.ruleset:198 data/civ2/cities.ruleset:367
@@ -19588,7 +19592,7 @@ msgid ""
 "\n"
 "Anarchy offers slightly less corruption than Despotism, but slightly more "
 "unhappiness."
-msgstr "الفوضويّة المواطنيين الإستبداد."
+msgstr "الفوضوية المواطنيين  الإستبداد."
 
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
@@ -19613,10 +19617,10 @@ msgid ""
 "over your citizens is maintained largely by martial law.\n"
 "\n"
 "Despotism suffers the highest level of corruption of all forms of government."
-msgstr "تحت الإستبداد ملكك."
+msgstr "تحت  الإستبداد ملكك."
 
 #: data/default/governments.ruleset:92 data/civ2/governments.ruleset:90
-#: data/civ1/governments.ruleset:92 data/default/techs.ruleset:480
+#: data/civ1/governments.ruleset:92 data/default/techs.ruleset:481
 #: data/civ2/techs.ruleset:362 data/civ1/techs.ruleset:360
 msgid "Monarchy"
 msgstr "الحك الملكي"
@@ -19644,10 +19648,10 @@ msgid ""
 "government.\n"
 "\n"
 "Monarchy suffers the same small amount of corruption that the Republic does."
-msgstr "تحت الحكم الملكي الجمهورية."
+msgstr "تحت الحك الملكي الحكم الجمهوري."
 
 #: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
-#: data/civ1/governments.ruleset:114 data/default/techs.ruleset:174
+#: data/civ1/governments.ruleset:114 data/default/techs.ruleset:175
 #: data/civ2/techs.ruleset:132 data/civ1/techs.ruleset:132
 msgid "Communism"
 msgstr "الشيوعية"
@@ -19671,7 +19675,7 @@ msgid ""
 "\n"
 "Under Communism, corruption does not vary by distance from the capital; all "
 "cities (including the capital) have a modest amount of corruption."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية."
+msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكل الشيوعية الشيوعية."
 
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:164
 #: data/civ1/governments.ruleset:138
@@ -19697,10 +19701,10 @@ msgid ""
 "popular to remain in control, citizens are given a greater degree of "
 "freedom.  Citizens under the Republic become unhappy easily, but the self-"
 "sufficiency of your citizens allows high levels of trade."
-msgstr "تحت الجمهوري المواطنيين الجمهورية."
+msgstr "تحت الجمهوري المواطنيين الحكم الجمهوري."
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:186
-#: data/civ1/governments.ruleset:160 data/default/techs.ruleset:215
+#: data/civ1/governments.ruleset:160 data/default/techs.ruleset:216
 #: data/civ2/techs.ruleset:163 data/civ1/techs.ruleset:162
 msgid "Democracy"
 msgstr "الحكم الديقراطي"
@@ -19733,7 +19737,7 @@ msgid ""
 "offers the highest possible level of trade, but also offers the most "
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
-msgstr "تحت الديمقراطية الديمقراطية هناك الديمقراطية."
+msgstr "تحت الحكم الديقراطي الحكم الديقراطي هناك الحكم الديقراطي."
 
 #: data/civ2/governments.ruleset:57
 #, fuzzy
@@ -19744,7 +19748,7 @@ msgid ""
 "\n"
 "Anarchy offers slightly less corruption and waste than Despotism, but "
 "slightly more unhappiness."
-msgstr "الفوضويّة المواطنيين الإستبداد."
+msgstr "الفوضوية المواطنيين  الإستبداد."
 
 #: data/civ2/governments.ruleset:79
 #, fuzzy
@@ -19754,7 +19758,7 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
-msgstr "تحت الإستبداد ملكك."
+msgstr "تحت  الإستبداد ملكك."
 
 #: data/civ2/governments.ruleset:101
 #, fuzzy
@@ -19764,7 +19768,7 @@ msgid ""
 "\n"
 "Monarchy suffers the same small amount of corruption and waste that the "
 "Republic does."
-msgstr "تحت الحكم الملكي الجمهورية."
+msgstr "تحت الحك الملكي الحكم الجمهوري."
 
 #: data/civ2/governments.ruleset:122
 #, fuzzy
@@ -19776,9 +19780,9 @@ msgid ""
 "Under Communism, corruption and waste does not vary by distance from the "
 "capital; all cities (including the capital) have a modest amount of "
 "corruption."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكلّ الشيوعية الشيوعية."
+msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة شيوعي الكل الشيوعية الشيوعية."
 
-#: data/civ2/governments.ruleset:136 data/default/techs.ruleset:296
+#: data/civ2/governments.ruleset:136 data/default/techs.ruleset:297
 #: data/civ2/techs.ruleset:224 data/civ1/techs.ruleset:222
 msgid "Fundamentalism"
 msgstr "الأصولية"
@@ -19804,7 +19808,7 @@ msgid ""
 "Improvement that normally convert unhappy citizens to content citizens, "
 "produces `tithes' (gold) equivalent to the number of people they would "
 "convert, and require no maintenance."
-msgstr "الأصوليّة الـ الذهب."
+msgstr "الأصولية الـ الذهب."
 
 #: data/civ2/governments.ruleset:196
 #, fuzzy
@@ -19818,7 +19822,7 @@ msgid ""
 "their loyalty is unswerving.  Military units of Democratic civilizations "
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
-msgstr "تحت الديمقراطية الديمقراطية هناك الديمقراطية الديمقراطية الجيش الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
+msgstr "تحت الحكم الديقراطي الحكم الديقراطي هناك الحكم الديقراطي الحكم الديقراطي عسكري الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
 
 #: data/civ1/governments.ruleset:170
 #, fuzzy
@@ -19832,426 +19836,426 @@ msgid ""
 "their loyalty is unswerving.  Military units of Democratic civilizations "
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
-msgstr "تحت الديمقراطية الديمقراطية هناك الديمقراطية الديمقراطية الجيش الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
+msgstr "تحت الحكم الديقراطي الحكم الديقراطي هناك الحكم الديقراطي الحكم الديقراطي عسكري الديمقراطي الديمقراطي الدبلوماسيون الجواسيس."
 
-#: data/default/techs.ruleset:54 data/civ2/techs.ruleset:42
+#: data/default/techs.ruleset:55 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
 msgid "Advanced Flight"
 msgstr "الطيران المتطور"
 
-#: data/default/techs.ruleset:62 data/civ2/techs.ruleset:48
+#: data/default/techs.ruleset:63 data/civ2/techs.ruleset:48
 #: data/civ1/techs.ruleset:48
 msgid "Alphabet"
 msgstr "الألفباء"
 
-#: data/default/techs.ruleset:70 data/civ2/techs.ruleset:54
+#: data/default/techs.ruleset:71 data/civ2/techs.ruleset:54
 #: data/civ1/techs.ruleset:54
 msgid "Amphibious Warfare"
 msgstr "الحرب المائبة"
 
-#: data/default/techs.ruleset:78 data/civ2/techs.ruleset:60
+#: data/default/techs.ruleset:79 data/civ2/techs.ruleset:60
 #: data/civ1/techs.ruleset:60
 msgid "Astronomy"
 msgstr "علم الفلك"
 
-#: data/default/techs.ruleset:86 data/civ2/techs.ruleset:66
+#: data/default/techs.ruleset:87 data/civ2/techs.ruleset:66
 #: data/civ1/techs.ruleset:66
 msgid "Atomic Theory"
 msgstr "النظرية الذرية"
 
-#: data/default/techs.ruleset:94 data/civ2/techs.ruleset:72
+#: data/default/techs.ruleset:95 data/civ2/techs.ruleset:72
 #: data/civ1/techs.ruleset:72
 msgid "Automobile"
 msgstr "السيارة"
 
-#: data/default/techs.ruleset:102 data/civ2/techs.ruleset:78
+#: data/default/techs.ruleset:103 data/civ2/techs.ruleset:78
 #: data/civ1/techs.ruleset:78
 msgid "Banking"
 msgstr "الصناعة البنكية"
 
-#: data/default/techs.ruleset:110 data/civ2/techs.ruleset:84
+#: data/default/techs.ruleset:111 data/civ2/techs.ruleset:84
 #: data/civ1/techs.ruleset:84
 msgid "Bridge Building"
 msgstr "صناعة الجسور"
 
-#: data/default/techs.ruleset:118 data/civ2/techs.ruleset:90
+#: data/default/techs.ruleset:119 data/civ2/techs.ruleset:90
 #: data/civ1/techs.ruleset:90
 msgid "Bronze Working"
 msgstr "صناعة البرونز"
 
-#: data/default/techs.ruleset:126 data/civ2/techs.ruleset:96
+#: data/default/techs.ruleset:127 data/civ2/techs.ruleset:96
 #: data/civ1/techs.ruleset:96
 msgid "Ceremonial Burial"
 msgstr "الدفن الشعائري"
 
-#: data/default/techs.ruleset:134 data/civ2/techs.ruleset:102
+#: data/default/techs.ruleset:135 data/civ2/techs.ruleset:102
 #: data/civ1/techs.ruleset:102
 msgid "Chemistry"
 msgstr "الكيمياء"
 
-#: data/default/techs.ruleset:142 data/civ2/techs.ruleset:108
+#: data/default/techs.ruleset:143 data/civ2/techs.ruleset:108
 #: data/civ1/techs.ruleset:108
 msgid "Chivalry"
 msgstr "الفروسية"
 
-#: data/default/techs.ruleset:150 data/civ2/techs.ruleset:114
+#: data/default/techs.ruleset:151 data/civ2/techs.ruleset:114
 #: data/civ1/techs.ruleset:114
 msgid "Code of Laws"
 msgstr "الدستور والقانون"
 
-#: data/default/techs.ruleset:158 data/civ2/techs.ruleset:120
+#: data/default/techs.ruleset:159 data/civ2/techs.ruleset:120
 #: data/civ1/techs.ruleset:120
 msgid "Combined Arms"
 msgstr "الحرب المشتركة"
 
-#: data/default/techs.ruleset:166 data/civ2/techs.ruleset:126
+#: data/default/techs.ruleset:167 data/civ2/techs.ruleset:126
 #: data/civ1/techs.ruleset:126
 msgid "Combustion"
 msgstr "الاحتراق"
 
-#: data/default/techs.ruleset:180 data/civ2/techs.ruleset:136
+#: data/default/techs.ruleset:181 data/civ2/techs.ruleset:136
 msgid "Reduces the effect of Cathedrals."
 msgstr "تخفيف أثر الكاثدرائيات."
 
-#: data/default/techs.ruleset:183 data/civ2/techs.ruleset:139
+#: data/default/techs.ruleset:184 data/civ2/techs.ruleset:139
 #: data/civ1/techs.ruleset:138
 msgid "Computers"
 msgstr "الحواسيب"
 
-#: data/default/techs.ruleset:191 data/civ2/techs.ruleset:145
+#: data/default/techs.ruleset:192 data/civ2/techs.ruleset:145
 #: data/civ1/techs.ruleset:144
 msgid "Conscription"
 msgstr "التجنيد"
 
-#: data/default/techs.ruleset:199 data/civ2/techs.ruleset:151
+#: data/default/techs.ruleset:200 data/civ2/techs.ruleset:151
 #: data/civ1/techs.ruleset:150
 msgid "Construction"
 msgstr "البناء"
 
-#: data/default/techs.ruleset:207 data/civ2/techs.ruleset:157
+#: data/default/techs.ruleset:208 data/civ2/techs.ruleset:157
 #: data/civ1/techs.ruleset:156
 msgid "Currency"
 msgstr "العملة"
 
-#: data/default/techs.ruleset:231 data/civ2/techs.ruleset:175
+#: data/default/techs.ruleset:232 data/civ2/techs.ruleset:175
 #: data/civ1/techs.ruleset:174
 msgid "Electricity"
 msgstr "الكهرباء"
 
-#: data/default/techs.ruleset:237 data/civ2/techs.ruleset:179
+#: data/default/techs.ruleset:238 data/civ2/techs.ruleset:179
 msgid "Improves the effect of Colosseums."
 msgstr "تحسين أثر الكولوسيوم."
 
-#: data/default/techs.ruleset:240 data/civ2/techs.ruleset:182
+#: data/default/techs.ruleset:241 data/civ2/techs.ruleset:182
 #: data/civ1/techs.ruleset:180
 msgid "Electronics"
 msgstr "الالكترونيات"
 
-#: data/default/techs.ruleset:248 data/civ2/techs.ruleset:188
+#: data/default/techs.ruleset:249 data/civ2/techs.ruleset:188
 #: data/civ1/techs.ruleset:186
 msgid "Engineering"
 msgstr "الهندسة"
 
-#: data/default/techs.ruleset:256 data/civ2/techs.ruleset:194
+#: data/default/techs.ruleset:257 data/civ2/techs.ruleset:194
 #: data/civ1/techs.ruleset:192
 msgid "Environmentalism"
 msgstr "المحافظة على البيئة"
 
-#: data/default/techs.ruleset:264 data/civ2/techs.ruleset:200
+#: data/default/techs.ruleset:265 data/civ2/techs.ruleset:200
 #: data/civ1/techs.ruleset:198
 msgid "Espionage"
 msgstr "التجسس"
 
-#: data/default/techs.ruleset:272 data/civ2/techs.ruleset:206
+#: data/default/techs.ruleset:273 data/civ2/techs.ruleset:206
 #: data/civ1/techs.ruleset:204
 msgid "Explosives"
 msgstr "المتفجرات"
 
-#: data/default/techs.ruleset:280 data/civ2/techs.ruleset:212
+#: data/default/techs.ruleset:281 data/civ2/techs.ruleset:212
 #: data/civ1/techs.ruleset:210
 msgid "Feudalism"
 msgstr "النظام الاقطاعي"
 
-#: data/default/techs.ruleset:288 data/civ2/techs.ruleset:218
+#: data/default/techs.ruleset:289 data/civ2/techs.ruleset:218
 #: data/civ1/techs.ruleset:216
 msgid "Flight"
 msgstr "الطيران"
 
-#: data/default/techs.ruleset:304 data/civ2/techs.ruleset:230
+#: data/default/techs.ruleset:305 data/civ2/techs.ruleset:230
 #: data/civ1/techs.ruleset:228
 msgid "Fusion Power"
 msgstr "طاقة الاندماج"
 
-#: data/default/techs.ruleset:312 data/civ2/techs.ruleset:236
+#: data/default/techs.ruleset:313 data/civ2/techs.ruleset:236
 #: data/civ1/techs.ruleset:234
 msgid "Genetic Engineering"
 msgstr "الهندسة الجينية"
 
-#: data/default/techs.ruleset:320 data/civ2/techs.ruleset:242
+#: data/default/techs.ruleset:321 data/civ2/techs.ruleset:242
 #: data/civ1/techs.ruleset:240
 msgid "Guerilla Warfare"
 msgstr "حرب العصابات"
 
-#: data/default/techs.ruleset:328 data/civ2/techs.ruleset:248
+#: data/default/techs.ruleset:329 data/civ2/techs.ruleset:248
 #: data/civ1/techs.ruleset:246
 msgid "Gunpowder"
 msgstr "البارود"
 
-#: data/default/techs.ruleset:336 data/civ2/techs.ruleset:254
+#: data/default/techs.ruleset:337 data/civ2/techs.ruleset:254
 #: data/civ1/techs.ruleset:252
 msgid "Horseback Riding"
 msgstr "ركوب الخيل"
 
-#: data/default/techs.ruleset:344 data/civ2/techs.ruleset:260
+#: data/default/techs.ruleset:345 data/civ2/techs.ruleset:260
 #: data/civ1/techs.ruleset:258
 msgid "Industrialization"
 msgstr "التصنيع"
 
-#: data/default/techs.ruleset:352 data/civ2/techs.ruleset:266
+#: data/default/techs.ruleset:353 data/civ2/techs.ruleset:266
 #: data/civ1/techs.ruleset:264
 msgid "Invention"
 msgstr "الاختراع"
 
-#: data/default/techs.ruleset:360 data/civ2/techs.ruleset:272
+#: data/default/techs.ruleset:361 data/civ2/techs.ruleset:272
 #: data/civ1/techs.ruleset:270
 msgid "Iron Working"
 msgstr "صناعة الحديد"
 
-#: data/default/techs.ruleset:368 data/civ2/techs.ruleset:278
+#: data/default/techs.ruleset:369 data/civ2/techs.ruleset:278
 #: data/civ1/techs.ruleset:276
 msgid "Labor Union"
 msgstr "اتحاد العمال"
 
-#: data/default/techs.ruleset:376 data/civ2/techs.ruleset:284
+#: data/default/techs.ruleset:377 data/civ2/techs.ruleset:284
 #: data/civ1/techs.ruleset:282
 msgid "Laser"
 msgstr "الليزر"
 
-#: data/default/techs.ruleset:384 data/civ2/techs.ruleset:290
+#: data/default/techs.ruleset:385 data/civ2/techs.ruleset:290
 #: data/civ1/techs.ruleset:288
 msgid "Leadership"
 msgstr "القيادية"
 
-#: data/default/techs.ruleset:400 data/civ2/techs.ruleset:302
+#: data/default/techs.ruleset:401 data/civ2/techs.ruleset:302
 #: data/civ1/techs.ruleset:300
 msgid "Machine Tools"
 msgstr "أدوات الماكينة"
 
-#: data/default/techs.ruleset:408 data/civ2/techs.ruleset:308
+#: data/default/techs.ruleset:409 data/civ2/techs.ruleset:308
 #: data/civ1/techs.ruleset:306
 msgid "Magnetism"
 msgstr "المغناطيسية"
 
-#: data/default/techs.ruleset:416 data/civ2/techs.ruleset:314
+#: data/default/techs.ruleset:417 data/civ2/techs.ruleset:314
 #: data/civ1/techs.ruleset:312
 msgid "Map Making"
 msgstr "عمل الخرائط"
 
-#: data/default/techs.ruleset:424 data/civ2/techs.ruleset:320
+#: data/default/techs.ruleset:425 data/civ2/techs.ruleset:320
 #: data/civ1/techs.ruleset:318
 msgid "Masonry"
 msgstr "صناعة البناء"
 
-#: data/default/techs.ruleset:432 data/civ2/techs.ruleset:326
+#: data/default/techs.ruleset:433 data/civ2/techs.ruleset:326
 #: data/civ1/techs.ruleset:324
 msgid "Mass Production"
 msgstr "الانتاج على نطاق واسع"
 
-#: data/default/techs.ruleset:440 data/civ2/techs.ruleset:332
+#: data/default/techs.ruleset:441 data/civ2/techs.ruleset:332
 #: data/civ1/techs.ruleset:330
 msgid "Mathematics"
 msgstr "الرياضيات"
 
-#: data/default/techs.ruleset:448 data/civ2/techs.ruleset:338
+#: data/default/techs.ruleset:449 data/civ2/techs.ruleset:338
 #: data/civ1/techs.ruleset:336
 msgid "Medicine"
 msgstr "الدواء"
 
-#: data/default/techs.ruleset:456 data/civ2/techs.ruleset:344
+#: data/default/techs.ruleset:457 data/civ2/techs.ruleset:344
 #: data/civ1/techs.ruleset:342
 msgid "Metallurgy"
 msgstr "علم المعادن"
 
-#: data/default/techs.ruleset:464 data/civ2/techs.ruleset:350
+#: data/default/techs.ruleset:465 data/civ2/techs.ruleset:350
 #: data/civ1/techs.ruleset:348
 msgid "Miniaturization"
 msgstr "علم التصغير"
 
-#: data/default/techs.ruleset:472 data/civ2/techs.ruleset:356
+#: data/default/techs.ruleset:473 data/civ2/techs.ruleset:356
 #: data/civ1/techs.ruleset:354
 msgid "Mobile Warfare"
 msgstr "الحرب المتحركة"
 
-#: data/default/techs.ruleset:488 data/civ2/techs.ruleset:368
+#: data/default/techs.ruleset:489 data/civ2/techs.ruleset:368
 #: data/civ1/techs.ruleset:366
 msgid "Monotheism"
 msgstr "التوحيد"
 
-#: data/default/techs.ruleset:496 data/civ2/techs.ruleset:374
+#: data/default/techs.ruleset:497 data/civ2/techs.ruleset:374
 #: data/civ1/techs.ruleset:372
 msgid "Mysticism"
 msgstr "التصوف"
 
-#: data/default/techs.ruleset:502 data/civ2/techs.ruleset:378
+#: data/default/techs.ruleset:503 data/civ2/techs.ruleset:378
 #: data/civ1/techs.ruleset:376
 msgid "Improves the effect of Temples."
 msgstr "تحسين أثر المعابد."
 
-#: data/default/techs.ruleset:505 data/civ2/techs.ruleset:381
+#: data/default/techs.ruleset:506 data/civ2/techs.ruleset:381
 #: data/civ1/techs.ruleset:379
 msgid "Navigation"
 msgstr "الملاحة"
 
-#: data/default/techs.ruleset:513 data/civ2/techs.ruleset:387
+#: data/default/techs.ruleset:514 data/civ2/techs.ruleset:387
 #: data/civ1/techs.ruleset:385
 msgid "Nuclear Fission"
 msgstr "الانشطار النووي"
 
-#: data/default/techs.ruleset:521 data/civ2/techs.ruleset:393
+#: data/default/techs.ruleset:522 data/civ2/techs.ruleset:393
 #: data/civ1/techs.ruleset:391
 msgid "Nuclear Power"
 msgstr "القوة النووية"
 
-#: data/default/techs.ruleset:527 data/civ2/techs.ruleset:397
+#: data/default/techs.ruleset:528 data/civ2/techs.ruleset:397
 msgid "Gives sea units one extra move."
 msgstr "إعطاء الوحدات البحرية خطوة اضافية."
 
-#: data/default/techs.ruleset:530 data/civ2/techs.ruleset:400
+#: data/default/techs.ruleset:531 data/civ2/techs.ruleset:400
 #: data/civ1/techs.ruleset:397
 msgid "Philosophy"
 msgstr "الفلسفة"
 
-#: data/default/techs.ruleset:534
+#: data/default/techs.ruleset:535
 #, fuzzy
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
-msgstr "عظيم."
+msgstr "رائع."
 
-#: data/default/techs.ruleset:540 data/civ2/techs.ruleset:406
+#: data/default/techs.ruleset:541 data/civ2/techs.ruleset:406
 #: data/civ1/techs.ruleset:403
 msgid "Physics"
 msgstr "الفيزياء"
 
-#: data/default/techs.ruleset:548 data/civ2/techs.ruleset:412
+#: data/default/techs.ruleset:549 data/civ2/techs.ruleset:412
 #: data/civ1/techs.ruleset:409
 msgid "Plastics"
 msgstr "اللدائن"
 
-#: data/default/techs.ruleset:556 data/civ2/techs.ruleset:418
+#: data/default/techs.ruleset:557 data/civ2/techs.ruleset:418
 #: data/civ1/techs.ruleset:415
 msgid "Polytheism"
 msgstr "الاشراك بالله"
 
-#: data/default/techs.ruleset:564 data/civ2/techs.ruleset:424
+#: data/default/techs.ruleset:565 data/civ2/techs.ruleset:424
 #: data/civ1/techs.ruleset:421
 msgid "Pottery"
 msgstr "الفخار"
 
-#: data/default/techs.ruleset:572 data/civ2/techs.ruleset:430
+#: data/default/techs.ruleset:573 data/civ2/techs.ruleset:430
 #: data/civ1/techs.ruleset:427
 msgid "Radio"
 msgstr "الراديو"
 
-#: data/default/techs.ruleset:588 data/civ2/techs.ruleset:442
+#: data/default/techs.ruleset:589 data/civ2/techs.ruleset:442
 #: data/civ1/techs.ruleset:439
 msgid "Recycling"
 msgstr "اعادة التصنيع"
 
-#: data/default/techs.ruleset:596 data/civ2/techs.ruleset:448
+#: data/default/techs.ruleset:597 data/civ2/techs.ruleset:448
 #: data/civ1/techs.ruleset:445
 msgid "Refining"
 msgstr "التصفية"
 
-#: data/default/techs.ruleset:604 data/civ2/techs.ruleset:454
+#: data/default/techs.ruleset:605 data/civ2/techs.ruleset:454
 #: data/civ1/techs.ruleset:451
 msgid "Refrigeration"
 msgstr "التجميد"
 
-#: data/default/techs.ruleset:612 data/civ2/techs.ruleset:460
+#: data/default/techs.ruleset:613 data/civ2/techs.ruleset:460
 #: data/civ1/techs.ruleset:457
 msgid "Robotics"
 msgstr "علم الروبوتات"
 
-#: data/default/techs.ruleset:620 data/civ2/techs.ruleset:466
+#: data/default/techs.ruleset:621 data/civ2/techs.ruleset:466
 #: data/civ1/techs.ruleset:463
 msgid "Rocketry"
 msgstr "علم الصواريخ"
 
-#: data/default/techs.ruleset:628 data/civ2/techs.ruleset:472
+#: data/default/techs.ruleset:629 data/civ2/techs.ruleset:472
 #: data/civ1/techs.ruleset:469
 msgid "Sanitation"
 msgstr "التطهير"
 
-#: data/default/techs.ruleset:636 data/civ2/techs.ruleset:478
+#: data/default/techs.ruleset:637 data/civ2/techs.ruleset:478
 #: data/civ1/techs.ruleset:475
 msgid "Seafaring"
 msgstr "السفر بالبحر"
 
-#: data/default/techs.ruleset:644 data/civ2/techs.ruleset:484
+#: data/default/techs.ruleset:645 data/civ2/techs.ruleset:484
 #: data/civ1/techs.ruleset:481
 msgid "Space Flight"
 msgstr "الطيران في الفضاء"
 
-#: data/default/techs.ruleset:652 data/civ2/techs.ruleset:490
+#: data/default/techs.ruleset:653 data/civ2/techs.ruleset:490
 #: data/civ1/techs.ruleset:487
 msgid "Stealth"
 msgstr "الانسلال خلسة"
 
-#: data/default/techs.ruleset:660 data/civ2/techs.ruleset:496
+#: data/default/techs.ruleset:661 data/civ2/techs.ruleset:496
 #: data/civ1/techs.ruleset:493
 msgid "Steam Engine"
 msgstr "المحرك البخاري"
 
-#: data/default/techs.ruleset:668 data/civ2/techs.ruleset:502
+#: data/default/techs.ruleset:669 data/civ2/techs.ruleset:502
 #: data/civ1/techs.ruleset:499
 msgid "Steel"
 msgstr "الفولاذ"
 
-#: data/default/techs.ruleset:676 data/civ2/techs.ruleset:508
+#: data/default/techs.ruleset:677 data/civ2/techs.ruleset:508
 #: data/civ1/techs.ruleset:505
 msgid "Superconductors"
 msgstr "الموصلات شديدة التوصيل"
 
-#: data/default/techs.ruleset:684 data/civ2/techs.ruleset:514
+#: data/default/techs.ruleset:685 data/civ2/techs.ruleset:514
 #: data/civ1/techs.ruleset:511
 msgid "Tactics"
 msgstr "التكتيك"
 
-#: data/default/techs.ruleset:692 data/civ2/techs.ruleset:520
+#: data/default/techs.ruleset:693 data/civ2/techs.ruleset:520
 #: data/civ1/techs.ruleset:517
 msgid "The Corporation"
 msgstr "الشركة"
 
-#: data/default/techs.ruleset:700 data/civ2/techs.ruleset:526
+#: data/default/techs.ruleset:701 data/civ2/techs.ruleset:526
 #: data/civ1/techs.ruleset:523
 msgid "The Republic"
 msgstr "الجمهورية"
 
-#: data/default/techs.ruleset:708 data/civ2/techs.ruleset:532
+#: data/default/techs.ruleset:709 data/civ2/techs.ruleset:532
 #: data/civ1/techs.ruleset:529
 msgid "The Wheel"
 msgstr "العجلة"
 
-#: data/default/techs.ruleset:716 data/civ2/techs.ruleset:538
+#: data/default/techs.ruleset:717 data/civ2/techs.ruleset:538
 msgid "Theology"
 msgstr "اللاهوت"
 
-#: data/default/techs.ruleset:722 data/civ2/techs.ruleset:542
+#: data/default/techs.ruleset:723 data/civ2/techs.ruleset:542
 msgid "Improves the effect of Cathedrals."
 msgstr "تحسين أثر الكاثدرائيات."
 
-#: data/default/techs.ruleset:725 data/civ2/techs.ruleset:545
+#: data/default/techs.ruleset:726 data/civ2/techs.ruleset:545
 #: data/civ1/techs.ruleset:541
 msgid "Theory of Gravity"
 msgstr "نظرية الجاذبية"
 
-#: data/default/techs.ruleset:749 data/civ2/techs.ruleset:563
+#: data/default/techs.ruleset:750 data/civ2/techs.ruleset:563
 #: data/civ1/techs.ruleset:559
 msgid "Warrior Code"
 msgstr "طريقة حياة المحارب"
 
-#: data/default/techs.ruleset:757 data/civ2/techs.ruleset:569
+#: data/default/techs.ruleset:758 data/civ2/techs.ruleset:569
 #: data/civ1/techs.ruleset:565
 msgid "Writing"
 msgstr "الكتابة"
@@ -20405,7 +20409,7 @@ msgstr "التندرة"
 #: data/civ1/terrain.ruleset:503
 #, fuzzy
 msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
-msgstr "التندرا."
+msgstr "التندرة."
 
 #: data/default/terrain.ruleset:599 data/civ2/terrain.ruleset:523
 msgid "Ivory"
@@ -20498,7 +20502,7 @@ msgstr "قطبيشمالي"
 msgid ""
 "Arctic squares are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
-msgstr "القطب الشّماليّ هم مع."
+msgstr "قطبيشمالي هم مع."
 
 #: data/civ1/terrain.ruleset:550
 msgid "Horses"
@@ -20542,7 +20546,7 @@ msgid ""
 "dedicate too many workers to one task, though; excess effort can be wasted, "
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
-msgstr "المستوطنون هم جديد الصيانة المستوطنون الطعام المستوطن الطعام المهندسون إذا المستوطنون المهندسون دوران انتهى كن المستوطنون المهندسون."
+msgstr "مستعمرين هم جديد أجور الصيانة مستعمرين الطعام المستوطن الطعام مهندسين إذا مستعمرين مهندسين دوران انتهى كن مستعمرين مهندسين."
 
 #: data/default/units.ruleset:264
 #, fuzzy
@@ -20558,7 +20562,7 @@ msgid ""
 "dedicate too many workers to one task, though; excess effort can be wasted, "
 "and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
 "enemy attacks."
-msgstr "العمّال هم العمّال المهندسون إذا العمّال المهندسون دوران انتهى كن العمّال المستوطنون المهندسون."
+msgstr "العمال هم العمال مهندسين إذا العمال مهندسين دوران انتهى كن العمال مستعمرين مهندسين."
 
 #: data/default/units.ruleset:279 data/civ2/units.ruleset:133
 msgid "Engineers"
@@ -20578,7 +20582,7 @@ msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
 "upgraded for free."
-msgstr "المهندسون العمّال المهندسون التندرا الصحراء العمّال الترقية العمّال المهندسون المهندسون العمّال إذا ليوناردو الورشة المتفجرات الورشة هذا العمّال."
+msgstr "مهندسين العمال مهندسين التندرة الصحراء العمال تطوير العمال مهندسين مهندسين العمال إذا ليوناردو الورشة المتفجرات الورشة هذا العمال."
 
 #: data/default/units.ruleset:320 data/civ2/units.ruleset:174
 msgid "Warriors"
@@ -20635,7 +20639,7 @@ msgstr ""
 " الفدائي الحرب\n"
 " أنت\n"
 " أنت الشيوعية البارود\n"
-" أنت الديمقراطية شيوعي."
+" أنت الحكم الديقراطي شيوعي."
 
 #: data/default/units.ruleset:533 data/civ2/units.ruleset:420
 msgid "Alpine Troops"
@@ -20736,7 +20740,7 @@ msgid ""
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
 "health for every turn not spent in a city, unless you have the United "
 "Nations wonder."
-msgstr "الـ المروحية وحدات العناية المروحيات دوران متّحد الأمم."
+msgstr "الـ طائرة عامودية وحدات العناية الطائرات لعامودية دوران متّحد الأمم."
 
 #: data/default/units.ruleset:1054 data/civ2/units.ruleset:997
 msgid "Stealth Fighter"
@@ -20745,7 +20749,7 @@ msgstr "الطائرة الحربية الخفية"
 #: data/default/units.ruleset:1080 data/civ2/units.ruleset:1023
 #, fuzzy
 msgid "An improved Fighter, with improved attack and a higher movement radius."
-msgstr "أداة تعريف المقاتل مع الهجوم."
+msgstr "أداة تعريف طائرة محاربة مع الهجوم."
 
 #: data/default/units.ruleset:1086 data/civ2/units.ruleset:1029
 msgid "Stealth Bomber"
@@ -20754,7 +20758,7 @@ msgstr "القاذفة الخفية"
 #: data/default/units.ruleset:1112 data/civ2/units.ruleset:1055
 #, fuzzy
 msgid "An improved Bomber, with improved attack and a higher movement radius."
-msgstr "أداة تعريف منفذ العملية مع الهجوم."
+msgstr "أداة تعريف قاذفة قنابل مع الهجوم."
 
 #: data/default/units.ruleset:1118 data/civ2/units.ruleset:1061
 #: data/civ1/units.ruleset:572
@@ -20825,7 +20829,7 @@ msgstr "حاملة طائرات"
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
-msgstr "الحارس الناقلون مع متحرك الناقل."
+msgstr "الحارس الناقلون مع متحرك حاملة طائرات."
 
 #: data/default/units.ruleset:1440 data/civ2/units.ruleset:1383
 #: data/civ1/units.ruleset:805
@@ -20866,7 +20870,7 @@ msgid ""
 "Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city "
 "and have them ready to fix the fallout on the same turn it occurs!  This "
 "minimizes the chance of nuclear winter.  Eco-friendly nukes!"
-msgstr "أنت نووي كوكتيل مانهاتان المشروع وحدات متى الحجم أنت فيما مضى نووي وحدات المستوطنون المهندسون دوران هذا!"
+msgstr "أنت نووي كوكتيل مانهاتان المشروع وحدات متى الحجم أنت فيما مضى نووي وحدات مستعمرين مهندسين دوران هذا!"
 
 #: data/default/units.ruleset:1547 data/civ2/units.ruleset:1490
 #: data/civ1/units.ruleset:880
@@ -20892,7 +20896,7 @@ msgid ""
 "- In some game strategies, hordes of Diplomats can be used to wreak havoc on "
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الدبلوماسي مع متحرك الدبلوماسيون أداة تعريف أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الدبلوماسي وحدات وحدات وحدات الدبلوماسيون دوران في الدبلوماسيون قليلا الدبلوماسيون مع!"
+msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دبلوماسي مع متحرك الدبلوماسيون أداة تعريف أي - الحرف الأوّل في الأبجديّة اللّاتينيّة دبلوماسي وحدات وحدات وحدات الدبلوماسيون دوران في الدبلوماسيون قليلا الدبلوماسيون مع!"
 
 #: data/default/units.ruleset:1593 data/civ2/units.ruleset:1536
 msgid "Spy"
@@ -20918,7 +20922,7 @@ msgid ""
 "\n"
 "A Spy can also be of aid on the battlefield - sabotaging enemy units as well "
 "as bribing them to change allegiance."
-msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الجاسوس الدبلوماسي الجاسوس على أية حال الجاسوس المدينة الحوائط أي - الحرف الأوّل في الأبجديّة اللّاتينيّة الجاسوس الجاسوس."
+msgstr "أي - الحرف الأوّل في الأبجديّة اللّاتينيّة جاسوس دبلوماسي جاسوس على أية حال جاسوس المدينة الحوائط أي - الحرف الأوّل في الأبجديّة اللّاتينيّة جاسوس جاسوس."
 
 #: data/default/units.ruleset:1640 data/civ2/units.ruleset:1583
 #: data/civ1/units.ruleset:926
@@ -20935,7 +20939,7 @@ msgid ""
 "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
 "into a city where you have started to build a wonder, and finish it in only "
 "one turn!"
-msgstr "كلّ القافلة أنت القوافل دوران!"
+msgstr "كلّ عربة أنت القوافل دوران!"
 
 #: data/default/units.ruleset:1676 data/civ2/units.ruleset:1619
 msgid "Freight"
@@ -20944,7 +20948,7 @@ msgstr " الشحن"
 #: data/default/units.ruleset:1702 data/civ2/units.ruleset:1645
 #, fuzzy
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr "الـ الشحن وحدات القافلة."
+msgstr "الـ  الشحن وحدات عربة."
 
 #: data/default/units.ruleset:1707 data/civ2/units.ruleset:1650
 msgid "Explorer"
@@ -20999,7 +21003,7 @@ msgid ""
 "dedicate too many workers to one task, though; excess effort can be wasted, "
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
-msgstr "المستوطنون هم جديد الصيانة المستوطنون الطعام المستوطن الطعام المهندسون إذا المستوطنون المهندسون دوران انتهى كن المستوطنون المهندسون."
+msgstr "مستعمرين هم جديد أجور الصيانة مستعمرين الطعام المستوطن الطعام مهندسين إذا مستعمرين مهندسين دوران انتهى كن مستعمرين مهندسين."
 
 #: data/civ2/units.ruleset:159
 #, fuzzy
@@ -21015,7 +21019,7 @@ msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
 "upgraded for free."
-msgstr "المهندسون المستوطنون المهندسون التندرا الصحراء المستوطنون الترقية المستوطنون المهندسون المهندسون المستوطنون إذا ليوناردو الورشة المتفجرات الورشة هذا المستوطن."
+msgstr "مهندسين مستعمرين مهندسين التندرة الصحراء مستعمرين تطوير مستعمرين مهندسين مهندسين مستعمرين إذا ليوناردو الورشة المتفجرات الورشة هذا المستوطن."
 
 #: data/civ2/units.ruleset:347
 msgid "Fanatics"
@@ -21051,7 +21055,7 @@ msgid ""
 "is finished.  Be careful not to dedicate too many workers to one task, "
 "though; excess effort can be wasted, and a group of Settlers is highly "
 "vulnerable to enemy attacks."
-msgstr "المستوطنون هم جديد الصيانة المستوطنون الطعام المستوطن الطعام إذا المستوطنون دوران انتهى كن المستوطنون."
+msgstr "مستعمرين هم جديد أجور الصيانة مستعمرين الطعام المستوطن الطعام إذا مستعمرين دوران انتهى كن مستعمرين."
 
 #: data/civ1/units.ruleset:141
 msgid "Militia"
@@ -21079,7 +21083,7 @@ msgid ""
 "Nuclear unit, assemble a gang of Settlers next to the city and have them "
 "ready to fix the fallout on the same turn it occurs!  This minimizes the "
 "chance of nuclear winter.  Eco-friendly nukes!"
-msgstr "أنت نووي كوكتيل مانهاتان المشروع وحدات متى الحجم أنت فيما مضى نووي وحدات المستوطنون دوران هذا!"
+msgstr "أنت نووي كوكتيل مانهاتان المشروع وحدات متى الحجم أنت فيما مضى نووي وحدات مستعمرين دوران هذا!"
 
 #: data/civ1/units.ruleset:988
 #, fuzzy
@@ -21091,7 +21095,7 @@ msgstr "متى الذهب."
 #: data/nation/aborigines.ruleset:3
 #, fuzzy
 msgid "Australian Aboriginal"
-msgstr "الأستراليّ أحد السّكّان الأصليّين :: بدائي :: أولي :: أصلي"
+msgstr "استرالي أحد السّكّان الأصليّين :: بدائي :: أولي :: أصلي"
 
 #: data/nation/aborigines.ruleset:4
 #, fuzzy
@@ -21111,7 +21115,7 @@ msgid ""
 "the Australian continent. Aborigines from different parts of Australia refer "
 "to themselves with different names, including Koori, Yamaji, Nunga, and "
 "Murri."
-msgstr "الأستراليّ السّكّان الأصليّين في استراليا الأستراليّ السّكّان الأصليّين في استراليا أستراليا مع."
+msgstr "استرالي السّكّان الأصليّين في استراليا استرالي السّكّان الأصليّين في استراليا أستراليا مع."
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
@@ -21191,7 +21195,7 @@ msgid ""
 "forces including the Persian Empire, Genghis Khan and Alexander the Great. "
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
-msgstr "أفغانستان مركزي آسيا خلال الفارسي الإمبراطورية خان أليكساندر عظيم الـ أفغانستان الشاه الإمبراطورية."
+msgstr "أفغانستان مركزي آسيا خلال فارسي الإمبراطورية خان أليكساندر رائع الـ أفغانستان شاه الإمبراطورية."
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
@@ -21271,7 +21275,7 @@ msgstr "الأمريكيّون"
 msgid ""
 "Formally named the United States of America.  Independent from Great Britain "
 "after a revolution in 1776-1783AD."
-msgstr "رسميا متّحد الولايات أمريكا مستقل عظيم بريطانيا."
+msgstr "رسميا متّحد الولايات أمريكا مستقل رائع بريطانيا."
 
 #: data/nation/american.ruleset:56 data/nation/scottish.ruleset:25
 msgid "Speaker"
@@ -21339,7 +21343,7 @@ msgstr "من القرون الوسطى"
 #: data/nation/arab.ruleset:6
 #, fuzzy
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
-msgstr "الـ العربيّ إسلامي."
+msgstr "الـ عربي إسلامي."
 
 #: data/nation/arab.ruleset:20
 msgid "Caliph"
@@ -21416,7 +21420,7 @@ msgid ""
 "According to legend, the Armenian people are the descendants of Haik - the "
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from Soviet in 1991 AD"
-msgstr "التّوافق الأرمينيّ نوح الـ الجمهورية أرمينيا سوفيتي"
+msgstr "التّوافق الأرمينيّ نوح الـ الحكم الجمهوري أرمينيا سوفيتي"
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -21490,7 +21494,7 @@ msgstr "النّمساويّون"
 msgid ""
 "Austria means Eastern Realm, given its position as the far east territory of "
 "the medieval Holy Roman Empire."
-msgstr "النّمسا شرقي المملكة المقدّس الروماني الإمبراطورية."
+msgstr "النّمسا شرقي المملكة المقدّس رومي الإمبراطورية."
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
@@ -21507,7 +21511,7 @@ msgid ""
 "control of the Toltec-derived civilizations of Central Mexico during the "
 "15th century AD, reviving the practice of human sacrifice.  They were "
 "conquered by the Spanish under Cortez in 1524."
-msgstr "الـ مركزي المكسيك هم إسباني."
+msgstr "الـ مركزي المكسيك هم اسباني."
 
 #: data/nation/aztec.ruleset:21
 msgid "Tlatoani"
@@ -21563,7 +21567,7 @@ msgstr "?plural:باڤاريون"
 msgid ""
 "Bavaria, before national unification in 1870AD, was one of the largest of "
 "the German kingdoms."
-msgstr "بافاريا الألماني."
+msgstr "بافاريا ألماني."
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
@@ -21580,7 +21584,7 @@ msgid ""
 "mainly characterized by its movement from a unified state to a federal one. "
 "This is the result of the Flemish and the Walloon's nationalist (almost) "
 "peaceful fights."
-msgstr "بلجيكا هولندي المملكة بلجيكا هذا فلمنكي والوون - من أحد اللهجات الفرنسية."
+msgstr "بلجيكا ألماني مملكة بلجيكا هذا فلمنكي والوون - من أحد اللهجات الفرنسية."
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
@@ -21598,7 +21602,7 @@ msgid ""
 "around 606 AD. Today the People's Republic of Bangladesh occupies the "
 "eastern part of the region, while the western part is the Indian state of "
 "West Bengal."
-msgstr "بينجال الهندي الـ البنغاليّ اليوم الناس الجمهورية بنجلاديش الهندي الغرب بينجال."
+msgstr "بينجال هندي الـ البنغاليّ اليوم الناس الحكم الجمهوري بنجلاديش هندي الغرب بينجال."
 
 #: data/nation/bengali.ruleset:26
 msgid "Nabob"
@@ -21622,7 +21626,7 @@ msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from "
 "1650AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
-msgstr "الـ هولندي بريطانيّ الجنوب إفريقيا هم البرتقال حرّ الحالة، الدولة، يقرّ بريطانيّ."
+msgstr "الـ ألماني بريطانيّ الجنوب إفريقيا هم البرتقال حرّ الحالة بريطانيّ."
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnia & Herzegovina"
@@ -21702,7 +21706,7 @@ msgid ""
 "kingdom of England and the kingdom of Scotland. The country - also known as "
 "Great Britain - became the leading industrial and maritime power in the 19th "
 "century."
-msgstr "الـ متّحد المملكة إنجلترا أسكوتلندا الـ عظيم بريطانيا."
+msgstr "الـ متّحد مملكة إنجلترا أسكوتلندا الـ رائع بريطانيا."
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
@@ -21788,7 +21792,7 @@ msgid ""
 "until 1453 when its capital fell to the Ottomans. At the time of Justinian "
 "I, the Byzanines controlled nearly all of Middle East, nothern Africa, Italy "
 "and parts of Spain."
-msgstr "في الروماني الإمبراطور قسطنطين بيزنطة جديد شرقي الروماني بيزنطي هذا في جستينايان - متّعلّق بمعاهد أو قوانين الرومان آي - الحرف التاسع في اللغة الإنجليزية، انا المنتصف الشرق إفريقيا إيطاليا إسبانيا."
+msgstr "في رومي امبراطور قسطنطين بيزنطة جديد شرقي رومي بيزنطي هذا في جستينايان - متّعلّق بمعاهد أو قوانين الرومان آي - الحرف التاسع في اللغة الإنجليزية، انا المنتصف الشرق إفريقيا إيطاليا إسبانيا."
 
 #: data/nation/byzantium.ruleset:27
 msgid "Basileus"
@@ -21808,7 +21812,7 @@ msgstr "الكنديون"
 msgid ""
 "Canada is the geographically northernmost country in world: The Magnetic "
 "North Pole currently lies on Canadian territory."
-msgstr "كندا الـ مغناطيسي الشمال القطب الكندي."
+msgstr "كندا الـ مغناطيسي الشمال القطب كندي."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -21839,7 +21843,7 @@ msgstr "?plural:الكاتاليون"
 msgid ""
 "Catalunya (aka Catalonia in English) is the north-eastern-most coastal "
 "region of Spain near the southern foot of the Pyrenees."
-msgstr "إنجليزي إسبانيا."
+msgstr "انجليزي إسبانيا."
 
 #: data/nation/catalan.ruleset:22
 #, fuzzy
@@ -21911,7 +21915,7 @@ msgstr "صيني"
 #: data/nation/chinese.ruleset:4
 #, fuzzy
 msgid "?plural:Chinese"
-msgstr "الصينيون"
+msgstr "صيني"
 
 #: data/nation/chinese.ruleset:6
 #, fuzzy
@@ -21923,7 +21927,7 @@ msgid ""
 "the People's Republic of China, established by the Communists in 1949, "
 "occupies the mainland, while the former Nationalist government of the "
 "Republic of China had fled to the island of Taiwan after the civil war."
-msgstr "الصين مع فيما بعد الصين اليوم الناس الجمهورية الصين الشيوعيون القومي الجمهورية الصين تايوان."
+msgstr "الصين مع فيما بعد الصين اليوم الناس الحكم الجمهوري الصين الشيوعيون القومي الحكم الجمهوري الصين تايوان."
 
 #: data/nation/chinese.ruleset:31 data/nation/japanese.ruleset:37
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
@@ -21950,7 +21954,7 @@ msgid ""
 "Amerindian cultural center in pre-European time. The Spanish began settling "
 "Colombia's north coast around 1500. In 1819 the The Republic of Colombia "
 "gained independence."
-msgstr "كولومبيا الجنوب أمريكا الـ أوروبي الـ إسباني كولومبيا في الـ الجمهورية كولومبيا."
+msgstr "كولومبيا الجنوب أمريكا الـ أوروبي الـ اسباني كولومبيا في الـ الحكم الجمهوري كولومبيا."
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:23
 msgid "General"
@@ -21983,7 +21987,7 @@ msgid ""
 "during the American Civil War. It was formed in 1861 by six Southern states "
 "but had to abandon their claims of independence a few years later after "
 "several military defeats by United States troops."
-msgstr "الـ الحليف الولايات أمريكا متّحد الولايات الأمريكيّ مدني الحرب هو جنوبي متّحد الولايات."
+msgstr "الـ الحليف الولايات أمريكا متّحد الولايات أمريكي مدني الحرب هو جنوبي متّحد الولايات."
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -22022,7 +22026,7 @@ msgid ""
 "Hungarian Empire, rather than coming under Ottoman rule after the collapse "
 "of Byzantium. During most of the 20th century it was part of the Yugoslav "
 "Federation."
-msgstr "كرواتيا جنوبي الصقلبيون الهنغاري الإمبراطورية عثماني بيزنطة أثناء اليوغسلافيّ الإتحاد."
+msgstr "كرواتيا جنوبي الصقلبيون هنغاري الإمبراطورية عثماني بيزنطة أثناء اليوغسلافيّ الإتحاد."
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
@@ -22039,7 +22043,7 @@ msgid ""
 "Cuba came under Spanish control in the 16th century. In the following "
 "centuries, the island became one of the leading producers of tobacco, sugar "
 "and coffee in the world. Cuba was granted nominal independence in 1902."
-msgstr "كوبا إسباني في كوبا."
+msgstr "كوبا اسباني في كوبا."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -22054,7 +22058,7 @@ msgstr "?plural:التشيكيون"
 msgid ""
 "Today's Czech Republic was until 1993 part of Czechoslovakia, which had been "
 "until 1918 part of the Austro-Hungarian Empire."
-msgstr "اليوم التشيكي الجمهورية تشيكوسلوفاكيا الهنغاري الإمبراطورية."
+msgstr "اليوم تشيكي الحكم الجمهوري تشيكوسلوفاكيا هنغاري الإمبراطورية."
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
@@ -22080,7 +22084,7 @@ msgstr "?plural:دنمركيين"
 msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blatand, who unified what is now Denmark between 958AD and 988AD."
-msgstr "الـ دانماركي الدنمارك."
+msgstr "الـ دنمركي الدنمارك."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -22097,7 +22101,7 @@ msgid ""
 "people of the Netherlands revolted and declared themselves independent, "
 "forming the Union of Utrecht in 1579. The Netherlands grew to be a dominant "
 "maritime and economic power in the 17th century."
-msgstr "متى المقدّس الروماني الإمبراطور هولندا الإتحاد يوتركت الـ هولندا."
+msgstr "متى المقدّس رومي امبراطور هولندا الإتحاد يوتركت الـ هولندا."
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
@@ -22137,7 +22141,7 @@ msgid ""
 "England was unified by Alfred the Great of Wessex in the late 9th century "
 "AD, only to be conquered by William of Normandy a century later, in the last "
 "successful invasion of the country."
-msgstr "إنجلترا ألفريد عظيم التّاسع وليام نورماندي."
+msgstr "إنجلترا ألفريد رائع التّاسع وليام نورماندي."
 
 #: data/nation/english.ruleset:26
 msgid "Lord Protector"
@@ -22196,7 +22200,7 @@ msgstr "الفلبينيون"
 msgid ""
 "After centuries of Spanish rule, the Philippines were ceded to the Americans "
 "in 1898. They attained home rule in 1935 and independence in 1946."
-msgstr "فيما بعد إسباني الفلبين الأمريكيّون هم."
+msgstr "فيما بعد اسباني الفلبين الأمريكيّون هم."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -22227,7 +22231,7 @@ msgid ""
 "France has long been a major power in Europe. French conquerer kings like "
 "Napoleon and Charlemagne each united large parts of Europe under the French "
 "flag."
-msgstr "فرنسا أوروبا الفرنسيون نابليون شارلمان أوروبا الفرنسيون."
+msgstr "فرنسا أوروبا فرنسي نابليون شارلمان أوروبا فرنسي."
 
 #: data/nation/french.ruleset:26
 msgid "Premier"
@@ -22345,7 +22349,7 @@ msgstr "?plural:يونانيين"
 #: data/nation/greek.ruleset:6
 #, fuzzy
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
-msgstr "الـ اليونانيون مايكينا - مدينة يونانيّة قديمة الروماني."
+msgstr "الـ اليونانيون مايكينا - مدينة يونانيّة قديمة رومي."
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
@@ -22364,7 +22368,7 @@ msgstr "?plural:الإغريق"
 msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
-msgstr "الـ إغريقيّ الجمهورية اليونان إغريقيّ عثماني الإمبراطورية."
+msgstr "الـ إغريقيّ الحكم الجمهوري اليونان إغريقيّ عثماني الإمبراطورية."
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
@@ -22411,7 +22415,7 @@ msgid ""
 "it was settled by Norwegian Vikings in the late 9th century. The island was "
 "kept initially under the Norwegian and later the Danish crown until "
 "independence from Denmark in 1944."
-msgstr "آيسلندا النرويجي الفايكنكز التّاسع الـ النرويجي دانماركي الدنمارك."
+msgstr "آيسلندا النرويجي الفايكنكز التّاسع الـ النرويجي دنمركي الدنمارك."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -22430,7 +22434,7 @@ msgid ""
 "with Thracians in Dardania to the east,  and settling Messapia across the "
 "Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until "
 "conquered by the Roman Republic."
-msgstr "أوروبي بلقانيّ شبه الجزيرة مع أدرياتيكي البحر الروماني الجمهورية."
+msgstr "أوروبي بلقانيّ شبه الجزيرة مع أدرياتيكي البحر رومي الحكم الجمهوري."
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
@@ -22448,7 +22452,7 @@ msgid ""
 "southern Chile nearly to the Equator. They had the bad timing to do it just "
 "a few decades before the Spanish conquistadors arrived in their part of the "
 "world in the mid-1500s AD."
-msgstr "الـ إنكا شمالي أنديز الجنوب أمريكا تشيلي خط الإستواء هم إسباني."
+msgstr "الـ إنكا شمالي أنديز الجنوب أمريكا تشيلي خط الإستواء هم اسباني."
 
 #: data/nation/inca.ruleset:22
 #, fuzzy
@@ -22473,7 +22477,7 @@ msgstr "?plural:الهنود"
 msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
-msgstr "الـ قديم الهندي باكستان."
+msgstr "الـ قديم هندي باكستان."
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
@@ -22518,7 +22522,7 @@ msgid ""
 "that the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the "
 "west coast of Greenland in the 10th century. All Inuit of today are "
 "descendents of the Thule culture."
-msgstr "الـ الانويت الأسكيمو كندا الأرض الخضراء الأسطورة عظيم الشامان أقصى الشّمال الأرض الخضراء العاشر الكلّ الانويت أقصى الشّمال."
+msgstr "الـ الانويت الأسكيمو كندا الأرض الخضراء الأسطورة رائع الشامان أقصى الشّمال الأرض الخضراء العاشر الكل الانويت أقصى الشّمال."
 
 #: data/nation/inuit.ruleset:23
 msgid "Shaman"
@@ -22560,7 +22564,7 @@ msgid ""
 "country was granted limited autonomy, becoming a republic in 1949.  The "
 "North of Ireland was settled in the 17th century by Scottish and English "
 "planters and is now part of the United Kingdom."
-msgstr "إيرلنده الرومان الفايكنكز هو إنجليزي الـ الشمال إيرلنده إسكتلندي إنجليزي متّحد المملكة."
+msgstr "إيرلنده الرومان الفايكنكز هو انجليزي الـ الشمال إيرلنده اسكتلندي انجليزي متّحد مملكة."
 
 #: data/nation/irish.ruleset:56
 msgid "High King"
@@ -22596,7 +22600,7 @@ msgid ""
 "nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a "
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
-msgstr "الـ إيروكويس - أمريكيّ أصليّ يسكن ولاية نيويورك الإتحاد الشمال الأمريكيّ مع هم جديد يورك سينيكا - فيلسوف رومانيّ كيجا (الهنود الحمر) أونونداجا - شعب أمريكيّ أصليّ أونيدا - شعب أمريكيّ أصليّ الموهوك - شعب أمريكيّ أصليّ الـ الشمال أمريكا الأوربيون."
+msgstr "الـ إيروكويس - أمريكيّ أصليّ يسكن ولاية نيويورك الإتحاد الشمال أمريكي مع هم جديد يورك سينيكا - فيلسوف رومانيّ كيجا (الهنود الحمر) أونونداجا - شعب أمريكيّ أصليّ أونيدا - شعب أمريكيّ أصليّ الموهوك - شعب أمريكيّ أصليّ الـ الشمال أمريكا الأوربيون."
 
 #: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:26
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
@@ -22607,7 +22611,7 @@ msgstr "الرئيس"
 #: data/nation/iroquois.ruleset:27 data/nation/sioux.ruleset:29
 #, fuzzy
 msgid "Great Chief"
-msgstr "عظيم الرئيس"
+msgstr "رائع الرئيس"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
@@ -22650,7 +22654,7 @@ msgid ""
 "indigenous nationalists. It was a monarchy under the House of Savoy until "
 "1922, then a fascist state until 1945 after which democracy was restored by "
 "the WWII victors."
-msgstr "الـ الإيطالي هو المنزل الكرنب."
+msgstr "الـ ايطالي هو المنزل الكرنب."
 
 #: data/nation/japanese.ruleset:20
 msgid "Japanese"
@@ -22665,7 +22669,7 @@ msgstr "?plural:يابانيين"
 msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
-msgstr "التّوافق الياباني اليابان السّابع الإمبراطور."
+msgstr "التّوافق ياباني اليابان السّابع امبراطور."
 
 #: data/nation/japanese.ruleset:37 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
@@ -22714,7 +22718,7 @@ msgstr "?plural:كينيين"
 #: data/nation/kenyan.ruleset:6
 #, fuzzy
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr "كينيا بريطانيا ديسمبر/كانون الأول."
+msgstr "كينيا بريطانيا كانون أول."
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -22752,7 +22756,7 @@ msgid ""
 "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India during "
 "the 6th century BC and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
-msgstr "الأمير تستخدم في الهند وتعني السيّد لانكا الهند السّادس أثناء بريطانيّ سيلان."
+msgstr "أمير تستخدم في الهند وتعني السيّد لانكا الهند السّادس أثناء بريطانيّ سيلان."
 
 #: data/nation/lankese.ruleset:21 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
@@ -22804,7 +22808,7 @@ msgid ""
 "the Arab civilization in the 7th century. In 1912 it came under the control "
 "of Italy and after the Second World War Libya was granted independence as a "
 "condition of the Allied peace treaty with Italy."
-msgstr "الـ ليبيا الروماني العربيّ السّابع في إيطاليا الثانية العالم الحرب ليبيا تحالف مع إيطاليا."
+msgstr "الـ ليبيا رومي عربي السّابع في إيطاليا الثانية العالم الحرب ليبيا تحالف مع إيطاليا."
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
@@ -22851,7 +22855,7 @@ msgstr "?plural:مدغشقريين"
 msgid ""
 "The Malagasy are the people of Madagascar. For centuries, tribes from "
 "Indonesia, East Africa and the Arab world have gathered on the island."
-msgstr "الـ مدغشقريّ مدغشقر لـ أندونيسيا الشرق إفريقيا العربيّ."
+msgstr "الـ مدغشقريّ مدغشقر لـ أندونيسيا الشرق إفريقيا عربي."
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
@@ -22903,7 +22907,7 @@ msgid ""
 "capital in Timbuktu was the most influential. This empire reigned from the "
 "14th to the 17th century and was famed for it's wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
-msgstr "الغواصة إفريقيا في من إسلامي مالي مع هذا الـ الجمهورية مالي."
+msgstr "الغواصة إفريقيا في من إسلامي مالي مع هذا الـ الحكم الجمهوري مالي."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
@@ -23053,7 +23057,7 @@ msgid ""
 "After centuries of Danish rule, the Norwegians made their own constitution "
 "in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
 "independence after a union with Sweden."
-msgstr "فيما بعد دانماركي أخيرا مع السويد."
+msgstr "فيما بعد دنمركي أخيرا مع السويد."
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -23073,7 +23077,7 @@ msgid ""
 "eastern Europe, the Islamic Arab world as well as Egypt and much of north "
 "Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
-msgstr "في أي - الحرف الأوّل في الأبجديّة اللّاتينيّة بيزنطي عثماني أوروبا الـ أوروبا إسلامي العربيّ مصر إفريقيا."
+msgstr "في أي - الحرف الأوّل في الأبجديّة اللّاتينيّة بيزنطي عثماني أوروبا الـ أوروبا إسلامي عربي مصر إفريقيا."
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
 msgid "Bey"
@@ -23107,7 +23111,7 @@ msgstr "الـ ميلانيزيّ جديد غينيا."
 #: data/nation/papuan.ruleset:19
 #, fuzzy
 msgid "Governor-General"
-msgstr "الحاكم الجنرال"
+msgstr "محافظ الجنرال"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -23122,7 +23126,7 @@ msgstr "?plural:أهل الفرس"
 msgid ""
 "The first Persian (Achaemenid) Empire lasted from 550BC to 330BC; the second "
 "(Sassanid) from 226AD to 642AD."
-msgstr "الـ الفارسي الإمبراطورية."
+msgstr "الـ فارسي الإمبراطورية."
 
 #: data/nation/persian.ruleset:21
 msgid "Shah"
@@ -23164,7 +23168,7 @@ msgstr "?plural:البولنديين"
 msgid ""
 "The Polish state was formed about a millennium ago, and reached its Golden "
 "Age near the end of the 16th century."
-msgstr "الـ الصقل العمر."
+msgstr "الـ بولندي العمر."
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
@@ -23195,7 +23199,7 @@ msgstr "?plural:البرتغاليين"
 msgid ""
 "Portugal founded the first of the great mercantile empires in the 1400s on "
 "the shipbuilding advances funded by Prince Henry the Navigator."
-msgstr "البرتغال الأمير هنري الملاح."
+msgstr "البرتغال أمير هنري الملاح."
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -23228,7 +23232,7 @@ msgid ""
 "inhabited by people speaking a language reminiscent from the time of ancient "
 "Rome. It's history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
-msgstr "رومانيا ترانسيلفانيا مولدافيا - جمهوريّة في شرقيّ أوروبّا هو روما هو الروماني عثماني الهنغاري الروسي."
+msgstr "رومانيا ترانسيلفانيا مولدافيا - جمهوريّة في شرقيّ أوروبّا هو روما هو رومي عثماني هنغاري روسي."
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
@@ -23294,7 +23298,7 @@ msgid ""
 "socialist revolution dethroned the last Russian emperor. After USSR "
 "dissolution in 1991 Russia appeared on world map again, now as a federative "
 "republic."
-msgstr "التّوافق سلافي الفايكنك الروسي ب إيفان فيما بعد السويد بيتر آي - الحرف التاسع في اللغة الإنجليزية، انا الروسي الإمبراطورية الـ الروسي الإمبراطورية الروسي فيما بعد الإتحاد السّوفيتي روسيا."
+msgstr "التّوافق سلافي من الفايكنك روسي ب إيفان فيما بعد السويد بيتر آي - الحرف التاسع في اللغة الإنجليزية، انا روسي الإمبراطورية الـ روسي الإمبراطورية روسي فيما بعد الإتحاد السّوفيتي روسيا."
 
 #: data/nation/russian.ruleset:47 data/nation/serbian.ruleset:36
 msgid "Duke"
@@ -23329,7 +23333,7 @@ msgstr ""
 msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
-msgstr "الـ المملكة الأرض الصلاحية اليابان."
+msgstr "الـ مملكة الأرض الصلاحية اليابان."
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
@@ -23374,7 +23378,7 @@ msgid ""
 "Scotland, originally settled in late Roman times by Irish raiders who "
 "displaced the native Picts, was an independent kingdom from around 1034AD to "
 "the Union of Crowns with England in 1701."
-msgstr "أسكوتلندا الروماني آيرلندي الإتحاد التيجان مع إنجلترا."
+msgstr "أسكوتلندا رومي ارلندي الإتحاد التيجان مع إنجلترا."
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
@@ -23424,7 +23428,7 @@ msgstr "?plural:السنغافوريين"
 msgid ""
 "Singapore is a mercantile city-state located at the southernmost tip of the "
 "Malaysian Peninsula."
-msgstr "سنغافورة الماليزي شبه الجزيرة."
+msgstr "سنغافورة ماليزي شبه الجزيرة."
 
 #: data/nation/singaporean.ruleset:37
 msgid "Ah"
@@ -23448,7 +23452,7 @@ msgid ""
 "The Sioux was a North American nation that fought several decisive battles "
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
-msgstr "الـ مواطن من قبيلة السّو الأمريكية الهندية الشمال الأمريكيّ متّحد الولايات هو داكوتا."
+msgstr "الـ مواطن من قبيلة السّو الأمريكية الهندية الشمال أمريكي متّحد الولايات هو داكوتا."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -23478,7 +23482,7 @@ msgstr "?plural:سلوفاكيين"
 msgid ""
 "Slovakia is a country in the heart of Europe. Formerly part of "
 "Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
-msgstr "سلوفاكيا أوروبا سابقا تشيكوسلوفاكيا الهنغاري الإمبراطورية."
+msgstr "سلوفاكيا أوروبا سابقا تشيكوسلوفاكيا هنغاري الإمبراطورية."
 
 #: data/nation/slovakian.ruleset:29
 msgid "Pope"
@@ -23507,7 +23511,7 @@ msgid ""
 "the country's first non-racial constitution in 1994, long-time political "
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
-msgstr "هولندي إفريقيا فيما بعد هولندي بريطانيّ قوم الزّولو المتواجدون في جنوب أفريقيا :: زولوويّون الإتحاد الجنوب إفريقيا الـ الجنوب الإفريقيّ مواطنيين المتابعة نيلسن الجنوب إفريقيا."
+msgstr "ألماني إفريقيا فيما بعد ألماني بريطانيّ قوم الزّولو المتواجدون في جنوب أفريقيا :: زولوويّون الإتحاد الجنوب إفريقيا الـ الجنوب الإفريقيّ مواطنيين المتابعة نيلسن الجنوب إفريقيا."
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
@@ -23525,7 +23529,7 @@ msgid ""
 "republics integrated into one country. Soviet Union became one of most "
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
-msgstr "سوفيتي الإتحاد نوفمبر/تشرين الثّاني لينين البلشفيّ على ديسمبر/كانون الأول سوفيتي سوفيتي الإتحاد لكنّ"
+msgstr "سوفيتي الإتحاد تشرين ثاني لينين البلشفيّ على كانون أول سوفيتي سوفيتي الإتحاد لكنّ"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -23542,7 +23546,7 @@ msgid ""
 "Castille and Aragon led the recapture of the Iberian peninsula from the "
 "Moslems.  The Reconquista was completed in 1492AD, the same year Columbus "
 "sailed."
-msgstr "الـ إسباني أراجون آيبيري المسلمون الـ كولومبوس."
+msgstr "الـ اسباني أراجون آيبيري المسلمون الـ كولومبوس."
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudillo"
@@ -23569,7 +23573,7 @@ msgstr "?plural:سودانيين"
 msgid ""
 "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became "
 "independent in 1956."
-msgstr "في السودان المصري بريطانيّ السودان."
+msgstr "في السودان مصري بريطانيّ السودان."
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
@@ -23585,7 +23589,7 @@ msgid ""
 "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets "
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
-msgstr " منطقة سومر. مكان الحضارة السّامرية بلاد ما بين النهرين الأقراص السومري."
+msgstr " منطقة سومر. مكان الحضارة السّامرية بلاد ما بين النهرين الأقراص سومري."
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
@@ -23633,7 +23637,7 @@ msgid ""
 "economy and several disastrous defeats to Russia, Sweden soon lost most of "
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
-msgstr "الـ المملكة السويد الـ أوروبا المحارب الملوك على أية حال روسيا السويد الـ."
+msgstr "الـ مملكة السويد الـ أوروبا المحارب الملوك على أية حال روسيا السويد الـ."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -23692,7 +23696,7 @@ msgid ""
 "When the Chinese nationalists lost the armed struggle against the Chinese "
 "communists, the nationalist government evacuated to the island of Taiwan "
 "where they formed the Republic of China."
-msgstr "متى الصينيون الصينيون تايوان الجمهورية الصين."
+msgstr "متى صيني صيني تايوان الحكم الجمهوري الصين."
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -23722,7 +23726,7 @@ msgstr "?plural:تالنديين"
 msgid ""
 "The Thai kingdom was the only country in Southeast Asia to preserve its "
 "independence throught the colonial era of the 18th and 19th centuries AD."
-msgstr "الـ التايلانديون المنطقة الجنوبية الشرقية آسيا."
+msgstr "الـ تالندي المنطقة الجنوبية الشرقية آسيا."
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
@@ -23772,7 +23776,7 @@ msgid ""
 "16th century. Tunisia became mostly autonomous from the Ottoman empire in "
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
-msgstr "الـ قرطاجة تونس قرطاجة البحر الأبيض المتوسط الرومان فيما بعد العربيّ المسلم السّابع العربيّ عثماني لكنّ اليهود إسباني الأراضي البور تونس عثماني لكنّ تونس الفرنسيون الفرنسيون الـ."
+msgstr "الـ قرطاجة تونس قرطاجة البحر الأبيض المتوسط الرومان فيما بعد عربي المسلم السّابع عربي عثماني لكنّ اليهود اسباني الأراضي البور تونس عثماني لكنّ تونس فرنسي فرنسي الـ."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -23827,7 +23831,7 @@ msgid ""
 "1700s. Today, descendants of the Uyghur form the populations of the Central "
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
-msgstr "التركي في مركزي الشمال آسيا فيما بعد مع الصينيون اليوم مركزي الآسيويّ أوزبكستان كازاخستان قرغيزستان هم الصين."
+msgstr "تركي في مركزي الشمال آسيا فيما بعد مع صيني اليوم مركزي أسيوي أوزبكستان كازاخستان قرغيزستان هم الصين."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuela"
@@ -23847,7 +23851,7 @@ msgid ""
 "Spanish colony since the 16th century, the country gained independence on "
 "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
 "Liberator."
-msgstr "فينزويلا الجنوب أمريكا الإمتلاك إسباني يوليو/تموز الخامس ال سايمون بوليفار الـ المحرر."
+msgstr "فينزويلا الجنوب أمريكا الإمتلاك اسباني تموز الخامس ال سايمون بوليفار الـ المحرر."
 
 #: data/nation/venezuelan.ruleset:32
 msgid "Terrateniente"
@@ -23866,7 +23870,7 @@ msgstr "?plural:فيتناميين"
 msgid ""
 "The Vietnamese nation was founded in the first century AD by twin sisters "
 "who became the war leaders of a revolt against a Chinese military governor."
-msgstr "الـ الفيتناميون الصينيون."
+msgstr "الـ فيتنامي صيني."
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
@@ -23882,7 +23886,7 @@ msgid ""
 "The Vikings raided and traded along the coasts of Europe between 800AD and "
 "1100AD. Viking raiders eventually became the rulers of Normandy, Russia, and "
 "a short-lived kingdom in Sicily."
-msgstr "الـ الفايكنكز أوروبا الفايكنك نورماندي روسيا صقلية."
+msgstr "الـ الفايكنكز أوروبا من الفايكنك نورماندي روسيا صقلية."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
@@ -23897,7 +23901,7 @@ msgstr "?plural:الويلزيين"
 msgid ""
 "The Welsh at one time controlled all of what is now England until being "
 "driven into the mountainous western reaches by invading Saxons."
-msgstr "الـ تهرّب من السداد إنجلترا السكسونيون."
+msgstr "الـ ويلزي إنجلترا السكسونيون."
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
@@ -23913,7 +23917,7 @@ msgid ""
 "Westphalia, before becoming a Prussian province, was the western region the "
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
-msgstr "ويستفاليا بروسي ساكسوني الهدية شمالي الألماني الشمال الراين ويستفاليا."
+msgstr "ويستفاليا بروسي ساكسوني الهدية شمالي ألماني الشمال الراين ويستفاليا."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
