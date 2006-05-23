@@ -24,7 +24,7 @@ pixel_border = 0
 
 tiles = { "row", "column", "tag"
   0,  0, "b.palace"
-  0,  1, "b.barracks"
+  0,  1, "b.barracks_i"
   0,  2, "b.granary"
   0,  3, "b.temple"
   0,  4, "b.marketplace"

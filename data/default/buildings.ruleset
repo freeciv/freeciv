@@ -116,7 +116,7 @@ reqs	=
     { "type", "name", "range"
 
     }
-graphic	= "b.barracks"
+graphic	= "b.barracks_i"
 graphic_alt	= "-"
 obsolete_by	= "Gunpowder"
 replaced_by	= "Barracks II"
@@ -140,8 +140,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Gunpowder", "Player"
     }
-graphic	= "b.barracks"
-graphic_alt	= "-"
+graphic	= "b.barracks_ii"
+graphic_alt	= "b.barracks_i"
 obsolete_by	= "Mobile Warfare"
 replaced_by	= "Barracks III"
 build_cost	= 30
@@ -164,8 +164,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Mobile Warfare", "Player"
     }
-graphic	= "b.barracks"
-graphic_alt	= "-"
+graphic	= "b.barracks_iii"
+graphic_alt	= "b.barracks_i"
 obsolete_by	= "None"
 build_cost	= 30
 upkeep		= 1

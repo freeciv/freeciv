@@ -72,7 +72,7 @@ reqs	=
     { "type", "name", "range"
 ; Nothing
     }
-graphic		= "b.barracks"
+graphic		= "b.barracks_i"
 graphic_alt	= "-"
 obsolete_by	= "Gunpowder"
 build_cost	= 40
@@ -95,8 +95,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Gunpowder", "Player"
     }
-graphic		= "b.barracks"
-graphic_alt	= "-"
+graphic		= "b.barracks_ii"
+graphic_alt	= "b.barracks_i"
 obsolete_by	= "Combustion"
 build_cost	= 40
 upkeep		= 2
@@ -118,8 +118,8 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Combustion", "Player"
     }
-graphic		= "b.barracks"
-graphic_alt	= "-"
+graphic		= "b.barracks_iii"
+graphic_alt	= "b.barracks_i"
 obsolete_by	= "None"
 build_cost	= 40
 upkeep		= 3
