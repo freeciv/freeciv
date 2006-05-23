@@ -50,7 +50,8 @@ EXTRA_DIST = \
 	default.serv
 
 if CLIENT
-CLIENTDATADIRS = amplio misc flags isotrident trident isophex stdsounds
+CLIENTDATADIRS = amplio misc flags buildings isotrident trident isophex \
+ stdsounds
 else
 CLIENTDATADIRS = 
 endif

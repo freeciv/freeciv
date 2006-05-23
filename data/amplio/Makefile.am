@@ -6,6 +6,7 @@ pkgdatadir = $(datadir)/@PACKAGE@/amplio
 pkgdata_DATA =          	\
 	ancientcities.png	\
 	ancientcities.spec	\
+	buildings.spec		\
 	cityicon.png		\
 	civicon.png		\
 	explosions.png		\
@@ -31,6 +32,7 @@ pkgdata_DATA =          	\
 	tiles.png		\
 	tiles.spec		\
 	units.png		\
-	units.spec
+	units.spec		\
+	wonders.spec
 
 EXTRA_DIST = $(pkgdata_DATA)

@@ -698,6 +698,7 @@ AC_CONFIG_FILES([Makefile
 	  data/civserver.dsc
 	  data/civserver.room
 	  data/amplio/Makefile
+	  data/buildings/Makefile
 	  data/flags/Makefile
 	  data/misc/Makefile
 	  data/trident/Makefile
