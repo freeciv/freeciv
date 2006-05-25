@@ -1070,6 +1070,7 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[target->player_no];
 
   assert(pplayer != target);
+  assert(target->is_alive);
 
   switch (reason) {
   case WAR_REASON_SPACE:
@@ -1397,6 +1398,10 @@ void ai_diplomacy_actions(struct player *pplayer)
     struct ai_dip_intel *adip = 
                         &ai->diplomacy.player_intel[aplayer->player_no];
 
+    if (!aplayer->is_alive) {
+      adip->countdown = -1;
+      continue;
+    }
     if (adip->countdown > 0) {
       adip->countdown--;
     } else if (adip->countdown == 0) {
