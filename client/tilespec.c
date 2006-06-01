@@ -2724,7 +2724,7 @@ int fill_sprite_array(struct drawn_sprite *sprs, struct tile *ptile,
 
     if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)
 	&& sprites.tx.fortress_back) {
-      ADD_SPRITE_SIMPLE(sprites.tx.fortress_back);
+      ADD_SPRITE_FULL(sprites.tx.fortress_back);
     }
 
     if (draw_mines && contains_special(tspecial, S_MINE)
