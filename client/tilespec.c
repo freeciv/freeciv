@@ -4040,7 +4040,7 @@ int fill_sprite_array(struct tileset *t,
 
       if (draw_fortress_airbase && contains_special(tspecial, S_FORTRESS)
 	  && t->sprites.tx.fortress_back) {
-	ADD_SPRITE_SIMPLE(t->sprites.tx.fortress_back);
+	ADD_SPRITE_FULL(t->sprites.tx.fortress_back);
       }
 
       if (draw_mines && contains_special(tspecial, S_MINE)
