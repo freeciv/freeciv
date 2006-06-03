@@ -43,7 +43,6 @@
 
 enum unit_param {
   UPARAM_OWNER,
-  UPARAM_TYPE,
   UPARAM_MOVES,
   UPARAM_ACTIVITY,
   UPARAM_ACTIVITY_TARGET,
@@ -199,9 +198,6 @@ static void unit_callback(GtkSpinButton *spinbutton, gpointer data)
   case UPARAM_OWNER:
     punit->owner = get_player(gtk_spin_button_get_value_as_int(spinbutton));
     return;
-  case UPARAM_TYPE:
-    punit->type = get_unit_type(gtk_spin_button_get_value_as_int(spinbutton));
-    return;
   case UPARAM_MOVES:
     punit->moves_left = gtk_spin_button_get_value_as_int(spinbutton);
     return;
@@ -219,6 +215,17 @@ static void unit_callback(GtkSpinButton *spinbutton, gpointer data)
   }
 
   assert(0);
+}
+
+/****************************************************************************
+  Set unit type.
+****************************************************************************/
+static void unit_type_callback(GtkWidget *button, gpointer data)
+{
+  size_t to = (size_t) data;
+  struct unit *punit = editor_get_selected_unit();
+
+  punit->type = get_unit_type(to);
 }
 
 /****************************************************************************
@@ -328,24 +335,45 @@ static GtkWidget *create_units_palette(void)
   struct unit *punit = editor_get_selected_unit();
 
   const char *names[UPARAM_LAST] = { _("Owner"),
-				     _("Type"),
 				     _("Moves Left"),
 				     _("Activity"),
 				     _("Activity Target"),
 				     _("Activity Count") };
   int inits[UPARAM_LAST][3] = {
     {punit->owner->player_no, 0, game.info.nplayers - 1},
-    {punit->type->index, 0, game.control.num_unit_types - 1},
     {punit->moves_left, 0, 200},
     {punit->activity, 0, ACTIVITY_LAST},
     {punit->activity_target, 0, S_LAST},
     {punit->activity_count, 0, 200}
   };
+  GtkWidget *unitmenu;
+  GtkWidget *popupmenu;
 
   vbox = gtk_vbox_new(FALSE, 5);
 
   label_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
   sb_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+
+  unitmenu = gtk_option_menu_new();
+  hbox = gtk_hbox_new(FALSE, 5);
+  label = gtk_label_new(_("Type"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_size_group_add_widget(label_group, label);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), unitmenu, TRUE, TRUE, 0);
+  popupmenu = gtk_menu_new();
+  gtk_option_menu_set_menu(GTK_OPTION_MENU(unitmenu), popupmenu);
+  unit_type_iterate(ptype) {
+    const gchar *data = get_unit_name(ptype);
+    GtkWidget *item = gtk_menu_item_new_with_label(data);
+
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(unit_type_callback),
+                     GINT_TO_POINTER(ptype->index));
+    gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
+  } unit_type_iterate_end;
+  gtk_widget_show_all(popupmenu);
 
   for (i = 0; i < UPARAM_LAST; i++) {
     adj = GTK_ADJUSTMENT(gtk_adjustment_new(inits[i][0], inits[i][1], 
