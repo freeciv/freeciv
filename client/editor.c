@@ -253,6 +253,12 @@ static enum cursor_type editor_click(struct tile *ptile, bool testing)
   case ETOOL_UNIT:
     return editor_unit(ptile, testing);
   case ETOOL_CITY:
+    if (ptile->city) {
+      if (!testing) {
+        do_map_click(ptile, SELECT_POPUP);
+      }
+      return CURSOR_SELECT;      
+    }
     return editor_city(ptile, testing);
   case ETOOL_PLAYER:
   case ETOOL_DELETE:
