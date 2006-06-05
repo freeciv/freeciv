@@ -10,6 +10,8 @@ artists = "
     Andreas Røsdal <andrearo@stud.ntnu.no>
 
     edit_paint cursor take from GIMP
+
+    Hourglass and Add from Bluecurve theme in redhat-artwork
     
 "
 
@@ -79,4 +81,10 @@ tiles = { "row", "column", "tag", "hot_x", "hot_y"
        3, 8, "cursor.edit_add3", 16, 16
        4, 8, "cursor.edit_add4", 16, 16
        5, 8, "cursor.edit_add5", 16, 16
+       0, 9, "cursor.wait0", 16, 16
+       1, 9, "cursor.wait1", 16, 16
+       2, 9, "cursor.wait2", 16, 16
+       3, 9, "cursor.wait3", 16, 16
+       4, 9, "cursor.wait4", 16, 16
+       5, 9, "cursor.wait5", 16, 16
 }

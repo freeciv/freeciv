@@ -885,6 +885,16 @@ void handle_mouse_cursor(struct tile *ptile)
   struct unit_list *active_units = get_units_in_focus();
   enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 
+  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+    update_mouse_cursor(CURSOR_DEFAULT);
+    return;
+  }
+
+  if (turn_done_sent || waiting_for_end_turn) {
+    update_mouse_cursor(CURSOR_WAIT);
+    return;
+  }
+
   if (!ptile) {
     if (hover_tile) {
       /* hover_tile is the tile which is currently under the mouse cursor. */

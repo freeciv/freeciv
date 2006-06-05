@@ -2019,7 +2019,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     for (f = 0; f < NUM_CURSOR_FRAMES; f++) {
       const char *names[CURSOR_LAST] =
                {"goto", "patrol", "paradrop", "nuke", "select", 
-		"invalid", "attack", "edit_paint", "edit_add"};
+		"invalid", "attack", "edit_paint", "edit_add", "wait"};
       struct small_sprite *ss;
 
       assert(ARRAY_SIZE(names) == CURSOR_LAST);
