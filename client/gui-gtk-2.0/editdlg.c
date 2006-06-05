@@ -42,17 +42,11 @@
 #define TOOL_WIDTH 5
 
 enum unit_param {
-  UPARAM_OWNER,
   UPARAM_MOVES,
   UPARAM_ACTIVITY,
   UPARAM_ACTIVITY_TARGET,
   UPARAM_ACTIVITY_COUNT,
   UPARAM_LAST
-};
-
-enum city_param {
-  CPARAM_OWNER,
-  CPARAM_LAST
 };
 
 typedef struct {
@@ -195,9 +189,6 @@ static void unit_callback(GtkSpinButton *spinbutton, gpointer data)
   enum unit_param param = GPOINTER_TO_INT(data);
 
   switch (param) {
-  case UPARAM_OWNER:
-    punit->owner = get_player(gtk_spin_button_get_value_as_int(spinbutton));
-    return;
   case UPARAM_MOVES:
     punit->moves_left = gtk_spin_button_get_value_as_int(spinbutton);
     return;
@@ -229,23 +220,25 @@ static void unit_type_callback(GtkWidget *button, gpointer data)
 }
 
 /****************************************************************************
- FIXME: this is for demonstration purposes only (and not demonstration of
-          coding goodness to be sure!)
+  Set unit owner.
 ****************************************************************************/
-static void city_callback(GtkSpinButton *spinbutton, gpointer data)
+static void unit_owner_callback(GtkWidget *button, gpointer data)
 {
+  size_t to = (size_t) data;
+  struct unit *punit = editor_get_selected_unit();
+
+  punit->owner = get_player(to);
+}
+
+/****************************************************************************
+  Set city owner.
+****************************************************************************/
+static void city_callback(GtkWidget *button, gpointer data)
+{
+  size_t to = (size_t) data;
   struct city *pcity = editor_get_selected_city();
-  enum city_param param = GPOINTER_TO_INT(data);
 
-  switch (param) {
-  case CPARAM_OWNER:
-    pcity->owner = get_player(gtk_spin_button_get_value_as_int(spinbutton));
-    return;
-  case CPARAM_LAST:
-    break;
-  }
-
-  assert(0);
+  pcity->owner = get_player(to);
 }
 
 #if 0
@@ -334,20 +327,18 @@ static GtkWidget *create_units_palette(void)
   int i;
   struct unit *punit = editor_get_selected_unit();
 
-  const char *names[UPARAM_LAST] = { _("Owner"),
-				     _("Moves Left"),
+  const char *names[UPARAM_LAST] = { _("Moves Left"),
 				     _("Activity"),
 				     _("Activity Target"),
 				     _("Activity Count") };
   int inits[UPARAM_LAST][3] = {
-    {punit->owner->player_no, 0, game.info.nplayers - 1},
     {punit->moves_left, 0, 200},
     {punit->activity, 0, ACTIVITY_LAST},
     {punit->activity_target, 0, S_LAST},
     {punit->activity_count, 0, 200}
   };
-  GtkWidget *unitmenu;
-  GtkWidget *popupmenu;
+  GtkWidget *unitmenu, *ownermenu;
+  GtkWidget *popupmenu, *playermenu;
 
   vbox = gtk_vbox_new(FALSE, 5);
 
@@ -375,6 +366,36 @@ static GtkWidget *create_units_palette(void)
   } unit_type_iterate_end;
   gtk_widget_show_all(popupmenu);
 
+  ownermenu = gtk_option_menu_new();
+  hbox = gtk_hbox_new(FALSE, 5);
+  label = gtk_label_new(_("Owner"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_size_group_add_widget(label_group, label);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), ownermenu, TRUE, TRUE, 0);
+  playermenu = gtk_menu_new();
+  gtk_option_menu_set_menu(GTK_OPTION_MENU(ownermenu), playermenu);
+  players_iterate(pplayer) {
+    char data[1024];
+    GtkWidget *item;
+
+    if (pplayer->nation) {
+      my_snprintf(data, sizeof(data), "%s (%s)",
+		  pplayer->name, pplayer->nation->name);
+    } else {
+      my_snprintf(data, sizeof(data), "%s", pplayer->name);
+
+    }
+    item = gtk_menu_item_new_with_label(data);
+
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(unit_owner_callback),
+                     GINT_TO_POINTER(pplayer->player_no));
+    gtk_menu_shell_append(GTK_MENU_SHELL(playermenu), item);
+  } unit_type_iterate_end;
+  gtk_widget_show_all(playermenu);
+
   for (i = 0; i < UPARAM_LAST; i++) {
     adj = GTK_ADJUSTMENT(gtk_adjustment_new(inits[i][0], inits[i][1], 
 					    inits[i][2], 1.0, 5.0, 5.0));
@@ -400,31 +421,45 @@ static GtkWidget *create_units_palette(void)
 ****************************************************************************/
 static GtkWidget *create_city_palette(void)
 {
-  GtkWidget *hbox, *vbox, *label, *sb;
-  GtkAdjustment *adj;
-  int i;
-  struct city *pcity = editor_get_selected_city();
-
-  const char *names[CPARAM_LAST] = { _("Owner"), };
-  int inits[CPARAM_LAST][3] = {
-    {pcity->owner->player_no, 0, game.info.nplayers - 1},
-  };
+  GtkWidget *hbox, *vbox, *label;
+  GtkWidget *citymenu;
+  GtkWidget *popupmenu;
+  GtkSizeGroup *label_group, *sb_group;
 
   vbox = gtk_vbox_new(FALSE, 5);
 
-  for (i = 0; i < CPARAM_LAST; i++) {
-    adj = GTK_ADJUSTMENT(gtk_adjustment_new(inits[i][0], inits[i][1], 
-					    inits[i][2], 1.0, 5.0, 5.0));
-    hbox = gtk_hbox_new(FALSE, 5);
-    sb = gtk_spin_button_new(adj, 1, 0);
-    label = gtk_label_new(names[i]);
-    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), sb, TRUE, TRUE, 0);
+  label_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
+  sb_group = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
-    g_signal_connect(sb, "value-changed", G_CALLBACK(city_callback),
-                     GINT_TO_POINTER(i));
-  }
+  citymenu = gtk_option_menu_new();
+  hbox = gtk_hbox_new(FALSE, 5);
+  label = gtk_label_new(_("Owner"));
+  gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
+  gtk_size_group_add_widget(label_group, label);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), citymenu, TRUE, TRUE, 0);
+  popupmenu = gtk_menu_new();
+  gtk_option_menu_set_menu(GTK_OPTION_MENU(citymenu), popupmenu);
+  players_iterate(pplayer) {
+    char data[1024];
+    GtkWidget *item;
+
+    if (pplayer->nation) {
+      my_snprintf(data, sizeof(data), "%s (%s)",
+		  pplayer->name, pplayer->nation->name);
+    } else {
+      my_snprintf(data, sizeof(data), "%s", pplayer->name);
+
+    }
+    item = gtk_menu_item_new_with_label(data);
+
+    g_signal_connect(item, "activate",
+                     G_CALLBACK(city_callback),
+                     GINT_TO_POINTER(pplayer->player_no));
+    gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
+  } unit_type_iterate_end;
+  gtk_widget_show_all(popupmenu);
 
   return vbox;
 }
