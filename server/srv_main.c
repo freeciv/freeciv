@@ -1527,11 +1527,7 @@ static void generate_players(void)
 
     pplayer->city_style = get_nation_city_style(pplayer->nation);
 
-    if (pplayer->ai.control) {
-      pick_random_player_name(pplayer->nation, player_name);
-    } else {
-      sz_strlcpy(player_name, pplayer->username);
-    }
+    pick_random_player_name(pplayer->nation, player_name);
     sz_strlcpy(pplayer->name, player_name);
 
     if (check_nation_leader_name(pplayer->nation, player_name)) {
