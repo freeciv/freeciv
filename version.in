@@ -13,3 +13,15 @@ FREECIV_BETA_VERSION(1)
 
 FREECIV_NEXT_VERSION("2.1.0")
 FREECIV_RELEASE_MONTH(6)
+
+# Freeciv network capstring: see documentation in common/capstr.c
+#
+# +2.1b is the base capability string.
+#
+#   - No new manditory capabilities can be added to the release branch; doing
+#     so would break network capability of supposedly "compatible" releases.
+#
+#   - Avoid adding a new manditory capbility to the development branch for
+#     as long as possible.  We want to maintain network compatibility with
+#     the stable branch for as long as possible.
+FREECIV_NETWORK_CAPSTRING("+2.1b")

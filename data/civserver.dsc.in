@@ -12,7 +12,7 @@ ExecutablePath = @prefix@/bin/civserver -z -q 180 -e
 
 [Protocol]
 Engine = Freeciv
-Version = @MAJOR_VERSION@.@MINOR_VERSION@
+Version = @NETWORK_CAPSTRING@
 
 [TableOptions]
 AllowLeave = 1
