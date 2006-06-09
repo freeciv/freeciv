@@ -71,18 +71,9 @@ const char * const our_capability = our_capability_internal;
  * (The savefile and ruleset files have strings which are used similarly,
  * and checked by the same has_capability function, but the strings there
  * are not directly related to the capability strings discussed here.)
- */
-
-/* +Freeciv.Devel.YYYY.MMM.DD is the base capability string.
  *
- *   - No new manditory capabilities can be added to the release branch; doing
- *     so would break network capability of supposedly "compatible" releases.
- *
- *   - Avoid adding a new manditory capbility to the development branch for
- *     as long as possible.  We want to maintain network compatibility with
- *     the stable branch for as long as possible.
+ * The actual capability string is now defined in version.in.
  */
-#define CAPABILITY "+Freeciv.Devel.2006.Mar.20"
 
 void init_our_capability(void)
 {
@@ -90,7 +81,7 @@ void init_our_capability(void)
 
   s = getenv("FREECIV_CAPS");
   if (!s) {
-    s = CAPABILITY;
+    s = NETWORK_CAPSTRING;
   }
   sz_strlcpy(our_capability_internal, s);
 }

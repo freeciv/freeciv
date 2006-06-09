@@ -1247,15 +1247,11 @@ static void ggz_game_launched(void)
 void ui_init(void)
 {
 #ifdef GGZ_GTK
-  char protocol_version[128];
-
   /* Engine and version match what is provided in civclient.dsc.in and
    * civserver.dsc.in. */
-  my_snprintf(protocol_version, sizeof(protocol_version),
-	      "%d.%d", MAJOR_VERSION, MINOR_VERSION);
   ggz_gtk_initialize(FALSE,
 		     ggz_connected, ggz_game_launched,
-		     "Freeciv", protocol_version);
+		     "Freeciv", NETWORK_CAPSTRING);
 #endif
 
   log_set_callback(log_callback_utf8);
