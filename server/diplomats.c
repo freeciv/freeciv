@@ -1375,10 +1375,12 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
       punishment = GAME_MAX_REPUTATION/10;
       break;
     case DS_ALLIANCE:
+    case DS_TEAM:
       punishment = GAME_MAX_REPUTATION/5;
       break;
-    default:
-      die("Illegal diplstate in maybe_cause_incident.");
+    case DS_LAST:
+      assert(FALSE);
+      break;
     }
     offender->reputation = MAX(offender->reputation - punishment, 0);
     victim_player->diplstates[offender->player_no].has_reason_to_cancel = 2;
