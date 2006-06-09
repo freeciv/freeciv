@@ -85,7 +85,9 @@ void ggz_initialize(void)
 ****************************************************************************/
 void input_from_ggz(int socket)
 {
-  ggzmod_dispatch(ggzmod);
+  if (ggzmod_dispatch(ggzmod) < 0) {
+    disconnect_from_server();
+  }
 }
 
 /****************************************************************************
