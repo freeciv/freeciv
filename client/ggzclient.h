@@ -13,24 +13,24 @@
 #ifndef FC__GGZCLIENT_H
 #define FC__GGZCLIENT_H
 
-#ifdef GGZ_CLIENT
-
 #include "shared.h"
 
 extern bool with_ggz;
 
 void ggz_initialize(void);
+
+#ifdef GGZ_CLIENT
+
+void ggz_begin(void);
 void input_from_ggz(int socket);
 
 bool user_get_rating(const char *name, int *rating);
 bool user_get_record(const char *name,
 		     int *wins, int *losses, int *ties, int *forfeits);
 
-
 #else
 
-#  define with_ggz FALSE
-#  define ggz_initialize() (void)0
+#  define ggz_begin() (void)0
 #  define input_from_ggz(socket) (void)0
 #  define user_get_rating(p, r) (FALSE)
 #  define user_get_record(p, w, l, t, f) (FALSE)

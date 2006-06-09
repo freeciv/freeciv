@@ -25,10 +25,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#ifdef GGZ_GTK
-#  include <ggz-embed.h>
-#endif
-
 #include "capstr.h"
 #include "dataio.h"
 #include "diptreaty.h"
@@ -229,9 +225,6 @@ int main(int argc, char *argv[])
       fc_fprintf(stderr, _("  -t, --tiles FILE\t"
 			   "Use data file FILE.tilespec for tiles\n"));
       fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-#ifdef GGZ_CLIENT
-    fc_fprintf(stderr, _("  -z, --zone\t\tEnable GGZ mode\n"));
-#endif
       fc_fprintf(stderr, _("      --\t\t"
 			   "Pass any following options to the UI.\n"
 			   "\t\t\tTry \"%s -- --help\" for more.\n"), argv[0]);
@@ -282,10 +275,6 @@ int main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--tiles", argv, &i, argc))) {
       sz_strlcpy(tileset_name, option);
       free(option);
-#ifdef GGZ_CLIENT
-    } else if (is_option("--zone", argv[i])) {
-      with_ggz = TRUE;
-#endif
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {
@@ -362,19 +351,7 @@ int main(int argc, char *argv[])
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);
 
-  if (with_ggz) {
-    ggz_initialize();
-  }
-#ifdef GGZ_GTK
-  {
-    char buf[128];
-
-    user_username(buf, sizeof(buf));
-    cat_snprintf(buf, sizeof(buf), "%d", myrand(100));
-    ggz_embed_ensure_server("Pubserver", "pubserver.freeciv.org",
-			    5688, buf);
-  }
-#endif
+  ggz_initialize();
 
   /* run gui-specific client */
   ui_main(argc, argv);

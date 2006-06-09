@@ -15,20 +15,53 @@
 #include <config.h>
 #endif
 
-#ifdef GGZ_CLIENT
-
-#include <ggzmod.h>
-
 #include "fciconv.h"
 #include "fcintl.h"
+#include "rand.h"
 
 #include "gui_main_g.h"
 
 #include "clinet.h"
 #include "ggzclient.h"
 
+#ifdef GGZ_CLIENT
+#  include <ggzmod.h>
+#endif
 
-bool with_ggz = FALSE;
+#ifdef GGZ_GTK
+#  include <ggz-embed.h>
+#endif
+
+
+bool with_ggz;
+
+/****************************************************************************
+  Initializations for GGZ, including checks to see if we are being run from
+  inside GGZ.
+****************************************************************************/
+void ggz_initialize(void)
+{
+#ifdef GGZ_CLIENT
+  with_ggz = ggzmod_is_ggz_mode();
+
+  if (with_ggz) {
+    ggz_begin();
+  }
+#endif
+
+#ifdef GGZ_GTK
+  {
+    char buf[128];
+
+    user_username(buf, sizeof(buf));
+    cat_snprintf(buf, sizeof(buf), "%d", myrand(100));
+    ggz_embed_ensure_server("Pubserver", "pubserver.freeciv.org",
+                           5688, buf);
+  }
+#endif
+}
+
+#ifdef GGZ_CLIENT
 
 static GGZMod *ggzmod;
 
@@ -58,9 +91,9 @@ static void handle_ggzmod_stats(GGZMod *ggzmod, GGZModEvent e,
 }
 
 /****************************************************************************
-  Connect to the GGZ client, if GGZ is being used.
+  Connect to the GGZ client.
 ****************************************************************************/
-void ggz_initialize(void)
+void ggz_begin(void)
 {
   int ggz_socket;
 

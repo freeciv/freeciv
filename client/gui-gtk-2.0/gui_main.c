@@ -1237,7 +1237,7 @@ static void ggz_connected(GGZServer *server)
 ****************************************************************************/
 static void ggz_game_launched(void)
 {
-  ggz_initialize();
+  ggz_begin();
 }
 #endif
 

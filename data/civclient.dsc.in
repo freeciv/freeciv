@@ -2,7 +2,7 @@
 
 [ModuleInfo]
 Author = See http://www.freeciv.org/people.phtml
-CommandLine = @prefix@/bin/civclient --zone
+CommandLine = @prefix@/bin/civclient
 Frontend = any
 Homepage = http://www.freeciv.org/
 Name = Freeciv
