@@ -177,6 +177,8 @@ static void handle_ggz_spectator_seat_event(GGZdMod *ggz, GGZdModEvent event,
 ****************************************************************************/
 void ggz_initialize(void)
 {
+  with_ggz = ggzdmod_is_ggz_mode();
+
   if (with_ggz) {
     int ggz_socket;
 

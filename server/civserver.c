@@ -184,10 +184,6 @@ int main(int argc, char *argv[])
       srvarg.saves_pathname = option; /* Never freed. */
     } else if (is_option("--version", argv[inx]))
       showvers = TRUE;
-#ifdef GGZ_SERVER
-    else if (is_option("--zone", argv[inx]))
-      with_ggz = TRUE;
-#endif
     else {
       fc_fprintf(stderr, _("Error: unknown option '%s'\n"), argv[inx]);
       showhelp = TRUE;
@@ -247,9 +243,6 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr,
 	       _("  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"));
     fc_fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-#ifdef GGZ_SERVER
-    fc_fprintf(stderr, _("  -z, --zone\t\tEnable GGZ mode\n"));
-#endif
     fc_fprintf(stderr, _("Report bugs to <%s>.\n"), BUG_EMAIL_ADDRESS);
     exit(EXIT_SUCCESS);
   }
