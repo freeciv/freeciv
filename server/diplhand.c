@@ -384,7 +384,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	notify_player(pdest, NULL, E_DIPLOMACY,
 		      _("You get %d gold."), pclause->value);
 	pgiver->economic.gold -= pclause->value;
-	pdest->economic.gold += pclause->value;
+	pdest->economic.gold += pclause->value * (100 - game.info.diplcost) / 100;
 	break;
       case CLAUSE_MAP:
 	give_map_from_player_to_player(pgiver, pdest);

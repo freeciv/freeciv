@@ -492,11 +492,12 @@ struct settings_s settings[] = {
 
   GEN_INT("diplcost", game.info.diplcost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Penalty when getting tech from treaty"),
+	  N_("Penalty when getting tech or gold from treaty"),
 	  N_("For each technology you gain from a diplomatic treaty, you "
 	     "lost research points equal to this percentage of the cost to "
 	     "research a new technology. You can end up with negative "
-	     "research points if this is non-zero."), NULL, 
+	     "research points if this is non-zero. Also applies to gold "
+             "transfers in diplomatic treaties."), NULL,
 	  GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST)
 
   GEN_INT("conquercost", game.info.conquercost,
