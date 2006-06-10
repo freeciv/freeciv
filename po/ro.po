@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 1.12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-05 20:45-0500\n"
-"PO-Revision-Date: 2006-06-08 20:03+0200\n"
+"PO-Revision-Date: 2006-06-10 01:11+0200\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -297,7 +297,7 @@ msgstr "Poluare"
 #: common/unit.c:542
 #: manual/civmanual.c:224
 msgid "Road"
-msgstr "Stradă"
+msgstr "Drum"
 
 #: common/unit.c:544
 msgid "Mine"
@@ -3576,7 +3576,7 @@ msgstr ""
 
 #: server/settings.c:458
 msgid "Starting gold per player"
-msgstr "Număr iniţial de galbeni pe jucător"
+msgstr "Număr iniţial de galbeni pentru fiecare jucător"
 
 #: server/settings.c:459
 msgid "At the beginning of the game, each player is given this much gold."
@@ -3632,7 +3632,7 @@ msgstr ""
 
 #: server/settings.c:526
 msgid "Food required for a city to grow"
-msgstr "Provizi necesare pentru creşterea unui oraş"
+msgstr "Provizii necesare pentru creşterea unui oraş"
 
 #: server/settings.c:527
 msgid "This is the base amount of food required to grow a city. This value is multiplied by another factor that comes from the ruleset and is dependent on the size of the city."
@@ -6571,11 +6571,11 @@ msgstr "Ambi"
 
 #: client/climisc.c:208
 msgid "?embassy:Yes"
-msgstr "Da"
+msgstr "?embassy:Da"
 
 #: client/climisc.c:211
 msgid "?embassy:With Us"
-msgstr "Cu Noi"
+msgstr "?embassy:Cu noi"
 
 #: client/climisc.c:214
 msgid "?embassy:Contact"
@@ -6801,7 +6801,7 @@ msgstr "Joc: Uliu maică! Se pare că nu aveţi o capitală!"
 
 #: client/helpdata.c:120
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
-msgstr "Teren       Stradă Irigaţie       Minare         Transformare\n"
+msgstr "Teren       Drum  Irigaţie       Minare         Transformare\n"
 
 #: client/helpdata.c:146
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
@@ -6827,6 +6827,8 @@ msgid ""
 "Requires the %s building.\n"
 "\n"
 msgstr ""
+"Este nevoie de clădirea %s.\n"
+"\n"
 
 #: client/helpdata.c:178
 #, c-format
@@ -6841,6 +6843,8 @@ msgid ""
 "Requires the %s terrain.\n"
 "\n"
 msgstr ""
+"Este nevoie de terenul %s.\n"
+"\n"
 
 #: client/helpdata.c:186
 #, c-format
@@ -6848,6 +6852,8 @@ msgid ""
 "Requires the %s nation.\n"
 "\n"
 msgstr ""
+"Este nevoie de naţiunea %s.\n"
+"\n"
 
 #: client/helpdata.c:190
 #: client/helpdata.c:194
@@ -7101,7 +7107,7 @@ msgstr ""
 #: client/helpdata.c:897
 #, c-format
 msgid "* May not be bribed.\n"
-msgstr ""
+msgstr "* Nu pot fi mituiţi.\n"
 
 #: client/helpdata.c:900
 #, c-format
@@ -7176,7 +7182,7 @@ msgstr ""
 #: client/helpdata.c:958
 #, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
-msgstr "* Ignoreaza efectul terenului (orice teren este considerat ca stradă).\n"
+msgstr "* Ignoreaza efectul terenului (orice teren este considerat ca drum).\n"
 
 #: client/helpdata.c:962
 #, c-format
@@ -7251,7 +7257,7 @@ msgstr ""
 #: client/helpdata.c:1110
 #, c-format
 msgid "You cannot research this technology."
-msgstr ""
+msgstr "Nu poţi cerceta această tehnologie."
 
 #: client/helpdata.c:1114
 #, c-format
@@ -7268,12 +7274,12 @@ msgstr ""
 #: client/helpdata.c:1130
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 25%%.\n"
-msgstr ""
+msgstr "* Reduce pericolul de a pierde navele aflate în largul mării la 25%%.\n"
 
 #: client/helpdata.c:1133
 #, c-format
 msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
-msgstr ""
+msgstr "* Reduce pericolul de a pierde navele aflate în largul mării la 12%%.\n"
 
 #: client/helpdata.c:1136
 #, fuzzy, c-format
@@ -7308,7 +7314,7 @@ msgstr "Permite %silor să transforme terenul irigat în teren agricol.\n"
 #: client/helpdata.c:1204
 #, c-format
 msgid "* Pollution cannot be generated on this terrain."
-msgstr ""
+msgstr "* Acest teren nu poate polua."
 
 #: client/helpdata.c:1209
 #, fuzzy, c-format
@@ -7318,22 +7324,22 @@ msgstr "Joc: Nu puteţi mitui o unitate a acestei naţiuni."
 #: client/helpdata.c:1215
 #, c-format
 msgid "* The coastline of this terrain is unsafe."
-msgstr ""
+msgstr "* Linia de coastă a acestui teren este nesigură."
 
 #: client/helpdata.c:1220
 #, c-format
 msgid "* This terrain is unsafe for units to travel on."
-msgstr ""
+msgstr "* Terenul este nesigur pentru unităţi."
 
 #: client/helpdata.c:1225
 #, c-format
 msgid "* Land units cannot travel on oceanic terrains."
-msgstr ""
+msgstr "* Unităţile terestre nu pot merge pe ocean."
 
 #: client/helpdata.c:1268
 #, c-format
 msgid "Features:\n"
-msgstr ""
+msgstr "Caracteristici:\n"
 
 #: client/helpdata.c:1291
 #, fuzzy, c-format
@@ -7393,12 +7399,12 @@ msgstr ""
 #: client/helpdata.c:1345
 #, c-format
 msgid "Has unlimited science/gold/luxuries rates.\n"
-msgstr ""
+msgstr "Rate nelimitate pentru ştiinţă/galbeni/lux.\n"
 
 #: client/helpdata.c:1350
 #, c-format
 msgid "* Your units may impose martial law. Each military unit inside a city will force an unhappy citizen to become content.\n"
-msgstr ""
+msgstr "* Unităţile tale pot impune legea marţială. Fiecare unitate militară care se află în oraş va forţa un cetăţean nefericit să devină mulţumit.\n"
 
 #: client/helpdata.c:1354
 #, c-format
@@ -7559,11 +7565,11 @@ msgstr "Runde"
 
 #: client/options.c:90
 msgid "Interface"
-msgstr ""
+msgstr "Interfaţă"
 
 #: client/options.c:91
 msgid "Network"
-msgstr ""
+msgstr "Reţea"
 
 #: client/options.c:96
 #, fuzzy
@@ -7614,7 +7620,7 @@ msgstr ""
 
 #: client/options.c:127
 msgid "Sound plugin"
-msgstr ""
+msgstr "Plugin pentru sunet"
 
 #: client/options.c:128
 msgid "If you have a problem with sound, try changing the sound plugin.  The new plugin won't take effect until you restart Freeciv.  Changing this is the same as using the -P command-line option."
@@ -7885,7 +7891,7 @@ msgstr "Deactivat"
 #: client/gui-win32/plrdlg.c:163
 #: client/gui-xaw/plrdlg.c:246
 msgid "R.I.P"
-msgstr ""
+msgstr "Odihneaască-se în pace"
 
 #: client/plrdlg_common.c:202
 #, fuzzy
@@ -7966,7 +7972,7 @@ msgstr "Ambasadă"
 #: client/gui-mui/plrdlg.c:169
 #: client/gui-win32/plrdlg.c:336
 msgid "Dipl.State"
-msgstr ""
+msgstr "Statut diplomatic"
 
 #: client/plrdlg_common.c:260
 #: client/gui-mui/plrdlg.c:170
@@ -7981,7 +7987,7 @@ msgstr "Jucători"
 
 #: client/plrdlg_common.c:263
 msgid "?Player_dlg:Idle"
-msgstr ""
+msgstr "?Player_dlg:Inactiv"
 
 #: client/plrdlg_common.c:264
 msgid "Ping"
@@ -8005,7 +8011,7 @@ msgstr "Nici un %s n-a putut fi vândut"
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:366
 msgid "You cannot disband units."
-msgstr ""
+msgstr "Nu poţi dizolva unităţi."
 
 #: client/repodlgs_common.c:371
 #, fuzzy, c-format
@@ -8044,23 +8050,23 @@ msgstr "?diplomatic_state:Neutral"
 
 #: client/text.c:84
 msgid "?nation:Hostile"
-msgstr ""
+msgstr "?nation:Ostilă"
 
 #: client/text.c:86
 msgid "?nation:Peaceful"
-msgstr ""
+msgstr "?nation:Paşnică"
 
 #: client/text.c:86
 msgid "?nation:Friendly"
-msgstr ""
+msgstr "?nation:Prietenoasă"
 
 #: client/text.c:87
 msgid "?nation:Mysterious"
-msgstr ""
+msgstr "?nation:Misterioasă"
 
 #: client/text.c:87
 msgid "?nation:Friendly(team)"
-msgstr ""
+msgstr "?nation:Prietenoasă(echipă)"
 
 #: client/text.c:89
 #, fuzzy
@@ -8079,20 +8085,20 @@ msgstr "Linişte"
 
 #: client/text.c:91
 msgid "?city:Friendly"
-msgstr ""
+msgstr "?city:Prietenos"
 
 #: client/text.c:91
 msgid "?city:Mysterious"
-msgstr ""
+msgstr "?city:Misterios"
 
 #: client/text.c:92
 msgid "?city:Friendly(team)"
-msgstr ""
+msgstr "?city:Prietenos(echipă)"
 
 #: client/text.c:99
 #, c-format
 msgid "Location: (%d, %d) [%d]"
-msgstr ""
+msgstr "Locaţie: (%d, %d) [%d]"
 
 #: client/text.c:102
 #: client/gui-mui/mapclass.c:102
@@ -8108,11 +8114,11 @@ msgstr "Hrană/Prod/Negoţ: %s"
 #: client/text.c:106
 #: client/gui-mui/mapclass.c:108
 msgid "Minor Tribe Village"
-msgstr ""
+msgstr "Sat mic tribal"
 
 #: client/text.c:112
 msgid "Our Territory"
-msgstr ""
+msgstr "Teritoriul nostru"
 
 #. TRANS: "Territory of the Polish"
 #: client/text.c:115
@@ -8135,7 +8141,7 @@ msgstr "%s %slor"
 
 #: client/text.c:138
 msgid "Unclaimed territory"
-msgstr ""
+msgstr "Teritoriu nerevendicat"
 
 #. TRANS: "City: Warsaw (Polish)"
 #: client/text.c:149
@@ -8202,14 +8208,14 @@ msgstr "Unitate: %s(%s%s)"
 #: client/text.c:264
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
-msgstr ""
+msgstr "Şansă de câştig: A:%d%% D:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:271
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
-msgstr ""
+msgstr "A:%d D:%d FP:%d HP:%d/%d (%s)"
 
 #. TRANS: "5 more" units on this tile
 #: client/text.c:280
@@ -8343,7 +8349,7 @@ msgstr "în %s"
 
 #: client/text.c:584
 msgid "(Click for more info)"
-msgstr ""
+msgstr "(Apasă pentru informaţii suplimentare)"
 
 #: client/text.c:601
 #, fuzzy, c-format
@@ -8367,7 +8373,7 @@ msgstr "Galbeni: %d"
 #: client/text.c:608
 #, c-format
 msgid "Net Income: %d"
-msgstr ""
+msgstr "Venit net: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:611
@@ -8383,12 +8389,12 @@ msgstr "Cercetând %s: %d/%d"
 #: client/text.c:622
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Şansă de încălzire globală: %d%% (%+d%%/rundă)"
 
 #: client/text.c:625
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Şansă de iarnă nucleară: %d%% (%+d%%/rundă)"
 
 #: client/text.c:630
 #: client/gui-mui/inteldlg.c:140
@@ -8408,12 +8414,12 @@ msgstr[1] " unitate"
 #: client/text.c:687
 #, c-format
 msgid "Turns to target: %d"
-msgstr ""
+msgstr "Runde până la ţintă: %d"
 
 #: client/text.c:689
 #, c-format
 msgid "Turns to target: %d to %d"
-msgstr ""
+msgstr "runde până la ţintă: %d la %d"
 
 #: client/text.c:695
 #, fuzzy, c-format
@@ -8479,11 +8485,11 @@ msgstr "_Cercetează"
 #: client/text.c:869
 #, c-format
 msgid "%s: %d/%d."
-msgstr ""
+msgstr "%s: %d/%d."
 
 #: client/text.c:889
 msgid "Shows the progress of global warming:"
-msgstr ""
+msgstr "Arată evoluţia încălzirii globale:"
 
 #: client/text.c:890
 #, fuzzy, c-format
@@ -8493,11 +8499,11 @@ msgstr "Poluare:   %3d"
 #: client/text.c:892
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
-msgstr ""
+msgstr "Şansa unei încălziri catastrofale: %d%%(pe rundă)"
 
 #: client/text.c:908
 msgid "Shows the progress of nuclear winter:"
-msgstr ""
+msgstr "Arată evoluţia iernii nucleare:"
 
 #: client/text.c:909
 #, fuzzy, c-format
@@ -8507,7 +8513,7 @@ msgstr "%s rată maximă: %d%%"
 #: client/text.c:911
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
-msgstr ""
+msgstr "Şansa unei ierni catastrofale: %d%%(pe rundă)"
 
 #: client/text.c:926
 #, fuzzy
@@ -8526,7 +8532,7 @@ msgstr "Populaţia: %s"
 #: client/text.c:953
 #, c-format
 msgid "Support:         %5d %%"
-msgstr ""
+msgstr "Suport:          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:957
@@ -8557,13 +8563,13 @@ msgstr "Durata de zbor:     ?       "
 #: client/text.c:975
 #, c-format
 msgid "Success prob.:   %5d %%"
-msgstr ""
+msgstr "Prob.de succes: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:979
 #, c-format
 msgid "Year of arrival: %8s"
-msgstr ""
+msgstr "Anul sosirii:    %8s"
 
 #: client/text.c:999
 msgid "?timeout:off"
@@ -8617,7 +8623,7 @@ msgstr "Edificii: "
 #: client/text.c:1132
 #: client/text.c:1169
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: client/text.c:1142
 #: client/text.c:1180
@@ -8770,11 +8776,11 @@ msgstr ""
 
 #: client/agents/cma_fec.c:418
 msgid "?cma:Very happy"
-msgstr ""
+msgstr "?cma:Foarte fericiţi"
 
 #: client/agents/cma_fec.c:419
 msgid "?cma:Max food"
-msgstr ""
+msgstr "?cma:Hrană maximă"
 
 #: client/agents/cma_fec.c:420
 #, fuzzy
@@ -8783,7 +8789,7 @@ msgstr "Productia în Masă"
 
 #: client/agents/cma_fec.c:421
 msgid "?cma:Max gold"
-msgstr ""
+msgstr "?cma:Galbeni maximi"
 
 #: client/agents/cma_fec.c:422
 #, fuzzy
@@ -8936,14 +8942,12 @@ msgid "_Governor"
 msgstr "_Guverne"
 
 #: client/gui-gtk-2.0/citydlg.c:1026
-#, fuzzy
 msgid "_Settings"
-msgstr "Setări"
+msgstr "_Setări"
 
 #: client/gui-gtk-2.0/citydlg.c:1029
-#, fuzzy
 msgid "Entertainers"
-msgstr "Inginer"
+msgstr "Comedianţi"
 
 #: client/gui-gtk-2.0/citydlg.c:1030
 #: client/gui-mui/citydlg.c:1366
@@ -8957,7 +8961,7 @@ msgstr "Cercetători"
 #: client/gui-win32/citydlg.c:1996
 #: client/gui-xaw/citydlg.c:2404
 msgid "Taxmen"
-msgstr ""
+msgstr "Perceptori de taxe"
 
 #: client/gui-gtk-2.0/citydlg.c:1034
 #: client/gui-win32/citydlg.c:1999
@@ -8965,7 +8969,6 @@ msgid "Disband if build settler at size 1"
 msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1037
-#, fuzzy
 msgid "Overview page"
 msgstr "Privire generală"
 
@@ -8980,14 +8983,12 @@ msgstr "Pagina fericirii"
 
 #: client/gui-gtk-2.0/citydlg.c:1040
 #: client/gui-mui/citydlg.c:1382
-#, fuzzy
 msgid "Governor page"
-msgstr "Privire generală"
+msgstr "Guvernator"
 
 #: client/gui-gtk-2.0/citydlg.c:1041
-#, fuzzy
 msgid "This Settings page"
-msgstr "Salvează Setările"
+msgstr "Pagina aceasta cu setări"
 
 #: client/gui-gtk-2.0/citydlg.c:1042
 #: client/gui-mui/citydlg.c:1385
@@ -9014,9 +9015,8 @@ msgid "_Rename..."
 msgstr "_Redenumeşte..."
 
 #: client/gui-gtk-2.0/citydlg.c:1249
-#, fuzzy
 msgid "_List present units..."
-msgstr "Unităţi prezente"
+msgstr "_Listează unităţile prezente"
 
 #: client/gui-gtk-2.0/citydlg.c:1259
 msgid "_Prev city"
@@ -9115,7 +9115,6 @@ msgid "Make new _homecity"
 msgstr "Nou oraş _natal"
 
 #: client/gui-gtk-2.0/citydlg.c:2116
-#, fuzzy
 msgid "U_pgrade unit"
 msgstr "Modernizează unitatea"
 
@@ -9456,9 +9455,8 @@ msgid "Select what to pillage:"
 msgstr "Alegeţi pentru prădare"
 
 #: client/gui-gtk-2.0/dialogs.c:507
-#, fuzzy
 msgid "Unit"
-msgstr "Unităţi"
+msgstr "Unitate"
 
 #: client/gui-gtk-2.0/dialogs.c:508
 #: client/gui-gtk-2.0/pages.c:1341
@@ -9494,9 +9492,8 @@ msgid "What Nation Will You Be?"
 msgstr "Cărei naţii vreţi să-i aparţineţi?"
 
 #: client/gui-gtk-2.0/dialogs.c:766
-#, fuzzy
 msgid "Random Nation"
-msgstr "Naţiunile Unite"
+msgstr "Naţiune aleatoare"
 
 #: client/gui-gtk-2.0/dialogs.c:778
 #: client/gui-win32/dialogs.c:521
@@ -9581,9 +9578,8 @@ msgid "_Maps"
 msgstr "_Hărţi"
 
 #: client/gui-gtk-2.0/diplodlg.c:274
-#, fuzzy
 msgid "_Advances"
-msgstr "_Renunţă"
+msgstr "_Avansări"
 
 #: client/gui-gtk-2.0/diplodlg.c:324
 #: client/gui-gtk-2.0/menu.c:911
@@ -9596,18 +9592,17 @@ msgid "_Give shared vision"
 msgstr ""
 
 #: client/gui-gtk-2.0/diplodlg.c:346
-#, fuzzy
 msgid "Give _embassy"
-msgstr "Ambasadă"
+msgstr "Dăruieşt_e ambasadă"
 
 #: client/gui-gtk-2.0/diplodlg.c:376
 msgid "_Pacts"
 msgstr "_Tratate"
 
 #: client/gui-gtk-2.0/diplodlg.c:469
-#, fuzzy, c-format
+#, c-format
 msgid "Diplomacy: %s"
-msgstr "Diplomat"
+msgstr "Diplomaţie: %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:476
 #: client/gui-mui/diplodlg.c:535
@@ -9697,7 +9692,6 @@ msgid "Goto/Airlift Unit"
 msgstr "Mergi la/Transportează aerian"
 
 #: client/gui-gtk-2.0/gotodlg.c:127
-#, fuzzy
 msgid "Air_lift"
 msgstr "Transportă aerian"
 
@@ -9728,7 +9722,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:160
 msgid "Keep dialogs on top"
-msgstr ""
+msgstr "Păstrează ferestrele de dialog deasupra"
 
 #: client/gui-gtk-2.0/gui_main.c:161
 msgid "If this option is set then dialog windows will always remain in front of the main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -9774,12 +9768,11 @@ msgstr "Termină Runda"
 
 #: client/gui-gtk-2.0/gui_main.c:992
 msgid "Shift+Return"
-msgstr ""
+msgstr "Shift+Return"
 
 #: client/gui-gtk-2.0/gui_main.c:1024
-#, fuzzy
 msgid "_Map"
-msgstr "_Hărţi"
+msgstr "_Hărtă"
 
 #: client/gui-gtk-2.0/gui_main.c:1101
 #, fuzzy
@@ -9795,65 +9788,60 @@ msgid ""
 "under certain conditions; See the \"Copying\" item on the Help menu.\n"
 "Now.. Go give'em hell!"
 msgstr ""
+"Freeciv este soft liber şi eşti bine venit să distribui copii\n"
+"cu unele condiţii ; Vezi elementul \"Copying\" din meniul Help (Ajutor).\n"
+"Acum.. sări pe ei!"
 
 #: client/gui-gtk-2.0/gui_main.c:1370
 msgid "Not _ready"
-msgstr ""
+msgstr "Nepregătit"
 
 #: client/gui-gtk-2.0/gui_main.c:1381
 #: client/gui-gtk-2.0/pages.c:1431
-#, fuzzy
 msgid "_Ready"
-msgstr "_Activează tot"
+msgstr "P_regătit"
 
 #: client/gui-gtk-2.0/gui_main.c:1385
 #: client/gui-gtk-2.0/pages.c:1968
-#, fuzzy
 msgid "_Start"
-msgstr "Statut"
+msgstr "_Start"
 
 #: client/gui-gtk-2.0/gui_main.c:1411
-#, fuzzy
 msgid "<AI>"
-msgstr "AI"
+msgstr "<AI>"
 
 #: client/gui-gtk-2.0/gui_main.c:1414
 msgid "<Novice AI>"
-msgstr ""
+msgstr "<AI novice>"
 
 #: client/gui-gtk-2.0/gui_main.c:1417
-#, fuzzy
 msgid "<Easy AI>"
-msgstr "AI"
+msgstr "<AI uşor>"
 
 #: client/gui-gtk-2.0/gui_main.c:1420
 msgid "<Normal AI>"
-msgstr ""
+msgstr "<AI normal>"
 
 #: client/gui-gtk-2.0/gui_main.c:1423
-#, fuzzy
 msgid "<Hard AI>"
-msgstr "AI"
+msgstr "<AI greu>"
 
 #: client/gui-gtk-2.0/gui_main.c:1433
 #: client/gui-win32/dialogs.c:598
-#, fuzzy
 msgid "Random"
-msgstr "Radioul"
+msgstr "Aleator"
 
 #: client/gui-gtk-2.0/gui_main.c:1495
-#, fuzzy
 msgid "Observer"
-msgstr " (observator)"
+msgstr " Observator"
 
 #: client/gui-gtk-2.0/gui_main.c:1495
-#, fuzzy
 msgid "Detached"
-msgstr ", Mort"
+msgstr "Deataşat"
 
 #: client/gui-gtk-2.0/gui_main.c:1765
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "Sigur vrei să renunţi?"
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 #, c-format
@@ -9861,10 +9849,12 @@ msgid ""
 "Close Tab:\n"
 "%s"
 msgstr ""
+"Închide fila:\n"
+"%s"
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:122
 #: client/gui-mui/citydlg.c:1373
@@ -10022,7 +10012,7 @@ msgstr "Putere de Foc:"
 #: client/gui-win32/helpdlg.c:91
 #: data/Freeciv.in:876
 msgid "Hitpoints:"
-msgstr ""
+msgstr "Puncte de viaţă:"
 
 #: client/gui-gtk-2.0/helpdlg.c:98
 #: client/gui-mui/helpdlg.c:566
@@ -10050,14 +10040,13 @@ msgstr "Hrană/Res/Negoţ:"
 
 #: client/gui-gtk-2.0/helpdlg.c:105
 #: data/Freeciv.in:972
-#, fuzzy
 msgid "Resources:"
-msgstr "Resurse"
+msgstr "Resurse:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106
 #: client/gui-win32/helpdlg.c:100
 msgid "Road Rslt/Time:"
-msgstr "Stradă Rslt/Timp:"
+msgstr "Drum Rslt/Timp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:106
 #: client/gui-win32/helpdlg.c:100
@@ -10102,7 +10091,7 @@ msgstr "Despre"
 #: client/gui-mui/helpdlg.c:394
 #: client/gui-xaw/helpdlg.c:271
 msgid "Removed"
-msgstr ""
+msgstr "Îndepărtat"
 
 #: client/gui-gtk-2.0/helpdlg.c:429
 #: client/gui-win32/helpdlg.c:427
@@ -10112,7 +10101,7 @@ msgstr "Browser de Ajutor Freeciv"
 
 #: client/gui-gtk-2.0/helpdlg.c:657
 msgid "Expand All"
-msgstr ""
+msgstr "Expand All"
 
 #: client/gui-gtk-2.0/helpdlg.c:658
 msgid "Collapse All"
@@ -10137,9 +10126,8 @@ msgstr "cu"
 
 #: client/gui-gtk-2.0/helpdlg.c:999
 #: client/gui-gtk-2.0/helpdlg.c:1016
-#, fuzzy
 msgid "?techhelp:"
-msgstr ")."
+msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1063
 #: client/gui-win32/helpdlg.c:608
@@ -10184,19 +10172,16 @@ msgid "+%d Res. / %d"
 msgstr "+%d Res. / %d"
 
 #: client/gui-gtk-2.0/inteldlg.c:41
-#, fuzzy
 msgid "Ruler:"
-msgstr "Conducător: %s %s"
+msgstr "Conducător:"
 
 #: client/gui-gtk-2.0/inteldlg.c:42
-#, fuzzy
 msgid "Government:"
-msgstr "Forme de guvernământ"
+msgstr "Forme de guvernământ:"
 
 #: client/gui-gtk-2.0/inteldlg.c:43
-#, fuzzy
 msgid "Capital:"
-msgstr "Capitala: %s"
+msgstr "Capitala:"
 
 #: client/gui-gtk-2.0/inteldlg.c:46
 #: client/gui-mui/gamedlgs.c:214
@@ -10204,20 +10189,17 @@ msgid "Tax:"
 msgstr "Impozit:"
 
 #: client/gui-gtk-2.0/inteldlg.c:50
-#, fuzzy
 msgid "Researching:"
-msgstr "Cercetând"
+msgstr "Cercetând:"
 
 #: client/gui-gtk-2.0/inteldlg.c:239
 #: client/gui-gtk-2.0/plrdlg.c:479
-#, fuzzy
 msgid "_Diplomacy"
-msgstr "Diplomat"
+msgstr "_Diplomaţie"
 
 #: client/gui-gtk-2.0/inteldlg.c:274
-#, fuzzy
 msgid "_Techs"
-msgstr "_Da"
+msgstr "_Tehnologii"
 
 #: client/gui-gtk-2.0/inteldlg.c:299
 #, c-format
@@ -10278,63 +10260,54 @@ msgstr "Joc"
 
 #: client/gui-gtk-2.0/menu.c:708
 #: client/gui-win32/menu.c:303
-#, fuzzy
 msgid "Local _Options"
-msgstr "Opţiuni Locale"
+msgstr "_Opţiuni Locale"
 
 #: client/gui-gtk-2.0/menu.c:710
 #: client/gui-win32/menu.c:304
-#, fuzzy
 msgid "_Message Options"
-msgstr "Opţiuni Mesaje"
+msgstr "Opţiuni _Mesaje"
 
 #: client/gui-gtk-2.0/menu.c:715
 #, fuzzy
 msgid "_Reload Tileset"
-msgstr "Şterge"
+msgstr "_Reîncarcă"
 
 #: client/gui-gtk-2.0/menu.c:718
-#, fuzzy
 msgid "Save Options on _Exit"
-msgstr "Opţiuni server (iniţiale)"
+msgstr "Salvează opţiunile la i_eşire"
 
 #: client/gui-gtk-2.0/menu.c:720
-#, fuzzy
 msgid "Sa_ve Options"
-msgstr "Opţiuni Mesa_je"
+msgstr "Sal_vează opţiunile"
 
 #: client/gui-gtk-2.0/menu.c:724
 #: client/gui-win32/menu.c:307
-#, fuzzy
 msgid "Server O_ptions"
-msgstr "Arată opţiunile serverului."
+msgstr "O_pţiunile server-ului"
 
 #: client/gui-gtk-2.0/menu.c:728
 #: client/gui-win32/menu.c:309
-#, fuzzy
 msgid "_Save Game"
-msgstr "Nume Server"
+msgstr "_Salvează joc"
 
 #: client/gui-gtk-2.0/menu.c:731
 #: client/gui-win32/menu.c:310
-#, fuzzy
 msgid "Save Game _As..."
-msgstr "Nume Server"
+msgstr "Salvează jocukl c_a"
 
 #: client/gui-gtk-2.0/menu.c:736
 #: client/gui-win32/menu.c:312
-#, fuzzy
 msgid "E_xport Log"
-msgstr "Exportă jurnal"
+msgstr "E_xportă jurnalul"
 
 #: client/gui-gtk-2.0/menu.c:738
 msgid "_Clear Log"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:742
-#, fuzzy
 msgid "_Leave"
-msgstr "_Conducător:"
+msgstr "Părăseşte"
 
 #: client/gui-gtk-2.0/menu.c:744
 #: client/gui-mui/connectdlg.c:226
@@ -10344,9 +10317,8 @@ msgid "_Quit"
 msgstr "_Termină"
 
 #: client/gui-gtk-2.0/menu.c:748
-#, fuzzy
 msgid "Gover_nment"
-msgstr "Forme de guvernământ"
+msgstr "Forme de guver_nământ"
 
 #: client/gui-gtk-2.0/menu.c:750
 #: client/gui-gtk-2.0/menu.c:752
@@ -10372,22 +10344,19 @@ msgid "_Find City"
 msgstr "_Caută Oraşul"
 
 #: client/gui-gtk-2.0/menu.c:758
-#, fuzzy
 msgid "_Worklists"
-msgstr "_Plan de Lucru:"
+msgstr "Plan de lucru"
 
 #: client/gui-gtk-2.0/menu.c:762
 #: client/gui-gtk-2.0/menu.c:764
 #: client/gui-gtk-2.0/menu.c:767
 #: client/gui-win32/menu.c:326
-#, fuzzy
 msgid "_Change Government"
-msgstr "_Guverne"
+msgstr "S_chimbă forma de guvernare"
 
 #: client/gui-gtk-2.0/menu.c:764
-#, fuzzy
 msgid "_Revolution..."
-msgstr "_Revoluţie"
+msgstr "_Revoluţie..."
 
 #: client/gui-gtk-2.0/menu.c:767
 #: client/gui-gtk-2.0/menu.c:977
@@ -10432,9 +10401,8 @@ msgid "View"
 msgstr "Vizualizare"
 
 #: client/gui-gtk-2.0/menu.c:774
-#, fuzzy
 msgid "City Outlines"
-msgstr "Opţiuni Oraş"
+msgstr "Limitele oraşului"
 
 #: client/gui-gtk-2.0/menu.c:776
 #: client/gui-win32/menu.c:334
@@ -10592,19 +10560,19 @@ msgstr "_Construieşte Oraş"
 #: client/gui-gtk-2.0/menu.c:1464
 #: client/gui-win32/menu.c:359
 msgid "Build _Road"
-msgstr "Construieşte _Stradă"
+msgstr "Construieşte D_rum"
 
 #: client/gui-gtk-2.0/menu.c:834
 #: client/gui-gtk-2.0/menu.c:1353
 #: client/gui-win32/menu.c:360
 msgid "Build _Irrigation"
-msgstr "_Irighează"
+msgstr "Construieşte _irigaţii"
 
 #: client/gui-gtk-2.0/menu.c:836
 #: client/gui-gtk-2.0/menu.c:1354
 #: client/gui-win32/menu.c:361
 msgid "Build _Mine"
-msgstr "_Minează"
+msgstr "Construieşte _mină"
 
 #: client/gui-gtk-2.0/menu.c:838
 #: client/gui-gtk-2.0/menu.c:1355
@@ -10645,9 +10613,8 @@ msgstr "Nou oraş _natal"
 
 #: client/gui-gtk-2.0/menu.c:858
 #: client/gui-win32/menu.c:372
-#, fuzzy
 msgid "_Load"
-msgstr "_Descarcă"
+msgstr "Încarcă"
 
 #: client/gui-gtk-2.0/menu.c:860
 #, fuzzy
@@ -10682,31 +10649,26 @@ msgstr "_Conectează"
 
 #: client/gui-gtk-2.0/menu.c:872
 #: client/gui-win32/menu.c:379
-#, fuzzy
 msgid "_Road"
-msgstr "Stradă"
+msgstr "D_rum"
 
 #: client/gui-gtk-2.0/menu.c:874
 #: client/gui-win32/menu.c:380
-#, fuzzy
 msgid "Rai_l"
-msgstr "Corabie"
+msgstr "Ca_le ferată"
 
 #: client/gui-gtk-2.0/menu.c:876
 #: client/gui-win32/menu.c:381
-#, fuzzy
 msgid "_Irrigate"
-msgstr "Fregată"
+msgstr "_irigaţie"
 
 #: client/gui-gtk-2.0/menu.c:878
-#, fuzzy
 msgid "Go _to"
 msgstr "Mergi la"
 
 #: client/gui-gtk-2.0/menu.c:878
-#, fuzzy
 msgid "_Build city"
-msgstr "_Construieşte Oraş"
+msgstr "Construieşte Oraş"
 
 #: client/gui-gtk-2.0/menu.c:880
 msgid "Patrol (_Q)"
@@ -11096,9 +11058,8 @@ msgid "Players"
 msgstr "Jucători"
 
 #: client/gui-gtk-2.0/plrdlg.c:457
-#, fuzzy
 msgid "_AI"
-msgstr "AI"
+msgstr "_AI"
 
 #: client/gui-gtk-2.0/plrdlg.c:463
 msgid "_Toggle AI Mode"
@@ -11130,28 +11091,24 @@ msgid "_Spaceship"
 msgstr "_Navă spaţială"
 
 #: client/gui-gtk-2.0/pages.c:208
-#, fuzzy
 msgid "Start _New Game"
-msgstr "Pornesc jocul."
+msgstr "Începe un joc _nou"
 
 #: client/gui-gtk-2.0/pages.c:214
-#, fuzzy
 msgid "Start _Scenario Game"
-msgstr "Pornesc jocul."
+msgstr "Începe un _scenariu de joc"
 
 #: client/gui-gtk-2.0/pages.c:220
-#, fuzzy
 msgid "_Load Saved Game"
-msgstr "Numele _Conducătorului"
+msgstr "Încarcă un joc salvat"
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "C_onnect to Network Game"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:236
-#, fuzzy
 msgid "Connect to Gaming _Zone"
-msgstr "(în progres)"
+msgstr "Concetează-te la Gaming _Zone"
 
 #: client/gui-gtk-2.0/pages.c:610
 #: client/gui-win32/connectdlg.c:305
@@ -11197,9 +11154,8 @@ msgid "Local _Area Network"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:779
-#, fuzzy
 msgid "Internet _Metaserver"
-msgstr "Metaserver"
+msgstr "Internet _Metaserver"
 
 #: client/gui-gtk-2.0/pages.c:813
 msgid "_Host:"
@@ -11210,9 +11166,8 @@ msgid "_Port:"
 msgstr "_Port:"
 
 #: client/gui-gtk-2.0/pages.c:847
-#, fuzzy
 msgid "_Login:"
-msgstr "Legionar"
+msgstr "_Login:"
 
 #: client/gui-gtk-2.0/pages.c:865
 msgid "Pass_word:"
@@ -11223,38 +11178,35 @@ msgid "Conf_irm Password:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:908
-#, fuzzy
 msgid "C_onnect"
-msgstr "Conectează"
+msgstr "_Conectează"
 
 #: client/gui-gtk-2.0/pages.c:1068
-#, fuzzy, c-format
+#, c-format
 msgid "Player name: %s"
-msgstr "?city:Nume"
+msgstr "Nume jucător: %s"
 
 #: client/gui-gtk-2.0/pages.c:1072
-#, fuzzy, c-format
+#, c-format
 msgid "Host: %s"
-msgstr "Gazdă:"
+msgstr "Gazdă: %s"
 
 #: client/gui-gtk-2.0/pages.c:1079
 msgid "Player/conn info"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1106
-#, fuzzy, c-format
+#, c-format
 msgid "%s info"
-msgstr "Oraş nr. %d"
+msgstr "info %s "
 
 #: client/gui-gtk-2.0/pages.c:1116
-#, fuzzy
 msgid "Toggle player ready"
-msgstr "aitoggle <nume-jucător>"
+msgstr "Schimbă starea jucătorului"
 
 #: client/gui-gtk-2.0/pages.c:1125
-#, fuzzy
 msgid "Pick nation"
-msgstr "Staţie de Poliţie"
+msgstr "Alege naţiunea"
 
 #: client/gui-gtk-2.0/pages.c:1137
 msgid "Observe this player"
@@ -11262,23 +11214,21 @@ msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1169
-#, fuzzy, c-format
+#, c-format
 msgid "Put on %s"
-msgstr "Populaţia: %s"
+msgstr "Pune în %s"
 
 #: client/gui-gtk-2.0/pages.c:1273
-#, fuzzy
 msgid "_Number of Players (including AI):"
-msgstr "Număr de jucători până la care se umple cu jucători AI."
+msgstr "_Număr de jucători (inclusiv AI):"
 
 #: client/gui-gtk-2.0/pages.c:1296
 msgid "_AI Skill Level:"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1312
-#, fuzzy
 msgid "_Ruleset:"
-msgstr "_Presetări:"
+msgstr "P_resetări:"
 
 #: client/gui-gtk-2.0/pages.c:1320
 #, fuzzy
@@ -11291,14 +11241,12 @@ msgid "Record"
 msgstr "Joc: Raport"
 
 #: client/gui-gtk-2.0/pages.c:1350
-#, fuzzy
 msgid "Rating"
-msgstr "Aştept"
+msgstr "Rating"
 
 #: client/gui-gtk-2.0/pages.c:1356
-#, fuzzy
 msgid "Ready"
-msgstr "Activează tot"
+msgstr "Gata"
 
 #: client/gui-gtk-2.0/pages.c:1363
 #: data/default/units.ruleset:1739
@@ -11307,9 +11255,8 @@ msgid "Leader"
 msgstr "Conducător"
 
 #: client/gui-gtk-2.0/pages.c:1426
-#, fuzzy
 msgid "Pick _Nation"
-msgstr "Staţie de Poliţie"
+msgstr "Alege _naţiunea"
 
 #: client/gui-gtk-2.0/pages.c:1494
 msgid "Choose Saved Game to Load"
@@ -11363,9 +11310,8 @@ msgid "Select Location to Save"
 msgstr "Alegeţi naţiunea şi numele"
 
 #: client/gui-gtk-2.0/pages.c:2208
-#, fuzzy
 msgid "Save Game"
-msgstr "Nume Server"
+msgstr "Salvează joc"
 
 #: client/gui-gtk-2.0/pages.c:2249
 #, fuzzy
@@ -12613,7 +12559,7 @@ msgstr "Construieşte oraş"
 #: client/gui-win32/menu.c:1206
 #: client/gui-xaw/menu.c:168
 msgid "Build Road"
-msgstr "Construieşte stradă"
+msgstr "Construieşte drum"
 
 #: client/gui-mui/gui_main.c:255
 #: client/gui-mui/gui_main.c:1316
@@ -12621,7 +12567,7 @@ msgstr "Construieşte stradă"
 #: client/gui-win32/menu.c:1107
 #: client/gui-xaw/menu.c:173
 msgid "Build Mine"
-msgstr "Minează"
+msgstr "Construieşte mină"
 
 #: client/gui-mui/gui_main.c:256
 #: client/gui-mui/gui_main.c:1308
@@ -14280,9 +14226,8 @@ msgid "Unload Transporter"
 msgstr "Transportor"
 
 #: client/gui-xaw/menu.c:190
-#, fuzzy
 msgid "Load"
-msgstr "Stradă"
+msgstr "Drum"
 
 #: client/gui-xaw/menu.c:197
 #, fuzzy
@@ -14622,7 +14567,7 @@ msgstr "Hrană/Resurse/Negoţ"
 
 #: data/Freeciv.in:980
 msgid "Road Result/Time:"
-msgstr "Stradă Resultat/Timp:"
+msgstr "Drum rezultat/timp:"
 
 #: data/Freeciv.in:1000
 msgid "Irrig. Result/Time:"
@@ -15688,7 +15633,7 @@ msgstr ""
 
 #: data/helpdata.txt:1220
 msgid " - A road may increase the trade resources produced by some types of terrain."
-msgstr " - O stradă poate mări negoţul produs de unele forme de teren."
+msgstr " - Un drum poate mări negoţul produs de unele forme de teren."
 
 #: data/helpdata.txt:1223
 msgid " - A railroad increases the shield resources produced by a square by 50%.  (Depending on server options, railroads may also increase food and trade resources, or may increase shield resources by an amount other than 50%.)"
@@ -20338,7 +20283,7 @@ msgstr ""
 
 #: data/nation/mayan.ruleset:19
 msgid "Ajaw"
-msgstr ""
+msgstr "Ajaw"
 
 #: data/nation/mexican.ruleset:3
 #, fuzzy
@@ -20379,7 +20324,7 @@ msgstr "Han"
 
 #: data/nation/newzealand.ruleset:4
 msgid "New Zealand"
-msgstr ""
+msgstr "Noua Zeelandă"
 
 #: data/nation/newzealand.ruleset:5
 msgid "?plural:New Zealanders"
@@ -20484,7 +20429,7 @@ msgstr "Hatman"
 
 #: data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr ""
+msgstr "Ayatollah"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -20541,7 +20486,7 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr ""
+msgstr "Quebecois"
 
 #: data/nation/quebecois.ruleset:4
 #, fuzzy
@@ -20566,7 +20511,7 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
-msgstr ""
+msgstr "Voievod"
 
 #: data/nation/romanian.ruleset:34
 #, fuzzy
@@ -20595,7 +20540,7 @@ msgstr "Tatal"
 
 #: data/nation/romanian.ruleset:37
 msgid "Tovarasa"
-msgstr ""
+msgstr "Tovaraşa"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -20607,7 +20552,7 @@ msgstr "Romani"
 
 #: data/nation/roman.ruleset:6
 msgid "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome controlled nearly all of Europe, northern Africa and Mesopotamia."
-msgstr ""
+msgstr "Legenda spune că Roma a fost fondată de Romulus în 753 î.Hr. La apogeul său, Roma controla aproape toată Europa, nordul Africii şi Mesopotamia."
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
@@ -20647,7 +20592,7 @@ msgstr "Matriarch"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr ""
+msgstr "Ryukyuan"
 
 #: data/nation/ryukyuan.ruleset:4
 #, fuzzy
@@ -20660,11 +20605,11 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
-msgstr ""
+msgstr "Koku-o"
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Jo-o"
-msgstr ""
+msgstr "Jo-o"
 
 #: data/nation/sami.ruleset:3
 #, fuzzy
@@ -20739,11 +20684,11 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:37
 msgid "Ah"
-msgstr ""
+msgstr "Ah"
 
 #: data/nation/singaporean.ruleset:39
 msgid "Encik"
-msgstr ""
+msgstr "Encik"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -20751,7 +20696,7 @@ msgstr "sioux"
 
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "?plural:Siouşi"
 
 #: data/nation/sioux.ruleset:6
 msgid "The Sioux was a North American nation that fought several decisive battles against the United States. It consisted of three distinct groups of tribes: the Lakota, the Dakota and the Nakota."
@@ -20767,7 +20712,7 @@ msgstr "Slovenieni"
 
 #: data/nation/slovenian.ruleset:6
 msgid "Slovenia was the most western and northern republic of the old Yugoslav Federation."
-msgstr ""
+msgstr "Slovenia a fost cea mai din nord-vest republică din vechea Federaţie Yugoslavă."
 
 #: data/nation/slovakian.ruleset:3
 #, fuzzy
@@ -20840,11 +20785,11 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudillo"
-msgstr ""
+msgstr "Caudillo"
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudilla"
-msgstr ""
+msgstr "Caudilla"
 
 #: data/nation/spanish.ruleset:29
 msgid "Cardinal"
@@ -20880,7 +20825,7 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
-msgstr ""
+msgstr "Ensi"
 
 #: data/nation/swazi.ruleset:3
 #, fuzzy
@@ -20898,11 +20843,11 @@ msgstr ""
 
 #: data/nation/swazi.ruleset:24
 msgid "Ngwenyama"
-msgstr ""
+msgstr "Ngwenyama"
 
 #: data/nation/swazi.ruleset:24
 msgid "Indovuzaki"
-msgstr ""
+msgstr "Indovuzaki"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
@@ -20910,7 +20855,7 @@ msgstr "suedez"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr "Suedezi"
+msgstr "?plural:Suedezi"
 
 #: data/nation/swedish.ruleset:6
 msgid "The Kingdom of Sweden was christianized and consolidated as a political entity by the 12th century AD. The country rose to prominence as one of the great powers of Europe in the 17th century, following substantial military conquests by the so called Warrior Kings. However, due to a worsening economy and several disastrous defeats to Russia, Sweden soon lost most of its gained territory. The country has not been involved in an armed conflict since 1814."
@@ -20937,11 +20882,11 @@ msgstr "brazilian"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected King"
-msgstr ""
+msgstr "Rege ales"
 
 #: data/nation/swiss.ruleset:25
 msgid "Elected Queen"
-msgstr ""
+msgstr "Regină aleasă"
 
 #: data/nation/swiss.ruleset:26
 #, fuzzy
