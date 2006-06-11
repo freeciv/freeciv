@@ -395,11 +395,13 @@ int get_defense_power(const struct unit *punit)
 {
   int db, power = base_get_defense_power(punit);
 
-  db = 10 + punit->tile->terrain->defense_bonus / 10;
-  if (tile_has_special(punit->tile, S_RIVER)) {
-    db += (db * terrain_control.river_defense_bonus) / 100;
+  if (is_ground_unit(punit)) {
+    db = 10 + punit->tile->terrain->defense_bonus / 10;
+    if (tile_has_special(punit->tile, S_RIVER)) {
+      db += (db * terrain_control.river_defense_bonus) / 100;
+    }
+    power = (power * db) / 10;
   }
-  power = (power * db) / 10;
 
   return power;
 }
