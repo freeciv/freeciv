@@ -1225,7 +1225,7 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   STRING graphic_alt[MAX_LEN_NAME];
 
   UINT8 movement_cost;
-  SINT8 defense_bonus;
+  SINT16 defense_bonus;
 
   UINT8 output[O_MAX];
   UINT8 num_resources;

@@ -25530,7 +25530,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     {
       int readin;
     
-      dio_get_sint8(&din, &readin);
+      dio_get_sint16(&din, &readin);
       real_packet->defense_bonus = readin;
     }
   }
@@ -25886,7 +25886,7 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
     dio_put_uint8(&dout, real_packet->movement_cost);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_sint8(&dout, real_packet->defense_bonus);
+    dio_put_sint16(&dout, real_packet->defense_bonus);
   }
   if (BV_ISSET(fields, 7)) {
   
