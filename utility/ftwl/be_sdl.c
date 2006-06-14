@@ -94,6 +94,26 @@ static inline bool copy_event(struct be_event *event, SDL_Event *sdl_event)
 	event->key.type = BE_KEY_UP;
       } else if (key == SDLK_ESCAPE) {
 	event->key.type = BE_KEY_ESCAPE;
+      } else if (key == SDLK_KP0) {
+	event->key.type = BE_KEY_KP_0;
+      } else if (key == SDLK_KP1) {
+	event->key.type = BE_KEY_KP_1;
+      } else if (key == SDLK_KP2) {
+	event->key.type = BE_KEY_KP_2;
+      } else if (key == SDLK_KP3) {
+	event->key.type = BE_KEY_KP_3;
+      } else if (key == SDLK_KP4) {
+	event->key.type = BE_KEY_KP_4;
+      } else if (key == SDLK_KP5) {
+	event->key.type = BE_KEY_KP_5;
+      } else if (key == SDLK_KP6) {
+	event->key.type = BE_KEY_KP_6;
+      } else if (key == SDLK_KP7) {
+	event->key.type = BE_KEY_KP_7;
+      } else if (key == SDLK_KP8) {
+	event->key.type = BE_KEY_KP_8;
+      } else if (key == SDLK_KP9) {
+	event->key.type = BE_KEY_KP_9;
       } else {
 	Uint16 unicode = sdl_event->key.keysym.unicode;
 
@@ -216,4 +236,3 @@ bool be_supports_fullscreen(void)
 {
   return TRUE;
 }
-
