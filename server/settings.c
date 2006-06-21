@@ -909,7 +909,7 @@ struct settings_s settings[] = {
   GEN_BOOL("turnblock", game.info.turnblock,
 	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Turn-blocking game play mode"),
-	   N_("If this is set to 1 the game.info.turn is not advanced "
+	   N_("If this is set to 1 the game turn is not advanced "
 	      "until all players have finished their turn, including "
 	      "disconnected players."), NULL, 
 	   GAME_DEFAULT_TURNBLOCK)
@@ -917,7 +917,7 @@ struct settings_s settings[] = {
   GEN_BOOL("fixedlength", game.info.fixedlength,
 	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Fixed-length turns play mode"),
-	   N_("If this is set to 1 the game.info.turn will not advance "
+	   N_("If this is set to 1 the game turn will not advance "
 	      "until the timeout has expired, even if all players "
 	      "have clicked on \"Turn Done\"."), NULL,
 	   FALSE)
