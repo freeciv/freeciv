@@ -3,10 +3,10 @@
 # Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Denis Bodor <dbodor@linuxmag-france.org>, 1999.
-# Anthony Ferrand, 2001-2002
+# Anthony Ferrand, 2001-2002.
 # Freeciv french team <freeciv-fr@egroups.fr>, 2000.
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
-# Frederic Rodrigo <f.rodrigo free.fr> 2005-2006
+# Frederic Rodrigo <f.rodrigo free.fr>, 2005-2006.
 #
 #
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-03-05 20:45-0500\n"
-"PO-Revision-Date: 2006-04-18 18:52+0200\n"
+"PO-Revision-Date: 2006-06-18 19:56+0200\n"
 "Last-Translator: Frederic Rodrigo <f.rodrigo free.fr>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "MIME-Version: 1.0\n"
@@ -463,7 +463,7 @@ msgstr ""
 "Vous faites marcher Freeciv sans utiliser iconv. A moins \n"
 "que vous n'utilisez le jeu de caractères latin1, certains \n"
 "caractères peuvent ne pas s'afficher correctement. Vous pouvez \n"
-"télécharger iconv à http://gnu.org/.\n"
+"télécharger iconv sur http://gnu.org/.\n"
 
 #: utility/fciconv.c:203
 #, c-format
@@ -490,7 +490,7 @@ msgstr ""
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
 #, c-format
 msgid "Badly formed log level argument \"%s\".\n"
-msgstr "Le niveau de journal \"%s\" en argument est mal formé.\n"
+msgstr "Le niveau de journal \"%s\" en argument est mal formaté.\n"
 
 #: utility/log.c:138 utility/log.c:143
 #, c-format
@@ -555,13 +555,13 @@ msgstr "Impossible de lire le répertoire de données %s : %s."
 #: utility/shared.c:1217
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr ""
-"Le chemin d'accès aux données peut être positionné par la variable "
-"d'environnement FREECIV_PATH."
+"Le chemin d'accès aux données peut être spécifié par la "
+"variabled'environnement FREECIV_PATH."
 
 #: utility/shared.c:1219
 #, c-format
 msgid "Current data path is: \"%s\""
-msgstr "Le chemin d'accès aux données actuel est : \"%s\""
+msgstr "Le chemin actuel d'accès aux données est : \"%s\""
 
 #: utility/shared.c:1221
 #, c-format
@@ -631,7 +631,7 @@ msgstr "%s vend %s (inutile) pour %d."
 #: ai/advdiplomacy.c:278
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr "*%s (AI)* En mode away une IA ne peut signer un tel traité."
+msgstr "*%s (AI)* En mode \"away\" une IA ne peut signer un tel traité."
 
 #: ai/advdiplomacy.c:288
 #, c-format
@@ -655,7 +655,7 @@ msgstr ""
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr ""
-"*%s (IA)* Désormais je ne vous ferais plus confiance pour un alliance, %s."
+"*%s (IA)* Désormais je ne vous ferais plus confiance pour une alliance, %s."
 
 #: ai/advdiplomacy.c:417
 #, c-format
@@ -670,7 +670,7 @@ msgstr "*%s (IA)* Désolé, partager la vision avec vous est dangereux."
 #: ai/advdiplomacy.c:552
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr "*%s (IA)* Ce marchait n'est pas très avantageux pour nous, %s !"
+msgstr "*%s (IA)* Ce marché n'est pas très avantageux pour nous, %s !"
 
 #: ai/advdiplomacy.c:573
 #, c-format
@@ -699,7 +699,7 @@ msgid ""
 "other better?"
 msgstr ""
 "*%s (IA)* Salutations %s ! Pouvons nous suggérer un cessez-le-feu tant que "
-"nous ne nous connaissont pas d'avantage ?"
+"nous ne nous connaissons pas d'avantage ?"
 
 #: ai/advdiplomacy.c:1076
 #, c-format
@@ -758,7 +758,7 @@ msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr ""
-"*%s (IA)* Votre aide ce faisait attendue. Longue vie à notre glorieuse "
+"*%s (IA)* Votre aide ce faisait attendre. Longue vie à notre glorieuse "
 "alliance !"
 
 #: ai/advdiplomacy.c:1198
@@ -837,7 +837,7 @@ msgstr[0] ""
 "%d tour. Faite place, on arrive !"
 msgstr[1] ""
 "*%s (IA)* Nous allons honorer notre alliance et déclarer la guerre à %s dans "
-"%d tours. Faite place, on arrive !"
+"%d tours. Faites place, on arrive !"
 
 #: ai/advdiplomacy.c:1239
 #, c-format
@@ -849,10 +849,10 @@ msgid_plural ""
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 "*%s (IA)* Nous allons honorer notre alliance avec %s et déclarer la guerre à "
-"%s dans %d tour. Nous attendons à ce que en fassiez de même."
+"%s dans %d tour. Nous nous attendons à ce que vous en fassiez de même."
 msgstr[1] ""
 "*%s (IA)* Nous allons honorer notre alliance avec %s et déclarer la guerre à "
-"%s dans %d tours. Nous attendons à ce que en fassiez de même."
+"%s dans %d tours. Nous nous attendons à ce que vous en fassiez de même."
 
 #: ai/advdiplomacy.c:1306
 #, c-format
@@ -947,7 +947,7 @@ msgid ""
 "Honour our glorious alliance and your name will never be forgotten!"
 msgstr ""
 "*%s (IA)* Nous avons été sauvagement attaque par %s, et nous avons besoins "
-"de votre aide ! Honorez notre glorieuse alliance et votre nom resteras à "
+"de votre aide ! Honorez notre glorieuse alliance et votre nom restera à "
 "jamais !"
 
 #: server/barbarian.c:188
@@ -1163,7 +1163,7 @@ msgstr "Vous avez libéré %s !"
 #: server/citytools.c:1276
 #, c-format
 msgid "%s liberated %s."
-msgstr "%s à libéré %s."
+msgstr "%s a libéré %s."
 
 #: server/citytools.c:1854
 msgid " from the worklist"
@@ -1207,7 +1207,7 @@ msgstr "%s devrait bientôt atteindre la taille %i."
 #: server/cityturn.c:355
 #, c-format
 msgid "Warning: Famine feared in %s."
-msgstr "Attention : la famine a menacé %s."
+msgstr "Attention : la famine a menacé dans %s."
 
 #: server/cityturn.c:378
 msgid "WARNING, we're LOW on FUNDS sire."
@@ -1261,7 +1261,7 @@ msgstr "%s ne peut pas construire %s (dans la liste de travail). Supprimé ..."
 #: server/cityturn.c:1006
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
-msgstr "La production de %s mise à jour en %s à %s."
+msgstr "La production de %s mise à jour en %s dans %s."
 
 #: server/cityturn.c:745
 #, c-format
@@ -1434,7 +1434,7 @@ msgstr "Le peuple a renversé votre %s, le trouble règne sur votre pays."
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
-"%s ne peut pas encore construire %s, il est impossible de démanteler votre "
+"%s ne peut pas encore construire %s, il est impossible de démanteler notre "
 "seule ville."
 
 #. TRANS: Settler production leads to disbanded city.
@@ -1557,7 +1557,7 @@ msgstr "  -S, --Serverid ID\tPositionne l'identifiant de serveur sur ID\n"
 #: server/civserver.c:245
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
 msgstr ""
-"  -P, --Ppm\t\tSauvegardé des ppms de la carte lors de la sauvegarde de la "
+"  -P, --Ppm\t\tSauvegarde des ppms de la carte lors de la sauvegarde de la "
 "partie.\n"
 
 #: server/civserver.c:246
@@ -1785,14 +1785,14 @@ msgstr ""
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
-msgstr "Active/désactive le débogage de l'AI pour l'entité donnée."
+msgstr "Active/désactive le débogage de l'IA pour l'entité donnée."
 
 #: server/commands.c:125
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
 msgstr ""
-"Montre l'information de débogage AI à propos de l'entité donnée et active/"
+"Montre l'information de débogage IA à propos de l'entité donnée et active/"
 "désactive le débogage permanent pour cette entité."
 
 #: server/commands.c:129
@@ -1881,7 +1881,7 @@ msgstr "metaserver <adresse>"
 
 #: server/commands.c:170
 msgid "Set address (URL) for metaserver to report to."
-msgstr "Règle l'adresse (URL) de rapport du méta-serveur."
+msgstr "Spécifie l'adresse (URL) de rapport du méta-serveur."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:174
@@ -2166,7 +2166,8 @@ msgstr ""
 
 #: server/commands.c:291
 msgid "If there is none, become the game organizer with increased permissions."
-msgstr "S'il n'y en a pas déjà un, devenir l'organisateur augmente les droits."
+msgstr ""
+"S'il n'y en a pas déjà un, devient l'organisateur avec des droits augmentés."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:296
@@ -2212,7 +2213,7 @@ msgid ""
 "player (or one team) have conceded the game in this way then the game ends."
 msgstr ""
 "Dit à tous les autres que vous vous avouez vaincu pour cette partie, et si "
-"tous les joueurs (ou équipes) sauf un on concédé la partie, elle ce termine."
+"tous les joueurs (ou équipes) sauf un ont concédé la partie, elle ce termine."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:317
@@ -2888,12 +2889,13 @@ msgstr ""
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr ""
-"Vous avez provoqué un incident diplomatique en fomentant une révolte à %s."
+"Vous avez provoqué un incident diplomatique en fomentant une révolte dans %s."
 
 #: server/diplomats.c:1261
 #, c-format
 msgid "%s have caused an incident while inciting a revolt in %s."
-msgstr "%s a provoqué un incident diplomatique en fomentant une révolte a %s."
+msgstr ""
+"%s a provoqué un incident diplomatique en fomentant une révolte dans %s."
 
 #: server/gamehand.c:131
 #, c-format
@@ -3100,7 +3102,7 @@ msgid ""
 "dissolve the senate or wait until a more timely moment."
 msgstr ""
 "Le sénat ne vous permet pas de rompre le traité avec les %s. Vous devez "
-"dissoudre le sénat ou attendre un nomment plus opportun."
+"dissoudre le sénat ou attendre un moment plus opportun."
 
 #: server/plrhand.c:569
 #, c-format
@@ -3138,8 +3140,7 @@ msgstr ""
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
-"%s a attaqué l'un de votre allié %s ! Vous annulez votre alliance avec "
-"l'agresseur."
+"%s a attaqué votre allié %s ! Vous annulez votre alliance avec l'agresseur."
 
 #: server/plrhand.c:640
 #, c-format
@@ -3148,7 +3149,7 @@ msgid ""
 "with %s."
 msgstr ""
 "Votre coéquipier %s a déclaré la guerre avec %s. Vous êtes obligé d'annuler "
-"votre alliance avec %s est impossible."
+"votre alliance avec %s."
 
 #: server/plrhand.c:1097
 #, c-format
@@ -3231,7 +3232,7 @@ msgstr "Rapport de %s sur les civilisations les plus NOMBREUSES du monde."
 
 #: server/report.c:63
 msgid "Herodotus'"
-msgstr "Herodote"
+msgstr "Hérodote"
 
 # AR
 #: server/report.c:64
@@ -3280,9 +3281,10 @@ msgstr "Terrain"
 msgid "Settled Area"
 msgstr "Terrain aménagé"
 
+# "Rapidité des recherches" trop long
 #: server/report.c:118
 msgid "Research Speed"
-msgstr "Rapidité des recherches"
+msgstr "Recherches"
 
 #: server/report.c:119 data/default/techs.ruleset:392
 #: data/civ2/techs.ruleset:296 data/civ1/techs.ruleset:294
@@ -3541,7 +3543,7 @@ msgstr ""
 #: server/ruleset.c:1599
 #, c-format
 msgid "Terrain %s has unknown flag %s"
-msgstr "Le terrain %s a un flag %s inconnu"
+msgstr "Le terrain %s a un indicateur %s inconnu"
 
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1650
@@ -3590,7 +3592,7 @@ msgstr "Identifiant de terrain inconnu \"%c\" dans la sauvegarde de la partie."
 #: server/savegame.c:561
 #, c-format
 msgid "Warning: Unknown nation %s for starting position no %d"
-msgstr "Attention : Nation %s inconnue pour la position de départ no %d"
+msgstr "Attention : Nation %s inconnue pour la position de départ N° %d"
 
 #: server/savegame.c:588
 #, c-format
@@ -4151,7 +4153,7 @@ msgid ""
 msgstr ""
 "Au début de la partie, ce nombre de technologies est donné à chaque joueur. "
 "Les technologies choisies sont aléatoires pour chaque joueur. En fonction de "
-"la valeur de tech_cost_style dans le ruleset, une grande valeur pour "
+"la valeur de tech_cost_style dans le jeu de règles, une grande valeur pour "
 "techlevel peut rendre les prochaines technologies vraiment coûteuses."
 
 #: server/settings.c:475
@@ -4208,7 +4210,7 @@ msgid ""
 "You can end up with negative research points if this is non-zero."
 msgstr ""
 "Pour chaque avancée que vous obtenez en conquérant une ville ennemie, vous "
-"perdez ce pourcentage du coût de recherche pour une nouvelle découverte. Il "
+"perdez ce pourcentage du coût de recherche pour une nouvelle découverte. "
 "Avec des valeurs différentes de 0, vous pouvez finir avec des points de "
 "recherche négatifs."
 
@@ -4267,7 +4269,7 @@ msgid ""
 "costs are multiplied by this value (as a percentage)."
 msgstr ""
 "Cela affecte la rapidité avec la quelle les unités et les bâtiments peuvent "
-"être produit. Les coûts de base sont multiplié par cette valeur "
+"être produit. Les coûts de base sont multipliés par cette valeur "
 "(pourcentage)."
 
 #: server/settings.c:560
@@ -4471,7 +4473,7 @@ msgstr ""
 "dans une même partie doivent avoir des noms différents.\n"
 "\n"
 "3 = Même chose que pour 2, mais un joueur n'est pas autorisé à utiliser un "
-"nom de ville par défaut d'autres nations à moins qu'il soit également un "
+"nom de ville par défaut d'autres nations à moins qu'il soit également,par "
 "défaut pour sa propre nation."
 
 #: server/settings.c:699
@@ -4515,7 +4517,7 @@ msgstr ""
 
 #: server/settings.c:727
 msgid "Whether to enable fog of war"
-msgstr "Autoriser ou non le champ de vision réel"
+msgstr "Autoriser ou non le brouillard de guerre"
 
 # AR
 #: server/settings.c:728
@@ -4740,7 +4742,7 @@ msgid ""
 "If true, all players' movement phases will occur simultaneously; if false "
 "then players will alternate movement."
 msgstr ""
-"À vrais, tous les joueurs on leur phase de déplacement en même temps; à "
+"À vrai, tous les joueurs ont leur phase de déplacement en même temps; à "
 "faux, les joueurs ont leur phase de jeu de façon alternative."
 
 #: server/settings.c:876
@@ -5003,8 +5005,7 @@ msgstr ""
 
 #: server/srv_main.c:220
 msgid "Game ended in a draw as end year exceeded"
-msgstr ""
-"Partie terminée en victoire d'équipe après la date fixée de fin de partie"
+msgstr "Partie terminée par un match nul après la date fixée de fin de partie"
 
 #: server/srv_main.c:254
 #, c-format
@@ -5030,7 +5031,7 @@ msgstr "Partie finissant par une égalité"
 msgid ""
 "Your %s unit %s was disbanded in accordance with your peace treaty with the %"
 "s."
-msgstr "Votre %s %s a été congédié confomément au traité de paix avec les %s."
+msgstr "Votre %s %s a été congédié conformément au traité de paix avec les %s."
 
 #: server/srv_main.c:482
 #, c-format
@@ -5045,7 +5046,7 @@ msgstr ""
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
-"Le cessez-le-feu a avec %s pris fin. Vos relations avec les %s sont "
+"Le cessez-le-feu avec %s a pris fin. Vos relations avec les %s sont "
 "désormais à la guerre."
 
 # AR
@@ -5067,7 +5068,7 @@ msgstr "La partie est déjà en cours."
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
-"%s à perdu le niveau de contrôle cmdlevel suite au début de la partie. "
+"%s a perdu le niveau de contrôle cmdlevel suite au début de la partie. "
 "Utilisation du vote dorénavant."
 
 #: server/srv_main.c:869
@@ -5231,12 +5232,12 @@ msgstr "Aucune connexion du nom de \"%s\"."
 #: server/stdinhand.c:524
 #, c-format
 msgid "Open metaserver connection to [%s]."
-msgstr "Ouvrir la connexion avec le méta-serveur de \"%s\"."
+msgstr "Ouvrir la connexion avec le métaserveur de \"%s\"."
 
 #: server/stdinhand.c:537
 #, c-format
 msgid "Close metaserver connection to [%s]."
-msgstr "Interrompre la connexion avec le méta-serveur de \"%s\"."
+msgstr "Interrompre la connexion avec le métaserveur de \"%s\"."
 
 #: server/stdinhand.c:552
 msgid "Metaserver connection is open."
@@ -5295,7 +5296,7 @@ msgstr "Identifiant du serveur: %s"
 #: server/stdinhand.c:755
 msgid "You cannot save games manually on this server."
 msgstr ""
-"Vous ne pouvais pas sauvegarder manuellement les parties sur ce serveur."
+"Vous ne pouvez pas sauvegarder manuellement les parties sur ce serveur."
 
 #: server/stdinhand.c:772
 msgid "Cannot toggle a barbarian player."
@@ -5368,7 +5369,7 @@ msgstr "Le nom \"%s\" est interdit pour des raisons de sécurité."
 #: server/stdinhand.c:1020
 #, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Aucune script de commandes trouvé du nom de \"%s\"."
+msgstr "Aucun script de commandes trouvé du nom de \"%s\"."
 
 #: server/stdinhand.c:1028
 #, c-format
@@ -5393,7 +5394,7 @@ msgstr "Impossible d'écrire dans le fichier de script \"%s\"."
 #: server/stdinhand.c:1148
 msgid "You cannot use the write command on this server for security reasons."
 msgstr ""
-"Vous ne pouvais pas utiliser la commande write sur ce serveur pour des "
+"Vous ne pouvez pas utiliser la commande write sur ce serveur pour des "
 "raisons de sécurité."
 
 #: server/stdinhand.c:1176
@@ -5410,7 +5411,7 @@ msgstr ""
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
-"N'importe qui peut maintement devenir \"%s\" l'organisateur en tapant la "
+"N'importe qui peut maintenant devenir \"%s\" l'organisateur en tapant la "
 "commande \"first\"."
 
 #: server/stdinhand.c:1264
@@ -5481,7 +5482,7 @@ msgstr "Quelqu'un d'autre est déjà l'organisateur."
 #: server/stdinhand.c:1404
 #, c-format
 msgid "Connection %s has opted to become the game organizer."
-msgstr "La connection %s à choisie de devenir l'organisateur."
+msgstr "La connection %s a choisi de devenir l'organisateur."
 
 #: server/stdinhand.c:1455
 #, c-format
@@ -5563,7 +5564,7 @@ msgstr "%s n'est pas contrôlé par l'IA."
 #: server/stdinhand.c:1823
 #, c-format
 msgid "Default AI skill level set to '%s'."
-msgstr "Niveau AI par défaut positionné à \"%s\"."
+msgstr "Niveau IA par défaut positionné à \"%s\"."
 
 #: server/stdinhand.c:1838 server/stdinhand.c:2148
 msgid "This command is client only."
@@ -5645,7 +5646,7 @@ msgid ""
 msgstr ""
 "Essayez \"show situational\" ou \"show rare\" pour voir plus d'options.\n"
 "Essayez \"show changed\" pour voir les paramètres avec des valeurs autres "
-"que celle pas défaut."
+"que celles par défaut."
 
 #: server/stdinhand.c:2078
 msgid "Cannot change teams once game has begun."
@@ -5738,7 +5739,7 @@ msgstr "La diplomatie de %s n'est plus déboguée"
 #: server/stdinhand.c:2285
 #, c-format
 msgid "%s diplomacy debugged"
-msgstr "La diplomatie de est %s deboguée"
+msgstr "La diplomatie de %s est deboguée"
 
 #: server/stdinhand.c:2304
 #, c-format
@@ -5748,7 +5749,7 @@ msgstr "La technologie de %s n'est plus déboguée"
 #: server/stdinhand.c:2308
 #, c-format
 msgid "%s tech debugged"
-msgstr "La technologie de %s n'est plus deboguée"
+msgstr "La technologie de %s est deboguée"
 
 #: server/stdinhand.c:2339 server/stdinhand.c:2369
 msgid "Value 2 & 3 must be integer."
@@ -6032,7 +6033,7 @@ msgstr "Le répertoire du jeu de règles actuel est : \"%s\""
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
 msgstr ""
 "Le répertoire de jeu de règles \"%s\" est interdit pour des raisons de "
-"sécurités."
+"sécurité."
 
 #: server/stdinhand.c:3299
 #, c-format
@@ -6718,7 +6719,7 @@ msgstr "%s a été atomisé(e) par %s."
 #: server/unittools.c:1957
 #, c-format
 msgid "You nuked %s."
-msgstr "Vous atomisez %s."
+msgstr "Vous avez atomisé %s."
 
 #: server/unittools.c:1998
 #, c-format
@@ -6811,7 +6812,7 @@ msgstr "Votre survol effraie la tribu ; prise de terreur, elle s'enfuit."
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
-"Les ordres de %s ont été annulés car des mouvements ennemies ont été aperçut."
+"Les ordres de %s ont été annulés car des mouvements ennemies ont été aperçus."
 
 #: server/unittools.c:2944
 #, c-format
@@ -6923,7 +6924,7 @@ msgstr "Le plugin \"%s\" a été sélectionné"
 #: client/audio.c:174
 #, c-format
 msgid "Couldn't find soundset \"%s\" trying \"%s\"."
-msgstr "Impossible de charger le fichier de règles \"%s\" essai avec \"%s\"."
+msgstr "Impossible de charger le jeu de sons \"%s\" essai avec \"%s\"."
 
 #: client/audio.c:191 client/audio.c:249 client/audio.c:260
 msgid "Proceeding with sound support disabled"
@@ -7612,7 +7613,7 @@ msgstr "%s coûte %d lingots et vous n'en avez que %d."
 
 #: client/clinet.c:140
 msgid "Lost connection to server!"
-msgstr "Rupture de la connexion avec le serveur!"
+msgstr "Rupture de la connexion avec le serveur !"
 
 #: client/clinet.c:183
 msgid "Failed looking up host."
@@ -8419,8 +8420,8 @@ msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force an unhappy citizen to become content.\n"
 msgstr ""
-"* Vous unites peuvent imposer la loi martiale. Chaque unité militaire à "
-"l'intérieur d'une forcera un citoyen mécontent à devenir content.\n"
+"* Vous unités peuvent imposer la loi martiale. Chaque unité militaire à "
+"l'intérieur d'une ville forcera un citoyen mécontent à devenir content.\n"
 
 #: client/helpdata.c:1354
 #, c-format
@@ -8428,14 +8429,14 @@ msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
 "force %d unhappy citizens to become content.\n"
 msgstr ""
-"* Vous unites peuvent imposer la loi martiale. Chaque unité militaire à "
+"* Vous unités peuvent imposer la loi martiale. Chaque unité militaire à "
 "l'intérieur d'une ville forcera %d citoyens mécontents à devenir content.\n"
 
 #: client/helpdata.c:1361
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr ""
-"* Un maximum de %d unitées par ville peuvent faire appliquer la loi "
+"* Un maximum de %d unités par ville peuvent faire appliquer la loi "
 "martiale.\n"
 
 #: client/helpdata.c:1366
@@ -8469,7 +8470,7 @@ msgstr ""
 #: client/helpdata.c:1383
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr "* Avoir un sénat peut empêcher de déclarer la guère.\n"
+msgstr "* Avoir un sénat peut empêcher de déclarer la guerre.\n"
 
 #: client/helpdata.c:1387
 #, c-format
@@ -8777,7 +8778,7 @@ msgid ""
 "large amount of data will be drawn beneath each city in the 'citybar'."
 msgstr ""
 "Si cette option est activée, à la place d'avoir uniquement le nom et les "
-"attributs de la ville, une plus grande quantité d'information est affiché "
+"attributs de la ville, une plus grande quantité d'information est affichée "
 "dans la \"boite d'information\" de la ville."
 
 #: client/options.c:175
@@ -8789,9 +8790,9 @@ msgid ""
 "If this options is set then there will be icons displayed on the technology "
 "tree diagram. Turning this option off makes the technology tree more compact."
 msgstr ""
-"Si cette option est activé, des icônes seront affiché dans le diagramme "
-"arborescent des technologies. Désactive cette option permet d'avoir un arbre "
-"plus compact."
+"Si cette option est activé, des icônes seront affichées dans le diagramme "
+"arborescent des technologies. Désactiver cette option permet d'avoir un "
+"arbre plus compact."
 
 #: client/options.c:181
 msgid "Draw shield graphics for units"
@@ -8803,7 +8804,7 @@ msgid ""
 "If unset, the full flag will be drawn."
 msgstr ""
 "Si cette option est activée, un blason est utilisée à la place du drapeau "
-"pour les unites."
+"pour les unités."
 
 #: client/options.c:186
 msgid "Manual Turn Done in AI Mode"
@@ -8814,8 +8815,8 @@ msgid ""
 "If this option is disabled, then you will not have to press the turn done "
 "button manually when watching an AI player."
 msgstr ""
-"Si cette option est désactivée vous n'aurez pas besoin de de signaler la fin "
-"du tour en pressant le bouton quand vous observez un joueur IA."
+"Si cette option est désactivée vous n'aurez pas besoin de signaler la fin du "
+"tour en pressant le bouton quand vous observez un joueur IA."
 
 #: client/options.c:191
 msgid "Auto Center on Units"
@@ -8839,8 +8840,8 @@ msgid ""
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
-"Activez cette option pour centre la vue sur les combats. Désactiver "
-"ceciaccélère la durée entre tours mais peut vous laisser dans une totale "
+"Activez cette option pour centre la vue sur les combats. Désactiver ceci, "
+"diminue la durée entre tours mais peut vous laisser dans une totale "
 "ignorance dudit combat."
 
 #: client/options.c:201
@@ -8863,7 +8864,7 @@ msgid ""
 "not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 "Si cette option est active alors les \"Aller à\" pourront aller sur des "
-"cases inconnues. Sinon les parcours ferons le tours ou seront bloqué par des "
+"cases inconnues. Sinon les parcours feront le tour ou seront bloqués par des "
 "cases inconnues."
 
 #: client/options.c:210
@@ -8933,7 +8934,7 @@ msgstr "Arrière plan"
 
 #: client/options.c:234
 msgid "The background layer of the overview shows just ocean and land."
-msgstr "L'arrière plan de l'aperçut montre uniquement la terre et l'océan."
+msgstr "L'arrière plan de l'aperçu montre uniquement la terre et l'océan."
 
 #: client/options.c:237
 msgid "Terrain relief map layer"
@@ -8951,7 +8952,7 @@ msgstr "Couche des frontières"
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
-"La couche des frontières de l'aperçut montre quelles cases appartiennent à "
+"La couche des frontières de l'aperçu montre quelles cases appartiennent à "
 "qui."
 
 #: client/options.c:246
@@ -8960,7 +8961,7 @@ msgstr "Couche des unités"
 
 #: client/options.c:247
 msgid "If enabled then units will be drawn on the overview."
-msgstr "Si activé, les unites seront affichées dans l'aperçut."
+msgstr "Si activé, les unités seront affichées dans l'aperçu."
 
 #: client/options.c:251
 msgid "Cities layer"
@@ -8968,7 +8969,7 @@ msgstr "Couche des villes"
 
 #: client/options.c:252
 msgid "If enabled then cities will be drawn on the overview."
-msgstr "Si activé, les villes seront affichées dans l'aperçut."
+msgstr "Si activé, les villes seront affichées dans l'aperçu."
 
 #: client/options.c:256
 msgid "Overview fog of war"
@@ -8976,7 +8977,7 @@ msgstr "Aperçu global du brouillard de guerre"
 
 #: client/options.c:257
 msgid "If enabled, fog of war is shown on the overview."
-msgstr "Si activé, le brouillard de guerre sera affiché dans l'aperçut."
+msgstr "Si activé, le brouillard de guerre sera affiché dans l'aperçu."
 
 #: client/options.c:425
 msgid "Cannot find your home directory"
@@ -9535,7 +9536,7 @@ msgstr[1] "%d unités sélectionnées"
 
 #: client/text.c:700
 msgid "No units selected."
-msgstr "Pas d'unité sélectionné."
+msgstr "Pas d'unité sélectionnée."
 
 #: client/text.c:773
 #, c-format
@@ -9577,7 +9578,7 @@ msgstr[1] ""
 
 #: client/text.c:860
 msgid "Shows your progress in researching the current technology."
-msgstr "Montre l'avancement de la recherche de la technologie courante."
+msgstr "Montre l'avancement dans la recherche de la technologie courante."
 
 #: client/text.c:864
 msgid "no research target."
@@ -9768,7 +9769,7 @@ msgstr "Aucun jeu de textures par défaut utilisable, annulation!"
 #: client/tilespec.c:859
 #, c-format
 msgid "Trying \"%s\" tileset."
-msgstr "Essaye de prendre le jeu de texture \"%s\"."
+msgstr "Essai de prendre le jeu de texture \"%s\"."
 
 # AR
 #: client/tilespec.c:1040 client/tilespec.c:1074 client/tilespec.c:1254
@@ -9785,7 +9786,7 @@ msgstr ""
 #: client/tilespec.c:1223
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
-msgstr "Impossible de trouver de trouver l'extension gfx pour le fichier %s"
+msgstr "Impossible de trouver l'extension gfx pour le fichier %s"
 
 #: client/tilespec.c:1295
 msgid ""
@@ -9932,7 +9933,7 @@ msgstr "Nourriture :"
 
 #: client/gui-gtk-2.0/citydlg.c:579 client/gui-win32/citydlg.c:666
 msgid "Prod:"
-msgstr "Prod :"
+msgstr "Production :"
 
 #: client/gui-gtk-2.0/citydlg.c:580 client/gui-mui/citydlg.c:1326
 #: client/gui-mui/citydlg.c:1573 client/gui-win32/citydlg.c:667
@@ -11558,11 +11559,11 @@ msgstr "Vaisseau s_patial"
 #: client/gui-gtk-2.0/menu.c:935 client/gui-gtk-2.0/menu.c:936
 #: client/gui-gtk-2.0/menu.c:937 client/gui-gtk-2.0/menu.c:939
 msgid "_Editor"
-msgstr "_Éditeur"
+msgstr "Édit_eur"
 
 #: client/gui-gtk-2.0/menu.c:937
 msgid "Editing Mode"
-msgstr "Mode éditeur"
+msgstr "Mode édition"
 
 #: client/gui-gtk-2.0/menu.c:939
 msgid "_Tools"
@@ -11877,7 +11878,7 @@ msgstr "C_onnexion"
 #: client/gui-gtk-2.0/pages.c:1068
 #, c-format
 msgid "Player name: %s"
-msgstr "Nom du jouer : %s"
+msgstr "Nom du joueur : %s"
 
 #: client/gui-gtk-2.0/pages.c:1072
 #, c-format
@@ -11886,7 +11887,7 @@ msgstr "Hôte : %s"
 
 #: client/gui-gtk-2.0/pages.c:1079
 msgid "Player/conn info"
-msgstr "Info jouer/connect"
+msgstr "Info joueur/connect"
 
 #: client/gui-gtk-2.0/pages.c:1106
 #, c-format
@@ -11895,15 +11896,15 @@ msgstr "%s info"
 
 #: client/gui-gtk-2.0/pages.c:1116
 msgid "Toggle player ready"
-msgstr "Permuter jouer prêt"
+msgstr "Permuter joueur prêt"
 
 #: client/gui-gtk-2.0/pages.c:1125
 msgid "Pick nation"
-msgstr "Prendre un nation"
+msgstr "Prendre une nation"
 
 #: client/gui-gtk-2.0/pages.c:1137
 msgid "Observe this player"
-msgstr "Observer ce jouer"
+msgstr "Observer ce joueur"
 
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1169
@@ -12231,7 +12232,7 @@ msgstr "_Tâches possibles :"
 
 #: client/gui-gtk-2.0/wldlg.c:1146
 msgid "Show _Future Targets"
-msgstr "_Montrer les futurs objectifs"
+msgstr "_Montrer les objectifs futurs"
 
 #: client/gui-gtk-2.0/wldlg.c:1233
 msgid "Target _Worklist:"
@@ -12617,7 +12618,7 @@ msgstr "Technologie"
 #: client/gui-mui/dialogs.c:318 client/gui-win32/dialogs.c:1275
 #: data/Freeciv.in:2285 data/Freeciv.in:2318 data/Freeciv.in:2335
 msgid "Steal Technology"
-msgstr "Voler de la technologie"
+msgstr "Voler une technologie"
 
 #: client/gui-mui/dialogs.c:322 client/gui-win32/dialogs.c:1285
 #: data/Freeciv.in:2350
@@ -12692,7 +12693,7 @@ msgstr "_Saboter la ville"
 
 #: client/gui-mui/dialogs.c:755 client/gui-mui/dialogs.c:822
 msgid "Steal _technology"
-msgstr "Voler de la _technologie"
+msgstr "Voler une _technologie"
 
 #: client/gui-mui/dialogs.c:763 client/gui-mui/dialogs.c:830
 msgid "Incite a _revolt"
@@ -13012,7 +13013,7 @@ msgstr "Nom Ville"
 # AR
 #: client/gui-mui/gui_main.c:234 client/gui-xaw/menu.c:146
 msgid "City Productions"
-msgstr "Production de la ville"
+msgstr "Productions de la ville"
 
 #: client/gui-mui/gui_main.c:239
 msgid "Road & Rails"
@@ -14052,7 +14053,7 @@ msgstr "_Saboter la ville"
 
 #: client/gui-win32/dialogs.c:1604 client/gui-win32/dialogs.c:1626
 msgid "Steal _Technology"
-msgstr "Voler de la _Technologie"
+msgstr "Voler une _Technologie"
 
 #: client/gui-win32/dialogs.c:1605 client/gui-win32/dialogs.c:1627
 msgid "Incite a _Revolt"
@@ -14113,7 +14114,8 @@ msgid ""
 msgstr ""
 "Si cette option est active, alors les effets de transparence (alpha "
 "blending) seront utilisés pour le rendu (à la place du tramage). S'il n'y a "
-"pas de support matériel pour l'alpha blending le rendu sera plus lent."
+"pas de support matériel pour les effets de transparence le rendu sera plus "
+"lent."
 
 #: client/gui-win32/helpdlg.c:99
 msgid "Sp1 F/R/T:"
@@ -14425,7 +14427,7 @@ msgstr "Échec du chargement de la police de caractères : %s"
 
 #: client/gui-xaw/gui_main.c:376 client/gui-xaw/gui_main.c:397
 msgid "Doing 'xset fp rehash' may temporarily solve a problem."
-msgstr ""
+msgstr "Exécuter 'xset fp rehash' peut temporairement résoudre le problème."
 
 #: client/gui-xaw/gui_main.c:380 client/gui-xaw/gui_main.c:401
 #, c-format
@@ -15162,8 +15164,8 @@ msgid ""
 "extinction of all other civilizations."
 msgstr ""
 "Freeciv est un jeu de stratégie au tour par tour, dans lequel chaque joueur "
-"prend la place d'un leader de civilisation, combattant pour parvenir au but "
-"ultime : l'extinction de toutes les autres civilisations."
+"prend la place d'un dirigeant de civilisation, combattant pour parvenir au "
+"but ultime : l'extinction de toutes les autres civilisations."
 
 #: data/helpdata.txt:42
 msgid ""
@@ -15523,15 +15525,15 @@ msgid ""
 "all players, except:"
 msgstr ""
 "Le client a une interface de discussion très simple. Les lignes que vous "
-"tapez sont envoyées à tous les joueurs, à l'exception :"
+"tapez sont envoyées à tous les joueurs, à l'exception de:"
 
 #: data/helpdata.txt:546
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands and "
 "executed, if you have the required access level."
 msgstr ""
-"  - des messages commençant par \"/\" qui sont interprétés comme des "
-"commandes et sont exécutés si vous avez les droits d'accès requis."
+"  - Les messages commençant par \"/\" sont interprétés comme des commandes "
+"et sont exécutés si vous avez les droits d'accès requis."
 
 #: data/helpdata.txt:549
 msgid ""
@@ -15539,24 +15541,24 @@ msgid ""
 "be abbreviated. The server looks for players named 'John' and if that fails "
 "tries to match a username beginning with 'John' (like 'Johnathan')."
 msgstr ""
-"  - des messages débutant par \"John:\" sont des messages d'ordre privé à "
+"  - Les messages débutant par \"John:\" sont des messages d'ordre privé à "
 "\"John\". Les noms peuvent être abrégés. Le serveur cherche les joueurs "
-"nommés \"john\" correspondra et s'il ne trouve rien, cherche un nom "
-"d'utilisateur commençant par \"John\" (comme\"Johnathan\")."
+"nommés \"john\" et s'il ne trouve rien, cherche un nom d'utilisateur "
+"commençant par \"John\" (comme\"Johnathan\")."
 
 #: data/helpdata.txt:554
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
-"  - des messages débutant par \"John::\" sont des messages d'ordre privé à "
+"  - Les messages débutant par \"John::\" sont des messages d'ordre privé à "
 "l'utilisateur nommé \"John\" (pas le joueur). \"Johnathan\" correspondra "
 "également ;"
 
 #: data/helpdata.txt:558
 msgid "  - Messages starting with '.' will be sent only to all your allies."
 msgstr ""
-"  - Les message commençant par \".\" seront envoyés à tous vos alliés et à "
+"  - Les messages commençant par \".\" seront envoyés à tous vos alliés et à "
 "eux seulement."
 
 #: data/helpdata.txt:563
@@ -15581,7 +15583,7 @@ msgid ""
 "selected item. Pressing Help with no item selected will display this page."
 msgstr ""
 "Pour ajouter un article à la liste de travail, double-cliquez sur l'article "
-"désiré de la liste des articles disponibles. Vous pouvez aussi pressez le "
+"désiré dans la liste des articles disponibles. Vous pouvez aussi pressez le "
 "bouton d'aide pour obtenir des informations sur l'article sélectionné. "
 "Presser Aide sans avoir sélectionner d'article affichera cette page."
 
@@ -15993,8 +15995,8 @@ msgstr ""
 "\n"
 "   - Vous ne pouvez pas vous séparer de votre capitale.\n"
 "\n"
-"   - Si vous ne pouvez pas voir la ville sur la carte, alors vous ne pourrez "
-"pas la demander."
+"   - Si vous ne pouvez pas voir une ville sur la carte, alors vous ne "
+"pourrez pas la demander."
 
 #: data/helpdata.txt:760
 msgid ""
@@ -16347,7 +16349,7 @@ msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr ""
-" - Ensuite, la force de défense est doublée si il s'agit d'un Lancier se "
+" - Ensuite, la force de défense est doublée s'il s'agit d'un Lancier se "
 "défendant contre des unités montées."
 
 #: data/helpdata.txt:964
@@ -16422,7 +16424,7 @@ msgstr ""
 #: data/helpdata.txt:992
 msgid "The firepower of the attacker and defender are also modified."
 msgstr ""
-"Les puissances de de feu de l'attaquant et du défenseur sont aussi modifiées."
+"Les puissances de feu de l'attaquant et du défenseur sont aussi modifiées."
 
 #: data/helpdata.txt:994
 msgid ""
@@ -16750,7 +16752,7 @@ msgstr ""
 "\n"
 "- une ZDC ne restreint pas les attaques, seulement les mouvements ; \n"
 "\n"
-"- une ville ennemie compte comme une case occupée par l'ennemi si il y a au "
+"- une ville ennemie compte comme une case occupée par l'ennemi s'il y a au "
 "moins une unité dans la ville (même règle que pour n'importe quelle autre "
 "case) ; \n"
 "\n"
@@ -16770,7 +16772,7 @@ msgstr ""
 "(ou d'autres unités ignorant les ZDC), et en déplaçant ensuite des unités "
 "ordinaires sur la case occupée par le Diplomate. En répétant ce processus "
 "(et en laissant, si vous le souhaitez, quelques unités derrières pour "
-"continuer à occuper les cases du parcours), vous pouvez faire votre chemin à "
+"continuer à occuper les cases du parcours), vous pouvez faire un chemin à "
 "travers le territoire ennemi."
 
 #: data/helpdata.txt:1171
@@ -16837,8 +16839,8 @@ msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
 msgstr ""
-"Certains types de terrains peuvent être minés, ce qui accroît le nombre de "
-"ressources (production) produit par une case."
+"Certains types de terrains peuvent être transformés en mines , ce qui "
+"accroît le nombre de ressources (production) produit par une case."
 
 #: data/helpdata.txt:1209
 msgid ""
@@ -16952,7 +16954,7 @@ msgstr ""
 "Toutes les unités au sol ont la possibilité de détruire les altérations du "
 "terrain, par le pillage. Le pillage enlève 1 altération du terrain par tour "
 "et par unité. Selon les options du serveur, vous pouvez choisir quelle "
-"altération sera pillée, ou elles seront pillées dans l'ordre suivant:"
+"altération sera pillée, ou bien elles seront pillées dans l'ordre suivant:"
 
 #: data/helpdata.txt:1260
 msgid ""
@@ -16969,7 +16971,7 @@ msgstr ""
 " - mines ;\n"
 " - une forteresse ;\n"
 " - une base aérienne ;\n"
-" - un chemin-de-fer ;\n"
+" - une voie ferrée ;\n"
 " - une route."
 
 #: data/helpdata.txt:1268
@@ -16982,10 +16984,10 @@ msgid ""
 "to convert the tile again with a Settler or Engineer."
 msgstr ""
 "Les cases qui n'ont pas été altérées (champs, irrigation, mines, forteresse, "
-"base aérienne, chemin-de-fer, ou route) ne peuvent être pillées. De plus, "
-"les conversions et transformations ne peuvent être défaites par le pillage. "
-"Par exemple, si vous avez irrigué une case de Forêt pour la convertir en "
-"Plaine, le pillage ne la reconvertira pas en Forêt -- pour cela, vous devrez "
+"base aérienne, voie ferrée, ou route) ne peuvent être pillées. De plus, les "
+"conversions et transformations ne peuvent être défaites par le pillage. Par "
+"exemple, si vous avez irrigué une case de Forêt pour la convertir en Plaine, "
+"le pillage ne la reconvertira pas en Forêt -- pour cela, vous devrez "
 "convertir la case à nouveau avec un Colon ou un Ingénieur."
 
 #: data/helpdata.txt:1280
@@ -17034,7 +17036,7 @@ msgid ""
 msgstr ""
 "Le gaspillage est la perte de production due à l'inefficacité et la "
 "cupidité. Sous la plupart des gouvernements, plus votre ville est loin de la "
-"capitale, plus votre production sera affecté par le gaspillage (si vous "
+"capitale, plus votre production sera affectée par le gaspillage (si vous "
 "n'avez pas de capitale, vos villes subiront un taux de gaspillage très "
 "élevé). Un Tribunal réduira le niveau de gaspillage dans une ville. Le "
 "gaspillage peut aboutir à ce que vos villes ne produisent rien."
@@ -17122,7 +17124,7 @@ msgstr ""
 "Le nombre de villes que votre empire doit posséder avant de pouvoir entrer "
 "en guerre civile est par défaut de 10. Cela signifie que les empires "
 "possédant moins de 10 villes ne peuvent pas subir de guerre civile. Mais ce "
-"nombre est une option du serveur, et peut descendre jusqu'à au moins 6."
+"nombre est une option du serveur, et peut descendre à 6."
 
 #: data/helpdata.txt:1351
 msgid ""
@@ -17195,7 +17197,7 @@ msgid ""
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
-" - sous une République ou une Démocratie, la population de votre ville va "
+" - Sous une République ou une Démocratie, la population de votre ville va "
 "s'accroître d'un point chaque tour tant qu'il y a suffisamment de nourriture "
 "et que le nombre d'habitants heureux est suffisant pour la célébration."
 
@@ -17233,10 +17235,10 @@ msgstr ""
 "Démocratique), et/ou des merveilles du monde appropriées, et/ou convertir "
 "une partie des taxes en produits de luxe. Pour deux produits de luxe "
 "produits par une ville, un habitant content devient heureux. Après avoir "
-"rendu tous les habitants contents heureux, les habitants mécontents "
-"deviennent contents. Certaines merveilles du monde ont aussi des effets sur "
-"le bonheur des habitants (voir les sections correspondantes pour plus de "
-"détails)."
+"rendu heureux tous les habitants contents, les habitants mécontents "
+"deviennent heureux et/ou contents. Certaines merveilles du monde ont aussi "
+"des effets sur le bonheur des habitants (voir les sections correspondantes "
+"pour plus de détails)."
 
 #: data/helpdata.txt:1405
 msgid ""
@@ -17465,7 +17467,7 @@ msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
 msgstr ""
-"Multiplie la force défensive des unités a l'intérieur de la ville par 2 "
+"Multiplie la force défensive des unités à l'intérieur de la ville par 2 "
 "quand celles-ci se défendent contre les bombardements de navires adverses."
 
 #: data/default/buildings.ruleset:254 data/civ2/buildings.ruleset:234
@@ -18025,8 +18027,8 @@ msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "all your cities."
 msgstr ""
-"Cette réussite technologique sensationnelle rend un habitant mécontent "
-"content dans toutes les villes."
+"Cette réussite technologique sensationnelle rend rend heureux un habitant "
+"mécontent dans toutes les villes."
 
 #: data/default/buildings.ruleset:1051 data/civ2/buildings.ruleset:1036
 #: data/civ1/buildings.ruleset:713
@@ -18275,8 +18277,8 @@ msgid ""
 "Anarchy."
 msgstr ""
 "Permet de choisir n'importe quel gouvernement, y compris ceux qui n'ont pas "
-"encore été trouvés par votre peuple, et ce, sans la période de transition "
-"d'Anarchie."
+"encore été trouvés par votre peuple, et ce, sans la période d'Anarchie de "
+"transition."
 
 #: data/default/buildings.ruleset:1458 data/civ2/buildings.ruleset:1441
 msgid "Sun Tzu's War Academy"
@@ -18287,9 +18289,9 @@ msgid ""
 "All your new ground units start at the first veteran level. The  chance of a "
 "unit getting the next veteran level after a battle  increases by half."
 msgstr ""
-"Toutes vos nouvelles unités terrestres deviennent des vétérans (pour toutes "
-"les villes). Les chances pour une unité d'atteindre le prochain niveau après "
-"une bataille augmentent de 50%."
+"Toutes vos nouvelles unités terrestres obtiennent le premier niveau de "
+"vétérans (pour toutes les villes). Les chances pour une unité d'atteindre le "
+"prochain niveau après une bataille augmentent de 50%."
 
 #: data/default/buildings.ruleset:1479 data/civ2/buildings.ruleset:1462
 #: data/civ1/buildings.ruleset:1020
@@ -18327,7 +18329,7 @@ msgid ""
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
 msgstr ""
-"Ceci n'est pas une bâtiment normal. Son effet est que la production de la "
+"Ceci n'est pas un bâtiment normal. Son effet est que la production de la "
 "ville est transformé en taxes (argent)."
 
 #: data/civ2/buildings.ruleset:248
@@ -18459,11 +18461,10 @@ msgid ""
 "A city can only have one Solar Plant, Hydro Plant, Power Plant, or Nuclear "
 "Plant."
 msgstr ""
-"Réduit de 50% la quantité de pollution générée par une ville. De plus, elle "
-"augmente la production des Usines et des Fabriques dans la ville : une "
-"Fabrique et une Centrale solaire donnent ensemble un bonus de 100%. Une "
-"Usine, une Fabrique et une Centrale solaire donnent ensemble un bonus de "
-"150%.\n"
+"Élimine toute pollution générée par une ville. De plus, elle augmente la "
+"production des Usines et des Fabriques dans la ville : une Fabrique et une "
+"Centrale solaire donnent ensemble un bonus de 100%. Une Usine, une Fabrique "
+"et une Centrale solaire donnent ensemble un bonus de 150%.\n"
 "\n"
 "Une ville ne peut avoir qu'une seule Centrale solaire, hydroélectrique, "
 "électrique ou nucléaire."
@@ -18474,7 +18475,7 @@ msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr ""
-"Après la construction d'une bibliothèque, une Université augmente de 100% la "
+"Avec la construction d'une bibliothèque, une Université augmente de 100% la "
 "recherche scientifique d'une ville."
 
 #: data/civ2/buildings.ruleset:970
@@ -18489,7 +18490,7 @@ msgstr ""
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
 msgstr ""
-"Accroît la recherche scientifique de 50% dans la ville ou il à été construit."
+"Accroît la recherche scientifique de 50% dans la ville ou il a été construit."
 
 #: data/civ2/buildings.ruleset:1030 data/civ1/buildings.ruleset:707
 msgid ""
@@ -18505,7 +18506,7 @@ msgstr ""
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
-"Une fois construire, l'attitude de chaque civilisation à votre égard "
+"Une fois construite, l'attitude de chaque civilisation à votre égard "
 "s'améliore de 25%."
 
 #: data/civ2/buildings.ruleset:1114 data/civ1/buildings.ruleset:768
@@ -18852,7 +18853,7 @@ msgstr ""
 "scientifiques.\n"
 "\n"
 "L'Anarchie génère un peu moins de corruption et gaspillage que le "
-"despotisme, mais crée un peu plus de mécontents."
+"despotisme, mais crée un peu plus de mécontentements."
 
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:70
 #: data/civ1/governments.ruleset:72
@@ -19007,7 +19008,7 @@ msgstr "Président"
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:194
 #: data/civ1/governments.ruleset:168
 msgid "?female:President"
-msgstr "?female:President"
+msgstr "?female:Présidente"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -19082,7 +19083,7 @@ msgstr ""
 "équilibre entre un régime de style militaire et un régime orienté vers le "
 "commerce.\n"
 "\n"
-"Sous le Communisme, le gaspillage et la corruption ne varie pas avec "
+"Sous le Communisme, le gaspillage et la corruption ne varient pas avec "
 "l'éloignement de la capitale; toutes les villes (y compris la capitale) ont "
 "un faible taux de corruption."
 
@@ -19876,7 +19877,7 @@ msgstr "Phoques"
 #: data/default/units.ruleset:24 data/civ2/units.ruleset:18
 #: data/civ1/units.ruleset:18
 msgid "green"
-msgstr "bleu"
+msgstr "vert"
 
 #: data/default/units.ruleset:24 data/civ2/units.ruleset:18
 #: data/civ1/units.ruleset:18
@@ -19920,7 +19921,7 @@ msgstr ""
 "nourriture.\n"
 "\n"
 "Les Colons et les Ingénieurs peuvent travailler ensemble pour réduire le "
-"temps requis pour de long projets. Si plusieurs Colons/Ingénieurs "
+"temps requis pour de longs projets. Si plusieurs Colons/Ingénieurs "
 "travaillent en même temps pour la même tâche sur la même case, leurs efforts "
 "seront ajoutés à chaque tour jusqu'à la fin de la tâche. Faîtes toutefois "
 "attention à ne pas faire travailler trop d'unités sur la même tâche; des "
@@ -19947,7 +19948,7 @@ msgstr ""
 "traiter les retombées nucléaires.\n"
 "\n"
 "Les Colons, Travailleurs et Ingénieurs peuvent coopérer pour réduire le "
-"temps requis pour de long projets. Si plusieurs Travailleurs et/ou "
+"temps requis pour de longs projets. Si plusieurs Travailleurs et/ou "
 "Ingénieurs travaillent en même temps pour la même tâche sur la même case, "
 "leurs efforts seront ajoutés à chaque tour jusqu'à la fin de la tâche. "
 "Faîtes toutefois attention à ne pas faire travailler trop d'unités sur la "
@@ -20616,8 +20617,8 @@ msgstr ""
 "avez envahi un pays adverse mais où ses villes sont trop fortes. Avant "
 "d'utiliser un missile nucléaire, préparez un groupe de colons/ingénieurs à "
 "coté de cette ville et préparez-les à traiter les retombées radioactives "
-"lors du même tour que l'attaque nucléaire. Cela réduit le risque d'un "
-"réchauffement mondial. Une attaque nucléaire écologique, en quelque sorte !"
+"lors du même tour que l'attaque nucléaire. Cela réduit le risque d'un hiver "
+"nucléaire. Une attaque nucléaire écologique, en quelque sorte !"
 
 #: data/civ1/units.ruleset:988
 msgid ""
@@ -20649,6 +20650,10 @@ msgid ""
 "to themselves with different names, including Koori, Yamaji, Nunga, and "
 "Murri."
 msgstr ""
+"Les Aborigènes d'Australie est un terme collectif pour désigner les premiers "
+"humains qui peuplèrent le continent Australien. Les Aborigènes des "
+"différentes partie de l'Australie se nomment eux même suivant différents "
+"noms tels que Koori, Yamaji, Nunga, ou encore Murri."
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
@@ -20666,6 +20671,11 @@ msgid ""
 "The Afghanistan nation-state as it is known today came into existence in "
 "1746 when Ahmad Shah founded the Durrani Empire."
 msgstr ""
+"L'Afghanistan, souvent appelé le carrefour de l'Asie centrale, a eu une "
+"histoire très mouvementé. Aux travers des âges, le pays a été plusieurs fois "
+"occupé y compris par l'Empire Perse, par Gengis Khan et par Alexandre le "
+"Grand. L'état-nation d'Afghanistan comme il est connu aujourd'hui commença à "
+"exister en 1746 sous l'Empire Durrani."
 
 #: data/nation/afghani.ruleset:25
 msgid "Emir"
@@ -20721,6 +20731,8 @@ msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
 "the Berber people."
 msgstr ""
+"L'Algérie est un pays Arabe du nord de l'Afrique, qui fut initialement "
+"peuplé par les berbères."
 
 #: data/nation/american.ruleset:3 data/nation/american.ruleset:5
 #: data/nation/argentine.ruleset:6 data/nation/aztec.ruleset:5
@@ -20843,6 +20855,8 @@ msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
 "grandson of Noah."
 msgstr ""
+"D'après la légende, les Areméens sont les descendants d'Aram, le petit fils "
+"de Noah."
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
@@ -20858,6 +20872,9 @@ msgid ""
 "great-great-grandson of Noah. The modern Republic of Armenia gained "
 "independence from Soviet in 1991 AD"
 msgstr ""
+"D'après la légende, les Arméniens sont les descendants d'Haik, l'arrière-"
+"arrière-petit fils de Noah. La république d'Arménie acquise son indépendance "
+"des soviétiques en 1991."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -20871,6 +20888,8 @@ msgstr "?plural:Assyriens"
 msgid ""
 "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
+"L'Assyrie est un ancien empire du nord de la Mésopotamie, nommé d'après ça "
+"capitale."
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malka"
@@ -20899,6 +20918,11 @@ msgid ""
 "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita\" "
 "Peron."
 msgstr ""
+"L'Argentine est un pays de la côte est de l'Amérique du Sud. Depuis son "
+"indépendance en 1816 il a été le théâtre de plusieurs conflits tant internes "
+"que externes. Dans les décennies qui ont suivit la seconde guerre mondiale, "
+"la politique du pays fût dominé par Juan Perón et ça charismatique femme "
+"Eva, \"Evita\" Perón."
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
@@ -20929,6 +20953,8 @@ msgid ""
 "Austria means Eastern Realm, given its position as the far east territory of "
 "the medieval Holy Roman Empire."
 msgstr ""
+"Autriche signifie Empire de l'est, du à ça position à l'est des territoires "
+"du Saint Empire romain germanique."
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
@@ -20939,17 +20965,16 @@ msgid "?plural:Aztecs"
 msgstr "?plural:Aztecs"
 
 #: data/nation/aztec.ruleset:6
-#, fuzzy
 msgid ""
 "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
 "control of the Toltec-derived civilizations of Central Mexico during the "
 "15th century AD, reviving the practice of human sacrifice.  They were "
 "conquered by the Spanish under Cortez in 1524."
 msgstr ""
-"Les Aztèques, un groupe de barbares du désert de Sonoran, ont pris le "
-"contrôle des civilisations du centre du Mexique, descendant des Toltèques, "
-"au cours du XVème siècle ap. J.-C., restaurant la pratique du sacrifice "
-"humain. Ils ont été conquis par les Espagnols avec Cortez en 1524."
+"Les Aztèques, un peuple parlant le Nahuatl du désert de Sonora, ont pris le "
+"contrôle des civilisations toltèques du centre du Mexique au cours du 15ème "
+"siècle après J.-C., restaurant la pratique du sacrifice humain. Ils ont été "
+"conquis par les espagnols de Cortez en 1524."
 
 #: data/nation/aztec.ruleset:21
 msgid "Tlatoani"
@@ -20986,6 +21011,8 @@ msgid ""
 "Since the dawn of civilization, barbarians have been a threat to cultured "
 "peoples everywhere."
 msgstr ""
+"Depuis l'aube des civilisations les barbares ont été une menace pour les "
+"peuples cultivé où qu'ils soit."
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
@@ -21039,6 +21066,11 @@ msgid ""
 "eastern part of the region, while the western part is the Indian state of "
 "West Bengal."
 msgstr ""
+"Le Bengale est la région la plus à l'est du sous continent Indien. Le "
+"premier roi indépendant connu des bengalîs est Shashanka qui a régné vers "
+"606 après J.-C. De nos jour, la république populaire du Bangladesh occupe la "
+"partie est de la région, tandisque la partie ouest fait ce trouve dans "
+"l'état Indien du Bengale occidental."
 
 #: data/nation/bengali.ruleset:26
 msgid "Nabob"
@@ -21071,15 +21103,18 @@ msgstr ""
 msgid "Bosnia & Herzegovina"
 msgstr "Bosnie-Herzégovine"
 
+# ... afin d'éviter toute confusion entre le peuple musulman et la religion musulmane. Aisni les habitants du pays sont désormais officiellement appelés "Bosniens"
 #: data/nation/bosnia.ruleset:5
 msgid "?plural:Bosnians"
-msgstr "?plural:Bosniaques"
+msgstr "?plural:Bosniens"
 
 #: data/nation/bosnia.ruleset:7
 msgid ""
 "Bosnia and Herzegovina is a country in south-east Europe, and the home of "
 "three constituent peoples: Bosniaks, Serbs, and Croats."
 msgstr ""
+"Bosnie-Herzégovine est un pays du sud-est de l'Europe, composé de trois "
+"peuples étant les Bosniaques, les Croates et les Serbes."
 
 #: data/nation/bosnia.ruleset:29
 msgid "Ban"
@@ -21143,6 +21178,10 @@ msgid ""
 "Great Britain - became the leading industrial and maritime power in the 19th "
 "century."
 msgstr ""
+"Le Royaume-Uni a été crée en 1707 après l'Acte d'union passé entre le "
+"royaume d'Angleterre et le royaume d'Écosse. Le pays, aussi connue sous le "
+"nom de Grande-Bretagne, devient la première puissance industrielle et "
+"maritime du 19ème siècle."
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
@@ -21157,6 +21196,9 @@ msgid ""
 "Bulgar leader Khan Asparukh led his people into the northern Balkans, and "
 "founded Bulgaria in 681. This was the first Slavic nation-state in history."
 msgstr ""
+"Le Khan Bulgare Asparukh conduit son peuple au nord des Balkans et y fonda "
+"la Bulgarie en 681 après J.-C. Ce fut le premier état nation Slave de "
+"l'histoire."
 
 #: data/nation/bulgarian.ruleset:33
 msgid "Tzar"
@@ -21196,6 +21238,8 @@ msgid ""
 "The Union of Burma (officially \"Myanmar\") is the largest country in "
 "mainland Southeast Asia."
 msgstr ""
+"L'Union de Birmanie (officiellement Myanmar) est le plus grand pays "
+"continental du sud-est asiatique."
 
 #: data/nation/burmese.ruleset:26
 msgid "Bohmugyi"
@@ -21250,6 +21294,8 @@ msgid ""
 "Canada is the geographically northernmost country in world: The Magnetic "
 "North Pole currently lies on Canadian territory."
 msgstr ""
+"Le Canada est le pays le plus géographiquement au nord; le pôle nord "
+"magnétique s'y trouve."
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
@@ -21395,6 +21441,10 @@ msgid ""
 "Colombia's north coast around 1500. In 1819 the The Republic of Colombia "
 "gained independence."
 msgstr ""
+"La Colombie est un pays situé au nord ouest de l'Amérique du Sud. Cette "
+"région a été un centre culturel amérindienne dans les temps préeuropéens. "
+"Les colonisateurs espagnols arrivèrent dans cette région approximativement "
+"en 1500. En 1819 le République de Colombie gagnait son indépendance."
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:23
 msgid "General"
@@ -21427,6 +21477,11 @@ msgid ""
 "but had to abandon their claims of independence a few years later after "
 "several military defeats by United States troops."
 msgstr ""
+"Les États confédéres d'Amérique est une nation née de la sécession des États "
+"du Sud des États-Unis d'Amérique durant la guerre civile. Il a été formé en "
+"1861 par six états du sud, mais ils ont céssé de réclamer leur indépendance "
+"quelques années plus tard après plusieurs défaites contre les troupes des "
+"États-Unis d'Amérique."
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
@@ -21484,6 +21539,9 @@ msgid ""
 "centuries, the island became one of the leading producers of tobacco, sugar "
 "and coffee in the world. Cuba was granted nominal independence in 1902."
 msgstr ""
+"L'Espagne conquit l'île au cours du 15ème siècle. Durant les siècles qui ont "
+"suivit Cuba est devenue un des premiers producteur de tabac, de sucre et de "
+"café au monde. Elle est officiellement indépendante depuis 1902."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -21626,6 +21684,8 @@ msgid ""
 "Ethiopia is the oldest nation in Africa and the only one to remain "
 "independent during European colonialism."
 msgstr ""
+"L'Ethiopie est la plus ancienne nation Africaine et la seule à être resté "
+"indépendante durant le colonialisme Européen."
 
 #: data/nation/ethiopian.ruleset:24
 msgid "Emporer"
@@ -21695,6 +21755,8 @@ msgstr "?plural:Galiciens"
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
 msgstr ""
+"La Galice est une région située dans le nord-ouest de l'Espagne, juste au-"
+"dessus du Portugal."
 
 #: data/nation/galician.ruleset:22
 msgid "Primeiro Ministro"
@@ -21738,6 +21800,8 @@ msgstr "?plural:Gaulois"
 msgid ""
 "The Gauls were a Celtic people occupying what is now France and Belgium."
 msgstr ""
+"Les Gaulois étais les peuples occupant ce qui est aujourd'hui la France et "
+"la Belgique."
 
 #: data/nation/gallic.ruleset:23
 msgid "Druid"
@@ -21756,6 +21820,8 @@ msgid ""
 "The Georgians were one of the first peoples in history to adopt "
 "Christianity, in the 300s AD."
 msgstr ""
+"Les Géorgiens ont été la premières nation à adopter le christianisme au "
+"15ème siècle après J.-C."
 
 #: data/nation/german.ruleset:3
 msgid "German"
@@ -21814,6 +21880,9 @@ msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
 msgstr ""
+"La République hellénique, aussi connu sous le nom de Grèce, a été créé lors "
+"ce que les hellénes gagnèrent leur indépendance en se libérant de l'Empire "
+"Ottoman."
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
@@ -21830,6 +21899,10 @@ msgid ""
 "controlled central Anatolia, north-western Syria and Mesopotamia down to "
 "Babylon."
 msgstr ""
+"Le royaume Hittite d'aumoins vers 1680 avant J.-C. à vers 1180 avant J.-C. "
+"Ils ont était la première civilisation à découvrir le travail du fer. À leur "
+"apogée ils contrôlaient l'Anatolie centrale, le nord ouest de la Syrie et la "
+"Mésopotamie jusqu'à Babylonne."
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -21842,6 +21915,7 @@ msgstr "?plural:Hongrois"
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
 msgstr ""
+"Selon la légende, la Hongrie aurait été fondée par Árpád au 9ème siècle."
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
@@ -21857,6 +21931,9 @@ msgid ""
 "century. The island was kept initially under the Norwegian and later the "
 "Danish crown until independence from Denmark in 1944."
 msgstr ""
+"L'Islande fut découverte et colonisé par les Vikings Norvégiens à la fin du "
+"9ème siècle. L'Islande était initialement sous la couronne de Novège et plus "
+"tard Danoise avant son indépendance en 1944."
 
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
@@ -21875,6 +21952,12 @@ msgid ""
 "Adriatic Sea.  Illyrian kingdoms were independent for centuries,  until "
 "conquered by the Roman Republic."
 msgstr ""
+"Les Illyriens furent une tribue indo-européenne qui apparut dans la partie "
+"ouest de la péninsule des Balkans avant 1000 avant J.-C., composée des "
+"Dalmates au nord, de l'île de Corfou et la baie d'Ambracie dans L'Epirus "
+"préhistorique, se mêlant aux Thraces dans la Dardanie à l'est, et colonisant "
+"le Messapia au travers de l'Adriatique. Le royaume Illyriens fut indépendant "
+"durant des siècles, jusqu'à ça conquête par la République Romaine."
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
@@ -21919,6 +22002,8 @@ msgid ""
 "The cradle of Ancient Indian civilization lay in the Indus river valley in "
 "modern-day Pakistan."
 msgstr ""
+"Le berceau des anciens indiens ce situe dans la vallée de l'Indus, dans le "
+"Pakistan actuel."
 
 #: data/nation/indian.ruleset:19
 msgid "Raja"
@@ -21946,6 +22031,9 @@ msgid ""
 "government on the island of Java. The country has a Muslim majority and is "
 "one of the most populous in the world."
 msgstr ""
+"L'Indonésie est un grand pays de la péninsule malaise dont le gouvernement "
+"central ce trouve sur l'île de Java. Le pays est majoritairement islamique "
+"et l'un des plus peuplé au monde."
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
@@ -21962,6 +22050,10 @@ msgid ""
 "west coast of Greenland in the 10th century. All Inuit of today are "
 "descendents of the Thule culture."
 msgstr ""
+"Les Inuits, ou Esquimaux, habitent la partie nord du Canada et le Groenland. "
+"La légende dit que le grand chaman Qitdlarssuaq conduit sont peuple à Thulé "
+"(Qaanaaq) sur la cote ouest du Groenland au 10ème siècle. Actuellement, tous "
+"les Inuits sont des descendants de la culture de Thulé."
 
 #: data/nation/inuit.ruleset:23
 msgid "Shaman"
@@ -21985,6 +22077,9 @@ msgid ""
 "encompassing the ancient region of Mesopotamia at the confluence of the "
 "Tigris and Euphrates rivers."
 msgstr ""
+"La République d'Irak a été fondé après le chute de l'Empire Ottoman. Elle "
+"comprend l'ancienne région de la Mésopotamie au confluant des fleuves du "
+"Tigre et de l'Euphrate."
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -22042,6 +22137,13 @@ msgid ""
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
 msgstr ""
+"La Confédération Iroquoise, connu sous le nom de Haudenosaunee dans leur "
+"propre langue, fut un groupe de nations nord américaines avec une langue et "
+"un culture commune. Ils se trouvaient dans ce qui est aujourd'hui le nord de "
+"l'état de New York et consistitués originellement de cinq nations : Seneca, "
+"Cayuga, Onondaga, Oneida and Mohawk. La confédération avait un constitution "
+"écrite et un système monétaire, faisant d'elle l'état le plus avancé "
+"d'Amérique du Nord avant l'arrivée des Européens."
 
 #: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:26
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
@@ -22056,12 +22158,12 @@ msgstr "Grand Chef"
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokesman"
-msgstr ""
+msgstr "Porte-parole"
 
 #: data/nation/iroquois.ruleset:28 data/nation/sami.ruleset:22
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "Porte-parole"
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
@@ -22114,6 +22216,8 @@ msgid ""
 "According to traditional Japanese mythology, Japan was founded in the 7th "
 "century BC by the ancestral Emperor Jimmu."
 msgstr ""
+"D'après la mythologie japonaise, le Japon fut fondé au 7ème siècle avant J.-"
+"C. par l'ancestral Empereur Jimmu."
 
 #: data/nation/japanese.ruleset:37 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
@@ -22137,6 +22241,9 @@ msgid ""
 "Kampuchea is the modern successor state of the mighty Khmer Empire, which "
 "ruled most of the Indochinese Peninsula between the 11th and 14th centuries."
 msgstr ""
+"Le Cambodge est l'état moderne successeur de l'Empire Khmer qui à gouverné "
+"la plus grande partie de la péninsule indochinoise entre le 11ème et le "
+"14ème siècle."
 
 #: data/nation/kampuchean.ruleset:20 data/nation/manchu.ruleset:20
 msgid "Warlord"
@@ -22160,7 +22267,7 @@ msgstr "?plural:Kenyans"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr ""
+msgstr "Le Kenya acquît son indépendance des Britanniques en décembre 1963."
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -22178,18 +22285,21 @@ msgid ""
 "North and South Korea as a result of the stalemate after the Korean war in "
 "1953."
 msgstr ""
+"D'après la légende le premièr royaume Coréen fut fondé durant la préhistoire "
+"par l'ancestral Tangun dans le sud de le Manchourie. Le royaume Coréen fut "
+"unit en 668 par le roi Munmu. Actuellement la péninsule Coréenne est divisé "
+"en deux états, la Corée du Nord et du Sud résultat d'une impasse après la "
+"guerre de Corée en 1953."
 
 #: data/nation/korean.ruleset:32 data/nation/soviet.ruleset:27
 msgid "Great Leader"
 msgstr "Chef suprême"
 
 #: data/nation/lankese.ruleset:3
-#, fuzzy
 msgid "Lankese"
 msgstr "Sri Lankai"
 
 #: data/nation/lankese.ruleset:4
-#, fuzzy
 msgid "?plural:Lankese"
 msgstr "?plural:Sri Lankais"
 
@@ -22199,6 +22309,9 @@ msgid ""
 "the 6th century BC and founded the Sinhalese kingdom there. During British "
 "colonialism the country was known as Ceylon."
 msgstr ""
+"Le prince Vijaya vint au Sri Lanka depuis Orissa, au nord de l'Inde, au 6ème "
+"siècle avant J.-C. et y fonda le royaume du Cingalais. Durant la "
+"colonisation britannique le pays fut connut sous le nom de Ceylan."
 
 #: data/nation/lankese.ruleset:21 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
@@ -22233,6 +22346,10 @@ msgid ""
 "1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
 "of Soviet Union in 1991 Latvia restored its independence."
 msgstr ""
+"À la suite de la première guerre mondiale, la Lettonie proclama son "
+"indépendance de la Russie. En 1940 la Lettonie fut occupée par les forces "
+"soviétiques. Suite à l'éclatement de l'Union soviétique en 1991, la Lettonie "
+"rétablit son indépendance."
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
@@ -22249,6 +22366,11 @@ msgid ""
 "of Italy and after the Second World War Libya was granted independence as a "
 "condition of the Allied peace treaty with Italy."
 msgstr ""
+"La région actuelle de la Libye fut une colonie Romaine jusqu'à ce que celle "
+"ci fut conquise par la civilisation Arabe au 7ème siècle. En 1912 elle passe "
+"sous le contrôle de l'Italie et après la seconde guerre mondiale la Libye "
+"acquit sont indépendance comme condition au traité de paix entre les Alliées "
+"et l'Italie."
 
 #: data/nation/libyan.ruleset:24
 msgid "Dey"
@@ -22297,6 +22419,9 @@ msgid ""
 "The Malagasy are the people of Madagascar. For centuries, tribes from "
 "Indonesia, East Africa and the Arab world have gathered on the island."
 msgstr ""
+"Les Malgaches sont un peuple de Madagascar. Pendant des siècles ils furent "
+"des tributs de l'Indonésie, de l'est africain et du monde Arabe, qui ce sont "
+"rassemblé sur l'île."
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
@@ -22315,6 +22440,8 @@ msgid ""
 "Malaysia was started with the founding of Malacca (Melaka) by Parameswara in "
 "the early 14th century."
 msgstr ""
+"La Malaisie débuta par la fondation de Malaka (Malacca) par Parameswara au "
+"début du 14ème siècle."
 
 #: data/nation/malaysian.ruleset:24 data/nation/singaporean.ruleset:38
 #: data/nation/turk.ruleset:24
@@ -22346,6 +22473,12 @@ msgid ""
 "14th to the 17th century and was famed for it's wealth and benevolent kings. "
 "The modern Republic of Mali derives its name from this empire."
 msgstr ""
+"Les Sub-shahariens furent un mélange culturel et ethnique durant des "
+"millinaires. À l'époque médiévale, la région fut le berceau d'une succession "
+"d'empires appelés royaumes sahariens. Parmis eux, l'Empire islamique du "
+"Mali, avec pour capitale Tombouctou, fut le plus influent. Cet empire régnât "
+"du 14ème au 17ème siècle et fut célèbre pour la richesse et la bienveillance "
+"de ces rois. La république actuelle du Mali tire son nom de cet empire."
 
 #: data/nation/malian.ruleset:27
 msgid "Mansa"
@@ -22365,6 +22498,9 @@ msgid ""
 "Manchuria in Northeast Asia. In the 17th century they conquered and ruled "
 "China as the Manchu Empire until 1911."
 msgstr ""
+"Les Mandchous furent un peuple semi-nomade originaire d'une région appelé la "
+"Mandchourie du nord-est de l'asie. Au 17ème siècle ils conquirent et "
+"gouvernaire la Chine comme l'Emprie Mandchou, jusqu'en 1911."
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
@@ -22380,6 +22516,9 @@ msgid ""
 "group that is now New Zealand. According to archeological evidence, the "
 "migration commenced in the 900s and continued until the 1400s."
 msgstr ""
+"Les Maori sont un peuple polynésien qui a migré et colonisé le groupe d'îles "
+"qui est aujourd'hui la Nouvelle-Zélande. D'après des preuves archéologiques, "
+"la migration commença vers 900 et continua jusqu'en 1400."
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -22391,7 +22530,7 @@ msgstr "?plural:Martiens"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr ""
+msgstr "Les Martiens ont atterri en 4000 avant J.-C. !"
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
@@ -22406,6 +22545,8 @@ msgid ""
 "The Mayans were a Mesoamerican civilization. Famous for building great "
 "pyramids and palaces in the jungle."
 msgstr ""
+"Les Mayas furent une civilisation mésoaméricaine. Célèbre pour leurs grandes "
+"pyramides et leurs palais dans la jungle."
 
 #: data/nation/mayan.ruleset:19
 msgid "Ajaw"
@@ -22422,7 +22563,7 @@ msgstr "?plural:Mexicains"
 #: data/nation/mexican.ruleset:6
 msgid ""
 "Mexico borrows its name from the Mexica people, another name for the Aztecs."
-msgstr ""
+msgstr "Mexico tire sont nom du peuple Mexica, un autre nom des Aztèques."
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
@@ -22454,7 +22595,7 @@ msgstr "Khagan"
 
 #: data/nation/newzealand.ruleset:4
 msgid "New Zealand"
-msgstr "Nouvelle Zélande"
+msgstr "Nouvelle-Zélande"
 
 #: data/nation/newzealand.ruleset:5
 msgid "?plural:New Zealanders"
@@ -22466,6 +22607,9 @@ msgid ""
 "royal proclamation in 1907, the country became an independent dominion "
 "within the Commonwealth of Nations."
 msgstr ""
+"Le groupe d'îles de la Nouvelle-Zélande fut annexé par les britanniques en "
+"1840. Suivit en 1907 d'une proclamation royale (de la part du Royaume-Uni), "
+"qui fait du pays un dominion indépendant à l'intérieur du Commonwealth."
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
@@ -22477,7 +22621,7 @@ msgstr "?plural:Nigériens"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
-msgstr ""
+msgstr "Le Nigéria acquit ça totale indépendance des Britanniques en 1960."
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
@@ -22493,6 +22637,9 @@ msgid ""
 "in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
 "independence after a union with Sweden."
 msgstr ""
+"Après des siècles de domination Danoise, les Norvégiens se dotairent de leur "
+"propre constitution à Eidsvoll en 1814. Finalement, en 1905 les Norvégiens "
+"acquirent leur indépendance après une union avec les Suédois."
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -22512,6 +22659,13 @@ msgid ""
 "Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
 msgstr ""
+"Au début du 14ème siècle Osman, chef d'une tribue turque mineure de l'ouest "
+"de l'Anatolie, conquerra toutes ces tributs voisines. Un siècle plus tard la "
+"capitale Byzantine tomba aux profit des turcs, ce qui donna à l'Empire "
+"Ottoman un accès à l'Europe. Ils conquirent successivement de grandes "
+"parties de l'est de l'Europe, le monde islamico-arabe ainsi que l'Égypte et "
+"encore plus loin au nord de l'Afrique, faisant d'elle une super puissance "
+"jusqu'à ça dissolution après la première guerre mondiale."
 
 #: data/nation/ottoman.ruleset:26 data/nation/tunisian.ruleset:29
 msgid "Bey"
@@ -22539,7 +22693,7 @@ msgstr "?plural:Papous"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
-msgstr ""
+msgstr "Les Papous sont un peuple malaisien de l'île de la Nouvelle-Guinée."
 
 #: data/nation/papuan.ruleset:19
 msgid "Governor-General"
@@ -22586,10 +22740,12 @@ msgid ""
 "Phoenicia was an ancient civilization, based in what is now the coastal "
 "regions of Lebanon and Syria."
 msgstr ""
+"Les Phéniciens furent une ancienne civilisation des régions cotières de ce "
+"qui est aujourd'hui le Liban et la Syrie."
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Polonai"
+msgstr "Polonais"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
@@ -22600,6 +22756,8 @@ msgid ""
 "The Polish state was formed about a millennium ago, and reached its Golden "
 "Age near the end of the 16th century."
 msgstr ""
+"L'état Polonais fut formé il y a environ un millinaire, et eut son apogée "
+"aux alentours du 16ème siècle."
 
 #: data/nation/polish.ruleset:26
 msgid "Dyktator"
@@ -22647,6 +22805,8 @@ msgid ""
 "Quebec is the largest province of Canada, housing the majority of the "
 "Francophone population of America."
 msgstr ""
+"Le Quebec est la plus grande province du Canada, hébergeant la majorité de "
+"la population francophone des Amériques."
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
@@ -22664,6 +22824,11 @@ msgid ""
 "Rome. It's history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
 msgstr ""
+"La Roumanie en tant que nation fut formé au début du 20ème siècle, quand les "
+"états de Transylvaine, de Valachie et de Moldavie se réunisairent. Cet un "
+"pays habité par un peuple parlant une langue qui rappelle la Rome ancienne. "
+"Son histoire est compliqué du fait qu'elle fut toujours frontalière avec de "
+"grands empires : Romain, Ottoman, Austro-Hongrois et Ruse."
 
 #: data/nation/romanian.ruleset:34
 msgid "Voievod"
@@ -22707,7 +22872,7 @@ msgid ""
 "controlled nearly all of Europe, northern Africa and Mesopotamia."
 msgstr ""
 "Selon la légende, Rome fut fondée par Romulus en 753 av. J.-C. A son apogée, "
-"Rome contrôlait la quasi totalité de l'Europe, l'Afriqe du nord et la "
+"Rome contrôlait la quasi totalité de l'Europe, l'Afrique du nord et la "
 "Mésopotamie."
 
 #: data/nation/russian.ruleset:3
@@ -22765,6 +22930,8 @@ msgid ""
 "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
+"Le royaume Ryakya (1372-1879) fut un pays de fiefs. Une nation de pacifique "
+"navigateurs marchands finalement envahi, occupé et annexé par le Japon."
 
 #: data/nation/ryukyuan.ruleset:21
 msgid "Koku-o"
@@ -22788,6 +22955,9 @@ msgid ""
 "over the northernmost regions of the Scandinavian countries: Finnmark of "
 "Norway and Lapland of Sweden and Finland."
 msgstr ""
+"Les saami, ou lapons, sont un peuple du nord de la scandinavie. Leur nation "
+"s'étend sur les régions de l'extrême nord des pays de la scandinavie : le "
+"Comté de Finnmark de la Norvège, la Laponie de Suède et la Finlande."
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
@@ -22889,6 +23059,9 @@ msgid ""
 "against the United States. It consisted of three distinct groups of tribes: "
 "the Lakota, the Dakota and the Nakota."
 msgstr ""
+"Les Sioux furent une nation nord américaine qui a participé à plusieurs "
+"batailles décisives contre les États-Unis. Elle était composé de trois "
+"tributs distinctes : les Lakotas, les Dakotas et les Nakotas."
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -22953,6 +23126,14 @@ msgid ""
 "prisoner Nelson Mandela was elected the first truly democratically elected "
 "president of South Africa."
 msgstr ""
+"Des colons néerlandais ont commencé à coloniser l'Afrique du sud au 17ème "
+"siècle. Après plusieurs guerres entre les primos Boers (descendants des "
+"néerlandais), les forces britanniques et le Zoulous, l'Union-sud-affircaine "
+"fut crée en 1910. Le gouvernement Sud Africain devint célèbre pour ça "
+"politique d'apartheid, inégalité légale basée sur la couleur de la peau de "
+"ces citoyens. En 1994 le pays adopte ça première constitution non raciale, "
+"le prisonnier politique de longue date Nelson Mandela est élu, pour la "
+"première fois véritablement démocratiquement, présidant d'Afrique du Sud."
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
@@ -22970,6 +23151,12 @@ msgid ""
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
 msgstr ""
+"L'histoire de l'Union Soviétique commence en novembre 1917, lors que sous la "
+"direction de Lénine une révolution bolchevique éclata. Le 31 décembre 1922, "
+"quatre républiques soviétiques furent intégrées au pays. L'Union Soviétique "
+"devient l'un des pays les plus puisant du 20ème siècle; mais finalement en "
+"1991, à cause de problèmes sociaux, elle se désintègre en quinze pays "
+"indépendants."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -23004,12 +23191,10 @@ msgid "Cardinal"
 msgstr "Cardinal"
 
 #: data/nation/sudanese.ruleset:3
-#, fuzzy
 msgid "Sudanese"
 msgstr "Soudanai"
 
 #: data/nation/sudanese.ruleset:4
-#, fuzzy
 msgid "?plural:Sudanese"
 msgstr "?plural:Soudanais"
 
@@ -23018,6 +23203,8 @@ msgid ""
 "In 1820 Sudan came under Egyptian rule and later British rule. Sudan became "
 "independent in 1956."
 msgstr ""
+"En 1820 le Soudan passe sous la domination égyptienne et plus tard "
+"britannique. Le Soudan devient indépendant en 1956."
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
@@ -23033,6 +23220,9 @@ msgid ""
 "of Sumerian writing some 5500 years old have been found, pre-dating every "
 "other writing in history."
 msgstr ""
+"Les Sumériens contrôlaient le sud de la Mésopotamie avant l'arrivée des "
+"Babyloniens. Des tablettes d'écriture sumérienne datant d'il y a quelques "
+"5500 ans ont été trouvé, précédant toutes les autres écritures de l'histoire."
 
 #: data/nation/sumerian.ruleset:22
 msgid "Ensi"
@@ -23052,6 +23242,9 @@ msgid ""
 "Mswati II (1820 - 1868), the Swazis expanded their territory and stabilized "
 "the southern frontier with the Zulus."
 msgstr ""
+"Les Swazi sont un peuple Bantous du sud de l'Afrique. Sous le commandement "
+"de Mswati II (1820-1868), les Swazi agrandirent leur territoire et "
+"stabilisairent leur frontière avec les Zoulous."
 
 #: data/nation/swazi.ruleset:24
 msgid "Ngwenyama"
@@ -23079,6 +23272,13 @@ msgid ""
 "its gained territory. The country has not been involved in an armed conflict "
 "since 1814."
 msgstr ""
+"Le royaume de Suède fut christianisé et consolidé comme entité politique au "
+"12ème siècle. Le pays connut son apogée comme grande puissance européenne au "
+"17ème siècle, suivit par de substantielles conquêtes militaires par les sus "
+"nommés Rois Guerriers. Cependant, à cause d'une mauvaise économie, et de "
+"plusieurs désastreuses défaites contre la Russie, la Suède perdit rapidement "
+"la plus part des territoires gagnés. Le pays ne c'est plus impliqué dans un "
+"conflit militaire depuis 1814."
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
@@ -23093,6 +23293,8 @@ msgid ""
 "Switzerland is a federation of cantons, some of which have more than 700 "
 "years of history as a confederacy."
 msgstr ""
+"La Suisse est un fédération de cantons, certains d'entre eux ont plus de 700 "
+"ans d'histoire en tant confédération."
 
 #: data/nation/swiss.ruleset:24
 msgid "Bailiff"
@@ -23136,6 +23338,9 @@ msgid ""
 "communists, the nationalist government evacuated to the island of Taiwan "
 "where they formed the Republic of China."
 msgstr ""
+"Lors que les nationalistes chinois perdirent la lutte armée contre les "
+"communistes chinois, le gouvernement nationaliste évacua sur l'île de Taiwan "
+"où il forma la République de Chine."
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -23150,6 +23355,8 @@ msgid ""
 "Texas is second largest and second most populous state of the USA, famous "
 "for it's \"larger than life\" cowboy mentality."
 msgstr ""
+"Le Texas est le second plus grand et plus peuplé état des États-Unis "
+"d'Amérique, célèbre pour ça mentalité de cowboy."
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
@@ -23186,6 +23393,14 @@ msgid ""
 "established a buddhist religious state under the control of the Gelugpa "
 "school of Tibetan Buddhism."
 msgstr ""
+"La terre d'origine des tibétains parfois appelé \"toit du monde\" est la "
+"région la plus en altitude du monde. Au 7ème siècle, le Tibet apparut comme "
+"un formidable empire sous le règne du roi Songtsen Gampo, à la fois reconnut "
+"par la Chine et l'Inde. Cette dynastie prit fin au 11ème siècle lors que le "
+"Tibet fut envahit par les Mongols. Des siècles plus tard, lorsque l'emprise "
+"mongole tomba, le 5ème Dalai Lama, Lozang Gyatso qui naquit en 1617, établit "
+"un état de religion bouddhiste sous le contrôle de l'école Gelugpa de "
+"bouddhisme tibétain."
 
 #: data/nation/tibetan.ruleset:27
 msgid "Lama"
@@ -23214,6 +23429,15 @@ msgid ""
 "1861. But in 1881 Tunisia was invaded by the French and was made a French "
 "protectorate. The country became independent in 1956."
 msgstr ""
+"Les Phéniciens fondairent Carthage dans ce qui est aujourd'hui la Tunisie. "
+"Carthage devint plus tard une puissance maritime majeure de la région "
+"méditerranéenne avant d'être défaite par les romains en 146 avant J.-C. Plus "
+"tard, les conquetes arabo-musulmannes du 7ème siècle conduisirent à une "
+"migration depuis les pays arabes et ottomans. Mais il y eut aussi un nombre "
+"important de juifs et de maures espagnols qui sont venu là à la fin du 16ème "
+"siècle. La Tunisie devint quasiment autonome de l'Empire Ottoman en 1861. "
+"Mais en 1881 elle fut envahie par les français et devins un protectorat "
+"français. Le pays acquit sont indépendance en 1956."
 
 #: data/nation/turk.ruleset:3
 msgid "Turk"
@@ -23272,6 +23496,13 @@ msgid ""
 "Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
 "main minority of the Xinjiang province of China."
 msgstr ""
+"Les Ouïghours furent une tribut de l'est de l'Empire et la civilisation "
+"Truque. À son apogée en 820 après J.-C. ils contrôlaient globalement le "
+"centre et le nord de l'Asie. Après des siècles de conflit avec les chinois "
+"ils sont finalement vaincu par la dynastie Qing au 17ème siècle. De nos "
+"jours, les descendants des Ouïghours ce trouvent dans les états d'Asie "
+"centrale, Ouzbékistan, Kazakhstan, Kirghizistan. Ils sont aussi la "
+"principale minorité de la province chinoise du Xinjiang."
 
 #: data/nation/venezuelan.ruleset:4
 msgid "Venezuela"
@@ -23291,6 +23522,9 @@ msgid ""
 "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
 "Liberator."
 msgstr ""
+"Le Venezuela est le pays les plus au nord de l'Amérique du sud. Il fut une "
+"colonie espagnole à partir du 16ème siècle, le pays acquit son indépendance "
+"le 5 juillet 1811 mené par El Libertador Simón Bolívar."
 
 #: data/nation/venezuelan.ruleset:33
 msgid "Terrateniente"
@@ -23349,14 +23583,12 @@ msgstr ""
 "de l'ouest par les Saxons."
 
 #: data/nation/westphalian.ruleset:3
-#, fuzzy
 msgid "Westphalian"
 msgstr "Westphalien"
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "?plural:Westphalies"
+msgstr "?plural:Westphaliens"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -23364,6 +23596,9 @@ msgid ""
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
+"La Westphalie, avant de devenir une province Prusse, fut la région la plus à "
+"l'ouest du duché de Saxe. De nos jours elle constitue la partie nord du plus "
+"grand état fédéral de l'Allemagne : Rhénanie-du-Nord-Westphalie."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
@@ -23385,11 +23620,11 @@ msgstr ""
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr "Îles Britaniques (classique, moyen)"
+msgstr "Îles Britanniques (classique, moyen)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
-msgstr "Carte des Îles Britaniques de 85x80, classique."
+msgstr "Carte des Îles Britanniques de 85x80, classique."
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
@@ -23417,7 +23652,7 @@ msgstr "Scénario de la terre 160x60, classique."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
-msgstr "Peninsule Ibérique (classqie, grand)"
+msgstr "Péninsule Ibérique (classique, grand)"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
 msgid ""
