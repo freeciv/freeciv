@@ -747,7 +747,7 @@ void main_show_info_popup(XEvent *event)
 
     XtVaGetValues(p, XtNwidth, &w, XtNheight, &h,  NULL);
     XtTranslateCoords(info_command, ev->x, ev->y, &x, &y);
-    XtVaSetValues(p, XtNx, x - w / 2, XtNy, y - h / 2, NULL);
+    XtVaSetValues(p, XtNx, MAX(0, x - w / 2), XtNy, MAX(0, y - h / 2), NULL);
     XtPopupSpringLoaded(p);
   }
 }
