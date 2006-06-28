@@ -53,8 +53,8 @@ flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",        _("Speaker"),      _("Speaker")
-                 "Fundamentalism",  _("Reverend"),     _("Reverend")
+                 "Republic",        _("Speaker"),      _("?female:Speaker")
+                 "Fundamentalism",  _("Reverend"),     _("?female:Reverend")
                }
 
 init_techs=""

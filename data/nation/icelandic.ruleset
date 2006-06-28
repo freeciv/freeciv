@@ -22,10 +22,6 @@ flag="iceland"
 flag_alt = "norway"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",       "female_title"
-       "Democracy",   _("President"),      _("President")
-               }
-
 init_techs=""
 init_buildings=""
 init_government="Despotism"

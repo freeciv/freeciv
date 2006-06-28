@@ -19,10 +19,12 @@ flag_alt = "-"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",          "female_title"
-                 "Democracy",       _("Primer Ministre"),  _("Primera Ministre")
+                 "Democracy",    _("Primer Ministre"),  _("Primera Ministre")
                  "Despotism",       _("Dictador"),         _("Dictadora")
+		 ; /* TRANS: Rei/Reina = King/Queen */
                  "Monarchy",        _("Rei"),              _("Reina")
-                 "Republic",        _("President"),        _("President")
+                 "Republic",        _("President"),    _("?female:President")
+		 ; /* TRANS: Arquebisbe = Archbishop */
                  "Fundamentalism",  _("Arquebisbe"),       _("Gran Bruixa")
                }
 

@@ -16,7 +16,7 @@ flag_alt = "-"
 city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",  _("Governor-General"),   _("Governor-General")
+               "Republic",_("Governor-General"),_("?female:Governor-General")
                }
 
 init_techs=""

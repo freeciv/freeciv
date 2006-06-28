@@ -38,7 +38,6 @@ city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Dictator"),     _("Dictatrix")
                  "Monarchy",        _("Imperator"),    _("Imperatrix")
-                 "Anarchy",         _("Usurper"),      _("Usurper")
 }
 
 init_techs=""

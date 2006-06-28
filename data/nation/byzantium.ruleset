@@ -22,9 +22,10 @@ flag_alt = "greek"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Imperator"), _("Imperatrix")
-		 "Fundamentalism",  _("Patriarch"), _("Patriarch")
-                 "Monarchy",        _("Basileus"),  _("Basileus")
+                 "Despotism",       _("Imperator"),   _("Imperatrix")
+		 "Fundamentalism",  _("Patriarch"),   _("Matriarch")
+		 ; /* TRANS: Basileus = Monarch */
+                 "Monarchy",        _("Basileus"),    _("?female:Basileus")
                }
 
 init_techs=""

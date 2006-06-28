@@ -15,7 +15,7 @@ flag="ukraine"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",         "female_title"
-                 "Despotism",     _("Hetman"),          _("Hetman")
+                 "Despotism",       _("Hetman"),          _("?female:Hetman")
                }
 
 init_techs=""

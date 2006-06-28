@@ -22,7 +22,7 @@ flag="england"
 flag_alt = "united_kingdom"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                  "Fundamentalism",  _("Lord Protector"), _("Lady Protector")
                }
 

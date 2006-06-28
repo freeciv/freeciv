@@ -34,7 +34,7 @@ flag="denmark"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+                 "Democracy", _("Prime Minister"),_("?female:Prime Minister")
                }
 
 init_techs=""

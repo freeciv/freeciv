@@ -17,8 +17,7 @@ flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = { "government",	"male_title",	"female_title"
-		 "Monarchy",	_("Governor"),	_("Governor")
-		 "Democracy",	_("President"), _("President")
+		 "Monarchy",	_("Governor"),	_("?female:Governor")
 	       } 
 
 init_techs=""

@@ -21,7 +21,7 @@ flag_alt = "italy"
 city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",       "female_title"
-                 "Monarchy",       _("Emporer"),    _("Emporer")
+                 "Monarchy",       _("Emperor"),        _("Empress")
                }
 
 init_techs=""

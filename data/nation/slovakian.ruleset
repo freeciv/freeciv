@@ -23,11 +23,11 @@ flag_alt = "-" ; former CzechoSlovakia has the same flag as Czech
                ; - the blue triangle in it means Slovakia
 city_style = "European"
 ruler_titles = { "government",      "male_title",        "female_title"
-                  "Despotism",      _("Leader"),         _("Leader")
-                  "Republic",       _("President"),      _("President")
-                  "Democracy",      _("Prime Minister"), _("Prime Minister")
+                  "Despotism",      _("Leader"),         _("?female:Leader")
+                  "Republic",       _("President"),    _("?female:President")
+                  "Democracy",_("Prime Minister"),_("?female:Prime Minister")
                   "Fundamentalism", _("Pope"),           _("Priestess")
-                  "Communism", _("General Secretary"), _("General Secretary")
+          "Communism", _("General Secretary"), _("?female:General Secretary")
                 }
 
 init_techs=""

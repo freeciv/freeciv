@@ -20,14 +20,12 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",	"male_title",	"female_title"
-		 "Anarchy",     _("General"),   _("General")
-		 "Despotism",   _("Bailiff"),   _("Bailiff")
-		 "Monarchy",   _("Elected King"),_("Elected Queen")
-		 "Fundamentalism", _("Elected Priest"),_("Elected Priestess")
+		 "Anarchy",     _("General"),   _("?female:General")
+		 "Despotism",   _("Bailiff"),   _("?female:Bailiff")
 		 "Republic",    _("President of the Confederation"),
 				_("President of the Confederation")
-		"Democracy", _("Federal Chancellor"), _("Federal Chancellor")
-	       } 
+	"Democracy", _("Federal Chancellor"), _("?female:Federal Chancellor")
+	       }
 
 init_techs=""
 init_buildings=""

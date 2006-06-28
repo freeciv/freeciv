@@ -17,7 +17,7 @@ flag_alt = "-"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Caliph"),       _("Caliph")
+                 "Monarchy",        _("Caliph"),       _("?female:Caliph")
                }
 
 init_techs=""

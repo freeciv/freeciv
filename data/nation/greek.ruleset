@@ -16,8 +16,8 @@ flag="greece_ancient"
 flag_alt = "greece"
 city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Despot"),       _("Despot")
-                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+                 "Despotism",       _("Despot"),       _("?female:Despot")
+                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                }
 
 init_techs=""

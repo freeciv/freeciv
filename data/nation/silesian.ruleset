@@ -19,7 +19,7 @@ city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Prince"),         _("Princess")
-                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                }
 init_techs=""
 init_buildings=""

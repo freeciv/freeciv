@@ -23,8 +23,8 @@ flag_alt = "egypt"
 city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Pharaoh"),       _("Pharaoh")
-                 "Monarchy",        _("Great Pharaoh"), _("Great Pharaoh")
+                 "Despotism",       _("Pharaoh"),       _("?female:Pharaoh")
+                 "Monarchy",   _("Great Pharaoh"), _("?female:Great Pharaoh")
                }
 
 init_techs=""

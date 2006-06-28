@@ -26,8 +26,9 @@ flag="mongolia"
 flag_alt = "-"
 city_style = "Asian"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Khan"),         _("Khan")
-                 "Monarchy",        _("Khagan"),       _("Khagan")
+                 "Despotism",       _("Khan"),         _("?female:Khan")
+		 ; /* TRANS: Khagan = Great Khan */
+                 "Monarchy",        _("Khagan"),       _("?female:Khagan")
                }
 
 init_techs=""

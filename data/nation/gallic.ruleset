@@ -19,8 +19,8 @@ flag_alt = "france_old"
 city_style = "Celtic"
 
 ruler_titles = { "government",     "male_title",    "female_title"
-		 "Despotism",	   _("Chieftain"),  _("Chieftain")
-		 "Fundamentalism", _("Druid"),      _("Druid")
+		 "Despotism",	   _("Chieftain"),  _("?female:Chieftain")
+		 "Fundamentalism", _("Druid"),      _("?female:Druid")
 	       } 
 
 init_techs=""

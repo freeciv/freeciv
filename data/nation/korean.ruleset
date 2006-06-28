@@ -29,7 +29,7 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Communism",       _("Great Leader"),   _("Great Leader")
+                 "Communism",    _("Great Leader"), _("?female:Great Leader")
                }
 
 init_techs=""

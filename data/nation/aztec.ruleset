@@ -18,8 +18,10 @@ flag_alt = "mexico"	; Used previously
 city_style = "Tropical"
 
 ruler_titles = { "government",	"male_title",	"female_title"
-		 "Despotism",	_("Tlatoani"),  _("Tlatoani")
-		 "Monarchy",	_("Huey Tlatoani"), _("Huey Tlatoani")
+		 ; /* TRANS: Tlatoani = Speaker */
+		 "Despotism", _("Tlatoani"),    _("?female:Tlatoani")
+		 ; /* TRANS: Huey Tlatoani = Great Speaker */
+		 "Monarchy", _("Huey Tlatoani"), _("?female:Huey Tlatoani")
 	       } 
 
 init_techs=""

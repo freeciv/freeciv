@@ -34,11 +34,12 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",	"male_title",		"female_title"
-		 "Despotism",	_("Ah"),		_("Ah")
-		 "Monarchy",	_("Sultan"),		_("Sultan")
-		 "Communism",	_("Encik"),		_("Encik")
-		 "Republic",	_("President"),		_("President")
-		 "Democracy",	_("Prime Minister"),	_("Prime Minister")
+		 "Despotism",	_("Ah"),		_("?female:Ah")
+		 "Monarchy",	_("Sultan"),		_("Sultana")
+		 ; /* TRANS: Encik = Sir */
+		 "Communism",	_("Encik"),		_("?female:Encik")
+		 "Republic",	_("President"),	       _("?female:President")
+		 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
 }
 
 init_techs=""

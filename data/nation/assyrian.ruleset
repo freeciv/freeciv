@@ -19,7 +19,6 @@ city_style = "Babylonian"
 
 ruler_titles = { "government",	"male_title",	"female_title"
 		 "Monarchy",	_("Malka"),	_("Malikta")
-		 "Democracy",	_("President"), _("President")
 	       } 
 
 init_techs=""

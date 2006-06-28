@@ -22,9 +22,9 @@ flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chieftain"),    _("Chieftain")
-                 "Democracy",       _("Premier"),      _("Premier")
-                 "Fundamentalism",  _("Archbishop"),   _("Archbishop")
+                 "Despotism",       _("Chieftain"),    _("?female:Chieftain")
+                 "Democracy",       _("Premier"),      _("?female:Premier")
+                 "Fundamentalism",  _("Archbishop"),  _("?female:Archbishop")
                }
 
 init_techs=""

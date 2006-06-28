@@ -52,10 +52,11 @@ flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chieftain"),    _("Chieftain")
+                 "Despotism",       _("Chieftain"),    _("?female:Chieftain")
                  "Monarchy",        _("High King"),    _("High Queen")
                  "Fundamentalism",  _("Archbishop"),   _("Mother Superior")
-                 "Democracy",       _("Taoiseach"),    _("Taoiseach")
+		 ; /* TRANS: Taoiseach = Prime Minister */
+                 "Democracy",       _("Taoiseach"),    _("?female:Taoiseach")
                }
 
 init_techs=""

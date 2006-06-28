@@ -23,10 +23,10 @@ flag_alt = "turkey"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Bey"),          _("Bey")
-                 "Monarchy",        _("Hakan"),        _("Hakan")
-		 "Republic",	    _("Padisah"),      _("Padisah")
-		 "Democracy",	    _("Imparator"),    _("Imparator")
+                 "Despotism",       _("Bey"),          _("?female:Bey")
+                 "Monarchy",        _("Hakan"),        _("?female:Hakan")
+		 "Republic",	    _("Padisah"),      _("?female:Padisah")
+		 "Democracy",	    _("Imparator"),    _("?female:Imparator")
                }
 
 init_techs=""

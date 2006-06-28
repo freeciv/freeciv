@@ -23,8 +23,8 @@ flag_alt = "-"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Chief"),        _("Chief")
-                 "Monarchy",        _("Mansa"),        _("Mansa")
+                 "Despotism",       _("Chief"),        _("?female:Chief")
+                 "Monarchy",        _("Mansa"),        _("?female:Mansa")
                }
 
 init_techs=""

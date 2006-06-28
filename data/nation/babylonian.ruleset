@@ -19,7 +19,8 @@ flag_alt = "iraq_old"
 city_style = "Babylonian"
 
 ruler_titles = { "government",	"male_title",	"female_title"
-		 "Despotism",	_("Lugal"),	 _("Lugal")
+		 ; /* TRANS: Lugal = Great Man */
+		 "Despotism",	_("Lugal"),	 _("?female:Lugal")
 	       } 
 
 init_techs=""

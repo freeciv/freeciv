@@ -30,10 +30,10 @@ flag         = "germany"
 flag_alt     = "-"
 city_style   = "European"
 ruler_titles = { "government",      "male_title",       "female_title"
-                 "Republic",       _("President"),       _("President") 
-                 "Democracy",      _("Chancellor"),      _("Chancellor")
-                 "Fundamentalism", _("Archbishop"),      _("Archbishop")
-                 "Communism",      _("First Secretary"), _("First Secretary")
+                 "Republic",       _("President"),     _("?female:President") 
+                 "Democracy",      _("Chancellor"),   _("?female:Chancellor")
+                 "Fundamentalism", _("Archbishop"),   _("?female:Archbishop")
+                "Communism",_("First Secretary"),_("?female:First Secretary")
                }
 
 init_techs = ""

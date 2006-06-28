@@ -16,8 +16,8 @@ flag="texas"
 flag_alt = "usa"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",        _("Governor"),      _("Governor")
-                 "Fundamentalism",  _("Reverend"),      _("Reverend")
+                 "Republic",        _("Governor"),      _("?female:Governor")
+                 "Fundamentalism",  _("Reverend"),      _("?female:Reverend")
                }
 
 init_techs=""

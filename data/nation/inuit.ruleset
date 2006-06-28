@@ -20,8 +20,8 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Shaman"),        _("Shaman")
-                 "Monarchy",        _("Great Shaman"),  _("Great Shaman")
+                 "Despotism",       _("Shaman"),        _("?female:Shaman")
+                 "Monarchy",    _("Great Shaman"),  _("?female:Great Shaman")
                }
 
 init_techs=""

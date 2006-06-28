@@ -21,9 +21,9 @@ flag_alt = "united_kingdom"
 city_style = "Celtic"
 
 ruler_titles = { "government",  "male_title",         "female_title"
-                 "Despotism",   _("Chieftain"),       _("Chieftain")
-                 "Republic",    _("Speaker"),         _("Speaker")
-                 "Democracy",   _("First Minister"),  _("First Minister")
+                 "Despotism",   _("Chieftain"),       _("?female:Chieftain")
+                 "Republic",    _("Speaker"),         _("?female:Speaker")
+                 "Democracy",_("First Minister"), _("?female:First Minister")
                }
 
 init_techs=""

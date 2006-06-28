@@ -19,8 +19,8 @@ flag_alt = "-"
 city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Republic",   _("High Commissioner"), _("High Commissioner")
-                 "Democracy",       _("Prime Minister"), _("Prime Minister")
+             "Republic",_("High Commissioner"),_("?female:High Commissioner")
+                 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                }
 
 init_techs=""

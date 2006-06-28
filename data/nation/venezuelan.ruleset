@@ -29,7 +29,8 @@ city_style = "Tropical"
 
 ruler_titles = { "government",     "male_title",        "female_title"
                  "Despotism",      _("Governador"), _("Governadora")
-                 "Fundamentalism", _("Terrateniente"), _("Terrateniente")
+		 ; /* TRANS: Terrateniente = Junker */
+             "Fundamentalism", _("Terrateniente"), _("?female:Terrateniente")
                  "Monarchy",       _("Dictador"),   _("Dictadora")
 		 "Republic",   _("Presidente"), _("Presidenta")
                  "Democracy",      _("Presidente"), _("Presidenta")

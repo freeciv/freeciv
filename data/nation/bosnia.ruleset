@@ -25,10 +25,9 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-        	 "Despotism",       _("Ban"),          _("Ban")
-        	 "Monarchy",        _("King"),         _("Queen")
-                 "Republic",        _("President"),    _("President")
-                 "Democracy",       _("President"),    _("President")
+		 ; /* TRANS: Ban = Duke */
+        	 "Despotism",       _("Ban"),          _("?female:Ban")
+                 "Republic",        _("President"),    _("?female:President")
                }
 
 init_techs=""

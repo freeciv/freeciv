@@ -19,8 +19,8 @@ flag_alt = "peru"	; Used previously
 city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("?title:Inca"),  _("?title:Inca")
-                 "Monarchy",        _("Sapa Inca"),    _("Sapa Inca")
+                 "Despotism",       _("?title:Inca"),  _("?female:Inca")
+                 "Monarchy",        _("Sapa Inca"),    _("?female:Sapa Inca")
                }
 
 init_techs=""

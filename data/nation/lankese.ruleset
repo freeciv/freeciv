@@ -19,8 +19,8 @@ city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Prince"),       _("Princess")
-                 "Republic",        _("Governor"),     _("Governor")
-                 "Communism",  _("Supreme Commander"), _("Supreme Commander")
+                 "Republic",        _("Governor"),     _("?female:Governor")
+            "Communism",_("Supreme Commander"),_("?female:Supreme Commander")
                }
 
 init_techs=""
