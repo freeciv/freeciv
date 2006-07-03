@@ -207,7 +207,7 @@ void ai_manage_tech(struct player *pplayer)
 }
 
 /**************************************************************************
-  Returns the best unit we can build, or U_LAST if none.  "Best" here
+  Returns the best unit we can build, or NULL if none.  "Best" here
   means last in the unit list as defined in the ruleset.  Assigns tech 
   wants for techs to get better units with given role, but only for the
   cheapest to research "next" unit up the "chain".
