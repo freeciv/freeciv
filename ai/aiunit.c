@@ -1140,10 +1140,9 @@ int turns_to_enemy_unit(const struct unit_type *our_type,
   Mark invasion possibilities of punit in the surrounding cities. The
   given radius limites the area which is searched for cities. The
   center of the area is either the unit itself (dest == FALSE) or the
-  destiniation of the current goto (dest == TRUE). The invasion threat
-  is marked in pcity->ai.invasion via ORing the "which" argument (to
-  tell attack from sea apart from ground unit attacks). Note that
-  "which" should only have one bit set.
+  destination of the current goto (dest == TRUE). The invasion threat
+  is marked in pcity->ai.invasion by setting the "which" bit (to
+  tell attack from sea apart from ground unit attacks).
 
   If dest == TRUE then a valid goto is presumed.
 **************************************************************************/
@@ -1167,9 +1166,9 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 
     if (pcity
         && HOSTILE_PLAYER(pplayer, ai, city_owner(pcity))
-	&& (pcity->ai.invasion & which) != which
+	&& !TEST_BIT(pcity->ai.invasion, which)
 	&& (dest || !has_defense(pcity))) {
-      pcity->ai.invasion |= which;
+      pcity->ai.invasion |= COND_SET_BIT(TRUE, which);
     }
   } square_iterate_end;
 }
@@ -1268,21 +1267,22 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     /* dealing with invasion stuff */
     if (IS_ATTACKER(aunit)) {
       if (aunit->activity == ACTIVITY_GOTO) {
-        invasion_funct(aunit, TRUE, 0, (COULD_OCCUPY(aunit) ? 1 : 2));
+        invasion_funct(aunit, TRUE, 0,
+                       (COULD_OCCUPY(aunit) ? INVASION_OCCUPY : INVASION_ATTACK));
         if ((pcity = tile_get_city(aunit->goto_tile))) {
           pcity->ai.attack += unit_att_rating(aunit);
           pcity->ai.bcost += unit_build_shield_cost(aunit->type);
         } 
       }
       invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
-                     (COULD_OCCUPY(aunit) ? 1 : 2));
+                     (COULD_OCCUPY(aunit) ? INVASION_OCCUPY : INVASION_ATTACK));
     } else if (aunit->ai.passenger != 0 &&
                !same_pos(aunit->tile, punit->tile)) {
       /* It's a transport with reinforcements */
       if (aunit->activity == ACTIVITY_GOTO) {
-        invasion_funct(aunit, TRUE, 1, 1);
+        invasion_funct(aunit, TRUE, 1, INVASION_OCCUPY);
       }
-      invasion_funct(aunit, FALSE, 2, 1);
+      invasion_funct(aunit, FALSE, 2, INVASION_OCCUPY);
     }
   } unit_list_iterate_end;
   /* end horrible initialization subroutine */
@@ -1400,7 +1400,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         }
       }
 
-      if (COULD_OCCUPY(punit) || TEST_BIT(acity->ai.invasion, 0)) {
+      if (COULD_OCCUPY(punit) || TEST_BIT(acity->ai.invasion, INVASION_OCCUPY)) {
         /* There are units able to occupy the city! */
         benefit += 40;
       }
@@ -1422,7 +1422,9 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       } else if (move_time > THRESHOLD) {
         /* Too far! */
         want = 0;
-      } else if (COULD_OCCUPY(punit) && acity->ai.invasion == 2) {
+      } else if (COULD_OCCUPY(punit)
+                 && TEST_BIT(acity->ai.invasion, INVASION_ATTACK)
+                 && !TEST_BIT(acity->ai.invasion, INVASION_OCCUPY)) {
         /* Units able to occupy really needed there! */
         want = bcost * SHIELD_WEIGHTING;
       } else {

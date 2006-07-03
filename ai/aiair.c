@@ -75,7 +75,7 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
   /* TODO: There is a danger of producing too many units that will not 
    * attack anything.  Production should not happen if there is an idle 
    * unit of the same type nearby */
-  if (acity && !TEST_BIT(acity->ai.invasion, 0) && punit->id != 0) {
+  if (acity && !TEST_BIT(acity->ai.invasion, INVASION_OCCUPY) && punit->id != 0) {
     /* No ground troups are invading */
     freelog(LOG_DEBUG, "Don't want to attack %s, although we could", 
             acity->name);
