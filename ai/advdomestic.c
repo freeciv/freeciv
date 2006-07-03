@@ -118,13 +118,13 @@ static void ai_choose_help_wonder(struct city *pcity,
       /* This sets our tech want in cases where we cannot actually build
        * the unit. */
       unit_type = ai_wants_role_unit(pplayer, pcity, F_HELP_WONDER, want);
-      if (can_build_unit(pcity, unit_type)) {
+      if (unit_type != NULL) {
         choice->want = want;
         choice->type = CT_NONMIL;
         choice->choice = unit_type->index;
       } else {
-        CITY_LOG(LOG_DEBUG, pcity, "would but could not build %s, bumped reqs",
-                 unit_name(unit_type));
+        CITY_LOG(LOG_DEBUG, pcity,
+                 "would but could not build F_HELP_WONDER unit, bumped reqs");
       }
     }
   }
