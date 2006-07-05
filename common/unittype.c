@@ -66,12 +66,12 @@ static const char *unit_class_names[] = {
 };
 
 struct unit_class unit_classes[] = {
-  { UCL_MISSILE,    { FALSE, FALSE },  0 },
-  { UCL_LAND,       { TRUE,  TRUE  },  0 },
-  { UCL_SEA,        { TRUE,  TRUE  },  0 },
-  { UCL_HELICOPTER, { FALSE, FALSE }, 10 },
-  { UCL_AIR,        { FALSE, FALSE },  0 },
-  { UCL_NUCLEAR,    { FALSE, FALSE },  0 }
+  { UCL_MISSILE,    AIR_MOVING,  { FALSE, FALSE },  0 },
+  { UCL_LAND,       LAND_MOVING, { TRUE,  TRUE  },  0 },
+  { UCL_SEA,        SEA_MOVING,  { TRUE,  TRUE  },  0 },
+  { UCL_HELICOPTER, HELI_MOVING, { FALSE, FALSE }, 10 },
+  { UCL_AIR,        AIR_MOVING,  { FALSE, FALSE },  0 },
+  { UCL_NUCLEAR,    AIR_MOVING,  { FALSE, FALSE },  0 }
 };
 
 /**************************************************************************
@@ -192,6 +192,14 @@ int unit_disband_shields(const struct unit_type *punittype)
 int unit_pop_value(const struct unit_type *punittype)
 {
   return (punittype->pop_cost);
+}
+
+/**************************************************************************
+  Return move type of the unit type
+**************************************************************************/
+enum unit_move_type get_unit_move_type(const struct unit_type *punittype)
+{
+  return get_unit_class(punittype)->move_type;
 }
 
 /**************************************************************************

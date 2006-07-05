@@ -605,7 +605,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
       ferry->tile = punit->tile;
     }
 
-    assert(SEA_MOVING == unit_type(ferry)->move_type);
+    assert(SEA_MOVING == get_unit_move_type(unit_type(ferry)));
     pft_fill_unit_overlap_param(&parameter, ferry);
     parameter.get_TB = no_fights_or_unknown;
 

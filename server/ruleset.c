@@ -1043,16 +1043,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       exit(EXIT_FAILURE);
     }
     u->class = pclass;
-    switch (pclass->id)
-    {
-    case UCL_MISSILE:
-    case UCL_NUCLEAR:
-      u->move_type = AIR_MOVING;
-      break;
-    default:
-      u->move_type = pclass->id;
-      break;
-    }
     
     sz_strlcpy(u->sound_move,
 	       secfile_lookup_str_default(file, "-", "%s.sound_move",
@@ -1214,7 +1204,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     exit(EXIT_FAILURE);
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
     u = get_role_unit(L_BARBARIAN_BOAT,0);
-    if(u->move_type != SEA_MOVING) {
+    if(get_unit_move_type(u) != SEA_MOVING) {
       freelog(LOG_FATAL, "Barbarian boat (%s) needs to be a sea unit (%s)",
               u->name, filename);
       exit(EXIT_FAILURE);
@@ -2621,7 +2611,6 @@ static void send_ruleset_units(struct conn_list *dest)
     sz_strlcpy(packet.sound_fight_alt, u->sound_fight_alt);
     sz_strlcpy(packet.graphic_str, u->graphic_str);
     sz_strlcpy(packet.graphic_alt, u->graphic_alt);
-    packet.move_type = u->move_type;
     packet.unit_class_id = u->class->id;
     packet.build_cost = u->build_cost;
     packet.pop_cost = u->pop_cost;

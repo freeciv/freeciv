@@ -608,7 +608,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
 {
   pft_fill_unit_default_parameter(parameter, punit);
 
-  switch (unit_type(punit)->move_type) {
+  switch (get_unit_move_type(unit_type(punit))) {
   case LAND_MOVING:
     if (unit_flag(punit, F_IGTER)) {
       parameter->get_MC = igter_move_unit;
@@ -647,7 +647,7 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     break;
   }
 
-  if (unit_type(punit)->move_type == LAND_MOVING 
+  if (get_unit_move_type(unit_type(punit)) == LAND_MOVING 
       && !unit_flag(punit, F_IGZOC)) {
     parameter->get_zoc = is_my_zoc;
   } else {
@@ -678,7 +678,7 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
 
   pft_fill_unit_default_parameter(parameter, punit);
 
-  switch (unit_type(punit)->move_type) {
+  switch (get_unit_move_type(unit_type(punit))) {
   case LAND_MOVING:
     parameter->get_MC = land_overlap_move;
     parameter->get_TB = dont_cross_ocean;
@@ -715,7 +715,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
 {
   pft_fill_unit_default_parameter(parameter, punit);
 
-  switch (unit_type(punit)->move_type) {
+  switch (get_unit_move_type(unit_type(punit))) {
   case LAND_MOVING:
     parameter->get_MC = land_attack_move;
     break;
@@ -728,7 +728,7 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
     break;
   }
 
-  if (unit_type(punit)->move_type == LAND_MOVING 
+  if (get_unit_move_type(unit_type(punit)) == LAND_MOVING 
       && !unit_flag(punit, F_IGZOC)) {
     parameter->get_zoc = is_my_zoc;
   } else {

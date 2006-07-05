@@ -261,7 +261,7 @@ static int unit_move_turns(struct unit *punit, struct tile *ptile)
   int move_time;
   int move_rate = unit_move_rate(punit);
 
-  switch (unit_type(punit)->move_type) {
+  switch (get_unit_move_type(unit_type(punit))) {
   case LAND_MOVING:
   
    /* FIXME: IGTER units should have their move rates multiplied by 
@@ -287,7 +287,7 @@ static int unit_move_turns(struct unit *punit, struct tile *ptile)
  
   default:
     die("ai/aiunit.c:unit_move_turns: illegal move type %d",
-	unit_type(punit)->move_type);
+	get_unit_move_type(unit_type(punit)));
     move_time = 0;
   }
   return move_time;
@@ -818,7 +818,7 @@ static bool find_beachhead(struct unit *punit, struct tile *dest_tile,
 **************************************************************************/
 static bool unit_role_defender(const struct unit_type *punittype)
 {
-  if (punittype->move_type != LAND_MOVING) {
+  if (get_unit_move_type(punittype) != LAND_MOVING) {
     return FALSE; /* temporary kluge */
   }
   return (unit_has_role(punittype, L_DEFEND_GOOD));
@@ -855,7 +855,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
         || DEFENCE_POWER(buddy) >= DEFENCE_POWER(punit)
         || (is_military_unit(buddy) && get_transporter_capacity(buddy) == 0
             && ATTACK_POWER(buddy) <= ATTACK_POWER(punit))
-        || unit_type(buddy)->move_type != unit_type(punit)->move_type) { 
+        || get_unit_move_type(unit_type(buddy)) != get_unit_move_type(unit_type(punit))) { 
       continue;
     }
     if (punit->tile->city
@@ -882,7 +882,7 @@ int look_for_charge(struct player *pplayer, struct unit *punit,
   } unit_list_iterate_end;
 
   /* City bodyguard */
-  if (unit_type(punit)->move_type == LAND_MOVING) {
+  if (get_unit_move_type(unit_type(punit)) == LAND_MOVING) {
    city_list_iterate(pplayer->cities, mycity) {
     if (!goto_is_sane(punit, mycity->tile, TRUE)
         || mycity->ai.urgency == 0) {
@@ -1060,7 +1060,7 @@ int turns_to_enemy_city(const struct unit_type *our_type, struct city *acity,
                         int speed, bool go_by_boat, 
                         struct unit *boat, const struct unit_type *boattype)
 {
-  switch (our_type->move_type) {
+  switch (get_unit_move_type(our_type)) {
   case LAND_MOVING:
     if (go_by_boat) {
       int boatspeed = boattype->move_rate;
@@ -1109,7 +1109,7 @@ int turns_to_enemy_unit(const struct unit_type *our_type,
 {
   int dist;
 
-  switch (our_type->move_type) {
+  switch (get_unit_move_type(our_type)) {
   case LAND_MOVING:
     dist = WARMAP_COST(ptile);
     break;
@@ -2420,7 +2420,7 @@ void update_simple_ai_types(void)
     if (!unit_type_flag(punittype, F_NONMIL)
 	&& !unit_type_flag(punittype, F_MISSILE)
 	&& !unit_type_flag(punittype, F_NO_LAND_ATTACK)
-        && punittype->move_type != AIR_MOVING
+        && get_unit_move_type(punittype) != AIR_MOVING
 	&& punittype->transport_capacity < 8) {
       simple_ai_types[i] = punittype;
       i++;

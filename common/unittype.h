@@ -32,6 +32,7 @@ struct move_params {
 
 struct unit_class {
   Unit_Class_id id;
+  enum unit_move_type move_type;
   struct move_params move;
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
 };
@@ -153,7 +154,6 @@ struct unit_type {
   char sound_move_alt[MAX_LEN_NAME];
   char sound_fight[MAX_LEN_NAME];
   char sound_fight_alt[MAX_LEN_NAME];
-  enum unit_move_type move_type;
   int build_cost;			/* Use wrappers to access this. */
   int pop_cost;  /* number of workers the unit contains (e.g., settlers, engineers)*/
   int attack_strength;
@@ -207,6 +207,7 @@ int unit_buy_gold_cost(const struct unit_type *punittype,
 		       int shields_in_stock);
 int unit_disband_shields(const struct unit_type *punittype);
 int unit_pop_value(const struct unit_type *punittype);
+enum unit_move_type get_unit_move_type(const struct unit_type *punittype);
 
 struct unit_class *unit_class_get_by_id(int id);
 struct unit_class *get_unit_class(const struct unit_type *punittype);

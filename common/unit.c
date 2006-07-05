@@ -347,7 +347,7 @@ bool is_hiding_unit(const struct unit *punit)
 bool kills_citizen_after_attack(const struct unit *punit)
 {
   return TEST_BIT(game.info.killcitizen, 
-                  (int) (unit_type(punit)->move_type) - 1);
+                  (int) (get_unit_move_type(unit_type(punit))) - 1);
 }
 
 /**************************************************************************

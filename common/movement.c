@@ -94,7 +94,7 @@ bool unit_can_defend_here(const struct unit *punit)
 ****************************************************************************/
 bool is_sailing_unit(const struct unit *punit)
 {
-  return (unit_type(punit)->move_type == SEA_MOVING);
+  return (get_unit_move_type(unit_type(punit)) == SEA_MOVING);
 }
 
 
@@ -103,7 +103,7 @@ bool is_sailing_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_air_unit(const struct unit *punit)
 {
-  return (unit_type(punit)->move_type == AIR_MOVING);
+  return (get_unit_move_type(unit_type(punit)) == AIR_MOVING);
 }
 
 
@@ -112,7 +112,7 @@ bool is_air_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_heli_unit(const struct unit *punit)
 {
-  return (unit_type(punit)->move_type == HELI_MOVING);
+  return (get_unit_move_type(unit_type(punit)) == HELI_MOVING);
 }
 
 
@@ -121,7 +121,7 @@ bool is_heli_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_ground_unit(const struct unit *punit)
 {
-  return (unit_type(punit)->move_type == LAND_MOVING);
+  return (get_unit_move_type(unit_type(punit)) == LAND_MOVING);
 }
 
 
@@ -130,7 +130,7 @@ bool is_ground_unit(const struct unit *punit)
 ****************************************************************************/
 bool is_sailing_unittype(const struct unit_type *punittype)
 {
-  return (punittype->move_type == SEA_MOVING);
+  return (get_unit_move_type(punittype) == SEA_MOVING);
 }
 
 
@@ -139,7 +139,7 @@ bool is_sailing_unittype(const struct unit_type *punittype)
 ****************************************************************************/
 bool is_air_unittype(const struct unit_type *punittype)
 {
-  return (punittype->move_type == AIR_MOVING);
+  return (get_unit_move_type(punittype) == AIR_MOVING);
 }
 
 
@@ -148,7 +148,7 @@ bool is_air_unittype(const struct unit_type *punittype)
 ****************************************************************************/
 bool is_heli_unittype(const struct unit_type *punittype)
 {
-  return (punittype->move_type == HELI_MOVING);
+  return (get_unit_move_type(punittype) == HELI_MOVING);
 }
 
 
@@ -157,7 +157,7 @@ bool is_heli_unittype(const struct unit_type *punittype)
 ****************************************************************************/
 bool is_ground_unittype(const struct unit_type *punittype)
 {
-  return (punittype->move_type == LAND_MOVING);
+  return (get_unit_move_type(punittype) == LAND_MOVING);
 }
 
 
@@ -184,7 +184,7 @@ bool can_unit_exist_at_tile(const struct unit *punit,
 bool is_native_terrain(const struct unit_type *punittype,
                        const struct terrain *pterrain)
 {
-  switch (punittype->move_type) {
+  switch (get_unit_move_type(punittype)) {
   case LAND_MOVING:
     return !is_ocean(pterrain);
   case SEA_MOVING:
@@ -216,7 +216,7 @@ bool can_unit_survive_at_tile(const struct unit *punit,
 
   /* TODO: check for dangerous positions (like triremes in deep water). */
 
-  switch (punit->type->move_type) {
+  switch (get_unit_move_type(unit_type(punit))) {
   case LAND_MOVING:
   case SEA_MOVING:
     return TRUE;
@@ -353,7 +353,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
   }
 
-  if (punittype->move_type == LAND_MOVING) {
+  if (get_unit_move_type(punittype) == LAND_MOVING) {
     /* 4) */
     if (is_ocean(dst_tile->terrain) &&
 	ground_unit_transporter_capacity(dst_tile, unit_owner) <= 0) {
@@ -373,7 +373,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 	return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
       }
     }
-  } else if (punittype->move_type == SEA_MOVING) {
+  } else if (get_unit_move_type(punittype) == SEA_MOVING) {
     /* 6) */
     if (!is_ocean(dst_tile->terrain)
 	&& dst_tile->terrain != T_UNKNOWN
@@ -435,7 +435,7 @@ static bool can_unit_type_transport(const struct unit_type *transporter,
     return FALSE;
   }
 
-  if (transported->move_type == LAND_MOVING) {
+  if (get_unit_move_type(transported) == LAND_MOVING) {
     if ((unit_type_flag(transporter, F_CARRIER)
          || unit_type_flag(transporter, F_MISSILE_CARRIER))) {
       return FALSE;
@@ -453,13 +453,13 @@ static bool can_unit_type_transport(const struct unit_type *transporter,
         && !unit_type_flag(transporter, F_CARRIER)) {
       return FALSE;
     }
-  } else if ((transported->move_type == AIR_MOVING
-              || transported->move_type == HELI_MOVING)
+  } else if ((get_unit_move_type(transported) == AIR_MOVING
+              || get_unit_move_type(transported) == HELI_MOVING)
              && !unit_type_flag(transporter, F_CARRIER)) {
     return FALSE;
   }
 
-  if (transported->move_type == SEA_MOVING) {
+  if (get_unit_move_type(transported) == SEA_MOVING) {
     /* No unit can transport sea units at the moment */
     return FALSE;
   }

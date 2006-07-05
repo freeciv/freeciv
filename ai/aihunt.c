@@ -72,7 +72,7 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
   unit_type_iterate(ut) {
     int desire;
 
-    if (ut->move_type != umt || !can_build_unit(pcity, ut)
+    if (get_unit_move_type(ut) != umt || !can_build_unit(pcity, ut)
         || ut->attack_strength < ut->transport_capacity) {
       continue;
     }
@@ -296,8 +296,8 @@ static void ai_hunter_try_launch(struct player *pplayer,
           }
           if (ut->move_rate + victim->moves_left > pos.total_MC
               && ATTACK_POWER(victim) > DEFENCE_POWER(punit)
-              && (ut->move_type == SEA_MOVING
-                  || ut->move_type == AIR_MOVING)) {
+              && (get_unit_move_type(ut) == SEA_MOVING
+                  || get_unit_move_type(ut) == AIR_MOVING)) {
             /* Threat to our carrier. Kill it. */
             sucker = victim;
             UNIT_LOG(LOGLEVEL_HUNT, missile, "found aux target %d(%d, %d)",

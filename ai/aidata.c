@@ -186,7 +186,7 @@ static void count_my_units(struct player *pplayer)
   memset(&ai->stats.units, 0, sizeof(ai->stats.units));
 
   unit_list_iterate(pplayer->units, punit) {
-    switch (unit_type(punit)->move_type) {
+    switch (get_unit_move_type(unit_type(punit))) {
     case LAND_MOVING:
       ai->stats.units.land++;
       break;

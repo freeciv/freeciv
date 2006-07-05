@@ -587,7 +587,7 @@ static bool find_the_shortest_path(struct unit *punit,
   bool igter;
   struct tile *ptile, *orig_tile;
   struct tile *psrctile, *pdesttile;
-  enum unit_move_type move_type = unit_type(punit)->move_type;
+  enum unit_move_type move_type = get_unit_move_type(unit_type(punit));
   int maxcost = MAXCOST;
   int move_cost, total_cost;
   int straight_dir = 0;	/* init to silence compiler warning */
@@ -1247,7 +1247,7 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     return TRUE;
   }
 
-  switch (unit_type(punit)->move_type) {
+  switch (get_unit_move_type(unit_type(punit))) {
 
   case LAND_MOVING:
     if (is_ocean(tile_get_terrain(ptile))) {

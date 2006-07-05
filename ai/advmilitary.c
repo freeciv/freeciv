@@ -58,7 +58,7 @@ struct unit_type *ai_choose_defender_versus(struct city *pcity,
   int best = 0;
 
   simple_ai_unit_type_iterate(punittype) {
-    const int move_type = punittype->move_type;
+    const int move_type = get_unit_move_type(punittype);
 
     if (can_build_unit(pcity, punittype)
 	&& (move_type == LAND_MOVING || move_type == SEA_MOVING)) {
@@ -107,7 +107,7 @@ static struct unit_type *ai_choose_attacker(struct city *pcity,
 
   simple_ai_unit_type_iterate(punittype) {
     cur = ai_unit_attack_desirability(punittype);
-    if (which == punittype->move_type) {
+    if (which == get_unit_move_type(punittype)) {
       if (can_build_unit(pcity, punittype)
           && (cur > best
               || (cur == best
@@ -146,7 +146,7 @@ static struct unit_type *ai_choose_bodyguard(struct city *pcity,
     }
 
     /* Only consider units of same move type */
-    if (punittype->move_type != move_type) {
+    if (get_unit_move_type(punittype) != move_type) {
       continue;
     }
 
@@ -600,8 +600,8 @@ int ai_unit_defence_desirability(const struct unit_type *punittype)
 
   /* Sea and helicopters often have their firepower set to 1 when
    * defending. We can't have such units as defenders. */
-  if (punittype->move_type != SEA_MOVING
-      && punittype->move_type != HELI_MOVING) {
+  if (get_unit_move_type(punittype) != SEA_MOVING
+      && get_unit_move_type(punittype) != HELI_MOVING) {
     /* Sea units get 1 firepower in Pearl Harbour,
      * and helicopters very bad against air units */
     desire *= punittype->firepower;
@@ -667,7 +667,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
   memset(tech_desire, 0, sizeof(tech_desire));
   
   simple_ai_unit_type_iterate(punittype) {
-    int move_type = punittype->move_type;
+    int move_type = get_unit_move_type(punittype);
     int desire; /* How much we want the unit? */
 
     /* Only consider proper defenders - otherwise waste CPU and
@@ -737,7 +737,7 @@ static void process_defender_want(struct player *pplayer, struct city *pcity,
     CITY_LOG(LOG_DEBUG, pcity, "Ooops - we cannot build any defender!");
   }
 
-  if (!walls && best_unit_type->move_type == LAND_MOVING) {
+  if (!walls && get_unit_move_type(best_unit_type) == LAND_MOVING) {
     best *= pcity->ai.wallvalue;
     best /= POWER_FACTOR;
   }
@@ -795,7 +795,7 @@ static void process_attacker_want(struct city *pcity,
   /* The enemy city.  acity == NULL means stray enemy unit */
   struct city *acity = tile_get_city(ptile);
   bool shore = is_ocean_near_tile(pcity->tile);
-  int orig_move_type = get_unit_type(best_choice->choice)->move_type;
+  int orig_move_type = get_unit_move_type(get_unit_type(best_choice->choice));
   int victim_count = 1;
   int needferry = 0;
   bool unhap = ai_assess_military_unhappiness(pcity);
@@ -815,7 +815,7 @@ static void process_attacker_want(struct city *pcity,
 
   simple_ai_unit_type_iterate(punittype) {
     Tech_type_id tech_req = punittype->tech_requirement;
-    int move_type = punittype->move_type;
+    int move_type = get_unit_move_type(punittype);
     int tech_dist;
     
     if (tech_req != A_LAST) {
@@ -1067,7 +1067,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
           boattype = get_role_unit(L_FERRYBOAT, 0);
         }
       }
-      assert(SEA_MOVING == boattype->move_type);
+      assert(SEA_MOVING == get_unit_move_type(boattype));
 
       go_by_boat = !(WARMAP_COST(ptile) <= (MIN(6, move_rate) * THRESHOLD)
                      && goto_is_sane(myunit, acity->tile, TRUE));
@@ -1151,7 +1151,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
        * if they are blockaded or in inland seas*/
       assert(is_ground_unit(myunit));
       ai_choose_role_unit(pplayer, pcity, choice, L_FERRYBOAT, choice->want);
-      if (SEA_MOVING == get_unit_type(choice->choice)->move_type) {
+      if (SEA_MOVING == get_unit_move_type(get_unit_type(choice->choice))) {
         struct ai_data *ai = ai_data_get(pplayer);
 
         freelog(LOG_DEBUG,
@@ -1215,7 +1215,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
     return;
   }
 
-  move_type = get_unit_type(choice->choice)->move_type;
+  move_type = get_unit_move_type(get_unit_type(choice->choice));
 
   /* TODO: separate checks based on other requirements (e.g., unit class) 
    *  N.B.: have to check that we haven't already built the building --mck */

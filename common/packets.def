@@ -1047,7 +1047,6 @@ PACKET_RULESET_UNIT=96;sc,lsend
   STRING sound_move_alt[MAX_LEN_NAME];
   STRING sound_fight[MAX_LEN_NAME];
   STRING sound_fight_alt[MAX_LEN_NAME];
-  UINT8 move_type;
   UINT8 unit_class_id;
   UINT16 build_cost;
   UINT8 pop_cost;

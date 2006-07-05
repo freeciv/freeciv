@@ -392,7 +392,7 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
   }
 
   unit_type_iterate(punittype) {
-    if (punittype->move_type != AIR_MOVING) {
+    if (get_unit_move_type(punittype) != AIR_MOVING) {
       continue;
     }
     if (can_build_unit(pcity, punittype)) {
