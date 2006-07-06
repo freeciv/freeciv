@@ -123,29 +123,19 @@ struct specialist;
 #define MAX_RULESET_NAME_LENGTH 64
 #define RULESET_SUFFIX ".serv"
 
-/* Classes for unit types.
- * (These must correspond to unit_class_names[] in unittype.c.)
- */
-enum unit_class_id {
-  UCL_MISSILE = 0,
-  UCL_LAND,
-  UCL_SEA,
-  UCL_HELICOPTER,
-  UCL_AIR,
-  UCL_NUCLEAR,
-  UCL_LAST	/* keep this last */
-};
+#define UCL_LAST 32
 
-typedef enum unit_class_id Unit_Class_id;
+typedef int Unit_Class_id;
 
 /* This has to be put here for now, otherwise movement.h and unittype.h
  * would have a recursive dependency.
- * Enumeration order must match unit_class enumeration. */
+ * Order must mach order in move_type_names array. */
 enum unit_move_type {
-  AIR_MOVING = UCL_AIR,
-  HELI_MOVING = UCL_HELICOPTER,
-  LAND_MOVING = UCL_LAND,
-  SEA_MOVING = UCL_SEA
+  AIR_MOVING = 0,
+  LAND_MOVING = 1,
+  SEA_MOVING = 2,
+  HELI_MOVING = 3,
+  MOVETYPE_LAST = 4
 };
 
 /* The direction8 gives the 8 possible directions.  These may be used in

@@ -2120,6 +2120,30 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
 /**************************************************************************
 ...
 **************************************************************************/
+void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
+{
+  struct unit_class *c;
+
+  if(p->id < 0 || p->id >= game.control.num_unit_classes || p->id >= UCL_LAST) {
+    freelog(LOG_ERROR,
+            "Received bad unit_class id %d in handle_ruleset_unit_class()",
+	    p->id);
+    return;
+  }
+
+  c = unit_class_get_by_id(p->id);
+
+  sz_strlcpy(c->name, p->name);
+  c->move_type = p->move_type;
+  c->move.terrain_affects = p->terrain_affects;
+  c->move.damage_slows = p->damage_slows;
+  c->hp_loss_pct = p->hp_loss_pct;
+}
+
+
+/**************************************************************************
+...
+**************************************************************************/
 void handle_ruleset_unit(struct packet_ruleset_unit *p)
 {
   struct unit_type *u;

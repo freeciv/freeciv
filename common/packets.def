@@ -1252,6 +1252,15 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   STRING helptext[MAX_LEN_PACKET];
 end
 
+PACKET_RULESET_UNIT_CLASS=119;sc,lsend
+  UINT8 id;
+  STRING name[MAX_LEN_NAME];
+  UINT8 move_type;
+  BOOL  terrain_affects;
+  BOOL  damage_slows;
+  UINT8 hp_loss_pct;
+end
+
 /*********************************************************
   Ruleset control values: single values, some of which are
   needed before sending other ruleset data (eg,
@@ -1261,6 +1270,7 @@ end
   info for its own "control" packet, done separately.)
 *********************************************************/
 PACKET_RULESET_CONTROL=106;sc,lsend
+  UINT8 num_unit_classes;
   UINT8 num_unit_types;
   UINT8 num_impr_types;
   UINT8 num_tech_types;
@@ -1271,7 +1281,6 @@ PACKET_RULESET_CONTROL=106;sc,lsend
   UINT8 resource_count;
   UINT8 num_specialist_types;
 end
-
 
 /*********************************************************
  Below are the packets that control single-player mode.  

@@ -265,6 +265,7 @@ void game_init(void)
   sz_strlcpy(game.save_name, GAME_DEFAULT_SAVE_NAME);
   sz_strlcpy(game.rulesetdir, GAME_DEFAULT_RULESETDIR);
 
+  game.control.num_unit_classes = 0;
   game.control.num_unit_types = 0;
   game.control.num_impr_types = 0;
   game.control.num_tech_types = 0;
@@ -285,6 +286,7 @@ void game_init(void)
   terrains_init();
   improvements_init();
   techs_init();
+  unit_classes_init();
   unit_types_init();
   specialists_init();
   teams_init();

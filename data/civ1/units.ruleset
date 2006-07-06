@@ -37,6 +37,53 @@ veteran_highseas_loss_pct = 50, 50
 ; by a whole point 3 must be specified.
 veteran_move_bonus = 0, 0
 
+; Unit classes
+; The number can be variable, up to 32
+; When adding new classes, remember to check effects.ruleset also.
+; Eg. if you divide class 'Land' to two separate classes, you may
+; want add effect giving City Walls defence bonus against new class
+; too.
+;
+; The actual tag used (the * in [unitclass_*]) does not matter, except 
+; it must be unique within this file, and it may be used in debug 
+; output when reading this file.
+;
+; ** Fields **
+;
+; name          = Name as used in other rulesets
+; move_type     = Where unit moves Land/Sea/Air/Heli
+; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
+; flags         = List of unit class flags
+;
+; ** Unit class Flags **
+;
+; "TerrainSpeed" = Units use terrain spesific speed
+; "DamageSlows"  = Damages units are slowed down
+
+[unitclass_land]
+name          = "Land"
+move_type     = "Land"
+hp_loss_pct   = 0
+flags         = "TerrainSpeed", "DamageSlows"
+
+[unitclass_sea]
+name          = "Sea"
+move_type     = "Sea"
+hp_loss_pct   = 0
+flags         = "TerrainSpeed", "DamageSlows"
+
+[unitclass_air]
+name          = "Air"
+move_type     = "Air"
+hp_loss_pct   = 0
+flags         = ""
+
+[unitclass_nuclear]
+name          = "Nuclear"
+move_type     = "Air"
+hp_loss_pct   = 0
+flags         = ""
+
 ; Below: The individual units, one per section.
 ;
 ; The number can be variable, up to 200.  

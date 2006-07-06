@@ -29,6 +29,9 @@
 #include "unittype.h"
 #include "terrain.h"
 
+static const char *move_type_names[] = {
+  "Air", "Land", "Sea", "Heli"
+};
 
 static bool can_unit_type_transport(const struct unit_type *transporter,
 				    const struct unit_type *transported);
@@ -58,7 +61,7 @@ int unit_move_rate(const struct unit *punit)
   move_rate += (get_unit_bonus(punit, EFT_MOVE_BONUS) * SINGLE_MOVE);
 
   /* TODO: These effects should not be hardcoded to unit class enumeration */
-  if (pclass->id == UCL_SEA) {
+  if (pclass->move_type == SEA_MOVING) {
     /* Don't let the move_rate be less than 2 unless the base_move_rate is
      * also less than 2. */
     if (move_rate < 2 * SINGLE_MOVE) {
@@ -223,8 +226,9 @@ bool can_unit_survive_at_tile(const struct unit *punit,
   case AIR_MOVING:
   case HELI_MOVING:
     return tile_has_special(punit->tile, S_AIRBASE);
+  default:
+    die("Invalid move type");
   }
-  die("Invalid move type");
   return TRUE;
 }
 
@@ -465,4 +469,20 @@ static bool can_unit_type_transport(const struct unit_type *transporter,
   }
 
   return TRUE;
+}
+
+/**************************************************************************
+  Convert move type names to enum; case insensitive;
+  returns MOVETYPE_LAST if can't match.
+**************************************************************************/
+enum unit_move_type move_type_from_str(const char *s)
+{
+  int i;
+
+  for (i = 0; i < MOVETYPE_LAST; i++) {
+    if (mystrcasecmp(move_type_names[i], s)==0) {
+      return i;
+    }
+  }
+  return MOVETYPE_LAST;
 }

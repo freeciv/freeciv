@@ -197,6 +197,9 @@ static void count_my_units(struct player *pplayer)
     case AIR_MOVING:
       ai->stats.units.air++;
       break;
+    default:
+      freelog(LOG_ERROR, "Illegal move type in count_my_units()!");
+      break;
     }
 
     if (unit_flag(punit, F_TRIREME)) {

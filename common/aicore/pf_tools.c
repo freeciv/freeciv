@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "log.h"
 #include "mem.h"
 
 #include "game.h"
@@ -645,6 +646,9 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
       parameter->turn_mode = TM_WORST_TIME;
     }
     break;
+  default:
+    freelog(LOG_ERROR, "Impossible move type to pft_fill_unit_parameter()!");
+    break;
   }
 
   if (get_unit_move_type(unit_type(punit)) == LAND_MOVING 
@@ -702,6 +706,9 @@ void pft_fill_unit_overlap_param(struct pf_parameter *parameter,
     assert(!danger && !trireme_danger);
     parameter->get_MC = single_airmove; /* very crude */
     break;
+  default:
+    freelog(LOG_ERROR, "Impossible move type to pft_fill_unit_overlap_param()!");
+    break;
   }
 
   parameter->get_zoc = NULL;
@@ -725,6 +732,9 @@ void pft_fill_unit_attack_param(struct pf_parameter *parameter,
   case AIR_MOVING:
   case HELI_MOVING:
     parameter->get_MC = single_airmove; /* very crude */
+    break;
+  default:
+    freelog(LOG_ERROR, "Impossible move type to pft_fill_unit_attack_param()!");
     break;
   }
 

@@ -50,4 +50,6 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 					     bool igzoc);
 bool can_unit_transport(const struct unit *transporter, const struct unit *transported);
 
+enum unit_move_type move_type_from_str(const char *s);
+
 #endif  /* FC__MOVEMENT_H */

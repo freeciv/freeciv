@@ -25,6 +25,12 @@
   to hold full number of unit types.
 */
 
+enum unit_class_flag_id {
+  UCF_TERRAIN_SPEED = 0,
+  UCF_DAMAGE_SLOWS,
+  UCF_LAST
+};
+
 struct move_params {
   bool terrain_affects; /* Move rate is subject to terrain and improvement effects */
   bool damage_slows;    /* Damaged unit is slowed down */
@@ -32,6 +38,7 @@ struct move_params {
 
 struct unit_class {
   Unit_Class_id id;
+  char name[MAX_LEN_NAME];
   enum unit_move_type move_type;
   struct move_params move;
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
@@ -232,6 +239,7 @@ struct unit_type *find_unit_type_by_name(const char *name);
 struct unit_type *find_unit_type_by_name_orig(const char *name_orig);
 
 struct unit_class *unit_class_from_str(const char *s);
+enum unit_class_flag_id unit_class_flag_from_str(const char *s);
 enum unit_flag_id unit_flag_from_str(const char *s);
 enum unit_role_id unit_role_from_str(const char *s);
 
@@ -256,6 +264,8 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 void unit_types_init(void);
 void unit_types_free(void);
 
+void unit_classes_init(void);
+
 #define unit_type_iterate(punittype)					    \
 {									    \
   int _index;								    \
@@ -264,6 +274,17 @@ void unit_types_free(void);
     struct unit_type *punittype = get_unit_type(_index);
 
 #define unit_type_iterate_end                                               \
+  }                                                                         \
+}
+
+#define unit_class_iterate(punitclass)					    \
+{									    \
+  int _index;								    \
+									    \
+  for (_index = 0; _index < game.control.num_unit_classes; _index++) {	    \
+    struct unit_class *punitclass = unit_class_get_by_id(_index);
+
+#define unit_class_iterate_end                                              \
   }                                                                         \
 }
 
