@@ -769,7 +769,6 @@ struct packet_ruleset_unit {
   char sound_move_alt[MAX_LEN_NAME];
   char sound_fight[MAX_LEN_NAME];
   char sound_fight_alt[MAX_LEN_NAME];
-  int move_type;
   int unit_class_id;
   int build_cost;
   int pop_cost;
@@ -952,7 +951,17 @@ struct packet_ruleset_terrain {
   char helptext[MAX_LEN_PACKET];
 };
 
+struct packet_ruleset_unit_class {
+  int id;
+  char name[MAX_LEN_NAME];
+  int move_type;
+  bool terrain_affects;
+  bool damage_slows;
+  int hp_loss_pct;
+};
+
 struct packet_ruleset_control {
+  int num_unit_classes;
   int num_unit_types;
   int num_impr_types;
   int num_tech_types;
@@ -1230,6 +1239,7 @@ enum packet_type {
   PACKET_PLAYER_READY,
   PACKET_UNIT_BATTLEGROUP,
   PACKET_RULESET_NATION_GROUPS,
+  PACKET_RULESET_UNIT_CLASS,
   PACKET_RULESET_EFFECT = 122,
   PACKET_RULESET_EFFECT_REQ,
   PACKET_RULESET_RESOURCE,
@@ -1683,6 +1693,10 @@ void lsend_packet_ruleset_building(struct conn_list *dest, const struct packet_r
 struct packet_ruleset_terrain *receive_packet_ruleset_terrain(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_terrain(struct connection *pc, const struct packet_ruleset_terrain *packet);
 void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ruleset_terrain *packet);
+
+struct packet_ruleset_unit_class *receive_packet_ruleset_unit_class(struct connection *pc, enum packet_type type);
+int send_packet_ruleset_unit_class(struct connection *pc, const struct packet_ruleset_unit_class *packet);
+void lsend_packet_ruleset_unit_class(struct conn_list *dest, const struct packet_ruleset_unit_class *packet);
 
 struct packet_ruleset_control *receive_packet_ruleset_control(struct connection *pc, enum packet_type type);
 int send_packet_ruleset_control(struct connection *pc, const struct packet_ruleset_control *packet);
