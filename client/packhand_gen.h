@@ -92,6 +92,8 @@ struct packet_ruleset_building;
 void handle_ruleset_building(struct packet_ruleset_building *packet);
 struct packet_ruleset_terrain;
 void handle_ruleset_terrain(struct packet_ruleset_terrain *packet);
+struct packet_ruleset_unit_class;
+void handle_ruleset_unit_class(struct packet_ruleset_unit_class *packet);
 struct packet_ruleset_control;
 void handle_ruleset_control(struct packet_ruleset_control *packet);
 void handle_single_want_hack_reply(bool you_have_hack);
