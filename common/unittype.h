@@ -31,17 +31,14 @@ enum unit_class_flag_id {
   UCF_LAST
 };
 
-struct move_params {
-  bool terrain_affects; /* Move rate is subject to terrain and improvement effects */
-  bool damage_slows;    /* Damaged unit is slowed down */
-};
+BV_DEFINE(bv_unit_class_flags, UCF_LAST);
 
 struct unit_class {
   Unit_Class_id id;
   char name[MAX_LEN_NAME];
   enum unit_move_type move_type;
-  struct move_params move;
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
+  bv_unit_class_flags flags;
 };
 
 /* Unit "special effects" flags:
@@ -217,6 +214,8 @@ int unit_pop_value(const struct unit_type *punittype);
 enum unit_move_type get_unit_move_type(const struct unit_type *punittype);
 
 struct unit_class *unit_class_get_by_id(int id);
+bool unit_class_flag(const struct unit_class *punitclass, int flag);
+
 struct unit_class *get_unit_class(const struct unit_type *punittype);
 const char *unit_name(const struct unit_type *punittype);
 const char *unit_name_orig(const struct unit_type *punittype);

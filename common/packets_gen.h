@@ -955,9 +955,8 @@ struct packet_ruleset_unit_class {
   int id;
   char name[MAX_LEN_NAME];
   int move_type;
-  bool terrain_affects;
-  bool damage_slows;
   int hp_loss_pct;
+  bv_unit_class_flags flags;
 };
 
 struct packet_ruleset_control {

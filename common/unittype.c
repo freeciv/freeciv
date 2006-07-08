@@ -122,6 +122,15 @@ bool unit_type_flag(const struct unit_type *punittype, int flag)
 }
 
 /**************************************************************************
+  Return whether the given unit class has the flag.
+**************************************************************************/
+bool unit_class_flag(const struct unit_class *punitclass, int flag)
+{
+  assert(flag >= 0 && flag < UCF_LAST);
+  return BV_ISSET(punitclass->flags, flag);
+}
+
+/**************************************************************************
   Return whether the unit has the given flag.
 **************************************************************************/
 bool unit_flag(const struct unit *punit, enum unit_flag_id flag)

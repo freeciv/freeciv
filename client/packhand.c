@@ -2134,10 +2134,9 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
   c = unit_class_get_by_id(p->id);
 
   sz_strlcpy(c->name, p->name);
-  c->move_type = p->move_type;
-  c->move.terrain_affects = p->terrain_affects;
-  c->move.damage_slows = p->damage_slows;
+  c->move_type   = p->move_type;
   c->hp_loss_pct = p->hp_loss_pct;
+  c->flags       = p->flags;
 }
 
 

@@ -26031,7 +26031,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_unit_class_100 cmp_const
 
-BV_DEFINE(packet_ruleset_unit_class_100_fields, 6);
+BV_DEFINE(packet_ruleset_unit_class_100_fields, 5);
 
 static struct packet_ruleset_unit_class *receive_packet_ruleset_unit_class_100(struct connection *pc, enum packet_type type)
 {
@@ -26074,15 +26074,16 @@ static struct packet_ruleset_unit_class *receive_packet_ruleset_unit_class_100(s
       real_packet->move_type = readin;
     }
   }
-  real_packet->terrain_affects = BV_ISSET(fields, 3);
-  real_packet->damage_slows = BV_ISSET(fields, 4);
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 3)) {
     {
       int readin;
     
       dio_get_uint8(&din, &readin);
       real_packet->hp_loss_pct = readin;
     }
+  }
+  if (BV_ISSET(fields, 4)) {
+    DIO_BV_GET(&din, real_packet->flags);
   }
 
   clone = fc_malloc(sizeof(*clone));
@@ -26130,17 +26131,13 @@ static int send_packet_ruleset_unit_class_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->terrain_affects != real_packet->terrain_affects);
-  if(differ) {different++;}
-  if(packet->terrain_affects) {BV_SET(fields, 3);}
-
-  differ = (old->damage_slows != real_packet->damage_slows);
-  if(differ) {different++;}
-  if(packet->damage_slows) {BV_SET(fields, 4);}
-
   differ = (old->hp_loss_pct != real_packet->hp_loss_pct);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 5);}
+  if(differ) {BV_SET(fields, 3);}
+
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 4);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26157,10 +26154,11 @@ static int send_packet_ruleset_unit_class_100(struct connection *pc, const struc
   if (BV_ISSET(fields, 2)) {
     dio_put_uint8(&dout, real_packet->move_type);
   }
-  /* field 3 is folded into the header */
-  /* field 4 is folded into the header */
-  if (BV_ISSET(fields, 5)) {
+  if (BV_ISSET(fields, 3)) {
     dio_put_uint8(&dout, real_packet->hp_loss_pct);
+  }
+  if (BV_ISSET(fields, 4)) {
+  DIO_BV_PUT(&dout, packet->flags);
   }
 
 

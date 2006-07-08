@@ -195,6 +195,7 @@ type REQ_TYPE	        = uint8(enum req_source_type)
 type REQ_RANGE		= uint8(enum req_range)
 type EFFECT_TYPE	= uint8(enum effect_type)
 type BV_IMPRS		= bitvector(bv_imprs)
+type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
 type BV_FLAGS		= bitvector(bv_flags)
 type BV_ROLES		= bitvector(bv_roles)
 type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
@@ -1256,9 +1257,8 @@ PACKET_RULESET_UNIT_CLASS=119;sc,lsend
   UINT8 id;
   STRING name[MAX_LEN_NAME];
   UINT8 move_type;
-  BOOL  terrain_affects;
-  BOOL  damage_slows;
   UINT8 hp_loss_pct;
+  BV_UCLASS_FLAGS flags;
 end
 
 /*********************************************************

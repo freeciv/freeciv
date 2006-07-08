@@ -1058,8 +1058,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     mystrlcat(tmp, ".move_type", 200);
     ut->move_type = lookup_move_type(file, tmp, filename);
 
-    ut->move.terrain_affects = FALSE;
-    ut->move.damage_slows = FALSE;
+    BV_CLR_ALL(ut->flags);
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", csec[i]);
     for(j = 0; j < nval; j++) {
       sval = slist[j];
@@ -1071,12 +1070,7 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 	freelog(LOG_ERROR, "for unit_class \"%s\": bad flag name \"%s\" (%s)",
                 ut->name, sval, filename);
       }
-      if (ival == UCF_TERRAIN_SPEED) {
-        ut->move.terrain_affects = TRUE;
-      }
-      if (ival == UCF_DAMAGE_SLOWS) {
-        ut->move.damage_slows = TRUE;
-      }
+      BV_SET(ut->flags, ival);
     }
     free(slist);
 
@@ -2686,9 +2680,8 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.id = c->id;
     sz_strlcpy(packet.name, c->name);
     packet.move_type = c->move_type;
-    packet.terrain_affects = c->move.terrain_affects;
-    packet.damage_slows = c->move.damage_slows;
     packet.hp_loss_pct = c->hp_loss_pct;
+    packet.flags = c->flags;
 
     lsend_packet_ruleset_unit_class(dest, &packet);
   } unit_class_iterate_end;

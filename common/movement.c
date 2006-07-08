@@ -51,7 +51,7 @@ int unit_move_rate(const struct unit *punit)
 
   move_rate = base_move_rate;
 
-  if (pclass->move.damage_slows) {
+  if (unit_class_flag(pclass, UCF_DAMAGE_SLOWS)) {
     /* Scale the MP based on how many HP the unit has. */
     move_rate = (move_rate * punit->hp) / unit_type(punit)->hp;
   }
