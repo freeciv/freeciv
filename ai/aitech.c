@@ -69,6 +69,22 @@ static void ai_select_tech(struct player *pplayer,
   goal_values[A_UNSET] = -1;
   goal_values[A_NONE] = -1;
 
+  /* if we are researching future techs, then simply continue with that. 
+   * we don't need to do anything below. */
+  if (is_future_tech(get_player_research(pplayer)->researching)) {
+    if (choice) {
+      choice->choice = get_player_research(pplayer)->researching;
+      choice->want = 1;
+      choice->current_want = 1;
+    }
+    if (goal) {
+      goal->choice = get_player_research(pplayer)->tech_goal;
+      goal->want = 1;
+      goal->current_want = 1;
+    }
+    return;
+  }  
+
   /* Fill in values for the techs: want of the tech 
    * + average want of those we will discover en route */
   tech_type_iterate(i) {
@@ -157,6 +173,13 @@ static void ai_select_tech(struct player *pplayer,
 	    goal_values[newgoal],
 	    num_cities_nonzero);
   }
+
+  /* we can't have this, which will happen in the circumstance 
+   * where all ai.tech_wants are negative */
+  if (choice && choice->choice == A_UNSET) {
+    choice->choice = get_player_research(pplayer)->researching;
+  }
+
   return;
 }
 
