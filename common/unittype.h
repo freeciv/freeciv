@@ -28,6 +28,7 @@
 enum unit_class_flag_id {
   UCF_TERRAIN_SPEED = 0,
   UCF_DAMAGE_SLOWS,
+  UCF_CAN_OCCUPY,
   UCF_LAST
 };
 

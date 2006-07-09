@@ -65,6 +65,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ;
 ; "TerrainSpeed" = Units use terrain spesific speed
 ; "DamageSlows"  = Damages units are slowed down
+; "CanOccupy"    = Military units of this class can occupy enemy cities
 
 [unitclass_missile]
 name          = "Missile"
@@ -76,7 +77,7 @@ flags         = ""
 name          = "Land"
 move_type     = "Land"
 hp_loss_pct   = 0
-flags         = "TerrainSpeed", "DamageSlows"
+flags         = "TerrainSpeed", "DamageSlows", "CanOccupy"
 
 [unitclass_sea]
 name          = "Sea"
@@ -88,7 +89,7 @@ flags         = "TerrainSpeed", "DamageSlows"
 name          = "Helicopter"
 move_type     = "Heli"
 hp_loss_pct   = 10
-flags         = ""
+flags         = "CanOccupy"
 
 [unitclass_air]
 name          = "Air"
