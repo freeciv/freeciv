@@ -23,6 +23,7 @@ sprites =
 		"f.assyria", "flags/assyria"
 		"f.australia", "flags/australia"
 		"f.austria", "flags/austria"
+		"f.aymara", "flags/aymara"
 		"f.azerbaijan", "flags/azerbaijan"
 		"f.aztec", "flags/aztec"
 		"f.babylon", "flags/babylon"
@@ -55,6 +56,7 @@ sprites =
 		"f.estonia", "flags/estonia"
 		"f.ethiopia", "flags/ethiopia"
 		"f.europe", "flags/europe"
+		"f.euskadi", "flags/euskadi"
 		"f.finland", "flags/finland"
 		"f.france_old", "flags/france_old"	; alt Gallic
 		"f.france", "flags/france"
@@ -65,6 +67,7 @@ sprites =
 		"f.greece_ancient", "flags/greece_ancient"
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"	; used by Inuit
+		"f.hacker", "flags/hacker"
 		"f.hittite", "flags/hittite"
 		"f.holland", "flags/netherlands"	; backward compatabiliy
 		"f.hungary", "flags/hungary"
@@ -83,6 +86,7 @@ sprites =
 		"f.italy", "flags/italy"
 		"f.japan", "flags/japan"
 		"f.kampuchea", "flags/kampuchea"
+		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"
 		"f.korea", "flags/korea"
 		"f.latvia", "flags/latvia"
@@ -119,6 +123,7 @@ sprites =
 		"f.russia", "flags/russia"
 		"f.rwanda", "flags/rwanda"		; Alternate Zulu
 		"f.ryukyu", "flags/ryukyu"
+		"f.samogitia", "flags/samogitia"
 		"f.sapmi", "flags/sapmi"
 		"f.scotland", "flags/scotland"
 		"f.serbia", "flags/serbia"
@@ -148,6 +153,7 @@ sprites =
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"
 		"f.unknown", "flags/unknown"		; hard-coded fallback
+		"f.uruguay", "flags/uruguay"
 		"f.usa", "flags/usa"
 		"f.uyghur", "flags/uyghur"
 		"f.venezuela", "flags/venezuela"

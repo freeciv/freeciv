@@ -242,9 +242,11 @@ data/nation/assyrian.ruleset
 data/nation/argentine.ruleset
 data/nation/australian.ruleset
 data/nation/austrian.ruleset
+data/nation/aymara.ruleset
 data/nation/aztec.ruleset
 data/nation/babylonian.ruleset
 data/nation/barbarian.ruleset
+data/nation/basque.ruleset
 data/nation/bavarian.ruleset
 data/nation/belgian.ruleset
 data/nation/bengali.ruleset
@@ -258,6 +260,7 @@ data/nation/byzantium.ruleset
 data/nation/canadian.ruleset
 data/nation/carthaginian.ruleset
 data/nation/catalan.ruleset
+data/nation/cherokee.ruleset
 data/nation/chilean.ruleset
 data/nation/chinese.ruleset
 data/nation/colombian.ruleset
@@ -272,6 +275,7 @@ data/nation/egyptian.ruleset
 data/nation/english.ruleset
 data/nation/estonian.ruleset
 data/nation/ethiopian.ruleset
+data/nation/european.ruleset
 data/nation/filipino.ruleset
 data/nation/finnish.ruleset
 data/nation/french.ruleset
@@ -280,6 +284,7 @@ data/nation/gallic.ruleset
 data/nation/georgian.ruleset
 data/nation/german.ruleset
 data/nation/greek.ruleset
+data/nation/hacker.ruleset
 data/nation/hellenic.ruleset
 data/nation/hittite.ruleset
 data/nation/hungarian.ruleset
@@ -326,6 +331,7 @@ data/nation/roman.ruleset
 data/nation/russian.ruleset
 data/nation/ryukyuan.ruleset
 data/nation/sami.ruleset
+data/nation/samogitian.ruleset
 data/nation/scottish.ruleset
 data/nation/serbian.ruleset
 data/nation/silesian.ruleset
@@ -348,6 +354,7 @@ data/nation/tibetan.ruleset
 data/nation/tunisian.ruleset
 data/nation/turk.ruleset
 data/nation/ukrainian.ruleset
+data/nation/uruguayan.ruleset
 data/nation/uyghur.ruleset
 data/nation/venezuelan.ruleset
 data/nation/vietnamese.ruleset

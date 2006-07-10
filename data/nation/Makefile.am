@@ -17,9 +17,11 @@ pkgdata_DATA = \
 		assyrian.ruleset \
 		australian.ruleset \
 		austrian.ruleset \
+		aymara.ruleset \
 		aztec.ruleset \
 		babylonian.ruleset \
 		barbarian.ruleset \
+		basque.ruleset \
 		bavarian.ruleset \
 		belgian.ruleset \
 		bengali.ruleset \
@@ -33,6 +35,7 @@ pkgdata_DATA = \
 		canadian.ruleset \
 		carthaginian.ruleset \
 		catalan.ruleset \
+		cherokee.ruleset \
 		chilean.ruleset \
 		chinese.ruleset \
 		colombian.ruleset \
@@ -47,6 +50,7 @@ pkgdata_DATA = \
 		english.ruleset \
 		estonian.ruleset \
 		ethiopian.ruleset \
+		european.ruleset \
 		filipino.ruleset \
 		finnish.ruleset \
 		french.ruleset \
@@ -55,6 +59,7 @@ pkgdata_DATA = \
 		georgian.ruleset \
 		german.ruleset \
 		greek.ruleset \
+		hacker.ruleset \
 		hellenic.ruleset \
 		hittite.ruleset \
 		hungarian.ruleset \
@@ -101,6 +106,7 @@ pkgdata_DATA = \
 		russian.ruleset \
 		ryukyuan.ruleset \
 		sami.ruleset \
+		samogitian.ruleset \
 		scottish.ruleset \
 		serbian.ruleset \
 		silesian.ruleset \
@@ -123,6 +129,7 @@ pkgdata_DATA = \
 		tunisian.ruleset \
 		turk.ruleset \
 		ukrainian.ruleset \
+		uruguayan.ruleset \
 		uyghur.ruleset \
 		venezuelan.ruleset \
 		vietnamese.ruleset \

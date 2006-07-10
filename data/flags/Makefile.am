@@ -15,6 +15,7 @@ flag_files =				\
 		assyria.png		\
 		australia.png		\
 		austria.png		\
+		aymara.png		\
 		azerbaijan.png		\
 		aztec.png		\
 		babylon.png		\
@@ -46,6 +47,7 @@ flag_files =				\
 		estonia.png		\
 		ethiopia.png		\
 		europe.png		\
+		euskadi.png		\
 		finland.png		\
 		france_old.png		\
 		france.png		\
@@ -56,6 +58,7 @@ flag_files =				\
 		greece_ancient.png	\
 		greece.png		\
 		greenland.png		\
+		hacker.png		\
 		hittite.png		\
 		hungary.png		\
 		iceland.png		\
@@ -73,6 +76,7 @@ flag_files =				\
 		italy.png		\
 		japan.png		\
 		kampuchea.png		\
+		keetoowah.png		\
 		kenya.png		\
 		korea.png		\
 		latvia.png		\
@@ -109,6 +113,7 @@ flag_files =				\
 		russia.png		\
 		rwanda.png		\
 		ryukyu.png		\
+		samogitia.png		\
 		sapmi.png		\
 		scotland.png		\
 		serbia.png		\
@@ -138,6 +143,7 @@ flag_files =				\
 		united_kingdom.png	\
 		united_nations.png	\
 		unknown.png		\
+		uruguay.png		\
 		usa.png			\
 		uyghur.png		\
 		venezuela.png		\
@@ -159,6 +165,7 @@ shield_files =					\
 		assyria-shield.png		\
 		australia-shield.png		\
 		austria-shield.png		\
+		aymara-shield.png		\
 		azerbaijan-shield.png		\
 		aztec-shield.png		\
 		bangladesh-shield.png		\
@@ -190,6 +197,7 @@ shield_files =					\
 		estonia-shield.png		\
 		ethiopia-shield.png		\
 		europe-shield.png		\
+		euskadi-shield.png		\
 		finland-shield.png		\
 		france_old-shield.png		\
 		france-shield.png		\
@@ -200,6 +208,7 @@ shield_files =					\
 		greece_ancient-shield.png	\
 		greece-shield.png		\
 		greenland-shield.png		\
+		hacker-shield.png		\
 		hittite-shield.png		\
 		hungary-shield.png		\
 		iceland-shield.png		\
@@ -217,6 +226,7 @@ shield_files =					\
 		italy-shield.png		\
 		japan-shield.png		\
 		kampuchea-shield.png		\
+		keetoowah-shield.png		\
 		kenya-shield.png		\
 		korea-shield.png		\
 		latvia-shield.png		\
@@ -253,6 +263,7 @@ shield_files =					\
 		russia-shield.png		\
 		rwanda-shield.png		\
 		ryukyu-shield.png		\
+		samogitia-shield.png		\
 		sapmi-shield.png		\
 		scotland-shield.png		\
 		serbia-shield.png		\
@@ -282,6 +293,7 @@ shield_files =					\
 		united_kingdom-shield.png	\
 		united_nations-shield.png	\
 		unknown-shield.png		\
+		uruguay-shield.png		\
 		usa-shield.png			\
 		uyghur-shield.png		\
 		venezuela-shield.png		\
@@ -303,6 +315,7 @@ svg_files = 				\
 		assyria.svg		\
 		australia.svg		\
 		austria.svg		\
+		aymara.svg		\
 		azerbaijan.svg		\
 		aztec.svg		\
 		babylon.svg		\
@@ -334,6 +347,7 @@ svg_files = 				\
 		estonia.svg		\
 		ethiopia.svg		\
 		europe.svg		\
+		euskadi.svg		\
 		finland.svg		\
 		france_old.svg		\
 		france.svg		\
@@ -344,6 +358,7 @@ svg_files = 				\
 		greece_ancient.svg	\
 		greece.svg		\
 		greenland.svg		\
+		hacker.svg		\
 		hittite.svg		\
 		hungary.svg		\
 		iceland.svg		\
@@ -361,6 +376,7 @@ svg_files = 				\
 		italy.svg		\
 		japan.svg		\
 		kampuchea.svg		\
+		keetoowah.svg		\
 		kenya.svg		\
 		korea.svg		\
 		latvia.svg		\
@@ -397,6 +413,7 @@ svg_files = 				\
 		russia.svg		\
 		rwanda.svg		\
 		ryukyu.svg		\
+		samogitia.svg		\
 		sapmi.svg		\
 		scotland.svg		\
 		serbia.svg		\
@@ -426,6 +443,7 @@ svg_files = 				\
 		united_kingdom.svg	\
 		united_nations.svg	\
 		unknown.svg		\
+		uruguay.svg		\
 		usa.svg			\
 		uyghur.svg		\
 		venezuela.svg		\
