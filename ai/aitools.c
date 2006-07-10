@@ -864,7 +864,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
         if (missile->ai.ai_role != AIUNIT_ESCORT
             && missile->transported_by == -1
             && missile->owner == punit->owner
-            && unit_flag(missile, F_MISSILE)
+            && unit_class_flag(get_unit_class(unit_type(missile)), UCF_MISSILE)
             && can_unit_load(missile, punit)) {
           UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
           ai_unit_new_role(missile, AIUNIT_ESCORT, target->tile);

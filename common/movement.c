@@ -447,12 +447,12 @@ static bool can_unit_type_transport(const struct unit_type *transporter,
     return TRUE;
   }
 
-  if (!unit_type_flag(transported, F_MISSILE)
+  if (!unit_class_flag(get_unit_class(transported), UCF_MISSILE)
      && unit_type_flag(transporter, F_MISSILE_CARRIER)) {
     return FALSE;
   }
 
-  if (unit_type_flag(transported, F_MISSILE)) {
+  if (unit_class_flag(get_unit_class(transported), UCF_MISSILE)) {
     if (!unit_type_flag(transporter, F_MISSILE_CARRIER)
         && !unit_type_flag(transporter, F_CARRIER)) {
       return FALSE;

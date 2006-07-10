@@ -925,7 +925,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
-  if (unit_type_flag(utype, F_MISSILE)) {
+  if (unit_class_flag(get_unit_class(utype), UCF_MISSILE)) {
     sprintf(buf + strlen(buf),
 	    _("* A missile unit: gets used up in making an attack.\n"));
   } else if(unit_type_flag(utype, F_ONEATTACK)) {
@@ -1013,7 +1013,7 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
       assert(num_allowed_units < ARRAY_SIZE(allowed_units));
     }
 
-    if (unit_type_flag(utype, F_MISSILE)) {
+    if (unit_class_flag(get_unit_class(utype), UCF_MISSILE)) {
       n = num_role_units(F_MISSILE_CARRIER);
 
       for (j = 0; j < n; j++) {

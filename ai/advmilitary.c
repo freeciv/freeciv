@@ -534,7 +534,7 @@ static unsigned int assess_danger(struct city *pcity)
       } else if (is_air_unit(punit) && !unit_flag(punit, F_NUCLEAR)) {
         danger[3] += vulnerability * move_rate / MAX(dist, 1); /* SAM */
       }
-      if (unit_flag(punit, F_MISSILE)) {
+      if (unit_class_flag(get_unit_class(unit_type(punit)), UCF_MISSILE)) {
         /* SDI */
         danger[4] += vulnerability * move_rate / MAX(move_rate, dist);
       }

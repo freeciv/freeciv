@@ -40,10 +40,10 @@ static struct unit_class unit_classes[UCL_LAST];
 */
 
 static const char *unit_class_flag_names[] = {
-  "TerrainSpeed", "DamageSlows", "CanOccupy"
+  "TerrainSpeed", "DamageSlows", "CanOccupy", "Missile"
 };
 static const char *flag_names[] = {
-  "TradeRoute" ,"HelpWonder", "Missile", "IgZOC", "NonMil", "IgTer", 
+  "TradeRoute" ,"HelpWonder", "IgZOC", "NonMil", "IgTer", 
   "Carrier", "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
   "AEGIS", "Fighter", "Marines", "Partial_Invis", "Settlers", "Diplomat",
   "Trireme", "Nuclear", "Spy", "Transform", "Paratroopers",

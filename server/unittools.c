@@ -1184,7 +1184,7 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 	  && !is_non_allied_unit_tile(ptile, pplayer)))
     return TRUE;
 
-  if (unit_type_flag(type, F_MISSILE)) {
+  if (unit_class_flag(get_unit_class(type), UCF_MISSILE)) {
     int cap = missile_carrier_capacity(ptile, pplayer, FALSE);
     if (unit_is_on_tile)
       cap++;

@@ -143,7 +143,7 @@ static void ai_hunter_missile_want(struct player *pplayer,
   unit_type_iterate(ut) {
     int desire;
 
-    if (!BV_ISSET(ut->flags, F_MISSILE) || !can_build_unit(pcity, ut)) {
+    if (!unit_class_flag(get_unit_class(ut), UCF_MISSILE) || !can_build_unit(pcity, ut)) {
       continue;
     }
 
@@ -266,7 +266,8 @@ static void ai_hunter_try_launch(struct player *pplayer,
   unit_list_iterate(punit->tile->units, missile) {
     struct unit *sucker = NULL;
 
-    if (missile->owner == pplayer && unit_flag(missile, F_MISSILE)) {
+    if (missile->owner == pplayer
+        && unit_class_flag(get_unit_class(unit_type(missile)), UCF_MISSILE)) {
       UNIT_LOG(LOGLEVEL_HUNT, missile, "checking for hunt targets");
       pft_fill_unit_parameter(&parameter, punit);
       map = pf_create_map(&parameter);

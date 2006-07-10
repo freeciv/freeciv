@@ -66,12 +66,13 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "TerrainSpeed" = Units use terrain spesific speed
 ; "DamageSlows"  = Damages units are slowed down
 ; "CanOccupy"    = Military units of this class can occupy enemy cities
+; "Missile"      = Unit is destroyed when it attacks
 
 [unitclass_missile]
 name          = "Missile"
 move_type     = "Air"
 hp_loss_pct   = 0
-flags         = ""
+flags         = "Missile"
 
 [unitclass_land]
 name          = "Land"
@@ -101,7 +102,7 @@ flags         = ""
 name          = "Nuclear"
 move_type     = "Air"
 hp_loss_pct   = 0
-flags         = ""
+flags         = "Missile"
 
 ; Below: The individual units, one per section.
 ;
@@ -150,8 +151,6 @@ flags         = ""
 ;
 ; "HelpWonder"	= can help build wonders
 ; "TradeRoute"	= can establish trade routes
-; "Missile"	= (air only) some buildings and units have higher defence 
-;                  against these
 ; "IgZOC"	= (land only) ignore Zones of Control (ZOC)
 ; "NonMil"	= a non-military unit, does not cause unhappiness
 ; "IgTer"	= ignore terrain/road/rail, treat every tile as 1/3 move cost
@@ -1549,7 +1548,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "Missile"
+flags         = "FieldUnit", "OneAttack"
 roles         = ""
 helptext      = _("\
 TIP:  A handful of these can successfully keep the waters around\
@@ -1581,7 +1580,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "Missile", "Nuclear"
+flags         = "FieldUnit", "OneAttack", "Nuclear"
 roles         = ""
 helptext      = _("\
 You can build Nuclear units when you have the required advance, and\

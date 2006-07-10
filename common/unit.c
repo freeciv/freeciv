@@ -1122,7 +1122,7 @@ static void count_carrier_capacity(int *airall, int *misonly,
       /* Don't count units which have enough fuel (>1) */
       if (is_air_unit(punit)
 	  && (count_units_with_extra_fuel || punit->fuel <= 1)) {
-	if (unit_flag(punit, F_MISSILE)) {
+	if (unit_class_flag(get_unit_class(unit_type(punit)), UCF_MISSILE)) {
 	  (*misonly)--;
 	} else {
 	  (*airall)--;

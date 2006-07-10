@@ -876,8 +876,9 @@ static void handle_unit_attack_request(struct unit *punit, struct unit *pdefende
 	    unit_owner(pdefender)->name, unit_type(pdefender)->name);
 
     punit->moved = TRUE;	/* We moved */
-    kill_unit(pwinner, plooser, vet && !unit_flag(punit, F_MISSILE));
-    if (unit_flag(pwinner, F_MISSILE)) {
+    kill_unit(pwinner, plooser,
+              vet && !unit_class_flag(get_unit_class(unit_type(punit)), UCF_MISSILE));
+    if (unit_class_flag(get_unit_class(unit_type(pwinner)), UCF_MISSILE)) {
       wipe_unit(pwinner);
       return;
     }

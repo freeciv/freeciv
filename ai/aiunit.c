@@ -2418,7 +2418,7 @@ void update_simple_ai_types(void)
 
   unit_type_iterate(punittype) {
     if (!unit_type_flag(punittype, F_NONMIL)
-	&& !unit_type_flag(punittype, F_MISSILE)
+	&& !unit_class_flag(get_unit_class(punittype), UCF_MISSILE)
 	&& !unit_type_flag(punittype, F_NO_LAND_ATTACK)
         && get_unit_move_type(punittype) != AIR_MOVING
 	&& punittype->transport_capacity < 8) {

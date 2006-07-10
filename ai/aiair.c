@@ -119,7 +119,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   victim_cost = stack_cost(pdefender);
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
-  if (unit_flag(punit, F_MISSILE)) {
+  if (unit_class_flag(get_unit_class(unit_type(punit)), UCF_MISSILE)) {
     victim_cost -= unit_build_shield_cost(punit->type);
   }
 

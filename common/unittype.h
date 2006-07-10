@@ -29,6 +29,7 @@ enum unit_class_flag_id {
   UCF_TERRAIN_SPEED = 0,
   UCF_DAMAGE_SLOWS,
   UCF_CAN_OCCUPY,
+  UCF_MISSILE,
   UCF_LAST
 };
 
@@ -52,7 +53,6 @@ struct unit_class {
 enum unit_flag_id { 
   F_TRADE_ROUTE=0,
   F_HELP_WONDER,
-  F_MISSILE,   
   F_IGZOC,     
   F_NONMIL,      
   F_IGTER,       

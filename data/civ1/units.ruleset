@@ -60,6 +60,7 @@ veteran_move_bonus = 0, 0
 ; "TerrainSpeed" = Units use terrain spesific speed
 ; "DamageSlows"  = Damages units are slowed down
 ; "CanOccupy"    = Military units of this class can occupy enemy cities
+; "Missile"      = Unit is destroyed when it attacks
 
 [unitclass_land]
 name          = "Land"
@@ -83,7 +84,7 @@ flags         = ""
 name          = "Nuclear"
 move_type     = "Air"
 hp_loss_pct   = 0
-flags         = ""
+flags         = "Missile"
 
 ; Below: The individual units, one per section.
 ;
@@ -902,7 +903,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "Missile", "Nuclear"
+flags         = "FieldUnit", "OneAttack", "Nuclear"
 roles         = ""
 helptext      = _("\
 You can build Nuclear units when you have the required advance, and\
