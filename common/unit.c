@@ -78,8 +78,8 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 {
   struct city *pcity=tile_get_city(ptile);
 
-  if (action!=DIPLOMAT_MOVE
-      && is_ocean(tile_get_terrain(pdiplomat->tile))) {
+  if (action != DIPLOMAT_MOVE
+      && !can_unit_exist_at_tile(pdiplomat, pdiplomat->tile)) {
     return FALSE;
   }
 
@@ -1109,12 +1109,12 @@ static void count_carrier_capacity(int *airall, int *misonly,
   unit_list_iterate(ptile->units, punit) {
     if (unit_owner(punit) == pplayer) {
       if (unit_flag(punit, F_CARRIER)
-	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
+          && can_unit_exist_at_tile(punit, ptile)) {
 	*airall += get_transporter_capacity(punit);
 	continue;
       }
       if (unit_flag(punit, F_MISSILE_CARRIER)
-	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
+          && can_unit_exist_at_tile(punit, ptile)) {
 	*misonly += get_transporter_capacity(punit);
 	continue;
       }

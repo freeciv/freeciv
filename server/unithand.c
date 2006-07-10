@@ -1038,11 +1038,14 @@ bool handle_unit_move_request(struct unit *punit, struct tile *pdesttile,
 						 punit->id, target_id);
         return FALSE;
       } else if (!can_unit_move_to_tile(punit, pdesttile, igzoc)) {
-        notify_player(pplayer, punit->tile, E_BAD_COMMAND,
-                         is_ocean(tile_get_terrain(punit->tile))
-                         ? _("Unit must be on land to "
-                             "perform diplomatic action.")
-                         : _("No diplomat action possible."));
+        if (can_unit_exist_at_tile(punit, punit->tile)) {
+          notify_player(pplayer, punit->tile, E_BAD_COMMAND,
+                        _("No diplomat action possible."));
+        } else {
+          notify_player(pplayer, punit->tile, E_BAD_COMMAND,
+                        _("Unit cannot perform diplomatic action from %s."),
+                          get_name(punit->tile->terrain));
+        }
         return FALSE;
       }
     }

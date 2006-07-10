@@ -1632,8 +1632,8 @@ static void ai_military_attack_barbarian(struct player *pplayer,
   struct city *pc;
 
   if ((pc = dist_nearest_city(pplayer, punit->tile, FALSE, TRUE))) {
-    if (!is_ocean(tile_get_terrain(punit->tile))) {
-      UNIT_LOG(LOG_DEBUG, punit, "Barbarian marching to conquer %s", pc->name);
+    if (can_unit_exist_at_tile(punit, punit->tile)) {
+      UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s", pc->name);
       (void) ai_gothere(pplayer, punit, pc->tile);
     } else {
       struct unit *ferry = NULL;
@@ -2293,9 +2293,9 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 
   CHECK_UNIT(leader);
 
-  if (leader->moves_left == 0 || 
-      (!is_ocean(tile_get_terrain(leader->tile)) &&
-       unit_list_size(leader->tile->units) > 1) ) {
+  if (leader->moves_left == 0
+      || (can_unit_survive_at_tile(leader, leader->tile)
+          && unit_list_size(leader->tile->units) > 1) ) {
       handle_unit_activity_request(leader, ACTIVITY_SENTRY);
       return;
   }

@@ -334,6 +334,9 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
   search_map = pf_create_map(&param);
 
   pf_iterator(search_map, pos) {
+   /* Should this be !can_unit_exist_at_tile() instead of is_ocean() some day?
+    * That would allow special units to wade in shallow coast waters to meet
+    * ferry where deep sea starts. */
     int radius = (is_ocean(pos.tile->terrain) ? 1 : 0);
 
     if (pos.turn + pos.total_EC/PF_TURN_FACTOR > best_turns) {

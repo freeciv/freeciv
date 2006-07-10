@@ -2473,15 +2473,13 @@ static void wakeup_neighbor_sentries(struct unit *punit)
   square_iterate(punit->tile, 3, ptile) {
     unit_list_iterate(ptile->units, penemy) {
       int radius_sq = get_unit_vision_at(penemy, penemy->tile, V_MAIN);
-      enum unit_move_type move_type = get_unit_move_type(unit_type(penemy));
-      struct terrain *pterrain = tile_get_terrain(ptile);
 
       if (!pplayers_allied(unit_owner(punit), unit_owner(penemy))
 	  && penemy->activity == ACTIVITY_SENTRY
 	  && radius_sq >= sq_map_distance(punit->tile, ptile)
 	  && can_player_see_unit(unit_owner(penemy), punit)
 	  /* on board transport; don't awaken */
-	  && !(move_type == LAND_MOVING && is_ocean(pterrain))) {
+	  && can_unit_exist_at_tile(penemy, penemy->tile)) {
 	set_unit_activity(penemy, ACTIVITY_IDLE);
 	send_unit_info(NULL, penemy);
       }
