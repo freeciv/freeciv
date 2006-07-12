@@ -652,6 +652,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
     return SINGLE_MOVE/3;
   }
   if (!native) {
+    /* Loading to transport or entering port */
     return SINGLE_MOVE;
   }
   if (tile_has_special(t1, S_ROAD) && tile_has_special(t2, S_ROAD)) {
@@ -735,9 +736,17 @@ int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
   The cost to move punit from where it is to tile x,y.
   It is assumed the move is a valid one, e.g. the tiles are adjacent.
 ***************************************************************/
-int map_move_cost(struct unit *punit, const struct tile *ptile)
+int map_move_cost_unit(struct unit *punit, const struct tile *ptile)
 {
   return tile_move_cost_ptrs(punit, punit->tile, ptile);
+}
+
+/***************************************************************
+  Move cost between two tiles
+***************************************************************/
+int map_move_cost(const struct tile *src_tile, const struct tile *dst_tile)
+{
+  return tile_move_cost_ptrs(NULL, src_tile, dst_tile);
 }
 
 /***************************************************************

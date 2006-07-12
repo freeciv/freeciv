@@ -30,6 +30,20 @@
 static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 					    struct unit *punit);
 
+/*************************************************************
+  Cost of moving one normal step.
+*************************************************************/
+static inline int single_move_cost(const struct pf_parameter *param,
+                                   const struct tile *src_tile,
+                                   const struct tile *dest_tile)
+{
+  if (unit_class_flag(param->class, UCF_TERRAIN_SPEED)) {
+    return map_move_cost(src_tile, dest_tile);
+  } else {
+    return SINGLE_MOVE;
+  }
+}
+
 /* ===================== Move Cost Callbacks ========================= */
 
 /*************************************************************
@@ -40,8 +54,11 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
 static int seamove(const struct tile *ptile, enum direction8 dir,
                    const struct tile *ptile1, struct pf_parameter *param)
 {
-  if (is_ocean(ptile1->terrain) || ptile1->city
-      || is_non_allied_unit_tile(ptile1, param->owner)) {
+  if (is_ocean(ptile1->terrain)) {
+    return single_move_cost(param, ptile, ptile1);
+  } else if (ptile1->city
+             || is_non_allied_unit_tile(ptile1, param->owner)) {
+    /* Entering port or shore bombardment */
     return SINGLE_MOVE;
   } else {
     return PF_IMPOSSIBLE_MC;
@@ -55,7 +72,7 @@ static int single_airmove(const struct tile *ptile, enum direction8 dir,
 			  const struct tile *ptile1,
 			  struct pf_parameter *param)
 {
-  return SINGLE_MOVE; /* simple, eh? */
+  return single_move_cost(param, ptile, ptile1);
 }
 
 /*************************************************************
@@ -66,9 +83,10 @@ static int seamove_no_bombard(const struct tile *ptile, enum direction8 dir,
 			      const struct tile *ptile1,
 			      struct pf_parameter *param)
 {
-  /* MOVE_COST_FOR_VALID_SEA_STEP means ships can move between */
-  if (map_move_cost_ai(ptile, ptile1) == MOVE_COST_FOR_VALID_SEA_STEP
-      && !is_non_allied_city_tile(ptile1, param->owner)) {
+  if (is_ocean(ptile1->terrain)) {
+    return single_move_cost(param, ptile, ptile1);
+  } else if (is_allied_city_tile(ptile1, param->owner)) {
+    /* Entering port */
     return SINGLE_MOVE;
   } else {
     return PF_IMPOSSIBLE_MC;
@@ -86,14 +104,17 @@ static int sea_overlap_move(const struct tile *ptile, enum direction8 dir,
 			    const struct tile *ptile1,
 			    struct pf_parameter *param)
 {
-  if (is_ocean(ptile->terrain)) {
-    return SINGLE_MOVE;
-  } else if (is_allied_city_tile(ptile, param->owner)
-	     && is_ocean(ptile1->terrain)) {
+  if (is_allied_city_tile(ptile, param->owner)
+      && is_ocean(ptile1->terrain)) {
+    return single_move_cost(param, ptile, ptile1);
+  } else if (!is_ocean(ptile->terrain)) {
+    return PF_IMPOSSIBLE_MC;
+  } else if (is_ocean(ptile1->terrain)) {
+    return single_move_cost(param, ptile, ptile1);
+  } else {
+    /* Entering port or bombardment */
     return SINGLE_MOVE;
   }
-
-  return PF_IMPOSSIBLE_MC;
 }
 
 /**********************************************************************
@@ -108,10 +129,13 @@ static int sea_attack_move(const struct tile *src_tile, enum direction8 dir,
     if (is_non_allied_unit_tile(src_tile, param->owner)) {
       return PF_IMPOSSIBLE_MC;
     }
+    if (is_ocean(dest_tile->terrain)) {
+      return single_move_cost(param, src_tile, dest_tile);
+    }
     return SINGLE_MOVE;
   } else if (is_allied_city_tile(src_tile, param->owner)
 	     && is_ocean(dest_tile->terrain)) {
-    return SINGLE_MOVE;
+    return single_move_cost(param, src_tile, dest_tile);
   }
 
   return PF_IMPOSSIBLE_MC;
@@ -139,10 +163,10 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
             || is_non_allied_city_tile(ptile1, param->owner))) {
       move_cost = PF_IMPOSSIBLE_MC;
     } else {
-      move_cost = terrain1->movement_cost * SINGLE_MOVE;
+      move_cost = single_move_cost(param, ptile, ptile1);
     }
   } else {
-    move_cost = map_move_cost_ai(ptile, ptile1);
+    move_cost = single_move_cost(param, ptile, ptile1);
   }
 
   return move_cost;
@@ -174,7 +198,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
       move_cost = tgt_tile->terrain->movement_cost * SINGLE_MOVE;
     } else if (BV_ISSET(param->unit_flags, F_MARINES)) {
       /* Can attack!! */
-      move_cost = SINGLE_MOVE;
+      move_cost = single_move_cost(param, src_tile, tgt_tile);
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
     }
@@ -189,8 +213,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
       /* Attack! */
       move_cost = SINGLE_MOVE;
     } else {
-      /* Normal move */
-      move_cost = map_move_cost_ai(src_tile, tgt_tile);
+      move_cost = single_move_cost(param, src_tile, tgt_tile);
     }
   }
 
@@ -210,7 +233,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
   } else if (is_ocean(terrain1)) {
     move_cost = SINGLE_MOVE;
   } else {
-    move_cost = ptile->move_cost[dir];
+    move_cost = single_move_cost(param, ptile, ptile1);
   }
   which will achieve the same without call-back.
 ************************************************************/
@@ -223,10 +246,8 @@ static int land_overlap_move(const struct tile *ptile, enum direction8 dir,
 
   if (is_ocean(terrain1)) {
     move_cost = SINGLE_MOVE;
-  } else if (is_ocean(ptile->terrain)) {
-    move_cost = terrain1->movement_cost * SINGLE_MOVE;
   } else {
-    move_cost = map_move_cost_ai(ptile, ptile1);
+    move_cost = single_move_cost(param, ptile, ptile1);
   }
 
   return move_cost;
@@ -287,9 +308,11 @@ static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
     } else {
       move_cost = MOVE_COST_ROAD;
     }
+  } else if (unit_class_flag(param->class, UCF_TERRAIN_SPEED)) {
+    move_cost = (map_move_cost(ptile, ptile1) != 0
+                 ? MOVE_COST_ROAD : 0);
   } else {
-    move_cost = (map_move_cost_ai(ptile, ptile1) != 0
-		 ? MOVE_COST_ROAD : 0);
+    move_cost = SINGLE_MOVE;
   }
   return move_cost;
 }
@@ -819,6 +842,7 @@ static void pft_fill_unit_default_parameter(struct pf_parameter *parameter,
     parameter->fuel_left_initially = 1;
   }
   parameter->owner = unit_owner(punit);
+  parameter->class = get_unit_class(unit_type(punit));
   parameter->unit_flags = unit_type(punit)->flags;
 
   parameter->omniscience = !ai_handicap(unit_owner(punit), H_MAP);

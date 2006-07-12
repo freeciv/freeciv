@@ -1002,7 +1002,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
 static void diplomat_charge_movement (struct unit *pdiplomat, struct tile *ptile)
 {
   pdiplomat->moves_left -=
-    map_move_cost (pdiplomat, ptile);
+    map_move_cost_unit(pdiplomat, ptile);
   if (pdiplomat->moves_left < 0) {
     pdiplomat->moves_left = 0;
   }

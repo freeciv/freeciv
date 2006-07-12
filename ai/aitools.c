@@ -1005,8 +1005,8 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  if (punit->moves_left <= map_move_cost(punit, ptile)
-      && unit_move_rate(punit) > map_move_cost(punit, ptile)
+  if (punit->moves_left <= map_move_cost_unit(punit, ptile)
+      && unit_move_rate(punit) > map_move_cost_unit(punit, ptile)
       && enemies_at(punit, ptile)
       && !enemies_at(punit, punit->tile)) {
     UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
