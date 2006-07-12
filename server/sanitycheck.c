@@ -240,56 +240,65 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
       switch (get_worker_city(pcity, x, y)) {
       case C_TILE_EMPTY:
 	if (ptile->worked) {
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but worked by %s!",
 		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "",
 		  (ptile)->worked->name);
 	}
 	if (is_enemy_unit_tile(ptile, pplayer)) {
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but occupied by an enemy unit!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (game.info.borders > 0 && owner && owner != pcity->owner) {
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but in enemy territory!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (!city_can_work_tile(pcity, x, y)) {
 	  /* Complete check. */
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "empty but is unavailable!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	break;
       case C_TILE_WORKER:
 	if ((ptile)->worked != pcity) {
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but main map disagrees!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (is_enemy_unit_tile(ptile, pplayer)) {
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but occupied by an enemy unit!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (game.info.borders > 0 && owner && owner != pcity->owner) {
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but in enemy territory!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	if (!city_can_work_tile(pcity, x, y)) {
 	  /* Complete check. */
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "worked but is unavailable!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	break;
       case C_TILE_UNAVAILABLE:
 	if (city_can_work_tile(pcity, x, y)) {
-	  freelog(LOG_ERROR, "Tile at %s->%d,%d marked as "
+	  freelog(LOG_ERROR, "Tile at %s->%d,%d%s marked as "
 		  "unavailable but seems to be available!",
-		  pcity->name, TILE_XY(ptile));
+		  pcity->name, TILE_XY(ptile),
+                  is_city_center(x, y) ? " (city center)" : "");
 	}
 	break;
       }
