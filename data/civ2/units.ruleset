@@ -92,12 +92,6 @@ move_type     = "Air"
 hp_loss_pct   = 0
 flags         = ""
 
-[unitclass_nuclear]
-name          = "Nuclear"
-move_type     = "Air"
-hp_loss_pct   = 0
-flags         = "Missile"
-
 ; Below: The individual units, one per section.
 ;
 ; The number can be variable, up to 200.  
@@ -122,7 +116,7 @@ flags         = "Missile"
 ; tech_req      = required advance, names from techs.ruleset, or special:
 ;                 "None" => available from start
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name
-; class         = "Land", "Sea", "Air", "Helicopter", "Missile" or "Nuclear"
+; class         = One of the classes listed above
 ; transport_cap = Number of units (ground, or air/missiles, depending on flags)
 ; fuel          = number of turns air units can fly before they crash. For
 ;                 barbarians this is used as lifetime instead
@@ -1502,7 +1496,7 @@ TIP:  A handful of these can successfully keep the waters around\
 
 [unit_nuclear]
 name          = _("Nuclear")
-class         = "Nuclear"
+class         = "Missile"
 tech_req      = "Rocketry"
 obsolete_by   = "None"
 graphic       = "u.nuclear"
