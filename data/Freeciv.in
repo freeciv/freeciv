@@ -1589,7 +1589,7 @@ Freeciv*reportcityviewport.allowHoriz:          False
 Freeciv*reportcityviewport.forceColumns:        true
 Freeciv*reportcityviewport.defaultColumns:      1
 Freeciv*reportcityviewport.verticalList:        true
-Freeciv*reportcityviewport.background:          white 
+Freeciv*reportcityviewport.background:          white
 Freeciv*reportcityviewport.resizable:           True
 Freeciv*reportcityviewport.top:                 chainTop
 Freeciv*reportcityviewport.bottom:              chainBottom

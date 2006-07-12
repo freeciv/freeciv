@@ -203,7 +203,7 @@ void create_players_dialog(bool raise)
 
 
 /**************************************************************************
-...
+  Updates the player list dialog.
 **************************************************************************/
 void update_players_dialog(void)
 {
@@ -253,7 +253,7 @@ void update_players_dialog(void)
       namebuf[16] = '\0';
 
       /* text for diplstate type and turns -- not applicable if this is me */
-      if (i == game.info.player_idx) {
+      if ((i == game.info.player_idx) || !game.player_ptr) {
 	strcpy(dsbuf, "-");
       } else {
 	pds = pplayer_get_diplstate(game.player_ptr, get_player(i));
@@ -299,28 +299,33 @@ void players_list_callback(Widget w, XtPointer client_data,
 {
   XawListReturnStruct *ret;
 
-  ret=XawListShowCurrent(players_list);
+  ret = XawListShowCurrent(players_list);
 
   XtSetSensitive(players_meet_command, FALSE);
   XtSetSensitive(players_int_command, FALSE);
-  if(ret->list_index!=XAW_LIST_NONE) {
-    struct player *pplayer = get_player(list_index_to_player_index[ret->list_index]);
+  if (ret->list_index != XAW_LIST_NONE) {
+    struct player *pplayer = 
+      get_player(list_index_to_player_index[ret->list_index]);
 
-    if(pplayer->spaceship.state != SSHIP_NONE)
+    if (pplayer->spaceship.state != SSHIP_NONE)
       XtSetSensitive(players_sship_command, TRUE);
     else
       XtSetSensitive(players_sship_command, FALSE);
 
-    if(pplayer->is_alive) {
+    if (pplayer->is_alive && game.player_ptr) {
       XtSetSensitive(players_war_command,
 		     !pplayers_at_war(game.player_ptr, pplayer)
 		     && game.player_ptr != pplayer);
     }
 
-    XtSetSensitive(players_vision_command,
-		   gives_shared_vision(game.player_ptr, pplayer));
+    if (game.player_ptr) {
+      XtSetSensitive(players_vision_command,
+		     gives_shared_vision(game.player_ptr, pplayer));
+    }
 
-    XtSetSensitive(players_meet_command, can_meet_with_player(pplayer));
+    if (game.player_ptr) {
+      XtSetSensitive(players_meet_command, can_meet_with_player(pplayer));
+    }
     XtSetSensitive(players_int_command, can_intel_with_player(pplayer));
   }
 }
