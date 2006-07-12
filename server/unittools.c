@@ -1416,110 +1416,118 @@ static void server_remove_unit(struct unit *punit)
 }
 
 /**************************************************************************
+  Handle units destroyed when their transport is destroyed
+**************************************************************************/
+static void unit_lost_with_transport(const struct player *pplayer,
+                                     struct unit *pcargo,
+                                     const struct unit_type *ptransport)
+{
+  notify_player(pplayer, pcargo->tile, E_UNIT_LOST,
+                _("%s lost when %s was lost."),
+                unit_type(pcargo)->name,
+                ptransport->name);
+  server_remove_unit(pcargo);
+}
+
+/**************************************************************************
   Remove the unit, and passengers if it is a carrying any. Remove the 
   _minimum_ number, eg there could be another boat on the square.
 **************************************************************************/
 void wipe_unit(struct unit *punit)
 {
-  bool wipe_cargo = TRUE; /* This used to be a function parameter. */
   struct tile *ptile = punit->tile;
   struct player *pplayer = unit_owner(punit);
   struct unit_type *ptype = unit_type(punit);
+  int drowning = 0;
 
   /* First pull all units off of the transporter. */
   if (get_transporter_capacity(punit) > 0) {
-    /* FIXME: there's no send_unit_info call below so these units aren't
-     * updated at the client.  I guess this works because the unit info
-     * will be sent eventually anyway, but it's surely a bug. */
     unit_list_iterate(ptile->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
 	/* Could use unload_unit_from_transporter here, but that would
 	 * call send_unit_info for the transporter unnecessarily. */
 	pull_unit_from_transporter(pcargo, punit);
+        if (!can_unit_exist_at_tile(pcargo, ptile)) {
+          drowning++;
+        }
 	if (pcargo->activity == ACTIVITY_SENTRY) {
 	  /* Activate sentried units - like planes on a disbanded carrier.
 	   * Note this will activate ground units even if they just change
 	   * transporter. */
 	  set_unit_activity(pcargo, ACTIVITY_IDLE);
 	}
-	send_unit_info(NULL, pcargo);
-      } 
+        if (!can_unit_exist_at_tile(pcargo, ptile)) {
+          drowning++;
+          /* No need for send_unit_info() here. Unit info will be sent
+           * when it is assigned to a new transport or it will be removed. */
+        } else {
+          send_unit_info(NULL, pcargo);
+        }
+      }
     } unit_list_iterate_end;
   }
-
-  /* No need to wipe the cargo unless it's a ground transporter. */
-  wipe_cargo &= is_ground_units_transport(punit);
 
   /* Now remove the unit. */
   server_remove_unit(punit);
 
-  /* Finally reassign, bounce, or destroy all ground units at this location.
-   * There's no need to worry about air units; they can fly away. */
-  if (wipe_cargo
-      && is_ocean(tile_get_terrain(ptile))
-      && !tile_get_city(ptile)) {
+  /* Finally reassign, bounce, or destroy all units that cannot exist at this
+   * location without transport. */
+  if (drowning) {
     struct city *pcity = NULL;
-    int capacity = ground_unit_transporter_capacity(ptile, pplayer);
 
-    /* Get rid of excess standard units. */
-    if (capacity < 0) {
-      unit_list_iterate_safe(ptile->units, pcargo) {
-	if (is_ground_unit(pcargo)
-	    && pcargo->transported_by == -1
-	    && !unit_flag(pcargo, F_UNDISBANDABLE)
-	    && !unit_flag(pcargo, F_GAMELOSS)) {
-	  server_remove_unit(pcargo);
-	  if (++capacity >= 0) {
-	    break;
-	  }
-	}
-      } unit_list_iterate_safe_end;
-    }
-
-    /* Get rid of excess undisbandable/gameloss units. */
-    if (capacity < 0) {
-      unit_list_iterate_safe(ptile->units, pcargo) {
-	if (is_ground_unit(pcargo) && pcargo->transported_by == -1) {
+    /* First save undisbandable and gameloss units */
+    unit_list_iterate_safe(ptile->units, pcargo) {
+      if (pcargo->transported_by == -1
+          && !can_unit_exist_at_tile(pcargo, ptile)
+          && (unit_flag(pcargo, F_UNDISBANDABLE) || unit_flag(pcargo, F_GAMELOSS))) {
+        struct unit *ptransport = find_transport_from_tile(pcargo, ptile);
+        if (ptransport != NULL) {
+          put_unit_onto_transporter(pcargo, ptransport);
+          send_unit_info(NULL, pcargo);
+        } else {
 	  if (unit_flag(pcargo, F_UNDISBANDABLE)) {
 	    pcity = find_closest_owned_city(unit_owner(pcargo),
 					    pcargo->tile, TRUE, NULL);
 	    if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
 	      notify_player(pplayer, ptile, E_UNIT_RELOCATED,
-			       _("%s escaped the destruction of %s, and "
-				 "fled to %s."), unit_type(pcargo)->name,
-			       ptype->name, pcity->name);
+                            _("%s escaped the destruction of %s, and "
+                              "fled to %s."), unit_type(pcargo)->name,
+                            ptype->name, pcity->name);
 	    }
-	  }
-	  if (!unit_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
-	    notify_player(pplayer, ptile, E_UNIT_LOST,
-			     _("%s lost when %s was lost."),
-			     unit_type(pcargo)->name,
-			     ptype->name);
-	    server_remove_unit(pcargo);
-	  }
-	  if (++capacity >= 0) {
-	    break;
-	  }
-	}
-      } unit_list_iterate_safe_end;
-    }
+          }
+          if (!unit_flag(pcargo, F_UNDISBANDABLE) || !pcity) {
+            unit_lost_with_transport(pplayer, pcargo, ptype);
+          }
+        }
 
-    /* Reassign existing units.  This is an O(n^2) operation as written. */
-    unit_list_iterate(ptile->units, ptrans) {
-      if (is_ground_units_transport(ptrans)) {
-	int occupancy = get_transporter_occupancy(ptrans);
-
-	unit_list_iterate(ptile->units, pcargo) {
-	  if (occupancy >= get_transporter_capacity(ptrans)) {
-	    break;
-	  }
-	  if (is_ground_unit(pcargo) && pcargo->transported_by == -1) {
-	    put_unit_onto_transporter(pcargo, ptrans);
-	    occupancy++;
-	  }
-	} unit_list_iterate_end;
+        drowning--;
+        if (!drowning) {
+          break;
+        }
       }
-    } unit_list_iterate_end;
+    } unit_list_iterate_safe_end;
+  }
+
+  /* Then other units */
+  if (drowning) {
+    unit_list_iterate_safe(ptile->units, pcargo) {
+      if (pcargo->transported_by == -1
+          && !can_unit_exist_at_tile(pcargo, ptile)) {
+        struct unit *ptransport = find_transport_from_tile(pcargo, ptile);
+
+        if (ptransport != NULL) {
+          put_unit_onto_transporter(pcargo, ptransport);
+          send_unit_info(NULL, pcargo);
+        } else {
+          unit_lost_with_transport(pplayer, pcargo, ptype);
+        }
+
+        drowning--;
+        if (!drowning) {
+          break;
+        }
+      }
+    } unit_list_iterate_safe_end;
   }
 }
 

@@ -26,6 +26,7 @@
 #include "map.h"
 #include "movement.h"
 #include "unit.h"
+#include "unitlist.h"
 #include "unittype.h"
 #include "terrain.h"
 
@@ -485,4 +486,21 @@ enum unit_move_type move_type_from_str(const char *s)
     }
   }
   return MOVETYPE_LAST;
+}
+
+/**************************************************************************
+  Search transport suitable for given unit from tile. It has to have
+  free space in it.
+**************************************************************************/
+struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, ptransport) {
+    if (get_transporter_capacity(ptransport) > get_transporter_occupancy(ptransport)
+        && can_unit_transport(ptransport, punit)
+        && is_native_terrain(unit_type(ptransport), ptile->terrain)) {
+      return ptransport;
+    }
+  } unit_list_iterate_end;
+
+  return NULL;
 }
