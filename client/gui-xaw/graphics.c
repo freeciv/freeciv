@@ -571,7 +571,7 @@ Pixmap create_overlay_unit(const struct unit_type *punittype)
 
   /* Give tile a background color, based on the type of unit */
   /* Should there be colors like COLOR_MAPVIEW_LAND etc? -ev */
-  switch (punittype->move_type) {
+  switch (get_unit_move_type(punittype)) {
     case LAND_MOVING: bg_color = COLOR_OVERVIEW_LAND; break;
     case SEA_MOVING:  bg_color = COLOR_OVERVIEW_OCEAN; break;
     case HELI_MOVING: bg_color = COLOR_OVERVIEW_MY_UNIT; break;
