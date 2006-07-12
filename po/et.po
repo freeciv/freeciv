@@ -1,23 +1,23 @@
 # translation of et.po to Estonian
 # Estonian translation of Freeciv po file.
-# Copyright (C) 2002,2003,2004 Free Software Foundation, Inc.
+# Copyright (C) 2002,2003,2004, 2006 Free Software Foundation, Inc.
+#
 # Ahti Akel <akel@stallion.ee>, 2002,2003.
 # Ekke Vasli <ekke@chamber.ee>, 2001,2003,2004.
 # Elmo Todurov <todurov@gmail.com>, 2006.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-12 23:17+0300\n"
-"PO-Revision-Date: 2004-01-06 15:18+0200\n"
+"PO-Revision-Date: 2006-07-13 01:29+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
-"Language-Team: Estonian <gnome-et@linux.ee>\n"
+"Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: KBabel 1.0.1\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.2\n"
 
 #: common/city.c:53 client/cityrepdata.c:483 client/gui-gtk-2.0/repodlgs.c:936
 #: client/gui-mui/citydlg.c:1596 client/gui-mui/repodlgs.c:668
@@ -59,19 +59,19 @@ msgstr "Teadus"
 
 #: common/city.c:349
 msgid "?obsolete:O"
-msgstr ""
+msgstr "?obsolete:O"
 
 #: common/city.c:351
 msgid "?redundant:*"
-msgstr "*"
+msgstr "?redundant:*"
 
 #: common/city.c:356
 msgid "?built:B"
-msgstr ""
+msgstr "?built:B"
 
 #: common/city.c:358
 msgid "?wonder:w"
-msgstr ""
+msgstr "?wonder:w"
 
 #: common/connection.c:514
 #, c-format
@@ -141,7 +141,7 @@ msgstr "Linn: Sai tuumapommiga"
 
 #: common/events.c:54
 msgid "City: Released from citizen governor"
-msgstr ""
+msgstr "Linn: Vabastati kubernerist"
 
 #: common/events.c:55
 msgid "City: Suggest Growth Throttling"
@@ -157,7 +157,7 @@ msgstr "Linn: Rajati"
 
 #: common/events.c:58
 msgid "City: Worklist Events"
-msgstr ""
+msgstr "Linn: Tööjärjekorra sündmused"
 
 #: common/events.c:59
 msgid "City: Production changed"
@@ -361,7 +361,7 @@ msgstr "Ehitis: valmis"
 
 #: common/events.c:109
 msgid "Improvement: Forced to Sell"
-msgstr "Ehitis: Sunntud müüma"
+msgstr "Ehitis: Sunnitud müüma"
 
 #: common/events.c:110
 msgid "Improvement: New Improvement Selected"
@@ -373,11 +373,11 @@ msgstr "Ehitis: Müüdud"
 
 #: common/events.c:112
 msgid "Tech: Learned From Great Library"
-msgstr "Tech: Õpitud Suurest Raamatukogust"
+msgstr "Teadus: Õpitud Suurest Raamatukogust"
 
 #: common/events.c:113
 msgid "Tech: Learned New Tech"
-msgstr "Tech: Õppisime uue tehnoloogia"
+msgstr "Teadus: Õppisime uue tehnoloogia"
 
 #: common/events.c:114
 msgid "Treaty: Alliance"
@@ -433,7 +433,7 @@ msgstr "Üksus: Tootmine uuendatud"
 
 #: common/events.c:127
 msgid "Unit: Relocated"
-msgstr "Üksus: üle viidud"
+msgstr "Üksus: Üle viidud"
 
 #: common/events.c:128
 msgid "Unit: Orders / goto events"
@@ -457,7 +457,7 @@ msgstr "Ilmaime: Peatatud"
 
 #: common/events.c:133
 msgid "Wonder: Will Finish Next Turn"
-msgstr "Ilmaime: Saab valmis järgmisel perioodil"
+msgstr "Ilmaime: Saab valmis järgmisel käigul"
 
 #: common/events.c:134
 msgid "Diplomatic Message"
@@ -572,22 +572,22 @@ msgstr "?diplomatic_state:Tiimikaaslane"
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:456 common/requirements.c:471
 msgid "World-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "Maailma tasandil nõudmisi toetatakse ainult ilmaimede puhul."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:512
 msgid "Player-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "Mängija tasandil nõudmisi toetatakse ainult ilmaimede puhul."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:533
 msgid "Island-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "Saare tasandil nõudmisi toetatakse ainult ilmaimede puhul."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:581
 msgid "Surviving requirements are only supported at world range."
-msgstr ""
+msgstr "Ellujäämise nõudmisi toetakse ainult maailma lõikes."
 
 #. TRANS: (none) as in "Resources: (none)".
 #: common/requirements.c:1002 common/team.c:131
@@ -610,7 +610,7 @@ msgstr "Suurus %d"
 #: common/tech.c:138
 #, c-format
 msgid "tech \"%s\": requires itself"
-msgstr ""
+msgstr "teadus \"%s\" nõuab iseend"
 
 #. TRANS: "Unknown" tech
 #: common/tech.c:642 common/tech.c:673 client/gui-gtk-2.0/inteldlg.c:364
@@ -1021,7 +1021,7 @@ msgstr "mittevastav"
 #: utility/support.c:171
 #, c-format
 msgid "error %ld (failed FormatMessage)"
-msgstr ""
+msgstr "viga %ld (FormatMessage andis vea)"
 
 #: utility/support.c:181
 #, c-format
@@ -1039,41 +1039,41 @@ msgid "The %s have started building The %s in %s."
 msgstr "Mäng: %s on alustanud %s ehitamist linnas %s."
 
 #: ai/aicity.c:1357
-#, fuzzy, c-format
+#, c-format
 msgid "%s is selling %s (not needed) for %d."
-msgstr "Mäng: %s müüb %s (kasutu) %d eest."
+msgstr "%s müüb %s (ebavajalik) %d eest."
 
 #: ai/advdiplomacy.c:278
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr ""
+msgstr "*%s (AI)* Mitteaktiivses režiimis ei saa AI sellist lepet sõlmida."
 
 #: ai/advdiplomacy.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
-msgstr "*%s (AI)* Esiteks astu %s liidust välja, %s"
+msgstr "*%s (AI)* Esiteks astu %s liidust välja, %s."
 
 #: ai/advdiplomacy.c:300
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
-msgstr "*%s (AI)* Lõpetame kõigepealt vaenutsemise, %s"
+msgstr "*%s (AI)* Lõpetame kõigepealt vaenutsemise, %s."
 
 #: ai/advdiplomacy.c:304
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
-msgstr "*%s (AI)* Nii lihtsalt ei lase ma Sul minna, %s."
+msgstr "*%s (AI)* Ma tahan praegust vaherahu natuke kauemaks jätta, %s."
 
 #: ai/advdiplomacy.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "*%s (AI)* Esiteks astu %s liidust välja, %s"
+msgstr "*%s (AI)* Ma lihtsalt ei usalda veel astuda sinuga liitu, %s."
 
 #: ai/advdiplomacy.c:417
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
-msgstr ""
+msgstr "*%s (AI)* Ma ei tunne sellist linna."
 
 #: ai/advdiplomacy.c:444
 #, c-format
@@ -1083,7 +1083,7 @@ msgstr "*%s (AI)* Vabanda, aga sinuga vaate jagamine ei ole ohutu"
 #: ai/advdiplomacy.c:552
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr ""
+msgstr "*%s (AI)* See lepe pole meile eriti hea, %s!"
 
 #: ai/advdiplomacy.c:573
 #, c-format
@@ -1091,9 +1091,9 @@ msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (AI)* Tere tulemast meie liitlaseks %s!"
 
 #: ai/advdiplomacy.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr "*%s (AI)* Jah, me võime jääda alatiseks ühendatuks, %s"
+msgstr "*%s (AI)* Jah, me võime jääda alatiseks ühendatuks, %s."
 
 #: ai/advdiplomacy.c:582
 #, c-format
@@ -1101,9 +1101,9 @@ msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (AI)* Jah, rahu selleks korraks!"
 
 #: ai/advdiplomacy.c:587
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr "*%s (AI)* Nõus, lõpetame vaenutsemise %s"
+msgstr "*%s (AI)* Nõus, lõpetame vaenutsemise %s."
 
 #: ai/advdiplomacy.c:801
 #, c-format
@@ -1111,21 +1111,23 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
+"*%s (AI)* Tervitus, %s! Kas me tohime ette panna sõjategevus peatada kuni "
+"õpime teineteist paremini tundma?"
 
 #: ai/advdiplomacy.c:1077
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr "*%s (AI)* Jah, rahu selleks korraks!"
+msgstr "*%s (AI)* Kosmos ei saa iial sinu omaks. "
 
 #: ai/advdiplomacy.c:1081
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr ""
+msgstr "*%s (AI)* Ma olen sind juba piisavalt kaua kannatanud! Elagu sõda!"
 
 #: ai/advdiplomacy.c:1086
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr "*%s (AI)* Rahu ... mõni teine kord"
+msgstr "*%s (AI)* Rahu ... mõni teine kord."
 
 #: ai/advdiplomacy.c:1091
 #, c-format
@@ -1133,16 +1135,18 @@ msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
+"*%s (AI)*Lõpuks ometi sain su kätte. Kas sa tõesti arvasid, et sinu kuritöid "
+"ei panda tähele?"
 
 #: ai/advdiplomacy.c:1097
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr ""
+msgstr "*%s (AI)* Sinu varjatud vaenulikkus tõi sulle selle sõja kaela!"
 
 #: ai/advdiplomacy.c:1103
-#, fuzzy, c-format
+#, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr "*%s (AI)* Sinu rünnakud minu liitlaste vastu oli su viimane viga!"
+msgstr "*%s (AI)* Sinu rünnakud %s vastu oli su viimane viga!"
 
 #: ai/advdiplomacy.c:1186
 #, c-format
@@ -1153,7 +1157,11 @@ msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
 msgstr[0] ""
+"*%s (AI)* Me alustame meeleheitlikku sõda %s vastu %d käigu pärast, et "
+"takistada teda saatmast välja kosmoselaeva."
 msgstr[1] ""
+"*%s (AI)* Me alustame meeleheitlikku sõda %s vastu %d käigu pärast, et "
+"takistada teda saatmast välja kosmoselaeva."
 
 #: ai/advdiplomacy.c:1194
 #, c-format
@@ -1161,6 +1169,7 @@ msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr ""
+"*%s (AI)* Me ootame su abi selles asjas. Elagu meie kuulsusrikas liiit!"
 
 #: ai/advdiplomacy.c:1199
 #, c-format
@@ -5736,7 +5745,7 @@ msgstr ""
 #: server/stdinhand.c:2208
 #, c-format
 msgid "No such vote (%d)."
-msgstr ""
+msgstr "Pole sellist hääletust (%d)."
 
 #: server/stdinhand.c:2212
 #, fuzzy, c-format
@@ -9206,17 +9215,17 @@ msgstr ""
 
 #. TRANS: "Unit: Musketeers (Polish/Warsaw)"
 #: client/text.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s%s)"
 msgstr "Üksus: %s (%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Üksus: %s (%s%s)"
-msgstr[1] "Üksus: %s (%s%s)"
+msgstr[0] "Üksus: %s (%s, %d-käigune sõjategevuse peatamine)"
+msgstr[1] "Üksus: %s (%s, %d-käigune sõjategevuse peatamine)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:238
@@ -23399,6 +23408,8 @@ msgid ""
 "The Vietnamese nation was founded in the first century AD by twin sisters "
 "who became the war leaders of a revolt against a Chinese military governor."
 msgstr ""
+"Vietnami rahvus asutati I sajandil kaksikõdede poolt, kes said Hiina "
+"sõjaväelise juhi vastu võitleva revolutsiooni juhtideks."
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
@@ -23414,20 +23425,25 @@ msgid ""
 "1100AD. Viking raiders eventually became the rulers of Normandy, Russia, and "
 "a short-lived kingdom in Sicily."
 msgstr ""
+"Viikingid röövisid ja kauplesid Euroopa kallastel aastate 800 AD ja 1100 AD "
+"vahel. Viikingitest rüüstajad said lõpuks Normandia, Venemaa ja lühiajalise "
+"Sitsiila kuningriigi valitsejateks."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr ""
+msgstr "Uelslane"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr ""
+msgstr "?plural:Uelslased"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
 "The Welsh at one time controlled all of what is now England until being "
 "driven into the mountainous western reaches by invading Saxons."
 msgstr ""
+"Uelslased valitsesid kunagi kõike seda, mis tänapäeval on Inglismaa, kuni "
+"saksi vallutajad nad mägistele läänealadele ajasid."
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
@@ -23443,6 +23459,9 @@ msgid ""
 "duchy of Saxony. Present-day it consists of the Northern part of the largest "
 "German federal state, North Rhine-Westphalia."
 msgstr ""
+"Vestfaal oli enne Preisimaa provintsiks saamist Saksi hertsogiriigi "
+"läänepiirkond. Tänapäeval hõlmab see Saksamaa suurima fõderaalosariigi Põhja-"
+"Reini-Vestfaali."
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
@@ -24134,7 +24153,3 @@ msgstr "Võistkond 32"
 
 #~ msgid "Venezuelan"
 #~ msgstr "Venetsueellane"
-
-#, fuzzy
-#~ msgid "?female:Terrateniente"
-#~ msgstr "Maastik"
