@@ -10,9 +10,9 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-12 22:35+0300\n"
-"PO-Revision-Date: 2006-07-13 01:29+0300\n"
+"PO-Revision-Date: 2006-07-13 14:48+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
-"Language-Team: Estonian <et@li.org>\n"
+"Language-Team: Estonian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1175,8 +1175,8 @@ msgid_plural ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
 "will answer in force in %d turns and expect you to honour your alliance with "
 "us and do likewise!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* %s rikkus jämedalt oma leppeid omakasu pärast. Me vastame sellele sõjalise jõuga %d käigu pärast ja ootame, et te austaks meie liitu ja teeks samamoodi!"
+msgstr[1] "*%s (AI)* %s rikkus jämedalt oma leppeid omakasu pärast. Me vastame sellele sõjalise jõuga %d käigu pärast ja ootame, et te austaks meie liitu ja teeks samamoodi!"
 
 #: ai/advdiplomacy.c:1210
 #, c-format
@@ -1186,13 +1186,13 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Me kavatseme rüüstada %s rikast tsivilisatsioon. Me kuulutame sõja %d käigu pärast."
+msgstr[1] "*%s (AI)* Me kavatseme rüüstada %s rikast tsivilisatsioon. Me kuulutame sõja %d käigu pärast."
 
 #: ai/advdiplomacy.c:1216
 #, c-format
 msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr ""
+msgstr "*%s (AI)* Kui tahad ka rüüstada, löö kaasa!"
 
 #: ai/advdiplomacy.c:1220
 #, c-format
@@ -1202,13 +1202,13 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Meil on kopp ees %s-idest. Rebime ta haleda tsivilisatsiooni tükkideks. Me kuulutame sõja %d käigu pärast."
+msgstr[1] "*%s (AI)* Meil on kopp ees %s-idest. Rebime ta haleda tsivilisatsiooni tükkideks. Me kuulutame sõja %d käigu pärast."
 
 #: ai/advdiplomacy.c:1228
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr ""
+msgstr "*%s (AI)* Meie kuulsusrikka liidu pärast me ootame teie abi selles sõjas."
 
 #: ai/advdiplomacy.c:1233
 #, c-format
@@ -1218,8 +1218,8 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "*%s (AI)* Me austame oma liitu ja kuulutame sõja %s-le %d käigu pärast. Pidage vastu - me tuleme!"
+msgstr[1] "*%s (AI)* Me austame oma liitu ja kuulutame sõja %s-le %d käigu pärast. Pidage vastu - me tuleme!"
 
 #: ai/advdiplomacy.c:1240
 #, c-format
@@ -1229,7 +1229,7 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
-msgstr[0] ""
+msgstr[0] "*%s (AI)* Me austame oma liitu %s-ga ja kuulutame sõja %s-le %d käigu pärast. Me ootame, et te samamoodi käituks."
 msgstr[1] ""
 
 #: ai/advdiplomacy.c:1307
@@ -1237,14 +1237,14 @@ msgstr[1] ""
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
-msgstr ""
+msgstr "*%s (AI)* Teie soov vallutada kosmos ainult endale reedab teie tõelisi kavatsusi. Meie liit on läbi!"
 
 #: ai/advdiplomacy.c:1321
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
-msgstr ""
+msgstr "*%s (AI)* Teie katse üksi domineerida kosmoses on väga solvav."
 
 #: ai/advdiplomacy.c:1323
 #, c-format
@@ -1258,21 +1258,23 @@ msgstr ""
 #: ai/advdiplomacy.c:1434
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr ""
+msgstr "*%s (AI)* Vabanda, sinuga vaate jagamine ei ole enam ohutu."
 
 #: ai/advdiplomacy.c:1511
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
-msgstr ""
+msgstr "*%s (AI)* Tervitus, me ustavaim liitlane. Me kutsume teid üles "
+"hävitama meie vaenlast %s."
 
 #: ai/advdiplomacy.c:1516
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
-"s. Why do I need to remind you of your promises?"
-msgstr ""
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. "
+"Why do I need to remind you of your promises?"
+msgstr "*%s (AI)* Tervist, liitlane! Ma näen, et te pole veel kuulutanud sõda me "
+"vaenlastele %s-le. Miks ma pean teile te lubadusi meelde tuletama?"
 
 #: ai/advdiplomacy.c:1521
 #, c-format
@@ -1280,26 +1282,27 @@ msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
-msgstr ""
+msgstr "*%s (AI)* Autu, me tegime liidu ja ikkagi on sul rahu meie surmavaenlastega "
+"%s! Me ei lepi sellega, meie liitu pole enam!"
 
 #: ai/advdiplomacy.c:1549
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
-msgstr ""
+msgstr "*%s (AI)* Tervist, sõber. Kas me tohiks soovitada ühiseid eesmärke ja liitu?"
 
 #: ai/advdiplomacy.c:1564
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
-msgstr ""
+msgstr "*%s (AI)* Tervist, sõber. Kas me tohiks soovitada rahumeelsemaid suhteid?"
 
 #: ai/advdiplomacy.c:1578
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
-msgstr ""
+msgstr "*%s (AI)* Me oleme väsinud pidevast verevalamisest. Kas me tohiks soovitada sõjategevuse peatamist?"
 
 #: ai/advdiplomacy.c:1698
 #, c-format
@@ -1307,6 +1310,8 @@ msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 "Honour our glorious alliance and your name will never be forgotten!"
 msgstr ""
+"*%s (AI)* %s ründavad meid barbaarselt ja me vajame te abi! "
+"Austa meie kuulsat liitu ja su nime ei unustata kunagi!"
 
 #: server/auth.c:136
 #, c-format
@@ -1314,14 +1319,13 @@ msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "Hoiatus: külalisnimi '%s' on juba võetud, uueks nimeks saab '%s'."
 
 #: server/auth.c:142
-#, fuzzy
 msgid "Guests are not allowed on this server. Sorry."
-msgstr "Siia serverile pole külalised oodatud."
+msgstr "Siia serverisse pole külalised lubatud. Vabanda."
 
 #: server/auth.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s saadeti ära: Kokkusobimatud võimed"
+msgstr "%s-le öeldi ära. Külalisi ei lubata."
 
 #: server/auth.c:163
 #, c-format
@@ -1339,7 +1343,7 @@ msgstr "Esines viga kasutajabaasi lugemisel ning külalised pole lubatud. Juhtub
 #: server/auth.c:172
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr ""
+msgstr "%s-le keelduti: Andmebaasi viga ja külalised pole lubatud."
 
 #: server/auth.c:179
 #, c-format
@@ -1347,7 +1351,6 @@ msgid "Enter password for %s:"
 msgstr "Sisesta kasutaja %s parool:"
 
 #: server/auth.c:188
-#, fuzzy
 msgid "Enter a new password (and remember it)."
 msgstr "Sisesta parool (ja jäta meelde)."
 
@@ -1356,9 +1359,9 @@ msgid "This server allows only preregistered users. Sorry."
 msgstr "Siia serveri on lubatud ainult registreeritud kasutajad."
 
 #: server/auth.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Only preregister users allowed."
-msgstr "Siia serveri on lubatud ainult registreeritud kasutajad."
+msgstr "%s-le öeldi ära. Lubatud on ainult registreeritud kasutajad."
 
 #: server/auth.c:224 server/auth.c:282
 msgid "Sorry, too many wrong tries..."
@@ -1367,18 +1370,18 @@ msgstr "Dang, liiga palju vigaseid katseid..."
 #: server/auth.c:225
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr ""
+msgstr "%s-le keelduti: Liiga palju uue kasutaja paroolivigu."
 
 #: server/auth.c:241
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
-msgstr ""
+msgstr "Hoiatus: Andmebaasi salvestamine ei õnnestunud. Jätkan, kuid su statistikat ei salvestata."
 
 #: server/auth.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s saadeti ära: Kokkusobimatud võimed"
+msgstr "%s-le öeldi ära. Liiga palju katseid parooli sisestamisel."
 
 #: server/auth.c:293
 msgid "Your password is incorrect. Try again."
@@ -1386,12 +1389,12 @@ msgstr "Parool on vale. Proovi uuesti."
 
 #: server/auth.c:303
 msgid "Sorry, your connection timed out..."
-msgstr ""
+msgstr "Vabanda, su ühendus aegus..."
 
 #: server/auth.c:305
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr ""
+msgstr "%s-le keelduti: Ühendus aegus parooli ootamisel."
 
 #: server/auth.c:370
 #, c-format
@@ -1455,7 +1458,7 @@ msgstr "Mäng: Ei saa osta üksuseid, kui linnas on rahutused."
 #: server/cityhand.c:261
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr ""
+msgstr "On vaja %d raha. Sul on ainult %d."
 
 #: server/cityhand.c:362
 msgid "You have bought this turn, can't change."
@@ -1468,9 +1471,9 @@ msgid "%s"
 msgstr "Mäng: %s"
 
 #: server/citytools.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "You already have a city called %s."
-msgstr "Mäng: Sul on juba linn nimega %s"
+msgstr "Sul on juba linn nimega %s."
 
 #: server/citytools.c:282
 #, c-format
@@ -1485,7 +1488,7 @@ msgstr "Mäng: %s ei saa kasutada linna nimena. See on reserveeritud %s jaoks."
 #: server/citytools.c:328
 #, c-format
 msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr ""
+msgstr "%s ei ole lubatud nimi. Linna nimeks sobib ainult ASCII või standartne nimi."
 
 #: server/citytools.c:447
 #, c-format
@@ -1514,7 +1517,7 @@ msgstr "Mäng: %s liigutati %s-lt %s-le."
 #: server/citytools.c:535
 #, c-format
 msgid "%s from %s lost in transfer to %s's %s"
-msgstr ""
+msgstr "%s %s-st läks kaduma üleviimisel %s %s-i"
 
 #: server/citytools.c:608
 #, c-format
@@ -1522,9 +1525,9 @@ msgid "%s lost along with control of %s."
 msgstr "Mäng: %s kaotatud koos kontrolliga linna %s üle."
 
 #: server/citytools.c:734
-#, fuzzy, c-format
+#, c-format
 msgid "You lost %s. A new %s was built in %s."
-msgstr "Mäng: Kaotasid oma pealinna %s. Uus palee rajati linna %s."
+msgstr "Kaotasid %s. Uus %s rajati linna %s."
 
 #: server/citytools.c:805
 #, c-format
@@ -1541,19 +1544,19 @@ msgstr ""
 "      Töötajad spontaanselt koguneved ja sutsti! uuendavad linna raudteedega."
 
 #: server/citytools.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid "You have founded %s."
-msgstr "Mäng: Sa rajasid linna %s"
+msgstr "Sa rajasid linna %s."
 
 #: server/citytools.c:1087
 #, c-format
 msgid "Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "Viisin %s välja laiali saadetavast linnast %s, et ta kuivale ei jääks."
 
 #: server/citytools.c:1096 server/citytools.c:1107
 #, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr ""
+msgstr "Kui %s saadeti laiali, su %s ei suutnud välja saada ja hukkus."
 
 #: server/citytools.c:1222
 #, c-format
@@ -1566,52 +1569,52 @@ msgid "%s has been destroyed by %s."
 msgstr "Linna %s hävitas %s."
 
 #: server/citytools.c:1241
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
-msgstr[0] "Vabastasid oma linna %s! Saagiks %d raha."
-msgstr[1] "Vabastasid oma linnad %s! Saagiks %d raha."
+msgstr[0] "Vallutasid linna %s. Saagiks said %d raha!"
+msgstr[1] "Vallutasid linna %s. Saagiks said %d raha!"
 
 #: server/citytools.c:1247
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s vallutasid %s ja said %d raha linnast saagiks."
+msgstr[1] "%s vallutasid %s ja said %d raha linnast saagiks."
 
 #: server/citytools.c:1254
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s"
-msgstr "Mäng: Sa ei osta %s!"
+msgstr "Vallutasid %s"
 
 #: server/citytools.c:1256
-#, fuzzy, c-format
+#, c-format
 msgid "%s conquered %s."
-msgstr "%s tegid avastuse %s"
+msgstr "%s vallutasid %s."
 
 #: server/citytools.c:1261
-#, fuzzy, c-format
+#, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
-msgstr[0] "Mäng: Vabastasid oma linna %s! Saagiks %d raha."
+msgstr[0] "Vabastasid oma linna %s! Saagiks %d raha."
 msgstr[1] "Mäng: Vabastasid oma linna %s! Saagiks %d raha."
 
 #: server/citytools.c:1267
-#, fuzzy, c-format
+#, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
-msgstr[0] "Mäng: %s vabastas %s ja sai linnast %d raha"
+msgstr[0] "%s vabastas %s ja sai linnast %d raha."
 msgstr[1] "Mäng: %s vabastas %s ja sai linnast %d raha"
 
 #: server/citytools.c:1274
-#, fuzzy, c-format
+#, c-format
 msgid "You have liberated %s!"
-msgstr "Mäng: Sa rajasid linna %s"
+msgstr "Sa vabastasid linna %s!"
 
 #: server/citytools.c:1276
-#, fuzzy, c-format
+#, c-format
 msgid "%s liberated %s."
-msgstr "Mäng: %s on %s valitseja."
+msgstr "%s vabastas %s."
 
 #: server/citytools.c:1854
 msgid " from the worklist"
@@ -1626,7 +1629,7 @@ msgstr "%s ehitab %s%s."
 #: server/citytools.c:2111
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
-msgstr ""
+msgstr "Linn %s (nüüd ilma merele pääsuta) müüb %s %d raha eest."
 
 #: server/cityturn.c:124
 #, c-format
@@ -1641,9 +1644,7 @@ msgstr "Mäng: Tähelepanek: Ilmaime %s linnas %s saab valmis järgmisel käigul
 #: server/cityturn.c:336
 #, c-format
 msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
-msgstr ""
-"Mäng: Soovitatakse suurendada kasvu %s's et kasutada %s (juba ehituses) "
-"efektiivsemalt."
+msgstr "Soovitatakse pidurdada kasvu %s's et kasutada %s (juba ehituses) efektiivsemalt."
 
 #: server/cityturn.c:347
 #, c-format
@@ -1665,9 +1666,9 @@ msgid "%s needs %s (being built) to grow any further."
 msgstr "Mäng: %s vajab edasikasvamiseks, et ehitataks %s (parasjagu ehitamisel)."
 
 #: server/cityturn.c:475
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs an improvement to grow any further."
-msgstr "Mäng: %s vajab edasikasvamiseks, et ehitataks %s."
+msgstr "%s vajab edasikasvamiseks mingit ehitist."
 
 #: server/cityturn.c:518
 #, c-format
@@ -1685,9 +1686,9 @@ msgid "Famine causes population loss in %s."
 msgstr "Mäng: Näljahäda põhjustab rahvastiku vähenemise linnas %s."
 
 #: server/cityturn.c:591
-#, fuzzy, c-format
+#, c-format
 msgid "Famine destroys %s entirely."
-msgstr "Mäng: Sa hävitasid linna %s täielikult."
+msgstr "Nälg hävitas linna %s täielikult."
 
 #: server/cityturn.c:665
 #, c-format
@@ -1708,13 +1709,13 @@ msgid "Production of %s is upgraded to %s in %s."
 msgstr "Mäng: %s tootmine uuendatud %s'ks %s-s."
 
 #: server/cityturn.c:745
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
 "Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; pole veel "
-"tehnoloogiliseltvõimalik.  Lükkan edasi..."
+"%s ei saa ehitada tööde nimekirjast %s'i - tehnoloogia %s pole veel kättesaadav.  "
+"Lükkan edasi..."
 
 #: server/cityturn.c:758
 #, c-format
@@ -1724,39 +1725,33 @@ msgstr ""
 "edasi..."
 
 #: server/cityturn.c:771
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
+"%s ei saa ehitada tööde nimekirjast %s'i - vajab %s valitsust.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:783
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
+"%s ei saa ehitada tööde nimekirjast %s'i - enne peab olema %s.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:795
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
-msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
-"edasi..."
+msgstr "%s ei saa ehitada tööde nimekirjast %s'i - maastikuks peab olema %s.  Lükkan edasi..."
 
 #: server/cityturn.c:809
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
-msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
-"edasi..."
+msgstr "%s ei saa ehitada tööde nimekirjast %s'i - ainult %s võivad ehitada seda.  Lükkan edasi..."
 
 #: server/cityturn.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
-msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
-"edasi..."
+msgstr "%s ei saa ehitada tööde nimekirjast %s'i - linna suurus peab olema %d.  Lükkan edasi..."
 
 #: server/cityturn.c:850
 #, c-format
@@ -1796,16 +1791,16 @@ msgid "%s has finished building %s."
 msgstr "Mäng: %s lõpetas %s ehitamise."
 
 #: server/cityturn.c:1149
-#, fuzzy, c-format
+#, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] "Mäng: %s annab uuringutele tõuke, saad kohe 2 leiutist."
-msgstr[1] "Mäng: %s annab uuringutele tõuke, saad kohe 2 leiutist."
+msgstr[0] "%s annab uuringutele tõuke, saad kohe %d avastuse."
+msgstr[1] "%s annab uuringutele tõuke, saad kohe %d avastuse."
 
 #: server/cityturn.c:1158 server/techtools.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from %s."
-msgstr "Mäng: %s õppisid Suurest Raamatukogust %s."
+msgstr "%s õppisid %s-lt %s."
 
 #: server/cityturn.c:1166
 #, c-format
@@ -1813,9 +1808,9 @@ msgid "The %s have started building a spaceship!"
 msgstr "Mäng: %s alustasid kosmoselaeva ehitamist!"
 
 #: server/cityturn.c:1206
-#, fuzzy, c-format
+#, c-format
 msgid "%s's %s tried to build %s, which is not available."
-msgstr "Mäng: %s ehitab %s, mis ei ole enam saadaval."
+msgstr "%s %s ehitab %s, mis ei ole enam saadaval."
 
 #: server/cityturn.c:1222
 #, c-format
@@ -1841,12 +1836,12 @@ msgstr "Mäng: Reostus linna %s lähedal."
 #: server/cityturn.c:1477
 #, c-format
 msgid "Wild celebrations in your honour in %s."
-msgstr ""
+msgstr "Metsikud peod sinu auks linnas %s."
 
 #: server/cityturn.c:1483
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations cancelled in %s."
-msgstr "Mäng: 'Me Armastame %s Päev' linnas %s jäeti ära."
+msgstr "Pidu linnas %s jäeti ära."
 
 #: server/cityturn.c:1511
 #, c-format
@@ -1883,7 +1878,7 @@ msgstr "Mäng: %s saadeti laiali %s'ks."
 
 #: server/civserver.c:77
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
-msgstr ""
+msgstr "Sa pead Freecivi 2 korda ühe sekundi jooksul katkestama, et teda väljuma panna.\n"
 
 #: server/civserver.c:134
 #, c-format
@@ -7370,8 +7365,9 @@ msgid "Stock"
 msgstr "laos"
 
 #: client/cityrepdata.c:483
+#, fuzzy
 msgid "Food Stock"
-msgstr ""
+msgstr "Toit"
 
 #: client/cityrepdata.c:485
 msgid "?pollution:Pol"
@@ -13512,11 +13508,12 @@ msgstr "Kaitse: %ld.%ld"
 #: client/gui-mui/helpdlg.c:872 client/gui-mui/helpdlg.c:891
 #: client/gui-mui/helpdlg.c:911
 #, c-format
+#, fuzzy
 msgid ""
 "Food:   %d\n"
 "Shield: %d\n"
 "Trade:  %d"
-msgstr ""
+msgstr "Toit"
 
 #: client/gui-mui/inteldlg.c:111 client/gui-sdl/inteldlg.c:213
 #: client/gui-win32/inteldlg.c:85 data/Freeciv.in:173 data/Freeciv.in:223
@@ -15896,11 +15893,12 @@ msgstr ""
 
 #: client/gui-xaw/citydlg.c:253
 #, c-format
+#, fuzzy
 msgid ""
 "Food:  %3d (%+-4d)\n"
 "Prod:  %3d (%+-4d)\n"
 "Trade: %3d (%+-4d)"
-msgstr ""
+msgstr "Toit"
 
 #: client/gui-xaw/citydlg.c:282
 #, c-format
@@ -16004,8 +16002,7 @@ msgstr "Mängu versioon: %s - Ressursside versioon: %s"
 
 #: client/gui-xaw/gui_main.c:333
 msgid "You might have an old Freeciv resourcefile in /usr/lib/X11/app-defaults"
-msgstr ""
-"Võib-olla on sul vana Freecivi ressursifail kataloogis /usr/lib/X11/app-defaults"
+msgstr "Võib-olla on sul vana Freecivi ressursifail kataloogis /usr/lib/X11/app-defaults"
 
 #: client/gui-xaw/gui_main.c:339
 msgid "Using fallback resources - which is OK"
@@ -16526,8 +16523,9 @@ msgid "Building Name       Count Cost Total"
 msgstr "Ehitise Nimi        Hulk  Hind Kokku"
 
 #: data/Freeciv.in:1922
+#, fuzzy
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr ""
+msgstr "Toit"
 
 #: data/Freeciv.in:2006
 msgid "Rename worklist"
@@ -17700,6 +17698,7 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1188
+#, fuzzy
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -17707,7 +17706,7 @@ msgid ""
 "west.  Irrigating a square causes it to produce some extra food each turn.  "
 "In addition, given sufficient technology, you may irrigate a square a second "
 "time, turning it into even more productive Farmland."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/helpdata.txt:1196
 msgid ""
@@ -17716,12 +17715,13 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1199
+#, fuzzy
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
 "Roads and railroads allow your units to move more quickly, and they increase "
 "the resources produced in cities."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/helpdata.txt:1204
 msgid ""
@@ -18177,6 +18177,7 @@ msgid "Hydro Plant"
 msgstr "Hüdroelektrijaam"
 
 #: data/default/buildings.ruleset:378
+#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -18187,7 +18188,7 @@ msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:373
 #: data/civ1/buildings.ruleset:297
@@ -18862,6 +18863,7 @@ msgid ""
 msgstr ""
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
+#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -18872,7 +18874,7 @@ msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/civ2/buildings.ruleset:388 data/civ1/buildings.ruleset:312
 #, no-c-format
@@ -19856,6 +19858,7 @@ msgid "Religion"
 msgstr "Religioon"
 
 #: data/default/terrain.ruleset:50 data/civ2/terrain.ruleset:50
+#, fuzzy
 msgid ""
 "Any terrain type (except Ocean) may have a River on it.  A River adds 1 "
 "trade to the resources produced by that tile.  It also increases a tile's "
@@ -19864,7 +19867,7 @@ msgid ""
 "\n"
 "Roads and railroads can only be built on River squares if your civilization "
 "has learned Bridge Building technology."
-msgstr ""
+msgstr "Jõgi Jõgi Jõgi Jõgi Jõgi."
 
 #: data/default/terrain.ruleset:182 data/civ2/terrain.ruleset:162
 msgid "Glacier"
