@@ -1896,7 +1896,9 @@ static void player_load(struct player *plr, int plrno,
   }
   /* Sanity check alliances, prevent allied-with-ally-of-enemy */
   players_iterate(aplayer) {
-    if (pplayers_allied(plr, aplayer)
+    if (plr->is_alive
+        && aplayer->is_alive
+        && pplayers_allied(plr, aplayer)
         && !pplayer_can_ally(plr, aplayer)) {
       freelog(LOG_ERROR, _("Illegal alliance structure detected: "
               "%s's alliance to %s reduced to peace treaty."),
