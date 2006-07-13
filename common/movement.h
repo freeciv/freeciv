@@ -32,6 +32,8 @@ bool is_ground_unittype(const struct unit_type *punittype);
 
 bool is_native_terrain(const struct unit_type *punittype,
                        const struct terrain *pterrain);
+bool is_native_to_class(const struct unit_class *punitclass,
+                        const struct terrain *pterrain);
 bool can_unit_exist_at_tile(const struct unit *punit, const struct tile *ptile);
 bool can_unit_survive_at_tile(const struct unit *punit,
 			      const struct tile *ptile);

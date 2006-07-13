@@ -188,7 +188,17 @@ bool can_unit_exist_at_tile(const struct unit *punit,
 bool is_native_terrain(const struct unit_type *punittype,
                        const struct terrain *pterrain)
 {
-  switch (get_unit_move_type(punittype)) {
+  return is_native_to_class(get_unit_class(punittype), pterrain);
+}
+
+/****************************************************************************
+  This terrain is native to unit class. Units that require fuel dont survive
+  even on native terrain. All terrains are native to air units.
+****************************************************************************/
+bool is_native_to_class(const struct unit_class *punitclass,
+                        const struct terrain *pterrain)
+{
+  switch (punitclass->move_type) {
   case LAND_MOVING:
     return !is_ocean(pterrain);
   case SEA_MOVING:
