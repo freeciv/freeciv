@@ -723,6 +723,7 @@ static void build_free_small_wonders(struct player *pplayer,
       pnew_city = city_list_get(pplayer->cities, myrand(size));
 
       city_add_improvement(pnew_city, id);
+      pplayer->small_wonders[id] = pnew_city->id;
 
       /*
        * send_player_cities will recalculate all cities and send them to
@@ -959,6 +960,10 @@ void create_city(struct player *pplayer, struct tile *ptile,
 	break;
       }
       city_add_improvement(pcity, game.rgame.global_init_buildings[i]);
+      if (is_small_wonder(game.rgame.global_init_buildings[i])) {
+        pplayer->small_wonders[game.rgame.global_init_buildings[i]] = pcity->id;
+      }
+      assert(!is_great_wonder(game.rgame.global_init_buildings[i]));
     }
     for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
       if (nation->init_buildings[i] == B_LAST) {

@@ -229,6 +229,14 @@ void real_sanity_check_city(struct city *pcity, const char *file, int line)
     SANITY_CITY(pcity, unit_owner(punit) == pplayer);
   } unit_list_iterate_end;
 
+  built_impr_iterate(pcity, id) {
+    if (is_small_wonder(id)) {
+      SANITY_CITY(pcity, find_city_from_small_wonder(pplayer, id) == pcity);
+    } else if (is_great_wonder(id)) {
+      SANITY_CITY(pcity, find_city_from_great_wonder(id) == pcity);
+    }
+  } built_impr_iterate_end;
+
   /* Note that cities may be found on land or water. */
 
   city_map_iterate(x, y) {
