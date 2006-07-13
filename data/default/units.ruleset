@@ -69,31 +69,31 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "Missile"      = Unit is destroyed when it attacks
 
 [unitclass_missile]
-name          = "Missile"
+name          = _("Missile")
 move_type     = "Air"
 hp_loss_pct   = 0
 flags         = "Missile"
 
 [unitclass_land]
-name          = "Land"
+name          = _("Land")
 move_type     = "Land"
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupy"
 
 [unitclass_sea]
-name          = "Sea"
+name          = _("Sea")
 move_type     = "Sea"
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows"
 
 [unitclass_heli]
-name          = "Helicopter"
+name          = _("Helicopter")
 move_type     = "Heli"
 hp_loss_pct   = 10
 flags         = "CanOccupy"
 
 [unitclass_air]
-name          = "Air"
+name          = _("Air")
 move_type     = "Air"
 hp_loss_pct   = 0
 flags         = ""

@@ -38,7 +38,8 @@ BV_DEFINE(bv_unit_class_flags, UCF_LAST);
 
 struct unit_class {
   Unit_Class_id id;
-  char name[MAX_LEN_NAME];
+  const char *name;        /* Translated name */
+  char name_orig[MAX_LEN_NAME];
   enum unit_move_type move_type;
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
   bv_unit_class_flags flags;

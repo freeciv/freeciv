@@ -372,7 +372,7 @@ struct unit_class *unit_class_from_str(const char *s)
   Unit_Class_id i;
 
   for (i = 0; i < UCL_LAST; i++) {
-    if (mystrcasecmp(unit_classes[i].name, s)==0) {
+    if (mystrcasecmp(unit_classes[i].name_orig, s)==0) {
       return &unit_classes[i];
     }
   }
