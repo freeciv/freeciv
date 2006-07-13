@@ -472,9 +472,9 @@ static void check_players(void)
 	SANITY_CHECK(pplayer->diplstates[pplayer2->player_no].turns_left
 	       == pplayer2->diplstates[pplayer->player_no].turns_left);
       }
-      if (pplayers_allied(pplayer, pplayer2)
-          && pplayer->is_alive
-          && pplayer2->is_alive) {
+      if (pplayer->is_alive
+          && pplayer2->is_alive
+          && pplayers_allied(pplayer, pplayer2)) {
         SANITY_CHECK(pplayer_can_make_treaty(pplayer, pplayer2, DS_ALLIANCE)
                      != DIPL_ALLIANCE_PROBLEM);
       }

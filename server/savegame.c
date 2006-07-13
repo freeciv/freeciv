@@ -3855,7 +3855,9 @@ void game_load(struct section_file *file)
     /* Sanity check alliances, prevent allied-with-ally-of-enemy */
     players_iterate(plr) {
       players_iterate(aplayer) {
-        if (pplayers_allied(plr, aplayer)
+        if (plr->is_alive
+            && aplayer->is_alive
+            && pplayers_allied(plr, aplayer)
             && pplayer_can_make_treaty(plr, aplayer, DS_ALLIANCE) 
                == DIPL_ALLIANCE_PROBLEM) {
           freelog(LOG_ERROR, _("Illegal alliance structure detected: "
