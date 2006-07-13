@@ -202,6 +202,7 @@ type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
 type BV_SPECIAL         = bitvector(bv_special)
 type BV_PLAYER          = bitvector(bv_player)
+type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
 type DIPLSTATE		= diplstate(struct player_diplstate)
 type VISION		= uint32(unsigned int)
 

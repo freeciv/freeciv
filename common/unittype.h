@@ -33,6 +33,7 @@ enum unit_class_flag_id {
   UCF_LAST
 };
 
+BV_DEFINE(bv_unit_classes, UCL_LAST);
 BV_DEFINE(bv_unit_class_flags, UCF_LAST);
 
 struct unit_class {
