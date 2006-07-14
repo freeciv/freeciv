@@ -37,12 +37,12 @@ init_units=""
 
 ; The 2005 EU member states -- except Cyprus, Luxembourg and Malta.
 conflicts_with="austrian", "belgian", "czech", "danish", "estonian",
-               "finnish", "french", "german", "greek", "hungarian",
+               "finnish", "french", "german", "hellenic", "hungarian",
                "irish", "italian", "latvian", "lithuanian", "dutch",
                "polish", "portuguese", "slovakian", "slovenian", "spanish",
                "swedish", "british"
 civilwar_nations="austrian", "belgian", "czech", "danish", "estonian",
-                 "finnish", "french", "german", "greek", "hungarian",
+                 "finnish", "french", "german", "hellenic", "hungarian",
                  "irish", "italian", "latvian", "lithuanian", "dutch",
                  "polish", "portuguese", "slovakian", "slovenian", "spanish",
                  "swedish", "british"
