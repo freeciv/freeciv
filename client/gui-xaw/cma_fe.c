@@ -350,7 +350,8 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
     XtVaSetValues(stat_surplus_label[i], XtNwidth, 90, NULL);
     XtVaSetValues(stat_factor_label[i], XtNwidth, 90, NULL);
   } output_type_iterate_end;
-  XtVaSetValues(stat_factor_label[i], XtNwidth, 90, NULL);
+  /* FIXME! Now we assume that output_type_iterate ends with O_COUNT. */
+  XtVaSetValues(stat_factor_label[O_COUNT], XtNwidth, 90, NULL);
 
   XtRealizeWidget(cma_dialog);
 
