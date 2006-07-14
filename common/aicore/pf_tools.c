@@ -669,19 +669,19 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
   case HELI_MOVING:
     /* Helicoptors are treated similarly to airplanes. */
     parameter->get_MC = single_airmove;
-    if (get_player_bonus(unit_owner(punit), EFT_UNIT_RECOVER)
-	>= unit_type(punit)->hp / 10) {
-      /* United nations cancels out helicoptor fuel loss. */
-      parameter->is_pos_dangerous = NULL;
-    } else {
-      /* Otherwise, don't risk fuel loss. */
-      parameter->is_pos_dangerous = air_is_pos_dangerous;
-      parameter->turn_mode = TM_WORST_TIME;
-    }
     break;
   default:
     freelog(LOG_ERROR, "Impossible move type to pft_fill_unit_parameter()!");
     break;
+  }
+
+  if (!parameter->is_pos_dangerous
+      && get_player_bonus(unit_owner(punit), EFT_UNIT_RECOVER)
+      < (unit_type(punit)->hp *
+         get_unit_class(unit_type(punit))->hp_loss_pct / 100)) {
+    /* United nations cancels out helicoptor fuel loss. */
+    parameter->is_pos_dangerous = air_is_pos_dangerous;
+    parameter->turn_mode = TM_WORST_TIME;
   }
 
   if (get_unit_move_type(unit_type(punit)) == LAND_MOVING 
