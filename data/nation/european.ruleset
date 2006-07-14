@@ -51,4 +51,4 @@ cities=
  "Luxembourg",
  "Valletta", ; Capital of Malta
  "Nicosia"   ; Capital of Cyprus
-; Subsequent cities fetched from member nations' city lists
+; Subsequent cities fetched from city lists of member nations

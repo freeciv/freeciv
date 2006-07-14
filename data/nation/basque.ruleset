@@ -10,7 +10,7 @@ legend=_("The human being and his quest came to the western foothills\
  what he was looking for.\n\n\
  The Basques have lived since the immemorial times in this small region,\
  by maintaining their age-old cultural traditions, and keeping their\
- historic identity alive, the Basques provide a link with man’s distant\
+ historic identity alive, the Basques provide a link with man's distant\
  past. Euskara , the language spoken by the Basque people, is probably the\
  oldest living language in Europe.\n\n\
  Actually, the Basque Country (Euskadi) covers a surface area of 20,664\
@@ -44,16 +44,16 @@ flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = { "government",     "male_title",        "female_title"
-; /* TRANS: Leader, head (like spanish Caudillo) */
+; /* TRANS: Buruzagi = Leader, head (like spanish Caudillo) */
                  "Despotism",      _("Buruzagi"),       _("Buruzagi")
-; /* TRANS: Pope, Lord Protector */
+; /* TRANS: Apaiz nagusi = Pope, Lord Protector */
                "Fundamentalism", _("Apaiz nagusi"), _("Emakume Apaiz nagusi")
-; /* TRANS: King and Queen */
+; /* TRANS: Errege and Erregina = King and Queen */
                  "Monarchy",       _("Errege"),           _("Erregina")
-; /* TRANS: Such as President (but is quite inexact for Basques to call */
-; /* TRANS: him/her using "president") */
-                 "Democracy",      _("Lehendakari"), _("Lehendakari") #
-                 "Republic",      _("Lehendakari"), _("Lehendakari")
+; /* TRANS: Lehendakari = similar to President 
+; /* TRANS: (but is quite inexact for Basques to call him/her "president") */
+                 "Democracy",      _("Lehendakari"), _("Lehendakari")
+                 "Republic",       _("Lehendakari"), _("Lehendakari")
                }
 
 init_techs=""
