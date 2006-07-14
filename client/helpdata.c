@@ -752,6 +752,24 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   }
   
   buf[0] = '\0';
+
+  sprintf(buf + strlen(buf), _("* Belongs to %s units class.\n"),
+          get_unit_class(utype)->name);
+  if (unit_class_flag(get_unit_class(utype), UCF_CAN_OCCUPY)
+      && !unit_type_flag(utype, F_NONMIL)) {
+    sprintf(buf + strlen(buf), _("  * Can occupy empty enemy cities.\n"));
+  }
+  if (!unit_class_flag(get_unit_class(utype), UCF_TERRAIN_SPEED)) {
+    sprintf(buf + strlen(buf), _("  * Speed is not affected by terrain.\n"));
+  }
+  if (unit_class_flag(get_unit_class(utype), UCF_DAMAGE_SLOWS)) {
+    sprintf(buf + strlen(buf), _("  * Slowed down while damaged\n"));
+  }
+  if (unit_class_flag(get_unit_class(utype), UCF_MISSILE)) {
+    sprintf(buf + strlen(buf),
+	    _("  * Gets used up in making an attack.\n"));
+  }
+
   if (utype->gov_requirement) {
     sprintf(buf + strlen(buf),
 	    _("* Can only be built with %s as government.\n"), 
@@ -925,10 +943,8 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
-  if (unit_class_flag(get_unit_class(utype), UCF_MISSILE)) {
-    sprintf(buf + strlen(buf),
-	    _("* A missile unit: gets used up in making an attack.\n"));
-  } else if(unit_type_flag(utype, F_ONEATTACK)) {
+  if (!unit_class_flag(get_unit_class(utype), UCF_MISSILE)
+      && unit_type_flag(utype, F_ONEATTACK)) {
     sprintf(buf + strlen(buf),
 	    _("* Making an attack ends this unit's turn.\n"));
   }
