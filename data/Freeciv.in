@@ -2028,6 +2028,7 @@ Freeciv*governmentmenu.label:           _("Government")
 Freeciv*viewmenu.label:                 _("View")
 Freeciv*ordersmenu.label:               _("Orders")
 Freeciv*reportsmenu.label:              _("Reports")
+Freeciv*editormenu.label:               _("Editor")
 Freeciv*helpmenu.label:                 _("Help")
 Freeciv*gamemenu.background:            gray84
 Freeciv*gamemenu.foreground:            black
@@ -2039,6 +2040,8 @@ Freeciv*ordersmenu.background:          gray84
 Freeciv*ordersmenu.foreground:          black
 Freeciv*reportsmenu.background:         gray84
 Freeciv*reportsmenu.foreground:         black
+Freeciv*editormenu.background:          gray84
+Freeciv*editormenu.foreground:          black
 Freeciv*helpmenu.background:            gray84
 Freeciv*helpmenu.foreground:            black
 Freeciv*gamemenu.borderWidth:           0
@@ -2046,6 +2049,7 @@ Freeciv*governmentmenu.borderWidth:     0
 Freeciv*viewmenu.borderWidth:           0
 Freeciv*ordersmenu.borderWidth:         0
 Freeciv*reportsmenu.borderWidth:        0
+Freeciv*editormenu.borderWidth:         0
 Freeciv*helpmenu.borderWidth:           0
 Freeciv*gamemenu.left:                  chainLeft
 Freeciv*gamemenu.right:                 chainLeft
@@ -2061,7 +2065,10 @@ Freeciv*ordersmenu.right:               chainLeft
 Freeciv*reportsmenu.fromHoriz:          ordersmenu
 Freeciv*reportsmenu.left:               chainLeft
 Freeciv*reportsmenu.right:              chainLeft
-Freeciv*helpmenu.fromHoriz:             reportsmenu
+Freeciv*editormenu.fromHoriz:           reportsmenu
+Freeciv*editormenu.left:                chainLeft
+Freeciv*editormenu.right:               chainLeft
+Freeciv*helpmenu.fromHoriz:             editormenu
 Freeciv*helpmenu.left:                  chainLeft
 Freeciv*helpmenu.right:                 chainLeft
 Freeciv*menu.background:                gray84

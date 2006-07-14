@@ -40,23 +40,28 @@
 #include "support.h"
 
 #include "city.h"
+#include "connection.h"	/* can_conn_edit */
 #include "game.h"
 #include "map.h"
 #include "packets.h"
 #include "player.h"
 #include "unitlist.h"
 
+#include "civclient.h"
+#include "climap.h"
+#include "climisc.h"
+#include "clinet.h"
+#include "control.h"	/* request_xxx and set_unit_focus */
+#include "options.h"
+#include "text.h"
+#include "tilespec.h"
+
 #include "cma_fec.h"
 
-#include "pixcomm.h"
 #include "canvas.h"
-
 #include "cityrep.h"
-#include "citydlg.h"
-#include "civclient.h"
 #include "cma_fe.h"
 #include "colors.h"
-#include "control.h" /* request_xxx and set_unit_focus */
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -65,17 +70,13 @@
 #include "inputdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
-#include "optiondlg.h"		/* for toggle_callback */
+#include "optiondlg.h"	/* for toggle_callback */
+#include "pixcomm.h"
 #include "repodlgs.h"
 #include "wldlg.h"
 
 #include "citydlg_common.h"
-#include "climap.h"
-#include "climisc.h"
-#include "clinet.h"
-#include "options.h"
-#include "text.h"
-#include "tilespec.h"
+#include "citydlg.h"
 
 #define MIN_NUM_CITIZENS	22
 #define MAX_NUM_CITIZENS	50
@@ -1301,9 +1302,11 @@ void present_units_callback(Widget w, XtPointer client_data,
   Widget wd;
   XEvent *e = (XEvent*)call_data;
   
-  if((punit=player_find_unit_by_id(game.player_ptr, (size_t)client_data)) &&
-     (pcity=tile_get_city(punit->tile)) &&
-     (pdialog=get_city_dialog(pcity))) {
+  if (((punit = player_find_unit_by_id(game.player_ptr, (size_t)client_data))
+       || (can_conn_edit(&aconnection) && !game.player_ptr
+	   && (punit = find_unit_by_id((size_t)client_data))))
+      && (pcity = tile_get_city(punit->tile))
+      && (pdialog = get_city_dialog(pcity))) {
     
     if(e->type==ButtonRelease && e->xbutton.button==Button2)  {
       set_unit_focus(punit);

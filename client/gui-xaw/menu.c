@@ -229,6 +229,12 @@ static struct MenuEntry reports_menu_entries[]={
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
 
+static struct MenuEntry editor_menu_entries[] = {
+    { { N_("Editing Mode"), 0         },      "", MENU_EDITOR_TOGGLE, 0 },
+    { { N_("Tools"), 0                },      "", MENU_EDITOR_TOOLS, 0 },
+    { { 0,                            },       0, MENU_END_OF_LIST, 0 }
+};
+
 static struct MenuEntry help_menu_entries[]={
     { { N_("Languages"), 0            },      "", MENU_HELP_LANGUAGES, 0 },
     { { N_("Connecting"), 0           },      "", MENU_HELP_CONNECTING, 0 },
@@ -829,6 +835,23 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
 }
 
 /****************************************************************
+  Callback for Editor menu entries.
+*****************************************************************/
+static void editor_menu_callback(Widget w, XtPointer client_data,
+				 XtPointer garbage)
+{
+  size_t pane_num = (size_t)client_data;
+
+  switch(pane_num) {
+  case MENU_EDITOR_TOGGLE:
+    key_editor_toggle();
+    break;
+  case MENU_EDITOR_TOOLS:
+    break;
+  }
+}
+
+/****************************************************************
 ...
 *****************************************************************/
 static void help_menu_callback(Widget w, XtPointer client_data,
@@ -910,6 +933,9 @@ void setup_menus(Widget parent_form)
 	      parent_form);
   create_menu(MENU_REPORT, "reportsmenu", 
 	      reports_menu_entries, reports_menu_callback, 
+	      parent_form);
+  create_menu(MENU_EDITOR, "editormenu",
+	      editor_menu_entries, editor_menu_callback,
 	      parent_form);
   create_menu(MENU_HELP, "helpmenu", 
 	      help_menu_entries, help_menu_callback, 
