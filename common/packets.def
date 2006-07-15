@@ -1220,6 +1220,7 @@ PACKET_RULESET_TERRAIN=105;sc,lsend
   TERRAIN id;
 
   BV_TERRAIN_FLAGS flags;
+  BV_UNIT_CLASSES native_to;
 
   STRING name_orig[MAX_LEN_NAME];
   STRING graphic_str[MAX_LEN_NAME];

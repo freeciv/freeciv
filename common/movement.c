@@ -198,14 +198,11 @@ bool is_native_terrain(const struct unit_type *punittype,
 bool is_native_to_class(const struct unit_class *punitclass,
                         const struct terrain *pterrain)
 {
-  switch (punitclass->move_type) {
-  case LAND_MOVING:
-    return !is_ocean(pterrain);
-  case SEA_MOVING:
-    return is_ocean(pterrain);
-  default:
+  if (!pterrain) {
+    /* Unknown is considered native terrain */
     return TRUE;
   }
+  return BV_ISSET(pterrain->native_to, punitclass->id);
 }
 
 /****************************************************************************

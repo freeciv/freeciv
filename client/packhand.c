@@ -2367,6 +2367,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
     return;
   }
 
+  pterrain->native_to = p->native_to;
   sz_strlcpy(pterrain->name_orig, p->name_orig);
   pterrain->name = Q_(pterrain->name_orig); /* See translate_data_names */
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);

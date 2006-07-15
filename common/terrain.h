@@ -17,6 +17,9 @@
 
 #include "fc_types.h"
 
+#include "unittype.h"
+
+
 enum special_river_move {
   RMV_NORMAL=0, RMV_FAST_STRICT=1, RMV_FAST_RELAXED=2, RMV_FAST_ALWAYS=3
 };
@@ -157,6 +160,8 @@ struct terrain {
    * For instance if mountains have 70 and hills have 30 of MG_MOUNTAINOUS
    * then 70% of 'mountainous' tiles will be given mountains. */
   int property[MG_LAST];
+
+  bv_unit_classes native_to;
 
   bv_terrain_flags flags;
 

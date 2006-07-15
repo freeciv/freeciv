@@ -25465,7 +25465,7 @@ void lsend_packet_ruleset_building(struct conn_list *dest, const struct packet_r
 
 #define cmp_packet_ruleset_terrain_100 cmp_const
 
-BV_DEFINE(packet_ruleset_terrain_100_fields, 26);
+BV_DEFINE(packet_ruleset_terrain_100_fields, 27);
 
 static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct connection *pc, enum packet_type type)
 {
@@ -25501,15 +25501,18 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
     DIO_BV_GET(&din, real_packet->flags);
   }
   if (BV_ISSET(fields, 2)) {
-    dio_get_string(&din, real_packet->name_orig, sizeof(real_packet->name_orig));
+    DIO_BV_GET(&din, real_packet->native_to);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
+    dio_get_string(&din, real_packet->name_orig, sizeof(real_packet->name_orig));
   }
   if (BV_ISSET(fields, 4)) {
-    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
+    dio_get_string(&din, real_packet->graphic_str, sizeof(real_packet->graphic_str));
   }
   if (BV_ISSET(fields, 5)) {
+    dio_get_string(&din, real_packet->graphic_alt, sizeof(real_packet->graphic_alt));
+  }
+  if (BV_ISSET(fields, 6)) {
     {
       int readin;
     
@@ -25517,7 +25520,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->movement_cost = readin;
     }
   }
-  if (BV_ISSET(fields, 6)) {
+  if (BV_ISSET(fields, 7)) {
     {
       int readin;
     
@@ -25525,7 +25528,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->defense_bonus = readin;
     }
   }
-  if (BV_ISSET(fields, 7)) {
+  if (BV_ISSET(fields, 8)) {
     
     {
       int i;
@@ -25540,7 +25543,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       }
     }
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 9)) {
     {
       int readin;
     
@@ -25548,7 +25551,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->num_resources = readin;
     }
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 10)) {
     
     {
       int i;
@@ -25567,7 +25570,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       }
     }
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 11)) {
     {
       int readin;
     
@@ -25575,7 +25578,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->road_trade_incr = readin;
     }
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 12)) {
     {
       int readin;
     
@@ -25583,7 +25586,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->road_time = readin;
     }
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 13)) {
     {
       int readin;
     
@@ -25591,7 +25594,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->irrigation_result = readin;
     }
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 14)) {
     {
       int readin;
     
@@ -25599,7 +25602,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->irrigation_food_incr = readin;
     }
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 15)) {
     {
       int readin;
     
@@ -25607,7 +25610,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->irrigation_time = readin;
     }
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 16)) {
     {
       int readin;
     
@@ -25615,7 +25618,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->mining_result = readin;
     }
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 17)) {
     {
       int readin;
     
@@ -25623,7 +25626,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->mining_shield_incr = readin;
     }
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 18)) {
     {
       int readin;
     
@@ -25631,7 +25634,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->mining_time = readin;
     }
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 19)) {
     {
       int readin;
     
@@ -25639,7 +25642,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->transform_result = readin;
     }
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 20)) {
     {
       int readin;
     
@@ -25647,7 +25650,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->transform_time = readin;
     }
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 21)) {
     {
       int readin;
     
@@ -25655,7 +25658,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->rail_time = readin;
     }
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 22)) {
     {
       int readin;
     
@@ -25663,7 +25666,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->airbase_time = readin;
     }
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 23)) {
     {
       int readin;
     
@@ -25671,7 +25674,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->fortress_time = readin;
     }
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 24)) {
     {
       int readin;
     
@@ -25679,7 +25682,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->clean_pollution_time = readin;
     }
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 25)) {
     {
       int readin;
     
@@ -25687,7 +25690,7 @@ static struct packet_ruleset_terrain *receive_packet_ruleset_terrain_100(struct 
       real_packet->clean_fallout_time = readin;
     }
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 26)) {
     dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
 
@@ -25732,25 +25735,29 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 1);}
 
-  differ = (strcmp(old->name_orig, real_packet->name_orig) != 0);
+  differ = !BV_ARE_EQUAL(old->native_to, real_packet->native_to);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
+  differ = (strcmp(old->name_orig, real_packet->name_orig) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
+  differ = (strcmp(old->graphic_str, real_packet->graphic_str) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
 
-  differ = (old->movement_cost != real_packet->movement_cost);
+  differ = (strcmp(old->graphic_alt, real_packet->graphic_alt) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 5);}
 
-  differ = (old->defense_bonus != real_packet->defense_bonus);
+  differ = (old->movement_cost != real_packet->movement_cost);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 6);}
+
+  differ = (old->defense_bonus != real_packet->defense_bonus);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 7);}
 
 
     {
@@ -25766,11 +25773,11 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 7);}
+  if(differ) {BV_SET(fields, 8);}
 
   differ = (old->num_resources != real_packet->num_resources);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 8);}
+  if(differ) {BV_SET(fields, 9);}
 
 
     {
@@ -25786,71 +25793,71 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
       }
     }
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 9);}
+  if(differ) {BV_SET(fields, 10);}
 
   differ = (old->road_trade_incr != real_packet->road_trade_incr);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 10);}
+  if(differ) {BV_SET(fields, 11);}
 
   differ = (old->road_time != real_packet->road_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 11);}
+  if(differ) {BV_SET(fields, 12);}
 
   differ = (old->irrigation_result != real_packet->irrigation_result);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 12);}
+  if(differ) {BV_SET(fields, 13);}
 
   differ = (old->irrigation_food_incr != real_packet->irrigation_food_incr);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 13);}
+  if(differ) {BV_SET(fields, 14);}
 
   differ = (old->irrigation_time != real_packet->irrigation_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 14);}
+  if(differ) {BV_SET(fields, 15);}
 
   differ = (old->mining_result != real_packet->mining_result);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 15);}
+  if(differ) {BV_SET(fields, 16);}
 
   differ = (old->mining_shield_incr != real_packet->mining_shield_incr);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 16);}
+  if(differ) {BV_SET(fields, 17);}
 
   differ = (old->mining_time != real_packet->mining_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 17);}
+  if(differ) {BV_SET(fields, 18);}
 
   differ = (old->transform_result != real_packet->transform_result);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 18);}
+  if(differ) {BV_SET(fields, 19);}
 
   differ = (old->transform_time != real_packet->transform_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 19);}
+  if(differ) {BV_SET(fields, 20);}
 
   differ = (old->rail_time != real_packet->rail_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 20);}
+  if(differ) {BV_SET(fields, 21);}
 
   differ = (old->airbase_time != real_packet->airbase_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 21);}
+  if(differ) {BV_SET(fields, 22);}
 
   differ = (old->fortress_time != real_packet->fortress_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 22);}
+  if(differ) {BV_SET(fields, 23);}
 
   differ = (old->clean_pollution_time != real_packet->clean_pollution_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 23);}
+  if(differ) {BV_SET(fields, 24);}
 
   differ = (old->clean_fallout_time != real_packet->clean_fallout_time);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 24);}
+  if(differ) {BV_SET(fields, 25);}
 
   differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
-  if(differ) {BV_SET(fields, 25);}
+  if(differ) {BV_SET(fields, 26);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -25865,21 +25872,24 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
   DIO_BV_PUT(&dout, packet->flags);
   }
   if (BV_ISSET(fields, 2)) {
-    dio_put_string(&dout, real_packet->name_orig);
+  DIO_BV_PUT(&dout, packet->native_to);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_put_string(&dout, real_packet->graphic_str);
+    dio_put_string(&dout, real_packet->name_orig);
   }
   if (BV_ISSET(fields, 4)) {
-    dio_put_string(&dout, real_packet->graphic_alt);
+    dio_put_string(&dout, real_packet->graphic_str);
   }
   if (BV_ISSET(fields, 5)) {
-    dio_put_uint8(&dout, real_packet->movement_cost);
+    dio_put_string(&dout, real_packet->graphic_alt);
   }
   if (BV_ISSET(fields, 6)) {
-    dio_put_sint16(&dout, real_packet->defense_bonus);
+    dio_put_uint8(&dout, real_packet->movement_cost);
   }
   if (BV_ISSET(fields, 7)) {
+    dio_put_sint16(&dout, real_packet->defense_bonus);
+  }
+  if (BV_ISSET(fields, 8)) {
   
     {
       int i;
@@ -25889,10 +25899,10 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
       }
     } 
   }
-  if (BV_ISSET(fields, 8)) {
+  if (BV_ISSET(fields, 9)) {
     dio_put_uint8(&dout, real_packet->num_resources);
   }
-  if (BV_ISSET(fields, 9)) {
+  if (BV_ISSET(fields, 10)) {
   
     {
       int i;
@@ -25902,52 +25912,52 @@ static int send_packet_ruleset_terrain_100(struct connection *pc, const struct p
       }
     } 
   }
-  if (BV_ISSET(fields, 10)) {
+  if (BV_ISSET(fields, 11)) {
     dio_put_uint8(&dout, real_packet->road_trade_incr);
   }
-  if (BV_ISSET(fields, 11)) {
+  if (BV_ISSET(fields, 12)) {
     dio_put_uint8(&dout, real_packet->road_time);
   }
-  if (BV_ISSET(fields, 12)) {
+  if (BV_ISSET(fields, 13)) {
     dio_put_sint16(&dout, real_packet->irrigation_result);
   }
-  if (BV_ISSET(fields, 13)) {
+  if (BV_ISSET(fields, 14)) {
     dio_put_uint8(&dout, real_packet->irrigation_food_incr);
   }
-  if (BV_ISSET(fields, 14)) {
+  if (BV_ISSET(fields, 15)) {
     dio_put_uint8(&dout, real_packet->irrigation_time);
   }
-  if (BV_ISSET(fields, 15)) {
+  if (BV_ISSET(fields, 16)) {
     dio_put_sint16(&dout, real_packet->mining_result);
   }
-  if (BV_ISSET(fields, 16)) {
+  if (BV_ISSET(fields, 17)) {
     dio_put_uint8(&dout, real_packet->mining_shield_incr);
   }
-  if (BV_ISSET(fields, 17)) {
+  if (BV_ISSET(fields, 18)) {
     dio_put_uint8(&dout, real_packet->mining_time);
   }
-  if (BV_ISSET(fields, 18)) {
+  if (BV_ISSET(fields, 19)) {
     dio_put_sint16(&dout, real_packet->transform_result);
   }
-  if (BV_ISSET(fields, 19)) {
+  if (BV_ISSET(fields, 20)) {
     dio_put_uint8(&dout, real_packet->transform_time);
   }
-  if (BV_ISSET(fields, 20)) {
+  if (BV_ISSET(fields, 21)) {
     dio_put_uint8(&dout, real_packet->rail_time);
   }
-  if (BV_ISSET(fields, 21)) {
+  if (BV_ISSET(fields, 22)) {
     dio_put_uint8(&dout, real_packet->airbase_time);
   }
-  if (BV_ISSET(fields, 22)) {
+  if (BV_ISSET(fields, 23)) {
     dio_put_uint8(&dout, real_packet->fortress_time);
   }
-  if (BV_ISSET(fields, 23)) {
+  if (BV_ISSET(fields, 24)) {
     dio_put_uint8(&dout, real_packet->clean_pollution_time);
   }
-  if (BV_ISSET(fields, 24)) {
+  if (BV_ISSET(fields, 25)) {
     dio_put_uint8(&dout, real_packet->clean_fallout_time);
   }
-  if (BV_ISSET(fields, 25)) {
+  if (BV_ISSET(fields, 26)) {
     dio_put_string(&dout, real_packet->helptext);
   }
 

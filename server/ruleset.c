@@ -1684,6 +1684,28 @@ static void load_ruleset_terrain(struct section_file *file)
 							 sec[i], mg_names[j]);
     }
 
+    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", sec[i]);
+    BV_CLR_ALL(pterrain->native_to);
+    for (j = 0; j < nval; j++) {
+      struct unit_class *class = unit_class_from_str(slist[j]);
+
+      if (!class) {
+        /* TRANS: message for an obscure ruleset error. */
+        freelog(LOG_FATAL, _("Terrain %s is native to unknown unit class %s"),
+                pterrain->name, slist[j]);
+        exit(EXIT_FAILURE);
+      } else if (is_ocean(pterrain) && class->move_type == LAND_MOVING) {
+        freelog(LOG_FATAL, _("Oceanic terrain %s is native to land units."),
+                pterrain->name);
+        exit(EXIT_FAILURE);
+      } else if (!is_ocean(pterrain) && class->move_type == SEA_MOVING) {
+        freelog(LOG_FATAL, _("Non oceanic terrain %s is native to sea units."),
+                pterrain->name);
+        exit(EXIT_FAILURE);
+      } else {
+        BV_SET(pterrain->native_to, class->id);
+      }
+    }
     pterrain->helptext = lookup_helptext(file, sec[i]);
   } terrain_type_iterate_end;
 
@@ -2858,6 +2880,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     const struct resource **r;
 
     packet.id = i;
+    packet.native_to = pterrain->native_to;
 
     sz_strlcpy(packet.name_orig, pterrain->name_orig);
     sz_strlcpy(packet.graphic_str, pterrain->graphic_str);
