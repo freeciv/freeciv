@@ -18,7 +18,6 @@
 
 void auto_settlers_init(void);
 void auto_settlers_player(struct player *pplayer);
-int find_boat(struct player *pplayer, struct tile **boat_tile, int cap);
 
 #define MORT 24
 

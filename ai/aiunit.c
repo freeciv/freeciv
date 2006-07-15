@@ -1205,7 +1205,6 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   int maxd, needferry;
   /* Do we have access to sea? */
   bool harbor = FALSE;
-  struct tile *best_tile = NULL;
   /* Build cost of the attacker (+adjustments) */
   int bcost, bcost_bal;
   bool handicap = ai_handicap(pplayer, H_TARGETS);
@@ -1315,7 +1314,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   generate_warmap(tile_get_city(*dest_tile), punit);
 
   if (is_ground_unit(punit)) {
-    int boatid = find_boat(pplayer, &best_tile, 2);
+    int boatid = aiferry_find_boat(punit, 2, NULL);
     ferryboat = player_find_unit_by_id(pplayer, boatid);
   }
 
@@ -1472,7 +1471,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       if (punit->id != 0 && ferryboat && is_ground_unit(punit)) {
         UNIT_LOG(LOG_DEBUG, punit, "in fstk with boat %s@(%d, %d) -> %s@(%d, %d)"
                  " (go_by_boat=%d, move_time=%d, want=%d, best=%d)",
-                 unit_type(ferryboat)->name, best_tile->x, best_tile->y,
+                 unit_type(ferryboat)->name, ferryboat->tile->x, ferryboat->tile->y,
                  acity->name, TILE_XY(acity->tile), 
                  go_by_boat, move_time, want, best);
       }
