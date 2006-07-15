@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-07-12 23:17+0300\n"
-"PO-Revision-Date: 2006-07-13 01:29+0300\n"
+"PO-Revision-Date: 2006-07-14 20:11+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1182,7 +1182,13 @@ msgid_plural ""
 "will answer in force in %d turns and expect you to honour your alliance with "
 "us and do likewise!"
 msgstr[0] ""
+"*%s (AI)* %s rikkus jämedalt oma leppeid omakasu pärast. Me vastame sellele "
+"sõjalise jõuga %d käigu pärast ja ootame, et te austaks meie liitu ja teeks "
+"samamoodi!"
 msgstr[1] ""
+"*%s (AI)* %s rikkus jämedalt oma leppeid omakasu pärast. Me vastame sellele "
+"sõjalise jõuga %d käigu pärast ja ootame, et te austaks meie liitu ja teeks "
+"samamoodi!"
 
 #: ai/advdiplomacy.c:1210
 #, c-format
@@ -1193,13 +1199,17 @@ msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
 msgstr[0] ""
+"*%s (AI)* Me kavatseme rüüstada %s rikast tsivilisatsioon. Me kuulutame sõja "
+"%d käigu pärast."
 msgstr[1] ""
+"*%s (AI)* Me kavatseme rüüstada %s rikast tsivilisatsioon. Me kuulutame sõja "
+"%d käigu pärast."
 
 #: ai/advdiplomacy.c:1216
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr ""
+msgstr "*%s (AI)* Kui tahad ka rüüstada, löö kaasa!"
 
 #: ai/advdiplomacy.c:1220
 #, c-format
@@ -1210,12 +1220,17 @@ msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
 msgstr[0] ""
+"*%s (AI)* Meil on kopp ees %s-idest. Rebime ta haleda tsivilisatsiooni "
+"tükkideks. Me kuulutame sõja %d käigu pärast."
 msgstr[1] ""
+"*%s (AI)* Meil on kopp ees %s-idest. Rebime ta haleda tsivilisatsiooni "
+"tükkideks. Me kuulutame sõja %d käigu pärast."
 
 #: ai/advdiplomacy.c:1228
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
+"*%s (AI)* Meie kuulsusrikka liidu pärast me ootame teie abi selles sõjas."
 
 #: ai/advdiplomacy.c:1233
 #, c-format
@@ -1226,7 +1241,11 @@ msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
 msgstr[0] ""
+"*%s (AI)* Me austame oma liitu ja kuulutame sõja %s-le %d käigu pärast. "
+"Pidage vastu - me tuleme!"
 msgstr[1] ""
+"*%s (AI)* Me austame oma liitu ja kuulutame sõja %s-le %d käigu pärast. "
+"Pidage vastu - me tuleme!"
 
 #: ai/advdiplomacy.c:1240
 #, c-format
@@ -1237,7 +1256,11 @@ msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
 msgstr[0] ""
+"*%s (AI)* Me austame oma liitu %s-ga ja kuulutame sõja %s-le %d käigu "
+"pärast. Me ootame, et te samamoodi käituks."
 msgstr[1] ""
+"*%s (AI)* Me austame oma liitu %s-ga ja kuulutame sõja %s-le %d käigu "
+"pärast. Me ootame, et te samamoodi käituks."
 
 #: ai/advdiplomacy.c:1307
 #, c-format
@@ -1245,13 +1268,15 @@ msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
 msgstr ""
+"*%s (AI)* Teie soov vallutada kosmos ainult endale reedab teie tõelisi "
+"kavatsusi. Meie liit on läbi!"
 
 #: ai/advdiplomacy.c:1321
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
-msgstr ""
+msgstr "*%s (AI)* Teie katse üksi domineerida kosmoses on väga solvav."
 
 #: ai/advdiplomacy.c:1323
 #, c-format
@@ -1265,7 +1290,7 @@ msgstr ""
 #: ai/advdiplomacy.c:1434
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr ""
+msgstr "*%s (AI)* Vabanda, sinuga vaate jagamine ei ole enam ohutu."
 
 #: ai/advdiplomacy.c:1511
 #, c-format
@@ -1273,6 +1298,8 @@ msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
 msgstr ""
+"*%s (AI)* Tervitus, me ustavaim liitlane. Me kutsume teid üles hävitama meie "
+"vaenlast %s."
 
 #: ai/advdiplomacy.c:1516
 #, c-format
@@ -1280,6 +1307,8 @@ msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
 "s. Why do I need to remind you of your promises?"
 msgstr ""
+"*%s (AI)* Tervist, liitlane! Ma näen, et te pole veel kuulutanud sõda me "
+"vaenlastele %s-le. Miks ma pean teile te lubadusi meelde tuletama?"
 
 #: ai/advdiplomacy.c:1521
 #, c-format
@@ -1288,6 +1317,8 @@ msgid ""
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
 msgstr ""
+"*%s (AI)* Autu, me tegime liidu ja ikkagi on sul rahu meie surmavaenlastega %"
+"s! Me ei lepi sellega, meie liitu pole enam!"
 
 #: ai/advdiplomacy.c:1549
 #, c-format
@@ -1295,11 +1326,13 @@ msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
 msgstr ""
+"*%s (AI)* Tervist, sõber. Kas me tohiks soovitada ühiseid eesmärke ja liitu?"
 
 #: ai/advdiplomacy.c:1564
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
 msgstr ""
+"*%s (AI)* Tervist, sõber. Kas me tohiks soovitada rahumeelsemaid suhteid?"
 
 #: ai/advdiplomacy.c:1578
 #, c-format
@@ -1307,6 +1340,8 @@ msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
 msgstr ""
+"*%s (AI)* Me oleme väsinud pidevast verevalamisest. Kas me tohiks soovitada "
+"sõjategevuse peatamist?"
 
 #: ai/advdiplomacy.c:1698
 #, c-format
@@ -1314,6 +1349,8 @@ msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! "
 "Honour our glorious alliance and your name will never be forgotten!"
 msgstr ""
+"*%s (AI)* %s ründavad meid barbaarselt ja me vajame te abi! Austa meie "
+"kuulsat liitu ja su nime ei unustata kunagi!"
 
 #: server/auth.c:136
 #, c-format
@@ -1321,14 +1358,13 @@ msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
 msgstr "Hoiatus: külalisnimi '%s' on juba võetud, uueks nimeks saab '%s'."
 
 #: server/auth.c:142
-#, fuzzy
 msgid "Guests are not allowed on this server. Sorry."
-msgstr "Siia serverile pole külalised oodatud."
+msgstr "Siia serverisse pole külalised lubatud. Vabanda."
 
 #: server/auth.c:144
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr "%s saadeti ära: Kokkusobimatud võimed"
+msgstr "%s-le öeldi ära. Külalisi ei lubata."
 
 #: server/auth.c:163
 #, c-format
@@ -1347,7 +1383,7 @@ msgstr ""
 #: server/auth.c:172
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
-msgstr ""
+msgstr "%s-le keelduti: Andmebaasi viga ja külalised pole lubatud."
 
 #: server/auth.c:179
 #, c-format
@@ -1355,7 +1391,6 @@ msgid "Enter password for %s:"
 msgstr "Sisesta kasutaja %s parool:"
 
 #: server/auth.c:188
-#, fuzzy
 msgid "Enter a new password (and remember it)."
 msgstr "Sisesta parool (ja jäta meelde)."
 
@@ -1364,9 +1399,9 @@ msgid "This server allows only preregistered users. Sorry."
 msgstr "Siia serveri on lubatud ainult registreeritud kasutajad."
 
 #: server/auth.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Only preregister users allowed."
-msgstr "Siia serveri on lubatud ainult registreeritud kasutajad."
+msgstr "%s-le öeldi ära. Lubatud on ainult registreeritud kasutajad."
 
 #: server/auth.c:224 server/auth.c:282
 msgid "Sorry, too many wrong tries..."
@@ -1375,18 +1410,20 @@ msgstr "Dang, liiga palju vigaseid katseid..."
 #: server/auth.c:225
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
-msgstr ""
+msgstr "%s-le keelduti: Liiga palju uue kasutaja paroolivigu."
 
 #: server/auth.c:241
 msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
 msgstr ""
+"Hoiatus: Andmebaasi salvestamine ei õnnestunud. Jätkan, kuid su statistikat "
+"ei salvestata."
 
 #: server/auth.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s saadeti ära: Kokkusobimatud võimed"
+msgstr "%s-le öeldi ära. Liiga palju katseid parooli sisestamisel."
 
 #: server/auth.c:293
 msgid "Your password is incorrect. Try again."
@@ -1394,12 +1431,12 @@ msgstr "Parool on vale. Proovi uuesti."
 
 #: server/auth.c:303
 msgid "Sorry, your connection timed out..."
-msgstr ""
+msgstr "Vabanda, su ühendus aegus..."
 
 #: server/auth.c:305
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr ""
+msgstr "%s-le keelduti: Ühendus aegus parooli ootamisel."
 
 #: server/auth.c:370
 #, c-format
@@ -1464,7 +1501,7 @@ msgstr "Mäng: Ei saa osta üksuseid, kui linnas on rahutused."
 #: server/cityhand.c:261
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr ""
+msgstr "On vaja %d raha. Sul on ainult %d."
 
 #: server/cityhand.c:362
 msgid "You have bought this turn, can't change."
@@ -1477,9 +1514,9 @@ msgid "%s"
 msgstr "Mäng: %s"
 
 #: server/citytools.c:270
-#, fuzzy, c-format
+#, c-format
 msgid "You already have a city called %s."
-msgstr "Mäng: Sul on juba linn nimega %s"
+msgstr "Sul on juba linn nimega %s."
 
 #: server/citytools.c:282
 #, c-format
@@ -1496,6 +1533,7 @@ msgstr "Mäng: %s ei saa kasutada linna nimena. See on reserveeritud %s jaoks."
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
+"%s ei ole lubatud nimi. Linna nimeks sobib ainult ASCII või standartne nimi."
 
 #: server/citytools.c:447
 #, c-format
@@ -1524,7 +1562,7 @@ msgstr "Mäng: %s liigutati %s-lt %s-le."
 #: server/citytools.c:535
 #, c-format
 msgid "%s from %s lost in transfer to %s's %s"
-msgstr ""
+msgstr "%s %s-st läks kaduma üleviimisel %s %s-i"
 
 #: server/citytools.c:608
 #, c-format
@@ -1532,9 +1570,9 @@ msgid "%s lost along with control of %s."
 msgstr "Mäng: %s kaotatud koos kontrolliga linna %s üle."
 
 #: server/citytools.c:734
-#, fuzzy, c-format
+#, c-format
 msgid "You lost %s. A new %s was built in %s."
-msgstr "Mäng: Kaotasid oma pealinna %s. Uus palee rajati linna %s."
+msgstr "Kaotasid %s. Uus %s rajati linna %s."
 
 #: server/citytools.c:805
 #, c-format
@@ -1551,20 +1589,20 @@ msgstr ""
 "      Töötajad spontaanselt koguneved ja sutsti! uuendavad linna raudteedega."
 
 #: server/citytools.c:1017
-#, fuzzy, c-format
+#, c-format
 msgid "You have founded %s."
-msgstr "Mäng: Sa rajasid linna %s"
+msgstr "Sa rajasid linna %s."
 
 #: server/citytools.c:1087
 #, c-format
 msgid "Moved %s out of disbanded city %s to avoid being landlocked."
-msgstr ""
+msgstr "Viisin %s välja laiali saadetavast linnast %s, et ta kuivale ei jääks."
 
 #: server/citytools.c:1096 server/citytools.c:1107
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr ""
+msgstr "Kui %s saadeti laiali, su %s ei suutnud välja saada ja hukkus."
 
 #: server/citytools.c:1222
 #, c-format
@@ -1577,52 +1615,52 @@ msgid "%s has been destroyed by %s."
 msgstr "Linna %s hävitas %s."
 
 #: server/citytools.c:1241
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
-msgstr[0] "Vabastasid oma linna %s! Saagiks %d raha."
-msgstr[1] "Vabastasid oma linnad %s! Saagiks %d raha."
+msgstr[0] "Vallutasid linna %s. Saagiks said %d raha!"
+msgstr[1] "Vallutasid linna %s. Saagiks said %d raha!"
 
 #: server/citytools.c:1247
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s vallutasid %s ja said %d raha linnast saagiks."
+msgstr[1] "%s vallutasid %s ja said %d raha linnast saagiks."
 
 #: server/citytools.c:1254
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s"
-msgstr "Mäng: Sa ei osta %s!"
+msgstr "Vallutasid %s"
 
 #: server/citytools.c:1256
-#, fuzzy, c-format
+#, c-format
 msgid "%s conquered %s."
-msgstr "%s tegid avastuse %s"
+msgstr "%s vallutasid %s."
 
 #: server/citytools.c:1261
-#, fuzzy, c-format
+#, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
-msgstr[0] "Mäng: Vabastasid oma linna %s! Saagiks %d raha."
+msgstr[0] "Vabastasid oma linna %s! Saagiks %d raha."
 msgstr[1] "Mäng: Vabastasid oma linna %s! Saagiks %d raha."
 
 #: server/citytools.c:1267
-#, fuzzy, c-format
+#, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
-msgstr[0] "Mäng: %s vabastas %s ja sai linnast %d raha"
+msgstr[0] "%s vabastas %s ja sai linnast %d raha."
 msgstr[1] "Mäng: %s vabastas %s ja sai linnast %d raha"
 
 #: server/citytools.c:1274
-#, fuzzy, c-format
+#, c-format
 msgid "You have liberated %s!"
-msgstr "Mäng: Sa rajasid linna %s"
+msgstr "Sa vabastasid linna %s!"
 
 #: server/citytools.c:1276
-#, fuzzy, c-format
+#, c-format
 msgid "%s liberated %s."
-msgstr "Mäng: %s on %s valitseja."
+msgstr "%s vabastas %s."
 
 #: server/citytools.c:1854
 msgid " from the worklist"
@@ -1637,7 +1675,7 @@ msgstr "%s ehitab %s%s."
 #: server/citytools.c:2111
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
-msgstr ""
+msgstr "Linn %s (nüüd ilma merele pääsuta) müüb %s %d raha eest."
 
 #: server/cityturn.c:124
 #, c-format
@@ -1654,7 +1692,7 @@ msgstr "Mäng: Tähelepanek: Ilmaime %s linnas %s saab valmis järgmisel käigul
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr ""
-"Mäng: Soovitatakse suurendada kasvu %s's et kasutada %s (juba ehituses) "
+"Soovitatakse pidurdada kasvu %s's et kasutada %s (juba ehituses) "
 "efektiivsemalt."
 
 #: server/cityturn.c:347
@@ -1678,9 +1716,9 @@ msgstr ""
 "Mäng: %s vajab edasikasvamiseks, et ehitataks %s (parasjagu ehitamisel)."
 
 #: server/cityturn.c:475
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs an improvement to grow any further."
-msgstr "Mäng: %s vajab edasikasvamiseks, et ehitataks %s."
+msgstr "%s vajab edasikasvamiseks mingit ehitist."
 
 #: server/cityturn.c:518
 #, c-format
@@ -1698,9 +1736,9 @@ msgid "Famine causes population loss in %s."
 msgstr "Mäng: Näljahäda põhjustab rahvastiku vähenemise linnas %s."
 
 #: server/cityturn.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "Famine destroys %s entirely."
-msgstr "Mäng: Sa hävitasid linna %s täielikult."
+msgstr "Nälg hävitas linna %s täielikult."
 
 #: server/cityturn.c:639
 #, c-format
@@ -1722,13 +1760,13 @@ msgid "Production of %s is upgraded to %s in %s."
 msgstr "Mäng: %s tootmine uuendatud %s'ks %s-s."
 
 #: server/cityturn.c:719
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
 "Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; pole veel "
-"tehnoloogiliseltvõimalik.  Lükkan edasi..."
+"%s ei saa ehitada tööde nimekirjast %s'i - tehnoloogia %s pole veel "
+"kättesaadav.  Lükkan edasi..."
 
 #: server/cityturn.c:732
 #, c-format
@@ -1739,44 +1777,44 @@ msgstr ""
 "edasi..."
 
 #: server/cityturn.c:745
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
+"%s ei saa ehitada tööde nimekirjast %s'i - vajab %s valitsust.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:757
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
+"%s ei saa ehitada tööde nimekirjast %s'i - enne peab olema %s.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:769
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
+"%s ei saa ehitada tööde nimekirjast %s'i - maastikuks peab olema %s.  Lükkan "
 "edasi..."
 
 #: server/cityturn.c:783
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
-"edasi..."
+"%s ei saa ehitada tööde nimekirjast %s'i - ainult %s võivad ehitada seda.  "
+"Lükkan edasi..."
 
 #: server/cityturn.c:802
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
-"Mäng: %s ei saa ehitada tööde nimekirjast %s'i; enne peab olema %s.  Lükkan "
-"edasi..."
+"%s ei saa ehitada tööde nimekirjast %s'i - linna suurus peab olema %d.  "
+"Lükkan edasi..."
 
 #: server/cityturn.c:824
 #, c-format
@@ -1816,16 +1854,16 @@ msgid "%s has finished building %s."
 msgstr "Mäng: %s lõpetas %s ehitamise."
 
 #: server/cityturn.c:1125
-#, fuzzy, c-format
+#, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] "Mäng: %s annab uuringutele tõuke, saad kohe 2 leiutist."
-msgstr[1] "Mäng: %s annab uuringutele tõuke, saad kohe 2 leiutist."
+msgstr[0] "%s annab uuringutele tõuke, saad kohe %d avastuse."
+msgstr[1] "%s annab uuringutele tõuke, saad kohe %d avastuse."
 
 #: server/cityturn.c:1134 server/techtools.c:175
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from %s."
-msgstr "Mäng: %s õppisid Suurest Raamatukogust %s."
+msgstr "%s õppisid %s-lt %s."
 
 #: server/cityturn.c:1142
 #, c-format
@@ -1833,9 +1871,9 @@ msgid "The %s have started building a spaceship!"
 msgstr "Mäng: %s alustasid kosmoselaeva ehitamist!"
 
 #: server/cityturn.c:1182
-#, fuzzy, c-format
+#, c-format
 msgid "%s's %s tried to build %s, which is not available."
-msgstr "Mäng: %s ehitab %s, mis ei ole enam saadaval."
+msgstr "%s %s ehitab %s, mis ei ole enam saadaval."
 
 #: server/cityturn.c:1198
 #, c-format
@@ -1904,6 +1942,8 @@ msgstr "Mäng: %s saadeti laiali %s'ks."
 #: server/civserver.c:77
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
 msgstr ""
+"Sa pead Freecivi 2 korda ühe sekundi jooksul katkestama, et teda väljuma "
+"panna.\n"
 
 #: server/civserver.c:134
 #, c-format
@@ -1936,15 +1976,19 @@ msgstr ""
 
 #: server/civserver.c:207
 msgid "  -a  --auth\t\tEnable server authentication.\n"
-msgstr ""
+msgstr "  -a  --auth\t\tLülita sisse serveri autentimine.\n"
 
 #: server/civserver.c:208
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
 msgstr ""
+"  -G  --Guests\t\tLuba külalistel sisse logistada, kui autentimine on sisse "
+"lülitatud.\n"
 
 #: server/civserver.c:210
 msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
 msgstr ""
+"  -N  --Newusers\tLuba uutel kasutajatel sisse logistada, kui autentimine on "
+"sisse lülitatud.\n"
 
 #: server/civserver.c:213
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
@@ -1991,29 +2035,27 @@ msgstr "  -q, --quitidle AEG\tVälju, kui AEG sekundit ei ole ühtegi mängijat\
 
 #: server/civserver.c:234
 msgid "  -e, --exit-on-end\tWhen a game ends, exit instead of restarting\n"
-msgstr ""
+msgstr "  -e, --exit-on-end\tMängu lõppedes välju taaskäivituse asemel\n"
 
 #: server/civserver.c:237
 msgid "  -s, --saves DIR\tSave games to directory DIR\n"
-msgstr ""
+msgstr "  -s, --saves DIR\tSalvesta mängud kataloogi DIR\n"
 
 #: server/civserver.c:239
-#, fuzzy
 msgid "  -S, --Serverid ID\tSets the server id to ID\n"
-msgstr "  -s, --server AADRESS\tÜhenda serveriga AADRESSil\n"
+msgstr "  -S, --Serverid ID\tSäti serveri identifikatsioon ID-ks\n"
 
 #: server/civserver.c:241
 msgid "  -P, --Ppm\t\tSave ppms of the map when saving the game.\n"
-msgstr ""
+msgstr "  -P, --Ppm\t\tSalvesta kaardi ppm-id mängu salvestamisel.\n"
 
 #: server/civserver.c:242
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FAIL\tLoe käivitusskript FAIL\n"
 
 #: server/civserver.c:244
-#, fuzzy
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr "  -l, --log FILE\tLogi faili FILE\n"
+msgstr "  -R, --Ranklog FILE\tKasuta FILEi kui edetabeli logifaili\n"
 
 #: server/civserver.c:245 client/civclient.c:225 manual/civmanual.c:373
 msgid "  -v, --version\t\tPrint the version number\n"
@@ -2083,9 +2125,8 @@ msgstr ""
 "Argumenti võib lühendada kuni ei kattu mõne teisega."
 
 #: server/commands.c:63
-#, fuzzy
 msgid "Show a list of players, teams, connections, or scenarios."
-msgstr "Näita mängijate või ühenduste nimekirja."
+msgstr "Näita mängijate, meeskondade, ühenduste või stsenaariumite nimekirja."
 
 #: server/commands.c:64
 msgid ""
@@ -2093,6 +2134,9 @@ msgid ""
 "server, or available scenarios.  The argument may be abbreviated, and "
 "defaults to 'players' if absent."
 msgstr ""
+"Näita mängijate nimekirja, meeskondi, ühendusi serverisse või saadavaid "
+"stsenaariume. Argumenti võib lühendada ja kui seda mitte määrata, on see "
+"vaikimisi \"players\"."
 
 #: server/commands.c:70
 msgid "Quit the game and shutdown the server."
@@ -7410,8 +7454,9 @@ msgid "Stock"
 msgstr "laos"
 
 #: client/cityrepdata.c:483
+#, fuzzy
 msgid "Food Stock"
-msgstr ""
+msgstr "Toit"
 
 #: client/cityrepdata.c:485
 msgid "?pollution:Pol"
@@ -8992,7 +9037,7 @@ msgstr "Vaata skoori"
 
 #: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1510
 msgid "Team"
-msgstr "Võistkond"
+msgstr "Meeskond"
 
 #: client/plrdlg_common.c:257
 #, fuzzy
@@ -13413,12 +13458,12 @@ msgstr "Kaitse: %ld.%ld"
 
 #: client/gui-mui/helpdlg.c:872 client/gui-mui/helpdlg.c:891
 #: client/gui-mui/helpdlg.c:911
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Food:   %d\n"
 "Shield: %d\n"
 "Trade:  %d"
-msgstr ""
+msgstr "Toit"
 
 #: client/gui-mui/inteldlg.c:111 client/gui-sdl/inteldlg.c:213
 #: client/gui-win32/inteldlg.c:85 data/Freeciv.in:173 data/Freeciv.in:223
@@ -15838,12 +15883,12 @@ msgid "Granary:  %3d/%-3d"
 msgstr ""
 
 #: client/gui-xaw/citydlg.c:253
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Food:  %3d (%+-4d)\n"
 "Prod:  %3d (%+-4d)\n"
 "Trade: %3d (%+-4d)"
-msgstr ""
+msgstr "Toit"
 
 #: client/gui-xaw/citydlg.c:282
 #, c-format
@@ -16470,8 +16515,9 @@ msgid "Building Name       Count Cost Total"
 msgstr "Ehitise Nimi        Hulk  Hind Kokku"
 
 #: data/Freeciv.in:1922
+#, fuzzy
 msgid "Unit Type            Upgrade  In-Prog   Active   Shield     Food"
-msgstr ""
+msgstr "Toit"
 
 #: data/Freeciv.in:2006
 msgid "Rename worklist"
@@ -17645,6 +17691,7 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1188
+#, fuzzy
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -17652,7 +17699,7 @@ msgid ""
 "west.  Irrigating a square causes it to produce some extra food each turn.  "
 "In addition, given sufficient technology, you may irrigate a square a second "
 "time, turning it into even more productive Farmland."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/helpdata.txt:1196
 msgid ""
@@ -17661,12 +17708,13 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:1199
+#, fuzzy
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
 "Roads and railroads allow your units to move more quickly, and they increase "
 "the resources produced in cities."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/helpdata.txt:1204
 msgid ""
@@ -18124,6 +18172,7 @@ msgid "Hydro Plant"
 msgstr "Hüdroelektrijaam"
 
 #: data/default/buildings.ruleset:378
+#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -18134,7 +18183,7 @@ msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/default/buildings.ruleset:397 data/civ2/buildings.ruleset:373
 #: data/civ1/buildings.ruleset:297
@@ -18810,6 +18859,7 @@ msgid ""
 msgstr ""
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
+#, fuzzy
 msgid ""
 "Reduces the amount of pollution generated by production in a city by 50%.  "
 "It also increases the shield production of a Factory or Mfg. Plant in the "
@@ -18820,7 +18870,7 @@ msgid ""
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
-msgstr ""
+msgstr "Jõgi."
 
 #: data/civ2/buildings.ruleset:388 data/civ1/buildings.ruleset:312
 #, no-c-format
@@ -19717,22 +19767,22 @@ msgstr ""
 #: data/default/techs.ruleset:605 data/civ2/techs.ruleset:454
 #: data/civ1/techs.ruleset:451
 msgid "Refrigeration"
-msgstr ""
+msgstr "Külmutamine"
 
 #: data/default/techs.ruleset:613 data/civ2/techs.ruleset:460
 #: data/civ1/techs.ruleset:457
 msgid "Robotics"
-msgstr ""
+msgstr "Robootika"
 
 #: data/default/techs.ruleset:621 data/civ2/techs.ruleset:466
 #: data/civ1/techs.ruleset:463
 msgid "Rocketry"
-msgstr ""
+msgstr "Raketiehitus"
 
 #: data/default/techs.ruleset:629 data/civ2/techs.ruleset:472
 #: data/civ1/techs.ruleset:469
 msgid "Sanitation"
-msgstr ""
+msgstr "Hügieen"
 
 #: data/default/techs.ruleset:637 data/civ2/techs.ruleset:478
 #: data/civ1/techs.ruleset:475
@@ -19747,7 +19797,7 @@ msgstr "Kosmoselend"
 #: data/default/techs.ruleset:653 data/civ2/techs.ruleset:490
 #: data/civ1/techs.ruleset:487
 msgid "Stealth"
-msgstr ""
+msgstr "Radarikaitse"
 
 #: data/default/techs.ruleset:661 data/civ2/techs.ruleset:496
 #: data/civ1/techs.ruleset:493
@@ -19762,7 +19812,7 @@ msgstr "Teras"
 #: data/default/techs.ruleset:677 data/civ2/techs.ruleset:508
 #: data/civ1/techs.ruleset:505
 msgid "Superconductors"
-msgstr ""
+msgstr "Ülijuhid"
 
 #: data/default/techs.ruleset:685 data/civ2/techs.ruleset:514
 #: data/civ1/techs.ruleset:511
@@ -19790,7 +19840,7 @@ msgstr "Teoloogia"
 
 #: data/default/techs.ruleset:723 data/civ2/techs.ruleset:542
 msgid "Improves the effect of Cathedrals."
-msgstr ""
+msgstr "Suurendab katedraalide mõju."
 
 #: data/default/techs.ruleset:726 data/civ2/techs.ruleset:545
 #: data/civ1/techs.ruleset:541
@@ -19800,7 +19850,7 @@ msgstr "Gravitatsiooni teooria"
 #: data/default/techs.ruleset:750 data/civ2/techs.ruleset:563
 #: data/civ1/techs.ruleset:559
 msgid "Warrior Code"
-msgstr ""
+msgstr "Sõdalase Koodeks"
 
 #: data/default/techs.ruleset:758 data/civ2/techs.ruleset:569
 #: data/civ1/techs.ruleset:565
@@ -19821,6 +19871,13 @@ msgid ""
 "Roads and railroads can only be built on River squares if your civilization "
 "has learned Bridge Building technology."
 msgstr ""
+"Jõgi võib olla kõigil maastiku tüüpidel peale ookeani.  Jõgi annab 1 "
+"kaubanduspunkti lisaks oma kaardiruudule.  Samuti suurendab see kaardiruudu "
+"kaitsefaktorit 50% võrra.  Veel saavad maaväed liikuda piki jõge (mitte "
+"diagonaalis) 1/3 käigupunktiga.\n"
+"\n"
+"Teid ja raudteid saab jõgedele ehitada siis, kui su tsivilisatsioon avastab "
+"sillaehituse kunsti."
 
 #: data/default/terrain.ruleset:182 data/civ2/terrain.ruleset:162
 msgid "Glacier"
@@ -19831,6 +19888,8 @@ msgid ""
 "Glaciers are found only in the most northerly or southerly reaches of the "
 "world.  They are very cold, and hence difficult to work with."
 msgstr ""
+"Liustikud leiduvad ainult maa kõige põhja- ja lõunapoolsemates otsades.  Nad "
+"on väga külmad, sellepärast on nendega keeruline tegeleda."
 
 #: data/default/terrain.ruleset:220 data/civ2/terrain.ruleset:195
 #: data/civ1/terrain.ruleset:186
@@ -19843,6 +19902,8 @@ msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
 msgstr ""
+"Kõrbed on äärmiselt kuivad, see teeb põllumajanduse ja kaubanduse väga "
+"keeruliseks."
 
 #: data/default/terrain.ruleset:258 data/civ2/terrain.ruleset:228
 #: data/civ1/terrain.ruleset:218
@@ -19852,7 +19913,7 @@ msgstr "Mets"
 #: data/default/terrain.ruleset:290 data/civ2/terrain.ruleset:255
 #: data/civ1/terrain.ruleset:245
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
-msgstr ""
+msgstr "Metsades on palju puid, see teeb põllumajanduse veidi keeruliseks."
 
 #: data/default/terrain.ruleset:296 data/civ2/terrain.ruleset:261
 #: data/civ1/terrain.ruleset:251
@@ -19862,7 +19923,7 @@ msgstr "Rohumaa"
 #: data/default/terrain.ruleset:328 data/civ2/terrain.ruleset:288
 #: data/civ1/terrain.ruleset:278
 msgid "Grasslands afford exceptional agricultural opportunities."
-msgstr ""
+msgstr "Rohumaad annavad suurepärase võimaluse põlluharimiseks."
 
 #: data/default/terrain.ruleset:333 data/civ2/terrain.ruleset:293
 #: data/civ1/terrain.ruleset:283
@@ -19875,6 +19936,8 @@ msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
 msgstr ""
+"Peale selle, et seal saab põldu harida, on künkad veel tihtipeale maavarade "
+"poolest rikkad."
 
 #: data/default/terrain.ruleset:371 data/civ2/terrain.ruleset:326
 #: data/civ1/terrain.ruleset:316
@@ -19884,7 +19947,7 @@ msgstr "Dzhungel"
 #: data/default/terrain.ruleset:404 data/civ2/terrain.ruleset:354
 #: data/civ1/terrain.ruleset:342
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
-msgstr ""
+msgstr "Džunglis on tihe taimestik, see teeb põllumajanduse raskemaks."
 
 #: data/default/terrain.ruleset:410 data/civ2/terrain.ruleset:360
 #: data/civ1/terrain.ruleset:348
@@ -19897,6 +19960,7 @@ msgid ""
 "Mountains are regions of extreme altitude, making agriculture and trade very "
 "difficult."
 msgstr ""
+"Mäed on äärmiselt kõrged, see teeb põllumajanduse ja kaubanduse väga raskeks."
 
 #: data/default/terrain.ruleset:447 data/civ2/terrain.ruleset:392
 #: data/civ1/terrain.ruleset:379
@@ -19911,11 +19975,15 @@ msgid ""
 "\n"
 "Ocean squares can never be polluted or subjected to fallout."
 msgstr ""
+"Ookeanid katavad suure osa maast. Ainult merevägi (trireemid ja muud paadid) "
+"suudab seal liikuda.\n"
+"\n"
+"Ookeani kaardiruutudele ei tule kunagi tuumajäätmeid ega saasta."
 
 #: data/default/terrain.ruleset:486 data/civ2/terrain.ruleset:425
 #: data/civ1/terrain.ruleset:412
 msgid "Plains"
-msgstr ""
+msgstr "Tasandik"
 
 #: data/default/terrain.ruleset:518 data/civ2/terrain.ruleset:452
 #: data/civ1/terrain.ruleset:439
@@ -19923,18 +19991,20 @@ msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
 msgstr ""
+"Tasandikud on väga laiad ja hõredalt asustatud alad. See teeb kaubanduse "
+"veidi ebamugavaks."
 
 #: data/default/terrain.ruleset:524 data/civ2/terrain.ruleset:458
 #: data/civ1/terrain.ruleset:445
 msgid "Swamp"
-msgstr ""
+msgstr "Soo"
 
 #: data/default/terrain.ruleset:556 data/civ2/terrain.ruleset:485
 #: data/civ1/terrain.ruleset:471
 msgid ""
 "Swamps suffer from an over-abundance of water, making agriculture somewhat "
 "problematic."
-msgstr ""
+msgstr "Soodes on liiga palju vett, see teeb põllumajanduse raskemaks."
 
 #: data/default/terrain.ruleset:562 data/civ2/terrain.ruleset:491
 #: data/civ1/terrain.ruleset:477
@@ -19946,6 +20016,8 @@ msgstr "Tundra"
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
+"Tundrad on suured külmad alad. Neil võib natuke põldu harida, muud eriti "
+"midagi."
 
 #: data/default/terrain.ruleset:599 data/civ2/terrain.ruleset:523
 msgid "Ivory"
@@ -20038,6 +20110,8 @@ msgid ""
 "Arctic squares are found only in the most northerly or southerly reaches of "
 "the world.  They are very cold, and hence difficult to work with."
 msgstr ""
+"Arktilised kaardiruudud on ainult maa põhja- ja lõunaotsas. Nad on väga "
+"külmad ja seega keerulised kasutada."
 
 #: data/civ1/terrain.ruleset:550
 msgid "Horses"
@@ -20066,6 +20140,7 @@ msgid "Settlers"
 msgstr "Asunikud"
 
 #: data/default/units.ruleset:220
+#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game.  They can be used to found "
 "new cities, irrigate land, build roads, railroads, fortresses and mines, and "
@@ -20081,6 +20156,18 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
+"Asunikud on mängu üks tähtsamaid üksusi.  Neid saab kasutada uute linnade "
+"asustamiseks, niisutuskanalite rajamiseks, teede ja raudteede ehitamiseks, "
+"kindlustuste ja kaevanduste rajamiseks ja saasta ning tuumajäätmete "
+"koristamiseks.\n"
+"\n"
+"Settlers and Engineers may work together to decrease the amount of time "
+"required for long projects.  If two or more Settlers and/or Engineers are "
+"both working on the same task in the same square, their efforts will be "
+"added together each turn until the task is finished.  Be careful not to "
+"dedicate too many workers to one task, though; excess effort can be wasted, "
+"and a group of Settlers and/or Engineers is highly vulnerable to enemy "
+"attacks."
 
 #: data/default/units.ruleset:264
 msgid ""
@@ -23389,11 +23476,13 @@ msgid ""
 "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
 "Liberator."
 msgstr ""
+"Venetsueela on Lõuna-Ameerika kõige põhjapoolsem maa. 16. sajandist alates "
+"oli ta Hispaania koloonia, 5. juulil a. 1811 saavutas iseseisvuse El "
+"Liberator (Vabastaja) Simon Bolivari juhtimise all."
 
 #: data/nation/venezuelan.ruleset:32
-#, fuzzy
 msgid "Terrateniente"
-msgstr "Maastik"
+msgstr "Terrateniente"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
@@ -23544,169 +23633,171 @@ msgstr "Õppestsenaarium"
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:129
 msgid "Team 1"
-msgstr "Võistkond 1"
+msgstr "Meeskond 1"
 
 #: data/civ1/game.ruleset:102 data/civ2/game.ruleset:102
 #: data/default/game.ruleset:130
 msgid "Team 2"
-msgstr "Võistkond 2"
+msgstr "Meeskond 2"
 
 #: data/civ1/game.ruleset:103 data/civ2/game.ruleset:103
 #: data/default/game.ruleset:131
 msgid "Team 3"
-msgstr "Võistkond 3"
+msgstr "Meeskond 3"
 
 #: data/civ1/game.ruleset:104 data/civ2/game.ruleset:104
 #: data/default/game.ruleset:132
 msgid "Team 4"
-msgstr "Võistkond 4"
+msgstr "Meeskond 4"
 
 #: data/civ1/game.ruleset:105 data/civ2/game.ruleset:105
 #: data/default/game.ruleset:133
 msgid "Team 5"
-msgstr "Võistkond 5"
+msgstr "Meeskond 5"
 
 #: data/civ1/game.ruleset:106 data/civ2/game.ruleset:106
 #: data/default/game.ruleset:134
 msgid "Team 6"
-msgstr "Võistkond 6"
+msgstr "Meeskond 6"
 
 #: data/civ1/game.ruleset:107 data/civ2/game.ruleset:107
 #: data/default/game.ruleset:135
 msgid "Team 7"
-msgstr "Võistkond 7"
+msgstr "Meeskond 7"
 
 #: data/civ1/game.ruleset:108 data/civ2/game.ruleset:108
 #: data/default/game.ruleset:136
 msgid "Team 8"
-msgstr "Võistkond 8"
+msgstr "Meeskond 8"
 
 #: data/civ1/game.ruleset:109 data/civ2/game.ruleset:109
 #: data/default/game.ruleset:137
 msgid "Team 9"
-msgstr "Võistkond 9"
+msgstr "Meeskond 9"
 
 #: data/civ1/game.ruleset:110 data/civ2/game.ruleset:110
 #: data/default/game.ruleset:138
 msgid "Team 10"
-msgstr "Võistkond 10"
+msgstr "Meeskond 10"
 
 #: data/civ1/game.ruleset:111 data/civ2/game.ruleset:111
 #: data/default/game.ruleset:139
 msgid "Team 11"
-msgstr "Võistkond 11"
+msgstr "Meeskond 11"
 
 #: data/civ1/game.ruleset:112 data/civ2/game.ruleset:112
 #: data/default/game.ruleset:140
 msgid "Team 12"
-msgstr "Võistkond 12"
+msgstr "Meeskond 12"
 
 #: data/civ1/game.ruleset:113 data/civ2/game.ruleset:113
 #: data/default/game.ruleset:141
 msgid "Team 13"
-msgstr "Võistkond 13"
+msgstr "Meeskond 13"
 
 #: data/civ1/game.ruleset:114 data/civ2/game.ruleset:114
 #: data/default/game.ruleset:142
 msgid "Team 14"
-msgstr "Võistkond 14"
+msgstr "Meeskond 14"
 
 #: data/civ1/game.ruleset:115 data/civ2/game.ruleset:115
 #: data/default/game.ruleset:143
 msgid "Team 15"
-msgstr "Võistkond 15"
+msgstr "Meeskond 15"
 
 #: data/civ1/game.ruleset:116 data/civ2/game.ruleset:116
 #: data/default/game.ruleset:144
 msgid "Team 16"
-msgstr "Võistkond 16"
+msgstr "Meeskond 16"
 
 #: data/civ1/game.ruleset:117 data/civ2/game.ruleset:117
 #: data/default/game.ruleset:145
 msgid "Team 17"
-msgstr "Võistkond 17"
+msgstr "Meeskond 17"
 
 #: data/civ1/game.ruleset:118 data/civ2/game.ruleset:118
 #: data/default/game.ruleset:146
 msgid "Team 18"
-msgstr "Võistkond 18"
+msgstr "Meeskond 18"
 
 #: data/civ1/game.ruleset:119 data/civ2/game.ruleset:119
 #: data/default/game.ruleset:147
 msgid "Team 19"
-msgstr "Võistkond 19"
+msgstr "Meeskond 19"
 
 #: data/civ1/game.ruleset:120 data/civ2/game.ruleset:120
 #: data/default/game.ruleset:148
 msgid "Team 20"
-msgstr "Võistkond 20"
+msgstr "Meeskond 20"
 
 #: data/civ1/game.ruleset:121 data/civ2/game.ruleset:121
 #: data/default/game.ruleset:149
 msgid "Team 21"
-msgstr "Võistkond 21"
+msgstr "Meeskond 21"
 
 #: data/civ1/game.ruleset:122 data/civ2/game.ruleset:122
 #: data/default/game.ruleset:150
 msgid "Team 22"
-msgstr "Võistkond 22"
+msgstr "Meeskond 22"
 
 #: data/civ1/game.ruleset:123 data/civ2/game.ruleset:123
 #: data/default/game.ruleset:151
 msgid "Team 23"
-msgstr "Võistkond 23"
+msgstr "Meeskond 23"
 
 #: data/civ1/game.ruleset:124 data/civ2/game.ruleset:124
 #: data/default/game.ruleset:152
 msgid "Team 24"
-msgstr "Võistkond 24"
+msgstr "Meeskond 24"
 
 #: data/civ1/game.ruleset:125 data/civ2/game.ruleset:125
 #: data/default/game.ruleset:153
 msgid "Team 25"
-msgstr "Võistkond 25"
+msgstr "Meeskond 25"
 
 #: data/civ1/game.ruleset:126 data/civ2/game.ruleset:126
 #: data/default/game.ruleset:154
 msgid "Team 26"
-msgstr "Võistkond 26"
+msgstr "Meeskond 26"
 
 #: data/civ1/game.ruleset:127 data/civ2/game.ruleset:127
 #: data/default/game.ruleset:155
 msgid "Team 27"
-msgstr "Võistkond 27"
+msgstr "Meeskond 27"
 
 #: data/civ1/game.ruleset:128 data/civ2/game.ruleset:128
 #: data/default/game.ruleset:156
 msgid "Team 28"
-msgstr "Võistkond 28"
+msgstr "Meeskond 28"
 
 #: data/civ1/game.ruleset:129 data/civ2/game.ruleset:129
 #: data/default/game.ruleset:157
 msgid "Team 29"
-msgstr "Võistkond 29"
+msgstr "Meeskond 29"
 
 #: data/civ1/game.ruleset:130 data/civ2/game.ruleset:130
 #: data/default/game.ruleset:158
 msgid "Team 30"
-msgstr "Võistkond 30"
+msgstr "Meeskond 30"
 
 #: data/civ1/game.ruleset:131 data/civ2/game.ruleset:131
 #: data/default/game.ruleset:159
 msgid "Team 31"
-msgstr "Võistkond 31"
+msgstr "Meeskond 31"
 
 #: data/civ1/game.ruleset:132 data/civ2/game.ruleset:132
 #: data/default/game.ruleset:160
 msgid "Team 32"
-msgstr "Võistkond 32"
+msgstr "Meeskond 32"
 
 #~ msgid "Player settings"
 #~ msgstr "Mängijate seaded"
 
-#, fuzzy
+#~ msgid "Wild celebrations in your honour in %s."
+#~ msgstr "Metsikud peod sinu auks linnas %s."
+
 #~ msgid "Celebrations cancelled in %s."
-#~ msgstr "Mäng: 'Me Armastame %s Päev' linnas %s jäeti ära."
+#~ msgstr "Pidu linnas %s jäeti ära."
 
 #, fuzzy
 #~ msgid "Cannot create unit on enemy tile."
@@ -24147,9 +24238,14 @@ msgstr "Võistkond 32"
 #~ msgid "?female:Hetman"
 #~ msgstr "Seltsimees"
 
-#, fuzzy
+#~ msgid "Uruguayan"
+#~ msgstr "Uruguailane"
+
 #~ msgid "?plural:Uruguayans"
-#~ msgstr "ungarlased"
+#~ msgstr "?plural:Uruguailased"
 
 #~ msgid "Venezuelan"
 #~ msgstr "Venetsueellane"
+
+#~ msgid "?female:Terrateniente"
+#~ msgstr "?female:Terrateniente"
