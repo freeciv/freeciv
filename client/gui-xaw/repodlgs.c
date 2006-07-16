@@ -409,22 +409,13 @@ void create_science_dialog(bool make_modal)
 void science_change_callback(Widget w, XtPointer client_data, 
 			     XtPointer call_data)
 {
-  char current_text[512];
   size_t to = (size_t) client_data;
   Boolean b;
-  struct player_research* research = get_player_research(game.player_ptr);
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
   if (b == TRUE) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
   } else {
-    my_snprintf(current_text, sizeof(current_text),
-		_("Researching %s: %d/%d"),
-		advances[to].name, research->bulbs_researched,
-		total_bulbs_required(game.player_ptr));
-
-    XtVaSetValues(science_current_label, XtNlabel, current_text, NULL);
-
     dsend_packet_player_research(&aconnection, to);
   }
 }
@@ -435,20 +426,13 @@ void science_change_callback(Widget w, XtPointer client_data,
 void science_goal_callback(Widget w, XtPointer client_data, 
 			   XtPointer call_data)
 {
-  char goal_text[512];
   size_t to = (size_t) client_data;
   Boolean b;
 
   XtVaGetValues(science_help_toggle, XtNstate, &b, NULL);
-  if (b == TRUE)
+  if (b == TRUE) {
     popup_help_dialog_typed(advances[to].name, HELP_TECH);
-  else {  
-    my_snprintf(goal_text, sizeof(goal_text), _("Goal: %s (%d steps)"),
-		advances[to].name,
-		num_unknown_techs_for_goal(game.player_ptr, to));
-
-    XtVaSetValues(science_goal_label, XtNlabel, goal_text, NULL);
-
+  } else {
     dsend_packet_player_tech_goal(&aconnection, to);
   }
 }
