@@ -1070,8 +1070,13 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if (ival == UCF_LAST) {
 	freelog(LOG_ERROR, "for unit_class \"%s\": bad flag name \"%s\" (%s)",
                 ut->name, sval, filename);
+        ival = unit_flag_from_str(sval);
+        if (ival != F_LAST) {
+          freelog(LOG_ERROR, "it's unit_type flag!");
+        }
+      } else {
+        BV_SET(ut->flags, ival);
       }
-      BV_SET(ut->flags, ival);
     }
     free(slist);
 
@@ -1194,12 +1199,17 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       if(strcmp(sval,"")==0) {
 	continue;
       }
-	ival = unit_flag_from_str(sval);
+      ival = unit_flag_from_str(sval);
       if (ival==F_LAST) {
 	freelog(LOG_ERROR, "for unit_type \"%s\": bad flag name \"%s\" (%s)",
 	     u->name, sval, filename);
+        ival = unit_class_flag_from_str(sval);
+        if (ival != UCF_LAST) {
+          freelog(LOG_ERROR, "it's unit_class flag!");
+        }
+      } else {
+        BV_SET(u->flags, ival);
       }
-      BV_SET(u->flags, ival);
       assert(unit_type_flag(u, ival));
     }
     free(slist);
