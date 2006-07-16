@@ -31,7 +31,7 @@
 #include "terrain.h"
 
 static const char *move_type_names[] = {
-  "Air", "Land", "Sea", "Heli"
+  "Air", "Land", "Sea", "Both"
 };
 
 static bool can_unit_type_transport(const struct unit_type *transporter,

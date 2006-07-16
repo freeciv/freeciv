@@ -50,8 +50,9 @@ veteran_move_bonus = 0, 0
 ;
 ; ** Fields **
 ;
-; name          = Name as used in other rulesets
-; move_type     = Where unit moves Land/Sea/Air/Heli
+; name          = Name as used in other 
+; move_type     = Where unit moves; Land, Sea, Both or Air. Air is special value for
+;                 units which can only be attacked by units with "Fighter" flag
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
 ; flags         = List of unit class flags
 ;
@@ -82,7 +83,7 @@ flags         = "TerrainSpeed", "DamageSlows"
 
 [unitclass_heli]
 name          = _("Helicopter")
-move_type     = "Heli"
+move_type     = "Both"
 hp_loss_pct   = 10
 flags         = "CanOccupy"
 
