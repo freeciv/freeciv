@@ -1593,7 +1593,8 @@ void handle_unit_orders(struct player *pplayer,
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
   int i;
 
-  if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE) {
+  if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE
+      || packet->length > MAX_LEN_ROUTE) {
     return;
   }
 
