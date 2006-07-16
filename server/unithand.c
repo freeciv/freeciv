@@ -1622,7 +1622,8 @@ void handle_unit_orders(struct player *pplayer,
   struct tile *src_tile = map_pos_to_tile(packet->src_x, packet->src_y);
   int i;
 
-  if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE) {
+  if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE
+      || packet->length > MAX_LEN_ROUTE) {
     return;
   }
 
