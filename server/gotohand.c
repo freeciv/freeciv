@@ -218,12 +218,12 @@ static void init_warmap(struct tile *orig_tile, enum unit_move_type move_type)
   case AIR_MOVING:
     assert(sizeof(*warmap.cost) == sizeof(char));
     memset(warmap.cost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
-    WARMAP_COST(orig_tile) = 0;
+    warmap.cost[orig_tile->index] = 0;
     break;
   case SEA_MOVING:
     assert(sizeof(*warmap.seacost) == sizeof(char));
     memset(warmap.seacost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
-    WARMAP_SEACOST(orig_tile) = 0;
+    warmap.seacost[orig_tile->index] = 0;
     break;
   default:
     freelog(LOG_ERROR, "Bad move_type in init_warmap().");
@@ -345,7 +345,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 
         move_cost += cost;
         if (WARMAP_COST(tile1) > move_cost && move_cost < maxcost) {
-          WARMAP_COST(tile1) = move_cost;
+          warmap.cost[tile1->index] = move_cost;
           add_to_mapqueue(move_cost, tile1);
         }
 	break;
@@ -358,7 +358,7 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	  /* by adding the move_cost to the warmap regardless if we
 	     can move between we allow for shore bombardment/transport
 	     to inland positions/etc. */
-          WARMAP_SEACOST(tile1) = move_cost;
+          warmap.seacost[tile1->index] = move_cost;
 	  if (map_move_cost_ai(ptile, tile1)
 	      == MOVE_COST_FOR_VALID_SEA_STEP) {
 	    add_to_mapqueue(move_cost, tile1);
@@ -413,6 +413,8 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 
   warmap.warcity = pcity;
   warmap.warunit = punit;
+
+  warmap.invalid = FALSE;
 
   if (punit) {
     if (is_sailing_unit(punit)) {
@@ -861,7 +863,7 @@ static bool find_the_shortest_path(struct unit *punit,
 
         add_to_mapqueue(MAXCOST-1 - move_cost, tile1);
 	/* Mark it on the warmap */
-	WARMAP_VECTOR(tile1) |= 1 << DIR_REVERSE(dir);	
+	warmap.vector[tile1->index] |= 1 << DIR_REVERSE(dir);	
 	BV_CLR(LOCAL_VECTOR(ptile), dir); /* avoid repetition */
 	freelog(LOG_DEBUG, "PATH-SEGMENT: %s from (%d, %d) to (%d, %d)",
 		dir_get_name(DIR_REVERSE(dir)),
@@ -1581,7 +1583,7 @@ int air_can_move_between(int moves, struct tile *src_tile,
       if (airspace_looks_safe(tile1, pplayer)) {
 	int cost = WARMAP_COST(ptile) + 1;
 
-	WARMAP_COST(tile1) = cost;
+	warmap.cost[tile1->index] = cost;
 
 	/* Now for A* we find the minimum total cost. */
 	cost += real_map_distance(tile1, dest_tile);

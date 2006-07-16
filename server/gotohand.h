@@ -56,12 +56,16 @@ struct move_cost_map {
   struct city *warcity; /* so we know what we're dealing with here */
   struct unit *warunit; /* so we know what we're dealing with here */
   struct tile *orig_tile;
+
+  bool invalid;         /* We have invalidated warmap */
 };
 
 extern struct move_cost_map warmap;
 
-#define WARMAP_COST(ptile) (warmap.cost[(ptile)->index])
-#define WARMAP_SEACOST(ptile) (warmap.seacost[(ptile)->index])
-#define WARMAP_VECTOR(ptile) (warmap.vector[(ptile)->index])
+#define WARMAP_COST(ptile) (assert(!warmap.invalid), warmap.cost[(ptile)->index])
+#define WARMAP_SEACOST(ptile) (assert(!warmap.invalid), warmap.seacost[(ptile)->index])
+#define WARMAP_VECTOR(ptile) (assert(!warmap.invalid), warmap.vector[(ptile)->index])
+
+#define WARMAP_INVALIDATE {warmap.invalid = TRUE;}
 
 #endif  /* FC__GOTOHAND_H */
