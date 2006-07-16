@@ -51,6 +51,11 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 					     const struct tile *dst_tile,
 					     bool igzoc);
 bool can_unit_transport(const struct unit *transporter, const struct unit *transported);
+bool can_unit_type_transport(const struct unit_type *transporter,
+                             const struct unit_class *transported);
+int unit_class_transporter_capacity(const struct tile *ptile,
+                                    const struct player *pplayer,
+                                    const struct unit_class *pclass);
 struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile);
 
 enum unit_move_type move_type_from_str(const char *s);

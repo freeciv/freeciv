@@ -157,7 +157,7 @@ static int normal_move_unit(const struct tile *ptile, enum direction8 dir,
   int move_cost;
 
   if (!is_native_to_class(param->class, terrain1)) {
-    if (ground_unit_transporter_capacity(ptile1, param->owner) > 0) {
+    if (unit_class_transporter_capacity(ptile1, param->owner, param->class) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -190,7 +190,7 @@ static int land_attack_move(const struct tile *src_tile, enum direction8 dir,
   if (!is_native_to_class(param->class, tgt_tile->terrain)) {
 
     /* Any-to-Sea */
-    if (ground_unit_transporter_capacity(tgt_tile, param->owner) > 0) {
+    if (unit_class_transporter_capacity(tgt_tile, param->owner, param->class) > 0) {
       move_cost = SINGLE_MOVE;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -272,7 +272,7 @@ static int reverse_move_unit(const struct tile *tile0, enum direction8 dir,
   int move_cost = PF_IMPOSSIBLE_MC;
 
   if (!is_native_to_class(param->class, terrain1)) {
-    if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
+    if (unit_class_transporter_capacity(ptile, param->owner, param->class) > 0) {
       /* Landing */
       move_cost = terrain0->movement_cost * SINGLE_MOVE;
     } else {
@@ -300,7 +300,7 @@ static int igter_move_unit(const struct tile *ptile, enum direction8 dir,
   int move_cost;
 
   if (!is_native_to_class(param->class, ptile1->terrain)) {
-    if (ground_unit_transporter_capacity(ptile1, param->owner) > 0) {
+    if (unit_class_transporter_capacity(ptile1, param->owner, param->class) > 0) {
       move_cost = MOVE_COST_ROAD;
     } else {
       move_cost = PF_IMPOSSIBLE_MC;
@@ -335,7 +335,7 @@ static int reverse_igter_move_unit(const struct tile *tile0,
   int move_cost;
 
   if (!is_native_to_class(param->class, ptile->terrain)) {
-    if (ground_unit_transporter_capacity(ptile, param->owner) > 0) {
+    if (unit_class_transporter_capacity(ptile, param->owner, param->class) > 0) {
       /* Landing */
       move_cost = MOVE_COST_ROAD;
     } else {

@@ -311,7 +311,9 @@ void really_generate_warmap(struct city *pcity, struct unit *punit,
 	  continue; /* No need for all the calculations */
 
         if (is_ocean(tile_get_terrain(tile1))) {
-          if (punit && ground_unit_transporter_capacity(tile1, pplayer) > 0)
+          if (punit &&
+              unit_class_transporter_capacity(tile1, pplayer,
+                                              get_unit_class(unit_type(punit))) > 0)
 	    move_cost = SINGLE_MOVE;
           else
 	    continue;
@@ -659,7 +661,8 @@ static bool find_the_shortest_path(struct unit *punit,
 		       RR loops, ie you can't create a cycle with the same move_cost */
 
 	if (is_ocean(pdesttile->terrain)) {
-	  if (ground_unit_transporter_capacity(tile1, unit_owner(punit)) <= 0)
+	  if (unit_class_transporter_capacity(tile1, unit_owner(punit),
+                                              get_unit_class(unit_type(punit))) <= 0)
 	    continue;
 	  else
 	    move_cost = 3;
@@ -1255,7 +1258,8 @@ bool goto_is_sane(struct unit *punit, struct tile *ptile, bool omni)
     if (is_ocean(tile_get_terrain(ptile))) {
       /* Going to a sea tile, the target should be next to our continent 
        * and with a boat */
-      if (ground_unit_transporter_capacity(ptile, pplayer) > 0) {
+      if (unit_class_transporter_capacity(ptile, pplayer,
+                                          get_unit_class(unit_type(punit))) > 0) {
         adjc_iterate(ptile, tmp_tile) {
           if (tile_get_continent(tmp_tile) == tile_get_continent(punit->tile))
             /* The target is adjacent to our continent! */

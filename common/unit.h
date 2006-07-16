@@ -264,10 +264,7 @@ enum add_build_city_result test_unit_add_or_build_city(const struct unit *
 bool kills_citizen_after_attack(const struct unit *punit);
 
 const char *unit_activity_text(const struct unit *punit);
-int ground_unit_transporter_capacity(const struct tile *ptile,
-				     const struct player *pplayer);
 int get_transporter_capacity(const struct unit *punit);
-bool is_ground_units_transport(const struct unit *punit);
 int missile_carrier_capacity(const struct tile *ptile,
 			     const struct player *pplayer,
 			     bool count_units_with_extra_fuel);

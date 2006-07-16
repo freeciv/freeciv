@@ -490,7 +490,7 @@ static unsigned int assess_danger(struct city *pcity)
       unsigned int vulnerability = assess_danger_unit(pcity, punit);
       int dist = assess_distance(pcity, punit, move_rate);
       /* Although enemy units will not be in our cities,
-       * we might stll consider allies to be dangerous,
+       * we might still consider allies to be dangerous,
        * so dist can be 0. */
       bool igwall = unit_really_ignores_citywalls(punit);
 
@@ -498,14 +498,28 @@ static unsigned int assess_danger(struct city *pcity)
         paramove = unit_type(punit)->paratroopers_range;
       }
 
-      if ((is_ground_unit(punit) && vulnerability != 0)
-          || (is_ground_units_transport(punit))) {
+      if (is_ground_unit(punit) && vulnerability != 0) {
         if (dist <= move_rate * 3 || dist <= paramove + move_rate) {
           urgency++;
         }
         if (dist <= move_rate || dist <= paramove + move_rate) {
           pcity->ai.grave_danger++;
         }
+      } else {
+        unit_class_iterate(punitclass) {
+          if (punitclass->move_type == LAND_MOVING
+              && can_unit_type_transport(punit->type, punitclass)) {
+            /* It can transport some land moving units! */
+
+            if (dist <= move_rate * 3 || dist <= paramove + move_rate) {
+              urgency++;
+            }
+            if (dist <= move_rate || dist <= paramove + move_rate) {
+              pcity->ai.grave_danger++;
+            }
+            break;
+          }
+        } unit_class_iterate_end;
       }
       if (paramove > 0 && can_unit_paradrop(punit)) {
         move_rate += paramove; /* gross simplification */

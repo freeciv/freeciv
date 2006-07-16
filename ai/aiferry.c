@@ -77,11 +77,18 @@ void aiferry_init_stats(struct player *pplayer)
   ai->stats.available_boats = 0;
  
   unit_list_iterate(pplayer->units, punit) {
-    if (is_sailing_unit(punit) && is_ground_units_transport(punit)) {
-      ai->stats.boats++;
-      if (punit->ai.passenger == FERRY_AVAILABLE) {
-	ai->stats.available_boats++;
-      }
+    if (is_sailing_unit(punit)) {
+        unit_class_iterate(punitclass) {
+          if (punitclass->move_type == LAND_MOVING
+              && can_unit_type_transport(punit->type, punitclass)) {
+            /* Can transport some land units. */
+            ai->stats.boats++;
+            if (punit->ai.passenger == FERRY_AVAILABLE) {
+              ai->stats.available_boats++;
+            }
+            break;
+          }
+        } unit_class_iterate_end;
     }
     if (punit->ai.ferryboat == FERRY_WANTED) {
       UNIT_LOG(LOG_DEBUG, punit, "wants a boat.");
@@ -104,10 +111,17 @@ static void aiferry_print_stats(struct player *pplayer)
   freelog(LOG_NORMAL, "Registered: %d free out of total %d",
 	  ai->stats.available_boats, ai->stats.boats);
   unit_list_iterate(pplayer->units, punit) {
-    if (is_sailing_unit(punit) && is_ground_units_transport(punit)) {
-      freelog(LOG_NORMAL, "#%d. %s[%d], psngr=%d", 
-	      n, unit_type(punit)->name, punit->id, punit->ai.passenger);
-      n++;
+    if (is_sailing_unit(punit)) {
+        unit_class_iterate(punitclass) {
+          if (punitclass->move_type == LAND_MOVING
+              && can_unit_type_transport(punit->type, punitclass)) {
+            /* Can transport some land units. */
+            freelog(LOG_NORMAL, "#%d. %s[%d], psngr=%d",
+                    n, unit_type(punit)->name, punit->id, punit->ai.passenger);
+            n++;
+            break;
+          }
+        } unit_class_iterate_end;
     }
   } unit_list_iterate_end;
 }
@@ -204,9 +218,16 @@ static int aiferry_avail_boats(struct player *pplayer)
   int boats = 0;
 
   unit_list_iterate(pplayer->units, punit) {
-    if (is_sailing_unit(punit) && is_ground_units_transport(punit) 
+    if (is_sailing_unit(punit)
 	&& punit->ai.passenger == FERRY_AVAILABLE) {
-      boats++;
+      unit_class_iterate(punitclass) {
+        if (punitclass->move_type == LAND_MOVING
+            && can_unit_type_transport(punit->type, punitclass)) {
+          /* Can transport some land units. */
+          boats++;
+          break;
+        }
+      } unit_class_iterate_end;
     }
   } unit_list_iterate_end;
 

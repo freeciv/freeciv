@@ -217,47 +217,12 @@ bool unit_can_est_traderoute_here(const struct unit *punit)
 	  && can_cities_trade(phomecity, pdestcity));
 }
 
-
-/**************************************************************************
-Returns the number of free spaces for ground units. Can be 0 or negative.
-**************************************************************************/
-int ground_unit_transporter_capacity(const struct tile *ptile,
-				     const struct player *pplayer)
-{
-  int availability = 0;
-
-  unit_list_iterate(ptile->units, punit) {
-    if (unit_owner(punit) == pplayer
-        || pplayers_allied(unit_owner(punit), pplayer)) {
-      if (is_ground_units_transport(punit)
-	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
-	availability += get_transporter_capacity(punit);
-      } else if (is_ground_unit(punit)) {
-	availability--;
-      }
-    }
-  }
-  unit_list_iterate_end;
-
-  return availability;
-}
-
 /**************************************************************************
   Return the number of units the transporter can hold (or 0).
 **************************************************************************/
 int get_transporter_capacity(const struct unit *punit)
 {
   return unit_type(punit)->transport_capacity;
-}
-
-/**************************************************************************
-  Return TRUE iff the unit is a transporter of ground units.
-**************************************************************************/
-bool is_ground_units_transport(const struct unit *punit)
-{
-  return (get_transporter_capacity(punit) > 0
-	  && !unit_flag(punit, F_MISSILE_CARRIER)
-	  && !unit_flag(punit, F_CARRIER));
 }
 
 /**************************************************************************
@@ -1552,7 +1517,7 @@ enum unit_upgrade_result test_unit_upgrade(const struct unit *punit,
 
   if (get_transporter_occupancy(punit) > to_unittype->transport_capacity) {
     /* TODO: allow transported units to be reassigned.  Check for
-     * ground_unit_transporter_capacity here and make changes to
+     * unit_class_transporter_capacity() here and make changes to
      * upgrade_unit. */
     return UR_NOT_ENOUGH_ROOM;
   }

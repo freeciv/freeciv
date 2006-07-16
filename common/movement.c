@@ -34,9 +34,6 @@ static const char *move_type_names[] = {
   "Air", "Land", "Sea", "Both"
 };
 
-static bool can_unit_type_transport(const struct unit_type *transporter,
-				    const struct unit_type *transported);
-
 /****************************************************************************
   This function calculates the move rate of the unit, taking into 
   account the penalty for reduced hitpoints (affects sea and land 
@@ -367,8 +364,8 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 
   if (get_unit_move_type(punittype) == LAND_MOVING) {
     /* 4) */
-    if (is_ocean(dst_tile->terrain) &&
-	ground_unit_transporter_capacity(dst_tile, unit_owner) <= 0) {
+    if (is_ocean(dst_tile->terrain)
+	&& unit_class_transporter_capacity(dst_tile, unit_owner, punittype->class) <= 0) {
       /* Ground units can't move onto ocean tiles unless there's enough
        * room on transporters for them. */
       return MR_NO_SEA_TRANSPORTER_CAPACITY;
@@ -434,20 +431,20 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 bool can_unit_transport(const struct unit *transporter,
                         const struct unit *transported)
 {
-  return can_unit_type_transport(transporter->type, transported->type);
+  return can_unit_type_transport(transporter->type, transported->type->class);
 }
 
 /**************************************************************************
-  Return TRUE iff transporter type has ability to transport transported type.
+  Return TRUE iff transporter type has ability to transport transported class.
 **************************************************************************/
-static bool can_unit_type_transport(const struct unit_type *transporter,
-                                    const struct unit_type *transported)
+bool can_unit_type_transport(const struct unit_type *transporter,
+                             const struct unit_class *transported)
 {
   if (transporter->transport_capacity <= 0) {
     return FALSE;
   }
 
-  if (get_unit_move_type(transported) == LAND_MOVING) {
+  if (transported->move_type == LAND_MOVING) {
     if ((unit_type_flag(transporter, F_CARRIER)
          || unit_type_flag(transporter, F_MISSILE_CARRIER))) {
       return FALSE;
@@ -455,23 +452,23 @@ static bool can_unit_type_transport(const struct unit_type *transporter,
     return TRUE;
   }
 
-  if (!unit_class_flag(get_unit_class(transported), UCF_MISSILE)
+  if (!unit_class_flag(transported, UCF_MISSILE)
      && unit_type_flag(transporter, F_MISSILE_CARRIER)) {
     return FALSE;
   }
 
-  if (unit_class_flag(get_unit_class(transported), UCF_MISSILE)) {
+  if (unit_class_flag(transported, UCF_MISSILE)) {
     if (!unit_type_flag(transporter, F_MISSILE_CARRIER)
         && !unit_type_flag(transporter, F_CARRIER)) {
       return FALSE;
     }
-  } else if ((get_unit_move_type(transported) == AIR_MOVING
-              || get_unit_move_type(transported) == HELI_MOVING)
+  } else if ((transported->move_type == AIR_MOVING
+              || transported->move_type == HELI_MOVING)
              && !unit_type_flag(transporter, F_CARRIER)) {
     return FALSE;
   }
 
-  if (get_unit_move_type(transported) == SEA_MOVING) {
+  if (transported->move_type == SEA_MOVING) {
     /* No unit can transport sea units at the moment */
     return FALSE;
   }
@@ -510,4 +507,28 @@ struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile)
   } unit_list_iterate_end;
 
   return NULL;
+}
+ 
+/**************************************************************************
+ Returns the number of free spaces for units of given class.
+ Can be 0.
+**************************************************************************/
+int unit_class_transporter_capacity(const struct tile *ptile,
+                                    const struct player *pplayer,
+                                    const struct unit_class *pclass)
+{
+  int availability = 0;
+
+  unit_list_iterate(ptile->units, punit) {
+    if (unit_owner(punit) == pplayer
+        || pplayers_allied(unit_owner(punit), pplayer)) {
+
+      if (can_unit_type_transport(punit->type, pclass)) {
+        availability += get_transporter_capacity(punit);
+        availability -= get_transporter_occupancy(punit);
+      }
+    }
+  } unit_list_iterate_end;
+
+  return availability;
 }

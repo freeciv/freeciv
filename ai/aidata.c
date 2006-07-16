@@ -269,9 +269,14 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       if (is_sailing_unit(punit)) {
         /* If the enemy has not started sailing yet, or we have total
          * control over the seas, don't worry, keep attacking. */
-        if (is_ground_units_transport(punit)) {
-          ai->threats.invasions = TRUE;
-        }
+        unit_class_iterate(punitclass) {
+          if (punitclass->move_type == LAND_MOVING
+              && can_unit_type_transport(punit->type, punitclass)) {
+            /* Enemy can transport some land units! */
+            ai->threats.invasions = TRUE;
+            break;
+          }
+        } unit_class_iterate_end;
 
         /* The idea is that while our enemies don't have any offensive
          * seaborne units, we don't have to worry. Go on the offensive! */
