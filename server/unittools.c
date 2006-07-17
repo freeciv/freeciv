@@ -457,7 +457,8 @@ static void unit_restore_hitpoints(struct unit *punit)
   /* Bonus recovery HP (traditionally from the United Nations) */
   punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
 
-  if (!pcity && !tile_has_special(punit->tile, S_AIRBASE)) {
+  if (!pcity && !tile_has_special(punit->tile, S_AIRBASE)
+      && punit->transported_by == -1) {
     punit->hp -= unit_type(punit)->hp * class->hp_loss_pct / 100;
   }
 
