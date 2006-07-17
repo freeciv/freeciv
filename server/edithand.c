@@ -134,7 +134,7 @@ void handle_edit_unit(struct connection *pc, struct packet_edit_unit *packet)
     if (!(ptile->city
 	  && !(is_sailing_unittype(punittype)
 	       && !is_ocean_near_tile(ptile)))
-	&& !is_native_terrain(punittype, ptile->terrain)) {
+	&& !is_native_tile(punittype, ptile)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND,
                     _("Cannot create %s unit on this terrain."),
                     punittype->name);

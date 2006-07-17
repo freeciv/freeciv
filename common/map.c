@@ -623,7 +623,7 @@ static int tile_move_cost_ptrs(struct unit *punit,
 
   if (punit) {
     pclass = get_unit_class(punit->type);
-    native = is_native_terrain(punit->type, t2->terrain);
+    native = is_native_tile(punit->type, t2);
   }
 
   if (game.info.slow_invasions

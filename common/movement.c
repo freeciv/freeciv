@@ -175,25 +175,52 @@ bool can_unit_exist_at_tile(const struct unit *punit,
     return TRUE;
   }
 
-  return is_native_terrain(punit->type, ptile->terrain);
+  return is_native_tile(punit->type, ptile);
 }
 
 /****************************************************************************
-  This terrain is native to unit. Units that require fuel dont survive
-  even on native terrain. All terrains are native to air units.
+  This tile is native to unit.
+
+  See is_native_to_class()
+****************************************************************************/
+bool is_native_tile(const struct unit_type *punittype,
+                    const struct tile *ptile)
+{
+  return is_native_to_class(get_unit_class(punittype), ptile->terrain,
+                            ptile->special);
+}
+
+
+/****************************************************************************
+  This terrain is native to unit.
+
+  See is_native_to_class()
 ****************************************************************************/
 bool is_native_terrain(const struct unit_type *punittype,
-                       const struct terrain *pterrain)
+                       const struct terrain *pterrain,
+                       bv_special special)
 {
-  return is_native_to_class(get_unit_class(punittype), pterrain);
+  return is_native_to_class(get_unit_class(punittype), pterrain, special);
+}
+
+/****************************************************************************
+  This tile is native to unit class.
+
+  See is_native_to_class()
+****************************************************************************/
+bool is_native_tile_to_class(const struct unit_class *punitclass,
+                             const struct tile *ptile)
+{
+  return is_native_to_class(punitclass, ptile->terrain, ptile->special);
 }
 
 /****************************************************************************
   This terrain is native to unit class. Units that require fuel dont survive
-  even on native terrain. All terrains are native to air units.
+  even on native terrain.
 ****************************************************************************/
 bool is_native_to_class(const struct unit_class *punitclass,
-                        const struct terrain *pterrain)
+                        const struct terrain *pterrain,
+                        bv_special special)
 {
   if (!pterrain) {
     /* Unknown is considered native terrain */
@@ -501,7 +528,7 @@ struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile)
   unit_list_iterate(ptile->units, ptransport) {
     if (get_transporter_capacity(ptransport) > get_transporter_occupancy(ptransport)
         && can_unit_transport(ptransport, punit)
-        && is_native_terrain(unit_type(ptransport), ptile->terrain)) {
+        && is_native_tile(unit_type(ptransport), ptile)) {
       return ptransport;
     }
   } unit_list_iterate_end;
