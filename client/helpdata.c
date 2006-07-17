@@ -794,23 +794,16 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf), _("* Requires %d population to build.\n"),
 	    utype->pop_cost);
   }
-  if (utype->transport_capacity>0) {
-    if (unit_type_flag(utype, F_CARRIER)) {
-      sprintf(buf + strlen(buf),
-	      PL_("* Can carry and refuel %d air unit.\n",
-		  "* Can carry and refuel %d air units.\n",
-		  utype->transport_capacity), utype->transport_capacity);
-    } else if (unit_type_flag(utype, F_MISSILE_CARRIER)) {
-      sprintf(buf + strlen(buf),
-	      PL_("* Can carry and refuel %d missile unit.\n",
-		  "* Can carry and refuel %d missile units.\n",
-		  utype->transport_capacity), utype->transport_capacity);
-    } else {
-      sprintf(buf + strlen(buf),
-	      PL_("* Can carry %d ground unit across water.\n",
-		  "* Can carry %d ground units across water.\n",
-		  utype->transport_capacity), utype->transport_capacity);
-    }
+  if (utype->transport_capacity > 0) {
+    sprintf(buf + strlen(buf),
+            PL_("* Can carry and refuel %d unit from classes:\n",
+                "* Can carry and refuel up to %d units from classes:\n",
+                utype->transport_capacity), utype->transport_capacity);
+    unit_class_iterate(uclass) {
+      if (can_unit_type_transport(utype, uclass)) {
+        sprintf(buf + strlen(buf), _("  * %s units\n"), uclass->name);
+      }
+    } unit_class_iterate_end
   }
   if (unit_type_flag(utype, F_TRADE_ROUTE)) {
     /* TRANS: "Manhattan" distance is the distance along gridlines, with
@@ -1011,39 +1004,21 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
   if (utype->fuel > 0) {
     char allowed_units[10][64];
     int num_allowed_units = 0;
-    int j, n;
+    int j;
     struct astring astr;
 
     astr_init(&astr);
     astr_minsize(&astr,1);
     astr.str[0] = '\0';
 
-    n = num_role_units(F_CARRIER);
-    for (j = 0; j < n; j++) {
-      struct unit_type *punittype = get_role_unit(F_CARRIER, j);
-
-      mystrlcpy(allowed_units[num_allowed_units],
-		unit_name(punittype),
-		sizeof(allowed_units[num_allowed_units]));
-      num_allowed_units++;
-      assert(num_allowed_units < ARRAY_SIZE(allowed_units));
-    }
-
-    if (unit_class_flag(get_unit_class(utype), UCF_MISSILE)) {
-      n = num_role_units(F_MISSILE_CARRIER);
-
-      for (j = 0; j < n; j++) {
-	struct unit_type *punittype = get_role_unit(F_MISSILE_CARRIER, j);
-
-	if (punittype->transport_capacity > 0) {
-	  mystrlcpy(allowed_units[num_allowed_units],
-		    unit_name(punittype),
-		    sizeof(allowed_units[num_allowed_units]));
-	  num_allowed_units++;
-	  assert(num_allowed_units < ARRAY_SIZE(allowed_units));
-	}
+    unit_type_iterate(transport) {
+      if (can_unit_type_transport(transport, get_unit_class(utype))) {
+        mystrlcpy(allowed_units[num_allowed_units],
+                  unit_name(transport),
+                  sizeof(allowed_units[num_allowed_units]));
+        num_allowed_units++;
       }
-    }
+    } unit_type_iterate_end;
 
     for (j = 0; j < num_allowed_units; j++) {
       const char *deli_str = NULL;
