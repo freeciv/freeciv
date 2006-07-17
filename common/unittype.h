@@ -94,6 +94,8 @@ enum unit_flag_id {
   F_NOBUILD,          /* Unit cannot be built (barb leader etc) */
   F_BADWALLATTACKER,  /* Firepower set to 1 when attacking city wall */
   F_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
+  F_HELICOPTER,       /* Defends badly against F_FIGHTER units */
+  F_AIRUNIT,          /* Bad at attacking F_AEGIS units */
   F_LAST
 };
 #define F_MAX 64

@@ -936,6 +936,14 @@ void helptext_unit(char *buf, struct unit_type *utype, const char *user_text)
     sprintf(buf + strlen(buf),
 	    _("* Counts as 'mounted' against certain defenders.\n"));
   }
+  if (unit_type_flag(utype, F_HELICOPTER)) {
+    sprintf(buf + strlen(buf),
+            _("* Defends very badly agains fighter type units.\n"));
+  }
+  if (unit_type_flag(utype, F_AIRUNIT)) {
+    sprintf(buf + strlen(buf),
+            _("* Very bad at attacking AEGIS units.\n"));
+  }
   if (!unit_class_flag(get_unit_class(utype), UCF_MISSILE)
       && unit_type_flag(utype, F_ONEATTACK)) {
     sprintf(buf + strlen(buf),

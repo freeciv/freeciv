@@ -615,9 +615,9 @@ int ai_unit_defence_desirability(const struct unit_type *punittype)
   /* Sea and helicopters often have their firepower set to 1 when
    * defending. We can't have such units as defenders. */
   if (!unit_type_flag(punittype, F_BADCITYDEFENDER)
-      && get_unit_move_type(punittype) != HELI_MOVING) {
+      && !unit_type_flag(punittype, F_HELICOPTER)) {
     /* Sea units get 1 firepower in Pearl Harbour,
-     * and helicopters very bad against air units */
+     * and helicopters very bad against fighters */
     desire *= punittype->firepower;
   }
   desire *= defense;

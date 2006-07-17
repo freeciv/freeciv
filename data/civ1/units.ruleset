@@ -587,7 +587,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "Fighter"
+flags         = "FieldUnit", "Fighter", "AirUnit"
 roles         = ""
 
 [unit_bomber]
@@ -615,7 +615,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack"
+flags         = "FieldUnit", "OneAttack", "AirUnit"
 roles         = ""
 
 [unit_trireme]
@@ -904,7 +904,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "Nuclear"
+flags         = "FieldUnit", "OneAttack", "Nuclear", "AirUnit"
 roles         = ""
 helptext      = _("\
 You can build Nuclear units when you have the required advance, and\

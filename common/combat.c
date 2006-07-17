@@ -276,7 +276,7 @@ void get_modified_firepower(const struct unit *attacker,
    * When attacked by fighters, helicopters have their firepower
    * reduced to 1.
    */
-  if (is_heli_unit(defender) && unit_flag(attacker, F_FIGHTER)) {
+  if (unit_flag(defender, F_HELICOPTER) && unit_flag(attacker, F_FIGHTER)) {
     *def_fp = 1;
   }
 
@@ -447,8 +447,8 @@ static int defense_multiplication(const struct unit_type *att_type,
       defensepower *= 2;
     }
 
-    if (unit_type_flag(def_type, F_AEGIS) &&
-	(is_air_unittype(att_type) || is_heli_unittype(att_type))) {
+    if (unit_type_flag(def_type, F_AEGIS)
+        && unit_type_flag(att_type, F_AIRUNIT)) {
       defensepower *= 5;
     }
 
@@ -459,7 +459,7 @@ static int defense_multiplication(const struct unit_type *att_type,
       defensepower = MAX(0, defensepower * mod / 100);
     }
 
-    if (unit_type_flag(att_type, F_FIGHTER) && is_heli_unittype(def_type)) {
+    if (unit_type_flag(att_type, F_FIGHTER) && unit_type_flag(def_type, F_HELICOPTER)) {
       defensepower /= 2;
     }
   }

@@ -984,7 +984,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Fighter"
+flags         = "Fighter", "AirUnit"
 roles         = ""
 
 [unit_bomber]
@@ -1012,7 +1012,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack"
+flags         = "FieldUnit", "OneAttack", "AirUnit"
 roles         = ""
 
 [unit_helicopter]
@@ -1040,7 +1040,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack"
+flags         = "FieldUnit", "OneAttack", "Helicopter", "AirUnit"
 roles         = ""
 helptext      = _("\
 The Helicopter is a very powerful unit, as it can both fly and\
@@ -1074,7 +1074,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Fighter"
+flags         = "Fighter", "AirUnit"
 roles         = ""
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1106,7 +1106,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack"
+flags         = "FieldUnit", "OneAttack", "AirUnit"
 roles         = ""
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
@@ -1488,7 +1488,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack"
+flags         = "FieldUnit", "OneAttack", "AirUnit"
 roles         = ""
 helptext      = _("\
 TIP:  A handful of these can successfully keep the waters around\
@@ -1520,7 +1520,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "Nuclear"
+flags         = "FieldUnit", "OneAttack", "Nuclear", "AirUnit"
 roles         = ""
 helptext      = _("\
 You can build Nuclear units when you have the required advance, and\
