@@ -83,10 +83,14 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
               * ut->move_rate
               + ut->defense_strength) / MAX(UNITTYPE_COSTS(ut), 1);
 
-    if (unit_type_flag(ut, F_CARRIER)
-        || unit_type_flag(ut, F_MISSILE_CARRIER)) {
-      desire += desire / 6;
-    }
+    unit_class_iterate(uclass) {
+      if (can_unit_type_transport(ut, uclass)
+          && unit_class_flag(uclass, UCF_MISSILE)) {
+        desire += desire / 6;
+        break;
+      }
+    } unit_class_iterate_end;
+
     if (unit_type_flag(ut, F_IGTER)) {
       desire += desire / 2;
     }
@@ -123,20 +127,24 @@ static void ai_hunter_missile_want(struct player *pplayer,
 {
   int best = -1;
   struct unit_type *best_unit_type = NULL;
-  bool have_hunter = FALSE;
+  struct unit *hunter = NULL;
 
   unit_list_iterate(pcity->tile->units, punit) {
-    if (ai_hunter_qualify(pplayer, punit)
-        && (unit_flag(punit, F_MISSILE_CARRIER)
-            || unit_flag(punit, F_CARRIER))) {
-      /* There is a potential hunter in our city which we can equip 
-       * with a missile. Do it. */
-      have_hunter = TRUE;
-      break;
+    if (ai_hunter_qualify(pplayer, punit)) {
+      unit_class_iterate(uclass) {
+        if (can_unit_type_transport(unit_type(punit), uclass)
+            && unit_class_flag(uclass, UCF_MISSILE)) {
+          hunter = punit;
+          break;
+        }
+      } unit_class_iterate_end;
+      if (hunter) {
+        break;
+      }
     }
   } unit_list_iterate_end;
 
-  if (!have_hunter) {
+  if (!hunter) {
     return;
   }
 
@@ -144,6 +152,10 @@ static void ai_hunter_missile_want(struct player *pplayer,
     int desire;
 
     if (!unit_class_flag(get_unit_class(ut), UCF_MISSILE) || !can_build_unit(pcity, ut)) {
+      continue;
+    }
+
+    if (!can_unit_type_transport(unit_type(hunter), get_unit_class(ut))) {
       continue;
     }
 

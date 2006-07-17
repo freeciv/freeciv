@@ -642,9 +642,6 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
 			struct ai_risk_cost *risk_cost,
 			struct unit *punit, struct tile *ptile)
 {
-  const bool is_ferry = get_transporter_capacity(punit) > 0
-                        && !unit_flag(punit, F_MISSILE_CARRIER)
-                        && punit->ai.ai_role != AIUNIT_HUNTER;
   const bool is_air = is_air_unit(punit)
                       && punit->ai.ai_role != AIUNIT_ESCORT;
   const bool long_path = LONG_TIME < (map_distance(punit->tile, punit->tile)
@@ -652,6 +649,20 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
 				      / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
   const bool is_ai = unit_owner(punit)->ai.control;
+  bool is_ferry = FALSE;
+
+  if (punit->ai.ai_role != AIUNIT_HUNTER
+      && get_transporter_capacity(punit) > 0) {
+    unit_class_iterate(uclass) {
+      if (can_unit_type_transport(unit_type(punit), uclass)
+          && (uclass->move_type == LAND_MOVING
+              || (uclass->move_type == AIR_MOVING
+                  && !unit_class_flag(uclass, UCF_MISSILE)))) {
+        is_ferry = TRUE;
+        break;
+      }
+    } unit_class_iterate_end;
+  }
 
   if (is_ferry) {
     /* The destination may be a coastal land tile,
@@ -858,20 +869,17 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
 
     /* Grab missiles lying around and bring them along */
-    if (unit_flag(punit, F_MISSILE_CARRIER)
-        || unit_flag(punit, F_CARRIER)) {
-      unit_list_iterate(punit->tile->units, missile) {
-        if (missile->ai.ai_role != AIUNIT_ESCORT
-            && missile->transported_by == -1
-            && missile->owner == punit->owner
-            && unit_class_flag(get_unit_class(unit_type(missile)), UCF_MISSILE)
-            && can_unit_load(missile, punit)) {
-          UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
-          ai_unit_new_role(missile, AIUNIT_ESCORT, target->tile);
-          load_unit_onto_transporter(missile, punit);
-        }
-      } unit_list_iterate_end;
-    }
+    unit_list_iterate(punit->tile->units, missile) {
+      if (missile->ai.ai_role != AIUNIT_ESCORT
+          && missile->transported_by == -1
+          && missile->owner == punit->owner
+          && unit_class_flag(get_unit_class(unit_type(missile)), UCF_MISSILE)
+          && can_unit_load(missile, punit)) {
+        UNIT_LOG(LOGLEVEL_HUNT, missile, "loaded on hunter");
+        ai_unit_new_role(missile, AIUNIT_ESCORT, target->tile);
+        load_unit_onto_transporter(missile, punit);
+      }
+    } unit_list_iterate_end;
   }
 }
 

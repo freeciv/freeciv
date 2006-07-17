@@ -2077,6 +2077,7 @@ static bool unit_can_be_retired(struct unit *punit)
 void ai_manage_unit(struct player *pplayer, struct unit *punit)
 {
   struct unit *bodyguard = aiguard_guard_of(punit);
+  bool is_ferry = FALSE;
 
   CHECK_UNIT(punit);
 
@@ -2111,6 +2112,18 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   }
 
+  if (get_transporter_capacity(punit) > 0) {
+    unit_class_iterate(pclass) {
+      if (can_unit_type_transport(unit_type(punit), pclass)
+          && (pclass->move_type == LAND_MOVING
+              || (pclass->move_type == AIR_MOVING
+                  && !unit_class_flag(pclass, UCF_MISSILE)))) {
+        is_ferry = TRUE;
+        break;
+      }
+    } unit_class_iterate_end;
+  }
+
   if ((unit_flag(punit, F_DIPLOMAT))
       || (unit_flag(punit, F_SPY))) {
     TIMING_LOG(AIT_DIPLOMAT, TIMER_START);
@@ -2133,9 +2146,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
   } else if (unit_flag(punit, F_PARATROOPERS)) {
     ai_manage_paratrooper(pplayer, punit);
     return;
-  } else if (get_transporter_capacity(punit) > 0
-             && !unit_flag(punit, F_MISSILE_CARRIER)
-             && punit->ai.ai_role != AIUNIT_HUNTER) {
+  } else if (is_ferry && punit->ai.ai_role != AIUNIT_HUNTER) {
     TIMING_LOG(AIT_FERRY, TIMER_START);
     ai_manage_ferryboat(pplayer, punit);
     TIMING_LOG(AIT_FERRY, TIMER_STOP);
