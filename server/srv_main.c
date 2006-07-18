@@ -430,7 +430,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
                                            struct player *plr2)
 {
   /* Remove illegal units */
-  unit_list_iterate(plr1->units, punit) {
+  unit_list_iterate_safe(plr1->units, punit) {
     if (punit->tile->owner == plr2
         && is_military_unit(punit)) {
       notify_player(plr1, NULL, E_DIPLOMACY, _("Your %s unit %s was "
@@ -440,8 +440,8 @@ static void remove_illegal_armistice_units(struct player *plr1,
                     get_nation_name_plural(plr2->nation));
       wipe_unit(punit);
     }
-  } unit_list_iterate_end;
-  unit_list_iterate(plr2->units, punit) {
+  } unit_list_iterate_safe_end;
+  unit_list_iterate_safe(plr2->units, punit) {
     if (punit->tile->owner == plr1
         && is_military_unit(punit)) {
       notify_player(plr2, NULL, E_DIPLOMACY, _("Your %s unit %s was "
@@ -451,7 +451,7 @@ static void remove_illegal_armistice_units(struct player *plr1,
                     get_nation_name_plural(plr1->nation));
       wipe_unit(punit);
     }
-  } unit_list_iterate_end;
+  } unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
