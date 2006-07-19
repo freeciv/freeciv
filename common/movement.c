@@ -351,13 +351,12 @@ bool can_unit_move_to_tile(const struct unit *punit,
     1) The unit is idle or on server goto.
     2) The target location is next to the unit.
     3) There are no non-allied units on the target tile.
-    4) A ground unit can only move to ocean squares if there
-       is a transporter with free capacity.
-    5) Marines are the only units that can attack from a ocean square.
-    6) Naval units can only be moved to ocean squares or city squares.
-    7) There are no peaceful but un-allied units on the target tile.
-    8) There is not a peaceful but un-allied city on the target tile.
-    9) There is no non-allied unit blocking (zoc) [or igzoc is true].
+    4) Unit can move to non-native tile if there is city
+       or free transport capacity.
+    5) Marines are the only land units that can attack from a ocean square.
+    6) There are no peaceful but un-allied units on the target tile.
+    7) There is not a peaceful but un-allied city on the target tile.
+    8) There is no non-allied unit blocking (zoc) [or igzoc is true].
 **************************************************************************/
 enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 					     const struct player *unit_owner,
@@ -389,14 +388,14 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
   }
 
+  /* 4) */
+  if (!is_native_tile(punittype, dst_tile)
+      && !is_allied_city_tile(dst_tile, unit_owner)
+      && unit_class_transporter_capacity(dst_tile, unit_owner, punittype->class) <= 0) {
+    return MR_NO_TRANSPORTER_CAPACITY;
+  }
+
   if (get_unit_move_type(punittype) == LAND_MOVING) {
-    /* 4) */
-    if (is_ocean(dst_tile->terrain)
-	&& unit_class_transporter_capacity(dst_tile, unit_owner, punittype->class) <= 0) {
-      /* Ground units can't move onto ocean tiles unless there's enough
-       * room on transporters for them. */
-      return MR_NO_SEA_TRANSPORTER_CAPACITY;
-    }
 
     /* Moving from ocean */
     if (is_ocean(src_tile->terrain)) {
@@ -409,22 +408,9 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 	return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
       }
     }
-  } else if (get_unit_move_type(punittype) == SEA_MOVING) {
-    /* 6) */
-    if (!is_ocean(dst_tile->terrain)
-	&& dst_tile->terrain != T_UNKNOWN
-	&& (!is_allied_city_tile(dst_tile, unit_owner)
-	    || !is_ocean_near_tile(dst_tile))) {
-      /* Naval units can't move onto land, except into (allied) cities.
-       *
-       * The check for T_UNKNOWN here is probably unnecessary.  Since the
-       * dst_tile is adjacent to the src_tile it must be known to punit's
-       * owner, even at the client side. */
-      return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY;
-    }
   }
 
-  /* 7) */
+  /* 6) */
   if (is_non_attack_unit_tile(dst_tile, unit_owner)) {
     /* You can't move into a non-allied tile.
      *
@@ -433,7 +419,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_NO_WAR;
   }
 
-  /* 8) */
+  /* 7) */
   pcity = dst_tile->city;
   if (pcity && pplayers_non_attack(city_owner(pcity), unit_owner)) {
     /* You can't move into an empty city of a civilization you're at
@@ -441,7 +427,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_NO_WAR;
   }
 
-  /* 9) */
+  /* 8) */
   zoc = igzoc
     || can_step_taken_wrt_to_zoc(punittype, unit_owner, src_tile, dst_tile);
   if (!zoc) {
