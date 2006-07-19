@@ -428,9 +428,9 @@ static void unit_restore_hitpoints(struct player *pplayer, struct unit *punit)
 
   if(is_heli_unit(punit)) {
     struct city *pcity = map_get_city(punit->tile);
-    if(!pcity) {
-      if (!map_has_special(punit->tile, S_AIRBASE))
-        punit->hp-=unit_type(punit)->hp/10;
+    if(!pcity && !map_has_special(punit->tile, S_AIRBASE)
+       && punit->transported_by == -1) {
+      punit->hp-=unit_type(punit)->hp/10;
     }
   }
 
