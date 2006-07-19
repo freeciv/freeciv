@@ -30,6 +30,7 @@ enum unit_class_flag_id {
   UCF_DAMAGE_SLOWS,
   UCF_CAN_OCCUPY,
   UCF_MISSILE,
+  UCF_ROAD_NATIVE,
   UCF_LAST
 };
 

@@ -62,6 +62,7 @@ veteran_move_bonus = 0, 0
 ; "DamageSlows"  = Damages units are slowed down
 ; "CanOccupy"    = Military units of this class can occupy enemy cities
 ; "Missile"      = Unit is destroyed when it attacks
+; "RoadNative"   = Road tiles are always considered native terrain
 
 [unitclass_missile]
 name          = _("Missile")

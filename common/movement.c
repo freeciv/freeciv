@@ -226,6 +226,12 @@ bool is_native_to_class(const struct unit_class *punitclass,
     /* Unknown is considered native terrain */
     return TRUE;
   }
+
+  if (unit_class_flag(punitclass, UCF_ROAD_NATIVE)
+      && contains_special(special, S_ROAD)) {
+    return TRUE;
+  }
+
   return BV_ISSET(pterrain->native_to, punitclass->id);
 }
 

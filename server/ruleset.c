@@ -1074,6 +1074,9 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
         if (ival != F_LAST) {
           freelog(LOG_ERROR, "it's unit_type flag!");
         }
+      } else if (ival == UCF_ROAD_NATIVE && ut->move_type == SEA_MOVING) {
+        freelog(LOG_ERROR, "for unit_class \"%s\": cannot give flag \"%s\" to "
+                "sea moving unit (%s)", ut->name, sval, filename);
       } else {
         BV_SET(ut->flags, ival);
       }
