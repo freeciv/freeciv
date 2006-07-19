@@ -647,10 +647,10 @@ void pft_fill_unit_parameter(struct pf_parameter *parameter,
     }
     break;
   case SEA_MOVING:
-    if (unit_flag(punit, F_NO_LAND_ATTACK)) {
-      parameter->get_MC = seamove_no_bombard;
-    } else {
+    if (can_attack_non_native(unit_type(punit))) {
       parameter->get_MC = seamove;
+    } else {
+      parameter->get_MC = seamove_no_bombard;
     }
     break;
   case AIR_MOVING:

@@ -97,7 +97,7 @@ static struct unit_type *ai_hunter_guess_best(struct city *pcity,
     if (unit_type_flag(ut, F_PARTIAL_INVIS)) {
       desire += desire / 4;
     }
-    if (unit_type_flag(ut, F_NO_LAND_ATTACK)) {
+    if (!can_attack_non_native(ut)) {
       desire -= desire / 4; /* less flexibility */
     }
     /* Causes continual unhappiness */

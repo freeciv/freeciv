@@ -112,6 +112,9 @@ units.ruleset:
       - "Barbarian"
       - "BarbarianTech"
 
+    - These flags and roles work only for move_type "Sea" units:
+      - "No_Land_Attack"
+
 ----------------------------------------------------------------------
 Implementation details:
 -----------------------

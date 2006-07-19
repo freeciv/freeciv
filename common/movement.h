@@ -20,6 +20,7 @@
 
 int unit_move_rate(const struct unit *punit);
 bool unit_can_defend_here(const struct unit *punit);
+bool can_attack_non_native(struct unit_type *utype);
 
 bool is_sailing_unit(const struct unit *punit);
 bool is_air_unit(const struct unit *punit);

@@ -89,6 +89,15 @@ bool unit_can_defend_here(const struct unit *punit)
   return can_unit_exist_at_tile(punit, punit->tile);
 }
 
+/****************************************************************************
+ This unit can attack non-native tiles (eg. Ships ability to
+ shore bombardment)
+****************************************************************************/
+bool can_attack_non_native(struct unit_type *utype)
+{
+  return (get_unit_class(utype)->move_type == SEA_MOVING
+          && !unit_type_flag(utype, F_NO_LAND_ATTACK));
+}
 
 /****************************************************************************
   Return TRUE iff the unit is a sailing/naval/sea/water unit.

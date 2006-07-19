@@ -1351,8 +1351,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
                          && !(goto_is_sane(punit, acity->tile, TRUE) 
                               && WARMAP_COST(acity->tile) < maxd));
 
-      if (!is_ocean(tile_get_terrain(acity->tile))
-          && unit_flag(punit, F_NO_LAND_ATTACK)) {
+      if (!is_native_tile(unit_type(punit), acity->tile)
+          && !can_attack_non_native(unit_type(punit))) {
         /* Can't attack this city. It is on land. */
         continue;
       }

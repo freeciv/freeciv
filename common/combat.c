@@ -85,7 +85,6 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
                                   const struct tile *dest_tile)
 {
   struct terrain *fromtile = punit->tile->terrain;
-  struct terrain *totile = dest_tile->terrain;
   struct city *pcity = dest_tile->city;
 
   /* 1. Can we attack _anything_ ? */
@@ -106,13 +105,10 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
     return FALSE;
   }
 
-  /* 4. Ground units cannot attack water units */
-  if (is_ocean(totile) && is_ground_unit(punit)) {
-    return FALSE;
-  }
-
-  /* 5. Shore bombardement can be done by certain units only */
-  if (unit_flag(punit, F_NO_LAND_ATTACK) && !is_ocean(totile)) {
+  /* 4. Most units can not attack non-native terrain.
+   *    Most ships can attack land tiles (shore bombardment) */
+  if (!is_native_tile(unit_type(punit), dest_tile)
+      && !can_attack_non_native(unit_type(punit))) {
     return FALSE;
   }
 
