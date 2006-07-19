@@ -179,19 +179,19 @@ following order: Glib, Gtk+, Imlib.
    "pkg-config" is a system for managing library compile/link flags that
    works with automake and autoconf. You may obtain it at:
 
-      ftp://ftp.gtk.org/pub/gtk/v2.0/dependencies/pkgconfig-0.12.0.tar.gz
+      ftp://ftp.gtk.org/pub/gtk/v2.2/dependencies/pkgconfig-0.14.0.tar.gz
 
  - The "Glib" utility library.
 
    The "Glib" utility library provides non-graphical functions used by the
    "Gdk" and "Gtk+" libraries, like hash tables, single linked lists, etc.
 
-   Freeciv requires a version of "Glib" greater or equal to 2.0.0.
+   Freeciv requires a version of "Glib" greater or equal to 2.2.0.
 
    If the Freeciv configure process tells you that you don't have the
    Glib library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.0/glib-2.0.7.tar.bz2
+     ftp://ftp.gtk.org/pub/gtk/v2.2/glib-2.2.3.tar.bz2
 
  - The "Atk" accessibility library.
 
@@ -199,14 +199,14 @@ following order: Glib, Gtk+, Imlib.
    It allows people with disabilities to utilize all the functionality
    provided by Gtk+ apps. You may obtain it at:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.0/atk-1.0.3.tar.bz2
+     ftp://ftp.gtk.org/pub/gtk/v2.2/atk-1.2.4.tar.bz2
 
  - The "Pango" text layout and rendering library.
 
    "Pango" is library for layout and rendering of text, with an emphasis
    on internationalization. You may obtain it at:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.0/pango-1.0.5.tar.bz2
+     ftp://ftp.gtk.org/pub/gtk/v2.2/pango-1.2.5.tar.bz2
 
  - The "Gtk+" widget library.
 
@@ -226,12 +226,12 @@ following order: Glib, Gtk+, Imlib.
      "GdkPixbuf":
        Provides image loading/saving facilities.
 
-   Freeciv requires a version of "Gtk+" greater or equal to 2.0.0.
+   Freeciv requires a version of "Gtk+" greater or equal to 2.2.1.
 
    If the Freeciv configure process tells you that you don't have the
    Gtk+ library installed, then it may be obtained from here:
 
-     ftp://ftp.gtk.org/pub/gtk/v2.0/gtk+-2.0.9.tar.bz2
+     ftp://ftp.gtk.org/pub/gtk/v2.2/gtk+-2.2.4.tar.bz2
 
    "Gtk+" depends on the "Glib", "Atk" and "Pango" libraries.
 
@@ -736,7 +736,7 @@ export RANLIB=iX86-mingw32-ranlib
 ./configure --host=iX86-mingw32 --build=$(./config.guess) --with-included-gettext --enable-client=win32 --prefix=.
 
 
-Buld and install:
+Build and install:
 --------------------
 make
 make DESTDIR=absolute_install_path bindir=./ install
