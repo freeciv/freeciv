@@ -393,14 +393,6 @@ void generate_warmap(struct city *pcity, struct unit *punit)
 
   if (punit) {
     /* 
-     * Checking for an existing warmap. If the previous warmap was for
-     * a city and our unit is in that city, use city's warmap.
-     */
-    if (pcity && pcity == warmap.warcity) {
-      return;
-    }
-
-    /* 
      * If the previous warmap was for the same unit and it's still
      * correct (warmap.(sea)cost[x][y] == 0), reuse it.
      */
