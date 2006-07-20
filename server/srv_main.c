@@ -489,6 +489,20 @@ static void update_diplomatics(void)
           state->type = DS_WAR;
           check_city_workers(plr1);
           check_city_workers(plr2);
+
+          /* Avoid love-love-hate triangles */
+          players_iterate(plr3) {
+            if (plr3->is_alive && plr3 != plr1 && plr3 != plr2
+                && pplayers_allied(plr3, plr1)
+                && pplayers_allied(plr3, plr2)) {
+              notify_player(plr3, NULL, E_TREATY_BROKEN,
+                            _("Ceasefire between %s and %s has run out. "
+                              "They are at war. You cancel alliance with %s."),
+                            plr1->name, plr2->name, plr1->name);
+              plr3->diplstates[plr1->player_no].has_reason_to_cancel = TRUE;
+              handle_diplomacy_cancel_pact(plr3, plr1->player_no, CLAUSE_ALLIANCE);
+            }
+          } players_iterate_end;
           break;
         }
       }
