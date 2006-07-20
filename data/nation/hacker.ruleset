@@ -36,7 +36,7 @@ flag_alt = "-"
 city_style = "Classical"
 
 ruler_titles = { "government",     "male_title",        "female_title"
-                 "Despotism",      _("Hacker"),         _("Hacker")
+                 "Despotism",      _("Hacker"),         _("?female:Hacker")
                }
 
 init_techs=""

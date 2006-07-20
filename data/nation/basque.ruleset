@@ -45,15 +45,15 @@ city_style = "Celtic"
 
 ruler_titles = { "government",     "male_title",        "female_title"
 ; /* TRANS: Buruzagi = Leader, head (like spanish Caudillo) */
-                 "Despotism",      _("Buruzagi"),       _("Buruzagi")
+                 "Despotism",      _("Buruzagi"),       _("?female:Buruzagi")
 ; /* TRANS: Apaiz nagusi = Pope, Lord Protector */
                "Fundamentalism", _("Apaiz nagusi"), _("Emakume Apaiz nagusi")
 ; /* TRANS: Errege and Erregina = King and Queen */
                  "Monarchy",       _("Errege"),           _("Erregina")
 ; /* TRANS: Lehendakari = similar to President 
 ; /* TRANS: (but is quite inexact for Basques to call him/her "president") */
-                 "Democracy",      _("Lehendakari"), _("Lehendakari")
-                 "Republic",       _("Lehendakari"), _("Lehendakari")
+                 "Democracy",      _("Lehendakari"), _("?female:Lehendakari")
+                 "Republic",       _("Lehendakari"), _("?female:Lehendakari")
                }
 
 init_techs=""

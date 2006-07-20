@@ -17,11 +17,11 @@ flag="aztec"
 flag_alt = "mexico"	; Used previously
 city_style = "Tropical"
 
-ruler_titles = { "government",	"male_title",	"female_title"
+ruler_titles = { "government",	"male_title",	 "female_title"
 		 ; /* TRANS: Tlatoani = Speaker */
-		 "Despotism", _("Tlatoani"),    _("?female:Tlatoani")
+		 "Despotism", _("Tlatoani"),     _("Tlatoani")
 		 ; /* TRANS: Huey Tlatoani = Great Speaker */
-		 "Monarchy", _("Huey Tlatoani"), _("?female:Huey Tlatoani")
+		 "Monarchy", _("Huey Tlatoani"), _("Huey Tlatoani")
 	       } 
 
 init_techs=""

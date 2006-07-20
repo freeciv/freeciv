@@ -18,7 +18,7 @@ flag_alt = "iraq_old"
 city_style = "Babylonian"
 
 ruler_titles = { "government",  "male_title",      "female_title"
-	         "Communism",   _("Dictator"),     _("?female:Dictator")
+	         "Communism",   _("Dictator"),     _("Dictatress")
 }
 
 init_techs=""

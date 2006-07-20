@@ -24,9 +24,9 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",     "male_title",        "female_title"
-                 "Despotism",      _("Lama"),           _("?female:Lama")
-		 "Monarchy",       _("Dharma King"),    _("Dharma Queen")
-                 "Fundamentalism", _("Dalai Lama"),   _("?female:Dalai Lama")
+                 "Despotism",      _("Lama"),           _("Lama")
+		 "Monarchy",       _("Dharma King"),    _("Queen")
+                 "Fundamentalism", _("Dalai Lama"),     _("Dalai Lama")
                  "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                }
 

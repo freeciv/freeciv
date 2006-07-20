@@ -17,7 +17,7 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Warlord"),     _("?female:Warlord")
+                 "Despotism",       _("Warlord"),      _("Warlord")
                  "Communism",       _("Brother"),      _("Sister")
                  "Democracy", _("Prime Minister"),_("?female:Prime Minister")
 }

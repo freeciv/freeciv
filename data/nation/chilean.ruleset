@@ -20,10 +20,10 @@ flag="chile"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",          "female_title"
-                 "Despotism",_("Captain General"),_("female:Captain General")
-                 "Fundamentalism",  _("Archbishop"),  _("?female:Archbishop")
-               "Republic",_("Supreme Director"),_("?female:Supreme Director")
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Despotism",       _("Captain General"),_("Captain General")
+                 "Fundamentalism",  _("Archbishop"),     _("Archbishop")
+                 "Republic",      _("Supreme Director"),_("Supreme Director")
                }
 
 init_techs=""

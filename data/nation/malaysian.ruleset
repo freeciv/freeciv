@@ -22,7 +22,7 @@ city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Sultan"),       _("Sultana")
-                 "Republic",        _("Tun"),          _("?female:Tun")
+                 "Republic",        _("Tun"),          _("Tun")
                  "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                }
 

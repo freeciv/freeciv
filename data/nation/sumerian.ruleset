@@ -18,8 +18,8 @@ flag_alt = "-"
 city_style = "Babylonian"
 
 ruler_titles = { "government",	"male_title",	"female_title"
-		 "Monarchy",	_("Lugal"),	 _("?female:Lugal")
-		 "Communism",	_("Ensi"),       _("?female:Ensi")
+		 "Monarchy",	_("Lugal"),	 _("Lugal")
+		 "Communism",	_("Ensi"),       _("Ensi")
 	       } 
 
 init_techs=""

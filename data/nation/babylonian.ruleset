@@ -20,7 +20,7 @@ city_style = "Babylonian"
 
 ruler_titles = { "government",	"male_title",	"female_title"
 		 ; /* TRANS: Lugal = Great Man */
-		 "Despotism",	_("Lugal"),	 _("?female:Lugal")
+		 "Despotism",	_("Lugal"),	 _("Lugal")
 	       } 
 
 init_techs=""

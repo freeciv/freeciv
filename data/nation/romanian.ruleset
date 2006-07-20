@@ -35,10 +35,9 @@ ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Voievod"),     	_("Doamna")
 		 ; /* TRANS: Rege/Regina = King/Queen */
                  "Monarchy",        _("Rege"),    	_("Regina")
-                 "Democracy",       _("Presedinte"),  _("?female:Presedinte")
 		 ; /* TRANS: Tovaras/Tovarasa = Comrade */
                  "Communism",       _("Tovaras"),     	_("Tovarasa")
-   "Fundamentalism", _("Director-President"), _("?female:Director-President")
+           "Fundamentalism", _("Director-President"), _("Director-President")
                }
 
 init_techs=""

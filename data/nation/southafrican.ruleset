@@ -24,6 +24,10 @@ flag="south_africa"
 flag_alt = "-"
 city_style = "Tropical"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Chief"),        _("?female:Chief")
+               }
+
 init_techs=""
 init_buildings=""
 init_government="Despotism"
