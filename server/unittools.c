@@ -1177,6 +1177,7 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 			     const struct unit_type *type,
 			     bool unit_is_on_tile)
 {
+  int cap;
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
   if ((is_allied_city_tile(ptile, pplayer)
@@ -1185,17 +1186,13 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 	  && !is_non_allied_unit_tile(ptile, pplayer)))
     return TRUE;
 
-  if (unit_class_flag(get_unit_class(type), UCF_MISSILE)) {
-    int cap = missile_carrier_capacity(ptile, pplayer, FALSE);
-    if (unit_is_on_tile)
-      cap++;
-    return cap>0;
-  } else {
-    int cap = airunit_carrier_capacity(ptile, pplayer, FALSE);
-    if (unit_is_on_tile)
-      cap++;
-    return cap>0;
+  cap = unit_class_transporter_capacity(ptile, pplayer, get_unit_class(type));
+
+  if (unit_is_on_tile) {
+    cap++;
   }
+
+  return cap > 0;
 }
 
 /**************************************************************************

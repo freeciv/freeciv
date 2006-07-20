@@ -265,12 +265,6 @@ bool kills_citizen_after_attack(const struct unit *punit);
 
 const char *unit_activity_text(const struct unit *punit);
 int get_transporter_capacity(const struct unit *punit);
-int missile_carrier_capacity(const struct tile *ptile,
-			     const struct player *pplayer,
-			     bool count_units_with_extra_fuel);
-int airunit_carrier_capacity(const struct tile *ptile,
-			     const struct player *pplayer,
-			     bool count_units_with_extra_fuel);
 
 struct player *unit_owner(const struct unit *punit);
 
