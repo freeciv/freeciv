@@ -1509,7 +1509,7 @@ static void load_ruleset_terrain(struct section_file *file)
 {
   char *datafile_options;
   int nval;
-  char **sec, **res;
+  char **tsec, **rsec, **res;
   int j;
   const char *filename = secfile_filename(file);
 
@@ -1564,7 +1564,7 @@ static void load_ruleset_terrain(struct section_file *file)
 				   get_output_identifier(o));
   } output_type_iterate_end;
 
-  sec = secfile_get_secnames_prefix(file, "terrain_", &nval);
+  tsec = secfile_get_secnames_prefix(file, "terrain_", &nval);
 
   /* terrain details */
 
@@ -1573,12 +1573,12 @@ static void load_ruleset_terrain(struct section_file *file)
     const int i = pterrain->index;
 
     sz_strlcpy(pterrain->graphic_str,
-	       secfile_lookup_str(file,"%s.graphic", sec[i]));
+	       secfile_lookup_str(file,"%s.graphic", tsec[i]));
     sz_strlcpy(pterrain->graphic_alt,
-	       secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
+	       secfile_lookup_str(file,"%s.graphic_alt", tsec[i]));
 
     pterrain->identifier
-      = secfile_lookup_str(file, "%s.identifier", sec[i])[0];
+      = secfile_lookup_str(file, "%s.identifier", tsec[i])[0];
     for (j = T_FIRST; j < i; j++) {
       if (pterrain->identifier == get_terrain(j)->identifier) {
 	freelog(LOG_FATAL,
@@ -1596,17 +1596,17 @@ static void load_ruleset_terrain(struct section_file *file)
     }
 
     pterrain->movement_cost
-      = secfile_lookup_int(file, "%s.movement_cost", sec[i]);
+      = secfile_lookup_int(file, "%s.movement_cost", tsec[i]);
     pterrain->defense_bonus
-      = secfile_lookup_int(file, "%s.defense_bonus", sec[i]);
+      = secfile_lookup_int(file, "%s.defense_bonus", tsec[i]);
 
     output_type_iterate(o) {
       pterrain->output[o]
-	= secfile_lookup_int_default(file, 0, "%s.%s", sec[i],
+	= secfile_lookup_int_default(file, 0, "%s.%s", tsec[i],
 				     get_output_identifier(o));
     } output_type_iterate_end;
 
-    res = secfile_lookup_str_vec (file, &nval, "%s.resources", sec[i]);
+    res = secfile_lookup_str_vec (file, &nval, "%s.resources", tsec[i]);
     pterrain->resources = fc_calloc(nval + 1,
 				    sizeof(*pterrain->resources));
     for (j = 0; j < nval; j++) {
@@ -1619,55 +1619,55 @@ static void load_ruleset_terrain(struct section_file *file)
     pterrain->resources[nval] = NULL;
 
     pterrain->road_trade_incr
-      = secfile_lookup_int(file, "%s.road_trade_incr", sec[i]);
-    pterrain->road_time = secfile_lookup_int(file, "%s.road_time", sec[i]);
+      = secfile_lookup_int(file, "%s.road_trade_incr", tsec[i]);
+    pterrain->road_time = secfile_lookup_int(file, "%s.road_time", tsec[i]);
 
     pterrain->irrigation_result
       = lookup_terrain(secfile_lookup_str(file, "%s.irrigation_result",
-					  sec[i]), pterrain);
+					  tsec[i]), pterrain);
     pterrain->irrigation_food_incr
-      = secfile_lookup_int(file, "%s.irrigation_food_incr", sec[i]);
+      = secfile_lookup_int(file, "%s.irrigation_food_incr", tsec[i]);
     pterrain->irrigation_time
-      = secfile_lookup_int(file, "%s.irrigation_time", sec[i]);
+      = secfile_lookup_int(file, "%s.irrigation_time", tsec[i]);
 
     pterrain->mining_result
       = lookup_terrain(secfile_lookup_str(file, "%s.mining_result",
-					  sec[i]), pterrain);
+					  tsec[i]), pterrain);
     pterrain->mining_shield_incr
-      = secfile_lookup_int(file, "%s.mining_shield_incr", sec[i]);
+      = secfile_lookup_int(file, "%s.mining_shield_incr", tsec[i]);
     pterrain->mining_time
-      = secfile_lookup_int(file, "%s.mining_time", sec[i]);
+      = secfile_lookup_int(file, "%s.mining_time", tsec[i]);
 
     pterrain->transform_result
       = lookup_terrain(secfile_lookup_str(file, "%s.transform_result",
-					    sec[i]), pterrain);
+					    tsec[i]), pterrain);
     pterrain->transform_time
-      = secfile_lookup_int(file, "%s.transform_time", sec[i]);
+      = secfile_lookup_int(file, "%s.transform_time", tsec[i]);
     pterrain->rail_time
-      = secfile_lookup_int_default(file, 3, "%s.rail_time", sec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.rail_time", tsec[i]);
     pterrain->airbase_time
-      = secfile_lookup_int_default(file, 3, "%s.airbase_time", sec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.airbase_time", tsec[i]);
     pterrain->fortress_time
-      = secfile_lookup_int_default(file, 3, "%s.fortress_time", sec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.fortress_time", tsec[i]);
     pterrain->clean_pollution_time
-      = secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", sec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.clean_pollution_time", tsec[i]);
     pterrain->clean_fallout_time
-      = secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", sec[i]);
+      = secfile_lookup_int_default(file, 3, "%s.clean_fallout_time", tsec[i]);
 
     pterrain->warmer_wetter_result
       = lookup_terrain(secfile_lookup_str(file, "%s.warmer_wetter_result",
-					  sec[i]), pterrain);
+					  tsec[i]), pterrain);
     pterrain->warmer_drier_result
       = lookup_terrain(secfile_lookup_str(file, "%s.warmer_drier_result",
-					  sec[i]), pterrain);
+					  tsec[i]), pterrain);
     pterrain->cooler_wetter_result
       = lookup_terrain(secfile_lookup_str(file, "%s.cooler_wetter_result",
-					  sec[i]), pterrain);
+					  tsec[i]), pterrain);
     pterrain->cooler_drier_result
       = lookup_terrain(secfile_lookup_str(file, "%s.cooler_drier_result",
-					  sec[i]), pterrain);
+					  tsec[i]), pterrain);
 
-    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec[i]);
+    slist = secfile_lookup_str_vec(file, &nval, "%s.flags", tsec[i]);
     BV_CLR_ALL(pterrain->flags);
     for (j = 0; j < nval; j++) {
       const char *sval = slist[j];
@@ -1694,10 +1694,10 @@ static void load_ruleset_terrain(struct section_file *file)
 
       pterrain->property[j] = secfile_lookup_int_default(file, 0,
 							 "%s.property_%s",
-							 sec[i], mg_names[j]);
+							 tsec[i], mg_names[j]);
     }
 
-    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", sec[i]);
+    slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", tsec[i]);
     BV_CLR_ALL(pterrain->native_to);
     for (j = 0; j < nval; j++) {
       struct unit_class *class = unit_class_from_str(slist[j]);
@@ -1719,26 +1719,26 @@ static void load_ruleset_terrain(struct section_file *file)
         BV_SET(pterrain->native_to, class->id);
       }
     }
-    pterrain->helptext = lookup_helptext(file, sec[i]);
+    pterrain->helptext = lookup_helptext(file, tsec[i]);
   } terrain_type_iterate_end;
 
-  sec = secfile_get_secnames_prefix(file, "resource_", &nval);
+  rsec = secfile_get_secnames_prefix(file, "resource_", &nval);
   resource_type_iterate(presource) {
     const int i = presource->index;
 
     presource->name = Q_(presource->name_orig);
     output_type_iterate (o) {
       presource->output[o] =
-	  secfile_lookup_int_default(file, 0, "%s.%s", sec[i],
+	  secfile_lookup_int_default(file, 0, "%s.%s", rsec[i],
 				       get_output_identifier(o));
     } output_type_iterate_end;
     sz_strlcpy(presource->graphic_str,
-	       secfile_lookup_str(file,"%s.graphic", sec[i]));
+	       secfile_lookup_str(file,"%s.graphic", rsec[i]));
     sz_strlcpy(presource->graphic_alt,
-	       secfile_lookup_str(file,"%s.graphic_alt", sec[i]));
+	       secfile_lookup_str(file,"%s.graphic_alt", rsec[i]));
 
     presource->identifier
-      = secfile_lookup_str(file, "%s.identifier", sec[i])[0];
+      = secfile_lookup_str(file, "%s.identifier", rsec[i])[0];
     if (presource->identifier == RESOURCE_NULL_IDENTIFIER) {
       freelog(LOG_FATAL, "Resource %s can't have '%c' as an identifier,"
 	      " it is reserved.", presource->name, presource->identifier);
@@ -1754,7 +1754,8 @@ static void load_ruleset_terrain(struct section_file *file)
       }
     }
   } resource_type_iterate_end;
-  free(sec);
+  free(tsec);
+  free(rsec);
 
   section_file_check_unused(file, filename);
   section_file_free(file);
