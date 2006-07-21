@@ -118,6 +118,7 @@ match=2
 *include "nation/indian.ruleset"
 *include "nation/indonesian.ruleset"
 *include "nation/inuit.ruleset"
+*include "nation/iranian.ruleset"
 *include "nation/iraqi.ruleset"
 *include "nation/irish.ruleset"
 *include "nation/iroquois.ruleset"

@@ -26,7 +26,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="libyan"
+civilwar_nations="libyan", "iranian"
 
 cities =
  "Baghdad",

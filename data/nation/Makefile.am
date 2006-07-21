@@ -69,6 +69,7 @@ pkgdata_DATA = \
 		indian.ruleset \
 		indonesian.ruleset \
 		inuit.ruleset \
+		iranian.ruleset \
 		iraqi.ruleset \
 		irish.ruleset \
 		iroquois.ruleset \
