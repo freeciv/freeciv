@@ -27,9 +27,10 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
 		      bool bombard);
 
 /* move check related */
+bool is_unit_being_refueled(const struct unit *punit);
 bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 			     const struct unit_type *punittype,
-			     bool unit_is_on_tile);
+			     bool unit_is_on_carrier);
 
 /* turn update related */
 void player_restore_units(struct player *pplayer);

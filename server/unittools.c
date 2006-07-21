@@ -385,34 +385,45 @@ void player_restore_units(struct player *pplayer)
       /* I think this is strongly against the spirit of client goto.
        * The problem is (again) that here we know too much. -- Zamar */
 
-      if (punit->fuel == 1
-	  && !is_airunit_refuel_point(punit->tile,
-				      unit_owner(punit), punit->type, TRUE)) {
-	iterate_outward(punit->tile, punit->moves_left/3, itr_tile) {
-	  if (is_airunit_refuel_point(itr_tile, unit_owner(punit),
-				      punit->type, FALSE)
-	      &&(air_can_move_between(punit->moves_left / 3, punit->tile,
-				      itr_tile, unit_owner(punit)) >= 0)) {
-	    punit->goto_tile = itr_tile;
-	    set_unit_activity(punit, ACTIVITY_GOTO);
-	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-	    notify_player(pplayer, punit->tile, E_UNIT_ORDERS, 
-			     _("Your %s has returned to refuel."),
-			     unit_name(punit->type));
-	    goto OUT;
-	  }
-	} iterate_outward_end;
+      if (punit->fuel <= 1
+          && !is_unit_being_refueled(punit)) {
+        struct unit *carrier;
+
+        carrier = find_transport_from_tile(punit, punit->tile);
+        if (carrier) {
+          put_unit_onto_transporter(punit, carrier);
+        } else {
+          iterate_outward(punit->tile, punit->moves_left / SINGLE_MOVE, itr_tile) {
+            if (is_airunit_refuel_point(itr_tile, unit_owner(punit),
+                                        punit->type, FALSE)
+                &&(air_can_move_between(punit->moves_left / SINGLE_MOVE, punit->tile,
+                                        itr_tile, unit_owner(punit)) >= 0)) {
+              punit->goto_tile = itr_tile;
+              set_unit_activity(punit, ACTIVITY_GOTO);
+              (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+
+              if (!is_unit_being_refueled(punit)) {
+                carrier = find_transport_from_tile(punit, punit->tile);
+                if (carrier) {
+                  put_unit_onto_transporter(punit, carrier);
+                }
+              }
+
+              notify_player(pplayer, punit->tile, E_UNIT_ORDERS, 
+                            _("Your %s has returned to refuel."),
+                            unit_name(punit->type));
+              break;
+            }
+          } iterate_outward_end;
+        }
       }
-    OUT:
 
       /* 6) Update fuel */
       punit->fuel--;
 
       /* 7) Automatically refuel air units in cities, airbases, and
        *    transporters (carriers). */
-      if (tile_get_city(punit->tile)
-	  || tile_has_special(punit->tile, S_AIRBASE)
-	  || punit->transported_by != -1) {
+      if (is_unit_being_refueled(punit)) {
 	punit->fuel=unit_type(punit)->fuel;
       }
     }
@@ -1171,11 +1182,21 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
 }
 
 /**************************************************************************
+ Is unit being refueled in its current position
+**************************************************************************/
+bool is_unit_being_refueled(const struct unit *punit)
+{
+  return (punit->transported_by != -1                   /* Carrier */
+          || punit->tile->city                          /* City    */
+          || tile_has_special(punit->tile, S_AIRBASE)); /* Airbase */
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 			     const struct unit_type *type,
-			     bool unit_is_on_tile)
+			     bool unit_is_on_carrier)
 {
   int cap;
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
@@ -1188,7 +1209,7 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 
   cap = unit_class_transporter_capacity(ptile, pplayer, get_unit_class(type));
 
-  if (unit_is_on_tile) {
+  if (unit_is_on_carrier) {
     cap++;
   }
 
