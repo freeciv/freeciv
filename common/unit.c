@@ -1094,15 +1094,10 @@ struct player *unit_owner(const struct unit *punit)
 /****************************************************************************
   Measure the carrier (missile + airplane) capacity of the given tile for
   a player.
-
-  In the future this should probably look at the actual occupancy of the
-  transporters.  However for now we only look at the potential capacity and
-  leave loading up to the caller.
 ****************************************************************************/
 static void count_carrier_capacity(int *airall, int *misonly,
 				   const struct tile *ptile,
-				   const struct player *pplayer,
-				   bool count_units_with_extra_fuel)
+				   const struct player *pplayer)
 {
   *airall = *misonly = 0;
 
@@ -1111,22 +1106,14 @@ static void count_carrier_capacity(int *airall, int *misonly,
       if (unit_flag(punit, F_CARRIER)
 	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
 	*airall += get_transporter_capacity(punit);
+        *airall -= get_transporter_occupancy(punit);
 	continue;
       }
       if (unit_flag(punit, F_MISSILE_CARRIER)
 	  && !(is_ground_unit(punit) && is_ocean(ptile->terrain))) {
 	*misonly += get_transporter_capacity(punit);
+        *misonly -= get_transporter_occupancy(punit);
 	continue;
-      }
-
-      /* Don't count units which have enough fuel (>1) */
-      if (is_air_unit(punit)
-	  && (count_units_with_extra_fuel || punit->fuel <= 1)) {
-	if (unit_flag(punit, F_MISSILE)) {
-	  (*misonly)--;
-	} else {
-	  (*airall)--;
-	}
       }
     }
   } unit_list_iterate_end;
@@ -1134,38 +1121,34 @@ static void count_carrier_capacity(int *airall, int *misonly,
 
 /**************************************************************************
   Returns the number of free spaces for missiles for the given player on
-  the given tile. Can be 0 or negative.
+  the given tile. Can be 0.
 **************************************************************************/
 int missile_carrier_capacity(const struct tile *ptile,
-			     const struct player *pplayer,
-			     bool count_units_with_extra_fuel)
+			     const struct player *pplayer)
 {
   int airall, misonly;
 
-  count_carrier_capacity(&airall, &misonly, ptile, pplayer,
-			 count_units_with_extra_fuel);
+  count_carrier_capacity(&airall, &misonly, ptile, pplayer);
 
-  /* Any extra air spaces can be used by missles, but if there aren't enough
+  /* Any extra air spaces can be used by missiles, but if there aren't enough
    * air spaces this doesn't bother missiles. */
-  return MAX(airall, 0) + misonly;
+  return airall + misonly;
 }
 
 /**************************************************************************
   Returns the number of free spaces for airunits (includes missiles) for
-  the given player on the given tile.  Can be 0 or negative.
+  the given player on the given tile.  Can be 0.
 **************************************************************************/
 int airunit_carrier_capacity(const struct tile *ptile,
-			     const struct player *pplayer,
-			     bool count_units_with_extra_fuel)
+			     const struct player *pplayer)
 {
   int airall, misonly;
 
-  count_carrier_capacity(&airall, &misonly, ptile, pplayer,
-			 count_units_with_extra_fuel);
+  count_carrier_capacity(&airall, &misonly, ptile, pplayer);
 
   /* Any extra missile spaces are useless to air units, but if there aren't
    * enough missile spaces the missles must take up airunit capacity. */
-  return airall + MIN(misonly, 0);
+  return airall;
 }
 
 /**************************************************************************

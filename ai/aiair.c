@@ -292,8 +292,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
 
   CHECK_UNIT(punit);
 
-  if (!is_airunit_refuel_point(punit->tile, 
-			       pplayer, punit->type, FALSE)) {
+  if (!is_unit_being_refueled(punit)) {
     /* We are out in the open, what shall we do? */
     struct tile *refuel_tile;
 

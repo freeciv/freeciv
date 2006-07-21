@@ -269,11 +269,9 @@ int ground_unit_transporter_capacity(const struct tile *ptile,
 int get_transporter_capacity(const struct unit *punit);
 bool is_ground_units_transport(const struct unit *punit);
 int missile_carrier_capacity(const struct tile *ptile,
-			     const struct player *pplayer,
-			     bool count_units_with_extra_fuel);
+			     const struct player *pplayer);
 int airunit_carrier_capacity(const struct tile *ptile,
-			     const struct player *pplayer,
-			     bool count_units_with_extra_fuel);
+			     const struct player *pplayer);
 
 struct player *unit_owner(const struct unit *punit);
 

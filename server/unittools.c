@@ -385,34 +385,60 @@ void player_restore_units(struct player *pplayer)
       /* I think this is strongly against the spirit of client goto.
        * The problem is (again) that here we know too much. -- Zamar */
 
-      if (punit->fuel == 1
-	  && !is_airunit_refuel_point(punit->tile,
-				      unit_owner(punit), punit->type, TRUE)) {
-	iterate_outward(punit->tile, punit->moves_left/3, itr_tile) {
-	  if (is_airunit_refuel_point(itr_tile, unit_owner(punit),
-				      punit->type, FALSE)
-	      &&(air_can_move_between(punit->moves_left / 3, punit->tile,
-				      itr_tile, unit_owner(punit)) >= 0)) {
-	    punit->goto_tile = itr_tile;
-	    set_unit_activity(punit, ACTIVITY_GOTO);
-	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
-	    notify_player(pplayer, punit->tile, E_UNIT_ORDERS, 
-			     _("Your %s has returned to refuel."),
-			     unit_name(punit->type));
-	    goto OUT;
-	  }
-	} iterate_outward_end;
+      if (punit->fuel <= 1
+          && !is_unit_being_refueled(punit)) {
+        bool carrier_found = FALSE;
+
+        unit_list_iterate(punit->tile->units, carrier) {
+          if ((unit_flag(carrier, F_CARRIER)
+               || (unit_flag(punit, F_MISSILE)
+                   && unit_flag(carrier, F_MISSILE_CARRIER)))
+              && get_transporter_capacity(carrier) >
+                 get_transporter_occupancy(carrier)) {
+            put_unit_onto_transporter(punit, carrier);
+            carrier_found = TRUE;
+            break;
+          }
+        } unit_list_iterate_end;
+       
+        if (!carrier_found) {
+          iterate_outward(punit->tile, punit->moves_left / SINGLE_MOVE, itr_tile) {
+            if (is_airunit_refuel_point(itr_tile, unit_owner(punit),
+                                        punit->type, FALSE)
+                &&(air_can_move_between(punit->moves_left / SINGLE_MOVE, punit->tile,
+                                        itr_tile, unit_owner(punit)) >= 0)) {
+              punit->goto_tile = itr_tile;
+              set_unit_activity(punit, ACTIVITY_GOTO);
+              (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
+
+              if (!is_unit_being_refueled(punit)) {
+                unit_list_iterate(punit->tile->units, carrier) {
+                  if ((unit_flag(carrier, F_CARRIER)
+                       || (unit_flag(punit, F_MISSILE)
+                           && unit_flag(carrier, F_MISSILE_CARRIER)))
+                      && get_transporter_capacity(carrier) >
+                         get_transporter_occupancy(carrier)) {
+                    put_unit_onto_transporter(punit, carrier);
+                    break;
+                  }
+                } unit_list_iterate_end;
+              }
+
+              notify_player(pplayer, punit->tile, E_UNIT_ORDERS, 
+                            _("Your %s has returned to refuel."),
+                            unit_name(punit->type));
+              break;
+            }
+          } iterate_outward_end;
+        }
       }
-    OUT:
 
       /* 6) Update fuel */
       punit->fuel--;
 
       /* 7) Automatically refuel air units in cities, airbases, and
        *    transporters (carriers). */
-      if (tile_get_city(punit->tile)
-	  || tile_has_special(punit->tile, S_AIRBASE)
-	  || punit->transported_by != -1) {
+      if (is_unit_being_refueled(punit)) {
 	punit->fuel=unit_type(punit)->fuel;
       }
     }
@@ -1171,11 +1197,21 @@ void remove_allied_visibility(struct player* pplayer, struct player* aplayer)
 }
 
 /**************************************************************************
+ Is unit being refueled in its current position
+**************************************************************************/
+bool is_unit_being_refueled(const struct unit *punit)
+{
+  return (punit->transported_by != -1                   /* Carrier */
+          || punit->tile->city                          /* City    */
+          || tile_has_special(punit->tile, S_AIRBASE)); /* Airbase */
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
 			     const struct unit_type *type,
-			     bool unit_is_on_tile)
+			     bool unit_is_on_carrier)
 {
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
@@ -1186,13 +1222,13 @@ bool is_airunit_refuel_point(struct tile *ptile, struct player *pplayer,
     return TRUE;
 
   if (unit_type_flag(type, F_MISSILE)) {
-    int cap = missile_carrier_capacity(ptile, pplayer, FALSE);
-    if (unit_is_on_tile)
+    int cap = missile_carrier_capacity(ptile, pplayer);
+    if (unit_is_on_carrier)
       cap++;
     return cap>0;
   } else {
-    int cap = airunit_carrier_capacity(ptile, pplayer, FALSE);
-    if (unit_is_on_tile)
+    int cap = airunit_carrier_capacity(ptile, pplayer);
+    if (unit_is_on_carrier)
       cap++;
     return cap>0;
   }
