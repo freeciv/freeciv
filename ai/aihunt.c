@@ -505,6 +505,13 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
         return 0;
       }
 
+      if (target != find_unit_by_id(sanity_target)) {
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
+        ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+        pf_destroy_map(map);
+        return -1; /* try again */
+      }
+
       /* Check if we can nuke it now */
       ai_hunter_try_launch(pplayer, punit, target);
       if (target != find_unit_by_id(sanity_target)) {
