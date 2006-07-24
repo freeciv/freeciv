@@ -665,7 +665,7 @@ const char **get_tileset_list(void)
     int i, count = 0;
 
     for (i = 0; list[i]; i++) {
-      struct tileset *t = tileset_read_toplevel(list[i]);
+      struct tileset *t = tileset_read_toplevel(list[i], FALSE);
 
       if (t) {
  	tilesets = fc_realloc(tilesets, (count + 1) * sizeof(*tilesets));
@@ -718,21 +718,24 @@ static char *tilespec_fullname(const char *tileset_name)
 static bool check_tilespec_capabilities(struct section_file *file,
 					const char *which,
 					const char *us_capstr,
-					const char *filename)
+					const char *filename,
+                                        bool verbose)
 {
+  int log_level = verbose ? LOG_ERROR : LOG_DEBUG;
+
   char *file_capstr = secfile_lookup_str(file, "%s.options", which);
   
   if (!has_capabilities(us_capstr, file_capstr)) {
-    freelog(LOG_DEBUG, _("%s file appears incompatible:\n"
-			 "file: \"%s\"\n"
-			 "file options: %s\n"
-			 "supported options: %s"),
+    freelog(log_level, _("%s file appears incompatible:\n"
+                         "file: \"%s\"\n"
+                         "file options: %s\n"
+                         "supported options: %s"),
 	    which, filename, file_capstr, us_capstr);
     return FALSE;
   }
   if (!has_capabilities(file_capstr, us_capstr)) {
-    freelog(LOG_DEBUG, _("%s file claims required option(s)"
-			 " which we don't support:\n"
+    freelog(log_level, _("%s file requires option(s)"
+			 " which client doesn't support:\n"
 			 "file: \"%s\"\n"
 			 "file options: %s\n"
 			 "supported options: %s"),
@@ -831,14 +834,14 @@ void tileset_free(struct tileset *t)
   Call this function with the (guessed) name of the tileset, when
   starting the client.
 ***********************************************************************/
-void tilespec_try_read(const char *tileset_name)
+void tilespec_try_read(const char *tileset_name, bool verbose)
 {
-  if (!(tileset = tileset_read_toplevel(tileset_name))) {
+  if (!(tileset = tileset_read_toplevel(tileset_name, verbose))) {
     char **list = datafilelist(TILESPEC_SUFFIX);
     int i;
 
     for (i = 0; list[i]; i++) {
-      struct tileset *t = tileset_read_toplevel(list[i]);
+      struct tileset *t = tileset_read_toplevel(list[i], FALSE);
 
       if (t) {
 	if (!tileset || t->priority > tileset->priority) {
@@ -903,8 +906,8 @@ void tilespec_reread(const char *new_tileset_name)
    *
    * We read in the new tileset.  This should be pretty straightforward.
    */
-  if (!(tileset = tileset_read_toplevel(tileset_name))) {
-    if (!(tileset = tileset_read_toplevel(old_name))) {
+  if (!(tileset = tileset_read_toplevel(tileset_name, FALSE))) {
+    if (!(tileset = tileset_read_toplevel(old_name, FALSE))) {
       die("Failed to re-read the currently loaded tileset.");
     }
   }
@@ -1042,7 +1045,7 @@ static void ensure_big_sprite(struct specfile *sf)
   }
 
   if (!check_tilespec_capabilities(file, "spec",
-				   SPEC_CAPSTR, sf->file_name)) {
+				   SPEC_CAPSTR, sf->file_name, TRUE)) {
     exit(EXIT_FAILURE);
   }
 
@@ -1075,7 +1078,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
     exit(EXIT_FAILURE);
   }
   if (!check_tilespec_capabilities(file, "spec",
-				   SPEC_CAPSTR, sf->file_name)) {
+				   SPEC_CAPSTR, sf->file_name, TRUE)) {
     exit(EXIT_FAILURE);
   }
 
@@ -1231,7 +1234,7 @@ static char *tilespec_gfx_filename(const char *gfx_filename)
   Sets global variables, including tile sizes and full names for
   intro files.
 ***********************************************************************/
-struct tileset *tileset_read_toplevel(const char *tileset_name)
+struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 {
   struct section_file the_file, *file = &the_file;
   char *fname, *c;
@@ -1245,6 +1248,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
 
   fname = tilespec_fullname(tileset_name);
   if (!fname) {
+    if (verbose) {
+      freelog(LOG_ERROR, _("Can't find tileset \"%s\"."), tileset_name); 
+    }
     tileset_free(t);
     return NULL;
   }
@@ -1259,7 +1265,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
   }
 
   if (!check_tilespec_capabilities(file, "tilespec",
-				   TILESPEC_CAPSTR, fname)) {
+				   TILESPEC_CAPSTR, fname, verbose)) {
     section_file_free(file);
     free(fname);
     tileset_free(t);
@@ -1571,6 +1577,9 @@ struct tileset *tileset_read_toplevel(const char *tileset_name)
     sf->big_sprite = NULL;
     dname = datafilename(spec_filenames[i]);
     if (!dname) {
+      if (verbose) {
+        freelog(LOG_ERROR, _("Can't find spec file \"%s\"."), spec_filenames[i]);
+      }
       section_file_free(file);
       free(fname);
       tileset_free(t);

@@ -166,6 +166,7 @@ int main(int argc, char *argv[])
   int ui_options = 0;
   bool ui_separator = FALSE;
   char *option=NULL;
+  bool user_tileset = FALSE;
 
   /* Load win32 post-crash debugger */
 #ifdef WIN32_NATIVE
@@ -273,6 +274,7 @@ int main(int argc, char *argv[])
     } else if ((option = get_option_malloc("--tiles", argv, &i, argc))) {
       sz_strlcpy(tileset_name, option);
       free(option);
+      user_tileset = TRUE;
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {
@@ -344,7 +346,7 @@ int main(int argc, char *argv[])
   helpdata_init();
   boot_help_texts();
 
-  tilespec_try_read(tileset_name);
+  tilespec_try_read(tileset_name, user_tileset);
 
   audio_real_init(sound_set_name, sound_plugin_name);
   audio_play_music("music_start", NULL);
