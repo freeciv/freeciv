@@ -64,11 +64,12 @@ veteran_move_bonus = 0, 0, 0, 0
 ;
 ; ** Unit class Flags **
 ;
-; "TerrainSpeed" = Units use terrain spesific speed
-; "DamageSlows"  = Damages units are slowed down
-; "CanOccupy"    = Military units of this class can occupy enemy cities
-; "Missile"      = Unit is destroyed when it attacks
-; "RoadNative"   = Road tiles are always considered native terrain
+; "TerrainSpeed"  = Units use terrain spesific speed
+; "DamageSlows"   = Damages units are slowed down
+; "CanOccupy"     = Military units of this class can occupy enemy cities
+; "Missile"       = Unit is destroyed when it attacks
+; "RoadNative"    = Road tiles are always considered native terrain
+; "BuildAnywhere" = Unit can be built even in the middle of non-native terrain
 
 [unitclass_missile]
 name          = _("Missile")
@@ -80,7 +81,7 @@ flags         = "Missile"
 name          = _("Land")
 move_type     = "Land"
 hp_loss_pct   = 0
-flags         = "TerrainSpeed", "DamageSlows", "CanOccupy"
+flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere"
 
 [unitclass_sea]
 name          = _("Sea")

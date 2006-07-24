@@ -245,6 +245,24 @@ bool is_native_to_class(const struct unit_class *punitclass,
 }
 
 /****************************************************************************
+  Is there native tile adjacent to given tile
+****************************************************************************/
+bool is_native_near_tile(const struct unit_type *utype, const struct tile *ptile)
+{
+  if (is_native_tile(utype, ptile)) {
+    return TRUE;
+  }
+
+  adjc_iterate(ptile, ptile2) {
+    if (is_native_tile(utype, ptile2)) {
+      return TRUE;
+    }
+  } adjc_iterate_end;
+
+  return FALSE;
+}
+
+/****************************************************************************
   Return TRUE iff the unit can "survive" at this location.  This means it can
   not only be physically present at the tile but will be able to survive
   indefinitely on its own (without a transporter).  Units that require fuel
