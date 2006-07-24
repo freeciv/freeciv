@@ -112,12 +112,12 @@ extern struct tileset *tileset;
 
 const char **get_tileset_list(void);
 
-struct tileset *tileset_read_toplevel(const char *tileset_name);
+struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose);
 void tileset_free(struct tileset *tileset);
 void tileset_load_tiles(struct tileset *t);
 void tileset_free_tiles(struct tileset *t);
 
-void tilespec_try_read(const char *tileset_name);
+void tilespec_try_read(const char *tileset_name, bool verbose);
 void tilespec_reread(const char *tileset_name);
 void tilespec_reread_callback(struct client_option *option);
 
