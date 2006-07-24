@@ -408,6 +408,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       struct player *aplayer = unit_owner(target);
       int dist1, dist2, stackthreat = 0, stackcost = 0;
       int sanity_target = target->id;
+      struct pf_path *path;
 
       /* Note that we need not (yet) be at war with aplayer */
       if (!is_player_dangerous(pplayer, aplayer)) {
@@ -500,10 +501,13 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       /* Go towards it. */
-      if (!ai_unit_execute_path(punit, pf_get_path(map, target->tile))) {
+      path = pf_get_path(map, target->tile);
+      if (!ai_unit_execute_path(punit, path)) {
+        pf_destroy_path(path);
         pf_destroy_map(map);
         return 0;
       }
+      pf_destroy_path(path);
 
       if (target != find_unit_by_id(sanity_target)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "mission accomplished");
