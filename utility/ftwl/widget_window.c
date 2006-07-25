@@ -523,6 +523,61 @@ static void draw_tooltip(struct sw_widget *widget)
 /*************************************************************************
   ...
 *************************************************************************/
+void untooltip(struct sw_widget *widget)
+{
+  struct ct_point pos;
+  struct ct_rect rect;
+  const int PADDING = 5;
+  struct osda *osda;
+  int i, extra;
+
+  if (widget->tooltip && widget->tooltip_callback_id != 0) {
+    sw_remove_timeout(widget->tooltip_callback_id);
+    widget->tooltip_callback_id = 0;
+  }
+
+  if (!widget->tooltip || (widget->tooltip && !widget->tooltip_shown)) {
+    return;
+  }
+  widget->tooltip_shown = FALSE;
+  
+  extra = 2 * PADDING + widget->tooltip->shadow;
+  
+  rect.width = widget->tooltip->text->size.width + extra;
+  rect.height = widget->tooltip->text->size.height + extra;
+
+  rect.x =
+      MAX(0,
+	  widget->outer_bounds.x + (widget->outer_bounds.width -
+				    rect.width) / 2);
+  rect.y = MAX(0,widget->outer_bounds.y - rect.height - PADDING);
+
+  pos.x = rect.x + PADDING;
+  pos.y = rect.y + PADDING;
+
+  if (widget->type == WT_WINDOW) {
+    osda = get_osda(widget->parent);
+  } else {
+    osda = get_osda(widget);
+  }
+
+  for (i = 1; i < widget->tooltip->shadow; i++) {
+    struct ct_rect rect2 = rect;
+
+    rect2.x += i;
+    rect2.y += i;
+    be_draw_region(osda, &rect2, be_get_color(0, 0, 0, 0));
+  }
+
+  be_draw_region(osda, &rect, be_get_color(0, 0, 0, 0));
+  be_draw_rectangle(osda, &rect, 1, be_get_color(0, 0, 0, 0));  
+  
+  parent_needs_paint(widget);
+}
+
+/*************************************************************************
+  ...
+*************************************************************************/
 static void draw_one(struct sw_widget *widget)
 {
   draw_background(widget);

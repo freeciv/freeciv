@@ -59,24 +59,6 @@ enum widget_face get_widget_face(struct sw_widget *widget)
 /*************************************************************************
   ...
 *************************************************************************/
-void untooltip(struct sw_widget *widget)
-{
-  if (widget->tooltip && widget->tooltip_callback_id != 0) {
-    sw_remove_timeout(widget->tooltip_callback_id);
-    widget->tooltip_callback_id = 0;
-  }
-
-  if (!widget->tooltip || (widget->tooltip && !widget->tooltip_shown)) {
-    return;
-  }
-  widget->tooltip_shown = FALSE;
-
-  parent_needs_paint(widget);
-}
-
-/*************************************************************************
-  ...
-*************************************************************************/
 static void popup_tooltip(void *data)
 {
   struct sw_widget *widget = data;
