@@ -120,14 +120,15 @@ void be_draw_rectangle(struct osda *target, const struct ct_rect *spec,
 
   cairo_rectangle(cr, 0.0, 0.0, target->image->width, target->image->height);
   cairo_clip(cr);
-
+  
+  cairo_set_antialias(cr, CAIRO_ANTIALIAS_NONE);
   cairo_set_line_cap(cr, CAIRO_LINE_CAP_SQUARE);
   cairo_set_line_width(cr, line_width);
   cairo_set_source_rgba(cr, (double)color_tmp[2]/255, (double)color_tmp[1]/255,
                             (double)color_tmp[0]/255, (double)color_tmp[3]/255);
   cairo_rectangle(cr, spec->x, spec->y, spec->width, spec->height);
 	
-  cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
+  cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
   cairo_stroke(cr);
 	
   cairo_destroy(cr);
@@ -151,12 +152,13 @@ void be_draw_line(struct osda *target,
   cairo_rectangle(cr, 0.0, 0.0, target->image->width, target->image->height);
   cairo_clip(cr);
 	
+  cairo_set_antialias(cr, CAIRO_ANTIALIAS_NONE);
   cairo_set_line_cap(cr, CAIRO_LINE_CAP_SQUARE);
   cairo_set_line_width(cr, line_width);
 	
   if (dashed) {
-	double dashes = 3;
-	cairo_set_dash(cr, &dashes, 1, 0.0);
+    double dashes = 3;
+    cairo_set_dash(cr, &dashes, 1, 0.0);
   }
 	
   cairo_set_source_rgba(cr, (double)color_tmp[2]/255, (double)color_tmp[1]/255,
@@ -164,7 +166,7 @@ void be_draw_line(struct osda *target,
   cairo_move_to(cr, start->x, start->y);
   cairo_line_to(cr, end->x, end->y);
 	
-  cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
+  cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
   cairo_stroke(cr);
 	
   cairo_destroy(cr);
@@ -186,7 +188,7 @@ void be_draw_region(struct osda *target,
   cairo_rectangle(cr, 0.0, 0.0, target->image->width, target->image->height);
   cairo_clip(cr);
 
-  cairo_set_operator(cr, CAIRO_OPERATOR_OVER);	
+  cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);	
   cairo_set_source_rgba(cr, (double)color_tmp[2]/255, (double)color_tmp[1]/255,
                             (double)color_tmp[0]/255, (double)color_tmp[3]/255);
   cairo_rectangle(cr, region->x, region->y, region->width, region->height);
