@@ -265,8 +265,8 @@ possible cost the first time.
 This would be done by inserting the tiles in a list after their move_cost
 as they were found.
 **************************************************************************/
-void really_generate_warmap(struct city *pcity, struct unit *punit,
-			    enum unit_move_type move_type)
+static void really_generate_warmap(struct city *pcity, struct unit *punit,
+                                   enum unit_move_type move_type)
 {
   int move_cost;
   struct tile *orig_tile;
@@ -603,6 +603,9 @@ static bool find_the_shortest_path(struct unit *punit,
   }
 
   BV_CLR_ALL(LOCAL_VECTOR(orig_tile));
+
+  warmap.warunit = NULL;
+  warmap.warcity = NULL;
 
   init_warmap(punit->tile, move_type);
   warmap_cost = (move_type == SEA_MOVING) ? warmap.seacost : warmap.cost;
@@ -1549,6 +1552,9 @@ int air_can_move_between(int moves, struct tile *src_tile,
    */
   freelog(LOG_DEBUG,
 	  "air_can_move_between: quick search didn't work. Lets try full.");
+
+  warmap.warunit = NULL;
+  warmap.warcity = NULL;
 
   init_warmap(src_tile, AIR_MOVING);
 

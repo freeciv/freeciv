@@ -1320,8 +1320,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
 
   if (ferryboat) {
     boattype = ferryboat->type;
-    really_generate_warmap(tile_get_city(ferryboat->tile),
-                           ferryboat, SEA_MOVING);
+    generate_warmap(tile_get_city(ferryboat->tile), ferryboat);
   } else {
     boattype = best_role_unit_for_player(pplayer, L_FERRYBOAT);
     if (boattype == NULL) {
