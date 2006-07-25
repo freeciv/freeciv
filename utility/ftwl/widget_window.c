@@ -53,7 +53,7 @@ static void draw_extra_background(struct sw_widget *widget,
 			    region->height };
     struct ct_point pos = { region->x, region->y };
 
-    be_copy_osda_to_osda(get_osda(widget),
+    be_copy_osda_to_osda(sw_widget_get_osda(widget),
 			 widget->data.window.canvas_background,
 			 &size, &pos, &pos);
   }
@@ -72,11 +72,11 @@ static void draw(struct sw_widget *widget)
 
     be_draw_region(widget->data.window.target, &rect,
 		   widget->data.window.title->background);
-    be_draw_rectangle(get_osda(widget), &rect, 1,
+    be_draw_rectangle(sw_widget_get_osda(widget), &rect, 1,
 		      widget->data.window.title->foreground);
     pos.x = widget->inner_bounds.x + TITLE_PADDING;
     pos.y = widget->inner_bounds.y + TITLE_PADDING;
-    be_draw_string(get_osda(widget), &pos,
+    be_draw_string(sw_widget_get_osda(widget), &pos,
 		   widget->data.window.title);
   }
 }
@@ -423,10 +423,10 @@ static void draw_background_region(struct sw_widget *widget,
     size.width = rect->width;
     size.height = rect->height;
 
-    be_draw_sprite(get_osda(widget), widget->background_sprite,
+    be_draw_sprite(sw_widget_get_osda(widget), widget->background_sprite,
 		   &size, &pos, &pos);
   } else if (widget->has_background_color) {
-    be_draw_region(get_osda(widget), rect,
+    be_draw_region(sw_widget_get_osda(widget), rect,
 		   widget->background_color);
   } else {
     if (widget->parent && widget->type != WT_WINDOW) {
@@ -450,7 +450,7 @@ static void draw_background(struct sw_widget *widget)
       rect.y = 0;
     }
 
-    be_draw_rectangle(get_osda(widget), &rect, BORDER_WIDTH,
+    be_draw_rectangle(sw_widget_get_osda(widget), &rect, BORDER_WIDTH,
 		      widget->border_color);
   }
 }
@@ -502,9 +502,9 @@ static void draw_tooltip(struct sw_widget *widget)
   pos.y = rect.y + PADDING;
 
   if (widget->type == WT_WINDOW) {
-    osda = get_osda(widget->parent);
+    osda = sw_widget_get_osda(widget->parent);
   } else {
-    osda = get_osda(widget);
+    osda = sw_widget_get_osda(widget);
   }
 
   for (i = 1; i < widget->tooltip->shadow; i++) {
@@ -556,9 +556,9 @@ void untooltip(struct sw_widget *widget)
   pos.y = rect.y + PADDING;
 
   if (widget->type == WT_WINDOW) {
-    osda = get_osda(widget->parent);
+    osda = sw_widget_get_osda(widget->parent);
   } else {
-    osda = get_osda(widget);
+    osda = sw_widget_get_osda(widget);
   }
 
   for (i = 1; i < widget->tooltip->shadow; i++) {
@@ -566,11 +566,11 @@ void untooltip(struct sw_widget *widget)
 
     rect2.x += i;
     rect2.y += i;
-    be_draw_region(osda, &rect2, be_get_color(0, 0, 0, 0));
+    be_draw_region(osda, &rect2, be_get_color(0, 0, 0, MIN_OPACITY));
   }
 
-  be_draw_region(osda, &rect, be_get_color(0, 0, 0, 0));
-  be_draw_rectangle(osda, &rect, 1, be_get_color(0, 0, 0, 0));  
+  be_draw_region(osda, &rect, be_get_color(0, 0, 0, MIN_OPACITY));
+  be_draw_rectangle(osda, &rect, 1, be_get_color(0, 0, 0, MIN_OPACITY));  
   
   parent_needs_paint(widget);
 }
@@ -953,7 +953,7 @@ void sw_window_canvas_background_region_needs_repaint(struct sw_widget
   };
   struct ct_point pos = { region->x, region->y };
 
-  be_copy_osda_to_osda(get_osda(widget),
+  be_copy_osda_to_osda(sw_widget_get_osda(widget),
 		       widget->data.window.canvas_background,
 		       &size, &pos, &pos, 0);
 #endif

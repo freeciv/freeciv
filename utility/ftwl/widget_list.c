@@ -265,7 +265,7 @@ static void draw(struct sw_widget *widget)
   dest_pos.x = widget->inner_bounds.x;
   dest_pos.y = widget->inner_bounds.y;
 
-  be_copy_osda_to_osda(get_osda(widget), window->data.window.target, &size,
+  be_copy_osda_to_osda(sw_widget_get_osda(widget), window->data.window.target, &size,
 		       &dest_pos, &src_pos);
 }
 
@@ -290,7 +290,7 @@ static void draw_extra_background(struct sw_widget *widget,
   rect.width = widget->inner_bounds.width;
   rect.height = list->data.list.heights[row];
   ct_rect_intersect(&rect, region);
-  be_draw_region(get_osda(widget), &rect,
+  be_draw_region(sw_widget_get_osda(widget), &rect,
 		 be_get_color(189, 210, 238, MAX_OPACITY));
 }
 

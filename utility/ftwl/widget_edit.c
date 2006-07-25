@@ -95,7 +95,7 @@ static void draw(struct sw_widget *widget)
 
   rect = widget->inner_bounds;
 
-  be_draw_region(get_osda(widget), &rect,
+  be_draw_region(sw_widget_get_osda(widget), &rect,
 		 widget->data.edit.template->background);
 
   pos.x =
@@ -120,12 +120,12 @@ static void draw(struct sw_widget *widget)
       rect.width = t->size.width;
       rect.height = t->size.height;
 
-      be_draw_region(get_osda(widget), &rect,
+      be_draw_region(sw_widget_get_osda(widget), &rect,
 		     widget->data.edit.color1);
     }
 
     if (i != chars - 1) {
-      be_draw_string(get_osda(widget), &pos, t);
+      be_draw_string(sw_widget_get_osda(widget), &pos, t);
     }
 
     if (widget->data.edit.cursor == i && !widget->selected) {
@@ -134,7 +134,7 @@ static void draw(struct sw_widget *widget)
       rect.width = t->size.width;
       rect.height = t->size.height;
 
-      be_draw_rectangle(get_osda(widget), &rect, 1,
+      be_draw_rectangle(sw_widget_get_osda(widget), &rect, 1,
 			widget->data.edit.color2);
     }
 

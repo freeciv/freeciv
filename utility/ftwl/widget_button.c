@@ -41,7 +41,7 @@ static void draw(struct sw_widget *widget)
   if (widget->data.button.background_faces[face]) {
     pos.x = widget->inner_bounds.x;
     pos.y = widget->inner_bounds.y;
-    be_copy_osda_to_osda(get_osda(widget),
+    be_copy_osda_to_osda(sw_widget_get_osda(widget),
 			 widget->data.button.background_faces[face],
 			 &size, &pos, NULL);
   }
@@ -50,7 +50,7 @@ static void draw(struct sw_widget *widget)
     pos.x = widget->inner_bounds.x + widget->data.button.text_offset[face].x;
     pos.y = widget->inner_bounds.y + widget->data.button.text_offset[face].y;
 
-    be_draw_string(get_osda(widget), &pos, widget->data.button.text[face]);
+    be_draw_string(sw_widget_get_osda(widget), &pos, widget->data.button.text[face]);
   }
 
   if (widget->data.button.foreground_faces[face]) {
@@ -61,7 +61,7 @@ static void draw(struct sw_widget *widget)
 	widget->inner_bounds.y +
 	widget->data.button.foreground_faces_offset[face].y;
 
-    be_copy_osda_to_osda(get_osda(widget),
+    be_copy_osda_to_osda(sw_widget_get_osda(widget),
 			 widget->data.button.foreground_faces[face],
 			 &size, &pos, NULL);
   }

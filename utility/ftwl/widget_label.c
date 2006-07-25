@@ -35,7 +35,7 @@ static void draw(struct sw_widget *widget)
   pos.x = widget->inner_bounds.x + 1;
   pos.y = widget->inner_bounds.y + 1;
 
-  be_draw_string(get_osda(widget), &pos, widget->data.label.text);
+  be_draw_string(sw_widget_get_osda(widget), &pos, widget->data.label.text);
 }
 
 /*************************************************************************

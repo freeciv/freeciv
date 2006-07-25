@@ -377,6 +377,19 @@ void sw_widget_get_bounds(struct sw_widget *widget, struct ct_rect *bounds)
 /*************************************************************************
   ...
 *************************************************************************/
+struct osda *sw_widget_get_osda(struct sw_widget *widget)
+{
+  if (widget->type == WT_WINDOW) {
+    return widget->data.window.target;
+  }
+  assert(widget->parent && widget->parent->type == WT_WINDOW);
+  return widget->parent->data.window.target;
+}
+
+
+/*************************************************************************
+  ...
+*************************************************************************/
 void sw_widget_destroy(struct sw_widget *widget)
 {
   assert(widget);

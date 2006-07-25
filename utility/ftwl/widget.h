@@ -38,6 +38,7 @@ enum ws_alignment {
 /* ===== widget ==== */
 void sw_widget_set_position(struct sw_widget *widget, int x, int y);
 void sw_widget_get_bounds(struct sw_widget *widget, struct ct_rect *bounds);
+struct osda *sw_widget_get_osda(struct sw_widget *widget);
 void sw_widget_align_parent(struct sw_widget *widget,
 			    enum ws_alignment alignment);
 void sw_widget_align_box(struct sw_widget *widget,

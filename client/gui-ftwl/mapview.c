@@ -1227,9 +1227,13 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 **************************************************************************/
 static void unshow_actions(void)
 {
+  struct ct_rect rect;
   int i;
 
   for (i = 0; i < actions_shown.actions; i++) {
+    sw_widget_get_bounds(actions_shown.action[i].widget, &rect);    
+    be_draw_region(sw_widget_get_osda(screen->window), &rect,
+                                       be_get_color(0, 0, 0, MIN_OPACITY));
     sw_window_remove(actions_shown.action[i].widget);
     actions_shown.action[i].widget = NULL;
     free(actions_shown.action[i].name);
