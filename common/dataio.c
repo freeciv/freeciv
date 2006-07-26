@@ -704,7 +704,10 @@ void dio_get_uint16_vec8(struct data_in *din, int **values, int stop_value)
 
 void dio_get_diplstate(struct data_in *din, struct player_diplstate *pds)
 {
-  dio_get_uint8(din, (int *) &pds->type);
+  int type;
+
+  dio_get_uint8(din, &type);
+  pds->type = type;
   dio_get_uint16(din, &pds->turns_left);
   dio_get_uint16(din, &pds->contact_turns_left);
   dio_get_uint8(din, &pds->has_reason_to_cancel);
