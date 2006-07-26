@@ -17,6 +17,8 @@
 
 #include <stdlib.h>
 
+#include "log.h"
+
 #include "mapctrl_g.h"
 
 /**************************************************************************
@@ -26,6 +28,7 @@
 void popup_newcity_dialog(struct unit *punit, char *suggestname)
 {
   /* PORTME */
+  freelog(LOG_NORMAL, "PORTME: popup_newcity_dialog()");
 }
 
 /**************************************************************************

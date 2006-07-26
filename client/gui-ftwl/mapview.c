@@ -854,7 +854,64 @@ static void action_button_callback(struct sw_widget *widget, void *data)
 {
   char *action = (char *) data;
 
-  freelog(LOG_NORMAL, "action '%s' requested", action);
+  freelog(LOG_NORMAL, "action_button_callback(): action '%s' requested", action);  
+  
+  if (strcmp(action, "unit_fortifying") == 0) {
+    key_unit_fortify();
+  } else if (strcmp(action, "unit_add_to_city") == 0) {
+    key_unit_build_city();
+  } else if (strcmp(action, "unit_build_city") == 0) {
+    key_unit_build_city();
+  } else if (strcmp(action, "unit_auto_explore") == 0) {
+    key_unit_auto_explore();
+  } else if (strcmp(action, "unit_irrigate") == 0) {
+    key_unit_irrigate();
+  } else if (strcmp(action, "unit_sentry") == 0) {
+    key_unit_sentry();
+  } else if (strcmp(action, "unit_return_nearest") == 0) {
+/*    key_? */
+  } else if (strcmp(action, "unit_disband") == 0) {
+    key_unit_disband();
+  } else if (strcmp(action, "unit_mine") == 0) {
+    key_unit_mine();
+  } else if (strcmp(action, "unit_road") == 0) {
+    key_unit_road();
+  } else if (strcmp(action, "unit_auto_settler") == 0) {
+    key_unit_auto_settle();
+  } else if (strcmp(action, "unit_connect") == 0) {
+/*    key_unit_connect(enum unit_activity activity);*/
+  } else if (strcmp(action, "unit_auto_attack") == 0) {
+/*    key_? */    
+  } else if (strcmp(action, "unit_homecity") == 0) {
+    key_unit_homecity();
+  } else if (strcmp(action, "unit_fortress") == 0) {
+    key_unit_fortress();
+  } else if (strcmp(action, "unit_pillage") == 0) {
+    key_unit_pillage();
+  } else if (strcmp(action, "unit_airbase") == 0) {
+    key_unit_airbase();
+  } else if (strcmp(action, "unit_transform") == 0) {
+    key_unit_transform();
+  } else if (strcmp(action, "unit_unload") == 0) {
+    key_unit_unload_all();
+  } else if (strcmp(action, "unit_goto") == 0) {
+    key_unit_goto();
+  } else if (strcmp(action, "unit_goto_city") == 0) {
+/*    key_? */
+  } else if (strcmp(action, "unit_airlift") == 0) {
+/*    key_? */
+  } else if (strcmp(action, "unit_patrol") == 0) {
+    key_unit_patrol();
+  } else if (strcmp(action, "unit_wait") == 0) {
+    key_unit_wait();
+  } else if (strcmp(action, "unit_railroad") == 0) {
+/*    key_? */
+  } else if (strcmp(action, "unit_done") == 0) {
+    key_unit_done();
+  } else {
+    freelog(LOG_NORMAL,
+      "action_button_callback(): action request '%s' not handled", action);    
+  }
 }
 
 /**************************************************************************
