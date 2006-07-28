@@ -259,11 +259,9 @@ void update_intel_dialog(struct player *p)
     
     pStr = create_str16_from_char(cBuf, adj_font(14));
     pStr->style |= TTF_STYLE_BOLD;
-    pStr->render = 3;
-    pStr->bgcol.unused = 128;
+    pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     
     pText1 = create_text_surf_from_str16(pStr);
-    SDL_SetAlpha(pText1, 0x0, 0x0);
     w = MAX(w, pText1->w + adj_size(20));
     h += pText1->h + adj_size(20);
       
@@ -295,7 +293,6 @@ void update_intel_dialog(struct player *p)
     
     copy_chars_to_string16(pStr, cBuf);
     pInfo = create_text_surf_from_str16(pStr);
-    SDL_SetAlpha(pInfo, 0x0, 0x0);
     w = MAX(w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
     h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
       
@@ -348,7 +345,6 @@ void update_intel_dialog(struct player *p)
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText2 = create_text_surf_from_str16(pStr);
-      SDL_SetAlpha(pText2, 0x0, 0x0);    
     }
     
     FREESTRING16(pStr);
@@ -367,7 +363,7 @@ void update_intel_dialog(struct player *p)
     dst.x = (pWindow->size.w - pText1->w) / 2;
     dst.y = WINDOW_TILE_HIGH + adj_size(12);
     
-    SDL_BlitSurface(pText1, NULL, pWindow->theme, &dst);
+    alphablit(pText1, NULL, pWindow->theme, &dst);
     dst.y += pText1->h + adj_size(10);
     FREESURFACE(pText1);
     
@@ -378,7 +374,7 @@ void update_intel_dialog(struct player *p)
     pBuf->size.y = pWindow->size.y + dst.y;
     
     dst.x += pBuf->size.w + adj_size(10);  
-    SDL_BlitSurface(pInfo, NULL, pWindow->theme, &dst);
+    alphablit(pInfo, NULL, pWindow->theme, &dst);
     dst.y += pInfo->h + adj_size(10);
     FREESURFACE(pInfo);
         
@@ -387,7 +383,7 @@ void update_intel_dialog(struct player *p)
     if(n) {
       
       dst.x = FRAME_WH + adj_size(5);
-      SDL_BlitSurface(pText2, NULL, pWindow->theme, &dst);
+      alphablit(pText2, NULL, pWindow->theme, &dst);
       dst.y += pText2->h + adj_size(2);
       FREESURFACE(pText2);
       

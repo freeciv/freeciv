@@ -232,7 +232,7 @@ static void add_target_to_worklist(struct GUI *pTarget)
   
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  flush_rect(pTarget->size);
+  flush_rect(pTarget->size, FALSE);
   
   /* Deny adding currently building Impr/Wonder Target */ 
   if(pEditor->pCity && !prod.is_unit && !pEditor->currently_building.is_unit &&
@@ -367,7 +367,7 @@ static void add_target_to_production(struct GUI *pTarget)
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  flush_rect(pTarget->size);
+  flush_rect(pTarget->size, FALSE);
   
   prod = cid_decode(MAX_ID - pTarget->ID);
   
@@ -403,7 +403,7 @@ static void get_target_help_data(struct GUI *pTarget)
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
   redraw_widget(pTarget);
-  /*flush_rect(pTarget->size);*/
+  /*flush_rect(pTarget->size, FALSE);*/
   
   prod = cid_decode(MAX_ID - pTarget->ID);
 
@@ -902,7 +902,7 @@ static SDL_Surface * get_progress_icon(int stock, int cost, int *progress)
   if(width) {
     SDL_Rect dst = {2,1,0,0};
     SDL_Surface *pBuf = create_bcgnd_surf(pTheme->Button, 1, 3, width, adj_size(28));
-    SDL_BlitSurface(pBuf, NULL, pIcon, &dst);
+    alphablit(pBuf, NULL, pIcon, &dst);
     FREESURFACE(pBuf);
   }
     
@@ -979,16 +979,17 @@ static void refresh_worklist_count_label(void)
 {
   char cBuf[64];
   SDL_Rect area;
-  
+
   my_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
   				worklist_length(pEditor->pCopy_WorkList));
   copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
 
+  clear_surface(pEditor->pWorkList_Counter->dst, &pEditor->pWorkList_Counter->size);
   blit_entire_src(pEditor->pWorkList_Counter->gfx,
 		  	pEditor->pWorkList_Counter->dst,
   			pEditor->pWorkList_Counter->size.x,
   			pEditor->pWorkList_Counter->size.y);
-  
+
   remake_label_size(pEditor->pWorkList_Counter);
   
   pEditor->pWorkList_Counter->size.x = pEditor->pEndWidgetList->size.x +
@@ -997,13 +998,12 @@ static void refresh_worklist_count_label(void)
   refresh_widget_background(pEditor->pWorkList_Counter);
   
   redraw_label(pEditor->pWorkList_Counter);
-  
+
   area.x = pEditor->pEndWidgetList->size.x + FRAME_WH;
   area.y = pEditor->pWorkList_Counter->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pWorkList_Counter->size.h;
   sdl_dirty_rect(area);
-  
 }
 
 
@@ -1080,13 +1080,14 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
-  pBuf = create_iconlabel(NULL, pDest, pStr, 0);
+  pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
   
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
   
   my_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"), worklist_length(pWorkList));
   pStr = create_str16_from_char(cBuf, adj_font(10));
+  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
   pEditor->pWorkList_Counter = pBuf;
   add_to_gui_list(ID_LABEL, pBuf);
@@ -1330,8 +1331,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   /* Targets units and imprv. to build */
   pStr = create_string16(NULL, 0, adj_font(10));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
-  pStr->render = 3;
-  pStr->bgcol = color;
+  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     
   impr_type_iterate(imp) {
     can_build = can_player_build_improvement(game.player_ptr, imp);
@@ -1356,7 +1356,6 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
-      SDL_SetAlpha(pText_Name, 0x0, 0x0);
   
       if (is_wonder(imp)) {
         if (improvement_obsolete(game.player_ptr, imp)) {
@@ -1435,23 +1434,23 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pStr->style &= ~TTF_STYLE_BOLD;
   
       pText = create_text_surf_from_str16(pStr);
-      SDL_SetAlpha(pText, 0x0, 0x0);
+
       /*-----------------*/
   
       pZoom = adj_surf(ZoomSurface(GET_SURF(get_building_sprite(tileset, imp)), 1.5, 1.5, 1));
       dst.x = (pIcon->w - pZoom->w)/2;
       dst.y = (pIcon->h/2 - pZoom->h)/2;
-      SDL_BlitSurface(pZoom, NULL, pIcon, &dst);
+      alphablit(pZoom, NULL, pIcon, &dst);
       dst.y += pZoom->h;
       FREESURFACE(pZoom);
   
       dst.x = (pIcon->w - pText_Name->w)/2;
       dst.y += ((pIcon->h - dst.y) - (pText_Name->h + pText->h))/2;
-      SDL_BlitSurface(pText_Name, NULL, pIcon, &dst);
+      alphablit(pText_Name, NULL, pIcon, &dst);
 
       dst.x = (pIcon->w - pText->w)/2;
       dst.y += pText_Name->h;
-      SDL_BlitSurface(pText, NULL, pIcon, &dst);
+      alphablit(pText, NULL, pIcon, &dst);
   
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
@@ -1500,7 +1499,6 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
-      SDL_SetAlpha(pText_Name, 0x0, 0x0);
   
       if (pCity) {
         turns = city_turns_to_build(pCity, cid_production(un->index), TRUE);
@@ -1533,21 +1531,20 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pStr->style &= ~TTF_STYLE_BOLD;
   
       pText = create_text_surf_from_str16(pStr);
-      SDL_SetAlpha(pText, 0x0, 0x0);
   
       pZoom = make_flag_surface_smaler(adj_surf(GET_SURF(get_unittype_sprite(tileset, un))));
       dst.x = (pIcon->w - pZoom->w)/2;
       dst.y = (pIcon->h/2 - pZoom->h)/2;
-      SDL_BlitSurface(pZoom, NULL, pIcon, &dst);
+      alphablit(pZoom, NULL, pIcon, &dst);
       FREESURFACE(pZoom);
   
       dst.x = (pIcon->w - pText_Name->w)/2;
       dst.y = pIcon->h/2 + (pIcon->h/2 - (pText_Name->h + pText->h))/2;
-      SDL_BlitSurface(pText_Name, NULL, pIcon, &dst);
+      alphablit(pText_Name, NULL, pIcon, &dst);
 
       dst.x = (pIcon->w - pText->w)/2;
       dst.y += pText_Name->h;
-      SDL_BlitSurface(pText, NULL, pIcon, &dst);
+      alphablit(pText, NULL, pIcon, &dst);
   
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
@@ -1603,7 +1600,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     FREESURFACE(pIcon);
   }
   
-  pIcon = SDL_DisplayFormat(pWindow->theme);
+  pIcon = SDL_DisplayFormatAlpha(pWindow->theme);
   FREESURFACE(pWindow->theme);
   pWindow->theme = pIcon;
   pIcon = NULL;
@@ -1740,7 +1737,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   FREESURFACE(pMain);
   
   redraw_group(pEditor->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
   
 void popdown_worklist_editor(void)

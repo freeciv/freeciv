@@ -826,8 +826,11 @@ void undraw_order_widgets(void)
 
       dest.x = pTmpWidget->size.x;
       dest.y = pTmpWidget->size.y;
+      dest.w = pTmpWidget->size.w;
+      dest.h = pTmpWidget->size.h;
 
-      SDL_BlitSurface(pTmpWidget->gfx, NULL, pTmpWidget->dst, &dest);
+      clear_surface(pTmpWidget->dst, &dest);
+      alphablit(pTmpWidget->gfx, NULL, pTmpWidget->dst, &dest);
       
       sdl_dirty_rect(pTmpWidget->size);
 

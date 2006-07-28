@@ -63,34 +63,15 @@ struct sprite * load_gfxfile(const char *filename)
   }
 
   if (pBuf->flags & SDL_SRCCOLORKEY) {
+    /* convert colorkey to alpha */
     SDL_SetColorKey(pBuf, SDL_SRCCOLORKEY, pBuf->format->colorkey);
-  }
-  
-  if (correct_black(pBuf)) {
-    pNew = pBuf;
-    freelog(LOG_DEBUG, _("%s load with own %d bpp format !"), filename,
-	    pNew->format->BitsPerPixel);
-  } else {
-    Uint32 color;
-    
-    freelog(LOG_DEBUG, _("%s (%d bpp) load with screen (%d bpp) format !"),
-	    filename, pBuf->format->BitsPerPixel,
-	    Main.screen->format->BitsPerPixel);
-
-    pNew = create_surf(pBuf->w, pBuf->h, SDL_SWSURFACE);
-    color = SDL_MapRGB(pNew->format, 255, 0, 255);
-    SDL_FillRect(pNew, NULL, color);
-    
-    if (SDL_BlitSurface(pBuf, NULL, pNew, NULL)) {
-      FREESURFACE(pNew);
-      return ctor_sprite(pBuf);
-    }
-
+    pNew = SDL_DisplayFormatAlpha(pBuf);
     FREESURFACE(pBuf);
-    SDL_SetColorKey(pNew, SDL_SRCCOLORKEY, color);
-    
+    pBuf = pNew;
   }
 
+  pNew = pBuf;
+  
   return ctor_sprite(pNew);
 }
 

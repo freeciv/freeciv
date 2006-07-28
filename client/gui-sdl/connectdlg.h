@@ -22,6 +22,11 @@
 #ifndef FC__CONNECTDLG_H
 #define FC__CONNECTDLG_H
 
+#include "gui_stuff.h"
+
 #include "connectdlg_g.h"
+
+void popup_connection_dialog(struct GUI *pWidget);
+void popup_join_game_dialog(struct GUI *pWidget);
 
 #endif				/* FC__CONNECTDLG_H */

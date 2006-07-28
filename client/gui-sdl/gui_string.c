@@ -226,12 +226,7 @@ int write_text16(SDL_Surface * pDest, Sint16 x, Sint16 y,
   SDL_Rect dst_rect = { x, y, 0, 0 };
   SDL_Surface *pText = create_text_surf_from_str16(pString);
 
-  if(pDest->format->Amask && pString->render == 3)
-  {
-    SDL_SetAlpha(pText, 0x0, 0x0);
-  }
-  
-  if (SDL_BlitSurface(pText, NULL, pDest, &dst_rect) < 0) {
+  if (alphablit(pText, NULL, pDest, &dst_rect) < 0) {
     freelog(LOG_ERROR, _("Couldn't blit text to display: %s"),
 	    SDL_GetError());
     FREESURFACE(pText);
@@ -377,8 +372,7 @@ static SDL_Surface *create_str16_multi_surf(SDL_String16 * pString)
       }
     }
 
-    SDL_SetAlpha(pTmp[i], 0, 0);
-    SDL_BlitSurface(pTmp[i], NULL, pText, &des);
+    alphablit(pTmp[i], NULL, pText, &des);
     des.y += pTmp[i]->h;
   }
 

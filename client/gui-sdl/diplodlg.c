@@ -357,7 +357,7 @@ static int gold_callback(struct GUI *pWidget)
   if(amount || !pWidget->string16->text) {
     copy_chars_to_string16(pWidget->string16, "0");
     redraw_widget(pWidget);
-    flush_rect(pWidget->size);
+    flush_rect(pWidget->size, FALSE);
   }
   
   return -1;
@@ -967,12 +967,11 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   src.w = pThm->w / 4;
   src.h = pThm->h;
     
-  SDL_SetAlpha(pThm, 0x0, 0x0);
-  SDL_BlitSurface(pThm, &src, pLabel->theme, NULL);
+  alphablit(pThm, &src, pLabel->theme, NULL);
   SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
   
   redraw_widget(pLabel);
-  flush_rect(pLabel->size);
+  flush_rect(pLabel->size, FALSE);
   
   /* updates other player's acceptance status */
   pLabel = pdialog->pdialog->pEndWidgetList->prev->prev;
@@ -987,12 +986,10 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
   src.w = pThm->w / 4;
   src.h = pThm->h;
     
-  SDL_SetAlpha(pThm, 0x0, 0x0);
-  SDL_BlitSurface(pThm, &src, pLabel->theme, NULL);
-  SDL_SetAlpha(pThm, SDL_SRCALPHA, 255);
+  alphablit(pThm, &src, pLabel->theme, NULL);
   
   redraw_widget(pLabel);
-  flush_rect(pLabel->size);
+  flush_rect(pLabel->size, FALSE);
 }
 
 /****************************************************************
@@ -1046,10 +1043,10 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
     /* redraw */
     if(redraw_all) {
       redraw_group(pdialog->pdialog->pBeginWidgetList, pWindow, 0);
-      flush_rect(pWindow->size);
+      flush_rect(pWindow->size, FALSE);
     } else {
       redraw_widget(pBuf);
-      flush_rect(pBuf->size);
+      flush_rect(pBuf->size, FALSE);
     }
     
   } clause_list_iterate_end;
@@ -1105,9 +1102,7 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
     src.w = pBuf->private_data.cbox->pFALSE_Theme->w / 4;
     src.h = pBuf->private_data.cbox->pFALSE_Theme->h;
     
-    SDL_SetAlpha(pBuf->private_data.cbox->pFALSE_Theme, 0x0, 0x0);
-    SDL_BlitSurface(pBuf->private_data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL);
-    SDL_SetAlpha(pBuf->private_data.cbox->pFALSE_Theme, SDL_SRCALPHA, 255);
+    alphablit(pBuf->private_data.cbox->pFALSE_Theme, &src, pBuf->theme, NULL);
   }
   
 }
@@ -1346,7 +1341,7 @@ static void popup_war_dialog(struct player *pPlayer)
   /* label */
   dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
   dst.y = WINDOW_TILE_HIGH + adj_size(5);
-  SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + adj_size(5);
   FREESURFACE(pText);
   
@@ -1535,7 +1530,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     /* label */
     dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
     dst.y = WINDOW_TILE_HIGH + adj_size(5);
-    SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+    alphablit(pText, NULL, pWindow->theme, &dst);
     dst.y += pText->h + adj_size(15);
     FREESURFACE(pText);
          

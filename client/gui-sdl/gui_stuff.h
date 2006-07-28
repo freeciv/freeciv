@@ -33,7 +33,7 @@
 #define	FRAME_WH		2
 #define	WINDOW_TILE_HIGH	10
 #else
-#define	FRAME_WH		3
+#define	FRAME_WH		1
 #define	WINDOW_TILE_HIGH	20
 #endif
 

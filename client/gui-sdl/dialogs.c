@@ -309,14 +309,14 @@ void popup_notify_dialog(const char *caption, const char *headline,
   dst.x = (pWindow->size.w - pHeadline->w) / 2;
   dst.y = WINDOW_TILE_HIGH + adj_size(11);
   
-  SDL_BlitSurface(pHeadline, NULL, pWindow->theme, &dst);
+  alphablit(pHeadline, NULL, pWindow->theme, &dst);
   if(pLines) {
     dst.y += pHeadline->h + adj_size(10);
     if(pHeadline->w < pLines->w) {
       dst.x = (pWindow->size.w - pLines->w) / 2;
     }
      
-    SDL_BlitSurface(pLines, NULL, pWindow->theme, &dst);
+    alphablit(pLines, NULL, pWindow->theme, &dst);
   }
   
   FREESURFACE(pHeadline);
@@ -329,7 +329,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
     
   /* redraw */
   redraw_group(pNotifyDlg->pBeginWidgetList, pWindow, 0);
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* =======================================================================*/
@@ -494,7 +494,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   /* label */
   dst.x = FRAME_WH + (ww - DOUBLE_FRAME_WH - pText->w) / 2;
   dst.y = WINDOW_TILE_HIGH + adj_size(11);
-  SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst);
   FREESURFACE(pText);
    
   /* cancel button */
@@ -739,7 +739,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   /* redraw */
   redraw_group(pUnit_Select_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* ====================================================================== */
@@ -1169,8 +1169,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr , 
     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
 
-  pBuf->string16->render = 3;
-  pBuf->string16->bgcol.unused = 128;
+  pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     
   pBuf->data.cont = pCont;
   
@@ -1586,13 +1585,13 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     {
       FREESURFACE(pBuf->theme);
       pBuf->size.h = h;
-      pBuf->theme = create_surf(w , h , SDL_SWSURFACE);
+      pBuf->theme = create_surf_alpha(w , h , SDL_SWSURFACE);
     
       area.y = pBuf->size.h / 2 - 1;
       area.w = pBuf->size.w - adj_size(20);
       
-      SDL_FillRect(pBuf->theme, &area, 64);
-      SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
+      SDL_FillRect(pBuf->theme, &area,
+                SDL_MapRGBA(pBuf->theme->format, 0, 0, 0, 255));
     }
     
     if(pBuf == pAdvanced_Terrain_Dlg->pBeginWidgetList || 
@@ -1615,7 +1614,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   /* redraw */
   redraw_group(pAdvanced_Terrain_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* ====================================================================== */
@@ -1763,7 +1762,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   /* redraw */
   redraw_group(pPillage_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /* ======================================================================= */
@@ -1968,7 +1967,7 @@ static void popup_government_dialog(void)
   /* redraw */
   redraw_group(pGov_Dlg->pBeginWidgetList, pWindow, 0);
 
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************
@@ -2061,7 +2060,6 @@ void popup_revolution_dialog(void)
     FREESURFACE(pLogo);
   }
   
-  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
   /* enable widgets */
   set_wstate(pCancel_Button, FC_WS_NORMAL);
   set_wstate(pOK_Button, FC_WS_NORMAL);
@@ -2114,7 +2112,7 @@ static void change_nation_label(void);
 static int nations_dialog_callback(struct GUI *pWindow)
 {
   if(sellect_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
-    flush_rect(pWindow->size);
+    flush_rect(pWindow->size, FALSE);
   }      
   return -1;
 }
@@ -2133,7 +2131,7 @@ static int races_dialog_ok_callback(struct GUI *pStart_Button)
     pSellected_Widget = pStart_Button;
     set_wstate(pStart_Button, FC_WS_SELLECTED);
     redraw_tibutton(pStart_Button);
-    flush_rect(pStart_Button->size);
+    flush_rect(pStart_Button->size, FALSE);
     return (-1);
   }
 
@@ -2167,7 +2165,7 @@ static int change_sex_callback(struct GUI *pSex)
     set_wstate(pSex, FC_WS_SELLECTED);
 
     redraw_ibutton(pSex);
-    flush_rect(pSex->size);
+    flush_rect(pSex->size, FALSE);
   }
   return -1;
 }
@@ -2349,7 +2347,7 @@ static int nation_button_callback(struct GUI *pNationButton)
       
     if (pSetup->nation == MAX_ID - pNationButton->ID) {
       redraw_widget(pNationButton);
-      flush_rect(pNationButton->size);
+      flush_rect(pNationButton->size, FALSE);
       return -1;
     }
   
@@ -2364,7 +2362,7 @@ static int nation_button_callback(struct GUI *pNationButton)
     select_random_leader(pSetup->nation);
     
     redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-    flush_rect(pNationDlg->pEndWidgetList->size);
+    flush_rect(pNationDlg->pEndWidgetList->size, FALSE);
   } else {
     /* pop up legend info */
     int w = 0, h;
@@ -2437,11 +2435,11 @@ static int nation_button_callback(struct GUI *pNationButton)
   
     area.x = adj_size(10);
     area.y = WINDOW_TILE_HIGH + adj_size(10);
-    SDL_BlitSurface(pText2, NULL, pWindow->theme, &area);
+    alphablit(pText2, NULL, pWindow->theme, &area);
     area.y += (pText2->h + adj_size(10));
     FREESURFACE(pText2);
   
-    SDL_BlitSurface(pText, NULL, pWindow->theme, &area);
+    alphablit(pText, NULL, pWindow->theme, &area);
     FREESURFACE(pText);
   
     pCancel->size.x = pWindow->size.x + (pWindow->size.w - pCancel->size.w) / 2;
@@ -2503,7 +2501,6 @@ static void change_nation_label(void)
   
   FREESURFACE(pLabel->theme);
   pLabel->theme = pTmp_Surf_zoomed;
-  SDL_SetAlpha(pLabel->theme, 0, 0);
   
   copy_chars_to_string16(pLabel->string16, Q_(pNation->name_plural));
   
@@ -2624,8 +2621,7 @@ void popup_races_dialog(struct player *pplayer)
   
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
-  pStr->render = 3;
-  pStr->bgcol = color;
+  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   /* fill list */
   pText_Class = NULL;
@@ -2643,14 +2639,12 @@ void popup_races_dialog(struct player *pplayer)
     copy_chars_to_string16(pStr, Q_(pNation->name_plural));
     change_ptsize16(pStr, adj_font(12));
     pText_Name = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
-    SDL_SetAlpha(pText_Name, 0x0, 0x0);
     
 #if 0      
     if (pNation->legend && *(pNation->legend) != '\0') {
       copy_chars_to_string16(pStr, pNation->legend);
       change_ptsize16(pStr, adj_font(10));
       pText_Class = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
-      SDL_SetAlpha(pText_Class, 0x0, 0x0);
     }
 #endif    
     
@@ -2658,17 +2652,17 @@ void popup_races_dialog(struct player *pplayer)
     len = pTmp_Surf_zoomed->h +
 	    adj_size(10) + pText_Name->h + (pText_Class ? pText_Class->h : 0);
     dst.y = (pTmp_Surf->h - len) / 2;
-    SDL_BlitSurface(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst);
+    alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst);
     dst.y += (pTmp_Surf_zoomed->h + adj_size(10));
     
     dst.x = (pTmp_Surf->w - pText_Name->w) / 2;
-    SDL_BlitSurface(pText_Name, NULL, pTmp_Surf, &dst);
+    alphablit(pText_Name, NULL, pTmp_Surf, &dst);
     dst.y += pText_Name->h;
     FREESURFACE(pText_Name);
     
     if (pText_Class) {
       dst.x = (pTmp_Surf->w - pText_Class->w) / 2;
-      SDL_BlitSurface(pText_Class, NULL, pTmp_Surf, &dst);
+      alphablit(pText_Class, NULL, pTmp_Surf, &dst);
       FREESURFACE(pText_Class);
     }
     
@@ -2917,7 +2911,7 @@ void popup_races_dialog(struct player *pplayer)
   
   redraw_group(pNationDlg->pBeginWidgetList, pWindow, 0);
   
-  flush_rect(pWindow->size);
+  flush_rect(pWindow->size, FALSE);
 }
 
 /**************************************************************************
@@ -2985,5 +2979,5 @@ void races_toggles_set_sensitive()
     select_random_leader(pSetup->nation);
   }
   redraw_group(pNationDlg->pBeginWidgetList, pNationDlg->pEndWidgetList, 0);
-  flush_rect(pNationDlg->pEndWidgetList->size);
+  flush_rect(pNationDlg->pEndWidgetList->size, FALSE);
 }
