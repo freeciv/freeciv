@@ -368,6 +368,7 @@ void player_restore_units(struct player *pplayer)
 				      punit->type, FALSE)
 	      &&(air_can_move_between(punit->moves_left / 3, punit->tile,
 				      itr_tile, unit_owner(punit)) >= 0)) {
+	    free_unit_orders(punit);
 	    punit->goto_tile = itr_tile;
 	    set_unit_activity(punit, ACTIVITY_GOTO);
 	    (void) do_unit_goto(punit, GOTO_MOVE_ANY, FALSE);
