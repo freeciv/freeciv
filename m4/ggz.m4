@@ -50,7 +50,20 @@ dnl Internal functions:
 dnl   AC_GGZ_ERROR - user-friendly error messages
 dnl   AC_GGZ_FIND_FILE - macro for convenience (thanks kde)
 dnl   AC_GGZ_REMOVEDUPS - eliminate duplicate list elements
+dnl   AC_GGZ_UNQUOTEDPATH - unquote a shell variable multiple times
 dnl
+
+dnl ------------------------------------------------------------------------
+dnl Unquote a shell variable until all variable occurrences in its value
+dnl are resolved.
+dnl Synopsis: AC_GGZ_UNQUOTEDPATH(<returnvar>, expression)
+dnl
+AC_DEFUN([AC_GGZ_UNQUOTEDPATH],
+[
+eval $1=`echo $2`
+eval $1=`echo $$1`
+eval $1=`echo $$1`
+])
 
 dnl ------------------------------------------------------------------------
 dnl Find a directory containing a single file
@@ -125,7 +138,16 @@ AC_DEFUN([AC_GGZ_INIT],
 if test "x$prefix" = "xNONE"; then
   prefix="${ac_default_prefix}"
 fi
+if test "x$exec_prefix" = "xNONE"; then
+  exec_prefix='${prefix}'
+fi
 AC_DEFINE_UNQUOTED([PREFIX], "${prefix}", [The installation prefix])
+
+ac_ggz_prefix=""
+AC_ARG_WITH(ggz-dir,
+    AC_HELP_STRING([--with-ggz-dir=DIR], [Path to GGZ Gaming Zone]),
+    [  ac_ggz_prefix="$withval"
+    ])
 
 if test "x${prefix}" = "xNONE"; then
    ac_ggz_prefix_incdir="${ac_default_prefix}/include"
@@ -133,20 +155,40 @@ if test "x${prefix}" = "xNONE"; then
    ac_ggz_prefix_bindir="${ac_default_prefix}/bin"
    ac_ggz_prefix_etcdir="${ac_default_prefix}/etc"
 else
-   ac_ggz_prefix_incdir="${prefix}/include"
-   ac_ggz_prefix_libdir="${prefix}/lib"
-   ac_ggz_prefix_bindir="${prefix}/bin"
-   ac_ggz_prefix_etcdir="${prefix}/etc"
+   unq_includedir="${includedir}"
+   unq_libdir="${libdir}"
+   unq_bindir="${bindir}"
+   unq_sysconfdir="${sysconfdir}"
+
+   eval unq_includedir=`echo $unq_includedir`
+   eval unq_includedir=`echo $unq_includedir`
+   eval unq_libdir=`echo $unq_libdir`
+   eval unq_libdir=`echo $unq_libdir`
+   eval unq_bindir=`echo $unq_bindir`
+   eval unq_bindir=`echo $unq_bindir`
+   eval unq_sysconfdir=`echo $unq_sysconfdir`
+   eval unq_sysconfdir=`echo $unq_sysconfdir`
+
+   ac_ggz_prefix_incdir="${unq_includedir}"
+   ac_ggz_prefix_libdir="${unq_libdir}"
+   ac_ggz_prefix_bindir="${unq_bindir}"
+   ac_ggz_prefix_etcdir="${unq_sysconfdir}"
 fi
 ac_ggz_stdinc="$ac_ggz_prefix_incdir"
 ac_ggz_stdlib="$ac_ggz_prefix_libdir"
 ac_ggz_stdbin="$ac_ggz_prefix_bindir"
-ac_ggz_stdetc="$ac_ggz_prefix_etcdir"
+ac_ggz_stdetc="$ac_ggz_prefix_etcdir/ggzd"
+if test "x$ac_ggz_prefix" != "x"; then
+  ac_ggz_stdinc="$ac_ggz_stdinc $ac_ggz_prefix/include"
+  ac_ggz_stdlib="$ac_ggz_stdlib $ac_ggz_prefix/lib $ac_ggz_prefix/lib64"
+  ac_ggz_stdbin="$ac_ggz_stdbin $ac_ggz_prefix/bin"
+  ac_ggz_stdetc="$ac_ggz_stdetc $ac_ggz_prefix/etc/ggzd"
+fi
 if test "x$1" = "xdefaults" || test "x$2" = "xdefaults"; then
   ac_ggz_stdinc="$ac_ggz_stdinc /usr/local/include /usr/include"
-  ac_ggz_stdlib="$ac_ggz_stdlib /usr/local/lib /usr/lib"
+  ac_ggz_stdlib="$ac_ggz_stdlib /usr/local/lib /usr/local/lib64 /usr/lib /usr/lib64"
   ac_ggz_stdbin="$ac_ggz_stdbin /usr/local/bin /usr/bin"
-  ac_ggz_stdetc="$ac_ggz_stdetc/ggzd /usr/local/etc/ggzd /etc/ggzd"
+  ac_ggz_stdetc="$ac_ggz_stdetc /usr/local/etc/ggzd /etc/ggzd"
 fi
 if test "x$1" = "xexport" || test "x$2" = "xexport"; then
   CPPFLAGS="$CPPFLAGS -isystem ${ac_ggz_prefix_incdir} -isystem /usr/local/include"
@@ -167,7 +209,8 @@ CXXFLAGS=$save_cxxflags
 
 dnl ------------------------------------------------------------------------
 dnl Ensure that a minimum version of GGZ is present
-dnl Synopsis: AC_GGZ_VERSION(major, minor, micro)
+dnl Synopsis: AC_GGZ_VERSION(major, minor, micro,
+dnl                          action-if-found, action-if-not-found)
 dnl ------------------------------------------------------------------------
 dnl
 AC_DEFUN([AC_GGZ_VERSION],
@@ -186,11 +229,22 @@ AC_DEFUN([AC_GGZ_VERSION],
 	testbody="$testbody if(LIBGGZ_VERSION_MICRO < $micro) return -1;"
 	testbody="$testbody return 0;"
 
+	AC_MSG_CHECKING([for GGZ library version: $major.$minor.$micro])
 	AC_RUN_IFELSE(
 		[AC_LANG_PROGRAM([[$testprologue]], [[$testbody]])],
-		[],
-		[AC_MSG_ERROR([The GGZ version is too old. Version $major.$minor.$micro is required.])]
+		[ac_ggz_version_check=yes],
+		[ac_ggz_version_check=no]
 	)
+	if test "x$ac_ggz_version_check" = "xyes"; then
+		AC_MSG_RESULT([yes])
+		$4
+	else
+		AC_MSG_RESULT([no])
+		if test "x$5" = "x"; then
+			AC_MSG_ERROR([The GGZ version is too old. Version $major.$minor.$micro is required.])
+		fi
+		$5
+	fi
 ])
 
 dnl ------------------------------------------------------------------------
@@ -457,6 +511,7 @@ else
     AC_SUBST(GGZ_CONFIG)
     AC_SUBST(ggzexecmoddir)
     AC_SUBST(ggzdatadir)
+    AC_DEFINE_UNQUOTED(GGZMODULECONFDIR, "${prefix}/etc", [Path where the game registry is located])
     AC_DEFINE_UNQUOTED(GAMEDIR, "${prefix}/lib/ggz", [Path where to install the games])
     AC_DEFINE_UNQUOTED(GGZDATADIR, "${prefix}/share/ggz", [Path where the games should look for their data files])
   else
@@ -968,6 +1023,12 @@ AC_DEFUN([AC_GGZ_CHECK],
 [
   AC_GGZ_INIT
   AC_GGZ_LIBGGZ([try_ggz="yes"], [try_ggz="no"])
+
+  if test "$try_ggz" = "yes"; then
+    # For now, version 0.0.14 is required.  This could be an additional
+    # parameter.
+    AC_GGZ_VERSION([0], [0], [14], [], [try_ggz=no])
+  fi
 
   ggz_server="no"
   ggz_client="no"
