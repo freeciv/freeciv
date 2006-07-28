@@ -1146,6 +1146,14 @@ void remove_city(struct city *pcity)
       reality_check_city(other_player, ptile);
     }
   } players_iterate_end;
+  conn_list_iterate(game.est_connections, pconn) {
+    if (!pconn->player && pconn->observer) {
+      /* For detached observers we have to send a specific packet.  This is
+       * a hack necessitated by the private map that exists for players but
+       * not observers. */
+      dsend_packet_city_remove(pconn, pcity->id);
+    }
+  } conn_list_iterate_end;
 
   vision_clear_sight(old_vision);
   vision_free(old_vision);
