@@ -444,6 +444,7 @@ Unit Orders:\n\
     f: build (f)ortress  (settler/worker units)\n\
     g: unit (g)oto  (then left-click mouse to select destination)\n\
     g: add a (g)oto waypoint (when in goto mode)\n\
+    G: (G)oto/return to nearest city\n\
     h: change (h)omecity  (to city at current location)\n\
     i: build (i)rrigation or convert terrain (settler/worker units)\n\
     l: (l)oad unit on boat\n\
@@ -462,8 +463,16 @@ Unit Orders:\n\
     s: (s)entry unit\n\
     u: (u)nload unit\n\
     U: (U)nload all units from a boat\n\
+    W: (W)ake up other units on tile\n\
     x: auto-e(x)plore\n\
+    y: Select all idle units of the same type as the active unit\n\
 space: unit stay put\n\
+\n\
+      Ctrl-U: (u)pgrade unit\n\
+Shift-Ctrl-B: Goto and (B)uild city on target\n\
+Shift-Ctrl-R: Connect current and target tile with (R)oad\n\
+Shift-Ctrl-L: Connect current and target tile with rai(L)\n\
+Shift-Ctrl-I: Connect current and target tile with (I)rrigation\n\
 "), _("\
 Unit Movement:\n\
 ==============\n\
@@ -478,7 +487,6 @@ Unit Movement:\n\
 \n\
   5: focus on previous unit\n\
   w: focus on next unit (wait)\n\
-  W: wake up other units on tile\n\
   c: center view on unit\n\
 "), _("\
 Main Map (Keys):\n\
