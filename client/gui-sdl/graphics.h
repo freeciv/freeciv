@@ -30,8 +30,6 @@
 #include "gui_main.h"
 #include "gui_zoom.h"
 
-#define USE_ALPHABLIT
-
 #define	RECT_LIMIT	80
 /* #define	HAVE_MMX1 */
 
@@ -195,14 +193,10 @@ struct main {
   SDL_Event event;		/* main event struct */
 };
 
-#ifdef USE_ALPHABLIT
 int pygame_AlphaBlit(SDL_Surface *src, SDL_Rect *srcrect, 
                      SDL_Surface *dst, SDL_Rect *dstrect);
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
               SDL_Surface *dst, SDL_Rect *dstrect);
-#else
-#define alphablit SDL_BlitSurface
-#endif
 
 SDL_Surface *load_surf(const char *pFname);
 SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags);
@@ -250,7 +244,9 @@ bool is_in_rect_area(int x, int y, SDL_Rect rect);
 
 int SDL_FillRectAlpha(SDL_Surface *pSurface, SDL_Rect *pRect,
 		      SDL_Color *pColor);
-
+                      
+int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
+  
 /* ================================================================= */
 
 extern struct main Main;

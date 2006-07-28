@@ -43,8 +43,6 @@ do { 									 \
   pStr->style |= TTF_STYLE_BOLD;					 \
   pBuf = create_iconlabel(NULL, pDest, pStr, 				 \
     	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
-  pBuf->string16->bgcol.unused = 128;					 \
-  pBuf->string16->render = 3;						 \
   pBuf->action = pCallback;						 \
 } while(0)
 

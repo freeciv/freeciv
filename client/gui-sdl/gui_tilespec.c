@@ -58,16 +58,12 @@
 #define load_theme_surface(pSpr, pSurf, tag)		\
 	load_GUI_surface(pSpr, pTheme, pSurf, tag)
 
-#define load_city_icon_surface(pSpr, pSurf, tag)	\
-	load_GUI_surface(pSpr, pIcons, pSurf, tag)
-
+#define load_city_icon_surface(pSpr, pSurf, tag)        \
+        load_GUI_surface(pSpr, pIcons, pSurf, tag)
 
 #define load_order_theme_surface(pSpr, pSurf, tag)	\
 do {							\
   load_GUI_surface(pSpr, pTheme, pSurf, tag);		\
-  if(pTheme->pSurf->format->Amask) {			\
-    SDL_SetAlpha(pTheme->pSurf, 0x0 , 0x0);		\
-  }							\
 } while(0)
 
 /*******************************************************************************
@@ -95,49 +91,16 @@ static void reload_small_citizens_icons(int style)
   
   /* allocate icons */
   pIcons->pMale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
-  SDL_SetColorKey(pIcons->pMale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pMale_Happy));
-    
   pIcons->pFemale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 1));
-  SDL_SetColorKey(pIcons->pFemale_Happy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pFemale_Happy));
-    
   pIcons->pMale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 0));
-  SDL_SetColorKey( pIcons->pMale_Content , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pMale_Content ));
-    
   pIcons->pFemale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 1));
-  SDL_SetColorKey(pIcons->pFemale_Content, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pFemale_Content));
-    
   pIcons->pMale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 0));
-  SDL_SetColorKey(pIcons->pMale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    get_first_pixel(pIcons->pMale_Unhappy));
-    
   pIcons->pFemale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
-  SDL_SetColorKey(pIcons->pFemale_Unhappy , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pFemale_Unhappy));
-    
   pIcons->pMale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
-  SDL_SetColorKey(pIcons->pMale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL , 
-			    get_first_pixel(pIcons->pMale_Angry));
-    
   pIcons->pFemale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
-  SDL_SetColorKey(pIcons->pFemale_Angry , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pFemale_Angry));
-    
   pIcons->pSpec_Lux = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
-  SDL_SetColorKey(pIcons->pSpec_Lux , SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pSpec_Lux));
-    
   pIcons->pSpec_Tax = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
-  SDL_SetColorKey(pIcons->pSpec_Tax, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pSpec_Tax));
-    
   pIcons->pSpec_Sci = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
-  SDL_SetColorKey(pIcons->pSpec_Sci, SDL_SRCCOLORKEY|SDL_RLEACCEL, 
-			    get_first_pixel(pIcons->pSpec_Sci));
-    
 }
 
 /* ================================================================================= */
@@ -212,7 +175,7 @@ void tilespec_setup_city_icons(void)
   
   load_city_icon_surface(pSpr, pPolice, "city.police");
   /* ================================================================= */
-  pIcons->pWorklist = create_surf(9,9, SDL_SWSURFACE);
+  pIcons->pWorklist = create_surf_alpha(9,9, SDL_SWSURFACE);
   SDL_FillRect(pIcons->pWorklist, NULL,
 		  SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
   putframe(pIcons->pWorklist, 0,0,

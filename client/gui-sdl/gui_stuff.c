@@ -185,7 +185,11 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   zoom = ((i != Width) ||  (j != High));
   
   /* now allocate memory */
-  pBackground = create_surf(i, j, SDL_SWSURFACE);
+  if (!transp) {
+    pBackground = create_surf_alpha(i, j, SDL_SWSURFACE);
+  } else {
+    pBackground = create_surf(i, j, SDL_SWSURFACE);
+  }
 
   /* copy left end */
 
@@ -198,21 +202,21 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   des.x = 0;
   des.y = 0;
 
-  SDL_BlitSurface(pTheme, &src, pBackground, NULL);
+  alphablit(pTheme, &src, pBackground, NULL);
 
   /* copy left middels parts */
   src.y = iStart_y + iTile_width_high_end;
   src.h = iTile_width_high_mid;
   for (i = 0; i < iTile_count_high_mid; i++) {
     des.y = iTile_width_high_end + i * iTile_width_high_mid;
-    SDL_BlitSurface(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des);
   }
 
   /* copy left boton end */
   src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
   src.h = iTile_width_high_end;
   des.y = pBackground->h - iTile_width_high_end;
-  SDL_BlitSurface(pTheme, &src, pBackground, &des);
+  alphablit(pTheme, &src, pBackground, &des);
 
   /* copy middle parts without right end part */
 
@@ -226,21 +230,21 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
     des.x = iTile_width_len_end + i * iTile_width_len_mid;
     des.y = 0;
     src.y = iStart_y;
-    SDL_BlitSurface(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des);
 
     /*  middels */
     src.y = iStart_y + iTile_width_high_end;
     src.h = iTile_width_high_mid;
     for (j = 0; j < iTile_count_high_mid; j++) {
       des.y = iTile_width_high_end + j * iTile_width_high_mid;
-      SDL_BlitSurface(pTheme, &src, pBackground, &des);
+      alphablit(pTheme, &src, pBackground, &des);
     }
 
     /* bottom */
     src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
     src.h = iTile_width_high_end;
     des.y = pBackground->h - iTile_width_high_end;
-    SDL_BlitSurface(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des);
   }
 
   /* copy right end */
@@ -251,21 +255,21 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   des.x = pBackground->w - iTile_width_len_end;
   des.y = 0;
 
-  SDL_BlitSurface(pTheme, &src, pBackground, &des);
+  alphablit(pTheme, &src, pBackground, &des);
 
   /*  middels */
   src.y = iStart_y + iTile_width_high_end;
   src.h = iTile_width_high_mid;
   for (i = 0; i < iTile_count_high_mid; i++) {
     des.y = iTile_width_high_end + i * iTile_width_high_mid;
-    SDL_BlitSurface(pTheme, &src, pBackground, &des);
+    alphablit(pTheme, &src, pBackground, &des);
   }
 
   /*boton */
   src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
   src.h = iTile_width_high_end;
   des.y = pBackground->h - iTile_width_high_end;
-  SDL_BlitSurface(pTheme, &src, pBackground, &des);
+  alphablit(pTheme, &src, pBackground, &des);
   
   if (zoom)
   {
@@ -730,9 +734,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     srcrect.w = MIN((pInfo_Area->x + pInfo_Area->w), (rect->x + rect->w)) - dstrect.x;
     srcrect.h = MIN((pInfo_Area->y + pInfo_Area->h), (rect->y + rect->h)) - dstrect.y;
 
-    SDL_BlitSurface(pInfo_Label, &srcrect, Main.screen, &dstrect);
+    alphablit(pInfo_Label, &srcrect, Main.screen, &dstrect);
   } else {
-    SDL_BlitSurface(pInfo_Label, NULL, Main.screen, pInfo_Area);
+    alphablit(pInfo_Label, NULL, Main.screen, pInfo_Area);
   }
 
   if (correct_rect_region(pInfo_Area)) {
@@ -1194,6 +1198,12 @@ void popdown_window_group_dialog(struct GUI *pBeginGroupWidgetList,
     if(pEndGroupWidgetList->dst == Main.gui ||
 	      pEndGroupWidgetList->dst == pLocked_buffer) {
       /* undraw window */
+      SDL_Rect dstrect;
+      dstrect.x = pEndGroupWidgetList->size.x;
+      dstrect.y = pEndGroupWidgetList->size.y;
+      dstrect.w = pEndGroupWidgetList->size.w;
+      dstrect.h = pEndGroupWidgetList->size.h;
+      clear_surface(pEndGroupWidgetList->dst, &dstrect);
       blit_entire_src(pEndGroupWidgetList->gfx, pEndGroupWidgetList->dst,
 		    pEndGroupWidgetList->size.x,
 		    pEndGroupWidgetList->size.y);
@@ -1432,7 +1442,8 @@ static struct GUI *vertical_scroll_widget_list(struct GUI *pActiveWidgetLIST,
       while(count) {
 	/* hack - clear area under no exist list members */
 	dst = pTmp->size;
-	SDL_BlitSurface(pTmp->gfx, NULL, pTmp->dst, &dst);
+        clear_surface(pTmp->dst, &dst);
+        alphablit(pTmp->gfx, NULL, pTmp->dst, &dst);
 	sdl_dirty_rect(dst);
 	FREESURFACE(pTmp->gfx);
 	if (active == 1) {
@@ -1543,13 +1554,14 @@ static void inside_scroll_down_loop(void *pData)
       if (pDown->pVscroll->pScrollBar
 	&& pDown->pVscroll->pScrollBar->size.y <=
 	  pDown->pVscroll->max - pDown->pVscroll->pScrollBar->size.h) {
-
+            
 	/* draw bcgd */
+        clear_surface(pDown->pVscroll->pScrollBar->dst, 
+                      &pDown->pVscroll->pScrollBar->size);
 	blit_entire_src(pDown->pVscroll->pScrollBar->gfx,
 	    		pDown->pVscroll->pScrollBar->dst,
 			pDown->pVscroll->pScrollBar->size.x,
 			pDown->pVscroll->pScrollBar->size.y);
-
 	sdl_dirty_rect(pDown->pVscroll->pScrollBar->size);
 
 	if (pDown->pVscroll->pScrollBar->size.y + pDown->step >
@@ -1559,7 +1571,6 @@ static void inside_scroll_down_loop(void *pData)
 	} else {
 	  pDown->pVscroll->pScrollBar->size.y += pDown->step;
 	}
-	
       }
 
       pDown->pBegin = vertical_scroll_widget_list(pDown->pBegin,
@@ -1569,16 +1580,16 @@ static void inside_scroll_down_loop(void *pData)
       pDown->pEnd = pDown->pEnd->prev;
 
       redraw_group(pDown->pBeginWidgetLIST, pDown->pEndWidgetLIST, TRUE);
-  
+
       if (pDown->pVscroll->pScrollBar) {
-	/* redraw scroolbar */
+	/* redraw scrollbar */
 	refresh_widget_background(pDown->pVscroll->pScrollBar);
 	redraw_vert(pDown->pVscroll->pScrollBar);
+
 	sdl_dirty_rect(pDown->pVscroll->pScrollBar->size);
       }
 
       flush_dirty();
-
     }
 }
 
@@ -1594,6 +1605,8 @@ static void inside_scroll_up_loop(void *pData)
       && (pUp->pVscroll->pScrollBar->size.y >= pUp->pVscroll->min)) {
 
       /* draw bcgd */
+      clear_surface(pUp->pVscroll->pScrollBar->dst, 
+                    &pUp->pVscroll->pScrollBar->size);
       blit_entire_src(pUp->pVscroll->pScrollBar->gfx,
 			pUp->pVscroll->pScrollBar->dst,
 			pUp->pVscroll->pScrollBar->size.x,
@@ -1639,12 +1652,14 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     div_t tmp;
       
     /* draw bcgd */
+    clear_surface(pMotion->pVscroll->pScrollBar->dst, 
+                  &pMotion->pVscroll->pScrollBar->size);
     blit_entire_src(pMotion->pVscroll->pScrollBar->gfx,
        			pMotion->pVscroll->pScrollBar->dst,
 			pMotion->pVscroll->pScrollBar->size.x,
       			pMotion->pVscroll->pScrollBar->size.y);
     sdl_dirty_rect(pMotion->pVscroll->pScrollBar->size);
-       
+
     if ((pMotion->pVscroll->pScrollBar->size.y + pMotionEvent->yrel) >
 	 (pMotion->pVscroll->max - pMotion->pVscroll->pScrollBar->size.h)) {
       pMotion->pVscroll->pScrollBar->size.y =
@@ -1699,7 +1714,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
 
     flush_dirty();
   }				/* if (count) */
-  
+
   return ID_ERROR;
 }
 
@@ -1969,6 +1984,8 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   }
   
   if(pDlg->pActiveWidgetList && pDlg->pScroll->pScrollBar) {
+    clear_surface(pDlg->pScroll->pScrollBar->dst, 
+                  &pDlg->pScroll->pScrollBar->size);
     blit_entire_src(pDlg->pScroll->pScrollBar->gfx,
     		    pDlg->pScroll->pScrollBar->dst,
 		    pDlg->pScroll->pScrollBar->size.x,
@@ -2024,7 +2041,8 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
       pDlg->pBeginWidgetList = NULL;
       pDlg->pEndWidgetList = NULL;
     }
-    SDL_BlitSurface(pWidget->gfx, NULL, pWidget->dst, &pWidget->size);
+    clear_surface(pWidget->dst, &pWidget->size);
+    alphablit(pWidget->gfx, NULL, pWidget->dst, &pWidget->size);
     sdl_dirty_rect(pWidget->size);
     del_widget_from_gui_list(pWidget);
     return FALSE;
@@ -2067,6 +2085,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
       } else {
 	pBuf = pLast;
 	/* undraw last widget */
+        clear_surface(pBuf->dst, &pBuf->size);
         blit_entire_src(pBuf->gfx, pBuf->dst,
 				    pBuf->size.x, pBuf->size.y);
         sdl_dirty_rect(pBuf->size);
@@ -2101,6 +2120,7 @@ STD:  while (pBuf != pWidget) {
     pBuf = pDlg->pBeginActiveWidgetList;
     
     /* undraw last widget */
+    clear_surface(pBuf->dst, &pBuf->size);
     blit_entire_src(pBuf->gfx, pBuf->dst,
 				    pBuf->size.x, pBuf->size.y);
     sdl_dirty_rect(pBuf->size);
@@ -2585,18 +2605,18 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   Uint32 color;
   SDL_Color RGB_Color = { 255, 255, 255, 128 };
   SDL_Rect dest, src = get_smaller_surface_rect(pIcon);
-  SDL_Surface *pTheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
+  SDL_Surface *pTheme = create_surf_alpha((src.w + adj_size(4)) * 4, src.h + adj_size(4),
 				    SDL_SWSURFACE);
 
   dest.x = adj_size(2);
   dest.y = (pTheme->h - src.h) / 2;
 
   /* normal */
-  SDL_BlitSurface(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest);
 
   /* sellected */
   dest.x += (src.w + adj_size(4));
-  SDL_BlitSurface(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest);
   /* draw sellect frame */
   color = SDL_MapRGB(pTheme->format, 254, 254, 254);
   putframe(pTheme, dest.x - 1, dest.y - 1, dest.x + (src.w),
@@ -2604,7 +2624,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
-  SDL_BlitSurface(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest);
   /* draw sellect frame */
   putframe(pTheme, dest.x - 1, dest.y - 1, dest.x + src.w,
 	   dest.y + src.h, color);
@@ -2615,13 +2635,11 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 
   /* disabled */
   dest.x += (src.w + adj_size(4));
-  SDL_BlitSurface(pIcon, &src, pTheme, &dest);
+  alphablit(pIcon, &src, pTheme, &dest);
   dest.w = src.w;
   dest.h = src.h;
 
   SDL_FillRectAlpha(pTheme, &dest, &RGB_Color);
-
-  SDL_SetColorKey(pTheme, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
 
   return pTheme;
 }
@@ -2678,7 +2696,8 @@ int real_redraw_icon(struct GUI *pIcon)
   }
 
   if (pIcon->gfx) {
-    SDL_BlitSurface(pIcon->gfx, NULL, pIcon->dst, &area);
+    clear_surface(pIcon->dst, &area);
+    alphablit(pIcon->gfx, NULL, pIcon->dst, &area);
   }
 
   src.x = (pIcon->theme->w / 4) * (Uint8) (get_wstate(pIcon));
@@ -2694,7 +2713,7 @@ int real_redraw_icon(struct GUI *pIcon)
     area.y += (pIcon->size.h - src.h) / 2;
   }
 
-  return SDL_BlitSurface(pIcon->theme, &src, pIcon->dst, &area);
+  return alphablit(pIcon->theme, &src, pIcon->dst, &area);
 }
 
 /**************************************************************************
@@ -2710,7 +2729,7 @@ int real_redraw_icon(struct GUI *pIcon)
     state = 3 - disabled
 
   Function return: -3 if pIcon_theme is NULL. 
-  std return of SDL_BlitSurface(...) function.
+  std return of alphablit(...) function.
 **************************************************************************/
 int draw_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state,
 			 SDL_Surface * pDest, Sint16 start_x, Sint16 start_y)
@@ -2725,7 +2744,7 @@ int draw_icon_from_theme(SDL_Surface * pIcon_theme, Uint8 state,
   src.y = 0;
   src.w = pIcon_theme->w / 4;
   src.h = pIcon_theme->h;
-  return SDL_BlitSurface(pIcon_theme, &src, pDest, &des);
+  return alphablit(pIcon_theme, &src, pDest, &des);
 }
 
 /**************************************************************************
@@ -2821,9 +2840,8 @@ int real_redraw_icon2(struct GUI *pIcon)
   state = get_wstate(pIcon);
     
   if (pIcon->gfx) {
-    dest.x = pIcon->size.x;
-    dest.y = pIcon->size.y;  
-    ret = SDL_BlitSurface(pIcon->gfx, NULL, pIcon->dst, &dest);
+    clear_surface(pIcon->dst, &pIcon->size);
+    ret = alphablit(pIcon->gfx, NULL, pIcon->dst, &pIcon->size);
     if (ret) {
       return ret;
     }
@@ -2858,7 +2876,7 @@ int real_redraw_icon2(struct GUI *pIcon)
   }
   dest.x += adj_size(2);
   dest.y += adj_size(2);
-  ret = SDL_BlitSurface(pIcon->theme, NULL, pIcon->dst, &dest);
+  ret = alphablit(pIcon->theme, NULL, pIcon->dst, &dest);
   if (ret) {
     return ret;
   }
@@ -3076,7 +3094,7 @@ int real_redraw_ibutton(struct GUI *pIButton)
 
   dest.x = pIButton->size.x;
   dest.y = pIButton->size.y;
-  SDL_BlitSurface(pButton, NULL, pIButton->dst, &dest);
+  alphablit(pButton, NULL, pIButton->dst, &dest);
   FREESURFACE(pButton);
 
   if (pIcon) {			/* Icon */
@@ -3117,7 +3135,7 @@ int real_redraw_ibutton(struct GUI *pIButton)
 
     dest.x = pIButton->size.x + Ix;
     dest.y = pIButton->size.y + Iy;
-    ret = SDL_BlitSurface(pIcon, NULL, pIButton->dst, &dest);
+    ret = alphablit(pIcon, NULL, pIButton->dst, &dest);
     if (ret) {
       FREESURFACE(pText);
       return ret - 10;
@@ -3187,7 +3205,7 @@ int real_redraw_ibutton(struct GUI *pIButton)
 
     dest.x = pIButton->size.x + x;
     dest.y = pIButton->size.y + y;
-    ret = SDL_BlitSurface(pText, NULL, pIButton->dst, &dest);
+    ret = alphablit(pText, NULL, pIButton->dst, &dest);
   }
 
   FREESURFACE(pText);
@@ -3347,12 +3365,13 @@ static void redraw_edit_chain(struct EDIT *pEdt)
   /* blit backgroud ( if any ) */
   if (get_wflags(pEdt->pWidget) & WF_DRAW_THEME_TRANSPARENT) {
     Dest = Dest_Copy;
-    SDL_BlitSurface(pEdt->pWidget->gfx, NULL, pEdt->pWidget->dst, &Dest);
+    clear_surface(pEdt->pWidget->dst, &Dest);
+    alphablit(pEdt->pWidget->gfx, NULL, pEdt->pWidget->dst, &Dest);
   }
 
   /* blit theme */
   Dest = Dest_Copy;
-  SDL_BlitSurface(pEdt->pBg, NULL, pEdt->pWidget->dst, &Dest);
+  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst, &Dest);
 
   /* set start parametrs */
   pInputChain_TMP = pEdt->pBeginTextChain;
@@ -3371,7 +3390,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
 
     if (Dest_Copy.x > pEdt->pWidget->size.x) {
       Dest = Dest_Copy;
-      SDL_BlitSurface(pInputChain_TMP->pTsurf, NULL,
+      alphablit(pInputChain_TMP->pTsurf, NULL,
 			  			pEdt->pWidget->dst, &Dest);
     }
 
@@ -3511,7 +3530,8 @@ int redraw_edit(struct GUI *pEdit_Widget)
       }
 
       /* blit background */
-      SDL_BlitSurface(pEdit_Widget->gfx, NULL, pEdit_Widget->dst, &rDest);
+      clear_surface(pEdit_Widget->dst, &rDest);
+      alphablit(pEdit_Widget->gfx, NULL, pEdit_Widget->dst, &rDest);
     } else {
       pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
 			      get_wstate(pEdit_Widget),
@@ -3523,7 +3543,7 @@ int redraw_edit(struct GUI *pEdit_Widget)
     }
 
     /* blit theme */
-    SDL_BlitSurface(pEdit, NULL, pEdit_Widget->dst, &rDest);
+    alphablit(pEdit, NULL, pEdit_Widget->dst, &rDest);
 
     /* set position and blit text */
     if (pText) {
@@ -3539,7 +3559,7 @@ int redraw_edit(struct GUI *pEdit_Widget)
         }
       }
 
-      SDL_BlitSurface(pText, NULL, pEdit_Widget->dst, &rDest);
+      alphablit(pText, NULL, pEdit_Widget->dst, &rDest);
     }
     /* pText */
     iRet = pEdit->h;
@@ -3966,16 +3986,16 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
     tile_count_midd++;
 
   if (!tile_count_midd) {
-    pVerSurf = create_surf(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
+    pVerSurf = create_surf_alpha(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
   } else {
-    pVerSurf = create_surf(pVert_theme->w, High, SDL_SWSURFACE);
+    pVerSurf = create_surf_alpha(pVert_theme->w, High, SDL_SWSURFACE);
   }
 
   src.x = 0;
   src.y = start_y;
   src.w = pVert_theme->w;
   src.h = tile_len_end;
-  SDL_BlitSurface(pVert_theme, &src, pVerSurf, NULL);
+  alphablit(pVert_theme, &src, pVerSurf, NULL);
 
   src.y = start_y + tile_len_end;
   src.h = tile_len_midd;
@@ -3984,15 +4004,13 @@ static SDL_Surface *create_vertical_surface(SDL_Surface * pVert_theme,
 
   for (i = 0; i < tile_count_midd; i++) {
     des.y = tile_len_end + i * tile_len_midd;
-    SDL_BlitSurface(pVert_theme, &src, pVerSurf, &des);
+    alphablit(pVert_theme, &src, pVerSurf, &des);
   }
 
   src.y = start_y + tile_len_end + tile_len_midd;
   src.h = tile_len_end;
   des.y = pVerSurf->h - tile_len_end;
-  SDL_BlitSurface(pVert_theme, &src, pVerSurf, &des);
-
-  SDL_SetColorKey(pVerSurf, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
+  alphablit(pVert_theme, &src, pVerSurf, &des);
 
   return pVerSurf;
 }
@@ -4036,6 +4054,7 @@ int redraw_vert(struct GUI *pVert)
 						    pVert->size.h);
   ret =
       blit_entire_src(pVert_Surf, pVert->dst, pVert->size.x, pVert->size.y);
+  
   FREESURFACE(pVert_Surf);
 
   return ret;
@@ -4097,16 +4116,16 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
   }
 
   if (!tile_count_midd) {
-    pHorSurf = create_surf(tile_len_end * 2, pHoriz_theme->h, SDL_SWSURFACE);
+    pHorSurf = create_surf_alpha(tile_len_end * 2, pHoriz_theme->h, SDL_SWSURFACE);
   } else {
-    pHorSurf = create_surf(Width, pHoriz_theme->h, SDL_SWSURFACE);
+    pHorSurf = create_surf_alpha(Width, pHoriz_theme->h, SDL_SWSURFACE);
   }
 
   src.y = 0;
   src.x = start_x;
   src.h = pHoriz_theme->h;
   src.w = tile_len_end;
-  SDL_BlitSurface(pHoriz_theme, &src, pHorSurf, NULL);
+  alphablit(pHoriz_theme, &src, pHorSurf, NULL);
 
   src.x = start_x + tile_len_end;
   src.w = tile_len_midd;
@@ -4115,15 +4134,13 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface * pHoriz_theme,
 
   for (i = 0; i < tile_count_midd; i++) {
     des.x = tile_len_end + i * tile_len_midd;
-    SDL_BlitSurface(pHoriz_theme, &src, pHorSurf, &des);
+    alphablit(pHoriz_theme, &src, pHorSurf, &des);
   }
 
   src.x = start_x + tile_len_end + tile_len_midd;
   src.w = tile_len_end;
   des.x = pHorSurf->w - tile_len_end;
-  SDL_BlitSurface(pHoriz_theme, &src, pHorSurf, &des);
-
-  SDL_SetColorKey(pHorSurf, SDL_SRCCOLORKEY | SDL_RLEACCEL, 0x0);
+  alphablit(pHoriz_theme, &src, pHorSurf, &des);
 
   return pHorSurf;
 }
@@ -4211,6 +4228,8 @@ int draw_horiz(struct GUI *pHoriz, Sint16 x, Sint16 y)
 SDL_Surface * get_buffer_layer(bool transparent)
 {
   SDL_Surface *pBuffer;
+  
+#if 0    
   Uint32 colorkey;
   
   /* create buffer */
@@ -4226,6 +4245,9 @@ SDL_Surface * get_buffer_layer(bool transparent)
   /* clear buffer and setup transparent pixels */
   SDL_FillRect(pBuffer, NULL, colorkey);
   SDL_SetColorKey(pBuffer, SDL_SRCCOLORKEY, colorkey);
+#endif
+
+  pBuffer = create_surf_alpha(Main.screen->w, Main.screen->h, SDL_SWSURFACE);
   
   /* add to buffers array */
   if (Main.guis) {
@@ -4425,11 +4447,10 @@ int resize_window(struct GUI *pWindow,
     }
   }
 
-  pBcgd = create_surf(new_w, new_h, SDL_SWSURFACE);
+  pBcgd = create_surf_alpha(new_w, new_h, SDL_SWSURFACE);
   
   if ((get_wflags(pWindow) & WF_DRAW_THEME_TRANSPARENT)) {
     pWindow->theme = SDL_DisplayFormatAlpha(pBcgd);
-    SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
     FREESURFACE(pBcgd);
   } else {
     pWindow->theme = pBcgd;
@@ -5276,8 +5297,10 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent, void *pData
     				pMove->pWindow->dst->format->BytesPerPixel);
    
    /* undraw window */
+   clear_surface(pMove->pWindow->dst, &pMove->pWindow->size);
    blit_entire_src(pMove->pWindow->gfx, pMove->pWindow->dst,
 			pMove->pWindow->size.x, pMove->pWindow->size.y);
+    
    sdl_dirty_rect(pMove->pWindow->size);    
   } else {
     /* undraw frame */
@@ -5380,7 +5403,8 @@ int redraw_window(struct GUI *pWindow)
   SDL_Rect dst = pWindow->size;
 
   /* Draw theme */
-  SDL_BlitSurface(pWindow->theme, NULL, pWindow->dst, &dst);
+  clear_surface(pWindow->dst, &dst);
+  alphablit(pWindow->theme, NULL, pWindow->dst, &dst);
 
   /* window has title string == has title bar */
   if (pWindow->string16) {
@@ -5400,7 +5424,7 @@ int redraw_window(struct GUI *pWindow)
     dst.x += 10;
     if(pTmp) {
       dst.y += ((WINDOW_TILE_HIGH - pTmp->h) / 2);
-      SDL_BlitSurface(pTmp, NULL, pWindow->dst, &dst);
+      alphablit(pTmp, NULL, pWindow->dst, &dst);
       FREESURFACE(pTmp);
     }
   
@@ -5424,26 +5448,27 @@ int redraw_window(struct GUI *pWindow)
 void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
 		Uint16 w, Uint16 h)
 {
+  /* FIXME: where should frame width and height be defined? */
   SDL_Surface *pTmp_Vert =
-      ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w, h - 2, 1);
+      ResizeSurface(pTheme->FR_Vert, /*pTheme->FR_Vert->w*/FRAME_WH, h - 2, 1);
   SDL_Surface *pTmp_Hor =
-      ResizeSurface(pTheme->FR_Hor, w - 2, pTheme->FR_Hor->h, 1);
+      ResizeSurface(pTheme->FR_Hor, w - 2, /*pTheme->FR_Hor->h*/FRAME_WH, 1);
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   dst.y++;
   tmp = dst;
-  SDL_BlitSurface(pTmp_Vert, NULL, pDest, &tmp);
+  alphablit(pTmp_Vert, NULL, pDest, &tmp);
   dst.x += w - pTmp_Vert->w;
   tmp = dst;
-  SDL_BlitSurface(pTmp_Vert, NULL, pDest, &tmp);
+  alphablit(pTmp_Vert, NULL, pDest, &tmp);
 
   dst.x = start_x + 1;
   dst.y--;
   tmp = dst;
-  SDL_BlitSurface(pTmp_Hor, NULL, pDest, &tmp);
+  alphablit(pTmp_Hor, NULL, pDest, &tmp);
   dst.y += h - pTmp_Hor->h;
   tmp = dst;
-  SDL_BlitSurface(pTmp_Hor, NULL, pDest, &tmp);
+  alphablit(pTmp_Hor, NULL, pDest, &tmp);
 
   FREESURFACE(pTmp_Hor);
   FREESURFACE(pTmp_Vert);
@@ -5457,36 +5482,11 @@ void refresh_widget_background(struct GUI *pWidget)
   if (pWidget) {
     if (pWidget->gfx && pWidget->gfx->w == pWidget->size.w &&
       				pWidget->gfx->h == pWidget->size.h) {
-      bool is_colorkey = (pWidget->dst->flags & SDL_SRCCOLORKEY) > 0;
-      static Uint32 colorkey;
-      if(pWidget->dst->format->Amask) {
-	/* turn off alpha */
-        SDL_SetAlpha(pWidget->dst, 0x0, 0x0);
-      } else {
-	/* turn off colorkey */
-	if(is_colorkey) {
-	  colorkey = pWidget->dst->format->colorkey;
-	  SDL_SetColorKey(pWidget->dst, 0x0, colorkey);
-	}
-      }
-      SDL_BlitSurface(pWidget->dst, &pWidget->size, pWidget->gfx, NULL);
-      if(pWidget->dst->format->Amask) {
-	/* turn on alpha */
-       SDL_SetAlpha(pWidget->dst, SDL_SRCALPHA, 255);
-      } else {
-	/* turn on colorkey */
-	if(is_colorkey) {
-	  SDL_SetColorKey(pWidget->dst, SDL_SRCCOLORKEY, colorkey);
-	}
-      }
+      clear_surface(pWidget->gfx, NULL);
+      alphablit(pWidget->dst, &pWidget->size, pWidget->gfx, NULL);
     } else {
       FREESURFACE(pWidget->gfx);
       pWidget->gfx = crop_rect_from_surface(pWidget->dst, &pWidget->size);
-      if(pWidget->gfx->format->Amask) {
-       SDL_SetAlpha(pWidget->gfx, 0x0, 0x0);
-      } else {
-	SDL_SetColorKey(pWidget->gfx, 0x0, 0x0);
-      }
     }
   }
 }
@@ -5644,7 +5644,7 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   pLabel->size.w = MAX(pLabel->size.w, w);
   pLabel->size.h = MAX(pLabel->size.h, h);
   
-  pBuf = create_surf(pLabel->size.w, pLabel->size.h * 2, SDL_SWSURFACE);
+  pBuf = create_surf_alpha(pLabel->size.w, pLabel->size.h * 2, SDL_SWSURFACE);
     
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
     pTheme = SDL_DisplayFormatAlpha(pBuf);
@@ -5657,12 +5657,6 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   		pText->bgcol.g, pText->bgcol.b, pText->bgcol.unused);
   SDL_FillRect(pTheme, NULL, colorkey);
     
-#if 0  
-  if(pDest->format->Amask) {
-    SDL_SetAlpha(pTheme, 0x0, 0x0);
-  }
-#endif
-  
   pLabel->size.x = 0;
   pLabel->size.y = 0;
   area = pLabel->size;
@@ -5676,9 +5670,6 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   area.y = pLabel->size.h;
     
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    if(!pText->bgcol.unused) {
-      SDL_SetColorKey(pTheme, SDL_SRCCOLORKEY|SDL_RLEACCEL, colorkey);
-    }
     SDL_FillRect(pTheme, &area, SDL_MapRGBA(pTheme->format, 0, 0, 255, 96));
     store = pText->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
@@ -5711,7 +5702,7 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
   SDL_Color store = {0, 0, 0, 0};
   SDL_Color color = {0,0,255,96};
   Uint32 colorkey, flags = get_wflags(pIconLabel);
-  SDL_Surface *pDest, *pTheme, *pBuf = create_surf(pIconLabel->size.w,
+  SDL_Surface *pDest, *pTheme, *pBuf = create_surf_alpha(pIconLabel->size.w,
 				  pIconLabel->size.h * 2, SDL_SWSURFACE);
   
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
@@ -5726,12 +5717,6 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
 		pIconLabel->string16->bgcol.b,
 		pIconLabel->string16->bgcol.unused);
   SDL_FillRect(pTheme, NULL, colorkey);
-    
-#if 0
-  if(pDest->format->Amask) {
-    SDL_SetAlpha(pTheme, 0x0, 0x0);
-  }
-#endif
   
   start = pIconLabel->size;
   pIconLabel->size.x = 0;
@@ -5748,9 +5733,6 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
   area.y = pIconLabel->size.h;
     
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    if(!pIconLabel->string16->bgcol.unused) {
-      SDL_SetColorKey(pTheme, SDL_SRCCOLORKEY|SDL_RLEACCEL, colorkey);
-    }
     SDL_FillRect(pTheme, &area, SDL_MapRGBA(pTheme->format, 0, 0, 255, 96));
     store = pIconLabel->string16->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
@@ -5846,7 +5828,7 @@ static inline int redraw_themelabel2(struct GUI *pLabel)
     src.y = pLabel->size.h;
   }
 
-  return SDL_BlitSurface(pLabel->theme, &src, pLabel->dst, &dst);
+  return alphablit(pLabel->theme, &src, pLabel->dst, &dst);
 }
 
 /**************************************************************************
@@ -5876,13 +5858,6 @@ static int redraw_iconlabel(struct GUI *pLabel)
   }
 
   pText = create_text_surf_from_str16(pLabel->string16);
-
-  if(pText && (pLabel->string16->render == 3) &&
-    (flags & WF_DRAW_THEME_TRANSPARENT) &&
-    ((pLabel->dst->format->BitsPerPixel == 32) && pLabel->dst->format->Amask))
-  {
-    SDL_SetAlpha(pText, 0x0, 0x0);
-  }
   
   if (pLabel->theme) {		/* Icon */
     if (pText) {
@@ -5921,7 +5896,7 @@ static int redraw_iconlabel(struct GUI *pLabel)
 
     dst.x = pLabel->size.x + xI;
     dst.y = pLabel->size.y + yI;
-    ret = SDL_BlitSurface(pLabel->theme, NULL, pLabel->dst, &dst);
+    ret = alphablit(pLabel->theme, NULL, pLabel->dst, &dst);
     
     if (ret) {
       return ret - 10;
@@ -5983,7 +5958,7 @@ static int redraw_iconlabel(struct GUI *pLabel)
 
     dst.x = pLabel->size.x + x;
     dst.y = pLabel->size.y + y;
-    ret = SDL_BlitSurface(pText, NULL, pLabel->dst, &dst);
+    ret = alphablit(pText, NULL, pLabel->dst, &dst);
     FREESURFACE(pText);
 
   }
@@ -6001,17 +5976,15 @@ int redraw_label(struct GUI *pLabel)
   SDL_Rect area = pLabel->size;
   SDL_Color bar_color = {0, 128, 255, 128};
   SDL_Color backup_color = {0, 0, 0, 0};
- 
+
   /* if label transparen then clear background under widget
    * or save this background */
   if (get_wflags(pLabel) & WF_DRAW_THEME_TRANSPARENT) {
     if (pLabel->gfx) {
-      SDL_BlitSurface(pLabel->gfx, NULL, pLabel->dst, &area);
+      clear_surface(pLabel->dst, &area);
+      alphablit(pLabel->gfx, NULL, pLabel->dst, &area);
     } else {
       pLabel->gfx = crop_rect_from_surface(pLabel->dst, &pLabel->size);
-      if (pLabel->dst->format->Amask) {
-	SDL_SetAlpha(pLabel->gfx, 0x0, 0x0);
-      }
     }
   }
 
@@ -6211,6 +6184,7 @@ int redraw_textcheckbox(struct GUI *pCBox)
   /* if label transparen then clear background under widget or save this background */
   if (get_wflags(pCBox) & WF_DRAW_THEME_TRANSPARENT) {
     if (pCBox->gfx) {
+      clear_surface(pCBox->dst, &pCBox->size);
       blit_entire_src(pCBox->gfx, pCBox->dst, pCBox->size.x, pCBox->size.y);
     } else {
       pCBox->gfx = crop_rect_from_surface(pCBox->dst, &pCBox->size);

@@ -86,7 +86,7 @@ void flush_mapcanvas(int canvas_x , int canvas_y ,
 		     int pixel_width , int pixel_height)
 {
   SDL_Rect rect = {canvas_x, canvas_y, pixel_width, pixel_height};
-  SDL_BlitSurface(mapview.store->surf, &rect, Main.map, &rect);
+  alphablit(mapview.store->surf, &rect, Main.map, &rect);
 }
 
 void flush_rect(SDL_Rect rect, bool force_flush)
@@ -101,13 +101,13 @@ void flush_rect(SDL_Rect rect, bool force_flush)
       if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      SDL_BlitSurface(Main.map, &rect, Main.screen, &dst);
+      alphablit(Main.map, &rect, Main.screen, &dst);
       dst = rect;
-      SDL_BlitSurface(Main.gui, &rect, Main.screen, &dst);
+      alphablit(Main.gui, &rect, Main.screen, &dst);
       if (Main.guis) {
         while((i < Main.guis_count) && Main.guis[i]) {
           dst = rect;
-          SDL_BlitSurface(Main.guis[i++], &rect, Main.screen, &dst);
+          alphablit(Main.guis[i++], &rect, Main.screen, &dst);
         }
       }
       i = 0;
@@ -213,12 +213,11 @@ void flush_dirty(void)
     if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {     
       flush_mapcanvas(0, 0, Main.screen->w, Main.screen->h);
     }
-    SDL_BlitSurface(Main.map, NULL, Main.screen, NULL);
-    SDL_BlitSurface(Main.gui, NULL, Main.screen, NULL);
-    
+    alphablit(Main.map, NULL, Main.screen, NULL);
+    alphablit(Main.gui, NULL, Main.screen, NULL);
     if (Main.guis) {
       while((j < Main.guis_count) && Main.guis[j]) {
-        SDL_BlitSurface(Main.guis[j++], NULL, Main.screen, NULL);
+        alphablit(Main.guis[j++], NULL, Main.screen, NULL);
       }
     }
     j = 0;
@@ -237,14 +236,13 @@ void flush_dirty(void)
       if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {     
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      SDL_BlitSurface(Main.map, &Main.rects[i], Main.screen, &dst);
+      alphablit(Main.map, &Main.rects[i], Main.screen, &dst);
       dst = Main.rects[i];
-      SDL_BlitSurface(Main.gui, &Main.rects[i], Main.screen, &dst);
-
+      alphablit(Main.gui, &Main.rects[i], Main.screen, &dst);
       if (Main.guis) {
         while((j < Main.guis_count) && Main.guis[j]) {
           dst = Main.rects[i];
-          SDL_BlitSurface(Main.guis[j++], &Main.rects[i], Main.screen, &dst);
+          alphablit(Main.guis[j++], &Main.rects[i], Main.screen, &dst);
         }
       }
       j = 0;
@@ -283,26 +281,12 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   
   pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   pBuf->theme = adj_surf(GET_SURF(sol));
-  SDL_SetAlpha(pBuf->theme, 0, 0);
   redraw_label(pBuf);
     
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
   pBuf->theme = adj_surf(GET_SURF(flake));
-  SDL_SetAlpha(pBuf->theme, 0, 0);  
   redraw_label(pBuf);
     
-#if 0  
-  putframe(pBuf->dst, pBuf->size.x - pBuf->size.w - 1,
-	   pBuf->size.y - 1,
-	   pBuf->size.x + pBuf->size.w,
-	   pBuf->size.y + pBuf->size.h,
-	   SDL_MapRGB(pBuf->dst->format, 255, 255, 255));
-	   
-  dirty_rect(pBuf->size.x - pBuf->size.w - 1, pBuf->size.y - 1,
-	      2 * pBuf->size.w + 2, 2 * pBuf->size.h + 2);
-#endif
-
-
   pBuf = get_revolution_widget();
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), FALSE);    
   
@@ -320,32 +304,6 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   
   pBuf = get_tax_rates_widget();
   if(!pBuf->theme) {
-#if 0    
-    /* create economy icon */
-    int i;
-    
-    #ifdef SMALL_SCREEN
-    SDL_Surface *pIcon = create_surf(8, 10, SDL_SWSURFACE);
-    #else
-    SDL_Surface *pIcon = create_surf(16, 19, SDL_SWSURFACE);
-    #endif
-    
-    Uint32 color = SDL_MapRGB(pIcon->format, 255, 255, 0);
-    SDL_Rect dst;
-    for(i = 0; i < pIcon->w; i+=3) {
-      putline(pIcon, i, 0, i, pIcon->h - 1, color);
-    }
-    for(i = 0; i < pIcon->h; i+=3) {
-      putline(pIcon, 0, i, pIcon->w - 1, i, color);
-    }
-    
-    dst.x = (pIcon->w - pIcons->pBIG_Trade->w) / 2;
-    dst.y = (pIcon->h - pIcons->pBIG_Trade->h) / 2;
-    SDL_BlitSurface(pIcons->pBIG_Trade, NULL, pIcon, &dst);
-    
-    SDL_SetColorKey(pIcon, SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
-    set_new_icon2_theme(pBuf,pIcon, FALSE);
-#endif    
     set_new_icon2_theme(pBuf,
                  adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD))), FALSE);
   }
@@ -420,55 +378,51 @@ void update_info_label(void)
   /* set text settings */
   pText->style |= TTF_STYLE_BOLD;
   pText->fgcol = (SDL_Color) {255, 255, 255, 255};
-  pText->render = 3;
-  pText->bgcol = col;
+  pText->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (game.player_ptr) {
-  my_snprintf(buffer, sizeof(buffer),
-	      _("%s Population: %s  Year: %s  "
-		"Gold %d Tax: %d Lux: %d Sci: %d "),
-	      get_nation_name(game.player_ptr->nation),
-	      population_to_text(civ_population(game.player_ptr)),
-	      textyear(game.info.year),
-	      game.player_ptr->economic.gold,
-	      game.player_ptr->economic.tax,
-	      game.player_ptr->economic.luxury,
-	      game.player_ptr->economic.science);
+    my_snprintf(buffer, sizeof(buffer),
+                _("%s Population: %s  Year: %s  "
+                  "Gold %d Tax: %d Lux: %d Sci: %d "),
+                get_nation_name(game.player_ptr->nation),
+                population_to_text(civ_population(game.player_ptr)),
+                textyear(game.info.year),
+                game.player_ptr->economic.gold,
+                game.player_ptr->economic.tax,
+                game.player_ptr->economic.luxury,
+                game.player_ptr->economic.science);
+    
+    /* convert to unistr and create text surface */
+    copy_chars_to_string16(pText, buffer);
+    pTmp = create_text_surf_from_str16(pText);
   
-  /* convert to unistr and create text surface */
-  copy_chars_to_string16(pText, buffer);
-  pTmp = create_text_surf_from_str16(pText);
-
-  area.x = (Main.gui->w - pTmp->w) / 2 - adj_size(5);
-  area.w = pTmp->w + adj_size(8);
-    area.h = pTmp->h + adj_size(4);
-
-  color = SDL_MapRGBA(Main.gui->format, col.r, col.g, col.b, col.unused);
-  SDL_FillRect(Main.gui, &area , color);
+    area.x = (Main.gui->w - pTmp->w) / 2 - adj_size(5);
+    area.w = pTmp->w + adj_size(8);
+      area.h = pTmp->h + adj_size(4);
   
-  color = SDL_MapRGB(Main.gui->format, col.r, col.g, col.b);
+    color = SDL_MapRGBA(Main.gui->format, col.r, col.g, col.b, col.unused);
+    SDL_FillRect(Main.gui, &area , color);
+    
+    color = SDL_MapRGB(Main.gui->format, col.r, col.g, col.b);
+    
+    /* Horizontal lines */
+    putline(Main.gui, area.x + 1, area.y,
+                    area.x + area.w - 2, area.y , color);
+    putline(Main.gui, area.x + 1, area.y + area.h - 1,
+                    area.x + area.w - 2, area.y + area.h - 1, color);
   
-  /* Horizontal lines */
-  putline(Main.gui, area.x + 1, area.y,
-		  area.x + area.w - 2, area.y , color);
-  putline(Main.gui, area.x + 1, area.y + area.h - 1,
-		  area.x + area.w - 2, area.y + area.h - 1, color);
-
-  /* vertical lines */
-  putline(Main.gui, area.x + area.w - 1, area.y + 1 ,
-  	area.x + area.w - 1, area.y + area.h - 2, color);
-  putline(Main.gui, area.x, area.y + 1, area.x,
-	  area.y + area.h - 2, color);
-
-  /* turn off alpha calculate */
-  SDL_SetAlpha(pTmp, 0x0, 0x0);
-
-  /* blit text to screen */  
+    /* vertical lines */
+    putline(Main.gui, area.x + area.w - 1, area.y + 1 ,
+          area.x + area.w - 1, area.y + area.h - 2, color);
+    putline(Main.gui, area.x, area.y + 1, area.x,
+            area.y + area.h - 2, color);
+  
+    /* blit text to screen */  
     blit_entire_src(pTmp, Main.gui, area.x + adj_size(5), area.y + adj_size(2));
-  
-  sdl_dirty_rect(area);
-  
-  FREESURFACE(pTmp);
+    
+    sdl_dirty_rect(area);
+    
+    FREESURFACE(pTmp);
   }
 
   set_indicator_icons(client_research_sprite(),
@@ -499,7 +453,8 @@ static int fucus_units_info_callback(struct GUI *pWidget)
 void redraw_unit_info_label(struct unit *pUnit)
 {
   struct GUI *pInfo_Window = get_unit_info_window_widget();
-  SDL_Rect src, area = {pInfo_Window->size.x, pInfo_Window->size.y, 0, 0};
+  SDL_Rect src, area = {pInfo_Window->size.x, pInfo_Window->size.y,
+                        pInfo_Window->size.w, pInfo_Window->size.h};
   SDL_Surface *pBuf_Surf;
   SDL_String16 *pStr;
   struct canvas *destcanvas;
@@ -509,8 +464,9 @@ void redraw_unit_info_label(struct unit *pUnit)
     /* Unit Window is Show */
 
     /* blit theme surface */
-    SDL_BlitSurface(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
-    
+    clear_surface(pInfo_Window->dst, &area);
+    alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
+
     if (pUnit) {
       SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
       int sy, y, sx, width, height, n;
@@ -529,8 +485,8 @@ void redraw_unit_info_label(struct unit *pUnit)
       copy_chars_to_string16(pStr, unit_type(pUnit)->name);
             
       pStr->style |= TTF_STYLE_BOLD;
+      pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
       pName = create_text_surf_from_str16(pStr);
-      SDL_SetAlpha(pName, 0x0 , 0x0);
       pStr->style &= ~TTF_STYLE_BOLD;
       
       if (pInfo_Window->size.w > 1.8 * DEFAULT_UNITS_W) {
@@ -546,7 +502,6 @@ void redraw_unit_info_label(struct unit *pUnit)
         change_ptsize16(pStr, adj_font(10));
 	pStr->fgcol.b = 255;
         pVet_Name = create_text_surf_from_str16(pStr);
-	SDL_SetAlpha(pVet_Name, 0x0, 0x0);
         pStr->fgcol.b = 0;
       }
 
@@ -563,7 +518,6 @@ void redraw_unit_info_label(struct unit *pUnit)
 
       copy_chars_to_string16(pStr, buffer);
       pInfo = create_text_surf_from_str16(pStr);
-      SDL_SetAlpha(pInfo, 0x0, 0x0);
       
       if (pInfo_Window->size.h > DEFAULT_UNITS_H || right) {
 	int h = TTF_FontHeight(pInfo_Window->string16->font);
@@ -667,7 +621,6 @@ void redraw_unit_info_label(struct unit *pUnit)
 	copy_chars_to_string16(pStr, buffer);
       
 	pInfo_II = create_text_surf_smaller_that_w(pStr, width - BLOCKU_W - adj_size(10));
-	SDL_SetAlpha(pInfo_II, 0x0, 0x0);
 	
       }
       /* ------------------------------------------- */
@@ -692,13 +645,13 @@ void redraw_unit_info_label(struct unit *pUnit)
       area.x = pInfo_Window->size.x + FRAME_WH + BLOCKU_W +
 			    (width - pName->w - BLOCKU_W - DOUBLE_FRAME_WH) / 2;
             
-      SDL_BlitSurface(pName, NULL, pInfo_Window->dst, &area);
+      alphablit(pName, NULL, pInfo_Window->dst, &area);
       sy += pName->h;
       if(pVet_Name) {
 	area.y += pName->h - adj_size(3);
         area.x = pInfo_Window->size.x + FRAME_WH + BLOCKU_W +
 		(width - pVet_Name->w - BLOCKU_W - DOUBLE_FRAME_WH) / 2;
-        SDL_BlitSurface(pVet_Name, NULL, pInfo_Window->dst, &area);
+        alphablit(pVet_Name, NULL, pInfo_Window->dst, &area);
 	sy += pVet_Name->h - adj_size(3);
         FREESURFACE(pVet_Name);
       }
@@ -717,13 +670,13 @@ void redraw_unit_info_label(struct unit *pUnit)
 	      (DEFAULT_UNITS_H - (sy - y) - FRAME_WH - pInfo->h) / 2;
             
       /* blit unit info text */
-      SDL_BlitSurface(pInfo, NULL, pInfo_Window->dst, &area);
+      alphablit(pInfo, NULL, pInfo_Window->dst, &area);
       FREESURFACE(pInfo);
       
       area.x = pInfo_Window->size.x + sx;
       area.y = pInfo_Window->size.y + y +
       		(DEFAULT_UNITS_H - DOUBLE_FRAME_WH - src.h) / 2;
-      SDL_BlitSurface(pBuf_Surf, &src, pInfo_Window->dst, &area);
+      alphablit(pBuf_Surf, &src, pInfo_Window->dst, &area);
       
       
       if (pInfo_II) {
@@ -739,7 +692,7 @@ void redraw_unit_info_label(struct unit *pUnit)
         }
       
         /* blit unit info text */
-        SDL_BlitSurface(pInfo_II, NULL, pInfo_Window->dst, &area);
+        alphablit(pInfo_II, NULL, pInfo_Window->dst, &area);
               
         if (right) {
           sy = DEFAULT_UNITS_H;
@@ -786,7 +739,7 @@ void redraw_unit_info_label(struct unit *pUnit)
           destcanvas = canvas_create(tileset_full_tile_width(tileset), tileset_full_tile_height(tileset));
   
           put_unit(aunit, destcanvas, 0, 0);
-          SDL_BlitSurface(adj_surf(destcanvas->surf), NULL, pBuf_Surf, NULL);
+          alphablit(adj_surf(destcanvas->surf), NULL, pBuf_Surf, NULL);
 
           canvas_free(destcanvas);
 
@@ -796,8 +749,6 @@ void redraw_unit_info_label(struct unit *pUnit)
             FREESURFACE(pBuf_Surf);
             pBuf_Surf = pZoomed;
           }
-          SDL_SetColorKey(pBuf_Surf, SDL_SRCCOLORKEY | SDL_RLEACCEL, 
-  				get_first_pixel(pBuf_Surf));
 	    
 	  pStr = create_str16_from_char(buffer, 10);
           pStr->style |= SF_CENTER;
@@ -890,6 +841,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       }
     
     } else { /* pUnit */
+
       if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
 	del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
 	    		pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
@@ -897,19 +849,19 @@ void redraw_unit_info_label(struct unit *pUnit)
       if (pInfo_Window->private_data.adv_dlg->pScroll) {
 	hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
       }
-      
+
       if (game.player_ptr) {
-      change_ptsize16(pInfo_Window->string16, adj_font(14));
-      copy_chars_to_string16(pInfo_Window->string16,
-      					_("End of Turn\n(Press Enter)"));
-      pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
-      SDL_SetAlpha(pBuf_Surf, 0x0, 0x0);
-      area.x = pInfo_Window->size.x + BLOCKU_W +
-      			(pInfo_Window->size.w - BLOCKU_W - pBuf_Surf->w)/2;
-      area.y = pInfo_Window->size.y + (pInfo_Window->size.h - pBuf_Surf->h)/2;
-      SDL_BlitSurface(pBuf_Surf, NULL, pInfo_Window->dst, &area);
-      FREESURFACE(pBuf_Surf);
-    }
+        change_ptsize16(pInfo_Window->string16, adj_font(14));
+        copy_chars_to_string16(pInfo_Window->string16/*pStr*/,
+                                          _("End of Turn\n(Press Enter)"));
+        pInfo_Window->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
+        pBuf_Surf = create_text_surf_from_str16(pInfo_Window->string16);
+        area.x = pInfo_Window->size.x + BLOCKU_W +
+                          (pInfo_Window->size.w - BLOCKU_W - pBuf_Surf->w)/2;
+        area.y = pInfo_Window->size.y + (pInfo_Window->size.h - pBuf_Surf->h)/2;
+        alphablit(pBuf_Surf, NULL, pInfo_Window->dst, &area);
+        FREESURFACE(pBuf_Surf);
+      }
     }
 
     redraw_group(pInfo_Window->private_data.adv_dlg->pBeginWidgetList,
@@ -921,7 +873,7 @@ void redraw_unit_info_label(struct unit *pUnit)
     area.x = Main.screen->w - pBuf_Surf->w - FRAME_WH;
     area.y = Main.screen->h - pBuf_Surf->h - FRAME_WH;
     
-    SDL_BlitSurface(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
+    alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
 #endif    
   }
   
@@ -1084,10 +1036,9 @@ void refresh_overview(void)
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
 
     SDL_Rect dst = {OVERVIEW_START_X, OVERVIEW_START_Y, 0, 0};
-    SDL_BlitSurface(overview_canvas->surf, NULL,
-                  pMMap->theme, &dst);
-      
-    SDL_BlitSurface(pMMap->theme, NULL, pMMap->dst, &map_area);
+    clear_surface(pMMap->dst, &pMMap->size);
+    alphablit(overview_canvas->surf, NULL, pMMap->theme, &dst);
+    alphablit(pMMap->theme, NULL, pMMap->dst, &map_area);
     
 #if 0          
     map_area.x += OVERVIEW_START_X;
@@ -1267,10 +1218,10 @@ SDL_Surface *get_terrain_surface(struct tile *ptile)
     
   terrain_canvas = canvas_create(tileset_full_tile_width(tileset),
                                       tileset_full_tile_height(tileset));
+
+  SDL_SetColorKey(terrain_canvas->surf, SDL_SRCCOLORKEY, 0);
   
   put_terrain(ptile, terrain_canvas, 0, 0);
   
-  SDL_SetColorKey(terrain_canvas->surf , SDL_SRCCOLORKEY|SDL_RLEACCEL , 0x0);  
-
   return terrain_canvas->surf;
 }

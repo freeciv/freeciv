@@ -115,11 +115,9 @@ void real_update_meswin_dialog(void)
   struct GUI *pBuf = NULL, *pWindow = pMsg_Dlg->pEndWidgetList;
   SDL_String16 *pStr = NULL;
   SDL_Color active_color = {255, 255, 0, 255};
-  SDL_Color color = {255, 255, 255, 128};
   bool create;
   int w = pWindow->size.w - FRAME_WH - DOUBLE_FRAME_WH -
 			  pMsg_Dlg->pScroll->pUp_Left_Button->size.w;
-  
   
   if (i && msg_count <= i) {
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
@@ -143,8 +141,7 @@ void real_update_meswin_dialog(void)
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
-      pBuf->string16->bgcol = color;
-      pBuf->string16->render = 3;
+      pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
       
       pBuf->size.w = w;
       pBuf->data.ptr = (void *)pMsg;	
@@ -173,7 +170,7 @@ void real_update_meswin_dialog(void)
       
     } /* for */
   } /* if */
-  
+
   redraw_group(pMsg_Dlg->pBeginWidgetList, pWindow, 0);
   flush_rect(pWindow->size, FALSE);
 }
@@ -232,19 +229,17 @@ void popup_meswin_dialog(bool raise)
   /* create static text on window */
   pStr = create_str16_from_char(_("Log"), adj_font(12));
   pStr->style = TTF_STYLE_BOLD;
-  pStr->render = 3;
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     
   pSurf = create_text_surf_from_str16(pStr);
   area.x += adj_size(10);
   area.y += ((WINDOW_TILE_HIGH - pSurf->h) / 2);
-  SDL_BlitSurface(pSurf, NULL, pWindow->theme, &area);
+  alphablit(pSurf, NULL, pWindow->theme, &area);
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
   
   putframe(pWindow->theme, 0, 0, w - 1, h - 1, 0xFF000000);
   
-  SDL_SetAlpha(pWindow->theme, 0x0 , 0x0);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = move_msg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -262,8 +257,7 @@ void popup_meswin_dialog(bool raise)
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
-      pBuf->string16->bgcol = color;
-      pBuf->string16->render = 3;
+      pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
       pBuf->size.x = start_x;
       pBuf->size.w = w;
       pBuf->data.ptr = (void *)pMsg;	

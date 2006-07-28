@@ -170,8 +170,7 @@ void popup_find_dialog(void)
       pBuf->string16->style &= ~SF_CENTER;
       pBuf->string16->fgcol =
 	    *(get_player_color(tileset, city_owner(pCity))->color);	  
-      pBuf->string16->render = 3;
-      pBuf->string16->bgcol.unused = 128;
+      pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     
       pBuf->data.city = pCity;
   

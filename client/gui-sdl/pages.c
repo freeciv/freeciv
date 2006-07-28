@@ -204,12 +204,12 @@ static void show_main_page()
 		w, h, pWidget, pFirst);
 		
   pArea = fc_calloc(1, sizeof(SDL_Rect));
-  
+
   pArea->x = pFirst->size.x - FRAME_WH;
   pArea->y = pFirst->size.y - FRAME_WH;
   pArea->w = pFirst->size.w + DOUBLE_FRAME_WH;
   pArea->h = count * pFirst->size.h + DOUBLE_FRAME_WH;
-  
+
   pFirst->data.ptr = (void *)pArea;
   
   draw_intro_gfx();
@@ -219,7 +219,6 @@ static void show_main_page()
   pTmp = ResizeSurface(pLogo, pArea->w, pArea->h , 1);
   FREESURFACE(pLogo);
   
-  SDL_SetAlpha(pTmp, 0x0, 0x0);
   blit_entire_src(pTmp, pFirst->dst, pArea->x , pArea->y);
   FREESURFACE(pTmp);
   
@@ -227,8 +226,7 @@ static void show_main_page()
       
   redraw_group(pWidget, pFirst, 0);
   
-  draw_frame(pFirst->dst, pFirst->size.x - FRAME_WH, pFirst->size.y - FRAME_WH ,
-  	w + DOUBLE_FRAME_WH, (h*count) + DOUBLE_FRAME_WH);
+  draw_frame(pFirst->dst, pArea->x, pArea->y, pArea->w, pArea->h);
 
   set_output_window_text(_("SDLClient welcomes you..."));
 
@@ -247,11 +245,10 @@ static void show_main_page()
 static void popdown_start_menu()
 {
   if(pStartMenu) {
-    SDL_FillRect(pStartMenu->pEndWidgetList->dst,
-    			(SDL_Rect *)pStartMenu->pEndWidgetList->data.ptr, 0x0);
-  
-    sdl_dirty_rect(*((SDL_Rect *)pStartMenu->pEndWidgetList->data.ptr));
+    clear_surface(pStartMenu->pEndWidgetList->dst,
+    			(SDL_Rect *)pStartMenu->pEndWidgetList->data.ptr);
     
+    sdl_dirty_rect(*((SDL_Rect *)pStartMenu->pEndWidgetList->data.ptr));
   
     del_group_of_widgets_from_gui_list(pStartMenu->pBeginWidgetList,
     						pStartMenu->pEndWidgetList);

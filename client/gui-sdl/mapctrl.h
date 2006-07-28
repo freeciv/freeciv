@@ -41,7 +41,7 @@
 
 #else
 
-#define BLOCKM_W		56
+#define BLOCKM_W		52
 #define BLOCKU_W                30
 #define DEFAULT_MINI_MAP_W	156 + BLOCKM_W + DOUBLE_FRAME_WH
 #define DEFAULT_MINI_MAP_H	104 + DOUBLE_FRAME_WH

@@ -309,8 +309,8 @@ static int work_lists_callback(struct GUI *pWidget)
   hide_group(pOption_Dlg->pBeginMainOptionsWidgetList,
 	     pOption_Dlg->pBeginCoreOptionsWidgetList->prev);
   /* ----------------------------- */
-	/* create white background */		
-  pBuf = create_iconlabel(create_surf(area.w, area.h - 30, SDL_SWSURFACE),
+  /* create white background */		
+  pBuf = create_iconlabel(create_surf_alpha(area.w, area.h - 30, SDL_SWSURFACE),
   			pWindow->dst, NULL, WF_FREE_THEME);
   pBuf->size = area;
   c = (SDL_Color){255, 255, 255, 255};
@@ -1979,18 +1979,15 @@ static int disconnect_callback(struct GUI *pWidget)
   popdown_optiondlg();
   
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
-    SDL_Rect area;
-    
     /* undraw buton */
-    area = pOptions_Button->size;
-    SDL_BlitSurface(pOptions_Button->gfx, NULL, pOptions_Button->dst, &area);
+    clear_surface(pOptions_Button->dst, &pOptions_Button->size);
     sdl_dirty_rect(pOptions_Button->size);
     
 #if 0
     /* hide "waiting for game start" label */
     pOptions_Button = get_widget_pointer_form_main_list(ID_WAITING_LABEL);
     area = pOptions_Button->size;
-    SDL_BlitSurface(pOptions_Button->gfx, NULL, pOptions_Button->dst, &area);
+    alphablit(pOptions_Button->gfx, NULL, pOptions_Button->dst, &area);
     sdl_dirty_rect(pOptions_Button->size);
 #endif    
       
@@ -2118,7 +2115,8 @@ void popup_optiondlg(void)
   pStr = create_str16_from_char(_("Options"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10),
+                                                WF_DRAW_THEME_TRANSPARENT);
   pWindow->action = main_optiondlg_callback;
   
   set_wstate(pWindow, FC_WS_NORMAL);

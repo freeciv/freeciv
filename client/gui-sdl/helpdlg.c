@@ -228,14 +228,14 @@ void popup_impr_info(Impr_type_id impr)
       /* draw name tech text */ 
       dst.x = adj_size(40) + (pBack->w - pText->w - adj_size(40)) / 2;
       dst.y = (pBack->h - pText->h) / 2;
-      SDL_BlitSurface(pText, NULL, pBack, &dst);
+      alphablit(pText, NULL, pBack, &dst);
       FREESURFACE(pText);
     
       /* draw tech icon */
       pText = adj_surf(GET_SURF(get_building_sprite(tileset, type)));
       dst.x = adj_size(5);
       dst.y = (pBack->h - pText->h) / 2;
-      SDL_BlitSurface(pText, NULL, pBack, &dst);
+      alphablit(pText, NULL, pBack, &dst);
       
       pBuf = create_icon2(pBack, pWindow->dst,
       		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
@@ -588,7 +588,7 @@ void popup_unit_info(Unit_type_id type_id)
       /* draw name tech text */ 
       dst.x = adj_size(35) + (pBack->w - pText->w - adj_size(35)) / 2;
       dst.y = (pBack->h - pText->h) / 2;
-      SDL_BlitSurface(pText, NULL, pBack, &dst);
+      alphablit(pText, NULL, pBack, &dst);
       FREESURFACE(pText);
     
       /* draw tech icon */
@@ -598,7 +598,7 @@ void popup_unit_info(Unit_type_id type_id)
       }
       dst.x = (adj_size(35) - pText->w) / 2;;
       dst.y = (pBack->h - pText->h) / 2;
-      SDL_BlitSurface(pText, NULL, pBack, &dst);
+      alphablit(pText, NULL, pBack, &dst);
       FREESURFACE(pText);
 
       pBuf = create_icon2(pBack, pWindow->dst,
@@ -914,7 +914,7 @@ static void redraw_tech_info_dlg(void)
     dst.y = pStore->pDock->prev->prev->size.y 
 	      + pStore->pDock->prev->prev->size.h + adj_size(10);
   }
-  SDL_BlitSurface(pText0, NULL, pWindow->dst, &dst);
+  alphablit(pText0, NULL, pWindow->dst, &dst);
   FREESURFACE(pText0);
 
   if (pStore->pSub_Targets[0])
@@ -933,9 +933,9 @@ static void redraw_tech_info_dlg(void)
     {
       dst.x = pStore->pSub_Targets[i]->size.x - pText0->w;
       dst.y = pStore->pSub_Targets[i]->size.y;
-      SDL_BlitSurface(pText0, NULL, pWindow->dst, &dst);
+      alphablit(pText0, NULL, pWindow->dst, &dst);
       dst.x = pStore->pSub_Targets[i]->size.x + pStore->pSub_Targets[i]->size.w;
-      SDL_BlitSurface(pText1, NULL, pWindow->dst, &dst);
+      alphablit(pText1, NULL, pWindow->dst, &dst);
       i++;
     }
       
@@ -1294,7 +1294,7 @@ static void redraw_tech_tree_dlg(void)
   SDL_SetAlpha(pSurf, SDL_SRCALPHA, 164);
   dst.x = pWindow->size.x + pWindow->size.w - pSurf->w - adj_size(50);
   dst.y = pWindow->size.y + (pWindow->size.h - pSurf->h) / 2;;
-  SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dst);
+  alphablit(pSurf, NULL, pWindow->dst, &dst);
   FREESURFACE(pSurf);
   
   

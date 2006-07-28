@@ -342,7 +342,7 @@ static int save_cma_callback(struct GUI *pWidget)
   /* label */
   dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
   dst.y = WINDOW_TILE_HIGH + adj_size(2);
-  SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + adj_size(5);
   FREESURFACE(pText);
   
@@ -464,8 +464,7 @@ static void popup_load_del_presets_dialog(bool load, struct GUI *pButton)
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
     	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->bgcol.unused = 128;
-    pBuf->string16->render = 3;
+    pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf->action = LD_cma_callback;
     
     ww = MAX(ww, pBuf->size.w);
@@ -689,25 +688,25 @@ void update_city_cma_dialog(void)
 		   + result.specialists[SP_SCIENTIST]
 		   + result.specialists[SP_TAXMAN]); i++) {
       pText = get_citizen_surface(CITIZEN_CONTENT, i);
-      SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst, &dst);
       dst.x += step;
     }
     
     pText = GET_SURF(get_tax_sprite(tileset, O_LUXURY));
     for (i = 0; i < result.specialists[SP_ELVIS]; i++) {
-      SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst, &dst);
       dst.x += step;
     }
 
     pText = GET_SURF(get_tax_sprite(tileset, O_GOLD));
     for (i = 0; i < result.specialists[SP_TAXMAN]; i++) {
-      SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst, &dst);
       dst.x += step;
     }
 
     pText = GET_SURF(get_tax_sprite(tileset, O_SCIENCE));
     for (i = 0; i < result.specialists[SP_SCIENTIST]; i++) {
-      SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+      alphablit(pText, NULL, pBuf->dst, &dst);
       dst.x += step;
     }
   }
@@ -730,7 +729,7 @@ void update_city_cma_dialog(void)
   
   dst.x += adj_size(5);
   dst.y += adj_size(5);
-  SDL_BlitSurface(pText, NULL, pBuf->dst, &dst);
+  alphablit(pText, NULL, pBuf->dst, &dst);
   FREESURFACE(pText);
   
   /* happy factor scrollbar */
@@ -1029,16 +1028,16 @@ void popup_city_cma_dialog(struct city *pCity)
   	area.x + area.w - 1, area.y + area.h - 1, 0xff000000);
   
   area.x = dst.x + text_w + adj_size(10);
-  SDL_BlitSurface(pMinimal, NULL, pWindow->theme, &area);
+  alphablit(pMinimal, NULL, pWindow->theme, &area);
   area.x += pMinimal->w + adj_size(10);
   FREESURFACE(pMinimal);
   
-  SDL_BlitSurface(pFactor, NULL, pWindow->theme, &area);
+  alphablit(pFactor, NULL, pWindow->theme, &area);
   FREESURFACE(pFactor);
   
   area.x = adj_size(25);
   area.y = WINDOW_TILE_HIGH + adj_size(35);
-  SDL_BlitSurface(pCity_Map, NULL, pWindow->theme, &area);
+  alphablit(pCity_Map, NULL, pWindow->theme, &area);
   FREESURFACE(pCity_Map);
   
   output_type_iterate(i) {
@@ -1078,7 +1077,7 @@ void popup_city_cma_dialog(struct city *pCity)
     putframe(pWindow->theme, area.x, area.y,
   	area.x + area.w - 1, area.y + area.h - 1, 0xff000000);
         
-    SDL_BlitSurface(pText[i], NULL, pWindow->theme, &dst);
+    alphablit(pText[i], NULL, pWindow->theme, &dst);
     dst.y += pText[i]->h + adj_size(6);
     FREESURFACE(pText[i]);
     
@@ -1110,7 +1109,7 @@ void popup_city_cma_dialog(struct city *pCity)
   /* celebrate static text */
   dst.x += (adj_size(10) + pBuf->size.w + adj_size(5));
   dst.y += (pBuf->size.h - pText[O_COUNT]->h) / 2;
-  SDL_BlitSurface(pText[O_COUNT], NULL, pWindow->theme, &dst);
+  alphablit(pText[O_COUNT], NULL, pWindow->theme, &dst);
   FREESURFACE(pText[O_COUNT]);
   /* ------------------------ */
   

@@ -191,7 +191,6 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 {
   SDL_String16 *pStr;
   struct GUI *pBuf, *pWindow = pConnDlg->pEndWidgetList;
-  SDL_Color bg = {0, 0, 0, 0};
   
   assert(pUniStr != NULL);
   assert(n_alloc != 0);
@@ -206,8 +205,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
     while (UniTexts[count]) {
       pStr2 = create_string16(UniTexts[count],
       					unistrlen(UniTexts[count]) + 1, adj_font(12));
-      pStr2->render = 3;
-      pStr2->bgcol = bg;
+      pStr2->bgcol = (SDL_Color) {0, 0, 0, 0};
       pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr2, pConnDlg->text_width, 0,
 		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -223,8 +221,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
     			pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
     FREESTRING16(pStr);
   } else {
-    pStr->render = 3;
-    pStr->bgcol = bg;
+    pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr, pConnDlg->text_width, 0,
 		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -306,13 +303,11 @@ void update_conn_list_dialog(void)
 {
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     if (pConnDlg) {
-      SDL_Color bg = {0, 0, 0, 0};
       struct GUI *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
       SDL_String16 *pStr = create_string16(NULL, 0, adj_font(12));
       bool create;
       
-      pStr->render = 3;
-      pStr->bgcol = bg;
+      pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     
       if (pConnDlg->pUsers_Dlg) {
         del_group(pConnDlg->pUsers_Dlg->pBeginActiveWidgetList,
@@ -466,11 +461,7 @@ static void popup_conn_list_dialog(void)
     pStr = create_str16_from_char(cBuf, adj_font(12));
   }
   
-  pStr->render = 3;
-  pStr->bgcol.r = 0;
-  pStr->bgcol.g = 0;
-  pStr->bgcol.b = 0;
-  pStr->bgcol.unused = 0;
+  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   
   pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr, pConnDlg->text_width, 0,

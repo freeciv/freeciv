@@ -145,8 +145,6 @@ static void update_goto_dialog(void)
       
       pBuf->string16->fgcol =
 	    *(get_player_color(tileset, city_owner(pCity))->color);	  	  
-      pBuf->string16->render = 3;
-      pBuf->string16->bgcol.unused = 128;      
       pBuf->action = goto_city_callback;
       
       if(GOTO || pCity->airlift) {
@@ -307,8 +305,7 @@ static void popup_goto_airlift_dialog(void)
   
   block_x = dst.x = pWindow->theme->w - FRAME_WH - pFlag->w;
   dst.y = WINDOW_TILE_HIGH + 1;
-  SDL_SetAlpha(pFlag, 0x0, 0x0);
-  SDL_BlitSurface(pFlag, NULL, pWindow->theme, &dst);
+  alphablit(pFlag, NULL, pWindow->theme, &dst);
   FREESURFACE(pFlag);
 
   /* exit button */

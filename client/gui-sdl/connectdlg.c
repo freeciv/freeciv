@@ -223,10 +223,8 @@ void popup_connection_dialog(struct GUI *pWidget)
   my_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
   pStr = create_str16_from_char(cBuf, adj_font(16));
   pStr->style = TTF_STYLE_BOLD;
-  pStr->render = 3;
-  pStr->bgcol = col;
+  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   pLogo = create_text_surf_from_str16(pStr);
-  SDL_SetAlpha(pLogo, 0x0, 0x0);
     
   area.w = pLogo->w + adj_size(60);
   area.h = pLogo->h + adj_size(30);
@@ -242,7 +240,7 @@ void popup_connection_dialog(struct GUI *pWidget)
   
   area.x += adj_size(30);
   area.y += adj_size(15);
-  SDL_BlitSurface(pLogo, NULL, pDest, &area);
+  alphablit(pLogo, NULL, pDest, &area);
   unqueue_flush();
   
   FREESURFACE(pLogo);
@@ -295,7 +293,6 @@ void popup_connection_dialog(struct GUI *pWidget)
 	WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_DRAW_THEME_TRANSPARENT);
     
     pNewWidget->string16->style |= SF_CENTER;
-    pNewWidget->string16->render = 3;
     pNewWidget->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     
     pNewWidget->action = sellect_meta_severs_callback;
@@ -351,7 +348,7 @@ void popup_connection_dialog(struct GUI *pWidget)
   if (resize_window(pWindow , pLogo , NULL , w , meta_h)) {
     FREESURFACE(pLogo);
   }
-  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
+  
   w -= adj_size(20);
   
   area.w = w + 1;
@@ -599,8 +596,7 @@ void popup_join_game_dialog(struct GUI *pWidget)
 
   area->x = (pDest->w - dialog_w)/ 2;
   area->y = (pDest->h - dialog_h)/ 2 + adj_size(40);
-  SDL_SetAlpha(pTmp, 0x0, 0x0);
-  SDL_BlitSurface(pTmp, NULL, pDest, area);
+  alphablit(pTmp, NULL, pDest, area);
   FREESURFACE(pTmp);
 
   putframe(pDest, area->x, area->y, area->x + dialog_w - 1,
@@ -792,8 +788,7 @@ static void popup_user_passwd_dialog(char *pMessage)
 
   area->x = (pDest->w - dialog_w)/ 2;
   area->y = (pDest->h - dialog_h)/ 2 + adj_size(40);
-  SDL_SetAlpha(pTmp, 0x0, 0x0);
-  SDL_BlitSurface(pTmp, NULL, pDest, area);
+  alphablit(pTmp, NULL, pDest, area);
   FREESURFACE(pTmp);
 
   putframe(pDest, area->x, area->y, area->x + dialog_w - 1,
@@ -964,8 +959,7 @@ static void popup_new_user_passwd_dialog(char *pMessage)
 
   area->x = (pDest->w - dialog_w)/ 2;
   area->y = (pDest->h - dialog_h)/ 2 + adj_size(40);
-  SDL_SetAlpha(pTmp, 0x0, 0x0);
-  SDL_BlitSurface(pTmp, NULL, pDest, area);
+  alphablit(pTmp, NULL, pDest, area);
   FREESURFACE(pTmp);
 
   putframe(pDest, area->x, area->y, area->x + dialog_w - 1,

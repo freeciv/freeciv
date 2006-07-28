@@ -171,8 +171,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     add_to_gui_list(ID_BUTTON, pBuf);
     
     pStr = create_str16_from_char(get_spaceship_descr(NULL), adj_font(12));
-    pStr->render = 3;
-    pStr->bgcol.unused = 128;
+    pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
     w = MAX(w, pBuf->size.w);
     h += pBuf->size.h + adj_size(20);

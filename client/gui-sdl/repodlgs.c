@@ -255,7 +255,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
   /* label */
   dst.x = FRAME_WH + (ww - DOUBLE_FRAME_WH - pText->w) / 2;
   dst.y = WINDOW_TILE_HIGH + adj_size(11);
-  SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst);
   FREESURFACE(pText);
    
   /* cancel button */
@@ -617,7 +617,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5)) - pText3->w) / 2;
-  SDL_BlitSurface(pText3, NULL, pWindow->theme, &dst);
+  alphablit(pText3, NULL, pWindow->theme, &dst);
   FREESURFACE(pText3);
   
   /* total active widget */
@@ -658,7 +658,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5))- pText4->w) / 2;
-  SDL_BlitSurface(pText4, NULL, pWindow->theme, &dst);
+  alphablit(pText4, NULL, pWindow->theme, &dst);
   FREESURFACE(pText4);
   
   /* active count background and label */  
@@ -672,7 +672,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
     
   dst.x += adj_size(3);
-  SDL_BlitSurface(pText1, NULL, pWindow->theme, &dst);
+  alphablit(pText1, NULL, pWindow->theme, &dst);
   ww = pText1->w;
   hh = pText1->h;
   FREESURFACE(pText1);
@@ -689,7 +689,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y = WINDOW_TILE_HIGH + adj_size(4);
   dst.x += ((ww - pIcons->pBIG_Shield->w) / 2);
-  SDL_BlitSurface(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst);
+  alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst);
   
   /* food cost background and label */
   dst.x = w + ww + adj_size(10);
@@ -704,7 +704,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y = WINDOW_TILE_HIGH + adj_size(4);
   dst.x += ((ww - pIcons->pBIG_Food->w) / 2);
-  SDL_BlitSurface(pIcons->pBIG_Food, NULL, pWindow->theme, &dst);
+  alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst);
   
   /* gold cost background and label */
   dst.x = w + ww + adj_size(10);
@@ -719,7 +719,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   dst.y = WINDOW_TILE_HIGH + adj_size(4);
   dst.x += ((ww - pIcons->pBIG_Coin->w) / 2);
-  SDL_BlitSurface(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst);
+  alphablit(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst);
   
   /* building count background and label */
   dst.x = w + ww + adj_size(10);
@@ -734,7 +734,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
 			  
   dst.x += adj_size(3);
-  SDL_BlitSurface(pText2, NULL, pWindow->theme, &dst);
+  alphablit(pText2, NULL, pWindow->theme, &dst);
   FREESURFACE(pText2);
    
   /* building count background and label */
@@ -748,7 +748,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
 			  
   dst.x += adj_size(3);
-  SDL_BlitSurface(pText5, NULL, pWindow->theme, &dst);
+  alphablit(pText5, NULL, pWindow->theme, &dst);
   FREESURFACE(pText5);
   
   if(count) {
@@ -1541,7 +1541,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
   /* label */
   dst.x = FRAME_WH + (ww - DOUBLE_FRAME_WH - pText->w) / 2;
   dst.y = WINDOW_TILE_HIGH + adj_size(11);
-  SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst);
   FREESURFACE(pText);
    
   /* cancel button */
@@ -1876,8 +1876,7 @@ void popup_economy_report_dialog(bool make_modal)
     
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
-    pStr->render = 3;
-    pStr->bgcol = color;
+    pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
@@ -1889,7 +1888,6 @@ void popup_economy_report_dialog(bool make_modal)
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText_Name = create_text_surf_smaller_that_w(pStr, pSurf->w - adj_size(4));
-      SDL_SetAlpha(pText_Name, 0x0, 0x0);
             
       my_snprintf(cBuf, sizeof(cBuf), "%s %d\n%s %d",
 			_("Built"), p->count, _("U Total"),p->total_cost);
@@ -1897,8 +1895,6 @@ void popup_economy_report_dialog(bool make_modal)
       pStr->style &= ~TTF_STYLE_BOLD;
   
       pText = create_text_surf_from_str16(pStr);
-      SDL_SetAlpha(pText, 0x0, 0x0);
-
       
       /*-----------------*/
   
@@ -1906,20 +1902,20 @@ void popup_economy_report_dialog(bool make_modal)
       		GET_SURF(get_building_sprite(tileset, p->type)), 1.5, 1.5, 1));
       dst.x = (pSurf->w - pZoom->w)/2;
       dst.y = (pSurf->h/2 - pZoom->h)/2;
-      SDL_BlitSurface(pZoom, NULL, pSurf, &dst);
+      alphablit(pZoom, NULL, pSurf, &dst);
       dst.y += pZoom->h;
       FREESURFACE(pZoom);
   
       dst.x = (pSurf->w - pText_Name->w)/2;
       dst.y += ((pSurf->h - dst.y) -
 	      (pText_Name->h + (pIcons->pBIG_Coin->h + 2) + pText->h))/2;
-      SDL_BlitSurface(pText_Name, NULL, pSurf, &dst);
+      alphablit(pText_Name, NULL, pSurf, &dst);
       
       dst.y += pText_Name->h;
       if(p->cost) {
 	dst.x = (pSurf->w - p->cost * (pIcons->pBIG_Coin->w + 1))/2;
         for(count = 0; count < p->cost; count++) {
-	  SDL_BlitSurface(pIcons->pBIG_Coin, NULL, pSurf, &dst);
+	  alphablit(pIcons->pBIG_Coin, NULL, pSurf, &dst);
 	  dst.x += pIcons->pBIG_Coin->w + 1;
         }
       } else {
@@ -1932,16 +1928,15 @@ void popup_economy_report_dialog(bool make_modal)
         /*pStr->style &= ~TTF_STYLE_BOLD;*/
   
         pZoom = create_text_surf_from_str16(pStr);
-        SDL_SetAlpha(pZoom, 0x0, 0x0);
 	
 	dst.x = (pSurf->w - pZoom->w)/2;
-	SDL_BlitSurface(pZoom, NULL, pSurf, &dst);
+	alphablit(pZoom, NULL, pSurf, &dst);
 	FREESURFACE(pZoom);
       }
       
       dst.y += (pIcons->pBIG_Coin->h + adj_size(2));
       dst.x = (pSurf->w - pText->w)/2;
-      SDL_BlitSurface(pText, NULL, pSurf, &dst);
+      alphablit(pText, NULL, pSurf, &dst);
   
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
@@ -2079,23 +2074,23 @@ void popup_economy_report_dialog(bool make_modal)
   /* draw statical strings */
   dst.x = FRAME_WH + adj_size(10);
   dst.y = WINDOW_TILE_HIGH + adj_size(1 + 5);
-  SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h;
   FREESURFACE(pText);
 
-  SDL_BlitSurface(pText_Name, NULL, pWindow->theme, &dst);
+  alphablit(pText_Name, NULL, pWindow->theme, &dst);
   dst.y += pText_Name->h;
   FREESURFACE(pText_Name);
 
-  SDL_BlitSurface(pSurf, NULL, pWindow->theme, &dst);
+  alphablit(pSurf, NULL, pWindow->theme, &dst);
   dst.y += pSurf->h;
   FREESURFACE(pSurf);
 
-  SDL_BlitSurface(pZoom, NULL, pWindow->theme, &dst);
+  alphablit(pZoom, NULL, pWindow->theme, &dst);
   dst.y += pZoom->h;
   FREESURFACE(pZoom);
   
-  SDL_BlitSurface(pText2, NULL, pWindow->theme, &dst);
+  alphablit(pText2, NULL, pWindow->theme, &dst);
   dst.y += pText2->h;
   FREESURFACE(pText2);
 
@@ -2109,7 +2104,7 @@ void popup_economy_report_dialog(bool make_modal)
   dst.x = FRAME_WH + adj_size(10) + w +
 	(pWindow->size.w - (w + DOUBLE_FRAME_WH + adj_size(10)) - pMain->w) / 2;
 	
-  SDL_BlitSurface(pMain, NULL, pWindow->theme, &dst);
+  alphablit(pMain, NULL, pWindow->theme, &dst);
   dst.y += (pMain->h + 1);
   FREESURFACE(pMain);
   
@@ -2339,14 +2334,14 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
     /* draw name tech text */ 
     dst.x = 35 + (pSurf->w - pText->w - 35) / 2;
     dst.y = (pSurf->h - pText->h) / 2;
-    SDL_BlitSurface(pText, NULL, pSurf, &dst);
+    alphablit(pText, NULL, pSurf, &dst);
     FREESURFACE(pText);
     
     /* draw tech icon */
     pText = ResizeSurface(pTmp, 25, 25, 1);
     dst.x = (35 - pText->w) / 2;;
     dst.y = (pSurf->h - pText->h) / 2;
-    SDL_BlitSurface(pText, NULL, pSurf, &dst);
+    alphablit(pText, NULL, pSurf, &dst);
     FREESURFACE(pText);
     
   } else {
@@ -2354,13 +2349,13 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
     /* draw name tech text */ 
     dst.x = (pSurf->w - pText->w) / 2;
     dst.y = 20;
-    SDL_BlitSurface(pText, NULL, pSurf, &dst);
+    alphablit(pText, NULL, pSurf, &dst);
     dst.y += pText->h + 10;
     FREESURFACE(pText);
     
     /* draw tech icon */
     dst.x = (pSurf->w - pTmp->w) / 2;
-    SDL_BlitSurface(pTmp, NULL, pSurf, &dst);
+    alphablit(pTmp, NULL, pSurf, &dst);
     dst.y += pTmp->w + 10;
 
     /* fill array with iprvm. icons */
@@ -2386,7 +2381,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       pBuf_Array = Surf_Array;
       h = 0;
       while (w) {
-        SDL_BlitSurface(*pBuf_Array, NULL, pSurf, &dst);
+        alphablit(*pBuf_Array, NULL, pSurf, &dst);
         dst.x += (*pBuf_Array)->w;
         w--;
         h++;
@@ -2420,11 +2415,11 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
 	  SDL_Surface *pZoomed = ZoomSurface(Surf_Array[0], zoom, zoom, 1);
 	
 	  dst.x = (pSurf->w - pZoomed->w) / 2;
-	  SDL_BlitSurface(pZoomed, NULL, pSurf, &dst);
+	  alphablit(pZoomed, NULL, pSurf, &dst);
 	  FREESURFACE(pZoomed);
         } else {
           dst.x = (pSurf->w - Surf_Array[0]->w) / 2;
-          SDL_BlitSurface(Surf_Array[0], NULL, pSurf, &dst);
+          alphablit(Surf_Array[0], NULL, pSurf, &dst);
         }
       } else {
         float zoom;
@@ -2439,9 +2434,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
         h = 0;
         while (w) {
 	  SDL_Surface *pZoomed = ZoomSurface((*pBuf_Array), zoom, zoom, 1);
-	
-	  SDL_SetColorKey(pZoomed, SDL_SRCCOLORKEY, get_first_pixel(pZoomed));
-          SDL_BlitSurface(pZoomed, NULL, pSurf, &dst);
+          alphablit(pZoomed, NULL, pSurf, &dst);
           dst.x += pZoomed->w + 2;
           w--;
           h++;
@@ -2555,7 +2548,7 @@ void science_dialog_update(void)
       
     dest.x = pWindow->size.x + (pWindow->size.w - pSurf->w) / 2;
     dest.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2);
-    SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
+    alphablit(pSurf, NULL, pWindow->dst, &dest);
 
     dest.y += pSurf->h + adj_size(2);
     FREESURFACE(pSurf);
@@ -2578,7 +2571,7 @@ void science_dialog_update(void)
     pSurf = create_text_surf_from_str16(pStr);
     
     dest.x = pWindow->prev->size.x + pWindow->prev->size.w + adj_size(10);
-    SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
+    alphablit(pSurf, NULL, pWindow->dst, &dest);
 
     dest.y += pSurf->h;
     FREESURFACE(pSurf);
@@ -2615,7 +2608,7 @@ void science_dialog_update(void)
   
     dest.y += adj_size(2);
     for (i = 0; i < cost; i++) {
-      SDL_BlitSurface(pColb_Surface, NULL, pWindow->dst, &dest);
+      alphablit(pColb_Surface, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
 
@@ -2629,7 +2622,7 @@ void science_dialog_update(void)
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if (preq->source.value.tech == get_player_research(game.player_ptr)->researching) {		  
-          SDL_BlitSurface(adj_surf(GET_SURF(get_building_sprite(tileset, imp))), NULL, pWindow->dst, &dest);
+          alphablit(adj_surf(GET_SURF(get_building_sprite(tileset, imp))), NULL, pWindow->dst, &dest);
           dest.x += GET_SURF(get_building_sprite(tileset, imp))->w + 1;
       }
       } requirement_vector_iterate_end;
@@ -2645,12 +2638,12 @@ void science_dialog_update(void)
 	  SDL_Surface *pZoomed =
 	  	ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1);
 	  src = get_smaller_surface_rect(pZoomed);
-	  SDL_BlitSurface(pZoomed, &src, pWindow->dst, &dest);
+	  alphablit(pZoomed, &src, pWindow->dst, &dest);
 	  FREESURFACE(pZoomed);
           dest.x += src.w + adj_size(2);
 	} else {
           src = get_smaller_surface_rect(GET_SURF(get_unittype_sprite(tileset, un)));
-          SDL_BlitSurface(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst, &dest);
+          alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst, &dest);
           dest.x += src.w + adj_size(2);
 	}
       }
@@ -2680,7 +2673,7 @@ void science_dialog_update(void)
       pSurf = create_text_surf_from_str16(pStr);
       
       dest.x = pWindow->prev->size.x + pWindow->prev->size.w + adj_size(10);
-      SDL_BlitSurface(pSurf, NULL, pWindow->dst, &dest);
+      alphablit(pSurf, NULL, pWindow->dst, &dest);
 
       dest.y += pSurf->h + adj_size(4);
       FREESURFACE(pSurf);
@@ -2689,7 +2682,7 @@ void science_dialog_update(void)
         pImpr = get_improvement_type(imp);
 	requirement_vector_iterate(&pImpr->reqs, preq) {  
           if (preq->source.value.tech == get_player_research(game.player_ptr)->tech_goal) {			
-            SDL_BlitSurface(GET_SURF(get_building_sprite(tileset, imp)), NULL, pWindow->dst, &dest);
+            alphablit(GET_SURF(get_building_sprite(tileset, imp)), NULL, pWindow->dst, &dest);
             dest.x += GET_SURF(get_building_sprite(tileset, imp))->w + 1;
         }
         } requirement_vector_iterate_end;
@@ -2705,12 +2698,12 @@ void science_dialog_update(void)
 	    SDL_Surface *pZoomed =
 	  	ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1);
 	    src = get_smaller_surface_rect(pZoomed);
-	    SDL_BlitSurface(pZoomed, &src, pWindow->dst, &dest);
+	    alphablit(pZoomed, &src, pWindow->dst, &dest);
 	    FREESURFACE(pZoomed);
             dest.x += src.w + adj_size(2);
 	  } else {
             src = get_smaller_surface_rect(GET_SURF(get_unittype_sprite(tileset, un)));
-            SDL_BlitSurface(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst, &dest);
+            alphablit(GET_SURF(get_unittype_sprite(tileset, un)), &src, pWindow->dst, &dest);
             dest.x += src.w + adj_size(2);
 	  }
         }

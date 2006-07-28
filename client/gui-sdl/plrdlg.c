@@ -425,7 +425,7 @@ void popup_players_dialog(bool raise)
 	
       dst.x = (pZoomed->w - pLogo->w) / 2;
       dst.y = (pZoomed->h - pLogo->h) / 2;
-      SDL_BlitSurface(pLogo, NULL, pZoomed, &dst);
+      alphablit(pLogo, NULL, pZoomed, &dst);
       FREESURFACE(pLogo);
     }
      
@@ -466,8 +466,8 @@ void popup_players_dialog(bool raise)
   n = WINDOW_TILE_HIGH + adj_size(4);
   pStr = create_string16(NULL, 0, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
-  pStr->render = 3;
-  pStr->bgcol.unused = 128;
+  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
+  
   for(i = 0; i<DS_LAST; i++) {
       switch (i) {
 	case DS_ARMISTICE:
@@ -493,7 +493,6 @@ void popup_players_dialog(bool raise)
       
       copy_chars_to_string16(pStr, diplstate_text(i));
       pLogo = create_text_surf_from_str16(pStr);
-      SDL_SetAlpha(pLogo, 0x0, 0x0);
   
       pBuf = pBuf->prev;
       h = MAX(pBuf->size.h, pLogo->h);
@@ -502,7 +501,7 @@ void popup_players_dialog(bool raise)
       
       dst.x = adj_size(5) + pBuf->size.w + adj_size(6);
       dst.y = n + (h - pLogo->h) / 2;
-      SDL_BlitSurface(pLogo, NULL, pWindow->theme, &dst);
+      alphablit(pLogo, NULL, pWindow->theme, &dst);
       n += h;
       FREESURFACE(pLogo);
   }
@@ -701,8 +700,7 @@ void popup_players_nations_dialog(void)
         break;
       }
       
-      pBuf->string16->render = 3;
-      pBuf->string16->bgcol.unused = 128;
+      pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     
       pBuf->data.player = pPlayer;
   

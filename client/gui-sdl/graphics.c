@@ -58,7 +58,6 @@ static SDL_Surface *pIntro_gfx = NULL;
 
 /* ============ FreeCiv sdl graphics function =========== */
 
-#ifdef USE_ALPHABLIT
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
               SDL_Surface *dst, SDL_Rect *dstrect) {
 
@@ -73,7 +72,6 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
     return SDL_BlitSurface(src, srcrect, dst, dstrect);
   }   
 }
-#endif
 
 /**************************************************************************
   Create new surface (pRect->w x pRect->h size) and copy pRect area of
@@ -87,35 +85,8 @@ SDL_Surface * crop_rect_from_surface(SDL_Surface *pSource,
 					      pRect ? pRect->w : pSource->w,
 					      pRect ? pRect->h : pSource->h,
 					      SDL_SWSURFACE);
-  bool is_colorkey = (pSource->flags & SDL_SRCCOLORKEY) == SDL_SRCCOLORKEY;
-  Uint32 colorkey = 0;
-  
-  if (pSource->format->Amask) {
-    /* turn off alpha blits */
-    SDL_SetAlpha(pSource, 0x0, 0x0);
-  } else {
-    if(is_colorkey) {
-      /* turn off colorkey */
-      colorkey = pSource->format->colorkey;
-      SDL_SetColorKey(pSource, 0x0, colorkey);
-    }
-  }
-  
-  if (SDL_BlitSurface(pSource, pRect, pNew, NULL)) {
+  if (alphablit(pSource, pRect, pNew, NULL)) {
     FREESURFACE(pNew);
-  }
-
-  if (pSource->format->Amask) {
-    /* turn on alpha blits */
-    SDL_SetAlpha(pSource, SDL_SRCALPHA, 255);
-  } else {
-    if(is_colorkey) {
-      /* turn on colorkey */
-      SDL_SetColorKey(pSource, SDL_SRCCOLORKEY, colorkey);
-      if(pNew) {
-        SDL_SetColorKey(pNew, SDL_SRCCOLORKEY, colorkey);
-      }
-    }
   }
   
   return pNew;
@@ -273,6 +244,7 @@ SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags) {
   SDL_Surface *pTmp = create_surf(iWidth, iHeight, iFlags);
   SDL_Surface *pNew = SDL_DisplayFormatAlpha(pTmp);
   FREESURFACE(pTmp);
+  clear_surface(pNew, NULL);  
   
   return pNew;
 }
@@ -315,6 +287,14 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
 }
 
 /**************************************************************************
+  fill surface with (0, 0, 0, 0), so the next blitting operation can set
+  the per pixel alpha
+**************************************************************************/
+int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect) {
+  return SDL_FillRect(pSurf, dstrect, SDL_MapRGBA(pSurf->format, 0, 0, 0, 0));
+}
+
+/**************************************************************************
   blit entire src [SOURCE] surface to destination [DEST] surface
   on position : [iDest_x],[iDest_y] using it's actual alpha and
   color key settings.
@@ -323,7 +303,7 @@ int blit_entire_src(SDL_Surface * pSrc, SDL_Surface * pDest,
 		    Sint16 iDest_x, Sint16 iDest_y)
 {
   SDL_Rect dest_rect = { iDest_x, iDest_y, 0, 0 };
-  return SDL_BlitSurface(pSrc, NULL, pDest, &dest_rect);
+  return alphablit(pSrc, NULL, pDest, &dest_rect);
 }
 
 
@@ -983,8 +963,8 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   
   FREESURFACE(Main.gui);
   Main.gui = SDL_DisplayFormatAlpha(Main.screen);
-  SDL_FillRect(Main.gui, NULL, 0x0);
-  /*SDL_SetColorKey(Main.gui , SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);*/
+  
+  clear_surface(Main.gui, NULL);
 
   return 0;
 }
@@ -3525,10 +3505,8 @@ SDL_Surface * get_logo_gfx(void)
   SDL_Surface *pLogo_Surf = adj_surf(GET_SURF(theme_lookup_sprite_tag_alt(
                                   theme, "theme.logo", "", TRUE, "", "")));
   assert(pLogo_Surf != NULL);
-  pLogo = SDL_CreateRGBSurface(SDL_SWSURFACE,
-			pLogo_Surf->w, pLogo_Surf->h,
-				32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0x0);
-  SDL_BlitSurface(pLogo_Surf, NULL, pLogo, NULL);
+  
+  pLogo = SDL_DisplayFormatAlpha(pLogo_Surf);
   
   return pLogo;
 }
@@ -3549,7 +3527,7 @@ void draw_intro_gfx(void)
   }
   
   /* draw intro gfx center in screen */
-  SDL_BlitSurface(pIntro, NULL, Main.map, NULL);
+  alphablit(pIntro, NULL, Main.map, NULL);
 }
 
 /* ============ FreeCiv game graphics function =========== */

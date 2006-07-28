@@ -631,14 +631,19 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
 {
   int i, step;
   SDL_Rect dest;
-  SDL_Surface *pSurf = create_surf(tileset_full_tile_width(tileset),
+/*  SDL_Surface *pSurf =
+    SDL_DisplayFormatAlpha(GET_SURF(get_unittype_sprite(tileset, pUnit->type))); */
+  
+  SDL_Surface *pSurf = create_surf_alpha(tileset_full_tile_width(tileset),
                         tileset_full_tile_height(tileset), SDL_SWSURFACE);
-
+  
   struct canvas *destcanvas = canvas_create(tileset_full_tile_width(tileset),
                                              tileset_full_tile_height(tileset));  
-
+  SDL_SetColorKey(destcanvas->surf, SDL_SRCCOLORKEY, 0);
+  
   put_unit(pUnit, destcanvas, 0, 0);
-  SDL_BlitSurface(destcanvas->surf, NULL, pSurf, NULL);
+  
+  alphablit(destcanvas->surf, NULL, pSurf, NULL);
 
   canvas_free(destcanvas);
 
@@ -663,29 +668,26 @@ static SDL_Surface *create_unit_surface(struct unit *pUnit, bool support)
     dest.x = pSurf->w / 8;
 
     for (i = 0; i < pUnit->upkeep[O_SHIELD]; i++) {
-      SDL_BlitSurface(pIcons->pShield, NULL, pSurf, &dest);
+      alphablit(pIcons->pShield, NULL, pSurf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < pUnit->upkeep[O_FOOD]; i++) {
-      SDL_BlitSurface(pIcons->pFood, NULL, pSurf, &dest);
+      alphablit(pIcons->pFood, NULL, pSurf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < pUnit->upkeep[O_GOLD]; i++) {
-      SDL_BlitSurface(pIcons->pCoin, NULL, pSurf, &dest);
+      alphablit(pIcons->pCoin, NULL, pSurf, &dest);
       dest.x += step;
     }
 
     for (i = 0; i < pUnit->unhappiness; i++) {
-      SDL_BlitSurface(pIcons->pFace, NULL, pSurf, &dest);
+      alphablit(pIcons->pFace, NULL, pSurf, &dest);
       dest.x += step;
     }
 
   }
-
-  SDL_SetColorKey(pSurf, SDL_SRCCOLORKEY | SDL_RLEACCEL, 
-  				get_first_pixel(pSurf));
 
   return pSurf;
 }
@@ -1267,7 +1269,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   /* label */
   dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
   dst.y = WINDOW_TILE_HIGH + 2;
-  SDL_BlitSurface(pText, NULL, pWindow->theme, &dst);
+  alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + 5;
   FREESURFACE(pText);
   
@@ -1759,7 +1761,7 @@ static void redraw_misc_city_dialog(struct GUI *pCityWindow,
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
 
-  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -1807,7 +1809,7 @@ static void redraw_supported_units_city_dialog(struct GUI *pCityWindow,
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
 
-  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -1868,7 +1870,7 @@ static void redraw_army_city_dialog(struct GUI *pCityWindow,
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
 
-  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -1918,7 +1920,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
       
-  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
   dest.x = pCityWindow->size.x + adj_size(10);
   dest.y += pSurf->h + 1;
@@ -1938,7 +1940,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
     
     pSurf = create_text_surf_from_str16(pStr);
 
-    SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+    alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
     dest.y += pSurf->h + adj_size(3);
 
@@ -1951,7 +1953,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
     }
 
     for (i = 0; i < pCity->pollution; i++) {
-      SDL_BlitSurface(pIcons->pPollution, NULL, pCityWindow->dst, &dest);
+      alphablit(pIcons->pPollution, NULL, pCityWindow->dst, &dest);
       dest.x += step;
     }
 
@@ -1965,7 +1967,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 
     pSurf = create_text_surf_from_str16(pStr);
 
-    SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+    alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
     dest.y += pSurf->h + adj_size(3);
 
@@ -1978,7 +1980,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 
   pSurf = create_text_surf_from_str16(pStr);
 
-  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
   xx = dest.x + pSurf->w;
   dest.y += pSurf->h + adj_size(3);
@@ -2005,12 +2007,12 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 
       pSurf = create_text_surf_from_str16(pStr);
       
-      SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+      alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
       /* blit trade icon */
       dest.x += pSurf->w + adj_size(3);
       dest.y += adj_size(4);
-      SDL_BlitSurface(pIcons->pTrade, NULL, pCityWindow->dst, &dest);
+      alphablit(pIcons->pTrade, NULL, pCityWindow->dst, &dest);
       dest.x = pCityWindow->size.x + adj_size(10);
       dest.y -= adj_size(4);
 
@@ -2025,11 +2027,11 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 
     copy_chars_to_string16(pStr, cBuf);
     pSurf = create_text_surf_from_str16(pStr);
-    SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+    alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
     dest.x += pSurf->w + adj_size(3);
     dest.y += adj_size(4);
-    SDL_BlitSurface(pIcons->pTrade, NULL, pCityWindow->dst, &dest);
+    alphablit(pIcons->pTrade, NULL, pCityWindow->dst, &dest);
 
     FREESURFACE(pSurf);
   } else {
@@ -2041,7 +2043,7 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 
     dest.x = xx;
     dest.y -= pSurf->h + adj_size(3);
-    SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+    alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 
     FREESURFACE(pSurf);
   }
@@ -2078,7 +2080,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
   dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
-  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
   
   dest.x = pCityWindow->size.x + adj_size(10);
   dest.y += pSurf->h + 1;
@@ -2112,7 +2114,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
       if (pCity->ppl_happy[j]) {
 	pSurf = pIcons->pMale_Happy;
 	for (i = 0; i < pCity->ppl_happy[j]; i++) {
-	  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+	  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Happy) {
 	    pSurf = pIcons->pFemale_Happy;
@@ -2125,7 +2127,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
       if (pCity->ppl_content[j]) {
 	pSurf = pIcons->pMale_Content;
 	for (i = 0; i < pCity->ppl_content[j]; i++) {
-	  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+	  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Content) {
 	    pSurf = pIcons->pFemale_Content;
@@ -2138,7 +2140,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
       if (pCity->ppl_unhappy[j]) {
 	pSurf = pIcons->pMale_Unhappy;
 	for (i = 0; i < pCity->ppl_unhappy[j]; i++) {
-	  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+	  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Unhappy) {
 	    pSurf = pIcons->pFemale_Unhappy;
@@ -2151,7 +2153,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
       if (pCity->ppl_angry[j]) {
 	pSurf = pIcons->pMale_Angry;
 	for (i = 0; i < pCity->ppl_angry[j]; i++) {
-	  SDL_BlitSurface(pSurf, NULL, pCityWindow->dst, &dest);
+	  alphablit(pSurf, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	  if (pSurf == pIcons->pMale_Angry) {
 	    pSurf = pIcons->pFemale_Angry;
@@ -2163,21 +2165,21 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
       if (pCity->specialists[SP_ELVIS]) {
 	for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
-	  SDL_BlitSurface(pIcons->pSpec_Lux, NULL, pCityWindow->dst, &dest);
+	  alphablit(pIcons->pSpec_Lux, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	}
       }
 
       if (pCity->specialists[SP_TAXMAN]) {
 	for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
-	  SDL_BlitSurface(pIcons->pSpec_Tax, NULL, pCityWindow->dst, &dest);
+	  alphablit(pIcons->pSpec_Tax, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	}
       }
 
       if (pCity->specialists[SP_SCIENTIST]) {
 	for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
-	  SDL_BlitSurface(pIcons->pSpec_Sci, NULL, pCityWindow->dst, &dest);
+	  alphablit(pIcons->pSpec_Sci, NULL, pCityWindow->dst, &dest);
 	  dest.x += step;
 	}
       }
@@ -2188,7 +2190,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	count = dest.y;
 	dest.y += (pIcons->pMale_Happy->h -
 		   pIcons->pBIG_Luxury->h) / 2;
-	SDL_BlitSurface(pIcons->pBIG_Luxury, NULL, pCityWindow->dst, &dest);
+	alphablit(pIcons->pBIG_Luxury, NULL, pCityWindow->dst, &dest);
 	dest.y = count;
       }
 
@@ -2224,7 +2226,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
           pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
   	                     0.5, 0.5, 1);
             
-	  SDL_BlitSurface(pTmp, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2278,17 +2280,17 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
 
 	if (pTmp1) { /* Temple */
-	  SDL_BlitSurface(pTmp1, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp1, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp1->h + 1);
 	}
 
 	if (pTmp2) { /* Colosseum */
-	  SDL_BlitSurface(pTmp2, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp2, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp2->h + 1);
 	}
 
 	if (pTmp3) { /* Cathedral */
-	  SDL_BlitSurface(pTmp3, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp3, NULL, pCityWindow->dst, &dest);
 	  /*dest.y += (pTmp3->h + 1); */
 	}
 
@@ -2305,7 +2307,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 	i = dest.y;
 	dest.y +=
 	    (pIcons->pMale_Happy->h - pIcons->pPolice->h) / 2;
-	SDL_BlitSurface(pIcons->pPolice, NULL, pCityWindow->dst, &dest);
+	alphablit(pIcons->pPolice, NULL, pCityWindow->dst, &dest);
 	dest.y = i;
       }
 
@@ -2379,7 +2381,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
           pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
   	                     0.5, 0.5, 1);
             
-	  SDL_BlitSurface(pTmp, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2394,7 +2396,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
             GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
   	                     0.5, 0.5, 1);
             
-	  SDL_BlitSurface(pTmp, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2408,7 +2410,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
           pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
   	                     0.5, 0.5, 1);
             
-	  SDL_BlitSurface(pTmp, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
@@ -2471,22 +2473,22 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
 
 	if (pTmp1) { /* Cure of Cancer */
-	  SDL_BlitSurface(pTmp1, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp1, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp1->h + 1);
 	}
 
 	if (pTmp2) { /* Shakespeare Theater */
-	  SDL_BlitSurface(pTmp2, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp2, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp2->h + 1);
 	}
 
 	if (pTmp3) { /* J. S. Bach ... */
-	  SDL_BlitSurface(pTmp3, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp3, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp3->h + 1);
 	}
 
 	if (pTmp4) { /* Hanging Gardens */
-	  SDL_BlitSurface(pTmp4, NULL, pCityWindow->dst, &dest);
+	  alphablit(pTmp4, NULL, pCityWindow->dst, &dest);
 	  /*dest.y += (pTmp4->h + 1); */
 	}
 
@@ -2562,7 +2564,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(222) + (adj_size(115) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(69) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2576,7 +2578,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(354) + (adj_size(147) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(67) + (adj_size(13) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2590,7 +2592,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(517) + (adj_size(115) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(69) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
   /* ================================================================= */
@@ -2607,7 +2609,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(228) + (adj_size(16) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2628,7 +2630,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   for (i = 0; i < count; i++) {
-    SDL_BlitSurface(pIcons->pBIG_Food, NULL, pWindow->dst, &dest);
+    alphablit(pIcons->pBIG_Food, NULL, pWindow->dst, &dest);
     dest.x += step;
   }
 
@@ -2643,7 +2645,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(228) + (adj_size(16) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2674,7 +2676,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x -= step;
     }
   }
@@ -2692,7 +2694,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(263) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2717,7 +2719,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
       if(i > pCity->surplus[O_SHIELD]) {
 	pBuf = pIcons->pBIG_Shield_Corr;
@@ -2737,7 +2739,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(263) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2756,7 +2758,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < (pCity->prod[O_SHIELD] - pCity->surplus[O_SHIELD]); i++) {
-      SDL_BlitSurface(pIcons->pBIG_Shield, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Shield, NULL, pWindow->dst, &dest);
       dest.x -= step;
     }
   }
@@ -2774,7 +2776,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(298) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2791,7 +2793,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < pCity->surplus[O_TRADE]; i++) {
-      SDL_BlitSurface(pIcons->pBIG_Trade, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Trade, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
   }
@@ -2810,7 +2812,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(298) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2828,7 +2830,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < pCity->waste[O_TRADE]; i++) {
-      SDL_BlitSurface(pIcons->pBIG_Trade_Corr, NULL, pWindow->dst,
+      alphablit(pIcons->pBIG_Trade_Corr, NULL, pWindow->dst,
 		      &dest);
       dest.x -= step;
     }
@@ -2847,7 +2849,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(342) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2876,7 +2878,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
 
@@ -2894,7 +2896,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(440) - pBuf->w;
   dest.y = pWindow->size.y + adj_size(342) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2915,7 +2917,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < (pCity->prod[O_GOLD] - count); i++) {
-      SDL_BlitSurface(pIcons->pBIG_Coin_UpKeep, NULL, pWindow->dst,
+      alphablit(pIcons->pBIG_Coin_UpKeep, NULL, pWindow->dst,
 		      &dest);
       dest.x -= step;
     }
@@ -2933,7 +2935,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(376) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2956,7 +2958,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < count; i++) {
-      SDL_BlitSurface(pIcons->pBIG_Colb, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Colb, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
   }
@@ -2973,7 +2975,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(200);
   dest.y = pWindow->size.y + adj_size(412) + (adj_size(15) - pBuf->h) / 2;
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -2992,7 +2994,7 @@ static void redraw_city_dialog(struct city *pCity)
     }
 
     for (i = 0; i < pCity->prod[O_LUXURY]; i++) {
-      SDL_BlitSurface(pIcons->pBIG_Luxury, NULL, pWindow->dst, &dest);
+      alphablit(pIcons->pBIG_Luxury, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
   }
@@ -3023,7 +3025,7 @@ static void redraw_city_dialog(struct city *pCity)
   dest.x = pWindow->size.x + adj_size(445) + (adj_size(192) - pBuf->w) / 2;
   dest.y = pWindow->size.y + adj_size(227);
 
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
 
@@ -3055,7 +3057,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x = pWindow->size.x + adj_size(461) + (adj_size(76) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
 
-    SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+    alphablit(pBuf, NULL, pWindow->dst, &dest);
 
     FREESURFACE(pBuf);
 
@@ -3066,7 +3068,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x = pWindow->size.x + adj_size(549) + (adj_size(76) - pBuf->w) / 2;
     /*dest.y = pWindow->size.y + 258 - pBuf->h - 1; */
 
-    SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+    alphablit(pBuf, NULL, pWindow->dst, &dest);
 
     FREESURFACE(pBuf);
 
@@ -3115,7 +3117,7 @@ static void redraw_city_dialog(struct city *pCity)
     i = 0;
     pBuf = pIcons->pBIG_Food;
     while (count && cost) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += pBuf->w;
       count--;
       cost--;
@@ -3138,7 +3140,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y = pWindow->size.y + adj_size(260) + adj_size(2);
         
     while (count) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += pBuf->w;
       count--;
       i++;
@@ -3164,7 +3166,7 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + adj_size(461) + (adj_size(144) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(258) - pBuf->h - 1;
-    SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+    alphablit(pBuf, NULL, pWindow->dst, &dest);
     FREESURFACE(pBuf);
     
     /* food stock */
@@ -3205,7 +3207,7 @@ static void redraw_city_dialog(struct city *pCity)
     i = 0;
     pBuf = pIcons->pBIG_Food;
     while (count) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += pBuf->w;
       count--;
       i++;
@@ -3240,7 +3242,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.y = pWindow->size.y + adj_size(233);
 
     /* blit unit icon */
-    SDL_BlitSurface(GET_SURF(get_unittype_sprite(tileset, get_unit_type(pCity->production.value))), &src, pWindow->dst, &dest);
+    alphablit(GET_SURF(get_unittype_sprite(tileset, get_unit_type(pCity->production.value))), &src, pWindow->dst, &dest);
 
     dest.y += (src.h - pBuf->h) / 2;
     dest.x += src.w + adj_size(5);
@@ -3279,7 +3281,7 @@ static void redraw_city_dialog(struct city *pCity)
     /* blit impr icon */
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(230);
-    SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+    alphablit(pBuf, NULL, pWindow->dst, &dest);
 
     dest.y += (pBuf->h + adj_size(2));
 
@@ -3289,7 +3291,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* blit unit/impr name */
-  SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+  alphablit(pBuf, NULL, pWindow->dst, &dest);
 
   FREESURFACE(pBuf);
   
@@ -3338,7 +3340,7 @@ static void redraw_city_dialog(struct city *pCity)
 
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
 
-    SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+    alphablit(pBuf, NULL, pWindow->dst, &dest);
 
     FREESTRING16(pStr);
     FREESURFACE(pBuf);
@@ -3355,7 +3357,7 @@ static void redraw_city_dialog(struct city *pCity)
     
     pBuf = pIcons->pBIG_Shield;
     while (count > 0) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += pBuf->w;
       count--;
       if (dest.x > pWindow->size.x + adj_size(170)) {
@@ -3393,7 +3395,7 @@ static void redraw_city_dialog(struct city *pCity)
     for (i = 0; i < pCity->ppl_happy[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_HAPPY, i));
       
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
   }
@@ -3402,7 +3404,7 @@ static void redraw_city_dialog(struct city *pCity)
     for (i = 0; i < pCity->ppl_content[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_CONTENT, i));
       
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
   }
@@ -3411,7 +3413,7 @@ static void redraw_city_dialog(struct city *pCity)
     for (i = 0; i < pCity->ppl_unhappy[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, i));
       
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
   }
@@ -3419,7 +3421,7 @@ static void redraw_city_dialog(struct city *pCity)
   if (pCity->ppl_angry[4]) {
     for (i = 0; i < pCity->ppl_angry[4]; i++) {
       pBuf = adj_surf(get_citizen_surface(CITIZEN_ANGRY, i));
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
     }
   }
@@ -3436,7 +3438,7 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs_area[0].w = pBuf->w;
     pCityDlg->specs_area[0].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_ELVIS]; i++) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
       pCityDlg->specs_area[0].w += step;
     }
@@ -3452,7 +3454,7 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs_area[1].w = pBuf->w;
     pCityDlg->specs_area[1].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_TAXMAN]; i++) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
       pCityDlg->specs_area[1].w += step;
     }
@@ -3468,7 +3470,7 @@ static void redraw_city_dialog(struct city *pCity)
     pCityDlg->specs_area[2].w = pBuf->w;
     pCityDlg->specs_area[2].h = pBuf->h;
     for (i = 0; i < pCity->specialists[SP_SCIENTIST]; i++) {
-      SDL_BlitSurface(pBuf, NULL, pWindow->dst, &dest);
+      alphablit(pBuf, NULL, pWindow->dst, &dest);
       dest.x += step;
       pCityDlg->specs_area[2].w += step;
     }
@@ -3681,8 +3683,7 @@ void popup_city_dialog(struct city *pCity)
   }
     
   pLogo = get_city_gfx();
-  SDL_BlitSurface(pLogo, NULL, pWindow->theme, NULL);
-  SDL_SetAlpha(pWindow->theme, 0x0, 0x0);
+  alphablit(pLogo, NULL, pWindow->theme, NULL);
   
   pCityDlg->pEndCityWidgetList = pWindow;
   add_to_gui_list(ID_CITY_DLG_WINDOW, pWindow);

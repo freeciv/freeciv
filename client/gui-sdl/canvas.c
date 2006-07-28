@@ -67,7 +67,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
   SDL_Rect src_rect = {src_x, src_y, width, height};
   SDL_Rect dest_rect = {dest_x, dest_y, width, height};
 
-  SDL_BlitSurface(src->surf, &src_rect, dest->surf, &dest_rect);
+  alphablit(src->surf, &src_rect, dest->surf, &dest_rect);
 }
 
 /****************************************************************************
@@ -80,7 +80,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
 {
   SDL_Rect src = {offset_x, offset_y, width, height};
   SDL_Rect dst = {canvas_x + offset_x, canvas_y + offset_y, 0, 0};
-  SDL_BlitSurface(GET_SURF(sprite), &src, pcanvas->surf, &dst);
+  alphablit(GET_SURF(sprite), &src, pcanvas->surf, &dst);
 }
 
 /****************************************************************************
@@ -91,7 +91,7 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 			 struct sprite *sprite)
 {
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
-  SDL_BlitSurface(GET_SURF(sprite), NULL, pcanvas->surf, &dst);
+  alphablit(GET_SURF(sprite), NULL, pcanvas->surf, &dst);
 }
 
 /****************************************************************************
@@ -109,7 +109,7 @@ void canvas_put_sprite_fogged(struct canvas *pcanvas,
   /* FIXME: implement fog */
   SDL_Rect dst = {canvas_x, canvas_y, 0, 0};
 
-  SDL_BlitSurface(GET_SURF(psprite), NULL, pcanvas->surf, &dst);  
+  alphablit(GET_SURF(psprite), NULL, pcanvas->surf, &dst);  
 }
 
 /****************************************************************************
@@ -205,7 +205,6 @@ void canvas_put_text(struct canvas *pcanvas, int canvas_x, int canvas_y,
     
   pText->fgcol = *pcolor->color;
   pText->bgcol = (SDL_Color) {0, 0, 0, 0};
-  pText->render = 3;
  
   pTmp = create_text_surf_from_str16(pText);
   

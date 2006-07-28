@@ -706,6 +706,7 @@ Uint16 gui_event_loop(void *pData,
 	  case ANIM:
 	    game_focused_unit_anim();
 	    animate_mouse_cursor();
+            draw_mouse_cursor();
 	  break;
 	  case SHOW_WIDGET_INFO_LABBEL:
 	    draw_widget_info_label();
@@ -782,7 +783,7 @@ void ui_init(void)
      */
     center_main_window_on_screen();
 #endif
-    SDL_BlitSurface(pBgd, NULL, Main.map, NULL);
+    alphablit(pBgd, NULL, Main.map, NULL);
     putframe(Main.map, 0, 0, Main.map->w - 1, Main.map->h - 1,
     			SDL_MapRGB(Main.map->format, 255, 255, 255));
     FREESURFACE(pBgd);
@@ -812,7 +813,6 @@ void ui_init(void)
   
   SDL_FillRect(pBgd, NULL, SDL_MapRGBA(pBgd->format, 255, 255, 255, 128));
   putframe(pBgd, 0, 0, pBgd->w - 1, pBgd->h - 1, SDL_MapRGB(pBgd->format, 0, 0, 0));
-  SDL_SetAlpha(pBgd, 0x0, 0x0);
  
   pInit_String = create_iconlabel(pBgd, Main.gui,
 	create_str16_from_char(_("Initializing Client"), adj_font(20)),

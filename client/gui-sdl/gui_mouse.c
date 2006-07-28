@@ -67,7 +67,7 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy) {
     for (x = 0; x < image->w; x++) {
       color = getpixel(image, x, y);
       SDL_GetRGBA(color, image->format, &r, &g, &b, &a);                    
-      if (((image->flags & SDL_SRCCOLORKEY) == 0) || (a != 0)) {
+      if (a != 0) {
         color = (r + g + b) / 3;
         m[x / 8] |= 128 >> (x & 7);
         if (color < 128) {
@@ -97,8 +97,10 @@ void draw_mouse_cursor() {
   if (use_color_cursors) {
     
     /* restore background */
-    flush_rect(area, TRUE);
-    
+    if (area.w != 0) {
+      flush_rect(area, TRUE);
+    }
+
     SDL_GetMouseState(&cursor_x, &cursor_y);
 
     if (current_color_cursor.cursor != NULL) {
@@ -106,15 +108,20 @@ void draw_mouse_cursor() {
       area.y = cursor_y - current_color_cursor.hot_y;
       area.w = current_color_cursor.cursor->w;
       area.h = current_color_cursor.cursor->h;
+    } else {
+      area.x = 0;
+      area.y = 0;
+      area.w = 0;
+      area.h = 0;
     }
 
     if (current_color_cursor.cursor != NULL) {    
       /* show cursor */    
       SDL_BlitSurface(current_color_cursor.cursor, NULL, Main.screen, &area);
-      
       /* update screen */
       SDL_UpdateRect(Main.screen, area.x, area.y, area.w, area.h);
     }
+    
   }  
 }
 
@@ -137,7 +144,6 @@ void load_cursors(void)
         = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
       
       pSurf = GET_SURF(sprite);
-      SDL_SetColorKey(pSurf, SDL_SRCCOLORKEY, 0);
 
       fc_cursors[cursor][frame] = SurfaceToCursor(pSurf, hot_x, hot_y);
     }
@@ -172,7 +178,7 @@ void animate_mouse_cursor(void)
   if (!mouse_cursor_changed) {
     return;
   }
-  
+
   if (mouse_cursor_type != CURSOR_DEFAULT) {
     if (!do_cursor_animation || (cursor_frame == NUM_CURSOR_FRAMES)) {
       cursor_frame = 0;
