@@ -1413,7 +1413,7 @@ static void show_small_citybar(struct canvas *pcanvas,
 
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
 
-    if (growth[0] != '\0') {
+    if (draw_city_growth) {
       get_text_size(&growth_rect.w, &growth_rect.h, FONT_CITY_PROD, growth);
       /* HACK: put a character's worth of space between the two strings. */
       get_text_size(&extra_width, NULL, FONT_CITY_NAME, "M");
@@ -1424,7 +1424,7 @@ static void show_small_citybar(struct canvas *pcanvas,
 		    canvas_x - total_width / 2, canvas_y,
 		    FONT_CITY_NAME,
 		    get_color(tileset, COLOR_MAPVIEW_CITYTEXT), name);
-    if (growth[0] != '\0') {
+    if (draw_city_growth) {
       canvas_put_text(pcanvas,
 		      canvas_x - total_width / 2 + name_rect.w + extra_width,
 		      canvas_y + total_height - growth_rect.h,
