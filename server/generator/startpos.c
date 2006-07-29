@@ -23,6 +23,7 @@
 
 #include "mapgen_topology.h"
 #include "startpos.h"
+#include "temperature_map.h"
 #include "utilities.h"
 
 struct islands_data_type {
@@ -114,6 +115,14 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
     return FALSE;
   }
 
+  /* A longstanding bug allowed starting positions to exist on poles,
+   * sometimes.  This hack prevents it by setting a fixed distance from
+   * the pole (dependent on map temperature) that a start pos must be.
+   * Cold and frozen tiles are not allowed for start pos placement. */
+  if (tmap_is(ptile, TT_NHOT)) {
+    return FALSE;
+  }
+
   /* Don't start too close to someone else. */
   cont_size = get_continent_size(cont);
   island = islands + islands_index[cont];
@@ -191,6 +200,16 @@ bool create_start_positions(enum start_mode mode)
   /* this is factor is used to maximize land used in extreme little maps */
   float efactor =  game.nplayers / map.size / 4; 
   bool failure = FALSE;
+  bool is_tmap = temperature_is_initialized();
+
+  if (!is_tmap) {
+    /* The temperature map has already been destroyed by the time start
+     * positions have been placed.  We check for this and then create a
+     * false temperature map. This is used in the tmap_is() call above.
+     * We don't create a "real" map here because that requires the height
+     * map and other information which has already been destroyed. */
+    create_tmap(FALSE);
+  }
 
   /* Unsafe terrains separate continents, otherwise small areas of green
    * near the poles could be populated by a civilization if that pole
@@ -370,6 +389,10 @@ bool create_start_positions(enum start_mode mode)
   free(islands_index);
   islands = NULL;
   islands_index = NULL;
-  
+
+  if (!is_tmap) {
+    destroy_tmap();
+  }
+
   return !failure;
 }
