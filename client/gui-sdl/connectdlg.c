@@ -39,6 +39,7 @@
 
 /* gui-sdl */
 #include "chatline.h"
+#include "colors.h"
 #include "graphics.h"
 #include "gui_iconv.h"
 #include "gui_id.h"
@@ -49,6 +50,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "pages.h"
+#include "themecolors.h"
 
 #include "connectdlg.h"
 
@@ -207,12 +209,16 @@ static struct server_list *sdl_create_server_list(bool lan)
 
 void popup_connection_dialog(struct GUI *pWidget)
 {
+  SDL_Color window_bg_color = {255, 255, 255, 128};
+  SDL_Color label_frame_color = {0, 0, 0, 255};
+  SDL_Color window_frame1_color = {0, 0, 0, 255};
+  SDL_Color window_frame2_color = {255, 255, 255, 255};
+  
   char cBuf[512];
   int w = 0, h = 0, count = 0, meta_h;
   struct GUI *pNewWidget, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pLogo , *pDest = pWidget->dst;
-  SDL_Color col = {255, 255, 255, 128};
   SDL_Rect area;
   bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
   
@@ -220,6 +226,8 @@ void popup_connection_dialog(struct GUI *pWidget)
   close_connection_dialog();
   popdown_meswin_dialog();
   
+  
+  /* Text Label */
   my_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
   pStr = create_str16_from_char(cBuf, adj_font(16));
   pStr->style = TTF_STYLE_BOLD;
@@ -230,12 +238,9 @@ void popup_connection_dialog(struct GUI *pWidget)
   area.h = pLogo->h + adj_size(30);
   area.x = (pDest->w - area.w) / 2;
   area.y = (pDest->h - area.h) / 2;
-  SDL_FillRect(pDest, &area,
-  		SDL_MapRGBA(pDest->format, col.r, col.g,col.b, col.unused));
-  
+  SDL_FillRect(pDest, &area, map_rgba(pDest->format, window_bg_color));
   putframe(pDest, area.x, area.y, area.x + area.w - 1,
- 		   area.y + area.h - 1, SDL_MapRGB(pDest->format, 0, 0, 0));
-  
+                  area.y + area.h - 1, map_rgba(pDest->format, label_frame_color));
   sdl_dirty_rect(area);
   
   area.x += adj_size(30);
@@ -246,6 +251,7 @@ void popup_connection_dialog(struct GUI *pWidget)
   FREESURFACE(pLogo);
   FREESTRING16(pStr);
 
+  /* create server list */
   pServer_list = sdl_create_server_list(lan_scan);
 
   popup_meswin_dialog(true);        
@@ -261,6 +267,7 @@ void popup_connection_dialog(struct GUI *pWidget)
     return;
   }
   
+  /* Server list window */  
   pMeta_Severs = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
   pWindow = create_window(pDest, NULL, adj_size(10), adj_size(10), 0);
@@ -274,15 +281,15 @@ void popup_connection_dialog(struct GUI *pWidget)
     add_to_gui_list(ID_META_SERVERS_WINDOW, pWindow);
   }
   pMeta_Severs->pEndWidgetList = pWindow;
-  /* ------------------------------ */
   
+  /* Cancel button */
   pNewWidget = create_themeicon_button_from_chars(pTheme->CANCEL_Icon, pWindow->dst,
 						     _("Cancel"), adj_font(14), 0);
   pNewWidget->action = exit_meta_severs_dlg_callback;
   set_wstate(pNewWidget, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pNewWidget);
-  /* ------------------------------ */
   
+  /* servers */
   server_list_iterate(pServer_list, pServer) {
 
     my_snprintf(cBuf, sizeof(cBuf), "%s Port %s Ver: %s %s %s %s\n%s",
@@ -402,17 +409,18 @@ void popup_connection_dialog(struct GUI *pWidget)
   area.x = pMeta_Severs->pEndActiveWidgetList->size.x;
   area.y = pMeta_Severs->pEndActiveWidgetList->size.y;
   
-  SDL_FillRectAlpha(pWindow->dst, &area, &col);
+  SDL_FillRectAlpha(pWindow->dst, &area, &window_bg_color);
   
   putframe(pWindow->dst, area.x - 1, area.y - 1, 
-  		area.x + area.w , area.y + area.h , 0xff000000);
+	area.x + area.w , area.y + area.h,
+        map_rgba(pWindow->dst->format, window_frame1_color));
   
   redraw_group(pMeta_Severs->pBeginWidgetList, pWindow->prev, 0);
 
   putframe(pWindow->dst, pWindow->size.x , pWindow->size.y , 
-  		pWindow->size.x + pWindow->size.w - 1,
-  		pWindow->size.y + pWindow->size.h - 1,
-  		0xffffffff);
+     pWindow->size.x + pWindow->size.w - 1,
+     pWindow->size.y + pWindow->size.h - 1,
+     map_rgba(pWindow->dst->format, window_frame2_color));
     
   flush_rect(pWindow->size, FALSE);
 }
@@ -492,12 +500,14 @@ static int cancel_connect_dlg_callback(struct GUI *pWidget)
 
 void popup_join_game_dialog(struct GUI *pWidget)
 {
+  SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_JOINGAME_TEXT);  
+  SDL_Color window_frame_color = *get_game_colorRGB(COLOR_THEME_JOINGAME_FRAME);
+  
   char pCharPort[6];
   struct GUI *pBuf;
   SDL_String16 *pPlayer_name = NULL;
   SDL_String16 *pServer_name = NULL;
   SDL_String16 *pPort_nr = NULL;
-  SDL_Color color = {255, 255, 255, 255};
   SDL_Surface *pLogo, *pTmp, *pDest;
   SDL_Rect *area;
   
@@ -521,11 +531,11 @@ void popup_join_game_dialog(struct GUI *pWidget)
   /* -------------------------- */
 
   pPlayer_name = create_str16_from_char(_("Player Name :"), adj_font(10));
-  pPlayer_name->fgcol = color;
+  pPlayer_name->fgcol = text_color;
   pServer_name = create_str16_from_char(_("Freeciv Server :"), adj_font(10));
-  pServer_name->fgcol = color;
+  pServer_name->fgcol = text_color;
   pPort_nr = create_str16_from_char(_("Port :"), adj_font(10));
-  pPort_nr->fgcol = color;
+  pPort_nr->fgcol = text_color;
   
   /* ====================== INIT =============================== */
   pBuf = create_edit_from_chars(NULL, pDest, user_name, adj_font(14), adj_size(210),
@@ -600,7 +610,7 @@ void popup_join_game_dialog(struct GUI *pWidget)
   FREESURFACE(pTmp);
 
   putframe(pDest, area->x, area->y, area->x + dialog_w - 1,
-  					area->y + dialog_h - 1, 0xffffffff);
+     area->y + dialog_h - 1, map_rgba(pDest->format, window_frame_color));
 
   area->w = dialog_w;
   area->h = dialog_h;
@@ -714,10 +724,12 @@ static int send_passwd_callback(struct GUI *pWidget)
 **************************************************************************/
 static void popup_user_passwd_dialog(char *pMessage)
 {
+  SDL_Color text_color = {255, 255, 255, 255};
+  SDL_Color text_color2 = {0, 0, 0, 255};
+  SDL_Color window_frame_color = {255, 255, 255, 255};
+  
   struct GUI *pBuf;
   SDL_String16 *pStr = NULL;
-  SDL_Color color_white = {255, 255, 255, 255};
-  SDL_Color color_black = {0, 0, 0, 255};
   SDL_Surface *pLogo, *pTmp, *pDest, *pText;
   SDL_Rect *area;
   
@@ -736,13 +748,13 @@ static void popup_user_passwd_dialog(char *pMessage)
   /* -------------------------- */
 
   pStr = create_str16_from_char(pMessage, adj_font(12));
-  pStr->fgcol = color_white;
+  pStr->fgcol = text_color;
     
   pText = create_text_surf_from_str16(pStr);
   
   /* ====================== INIT =============================== */
   change_ptsize16(pStr, adj_font(16));
-  pStr->fgcol = color_black;
+  pStr->fgcol = text_color2;
   FC_FREE(pStr->text);
   
   pBuf = create_edit(NULL, pDest, pStr, adj_size(210),
@@ -792,7 +804,7 @@ static void popup_user_passwd_dialog(char *pMessage)
   FREESURFACE(pTmp);
 
   putframe(pDest, area->x, area->y, area->x + dialog_w - 1,
-  					area->y + dialog_h - 1, 0xffffffff);
+          area->y + dialog_h - 1, map_rgba(pDest->format, window_frame_color));
 
   area->w = dialog_w;
   area->h = dialog_h;
@@ -878,10 +890,12 @@ static int convert_secound_passwd_callback(struct GUI *pWidget)
 **************************************************************************/
 static void popup_new_user_passwd_dialog(char *pMessage)
 {
+  SDL_Color text_color1 = {255, 255, 255, 255};
+  SDL_Color text_color2 = {0, 0, 0, 255};
+  SDL_Color window_frame_color = {255, 255, 255, 255};
+  
   struct GUI *pBuf;
   SDL_String16 *pStr = NULL;
-  SDL_Color color_white = {255, 255, 255, 255};
-  SDL_Color color_black = {0, 0, 0, 255};
   SDL_Surface *pLogo, *pTmp, *pDest, *pText;
   SDL_Rect *area;
   
@@ -900,13 +914,13 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   /* -------------------------- */
 
   pStr = create_str16_from_char(pMessage, adj_font(12));
-  pStr->fgcol = color_white;
+  pStr->fgcol = text_color1;
     
   pText = create_text_surf_from_str16(pStr);
   
   /* ====================== INIT =============================== */
   change_ptsize16(pStr, adj_font(16));
-  pStr->fgcol = color_black;
+  pStr->fgcol = text_color2;
   
   FC_FREE(pStr->text);
   pStr->n_alloc = 0;
@@ -963,7 +977,7 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   FREESURFACE(pTmp);
 
   putframe(pDest, area->x, area->y, area->x + dialog_w - 1,
-  					area->y + dialog_h - 1, 0xffffffff);
+           area->y + dialog_h - 1, map_rgba(pDest->format, window_frame_color));
 
   area->w = dialog_w;
   area->h = dialog_h;

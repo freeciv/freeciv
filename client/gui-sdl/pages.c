@@ -21,6 +21,7 @@
 
 /* gui-sdl */
 #include "chatline.h"
+#include "colors.h"
 #include "connectdlg.h"
 #include "graphics.h"
 #include "gui_id.h"
@@ -28,6 +29,7 @@
 #include "mapview.h"
 #include "messagewin.h"
 #include "optiondlg.h"
+#include "themecolors.h"
 
 #include "pages.h"
 
@@ -86,11 +88,12 @@ static int quit_callback(struct GUI *pWidget)
 **************************************************************************/
 static void show_main_page()
 {
+  SDL_Color bg_color = {255, 255, 255, 136};
+  
   int w = 0 , h = 0, count = 0;
   struct GUI *pWidget = NULL, *pFirst;
   SDL_Rect *pArea;
   SDL_Surface *pLogo, *pTmp;
-  SDL_Color col = {255, 255, 255, 136};
     
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
@@ -102,7 +105,7 @@ static void show_main_page()
   
   /*pBuf->action = popup_start_new_game_callback;*/
   pWidget->string16->style |= SF_CENTER;
-  pWidget->string16->fgcol = (SDL_Color) {128, 128, 128, 255};
+  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_TEXT_DISABLED);
   
   w = MAX(w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
@@ -118,7 +121,7 @@ static void show_main_page()
 		(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT));
   /*pWidget->action = popup_load_game_callback;*/
   pWidget->string16->style |= SF_CENTER;
-  pWidget->string16->fgcol = (SDL_Color) {128, 128, 128, 255};
+  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_TEXT_DISABLED);
   
   add_to_gui_list(ID_LOAD_GAME, pWidget);
   
@@ -222,7 +225,7 @@ static void show_main_page()
   blit_entire_src(pTmp, pFirst->dst, pArea->x , pArea->y);
   FREESURFACE(pTmp);
   
-  SDL_FillRectAlpha(pFirst->dst, pArea, &col);
+  SDL_FillRectAlpha(pFirst->dst, pArea, &bg_color);
       
   redraw_group(pWidget, pFirst, 0);
   

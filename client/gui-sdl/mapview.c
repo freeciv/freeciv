@@ -43,6 +43,7 @@
 #include "text.h"
 
 /* gui-sdl */
+#include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_id.h"
@@ -51,6 +52,7 @@
 #include "gui_stuff.h"
 #include "gui_zoom.h"
 #include "mapctrl.h"
+#include "themecolors.h"
 
 #include "mapview.h"
 
@@ -362,9 +364,11 @@ void overview_size_changed(void)
 **************************************************************************/
 void update_info_label(void)
 {
+  SDL_Color bg_color = {0, 0, 0, 80};
+  SDL_Color text_color = {255, 255, 255, 255};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   SDL_Surface *pTmp = NULL;
-  Uint32 color = 0x0;/* black */
-  SDL_Color col = {0, 0, 0, 80};
   char buffer[512];
   
   #ifdef SMALL_SCREEN
@@ -377,7 +381,7 @@ void update_info_label(void)
 
   /* set text settings */
   pText->style |= TTF_STYLE_BOLD;
-  pText->fgcol = (SDL_Color) {255, 255, 255, 255};
+  pText->fgcol = text_color;
   pText->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (game.player_ptr) {
@@ -400,22 +404,19 @@ void update_info_label(void)
     area.w = pTmp->w + adj_size(8);
       area.h = pTmp->h + adj_size(4);
   
-    color = SDL_MapRGBA(Main.gui->format, col.r, col.g, col.b, col.unused);
-    SDL_FillRect(Main.gui, &area , color);
-    
-    color = SDL_MapRGB(Main.gui->format, col.r, col.g, col.b);
+    SDL_FillRect(Main.gui, &area , map_rgba(Main.gui->format, bg_color));
     
     /* Horizontal lines */
     putline(Main.gui, area.x + 1, area.y,
-                    area.x + area.w - 2, area.y , color);
+      area.x + area.w - 2, area.y , map_rgba(Main.gui->format, frame_color));
     putline(Main.gui, area.x + 1, area.y + area.h - 1,
-                    area.x + area.w - 2, area.y + area.h - 1, color);
+      area.x + area.w - 2, area.y + area.h - 1, map_rgba(Main.gui->format, frame_color));
   
     /* vertical lines */
     putline(Main.gui, area.x + area.w - 1, area.y + 1 ,
-          area.x + area.w - 1, area.y + area.h - 2, color);
+      area.x + area.w - 1, area.y + area.h - 2, map_rgba(Main.gui->format, frame_color));
     putline(Main.gui, area.x, area.y + 1, area.x,
-            area.y + area.h - 2, color);
+      area.y + area.h - 2, map_rgba(Main.gui->format, frame_color));
   
     /* blit text to screen */  
     blit_entire_src(pTmp, Main.gui, area.x + adj_size(5), area.y + adj_size(2));
@@ -452,6 +453,9 @@ static int fucus_units_info_callback(struct GUI *pWidget)
 **************************************************************************/
 void redraw_unit_info_label(struct unit *pUnit)
 {
+  SDL_Color text_color = {0, 0, 0, 255};
+  SDL_Color text_color_veteran = {0, 255, 0, 255};
+  
   struct GUI *pInfo_Window = get_unit_info_window_widget();
   SDL_Rect src, area = {pInfo_Window->size.x, pInfo_Window->size.y,
                         pInfo_Window->size.w, pInfo_Window->size.h};
@@ -500,9 +504,9 @@ void redraw_unit_info_label(struct unit *pUnit)
       if(pUnit->veteran) {
 	copy_chars_to_string16(pStr, _("veteran"));
         change_ptsize16(pStr, adj_font(10));
-	pStr->fgcol.b = 255;
+	pStr->fgcol = text_color_veteran;
         pVet_Name = create_text_surf_from_str16(pStr);
-        pStr->fgcol.b = 0;
+        pStr->fgcol = text_color;
       }
 
       /* get and draw other info (MP, terran, city, etc.) */
@@ -1174,7 +1178,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
   /* PORTME */
   putframe(Main.map, canvas_x, canvas_y, canvas_x + w, canvas_y + h, 
-           SDL_MapRGB(Main.map->format, 255, 255, 255));
+    map_rgba(Main.map->format, *get_game_colorRGB(COLOR_THEME_SELECTIONRECTANGLE)));
 }
 
 /**************************************************************************

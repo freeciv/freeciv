@@ -135,10 +135,12 @@ static int change_impr_callback(struct GUI *pWidget)
 
 static void redraw_impr_info_dlg(void)
 {
+  SDL_Color bg_color = {255, 255, 255, 64};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
   SDL_Rect dst;
-  SDL_Color color = {255, 255, 255, 64};
   
   redraw_group(pWindow->prev, pWindow, FALSE);
     
@@ -146,8 +148,9 @@ static void redraw_impr_info_dlg(void)
   dst.y = pStore->pDock->prev->size.y - adj_size(10);
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
-  SDL_FillRectAlpha(pWindow->dst, &dst, &color);
-  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h, 0xFF000000);
+  SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
+  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
+    map_rgba(pWindow->dst->format, frame_color));
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -157,6 +160,9 @@ static void redraw_impr_info_dlg(void)
 
 void popup_impr_info(Impr_type_id impr)
 { 
+  SDL_Color text_color = {255, 255, 255, 255};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   struct GUI *pBuf, *pHelpText = NULL;
   struct GUI *pDock;
   struct GUI *pWindow;
@@ -217,7 +223,7 @@ void popup_impr_info(Impr_type_id impr)
     
     SDL_FillRect(pTmp, NULL,
 	SDL_MapRGBA(pTmp->format, 255, 255, 255, 128));
-    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, 0xFF000000);
+    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, frame_color));
     
     h = 0;
     impr_type_iterate(type)
@@ -274,7 +280,7 @@ void popup_impr_info(Impr_type_id impr)
 */    
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
-    pBuf->string16->fgcol = (SDL_Color){255, 255, 255, 255};
+    pBuf->string16->fgcol = text_color;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
@@ -493,10 +499,12 @@ static int change_unit_callback(struct GUI *pWidget)
 
 static void redraw_unit_info_dlg(void)
 {
+  SDL_Color bg_color = {255, 255, 255, 64};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
   SDL_Rect dst;
-  SDL_Color color = {255, 255, 255, 64};
   
   redraw_group(pWindow->prev, pWindow, FALSE);
     
@@ -504,8 +512,9 @@ static void redraw_unit_info_dlg(void)
   dst.y = pStore->pDock->prev->size.y - adj_size(10);
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
-  SDL_FillRectAlpha(pWindow->dst, &dst, &color);
-  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h, 0xFF000000);
+  SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
+  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
+    map_rgba(pWindow->dst->format, frame_color));
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -515,6 +524,10 @@ static void redraw_unit_info_dlg(void)
 
 void popup_unit_info(Unit_type_id type_id)
 { 
+  SDL_Color bg_color = {255, 255, 255, 128};
+  SDL_Color text_color = {255, 255, 255, 255};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   struct GUI *pBuf;
   struct GUI *pDock;
   struct GUI *pWindow;
@@ -572,9 +585,8 @@ void popup_unit_info(Unit_type_id type_id)
     pText = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
     pTmp = pText;
     
-    SDL_FillRect(pTmp, NULL,
-	SDL_MapRGBA(pTmp->format, 255, 255, 255, 128));
-    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, 0xFF000000);
+    SDL_FillRect(pTmp, NULL, map_rgba(pTmp->format, bg_color));
+    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, frame_color));
     
     h = 0;
     unit_type_iterate(type) {
@@ -638,7 +650,7 @@ void popup_unit_info(Unit_type_id type_id)
 */    
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
-    pBuf->string16->fgcol = (SDL_Color){255, 255, 255, 255};
+    pBuf->string16->fgcol = text_color;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
@@ -885,12 +897,14 @@ static int show_help_callback(struct GUI *pWidget)
 
 static void redraw_tech_info_dlg(void)
 {
+  SDL_Color bg_color = {255, 255, 255, 64};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
   SDL_Surface *pText0, *pText1 = NULL;
   SDL_String16 *pStr;
   SDL_Rect dst;
-  SDL_Color color = {255, 255, 255, 64};
   
   redraw_group(pWindow->prev, pWindow, FALSE);
     
@@ -898,8 +912,9 @@ static void redraw_tech_info_dlg(void)
   dst.y = pStore->pDock->prev->prev->size.y - adj_size(10);
   dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
-  SDL_FillRectAlpha(pWindow->dst, &dst, &color);
-  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h, 0xFF000000);
+  SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
+  putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
+    map_rgba(pWindow->dst->format, frame_color));
   
   /* -------------------------- */
   pStr = create_str16_from_char(_("Allows"), adj_font(14));
@@ -1097,7 +1112,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
         set_wstate(pBuf, FC_WS_NORMAL);
         if (is_wonder(imp))
         {
-               pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITY_LUX);
+               pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_LUX);
         }
         pBuf->action = change_impr_callback;
         pBuf->ID = MAX_ID - imp;
@@ -1277,12 +1292,13 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
 
 static void redraw_tech_tree_dlg(void)
 {
+  SDL_Color line_color = {255, 255, 255, 255};
+  
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct GUI *pSub0, *pSub1;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
   struct GUI *pTech = pStore->pDock->prev;
   int i,j, tech, count, step, mod;
-  Uint32 color = 0xFFFFFFFF;
   SDL_Rect dst;
   SDL_Surface *pSurf;
   
@@ -1361,7 +1377,7 @@ static void redraw_tech_tree_dlg(void)
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
         pTech->size.x,
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
-        color);
+        map_rgba(pStore->pReq[i]->dst->format, line_color));
     
     /* Draw Sub_Req arrows */
     if (pSub0 || pSub1)
@@ -1371,7 +1387,7 @@ static void redraw_tech_tree_dlg(void)
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
         pStore->pReq[i]->size.x ,
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
-        color);
+        map_rgba(pStore->pReq[i]->dst->format, line_color));
     }
     
     if(pSub0)
@@ -1381,13 +1397,13 @@ static void redraw_tech_tree_dlg(void)
         pSub0->size.y + pSub0->size.h / 2,
         pStore->pReq[i]->size.x - adj_size(10),
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
-        color);
+        map_rgba(pStore->pReq[i]->dst->format, line_color));
       putline(pStore->pReq[i]->dst,
         pSub0->size.x + pSub0->size.w,
         pSub0->size.y + pSub0->size.h / 2,
         pStore->pReq[i]->size.x - adj_size(10),
         pSub0->size.y + pSub0->size.h / 2,
-        color);
+        map_rgba(pStore->pReq[i]->dst->format, line_color));
     }
     
     if(pSub1)
@@ -1397,13 +1413,13 @@ static void redraw_tech_tree_dlg(void)
         pSub1->size.y + pSub1->size.h / 2,
         pStore->pReq[i]->size.x - adj_size(10),
         pStore->pReq[i]->size.y + pStore->pReq[i]->size.h / 2,
-        color);
+        map_rgba(pStore->pReq[i]->dst->format, line_color));
       putline(pStore->pReq[i]->dst,
         pSub1->size.x + pSub1->size.w,
         pSub1->size.y + pSub1->size.h / 2,
         pStore->pReq[i]->size.x - adj_size(10),
         pSub1->size.y + pSub1->size.h / 2,
-        color);
+        map_rgba(pStore->pReq[i]->dst->format, line_color));
     }
     i++;
   }
@@ -1430,13 +1446,13 @@ static void redraw_tech_tree_dlg(void)
     switch((i % mod))
     {
       case 2:
-	color = 0xFFFF0FF0;
+        line_color = (SDL_Color) {255, 15, 240, 255};
       break;
       case 1:
-	color = 0xFFFFF00F;
+        line_color = (SDL_Color) {255, 240, 15, 255};
       break;
       default:
-        color = 0xFFFFFFFF;
+        line_color = (SDL_Color) {255, 255, 255, 255};
       break;
     }
     
@@ -1480,7 +1496,7 @@ static void redraw_tech_tree_dlg(void)
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
         pStore->pTargets[i]->size.x ,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        color);
+        map_rgba(pStore->pTargets[i]->dst->format, line_color));
     }
     
     if(pSub0)
@@ -1498,13 +1514,13 @@ static void redraw_tech_tree_dlg(void)
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        color);
+        map_rgba(pStore->pTargets[i]->dst->format, line_color));
       putline(pStore->pTargets[i]->dst,
         pSub0->size.x + pSub0->size.w,
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         y,
-        color);
+        map_rgba(pStore->pTargets[i]->dst->format, line_color));
     }
     
     if(pSub1)
@@ -1521,13 +1537,13 @@ static void redraw_tech_tree_dlg(void)
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        color);
+        map_rgba(pStore->pTargets[i]->dst->format, line_color));
       putline(pStore->pTargets[i]->dst,
         pSub1->size.x + pSub1->size.w,
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         y,
-        color);
+        map_rgba(pStore->pTargets[i]->dst->format, line_color));
     }
   }
   
@@ -1817,6 +1833,8 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
 
 void popup_tech_info(Tech_type_id tech)
 { 
+  SDL_Color text_color = {255, 255, 255, 255};
+  
   struct GUI *pBuf;
   struct GUI *pDock;
   struct GUI *pWindow;
@@ -1915,7 +1933,7 @@ void popup_tech_info(Tech_type_id tech)
     }
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
-    pBuf->string16->fgcol = (SDL_Color){255, 255, 255, 255};
+    pBuf->string16->fgcol = text_color;
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     /*pBuf->key = SDLK_ESCAPE;*/
   

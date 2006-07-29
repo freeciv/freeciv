@@ -263,6 +263,9 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSrc);
 #define create_surf(w, h, f) \
 	create_surf_with_format(Main.screen->format , w , h, f)
 
+#define map_rgba(format, color) \
+        SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).unused)
+
 SDL_Surface *create_surf_alpha(int iWidth, int iHeight, Uint32 iFlags);
 
 #define crop_rect_from_screen(rect) \

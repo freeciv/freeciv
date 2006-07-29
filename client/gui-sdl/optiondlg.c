@@ -127,7 +127,9 @@ static int sound_callback(struct GUI *pWidget)
   ...
 **************************************************************************/
 static int edit_worklist_callback(struct GUI *pWidget)
-{    
+{  
+  SDL_Color text_color = {0, 0, 0, 255};
+  
   switch(Main.event.button.button) {
     case SDL_BUTTON_LEFT:
       pEdited_WorkList_Name = pWidget;
@@ -178,8 +180,7 @@ static int edit_worklist_callback(struct GUI *pWidget)
       if (i < MAX_NUM_WORKLISTS &&
 	(get_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList) == FC_WS_DISABLED)) {
         set_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList, FC_WS_NORMAL);
-        pOption_Dlg->pADlg->pBeginActiveWidgetList->string16->fgcol =
-			  (SDL_Color){0, 0, 0, 255};
+        pOption_Dlg->pADlg->pBeginActiveWidgetList->string16->fgcol = text_color;
       }
       
       redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
@@ -294,9 +295,11 @@ static int add_new_worklist_callback(struct GUI *pWidget)
 **************************************************************************/
 static int work_lists_callback(struct GUI *pWidget)
 {
+  SDL_Color bg_color = {255, 255, 255, 128};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   struct GUI *pBuf = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
   int i , count = 0, len;
-  SDL_Color c;
   SDL_Rect area = {pWindow->size.x + adj_size(15),
     			pWindow->size.y + WINDOW_TILE_HIGH + 1 + adj_size(15),
     			pWindow->size.w - adj_size(30),
@@ -313,10 +316,9 @@ static int work_lists_callback(struct GUI *pWidget)
   pBuf = create_iconlabel(create_surf_alpha(area.w, area.h - 30, SDL_SWSURFACE),
   			pWindow->dst, NULL, WF_FREE_THEME);
   pBuf->size = area;
-  c = (SDL_Color){255, 255, 255, 255};
-  SDL_FillRect(pBuf->theme, NULL, SDL_MapRGBA(pBuf->theme->format, c.r, c.g, c.b, c.unused));
-  SDL_SetAlpha(pBuf->theme, SDL_SRCALPHA, 128);
-  putframe(pBuf->theme, 0, 0, pBuf->theme->w - 1, pBuf->theme->h - 1, 0x0);
+  SDL_FillRect(pBuf->theme, NULL, map_rgba(pBuf->theme->format, bg_color));
+  putframe(pBuf->theme, 0, 0, pBuf->theme->w - 1, pBuf->theme->h - 1,
+    map_rgba(pBuf->theme->format, frame_color));
   add_to_gui_list(ID_LABEL, pBuf);
   
   /* ----------------------------- */
@@ -606,6 +608,8 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
 **************************************************************************/
 static int video_callback(struct GUI *pWidget)
 {
+  SDL_Color text_color = {255, 255, 0, 255};
+  
   int i = 0;
   char cBuf[64] = "";
   Uint16 len = 0, count = 0;
@@ -652,9 +656,7 @@ static int video_callback(struct GUI *pWidget)
   pTmpGui = create_iconlabel(NULL, pWindow->dst,
   			create_str16_from_char(cBuf, adj_font(10)), 0);
   pTmpGui->string16->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pTmpGui->string16->fgcol.r = 255;
-  pTmpGui->string16->fgcol.g = 255;
-  /*pTmpGui->string16->fgcol.b = 255; */
+  pTmpGui->string16->fgcol = text_color;
 
   /* set window width to 'pTmpGui' for center string */
   pTmpGui->size.w = pWindow->size.w;

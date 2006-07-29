@@ -784,6 +784,8 @@ static int sabotage_impr_callback(struct GUI *pWidget)
 *****************************************************************/
 void popup_sabotage_dialog(struct city *pCity)
 {
+  SDL_Color separator_color = {0, 0, 0, 64};
+  
   struct GUI *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
   struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
@@ -974,8 +976,7 @@ void popup_sabotage_dialog(struct city *pCity)
       area.y = pBuf->size.h / 2 - 1;
       area.w = pBuf->size.w - adj_size(20);
       
-      SDL_FillRect(pBuf->theme , &area, 64);
-      SDL_SetColorKey(pBuf->theme, SDL_SRCCOLORKEY|SDL_RLEACCEL, 0x0);
+      SDL_FillRect(pBuf->theme , &area, map_rgba(pBuf->theme->format, separator_color));
     }
     
     if (pBuf == pLast) {

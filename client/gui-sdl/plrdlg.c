@@ -181,7 +181,6 @@ void update_players_dialog(void)
     struct player *pPlayer;
     char cBuf[128], *state, *team;
     int idle, x0, y0, x1, y1;
-	SDL_Color c;
           
     /* redraw window */
     redraw_widget(pPlayers_Dlg->pEndWidgetList);
@@ -247,35 +246,32 @@ void update_players_dialog(void)
             switch (pplayer_get_diplstate(pPlayer, pPlayer1->data.player)->type) {
 	      case DS_ARMISTICE:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
-	          putline(pPlayer1->dst, x0, y0, x1, y1, 0xFF000000);
+	          putline(pPlayer1->dst, x0, y0, x1, y1,
+                    map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE)));
 	        }
 	      break;
               case DS_WAR:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
-			  c = (SDL_Color){255, 0, 0, 255};
-	          putline(pPlayer1->dst, x0, y0, x1, y1,
-	    		SDL_MapRGBA(pPlayer1->dst->format, c.r, c.g, c.b, c.unused));			  
+	          putline(pPlayer1->dst, x0, y0, x1, y1, 
+                         map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR)));		  
 	        }
               break;
 	      case DS_CEASEFIRE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
-			  c = (SDL_Color){255, 255, 0, 255};
 	          putline(pPlayer1->dst, x0, y0, x1, y1,
-	    		SDL_MapRGBA(pPlayer1->dst->format, c.r, c.g, c.b, c.unused));			  
+	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE)));
 	        }
               break;
               case DS_PEACE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
-			  c = (SDL_Color){0, 200, 0, 255};	
 	          putline(pPlayer1->dst, x0, y0, x1, y1,
-	    		SDL_MapRGBA(pPlayer1->dst->format, c.r, c.g, c.b, c.unused));			  
+	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE)));
 	        }
               break;
 	      case DS_ALLIANCE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-			  c = *get_game_colorRGB(COLOR_THEME_CITY_GOLD);
 	          putline(pPlayer1->dst, x0, y0, x1, y1,
-	    		SDL_MapRGBA(pPlayer1->dst->format, c.r, c.g, c.b, c.unused));			  
+	    		map_rgba(pPlayer1->dst->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE)));
 	        }
               break;
               default:
@@ -304,6 +300,9 @@ void update_players_dialog(void)
 **************************************************************************/
 void popup_players_dialog(bool raise)
 {
+  SDL_Color text_color = {255, 255, 255, 255};
+  SDL_Color frame_color = {255, 255, 255, 255};
+  
   struct GUI *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL, *pZoomed = NULL;
   SDL_String16 *pStr;
@@ -419,7 +418,7 @@ void popup_players_dialog(bool raise)
     if(!pPlayer->is_alive) {
       pStr = create_str16_from_char("R.I.P" , adj_font(10));
       pStr->style |= TTF_STYLE_BOLD;
-      pStr->fgcol = (SDL_Color){255, 255, 255, 255};
+      pStr->fgcol = text_color;
       pLogo = create_text_surf_from_str16(pStr);
       FREESTRING16(pStr);
 	
@@ -455,7 +454,7 @@ void popup_players_dialog(bool raise)
   
   resize_window(pWindow, NULL, NULL, w, h);
   
-  putframe(pWindow->theme, 0, 0, w - 1, h - 1, 0xFFFFFFFF);
+  putframe(pWindow->theme, 0, 0, w - 1, h - 1, map_rgba(pWindow->theme->format, frame_color));
   
   /* exit button */
   pBuf = pWindow->prev;
@@ -471,19 +470,19 @@ void popup_players_dialog(bool raise)
   for(i = 0; i<DS_LAST; i++) {
       switch (i) {
 	case DS_ARMISTICE:
-	  pStr->fgcol = (SDL_Color){0, 0, 0, 255};
+	  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE);
 	break;
         case DS_WAR:
-	  pStr->fgcol = (SDL_Color){255, 0, 0, 255};
+	  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR);
 	break;
 	case DS_CEASEFIRE:
-	  pStr->fgcol = (SDL_Color){255, 255, 0, 255};
+	  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE);
 	break;
         case DS_PEACE:
-	  pStr->fgcol = (SDL_Color){0, 200, 0, 255};
+	  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE);
         break;
 	case DS_ALLIANCE:
-	  pStr->fgcol = *(get_game_colorRGB(COLOR_THEME_CITY_GOLD));
+	  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE);
 	break;
         default:
 	   /* no contact */
@@ -672,24 +671,28 @@ void popup_players_nations_dialog(void)
                       
       /* now add some eye candy ... */
       switch (pDS->type) {
+	case DS_ARMISTICE:
+	  pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE);
+	  set_wstate(pBuf, FC_WS_NORMAL);
+        break;
         case DS_WAR:
 	  if(can_meet_with_player(pPlayer) || can_intel_with_player(pPlayer)) {
             set_wstate(pBuf, FC_WS_NORMAL);
-	    pBuf->string16->fgcol = (SDL_Color){255, 0, 0, 255};
+	    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR);
           } else {
 	    pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_RED_DISABLED));
 	  }
         break;
 	case DS_CEASEFIRE:
-	  pBuf->string16->fgcol = (SDL_Color){255, 255, 0, 255};
+	  pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE);
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
         case DS_PEACE:
-	  pBuf->string16->fgcol = (SDL_Color){0, 200, 0, 255};
+	  pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE);
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
 	case DS_ALLIANCE:
-	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_CITY_GOLD));
+	  pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE);
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
 	case DS_NO_CONTACT:

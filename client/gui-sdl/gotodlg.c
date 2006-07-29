@@ -206,11 +206,12 @@ static void update_goto_dialog(void)
 **************************************************************************/
 static void popup_goto_airlift_dialog(void)
 {
+  SDL_Color bg_color = {0, 0, 0, 96};
+  
   struct GUI *pBuf, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pFlag, *pEnabled, *pDisabled;
   SDL_Rect dst;
-  SDL_Color color = {0, 0, 0, 96};
   int w = 0, h, i, col, block_x;
   
   if (pGotoDlg) {
@@ -262,7 +263,7 @@ static void popup_goto_airlift_dialog(void)
     }
     
     pEnabled = create_icon_theme_surf(pFlag);
-    SDL_FillRectAlpha(pFlag, NULL, &color);
+    SDL_FillRectAlpha(pFlag, NULL, &bg_color);
     pDisabled = create_icon_theme_surf(pFlag);
     FREESURFACE(pFlag);
     
