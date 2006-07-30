@@ -608,7 +608,7 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
 **************************************************************************/
 static int video_callback(struct GUI *pWidget)
 {
-  SDL_Color text_color = {255, 255, 0, 255};
+  SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
   
   int i = 0;
   char cBuf[64] = "";
@@ -929,7 +929,7 @@ static int auto_turn_done_callback(struct GUI *pWidget)
 **************************************************************************/
 static int local_setting_callback(struct GUI *pWidget)
 {
-  SDL_Color text_color = {255, 255, 0, 255};
+  SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
   SDL_String16 *pStr = NULL;
   struct GUI *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
   char cBuf[3];
@@ -1492,7 +1492,7 @@ static int draw_fortress_airbase_callback(struct GUI *pWidget)
 **************************************************************************/
 static int map_setting_callback(struct GUI *pWidget)
 {
-  SDL_Color text_color = {255, 255, 0, 255};
+  SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
   SDL_String16 *pStr = NULL;
   struct GUI *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
 
