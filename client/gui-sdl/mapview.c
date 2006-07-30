@@ -204,14 +204,11 @@ void flush_dirty(void)
     return;
   }
 
-  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
-    refresh_overview();
-  }    
-  
   if(Main.rects_count >= RECT_LIMIT) {
     
     if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {     
       flush_mapcanvas(0, 0, Main.screen->w, Main.screen->h);
+      refresh_overview();
     }
     alphablit(Main.map, NULL, Main.screen, NULL);
     alphablit(Main.gui, NULL, Main.screen, NULL);
@@ -264,6 +261,16 @@ void flush_dirty(void)
     SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
   }
   Main.rects_count = 0;
+}
+
+/**************************************************************************
+  This function is called when the map has changed.
+**************************************************************************/
+void gui_flush(void)
+{
+  if (get_client_state() == CLIENT_GAME_RUNNING_STATE) {
+    refresh_overview();
+  }    
 }
 
 /* ===================================================================== */
