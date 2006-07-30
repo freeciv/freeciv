@@ -33,48 +33,51 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-; Byzantium was the cultural successor-empire of Hellenic culture
+; Byzantium was a successor-empire of the Hellenic culture
 conflicts_with = "greek"
 civilwar_nations = "greek", "italian", "turk", "arab"
 
 cities =
- "Constantinople (ocean)",
- "Ephesus",
- "Iconium",
- "Roma",
- "Trapezus",
- "Dyrrachium (ocean)",
- "Antioch",
- "Nicaea",
- "Thessalonica (ocean)",
- "Rhodes (ocean)",
- "Tarsus",
- "Caesaria",
+ "Konstantinoupolis (ocean)",	; Constantinople / Istanbul
+ "Efesos",			; Ephesus
+ "Ikonio",			; Iconium
+ "Romi",			; Rome
+ "Trapezounta",			; Trapezus
+ "Dyrrachio (ocean)",		; Dyrrachium
+ "Antiocheia",			; Antioch
+ "Nikaia",			; Nicaea
+ "Thessaloniki (ocean)",
+ "Rodos (ocean)",		; Rhodes
+ "Tarsos",			; Tarsus
+ "Kaisareia",			; Caesarea
  "Trier",
  "Monemvasia",
- "Heraclia",
+ "Irakleia",			; Heraclea
  "Samosata",
- "Philadelphia",
- "Syracusae",
- "Neapolis",
- "Carthage",
- "Jerusalem",
- "Edessa",
- "Adrianople",
- "Cyrenae",
- "Ancyra",
- "Nicomedia",
- "Mistra",
+ "Filadelfeia",			; Philadelphia
+ "Syrakousa",			; Syracuse
+ "Napoli",			; Naples
+ "Karchidon",			; Carthage
+ "Ierousalim",			; Jerusalem
+ "Edessa",			; Edessa
+ "Adrianoupoli",		; Adrianople
+ "Kyrini",			; Cyrene
+ "Ankyra",			; Ankara
+ "Nikomideia",			; Nicomedia
+ "Mystras",			; Myzethras
  "Ravenna",
- "Germaniceia",
- "Sevastoupolis",
- "Prusa",
- "Athinae",
+ "Germaniceia",			; Marash
+ "Chersonesos",			; Sevastopol
+ "Prousa",			; Bursa
+ "Athina",			; Athens
  "Ioannina",
- "Pella", 
+ "Pella",
  "Doryleo",
- "Nicosia",
- "Smyrne (ocean)",
- "Alexandria (ocean)",
- "Berytus",
- "Palmyra"
+ "Lefkosia",			; Nicosia
+ "Smyrni (ocean)",		; Smyrna
+ "Alexandreia (ocean)",		; Alexandria
+ "Virytos",			; Beirut
+ "Palmyra",
+ "Pantikapaio",			; Panticapaeum / Kerch
+ "Sougdeia",			; Sudak
+ "Theodosia"
