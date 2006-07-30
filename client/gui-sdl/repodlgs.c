@@ -150,6 +150,8 @@ static int cancel_upgrade_unit_callback(struct GUI *pWidget)
 
 static int popup_upgrade_unit_callback(struct GUI *pWidget)
 {
+  SDL_Color text_color = {255, 255, 0, 255};
+  
   struct unit_type ut1;
   struct unit_type *ut2;
   int value, hh, ww = 0;
@@ -201,9 +203,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
   /* create text label */
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol.r = 255;
-  pStr->fgcol.g = 255;
-  /*pStr->forecol.b = 255; */
+  pStr->fgcol = text_color;
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
@@ -310,14 +310,16 @@ static int exit_units_dlg_callback(struct GUI *pWidget)
 static void real_activeunits_report_dialog_update(struct units_entry *units, 
   						struct units_entry *total)
 {
+  SDL_Color text_color = {255,255,255,128};
+  SDL_Color upgrade_text_color = {255,255,0,255};
+  SDL_Color bg_color = {255, 255, 255, 136};  
+  
   struct GUI *pBuf = NULL;
   struct GUI *pWindow , *pLast;
   SDL_String16 *pStr;
   SDL_Surface *pText1, *pText2, *pText3 , *pText4, *pText5, *pLogo;
   int w = 0 , count , h = 0, ww, hh = 0, name_w = 0;
   char cBuf[64];
-  SDL_Color color = {255,255,255,128};
-  SDL_Color sellect = {255,255,0,255};
   SDL_Rect dst;
   bool upgrade = FALSE;
   struct unit_type *pUnit;
@@ -451,11 +453,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
       if(upgrade) {
-	pBuf->string16->fgcol = sellect;
+	pBuf->string16->fgcol = upgrade_text_color;
 	pBuf->action = popup_upgrade_unit_callback;
 	set_wstate(pBuf, FC_WS_NORMAL);
       } else {
-        pBuf->string16->fgcol = color;
+        pBuf->string16->fgcol = text_color;
       }
       pBuf->string16->style &= ~SF_CENTER;
       if(count > adj_size(72)) {
@@ -598,7 +600,6 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pLogo = NULL;
   
   ww -= DOUBLE_FRAME_WH;
-  color.unused = 136;
   
   /* exit button */
   pBuf = pWindow->prev;
@@ -610,7 +611,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.y = h - ( pText3->h + adj_size(2) ) - adj_size(2) - FRAME_WH;
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
   dst.h = pText3->h + adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -651,7 +652,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.y = WINDOW_TILE_HIGH + adj_size(2);
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
   dst.h = pText4->h + adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -666,7 +667,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.y = WINDOW_TILE_HIGH + adj_size(2);
   dst.w = pText1->w + adj_size(6);
   dst.h = h - WINDOW_TILE_HIGH - adj_size(2) - FRAME_WH - adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
     
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -682,7 +683,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   w = dst.x;
   dst.w = ww;
   dst.h = h - WINDOW_TILE_HIGH - adj_size(2) - FRAME_WH - adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -697,7 +698,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.y = WINDOW_TILE_HIGH + adj_size(2);
   dst.w = ww;
   dst.h = h - WINDOW_TILE_HIGH - adj_size(2) - FRAME_WH - adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -712,7 +713,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.y = WINDOW_TILE_HIGH + adj_size(2);
   dst.w = ww;
   dst.h = h - WINDOW_TILE_HIGH - adj_size(2) - FRAME_WH - adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -728,7 +729,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   ww = pText2->w + adj_size(6);
   w = dst.x;
   dst.h = h - WINDOW_TILE_HIGH - adj_size(2) - FRAME_WH - adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -742,7 +743,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.y = WINDOW_TILE_HIGH + adj_size(2);
   dst.w = pText5->w + adj_size(6);
   dst.h = h - WINDOW_TILE_HIGH - adj_size(2) - FRAME_WH - adj_size(2);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -821,13 +822,14 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 **************************************************************************/
 void activeunits_report_dialog_update(void)
 {
+  SDL_Color upgrade_text_color = {255,255,0,255};  
+  
   if(pUnitsDlg && !is_report_dialogs_frozen()) {
     struct units_entry units[U_LAST];
     struct units_entry units_total;
     struct GUI *pWidget, *pBuf;
     bool is_in_list = FALSE;
     char cBuf[32];
-    SDL_Color sellect = {255,255,0,255};
     bool upgrade;  
     
     get_units_report_data(units, &units_total);
@@ -867,7 +869,7 @@ void activeunits_report_dialog_update(void)
 UPD:	  upgrade = can_upgrade_unittype(game.player_ptr, i)->index;
 	  pBuf = pBuf->prev;
 	  if(upgrade) {
-	    pBuf->string16->fgcol = sellect;
+	    pBuf->string16->fgcol = upgrade_text_color;
 	    pBuf->action = popup_upgrade_unit_callback;
 	    set_wstate(pBuf, FC_WS_NORMAL);
           }
@@ -1425,6 +1427,7 @@ static int cancel_sell_impv_callback(struct GUI *pWidget)
 
 static int popup_sell_impv_callback(struct GUI *pWidget)
 {
+  SDL_Color text_color = {255, 255, 0, 255};
   
   int imp, total_count ,count = 0, gold = 0;
   int value, hh, ww = 0;
@@ -1486,9 +1489,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
   /* create text label */
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol.r = 255;
-  pStr->fgcol.g = 255;
-  /*pStr->fgcol.b = 255; */
+  pStr->fgcol = text_color;
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
@@ -1579,6 +1580,9 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
 **************************************************************************/
 void economy_report_dialog_update(void)
 {
+  SDL_Color text_color1 = {255, 0, 0, 255};
+  SDL_Color text_color2 = {0, 0, 0, 255};
+  
   if(pEconomyDlg && !is_report_dialogs_frozen()) {
     struct GUI *pBuf = pEconomyDlg->pEndWidgetList;
     int tax, total, entries_used = 0;
@@ -1611,9 +1615,9 @@ void economy_report_dialog_update(void)
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
     if(tax - total < 0) {
-      pBuf->string16->fgcol.r = 255;
+      pBuf->string16->fgcol = text_color1;
     } else {
-      pBuf->string16->fgcol.r = 0;
+      pBuf->string16->fgcol = text_color2;
     }
   
   
@@ -1652,6 +1656,12 @@ void popdown_economy_report_dialog(void)
 **************************************************************************/
 void popup_economy_report_dialog(bool make_modal)
 {
+  SDL_Color bg_color = {255,255,255,128};
+  SDL_Color bg_color2 = {255,255,255,136};
+  SDL_Color bg_color3 = {255,255,255,64};  
+  SDL_Color text_color = {255, 0, 0, 255};
+  SDL_Color frame_color = {255, 255, 255, 255};
+  
   struct GUI *pBuf = get_tax_rates_widget();
   struct GUI *pWindow , *pLast;
   SDL_String16 *pStr;
@@ -1661,7 +1671,6 @@ void popup_economy_report_dialog(bool make_modal)
   int tax, total, entries_used = 0;
   char cBuf[128];
   struct improvement_entry entries[B_LAST];
-  SDL_Color color = {255,255,255,128};
   SDL_Rect dst;
   struct government *pGov = get_gov_pplayer(game.player_ptr);
     
@@ -1743,7 +1752,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
   if(tax - total < 0) {
-    pStr->fgcol.r = 255;
+    pStr->fgcol = text_color;
   }
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
@@ -1870,9 +1879,9 @@ void popup_economy_report_dialog(bool make_modal)
     /* Create Imprv Background Icon */
     pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
     
-    SDL_FillRect(pMain, NULL, SDL_MapRGBA(pMain->format, color.r,
-					    color.g, color.b, color.unused));
-    putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1, 0xFF000000);
+    SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
+    putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1,
+                                      map_rgba(pMain->format, frame_color));
     
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -2065,11 +2074,10 @@ void popup_economy_report_dialog(bool make_modal)
   dst.h = h + adj_size(15);
   h = dst.y + dst.h;
   
-  color.unused = 136;
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
   
-  putframe(pWindow->theme, dst.x, dst.y,
-			  dst.x + dst.w - 1, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, frame_color));
   
   /* draw statical strings */
   dst.x = FRAME_WH + adj_size(10);
@@ -2114,11 +2122,10 @@ void popup_economy_report_dialog(bool make_modal)
   dst.w = adj_size(184);
   dst.h = pTheme->Horiz->h - 2;
   
-  color.unused = 64;
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
   
-  putframe(pWindow->theme, dst.x, dst.y,
-			  dst.x + dst.w - 1, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, frame_color));
   
   /* lock icon */
   pBuf = pBuf->prev;
@@ -2139,7 +2146,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* Science Horizontal Scrollbar Background */
   dst.y += pTheme->Horiz->h + 1;
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
   
   putframe(pWindow->theme, dst.x, dst.y,
 			  dst.x + dst.w - 1, dst.y + dst.h - 1, 0xFF000000);
@@ -2202,18 +2209,19 @@ static struct ADVANCED_DLG *pChangeTechDlg = NULL;
 
 void setup_auxiliary_tech_icons(void)
 {
+  SDL_Color bg_color = {255, 255, 255, 136};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   SDL_Surface *pSurf;
-  SDL_Color color = {255, 255, 255, 255};
   SDL_String16 *pStr = create_str16_from_char(_("None"), adj_font(10));
   
   pStr->style |= (TTF_STYLE_BOLD | SF_CENTER);
     
   /* create icons */
-  pSurf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
-  SDL_SetAlpha(pSurf, SDL_SRCALPHA, 136);
-    
-  SDL_FillRectAlpha(pSurf, NULL, &color);
-  putframe(pSurf, 0 , 0, pSurf->w - 1, pSurf->h - 1, 0x0);
+  pSurf = create_surf_alpha(adj_size(50), adj_size(50), SDL_SWSURFACE);
+  SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
+  putframe(pSurf, 0 , 0, pSurf->w - 1, pSurf->h - 1,
+         map_rgba(pSurf->format, frame_color));
 
   pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
   pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);    
@@ -2289,6 +2297,8 @@ SDL_Color * get_tech_color(Tech_type_id tech_id)
 
 SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id, enum tech_info_mode mode)
 {
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   struct impr_type *pImpr = NULL;
   struct unit_type *pUnit = NULL;
   SDL_Surface *pSurf, *pText, *pTmp;
@@ -2323,9 +2333,9 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
     color.unused = 128;
   }
 
-  SDL_FillRect(pSurf, NULL,
-	SDL_MapRGBA(pSurf->format, color.r, color.g, color.b, color.unused));
-  putframe(pSurf, 0,0, pSurf->w - 1, pSurf->h - 1, 0xFF000000);
+  SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, color));
+  putframe(pSurf, 0,0, pSurf->w - 1, pSurf->h - 1,
+                                    map_rgba(pSurf->format, frame_color));
   
   pTmp = get_tech_icon(tech_id);
   
@@ -2480,20 +2490,22 @@ static void disable_science_dialog(void)
 **************************************************************************/
 void science_dialog_update(void)
 {
+  SDL_Color text_color = {255, 255, 255, 255};	
+  SDL_Color bg_color = {255, 255, 255, 136};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   if(pScienceDlg && !is_report_dialogs_frozen()) {
     char cBuf[128];
     SDL_String16 *pStr;
     SDL_Surface *pSurf, *pColb_Surface = pIcons->pBIG_Colb;
     int step, i, cost;
     SDL_Rect dest, src;
-    SDL_Color color;
     struct impr_type *pImpr;
     struct unit_type *pUnit;
     int turns_to_advance, turns_to_next_tech, steps;
     int curent_output = 0;
           
     struct GUI *pWindow = pScienceDlg->pEndWidgetList;
-    color = (SDL_Color){255, 255, 255, 255};	
 
     if (get_player_research(game.player_ptr)->researching != A_UNSET) {
       cost = total_bulbs_required(game.player_ptr);
@@ -2542,7 +2554,7 @@ void science_dialog_update(void)
 
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= SF_CENTER;
-    pStr->fgcol = color;
+    pStr->fgcol = text_color;
   
     pSurf = create_text_surf_from_str16(pStr);
       
@@ -2589,11 +2601,10 @@ void science_dialog_update(void)
     }
 
     dest.h = pColb_Surface->h + adj_size(4);
-    color.unused = 136;
-    SDL_FillRectAlpha(pWindow->dst, &dest, &color);
+    SDL_FillRectAlpha(pWindow->dst, &dest, &bg_color);
   
     putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w,
-  	dest.y + dest.h, 0xff000000);
+  	dest.y + dest.h, map_rgba(pWindow->dst->format, frame_color));
   
     if (cost > adj_size(286))
     {

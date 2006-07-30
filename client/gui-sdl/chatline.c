@@ -389,6 +389,9 @@ void update_conn_list_dialog(void)
 **************************************************************************/
 static void popup_conn_list_dialog(void)
 {
+  SDL_Color window_bg_color = {255, 255, 255, 96};
+  SDL_Color window_frame_color = {255, 255, 255, 255};
+  
   struct GUI *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr = NULL;
   int n;
@@ -415,7 +418,6 @@ static void popup_conn_list_dialog(void)
   /* create window background */
   {
     SDL_Rect area;
-    SDL_Color color = {255, 255, 255, 96};
     SDL_Surface *pSurf = adj_surf(get_logo_gfx());
     
     if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
@@ -434,17 +436,17 @@ static void popup_conn_list_dialog(void)
     area.y = adj_size(14);
     area.w = n + adj_size(20);
     area.h = pWindow->size.h - adj_size(44);
-    SDL_FillRectAlpha(pWindow->theme, &area, &color);
+    SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
     putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-  					area.y + area.h, 0xFFFFFFFF);
+             area.y + area.h, map_rgba(pWindow->theme->format, window_frame_color));
     
     area.x = pWindow->size.w - adj_size(130) - FRAME_WH;
     area.y = adj_size(14);
     area.w = adj_size(120);
     area.h = pWindow->size.h - adj_size(44);
-    SDL_FillRectAlpha(pWindow->theme, &area, &color);
+    SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
     putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-  					area.y + area.h, 0xFFFFFFFF);
+             area.y + area.h, map_rgba(pWindow->theme->format, window_frame_color));
     
     draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
   }

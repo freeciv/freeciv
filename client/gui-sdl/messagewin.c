@@ -32,11 +32,13 @@
 
 /* gui-sdl */
 #include "citydlg.h"
+#include "colors.h"
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "themecolors.h"
 
 #include "messagewin.h"
 
@@ -114,7 +116,7 @@ void real_update_meswin_dialog(void)
   struct message *pMsg = NULL;
   struct GUI *pBuf = NULL, *pWindow = pMsg_Dlg->pEndWidgetList;
   SDL_String16 *pStr = NULL;
-  SDL_Color active_color = {255, 255, 0, 255};
+
   bool create;
   int w = pWindow->size.w - FRAME_WH - DOUBLE_FRAME_WH -
 			  pMsg_Dlg->pScroll->pUp_Left_Button->size.w;
@@ -148,7 +150,7 @@ void real_update_meswin_dialog(void)
       pBuf->action = msg_callback;
       if(pMsg->tile) {
         set_wstate(pBuf, FC_WS_NORMAL);
-	pBuf->string16->fgcol = active_color;
+	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT);
       }
       
       pBuf->ID = ID_LABEL;
@@ -180,6 +182,10 @@ void real_update_meswin_dialog(void)
 **************************************************************************/
 void popup_meswin_dialog(bool raise)
 {
+  SDL_Color bg_color = {255 , 255, 255, 128};
+  SDL_Color title_bg_color = {255 , 255, 255, 200};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   SDL_String16 *pStr = create_str16_from_char("M", PTSIZE_LOG_FONT);
   Sint16 start_x = (Main.screen->w - adj_size(520)) / 2;
   Sint16 start_y = adj_size(25);
@@ -191,8 +197,6 @@ void popup_meswin_dialog(bool raise)
   int msg_count = get_num_messages();
   SDL_Surface *pSurf;
   SDL_Rect area;
-  SDL_Color active_color = {255, 255, 100, 255};
-  SDL_Color color = {255 , 255, 255, 128};
   
   FREESTRING16(pStr);
   
@@ -210,9 +214,7 @@ void popup_meswin_dialog(bool raise)
 
   pWindow->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
   
-  SDL_FillRect(pWindow->theme , NULL, 
-    SDL_MapRGBA(pWindow->theme->format,
-			color.r, color.g, color.b, color.unused));
+  SDL_FillRect(pWindow->theme , NULL, map_rgba(pWindow->theme->format, bg_color));
   
   area.x = 0;
   area.y = 0;
@@ -220,11 +222,10 @@ void popup_meswin_dialog(bool raise)
   area.h = WINDOW_TILE_HIGH;
   
   /* fill title bar */
-  SDL_FillRect(pWindow->theme, &area,
-	  SDL_MapRGBA(pWindow->theme->format, color.r, color.g, color.b, 200));
+  SDL_FillRect(pWindow->theme, &area, map_rgba(pWindow->theme->format, title_bg_color));
   
-  putline(pWindow->theme, 0,
-	  WINDOW_TILE_HIGH, w - 1, WINDOW_TILE_HIGH, 0xFF000000);
+  putline(pWindow->theme, 0, WINDOW_TILE_HIGH, w - 1, WINDOW_TILE_HIGH,
+                                map_rgba(pWindow->theme->format, frame_color));
 
   /* create static text on window */
   pStr = create_str16_from_char(_("Log"), adj_font(12));
@@ -238,7 +239,8 @@ void popup_meswin_dialog(bool raise)
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
   
-  putframe(pWindow->theme, 0, 0, w - 1, h - 1, 0xFF000000);
+  putframe(pWindow->theme, 0, 0, w - 1, h - 1,
+                               map_rgba(pWindow->theme->format, frame_color));
   
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = move_msg_window_callback;
@@ -264,7 +266,7 @@ void popup_meswin_dialog(bool raise)
       pBuf->action = msg_callback;
       if(pMsg->tile) {
         set_wstate(pBuf, FC_WS_NORMAL);
-	pBuf->string16->fgcol = active_color;
+	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
       }
       
       if(i>N_MSG_VIEW-1) {

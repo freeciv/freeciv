@@ -1330,6 +1330,8 @@ void Remake_MiniMap(int w, int h)
 
 static void Remake_UnitInfo(int w, int h)
 {
+  SDL_Color bg_color = {255, 255, 255, 128};
+  
   SDL_Surface *pSurf;
   SDL_Rect area = {FRAME_WH + BLOCKU_W, FRAME_WH , 0, 0};
   struct GUI *pWidget = pUnits_Info_Window;
@@ -1369,8 +1371,7 @@ static void Remake_UnitInfo(int w, int h)
   
   area.w = w - BLOCKU_W - DOUBLE_FRAME_WH;
   area.h = h - DOUBLE_FRAME_WH;
-  SDL_FillRect(pWidget->theme, &area,
-		  SDL_MapRGBA(pWidget->theme->format, 255, 255, 255, 128));
+  SDL_FillRect(pWidget->theme, &area, map_rgba(pWidget->theme->format, bg_color));
   
   /* economy button */
   pWidget = pTax_Button;
@@ -1432,14 +1433,16 @@ void Init_MapView(void)
      
   draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
   
-  pIcon_theme = ResizeSurface(pTheme->Block, BLOCKU_W,
+  pIcon_theme = ResizeSurface(pTheme->Block, /*BLOCKU_W*/pWidget->size.w,
  	   		     pWidget->size.h - DOUBLE_FRAME_WH, 1);
   
   blit_entire_src(pIcon_theme, pWidget->theme, FRAME_WH, FRAME_WH);
   FREESURFACE(pIcon_theme);
-  
+ 
+#if 0  
   SDL_FillRect(pWidget->theme, &unit_info_area,
           SDL_MapRGBA(pWidget->theme->format, 255, 255, 255, 128));
+#endif
   
   pWidget->string16->style |= (SF_CENTER);
   pWidget->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -2400,9 +2403,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   /* create text label */
   pStr = create_str16_from_char(_("What should we call our new city?"), adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol.r = 255;
-  pStr->fgcol.g = 255;
-  /* pStr->forecol.b = 255; */
+  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NEWCITYDLG_TEXT);
   pLabel = create_iconlabel(NULL, Main.gui, pStr, WF_DRAW_TEXT_LABEL_WITH_SPACE);
   
   pEdit = create_edit(NULL, Main.gui, create_str16_from_char(pSuggestname, adj_font(12)),

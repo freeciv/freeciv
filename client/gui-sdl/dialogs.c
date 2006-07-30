@@ -438,9 +438,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   /* create text label */
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol.r = 255;
-  pStr->fgcol.g = 255;
-  /*pStr->forecol.b = 255; */
+  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
@@ -1327,7 +1325,6 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     {
       struct unit *pDefender, *pAttacker;
       struct GUI *pLast = pBuf;
-      SDL_Color BLACK = {0, 0, 0, 255};
       bool reset = FALSE;
       int my_units = 0;
       
@@ -1390,7 +1387,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	  create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
           
 	  if (reset) {
-	    pStr->fgcol = BLACK;
+	    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT);
 	    reset = FALSE;
 	  }
 	  
@@ -1590,8 +1587,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       area.y = pBuf->size.h / 2 - 1;
       area.w = pBuf->size.w - adj_size(20);
       
-      SDL_FillRect(pBuf->theme, &area,
-                SDL_MapRGBA(pBuf->theme->format, 0, 0, 0, 255));
+      SDL_FillRect(pBuf->theme, &area, map_rgba(pBuf->theme->format,
+                    *get_game_colorRGB(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT)));
     }
     
     if(pBuf == pAdvanced_Terrain_Dlg->pBeginWidgetList || 
@@ -2010,9 +2007,7 @@ void popup_revolution_dialog(void)
   /* create text label */
   pStr = create_str16_from_char(_("You say you wanna revolution?"), adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol.r = 255;
-  pStr->fgcol.g = 255;
-  /* pStr->fgcol.b = 255; */
+  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_REVOLUTIONDLG_TEXT);
   pLabel = create_iconlabel(NULL, Main.gui, pStr, 0);
 
   /* create window */
@@ -2338,7 +2333,6 @@ static int cancel_help_dlg_callback(struct GUI *pWidget)
 **************************************************************************/
 static int nation_button_callback(struct GUI *pNationButton)
 {
-      
   set_wstate(pNationButton, FC_WS_SELLECTED);
   pSellected_Widget = pNationButton;
   
@@ -2412,7 +2406,7 @@ static int nation_button_callback(struct GUI *pNationButton)
       pStr = create_str16_from_char("SORRY... NO INFO", adj_font(12));
     }
     
-    pStr->fgcol = (SDL_Color){255, 255, 255, 255};
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_LEGEND);
     pText = create_text_surf_smaller_that_w(pStr, Main.screen->w - adj_size(20));
   
     copy_chars_to_string16(pStr, Q_(pNation->name_plural));
@@ -2576,13 +2570,16 @@ static int get_playable_nation_count() {
 **************************************************************************/
 void popup_races_dialog(struct player *pplayer)
 {
+  SDL_Color bg_color = {255,255,255,128};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  SDL_Color text_color = {255,255,255,255};
+  
   struct GUI *pWindow, *pWidget = NULL, *pBuf, *pLast_City_Style;
   SDL_String16 *pStr;
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
   SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed = NULL;
   SDL_Surface *pMain_Bg, *pText_Name, *pText_Class;
-  SDL_Color color = {255,255,255,128};
   SDL_Rect dst;
   struct NAT *pSetup;
     
@@ -2615,9 +2612,9 @@ void popup_races_dialog(struct player *pplayer)
   /* Create Imprv Background Icon */
   pMain_Bg = create_surf_alpha(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
   
-  SDL_FillRect(pMain_Bg, NULL, SDL_MapRGBA(pMain_Bg->format, color.r,
-					    color.g, color.b, color.unused));
-  putframe(pMain_Bg, 0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1, 0xFF000000);
+  SDL_FillRect(pMain_Bg, NULL, map_rgba(pMain_Bg->format, bg_color));
+  putframe(pMain_Bg, 0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1, 
+                                   map_rgba(pMain_Bg->format, frame_color));
   
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -2706,7 +2703,7 @@ void popup_races_dialog(struct player *pplayer)
   copy_chars_to_string16(pStr, Q_(get_nation_by_idx(pSetup->nation)->name_plural));
   change_ptsize16(pStr, adj_font(24));
   pStr->render = 2;
-  pStr->fgcol = color;
+  pStr->fgcol = text_color;
   
   pTmp_Surf_zoomed = adj_surf(GET_SURF(get_nation_flag_sprite(tileset, get_nation_by_idx(pSetup->nation))));
   
@@ -2846,9 +2843,9 @@ void popup_races_dialog(struct player *pplayer)
     area.y = WINDOW_TILE_HIGH + i;
     area.w = pNationDlg->pScroll->pUp_Left_Button->size.w + adj_size(2);
     area.h = h;
-    SDL_FillRectAlpha(pWindow->theme, &area, &color);
-    putframe(pWindow->theme, area.x, area.y - 1,
-		area.x + area.w, area.y + area.h, 0xFF000000);
+    SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
+    putframe(pWindow->theme, area.x, area.y - 1, area.x + area.w, area.y + area.h,
+             map_rgba(pWindow->theme->format, frame_color));
   }
    
   /* Sellected Nation Name */

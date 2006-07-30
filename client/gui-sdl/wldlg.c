@@ -1017,6 +1017,10 @@ static void refresh_worklist_count_label(void)
  */
 void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 {
+  SDL_Color bg_color = {255,255,255,128};
+  SDL_Color bg_color2 = {255,255,255,136};
+  SDL_Color frame_color = {0, 0, 0, 255};
+  
   int count = 0, turns;
   int i, w, h, widget_w = 0, widget_h = 0;
   SDL_String16 *pStr = NULL;
@@ -1024,7 +1028,6 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   SDL_Surface *pText = NULL, *pText_Name = NULL, *pZoom = NULL;
   SDL_Surface *pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
   SDL_Surface *pIcon, *pDest;
-  SDL_Color color = {255,255,255,128};
   SDL_Color c;
   SDL_Rect dst;
   char cBuf[128];
@@ -1054,9 +1057,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* --------------- */
   /* create Target Background Icon */
-  SDL_FillRect(pMain, NULL, SDL_MapRGBA(pMain->format, color.r,
-					    color.g, color.b, color.unused));
-  putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1, 0xFF000000);
+  SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
+  putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1,
+                                     map_rgba(pMain->format, frame_color));
     
   /* ---------------- */
   /* Create Main Window */
@@ -1288,7 +1291,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
         add_to_gui_list(MAX_ID - i, pBuf);
         pBuf->string16->style |= SF_CENTER;
         pBuf->action = global_worklist_callback;
-        pBuf->string16->fgcol = color;
+        pBuf->string16->fgcol = bg_color;
 	
         count++;
     
@@ -1615,19 +1618,18 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   SDL_FillRect(pWindow->theme, &dst,
 		SDL_MapRGBA(pWindow->theme->format, c.r, c.g, c.b, c.unused));
-  putframe(pWindow->theme, dst.x, dst.y,
-			  dst.x + dst.w - 1, dst.y + dst.h - 1, 0xFF000000);
-  putframe(pWindow->theme, dst.x + 2, dst.y + 2,
-			  dst.x + dst.w - 3, dst.y + dst.h - 3, 0xFF000000);
+  putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+     map_rgba(pWindow->theme->format, frame_color));
+  putframe(pWindow->theme, dst.x + 2, dst.y + 2, dst.x + dst.w - 3, dst.y + dst.h - 3,
+     map_rgba(pWindow->theme->format, frame_color));
   
   dst.x = FRAME_WH;
   dst.y = FRAME_WH + adj_size(150);
   dst.w = adj_size(130);
   dst.h = adj_size(228);
-  color.unused = 136;
-  SDL_FillRectAlpha(pWindow->theme, &dst, &color);
-  putframe(pWindow->theme, dst.x, dst.y,
-		  dst.x + dst.w - 1, dst.y + dst.h - 1, 0xFF000000);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
+  putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+     map_rgba(pWindow->theme->format, frame_color));
   
   if(pEditor->pGlobal) {
     dst.x = FRAME_WH;
@@ -1639,10 +1641,11 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       
     SDL_FillRect(pWindow->theme, &dst,
 		SDL_MapRGBA(pWindow->theme->format, c.r, c.g, c.b, c.unused));
-    putframe(pWindow->theme, dst.x, dst.y,
-			  dst.x + dst.w - 1, dst.y + dst.h - 1, 0xFF000000);
+    putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+      map_rgba(pWindow->theme->format, frame_color));
     putframe(pWindow->theme, dst.x + adj_size(2), dst.y + adj_size(2),
-      dst.x + dst.w - adj_size(3), dst.y + dst.h - adj_size(3), 0xFF000000);
+      dst.x + dst.w - adj_size(3), dst.y + dst.h - adj_size(3),
+      map_rgba(pWindow->theme->format, frame_color));
   }
   
   /* name */

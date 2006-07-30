@@ -678,9 +678,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     
     color = pWidget->string16->fgcol;
     pWidget->string16->style |= TTF_STYLE_BOLD;
-    pWidget->string16->fgcol.r = 255;
-    pWidget->string16->fgcol.g = 255;
-    pWidget->string16->fgcol.b = 255;
+    pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_QUICK_INFO_TEXT);
     
     /* create string and bcgd theme */
     pText = create_text_surf_from_str16(pWidget->string16);
@@ -688,7 +686,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pWidget->string16->fgcol = color;
     
     pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
-              SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO), TRUE);
+              SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO_BG), TRUE);
     
     /* calculate start position */
     if (pWidget->size.y - pBcgd->h - adj_size(6) < 0) {
@@ -720,8 +718,8 @@ void redraw_widget_info_label(SDL_Rect *rect)
     
     /* draw frame */
     putframe(pInfo_Label, 0, 0,
-             pInfo_Label->w - 1, pInfo_Label->h - 1,
-             SDL_MapRGB(pInfo_Label->format, 0, 0, 0));
+         pInfo_Label->w - 1, pInfo_Label->h - 1,
+         map_rgba(pInfo_Label->format, *get_game_colorRGB(COLOR_THEME_QUICK_INFO_FRAME)));
     
   }
 
@@ -2602,12 +2600,11 @@ void set_new_icon_theme(struct GUI *pIcon_Widget, SDL_Surface * pNew_Theme)
 **************************************************************************/
 SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
 {
-  Uint32 color;
-  SDL_Color RGB_Color = { 255, 255, 255, 128 };
+  SDL_Color bg_color = { 255, 255, 255, 128 };
+  
   SDL_Rect dest, src = get_smaller_surface_rect(pIcon);
   SDL_Surface *pTheme = create_surf_alpha((src.w + adj_size(4)) * 4, src.h + adj_size(4),
 				    SDL_SWSURFACE);
-
   dest.x = adj_size(2);
   dest.y = (pTheme->h - src.h) / 2;
 
@@ -2618,20 +2615,19 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest);
   /* draw sellect frame */
-  color = SDL_MapRGB(pTheme->format, 254, 254, 254);
-  putframe(pTheme, dest.x - 1, dest.y - 1, dest.x + (src.w),
-	   dest.y + src.h, color);
+  putframe(pTheme, dest.x - 1, dest.y - 1, dest.x + (src.w), dest.y + src.h,
+    map_rgba(pTheme->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_FRAME_SELECTED)));
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
   alphablit(pIcon, &src, pTheme, &dest);
   /* draw sellect frame */
-  putframe(pTheme, dest.x - 1, dest.y - 1, dest.x + src.w,
-	   dest.y + src.h, color);
+  putframe(pTheme, dest.x - 1, dest.y - 1, dest.x + src.w, dest.y + src.h,
+    map_rgba(pTheme->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_FRAME_SELECTED)));
   /* draw press frame */
-  color = SDL_MapRGB(pTheme->format, 246, 254, 2);
   putframe(pTheme, dest.x - adj_size(2), dest.y - adj_size(2), dest.x + (src.w + 1),
-	   dest.y + (src.h + 1), color);
+	   dest.y + (src.h + 1),
+    map_rgba(pTheme->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_FRAME_PRESSED)));
 
   /* disabled */
   dest.x += (src.w + adj_size(4));
@@ -2639,7 +2635,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface * pIcon)
   dest.w = src.w;
   dest.h = src.h;
 
-  SDL_FillRectAlpha(pTheme, &dest, &RGB_Color);
+  SDL_FillRectAlpha(pTheme, &dest, &bg_color);
 
   return pTheme;
 }
@@ -2854,25 +2850,24 @@ int real_redraw_icon2(struct GUI *pIcon)
 
   if (state == FC_WS_SELLECTED) {
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
-	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-	     SDL_MapRGB(pIcon->dst->format, 254, 254, 254));
+      dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
+      map_rgba(pIcon->dst->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_FRAME_SELECTED)));
   }
 
   if (state == FC_WS_PRESSED) {
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
-	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-	     SDL_MapRGB(pIcon->dst->format, 254, 254, 254));
+      dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
+      map_rgba(pIcon->dst->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_FRAME_SELECTED)));
 
     putframe(pIcon->dst, dest.x, dest.y,
 	     dest.x + dest.w + adj_size(3), dest.y + dest.h + adj_size(3),
-	     SDL_MapRGB(pIcon->dst->format, 246, 254, 2));
+	     map_rgba(pIcon->dst->format, *get_game_colorRGB(COLOR_THEME_CUSTOM_WIDGET_FRAME_PRESSED)));
   }
 
   if (state == FC_WS_DISABLED) {
-    SDL_Color c = *get_game_colorRGB(COLOR_THEME_DISABLED);
     putframe(pIcon->dst, dest.x + 1, dest.y + 1,
 	     dest.x + dest.w + adj_size(2), dest.y + dest.h + adj_size(2),
-	     SDL_MapRGBA(pIcon->dst->format, c.r, c.g, c.b, c.unused));
+	     map_rgba(pIcon->dst->format, *get_game_colorRGB(COLOR_THEME_DISABLED)));
   }
   dest.x += adj_size(2);
   dest.y += adj_size(2);
@@ -3094,6 +3089,9 @@ int real_redraw_ibutton(struct GUI *pIButton)
 
   dest.x = pIButton->size.x;
   dest.y = pIButton->size.y;
+  dest.w = pIButton->size.w;
+  dest.h = pIButton->size.h;
+  clear_surface(pIButton->dst, &dest);
   alphablit(pButton, NULL, pIButton->dst, &dest);
   FREESURFACE(pButton);
 
@@ -3401,7 +3399,8 @@ static void redraw_edit_chain(struct EDIT *pEdt)
       putline(pEdt->pWidget->dst, Dest_Copy.x - 1,
 		  Dest_Copy.y + (pEdt->pBg->h / 8), Dest_Copy.x - 1,
 		  Dest_Copy.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
-		  0xff0088ff);
+		  map_rgba(pEdt->pWidget->dst->format,
+                  *get_game_colorRGB(COLOR_THEME_EDITFIELD_CARET)));
       /* save active element position */
       pEdt->InputChain_X = Dest_Copy.x;
     }
@@ -4228,7 +4227,8 @@ int draw_horiz(struct GUI *pHoriz, Sint16 x, Sint16 y)
 SDL_Surface * get_buffer_layer(bool transparent)
 {
   SDL_Surface *pBuffer;
-  
+
+/* FIXME: can probably be removed together with the "transparent" flag */  
 #if 0    
   Uint32 colorkey;
   
@@ -4461,10 +4461,7 @@ int resize_window(struct GUI *pWindow,
     pColor = &color;
   }
 
-  SDL_FillRect(pWindow->theme, NULL,
-	       SDL_MapRGBA(pWindow->theme->format, pColor->r,
-			pColor->g, pColor->b, pColor->unused));
-  
+  SDL_FillRect(pWindow->theme, NULL, map_rgba(pWindow->theme->format, *pColor));
 
   return 1;
 }
@@ -5401,6 +5398,7 @@ int redraw_window(struct GUI *pWindow)
 {
   SDL_Surface *pTmp = NULL;
   SDL_Rect dst = pWindow->size;
+  SDL_Color color;
 
   /* Draw theme */
   clear_surface(pWindow->dst, &dst);
@@ -5415,7 +5413,7 @@ int redraw_window(struct GUI *pWindow)
       SDL_FillRect(pWindow->dst, &dst, SDL_MapRGBA(pWindow->dst->format,
       							255, 255, 255, 200));
     } else {
-      SDL_Color color = {255, 255, 255, 136};  
+      color = (SDL_Color) {255, 255, 255, 136};  
       SDL_FillRectAlpha(pWindow->dst, &dst, &color);
     }
     
@@ -5432,7 +5430,7 @@ int redraw_window(struct GUI *pWindow)
 	  pWindow->size.y + WINDOW_TILE_HIGH,
 	  pWindow->size.x + pWindow->size.w - FRAME_WH,
 	  pWindow->size.y + WINDOW_TILE_HIGH, 
-    		SDL_MapRGB(pWindow->dst->format, 0, 0, 0));    
+          map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_WINDOW_FRAME)));    
   }
   
   return 0;
@@ -5623,7 +5621,7 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   SDL_Surface *pBuf = NULL, *pTheme = NULL;
   SDL_Rect area;
   SDL_Color store = {0, 0, 0, 0};
-  SDL_Color color = {0,0,255,96};
+  SDL_Color bg_color = *get_game_colorRGB(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey;
   
   if (!pIcon && !pText) {
@@ -5670,13 +5668,13 @@ struct GUI * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   area.y = pLabel->size.h;
     
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    SDL_FillRect(pTheme, &area, SDL_MapRGBA(pTheme->format, 0, 0, 255, 96));
+    SDL_FillRect(pTheme, &area, map_rgba(pTheme->format, bg_color));
     store = pText->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
 	      &pText->bgcol.r, &pText->bgcol.g,
       		&pText->bgcol.b, &pText->bgcol.unused);
   } else {
-    SDL_FillRectAlpha(pTheme, &area, &color);
+    SDL_FillRectAlpha(pTheme, &area, &bg_color);
   }
   
   pLabel->size.y = pLabel->size.h;
@@ -5700,7 +5698,7 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
 {
   SDL_Rect start, area;
   SDL_Color store = {0, 0, 0, 0};
-  SDL_Color color = {0,0,255,96};
+  SDL_Color bg_color = *get_game_colorRGB(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey, flags = get_wflags(pIconLabel);
   SDL_Surface *pDest, *pTheme, *pBuf = create_surf_alpha(pIconLabel->size.w,
 				  pIconLabel->size.h * 2, SDL_SWSURFACE);
@@ -5733,14 +5731,14 @@ struct GUI * convert_iconlabel_to_themeiconlabel2(struct GUI *pIconLabel)
   area.y = pIconLabel->size.h;
     
   if(flags & WF_DRAW_THEME_TRANSPARENT) {
-    SDL_FillRect(pTheme, &area, SDL_MapRGBA(pTheme->format, 0, 0, 255, 96));
+    SDL_FillRect(pTheme, &area, map_rgba(pTheme->format, bg_color));
     store = pIconLabel->string16->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
 	      &pIconLabel->string16->bgcol.r, &pIconLabel->string16->bgcol.g,
       		&pIconLabel->string16->bgcol.b,
 			&pIconLabel->string16->bgcol.unused);
   } else {
-    SDL_FillRectAlpha(pTheme, &area, &color);
+    SDL_FillRectAlpha(pTheme, &area, &bg_color);
   }
   
   pIconLabel->size.y = pIconLabel->size.h;
@@ -5974,7 +5972,7 @@ int redraw_label(struct GUI *pLabel)
 {
   int ret;
   SDL_Rect area = pLabel->size;
-  SDL_Color bar_color = {0, 128, 255, 128};
+  SDL_Color bar_color = *get_game_colorRGB(COLOR_THEME_LABEL_BAR);
   SDL_Color backup_color = {0, 0, 0, 0};
 
   /* if label transparen then clear background under widget
