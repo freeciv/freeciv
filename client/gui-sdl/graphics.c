@@ -3556,11 +3556,6 @@ void load_intro_gfx(void)
   
 }
 
-void gui_flush(void)
-{
-  /* Nothing */
-}
-
 /**************************************************************************
   Most black color is coded like {0,0,0,255} but in sdl if alpha is turned 
   off and colorkey is set to 0 this black color is trasparent.
