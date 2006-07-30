@@ -1412,10 +1412,12 @@ static void Remake_UnitInfo(int w, int h)
 void Init_MapView(void)
 {
   struct GUI *pWidget;
-    
+
+#if 0  
   SDL_Rect unit_info_area = {FRAME_WH + BLOCKU_W, FRAME_WH ,
 		             UNITS_W - BLOCKU_W - DOUBLE_FRAME_WH,
     		    UNITS_H - DOUBLE_FRAME_WH};
+#endif
                     
   SDL_Surface *pIcon_theme = NULL;
 		    
