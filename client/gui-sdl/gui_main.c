@@ -733,7 +733,7 @@ Uint16 gui_event_loop(void *pData,
       }
     }
     
-    if (ID = ID_ERROR) {
+    if (ID == ID_ERROR) {
       if (callbacks && callback_list_size(callbacks) > 0) {
         struct callback *cb = callback_list_get(callbacks, 0);
         callback_list_unlink(callbacks, cb);

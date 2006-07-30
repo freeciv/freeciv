@@ -121,7 +121,6 @@ static int info_city_report_callback(struct GUI *pWidget)
 **************************************************************************/
 static void real_info_city_report_dialog_update(void)
 {
-  SDL_Color color;  
   SDL_Color text_color1 = {255,255,255,128};
   SDL_Color bg_color1 = {255, 255, 255, 136};
   SDL_Color frame_color1 = {0, 0, 0, 255};
