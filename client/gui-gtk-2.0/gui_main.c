@@ -1239,6 +1239,14 @@ static void ggz_game_launched(void)
 {
   ggz_begin();
 }
+
+/****************************************************************************
+  Callback function that's invoked when GGZ is exited.
+****************************************************************************/
+static void ggz_closed(void)
+{
+  set_client_page(PAGE_MAIN);
+}
 #endif
 
 /**************************************************************************
@@ -1250,8 +1258,8 @@ void ui_init(void)
   /* Engine and version match what is provided in civclient.dsc.in and
    * civserver.dsc.in. */
   ggz_gtk_initialize(FALSE,
-		     ggz_connected, ggz_game_launched,
-		     "Freeciv", NETWORK_CAPSTRING);
+		     ggz_connected, ggz_game_launched, ggz_closed,
+		     "Freeciv", NETWORK_CAPSTRING, "Pubserver");
 #endif
 
   log_set_callback(log_callback_utf8);
