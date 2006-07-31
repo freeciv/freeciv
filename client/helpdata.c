@@ -674,6 +674,8 @@ char *helptext_building(char *buf, size_t bufsz, Impr_type_id which,
     t = u->tech_requirement;
     assert(t < game.control.num_tech_types);
 
+    /* TRANS: 'Allows all players with knowledge of atomic power to
+     * build nuclear units.' */
     cat_snprintf(buf, bufsz,
 		 _("* Allows all players with knowledge of %s "
 		   "to build %s units.\n"),
@@ -1307,6 +1309,9 @@ void helptext_government(char *buf, size_t bufsz, struct government *gov,
         break;
       case EFT_UNIT_UPKEEP_FREE_PER_CITY:
         if (output_type != O_LAST) {
+	  /* TRANS: %s is the output type, like 'shields' or 'gold'. There
+	   * is currently no way to control the singular/plural version of
+	   * this. */
           sprintf(buf + strlen(buf), _("* Each of your cities will avoid "
                   "paying %d %s towards unit upkeep.\n"), peffect->value, 
                   output);
