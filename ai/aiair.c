@@ -263,6 +263,8 @@ static bool ai_find_strategic_airbase(struct unit *punit,
     refuel_iterate_process(airbase_iterator, airbase);
   }
 
+  refuel_iterate_end(airbase_iterator);
+
   return found;
 }
 

@@ -324,7 +324,7 @@ void refuel_iterate_process(struct pqueue *rp_list, struct refuel *pfrom)
 /*************************************************************************
  * Clean up
  ************************************************************************/
-static void refuel_iterate_end(struct pqueue *rp_list)
+void refuel_iterate_end(struct pqueue *rp_list)
 {
   /* No need to free memory allocated for the refuels list 
    * -- it will be reused */
