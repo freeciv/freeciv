@@ -179,9 +179,12 @@ static void node_rectangle_minimum_size(struct tree_node *node,
           if (preq->source.type == REQ_TECH
 	      && preq->source.value.tech == node->tech) {
 	    sprite = get_building_sprite(tileset, impr_type);
-	    get_sprite_dimensions(sprite, &swidth, &sheight);
-            max_icon_height = MAX(max_icon_height, sheight);
-            icons_width_sum += swidth + 2;
+            /* Improvement icons are not guaranteed to exist */
+            if (sprite) {
+              get_sprite_dimensions(sprite, &swidth, &sheight);
+              max_icon_height = MAX(max_icon_height, sheight);
+              icons_width_sum += swidth + 2;
+            }
 	  }
         } requirement_vector_iterate_end;
       } impr_type_iterate_end;
@@ -950,13 +953,16 @@ void draw_reqtree(struct reqtree *tree, struct canvas *pcanvas,
               if (preq->source.type == REQ_TECH
 	          && preq->source.value.tech == node->tech) {
  	        sprite = get_building_sprite(tileset, impr_type);
- 	        get_sprite_dimensions(sprite, &swidth, &sheight);
- 	        canvas_put_sprite_full(pcanvas,
- 	                               icon_startx,
- 				       starty + text_h + 4
- 				       + (height - text_h - 4 - sheight) / 2,
- 				       sprite);
- 	        icon_startx += swidth + 2;
+                /* Improvement icons are not guaranteed to exist */
+                if (sprite) {
+                  get_sprite_dimensions(sprite, &swidth, &sheight);
+                  canvas_put_sprite_full(pcanvas,
+                                         icon_startx,
+                                         starty + text_h + 4
+                                         + (height - text_h - 4 - sheight) / 2,
+                                         sprite);
+                  icon_startx += swidth + 2;
+                }
  	      }
  	    } requirement_vector_iterate_end;
           } impr_type_iterate_end;
