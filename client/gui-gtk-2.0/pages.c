@@ -67,7 +67,7 @@ static GtkListStore *load_store, *scenario_store,
 static GtkTreeSelection *load_selection, *scenario_selection,
   *nation_selection, *meta_selection, *lan_selection;
 
-static enum client_pages old_page;
+static enum client_pages old_page = -1;
 
 static void set_page_callback(GtkWidget *w, gpointer data);
 static void update_nation_page(struct packet_game_load *packet);
@@ -164,7 +164,7 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
 ****************************************************************************/
 static void ggz_login(void)
 {
-  ggz_gtk_login_raise("Pubserver");
+  set_client_page(PAGE_GGZ);
 }
 #endif
 
