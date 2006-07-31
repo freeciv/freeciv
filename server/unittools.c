@@ -2359,6 +2359,12 @@ static void hut_get_city(struct unit *punit)
 		     _("Game: You found a friendly city."));
     create_city(pplayer, punit->tile,
 		city_name_suggestion(pplayer, punit->tile));
+
+    if (unit_flag(punit, F_CITIES) || unit_flag(punit, F_SETTLERS)) {
+      /* In case city was found during autosettler activities */
+      initialize_infrastructure_cache(pplayer);
+    }
+
   } else {
     notify_player_ex(pplayer, punit->tile, E_HUT_SETTLER,
 		     _("Game: Friendly nomads are impressed by you,"
