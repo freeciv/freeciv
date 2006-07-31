@@ -27,6 +27,7 @@ struct pqueue *refuel_iterate_init(struct player *pplayer, struct tile *ptile,
                                    bool cities_only, int moves_left, 
                                    int moves_per_turn, int max_moves);
 struct refuel *refuel_iterate_next(struct pqueue *rp_list);
+void refuel_iterate_end(struct pqueue *rp_list);
 void refuel_iterate_process(struct pqueue *rp_list, struct refuel *pfrom);
 
 bool find_air_first_destination(struct unit *punit, struct tile **dst_tile);
