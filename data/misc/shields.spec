@@ -7,7 +7,7 @@ options = "+spec3"
 [info]
 
 artists = "
-   See flags/credits
+   See flags.spec
 "
 [extra]
 sprites =
