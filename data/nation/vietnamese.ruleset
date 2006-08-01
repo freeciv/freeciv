@@ -34,7 +34,7 @@ civilwar_nations = "chinese", "kampuchean", "malaysian"
 
 cities =
   "Ha Noi",
-  "Ho Chi Minh",	; Old name "Sai Gon"
+  "Thanh pho Ho Chi Minh",	; alt. "Sai Gon"
   "Hai Phong",
   "Da Nang",
   "Bien Hoa",
@@ -55,7 +55,7 @@ cities =
   "Da Lat",
   "My Tho",
   "Soc Trang",
-  "Play Ku",
+  "Pleiku",
   "Thanh Hoa",
   "Ca Mau",
   "Bac Lieu",
@@ -69,5 +69,5 @@ cities =
   "Lang Son",
   "Dien Bien Phu",
   "Hoi An",
-  "Plei Ku",
-  "Quang Ngai"
+  "Quang Ngai",
+  "Tuyen Quang"
