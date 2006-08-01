@@ -7,13 +7,13 @@ legend=_("The Vietnamese nation was founded in the first century AD by\
  twin sisters who became the war leaders of a revolt against a Chinese\
  military governor.")
 leader=
- "Trung Trac",
- "Trung Nhi",
+ "Trưng Trắc",
+ "Trưng Nhị",
  "Ly Bon",
  "Gia Long",
- "Bao Dai",
- "Ho Chi Minh",
- "Ngo Dinh Diem"
+ "Bảo Đại",
+ "Hồ Chí Minh",
+ "Ngô Đình Diệm"
 leader_sex="Female", "Female", "Male", "Male", "Male", "Male", "Male"
 flag="vietnam"
 flag_alt = "-"
@@ -29,45 +29,47 @@ init_government="Despotism"
 init_units=""
 civilwar_nations = "chinese", "kampuchean", "malaysian"
 
-; City list based on data from this page:
+; City order from:
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Vietnam
+; Vietnamese orthography from:
+; http://en.wikipedia.org/wiki/List_of_cities_in_Vietnam
 
 cities =
-  "Ha Noi",
-  "Ho Chi Minh",	; Old name "Sai Gon"
-  "Hai Phong",
-  "Da Nang",
-  "Bien Hoa",
-  "Hue",
+  "Hà Nội",
+  "Thành phố Hồ Chí Minh",	; alt. "Sài Gòn"
+  "Hải Phòng",
+  "Đà Nẵng",
+  "Biên Hòa",
+  "Huế",
   "Nha Trang",
-  "Can Tho",
-  "Rach Gia",
-  "Qui Nhon",
-  "Vung Tau",
-  "Nam Dinh",
-  "Phan Thiet",
-  "Long Xuyen",
-  "Hong Gai",
-  "Buon Ma Thuot",
+  "Cần Thơ",
+  "Rạch Giá",
+  "Qui Nhơn",
+  "Vũng Tàu",
+  "Nam Định",
+  "Phan Thiết",
+  "Long Xuyên",
+  "Hạ Long",			; alt. "Hong Gai"
+  "Buôn Mê Thuột",
   "Cam Ranh",
-  "Cam Pha",
-  "Thai Nguyen",
-  "Da Lat",
-  "My Tho",
-  "Soc Trang",
-  "Play Ku",
-  "Thanh Hoa",
-  "Ca Mau",
-  "Bac Lieu",
+  "Cẩm Phả",
+  "Thái Nguyên",
+  "Đà Lạt",
+  "Mỹ Tho",
+  "Sóc Trăng",
+  "Pleiku",
+  "Thanh Hóa",
+  "Cà Mau",
+  "Bạc Liêu",
   "Vinh",
-  "Hoa Binh",
-  "Vinh Long",
-  "Kon Tum",
-  "An Loc",
-  "Ben Tre",
-  "Cao Bang",
-  "Lang Son",
-  "Dien Bien Phu",
-  "Hoi An",
-  "Plei Ku",
-  "Quang Ngai"
+  "Hòa Bình",
+  "Vĩnh Long",
+  "Kontum",
+  "An Lộc",
+  "Bến Tre",
+  "Cao Bằng",
+  "Lạng Sơn",
+  "Điện Biên Phủ",
+  "Hội An",
+  "Quảng Ngãi",
+  "Tuyên Quang"
