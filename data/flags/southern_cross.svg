@@ -1,149 +1,201 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Notepad -->
+<!-- (PD) December 16, 2005 - _Crotalus horridus_  -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://web.resource.org/cc/"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.0"
-   width="556.88000px"
-   height="371.25000px"
-   viewBox="0 0 468 297"
-   preserveAspectRatio="xMidYMid meet"
-   id="svg3708"
+   width="262.5"
+   height="175"
+   id="Confederate Battle Flag"
    sodipodi:version="0.32"
-   inkscape:version="0.42"
+   inkscape:version="0.44"
    sodipodi:docname="southern_cross.svg"
-   sodipodi:docbase="/home/daniel/freeciv/data/flags"
-   inkscape:export-filename="/Users/daniel/Desktop/csa.png"
-   inkscape:export-xdpi="13.533821"
-   inkscape:export-ydpi="13.533821">
-  <defs
-     id="defs3725" />
+   sodipodi:docbase="C:\Documents and Settings\다니엘\바탕 화면">
+  <metadata
+     id="metadata42">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
   <sodipodi:namedview
-     inkscape:window-height="513"
-     inkscape:window-width="753"
+     inkscape:window-height="807"
+     inkscape:window-width="1052"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
+     guidetolerance="10.0"
+     gridtolerance="10.0"
+     objecttolerance="10.0"
      borderopacity="1.0"
      bordercolor="#666666"
      pagecolor="#ffffff"
      id="base"
-     inkscape:zoom="0.74006732"
-     inkscape:cx="326.17282"
-     inkscape:cy="185.62500"
-     inkscape:window-x="480"
-     inkscape:window-y="135"
-     inkscape:current-layer="svg3708" />
-  <metadata
-     id="metadata3710">
-Created by potrace 1.7, written by Peter Selinger 2001-2005
-<rdf:RDF>
-  <cc:Work
-     rdf:about="">
-    <dc:format>image/svg+xml</dc:format>
-    <dc:type
-       rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-  </cc:Work>
-</rdf:RDF>
-</metadata>
+     width="262.5px"
+     inkscape:zoom="2.1542857"
+     inkscape:cx="137.5"
+     inkscape:cy="87.5"
+     inkscape:window-x="66"
+     inkscape:window-y="87"
+     inkscape:current-layer="Confederate Battle Flag" />
   <rect
-     style="opacity:1.0000000;fill:#ffffff;fill-opacity:1.0000000;fill-rule:nonzero;stroke:none;stroke-width:16.025000;stroke-miterlimit:4.0000000;stroke-dasharray:none;stroke-opacity:1.0000000"
-     id="rect1320"
-     width="468.00000"
-     height="311.99719"
-     x="4.4408921e-16"
-     y="-7.4985943" />
+     style="fill:#002366"
+     x="0"
+     y="0"
+     width="262.5"
+     height="175"
+     id="Blue Saltire" />
   <path
-     style="fill:#0000aa;fill-opacity:1.0000000;stroke:none"
-     id="path3714"
-     d="M 0.12760029,30.616021 C 0.12760029,30.616021 186.01378,147.66098 186.01378,148.02056 L 0.87045529,264.70593 L 0.87045529,303.54111 L 31.727675,303.54111 C 31.727675,303.54111 232.47104,175.88840 233.67104,175.88840 C 235.04247,175.88840 432.57922,300.86842 436.52208,303.74510 L 468.87163,303.54111 L 468.87163,264.34634 C 468.87163,264.34634 283.72831,148.55993 283.72831,148.02056 L 468.70020,32.953324 L 468.87163,-7.5000000 L 436.93472,-7.4930710 L 234.01390,118.71437 L 37.499074,-7.5000000 L 0.69902629,-7.5000000 L 0.12760029,30.616021 z "
-     sodipodi:nodetypes="cscccscccsccccccc" />
+     style="fill:white"
+     d="M 19.090909,0 L 243.40909,0 L 131.25,70 L 19.090909,0 z "
+     id="White Saltire Border - Top" />
   <path
-     style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
-     id="path3716"
-     d="M 233.67104,97.060244 L 423.27152,-19.265551 L 49.727720,-19.265551 L 233.67104,97.060244 z "
-     sodipodi:nodetypes="cccc" />
+     style="fill:white"
+     d="M 19.090909,175 L 243.40909,175 L 131.25,105 L 19.090909,175 z "
+     id="White Saltire Border - Bottom" />
   <path
-     style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
-     id="path3718"
-     d="M -11.466522,253.19920 L 160.36250,148.02056 C 160.36250,148.02056 -10.266519,41.043989 -11.123664,41.043989 C -11.809380,41.043989 -11.980809,253.19920 -11.466522,253.19920 z "
-     sodipodi:nodetypes="ccss" />
+     style="fill:white"
+     d="M 0,20 L 0,155 L 105,87.5 L 0,20 z "
+     id="White Saltire Border - Left" />
   <path
-     style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
-     id="path3720"
-     d="M 309.72245,148.20035 C 310.23673,148.73973 478.98001,253.19920 480.18001,253.91837 C 481.72287,254.99713 481.72287,41.163855 480.86573,41.163855 C 480.18001,41.163855 309.55102,148.02056 309.72245,148.20035 z "
-     sodipodi:nodetypes="ccss" />
+     style="fill:white"
+     d="M 262.5,20 L 262.5,155 L 157.5,87.5 L 262.5,20 z "
+     id="White Saltire Border - Right" />
   <path
-     style="fill:#fd0000;fill-opacity:1.0000000;stroke:none"
-     id="path3722"
-     d="M 47.270575,316.26553 L 421.67152,315.30664 C 421.67152,315.30664 234.52819,198.44149 233.49961,198.44149 C 232.29961,198.44149 46.927726,316.26641 47.270575,316.26553 z "
-     sodipodi:nodetypes="ccss" />
-  <polygon
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,244.8896,244.9276)"
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     id="polygon1863" />
-  <polygon
-     id="polygon3983"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,317.5714,199.5788)" />
-  <polygon
-     id="polygon3985"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,379.9074,160.3546)" />
-  <polygon
-     id="polygon3987"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,444.8805,120.6742)" />
-  <polygon
-     id="polygon3989"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,317.1368,285.0638)" />
-  <polygon
-     id="polygon3991"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,378.8062,324.7440)" />
-  <polygon
-     id="polygon3993"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,443.7794,364.4243)" />
-  <polygon
-     id="polygon3995"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,178.3806,283.9300)" />
-  <polygon
-     id="polygon3997"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,115.6101,323.6104)" />
-  <polygon
-     id="polygon3999"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,51.73821,362.1569)" />
-  <polygon
-     id="polygon4001"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,50.63696,120.6742)" />
-  <polygon
-     id="polygon4003"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,113.4076,161.4882)" />
-  <polygon
-     id="polygon4005"
-     points="349.08100,386.74500 294.26900,346.44100 238.96800,386.07200 260.36200,321.48800 205.58200,281.14000 273.61600,281.53000 295.06100,216.96200 315.71400,281.78700 383.74900,282.23000 328.47900,321.90400 349.08100,386.74500 "
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     transform="matrix(-0.172021,-0.124753,0.125267,-0.188776,177.2795,200.0347)" />
+     style="fill:#bc113d"
+     d="M 28.636364,0 L 233.86364,0 L 131.25,65 L 28.636364,0 z "
+     id="Red Field - Top" />
+  <path
+     style="fill:#bc113d"
+     d="M 28.636364,175 L 233.86364,175 L 131.25,110 L 28.636364,175 z "
+     id="Red Field - Bottom" />
+  <path
+     style="fill:#bc113d"
+     d="M 0,25 L 0,150 L 95.454545,87.5 L 0,25 z "
+     id="Red Field - Left" />
+  <path
+     style="fill:#bc113d"
+     d="M 262.5,25 L 262.5,150 L 167.04545,87.5 L 262.5,25 z "
+     id="Red Field - Right" />
+  <defs
+     id="defs12">
+    <path
+       style="fill:white"
+       d="M 10,0 L 12.33,7.66 L 20,7.66 L 13.83,12.33 L 16.16,20 L 10,15.33 L 3.83,20 L 6.16,12.33 L 0,7.66 L 7.66,7.66 L 10,0 z "
+       id="Star" />
+  </defs>
+  <use
+     x="127.5"
+     y="77.5"
+     xlink:href="#Star"
+     id="use15"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="90"
+     y="54"
+     xlink:href="#Star"
+     id="use17"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="90"
+     y="101"
+     xlink:href="#Star"
+     id="use19"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="165"
+     y="54"
+     xlink:href="#Star"
+     id="use21"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="165"
+     y="101"
+     xlink:href="#Star"
+     id="use23"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="51"
+     y="30"
+     xlink:href="#Star"
+     id="use25"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="51"
+     y="125"
+     xlink:href="#Star"
+     id="use27"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="204"
+     y="30"
+     xlink:href="#Star"
+     id="use29"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="204"
+     y="125"
+     xlink:href="#Star"
+     id="use31"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="13"
+     y="8"
+     xlink:href="#Star"
+     id="use33"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="13"
+     y="147"
+     xlink:href="#Star"
+     id="use35"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="242"
+     y="8"
+     xlink:href="#Star"
+     id="use37"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
+  <use
+     x="242"
+     y="147"
+     xlink:href="#Star"
+     id="use39"
+     width="275"
+     height="175"
+     transform="scale(0.954545,1)" />
 </svg>
