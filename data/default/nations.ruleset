@@ -41,6 +41,10 @@ match=0
 name=_("?nationgroup:Oceanian")
 match=0
 [ngroup_transitional]
+; /* TRANS: A Transitional nation constitutes the intermediate form during */
+; /* TRANS: the transition from one kind of state to another. */
+; /* TRANS: An example is the Soviet Union, that was the transitional */
+; /* TRANS: nation of the Russian Empire and the Russian Federation.  */
 name=_("?nationgroup:Transitional")
 match=2
 [ngroup_fictional]
