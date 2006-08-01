@@ -7,7 +7,160 @@ options = "+spec3"
 [info]
 
 artists = "
-   See flags/credits
+
+   Many Public Domain flags from:
+    Sodipodi http://www.sodipodi.com/index.php3?section=clipart/flags
+    Open Clip Art Library http://www.openclipart.org/
+
+   Aborigines		Brett Roper
+   Afghanistan		Andrew Duhan
+   Algeria 		Lauris Kaplinski
+   Antarctica		Tobias Jakobs
+   Arab			Daniel Markstedt and Andrew Duhan
+   Aram			Daniel Markstedt
+   Argentina		Sigge Kotliar
+   Armenia		Jason Short
+   Assyria		Clevelander and Daniel Markstedt
+   Australia		Daniel McRae
+   Austria		Christoph Breitler
+   Aymara		Daniel Markstedt
+   Azerbaijan		Daniel McRae
+   Aztec		Daniel Markstedt
+   Babylon		Daniel Markstedt
+   Bangladesh		Cezary Biele
+   Barbarian		Tobias Jakobs
+   Bavarian		Jörgen Scheibengruber
+   Belgium		Daniel McRae
+   Boer			Caleb Moore
+   Bosnia		Daniel McRae
+   Brasil		Cezary Biele
+   Bulgaria		Daniel McRae
+   Byzantium		Nikos Mavrogiannopoulos
+   Canada		James Leigh
+   Cartago		Daniel Markstedt and Matt Jecrell
+   Catalan		Xavier Conde Rueda
+   Cheyenne		Arturo Espinosa-Aldama
+   Chile		Mario Fuentes
+   China		Stephen Silver
+   Colombia		Lauris Kaplinski
+   Constantine		Nikos Mavrogiannopoulos
+   Cornwall		Vasco Alexandre Da Silva Costa
+   Croatia		Frank Zeko
+   Cuba			Lauris Kaplinski
+   Czech		Lauris Kaplinski
+   Denmark		Jens Bech Madsen
+   Egypt (ancient)	Daniel Markstedt
+   Egypt		Caleb Moore
+   England		Thom Sanders
+   Estonia		Daniel McRae
+   Ethiopia		Lauris Kaplinski and Christian Schaller
+   Europe		Lauris Kaplinski
+   Euskadi		Patricia Fidi
+   Finland		Daniel McRae
+   France (old)		Patricia Fidi
+   France		Tobias Jakobs
+   Galicia		Miguel Rodríguez
+   Gaul			Daniel Markstedt and Kilian Valkhof
+   Georgia		Christian Schaller
+   Germany		Philipp Sadleder
+   Greece (ancient)	Daniel Markstedt and Vzb83 (Wikipedia)
+   Greece		Daniel McRae
+   Greenland		Daniel McRae
+   Hacker		Daniel Markstedt and Eric S. Raymond
+   Hittite		Daniel Markstedt
+   Hungary		Laszlo Dvornik
+   Iceland		Áki G. Karlsson
+   Illyria		William Allen Simpson
+   Inca			Daniel Markstedt
+   India		Lauris Kaplinski
+   Indonesia		Kuswanto
+   Iran (ancient)	Daniel Markstedt
+   Iran			Cezary Biele
+   Iraq (old)		AnonMoos
+   Iraq			Lauris Kaplinski
+   Ireland		Lauris Kaplinski
+   Iroquois		Daniel Markstedt
+   Israel		John C Meuser
+   Italy		Lauris Kaplinski
+   Japan		Lauris Kaplinski
+   Kampuchea		Caleb Moore
+   Keetoowah		Daniel Markstedt
+   Kenya		James Ots
+   Korea		Stephen Silver
+   Latvia		Lauris Bukšis
+   Libya		Cezary Biele
+   Lithuania		Christian Schaller
+   Macedonia		Sigge Kotliar
+   Madagascar		Russell Cloran
+   Malaysia		Lauris Kaplinski
+   Mali			Brett Roper
+   Maori		Daniel Markstedt
+   Mars			Vasco Alexandre Da Silva Costa
+   Maya			Daniel Markstedt
+   Mexico		Cezary Biele
+   Mongolia		Sebastian Koppehel
+   Myanmar		Caleb Moore
+   NATO			Christian Schaller
+   Netherlands		Marc Maurer
+   New Zealand		Daniel McRae
+   Nigeria		Brett Roper
+   Norway		Christian Schaller
+   Ottoman		Daniel Markstedt
+   Pakistan		Lauris Kaplinski
+   Palmyra		JB Grout
+   Papua New Guinea	Tobias Jakobs
+   Peru			Brett Roper
+   Philippines		Lauris Kaplinski
+   Phoenicia		Vasco Alexandre Da Silva Costa
+   Poland		Cezary Biele
+   Portugal		Diogo Mamede
+   Qing			Caleb Moore
+   Quebec		Patrick Guimond
+   Romania		Daniel McRae
+   Rome			Vasco Alexandre Da Silva Costa, Patricia Fidi
+   Russia		Oleg Krivosheev
+   Rwanda		Cezary Biele
+   Ryukyu		Daniel Markstedt
+   Samogitia		Daniel Markstedt and Jarno Vasamaa
+   Sapmi		Dean Tersigni
+   Scotland		Sigge Kotliar
+   Serbia		Nikola Pizurica
+   Silesia		Vasco Alexandre Da Silva Costa
+   Singapore		Lauris Kaplinski
+   Slovakia		Lauris Kaplinski
+   Slovenia		Matthew Gatto
+   South Africa		Farrel Lifson
+   Southern Cross	Crotalus horridus
+   Soviet		Sigge Kotliar
+   Spain		Pedro A. Gracia Fajardo
+   Sri Lanka		Tobias Jakobs
+   St. Patrick		Vasco Alexandre Da Silva Costa
+   Sudan		Tobias Jakobs
+   Sumeria		Franz Mach, Jason Short, Daniel Markstedt
+   Swaziland		Caleb Moore
+   Sweden		Richard Torkar
+   Swiss		Philipp Frauenfelder
+   Syria		Craig Kacinko
+   Taiwan		Cezary Biele
+   Texas		Paul B. Joiner
+   Thailand		Lauris Kaplinski
+   Tibet		Tobias Jakobs
+   Tunisia		Tobias Jakobs
+   Turkey		Onur Yalaz
+   Ukraine		Lauris Kaplinski
+   United Kingdom	Daniel McRae
+   United Nations	Tobias Jakobs
+   Unknown		Jason Short
+   Uruguay		Guillermo Romero
+   USA			Daniel McRae
+   Uyghur		Daniel Markstedt
+   Venezuela		Sigge Kotliar
+   Vietnam		Lauris Kaplinski
+   Viking		Daniel Markstedt
+   Wales		Tobias Jakobs
+   Westphalia		Daniel Markstedt and Tobias Jakobs
+   Zulu			Daniel Markstedt and Caleb Moore
+
 "
 [extra]
 sprites =
