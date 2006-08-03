@@ -136,21 +136,20 @@ static int change_impr_callback(struct GUI *pWidget)
 static void redraw_impr_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
+
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
   SDL_Rect dst;
-  
+
   redraw_group(pWindow->prev, pWindow, FALSE);
-    
+
   dst.x = pStore->pDock->prev->size.x - adj_size(10);
   dst.y = pStore->pDock->prev->size.y - adj_size(10);
-  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10); 
-  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
+  dst.w = pWindow->size.w - (dst.x - pWindow->size.x) - adj_size(10);
+  dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
   SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
   putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->format, frame_color));
+    map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -160,9 +159,8 @@ static void redraw_impr_info_dlg(void)
 
 void popup_impr_info(Impr_type_id impr)
 { 
-  SDL_Color text_color = {255, 255, 255, 255};
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
+  SDL_Color bg_color = {255, 255, 255, 128};
+
   struct GUI *pBuf, *pHelpText = NULL;
   struct GUI *pDock;
   struct GUI *pWindow;
@@ -221,9 +219,8 @@ void popup_impr_info(Impr_type_id impr)
     pText = create_surf_alpha(adj_size(140), adj_size(40), SDL_SWSURFACE);
     pTmp = pText;
     
-    SDL_FillRect(pTmp, NULL,
-	SDL_MapRGBA(pTmp->format, 255, 255, 255, 128));
-    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, frame_color));
+    SDL_FillRect(pTmp, NULL, map_rgba(pTmp->format, bg_color));
+    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
     
     h = 0;
     impr_type_iterate(type)
@@ -280,7 +277,7 @@ void popup_impr_info(Impr_type_id impr)
 */    
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
-    pBuf->string16->fgcol = text_color;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
@@ -500,7 +497,6 @@ static int change_unit_callback(struct GUI *pWidget)
 static void redraw_unit_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-  SDL_Color frame_color = {0, 0, 0, 255};
   
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pWindow->data.ptr;
@@ -514,7 +510,7 @@ static void redraw_unit_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
   SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
   putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->format, frame_color));
+    map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
   
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -525,8 +521,6 @@ static void redraw_unit_info_dlg(void)
 void popup_unit_info(Unit_type_id type_id)
 { 
   SDL_Color bg_color = {255, 255, 255, 128};
-  SDL_Color text_color = {255, 255, 255, 255};
-  SDL_Color frame_color = {0, 0, 0, 255};
   
   struct GUI *pBuf;
   struct GUI *pDock;
@@ -586,7 +580,7 @@ void popup_unit_info(Unit_type_id type_id)
     pTmp = pText;
     
     SDL_FillRect(pTmp, NULL, map_rgba(pTmp->format, bg_color));
-    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, frame_color));
+    putframe(pTmp, 0,0, pTmp->w - 1, pTmp->h - 1, map_rgba(pTmp->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
     
     h = 0;
     unit_type_iterate(type) {
@@ -650,7 +644,7 @@ void popup_unit_info(Unit_type_id type_id)
 */    
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
-    pBuf->string16->fgcol = text_color;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
@@ -898,7 +892,6 @@ static int show_help_callback(struct GUI *pWidget)
 static void redraw_tech_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-  SDL_Color frame_color = {0, 0, 0, 255};
   
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
@@ -914,7 +907,7 @@ static void redraw_tech_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10); 
   SDL_FillRectAlpha(pWindow->dst, &dst, &bg_color);
   putframe(pWindow->dst, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->format, frame_color));
+    map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
   
   /* -------------------------- */
   pStr = create_str16_from_char(_("Allows"), adj_font(14));
@@ -1292,8 +1285,8 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
 
 static void redraw_tech_tree_dlg(void)
 {
-  SDL_Color line_color = {255, 255, 255, 255};
-  
+  SDL_Color line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
+
   struct GUI *pWindow = pHelpDlg->pEndWidgetList;
   struct GUI *pSub0, *pSub1;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pWindow->data.ptr;
@@ -1446,13 +1439,13 @@ static void redraw_tech_tree_dlg(void)
     switch((i % mod))
     {
       case 2:
-        line_color = (SDL_Color) {255, 15, 240, 255};
+        line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE2);
       break;
       case 1:
-        line_color = (SDL_Color) {255, 240, 15, 255};
+        line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE3);
       break;
       default:
-        line_color = (SDL_Color) {255, 255, 255, 255};
+        line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
       break;
     }
     
@@ -1833,8 +1826,6 @@ static struct GUI * create_tech_tree(Tech_type_id tech, int width, struct GUI *p
 
 void popup_tech_info(Tech_type_id tech)
 { 
-  SDL_Color text_color = {255, 255, 255, 255};
-  
   struct GUI *pBuf;
   struct GUI *pDock;
   struct GUI *pWindow;
@@ -1933,7 +1924,7 @@ void popup_tech_info(Tech_type_id tech)
     }
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
-    pBuf->string16->fgcol = text_color;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
     clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     /*pBuf->key = SDLK_ESCAPE;*/
   

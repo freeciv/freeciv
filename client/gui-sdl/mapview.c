@@ -372,9 +372,7 @@ void overview_size_changed(void)
 void update_info_label(void)
 {
   SDL_Color bg_color = {0, 0, 0, 80};
-  SDL_Color text_color = {255, 255, 255, 255};
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
+
   SDL_Surface *pTmp = NULL;
   char buffer[512];
   
@@ -388,7 +386,7 @@ void update_info_label(void)
 
   /* set text settings */
   pText->style |= TTF_STYLE_BOLD;
-  pText->fgcol = text_color;
+  pText->fgcol = *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_TEXT);
   pText->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   if (game.player_ptr) {
@@ -415,15 +413,15 @@ void update_info_label(void)
     
     /* Horizontal lines */
     putline(Main.gui, area.x + 1, area.y,
-      area.x + area.w - 2, area.y , map_rgba(Main.gui->format, frame_color));
+      area.x + area.w - 2, area.y , map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
     putline(Main.gui, area.x + 1, area.y + area.h - 1,
-      area.x + area.w - 2, area.y + area.h - 1, map_rgba(Main.gui->format, frame_color));
+      area.x + area.w - 2, area.y + area.h - 1, map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
   
     /* vertical lines */
     putline(Main.gui, area.x + area.w - 1, area.y + 1 ,
-      area.x + area.w - 1, area.y + area.h - 2, map_rgba(Main.gui->format, frame_color));
+      area.x + area.w - 1, area.y + area.h - 2, map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
     putline(Main.gui, area.x, area.y + 1, area.x,
-      area.y + area.h - 2, map_rgba(Main.gui->format, frame_color));
+      area.y + area.h - 2, map_rgba(Main.gui->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
   
     /* blit text to screen */  
     blit_entire_src(pTmp, Main.gui, area.x + adj_size(5), area.y + adj_size(2));
@@ -460,9 +458,6 @@ static int fucus_units_info_callback(struct GUI *pWidget)
 **************************************************************************/
 void redraw_unit_info_label(struct unit *pUnit)
 {
-  SDL_Color text_color = {0, 0, 0, 255};
-  SDL_Color text_color_veteran = {0, 255, 0, 255};
-  
   struct GUI *pInfo_Window = get_unit_info_window_widget();
   SDL_Rect src, area = {pInfo_Window->size.x, pInfo_Window->size.y,
                         pInfo_Window->size.w, pInfo_Window->size.h};
@@ -511,9 +506,9 @@ void redraw_unit_info_label(struct unit *pUnit)
       if(pUnit->veteran) {
 	copy_chars_to_string16(pStr, _("veteran"));
         change_ptsize16(pStr, adj_font(10));
-	pStr->fgcol = text_color_veteran;
+	pStr->fgcol = *get_game_colorRGB(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
         pVet_Name = create_text_surf_from_str16(pStr);
-        pStr->fgcol = text_color;
+        pStr->fgcol = *get_game_colorRGB(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
       }
 
       /* get and draw other info (MP, terran, city, etc.) */

@@ -184,8 +184,7 @@ void popup_meswin_dialog(bool raise)
 {
   SDL_Color bg_color = {255 , 255, 255, 128};
   SDL_Color title_bg_color = {255 , 255, 255, 200};
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
+
   SDL_String16 *pStr = create_str16_from_char("M", PTSIZE_LOG_FONT);
   Sint16 start_x = (Main.screen->w - adj_size(520)) / 2;
   Sint16 start_y = adj_size(25);
@@ -225,7 +224,7 @@ void popup_meswin_dialog(bool raise)
   SDL_FillRect(pWindow->theme, &area, map_rgba(pWindow->theme->format, title_bg_color));
   
   putline(pWindow->theme, 0, WINDOW_TILE_HIGH, w - 1, WINDOW_TILE_HIGH,
-                                map_rgba(pWindow->theme->format, frame_color));
+                                map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_MESWIN_FRAME)));
 
   /* create static text on window */
   pStr = create_str16_from_char(_("Log"), adj_font(12));
@@ -240,7 +239,7 @@ void popup_meswin_dialog(bool raise)
   FREESTRING16(pStr);
   
   putframe(pWindow->theme, 0, 0, w - 1, h - 1,
-                               map_rgba(pWindow->theme->format, frame_color));
+                               map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_MESWIN_FRAME)));
   
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = move_msg_window_callback;

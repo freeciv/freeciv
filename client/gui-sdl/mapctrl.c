@@ -989,7 +989,7 @@ static void popup_unitinfo_scale_dialog(void)
   
 
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), w, h);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND), w, h);
     
   /* width left button */
   pBuf = pWindow->prev;

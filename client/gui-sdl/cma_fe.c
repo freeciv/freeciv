@@ -334,7 +334,7 @@ static int save_cma_callback(struct GUI *pWidget)
   pWindow->size.y = pWidget->size.y - (hh + FRAME_WH);
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND),
 		ww + DOUBLE_FRAME_WH, hh + FRAME_WH);
 
   /* setup rest of widgets */
@@ -642,8 +642,7 @@ static bool is_worker(const struct city *pCity, int x, int y)
 /* ===================================================================== */
 void update_city_cma_dialog(void)
 {
-  SDL_Color bg_color = {255, 255, 255, 136};  
-  SDL_Color frame_color = {0, 0, 0, 255};
+  SDL_Color bg_color = {255, 255, 255, 136};
   
   int count, step, i;
   struct GUI *pBuf = pCma->pDlg->pEndWidgetList; /* pWindow */
@@ -726,7 +725,7 @@ void update_city_cma_dialog(void)
   dst.h = pText->h + adj_size(10);
   SDL_FillRectAlpha(pBuf->dst, &dst, &bg_color);
   putframe(pBuf->dst, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-           map_rgba(pBuf->dst->format, frame_color));
+           map_rgba(pBuf->dst->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
   
   dst.x += adj_size(5);
   dst.y += adj_size(5);
@@ -799,7 +798,6 @@ void update_city_cma_dialog(void)
 void popup_city_cma_dialog(struct city *pCity)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
-  SDL_Color frame_color = {0, 0, 0, 255};
   
   struct GUI *pWindow, *pBuf;
   SDL_Surface *pLogo, *pText[O_COUNT + 1], *pMinimal, *pFactor;
@@ -1028,7 +1026,7 @@ void popup_city_cma_dialog(struct city *pCity)
   area.h = (O_COUNT + 1) * (pText[0]->h + adj_size(6)) + adj_size(20);
   SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
   putframe(pWindow->theme, area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-           map_rgba(pWindow->theme->format, frame_color));
+           map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
   
   area.x = dst.x + text_w + adj_size(10);
   alphablit(pMinimal, NULL, pWindow->theme, &area);
@@ -1060,7 +1058,7 @@ void popup_city_cma_dialog(struct city *pCity)
     area.h = pBuf->size.h;
     SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
     putframe(pWindow->theme, area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-             map_rgba(pWindow->theme->format, frame_color));
+             map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
     
     /* factor label */
     pBuf = pBuf->prev;
@@ -1078,7 +1076,7 @@ void popup_city_cma_dialog(struct city *pCity)
     area.h = pBuf->size.h;
     SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
     putframe(pWindow->theme, area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-             map_rgba(pWindow->theme->format, frame_color));
+             map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
         
     alphablit(pText[i], NULL, pWindow->theme, &dst);
     dst.y += pText[i]->h + adj_size(6);
@@ -1102,7 +1100,7 @@ void popup_city_cma_dialog(struct city *pCity)
   area.h = pBuf->size.h;
   SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
   putframe(pWindow->theme, area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-           map_rgba(pWindow->theme->format, frame_color));
+           map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
   
   /* celebrate cbox */
   pBuf = pBuf->prev;
@@ -1127,7 +1125,7 @@ void popup_city_cma_dialog(struct city *pCity)
   area.h = pBuf->size.h + adj_size(10);
   SDL_FillRectAlpha(pWindow->theme, &area, &bg_color);
   putframe(pWindow->theme, area.x, area.y, area.x + area.w - 1, area.y + area.h - 1,
-           map_rgba(pWindow->theme->format, frame_color));
+           map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CMA_FRAME)));
   
   /* load */
   pBuf = pBuf->prev;

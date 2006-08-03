@@ -128,8 +128,6 @@ static int sound_callback(struct GUI *pWidget)
 **************************************************************************/
 static int edit_worklist_callback(struct GUI *pWidget)
 {  
-  SDL_Color text_color = {0, 0, 0, 255};
-  
   switch(Main.event.button.button) {
     case SDL_BUTTON_LEFT:
       pEdited_WorkList_Name = pWidget;
@@ -180,7 +178,8 @@ static int edit_worklist_callback(struct GUI *pWidget)
       if (i < MAX_NUM_WORKLISTS &&
 	(get_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList) == FC_WS_DISABLED)) {
         set_wstate(pOption_Dlg->pADlg->pBeginActiveWidgetList, FC_WS_NORMAL);
-        pOption_Dlg->pADlg->pBeginActiveWidgetList->string16->fgcol = text_color;
+        pOption_Dlg->pADlg->pBeginActiveWidgetList->string16->fgcol =
+	                  *get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_TEXT);
       }
       
       redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
@@ -262,7 +261,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
   /* No more worklist slots free. */
   if (j == MAX_NUM_WORKLISTS) {
     set_wstate(pWidget, FC_WS_DISABLED);
-    pWidget->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_DISABLED));
+    pWidget->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT));
   }
   
   
@@ -296,8 +295,7 @@ static int add_new_worklist_callback(struct GUI *pWidget)
 static int work_lists_callback(struct GUI *pWidget)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
+
   struct GUI *pBuf = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
   int i , count = 0, len;
   SDL_Rect area = {pWindow->size.x + adj_size(15),
@@ -318,7 +316,7 @@ static int work_lists_callback(struct GUI *pWidget)
   pBuf->size = area;
   SDL_FillRect(pBuf->theme, NULL, map_rgba(pBuf->theme->format, bg_color));
   putframe(pBuf->theme, 0, 0, pBuf->theme->w - 1, pBuf->theme->h - 1,
-    map_rgba(pBuf->theme->format, frame_color));
+    map_rgba(pBuf->theme->format, *get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME)));
   add_to_gui_list(ID_LABEL, pBuf);
   
   /* ----------------------------- */
@@ -608,8 +606,6 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
 **************************************************************************/
 static int video_callback(struct GUI *pWidget)
 {
-  SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
-  
   int i = 0;
   char cBuf[64] = "";
   Uint16 len = 0, count = 0;
@@ -656,7 +652,7 @@ static int video_callback(struct GUI *pWidget)
   pTmpGui = create_iconlabel(NULL, pWindow->dst,
   			create_str16_from_char(cBuf, adj_font(10)), 0);
   pTmpGui->string16->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pTmpGui->string16->fgcol = text_color;
+  pTmpGui->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
 
   /* set window width to 'pTmpGui' for center string */
   pTmpGui->size.w = pWindow->size.w;

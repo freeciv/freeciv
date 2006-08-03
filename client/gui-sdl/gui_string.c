@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,9 +32,11 @@
 #include "log.h"
 
 /* gui-sdl */
+#include "colors.h"
 #include "graphics.h"
 #include "gui_iconv.h"
 #include "gui_main.h"
+#include "themecolors.h"
 #include "themespec.h"
 #include "unistring.h"
 
@@ -175,15 +177,9 @@ SDL_String16 * create_string16(Uint16 *pInTextString,
   }
 
   str->style = TTF_STYLE_NORMAL;
-  str->bgcol.r = 0xff;
-  str->bgcol.g = 0xff;
-  str->bgcol.b = 0xff;
-  str->bgcol.unused = 0xff;
-  str->fgcol.r = 0x00;
-  str->fgcol.g = 0x00;
-  str->fgcol.b = 0x00;
-  str->fgcol.unused = 0xff;
-  str->render = 2;		/* oh... alpha :) */
+  str->bgcol = (SDL_Color) {0, 0, 0, 0};
+  str->fgcol = *get_game_colorRGB(COLOR_THEME_TEXT);
+  str->render = 2;
 
   /* pInTextString must be allocated in memory (MALLOC/fc_calloc) */
   str->text = pInTextString;

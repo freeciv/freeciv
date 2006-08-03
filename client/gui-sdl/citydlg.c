@@ -584,7 +584,7 @@ static int units_orders_city_dlg_callback(struct GUI *pButton)
   
   /* create window background */
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww,
+		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww,
 		WINDOW_TILE_HIGH + adj_size(2) + FRAME_WH + (i * hh) +
 		pWindow->prev->size.h + adj_size(5));
   
@@ -1258,7 +1258,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   }
 
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND),
 		ww + DOUBLE_FRAME_WH, hh + FRAME_WH + 5);
 
   /* setup rest of widgets */
@@ -1456,7 +1456,7 @@ static int sell_imprvm_dlg_callback(struct GUI *pImpr)
 
   /* create window background */
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND),
 		pWindow->size.w, pWindow->size.h);
 
   /* enable widgets */
@@ -2044,8 +2044,6 @@ static void redraw_info_city_dialog(struct GUI *pCityWindow,
 static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 					 struct city *pCity)
 {
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
   char cBuf[30];
   int step, i, j, count;
   SDL_Surface *pTmp;
@@ -2091,7 +2089,7 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
       if (j != 0) {
 	putline(pCityWindow->dst, dest.x, dest.y, dest.x + adj_size(195), dest.y,
-          map_rgba(pCityWindow->dst->format, frame_color));
+          map_rgba(pCityWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 	dest.y += adj_size(5);
       }
 
@@ -2498,8 +2496,6 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 **************************************************************************/
 static void redraw_city_dialog(struct city *pCity)
 {
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
   char cBuf[40];
   int i, step, count, limit;
   int cost = 0;
@@ -3061,7 +3057,7 @@ static void redraw_city_dialog(struct city *pCity)
     SDL_FillRectAlpha(pWindow->dst, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_GRANARY));
 
     putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-      map_rgba(pWindow->dst->format, frame_color));
+      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 		
     /* draw bcgd stocks*/
     dest.x = pWindow->size.x + adj_size(550);
@@ -3069,7 +3065,7 @@ static void redraw_city_dialog(struct city *pCity)
     SDL_FillRectAlpha(pWindow->dst, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_STOCKS));
 
     putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-      map_rgba(pWindow->dst->format, frame_color));
+      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 
     /* draw stocks icons */
     cost = city_granary_size(pCity->size);
@@ -3160,7 +3156,7 @@ static void redraw_city_dialog(struct city *pCity)
     SDL_FillRectAlpha(pWindow->dst, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_FOODSTOCK));
 
     putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-      map_rgba(pWindow->dst->format, frame_color));
+      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
 
     /* draw icons */
     cost = city_granary_size(pCity->size);
@@ -3295,7 +3291,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.h = i + adj_size(4);
     SDL_FillRectAlpha(pWindow->dst, &dest, get_game_colorRGB(COLOR_THEME_CITYDLG_SHIELDSTOCK));
     putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w, dest.y + dest.h,
-      map_rgba(pWindow->dst->format, frame_color));
+      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_CITYDLG_FRAME)));
     
     /* draw production progres text */
     dest.y = pWindow->size.y + adj_size(270) + dest.h + 1;

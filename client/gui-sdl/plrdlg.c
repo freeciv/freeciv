@@ -300,9 +300,6 @@ void update_players_dialog(void)
 **************************************************************************/
 void popup_players_dialog(bool raise)
 {
-  SDL_Color text_color = {255, 255, 255, 255};
-  SDL_Color frame_color = {255, 255, 255, 255};
-  
   struct GUI *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL, *pZoomed = NULL;
   SDL_String16 *pStr;
@@ -418,7 +415,7 @@ void popup_players_dialog(bool raise)
     if(!pPlayer->is_alive) {
       pStr = create_str16_from_char("R.I.P" , adj_font(10));
       pStr->style |= TTF_STYLE_BOLD;
-      pStr->fgcol = text_color;
+      pStr->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_TEXT);
       pLogo = create_text_surf_from_str16(pStr);
       FREESTRING16(pStr);
 	
@@ -454,7 +451,7 @@ void popup_players_dialog(bool raise)
   
   resize_window(pWindow, NULL, NULL, w, h);
   
-  putframe(pWindow->theme, 0, 0, w - 1, h - 1, map_rgba(pWindow->theme->format, frame_color));
+  putframe(pWindow->theme, 0, 0, w - 1, h - 1, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_FRAME)));
   
   /* exit button */
   pBuf = pWindow->prev;
@@ -680,7 +677,7 @@ void popup_players_nations_dialog(void)
             set_wstate(pBuf, FC_WS_NORMAL);
 	    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR);
           } else {
-	    pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_RED_DISABLED));
+	    pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_PLRDLG_WAR_RESTRICTED));
 	  }
         break;
 	case DS_CEASEFIRE:
@@ -696,7 +693,7 @@ void popup_players_nations_dialog(void)
 	  set_wstate(pBuf, FC_WS_NORMAL);
         break;
 	case DS_NO_CONTACT:
-	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_DISABLED));
+	  pBuf->string16->fgcol = *(get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT));
 	break;
         default:
 	  set_wstate(pBuf, FC_WS_NORMAL);
