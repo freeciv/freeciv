@@ -105,7 +105,7 @@ static void show_main_page()
   
   /*pBuf->action = popup_start_new_game_callback;*/
   pWidget->string16->style |= SF_CENTER;
-  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_TEXT_DISABLED);
+  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT);
   
   w = MAX(w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
@@ -121,7 +121,7 @@ static void show_main_page()
 		(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT));
   /*pWidget->action = popup_load_game_callback;*/
   pWidget->string16->style |= SF_CENTER;
-  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_TEXT_DISABLED);
+  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT);
   
   add_to_gui_list(ID_LOAD_GAME, pWidget);
   

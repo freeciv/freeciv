@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -150,8 +150,6 @@ static int cancel_upgrade_unit_callback(struct GUI *pWidget)
 
 static int popup_upgrade_unit_callback(struct GUI *pWidget)
 {
-  SDL_Color text_color = {255, 255, 0, 255};
-  
   struct unit_type ut1;
   struct unit_type *ut2;
   int value, hh, ww = 0;
@@ -203,7 +201,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
   /* create text label */
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = text_color;
+  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
@@ -248,7 +246,7 @@ static int popup_upgrade_unit_callback(struct GUI *pWidget)
 		(pUnitsDlg->pEndWidgetList->size.h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND),
 		ww + DOUBLE_FRAME_WH, hh);
   
   /* setup rest of widgets */
@@ -310,9 +308,7 @@ static int exit_units_dlg_callback(struct GUI *pWidget)
 static void real_activeunits_report_dialog_update(struct units_entry *units, 
   						struct units_entry *total)
 {
-  SDL_Color text_color = {255,255,255,128};
-  SDL_Color upgrade_text_color = {255,255,0,255};
-  SDL_Color bg_color = {255, 255, 255, 136};  
+  SDL_Color bg_color = {255, 255, 255, 136};
   
   struct GUI *pBuf = NULL;
   struct GUI *pWindow , *pLast;
@@ -453,11 +449,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
       if(upgrade) {
-	pBuf->string16->fgcol = upgrade_text_color;
+	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
 	pBuf->action = popup_upgrade_unit_callback;
 	set_wstate(pBuf, FC_WS_NORMAL);
       } else {
-        pBuf->string16->fgcol = text_color;
+        pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITSREP_TEXT);
       }
       pBuf->string16->style &= ~SF_CENTER;
       if(count > adj_size(72)) {
@@ -822,8 +818,6 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 **************************************************************************/
 void activeunits_report_dialog_update(void)
 {
-  SDL_Color upgrade_text_color = {255,255,0,255};  
-  
   if(pUnitsDlg && !is_report_dialogs_frozen()) {
     struct units_entry units[U_LAST];
     struct units_entry units_total;
@@ -869,7 +863,7 @@ void activeunits_report_dialog_update(void)
 UPD:	  upgrade = can_upgrade_unittype(game.player_ptr, i)->index;
 	  pBuf = pBuf->prev;
 	  if(upgrade) {
-	    pBuf->string16->fgcol = upgrade_text_color;
+	    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
 	    pBuf->action = popup_upgrade_unit_callback;
 	    set_wstate(pBuf, FC_WS_NORMAL);
           }
@@ -1427,8 +1421,6 @@ static int cancel_sell_impv_callback(struct GUI *pWidget)
 
 static int popup_sell_impv_callback(struct GUI *pWidget)
 {
-  SDL_Color text_color = {255, 255, 0, 255};
-  
   int imp, total_count ,count = 0, gold = 0;
   int value, hh, ww = 0;
   char cBuf[128];
@@ -1489,7 +1481,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
   /* create text label */
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = text_color;
+  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_SELLIMPR_TEXT);
   
   pText = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
@@ -1535,7 +1527,7 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
 		(pEconomyDlg->pEndWidgetList->size.h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN),
+		get_game_colorRGB(COLOR_THEME_BACKGROUND),
 		ww + DOUBLE_FRAME_WH, hh);
   
   /* setup rest of widgets */
@@ -1580,9 +1572,6 @@ static int popup_sell_impv_callback(struct GUI *pWidget)
 **************************************************************************/
 void economy_report_dialog_update(void)
 {
-  SDL_Color text_color1 = {255, 0, 0, 255};
-  SDL_Color text_color2 = {0, 0, 0, 255};
-  
   if(pEconomyDlg && !is_report_dialogs_frozen()) {
     struct GUI *pBuf = pEconomyDlg->pEndWidgetList;
     int tax, total, entries_used = 0;
@@ -1615,9 +1604,9 @@ void economy_report_dialog_update(void)
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
     if(tax - total < 0) {
-      pBuf->string16->fgcol = text_color1;
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
     } else {
-      pBuf->string16->fgcol = text_color2;
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_TEXT);
     }
   
   
@@ -1658,10 +1647,8 @@ void popup_economy_report_dialog(bool make_modal)
 {
   SDL_Color bg_color = {255,255,255,128};
   SDL_Color bg_color2 = {255,255,255,136};
-  SDL_Color bg_color3 = {255,255,255,64};  
-  SDL_Color text_color = {255, 0, 0, 255};
-  SDL_Color frame_color = {255, 255, 255, 255};
-  
+  SDL_Color bg_color3 = {255,255,255,64};
+
   struct GUI *pBuf = get_tax_rates_widget();
   struct GUI *pWindow , *pLast;
   SDL_String16 *pStr;
@@ -1752,7 +1739,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
   if(tax - total < 0) {
-    pStr->fgcol = text_color;
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
   }
   
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
@@ -1881,7 +1868,7 @@ void popup_economy_report_dialog(bool make_modal)
     
     SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
     putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1,
-                                      map_rgba(pMain->format, frame_color));
+        map_rgba(pMain->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
     
     pStr = create_string16(NULL, 0, adj_font(10));
     pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -2077,7 +2064,7 @@ void popup_economy_report_dialog(bool make_modal)
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
   
   putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-    map_rgba(pWindow->theme->format, frame_color));
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
   
   /* draw statical strings */
   dst.x = FRAME_WH + adj_size(10);
@@ -2125,7 +2112,7 @@ void popup_economy_report_dialog(bool make_modal)
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
   
   putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-    map_rgba(pWindow->theme->format, frame_color));
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
   
   /* lock icon */
   pBuf = pBuf->prev;
@@ -2210,8 +2197,7 @@ static struct ADVANCED_DLG *pChangeTechDlg = NULL;
 void setup_auxiliary_tech_icons(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
+
   SDL_Surface *pSurf;
   SDL_String16 *pStr = create_str16_from_char(_("None"), adj_font(10));
   
@@ -2221,7 +2207,7 @@ void setup_auxiliary_tech_icons(void)
   pSurf = create_surf_alpha(adj_size(50), adj_size(50), SDL_SWSURFACE);
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
   putframe(pSurf, 0 , 0, pSurf->w - 1, pSurf->h - 1,
-         map_rgba(pSurf->format, frame_color));
+         map_rgba(pSurf->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
 
   pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
   pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);    
@@ -2297,8 +2283,6 @@ SDL_Color * get_tech_color(Tech_type_id tech_id)
 
 SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id, enum tech_info_mode mode)
 {
-  SDL_Color frame_color = {0, 0, 0, 255};
-  
   struct impr_type *pImpr = NULL;
   struct unit_type *pUnit = NULL;
   SDL_Surface *pSurf, *pText, *pTmp;
@@ -2315,7 +2299,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       w = 135;
       break;
     case MED_MODE:
-      color = (SDL_Color){255, 255, 255, 255};
+      color = *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_MED_TECHICON_BG);
     default:
       h = 200;
       w = 100;
@@ -2335,7 +2319,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
 
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, color));
   putframe(pSurf, 0,0, pSurf->w - 1, pSurf->h - 1,
-                                    map_rgba(pSurf->format, frame_color));
+    map_rgba(pSurf->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
   
   pTmp = get_tech_icon(tech_id);
   
@@ -2490,9 +2474,7 @@ static void disable_science_dialog(void)
 **************************************************************************/
 void science_dialog_update(void)
 {
-  SDL_Color text_color = {255, 255, 255, 255};	
   SDL_Color bg_color = {255, 255, 255, 136};
-  SDL_Color frame_color = {0, 0, 0, 255};
   
   if(pScienceDlg && !is_report_dialogs_frozen()) {
     char cBuf[128];
@@ -2554,7 +2536,7 @@ void science_dialog_update(void)
 
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= SF_CENTER;
-    pStr->fgcol = text_color;
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_TEXT);
   
     pSurf = create_text_surf_from_str16(pStr);
       
@@ -2604,7 +2586,7 @@ void science_dialog_update(void)
     SDL_FillRectAlpha(pWindow->dst, &dest, &bg_color);
   
     putframe(pWindow->dst, dest.x - 1, dest.y - 1, dest.x + dest.w,
-  	dest.y + dest.h, map_rgba(pWindow->dst->format, frame_color));
+      dest.y + dest.h, map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
   
     if (cost > adj_size(286))
     {

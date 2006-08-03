@@ -37,6 +37,7 @@
 #include "clinet.h"
 
 /* gui-sdl */
+#include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_iconv.h"
@@ -45,6 +46,7 @@
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "messagewin.h"
+#include "themecolors.h"
 #include "unistring.h"
 
 #include "chatline.h"
@@ -390,8 +392,7 @@ void update_conn_list_dialog(void)
 static void popup_conn_list_dialog(void)
 {
   SDL_Color window_bg_color = {255, 255, 255, 96};
-  SDL_Color window_frame_color = {255, 255, 255, 255};
-  
+ 
   struct GUI *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr = NULL;
   int n;
@@ -438,7 +439,7 @@ static void popup_conn_list_dialog(void)
     area.h = pWindow->size.h - adj_size(44);
     SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
     putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-             area.y + area.h, map_rgba(pWindow->theme->format, window_frame_color));
+             area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
     
     area.x = pWindow->size.w - adj_size(130) - FRAME_WH;
     area.y = adj_size(14);
@@ -446,7 +447,7 @@ static void popup_conn_list_dialog(void)
     area.h = pWindow->size.h - adj_size(44);
     SDL_FillRectAlpha(pWindow->theme, &area, &window_bg_color);
     putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
-             area.y + area.h, map_rgba(pWindow->theme->format, window_frame_color));
+             area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
     
     draw_frame(pWindow->theme, 0, 0, pWindow->theme->w, pWindow->theme->h);
   }

@@ -391,9 +391,6 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   				struct player *pPlayer1,
   				struct GUI *pMainWindow, bool L_R)
 {
-  SDL_Color text_color = {255,255,255,255};
-  SDL_Color text_color_head = {255,255,128,255};
-  
   struct ADVANCED_DLG *pDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
   int hh, ww = 0, width, height, count = 0, scroll_w = 0;
@@ -429,7 +426,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 			  _("Pacts"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
-    pBuf->string16->fgcol = text_color_head;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
     width = pBuf->size.w;
     height = pBuf->size.h;
     add_to_gui_list(ID_LABEL, pBuf);
@@ -440,7 +437,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       my_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Cease-fire"));
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-      pBuf->string16->fgcol = text_color;
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
@@ -455,7 +452,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-      pBuf->string16->fgcol = text_color;
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
@@ -470,7 +467,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-      pBuf->string16->fgcol = text_color;
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
       pBuf->action = pact_callback;
@@ -488,7 +485,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	_("Give shared vision"), adj_font(12),
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->fgcol = text_color;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     pBuf->action = vision_callback;
@@ -501,7 +498,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     /* you can't give maps if you give shared vision */
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Maps"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
-    pBuf->string16->fgcol = text_color_head;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -512,7 +509,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->fgcol = text_color;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     pBuf->action = maps_callback;
@@ -526,7 +523,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->fgcol = text_color;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     pBuf->action = maps_callback;
@@ -540,7 +537,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
         _("Give embassy"), adj_font(12),
                 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-    pBuf->string16->fgcol = text_color;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     pBuf->action = embassy_callback;
@@ -557,7 +554,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     my_snprintf(cBuf, sizeof(cBuf), _("Gold(max %d)"), pPlayer0->economic.gold);
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 			  cBuf, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
-    pBuf->string16->fgcol = text_color_head;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
     width = MAX(width, pBuf->size.w);
     height = MAX(height, pBuf->size.h);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -589,7 +586,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	     
 	     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Advances"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
-             pBuf->string16->fgcol = text_color_head;
+             pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
              add_to_gui_list(ID_LABEL, pBuf);
@@ -599,7 +596,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-             pBuf->string16->fgcol = text_color;
+             pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
 	     pBuf->action = techs_callback;
@@ -624,7 +621,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-             pBuf->string16->fgcol = text_color;
+             pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 	     width = MAX(width, pBuf->size.w);
 	     height = MAX(height, pBuf->size.h);
 	     pBuf->action = techs_callback;
@@ -667,7 +664,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 		_("Cities"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
-      pBuf->string16->fgcol = text_color_head;
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
       pBuf->string16->style &= ~SF_CENTER;
       width = MAX(width, pBuf->size.w);
       height = MAX(height, pBuf->size.h);
@@ -681,7 +678,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-        pBuf->string16->fgcol = text_color;
+        pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 	width = MAX(width, pBuf->size.w);
 	height = MAX(height, pBuf->size.h);
         pBuf->data.cont = pCont;
@@ -732,7 +729,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pWindow->size.y = (Main.screen->h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
   
   setup_vertical_widgets_position(1,
      pWindow->size.x + FRAME_WH + adj_size(2), pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2),
@@ -770,7 +767,6 @@ static struct diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 *****************************************************************/
 static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 {
-  SDL_Color text_color = {255,255,255,255};
   SDL_Color bg_color = {255, 255, 255, 136};
   
   struct player *pPlayer0, *pPlayer1;
@@ -828,7 +824,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
   
     pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pStr->fgcol = text_color;
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     
     pBuf = create_iconlabel(
     	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
@@ -845,7 +841,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     pStr = create_str16_from_char(get_nation_name(pPlayer1->nation), adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pStr->fgcol = text_color;
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     
     pBuf = create_iconlabel(
     	create_icon_from_theme(pTheme->CANCEL_PACT_Icon, 0),
@@ -896,7 +892,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pWindow->size.y = (Main.screen->h - hh) / 2;
   
     resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
     pBuf = pWindow->prev;
     pBuf->size.x = pWindow->size.x + adj_size(20);
@@ -1335,7 +1331,7 @@ static void popup_war_dialog(struct player *pPlayer)
   pWindow->size.y = (Main.screen->h - hh) / 2;
   
   resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
   /* setup rest of widgets */
   /* label */
@@ -1369,12 +1365,9 @@ static void popup_war_dialog(struct player *pPlayer)
 
 void popup_diplomacy_dialog(struct player *pPlayer)
 {
-  SDL_Color text_color1 = {255, 255, 255, 255};
-  SDL_Color text_color2 = {255, 255, 0, 255};
-  
   enum diplstate_type type =
 		  pplayer_get_diplstate(game.player_ptr, pPlayer)->type;
-  
+
   if(!can_meet_with_player(pPlayer)) {
     if(type == DS_WAR || pPlayer == game.player_ptr) {
       flush_dirty();
@@ -1419,7 +1412,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
   
     pStr = create_str16_from_char(cBuf, adj_font(14));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pStr->fgcol = text_color2;
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_TEXT);
 
     pText = create_text_surf_from_str16(pStr);
     FREESTRING16(pStr);
@@ -1440,7 +1433,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
       pBuf->action = cancel_pact_dlg_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
-      pBuf->string16->fgcol = text_color1;
+      pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
       pBuf->data.player = pPlayer;
       pBuf->key = SDLK_c;
       add_to_gui_list(ID_BUTTON, pBuf);
@@ -1460,7 +1453,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->data.player = pPlayer;
         pBuf->key = SDLK_w;
-	pBuf->string16->fgcol = text_color1;
+	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
         add_to_gui_list(ID_BUTTON, pBuf);
         pBuf->size.w = MAX(pBuf->next->size.w, pBuf->size.w);
         pBuf->next->size.w = pBuf->size.w;
@@ -1477,7 +1470,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.player = pPlayer;
     pBuf->key = SDLK_m;
-    pBuf->string16->fgcol = text_color1;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     add_to_gui_list(ID_BUTTON, pBuf);
     pBuf->size.w = MAX(pBuf->next->size.w, pBuf->size.w);
     pBuf->next->size.w = pBuf->size.w;
@@ -1489,7 +1482,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
     pBuf->action = cancel_sdip_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->string16->fgcol = text_color1;
+    pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
     pBuf->key = SDLK_ESCAPE;
     button_w = MAX(button_w , pBuf->size.w);
     button_h = MAX(button_h , pBuf->size.h);
@@ -1524,7 +1517,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     pWindow->size.y = (Main.screen->h - hh) / 2;
   
     resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND_BROWN), ww, hh);
+		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
     /* setup rest of widgets */
     /* label */

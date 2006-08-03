@@ -121,9 +121,7 @@ static int info_city_report_callback(struct GUI *pWidget)
 **************************************************************************/
 static void real_info_city_report_dialog_update(void)
 {
-  SDL_Color text_color1 = {255,255,255,128};
-  SDL_Color bg_color1 = {255, 255, 255, 136};
-  SDL_Color frame_color1 = {0, 0, 0, 255};
+  SDL_Color bg_color = {255, 255, 255, 136};
   
   struct GUI *pBuf = NULL;
   struct GUI *pWindow , *pLast;
@@ -158,7 +156,7 @@ static void real_info_city_report_dialog_update(void)
       
   my_snprintf(cBuf, sizeof(cBuf), _("Production"));
   copy_chars_to_string16(pStr, cBuf);
-  pStr->fgcol = text_color1;
+  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYREP_TEXT);
   pText4 = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   
@@ -528,7 +526,7 @@ static void real_info_city_report_dialog_update(void)
     
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
-    pStr->fgcol = text_color1;
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYREP_TEXT);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 			(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT));
     if(count > 9 * COL) {
@@ -616,7 +614,7 @@ static void real_info_city_report_dialog_update(void)
   dst.y = WINDOW_TILE_HIGH + adj_size(2);
   dst.w = (name_w + adj_size(6)) + (pText1->w + adj_size(8)) + adj_size(5);
   dst.h = h - WINDOW_TILE_HIGH - adj_size(2) - FRAME_WH - adj_size(32);
-  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color1);
+  SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y,
 			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
@@ -651,7 +649,7 @@ static void real_info_city_report_dialog_update(void)
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_FOODSTOCK));
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           map_rgba(pWindow->theme->format, frame_color1));
+           map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
   dst.y = WINDOW_TILE_HIGH + adj_size(2) + (pText2->h - pIcons->pBIG_Food->h) / 2;
   dst.x += adj_size(5);
@@ -686,7 +684,7 @@ static void real_info_city_report_dialog_update(void)
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_TRADE));
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           map_rgba(pWindow->theme->format, frame_color1));
+           map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
   dst.y = WINDOW_TILE_HIGH + adj_size(2) + (hh - pIcons->pBIG_Trade->h) / 2;
   dst.x += adj_size(5);
@@ -723,7 +721,7 @@ static void real_info_city_report_dialog_update(void)
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_PROD));
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           map_rgba(pWindow->theme->format, frame_color1));
+           map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
   dst.y = WINDOW_TILE_HIGH + adj_size(2) + (hh - pIcons->pBIG_Shield->h) / 2;
   dst.x += adj_size(5);

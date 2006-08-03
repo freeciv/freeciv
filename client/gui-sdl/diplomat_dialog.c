@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996-2006 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include "control.h"
 
 /* gui-sdl */
+#include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_id.h"
@@ -34,6 +35,7 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "repodlgs.h"
+#include "themecolors.h"
 
 #include "dialogs_g.h"
 
@@ -784,8 +786,6 @@ static int sabotage_impr_callback(struct GUI *pWidget)
 *****************************************************************/
 void popup_sabotage_dialog(struct city *pCity)
 {
-  SDL_Color separator_color = {0, 0, 0, 64};
-  
   struct GUI *pWindow = NULL, *pBuf = NULL , *pLast = NULL;
   struct CONTAINER *pCont;
   struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
@@ -976,7 +976,7 @@ void popup_sabotage_dialog(struct city *pCity)
       area.y = pBuf->size.h / 2 - 1;
       area.w = pBuf->size.w - adj_size(20);
       
-      SDL_FillRect(pBuf->theme , &area, map_rgba(pBuf->theme->format, separator_color));
+      SDL_FillRect(pBuf->theme , &area, map_rgba(pBuf->theme->format, *get_game_colorRGB(COLOR_THEME_SABOTAGEDLG_SEPARATOR)));
     }
     
     if (pBuf == pLast) {
