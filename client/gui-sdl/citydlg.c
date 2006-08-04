@@ -2184,16 +2184,16 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
         
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-		             0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
+          pTmp = ZoomSurface(pTmp, 18 / pTmp->w, 18 / pTmp->w, 1);
+          
 	  count += (pTmp->h + 1);
 
-          FREESURFACE(pTmp);
-
           if (!pSurf) {
-	    pSurf = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type))),
-		             0.5, 0.5, 1);
-	  }
+	    pSurf = pTmp;
+	  } else {
+            FREESURFACE(pTmp);
+          }
              
         } effect_list_iterate_end;
 
@@ -2205,8 +2205,8 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
         
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-  	                     0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
+          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
             
 	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
@@ -2299,16 +2299,16 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
         get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_HAPPY);          
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),            
-		             0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type)));
+          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
+          
 	  count += (pTmp->h + 1);
 
-          FREESURFACE(pTmp);
-
           if (!pSurf) {
-	    pSurf = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-		             0.5, 0.5, 1);
-	  }
+	    pSurf = pTmp;
+	  } else {
+            FREESURFACE(pTmp);           
+          }
              
         } effect_list_iterate_end;
 
@@ -2318,16 +2318,15 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
         
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-		             0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
+          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
 	  count += (pTmp->h + 1);
 
-          FREESURFACE(pTmp);
-
           if (!pSurf) {
-	    pSurf = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-		             0.5, 0.5, 1);
-	  }
+	    pSurf = pTmp;
+	  } else {
+            FREESURFACE(pTmp);            
+          }
              
         } effect_list_iterate_end;
 
@@ -2337,9 +2336,8 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(
-            GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-                     0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
+          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
             
 	  count += (pTmp->h + 1);
 
@@ -2360,13 +2358,14 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-  	                     0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
+          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
             
 	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
+          
         } effect_list_iterate_end;
         effect_list_unlink_all(sources);        
 
@@ -2374,14 +2373,14 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(
-            GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-  	                     0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
+          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
             
 	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
+          
         } effect_list_iterate_end;
         effect_list_unlink_all(sources);        
 
@@ -2389,13 +2388,14 @@ static void redraw_happyness_city_dialog(const struct GUI *pCityWindow,
 
         effect_list_iterate(sources, psource) {
 
-          pTmp = ZoomSurface(GET_SURF(get_building_sprite(tileset, get_building_for_effect( psource->type))),
-  	                     0.5, 0.5, 1);
+          pTmp = GET_SURF(get_building_sprite(tileset, get_building_for_effect(psource->type)));
+          pTmp = ZoomSurface(pTmp, (float)18 / pTmp->w, (float)18 / pTmp->w, 1);
             
 	  alphablit(pTmp, NULL, pCityWindow->dst, &dest);
 	  dest.y += (pTmp->h + 1);
  
           FREESURFACE(pTmp);            
+          
         } effect_list_iterate_end;
         effect_list_unlink_all(sources);
         
@@ -3254,11 +3254,14 @@ static void redraw_city_dialog(struct city *pCity)
 
     copy_chars_to_string16(pStr, pImpr->name);
     pBuf = GET_SURF(get_building_sprite(tileset, pCity->production.value));
+    pBuf = ZoomSurface(pBuf, (float)36 / pBuf->w, (float)36 / pBuf->w, 1);
 
     /* blit impr icon */
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(230);
     alphablit(pBuf, NULL, pWindow->dst, &dest);
+    
+    FREESURFACE(pBuf);
 
     dest.y += (pBuf->h + adj_size(2));
 
@@ -3534,7 +3537,8 @@ static void rebuild_imprm_list(struct city *pCity)
 
     pStr->style |= TTF_STYLE_BOLD;
 
-    pLogo = ZoomSurface(GET_SURF(get_building_sprite(tileset, imp)), 0.6, 0.6 , 1);
+    pLogo = GET_SURF(get_building_sprite(tileset, imp));
+    pLogo = ZoomSurface(pLogo, (float)22 / pLogo->w, (float)22 / pLogo->w, 1);
     
     pBuf = create_iconlabel(pLogo, pWindow->dst, pStr,
 			 (WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT));

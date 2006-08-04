@@ -1894,8 +1894,9 @@ void popup_economy_report_dialog(bool make_modal)
       
       /*-----------------*/
   
-      pZoom = adj_surf(ZoomSurface(
-      		GET_SURF(get_building_sprite(tileset, p->type)), 1.5, 1.5, 1));
+      pZoom = GET_SURF(get_building_sprite(tileset, p->type));
+      pZoom = adj_surf(ZoomSurface(pZoom, (float)54 / pZoom->w, (float)54 / pZoom->w, 1));
+
       dst.x = (pSurf->w - pZoom->w)/2;
       dst.y = (pSurf->h/2 - pZoom->h)/2;
       alphablit(pZoom, NULL, pSurf, &dst);
@@ -2615,8 +2616,9 @@ void science_dialog_update(void)
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if (preq->source.value.tech == get_player_research(game.player_ptr)->researching) {		  
-          alphablit(adj_surf(GET_SURF(get_building_sprite(tileset, imp))), NULL, pWindow->dst, &dest);
-          dest.x += GET_SURF(get_building_sprite(tileset, imp))->w + 1;
+          pSurf = adj_surf(GET_SURF(get_building_sprite(tileset, imp)));
+          alphablit(pSurf, NULL, pWindow->dst, &dest);
+          dest.x += pSurf->w + 1;
       }
       } requirement_vector_iterate_end;
     } impr_type_iterate_end;
@@ -2675,8 +2677,9 @@ void science_dialog_update(void)
         pImpr = get_improvement_type(imp);
 	requirement_vector_iterate(&pImpr->reqs, preq) {  
           if (preq->source.value.tech == get_player_research(game.player_ptr)->tech_goal) {			
-            alphablit(GET_SURF(get_building_sprite(tileset, imp)), NULL, pWindow->dst, &dest);
-            dest.x += GET_SURF(get_building_sprite(tileset, imp))->w + 1;
+            pSurf = adj_surf(GET_SURF(get_building_sprite(tileset, imp)));
+            alphablit(pSurf, NULL, pWindow->dst, &dest);
+            dest.x += pSurf->w + 1;
         }
         } requirement_vector_iterate_end;
       } impr_type_iterate_end;

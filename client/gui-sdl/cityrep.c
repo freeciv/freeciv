@@ -992,13 +992,13 @@ static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
   if(pCity->production.is_unit) {
     struct unit_type *pUnit = get_unit_type(pCity->production.value);
     pLogo = ResizeSurface(GET_SURF(get_unittype_sprite(tileset,
-                        get_unit_type(pCity->production.value))), adj_size(36), adj_size(24), 1);
+              get_unit_type(pCity->production.value))), adj_size(36), adj_size(24), 1);
     togrow = unit_build_shield_cost(get_unit_type(pCity->production.value));
     pName = pUnit->name;
   } else {
     struct impr_type *pImprv = get_improvement_type(pCity->production.value);
     pLogo = ResizeSurface(GET_SURF(get_building_sprite(tileset,
-                                      pCity->production.value)), adj_size(36), adj_size(24), 1);
+              pCity->production.value)), adj_size(36), adj_size(24), 1);
     togrow = impr_build_shield_cost(pCity->production.value);
     pName = pImprv->name;
   }

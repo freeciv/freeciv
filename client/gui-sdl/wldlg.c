@@ -1438,8 +1438,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pText = create_text_surf_from_str16(pStr);
 
       /*-----------------*/
-  
-      pZoom = adj_surf(ZoomSurface(GET_SURF(get_building_sprite(tileset, imp)), 1.5, 1.5, 1));
+      
+      pZoom = GET_SURF(get_building_sprite(tileset, imp));
+      pZoom = adj_surf(ZoomSurface(pZoom, (float)54 / pZoom->w, (float)54 / pZoom->w, 1));
       dst.x = (pIcon->w - pZoom->w)/2;
       dst.y = (pIcon->h/2 - pZoom->h)/2;
       alphablit(pZoom, NULL, pIcon, &dst);
