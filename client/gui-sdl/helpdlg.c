@@ -235,7 +235,8 @@ void popup_impr_info(Impr_type_id impr)
       FREESURFACE(pText);
     
       /* draw tech icon */
-      pText = adj_surf(GET_SURF(get_building_sprite(tileset, type)));
+      pText = GET_SURF(get_building_sprite(tileset, type));
+      pText = adj_surf(ZoomSurface(pText, (float)36 / pText->w, (float)36 / pText->w, 1));
       dst.x = adj_size(5);
       dst.y = (pBack->h - pText->h) / 2;
       alphablit(pText, NULL, pBack, &dst);
@@ -302,10 +303,11 @@ void popup_impr_info(Impr_type_id impr)
   
   pImpr_type = get_improvement_type(impr);
   
+  pSurf = GET_SURF(get_building_sprite(tileset, impr));
   pBuf= create_iconlabel_from_chars(
-	  ZoomSurface(GET_SURF(get_building_sprite(tileset, impr)), 3.0, 3.0, 1),
+	  ZoomSurface(pSurf, (float)108 / pSurf->w, (float)108 / pSurf->w, 1),
 	  pWindow->dst, get_impr_name_ex(NULL, impr),
-					      adj_font(24), WF_FREE_THEME);
+          adj_font(24), WF_FREE_THEME);
 
   pBuf->ID = ID_LABEL;
   DownAdd(pBuf, pDock);
@@ -964,6 +966,7 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
   int i, targets_count,sub_targets_count, max_width = 0;
   int start_x, start_y, imp_count, unit_count, flags_count, gov_count;
   char buffer[bufsz];
+  SDL_Surface *pSurf;
   
   start_x = (FRAME_WH + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
@@ -1099,7 +1102,9 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     requirement_vector_iterate(&pImpr->reqs, preq) {
   
       if (preq->source.value.tech == tech) {
-        pBuf = create_iconlabel_from_chars(GET_SURF(get_building_sprite(tileset, imp)),
+        pSurf = GET_SURF(get_building_sprite(tileset, imp));
+        pBuf = create_iconlabel_from_chars(
+                ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1),
                 pWindow->dst, get_improvement_name(imp), adj_font(14),
                 WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1120,7 +1125,9 @@ static struct GUI * create_tech_info(Tech_type_id tech, int width, struct GUI *p
     /* TODO: check if code replacement above is correct */
 #if 0
     if (pImpr->req[0].source.value.tech == tech) {
-      pBuf = create_iconlabel_from_chars(GET_SURF(get_building_sprite(tileset, imp)),
+      pSurf = GET_SURF(get_building_sprite(tileset, imp));
+      pBuf = create_iconlabel_from_chars(
+              ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1),
 	      pWindow->dst, get_improvement_name(imp), 14,
 	      WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
       set_wstate(pBuf, FC_WS_NORMAL);
