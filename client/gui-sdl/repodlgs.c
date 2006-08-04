@@ -2286,12 +2286,12 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
 {
   struct impr_type *pImpr = NULL;
   struct unit_type *pUnit = NULL;
-  SDL_Surface *pSurf, *pText, *pTmp;
+  SDL_Surface *pSurf, *pText, *pTmp, *pTmp2;
   SDL_Surface *Surf_Array[10], **pBuf_Array;
   SDL_Rect dst;
   SDL_Color color;
   int w, h;
-  
+
   color = *get_tech_color(tech_id);
   switch (mode)
   {
@@ -2360,7 +2360,8 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
 		
       requirement_vector_iterate(&pImpr->reqs, preq) {
         if (preq->source.value.tech == tech_id) {
-          Surf_Array[w++] = GET_SURF(get_building_sprite(tileset, imp));
+          pTmp2 = GET_SURF(get_building_sprite(tileset, imp));
+          Surf_Array[w++] = ZoomSurface(pTmp2, (float)36 / pTmp2->w, (float)36 / pTmp2->w, 1);
       }
       } requirement_vector_iterate_end;
     } impr_type_iterate_end;
