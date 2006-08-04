@@ -26,6 +26,7 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_stuff.h"
+#include "mapctrl.h"
 #include "mapview.h"
 #include "messagewin.h"
 #include "optiondlg.h"
@@ -269,8 +270,23 @@ static void popdown_start_menu()
 **************************************************************************/
 void set_client_page(enum client_pages page)
 {
-  if (page == PAGE_MAIN) {
-    show_main_page();
+
+  switch (old_page) {
+    case PAGE_GAME:
+      disable_main_widgets();
+      break;
+    default: 
+      break;
+  }
+  
+  switch (page) {
+    case PAGE_MAIN:
+      show_main_page();
+      break;
+    case PAGE_GAME:
+      enable_main_widgets();
+    default:
+      break;
   }  
   
   old_page = page;

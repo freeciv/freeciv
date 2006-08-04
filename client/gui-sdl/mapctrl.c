@@ -1450,7 +1450,7 @@ void Init_MapView(void)
   pWidget->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
   
   pWidget->action = unit_info_window_callback;
-  set_wstate(pWidget, FC_WS_NORMAL);
+  set_wstate(pWidget, FC_WS_DISABLED);
   add_to_gui_list(ID_UNITS_WINDOW, pWidget);
 
   pUnits_Info_Window = pWidget;
@@ -1478,7 +1478,7 @@ void Init_MapView(void)
 
   pWidget->action = economy_callback;
   pWidget->key = SDLK_F5;
-  set_wstate(pWidget, FC_WS_NORMAL);  
+  set_wstate(pWidget, FC_WS_DISABLED);  
   add_to_gui_list(ID_ECONOMY, pWidget);
   
   pTax_Button = pWidget; 
@@ -1502,7 +1502,7 @@ void Init_MapView(void)
 
   pWidget->action = research_callback;
   pWidget->key = SDLK_F6;
-  set_wstate(pWidget, FC_WS_NORMAL);
+  set_wstate(pWidget, FC_WS_DISABLED);
   add_to_gui_list(ID_RESEARCH, pWidget);
 
   pResearch_Button = pWidget;
@@ -1528,7 +1528,7 @@ void Init_MapView(void)
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
   pWidget->mod = KMOD_SHIFT;
-  set_wstate(pWidget, FC_WS_NORMAL);
+  set_wstate(pWidget, FC_WS_DISABLED);
   add_to_gui_list(ID_REVOLUTION, pWidget);
 
   pRevolution_Button = pWidget;
@@ -1551,7 +1551,7 @@ void Init_MapView(void)
   pWidget->size.y = Main.screen->h - FRAME_WH - pWidget->size.h - 2;
 
   pWidget->action = toggle_unit_info_window_callback;
-  set_wstate(pWidget, FC_WS_NORMAL);  
+  set_wstate(pWidget, FC_WS_DISABLED);  
   add_to_gui_list(ID_TOGGLE_UNITS_WINDOW_BUTTON, pWidget);
   
   pUnitInfo_Dlg->pBeginWidgetList = pWidget;
@@ -1574,15 +1574,14 @@ void Init_MapView(void)
   FREESURFACE(pIcon_theme);  
   
   pWidget->action = minimap_window_callback;
-  set_wstate(pWidget, FC_WS_NORMAL);
+  set_wstate(pWidget, FC_WS_DISABLED);
   add_to_gui_list(ID_MINI_MAP_WINDOW, pWidget);
   
   pMiniMap_Window = pWidget;
 
   /* new turn button */
   pWidget = create_themeicon(pTheme->NEW_TURN_Icon, Main.gui,
-			  WF_WIDGET_HAS_INFO_LABEL |
-			  WF_DRAW_THEME_TRANSPARENT);
+			  WF_WIDGET_HAS_INFO_LABEL);
 
   pWidget->string16 = create_str16_from_char(_("End Turn (Enter)"), adj_font(12));
 
@@ -1593,6 +1592,7 @@ void Init_MapView(void)
   pWidget->key = SDLK_RETURN;
   pWidget->mod = KMOD_LCTRL;
 
+  set_wstate(pWidget, FC_WS_DISABLED);
   add_to_gui_list(ID_NEW_TURN, pWidget);
 
   pNew_Turn_Button = pWidget;
@@ -1606,7 +1606,7 @@ void Init_MapView(void)
 
   pWidget->action = players_action_callback;
   pWidget->key = SDLK_F3;
-  set_wstate(pWidget, FC_WS_NORMAL);  
+  set_wstate(pWidget, FC_WS_DISABLED);  
 
   add_to_gui_list(ID_PLAYERS, pWidget);
 
@@ -1622,7 +1622,7 @@ void Init_MapView(void)
   pWidget->action = cities_action_callback;
   pWidget->key = SDLK_f;
   pWidget->mod = KMOD_SHIFT;
-  set_wstate(pWidget, FC_WS_NORMAL);
+  set_wstate(pWidget, FC_WS_DISABLED);
 
   add_to_gui_list(ID_CITIES, pWidget);
   
@@ -1637,8 +1637,7 @@ void Init_MapView(void)
   
   pWidget->action = units_action_callback;
   pWidget->key = SDLK_F2;
-  set_wstate(pWidget, FC_WS_NORMAL);  
-  set_wflag(pWidget, WF_HIDDEN);
+  set_wstate(pWidget, FC_WS_DISABLED);  
   
   add_to_gui_list(ID_UNITS, pWidget);
 
@@ -1650,8 +1649,7 @@ void Init_MapView(void)
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H + FRAME_WH + pWidget->size.h + 2;
   pWidget->action = togle_msg_window;
   pWidget->key = SDLK_F10;
-  set_wstate(pWidget, FC_WS_NORMAL);  
-  set_wflag(pWidget, WF_HIDDEN);  
+  set_wstate(pWidget, FC_WS_DISABLED);  
 
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pWidget);
 
@@ -1665,23 +1663,20 @@ void Init_MapView(void)
   pWidget->action = togle_minimap_mode;
   pWidget->key = SDLK_BACKSLASH;
   pWidget->mod = KMOD_SHIFT;
-  set_wstate(pWidget, FC_WS_NORMAL);  
-  set_wflag(pWidget, WF_HIDDEN);
+  set_wstate(pWidget, FC_WS_DISABLED);  
   
   add_to_gui_list(ID_TOGGLE_MINIMAP_MODE, pWidget);
 
   #ifdef SMALL_SCREEN
   /* options button */
   pOptions_Button = create_themeicon(pTheme->Options_Icon, Main.gui,
-				       (WF_WIDGET_HAS_INFO_LABEL |
-					WF_DRAW_THEME_TRANSPARENT));
+				       (WF_WIDGET_HAS_INFO_LABEL));
   pOptions_Button->string16 = create_str16_from_char(_("Options"), adj_font(12));
   pOptions_Button->size.x = MINI_MAP_W - BLOCKM_W;
   pOptions_Button->size.y = pWidget->dst->h - FRAME_WH - pWidget->size.h - 2;
   pOptions_Button->action = optiondlg_callback;  
   pOptions_Button->key = SDLK_TAB;
-  set_wstate(pOptions_Button, FC_WS_NORMAL);
-  set_wflag(pOptions_Button, WF_HIDDEN);
+  set_wstate(pOptions_Button, FC_WS_DISABLED);
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
   #endif
 
@@ -1695,14 +1690,14 @@ void Init_MapView(void)
 
   pWidget = create_themeicon(pIcon_theme, Main.gui,
 			  WF_FREE_GFX | WF_FREE_THEME |
-		WF_DRAW_THEME_TRANSPARENT | WF_WIDGET_HAS_INFO_LABEL);
+		          WF_WIDGET_HAS_INFO_LABEL);
 
   pWidget->string16 = create_str16_from_char(_("Hide MiniMap"), adj_font(12));
   pWidget->size.x = MINI_MAP_W - BLOCKM_W + pWidget->size.w;
   pWidget->size.y = pWidget->dst->h - FRAME_WH - pWidget->size.h - 2;
 
   pWidget->action = toggle_map_window_callback;
-  set_wstate(pWidget, FC_WS_NORMAL);  
+  set_wstate(pWidget, FC_WS_DISABLED);  
 
   add_to_gui_list(ID_TOGGLE_MAP_WINDOW_BUTTON, pWidget);
 
