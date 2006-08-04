@@ -3254,17 +3254,17 @@ static void redraw_city_dialog(struct city *pCity)
 
     copy_chars_to_string16(pStr, pImpr->name);
     pBuf = GET_SURF(get_building_sprite(tileset, pCity->production.value));
-    pBuf = ZoomSurface(pBuf, (float)36 / pBuf->w, (float)36 / pBuf->w, 1);
+    pBuf = ZoomSurface(pBuf, (float)20 / pBuf->h, (float)20 / pBuf->h, 1);
 
     /* blit impr icon */
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
     dest.y = pWindow->size.y + adj_size(230);
     alphablit(pBuf, NULL, pWindow->dst, &dest);
     
-    FREESURFACE(pBuf);
-
     dest.y += (pBuf->h + adj_size(2));
 
+    FREESURFACE(pBuf);    
+    
     pBuf = create_text_surf_from_str16(pStr);
 
     dest.x = pWindow->size.x + adj_size(6) + (adj_size(185) - pBuf->w) / 2;
