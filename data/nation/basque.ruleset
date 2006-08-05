@@ -2,7 +2,7 @@
 
 name=_("Basque")
 plural=_("?plural:Basques")
-groups=_("Medieval"), _("European")
+groups="Medieval", "European"
 legend=_("The human being and his quest came to the western foothills\
  of the Pyrenees in search of a place to settle and live.\
  Close to the natural border formed by the mountains that stretch across\

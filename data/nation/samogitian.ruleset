@@ -2,7 +2,7 @@
 
 name=_("Samogitian")
 plural=_("?plural:Samogitians")
-groups=_("Medieval"), _("European")
+groups="Medieval", "European"
 legend=_("Samogitia - historical country near the Baltic Sea - home to the\
  last pagans in Europe (official until 1413). Today, Samogitia is a region\
  of Lithuania")

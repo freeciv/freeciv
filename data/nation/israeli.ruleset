@@ -2,7 +2,7 @@
 
 name=_("Israeli")
 plural=_("?plural:Israelis")
-groups=_("Ancient"), _("Modern"), _("Asian")
+groups="Ancient", "Modern", "Asian"
 legend=_("The nation of Israel was founded in 1948 as a scattered collection\
  of cantons in British Palestine, and has gradually expanded through winning\
  a series of wars launched against it in 1948, 1967 and 1973.")

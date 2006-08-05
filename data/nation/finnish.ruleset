@@ -2,7 +2,7 @@
 
 name=_("Finnish")
 plural=_("?plural:Finns")
-groups=_("Modern"), _("European")
+groups="Modern", "European"
 legend=_("Finland is a small, cold country on the northern fringe of Europe,\
  noted for exporting timber, cellular phones, and world-class operating\
  systems.")

@@ -2,7 +2,7 @@
 
 name=_("Filipino")
 plural=_("?plural:Filipinos")
-groups=_("Modern"), _("Asian")
+groups="Modern", "Asian"
 conflicts_with="czech"	; Similar flags
 legend=_("After centuries of Spanish rule, the Philippines were ceded to\
  the Americans in 1898. They attained home rule in 1935 and independence in\

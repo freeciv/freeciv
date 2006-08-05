@@ -2,7 +2,7 @@
 
 name = _("Irish")
 plural = _("?plural:Irish")
-groups=_("Medieval"), _("Modern"), _("European")
+groups="Medieval", "Modern", "European"
 legend=_("Ireland held out against the Romans and Vikings but was\
  conquered by the Normans in 1171.  It was ruled by the English until 1922\
  when most of the country was granted limited autonomy, becoming a republic\

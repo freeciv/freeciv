@@ -2,7 +2,7 @@
 
 name=_("Westphalian")
 plural=_("?plural:Westphalians")
-groups=_("Medieval"), _("European")
+groups="Medieval", "European"
 legend=_("Westphalia, before becoming a Prussian province, was the western\
  region the duchy of Saxony. Present-day it consists of the Northern part of\
  the largest German federal state, North Rhine-Westphalia.")

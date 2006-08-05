@@ -2,7 +2,7 @@
 
 name=_("Aymara")
 plural=_("?plural:Aymaras")
-groups=_("Medieval"), _("American")
+groups="Medieval", "American"
 legend=_("After the collapse of the Tiwanaku civilization in the\
  Andes, their heirs reorganized into a set of culturally close\
  Aymara kingdoms that thrived around the Titicaca lake until they\

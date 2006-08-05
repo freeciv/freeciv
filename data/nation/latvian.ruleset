@@ -2,7 +2,7 @@
 
 name=_("Latvian")
 plural=_("?plural:Latvians")
-groups=_("Modern"), _("European")
+groups="Modern", "European"
 
 legend = _("In the aftermath of WWI Latvia proclaimed its independence\
  from Russia. In 1940, Latvia was forcibly occupied by the Soviet Union.\

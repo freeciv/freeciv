@@ -2,7 +2,7 @@
 
 name=_("Illyrian")
 plural=_("?plural:Illyrians")
-groups=_("Ancient"), _("European")
+groups="Ancient", "European"
 legend=_("Illyrians were Indo-European tribes who appeared in the\
   western part of the Balkan Peninsula before 1000 BC,\
   including the Dalmatians to the north,\

@@ -2,7 +2,7 @@
 
 name=_("Ethiopian")
 plural=_("?plural:Ethiopians")
-groups=_("Modern"), _("Ancient"), _("African")
+groups="Modern", "Ancient", "African"
 legend=_("Ethiopia is the oldest nation in Africa and the only one to\
  remain independent during European colonialism.")
 leader=

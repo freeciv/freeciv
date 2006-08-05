@@ -2,7 +2,7 @@
 
 name=_("Sami")
 plural=_("?plural:Sami")
-groups=_("European")
+groups="European"
 legend=_("The Sami, or Lapps, are a people of northern Scandinavia. Their\
  nation spans over the northernmost regions of the Scandinavian countries:\
  Finnmark of Norway and Lapland of Sweden and Finland.")

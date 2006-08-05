@@ -2,7 +2,7 @@
 
 name=_("Catalan")
 plural=_("?plural:Catalans")
-groups=_("Medieval"), _("European")
+groups="Medieval", "European"
 legend=_("Catalunya (aka Catalonia in English) is the north-eastern-most\
  coastal region of Spain near the southern foot of the Pyrenees.")
 leader=

@@ -2,7 +2,7 @@
 
 name = _("Kenyan")
 plural = _("?plural:Kenyans")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("Kenya gained independence from Britain in December 1963.")
 leader =
  "Jomo Kenyatta",

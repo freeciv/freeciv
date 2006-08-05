@@ -2,7 +2,7 @@
 
 name=_("Confederate")
 plural=_("?plural:Confederates")
-groups=_("Transitional")
+groups="Transitional"
 legend=_("The Confederate States of America was a splinter nation of the\
  United States during the American Civil War. It was formed in 1861 by six\
  Southern states but had to abandon their claims of independence a few\

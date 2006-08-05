@@ -2,7 +2,7 @@
 
 name=_("Taiwanese")
 plural=_("?plural:Taiwanese")
-groups=_("Modern"), _("Asian")
+groups="Modern", "Asian"
 legend=_("When the Chinese nationalists lost the armed struggle against the\
  Chinese communists, the nationalist government evacuated to the island of\
  Taiwan where they formed the Republic of China.")

@@ -2,7 +2,7 @@
 
 name=_("Iroquois")
 plural=_("?plural:Iroquois")
-groups=_("Medieval"), _("American")
+groups="Medieval", "American"
 legend=_("The Iroquois Confederacy - known as Haudenosaunee in their own\
  language - was a North American group of nations with common language and\
  culture. They were based in what is now upstate New York and consisted\

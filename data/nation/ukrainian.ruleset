@@ -2,7 +2,7 @@
 
 name=_("Ukrainian")
 plural=_("?plural:Ukrainians")
-groups=_("Modern"), _("European")
+groups="Modern", "European"
 legend=_("The Ukraine is a vast region on the westernmost marches of the\
  former Soviet Union. It includes some of the most fertile black-soil\
  cropland on Earth.")

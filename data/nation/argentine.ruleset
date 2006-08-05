@@ -2,7 +2,7 @@
 
 name=_("Argentine")
 plural=_("?plural:Argentines")
-groups=_("Modern"), _("American")
+groups="Modern", "American"
 ; /* TRANS: The fourth letter in "Peron" should be */
 ; /* TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in */
 ; /* TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243. */

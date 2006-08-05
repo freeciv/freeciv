@@ -2,7 +2,7 @@
 
 name = _("Czech")
 plural = _("?plural:Czechs")
-groups=_("Modern"), _("Medieval"), _("European")
+groups="Modern", "Medieval", "European"
 legend=_("Today's Czech Republic was until 1993 part of Czechoslovakia,\
  which had been until 1918 part of the Austro-Hungarian Empire.")
 leader =

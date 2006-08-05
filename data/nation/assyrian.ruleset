@@ -2,7 +2,7 @@
 
 name=_("Assyrian")
 plural=_("?plural:Assyrians")
-groups=_("Ancient"), _("Asian")
+groups="Ancient", "Asian"
 legend=_("Assyria was an empire in northern Mesopotamia, named after its\
  capital Ashur.")
 leader=

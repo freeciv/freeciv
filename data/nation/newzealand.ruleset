@@ -2,7 +2,7 @@
 
 name=_("New Zealand")
 plural=_("?plural:New Zealanders")
-groups=_("Modern"), _("Oceanian")
+groups="Modern", "Oceanian"
 legend=_("The island group of New Zealand was annexed by Britain in 1840.\
  Following a royal proclamation in 1907, the country became an independent\
  dominion within the Commonwealth of Nations.")

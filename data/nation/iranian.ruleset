@@ -2,7 +2,7 @@
 
 name=_("Iranian")
 plural=_("?plural:Iranians")
-groups=_("Modern"), _("Asian")
+groups="Modern", "Asian"
 legend=_("Iran means \"Land of the Aryans\" - long known as Persia in the\
  Western world. The country is today an Islamic Republic and a major\
  power in the Middle East.")

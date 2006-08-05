@@ -2,7 +2,7 @@
 
 name=_("Sumerian")
 plural=_("?plural:Sumerians")
-groups=_("Ancient"), _("Asian")
+groups="Ancient", "Asian"
 legend=_("Sumer controlled southern Mesopotamia until the rise of\
  Babylonia. Tablets of Sumerian writing some 5500 years old have been\
  found, pre-dating every other writing in history.")

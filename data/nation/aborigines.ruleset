@@ -2,7 +2,7 @@
 
 name=_("Australian Aboriginal")
 plural=_("?plural:Aborigines")
-groups=_("Oceanian")
+groups="Oceanian"
 legend=_("Australian Aborigines is a collective term for the original\
  inhabitants of the Australian continent. Aborigines from different parts of\
  Australia refer to themselves with different names, including Koori,\

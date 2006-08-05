@@ -2,7 +2,7 @@
 
 name=_("Kampuchean")
 plural=_("?plural:Kampucheans")
-groups=_("Modern"), _("Medieval"), _("Asian")
+groups="Modern", "Medieval", "Asian"
 legend=_("Kampuchea is the modern successor state of the mighty Khmer\
  Empire, which ruled most of the Indochinese Peninsula between the 11th\
  and 14th centuries.")

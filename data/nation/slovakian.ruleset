@@ -2,7 +2,7 @@
 
 name=_("Slovakian")
 plural=_("?plural:Slovakians")
-groups=_("Medieval"), _("Modern"), _("European")
+groups="Medieval", "Modern", "European"
 legend=_("Slovakia is a country in the heart of Europe. Formerly part of\
  Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire.")
 leader=

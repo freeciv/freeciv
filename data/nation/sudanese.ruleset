@@ -2,7 +2,7 @@
 
 name=_("Sudanese")
 plural=_("?plural:Sudanese")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("In 1820 Sudan came under Egyptian rule and later British rule.\
  Sudan became independent in 1956.")
 leader=

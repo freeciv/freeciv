@@ -2,7 +2,7 @@
 
 name=_("Cherokee")
 plural=_("?plural:Cherokees")
-groups=_("American")
+groups="American"
 legend=_("The Cherokee nation is the largest Native American\
  nation in North America today.")
 leader=

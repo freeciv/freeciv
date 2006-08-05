@@ -2,7 +2,7 @@
 
 name=_("Martian")
 plural=_("?plural:Martians")
-groups=_("Fictional")
+groups="Fictional"
 legend=_("Marsmen landed on Earth in 4000 BC!")
 leader=
  "Ray Bradbury",

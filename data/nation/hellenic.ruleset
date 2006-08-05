@@ -2,7 +2,7 @@
 
 name=_("Hellenic")
 plural=_("?plural:Hellenes")
-groups=_("Modern"), _("European")
+groups="Modern", "European"
 legend=_("The Hellenic Republic - also known as Greece - was created when\
  the Hellenic people gained independence from the Ottoman Empire in 1832.")
 leader=

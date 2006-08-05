@@ -2,7 +2,7 @@
 
 name=_("Zulu")
 plural=_("?plural:Zulus")
-groups=_("African")
+groups="African"
 legend=_("The Zulus are a warlike Bantu people who migrated from\
  west-central Africa into southern Africa beginning in the early 1700s,\
  conquering the native Khoisan peoples and clashing with European settlers.")

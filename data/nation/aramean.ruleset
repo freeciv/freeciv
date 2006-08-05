@@ -2,7 +2,7 @@
 
 name=_("Aramean") 
 plural=_("?plural:Arameans") 
-groups=_("Ancient"), _("Asian") 
+groups="Ancient", "Asian" 
 legend=_("According to legend, the Aramean people are the descendants of\
  Aram, the grandson of Noah.") 
 leader=

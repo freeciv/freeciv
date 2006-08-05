@@ -2,7 +2,7 @@
 
 name=_("Boer")
 plural=_("?plural:Boers")
-groups= _("African")
+groups= "African"
 legend=_("The Boers were Dutch settlers in British-controlled South\
  Africa from 1650AD.  They briefly controlled two republics, the\
  Transvaal and the Orange Free State, before being defeated by the British\

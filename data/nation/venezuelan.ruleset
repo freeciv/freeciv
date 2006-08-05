@@ -2,7 +2,7 @@
 
 name=_("Venezuelan")
 plural=_("?plural:Venezuelans")
-groups=_("American"), _("Modern")
+groups="American", "Modern"
 ; /* TRANS: The fourth letter in "Simon" should be */
 ; /* TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in */
 ; /* TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243. */

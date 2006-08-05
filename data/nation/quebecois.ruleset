@@ -2,7 +2,7 @@
 
 name=_("Quebecois")
 plural=_("?plural:Quebecois")
-groups= _("American")
+groups= "American"
 legend=_("Quebec is the largest province of Canada, housing the majority of\
  the Francophone population of America.")
 leader=
