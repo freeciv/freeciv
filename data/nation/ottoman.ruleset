@@ -2,7 +2,7 @@
 
 name=_("Ottoman")
 plural=_("?plural:Ottomans")
-groups=_("Medieval"), _("Asian"), _("European")
+groups="Medieval", "Asian", "European"
 legend=_("In the beginning of the 14th century Osman, a leader of a\
  minor Turkic tribe in western Anatolia, conquered all his neigboring\
  tribes. A century later the Byzantine capital fell to\

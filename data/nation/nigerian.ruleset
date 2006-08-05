@@ -2,7 +2,7 @@
 
 name=_("Nigerian")
 plural=_("?plural:Nigerians")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("Nigeria won full independence from British rule in 1960.")
 leader=
  "Abubakar Tafawa Balewa",

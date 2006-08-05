@@ -2,7 +2,7 @@
 
 name=_("Libyan")
 plural=_("?plural:Libyans")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("The region that is now Libya was a Roman colony until it was\
  conquered by the Arab civilization in the 7th century. In 1912 it came\
  under the control of Italy and after the Second World War Libya was granted\

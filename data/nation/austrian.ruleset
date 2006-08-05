@@ -2,7 +2,7 @@
 
 name=_("Austrian")
 plural=_("?plural:Austrians")
-groups=_("Modern"), _("European")
+groups="Modern", "European"
 legend=_("Austria means Eastern Realm, given its position as the far east\
  territory of the medieval Holy Roman Empire.")
 leader=

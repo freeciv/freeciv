@@ -2,7 +2,7 @@
 
 name=_("Tunisian")
 plural=_("?plural:Tunisians")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("The Phoenicians founded Carthage in the area where Tunisia is\
  today. Carthage later became a major power in the Mediterranean region\
  until it was defeated by the Romans in 146 BC. Later the Arab Muslim\

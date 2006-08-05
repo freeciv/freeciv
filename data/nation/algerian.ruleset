@@ -2,7 +2,7 @@
 
 name=_("Algerian")
 plural=_("?plural:Algerians")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("Algeria is an Arabic nation in North Africa. It is historically\
  inhabited by the Berber people.")
 leader=

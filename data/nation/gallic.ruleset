@@ -2,7 +2,7 @@
 
 name=_("Gallic")
 plural=_("?plural:Gauls")
-groups=_("Ancient"), _("European")
+groups="Ancient", "European"
 legend=_("The Gauls were a Celtic people occupying what is now France and\
  Belgium.")
 leader=

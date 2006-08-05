@@ -2,7 +2,7 @@
 
 name=_("Carthaginian")
 plural=_("?plural:Carthaginians")
-groups=_("Ancient"), _("African")
+groups="Ancient", "African"
 ; Carthage being a successor-state of the Phoenician empire
 conflicts_with="phoenician"
 legend=_("The Carthaginians, descendants of Phoenician traders,\

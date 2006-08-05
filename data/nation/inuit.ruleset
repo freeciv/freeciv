@@ -2,7 +2,7 @@
 
 name=_("Inuit")
 plural=_("?plural:Inuits")
-groups=_("American")
+groups="American"
 legend=_("The Inuit, or Eskimos, inhabit northern Canada and Greenland.\
  Legend says that the Great Shaman Qitdlarssuaq lead his people to Thule\
  (Qaanaaq) on the west coast of Greenland in the 10th century. All Inuit\

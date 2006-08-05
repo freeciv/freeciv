@@ -2,7 +2,7 @@
 
 name=_("Maori")
 plural=_("?plural:Maori")
-groups=_("Oceanian")
+groups="Oceanian"
 legend=_("The Maori are a Polynesian people that migrated to and settled the\
  island group that is now New Zealand. According to archeological evidence,\
  the migration commenced in the 900s and continued until the 1400s.")

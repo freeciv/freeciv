@@ -2,7 +2,7 @@
 
 name = _("Cornish")
 plural = _("?plural:Cornish")
-groups= _("Medieval"), _("European")
+groups= "Medieval", "European"
 legend=_("Cornwall is a region in the extreme southwest of England,\
  traditionally the home of the legendary King Arthur.")
 leader =

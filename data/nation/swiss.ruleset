@@ -2,7 +2,7 @@
 
 name=_("Swiss")
 plural=_("?plural:Swiss")
-groups=_("Modern"), _("Medieval"), _("European")
+groups="Modern", "Medieval", "European"
 legend=_("Switzerland is a federation of cantons, some of which have more\
  than 700 years of history as a confederacy.")
 leader=

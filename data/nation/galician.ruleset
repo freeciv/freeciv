@@ -2,7 +2,7 @@
 
 name=_("Galician")
 plural=_("?plural:Galicians")
-groups=_("Medieval"), _("European")
+groups="Medieval", "European"
 legend=_("Galicia is a region in the northwest of Spain, just above\
  Portugal.")
 leader=

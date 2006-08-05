@@ -2,7 +2,7 @@
 
 name=_("Chilean")
 plural=_("?plural:Chileans")
-groups=_("Modern"), _("American")
+groups="Modern", "American"
 legend=_("Chile is located on the south-western coast of South America.")
 leader=
  "Pedro de Valdivia",

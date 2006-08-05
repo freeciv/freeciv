@@ -2,7 +2,7 @@
 
 name=_("Welsh")
 plural=_("?plural:Welsh")
-groups= _("Medieval"), _("European")
+groups= "Medieval", "European"
 legend=_("The Welsh at one time controlled all of what is now England\
  until being driven into the mountainous western reaches by invading\
  Saxons.")

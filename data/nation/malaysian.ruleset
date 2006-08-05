@@ -2,7 +2,7 @@
 
 name = _("Malaysian")
 plural = _("?plural:Malaysians")
-groups = _("Modern"), _("Asian")
+groups = "Modern", "Asian"
 legend = _("Malaysia was started with the founding of Malacca (Melaka) by\
  Parameswara in the early 14th century.")
 leader =

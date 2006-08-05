@@ -2,7 +2,7 @@
 
 name=_("Georgian")
 plural=_("?plural:Georgians")
-groups=_("Medieval"), _("Modern"), _("European")
+groups="Medieval", "Modern", "European"
 legend=_("The Georgians were one of the first peoples in history to adopt\
  Christianity, in the 300s AD.")
 leader=

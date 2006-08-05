@@ -2,7 +2,7 @@
 
 name=_("Phoenician")
 plural=_("?plural:Phoenicians")
-groups=_("Ancient"), _("Asian")
+groups="Ancient", "Asian"
 legend=_("Phoenicia was an ancient civilization, based in what is now the\
  coastal regions of Lebanon and Syria.")
 leader=

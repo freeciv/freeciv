@@ -14,7 +14,7 @@
 
 name=_("Singaporean")
 plural=_("?plural:Singaporeans")
-groups=_("Modern"), _("Asian")
+groups="Modern", "Asian"
 legend=_("Singapore is a mercantile city-state located at the southernmost\
  tip of the Malaysian Peninsula.")
 leader=

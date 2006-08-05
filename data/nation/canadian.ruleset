@@ -2,7 +2,7 @@
 
 name=_("Canadian")
 plural=_("?plural:Canadians")
-groups=_("Modern"), _("American")
+groups="Modern", "American"
 conflicts_with="quebecois", "inuit"
 legend=_("Canada is the geographically northernmost country in world: The\
  Magnetic North Pole currently lies on Canadian territory.")

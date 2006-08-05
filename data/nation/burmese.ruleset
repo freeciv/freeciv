@@ -2,7 +2,7 @@
 
 name=_("Burmese")
 plural=_("?plural:Burmese")
-groups=_("Medieval"), _("Modern"), _("Asian")
+groups="Medieval", "Modern", "Asian"
 legend=_("The Union of Burma (officially \"Myanmar\") is the largest country\
  in mainland Southeast Asia.")
 leader=

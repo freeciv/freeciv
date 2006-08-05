@@ -2,7 +2,7 @@
 
 name=_("South African")
 plural=_("?plural:South Africans")
-groups=_("Modern"), _("African")
+groups="Modern", "African"
 legend=_("Dutch settlers began colonizing southern Africa in the 17th\
  century. After many wars between primarily Boers (descendants of Dutch\
  settlers), British forces and Zulus, the Union of South Africa was created\

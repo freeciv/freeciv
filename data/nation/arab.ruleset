@@ -2,7 +2,7 @@
 
 name=_("Arab")
 plural=_("?plural:Arabs")
-groups=_("Medieval"), _("Asian"), _("African")
+groups="Medieval", "Asian", "African"
 legend=_("The Arab/Islamic civilization of 622AD-1495AD.")
 leader=
  "Mohammad",
