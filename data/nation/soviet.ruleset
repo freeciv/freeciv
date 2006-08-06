@@ -2,7 +2,7 @@
 
 name=_("Soviet")
 plural=_("?plural:Soviets")
-groups="Transitional"
+groups="European", "Asian"
 legend=_("Soviet Union's history starts in November 1917,\
  when under Lenin's leadership a Bolshevik revolution occurred.\
  On December 31 1922, four Soviet republics integrated into one\
