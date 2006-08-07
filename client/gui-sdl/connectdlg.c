@@ -60,10 +60,10 @@ static struct server_scan *pServer_scan = NULL;
 static struct ADVANCED_DLG *pMeta_Severs = NULL;
 static struct SMALL_DLG *pConnectDlg = NULL;
 
-static int connect_callback(struct GUI *pWidget);
-static int convert_portnr_callback(struct GUI *pWidget);
-static int convert_playername_callback(struct GUI *pWidget);
-static int convert_servername_callback(struct GUI *pWidget);
+static int connect_callback(struct widget *pWidget);
+static int convert_portnr_callback(struct widget *pWidget);
+static int convert_playername_callback(struct widget *pWidget);
+static int convert_servername_callback(struct widget *pWidget);
 
 /*
   THOSE FUNCTIONS ARE ONE BIG TMP SOLUTION AND SHOULD BE FULL REWRITEN !!
@@ -88,7 +88,7 @@ void handle_game_load(struct packet_game_load *packet)
 /**************************************************************************
   ...
 **************************************************************************/
-static int connect_callback(struct GUI *pWidget)
+static int connect_callback(struct widget *pWidget)
 {
   char errbuf[512];
 
@@ -113,7 +113,7 @@ static int connect_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int meta_severs_window_callback(struct GUI *pWindow)
+static int meta_severs_window_callback(struct widget *pWindow)
 {
   return -1;
 }
@@ -121,7 +121,7 @@ static int meta_severs_window_callback(struct GUI *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-static int exit_meta_severs_dlg_callback(struct GUI *pWidget)
+static int exit_meta_severs_dlg_callback(struct widget *pWidget)
 {
   queue_flush();
     
@@ -129,7 +129,7 @@ static int exit_meta_severs_dlg_callback(struct GUI *pWidget)
   pServer_scan = NULL;
   pServer_list = NULL;
     
-  popup_join_game_dialog(NULL);
+  popup_join_game_dialog();
   popup_meswin_dialog(true);
     
   return -1;
@@ -139,7 +139,7 @@ static int exit_meta_severs_dlg_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int sellect_meta_severs_callback(struct GUI *pWidget)
+static int sellect_meta_severs_callback(struct widget *pWidget)
 {
   struct server *pServer = (struct server *)pWidget->data.ptr;
       
@@ -207,15 +207,15 @@ static struct server_list *sdl_create_server_list(bool lan)
 }
 
 
-void popup_connection_dialog(struct GUI *pWidget)
+void popup_connection_dialog(struct widget *pWidget)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
 
   char cBuf[512];
   int w = 0, h = 0, count = 0, meta_h;
-  struct GUI *pNewWidget, *pWindow;
+  struct widget *pNewWidget, *pWindow;
   SDL_String16 *pStr;
-  SDL_Surface *pLogo , *pDest = pWidget->dst;
+  SDL_Surface *pLogo;
   SDL_Rect area;
   bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
   
@@ -233,16 +233,17 @@ void popup_connection_dialog(struct GUI *pWidget)
     
   area.w = pLogo->w + adj_size(60);
   area.h = pLogo->h + adj_size(30);
-  area.x = (pDest->w - area.w) / 2;
-  area.y = (pDest->h - area.h) / 2;
-  SDL_FillRect(pDest, &area, map_rgba(pDest->format, bg_color));
-  putframe(pDest, area.x, area.y, area.x + area.w - 1,
-                  area.y + area.h - 1, map_rgba(pDest->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_LABELFRAME)));
+  area.x = (pWidget->dst->w - area.w) / 2;
+  area.y = (pWidget->dst->h - area.h) / 2;
+  fix_rect(pWidget->dst, &area);
+  SDL_FillRect(pWidget->dst, &area, map_rgba(pWidget->dst->format, bg_color));
+  putframe(pWidget->dst, area.x, area.y, area.x + area.w - 1,
+                  area.y + area.h - 1, map_rgba(pWidget->dst->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_LABELFRAME)));
   sdl_dirty_rect(area);
   
   area.x += adj_size(30);
   area.y += adj_size(15);
-  alphablit(pLogo, NULL, pDest, &area);
+  alphablit(pLogo, NULL, pWidget->dst, &area);
   unqueue_flush();
   
   FREESURFACE(pLogo);
@@ -260,14 +261,14 @@ void popup_connection_dialog(struct GUI *pWidget)
       append_output_window("No public servers found"); 
     }        
     real_update_meswin_dialog();
-    popup_join_game_dialog(NULL);
+    popup_join_game_dialog();
     return;
   }
   
   /* Server list window */  
   pMeta_Severs = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
-  pWindow = create_window(pDest, NULL, adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, NULL, adj_size(10), adj_size(10), 0);
   pWindow->action = meta_severs_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
@@ -322,7 +323,7 @@ void popup_connection_dialog(struct GUI *pWidget)
       append_output_window("No public servers found"); 
     }        
     real_update_meswin_dialog();
-    popup_join_game_dialog(NULL);
+    popup_join_game_dialog();
     return;
   }
   
@@ -347,6 +348,7 @@ void popup_connection_dialog(struct GUI *pWidget)
   
   pWindow->size.x = (pWindow->dst->w - w) /2;
   pWindow->size.y = (pWindow->dst->h - meta_h) /2;
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   
   pLogo = get_logo_gfx();
   if (resize_window(pWindow , pLogo , NULL , w , meta_h)) {
@@ -405,7 +407,7 @@ void popup_connection_dialog(struct GUI *pWidget)
   
   area.x = pMeta_Severs->pEndActiveWidgetList->size.x;
   area.y = pMeta_Severs->pEndActiveWidgetList->size.y;
-  
+  fix_rect(pWindow->dst, &area);
   SDL_FillRectAlpha(pWindow->dst, &area, &bg_color);
   
   putframe(pWindow->dst, area.x - 1, area.y - 1, 
@@ -425,7 +427,7 @@ void popup_connection_dialog(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int convert_playername_callback(struct GUI *pWidget)
+static int convert_playername_callback(struct widget *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
   
@@ -446,7 +448,7 @@ static int convert_playername_callback(struct GUI *pWidget)
 /**************************************************************************
 ...
 **************************************************************************/
-static int convert_servername_callback(struct GUI *pWidget)
+static int convert_servername_callback(struct widget *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
   
@@ -467,7 +469,7 @@ static int convert_servername_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int convert_portnr_callback(struct GUI *pWidget)
+static int convert_portnr_callback(struct widget *pWidget)
 {
   char pCharPort[6];
   char *tmp = convert_to_chars(pWidget->string16->text);
@@ -487,7 +489,7 @@ static int convert_portnr_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int cancel_connect_dlg_callback(struct GUI *pWidget)
+static int cancel_connect_dlg_callback(struct widget *pWidget)
 {
   close_connection_dialog();
   set_client_page(PAGE_MAIN);
@@ -495,10 +497,10 @@ static int cancel_connect_dlg_callback(struct GUI *pWidget)
 }
 
 
-void popup_join_game_dialog(struct GUI *pWidget)
+void popup_join_game_dialog()
 {
   char pCharPort[6];
-  struct GUI *pBuf;
+  struct widget *pBuf;
   SDL_String16 *pPlayer_name = NULL;
   SDL_String16 *pServer_name = NULL;
   SDL_String16 *pPort_nr = NULL;
@@ -509,12 +511,7 @@ void popup_join_game_dialog(struct GUI *pWidget)
   int pos_y;
   int dialog_w, dialog_h;
   
-     
-  if(pWidget) {
-    pDest = pWidget->dst;
-  } else {
-    pDest = Main.gui;
-  }
+  pDest = Main.gui;
   
   queue_flush();
   close_connection_dialog();
@@ -676,7 +673,7 @@ void popup_join_game_dialog(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int convert_passwd_callback(struct GUI *pWidget)
+static int convert_passwd_callback(struct widget *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
   if(tmp) {
@@ -689,7 +686,7 @@ static int convert_passwd_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int send_passwd_callback(struct GUI *pWidget)
+static int send_passwd_callback(struct widget *pWidget)
 {
   struct packet_authentication_reply reply;
     
@@ -718,7 +715,7 @@ static int send_passwd_callback(struct GUI *pWidget)
 **************************************************************************/
 static void popup_user_passwd_dialog(char *pMessage)
 {
-  struct GUI *pBuf;
+  struct widget *pBuf;
   SDL_String16 *pStr = NULL;
   SDL_Surface *pLogo, *pTmp, *pDest, *pText;
   SDL_Rect *area;
@@ -830,7 +827,7 @@ static void popup_user_passwd_dialog(char *pMessage)
 /**************************************************************************
   New Password
 **************************************************************************/
-static int convert_first_passwd_callback(struct GUI *pWidget)
+static int convert_first_passwd_callback(struct widget *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
   
@@ -847,7 +844,7 @@ static int convert_first_passwd_callback(struct GUI *pWidget)
 /**************************************************************************
   Verify Password
 **************************************************************************/
-static int convert_secound_passwd_callback(struct GUI *pWidget)
+static int convert_secound_passwd_callback(struct widget *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
   
@@ -880,7 +877,7 @@ static int convert_secound_passwd_callback(struct GUI *pWidget)
 **************************************************************************/
 static void popup_new_user_passwd_dialog(char *pMessage)
 {
-  struct GUI *pBuf;
+  struct widget *pBuf;
   SDL_String16 *pStr = NULL;
   SDL_Surface *pLogo, *pTmp, *pDest, *pText;
   SDL_Rect *area;
@@ -1008,12 +1005,14 @@ static void popup_new_user_passwd_dialog(char *pMessage)
 **************************************************************************/
 void close_connection_dialog(void)
 {
+  SDL_Rect dest;
+  
   if(pConnectDlg) {
-    SDL_FillRect(pConnectDlg->pEndWidgetList->dst,
-    			(SDL_Rect *)pConnectDlg->pEndWidgetList->data.ptr, 0x0);
+    dest = *((SDL_Rect*)pConnectDlg->pEndWidgetList->data.ptr);
+    fix_rect(pConnectDlg->pEndWidgetList->dst, &dest);
+    clear_surface(pConnectDlg->pEndWidgetList->dst, &dest);
   
     sdl_dirty_rect(*((SDL_Rect *)pConnectDlg->pEndWidgetList->data.ptr));
-    
   
     del_group_of_widgets_from_gui_list(pConnectDlg->pBeginWidgetList,
     						pConnectDlg->pEndWidgetList);

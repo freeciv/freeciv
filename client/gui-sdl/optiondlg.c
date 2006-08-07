@@ -60,16 +60,16 @@
 #include "optiondlg.h"
 
 static struct OPT_DLG {
-  struct GUI *pBeginOptionsWidgetList;
-  struct GUI *pEndOptionsWidgetList;
-  struct GUI *pBeginCoreOptionsWidgetList;
-  struct GUI *pBeginMainOptionsWidgetList;
+  struct widget *pBeginOptionsWidgetList;
+  struct widget *pEndOptionsWidgetList;
+  struct widget *pBeginCoreOptionsWidgetList;
+  struct widget *pBeginMainOptionsWidgetList;
   struct ADVANCED_DLG *pADlg;
 } *pOption_Dlg = NULL;
 
-struct GUI *pOptions_Button = NULL;
-static struct GUI *pEdited_WorkList_Name = NULL;
-extern SDL_Surface * get_buffer_layer(bool transparent);
+struct widget *pOptions_Button = NULL;
+static struct widget *pEdited_WorkList_Name = NULL;
+extern SDL_Surface *get_buffer_layer(int width, int height);
 extern bool do_cursor_animation;
 extern bool use_color_cursors;
 
@@ -79,33 +79,20 @@ extern bool use_color_cursors;
 static void center_optiondlg(void)
 {
   Sint16 newX, newY;
-  struct GUI *pBuf = pOption_Dlg->pEndOptionsWidgetList;
-  SDL_Surface *pNew_Buffer = get_buffer_layer(FALSE);
   
-  while(pBuf) {
-    pBuf->dst = pNew_Buffer;
-    if(pBuf == pOption_Dlg->pBeginOptionsWidgetList) {
-      break;
-    }
-    pBuf = pBuf->prev;
-  }
-  
-  newX = (pOption_Dlg->pEndOptionsWidgetList->dst->w - 
-  			pOption_Dlg->pEndOptionsWidgetList->size.w) / 2;
-  newY = (pOption_Dlg->pEndOptionsWidgetList->dst->h - 
-  			pOption_Dlg->pEndOptionsWidgetList->size.h) / 2;
+  newX = (Main.screen->w - pOption_Dlg->pEndOptionsWidgetList->size.w) / 2;
+  newY = (Main.screen->h - pOption_Dlg->pEndOptionsWidgetList->size.h) / 2;
 
   set_new_group_start_pos(pOption_Dlg->pBeginOptionsWidgetList,
 			  pOption_Dlg->pEndOptionsWidgetList,
 			  newX - pOption_Dlg->pEndOptionsWidgetList->size.x,
 			  newY - pOption_Dlg->pEndOptionsWidgetList->size.y);
-  
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static int main_optiondlg_callback(struct GUI *pWindow)
+static int main_optiondlg_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pOption_Dlg->pBeginOptionsWidgetList,
 				pWindow);
@@ -114,7 +101,7 @@ static int main_optiondlg_callback(struct GUI *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-static int sound_callback(struct GUI *pWidget)
+static int sound_callback(struct widget *pWidget)
 {
   return -1;
 }
@@ -126,7 +113,7 @@ static int sound_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int edit_worklist_callback(struct GUI *pWidget)
+static int edit_worklist_callback(struct widget *pWidget)
 {  
   switch(Main.event.button.button) {
     case SDL_BUTTON_LEFT:
@@ -199,10 +186,10 @@ static int edit_worklist_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int add_new_worklist_callback(struct GUI *pWidget)
+static int add_new_worklist_callback(struct widget *pWidget)
 {
-  struct GUI *pNew_WorkList_Widget = NULL;
-  struct GUI *pWindow = pOption_Dlg->pEndOptionsWidgetList;
+  struct widget *pNew_WorkList_Widget = NULL;
+  struct widget *pWindow = pOption_Dlg->pEndOptionsWidgetList;
   bool scroll = pOption_Dlg->pADlg->pActiveWidgetList == NULL;
   bool redraw_all = FALSE;
   int j;
@@ -292,11 +279,11 @@ static int add_new_worklist_callback(struct GUI *pWidget)
  * worklists that the player has defined.  There can be at most
  * MAX_NUM_WORKLISTS global worklists.
 **************************************************************************/
-static int work_lists_callback(struct GUI *pWidget)
+static int work_lists_callback(struct widget *pWidget)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
 
-  struct GUI *pBuf = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
+  struct widget *pBuf = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
   int i , count = 0, len;
   SDL_Rect area = {pWindow->size.x + adj_size(15),
     			pWindow->size.y + WINDOW_TILE_HIGH + 1 + adj_size(15),
@@ -401,13 +388,13 @@ static int work_lists_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int change_mode_callback(struct GUI *pWidget)
+static int change_mode_callback(struct widget *pWidget)
 {
 
   char cBuf[50] = "";
   int mode;
   Uint32 tmp_flags = Main.screen->flags;
-  struct GUI *pWindow =
+  struct widget *pWindow =
       pOption_Dlg->pBeginMainOptionsWidgetList->prev->prev->prev->prev;
 
   /* don't free this */
@@ -437,16 +424,7 @@ static int change_mode_callback(struct GUI *pWidget)
   }
 
   mode = MAX_ID - pWidget->ID;
-
-  if(Main.guis_count) {
-    int i;
-    for(i=0; i<Main.guis_count; i++) {
-      if(Main.guis[i]) {
-	FREESURFACE(Main.guis[i]);
-      }
-    }
-  }
- 
+  
   if (pModes_Rect[mode])
   {
     set_video_mode(pModes_Rect[mode]->w, pModes_Rect[mode]->h, tmp_flags);
@@ -470,12 +448,12 @@ static int change_mode_callback(struct GUI *pWidget)
 
   pWindow = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   pWindow->dst = Main.gui;
-  pWindow->size.x = pWindow->dst->w - 10 - (pWindow->size.w << 1);
+  pWindow->size.x = Main.gui->w - 10 - (pWindow->size.w << 1);
 
   /* ID_COOLING_ICON */
   pWindow = pWindow->next;
   pWindow->dst = Main.gui;
-  pWindow->size.x = pWindow->dst->w - 10 - pWindow->size.w;
+  pWindow->size.x = Main.gui->w - 10 - pWindow->size.w;
 
   center_optiondlg();/* alloc new dest buffers */
   reset_main_widget_dest_buffer();
@@ -492,7 +470,8 @@ static int change_mode_callback(struct GUI *pWidget)
 
   /* Options Dlg Window */
   pWindow = pOption_Dlg->pEndOptionsWidgetList;
-
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
   if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
     draw_intro_gfx();
     refresh_widget_background(pWindow);
@@ -525,7 +504,7 @@ static int change_mode_callback(struct GUI *pWidget)
    keyboard and go back to full screen if you've finished typing
 */
 
-static int togle_fullscreen_callback(struct GUI *pWidget)
+static int togle_fullscreen_callback(struct widget *pWidget)
 { 
   SDL_Client_Flags ^= CF_TOGGLED_FULLSCREEN;
   
@@ -540,10 +519,10 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
   return -1;
 }
 #else
-static int togle_fullscreen_callback(struct GUI *pWidget)
+static int togle_fullscreen_callback(struct widget *pWidget)
 {
   int i = 0;
-  struct GUI *pTmp = NULL;
+  struct widget *pTmp = NULL;
 
   /* don't free this */
   SDL_Rect **pModes_Rect =
@@ -604,14 +583,14 @@ static int togle_fullscreen_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int video_callback(struct GUI *pWidget)
+static int video_callback(struct widget *pWidget)
 {
   int i = 0;
   char cBuf[64] = "";
   Uint16 len = 0, count = 0;
   Sint16 xxx;	/* tmp */
   SDL_String16 *pStr;
-  struct GUI *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
+  struct widget *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
     
 #if !defined UNDER_CE || !defined SMALL_SCREEN
   
@@ -791,7 +770,7 @@ static int video_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int sound_bell_at_new_turn_callback(struct GUI *pWidget)
+static int sound_bell_at_new_turn_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -802,7 +781,7 @@ static int sound_bell_at_new_turn_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int smooth_move_unit_msec_callback(struct GUI *pWidget)
+static int smooth_move_unit_msec_callback(struct widget *pWidget)
 {
   char *tmp = convert_to_chars(pWidget->string16->text);
   sscanf(tmp, "%d", &smooth_move_unit_msec);
@@ -813,7 +792,7 @@ static int smooth_move_unit_msec_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int do_combat_animation_callback(struct GUI *pWidget)
+static int do_combat_animation_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -824,7 +803,7 @@ static int do_combat_animation_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int do_focus_animation_callback(struct GUI *pWidget)
+static int do_focus_animation_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -835,7 +814,7 @@ static int do_focus_animation_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int do_cursor_animation_callback(struct GUI *pWidget)
+static int do_cursor_animation_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -846,7 +825,7 @@ static int do_cursor_animation_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int use_color_cursors_callback(struct GUI *pWidget)
+static int use_color_cursors_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -857,7 +836,7 @@ static int use_color_cursors_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int auto_center_on_unit_callback(struct GUI *pWidget)
+static int auto_center_on_unit_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -868,7 +847,7 @@ static int auto_center_on_unit_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int auto_center_on_combat_callback(struct GUI *pWidget)
+static int auto_center_on_combat_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -879,7 +858,7 @@ static int auto_center_on_combat_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int wakeup_focus_callback(struct GUI *pWidget)
+static int wakeup_focus_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -890,7 +869,7 @@ static int wakeup_focus_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int popup_new_cities_callback(struct GUI *pWidget)
+static int popup_new_cities_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -901,7 +880,7 @@ static int popup_new_cities_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int ask_city_names_callback(struct GUI *pWidget)
+static int ask_city_names_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -912,7 +891,7 @@ static int ask_city_names_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int auto_turn_done_callback(struct GUI *pWidget)
+static int auto_turn_done_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -923,11 +902,11 @@ static int auto_turn_done_callback(struct GUI *pWidget)
 /**************************************************************************
   popup local settings.
 **************************************************************************/
-static int local_setting_callback(struct GUI *pWidget)
+static int local_setting_callback(struct widget *pWidget)
 {
   SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
   SDL_String16 *pStr = NULL;
-  struct GUI *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
+  struct widget *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
   char cBuf[3];
   
   /* clear flag */
@@ -1269,7 +1248,7 @@ static int local_setting_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_city_names_callback(struct GUI *pWidget)
+static int draw_city_names_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1281,7 +1260,7 @@ static int draw_city_names_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_city_productions_callback(struct GUI *pWidget)
+static int draw_city_productions_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1293,7 +1272,7 @@ static int draw_city_productions_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int borders_callback(struct GUI *pWidget)
+static int borders_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1305,7 +1284,7 @@ static int borders_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_terrain_callback(struct GUI *pWidget)
+static int draw_terrain_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   sdl_dirty_rect(pWidget->size);
@@ -1317,7 +1296,7 @@ static int draw_terrain_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int map_grid_callback(struct GUI *pWidget)
+static int map_grid_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   sdl_dirty_rect(pWidget->size);
@@ -1348,7 +1327,7 @@ static int map_grid_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_city_map_grid_callback(struct GUI *pWidget)
+static int draw_city_map_grid_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   sdl_dirty_rect(pWidget->size);
@@ -1367,7 +1346,7 @@ static int draw_city_map_grid_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_city_worker_map_grid_callback(struct GUI *pWidget)
+static int draw_city_worker_map_grid_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1378,7 +1357,7 @@ static int draw_city_worker_map_grid_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_specials_callback(struct GUI *pWidget)
+static int draw_specials_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1390,7 +1369,7 @@ static int draw_specials_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_pollution_callback(struct GUI *pWidget)
+static int draw_pollution_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1402,7 +1381,7 @@ static int draw_pollution_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_cities_callback(struct GUI *pWidget)
+static int draw_cities_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1414,7 +1393,7 @@ static int draw_cities_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_units_callback(struct GUI *pWidget)
+static int draw_units_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1426,7 +1405,7 @@ static int draw_units_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_fog_of_war_callback(struct GUI *pWidget)
+static int draw_fog_of_war_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1438,7 +1417,7 @@ static int draw_fog_of_war_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_roads_rails_callback(struct GUI *pWidget)
+static int draw_roads_rails_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1450,7 +1429,7 @@ static int draw_roads_rails_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_irrigation_callback(struct GUI *pWidget)
+static int draw_irrigation_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1462,7 +1441,7 @@ static int draw_irrigation_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_mines_callback(struct GUI *pWidget)
+static int draw_mines_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1474,7 +1453,7 @@ static int draw_mines_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int draw_fortress_airbase_callback(struct GUI *pWidget)
+static int draw_fortress_airbase_callback(struct widget *pWidget)
 {
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
@@ -1486,11 +1465,11 @@ static int draw_fortress_airbase_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int map_setting_callback(struct GUI *pWidget)
+static int map_setting_callback(struct widget *pWidget)
 {
   SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
   SDL_String16 *pStr = NULL;
-  struct GUI *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
+  struct widget *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
 
   /* clear flag */
   SDL_Client_Flags &= ~CF_OPTION_MAIN;
@@ -1972,13 +1951,17 @@ static int map_setting_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int disconnect_callback(struct GUI *pWidget)
+static int disconnect_callback(struct widget *pWidget)
 {
+  SDL_Rect dest;
+  
   popdown_optiondlg();
   
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     /* undraw buton */
-    clear_surface(pOptions_Button->dst, &pOptions_Button->size);
+    dest = pOptions_Button->size;
+    fix_rect(pOptions_Button->dst, &dest);
+    clear_surface(pOptions_Button->dst, &dest);
     sdl_dirty_rect(pOptions_Button->size);
     
 #if 0
@@ -2000,7 +1983,7 @@ static int disconnect_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int back_callback(struct GUI *pWidget)
+static int back_callback(struct widget *pWidget)
 {
 
   if(pOption_Dlg->pADlg) {
@@ -2047,10 +2030,14 @@ static int back_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-int optiondlg_callback(struct GUI *pButton)
+int optiondlg_callback(struct widget *pButton)
 {
+  SDL_Rect dest;
+  
   set_wstate(pButton, FC_WS_DISABLED);
-  SDL_FillRect(pButton->dst, &pButton->size, 0x0);
+  dest = pButton->size;
+  fix_rect(pButton->dst, &dest);
+  clear_surface(pButton->dst, &dest);
   real_redraw_icon(pButton);
   flush_rect(pButton->size, FALSE);
 
@@ -2081,7 +2068,7 @@ void init_options_button(void)
   #endif
 }
 
-static int exit_callback(struct GUI *pWidget)
+static int exit_callback(struct widget *pWidget)
 {
   force_exit_from_event_loop();
   return 0;
@@ -2092,8 +2079,8 @@ static int exit_callback(struct GUI *pWidget)
 **************************************************************************/
 void popup_optiondlg(void)
 {
-  struct GUI *pTmp_GUI, *pWindow;
-  struct GUI *pQuit, *pDisconnect = NULL, *pBack;
+  struct widget *pTmp_GUI, *pWindow;
+  struct widget *pQuit, *pDisconnect = NULL, *pBack;
   SDL_String16 *pStr;
   SDL_Surface *pLogo;
   int longest = 0, w, h, start_x, start_y;
@@ -2257,6 +2244,8 @@ void popup_optiondlg(void)
     pTmp_GUI = pTmp_GUI->next;
   } while (pTmp_GUI != pOption_Dlg->pBeginCoreOptionsWidgetList);
 
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
   /* draw window group */
   redraw_group(pOption_Dlg->pBeginOptionsWidgetList, pWindow, 0);
 

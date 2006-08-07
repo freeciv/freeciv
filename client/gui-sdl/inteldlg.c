@@ -87,7 +87,7 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 /****************************************************************
 ...
 *****************************************************************/
-static int intel_window_dlg_callback(struct GUI *pWindow)
+static int intel_window_dlg_callback(struct widget *pWindow)
 {
   struct intel_dialog *pSelectedDialog = get_intel_dialog(pWindow->data.player);
 
@@ -95,13 +95,13 @@ static int intel_window_dlg_callback(struct GUI *pWindow)
                                                                      pWindow);
 }
 
-static int tech_callback(struct GUI *pWidget)
+static int tech_callback(struct widget *pWidget)
 {
   /* get tech help - PORT ME */
   return -1;
 }
 
-static int spaceship_callback(struct GUI *pWidget)
+static int spaceship_callback(struct widget *pWidget)
 {
   struct player *pPlayer = pWidget->data.player;
   popdown_intel_dialog(pPlayer);
@@ -110,7 +110,7 @@ static int spaceship_callback(struct GUI *pWidget)
 }
 
 
-static int exit_intel_dlg_callback(struct GUI *pWidget)
+static int exit_intel_dlg_callback(struct widget *pWidget)
 {
   popdown_intel_dialog(pWidget->data.player);
   flush_dirty();
@@ -188,7 +188,7 @@ void update_intel_dialog(struct player *p)
 {
   struct intel_dialog *pdialog = get_intel_dialog(p);
       
-  struct GUI *pWindow = NULL, *pBuf = NULL, *pLast;
+  struct widget *pWindow = NULL, *pBuf = NULL, *pLast;
   SDL_Surface *pLogo = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   SDL_String16 *pStr;
@@ -352,6 +352,7 @@ void update_intel_dialog(struct player *p)
     /* ------------------------ */  
     pWindow->size.x = (pdialog->pos_x) ? (pdialog->pos_x) : ((Main.screen->w - w) / 2);
     pWindow->size.y = (pdialog->pos_y) ? (pdialog->pos_y) : ((Main.screen->h - h) / 2);
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
     
     resize_window(pWindow, NULL, NULL, w, h);
     

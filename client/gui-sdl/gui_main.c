@@ -205,7 +205,7 @@ static void parse_options(int argc, char **argv)
 **************************************************************************/
 static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 {
-  static struct GUI *pWidget;
+  static struct widget *pWidget;
   if ((pWidget = MainWidgetListKeyScaner(Key)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
@@ -293,7 +293,7 @@ static Uint16 main_key_up_handler(SDL_keysym Key, void *pData)
 **************************************************************************/
 static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
-  static struct GUI *pWidget;
+  static struct widget *pWidget;
   if ((pWidget = MainWidgetListScaner(pButtonEvent->x, pButtonEvent->y)) != NULL) {
     return widget_pressed_action(pWidget);
   } else {
@@ -339,7 +339,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent, v
 **************************************************************************/
 static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, void *pData)
 {
-  static struct GUI *pWidget;
+  static struct widget *pWidget;
   struct tile *ptile;
 
   /* stop evaluating button hold time when moving to another tile in medium
@@ -754,7 +754,7 @@ Uint16 gui_event_loop(void *pData,
 void ui_init(void)
 {
   char device[20];
-/*  struct GUI *pInit_String = NULL;*/
+/*  struct widget *pInit_String = NULL;*/
   SDL_Surface *pBgd;
   Uint32 iSDL_Flags;
 
@@ -833,7 +833,7 @@ void ui_init(void)
 #endif    
 
   flush_all();
-  init_gui_list(ID_WAITING_LABEL, fc_calloc(1, sizeof(struct GUI)));
+  init_gui_list(ID_WAITING_LABEL, fc_calloc(1, sizeof(struct widget)));
 }
 
 /**************************************************************************

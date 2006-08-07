@@ -46,18 +46,18 @@ static void popdown_start_menu(void);
 /**************************************************************************
   ...
 **************************************************************************/
-static int join_game_callback(struct GUI *pWidget)
+static int join_game_callback(struct widget *pWidget)
 {
   popdown_start_menu();  
   set_client_page(PAGE_NETWORK);
-  popup_join_game_dialog(pWidget);
+  popup_join_game_dialog();
   return -1;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static int servers_callback(struct GUI *pWidget)
+static int servers_callback(struct widget *pWidget)
 {
   popdown_start_menu();  
   popup_connection_dialog(pWidget);
@@ -67,7 +67,7 @@ static int servers_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int options_callback(struct GUI *pWidget)
+static int options_callback(struct widget *pWidget)
 {
   queue_flush();
   popdown_start_menu();
@@ -78,7 +78,7 @@ static int options_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int quit_callback(struct GUI *pWidget)
+static int quit_callback(struct widget *pWidget)
 {
   popdown_start_menu();
   return 0;/* exit from main game loop */
@@ -92,7 +92,7 @@ static void show_main_page()
   SDL_Color bg_color = {255, 255, 255, 136};
   
   int w = 0 , h = 0, count = 0;
-  struct GUI *pWidget = NULL, *pFirst;
+  struct widget *pWidget = NULL, *pFirst;
   SDL_Rect *pArea;
   SDL_Surface *pLogo, *pTmp;
     
@@ -223,6 +223,7 @@ static void show_main_page()
   pTmp = ResizeSurface(pLogo, pArea->w, pArea->h , 1);
   FREESURFACE(pLogo);
   
+  fix_rect(pFirst->dst, pArea);
   blit_entire_src(pTmp, pFirst->dst, pArea->x , pArea->y);
   FREESURFACE(pTmp);
   
@@ -233,14 +234,13 @@ static void show_main_page()
   draw_frame(pFirst->dst, pArea->x, pArea->y, pArea->w, pArea->h);
 
   set_output_window_text(_("SDLClient welcomes you..."));
-
   set_output_window_text(_("Freeciv is free software and you are welcome "
 			   "to distribute copies of "
 			   "it under certain conditions;"));
   set_output_window_text(_("See the \"Copying\" item on the Help"
 			   " menu."));
   set_output_window_text(_("Now.. Go give'em hell!"));
-  
+
   popup_meswin_dialog(true);  
 
   flush_all();
@@ -248,9 +248,12 @@ static void show_main_page()
 
 static void popdown_start_menu()
 {
+  SDL_Rect dest;
+  
   if(pStartMenu) {
-    clear_surface(pStartMenu->pEndWidgetList->dst,
-    			(SDL_Rect *)pStartMenu->pEndWidgetList->data.ptr);
+    dest = *((SDL_Rect *)pStartMenu->pEndWidgetList->data.ptr);
+    fix_rect(pStartMenu->pEndWidgetList->dst, &dest);
+    clear_surface(pStartMenu->pEndWidgetList->dst, &dest);
     
     sdl_dirty_rect(*((SDL_Rect *)pStartMenu->pEndWidgetList->data.ptr));
   

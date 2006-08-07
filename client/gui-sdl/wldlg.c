@@ -58,8 +58,8 @@
 #define TARGETS_ROW		4
 
 struct EDITOR {
-  struct GUI *pBeginWidgetList;
-  struct GUI *pEndWidgetList;/* window */
+  struct widget *pBeginWidgetList;
+  struct widget *pEndWidgetList;/* window */
     
   struct ADVANCED_DLG *pTargets;
   struct ADVANCED_DLG *pWork;
@@ -70,11 +70,11 @@ struct EDITOR {
   struct worklist *pCopy_WorkList;
   
   /* shortcuts  */
-  struct GUI *pDock;
-  struct GUI *pWorkList_Counter;
+  struct widget *pDock;
+  struct widget *pWorkList_Counter;
   
-  struct GUI *pProduction_Name;
-  struct GUI *pProduction_Progres;
+  struct widget *pProduction_Name;
+  struct widget *pProduction_Progres;
     
   int stock;
   struct city_production currently_building;
@@ -82,7 +82,7 @@ struct EDITOR {
 } *pEditor = NULL;
 
 
-static int worklist_editor_item_callback(struct GUI *pWidget);
+static int worklist_editor_item_callback(struct widget *pWidget);
 static SDL_Surface * get_progress_icon(int stock, int cost, int *progress);
 static const char * get_production_name(struct city *pCity,
 					  struct city_production prod, int *cost);
@@ -92,13 +92,13 @@ static void refresh_production_label(int stock);
 /* =========================================================== */
 
 /* Worklist Editor Window Callback */
-static int window_worklist_editor_callback(struct GUI *pWidget)
+static int window_worklist_editor_callback(struct widget *pWidget)
 {
   return -1;
 }
 
 /* Popdwon Worklist Editor */
-static int popdown_worklist_editor_callback(struct GUI *pWidget)
+static int popdown_worklist_editor_callback(struct widget *pWidget)
 {
   if(pEditor) {
     popdown_window_group_dialog(pEditor->pBeginWidgetList,
@@ -127,7 +127,7 @@ static int popdown_worklist_editor_callback(struct GUI *pWidget)
  * Commit changes to city/global worklist
  * In City Mode Remove Double entry of Imprv/Woder Targets from list.
  */
-static int ok_worklist_editor_callback(struct GUI *pWidget)
+static int ok_worklist_editor_callback(struct widget *pWidget)
 {
   int i, j;
   struct city *pCity = pEditor->pCity;
@@ -201,7 +201,7 @@ static int ok_worklist_editor_callback(struct GUI *pWidget)
 /*
  * Rename Global Worklist
  */
-static int rename_worklist_editor_callback(struct GUI *pWidget)
+static int rename_worklist_editor_callback(struct widget *pWidget)
 {
   if(pWidget->string16->text) {
     char *pText = convert_to_chars(pWidget->string16->text);
@@ -223,11 +223,10 @@ static int rename_worklist_editor_callback(struct GUI *pWidget)
 /*
  * Add target to worklist.
  */
-static void add_target_to_worklist(struct GUI *pTarget)
+static void add_target_to_worklist(struct widget *pTarget)
 {
-  struct GUI *pBuf = NULL, *pDock = NULL;
+  struct widget *pBuf = NULL, *pDock = NULL;
   SDL_String16 *pStr = NULL;
-  SDL_Surface *pDest = pTarget->dst;
   int i;
   struct city_production prod = cid_decode(MAX_ID - pTarget->ID);
   
@@ -263,7 +262,7 @@ static void add_target_to_worklist(struct GUI *pTarget)
   }
   
   pStr->style |= SF_CENTER;
-  pBuf = create_iconlabel(NULL, pDest, pStr,
+  pBuf = create_iconlabel(NULL, pTarget->dst, pStr,
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
     
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -359,7 +358,7 @@ static void change_production(struct city_production prod)
  * and allow more entry of such target (In Production and worklist - this is
  * fixed by commit function).
  */
-static void add_target_to_production(struct GUI *pTarget)
+static void add_target_to_production(struct widget *pTarget)
 {
   int dummy;
   struct city_production prod;
@@ -396,7 +395,7 @@ static void add_target_to_production(struct GUI *pTarget)
 }
 
 /* Get Help Info about target */
-static void get_target_help_data(struct GUI *pTarget)
+static void get_target_help_data(struct widget *pTarget)
 {
   assert(pTarget != NULL);
   struct city_production prod;
@@ -425,7 +424,7 @@ static void get_target_help_data(struct GUI *pTarget)
  * middle mouse button -> get target "help"
  * right mouse button -> add target to worklist.
  */
-static int worklist_editor_targets_callback(struct GUI *pWidget)
+static int worklist_editor_targets_callback(struct widget *pWidget)
 {
   switch(Main.event.button.button) {
     case SDL_BUTTON_LEFT:
@@ -455,7 +454,7 @@ static int worklist_editor_targets_callback(struct GUI *pWidget)
  * remove currently building imprv/unit and change production to first worklist
  * element (or Capitalizations if worklist is empty)
  */
-static void remove_item_from_worklist(struct GUI *pItem)
+static void remove_item_from_worklist(struct widget *pItem)
 {
   /* only one item (production) is left */
   if (worklist_is_empty(pEditor->pCopy_WorkList))
@@ -463,7 +462,7 @@ static void remove_item_from_worklist(struct GUI *pItem)
         
   if(pItem->data.ptr) {
     /* correct "data" widget fiels */
-    struct GUI *pBuf = pItem;
+    struct widget *pBuf = pItem;
     if(pBuf != pEditor->pWork->pBeginActiveWidgetList) {
       do{
 	pBuf = pBuf->prev;
@@ -478,7 +477,7 @@ static void remove_item_from_worklist(struct GUI *pItem)
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
   } else {
     /* change productions to first worklist element */
-    struct GUI *pBuf = pItem->prev;
+    struct widget *pBuf = pItem->prev;
     change_production(pEditor->pCopy_WorkList->entries[0]);
     worklist_advance(pEditor->pCopy_WorkList);
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
@@ -528,7 +527,7 @@ static void remove_item_from_worklist(struct GUI *pItem)
  * change production (currently building is moved to first element of worklist
  * and first element of worklist is build).
  */
-static void swap_item_down_from_worklist(struct GUI *pItem)
+static void swap_item_down_from_worklist(struct widget *pItem)
 {
   Uint16 *pText, ID;
   bool changed = FALSE;
@@ -585,7 +584,7 @@ static void swap_item_down_from_worklist(struct GUI *pItem)
  * change production (currently building is moved to first element of worklist
  * and first element of worklist is build).
  */
-static void swap_item_up_from_worklist(struct GUI *pItem)
+static void swap_item_up_from_worklist(struct widget *pItem)
 {
   Uint16 *pText = pItem->string16->text;
   Uint16 ID = pItem->ID;
@@ -636,7 +635,7 @@ static void swap_item_up_from_worklist(struct GUI *pItem)
  * middle mouse button -> remove element from list
  * right mouse button -> swap entries down.
  */
-static int worklist_editor_item_callback(struct GUI *pWidget)
+static int worklist_editor_item_callback(struct widget *pWidget)
 {
   switch(Main.event.button.button) {
     case SDL_BUTTON_LEFT:
@@ -662,12 +661,11 @@ static int worklist_editor_item_callback(struct GUI *pWidget)
  * If global worklist have more targets that city worklist have free
  * entries then we adding only first part of global worklist.
  */
-static void add_global_worklist(struct GUI *pWidget)
+static void add_global_worklist(struct widget *pWidget)
 {
   if(!worklist_is_empty(&client.worklists[MAX_ID - pWidget->ID])) {
-    SDL_Surface *pDest = pWidget->dst;
     int count, firstfree;
-    struct GUI *pBuf = pEditor->pWork->pEndActiveWidgetList;
+    struct widget *pBuf = pEditor->pWork->pEndActiveWidgetList;
     struct worklist *pWorkList = &client.worklists[MAX_ID - pWidget->ID];
       
     if(worklist_length(pEditor->pCopy_WorkList) >= MAX_LEN_WORKLIST - 1) {
@@ -692,13 +690,13 @@ static void add_global_worklist(struct GUI *pWidget)
       
       /* create widget */      
       if(pWorkList->entries[count].is_unit) {
-	pBuf = create_iconlabel(NULL, pDest,
+	pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(
 			get_unit_type(pWorkList->entries[count].value)->name, adj_font(10)),
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
 	pBuf->ID = MAX_ID - cid_encode_unit(get_unit_type(pWorkList->entries[count].value));
       } else {
-	pBuf = create_iconlabel(NULL, pDest,
+	pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(
 			get_impr_name_ex(pEditor->pCity,
 				pWorkList->entries[count].value), adj_font(10)),
@@ -737,13 +735,12 @@ static void add_global_worklist(struct GUI *pWidget)
  * Copy only avilable targets in current game state.
  * If all targets are unavilable then leave city worklist untouched.
  */
-static void set_global_worklist(struct GUI *pWidget)
+static void set_global_worklist(struct widget *pWidget)
 {
   if(!worklist_is_empty(&client.worklists[MAX_ID - pWidget->ID])) {
-    SDL_Surface *pDest = pWidget->dst;
     int count, wl_count;
     struct city_production target;
-    struct GUI *pBuf = pEditor->pWork->pEndActiveWidgetList;
+    struct widget *pBuf = pEditor->pWork->pEndActiveWidgetList;
     struct worklist wl ,
 	      *pWorkList = &client.worklists[MAX_ID - pWidget->ID];
     
@@ -794,12 +791,12 @@ static void set_global_worklist(struct GUI *pWidget)
         }
     
         if(target.is_unit) {
-	  pBuf = create_iconlabel(NULL, pDest,
+	  pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(get_unit_type(target.value)->name, adj_font(10)),
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
 	  pBuf->ID = MAX_ID - B_LAST - target.value;
         } else {
-	  pBuf = create_iconlabel(NULL, pDest,
+	  pBuf = create_iconlabel(NULL, pWidget->dst,
 	  create_str16_from_char(get_impr_name_ex(pEditor->pCity, target.value), adj_font(10)),
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
 	  pBuf->ID = MAX_ID - target.value;
@@ -837,7 +834,7 @@ static void set_global_worklist(struct GUI *pWidget)
  * I don't make such check here and allow this "functionality" becouse doubled
  * impov./wonder entry are removed from city worklist during "commit" phase.
  */
-static int global_worklist_callback(struct GUI *pWidget)
+static int global_worklist_callback(struct widget *pWidget)
 {
   switch(Main.event.button.button) {
     case SDL_BUTTON_LEFT:
@@ -943,11 +940,12 @@ static void refresh_production_label(int stock)
     }
   }
   copy_chars_to_string16(pEditor->pProduction_Name->string16, cBuf);
-  
+
+  area = pEditor->pProduction_Name->size;
+  fix_rect(pEditor->pProduction_Name->dst, &area);
   blit_entire_src(pEditor->pProduction_Name->gfx,
-		  	pEditor->pProduction_Name->dst,
-  			pEditor->pProduction_Name->size.x,
-  			pEditor->pProduction_Name->size.y);
+		  pEditor->pProduction_Name->dst,
+    		  area.x, area.y);
   
   remake_label_size(pEditor->pProduction_Name);
   
@@ -985,11 +983,12 @@ static void refresh_worklist_count_label(void)
   				worklist_length(pEditor->pCopy_WorkList));
   copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
 
-  clear_surface(pEditor->pWorkList_Counter->dst, &pEditor->pWorkList_Counter->size);
+  area = pEditor->pWorkList_Counter->size;
+  fix_rect(pEditor->pWorkList_Counter->dst, &area);
+  clear_surface(pEditor->pWorkList_Counter->dst, &area);
   blit_entire_src(pEditor->pWorkList_Counter->gfx,
-		  	pEditor->pWorkList_Counter->dst,
-  			pEditor->pWorkList_Counter->size.x,
-  			pEditor->pWorkList_Counter->size.y);
+		  pEditor->pWorkList_Counter->dst,
+  		  area.x, area.y);
 
   remake_label_size(pEditor->pWorkList_Counter);
   
@@ -1024,10 +1023,10 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   int count = 0, turns;
   int i, w, h, widget_w = 0, widget_h = 0;
   SDL_String16 *pStr = NULL;
-  struct GUI *pBuf = NULL, *pWindow, *pLast;
+  struct widget *pBuf = NULL, *pWindow, *pLast;
   SDL_Surface *pText = NULL, *pText_Name = NULL, *pZoom = NULL;
   SDL_Surface *pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
-  SDL_Surface *pIcon, *pDest;
+  SDL_Surface *pIcon;
   SDL_Rect dst;
   char cBuf[128];
   struct unit_type *pUnit = NULL;
@@ -1064,7 +1063,6 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   /* Create Main Window */
   pWindow = create_window(NULL, NULL, 10, 10, 0);
   pWindow->action = window_worklist_editor_callback;
-  pDest = pWindow->dst;
   w = pWindow->size.w;
   h = pWindow->size.h;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1082,7 +1080,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
-  pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
   
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
@@ -1090,7 +1088,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   my_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"), worklist_length(pWorkList));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
   pEditor->pWorkList_Counter = pBuf;
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
@@ -1121,7 +1119,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     }
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
+    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
     
     pEditor->pProduction_Name = pBuf;
     add_to_gui_list(ID_LABEL, pBuf);
@@ -1132,7 +1130,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     
-    pBuf = create_iconlabel(pIcon, pDest, pStr,
+    pBuf = create_iconlabel(pIcon, pWindow->dst, pStr,
     		(WF_DRAW_THEME_TRANSPARENT|WF_ICON_CENTER|WF_FREE_THEME));
     
     pIcon = NULL;
@@ -1140,7 +1138,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     pEditor->pProduction_Progres = pBuf;
     add_to_gui_list(ID_LABEL, pBuf);
   } else {
-    pBuf = create_edit_from_chars(NULL, pDest,  pWorkList->name, adj_font(10),
+    pBuf = create_edit_from_chars(NULL, pWindow->dst,  pWorkList->name, adj_font(10),
                                     adj_size(120), WF_DRAW_THEME_TRANSPARENT);
     pBuf->action = rename_worklist_editor_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1150,7 +1148,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* --------------------------- */
   /* Commit Widget */
-  pBuf = create_themeicon(pTheme->OK_Icon, pDest, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_themeicon(pTheme->OK_Icon, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
   
   pBuf->action = ok_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1159,7 +1157,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* --------------------------- */
   /* Cancel Widget */
-  pBuf = create_themeicon(pTheme->CANCEL_Icon, pDest,
+  pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
 				  WF_DRAW_THEME_TRANSPARENT);
   
   pBuf->action = popdown_worklist_editor_callback;
@@ -1189,7 +1187,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     pStr = create_str16_from_char(get_production_name(pCity,
     				pCity->production, &turns), adj_font(10));
     pStr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pDest, pStr, WF_DRAW_THEME_TRANSPARENT);
+    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
     
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = worklist_editor_item_callback;
@@ -1220,7 +1218,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       pStr = create_str16_from_char(get_impr_name_ex(pCity, prod.value), adj_font(10));
     }
     pStr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pDest, pStr,
+    pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
 				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
     
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1264,7 +1262,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   /* count: without production */
   if(count <= pEditor->pWork->pScroll->active + 1) {
     if(count > 0) {
-      struct GUI *pTmp = pLast;
+      struct widget *pTmp = pLast;
       do {
         pTmp = pTmp->prev;
         clear_wflag(pTmp, WF_HIDDEN);
@@ -1283,7 +1281,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     count = 0;
     for (i = 0; i < MAX_NUM_WORKLISTS; i++) {
       if (client.worklists[i].is_valid) {
-        pBuf = create_iconlabel_from_chars(NULL, pDest, 
+        pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
       		client.worklists[i].name, adj_font(10),
 					      WF_DRAW_THEME_TRANSPARENT);
         set_wstate(pBuf, FC_WS_NORMAL);
@@ -1318,7 +1316,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 	pEditor->pGlobal->pScroll->pUp_Left_Button->size.w = adj_size(122);
 	pEditor->pGlobal->pScroll->pDown_Right_Button->size.w = adj_size(122);
       } else {
-	struct GUI *pTmp = pLast;
+	struct widget *pTmp = pLast;
 	do {
 	  pTmp = pTmp->prev;
 	  clear_wflag(pTmp, WF_HIDDEN);
@@ -1458,7 +1456,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
             
-      pBuf = create_icon2(pIcon, pDest,
+      pBuf = create_icon2(pIcon, pWindow->dst,
     				WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME);
       set_wstate(pBuf, FC_WS_NORMAL);
     
@@ -1552,7 +1550,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
       
-      pBuf = create_icon2(pIcon, pDest,
+      pBuf = create_icon2(pIcon, pWindow->dst,
     				WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME);
       set_wstate(pBuf, FC_WS_NORMAL);
     
@@ -1597,6 +1595,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   
   pIcon = get_logo_gfx();
   if(resize_window(pWindow, pIcon, NULL, w, h)) {

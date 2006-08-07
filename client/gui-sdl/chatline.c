@@ -56,11 +56,11 @@
 struct CONNLIST {
   struct ADVANCED_DLG *pUsers_Dlg;
   struct ADVANCED_DLG *pChat_Dlg;
-  struct GUI *pBeginWidgetList;
-  struct GUI *pEndWidgetList;
-  struct GUI *pStart;
-  struct GUI *pConfigure;
-  struct GUI *pEdit;
+  struct widget *pBeginWidgetList;
+  struct widget *pEndWidgetList;
+  struct widget *pStart;
+  struct widget *pConfigure;
+  struct widget *pEdit;
   int text_width;
   int active;
 } *pConnDlg = NULL;
@@ -72,7 +72,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc);
 /**************************************************************************
   Sent msg/command from imput dlg to server
 **************************************************************************/
-static int inputline_return_callback(struct GUI *pWidget)
+static int inputline_return_callback(struct widget *pWidget)
 {
   char *theinput = NULL;
 
@@ -99,10 +99,9 @@ void popup_input_line(void)
 {
   int w = adj_size(400);
   int h = adj_size(30);
-  struct GUI *pInput_Edit;
+  struct widget *pInput_Edit;
     
   pInput_Edit = create_edit_from_unichars(NULL, NULL, NULL, 0, adj_font(18), w, 0);
-  lock_buffer(pInput_Edit->dst);/* always on top */
   
   pInput_Edit->size.x = (Main.screen->w - w) / 2;
   
@@ -119,7 +118,6 @@ void popup_input_line(void)
   
   sdl_dirty_rect(pInput_Edit->size);
   FREEWIDGET(pInput_Edit);
-  remove_locked_buffer();
   
   flush_dirty();
 }
@@ -170,7 +168,7 @@ void clear_output_window(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static int conn_dlg_callback(struct GUI *pWindow)
+static int conn_dlg_callback(struct widget *pWindow)
 {
   return -1;
 }
@@ -178,7 +176,7 @@ static int conn_dlg_callback(struct GUI *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-static int disconnect_conn_callback(struct GUI *pWidget)
+static int disconnect_conn_callback(struct widget *pWidget)
 {
   popdown_conn_list_dialog();
   flush_dirty();
@@ -192,7 +190,7 @@ static int disconnect_conn_callback(struct GUI *pWidget)
 static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 {
   SDL_String16 *pStr;
-  struct GUI *pBuf, *pWindow = pConnDlg->pEndWidgetList;
+  struct widget *pBuf, *pWindow = pConnDlg->pEndWidgetList;
   
   assert(pUniStr != NULL);
   assert(n_alloc != 0);
@@ -249,7 +247,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 /**************************************************************************
   ...
 **************************************************************************/
-static int input_edit_conn_callback(struct GUI *pWidget)
+static int input_edit_conn_callback(struct widget *pWidget)
 {
  
   if (pWidget->string16->text) {
@@ -272,7 +270,7 @@ static int input_edit_conn_callback(struct GUI *pWidget)
 /**************************************************************************
  ...
 **************************************************************************/
-static int start_game_callback(struct GUI *pWidget)
+static int start_game_callback(struct widget *pWidget)
 {
   send_chat("/start");
   return -1;
@@ -281,7 +279,7 @@ static int start_game_callback(struct GUI *pWidget)
 /**************************************************************************
  ...
 **************************************************************************/
-static int server_config_callback(struct GUI *pWidget)
+static int server_config_callback(struct widget *pWidget)
 {
 
   return -1;
@@ -290,7 +288,7 @@ static int server_config_callback(struct GUI *pWidget)
 /**************************************************************************
 ...
 **************************************************************************/
-static int select_nation_callback(struct GUI *pWidget)
+static int select_nation_callback(struct widget *pWidget)
 {
   popup_races_dialog(game.player_ptr);
     
@@ -305,7 +303,7 @@ void update_conn_list_dialog(void)
 {
   if (get_client_state() == CLIENT_PRE_GAME_STATE) {
     if (pConnDlg) {
-      struct GUI *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
+      struct widget *pBuf = NULL, *pWindow = pConnDlg->pEndWidgetList;
       SDL_String16 *pStr = create_string16(NULL, 0, adj_font(12));
       bool create;
       
@@ -393,7 +391,7 @@ static void popup_conn_list_dialog(void)
 {
   SDL_Color window_bg_color = {255, 255, 255, 96};
  
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr = NULL;
   int n;
     
@@ -415,6 +413,7 @@ static void popup_conn_list_dialog(void)
   
   pWindow->size.x = 0;
   pWindow->size.y = 0;
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
   /* create window background */
   {

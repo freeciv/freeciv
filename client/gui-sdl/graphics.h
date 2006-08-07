@@ -181,6 +181,11 @@ struct sprite {
 #define adj_surf(surf) surf
 #endif
 
+struct gui_layer {
+  SDL_Rect dest_rect;  /* only x and y are used */
+  SDL_Surface *surface;  
+};
+
 struct main {
   int rects_count;		/* update rect. array counter */
   int guis_count;		/* gui buffers array counter */
@@ -189,9 +194,15 @@ struct main {
   SDL_Surface *map;		/* map buffer */
   struct canvas map_canvas;
   SDL_Surface *gui;		/* gui buffer */
-  SDL_Surface **guis;		/* gui buffers used by sdlclient widgets window menager */
+  struct gui_layer **guis;	/* gui buffers used by sdlclient widgets window menager */
   SDL_Event event;		/* main event struct */
 };
+
+struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface);
+void gui_layer_destroy(struct gui_layer **gui_layer);
+  
+struct gui_layer *get_gui_layer(SDL_Surface *surface);
+void fix_rect(SDL_Surface *dest_surf, SDL_Rect *dest_rect);
 
 int pygame_AlphaBlit(SDL_Surface *src, SDL_Rect *srcrect, 
                      SDL_Surface *dst, SDL_Rect *dstrect);

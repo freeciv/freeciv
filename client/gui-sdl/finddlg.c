@@ -42,13 +42,13 @@
 /* ====================================================================== */
 static struct ADVANCED_DLG  *pFind_City_Dlg = NULL;
 
-static int find_city_window_dlg_callback(struct GUI *pWindow)
+static int find_city_window_dlg_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pFind_City_Dlg->pBeginWidgetList,
 								  pWindow);
 }
 
-static int exit_find_city_dlg_callback(struct GUI *pWidget)
+static int exit_find_city_dlg_callback(struct widget *pWidget)
 {
   int orginal_x = pWidget->data.cont->id0;
   int orginal_y = pWidget->data.cont->id1;
@@ -61,7 +61,7 @@ static int exit_find_city_dlg_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int find_city_callback(struct GUI *pWidget)
+static int find_city_callback(struct widget *pWidget)
 {
   struct city *pCity = pWidget->data.city;
   if(pCity) {
@@ -93,7 +93,7 @@ void popdown_find_dialog(void)
 **************************************************************************/
 void popup_find_dialog(void)
 {
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128]; 
@@ -230,6 +230,8 @@ void popup_find_dialog(void)
              (pWindow->dst->h - h - adj_size(10)));
     
   }
+
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   
   resize_window(pWindow , NULL, NULL, w, h);
   

@@ -46,12 +46,12 @@ static void real_info_city_report_dialog_update(void);
 
 /* ==================================================================== */
 
-static int city_report_windows_callback(struct GUI *pWindow)
+static int city_report_windows_callback(struct widget *pWindow)
 {
   return -1;
 }
 
-static int exit_city_report_callback(struct GUI *pWidget)
+static int exit_city_report_callback(struct widget *pWidget)
 {
   if (pCityRep) {
 /*    if (pUnits_Upg_Dlg) {
@@ -69,25 +69,25 @@ static int exit_city_report_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int popup_citydlg_from_city_report_callback(struct GUI *pWidget)
+static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
 {
   popup_city_dialog(pWidget->data.city);
   return -1;
 }
 
-static int popup_worklist_from_city_report_callback(struct GUI *pWidget)
+static int popup_worklist_from_city_report_callback(struct widget *pWidget)
 {
   popup_worklist_editor(pWidget->data.city, &pWidget->data.city->worklist);
   return -1;
 }
 
-static int popup_buy_production_from_city_report_callback(struct GUI *pWidget)
+static int popup_buy_production_from_city_report_callback(struct widget *pWidget)
 {
   popup_hurry_production_dialog(pWidget->data.city, NULL);
   return -1;
 }
 
-static int popup_cma_from_city_report_callback(struct GUI *pWidget)
+static int popup_cma_from_city_report_callback(struct widget *pWidget)
 {
   struct city *pCity = find_city_by_id(MAX_ID - pWidget->ID);
     
@@ -103,7 +103,7 @@ static int popup_cma_from_city_report_callback(struct GUI *pWidget)
 }
 
 #if 0
-static int info_city_report_callback(struct GUI *pWidget)
+static int info_city_report_callback(struct widget *pWidget)
 {
   set_wstate(pWidget, FC_WS_NORMAL);
   pSellected_Widget = NULL;
@@ -123,8 +123,8 @@ static void real_info_city_report_dialog_update(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   
-  struct GUI *pBuf = NULL;
-  struct GUI *pWindow , *pLast;
+  struct widget *pBuf = NULL;
+  struct widget *pWindow , *pLast;
   SDL_String16 *pStr;
   SDL_Surface *pText1, *pText2, *pText3, *pUnits_Icon, *pCMA_Icon, *pText4;
   SDL_Surface *pLogo;
@@ -572,7 +572,8 @@ static void real_info_city_report_dialog_update(void)
   w += DOUBLE_FRAME_WH + adj_size(2);
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
-    
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
   pLogo = get_logo_gfx();
   resize_window(pWindow, pLogo,	NULL, w, h);
   FREESURFACE(pLogo);
@@ -876,7 +877,7 @@ static void real_info_city_report_dialog_update(void)
 }
 
 
-static struct GUI * real_city_report_dialog_update_city(struct GUI *pWidget,
+static struct widget * real_city_report_dialog_update_city(struct widget *pWidget,
 							  struct city *pCity)
 {
   char cBuf[64];
@@ -1063,7 +1064,7 @@ void popup_city_report_dialog(bool make_modal)
 void city_report_dialog_update(void)
 {
   if(pCityRep && !is_report_dialogs_frozen()) {
-    struct GUI *pWidget;
+    struct widget *pWidget;
     int count;    
   
     /* find if the lists are identical (if not then rebuild all) */
@@ -1106,7 +1107,7 @@ void city_report_dialog_update(void)
 void city_report_dialog_update_city(struct city *pCity)
 {
   if(pCityRep && pCity && !is_report_dialogs_frozen()) {
-    struct GUI *pBuf = pCityRep->pEndActiveWidgetList;
+    struct widget *pBuf = pCityRep->pEndActiveWidgetList;
     while(pCity->id != MAX_ID - pBuf->ID &&
 	      pBuf != pCityRep->pBeginActiveWidgetList) {
 	pBuf = pBuf->prev;	

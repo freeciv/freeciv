@@ -81,8 +81,8 @@ extern void popdown_bribe_dialog(void);
 extern void popdown_caravan_dialog(void);
 
 void popdown_advanced_terrain_dialog(void);
-int advanced_terrain_window_dlg_callback(struct GUI *pWindow);
-int exit_advanced_terrain_dlg_callback(struct GUI *pWidget);
+int advanced_terrain_window_dlg_callback(struct widget *pWindow);
+int exit_advanced_terrain_dlg_callback(struct widget *pWidget);
 
 static char *pLeaderName = NULL;
 
@@ -96,7 +96,7 @@ static void popdown_unit_upgrade_dlg(void);
 /********************************************************************** 
   ...
 ***********************************************************************/
-void put_window_near_map_tile(struct GUI *pWindow,
+void put_window_near_map_tile(struct widget *pWindow,
   		int window_width, int window_height, struct tile *ptile)
 {
   int canvas_x, canvas_y;
@@ -129,6 +129,8 @@ void put_window_near_map_tile(struct GUI *pWindow,
     pWindow->size.x = (pWindow->dst->w - window_width) / 2;
     pWindow->size.y = (pWindow->dst->h - window_height) / 2;
   }
+  
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y); 
   
 }
 
@@ -212,7 +214,7 @@ struct ADVANCED_DLG *pNotifyDlg = NULL;
 /**************************************************************************
 ...
 **************************************************************************/
-static int notify_dialog_window_callback(struct GUI *pWindow)
+static int notify_dialog_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pNotifyDlg->pBeginWidgetList,
   								pWindow);
@@ -221,7 +223,7 @@ static int notify_dialog_window_callback(struct GUI *pWindow)
 /**************************************************************************
 ...
 **************************************************************************/
-static int exit_notify_dialog_callback(struct GUI *pWidget)
+static int exit_notify_dialog_callback(struct widget *pWidget)
 {
   if(pNotifyDlg) {
     popdown_window_group_dialog(pNotifyDlg->pBeginWidgetList,
@@ -239,7 +241,7 @@ static int exit_notify_dialog_callback(struct GUI *pWidget)
 void popup_notify_dialog(const char *caption, const char *headline,
 			 const char *lines)
 {
-  struct GUI *pBuf, *pWindow;
+  struct widget *pBuf, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pHeadline, *pLines;
   SDL_Rect dst;
@@ -302,6 +304,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   }
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
   resize_window(pWindow, NULL,
   	get_game_colorRGB(COLOR_THEME_BACKGROUND), w, h);
@@ -340,7 +343,7 @@ static struct SMALL_DLG *pUnit_Upgrade_Dlg = NULL;
 /****************************************************************
 ...
 *****************************************************************/
-static int upgrade_unit_window_callback(struct GUI *pWindow)
+static int upgrade_unit_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(
   			pUnit_Upgrade_Dlg->pBeginWidgetList, pWindow);
@@ -349,7 +352,7 @@ static int upgrade_unit_window_callback(struct GUI *pWindow)
 /****************************************************************
 ...
 *****************************************************************/
-static int cancel_upgrade_unit_callback(struct GUI *pWidget)
+static int cancel_upgrade_unit_callback(struct widget *pWidget)
 {
   popdown_unit_upgrade_dlg();
   /* enable city dlg */
@@ -361,7 +364,7 @@ static int cancel_upgrade_unit_callback(struct GUI *pWidget)
 /****************************************************************
 ...
 *****************************************************************/
-static int ok_upgrade_unit_window_callback(struct GUI *pWidget)
+static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 {
   struct unit *pUnit = pWidget->data.unit;
   popdown_unit_upgrade_dlg();
@@ -381,7 +384,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   struct unit_type *ut1, *ut2;
   int value = 9999, hh, ww = 0;
   char cBuf[128];
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pText;
   SDL_Rect dst;
@@ -484,6 +487,8 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   		ww + DOUBLE_FRAME_WH, hh, pUnit->tile);
   }
     
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
 		ww + DOUBLE_FRAME_WH, hh);
@@ -543,7 +548,7 @@ static struct ADVANCED_DLG *pUnit_Select_Dlg = NULL;
 /**************************************************************************
 ...
 **************************************************************************/
-static int unit_select_window_callback(struct GUI *pWindow)
+static int unit_select_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pUnit_Select_Dlg->pBeginWidgetList,
   								pWindow);
@@ -552,7 +557,7 @@ static int unit_select_window_callback(struct GUI *pWindow)
 /**************************************************************************
 ...
 **************************************************************************/
-static int exit_unit_select_callback( struct GUI *pWidget )
+static int exit_unit_select_callback( struct widget *pWidget )
 {
   popdown_unit_select_dialog();
   is_unit_move_blocked = FALSE;
@@ -562,7 +567,7 @@ static int exit_unit_select_callback( struct GUI *pWidget )
 /**************************************************************************
 ...
 **************************************************************************/
-static int unit_select_callback( struct GUI *pWidget )
+static int unit_select_callback( struct widget *pWidget )
 {
   struct unit *pUnit = player_find_unit_by_id(game.player_ptr,
                                    MAX_ID - pWidget->ID);
@@ -597,7 +602,7 @@ static void popdown_unit_select_dialog(void)
 **************************************************************************/
 void popup_unit_select_dialog(struct tile *ptile)
 {
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   struct unit *pUnit = NULL, *pFocus = unit_list_get(get_units_in_focus(), 0);
   struct unit_type *pUnitType;
@@ -749,7 +754,7 @@ static struct SMALL_DLG *pTerrain_Info_Dlg = NULL;
 /**************************************************************************
   Popdown terrain information dialog.
 **************************************************************************/
-static int terrain_info_window_dlg_callback(struct GUI *pWindow)
+static int terrain_info_window_dlg_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pTerrain_Info_Dlg->pBeginWidgetList,
   								pWindow);
@@ -771,7 +776,7 @@ static void popdown_terrain_info_dialog(void)
 /**************************************************************************
   Popdown terrain information dialog.
 **************************************************************************/
-static int exit_terrain_info_dialog(struct GUI *pButton)
+static int exit_terrain_info_dialog(struct widget *pButton)
 {
   popdown_terrain_info_dialog();
   return -1;
@@ -802,7 +807,7 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
 static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
 {
   SDL_Surface *pSurf;
-  struct GUI *pBuf, *pWindow;
+  struct widget *pBuf, *pWindow;
   SDL_String16 *pStr;  
   char cBuf[256];  
 
@@ -817,7 +822,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   /* ----------- */  
   my_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), ptile->x , ptile->y);
   
-  pWindow = create_window(pDest, create_str16_from_char(cBuf , adj_font(12)), adj_size(10), adj_size(10), 0);
+  pWindow = create_window(NULL, create_str16_from_char(cBuf , adj_font(12)), adj_size(10), adj_size(10), 0);
   pWindow->string16->style |= TTF_STYLE_BOLD;
   
   pWindow->action = terrain_info_window_dlg_callback;
@@ -890,7 +895,7 @@ void popdown_advanced_terrain_dialog(void)
 /**************************************************************************
   ...
 **************************************************************************/
-int advanced_terrain_window_dlg_callback(struct GUI *pWindow)
+int advanced_terrain_window_dlg_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pAdvanced_Terrain_Dlg->pBeginWidgetList,
   								pWindow);
@@ -899,7 +904,7 @@ int advanced_terrain_window_dlg_callback(struct GUI *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-int exit_advanced_terrain_dlg_callback(struct GUI *pWidget)
+int exit_advanced_terrain_dlg_callback(struct widget *pWidget)
 {
   popdown_advanced_terrain_dialog();
   flush_dirty();
@@ -909,27 +914,25 @@ int exit_advanced_terrain_dlg_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int terrain_info_callback(struct GUI *pWidget)
+static int terrain_info_callback(struct widget *pWidget)
 {
   int x = pWidget->data.cont->id0;
   int y = pWidget->data.cont->id1;
     
-  lock_buffer(pWidget->dst);  
   popdown_advanced_terrain_dialog();
 
-  popup_terrain_info_dialog(get_locked_buffer(), map_pos_to_tile(x , y));
-  unlock_buffer();
+  popup_terrain_info_dialog(NULL, map_pos_to_tile(x , y));
+
   return -1;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static int zoom_to_city_callback(struct GUI *pWidget)
+static int zoom_to_city_callback(struct widget *pWidget)
 {
   struct city *pCity = pWidget->data.city;
   
-  lock_buffer(pWidget->dst);
   popdown_advanced_terrain_dialog();
 
   popup_city_dialog(pCity);
@@ -939,7 +942,7 @@ static int zoom_to_city_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int change_production_callback(struct GUI *pWidget)
+static int change_production_callback(struct widget *pWidget)
 {
   struct city *pCity = pWidget->data.city;
   popdown_advanced_terrain_dialog();
@@ -950,22 +953,21 @@ static int change_production_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int hurry_production_callback(struct GUI *pWidget)
+static int hurry_production_callback(struct widget *pWidget)
 {
   struct city *pCity = pWidget->data.city;
   
-  lock_buffer(pWidget->dst);  
   popdown_advanced_terrain_dialog();
 
-  popup_hurry_production_dialog(pCity, get_locked_buffer());
-  unlock_buffer();
+  popup_hurry_production_dialog(pCity, NULL);
+  
   return -1;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static int cma_callback(struct GUI *pWidget)
+static int cma_callback(struct widget *pWidget)
 {
   struct city *pCity = pWidget->data.city;
   popdown_advanced_terrain_dialog();
@@ -976,7 +978,7 @@ static int cma_callback(struct GUI *pWidget)
 /**************************************************************************
 ...
 **************************************************************************/
-static int adv_unit_select_callback(struct GUI *pWidget)
+static int adv_unit_select_callback(struct widget *pWidget)
 {
   struct unit *pUnit = pWidget->data.unit;
 
@@ -993,7 +995,7 @@ static int adv_unit_select_callback(struct GUI *pWidget)
 /**************************************************************************
 ...
 **************************************************************************/
-static int adv_unit_select_all_callback(struct GUI *pWidget)
+static int adv_unit_select_all_callback(struct widget *pWidget)
 {
   struct unit *pUnit = pWidget->data.unit;
 
@@ -1008,7 +1010,7 @@ static int adv_unit_select_all_callback(struct GUI *pWidget)
 /**************************************************************************
 ...
 **************************************************************************/
-static int adv_unit_sentry_idle_callback(struct GUI *pWidget)
+static int adv_unit_sentry_idle_callback(struct widget *pWidget)
 {
   struct unit *pUnit = pWidget->data.unit;
 
@@ -1029,7 +1031,7 @@ static int adv_unit_sentry_idle_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int goto_here_callback(struct GUI *pWidget)
+static int goto_here_callback(struct widget *pWidget)
 {
   int x = pWidget->data.cont->id0;
   int y = pWidget->data.cont->id1;
@@ -1044,7 +1046,7 @@ static int goto_here_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int patrol_here_callback(struct GUI *pWidget)
+static int patrol_here_callback(struct widget *pWidget)
 {
 /* FIXME */
 #if 0    
@@ -1069,7 +1071,7 @@ static int patrol_here_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int paradrop_here_callback(struct GUI *pWidget)
+static int paradrop_here_callback(struct widget *pWidget)
 {
 /* FIXME */    
 #if 0    
@@ -1089,7 +1091,7 @@ static int paradrop_here_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int unit_help_callback(struct GUI *pWidget)
+static int unit_help_callback(struct widget *pWidget)
 {
   Unit_type_id unit_id = MAX_ID - pWidget->ID;
     
@@ -1105,7 +1107,7 @@ static int unit_help_callback(struct GUI *pWidget)
 **************************************************************************/
 void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_y)
 {
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   struct city *pCity;
   struct unit *pFocus_Unit;
   SDL_String16 *pStr;
@@ -1324,7 +1326,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     if (n > 1)
     {
       struct unit *pDefender, *pAttacker;
-      struct GUI *pLast = pBuf;
+      struct widget *pLast = pBuf;
       bool reset = FALSE;
       int my_units = 0;
       
@@ -1535,6 +1537,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   
   pWindow->size.x = pos_x;
   pWindow->size.y = pos_y;
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   resize_window(pWindow, NULL, NULL, w, h);
   
   w -= (DOUBLE_FRAME_WH + adj_size(2));
@@ -1619,12 +1622,12 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 /* ====================================================================== */
 static struct SMALL_DLG *pPillage_Dlg = NULL;
 
-static int pillage_window_callback(struct GUI *pWindow)
+static int pillage_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pPillage_Dlg->pBeginWidgetList, pWindow);
 }
 
-static int pillage_callback(struct GUI *pWidget)
+static int pillage_callback(struct widget *pWidget)
 {
   
   struct unit *pUnit = pWidget->data.unit;
@@ -1640,7 +1643,7 @@ static int pillage_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int exit_pillage_dlg_callback(struct GUI *pWidget)
+static int exit_pillage_dlg_callback(struct widget *pWidget)
 {
   popdown_pillage_dialog();
   return -1;
@@ -1668,7 +1671,7 @@ static void popdown_pillage_dialog(void)
 void popup_pillage_dialog(struct unit *pUnit,
 			  bv_special may_pillage)
 {
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   enum tile_special_type what, prereq;
   int w = 0, h;
@@ -1789,7 +1792,7 @@ static struct SMALL_DLG *pRevolutionDlg = NULL;
 /**************************************************************************
   ...
 **************************************************************************/
-static int revolution_dlg_ok_callback(struct GUI *pButton)
+static int revolution_dlg_ok_callback(struct widget *pButton)
 {
   start_revolution();
 
@@ -1802,7 +1805,7 @@ static int revolution_dlg_ok_callback(struct GUI *pButton)
 /**************************************************************************
   ...
 **************************************************************************/
-static int revolution_dlg_cancel_callback(struct GUI *pCancel_Button)
+static int revolution_dlg_cancel_callback(struct widget *pCancel_Button)
 {
   popdown_revolution_dialog();
   flush_dirty();
@@ -1812,7 +1815,7 @@ static int revolution_dlg_cancel_callback(struct GUI *pCancel_Button)
 /**************************************************************************
   ...
 **************************************************************************/
-static int move_revolution_dlg_callback(struct GUI *pWindow)
+static int move_revolution_dlg_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pRevolutionDlg->pBeginWidgetList, pWindow);
 }
@@ -1853,7 +1856,7 @@ static void popdown_government_dialog(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static int government_dlg_callback(struct GUI *pGov_Button)
+static int government_dlg_callback(struct widget *pGov_Button)
 {
   set_government_choice(get_government(MAX_ID - pGov_Button->ID));
   
@@ -1864,7 +1867,7 @@ static int government_dlg_callback(struct GUI *pGov_Button)
 /**************************************************************************
   ...
 **************************************************************************/
-static int move_government_dlg_callback(struct GUI *pWindow)
+static int move_government_dlg_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pGov_Dlg->pBeginWidgetList, pWindow);
 }
@@ -1879,8 +1882,8 @@ static void popup_government_dialog(void)
 {
   SDL_Surface *pLogo = NULL;
   struct SDL_String16 *pStr = NULL;
-  struct GUI *pGov_Button = NULL;
-  struct GUI *pWindow = NULL;
+  struct widget *pGov_Button = NULL;
+  struct widget *pWindow = NULL;
   struct government *pGov = NULL;
   int i, j;
   Uint16 max_w, max_h = 0;
@@ -1935,7 +1938,8 @@ static void popup_government_dialog(void)
   /* set window start positions */
   pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
   pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2;
-
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
   /* create window background */
   pLogo = get_logo_gfx();
   if (resize_window(pWindow, pLogo, NULL, max_w + 20,
@@ -1974,10 +1978,10 @@ void popup_revolution_dialog(void)
 {
   SDL_Surface *pLogo;
   struct SDL_String16 *pStr = NULL;
-  struct GUI *pLabel = NULL;
-  struct GUI *pWindow = NULL;
-  struct GUI *pCancel_Button = NULL;
-  struct GUI *pOK_Button = NULL;
+  struct widget *pLabel = NULL;
+  struct widget *pWindow = NULL;
+  struct widget *pCancel_Button = NULL;
+  struct widget *pOK_Button = NULL;
   int ww;
 
   if(pRevolutionDlg) {
@@ -1990,29 +1994,44 @@ void popup_revolution_dialog(void)
   }
   
   pRevolutionDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-    
-  /* create ok button */
-  pOK_Button =
-      create_themeicon_button_from_chars(pTheme->Small_OK_Icon,
-			  Main.gui, _("Revolution!"), adj_font(10), 0);
 
-  /* create cancel button */
-  pCancel_Button =
-      create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
-  					Main.gui, _("Cancel"), adj_font(10), 0);
-  
-  /* correct sizes */
-  pCancel_Button->size.w += 6;
+  pStr = create_str16_from_char(_("REVOLUTION!"), adj_font(12));
+  pStr->style |= TTF_STYLE_BOLD;
 
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
+  pWindow->action = move_revolution_dlg_callback;
+  set_wstate(pWindow, FC_WS_NORMAL);
+  add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pWindow);
+  pRevolutionDlg->pEndWidgetList = pWindow;
+ 
   /* create text label */
   pStr = create_str16_from_char(_("You say you wanna revolution?"), adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pStr->fgcol = *get_game_colorRGB(COLOR_THEME_REVOLUTIONDLG_TEXT);
-  pLabel = create_iconlabel(NULL, Main.gui, pStr, 0);
+  pLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+  add_to_gui_list(ID_REVOLUTION_DLG_LABEL, pLabel);
 
-  /* create window */
-  pStr = create_str16_from_char(_("REVOLUTION!"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
+  
+  /* create cancel button */
+  pCancel_Button =
+      create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
+  					pWindow->dst, _("Cancel"), adj_font(10), 0);
+  pCancel_Button->action = revolution_dlg_cancel_callback;  
+  pCancel_Button->size.w += 6;
+  set_wstate(pCancel_Button, FC_WS_NORMAL);  
+  add_to_gui_list(ID_REVOLUTION_DLG_CANCEL_BUTTON, pCancel_Button);
+
+  /* create ok button */
+  pOK_Button =
+      create_themeicon_button_from_chars(pTheme->Small_OK_Icon,
+			  pWindow->dst, _("Revolution!"), adj_font(10), 0);
+  pOK_Button->action = revolution_dlg_ok_callback;
+  pOK_Button->key = SDLK_RETURN;
+  set_wstate(pOK_Button, FC_WS_NORMAL);  
+  add_to_gui_list(ID_REVOLUTION_DLG_OK_BUTTON, pOK_Button);
+
+  pRevolutionDlg->pBeginWidgetList = pOK_Button;
+
   if ((pOK_Button->size.w + pCancel_Button->size.w + adj_size(30)) >
       pLabel->size.w + adj_size(20)) {
     ww = pOK_Button->size.w + pCancel_Button->size.w + adj_size(30);
@@ -2020,24 +2039,14 @@ void popup_revolution_dialog(void)
     ww = pLabel->size.w + adj_size(20);
   }
 
-  pWindow = create_window(Main.gui, pStr, ww,
-	pOK_Button->size.h + pLabel->size.h + WINDOW_TILE_HIGH + adj_size(25), 0);
-
-  /* set actions */
-  pWindow->action = move_revolution_dlg_callback;
-  pCancel_Button->action = revolution_dlg_cancel_callback;
-  pOK_Button->action = revolution_dlg_ok_callback;
-
-  /* set keys */
-  pOK_Button->key = SDLK_RETURN;
-  
-  /* I make this hack to center label on window */
-  pLabel->size.w = pWindow->size.w;
+  pWindow->size.w = ww;
+  pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TILE_HIGH + adj_size(25);
 
   /* set start positions */
   pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
   pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2;
-
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
   pOK_Button->size.x = pWindow->size.x + adj_size(10);
   pOK_Button->size.y = pWindow->size.y + pWindow->size.h -
       pOK_Button->size.h - adj_size(10);
@@ -2045,9 +2054,11 @@ void popup_revolution_dialog(void)
   pCancel_Button->size.y = pOK_Button->size.y;
   pCancel_Button->size.x = pWindow->size.x + pWindow->size.w -
       pCancel_Button->size.w - adj_size(10);
+  
   pLabel->size.x = pWindow->size.x;
   pLabel->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(5);
-
+  pLabel->size.w = pWindow->size.w;
+  
   /* create window background */
   pLogo = get_logo_gfx();
   if (resize_window
@@ -2055,19 +2066,6 @@ void popup_revolution_dialog(void)
     FREESURFACE(pLogo);
   }
   
-  /* enable widgets */
-  set_wstate(pCancel_Button, FC_WS_NORMAL);
-  set_wstate(pOK_Button, FC_WS_NORMAL);
-  set_wstate(pWindow, FC_WS_NORMAL);
-
-  /* add widgets to main list */
-  pRevolutionDlg->pEndWidgetList = pWindow;
-  add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pWindow);
-  add_to_gui_list(ID_REVOLUTION_DLG_LABEL, pLabel);
-  add_to_gui_list(ID_REVOLUTION_DLG_CANCEL_BUTTON, pCancel_Button);
-  add_to_gui_list(ID_REVOLUTION_DLG_OK_BUTTON, pOK_Button);
-  pRevolutionDlg->pBeginWidgetList = pOK_Button;
-
   /* redraw */
   redraw_group(pOK_Button, pWindow, 0);
   sdl_dirty_rect(pWindow->size);
@@ -2085,26 +2083,26 @@ struct NAT {
   Uint8 selected_leader;	/* if not unique -> sellected leader */
   Sint8 nation;			/* sellected nation */
   bool leader_sex;		/* sellected leader sex */
-  struct GUI *pChange_Sex;
-  struct GUI *pName_Edit;
-  struct GUI *pName_Next;
-  struct GUI *pName_Prev;
+  struct widget *pChange_Sex;
+  struct widget *pName_Edit;
+  struct widget *pName_Next;
+  struct widget *pName_Prev;
 };
 
-static int nations_dialog_callback(struct GUI *pWindow);
-static int nation_button_callback(struct GUI *pNation);
-static int races_dialog_ok_callback(struct GUI *pStart_Button);
-static int races_dialog_cancel_callback(struct GUI *pButton);
-static int next_name_callback(struct GUI *pNext_Button);
-static int prev_name_callback(struct GUI *pPrev_Button);
-static int change_sex_callback(struct GUI *pSex);
+static int nations_dialog_callback(struct widget *pWindow);
+static int nation_button_callback(struct widget *pNation);
+static int races_dialog_ok_callback(struct widget *pStart_Button);
+static int races_dialog_cancel_callback(struct widget *pButton);
+static int next_name_callback(struct widget *pNext_Button);
+static int prev_name_callback(struct widget *pPrev_Button);
+static int change_sex_callback(struct widget *pSex);
 static void select_random_leader(Nation_type_id nation);
 static void change_nation_label(void);
 
 /**************************************************************************
   ...
 **************************************************************************/
-static int nations_dialog_callback(struct GUI *pWindow)
+static int nations_dialog_callback(struct widget *pWindow)
 {
   if(sellect_window_group_dialog(pNationDlg->pBeginWidgetList, pWindow)) {
     flush_rect(pWindow->size, FALSE);
@@ -2115,7 +2113,7 @@ static int nations_dialog_callback(struct GUI *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-static int races_dialog_ok_callback(struct GUI *pStart_Button)
+static int races_dialog_ok_callback(struct widget *pStart_Button)
 {
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
   char *pStr = convert_to_chars(pSetup->pName_Edit->string16->text);
@@ -2144,7 +2142,7 @@ static int races_dialog_ok_callback(struct GUI *pStart_Button)
 /**************************************************************************
   ...
 **************************************************************************/
-static int change_sex_callback(struct GUI *pSex)
+static int change_sex_callback(struct widget *pSex)
 {
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
     
@@ -2168,7 +2166,7 @@ static int change_sex_callback(struct GUI *pSex)
 /**************************************************************************
   ...
 **************************************************************************/
-static int next_name_callback(struct GUI *pNext)
+static int next_name_callback(struct widget *pNext)
 {
   int dim;
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
@@ -2221,7 +2219,7 @@ static int next_name_callback(struct GUI *pNext)
 /**************************************************************************
   ...
 **************************************************************************/
-static int prev_name_callback(struct GUI *pPrev)
+static int prev_name_callback(struct widget *pPrev)
 {
   int dim;
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
@@ -2274,7 +2272,7 @@ static int prev_name_callback(struct GUI *pPrev)
 /**************************************************************************
   ...
 **************************************************************************/
-static int races_dialog_cancel_callback(struct GUI *pButton)
+static int races_dialog_cancel_callback(struct widget *pButton)
 {
   popdown_races_dialog();
   flush_dirty();
@@ -2284,10 +2282,10 @@ static int races_dialog_cancel_callback(struct GUI *pButton)
 /**************************************************************************
   ...
 **************************************************************************/
-static int city_style_callback(struct GUI *pWidget)
+static int city_style_callback(struct widget *pWidget)
 {
   struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-  struct GUI *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
+  struct widget *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
 					    pSetup->nation_city_style);
   set_wstate(pGUI, FC_WS_NORMAL);
   redraw_icon2(pGUI);
@@ -2307,7 +2305,7 @@ static int city_style_callback(struct GUI *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int help_dlg_callback(struct GUI *pWindow)
+static int help_dlg_callback(struct widget *pWindow)
 {
   return -1;
 }
@@ -2315,7 +2313,7 @@ static int help_dlg_callback(struct GUI *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-static int cancel_help_dlg_callback(struct GUI *pWidget)
+static int cancel_help_dlg_callback(struct widget *pWidget)
 {
   if (pHelpDlg) {
     popdown_window_group_dialog(pHelpDlg->pBeginWidgetList,
@@ -2331,7 +2329,7 @@ static int cancel_help_dlg_callback(struct GUI *pWidget)
 /**************************************************************************
    ...
 **************************************************************************/
-static int nation_button_callback(struct GUI *pNationButton)
+static int nation_button_callback(struct widget *pNationButton)
 {
   set_wstate(pNationButton, FC_WS_SELLECTED);
   pSellected_Widget = pNationButton;
@@ -2360,7 +2358,7 @@ static int nation_button_callback(struct GUI *pNationButton)
   } else {
     /* pop up legend info */
     int w = 0, h;
-    struct GUI *pWindow, *pCancel;
+    struct widget *pWindow, *pCancel;
     SDL_String16 *pStr;
     SDL_Surface *pText, *pText2;
     SDL_Rect area;
@@ -2395,8 +2393,9 @@ static int nation_button_callback(struct GUI *pNationButton)
       pWindow = pHelpDlg->pEndWidgetList;
       pCancel = pHelpDlg->pBeginWidgetList;
       /* undraw window */
-      blit_entire_src(pWindow->gfx, pWindow->dst,
-				      pWindow->size.x, pWindow->size.y);
+      area = pWindow->size;
+      fix_rect(pWindow->dst, &area);
+      blit_entire_src(pWindow->gfx, pWindow->dst, area.x, area.y);
       sdl_dirty_rect(pWindow->size);
     }
     
@@ -2423,7 +2422,8 @@ static int nation_button_callback(struct GUI *pNationButton)
   
     pWindow->size.x = (pWindow->dst->w - w) / 2;
     pWindow->size.y = (pWindow->dst->h - h) / 2;
-  
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
     resize_window(pWindow, NULL,
   	get_game_colorRGB(COLOR_THEME_BACKGROUND), w, h);
   
@@ -2455,7 +2455,7 @@ static int nation_button_callback(struct GUI *pNationButton)
 /**************************************************************************
    ...
 **************************************************************************/
-static int leader_name_edit_callback(struct GUI *pEdit)
+static int leader_name_edit_callback(struct widget *pEdit)
 {
   char *name = convert_to_chars(pEdit->string16->text);
 
@@ -2479,9 +2479,9 @@ static int leader_name_edit_callback(struct GUI *pEdit)
 static void change_nation_label(void)
 {
   SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed;
-  struct GUI *pWindow = pNationDlg->pEndWidgetList;
+  struct widget *pWindow = pNationDlg->pEndWidgetList;
   struct NAT *pSetup = (struct NAT *)(pWindow->data.ptr);  
-  struct GUI *pLabel = pSetup->pName_Edit->next;
+  struct widget *pLabel = pSetup->pName_Edit->next;
   struct nation_type *pNation = get_nation_by_idx(pSetup->nation);
     
   pTmp_Surf = adj_surf(GET_SURF(get_nation_flag_sprite(tileset,
@@ -2572,7 +2572,7 @@ void popup_races_dialog(struct player *pplayer)
 {
   SDL_Color bg_color = {255,255,255,128};
 
-  struct GUI *pWindow, *pWidget = NULL, *pBuf, *pLast_City_Style;
+  struct widget *pWindow, *pWidget = NULL, *pBuf, *pLast_City_Style;
   SDL_String16 *pStr;
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
@@ -2813,7 +2813,8 @@ void popup_races_dialog(struct player *pplayer)
   
   pWindow->size.x = (Main.screen->w - adj_size(640)) / 2;
   pWindow->size.y = (Main.screen->h - adj_size(480)) / 2;
-    
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
   pMain_Bg = get_logo_gfx();
   if(resize_window(pWindow, pMain_Bg, NULL, adj_size(640), adj_size(480))) {
     FREESURFACE(pMain_Bg);
@@ -2936,7 +2937,7 @@ void races_toggles_set_sensitive()
 {
   struct NAT *pSetup;
   bool change = FALSE;
-  struct GUI *pNat;
+  struct widget *pNat;
 
   if (!pNationDlg)
     return;

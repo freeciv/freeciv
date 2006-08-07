@@ -49,26 +49,26 @@ static bool GOTO = TRUE;
 
 static void update_goto_dialog(void);
 
-static int goto_dialog_window_callback(struct GUI *pWindow)
+static int goto_dialog_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pGotoDlg->pBeginWidgetList, pWindow);
 }
 
-static int exit_goto_dialog_callback(struct GUI *pWidget)
+static int exit_goto_dialog_callback(struct widget *pWidget)
 {
   popdown_goto_airlift_dialog();
   flush_dirty();
   return -1;
 }
 
-static int toggle_goto_nations_cities_dialog_callback(struct GUI *pWidget)
+static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 {
   all_players ^= (1u << (get_player(MAX_ID - pWidget->ID)->player_no));
   update_goto_dialog();
   return -1;
 }
 
-static int goto_city_callback(struct GUI *pWidget)
+static int goto_city_callback(struct widget *pWidget)
 {
   struct city *pDestcity = find_city_by_id(MAX_ID - pWidget->ID);
 
@@ -93,7 +93,7 @@ static int goto_city_callback(struct GUI *pWidget)
 **************************************************************************/
 static void update_goto_dialog(void)
 {
-  struct GUI *pBuf = NULL, *pAdd_Dock, *pLast;
+  struct widget *pBuf = NULL, *pAdd_Dock, *pLast;
   SDL_Surface *pLogo = NULL;
   SDL_String16 *pStr;
   char cBuf[128]; 
@@ -208,7 +208,7 @@ static void popup_goto_airlift_dialog(void)
 {
   SDL_Color bg_color = {0, 0, 0, 96};
   
-  struct GUI *pBuf, *pWindow;
+  struct widget *pBuf, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pFlag, *pEnabled, *pDisabled;
   SDL_Rect dst;
@@ -295,6 +295,7 @@ static void popup_goto_airlift_dialog(void)
   
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   
   resize_window(pWindow, NULL, NULL, w, h);
   

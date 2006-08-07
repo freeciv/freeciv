@@ -42,7 +42,7 @@ static int caravan_unit_id;
 /* ====================================================================== */
 static struct SMALL_DLG *pCaravan_Dlg = NULL;
 
-static int caravan_dlg_window_callback(struct GUI *pWindow)
+static int caravan_dlg_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pCaravan_Dlg->pBeginWidgetList, pWindow);
 }
@@ -50,7 +50,7 @@ static int caravan_dlg_window_callback(struct GUI *pWindow)
 /****************************************************************
 ...
 *****************************************************************/
-static int caravan_establish_trade_callback(struct GUI *pWidget)
+static int caravan_establish_trade_callback(struct widget *pWidget)
 {
   dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
   
@@ -62,7 +62,7 @@ static int caravan_establish_trade_callback(struct GUI *pWidget)
 /****************************************************************
 ...
 *****************************************************************/
-static int caravan_help_build_wonder_callback(struct GUI *pWidget)
+static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
   dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
   
@@ -70,7 +70,7 @@ static int caravan_help_build_wonder_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int exit_caravan_dlg_callback(struct GUI *pWidget)
+static int exit_caravan_dlg_callback(struct widget *pWidget)
 {
   popdown_caravan_dialog();
   process_caravan_arrival(NULL);
@@ -98,7 +98,7 @@ void popdown_caravan_dialog(void)
 void popup_caravan_dialog(struct unit *pUnit,
 			  struct city *pHomecity, struct city *pDestcity)
 {
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   int w = 0, h;
   struct CONTAINER *pCont;

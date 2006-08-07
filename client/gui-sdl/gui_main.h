@@ -74,7 +74,7 @@ struct mouse_button_behavior {
 };
 
 
-extern struct GUI *pSellected_Widget;
+extern struct widget *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
 extern bool LSHIFT;
 extern bool RSHIFT;

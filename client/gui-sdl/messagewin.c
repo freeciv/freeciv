@@ -56,7 +56,7 @@ static struct ADVANCED_DLG *pMsg_Dlg = NULL;
 /**************************************************************************
  Called from default clicks on a message.
 **************************************************************************/
-static int msg_callback(struct GUI *pWidget)
+static int msg_callback(struct widget *pWidget)
 {
 
   struct message *pMsg = (struct message *)pWidget->data.ptr;
@@ -96,7 +96,7 @@ static int msg_callback(struct GUI *pWidget)
 /**************************************************************************
  Called from default clicks on a messages window.
 **************************************************************************/
-static int move_msg_window_callback(struct GUI *pWindow)
+static int move_msg_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pMsg_Dlg->pBeginWidgetList, pWindow);
 }
@@ -114,7 +114,7 @@ void real_update_meswin_dialog(void)
   int i = pMsg_Dlg->pScroll->count;
     
   struct message *pMsg = NULL;
-  struct GUI *pBuf = NULL, *pWindow = pMsg_Dlg->pEndWidgetList;
+  struct widget *pBuf = NULL, *pWindow = pMsg_Dlg->pEndWidgetList;
   SDL_String16 *pStr = NULL;
 
   bool create;
@@ -192,7 +192,7 @@ void popup_meswin_dialog(bool raise)
   Uint16 h = adj_size(8) + WINDOW_TILE_HIGH + N_MSG_VIEW * str16size(pStr).h;
   int len, i = 0;
   struct message *pMsg = NULL;
-  struct GUI *pWindow = NULL, *pBuf = NULL;
+  struct widget *pWindow = NULL, *pBuf = NULL;
   int msg_count = get_num_messages();
   SDL_Surface *pSurf;
   SDL_Rect area;
@@ -206,10 +206,11 @@ void popup_meswin_dialog(bool raise)
   pMsg_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
   /* create window */
-  pWindow = create_window(NULL, NULL, w, h, WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, NULL, w, h, 0);
 
   pWindow->size.x = start_x;
   pWindow->size.y = start_y;
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
   pWindow->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
   

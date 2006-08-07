@@ -66,20 +66,20 @@ static struct SMALL_DLG *get_spaceship_dialog(struct player *pplayer)
   return NULL;
 }
 
-static int space_dialog_window_callback(struct GUI *pWindow)
+static int space_dialog_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(
   	pWindow->private_data.small_dlg->pBeginWidgetList, pWindow);
 }
 
-static int exit_space_dialog_callback(struct GUI *pWidget)
+static int exit_space_dialog_callback(struct widget *pWidget)
 {
   popdown_spaceship_dialog(pWidget->data.player);
   flush_dirty();
   return -1;
 }
 
-static int launch_spaceship_callback(struct  GUI *pWidget)
+static int launch_spaceship_callback(struct widget *pWidget)
 {
   send_packet_spaceship_launch(&aconnection);
   return -1;
@@ -91,7 +91,7 @@ static int launch_spaceship_callback(struct  GUI *pWidget)
 void refresh_spaceship_dialog(struct player *pPlayer)
 {
   struct SMALL_DLG *pSpaceShp;
-  struct GUI *pBuf;
+  struct widget *pBuf;
     
   if(!(pSpaceShp = get_spaceship_dialog(pPlayer)))
     return;
@@ -126,7 +126,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
   struct SMALL_DLG *pSpaceShp;
 
   if(!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
-    struct GUI *pBuf, *pWindow;
+    struct widget *pBuf, *pWindow;
     SDL_String16 *pStr;
     char cBuf[128];
     int w = 0, h = 0;
@@ -184,7 +184,8 @@ void popup_spaceship_dialog(struct player *pPlayer)
       
     pWindow->size.x = (Main.screen->w - w) / 2;
     pWindow->size.y = (Main.screen->h - h) / 2;
-  
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
     resize_window(pWindow, NULL, NULL, w, h);
      
     /* exit button */

@@ -49,18 +49,18 @@
 
 #include "menu.h"
 
-extern struct GUI *pOptions_Button;
+extern struct widget *pOptions_Button;
   
-static struct GUI *pBeginOrderWidgetList;
-static struct GUI *pEndOrderWidgetList;
+static struct widget *pBeginOrderWidgetList;
+static struct widget *pEndOrderWidgetList;
   
-static struct GUI *pOrder_Automate_Unit_Button;
-static struct GUI *pOrder_Build_AddTo_City_Button;
-static struct GUI *pOrder_Mine_Button;
-static struct GUI *pOrder_Irrigation_Button;
-static struct GUI *pOrder_Road_Button;
-static struct GUI *pOrder_Transform_Button;
-static struct GUI *pOrder_Trade_Button;
+static struct widget *pOrder_Automate_Unit_Button;
+static struct widget *pOrder_Build_AddTo_City_Button;
+static struct widget *pOrder_Mine_Button;
+static struct widget *pOrder_Irrigation_Button;
+static struct widget *pOrder_Road_Button;
+static struct widget *pOrder_Transform_Button;
+static struct widget *pOrder_Trade_Button;
   
 #define local_show(ID)                                                \
   clear_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID, SCAN_FORWARD), \
@@ -74,7 +74,7 @@ static struct GUI *pOrder_Trade_Button;
 /**************************************************************************
   ...
 **************************************************************************/
-static int unit_order_callback(struct GUI *pOrder_Widget)
+static int unit_order_callback(struct widget *pOrder_Widget)
 {
   struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
 
@@ -210,7 +210,7 @@ static bool has_city_airport(struct city *pCity)
 static Uint16 redraw_order_widgets(void)
 {
   Uint16 count = 0;
-  struct GUI *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *pTmpWidget = pBeginOrderWidgetList;
 
   while (TRUE) {
 
@@ -235,7 +235,7 @@ static Uint16 redraw_order_widgets(void)
 
 void set_new_order_widgets_dest_buffers(void)
 {
-  struct GUI *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *pTmpWidget = pBeginOrderWidgetList;
   if(!pEndOrderWidgetList) return;
   while (pTmpWidget) {
     pTmpWidget->dst = Main.gui;
@@ -251,9 +251,9 @@ void set_new_order_widgets_dest_buffers(void)
 **************************************************************************/
 static void set_new_order_widget_start_pos(void)
 {
-  struct GUI *pMiniMap = get_minimap_window_widget();
-  struct GUI *pInfoWind = get_unit_info_window_widget();
-  struct GUI *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *pMiniMap = get_minimap_window_widget();
+  struct widget *pInfoWind = get_unit_info_window_widget();
+  struct widget *pTmpWidget = pBeginOrderWidgetList;
   Sint16 sx, sy, xx, yy = 0;
   int count = 0, lines = 1, w = 0, count_on_line;
 
@@ -361,7 +361,7 @@ static void set_new_order_widget_start_pos(void)
 **************************************************************************/
 void create_units_order_widgets(void)
 {
-  struct GUI *pBuf = NULL;
+  struct widget *pBuf = NULL;
   char cBuf[128];
   Uint16 *unibuf;  
   size_t len;
@@ -817,7 +817,7 @@ void update_order_widget(void)
 **************************************************************************/
 void undraw_order_widgets(void)
 {
-  struct GUI *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *pTmpWidget = pBeginOrderWidgetList;
   SDL_Rect dest;
 
   while (TRUE) {
@@ -828,7 +828,7 @@ void undraw_order_widgets(void)
       dest.y = pTmpWidget->size.y;
       dest.w = pTmpWidget->size.w;
       dest.h = pTmpWidget->size.h;
-
+      fix_rect(pTmpWidget->dst, &dest);
       clear_surface(pTmpWidget->dst, &dest);
       alphablit(pTmpWidget->gfx, NULL, pTmpWidget->dst, &dest);
       
@@ -849,7 +849,7 @@ void undraw_order_widgets(void)
 **************************************************************************/
 void free_bcgd_order_widgets(void)
 {
-  struct GUI *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *pTmpWidget = pBeginOrderWidgetList;
 
   while (TRUE) {
 
@@ -881,7 +881,7 @@ void update_menus(void)
 	
     set_wflag(pOptions_Button, WF_HIDDEN);
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
-      struct GUI *pWidget = get_unit_info_window_widget();
+      struct widget *pWidget = get_unit_info_window_widget();
 	
       /* economy button */
       pWidget = pWidget->prev;
@@ -940,7 +940,7 @@ void update_menus(void)
   } else if (!game.player_ptr) {
       
     if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
-      struct GUI *pWidget = get_unit_info_window_widget();
+      struct widget *pWidget = get_unit_info_window_widget();
           
       clear_wflag(pOptions_Button, WF_HIDDEN);
       real_redraw_icon(pOptions_Button);
@@ -1020,7 +1020,7 @@ void update_menus(void)
     }
 
     if (SDL_Client_Flags & CF_GANE_JUST_STARTED) {
-      struct GUI *pWidget = get_unit_info_window_widget();
+      struct widget *pWidget = get_unit_info_window_widget();
 	
       SDL_Client_Flags &= ~CF_GANE_JUST_STARTED;
 

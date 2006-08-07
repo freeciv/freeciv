@@ -137,7 +137,7 @@ void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 }
 /* ----------------------------------------------------------------------- */
 
-static int remove_clause_callback(struct GUI *pWidget)
+static int remove_clause_callback(struct widget *pWidget)
 {
   struct diplomacy_dialog *pdialog;
     
@@ -200,14 +200,14 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 
 /* ================================================================= */
 
-static int cancel_meeting_callback(struct GUI *pWidget)
+static int cancel_meeting_callback(struct widget *pWidget)
 {
   dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
 					    pWidget->data.cont->id1);
   return -1;
 }
 
-static int accept_treaty_callback(struct GUI *pWidget)
+static int accept_treaty_callback(struct widget *pWidget)
 {
   dsend_packet_diplomacy_accept_treaty_req(&aconnection,
 					   pWidget->data.cont->id1);
@@ -216,7 +216,7 @@ static int accept_treaty_callback(struct GUI *pWidget)
 
 /* ------------------------------------------------------------------------ */
 
-static int pact_callback(struct GUI *pWidget)
+static int pact_callback(struct widget *pWidget)
 {
   int clause_type;
   
@@ -246,7 +246,7 @@ static int pact_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int vision_callback(struct GUI *pWidget)
+static int vision_callback(struct widget *pWidget)
 {
   struct diplomacy_dialog *pdialog;
     
@@ -261,7 +261,7 @@ static int vision_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int embassy_callback(struct GUI *pWidget)
+static int embassy_callback(struct widget *pWidget)
 {
   struct diplomacy_dialog *pdialog;
     
@@ -276,7 +276,7 @@ static int embassy_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int maps_callback(struct GUI *pWidget)
+static int maps_callback(struct widget *pWidget)
 {
   int clause_type;
   
@@ -302,7 +302,7 @@ static int maps_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int techs_callback(struct GUI *pWidget)
+static int techs_callback(struct widget *pWidget)
 {
   struct diplomacy_dialog *pdialog;
     
@@ -319,7 +319,7 @@ static int techs_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int gold_callback(struct GUI *pWidget)
+static int gold_callback(struct widget *pWidget)
 {
   int amount;
   
@@ -364,7 +364,7 @@ static int gold_callback(struct GUI *pWidget)
 }
 
 
-static int cities_callback(struct GUI *pWidget)
+static int cities_callback(struct widget *pWidget)
 {
   struct diplomacy_dialog *pdialog;
     
@@ -382,20 +382,20 @@ static int cities_callback(struct GUI *pWidget)
 }
 
 
-static int dipomatic_window_callback(struct GUI *pWindow)
+static int dipomatic_window_callback(struct widget *pWindow)
 {
   return -1;
 }
 
 static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   				struct player *pPlayer1,
-  				struct GUI *pMainWindow, bool L_R)
+  				struct widget *pMainWindow, bool L_R)
 {
   struct ADVANCED_DLG *pDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
   int hh, ww = 0, width, height, count = 0, scroll_w = 0;
   char cBuf[128];
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   
   enum diplstate_type type =
@@ -408,7 +408,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(pMainWindow->dst, pStr, adj_size(100), adj_size(100), WF_FREE_DATA);
+  pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), WF_FREE_DATA);
 
   pWindow->action = dipomatic_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -727,6 +727,8 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     pWindow->size.x = pMainWindow->size.x - adj_size(20) - ww;
   }
   pWindow->size.y = (Main.screen->h - hh) / 2;
+
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
@@ -773,7 +775,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
   struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
   int hh, ww = 0;
   char cBuf[128];
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   SDL_Rect dst;
   
@@ -781,8 +783,6 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     /* delete old content */
     if (pdialog->pdialog->pEndWidgetList) {
-      lock_buffer(pdialog->pdialog->pEndWidgetList->dst);
-  
       popdown_window_group_dialog(pdialog->poffers->pBeginWidgetList,
                                   pdialog->poffers->pEndWidgetList);
       FC_FREE(pdialog->poffers->pScroll);
@@ -792,8 +792,6 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
                                   pdialog->pwants->pEndWidgetList);
       FC_FREE(pdialog->pwants->pScroll);
       FC_FREE(pdialog->pwants);
-      
-      unlock_buffer();
       
       popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
                                             pdialog->pdialog->pEndWidgetList);
@@ -890,7 +888,8 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     pWindow->size.x = (Main.screen->w - ww) / 2;
     pWindow->size.y = (Main.screen->h - hh) / 2;
-  
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
     resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
@@ -948,7 +947,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 *****************************************************************/
 static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
 {
-  struct GUI *pLabel;
+  struct widget *pLabel;
   SDL_Surface *pThm;
   SDL_Rect src = {0, 0, 0, 0};
 
@@ -995,7 +994,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
 *****************************************************************/
 static void update_clauses_list(struct diplomacy_dialog *pdialog) {
   SDL_String16 *pStr;
-  struct GUI *pBuf, *pWindow = pdialog->pdialog->pEndWidgetList;
+  struct widget *pBuf, *pWindow = pdialog->pdialog->pEndWidgetList;
   char cBuf[64];
   bool redraw_all, scroll = pdialog->pdialog->pActiveWidgetList == NULL;
   int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
@@ -1058,7 +1057,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog) {
 static void remove_clause_widget_from_list(int counterpart, int giver,
                                            enum clause_type type, int value)
 {
-  struct GUI *pBuf;
+  struct widget *pBuf;
   SDL_Rect src = {0, 0, 0, 0};
   bool scroll = TRUE;
 
@@ -1141,8 +1140,6 @@ static void popdown_diplomacy_dialog(int counterpart)
   struct diplomacy_dialog *pdialog = get_diplomacy_dialog(counterpart);
     
   if (pdialog) {
-    lock_buffer(pdialog->pdialog->pEndWidgetList->dst);
-
     popdown_window_group_dialog(pdialog->poffers->pBeginWidgetList,
 			        pdialog->poffers->pEndWidgetList);
     FC_FREE(pdialog->poffers->pScroll);
@@ -1152,8 +1149,6 @@ static void popdown_diplomacy_dialog(int counterpart)
 			        pdialog->pwants->pEndWidgetList);
     FC_FREE(pdialog->pwants->pScroll);
     FC_FREE(pdialog->pwants);
-    
-    unlock_buffer();
     
     popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
 			                  pdialog->pdialog->pEndWidgetList);
@@ -1199,13 +1194,13 @@ static void popdown_sdip_dialog(void)
   }
 }
 
-static int sdip_window_callback(struct GUI *pWindow)
+static int sdip_window_callback(struct widget *pWindow)
 {
   return std_move_window_group_callback(pSDip_Dlg->pBeginWidgetList,
 								pWindow);
 }
 
-static int withdraw_vision_dlg_callback(struct GUI *pWidget)
+static int withdraw_vision_dlg_callback(struct widget *pWidget)
 {
   popdown_sdip_dialog();
 
@@ -1217,7 +1212,7 @@ static int withdraw_vision_dlg_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int cancel_pact_dlg_callback(struct GUI *pWidget)
+static int cancel_pact_dlg_callback(struct widget *pWidget)
 {
   popdown_sdip_dialog();
 
@@ -1229,7 +1224,7 @@ static int cancel_pact_dlg_callback(struct GUI *pWidget)
   return -1;
 }
 
-static int call_meeting_dlg_callback(struct GUI *pWidget)
+static int call_meeting_dlg_callback(struct widget *pWidget)
 {
   popdown_sdip_dialog();
   
@@ -1241,7 +1236,7 @@ static int call_meeting_dlg_callback(struct GUI *pWidget)
 }
 
 
-static int cancel_sdip_dlg_callback(struct GUI *pWidget)
+static int cancel_sdip_dlg_callback(struct widget *pWidget)
 {
   popdown_sdip_dialog();
   flush_dirty();
@@ -1252,7 +1247,7 @@ static void popup_war_dialog(struct player *pPlayer)
 {
   int hh, ww = 0;
   char cBuf[128];
-  struct GUI *pBuf = NULL, *pWindow;
+  struct widget *pBuf = NULL, *pWindow;
   SDL_String16 *pStr;
   SDL_Surface *pText;
   SDL_Rect dst;
@@ -1329,7 +1324,8 @@ static void popup_war_dialog(struct player *pPlayer)
   
   pWindow->size.x = (Main.screen->w - ww) / 2;
   pWindow->size.y = (Main.screen->h - hh) / 2;
-  
+  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 
@@ -1379,7 +1375,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
   } else {
     int hh, ww = 0, button_w = 0, button_h = 0;
     char cBuf[128];
-    struct GUI *pBuf = NULL, *pWindow;
+    struct widget *pBuf = NULL, *pWindow;
     SDL_String16 *pStr;
     SDL_Surface *pText;
     SDL_Rect dst;
@@ -1515,7 +1511,8 @@ void popup_diplomacy_dialog(struct player *pPlayer)
    
     pWindow->size.x = (Main.screen->w - ww) / 2;
     pWindow->size.y = (Main.screen->h - hh) / 2;
-  
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
     resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
 

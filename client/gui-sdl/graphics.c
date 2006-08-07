@@ -56,6 +56,50 @@ struct main Main;
 
 static SDL_Surface *pIntro_gfx = NULL;
 
+struct gui_layer *gui_layer_new(int x, int y, SDL_Surface *surface)
+{
+  struct gui_layer *result;
+    
+  result = fc_calloc(1, sizeof(struct gui_layer));
+    
+  result->dest_rect = (SDL_Rect){x, y, 0, 0};
+  result->surface = surface;
+  
+  return result;
+}
+
+void gui_layer_destroy(struct gui_layer **gui_layer)
+{
+  FREESURFACE((*gui_layer)->surface);
+  FC_FREE(*gui_layer);
+}
+
+struct gui_layer *get_gui_layer(SDL_Surface *surface)
+{
+  int i;
+  
+  for(i = 0; i < Main.guis_count; i++) {
+    if(Main.guis[i]->surface == surface) {
+      return Main.guis[i];
+    }
+  }
+  
+  return NULL;
+}
+
+void fix_rect(SDL_Surface *dest_surf, SDL_Rect *dest_rect)
+{
+  struct gui_layer *gui_layer;
+
+  if (dest_surf != Main.gui) {
+    gui_layer = get_gui_layer(dest_surf);
+    if (gui_layer) {
+      dest_rect->x = dest_rect->x - gui_layer->dest_rect.x;
+      dest_rect->y = dest_rect->y - gui_layer->dest_rect.y;
+    }
+  }
+}
+
 /* ============ FreeCiv sdl graphics function =========== */
 
 int alphablit(SDL_Surface *src, SDL_Rect *srcrect, 
