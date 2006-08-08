@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-04 10:58+0200\n"
+"POT-Creation-Date: 2006-08-08 13:37-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -78,7 +78,7 @@ msgstr "Luxus"
 
 #: common/city.c:58 server/plrhand.c:215 client/gui-gtk-2.0/gamedlgs.c:282
 #: client/gui-gtk-2.0/repodlgs.c:281 client/gui-mui/citydlg.c:1616
-#: client/gui-mui/repodlgs.c:264 client/gui-sdl/repodlgs.c:3165
+#: client/gui-mui/repodlgs.c:264 client/gui-sdl/repodlgs.c:3166
 #: client/gui-win32/ratesdlg.c:321 client/gui-win32/repodlgs.c:91
 #: client/gui-xaw/menu.c:222 client/gui-xaw/repodlgs.c:276
 #: client/gui-xaw/repodlgs.c:486 data/Freeciv.in:1366
@@ -12022,14 +12022,14 @@ msgstr "_Fortschritte"
 msgid "Foreign Intelligence: %s Empire"
 msgstr "Nachrichtendienst: Das %se Imperium"
 
-#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2416
+#: client/gui-gtk-2.0/mapctrl.c:194 client/gui-sdl/mapctrl.c:2411
 #: client/gui-sdl/menu.c:783 client/gui-sdl/menu.c:1110
 #: client/gui-win32/mapctrl.c:356
 msgid "Build New City"
 msgstr "Neue Stadt gründen"
 
 #: client/gui-gtk-2.0/mapctrl.c:195 client/gui-mui/mapctrl.c:80
-#: client/gui-sdl/mapctrl.c:2406 client/gui-win32/mapctrl.c:357
+#: client/gui-sdl/mapctrl.c:2401 client/gui-win32/mapctrl.c:357
 #: client/gui-xaw/mapctrl.c:89
 msgid "What should we call our new city?"
 msgstr "Wie soll die neue Stadt heißen?"
@@ -14377,7 +14377,7 @@ msgstr "Einkommen: %6d  Ausgaben: %6d"
 msgid "Military Report"
 msgstr "Militärischer Bericht"
 
-#: client/gui-mui/repodlgs.c:861 client/gui-sdl/repodlgs.c:3297
+#: client/gui-mui/repodlgs.c:861 client/gui-sdl/repodlgs.c:3298
 #: client/gui-win32/repodlgs.c:754 client/gui-xaw/repodlgs.c:1153
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
@@ -14385,12 +14385,12 @@ msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] "%2d: Der %s Herrscher %s erreichte %d Punkt.\n"
 msgstr[1] "%2d: Der %s Herrscher %s erreichte %d Punkte.\n"
 
-#: client/gui-mui/repodlgs.c:869 client/gui-sdl/repodlgs.c:3305
+#: client/gui-mui/repodlgs.c:869 client/gui-sdl/repodlgs.c:3306
 #: client/gui-win32/repodlgs.c:762 client/gui-xaw/repodlgs.c:1161
 msgid "Final Report:"
 msgstr "Abschlußbericht:"
 
-#: client/gui-mui/repodlgs.c:870 client/gui-sdl/repodlgs.c:3306
+#: client/gui-mui/repodlgs.c:870 client/gui-sdl/repodlgs.c:3307
 #: client/gui-win32/repodlgs.c:763 client/gui-xaw/repodlgs.c:1162
 msgid "The Greatest Civilizations in the world."
 msgstr "Die großartigsten Nationen der Welt."
@@ -14585,7 +14585,7 @@ msgstr "Einheit auflösen"
 #: client/gui-sdl/connectdlg.c:769 client/gui-sdl/connectdlg.c:938
 #: client/gui-sdl/dialogs.c:451 client/gui-sdl/dialogs.c:2002
 #: client/gui-sdl/dialogs.c:2388 client/gui-sdl/dialogs.c:2792
-#: client/gui-sdl/diplomat_dialog.c:699 client/gui-sdl/mapctrl.c:2397
+#: client/gui-sdl/diplomat_dialog.c:699 client/gui-sdl/mapctrl.c:2392
 #: client/gui-sdl/repodlgs.c:1847 client/gui-win32/citydlg.c:1079
 #: client/gui-win32/cityrep.c:753 client/gui-win32/connectdlg.c:986
 #: client/gui-win32/dialogs.c:1752 client/gui-win32/finddlg.c:128
@@ -14757,7 +14757,7 @@ msgstr "Stadt schrumpft : %d %s"
 #: client/gui-sdl/menu.c:1222 client/gui-sdl/menu.c:1238
 #: client/gui-sdl/plrdlg.c:232 client/gui-sdl/plrdlg.c:655
 #: client/gui-sdl/repodlgs.c:539 client/gui-sdl/repodlgs.c:893
-#: client/gui-sdl/repodlgs.c:2535 client/gui-sdl/wldlg.c:938
+#: client/gui-sdl/repodlgs.c:2536 client/gui-sdl/wldlg.c:938
 #: client/gui-sdl/wldlg.c:1115 client/gui-sdl/wldlg.c:1401
 #: client/gui-sdl/wldlg.c:1407 client/gui-sdl/wldlg.c:1521
 msgid "turn"
@@ -15017,7 +15017,7 @@ msgstr "REVOLUTION!"
 msgid "What nation will you be?"
 msgstr "Welche Nation nimmst du?"
 
-#: client/gui-sdl/dialogs.c:2801 client/gui-sdl/mapctrl.c:2389
+#: client/gui-sdl/dialogs.c:2801 client/gui-sdl/mapctrl.c:2384
 #: client/gui-win32/dialogs.c:597 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:978
 msgid "OK"
@@ -15360,7 +15360,7 @@ msgstr "Verstecke Einheitenfenster"
 msgid "Show MiniMap"
 msgstr "Zeige Übersichtskarte"
 
-#: client/gui-sdl/mapctrl.c:445 client/gui-sdl/mapctrl.c:1700
+#: client/gui-sdl/mapctrl.c:445 client/gui-sdl/mapctrl.c:1695
 msgid "Hide MiniMap"
 msgstr "Verstecke Übersichtskarte"
 
@@ -15368,7 +15368,7 @@ msgstr "Verstecke Übersichtskarte"
 msgid "Show Log (F10)"
 msgstr "Zeige Logausgabe (F10)"
 
-#: client/gui-sdl/mapctrl.c:492 client/gui-sdl/mapctrl.c:1648
+#: client/gui-sdl/mapctrl.c:492 client/gui-sdl/mapctrl.c:1647
 msgid "Hide Log (F10)"
 msgstr "Verstecke Logausgabe (F10)"
 
@@ -15412,7 +15412,7 @@ msgstr "Forschung (F6)"
 msgid "Revolution (Shift + R)"
 msgstr "Revolution (Shift + R)"
 
-#: client/gui-sdl/mapctrl.c:1587
+#: client/gui-sdl/mapctrl.c:1586
 msgid "End Turn (Enter)"
 msgstr "Fertig! (Eingabe)"
 
@@ -15434,11 +15434,11 @@ msgstr ""
 msgid "Units (F2)"
 msgstr "Einheiten (F2)"
 
-#: client/gui-sdl/mapctrl.c:1662
+#: client/gui-sdl/mapctrl.c:1660
 msgid "Toggle Minimap Mode (Shift + \\)"
 msgstr "Übersichtskarte umschalten (Shift + \\)"
 
-#: client/gui-sdl/mapctrl.c:1678 client/gui-sdl/optiondlg.c:2075
+#: client/gui-sdl/mapctrl.c:1674 client/gui-sdl/optiondlg.c:2075
 #: client/gui-sdl/optiondlg.c:2114 data/Freeciv.in:1217
 msgid "Options"
 msgstr "Optionen"
@@ -15866,7 +15866,7 @@ msgstr "%s Maximum : %d%%"
 msgid "FT"
 msgstr "ZT"
 
-#: client/gui-sdl/repodlgs.c:2518
+#: client/gui-sdl/repodlgs.c:2519
 msgid ""
 "Current output : 0\n"
 "Research speed : none\n"
@@ -15876,14 +15876,14 @@ msgstr ""
 "Forschungsgeschwindigkeit : keine\n"
 "Nächster Fortschritt : nie"
 
-#: client/gui-sdl/repodlgs.c:2528
+#: client/gui-sdl/repodlgs.c:2529
 #, c-format
 msgid "Next advance in %d turn"
 msgid_plural "Next advance in %d turns"
 msgstr[0] "Nächster Fortschritt in %d Runde"
 msgstr[1] "Nächster Fortschritt in %d Runden"
 
-#: client/gui-sdl/repodlgs.c:2532
+#: client/gui-sdl/repodlgs.c:2533
 #, c-format
 msgid ""
 "Current output : %d per turn\n"
@@ -15894,17 +15894,17 @@ msgstr ""
 "Forschungsgeschwindigkeit : %d %s pro Fortschritt\n"
 "%s"
 
-#: client/gui-sdl/repodlgs.c:2664 client/gui-sdl/repodlgs.c:3059
+#: client/gui-sdl/repodlgs.c:2665 client/gui-sdl/repodlgs.c:3060
 msgid "step"
 msgid_plural "steps"
 msgstr[0] "Schritt"
 msgstr[1] "Schritte"
 
-#: client/gui-sdl/repodlgs.c:2812
+#: client/gui-sdl/repodlgs.c:2813
 msgid "What should we focus on now?"
 msgstr "Worauf sollen wir uns nun konzentrieren?"
 
-#: client/gui-sdl/repodlgs.c:2996
+#: client/gui-sdl/repodlgs.c:2997
 msgid "Sellect target :"
 msgstr "Wähle Ziel :"
 
@@ -20412,15 +20412,7 @@ msgstr "Europa"
 msgid "?nationgroup:Oceanian"
 msgstr "Ozeanien"
 
-#. TRANS: A Transitional nation constitutes the intermediate form during
-#. TRANS: the transition from one kind of state to another.
-#. TRANS: An example is the Soviet Union, that was the transitional
-#. TRANS: nation of the Russian Empire and the Russian Federation.
-#: data/default/nations.ruleset:48
-msgid "?nationgroup:Transitional"
-msgstr "Übergangszeit"
-
-#: data/default/nations.ruleset:51
+#: data/default/nations.ruleset:44
 msgid "?nationgroup:Fictional"
 msgstr "Fantasy"
 
@@ -22577,12 +22569,6 @@ msgstr "uraustralisch"
 msgid "?plural:Aborigines"
 msgstr "Aborigines"
 
-#: data/nation/aborigines.ruleset:5 data/nation/australian.ruleset:5
-#: data/nation/maori.ruleset:5 data/nation/newzealand.ruleset:5
-#: data/nation/papuan.ruleset:5
-msgid "Oceanian"
-msgstr "Ozeanien"
-
 #: data/nation/aborigines.ruleset:6
 msgid ""
 "Australian Aborigines is a collective term for the original inhabitants of "
@@ -22602,68 +22588,6 @@ msgstr "afghanisch"
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
 msgstr "Afghanen"
-
-#: data/nation/afghani.ruleset:5 data/nation/algerian.ruleset:5
-#: data/nation/american.ruleset:5 data/nation/armenian.ruleset:5
-#: data/nation/argentine.ruleset:5 data/nation/australian.ruleset:5
-#: data/nation/austrian.ruleset:5 data/nation/belgian.ruleset:5
-#: data/nation/bengali.ruleset:5 data/nation/bosnia.ruleset:5
-#: data/nation/brazilian.ruleset:5 data/nation/british.ruleset:5
-#: data/nation/bulgarian.ruleset:5 data/nation/burmese.ruleset:5
-#: data/nation/canadian.ruleset:5 data/nation/chilean.ruleset:5
-#: data/nation/chinese.ruleset:5 data/nation/colombian.ruleset:5
-#: data/nation/croatian.ruleset:5 data/nation/cuban.ruleset:5
-#: data/nation/czech.ruleset:5 data/nation/danish.ruleset:5
-#: data/nation/dutch.ruleset:5 data/nation/estonian.ruleset:5
-#: data/nation/ethiopian.ruleset:5 data/nation/filipino.ruleset:5
-#: data/nation/finnish.ruleset:5 data/nation/french.ruleset:5
-#: data/nation/georgian.ruleset:5 data/nation/german.ruleset:5
-#: data/nation/hellenic.ruleset:5 data/nation/hungarian.ruleset:5
-#: data/nation/icelandic.ruleset:5 data/nation/indian.ruleset:5
-#: data/nation/indonesian.ruleset:5 data/nation/iraqi.ruleset:5
-#: data/nation/irish.ruleset:5 data/nation/israeli.ruleset:5
-#: data/nation/italian.ruleset:5 data/nation/japanese.ruleset:22
-#: data/nation/kampuchean.ruleset:5 data/nation/kenyan.ruleset:5
-#: data/nation/korean.ruleset:5 data/nation/lankese.ruleset:5
-#: data/nation/latvian.ruleset:5 data/nation/libyan.ruleset:5
-#: data/nation/lithuanian.ruleset:5 data/nation/malagasy.ruleset:5
-#: data/nation/malaysian.ruleset:5 data/nation/malian.ruleset:5
-#: data/nation/mexican.ruleset:5 data/nation/mongol.ruleset:5
-#: data/nation/newzealand.ruleset:5 data/nation/nigerian.ruleset:5
-#: data/nation/norwegian.ruleset:5 data/nation/papuan.ruleset:5
-#: data/nation/polish.ruleset:5 data/nation/portuguese.ruleset:5
-#: data/nation/romanian.ruleset:5 data/nation/russian.ruleset:5
-#: data/nation/serbian.ruleset:5 data/nation/singaporean.ruleset:17
-#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
-#: data/nation/southafrican.ruleset:5 data/nation/spanish.ruleset:5
-#: data/nation/sudanese.ruleset:5 data/nation/swazi.ruleset:5
-#: data/nation/swedish.ruleset:5 data/nation/swiss.ruleset:5
-#: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
-#: data/nation/tunisian.ruleset:5 data/nation/turk.ruleset:5
-#: data/nation/ukrainian.ruleset:5 data/nation/venezuelan.ruleset:5
-#: data/nation/vietnamese.ruleset:5
-msgid "Modern"
-msgstr "modern"
-
-#: data/nation/afghani.ruleset:5 data/nation/arab.ruleset:5
-#: data/nation/aramean.ruleset:5 data/nation/assyrian.ruleset:5
-#: data/nation/babylonian.ruleset:5 data/nation/bengali.ruleset:5
-#: data/nation/burmese.ruleset:5 data/nation/byzantium.ruleset:5
-#: data/nation/chinese.ruleset:5 data/nation/filipino.ruleset:5
-#: data/nation/hittite.ruleset:5 data/nation/indian.ruleset:5
-#: data/nation/indonesian.ruleset:5 data/nation/iraqi.ruleset:5
-#: data/nation/israeli.ruleset:5 data/nation/japanese.ruleset:22
-#: data/nation/kampuchean.ruleset:5 data/nation/korean.ruleset:5
-#: data/nation/lankese.ruleset:5 data/nation/malaysian.ruleset:5
-#: data/nation/manchu.ruleset:5 data/nation/mongol.ruleset:5
-#: data/nation/ottoman.ruleset:5 data/nation/persian.ruleset:5
-#: data/nation/phoenician.ruleset:5 data/nation/ryukyuan.ruleset:5
-#: data/nation/singaporean.ruleset:17 data/nation/sumerian.ruleset:5
-#: data/nation/taiwanese.ruleset:5 data/nation/thai.ruleset:5
-#: data/nation/tibetan.ruleset:5 data/nation/turk.ruleset:5
-#: data/nation/uyghur.ruleset:5 data/nation/vietnamese.ruleset:5
-msgid "Asian"
-msgstr "asiatisch"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -22717,17 +22641,6 @@ msgstr "algerisch"
 msgid "?plural:Algerians"
 msgstr "Algerier"
 
-#: data/nation/algerian.ruleset:5 data/nation/arab.ruleset:5
-#: data/nation/boer.ruleset:5 data/nation/carthaginian.ruleset:5
-#: data/nation/egyptian.ruleset:5 data/nation/ethiopian.ruleset:5
-#: data/nation/kenyan.ruleset:5 data/nation/libyan.ruleset:5
-#: data/nation/malagasy.ruleset:5 data/nation/malian.ruleset:5
-#: data/nation/nigerian.ruleset:5 data/nation/southafrican.ruleset:5
-#: data/nation/sudanese.ruleset:5 data/nation/swazi.ruleset:5
-#: data/nation/tunisian.ruleset:5 data/nation/zulu.ruleset:5
-msgid "African"
-msgstr "Afrika"
-
 #: data/nation/algerian.ruleset:6
 msgid ""
 "Algeria is an Arabic nation in North Africa. It is historically inhabited by "
@@ -22736,15 +22649,7 @@ msgstr ""
 "Algerien ist eine arabische Nation in Nordafrika. Es wird seit jeher von den "
 "Berbern bewohnt."
 
-#: data/nation/american.ruleset:3 data/nation/american.ruleset:5
-#: data/nation/argentine.ruleset:5 data/nation/aztec.ruleset:5
-#: data/nation/brazilian.ruleset:5 data/nation/canadian.ruleset:5
-#: data/nation/chilean.ruleset:5 data/nation/colombian.ruleset:5
-#: data/nation/cuban.ruleset:5 data/nation/inca.ruleset:5
-#: data/nation/inuit.ruleset:5 data/nation/iroquois.ruleset:5
-#: data/nation/mayan.ruleset:5 data/nation/mexican.ruleset:5
-#: data/nation/quebecois.ruleset:5 data/nation/sioux.ruleset:5
-#: data/nation/texan.ruleset:5 data/nation/venezuelan.ruleset:5
+#: data/nation/american.ruleset:3
 msgid "American"
 msgstr "amerikanisch"
 
@@ -22776,10 +22681,6 @@ msgstr "antarktisch"
 msgid "?plural:Antarcticans"
 msgstr "Antarktiker"
 
-#: data/nation/antarctican.ruleset:5 data/nation/martian.ruleset:5
-msgid "Fictional"
-msgstr "Literarisch"
-
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
 msgstr "Unabhängiger Südpol, Land der Pinguine."
@@ -22791,37 +22692,6 @@ msgstr "arabisch"
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
 msgstr "?plural:Araber"
-
-#: data/nation/arab.ruleset:5 data/nation/aztec.ruleset:5
-#: data/nation/bavarian.ruleset:5 data/nation/bengali.ruleset:5
-#: data/nation/bulgarian.ruleset:5 data/nation/burmese.ruleset:5
-#: data/nation/byzantium.ruleset:5 data/nation/catalan.ruleset:5
-#: data/nation/chinese.ruleset:5 data/nation/cornish.ruleset:5
-#: data/nation/czech.ruleset:5 data/nation/danish.ruleset:5
-#: data/nation/dutch.ruleset:5 data/nation/english.ruleset:5
-#: data/nation/french.ruleset:5 data/nation/galician.ruleset:5
-#: data/nation/georgian.ruleset:5 data/nation/german.ruleset:5
-#: data/nation/hungarian.ruleset:5 data/nation/inca.ruleset:5
-#: data/nation/indian.ruleset:5 data/nation/irish.ruleset:5
-#: data/nation/iroquois.ruleset:5 data/nation/italian.ruleset:5
-#: data/nation/japanese.ruleset:22 data/nation/kampuchean.ruleset:5
-#: data/nation/korean.ruleset:5 data/nation/lankese.ruleset:5
-#: data/nation/lithuanian.ruleset:5 data/nation/malagasy.ruleset:5
-#: data/nation/malian.ruleset:5 data/nation/manchu.ruleset:5
-#: data/nation/mayan.ruleset:5 data/nation/mongol.ruleset:5
-#: data/nation/ottoman.ruleset:5 data/nation/polish.ruleset:5
-#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
-#: data/nation/russian.ruleset:5 data/nation/ryukyuan.ruleset:5
-#: data/nation/scottish.ruleset:5 data/nation/serbian.ruleset:5
-#: data/nation/silesian.ruleset:5 data/nation/sioux.ruleset:5
-#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
-#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
-#: data/nation/swiss.ruleset:5 data/nation/thai.ruleset:5
-#: data/nation/tibetan.ruleset:5 data/nation/uyghur.ruleset:5
-#: data/nation/vietnamese.ruleset:5 data/nation/viking.ruleset:5
-#: data/nation/welsh.ruleset:5 data/nation/westphalian.ruleset:5
-msgid "Medieval"
-msgstr "mittelalterlich"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -22839,19 +22709,6 @@ msgstr "aramäisch"
 msgid "?plural:Arameans"
 msgstr "Aramäer"
 
-#: data/nation/aramean.ruleset:5 data/nation/armenian.ruleset:5
-#: data/nation/assyrian.ruleset:5 data/nation/babylonian.ruleset:5
-#: data/nation/carthaginian.ruleset:5 data/nation/chinese.ruleset:5
-#: data/nation/egyptian.ruleset:5 data/nation/ethiopian.ruleset:5
-#: data/nation/gallic.ruleset:5 data/nation/greek.ruleset:5
-#: data/nation/hittite.ruleset:5 data/nation/illyrian.ruleset:5
-#: data/nation/indian.ruleset:5 data/nation/israeli.ruleset:5
-#: data/nation/lankese.ruleset:5 data/nation/mayan.ruleset:5
-#: data/nation/persian.ruleset:5 data/nation/phoenician.ruleset:5
-#: data/nation/roman.ruleset:5 data/nation/sumerian.ruleset:5
-msgid "Ancient"
-msgstr "altertümlich"
-
 #: data/nation/aramean.ruleset:6
 msgid ""
 "According to legend, the Aramean people are the descendants of Aram, the "
@@ -22866,35 +22723,6 @@ msgstr "armenisch"
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
 msgstr "Armenier"
-
-#: data/nation/armenian.ruleset:5 data/nation/austrian.ruleset:5
-#: data/nation/bavarian.ruleset:5 data/nation/belgian.ruleset:5
-#: data/nation/bosnia.ruleset:5 data/nation/british.ruleset:5
-#: data/nation/bulgarian.ruleset:5 data/nation/byzantium.ruleset:5
-#: data/nation/catalan.ruleset:5 data/nation/cornish.ruleset:5
-#: data/nation/croatian.ruleset:5 data/nation/czech.ruleset:5
-#: data/nation/danish.ruleset:5 data/nation/dutch.ruleset:5
-#: data/nation/english.ruleset:5 data/nation/estonian.ruleset:5
-#: data/nation/finnish.ruleset:5 data/nation/french.ruleset:5
-#: data/nation/galician.ruleset:5 data/nation/gallic.ruleset:5
-#: data/nation/georgian.ruleset:5 data/nation/german.ruleset:5
-#: data/nation/greek.ruleset:5 data/nation/hellenic.ruleset:5
-#: data/nation/hungarian.ruleset:5 data/nation/icelandic.ruleset:5
-#: data/nation/illyrian.ruleset:5 data/nation/irish.ruleset:5
-#: data/nation/italian.ruleset:5 data/nation/latvian.ruleset:5
-#: data/nation/lithuanian.ruleset:5 data/nation/norwegian.ruleset:5
-#: data/nation/ottoman.ruleset:5 data/nation/polish.ruleset:5
-#: data/nation/portuguese.ruleset:5 data/nation/romanian.ruleset:5
-#: data/nation/roman.ruleset:5 data/nation/russian.ruleset:5
-#: data/nation/sami.ruleset:5 data/nation/scottish.ruleset:5
-#: data/nation/serbian.ruleset:5 data/nation/silesian.ruleset:5
-#: data/nation/slovenian.ruleset:5 data/nation/slovakian.ruleset:5
-#: data/nation/spanish.ruleset:5 data/nation/swedish.ruleset:5
-#: data/nation/swiss.ruleset:5 data/nation/ukrainian.ruleset:5
-#: data/nation/viking.ruleset:5 data/nation/welsh.ruleset:5
-#: data/nation/westphalian.ruleset:5
-msgid "European"
-msgstr "europäisch"
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -23502,10 +23330,6 @@ msgstr "konföderierte"
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
 msgstr "Konföderierten"
-
-#: data/nation/confederate.ruleset:5 data/nation/soviet.ruleset:5
-msgid "Transitional"
-msgstr "Übergangszeit"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -25885,6 +25709,36 @@ msgstr "Team 31"
 #: data/default/game.ruleset:160
 msgid "Team 32"
 msgstr "Team 32"
+
+#~ msgid "?nationgroup:Transitional"
+#~ msgstr "Übergangszeit"
+
+#~ msgid "Oceanian"
+#~ msgstr "Ozeanien"
+
+#~ msgid "Modern"
+#~ msgstr "modern"
+
+#~ msgid "Asian"
+#~ msgstr "asiatisch"
+
+#~ msgid "African"
+#~ msgstr "Afrika"
+
+#~ msgid "Fictional"
+#~ msgstr "Literarisch"
+
+#~ msgid "Medieval"
+#~ msgstr "mittelalterlich"
+
+#~ msgid "Ancient"
+#~ msgstr "altertümlich"
+
+#~ msgid "European"
+#~ msgstr "europäisch"
+
+#~ msgid "Transitional"
+#~ msgstr "Übergangszeit"
 
 #~ msgid "  -z, --zone\t\tEnable GGZ mode\n"
 #~ msgstr "  -z, --zone\t\tGGZ-Modus einschalten\n"
