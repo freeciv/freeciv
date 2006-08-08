@@ -76,12 +76,13 @@ void gui_layer_destroy(struct gui_layer **gui_layer)
 
 struct gui_layer *get_gui_layer(SDL_Surface *surface)
 {
-  int i;
+  int i = 0;
   
-  for(i = 0; i < Main.guis_count; i++) {
+  while ((i < Main.guis_count) && Main.guis[i]) {
     if(Main.guis[i]->surface == surface) {
       return Main.guis[i];
     }
+    i++;
   }
   
   return NULL;

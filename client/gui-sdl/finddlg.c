@@ -220,14 +220,14 @@ void popup_find_dialog(void)
 
   if(!mouse) {  
     pWindow->size.x = adj_size(10);
-    pWindow->size.y = (pWindow->dst->h - h) / 2;
+    pWindow->size.y = (Main.screen->h - h) / 2;
   } else {
-    pWindow->size.x = ((Main.event.motion.x + w < pWindow->dst->w) ?
-                     (Main.event.motion.x + adj_size(10)) : (pWindow->dst->w - w - adj_size(10)));
+    pWindow->size.x = ((Main.event.motion.x + w < Main.screen->w) ?
+                     (Main.event.motion.x + adj_size(10)) : (Main.screen->w - w - adj_size(10)));
     pWindow->size.y = 
-      ((Main.event.motion.y - (WINDOW_TILE_HIGH + adj_size(2)) + h < pWindow->dst->h) ?
+      ((Main.event.motion.y - (WINDOW_TILE_HIGH + adj_size(2)) + h < Main.screen->h) ?
              (Main.event.motion.y - (WINDOW_TILE_HIGH + adj_size(2))) :
-             (pWindow->dst->h - h - adj_size(10)));
+             (Main.screen->h - h - adj_size(10)));
     
   }
 

@@ -230,6 +230,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
     /* HIDE */
     SDL_Surface *pBuf_Surf;
     SDL_Rect src, window_area;
+    SDL_Rect dest;
 
     set_wstate(pIcon_Widget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
@@ -243,14 +244,14 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
     }
     
     /* clear area under old unit info window */
-    window_area = pUnits_Info_Window->size;
-    fix_rect(pUnits_Info_Window->dst, &window_area);
-    clear_surface(pUnits_Info_Window->dst, &window_area);
-    
+    dest = pUnits_Info_Window->size;
+    fix_rect(pUnits_Info_Window->dst, &dest);
+    clear_surface(pUnits_Info_Window->dst, &dest);
+    sdl_dirty_rect(pUnits_Info_Window->size);
+
     /* new button direction */
     alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
 
-    sdl_dirty_rect(pUnits_Info_Window->size);
     copy_chars_to_string16(pIcon_Widget->string16, _("Show Unit Info Window"));
         
     SDL_Client_Flags &= ~CF_UNIT_INFO_SHOW;
@@ -262,14 +263,16 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
     src.y = 0;
     src.w = HIDDEN_UNITS_W;
     src.h = pUnits_Info_Window->theme->h;
-      
-    alphablit(pUnits_Info_Window->theme, &src , pUnits_Info_Window->dst, &window_area);
+
+    window_area = pUnits_Info_Window->size;    
+    fix_rect(pUnits_Info_Window->dst, &window_area);
+    alphablit(pUnits_Info_Window->theme, &src, pUnits_Info_Window->dst, &window_area);
 
     /* blit right vertical frame */
-    pBuf_Surf = ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w,
-		pUnits_Info_Window->size.h - DOUBLE_FRAME_WH + adj_size(2), 1);
+    pBuf_Surf = ResizeSurface(pTheme->FR_Vert, /*pTheme->FR_Vert->w*/FRAME_WH,
+                              pUnits_Info_Window->size.h - DOUBLE_FRAME_WH, 1);
 
-    window_area.y += adj_size(2);
+    window_area.y += FRAME_WH;
     window_area.x = Main.gui->w - FRAME_WH;
     fix_rect(pUnits_Info_Window->dst, &window_area);
     alphablit(pBuf_Surf, NULL , pUnits_Info_Window->dst, &window_area);
@@ -297,7 +300,6 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
     real_redraw_icon(pBuf);
     
     popdown_scale_unitinfo_dlg_callback(NULL);
-    
   } else {
     if (Main.gui->w - pUnits_Info_Window->size.w >=
 		pMiniMap_Window->size.x + pMiniMap_Window->size.w) {
@@ -359,7 +361,6 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
     set_wstate(pMap_Button, FC_WS_NORMAL);
     pSellected_Widget = NULL;
     
-    sdl_dirty_rect(pMap->size);
     copy_chars_to_string16(pMap_Button->string16, _("Show MiniMap"));
         
     /* make new map icon */
@@ -370,7 +371,8 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
     /* clear area under old map window */
     fix_rect(pMap->dst, &map_area);
     clear_surface(pMap->dst, &map_area);
-        
+    sdl_dirty_rect(pMap->size);
+
     pMap->size.w = HIDDEN_MINI_MAP_W;
 
     set_new_mini_map_window_pos();
@@ -384,13 +386,13 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
     alphablit(pMap->theme, &src , pMap->dst, &map_area);
   
     /* blit left vertical frame theme */
-    pBuf_Surf = ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w,
+    pBuf_Surf = ResizeSurface(pTheme->FR_Vert, /*pTheme->FR_Vert->w*/FRAME_WH,
 				pMap->size.h - DOUBLE_FRAME_WH + adj_size(2), 1);
 
     map_area.y += adj_size(2);
     alphablit(pBuf_Surf, NULL , pMap->dst, &map_area);
     FREESURFACE(pBuf_Surf);
-  
+    
     /* redraw widgets */  
     /* ID_NEW_TURN */
     pMap = pMap->prev;
@@ -437,7 +439,6 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 #ifdef SCALE_MINIMAP
     popdown_scale_minmap_dlg_callback(NULL);
 #endif
-
   } else {
     if (MINI_MAP_W <= pUnits_Info_Window->size.x) {
       
@@ -711,7 +712,7 @@ static void popup_minimap_scale_dialog(void)
   
   h += adj_size(20); 
   
-  if (Main.event.motion.x + w > pWindow->dst->w)
+  if (Main.event.motion.x + w > Main.screen->w)
   {
     if (Main.event.motion.x - w >= 0)
     {
@@ -719,7 +720,7 @@ static void popup_minimap_scale_dialog(void)
     }
     else
     {
-      pWindow->size.x = (pWindow->dst->w - w) / 2;
+      pWindow->size.x = (Main.screen->w - w) / 2;
     }
   }
   else
@@ -727,7 +728,7 @@ static void popup_minimap_scale_dialog(void)
     pWindow->size.x = Main.event.motion.x;
   }
     
-  if (Main.event.motion.y + h >= pWindow->dst->h)
+  if (Main.event.motion.y + h >= Main.screen->h)
   {
     if (Main.event.motion.y - h >= 0)
     {
@@ -735,7 +736,7 @@ static void popup_minimap_scale_dialog(void)
     }
     else
     {
-      pWindow->size.y = (pWindow->dst->h - h) / 2;
+      pWindow->size.y = (Main.screen->h - h) / 2;
     }
   }
   else
@@ -959,7 +960,7 @@ static void popup_unitinfo_scale_dialog(void)
   w = MAX(w, pBuf->size.w + adj_size(20));
   /* ------------ */
   
-  if (Main.event.motion.x + w > pWindow->dst->w)
+  if (Main.event.motion.x + w > Main.screen->w)
   {
     if (Main.event.motion.x - w >= 0)
     {
@@ -967,7 +968,7 @@ static void popup_unitinfo_scale_dialog(void)
     }
     else
     {
-      pWindow->size.x = (pWindow->dst->w - w) / 2;
+      pWindow->size.x = (Main.screen->w - w) / 2;
     }
   }
   else
@@ -975,7 +976,7 @@ static void popup_unitinfo_scale_dialog(void)
     pWindow->size.x = Main.event.motion.x;
   }
     
-  if (Main.event.motion.y + h >= pWindow->dst->h)
+  if (Main.event.motion.y + h >= Main.screen->h)
   {
     if (Main.event.motion.y - h >= 0)
     {
@@ -1118,7 +1119,7 @@ void set_new_units_window_pos(void)
   if (SDL_Client_Flags & CF_UNIT_INFO_SHOW) {
     pUnit_Window->size.x = Main.screen->w - pUnit_Window->size.w;
   } else {
-    pUnit_Window->size.x = Main.screen->w - BLOCKU_W - DOUBLE_FRAME_WH;
+    pUnit_Window->size.x = Main.screen->w - HIDDEN_UNITS_W;
   }
 
   pUnit_Window->size.y = Main.screen->h - pUnit_Window->size.h;
@@ -1127,7 +1128,7 @@ void set_new_units_window_pos(void)
   /* ID_ECONOMY */
   pWidget = pTax_Button;
   pWidget->size.x = pUnit_Window->size.x + FRAME_WH
-                                             + (BLOCKU_W - pWidget->size.w)/2;                                 
+                                         + (BLOCKU_W - pWidget->size.w)/2;                                 
 
   pWidget->size.y = Main.screen->h - UNITS_H + FRAME_WH + adj_size(2);
   pWidget->dst = Main.gui;
@@ -1135,16 +1136,16 @@ void set_new_units_window_pos(void)
   /* ID_RESEARCH */
   pWidget = pWidget->prev;
   pWidget->size.x = pUnit_Window->size.x + FRAME_WH
-                                             + (BLOCKU_W - pWidget->size.w)/2;    
+                                         + (BLOCKU_W - pWidget->size.w)/2;    
   pWidget->size.y = Main.screen->h - UNITS_H + FRAME_WH + pWidget->size.h + adj_size(2);
   pWidget->dst = Main.gui;
   
   /* ID_REVOLUTION */
   pWidget = pWidget->prev;
   pWidget->size.x = pUnit_Window->size.x + FRAME_WH
-                                             + (BLOCKU_W - pWidget->size.w)/2;    
+                                         + (BLOCKU_W - pWidget->size.w)/2;    
   pWidget->size.y = Main.screen->h - UNITS_H + FRAME_WH +
-      						(pWidget->size.h << 1) + adj_size(2);
+      						(pWidget->size.h * 2) + adj_size(2);
   pWidget->dst = Main.gui;
   
   /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
@@ -1165,9 +1166,9 @@ void set_new_mini_map_window_pos(void)
   struct widget *pMM_Window = pMiniMap_Window;
     
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
-    new_x = pMM_Window->size.w - BLOCKM_W + adj_size(1);
+    new_x = pMM_Window->size.w - FRAME_WH - BLOCKM_W + adj_size(2);
   } else {
-    new_x = FRAME_WH;
+    new_x = FRAME_WH + adj_size(2);
   }
 
   pMM_Window->size.y = Main.screen->h - pMM_Window->size.h;
@@ -1558,7 +1559,7 @@ void Init_MapView(void)
   /* pMiniMap_Window */
   pWindow = create_window(Main.gui, NULL, MINI_MAP_W, MINI_MAP_H, 0);
   pWindow->size.x = 0;
-  pWindow->size.y = pWindow->dst->h - MINI_MAP_H;
+  pWindow->size.y = Main.screen->h - MINI_MAP_H;
   
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
@@ -1584,7 +1585,7 @@ void Init_MapView(void)
 
   pWidget->string16 = create_str16_from_char(_("End Turn (Enter)"), adj_font(12));
 
-  pWidget->size.x = MINI_MAP_W - BLOCKM_W + pWidget->size.w;
+  pWidget->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2) + pWidget->size.w;
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H + FRAME_WH + 2;
   
   pWidget->action = end_turn_callback;
@@ -1600,7 +1601,7 @@ void Init_MapView(void)
   pWidget = create_themeicon(pTheme->PLAYERS_Icon, pMiniMap_Window->dst,
 						  WF_WIDGET_HAS_INFO_LABEL);
   pWidget->string16 = create_str16_from_char(_("Players (F3)"), adj_font(12));
-  pWidget->size.x = MINI_MAP_W - BLOCKM_W + pWidget->size.w;
+  pWidget->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2) + pWidget->size.w;
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H + FRAME_WH + pWidget->size.h + 2;
 
   pWidget->action = players_action_callback;
@@ -1615,7 +1616,7 @@ void Init_MapView(void)
   pWidget->string16 = create_str16_from_char(
   		_("Cities Report (F1)\nor\nFind City (Shift + F)"), adj_font(12));
   pWidget->string16->style |= SF_CENTER;
-  pWidget->size.x = MINI_MAP_W - BLOCKM_W + pWidget->size.w;
+  pWidget->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2) + pWidget->size.w;
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H + FRAME_WH + pWidget->size.h * 2 + 2;
 
   pWidget->action = cities_action_callback;
@@ -1631,7 +1632,7 @@ void Init_MapView(void)
   pWidget = create_themeicon(pTheme->UNITS2_Icon, pMiniMap_Window->dst,
 						  WF_WIDGET_HAS_INFO_LABEL);
   pWidget->string16 = create_str16_from_char(_("Units (F2)"), adj_font(12));
-  pWidget->size.x = MINI_MAP_W - BLOCKM_W;
+  pWidget->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2);
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H + FRAME_WH + 2;
   
   pWidget->action = units_action_callback;
@@ -1644,7 +1645,7 @@ void Init_MapView(void)
   pWidget = create_themeicon(pTheme->LOG_Icon, pMiniMap_Window->dst,
 						  WF_WIDGET_HAS_INFO_LABEL);
   pWidget->string16 = create_str16_from_char(_("Hide Log (F10)"), adj_font(12));
-  pWidget->size.x = MINI_MAP_W - BLOCKM_W;
+  pWidget->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2);
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H + FRAME_WH + pWidget->size.h + 2;
   pWidget->action = togle_msg_window;
   pWidget->key = SDLK_F10;
@@ -1657,7 +1658,7 @@ void Init_MapView(void)
 						  WF_WIDGET_HAS_INFO_LABEL);
   pWidget->string16 = create_str16_from_char(
                          _("Toggle Minimap Mode (Shift + \\)"), adj_font(12));
-  pWidget->size.x = MINI_MAP_W - BLOCKM_W;
+  pWidget->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2);
   pWidget->size.y = pWidget->dst->h - MINI_MAP_H + FRAME_WH + pWidget->size.h * 2 + 2;
   pWidget->action = togle_minimap_mode;
   pWidget->key = SDLK_BACKSLASH;
@@ -1671,7 +1672,7 @@ void Init_MapView(void)
   pOptions_Button = create_themeicon(pTheme->Options_Icon, pMiniMap_Window->dst,
 				       (WF_WIDGET_HAS_INFO_LABEL));
   pOptions_Button->string16 = create_str16_from_char(_("Options"), adj_font(12));
-  pOptions_Button->size.x = MINI_MAP_W - BLOCKM_W;
+  pOptions_Button->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2);
   pOptions_Button->size.y = pWidget->dst->h - FRAME_WH - pWidget->size.h - 2;
   pOptions_Button->action = optiondlg_callback;  
   pOptions_Button->key = SDLK_TAB;
@@ -1692,7 +1693,7 @@ void Init_MapView(void)
 		          WF_WIDGET_HAS_INFO_LABEL);
 
   pWidget->string16 = create_str16_from_char(_("Hide MiniMap"), adj_font(12));
-  pWidget->size.x = MINI_MAP_W - BLOCKM_W + pWidget->size.w;
+  pWidget->size.x = MINI_MAP_W - FRAME_WH - BLOCKM_W + adj_size(2) + pWidget->size.w;
   pWidget->size.y = pWidget->dst->h - FRAME_WH - pWidget->size.h - 2;
 
   pWidget->action = toggle_map_window_callback;

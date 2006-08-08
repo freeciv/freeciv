@@ -1049,7 +1049,7 @@ void refresh_overview(void)
   pMMap = get_minimap_window_widget();
     
   map_area.x = 0;
-  map_area.y = pMMap->dst->h - pMMap->theme->h;
+  map_area.y = Main.screen->h - pMMap->theme->h;
     
   if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
     dst = (SDL_Rect){OVERVIEW_START_X, OVERVIEW_START_Y, 0, 0};

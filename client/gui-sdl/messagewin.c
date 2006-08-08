@@ -240,7 +240,7 @@ void popup_meswin_dialog(bool raise)
   FREESTRING16(pStr);
   
   putframe(pWindow->theme, 0, 0, w - 1, h - 1,
-                               map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_MESWIN_FRAME)));
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_MESWIN_FRAME)));
   
   clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = move_msg_window_callback;

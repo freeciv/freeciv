@@ -3386,7 +3386,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
 
   /* blit theme */
   Dest = Dest_Copy;
-  fix_rect(pEdt->pBg, &Dest);
+  fix_rect(pEdt->pWidget->dst, &Dest);
   alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst, &Dest);
 
   /* set start parametrs */
@@ -3407,18 +3407,18 @@ static void redraw_edit_chain(struct EDIT *pEdt)
     if (Dest_Copy.x > pEdt->pWidget->size.x) {
       Dest = Dest_Copy;
       fix_rect(pEdt->pWidget->dst, &Dest);
-      alphablit(pInputChain_TMP->pTsurf, NULL,
-			  			pEdt->pWidget->dst, &Dest);
+      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst, &Dest);
     }
 
     iStart_Mod_X = pInputChain_TMP->pTsurf->w;
 
     /* draw cursor */
     if (pInputChain_TMP == pEdt->pInputChain) {
-      fix_rect(pEdt->pWidget->dst, &Dest_Copy);
-      putline(pEdt->pWidget->dst, Dest_Copy.x - 1,
-		  Dest_Copy.y + (pEdt->pBg->h / 8), Dest_Copy.x - 1,
-		  Dest_Copy.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
+      Dest = Dest_Copy;
+      fix_rect(pEdt->pWidget->dst, &Dest);
+      putline(pEdt->pWidget->dst, Dest.x - 1,
+		  Dest.y + (pEdt->pBg->h / 8), Dest.x - 1,
+		  Dest.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
 		  map_rgba(pEdt->pWidget->dst->format,
                   *get_game_colorRGB(COLOR_THEME_EDITFIELD_CARET)));
       /* save active element position */

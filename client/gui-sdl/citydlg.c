@@ -1210,7 +1210,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
     if(is_city_report_open()) {
       assert(pSellected_Widget != NULL);
       if (pSellected_Widget->size.x + tileset_tile_width(tileset) +
-	 		ww + DOUBLE_FRAME_WH > pWindow->dst->w)
+	 		ww + DOUBLE_FRAME_WH > Main.screen->w)
       {
         pWindow->size.x = pSellected_Widget->size.x - ww - DOUBLE_FRAME_WH;
       } else {
@@ -1221,7 +1221,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
       		(pSellected_Widget->size.h - (hh + FRAME_WH + 5)) / 2;
       if (pWindow->size.y + (hh + FRAME_WH + 5) > pWindow->dst->h)
       {
-	pWindow->size.y = pWindow->dst->h - (hh + FRAME_WH + 5) - 1;
+	pWindow->size.y = Main.screen->h - (hh + FRAME_WH + 5) - 1;
       } else {
         if (pWindow->size.y < 0) {
 	  pWindow->size.y = 0;
@@ -1411,8 +1411,8 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
   pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TILE_HIGH + 25;
 
   /* set start positions */
-  pWindow->size.x = (pWindow->dst->w - pWindow->size.w) / 2;
-  pWindow->size.y = (pWindow->dst->h - pWindow->size.h) / 2 + 10;
+  pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
+  pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2 + 10;
 
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 

@@ -102,10 +102,10 @@ void put_window_near_map_tile(struct widget *pWindow,
   int canvas_x, canvas_y;
   
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    if (canvas_x + tileset_tile_width(tileset) + window_width >= pWindow->dst->w)
+    if (canvas_x + tileset_tile_width(tileset) + window_width >= Main.screen->w)
     {
       if (canvas_x - window_width < 0) {
-	pWindow->size.x = (pWindow->dst->w - window_width) / 2;
+	pWindow->size.x = (Main.screen->w - window_width) / 2;
       } else {
 	pWindow->size.x = canvas_x - window_width;
       }
@@ -114,9 +114,9 @@ void put_window_near_map_tile(struct widget *pWindow,
     }
     
     canvas_y += (tileset_tile_height(tileset) - window_height) / 2;
-    if (canvas_y + window_height >= pWindow->dst->h)
+    if (canvas_y + window_height >= Main.screen->h)
     {
-      pWindow->size.y = pWindow->dst->h - window_height - 1;
+      pWindow->size.y = Main.screen->h - window_height - 1;
     } else {
       if (canvas_y < 0)
       {
@@ -126,8 +126,8 @@ void put_window_near_map_tile(struct widget *pWindow,
       }
     }
   } else {
-    pWindow->size.x = (pWindow->dst->w - window_width) / 2;
-    pWindow->size.y = (pWindow->dst->h - window_height) / 2;
+    pWindow->size.x = (Main.screen->w - window_width) / 2;
+    pWindow->size.y = (Main.screen->h - window_height) / 2;
   }
   
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y); 
@@ -2420,8 +2420,8 @@ static int nation_button_callback(struct widget *pNationButton)
     h = WINDOW_TILE_HIGH + adj_size(10) + pText2->h + adj_size(10) + pText->h
                     + adj_size(10) + pCancel->size.h + adj_size(10) + FRAME_WH;
   
-    pWindow->size.x = (pWindow->dst->w - w) / 2;
-    pWindow->size.y = (pWindow->dst->h - h) / 2;
+    pWindow->size.x = (Main.screen->w - w) / 2;
+    pWindow->size.y = (Main.screen->h - h) / 2;
     set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
     
     resize_window(pWindow, NULL,

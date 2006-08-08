@@ -26,7 +26,7 @@
 
 #include "connectdlg_g.h"
 
-void popup_connection_dialog(struct widget *pWidget);
+void popup_connection_dialog(bool lan_scan);
 void popup_join_game_dialog(void);
 
 #endif				/* FC__CONNECTDLG_H */
