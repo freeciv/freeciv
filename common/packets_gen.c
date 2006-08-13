@@ -26041,7 +26041,7 @@ void lsend_packet_ruleset_terrain(struct conn_list *dest, const struct packet_ru
 
 #define cmp_packet_ruleset_unit_class_100 cmp_const
 
-BV_DEFINE(packet_ruleset_unit_class_100_fields, 5);
+BV_DEFINE(packet_ruleset_unit_class_100_fields, 6);
 
 static struct packet_ruleset_unit_class *receive_packet_ruleset_unit_class_100(struct connection *pc, enum packet_type type)
 {
@@ -26089,10 +26089,18 @@ static struct packet_ruleset_unit_class *receive_packet_ruleset_unit_class_100(s
       int readin;
     
       dio_get_uint8(&din, &readin);
-      real_packet->hp_loss_pct = readin;
+      real_packet->min_speed = readin;
     }
   }
   if (BV_ISSET(fields, 4)) {
+    {
+      int readin;
+    
+      dio_get_uint8(&din, &readin);
+      real_packet->hp_loss_pct = readin;
+    }
+  }
+  if (BV_ISSET(fields, 5)) {
     DIO_BV_GET(&din, real_packet->flags);
   }
 
@@ -26141,13 +26149,17 @@ static int send_packet_ruleset_unit_class_100(struct connection *pc, const struc
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 2);}
 
-  differ = (old->hp_loss_pct != real_packet->hp_loss_pct);
+  differ = (old->min_speed != real_packet->min_speed);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 3);}
 
-  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  differ = (old->hp_loss_pct != real_packet->hp_loss_pct);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 4);}
+
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 5);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -26165,9 +26177,12 @@ static int send_packet_ruleset_unit_class_100(struct connection *pc, const struc
     dio_put_uint8(&dout, real_packet->move_type);
   }
   if (BV_ISSET(fields, 3)) {
-    dio_put_uint8(&dout, real_packet->hp_loss_pct);
+    dio_put_uint8(&dout, real_packet->min_speed);
   }
   if (BV_ISSET(fields, 4)) {
+    dio_put_uint8(&dout, real_packet->hp_loss_pct);
+  }
+  if (BV_ISSET(fields, 5)) {
   DIO_BV_PUT(&dout, packet->flags);
   }
 

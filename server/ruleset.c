@@ -1058,6 +1058,8 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
     mystrlcat(tmp, csec[i], 200);
     mystrlcat(tmp, ".move_type", 200);
     ut->move_type = lookup_move_type(file, tmp, filename);
+    ut->min_speed = SINGLE_MOVE * secfile_lookup_int(file, "%s.min_speed", csec[i]);
+    ut->hp_loss_pct = secfile_lookup_int(file,"%s.hp_loss_pct", csec[i]);
 
     BV_CLR_ALL(ut->flags);
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", csec[i]);
@@ -1082,8 +1084,6 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
       }
     }
     free(slist);
-
-    ut->hp_loss_pct = secfile_lookup_int(file,"%s.hp_loss_pct", csec[i]);
 
   } unit_class_iterate_end;
 
@@ -2717,6 +2717,7 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     packet.id = c->id;
     sz_strlcpy(packet.name, c->name);
     packet.move_type = c->move_type;
+    packet.min_speed = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
     packet.flags = c->flags;
 

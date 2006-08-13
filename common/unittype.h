@@ -43,6 +43,7 @@ struct unit_class {
   const char *name;        /* Translated name */
   char name_orig[MAX_LEN_NAME];
   enum unit_move_type move_type;
+  int min_speed;           /* Minimum speed after damage and effects */
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
   bv_unit_class_flags flags;
 };

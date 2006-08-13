@@ -58,18 +58,10 @@ int unit_move_rate(const struct unit *punit)
    * Nuclear Power). */
   move_rate += (get_unit_bonus(punit, EFT_MOVE_BONUS) * SINGLE_MOVE);
 
-  /* TODO: These effects should not be hardcoded to unit class enumeration */
-  if (pclass->move_type == SEA_MOVING) {
-    /* Don't let the move_rate be less than 2 unless the base_move_rate is
-     * also less than 2. */
-    if (move_rate < 2 * SINGLE_MOVE) {
-      move_rate = MIN(2 * SINGLE_MOVE, base_move_rate);
-    }
-  }
-
-  /* Don't let any unit get less than 1 MP. */
-  if (move_rate < SINGLE_MOVE && base_move_rate > 0) {
-    move_rate = SINGLE_MOVE;
+  /* Don't let the move_rate be less than min_speed unless the base_move_rate is
+   * also less than min_speed. */
+  if (move_rate < pclass->min_speed) {
+    move_rate = MIN(pclass->min_speed, base_move_rate);
   }
 
   return move_rate;

@@ -53,6 +53,7 @@ veteran_move_bonus = 0, 0
 ; name          = Name as used in other 
 ; move_type     = Where unit moves; Land, Sea, Both or Air. Air is special value for
 ;                 units which can only be attacked by units with "Fighter" flag
+; min_speed     = Minimum speed after damage and effects
 ; hp_loss_pct   = Hitpoints lost each turn if unit not in city or airbase
 ; flags         = List of unit class flags
 ;
@@ -68,30 +69,35 @@ veteran_move_bonus = 0, 0
 [unitclass_missile]
 name          = _("Missile")
 move_type     = "Air"
+min_speed     = 1
 hp_loss_pct   = 0
 flags         = "Missile"
 
 [unitclass_land]
 name          = _("Land")
 move_type     = "Land"
+min_speed     = 1
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupy", "BuildAnywhere"
 
 [unitclass_sea]
 name          = _("Sea")
 move_type     = "Sea"
+min_speed     = 2
 hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows"
 
 [unitclass_heli]
 name          = _("Helicopter")
 move_type     = "Both"
+min_speed     = 1
 hp_loss_pct   = 10
 flags         = "CanOccupy"
 
 [unitclass_air]
 name          = _("Air")
 move_type     = "Air"
+min_speed     = 1
 hp_loss_pct   = 0
 flags         = ""
 

@@ -956,6 +956,7 @@ struct packet_ruleset_unit_class {
   int id;
   char name[MAX_LEN_NAME];
   int move_type;
+  int min_speed;
   int hp_loss_pct;
   bv_unit_class_flags flags;
 };

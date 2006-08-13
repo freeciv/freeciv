@@ -2136,6 +2136,7 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
   sz_strlcpy(c->name_orig, p->name);
   c->name        = Q_(c->name_orig); /* See translate_data_names */
   c->move_type   = p->move_type;
+  c->min_speed   = p->min_speed;
   c->hp_loss_pct = p->hp_loss_pct;
   c->flags       = p->flags;
 }
