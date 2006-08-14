@@ -86,6 +86,17 @@ const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
 Uint32 SDL_Client_Flags = 0;
+bool fullscreen = FALSE;
+
+/* default screen resolution */
+#ifdef SMALL_SCREEN
+int screen_width = 320;
+int screen_height = 240;
+#else
+int screen_width = 640;
+int screen_height = 480;
+#endif
+
 Uint32 widget_info_counter = 0;
 int MOVE_STEP_X = DEFAULT_MOVE_STEP;
 int MOVE_STEP_Y = DEFAULT_MOVE_STEP;
@@ -131,8 +142,20 @@ enum USER_EVENT_ID {
 };
 
 client_option gui_options[] = {
-  /* None. */
+  GEN_BOOL_OPTION(fullscreen, N_("Full Screen"), 
+                  N_("If this option is set the client will use the "
+                     "whole screen area for drawing"),
+                  COC_INTERFACE),
+  GEN_INT_OPTION(screen_width, N_("Screen width"),
+                 N_("This option saves the width of the selected screen "
+                    "resolution"),
+                 COC_INTERFACE),
+  GEN_INT_OPTION(screen_height, N_("Screen height"),
+                 N_("This option saves the height of the selected screen "
+                    "resolution"),
+                 COC_INTERFACE)
 };
+
 const int num_gui_options = ARRAY_SIZE(gui_options);
 
 struct callback {
@@ -187,7 +210,7 @@ static void parse_options(int argc, char **argv)
       exit(EXIT_SUCCESS);
     } else {
       if (is_option("--fullscreen",argv[i])) {
-	SDL_Client_Flags |= CF_TOGGLED_FULLSCREEN;
+	fullscreen = TRUE;
       } else {
 	if (is_option("--eventthread",argv[i])) {
 	  /* init events in other thread ( only linux and BeOS ) */  
@@ -801,7 +824,6 @@ void ui_init(void)
       blit_entire_src(pBgd, Main.map, (Main.map->w - pBgd->w) / 2,
     				      (Main.map->h - pBgd->h) / 2);
       FREESURFACE(pBgd);
-      SDL_Client_Flags |= CF_TOGGLED_FULLSCREEN;
     } else {
       SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
       SDL_WM_SetCaption("SDLClient of Freeciv", "FreeCiv");
@@ -902,7 +924,7 @@ void ui_main(int argc, char *argv[])
                        CF_DRAW_PLAYERS_CEASEFIRE_STATUS|
                        CF_DRAW_PLAYERS_PEACE_STATUS|
                        CF_DRAW_PLAYERS_ALLIANCE_STATUS);
-  
+                       
   tileset_load_tiles(tileset);
   tileset_use_prefered_theme(tileset);
       
@@ -919,30 +941,35 @@ void ui_main(int argc, char *argv[])
 
   setup_auxiliary_tech_icons();
   
-  if((SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) == CF_TOGGLED_FULLSCREEN) {
+  if (fullscreen) {
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE
         /* set 320x240 fullscreen */
-        set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
+        set_video_mode(screen_width, screen_height,
+                       SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
       #else
         /* small screen on desktop -> don't set 320x240 fullscreen mode */
-        set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+        set_video_mode(screen_width, screen_height,
+                       SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
       #endif
     #else
-    set_video_mode(800, 600, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
-    SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
+      set_video_mode(screen_width, screen_height,
+                     SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     #endif
     
   } else {
     
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE    
-      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
+      set_video_mode(screen_width, screen_height,
+                     SDL_SWSURFACE | SDL_ANYFORMAT);
       #else
-      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+      set_video_mode(screen_width, screen_height,
+                     SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
       #endif
     #else
-    set_video_mode(640, 480, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
+    set_video_mode(screen_width, screen_height,
+      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
     #endif
     
 #if 0    
@@ -1004,7 +1031,7 @@ void ui_exit()
   
   free_font_system();
   theme_free(theme);
-  
+
   quit_sdl();
 }
 

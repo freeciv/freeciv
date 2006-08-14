@@ -41,7 +41,6 @@
 #define CF_OPTION_MAIN			(1<<5)
 #define CF_GANE_JUST_STARTED		(1<<6)
 
-#define CF_TOGGLED_FULLSCREEN		(1<<8)
 #define CF_FOCUS_ANIMATION		(1<<9)
 #define CF_CHANGED_PROD			(1<<10)
 #define CF_CHANGED_CITY_NAME		(1<<11)
@@ -76,6 +75,8 @@ struct mouse_button_behavior {
 
 extern struct widget *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
+extern bool fullscreen;
+extern int screen_width, screen_height;
 extern bool LSHIFT;
 extern bool RSHIFT;
 extern bool LCTRL;

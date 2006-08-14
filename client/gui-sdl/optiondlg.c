@@ -416,9 +416,7 @@ static int change_mode_callback(struct widget *pWidget)
 
   set_wstate(pWidget, FC_WS_DISABLED);
 
-
-  if (SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) {
-    SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
+  if (fullscreen != (Main.screen->flags & SDL_FULLSCREEN)) {
     tmp_flags ^= SDL_FULLSCREEN;
     tmp_flags ^= SDL_RESIZABLE;
   }
@@ -504,11 +502,11 @@ static int change_mode_callback(struct widget *pWidget)
    keyboard and go back to full screen if you've finished typing
 */
 
-static int togle_fullscreen_callback(struct widget *pWidget)
+static int toggle_fullscreen_callback(struct widget *pWidget)
 { 
-  SDL_Client_Flags ^= CF_TOGGLED_FULLSCREEN;
+  fullscreen = !fullscreen;
   
-  if (SDL_Client_Flags & CF_TOGGLED_FULLSCREEN) {
+  if (fullscreen) {
     set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
   } else {
     set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
@@ -519,7 +517,7 @@ static int togle_fullscreen_callback(struct widget *pWidget)
   return -1;
 }
 #else
-static int togle_fullscreen_callback(struct widget *pWidget)
+static int toggle_fullscreen_callback(struct widget *pWidget)
 {
   int i = 0;
   struct widget *pTmp = NULL;
@@ -531,7 +529,7 @@ static int togle_fullscreen_callback(struct widget *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
 
-  SDL_Client_Flags ^= CF_TOGGLED_FULLSCREEN;
+  fullscreen = !fullscreen;
 
   while (pModes_Rect[i] && pModes_Rect[i]->w != Main.screen->w) {
     i++;
@@ -660,7 +658,7 @@ static int video_callback(struct widget *pWidget)
   		((Main.screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN),
 						WF_DRAW_THEME_TRANSPARENT);
   
-  pTmpGui->action = togle_fullscreen_callback;
+  pTmpGui->action = toggle_fullscreen_callback;
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = xxx + adj_size(5);
@@ -2015,10 +2013,6 @@ static int back_callback(struct widget *pWidget)
 
   SDL_Client_Flags |= CF_OPTION_MAIN;
   
-  #if !(defined UNDER_CE && defined SMALL_SCREEN)
-  SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
-  #endif
-
   redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
 			  pOption_Dlg->pEndOptionsWidgetList, 0);
 
@@ -2070,6 +2064,7 @@ void init_options_button(void)
 
 static int exit_callback(struct widget *pWidget)
 {
+  popdown_optiondlg();
   force_exit_from_event_loop();
   return 0;
 }
@@ -2253,10 +2248,8 @@ void popup_optiondlg(void)
 
   SDL_Client_Flags |= (CF_OPTION_MAIN | CF_OPTION_OPEN);
   
-  #if !(defined UNDER_CE && defined SMALL_SCREEN)
-  SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
-  #endif
-
+  fullscreen = Main.screen->flags & SDL_FULLSCREEN;
+  
   disable_main_widgets();
   
   flush_dirty();
@@ -2273,9 +2266,7 @@ void popdown_optiondlg(void)
 				
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN);
 			  
-    #if !(defined UNDER_CE && defined SMALL_SCREEN)			  
-    SDL_Client_Flags &= ~CF_TOGGLED_FULLSCREEN;
-    #endif
+    fullscreen = Main.screen->flags & SDL_FULLSCREEN;
     
     FC_FREE(pOption_Dlg);
     enable_main_widgets();
