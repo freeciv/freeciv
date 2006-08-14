@@ -174,7 +174,7 @@ static void select_random_race(void)
   /* try to find a free nation */
   /* FIXME: this code should be done another way. -ev */
   while (1) {
-    int race_toggle_index = myrand(game.control.nation_count);
+    unsigned int race_toggle_index = myrand(game.control.nation_count);
 
     if (!is_nation_playable(get_nation_by_idx(race_toggle_index))
 	|| !get_nation_by_idx(race_toggle_index)->is_available
