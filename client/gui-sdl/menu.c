@@ -256,13 +256,8 @@ static void set_new_order_widget_start_pos(void)
   struct widget *pTmpWidget = pBeginOrderWidgetList;
   Sint16 sx, sy, xx, yy = 0;
   int count = 0, lines = 1, w = 0, count_on_line;
-
-  if (SDL_Client_Flags & CF_MINI_MAP_SHOW) {
-    xx = pMiniMap->size.x + pMiniMap->size.w + adj_size(10);
-  } else {
-    xx = pMiniMap->size.x + HIDDEN_MINI_MAP_W + adj_size(10);
-  }
-
+  
+  xx = pMiniMap->size.x + pMiniMap->size.w + adj_size(10);
   w = (pInfoWind->size.x - adj_size(10)) - xx;
   
   if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {

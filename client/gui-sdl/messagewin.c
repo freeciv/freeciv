@@ -37,6 +37,7 @@
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "gui_tilespec.h"
 #include "mapview.h"
 #include "themecolors.h"
 
@@ -118,7 +119,7 @@ void real_update_meswin_dialog(void)
   SDL_String16 *pStr = NULL;
 
   bool create;
-  int w = pWindow->size.w - FRAME_WH - DOUBLE_FRAME_WH -
+  int w = pWindow->size.w - pTheme->FR_Vert->w - (pTheme->FR_Vert->w * 2) -
 			  pMsg_Dlg->pScroll->pUp_Left_Button->size.w;
   
   if (i && msg_count <= i) {
@@ -159,14 +160,14 @@ void real_update_meswin_dialog(void)
       if(create) {
         add_widget_to_vertical_scroll_widget_list(pMsg_Dlg,
 				pBuf, pWindow, FALSE,
-				pWindow->size.x + FRAME_WH,
-		      		pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2));
+				pWindow->size.x + pTheme->FR_Vert->w,
+		      		pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2));
 	 create = FALSE;
       } else {
 	add_widget_to_vertical_scroll_widget_list(pMsg_Dlg,
 				pBuf, pMsg_Dlg->pBeginActiveWidgetList, FALSE,
-				pWindow->size.x + FRAME_WH,
-		      		pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2));
+				pWindow->size.x + pTheme->FR_Vert->w,
+		      		pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2));
       }
       
       
@@ -189,7 +190,7 @@ void popup_meswin_dialog(bool raise)
   Sint16 start_x = (Main.screen->w - adj_size(520)) / 2;
   Sint16 start_y = adj_size(25);
   Uint16 w = adj_size(520);
-  Uint16 h = adj_size(8) + WINDOW_TILE_HIGH + N_MSG_VIEW * str16size(pStr).h;
+  Uint16 h = adj_size(8) + WINDOW_TITLE_HEIGHT + N_MSG_VIEW * str16size(pStr).h;
   int len, i = 0;
   struct message *pMsg = NULL;
   struct widget *pWindow = NULL, *pBuf = NULL;
@@ -219,12 +220,12 @@ void popup_meswin_dialog(bool raise)
   area.x = 0;
   area.y = 0;
   area.w = w;
-  area.h = WINDOW_TILE_HIGH;
+  area.h = WINDOW_TITLE_HEIGHT;
   
   /* fill title bar */
   SDL_FillRect(pWindow->theme, &area, map_rgba(pWindow->theme->format, title_bg_color));
   
-  putline(pWindow->theme, 0, WINDOW_TILE_HIGH, w - 1, WINDOW_TILE_HIGH,
+  putline(pWindow->theme, 0, WINDOW_TITLE_HEIGHT, w - 1, WINDOW_TITLE_HEIGHT,
                                 map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_MESWIN_FRAME)));
 
   /* create static text on window */
@@ -234,7 +235,7 @@ void popup_meswin_dialog(bool raise)
     
   pSurf = create_text_surf_from_str16(pStr);
   area.x += adj_size(10);
-  area.y += ((WINDOW_TILE_HIGH - pSurf->h) / 2);
+  area.y += ((WINDOW_TITLE_HEIGHT - pSurf->h) / 2);
   alphablit(pSurf, NULL, pWindow->theme, &area);
   FREESURFACE(pSurf);
   FREESTRING16(pStr);
@@ -308,7 +309,7 @@ void popup_meswin_dialog(bool raise)
     hide_scrollbar(pMsg_Dlg->pScroll);
   }
     
-  len = w - FRAME_WH - DOUBLE_FRAME_WH - len;
+  len = w - pTheme->FR_Vert->w - (pTheme->FR_Vert->w * 2) - len;
   		
   /* ------------------------------------- */
   
@@ -321,7 +322,7 @@ void popup_meswin_dialog(bool raise)
     }
     
     setup_vertical_widgets_position(1,
-	start_x + FRAME_WH, start_y + WINDOW_TILE_HIGH + adj_size(2), len, 0,
+	start_x + pTheme->FR_Vert->w, start_y + WINDOW_TITLE_HEIGHT + adj_size(2), len, 0,
 	pMsg_Dlg->pBeginActiveWidgetList, pBuf);
   }
 

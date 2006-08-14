@@ -4351,7 +4351,7 @@ struct widget * create_window(SDL_Surface *pDest, SDL_String16 *pTitle,
     SDL_Rect size = str16size(pTitle);
     w = MAX(w, size.w + adj_size(10));
     h = MAX(h, size.h);
-    h = MAX(h, WINDOW_TILE_HIGH + 1);
+    h = MAX(h, WINDOW_TITLE_HEIGHT + 1);
   }
 
   pWindow->size.w = w;
@@ -4519,7 +4519,7 @@ int redraw_window(struct widget *pWindow)
   /* window has title string == has title bar */
   if (pWindow->string16) {
     /* Draw Window's TitelBar */
-    dst.h = WINDOW_TILE_HIGH;
+    dst.h = WINDOW_TITLE_HEIGHT;
     if(get_wflags(pWindow) & WF_DRAW_THEME_TRANSPARENT) {
       SDL_FillRect(pWindow->dst, &dst, SDL_MapRGBA(pWindow->dst->format,
       							255, 255, 255, 200));
@@ -4532,7 +4532,7 @@ int redraw_window(struct widget *pWindow)
     pTmp = create_text_surf_from_str16(pWindow->string16);
     dst.x += 10;
     if(pTmp) {
-      dst.y += ((WINDOW_TILE_HIGH - pTmp->h) / 2);
+      dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
       alphablit(pTmp, NULL, pWindow->dst, &dst);
       FREESURFACE(pTmp);
     }
@@ -4540,10 +4540,10 @@ int redraw_window(struct widget *pWindow)
     dst = pWindow->size;    
     fix_rect(pWindow->dst, &dst);
     
-    putline(pWindow->dst, dst.x + FRAME_WH,
-	  dst.y + WINDOW_TILE_HIGH,
-	  dst.x + pWindow->size.w - FRAME_WH,
-	  dst.y + WINDOW_TILE_HIGH, 
+    putline(pWindow->dst, dst.x + pTheme->FR_Vert->w,
+	  dst.y + WINDOW_TITLE_HEIGHT,
+	  dst.x + pWindow->size.w - pTheme->FR_Vert->w,
+	  dst.y + WINDOW_TITLE_HEIGHT, 
           map_rgba(pWindow->dst->format, 
            *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
   }
@@ -4561,22 +4561,19 @@ int redraw_window(struct widget *pWindow)
 void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
 		Uint16 w, Uint16 h)
 {
-  /* FIXME: where should frame width and height be defined? */
   SDL_Surface *pTmp_Vert =
-      ResizeSurface(pTheme->FR_Vert, /*pTheme->FR_Vert->w*/FRAME_WH, h - 2, 1);
+      ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w, h, 1);
   SDL_Surface *pTmp_Hor =
-      ResizeSurface(pTheme->FR_Hor, w - 2, /*pTheme->FR_Hor->h*/FRAME_WH, 1);
+      ResizeSurface(pTheme->FR_Hor, w, pTheme->FR_Hor->h, 1);
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
-  dst.y++;
   tmp = dst;
   alphablit(pTmp_Vert, NULL, pDest, &tmp);
   dst.x += w - pTmp_Vert->w;
   tmp = dst;
   alphablit(pTmp_Vert, NULL, pDest, &tmp);
 
-  dst.x = start_x + 1;
-  dst.y--;
+  dst.x = start_x;
   tmp = dst;
   alphablit(pTmp_Hor, NULL, pDest, &tmp);
   dst.y += h - pTmp_Hor->h;

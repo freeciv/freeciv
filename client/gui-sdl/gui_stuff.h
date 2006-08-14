@@ -30,14 +30,10 @@
 #include "gui_string.h"
 
 #ifdef SMALL_SCREEN
-#define	FRAME_WH		2
-#define	WINDOW_TILE_HIGH	10
+#define	WINDOW_TITLE_HEIGHT	10
 #else
-#define	FRAME_WH		1
-#define	WINDOW_TILE_HIGH	20
+#define	WINDOW_TITLE_HEIGHT	20
 #endif
-
-#define	DOUBLE_FRAME_WH		FRAME_WH * 2
 
 #define STATE_MASK		0x03       /* 0..0000000000000011 */
 #define TYPE_MASK		0x03FC     /* 0..0000001111111100 */
@@ -577,9 +573,9 @@ do {                                                                    \
 do {                                                                    \
   SDL_Rect rect = pWidget->size;                                        \
   fix_rect(pWidget->dst, &rect);                                        \
-  draw_frame(pDest, rect.x - FRAME_WH, rect.y - FRAME_WH,		\
-                    pWidget->size.w + DOUBLE_FRAME_WH,                  \
-                    pWidget->size.h + DOUBLE_FRAME_WH);                 \
+  draw_frame(pDest, rect.x - pTheme->FR_Vert->w, rect.y - pTheme->FR_Hor->h, \
+                    pWidget->size.w + (pTheme->FR_Vert->w * 2),         \
+                    pWidget->size.h + (pTheme->FR_Hor->h * 2));        \
 } while(0);
 
 #define draw_frame_around_widget(pWidget)				\

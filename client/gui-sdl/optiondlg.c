@@ -227,7 +227,7 @@ static int add_new_worklist_callback(struct widget *pWidget)
 				      pNew_WorkList_Widget,
 				      pWidget, TRUE,
 					pWindow->size.x + adj_size(20),
-		      pWindow->size.y + WINDOW_TILE_HIGH + 1 + adj_size(20));
+		      pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(20));
 
   /* find if there was scrollbar shown */
   if(scroll && pOption_Dlg->pADlg->pActiveWidgetList != NULL) {
@@ -286,9 +286,9 @@ static int work_lists_callback(struct widget *pWidget)
   struct widget *pBuf = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
   int i , count = 0, len;
   SDL_Rect area = {pWindow->size.x + adj_size(15),
-    			pWindow->size.y + WINDOW_TILE_HIGH + 1 + adj_size(15),
+    			pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(15),
     			pWindow->size.w - adj_size(30),
-			pWindow->size.h - WINDOW_TILE_HIGH - adj_size(2) - adj_size(30)};
+			pWindow->size.h - WINDOW_TITLE_HEIGHT - adj_size(2) - adj_size(30)};
   
   /* clear flag */
   SDL_Client_Flags &= ~CF_OPTION_MAIN;
@@ -370,7 +370,7 @@ static int work_lists_callback(struct widget *pWidget)
   /* ----------------------------- */
   
   setup_vertical_widgets_position(1, pWindow->size.x + adj_size(20),
-	pWindow->size.y + WINDOW_TILE_HIGH + 1 + adj_size(20),
+	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(20),
 	area.w - adj_size(10) - len, 0,
 	pOption_Dlg->pADlg->pBeginActiveWidgetList,
   	pOption_Dlg->pADlg->pEndActiveWidgetList);
@@ -637,7 +637,7 @@ static int video_callback(struct widget *pWidget)
   pTmpGui->size.w = pWindow->size.w;
 
   pTmpGui->size.x = pWindow->size.x;
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
 
   add_to_gui_list(ID_OPTIONS_RESOLUTION_LABEL, pTmpGui);
 
@@ -651,7 +651,7 @@ static int video_callback(struct widget *pWidget)
 			
   xxx = pTmpGui->size.x = pWindow->size.x +
       ((pWindow->size.w - pTmpGui->size.w) / 2);
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(40);
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(40);
 
   add_to_gui_list(ID_OPTIONS_FULLSCREEN_LABEL, pTmpGui);
 
@@ -664,7 +664,7 @@ static int video_callback(struct widget *pWidget)
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = xxx + adj_size(5);
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(45);
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(45);
 
   add_to_gui_list(ID_OPTIONS_TOGGLE_FULLSCREEN_CHECKBOX, pTmpGui);
   /* ------------------------- */
@@ -925,7 +925,7 @@ static int local_setting_callback(struct widget *pWidget)
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
 
   add_to_gui_list(ID_OPTIONS_LOCAL_SOUND_CHECKBOX, pTmpGui);
 
@@ -1487,7 +1487,7 @@ static int map_setting_callback(struct widget *pWidget)
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   
   add_to_gui_list(ID_OPTIONS_MAP_CITY_NAMES_CHECKBOX, pTmpGui);
   
@@ -1810,7 +1810,7 @@ static int map_setting_callback(struct widget *pWidget)
   set_wstate(pTmpGui, FC_WS_NORMAL);
 
   pTmpGui->size.x = pWindow->size.x + adj_size(170);
-  pTmpGui->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  pTmpGui->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   
   add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_RR_CHECKBOX, pTmpGui);
   

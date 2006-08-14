@@ -208,7 +208,7 @@ void update_intel_dialog(struct player *p)
                                             pdialog->pdialog->pEndWidgetList);
     }
         
-    h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
+    h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
   
     pStr = create_str16_from_char(_("Foreign Intelligence Report") , adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
@@ -339,7 +339,7 @@ void update_intel_dialog(struct player *p)
         h += (adj_size(10) + pBuf->size.h);
       }
       
-      w = MAX(w, col * pBuf->size.w + count + DOUBLE_FRAME_WH);
+      w = MAX(w, col * pBuf->size.w + count + (pTheme->FR_Vert->w * 2));
       
       my_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
       copy_chars_to_string16(pStr, cBuf);
@@ -358,11 +358,11 @@ void update_intel_dialog(struct player *p)
     
     /* exit button */
     pBuf = pWindow->prev; 
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
     
     dst.x = (pWindow->size.w - pText1->w) / 2;
-    dst.y = WINDOW_TILE_HIGH + adj_size(12);
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(12);
     
     alphablit(pText1, NULL, pWindow->theme, &dst);
     dst.y += pText1->h + adj_size(10);
@@ -383,22 +383,22 @@ void update_intel_dialog(struct player *p)
       
     if(n) {
       
-      dst.x = FRAME_WH + adj_size(5);
+      dst.x = pTheme->FR_Vert->w + adj_size(5);
       alphablit(pText2, NULL, pWindow->theme, &dst);
       dst.y += pText2->h + adj_size(2);
       FREESURFACE(pText2);
       
       setup_vertical_widgets_position(col,
-          pWindow->size.x + FRAME_WH,
+          pWindow->size.x + pTheme->FR_Vert->w,
           pWindow->size.y + dst.y,
             0, 0, pdialog->pdialog->pBeginActiveWidgetList,
                             pdialog->pdialog->pEndActiveWidgetList);
       
       if(pdialog->pdialog->pScroll) {
         setup_vertical_scrollbar_area(pdialog->pdialog->pScroll,
-          pWindow->size.x + pWindow->size.w - FRAME_WH,
+          pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
           pWindow->size.y + dst.y,
-          pWindow->size.h - (dst.y + FRAME_WH + 1), TRUE);
+          pWindow->size.h - (dst.y + pTheme->FR_Hor->h + 1), TRUE);
       }
     }
 

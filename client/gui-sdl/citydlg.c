@@ -420,8 +420,8 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   pWindow = create_window(NULL, pStr, 1, 1, 0);
-  pWindow->size.x = pButton->size.x + FRAME_WH;
-  pWindow->size.y = pButton->size.y + WINDOW_TILE_HIGH + adj_size(2);
+  pWindow->size.x = pButton->size.x + pTheme->FR_Vert->w;
+  pWindow->size.y = pButton->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   ww = MAX(ww, pWindow->size.w);
   pWindow->action = units_orders_dlg_callback;
@@ -560,31 +560,31 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
   unsellect_widget_action();
   /* ================================================== */
 
-  ww += DOUBLE_FRAME_WH + adj_size(10);
+  ww += (pTheme->FR_Vert->w * 2) + adj_size(10);
   hh += adj_size(4);
 
   /* create window background */
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww,
-		WINDOW_TILE_HIGH + adj_size(2) + FRAME_WH + (i * hh) +
+		WINDOW_TITLE_HEIGHT + adj_size(2) + pTheme->FR_Hor->h + (i * hh) +
 		pWindow->prev->size.h + adj_size(5));
   
   /* label */
   pBuf = pWindow->prev;
-  pBuf->size.w = ww - DOUBLE_FRAME_WH;
-  pBuf->size.x = pWindow->size.x + FRAME_WH;
-  pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2);
+  pBuf->size.w = ww - (pTheme->FR_Vert->w * 2);
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
   pBuf = pBuf->prev;
 
   /* first button */
-  pBuf->size.w = ww - DOUBLE_FRAME_WH;
+  pBuf->size.w = ww - (pTheme->FR_Vert->w * 2);
   pBuf->size.h = hh;
-  pBuf->size.x = pWindow->size.x + FRAME_WH;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(5);
   pBuf = pBuf->prev;
 
   while (pBuf) {
-    pBuf->size.w = ww - DOUBLE_FRAME_WH;
+    pBuf->size.w = ww - (pTheme->FR_Vert->w * 2);
     pBuf->size.h = hh;
     pBuf->size.x = pBuf->next->size.x;
     pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
@@ -750,7 +750,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   
   setup_vertical_widgets_position(NUM_UNITS_SHOWN,
 	pWindow->size.x + adj_size(7),
-	pWindow->size.y + WINDOW_TILE_HIGH + adj_size(40),
+	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(40),
 	  0, 0, pCityDlg->pPanel->pBeginActiveWidgetList,
 			  pCityDlg->pPanel->pEndActiveWidgetList);
   
@@ -767,13 +767,13 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     /* create up button */
     pBuf = pCityDlg->pPanel->pScroll->pUp_Left_Button;
     pBuf->size.x = pWindow->size.x + adj_size(6);
-    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(20);
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(20);
     pBuf->size.w = adj_size(103);
         
     /* create down button */
     pBuf = pCityDlg->pPanel->pScroll->pDown_Right_Button;
     pBuf->size.x = pWindow->size.x + adj_size(6) + adj_size(104);
-    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(20);
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(20);
     pBuf->size.w = adj_size(103);
     
   }
@@ -1150,7 +1150,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 		_("Sorry, You have already bought here in this turn"));
   }
 
-  hh = WINDOW_TILE_HIGH + 2;
+  hh = WINDOW_TITLE_HEIGHT + 2;
   pStr = create_str16_from_char(_("Buy It?"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   pWindow = create_window(NULL, pStr, 100, 100, 0);
@@ -1205,23 +1205,23 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   if (city_dialog_is_open(pCity))
   {
     pWindow->size.x = pCityDlg->pBuy_Button->size.x;
-    pWindow->size.y = pCityDlg->pBuy_Button->size.y - (hh + FRAME_WH + 5);
+    pWindow->size.y = pCityDlg->pBuy_Button->size.y - (hh + pTheme->FR_Hor->h + 5);
   } else {
     if(is_city_report_open()) {
       assert(pSellected_Widget != NULL);
       if (pSellected_Widget->size.x + tileset_tile_width(tileset) +
-	 		ww + DOUBLE_FRAME_WH > Main.screen->w)
+	 		ww + (pTheme->FR_Vert->w * 2) > Main.screen->w)
       {
-        pWindow->size.x = pSellected_Widget->size.x - ww - DOUBLE_FRAME_WH;
+        pWindow->size.x = pSellected_Widget->size.x - ww - (pTheme->FR_Vert->w * 2);
       } else {
         pWindow->size.x = pSellected_Widget->size.x + tileset_tile_width(tileset);
       }
     
       pWindow->size.y = pSellected_Widget->size.y +
-      		(pSellected_Widget->size.h - (hh + FRAME_WH + 5)) / 2;
-      if (pWindow->size.y + (hh + FRAME_WH + 5) > pWindow->dst->h)
+      		(pSellected_Widget->size.h - (hh + pTheme->FR_Hor->h + 5)) / 2;
+      if (pWindow->size.y + (hh + pTheme->FR_Hor->h + 5) > pWindow->dst->h)
       {
-	pWindow->size.y = Main.screen->h - (hh + FRAME_WH + 5) - 1;
+	pWindow->size.y = Main.screen->h - (hh + pTheme->FR_Hor->h + 5) - 1;
       } else {
         if (pWindow->size.y < 0) {
 	  pWindow->size.y = 0;
@@ -1229,7 +1229,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
       }
     } else {
       put_window_near_map_tile(pWindow,
-  		ww + DOUBLE_FRAME_WH, hh + FRAME_WH + 5,
+  		ww + (pTheme->FR_Vert->w * 2), hh + pTheme->FR_Hor->h + 5,
                 pCity->tile);
     }
     
@@ -1239,12 +1239,12 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		ww + DOUBLE_FRAME_WH, hh + FRAME_WH + 5);
+		ww + (pTheme->FR_Vert->w * 2), hh + pTheme->FR_Hor->h + 5);
 
   /* setup rest of widgets */
   /* label */
-  dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
-  dst.y = WINDOW_TILE_HIGH + 2;
+  dst.x = pTheme->FR_Vert->w + (pWindow->size.w - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.y = WINDOW_TITLE_HEIGHT + 2;
   alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + 5;
   FREESURFACE(pText);
@@ -1257,7 +1257,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
     /* yes */
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (2 * pBuf->size.w + 20)) / 2;
+	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (2 * pBuf->size.w + 20)) / 2;
     pBuf->size.y = pWindow->size.y + dst.y;
     
     /* no */
@@ -1265,7 +1265,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
   } else {
     /* no */
     pBuf->size.x = pWindow->size.x +
-		    pWindow->size.w - FRAME_WH - pBuf->size.w - 10;
+		    pWindow->size.w - pTheme->FR_Vert->w - pBuf->size.w - 10;
   }
   /* ================================================== */
   /* redraw */
@@ -1408,7 +1408,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
   }
 
   pWindow->size.w = ww;
-  pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TILE_HIGH + 25;
+  pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TITLE_HEIGHT + 25;
 
   /* set start positions */
   pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
@@ -1425,7 +1425,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
       pCancel_Button->size.w - 10;
 
   pLabel->size.x = pWindow->size.x;
-  pLabel->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 5;
+  pLabel->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 5;
   pLabel->size.w = pWindow->size.w;
   
   /* create window background */
@@ -1712,7 +1712,7 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   fix_rect(pCityWindow->dst, &dest);
 
   alphablit(pSurf, NULL, pCityWindow->dst, &dest);
@@ -1759,7 +1759,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   fix_rect(pCityWindow->dst, &dest);
   
   alphablit(pSurf, NULL, pCityWindow->dst, &dest);
@@ -1819,7 +1819,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   fix_rect(pCityWindow->dst, &dest);
   
   alphablit(pSurf, NULL, pCityWindow->dst, &dest);
@@ -1868,7 +1868,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
   
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   
   dest2 = dest;
   fix_rect(pCityWindow->dst, &dest2);
@@ -2046,7 +2046,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
   pSurf = create_text_surf_from_str16(pStr);
 
   dest.x = pCityWindow->size.x + adj_size(5) + (adj_size(207) - pSurf->w) / 2;
-  dest.y = pCityWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  dest.y = pCityWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   dest2 = dest;
   fix_rect(pCityWindow->dst, &dest2);
   alphablit(pSurf, NULL, pCityWindow->dst, &dest2);

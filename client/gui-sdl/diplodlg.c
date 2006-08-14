@@ -404,7 +404,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pCont->id0 = pPlayer0->player_no;
   pCont->id1 = pPlayer1->player_no;
   
-  hh = WINDOW_TILE_HIGH + adj_size(2);
+  hh = WINDOW_TITLE_HEIGHT + adj_size(2);
   pStr = create_str16_from_char(get_nation_name(pPlayer0->nation), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -699,7 +699,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pDlg->pEndActiveWidgetList = pWindow->prev;
   pDlg->pScroll = NULL;
   
-  hh = (Main.screen->h - adj_size(100) - WINDOW_TILE_HIGH - adj_size(4) - FRAME_WH);
+  hh = (Main.screen->h - adj_size(100) - WINDOW_TITLE_HEIGHT - adj_size(4) - pTheme->FR_Hor->h);
   ww = hh < (count * height);
   
   if(ww) {
@@ -718,7 +718,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     } while(pBuf != pDlg->pBeginActiveWidgetList);
   }
   
-  ww = MAX(width + DOUBLE_FRAME_WH + adj_size(4) + scroll_w, adj_size(150));
+  ww = MAX(width + (pTheme->FR_Vert->w * 2) + adj_size(4) + scroll_w, adj_size(150));
   hh = Main.screen->h - adj_size(100);
   
   if(L_R) {
@@ -734,14 +734,14 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
   
   setup_vertical_widgets_position(1,
-     pWindow->size.x + FRAME_WH + adj_size(2), pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2),
+     pWindow->size.x + pTheme->FR_Vert->w + adj_size(2), pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
 	width, height, pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
   
   if(pDlg->pScroll) {
     setup_vertical_scrollbar_area(pDlg->pScroll,
-	pWindow->size.x + pWindow->size.w - FRAME_WH,
-    	pWindow->size.y + WINDOW_TILE_HIGH + 1,
-    	pWindow->size.h - WINDOW_TILE_HIGH - FRAME_WH - 1, TRUE);
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+    	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
+    	pWindow->size.h - WINDOW_TITLE_HEIGHT - pTheme->FR_Hor->h - 1, TRUE);
   }
   
   return pDlg;
@@ -805,7 +805,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     
     my_snprintf(cBuf, sizeof(cBuf), _("Diplomacy meeting"));
     
-    hh = WINDOW_TILE_HIGH + adj_size(2);
+    hh = WINDOW_TITLE_HEIGHT + adj_size(2);
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
@@ -895,15 +895,15 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 
     pBuf = pWindow->prev;
     pBuf->size.x = pWindow->size.x + adj_size(20);
-    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(10);
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(10);
     
-    dst.y = WINDOW_TILE_HIGH + adj_size(10) + pBuf->size.h + adj_size(10);
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(10) + pBuf->size.h + adj_size(10);
     dst.x = adj_size(10);
     dst.w = pWindow->size.w - adj_size(20);
         
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - adj_size(20);
-    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(10);
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(10);
     
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + (pWindow->size.w - (2 * pBuf->size.w + adj_size(40))) / 2;
@@ -1261,7 +1261,7 @@ static void popup_war_dialog(struct player *pPlayer)
     
   my_snprintf(cBuf, sizeof(cBuf),
        _("%s incident !"), get_nation_name(pPlayer->nation));
-  hh = WINDOW_TILE_HIGH + 2;
+  hh = WINDOW_TITLE_HEIGHT + 2;
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1319,8 +1319,8 @@ static void popup_war_dialog(struct player *pPlayer)
 
   pBuf = pWindow->prev;
   
-  ww += DOUBLE_FRAME_WH;
-  hh += FRAME_WH + adj_size(5);
+  ww += (pTheme->FR_Vert->w * 2);
+  hh += pTheme->FR_Hor->h + adj_size(5);
   
   pWindow->size.x = (Main.screen->w - ww) / 2;
   pWindow->size.y = (Main.screen->h - hh) / 2;
@@ -1331,8 +1331,8 @@ static void popup_war_dialog(struct player *pPlayer)
 
   /* setup rest of widgets */
   /* label */
-  dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
-  dst.y = WINDOW_TILE_HIGH + adj_size(5);
+  dst.x = pTheme->FR_Vert->w + (pWindow->size.w - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.y = WINDOW_TITLE_HEIGHT + adj_size(5);
   alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + adj_size(5);
   FREESURFACE(pText);
@@ -1344,7 +1344,7 @@ static void popup_war_dialog(struct player *pPlayer)
   /* yes */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (2 * pBuf->size.w + adj_size(20))) / 2;
+	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (2 * pBuf->size.w + adj_size(20))) / 2;
   pBuf->size.y = pWindow->size.y + dst.y;
     
   /* no */
@@ -1388,7 +1388,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
           
     my_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
-    hh = WINDOW_TILE_HIGH + adj_size(2);
+    hh = WINDOW_TITLE_HEIGHT + adj_size(2);
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
@@ -1506,8 +1506,8 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
     pBuf = pWindow->prev;
   
-    ww += DOUBLE_FRAME_WH;
-    hh += FRAME_WH + adj_size(5);
+    ww += (pTheme->FR_Vert->w * 2);
+    hh += pTheme->FR_Hor->h + adj_size(5);
    
     pWindow->size.x = (Main.screen->w - ww) / 2;
     pWindow->size.y = (Main.screen->h - hh) / 2;
@@ -1518,8 +1518,8 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
     /* setup rest of widgets */
     /* label */
-    dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
-    dst.y = WINDOW_TILE_HIGH + adj_size(5);
+    dst.x = pTheme->FR_Vert->w + (pWindow->size.w - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(5);
     alphablit(pText, NULL, pWindow->theme, &dst);
     dst.y += pText->h + adj_size(15);
     FREESURFACE(pText);
@@ -1532,7 +1532,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
       pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (pBuf->size.w)) / 2;
+	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (pBuf->size.w)) / 2;
       pBuf->size.y = pWindow->size.y + dst.y;
       
       if(shared) {
@@ -1558,7 +1558,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
       pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (pBuf->size.w)) / 2;
+	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (pBuf->size.w)) / 2;
       pBuf->size.y = pWindow->size.y + dst.y;
       
     }

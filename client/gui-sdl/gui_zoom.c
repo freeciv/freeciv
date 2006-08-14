@@ -2325,7 +2325,7 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
   if (pSrc == NULL) {
     return NULL;
   }
-
+  
   /*
    * Alloc space to completely contain the zoomed surface 
    */
@@ -2336,6 +2336,11 @@ SDL_Surface *ResizeSurface(const SDL_Surface * pSrc, Uint16 new_width,
 				   pSrc->format->Gmask,
 				   pSrc->format->Bmask,
 				   pSrc->format->Amask);
+  
+  if ((pSrc->w == 0) || (pSrc->h == 0)) {
+    alphablit((SDL_Surface*)pSrc, NULL, pReal_dst, NULL);
+    return pReal_dst;
+  }
 
   /*
    * Lock source surface 

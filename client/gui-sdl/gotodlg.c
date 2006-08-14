@@ -176,7 +176,7 @@ static void update_goto_dialog(void)
     {
       show_scrollbar(pGotoDlg->pScroll);
       pGotoDlg->pScroll->pScrollBar->size.y =
-	      pGotoDlg->pEndWidgetList->size.y + WINDOW_TILE_HIGH + 1 +
+	      pGotoDlg->pEndWidgetList->size.y + WINDOW_TITLE_HEIGHT + 1 +
 				   pGotoDlg->pScroll->pUp_Left_Button->size.h;
       pGotoDlg->pScroll->pScrollBar->size.h = scrollbar_size(pGotoDlg->pScroll);
     } else {
@@ -184,10 +184,10 @@ static void update_goto_dialog(void)
     }
   
     setup_vertical_widgets_position(1,
-	pGotoDlg->pEndWidgetList->size.x + FRAME_WH + 1,
-        pGotoDlg->pEndWidgetList->size.y + WINDOW_TILE_HIGH + 1,
+	pGotoDlg->pEndWidgetList->size.x + pTheme->FR_Vert->w + 1,
+        pGotoDlg->pEndWidgetList->size.y + WINDOW_TITLE_HEIGHT + 1,
         pGotoDlg->pScroll->pUp_Left_Button->size.x -
-		  	pGotoDlg->pEndWidgetList->size.x - FRAME_WH - adj_size(2),
+		  	pGotoDlg->pEndWidgetList->size.x - pTheme->FR_Vert->w - adj_size(2),
         0, pGotoDlg->pBeginActiveWidgetList, pGotoDlg->pEndActiveWidgetList);
         
   } else {
@@ -301,25 +301,25 @@ static void popup_goto_airlift_dialog(void)
   
   col = (col + adj_size(10)) / adj_size(11);
   w = col * pBuf->size.w + (col - 1) * 5 + adj_size(10);
-  h = pWindow->size.h - WINDOW_TILE_HIGH - 1 - FRAME_WH;
+  h = pWindow->size.h - WINDOW_TITLE_HEIGHT - 1 - pTheme->FR_Hor->h;
   
   pFlag = ResizeSurface(pTheme->Block, w, h, 1);
   
-  block_x = dst.x = pWindow->theme->w - FRAME_WH - pFlag->w;
-  dst.y = WINDOW_TILE_HIGH + 1;
+  block_x = dst.x = pWindow->theme->w - pTheme->FR_Vert->w - pFlag->w;
+  dst.y = WINDOW_TITLE_HEIGHT + 1;
   alphablit(pFlag, NULL, pWindow->theme, &dst);
   FREESURFACE(pFlag);
 
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
 
   /* nations buttons */
   pBuf = pBuf->prev;
   i = 0;
   w = pWindow->size.x + block_x + adj_size(5);
-  h = pWindow->size.y + WINDOW_TILE_HIGH + adj_size(6);
+  h = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(6);
   while(pBuf) {
     pBuf->size.x = w;
     pBuf->size.y = h;
@@ -341,8 +341,8 @@ static void popup_goto_airlift_dialog(void)
 
   setup_vertical_scrollbar_area(pGotoDlg->pScroll,
 	pWindow->size.x + block_x,
-  	pWindow->size.y + WINDOW_TILE_HIGH + 1,
-  	pWindow->size.h - (WINDOW_TILE_HIGH + 1 + FRAME_WH), TRUE);
+  	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
+  	pWindow->size.h - (WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h), TRUE);
     
   update_goto_dialog();
 }

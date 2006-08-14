@@ -143,7 +143,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pWindow->action = space_dialog_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
     w = MAX(w, pWindow->size.w);
-    h = WINDOW_TILE_HIGH + 1;
+    h = WINDOW_TITLE_HEIGHT + 1;
     pWindow->data.player = pPlayer;
     pWindow->private_data.small_dlg = pSpaceShp;
     add_to_gui_list(ID_WINDOW, pWindow);
@@ -190,7 +190,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
      
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
 
     /* launch button */
@@ -201,7 +201,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     /* info label */
     pBuf = pBuf->prev;
     pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
-    pBuf->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1 + adj_size(10);
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(10);
 
     dialog_list_prepend(dialog_list, pSpaceShp);
     

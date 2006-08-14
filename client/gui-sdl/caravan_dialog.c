@@ -27,6 +27,7 @@
 #include "gui_id.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "gui_tilespec.h"
 
 #include "dialogs.h"
 
@@ -117,7 +118,7 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   pCaravan_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   is_unit_move_blocked = TRUE;
-  h = WINDOW_TILE_HIGH + adj_size(3) + FRAME_WH;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
       
   my_snprintf(cBuf, sizeof(cBuf), _("Your caravan has arrived at %s"),
 							  pDestcity->name);
@@ -195,20 +196,20 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   /* setup window size and start position */
   
-  pWindow->size.w = w + DOUBLE_FRAME_WH;
+  pWindow->size.w = w + (pTheme->FR_Vert->w * 2);
   pWindow->size.h = h;
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow,
-  		w + DOUBLE_FRAME_WH, h, pUnit->tile);
+  		w + (pTheme->FR_Vert->w * 2), h, pUnit->tile);
   resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
   
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + FRAME_WH,
-  	pWindow->size.y + WINDOW_TILE_HIGH + adj_size(2), w, 0,
+	pWindow->size.x + pTheme->FR_Vert->w,
+  	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
 	pCaravan_Dlg->pBeginWidgetList, pBuf);
   /* --------------------- */
   /* redraw */

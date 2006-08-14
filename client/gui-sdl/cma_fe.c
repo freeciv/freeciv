@@ -265,7 +265,7 @@ static int save_cma_callback(struct widget *pWidget)
   
   pCma->pAdv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
       
-  hh = WINDOW_TILE_HIGH + adj_size(2);
+  hh = WINDOW_TITLE_HEIGHT + adj_size(2);
   pStr = create_str16_from_char(_("Name new preset"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -330,18 +330,18 @@ static int save_cma_callback(struct widget *pWidget)
   ww += adj_size(20);
   hh += adj_size(15);
   
-  pWindow->size.x = pWidget->size.x - (ww + DOUBLE_FRAME_WH) / 2;
-  pWindow->size.y = pWidget->size.y - (hh + FRAME_WH);
+  pWindow->size.x = pWidget->size.x - (ww + (pTheme->FR_Vert->w * 2)) / 2;
+  pWindow->size.y = pWidget->size.y - (hh + pTheme->FR_Hor->h);
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		ww + DOUBLE_FRAME_WH, hh + FRAME_WH);
+		ww + (pTheme->FR_Vert->w * 2), hh + pTheme->FR_Hor->h);
 
   /* setup rest of widgets */
   /* label */
-  dst.x = FRAME_WH + (pWindow->size.w - DOUBLE_FRAME_WH - pText->w) / 2;
-  dst.y = WINDOW_TILE_HIGH + adj_size(2);
+  dst.x = pTheme->FR_Vert->w + (pWindow->size.w - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
   alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + adj_size(5);
   FREESURFACE(pText);
@@ -356,7 +356,7 @@ static int save_cma_callback(struct widget *pWidget)
   /* yes */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - DOUBLE_FRAME_WH - (2 * pBuf->size.w + adj_size(20))) / 2;
+	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (2 * pBuf->size.w + adj_size(20))) / 2;
   pBuf->size.y = pWindow->size.y + dst.y;
   
   /* no */
@@ -487,19 +487,19 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pCma->pAdv->pEndActiveWidgetList = pWindow->prev->prev;
   pCma->pAdv->pActiveWidgetList = pWindow->prev->prev;
   
-  ww += (DOUBLE_FRAME_WH + adj_size(2));
-  hh += FRAME_WH + 1;
+  ww += ((pTheme->FR_Vert->w * 2) + adj_size(2));
+  hh += pTheme->FR_Hor->h + 1;
   
   if (count > 11)
   {
     create_vertical_scrollbar(pCma->pAdv, 1, 11, FALSE, TRUE);
         
     /* ------- window ------- */
-    hh = WINDOW_TILE_HIGH + 1 +
-	    11 * pWindow->prev->prev->size.h + FRAME_WH + 1 
+    hh = WINDOW_TITLE_HEIGHT + 1 +
+	    11 * pWindow->prev->prev->size.h + pTheme->FR_Hor->h + 1 
     		+ 2 * pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1;
-    pCma->pAdv->pScroll->pUp_Left_Button->size.w = ww - DOUBLE_FRAME_WH;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.w = ww - DOUBLE_FRAME_WH;
+    pCma->pAdv->pScroll->pUp_Left_Button->size.w = ww - (pTheme->FR_Vert->w * 2);
+    pCma->pAdv->pScroll->pDown_Right_Button->size.w = ww - (pTheme->FR_Vert->w * 2);
   }
   
   /* ----------------------------------- */
@@ -512,22 +512,22 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   
   /* exit button */
   pBuf = pWindow->prev; 
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   pBuf = pBuf->prev;
-  ww -= (DOUBLE_FRAME_WH + adj_size(2));
+  ww -= ((pTheme->FR_Vert->w * 2) + adj_size(2));
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
-  setup_vertical_widgets_position(1, pWindow->size.x + FRAME_WH + 1,
-		  pWindow->size.y + WINDOW_TILE_HIGH + 1 + hh, ww, 0,
+  setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Vert->w + 1,
+		  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + hh, ww, 0,
 		  pCma->pAdv->pBeginActiveWidgetList, pBuf);
   if(pCma->pAdv->pScroll) {
-    pCma->pAdv->pScroll->pUp_Left_Button->size.x = pWindow->size.x + FRAME_WH;
-    pCma->pAdv->pScroll->pUp_Left_Button->size.y = pWindow->size.y + WINDOW_TILE_HIGH + 1;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.x = pWindow->size.x + FRAME_WH;
+    pCma->pAdv->pScroll->pUp_Left_Button->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+    pCma->pAdv->pScroll->pUp_Left_Button->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1;
+    pCma->pAdv->pScroll->pDown_Right_Button->size.x = pWindow->size.x + pTheme->FR_Vert->w;
     pCma->pAdv->pScroll->pDown_Right_Button->size.y =
         pWindow->size.y + pWindow->size.h -
-		    FRAME_WH - pCma->pAdv->pScroll->pDown_Right_Button->size.h;
+		    pTheme->FR_Hor->h - pCma->pAdv->pScroll->pDown_Right_Button->size.h;
   }
     
   /* ==================================================== */
@@ -665,7 +665,7 @@ void update_city_cma_dialog(void)
     pCma->pResult = &result;
 #if 0    
     refresh_city_resource_map(pBuf->dst, pBuf->size.x + 25,
-	  pBuf->size.y + WINDOW_TILE_HIGH + 35, pCma->pCity, is_worker);
+	  pBuf->size.y + WINDOW_TITLE_HEIGHT + 35, pCma->pCity, is_worker);
 #endif    
     pCma->pResult = NULL;
   
@@ -680,7 +680,7 @@ void update_city_cma_dialog(void)
       step = pText->w;
     }
 
-    dst.y = pBuf->size.y + WINDOW_TILE_HIGH + 1;
+    dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + 1;
     dst.x = pBuf->size.x + adj_size(10);
     fix_rect(pBuf->dst, &dst);
 
@@ -721,7 +721,7 @@ void update_city_cma_dialog(void)
   
   /* fill result text background */  
   dst.x = pBuf->size.x + adj_size(10);
-  dst.y = pBuf->size.y + WINDOW_TILE_HIGH + adj_size(150);
+  dst.y = pBuf->size.y + WINDOW_TITLE_HEIGHT + adj_size(150);
   dst.w = pText->w + adj_size(10);
   dst.h = pText->h + adj_size(10);
   fix_rect(pBuf->dst, &dst);
@@ -1012,7 +1012,7 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - FRAME_WH - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* ---------- */
@@ -1040,7 +1040,7 @@ void popup_city_cma_dialog(struct city *pCity)
   FREESURFACE(pFactor);
   
   area.x = adj_size(25);
-  area.y = WINDOW_TILE_HIGH + adj_size(35);
+  area.y = WINDOW_TITLE_HEIGHT + adj_size(35);
   alphablit(pCity_Map, NULL, pWindow->theme, &area);
   FREESURFACE(pCity_Map);
   

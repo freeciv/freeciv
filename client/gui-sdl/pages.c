@@ -26,6 +26,7 @@
 #include "graphics.h"
 #include "gui_id.h"
 #include "gui_stuff.h"
+#include "gui_tilespec.h"
 #include "mapctrl.h"
 #include "mapview.h"
 #include "messagewin.h"
@@ -222,7 +223,7 @@ static void show_main_page()
   pLogo = get_logo_gfx();
   SDL_FillRectAlpha(pLogo, NULL, &bg_color);
   
-  if (resize_window(pWindow, pLogo, NULL, w + DOUBLE_FRAME_WH, (h * count) + DOUBLE_FRAME_WH)) {
+  if (resize_window(pWindow, pLogo, NULL, w + (pTheme->FR_Vert->w * 2), (h * count) + (pTheme->FR_Vert->w * 2))) {
     FREESURFACE(pLogo);
   }
 
