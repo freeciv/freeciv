@@ -101,22 +101,22 @@ void load_intro_gfx(void)
 
   /* Main graphic */
 
-  intro_gfx_sprite=load_gfxfile(tileset_main_intro_filename(tileset));
-  tot=intro_gfx_sprite->width;
+  intro_gfx_sprite = load_gfxfile(tileset_main_intro_filename(tileset));
+  tot = intro_gfx_sprite->width;
 
-  y=intro_gfx_sprite->height-(2*lin);
+  y = intro_gfx_sprite->height - (2 * lin);
 
   w = XmbTextEscapement(main_font_set, motto, strlen(motto));
   XSetForeground(display, font_gc, face.pixel);
   XmbDrawString(display, intro_gfx_sprite->pixmap,
-      	      main_font_set, font_gc, 
-	      tot/2-w/2, y, 
-	      motto, strlen(motto));
+      		main_font_set, font_gc,
+		tot / 2 - w / 2, y,
+		motto, strlen(motto));
 
   /* Minimap graphic */
 
-  radar_gfx_sprite=load_gfxfile(tileset_mini_intro_filename(tileset));
-  tot=radar_gfx_sprite->width;
+  radar_gfx_sprite = load_gfxfile(tileset_mini_intro_filename(tileset));
+  tot = radar_gfx_sprite->width;
 
   y = radar_gfx_sprite->height - (lin +
       1.5 * (exts->max_logical_extent.height + exts->max_logical_extent.y));
@@ -125,17 +125,17 @@ void load_intro_gfx(void)
   XSetForeground(display, font_gc,
 		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
-      	      main_font_set, font_gc, 
-	      (tot/2-w/2)+1, y+1, 
-	      word_version(), strlen(word_version()));
+		main_font_set, font_gc,
+		(tot / 2 - w / 2) + 1, y + 1,
+		word_version(), strlen(word_version()));
   XSetForeground(display, font_gc,
 		 get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
-      	      main_font_set, font_gc, 
-	      tot/2-w/2, y, 
-	      word_version(), strlen(word_version()));
+		main_font_set, font_gc,
+		tot / 2 - w / 2, y,
+		word_version(), strlen(word_version()));
 
-  y+=lin;
+  y += lin;
 
   my_snprintf(s, sizeof(s), "%d.%d.%d%s",
 	      MAJOR_VERSION, MINOR_VERSION,
@@ -144,18 +144,19 @@ void load_intro_gfx(void)
   XSetForeground(display, font_gc,
 		 get_color(tileset, COLOR_OVERVIEW_UNKNOWN)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
-      	      main_font_set, font_gc, 
-	      (tot/2-w/2)+1, y+1, s, strlen(s));
+		main_font_set, font_gc,
+		(tot / 2 - w / 2) + 1, y + 1, s, strlen(s));
   XSetForeground(display, font_gc,
 		 get_color(tileset, COLOR_OVERVIEW_VIEWRECT)->color.pixel);
   XmbDrawString(display, radar_gfx_sprite->pixmap,
-      	      main_font_set, font_gc, 
-	      tot/2-w/2, y, s, strlen(s));
+		main_font_set, font_gc,
+		tot / 2 - w / 2, y, s, strlen(s));
 
   /* free colors */
 
-  if (have_face)
+  if (have_face) {
     XFreeColors(display, cmap, &(face.pixel), 1, 0);
+  }
 
   /* done */
 
@@ -473,8 +474,15 @@ struct sprite *load_gfxfile(const char *filename)
       if (pcolorarray) {
 	XPutPixel(xi, x, y, pcolorarray[pb[x]]);
       } else {
-	XPutPixel(xi, x, y,
-		  (pb[4 * x] << 16) + (pb[4 * x + 1] << 8) + pb[4 * x + 2]);
+	if (has_mask) {
+	  XPutPixel(xi, x, y,
+		    (pb[4 * x] << 16) + (pb[4 * x + 1] << 8)
+		    + pb[4 * x + 2]);
+	} else {
+	  XPutPixel(xi, x, y,
+		    (pb[3 * x] << 16) + (pb[3 * x + 1] << 8)
+		    + pb[3 * x + 2]);
+	}
       }
     }
     pb += stride;
