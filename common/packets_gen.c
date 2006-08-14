@@ -21630,7 +21630,7 @@ void lsend_packet_spaceship_info(struct conn_list *dest, const struct packet_spa
 
 #define cmp_packet_ruleset_unit_100 cmp_const
 
-BV_DEFINE(packet_ruleset_unit_100_fields, 35);
+BV_DEFINE(packet_ruleset_unit_100_fields, 36);
 
 static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connection *pc, enum packet_type type)
 {
@@ -21897,12 +21897,15 @@ static struct packet_ruleset_unit *receive_packet_ruleset_unit_100(struct connec
     }
   }
   if (BV_ISSET(fields, 32)) {
-    dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
+    DIO_BV_GET(&din, real_packet->cargo);
   }
   if (BV_ISSET(fields, 33)) {
-    DIO_BV_GET(&din, real_packet->flags);
+    dio_get_string(&din, real_packet->helptext, sizeof(real_packet->helptext));
   }
   if (BV_ISSET(fields, 34)) {
+    DIO_BV_GET(&din, real_packet->flags);
+  }
+  if (BV_ISSET(fields, 35)) {
     DIO_BV_GET(&din, real_packet->roles);
   }
 
@@ -22115,17 +22118,21 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 31);}
 
-  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
+  differ = !BV_ARE_EQUAL(old->cargo, real_packet->cargo);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 32);}
 
-  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
+  differ = (strcmp(old->helptext, real_packet->helptext) != 0);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 33);}
 
-  differ = !BV_ARE_EQUAL(old->roles, real_packet->roles);
+  differ = !BV_ARE_EQUAL(old->flags, real_packet->flags);
   if(differ) {different++;}
   if(differ) {BV_SET(fields, 34);}
+
+  differ = !BV_ARE_EQUAL(old->roles, real_packet->roles);
+  if(differ) {different++;}
+  if(differ) {BV_SET(fields, 35);}
 
   if (different == 0 && !force_send_of_unchanged) {
     return 0;
@@ -22258,12 +22265,15 @@ static int send_packet_ruleset_unit_100(struct connection *pc, const struct pack
     dio_put_uint8(&dout, real_packet->bombard_rate);
   }
   if (BV_ISSET(fields, 32)) {
-    dio_put_string(&dout, real_packet->helptext);
+  DIO_BV_PUT(&dout, packet->cargo);
   }
   if (BV_ISSET(fields, 33)) {
-  DIO_BV_PUT(&dout, packet->flags);
+    dio_put_string(&dout, real_packet->helptext);
   }
   if (BV_ISSET(fields, 34)) {
+  DIO_BV_PUT(&dout, packet->flags);
+  }
+  if (BV_ISSET(fields, 35)) {
   DIO_BV_PUT(&dout, packet->roles);
   }
 

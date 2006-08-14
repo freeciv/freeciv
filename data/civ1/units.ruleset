@@ -123,6 +123,7 @@ flags         = "Missile"
 ; fuel          = number of turns air units can fly before they crash. For
 ;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
+; cargo         = Unit classes this unit can transport
 ; flags         = special flag strings
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves
@@ -650,6 +651,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "Trireme"
 roles         = "Ferryboat"
 
@@ -678,6 +680,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = ""
 roles         = "Ferryboat", "BarbarianBoat"
 
@@ -706,6 +709,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = ""
 roles         = "Ferryboat"
 
@@ -850,7 +854,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Carrier"
+cargo         = "Air", "Missile"
+flags         = ""
 roles         = ""
 helptext      = _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
@@ -883,6 +888,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = ""
 roles         = "Ferryboat"
 

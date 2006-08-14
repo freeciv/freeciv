@@ -482,36 +482,7 @@ bool can_unit_type_transport(const struct unit_type *transporter,
     return FALSE;
   }
 
-  if (transported->move_type == LAND_MOVING) {
-    if ((unit_type_flag(transporter, F_CARRIER)
-         || unit_type_flag(transporter, F_MISSILE_CARRIER))) {
-      return FALSE;
-    }
-    return TRUE;
-  }
-
-  if (!unit_class_flag(transported, UCF_MISSILE)
-     && unit_type_flag(transporter, F_MISSILE_CARRIER)) {
-    return FALSE;
-  }
-
-  if (unit_class_flag(transported, UCF_MISSILE)) {
-    if (!unit_type_flag(transporter, F_MISSILE_CARRIER)
-        && !unit_type_flag(transporter, F_CARRIER)) {
-      return FALSE;
-    }
-  } else if ((transported->move_type == AIR_MOVING
-              || transported->move_type == HELI_MOVING)
-             && !unit_type_flag(transporter, F_CARRIER)) {
-    return FALSE;
-  }
-
-  if (transported->move_type == SEA_MOVING) {
-    /* No unit can transport sea units at the moment */
-    return FALSE;
-  }
-
-  return TRUE;
+  return BV_ISSET(transporter->cargo, transported->id);
 }
 
 /**************************************************************************

@@ -60,8 +60,7 @@ enum unit_flag_id {
   F_HELP_WONDER,
   F_IGZOC,     
   F_NONMIL,      
-  F_IGTER,       
-  F_CARRIER,     
+  F_IGTER,
   F_ONEATTACK,   
   F_PIKEMEN,     
   F_HORSE,       
@@ -80,7 +79,6 @@ enum unit_flag_id {
   F_PARATROOPERS,
   F_AIRBASE,          /* Can build Airbases */
   F_CITIES,           /* Can build cities */
-  F_MISSILE_CARRIER,  /* Like F_CARRIER, but missiles only (Submarine) */
   F_NO_LAND_ATTACK,   /* Cannot attack vs land squares (Submarine) */
   F_ADD_TO_CITY,      /* unit can add to city population */
   F_FANATIC,          /* Only Fundamentalist government can build
@@ -199,6 +197,8 @@ struct unit_type {
   int bombard_rate;
 
   struct unit_class *class;
+
+  bv_unit_classes cargo;
   
   char *helptext;
 };

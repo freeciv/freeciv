@@ -130,6 +130,7 @@ flags         = ""
 ; fuel          = number of turns air units can fly before they crash. For
 ;                 barbarians this is used as lifetime instead
 ; uk_*          = upkeep costs, these are used as base values in the game
+; cargo         = Unit classes this unit can transport
 ; flags         = special flag strings
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves
@@ -1146,6 +1147,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "Trireme", "BadCityDefender"
 roles         = "Ferryboat"
 
@@ -1174,6 +1176,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
@@ -1202,6 +1205,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
@@ -1230,6 +1234,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Hunter"
 
@@ -1402,8 +1407,9 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Missile"
 flags         = "Partial_Invis", "BadCityDefender",
-	        "Missile_Carrier", "No_Land_Attack"
+	        "No_Land_Attack"
 roles         = "Hunter"
 helptext      = _("\
 Submarines have a very high strategic value, but have a weak\
@@ -1435,7 +1441,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Carrier"
+cargo         = "Air", "Missile", "Helicopter"
+flags         = ""
 roles         = ""
 helptext      = _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
@@ -1468,6 +1475,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Ferryboat"
 

@@ -1078,6 +1078,8 @@ PACKET_RULESET_UNIT=96;sc,lsend
 
   UINT8 bombard_rate;
 
+  BV_UNIT_CLASSES cargo;
+
   STRING helptext[MAX_LEN_PACKET];
 
   BV_FLAGS flags;

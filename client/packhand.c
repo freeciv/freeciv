@@ -2191,6 +2191,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   u->paratroopers_mr_req = p->paratroopers_mr_req;
   u->paratroopers_mr_sub = p->paratroopers_mr_sub;
   u->bombard_rate       = p->bombard_rate;
+  u->cargo              = p->cargo;
 
   for (i = 0; i < MAX_VET_LEVELS; i++) {
     sz_strlcpy(u->veteran[i].name, p->veteran_name[i]);

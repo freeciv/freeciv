@@ -139,6 +139,7 @@ flags         = ""
 ;                 barbarians this is used as lifetime instead. If this is zero,
 ;                 the unit has unlimited fuel, despite flying.
 ; uk_*          = upkeep costs, these are used as base values in the game
+; cargo         = Unit classes this unit can transport
 ; flags         = special flag strings
 ; roles         = special role strings
 ; sound_move	= optional sound effect when the unit moves
@@ -157,8 +158,6 @@ flags         = ""
 ; "IgZOC"	= (land only) ignore Zones of Control (ZOC)
 ; "NonMil"	= a non-military unit, does not cause unhappiness
 ; "IgTer"	= ignore terrain/road/rail, treat every tile as 1/3 move cost
-; "Carrier"	= can transport air and missile units, but not land units
-; "Missile_Carrier" = can transport only missiles, but no aircraft or land units
 ; "OneAttack"	= can only make a single attack, regardless of movement points
 ; "Pikemen"	= double defence power against "Horse" flag units
 ; "Horse"	= (no effect)
@@ -1203,6 +1202,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "Trireme", "BadCityDefender"
 roles         = "Ferryboat"
 
@@ -1231,6 +1231,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
@@ -1259,6 +1260,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Ferryboat", "BarbarianBoat"
 
@@ -1287,6 +1289,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Hunter"
 
@@ -1459,8 +1462,9 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Missile"
 flags         = "Partial_Invis", "BadCityDefender",
-	        "Missile_Carrier", "No_Land_Attack"
+	        "No_Land_Attack"
 roles         = "Hunter"
 helptext      = _("\
 Submarines have a very high strategic value, but have a weak\
@@ -1492,7 +1496,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Carrier", "BadCityDefender"
+cargo         = "Air", "Missile", "Helicopter"
+flags         = "BadCityDefender"
 roles         = ""
 helptext      = _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
@@ -1525,6 +1530,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Land"
 flags         = "BadCityDefender"
 roles         = "Ferryboat"
 

@@ -793,6 +793,7 @@ struct packet_ruleset_unit {
   float power_fact[MAX_VET_LEVELS];
   int move_bonus[MAX_VET_LEVELS];
   int bombard_rate;
+  bv_unit_classes cargo;
   char helptext[MAX_LEN_PACKET];
   bv_flags flags;
   bv_roles roles;

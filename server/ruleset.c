@@ -1177,6 +1177,21 @@ if (vet_levels_default > MAX_VET_LEVELS || vet_levels > MAX_VET_LEVELS) { \
 						get_output_identifier(o));
     } output_type_iterate_end;
 
+    slist = secfile_lookup_str_vec(file, &nval, "%s.cargo", sec[i]);
+    BV_CLR_ALL(u->cargo);
+    for (j = 0; j < nval; j++) {
+      struct unit_class *class = unit_class_from_str(slist[j]);
+
+      if (!class) {
+        /* TRANS: message for an obscure ruleset error. */
+        freelog(LOG_FATAL, _("Unit %s has unknown unit class %s as cargo."),
+                u->name, slist[j]);
+        exit(EXIT_FAILURE);
+      }
+
+      BV_SET(u->cargo, class->id);
+    }
+
     u->helptext = lookup_helptext(file, sec[i]);
 
     u->paratroopers_range = secfile_lookup_int_default(file,
@@ -2769,6 +2784,7 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.paratroopers_mr_req = u->paratroopers_mr_req;
     packet.paratroopers_mr_sub = u->paratroopers_mr_sub;
     packet.bombard_rate = u->bombard_rate;
+    packet.cargo = u->cargo;
     for (i = 0; i < MAX_VET_LEVELS; i++) {
       sz_strlcpy(packet.veteran_name[i], u->veteran[i].name);
       packet.power_fact[i] = u->veteran[i].power_fact;
