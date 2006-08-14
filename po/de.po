@@ -19,7 +19,7 @@
 # an Christian Knoke <chrisk@cknoke.de>".
 #
 # Wenn Sie an der Verbesserung der deutschen Übersetzung mitarbeiten möchten, 
-# abonnieren Sie doch unsere Mailingliste mit einer e-Mail mit dem 
+# abonnieren Sie doch unsere Mailingliste mit einer E-Mail mit dem 
 # Subject: subscribe an: <freeciv.de-request@freelists.org>.
 #
 # Achtung: Mails von Nichtabonnenten werden von der Liste nicht angenommen 
@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-08 13:37-0400\n"
+"POT-Creation-Date: 2006-08-06 21:00+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -933,7 +933,7 @@ msgstr "Unzulässiges Loglevel %d in '%s'.\n"
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
 msgstr ""
 "Debuglevel %d kann nur verwendet werden, wenn Freeciv\n"
-"mit dem DEBUG flag kompiliert wurde.\n"
+"mit dem DEBUG-Flag kompiliert wurde.\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
 #, c-format
@@ -982,7 +982,7 @@ msgstr "Unvollständige Eingabe ('%s').\n"
 #: utility/shared.c:463
 #, c-format
 msgid "%d BC"
-msgstr "%d v.Chr."
+msgstr "%d v. Chr."
 
 #: utility/shared.c:465
 #, c-format
@@ -1089,7 +1089,7 @@ msgstr "*%s (KI)* Löse zuerst die Allianz mit %s, %s"
 #: ai/advdiplomacy.c:300
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
-msgstr "*%s (KI)* Lass uns erst die Feindseligkeiten beenden, %s"
+msgstr "*%s (KI)* Laß uns erst die Feindseligkeiten beenden, %s"
 
 #: ai/advdiplomacy.c:304
 #, c-format
@@ -1441,11 +1441,11 @@ msgstr "%s wurde abgewiesen: Datenbankfehler und Gäste nicht erlaubt."
 #: server/auth.c:179
 #, c-format
 msgid "Enter password for %s:"
-msgstr "Passwort für %s eingeben:"
+msgstr "Paßwort für %s eingeben:"
 
 #: server/auth.c:188
 msgid "Enter a new password (and remember it)."
-msgstr "Neues Password eingeben (und merken)."
+msgstr "Neues Paßwort eingeben (und merken)."
 
 #: server/auth.c:193
 msgid "This server allows only preregistered users. Sorry."
@@ -1460,13 +1460,13 @@ msgstr "%s wurde abgewiesen: Nur registrierte Spieler erlaubt."
 
 #: server/auth.c:224 server/auth.c:282
 msgid "Sorry, too many wrong tries..."
-msgstr "Tur mit leid, zu viele Versuche..."
+msgstr "Tut mit leid, zu viele Versuche..."
 
 #: server/auth.c:225
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
-"%s wurde abgewiesen: Zu viele fehlgeschlagene Passwortüberprüfungen für "
+"%s wurde abgewiesen: Zu viele fehlgeschlagene Paßwortüberprüfungen für "
 "neuen Spieler."
 
 #: server/auth.c:241
@@ -1480,11 +1480,11 @@ msgstr ""
 #: server/auth.c:284
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr "%s abgewiesen: zu viele falsche Passworteingaben."
+msgstr "%s abgewiesen: zu viele falsche Paßworteingaben."
 
 #: server/auth.c:293
 msgid "Your password is incorrect. Try again."
-msgstr "Dein Passwort ist falsch. Versuche es nochmals."
+msgstr "Dein Paßwort ist falsch. Versuche es nochmals."
 
 #: server/auth.c:303
 msgid "Sorry, your connection timed out..."
@@ -1493,13 +1493,13 @@ msgstr "Tut mir leid, Deine Verbindungszeit ist abgelaufen..."
 #: server/auth.c:305
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr "%s wurde abgewiesen: Verbindungszeitablauf bei der Passworteingabe."
+msgstr "%s wurde abgewiesen: Verbindungszeitablauf bei der Paßworteingabe."
 
 #: server/auth.c:370
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
 msgstr ""
-"Dein Passwort ist zu kurz, mindestens %d Zeichen erforderlich. Versuche es "
+"Dein Paßwort ist zu kurz, mindestens %d Zeichen erforderlich. Versuche es "
 "nochmals."
 
 #: server/auth.c:376
@@ -1508,7 +1508,7 @@ msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
 msgstr ""
-"Das Passwort muss mindestens %d Großbuchstaben und %d Ziffern enthalten, "
+"Das Paßwort muß mindestens %d Großbuchstaben und %d Ziffern enthalten, "
 "sowie mindestens %d (druckbare) Zeichen lang. Versuche es nochmals."
 
 #: server/barbarian.c:188
@@ -1516,7 +1516,7 @@ msgstr ""
 msgid ""
 "Barbarians gain a leader by the name %s.  Dangerous times may lie ahead."
 msgstr ""
-"Die Barbaren haben einen neuen Führer namens %s. Gefährliche Zeiten liegen "
+"Die Barbaren haben einen neuen Anführer namens %s. Gefährliche Zeiten liegen "
 "vor uns."
 
 #: server/barbarian.c:475
@@ -1594,7 +1594,7 @@ msgstr ""
 #, c-format
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
-msgstr "%s ist kein gültiger Name. Der ASCII Zeichensatz muß verwendet werden."
+msgstr "%s ist kein gültiger Name. Der ASCII-Zeichensatz muß verwendet werden."
 
 #: server/citytools.c:447
 #, c-format
@@ -1885,7 +1885,7 @@ msgstr ""
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
-"%s can't build %s from the worklist - die Gründe sind nicht bekannt.Der "
+"%s can't build %s from the worklist - die Gründe sind nicht bekannt. Der "
 "Auftrag wird zurückgestellt."
 
 #: server/cityturn.c:858
@@ -1935,7 +1935,7 @@ msgstr "Die %s haben %s von den %s übernommen."
 #: server/cityturn.c:1142
 #, c-format
 msgid "The %s have started building a spaceship!"
-msgstr "Die %s haben mit dem Bau eines Raumschiffs begonnen!"
+msgstr "Die %s haben mit dem Bau eines Raumschiffes begonnen!"
 
 #: server/cityturn.c:1182
 #, c-format
@@ -2010,7 +2010,7 @@ msgstr "%s wurde aufgegeben, um %s zu bekommen."
 #: server/civserver.c:77
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
 msgstr ""
-"Um Freeciv zu beenden, muss zweimal innerhalb einer Sekunde unterbrochen "
+"Um Freeciv zu beenden, muß zweimal innerhalb einer Sekunde unterbrochen "
 "werden.\n"
 
 #: server/civserver.c:134
@@ -2058,7 +2058,7 @@ msgstr "  -N  --Newusers\tNeue Benutzer bei Authentifizierung erlauben.\n"
 
 #: server/civserver.c:213
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-msgstr "  -b, --bind ADDR\tNur an ADDR auf Client warten\n"
+msgstr "  -b, --bind ADR\tNur an ADR auf Client warten\n"
 
 #: server/civserver.c:215 client/civclient.c:200
 msgid ""
@@ -2136,9 +2136,9 @@ msgstr ""
 " \n"
 "Bitte informieren Sie uns\n"
 "- über Programmfehler in ENGLISCH\n"
-"  mit einer e-Mail an <%s>.\n"
+"  mit einer E-Mail an <%s>.\n"
 "- über Probleme mit der deutschen Übersetzung\n"
-"  mit einer e-Mail an <chrisk@cknoke.de>.\n"
+"  mit einer E-Mail an <chrisk@cknoke.de>.\n"
 "\n"
 
 #: server/commands.c:28
@@ -2217,7 +2217,7 @@ msgstr "Spiel beenden und Server herunterfahren"
 #. TRANS: translate text between <> only
 #: server/commands.c:74
 msgid "cut <connection-name>"
-msgstr "cut <Verbindungs-Name>"
+msgstr "cut <Verbindungsname>"
 
 #: server/commands.c:75
 msgid "Cut a client's connection to server."
@@ -2232,7 +2232,7 @@ msgid ""
 msgstr ""
 "Beendet eine bestimmte Client-Server-Verbindung, indem dieser Client aus "
 "Spiel entfernt wird. Falls das Spiel noch nicht begonnen hat, wird der "
-"Spieler dieses Client aus dem Spiel entfernt, ansonsten hat es keine "
+"Spieler dieses Clients aus dem Spiel entfernt, ansonsten hat es keine "
 "Wirkung. HINWEIS: Ab sofort benötigt dieser Befehl nicht mehr den "
 "Spielernamen, sondern die Bezeichnung der Verbindung als Argument."
 
@@ -2344,7 +2344,7 @@ msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
 msgstr ""
-"Gibt Informationen zur KI Fehlersuche für das gegebene Spielelement aus und "
+"Gibt Informationen zur KI-Fehlersuche für das gegebene Spielelement aus und "
 "schaltet die fortlaufende Ausgabe ein oder aus."
 
 #: server/commands.c:129
@@ -2382,14 +2382,14 @@ msgstr "rulesetdir <Verzeichnis>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
-msgstr "Neues Regelsatzverzeichnis oder Modpack wählen."
+msgstr "Neues Regelverzeichnis oder Modpack wählen."
 
 #: server/commands.c:144
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
 msgstr ""
-"Neues Regelsatz-Verzeichnis oder modpack auswählen. Wird dieser Befehl ohne "
+"Neues Regelverzeichnis oder Modpack auswählen. Wird dieser Befehl ohne "
 "Argumente aufgerufen, wird der derzeitige Regelsatz angezeigt."
 
 #. TRANS: translate text between <> only
@@ -2399,7 +2399,7 @@ msgstr "metainfo <Text>"
 
 #: server/commands.c:151
 msgid "Set metaserver info line."
-msgstr "Metaserver Informationszeile setzen"
+msgstr "Metaserver-Informationszeile setzen"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:155
@@ -2408,7 +2408,7 @@ msgstr "metapatch <Patch Info>"
 
 #: server/commands.c:156
 msgid "Set metaserver patches line."
-msgstr "Metaserver Patch Info setzen"
+msgstr "Patch-Informationen des Metaservers setzen"
 
 #: server/commands.c:162
 msgid "Control metaserver connection."
@@ -2491,7 +2491,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:199
 msgid "detach <connection-name>"
-msgstr "detach <Verbindungs-Name>"
+msgstr "detach <Verbindungsname>"
 
 #: server/commands.c:200
 msgid "detach from a player."
@@ -2667,7 +2667,7 @@ msgstr ""
 "cmdlevel <Zugriffsberechtigung>\n"
 "cmdlevel <Zugriffsberechtigung> new\n"
 "cmdlevel <Zugriffsberechtigung> first\n"
-"cmdlevel <Zugriffsberechtigung> <Verbindungs-Name>"
+"cmdlevel <Zugriffsberechtigung> <Verbindungsname>"
 
 #: server/commands.c:271
 msgid "Query or set command access level access."
@@ -2827,7 +2827,7 @@ msgid ""
 "and server options are lost.\n"
 msgstr ""
 "Spieldatei <Dateiname> laden. Alle derzeitigen Daten (auch über Spieler, "
-"rulesets und Serveroptionen) gehen dabei verloren.\n"
+"Regelsatz und Serveroptionen) gehen dabei verloren.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:346
@@ -3616,7 +3616,7 @@ msgstr[1] ""
 
 #: server/plrhand.c:349
 msgid "Revolution: returning to anarchy."
-msgstr "Revulotion: Rückkehr zur Anarchie."
+msgstr "Revolution: Rückkehr zur Anarchie."
 
 #: server/plrhand.c:409
 msgid "You should choose a new government from the government menu."
@@ -4018,7 +4018,7 @@ msgstr "Could not find a readable \"%s.%s\" ruleset file."
 #: server/ruleset.c:168
 #, c-format
 msgid "Could not load ruleset file \"%s\"."
-msgstr "Konnte den Regelsatz '%s' nicht laden."
+msgstr "Konnte den Regeldatei '%s' nicht laden."
 
 #. TRANS: message for an obscure script error.
 #: server/ruleset.c:185
@@ -4028,7 +4028,7 @@ msgstr "Could not load ruleset script file \"%s\"."
 
 #: server/ruleset.c:202
 msgid "Ruleset datafile appears incompatible:"
-msgstr "Inkompatibler Regelsatz:"
+msgstr "Inkompatible Regeldatei:"
 
 #: server/ruleset.c:203 server/ruleset.c:211 client/audio.c:229
 #: client/audio.c:237
@@ -4050,7 +4050,7 @@ msgstr "unterstützte Optionen: %s"
 
 #: server/ruleset.c:209
 msgid "Ruleset datafile claims required option(s) which we don't support:"
-msgstr "Regelsatz-Datei benötigt Optionen, die nicht unterstützt werden:"
+msgstr "Die Regeldatei verlangt Optionen, die nicht unterstützt werden:"
 
 #. TRANS: Obscure ruleset error
 #: server/ruleset.c:257
@@ -4107,7 +4107,7 @@ msgstr "Section %s lists unknown effect type: \"%s\" (%s)"
 
 #: server/ruleset.c:3039
 msgid "Loading rulesets"
-msgstr "Lade Regelsatzdateien"
+msgstr "Lade Regelsätze"
 
 #. TRANS: Error message.
 #: server/savegame.c:156
@@ -4220,8 +4220,8 @@ msgstr "Das abgespeicherte Spiel ist zu alt (< 1.9.0)."
 msgid ""
 "The savegame uses the classic terrain ruleset which is no longer supported."
 msgstr ""
-"Der im abgespeicherten Spiel benutzte Gelände-Regelsatz wird nicht mehr "
-"unterstützt."
+"Das abgespeicherte Spiel verwendet Gelände-Regeln, die nicht mehr "
+"unterstützt werden."
 
 #: server/savegame.c:3646
 #, c-format
@@ -4229,7 +4229,7 @@ msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 msgstr ""
-"Warnung: Die Regelsatz-Verzeichnisse '%s' und '%s' werden nicht mehr "
+"Warnung: Die Regelverzeichnisse '%s' und '%s' werden nicht mehr "
 "unterstützt. Stattdessen wird das Verzeichnis '%s' benutzt."
 
 # CK: TECHNICAL
@@ -4668,7 +4668,7 @@ msgid ""
 "    A   = Strong attack unit (eg., Catapult)\n"
 msgstr ""
 "Diese Zeichenkette gibt die zu Spielbeginn vorhandenen Einheiten an. Ein "
-"Stadtgründer muss mindestens enthalten sein. Bedeutung der Zeichen:\n"
+"Stadtgründer muß mindestens enthalten sein. Bedeutung der Zeichen:\n"
 "    c   = Stadtgründer (z.B. Siedler)\n"
 "    w   = Arbeiter (z.B. Ingenieur)\n"
 "    x   = Kundschafter (z.B. Kundschafter)\n"
@@ -4709,7 +4709,7 @@ msgid ""
 msgstr ""
 "Die Anzahl von Fortschritten, die jeder Spieler bereits zu Beginn erhält. "
 "Die Fortschritte werden für jeden Spieler per Zufall bestimmt. Ein hoher "
-"Wert für techlevel kann das Erforschen der nächstnachfolgenden Technologien "
+"Wert für techlevel kann das Erforschen der nachfolgenden Technologien "
 "sehr teuer machen."
 
 #: server/settings.c:475
@@ -4752,7 +4752,7 @@ msgid ""
 "applies to gold transfers in diplomatic treaties."
 msgstr ""
 "Für jedes Forschungsergebnis, das man aufgrund von Verhandlungen erhalten "
-"hat, wird dieser Prozentsatz der Foschungspunkte in Abzug gebracht. Ein "
+"hat, wird dieser Prozentsatz der Forschungspunkte in Abzug gebracht. Ein "
 "negatives Forschungskonto ist möglich. Gilt ebenfalls für Gold-Transfers "
 "mittels Abkommen."
 
@@ -4782,7 +4782,7 @@ msgid ""
 "technology. You can end up with negative research points if this is non-zero."
 msgstr ""
 "Für jedes 'kostenlose' Forschungsergebnis (z.B. 'Große Bibliothek') wird  "
-"dieser Prozentsatz der Foschungspunkte in Abzug gebracht. Ein negatives "
+"dieser Prozentsatz der Forschungspunkte in Abzug gebracht. Ein negatives "
 "Forschungskonto ist möglich."
 
 #: server/settings.c:527
@@ -5216,14 +5216,14 @@ msgstr ""
 "Dies ist eine Zeichenkette, in der jeder Buchstabe einen Typ oder Status "
 "einer Zivilisation (Spieler) angibt. Clients dürfen nur Spieler übernehmen "
 "oder beobachten, deren Buchstabe hier aufgeführt ist. Dies regelt nur "
-"zukünftige Anwendungen des 'take' und des 'observe' Kommandos, laufende "
+"zukünftige Anwendungen des 'take'- und des 'observe'-Kommandos, laufende "
 "Verbindungen sind nicht betroffen. Die Buchstaben und ihre Bedeutung:\n"
 "    o, O = Globale Beobachter\n"
 "    b    = Barbaren\n"
 "    d    = tote Spieler\n"
 "    a, A = KI-Spieler\n"
 "    h, H = menschliche Spieler\n"
-"Die erste Beschreibung, die auf den Spieler passt, wird angewendet. 'd' gilt "
+"Die erste Beschreibung, die auf den Spieler paßt, wird angewendet. 'd' gilt "
 "also nicht für tote Barbaren, und 'a' gilt nicht für tote KI-Spieler. "
 "Großbuchstaben gelten vor Spielbeginn, Kleinbuchstaben während des Spiels.\n"
 "\n"
@@ -5317,8 +5317,8 @@ msgid ""
 "connections will be automatically disconnected eventually)."
 msgstr ""
 "Falls ein Client länger als diese Zeit die TCP-Verbindung blockiert, wird "
-"diese geschlossen. 0 bedeutet, es gibt nur das Zeitlimit aus der TCP "
-"Protokoll Vereinbarung."
+"diese geschlossen. 0 bedeutet, es gibt nur das Zeitlimit aus der TCP-"
+"Protokoll-Vereinbarung."
 
 #: server/settings.c:906
 msgid "Max seconds for network buffers to drain"
@@ -5737,7 +5737,7 @@ msgstr "Warte auf Spieler..."
 #, c-format
 msgid "Vote \"%s\" is passed %d to %d with %d abstentions."
 msgstr ""
-"Der Befehl '%s' wurde in der Abstimmung mit %d to %d angenommen, bei %d "
+"Der Befehl '%s' wurde in der Abstimmung mit %d zu %d angenommen, bei %d "
 "Enthaltungen."
 
 #: server/stdinhand.c:254
@@ -5817,7 +5817,7 @@ msgstr "Es besteht keine Verbindung zum Metaserver."
 
 #: server/stdinhand.c:562
 msgid "Metaserver connection is already open."
-msgstr "Es besteht bereits Verbindung zum Metaserver."
+msgstr "Es besteht bereits eine Verbindung zum Metaserver."
 
 #: server/stdinhand.c:573
 msgid "Metaserver connection is already closed."
@@ -5825,30 +5825,30 @@ msgstr "Die Verbindung zum Metaserver wurde bereits beendet."
 
 #: server/stdinhand.c:578
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
-msgstr "Zulässige Parameter sind 'u', 'up', 'd', 'down', or '?'."
+msgstr "Zulässige Parameter sind 'u', 'up', 'd', 'down' und '?'."
 
 #: server/stdinhand.c:599
 #, c-format
 msgid "Metaserver patches string set to '%s'."
-msgstr "Metaserver Patch Information auf '%s' gesetzt."
+msgstr "Patch-Informationen des Metaservers auf '%s' gesetzt."
 
 #: server/stdinhand.c:602
 #, c-format
 msgid "Metaserver patches string set to '%s', not reporting to metaserver."
 msgstr ""
-"Metaserver Patch Information auf '%s' gesetzt - keine Verbindung zum "
+"Patch-Informationen des Metaservers auf '%s' gesetzt - keine Verbindung zum "
 "Metaserver."
 
 #: server/stdinhand.c:623
 #, c-format
 msgid "Metaserver message string set to '%s'."
-msgstr "Metaserver Nachrichtenzeile auf '%s' gesetzt."
+msgstr "Nachrichtenzeile des Metaservers auf '%s' gesetzt."
 
 #: server/stdinhand.c:626
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
 msgstr ""
-"Metaserver Nachrichtenzeile auf '%s' gesetzt - keine Verbindung zum "
+"Nachrichtenzeile des Metaservers auf '%s' gesetzt - keine Verbindung zum "
 "Metaserver."
 
 #: server/stdinhand.c:646
@@ -5935,7 +5935,7 @@ msgstr "Der Name \"%s\" ist aus Sicherheitsgründen nicht erlaubt."
 #: server/stdinhand.c:1017
 #, c-format
 msgid "No command script found by the name \"%s\"."
-msgstr "Keine Kommandoskript mit der Bezeichnung '%s' gefunden."
+msgstr "Kein Kommandoskript mit der Bezeichnung '%s' gefunden."
 
 #: server/stdinhand.c:1025
 #, c-format
@@ -6188,7 +6188,7 @@ msgstr "+ heißt, daß diese Einstellung geändert werden kann"
 
 #: server/stdinhand.c:1944
 msgid "= means the option is on its default value"
-msgstr "= heißt, daß diese Einstellung standard ist"
+msgstr "= heißt, daß dies die Standardeinstellung ist"
 
 #: server/stdinhand.c:1947
 #, c-format
@@ -6223,7 +6223,7 @@ msgstr "Falscher Parameter. Anwendung: team <Spieler> <Team>."
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr ""
-"Ein Team %s gibt es nicht. Bitte gebe einen gültigen Teamnamen oder -nummer "
+"Ein Team %s gibt es nicht. Bitte gib einen gültigen Teamnamen oder -nummer "
 "an."
 
 #: server/stdinhand.c:2112
@@ -6537,7 +6537,7 @@ msgstr "Tot"
 
 #: server/stdinhand.c:3025
 msgid "Usage: detach <connection-name>"
-msgstr "Syntax: detach <Verbindungs-Name>"
+msgstr "Syntax: detach <Verbindungsname>"
 
 #: server/stdinhand.c:3045
 msgid "You can not detach other users."
@@ -6589,22 +6589,22 @@ msgstr "Derzeitiges Verzeichnis für Regelsätze: '%s'"
 #: server/stdinhand.c:3297
 #, c-format
 msgid "Ruleset directory name \"%s\" disallowed for security reasons."
-msgstr "Ruleset Verzeichnis '%s' aus Sicherheitsgründen nicht erlaubt."
+msgstr "Ruleset-Verzeichnis '%s' aus Sicherheitsgründen nicht erlaubt."
 
 #: server/stdinhand.c:3305
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
-msgstr "Ruleset Verzeichnis '%s' nicht gefunden"
+msgstr "Ruleset-Verzeichnis '%s' nicht gefunden"
 
 #: server/stdinhand.c:3311
 #, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr "Ruleset Verzeichnis ist bereits '%s'"
+msgstr "Ruleset-Verzeichnis ist bereits '%s'"
 
 #: server/stdinhand.c:3315
 #, c-format
 msgid "Ruleset directory set to \"%s\""
-msgstr "Ruleset Verzeichnis ist jetzt '%s'"
+msgstr "Ruleset-Verzeichnis ist jetzt '%s'"
 
 #: server/stdinhand.c:3354
 msgid "Goodbye."
@@ -6675,7 +6675,7 @@ msgstr "Zu wenige Mitspieler, Spiel wird nicht gestartet."
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
-"Kann Spiel nicht starten: es wird gewartet, dass alle Spieler die Verbindung "
+"Kann Spiel nicht starten: es wird gewartet, daß alle Spieler die Verbindung "
 "beenden."
 
 #: server/stdinhand.c:3701
@@ -6807,7 +6807,7 @@ msgstr[1] " %d Verbindungen:"
 #: server/stdinhand.c:4074
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr " %s von %s (Zugriffsberechtigung %s, %d KB Buffer)"
+msgstr " %s von %s (Zugriffsberechtigung %s, %d kB Puffer)"
 
 #: server/stdinhand.c:4079
 msgid " (observer mode)"
@@ -7245,7 +7245,7 @@ msgstr "%s beim Verlust von %s verloren."
 #: server/unittools.c:1583
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
-msgstr "Barbarenführer gefaßt, %d Goldstücke Belohnung erhalten."
+msgstr "Barbarenanführer gefaßt, %d Goldstücke Belohnung erhalten."
 
 #: server/unittools.c:1601
 #, c-format
@@ -8119,16 +8119,16 @@ msgstr ""
 #: client/civclient.c:253
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
-msgstr "Fehler: --port Option: Portnummer '%s' ist nicht zulässig.\n"
+msgstr "Fehler: Option --port: Portnummer '%s' ist nicht zulässig.\n"
 
 #: client/civclient.c:255 client/civclient.c:270
 msgid "Try using --help.\n"
-msgstr "Hilfe erhalten Sie mit der --help Option.\n"
+msgstr "Hilfe erhalten Sie mit der Option --help.\n"
 
 #: client/civclient.c:268
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr "Fehler: --debug Option: Debug Level '%s' ist nicht zulässig.\n"
+msgstr "Fehler: Option --debug: Debug-Level '%s' ist nicht zulässig.\n"
 
 #: client/civclient.c:281
 #, c-format
@@ -8372,7 +8372,7 @@ msgstr "Es gibt keinen Weg zu diesem Ziel!"
 
 #: client/control.c:2143
 msgid "Oh my! You seem to have no capital!"
-msgstr "Ohje! Es scheint keine Hauptstadt zu geben!"
+msgstr "Oh je! Es scheint keine Hauptstadt zu geben!"
 
 #: client/helpdata.c:120
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -8575,7 +8575,7 @@ msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
 "least 9 tiles [in Manhattan distance] from this unit's home city).\n"
 msgstr ""
-"* Kann Handelsrouten erzeugen (Einheit muss zu einer Stadt reisen, die "
+"* Kann Handelsrouten erzeugen (Einheit muß zu einer Stadt reisen, die "
 "mindestens 9 Felder (in rechtwinkliger Entfernung) von seiner Heimatstadt "
 "entfernt ist.\n"
 
@@ -8867,7 +8867,7 @@ msgstr ""
 #: client/helpdata.c:1107
 #, c-format
 msgid "You cannot research this technology."
-msgstr "Sie können diese Technology nicht erforschen."
+msgstr "Sie können diese Technologie nicht erforschen."
 
 #: client/helpdata.c:1111
 #, c-format
@@ -8921,6 +8921,7 @@ msgstr "* %s mit diesem Wissen können Straßen zu Eisenbahnlinien machen.\n"
 
 #: client/helpdata.c:1169
 #, c-format
+# FIXME: Sollte %s Siedler sein, so ist Grammatik falsch!
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* Ermöglicht %s, bewässertes Land in Ackerland zu verwandeln.\n"
 
@@ -9150,7 +9151,7 @@ msgstr ""
 #: client/helpdata.c:1428
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr "* Die %s-Produktion verursacht große Mengen Mülls.\n"
+msgstr "* Die %s-Produktion verursacht große Mengen Müll.\n"
 
 #: client/helpdata.c:1431
 #, c-format
@@ -9236,7 +9237,7 @@ msgstr "Login-Name"
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
-msgstr "Dies ist der Standard-Username, der für Verbindungen genutzt wird."
+msgstr "Dies ist der Standard-Benutzername, der für Verbindungen genutzt wird."
 
 #: client/options.c:102
 msgid "Server"
@@ -9270,7 +9271,7 @@ msgid ""
 "you're doing."
 msgstr ""
 "Der Metaserver ist ein Server, bei dem sich Clients über Spiele informieren "
-"können, die gerade im Internet laufen. Änders Sie diesen Eintrag nicht, es "
+"können, die gerade im Internet laufen. Ändern Sie diesen Eintrag nicht, es "
 "sei denn, Sie wissen, was Sie tun."
 
 #: client/options.c:121
@@ -9345,7 +9346,7 @@ msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
-"Hier stellen Sie ein, wielange die Einheitenanimation dauert, wenn Einheiten "
+"Hier stellen Sie ein, wie lange die Einheiten-Animation dauert, wenn Einheiten "
 "auf der Karte bewegt werden. Mit 0 schalten Sie die Animation ab."
 
 #: client/options.c:159
@@ -9399,7 +9400,7 @@ msgstr ""
 
 #: client/options.c:182
 msgid "Draw shield graphics for units"
-msgstr "Schildergraphik für Einheiten"
+msgstr "Schildergrafik für Einheiten"
 
 #: client/options.c:183
 msgid ""
@@ -9454,14 +9455,14 @@ msgstr "Neu aktivierte Einheiten werden automatisch auf der Karte zentriert."
 
 #: client/options.c:206
 msgid "Allow goto into the unknown"
-msgstr "GOTO auch in unbekannte Gebiete"
+msgstr "Erlauben, auch in unbekannte Gebiete zu gehen"
 
 #: client/options.c:207
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
-"Hiermit kann der GOTO-Befehl Einheiten auch in unentdeckte Gebiete führen. "
+"Hiermit kann der Gehe-nach-Befehl Einheiten auch in unentdeckte Gebiete führen. "
 "Anderenfalls werden unentdeckte Gebiete umgangen."
 
 #: client/options.c:211
@@ -9655,7 +9656,7 @@ msgstr "Name"
 
 #: client/plrdlg_common.c:250
 msgid "Username"
-msgstr "User"
+msgstr "Benutzername"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:651
 #: client/gui-gtk-2.0/pages.c:2048
@@ -10192,12 +10193,12 @@ msgstr "Zeigt das Fortschreiten der Globalen Erwärmung an:"
 #: client/text.c:889
 #, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Umweltverschmutzung: %d%%"
+msgstr "Umweltverschmutzung: %d %%"
 
 #: client/text.c:891
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
-msgstr "Riskio einer katastrophalen Erwärmung pro Runde: %d%%"
+msgstr "Risiko einer katastrophalen Erwärmung pro Runde: %d %%"
 
 #: client/text.c:907
 msgid "Shows the progress of nuclear winter:"
@@ -10206,12 +10207,12 @@ msgstr "Zeigt das Fortschreiten des Nuklearen Winters an:"
 #: client/text.c:908
 #, c-format
 msgid "Fallout rate: %d%%"
-msgstr "Fallout Rate: %d%%"
+msgstr "Fallout-Rate: %d %%"
 
 #: client/text.c:910
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
-msgstr "Risiko eines katastrophalen nuklearen Winters pro Runde: %d%%"
+msgstr "Risiko eines katastrophalen nuklearen Winters pro Runde: %d %%"
 
 #: client/text.c:925
 msgid "Shows your current government:"
@@ -10643,7 +10644,7 @@ msgstr "Es kann keine Revolte in %s eingeleitet werden."
 #: client/gui-gtk-2.0/diplomat_dialog.c:540 client/gui-mui/dialogs.c:485
 #: client/gui-sdl/diplomat_dialog.c:1134 client/gui-win32/dialogs.c:1544
 msgid "City can't be incited!"
-msgstr "Eine Revolte ist hier z.Zt. nicht möglich!"
+msgstr "Eine Revolte ist hier z.Z. nicht möglich!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:546 client/gui-mui/dialogs.c:488
 #: client/gui-sdl/diplomat_dialog.c:1143 client/gui-win32/dialogs.c:1548
@@ -11565,15 +11566,15 @@ msgstr "Ein/Ausschalten der Rollbalken für die Karte."
 
 #: client/gui-gtk-2.0/gui_main.c:154
 msgid "Keyboardless goto"
-msgstr "Mausgesteuerte Gehe-nach Funktion"
+msgstr "Mausgesteuerte Gehe-nach-Funktion"
 
 #: client/gui-gtk-2.0/gui_main.c:155
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
-"Hiermit können Sie die Gehe-nach Funktion mittels Klicken und Ziehen der "
-"Maus auslösen."
+"Die Gehe-nach-Funktion kann mittels Klicken und Ziehen der Maus "
+"ausgelöst werden."
 
 #: client/gui-gtk-2.0/gui_main.c:160
 msgid "Keep dialogs on top"
@@ -12066,16 +12067,6 @@ msgstr "_Spiel"
 msgid "Game"
 msgstr "Spiel"
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# + EH 24.10.99:                                                   +
-# + DER DEUTSCHE TEXT SOLLTE HIER AUF KEINEN FALL GEÄNDERT WERDEN! +
-# + Vermutlich aufgrund eines Bugs führen hier (und nur hier)      +
-# + längere Texte beim Start des GTK-clients zu einem              +
-# + 'Speicherzuordnungsfehler'.                                    +
-# + EH 15.11.99:                                                   +
-# + Bug (vermutlich) durch Patch von Jeff Mallat beseitigt.        +
-# + NICHT GETESTET!                                                +
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #: client/gui-gtk-2.0/menu.c:689 client/gui-win32/menu.c:303
 msgid "Local _Options"
 msgstr "_Lokale Optionen"
@@ -12736,7 +12727,7 @@ msgstr "Mit Gaming _Zone verbinden"
 #: client/gui-gtk-2.0/pages.c:610 client/gui-win32/connectdlg.c:298
 #: client/gui-xaw/connectdlg.c:326
 msgid "Passwords don't match, enter password."
-msgstr "Keine Übereinstimmung, Passwort eingeben."
+msgstr "Keine Übereinstimmung, Paßwort eingeben."
 
 #: client/gui-gtk-2.0/pages.c:700 client/gui-mui/connectdlg.c:160
 #: client/gui-win32/connectdlg.c:861
@@ -12787,11 +12778,11 @@ msgstr "_Name:"
 
 #: client/gui-gtk-2.0/pages.c:865
 msgid "Pass_word:"
-msgstr "_Passwort:"
+msgstr "_Paßwort:"
 
 #: client/gui-gtk-2.0/pages.c:883
 msgid "Conf_irm Password:"
-msgstr "Passwort _wiederholen:"
+msgstr "Paßwort _wiederholen:"
 
 #: client/gui-gtk-2.0/pages.c:908
 msgid "C_onnect"
@@ -12873,7 +12864,7 @@ msgstr "_KI Stärke:"
 
 #: client/gui-gtk-2.0/pages.c:1449
 msgid "_Ruleset:"
-msgstr "_Regeln:"
+msgstr "_Regelsatz:"
 
 #: client/gui-gtk-2.0/pages.c:1457
 msgid "More Game _Options..."
@@ -13095,7 +13086,7 @@ msgid ""
 "(months)"
 msgstr ""
 "Militärdienst\n"
-"(months)"
+"(Monate)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1288
 msgid "Wonders\n"
@@ -13551,7 +13542,7 @@ msgstr "Stadt _sabotieren"
 
 #: client/gui-mui/dialogs.c:755 client/gui-mui/dialogs.c:822
 msgid "Steal _technology"
-msgstr "_Forschungergebnisse stehlen"
+msgstr "_Forschungsergebnisse stehlen"
 
 #: client/gui-mui/dialogs.c:763 client/gui-mui/dialogs.c:830
 msgid "Incite a _revolt"
@@ -14790,7 +14781,7 @@ msgstr " - Kontrolle durch Bürgermeister."
 
 #: client/gui-sdl/citydlg.c:3702
 msgid "Information panel"
-msgstr "Information Panel"
+msgstr "Informationsleiste"
 
 #: client/gui-sdl/citydlg.c:3726
 msgid "Garrison panel"
@@ -14971,7 +14962,7 @@ msgstr "Gehe hierher"
 
 #: client/gui-sdl/dialogs.c:1262
 msgid "Patrol here"
-msgstr "Patroulliere hierher"
+msgstr "Patrouilliere hierher"
 
 #: client/gui-sdl/dialogs.c:1275
 msgid "Connect here"
@@ -15159,11 +15150,11 @@ msgstr "Unable to initialize  SDL_ttf library: %s"
 #: client/gui-sdl/graphics.c:940
 #, c-format
 msgid "No available mode for this resolution : %d x %d %d bpp"
-msgstr "Kein Modus verfügbar für die Auflösung : %d x %d %d bpp"
+msgstr "Kein Modus verfügbar für die Auflösung: %d x %d %d bpp"
 
 #: client/gui-sdl/graphics.c:943
 msgid "Setting default resolution to : 640 x 480 16 bpp SW"
-msgstr "Setze Standardauflösung auf : 640 x 480 16 bpp SW"
+msgstr "Setze Standardauflösung auf: 640 x 480 16 bpp SW"
 
 #: client/gui-sdl/graphics.c:950
 #, c-format
@@ -15173,7 +15164,7 @@ msgstr "Kann Auflösung %d x %d %d bpp %s nicht setzen"
 #: client/gui-sdl/graphics.c:957
 #, c-format
 msgid "Setting resolution to: %d x %d %d bpp"
-msgstr "Setze Auflösung auf : %d x %d %d bpp"
+msgstr "Setze Auflösung auf: %d x %d %d bpp"
 
 #: client/gui-sdl/gui_main.c:171
 msgid "  -f,  --fullscreen\tStart Client in Fulscreen mode\n"
@@ -15184,7 +15175,7 @@ msgid ""
 "  -e,  --eventthread\tInit Event Subsystem in other thread (only Linux and "
 "BeOS)\n"
 msgstr ""
-"  -e,  --eventthread\tVerwende zweiten Thread für das Event Subsystem (nur "
+"  -e,  --eventthread\tVerwende zweiten Thread für das Event-Subsystem (nur "
 "Linux und BeOS)\n"
 
 #: client/gui-sdl/gui_main.c:773
@@ -15346,7 +15337,7 @@ msgstr ""
 
 #: client/gui-sdl/inteldlg.c:344
 msgid "Their techs that we don't have :"
-msgstr "Diese Fortschritte haben sie uns voraus : "
+msgstr "Diese Fortschritte haben sie uns voraus: "
 
 #: client/gui-sdl/mapctrl.c:252
 msgid "Show Unit Info Window"
@@ -15719,7 +15710,7 @@ msgstr "Zeige Kartengitter in Stadtanzeige"
 
 #: client/gui-sdl/optiondlg.c:1679
 msgid "Draw city worker map grid"
-msgstr "Zeichne Kartengitter für Stadtarbeiter"
+msgstr "Zeige Kartengitter für Stadtarbeiter"
 
 #: client/gui-sdl/optiondlg.c:1706
 msgid "Special Resources"
@@ -15819,7 +15810,7 @@ msgid ""
 "We can sell %d of them for %d gold"
 msgstr ""
 "Wir haben %d %s\n"
-"(Gesamtwert : %d)\n"
+"(Gesamtwert: %d)\n"
 "Wir können %d davon für %d Goldstücke verkaufen"
 
 #: client/gui-sdl/repodlgs.c:1462
@@ -15872,9 +15863,9 @@ msgid ""
 "Research speed : none\n"
 "Next's advance time : never"
 msgstr ""
-"Forschungsleistung : 0\n"
-"Forschungsgeschwindigkeit : keine\n"
-"Nächster Fortschritt : nie"
+"Forschungsleistung: 0\n"
+"Forschungsgeschwindigkeit: keine\n"
+"Nächster Fortschritt: nie"
 
 #: client/gui-sdl/repodlgs.c:2529
 #, c-format
@@ -16254,7 +16245,7 @@ msgstr "Löschen"
 
 #: client/gui-win32/connectdlg.c:145
 msgid "Password:"
-msgstr "Passwort:"
+msgstr "Paßwort:"
 
 #: client/gui-win32/connectdlg.c:167
 msgid "Couldn't load the savegame"
@@ -16262,7 +16253,7 @@ msgstr "Konnte den Spielstand nicht laden"
 
 #: client/gui-win32/connectdlg.c:282 client/gui-xaw/connectdlg.c:311
 msgid "Verify Password"
-msgstr "Wiederhole Passwort"
+msgstr "Wiederhole Paßwort"
 
 #: client/gui-win32/connectdlg.c:731
 msgid "Load Game"
@@ -16382,7 +16373,7 @@ msgid ""
 "this is much slower."
 msgstr ""
 "Hiermit wird Alpha Blending für das Rendering benutzt, statt Ordered Dither. "
-"Wenn keine Hardwareunterstützng für Alpha Blending vorhanden ist, ist dies "
+"Wenn keine Hardwareunterstützung für Alpha Blending vorhanden ist, ist dies "
 "viel langsamer."
 
 #: client/gui-win32/helpdlg.c:99
@@ -16609,7 +16600,7 @@ msgstr "Wollen Sie %s wirklich entfernen?"
 
 #: client/gui-xaw/connectdlg.c:178
 msgid "Pass"
-msgstr "Passwort"
+msgstr "Paßwort"
 
 #: client/gui-xaw/dialogs.c:1471
 msgid "You must select a nation."
@@ -16671,7 +16662,7 @@ msgstr "Benutze Reserveressourcen - OK"
 
 #: client/gui-xaw/gui_main.c:350
 msgid "Only color displays are supported for now..."
-msgstr "Z.Zt. werden nur Farbbildschirme unterstützt..."
+msgstr "Z.Z. werden nur Farbbildschirme unterstützt ..."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
 #: client/gui-xaw/gui_main.c:373 client/gui-xaw/gui_main.c:394
@@ -16715,16 +16706,6 @@ msgstr "Erforsche: Nichts (%d/-)"
 msgid "Intelligence Diplomacy Information for the %s Empire"
 msgstr "Geheimdienstinformationen über das %se Imperium"
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# + EH 24.10.99:                                                   +
-# + DER DEUTSCHE TEXT SOLLTE HIER AUF KEINEN FALL GEÄNDERT WERDEN! +
-# + Vermutlich aufgrund eines Bugs führen hier (und nur hier)      +
-# + längere Texte beim Start des GTK-clients zu einem              +
-# + 'Speicherzuordnungsfehler'.                                    +
-# + EH 15.11.99:                                                   +
-# + Bug (vermutlich) durch Patch von Jeff Mallat beseitigt.        +
-# + NICHT GETESTET!                                                +
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 #: client/gui-xaw/menu.c:111
 msgid "Local Options"
 msgstr "Lokale Optionen"
@@ -17349,7 +17330,7 @@ msgid ""
 "leader of a civilization, fighting to obtain the ultimate goal: the "
 "extinction of all other civilizations."
 msgstr ""
-"Freeciv ist ein rundenbasiertes Multi-Player-Strategiespiel, in dem jeder "
+"Freeciv ist ein rundenbasiertes Mehrspieler-Strategiespiel, in dem jeder "
 "Spieler versucht, eine Nation innerhalb eines vorgegebenen Zeitraums von den "
 "Anfängen der Zivilisation bis in das Zeitalter der Raumfahrt führen."
 
@@ -17381,7 +17362,7 @@ msgstr ""
 "\n"
 "  http://bugs.freeciv.org/\n"
 "\n"
-"oder mittels einer e-Mail an 'bugs@freeciv.org'."
+"oder mittels einer E-Mail an 'bugs@freeciv.org'."
 
 #: data/helpdata.txt:63
 msgid ""
@@ -17429,11 +17410,11 @@ msgstr ""
 "civclient' aufruft, wobei 'xx' der Ländercode ist.\n"
 "\n"
 "Bitte informieren Sie uns über Fehler bzw. Verbesserungsmöglichkeiten der "
-"deutschen Übersetzung, indem Sie eine e-Mail an den Übersetzer schicken.\n"
+"deutschen Übersetzung, indem Sie eine E-Mail an den Übersetzer schicken.\n"
 "\n"
 "Es gibt auch eine öffentliche Mailingliste, die sich ausschließlich mit der "
 "deutschen Übersetzung beschäftigt. Sie können sie mit einer Mail an <freeciv."
-"de-request@freelists.org>, Betreff: subscribe, abonnieren. Sie können an die "
+"de-request@freelists.org>, Betreff: subscribe abonnieren. Sie können an die "
 "Liste jedoch nur schreiben, wenn Sie Abonnent sind.\n"
 "\n"
 "Siehe auch: http://www.freeciv.org/index.php/Translations\n"
@@ -17442,6 +17423,7 @@ msgstr ""
 "org"
 
 #: data/helpdata.txt:405
+# FIXME: not a complete sentence
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5555 by default). If the server is started with "
@@ -17560,7 +17542,7 @@ msgstr ""
 "   p: abs(p)ringen (Fallschirmspringer)\n"
 "   P: brandschatzen (Truppen)\n"
 "   q: patrouillieren (Ziel mit Mausklick bestimmen)\n"
-"   q: Wegpunkt hinzufügen (im Patrouilleren-Modus)\n"
+"   q: Wegpunkt hinzufügen (im Patrouillieren-Modus)\n"
 "   r: Straße/Eisenbahn bauen (Siedler oder Arbeiter)\n"
 "   r: Handelsweg einrichten (Karawanen)\n"
 "   s: Einheit stationieren\n"
@@ -17750,7 +17732,7 @@ msgid ""
 msgstr ""
 "  - Nachrichten, die mit 'Hans:' beginnen, sind private Mitteilungen an "
 "'Hans'. Die Namen können abgekürzt werden. Zuerst wird mit den Spielernamen "
-"verglichen, wenn keiner passt, mit den Usernamen."
+"verglichen, wenn keiner paßt, mit den Benutzernamen."
 
 #: data/helpdata.txt:561
 msgid ""
@@ -17758,7 +17740,7 @@ msgid ""
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
 "  - Nachrichten, die mit 'Hans::' beginnen, sind private Mitteilungen wie "
-"oben, aber werden nur mit den Usernamen, nicht den Spielernamen, verglichen. "
+"oben, aber werden nur mit den Benutzernamen, nicht den Spielernamen, verglichen. "
 "Die Namen können abgekürzt werden.  - Nachrichten, die mit einem "
 "Spielernamen (oder einer Abkürzung davon), gefolgt von einem Doppelpunkt, "
 "beginnen, sind private Mitteilungen an diesen Spieler."
@@ -17788,7 +17770,7 @@ msgid ""
 "available items. You can also press the Help button to get help on the "
 "selected item. Pressing Help with no item selected will display this page."
 msgstr ""
-"Die Arbeit wird erweitert, in dem man durch einen Doppelklick einen Eintrag "
+"Die Arbeit wird erweitert, indem man durch einen Doppelklick einen Eintrag "
 "aus der Liste auswählt. Über 'Hilfe' erhält man Informationen über den "
 "markierten Eintrag oder (falls kein Eintrag markiert ist) diesen Text."
 
@@ -18113,7 +18095,7 @@ msgstr ""
 " 9. Eigene Strategie entwickeln\n"
 "\n"
 "Diese Grundregeln ermöglichen es dem Anfänger, mit dem Spiel klarzukommen. "
-"Aber gut wird man nur, in dem man sich ausführlich mit den verschiedenen "
+"Aber gut wird man nur, indem man sich ausführlich mit den verschiedenen "
 "Einheiten und Entwicklungen beschäftigt - und nicht zuletzt: SPIELT, SPIELT, "
 "SPIELT! Wenn Sie noch nie ein mit Freeciv vergleichbares Spiel gespielt "
 "haben, sollten Sie einen Blick auf http://www.freeciv.org werfen. Dort "
@@ -18253,7 +18235,7 @@ msgstr ""
 "unterhalten. Mit den Schiebereglern auf der rechten Seite läßt sich "
 "einstellen, welche Arten von Produktion bevorzugt werden; Forschung = 3 "
 "bedeutet, daß ein einziger Forschungspunkt 3 Schildern (oder Gold, "
-"Handel ...) vorgezogen wird. Für jede Art von Produktion lassen sich "
+"Handel, ...) vorgezogen wird. Für jede Art von Produktion lassen sich "
 "unterschiedliche Faktoren festlegen.\n"
 "\n"
 "Wenn die eingestellten Mindestüberschüsse nicht erfüllt werden können, kann "
@@ -18264,7 +18246,7 @@ msgstr ""
 "eingestellt werden.\n"
 "\n"
 "Der Knopf 'Begeisterung' dient dazu, die Stadt feiern zu lassen. Dies "
-"funktioniert nur mit einer hohen Luxusrate. s. 'Zufriedenheit'.\n"
+"funktioniert nur mit einer hohen Luxusrate. Siehe 'Zufriedenheit'.\n"
 "\n"
 "Durch einen Klick auf 'Bürgermeister einschalten' wird die Stadt unter die "
 "Kontrolle des Bürgermeisters gestellt, mit 'ausschalten' wird die Kontrolle "
@@ -18469,7 +18451,7 @@ msgid ""
 "Default Combat Rules\n"
 "---------------------"
 msgstr ""
-"Standard Kampfregeln\n"
+"Standard-Kampfregeln\n"
 "--------------------"
 
 #: data/helpdata.txt:945
@@ -18520,7 +18502,7 @@ msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
 msgstr ""
-" - Ist der Verteidiger ein AEGIS Kreuzer und der Angreifer irgendein "
+" - Ist der Verteidiger ein AEGIS-Kreuzer und der Angreifer irgendein "
 "Flugkörper, wird die Verteidigung verfünffacht."
 
 #: data/helpdata.txt:969
@@ -18637,7 +18619,7 @@ msgid ""
 "veteran.  Otherwise, the chance of becoming a veteran is 50%."
 msgstr ""
 "Die siegreiche Einheit hat eine Chance von 50% Veteranen-Status zu erlangen. "
-"Besitzt die siegreiche Nation Sun Tzu's Militärakademie (und ist diese nicht "
+"Besitzt die siegreiche Nation Sun Tzus Militärakademie (und ist diese nicht "
 "veraltet), wird der Veteranen-Status auf jeden Fall erlangt."
 
 #: data/helpdata.txt:1025
@@ -18675,7 +18657,7 @@ msgid ""
 "modifiers in game.ruleset, section combat_rules: "
 msgstr ""
 "Die oben beschriebenen Kampfregeln können verändert werden, wenn man die "
-"folgenden Werte in der Datei game.ruleset im Abschnitt combat_rules ändert:"
+"folgenden Werte in der Datei game.ruleset im Abschnitt combat_rules ändert: "
 
 #: data/helpdata.txt:1040
 msgid ""
@@ -18899,7 +18881,7 @@ msgid ""
 "leaving some units behind to keep squares occupied), you can make a path "
 "through enemy territory."
 msgstr ""
-"HINWEIS: Man kann in feindliche Kontrollzonen eindringen, in dem man "
+"HINWEIS: Man kann in feindliche Kontrollzonen eindringen, indem man "
 "zunächst einen Diplomaten (oder eine entsprechende Einheit) hineinführt. "
 "Reguläre Einheiten kann man jetzt auf das von dem Diplomaten besetzte Feld "
 "ziehen. Wenn man das wiederholt (und im Idealfall Einheiten zurückläßt, um "
@@ -18916,7 +18898,7 @@ msgstr ""
 "Diese Regeln weichen von denen der Versionen bis 1.8.0 ab:\n"
 " - Leere feindliche Städte zählen nicht als feindlich\n"
 "   besetztes Feld.\n"
-" - die Sonderegel für auszuschiffende Einheiten ist neu."
+" - die Sonderregel für auszuschiffende Einheiten ist neu."
 
 #: data/helpdata.txt:1178
 msgid ""
@@ -19076,7 +19058,7 @@ msgid ""
 "alteration to pillage, or they will be pillaged in the following order:"
 msgstr ""
 "Alle Landeinheiten haben die Fähigkeit, Geländeverbesserungen zu zerstören. "
-"Brandschatzen zerstört 1 Geländeverbesserung pro Runde und Einheit. Abhängig "
+"Brandschatzen zerstört eine Geländeverbesserung pro Runde und Einheit. Abhängig "
 "von den Servereinstellungen kann es sein, daß die zu zerstörende "
 "Verbesserung ausgesucht werden kann. Ansonsten wird in folgender Reihenfolge "
 "zerstört:"
@@ -19159,7 +19141,7 @@ msgstr ""
 "verstehen. Unter den meisten Regierungsformen nimmt er um so mehr zu, je "
 "weiter eine Stadt von der Hauptstadt entfernt ist. (Ohne Hauptstadt nehmen "
 "die Produktionsverluste in den Städten ein riesiges Ausmaß an.) Ein "
-"Gerichtsgebäude hilft, den Müllanfall einer Stadt zu verringern. Müll kann "
+"Gerichtsgebäude hilft, das Müllaufkommen einer Stadt zu verringern. Müll kann "
 "dazu führen, daß ihre Städte nichts mehr produzieren."
 
 #: data/helpdata.txt:1302
@@ -19288,7 +19270,7 @@ msgid ""
 "shields or trade)."
 msgstr ""
 " - Unter 'Anarchie' und 'Diktatur' entfällt die Einschränkung für Felder, "
-"die mehr als 2 Einheiten produzieren (Nahrung, Schilde, Handel)."
+"die mehr als zwei Einheiten produzieren (Nahrung, Schilde, Handel)."
 
 #: data/helpdata.txt:1374
 msgid ""
@@ -19298,7 +19280,7 @@ msgid ""
 msgstr ""
 " - Unter 'Monarchie' und 'Kommunismus' erhält man den Handelsbonus, den "
 "sonst nur 'Republik' und 'Demokratie' haben: +1 in jedem Feld mit mindestens "
-"einem 1 Handelspunkt."
+"einem Handelspunkt."
 
 #: data/helpdata.txt:1378
 msgid ""
@@ -19327,6 +19309,7 @@ msgstr ""
 "ändern."
 
 #: data/helpdata.txt:1393
+# FIXME: Übersetzung ist unvollständig
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -19339,7 +19322,7 @@ msgid ""
 msgstr ""
 "Um die Unzufriedenheit einzudämmen, kann man bestimmte Stadterweiterungen "
 "oder Weltwunder bauen oder einen Teil des Handelseinkommens für Luxusgüter "
-"verwenden. Jeweils 2 Luxusanteile machen einen zufriedenen Bürger glücklich."
+"verwenden. Jeweils zwei Luxusanteile machen einen zufriedenen Bürger glücklich."
 
 #: data/helpdata.txt:1403
 msgid ""
@@ -19398,7 +19381,7 @@ msgid ""
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Players dialog and click \"Spaceship\"."
 msgstr ""
-"Sobald mit dem Bau des Raumschiffs begonnen wurde, kann es über den "
+"Sobald mit dem Bau des Raumschiffes begonnen wurde, kann es über den "
 "Menüpunkt 'Raumschiff' unter 'Berichte' angesehen werden. Die Raumschiffe "
 "der anderen Spieler können über das Spielerfenster durch Auswahl des "
 "Spielers und Anklicken von 'Raumschiff' angesehen werden."
@@ -19531,7 +19514,7 @@ msgid ""
 "is destroyed by a land unit."
 msgstr ""
 "Eine Stadtmauer hilft, eine Stadt vor Landeinheiten (außer Haubitzen) und "
-"Hubschraubern zu schützen, in dem sie die Verteidigungsstärke gegen diese "
+"Hubschraubern zu schützen, indem sie die Verteidigungsstärke gegen diese "
 "Einheitentypen verdreifacht.\n"
 "\n"
 "Sie verhindert Verluste bei der Bevölkerung, falls gegnerische Landeinheiten "
@@ -19573,7 +19556,7 @@ msgid ""
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
 msgstr ""
-"Halbiert die Korruption und den Müllanfall. In einer Demokratie macht es 1 "
+"Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es einen "
 "Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte "
 "vervierfacht."
 
@@ -19826,7 +19809,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:667 data/civ2/buildings.ruleset:629
 msgid "Research Lab"
-msgstr "Forschunglabor"
+msgstr "Forschungslabor"
 
 #: data/default/buildings.ruleset:682
 msgid ""
@@ -19848,7 +19831,7 @@ msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
 msgstr ""
-"Verdoppelt die Verteidigungstärke aller in der Stadt stationierten Einheiten "
+"Verdoppelt die Verteidigungsstärke aller in der Stadt stationierten Einheiten "
 "gegenüber allen nicht-nuklearen Luftwaffeneinheiten."
 
 #: data/default/buildings.ruleset:710 data/civ2/buildings.ruleset:672
@@ -19896,7 +19879,7 @@ msgid ""
 "have been built by any player."
 msgstr ""
 "Es gibt sowohl Triebwerks- als auch Treibstoffkomponenten.\n"
-"Durch jedes Paar wird die Reisezeit des Raumschiffs vermindert. Maximal 8 "
+"Durch jedes Paar wird die Reisezeit des Raumschiffes vermindert. Maximal 8 "
 "Paare sind zulässig.\n"
 "\n"
 "Raumschiffteile können erst gefertigt werden, nachdem irgendein Spieler das "
@@ -20049,7 +20032,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:969 data/civ2/buildings.ruleset:956
 msgid "A.Smith's Trading Co."
-msgstr "A.Smiths Handelsgesellschaft"
+msgstr "A. Smiths Handelsgesellschaft"
 
 #: data/default/buildings.ruleset:983
 msgid ""
@@ -20234,7 +20217,7 @@ msgid ""
 "of losing Triremes on the high seas.  Makes all your new sea units veterans "
 "(for all your cities)."
 msgstr ""
-"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt. Triremen gehen "
+"Alle Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt. Triremen gehen "
 "nicht mehr auf hoher See verloren. In allen eigenen Städten erhalten neue "
 "Marineeinheiten Veteran-Status."
 
@@ -20245,7 +20228,7 @@ msgstr "Magellans Expedition"
 
 #: data/default/buildings.ruleset:1293
 msgid "Gives all your sea units 2 additional movement points."
-msgstr "Alle Marineeinheiten erhalten 2 zusätzliche Bewegungspunkte."
+msgstr "Alle Marineeinheiten erhalten zwei zusätzliche Bewegungspunkte."
 
 #: data/default/buildings.ruleset:1298 data/civ2/buildings.ruleset:1282
 #: data/civ1/buildings.ruleset:904
@@ -20430,7 +20413,7 @@ msgid ""
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
 msgstr ""
-"Halbiert die Korruption und den Müllanfall. In einer Demokratie macht es 1 "
+"Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es einen "
 "Unzufriedenen zufrieden. Erhöht die Kosten einer Revolte, indem der "
 "Entfernungseffekt zur Hauptstadt halbiert wird."
 
@@ -20598,7 +20581,7 @@ msgid ""
 "losing Triremes on the high seas.  Makes all new sea units veterans (for all "
 "cities)."
 msgstr ""
-"Alle Marineeinheiten erhalten 1 zusätzlichen Bewegungspunkt.\n"
+"Alle Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt.\n"
 "\n"
 "Triremen gehen nicht mehr auf hoher See verloren.\n"
 "\n"
@@ -20735,7 +20718,7 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:899
 msgid "Gives all sea units 1 additional movement point."
-msgstr "Alle eigenen Marineeinheiten bekommen +1 Bewegungspunkt."
+msgstr "Alle eigenen Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt."
 
 #: data/civ1/buildings.ruleset:936
 msgid "Double effects of Cathedrals, in all cities."
@@ -21169,7 +21152,7 @@ msgstr "Alphabet"
 #: data/default/techs.ruleset:71 data/civ2/techs.ruleset:54
 #: data/civ1/techs.ruleset:54
 msgid "Amphibious Warfare"
-msgstr "Amphibische Kriegführung"
+msgstr "Amphibische Kriegsführung"
 
 #: data/default/techs.ruleset:79 data/civ2/techs.ruleset:60
 #: data/civ1/techs.ruleset:60
@@ -21596,8 +21579,8 @@ msgid ""
 msgstr ""
 "Auf jeder Geländeform außer Ozeanen können Flüsse vorkommen. Ein Fluß gibt "
 "einen zusätzlichen Handelspunkt und erhöht den Verteidigungsfaktor um 50%. "
-"Zusätzlich können sich Landeinheiten entlang eines Flusses für nur 1/3 "
-"Bewegungspunkt bewegen.\n"
+"Zusätzlich kostet die Bewegung von Landeinheiten entlang eines Flusses nur 1/3 "
+"Bewegungspunkt pro Feld.\n"
 "\n"
 "Straßen und Schienen können nur mit Kenntnis von Brückenbau auf diesen "
 "Feldern gebaut werden."
@@ -21883,8 +21866,8 @@ msgstr ""
 "Siedler gehören zu den wichtigsten Einheiten des Spiels. Man kann mit ihnen "
 "Städte, befestigte Stellungen und Bergwerke bauen; auch Straßen und "
 "Eisenbahnen, Bewässerungssysteme und Beseitigung von Umweltverschmutzung und "
-"Fallout sind durch sie möglich.Siedler verursachen Unterhaltskosten abhängig "
-"von der Regierungsform und 'sterben' wenn ihre Heimatstadt sie nicht mit "
+"Fallout sind durch sie möglich. Siedler verursachen Unterhaltskosten abhängig "
+"von der Regierungsform und 'sterben', wenn ihre Heimatstadt sie nicht mit "
 "Nahrung versorgen kann.\n"
 "\n"
 "Siedler und Ingenieure können zusammen arbeiten, um Projekte zu "
@@ -22174,7 +22157,7 @@ msgstr "Kreuzer"
 
 #: data/default/units.ruleset:1318 data/civ2/units.ruleset:1261
 msgid "AEGIS Cruiser"
-msgstr "AEGIS Kreuzer"
+msgstr "AEGIS-Kreuzer"
 
 #: data/default/units.ruleset:1346 data/civ2/units.ruleset:1289
 #: data/civ1/units.ruleset:712
@@ -22204,7 +22187,7 @@ msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
-"HINWEIS : Bewache Flugzeugträger mit einigen schnellen Schiffen und einem "
+"HINWEIS: Bewache Flugzeugträger mit einigen schnellen Schiffen und einem "
 "Schlachtschiff, da der Verlust eines vollbeladenen Flugzeugträgers SEHR "
 "schmerzlich und teuer ist."
 
@@ -22427,7 +22410,7 @@ msgstr ""
 "Umweltverschmutzung und Fallout sind durch sie möglich.\n"
 "\n"
 "Siedler verursachen Unterhaltskosten abhängig von der Regierungsform und "
-"'sterben' wenn ihre Heimatstadt sie nicht mit Nahrung versorgen kann.\n"
+"'sterben', wenn ihre Heimatstadt sie nicht mit Nahrung versorgen kann.\n"
 "\n"
 "Siedler und Ingenieure können zusammen arbeiten, um Projekte zu "
 "beschleunigen. Wenn zwei oder mehr Siedler/Ingenieure gemeinsam arbeiten, "
@@ -22600,7 +22583,7 @@ msgstr ""
 "Afghanistan, auch die Verkehrskreuzung Zentralasiens genannt, hat eine sehr "
 "turbulente Geschichte. Durch die Jahrhunderte war das Land von vielen "
 "Mächten besetzt, eingeschlossen Persien, Genghis Khan und Alexander der "
-"Große. Der afghanische Nationalstaat, so wie er heute bekannt ist, enstand "
+"Große. Der afghanische Nationalstaat, so wie er heute bekannt ist, entstand "
 "1746, als Ahmad Khan das durannische Reich gründete."
 
 #: data/nation/afghani.ruleset:25
@@ -22779,7 +22762,7 @@ msgid ""
 "Peron."
 msgstr ""
 "Argentinien liegt an der südöstlichen Küste von Südamerika. Seit seiner "
-"Unabhängigkeit von Spanien 1816 litt es unter mehreren innneren und äußeren "
+"Unabhängigkeit von Spanien 1816 litt es unter mehreren inneren und äußeren "
 "Konflikten. In den Jahrzehnten nach dem zweiten Weltkrieg wurde die Politik "
 "von Juan Peron und seiner charismatischen Frau Eva 'Evita' Peron bestimmt."
 
@@ -22857,7 +22840,7 @@ msgid ""
 "BC under a succession of peoples including Amorites, Kassites, Assyrians, "
 "and Chaldeans."
 msgstr ""
-"Babylon war zwischen dem 18. und 7. Jahrhundert v.Chr. die beherrschende "
+"Babylon war zwischen dem 18. und 7. Jahrhundert v. Chr. die beherrschende "
 "Stadt in Mesopotamien, während dort Völker wie die Ammoriter, Kassiten, "
 "Assyrer und die Chaldäer lebten."
 
@@ -22958,7 +22941,7 @@ msgid ""
 msgstr ""
 "Die Buren waren holländische Siedler im britisch-kontrollierten Südafrika "
 "von 1650. Sie kontrollierten für kurze Zeit zwei Republiken, den Transvaal "
-"und den Oranje-Freistaat, bis sie in dem Krieg von 1899-1902 von den Briten "
+"und den Oranje-Freistaat, bis sie im Krieg von 1899-1902 von den Briten "
 "niedergerungen wurden."
 
 #: data/nation/bosnia.ruleset:3
@@ -23172,8 +23155,8 @@ msgid ""
 "by Rome in 146BC."
 msgstr ""
 "Die Karthager, Abkömmlinge phönizischer Kaufleute, beherrschten ein "
-"Küstenreich im Mittelmeerraum zwischen dem 5. und 2. Jahrhundert v.Chr. "
-"Karthago wurde 146 v.Chr. von Rom zerstört."
+"Küstenreich im Mittelmeerraum zwischen dem 5. und 2. Jahrhundert v. Chr. "
+"Karthago wurde 146 v. Chr. von Rom zerstört."
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -23274,7 +23257,7 @@ msgid ""
 msgstr ""
 "China ist die älteste der großen Zivilisationen, die heute noch existieren; "
 "die schriftlichen Aufzeichnungen reichen mehr als 3.500 Jahre zurück. "
-"Nachdem China zum erstenmal unter der Qin Dynastie 221 v. Chr. vereinigt "
+"Nachdem China zum ersten Mal unter der Qin Dynastie 221 v. Chr. vereinigt "
 "wurde, wechselte es zwischen Perioden der Einheit und Zersplitterung, und "
 "wurde oft von fremden Völkern erobert. Die heutige Volksrepublik China, 1949 "
 "von den Kommunisten errichtet, belegt das Festland, während sich die frühere "
@@ -23750,7 +23733,7 @@ msgid ""
 "The Hellenic Republic - also known as Greece - was created when the Hellenic "
 "people gained independence from the Ottoman Empire in 1832."
 msgstr ""
-"Griechenland wurde 1832 gegründet, als das hellenische Volk von "
+"Griechenland wurde 1832 gegründet, als das hellenische Volk vom "
 "Ottomanischen Reich unabhängig wurde."
 
 #: data/nation/hittite.ruleset:3
@@ -24237,7 +24220,7 @@ msgid ""
 "condition of the Allied peace treaty with Italy."
 msgstr ""
 "Das Gebiet des heutigen Libyens war eine römische Kolonie, bis es im 7. "
-"Jahrhundert von der arabischen Zivilisation erorbert wurde. 1912 kam es "
+"Jahrhundert von der arabischen Zivilisation erobert wurde. 1912 kam es "
 "unter die Kontrolle von Italien, und nach dem zweiten Weltkrieg wurde Libyen "
 "aufgrund des alliierten Friedensvertrages mit Italien die Unabhängigkeit "
 "gewährt."
@@ -24345,7 +24328,7 @@ msgstr ""
 "Das Afrika südlich der Sahara ist seit Jahrtausenden ein kultureller und "
 "ethnischer Schmelztiegel. Im Mittelalter gab es dort verschiedene "
 "Königreiche. Eines davon, das islamische Großreich Mali mit der Hauptstadt "
-"Timbuktu, war das Einflußreichste. Es herrschte vom 14. bis 17. Jahrhundert "
+"Timbuktu, war das einflußreichste. Es herrschte vom 14. bis 17. Jahrhundert "
 "und war berühmt für seine wohlhabenden und wohlwollenden Könige. Die heutige "
 "Republik Mali hat hiervon seinen Namen abgeleitet."
 
@@ -24399,7 +24382,7 @@ msgstr "Marsianer"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
-msgstr "Die Marsmenschen landeten auf der Erde im Jahre 4000 v.Chr.!"
+msgstr "Die Marsmenschen landeten auf der Erde im Jahre 4000 v. Chr.!"
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
@@ -24665,11 +24648,11 @@ msgstr ""
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr "quebecisch"
+msgstr "québecisch"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr "Quebecer"
+msgstr "Québecer"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -24742,7 +24725,7 @@ msgid ""
 "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome "
 "controlled nearly all of Europe, northern Africa and Mesopotamia."
 msgstr ""
-"Rom wurde der Legende nach im Jahre 753 v.Chr. von Romulus erbaut. An seinem "
+"Rom wurde der Legende nach im Jahre 753 v. Chr. von Romulus erbaut. An seinem "
 "Höhepunkt kontrollierte Rom fast ganz Europa, Nordafrika und Mesopotamien."
 
 #: data/nation/russian.ruleset:3
@@ -24835,7 +24818,7 @@ msgid ""
 "over the northernmost regions of the Scandinavian countries: Finnmark of "
 "Norway and Lapland of Sweden and Finland."
 msgstr ""
-"Die Sami, oder Lappen, sind ein Volk in Nordskandinavien. Ihre Nation dehnt "
+"Die Sami sind ein Volk in Nordskandinavien. Ihre Nation dehnt "
 "sich über die nördlichsten Regionen der slandinavischen Länder aus: die "
 "Finnmark in Norwegen, und Lappland in Schweden und Finnland."
 
@@ -25025,7 +25008,7 @@ msgid ""
 "powerful states in the 20th century. But by the end of 1991 due to many "
 "social shocks it disintegrated into fifteen independent countries"
 msgstr ""
-"Die sowjetische Geschichte begann im November 1917 mit der bolschewikischen "
+"Die sowjetische Geschichte begann im November 1917 mit der bolschewistischen "
 "Revolution unter der Führerschaft Lenins. Am 31. Dezember 1922 wurden vier "
 "Sowjetrepubliken zu einem Land integriert. Die Sowjetunion wurde einer der "
 "mächtigsten Staaten im 20. Jahrhundert. Aufgrund zahlreicher sozialer "
