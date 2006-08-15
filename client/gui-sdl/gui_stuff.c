@@ -3071,8 +3071,15 @@ int real_redraw_ibutton(struct widget *pIButton)
     /* make copy of string16 */
     TMPString = *pIButton->string16;
 
-    if (get_wstate(pIButton) == FC_WS_SELLECTED) {
+    if (get_wstate(pIButton) == FC_WS_NORMAL) {
+      TMPString.fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_NORMAL_TEXT);
+    } else if (get_wstate(pIButton) == FC_WS_SELLECTED) {
+      TMPString.fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_SELECTED_TEXT);
       TMPString.style |= TTF_STYLE_BOLD;
+    } else if (get_wstate(pIButton) == FC_WS_PRESSED) {
+      TMPString.fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_PRESSED_TEXT);
+    } else if (get_wstate(pIButton) == FC_WS_DISABLED) {
+      TMPString.fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT);
     }
 
     pText = create_text_surf_from_str16(&TMPString);
