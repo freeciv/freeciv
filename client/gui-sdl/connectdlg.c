@@ -253,6 +253,9 @@ void popup_connection_dialog(bool lan_scan)
   /* create server list */
   pServer_list = sdl_create_server_list(lan_scan);
 
+  /* clear label */
+  popdown_window_group_dialog(pNewWidget, pLabelWindow);
+
   popup_meswin_dialog(true);        
   
   if(!pServer_list) {
@@ -265,9 +268,6 @@ void popup_connection_dialog(bool lan_scan)
     popup_join_game_dialog();
     return;
   }
-  
-  /* clear label */
-  popdown_window_group_dialog(pNewWidget, pLabelWindow);
   
   /* Server list window */  
   pMeta_Severs = fc_calloc(1, sizeof(struct ADVANCED_DLG));

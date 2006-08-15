@@ -97,7 +97,8 @@ void flush_rect(SDL_Rect rect, bool force_flush)
   if (is_flush_queued && !force_flush) {
     sdl_dirty_rect(rect);
   } else {
-    static SDL_Rect dst;
+    static SDL_Rect src, dst;
+    
     if (correct_rect_region(&rect)) {
       static int i = 0;
       dst = rect;
@@ -109,8 +110,10 @@ void flush_rect(SDL_Rect rect, bool force_flush)
       alphablit(Main.gui, &rect, Main.screen, &dst);
       if (Main.guis) {
         while((i < Main.guis_count) && Main.guis[i]) {
-          dst = Main.guis[i]->dest_rect;
-          alphablit(Main.guis[i++]->surface, NULL, Main.screen, &dst);
+          src = rect;
+          fix_rect(Main.guis[i]->surface, &src);
+          dst = rect;
+          alphablit(Main.guis[i++]->surface, &src, Main.screen, &dst);
         }
       }
       i = 0;
