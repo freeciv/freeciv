@@ -20,17 +20,19 @@
 #
 # Wenn Sie an der Verbesserung der deutschen Übersetzung mitarbeiten möchten, 
 # abonnieren Sie doch unsere Mailingliste mit einer E-Mail mit dem 
-# Subject: subscribe an: <freeciv.de-request@freelists.org>.
+# Subject: subscribe an: <freeciv.de-request@freelists.org>. Achtung: Mails 
+# von Nichtabonnenten werden von dieser Liste nicht angenommen (Spamschutz)!
 #
-# Achtung: Mails von Nichtabonnenten werden von der Liste nicht angenommen 
-# (Spamschutz)!
+# Einige Texte sind aus unterschiedlichen Gründen nicht übersetzt:
 #
-#
-# Technische Fehlermeldungen sind nicht übersetzt. Mit diesen Meldungen
-# können nur Entwickler etwas anfangen, und die können in der Regel kein
-# Deutsch. Soweit diese Meldungen nicht bereits durch einen
-# Übersetzerkomentar (z.B. "TRANS: Obscure ruleset error") gekennzeichnet
-# wurden, habe ich einen Vermerk "CK: TECHNICAL" beigefügt.
+# - Einige landessprachliche Bezeichnungen, vor allem Herrschertitel.
+#   Dort findet sich ein Kommentar (EH: oder CK:).
+# 
+# - Technische Fehlermeldungen sind nicht übersetzt. Diese Meldungen
+#   sind in erster Linie für Entwickler bestimmt, und die können in der 
+#   Regel kein Deutsch. Soweit diesen Meldungen nicht bereits ein
+#   Entwicklerkommentar (TRANS:) migegeben wurde, findet sich dort ein
+#   Übersetzerkomentar (CK: TECHNICAL oder EH:).
 #
 #
 # EH: I don't use emacs, so PO-Revision-Date is only a dummy.
@@ -1466,8 +1468,8 @@ msgstr "Tut mit leid, zu viele Versuche..."
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
-"%s wurde abgewiesen: Zu viele fehlgeschlagene Paßwortüberprüfungen für "
-"neuen Spieler."
+"%s wurde abgewiesen: Zu viele fehlgeschlagene Paßwortüberprüfungen für neuen "
+"Spieler."
 
 #: server/auth.c:241
 msgid ""
@@ -1508,8 +1510,8 @@ msgid ""
 "The password must have at least %d capital letters, %d numbers, and be at "
 "minimum %d [printable] characters long. Try again."
 msgstr ""
-"Das Paßwort muß mindestens %d Großbuchstaben und %d Ziffern enthalten, "
-"sowie mindestens %d (druckbare) Zeichen lang. Versuche es nochmals."
+"Das Paßwort muß mindestens %d Großbuchstaben und %d Ziffern enthalten, sowie "
+"mindestens %d (druckbare) Zeichen lang. Versuche es nochmals."
 
 #: server/barbarian.c:188
 #, c-format
@@ -4058,35 +4060,35 @@ msgstr "Die Regeldatei verlangt Optionen, die nicht unterstützt werden:"
 msgid "Section %s has unknown req: \"%s\" \"%s\" (%s)"
 msgstr "Section %s has unknown req: \"%s\" \"%s\" (%s)"
 
-# CK: Fehlermeldung für Entwickler
+# CK: TECHNICAL
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:634
 #, c-format
 msgid "Unknown terrain %s in entry %s."
 msgstr "Unknown terrain %s in entry %s."
 
-# CK: Fehlermeldung für Entwickler
+# CK: TECHNICAL
 #. TRANS: Obscure ruleset error.  "%s" is a filename.
 #: server/ruleset.c:1389
 #, c-format
 msgid "Ruleset doesn't have any terrains (%s)"
 msgstr "Ruleset doesn't have any terrains (%s)"
 
-# CK: Fehlermeldung für Entwickler
+# CK: TECHNICAL
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1507
 #, c-format
 msgid "Terrains %s and %s have the same identifier."
 msgstr "Terrains %s and %s have the same identifier."
 
-# CK: Fehlermeldung für Entwickler
+# CK: TECHNICAL
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1514
 #, c-format
 msgid "'%c' cannot be used as a terrain identifier; it is reserved."
 msgstr "'%c' cannot be used as a terrain identifier; it is reserved."
 
-# CK: Fehlermeldung für Entwickler
+# CK: TECHNICAL
 #. TRANS: message for an obscure ruleset error.
 #: server/ruleset.c:1599
 #, c-format
@@ -4229,8 +4231,8 @@ msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 msgstr ""
-"Warnung: Die Regelverzeichnisse '%s' und '%s' werden nicht mehr "
-"unterstützt. Stattdessen wird das Verzeichnis '%s' benutzt."
+"Warnung: Die Regelverzeichnisse '%s' und '%s' werden nicht mehr unterstützt. "
+"Stattdessen wird das Verzeichnis '%s' benutzt."
 
 # CK: TECHNICAL
 #: server/savegame.c:3870
@@ -4709,8 +4711,8 @@ msgid ""
 msgstr ""
 "Die Anzahl von Fortschritten, die jeder Spieler bereits zu Beginn erhält. "
 "Die Fortschritte werden für jeden Spieler per Zufall bestimmt. Ein hoher "
-"Wert für techlevel kann das Erforschen der nachfolgenden Technologien "
-"sehr teuer machen."
+"Wert für techlevel kann das Erforschen der nachfolgenden Technologien sehr "
+"teuer machen."
 
 #: server/settings.c:475
 msgid "Technology cost multiplier percentage"
@@ -5773,7 +5775,7 @@ msgstr "Abkürzung '%s' des Spielernamens ist mehrdeutig."
 msgid "No player by the name of '%s'."
 msgstr "Kein Spieler mit dem Namen '%s'."
 
-# CK: nicht übersetzt
+# CK: TECHNICAL
 #: server/stdinhand.c:470 server/stdinhand.c:505
 #, c-format
 msgid "Unexpected match_result %d (%s) for '%s'."
@@ -5972,14 +5974,13 @@ msgstr ""
 "Die Zugangsberechtigung '%s' für '%s' wird nicht beschränkt;\n"
 "da Sie selbst nur Zugangsberechtigung '%s' haben."
 
-# CK: ?
 #: server/stdinhand.c:1228
 #, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 "Ein beliebiger Spieler hat nun die Möglichkeit, durch Eingabe des Befehls "
-"'first' Spielleiter '%s' zu werden."
+"'first' Spielleiter mit der Zugriffsberechtigung '%s' zu werden."
 
 #: server/stdinhand.c:1261
 msgid "Command access levels in effect:"
@@ -8921,9 +8922,8 @@ msgstr "* %s mit diesem Wissen können Straßen zu Eisenbahnlinien machen.\n"
 
 #: client/helpdata.c:1169
 #, c-format
-# FIXME: Sollte %s Siedler sein, so ist Grammatik falsch!
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "* Ermöglicht %s, bewässertes Land in Ackerland zu verwandeln.\n"
+msgstr "* %s können bewässertes Land in Ackerland zu verwandeln.\n"
 
 #: client/helpdata.c:1201
 #, c-format
@@ -9346,8 +9346,8 @@ msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
-"Hier stellen Sie ein, wie lange die Einheiten-Animation dauert, wenn Einheiten "
-"auf der Karte bewegt werden. Mit 0 schalten Sie die Animation ab."
+"Hier stellen Sie ein, wie lange die Einheiten-Animation dauert, wenn "
+"Einheiten auf der Karte bewegt werden. Mit 0 schalten Sie die Animation ab."
 
 #: client/options.c:159
 msgid "Mapview recentering time (milliseconds)"
@@ -9462,8 +9462,8 @@ msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
-"Hiermit kann der Gehe-nach-Befehl Einheiten auch in unentdeckte Gebiete führen. "
-"Anderenfalls werden unentdeckte Gebiete umgangen."
+"Hiermit kann der Gehe-nach-Befehl Einheiten auch in unentdeckte Gebiete "
+"führen. Anderenfalls werden unentdeckte Gebiete umgangen."
 
 #: client/options.c:211
 msgid "Center map when Popup city"
@@ -10332,7 +10332,7 @@ msgstr "."
 msgid "Wonders: "
 msgstr "Weltwunder: "
 
-# CK: nicht übersetzt.
+# CK: TECHNICAL
 #: client/tilespec.c:729 client/gui-sdl/themespec.c:273
 #, c-format
 msgid ""
@@ -10409,12 +10409,12 @@ msgstr ""
 "Client does not support overhead view tilesets. Using default tileset "
 "instead."
 
-# CK: nicht übersetzt
+# CK: TECHNICAL
 #: client/tilespec.c:1367
 msgid "Invalid darkness style set in tileset."
 msgstr "Invalid darkness style set in tileset."
 
-# CK: nicht übersetzt
+# CK: TECHNICAL
 #: client/tilespec.c:1528
 #, c-format
 msgid ""
@@ -10435,25 +10435,25 @@ msgstr "Kann spec-Datei '%s' nicht finden."
 msgid "Couldn't load gfx file %s for sprite %s"
 msgstr "Couldn't load gfx file %s for sprite %s"
 
-# CK: nicht übersetzt
+# CK: TECHNICAL
 #: client/tilespec.c:1838
 #, c-format
 msgid "No graphics for specialist %s."
 msgstr "No graphics for specialist %s."
 
-# CK: nicht übersetzt
+# CK: TECHNICAL
 #: client/tilespec.c:1869
 #, c-format
 msgid "No graphics for citizen %s."
 msgstr "No graphics for citizen %s."
 
-# CK: nicht übersetzt
+# CK: TECHNICAL
 #: client/tilespec.c:2510 client/gui-sdl/themespec.c:987
 #, c-format
 msgid "Don't have graphics tags %s or %s for %s %s"
 msgstr "Don't have graphics tags %s or %s for %s %s"
 
-# CK: nicht übersetzt
+# CK: TECHNICAL
 #. TRANS: obscure tileset error.
 #: client/tilespec.c:2631
 #, c-format
@@ -11573,8 +11573,8 @@ msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
-"Die Gehe-nach-Funktion kann mittels Klicken und Ziehen der Maus "
-"ausgelöst werden."
+"Die Gehe-nach-Funktion kann mittels Klicken und Ziehen der Maus ausgelöst "
+"werden."
 
 #: client/gui-gtk-2.0/gui_main.c:160
 msgid "Keep dialogs on top"
@@ -17423,15 +17423,15 @@ msgstr ""
 "org"
 
 #: data/helpdata.txt:405
-# FIXME: not a complete sentence
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5555 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
 msgstr ""
-"Vor Spielbeginn kann man sich bei einem civserver anmelden, wenn man dessen "
+"Vor Spielbeginn kann sich jeder beim Server anmelden, wenn man dessen "
 "Adresse und Portnummer (Standard ist 5555) kennt. Falls der Server mit '-m' "
-"gestartet wurde, meldet er sich bei dem Metaserver"
+"gestartet wurde, teilt er seine Existenz dem Metaserver mit, der unter "
+"folgender Adresse erreichbar ist:"
 
 #: data/helpdata.txt:412
 msgid ""
@@ -17740,8 +17740,8 @@ msgid ""
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
 "  - Nachrichten, die mit 'Hans::' beginnen, sind private Mitteilungen wie "
-"oben, aber werden nur mit den Benutzernamen, nicht den Spielernamen, verglichen. "
-"Die Namen können abgekürzt werden.  - Nachrichten, die mit einem "
+"oben, aber werden nur mit den Benutzernamen, nicht den Spielernamen, "
+"verglichen. Die Namen können abgekürzt werden.  - Nachrichten, die mit einem "
 "Spielernamen (oder einer Abkürzung davon), gefolgt von einem Doppelpunkt, "
 "beginnen, sind private Mitteilungen an diesen Spieler."
 
@@ -18881,11 +18881,11 @@ msgid ""
 "leaving some units behind to keep squares occupied), you can make a path "
 "through enemy territory."
 msgstr ""
-"HINWEIS: Man kann in feindliche Kontrollzonen eindringen, indem man "
-"zunächst einen Diplomaten (oder eine entsprechende Einheit) hineinführt. "
-"Reguläre Einheiten kann man jetzt auf das von dem Diplomaten besetzte Feld "
-"ziehen. Wenn man das wiederholt (und im Idealfall Einheiten zurückläßt, um "
-"die Felder besetzt zu halten), kann man einen Weg durch feindliches Gebiet "
+"HINWEIS: Man kann in feindliche Kontrollzonen eindringen, indem man zunächst "
+"einen Diplomaten (oder eine entsprechende Einheit) hineinführt. Reguläre "
+"Einheiten kann man jetzt auf das von dem Diplomaten besetzte Feld ziehen. "
+"Wenn man das wiederholt (und im Idealfall Einheiten zurückläßt, um die "
+"Felder besetzt zu halten), kann man einen Weg durch feindliches Gebiet "
 "öffnen."
 
 #: data/helpdata.txt:1169
@@ -19058,8 +19058,8 @@ msgid ""
 "alteration to pillage, or they will be pillaged in the following order:"
 msgstr ""
 "Alle Landeinheiten haben die Fähigkeit, Geländeverbesserungen zu zerstören. "
-"Brandschatzen zerstört eine Geländeverbesserung pro Runde und Einheit. Abhängig "
-"von den Servereinstellungen kann es sein, daß die zu zerstörende "
+"Brandschatzen zerstört eine Geländeverbesserung pro Runde und Einheit. "
+"Abhängig von den Servereinstellungen kann es sein, daß die zu zerstörende "
 "Verbesserung ausgesucht werden kann. Ansonsten wird in folgender Reihenfolge "
 "zerstört:"
 
@@ -19141,8 +19141,8 @@ msgstr ""
 "verstehen. Unter den meisten Regierungsformen nimmt er um so mehr zu, je "
 "weiter eine Stadt von der Hauptstadt entfernt ist. (Ohne Hauptstadt nehmen "
 "die Produktionsverluste in den Städten ein riesiges Ausmaß an.) Ein "
-"Gerichtsgebäude hilft, das Müllaufkommen einer Stadt zu verringern. Müll kann "
-"dazu führen, daß ihre Städte nichts mehr produzieren."
+"Gerichtsgebäude hilft, das Müllaufkommen einer Stadt zu verringern. Müll "
+"kann dazu führen, daß ihre Städte nichts mehr produzieren."
 
 #: data/helpdata.txt:1302
 msgid ""
@@ -19309,7 +19309,6 @@ msgstr ""
 "ändern."
 
 #: data/helpdata.txt:1393
-# FIXME: Übersetzung ist unvollständig
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -19320,9 +19319,13 @@ msgid ""
 "are converted to happy and/or content.  Some wonders of the world have also "
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
-"Um die Unzufriedenheit einzudämmen, kann man bestimmte Stadterweiterungen "
-"oder Weltwunder bauen oder einen Teil des Handelseinkommens für Luxusgüter "
-"verwenden. Jeweils zwei Luxusanteile machen einen zufriedenen Bürger glücklich."
+"Um die Unzufriedenheit einzudämmen, kann man bestimmte Stadterweiterungen, "
+"(zum Beispiel einen Tempel, ein Kolloseum, eine Kathedrale oder, in der "
+"Demokratie, ein Gerichtshaus) oder geeignete Weltwunder bauen, oder einen "
+"Teil des Handelseinkommens für Luxusgüter verwenden. Jeweils zwei "
+"Luxusanteile machen einen zufriedenen Bürger glücklich. Nachdem alle "
+"zufriedenen Bürger glücklich gemacht wurden, werden unzufriedene in "
+"glückliche oder zufriedene verwandelt."
 
 #: data/helpdata.txt:1403
 msgid ""
@@ -19556,8 +19559,8 @@ msgid ""
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
 msgstr ""
-"Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es einen "
-"Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte "
+"Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es "
+"einen Unzufriedenen zufrieden. Außerdem werden die Kosten einer Revolte "
 "vervierfacht."
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
@@ -19831,8 +19834,8 @@ msgid ""
 "Doubles the defense of all units inside the city when attacked by non-"
 "nuclear air units."
 msgstr ""
-"Verdoppelt die Verteidigungsstärke aller in der Stadt stationierten Einheiten "
-"gegenüber allen nicht-nuklearen Luftwaffeneinheiten."
+"Verdoppelt die Verteidigungsstärke aller in der Stadt stationierten "
+"Einheiten gegenüber allen nicht-nuklearen Luftwaffeneinheiten."
 
 #: data/default/buildings.ruleset:710 data/civ2/buildings.ruleset:672
 #: data/civ1/buildings.ruleset:487
@@ -20217,9 +20220,9 @@ msgid ""
 "of losing Triremes on the high seas.  Makes all your new sea units veterans "
 "(for all your cities)."
 msgstr ""
-"Alle Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt. Triremen gehen "
-"nicht mehr auf hoher See verloren. In allen eigenen Städten erhalten neue "
-"Marineeinheiten Veteran-Status."
+"Alle Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt. Triremen "
+"gehen nicht mehr auf hoher See verloren. In allen eigenen Städten erhalten "
+"neue Marineeinheiten Veteran-Status."
 
 #: data/default/buildings.ruleset:1279 data/civ2/buildings.ruleset:1263
 #: data/civ1/buildings.ruleset:885
@@ -20413,8 +20416,8 @@ msgid ""
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
 msgstr ""
-"Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es einen "
-"Unzufriedenen zufrieden. Erhöht die Kosten einer Revolte, indem der "
+"Halbiert die Korruption und das Müllaufkommen. In einer Demokratie macht es "
+"einen Unzufriedenen zufrieden. Erhöht die Kosten einer Revolte, indem der "
 "Entfernungseffekt zur Hauptstadt halbiert wird."
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
@@ -20563,13 +20566,13 @@ msgid ""
 "all cities."
 msgstr "Macht in jeder Stadt einen Unzufriedenen zufrieden."
 
-# CK: Übersetzung wird nicht benötigt
+# CK: Not implemented
 #: data/civ2/buildings.ruleset:1072
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
 msgstr ""
-"When built, every civilization's attitude toward you is improved by 25%."
+"Verbessert die Einstellung aller Zivilisationen Dir gegenüber um 25 %."
 
 #: data/civ2/buildings.ruleset:1114 data/civ1/buildings.ruleset:768
 msgid "Works as a City Wall in all cities."
@@ -20718,7 +20721,8 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:899
 msgid "Gives all sea units 1 additional movement point."
-msgstr "Alle eigenen Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt."
+msgstr ""
+"Alle eigenen Marineeinheiten erhalten einen zusätzlichen Bewegungspunkt."
 
 #: data/civ1/buildings.ruleset:936
 msgid "Double effects of Cathedrals, in all cities."
@@ -21152,7 +21156,7 @@ msgstr "Alphabet"
 #: data/default/techs.ruleset:71 data/civ2/techs.ruleset:54
 #: data/civ1/techs.ruleset:54
 msgid "Amphibious Warfare"
-msgstr "Amphibische Kriegsführung"
+msgstr "Amphibische Kriegführung"
 
 #: data/default/techs.ruleset:79 data/civ2/techs.ruleset:60
 #: data/civ1/techs.ruleset:60
@@ -21579,8 +21583,8 @@ msgid ""
 msgstr ""
 "Auf jeder Geländeform außer Ozeanen können Flüsse vorkommen. Ein Fluß gibt "
 "einen zusätzlichen Handelspunkt und erhöht den Verteidigungsfaktor um 50%. "
-"Zusätzlich kostet die Bewegung von Landeinheiten entlang eines Flusses nur 1/3 "
-"Bewegungspunkt pro Feld.\n"
+"Zusätzlich kostet die Bewegung von Landeinheiten entlang eines Flusses nur "
+"1/3 Bewegungspunkt pro Feld.\n"
 "\n"
 "Straßen und Schienen können nur mit Kenntnis von Brückenbau auf diesen "
 "Feldern gebaut werden."
@@ -21866,9 +21870,9 @@ msgstr ""
 "Siedler gehören zu den wichtigsten Einheiten des Spiels. Man kann mit ihnen "
 "Städte, befestigte Stellungen und Bergwerke bauen; auch Straßen und "
 "Eisenbahnen, Bewässerungssysteme und Beseitigung von Umweltverschmutzung und "
-"Fallout sind durch sie möglich. Siedler verursachen Unterhaltskosten abhängig "
-"von der Regierungsform und 'sterben', wenn ihre Heimatstadt sie nicht mit "
-"Nahrung versorgen kann.\n"
+"Fallout sind durch sie möglich. Siedler verursachen Unterhaltskosten "
+"abhängig von der Regierungsform und 'sterben', wenn ihre Heimatstadt sie "
+"nicht mit Nahrung versorgen kann.\n"
 "\n"
 "Siedler und Ingenieure können zusammen arbeiten, um Projekte zu "
 "beschleunigen. Wenn zwei oder mehr Siedler/Ingenieure gemeinsam arbeiten, "
@@ -23635,7 +23639,6 @@ msgstr "Präsidentin"
 msgid "Gran Bardo"
 msgstr "Großer Barde"
 
-# EH: Diese Meldung sollte mE nicht übersetzt werden.
 #: data/nation/galician.ruleset:26
 msgid "Grande Bardesa"
 msgstr "Große Bardin"
@@ -24220,8 +24223,8 @@ msgid ""
 "condition of the Allied peace treaty with Italy."
 msgstr ""
 "Das Gebiet des heutigen Libyens war eine römische Kolonie, bis es im 7. "
-"Jahrhundert von der arabischen Zivilisation erobert wurde. 1912 kam es "
-"unter die Kontrolle von Italien, und nach dem zweiten Weltkrieg wurde Libyen "
+"Jahrhundert von der arabischen Zivilisation erobert wurde. 1912 kam es unter "
+"die Kontrolle von Italien, und nach dem zweiten Weltkrieg wurde Libyen "
 "aufgrund des alliierten Friedensvertrages mit Italien die Unabhängigkeit "
 "gewährt."
 
@@ -24725,8 +24728,9 @@ msgid ""
 "Rome was, in legend, founded by Romulus in 753 BC.  At its height, Rome "
 "controlled nearly all of Europe, northern Africa and Mesopotamia."
 msgstr ""
-"Rom wurde der Legende nach im Jahre 753 v. Chr. von Romulus erbaut. An seinem "
-"Höhepunkt kontrollierte Rom fast ganz Europa, Nordafrika und Mesopotamien."
+"Rom wurde der Legende nach im Jahre 753 v. Chr. von Romulus erbaut. An "
+"seinem Höhepunkt kontrollierte Rom fast ganz Europa, Nordafrika und "
+"Mesopotamien."
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
@@ -24818,9 +24822,9 @@ msgid ""
 "over the northernmost regions of the Scandinavian countries: Finnmark of "
 "Norway and Lapland of Sweden and Finland."
 msgstr ""
-"Die Sami sind ein Volk in Nordskandinavien. Ihre Nation dehnt "
-"sich über die nördlichsten Regionen der slandinavischen Länder aus: die "
-"Finnmark in Norwegen, und Lappland in Schweden und Finnland."
+"Die Sami sind ein Volk in Nordskandinavien. Ihre Nation dehnt sich über die "
+"nördlichsten Regionen der slandinavischen Länder aus: die Finnmark in "
+"Norwegen, und Lappland in Schweden und Finnland."
 
 #: data/nation/sami.ruleset:21
 msgid "Noaydde"
@@ -25692,36 +25696,3 @@ msgstr "Team 31"
 #: data/default/game.ruleset:160
 msgid "Team 32"
 msgstr "Team 32"
-
-#~ msgid "?nationgroup:Transitional"
-#~ msgstr "Übergangszeit"
-
-#~ msgid "Oceanian"
-#~ msgstr "Ozeanien"
-
-#~ msgid "Modern"
-#~ msgstr "modern"
-
-#~ msgid "Asian"
-#~ msgstr "asiatisch"
-
-#~ msgid "African"
-#~ msgstr "Afrika"
-
-#~ msgid "Fictional"
-#~ msgstr "Literarisch"
-
-#~ msgid "Medieval"
-#~ msgstr "mittelalterlich"
-
-#~ msgid "Ancient"
-#~ msgstr "altertümlich"
-
-#~ msgid "European"
-#~ msgstr "europäisch"
-
-#~ msgid "Transitional"
-#~ msgstr "Übergangszeit"
-
-#~ msgid "  -z, --zone\t\tEnable GGZ mode\n"
-#~ msgstr "  -z, --zone\t\tGGZ-Modus einschalten\n"
