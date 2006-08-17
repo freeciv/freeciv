@@ -3264,7 +3264,8 @@ void popup_science_dialog(bool raise)
 
   /* ------ */
   /* exit button */
-  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst, 0);
+  pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
+                                                   WF_DRAW_THEME_TRANSPARENT);
   
   pBuf->action = popdown_science_dialog;
   set_wstate(pBuf, FC_WS_NORMAL);
