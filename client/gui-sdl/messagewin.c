@@ -26,6 +26,7 @@
 
 /* utility */
 #include "fcintl.h"
+#include "log.h"
 
 /* client */
 #include "options.h"
@@ -113,7 +114,6 @@ void real_update_meswin_dialog(void)
 {
   int msg_count = get_num_messages();
   int i = pMsg_Dlg->pScroll->count;
-    
   struct message *pMsg = NULL;
   struct widget *pBuf = NULL, *pWindow = pMsg_Dlg->pEndWidgetList;
   SDL_String16 *pStr = NULL;
@@ -122,7 +122,7 @@ void real_update_meswin_dialog(void)
   int w = pWindow->size.w - pTheme->FR_Vert->w - (pTheme->FR_Vert->w * 2) -
 			  pMsg_Dlg->pScroll->pUp_Left_Button->size.w;
   
-  if (i && msg_count <= i) {
+  if ((i > 0) && (msg_count <= i)) {
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
 					pMsg_Dlg->pEndActiveWidgetList);
     pMsg_Dlg->pBeginActiveWidgetList = NULL;
@@ -135,7 +135,7 @@ void real_update_meswin_dialog(void)
   }
   create = (i == 0);
 
-  if (msg_count) {
+  if (msg_count > 0) {
     for(; i<msg_count; i++)
     {
       pMsg = get_message(i);
@@ -145,7 +145,7 @@ void real_update_meswin_dialog(void)
     		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
-      
+
       pBuf->size.w = w;
       pBuf->data.ptr = (void *)pMsg;	
       pBuf->action = msg_callback;
@@ -185,7 +185,6 @@ void popup_meswin_dialog(bool raise)
 {
   SDL_Color bg_color = {255 , 255, 255, 128};
   SDL_Color title_bg_color = {255 , 255, 255, 200};
-
   SDL_String16 *pStr = create_str16_from_char("M", PTSIZE_LOG_FONT);
   Sint16 start_x = (Main.screen->w - adj_size(520)) / 2;
   Sint16 start_y = adj_size(25);
@@ -286,7 +285,8 @@ void popup_meswin_dialog(bool raise)
   
   len = create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
   setup_vertical_scrollbar_area(pMsg_Dlg->pScroll,
-		start_x + w - 1, start_y + 1, h - adj_size(2), TRUE);
+		start_x + w - 1, start_y + WINDOW_TITLE_HEIGHT + 1,
+                h - WINDOW_TITLE_HEIGHT - adj_size(2), TRUE);
   
   if(i>N_MSG_VIEW-1) {
     /* find pActiveWidgetList to draw last seen part of list */
@@ -309,11 +309,21 @@ void popup_meswin_dialog(bool raise)
     hide_scrollbar(pMsg_Dlg->pScroll);
   }
     
-  len = w - pTheme->FR_Vert->w - (pTheme->FR_Vert->w * 2) - len;
-  		
   /* ------------------------------------- */
-  
-  if (msg_count) {
+  if (msg_count > 0) {
+
+    /* correct label widths */
+    len = w - pTheme->FR_Vert->w - (pTheme->FR_Vert->w * 2) - len;        
+    
+    pBuf = pMsg_Dlg->pEndActiveWidgetList;
+    while (pBuf) {
+      pBuf->size.w = len;
+      if (pBuf == pMsg_Dlg->pBeginActiveWidgetList) {
+        break;
+      }
+      pBuf = pBuf->prev;
+    }
+    
     /* find if scrollbar is active */
     if(pMsg_Dlg->pActiveWidgetList) {
       pBuf = pMsg_Dlg->pActiveWidgetList;
@@ -322,14 +332,13 @@ void popup_meswin_dialog(bool raise)
     }
     
     setup_vertical_widgets_position(1,
-	start_x + pTheme->FR_Vert->w, start_y + WINDOW_TITLE_HEIGHT + adj_size(2), len, 0,
+	start_x + pTheme->FR_Vert->w, start_y + WINDOW_TITLE_HEIGHT + adj_size(2), 0, 0,
 	pMsg_Dlg->pBeginActiveWidgetList, pBuf);
   }
 
   redraw_group(pMsg_Dlg->pBeginWidgetList,
 		  pMsg_Dlg->pEndWidgetList, 0);
   flush_all();
-  
 }
 
 /**************************************************************************
