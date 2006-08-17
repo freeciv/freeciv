@@ -86,15 +86,16 @@ const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
 Uint32 SDL_Client_Flags = 0;
-bool fullscreen = FALSE;
+
+bool gui_sdl_fullscreen = FALSE;
 
 /* default screen resolution */
 #ifdef SMALL_SCREEN
-int screen_width = 320;
-int screen_height = 240;
+int gui_sdl_screen_width = 320;
+int gui_sdl_screen_height = 240;
 #else
-int screen_width = 640;
-int screen_height = 480;
+int gui_sdl_screen_width = 640;
+int gui_sdl_screen_height = 480;
 #endif
 
 Uint32 widget_info_counter = 0;
@@ -142,18 +143,24 @@ enum USER_EVENT_ID {
 };
 
 client_option gui_options[] = {
-  GEN_BOOL_OPTION(fullscreen, N_("Full Screen"), 
+  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"), 
                   N_("If this option is set the client will use the "
                      "whole screen area for drawing"),
                   COC_INTERFACE),
-  GEN_INT_OPTION(screen_width, N_("Screen width"),
+  GEN_INT_OPTION(gui_sdl_screen_width, N_("Screen width"),
                  N_("This option saves the width of the selected screen "
                     "resolution"),
                  COC_INTERFACE),
-  GEN_INT_OPTION(screen_height, N_("Screen height"),
+  GEN_INT_OPTION(gui_sdl_screen_height, N_("Screen height"),
                  N_("This option saves the height of the selected screen "
                     "resolution"),
-                 COC_INTERFACE)
+                 COC_INTERFACE),
+  GEN_STR_OPTION(gui_sdl_theme_name, N_("Theme"),
+		 N_("By changing this option you change the active theme. "
+		    "This is the same as using the -- --theme command-line "
+		    "parameter."),
+		 COC_GRAPHICS,
+		 get_theme_list, themespec_reread_callback),
 };
 
 const int num_gui_options = ARRAY_SIZE(gui_options);
@@ -194,6 +201,7 @@ static void print_usage(const char *argv0)
 	     _("  -f,  --fullscreen\tStart Client in Fulscreen mode\n"));
   fc_fprintf(stderr, _("  -e,  --eventthread\tInit Event Subsystem in "
 		       "other thread (only Linux and BeOS)\n"));
+  fc_fprintf(stderr, _("  -t,  --theme THEME\tUse GUI theme THEME\n"));
 }
 
 /**************************************************************************
@@ -203,20 +211,19 @@ static void print_usage(const char *argv0)
 static void parse_options(int argc, char **argv)
 {
   int i = 1;
+  char *option = NULL;
     
   while (i < argc) {
     if (is_option("--help", argv[i])) {
       print_usage(argv[0]);
       exit(EXIT_SUCCESS);
-    } else {
-      if (is_option("--fullscreen",argv[i])) {
-	fullscreen = TRUE;
-      } else {
-	if (is_option("--eventthread",argv[i])) {
-	  /* init events in other thread ( only linux and BeOS ) */  
-          SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
-        }
-      }
+    } else if (is_option("--fullscreen",argv[i])) {
+      gui_sdl_fullscreen = TRUE;
+    } else if (is_option("--eventthread",argv[i])) {
+      /* init events in other thread ( only linux and BeOS ) */  
+      SDL_InitSubSystem(SDL_INIT_EVENTTHREAD);
+    } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
+      sz_strlcpy(gui_sdl_theme_name, option);
     }
     i++;
   }
@@ -941,19 +948,19 @@ void ui_main(int argc, char *argv[])
 
   setup_auxiliary_tech_icons();
   
-  if (fullscreen) {
+  if (gui_sdl_fullscreen) {
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE
         /* set 320x240 fullscreen */
-        set_video_mode(screen_width, screen_height,
+        set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
                        SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
       #else
         /* small screen on desktop -> don't set 320x240 fullscreen mode */
-        set_video_mode(screen_width, screen_height,
+        set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
                        SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
       #endif
     #else
-      set_video_mode(screen_width, screen_height,
+      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
                      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     #endif
     
@@ -961,14 +968,14 @@ void ui_main(int argc, char *argv[])
     
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE    
-      set_video_mode(screen_width, screen_height,
+      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
                      SDL_SWSURFACE | SDL_ANYFORMAT);
       #else
-      set_video_mode(screen_width, screen_height,
+      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
                      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
       #endif
     #else
-    set_video_mode(screen_width, screen_height,
+    set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
       SDL_SWSURFACE | SDL_ANYFORMAT | SDL_RESIZABLE);
     #endif
     

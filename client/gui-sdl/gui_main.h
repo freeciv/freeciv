@@ -72,11 +72,13 @@ struct mouse_button_behavior {
   struct tile *ptile;
 };
 
+/* client options */
+extern bool gui_sdl_fullscreen;
+extern int gui_sdl_screen_width, gui_sdl_screen_height;
+extern char gui_sdl_theme_name[512];
 
 extern struct widget *pSellected_Widget;
 extern Uint32 SDL_Client_Flags;
-extern bool fullscreen;
-extern int screen_width, screen_height;
 extern bool LSHIFT;
 extern bool RSHIFT;
 extern bool LCTRL;

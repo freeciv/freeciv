@@ -26,7 +26,7 @@
 #include "themes_common.h"
 #include "themes_g.h"
 
-#define GUI_SDL_DEFAULT_THEME "deluxe"
+char gui_sdl_theme_name[512] = "deluxe";
 
 /*****************************************************************************
   Loads a gui-sdl theme directory/theme_name
@@ -50,7 +50,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
 void gui_clear_theme(void)
 {
   theme_free(theme);
-  if (!load_theme(GUI_SDL_DEFAULT_THEME)) {
+  if (!load_theme(gui_sdl_theme_name)) {
     freelog(LOG_FATAL, "No gui-sdl theme was found. Please visit");
     freelog(LOG_FATAL, "http://www.freeciv.org/index.php/Themes");
     freelog(LOG_FATAL, "for instructions on how to get one.");

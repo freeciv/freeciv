@@ -416,7 +416,7 @@ static int change_mode_callback(struct widget *pWidget)
 
   set_wstate(pWidget, FC_WS_DISABLED);
 
-  if (fullscreen != (Main.screen->flags & SDL_FULLSCREEN)) {
+  if (gui_sdl_fullscreen != (Main.screen->flags & SDL_FULLSCREEN)) {
     tmp_flags ^= SDL_FULLSCREEN;
     tmp_flags ^= SDL_RESIZABLE;
   }
@@ -504,9 +504,9 @@ static int change_mode_callback(struct widget *pWidget)
 
 static int toggle_fullscreen_callback(struct widget *pWidget)
 { 
-  fullscreen = !fullscreen;
+  gui_sdl_fullscreen = !gui_sdl_fullscreen;
   
-  if (fullscreen) {
+  if (gui_sdl_fullscreen) {
     set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
   } else {
     set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
@@ -529,7 +529,7 @@ static int toggle_fullscreen_callback(struct widget *pWidget)
   redraw_icon(pWidget);
   flush_rect(pWidget->size, FALSE);
 
-  fullscreen = !fullscreen;
+  gui_sdl_fullscreen = !gui_sdl_fullscreen;
 
   while (pModes_Rect[i] && pModes_Rect[i]->w != Main.screen->w) {
     i++;
@@ -642,7 +642,7 @@ static int video_callback(struct widget *pWidget)
   pStr = create_str16_from_char(_("Fullscreen Mode"), adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER_RIGHT);
   
-  /* fullscreen mode label */
+  /* gui_sdl_fullscreen mode label */
   pTmpGui = create_themelabel(create_filled_surface(adj_size(150), adj_size(30),
               SDL_SWSURFACE, NULL, TRUE),
               pWindow->dst, pStr, adj_size(150), adj_size(30), 0);
@@ -653,7 +653,7 @@ static int video_callback(struct widget *pWidget)
 
   add_to_gui_list(ID_OPTIONS_FULLSCREEN_LABEL, pTmpGui);
 
-  /* fullscreen check box */
+  /* gui_sdl_fullscreen check box */
   pTmpGui = create_checkbox(pWindow->dst,
   		((Main.screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN),
 						WF_DRAW_THEME_TRANSPARENT);
@@ -2248,7 +2248,7 @@ void popup_optiondlg(void)
 
   SDL_Client_Flags |= (CF_OPTION_MAIN | CF_OPTION_OPEN);
   
-  fullscreen = Main.screen->flags & SDL_FULLSCREEN;
+  gui_sdl_fullscreen = Main.screen->flags & SDL_FULLSCREEN;
   
   disable_main_widgets();
   
@@ -2266,7 +2266,7 @@ void popdown_optiondlg(void)
 				
     SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN);
 			  
-    fullscreen = Main.screen->flags & SDL_FULLSCREEN;
+    gui_sdl_fullscreen = Main.screen->flags & SDL_FULLSCREEN;
     
     FC_FREE(pOption_Dlg);
     enable_main_widgets();

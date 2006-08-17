@@ -1011,8 +1011,8 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   
   clear_surface(Main.gui, NULL);
 
-  screen_width = Main.screen->w;
-  screen_height = Main.screen->h;
+  gui_sdl_screen_width = Main.screen->w;
+  gui_sdl_screen_height = Main.screen->h;
   
   return 0;
 }
