@@ -1317,6 +1317,7 @@ static int map_grid_callback(struct widget *pWidget)
   redraw_icon(pWidget->prev->prev->prev->prev);
   sdl_dirty_rect(pWidget->prev->prev->prev->prev->size);
   
+  flush_dirty();
   update_map_canvas_visible();
   
   return -1;
@@ -1337,6 +1338,8 @@ static int draw_city_map_grid_callback(struct widget *pWidget)
   }
   redraw_icon(pWidget->prev->prev);
   sdl_dirty_rect(pWidget->prev->prev->size);
+  
+  flush_dirty();
   update_map_canvas_visible();
   return -1;
 }
