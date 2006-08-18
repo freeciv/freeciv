@@ -416,7 +416,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
   pUType = pUnit->type;
 
   /* window */
-  my_snprintf(cBuf, sizeof(cBuf), "%s :", _("Unit Commands"));
+  my_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit Commands"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   pWindow = create_window(NULL, pStr, 1, 1, 0);
@@ -949,7 +949,7 @@ static void create_city_options_widget_list(struct city *pCity)
 
   /* ----- */
   
-  my_snprintf(cBuf, sizeof(cBuf), "%s :", _("New citizens are"));
+  my_snprintf(cBuf, sizeof(cBuf), "%s:", _("New citizens are"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= SF_CENTER;
   change_ptsize16(pStr, adj_font(13));
@@ -1867,11 +1867,11 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
   FREESURFACE(pSurf);
 
-  change_ptsize16(pStr, adj_font(12));
+  change_ptsize16(pStr, adj_font(11));
   pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_INFOPANEL);
   
   if (pCity->pollution) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Pollution : %d"),
+    my_snprintf(cBuf, sizeof(cBuf), _("Pollution: %d"),
 		pCity->pollution);
 
     copy_chars_to_string16(pStr, cBuf);
@@ -1903,7 +1903,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     dest.y += pIcons->pPollution->h + adj_size(30);
 
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), _("Pollution : none"));
+    my_snprintf(cBuf, sizeof(cBuf), _("Pollution: none"));
 
     copy_chars_to_string16(pStr, cBuf);
 
@@ -1918,7 +1918,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     FREESURFACE(pSurf);
   }
 
-  my_snprintf(cBuf, sizeof(cBuf), _("Trade routes : "));
+  my_snprintf(cBuf, sizeof(cBuf), _("Trade routes: "));
 
   copy_chars_to_string16(pStr, cBuf);
 
@@ -1941,10 +1941,10 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
       step += pCity->trade_value[i];
 
       if ((pTradeCity = find_city_by_id(pCity->trade[i]))) {
-	my_snprintf(cBuf, sizeof(cBuf), "%s : +%d", pTradeCity->name,
+	my_snprintf(cBuf, sizeof(cBuf), "%s: +%d", pTradeCity->name,
 		    pCity->trade_value[i]);
       } else {
-	my_snprintf(cBuf, sizeof(cBuf), "%s : +%d", _("Unknown"),
+	my_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
 		    pCity->trade_value[i]);
       }
 
@@ -1973,7 +1973,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   }
 
   if (step) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Trade : +%d"), step);
+    my_snprintf(cBuf, sizeof(cBuf), _("Trade: +%d"), step);
 
     copy_chars_to_string16(pStr, cBuf);
     pSurf = create_text_surf_from_str16(pStr);
@@ -2551,7 +2551,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
   my_snprintf(cBuf, sizeof(cBuf), _("City map"));
 
-  pStr = create_str16_from_char(cBuf, adj_font(11));
+  pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_GOLD);
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -2593,7 +2593,7 @@ static void redraw_city_dialog(struct city *pCity)
   FREESURFACE(pBuf);
   /* ================================================================= */
   /* food label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Food : %d per turn"),
+  my_snprintf(cBuf, sizeof(cBuf), _("Food: %d per turn"),
 	      pCity->prod[O_FOOD]);
 
   copy_chars_to_string16(pStr, cBuf);
@@ -2631,7 +2631,7 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += step;
   }
 
-  my_snprintf(cBuf, sizeof(cBuf), Q_("?food:Surplus : %d"),
+  my_snprintf(cBuf, sizeof(cBuf), Q_("?food:Surplus: %d"),
 					      pCity->surplus[O_FOOD]);
 
   copy_chars_to_string16(pStr, cBuf);
@@ -2680,7 +2680,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
   /* ================================================================= */
   /* productions label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Production : %d (%d) per turn"),
+  my_snprintf(cBuf, sizeof(cBuf), _("Production: %d (%d) per turn"),
 	      pCity->surplus[O_SHIELD] ,
 		  pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD]);
 
@@ -2727,7 +2727,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* support shields label */
-  my_snprintf(cBuf, sizeof(cBuf), Q_("?production:Support : %d"),
+  my_snprintf(cBuf, sizeof(cBuf), Q_("?production:Support: %d"),
 	  pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD] - pCity->surplus[O_SHIELD]);
 
   copy_chars_to_string16(pStr, cBuf);
@@ -2765,7 +2765,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ================================================================= */
 
   /* trade label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Trade : %d per turn"),
+  my_snprintf(cBuf, sizeof(cBuf), _("Trade: %d per turn"),
 	      pCity->surplus[O_TRADE]);
 
   copy_chars_to_string16(pStr, cBuf);
@@ -2800,7 +2800,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* corruption label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Corruption : %d"),
+  my_snprintf(cBuf, sizeof(cBuf), _("Corruption: %d"),
 	      pCity->waste[O_TRADE]);
 
   copy_chars_to_string16(pStr, cBuf);
@@ -2886,7 +2886,7 @@ static void redraw_city_dialog(struct city *pCity)
   }
 
   /* upkeep label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Upkeep : %d"),
+  my_snprintf(cBuf, sizeof(cBuf), _("Upkeep: %d"),
 	      pCity->prod[O_GOLD] - pCity->surplus[O_GOLD]);
 
   copy_chars_to_string16(pStr, cBuf);
@@ -3006,17 +3006,17 @@ static void redraw_city_dialog(struct city *pCity)
   /* turns to grow label */
   count = city_turns_to_grow(pCity);
   if (count == 0) {
-    my_snprintf(cBuf, sizeof(cBuf), _("City growth : blocked"));
+    my_snprintf(cBuf, sizeof(cBuf), _("City growth: blocked"));
   } else if (count == FC_INFINITY) {
-    my_snprintf(cBuf, sizeof(cBuf), _("City growth : never"));
+    my_snprintf(cBuf, sizeof(cBuf), _("City growth: never"));
   } else if (count < 0) {
     /* turns until famine */
     my_snprintf(cBuf, sizeof(cBuf),
-		_("City shrinks : %d %s"), abs(count),
+		_("City shrinks: %d %s"), abs(count),
 		PL_("turn", "turns", abs(count)));
   } else {
     my_snprintf(cBuf, sizeof(cBuf),
-		_("City growth : %d %s"), count,
+		_("City growth: %d %s"), count,
 		PL_("turn", "turns", count));
   }
 
