@@ -29,9 +29,11 @@
 #include "log.h"
 
 /* gui-sdl */
+#include "colors.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_zoom.h"
+#include "themecolors.h"
 #include "themespec.h"
 
 #include "gui_tilespec.h"
@@ -178,11 +180,14 @@ void tilespec_setup_city_icons(void)
   pIcons->pWorklist = create_surf_alpha(9,9, SDL_SWSURFACE);
   SDL_FillRect(pIcons->pWorklist, NULL,
 		  SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
-  putframe(pIcons->pWorklist, 0,0,
-	pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1, 0xFF000000);
-  putline(pIcons->pWorklist, 3, 2, 5, 2, 0xFF000000);
-  putline(pIcons->pWorklist, 3, 4, 7, 4, 0xFF000000);
-  putline(pIcons->pWorklist, 3, 6, 6, 6, 0xFF000000);
+  putframe(pIcons->pWorklist, 0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
+    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
+  putline(pIcons->pWorklist, 3, 2, 5, 2,
+    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
+  putline(pIcons->pWorklist, 3, 4, 7, 4, 
+    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
+  putline(pIcons->pWorklist, 3, 6, 6, 6,
+    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
   /* ================================================================= */
   

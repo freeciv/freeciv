@@ -617,8 +617,8 @@ static void real_info_city_report_dialog_update(void)
   dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(32);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
   dst.y += (pText2->h - pText3->h) / 2;
   dst.x += ((name_w + adj_size(6)) - pText3->w) / 2;
@@ -722,7 +722,7 @@ static void real_info_city_report_dialog_update(void)
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_PROD));
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
-           map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (hh - pIcons->pBIG_Shield->h) / 2;
   dst.x += adj_size(5);
@@ -753,8 +753,8 @@ static void real_info_city_report_dialog_update(void)
     
   SDL_FillRectAlpha(pWindow->theme, &dst, get_game_colorRGB(COLOR_THEME_CITYREP_PROD));
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
   
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2) + (hh - pText4->h) / 2;
   dst.x += (dst.w - pText4->w) / 2;;

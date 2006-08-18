@@ -610,8 +610,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = pText3->h + adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5)) - pText3->w) / 2;
@@ -651,8 +651,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = pText4->h + adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
   
   dst.y += 1;
   dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5))- pText4->w) / 2;
@@ -666,8 +666,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
     
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
     
   dst.x += adj_size(3);
   alphablit(pText1, NULL, pWindow->theme, &dst);
@@ -682,8 +682,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
   
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(4);
   dst.x += ((ww - pIcons->pBIG_Shield->w) / 2);
@@ -697,8 +697,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
   
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(4);
   dst.x += ((ww - pIcons->pBIG_Food->w) / 2);
@@ -712,8 +712,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
   
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(4);
   dst.x += ((ww - pIcons->pBIG_Coin->w) / 2);
@@ -728,8 +728,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
 			  
   dst.x += adj_size(3);
   alphablit(pText2, NULL, pWindow->theme, &dst);
@@ -742,8 +742,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
-  putframe(pWindow->theme, dst.x , dst.y,
-			  dst.x + dst.w, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_UNITSREP_FRAME)));
 			  
   dst.x += adj_size(3);
   alphablit(pText5, NULL, pWindow->theme, &dst);
@@ -2140,8 +2140,8 @@ void popup_economy_report_dialog(bool make_modal)
   dst.y += pTheme->Horiz->h + 1;
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color3);
   
-  putframe(pWindow->theme, dst.x, dst.y,
-			  dst.x + dst.w - 1, dst.y + dst.h - 1, 0xFF000000);
+  putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
   
   /* science lock icon */
   pBuf = pBuf->prev;
@@ -2562,7 +2562,8 @@ void science_dialog_update(void)
     /* separator */
     dest2 = dest;
     fix_rect(pWindow->dst, &dest2);
-    putline(pWindow->dst, dest2.x, dest2.y, dest2.x + adj_size(365), dest2.y, 0xff000000);
+    putline(pWindow->dst, dest2.x, dest2.y, dest2.x + adj_size(365), dest2.y,
+      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
 
     dest.y += 6;
     /* ------------------------------------- */
@@ -2675,7 +2676,9 @@ void science_dialog_update(void)
 
     dest2 = dest;
     fix_rect(pWindow->dst, &dest2);
-    putline(pWindow->dst, dest2.x, dest2.y, dest2.x + adj_size(365), dest2.y, 0xff000000);
+    putline(pWindow->dst, dest2.x, dest2.y, dest2.x + adj_size(365), dest2.y,
+      map_rgba(pWindow->dst->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
+    
     dest.y += adj_size(10);
     /* -------------------------------- */
     /* Goals */
