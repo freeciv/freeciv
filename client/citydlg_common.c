@@ -803,7 +803,7 @@ bool city_can_buy(const struct city *pcity)
 	  && pcity->owner == game.player_ptr
 	  && pcity->turn_founded != game.info.turn
 	  && !pcity->did_buy
-	  && !impr_flag(pcity->production.value, IF_GOLD)
+	  && (pcity->production.is_unit || !impr_flag(pcity->production.value, IF_GOLD))
 	  && !(pcity->production.is_unit && pcity->anarchy != 0)
 	  && city_buy_cost(pcity) > 0);
 }
