@@ -26,7 +26,7 @@
 # Einige Texte sind aus unterschiedlichen Gründen nicht übersetzt:
 #
 # - Einige landessprachliche Bezeichnungen, vor allem Herrschertitel.
-#   Dort findet sich ein Kommentar (EH: oder CK:).
+#   Dort findet sich ein Übersetzerkommentar (EH: oder CK:).
 # 
 # - Technische Fehlermeldungen sind nicht übersetzt. Diese Meldungen
 #   sind in erster Linie für Entwickler bestimmt, und die können in der 
@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-06 21:00+0200\n"
+"POT-Creation-Date: 2006-08-18 19:17+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -12528,7 +12528,7 @@ msgstr "_Arbeitsliste bearbeiten"
 
 #: client/gui-gtk-2.0/menu.c:929 client/gui-win32/menu.c:418
 msgid "Citizen _Management"
-msgstr "_Automatisierte Stadtverwaltung"
+msgstr "_Bürgermeister"
 
 #: client/gui-gtk-2.0/menu.c:931 client/gui-win32/menu.c:419
 msgid "_Playing"
@@ -16607,24 +16607,24 @@ msgid "You must select a nation."
 msgstr "Es MUSS eine Nation gewählt werden."
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/graphics.c:342
+#: client/gui-xaw/graphics.c:343
 #, c-format
 msgid "Failed reading PNG file: %s"
 msgstr "Failed reading PNG file: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/graphics.c:348 client/gui-xaw/graphics.c:354
+#: client/gui-xaw/graphics.c:349 client/gui-xaw/graphics.c:355
 msgid "Failed creating PNG struct"
 msgstr "Failed creating PNG struct"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/graphics.c:359
+#: client/gui-xaw/graphics.c:360
 #, c-format
 msgid "Failed while reading PNG file: %s"
 msgstr "Failed while reading PNG file: %s"
 
 # EH: Diese Fehlermeldung sollte mE nicht übersetzt werden.
-#: client/gui-xaw/graphics.c:396
+#: client/gui-xaw/graphics.c:397
 #, c-format
 msgid "PNG file has no palette: %s"
 msgstr "PNG file has no palette: %s"
@@ -20571,8 +20571,7 @@ msgstr "Macht in jeder Stadt einen Unzufriedenen zufrieden."
 #, no-c-format
 msgid ""
 "When built, every civilization's attitude toward you is improved by 25%."
-msgstr ""
-"Verbessert die Einstellung aller Zivilisationen Dir gegenüber um 25 %."
+msgstr "Verbessert die Einstellung aller Zivilisationen Dir gegenüber um 25 %."
 
 #: data/civ2/buildings.ruleset:1114 data/civ1/buildings.ruleset:768
 msgid "Works as a City Wall in all cities."
