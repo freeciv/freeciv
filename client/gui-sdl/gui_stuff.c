@@ -4534,9 +4534,9 @@ int redraw_window(struct widget *pWindow)
     dst = pWindow->size;    
     fix_rect(pWindow->dst, &dst);
     
-    putline(pWindow->dst, dst.x + pTheme->FR_Vert->w,
+    putline(pWindow->dst, dst.x + pTheme->FR_Left->w,
 	  dst.y + WINDOW_TITLE_HEIGHT,
-	  dst.x + pWindow->size.w - pTheme->FR_Vert->w,
+	  dst.x + pWindow->size.w - pTheme->FR_Right->w,
 	  dst.y + WINDOW_TITLE_HEIGHT, 
           map_rgba(pWindow->dst->format, 
            *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
@@ -4555,27 +4555,36 @@ int redraw_window(struct widget *pWindow)
 void draw_frame(SDL_Surface * pDest, Sint16 start_x, Sint16 start_y,
 		Uint16 w, Uint16 h)
 {
-  SDL_Surface *pTmp_Vert =
-      ResizeSurface(pTheme->FR_Vert, pTheme->FR_Vert->w, h, 1);
-  SDL_Surface *pTmp_Hor =
-      ResizeSurface(pTheme->FR_Hor, w, pTheme->FR_Hor->h, 1);
+  SDL_Surface *pTmpLeft = 
+    ResizeSurface(pTheme->FR_Left, pTheme->FR_Left->w, h, 1);
+  SDL_Surface *pTmpRight = 
+    ResizeSurface(pTheme->FR_Right, pTheme->FR_Right->w, h, 1);
+  SDL_Surface *pTmpTop =
+    ResizeSurface(pTheme->FR_Top, w, pTheme->FR_Top->h, 1);
+  SDL_Surface *pTmpBottom =
+    ResizeSurface(pTheme->FR_Bottom, w, pTheme->FR_Bottom->h, 1);
+  
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   tmp = dst;
-  alphablit(pTmp_Vert, NULL, pDest, &tmp);
-  dst.x += w - pTmp_Vert->w;
+  alphablit(pTmpLeft, NULL, pDest, &tmp);
+  
+  dst.x += w - pTmpRight->w;
   tmp = dst;
-  alphablit(pTmp_Vert, NULL, pDest, &tmp);
+  alphablit(pTmpRight, NULL, pDest, &tmp);
 
   dst.x = start_x;
   tmp = dst;
-  alphablit(pTmp_Hor, NULL, pDest, &tmp);
-  dst.y += h - pTmp_Hor->h;
+  alphablit(pTmpTop, NULL, pDest, &tmp);
+  
+  dst.y += h - pTmpBottom->h;
   tmp = dst;
-  alphablit(pTmp_Hor, NULL, pDest, &tmp);
+  alphablit(pTmpBottom, NULL, pDest, &tmp);
 
-  FREESURFACE(pTmp_Hor);
-  FREESURFACE(pTmp_Vert);
+  FREESURFACE(pTmpLeft);
+  FREESURFACE(pTmpRight);
+  FREESURFACE(pTmpTop);
+  FREESURFACE(pTmpBottom);
 }
 
 /**************************************************************************

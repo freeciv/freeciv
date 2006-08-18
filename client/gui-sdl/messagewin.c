@@ -119,8 +119,8 @@ void real_update_meswin_dialog(void)
   SDL_String16 *pStr = NULL;
 
   bool create;
-  int w = pWindow->size.w - pTheme->FR_Vert->w - (pTheme->FR_Vert->w * 2) -
-			  pMsg_Dlg->pScroll->pUp_Left_Button->size.w;
+  int w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w -
+                   pMsg_Dlg->pScroll->pUp_Left_Button->size.w - adj_size(3);
   
   if ((i > 0) && (msg_count <= i)) {
     del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
@@ -160,13 +160,13 @@ void real_update_meswin_dialog(void)
       if(create) {
         add_widget_to_vertical_scroll_widget_list(pMsg_Dlg,
 				pBuf, pWindow, FALSE,
-				pWindow->size.x + pTheme->FR_Vert->w,
+				pWindow->size.x + pTheme->FR_Left->w,
 		      		pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2));
 	 create = FALSE;
       } else {
 	add_widget_to_vertical_scroll_widget_list(pMsg_Dlg,
 				pBuf, pMsg_Dlg->pBeginActiveWidgetList, FALSE,
-				pWindow->size.x + pTheme->FR_Vert->w,
+				pWindow->size.x + pTheme->FR_Left->w,
 		      		pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2));
       }
       
@@ -313,7 +313,7 @@ void popup_meswin_dialog(bool raise)
   if (msg_count > 0) {
 
     /* correct label widths */
-    len = w - pTheme->FR_Vert->w - (pTheme->FR_Vert->w * 2) - len;        
+    len = w - pTheme->FR_Left->w - pTheme->FR_Right->w - adj_size(3) - len;        
     
     pBuf = pMsg_Dlg->pEndActiveWidgetList;
     while (pBuf) {
@@ -332,7 +332,7 @@ void popup_meswin_dialog(bool raise)
     }
     
     setup_vertical_widgets_position(1,
-	start_x + pTheme->FR_Vert->w, start_y + WINDOW_TITLE_HEIGHT + adj_size(2), 0, 0,
+	start_x + pTheme->FR_Left->w, start_y + WINDOW_TITLE_HEIGHT + adj_size(2), 0, 0,
 	pMsg_Dlg->pBeginActiveWidgetList, pBuf);
   }
 

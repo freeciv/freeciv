@@ -329,8 +329,8 @@ void update_conn_list_dialog(void)
         pConnDlg->pUsers_Dlg->pEndWidgetList =
 				pConnDlg->pUsers_Dlg->pEndWidgetList->prev;
         setup_vertical_scrollbar_area(pConnDlg->pUsers_Dlg->pScroll,
-			pWindow->size.x + pWindow->size.w - adj_size(29) - pTheme->FR_Vert->w,
-        		pWindow->size.y + adj_size(14), pWindow->size.h - adj_size(44), FALSE);
+	  pWindow->size.x + pWindow->size.w - adj_size(29) - pTheme->FR_Right->w,
+          pWindow->size.y + adj_size(14), pWindow->size.h - adj_size(44), FALSE);
       }
     
       hide_scrollbar(pConnDlg->pUsers_Dlg->pScroll);
@@ -348,14 +348,14 @@ void update_conn_list_dialog(void)
         /* add to widget list */
         if(create) {
           add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
-			pBuf, pConnDlg->pUsers_Dlg->pBeginWidgetList, FALSE,
-			pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Vert->w,
+            pBuf, pConnDlg->pUsers_Dlg->pBeginWidgetList, FALSE,
+            pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Right->w,
 		      		pWindow->size.y + adj_size(14));
 	  create = FALSE;
         } else {
 	  add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
 		pBuf, pConnDlg->pUsers_Dlg->pBeginActiveWidgetList, FALSE,
-		pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Vert->w,
+		pWindow->size.x + pWindow->size.w - adj_size(130) - pTheme->FR_Right->w,
 	      		pWindow->size.y + adj_size(14));
         }
             
@@ -428,7 +428,7 @@ static void popup_conn_list_dialog(void)
     #ifdef SMALL_SCREEN
     n = 263;
     #else
-    n = pWindow->size.w - adj_size(130) - pTheme->FR_Vert->w - adj_size(10 + 60 + 10 + 30);
+    n = pWindow->size.w - adj_size(130) - pTheme->FR_Right->w - adj_size(10 + 60 + 10 + 30);
     #endif
     pConnDlg->text_width = n;
     
@@ -441,7 +441,7 @@ static void popup_conn_list_dialog(void)
     putframe(pWindow->theme, area.x - 1, area.y - 1, area.x + area.w,
              area.y + area.h, map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_CONNLISTDLG_FRAME)));
     
-    area.x = pWindow->size.w - adj_size(130) - pTheme->FR_Vert->w;
+    area.x = pWindow->size.w - adj_size(130) - pTheme->FR_Right->w;
     area.y = adj_size(14);
     area.w = adj_size(120);
     area.h = pWindow->size.h - adj_size(44);

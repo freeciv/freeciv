@@ -699,7 +699,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   pDlg->pEndActiveWidgetList = pWindow->prev;
   pDlg->pScroll = NULL;
   
-  hh = (Main.screen->h - adj_size(100) - WINDOW_TITLE_HEIGHT - adj_size(4) - pTheme->FR_Hor->h);
+  hh = (Main.screen->h - adj_size(100) - WINDOW_TITLE_HEIGHT - adj_size(4) - pTheme->FR_Bottom->h);
   ww = hh < (count * height);
   
   if(ww) {
@@ -718,7 +718,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     } while(pBuf != pDlg->pBeginActiveWidgetList);
   }
   
-  ww = MAX(width + (pTheme->FR_Vert->w * 2) + adj_size(4) + scroll_w, adj_size(150));
+  ww = MAX(pTheme->FR_Left->w + width + pTheme->FR_Right->w + adj_size(4) + scroll_w, adj_size(150));
   hh = Main.screen->h - adj_size(100);
   
   if(L_R) {
@@ -734,14 +734,14 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww, hh);
   
   setup_vertical_widgets_position(1,
-     pWindow->size.x + pTheme->FR_Vert->w + adj_size(2), pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
+     pWindow->size.x + pTheme->FR_Left->w + adj_size(2), pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
 	width, height, pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
   
   if(pDlg->pScroll) {
     setup_vertical_scrollbar_area(pDlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - WINDOW_TITLE_HEIGHT - pTheme->FR_Hor->h - 1, TRUE);
+    	pWindow->size.h - WINDOW_TITLE_HEIGHT - pTheme->FR_Bottom->h - 1, TRUE);
   }
   
   return pDlg;
@@ -1317,8 +1317,8 @@ static void popup_war_dialog(struct player *pPlayer)
 
   pBuf = pWindow->prev;
   
-  ww += (pTheme->FR_Vert->w * 2);
-  hh += pTheme->FR_Hor->h + adj_size(5);
+  ww += (pTheme->FR_Left->w + pTheme->FR_Right->w);
+  hh += pTheme->FR_Bottom->h + adj_size(5);
   
   pWindow->size.x = (Main.screen->w - ww) / 2;
   pWindow->size.y = (Main.screen->h - hh) / 2;
@@ -1329,7 +1329,7 @@ static void popup_war_dialog(struct player *pPlayer)
 
   /* setup rest of widgets */
   /* label */
-  dst.x = pTheme->FR_Vert->w + (pWindow->size.w - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.x = pTheme->FR_Left->w + (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(5);
   alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + adj_size(5);
@@ -1342,7 +1342,7 @@ static void popup_war_dialog(struct player *pPlayer)
   /* yes */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (2 * pBuf->size.w + adj_size(20))) / 2;
+	    (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (2 * pBuf->size.w + adj_size(20))) / 2;
   pBuf->size.y = pWindow->size.y + dst.y;
     
   /* no */
@@ -1504,8 +1504,8 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
     pBuf = pWindow->prev;
   
-    ww += (pTheme->FR_Vert->w * 2);
-    hh += pTheme->FR_Hor->h + adj_size(5);
+    ww += (pTheme->FR_Left->w + pTheme->FR_Right->w);
+    hh += pTheme->FR_Bottom->h + adj_size(5);
    
     pWindow->size.x = (Main.screen->w - ww) / 2;
     pWindow->size.y = (Main.screen->h - hh) / 2;
@@ -1516,7 +1516,8 @@ void popup_diplomacy_dialog(struct player *pPlayer)
 
     /* setup rest of widgets */
     /* label */
-    dst.x = pTheme->FR_Vert->w + (pWindow->size.w - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+    dst.x = pTheme->FR_Left->w +
+      (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
     dst.y = WINDOW_TITLE_HEIGHT + adj_size(5);
     alphablit(pText, NULL, pWindow->theme, &dst);
     dst.y += pText->h + adj_size(15);
@@ -1530,7 +1531,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
       pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (pBuf->size.w)) / 2;
+        (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (pBuf->size.w)) / 2;
       pBuf->size.y = pWindow->size.y + dst.y;
       
       if(shared) {
@@ -1556,7 +1557,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
       pBuf->size.w = button_w;
       pBuf->size.h = button_h;
       pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (pBuf->size.w)) / 2;
+        (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (pBuf->size.w)) / 2;
       pBuf->size.y = pWindow->size.y + dst.y;
       
     }

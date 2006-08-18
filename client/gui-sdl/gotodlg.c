@@ -184,10 +184,10 @@ static void update_goto_dialog(void)
     }
   
     setup_vertical_widgets_position(1,
-	pGotoDlg->pEndWidgetList->size.x + pTheme->FR_Vert->w + 1,
+	pGotoDlg->pEndWidgetList->size.x + pTheme->FR_Left->w + 1,
         pGotoDlg->pEndWidgetList->size.y + WINDOW_TITLE_HEIGHT + 1,
         pGotoDlg->pScroll->pUp_Left_Button->size.x -
-		  	pGotoDlg->pEndWidgetList->size.x - pTheme->FR_Vert->w - adj_size(2),
+          pGotoDlg->pEndWidgetList->size.x - pTheme->FR_Right->w - adj_size(2),
         0, pGotoDlg->pBeginActiveWidgetList, pGotoDlg->pEndActiveWidgetList);
         
   } else {
@@ -301,18 +301,18 @@ static void popup_goto_airlift_dialog(void)
   
   col = (col + adj_size(10)) / adj_size(11);
   w = col * pBuf->size.w + (col - 1) * 5 + adj_size(10);
-  h = pWindow->size.h - WINDOW_TITLE_HEIGHT - 1 - pTheme->FR_Hor->h;
+  h = pWindow->size.h - WINDOW_TITLE_HEIGHT - 1 - pTheme->FR_Bottom->h;
   
   pFlag = ResizeSurface(pTheme->Block, w, h, 1);
   
-  block_x = dst.x = pWindow->theme->w - pTheme->FR_Vert->w - pFlag->w;
+  block_x = dst.x = pWindow->theme->w - pTheme->FR_Right->w - pFlag->w;
   dst.y = WINDOW_TITLE_HEIGHT + 1;
   alphablit(pFlag, NULL, pWindow->theme, &dst);
   FREESURFACE(pFlag);
 
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
 
   /* nations buttons */
@@ -342,7 +342,7 @@ static void popup_goto_airlift_dialog(void)
   setup_vertical_scrollbar_area(pGotoDlg->pScroll,
 	pWindow->size.x + block_x,
   	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-  	pWindow->size.h - (WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h), TRUE);
+  	pWindow->size.h - (WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h), TRUE);
     
   update_goto_dialog();
 }

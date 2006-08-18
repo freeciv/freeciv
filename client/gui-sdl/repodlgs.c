@@ -244,11 +244,11 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		ww + (pTheme->FR_Vert->w * 2), hh);
+		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh);
   
   /* setup rest of widgets */
   /* label */
-  dst.x = pTheme->FR_Vert->w + (ww - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.x = pTheme->FR_Left->w + (ww - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(11);
   alphablit(pText, NULL, pWindow->theme, &dst);
   FREESURFACE(pText);
@@ -268,7 +268,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
   } else {
     /* x position of cancel button */
     pBuf->size.x = pWindow->size.x +
-      pWindow->size.w - pTheme->FR_Vert->w - pBuf->size.w - adj_size(10);
+      pWindow->size.w - pTheme->FR_Right->w - pBuf->size.w - adj_size(10);
   }
   
   
@@ -570,16 +570,16 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       }
       ww = create_vertical_scrollbar(pUnitsDlg, 8, 10, TRUE, TRUE);
       w += ww;
-      h = (hh + 9 * (hh/2) + adj_size(10)) + WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h;
+      h = (hh + 9 * (hh/2) + adj_size(10)) + WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
     } else {
-      h += WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h + hh/2;
+      h += WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h + hh/2;
     }
   } else {
-    h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h + adj_size(50);
+    h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h + adj_size(50);
   }
   
   h += pText1->h + adj_size(10);
-  w += (pTheme->FR_Vert->w * 2) + adj_size(2);
+  w += pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2);
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
 
@@ -594,16 +594,16 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pWindow->theme = pLogo;
   pLogo = NULL;
   
-  ww -= (pTheme->FR_Vert->w * 2);
+  ww -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* totals background and label */
-  dst.x = pTheme->FR_Vert->w + adj_size(2);
-  dst.y = h - ( pText3->h + adj_size(2) ) - adj_size(2) - pTheme->FR_Hor->h;
+  dst.x = pTheme->FR_Left->w + adj_size(2);
+  dst.y = h - ( pText3->h + adj_size(2) ) - adj_size(2) - pTheme->FR_Bottom->h;
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
   dst.h = pText3->h + adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
@@ -618,7 +618,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   
   /* total active widget */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w + name_w +
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + name_w +
 			  tileset_full_tile_width(tileset) * 2 + adj_size(17);
   pBuf->size.y = pWindow->size.y + dst.y;
   
@@ -643,7 +643,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.y = pWindow->size.y + dst.y;
   
   /* units background and labels */
-  dst.x = pTheme->FR_Vert->w + adj_size(2);
+  dst.x = pTheme->FR_Left->w + adj_size(2);
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
   dst.h = pText4->h + adj_size(2);
@@ -658,10 +658,10 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   FREESURFACE(pText4);
   
   /* active count background and label */  
-  dst.x = pTheme->FR_Vert->w + 2 + name_w + tileset_full_tile_width(tileset) * 2 + adj_size(15);
+  dst.x = pTheme->FR_Left->w + 2 + name_w + tileset_full_tile_width(tileset) * 2 + adj_size(15);
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
   dst.w = pText1->w + adj_size(6);
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
+  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
     
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
@@ -677,7 +677,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.x += (ww + adj_size(13));
   w = dst.x;
   dst.w = ww;
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
+  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
@@ -692,7 +692,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   w = dst.x;
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
   dst.w = ww;
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
+  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
@@ -707,7 +707,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   w = dst.x;
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
   dst.w = ww;
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
+  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
@@ -723,7 +723,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.w = pText2->w + adj_size(6);
   ww = pText2->w + adj_size(6);
   w = dst.x;
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
+  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
@@ -737,7 +737,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.x = w + ww + adj_size(10);
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
   dst.w = pText5->w + adj_size(6);
-  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Hor->h - adj_size(2);
+  dst.h = h - WINDOW_TITLE_HEIGHT - adj_size(2) - pTheme->FR_Bottom->h - adj_size(2);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color);
   
   putframe(pWindow->theme, dst.x , dst.y, dst.x + dst.w, dst.y + dst.h - 1,
@@ -748,7 +748,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   FREESURFACE(pText5);
   
   if(count) {
-    int start_x = pWindow->size.x + pTheme->FR_Vert->w + adj_size(2);
+    int start_x = pWindow->size.x + pTheme->FR_Left->w + adj_size(2);
     int start_y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2) + hh + adj_size(2);
     int mod = 0;
     
@@ -799,9 +799,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     if (pUnitsDlg->pScroll)
     {
       setup_vertical_scrollbar_area(pUnitsDlg->pScroll,
-	  pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	  pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	  pWindow->size.h - (WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h + 1), TRUE);      
+    	  pWindow->size.h - (WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h + 1), TRUE);      
     }
     
   }
@@ -1529,11 +1529,11 @@ static int popup_sell_impv_callback(struct widget *pWidget)
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		ww + (pTheme->FR_Vert->w * 2), hh);
+		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh);
   
   /* setup rest of widgets */
   /* label */
-  dst.x = pTheme->FR_Vert->w + (ww - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.x = pTheme->FR_Left->w + (ww - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(11);
   alphablit(pText, NULL, pWindow->theme, &dst);
   FREESURFACE(pText);
@@ -1553,7 +1553,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
   } else {
     /* x position of cancel button */
     pBuf->size.x = pWindow->size.x +
-      pWindow->size.w - pTheme->FR_Vert->w - pBuf->size.w - adj_size(10);
+      pWindow->size.w - pTheme->FR_Right->w - pBuf->size.w - adj_size(10);
   }
   
   
@@ -1680,7 +1680,7 @@ void popup_economy_report_dialog(bool make_modal)
 
   pWindow = create_window(NULL, pStr, adj_size(40), adj_size(30), 0);
   pEconomyDlg->pEndWidgetList = pWindow;
-  h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
   set_wstate(pWindow, FC_WS_NORMAL);
   pWindow->action = economy_dialog_callback;
   
@@ -1972,7 +1972,7 @@ void popup_economy_report_dialog(bool make_modal)
       }
       h += (adj_size(10) + pBuf->size.h);
     }
-    count = TARGETS_COL * pBuf->size.w + count + (pTheme->FR_Vert->w * 2);  
+    count = TARGETS_COL * pBuf->size.w + count + pTheme->FR_Left->w + pTheme->FR_Right->w;  
   } else {
     pEconomyDlg->pBeginWidgetList = pBuf;
     h += adj_size(10);
@@ -2007,7 +2007,7 @@ void popup_economy_report_dialog(bool make_modal)
   pText2 = create_text_surf_from_str16(pStr);
   w3 = MAX(w3, pText2->w);
   
-  w = MAX(pTheme->FR_Vert->w + adj_size(10) + w3 + w + w2 + pTheme->FR_Vert->w, count);
+  w = MAX(pTheme->FR_Left->w + adj_size(10) + w3 + w + w2 + pTheme->FR_Right->w, count);
   
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
@@ -2024,39 +2024,39 @@ void popup_economy_report_dialog(bool make_modal)
   pMain = NULL;
       
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w + adj_size(10) + pText->w;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pText->w;
   pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + adj_size(5);
   h = pBuf->size.h;
   w = pBuf->size.w + pText->w;
       
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w + adj_size(10) + pText_Name->w;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pText_Name->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
   w = MAX(w, pBuf->size.w + pText_Name->w);
       
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w + adj_size(10) + pSurf->w;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pSurf->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
   w = MAX(w, pBuf->size.w + pSurf->w);
    
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w + adj_size(10) + pZoom->w;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pZoom->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
   w = MAX(w, pBuf->size.w + pZoom->w);
       
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w + adj_size(10) + pText2->w;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + pText2->w;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
   h += pBuf->size.h;
   w = MAX(w, pBuf->size.w + pText2->w);
   
   /* Backgrounds */
-  dst.x = pTheme->FR_Vert->w;
+  dst.x = pTheme->FR_Left->w;
   dst.y = WINDOW_TITLE_HEIGHT + 1;
-  dst.w = pWindow->size.w - (pTheme->FR_Vert->w * 2);
+  dst.w = pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w;
   dst.h = h + adj_size(15);
   h = dst.y + dst.h;
   
@@ -2066,7 +2066,7 @@ void popup_economy_report_dialog(bool make_modal)
     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_FRAME)));
   
   /* draw statical strings */
-  dst.x = pTheme->FR_Vert->w + adj_size(10);
+  dst.x = pTheme->FR_Left->w + adj_size(10);
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(1 + 5);
   alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h;
@@ -2095,16 +2095,16 @@ void popup_economy_report_dialog(bool make_modal)
   pMain = create_text_surf_from_str16(pStr);
   FREESTRING16(pStr);
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(1 + 5);
-  dst.x = pTheme->FR_Vert->w + adj_size(10) + w +
-	(pWindow->size.w - (w + (pTheme->FR_Vert->w * 2) + adj_size(10)) - pMain->w) / 2;
+  dst.x = pTheme->FR_Left->w + adj_size(10) + w +
+	(pWindow->size.w - (w + pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(10)) - pMain->w) / 2;
 	
   alphablit(pMain, NULL, pWindow->theme, &dst);
   dst.y += (pMain->h + 1);
   FREESURFACE(pMain);
   
   /* Luxuries Horizontal Scrollbar Background */
-  dst.x = pTheme->FR_Vert->w + adj_size(10) + w +
-	(pWindow->size.w - (w + (pTheme->FR_Vert->w * 2) + adj_size(10)) - adj_size(184)) / 2;
+  dst.x = pTheme->FR_Left->w + adj_size(10) + w +
+	(pWindow->size.w - (w + pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(10)) - adj_size(184)) / 2;
   dst.w = adj_size(184);
   dst.h = pTheme->Horiz->h - 2;
   
@@ -2155,8 +2155,8 @@ void popup_economy_report_dialog(bool make_modal)
 
   /* update */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w + adj_size(10) + w +
-	(pWindow->size.w - (w + (pTheme->FR_Vert->w * 2) + adj_size(10))
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + adj_size(10) + w +
+	(pWindow->size.w - (w + pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(10))
 					- (2 * pBuf->size.w + adj_size(10))) / 2;
   pBuf->size.y = pWindow->size.y + dst.y + dst.h + adj_size(3);
     
@@ -2168,15 +2168,15 @@ void popup_economy_report_dialog(bool make_modal)
   
   if(entries_used) {
     setup_vertical_widgets_position(TARGETS_COL,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
 	pWindow->size.y + h,
 	  0, 0, pEconomyDlg->pBeginActiveWidgetList,
 			  pEconomyDlg->pEndActiveWidgetList);
     if(pEconomyDlg->pScroll) {
       setup_vertical_scrollbar_area(pEconomyDlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + h,
-    	pWindow->size.h - (h + pTheme->FR_Hor->h + 1), TRUE);
+    	pWindow->size.h - (h + pTheme->FR_Bottom->h + 1), TRUE);
     }
   }
   
@@ -2864,9 +2864,9 @@ static int change_research(struct widget *pWidget)
 
   /* ------------------------- */
   /* max col - 104 is sellect tech widget width */
-  max_col = (Main.screen->w - (pTheme->FR_Vert->w * 2) - 2) / 104;
+  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - 2) / 104;
   /* max row - 204 is sellect tech widget height */
-  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + 1 + 2 + pTheme->FR_Hor->h)) / 204;
+  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / 204;
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -2934,8 +2934,8 @@ static int change_research(struct widget *pWidget)
     count = 1;
   }
 
-  w = MAX(w, (col * pBuf->size.w + adj_size(2) + (pTheme->FR_Vert->w * 2) + i));
-  h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Hor->h;
+  w = MAX(w, (col * pBuf->size.w + adj_size(2) + pTheme->FR_Left->w + pTheme->FR_Right->w + i));
+  h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Bottom->h;
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
@@ -2948,19 +2948,19 @@ static int change_research(struct widget *pWidget)
 
     /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
-  setup_vertical_widgets_position(col, pWindow->size.x + pTheme->FR_Vert->w + 1,
+  setup_vertical_widgets_position(col, pWindow->size.x + pTheme->FR_Left->w + 1,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1, 0, 0,
 		  pChangeTechDlg->pBeginActiveWidgetList,
   		  pChangeTechDlg->pEndActiveWidgetList);
     
   if(pChangeTechDlg->pScroll) {
     setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Hor->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
   }
 
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
@@ -3049,9 +3049,9 @@ static int change_research_goal(struct widget *pWidget)
 
   /* ------------------------- */
   /* max col - 104 is goal tech widget width */
-  max_col = (Main.screen->w - (pTheme->FR_Vert->w * 2) - 2) / 104;
+  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - 2) / 104;
   /* max row - 204 is goal tech widget height */
-  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + 1 + 2 + pTheme->FR_Hor->h)) / 204;
+  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / 204;
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -3125,8 +3125,8 @@ static int change_research_goal(struct widget *pWidget)
     count = 1;
   }
 
-  w = MAX(w, (col * pBuf->size.w + adj_size(2) + (pTheme->FR_Vert->w * 2) + i));
-  h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Hor->h;
+  w = MAX(w, (col * pBuf->size.w + adj_size(2) + pTheme->FR_Left->w + pTheme->FR_Right->w + i));
+  h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Bottom->h;
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
@@ -3139,19 +3139,19 @@ static int change_research_goal(struct widget *pWidget)
 
     /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
-  setup_vertical_widgets_position(col, pWindow->size.x + pTheme->FR_Vert->w + 1,
+  setup_vertical_widgets_position(col, pWindow->size.x + pTheme->FR_Left->w + 1,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1, 0, 0,
 		  pChangeTechDlg->pBeginActiveWidgetList,
   		  pChangeTechDlg->pEndActiveWidgetList);
     
   if(pChangeTechDlg->pScroll) {
     setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Hor->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
   }
 
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
@@ -3270,7 +3270,7 @@ void popup_science_dialog(bool raise)
   
   add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, pBuf);
   
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
     
   /* ======================== */

@@ -384,7 +384,7 @@ void popup_impr_info(Impr_type_id impr)
   pDock = pBuf;
   pStore->pObs = pBuf;
     
-  start_x = (pTheme->FR_Vert->w + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
+  start_x = (pTheme->FR_Left->w + 1 + width + pHelpDlg->pEndActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), impr, NULL);
@@ -420,14 +420,14 @@ void popup_impr_info(Impr_type_id impr)
 
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   
     /* toggle button */
-    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Left->w;
     pStore->pDock->size.y = pWindow->size.y +  WINDOW_TITLE_HEIGHT + 1;
     
-    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Hor->h + width,
+    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + width,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
@@ -435,7 +435,7 @@ void popup_impr_info(Impr_type_id impr)
     if (pHelpDlg->pScroll)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17),
     	h, FALSE);
     }
@@ -776,7 +776,7 @@ void popup_unit_info(Unit_type_id type_id)
   pDock = pBuf;
   pStore->pObs = pBuf;
  
-  start_x = (pTheme->FR_Vert->w + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
+  start_x = (pTheme->FR_Left->w + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
   buffer[0] = '\0';
   helptext_unit(buffer, get_unit_type(type_id), "");
@@ -811,14 +811,14 @@ void popup_unit_info(Unit_type_id type_id)
 
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   
     /* toggle button */
-    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Left->w;
     pStore->pDock->size.y = pWindow->size.y +  WINDOW_TITLE_HEIGHT + 1;
     
-    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Hor->h + width,
+    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + width,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
@@ -826,7 +826,7 @@ void popup_unit_info(Unit_type_id type_id)
     if (pHelpDlg->pScroll)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17),
     	h, FALSE);
     }
@@ -975,7 +975,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   char buffer[bufsz];
   SDL_Surface *pSurf;
   
-  start_x = (pTheme->FR_Vert->w + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
+  start_x = (pTheme->FR_Left->w + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
   pBuf = create_icon2(pTheme->Tech_Tree_Icon, pWindow->dst,
       		   WF_DRAW_THEME_TRANSPARENT);
@@ -1740,7 +1740,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
   } else {
     if (req_count)
     {
-      w = (pTheme->FR_Vert->w + 1 + width + pStore->pReq[0]->size.w * 2 + adj_size(20));
+      w = (pTheme->FR_Left->w + 1 + width + pStore->pReq[0]->size.w * 2 + adj_size(20));
       w += (pWindow->size.w - ((adj_size(20) + pStore->pReq[0]->size.w) + w + pTech->size.w)) / 2;
     } else {
       w = (pWindow->size.w - pTech->size.w) / 2;
@@ -2020,14 +2020,14 @@ void popup_tech_info(Tech_type_id tech)
 
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   
     /* toggle button */
-    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+    pStore->pDock->size.x = pWindow->size.x + pTheme->FR_Left->w;
     pStore->pDock->size.y = pWindow->size.y +  WINDOW_TITLE_HEIGHT + 1;
     
-    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Hor->h + width,
+    h = setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + width,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17), 0, 0,
 		  pHelpDlg->pBeginActiveWidgetList,
   		  pHelpDlg->pEndActiveWidgetList);
@@ -2035,7 +2035,7 @@ void popup_tech_info(Tech_type_id tech)
     if (pHelpDlg->pScroll)
     {
       setup_vertical_scrollbar_area(pHelpDlg->pScroll,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(17),
     	h, FALSE);
     }

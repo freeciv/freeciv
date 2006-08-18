@@ -113,7 +113,7 @@ void popup_find_dialog(void)
     return;
   }
      
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
   
   original = canvas_pos_to_tile(Main.map->w/2, Main.map->h/2);
   
@@ -206,7 +206,7 @@ void popup_find_dialog(void)
     n = units_h;
     w += n;
     
-    units_h = 20 * pBuf->size.h + WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+    units_h = 20 * pBuf->size.h + WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
     
   } else {
     units_h = h;
@@ -214,7 +214,7 @@ void popup_find_dialog(void)
         
   /* ---------- */
   
-  w += (pTheme->FR_Vert->w * 2);
+  w += (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   h = units_h;
 
@@ -235,7 +235,7 @@ void popup_find_dialog(void)
   
   resize_window(pWindow , NULL, NULL, w, h);
   
-  w -= (pTheme->FR_Vert->w * 2);
+  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   if (pFind_City_Dlg->pScroll)
   {
@@ -245,21 +245,21 @@ void popup_find_dialog(void)
   /* exit button */
   pBuf = pWindow->prev;
   
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* cities */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Vert->w, pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
+	pWindow->size.x + pTheme->FR_Left->w, pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
 	w, 0, pFind_City_Dlg->pBeginActiveWidgetList, pBuf);
   
   if (pFind_City_Dlg->pScroll)
   {
     setup_vertical_scrollbar_area(pFind_City_Dlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Hor->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
   }
   
   /* -------------------- */

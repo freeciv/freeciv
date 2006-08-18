@@ -270,8 +270,10 @@ void tilespec_setup_theme(void)
   load_theme_surface(pBuf, CBOX_Sell_Icon, "theme.sbox");
   load_theme_surface(pBuf, CBOX_Unsell_Icon, "theme.ubox");
   load_theme_surface(pBuf, Block, "theme.block");
-  load_theme_surface(pBuf, FR_Vert, "theme.vertic_frame");
-  load_theme_surface(pBuf, FR_Hor, "theme.horiz_frame");
+  load_theme_surface(pBuf, FR_Left, "theme.left_frame");
+  load_theme_surface(pBuf, FR_Right, "theme.right_frame");
+  load_theme_surface(pBuf, FR_Top, "theme.top_frame");
+  load_theme_surface(pBuf, FR_Bottom, "theme.bottom_frame");
   /* ------------------- */
   load_theme_surface(pBuf, OK_PACT_Icon, "theme.pact_ok");
   load_theme_surface(pBuf, CANCEL_PACT_Icon, "theme.pact_cancel");
@@ -378,8 +380,10 @@ void tilespec_free_theme(void)
   FREESURFACE(pTheme->CBOX_Sell_Icon);
   FREESURFACE(pTheme->CBOX_Unsell_Icon);
   FREESURFACE(pTheme->Block);
-  FREESURFACE(pTheme->FR_Vert);
-  FREESURFACE(pTheme->FR_Hor);
+  FREESURFACE(pTheme->FR_Left);
+  FREESURFACE(pTheme->FR_Right);
+  FREESURFACE(pTheme->FR_Top);
+  FREESURFACE(pTheme->FR_Bottom);
   /* ------------------- */
   
   FREESURFACE(pTheme->OK_Icon);

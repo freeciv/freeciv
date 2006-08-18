@@ -223,7 +223,7 @@ static void show_main_page()
   pLogo = get_logo_gfx();
   SDL_FillRectAlpha(pLogo, NULL, &bg_color);
   
-  if (resize_window(pWindow, pLogo, NULL, w + (pTheme->FR_Vert->w * 2), (h * count) + (pTheme->FR_Vert->w * 2))) {
+  if (resize_window(pWindow, pLogo, NULL, pTheme->FR_Left->w + w + pTheme->FR_Right->w, pTheme->FR_Top->h + (h * count) + pTheme->FR_Bottom->h)) {
     FREESURFACE(pLogo);
   }
 

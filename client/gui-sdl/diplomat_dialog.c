@@ -255,9 +255,9 @@ static int spy_steal_popup(struct widget *pWidget)
   
   count++; /* count + at Spy's Discretion */
   /* max col - 104 is steal tech widget width */
-  max_col = (Main.screen->w - (pTheme->FR_Vert->w * 2) - adj_size(2)) / adj_size(104);
+  max_col = (Main.screen->w - pTheme->FR_Left->w - pTheme->FR_Right->w - adj_size(2)) / adj_size(104);
   /* max row - 204 is steal tech widget height */
-  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Hor->h)) / adj_size(204);
+  max_row = (Main.screen->h - (WINDOW_TITLE_HEIGHT + adj_size(1 + 2) + pTheme->FR_Bottom->h)) / adj_size(204);
   
   /* make space on screen for scrollbar */
   if (max_col * max_row < count) {
@@ -341,8 +341,8 @@ static int spy_steal_popup(struct widget *pWidget)
     count = 1;
   }
 
-  w = MAX(w, (col * pBuf->size.w + adj_size(2) + (pTheme->FR_Vert->w * 2) + i));
-  h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Hor->h;
+  w = MAX(w, (col * pBuf->size.w + adj_size(2) + pTheme->FR_Left->w + pTheme->FR_Right->w + i));
+  h = WINDOW_TITLE_HEIGHT + 1 + count * pBuf->size.h + adj_size(2) + pTheme->FR_Bottom->h;
   pWindow->size.x = (Main.screen->w - w) / 2;
   pWindow->size.y = (Main.screen->h - h) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
@@ -356,19 +356,19 @@ static int spy_steal_popup(struct widget *pWidget)
 
     /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
-  setup_vertical_widgets_position(col, pWindow->size.x + pTheme->FR_Vert->w + 1,
+  setup_vertical_widgets_position(col, pWindow->size.x + pTheme->FR_Left->w + 1,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1, 0, 0,
 		  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList,
   		  pDiplomat_Dlg->pdialog->pEndActiveWidgetList);
     
   if(pDiplomat_Dlg->pdialog->pScroll) {
     setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Hor->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
   }
 
   redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow, FALSE);
@@ -506,7 +506,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   pDiplomat_Dlg->diplomat_id = pUnit->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
     
   /* window */
   if (pCity)
@@ -702,19 +702,19 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   
   /* setup window size and start position */
   
-  pWindow->size.w = w + (pTheme->FR_Vert->w * 2);
+  pWindow->size.w = pTheme->FR_Left->w + w + pTheme->FR_Right->w;
   pWindow->size.h = h;
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow,
-  		w + (pTheme->FR_Vert->w * 2), h, pUnit->tile);
+  		pTheme->FR_Left->w + w + pTheme->FR_Right->w, h, pUnit->tile);
   resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
   
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
   	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
 	pDiplomat_Dlg->pdialog->pBeginWidgetList, pBuf);
   
@@ -790,7 +790,7 @@ void popup_sabotage_dialog(struct city *pCity)
   }
   
   is_unit_move_blocked = TRUE;
-  h = WINDOW_TITLE_HEIGHT + 3 + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + 3 + pTheme->FR_Bottom->h;
     
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->diplomat_id = pUnit->id;
@@ -909,7 +909,7 @@ void popup_sabotage_dialog(struct city *pCity)
   /* ---------- */
   
   
-  w += (pTheme->FR_Vert->w * 2);
+  w += (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   h += imp_h;
   
@@ -917,7 +917,7 @@ void popup_sabotage_dialog(struct city *pCity)
   put_window_near_map_tile(pWindow, w, h, pUnit->tile);        
   resize_window(pWindow, NULL, NULL, w, h);
   
-  w -= (pTheme->FR_Vert->w * 2);
+  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   if (pDiplomat_Dlg->pdialog->pScroll)
   {
@@ -931,13 +931,13 @@ void popup_sabotage_dialog(struct city *pCity)
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* Production sabotage */
   pBuf = pBuf->prev;
   
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w;
   pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
   pBuf->size.w = w;
   h = pBuf->size.h;
@@ -979,10 +979,10 @@ void popup_sabotage_dialog(struct city *pCity)
   if (pDiplomat_Dlg->pdialog->pScroll)
   {
     setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y,
     	pWindow->size.y - pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y +
-	    pWindow->size.h - pTheme->FR_Hor->h, TRUE);
+	    pWindow->size.h - pTheme->FR_Bottom->h, TRUE);
   }
   
   /* -------------------- */
@@ -1079,7 +1079,7 @@ void popup_incite_dialog(struct city *pCity)
   pIncite_Dlg->diplomat_target_id = pCity->id;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));  
   
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   /* window */
   pStr = create_str16_from_char(_("Incite a Revolt!"), adj_font(12));
@@ -1203,12 +1203,12 @@ void popup_incite_dialog(struct city *pCity)
   
   /* setup window size and start position */
   
-  pWindow->size.w = w + (pTheme->FR_Vert->w * 2);
+  pWindow->size.w = pTheme->FR_Left->w + w + pTheme->FR_Right->w;
   pWindow->size.h = h;
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow,
-  		w + (pTheme->FR_Vert->w * 2), h, pCity->tile);
+  		pTheme->FR_Left->w + w + pTheme->FR_Right->w, h, pCity->tile);
   resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
   
   /* setup widget size and start position */
@@ -1217,13 +1217,13 @@ void popup_incite_dialog(struct city *pCity)
   if (exit)
   {/* exit button */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   }
   
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
   	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
 	pIncite_Dlg->pdialog->pBeginWidgetList, pBuf);
     
@@ -1313,7 +1313,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   pBribe_Dlg->diplomat_target_id = pUnit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
   
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   /* window */
   pStr = create_str16_from_char(_("Bribe Enemy Unit"), adj_font(12));
@@ -1402,12 +1402,12 @@ void popup_bribe_dialog(struct unit *pUnit)
   
   /* setup window size and start position */
   
-  pWindow->size.w = w + (pTheme->FR_Vert->w * 2);
+  pWindow->size.w = pTheme->FR_Left->w + w + pTheme->FR_Right->w;
   pWindow->size.h = h;
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow,
-  		w + (pTheme->FR_Vert->w * 2), h, pDiplomatUnit->tile);      
+    pTheme->FR_Left->w + w + pTheme->FR_Right->w, h, pDiplomatUnit->tile);      
   resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
   
   /* setup widget size and start position */
@@ -1416,13 +1416,13 @@ void popup_bribe_dialog(struct unit *pUnit)
   if (exit)
   {/* exit button */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
   }
   
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
   	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
 	pBribe_Dlg->pdialog->pBeginWidgetList, pBuf);
   

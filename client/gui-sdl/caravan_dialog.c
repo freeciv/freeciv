@@ -118,7 +118,7 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   pCaravan_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   is_unit_move_blocked = TRUE;
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   my_snprintf(cBuf, sizeof(cBuf), _("Your caravan has arrived at %s"),
 							  pDestcity->name);
@@ -196,19 +196,19 @@ void popup_caravan_dialog(struct unit *pUnit,
   
   /* setup window size and start position */
   
-  pWindow->size.w = w + (pTheme->FR_Vert->w * 2);
+  pWindow->size.w = pTheme->FR_Left->w + w + pTheme->FR_Right->w;
   pWindow->size.h = h;
   
   auto_center_on_focus_unit();
   put_window_near_map_tile(pWindow,
-  		w + (pTheme->FR_Vert->w * 2), h, pUnit->tile);
+  		pTheme->FR_Left->w + w + pTheme->FR_Right->w, h, pUnit->tile);
   resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
   
   /* setup widget size and start position */
     
   pBuf = pWindow->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
   	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
 	pCaravan_Dlg->pBeginWidgetList, pBuf);
   /* --------------------- */

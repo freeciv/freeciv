@@ -504,7 +504,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       pName = create_text_surf_from_str16(pStr);
       pStr->style &= ~TTF_STYLE_BOLD;
       
-      if (pInfo_Window->size.w > 1.8 * (DEFAULT_UNITS_W + (pTheme->FR_Vert->w * 2))) {
+      if (pInfo_Window->size.w > 1.8 * (pTheme->FR_Left->w + DEFAULT_UNITS_W + pTheme->FR_Right->w)) {
 	width = pInfo_Window->size.w / 2;
 	right = TRUE;
       } else {
@@ -534,13 +534,13 @@ void redraw_unit_info_label(struct unit *pUnit)
       copy_chars_to_string16(pStr, buffer);
       pInfo = create_text_surf_from_str16(pStr);
       
-      if (pInfo_Window->size.h > (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) || right) {
+      if (pInfo_Window->size.h > (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) || right) {
 	int h = TTF_FontHeight(pInfo_Window->string16->font);
 				     
 	my_snprintf(buffer, sizeof(buffer),"%s",
 				sdl_get_tile_defense_info_text(pTile));
 	
-        if (pInfo_Window->size.h > 2 * h + (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2))|| right) {
+        if (pInfo_Window->size.h > 2 * h + (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h)|| right) {
 	  if (game.info.borders > 0 && !pTile->city) {
 	    const char *diplo_nation_plural_adjectives[DS_LAST] =
                         {Q_("?nation:Neutral"), Q_("?nation:Hostile"),
@@ -628,7 +628,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 	  }
         }
 		
-	if (pInfo_Window->size.h > 4 * h + (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) || right) {
+	if (pInfo_Window->size.h > 4 * h + (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) || right) {
           cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
 				get_tile_output_text(pUnit->tile));
 	}
@@ -644,29 +644,29 @@ void redraw_unit_info_label(struct unit *pUnit)
       y = 0;
       
       if (n > 1 && ((!right && pInfo_II
-	 && (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) - pInfo_II->h > 52))
-         || (right && pInfo_Window->size.h - (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) > 52))) {
-	height = DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2);
+	 && (pInfo_Window->size.h - (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - pInfo_II->h > 52))
+         || (right && pInfo_Window->size.h - (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) > 52))) {
+	height = pTheme->FR_Top->h + DEFAULT_UNITS_H + pTheme->FR_Bottom->h;
       } else {
 	height = pInfo_Window->size.h;
-        if (pInfo_Window->size.h > (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2))) {
-	  y = (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) -
+        if (pInfo_Window->size.h > (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h)) {
+	  y = (pInfo_Window->size.h - (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) -
 	                 (!right && pInfo_II ? pInfo_II->h : 0)) / 2;
         }
       }
       
-      sy = y + (pTheme->FR_Hor->h * 2);
+      sy = pTheme->FR_Top->h + y + pTheme->FR_Bottom->h;
       area.y = pInfo_Window->size.y + sy;
-      area.x = pInfo_Window->size.x + pTheme->FR_Vert->w + BLOCKU_W +
-	    (width - pName->w - BLOCKU_W - (pTheme->FR_Vert->w * 2)) / 2;
+      area.x = pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W +
+	    (width - pName->w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 2;
       dest = area;
       fix_rect(pInfo_Window->dst, &dest);
       alphablit(pName, NULL, pInfo_Window->dst, &dest);
       sy += pName->h;
       if(pVet_Name) {
 	area.y += pName->h - adj_size(3);
-        area.x = pInfo_Window->size.x + pTheme->FR_Vert->w + BLOCKU_W +
-		(width - pVet_Name->w - BLOCKU_W - (pTheme->FR_Vert->w * 2)) / 2;
+        area.x = pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W +
+          (width - pVet_Name->w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 2;
         fix_rect(pInfo_Window->dst, &area);
         alphablit(pVet_Name, NULL, pInfo_Window->dst, &area);
 	sy += pVet_Name->h - adj_size(3);
@@ -677,14 +677,14 @@ void redraw_unit_info_label(struct unit *pUnit)
       /* draw unit sprite */
       pBuf_Surf = adj_surf(GET_SURF(get_unittype_sprite(tileset, pUnit->type)));
       src = get_smaller_surface_rect(pBuf_Surf);
-      sx = pTheme->FR_Vert->w + BLOCKU_W + adj_size(3) +
-          (width / 2 - src.w - adj_size(3) - BLOCKU_W - pTheme->FR_Vert->w) / 2;
+      sx = pTheme->FR_Left->w + BLOCKU_W + adj_size(3) +
+          (width / 2 - src.w - adj_size(3) - BLOCKU_W - pTheme->FR_Right->w) / 2;
                   
       area.x = pInfo_Window->size.x + sx + src.w +
-      		(width - (sx + src.w) - pTheme->FR_Vert->w - pInfo->w) / 2;
+      		(width - (sx + src.w) - pTheme->FR_Right->w - pInfo->w) / 2;
       
       area.y = pInfo_Window->size.y + sy +
-	      ((DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) - (sy - y) - pTheme->FR_Hor->h - pInfo->h) / 2;
+	      ((DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - (sy - y) - pTheme->FR_Bottom->h - pInfo->h) / 2;
             
       /* blit unit info text */
       fix_rect(pInfo_Window->dst, &area);
@@ -693,7 +693,7 @@ void redraw_unit_info_label(struct unit *pUnit)
       
       area.x = pInfo_Window->size.x + sx;
       area.y = pInfo_Window->size.y + y +
-      		((DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) - (pTheme->FR_Hor->h * 2) - src.h) / 2;
+      		((DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h) - pTheme->FR_Top->h - pTheme->FR_Bottom->h - src.h) / 2;
       fix_rect(pInfo_Window->dst, &area);
       alphablit(pBuf_Surf, &src, pInfo_Window->dst, &area);
       
@@ -702,10 +702,11 @@ void redraw_unit_info_label(struct unit *pUnit)
         if (right) {
 	  area.x = pInfo_Window->size.x + width +
       				(width - pInfo_II->w) / 2;
-	  area.y = pInfo_Window->size.y + pTheme->FR_Hor->h +
-	  		(height - pTheme->FR_Hor->h - pInfo_II->h) / 2;
+	  area.y = pInfo_Window->size.y + pTheme->FR_Top->h +
+	  		(height - pTheme->FR_Bottom->h - pInfo_II->h) / 2;
         } else {
-	  area.y = pInfo_Window->size.y + (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2)) + y;
+	  area.y = pInfo_Window->size.y + (DEFAULT_UNITS_H + pTheme->FR_Top->h +
+                   pTheme->FR_Bottom->h) + y;
           area.x = pInfo_Window->size.x + BLOCKU_W +
       		(width - BLOCKU_W - pInfo_II->w) / 2;
         }
@@ -715,13 +716,13 @@ void redraw_unit_info_label(struct unit *pUnit)
         alphablit(pInfo_II, NULL, pInfo_Window->dst, &area);
               
         if (right) {
-          sy = (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2));
+          sy = (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h);
         } else {
 	  sy = area.y - pInfo_Window->size.y + pInfo_II->h;
         }
         FREESURFACE(pInfo_II);
       } else {
-	sy = (DEFAULT_UNITS_H + (pTheme->FR_Hor->h * 2));
+	sy = (DEFAULT_UNITS_H + pTheme->FR_Top->h + pTheme->FR_Bottom->h);
       }
       
       if (n > 1 && (pInfo_Window->size.h - sy > 52)) {
@@ -734,8 +735,8 @@ void redraw_unit_info_label(struct unit *pUnit)
 	if (pDlg->pEndActiveWidgetList && pDlg->pBeginActiveWidgetList) {
 	  del_group(pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
 	}
-	num_w = (pInfo_Window->size.w - BLOCKU_W - (pTheme->FR_Vert->w * 2)) / 68;
-	num_h = (pInfo_Window->size.h - sy - pTheme->FR_Hor->h) / 52;
+	num_w = (pInfo_Window->size.w - BLOCKU_W - pTheme->FR_Left->w - pTheme->FR_Right->w) / 68;
+	num_h = (pInfo_Window->size.h - sy - pTheme->FR_Bottom->h) / 52;
 	pDock = pInfo_Window;
 	n = 0;
         unit_list_iterate(pTile->units, aunit) {
@@ -824,7 +825,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 	  /* create up button */
           pBuf = pDlg->pScroll->pUp_Left_Button;
           pBuf->size.x = pInfo_Window->size.x +
-			      pInfo_Window->size.w - pTheme->FR_Vert->w - pBuf->size.w;
+		      pInfo_Window->size.w - pTheme->FR_Right->w - pBuf->size.w;
           pBuf->size.y = pInfo_Window->size.y + sy +
 	    			(pInfo_Window->size.h - sy - num_h * 52) / 2;
           pBuf->size.h = (num_h * 52) / 2;
@@ -844,7 +845,7 @@ void redraw_unit_info_label(struct unit *pUnit)
 	}
 	  
 	setup_vertical_widgets_position(num_w,
-			pInfo_Window->size.x + pTheme->FR_Vert->w + BLOCKU_W + adj_size(2),
+          pInfo_Window->size.x + pTheme->FR_Left->w + BLOCKU_W + adj_size(2),
 			pInfo_Window->size.y + sy +
 	  			(pInfo_Window->size.h - sy - num_h * 52) / 2,
 	  		0, 0, pDlg->pBeginActiveWidgetList,
@@ -891,8 +892,8 @@ void redraw_unit_info_label(struct unit *pUnit)
   } else {
 #if 0    
     /* draw hidden */
-    area.x = Main.screen->w - pBuf_Surf->w - pTheme->FR_Vert->w;
-    area.y = Main.screen->h - pBuf_Surf->h - pTheme->FR_Hor->h;
+    area.x = Main.screen->w - pBuf_Surf->w - pTheme->FR_Right->w;
+    area.y = Main.screen->h - pBuf_Surf->h - pTheme->FR_Bottom->h;
     fix_rect(pInfo_Window->dst, &area); 
     alphablit(pInfo_Window->theme, NULL, pInfo_Window->dst, &area);
 #endif    
@@ -999,8 +1000,8 @@ void center_minimap_on_minimap_window(void)
   int width, height;
   get_overview_area_dimensions(&width, &height);
 
-  OVERVIEW_START_X = pTheme->FR_Vert->w + (width - overview.width)/2;
-  OVERVIEW_START_Y = pTheme->FR_Hor->h + (height - overview.height)/2;
+  OVERVIEW_START_X = pTheme->FR_Left->w + (width - overview.width)/2;
+  OVERVIEW_START_Y = pTheme->FR_Top->h + (height - overview.height)/2;
 }
 
 /**************************************************************************
@@ -1030,8 +1031,8 @@ struct canvas *get_overview_window(void)
 ****************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
-  *width = MINI_MAP_W - BLOCKM_W - (pTheme->FR_Vert->w * 2);
-  *height = MINI_MAP_H - (pTheme->FR_Hor->h * 2);  
+  *width = MINI_MAP_W - pTheme->FR_Left->w - BLOCKM_W - pTheme->FR_Right->w;
+  *height = MINI_MAP_H - pTheme->FR_Top->h - pTheme->FR_Bottom->h;  
 }
 
 /**************************************************************************
@@ -1067,12 +1068,12 @@ void refresh_overview(void)
 #if 0          
     map_area.x += OVERVIEW_START_X;
     map_area.y += OVERVIEW_START_Y;
-    map_area.w = MIN(pMMap->size.w - BLOCKM_W - (pTheme->FR_Vert->w * 2),
-					    OVERVIEW_TILE_WIDTH * map.xsize);
-    map_area.h = MIN(pMMap->size.h - (pTheme->FR_Hor->h * 2),
+    map_area.w = MIN(pMMap->size.w - BLOCKM_W - pTheme->FR_Left->w -
+                     pTheme->FR_Right->w, OVERVIEW_TILE_WIDTH * map.xsize);
+    map_area.h = MIN(pMMap->size.h - pTheme->FR_Top->h - pTheme->FR_Bottom->h,
 					    OVERVIEW_TILE_HEIGHT * map.ysize);
     
-    if(OVERVIEW_START_X != pTheme->FR_Vert->w || OVERVIEW_START_Y != pTheme->FR_Hor->h) {
+    if(OVERVIEW_START_X != pTheme->FR_Left->w || OVERVIEW_START_Y != pTheme->FR_Top->h) {
       putframe(pMMap->dst , map_area.x - 1, map_area.y - 1,
 			map_area.x + map_area.w + 1,
     			map_area.y + map_area.h + 1, 0xFFFFFFFF);

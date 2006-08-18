@@ -298,7 +298,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
     w = MAX(w, pLines->w);
   }
   w += adj_size(60);
-  h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h + adj_size(10) + pHeadline->h + adj_size(10);
+  h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h + adj_size(10) + pHeadline->h + adj_size(10);
   if(pLines) {
     h += pLines->h + adj_size(10);
   }
@@ -327,7 +327,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   
   /* exit button */
   pBuf = pWindow->prev; 
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1 + (WINDOW_TITLE_HEIGHT - pBuf->size.h) / 2;
     
   /* redraw */
@@ -482,18 +482,18 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
     pWindow->size.y = Main.event.motion.y;
   } else {
     put_window_near_map_tile(pWindow,
-  		ww + (pTheme->FR_Vert->w * 2), hh, pUnit->tile);
+  		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh, pUnit->tile);
   }
     
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		ww + (pTheme->FR_Vert->w * 2), hh);
+		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh);
   
   /* setup rest of widgets */
   /* label */
-  dst.x = pTheme->FR_Vert->w + (ww - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.x = pTheme->FR_Left->w + (ww - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(11);
   alphablit(pText, NULL, pWindow->theme, &dst);
   FREESURFACE(pText);
@@ -513,7 +513,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   } else {
     /* x position of cancel button */
     pBuf->size.x = pWindow->size.x +
-	    pWindow->size.w - pTheme->FR_Vert->w - pBuf->size.w - adj_size(10);
+	    pWindow->size.w - pTheme->FR_Right->w - pBuf->size.w - adj_size(10);
   }
   
   
@@ -642,7 +642,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   add_to_gui_list(ID_UNIT_SELLECT_DLG_EXIT_BUTTON, pBuf);
     
   /* ---------- */
-  h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
   
   for(i = 0; i < n; i++) {
     pUnit = unit_list_get(ptile->units, i);
@@ -699,7 +699,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   pUnit_Select_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
   pUnit_Select_Dlg->pActiveWidgetList = pWindow->prev->prev;
   
-  w += ((pTheme->FR_Vert->w * 2) + 2);
+  w += (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   if (n > NUM_SEEN)
   {
     n = create_vertical_scrollbar(pUnit_Select_Dlg, 1, NUM_SEEN, TRUE, TRUE);
@@ -707,7 +707,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     
     /* ------- window ------- */
     h = WINDOW_TITLE_HEIGHT + 1 +
-	    NUM_SEEN * pWindow->prev->prev->size.h + pTheme->FR_Hor->h;
+	    NUM_SEEN * pWindow->prev->prev->size.h + pTheme->FR_Bottom->h;
   }
   
   put_window_near_map_tile(pWindow, w, h, pUnit->tile);
@@ -717,23 +717,23 @@ void popup_unit_select_dialog(struct tile *ptile)
     w -= n;
   }
 
-  w -= ((pTheme->FR_Vert->w * 2) + 2);
+  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   
   /* exit button */
   pBuf = pWindow->prev; 
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   pBuf = pBuf->prev;
   
-  setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Vert->w + 1,
+  setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + 1,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1, w, 0,
 		  pUnit_Select_Dlg->pBeginActiveWidgetList, pBuf);
     
   if(pUnit_Select_Dlg->pScroll) {
     setup_vertical_scrollbar_area(pUnit_Select_Dlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Hor->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
   }
   
   /* ==================================================== */
@@ -840,7 +840,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   
   /* ------ window ---------- */
   pWindow->size.w = pBuf->size.w + adj_size(20);
-  pWindow->size.h = pBuf->size.h + WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Hor->h;
+  pWindow->size.h = pBuf->size.h + WINDOW_TITLE_HEIGHT + 1 + pTheme->FR_Bottom->h;
 
   put_window_near_map_tile(pWindow, pWindow->size.w, pWindow->size.h, ptile);
   resize_window(pWindow, NULL,
@@ -854,7 +854,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
   			  			WF_DRAW_THEME_TRANSPARENT);
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   pBuf->action = exit_terrain_info_dialog;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1128,7 +1128,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     return;
   }
     
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
   is_unit_move_blocked = TRUE;
     
   pAdvanced_Terrain_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -1529,7 +1529,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   }
   /* ---------- */
   
-  w += ((pTheme->FR_Vert->w * 2) + adj_size(2));
+  w += (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   
   h += units_h;
   
@@ -1538,7 +1538,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   resize_window(pWindow, NULL, NULL, w, h);
   
-  w -= ((pTheme->FR_Vert->w * 2) + adj_size(2));
+  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   
   if (pAdvanced_Terrain_Dlg->pScroll)
   {
@@ -1552,13 +1552,13 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   /* exit button */
   pBuf = pWindow->prev;
   
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* terrain info */
   pBuf = pBuf->prev;
   
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Hor->h + 1;
+  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w + 1;
   pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
   pBuf->size.w = w;
   h = pBuf->size.h;
@@ -1602,10 +1602,10 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   if (pAdvanced_Terrain_Dlg->pScroll)
   {
     setup_vertical_scrollbar_area(pAdvanced_Terrain_Dlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pAdvanced_Terrain_Dlg->pEndActiveWidgetList->size.y,
     	pWindow->size.y - pAdvanced_Terrain_Dlg->pEndActiveWidgetList->size.y +
-	pWindow->size.h - pTheme->FR_Hor->h, TRUE);
+	pWindow->size.h - pTheme->FR_Bottom->h, TRUE);
   }
   
   /* -------------------- */
@@ -1681,7 +1681,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   is_unit_move_blocked = TRUE;
   pPillage_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   /* window */
   pStr = create_str16_from_char(_("What To Pillage") , adj_font(12));
@@ -1735,24 +1735,24 @@ void popup_pillage_dialog(struct unit *pUnit,
   
   /* setup window size and start position */
   
-  pWindow->size.w = w + (pTheme->FR_Vert->w * 2);
+  pWindow->size.w = pTheme->FR_Left->w + w + pTheme->FR_Right->w;
   pWindow->size.h = h;
   
   put_window_near_map_tile(pWindow,
-  		w + (pTheme->FR_Vert->w * 2), h, pUnit->tile);      
+  		pTheme->FR_Left->w + w + pTheme->FR_Right->w, h, pUnit->tile);      
   resize_window(pWindow, NULL, NULL, pWindow->size.w, h);
   
   /* setup widget size and start position */
 
   /* exit button */  
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
 
   /* first special to pillage */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Vert->w,
+	pWindow->size.x + pTheme->FR_Left->w,
   	pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2), w, 0,
 	pPillage_Dlg->pBeginWidgetList, pBuf);
 
@@ -2416,7 +2416,7 @@ static int nation_button_callback(struct widget *pNationButton)
     w = MAX(w, pText->w + adj_size(20));
     w = MAX(w, pCancel->size.w + adj_size(20));
     h = WINDOW_TITLE_HEIGHT + adj_size(10) + pText2->h + adj_size(10) + pText->h
-                    + adj_size(10) + pCancel->size.h + adj_size(10) + pTheme->FR_Hor->h;
+       + adj_size(10) + pCancel->size.h + adj_size(10) + pTheme->FR_Bottom->h;
   
     pWindow->size.x = (Main.screen->w - w) / 2;
     pWindow->size.y = (Main.screen->h - h) / 2;
@@ -2436,7 +2436,7 @@ static int nation_button_callback(struct widget *pNationButton)
   
     pCancel->size.x = pWindow->size.x + (pWindow->size.w - pCancel->size.w) / 2;
     pCancel->size.y = pWindow->size.y +
-     	            pWindow->size.h - pCancel->size.h - adj_size(10) - pTheme->FR_Hor->h;
+      pWindow->size.h - pCancel->size.h - adj_size(10) - pTheme->FR_Bottom->h;
   
     /* redraw */
     redraw_group(pCancel, pWindow, 0);
@@ -2821,7 +2821,7 @@ void popup_races_dialog(struct player *pplayer)
   h = pNationDlg->pEndActiveWidgetList->size.h * TARGETS_ROW;
   i = (pWindow->size.h - WINDOW_TITLE_HEIGHT - h) / 2;
   setup_vertical_widgets_position(TARGETS_COL,
-	pWindow->size.x + pTheme->FR_Vert->w + adj_size(10),
+	pWindow->size.x + pTheme->FR_Left->w + adj_size(10),
 	pWindow->size.y + WINDOW_TITLE_HEIGHT + i,
 	  0, 0, pNationDlg->pBeginActiveWidgetList,
 			  pNationDlg->pEndActiveWidgetList);
@@ -2831,10 +2831,10 @@ void popup_races_dialog(struct player *pplayer)
   
     w = pNationDlg->pEndActiveWidgetList->size.w * TARGETS_COL;    
     setup_vertical_scrollbar_area(pNationDlg->pScroll,
-	pWindow->size.x + pTheme->FR_Vert->w + w + adj_size(12),
+	pWindow->size.x + pTheme->FR_Left->w + w + adj_size(12),
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + i,	h, FALSE);
     
-    area.x = pTheme->FR_Vert->w + w + adj_size(11);
+    area.x = pTheme->FR_Left->w + w + adj_size(11);
     area.y = WINDOW_TITLE_HEIGHT + i;
     area.w = pNationDlg->pScroll->pUp_Left_Button->size.w + adj_size(2);
     area.h = h;

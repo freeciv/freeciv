@@ -189,7 +189,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
      
     /* exit button */
     pBuf = pWindow->prev;
-    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+    pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
     pBuf->size.y = pWindow->size.y + 1;
 
     /* launch button */

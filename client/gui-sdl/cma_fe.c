@@ -328,17 +328,17 @@ static int save_cma_callback(struct widget *pWidget)
   ww += adj_size(20);
   hh += adj_size(15);
   
-  pWindow->size.x = pWidget->size.x - (ww + (pTheme->FR_Vert->w * 2)) / 2;
-  pWindow->size.y = pWidget->size.y - (hh + pTheme->FR_Hor->h);
+  pWindow->size.x = pWidget->size.x - (pTheme->FR_Left->w + ww + pTheme->FR_Right->w) / 2;
+  pWindow->size.y = pWidget->size.y - (hh + pTheme->FR_Bottom->h);
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
   resize_window(pWindow, NULL,
 		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		ww + (pTheme->FR_Vert->w * 2), hh + pTheme->FR_Hor->h);
+		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh + pTheme->FR_Bottom->h);
 
   /* setup rest of widgets */
   /* label */
-  dst.x = pTheme->FR_Vert->w + (pWindow->size.w - (pTheme->FR_Vert->w * 2) - pText->w) / 2;
+  dst.x = pTheme->FR_Left->w + (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
   dst.y = WINDOW_TITLE_HEIGHT + adj_size(2);
   alphablit(pText, NULL, pWindow->theme, &dst);
   dst.y += pText->h + adj_size(5);
@@ -354,7 +354,7 @@ static int save_cma_callback(struct widget *pWidget)
   /* yes */
   pBuf = pBuf->prev;
   pBuf->size.x = pWindow->size.x +
-	    (pWindow->size.w - (pTheme->FR_Vert->w * 2) - (2 * pBuf->size.w + adj_size(20))) / 2;
+    (pWindow->size.w - pTheme->FR_Left->w - pTheme->FR_Right->w - (2 * pBuf->size.w + adj_size(20))) / 2;
   pBuf->size.y = pWindow->size.y + dst.y;
   
   /* no */
@@ -485,8 +485,8 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pCma->pAdv->pEndActiveWidgetList = pWindow->prev->prev;
   pCma->pAdv->pActiveWidgetList = pWindow->prev->prev;
   
-  ww += ((pTheme->FR_Vert->w * 2) + adj_size(2));
-  hh += pTheme->FR_Hor->h + 1;
+  ww += pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2);
+  hh += pTheme->FR_Bottom->h + 1;
   
   if (count > 11)
   {
@@ -494,10 +494,12 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
         
     /* ------- window ------- */
     hh = WINDOW_TITLE_HEIGHT + 1 +
-	    11 * pWindow->prev->prev->size.h + pTheme->FR_Hor->h + 1 
+	    11 * pWindow->prev->prev->size.h + pTheme->FR_Bottom->h + 1 
     		+ 2 * pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1;
-    pCma->pAdv->pScroll->pUp_Left_Button->size.w = ww - (pTheme->FR_Vert->w * 2);
-    pCma->pAdv->pScroll->pDown_Right_Button->size.w = ww - (pTheme->FR_Vert->w * 2);
+    pCma->pAdv->pScroll->pUp_Left_Button->size.w = 
+                               ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
+    pCma->pAdv->pScroll->pDown_Right_Button->size.w = 
+                               ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
   }
   
   /* ----------------------------------- */
@@ -510,22 +512,22 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   
   /* exit button */
   pBuf = pWindow->prev; 
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   pBuf = pBuf->prev;
-  ww -= ((pTheme->FR_Vert->w * 2) + adj_size(2));
+  ww -= (pTheme->FR_Left->w + pTheme->FR_Right->w + adj_size(2));
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
-  setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Vert->w + 1,
+  setup_vertical_widgets_position(1, pWindow->size.x + pTheme->FR_Left->w + 1,
 		  pWindow->size.y + WINDOW_TITLE_HEIGHT + 1 + hh, ww, 0,
 		  pCma->pAdv->pBeginActiveWidgetList, pBuf);
   if(pCma->pAdv->pScroll) {
-    pCma->pAdv->pScroll->pUp_Left_Button->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+    pCma->pAdv->pScroll->pUp_Left_Button->size.x = pWindow->size.x + pTheme->FR_Left->w;
     pCma->pAdv->pScroll->pUp_Left_Button->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.x = pWindow->size.x + pTheme->FR_Vert->w;
+    pCma->pAdv->pScroll->pDown_Right_Button->size.x = pWindow->size.x + pTheme->FR_Left->w;
     pCma->pAdv->pScroll->pDown_Right_Button->size.y =
-        pWindow->size.y + pWindow->size.h -
-		    pTheme->FR_Hor->h - pCma->pAdv->pScroll->pDown_Right_Button->size.h;
+      pWindow->size.y + pWindow->size.h -
+      pTheme->FR_Bottom->h - pCma->pAdv->pScroll->pDown_Right_Button->size.h;
   }
     
   /* ==================================================== */
@@ -1010,7 +1012,7 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Vert->w - 1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* ---------- */

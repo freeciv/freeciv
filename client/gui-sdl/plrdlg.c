@@ -446,7 +446,7 @@ void popup_players_dialog(bool raise)
   w = adj_size(500);
   h = adj_size(400);
   r = MIN(w,h);
-  r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2) + WINDOW_TITLE_HEIGHT + pTheme->FR_Hor->h);
+  r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2) + WINDOW_TITLE_HEIGHT + pTheme->FR_Bottom->h);
   r /= 2;
   a = (2.0 * M_PI) / n;
    
@@ -461,7 +461,7 @@ void popup_players_dialog(bool raise)
   /* exit button */
   pBuf = pWindow->prev;
   
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
     
   n = WINDOW_TITLE_HEIGHT + adj_size(4);
@@ -603,7 +603,7 @@ void popup_players_nations_dialog(void)
     return;
   }
      
-  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+  h = WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
       
   pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   
@@ -741,7 +741,7 @@ void popup_players_nations_dialog(void)
     n = units_h;
     w += n;
     
-    units_h = 20 * pBuf->size.h + WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Hor->h;
+    units_h = 20 * pBuf->size.h + WINDOW_TITLE_HEIGHT + adj_size(3) + pTheme->FR_Bottom->h;
     
   } else {
     units_h = h;
@@ -749,7 +749,7 @@ void popup_players_nations_dialog(void)
         
   /* ---------- */
   
-  w += (pTheme->FR_Vert->w * 2);
+  w += (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   h = units_h;
 
@@ -764,7 +764,7 @@ void popup_players_nations_dialog(void)
   
   resize_window(pWindow, NULL, NULL, w, h);
   
-  w -= (pTheme->FR_Vert->w * 2);
+  w -= (pTheme->FR_Left->w + pTheme->FR_Right->w);
   
   if (pShort_Players_Dlg->pScroll)
   {
@@ -773,21 +773,21 @@ void popup_players_nations_dialog(void)
   
   /* exit button */
   pBuf = pWindow->prev;
-  pBuf->size.x = pWindow->size.x + pWindow->size.w-pBuf->size.w-pTheme->FR_Vert->w-1;
+  pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   
   /* cities */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	pWindow->size.x + pTheme->FR_Vert->w, pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
+	pWindow->size.x + pTheme->FR_Left->w, pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2),
 	w, 0, pShort_Players_Dlg->pBeginActiveWidgetList, pBuf);
   
   if (pShort_Players_Dlg->pScroll)
   {
     setup_vertical_scrollbar_area(pShort_Players_Dlg->pScroll,
-	pWindow->size.x + pWindow->size.w - pTheme->FR_Vert->w,
+	pWindow->size.x + pWindow->size.w - pTheme->FR_Right->w,
     	pWindow->size.y + WINDOW_TITLE_HEIGHT + 1,
-    	pWindow->size.h - (pTheme->FR_Hor->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
+    	pWindow->size.h - (pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + 1), TRUE);
   }
   
   /* -------------------- */

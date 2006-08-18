@@ -45,8 +45,10 @@ struct Theme {
 	SDL_Surface *RIGHT_Icon;
 	SDL_Surface *Vertic;
 	SDL_Surface *Horiz;
-	SDL_Surface *FR_Vert;
-	SDL_Surface *FR_Hor;
+	SDL_Surface *FR_Left;
+        SDL_Surface *FR_Right;
+	SDL_Surface *FR_Top;
+        SDL_Surface *FR_Bottom;
 	SDL_Surface *R_ARROW_Icon;
 	SDL_Surface *L_ARROW_Icon;
 	SDL_Surface *LOCK_Icon;

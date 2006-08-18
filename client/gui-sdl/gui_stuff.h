@@ -573,9 +573,9 @@ do {                                                                    \
 do {                                                                    \
   SDL_Rect rect = pWidget->size;                                        \
   fix_rect(pWidget->dst, &rect);                                        \
-  draw_frame(pDest, rect.x - pTheme->FR_Vert->w, rect.y - pTheme->FR_Hor->h, \
-                    pWidget->size.w + (pTheme->FR_Vert->w * 2),         \
-                    pWidget->size.h + (pTheme->FR_Hor->h * 2));        \
+  draw_frame(pDest, rect.x - pTheme->FR_Left->w, rect.y - pTheme->FR_Top->h, \
+             pWidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
+             pWidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
 } while(0);
 
 #define draw_frame_around_widget(pWidget)				\
