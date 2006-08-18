@@ -657,7 +657,6 @@ static void popup_minimap_scale_dialog(void)
   pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = down_width_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
   
   my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
@@ -671,7 +670,6 @@ static void popup_minimap_scale_dialog(void)
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = up_width_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
   
   
@@ -679,7 +677,6 @@ static void popup_minimap_scale_dialog(void)
   pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = down_height_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
   
   my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
@@ -693,7 +690,6 @@ static void popup_minimap_scale_dialog(void)
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = up_height_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
   w = MAX(w , pBuf->size.w * 2 + pBuf->next->size.w + adj_size(20));
   
@@ -921,28 +917,24 @@ static void popup_unitinfo_scale_dialog(void)
   pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = down_info_width_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
   h += pBuf->size.h;  
   
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = up_info_width_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
     
   /* ------------ */
   pBuf = create_themeicon_button(pTheme->L_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = down_info_height_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
   h += pBuf->size.h + adj_size(10);
   
   pBuf = create_themeicon_button(pTheme->R_ARROW_Icon, pWindow->dst, NULL, 0);
   pBuf->action = up_info_height_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_BUTTON, pBuf);
   w = MAX(w , pBuf->size.w * 2 + adj_size(20));
     

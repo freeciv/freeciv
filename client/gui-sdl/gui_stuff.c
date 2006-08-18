@@ -201,8 +201,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
 
   des.x = 0;
   des.y = 0;
-
-  alphablit(pTheme, &src, pBackground, NULL);
+  alphablit(pTheme, &src, pBackground, &des);
 
   /* copy left middels parts */
   src.y = iStart_y + iTile_width_high_end;
@@ -216,6 +215,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
   src.h = iTile_width_high_end;
   des.y = pBackground->h - iTile_width_high_end;
+  clear_surface(pBackground, &des);
   alphablit(pTheme, &src, pBackground, &des);
 
   /* copy middle parts without right end part */
@@ -244,6 +244,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
     src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
     src.h = iTile_width_high_end;
     des.y = pBackground->h - iTile_width_high_end;
+    clear_surface(pBackground, &des);    
     alphablit(pTheme, &src, pBackground, &des);
   }
 
@@ -269,6 +270,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   src.y = iStart_y + ((pTheme->h / 4) - iTile_width_high_end);
   src.h = iTile_width_high_end;
   des.y = pBackground->h - iTile_width_high_end;
+  clear_surface(pBackground, &des);  
   alphablit(pTheme, &src, pBackground, &des);
   
   if (zoom)
@@ -2291,7 +2293,6 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf->ID = ID_BUTTON;
     pBuf->private_data.adv_dlg = pDlg;
     pBuf->action = std_up_advanced_dlg;
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     set_wstate(pBuf, FC_WS_NORMAL);
     
     pDlg->pScroll->pUp_Left_Button = pBuf;
@@ -2306,7 +2307,6 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     pBuf->ID = ID_BUTTON;
     pBuf->private_data.adv_dlg = pDlg;
     pBuf->action = std_down_advanced_dlg;
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     set_wstate(pBuf, FC_WS_NORMAL);
     
     pDlg->pScroll->pDown_Right_Button = pBuf;
@@ -2502,7 +2502,6 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
     
     pBuf->ID = ID_BUTTON;
     pBuf->data.ptr = (void *)pDlg;
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     set_wstate(pBuf, FC_WS_NORMAL);
     
     pBuf->size.x = start_x;
@@ -2525,7 +2524,6 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
     
     pBuf->ID = ID_BUTTON;
     pBuf->data.ptr = (void *)pDlg;
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     set_wstate(pBuf, FC_WS_NORMAL);
     
     pBuf->size.x = start_x + width - pBuf->size.w;
@@ -2924,7 +2922,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, SDL_Surface *pDest,
   pButton->theme = pTheme->Button;
   pButton->gfx = pIcon;
   pButton->string16 = pStr;
-  set_wflag(pButton, (WF_FREE_STRING | WF_DRAW_FRAME_AROUND_WIDGET | flags));
+  set_wflag(pButton, (WF_FREE_STRING | flags));
   set_wstate(pButton, FC_WS_DISABLED);
   set_wtype(pButton, WT_I_BUTTON);
   pButton->mod = KMOD_NONE;
@@ -3060,8 +3058,7 @@ int real_redraw_ibutton(struct widget *pIButton)
 {
   SDL_Rect dest = { 0, 0, 0, 0 };
   SDL_String16 TMPString;
-  SDL_Surface *pButton = NULL, *pBuf = NULL, *pText = NULL, *pIcon =
-      pIButton->gfx;
+  SDL_Surface *pButton = NULL, *pText = NULL, *pIcon = pIButton->gfx;
   Uint16 Ix, Iy, x;
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
@@ -3091,26 +3088,16 @@ int real_redraw_ibutton(struct widget *pIButton)
 
   /* create Button graphic */
   if (get_wflags(pIButton) & WF_DRAW_THEME_TRANSPARENT) {
-    pBuf =
+    pButton =
 	create_bcgnd_surf(pIButton->theme, SDL_TRUE, get_wstate(pIButton),
-			  pIButton->size.w, pIButton->size.h + 1);
+			  pIButton->size.w, pIButton->size.h);
   } else {
-    pBuf =
+    pButton =
 	create_bcgnd_surf(pIButton->theme, SDL_FALSE, get_wstate(pIButton),
-			  pIButton->size.w, pIButton->size.h + 1);
+			  pIButton->size.w, pIButton->size.h);
   }
 
-  /* make AA on Button Sufrace - this give nice effects on small and med.
-     buttons size but rather don't work on big butons 
-     NOTE: ALPHA BLENDING code */
-  pButton = ResizeSurface(pBuf, pIButton->size.w, pIButton->size.h, 1);
-
-  FREESURFACE(pBuf);
-
-  dest.x = pIButton->size.x;
-  dest.y = pIButton->size.y;
-  dest.w = pIButton->size.w;
-  dest.h = pIButton->size.h;
+  dest = pIButton->size;
   fix_rect(pIButton->dst, &dest);  
   clear_surface(pIButton->dst, &dest);
   alphablit(pButton, NULL, pIButton->dst, &dest);

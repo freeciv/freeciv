@@ -164,7 +164,6 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Launch"), adj_font(12), 0);
         
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->action = launch_spaceship_callback;
     w = MAX(w, pBuf->size.w);
     h += pBuf->size.h + adj_size(20);

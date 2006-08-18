@@ -453,7 +453,6 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
 			    pWindow->dst, _("Cancel"), adj_font(12), 0);
 
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_upgrade_unit_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -465,7 +464,6 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Upgrade"), adj_font(12), 0);
         
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->action = ok_upgrade_unit_window_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.unit = pUnit;    
@@ -2724,7 +2722,6 @@ void popup_races_dialog(struct player *pplayer)
   pWidget = create_themeicon_button(pTheme->R_ARROW_Icon,
 						  pWindow->dst, NULL, 0);
   pWidget->action = next_name_callback;
-  clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pWidget);
   pWidget->size.h = pWidget->next->size.h;
   pSetup->pName_Next = pWidget;
@@ -2733,7 +2730,6 @@ void popup_races_dialog(struct player *pplayer)
   pWidget = create_themeicon_button(pTheme->L_ARROW_Icon,
   						pWindow->dst, NULL, 0);
   pWidget->action = prev_name_callback;
-  clear_wflag(pWidget, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pWidget);
   pWidget->size.h = pWidget->next->size.h;
   pSetup->pName_Prev = pWidget;

@@ -445,7 +445,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
   i++;
   ww = MAX(ww, pBuf->size.w);
   hh = MAX(hh, pBuf->size.h);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = activate_units_orders_city_dlg_callback;
   pBuf->data = pButton->data;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -457,7 +456,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
   i++;
   ww = MAX(ww, pBuf->size.w);
   hh = MAX(hh, pBuf->size.h);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = activate_and_exit_units_orders_city_dlg_callback;
   pBuf->data = pButton->data;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -471,7 +469,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     i++;
     ww = MAX(ww, pBuf->size.w);
     hh = MAX(hh, pBuf->size.h);
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->data = pButton->data;
     pBuf->action = sentry_units_orders_city_dlg_callback;
     if (pUnit->activity != ACTIVITY_SENTRY
@@ -487,7 +484,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     i++;
     ww = MAX(ww, pBuf->size.w);
     hh = MAX(hh, pBuf->size.h);
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->data = pButton->data;
     pBuf->action = fortify_units_orders_city_dlg_callback;
     if (pUnit->activity != ACTIVITY_FORTIFYING
@@ -504,7 +500,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
   i++;
   ww = MAX(ww, pBuf->size.w);
   hh = MAX(hh, pBuf->size.h);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->data = pButton->data;
   pBuf->action = disband_units_orders_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -519,7 +514,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       i++;
       ww = MAX(ww, pBuf->size.w);
       hh = MAX(hh, pBuf->size.h);
-      clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
       pBuf->data = pButton->data;
       pBuf->action = homecity_units_orders_city_dlg_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -534,7 +528,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       i++;
       ww = MAX(ww, pBuf->size.w);
       hh = MAX(hh, pBuf->size.h);
-      clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
       pBuf->data = pButton->data;
       pBuf->action = upgrade_units_orders_city_dlg_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -552,7 +545,6 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
   pBuf->key = SDLK_ESCAPE;
   pBuf->action = cancel_units_orders_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   add_to_gui_list(pButton->ID, pBuf);
   pCityDlg->pBeginCityMenuWidgetList = pBuf;
 
@@ -983,7 +975,6 @@ static void create_city_options_widget_list(struct city *pCity)
   pBuf->size.w = adj_size(199);
   pBuf->action = misc_panel_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
 
   pBuf->size.x = pBuf->next->size.x;
   pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(5);

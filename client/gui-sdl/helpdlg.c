@@ -280,7 +280,6 @@ void popup_impr_info(Impr_type_id impr)
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
       
@@ -650,7 +649,6 @@ void popup_unit_info(Unit_type_id type_id)
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   
     add_to_gui_list(ID_BUTTON, pBuf);
       
@@ -1957,7 +1955,6 @@ void popup_tech_info(Tech_type_id tech)
     pBuf->size.w = adj_size(160);
     pBuf->size.h = adj_size(15);
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_HELPDLG_TEXT);
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     /*pBuf->key = SDLK_ESCAPE;*/
   
     add_to_gui_list(ID_BUTTON, pBuf);

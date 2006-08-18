@@ -1291,7 +1291,6 @@ static void popup_war_dialog(struct player *pPlayer)
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
 			    pWindow->dst, _("No"), adj_font(12), 0);
 
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_sdip_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -1302,7 +1301,6 @@ static void popup_war_dialog(struct player *pPlayer)
   pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Yes"), adj_font(12), 0);
 
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_pact_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->data.player = pPlayer;

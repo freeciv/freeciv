@@ -210,7 +210,6 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
 			    pWindow->dst, _("No"), adj_font(12), 0);
 
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_upgrade_unit_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -222,7 +221,6 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      _("Yes"), adj_font(12), 0);
         
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->action = ok_upgrade_unit_window_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
         
@@ -1497,7 +1495,6 @@ static int popup_sell_impv_callback(struct widget *pWidget)
   pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
 			    pWindow->dst, _("No"), adj_font(12), 0);
 
-  clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
   pBuf->action = cancel_sell_impv_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1509,7 +1506,6 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
 					      "Sell", adj_font(12), 0);
         
-    clear_wflag(pBuf, WF_DRAW_FRAME_AROUND_WIDGET);
     pBuf->action = ok_sell_impv_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.ptr = (void *)pWidget;
@@ -1839,8 +1835,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   my_snprintf(cBuf, sizeof(cBuf), _("Update"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
-  pBuf = create_themeicon_button(pTheme->Small_OK_Icon, pWindow->dst, pStr,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_themeicon_button(pTheme->Small_OK_Icon, pWindow->dst, pStr, 0);
   pBuf->action = apply_taxrates_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1850,8 +1845,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   my_snprintf(cBuf, sizeof(cBuf), _("Cancel"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
-  pBuf = create_themeicon_button(pTheme->Small_CANCEL_Icon, pWindow->dst, pStr,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_themeicon_button(pTheme->Small_CANCEL_Icon, pWindow->dst, pStr, 0);
   pBuf->action = exit_economy_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
