@@ -44,7 +44,6 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "sprite.h"
-#include "themecolors.h"
 
 #include "themespec.h"
 
@@ -103,8 +102,6 @@ struct theme {
   char name[512];
   int priority;
 
-  char *main_intro_filename;
-  char *minimap_intro_filename;
   char *font_filename;
   int default_font_size;
 
@@ -117,7 +114,8 @@ struct theme {
   struct hash_table *sprite_hash;
 
 /*  struct named_sprites sprites;*/
-  
+
+  struct theme_background_system *background_system;  
   struct theme_color_system *color_system;  
 };
 
@@ -147,26 +145,6 @@ struct theme *theme;
 const char *theme_get_name(const struct theme *t)
 {
   return t->name;
-}
-
-/****************************************************************************
-  Return the path within the data directories where the main intro graphics
-  file can be found.  (It is left up to the GUI code to load and unload this
-  file.)
-****************************************************************************/
-const char *theme_main_intro_filename(const struct theme *t)
-{
-  return t->main_intro_filename;
-}
-
-/****************************************************************************
-  Return the path within the data directories where the mini intro graphics
-  file can be found.  (It is left up to the GUI code to load and unload this
-  file.)
-****************************************************************************/
-const char *theme_mini_intro_filename(const struct theme *t)
-{
-  return t->minimap_intro_filename;
 }
 
 /****************************************************************************
@@ -297,24 +275,22 @@ static bool check_themespec_capabilities(struct section_file *file,
 ***********************************************************************/
 static void theme_free_toplevel(struct theme *t)
 {
-  if (t->main_intro_filename) {
-    FC_FREE(t->main_intro_filename);
-  }
-  
-  if (t->minimap_intro_filename) {
-    FC_FREE(t->minimap_intro_filename);
-  }
-
   if (t->font_filename) {
     FC_FREE(t->font_filename);
   }
   
   t->default_font_size = 0;
-  
+
+  if (t->background_system) {
+    theme_background_system_free(t->background_system);
+    t->background_system = NULL;
+  }
+    
   if (t->color_system) {
     theme_color_system_free(t->color_system);
     t->color_system = NULL;
   }
+  
 }
 
 /**************************************************************************
@@ -672,7 +648,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
   Returns the correct name of the gfx file (with path and extension)
   Must be free'd when no longer used
 ***********************************************************************/
-static char *themespec_gfx_filename(const char *gfx_filename)
+char *themespec_gfx_filename(const char *gfx_filename)
 {
   const char  *gfx_current_fileext;
   const char **gfx_fileexts = gfx_fileextensions();
@@ -745,14 +721,6 @@ struct theme *theme_read_toplevel(const char *theme_name)
   sz_strlcpy(t->name, theme_name);
   t->priority = secfile_lookup_int(file, "themespec.priority");
   
-  c = secfile_lookup_str(file, "themespec.main_intro_file");
-  t->main_intro_filename = themespec_gfx_filename(c);
-  freelog(LOG_DEBUG, "theme intro file %s", t->main_intro_filename);
-  
-  c = secfile_lookup_str(file, "themespec.minimap_intro_file");
-  t->minimap_intro_filename = themespec_gfx_filename(c);
-  freelog(LOG_DEBUG, "theme radar file %s", t->minimap_intro_filename);
-
   c = secfile_lookup_str(file, "themespec.font_file");
   t->font_filename = datafilename(c);
   if (t->font_filename) {
@@ -798,6 +766,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   }
   FC_FREE(spec_filenames);
 
+  t->background_system = theme_background_system_read(file);
   t->color_system = theme_color_system_read(file);  
   
   section_file_check_unused(file, fname);
@@ -1083,6 +1052,14 @@ void theme_free_sprites(struct theme *t)
 
   tilespec_free_theme();
   tilespec_free_city_icons();
+}
+
+/****************************************************************************
+  Return the theme's background system.
+****************************************************************************/
+struct theme_background_system *theme_get_background_system(const struct theme *t)
+{
+  return t->background_system;
 }
 
 /****************************************************************************

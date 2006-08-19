@@ -29,7 +29,6 @@
 #include "tilespec.h"
 
 /* gui-sdl */
-#include "themecolors.h"
 #include "themespec.h"
 
 #include "colors.h"

@@ -31,7 +31,7 @@
 #include "mapview.h"
 #include "messagewin.h"
 #include "optiondlg.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "pages.h"
 
@@ -228,7 +228,7 @@ static void show_main_page()
   
   draw_intro_gfx();
   
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_STARTMENU);
   SDL_FillRectAlpha(pLogo, NULL, &bg_color);
   
   if (resize_window(pWindow, pLogo, NULL, pTheme->FR_Left->w + w + pTheme->FR_Right->w, pTheme->FR_Top->h + (h * count) + pTheme->FR_Bottom->h)) {

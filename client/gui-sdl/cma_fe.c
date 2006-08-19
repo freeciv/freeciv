@@ -35,7 +35,7 @@
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "cma_fe.h"
 
@@ -1026,7 +1026,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pWindow->size.y = (Main.screen->h - h) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_CITYGOVDLG);
   if(resize_window(pWindow, pLogo, NULL, w, h)) {
     FREESURFACE(pLogo);
   }

@@ -54,7 +54,7 @@
 #include "gui_zoom.h"
 #include "mapview.h"
 #include "menu.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "wldlg.h"
 
 #include "citydlg.h"
@@ -3748,7 +3748,7 @@ void popup_city_dialog(struct city *pCity)
   set_wstate(pWindow, FC_WS_NORMAL);
 
   /* create window background */
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_CITYDLG);
   if (resize_window(pWindow, pLogo, NULL, pWindow->size.w, pWindow->size.h)) {
     FREESURFACE(pLogo);
   }

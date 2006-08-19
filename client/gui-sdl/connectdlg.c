@@ -50,7 +50,7 @@
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "pages.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "connectdlg.h"
 
@@ -359,7 +359,7 @@ void popup_connection_dialog(bool lan_scan)
   pWindow->size.y = (Main.screen->h - meta_h) /2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
   if (resize_window(pWindow , pLogo , NULL , w , meta_h)) {
     FREESURFACE(pLogo);
   }
@@ -614,7 +614,7 @@ void popup_join_game_dialog()
   pWindow->size.y = (Main.screen->h - dialog_h)/ 2 + adj_size(40);
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_JOINGAMEDLG);
   if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
     FREESURFACE(pLogo);
   }
@@ -793,7 +793,7 @@ static void popup_user_passwd_dialog(char *pMessage)
   pWindow->size.y = (Main.screen->h - dialog_h)/ 2 + adj_size(40);
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
   if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
     FREESURFACE(pLogo);
   }
@@ -962,7 +962,7 @@ static void popup_new_user_passwd_dialog(char *pMessage)
   pWindow->size.y = (Main.screen->h - dialog_h)/ 2 + adj_size(40);
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
   if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
     FREESURFACE(pLogo);
   }

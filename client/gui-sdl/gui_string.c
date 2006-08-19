@@ -36,7 +36,6 @@
 #include "graphics.h"
 #include "gui_iconv.h"
 #include "gui_main.h"
-#include "themecolors.h"
 #include "themespec.h"
 #include "unistring.h"
 

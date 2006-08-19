@@ -35,7 +35,7 @@
 #include "gui_main.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "unistring.h"
 
 #include "gui_stuff.h"

@@ -54,7 +54,7 @@
 #include "mapview.h"
 #include "menu.h"
 #include "pages.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "wldlg.h"
 
 #include "optiondlg.h"
@@ -2162,7 +2162,7 @@ void popup_optiondlg(void)
   
   pOption_Dlg = fc_calloc(1, sizeof(struct OPT_DLG));
   pOption_Dlg->pADlg = NULL;
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_OPTIONDLG);
   
   /* create window widget */
   pStr = create_str16_from_char(_("Options"), adj_font(12));

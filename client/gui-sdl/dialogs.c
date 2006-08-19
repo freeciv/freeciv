@@ -66,7 +66,7 @@
 #include "optiondlg.h"
 #include "plrdlg.h"
 #include "repodlgs.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "wldlg.h"
 
 #include "dialogs.h"
@@ -2001,7 +2001,7 @@ static void popup_government_dialog(void)
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
   /* create window background */
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
   if (resize_window(pWindow, pLogo, NULL, max_w + 20,
                     j * (max_h + 10) + WINDOW_TITLE_HEIGHT + 6)) {
     FREESURFACE(pLogo);
@@ -2120,7 +2120,7 @@ void popup_revolution_dialog(void)
   pLabel->size.w = pWindow->size.w;
   
   /* create window background */
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_REVOLUTIONDLG);
   if (resize_window
       (pWindow, pLogo, NULL, pWindow->size.w, pWindow->size.h)) {
     FREESURFACE(pLogo);
@@ -2890,7 +2890,7 @@ void popup_races_dialog(struct player *pplayer)
   pWindow->size.y = (Main.screen->h - adj_size(480)) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
-  pMain_Bg = get_logo_gfx();
+  pMain_Bg = theme_get_background(theme, BACKGROUND_NATIONDLG);
   if(resize_window(pWindow, pMain_Bg, NULL, adj_size(640), adj_size(480))) {
     FREESURFACE(pMain_Bg);
   }

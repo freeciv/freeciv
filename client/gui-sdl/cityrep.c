@@ -35,7 +35,7 @@
 #include "mapctrl.h"
 #include "mapview.h"
 #include "repodlgs.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "wldlg.h"
 
 #include "cityrep.h"
@@ -585,7 +585,7 @@ static void real_info_city_report_dialog_update(void)
   pWindow->size.y = (Main.screen->h - h) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_CITYREP);
   resize_window(pWindow, pLogo,	NULL, w, h);
   FREESURFACE(pLogo);
 

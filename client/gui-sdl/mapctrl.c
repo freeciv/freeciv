@@ -57,7 +57,7 @@
 #include "optiondlg.h"
 #include "plrdlg.h"
 #include "repodlgs.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "wldlg.h"
 
 #include "mapctrl.h"
@@ -2493,7 +2493,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   pLabel->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(5);
 
   /* create window background */
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_NEWCITYDLG);
   if (resize_window
       (pWindow, pLogo, NULL, pWindow->size.w, pWindow->size.h)) {
     FREESURFACE(pLogo);

@@ -50,7 +50,7 @@
 #include "gui_zoom.h"
 #include "helpdlg.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "wldlg.h"
 
@@ -1603,7 +1603,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   pWindow->size.y = (Main.screen->h - h) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   
-  pIcon = get_logo_gfx();
+  pIcon = theme_get_background(theme, BACKGROUND_WLDLG);
   if(resize_window(pWindow, pIcon, NULL, w, h)) {
     FREESURFACE(pIcon);
   }

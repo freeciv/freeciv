@@ -35,7 +35,7 @@
 #include "gui_zoom.h"
 #include "inteldlg.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "plrdlg.h"
 

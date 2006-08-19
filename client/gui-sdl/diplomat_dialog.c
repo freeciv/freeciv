@@ -35,7 +35,7 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "repodlgs.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "dialogs_g.h"
 
@@ -364,7 +364,7 @@ static int spy_steal_popup(struct widget *pWidget)
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);  
   
   /* alloca window theme and win background buffer */
-  pSurf = get_logo_gfx();
+  pSurf = theme_get_background(theme, BACKGROUND_SPYSTEALDLG);
   if (resize_window(pWindow, pSurf, NULL, w, h))
   {
     FREESURFACE(pSurf);

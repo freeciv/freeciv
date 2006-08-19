@@ -42,6 +42,7 @@
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
 #include "mapview.h"
+#include "themebackgrounds.h"
 #include "themespec.h"
 
 #include "graphics.h"
@@ -3538,7 +3539,7 @@ SDL_Surface *make_flag_surface_smaler(SDL_Surface * pSrc)
 SDL_Surface * get_intro_gfx(void)
 {
   if(!pIntro_gfx) {
-   pIntro_gfx = load_surf(tileset_main_intro_filename(tileset));
+   pIntro_gfx = theme_get_background(theme, BACKGROUND_MAINPAGE);
   }
   return pIntro_gfx;
 }
@@ -3597,11 +3598,11 @@ bool overhead_view_supported(void)
 }
 
 /**************************************************************************
-    Now it setup only paths to those files.
+  ...
  **************************************************************************/
 void load_intro_gfx(void)
 {
-  
+  /* nothing */
 }
 
 /**************************************************************************

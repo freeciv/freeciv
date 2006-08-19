@@ -53,7 +53,7 @@
 #include "gui_tilespec.h"
 #include "gui_zoom.h"
 #include "mapctrl.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "mapview.h"
 

@@ -47,7 +47,7 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "messagewin.h"
-#include "themecolors.h"
+#include "themespec.h"
 #include "unistring.h"
 
 #include "chatline.h"
@@ -426,8 +426,7 @@ static void popup_conn_list_dialog(void)
   /* create window background */
   {
     SDL_Rect area;
-    SDL_Surface *pSurf = adj_surf(get_logo_gfx());
-    
+    SDL_Surface *pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
     if (resize_window(pWindow, pSurf, NULL, Main.screen->w, Main.screen->h)) {
       FREESURFACE(pSurf);
     }

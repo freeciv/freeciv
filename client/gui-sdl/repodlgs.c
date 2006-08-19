@@ -47,7 +47,7 @@
 #include "helpdlg.h"
 #include "mapctrl.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "repodlgs.h"
 
@@ -596,7 +596,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_UNITSREP);
   resize_window(pWindow, pLogo,	NULL, w, h);
   FREESURFACE(pLogo);
 
@@ -2039,7 +2039,7 @@ void popup_economy_report_dialog(bool make_modal)
   pWindow->size.y = (Main.screen->h - h) / 2;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
-  pMain = get_logo_gfx();
+  pMain = theme_get_background(theme, BACKGROUND_ECONOMYDLG);
   if(resize_window(pWindow, pMain, NULL, w, h)) {
     FREESURFACE(pMain);
   }
@@ -2965,7 +2965,7 @@ static void popup_change_research_dialog()
   disable_science_dialog();
   
   /* alloca window theme and win background buffer */
-  pSurf = get_logo_gfx();
+  pSurf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
   resize_window(pWindow, pSurf, NULL, w, h);
   FREESURFACE(pSurf);
 
@@ -3148,7 +3148,7 @@ static void popup_change_research_goal_dialog()
   disable_science_dialog();
   
   /* alloca window theme and win background buffer */
-  pSurf = get_logo_gfx();
+  pSurf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
   resize_window(pWindow, pSurf, NULL, w, h);
   FREESURFACE(pSurf);
 
@@ -3258,7 +3258,7 @@ void popup_science_dialog(bool raise)
   pWindow->size.h = adj_size(260);
   set_wstate(pWindow, FC_WS_NORMAL);
   
-  pLogo = get_logo_gfx();
+  pLogo = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
   pWindow->theme = ResizeSurface(pLogo, pWindow->size.w, pWindow->size.h, 1);
   FREESURFACE(pLogo);
     

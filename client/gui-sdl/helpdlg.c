@@ -38,7 +38,7 @@
 #include "gui_zoom.h"
 #include "mapview.h"
 #include "repodlgs.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "helpdlg.h"
 
@@ -418,7 +418,7 @@ void popup_impr_info(Impr_type_id impr)
     set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);    
     
     /* alloca window theme and win background buffer */
-    pSurf = get_logo_gfx();
+    pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
     if (resize_window(pWindow, pSurf, NULL, w, h))
     {
       FREESURFACE(pSurf);
@@ -811,7 +811,7 @@ void popup_unit_info(Unit_type_id type_id)
     set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
     
     /* alloca window theme and win background buffer */
-    pSurf = get_logo_gfx();
+    pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
     if (resize_window(pWindow, pSurf, NULL, w, h))
     {
       FREESURFACE(pSurf);
@@ -2026,7 +2026,7 @@ void popup_tech_info(Tech_type_id tech)
     set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
     
     /* alloca window theme and win background buffer */
-    pSurf = get_logo_gfx();
+    pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
     if (resize_window(pWindow, pSurf, NULL, w, h))
     {
       FREESURFACE(pSurf);

@@ -40,7 +40,7 @@
 #include "gui_stuff.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
-#include "themecolors.h"
+#include "themespec.h"
 
 #include "messagewin.h"
 
