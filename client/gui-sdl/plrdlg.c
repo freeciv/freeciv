@@ -50,8 +50,10 @@ static struct SMALL_DLG  *pPlayers_Dlg = NULL;
 
 static int exit_players_dlg_callback(struct widget *pWidget)
 {
-  popdown_players_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_players_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 
@@ -86,80 +88,92 @@ static int player_callback(struct widget *pWidget)
 
 static int players_window_dlg_callback(struct widget *pWindow)
 {
-  if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-    sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
-    update_players_dialog();
-  } else {
-    if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size, FALSE);
-    }      
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
+      sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
+      update_players_dialog();
+    } else {
+      if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
+        flush_rect(pWindow->size, FALSE);
+      }      
+    }
   }
   return -1;
 }
 
 static int toggle_draw_war_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
 static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
 static int toggle_draw_pease_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
 static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
 static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 {
-  /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-  struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
-  
-  SDL_Client_Flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
-  do{
-    pPlayer = pPlayer->prev;
-    FREESURFACE(pPlayer->gfx);
-  } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-  update_players_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    /* exit button -> neutral -> war -> casefire -> peace -> alliance */
+    struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    
+    SDL_Client_Flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
+    do{
+      pPlayer = pPlayer->prev;
+      FREESURFACE(pPlayer->gfx);
+    } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
+    update_players_dialog();
+  }
   return -1;
 }
 
@@ -551,8 +565,10 @@ static int players_nations_window_dlg_callback(struct widget *pWindow)
 
 static int exit_players_nations_dlg_callback(struct widget *pWidget)
 {
-  popdown_players_nations_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_players_nations_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 

@@ -51,40 +51,49 @@ static void update_goto_dialog(void);
 
 static int goto_dialog_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pGotoDlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pGotoDlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 static int exit_goto_dialog_callback(struct widget *pWidget)
 {
-  popdown_goto_airlift_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_goto_airlift_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 {
-  all_players ^= (1u << (get_player(MAX_ID - pWidget->ID)->player_no));
-  update_goto_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    all_players ^= (1u << (get_player(MAX_ID - pWidget->ID)->player_no));
+    update_goto_dialog();
+  }
   return -1;
 }
 
 static int goto_city_callback(struct widget *pWidget)
 {
-  struct city *pDestcity = find_city_by_id(MAX_ID - pWidget->ID);
-
-  if (pDestcity) {
-    struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
-    if (pUnit) {
-      if(GOTO) {
-        send_goto_tile(pUnit, pDestcity->tile);
-      } else {
-	request_unit_airlift(pUnit, pDestcity);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct city *pDestcity = find_city_by_id(MAX_ID - pWidget->ID);
+  
+    if (pDestcity) {
+      struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
+      if (pUnit) {
+        if(GOTO) {
+          send_goto_tile(pUnit, pDestcity->tile);
+        } else {
+          request_unit_airlift(pUnit, pDestcity);
+        }
       }
     }
+    
+    popdown_goto_airlift_dialog();
+    flush_dirty();
   }
-  
-  popdown_goto_airlift_dialog();
-  flush_dirty();
   return -1;
 }
 

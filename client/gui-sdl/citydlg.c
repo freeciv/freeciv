@@ -192,39 +192,41 @@ static void del_city_dialog(void)
 **************************************************************************/
 static int city_dlg_callback(struct widget *pWindow)
 {  
-  if (!cma_is_city_under_agent(pCityDlg->pCity, NULL)
-     && city_owner(pCityDlg->pCity) == game.player_ptr) {
-       
-    /* check elvis area */
-    if (pCityDlg->specs[0]
-       && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
-					pCityDlg->specs_area[0])) {
-      city_change_specialist(pCityDlg->pCity, SP_ELVIS, SP_TAXMAN);
-      return -1;
-    }
-
-    /* check TAXMANs area */
-    if (pCityDlg->specs[1]
-       && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
-					pCityDlg->specs_area[1])) {
-      city_change_specialist(pCityDlg->pCity, SP_TAXMAN, SP_SCIENTIST);
-      return -1;
-    }
-
-    /* check SCIENTISTs area */
-    if (pCityDlg->specs[2]
-       && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
-					pCityDlg->specs_area[2])) {
-      city_change_specialist(pCityDlg->pCity, SP_SCIENTIST, SP_ELVIS);
-      return -1;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (!cma_is_city_under_agent(pCityDlg->pCity, NULL)
+       && city_owner(pCityDlg->pCity) == game.player_ptr) {
+         
+      /* check elvis area */
+      if (pCityDlg->specs[0]
+         && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
+                                          pCityDlg->specs_area[0])) {
+        city_change_specialist(pCityDlg->pCity, SP_ELVIS, SP_TAXMAN);
+        return -1;
+      }
+  
+      /* check TAXMANs area */
+      if (pCityDlg->specs[1]
+         && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
+                                          pCityDlg->specs_area[1])) {
+        city_change_specialist(pCityDlg->pCity, SP_TAXMAN, SP_SCIENTIST);
+        return -1;
+      }
+  
+      /* check SCIENTISTs area */
+      if (pCityDlg->specs[2]
+         && is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
+                                          pCityDlg->specs_area[2])) {
+        city_change_specialist(pCityDlg->pCity, SP_SCIENTIST, SP_ELVIS);
+        return -1;
+      }
+      
     }
     
+    if(!pCityDlg->lock &&
+          sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
+      flush_rect(pWindow->size, FALSE);
+    }      
   }
-  
-  if(!pCityDlg->lock &&
-    	sellect_window_group_dialog(pCityDlg->pBeginCityWidgetList, pWindow)) {
-    flush_rect(pWindow->size, FALSE);
-  }      
   return -1;
 }
 
@@ -237,13 +239,15 @@ static int city_dlg_callback(struct widget *pWindow)
 **************************************************************************/
 static int cancel_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
-			      pCityDlg->pEndCityMenuWidgetList);
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-  
-  /* enable city dlg */
-  enable_city_dlg_widgets();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
+                                pCityDlg->pEndCityMenuWidgetList);
+    pCityDlg->pEndCityMenuWidgetList = NULL;
+    
+    /* enable city dlg */
+    enable_city_dlg_widgets();
+    flush_dirty();
+  }
   return -1;
 }
 
@@ -254,11 +258,13 @@ static int cancel_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int activate_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  struct unit *pUnit = pButton->data.unit;
-
-  del_city_menu_dlg(TRUE);
-  if(pUnit) {
-    set_unit_focus(pUnit);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pButton->data.unit;
+  
+    del_city_menu_dlg(TRUE);
+    if(pUnit) {
+      set_unit_focus(pUnit);
+    }
   }
   return -1;
 }
@@ -268,20 +274,21 @@ static int activate_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  struct unit *pUnit = pButton->data.unit;
-
-  if(pUnit) {
-    
-    popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
-  			        pCityDlg->pEndCityMenuWidgetList);
-    pCityDlg->pEndCityMenuWidgetList = NULL;
-    
-    popdown_city_dialog(pCityDlg->pCity);
-    
-    center_tile_mapcanvas(pUnit->tile);
-    set_unit_focus(pUnit);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pButton->data.unit;
+  
+    if(pUnit) {
+      
+      popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
+                                  pCityDlg->pEndCityMenuWidgetList);
+      pCityDlg->pEndCityMenuWidgetList = NULL;
+      
+      popdown_city_dialog(pCityDlg->pCity);
+      
+      center_tile_mapcanvas(pUnit->tile);
+      set_unit_focus(pUnit);
+    }
   }
-
   return -1;
 }
 
@@ -292,11 +299,13 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButt
 **************************************************************************/
 static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  struct unit *pUnit = pButton->data.unit;
-
-  del_city_menu_dlg(TRUE);
-  if(pUnit) {
-    request_unit_sentry(pUnit);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pButton->data.unit;
+  
+    del_city_menu_dlg(TRUE);
+    if(pUnit) {
+      request_unit_sentry(pUnit);
+    }
   }
   return -1;
 }
@@ -308,11 +317,13 @@ static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  struct unit *pUnit = pButton->data.unit;
-
-  del_city_menu_dlg(TRUE);
-  if(pUnit) {
-    request_unit_fortify(pUnit);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pButton->data.unit;
+  
+    del_city_menu_dlg(TRUE);
+    if(pUnit) {
+      request_unit_fortify(pUnit);
+    }
   }
   return -1;
 }
@@ -324,19 +335,20 @@ static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  struct unit *pUnit = pButton->data.unit;
-
-  free_city_units_lists();
-  del_city_menu_dlg(TRUE);
-
-  /* ugly hack becouse this free unit widget list*/
-  /* FIX ME: add remove from list support */
-  pCityDlg->state = INFO_PAGE;
-
-  if(pUnit) {
-    request_unit_disband(pUnit);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pButton->data.unit;
+  
+    free_city_units_lists();
+    del_city_menu_dlg(TRUE);
+  
+    /* ugly hack becouse this free unit widget list*/
+    /* FIX ME: add remove from list support */
+    pCityDlg->state = INFO_PAGE;
+  
+    if(pUnit) {
+      request_unit_disband(pUnit);
+    }
   }
-
   return -1;
 }
 
@@ -347,13 +359,14 @@ static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  struct unit *pUnit = pButton->data.unit;
-
-  del_city_menu_dlg(TRUE);
-  if(pUnit) {
-    request_unit_change_homecity(pUnit);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pButton->data.unit;
+  
+    del_city_menu_dlg(TRUE);
+    if(pUnit) {
+      request_unit_change_homecity(pUnit);
+    }
   }
-
   return -1;
 }
 
@@ -364,12 +377,14 @@ static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int upgrade_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  struct unit *pUnit = pButton->data.unit;
-    
-  popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
-			      pCityDlg->pEndCityMenuWidgetList);
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-  popup_unit_upgrade_dlg(pUnit, TRUE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = pButton->data.unit;
+      
+    popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
+                                pCityDlg->pEndCityMenuWidgetList);
+    pCityDlg->pEndCityMenuWidgetList = NULL;
+    popup_unit_upgrade_dlg(pUnit, TRUE);
+  }
   return -1;
 }
 
@@ -386,210 +401,212 @@ static int units_orders_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int units_orders_city_dlg_callback(struct widget *pButton)
 {
-  SDL_String16 *pStr;
-  char cBuf[80];
-  struct widget *pBuf, *pWindow = pCityDlg->pEndCityWidgetList;
-  struct unit *pUnit;
-  struct unit_type *pUType;
-  Uint16 ww, i, hh;
-
-  pUnit = player_find_unit_by_id(game.player_ptr, MAX_ID - pButton->ID);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    SDL_String16 *pStr;
+    char cBuf[80];
+    struct widget *pBuf, *pWindow = pCityDlg->pEndCityWidgetList;
+    struct unit *pUnit;
+    struct unit_type *pUType;
+    Uint16 ww, i, hh;
   
-  if(!pUnit || !can_client_issue_orders()) {
-    return -1;
-  }
-  
-  if(Main.event.button.button == SDL_BUTTON_RIGHT) {
-    popdown_city_dialog(pCityDlg->pCity);
-    center_tile_mapcanvas(pUnit->tile);
-    set_unit_focus(pUnit);
-    return -1;
-  }
+    pUnit = player_find_unit_by_id(game.player_ptr, MAX_ID - pButton->ID);
     
-  /* Disable city dlg */
-  unsellect_widget_action();
-  disable_city_dlg_widgets();
-
-  ww = 0;
-  hh = 0;
-  i = 0;
-  pUType = pUnit->type;
-
-  /* window */
-  my_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit Commands"));
-  pStr = create_str16_from_char(cBuf, adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
-  pWindow->size.x = pButton->size.x + adj_size(2);
-  pWindow->size.y = pButton->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
-  ww = MAX(ww, pWindow->size.w);
-  pWindow->action = units_orders_dlg_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-  add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pWindow);
-  pCityDlg->pEndCityMenuWidgetList = pWindow;
+    if(!pUnit || !can_client_issue_orders()) {
+      return -1;
+    }
+    
+    if(Main.event.button.button == SDL_BUTTON_RIGHT) {
+      popdown_city_dialog(pCityDlg->pCity);
+      center_tile_mapcanvas(pUnit->tile);
+      set_unit_focus(pUnit);
+      return -1;
+    }
+      
+    /* Disable city dlg */
+    unsellect_widget_action();
+    disable_city_dlg_widgets();
   
-  /* unit description */
-  my_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
-  pStr = create_str16_from_char(cBuf, adj_font(12));
-  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pBuf = create_iconlabel(GET_SURF(get_unittype_sprite(tileset, pUnit->type)),
-			  pWindow->dst, pStr, 0);
-  ww = MAX(ww, pBuf->size.w);
-  add_to_gui_list(ID_LABEL, pBuf);
+    ww = 0;
+    hh = 0;
+    i = 0;
+    pUType = pUnit->type;
   
-  /* Activate unit */
-  pBuf =
-      create_icon_button_from_chars(NULL, pWindow->dst,
-					      _("Activate unit"), adj_font(12), 0);
-  i++;
-  ww = MAX(ww, pBuf->size.w);
-  hh = MAX(hh, pBuf->size.h);
-  pBuf->action = activate_units_orders_city_dlg_callback;
-  pBuf->data = pButton->data;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(pButton->ID, pBuf);
-  
-  /* Activate unit, close dlg. */
-  pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-		  _("Activate unit, close dialog"),  adj_font(12), 0);
-  i++;
-  ww = MAX(ww, pBuf->size.w);
-  hh = MAX(hh, pBuf->size.h);
-  pBuf->action = activate_and_exit_units_orders_city_dlg_callback;
-  pBuf->data = pButton->data;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(pButton->ID, pBuf);
-  /* ----- */
-  
-  if (pCityDlg->state == ARMY_PAGE) {
-    /* Sentry unit */
-    pBuf = create_icon_button_from_chars(NULL, pWindow->dst, 
-    					_("Sentry unit"), adj_font(12), 0);
+    /* window */
+    my_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit Commands"));
+    pStr = create_str16_from_char(cBuf, adj_font(12));
+    pStr->style |= TTF_STYLE_BOLD;
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
+    pWindow->size.x = pButton->size.x + adj_size(2);
+    pWindow->size.y = pButton->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    ww = MAX(ww, pWindow->size.w);
+    pWindow->action = units_orders_dlg_callback;
+    set_wstate(pWindow, FC_WS_NORMAL);
+    add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pWindow);
+    pCityDlg->pEndCityMenuWidgetList = pWindow;
+    
+    /* unit description */
+    my_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(pUnit));
+    pStr = create_str16_from_char(cBuf, adj_font(12));
+    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+    pBuf = create_iconlabel(GET_SURF(get_unittype_sprite(tileset, pUnit->type)),
+                            pWindow->dst, pStr, 0);
+    ww = MAX(ww, pBuf->size.w);
+    add_to_gui_list(ID_LABEL, pBuf);
+    
+    /* Activate unit */
+    pBuf =
+        create_icon_button_from_chars(NULL, pWindow->dst,
+                                                _("Activate unit"), adj_font(12), 0);
     i++;
     ww = MAX(ww, pBuf->size.w);
     hh = MAX(hh, pBuf->size.h);
+    pBuf->action = activate_units_orders_city_dlg_callback;
     pBuf->data = pButton->data;
-    pBuf->action = sentry_units_orders_city_dlg_callback;
-    if (pUnit->activity != ACTIVITY_SENTRY
-	&& can_unit_do_activity(pUnit, ACTIVITY_SENTRY)) {
-      set_wstate(pBuf, FC_WS_NORMAL);
-    }
+    set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(pButton->ID, pBuf);
-    /* ----- */
     
-    /* Fortify unit */
+    /* Activate unit, close dlg. */
     pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-					    _("Fortify unit"), adj_font(12), 0);
+                    _("Activate unit, close dialog"),  adj_font(12), 0);
     i++;
     ww = MAX(ww, pBuf->size.w);
     hh = MAX(hh, pBuf->size.h);
+    pBuf->action = activate_and_exit_units_orders_city_dlg_callback;
     pBuf->data = pButton->data;
-    pBuf->action = fortify_units_orders_city_dlg_callback;
-    if (pUnit->activity != ACTIVITY_FORTIFYING
-	&& can_unit_do_activity(pUnit, ACTIVITY_FORTIFYING)) {
-      set_wstate(pBuf, FC_WS_NORMAL);
-    }
+    set_wstate(pBuf, FC_WS_NORMAL);
     add_to_gui_list(pButton->ID, pBuf);
-  }
-  /* ----- */
-  
-  /* Disband unit */
-  pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-				  _("Disband unit"), adj_font(12), 0);
-  i++;
-  ww = MAX(ww, pBuf->size.w);
-  hh = MAX(hh, pBuf->size.h);
-  pBuf->data = pButton->data;
-  pBuf->action = disband_units_orders_city_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(pButton->ID, pBuf);
-  /* ----- */
-
-  if (pCityDlg->state == ARMY_PAGE) {
-    if (pUnit->homecity != pCityDlg->pCity->id) {
-      /* Make new Homecity */
+    /* ----- */
+    
+    if (pCityDlg->state == ARMY_PAGE) {
+      /* Sentry unit */
       pBuf = create_icon_button_from_chars(NULL, pWindow->dst, 
-    					_("Make new homecity"), adj_font(12), 0);
+                                          _("Sentry unit"), adj_font(12), 0);
       i++;
       ww = MAX(ww, pBuf->size.w);
       hh = MAX(hh, pBuf->size.h);
       pBuf->data = pButton->data;
-      pBuf->action = homecity_units_orders_city_dlg_callback;
-      set_wstate(pBuf, FC_WS_NORMAL);
+      pBuf->action = sentry_units_orders_city_dlg_callback;
+      if (pUnit->activity != ACTIVITY_SENTRY
+          && can_unit_do_activity(pUnit, ACTIVITY_SENTRY)) {
+        set_wstate(pBuf, FC_WS_NORMAL);
+      }
+      add_to_gui_list(pButton->ID, pBuf);
+      /* ----- */
+      
+      /* Fortify unit */
+      pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
+                                              _("Fortify unit"), adj_font(12), 0);
+      i++;
+      ww = MAX(ww, pBuf->size.w);
+      hh = MAX(hh, pBuf->size.h);
+      pBuf->data = pButton->data;
+      pBuf->action = fortify_units_orders_city_dlg_callback;
+      if (pUnit->activity != ACTIVITY_FORTIFYING
+          && can_unit_do_activity(pUnit, ACTIVITY_FORTIFYING)) {
+        set_wstate(pBuf, FC_WS_NORMAL);
+      }
       add_to_gui_list(pButton->ID, pBuf);
     }
     /* ----- */
     
-    if (can_upgrade_unittype(game.player_ptr, pUType)) {
-      /* Upgrade unit */
-      pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-					    _("Upgrade unit"), adj_font(12), 0);
-      i++;
-      ww = MAX(ww, pBuf->size.w);
-      hh = MAX(hh, pBuf->size.h);
-      pBuf->data = pButton->data;
-      pBuf->action = upgrade_units_orders_city_dlg_callback;
-      set_wstate(pBuf, FC_WS_NORMAL);
-      add_to_gui_list(pButton->ID, pBuf);
-    }
-  }
-
-  /* ----- */
-  /* Cancel */
-  pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
-  						_("Cancel"), adj_font(12), 0);
-  i++;
-  ww = MAX(ww, pBuf->size.w);
-  hh = MAX(hh, pBuf->size.h);
-  pBuf->key = SDLK_ESCAPE;
-  pBuf->action = cancel_units_orders_city_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(pButton->ID, pBuf);
-  pCityDlg->pBeginCityMenuWidgetList = pBuf;
-
-  /* ================================================== */
-  unsellect_widget_action();
-  /* ================================================== */
-
-  ww += adj_size(10) + pTheme->FR_Left->w + pTheme->FR_Right->w;
-  hh += adj_size(4);
-
-  /* create window background */
-  resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND), ww,
-		pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + pWindow->prev->size.h +
-                (i * hh) + pTheme->FR_Bottom->h + adj_size(5)); 
+    /* Disband unit */
+    pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
+                                    _("Disband unit"), adj_font(12), 0);
+    i++;
+    ww = MAX(ww, pBuf->size.w);
+    hh = MAX(hh, pBuf->size.h);
+    pBuf->data = pButton->data;
+    pBuf->action = disband_units_orders_city_dlg_callback;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    add_to_gui_list(pButton->ID, pBuf);
+    /* ----- */
   
-  /* label */
-  pBuf = pWindow->prev;
-  pBuf->size.w = ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w;
-  pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
-  pBuf = pBuf->prev;
-
-  /* first button */
-  pBuf->size.w = ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
-  pBuf->size.h = hh;
-  pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(5);
-  pBuf = pBuf->prev;
-
-  while (pBuf) {
+    if (pCityDlg->state == ARMY_PAGE) {
+      if (pUnit->homecity != pCityDlg->pCity->id) {
+        /* Make new Homecity */
+        pBuf = create_icon_button_from_chars(NULL, pWindow->dst, 
+                                          _("Make new homecity"), adj_font(12), 0);
+        i++;
+        ww = MAX(ww, pBuf->size.w);
+        hh = MAX(hh, pBuf->size.h);
+        pBuf->data = pButton->data;
+        pBuf->action = homecity_units_orders_city_dlg_callback;
+        set_wstate(pBuf, FC_WS_NORMAL);
+        add_to_gui_list(pButton->ID, pBuf);
+      }
+      /* ----- */
+      
+      if (can_upgrade_unittype(game.player_ptr, pUType)) {
+        /* Upgrade unit */
+        pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
+                                              _("Upgrade unit"), adj_font(12), 0);
+        i++;
+        ww = MAX(ww, pBuf->size.w);
+        hh = MAX(hh, pBuf->size.h);
+        pBuf->data = pButton->data;
+        pBuf->action = upgrade_units_orders_city_dlg_callback;
+        set_wstate(pBuf, FC_WS_NORMAL);
+        add_to_gui_list(pButton->ID, pBuf);
+      }
+    }
+  
+    /* ----- */
+    /* Cancel */
+    pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
+                                                  _("Cancel"), adj_font(12), 0);
+    i++;
+    ww = MAX(ww, pBuf->size.w);
+    hh = MAX(hh, pBuf->size.h);
+    pBuf->key = SDLK_ESCAPE;
+    pBuf->action = cancel_units_orders_city_dlg_callback;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    add_to_gui_list(pButton->ID, pBuf);
+    pCityDlg->pBeginCityMenuWidgetList = pBuf;
+  
+    /* ================================================== */
+    unsellect_widget_action();
+    /* ================================================== */
+  
+    ww += adj_size(10) + pTheme->FR_Left->w + pTheme->FR_Right->w;
+    hh += adj_size(4);
+  
+    /* create window background */
+    resize_window(pWindow, NULL,
+                  get_game_colorRGB(COLOR_THEME_BACKGROUND), ww,
+                  pTheme->FR_Bottom->h + WINDOW_TITLE_HEIGHT + pWindow->prev->size.h +
+                  (i * hh) + pTheme->FR_Bottom->h + adj_size(5)); 
+    
+    /* label */
+    pBuf = pWindow->prev;
+    pBuf->size.w = ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
+    pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w;
+    pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + adj_size(2);
+    pBuf = pBuf->prev;
+  
+    /* first button */
     pBuf->size.w = ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
     pBuf->size.h = hh;
-    pBuf->size.x = pBuf->next->size.x;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
-    if (pBuf == pCityDlg->pBeginCityMenuWidgetList) {
-      break;
-    }
+    pBuf->size.x = pWindow->size.x + pTheme->FR_Left->w;
+    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(5);
     pBuf = pBuf->prev;
+  
+    while (pBuf) {
+      pBuf->size.w = ww - pTheme->FR_Left->w - pTheme->FR_Right->w;
+      pBuf->size.h = hh;
+      pBuf->size.x = pBuf->next->size.x;
+      pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+      if (pBuf == pCityDlg->pBeginCityMenuWidgetList) {
+        break;
+      }
+      pBuf = pBuf->prev;
+    }
+  
+    /* ================================================== */
+    /* redraw */
+    redraw_group(pCityDlg->pBeginCityMenuWidgetList, pWindow, 0);
+    flush_rect(pWindow->size, FALSE);
   }
-
-  /* ================================================== */
-  /* redraw */
-  redraw_group(pCityDlg->pBeginCityMenuWidgetList, pWindow, 0);
-  flush_rect(pWindow->size, FALSE);
   return -1;
 }
 
@@ -790,17 +807,17 @@ void free_city_units_lists(void)
 **************************************************************************/
 static int army_city_dlg_callback(struct widget *pButton)
 {
-  
-  if (pCityDlg->state != ARMY_PAGE) {
-    free_city_units_lists();
-    pCityDlg->state = ARMY_PAGE;
-    redraw_city_dialog(pCityDlg->pCity);
-    flush_dirty();
-  } else {
-    redraw_icon(pButton);
-    flush_rect(pButton->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pCityDlg->state != ARMY_PAGE) {
+      free_city_units_lists();
+      pCityDlg->state = ARMY_PAGE;
+      redraw_city_dialog(pCityDlg->pCity);
+      flush_dirty();
+    } else {
+      redraw_icon(pButton);
+      flush_rect(pButton->size, FALSE);
+    }
   }
-
   return -1;
 }
 
@@ -809,16 +826,17 @@ static int army_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int supported_unit_city_dlg_callback(struct widget *pButton)
 {
-  if (pCityDlg->state != SUPPORTED_UNITS_PAGE) {
-    free_city_units_lists();
-    pCityDlg->state = SUPPORTED_UNITS_PAGE;
-    redraw_city_dialog(pCityDlg->pCity);
-    flush_dirty();
-  } else {
-    redraw_icon(pButton);
-    flush_rect(pButton->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pCityDlg->state != SUPPORTED_UNITS_PAGE) {
+      free_city_units_lists();
+      pCityDlg->state = SUPPORTED_UNITS_PAGE;
+      redraw_city_dialog(pCityDlg->pCity);
+      flush_dirty();
+    } else {
+      redraw_icon(pButton);
+      flush_rect(pButton->size, FALSE);
+    }
   }
-
   return -1;
 }
 
@@ -829,16 +847,17 @@ static int supported_unit_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int info_city_dlg_callback(struct widget *pButton)
 {
-  if (pCityDlg->state != INFO_PAGE) {
-    free_city_units_lists();
-    pCityDlg->state = INFO_PAGE;
-    redraw_city_dialog(pCityDlg->pCity);
-    flush_dirty();
-  } else {
-    redraw_icon(pButton);
-    flush_rect(pButton->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pCityDlg->state != INFO_PAGE) {
+      free_city_units_lists();
+      pCityDlg->state = INFO_PAGE;
+      redraw_city_dialog(pCityDlg->pCity);
+      flush_dirty();
+    } else {
+      redraw_icon(pButton);
+      flush_rect(pButton->size, FALSE);
+    }
   }
-
   return -1;
 }
 
@@ -848,16 +867,17 @@ static int info_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int happy_city_dlg_callback(struct widget *pButton)
 {
-  if (pCityDlg->state != HAPPINESS_PAGE) {
-    free_city_units_lists();
-    pCityDlg->state = HAPPINESS_PAGE;
-    redraw_city_dialog(pCityDlg->pCity);
-    flush_dirty();
-  } else {
-    redraw_icon(pButton);
-    flush_rect(pButton->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pCityDlg->state != HAPPINESS_PAGE) {
+      free_city_units_lists();
+      pCityDlg->state = HAPPINESS_PAGE;
+      redraw_city_dialog(pCityDlg->pCity);
+      flush_dirty();
+    } else {
+      redraw_icon(pButton);
+      flush_rect(pButton->size, FALSE);
+    }
   }
-
   return -1;
 }
 
@@ -866,54 +886,55 @@ static int happy_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int misc_panel_city_dlg_callback(struct widget *pWidget)
 {
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
 /*  int new = pCityDlg->pCity->city_options & 0xff; */
-  bv_city_options new_options = pCityDlg->pCity->city_options;
-
-  switch (MAX_ID - pWidget->ID) {
-  case 0x10:
-    if (BV_ISSET(new_options, CITYO_DISBAND))
-      BV_CLR(new_options, CITYO_DISBAND);
-    else
-      BV_SET(new_options, CITYO_DISBAND);
-    break;
-  case 0x20:
-    if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN))
-      BV_CLR(new_options, CITYO_NEW_EINSTEIN);
-    else
-      BV_SET(new_options, CITYO_NEW_EINSTEIN);
- 
-    if (BV_ISSET(new_options, CITYO_NEW_TAXMAN))
-      BV_CLR(new_options, CITYO_NEW_TAXMAN);
-    else
-      BV_SET(new_options, CITYO_NEW_TAXMAN);
+    bv_city_options new_options = pCityDlg->pCity->city_options;
   
-    pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
-    pWidget->ID = MAX_ID - 0x40;
-    redraw_ibutton(pWidget);
-    flush_rect(pWidget->size, FALSE);
-    break;
-  case 0x40:
-    BV_CLR(new_options, CITYO_NEW_EINSTEIN);
-    BV_CLR(new_options, CITYO_NEW_TAXMAN);
-    pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
-    pWidget->ID = MAX_ID - 0x60;
-    redraw_ibutton(pWidget);
-    flush_rect(pWidget->size, FALSE);
-    break;
-  case 0x60:
-    if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN))
+    switch (MAX_ID - pWidget->ID) {
+    case 0x10:
+      if (BV_ISSET(new_options, CITYO_DISBAND))
+        BV_CLR(new_options, CITYO_DISBAND);
+      else
+        BV_SET(new_options, CITYO_DISBAND);
+      break;
+    case 0x20:
+      if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN))
+        BV_CLR(new_options, CITYO_NEW_EINSTEIN);
+      else
+        BV_SET(new_options, CITYO_NEW_EINSTEIN);
+   
+      if (BV_ISSET(new_options, CITYO_NEW_TAXMAN))
+        BV_CLR(new_options, CITYO_NEW_TAXMAN);
+      else
+        BV_SET(new_options, CITYO_NEW_TAXMAN);
+    
+      pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_GOLD)));
+      pWidget->ID = MAX_ID - 0x40;
+      redraw_ibutton(pWidget);
+      flush_rect(pWidget->size, FALSE);
+      break;
+    case 0x40:
       BV_CLR(new_options, CITYO_NEW_EINSTEIN);
-    else
-      BV_SET(new_options, CITYO_NEW_EINSTEIN);
-    pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
-    pWidget->ID = MAX_ID - 0x20;
-    redraw_ibutton(pWidget);
-    flush_rect(pWidget->size, FALSE);
-    break;
+      BV_CLR(new_options, CITYO_NEW_TAXMAN);
+      pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_LUXURY)));
+      pWidget->ID = MAX_ID - 0x60;
+      redraw_ibutton(pWidget);
+      flush_rect(pWidget->size, FALSE);
+      break;
+    case 0x60:
+      if (BV_ISSET(new_options, CITYO_NEW_EINSTEIN))
+        BV_CLR(new_options, CITYO_NEW_EINSTEIN);
+      else
+        BV_SET(new_options, CITYO_NEW_EINSTEIN);
+      pWidget->gfx = adj_surf(GET_SURF(get_tax_sprite(tileset, O_SCIENCE)));
+      pWidget->ID = MAX_ID - 0x20;
+      redraw_ibutton(pWidget);
+      flush_rect(pWidget->size, FALSE);
+      break;
+    }
+  
+    dsend_packet_city_options_req(&aconnection, pCityDlg->pCity->id, new_options);
   }
-
-  dsend_packet_city_options_req(&aconnection, pCityDlg->pCity->id, new_options);
-
   return -1;
 }
 
@@ -986,17 +1007,17 @@ static void create_city_options_widget_list(struct city *pCity)
 **************************************************************************/
 static int options_city_dlg_callback(struct widget *pButton)
 {
-
-  if (pCityDlg->state != MISC_PAGE) {
-    free_city_units_lists();
-    pCityDlg->state = MISC_PAGE;
-    redraw_city_dialog(pCityDlg->pCity);
-    flush_dirty();
-  } else {
-    redraw_icon(pButton);
-    flush_rect(pButton->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pCityDlg->state != MISC_PAGE) {
+      free_city_units_lists();
+      pCityDlg->state = MISC_PAGE;
+      redraw_city_dialog(pCityDlg->pCity);
+      flush_dirty();
+    } else {
+      redraw_icon(pButton);
+      flush_rect(pButton->size, FALSE);
+    }
   }
-
   return -1;
 }
 
@@ -1007,8 +1028,10 @@ static int options_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int cma_city_dlg_callback(struct widget *pButton)
 {
-  disable_city_dlg_widgets();
-  popup_city_cma_dialog(pCityDlg->pCity);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    disable_city_dlg_widgets();
+    popup_city_cma_dialog(pCityDlg->pCity);
+  }
   return -1;
 }
 
@@ -1017,7 +1040,9 @@ static int cma_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int exit_city_dlg_callback(struct widget *pButton)
 {
-  popdown_city_dialog(pCityDlg->pCity);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_city_dialog(pCityDlg->pCity);
+  }
   return -1;
 }
 
@@ -1030,14 +1055,15 @@ static int exit_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int cancel_buy_prod_city_dlg_callback(struct widget *pButton)
 {
-  popdown_hurry_production_dialog();
-  
-  if (pCityDlg)
-  {
-    /* enable city dlg */
-    enable_city_dlg_widgets();
-  }
-  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_hurry_production_dialog();
+    
+    if (pCityDlg)
+    {
+      /* enable city dlg */
+      enable_city_dlg_widgets();
+    }
+  }  
   return -1;
 }
 
@@ -1046,20 +1072,21 @@ static int cancel_buy_prod_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int ok_buy_prod_city_dlg_callback(struct widget *pButton)
 {
-  city_buy_production(pButton->data.city);
-  
-  if (pCityDlg)
-  {
-    popdown_window_group_dialog(pHurry_Prod_Dlg->pBeginWidgetList,
-			      	pHurry_Prod_Dlg->pEndWidgetList);
-    FC_FREE(pHurry_Prod_Dlg);
-    /* enable city dlg */
-    enable_city_dlg_widgets();
-    set_wstate(pCityDlg->pBuy_Button, FC_WS_DISABLED);
-  } else {
-    popdown_hurry_production_dialog();
-  }
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    city_buy_production(pButton->data.city);
     
+    if (pCityDlg)
+    {
+      popdown_window_group_dialog(pHurry_Prod_Dlg->pBeginWidgetList,
+                                  pHurry_Prod_Dlg->pEndWidgetList);
+      FC_FREE(pHurry_Prod_Dlg);
+      /* enable city dlg */
+      enable_city_dlg_widgets();
+      set_wstate(pCityDlg->pBuy_Button, FC_WS_DISABLED);
+    } else {
+      popdown_hurry_production_dialog();
+    }
+  }    
   return -1;
 }
 
@@ -1068,10 +1095,12 @@ static int ok_buy_prod_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int buy_prod_city_dlg_callback(struct widget *pButton)
 {
-  redraw_icon(pButton);
-  flush_rect(pButton->size, FALSE);
-  disable_city_dlg_widgets();
-  popup_hurry_production_dialog(pCityDlg->pCity, pButton->dst);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    redraw_icon(pButton);
+    flush_rect(pButton->size, FALSE);
+    disable_city_dlg_widgets();
+    popup_hurry_production_dialog(pCityDlg->pCity, pButton->dst);
+  }
   return -1;
 }
 
@@ -1093,8 +1122,10 @@ static void popdown_hurry_production_dialog(void)
 **************************************************************************/
 static int hurry_production_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pHurry_Prod_Dlg->pBeginWidgetList,
-								pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pHurry_Prod_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 /**************************************************************************
@@ -1271,11 +1302,13 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
 **************************************************************************/
 static int change_prod_dlg_callback(struct widget *pButton)
 {
-  redraw_icon(pButton);
-  flush_rect(pButton->size, FALSE);
-
-  disable_city_dlg_widgets();
-  popup_worklist_editor(pCityDlg->pCity, &pCityDlg->pCity->worklist);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    redraw_icon(pButton);
+    flush_rect(pButton->size, FALSE);
+  
+    disable_city_dlg_widgets();
+    popup_worklist_editor(pCityDlg->pCity, &pCityDlg->pCity->worklist);
+  }
   return -1;
 }
 
@@ -1288,12 +1321,14 @@ static int change_prod_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int sell_imprvm_dlg_cancel_callback(struct widget *pCancel_Button)
 {
-  popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
-			      pCityDlg->pEndCityMenuWidgetList);
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-  enable_city_dlg_widgets();
-  redraw_city_dialog(pCityDlg->pCity);
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_window_group_dialog(pCityDlg->pBeginCityMenuWidgetList,
+                                pCityDlg->pEndCityMenuWidgetList);
+    pCityDlg->pEndCityMenuWidgetList = NULL;
+    enable_city_dlg_widgets();
+    redraw_city_dialog(pCityDlg->pCity);
+    flush_dirty();
+  }
   return -1;
 }
 
@@ -1302,30 +1337,31 @@ static int sell_imprvm_dlg_cancel_callback(struct widget *pCancel_Button)
 **************************************************************************/
 static int sell_imprvm_dlg_ok_callback(struct widget *pOK_Button)
 {
-  struct widget *pTmp = (struct widget *)pOK_Button->data.ptr;
-
-  city_sell_improvement(pCityDlg->pCity, MAX_ID - 3000 - pTmp->ID);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct widget *pTmp = (struct widget *)pOK_Button->data.ptr;
   
-  /* popdown, we don't redraw and flush becouse this is make by redraw city dlg.
-     when response from server come */
-  del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
-				     pCityDlg->pEndCityMenuWidgetList);
-
-  pCityDlg->pEndCityMenuWidgetList = NULL;
-
-  /* del imprv from widget list */
-  del_widget_from_vertical_scroll_widget_list(pCityDlg->pImprv, pTmp);
+    city_sell_improvement(pCityDlg->pCity, MAX_ID - 3000 - pTmp->ID);
+    
+    /* popdown, we don't redraw and flush becouse this is make by redraw city dlg.
+       when response from server come */
+    del_group_of_widgets_from_gui_list(pCityDlg->pBeginCityMenuWidgetList,
+                                       pCityDlg->pEndCityMenuWidgetList);
   
-  enable_city_dlg_widgets();
-
-  if (pCityDlg->pImprv->pEndWidgetList) {
-    set_group_state(pCityDlg->pImprv->pBeginActiveWidgetList,
-		    pCityDlg->pImprv->pEndActiveWidgetList, FC_WS_DISABLED);
-  }
-
-  redraw_city_dialog(pCityDlg->pCity);
-  flush_dirty();
+    pCityDlg->pEndCityMenuWidgetList = NULL;
   
+    /* del imprv from widget list */
+    del_widget_from_vertical_scroll_widget_list(pCityDlg->pImprv, pTmp);
+    
+    enable_city_dlg_widgets();
+  
+    if (pCityDlg->pImprv->pEndWidgetList) {
+      set_group_state(pCityDlg->pImprv->pBeginActiveWidgetList,
+                      pCityDlg->pImprv->pEndActiveWidgetList, FC_WS_DISABLED);
+    }
+  
+    redraw_city_dialog(pCityDlg->pCity);
+    flush_dirty();
+  }  
   return -1;
 }
 
@@ -1334,104 +1370,105 @@ static int sell_imprvm_dlg_ok_callback(struct widget *pOK_Button)
 **************************************************************************/
 static int sell_imprvm_dlg_callback(struct widget *pImpr)
 {
-  struct SDL_String16 *pStr = NULL;
-  struct widget *pLabel = pImpr;
-  struct widget *pWindow = NULL;
-  struct widget *pCancel_Button = NULL;
-  struct widget *pOK_Button = NULL;
-  char cBuf[80];
-  int ww;
-  int id;
-
-  unsellect_widget_action();
-  disable_city_dlg_widgets();
-
-  pStr = create_str16_from_char(_("Sell It?"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-  pWindow = create_window(NULL, pStr, 1, 1, 0);
-  /*pWindow->action = move_sell_imprvm_dlg_callback; */
-  /*set_wstate( pWindow, FC_WS_NORMAL ); */
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pCityDlg->pEndCityMenuWidgetList = pWindow;  
-
-  /* create text label */
-  id = MAX_ID - 3000 - pImpr->ID;
-
-  my_snprintf(cBuf, sizeof(cBuf), _("Sell %s for %d gold?"),
-	      get_impr_name_ex(pCityDlg->pCity, id),
-	      impr_sell_gold(id));
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_SELL);
-  pLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-  add_to_gui_list(ID_LABEL, pLabel);
-
-  /* create cancel button */
-  pCancel_Button =
-      create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
-      			pWindow->dst, _("Cancel"), adj_font(10), 0);
-  pCancel_Button->action = sell_imprvm_dlg_cancel_callback;
-  pCancel_Button->key = SDLK_ESCAPE;  
-  set_wstate(pCancel_Button, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pCancel_Button);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct SDL_String16 *pStr = NULL;
+    struct widget *pLabel = pImpr;
+    struct widget *pWindow = NULL;
+    struct widget *pCancel_Button = NULL;
+    struct widget *pOK_Button = NULL;
+    char cBuf[80];
+    int ww;
+    int id;
   
-  /* create ok button */
-  pOK_Button = create_themeicon_button_from_chars(
-  		pTheme->Small_OK_Icon, pImpr->dst, _("Sell"), adj_font(10),  0);
-  pOK_Button->data.ptr = (void *)pLabel;
-  pOK_Button->size.w = pCancel_Button->size.w;
-  pOK_Button->action = sell_imprvm_dlg_ok_callback;
-  pOK_Button->key = SDLK_RETURN;
-  set_wstate(pOK_Button, FC_WS_NORMAL);    
-  add_to_gui_list(ID_BUTTON, pOK_Button);
-
-  pCityDlg->pBeginCityMenuWidgetList = pOK_Button;
+    unsellect_widget_action();
+    disable_city_dlg_widgets();
   
-  /* correct sizes */
-  if ((pOK_Button->size.w + pCancel_Button->size.w + 30) >
-      pLabel->size.w + 20) {
-    ww = pOK_Button->size.w + pCancel_Button->size.w + 30;
-  } else {
-    ww = pLabel->size.w + 20;
+    pStr = create_str16_from_char(_("Sell It?"), adj_font(12));
+    pStr->style |= TTF_STYLE_BOLD;
+    pWindow = create_window(NULL, pStr, 1, 1, 0);
+    /*pWindow->action = move_sell_imprvm_dlg_callback; */
+    /*set_wstate( pWindow, FC_WS_NORMAL ); */
+    add_to_gui_list(ID_WINDOW, pWindow);
+    pCityDlg->pEndCityMenuWidgetList = pWindow;  
+  
+    /* create text label */
+    id = MAX_ID - 3000 - pImpr->ID;
+  
+    my_snprintf(cBuf, sizeof(cBuf), _("Sell %s for %d gold?"),
+                get_impr_name_ex(pCityDlg->pCity, id),
+                impr_sell_gold(id));
+    pStr = create_str16_from_char(cBuf, adj_font(10));
+    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_SELL);
+    pLabel = create_iconlabel(NULL, pWindow->dst, pStr, 0);
+    add_to_gui_list(ID_LABEL, pLabel);
+  
+    /* create cancel button */
+    pCancel_Button =
+        create_themeicon_button_from_chars(pTheme->Small_CANCEL_Icon,
+                          pWindow->dst, _("Cancel"), adj_font(10), 0);
+    pCancel_Button->action = sell_imprvm_dlg_cancel_callback;
+    pCancel_Button->key = SDLK_ESCAPE;  
+    set_wstate(pCancel_Button, FC_WS_NORMAL);
+    add_to_gui_list(ID_BUTTON, pCancel_Button);
+    
+    /* create ok button */
+    pOK_Button = create_themeicon_button_from_chars(
+                  pTheme->Small_OK_Icon, pImpr->dst, _("Sell"), adj_font(10),  0);
+    pOK_Button->data.ptr = (void *)pLabel;
+    pOK_Button->size.w = pCancel_Button->size.w;
+    pOK_Button->action = sell_imprvm_dlg_ok_callback;
+    pOK_Button->key = SDLK_RETURN;
+    set_wstate(pOK_Button, FC_WS_NORMAL);    
+    add_to_gui_list(ID_BUTTON, pOK_Button);
+  
+    pCityDlg->pBeginCityMenuWidgetList = pOK_Button;
+    
+    /* correct sizes */
+    if ((pOK_Button->size.w + pCancel_Button->size.w + 30) >
+        pLabel->size.w + 20) {
+      ww = pOK_Button->size.w + pCancel_Button->size.w + 30;
+    } else {
+      ww = pLabel->size.w + 20;
+    }
+  
+    pWindow->size.w = ww;
+    pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TITLE_HEIGHT + 25;
+  
+    /* set start positions */
+    pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
+    pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2 + 10;
+  
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+  
+    pOK_Button->size.x = pWindow->size.x + 10;
+    pOK_Button->size.y = pWindow->size.y + pWindow->size.h -
+        pOK_Button->size.h - 10;
+  
+    pCancel_Button->size.y = pOK_Button->size.y;
+    pCancel_Button->size.x = pWindow->size.x + pWindow->size.w -
+        pCancel_Button->size.w - 10;
+  
+    pLabel->size.x = pWindow->size.x;
+    pLabel->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 5;
+    pLabel->size.w = pWindow->size.w;
+    
+    /* create window background */
+    resize_window(pWindow, NULL,
+                  get_game_colorRGB(COLOR_THEME_BACKGROUND),
+                  pWindow->size.w, pWindow->size.h);
+  
+  #if 0
+    /* redraw */
+    redraw_group(pCityDlg->pBeginCityMenuWidgetList,
+                 pCityDlg->pEndCityMenuWidgetList, 0);
+  
+    flush_rect(pWindow->size, FALSE);
+  #endif
+  
+    redraw_city_dialog(pCityDlg->pCity);
+    flush_dirty();
   }
-
-  pWindow->size.w = ww;
-  pWindow->size.h = pOK_Button->size.h + pLabel->size.h + WINDOW_TITLE_HEIGHT + 25;
-
-  /* set start positions */
-  pWindow->size.x = (Main.screen->w - pWindow->size.w) / 2;
-  pWindow->size.y = (Main.screen->h - pWindow->size.h) / 2 + 10;
-
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
-
-  pOK_Button->size.x = pWindow->size.x + 10;
-  pOK_Button->size.y = pWindow->size.y + pWindow->size.h -
-      pOK_Button->size.h - 10;
-
-  pCancel_Button->size.y = pOK_Button->size.y;
-  pCancel_Button->size.x = pWindow->size.x + pWindow->size.w -
-      pCancel_Button->size.w - 10;
-
-  pLabel->size.x = pWindow->size.x;
-  pLabel->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 5;
-  pLabel->size.w = pWindow->size.w;
-  
-  /* create window background */
-  resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		pWindow->size.w, pWindow->size.h);
-
-#if 0
-  /* redraw */
-  redraw_group(pCityDlg->pBeginCityMenuWidgetList,
-	       pCityDlg->pEndCityMenuWidgetList, 0);
-
-  flush_rect(pWindow->size, FALSE);
-#endif
-
-  redraw_city_dialog(pCityDlg->pCity);
-  flush_dirty();
-
   return -1;
 }
 /* ====================================================================== */
@@ -1538,15 +1575,16 @@ SDL_Surface * get_scaled_city_map(struct city *pCity)
 **************************************************************************/
 static int resource_map_city_dlg_callback(struct widget *pMap)
 {
-  int col, row;
-
-  if (canvas_to_city_pos(&col, &row,
-                   1/city_map_zoom * (Main.event.motion.x - pMap->size.x),
-                   1/city_map_zoom * (Main.event.motion.y - pMap->size.y))) {
-
-    city_toggle_worker(pCityDlg->pCity, col, row);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int col, row;
+  
+    if (canvas_to_city_pos(&col, &row,
+                     1/city_map_zoom * (Main.event.motion.x - pMap->size.x),
+                     1/city_map_zoom * (Main.event.motion.y - pMap->size.y))) {
+  
+      city_toggle_worker(pCityDlg->pCity, col, row);
+    }
   }
-
   return -1;
 }
 
@@ -1568,66 +1606,68 @@ static int city_comp_by_turn_founded(const void *a, const void *b)
 **************************************************************************/
 static int next_prev_city_dlg_callback(struct widget *pButton)
 {
-  int i, dir, non_open_size, size =
-      city_list_size(game.player_ptr->cities);
-  struct city **array;
-
-  assert(size >= 1);
-  assert(pCityDlg->pCity->owner == game.player_ptr);
-
-  if (size == 1) {
-    return -1;
-  }
-
-  /* dir = 1 will advance to the city, dir = -1 will get previous */
-  if (pButton->ID == ID_CITY_DLG_NEXT_BUTTON) {
-    dir = 1;
-  } else {
-    if (pButton->ID == ID_CITY_DLG_PREV_BUTTON) {
-      dir = -1;
-    } else {
-      assert(0);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int i, dir, non_open_size, size =
+        city_list_size(game.player_ptr->cities);
+    struct city **array;
+  
+    assert(size >= 1);
+    assert(pCityDlg->pCity->owner == game.player_ptr);
+  
+    if (size == 1) {
+      return -1;
+    }
+  
+    /* dir = 1 will advance to the city, dir = -1 will get previous */
+    if (pButton->ID == ID_CITY_DLG_NEXT_BUTTON) {
       dir = 1;
+    } else {
+      if (pButton->ID == ID_CITY_DLG_PREV_BUTTON) {
+        dir = -1;
+      } else {
+        assert(0);
+        dir = 1;
+      }
     }
-  }
-
-  array = fc_calloc(1, size * sizeof(struct city *));
-
-  non_open_size = 0;
-  for (i = 0; i < size; i++) {
-    array[non_open_size++] = city_list_get(game.player_ptr->cities, i);
-  }
-
-  assert(non_open_size > 0);
-
-  if (non_open_size == 1) {
+  
+    array = fc_calloc(1, size * sizeof(struct city *));
+  
+    non_open_size = 0;
+    for (i = 0; i < size; i++) {
+      array[non_open_size++] = city_list_get(game.player_ptr->cities, i);
+    }
+  
+    assert(non_open_size > 0);
+  
+    if (non_open_size == 1) {
+      FC_FREE(array);
+      return -1;
+    }
+  
+    qsort(array, non_open_size, sizeof(struct city *),
+                                                  city_comp_by_turn_founded);
+  
+    for (i = 0; i < non_open_size; i++) {
+      if (pCityDlg->pCity == array[i]) {
+        break;
+      }
+    }
+  
+    assert(i < non_open_size);
+    pCityDlg->pCity = array[(i + dir + non_open_size) % non_open_size];
     FC_FREE(array);
-    return -1;
+  
+    /* free panel widgets */
+    free_city_units_lists();
+    /* refresh resource map */
+    FREESURFACE(pCityDlg->pResource_Map->theme);
+    pCityDlg->pResource_Map->theme = get_scaled_city_map(pCityDlg->pCity);
+    rebuild_imprm_list(pCityDlg->pCity);
+  
+    /* redraw */
+    redraw_city_dialog(pCityDlg->pCity);
+    flush_dirty();
   }
-
-  qsort(array, non_open_size, sizeof(struct city *),
-						city_comp_by_turn_founded);
-
-  for (i = 0; i < non_open_size; i++) {
-    if (pCityDlg->pCity == array[i]) {
-      break;
-    }
-  }
-
-  assert(i < non_open_size);
-  pCityDlg->pCity = array[(i + dir + non_open_size) % non_open_size];
-  FC_FREE(array);
-
-  /* free panel widgets */
-  free_city_units_lists();
-  /* refresh resource map */
-  FREESURFACE(pCityDlg->pResource_Map->theme);
-  pCityDlg->pResource_Map->theme = get_scaled_city_map(pCityDlg->pCity);
-  rebuild_imprm_list(pCityDlg->pCity);
-
-  /* redraw */
-  redraw_city_dialog(pCityDlg->pCity);
-  flush_dirty();
   return -1;
 }
 
@@ -1636,23 +1676,24 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int new_name_city_dlg_callback(struct widget *pEdit)
 {
-  char *tmp = convert_to_chars(pEdit->string16->text);
-
-  if(tmp) {
-    if(strcmp(tmp, pCityDlg->pCity->name)) {
-      SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
-      city_rename(pCityDlg->pCity, tmp);
-    }
-    
-    FC_FREE(tmp);
-  } else {
-    /* empty input -> restore previous content */
-    copy_chars_to_string16(pEdit->string16, pCityDlg->pCity->name);
-    redraw_edit(pEdit);
-    sdl_dirty_rect(pEdit->size);
-    flush_dirty();
-  }  
- 
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *tmp = convert_to_chars(pEdit->string16->text);
+  
+    if(tmp) {
+      if(strcmp(tmp, pCityDlg->pCity->name)) {
+        SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
+        city_rename(pCityDlg->pCity, tmp);
+      }
+      
+      FC_FREE(tmp);
+    } else {
+      /* empty input -> restore previous content */
+      copy_chars_to_string16(pEdit->string16, pCityDlg->pCity->name);
+      redraw_edit(pEdit);
+      sdl_dirty_rect(pEdit->size);
+      flush_dirty();
+    }  
+  } 
   return -1;
 }
 

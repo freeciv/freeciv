@@ -68,20 +68,26 @@ static struct SMALL_DLG *get_spaceship_dialog(struct player *pplayer)
 
 static int space_dialog_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(
-  	pWindow->private_data.small_dlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pWindow->private_data.small_dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 static int exit_space_dialog_callback(struct widget *pWidget)
 {
-  popdown_spaceship_dialog(pWidget->data.player);
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_spaceship_dialog(pWidget->data.player);
+    flush_dirty();
+  }
   return -1;
 }
 
 static int launch_spaceship_callback(struct widget *pWidget)
 {
-  send_packet_spaceship_launch(&aconnection);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    send_packet_spaceship_launch(&aconnection);
+  }
   return -1;
 }
 

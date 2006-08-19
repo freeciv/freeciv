@@ -44,32 +44,38 @@ static struct ADVANCED_DLG  *pFind_City_Dlg = NULL;
 
 static int find_city_window_dlg_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pFind_City_Dlg->pBeginWidgetList,
-								  pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pFind_City_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 static int exit_find_city_dlg_callback(struct widget *pWidget)
 {
-  int orginal_x = pWidget->data.cont->id0;
-  int orginal_y = pWidget->data.cont->id1;
-      
-  popdown_find_dialog();
-  
-  center_tile_mapcanvas(map_pos_to_tile(orginal_x, orginal_y));
-  
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int orginal_x = pWidget->data.cont->id0;
+    int orginal_y = pWidget->data.cont->id1;
+        
+    popdown_find_dialog();
+    
+    center_tile_mapcanvas(map_pos_to_tile(orginal_x, orginal_y));
+    
+    flush_dirty();
+  }
   return -1;
 }
 
 static int find_city_callback(struct widget *pWidget)
 {
-  struct city *pCity = pWidget->data.city;
-  if(pCity) {
-    center_tile_mapcanvas(pCity->tile);
-    if(Main.event.button.button == SDL_BUTTON_RIGHT) {
-      popdown_find_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct city *pCity = pWidget->data.city;
+    if(pCity) {
+      center_tile_mapcanvas(pCity->tile);
+      if(Main.event.button.button == SDL_BUTTON_RIGHT) {
+        popdown_find_dialog();
+      }
+      flush_dirty();
     }
-    flush_dirty();
   }
   return -1;
 }

@@ -53,63 +53,74 @@ static int city_report_windows_callback(struct widget *pWindow)
 
 static int exit_city_report_callback(struct widget *pWidget)
 {
-  if (pCityRep) {
-/*    if (pUnits_Upg_Dlg) {
-       del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
-			      pUnits_Upg_Dlg->pEndWidgetList);
-       FC_FREE(pUnits_Upg_Dlg); 
-    } */
-    popdown_window_group_dialog(pCityRep->pBeginWidgetList,
-				      pCityRep->pEndWidgetList);
-    FC_FREE(pCityRep->pScroll);
-    FC_FREE(pCityRep);
-    enable_and_redraw_find_city_button();
-    flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pCityRep) {
+  /*    if (pUnits_Upg_Dlg) {
+         del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
+                                pUnits_Upg_Dlg->pEndWidgetList);
+         FC_FREE(pUnits_Upg_Dlg); 
+      } */
+      popdown_window_group_dialog(pCityRep->pBeginWidgetList,
+                                        pCityRep->pEndWidgetList);
+      FC_FREE(pCityRep->pScroll);
+      FC_FREE(pCityRep);
+      enable_and_redraw_find_city_button();
+      flush_dirty();
+    }
   }
   return -1;
 }
 
 static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
 {
-  popup_city_dialog(pWidget->data.city);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_city_dialog(pWidget->data.city);
+  }
   return -1;
 }
 
 static int popup_worklist_from_city_report_callback(struct widget *pWidget)
 {
-  popup_worklist_editor(pWidget->data.city, &pWidget->data.city->worklist);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_worklist_editor(pWidget->data.city, &pWidget->data.city->worklist);
+  }
   return -1;
 }
 
 static int popup_buy_production_from_city_report_callback(struct widget *pWidget)
 {
-  popup_hurry_production_dialog(pWidget->data.city, NULL);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_hurry_production_dialog(pWidget->data.city, NULL);
+  }
   return -1;
 }
 
 static int popup_cma_from_city_report_callback(struct widget *pWidget)
 {
-  struct city *pCity = find_city_by_id(MAX_ID - pWidget->ID);
-    
-  /* state is changed before enter this function */  
-  if(!get_checkbox_state(pWidget)) {
-    cma_release_city(pCity);
-    city_report_dialog_update_city(pCity);
-  } else {
-    popup_city_cma_dialog(pCity);
-  }
-  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct city *pCity = find_city_by_id(MAX_ID - pWidget->ID);
+      
+    /* state is changed before enter this function */  
+    if(!get_checkbox_state(pWidget)) {
+      cma_release_city(pCity);
+      city_report_dialog_update_city(pCity);
+    } else {
+      popup_city_cma_dialog(pCity);
+    }
+  }  
   return -1;
 }
 
 #if 0
 static int info_city_report_callback(struct widget *pWidget)
 {
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pSellected_Widget = NULL;
-  redraw_widget(pWidget);
-  sdl_dirty_rect(pWidget->size);
-  real_info_city_report_dialog_update();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    set_wstate(pWidget, FC_WS_NORMAL);
+    pSellected_Widget = NULL;
+    redraw_widget(pWidget);
+    sdl_dirty_rect(pWidget->size);
+    real_info_city_report_dialog_update();
+  }
   return -1;
 }
 #endif

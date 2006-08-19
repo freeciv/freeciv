@@ -75,21 +75,22 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc);
 **************************************************************************/
 static int inputline_return_callback(struct widget *pWidget)
 {
-  char *theinput = NULL;
-
-  if (!pWidget->string16->text) {
-    return -1;
-  }
-
-  theinput = convert_to_chars(pWidget->string16->text);
-
-  if (theinput && *theinput) {
-    send_chat(theinput);
-
-    append_output_window(theinput);
-    FC_FREE(theinput);
-  }
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *theinput = NULL;
   
+    if (!pWidget->string16->text) {
+      return -1;
+    }
+  
+    theinput = convert_to_chars(pWidget->string16->text);
+  
+    if (theinput && *theinput) {
+      send_chat(theinput);
+  
+      append_output_window(theinput);
+      FC_FREE(theinput);
+    }
+  }  
   return -1;
 }
 
@@ -179,9 +180,11 @@ static int conn_dlg_callback(struct widget *pWindow)
 **************************************************************************/
 static int disconnect_conn_callback(struct widget *pWidget)
 {
-  popdown_conn_list_dialog();
-  flush_dirty();
-  disconnect_from_server();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_conn_list_dialog();
+    flush_dirty();
+    disconnect_from_server();
+  }
   return -1;
 }
 
@@ -250,20 +253,21 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 **************************************************************************/
 static int input_edit_conn_callback(struct widget *pWidget)
 {
- 
-  if (pWidget->string16->text) {
-    char theinput[256];
+  if (Main.event.button.button == SDL_BUTTON_LEFT) { 
+    if (pWidget->string16->text) {
+      char theinput[256];
+      
+      convertcopy_to_chars(theinput, sizeof(theinput), pWidget->string16->text);
     
-    convertcopy_to_chars(theinput, sizeof(theinput), pWidget->string16->text);
-  
-  
-    if (*theinput != '\0') {
-      send_chat(theinput);
-      /*real_append_output_window(theinput);*/
+    
+      if (*theinput != '\0') {
+        send_chat(theinput);
+        /*real_append_output_window(theinput);*/
+      }
+      
+      FC_FREE(pWidget->string16->text);
+      pWidget->string16->n_alloc = 0;
     }
-    
-    FC_FREE(pWidget->string16->text);
-    pWidget->string16->n_alloc = 0;
   }
   return -1;
 }
@@ -273,7 +277,9 @@ static int input_edit_conn_callback(struct widget *pWidget)
 **************************************************************************/
 static int start_game_callback(struct widget *pWidget)
 {
-  send_chat("/start");
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    send_chat("/start");
+  }
   return -1;
 }
 
@@ -291,8 +297,9 @@ static int server_config_callback(struct widget *pWidget)
 **************************************************************************/
 static int select_nation_callback(struct widget *pWidget)
 {
-  popup_races_dialog(game.player_ptr);
-    
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_races_dialog(game.player_ptr);
+  }  
   return -1;
 }
 

@@ -387,13 +387,15 @@ Uint16 widget_pressed_action(struct widget * pWidget)
   
   switch (get_wtype(pWidget)) {
   case WT_TI_BUTTON:
-    set_wstate(pWidget, FC_WS_PRESSED);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      set_wstate(pWidget, FC_WS_PRESSED);
+      real_redraw_tibutton(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+      set_wstate(pWidget, FC_WS_SELLECTED);
+      SDL_Delay(300);
+    }
     ID = pWidget->ID;
-    real_redraw_tibutton(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-    set_wstate(pWidget, FC_WS_SELLECTED);
-    SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -401,13 +403,15 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     }
     break;
   case WT_I_BUTTON:
-    set_wstate(pWidget, FC_WS_PRESSED);
-    ID = pWidget->ID;
-    real_redraw_ibutton(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-    set_wstate(pWidget, FC_WS_SELLECTED);
-    SDL_Delay(300);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      set_wstate(pWidget, FC_WS_PRESSED);
+      real_redraw_ibutton(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+      set_wstate(pWidget, FC_WS_SELLECTED);
+      SDL_Delay(300);
+    }
+    ID = pWidget->ID;  
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -415,13 +419,15 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     }
     break;
   case WT_ICON:
-    set_wstate(pWidget, FC_WS_PRESSED);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      set_wstate(pWidget, FC_WS_PRESSED);
+      real_redraw_icon(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+      set_wstate(pWidget, FC_WS_SELLECTED);
+      SDL_Delay(300);
+    }
     ID = pWidget->ID;
-    real_redraw_icon(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-    set_wstate(pWidget, FC_WS_SELLECTED);
-    SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -429,13 +435,15 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     }
     break;
   case WT_ICON2:
-    set_wstate(pWidget, FC_WS_PRESSED);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      set_wstate(pWidget, FC_WS_PRESSED);
+      real_redraw_icon2(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+      set_wstate(pWidget, FC_WS_SELLECTED);
+      SDL_Delay(300);
+    }
     ID = pWidget->ID;
-    real_redraw_icon2(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-    set_wstate(pWidget, FC_WS_SELLECTED);
-    SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -444,34 +452,38 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     break;
   case WT_EDIT:
   {
-    bool ret, loop = ((get_wflags(pWidget) & WF_EDIT_LOOP) == WF_EDIT_LOOP);
-    enum Edit_Return_Codes change;
-    do {
-      ret = FALSE;
-      change = edit_field(pWidget);
-      if (change != ED_FORCE_EXIT && (!loop || change != ED_RETURN)) {
-        redraw_edit(pWidget);
-        sdl_dirty_rect(pWidget->size);
-        flush_dirty();
-      }
-      if (change != ED_FORCE_EXIT && change != ED_ESC && pWidget->action) {
-        if (pWidget->action(pWidget)) {
-	  ID = 0;
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      bool ret, loop = ((get_wflags(pWidget) & WF_EDIT_LOOP) == WF_EDIT_LOOP);
+      enum Edit_Return_Codes change;
+      do {
+        ret = FALSE;
+        change = edit_field(pWidget);
+        if (change != ED_FORCE_EXIT && (!loop || change != ED_RETURN)) {
+          redraw_edit(pWidget);
+          sdl_dirty_rect(pWidget->size);
+          flush_dirty();
         }
-      }
-      if (loop && change == ED_RETURN) {
-        ret = TRUE;
-      }
-    } while(ret);
-    ID = 0;
+        if (change != ED_FORCE_EXIT && change != ED_ESC && pWidget->action) {
+          if (pWidget->action(pWidget)) {
+            ID = 0;
+          }
+        }
+        if (loop && change == ED_RETURN) {
+          ret = TRUE;
+        }
+      } while(ret);
+      ID = 0;
+    }
+    break;
   }
-  break;
   case WT_VSCROLLBAR:
-    set_wstate(pWidget, FC_WS_PRESSED);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      set_wstate(pWidget, FC_WS_PRESSED);
+      redraw_vert(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+    }
     ID = pWidget->ID;
-    redraw_vert(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -479,10 +491,12 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     }
     break;
   case WT_HSCROLLBAR:
-    set_wstate(pWidget, FC_WS_PRESSED);
-    ID = pWidget->ID;
-    redraw_horiz(pWidget);
-    flush_rect(pWidget->size, FALSE);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {    
+      set_wstate(pWidget, FC_WS_PRESSED);
+      redraw_horiz(pWidget);
+      flush_rect(pWidget->size, FALSE);
+    }
+    ID = pWidget->ID;  
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -490,14 +504,16 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     }
     break;
   case WT_CHECKBOX:
-    set_wstate(pWidget, FC_WS_PRESSED);
-    ID = pWidget->ID;
-    real_redraw_icon(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-    set_wstate(pWidget, FC_WS_SELLECTED);
-    togle_checkbox(pWidget);
-    SDL_Delay(300);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      set_wstate(pWidget, FC_WS_PRESSED);
+      real_redraw_icon(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+      set_wstate(pWidget, FC_WS_SELLECTED);
+      togle_checkbox(pWidget);
+      SDL_Delay(300);
+    }
+    ID = pWidget->ID;  
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -505,13 +521,15 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     }
     break;
   case WT_TCHECKBOX:
-    set_wstate(pWidget, FC_WS_PRESSED);
+    if (Main.event.button.button == SDL_BUTTON_LEFT) {
+      set_wstate(pWidget, FC_WS_PRESSED);
+      redraw_textcheckbox(pWidget);
+      flush_rect(pWidget->size, FALSE);
+      set_wstate(pWidget, FC_WS_SELLECTED);
+      togle_checkbox(pWidget);
+      SDL_Delay(300);
+    }
     ID = pWidget->ID;
-    redraw_textcheckbox(pWidget);
-    flush_rect(pWidget->size, FALSE);
-    set_wstate(pWidget, FC_WS_SELLECTED);
-    togle_checkbox(pWidget);
-    SDL_Delay(300);
     if (pWidget->action) {
       if (pWidget->action(pWidget)) {
 	ID = 0;
@@ -1258,16 +1276,13 @@ bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
   if move then move window and redraw else
   if not on fron then move window up to list and redraw;  
 **************************************************************************/
-int std_move_window_group_callback(struct widget *pBeginWidgetList,
-							 struct widget *pWindow)
+void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow)
 {
   if (sellect_window_group_dialog(pBeginWidgetList, pWindow)) {
     flush_rect(pWindow->size, FALSE);
   }
   
   move_window_group_dialog(pBeginWidgetList, pWindow);
-  
-  return (-1);
 }
 
 
@@ -2188,71 +2203,77 @@ STD:  while (pBuf != pWidget) {
 /**************************************************************************
   ...
 **************************************************************************/
-static int std_up_advanced_dlg(struct widget *pWidget)
+static int std_up_advanced_dlg_callback(struct widget *pWidget)
 {
-  struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
-  struct widget *pBegin = up_scroll_widget_list(
-			pDlg->pScroll,
-			pDlg->pActiveWidgetList,
-			pDlg->pBeginActiveWidgetList,
-			pDlg->pEndActiveWidgetList);
-
-  if (pBegin) {
-    pDlg->pActiveWidgetList = pBegin;
-  }
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
+    struct widget *pBegin = up_scroll_widget_list(
+                          pDlg->pScroll,
+                          pDlg->pActiveWidgetList,
+                          pDlg->pBeginActiveWidgetList,
+                          pDlg->pEndActiveWidgetList);
   
-  unsellect_widget_action();
-  pSellected_Widget = pWidget;
-  set_wstate(pWidget, FC_WS_SELLECTED);
-  redraw_tibutton(pWidget);
-  flush_rect(pWidget->size, FALSE);
+    if (pBegin) {
+      pDlg->pActiveWidgetList = pBegin;
+    }
+    
+    unsellect_widget_action();
+    pSellected_Widget = pWidget;
+    set_wstate(pWidget, FC_WS_SELLECTED);
+    redraw_tibutton(pWidget);
+    flush_rect(pWidget->size, FALSE);
+  }
   return -1;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static int std_down_advanced_dlg(struct widget *pWidget)
+static int std_down_advanced_dlg_callback(struct widget *pWidget)
 {
-  struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
-  struct widget *pBegin = down_scroll_widget_list(
-			pDlg->pScroll,
-			pDlg->pActiveWidgetList,
-			pDlg->pBeginActiveWidgetList,
-			pDlg->pEndActiveWidgetList);
-
-  if (pBegin) {
-    pDlg->pActiveWidgetList = pBegin;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
+    struct widget *pBegin = down_scroll_widget_list(
+                          pDlg->pScroll,
+                          pDlg->pActiveWidgetList,
+                          pDlg->pBeginActiveWidgetList,
+                          pDlg->pEndActiveWidgetList);
+  
+    if (pBegin) {
+      pDlg->pActiveWidgetList = pBegin;
+    }
+  
+    unsellect_widget_action();
+    pSellected_Widget = pWidget;
+    set_wstate(pWidget, FC_WS_SELLECTED);
+    redraw_tibutton(pWidget);
+    flush_rect(pWidget->size, FALSE);
   }
-
-  unsellect_widget_action();
-  pSellected_Widget = pWidget;
-  set_wstate(pWidget, FC_WS_SELLECTED);
-  redraw_tibutton(pWidget);
-  flush_rect(pWidget->size, FALSE);
   return -1;
 }
 
 /**************************************************************************
   FIXME : fix main funct : vertic_scroll_widget_list(...)
 **************************************************************************/
-static int std_vscroll_advanced_dlg(struct widget *pScrollBar)
+static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
 {
-  struct ADVANCED_DLG *pDlg = pScrollBar->private_data.adv_dlg;
-  struct widget *pBegin = vertic_scroll_widget_list(
-			pDlg->pScroll,
-			pDlg->pActiveWidgetList,
-			pDlg->pBeginActiveWidgetList,
-			pDlg->pEndActiveWidgetList);
-
-  if (pBegin) {
-    pDlg->pActiveWidgetList = pBegin;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct ADVANCED_DLG *pDlg = pScrollBar->private_data.adv_dlg;
+    struct widget *pBegin = vertic_scroll_widget_list(
+                          pDlg->pScroll,
+                          pDlg->pActiveWidgetList,
+                          pDlg->pBeginActiveWidgetList,
+                          pDlg->pEndActiveWidgetList);
+  
+    if (pBegin) {
+      pDlg->pActiveWidgetList = pBegin;
+    }
+    unsellect_widget_action();
+    set_wstate(pScrollBar, FC_WS_SELLECTED);
+    pSellected_Widget = pScrollBar;
+    redraw_vert(pScrollBar);
+    flush_rect(pScrollBar->size, FALSE);
   }
-  unsellect_widget_action();
-  set_wstate(pScrollBar, FC_WS_SELLECTED);
-  pSellected_Widget = pScrollBar;
-  redraw_vert(pScrollBar);
-  flush_rect(pScrollBar->size, FALSE);
   return -1;
 }
 
@@ -2292,7 +2313,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     
     pBuf->ID = ID_BUTTON;
     pBuf->private_data.adv_dlg = pDlg;
-    pBuf->action = std_up_advanced_dlg;
+    pBuf->action = std_up_advanced_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     
     pDlg->pScroll->pUp_Left_Button = pBuf;
@@ -2306,7 +2327,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     
     pBuf->ID = ID_BUTTON;
     pBuf->private_data.adv_dlg = pDlg;
-    pBuf->action = std_down_advanced_dlg;
+    pBuf->action = std_down_advanced_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     
     pDlg->pScroll->pDown_Right_Button = pBuf;
@@ -2322,7 +2343,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
     
     pBuf->ID = ID_SCROLLBAR;
     pBuf->private_data.adv_dlg = pDlg;
-    pBuf->action = std_vscroll_advanced_dlg;
+    pBuf->action = std_vscroll_advanced_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
   
     pDlg->pScroll->pScrollBar = pBuf;
@@ -2453,13 +2474,13 @@ void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll)
 {
   assert(pScroll != NULL);
   if(pScroll->pUp_Left_Button) {
-    pScroll->pUp_Left_Button->action = std_up_advanced_dlg;
+    pScroll->pUp_Left_Button->action = std_up_advanced_dlg_callback;
   }
   if(pScroll->pDown_Right_Button) {
-    pScroll->pDown_Right_Button->action = std_down_advanced_dlg;
+    pScroll->pDown_Right_Button->action = std_down_advanced_dlg_callback;
   }
   if(pScroll->pScrollBar) {
-    pScroll->pScrollBar->action = std_vscroll_advanced_dlg;
+    pScroll->pScrollBar->action = std_vscroll_advanced_dlg_callback;
   }
 }
 
@@ -3813,12 +3834,15 @@ INPUT:/* add new element of chain (and move cursor right) */
 static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent, void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
-  if (!(pButtonEvent->x >= pEdt->pWidget->size.x &&
-	    pButtonEvent->x < pEdt->pWidget->size.x + pEdt->pBg->w &&
-	    pButtonEvent->y >= pEdt->pWidget->size.y &&
-	    pButtonEvent->y < pEdt->pWidget->size.y + pEdt->pBg->h)) {
-	/* exit from loop */
-	return (Uint16)ED_MOUSE;
+    
+  if (pButtonEvent->button == SDL_BUTTON_LEFT) {
+    if (!(pButtonEvent->x >= pEdt->pWidget->size.x &&
+              pButtonEvent->x < pEdt->pWidget->size.x + pEdt->pBg->w &&
+              pButtonEvent->y >= pEdt->pWidget->size.y &&
+              pButtonEvent->y < pEdt->pWidget->size.y + pEdt->pBg->h)) {
+          /* exit from loop */
+          return (Uint16)ED_MOUSE;
+    }
   }
   return (Uint16)ID_ERROR;
 }

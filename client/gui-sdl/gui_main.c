@@ -341,7 +341,6 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
     }
 #endif    
   }
-  
   return ID_ERROR;
 }
 

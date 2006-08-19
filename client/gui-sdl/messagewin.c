@@ -60,38 +60,38 @@ static struct ADVANCED_DLG *pMsg_Dlg = NULL;
 **************************************************************************/
 static int msg_callback(struct widget *pWidget)
 {
-
-  struct message *pMsg = (struct message *)pWidget->data.ptr;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct message *pMsg = (struct message *)pWidget->data.ptr;
+      
+    pWidget->string16->fgcol.r += 128;
+    unsellect_widget_action();
     
-  pWidget->string16->fgcol.r += 128;
-  unsellect_widget_action();
+    if (pMsg->city_ok
+        && is_city_event(pMsg->event)) {
+          
+      struct city *pCity = tile_get_city(pMsg->tile);
   
-  if (pMsg->city_ok
-      && is_city_event(pMsg->event)) {
-	
-    struct city *pCity = tile_get_city(pMsg->tile);
-
-    if (center_when_popup_city) {
+      if (center_when_popup_city) {
+        center_tile_mapcanvas(pMsg->tile);
+      }
+  
+      if (pCity) {
+        /* If the event was the city being destroyed, pcity will be NULL
+         * and we'd better not try to pop it up.  In this case, it would
+         * be better if the popup button weren't highlighted at all, but
+         * that's OK. */
+        popup_city_dialog(pCity);
+      }
+      
+      if (center_when_popup_city || pCity) {
+        flush_dirty();
+      }
+          
+    } else if (pMsg->location_ok) {
       center_tile_mapcanvas(pMsg->tile);
-    }
-
-    if (pCity) {
-      /* If the event was the city being destroyed, pcity will be NULL
-       * and we'd better not try to pop it up.  In this case, it would
-       * be better if the popup button weren't highlighted at all, but
-       * that's OK. */
-      popup_city_dialog(pCity);
-    }
-    
-    if (center_when_popup_city || pCity) {
       flush_dirty();
     }
-	
-  } else if (pMsg->location_ok) {
-    center_tile_mapcanvas(pMsg->tile);
-    flush_dirty();
   }
-
   return -1;
 }
 
@@ -100,7 +100,10 @@ static int msg_callback(struct widget *pWidget)
 **************************************************************************/
 static int move_msg_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pMsg_Dlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pMsg_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 /* ======================================================================

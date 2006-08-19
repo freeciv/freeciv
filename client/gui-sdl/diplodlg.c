@@ -139,18 +139,20 @@ void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 
 static int remove_clause_callback(struct widget *pWidget)
 {
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    dsend_packet_diplomacy_remove_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             (enum clause_type) ((pWidget->data.
+                                             cont->value >> 16) & 0xFFFF),
+                                             pWidget->data.cont->value & 0xFFFF);
   }
-  
-  dsend_packet_diplomacy_remove_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   (enum clause_type) ((pWidget->data.
-					   cont->value >> 16) & 0xFFFF),
-					   pWidget->data.cont->value & 0xFFFF);
   return -1;
 }
 
@@ -202,15 +204,19 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 
 static int cancel_meeting_callback(struct widget *pWidget)
 {
-  dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_diplomacy_cancel_meeting_req(&aconnection,
 					    pWidget->data.cont->id1);
+  }
   return -1;
 }
 
 static int accept_treaty_callback(struct widget *pWidget)
 {
-  dsend_packet_diplomacy_accept_treaty_req(&aconnection,
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_diplomacy_accept_treaty_req(&aconnection,
 					   pWidget->data.cont->id1);
+  }
   return -1;
 }
 
@@ -218,166 +224,176 @@ static int accept_treaty_callback(struct widget *pWidget)
 
 static int pact_callback(struct widget *pWidget)
 {
-  int clause_type;
-  
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int clause_type;
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  switch(MAX_ID - pWidget->ID) {
-    case 2:
-      clause_type = CLAUSE_CEASEFIRE;
-    break;
-    case 1:
-      clause_type = CLAUSE_PEACE;
-    break;
-    default:
-      clause_type = CLAUSE_ALLIANCE;
-    break;
-  }
-  
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   clause_type, 0);
-  
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+    
+    switch(MAX_ID - pWidget->ID) {
+      case 2:
+        clause_type = CLAUSE_CEASEFIRE;
+      break;
+      case 1:
+        clause_type = CLAUSE_PEACE;
+      break;
+      default:
+        clause_type = CLAUSE_ALLIANCE;
+      break;
+    }
+    
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             clause_type, 0);
+  }  
   return -1;
 }
 
 static int vision_callback(struct widget *pWidget)
 {
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+  
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_VISION, 0);
   }
-
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   CLAUSE_VISION, 0);
   return -1;
 }
 
 static int embassy_callback(struct widget *pWidget)
 {
-  struct diplomacy_dialog *pdialog;
-    
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+  
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_EMBASSY, 0);
   }
-
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   CLAUSE_EMBASSY, 0);
   return -1;
 }
 
 static int maps_callback(struct widget *pWidget)
 {
-  int clause_type;
-  
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int clause_type;
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
+    
+    switch(MAX_ID - pWidget->ID) {
+      case 1:
+        clause_type = CLAUSE_MAP;
+      break;
+      default:
+        clause_type = CLAUSE_SEAMAP;
+      break;
+    }
   
-  switch(MAX_ID - pWidget->ID) {
-    case 1:
-      clause_type = CLAUSE_MAP;
-    break;
-    default:
-      clause_type = CLAUSE_SEAMAP;
-    break;
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             clause_type, 0);
   }
-
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   clause_type, 0);
   return -1;
 }
 
 static int techs_callback(struct widget *pWidget)
 {
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-  					   pdialog->treaty.plr1->player_no,
-					   pWidget->data.cont->id0,
-					   CLAUSE_ADVANCE,
-					   (MAX_ID - pWidget->ID));
-  
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_ADVANCE,
+                                             (MAX_ID - pWidget->ID));
+  }  
   return -1;
 }
 
 static int gold_callback(struct widget *pWidget)
 {
-  int amount;
-  
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int amount;
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  if(pWidget->string16->text) {
-    char cBuf[16];
-    
-    convertcopy_to_chars(cBuf, sizeof(cBuf), pWidget->string16->text);
-    sscanf(cBuf, "%d", &amount);
-    
-    if(amount > pWidget->data.cont->value) {
-      /* max player gold */
-      amount = pWidget->data.cont->value;
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
     }
     
-  } else {
-    amount = 0;
-  }
-  
-  if (amount > 0) {
-    dsend_packet_diplomacy_create_clause_req(&aconnection,
-    					     pdialog->treaty.plr1->player_no,
-					     pWidget->data.cont->id0,
-					     CLAUSE_GOLD, amount);
+    if(pWidget->string16->text) {
+      char cBuf[16];
+      
+      convertcopy_to_chars(cBuf, sizeof(cBuf), pWidget->string16->text);
+      sscanf(cBuf, "%d", &amount);
+      
+      if(amount > pWidget->data.cont->value) {
+        /* max player gold */
+        amount = pWidget->data.cont->value;
+      }
+      
+    } else {
+      amount = 0;
+    }
     
-  } else {
-    append_output_window(_("Invalid amount of gold specified."));
-  }
-  
-  if(amount || !pWidget->string16->text) {
-    copy_chars_to_string16(pWidget->string16, "0");
-    redraw_widget(pWidget);
-    flush_rect(pWidget->size, FALSE);
-  }
-  
+    if (amount > 0) {
+      dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                               pdialog->treaty.plr1->player_no,
+                                               pWidget->data.cont->id0,
+                                               CLAUSE_GOLD, amount);
+      
+    } else {
+      append_output_window(_("Invalid amount of gold specified."));
+    }
+    
+    if(amount || !pWidget->string16->text) {
+      copy_chars_to_string16(pWidget->string16, "0");
+      redraw_widget(pWidget);
+      flush_rect(pWidget->size, FALSE);
+    }
+  }  
   return -1;
 }
 
 
 static int cities_callback(struct widget *pWidget)
 {
-  struct diplomacy_dialog *pdialog;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct diplomacy_dialog *pdialog;
+      
+    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    }
     
-  if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-    pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
-  }
-  
-  dsend_packet_diplomacy_create_clause_req(&aconnection,
-					   pdialog->treaty.plr1->player_no,  
-					   pWidget->data.cont->id0,
-					   CLAUSE_CITY,
-					   (MAX_ID - pWidget->ID));
-  
+    dsend_packet_diplomacy_create_clause_req(&aconnection,
+                                             pdialog->treaty.plr1->player_no,  
+                                             pWidget->data.cont->id0,
+                                             CLAUSE_CITY,
+                                             (MAX_ID - pWidget->ID));
+  }  
   return -1;
 }
 
@@ -1196,50 +1212,60 @@ static void popdown_sdip_dialog(void)
 
 static int sdip_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pSDip_Dlg->pBeginWidgetList,
-								pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pSDip_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 static int withdraw_vision_dlg_callback(struct widget *pWidget)
 {
-  popdown_sdip_dialog();
-
-  dsend_packet_diplomacy_cancel_pact(&aconnection,
-				     pWidget->data.player->player_no,
-				     CLAUSE_VISION);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_sdip_dialog();
   
-  flush_dirty();
+    dsend_packet_diplomacy_cancel_pact(&aconnection,
+                                       pWidget->data.player->player_no,
+                                       CLAUSE_VISION);
+    
+    flush_dirty();
+  }
   return -1;
 }
 
 static int cancel_pact_dlg_callback(struct widget *pWidget)
 {
-  popdown_sdip_dialog();
-
-  dsend_packet_diplomacy_cancel_pact(&aconnection,
-				     pWidget->data.player->player_no,
-				     CLAUSE_CEASEFIRE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_sdip_dialog();
   
-  flush_dirty();
+    dsend_packet_diplomacy_cancel_pact(&aconnection,
+                                       pWidget->data.player->player_no,
+                                       CLAUSE_CEASEFIRE);
+    
+    flush_dirty();
+  }
   return -1;
 }
 
 static int call_meeting_dlg_callback(struct widget *pWidget)
 {
-  popdown_sdip_dialog();
-  
-  dsend_packet_diplomacy_init_meeting_req(&aconnection,
-					  pWidget->data.player->player_no);
-  
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_sdip_dialog();
+    
+    dsend_packet_diplomacy_init_meeting_req(&aconnection,
+                                            pWidget->data.player->player_no);
+    
+    flush_dirty();
+  }
   return -1;
 }
 
 
 static int cancel_sdip_dlg_callback(struct widget *pWidget)
 {
-  popdown_sdip_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {  
+    popdown_sdip_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 

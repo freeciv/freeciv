@@ -109,8 +109,10 @@ static int help_dlg_window_callback(struct widget *pWindow)
 
 static int exit_help_dlg_callback(struct widget *pWidget)
 {
-  popdown_help_dialog();
-  flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_help_dialog();
+    flush_dirty();
+  }
   return -1;
 }
 
@@ -118,7 +120,9 @@ static int exit_help_dlg_callback(struct widget *pWidget)
 
 static int change_gov_callback(struct widget *pWidget)
 {
-  popup_gov_info(MAX_ID - pWidget->ID);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_gov_info(MAX_ID - pWidget->ID);
+  }
   return -1;
 }
 
@@ -129,7 +133,9 @@ void popup_gov_info(int gov)
 
 static int change_impr_callback(struct widget *pWidget)
 {
-  popup_impr_info(MAX_ID - pWidget->ID);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_impr_info(MAX_ID - pWidget->ID);
+  }
   return -1;
 }
 
@@ -493,7 +499,9 @@ void popup_impr_info(Impr_type_id impr)
 /* ============================================ */
 static int change_unit_callback(struct widget *pWidget)
 {
-  popup_unit_info(MAX_ID - pWidget->ID);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_unit_info(MAX_ID - pWidget->ID);
+  }
   return -1;
 }
 
@@ -876,20 +884,24 @@ void popup_unit_info(Unit_type_id type_id)
 
 static int change_tech_callback(struct widget *pWidget)
 {
-  popup_tech_info(MAX_ID - pWidget->ID);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popup_tech_info(MAX_ID - pWidget->ID);
+  }
   return -1;
 }
 
 static int show_help_callback(struct widget *pWidget)
 {
-  struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
-  pStore->show_tree = !pStore->show_tree;
-  if (!pStore->show_tree)
-  {
-    pStore->show_full_tree = FALSE;
-    pStore->pDock->gfx = pTheme->UP_Icon;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
+    pStore->show_tree = !pStore->show_tree;
+    if (!pStore->show_tree)
+    {
+      pStore->show_full_tree = FALSE;
+      pStore->pDock->gfx = pTheme->UP_Icon;
+    }
+    popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
   }
-  popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
   return -1;
 }
 
@@ -1578,15 +1590,17 @@ static void redraw_tech_tree_dlg(void)
 
 static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pWidget)
 {
-  struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
-  if (pStore->show_full_tree)
-  {
-    pWidget->gfx = pTheme->UP_Icon;
-  } else {
-    pWidget->gfx = pTheme->DOWN_Icon;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
+    if (pStore->show_full_tree)
+    {
+      pWidget->gfx = pTheme->UP_Icon;
+    } else {
+      pWidget->gfx = pTheme->DOWN_Icon;
+    }
+    pStore->show_full_tree = !pStore->show_full_tree;
+    popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
   }
-  pStore->show_full_tree = !pStore->show_full_tree;
-  popup_tech_info(MAX_ID - pStore->pDock->prev->ID);
   return -1;
 }
 

@@ -260,8 +260,7 @@ bool sellect_window_group_dialog(struct widget *pBeginWidgetList,
 				struct widget *pWindow);
 bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
 			     struct widget *pEndGroupWidgetList);
-int std_move_window_group_callback(struct widget *pBeginWidgetList,
-				struct widget *pWindow);
+void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow);
 				      
 Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
 	Uint8 step, Uint8 active, bool create_scrollbar, bool create_buttons);

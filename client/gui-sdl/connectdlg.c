@@ -90,20 +90,22 @@ void handle_game_load(struct packet_game_load *packet)
 **************************************************************************/
 static int connect_callback(struct widget *pWidget)
 {
-  char errbuf[512];
-
-  if (connect_to_server(user_name, server_host, server_port,
-			errbuf, sizeof(errbuf)) != -1) {
-  } else {
-    append_output_window(errbuf);
-    real_update_meswin_dialog();
-
-    /* button up */
-    unsellect_widget_action();
-    set_wstate(pWidget, FC_WS_SELLECTED);
-    pSellected_Widget = pWidget;
-    redraw_tibutton(pWidget);
-    flush_rect(pWidget->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char errbuf[512];
+  
+    if (connect_to_server(user_name, server_host, server_port,
+                          errbuf, sizeof(errbuf)) != -1) {
+    } else {
+      append_output_window(errbuf);
+      real_update_meswin_dialog();
+  
+      /* button up */
+      unsellect_widget_action();
+      set_wstate(pWidget, FC_WS_SELLECTED);
+      pSellected_Widget = pWidget;
+      redraw_tibutton(pWidget);
+      flush_rect(pWidget->size, FALSE);
+    }
   }
   return -1;
 }
@@ -123,15 +125,16 @@ static int meta_severs_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_meta_severs_dlg_callback(struct widget *pWidget)
 {
-  queue_flush();
-    
-  server_scan_finish(pServer_scan);
-  pServer_scan = NULL;
-  pServer_list = NULL;
-    
-  popup_join_game_dialog();
-  popup_meswin_dialog(true);
-    
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    queue_flush();
+      
+    server_scan_finish(pServer_scan);
+    pServer_scan = NULL;
+    pServer_list = NULL;
+      
+    popup_join_game_dialog();
+    popup_meswin_dialog(true);
+  }    
   return -1;
 }
 
@@ -141,12 +144,14 @@ static int exit_meta_severs_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int sellect_meta_severs_callback(struct widget *pWidget)
 {
-  struct server *pServer = (struct server *)pWidget->data.ptr;
-      
-  sz_strlcpy(server_host, pServer->host);
-  sscanf(pServer->port, "%d", &server_port);
-  
-  exit_meta_severs_dlg_callback(NULL);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct server *pServer = (struct server *)pWidget->data.ptr;
+        
+    sz_strlcpy(server_host, pServer->host);
+    sscanf(pServer->port, "%d", &server_port);
+    
+    exit_meta_severs_dlg_callback(NULL);
+  }
   return -1;
 }
 
@@ -433,19 +438,20 @@ void popup_connection_dialog(bool lan_scan)
 **************************************************************************/
 static int convert_playername_callback(struct widget *pWidget)
 {
-  char *tmp = convert_to_chars(pWidget->string16->text);
-  
-  if (tmp) {  
-    sz_strlcpy(user_name, tmp);
-    FC_FREE(tmp);
-  } else {
-    /* empty input -> restore previous content */
-    copy_chars_to_string16(pWidget->string16, user_name);
-    redraw_edit(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-  }
-  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *tmp = convert_to_chars(pWidget->string16->text);
+    
+    if (tmp) {  
+      sz_strlcpy(user_name, tmp);
+      FC_FREE(tmp);
+    } else {
+      /* empty input -> restore previous content */
+      copy_chars_to_string16(pWidget->string16, user_name);
+      redraw_edit(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+    }
+  }  
   return -1;
 }
 
@@ -454,19 +460,20 @@ static int convert_playername_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_servername_callback(struct widget *pWidget)
 {
-  char *tmp = convert_to_chars(pWidget->string16->text);
-  
-  if (tmp) {
-    sz_strlcpy(server_host, tmp);
-    FC_FREE(tmp);
-  } else {
-    /* empty input -> restore previous content */
-    copy_chars_to_string16(pWidget->string16, server_host);
-    redraw_edit(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-  }
-  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *tmp = convert_to_chars(pWidget->string16->text);
+    
+    if (tmp) {
+      sz_strlcpy(server_host, tmp);
+      FC_FREE(tmp);
+    } else {
+      /* empty input -> restore previous content */
+      copy_chars_to_string16(pWidget->string16, server_host);
+      redraw_edit(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+    }
+  }  
   return -1;
 }
 
@@ -475,28 +482,31 @@ static int convert_servername_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_portnr_callback(struct widget *pWidget)
 {
-  char pCharPort[6];
-  char *tmp = convert_to_chars(pWidget->string16->text);
-  
-  if (tmp) {
-    sscanf(tmp, "%d", &server_port);
-    FC_FREE(tmp);
-  } else {
-    /* empty input -> restore previous content */
-    my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
-    copy_chars_to_string16(pWidget->string16, pCharPort);
-    redraw_edit(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-  }
-  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char pCharPort[6];
+    char *tmp = convert_to_chars(pWidget->string16->text);
+    
+    if (tmp) {
+      sscanf(tmp, "%d", &server_port);
+      FC_FREE(tmp);
+    } else {
+      /* empty input -> restore previous content */
+      my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
+      copy_chars_to_string16(pWidget->string16, pCharPort);
+      redraw_edit(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+    }
+  }  
   return -1;
 }
 
 static int cancel_connect_dlg_callback(struct widget *pWidget)
 {
-  close_connection_dialog();
-  set_client_page(PAGE_MAIN);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    close_connection_dialog();
+    set_client_page(PAGE_MAIN);
+  }
   return -1;
 }
 
@@ -674,10 +684,12 @@ void popup_join_game_dialog()
 **************************************************************************/
 static int convert_passwd_callback(struct widget *pWidget)
 {
-  char *tmp = convert_to_chars(pWidget->string16->text);
-  if(tmp) {
-    my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
-    FC_FREE(tmp);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *tmp = convert_to_chars(pWidget->string16->text);
+    if(tmp) {
+      my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
+      FC_FREE(tmp);
+    }
   }
   return -1;
 }
@@ -687,25 +699,27 @@ static int convert_passwd_callback(struct widget *pWidget)
 **************************************************************************/
 static int send_passwd_callback(struct widget *pWidget)
 {
-  struct packet_authentication_reply reply;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct packet_authentication_reply reply;
+      
+    sz_strlcpy(reply.password, password);
     
-  sz_strlcpy(reply.password, password);
-  
-  memset(password, 0, MAX_LEN_NAME);
-  password[0] = '\0';
-  
-  set_wstate(pWidget, FC_WS_DISABLED);
-  set_wstate(pWidget->prev, FC_WS_DISABLED);
-  
-  redraw_tibutton(pWidget);
-  redraw_tibutton(pWidget->prev);
-  
-  sdl_dirty_rect(pWidget->size);
-  sdl_dirty_rect(pWidget->prev->size);
-  
-  flush_dirty();
-  
-  send_packet_authentication_reply(&aconnection, &reply);
+    memset(password, 0, MAX_LEN_NAME);
+    password[0] = '\0';
+    
+    set_wstate(pWidget, FC_WS_DISABLED);
+    set_wstate(pWidget->prev, FC_WS_DISABLED);
+    
+    redraw_tibutton(pWidget);
+    redraw_tibutton(pWidget->prev);
+    
+    sdl_dirty_rect(pWidget->size);
+    sdl_dirty_rect(pWidget->prev->size);
+    
+    flush_dirty();
+    
+    send_packet_authentication_reply(&aconnection, &reply);
+  }
   return -1;
 }
 
@@ -825,14 +839,16 @@ static void popup_user_passwd_dialog(char *pMessage)
 **************************************************************************/
 static int convert_first_passwd_callback(struct widget *pWidget)
 {
-  char *tmp = convert_to_chars(pWidget->string16->text);
-  
-  if(tmp) {
-    my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
-    FC_FREE(tmp);
-    set_wstate(pWidget->prev, FC_WS_NORMAL);
-    redraw_edit(pWidget->prev);
-    flush_rect(pWidget->prev->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *tmp = convert_to_chars(pWidget->string16->text);
+    
+    if(tmp) {
+      my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
+      FC_FREE(tmp);
+      set_wstate(pWidget->prev, FC_WS_NORMAL);
+      redraw_edit(pWidget->prev);
+      flush_rect(pWidget->prev->size, FALSE);
+    }
   }
   return -1;
 }
@@ -842,28 +858,30 @@ static int convert_first_passwd_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_secound_passwd_callback(struct widget *pWidget)
 {
-  char *tmp = convert_to_chars(pWidget->string16->text);
-  
-  if (tmp && strncmp(password, tmp, MAX_LEN_NAME) == 0) {
-    set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
-    redraw_tibutton(pWidget->prev);
-    flush_rect(pWidget->prev->size, FALSE);
-  } else {
-    memset(password, 0, MAX_LEN_NAME);
-    password[0] = '\0';
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    char *tmp = convert_to_chars(pWidget->string16->text);
     
-    FC_FREE(pWidget->next->string16->text);/* first edit */
-    FC_FREE(pWidget->string16->text); /* secound edit */
+    if (tmp && strncmp(password, tmp, MAX_LEN_NAME) == 0) {
+      set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
+      redraw_tibutton(pWidget->prev);
+      flush_rect(pWidget->prev->size, FALSE);
+    } else {
+      memset(password, 0, MAX_LEN_NAME);
+      password[0] = '\0';
+      
+      FC_FREE(pWidget->next->string16->text);/* first edit */
+      FC_FREE(pWidget->string16->text); /* secound edit */
+      
+      set_wstate(pWidget, FC_WS_DISABLED);
+      
+      redraw_edit(pWidget);
+      redraw_edit(pWidget->next);
     
-    set_wstate(pWidget, FC_WS_DISABLED);
+      sdl_dirty_rect(pWidget->size);
+      sdl_dirty_rect(pWidget->next->size);
     
-    redraw_edit(pWidget);
-    redraw_edit(pWidget->next);
-  
-    sdl_dirty_rect(pWidget->size);
-    sdl_dirty_rect(pWidget->next->size);
-  
-    flush_dirty();
+      flush_dirty();
+    }
   }
   return -1;
 }

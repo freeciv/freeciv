@@ -49,9 +49,11 @@ static void popdown_start_menu(void);
 **************************************************************************/
 static int join_game_callback(struct widget *pWidget)
 {
-  popdown_start_menu();  
-  set_client_page(PAGE_NETWORK);
-  popup_join_game_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_start_menu();  
+    set_client_page(PAGE_NETWORK);
+    popup_join_game_dialog();
+  }
   return -1;
 }
 
@@ -60,9 +62,11 @@ static int join_game_callback(struct widget *pWidget)
 **************************************************************************/
 static int servers_callback(struct widget *pWidget)
 {
-  bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
-  popdown_start_menu();  
-  popup_connection_dialog(lan_scan);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
+    popdown_start_menu();  
+    popup_connection_dialog(lan_scan);
+  }
   return -1;
 }
 
@@ -71,9 +75,11 @@ static int servers_callback(struct widget *pWidget)
 **************************************************************************/
 static int options_callback(struct widget *pWidget)
 {
-  queue_flush();
-  popdown_start_menu();
-  popup_optiondlg();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    queue_flush();
+    popdown_start_menu();
+    popup_optiondlg();
+  }
   return -1;
 }
 
@@ -82,7 +88,9 @@ static int options_callback(struct widget *pWidget)
 **************************************************************************/
 static int quit_callback(struct widget *pWidget)
 {
-  popdown_start_menu();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_start_menu();
+  }
   return 0;/* exit from main game loop */
 }
 

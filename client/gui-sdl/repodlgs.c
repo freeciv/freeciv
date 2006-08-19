@@ -109,191 +109,202 @@ static void get_units_report_data(struct units_entry *entries,
 
 static int units_dialog_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(
-  			pUnitsDlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pUnitsDlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 /* --------------------------------------------------------------- */
 static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 {
-  int ut1 = MAX_ID - pWidget->ID;
-  
-  /* popdown sell dlg */
-  popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
-			      pUnits_Upg_Dlg->pEndWidgetList);
-  FC_FREE(pUnits_Upg_Dlg);
-   
-  dsend_packet_unit_type_upgrade(&aconnection, ut1);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int ut1 = MAX_ID - pWidget->ID;
     
+    /* popdown sell dlg */
+    popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
+                                pUnits_Upg_Dlg->pEndWidgetList);
+    FC_FREE(pUnits_Upg_Dlg);
+     
+    dsend_packet_unit_type_upgrade(&aconnection, ut1);
+  }    
   return -1;
 }
 
 static int upgrade_unit_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(
-  			pUnits_Upg_Dlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pUnits_Upg_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 static int cancel_upgrade_unit_callback(struct widget *pWidget)
 {
-  if (pUnits_Upg_Dlg) {
-    popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
-			      pUnits_Upg_Dlg->pEndWidgetList);
-    FC_FREE(pUnits_Upg_Dlg);
-    flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pUnits_Upg_Dlg) {
+      popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
+                                pUnits_Upg_Dlg->pEndWidgetList);
+      FC_FREE(pUnits_Upg_Dlg);
+      flush_dirty();
+    }
   }
   return -1;
 }
 
 static int popup_upgrade_unit_callback(struct widget *pWidget)
 {
-  struct unit_type ut1;
-  struct unit_type *ut2;
-  int value, hh, ww = 0;
-  char cBuf[128];
-  struct widget *pBuf = NULL, *pWindow;
-  SDL_String16 *pStr;
-  SDL_Surface *pText;
-  SDL_Rect dst;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit_type ut1;
+    struct unit_type *ut2;
+    int value, hh, ww = 0;
+    char cBuf[128];
+    struct widget *pBuf = NULL, *pWindow;
+    SDL_String16 *pStr;
+    SDL_Surface *pText;
+    SDL_Rect dst;
+    
+    ut1.index = MAX_ID - pWidget->ID;
+    
+    if (pUnits_Upg_Dlg) {
+      return 1;
+    }
+    CHECK_UNIT_TYPE(&ut1);
+    
+    set_wstate(pWidget, FC_WS_NORMAL);
+    pSellected_Widget = NULL;
+    redraw_label(pWidget);
+    sdl_dirty_rect(pWidget->size);
+    
+    pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
-  ut1.index = MAX_ID - pWidget->ID;
-  
-  if (pUnits_Upg_Dlg) {
-    return 1;
-  }
-  CHECK_UNIT_TYPE(&ut1);
-  
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pSellected_Widget = NULL;
-  redraw_label(pWidget);
-  sdl_dirty_rect(pWidget->size);
-  
-  pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-
-  ut2 = can_upgrade_unittype(game.player_ptr, &ut1);
-  value = unit_upgrade_price(game.player_ptr, &ut1, ut2);
-  
-  my_snprintf(cBuf, sizeof(cBuf),
-    	_("Upgrade as many %s to %s as possible for %d gold each?\n"
-	  "Treasury contains %d gold."),
-	ut1.name, ut2->name,
-	value, game.player_ptr->economic.gold);
- 
-  
-  hh = WINDOW_TITLE_HEIGHT + 1;
-  pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-
-  pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
-
-  pWindow->action = upgrade_unit_window_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-
-  pUnits_Upg_Dlg->pEndWidgetList = pWindow;
-
-  add_to_gui_list(ID_WINDOW, pWindow);
-
-  /* ============================================================= */
-  
-  /* create text label */
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
-  
-  pText = create_text_surf_from_str16(pStr);
-  FREESTRING16(pStr);
-  
-  hh += (pText->h + adj_size(10));
-  ww = MAX(ww , pText->w + adj_size(20));
-  
-  /* cancel button */
-  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-			    pWindow->dst, _("No"), adj_font(12), 0);
-
-  pBuf->action = cancel_upgrade_unit_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-
-  hh += (pBuf->size.h + adj_size(20));
-  
-  add_to_gui_list(ID_BUTTON, pBuf);
-  
-  if (game.player_ptr->economic.gold >= value) {
-    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-					      _("Yes"), adj_font(12), 0);
-        
-    pBuf->action = ok_upgrade_unit_window_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-        
-    add_to_gui_list(pWidget->ID, pBuf);
-    pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
-    pBuf->next->size.w = pBuf->size.w;
-    ww = MAX(ww, adj_size(30) + pBuf->size.w * 2);
-  } else {
-    ww = MAX(ww, pBuf->size.w + adj_size(20));
-  }
-  /* ============================================ */
-  
-  pUnits_Upg_Dlg->pBeginWidgetList = pBuf;
-  
-  pWindow->size.x = pUnitsDlg->pEndWidgetList->size.x +
-  		(pUnitsDlg->pEndWidgetList->size.w - ww) / 2;
-  pWindow->size.y = pUnitsDlg->pEndWidgetList->size.y +
-		(pUnitsDlg->pEndWidgetList->size.h - hh) / 2;
-
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
-  
-  resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh);
-  
-  /* setup rest of widgets */
-  /* label */
-  dst.x = pTheme->FR_Left->w + (ww - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(11);
-  alphablit(pText, NULL, pWindow->theme, &dst);
-  FREESURFACE(pText);
+    ut2 = can_upgrade_unittype(game.player_ptr, &ut1);
+    value = unit_upgrade_price(game.player_ptr, &ut1, ut2);
+    
+    my_snprintf(cBuf, sizeof(cBuf),
+          _("Upgrade as many %s to %s as possible for %d gold each?\n"
+            "Treasury contains %d gold."),
+          ut1.name, ut2->name,
+          value, game.player_ptr->economic.gold);
    
-  /* cancel button */
-  pBuf = pWindow->prev;
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
+    
+    hh = WINDOW_TITLE_HEIGHT + 1;
+    pStr = create_str16_from_char(_("Upgrade Obsolete Units"), adj_font(12));
+    pStr->style |= TTF_STYLE_BOLD;
   
-  if (game.player_ptr->economic.gold >= value) {
-    /* sell button */
-    pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + (ww - (2 * pBuf->size.w + adj_size(10))) / 2;
-    pBuf->size.y = pBuf->next->size.y;
+    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
+  
+    pWindow->action = upgrade_unit_window_callback;
+    set_wstate(pWindow, FC_WS_NORMAL);
+  
+    pUnits_Upg_Dlg->pEndWidgetList = pWindow;
+  
+    add_to_gui_list(ID_WINDOW, pWindow);
+  
+    /* ============================================================= */
+    
+    /* create text label */
+    pStr = create_str16_from_char(cBuf, adj_font(10));
+    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
+    
+    pText = create_text_surf_from_str16(pStr);
+    FREESTRING16(pStr);
+    
+    hh += (pText->h + adj_size(10));
+    ww = MAX(ww , pText->w + adj_size(20));
     
     /* cancel button */
-    pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
-  } else {
-    /* x position of cancel button */
-    pBuf->size.x = pWindow->size.x +
-      pWindow->size.w - pTheme->FR_Right->w - pBuf->size.w - adj_size(10);
-  }
+    pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+                              pWindow->dst, _("No"), adj_font(12), 0);
   
+    pBuf->action = cancel_upgrade_unit_callback;
+    set_wstate(pBuf, FC_WS_NORMAL);
   
-  /* ================================================== */
-  /* redraw */
-  redraw_group(pUnits_Upg_Dlg->pBeginWidgetList, pWindow, 0);
+    hh += (pBuf->size.h + adj_size(20));
     
-  sdl_dirty_rect(pWindow->size);
-  flush_dirty();
+    add_to_gui_list(ID_BUTTON, pBuf);
+    
+    if (game.player_ptr->economic.gold >= value) {
+      pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+                                                _("Yes"), adj_font(12), 0);
+          
+      pBuf->action = ok_upgrade_unit_window_callback;
+      set_wstate(pBuf, FC_WS_NORMAL);
+          
+      add_to_gui_list(pWidget->ID, pBuf);
+      pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
+      pBuf->next->size.w = pBuf->size.w;
+      ww = MAX(ww, adj_size(30) + pBuf->size.w * 2);
+    } else {
+      ww = MAX(ww, pBuf->size.w + adj_size(20));
+    }
+    /* ============================================ */
+    
+    pUnits_Upg_Dlg->pBeginWidgetList = pBuf;
+    
+    pWindow->size.x = pUnitsDlg->pEndWidgetList->size.x +
+                  (pUnitsDlg->pEndWidgetList->size.w - ww) / 2;
+    pWindow->size.y = pUnitsDlg->pEndWidgetList->size.y +
+                  (pUnitsDlg->pEndWidgetList->size.h - hh) / 2;
+  
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
+    resize_window(pWindow, NULL,
+                  get_game_colorRGB(COLOR_THEME_BACKGROUND),
+                  pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh);
+    
+    /* setup rest of widgets */
+    /* label */
+    dst.x = pTheme->FR_Left->w + (ww - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(11);
+    alphablit(pText, NULL, pWindow->theme, &dst);
+    FREESURFACE(pText);
+     
+    /* cancel button */
+    pBuf = pWindow->prev;
+    pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
+    
+    if (game.player_ptr->economic.gold >= value) {
+      /* sell button */
+      pBuf = pBuf->prev;
+      pBuf->size.x = pWindow->size.x + (ww - (2 * pBuf->size.w + adj_size(10))) / 2;
+      pBuf->size.y = pBuf->next->size.y;
+      
+      /* cancel button */
+      pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
+    } else {
+      /* x position of cancel button */
+      pBuf->size.x = pWindow->size.x +
+        pWindow->size.w - pTheme->FR_Right->w - pBuf->size.w - adj_size(10);
+    }
+    
+    
+    /* ================================================== */
+    /* redraw */
+    redraw_group(pUnits_Upg_Dlg->pBeginWidgetList, pWindow, 0);
+      
+    sdl_dirty_rect(pWindow->size);
+    flush_dirty();
+  }
   return -1;
 }
 
 static int exit_units_dlg_callback(struct widget *pWidget)
 {
-  if (pUnitsDlg) {
-    if (pUnits_Upg_Dlg) {
-       del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
-			      pUnits_Upg_Dlg->pEndWidgetList);
-       FC_FREE(pUnits_Upg_Dlg); 
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pUnitsDlg) {
+      if (pUnits_Upg_Dlg) {
+         del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
+                                pUnits_Upg_Dlg->pEndWidgetList);
+         FC_FREE(pUnits_Upg_Dlg); 
+      }
+      popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
+                                        pUnitsDlg->pEndWidgetList);
+      FC_FREE(pUnitsDlg->pScroll);
+      FC_FREE(pUnitsDlg);
+      flush_dirty();
     }
-    popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
-				      pUnitsDlg->pEndWidgetList);
-    FC_FREE(pUnitsDlg->pScroll);
-    FC_FREE(pUnitsDlg);
-    flush_dirty();
   }
   return -1;
 }
@@ -1008,25 +1019,30 @@ struct rates_move {
 
 static int economy_dialog_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pEconomyDlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pEconomyDlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 static int exit_economy_dialog_callback(struct widget *pWidget)
 {
-  if(pEconomyDlg) {
-    if (pEconomy_Sell_Dlg) {
-       del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
-			      pEconomy_Sell_Dlg->pEndWidgetList);
-       FC_FREE(pEconomy_Sell_Dlg); 
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if(pEconomyDlg) {
+      if (pEconomy_Sell_Dlg) {
+         del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
+                                pEconomy_Sell_Dlg->pEndWidgetList);
+         FC_FREE(pEconomy_Sell_Dlg); 
+      }
+      popdown_window_group_dialog(pEconomyDlg->pBeginWidgetList,
+                                              pEconomyDlg->pEndWidgetList);
+      FC_FREE(pEconomyDlg->pScroll);
+      FC_FREE(pEconomyDlg);
+      set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
+      redraw_icon2(get_tax_rates_widget());
+      sdl_dirty_rect(get_tax_rates_widget()->size);
+      flush_dirty();
     }
-    popdown_window_group_dialog(pEconomyDlg->pBeginWidgetList,
-					    pEconomyDlg->pEndWidgetList);
-    FC_FREE(pEconomyDlg->pScroll);
-    FC_FREE(pEconomyDlg);
-    set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
-    redraw_icon2(get_tax_rates_widget());
-    sdl_dirty_rect(get_tax_rates_widget()->size);
-    flush_dirty();
   }
   return -1;
 }
@@ -1036,19 +1052,20 @@ static int exit_economy_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_block_callback(struct widget *pCheckBox)
 {
-  switch (pCheckBox->ID) {
-  case ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX:
-    SDL_Client_Flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
-    return -1;
-
-  case ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX:
-    SDL_Client_Flags ^= CF_CHANGE_TAXRATE_SCI_BLOCK;
-    return -1;
-
-  default:
-    return -1;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    switch (pCheckBox->ID) {
+    case ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX:
+      SDL_Client_Flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
+      return -1;
+  
+    case ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX:
+      SDL_Client_Flags ^= CF_CHANGE_TAXRATE_SCI_BLOCK;
+      return -1;
+  
+    default:
+      return -1;
+    }
   }
-
   return -1;
 }
 
@@ -1183,84 +1200,85 @@ static Uint16 report_scroll_mouse_motion_handler(
 **************************************************************************/
 static int horiz_taxrate_callback(struct widget *pHoriz_Src)
 {
-  struct rates_move pMotion;
-  
-  pMotion.pHoriz_Src = pHoriz_Src;
-  pMotion.pLabel_Src = pHoriz_Src->prev;
-  
-  switch (pHoriz_Src->ID) {
-    case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
-      if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
-        goto END;
-      }
-      pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
-      pMotion.pHoriz_Dst = pHoriz_Src->prev->prev->prev;	/* sci */
-      pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
-      pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
-      if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
-        if (pMotion.tax <= get_player_bonus(game.player_ptr, EFT_MAX_RATES)) {
-	  pMotion.pHoriz_Dst = NULL;	/* tax */
-	  pMotion.dst_rate = &pMotion.tax;
-        } else {
-	  goto END;	/* all blocked */
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct rates_move pMotion;
+    
+    pMotion.pHoriz_Src = pHoriz_Src;
+    pMotion.pLabel_Src = pHoriz_Src->prev;
+    
+    switch (pHoriz_Src->ID) {
+      case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
+        if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+          goto END;
         }
-      }
-
-    break;
-
-    case ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR:
-      if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
-        goto END;
-      }
-      pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
-      pMotion.pHoriz_Dst = pHoriz_Src->next->next->next;	/* lux */
-      pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
-      pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
-      if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
-        if (pMotion.tax <= get_player_bonus(game.player_ptr, EFT_MAX_RATES)) {
-	  /* tax */
-	  pMotion.pHoriz_Dst = NULL;
-	  pMotion.dst_rate = &pMotion.tax;
-        } else {
-	  goto END;	/* all blocked */
+        pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
+        pMotion.pHoriz_Dst = pHoriz_Src->prev->prev->prev;	/* sci */
+        pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
+        pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
+        if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+          if (pMotion.tax <= get_player_bonus(game.player_ptr, EFT_MAX_RATES)) {
+            pMotion.pHoriz_Dst = NULL;	/* tax */
+            pMotion.dst_rate = &pMotion.tax;
+          } else {
+            goto END;	/* all blocked */
+          }
         }
-      }
-
-    break;
-
-    default:
-      return -1;
-  }
-
-  if(pMotion.pHoriz_Dst) {
-    pMotion.pLabel_Dst = pMotion.pHoriz_Dst->prev;
-  } else {
-    /* tax label */
-    pMotion.pLabel_Dst = pEconomyDlg->pEndWidgetList->prev->prev;
-  }
-
-  pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + 2;
-  pMotion.gov_max = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
-  pMotion.max = pMotion.min + pMotion.gov_max * 1.5;
-  pMotion.x = pHoriz_Src->size.x;
   
-  MOVE_STEP_Y = 0;
-  /* Filter mouse motion events */
-  SDL_SetEventFilter(FilterMouseMotionEvents);
-  gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
-		  report_scroll_mouse_button_up,
-  			report_scroll_mouse_motion_handler);
-  /* Turn off Filter mouse motion events */
-  SDL_SetEventFilter(NULL);
-  MOVE_STEP_Y = DEFAULT_MOVE_STEP;
+      break;
   
+      case ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR:
+        if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+          goto END;
+        }
+        pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
+        pMotion.pHoriz_Dst = pHoriz_Src->next->next->next;	/* lux */
+        pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
+        pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
+        if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+          if (pMotion.tax <= get_player_bonus(game.player_ptr, EFT_MAX_RATES)) {
+            /* tax */
+            pMotion.pHoriz_Dst = NULL;
+            pMotion.dst_rate = &pMotion.tax;
+          } else {
+            goto END;	/* all blocked */
+          }
+        }
+  
+      break;
+  
+      default:
+        return -1;
+    }
+  
+    if(pMotion.pHoriz_Dst) {
+      pMotion.pLabel_Dst = pMotion.pHoriz_Dst->prev;
+    } else {
+      /* tax label */
+      pMotion.pLabel_Dst = pEconomyDlg->pEndWidgetList->prev->prev;
+    }
+  
+    pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + 2;
+    pMotion.gov_max = get_player_bonus(game.player_ptr, EFT_MAX_RATES);
+    pMotion.max = pMotion.min + pMotion.gov_max * 1.5;
+    pMotion.x = pHoriz_Src->size.x;
+    
+    MOVE_STEP_Y = 0;
+    /* Filter mouse motion events */
+    SDL_SetEventFilter(FilterMouseMotionEvents);
+    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL,
+                    report_scroll_mouse_button_up,
+                          report_scroll_mouse_motion_handler);
+    /* Turn off Filter mouse motion events */
+    SDL_SetEventFilter(NULL);
+    MOVE_STEP_Y = DEFAULT_MOVE_STEP;
+    
 END:
-  unsellect_widget_action();
-  pSellected_Widget = pHoriz_Src;
-  set_wstate(pHoriz_Src, FC_WS_SELLECTED);
-  redraw_horiz(pHoriz_Src);
-  flush_rect(pHoriz_Src->size, FALSE);
-
+    unsellect_widget_action();
+    pSellected_Widget = pHoriz_Src;
+    set_wstate(pHoriz_Src, FC_WS_SELLECTED);
+    redraw_horiz(pHoriz_Src);
+    flush_rect(pHoriz_Src->size, FALSE);
+  }
   return -1;
 }
 
@@ -1269,33 +1287,34 @@ END:
 **************************************************************************/
 static int apply_taxrates_callback(struct widget *pButton)
 {
-  struct widget *pBuf;
-  int science, luxury, tax;
-
-  if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
-    return -1;
-  }
-
-  /* Science Scrollbar */
-  pBuf = pButton->next->next;
-  science = *(int *)pBuf->data.ptr;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct widget *pBuf;
+    int science, luxury, tax;
+  
+    if (get_client_state() != CLIENT_GAME_RUNNING_STATE) {
+      return -1;
+    }
+  
+    /* Science Scrollbar */
+    pBuf = pButton->next->next;
+    science = *(int *)pBuf->data.ptr;
+      
+    /* Luxuries Scrollbar */
+    pBuf = pBuf->next->next->next;
+    luxury = *(int *)pBuf->data.ptr;
     
-  /* Luxuries Scrollbar */
-  pBuf = pBuf->next->next->next;
-  luxury = *(int *)pBuf->data.ptr;
+    /* Tax */
+    tax = 100 - luxury - science;
+    
+    if(tax != game.player_ptr->economic.tax ||
+      science != game.player_ptr->economic.science ||
+      luxury != game.player_ptr->economic.luxury) {
+      dsend_packet_player_rates(&aconnection, tax, luxury, science);
+    }
   
-  /* Tax */
-  tax = 100 - luxury - science;
-  
-  if(tax != game.player_ptr->economic.tax ||
-    science != game.player_ptr->economic.science ||
-    luxury != game.player_ptr->economic.luxury) {
-    dsend_packet_player_rates(&aconnection, tax, luxury, science);
+    redraw_tibutton(pButton);
+    flush_rect(pButton->size, FALSE);
   }
-
-  redraw_tibutton(pButton);
-  flush_rect(pButton->size, FALSE);
-
   return -1;
 }
 
@@ -1373,49 +1392,54 @@ static void disable_economy_dlg(void)
 /* --------------------------------------------------------------- */
 static int ok_sell_impv_callback(struct widget *pWidget)
 {
-  int imp, total_count, count = 0;
-  struct widget *pImpr = (struct widget *)pWidget->data.ptr;
-    
-  imp = pImpr->data.cont->id0;
-  total_count = pImpr->data.cont->id1;
-  
-  /* popdown sell dlg */
-  del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
-			      pEconomy_Sell_Dlg->pEndWidgetList);
-  FC_FREE(pEconomy_Sell_Dlg);
-  enable_economy_dlg();
-  
-  /* send sell */
-  city_list_iterate(game.player_ptr->cities, pCity) {
-    if(!pCity->did_sell && city_got_building(pCity, imp)){
-	count++;
-
-	city_sell_improvement(pCity, imp);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int imp, total_count, count = 0;
+    struct widget *pImpr = (struct widget *)pWidget->data.ptr;
       
+    imp = pImpr->data.cont->id0;
+    total_count = pImpr->data.cont->id1;
+    
+    /* popdown sell dlg */
+    del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
+                                pEconomy_Sell_Dlg->pEndWidgetList);
+    FC_FREE(pEconomy_Sell_Dlg);
+    enable_economy_dlg();
+    
+    /* send sell */
+    city_list_iterate(game.player_ptr->cities, pCity) {
+      if(!pCity->did_sell && city_got_building(pCity, imp)){
+          count++;
+  
+          city_sell_improvement(pCity, imp);
+        
+      }
+    } city_list_iterate_end;
+    
+    if(count == total_count) {
+      del_widget_from_vertical_scroll_widget_list(pEconomyDlg, pImpr);
     }
-  } city_list_iterate_end;
-  
-  if(count == total_count) {
-    del_widget_from_vertical_scroll_widget_list(pEconomyDlg, pImpr);
-  }
-  
+  }  
   return -1;
 }
 
 static int sell_impv_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(
-  			pEconomy_Sell_Dlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pEconomy_Sell_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 static int cancel_sell_impv_callback(struct widget *pWidget)
 {
-  if (pEconomy_Sell_Dlg) {
-    popdown_window_group_dialog(pEconomy_Sell_Dlg->pBeginWidgetList,
-			      pEconomy_Sell_Dlg->pEndWidgetList);
-    FC_FREE(pEconomy_Sell_Dlg);
-    enable_economy_dlg();
-    flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pEconomy_Sell_Dlg) {
+      popdown_window_group_dialog(pEconomy_Sell_Dlg->pBeginWidgetList,
+                                pEconomy_Sell_Dlg->pEndWidgetList);
+      FC_FREE(pEconomy_Sell_Dlg);
+      enable_economy_dlg();
+      flush_dirty();
+    }
   }
   return -1;
 }
@@ -1423,147 +1447,149 @@ static int cancel_sell_impv_callback(struct widget *pWidget)
 
 static int popup_sell_impv_callback(struct widget *pWidget)
 {
-  int imp, total_count ,count = 0, gold = 0;
-  int value, hh, ww = 0;
-  char cBuf[128];
-  struct widget *pBuf = NULL, *pWindow;
-  SDL_String16 *pStr;
-  SDL_Surface *pText;
-  SDL_Rect dst;
-  
-  if (pEconomy_Sell_Dlg) {
-    return 1;
-  }
-  
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pSellected_Widget = NULL;
-  redraw_icon2(pWidget);
-  sdl_dirty_rect(pWidget->size);
-  
-  pEconomy_Sell_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
-
-  imp = pWidget->data.cont->id0;
-  total_count = pWidget->data.cont->id1;
-  value = impr_sell_gold(imp);
-  
-  city_list_iterate(game.player_ptr->cities, pCity) {
-    if(!pCity->did_sell && city_got_building(pCity, imp)) {
-	count++;
-        gold += value;
-    }
-  } city_list_iterate_end;
-  
-  if(count > 0) {
-    my_snprintf(cBuf, sizeof(cBuf),
-    _("We have %d of %s\n(total value is : %d)\n"
-    	"We can sell %d of them for %d gold"),
-	    total_count, get_improvement_name(imp),
-			    total_count * value, count, gold); 
-  } else {
-    my_snprintf(cBuf, sizeof(cBuf),
-	_("We can't sell any %s in this turn"), get_improvement_name(imp)); 
-  }
-  
-  
-  hh = WINDOW_TITLE_HEIGHT + 1;
-  pStr = create_str16_from_char(_("Sell It?"), adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-
-  pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
-
-  pWindow->action = sell_impv_window_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-
-  pEconomy_Sell_Dlg->pEndWidgetList = pWindow;
-
-  add_to_gui_list(ID_WINDOW, pWindow);
-
-  /* ============================================================= */
-  
-  /* create text label */
-  pStr = create_str16_from_char(cBuf, adj_font(10));
-  pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pStr->fgcol = *get_game_colorRGB(COLOR_THEME_SELLIMPR_TEXT);
-  
-  pText = create_text_surf_from_str16(pStr);
-  FREESTRING16(pStr);
-  
-  hh += (pText->h + adj_size(10));
-  ww = MAX(ww , pText->w + adj_size(20));
-  
-  /* cancel button */
-  pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
-			    pWindow->dst, _("No"), adj_font(12), 0);
-
-  pBuf->action = cancel_sell_impv_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-
-  hh += (pBuf->size.h + adj_size(20));
-  
-  add_to_gui_list(ID_BUTTON, pBuf);
-  
-  if (count > 0) {
-    pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-					      "Sell", adj_font(12), 0);
-        
-    pBuf->action = ok_sell_impv_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->data.ptr = (void *)pWidget;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int imp, total_count ,count = 0, gold = 0;
+    int value, hh, ww = 0;
+    char cBuf[128];
+    struct widget *pBuf = NULL, *pWindow;
+    SDL_String16 *pStr;
+    SDL_Surface *pText;
+    SDL_Rect dst;
     
-    add_to_gui_list(ID_BUTTON, pBuf);
-    pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
-    pBuf->next->size.w = pBuf->size.w;
-    ww = MAX(ww, adj_size(30) + pBuf->size.w * 2);
-  } else {
-    ww = MAX(ww, pBuf->size.w + adj_size(20));
-  }
-  /* ============================================ */
+    if (pEconomy_Sell_Dlg) {
+      return 1;
+    }
+    
+    set_wstate(pWidget, FC_WS_NORMAL);
+    pSellected_Widget = NULL;
+    redraw_icon2(pWidget);
+    sdl_dirty_rect(pWidget->size);
+    
+    pEconomy_Sell_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   
-  pEconomy_Sell_Dlg->pBeginWidgetList = pBuf;
+    imp = pWidget->data.cont->id0;
+    total_count = pWidget->data.cont->id1;
+    value = impr_sell_gold(imp);
+    
+    city_list_iterate(game.player_ptr->cities, pCity) {
+      if(!pCity->did_sell && city_got_building(pCity, imp)) {
+          count++;
+          gold += value;
+      }
+    } city_list_iterate_end;
+    
+    if(count > 0) {
+      my_snprintf(cBuf, sizeof(cBuf),
+      _("We have %d of %s\n(total value is : %d)\n"
+          "We can sell %d of them for %d gold"),
+              total_count, get_improvement_name(imp),
+                              total_count * value, count, gold); 
+    } else {
+      my_snprintf(cBuf, sizeof(cBuf),
+          _("We can't sell any %s in this turn"), get_improvement_name(imp)); 
+    }
+    
+    
+    hh = WINDOW_TITLE_HEIGHT + 1;
+    pStr = create_str16_from_char(_("Sell It?"), adj_font(12));
+    pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow->size.x = pEconomyDlg->pEndWidgetList->size.x +
-  		(pEconomyDlg->pEndWidgetList->size.w - ww) / 2;
-  pWindow->size.y = pEconomyDlg->pEndWidgetList->size.y +
-		(pEconomyDlg->pEndWidgetList->size.h - hh) / 2;
-  set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    pWindow = create_window(NULL, pStr, adj_size(100), adj_size(100), 0);
   
-  resize_window(pWindow, NULL,
-		get_game_colorRGB(COLOR_THEME_BACKGROUND),
-		pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh);
+    pWindow->action = sell_impv_window_callback;
+    set_wstate(pWindow, FC_WS_NORMAL);
   
-  /* setup rest of widgets */
-  /* label */
-  dst.x = pTheme->FR_Left->w + (ww - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
-  dst.y = WINDOW_TITLE_HEIGHT + adj_size(11);
-  alphablit(pText, NULL, pWindow->theme, &dst);
-  FREESURFACE(pText);
-   
-  /* cancel button */
-  pBuf = pWindow->prev;
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
+    pEconomy_Sell_Dlg->pEndWidgetList = pWindow;
   
-  if (count > 0) {
-    /* sell button */
-    pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + (ww - (2 * pBuf->size.w + adj_size(10))) / 2;
-    pBuf->size.y = pBuf->next->size.y;
+    add_to_gui_list(ID_WINDOW, pWindow);
+  
+    /* ============================================================= */
+    
+    /* create text label */
+    pStr = create_str16_from_char(cBuf, adj_font(10));
+    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
+    pStr->fgcol = *get_game_colorRGB(COLOR_THEME_SELLIMPR_TEXT);
+    
+    pText = create_text_surf_from_str16(pStr);
+    FREESTRING16(pStr);
+    
+    hh += (pText->h + adj_size(10));
+    ww = MAX(ww , pText->w + adj_size(20));
     
     /* cancel button */
-    pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
-  } else {
-    /* x position of cancel button */
-    pBuf->size.x = pWindow->size.x +
-      pWindow->size.w - pTheme->FR_Right->w - pBuf->size.w - adj_size(10);
+    pBuf = create_themeicon_button_from_chars(pTheme->CANCEL_Icon,
+                              pWindow->dst, _("No"), adj_font(12), 0);
+  
+    pBuf->action = cancel_sell_impv_callback;
+    set_wstate(pBuf, FC_WS_NORMAL);
+  
+    hh += (pBuf->size.h + adj_size(20));
+    
+    add_to_gui_list(ID_BUTTON, pBuf);
+    
+    if (count > 0) {
+      pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
+                                                "Sell", adj_font(12), 0);
+          
+      pBuf->action = ok_sell_impv_callback;
+      set_wstate(pBuf, FC_WS_NORMAL);
+      pBuf->data.ptr = (void *)pWidget;
+      
+      add_to_gui_list(ID_BUTTON, pBuf);
+      pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
+      pBuf->next->size.w = pBuf->size.w;
+      ww = MAX(ww, adj_size(30) + pBuf->size.w * 2);
+    } else {
+      ww = MAX(ww, pBuf->size.w + adj_size(20));
+    }
+    /* ============================================ */
+    
+    pEconomy_Sell_Dlg->pBeginWidgetList = pBuf;
+    
+    pWindow->size.x = pEconomyDlg->pEndWidgetList->size.x +
+                  (pEconomyDlg->pEndWidgetList->size.w - ww) / 2;
+    pWindow->size.y = pEconomyDlg->pEndWidgetList->size.y +
+                  (pEconomyDlg->pEndWidgetList->size.h - hh) / 2;
+    set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
+    
+    resize_window(pWindow, NULL,
+                  get_game_colorRGB(COLOR_THEME_BACKGROUND),
+                  pTheme->FR_Left->w + ww + pTheme->FR_Right->w, hh);
+    
+    /* setup rest of widgets */
+    /* label */
+    dst.x = pTheme->FR_Left->w + (ww - pTheme->FR_Left->w - pTheme->FR_Right->w - pText->w) / 2;
+    dst.y = WINDOW_TITLE_HEIGHT + adj_size(11);
+    alphablit(pText, NULL, pWindow->theme, &dst);
+    FREESURFACE(pText);
+     
+    /* cancel button */
+    pBuf = pWindow->prev;
+    pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(10);
+    
+    if (count > 0) {
+      /* sell button */
+      pBuf = pBuf->prev;
+      pBuf->size.x = pWindow->size.x + (ww - (2 * pBuf->size.w + adj_size(10))) / 2;
+      pBuf->size.y = pBuf->next->size.y;
+      
+      /* cancel button */
+      pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
+    } else {
+      /* x position of cancel button */
+      pBuf->size.x = pWindow->size.x +
+        pWindow->size.w - pTheme->FR_Right->w - pBuf->size.w - adj_size(10);
+    }
+    
+    
+    /* ================================================== */
+    /* redraw */
+    redraw_group(pEconomy_Sell_Dlg->pBeginWidgetList, pWindow, 0);
+    disable_economy_dlg();
+    
+    sdl_dirty_rect(pWindow->size);
+    flush_dirty();
   }
-  
-  
-  /* ================================================== */
-  /* redraw */
-  redraw_group(pEconomy_Sell_Dlg->pBeginWidgetList, pWindow, 0);
-  disable_economy_dlg();
-  
-  sdl_dirty_rect(pWindow->size);
-  flush_dirty();
   return -1;
 }
 
@@ -2749,7 +2775,7 @@ void science_dialog_update(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static int popdown_science_dialog(struct widget *pButton)
+static void popdown_science_dialog()
 {
   if(pScienceDlg) {
     popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
@@ -2760,7 +2786,6 @@ static int popdown_science_dialog(struct widget *pButton)
     sdl_dirty_rect(get_research_widget()->size);
     flush_dirty();
   }
-  return -1;
 }
 
 /**************************************************************************
@@ -2768,14 +2793,16 @@ static int popdown_science_dialog(struct widget *pButton)
 **************************************************************************/
 static int exit_change_tech_dlg_callback(struct widget *pWidget)
 {
-  if (pChangeTechDlg) {
-    popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList, 
-  				pChangeTechDlg->pEndWidgetList);
-    FC_FREE(pChangeTechDlg->pScroll);
-    FC_FREE(pChangeTechDlg);
-    enable_science_dialog();
-    if (pWidget) {
-      flush_dirty();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (pChangeTechDlg) {
+      popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList, 
+                                  pChangeTechDlg->pEndWidgetList);
+      FC_FREE(pChangeTechDlg->pScroll);
+      FC_FREE(pChangeTechDlg);
+      enable_science_dialog();
+      if (pWidget) {
+        flush_dirty();
+      }
     }
   }
   return -1;
@@ -2786,12 +2813,11 @@ static int exit_change_tech_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int change_research_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_RIGHT)
-  {
-    popup_tech_info((MAX_ID - pWidget->ID));
-  } else {
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
     dsend_packet_player_research(&aconnection, (MAX_ID - pWidget->ID));
     exit_change_tech_dlg_callback(NULL);
+  } else if (Main.event.button.button == SDL_BUTTON_RIGHT) {
+    popup_tech_info((MAX_ID - pWidget->ID));
   }
   return -1;
 }
@@ -2801,16 +2827,18 @@ static int change_research_callback(struct widget *pWidget)
 **************************************************************************/
 static int change_research_goal_dialog_callback(struct widget *pWindow)
 {
-  if(sellect_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size, FALSE);
-  }      
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if(sellect_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pWindow)) {
+        flush_rect(pWindow->size, FALSE);
+    }
+  }
   return -1;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static int change_research(struct widget *pWidget)
+static void popup_change_research_dialog()
 {
   struct widget *pBuf = NULL;
   struct widget *pWindow;
@@ -2818,13 +2846,8 @@ static int change_research(struct widget *pWidget)
   SDL_Surface *pSurf;
   int max_col, max_row, col, i, count = 0, w = 0, h;
 
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pSellected_Widget = NULL;
-  redraw_icon2(pWidget);
-  flush_rect(pWidget->size, FALSE);
-    
   if (is_future_tech(get_player_research(game.player_ptr)->researching)) {
-    return -1;
+    return;
   }
     
   for (i = A_FIRST; i < game.control.num_tech_types; i++) {
@@ -2836,7 +2859,7 @@ static int change_research(struct widget *pWidget)
   }
   
   if (count < 2) {
-    return -1;
+    return;
   }
   
   pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -2966,8 +2989,6 @@ static int change_research(struct widget *pWidget)
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
   flush_rect(pWindow->size, FALSE);
-  
-  return -1;
 }
 
 /**************************************************************************
@@ -2975,10 +2996,7 @@ static int change_research(struct widget *pWidget)
 **************************************************************************/
 static int change_research_goal_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_RIGHT)
-  {
-    popup_tech_info((MAX_ID - pWidget->ID));
-  } else {
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
     dsend_packet_player_tech_goal(&aconnection, (MAX_ID - pWidget->ID));
 
     exit_change_tech_dlg_callback(NULL);
@@ -2986,6 +3004,8 @@ static int change_research_goal_callback(struct widget *pWidget)
    /* Following is to make the menu go back to the current goal;
    * there may be a better way to do this?  --dwp */
     science_dialog_update();
+  } else if (Main.event.button.button == SDL_BUTTON_RIGHT) {
+    popup_tech_info((MAX_ID - pWidget->ID));
   } 
   return -1;
 }
@@ -2993,7 +3013,7 @@ static int change_research_goal_callback(struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static int change_research_goal(struct widget *pWidget)
+static void popup_change_research_goal_dialog()
 {
   struct widget *pBuf = NULL;
   struct widget *pWindow;
@@ -3002,11 +3022,6 @@ static int change_research_goal(struct widget *pWidget)
   char cBuf[128];
   int max_col, max_row, col, i, count = 0, w = 0, h , num;
 
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pSellected_Widget = NULL;
-  redraw_icon2(pWidget);
-  flush_rect(pWidget->size, FALSE);
-      
   /* collect all techs which are reachable in under 11 steps
    * hist will hold afterwards the techid of the current choice
    */
@@ -3021,7 +3036,7 @@ static int change_research_goal(struct widget *pWidget)
   }
   
   if (count < 1) {
-    return -1;
+    return;
   }
   
   pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
@@ -3157,22 +3172,54 @@ static int change_research_goal(struct widget *pWidget)
   redraw_group(pChangeTechDlg->pBeginWidgetList, pWindow, FALSE);
 
   flush_rect(pWindow->size, FALSE);
-  
-  return -1;
 }
 
 static int science_dialog_callback(struct widget *pWindow)
 {
-  
-  if (!pChangeTechDlg) {
-    if (sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
-      flush_rect(pWindow->size, FALSE);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (!pChangeTechDlg) {
+      if (sellect_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
+        flush_rect(pWindow->size, FALSE);
+      }
+      if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
+        science_dialog_update();
+      }
     }
-    if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
-      science_dialog_update();
-    }
+  }  
+  return -1;
+}
+
+static int popup_change_research_dialog_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    set_wstate(pWidget, FC_WS_NORMAL);
+    pSellected_Widget = NULL;
+    redraw_icon2(pWidget);
+    flush_rect(pWidget->size, FALSE);
+    
+    popup_change_research_dialog();
+  }  
+  return -1;
+}
+
+static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    set_wstate(pWidget, FC_WS_NORMAL);
+    pSellected_Widget = NULL;
+    redraw_icon2(pWidget);
+    flush_rect(pWidget->size, FALSE);
+    
+    popup_change_research_goal_dialog();
+  }  
+  return -1;
+}
+
+static int popdown_science_dialog_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_science_dialog();
   }
-  
   return -1;
 }
 
@@ -3234,7 +3281,7 @@ void popup_science_dialog(bool raise)
   
   pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
 
-  pBuf->action = change_research;
+  pBuf->action = popup_change_research_dialog_callback;
   if(count) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
@@ -3248,7 +3295,7 @@ void popup_science_dialog(bool raise)
   pLogo = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
   
   pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
-  pBuf->action = change_research_goal;
+  pBuf->action = popup_change_research_goal_dialog_callback;
   if(count) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
@@ -3264,7 +3311,7 @@ void popup_science_dialog(bool raise)
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                                                    WF_DRAW_THEME_TRANSPARENT);
   
-  pBuf->action = popdown_science_dialog;
+  pBuf->action = popdown_science_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
   

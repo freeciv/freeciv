@@ -25,6 +25,7 @@
 
 /* gui-sdl */
 #include "gui_id.h"
+#include "graphics.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "gui_tilespec.h"
@@ -45,7 +46,10 @@ static struct SMALL_DLG *pCaravan_Dlg = NULL;
 
 static int caravan_dlg_window_callback(struct widget *pWindow)
 {
-  return std_move_window_group_callback(pCaravan_Dlg->pBeginWidgetList, pWindow);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pCaravan_Dlg->pBeginWidgetList, pWindow);
+  }
+  return -1;
 }
 
 /****************************************************************
@@ -53,9 +57,11 @@ static int caravan_dlg_window_callback(struct widget *pWindow)
 *****************************************************************/
 static int caravan_establish_trade_callback(struct widget *pWidget)
 {
-  dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
-  
-  popdown_caravan_dialog();
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_unit_establish_trade(&aconnection, pWidget->data.cont->id0);
+    
+    popdown_caravan_dialog();
+  }
   return -1;
 }
 
@@ -65,16 +71,20 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
 *****************************************************************/
 static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
-  dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
-  
-  popdown_caravan_dialog();  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    dsend_packet_unit_help_build_wonder(&aconnection, pWidget->data.cont->id0);
+    
+    popdown_caravan_dialog();  
+  }
   return -1;
 }
 
 static int exit_caravan_dlg_callback(struct widget *pWidget)
 {
-  popdown_caravan_dialog();
-  process_caravan_arrival(NULL);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    popdown_caravan_dialog();
+    process_caravan_arrival(NULL);
+  }
   return -1;
 }
   

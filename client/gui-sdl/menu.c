@@ -76,124 +76,125 @@ static struct widget *pOrder_Trade_Button;
 **************************************************************************/
 static int unit_order_callback(struct widget *pOrder_Widget)
 {
-  struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
-
-  set_wstate(pOrder_Widget, FC_WS_SELLECTED);
-  pSellected_Widget = pOrder_Widget;
-
-  if (!pUnit) {
-    return -1;
-  }
-
-  switch (pOrder_Widget->ID) {
-  case ID_UNIT_ORDER_BUILD_CITY:
-    /* Enable the button for adding to a city in all cases, so we
-       get an eventual error message from the server if we try. */
-    key_unit_build_city();
-    break;
-  case ID_UNIT_ORDER_BUILD_WONDER:
-    key_unit_build_wonder();
-    break;
-  case ID_UNIT_ORDER_ROAD:
-    key_unit_road();
-    break;
-  case ID_UNIT_ORDER_TRADEROUTE:
-    key_unit_traderoute();
-    break;
-  case ID_UNIT_ORDER_IRRIGATE:
-    key_unit_irrigate();
-    break;
-  case ID_UNIT_ORDER_MINE:
-    key_unit_mine();
-    break;
-  case ID_UNIT_ORDER_TRANSFORM:
-    key_unit_transform();
-    break;
-  case ID_UNIT_ORDER_FORTRESS:
-    key_unit_fortress();
-    break;
-  case ID_UNIT_ORDER_FORTIFY:
-    key_unit_fortify();
-    break;
-  case ID_UNIT_ORDER_AIRBASE:
-    key_unit_airbase();
-    break;
-  case ID_UNIT_ORDER_POLLUTION:
-    key_unit_pollution();
-    break;
-  case ID_UNIT_ORDER_PARADROP:
-    key_unit_paradrop();
-    break;
-  case ID_UNIT_ORDER_FALLOUT:
-    key_unit_fallout();
-    break;
-  case ID_UNIT_ORDER_SENTRY:
-    key_unit_sentry();
-    break;
-  case ID_UNIT_ORDER_PILLAGE:
-    key_unit_pillage();
-    break;
-  case ID_UNIT_ORDER_HOMECITY:
-    key_unit_homecity();
-    break;
-  case ID_UNIT_ORDER_UNLOAD:
-    key_unit_unload_all();
-    break;
-  case ID_UNIT_ORDER_WAKEUP_OTHERS:
-    key_unit_wakeup_others();
-    break;
-  case ID_UNIT_ORDER_AUTOMATION:
-    request_unit_autosettlers(pUnit);
-    break;
-  case ID_UNIT_ORDER_AUTO_EXPLORE:
-    key_unit_auto_explore();
-    break;
-  case ID_UNIT_ORDER_CONNECT:
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct unit *pUnit = unit_list_get(get_units_in_focus(), 0);
+  
+    set_wstate(pOrder_Widget, FC_WS_SELLECTED);
+    pSellected_Widget = pOrder_Widget;
+  
+    if (!pUnit) {
+      return -1;
+    }
+  
+    switch (pOrder_Widget->ID) {
+    case ID_UNIT_ORDER_BUILD_CITY:
+      /* Enable the button for adding to a city in all cases, so we
+         get an eventual error message from the server if we try. */
+      key_unit_build_city();
+      break;
+    case ID_UNIT_ORDER_BUILD_WONDER:
+      key_unit_build_wonder();
+      break;
+    case ID_UNIT_ORDER_ROAD:
+      key_unit_road();
+      break;
+    case ID_UNIT_ORDER_TRADEROUTE:
+      key_unit_traderoute();
+      break;
+    case ID_UNIT_ORDER_IRRIGATE:
+      key_unit_irrigate();
+      break;
+    case ID_UNIT_ORDER_MINE:
+      key_unit_mine();
+      break;
+    case ID_UNIT_ORDER_TRANSFORM:
+      key_unit_transform();
+      break;
+    case ID_UNIT_ORDER_FORTRESS:
+      key_unit_fortress();
+      break;
+    case ID_UNIT_ORDER_FORTIFY:
+      key_unit_fortify();
+      break;
+    case ID_UNIT_ORDER_AIRBASE:
+      key_unit_airbase();
+      break;
+    case ID_UNIT_ORDER_POLLUTION:
+      key_unit_pollution();
+      break;
+    case ID_UNIT_ORDER_PARADROP:
+      key_unit_paradrop();
+      break;
+    case ID_UNIT_ORDER_FALLOUT:
+      key_unit_fallout();
+      break;
+    case ID_UNIT_ORDER_SENTRY:
+      key_unit_sentry();
+      break;
+    case ID_UNIT_ORDER_PILLAGE:
+      key_unit_pillage();
+      break;
+    case ID_UNIT_ORDER_HOMECITY:
+      key_unit_homecity();
+      break;
+    case ID_UNIT_ORDER_UNLOAD:
+      key_unit_unload_all();
+      break;
+    case ID_UNIT_ORDER_WAKEUP_OTHERS:
+      key_unit_wakeup_others();
+      break;
+    case ID_UNIT_ORDER_AUTOMATION:
+      request_unit_autosettlers(pUnit);
+      break;
+    case ID_UNIT_ORDER_AUTO_EXPLORE:
+      key_unit_auto_explore();
+      break;
+    case ID_UNIT_ORDER_CONNECT:
 #if 0
-    /* TODO: different connect types */
-    key_unit_connect();
+      /* TODO: different connect types */
+      key_unit_connect();
 #endif
-    break;
-  case ID_UNIT_ORDER_PATROL:
-    key_unit_patrol();
-    break;
-  case ID_UNIT_ORDER_GOTO:
-    key_unit_goto();
-    break;
-  case ID_UNIT_ORDER_GOTO_CITY:
-    popup_goto_dialog();
-    break;
-  case ID_UNIT_ORDER_AIRLIFT:
-    popup_airlift_dialog();
-    break;
-  case ID_UNIT_ORDER_RETURN:
-    request_unit_return(pUnit);
-    break;
-  case ID_UNIT_ORDER_UPGRADE:
-    popup_unit_upgrade_dlg(pUnit, FALSE);
-    break;
-  case ID_UNIT_ORDER_DISBAND:
-    key_unit_disband();
-    break;
-  case ID_UNIT_ORDER_DIPLOMAT_DLG:
-    key_unit_diplomat_actions();
-    break;
-  case ID_UNIT_ORDER_NUKE:
-    key_unit_nuke();
-    break;
-  case ID_UNIT_ORDER_WAIT:
-    key_unit_wait();
-    flush_dirty();
-    break;
-  case ID_UNIT_ORDER_DONE:
-    key_unit_done();
-    flush_dirty();
-    break;
-
-  default:
-    break;
+      break;
+    case ID_UNIT_ORDER_PATROL:
+      key_unit_patrol();
+      break;
+    case ID_UNIT_ORDER_GOTO:
+      key_unit_goto();
+      break;
+    case ID_UNIT_ORDER_GOTO_CITY:
+      popup_goto_dialog();
+      break;
+    case ID_UNIT_ORDER_AIRLIFT:
+      popup_airlift_dialog();
+      break;
+    case ID_UNIT_ORDER_RETURN:
+      request_unit_return(pUnit);
+      break;
+    case ID_UNIT_ORDER_UPGRADE:
+      popup_unit_upgrade_dlg(pUnit, FALSE);
+      break;
+    case ID_UNIT_ORDER_DISBAND:
+      key_unit_disband();
+      break;
+    case ID_UNIT_ORDER_DIPLOMAT_DLG:
+      key_unit_diplomat_actions();
+      break;
+    case ID_UNIT_ORDER_NUKE:
+      key_unit_nuke();
+      break;
+    case ID_UNIT_ORDER_WAIT:
+      key_unit_wait();
+      flush_dirty();
+      break;
+    case ID_UNIT_ORDER_DONE:
+      key_unit_done();
+      flush_dirty();
+      break;
+  
+    default:
+      break;
+    }
   }
-
   return -1;
 }
 

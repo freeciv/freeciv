@@ -100,25 +100,27 @@ static int window_worklist_editor_callback(struct widget *pWidget)
 /* Popdwon Worklist Editor */
 static int popdown_worklist_editor_callback(struct widget *pWidget)
 {
-  if(pEditor) {
-    popdown_window_group_dialog(pEditor->pBeginWidgetList,
-					    pEditor->pEndWidgetList);
-    FC_FREE(pEditor->pTargets->pScroll);
-    FC_FREE(pEditor->pWork->pScroll);
-    if(pEditor->pGlobal) {
-      FC_FREE(pEditor->pGlobal->pScroll);
-      FC_FREE(pEditor->pGlobal);
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if(pEditor) {
+      popdown_window_group_dialog(pEditor->pBeginWidgetList,
+                                              pEditor->pEndWidgetList);
+      FC_FREE(pEditor->pTargets->pScroll);
+      FC_FREE(pEditor->pWork->pScroll);
+      if(pEditor->pGlobal) {
+        FC_FREE(pEditor->pGlobal->pScroll);
+        FC_FREE(pEditor->pGlobal);
+      }
+      FC_FREE(pEditor->pTargets);
+      FC_FREE(pEditor->pWork);
+      FC_FREE(pEditor->pCopy_WorkList);
+          
+      if(city_dialog_is_open(pEditor->pCity)) {
+        enable_city_dlg_widgets();
+      }
+    
+      FC_FREE(pEditor);
+      flush_dirty();
     }
-    FC_FREE(pEditor->pTargets);
-    FC_FREE(pEditor->pWork);
-    FC_FREE(pEditor->pCopy_WorkList);
-        
-    if(city_dialog_is_open(pEditor->pCity)) {
-      enable_city_dlg_widgets();
-    }
-  
-    FC_FREE(pEditor);
-    flush_dirty();
   }
   return -1;
 }
@@ -129,71 +131,73 @@ static int popdown_worklist_editor_callback(struct widget *pWidget)
  */
 static int ok_worklist_editor_callback(struct widget *pWidget)
 {
-  int i, j;
-  struct city *pCity = pEditor->pCity;
-  bool same_prod = TRUE;
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    int i, j;
+    struct city *pCity = pEditor->pCity;
+    bool same_prod = TRUE;
+    
+    /* remove duplicate entry of impv./wonder target from worklist */
+    for(i = 0; i < worklist_length(pEditor->pCopy_WorkList); i++) {
   
-  /* remove duplicate entry of impv./wonder target from worklist */
-  for(i = 0; i < worklist_length(pEditor->pCopy_WorkList); i++) {
-
-    if(!pEditor->pCopy_WorkList->entries[i].is_unit) {
-      for(j = i + 1; j < worklist_length(pEditor->pCopy_WorkList); j++) {
-        if(!pEditor->pCopy_WorkList->entries[j].is_unit &&
-	  (pEditor->pCopy_WorkList->entries[i].value ==
-				  pEditor->pCopy_WorkList->entries[j].value)) {
-	  worklist_remove(pEditor->pCopy_WorkList, j);
-	}
-      }
-    }
-  }
-  
-  if(pCity) {
-    /* remove duplicate entry of currently building impv./wonder from worklist */
-    if(!pEditor->currently_building.is_unit) {
-      for(i = 0; i < worklist_length(pEditor->pCopy_WorkList); i++) {
-        if(!pEditor->pCopy_WorkList->entries[i].is_unit &&
-          pEditor->pCopy_WorkList->entries[i].value == pEditor->currently_building.value) {
-	    worklist_remove(pEditor->pCopy_WorkList, i);
+      if(!pEditor->pCopy_WorkList->entries[i].is_unit) {
+        for(j = i + 1; j < worklist_length(pEditor->pCopy_WorkList); j++) {
+          if(!pEditor->pCopy_WorkList->entries[j].is_unit &&
+            (pEditor->pCopy_WorkList->entries[i].value ==
+                                    pEditor->pCopy_WorkList->entries[j].value)) {
+            worklist_remove(pEditor->pCopy_WorkList, j);
+          }
         }
       }
     }
     
-    /* change production */
-    if(pEditor->currently_building.is_unit != pCity->production.is_unit ||
-       pEditor->currently_building.value != pCity->production.value) {
-      city_change_production(pCity, pEditor->currently_building);
-      same_prod = FALSE;
-    }
+    if(pCity) {
+      /* remove duplicate entry of currently building impv./wonder from worklist */
+      if(!pEditor->currently_building.is_unit) {
+        for(i = 0; i < worklist_length(pEditor->pCopy_WorkList); i++) {
+          if(!pEditor->pCopy_WorkList->entries[i].is_unit &&
+            pEditor->pCopy_WorkList->entries[i].value == pEditor->currently_building.value) {
+              worklist_remove(pEditor->pCopy_WorkList, i);
+          }
+        }
+      }
+      
+      /* change production */
+      if(pEditor->currently_building.is_unit != pCity->production.is_unit ||
+         pEditor->currently_building.value != pCity->production.value) {
+        city_change_production(pCity, pEditor->currently_building);
+        same_prod = FALSE;
+      }
+      
+      /* commit new city worklist */
+      city_set_worklist(pCity, pEditor->pCopy_WorkList);
+    } else {
+      /* commit global worklist */
+      copy_worklist(pEditor->pOrginal_WorkList, pEditor->pCopy_WorkList);
+      update_worklist_report_dialog();
+    }  
     
-    /* commit new city worklist */
-    city_set_worklist(pCity, pEditor->pCopy_WorkList);
-  } else {
-    /* commit global worklist */
-    copy_worklist(pEditor->pOrginal_WorkList, pEditor->pCopy_WorkList);
-    update_worklist_report_dialog();
-  }  
-  
-  /* popdown dlg */
-  popdown_window_group_dialog(pEditor->pBeginWidgetList,
-					    pEditor->pEndWidgetList);
-  FC_FREE(pEditor->pTargets->pScroll);
-  FC_FREE(pEditor->pWork->pScroll);
-  if(pEditor->pGlobal) {
-    FC_FREE(pEditor->pGlobal->pScroll);
-    FC_FREE(pEditor->pGlobal);
-  }
-  FC_FREE(pEditor->pTargets);
-  FC_FREE(pEditor->pWork);
-  FC_FREE(pEditor->pCopy_WorkList);
-  FC_FREE(pEditor);
-  
-  if(city_dialog_is_open(pCity)) {
-    enable_city_dlg_widgets();
-    if(same_prod) {
+    /* popdown dlg */
+    popdown_window_group_dialog(pEditor->pBeginWidgetList,
+                                              pEditor->pEndWidgetList);
+    FC_FREE(pEditor->pTargets->pScroll);
+    FC_FREE(pEditor->pWork->pScroll);
+    if(pEditor->pGlobal) {
+      FC_FREE(pEditor->pGlobal->pScroll);
+      FC_FREE(pEditor->pGlobal);
+    }
+    FC_FREE(pEditor->pTargets);
+    FC_FREE(pEditor->pWork);
+    FC_FREE(pEditor->pCopy_WorkList);
+    FC_FREE(pEditor);
+    
+    if(city_dialog_is_open(pCity)) {
+      enable_city_dlg_widgets();
+      if(same_prod) {
+        flush_dirty();
+      }
+    } else {
       flush_dirty();
     }
-  } else {
-    flush_dirty();
   }
   return -1;
 }
@@ -203,18 +207,19 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
  */
 static int rename_worklist_editor_callback(struct widget *pWidget)
 {
-  if(pWidget->string16->text) {
-    char *pText = convert_to_chars(pWidget->string16->text);
-    my_snprintf(pEditor->pCopy_WorkList->name, MAX_LEN_NAME, "%s", pText);
-    FC_FREE(pText);
-  } else {
-    /* empty input -> restore previous content */
-    copy_chars_to_string16(pWidget->string16, pEditor->pCopy_WorkList->name);
-    redraw_edit(pWidget);
-    sdl_dirty_rect(pWidget->size);
-    flush_dirty();
-  }
-  
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if(pWidget->string16->text) {
+      char *pText = convert_to_chars(pWidget->string16->text);
+      my_snprintf(pEditor->pCopy_WorkList->name, MAX_LEN_NAME, "%s", pText);
+      FC_FREE(pText);
+    } else {
+      /* empty input -> restore previous content */
+      copy_chars_to_string16(pWidget->string16, pEditor->pCopy_WorkList->name);
+      redraw_edit(pWidget);
+      sdl_dirty_rect(pWidget->size);
+      flush_dirty();
+    }
+  }  
   return -1;
 }
 
