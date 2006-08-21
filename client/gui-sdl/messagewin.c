@@ -186,8 +186,6 @@ void real_update_meswin_dialog(void)
 **************************************************************************/
 void popup_meswin_dialog(bool raise)
 {
-  SDL_Color bg_color = {255 , 255, 255, 128};
-  SDL_Color title_bg_color = {255 , 255, 255, 200};
   SDL_String16 *pStr = create_str16_from_char("M", PTSIZE_LOG_FONT);
   Sint16 start_x = (Main.screen->w - adj_size(520)) / 2;
   Sint16 start_y = adj_size(25);
@@ -198,7 +196,6 @@ void popup_meswin_dialog(bool raise)
   struct widget *pWindow = NULL, *pBuf = NULL;
   int msg_count = get_num_messages();
   SDL_Surface *pSurf;
-  SDL_Rect area;
   
   FREESTRING16(pStr);
   

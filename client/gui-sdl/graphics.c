@@ -220,7 +220,7 @@ SDL_Surface *load_surf(const char *pFname)
   
   if(Main.screen) {
     SDL_Surface *pNew_sur;
-    if ((pNew_sur = SDL_DisplayFormat(pBuf)) == NULL) {
+    if ((pNew_sur = SDL_DisplayFormatAlpha(pBuf)) == NULL) {
       freelog(LOG_ERROR, _("load_surf: Unable to convert file %s "
 			 "into screen's format!"), pFname);
     } else {

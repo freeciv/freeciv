@@ -4524,6 +4524,8 @@ bool move_window(struct widget *pWindow)
 **************************************************************************/
 int redraw_window(struct widget *pWindow)
 {
+  SDL_Color title_bg_color = {255, 255, 255, 200};
+  
   SDL_Surface *pTmp = NULL;
   SDL_Rect dst = pWindow->size;
   SDL_Color color;
@@ -4538,13 +4540,7 @@ int redraw_window(struct widget *pWindow)
   if (pWindow->string16) {
     /* Draw Window's TitelBar */
     dst.h = WINDOW_TITLE_HEIGHT;
-    if(get_wflags(pWindow) & WF_DRAW_THEME_TRANSPARENT) {
-      SDL_FillRect(pWindow->dst, &dst, SDL_MapRGBA(pWindow->dst->format,
-      							255, 255, 255, 200));
-    } else {
-      color = (SDL_Color) {255, 255, 255, 136};  
-      SDL_FillRectAlpha(pWindow->dst, &dst, &color);
-    }
+    SDL_FillRectAlpha(pWindow->dst, &dst, &title_bg_color);
     
     /* Draw Text on Window's TitelBar */
     pTmp = create_text_surf_from_str16(pWindow->string16);
