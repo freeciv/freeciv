@@ -74,7 +74,7 @@ static struct city_dialog {
     ARMY_PAGE,
     SUPPORTED_UNITS_PAGE,
     MISC_PAGE
-  } state;
+  } page;
 
   /* main window group list */
   struct widget *pBeginCityWidgetList;
@@ -343,7 +343,7 @@ static int disband_units_orders_city_dlg_callback(struct widget *pButton)
   
     /* ugly hack becouse this free unit widget list*/
     /* FIX ME: add remove from list support */
-    pCityDlg->state = INFO_PAGE;
+    pCityDlg->page = INFO_PAGE;
   
     if(pUnit) {
       request_unit_disband(pUnit);
@@ -478,7 +478,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     add_to_gui_list(pButton->ID, pBuf);
     /* ----- */
     
-    if (pCityDlg->state == ARMY_PAGE) {
+    if (pCityDlg->page == ARMY_PAGE) {
       /* Sentry unit */
       pBuf = create_icon_button_from_chars(NULL, pWindow->dst, 
                                           _("Sentry unit"), adj_font(12), 0);
@@ -522,7 +522,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     add_to_gui_list(pButton->ID, pBuf);
     /* ----- */
   
-    if (pCityDlg->state == ARMY_PAGE) {
+    if (pCityDlg->page == ARMY_PAGE) {
       if (pUnit->homecity != pCityDlg->pCity->id) {
         /* Make new Homecity */
         pBuf = create_icon_button_from_chars(NULL, pWindow->dst, 
@@ -713,7 +713,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 		pUnit->hp, pUType->hp,
 		pHome_City ? pHome_City->name : _("None"));
     
-    if (pCityDlg->state == SUPPORTED_UNITS_PAGE) {
+    if (pCityDlg->page == SUPPORTED_UNITS_PAGE) {
       int pCity_near_dist;
       struct city *pNear_City = get_nearest_city(pUnit, &pCity_near_dist);
 
@@ -800,9 +800,9 @@ void free_city_units_lists(void)
 static int army_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (pCityDlg->state != ARMY_PAGE) {
+    if (pCityDlg->page != ARMY_PAGE) {
       free_city_units_lists();
-      pCityDlg->state = ARMY_PAGE;
+      pCityDlg->page = ARMY_PAGE;
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
@@ -819,9 +819,9 @@ static int army_city_dlg_callback(struct widget *pButton)
 static int supported_unit_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (pCityDlg->state != SUPPORTED_UNITS_PAGE) {
+    if (pCityDlg->page != SUPPORTED_UNITS_PAGE) {
       free_city_units_lists();
-      pCityDlg->state = SUPPORTED_UNITS_PAGE;
+      pCityDlg->page = SUPPORTED_UNITS_PAGE;
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
@@ -840,9 +840,9 @@ static int supported_unit_city_dlg_callback(struct widget *pButton)
 static int info_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (pCityDlg->state != INFO_PAGE) {
+    if (pCityDlg->page != INFO_PAGE) {
       free_city_units_lists();
-      pCityDlg->state = INFO_PAGE;
+      pCityDlg->page = INFO_PAGE;
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
@@ -860,9 +860,9 @@ static int info_city_dlg_callback(struct widget *pButton)
 static int happy_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (pCityDlg->state != HAPPINESS_PAGE) {
+    if (pCityDlg->page != HAPPINESS_PAGE) {
       free_city_units_lists();
-      pCityDlg->state = HAPPINESS_PAGE;
+      pCityDlg->page = HAPPINESS_PAGE;
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
@@ -1000,9 +1000,9 @@ static void create_city_options_widget_list(struct city *pCity)
 static int options_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (pCityDlg->state != MISC_PAGE) {
+    if (pCityDlg->page != MISC_PAGE) {
       free_city_units_lists();
-      pCityDlg->state = MISC_PAGE;
+      pCityDlg->page = MISC_PAGE;
       redraw_city_dialog(pCityDlg->pCity);
       flush_dirty();
     } else {
@@ -3543,7 +3543,7 @@ static void redraw_city_dialog(struct city *pCity)
   /* ==================================================== */
 
 
-  switch (pCityDlg->state) {
+  switch (pCityDlg->page) {
   case INFO_PAGE:
     redraw_info_city_dialog(pWindow, pCity);
     break;
@@ -3723,6 +3723,7 @@ void popup_city_dialog(struct city *pCity)
 
   pCityDlg = fc_calloc(1, sizeof(struct city_dialog));
   pCityDlg->pCity = pCity;
+  pCityDlg->page = ARMY_PAGE;
   
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
