@@ -613,14 +613,9 @@ Uint16 gui_event_loop(void *pData,
     }
     
     if ((t2 - t1) > UNITS_TIMER_INTERVAL) {
-      if (widget_info_counter || autoconnect) {
-        if(widget_info_counter > 8) {
-          SDL_PushEvent(pInfo_User_Event);
-          widget_info_counter = 0;
-        } else {
-          widget_info_counter++;
-          SDL_PushEvent(pAnim_User_Event);
-        }
+      if (autoconnect) {
+        widget_info_counter++;
+        SDL_PushEvent(pAnim_User_Event);
       } else {
         SDL_PushEvent(pAnim_User_Event);
       }
@@ -631,6 +626,11 @@ Uint16 gui_event_loop(void *pData,
       }
       
       t1 = SDL_GetTicks();
+    }
+
+    if (widget_info_counter > 0) {
+      SDL_PushEvent(pInfo_User_Event);
+      widget_info_counter = 0;
     }
     
     /* ========================================= */
