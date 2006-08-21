@@ -195,8 +195,8 @@ enum scan_direction {
   SCAN_BACKWARD
 };
 
-SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, SDL_bool transp,
-			       Uint8 state, Uint16 Width, Uint16 High);
+SDL_Surface *create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
+                               Uint16 Width, Uint16 High);
 
 void init_gui_list(Uint16 ID, struct widget *pGUI);
 void add_to_gui_list(Uint16 ID, struct widget *pGUI);

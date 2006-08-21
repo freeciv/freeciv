@@ -128,7 +128,7 @@ void popup_find_dialog(void)
   pStr = create_str16_from_char(_("Find City") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
     
   pWindow->action = find_city_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);

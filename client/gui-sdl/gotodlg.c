@@ -232,7 +232,7 @@ static void popup_goto_airlift_dialog(void)
   pStr = create_str16_from_char(_("Select destination"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
   
   pWindow->action = goto_dialog_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);

@@ -449,7 +449,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pStr = create_str16_from_char(_("Presets"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
 
   pWindow->action = save_cma_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);

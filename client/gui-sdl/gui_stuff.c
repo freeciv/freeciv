@@ -106,9 +106,8 @@ static Uint16 * chain2text(const struct UniChar *pInChain, size_t len);
 static void correct_size_bcgnd_surf(SDL_Surface *pTheme,
 				    Uint16 *pWidth, Uint16 *pHigh);
 #if 0
-static SDL_Surface * create_bcgnd_surf(SDL_Surface *pTheme,
-				      SDL_bool transp, Uint8 state,
-				      Uint16 Width, Uint16 High);
+static SDL_Surface * create_bcgnd_surf(SDL_Surface *pTheme, Uint8 state,
+				       Uint16 Width, Uint16 High);
 #endif
 static SDL_Surface * create_vertical_surface(SDL_Surface *pVert_theme,
 					    Uint8 state, Uint16 High);
@@ -141,11 +140,9 @@ static void correct_size_bcgnd_surf(SDL_Surface * pTheme,
     state = 1 - selected
     state = 2 - pressed
     state = 3 - disabled
-
-  if 'transp' is TRUE returned surface has set Alpha = 128
 **************************************************************************/
-SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
-			       Uint8 state, Uint16 Width, Uint16 High)
+SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, Uint8 state,
+                               Uint16 Width, Uint16 High)
 {
   bool zoom;
   int iTile_width_len_end, iTile_width_len_mid, iTile_count_len_mid;
@@ -185,11 +182,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
   zoom = ((i != Width) ||  (j != High));
   
   /* now allocate memory */
-  if (!transp) {
-    pBackground = create_surf_alpha(i, j, SDL_SWSURFACE);
-  } else {
-    pBackground = create_surf(i, j, SDL_SWSURFACE);
-  }
+  pBackground = create_surf_alpha(i, j, SDL_SWSURFACE);
 
   /* copy left end */
 
@@ -278,11 +271,6 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface * pTheme, SDL_bool transp,
     SDL_Surface *pZoom = ResizeSurface(pBackground, Width, High, 1);
     FREESURFACE(pBackground);
     pBackground = pZoom;
-  }
-  
-  /* set transparency 50% */
-  if (transp) {
-    SDL_SetAlpha(pBackground, SDL_SRCALPHA, 128);
   }
   
   return pBackground;
@@ -3108,15 +3096,8 @@ int real_redraw_ibutton(struct widget *pIButton)
   }
 
   /* create Button graphic */
-  if (get_wflags(pIButton) & WF_RESTORE_BACKGROUND) {
-    pButton =
-	create_bcgnd_surf(pIButton->theme, SDL_TRUE, get_wstate(pIButton),
-			  pIButton->size.w, pIButton->size.h);
-  } else {
-    pButton =
-	create_bcgnd_surf(pIButton->theme, SDL_FALSE, get_wstate(pIButton),
-			  pIButton->size.w, pIButton->size.h);
-  }
+  pButton = create_bcgnd_surf(pIButton->theme, get_wstate(pIButton),
+			      pIButton->size.w, pIButton->size.h);
 
   dest = pIButton->size;
   fix_rect(pIButton->dst, &dest);  
@@ -3556,27 +3537,17 @@ int redraw_edit(struct widget *pEdit_Widget)
       pText = create_text_surf_from_str16(pEdit_Widget->string16);
     }
   
+    pEdit = create_bcgnd_surf(pEdit_Widget->theme, get_wstate(pEdit_Widget),
+                              pEdit_Widget->size.w, pEdit_Widget->size.h);
+
+    if (!pEdit) {
+      return -1;
+    }
+    
     if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
-
-      pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
-			      get_wstate(pEdit_Widget),
-			      pEdit_Widget->size.w, pEdit_Widget->size.h);
-
-      if (!pEdit) {
-        return -1;
-      }
-
       /* blit background */
       clear_surface(pEdit_Widget->dst, &rDest);
       alphablit(pEdit_Widget->gfx, NULL, pEdit_Widget->dst, &rDest);
-    } else {
-      pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
-			      get_wstate(pEdit_Widget),
-			      pEdit_Widget->size.w, pEdit_Widget->size.h);
-
-      if (!pEdit) {
-        return -1;
-      }
     }
 
     /* blit theme */
@@ -3867,13 +3838,8 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-  if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
-    pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
-			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
-  } else {
-    pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_FALSE,
-			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
-  }
+  pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, 2,
+			       pEdit_Widget->size.w, pEdit_Widget->size.h);
 
   /* Creating Chain */
   pEdt.pBeginTextChain = text2chain(pEdit_Widget->string16->text);
@@ -4528,7 +4494,6 @@ int redraw_window(struct widget *pWindow)
   
   SDL_Surface *pTmp = NULL;
   SDL_Rect dst = pWindow->size;
-  SDL_Color color;
 
   fix_rect(pWindow->dst, &dst);
 

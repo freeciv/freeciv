@@ -637,7 +637,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   pStr = create_str16_from_char(cBuf , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
   
   pWindow->action = unit_select_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1185,7 +1185,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   pStr = create_str16_from_char(_("Advanced Menu") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
     
   pWindow->action = advanced_terrain_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
@@ -1737,7 +1737,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   pStr = create_str16_from_char(_("What To Pillage") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr , adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr , adj_size(10), adj_size(10), 0);
     
   pWindow->action = pillage_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);

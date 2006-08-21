@@ -552,7 +552,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
     
   pWindow->action = diplomat_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -831,8 +831,7 @@ void popup_sabotage_dialog(struct city *pCity)
   pStr = create_str16_from_char(_("Select Improvement to Sabotage") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL,
-		  pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
     
   pWindow->action = diplomat_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1118,8 +1117,7 @@ void popup_incite_dialog(struct city *pCity)
     
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL,
-			  pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
     
   pWindow->action = incite_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1357,8 +1355,7 @@ void popup_bribe_dialog(struct unit *pUnit)
     
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL,
-			  pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
     
   pWindow->action = bribe_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);

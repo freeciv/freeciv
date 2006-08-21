@@ -219,7 +219,7 @@ void update_intel_dialog(struct player *p)
     pStr = create_str16_from_char(_("Foreign Intelligence Report") , adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     
-    pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
+    pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), 0);
       
     pWindow->action = intel_window_dlg_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
