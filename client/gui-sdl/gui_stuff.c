@@ -948,7 +948,7 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
     if ((get_wflags(pTmpWidget) & WF_HIDDEN) != WF_HIDDEN) {
 
       if (!(pTmpWidget->gfx) &&
-	  (get_wflags(pTmpWidget) & WF_DRAW_THEME_TRANSPARENT)) {
+	  (get_wflags(pTmpWidget) & WF_RESTORE_BACKGROUND)) {
 	refresh_widget_background(pTmpWidget);
       }
 
@@ -2339,7 +2339,7 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
   if(create_scrollbar) {
     /* create vsrollbar */
     pBuf = create_vertical(pTheme->Vertic, pWindow->dst,
-				10, WF_DRAW_THEME_TRANSPARENT);
+				10, WF_RESTORE_BACKGROUND);
     
     pBuf->ID = ID_SCROLLBAR;
     pBuf->private_data.adv_dlg = pDlg;
@@ -2564,7 +2564,7 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
   if(create_scrollbar) {
     /* create vsrollbar */
     pBuf = create_horizontal(pTheme->Horiz, pWindow->dst,
-				width, WF_DRAW_THEME_TRANSPARENT);
+				width, WF_RESTORE_BACKGROUND);
     
     pBuf->ID = ID_SCROLLBAR;
     pBuf->data.ptr = (void *)pDlg;
@@ -2697,7 +2697,7 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
   pIcon->size.x = start_x;
   pIcon->size.y = start_y;
 
-  if (get_wflags(pIcon) & WF_DRAW_THEME_TRANSPARENT) {
+  if (get_wflags(pIcon) & WF_RESTORE_BACKGROUND) {
     refresh_widget_background(pIcon);
   }
 
@@ -3108,7 +3108,7 @@ int real_redraw_ibutton(struct widget *pIButton)
   }
 
   /* create Button graphic */
-  if (get_wflags(pIButton) & WF_DRAW_THEME_TRANSPARENT) {
+  if (get_wflags(pIButton) & WF_RESTORE_BACKGROUND) {
     pButton =
 	create_bcgnd_surf(pIButton->theme, SDL_TRUE, get_wstate(pIButton),
 			  pIButton->size.w, pIButton->size.h);
@@ -3392,7 +3392,7 @@ static void redraw_edit_chain(struct EDIT *pEdt)
   Dest_Copy.y = pEdt->pWidget->size.y;
 
   /* blit backgroud ( if any ) */
-  if (get_wflags(pEdt->pWidget) & WF_DRAW_THEME_TRANSPARENT) {
+  if (get_wflags(pEdt->pWidget) & WF_RESTORE_BACKGROUND) {
     Dest = Dest_Copy;
     fix_rect(pEdt->pWidget->dst, &Dest);
     clear_surface(pEdt->pWidget->dst, &Dest);
@@ -3507,7 +3507,7 @@ int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y)
   pEdit->size.x = start_x;
   pEdit->size.y = start_y;
 
-  if (get_wflags(pEdit) & WF_DRAW_THEME_TRANSPARENT) {
+  if (get_wflags(pEdit) & WF_RESTORE_BACKGROUND) {
     refresh_widget_background(pEdit);
   }
 
@@ -3556,7 +3556,7 @@ int redraw_edit(struct widget *pEdit_Widget)
       pText = create_text_surf_from_str16(pEdit_Widget->string16);
     }
   
-    if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
+    if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
 
       pEdit = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
 			      get_wstate(pEdit_Widget),
@@ -3867,7 +3867,7 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-  if (get_wflags(pEdit_Widget) & WF_DRAW_THEME_TRANSPARENT) {
+  if (get_wflags(pEdit_Widget) & WF_RESTORE_BACKGROUND) {
     pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, SDL_TRUE,
 			      2, pEdit_Widget->size.w, pEdit_Widget->size.h);
   } else {
@@ -4714,7 +4714,7 @@ struct widget * create_themelabel(SDL_Surface *pIcon, SDL_Surface *pDest,
   pLabel->string16 = pText;
   set_wflag(pLabel,
 	    (WF_ICON_CENTER | WF_FREE_STRING | WF_FREE_GFX |
-	     WF_DRAW_THEME_TRANSPARENT | flags));
+	     WF_RESTORE_BACKGROUND | flags));
   set_wstate(pLabel, FC_WS_DISABLED);
   set_wtype(pLabel, WT_T_LABEL);
   pLabel->mod = KMOD_NONE;
@@ -4784,7 +4784,7 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   
   pBuf = create_surf_alpha(pLabel->size.w, pLabel->size.h * 2, SDL_SWSURFACE);
     
-  if(flags & WF_DRAW_THEME_TRANSPARENT) {
+  if(flags & WF_RESTORE_BACKGROUND) {
     pTheme = SDL_DisplayFormatAlpha(pBuf);
     FREESURFACE(pBuf);
   } else {
@@ -4807,7 +4807,7 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   area.x = 0;
   area.y = pLabel->size.h;
     
-  if(flags & WF_DRAW_THEME_TRANSPARENT) {
+  if(flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(pTheme, &area, map_rgba(pTheme->format, bg_color));
     store = pText->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
@@ -4820,7 +4820,7 @@ struct widget * create_themelabel2(SDL_Surface *pIcon, SDL_Surface *pDest,
   pLabel->size.y = pLabel->size.h;
   redraw_iconlabel(pLabel);
   
-  if(flags & WF_DRAW_THEME_TRANSPARENT) {
+  if(flags & WF_RESTORE_BACKGROUND) {
     pText->bgcol = store;
   }
   
@@ -4843,7 +4843,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   SDL_Surface *pDest, *pTheme, *pBuf = create_surf_alpha(pIconLabel->size.w,
 				  pIconLabel->size.h * 2, SDL_SWSURFACE);
   
-  if(flags & WF_DRAW_THEME_TRANSPARENT) {
+  if(flags & WF_RESTORE_BACKGROUND) {
     pTheme = SDL_DisplayFormatAlpha(pBuf);
     FREESURFACE(pBuf);
   } else {
@@ -4870,7 +4870,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   area.x = 0;
   area.y = pIconLabel->size.h;
     
-  if(flags & WF_DRAW_THEME_TRANSPARENT) {
+  if(flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(pTheme, &area, map_rgba(pTheme->format, bg_color));
     store = pIconLabel->string16->bgcol;
     SDL_GetRGBA(getpixel(pTheme, area.x , area.y), pTheme->format,
@@ -4884,7 +4884,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   pIconLabel->size.y = pIconLabel->size.h;
   redraw_iconlabel(pIconLabel);
   
-  if(flags & WF_DRAW_THEME_TRANSPARENT) {
+  if(flags & WF_RESTORE_BACKGROUND) {
     pIconLabel->string16->bgcol = store;
   }
   
@@ -5128,7 +5128,7 @@ int redraw_label(struct widget *pLabel)
   fix_rect(pLabel->dst, &area);
   /* if label transparen then clear background under widget
    * or save this background */
-  if (get_wflags(pLabel) & WF_DRAW_THEME_TRANSPARENT) {
+  if (get_wflags(pLabel) & WF_RESTORE_BACKGROUND) {
     if (pLabel->gfx) {
       clear_surface(pLabel->dst, &area);
       alphablit(pLabel->gfx, NULL, pLabel->dst, &area);
@@ -5332,7 +5332,7 @@ int redraw_textcheckbox(struct widget *pCBox)
   pCBox->theme = pIcon;
 
   /* if label transparen then clear background under widget or save this background */
-  if (get_wflags(pCBox) & WF_DRAW_THEME_TRANSPARENT) {
+  if (get_wflags(pCBox) & WF_RESTORE_BACKGROUND) {
     dest = pCBox->size;
     fix_rect(pCBox->dst, &dest);
     if (pCBox->gfx) {

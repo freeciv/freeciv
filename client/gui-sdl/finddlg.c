@@ -128,7 +128,7 @@ void popup_find_dialog(void)
   pStr = create_str16_from_char(_("Find City") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = find_city_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
@@ -139,7 +139,7 @@ void popup_find_dialog(void)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  	(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+  			  	(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_find_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -166,7 +166,7 @@ void popup_find_dialog(void)
       }
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
-    	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       
       if(pCity->owner != owner) {
         set_wflag(pBuf, WF_FREE_THEME);

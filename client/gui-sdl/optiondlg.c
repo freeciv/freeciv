@@ -218,7 +218,7 @@ static int add_new_worklist_callback(struct widget *pWidget)
     
     /* create list element */
     pNew_WorkList_Widget = create_iconlabel_from_chars(NULL, pWidget->dst, 
-                  client.worklists[j].name, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+                  client.worklists[j].name, adj_font(12), WF_RESTORE_BACKGROUND);
     pNew_WorkList_Widget->ID = MAX_ID - j;
     pNew_WorkList_Widget->string16->style |= SF_CENTER;
     set_wstate(pNew_WorkList_Widget, FC_WS_NORMAL);
@@ -316,7 +316,7 @@ static int work_lists_callback(struct widget *pWidget)
       if (client.worklists[i].is_valid) {
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
                   client.worklists[i].name, adj_font(12),
-                                                WF_DRAW_THEME_TRANSPARENT);
+                                                WF_RESTORE_BACKGROUND);
         set_wstate(pBuf, FC_WS_NORMAL);
         add_to_gui_list(MAX_ID - i, pBuf);
         pBuf->action = edit_worklist_callback;
@@ -331,7 +331,7 @@ static int work_lists_callback(struct widget *pWidget)
     
     if(count < MAX_NUM_WORKLISTS) {
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
-                  _("Add new worklist"), adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+                  _("Add new worklist"), adj_font(12), WF_RESTORE_BACKGROUND);
       set_wstate(pBuf, FC_WS_NORMAL);
       add_to_gui_list(ID_ADD_NEW_WORKLIST, pBuf);
       pBuf->action = add_new_worklist_callback;
@@ -664,7 +664,7 @@ static int video_callback(struct widget *pWidget)
     /* gui_sdl_fullscreen check box */
     pTmpGui = create_checkbox(pWindow->dst,
                   ((Main.screen->flags & SDL_FULLSCREEN) == SDL_FULLSCREEN),
-                                                  WF_DRAW_THEME_TRANSPARENT);
+                                                  WF_RESTORE_BACKGROUND);
     
     pTmpGui->action = toggle_fullscreen_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -950,7 +950,7 @@ static int local_setting_callback(struct widget *pWidget)
     /* 'sound befor new turn' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, sound_bell_at_new_turn,
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = sound_bell_at_new_turn_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -978,7 +978,7 @@ static int local_setting_callback(struct widget *pWidget)
     /* edit */
     my_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_msec);
     pTmpGui = create_edit_from_chars(NULL, pWindow->dst, cBuf, adj_font(11), adj_size(25),
-                                            WF_DRAW_THEME_TRANSPARENT);
+                                            WF_RESTORE_BACKGROUND);
     pTmpGui->action = smooth_move_unit_msec_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
   
@@ -1004,7 +1004,7 @@ static int local_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          do_combat_animation, WF_DRAW_THEME_TRANSPARENT);
+                          do_combat_animation, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = do_combat_animation_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1031,7 +1031,7 @@ static int local_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          do_focus_animation, WF_DRAW_THEME_TRANSPARENT);
+                          do_focus_animation, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = do_focus_animation_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1058,7 +1058,7 @@ static int local_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          do_cursor_animation, WF_DRAW_THEME_TRANSPARENT);
+                          do_cursor_animation, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = do_cursor_animation_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1085,7 +1085,7 @@ static int local_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          use_color_cursors, WF_DRAW_THEME_TRANSPARENT);
+                          use_color_cursors, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = use_color_cursors_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1111,7 +1111,7 @@ static int local_setting_callback(struct widget *pWidget)
     /* 'auto center on units' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                  auto_center_on_unit, WF_DRAW_THEME_TRANSPARENT);
+                  auto_center_on_unit, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = auto_center_on_unit_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1137,7 +1137,7 @@ static int local_setting_callback(struct widget *pWidget)
     /* 'auto center on combat' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, auto_center_on_combat,
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = auto_center_on_combat_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1164,7 +1164,7 @@ static int local_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                  wakeup_focus, WF_DRAW_THEME_TRANSPARENT);
+                  wakeup_focus, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = wakeup_focus_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1190,7 +1190,7 @@ static int local_setting_callback(struct widget *pWidget)
     /* 'popup new city window' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, popup_new_cities,
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = popup_new_cities_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1216,7 +1216,7 @@ static int local_setting_callback(struct widget *pWidget)
     /* 'popup new city window' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, ask_city_name,
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = ask_city_names_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1242,7 +1242,7 @@ static int local_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                  auto_turn_done, WF_DRAW_THEME_TRANSPARENT);
+                  auto_turn_done, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = auto_turn_done_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1547,7 +1547,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw city names' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                    draw_city_names, WF_DRAW_THEME_TRANSPARENT);
+                    draw_city_names, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_city_names_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1573,7 +1573,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw city prod.' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, draw_city_productions,
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_city_productions_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1599,7 +1599,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw borders' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, draw_borders,
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = borders_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1625,7 +1625,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw terrain' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          draw_terrain, WF_DRAW_THEME_TRANSPARENT);
+                          draw_terrain, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_terrain_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1651,7 +1651,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw map gird' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                    draw_map_grid, WF_DRAW_THEME_TRANSPARENT);
+                    draw_map_grid, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = map_grid_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1678,7 +1678,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
           ((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID),
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_city_map_grid_callback;
     if (draw_map_grid) {
@@ -1706,7 +1706,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
           ((SDL_Client_Flags & CF_DRAW_CITY_WORKER_GRID) == CF_DRAW_CITY_WORKER_GRID),
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_city_worker_map_grid_callback;
     if(draw_map_grid
@@ -1736,7 +1736,7 @@ static int map_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          draw_specials, WF_DRAW_THEME_TRANSPARENT);
+                          draw_specials, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_specials_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1763,7 +1763,7 @@ static int map_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                            draw_pollution, WF_DRAW_THEME_TRANSPARENT);
+                            draw_pollution, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_pollution_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1790,7 +1790,7 @@ static int map_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, 
-                                  draw_cities, WF_DRAW_THEME_TRANSPARENT);
+                                  draw_cities, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_cities_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1817,7 +1817,7 @@ static int map_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          draw_units, WF_DRAW_THEME_TRANSPARENT);
+                          draw_units, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_units_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1844,7 +1844,7 @@ static int map_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          draw_fog_of_war, WF_DRAW_THEME_TRANSPARENT);
+                          draw_fog_of_war, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_fog_of_war_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1870,7 +1870,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw road / rails' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          draw_roads_rails, WF_DRAW_THEME_TRANSPARENT);
+                          draw_roads_rails, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_roads_rails_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1896,7 +1896,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw irrigations' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, 
-                          draw_irrigation, WF_DRAW_THEME_TRANSPARENT);
+                          draw_irrigation, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_irrigation_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1923,7 +1923,7 @@ static int map_setting_callback(struct widget *pWidget)
   
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
-                          draw_mines, WF_DRAW_THEME_TRANSPARENT);
+                          draw_mines, WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_mines_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1949,7 +1949,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* 'draw fortress / air bases' */
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst, draw_fortress_airbase,
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_fortress_airbase_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -1977,7 +1977,7 @@ static int map_setting_callback(struct widget *pWidget)
     /* check box */
     pTmpGui = create_checkbox(pWindow->dst,
           ((SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) == CF_CIV3_CITY_TEXT_STYLE),
-                              WF_DRAW_THEME_TRANSPARENT);
+                              WF_RESTORE_BACKGROUND);
   
     pTmpGui->action = draw_civ3_city_text_style_callback;
     set_wstate(pTmpGui, FC_WS_NORMAL);
@@ -2119,7 +2119,7 @@ void init_options_button(void)
 {
   pOptions_Button = create_themeicon(pTheme->Options_Icon, Main.gui,
 				       (WF_WIDGET_HAS_INFO_LABEL |
-					WF_DRAW_THEME_TRANSPARENT));
+					WF_RESTORE_BACKGROUND));
   pOptions_Button->size.x = adj_size(5);
   pOptions_Button->size.y = adj_size(5);
   pOptions_Button->action = optiondlg_callback;
@@ -2169,7 +2169,7 @@ void popup_optiondlg(void)
   pStr->style |= TTF_STYLE_BOLD;
   
   pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10),
-                                                WF_DRAW_THEME_TRANSPARENT);
+                                                WF_RESTORE_BACKGROUND);
   pWindow->action = main_optiondlg_callback;
   
   set_wstate(pWindow, FC_WS_NORMAL);

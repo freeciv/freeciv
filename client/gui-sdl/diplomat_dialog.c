@@ -259,7 +259,7 @@ static int spy_steal_popup(struct widget *pWidget)
   /* ------------------ */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_spy_steal_dlg_callback;
@@ -309,7 +309,7 @@ static int spy_steal_popup(struct widget *pWidget)
       copy_chars_to_string16(pStr, advances[i].name);
       pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = spy_steal_callback;
@@ -329,7 +329,7 @@ static int spy_steal_popup(struct widget *pWidget)
   pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
 	
   pBuf = create_icon2(pSurf, pWindow->dst,
-    	(WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT| WF_FREE_DATA));
+    	(WF_FREE_THEME | WF_RESTORE_BACKGROUND| WF_FREE_DATA));
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = spy_steal_callback;
   pBuf->data.cont = pCont;
@@ -552,7 +552,7 @@ void popup_diplomat_dialog(struct unit *pUnit, struct tile *ptile)
   
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = diplomat_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -832,7 +832,7 @@ void popup_sabotage_dialog(struct city *pCity)
   pStr->style |= TTF_STYLE_BOLD;
   
   pWindow = create_window(NULL,
-		  pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+		  pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = diplomat_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -843,7 +843,7 @@ void popup_sabotage_dialog(struct city *pCity)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   w += pBuf->size.w + adj_size(10);
   pBuf->action = diplomat_close_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1119,7 +1119,7 @@ void popup_incite_dialog(struct city *pCity)
   pStr->style |= TTF_STYLE_BOLD;
   
   pWindow = create_window(NULL,
-			  pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+			  pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = incite_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1132,7 +1132,7 @@ void popup_incite_dialog(struct city *pCity)
     
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);  
+  			  			WF_RESTORE_BACKGROUND);  
     w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1199,7 +1199,7 @@ void popup_incite_dialog(struct city *pCity)
   } else {
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
     w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_incite_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1358,7 +1358,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   pStr->style |= TTF_STYLE_BOLD;
   
   pWindow = create_window(NULL,
-			  pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+			  pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = bribe_dlg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1404,7 +1404,7 @@ void popup_bribe_dialog(struct unit *pUnit)
   } else {
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
     w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_bribe_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);

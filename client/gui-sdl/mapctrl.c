@@ -690,7 +690,7 @@ static void popup_minimap_scale_dialog(void)
   my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
   pStr = create_str16_from_char(cBuf, adj_font(24));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
   h += pBuf->size.h + adj_size(5);
   add_to_gui_list(ID_LABEL, pBuf);
@@ -710,7 +710,7 @@ static void popup_minimap_scale_dialog(void)
   my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
   pStr = create_str16_from_char(cBuf, adj_font(24));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
   pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
   h += pBuf->size.h + adj_size(20);
   add_to_gui_list(ID_LABEL, pBuf);
@@ -1456,7 +1456,7 @@ void Init_MapView(void)
 
   /* pUnits_Info_Window */
   pWindow = create_window(Main.gui, create_string16(NULL, 0, 12),
-    			UNITS_W, UNITS_H, WF_DRAW_THEME_TRANSPARENT);
+    			UNITS_W, UNITS_H, WF_RESTORE_BACKGROUND);
 
   pWindow->size.x = Main.screen->w - UNITS_W;
   pWindow->size.y = Main.screen->h - UNITS_H;
@@ -1491,7 +1491,7 @@ void Init_MapView(void)
 
   /* economy button */
   pWidget = create_icon2(NULL, pUnits_Info_Window->dst, WF_FREE_GFX
-                      | WF_WIDGET_HAS_INFO_LABEL | WF_DRAW_THEME_TRANSPARENT);
+                      | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
 
   pWidget->string16 = create_str16_from_char(_("Economy (F5)"), adj_font(12));
   
@@ -1516,7 +1516,7 @@ void Init_MapView(void)
 
   /* research button */
   pWidget = create_icon2(NULL, pUnits_Info_Window->dst, WF_FREE_GFX
-		       | WF_WIDGET_HAS_INFO_LABEL | WF_DRAW_THEME_TRANSPARENT);
+		       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pWidget->string16 = create_str16_from_char(_("Research (F6)"), adj_font(12));
 
   #ifdef SMALL_SCREEN
@@ -1540,7 +1540,7 @@ void Init_MapView(void)
 
   /* revolution button */
   pWidget = create_icon2(NULL, pUnits_Info_Window->dst, (WF_FREE_GFX
-			| WF_WIDGET_HAS_INFO_LABEL| WF_DRAW_THEME_TRANSPARENT));
+			| WF_WIDGET_HAS_INFO_LABEL| WF_RESTORE_BACKGROUND));
   pWidget->string16 = create_str16_from_char(_("Revolution (Shift + R)"), adj_font(12));
 
   #ifdef SMALL_SCREEN
@@ -1574,7 +1574,7 @@ void Init_MapView(void)
 
   pWidget = create_themeicon(pIcon_theme, pUnits_Info_Window->dst,
 			  WF_FREE_GFX | WF_FREE_THEME |
-		WF_DRAW_THEME_TRANSPARENT | WF_WIDGET_HAS_INFO_LABEL);
+		WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
 
   pWidget->string16 = create_str16_from_char(_("Hide Unit Info Window"), adj_font(12));
   pWidget->size.x = Main.screen->w - UNITS_W + pTheme->FR_Left->w
@@ -2448,7 +2448,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   pLabel = create_iconlabel(NULL, Main.gui, pStr, WF_DRAW_TEXT_LABEL_WITH_SPACE);
   
   pEdit = create_edit(NULL, Main.gui, create_str16_from_char(pSuggestname, adj_font(12)),
-			(pOK_Button->size.w + pCancel_Button->size.w + adj_size(15)), WF_DRAW_THEME_TRANSPARENT);
+			(pOK_Button->size.w + pCancel_Button->size.w + adj_size(15)), WF_RESTORE_BACKGROUND);
   pEdit->action = newcity_ok_edit_callback;
 
   /* create window */

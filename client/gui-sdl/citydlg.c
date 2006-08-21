@@ -728,7 +728,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     pStr->style |= SF_CENTER;
     
     pBuf = create_icon2(pSurf, pWindow->dst,
-	(WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT | WF_WIDGET_HAS_INFO_LABEL));
+	(WF_FREE_THEME | WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL));
 	
     pBuf->string16 = pStr;
     pBuf->data.unit = pUnit;
@@ -948,7 +948,7 @@ static void create_city_options_widget_list(struct city *pCity)
   
   pBuf =
       create_textcheckbox(pWindow->dst, BV_ISSET(pCity->city_options, CITYO_DISBAND), pStr,
-			  WF_DRAW_THEME_TRANSPARENT);
+			  WF_RESTORE_BACKGROUND);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = misc_panel_city_dlg_callback;
   add_to_gui_list(MAX_ID - 0x10, pBuf);
@@ -3622,7 +3622,7 @@ static void rebuild_imprm_list(struct city *pCity)
     pLogo = ZoomSurface(pLogo, (float)22 / pLogo->w, (float)22 / pLogo->w, 1);
     
     pBuf = create_iconlabel(pLogo, pWindow->dst, pStr,
-			 (WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT));
+			 (WF_FREE_THEME | WF_RESTORE_BACKGROUND));
 
     pBuf->size.x = pWindow->size.x + 428;
     pBuf->size.y = pWindow->size.y + 91 + count * pBuf->size.h;
@@ -3758,7 +3758,7 @@ void popup_city_dialog(struct city *pCity)
   /* in title bar */
   pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Cancel"), adj_font(12));
   pBuf->action = exit_city_dlg_callback;
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w;
@@ -3771,7 +3771,7 @@ void popup_city_dialog(struct city *pCity)
   /* Buttons */
   pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Cancel"), adj_font(12));
   pBuf->action = exit_city_dlg_callback;
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - adj_size(10);
@@ -3782,7 +3782,7 @@ void popup_city_dialog(struct city *pCity)
   
   pBuf = create_themeicon(pTheme->Support_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Maintenance panel"), adj_font(12));
   pBuf->action = supported_unit_city_dlg_callback;
   pBuf->size.x =
@@ -3794,7 +3794,7 @@ void popup_city_dialog(struct city *pCity)
   
   pBuf = create_themeicon(pTheme->Army_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Garrison panel"), adj_font(12));
   pBuf->action = army_city_dlg_callback;
   pBuf->size.x =
@@ -3806,7 +3806,7 @@ void popup_city_dialog(struct city *pCity)
   
   pBuf = create_themeicon(pTheme->Happy_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Happiness panel"), adj_font(12));
   pBuf->action = happy_city_dlg_callback;
   pBuf->size.x =
@@ -3818,7 +3818,7 @@ void popup_city_dialog(struct city *pCity)
   
   pBuf = create_themeicon(pTheme->INFO_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Information panel"), adj_font(12));
   pBuf->action = info_city_dlg_callback;
   pBuf->size.x =
@@ -3850,7 +3850,7 @@ void popup_city_dialog(struct city *pCity)
   
   pBuf = create_themeicon(pTheme->Options_Icon, pWindow->dst,
                         (WF_WIDGET_HAS_INFO_LABEL |
-                         WF_DRAW_THEME_TRANSPARENT));
+                         WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Options panel"), adj_font(12));
   pBuf->action = options_city_dlg_callback;
   pBuf->size.x =
@@ -3864,7 +3864,7 @@ void popup_city_dialog(struct city *pCity)
 
   pBuf = create_themeicon(pTheme->PROD_Icon, pWindow->dst,
                         (WF_WIDGET_HAS_INFO_LABEL |
-                         WF_DRAW_THEME_TRANSPARENT));
+                         WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Change Production"), adj_font(12));
   pBuf->action = change_prod_dlg_callback;
   pBuf->size.x = pWindow->size.x + adj_size(10);
@@ -3878,7 +3878,7 @@ void popup_city_dialog(struct city *pCity)
 
   pBuf = create_themeicon(pTheme->Buy_PROD_Icon, pWindow->dst,
                         (WF_WIDGET_HAS_INFO_LABEL |
-                         WF_DRAW_THEME_TRANSPARENT));
+                         WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Hurry production"), adj_font(12));
   pBuf->action = buy_prod_city_dlg_callback;
   pBuf->size.x = pWindow->size.x + adj_size(10) + (pBuf->size.w + 2);
@@ -3893,7 +3893,7 @@ void popup_city_dialog(struct city *pCity)
 
   pBuf = create_themeicon(pTheme->CMA_Icon, pWindow->dst,
                         (WF_WIDGET_HAS_INFO_LABEL |
-                         WF_DRAW_THEME_TRANSPARENT));
+                         WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Citizen Management Agent"), adj_font(12));
   pBuf->action = cma_city_dlg_callback;
   pBuf->key = SDLK_a;
@@ -3908,7 +3908,7 @@ void popup_city_dialog(struct city *pCity)
   /* -------- */
   pBuf = create_themeicon(pTheme->L_ARROW_Icon, pWindow->dst,
                         (WF_WIDGET_HAS_INFO_LABEL |
-                         WF_DRAW_THEME_TRANSPARENT));
+                         WF_RESTORE_BACKGROUND));
 
   pBuf->string16 = create_str16_from_char(_("Prev city"), adj_font(12));
   pBuf->action = next_prev_city_dlg_callback;
@@ -3924,7 +3924,7 @@ void popup_city_dialog(struct city *pCity)
   
   pBuf = create_themeicon(pTheme->R_ARROW_Icon, pWindow->dst,
                         (WF_WIDGET_HAS_INFO_LABEL |
-                         WF_DRAW_THEME_TRANSPARENT));
+                         WF_RESTORE_BACKGROUND));
   pBuf->string16 = create_str16_from_char(_("Next city"), adj_font(12));
   pBuf->action = next_prev_city_dlg_callback;
   pBuf->size.x = pWindow->size.x + adj_size(420) + adj_size(5);
@@ -3938,7 +3938,7 @@ void popup_city_dialog(struct city *pCity)
   /* -------- */
   
   pBuf = create_edit_from_chars(NULL, pWindow->dst, pCity->name,
-                              adj_font(10), adj_size(200), WF_DRAW_THEME_TRANSPARENT);
+                              adj_font(10), adj_size(200), WF_RESTORE_BACKGROUND);
   pBuf->action = new_name_city_dlg_callback;
   pBuf->size.x = pWindow->size.x + (pWindow->size.w - pBuf->size.w) / 2;
   pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h - adj_size(5);

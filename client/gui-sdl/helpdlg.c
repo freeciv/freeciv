@@ -208,7 +208,7 @@ void popup_impr_info(Impr_type_id impr)
     
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   
     /*w += pBuf->size.w + 10;*/
     pBuf->action = exit_help_dlg_callback;
@@ -249,7 +249,7 @@ void popup_impr_info(Impr_type_id impr)
       alphablit(pText, NULL, pBack, &dst);
       
       pBuf = create_icon2(pBack, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_impr_callback;
@@ -354,7 +354,7 @@ void popup_impr_info(Impr_type_id impr)
     requirement_vector_iterate(&pImpr_type->reqs, preq) {
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	            get_req_source_text(&preq->source, buffer, sizeof(buffer)),
-                    adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+                    adj_font(12), WF_RESTORE_BACKGROUND);
       pBuf->ID = MAX_ID - preq->source.value.tech;
       pBuf->string16->fgcol = *get_tech_color(preq->source.value.tech);
       pBuf->action = change_tech_callback;
@@ -380,7 +380,7 @@ void popup_impr_info(Impr_type_id impr)
   } else {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	      advances[pImpr_type->obsolete_by].name, adj_font(12),
-			  WF_DRAW_THEME_TRANSPARENT);
+			  WF_RESTORE_BACKGROUND);
     pBuf->ID = MAX_ID - pImpr_type->obsolete_by;
     pBuf->string16->fgcol = *get_tech_color(pImpr_type->obsolete_by);
     pBuf->action = change_tech_callback;
@@ -574,7 +574,7 @@ void popup_unit_info(Unit_type_id type_id)
     
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   
     pBuf->action = exit_help_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -620,7 +620,7 @@ void popup_unit_info(Unit_type_id type_id)
       FREESURFACE(pText);
 
       pBuf = create_icon2(pBack, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_unit_callback;
@@ -751,7 +751,7 @@ void popup_unit_info(Unit_type_id type_id)
   } else {
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	  advances[pUnit->tech_requirement].name, adj_font(12),
-			  WF_DRAW_THEME_TRANSPARENT);
+			  WF_RESTORE_BACKGROUND);
     pBuf->ID = MAX_ID - pUnit->tech_requirement;
     pBuf->string16->fgcol = *get_tech_color(pUnit->tech_requirement);
     pBuf->action = change_tech_callback;
@@ -774,7 +774,7 @@ void popup_unit_info(Unit_type_id type_id)
   } else {
     struct unit_type *utype = pUnit->obsoleted_by;
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-	      utype->name, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+	      utype->name, adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_tech_color(utype->tech_requirement);
     pBuf->ID = MAX_ID - pUnit->obsoleted_by->index;
     pBuf->action = change_unit_callback;
@@ -990,7 +990,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
   start_x = (pTheme->FR_Left->w + 1 + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
   
   pBuf = create_icon2(pTheme->Tech_Tree_Icon, pWindow->dst,
-      		   WF_DRAW_THEME_TRANSPARENT);
+      		   WF_RESTORE_BACKGROUND);
 
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = show_help_callback;
@@ -1013,7 +1013,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       && (advances[i].req[0] == tech || advances[i].req[1] == tech))
     {
       pBuf= create_iconlabel_from_chars(NULL, pWindow->dst, advances[i].name,
-                                    adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+                                    adj_font(12), WF_RESTORE_BACKGROUND);
       pBuf->string16->fgcol = *get_tech_color(i);
       max_width = MAX(max_width, pBuf->size.w);
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -1050,7 +1050,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 	}
       }
       pBuf= create_iconlabel_from_chars(NULL, pWindow->dst,
-           advances[sub_tech].name, adj_font(12), WF_DRAW_THEME_TRANSPARENT);
+           advances[sub_tech].name, adj_font(12), WF_RESTORE_BACKGROUND);
       pBuf->string16->fgcol = *get_tech_color(sub_tech);
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_tech_callback;
@@ -1075,7 +1075,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
                   
         pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
                 pWindow->dst, gov->name, adj_font(14),
-                WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+                WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->action = change_gov_callback;
         pBuf->ID = MAX_ID - gov->index;
@@ -1095,7 +1095,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
            (gov->req[j].source.value.tech == tech)) {
         pBuf = create_iconlabel_from_chars(GET_SURF(get_government_sprite(tileset, gov)),
 	      pWindow->dst, gov->name, 14,
-	      WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+	      WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_gov_callback;
       pBuf->ID = MAX_ID - gov->index;
@@ -1125,7 +1125,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
         pBuf = create_iconlabel_from_chars(
                 ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1),
                 pWindow->dst, get_improvement_name(imp), adj_font(14),
-                WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+                WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
         set_wstate(pBuf, FC_WS_NORMAL);
         if (is_wonder(imp))
         {
@@ -1148,7 +1148,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
       pBuf = create_iconlabel_from_chars(
               ZoomSurface(pSurf, (float)36 / pSurf->w, (float)36 / pSurf->w, 1),
 	      pWindow->dst, get_improvement_name(imp), 14,
-	      WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR);
+	      WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
       set_wstate(pBuf, FC_WS_NORMAL);
       if (is_wonder(imp))
       {
@@ -1172,11 +1172,11 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 	float zoom = 64.0 / GET_SURF(get_unittype_sprite(tileset, un))->w;
         pBuf = create_iconlabel_from_chars(ZoomSurface(GET_SURF(get_unittype_sprite(tileset, un)), zoom, zoom, 1),
 	      pWindow->dst, pUnit->name, 14, 
-	      (WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
+	      (WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       } else {
 	pBuf = create_iconlabel_from_chars(GET_SURF(get_unittype_sprite(tileset, un)),
 	      pWindow->dst, pUnit->name, adj_font(14),
-	      (WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
+	      (WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       }
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_unit_callback;
@@ -1620,7 +1620,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
   copy_chars_to_string16(pStr, advances[tech].name);
   pSurf = create_sellect_tech_icon(pStr, tech, FULL_MODE);
   pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = show_help_callback;
@@ -1637,7 +1637,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
       copy_chars_to_string16(pStr, advances[advances[tech].req[i]].name);
       pSurf = create_sellect_tech_icon(pStr, advances[tech].req[i], SMALL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_tech_callback;
       pBuf->ID = MAX_ID - advances[tech].req[i];
@@ -1665,7 +1665,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
           copy_chars_to_string16(pStr, advances[advances[sub_tech].req[i]].name);
           pSurf = create_sellect_tech_icon(pStr, advances[sub_tech].req[i], SMALL_MODE);
           pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
           set_wstate(pBuf, FC_WS_NORMAL);
           pBuf->action = change_tech_callback;
           pBuf->ID = MAX_ID - advances[sub_tech].req[i];
@@ -1691,7 +1691,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
       copy_chars_to_string16(pStr, advances[i].name);
       pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_tech_callback;
@@ -1730,7 +1730,7 @@ static struct widget * create_tech_tree(Tech_type_id tech, int width, struct wid
       copy_chars_to_string16(pStr, advances[sub_tech].name);
       pSurf = create_sellect_tech_icon(pStr, sub_tech, SMALL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
-      	WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      	WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_tech_callback;
       pBuf->ID = MAX_ID - sub_tech;
@@ -1911,7 +1911,7 @@ void popup_tech_info(Tech_type_id tech)
     
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   
     /*w += pBuf->size.w + 10;*/
     pBuf->action = exit_help_dlg_callback;
@@ -1933,7 +1933,7 @@ void popup_tech_info(Tech_type_id tech)
         copy_chars_to_string16(pStr, advances[i].name);
         pSurf = create_sellect_tech_icon(pStr, i, SMALL_MODE);
         pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->action = change_tech_callback;

@@ -347,7 +347,7 @@ void popup_players_dialog(bool raise)
   pStr = create_str16_from_char(_("Players"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = players_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -357,7 +357,7 @@ void popup_players_dialog(bool raise)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -370,35 +370,35 @@ void popup_players_dialog(bool raise)
       case DS_ARMISTICE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_neutral_status_callback;
 	pBuf->key = SDLK_n;
       break;
       case DS_WAR:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_war_status_callback;
 	pBuf->key = SDLK_w;
       break;
       case DS_CEASEFIRE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_ceasefire_status_callback;
 	pBuf->key = SDLK_c;
       break;
       case DS_PEACE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_pease_status_callback;
 	pBuf->key = SDLK_p;
       break;
       case DS_ALLIANCE:
 	pBuf = create_checkbox(pWindow->dst,
 		(SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_alliance_status_callback;
 	pBuf->key = SDLK_a;
       break;
@@ -426,7 +426,7 @@ void popup_players_dialog(bool raise)
     pZoomed = ZoomSurface(pLogo, 3.0 - n * 0.05, 3.0 - n * 0.05 , 1);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
-    	(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));
+    	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));
     
     pBuf->string16 = pStr;
       
@@ -626,7 +626,7 @@ void popup_players_nations_dialog(void)
   pStr = create_str16_from_char(_("Nations") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = players_nations_window_dlg_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -637,7 +637,7 @@ void popup_players_nations_dialog(void)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -685,7 +685,7 @@ void popup_players_nations_dialog(void)
       pLogo = GET_SURF(get_nation_flag_sprite(tileset, pPlayer->nation));
       
       pBuf = create_iconlabel(pLogo, pWindow->dst, pStr, 
-    	(/*WF_FREE_THEME|*/WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    	(/*WF_FREE_THEME|*/WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
                       
       /* now add some eye candy ... */
       switch (pDS->type) {

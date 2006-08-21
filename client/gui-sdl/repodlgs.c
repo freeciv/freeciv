@@ -373,7 +373,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* ------------------------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   pBuf->action = exit_units_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -387,7 +387,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 	
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
  	
   h += pBuf->size.h;
   pBuf->size.w = pText1->w + adj_size(6);
@@ -398,7 +398,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 	
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
 	
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
@@ -408,7 +408,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 	
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
 	
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
@@ -418,7 +418,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 	
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
 	
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
@@ -429,7 +429,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
 	
   pBuf->size.w = pText2->w + adj_size(6);
   add_to_gui_list(ID_LABEL, pBuf);
@@ -444,7 +444,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 	
       /* ----------- */
       pBuf = create_iconlabel(adj_surf(GET_SURF(get_unittype_sprite(tileset, i))), pWindow->dst, NULL,
-			WF_DRAW_THEME_TRANSPARENT);
+			WF_RESTORE_BACKGROUND);
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
@@ -455,7 +455,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(pUnit->name, adj_font(12));
       pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-			(WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
+			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
       if(upgrade) {
 	pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_UNITUPGRADE_TEXT);
 	pBuf->action = popup_upgrade_unit_callback;
@@ -476,7 +476,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
@@ -489,7 +489,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-      						WF_DRAW_THEME_TRANSPARENT);
+      						WF_RESTORE_BACKGROUND);
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
@@ -502,7 +502,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-						WF_DRAW_THEME_TRANSPARENT);
+						WF_RESTORE_BACKGROUND);
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
@@ -516,7 +516,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-						WF_DRAW_THEME_TRANSPARENT);
+						WF_RESTORE_BACKGROUND);
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
@@ -533,7 +533,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
       }
@@ -552,7 +552,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
 	
       if(count > adj_size(72)) {
 	set_wflag(pBuf, WF_HIDDEN);
@@ -1720,7 +1720,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
   pBuf = create_iconlabel(pIcons->pBIG_Coin, pWindow->dst, pStr,
-  			(WF_DRAW_THEME_TRANSPARENT|WF_ICON_CENTER_RIGHT));
+  			(WF_RESTORE_BACKGROUND|WF_ICON_CENTER_RIGHT));
   
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
@@ -1732,7 +1732,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
   h += pBuf->size.h;
   add_to_gui_list(ID_LABEL, pBuf);
@@ -1743,7 +1743,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
@@ -1754,7 +1754,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
@@ -1769,7 +1769,7 @@ void popup_economy_report_dialog(bool make_modal)
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
   }
   
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
 			  
   w = MAX(w, pBuf->size.w);
   h += pBuf->size.h;
@@ -1784,7 +1784,7 @@ void popup_economy_report_dialog(bool make_modal)
 
   pBuf = create_checkbox(pWindow->dst, 
       		(SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK),
-      		(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL));
+      		(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL));
 
   set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
   w2 = adj_size(10) + pBuf->size.w;  
@@ -1796,7 +1796,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* ---- */
   pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
-			(WF_FREE_DATA | WF_DRAW_THEME_TRANSPARENT));
+			(WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = fc_calloc(1, sizeof(int));
@@ -1813,7 +1813,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_iconlabel(pIcons->pBIG_Luxury, pWindow->dst, pStr,
-					      WF_DRAW_THEME_TRANSPARENT);
+					      WF_RESTORE_BACKGROUND);
   w2 += (adj_size(5) + pBuf->size.w + adj_size(10));
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_LABEL, pBuf);
   /* ------------------------- */
@@ -1825,7 +1825,7 @@ void popup_economy_report_dialog(bool make_modal)
 
   pBuf = create_checkbox(pWindow->dst,
 	      (SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK),
-      		(WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL));
+      		(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL));
 
   set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
     
@@ -1837,7 +1837,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* ---- */
   
   pBuf = create_horizontal(pTheme->Horiz, pWindow->dst, adj_size(30),
-				(WF_FREE_DATA | WF_DRAW_THEME_TRANSPARENT));
+				(WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
   pBuf->action = horiz_taxrate_callback;
   pBuf->data.ptr = fc_calloc(1, sizeof(int));
@@ -1854,7 +1854,7 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_iconlabel(pIcons->pBIG_Colb, pWindow->dst, pStr,
-					      WF_DRAW_THEME_TRANSPARENT);
+					      WF_RESTORE_BACKGROUND);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_LABEL, pBuf);
   /* ---- */
@@ -1962,7 +1962,7 @@ void popup_economy_report_dialog(bool make_modal)
       FREESURFACE(pText_Name);
             
       pBuf = create_icon2(pSurf, pWindow->dst,
-    		(WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME|WF_FREE_DATA));
+    		(WF_RESTORE_BACKGROUND|WF_FREE_THEME|WF_FREE_DATA));
       
       set_wstate(pBuf, FC_WS_NORMAL);
       
@@ -2877,7 +2877,7 @@ static void popup_change_research_dialog()
   /* ------------------------- */
     /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -2925,7 +2925,7 @@ static void popup_change_research_dialog()
     copy_chars_to_string16(pStr, advances[i].name);
     pSurf = create_sellect_tech_icon(pStr, i, MED_MODE);
     pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = change_research_callback;
@@ -3054,7 +3054,7 @@ static void popup_change_research_goal_dialog()
   /* ------------------------- */
     /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3108,7 +3108,7 @@ static void popup_change_research_goal_dialog()
       copy_chars_to_string16(pStr, cBuf);
       pSurf = create_sellect_tech_icon(pStr, i, FULL_MODE);
       pBuf = create_icon2(pSurf, pWindow->dst,
-      		WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT);
+      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
       pBuf->action = change_research_goal_callback;
@@ -3279,7 +3279,7 @@ void popup_science_dialog(bool raise)
 
   pLogo = get_tech_icon(get_player_research(game.player_ptr)->researching);
   
-  pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_icon2(pLogo, pWindow->dst, WF_RESTORE_BACKGROUND);
 
   pBuf->action = popup_change_research_dialog_callback;
   if(count) {
@@ -3294,7 +3294,7 @@ void popup_science_dialog(bool raise)
   /* ------ */
   pLogo = get_tech_icon(get_player_research(game.player_ptr)->tech_goal);
   
-  pBuf = create_icon2(pLogo, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_icon2(pLogo, pWindow->dst, WF_RESTORE_BACKGROUND);
   pBuf->action = popup_change_research_goal_dialog_callback;
   if(count) {
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -3309,7 +3309,7 @@ void popup_science_dialog(bool raise)
   /* ------ */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                                   WF_DRAW_THEME_TRANSPARENT);
+                                                   WF_RESTORE_BACKGROUND);
   
   pBuf->action = popdown_science_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);

@@ -272,7 +272,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   pBuf->action = exit_notify_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -637,7 +637,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   pStr = create_str16_from_char(cBuf , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
   
   pWindow->action = unit_select_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -648,7 +648,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   pBuf->action = exit_unit_select_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -872,7 +872,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   pBuf->size.y = pWindow->size.y + WINDOW_TITLE_HEIGHT + 1;
   
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   pBuf->size.x = pWindow->size.x + pWindow->size.w - pBuf->size.w - pTheme->FR_Right->w - 1;
   pBuf->size.y = pWindow->size.y + 1;
   pBuf->action = exit_terrain_info_dialog_callback;
@@ -1185,7 +1185,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   pStr = create_str16_from_char(_("Advanced Menu") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = advanced_terrain_window_dlg_callback;
   set_wstate(pWindow , FC_WS_NORMAL);
@@ -1196,7 +1196,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_advanced_terrain_dlg_callback;
@@ -1210,7 +1210,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   pStr->style |= TTF_STYLE_BOLD;
    
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr , 
-    (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
+    (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
 
   pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
     
@@ -1737,7 +1737,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   pStr = create_str16_from_char(_("What To Pillage") , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr , adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr , adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
     
   pWindow->action = pillage_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -1749,7 +1749,7 @@ void popup_pillage_dialog(struct unit *pUnit,
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_pillage_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -2739,7 +2739,7 @@ void popup_races_dialog(struct player *pplayer)
     }
     
     pWidget = create_icon2(pTmp_Surf, pWindow->dst,
-    			(WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME));
+    			(WF_RESTORE_BACKGROUND|WF_FREE_THEME));
     
     set_wstate(pWidget, FC_WS_NORMAL);
     
@@ -2831,7 +2831,7 @@ void popup_races_dialog(struct player *pplayer)
     if (!city_style_has_requirements(&city_styles[i])) {
       pWidget = create_icon2(adj_surf(ZoomSurface(
             GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0)),
-                                    pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+                                    pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {
         set_wstate(pWidget, FC_WS_NORMAL);
@@ -2850,7 +2850,7 @@ void popup_races_dialog(struct player *pplayer)
     if (!city_style_has_requirements(&city_styles[i])) {
       pWidget = create_icon2(adj_surf(ZoomSurface(
             GET_SURF(get_sample_city_sprite(tileset, i)), 0.5, 0.5, 0)),
-                                    pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+                                    pWindow->dst, WF_RESTORE_BACKGROUND);
       pWidget->action = city_style_callback;
       if (i != pSetup->nation_city_style) {
         set_wstate(pWidget, FC_WS_NORMAL);

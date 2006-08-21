@@ -42,7 +42,7 @@ do { 									 \
   pStr = create_str16_from_char(pString, 10);				 \
   pStr->style |= TTF_STYLE_BOLD;					 \
   pBuf = create_iconlabel(NULL, pDest, pStr, 				 \
-    	     (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
+    	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
   pBuf->action = pCallback;						 \
 } while(0)
 

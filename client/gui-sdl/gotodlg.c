@@ -145,7 +145,7 @@ static void update_goto_dialog(void)
       }
       
       pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pStr, 
-    	(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       if(pCity->owner != owner) {
         set_wflag(pBuf, WF_FREE_THEME);
@@ -232,7 +232,7 @@ static void popup_goto_airlift_dialog(void)
   pStr = create_str16_from_char(_("Select destination"), adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
-  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+  pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
   
   pWindow->action = goto_dialog_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
@@ -244,7 +244,7 @@ static void popup_goto_airlift_dialog(void)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
   pBuf->action = exit_goto_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -278,7 +278,7 @@ static void popup_goto_airlift_dialog(void)
     
     pBuf = create_checkbox(pWindow->dst,
       TEST_BIT(all_players, game.players[i].player_no),
-    	(WF_FREE_STRING|WF_FREE_THEME|WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL));
+    	(WF_FREE_STRING|WF_FREE_THEME|WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL));
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
     
     pBuf->string16 = create_str16_from_char(

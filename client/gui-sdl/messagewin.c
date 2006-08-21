@@ -145,7 +145,7 @@ void real_update_meswin_dialog(void)
       pStr = create_str16_from_char(pMsg->descr , PTSIZE_LOG_FONT);
       	
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
-    		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
 
@@ -235,7 +235,7 @@ void popup_meswin_dialog(bool raise)
       pStr = create_str16_from_char(pMsg->descr , PTSIZE_LOG_FONT);
       	
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr, 
-    		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+    		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
       pBuf->string16->bgcol = (SDL_Color) {0, 0, 0, 0};
       pBuf->size.x = start_x;

@@ -212,7 +212,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
       pStr2->bgcol = (SDL_Color) {0, 0, 0, 0};
       pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr2, pConnDlg->text_width, 0,
-		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       
       pBuf->size.w = pConnDlg->text_width;
       add_widget_to_vertical_scroll_widget_list(pConnDlg->pChat_Dlg, pBuf,
@@ -228,7 +228,7 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr, pConnDlg->text_width, 0,
-		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     
     pBuf->size.w = pConnDlg->text_width;
   
@@ -347,7 +347,7 @@ void update_conn_list_dialog(void)
         copy_chars_to_string16(pStr, pconn->username);
       
         pBuf = create_themelabel2(NULL, pWindow->dst, pStr, adj_size(100), 0,
-		(WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+		(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         clear_wflag(pBuf, WF_FREE_STRING);
       
         pBuf->ID = ID_LABEL;
@@ -474,7 +474,7 @@ static void popup_conn_list_dialog(void)
   
   pBuf = create_themelabel2(NULL, pWindow->dst,
   		pStr, pConnDlg->text_width, 0,
-		 (WF_DRAW_THEME_TRANSPARENT|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+		 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         
   pBuf->size.x = pWindow->size.x + adj_size(10 + 60 + 10);
   pBuf->size.y = pWindow->size.y + adj_size(14);
@@ -549,7 +549,7 @@ static void popup_conn_list_dialog(void)
 
   pBuf = create_edit_from_unichars(NULL, pWindow->dst,
   		NULL, 0, adj_font(12), pConnDlg->text_width + adj_size(155),
-			(WF_DRAW_THEME_TRANSPARENT|WF_EDIT_LOOP));
+			(WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
     
   pBuf->size.x = adj_size(10 + 60 + 10 - 3);
   pBuf->size.y = pWindow->size.y + pWindow->size.h - (pBuf->size.h + adj_size(5));

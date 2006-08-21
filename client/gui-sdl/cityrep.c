@@ -190,7 +190,7 @@ static void real_info_city_report_dialog_update(void)
   /* exit button */
   pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
 
   pBuf->string16 = create_str16_from_char(_("Exit Report"), adj_font(12));
   pBuf->action = exit_city_report_callback;
@@ -201,7 +201,7 @@ static void real_info_city_report_dialog_update(void)
   /* ------------------------- */
   pBuf = create_themeicon(pTheme->INFO_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
 
   pBuf->string16 = create_str16_from_char(_("Information Report"), adj_font(12));
 /*
@@ -212,7 +212,7 @@ static void real_info_city_report_dialog_update(void)
   /* -------- */
   pBuf = create_themeicon(pTheme->Happy_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
 
   pBuf->string16 = create_str16_from_char(_("Happiness Report"), adj_font(12));
 /*
@@ -223,7 +223,7 @@ static void real_info_city_report_dialog_update(void)
   /* -------- */
   pBuf = create_themeicon(pTheme->Army_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
 
   pBuf->string16 = create_str16_from_char(_("Garrison Report"), adj_font(12));
 /*
@@ -234,7 +234,7 @@ static void real_info_city_report_dialog_update(void)
   /* -------- */
   pBuf = create_themeicon(pTheme->Support_Icon, pWindow->dst,
 			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_DRAW_THEME_TRANSPARENT));
+			   WF_RESTORE_BACKGROUND));
 
   pBuf->string16 = create_str16_from_char(_("Maintenance Report"), adj_font(12));
 /*
@@ -251,7 +251,7 @@ static void real_info_city_report_dialog_update(void)
     pStr = create_str16_from_char(pCity->name, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-			(WF_DRAW_THEME_TRANSPARENT|WF_SELLECT_WITHOUT_BAR));
+			(WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR));
     
     if (city_unhappy(pCity)) {
       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_TRADE);
@@ -280,7 +280,7 @@ static void real_info_city_report_dialog_update(void)
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -290,7 +290,7 @@ static void real_info_city_report_dialog_update(void)
   
     /* ----------- */
     pBuf = create_checkbox(pWindow->dst,
-	    cma_is_city_under_agent(pCity, NULL), WF_DRAW_THEME_TRANSPARENT);
+	    cma_is_city_under_agent(pCity, NULL), WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -306,7 +306,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_OVERVIEW_LAND);	
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -320,7 +320,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_FOOD_SURPLUS);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -348,7 +348,7 @@ static void real_info_city_report_dialog_update(void)
       pStr->fgcol.r = 255;
     }
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -362,7 +362,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_TRADE);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -375,7 +375,7 @@ static void real_info_city_report_dialog_update(void)
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -389,7 +389,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_GOLD);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -403,7 +403,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_SCIENCE);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -417,7 +417,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_LUX);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -432,7 +432,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_PROD);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -445,7 +445,7 @@ static void real_info_city_report_dialog_update(void)
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -460,7 +460,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_SUPPORT);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -474,7 +474,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_TRADE);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-					WF_DRAW_THEME_TRANSPARENT);
+					WF_RESTORE_BACKGROUND);
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }
@@ -524,7 +524,7 @@ static void real_info_city_report_dialog_update(void)
     }
   
     pBuf = create_icon2(pLogo, pWindow->dst,
-    	(WF_WIDGET_HAS_INFO_LABEL|WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME));
+    	(WF_WIDGET_HAS_INFO_LABEL|WF_RESTORE_BACKGROUND|WF_FREE_THEME));
     pBuf->string16 = pStr;
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
@@ -539,7 +539,7 @@ static void real_info_city_report_dialog_update(void)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYREP_TEXT);
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-			(WF_SELLECT_WITHOUT_BAR|WF_DRAW_THEME_TRANSPARENT));
+			(WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
     if(count > 9 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }

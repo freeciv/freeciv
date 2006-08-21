@@ -268,7 +268,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   
   pStr->style |= SF_CENTER;
   pBuf = create_iconlabel(NULL, pTarget->dst, pStr,
-				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
     
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = worklist_editor_item_callback;
@@ -698,14 +698,14 @@ static void add_global_worklist(struct widget *pWidget)
 	pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(
 			get_unit_type(pWorkList->entries[count].value)->name, adj_font(10)),
-				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 	pBuf->ID = MAX_ID - cid_encode_unit(get_unit_type(pWorkList->entries[count].value));
       } else {
 	pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(
 			get_impr_name_ex(pEditor->pCity,
 				pWorkList->entries[count].value), adj_font(10)),
-				   (WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+				   (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 	pBuf->ID = MAX_ID - cid_encode_building(pWorkList->entries[count].value);
       }
       
@@ -798,12 +798,12 @@ static void set_global_worklist(struct widget *pWidget)
         if(target.is_unit) {
 	  pBuf = create_iconlabel(NULL, pWidget->dst,
 		create_str16_from_char(get_unit_type(target.value)->name, adj_font(10)),
-				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 	  pBuf->ID = MAX_ID - B_LAST - target.value;
         } else {
 	  pBuf = create_iconlabel(NULL, pWidget->dst,
 	  create_str16_from_char(get_impr_name_ex(pEditor->pCity, target.value), adj_font(10)),
-				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 	  pBuf->ID = MAX_ID - target.value;
         }
         pBuf->string16->style |= SF_CENTER;
@@ -1085,7 +1085,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
   
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
@@ -1093,7 +1093,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   my_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"), worklist_length(pWorkList));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
   pEditor->pWorkList_Counter = pBuf;
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
@@ -1124,7 +1124,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     }
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
     pEditor->pProduction_Name = pBuf;
     add_to_gui_list(ID_LABEL, pBuf);
@@ -1136,7 +1136,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     
     pBuf = create_iconlabel(pIcon, pWindow->dst, pStr,
-    		(WF_DRAW_THEME_TRANSPARENT|WF_ICON_CENTER|WF_FREE_THEME));
+    		(WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
     
     pIcon = NULL;
     turns = 0;
@@ -1144,7 +1144,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     add_to_gui_list(ID_LABEL, pBuf);
   } else {
     pBuf = create_edit_from_chars(NULL, pWindow->dst,  pWorkList->name, adj_font(10),
-                                    adj_size(120), WF_DRAW_THEME_TRANSPARENT);
+                                    adj_size(120), WF_RESTORE_BACKGROUND);
     pBuf->action = rename_worklist_editor_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     
@@ -1153,7 +1153,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   /* --------------------------- */
   /* Commit Widget */
-  pBuf = create_themeicon(pTheme->OK_Icon, pWindow->dst, WF_DRAW_THEME_TRANSPARENT);
+  pBuf = create_themeicon(pTheme->OK_Icon, pWindow->dst, WF_RESTORE_BACKGROUND);
   
   pBuf->action = ok_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1163,7 +1163,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   /* --------------------------- */
   /* Cancel Widget */
   pBuf = create_themeicon(pTheme->CANCEL_Icon, pWindow->dst,
-				  WF_DRAW_THEME_TRANSPARENT);
+				  WF_RESTORE_BACKGROUND);
   
   pBuf->action = popdown_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1192,7 +1192,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     pStr = create_str16_from_char(get_production_name(pCity,
     				pCity->production, &turns), adj_font(10));
     pStr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = worklist_editor_item_callback;
@@ -1224,7 +1224,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
     }
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
-				(WF_DRAW_THEME_TRANSPARENT|WF_FREE_DATA));
+				(WF_RESTORE_BACKGROUND|WF_FREE_DATA));
     
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = worklist_editor_item_callback;
@@ -1288,7 +1288,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       if (client.worklists[i].is_valid) {
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
       		client.worklists[i].name, adj_font(10),
-					      WF_DRAW_THEME_TRANSPARENT);
+					      WF_RESTORE_BACKGROUND);
         set_wstate(pBuf, FC_WS_NORMAL);
         add_to_gui_list(MAX_ID - i, pBuf);
         pBuf->string16->style |= SF_CENTER;
@@ -1462,7 +1462,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       FREESURFACE(pText_Name);
             
       pBuf = create_icon2(pIcon, pWindow->dst,
-    				WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME);
+    				WF_RESTORE_BACKGROUND|WF_FREE_THEME);
       set_wstate(pBuf, FC_WS_NORMAL);
     
       widget_w = MAX(widget_w, pBuf->size.w);
@@ -1556,7 +1556,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       FREESURFACE(pText_Name);
       
       pBuf = create_icon2(pIcon, pWindow->dst,
-    				WF_DRAW_THEME_TRANSPARENT|WF_FREE_THEME);
+    				WF_RESTORE_BACKGROUND|WF_FREE_THEME);
       set_wstate(pBuf, FC_WS_NORMAL);
     
       widget_w = MAX(widget_w, pBuf->size.w);

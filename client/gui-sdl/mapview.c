@@ -777,7 +777,7 @@ void redraw_unit_info_label(struct unit *pUnit)
           pStr->style |= SF_CENTER;
     
           pBuf = create_icon2(pBuf_Surf, pInfo_Window->dst,
-	             (WF_FREE_THEME | WF_DRAW_THEME_TRANSPARENT |
+	             (WF_FREE_THEME | WF_RESTORE_BACKGROUND |
 						    WF_WIDGET_HAS_INFO_LABEL));
 	
     	  pBuf->string16 = pStr;

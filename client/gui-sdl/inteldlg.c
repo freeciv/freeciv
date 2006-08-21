@@ -219,7 +219,7 @@ void update_intel_dialog(struct player *p)
     pStr = create_str16_from_char(_("Foreign Intelligence Report") , adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
     
-    pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+    pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
       
     pWindow->action = intel_window_dlg_callback;
     set_wstate(pWindow , FC_WS_NORMAL);
@@ -231,7 +231,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                                  WF_DRAW_THEME_TRANSPARENT);
+                                                  WF_RESTORE_BACKGROUND);
     w += pBuf->size.w + adj_size(10);
     pBuf->action = exit_intel_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -246,7 +246,7 @@ void update_intel_dialog(struct player *p)
     pLogo = pText1;
           
     pBuf = create_icon2(pLogo, pWindow->dst,
-          (WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|
+          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|
                                           WF_FREE_STRING|WF_FREE_THEME));
     pBuf->action = spaceship_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -312,7 +312,7 @@ void update_intel_dialog(struct player *p)
         get_invention(game.player_ptr, i) != TECH_KNOWN) {
         
         pBuf = create_icon2(get_tech_icon(i), pWindow->dst,
-          (WF_DRAW_THEME_TRANSPARENT|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
+          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
         pBuf->action = tech_callback;
         set_wstate(pBuf, FC_WS_NORMAL);
   

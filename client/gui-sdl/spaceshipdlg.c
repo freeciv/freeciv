@@ -144,7 +144,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
   
-    pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_DRAW_THEME_TRANSPARENT);
+    pWindow = create_window(NULL, pStr, adj_size(10), adj_size(10), WF_RESTORE_BACKGROUND);
   
     pWindow->action = space_dialog_window_callback;
     set_wstate(pWindow, FC_WS_NORMAL);
@@ -158,7 +158,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     /* ---------- */
     /* create exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  			WF_DRAW_THEME_TRANSPARENT);
+  			  			WF_RESTORE_BACKGROUND);
     pBuf->data.player = pPlayer;
     pBuf->action = exit_space_dialog_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -177,7 +177,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     
     pStr = create_str16_from_char(get_spaceship_descr(NULL), adj_font(12));
     pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_DRAW_THEME_TRANSPARENT);
+    pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
     w = MAX(w, pBuf->size.w);
     h += pBuf->size.h + adj_size(20);
     add_to_gui_list(ID_LABEL, pBuf);
