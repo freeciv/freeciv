@@ -208,44 +208,22 @@ void popup_meswin_dialog(bool raise)
   
   pMsg_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
+  pStr = create_str16_from_char(_("Log"), adj_font(12));
+  pStr->style = TTF_STYLE_BOLD;
+  
   /* create window */
-  pWindow = create_window(NULL, NULL, w, h, 0);
+  pWindow = create_window(NULL, pStr, 1, 1, 0);
 
   pWindow->size.x = start_x;
   pWindow->size.y = start_y;
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
 
-  pWindow->theme = create_surf_alpha(w, h, SDL_SWSURFACE);
-  
-  SDL_FillRect(pWindow->theme , NULL, map_rgba(pWindow->theme->format, bg_color));
-  
-  area.x = 0;
-  area.y = 0;
-  area.w = w;
-  area.h = WINDOW_TITLE_HEIGHT;
-  
-  /* fill title bar */
-  SDL_FillRect(pWindow->theme, &area, map_rgba(pWindow->theme->format, title_bg_color));
-  
-  putline(pWindow->theme, 0, WINDOW_TITLE_HEIGHT, w - 1, WINDOW_TITLE_HEIGHT,
-                                map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_MESWIN_FRAME)));
+  /* create window background */
+  pSurf = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
+  if (resize_window(pWindow, pSurf, NULL, w, h)) {
+    FREESURFACE(pSurf);
+  }
 
-  /* create static text on window */
-  pStr = create_str16_from_char(_("Log"), adj_font(12));
-  pStr->style = TTF_STYLE_BOLD;
-  pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
-    
-  pSurf = create_text_surf_from_str16(pStr);
-  area.x += adj_size(10);
-  area.y += ((WINDOW_TITLE_HEIGHT - pSurf->h) / 2);
-  alphablit(pSurf, NULL, pWindow->theme, &area);
-  FREESURFACE(pSurf);
-  FREESTRING16(pStr);
-  
-  putframe(pWindow->theme, 0, 0, w - 1, h - 1,
-    map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_MESWIN_FRAME)));
-  
-  clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
   pWindow->action = move_msg_window_callback;
   set_wstate(pWindow, FC_WS_NORMAL);
   add_to_gui_list(ID_CHATLINE_WINDOW, pWindow);

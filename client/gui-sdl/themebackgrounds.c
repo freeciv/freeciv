@@ -42,6 +42,7 @@ static char *background_names[] = {
   "hlpdlg",
   "joingamedlg",
   "mainpage",
+  "messagewin",
   "nationdlg",
   "newcitydlg",
   "optiondlg",
