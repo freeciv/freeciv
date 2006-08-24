@@ -75,7 +75,6 @@ static int start_new_game_callback(struct widget *pWidget)
 static int join_game_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_start_menu();  
     set_client_page(PAGE_NETWORK);
     popup_join_game_dialog();
   }
@@ -299,6 +298,9 @@ void set_client_page(enum client_pages page)
 {
 
   switch (old_page) {
+    case PAGE_MAIN:
+      popdown_start_menu();
+      break;
     case PAGE_GAME:
       disable_main_widgets();
       break;
