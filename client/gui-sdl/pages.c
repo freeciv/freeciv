@@ -19,6 +19,12 @@
 #include "fcintl.h"
 #include "log.h"
 
+/* common */
+#include "fc_types.h"
+
+/* client */
+#include "connectdlg_common.h"
+
 /* gui-sdl */
 #include "chatline.h"
 #include "colors.h"
@@ -43,6 +49,25 @@ static enum client_pages old_page = PAGE_MAIN;
 static struct SMALL_DLG *pStartMenu = NULL;
 
 static void popdown_start_menu(void);
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static int start_new_game_callback(struct widget *pWidget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (is_server_running() || client_start_server()) {
+      char buf[512];
+  
+      /* Send new game defaults. */
+      send_chat("/set aifill 5");
+  
+      my_snprintf(buf, sizeof(buf), "/%s", skill_level_names[0]);
+      send_chat(buf);
+    }
+  }
+  return -1;
+}
 
 /**************************************************************************
   ...
@@ -117,9 +142,9 @@ static void show_main_page()
             adj_font(14),
             (WF_SELLECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   
-  /*pBuf->action = popup_start_new_game_callback;*/
+  pWidget->action = start_new_game_callback;
   pWidget->string16->style |= SF_CENTER;
-  pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_WIDGET_DISABLED_TEXT);
+  set_wstate(pWidget, FC_WS_NORMAL);
   
   w = MAX(w, pWidget->size.w);
   h = MAX(h, pWidget->size.h);
@@ -219,11 +244,12 @@ static void show_main_page()
   h+=adj_size(6);
    
   setup_vertical_widgets_position(1,
-	(Main.screen->w - w) - adj_size(20), (Main.screen->h - (h * count)) - adj_size(20),
-		w, h, pWidget, pWindow->prev);
+    (Main.screen->w - pTheme->FR_Right->w - w) - adj_size(20),
+    (Main.screen->h - pTheme->FR_Bottom->h - (h * count)) - adj_size(20),
+    w, h, pWidget, pWindow->prev);
 
-  pWindow->size.x = (Main.screen->w - w) - adj_size(20);
-  pWindow->size.y = (Main.screen->h - (h * count)) - adj_size(20);
+  pWindow->size.x = (Main.screen->w - pTheme->FR_Right->w - w - pTheme->FR_Left->w) - adj_size(20);
+  pWindow->size.y = (Main.screen->h - pTheme->FR_Bottom->h - (h * count) - pTheme->FR_Top->h) - adj_size(20);
   set_window_pos(pWindow, pWindow->size.x, pWindow->size.y);
   
   draw_intro_gfx();
@@ -231,7 +257,9 @@ static void show_main_page()
   pLogo = theme_get_background(theme, BACKGROUND_STARTMENU);
   SDL_FillRectAlpha(pLogo, NULL, &bg_color);
   
-  if (resize_window(pWindow, pLogo, NULL, pTheme->FR_Left->w + w + pTheme->FR_Right->w, pTheme->FR_Top->h + (h * count) + pTheme->FR_Bottom->h)) {
+  if (resize_window(pWindow, pLogo, NULL,
+        pTheme->FR_Left->w + w + pTheme->FR_Right->w,
+        pTheme->FR_Top->h + (h * count) + pTheme->FR_Bottom->h)) {
     FREESURFACE(pLogo);
   }
 
