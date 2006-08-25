@@ -69,7 +69,6 @@ static struct OPT_DLG {
 
 struct widget *pOptions_Button = NULL;
 static struct widget *pEdited_WorkList_Name = NULL;
-extern SDL_Surface *get_buffer_layer(int width, int height);
 extern bool do_cursor_animation;
 extern bool use_color_cursors;
 

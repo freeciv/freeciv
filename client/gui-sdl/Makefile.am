@@ -92,6 +92,15 @@ libguiclient_a_SOURCES = \
 	themespec.h	\
 	unistring.c	\
 	unistring.h	\
+	widget_button.c \
+	widget_checkbox.c \
+	widget_core.c	\
+	widget_edit.c	\
+	widget_icon.c	\
+	widget_label.c  \
+	widget_p.h	\
+	widget_slider.c	\
+	widget_window.c \
 	wldlg.c		\
 	wldlg.h
 

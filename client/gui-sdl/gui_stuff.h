@@ -35,16 +35,35 @@
 #define	WINDOW_TITLE_HEIGHT	20
 #endif
 
-#define STATE_MASK		0x03       /* 0..0000000000000011 */
-#define TYPE_MASK		0x03FC     /* 0..0000001111111100 */
-#define FLAG_MASK		0xFFFFFC00 /* 1..1111110000000000 */
-
 #define MAX_ID			0xFFFF
-/* Text cetnter flags has been moved to 'string16->style' */
+
+/* Widget Types */
+enum widget_type {			/* allow 64 widgets type */
+  WT_BUTTON	 = 4,		/* Button with Text (not use !!!)
+				   ( can be transparent ) */
+  WT_I_BUTTON	 = 8,		/* Button with TEXT and ICON
+				   ( static; can't be transp. ) */
+  WT_TI_BUTTON	= 12,		/* Button with TEXT and ICON
+				   (themed; can't be transp. ) */
+  WT_EDIT	= 16,		/* edit field   */
+  WT_ICON	= 20,		/* flat Button from 4 - state icon */
+  WT_VSCROLLBAR = 24,		/* bugy */
+  WT_HSCROLLBAR = 28,		/* bugy */
+  WT_WINDOW	= 32,
+  WT_T_LABEL	= 36,		/* text label with theme backgroud */
+  WT_I_LABEL	= 40,		/* text label with icon */
+  WT_TI_LABEL	= 44,		/* text label with icon and theme backgroud.
+				   NOTE: Not DEFINED- don't use
+				   ( can't be transp. ) */
+  WT_CHECKBOX	= 48,		/* checkbox. */
+  WT_TCHECKBOX	= 52,		/* text label with checkbox. */
+  WT_ICON2	= 56,		/* flat Button from 1 - state icon */
+  WT_T2_LABEL	= 60
+};
 
 /* Widget FLAGS -> allowed 20 flags */
 /* default: ICON_CENTER_Y, ICON_ON_LEFT */
-enum WFlags {
+enum widget_flag {
   WF_HIDDEN				= (1<<10),	/* 1024 */
   /* widget->gfx may be freed */
   WF_FREE_GFX	 			= (1<<11),	/* 2048 */
@@ -70,35 +89,11 @@ enum WFlags {
 };
 
 /* Widget states */
-enum WState {
+enum widget_state {
   FC_WS_NORMAL		= 0,
   FC_WS_SELLECTED	= 1,
   FC_WS_PRESSED		= 2,
   FC_WS_DISABLED	= 3
-};
-
-/* Widget Types */
-enum WTypes {			/* allow 64 widgets type */
-  WT_BUTTON	 = 4,		/* Button with Text (not use !!!)
-				   ( can be transparent ) */
-  WT_I_BUTTON	 = 8,		/* Button with TEXT and ICON
-				   ( static; can't be transp. ) */
-  WT_TI_BUTTON	= 12,		/* Button with TEXT and ICON
-				   (themed; can't be transp. ) */
-  WT_EDIT	= 16,		/* edit field   */
-  WT_ICON	= 20,		/* flat Button from 4 - state icon */
-  WT_VSCROLLBAR = 24,		/* bugy */
-  WT_HSCROLLBAR = 28,		/* bugy */
-  WT_WINDOW	= 32,
-  WT_T_LABEL	= 36,		/* text label with theme backgroud */
-  WT_I_LABEL	= 40,		/* text label with icon */
-  WT_TI_LABEL	= 44,		/* text label with icon and theme backgroud.
-				   NOTE: Not DEFINED- don't use
-				   ( can't be transp. ) */
-  WT_CHECKBOX	= 48,		/* checkbox. */
-  WT_TCHECKBOX	= 52,		/* text label with checkbox. */
-  WT_ICON2	= 56,		/* flat Button from 1 - state icon */
-  WT_T2_LABEL	= 60
 };
 
 enum Edit_Return_Codes {
@@ -242,7 +237,7 @@ void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
 				     struct widget *pEndGroupWidgetList);
 
 void set_group_state(struct widget *pBeginGroupWidgetList,
-		     struct widget *pEndGroupWidgetList, enum WState state);
+		     struct widget *pEndGroupWidgetList, enum widget_state state);
 
 void show_group(struct widget *pBeginGroupWidgetList,
 		struct widget *pEndGroupWidgetList);
@@ -251,7 +246,8 @@ void hide_group(struct widget *pBeginGroupWidgetList,
 		struct widget *pEndGroupWidgetList);
 
 int redraw_widget(struct widget *pWidget);
-
+void free_widget(struct widget *pGUI);
+  
 /* Window Group */
 void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
 				 struct widget *pEndGroupWidgetList);
@@ -369,6 +365,7 @@ struct widget * convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel);
 int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y);
 
 int redraw_label(struct widget *pLabel);
+int redraw_iconlabel(struct widget *pLabel);
 void remake_label_size(struct widget *pLabel);
 
 /* CHECKBOX */
@@ -381,33 +378,13 @@ int redraw_textcheckbox(struct widget *pCBox);
 int set_new_checkbox_theme(struct widget *pCBox ,
 				SDL_Surface *pTrue, SDL_Surface *pFalse);
 
-#define set_wstate(pWidget, state)		\
-do {						\
-  pWidget->state_types_flags &= ~STATE_MASK;	\
-  pWidget->state_types_flags |= state;		\
-} while(0)
-
-#define set_wtype(pWidget, type)		\
-do {						\
-  pWidget->state_types_flags &= ~TYPE_MASK;	\
-  pWidget->state_types_flags |= type;		\
-} while(0)
-
-#define set_wflag(pWidget, flag)	\
-	(pWidget)->state_types_flags |= ((flag) & FLAG_MASK)
-
-#define clear_wflag(pWidget, flag)	\
-	(pWidget)->state_types_flags &= ~((flag) & FLAG_MASK)
-
-#define get_wstate(pWidget)				\
-	((enum WState)(pWidget->state_types_flags & STATE_MASK))
-
-#define get_wtype(pWidget)				\
-	((enum WTypes)(pWidget->state_types_flags & TYPE_MASK))
-
-#define get_wflags(pWidget)				\
-	((enum WFlags)(pWidget->state_types_flags & FLAG_MASK))
-
+void set_wstate(struct widget *pWidget, enum widget_state state);
+void set_wtype(struct widget *pWidget, enum widget_type type);
+void set_wflag(struct widget *pWidget, enum widget_flag flag);
+void clear_wflag(struct widget *pWidget, enum widget_flag flag);
+enum widget_state get_wstate(const struct widget *pWidget);
+enum widget_type get_wtype(const struct widget *pWidget);
+enum widget_flag get_wflags(const struct widget *pWidget);
 
 #define hide_scrollbar(scrollbar)				\
 do {								\
@@ -433,27 +410,8 @@ do {								\
 
 #define FREEWIDGET(pGUI)					\
 do {								\
-  if ((get_wflags(pGUI) & WF_FREE_STRING) == WF_FREE_STRING) {	\
-    FREESTRING16(pGUI->string16);				\
-  }								\
-  if ((get_wflags(pGUI) & WF_FREE_GFX) == WF_FREE_GFX) {		\
-    FREESURFACE(pGUI->gfx);					\
-  }								\
-  if ((get_wflags(pGUI) & WF_FREE_THEME) == WF_FREE_THEME) {	\
-    if (get_wtype(pGUI) == WT_CHECKBOX) {			\
-      FREESURFACE(pGUI->private_data.cbox->pTRUE_Theme);		\
-      FREESURFACE(pGUI->private_data.cbox->pFALSE_Theme);		\
-    } else {							\
-      FREESURFACE(pGUI->theme);				\
-    }								\
-  }								\
-  if ((get_wflags(pGUI) & WF_FREE_DATA) == WF_FREE_DATA) {	\
-    FC_FREE(pGUI->data.ptr);					\
-  }								\
-  if ((get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) == WF_FREE_PRIVATE_DATA) { 	\
-    FC_FREE(pGUI->private_data.ptr);				\
-  }								\
-  FC_FREE(pGUI);							\
+  free_widget(pGUI);                                            \
+  FC_FREE(pGUI);						\
 } while(0)
 
 #define redraw_ID(ID) \
