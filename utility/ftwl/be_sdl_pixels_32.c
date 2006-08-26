@@ -122,16 +122,24 @@ void be_init(const struct ct_size *screen_size, bool fullscreen)
 /*************************************************************************
   Copy our osda to the screen.  No alpha-blending here.
 *************************************************************************/
-void be_copy_osda_to_screen(struct osda *src)
+void be_copy_osda_to_screen(struct osda *src, const struct ct_rect *rect)
 {
   SDL_Surface *buf;
+  SDL_Rect rect2;
+  
+  if (rect) {
+    rect2 = (SDL_Rect){rect->x, rect->y, rect->width, rect->height};
+  } else {
+    rect2 = (SDL_Rect){0, 0, src->image->width, src->image->height};
+  }
 
   buf = SDL_CreateRGBSurfaceFrom(src->image->data, src->image->width,
                                  src->image->height, 32, src->image->pitch,
                                  rmask, gmask, bmask, amask);
-  SDL_BlitSurface(buf, NULL, screen, NULL);
-  SDL_Flip(screen);
+  SDL_BlitSurface(buf, &rect2, screen, &rect2);
   SDL_FreeSurface(buf);
+  
+  SDL_UpdateRect(screen, rect2.x, rect2.y, rect2.w, rect2.h);;
 }
 
 /*************************************************************************

@@ -320,14 +320,19 @@ void be_screen_get_size(struct ct_size *size)
   ...
 *************************************************************************/
 static void fill_ximage_from_image_565(XImage * ximage,
-				       const struct image *image)
+				       const struct image *image,
+                                        int start_x, int start_y,
+                                        int width, int height)
 {
   int x, y;
-  unsigned short *pdest = (unsigned short *) ximage->data;
-  int extra_per_line = ximage->bytes_per_line / 2 - ximage->width;
+  unsigned short *pdest = (unsigned short *) (ximage->data + 
+                            start_y * (ximage->bytes_per_line / 2) +
+                            start_x);
 
-  for (y = 0; y < ximage->height; y++) {
-    for (x = 0; x < ximage->width; x++) {
+  int extra_per_line = ximage->bytes_per_line / 2 - width;
+
+  for (y = start_y; y < height; y++) {
+    for (x = start_x; x < width; x++) {
       unsigned char *psrc = IMAGE_GET_ADDRESS(image, x, y);
       unsigned short new_value =
 	  (COMP_565_RED(psrc[0]) | COMP_565_GREEN(psrc[1]) |
@@ -346,14 +351,18 @@ static void fill_ximage_from_image_565(XImage * ximage,
 #define COMP_555_GREEN(x)	((((x)>>3)&0x1f)<< 5)
 #define COMP_555_BLUE(x)	((((x)>>3)&0x1f)<< 0)
 static void fill_ximage_from_image_555(XImage * ximage,
-				       const struct image *image)
+				       const struct image *image,
+                                        int start_x, int start_y,
+                                        int width, int height)
 {
   int x, y;
-  unsigned short *pdest = (unsigned short *) ximage->data;
-  int extra_per_line = ximage->bytes_per_line / 2 - ximage->width;
+  unsigned short *pdest = (unsigned short *) (ximage->data + 
+                            start_y * (ximage->bytes_per_line / 2) +
+                            start_x);
+  int extra_per_line = ximage->bytes_per_line / 2 - width;
 
-  for (y = 0; y < ximage->height; y++) {
-    for (x = 0; x < ximage->width; x++) {
+  for (y = start_y; y < height; y++) {
+    for (x = start_x; x < width; x++) {
       unsigned char *psrc = IMAGE_GET_ADDRESS(image, x, y);
       unsigned short new_value =
 	  (COMP_555_RED(psrc[0]) | COMP_555_GREEN(psrc[1]) |
@@ -369,14 +378,18 @@ static void fill_ximage_from_image_555(XImage * ximage,
   ...
 *************************************************************************/
 static void fill_ximage_from_image_8888(XImage * ximage,
-					const struct image *image)
+                                        const struct image *image,
+                                        int start_x, int start_y,
+                                        int width, int height)
 {
   int x, y;
-  unsigned char *pdest = (unsigned char *) ximage->data;
-  int extra_per_line = ximage->bytes_per_line - ximage->width*4;
+  unsigned char *pdest = (unsigned char *) (ximage->data + 
+                           start_y * ximage->bytes_per_line +
+                           start_x * 4);
+  int extra_per_line = ximage->bytes_per_line - width*4;
 
-  for (y = 0; y < ximage->height; y++) {
-    for (x = 0; x < ximage->width; x++) {
+  for (y = start_y; y < height; y++) {
+    for (x = start_x; x < width; x++) {
       unsigned char *psrc = IMAGE_GET_ADDRESS(image, x, y);
 
       pdest[0] = psrc[2];
@@ -391,27 +404,38 @@ static void fill_ximage_from_image_8888(XImage * ximage,
 /*************************************************************************
   ...
 *************************************************************************/
-void be_copy_osda_to_screen(struct osda *src)
+void be_copy_osda_to_screen(struct osda *src, const struct ct_rect *rect)
 {
   assert(root_image->width == src->image->width &&
 	 root_image->height == src->image->height);
+
+  struct ct_rect rect2;
+  
+  if (rect) {
+    rect2 = *rect;
+  } else {
+    rect2 = (struct ct_rect){0, 0, src->image->width, src->image->height};
+  }
 
   if (root_image->red_mask == 0xf800 &&
       root_image->green_mask == 0x7e0 && root_image->blue_mask == 0x1f &&
       root_image->depth == 16 && root_image->bits_per_pixel == 16
       && root_image->byte_order == LSBFirst) {
-    fill_ximage_from_image_565(root_image, src->image);
+    fill_ximage_from_image_565(root_image, src->image, rect2.x, rect2.y,
+                               rect2.width, rect2.height);
   } else if (root_image->red_mask == 0x7c00 &&
 	     root_image->green_mask == 0x3e0 && root_image->blue_mask == 0x1f
 	     && root_image->depth == 15 && root_image->bits_per_pixel == 16
 	     && root_image->byte_order == LSBFirst) {
-    fill_ximage_from_image_555(root_image, src->image);
+    fill_ximage_from_image_555(root_image, src->image, rect2.x, rect2.y,
+                               rect2.width, rect2.height);
   } else if (root_image->red_mask == 0xff0000 &&
 	     root_image->green_mask == 0xff00
 	     && root_image->blue_mask == 0xff && root_image->depth == 24
 	     && root_image->bits_per_pixel == 32
 	     && root_image->byte_order == LSBFirst) {
-    fill_ximage_from_image_8888(root_image, src->image);
+    fill_ximage_from_image_8888(root_image, src->image, rect2.x, rect2.y,
+                                rect2.width, rect2.height);
   } else {
     fprintf(stderr, "ERROR: unknown screen format: red=0x%lx, "
 	    "green=0x%lx, blue=0x%lx depth=%d bpp=%d "
@@ -423,8 +447,8 @@ void be_copy_osda_to_screen(struct osda *src)
     assert(0);
   }
 
-  XPutImage(display, window, gc_plain, root_image, 0, 0, 0, 0,
-	    root_image->width, root_image->height);
+  XPutImage(display, window, gc_plain, root_image, rect2.x, rect2.y,
+            rect2.x, rect2.y, rect2.width, rect2.height);
   XFlush(display);
 }
 

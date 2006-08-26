@@ -129,19 +129,32 @@ cairo_surface_t *be_cairo_surface_create(int width, int height) {
 /*************************************************************************
   Copy our osda to the screen.  No alpha-blending here.
 *************************************************************************/
-void be_copy_osda_to_screen(struct osda *src)
+void be_copy_osda_to_screen(struct osda *src, const struct ct_rect *rect)
 {
   cairo_t *cr;
   
+  struct ct_rect rect2;
+  
+  if (rect) {
+    rect2 = *rect;
+  } else {
+    rect2 = (struct ct_rect){0, 0, src->image->width, src->image->height};
+  }
+
   cr = cairo_create(screen_surface);
   
+  cairo_rectangle(cr, rect2.x, rect2.y, rect2.width, rect2.height);
+  cairo_clip(cr);
+
+  cairo_translate(cr, rect2.x, rect2.y);
+  
   cairo_set_operator(cr, CAIRO_OPERATOR_SOURCE);
-  cairo_set_source_surface(cr, src->image->data, 0.0, 0.0);
+  cairo_set_source_surface(cr, src->image->data, -rect2.x, -rect2.y);
   cairo_paint(cr);
   
   cairo_destroy(cr);
 
-  SDL_Flip(screen);  
+  SDL_UpdateRect(screen, rect2.x, rect2.y, rect2.width, rect2.height);
 }
 
 /*************************************************************************

@@ -205,7 +205,7 @@ void tr_prepare_string(struct ct_string *string)
 	if (error) {
 	  freelog(LOG_ERROR, "can't render glyph for %d '%c': error=0x%x", c,
 		  c, error);
-	  assert(0);
+//	  assert(0);
 	}
 
 	if (0)

@@ -145,6 +145,10 @@ static struct {
 
 struct ct_string *text_templates[FONT_COUNT];
 
+static bool all_dirty = FALSE;
+
+struct region_list *region_list;
+
 /****************************************************************************
   Return the dimensions of the area (container widget; maximum size) for
   the overview.
@@ -450,8 +454,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
   freelog(LOG_DEBUG, "flush_mapcanvas=%s", ct_rect_to_string(&rect));
   be_copy_osda_to_osda(sw_window_get_canvas_background(mapview_window),
 		       mapview.store->osda, &size, &pos, &pos);
-  sw_window_canvas_background_region_needs_repaint(mapview_window,
-						   &rect);
+  sw_window_canvas_background_region_needs_repaint(mapview_window, &rect);
 }
 
 /**************************************************************************
@@ -461,10 +464,14 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
 void dirty_rect(int canvas_x, int canvas_y,
 		int pixel_width, int pixel_height)
 {
-  struct ct_rect rect = { canvas_x, canvas_y, pixel_width, pixel_height };
-
-  //freelog(LOG_NORMAL, "dirty_rect(...)");
-  sw_window_canvas_background_region_needs_repaint(mapview_window, &rect);
+  if (!all_dirty) {
+    struct ct_rect *rect = fc_malloc(sizeof(*rect));
+  
+    *rect = (struct ct_rect){ canvas_x, canvas_y, pixel_width, pixel_height };
+  
+    //freelog(LOG_NORMAL, "dirty_rect(...)");
+    region_list_append(region_list, rect);
+  }
 }
 
 /**************************************************************************
@@ -473,11 +480,7 @@ void dirty_rect(int canvas_x, int canvas_y,
 **************************************************************************/
 void dirty_all(void)
 {
-  struct ct_rect rect;
-
-  sw_widget_get_bounds(mapview_window, &rect);
-  sw_window_canvas_background_region_needs_repaint(mapview_window, 
-                                                   &rect);
+  all_dirty = TRUE;
 }
 
 /**************************************************************************
@@ -487,7 +490,22 @@ void dirty_all(void)
 **************************************************************************/
 void flush_dirty(void)
 {
-  flush_mapcanvas(0, 0, mapview.width, mapview.height);
+  if (all_dirty) {
+    region_list_iterate(region_list, region) {
+      free(region);
+    } region_list_iterate_end;
+    region_list_unlink_all(region_list);
+    
+    flush_mapcanvas(0, 0, mapview.width, mapview.height);
+    all_dirty = FALSE;
+  } else {
+    region_list_iterate(region_list, region) {
+      flush_mapcanvas(region->x, region->y, region->width, region->height);
+      free(region);
+    } region_list_iterate_end;
+    region_list_unlink_all(region_list);
+  }
+  sw_paint_all();
 }
 
 /**************************************************************************
@@ -1226,6 +1244,8 @@ void popup_mapcanvas(void)
   struct ct_rect rect;
   struct ct_size screen_size;
 
+  region_list = region_list_new();
+  
   be_screen_get_size(&screen_size);
 
   env.info_get_value = info_get_value;
@@ -1268,6 +1288,12 @@ void popup_mapcanvas(void)
 **************************************************************************/
 void popdown_mapcanvas(void)
 {
+  region_list_iterate(region_list, region) {
+    free(region);
+  } region_list_iterate_end;
+  region_list_unlink_all(region_list);
+  region_list_free(region_list);
+  
   te_destroy_screen(screen);
 }
 

@@ -148,7 +148,7 @@ void be_next_non_blocking_event(struct be_event *event);
 void be_next_blocking_event(struct be_event *event, struct timeval *timeout);
 void be_add_net_input(int sock);
 void be_remove_net_input(void);
-void be_copy_osda_to_screen(struct osda *src);
+void be_copy_osda_to_screen(struct osda *src, const struct ct_rect *rect);
 void be_write_osda_to_file(struct osda *osda, const char *filename);
 be_color be_get_color(int red, int green, int blue, int alpha);
 

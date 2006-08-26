@@ -29,6 +29,8 @@
 /* REMOVE ME */
 #include "timing.h"
 
+#define FLUSH_RECTS TRUE       /* flush dirty rectangles or whole screen */
+
 #define DEBUG_UPDATES  0
 #define DUMP_UPDATES   0
 #define DUMP_WINDOWS   0
@@ -49,7 +51,7 @@ static void draw_extra_background(struct sw_widget *widget,
 				  const struct ct_rect *region)
 {
   if (widget->data.window.canvas_background) {
-    struct ct_size size = { region->width,
+   struct ct_size size = { region->width,
 			    region->height };
     struct ct_point pos = { region->x, region->y };
 
@@ -374,9 +376,17 @@ static void flush_one_window(struct sw_widget *widget,
 /*************************************************************************
   ...
 *************************************************************************/
+void flush_rect_to_screen(const struct ct_rect *rect)
+{
+  be_copy_osda_to_screen(whole_osda, rect);  
+}
+
+/*************************************************************************
+  ...
+*************************************************************************/
 void flush_all_to_screen(void)
 {
-  be_copy_osda_to_screen(whole_osda);
+  be_copy_osda_to_screen(whole_osda, NULL);
 
   if (dump_screen) {
     static int counter = -1;
@@ -748,6 +758,15 @@ void sw_paint_all(void)
 
   merge_regions(normalized_regions);
 
+#if 0
+  if (DEBUG_PAINT_ALL) {
+    printf("  merged normalized_regions\n");
+    region_list_iterate(normalized_regions, region) {
+      printf("    region=%s\n", ct_rect_to_string(region));
+    } region_list_iterate_end;
+  }
+#endif
+
   if(DEBUG_PAINT_ALL) {
     printf("starting flushing of %d regions\n",
            region_list_size(normalized_regions));
@@ -798,6 +817,11 @@ void sw_paint_all(void)
       }
       window_nr++;
     } widget_list_iterate_end;
+    
+#if FLUSH_RECTS
+    flush_rect_to_screen(region);
+#endif
+    
     region_list_unlink(normalized_regions, region);
     free(region);
 #if DUMP_UPDATES
@@ -812,6 +836,7 @@ void sw_paint_all(void)
   be_write_osda_to_file(whole_osda,filename);
 #endif
 
+#if !FLUSH_RECTS
   if (DEBUG_PAINT_ALL) {
     start_timer(timer4);
   }
@@ -819,7 +844,8 @@ void sw_paint_all(void)
   if (DEBUG_PAINT_ALL) {
     stop_timer(timer4);
   }
-
+#endif
+  
   if (DEBUG_PAINT_ALL) {
     printf("PAINT-ALL: update=%fs normalize=%fs flushs=%fs flush-all=%fs\n",
            read_timer_seconds(timer1), read_timer_seconds(timer2),
@@ -943,22 +969,27 @@ void sw_window_set_mouse_press_notify(struct sw_widget *widget,
 /*************************************************************************
   ...
 *************************************************************************/
-void sw_window_canvas_background_region_needs_repaint(struct sw_widget
-						      *widget, const struct ct_rect
-						      *region)
+void sw_window_canvas_background_region_needs_repaint(
+                  struct sw_widget *widget, const struct ct_rect *region)
 {
-#if 0
-  struct ct_size size = { region->width,
-    region->height
-  };
-  struct ct_point pos = { region->x, region->y };
+  struct ct_rect region2;
+  struct ct_size size;
+  struct ct_point pos;
 
+  if (region) {
+    region2 = *region;
+  } else {
+    sw_widget_get_bounds(widget, &region2);
+  }
+
+  size = (struct ct_size){ region2.width, region2.height };
+  pos = (struct ct_point){ region2.x, region2.y };
+  
   be_copy_osda_to_osda(sw_widget_get_osda(widget),
 		       widget->data.window.canvas_background,
-		       &size, &pos, &pos, 0);
-#endif
-  //add_flush_region(widget, region);
-  widget_needs_paint(widget);
+		       &size, &pos, &pos);
+
+  add_flush_region(widget, &region2);
 }
 
 /*************************************************************************

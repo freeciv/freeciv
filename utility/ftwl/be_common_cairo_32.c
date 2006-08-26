@@ -251,10 +251,11 @@ void image_blit_masked_trans(const struct ct_size *size,
 
   cr = cairo_create(dest->data);
 
-  cairo_translate(cr, dest_pos->x, dest_pos->y);
-  cairo_rectangle(cr, 0.0, 0.0, size->width, size->height);
+  cairo_rectangle(cr, dest_pos->x, dest_pos->y, size->width, size->height);
   cairo_clip(cr);
-	
+
+  cairo_translate(cr, dest_pos->x, dest_pos->y);
+  
   cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
   cairo_set_source_surface(cr, src->data, -src_pos->x, -src_pos->y);
   cairo_paint(cr);
@@ -440,10 +441,11 @@ void image_set_alpha(const struct image *image, const struct ct_rect *rect,
 	
   cr = cairo_create(image->data);
 
-  cairo_translate(cr, rect->x, rect->y);
   cairo_rectangle(cr, 0.0, 0.0, rect->width, rect->height);
   cairo_clip(cr);
-	
+
+  cairo_translate(cr, rect->x, rect->y);
+  
   cairo_paint_with_alpha(cr, alpha/255);
 	
   cairo_destroy(cr);

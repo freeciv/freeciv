@@ -197,6 +197,7 @@ enum widget_face get_widget_face(struct sw_widget *widget);
 void translate_point(struct sw_widget *widget, struct ct_point *dest,
 		     const struct ct_point *src);
 void inner_size_changed(struct sw_widget *widget);
+void flush_rect_to_screen(const struct ct_rect *rect);
 void flush_all_to_screen(void);
 
 void parent_needs_paint(struct sw_widget *widget);
