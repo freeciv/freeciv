@@ -17,6 +17,9 @@
 
 #include <SDL/SDL.h>
 
+/* utility */
+#include "log.h"
+
 /* client */
 #include "tilespec.h"
 
@@ -41,6 +44,7 @@ enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 bool mouse_cursor_changed = FALSE;
 
 SDL_Cursor *pStd_Cursor = NULL;
+SDL_Cursor *pDisabledCursor = NULL;
 
 struct color_cursor current_color_cursor;
 
@@ -100,29 +104,24 @@ void draw_mouse_cursor() {
     if (area.w != 0) {
       flush_rect(area, TRUE);
     }
-
-    SDL_GetMouseState(&cursor_x, &cursor_y);
-
+    
     if (current_color_cursor.cursor != NULL) {
+      SDL_GetMouseState(&cursor_x, &cursor_y);
       area.x = cursor_x - current_color_cursor.hot_x;
       area.y = cursor_y - current_color_cursor.hot_y;
       area.w = current_color_cursor.cursor->w;
       area.h = current_color_cursor.cursor->h;
-    } else {
-      area.x = 0;
-      area.y = 0;
-      area.w = 0;
-      area.h = 0;
-    }
-
-    if (current_color_cursor.cursor != NULL) {    
+	
       /* show cursor */    
       SDL_BlitSurface(current_color_cursor.cursor, NULL, Main.screen, &area);
       /* update screen */
       SDL_UpdateRect(Main.screen, area.x, area.y, area.w, area.h);
+    } else {
+      area = (SDL_Rect){0, 0, 0, 0};
     }
     
-  }  
+  } 
+   
 }
 
 /**************************************************************************
@@ -136,6 +135,10 @@ void load_cursors(void)
   SDL_Surface *pSurf;
 
   pStd_Cursor = SDL_GetCursor();
+  
+  pSurf = create_surf_alpha(1, 1, SDL_SWSURFACE);
+  pDisabledCursor = SurfaceToCursor(pSurf, 0, 0);
+  FREESURFACE(pSurf);
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
@@ -165,6 +168,7 @@ void unload_cursors(void)
   }
 
   SDL_FreeCursor(pStd_Cursor);
+  SDL_FreeCursor(pDisabledCursor);
   return;
 }
 
@@ -211,13 +215,12 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
   if (mouse_cursor_type == CURSOR_DEFAULT) {
     SDL_SetCursor(pStd_Cursor);
     if (use_color_cursors) {
-      SDL_ShowCursor(SDL_ENABLE);      
       current_color_cursor.cursor = NULL;
     }
     mouse_cursor_changed = FALSE;    
   } else {
     if (use_color_cursors) {
-      SDL_ShowCursor(SDL_DISABLE);    
+      SDL_SetCursor(pDisabledCursor);
     }
     mouse_cursor_changed = TRUE;
   }
