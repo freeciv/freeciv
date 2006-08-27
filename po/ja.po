@@ -1,5 +1,5 @@
 # Japanese translations for Freeciv
-# Copyright (C) 2000, 2001, 2002, 2003 Free Software Foundation, Inc.
+# Copyright (C) 2000-2006 Free Software Foundation, Inc.
 # Copyright (C) 2001 SUENAGA Yasuo
 # Copyright (C) 2002, 2006 MITA Yuusuke
 # Copyright (C) 2003 TAKAHASHI Naoki
@@ -76,10 +76,11 @@
 # とりあえず訳は当ててありますが，雰囲気が出るような訳に改良したいところ。
 #
 # nation選択時に表示されるnationの説明文は突貫工事です。
-# 歴史の知識のある方のチェックを願えると良いのですが……
+# 歴史の知識のある方のチェックを願えると助かります。
 #
 # SDLクライアント関係は未訳が多いです。client/gui-sdl/*
 # MitaはGTK2クライアントでしか試せていませんので。
+# 大半はfuzzyマークを外すだけで大丈夫だとは思うのですが。
 #
 # これはja.poではありませんが，ネット対戦関係の日本語ドキュメントがないのが
 # 日本人のネット対戦参入を妨げているかもしれません。
@@ -93,12 +94,13 @@
 #
 # "citizen governor" 旧称CMAで，原文もまだ混乱している。
 #                   「市民管理者」「知事」「市長」「地方長官」
-# "fog of war" 「霧戦」; 「見えない」場所のユニットを表示しない機能のこと
+# "fog of war" 「霧戦」; 「見えない」場所のユニットなどを表示しない機能のこと
 #              「FoW」とでもした方がよほど誤解がないかも
 # "zone of control" 文脈により「ゾーンコントロール」または「コントロールゾーン」
 #                   これも無理せず「ZOC」とでもした方が良いかも
 # "technology" "tech" "science" 「科学」と「技術」でぶれがある
 # "Seafaring"「航海」と "Navigation"「航海術」は紛らわしい
+#             "Sailing"という中間技術も提案されているが，いよいよ訳語が……
 # "worker" 「労働者」だが，ユニットと都市民の両方あるのが困りもの
 #          ユニットの方は「土方」「土木作業員」あたり
 # "Pollution" 「公害」; いくつかの文脈では「汚染」
@@ -144,7 +146,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-14 13:18+0900\n"
+"POT-Creation-Date: 2006-08-27 23:03+0900\n"
 "PO-Revision-Date: 2004-09-23 11:47+0900\n"
 "Last-Translator: MITA Yuusuke <clefs@mail.goo.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -724,21 +726,25 @@ msgstr "未接触"
 msgid "?diplomatic_state:Team"
 msgstr "チーム"
 
+# clefs
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:456 common/requirements.c:471
 msgid "World-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "世界規模での必要条件は不思議のみでサポートされています。"
 
+# clefs
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:512
 msgid "Player-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "プレイヤー単位での必要条件は不思議のみでサポートされています。"
 
+# clefs
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:533
 msgid "Island-ranged requirements are only supported for wonders."
-msgstr ""
+msgstr "島単位での必要条件は不思議のみでサポートされています。"
 
+# よくわからないのでパス(clefs)
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:581
 msgid "Surviving requirements are only supported at world range."
@@ -935,6 +941,7 @@ msgstr "自分の都市でのみ部隊をアップグレードできます。"
 
 # clefs
 # strandを「座礁」にしても矛盾は出ないかな？
+# フリゲートを装甲艦・駆逐艦にすると部隊を積めなくなります
 #: common/unit.c:1589
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
@@ -2145,7 +2152,7 @@ msgstr "%sを愛する日が%sで催されました。"
 #: server/cityturn.c:1463
 #, c-format
 msgid "We Love The %s Day canceled in %s."
-msgstr "%sを愛する日が%sで催されました。"
+msgstr "%sを愛する日が%sで中止されました。"
 
 #: server/cityturn.c:1493
 #, c-format
@@ -4471,12 +4478,14 @@ msgstr ""
 "警告: 異なる rulesetdir ('%s' と '%s') はもうサポートされていません。 '%s' を"
 "使います。"
 
+# clefs
 #: server/savegame.c:3870
 #, c-format
 msgid ""
 "Illegal alliance structure detected: %s's alliance to %s reduced to peace "
 "treaty."
 msgstr ""
+"不正な同盟構造を探知しました：%sの%sとの同盟は平和条約へと格下げします。"
 
 #: server/settings.c:31
 msgid "Geological"
@@ -4625,6 +4634,38 @@ msgid ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 msgstr ""
+"Freecivの地図は常に2次元です。地図は南北および東西方向の循環[ラップ]の有無に"
+"より，平面，円筒，またはトーラス（ドーナツ）を形成します。個々のマスは長方形"
+"または六角形[ヘックス]で，古典的または等角[アイソメトリック]に配置されます――"
+"これは使用するタイルセットに合わせて設定する必要があります。\n"
+"   0 平面的地球 (循環なし)\n"
+"   1 地球 (東西に循環)\n"
+"   2 天王星 (南北に循環)\n"
+"   3 ドーナツ世界 (東西・南北に循環)\n"
+"   4 平面的地球 (等角)\n"
+"   5 地球 (等角)\n"
+"   6 天王星 (等角)\n"
+"   7 ドーナツ世界 (等角)\n"
+"   8 平面的地球 (ヘックス)\n"
+"   9 地球 (ヘックス)\n"
+"  10 天王星 (ヘックス)\n"
+"  11 ドーナツ世界 (ヘックス)\n"
+"  12 平面的地球 (ヘックス・等角配置)\n"
+"  13 地球 (ヘックス・等角配置)\n"
+"  14 天王星 (ヘックス・等角配置)\n"
+"  15 ドーナツ世界 (ヘックス・等角配置)\n"
+"古典的長方形:              等角配置長方形:\n"
+"      _________               /\\/\\/\\/\\/\\ \n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
+"     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
+"                             \\/\\/\\/\\/\\/  \n"
+"ヘックス・タイル:          等角配置ヘックス:\n"
+"  /\\/\\/\\/\\/\\/\\               _   _   _   _   _       \n"
+"  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\      \n"
+"  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/  \n"
+"   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
+"   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
 
 #: server/settings.c:272
 msgid "Method used to generate map"
@@ -5078,8 +5119,7 @@ msgid ""
 msgstr ""
 "この値より小さい都市は全て，交易にペナルティが課されます。ペナルティは "
 "notradesize 以下なら 100%(交易なし)，そこから徐々に減って size=fulltradesize"
-"では 0%(通常の汚職を除いてペナルティなし)になります。 notradesize も見て下さ"
-"い。"
+"では 0%(通常の汚職を除いてペナルティなし)になります。notradesize も参照。"
 
 #: server/settings.c:572
 msgid "Maximum size of a city without trade"
@@ -5091,9 +5131,9 @@ msgid ""
 "amount. The produced trade increases gradually for cities larger than "
 "notradesize and smaller than fulltradesize. See also fulltradesize."
 msgstr ""
-"この値以下の都市はすべて，交易を全く作りません。 notradesize より大きく "
-"fulltradesize より小さい都市では，徐々に交易が増えます。 fulltradesize も見て"
-"下さい。"
+"この値以下の都市はすべて，交易を全く作りません。notradesize より大きく "
+"fulltradesize より小さい都市では，徐々に交易が増えます。fulltradesize も参"
+"照。"
 
 #: server/settings.c:582
 msgid "City size before people become unhappy"
@@ -5134,10 +5174,10 @@ msgid ""
 "least two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
 msgstr ""
-"プレイヤーが新しい都市を作る時， citymindist 距離内に他の都市がないか調べられ"
-"ます。例えば citymindist が 3 なら，2都市間の各方向に最低2の空地がなければな"
-"りません。 0(デフォルト)をセットしたら，ゲームを開始した時に現在のルールセッ"
-"トで上書きされます。"
+"プレイヤーが新しい都市を作る時， citymindist 距離内に他の都市がないかチェック"
+"します。例えば citymindist が 3 なら，2都市間の各方向に最低2の空地がなければ"
+"なりません。 0(デフォルト)にセットしたら，ルールセットで設定された値を使用し"
+"ます。"
 
 #: server/settings.c:613
 msgid "Number of turns between rapture effect"
@@ -5359,7 +5399,7 @@ msgstr "宇宙開発競争を有効にするかどうか"
 
 #: server/settings.c:766
 msgid "If this option is set to 1, players can build spaceships."
-msgstr "このオプションが 1 なら，プレイヤーは宇宙船を組み立てられます。"
+msgstr "このオプションが 1 なら，プレイヤーは宇宙船を建造できます。"
 
 #: server/settings.c:772
 msgid "Minimum number of cities for civil war"
@@ -5509,10 +5549,11 @@ msgid ""
 "with debugging, a timeout of -1 sets the autogame test mode. Use this with "
 "the command \"timeoutincrease\" to have a dynamic timer."
 msgstr ""
-"プレイヤー全員がこの時間まで「ターン終了」を実行しなければ，自動的にターンを"
-"終了させられます。ゼロはタイムアウトしないことを意味します。 DEBUG サーバで"
-"は，タイムアウトを -1 にセットすると，自動ゲーム・テスト・モードになります。"
-"動的タイマーは，この変数とコマンド \"timeoutincrease\" を使います。"
+"プレイヤー全員がこの時間までに「ターン終了」を実行しなくても，自動的にターン"
+"を終了させます。ゼロはタイムアウトしないことを意味します。 DEBUG サーバでは，"
+"タイムアウトを -1 にセットすると，自動ゲーム・テスト・モードになります。この"
+"変数とコマンド \"timeoutincrease\" を併用して動的なタイマー制御を実現できま"
+"す。"
 
 # clefs XXX
 #: server/settings.c:878
@@ -5616,7 +5657,7 @@ msgid ""
 "expired, even if all players have clicked on \"Turn Done\"."
 msgstr ""
 "1 にしたら，プレイヤーが「ターン終了」を実行するかどうかに関係なく，タイムア"
-"ウトが発生するまでゲームターンは進みません。"
+"ウトするまでゲームターンは進みません。"
 
 #: server/settings.c:946
 msgid "What is in the Demographics report"
@@ -8937,13 +8978,13 @@ msgstr "* 生産するには人口%dが必要です。\n"
 #, c-format
 msgid "* Can carry and refuel %d air unit.\n"
 msgid_plural "* Can carry and refuel %d air units.\n"
-msgstr[0] "* %dの空中部隊を運搬，給油できます。\n"
+msgstr[0] "* %dの航空部隊を運搬・給油できます。\n"
 
 #: client/helpdata.c:789
 #, c-format
 msgid "* Can carry and refuel %d missile unit.\n"
 msgid_plural "* Can carry and refuel %d missile units.\n"
-msgstr[0] "* %dのミサイルを運搬，給油できます。\n"
+msgstr[0] "* %dのミサイルを運搬・給油できます。\n"
 
 #: client/helpdata.c:794
 #, c-format
@@ -9348,7 +9389,8 @@ msgstr ""
 
 # clefs
 # XXX "field unit"は爆撃機・ミサイルといった，存在自体が人類の不幸といった
-# 類の(本拠地にあっても攻撃的な)兵器を指すようです。うまい訳語募集中。
+# 類の(本拠地にあっても攻撃的な)兵器を指すようです。
+# あるだけで地元に反対運動が始まるような。うまい訳語募集中。
 #: client/helpdata.c:1288
 #, c-format
 msgid ""
@@ -10376,6 +10418,7 @@ msgid "City: %s (%s, %s)"
 msgstr "都市: %s (%s, %s)"
 
 #: client/text.c:176 client/gui-sdl/mapview.c:586
+#, fuzzy
 msgid " with "
 msgstr " (共同 "
 
@@ -13467,12 +13510,12 @@ msgstr "infoレベルのアクセスを与える"
 msgid "Give ctrl access"
 msgstr "ctrlレベルのアクセスを与える"
 
-# Daniel
+# clefs
 #. TRANS: e.g., "Put on Team 5"
 #: client/gui-gtk-2.0/pages.c:1306
 #, c-format
 msgid "Put on %s"
-msgstr ""
+msgstr "%s に加える"
 
 # Daniel
 #: client/gui-gtk-2.0/pages.c:1410
@@ -13494,14 +13537,13 @@ msgid "More Game _Options..."
 msgstr "詳細なゲーム設定..."
 
 #: client/gui-gtk-2.0/pages.c:1482
-#, fuzzy
 msgid "Record"
-msgstr "報告"
+msgstr "記録"
 
+# まだ使われていない関数なのかな
 #: client/gui-gtk-2.0/pages.c:1487
-#, fuzzy
 msgid "Rating"
-msgstr "待機中"
+msgstr "レーティング"
 
 # clefs
 #: client/gui-gtk-2.0/pages.c:1493
@@ -13570,9 +13612,8 @@ msgid "Saved _Games:"
 msgstr "保存されたゲーム(_G):"
 
 #: client/gui-gtk-2.0/pages.c:2403
-#, fuzzy
 msgid "Save _Filename:"
-msgstr "ゲーム保存"
+msgstr "保存するファイル名:"
 
 #: client/gui-gtk-2.0/repodlgs.c:293 client/gui-win32/repodlgs.c:280
 msgid "Researching"
@@ -15296,20 +15337,22 @@ msgid "Info Panel"
 msgstr "情報パネル"
 
 #: client/gui-sdl/citydlg.c:1920
-#, c-format
+#, fuzzy, c-format
 msgid "Pollution : %d"
 msgstr "公害:   %d"
 
 #: client/gui-sdl/citydlg.c:1948
+#, fuzzy
 msgid "Pollution : none"
 msgstr "公害:   なし"
 
 #: client/gui-sdl/citydlg.c:1961
+#, fuzzy
 msgid "Trade routes : "
 msgstr "交易路 : "
 
 #: client/gui-sdl/citydlg.c:2010
-#, c-format
+#, fuzzy, c-format
 msgid "Trade : +%d"
 msgstr "交易 : +%d"
 
@@ -17205,21 +17248,21 @@ msgstr ""
 msgid "You must select a nation."
 msgstr "民族を選択して下さい。"
 
-#: client/gui-xaw/graphics.c:342
+#: client/gui-xaw/graphics.c:343
 #, c-format
 msgid "Failed reading PNG file: %s"
 msgstr "PNG ファイルの読み込み失敗: %s"
 
-#: client/gui-xaw/graphics.c:348 client/gui-xaw/graphics.c:354
+#: client/gui-xaw/graphics.c:349 client/gui-xaw/graphics.c:355
 msgid "Failed creating PNG struct"
 msgstr "PNG構造体の作成失敗"
 
-#: client/gui-xaw/graphics.c:359
+#: client/gui-xaw/graphics.c:360
 #, c-format
 msgid "Failed while reading PNG file: %s"
 msgstr "PNG ファイル読み込み中の失敗: %s"
 
-#: client/gui-xaw/graphics.c:396
+#: client/gui-xaw/graphics.c:397
 #, c-format
 msgid "PNG file has no palette: %s"
 msgstr "PNG ファイルにパレットがありません: %s"
@@ -18112,7 +18155,7 @@ msgstr ""
 "キーボード:\n"
 "===========\n"
 "  a: 自動開拓  (開拓/労働者部隊)\n"
-"  b: 都市を作る  (開拓部隊)\n"
+"  b: 都市を作る  (開拓部隊) [訳註:都市上では，その都市に加わる]\n"
 "  b: 不思議建築を助ける (キャラバン部隊)\n"
 "  C: 部隊を結合する (左クリックで移動先を選ぶ)\n"
 "  d: 外交・スパイ活動  (外交官・スパイ)\n"
@@ -18408,21 +18451,21 @@ msgstr ""
 msgid "Strategy and tactics"
 msgstr "戦略と戦術"
 
-# yasu
+# yasu, clefs
 #: data/helpdata.txt:595
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
 msgstr ""
-"各々のゲームは違いますが，ほとんどのプレイヤーが従う基礎的な戦略があります。"
-"(特にゲーム初期)"
+"ゲームの状況は毎回違いますが，ほとんどのプレイヤーが従う基礎的な戦略がありま"
+"す。(特にゲーム初期)"
 
 # yasu
 #: data/helpdata.txt:598
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
-msgstr "これらのステップはサーバーオプションにより違いますが，一般に: "
+msgstr "これらのステップはサーバオプションにより違いますが，一般に: "
 
 # yasu
 #: data/helpdata.txt:601
@@ -18492,6 +18535,7 @@ msgstr ""
 "がある場合は探索者に探索させるのがいいでしょう。"
 
 # yasu, clefs
+# 「自動化歩兵」はどうしたのかしら
 #: data/helpdata.txt:633
 msgid ""
 " 2. Defending the cities.\n"
@@ -18510,7 +18554,10 @@ msgstr ""
 "のとおりです。(弱いものから順に)戦士，密集軍，槍隊，マスケット銃士，ライフル"
 "銃兵。"
 
-# yasu
+# yasu, clefs
+# http://www.freeciv.org/index.php/Combat
+# によると，ここの記載とは違って，都市内で防御姿勢を取るとさらに50%上積み
+# されるようです。(原文の問題)
 #: data/helpdata.txt:643
 #, no-c-format
 msgid ""
@@ -18520,12 +18567,13 @@ msgid ""
 "When a new city is built, the city starts to build the best available "
 "defensive unit from the above list."
 msgstr ""
-"    ある政治体制では，都市内外にいる軍隊が不幸を減じたり，生じたりすることに"
-"注意してください。また，部隊が都市にいる場合，防御姿勢をとると同様に，50% 防"
-"御力が増えることにも注意してください。新しい都市ができた場合，上記リストから"
-"作成可能なもので最上の防御用部隊を作成し始めます。"
+"    政治体制によっては，都市内外にいる軍隊が不幸を減じたり，生じたりすること"
+"に注意してください。また，部隊が都市にいる場合，防御姿勢をとった場合と同様"
+"に，50% 防御力が増えることにも注意してください。新しい都市ができた場合，上記"
+"リストから作成可能なもので最上の防御用部隊を作成し始めます。"
 
 # yasu
+# 最近はWorker部隊が最初からいるのでここの記述はややobsoleteです(clefs)
 #: data/helpdata.txt:650
 msgid ""
 " 3. Deciding which units to build first.\n"
@@ -18563,6 +18611,7 @@ msgstr ""
 "は道路や灌漑や資源化などで改良されます。"
 
 # yasu
+# 最近の設定では港を建設できる海沿いに作らないとお話になりませんが...(clefs)
 #: data/helpdata.txt:669
 msgid ""
 " 5. Deciding where to build cities.\n"
@@ -18717,10 +18766,11 @@ msgstr ""
 "\n"
 "    他のプレイヤーと最近接触した（または大使館が設立されている）場合，外交会"
 "談を行うことができます。ゲームメニューから，プレイヤーを選び，会談したいプレ"
-"イヤーをクリックします。実際に大使館(X の印)があり相手プレイヤーが接続すれ"
-"ば，外交メニューが開きます。"
+"イヤーをクリックします。大使館欄が「なし」や「接触なし」ではなく，相手プレイ"
+"ヤーがサーバに接続していれば(あるいはAIであれば)，外交メニューが開きます。"
 
 # yasu
+# 原文: 「停戦・和平・同盟」も選べるのですが
 #: data/helpdata.txt:747
 msgid ""
 "    In this menu you can choose to:\n"
@@ -18835,34 +18885,37 @@ msgstr ""
 "す。\n"
 "\n"
 "都市からどのような成果を期待するか指定する方法はいくつかあります。都市ウィン"
-"ドウを開いてCMAタブをクリックしてください。スライダは二種類あります――左側のス"
-"ライダは最少限度です。例えば，「金」を3に設定すれば，その都市では最低でも施設"
-"維持費プラス3の金を生み出すようにできます。右側のスライダは因子です。これはあ"
-"る生産が他と比較してどのぐらい値打ちがあるかを評価します。例えば，「科学」を3"
-"にすれば，科学1単位が金・交易などの3単位より高く評価されます。これらの要素を"
-"必要に応じて各項目ごとに設定することができます。\n"
+"ドウを開いてgovernorタブをクリックしてください。スライダは二種類あります――左"
+"側のスライダは最少限度です。例えば，「金」を3に設定すれば，その都市では最低で"
+"も施設維持費プラス3の金を生み出すようにできます。右側のスライダは因子です。こ"
+"れはある生産が他と比較してどのぐらい値打ちがあるかを評価します。例えば，「科"
+"学」を3にすれば，科学1単位が金・交易などの3単位より高く評価されます。これらの"
+"要素を必要に応じて各項目ごとに設定することができます。\n"
 "\n"
-"実現不可能な最小値を設定しても，CMAは有効になりません。また，ゲーム中に最小値"
-"を満たすことができなくなれば，CMAは自動的に解除されます。ですから，あまり高い"
-"最小値は設定しない方がよいでしょう。それよりは，因子をうまく使いましょう。\n"
+"実現不可能な最小値を設定しても，governorは有効になりません。また，ゲーム中に"
+"最小値を満たすことができなくなれば，governorは自動的に解除されます。ですか"
+"ら，あまり高い最小値は設定しない方がよいでしょう。それよりは，因子をうまく使"
+"いましょう。\n"
+"[訳註:最低値は-20までしか設定できず，後半戦では残念ながらまともに機能しなくな"
+"る場合があります。]\n"
 "\n"
 "「祝典」を有効にすれば，都市を祝典にできます。贅沢の比率が高い時しか機能しな"
 "いでしょうが。(「幸福」のヘルプを参照)\n"
 "\n"
-"CMAを有効にするには「都市を管理」を，無効にするには「都市を解放」をクリックし"
-"てください。\n"
+"governorを有効にするには「都市を管理」を，無効にするには「都市を解放」をク"
+"リックしてください。\n"
 "\n"
 "スライダの設定に名前をつけて保存できます。「プリセット追加」ボタンをクリック"
 "し，名前を入力してください。この名前をクリックするだけで，どの都市でもその設"
-"定を利用できます。また，都市一覧のCMA欄からもCMAを操作できます。プリセットが"
-"登録してあれば，「変更」→「CMA」で変更できます。\n"
+"定を利用できます。また，都市一覧のgovernor欄からもgovernorを操作できます。プ"
+"リセットが登録してあれば，「変更」→「Citizen Governor」で変更できます。\n"
 "\n"
 "プリセットを次回以降も利用するなら，「ゲーム」→「設定を保存」してください。\n"
 "\n"
-"要注意！一部の都市をCMAで管理していて，他の近隣都市を手動で管理しようとすると"
-"厄介なことになります。一つの島(大陸)にある都市はすべてCMAか手動かのどちらかに"
-"統一するのが一番でしょう。より詳しい情報や設定例は，附属のREADME.cma.jaを参照"
-"してください。\n"
+"要注意！一部の都市をgovernorで管理していて，他の近隣都市を手動で管理しようと"
+"すると厄介なことになります。一つの島(大陸)にある都市はすべてgovernorか手動か"
+"のどちらかに統一するのが一番でしょう。より詳しい情報や設定例は，附属のREADME."
+"cma.jaを参照してください。\n"
 
 #: data/helpdata.txt:828
 msgid ""
@@ -19010,11 +19063,11 @@ msgstr ""
 "港湾施設のある都市にいる海上(中)部隊，空港のある都市にいる空中部隊は，その都"
 "市で移動せずに過ごすことで失った体力を完全に回復できます。それ以外の都市で過"
 "ごしたら，部隊の基本体力の1/3回復します。要塞の上で過ごしたら，通常の回復に加"
-"え，基礎体力の1/4回復します。防御姿勢をとっている部隊は，余分に体力を回復しま"
-"す。国際連合の不思議を持っていたら，毎ターンさらに体力2多く回復します。これは"
-"移動した部隊でも起こります。他には，都市でターンを終えなかったヘリコプター"
-"は，体力2を失います。ダメージを受けている見張り番部隊は，体力が全快すると起こ"
-"されます。"
+"え，基礎体力の1/4回復します。防御姿勢をとっている部隊は，さらに体力1を回復し"
+"ます。不思議「国際連合」を持っていたら，毎ターンさらに体力2多く回復します。こ"
+"れは移動した部隊でも起こります。他には，都市でターンを終えなかったヘリコプ"
+"ターは，体力2を失います。ダメージを受けている見張り番部隊は，体力が全快すると"
+"起こされます。"
 
 # ama, clefs
 #: data/helpdata.txt:933
@@ -19023,8 +19076,8 @@ msgid ""
 "population of a City without City Walls by one point upon a successful "
 "attack."
 msgstr ""
-"攻撃の成功によって，城壁なしの都市の人口を1減らすことになる部隊の種類は，サー"
-"バのオプションによって決まります。"
+"攻撃の成功によって，城壁を持たない都市の人口を1減らすことになる部隊の種類は，"
+"サーバのオプションによって決まります。"
 
 # clefs
 #: data/helpdata.txt:944
@@ -19170,6 +19223,7 @@ msgid ""
 msgstr ""
 " - 艦船が陸上にある陸ユニットを攻撃する場合，双方とも火力は1になります。"
 
+# clefs
 #: data/helpdata.txt:1004
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
@@ -19180,16 +19234,14 @@ msgid ""
 "attacker loses hit points equal to the defender's firepower. The first unit "
 "to reach 0 hit points (or negative hit points) loses. "
 msgstr ""
-"これらの準備の後，両方の部隊がまだ生きていたら (即ち体力が 0 より大きければ) "
-"戦闘が行われます。 各ラウンド，1から「攻撃側と防御側の強さの合計」までの間の"
-"乱数が生成されます。 この数が防御側の強さより大きければ，防御側は攻撃側の火力"
-"だけ体力を失います(攻撃側が地上部隊を攻撃する船なら，防御側は体力 1 だけ失い"
-"ます)。そうでなければ，攻撃側は防御側の火力だけ体力を失います(防御側が都市内"
-"にいる船の時を除きます。停泊している船は効果的な作戦行動を起こせません。ま"
-"た，攻撃側が地上部隊を攻撃する船の時も除きます。これらの場合，攻撃側は体力 1 "
-"を失います)。最初に体力 0 か負になった部隊が消滅します。"
+"これらの準備の後，双方の部隊が生きている限り(即ち体力が 0 より大きければ)，戦"
+"闘が行われます。 各ラウンド，1から「攻撃側と防御側の強さの合計」までの間の乱"
+"数が生成されます。 この数が防御側の強さより大きければ，防御側は攻撃側の火力だ"
+"け体力を失います。そうでなければ，攻撃側は防御側の火力だけ体力を失います。先"
+"に体力が 0 か負になった部隊が負けです。"
 
 # yasu, ama
+# 原文: 最近はベテラン・精鋭・エリートの3段階があります。(clefs)
 #: data/helpdata.txt:1019
 #, no-c-format
 msgid ""
@@ -19211,13 +19263,14 @@ msgstr ""
 "攻撃側の地上部隊が勝利し，防御側が城壁なしの都市にいた場合，都市の大きさは 1"
 "小さくなります。"
 
+# これは海上の艦隊にも適用されます。ヘンなの。(clefs)
 #: data/helpdata.txt:1028
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
 msgstr ""
-"防御側部隊が都市か要塞以外で負けた場合，その部隊の場所にいた全て部隊が消滅し"
-"ます。"
+"防御側部隊が都市か要塞以外で負けた場合，その部隊の場所にいた全ての部隊が消滅"
+"します。"
 
 # clefs
 #: data/helpdata.txt:1035
@@ -19274,7 +19327,7 @@ msgid ""
 "20.25."
 msgstr ""
 "防御側の防御力は 3です。森にいるので強さは 4.5になります。城壁で守られている"
-"ので 3倍になり 13.5 です。都市内にいる地上部隊なので，20.25になります。"
+"ので 3倍の 13.5 になります。都市内にいる地上部隊なので，20.25になります。"
 
 #: data/helpdata.txt:1056
 msgid ""
@@ -19282,8 +19335,8 @@ msgid ""
 "fractions dropped, so the attacker's strength is 80, and the defender's "
 "strength is 202."
 msgstr ""
-"強さの値はゲーム中では実際には 10を掛けられ小数点が切り捨てられます。従って，"
-"攻撃側の強さは 80, 防御側の強さは 202です。"
+"強さの値はゲーム中では実際には 10を掛けられ小数点以下が切り捨てられます。従っ"
+"て，攻撃側の強さは 80, 防御側の強さは 202です。"
 
 # clefs
 #: data/helpdata.txt:1060
@@ -19344,9 +19397,9 @@ msgid ""
 "strength is 22.5."
 msgstr ""
 "防御側の防御力は 5で，ベテラン状態に 7.5に上昇します。地形の防御効果は 1(影響"
-"なし)です。沿岸防衛が，防御力を2倍の 15にします。(城壁は海上/海中部隊の攻撃に"
-"対しては効果ありません。)防御側は都市にいる地上部隊なので，合計の防御力は "
-"22.5になります。"
+"なし)です。沿岸防衛が，防御力を2倍の 15にします(城壁は海上/海中部隊の攻撃に対"
+"しては効果ありません)。防御側は都市にいる地上部隊なので，合計の防御力は 22.5"
+"になります。"
 
 #: data/helpdata.txt:1099
 msgid ""
@@ -19394,8 +19447,8 @@ msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
 msgstr ""
-"ゾーンコントロール(Zones of Control 略して ZOC)とは，敵の(部分的に)支配してい"
-"る領域での移動を制限するゲームの概念です。"
+"ゾーンコントロール(Zones of Control: 略して ZOC)とは，敵の(部分的に)支配して"
+"いる領域での移動を制限するゲームの概念です。"
 
 #: data/helpdata.txt:1130
 msgid ""
@@ -19470,7 +19523,7 @@ msgid ""
 "leaving some units behind to keep squares occupied), you can make a path "
 "through enemy territory."
 msgstr ""
-"ヒント: 敵の領域へ潜入するには，まず外交官(もしくは他の ZOC を無視する部隊)を"
+"ヒント: 敵の領域へ侵入するには，まず外交官(もしくは他の ZOC を無視する部隊)を"
 "移動し，それから普通の部隊を外交官の占領している土地へ移動させるます。これと"
 "占領した土地を守るための部隊を残しておくことを繰り返し行うことで，敵の領域を"
 "通る道を作れます。"
@@ -19485,7 +19538,7 @@ msgstr ""
 "これらのルールは，Freeciv の以前のバージョン(リリース 1.8.0 より前)とは，以下"
 "の点が僅かに異なっています。\n"
 "- 部隊のいない敵都市はもう ZOC を課さない。\n"
-"- 今では地上部隊の上陸という特別な場合を認める"
+"- 今では地上部隊の上陸という特別な場合を認める。"
 
 # clefs
 #: data/helpdata.txt:1178
@@ -20588,6 +20641,8 @@ msgstr "大学は図書館と連携し，都市の研究成果を 250% 増やし
 msgid "Apollo Program"
 msgstr "アポロ計画"
 
+# clefs
+# was "が研究されたと見倣します。)"，これは誤訳でした
 #: data/default/buildings.ruleset:962 data/civ2/buildings.ruleset:949
 msgid ""
 "Entire map becomes visible for the player who owns it.  It allows all "
@@ -20596,7 +20651,7 @@ msgid ""
 msgstr ""
 "これを手に入れたプレイヤーは，地図全部を見ることができるようになります。ま"
 "た，全てのプレイヤーが宇宙船の部品の製作を開始できるようになります(必要な技術"
-"が研究されたと見倣します。)"
+"が研究されていれば。)"
 
 # clefs
 #: data/default/buildings.ruleset:969 data/civ2/buildings.ruleset:956
@@ -20791,7 +20846,7 @@ msgid ""
 "(for all your cities)."
 msgstr ""
 "全ての海上(中)部隊の移動力を1増やし，さらにトライリームを高波で失う危険を排除"
-"します。全ての新しく生産される海上(中)部隊をベテランにします。"
+"します。(全ての都市で)全ての新しく生産される海上(中)部隊をベテランにします。"
 
 #: data/default/buildings.ruleset:1279 data/civ2/buildings.ruleset:1263
 #: data/civ1/buildings.ruleset:885
@@ -21126,6 +21181,7 @@ msgstr "大学は図書館と連携し，都市の研究成果を 100% 増やし
 
 # ama, clefs
 # was "全ての都市で、都市建造物の維持費1をなくします。"
+# 2かかるものは2のままなわけです
 #: data/civ2/buildings.ruleset:970
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
@@ -22288,8 +22344,8 @@ msgid ""
 "\n"
 "Ocean squares can never be polluted or subjected to fallout."
 msgstr ""
-"海は世界の多くを覆っています。海上部隊(トライリームや他のボート)だけが海を移"
-"動できます。\n"
+"海は世界の多くを覆っています。海上部隊(トライリームや他の船舶)だけが海を渡れ"
+"ます。\n"
 "\n"
 "海は決して汚染されず，また死の灰の影響を受けません。"
 
@@ -22303,7 +22359,7 @@ msgstr "平野"
 msgid ""
 "Plains are very broad, sparse regions, which makes trade slightly "
 "inconvenient."
-msgstr "平野はとても広くまばらな地帯です。交易を行うにはちょっと不便です。"
+msgstr "平野はとても広くまばらな地帯です。交易にはやや不便です。"
 
 #: data/default/terrain.ruleset:524 data/civ2/terrain.ruleset:458
 #: data/civ1/terrain.ruleset:445
@@ -22327,7 +22383,8 @@ msgstr "ツンドラ"
 msgid ""
 "Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
-"ツンドラは広く寒い地帯です。農業には適当ですが，他はほとんどありません。"
+"ツンドラは広く寒い地帯です。農業には多少向いていますが，他にはほとんど何もあ"
+"りません。"
 
 #: data/default/terrain.ruleset:599 data/civ2/terrain.ruleset:523
 msgid "Ivory"
@@ -22467,16 +22524,16 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
-"開拓者は重要な部隊の一つです。新しい都市の作成，土地を灌漑，道路，鉄道，要"
+"開拓者は重要な部隊の一つです。新しい都市の創設，土地の灌漑，道路，鉄道，要"
 "塞，飛行場の作成，資源化の実行，公害，死の灰の除去のために使います。開拓者の"
-"維持には，食料と生産物が必要です。開拓者を維持している都市が食料不足になった"
-"ら，開拓者は飢え死にします。\n"
+"維持には，食料と生産物が必要です。開拓者を維持している都市が食料不足に陥る"
+"と，開拓者は飢え死にします。\n"
 "\n"
 "開拓者同士，エンジニア同士，もしくは開拓者とエンジニアは，協力し長いプロジェ"
-"クトで要求される時間を減らします。もし2部隊以上を同じ土地で同じ作業させたら，"
-"その効果は両方を加えたものになります。一つの作業に対して多すぎる部隊を割りあ"
-"てないようにしましょう。余分な労力は無駄になり，部隊のまとまりは敵の攻撃にと"
-"ても無防備です。"
+"クトで要求される時間を減らします。2部隊以上を同じ土地で同じ作業させると，その"
+"効果は両方を加えたものになります。一つの作業に対して多すぎる部隊を割りあてな"
+"いようにしましょう。余分な労力は無駄になりますし，部隊のまとまりは敵の攻撃に"
+"とても無防備です。"
 
 # clefs
 # 原文もヘン
@@ -22500,7 +22557,7 @@ msgstr ""
 "開拓者，労働者，エンジニアは，協力し長いプロジェクトで要求される時間を減らし"
 "ます。もし二部隊以上を同じ土地で同じ作業させたら，その効果は両方を加えたもの"
 "になります。一つの作業に対して多すぎる部隊を割りあてないようにしましょう。余"
-"分な労力は無駄になり，部隊のまとまりは敵の攻撃にとても無防備です。"
+"分な労力は無駄になりますし，部隊のまとまりは敵の攻撃にとても無防備です。"
 
 #: data/default/units.ruleset:279 data/civ2/units.ruleset:133
 msgid "Engineers"
@@ -22523,7 +22580,7 @@ msgid ""
 msgstr ""
 "エンジニアは労働者に似ていますが，二倍働き二倍速く動きます。エンジニアはま"
 "た，大幅な地形(例えばツンドラから砂漠)の変更も行えます。大幅な地形の変更は，"
-"開拓者では行えません。\n"
+"労働者では行えません。\n"
 "\n"
 "ヒント 1:  できるだけ労働者をエンジニアへアップグレードしましょう。エンジニア"
 "は労働者と同じ資源しか必要としません。\n"
@@ -22539,7 +22596,7 @@ msgstr "戦士"
 #: data/civ1/units.ruleset:167
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest unit."
-msgstr "この部隊はゲームの開始時から作ることができます。もっとも弱い部隊です。"
+msgstr "この部隊はゲーム開始時から作ることができます。もっとも弱い部隊です。"
 
 #: data/default/units.ruleset:352 data/civ2/units.ruleset:206
 #: data/civ1/units.ruleset:173
@@ -22550,10 +22607,12 @@ msgstr "密集軍"
 msgid "Archers"
 msgstr "射手"
 
+# clefs
+# was 「軍隊」
 #: data/default/units.ruleset:408 data/civ2/units.ruleset:262
 #: data/civ1/units.ruleset:201
 msgid "Legion"
-msgstr "軍隊"
+msgstr "軍団"
 
 #: data/default/units.ruleset:436 data/civ2/units.ruleset:290
 msgid "Pikemen"
@@ -22629,6 +22688,7 @@ msgstr ""
 msgid "Horsemen"
 msgstr "騎手"
 
+# 「二輪戦車」
 #: data/default/units.ruleset:710 data/civ2/units.ruleset:597
 #: data/civ1/units.ruleset:347
 msgid "Chariot"
@@ -22653,11 +22713,16 @@ msgstr "騎兵隊"
 msgid "Armor"
 msgstr "装甲車"
 
+# 「投石機」
 #: data/default/units.ruleset:852 data/civ2/units.ruleset:795
 #: data/civ1/units.ruleset:432
 msgid "Catapult"
 msgstr "カタパルト"
 
+# "Cannon" と "Artillery"
+# Cannonは文字通りの大筒→「大砲」，
+# Artilleryは集合的な「砲兵隊」なのですが
+# 当面は従来の訳のままにしておきます
 #: data/default/units.ruleset:880 data/civ2/units.ruleset:823
 #: data/civ1/units.ruleset:460
 msgid "Cannon"
@@ -22687,6 +22752,8 @@ msgid "Helicopter"
 msgstr "ヘリコプター"
 
 # clefs
+# 実際には，国際連合で消耗しなくなるというよりは，
+# 消耗-2，国連+2で差し引きゼロになるという方が正確
 #: data/default/units.ruleset:1046 data/civ2/units.ruleset:989
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
@@ -22696,7 +22763,7 @@ msgid ""
 msgstr ""
 "ヘリコプターは空を飛び，なおかつ都市を占領できる極めて強力なユニットです。都"
 "市以外の場所でターンを終えると少しずつ体力を消耗するので注意が必要です。ただ"
-"し，不思議『国際連合』を持っていればこの消耗はありません。"
+"し，不思議「国際連合」を持っていればこの消耗はありません。"
 
 #: data/default/units.ruleset:1054 data/civ2/units.ruleset:997
 msgid "Stealth Fighter"
@@ -22778,6 +22845,8 @@ msgid "Carrier"
 msgstr "空母"
 
 # clefs
+# 海上の艦隊も同じタイルにスタックしていると一度で全滅するという謎仕様なので
+# 戦艦を空母に重ねておいても実はあまり良い防御にはならない
 #: data/default/units.ruleset:1433 data/civ2/units.ruleset:1376
 #: data/civ1/units.ruleset:798
 msgid ""
@@ -22826,8 +22895,8 @@ msgid ""
 "and have them ready to fix the fallout on the same turn it occurs!  This "
 "minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"必要な科学を所有しており，何れかのプレイヤーがマンハッタン計画の不思議を建て"
-"ていたら，核兵器を製造できます。\n"
+"必要な科学を所有しており，かつ誰かが不思議「マンハッタン計画」を完成させてい"
+"れば，核兵器を製造できます。\n"
 "\n"
 "衝突時，爆発によって 3x3 の範囲にいる部隊全てが全滅します。これには友好的な部"
 "隊も含まれます。都市に当たった時には大きさは半分になり，まわりの土地には死の"
@@ -22838,8 +22907,8 @@ msgstr ""
 "\n"
 "ヒント 2: 敵国に一斉に侵攻したが敵都市があまりにも強いというような状況がある"
 "かもしれません。核兵器を使う前に開拓者またはエンジニアで都市の傍に群れを作"
-"り，核爆発と同じターンに死の灰の後始末する準備をさせます。これにより核の冬の"
-"危険を最小限に食い止めます。地球にやさしい核攻撃!"
+"り，核爆発と同じターンに死の灰の後始末をする準備をさせます。これにより核の冬"
+"の危険を最小限に食い止めます。地球にやさしい核攻撃!"
 
 #: data/default/units.ruleset:1547 data/civ2/units.ruleset:1490
 #: data/civ1/units.ruleset:880
@@ -22907,7 +22976,7 @@ msgid ""
 "A Spy can also be of aid on the battlefield - sabotaging enemy units as well "
 "as bribing them to change allegiance."
 msgstr ""
-"スパイは24時間勤務のプロで，前身たる外交官より偵察行動の手腕が優れていま"
+"スパイは24時間勤務のプロで，前任者の外交官より偵察行動の手腕が優れていま"
 "す。\n"
 "\n"
 "スパイの技能のうち最も害のないものは，都市調査能力です。詳細な情報を引き出"
@@ -22980,21 +23049,23 @@ msgstr ""
 "他のユニットに護衛されていない場所でバーバリアンの指導者が地上ユニットまたは"
 "ヘリコプターにより殺された場合，100ゴールドの身代金が支払われます。"
 
-# 「空中警戒管制機」だけど、AWACSはAWACSで良いかな (clefs)
-# 「早期警戒管制機」の方が通りは良いらしい
-#: data/default/units.ruleset:1804
-msgid "AWACS"
-msgstr ""
-
 # ntaka, clefs
 # もっと良い訳があるなら指摘してね。待ってます。
+# →「空中警戒管制機」だけど，AWACSはAWACSで良いかな (clefs)
+# 「早期警戒管制機」の方が通りは良いらしい
+# →AWACSを知らなくても「早期警戒管制機」なら読んでわかると思ったので
+# やっぱり「早期警戒管制機」にします。航空機なのは絵を見ればわかりますし。
+#: data/default/units.ruleset:1804
+msgid "AWACS"
+msgstr "早期警戒管制機"
+
 #: data/default/units.ruleset:1830
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
 msgstr ""
-"AWACS (Airborne Warning and Control System: 空中警戒管制機) は，高度なレー"
+"早期警戒管制機 (Airborne Warning and Control System: AWACS) は，高度なレー"
 "ダーを用いて広範囲(視界5)で敵の位置を把握できる航空機です。"
 
 #: data/civ2/units.ruleset:115
@@ -23013,7 +23084,7 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
-"開拓者は重要な部隊の一つです。新しい都市の作成，土地を灌漑，道路，鉄道，要"
+"開拓者は重要な部隊の一つです。新しい都市の作成，土地の灌漑，道路，鉄道，要"
 "塞，飛行場の作成，資源化の実行，公害，死の灰の除去のために使います。開拓者の"
 "維持には，食料と生産物が必要です。開拓者を維持している都市が食料不足になった"
 "ら，開拓者は飢え死にします。\n"
@@ -23121,8 +23192,8 @@ msgid ""
 "ready to fix the fallout on the same turn it occurs!  This minimizes the "
 "chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"あなたが必要な科学を持っていて，何れかのプレイヤーによってマンハッタン計画の"
-"不思議が建てられていたら，核兵器を製造できます。\n"
+"必要な科学を所有しており，かつ誰かが不思議「マンハッタン計画」を完成させてい"
+"れば，核兵器を製造できます。\n"
 "\n"
 "衝突時，爆発によって 3x3 の範囲にいる部隊全てが全滅します。これには友好的な部"
 "隊も含まれます。都市に当たった時には大きさは半分になり，まわりの土地には死の"
@@ -23145,8 +23216,8 @@ msgstr ""
 "他のユニットに護衛されていない場所でバーバリアンの指導者が地上ユニットにより"
 "殺された場合，100ゴールドの身代金が支払われます。"
 
-# 直訳すれば「オーストラリア先住民」ですが、日本語でアボリジニといえば
-# オーストラリアのそれなので、あっさりアボリジニとしておきます (clefs)
+# 直訳すれば「オーストラリア先住民」ですが，日本語でアボリジニといえば
+# オーストラリアのそれなので，あっさりアボリジニとしておきます (clefs)
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
 msgstr "アボリジニ"
@@ -23580,6 +23651,7 @@ msgstr ""
 
 # Daniel
 #: data/nation/bosnia.ruleset:3
+#, fuzzy
 msgid "Bosnia & Herzegovina"
 msgstr "ボスニア・ヘルツェゴヴィナ人"
 
@@ -24278,6 +24350,7 @@ msgstr "フランス人"
 
 # clefs
 #: data/nation/french.ruleset:6
+#, fuzzy
 msgid ""
 "France has long been a major power in Europe. French conquerer kings like "
 "Napoleon and Charlemagne each united large parts of Europe under the French "
@@ -24431,11 +24504,11 @@ msgstr "ミュケナイから，ローマ人に征服されるまでの古代ギ
 msgid "Despot"
 msgstr "専制君主"
 
-# 古代ギリシア人がGreek、現代のギリシャ人がHellenicということらしい
+# 古代ギリシア人がGreek、現代のギリシャ人がHellenicということらしい。
 # ローマに征服されてから，オスマン帝国から独立するまで2000年の断絶があるから
-# 無理はないのだけれど，
-# 「現代ギリシャ人」と訳しても，ゲームは4000BCから始まるわけなので
-# もう訳し分けようがない :-/ (clefs)
+# 無理はないのだけれど，「現代ギリシャ人」と訳しても
+# ゲームは4000BCから始まるわけなのでもう訳し分けようがない。
+# 「エリニキ人」じゃ誰もわからないだろうし :-/ (clefs)
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
 msgstr ""
@@ -25325,15 +25398,15 @@ msgid "Hakan"
 msgstr "ハカン"
 
 # clefs 音訳音訳
-# alt.「皇帝」
 #: data/nation/ottoman.ruleset:28
 msgid "Padisah"
 msgstr "パーディシャー"
 
 # clefs
+# alt.「皇帝」
 #: data/nation/ottoman.ruleset:29
 msgid "Imparator"
-msgstr "皇帝"
+msgstr "インパラトール"
 
 # clefs
 #: data/nation/papuan.ruleset:3
@@ -25731,7 +25804,8 @@ msgid "Ah"
 msgstr "アー"
 
 # clefs
-# "様""さん"らしいが…
+# 福建語で"様""さん"らしいが…
+# 「閣下○○」じゃあ格好がつかないから「エンシク」にしようかな
 #: data/nation/singaporean.ruleset:39
 msgid "Encik"
 msgstr "閣下"
@@ -25950,6 +26024,7 @@ msgstr ""
 "域を拡大し，南に位置するズールー族との境界線を固定させました。"
 
 # 「エングエニヤーマ」
+# "Indovuzaki"の方は読みもわからないので当座は空白でゴメンナサイ
 #: data/nation/swazi.ruleset:24
 msgid "Ngwenyama"
 msgstr ""
@@ -26230,6 +26305,7 @@ msgstr ""
 "た，中国の新疆ウイグル自治区の主要な少数民族ともなっています。"
 
 #: data/nation/venezuelan.ruleset:3
+#, fuzzy
 msgid "Venezuela"
 msgstr "ベネズエラ人"
 
@@ -26681,6 +26757,7 @@ msgstr "チーム32"
 #~ msgid "Moves Left"
 #~ msgstr "残存移動力"
 
+# 試してみてもよくわからないのでしばらく訳出しません
 #, fuzzy
 #~ msgid "Activity"
 #~ msgstr "活動: "
@@ -26748,6 +26825,27 @@ msgstr "チーム32"
 
 #~ msgid "_Edit Nation..."
 #~ msgstr "民族の編集(_E)..."
+
+#, fuzzy
+#~ msgid "Full Screen"
+#~ msgstr "フルスクリーン表示(_F)"
+
+#, fuzzy
+#~ msgid "Screen height"
+#~ msgstr "宇宙飛行"
+
+#, fuzzy
+#~ msgid "Theme"
+#~ msgstr "寺院"
+
+# clefs
+#, fuzzy
+#~ msgid ""
+#~ "By changing this option you change the active theme. This is the same as "
+#~ "using the -- --theme command-line parameter."
+#~ msgstr ""
+#~ "このオプションを変更して，現在表示に使われているタイルセットを変更できま"
+#~ "す。これを変更するのは，コマンドラインで -t によって指定するのと同じです。"
 
 #~ msgid "Editing Mode"
 #~ msgstr "エディットモード"
