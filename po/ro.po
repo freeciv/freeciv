@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-08 13:37-0400\n"
-"PO-Revision-Date: 2006-08-25 16:45+0300\n"
+"PO-Revision-Date: 2006-08-29 12:36+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <diacritice@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -1078,7 +1078,7 @@ msgstr "Calea curentă pentru date este: \"%s\""
 #: utility/shared.c:1221
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
-msgstr "Este necesar fişierul \"%s\" pornire eşuată!"
+msgstr "Este necesar fişierul \"%s\"...se abandonează!"
 
 #: utility/shared.c:1345
 #, c-format
@@ -4712,7 +4712,7 @@ msgstr ""
 
 #: server/settings.c:971
 msgid "Turns per auto-save"
-msgstr "NUmărul de runde la care se creează automat o salvare"
+msgstr "Numărul de runde salvează automat"
 
 #: server/settings.c:972
 msgid "The game will be automatically saved per this number of turns. Zero means never auto-save."
@@ -5175,7 +5175,7 @@ msgstr "Jucătorul %s a fost îndepărtat din joc."
 #: server/stdinhand.c:3183
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
-msgstr "NUmele \"%s\" nu este permis din motive de siguranţă."
+msgstr "Numele \"%s\" nu este permis din motive de siguranţă."
 
 #: server/stdinhand.c:1017
 #, c-format
@@ -6657,61 +6657,61 @@ msgstr "Ordinele pentru %s au fost abandonate deoarece construirea oraşului a e
 #: server/unittools.c:3051
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
-msgstr ""
+msgstr "Oridinele pentru %s au fost abandonate deoarece dau o activitate invalidă."
 
 #: server/unittools.c:3065
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
-msgstr ""
+msgstr "Ordinele pentru %s au fost abandonate deoarece specifică o locaţie invalidă."
 
 #: server/unittools.c:3075
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
-msgstr ""
+msgstr "Ordinele pentru %s au fost abandonate deoarece sunt unităţi în drumul său."
 
 #: server/unittools.c:3101
 #, c-format
 msgid "Orders for %s aborted because of failed move."
-msgstr ""
+msgstr "Ordinele pentru %s au fost abandonate datorită unei mişcări nereuşite."
 
 #: server/unittools.c:3142
-#, fuzzy, c-format
+#, c-format
 msgid "Attempt to change homecity for %s failed."
-msgstr "Joc: Noul oraş natal al %s este %s."
+msgstr "Încercarea de a schimba oraşul natal pentru %s a eşuat."
 
 #: server/unittools.c:3153
-#, fuzzy, c-format
+#, c-format
 msgid "Attempt to establish trade route for %s failed."
-msgstr "* Poate iniţia schimburi comerciale.\n"
+msgstr "Încercarea de a realiza o rută comercială pentru %s a eşuat."
 
 #: server/unittools.c:3165
 #, c-format
 msgid "Attempt to build wonder for %s failed."
-msgstr ""
+msgstr "Încercarea de a construi o minune pentru %s a eşuat."
 
 #: server/unittools.c:3174
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has invalid orders."
-msgstr "Joc: %s dumneavoastră s-a întors la realimentare."
+msgstr "%s dvs a primit ordine invalide."
 
 #: server/generator/mapgen.c:1713
 msgid "High landmass - this may take a few seconds."
-msgstr ""
+msgstr "Suprafaţă mare - posibil să dureze câteva secunde."
 
 #: server/generator/mapgen.c:1911
 #: server/generator/mapgen.c:1981
 #, c-format
 msgid "Falling back to generator %d."
-msgstr ""
+msgstr "întoarcere la generator %d."
 
 #: server/generator/mapgen.c:2001
 msgid "Generator 3 didn't place all big islands."
-msgstr ""
+msgstr "Generatorul 3 nu a amplasat toate insulele mari."
 
 #: server/generator/mapgen.c:2030
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
-msgstr ""
+msgstr "Generatorul 3 a lăsat suprafaţa%li neamplasată."
 
 #: server/generator/startpos.c:381
 #, c-format
@@ -6720,102 +6720,102 @@ msgid ""
 "Maybe the number of players is too high for this map.\n"
 "Please report this bug at %s."
 msgstr ""
+"Se pare că acest server a intrat îṅtr-un ciclu infint încercănd să determine poziţiile de început.\n"
+"Se poate ca numărul de jucători să fie prea mare pentru harta aceasta.\nVă rugăm raportaţi această defecţiune la %s."
 
 #: client/attribute.c:241
 msgid "There has been a CMA error.  Your citizen governor settings may be broken."
-msgstr ""
+msgstr "S-a dectectat o eroare CMA. Este posibil ca setările pentru guvernatorul cetăţenilor să nu fie potrivite."
 
 #: client/attribute.c:295
 msgid "Old attributes detected and removed."
-msgstr ""
+msgstr "S-au detectat atribute vechi şi au fost îndepărtate."
 
 #: client/audio.c:119
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
-msgstr ""
+msgstr "Modulul '%s' nu este disponibil. Sunt disponibile %s"
 
 #: client/audio.c:125
 #, c-format
 msgid "Plugin %s found but can't be initialized."
-msgstr ""
+msgstr "MOdulul %s a fost găsit dar nu s-a putut iniţializa."
 
 #: client/audio.c:130
 #, c-format
 msgid "Plugin '%s' is now selected"
-msgstr ""
+msgstr "S-a selectat modulul %s."
 
 #: client/audio.c:174
 #, c-format
 msgid "Couldn't find soundset \"%s\" trying \"%s\"."
-msgstr ""
+msgstr "Nu s-a găsit setul de sunete \"%s\" se încearcă \"%s\"."
 
 #: client/audio.c:191
 #: client/audio.c:249
 #: client/audio.c:260
 msgid "Proceeding with sound support disabled"
-msgstr ""
+msgstr "Se continuă fără suport pentru sunet"
 
 #: client/audio.c:197
 msgid "No real audio plugin present, proceeding with sound support disabled"
-msgstr ""
+msgstr "Nu s-a găsit nici un modul real pentru sunet, se continuă fără suport pentru sunet"
 
 #: client/audio.c:200
 msgid "For sound support, install SDL_mixer"
-msgstr ""
+msgstr "Pentru suport pentru sunet instalaţi SDL_mixer"
 
 #: client/audio.c:201
-#, fuzzy
 msgid "http://www.libsdl.org/projects/SDL_mixer/index.html"
-msgstr "SDL_mixer: http://www.libsdl.org/projects/SDL_mixer/index.html"
+msgstr "http://www.libsdl.org/projects/SDL_mixer/index.html "
 
 #: client/audio.c:207
 msgid "No sound spec-file given!"
-msgstr ""
+msgstr "Nu s-a primit nici un fişier spec pentru sunet. "
 
 #: client/audio.c:213
 #, c-format
 msgid "Cannot find sound spec-file \"%s\"."
-msgstr ""
+msgstr "Nu s-a găsit fişierul spec pentru sunet \"%s\"."
 
 #: client/audio.c:214
 msgid "To get sound you need to download a sound set!"
-msgstr ""
+msgstr "Pentru a avea sunet va trebui să descărcaţi un set de sunete!"
 
 #: client/audio.c:215
-#, fuzzy, c-format
+#, c-format
 msgid "Get sound sets from <%s>."
-msgstr "Joc: %sul dumneavoastră a furat %s de la %s."
+msgstr "Luaţi seturi de sunet de la <%s>."
 
 #: client/audio.c:217
 msgid "Will continue with disabled sounds."
-msgstr ""
+msgstr "Se continuă cu sunetul dezactivat."
 
 #: client/audio.c:222
 #, c-format
 msgid "Could not load sound spec-file: %s"
-msgstr ""
+msgstr "Nu s-a putut încărca fişierul spec pentru sunet: %s"
 
 #: client/audio.c:228
-#, fuzzy
 msgid "sound spec-file appears incompatible:"
-msgstr "fişierul %s pare să fie incompatibil:"
+msgstr "fişierul spec pentru sunet pare să fie incompatibil"
 
 #: client/audio.c:235
 msgid "sound spec-file claims required option(s) which we don't support:"
-msgstr ""
+msgstr "fişierul spec pentru sunet necesită opţiuni nesuportate:"
 
 #: client/audio.c:257
 msgid "No real audio subsystem managed to initialize!"
-msgstr ""
+msgstr "Nici un sistem audio real nu a fost iniţializat cu succes!"
 
 #: client/audio.c:259
 msgid "Perhaps there is some misconfigurationg or bad permissions"
-msgstr ""
+msgstr "Este posibil să fie o eroare de configurare sau permisiuni greşite"
 
 #: client/audio.c:282
 #, c-format
 msgid "Cannot find audio file %s"
-msgstr "Nu pot găsi fişierul audio %s"
+msgstr "Nu s-a găsit fişierul audio %s"
 
 #: client/citydlg_common.c:215
 msgid "?filler:XXX/XXX XXX turns"
@@ -6890,14 +6890,12 @@ msgid "Built"
 msgstr "Construită"
 
 #: client/citydlg_common.c:345
-#, fuzzy
 msgid "Great Wonder"
-msgstr "Minune"
+msgstr "Mare Minune"
 
 #: client/citydlg_common.c:349
-#, fuzzy
 msgid "Small Wonder"
-msgstr "Minuni disponibile"
+msgstr "Minune Mică"
 
 #: client/citydlg_common.c:368
 #, c-format
@@ -6905,65 +6903,65 @@ msgid "%d/turn"
 msgstr "%d/rundă"
 
 #: client/citydlg_common.c:399
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Citizens\n"
-msgstr "%s - %s cetăţeni"
+msgstr "%+4d : Cetăţeni\n"
 
 #: client/citydlg_common.c:406
 #, c-format
 msgid "%+4d : Taxed from trade\n"
-msgstr ""
+msgstr "%+4d : Taxe din comerţ\n"
 
 #: client/citydlg_common.c:424
 #, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr ""
+msgstr "%+4d : Rută comercială cu %s\n"
 
 #: client/citydlg_common.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Building tithes\n"
-msgstr "Constuind Unităţi"
+msgstr "%+4d : Impozit pe clădire\n"
 
 #: client/citydlg_common.c:456
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
-msgstr ""
+msgstr "%+4d : Bonus de la %s (%+d%%)\n"
 
 #: client/citydlg_common.c:468
 #, c-format
 msgid "%+4d : Waste\n"
-msgstr ""
+msgstr "%+4d : Deşeuri\n"
 
 #: client/citydlg_common.c:474
 #, c-format
 msgid "%+4d : Disorder\n"
-msgstr ""
+msgstr "%+4d : Dezordine\n"
 
 #: client/citydlg_common.c:480
 #, c-format
 msgid "%+4d : Used\n"
-msgstr ""
+msgstr "%+4d : Folosiţi\n"
 
 #: client/citydlg_common.c:485
 msgid "==== : Adds up to\n"
-msgstr ""
+msgstr "==== : Se adaugă până la \n"
 
 #: client/citydlg_common.c:487
 #, c-format
 msgid "%4d : Total surplus"
-msgstr ""
+msgstr "%4d : Surplus total"
 
 #: client/cityrepdata.c:73
 msgid "?city_state:Rapture"
-msgstr "Bucurie"
+msgstr "?city_state:Bucurie"
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Disorder"
-msgstr "Dezordine"
+msgstr "?city_state:Dezordine"
 
 #: client/cityrepdata.c:75
 msgid "?city_state:Peace"
-msgstr "Linişte"
+msgstr "?city_state:Linişte"
 
 #: client/cityrepdata.c:361
 msgid "(worklist)"
@@ -6980,7 +6978,7 @@ msgstr "Numele Oraşului"
 
 #: client/cityrepdata.c:431
 msgid "?size:Sz"
-msgstr "Mă"
+msgstr "?size:Mă"
 
 #: client/cityrepdata.c:431
 msgid "Size"
@@ -6991,7 +6989,7 @@ msgstr "Mărime"
 #: client/gui-mui/plrdlg.c:172
 #: client/gui-win32/plrdlg.c:337
 msgid "State"
-msgstr "Statut"
+msgstr "Stare"
 
 #: client/cityrepdata.c:433
 msgid "Rapture/Peace/Disorder"
@@ -6999,7 +6997,7 @@ msgstr "Bucurie/Linişte/Dezordine"
 
 #: client/cityrepdata.c:435
 msgid "Concise *=Rapture, X=Disorder"
-msgstr ""
+msgstr "Concis *=Bucurie, X=Dezordine"
 
 #: client/cityrepdata.c:437
 #: client/gui-mui/citydlg.c:1365
@@ -7010,7 +7008,7 @@ msgstr "Lucrători"
 
 #: client/cityrepdata.c:438
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr "F/M/N/Î"
+msgstr "?happy/content/unhappy/angry:F/M/N/Î"
 
 #: client/cityrepdata.c:439
 msgid "Workers: Happy, Content, Unhappy, Angry"
@@ -7018,7 +7016,7 @@ msgstr "Lucrători: Fericiţi, Mulţumiţi, Nemulţumiţi, Înfuriaţi"
 
 #: client/cityrepdata.c:441
 msgid "?Happy workers:H"
-msgstr "F"
+msgstr "?Happy workers:F"
 
 #: client/cityrepdata.c:441
 msgid "Workers: Happy"
@@ -7026,7 +7024,7 @@ msgstr "Lucrători: Fericiţi"
 
 #: client/cityrepdata.c:443
 msgid "?Content workers:C"
-msgstr "M"
+msgstr "?Content workers:M"
 
 #: client/cityrepdata.c:443
 msgid "Workers: Content"
@@ -7034,7 +7032,7 @@ msgstr "Lucrători: Mulţumiţi"
 
 #: client/cityrepdata.c:445
 msgid "?Unhappy workers:U"
-msgstr "N"
+msgstr "?Unhappy workers:N"
 
 #: client/cityrepdata.c:445
 msgid "Workers: Unhappy"
@@ -7042,11 +7040,11 @@ msgstr "Lucrători: Nemulţumiţi"
 
 #: client/cityrepdata.c:447
 msgid "?Angry workers:A"
-msgstr "Î"
+msgstr "?Angry workers:Î"
 
 #: client/cityrepdata.c:447
 msgid "Workers: Angry"
-msgstr "Lucrători: Furioşi"
+msgstr "Lucrători: Înfuriaţî"
 
 #: client/cityrepdata.c:449
 msgid "Special"
@@ -7054,35 +7052,32 @@ msgstr "Special"
 
 #: client/cityrepdata.c:450
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr ""
+msgstr "?entertainers/scientists/taxmen:M/C/Î"
 
 #: client/cityrepdata.c:451
 msgid "Entertainers, Scientists, Taxmen"
-msgstr ""
+msgstr "Muncitori, Cercetători, Încasatori"
 
 #: client/cityrepdata.c:453
 #: client/cityrepdata.c:455
-#, fuzzy
 msgid "Best"
-msgstr "-ul"
+msgstr "Cel mai bun"
 
 #: client/cityrepdata.c:453
 msgid "attack"
 msgstr "atac"
 
 #: client/cityrepdata.c:454
-#, fuzzy
 msgid "Best attacking units"
-msgstr "Auto atacă unităţi aeriene"
+msgstr "Cele mai bune unităţi de atac"
 
 #: client/cityrepdata.c:455
 msgid "defense"
 msgstr "apărare"
 
 #: client/cityrepdata.c:456
-#, fuzzy
 msgid "Best defending units"
-msgstr "Unităţi prezente"
+msgstr "Cele mai bune unităţi de apărare"
 
 #: client/cityrepdata.c:457
 #: client/cityrepdata.c:459
@@ -7113,7 +7108,7 @@ msgstr "Unităţi"
 
 #: client/cityrepdata.c:457
 msgid "?Supported (units):Sup"
-msgstr "?Unităţi întreţinute:Înt"
+msgstr "?Supported (units):Sup"
 
 #: client/cityrepdata.c:458
 msgid "Number of units supported"
@@ -7133,15 +7128,15 @@ msgstr "Surplus"
 
 #: client/cityrepdata.c:462
 msgid "?food/prod/trade:F/P/T"
-msgstr "H/P/N"
+msgstr "?food/prod/trade:H/P/C"
 
 #: client/cityrepdata.c:463
 msgid "Surplus: Food, Production, Trade"
-msgstr "Surplus: Hrană, Producţie, Negoţ"
+msgstr "Surplus: Hrană, Producţie, Comerţ"
 
 #: client/cityrepdata.c:465
 msgid "?Food surplus:F+"
-msgstr "H+"
+msgstr "?Food surplus:H+"
 
 #: client/cityrepdata.c:465
 msgid "Surplus: Food"
@@ -7149,7 +7144,7 @@ msgstr "Surplus: Hrană"
 
 #: client/cityrepdata.c:467
 msgid "?Production surplus:P+"
-msgstr "P+"
+msgstr "?Production surplus:P+"
 
 #: client/cityrepdata.c:468
 msgid "Surplus: Production"
@@ -7157,11 +7152,11 @@ msgstr "Surplus: Producţie"
 
 #: client/cityrepdata.c:469
 msgid "?Trade surplus:T+"
-msgstr "N+"
+msgstr "?Trade surplus:C+"
 
 #: client/cityrepdata.c:469
 msgid "Surplus: Trade"
-msgstr "Surplus: Negoţ"
+msgstr "Surplus: Comerţ"
 
 #: client/cityrepdata.c:471
 #: client/gui-gtk-2.0/repodlgs.c:652
@@ -7175,7 +7170,7 @@ msgstr "Economie"
 
 #: client/cityrepdata.c:471
 msgid "?gold/lux/sci:G/L/S"
-msgstr "G/L/Ş"
+msgstr "?gold/lux/sci:G/L/S"
 
 #: client/cityrepdata.c:472
 msgid "Economy: Gold, Luxuries, Science"
@@ -7191,7 +7186,7 @@ msgstr "Economie: Galbeni"
 
 #: client/cityrepdata.c:476
 msgid "?Luxury:L"
-msgstr "L"
+msgstr "?Luxury:L"
 
 #: client/cityrepdata.c:476
 msgid "Economy: Luxury"
@@ -7199,21 +7194,19 @@ msgstr "Economie: Lux"
 
 #: client/cityrepdata.c:478
 msgid "?Science:S"
-msgstr "S"
+msgstr "?Science:S"
 
 #: client/cityrepdata.c:478
 msgid "Economy: Science"
 msgstr "Economie: Ştiinţă"
 
 #: client/cityrepdata.c:480
-#, fuzzy
 msgid "?trade_routes:n"
-msgstr "Rata de _Impozit"
+msgstr "?trade_routes:n"
 
 #: client/cityrepdata.c:480
-#, fuzzy
 msgid "?trade_routes:T"
-msgstr "Rata de _Impozit"
+msgstr "?trade_routes:T"
 
 #: client/cityrepdata.c:481
 msgid "Number of Trade Routes"
@@ -7235,7 +7228,7 @@ msgstr "?pollution:Pol"
 
 #: client/cityrepdata.c:487
 msgid "Grow"
-msgstr ""
+msgstr "Creşte"
 
 #: client/cityrepdata.c:487
 #: client/gui-gtk-2.0/wldlg.c:1030
@@ -7258,7 +7251,7 @@ msgstr "Corupţie"
 
 #: client/cityrepdata.c:491
 msgid "?waste:Was"
-msgstr "Deş"
+msgstr "?waste:Deş"
 
 #: client/cityrepdata.c:491
 msgid "Waste"
@@ -7266,7 +7259,7 @@ msgstr "Deşeuri"
 
 #: client/cityrepdata.c:493
 msgid "?cma:Governor"
-msgstr ""
+msgstr "?cma:Guvernator"
 
 #: client/cityrepdata.c:493
 #: client/gui-gtk-2.0/cityrep.c:1214
@@ -7276,67 +7269,66 @@ msgstr ""
 #: data/Freeciv.in:1459
 #: data/helpdata.txt:777
 msgid "Citizen Governor"
-msgstr ""
+msgstr "Guvernatorul cetăţenilor"
 
 #: client/cityrepdata.c:495
 #: client/cityrepdata.c:496
 msgid "Currently Building"
-msgstr "În Construcţie"
+msgstr "În construcţie"
 
 #: client/cityrepdata.c:495
 msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Stoc,Necesar,Runde,Cumpărare)"
 
 #: client/cityrepdata.c:554
-#, fuzzy
 msgid "?specialist:S"
-msgstr "Speciale"
+msgstr "?specialist:S"
 
 #: client/cityrepdata.c:557
-#, fuzzy, c-format
+#, c-format
 msgid "Specialists: %s"
-msgstr "Speciale"
+msgstr "Speciale: %s"
 
 #: client/civclient.c:198
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
-msgstr ""
+msgstr "  -a, --autoconnect\tSări peste dialogul de conectare\n"
 
 #: client/civclient.c:208
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
-msgstr ""
+msgstr "  -l, --log FIŞIER\tFoloseşte FIŞIER ca fişier pentru jurnal (şi serverele create folosesc acest fişier)\n"
 
 #: client/civclient.c:210
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
-msgstr ""
+msgstr "  -m, --meta GAZDĂ\tConectează-te la metaserverul de la GAZDĂ\n"
 
 #: client/civclient.c:212
 msgid "  -n, --name NAME\tUse NAME as name\n"
-msgstr ""
+msgstr "  -n, --name NUME\tFoloseşte NUME ca nume\n"
 
 #: client/civclient.c:214
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
-msgstr ""
+msgstr "  -p, --port PORT\tConectează-te la server la portul PORT\n"
 
 #: client/civclient.c:216
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
-msgstr ""
+msgstr "  -P, --Plugin MODUL:\tFoloseşte MODUL pentru sunet %s\n"
 
 #: client/civclient.c:218
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
-msgstr ""
+msgstr "  -r, --read FIŞIER\tCiteşte sciptul de pornire FIŞIER (doar pentru serverele create)\n"
 
 #: client/civclient.c:221
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
-msgstr ""
+msgstr "  -s, --server GAZDĂ\tConectează-te la serverul de la GAZDĂ\n"
 
 #: client/civclient.c:223
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
-msgstr ""
+msgstr "  -S, --Sound FIŞIER\tCiteşte etichetele de sunet din FIŞIER\n"
 
 #: client/civclient.c:224
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
-msgstr ""
+msgstr "  -t, --tiles FIŞIER\tFoloseşte fişierul FIŞIER.tilespec pentru formele geometrice\n"
 
 #: client/civclient.c:227
 #, c-format
@@ -7344,21 +7336,23 @@ msgid ""
 "      --\t\tPass any following options to the UI.\n"
 "\t\t\tTry \"%s -- --help\" for more.\n"
 msgstr ""
+"      --\t\tPasează orice opţiune următoare cătru UI.\n"
+"\t\t\tTry \"%s -- --help\" pentru mai multe detalii.\n"
 
 #: client/civclient.c:253
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
-msgstr ""
+msgstr "Port invalid \"%s\" specificat cu opţiunea --port.\n"
 
 #: client/civclient.c:255
 #: client/civclient.c:270
 msgid "Try using --help.\n"
-msgstr ""
+msgstr "Încercaţi să folosiţi --help.\n"
 
 #: client/civclient.c:268
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr ""
+msgstr "Nivel de depanare invalid \"%s\" specificat cu opţiunea --debug.\n"
 
 #: client/civclient.c:281
 #, c-format
@@ -7371,16 +7365,16 @@ msgstr "Jocul a pornit."
 
 #: client/civclient.c:554
 msgid "There was an error while auto connecting; aborting."
-msgstr ""
+msgstr "S-a produs o eroare în timp ce se auto-conecta, se abandonează."
 
 #: client/climisc.c:170
 #, c-format
 msgid "Changing production of every %s into %s."
-msgstr "Joc: Schimb producţia a fiecărui %s în %s."
+msgstr "Se schimbă producţia fiecărui %s în %s."
 
 #: client/climisc.c:206
 msgid "?embassy:Both"
-msgstr "Ambi"
+msgstr "?embassy:Ambii"
 
 #: client/climisc.c:208
 msgid "?embassy:Yes"
@@ -7395,21 +7389,20 @@ msgid "?embassy:Contact"
 msgstr "?embassy:Contact"
 
 #: client/climisc.c:216
-#, fuzzy
 msgid "?embassy:No Contact"
-msgstr "?embassy:Contact"
+msgstr "?embassy:Fără contact"
 
 #: client/climisc.c:228
 msgid "?vision:Both"
-msgstr "Ambi"
+msgstr "?vision:Ambii"
 
 #: client/climisc.c:230
 msgid "?vision:To Them"
-msgstr "La Ei"
+msgstr "?vision:Pentru ei"
 
 #: client/climisc.c:233
 msgid "?vision:To Us"
-msgstr "La Noi"
+msgstr "?vision:Pentru noi"
 
 #: client/climisc.c:249
 #: client/climisc.c:256
@@ -7430,61 +7423,60 @@ msgstr "%s ne plăteşte %d galbeni"
 #: client/climisc.c:270
 #, c-format
 msgid "The %s give their worldmap"
-msgstr ""
+msgstr "%s ne dăruieşte harta lumii"
 
 #: client/climisc.c:274
 #, c-format
 msgid "The %s give their seamap"
-msgstr ""
+msgstr "%s ne dăruieşte harta maritimă"
 
 #: client/climisc.c:278
 msgid "The parties agree on a cease-fire"
-msgstr ""
+msgstr "Părţile se înţeleg să înceteze focul"
 
 #: client/climisc.c:281
 msgid "The parties agree on a peace"
-msgstr ""
+msgstr "Părţile se înţeleg să facă pace"
 
 #: client/climisc.c:284
 msgid "The parties create an alliance"
-msgstr ""
+msgstr "Părţile se înţeleg să facă o alianţă"
 
 #: client/climisc.c:287
 #, c-format
 msgid "The %s gives shared vision"
-msgstr ""
+msgstr "%s ne dăruieşte vedere comună"
 
 #: client/climisc.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "The %s gives an embassy"
-msgstr "%s dăruieşte %s"
+msgstr "%s dăruieşte o ambasadă"
 
 #: client/climisc.c:896
 msgid "Popup Request"
-msgstr ""
+msgstr "Cerere"
 
 #: client/climisc.c:926
 msgid "Exporting output window to civgame.log ..."
-msgstr ""
+msgstr "Se exportă fereastra de ieşire în civgame.log ..."
 
 #: client/climisc.c:930
 msgid "Export complete."
-msgstr ""
+msgstr "Exportare completă."
 
 #: client/climisc.c:932
-#, fuzzy
 msgid "Export failed, couldn't write to file."
-msgstr "Nu pot scrie în fişierul %s"
+msgstr "Exportarea a eşuat, nu s-a putut scrie în fişier."
 
 #: client/climisc.c:1032
 #, c-format
 msgid "You don't buy %s in %s!"
-msgstr "Joc: Nu cumpăraţi %s în %s!"
+msgstr "Nu cumpăraţi %s în %s!"
 
 #: client/climisc.c:1050
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
-msgstr "Joc: %s costă %d galbeni pe când dumneavoastră aveţi doar %d galbeni."
+msgstr "%s costă %d galbeni iar dvs. aveţi doar %d galbeni."
 
 #: client/clinet.c:140
 msgid "Lost connection to server!"
@@ -7492,27 +7484,25 @@ msgstr "Am pierdut legătura cu serverul!"
 
 #: client/clinet.c:183
 msgid "Failed looking up host."
-msgstr ""
+msgstr "Căutarea numelui gazdei a eşuat."
 
 #: client/clinet.c:207
-#, fuzzy
 msgid "Connection in progress."
-msgstr "(în progres)"
+msgstr "(conexiune în progres)"
 
 #: client/clinet.c:281
-#, fuzzy
 msgid "Disconnected from server."
-msgstr "Deconectez de server."
+msgstr "Deconectat de la server."
 
 #: client/clinet.c:463
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
-msgstr ""
+msgstr "Nu s-a putut contacta serverul \"%s\" la portul %d ca \"%s\" după %d încercări"
 
 #: client/clinet.c:478
 #: client/clinet.c:480
 msgid "Connection to server refused. Please start the server."
-msgstr ""
+msgstr "Conexiunea la server a fost refuzată. Porniţi serverul."
 
 #: client/clinet.c:489
 #: client/clinet.c:517
@@ -7521,17 +7511,18 @@ msgid ""
 "Error contacting server \"%s\" at port %d as \"%s\":\n"
 " %s\n"
 msgstr ""
+"Eroare la contactarea serverului \"%s\" la portul %d ca \"%s\":\n"
+" %s\n"
 
 #: client/clinet.c:508
 #, c-format
 msgid "Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for %d times"
-msgstr ""
+msgstr "Conectarea automată la serverul \"%s\" la portul %d ca \"%s\" la fiecare %f secunde pentru %d încercări"
 
 #: client/connectdlg_common.c:78
 #: client/gui-gtk-2.0/pages.c:1257
-#, fuzzy
 msgid "novice"
-msgstr "nimic"
+msgstr "novice"
 
 #: client/connectdlg_common.c:79
 #: client/gui-gtk-2.0/pages.c:1257
@@ -7540,9 +7531,8 @@ msgstr "uşor"
 
 #: client/connectdlg_common.c:80
 #: client/gui-gtk-2.0/pages.c:1258
-#, fuzzy
 msgid "normal"
-msgstr "Onorabil"
+msgstr "normal"
 
 #: client/connectdlg_common.c:81
 #: client/gui-gtk-2.0/pages.c:1258
@@ -7551,70 +7541,66 @@ msgstr "greu"
 
 #: client/connectdlg_common.c:82
 msgid "experimental"
-msgstr ""
+msgstr "experimental"
 
 #: client/connectdlg_common.c:225
-#, fuzzy
 msgid "Starting server..."
-msgstr "Pornesc jocul."
+msgstr "Se porneşte serverul..."
 
 #: client/connectdlg_common.c:342
-#, fuzzy
 msgid "Couldn't start the server."
-msgstr "Joc: Aici nu puteţi ataca."
+msgstr "Nu s-a putut porni serverul."
 
 #: client/connectdlg_common.c:343
 #: client/connectdlg_common.c:376
 msgid "You'll have to start one manually. Sorry..."
-msgstr ""
+msgstr "Va trebui să porniţi unul manual."
 
 #: client/connectdlg_common.c:374
-#, fuzzy
 msgid "Couldn't connect to the server."
-msgstr "Taie legătura unui client cu serverul."
+msgstr "Nu s-a putut face conexiunea la server."
 
 #: client/connectdlg_common.c:375
 msgid "We probably couldn't start it from here."
-msgstr ""
+msgstr "Se poate să nu fie posibilă pornirea din această locaţie."
 
 #: client/connectdlg_common.c:495
 msgid "We have control of the server (command access level hack)"
-msgstr ""
+msgstr "Am preluat controlul serverului (cu nivelul hack de acces la comandă)"
 
 #: client/connectdlg_common.c:500
 msgid "We can't take control of server, attempting to kill it."
-msgstr ""
+msgstr "Nu se poate prelua controlul asupra serverului, se încearcă oprirea sa."
 
 #: client/control.c:1035
 msgid "Only transporter units can be unloaded."
-msgstr "Joc: Doar unităţile transportatoare pot fi descărcate."
+msgstr "Doar unităţile transportatoare pot fi descărcate."
 
 #: client/control.c:1264
-#, fuzzy
 msgid "Only settler units can be put into auto mode."
-msgstr "Joc: Doar unităţi cu acţiuni de colonişti şi unitătile militare pot fi puseîn modul autonom"
+msgstr "Doar coloniştii pot fi puşi în modul autonom."
 
 #: client/control.c:1354
 msgid "Only nuclear units can do this."
-msgstr "Joc: Doar bomba atomică poate face aşa ceva."
+msgstr "Doar unităţile nucleare pot face aşa ceva."
 
 #: client/control.c:1383
 msgid "Only paratrooper units can do this."
-msgstr "Joc: Doar paraşutişti pot face aşa ceva."
+msgstr "Doar paraşutişti pot face aşa ceva."
 
 #: client/control.c:1832
 msgid "Too far for this unit."
-msgstr "Joc: Prea departe pentru această unitate."
+msgstr "Prea departe pentru această unitate."
 
 #: client/control.c:2045
 #: client/control.c:2081
 #: client/control.c:2101
 msgid "Didn't find a route to the destination!"
-msgstr "Joc: N-am găsit o rută spre destinaţie!"
+msgstr "N-am găsit o rută spre destinaţie!"
 
 #: client/control.c:2143
 msgid "Oh my! You seem to have no capital!"
-msgstr "Joc: Uliu maică! Se pare că nu aveţi o capitală!"
+msgstr "Uliu maică! Se pare că nu aveţi o capitală!"
 
 #: client/helpdata.c:120
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -7622,7 +7608,7 @@ msgstr "Teren       Drum  Irigaţie       Minare         Transformare\n"
 
 #: client/helpdata.c:146
 msgid "(Railroads and fortresses require 3 turns, regardless of terrain.)"
-msgstr "(Construcţia de căi ferate sau fortăreţe durează 3 runde ne depinzând de teren.)"
+msgstr "(Căile ferate şi fortăreţele se construiesc în 3 runde indiferent de teren.)"
 
 #: client/helpdata.c:166
 #, c-format
@@ -7630,6 +7616,8 @@ msgid ""
 "Requires the %s technology.\n"
 "\n"
 msgstr ""
+"Este necesară tehnologia %s.\n"
+"\n"
 
 #: client/helpdata.c:170
 #, c-format
@@ -7637,6 +7625,8 @@ msgid ""
 "Requires the %s government.\n"
 "\n"
 msgstr ""
+"Este necesară forma de guvernământ %s.\n"
+"\n"
 
 #: client/helpdata.c:174
 #, c-format
@@ -7644,7 +7634,7 @@ msgid ""
 "Requires the %s building.\n"
 "\n"
 msgstr ""
-"Este nevoie de clădirea %s.\n"
+"Este necesară clădirea %s.\n"
 "\n"
 
 #: client/helpdata.c:178
@@ -7653,6 +7643,8 @@ msgid ""
 "Requires the %s terrain special.\n"
 "\n"
 msgstr ""
+"Este necesar terenul special %s.\n"
+"\n"
 
 #: client/helpdata.c:182
 #, c-format
@@ -7660,7 +7652,7 @@ msgid ""
 "Requires the %s terrain.\n"
 "\n"
 msgstr ""
-"Este nevoie de terenul %s.\n"
+"Este necesar terenul %s.\n"
 "\n"
 
 #: client/helpdata.c:186
@@ -7669,7 +7661,7 @@ msgid ""
 "Requires the %s nation.\n"
 "\n"
 msgstr ""
-"Este nevoie de naţiunea %s.\n"
+"Este necesară naţiunea %s.\n"
 "\n"
 
 #: client/helpdata.c:190
@@ -7680,6 +7672,8 @@ msgid ""
 "Only applies to %s units.\n"
 "\n"
 msgstr ""
+"Se aplică doar unităţilor %s.\n"
+"\n"
 
 #: client/helpdata.c:202
 #: client/helpdata.c:206
@@ -7688,6 +7682,8 @@ msgid ""
 "Applies only to %s.\n"
 "\n"
 msgstr ""
+"Se aplică doar %s.\n"
+"\n"
 
 #: client/helpdata.c:210
 #, c-format
@@ -7695,27 +7691,28 @@ msgid ""
 "Requires a minimum size of %d.\n"
 "\n"
 msgstr ""
+"Necesită o mărime minimă de %d.\n"
+"\n"
 
 #: client/helpdata.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s."
-msgstr "Permite %s.\n"
+msgstr "Permite %s."
 
 #: client/helpdata.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Allows %s (with %s)."
-msgstr "Permite %s (cu %s).\n"
+msgstr "Permite %s (cu %s)."
 
 #. TRANS: preserve single space at beginning
 #: client/helpdata.c:408
-#, fuzzy
 msgid " Rivers"
-msgstr "  Râuri"
+msgstr " Râuri"
 
 #: client/helpdata.c:565
 #, c-format
 msgid "Sorry, no help topic for %s.\n"
-msgstr ""
+msgstr "Nici o referinţă pentru %s.\n"
 
 #: client/helpdata.c:569
 #, c-format
@@ -7724,59 +7721,59 @@ msgid ""
 "This page was auto-generated.\n"
 "\n"
 msgstr ""
+"Nici o referinţă pentru %s.\n"
+"Această pagină a fost generată automat.\n"
+"\n"
 
 #: client/helpdata.c:661
-#, fuzzy, c-format
+#, c-format
 msgid "* The discovery of %s will make %s obsolete.\n"
-msgstr ""
-"\n"
-"\n"
-"Descoperirea %s va învechi %s.  "
+msgstr "* Descoperirea %s va învechi %s.\n"
 
 #: client/helpdata.c:680
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
-msgstr "Permite tuturor jucătorilor care au cunoştinţă de %s să construiască  %s.  "
+msgstr "* Permite jucătorilor care au cunoştinţă de %s să construiască unităţile %s.\n"
 
 #: client/helpdata.c:691
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s (with %s).\n"
-msgstr "Permite %s (cu %s).\n"
+msgstr "* Permite %s (cu %s).\n"
 
 #: client/helpdata.c:694
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s.\n"
-msgstr "Permite %s.\n"
+msgstr "* Permite %s.\n"
 
 #: client/helpdata.c:759
 #, c-format
 msgid "* Can only be built with %s as government.\n"
-msgstr ""
+msgstr "* Poate fi construită doar sub forma de guvernământ %s.\n"
 
 #: client/helpdata.c:764
-#, fuzzy, c-format
+#, c-format
 msgid "* May not be built in cities.\n"
-msgstr "* Poate întemeia oraşe.\n"
+msgstr "* Nu poate fi construită în oraşe.\n"
 
 #: client/helpdata.c:767
 #, c-format
 msgid "* Never has a home city.\n"
-msgstr ""
+msgstr "* Nu poate avea un oraş natal.\n"
 
 #: client/helpdata.c:771
 #, c-format
 msgid "* Losing this unit will lose you the game!\n"
-msgstr ""
+msgstr "* Dacă pierdeţi această unitate veţi pierde jocul!\n"
 
 #: client/helpdata.c:775
 #, c-format
 msgid "* Each player may only have one of this type of unit.\n"
-msgstr ""
+msgstr "* Fiecare jucător poate avea o singură unitate de acest tip.\n"
 
 #: client/helpdata.c:778
 #, c-format
 msgid "* Requires %d population to build.\n"
-msgstr ""
+msgstr "* Este necesară o populaţie de %d pentru a construi.\n"
 
 #: client/helpdata.c:784
 #, c-format
@@ -7804,22 +7801,22 @@ msgstr[1] "* Poate transporta %d unităţi peste mare.\n"
 #: client/helpdata.c:802
 #, c-format
 msgid "* Can establish trade routes (must travel to target city and must be at least 9 tiles [in Manhattan distance] from this unit's home city).\n"
-msgstr ""
+msgstr "* Poate stabili rute comerciale (trebuie să călătorească la oraşul destinaţie care trebuie să fie la 9 unităţi geometrice distanţă [distanţă Manhattan] faţă de oraşul natal).\n"
 
 #: client/helpdata.c:809
-#, fuzzy, c-format
+#, c-format
 msgid "* Can help build wonders (adds %d production).\n"
-msgstr "* Poate ajută la construcţia minunilor.\n"
+msgstr "* Poate ajută la construcţia minunilor (adaugă %d producţie).\n"
 
 #: client/helpdata.c:813
 #, c-format
 msgid "* May not be disbanded.\n"
-msgstr ""
+msgstr "* Nu poate fi dizolvată.\n"
 
 #: client/helpdata.c:815
 #, c-format
 msgid "* May be disbanded in a city to recover 50%% of the production cost.\n"
-msgstr ""
+msgstr "* Poate fi dizolvată într-un oraş pentru a recupera 50%% din costul producţiei.\n"
 
 #: client/helpdata.c:819
 #, c-format
@@ -7829,87 +7826,87 @@ msgstr "* Poate întemeia oraşe.\n"
 #: client/helpdata.c:822
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
-msgstr ""
+msgstr "* Poate adăuga o populaţie de %d oraşelor mai mici decât %d.\n"
 
 #: client/helpdata.c:831
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build roads and railroads.\n"
-msgstr "* Poate ajută la construcţia minunilor.\n"
+msgstr "* Poate construi drumuri şi căi ferate.\n"
 
 #: client/helpdata.c:832
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build mines on tiles.\n"
-msgstr "* Poate întemeia oraşe.\n"
+msgstr "* Poate construi mine.\n"
 
 #: client/helpdata.c:833
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build irrigation on tiles.\n"
-msgstr "* Poate întemeia oraşe.\n"
+msgstr "* Poate construi irigaţii.\n"
 
 #: client/helpdata.c:838
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland.\n"
-msgstr "* Poate ajută la construcţia minunilor.\n"
+msgstr "* Poate construi teren arabil.\n"
 
 #: client/helpdata.c:842
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build farmland (if %s is known).\n"
-msgstr "* Poate întemeia oraşe.\n"
+msgstr "* Poate construi teren arabil (dacă se cunoaşte %s).\n"
 
 #: client/helpdata.c:846
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
-msgstr ""
+msgstr "* Poate construi teren arabil (dacă se cunoaşte una din următoarele: %s).\n"
 
 #: client/helpdata.c:854
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build fortresses.\n"
-msgstr "Permite %silor construcţia de fortăreţe.\n"
+msgstr "* Poate construi fortăreţe.\n"
 
 #: client/helpdata.c:858
 #, c-format
 msgid "* Can build fortresses (if %s is known).\n"
-msgstr ""
+msgstr "* Poate construi fortăreţe (dacă se cunoaşte %s).\n"
 
 #: client/helpdata.c:862
 #, c-format
 msgid "* Can build fortresses (if any of the following are known: %s).\n"
-msgstr ""
+msgstr "* Poate construi fortăreţe (dacă se cunoaşte una din următoarele: %s).\n"
 
 #: client/helpdata.c:868
 #, c-format
 msgid "* Can clean pollution from tiles.\n"
-msgstr ""
+msgstr "* Poate curăţa poluarea din formele geometrice.\n"
 
 #: client/helpdata.c:870
-#, fuzzy, c-format
+#, c-format
 msgid "* Can clean nuclear fallout from tiles.\n"
-msgstr "Decontaminează"
+msgstr "* Poate decontamina formele geometrice.\n"
 
 #: client/helpdata.c:873
-#, fuzzy, c-format
+#, c-format
 msgid "* Can transform tiles.\n"
-msgstr "* Poate executa acţiuni de colonist.\n"
+msgstr "* Poate transforma formele geometrice.\n"
 
 #: client/helpdata.c:876
-#, fuzzy, c-format
+#, c-format
 msgid "* Can build airbases.\n"
-msgstr "* Poate întemeia oraşe.\n"
+msgstr "* Poate construi baze aeriene.\n"
 
 #: client/helpdata.c:880
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr ""
+msgstr "* Poate fortifica, cu un bonus de la apărare de 50%%.\n"
 
 #: client/helpdata.c:884
 #, c-format
 msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr ""
+msgstr "* Poate prăda formele geometrice distrugând infrastructura.\n"
 
 #: client/helpdata.c:888
 #, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
-msgstr ""
+msgstr "* Poate executa acţiuni diplomatice, având abilităţi speciale de spionaj.\n"
 
 #: client/helpdata.c:891
 #, c-format
@@ -7919,7 +7916,7 @@ msgstr "* Poate executa acţiuni diplomatice.\n"
 #: client/helpdata.c:895
 #, c-format
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
-msgstr ""
+msgstr "* Nu va pierde niciodată o luptă diplomat-contra-diplomat.\n"
 
 #: client/helpdata.c:899
 #, c-format
@@ -7934,7 +7931,7 @@ msgstr "* Poate ataca unitaţi aeriene inamice.\n"
 #: client/helpdata.c:905
 #, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
-msgstr "* Este invizibil cu excepţia când se afla lângă o unitate sau un oraş inamic.\n"
+msgstr "* Este invizibil, mai puţin când se afla lângă o unitate sau un oraş inamic.\n"
 
 #: client/helpdata.c:909
 #, c-format
@@ -7944,27 +7941,27 @@ msgstr "* Poate ataca doar unităţi aflate pe pătrate de ocean.\n"
 #: client/helpdata.c:914
 #, c-format
 msgid "* Can attack from aboard sea units: against enemy cities and onto land squares.\n"
-msgstr ""
+msgstr "* Poate ataca de pe mare: împotriva oraşelor inamice sau zonelor de pământ.\n"
 
 #: client/helpdata.c:919
-#, fuzzy, c-format
+#, c-format
 msgid "* Can be paradropped from a friendly city (Range: %d).\n"
-msgstr "* Poate fi paraşutat dintr-un oraş aliat (Rază de acţiune: %d)."
+msgstr "* Poate fi paraşutat dintr-un oraş aliat (Rază de acţiune: %d).\n"
 
 #: client/helpdata.c:923
 #, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
-msgstr ""
+msgstr "* Beneficiază de apărare dublă împotriva unităţilor 'călare'.\n"
 
 #: client/helpdata.c:928
 #, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
-msgstr ""
+msgstr "* Este considerată unitate 'călare' împotriva unor apărători.\n"
 
 #: client/helpdata.c:932
 #, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
-msgstr "* O rachetă: se autodistruge în timpul atacului.\n"
+msgstr "* O rachetă: explodează în urma atacului.\n"
 
 #: client/helpdata.c:935
 #, c-format
@@ -7979,32 +7976,32 @@ msgstr "* Atacul acestei unităţi provoacă o explozie nucleară!\n"
 #: client/helpdata.c:943
 #, c-format
 msgid "* Gets double firepower when attacking cities.\n"
-msgstr ""
+msgstr "* Beneficiază de putere de foc dublă când atacă un oraş.\n"
 
 #: client/helpdata.c:946
 #, c-format
 msgid "* Ignores the effects of city walls.\n"
-msgstr "* Ignoreaza efectul zidului oraşului.\n"
+msgstr "* Ignoră efectul zidului oraşului.\n"
 
 #: client/helpdata.c:950
 #, c-format
 msgid "* Does bombard attacks (%d per turn).  These attacks will only damage (never kill) the defender but has no risk to the attacker.\n"
-msgstr ""
+msgstr "* Efectuează bombardamente (%d pe rundă). Aceste atacuri doar rănesc (nu-l omoară niciodată) apărătorul dar nu implică nici un risc atacatorului.\n"
 
 #: client/helpdata.c:956
 #, c-format
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
-msgstr ""
+msgstr "* Beneficiază de apărare de cinci ori mai mare împotriva rachetelor şi avioanelor.\n"
 
 #: client/helpdata.c:960
 #, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
-msgstr "* Ignoreaza efectul terenului (orice teren este considerat ca drum).\n"
+msgstr "* Ignoră efectul terenului (orice teren este considerat ca drum).\n"
 
 #: client/helpdata.c:963
 #, c-format
 msgid "* Ignores zones of control.\n"
-msgstr "* Ignorează zonele de control.\n"
+msgstr "* Ignoră zonele de control.\n"
 
 #: client/helpdata.c:966
 #, c-format
@@ -8014,32 +8011,32 @@ msgstr "* O unitate civilă (nu poate ataca; nu impune legea marţială).\n"
 #: client/helpdata.c:970
 #, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
-msgstr ""
+msgstr "* O unitate de luptă: crează nefericire şi atunci când nu este agresivă.\n"
 
 #: client/helpdata.c:975
 #, c-format
 msgid "* Will never achieve veteran status.\n"
-msgstr ""
+msgstr "* Nu va ajunge niciodată veterean.\n"
 
 #: client/helpdata.c:978
 #, c-format
 msgid "* May become veteran through training or combat.\n"
-msgstr ""
+msgstr "* Poate ajunge veterean prin antrenamente şi luptă.\n"
 
 #: client/helpdata.c:984
-#, fuzzy, c-format
+#, c-format
 msgid "* Must end turn in a city or next to land, or has a 50%% risk of being lost at sea.\n"
-msgstr "* Trebuie să termine runda într-un oraş sau în apropierea ţarmului, riscă să fie pierdută în larg cu o probalitate de 50%%."
+msgstr "* Trebuie să termine runda într-un oraş sau în apropierea ţarmului, sau riscă să fie pierdută în larg cu o probalitate de 50%%.\n"
 
 #: client/helpdata.c:988
 #, c-format
 msgid "* The discovery of %s reduces the risk to 25%%.\n"
-msgstr ""
+msgstr "* Descoperirea %s reduce riscul la 25%%\n"
 
 #: client/helpdata.c:993
 #, c-format
 msgid "* %s reduces the risk to 12%%.\n"
-msgstr ""
+msgstr "* %s reduce riscul la 12%%.\n"
 
 #: client/helpdata.c:1042
 msgid " or "
@@ -8059,29 +8056,27 @@ msgstr[1] "* Unitatea trebuie să fie într-un oraş sau pe un %s după %d runde
 #: client/helpdata.c:1094
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
-msgstr ""
+msgstr "Dacă aţi începe cu %s aţi avea nevoie de %d bulbi."
 
 #: client/helpdata.c:1099
 #, c-format
 msgid "To reach %s we need to obtain %d other technologies first. The whole project will require %d bulbs to complete."
-msgstr ""
+msgstr "Pentru a ajunge la %s aveţi mai întâi nevoie de alte %d tehnologii. Întreg proiectul va avea nevoie de %d bulbi pentru a fi terminat."
 
 #: client/helpdata.c:1107
 #, c-format
 msgid "You cannot research this technology."
-msgstr "Nu poţi cerceta această tehnologie."
+msgstr "Nu puteţi cerceta această tehnologie."
 
 #: client/helpdata.c:1111
 #, c-format
 msgid " This number may vary depending on what other players will research.\n"
-msgstr " Acest număr poate varia în funcţie de cea ce ceilalţi jucători vor cerceta.\n"
+msgstr " Acest număr poate varia în funcţie de cea ce vor cerceta ceilalţi jucători vor.\n"
 
 #: client/helpdata.c:1122
-#, fuzzy, c-format
+#, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
-msgstr ""
-"Joc: %s accelerează cercetările ştiinţifice.\n"
-"     Aţi dobândit 2 noi tehnologii."
+msgstr "* Primul jucător care descoperă %s obţine imediat un avans.\n"
 
 #: client/helpdata.c:1127
 #, c-format
@@ -8094,49 +8089,49 @@ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 msgstr "* Reduce pericolul de a pierde navele aflate în largul mării la 12%%.\n"
 
 #: client/helpdata.c:1133
-#, fuzzy, c-format
+#, c-format
 msgid "* Increases the pollution generated by the population.\n"
-msgstr "Creşte poluarea generată de populaţie.\n"
+msgstr "* Creşte poluarea generată de populaţie.\n"
 
 #: client/helpdata.c:1138
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build roads on river squares.\n"
-msgstr "Permite %silor construcţia de străzi pe pătrate cu un râu.\n"
+msgstr "* Permite %silor construcţia de drumuri pe pătrate cu un râu.\n"
 
 #: client/helpdata.c:1145
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build fortresses.\n"
-msgstr "Permite %silor construcţia de fortăreţe.\n"
+msgstr "* Permite %silor construcţia de fortăreţe.\n"
 
 #: client/helpdata.c:1153
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build airbases.\n"
-msgstr "Permite %silor să construiască piste de aterizare.\n"
+msgstr "* Permite %silor să construiască baze aeriene.\n"
 
 #: client/helpdata.c:1162
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
-msgstr "Permite %silor să transforme străzile în căi ferate.\n"
+msgstr "* Permite %silor să transforme străzile în căi ferate.\n"
 
 #: client/helpdata.c:1169
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "Permite %silor să transforme terenul irigat în teren agricol.\n"
+msgstr "* Permite %silor să transforme terenul irigat în teren agricol.\n"
 
 #: client/helpdata.c:1201
 #, c-format
 msgid "* Pollution cannot be generated on this terrain."
-msgstr "* Acest teren nu poate polua."
+msgstr "* Acest teren nu poate produce poluare."
 
 #: client/helpdata.c:1206
-#, fuzzy, c-format
+#, c-format
 msgid "* You cannot build cities on this terrain."
-msgstr "Joc: Nu puteţi mitui o unitate a acestei naţiuni."
+msgstr "* Nu puteţi construi oraşe pe acest teren."
 
 #: client/helpdata.c:1212
 #, c-format
 msgid "* The coastline of this terrain is unsafe."
-msgstr "* Linia de coastă a acestui teren este nesigură."
+msgstr "* Linia de coastă a acestui teren nu este sigură."
 
 #: client/helpdata.c:1217
 #, c-format
@@ -8154,29 +8149,29 @@ msgid "Features:\n"
 msgstr "Caracteristici:\n"
 
 #: client/helpdata.c:1288
-#, fuzzy, c-format
+#, c-format
 msgid "* Military units away from home and field units will cause one citizen to become unhappy.\n"
-msgstr "Unităţi militate în afara oraşului pot produce nefericire. "
+msgstr "* Unităţi militate aflate departe de oraşul natal şi unităţile de luptă vor face  nefericit un cetăţean.\n"
 
 #: client/helpdata.c:1291
-#, fuzzy, c-format
+#, c-format
 msgid "* Military units away from home and field units will cause %d citizens to become unhappy.\n"
-msgstr "Unităţi militate în afara oraşului pot produce nefericire. "
+msgstr "* Unităţi militate aflate departe de oraşul natal şi unităţile de luptă vor face  nefericiţi %d cetăţeni.\n"
 
 #: client/helpdata.c:1298
 #, c-format
 msgid "* Each of your cities will avoid %d unhappiness that would otherwise be caused by units.\n"
-msgstr ""
+msgstr "* Fiecare oraş deţinut va evita ca %d cetăţeni să fie nefericiţi din cauza unităţilor.\n"
 
 #: client/helpdata.c:1304
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
-msgstr ""
+msgstr "* Plătiţi de %d ori mai mult %s pentru întreţinerea unităţilor.\n"
 
 #: client/helpdata.c:1307
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
-msgstr ""
+msgstr "* Plătiţi de %d ori mai mult pentru întreţinerea unităţilor.\n"
 
 #. TRANS: %s is the output type, like 'shields' or 'gold'. There
 #. * is currently no way to control the singular/plural version of
@@ -8184,32 +8179,32 @@ msgstr ""
 #: client/helpdata.c:1316
 #, c-format
 msgid "* Each of your cities will avoid paying %d %s towards unit upkeep.\n"
-msgstr ""
+msgstr "* Fiecare oraş va evita să plătească %d %s pentru întreţinerea unităţilor.\n"
 
 #: client/helpdata.c:1320
 #, c-format
 msgid "* Each of your cities will avoid paying %d towards unit upkeep.\n"
-msgstr ""
+msgstr "* Fiecare oraş va evita să plătească %d pentru întreţinere.\n"
 
 #: client/helpdata.c:1325
 #, c-format
 msgid "* Chance of civil war is %d%% if you lose your capital.\n"
-msgstr ""
+msgstr "* Pericolul unui război civil este de %d%% în cazul pierderii capitalei.\n"
 
 #: client/helpdata.c:1329
 #, c-format
 msgid "* The first unhappy citizen in each city due to civilization size will appear when you have %d cities.\n"
-msgstr ""
+msgstr "* Primul cetăţean nefericit din cauza marimii civilizaţiei, din fiecare oraş, va apărea când aveţi %d oraşe.\n"
 
 #: client/helpdata.c:1334
 #, c-format
 msgid "* After the first unhappy citizen due to city size, for each %d additional cities, another unhappy citizen will appear.\n"
-msgstr ""
+msgstr "* După primul cetăţean nefericit datorat mărimii oraşului, pentru fiecare alte %d oraşe, un alt cetăţean va fi nefericit.\n"
 
 #: client/helpdata.c:1341
 #, c-format
 msgid "The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr ""
+msgstr "Rata maximă pe care o puteţi pune pentru ştiinţă, galbeni sau lux este %d%%.\n"
 
 #: client/helpdata.c:1345
 #, c-format
@@ -8219,129 +8214,129 @@ msgstr "Rate nelimitate pentru ştiinţă/galbeni/lux.\n"
 #: client/helpdata.c:1350
 #, c-format
 msgid "* Your units may impose martial law. Each military unit inside a city will force an unhappy citizen to become content.\n"
-msgstr "* Unităţile tale pot impune legea marţială. Fiecare unitate militară care se află în oraş va forţa un cetăţean nefericit să devină mulţumit.\n"
+msgstr "* Unităţile dvs. pot impune legea marţială. Fiecare unitate militară care se află în oraş va forţa un cetăţean nefericit să devină mulţumit.\n"
 
 #: client/helpdata.c:1354
 #, c-format
 msgid "* Your units may impose martial law. Each military unit inside a city will force %d unhappy citizens to become content.\n"
-msgstr ""
+msgstr "* Unităţile dvs. pot impune legea marţială. fieacre unitate militară din oraş va forţa %d cetăţeni nefericiţi din acel oraş să fie mulţumiţi.\n "
 
 #: client/helpdata.c:1361
 #, c-format
 msgid "* A maximum of %d units in each city can enforce martial law.\n"
-msgstr ""
+msgstr "* Un număr maxim de %d unităţi în oraş pot impune legea marţială.\n"
 
 #: client/helpdata.c:1366
 #, c-format
 msgid "* You may grow your cities by means of celebrations.  Your cities must be at least size %d before they can grown in this manner.\n"
-msgstr ""
+msgstr "* Puteţi creşte oraşele prin sărbătoare.  Oraşele dumneavoastră trebuie să fie cel puţin mărimea %d pentru a creşte prin această metodă.\n"
 
 #: client/helpdata.c:1372
-#, fuzzy, c-format
+#, c-format
 msgid "* Your units cannot be bribed.\n"
-msgstr "Joc: Această unitate nu poate fi paraşutată."
+msgstr "* Unităţile dumneavoastră nu pot fi mituite.\n"
 
 #: client/helpdata.c:1375
-#, fuzzy, c-format
+#, c-format
 msgid "* Your cities cannot be incited.\n"
-msgstr "Joc: %s nu mai poate întreţine %s. Unitatea a fost dizolvată."
+msgstr "* Oraşele dumneavoastră nu pot fi incitate la revoltă.\n"
 
 #: client/helpdata.c:1378
 #, c-format
 msgid "* Government will fall into anarchy if any city is in disorder for more than two turns in a row.\n"
-msgstr ""
+msgstr "* Guvernarea va ajunge anarhie dacă orice oraş este în dezordine pentru mai mult de două runde la rând.\n"
 
 #: client/helpdata.c:1383
 #, c-format
 msgid "* Has a senate that may prevent declaration of war.\n"
-msgstr ""
+msgstr "* Are un senat care ar putea preveni declararea războiului.\n"
 
 #: client/helpdata.c:1387
 #, c-format
 msgid "* Allows partisans when cities are taken by the enemy.\n"
-msgstr ""
+msgstr "* Permite apariţia partizanilor atunci când oraşele sunt capturate de inamici.\n"
 
 #: client/helpdata.c:1391
 #, c-format
 msgid "* Buildings that normally confer bonuses against unhappiness will instead give gold.\n"
-msgstr ""
+msgstr "* Construcţiile care în mod normal ofereau bonusuri pentru fericire vor oferi în schimb galbeni.\n"
 
 #: client/helpdata.c:1395
 #, c-format
 msgid "* Pays no upkeep for fanatics.\n"
-msgstr ""
+msgstr "* Nu se plăteşte întreţinere pentru fanatici.\n"
 
 #: client/helpdata.c:1398
-#, fuzzy, c-format
+#, c-format
 msgid "* Has no unhappy citizens.\n"
-msgstr "%d cetăţieni nemulţumiţi în plus."
+msgstr "* Nu are cetăţeni nefericiţi.\n"
 
 #: client/helpdata.c:1402
 #: client/helpdata.c:1405
 #, c-format
 msgid "* Veteran %s units.\n"
-msgstr ""
+msgstr "* Unităţi %s veterane.\n"
 
 #: client/helpdata.c:1408
-#, fuzzy, c-format
+#, c-format
 msgid "* Veteran units.\n"
-msgstr "Unităţi navale"
+msgstr "* Unităţi veterane.\n"
 
 #: client/helpdata.c:1412
 #, c-format
 msgid "* Each worked tile that gives more than %d %s will suffer a -1 penalty when not celebrating.\n"
-msgstr ""
+msgstr "* Fiecare formă geometrică muncită care generează mai mult de %d %s va suferi o penalitate de -1 atunci când nu sărbătoreşte.\n"
 
 #: client/helpdata.c:1417
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s when celebrating.\n"
-msgstr ""
+msgstr "* Fieacre formă geometrică muncită, care generează cel puţin 1 %s va oferi în plus %d %s atunci când sărbătoreşte.\n"
 
 #: client/helpdata.c:1422
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d additional %s.\n"
-msgstr ""
+msgstr "* fiecare formă geometrică muncită care generează cel puţin 1 %s va genera în plus %d %s.\n"
 
 #: client/helpdata.c:1428
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
-msgstr ""
+msgstr "* Producţia de %s va suferi pierderi uriaşe.\n"
 
 #: client/helpdata.c:1431
 #, c-format
 msgid "* %s production will suffer some waste.\n"
-msgstr ""
+msgstr "* Producţia de %s va suferi pierderi apreciabile.\n"
 
 #: client/helpdata.c:1434
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
-msgstr ""
+msgstr "* Producţia de %s va suferi pierderi neglijabile.\n"
 
 #: client/helpdata.c:1440
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
-msgstr ""
+msgstr "* Pierderile de %s vor creşte rapid odată cu depărtarea de capitală.\n"
 
 #: client/helpdata.c:1443
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
-msgstr ""
+msgstr "* Pierderile de %s vor creşte cu distanţa până la capitală.\n"
 
 #: client/helpdata.c:1446
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
-msgstr ""
+msgstr "* Pierderile de %s vor creşte încet odată cu distanţa până la capitală.\n"
 
 #: client/helpdata.c:1457
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows you to build %s.\n"
-msgstr "Permite %silor să construiască piste de aterizare.\n"
+msgstr "* Permite contruirea %s.\n"
 
 #. TRANS: "2 Food" or ", 1 shield"
 #: client/helpdata.c:1482
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d %s"
-msgstr "%3d/%3d %s"
+msgstr "%s%d %s "
 
 #. TRANS: "2 unhappy" or ", 1 unhappy"
 #: client/helpdata.c:1490
@@ -8350,33 +8345,30 @@ msgid "%s%d unhappy"
 msgstr "%s%d nemulţumiţi"
 
 #: client/mapctrl_common.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "You don't know how to build %s!"
-msgstr "Joc: Nu cumpăraţi %s!"
+msgstr "Nu ştiţi cum să construiţi %s!"
 
 #: client/mapctrl_common.c:392
 #, c-format
 msgid "Copy %s to clipboard."
-msgstr ""
+msgstr "Copiază %s în clipboard."
 
 #: client/mapctrl_common.c:407
 msgid "Clipboard is empty."
-msgstr ""
+msgstr "Clipboardul este gol."
 
 #: client/options.c:87
-#, fuzzy
 msgid "Graphics"
-msgstr "Demografie"
+msgstr "Grafică"
 
 #: client/options.c:88
-#, fuzzy
 msgid "Overview"
-msgstr "Privire generală"
+msgstr "Opţiuni generale"
 
 #: client/options.c:89
-#, fuzzy
 msgid "Sound"
-msgstr "Runde"
+msgstr "Sunet"
 
 #: client/options.c:90
 msgid "Interface"
@@ -8387,31 +8379,28 @@ msgid "Network"
 msgstr "Reţea"
 
 #: client/options.c:96
-#, fuzzy
 msgid "Login name"
-msgstr "Capitalizare"
+msgstr "Nume de autentificare"
 
 #: client/options.c:97
 msgid "This is the default login username that will be used in the connection dialogs or with the -a command-line parameter."
-msgstr ""
+msgstr "Acesta este numele implicit de autentificare care va fi folosit pentru toate dialogurile conexiunii, aşa cum este sau cu parametrul '-a' pentru linia de comandă."
 
 #: client/options.c:102
-#, fuzzy
 msgid "Server"
-msgstr "niciodată"
+msgstr "Server"
 
 #: client/options.c:103
 msgid "This is the default server hostname that will be used in the connection dialogs or with the -a command-line parameter."
-msgstr ""
+msgstr "Acesta este numele implicit al gazdei serverului, nume care va fi folosit pentru toate dialogurile conexiunii sau cu parametrul '-a' pentru linia de comandă."
 
 #: client/options.c:108
-#, fuzzy
 msgid "Server port"
-msgstr " (observator)"
+msgstr "Port server"
 
 #: client/options.c:109
 msgid "This is the default server port that will be used in the connection dialogs or with the -a command-line parameter."
-msgstr ""
+msgstr "Acesta este portul impicit pentru server care va fi folosit în toate dialogurile conexiunii sau cu parametrul '-a' pentru lina de comandă."
 
 #: client/options.c:114
 #: client/gui-mui/connectdlg.c:178
@@ -8422,46 +8411,44 @@ msgstr "Metaserver"
 
 #: client/options.c:115
 msgid "The metaserver is a host that the client contacts to find out about games on the internet.  Don't change this from its default value unless you know what you're doing."
-msgstr ""
+msgstr "Metaserverul este o gazdă pe care clientul o contactează pentru a afla despre jocurile ce se ţin pe internet.  NU modificaţi valoarea implicită decât dacă ştiţi ce faceţi."
 
 #: client/options.c:121
-#, fuzzy
 msgid "Soundset"
-msgstr "Runde"
+msgstr "Set de sunete"
 
 #: client/options.c:122
 msgid "This is the soundset that will be used.  Changing this is the same as using the -S command-line parameter."
-msgstr ""
+msgstr "Acesta este setul de sunete care va fi folosit. Această opţiune ese echivalentă cu folosirea parametrului '-S' din linia de comandă."
 
 #: client/options.c:127
 msgid "Sound plugin"
-msgstr "Plugin pentru sunet"
+msgstr "Modul pentru sunet"
 
 #: client/options.c:128
 msgid "If you have a problem with sound, try changing the sound plugin.  The new plugin won't take effect until you restart Freeciv.  Changing this is the same as using the -P command-line option."
-msgstr ""
+msgstr "Dacă aveţi o problemă cu sunetul, încercaţi să schimbaţi modulul pentru sunet. Noul modul nu-şi va facee efectul decât după ce reporniţi Freeciv. Această valoare este echivalentul folosirii opţiunii '-P' din linia de comandă."
 
 #: client/options.c:133
-#, fuzzy
 msgid "Tileset"
-msgstr "Pătratul %s"
+msgstr "Set de forme geometrice"
 
 #: client/options.c:134
 msgid "By changing this option you change the active tileset. This is the same as using the -t command-line parameter."
-msgstr ""
+msgstr "Modificând această opţiune schimbaţi setul de forme geometrice activ. Opţiunea este echivalentă cu folosirea parametrului '-t' din linia de comandă."
 
 #: client/options.c:141
 msgid "Solid unit background color"
-msgstr ""
+msgstr "Culoarea de fundal a unităţilor"
 
 #: client/options.c:142
 msgid "Setting this option will cause units on the map view to be drawn with a solid background color instead of the flag backdrop."
-msgstr ""
+msgstr "Această opţiune va face ca unităţile să fie desenate pe hartă folosind pentru fundal o culoare solidă în locul steagului."
 
 #: client/options.c:146
 #: client/gui-sdl/optiondlg.c:955
 msgid "Sound bell at new turn"
-msgstr ""
+msgstr "Clopoţel la începutul rundei"
 
 #: client/options.c:147
 msgid "Set this option to have a \"bell\" event be generated at the start of a new turn.  You can control the behavior of the \"bell\" event by editing the message options."
@@ -13153,7 +13140,7 @@ msgstr "%s (%s) (plan de lucru)"
 #: client/gui-win32/citydlg.c:1264
 #, c-format
 msgid "Trade with %s gives %d trade.\n"
-msgstr "Schimbul comercial cu %s aduce %d negoţ.\n"
+msgstr "Schimbul comercial cu %s aduce %d comerţ.\n"
 
 #: client/gui-mui/citydlg.c:2049
 #: client/gui-win32/citydlg.c:1269
@@ -13881,7 +13868,7 @@ msgstr "Raportul stiinţific..."
 
 #: client/gui-mui/gui_main.c:292
 msgid "Trade Report..."
-msgstr "Raportul negoţului..."
+msgstr "Raportul comerţului..."
 
 #: client/gui-mui/gui_main.c:293
 msgid "Military Report..."
@@ -17912,7 +17899,7 @@ msgstr ""
 
 #: data/helpdata.txt:828
 msgid "City improvements are built in each of your cities to improve trade revenue, science production, etc.  Most improvements require you to pay an upkeep every turn.  If you can't afford the upkeep for a building, then it'll be automatically sold."
-msgstr "Înbunătăţiri de oraş sunt construite în fiecare oraş pentru a mări randamentul de negoţ, ştiinţă, producţie, etc.  Multe din Îmbunătăţiri necesită plata unei anumite sume de bani în fiecare rundă pentru întreţinerea lor.  Dacă nu puteţi plăti întreţinerea unei Îmbunătăţiri, aceasta va fi vândută automat."
+msgstr "Înbunătăţiri de oraş sunt construite în fiecare oraş pentru a mări randamentul de comerţ, ştiinţă, producţie, etc.  Multe din Îmbunătăţiri necesită plata unei anumite sume de bani în fiecare rundă pentru întreţinerea lor.  Dacă nu puteţi plăti întreţinerea unei Îmbunătăţiri, aceasta va fi vândută automat."
 
 #: data/helpdata.txt:845
 msgid "Research into technology is a necessity for improving the ability of your civilization to develop new military units and city improvements."
@@ -18226,7 +18213,7 @@ msgstr ""
 
 #: data/helpdata.txt:1218
 msgid " - A road may increase the trade resources produced by some types of terrain."
-msgstr " - Un drum poate mări negoţul produs de unele forme de teren."
+msgstr " - Un drum poate mări comerţul produs de unele forme de teren."
 
 #: data/helpdata.txt:1221
 msgid " - A railroad increases the shield resources produced by a square by 50%.  (Depending on server options, railroads may also increase food and trade resources, or may increase shield resources by an amount other than 50%.)"
@@ -18353,7 +18340,7 @@ msgstr ""
 
 #: data/helpdata.txt:1403
 msgid "Under many forms of government, the presence of military units in a city can create contentment by imposing martial law.  Under a Republic or a Democracy, however, military units can cause unhappiness (see Government for details).  It is noted that, in this case, city improvements, such as those mentioned above, do not have any effect on citizens' unhappiness.  This form of unhappiness can be offset by building a Police Station, relevant wonders of the world (such as the Hanging Gardens, J.S. Bach's Cathedral, the Cure for Cancer, Shakespeare's Theatre, and, of course, the Women's Suffrage; note, however, that the Michelangelo's Chapel will not have an effect in this case, since it counts as a Cathedral in every city or double effects of Cathedrals, depending on ruleset), or converting part of your trade into luxuries."
-msgstr "Sub multe forme de guvernământ prezenţa unităţilor militare într-un oraş poate mulţumi orăşenii prin impunerea legii marţiale.  Într-o Republică sau Democraţie unităţile militare pot provoca şi nemulţumire (pentru detalii vezi Guvernământ).  În ultimul caz trebuie notat că edificiile  unui oraş nu au efect asupra acestui fel de nemulţumire.  Această formă de nemulţumire poate fi redusă prin construirea unui Sediu de Poliţie, minuni ale lumi relevante (e.g. Gradina Suspendată, Catedrala lui J.S. Bach, Vindecarea Cancerului, Teatrul lui Shakespeare şi desigur Dreptul de Vot al Femeilor. Pe de altă parte Capela lui Michelangelo nu are nici un efect deoarece, depinzând de regula în vigoare, contează ca o Catedrală în fiecare oraş, sau dublează efectul acesteia.), sau prin convertirea de negoţ în bunuri de lux."
+msgstr "Sub multe forme de guvernământ prezenţa unităţilor militare într-un oraş poate mulţumi orăşenii prin impunerea legii marţiale.  Într-o Republică sau Democraţie unităţile militare pot provoca şi nemulţumire (pentru detalii vezi Guvernământ).  În ultimul caz trebuie notat că edificiile  unui oraş nu au efect asupra acestui fel de nemulţumire.  Această formă de nemulţumire poate fi redusă prin construirea unui Sediu de Poliţie, minuni ale lumi relevante (e.g. Gradina Suspendată, Catedrala lui J.S. Bach, Vindecarea Cancerului, Teatrul lui Shakespeare şi desigur Dreptul de Vot al Femeilor. Pe de altă parte Capela lui Michelangelo nu are nici un efect deoarece, depinzând de regula în vigoare, contează ca o Catedrală în fiecare oraş, sau dublează efectul acesteia.), sau prin convertirea de comerţ în bunuri de lux."
 
 #: data/helpdata.txt:1422
 msgid "The Space Race is a second option to win the game, besides eliminating all other civilizations.  If your spaceship arrives first at Alpha Centauri, the game is over and you have won. (However it is possible for this option to be off as a server option.)"
@@ -20244,7 +20231,7 @@ msgid ""
 "\n"
 "Roads and railroads can only be built on River squares if your civilization has learned Bridge Building technology."
 msgstr ""
-"Oricare pătrăt de teren (exceptînd oceanele) poate avea un rîu pe el.  Un râu măreşte producţa de negoţ a pătratului respectiv cu 1.  Tot aşa măreşte factorul de apărare cu 50%.  Unităţile terestre se pot mişca dea lungul râului (dar nu şi în diagonal) consumînd doar 1/3 de punct de mişcare.\n"
+"Oricare pătrăt de teren (exceptînd oceanele) poate avea un rîu pe el.  Un râu măreşte producţa de comerţ a pătratului respectiv cu 1.  Tot aşa măreşte factorul de apărare cu 50%.  Unităţile terestre se pot mişca dea lungul râului (dar nu şi în diagonal) consumînd doar 1/3 de punct de mişcare.\n"
 "\n"
 "Străzi şi căi ferate se pot construi pe patrăţele cu rîu doar dacă civilizaţia dumneavoastră a învăţat 'Construcţia de poduri'."
 
@@ -20268,7 +20255,7 @@ msgstr "Deşert"
 #: data/civ2/terrain.ruleset:222
 #: data/civ1/terrain.ruleset:212
 msgid "Deserts are regions of extreme dryness, making agriculture and trade very difficult."
-msgstr "Deşerturile sund regiune de o uscăţime uimitoare făcând agricultura şi negoţul îndeletniciri foarte anevoiase."
+msgstr "Deşerturile sund regiune de o uscăţime uimitoare făcând agricultura şi comerţul îndeletniciri foarte anevoiase."
 
 #: data/default/terrain.ruleset:258
 #: data/civ2/terrain.ruleset:228
@@ -20328,7 +20315,7 @@ msgstr "Munţi"
 #: data/civ2/terrain.ruleset:386
 #: data/civ1/terrain.ruleset:373
 msgid "Mountains are regions of extreme altitude, making agriculture and trade very difficult."
-msgstr "Munţi sunt regiuni cu altitudini extreme îngreunând foarte mult agricultura şi negoţul."
+msgstr "Munţi sunt regiuni cu altitudini extreme îngreunând foarte mult agricultura şi comerţul."
 
 #: data/default/terrain.ruleset:447
 #: data/civ2/terrain.ruleset:392
@@ -20358,7 +20345,7 @@ msgstr "Prerie"
 #: data/civ2/terrain.ruleset:452
 #: data/civ1/terrain.ruleset:439
 msgid "Plains are very broad, sparse regions, which makes trade slightly inconvenient."
-msgstr "Preria este o regiune foarte întinsă îngreunând într-un fel negoţul."
+msgstr "Preria este o regiune foarte întinsă îngreunând într-un fel comerţul."
 
 #: data/default/terrain.ruleset:524
 #: data/civ2/terrain.ruleset:458
