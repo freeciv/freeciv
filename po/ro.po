@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-08 13:37-0400\n"
-"PO-Revision-Date: 2006-08-29 12:36+0300\n"
+"PO-Revision-Date: 2006-08-30 13:52+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <diacritice@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -8219,7 +8219,7 @@ msgstr "* Unităţile dvs. pot impune legea marţială. Fiecare unitate militar�
 #: client/helpdata.c:1354
 #, c-format
 msgid "* Your units may impose martial law. Each military unit inside a city will force %d unhappy citizens to become content.\n"
-msgstr "* Unităţile dvs. pot impune legea marţială. fieacre unitate militară din oraş va forţa %d cetăţeni nefericiţi din acel oraş să fie mulţumiţi.\n "
+msgstr "* Unităţile dvs. pot impune legea marţială. Fieacre unitate militară din oraş va forţa %d cetăţeni nefericiţi din acel oraş să fie mulţumiţi.\n"
 
 #: client/helpdata.c:1361
 #, c-format
@@ -8411,7 +8411,7 @@ msgstr "Metaserver"
 
 #: client/options.c:115
 msgid "The metaserver is a host that the client contacts to find out about games on the internet.  Don't change this from its default value unless you know what you're doing."
-msgstr "Metaserverul este o gazdă pe care clientul o contactează pentru a afla despre jocurile ce se ţin pe internet.  NU modificaţi valoarea implicită decât dacă ştiţi ce faceţi."
+msgstr "Metaserverul este o gazdă pe care clientul o contactează pentru a afla despre jocurile ce se ţin pe internet.  Nu modificaţi valoarea implicită decât dacă ştiţi ce faceţi."
 
 #: client/options.c:121
 msgid "Soundset"
@@ -8452,23 +8452,23 @@ msgstr "Clopoţel la începutul rundei"
 
 #: client/options.c:147
 msgid "Set this option to have a \"bell\" event be generated at the start of a new turn.  You can control the behavior of the \"bell\" event by editing the message options."
-msgstr ""
+msgstr "Setaţi această opţiune pentru a se genera un eveniment \"clopoţel\" la începutul fiecărei runde.  Puteţi controla comportamentul \"clopoţelului\" editând opţiunile pentru mesaje."
 
 #: client/options.c:153
 msgid "Unit movement animation time (milliseconds)"
-msgstr ""
+msgstr "Timpul de animaţie al mişcării unităţilor (în milisecunde)"
 
 #: client/options.c:154
 msgid "This option controls how long unit \"animation\" takes when a unit moves on the map view.  Set it to 0 to disable animation entirely."
-msgstr ""
+msgstr "Această opţiune controlează cât timp durează o  \"animaţie\" atunci cănd se mişcă o unitate pe hartă.  Valoarea 0 înseamnă că animaţia va fi dezactivată."
 
 #: client/options.c:159
 msgid "Mapview recentering time (milliseconds)"
-msgstr ""
+msgstr "Timpul necesar recentrării hărţii (în milisecunde)"
 
 #: client/options.c:160
 msgid "When the map view is recentered, it will slide smoothly over the map to its new position.  This option controls how long this slide lasts.  Set it to 0 to disable mapview sliding entirely."
-msgstr ""
+msgstr "Atunci când harta este recentrată, aceasta va aluna uşor spre noua poziţie. Această opţiune controlează cât timp va dura această alunecare. Valoarea 0 a dezactiva alunecarea hărţii."
 
 #: client/options.c:165
 #: client/gui-sdl/optiondlg.c:1009
@@ -8477,31 +8477,31 @@ msgstr "Animează lupta"
 
 #: client/options.c:166
 msgid "Disabling this option will turn off combat animation between units on the mapview."
-msgstr ""
+msgstr "Dezactivând această opţiune luptele dintre unităţi nu vor mai fi animate."
 
 #: client/options.c:169
 msgid "Draw the citybar"
-msgstr ""
+msgstr "Desenează bara de stare a oraşului"
 
 #: client/options.c:170
 msgid "Setting this option will display a 'citybar' containing useful information beneath each city. Disabling this option will display only the city's name and optionally, production."
-msgstr ""
+msgstr "Activând această opţiune, va afişa sub fiecare oraş o 'bară' cu informaţii folositoare. Dacă este dezactivată se va afişa decât numele oraşului şi opţional producţia."
 
 #: client/options.c:176
 msgid "Show icons in the technology tree"
-msgstr ""
+msgstr "Arată iconiţele în arborele cu tehnologii"
 
 #: client/options.c:177
 msgid "Setting this option will display icons on the technology tree diagram. Turning this option off makes the technology tree more compact."
-msgstr ""
+msgstr "Activând această opţiune va afişa iconiţe în diagrama cu arborele tehnologiilor. Dezactivând această opţiune va face arborele cu tehnologii mai compact."
 
 #: client/options.c:182
 msgid "Draw shield graphics for units"
-msgstr ""
+msgstr "Desenează steagul ca scut pentru unităţi"
 
 #: client/options.c:183
 msgid "Setting this option will draw a shield icon as the flags on units.  If unset, the full flag will be drawn."
-msgstr ""
+msgstr "Activând această opţiune se va desena un scut ca steag pentru unităţi. Dacă este dezactivată se va desena tot steagul."
 
 #: client/options.c:187
 msgid "Manual Turn Done in AI Mode"
@@ -8509,7 +8509,7 @@ msgstr "Termină runda manual în modul AI"
 
 #: client/options.c:188
 msgid "Disable this option if you do not want to press the Turn Done button manually when watching an AI player."
-msgstr ""
+msgstr "Dezactivaţi această opţiune dacă nu doriţi să apăsaţi Termină runda după ce urmăriţi jucătorul AI."
 
 #: client/options.c:192
 #: client/gui-sdl/optiondlg.c:1116
@@ -8518,7 +8518,7 @@ msgstr "Auto centrează vizualizarea pe unităţi"
 
 #: client/options.c:193
 msgid "Set this option to have the active unit centered automatically when the unit focus changes."
-msgstr ""
+msgstr "Setaţi această opţiune pentru a centra automat vizualizarea pe unitatea activă atunci când se schimbă focalizarea."
 
 #: client/options.c:196
 #: client/gui-sdl/optiondlg.c:1142
@@ -8527,40 +8527,40 @@ msgstr "Auto centrează vizualizarea pe luptă"
 
 #: client/options.c:197
 msgid "Set this option to have any combat be centered automatically.  Disabled this will speed up the time between turns but may cause you to miss combat entirely."
-msgstr ""
+msgstr "Setaţi această opţiune pentru a centra automat orice luptă. Dezactivând această opţiune va ca rundele să treacă mai repede, dar este posibil să nu observaţi deloc unele lupte."
 
 #: client/options.c:202
 #: client/gui-sdl/optiondlg.c:1169
 msgid "Focus on Awakened Units"
-msgstr ""
+msgstr "Focalizează unităţile care s-au deşteptat"
 
 #: client/options.c:203
 msgid "Set this option to have newly awoken units be focused automatically."
-msgstr ""
+msgstr "Setaţi acestă opţiune pentru a focaliza automat unităţile noi care s-au deştepţat."
 
 #: client/options.c:206
 msgid "Allow goto into the unknown"
-msgstr ""
+msgstr "Permite deplasare în necunoscut"
 
 #: client/options.c:207
 msgid "Setting this option will make the game consider moving into unknown tiles.  If not, then goto routes will detour around or be blocked by unknown tiles."
-msgstr ""
+msgstr "Dacă setaţi acestă opţiune, jocul va analiza posibilitatea deplasării prin zone necunoscute. Dacă nu, rutele de deplasare vor ocoli sau vor fi blocate de zonele necunoscute."
 
 #: client/options.c:211
 msgid "Center map when Popup city"
-msgstr ""
+msgstr "Centrează harta pentru Dialogl oraşului"
 
 #: client/options.c:212
 msgid "Setting this option makes the mapview center on a city when its city dialog is popped up."
-msgstr ""
+msgstr "Dacă este activată, această opţiune centrează harta pe oraş atunci când se dechide Dialogul oraşului."
 
 #: client/options.c:215
 msgid "Concise City Production"
-msgstr ""
+msgstr "Producţia oraşului compactă"
 
 #: client/options.c:216
 msgid "Set this option to make the city production (as shown in the city dialog) to be more compact."
-msgstr ""
+msgstr "Setaţi această opţiune pentru a face ca producţia oraşului (aşa cum este prezentată în dialogul oraşului) să fie afişată mai compact."
 
 #: client/options.c:219
 #: client/gui-sdl/optiondlg.c:1247
@@ -8569,73 +8569,69 @@ msgstr "Termină runda după ultima mişcare"
 
 #: client/options.c:220
 msgid "Setting this option makes your turn end automatically when all your units are done moving."
-msgstr ""
+msgstr "Dacă este setată, această opţiune va încheia runda atunci când toate unităţile au terminat de mişcat."
 
 #: client/options.c:223
 #: client/gui-sdl/optiondlg.c:1221
 msgid "Prompt for city names"
-msgstr ""
+msgstr "Cere nume pentru oraşe"
 
 #: client/options.c:224
 msgid "Disabling this option will make the names of newly founded cities chosen automatically by the server."
-msgstr ""
+msgstr "Dezactivănd această opţiune va face ca noile oraşe să aibă nume alese automat de server."
 
 #: client/options.c:227
 #: client/gui-sdl/optiondlg.c:1195
 msgid "Pop up city dialog for new cities"
-msgstr ""
+msgstr "Deschide Dialogul oraşului pentru noile oraşe"
 
 #: client/options.c:228
 msgid "Setting this option will pop up a newly-founded city's city dialog automatically."
-msgstr ""
+msgstr "Setând această opţiune va deschide automat Dialogul oraşului pentru oraşele nou fondate."
 
 #: client/options.c:233
 msgid "Background layer"
-msgstr ""
+msgstr "Stratul de fundal"
 
 #: client/options.c:234
 msgid "The background layer of the overview shows just ocean and land."
-msgstr ""
+msgstr "stratul de fundal pentru privire generală arată doar ocean şi pământ."
 
 #: client/options.c:237
 msgid "Terrain relief map layer"
-msgstr ""
+msgstr "Stratul pentru relief al terenului hărţii"
 
 #: client/options.c:238
 msgid "The relief layer shows all terrains on the map."
-msgstr ""
+msgstr "Stratul relief arată toate tipurile de teren de pe hartă."
 
 #: client/options.c:241
-#, fuzzy
 msgid "Borders layer"
-msgstr "bur"
+msgstr "Stratul graniţelor"
 
 #: client/options.c:242
 msgid "The borders layer of the overview shows which tiles are owned by each player."
-msgstr ""
+msgstr "Stratul graniţelor apentru privirea generală arată care forme geometrice sunt stăpânite de fiecare jucător."
 
 #: client/options.c:246
-#, fuzzy
 msgid "Units layer"
-msgstr "Tipul Unităţii"
+msgstr "Stratul unităţilor"
 
 #: client/options.c:247
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
 #: client/options.c:250
-#, fuzzy
 msgid "Cities layer"
-msgstr "Oraşe"
+msgstr "Startul oraşelor"
 
 #: client/options.c:251
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
 #: client/options.c:254
-#, fuzzy
 msgid "Overview fog of war"
-msgstr "Privire generală"
+msgstr "Ceaţă pentr privirea generală"
 
 #: client/options.c:255
 msgid "Enabling this will show fog of war on the overview."
@@ -12722,110 +12718,109 @@ msgid "Totals:"
 msgstr "Total:"
 
 #: client/gui-gtk-2.0/repodlgs.c:1280
-#, fuzzy
 msgid "Player\n"
-msgstr "_Jucător"
+msgstr "Jucător\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1281
 msgid "Score\n"
 msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1282
-#, fuzzy
 msgid "Population\n"
-msgstr "Populaţia"
+msgstr "Populaţia\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1283
-#, fuzzy
 msgid ""
 "Trade\n"
 "(M goods)"
-msgstr " M produse"
+msgstr ""
+"Comerţ\n"
+"(M produse)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1284
-#, fuzzy
 msgid ""
 "Production\n"
 "(M tons)"
-msgstr "Producţie"
+msgstr ""
+"Producţie\n"
+"(M tone)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1285
-#, fuzzy
 msgid "Cities\n"
-msgstr "Oraşe"
+msgstr "Oraşe\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1286
-#, fuzzy
 msgid "Technologies\n"
-msgstr "Tehnologii"
+msgstr "Tehnologii\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1287
-#, fuzzy
 msgid ""
 "Military Service\n"
 "(months)"
-msgstr "Serviciul militar"
+msgstr ""
+"Serviciul militar\n"
+"(luni)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1288
-#, fuzzy
 msgid "Wonders\n"
-msgstr "Minuni"
+msgstr "Minuni\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1289
-#, fuzzy
 msgid ""
 "Research Speed\n"
 "(%)"
-msgstr "Viteza de cercetare"
+msgstr ""
+"Viteza de cercetare\n"
+"(%)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1290
-#, fuzzy
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
-msgstr "Suprafaţa"
+msgstr ""
+"Suprafaţa\n"
+"(mile pătrate)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1291
-#, fuzzy
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
-msgstr "Suprafaţa locuită"
+msgstr ""
+"Suprafaţa locuită\n"
+"(mile pătrate)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1292
-#, fuzzy
 msgid ""
 "Literacy\n"
 "(%)"
-msgstr "Educaţia"
+msgstr ""
+"Educaţia\n"
+"(%)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1293
-#, fuzzy
 msgid "Spaceship\n"
-msgstr "Navă spaţială"
+msgstr "Navă spaţială\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1450
 #: data/Freeciv.in:3390
 #: data/Freeciv.in:3399
-#, fuzzy
 msgid "Game Settings"
-msgstr "Salvează Setările"
+msgstr "Setările jocului"
 
 #: client/gui-gtk-2.0/repodlgs.c:1555
 #: client/gui-xaw/repodlgs.c:1394
 msgid "true"
-msgstr ""
+msgstr "adevărat"
 
 #: client/gui-gtk-2.0/repodlgs.c:1555
 #: client/gui-xaw/repodlgs.c:1394
-#, fuzzy
 msgid "false"
-msgstr "Masculin"
+msgstr "fals"
 
 #: client/gui-gtk-2.0/repodlgs.c:1565
 #: client/gui-xaw/repodlgs.c:1404
 msgid "(hidden)"
-msgstr ""
+msgstr "(ascuns)"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:221
 #: client/gui-mui/spaceshipdlg.c:228
@@ -12834,7 +12829,7 @@ msgstr "_Lansează"
 
 #: client/gui-gtk-2.0/wldlg.c:178
 msgid "new"
-msgstr ""
+msgstr "nou"
 
 #: client/gui-gtk-2.0/wldlg.c:242
 #: client/gui-win32/wldlg.c:415
@@ -12843,12 +12838,11 @@ msgstr "Editare plan de lucru"
 
 #: client/gui-gtk-2.0/wldlg.c:292
 msgid "_Worklists:"
-msgstr "_Plan de Lucru:"
+msgstr "_Plan de lucru:"
 
 #: client/gui-gtk-2.0/wldlg.c:543
-#, fuzzy
 msgid "Edit Global _Worklists"
-msgstr "_Plan de Lucru"
+msgstr "Editare _plan de lucru global"
 
 #: client/gui-gtk-2.0/wldlg.c:1141
 msgid "Source _Tasks:"
