@@ -1298,7 +1298,7 @@ int unit_bribe_cost(struct unit *punit)
   int dist;
   int default_hp = unit_type(punit)->hp;
 
-  cost = unit_owner(punit)->economic.gold * game.info.base_bribe_cost;
+  cost = unit_owner(punit)->economic.gold + game.info.base_bribe_cost;
   capital = find_palace(unit_owner(punit));
   if (capital) {
     int tmp = map_distance(capital->tile, punit->tile);
@@ -1313,6 +1313,8 @@ int unit_bribe_cost(struct unit *punit)
   /* FIXME: This is a weird one - should be replaced */
   if (unit_flag(punit, F_CITIES)) 
     cost/=2;
+
+  cost += cost * punit->veteran / 3; /* Extra cost for veterans */
 
   /* Cost now contains the basic bribe cost.  We now reduce it by:
 
