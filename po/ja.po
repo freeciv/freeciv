@@ -9048,7 +9048,7 @@ msgstr "* 生産するには人口%dが必要です。\n"
 
 # clefs
 #: client/helpdata.c:801
-#, c-format
+#, c-format, fuzzy
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
 msgstr[0] "* 以下のクラスに属する部隊を運搬・給油できます：\n"
