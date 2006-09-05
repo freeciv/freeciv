@@ -26,7 +26,7 @@ contributions to the Freeciv project.
      Arnstein Lindgard <a-l@c2i.net> (since June 2003 [from 1.14.0])
      Mateusz Stefek <mstefek@poczta.fm> (since August 2004 [from 1.14.2])
      James Canete <use_less@ignmail.com> (since October 2004 [from 1.14.2])
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi> (since December 2004 [from 2.0.0])
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi> (since December 2004 [from 2.0.0])
 
   Past administrators:
 
@@ -60,7 +60,7 @@ contributions to the Freeciv project.
      Frédéric Brière <fbriere@fbriere.net>
      Mike Jing <miky40@hotmail.com>
      Thomas Müller <mail@elfstone.de>
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi>
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi>
      Daniel Speyer <dspeyer@gmail.com>
      Benedict Adamson <badamson@spamcop.net>
      John Bauman <john@baumanfamily.com>
@@ -254,7 +254,7 @@ contributions to the Freeciv project.
      Sebastian Bauer <sebauer@t-online.de> (amiga maintainance)
      Dirk Stoecker <stoecker@rcs.urz.tu-dresden.de>
   (amiga, patches, internationalization, cleanup)
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi>
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi>
   (autosave name prefix, patches, README.ruleset,
   client-server interface improvements, cleanup)
      Vasco Alexandre da Silva Costa <vasc@rnl.ist.utl.pt>
@@ -348,7 +348,7 @@ contributions to the Freeciv project.
      IQ <iquin@technologist.com>
   (cleanup 1.11.4, gen. improvements part 1, cleanup 1.11.0,
   "concise" opt., better gen 2+ rivers 1.10.0)
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi> (game.ruleset, bugfixes 1.11.4,
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi> (game.ruleset, bugfixes 1.11.4,
   patches 1.11.0)
      Joseph Beckenbach <jrb3@bdhsw.com>
   (BeOS 1.11.x, 1.10.0, 1.9.0, cleanup 1.11.0, multi-client 1.10.0)
@@ -638,7 +638,7 @@ contributions to the Freeciv project.
      Pawel Sakowski <pawel@sakowski.pl> (fixes)
      Daniel Markstedt <himasaram@spray.se> (nations maintainer)
      Grigor Gatchev (nations)
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi> (fixes)
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi> (fixes)
      Brian Dunstan <bdunstan149@yahoo.com> (nations)
      Netotea Sergiu <nepleausall@yahoo.com> (nations)
      Mateusz Stefek <matusik_s@o2.pl> (fixes)
@@ -854,7 +854,7 @@ contributions to the Freeciv project.
      Bill Webster <bill@year0.com.au>
      Petri Pipatti <petri.pipatti@tietokone.fi>
      Christian Knoke <chrisk@cknoke.de>
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi>
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi>
      Nico Spicher <http://triplex.it-helpnet.de/>
      <uuuppz@oscar.esptl.com>
      Eric F. Paul <ericp@shelltown.net>
@@ -1019,7 +1019,7 @@ contributions to the Freeciv project.
      Mark Saward <mark_saward@unite.com.au>
      Martin Olveyra <molv@adinet.com.uy>
      Thomas Aglassinger <agi@rieska.oulu.fi>
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi>
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi>
      Tuomas Airaksinen <tuomas.airaksinen@tuma.stc.cx>
      Lino Mastrodomenico <l.mastrodomenico@studenti.to.it>
      Patrice LaFlamme <ewd@patrix.org>
@@ -1069,7 +1069,7 @@ contributions to the Freeciv project.
      (Version numbers refer to the release the bug was reported on.)
 
      Urban Mueller <mueller@relog.ch> (1.11.4)
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi> (1.11.4, 1.8.1, 1.8.0)
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi> (1.11.4, 1.8.1, 1.8.0)
      Michael Kiermaier <michael.kiermaier@gmx.net> (1.11.4)
      Tomasz Wegrzanowski <maniek@beer.com> (1.11.4, 1.9.0)
      Gaute Strokkenes <gs234@cam.ac.uk> (1.11.4)
@@ -1462,7 +1462,7 @@ contributions to the Freeciv project.
      Artur Biesiadowski <abies@pg.gda.pl> (Java Client 2)
      Patrice LaFlamme <ewd@patrix.org> (BeOS)
      Brandon Craig Rhodes <brandon@rhodesmill.org> (Freeciv Manual)
-     Marko Lindqvist <marko.lindqvist@pp5.inet.fi> (Client-side AI)
+     Marko Lindqvist <marko.lindqvist@pp1.inet.fi> (Client-side AI)
      Ben Webb <ben@bellatrix.pcl.ox.ac.uk> (FreecivAC)
      Stewart Adcock <stewart@bellatrix.pcl.ox.ac.uk> (FreecivAC)
      John Goerzen <jgoerzen@complete.org> (Java Client 1)
