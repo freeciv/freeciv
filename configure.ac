@@ -597,10 +597,11 @@ dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
 if test x"$MINGW32" = xyes; then
-  AC_DEFINE_UNQUOTED(DEFAULT_DATA_PATH, ".;data;~/.freeciv;$FREECIV_DATADIR", [Mingw32-specific path])
+  DEFAULT_DATA_PATH=".;data;~/.freeciv;$datadir/freeciv"
 else
-  AC_DEFINE_UNQUOTED(DEFAULT_DATA_PATH, ".:data:~/.freeciv:$FREECIV_DATADIR", [Freeciv data path])
+  DEFAULT_DATA_PATH=".:data:~/.freeciv:$datadir/freeciv"
 fi
+CPPFLAGS="$CPPFLAGS -DDEFAULT_DATA_PATH=\\\"$DEFAULT_DATA_PATH\\\""
 
 dnl This has to be last library
 if test -n "$WITH_EFENCE"; then
