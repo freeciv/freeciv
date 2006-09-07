@@ -2682,7 +2682,7 @@ msgid "You don't have enough gold, you can't accept treaty."
 msgstr "شما طلای کافی ندارید، نمی‌توانید قرارداد را قبول کنید."
 
 #: server/diplhand.c:240 server/diplhand.c:245
-#, c-format
+#, c-format,fuzzy
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] "قراردادی با %d بند پذیرفته شد."
@@ -9115,7 +9115,7 @@ msgid "Government: %s"
 msgstr "حکومت: %s"
 
 #: client/text.c:653
-#, c-format
+#, c-format,fuzzy
 msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] "%d مهره"
