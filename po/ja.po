@@ -56,8 +56,6 @@
 #
 # # TODO:
 #
-# オプションのバルーン表示用の説明文は未訳のものが多いです。
-#
 # 各nationの指導者に冠せられる称号は調べがつかなかったり
 # 単純に訳しても意味がないようなものだったりして未訳のものが多いです。
 # たとえば，"Imparator" も "Emporer" も訳せば「皇帝」になってしまいますが，
@@ -106,7 +104,7 @@
 # "Pollution" 「公害」; いくつかの文脈では「汚染」
 # "incident" 「事変」
 # "incite" 「煽動」
-# "revolt" 都市単位の「反逆」「反乱」だが，
+# "revolt" 都市単位の「反逆」「叛乱」だが，
 #          時々revolution「革命」の意味でも使われている
 # "you" 外交の際の"you"は君主か国か？
 # "martial law" 「戦時法」; 「戒厳令」
@@ -146,7 +144,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-08-27 22:08+0900\n"
+"POT-Creation-Date: 2006-09-09 00:06+0900\n"
 "PO-Revision-Date: 2004-09-23 11:47+0900\n"
 "Last-Translator: MITA Yuusuke <clefs@mail.goo.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -868,14 +866,15 @@ msgid "Idle"
 msgstr "アイドル"
 
 # yasu
+# clefs (防御姿勢→防御態勢)
 #: common/unit.c:513
 msgid "Fortifying"
-msgstr "防御姿勢"
+msgstr "防御態勢"
 
 # yasu
 #: common/unit.c:515
 msgid "Fortified"
-msgstr "防御姿勢をとった"
+msgstr "防御態勢をとった"
 
 #: common/unit.c:519 client/gui-mui/gui_main.c:265
 #: client/gui-mui/mapclass.c:1680 client/gui-mui/mapclass.c:2968
@@ -2175,17 +2174,17 @@ msgstr "%sで市民の混乱が続いています。"
 msgid "Order restored in %s."
 msgstr "%sの秩序が復活しました。"
 
-# yasu
+# yasu, clefs
 #: server/cityturn.c:1529
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
-msgstr "人々はあなたの%sを投げ捨てました。国は騒乱に陥ってます。"
+msgstr "民衆はあなたの%sを転覆しました。国は騒乱に陥っています。"
 
-# yasu
+# yasu, clefs
 #: server/cityturn.c:1554
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
-msgstr "%sはまだ%sを建設できません。唯一の都市を解散できません。"
+msgstr "%sはまだ%sを作成できません。唯一の都市を解散できません。"
 
 #. TRANS: Settler production leads to disbanded city.
 #: server/cityturn.c:1577
@@ -2680,10 +2679,10 @@ msgid "detach <connection-name>"
 msgstr "detach <接続名>"
 
 # clefs
-# XXX こんな訳なら訳さない方がよほどマシかも（汗）
+# was "プレイヤーからデタッチする"
 #: server/commands.c:200
 msgid "detach from a player."
-msgstr "プレイヤーからデタッチする"
+msgstr "プレイヤーを放棄する。"
 
 # clefs
 #: server/commands.c:201
@@ -3173,7 +3172,7 @@ msgstr "%s は拒絶されました: 無効な名前です [%s]。"
 #: server/connecthand.c:266
 #, c-format
 msgid "'%s' already connected."
-msgstr "残念ですが%sは既に接続されています。"
+msgstr "%sは既に接続されています。"
 
 # clefs
 #: server/connecthand.c:269
@@ -3340,13 +3339,13 @@ msgstr "%s との同盟に合意しました。"
 #: server/diplhand.c:493
 #, c-format
 msgid "You give shared vision to %s."
-msgstr "%s と視界の共有を許可しました。"
+msgstr "%s との視界の共有を許可しました。"
 
 # yasu
 #: server/diplhand.c:496
 #, c-format
 msgid "%s gives you shared vision."
-msgstr "%s の視界の共有を許可されました。"
+msgstr "%s との視界の共有を許可されました。"
 
 # yasu
 #: server/diplhand.c:634
@@ -3383,14 +3382,15 @@ msgstr "%sが%sの水道を汚染しました。"
 msgid "%s is suspected of poisoning the water supply of %s."
 msgstr "%sは%sの水道を汚染した疑いがあります。"
 
+# clefs
 #: server/diplomats.c:261
 #, c-format
 msgid ""
 "Your %s was executed in %s on suspicion of spying.  The %s welcome future "
 "diplomatic efforts providing the Ambassador is reputable."
 msgstr ""
-"%sは%sでのスパイ容疑で死刑にされました。%sは大使の評判がよくなれば将来の外交"
-"行動を歓迎します。"
+"%sは%sでのスパイ容疑で死刑にされました。%sは信頼できる使節によるものであれば"
+"将来の外交行動を歓迎します。"
 
 # clefs
 #: server/diplomats.c:267
@@ -3560,15 +3560,17 @@ msgstr "%sは破壊できません!"
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "%1$sは%3$sで破壊するつもりの%2$sを見つけられませんでした。"
 
+# clefs
 #: server/diplomats.c:934
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
-msgstr "%1$sは%3$sにある%2$s建造物の破壊に成功しました。"
+msgstr "%1$sは%3$sで作成中の%2$sの破壊に成功しました。"
 
+# clefs
 #: server/diplomats.c:938
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
-msgstr "%2$sにある%1$s建造物が破壊されました。%3$sが疑わしいです。"
+msgstr "%2$sで作成中の%1$sが破壊されました。%3$sが疑わしいです。"
 
 #: server/diplomats.c:959
 #, c-format
@@ -3993,22 +3995,25 @@ msgstr ""
 "あなたのチームの %s は %s に宣戦しました。あなたも %s との同盟を破棄しなけれ"
 "ばなりません。"
 
-# yasu
+# yasu, clefs
+# was "プレイヤー %s を中止させます。"
 #: server/plrhand.c:1116
 #, c-format
 msgid "Removing player %s."
-msgstr "プレイヤー %s を中止させます。"
+msgstr "プレイヤー %s を除去します。"
 
-# yasu
+# yasu, clefs
+# was "あなたはゲームを中止させられました。"
 #: server/plrhand.c:1118
 msgid "You've been removed from the game!"
-msgstr "あなたはゲームを中止させられました。"
+msgstr "あなたはゲームから除去されました！"
 
-# yasu
+# yasu, clefs
+# was "%sはゲームを中止させられました。"
 #: server/plrhand.c:1121
 #, c-format
 msgid "%s has been removed from the game."
-msgstr "%sはゲームを中止させられました。"
+msgstr "%sはゲームから除去されました。"
 
 #: server/plrhand.c:1162 server/plrhand.c:1166
 #, c-format
@@ -4036,7 +4041,7 @@ msgstr "%sに内戦を起こせませんでした――プレイヤーが多す�
 msgid ""
 "Your nation is thrust into civil war,  %s is declared the leader of the "
 "rebel states."
-msgstr "あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
+msgstr "あなたの国は内戦になりました。%sが叛乱者のリーダー宣言しました。"
 
 # yasu
 #: server/plrhand.c:1705
@@ -4056,7 +4061,7 @@ msgid ""
 "      and the upstart %s now holds power in %d rebel provinces."
 msgstr ""
 "%sの首都が陥落し，帝国の行政機構が破壊されたため内戦となりました。\n"
-"日和見主義者たちは反逆運動に味方し，担ぎ出された%sが今や%dの反乱都市を支配し"
+"日和見主義者たちは反逆運動に味方し，担ぎ出された%sが今や%dの叛乱都市を支配し"
 "ています。"
 
 #: server/report.c:55
@@ -7523,7 +7528,7 @@ msgstr "残念ながら，%sはここに交易路を確立できません!"
 #: server/unithand.c:1262 server/unithand.c:1279
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
-msgstr "      都市%sには既に %dの交易路があります!"
+msgstr "      都市%sには既に %dのより良い交易路があります!"
 
 # clefs
 #: server/unithand.c:1291 server/unithand.c:1302
@@ -7546,6 +7551,7 @@ msgid "%s was upgraded for free to %s%s."
 msgstr "%sは%s%sへ無償でアップグレードされました。"
 
 # clefs
+# 原文: missing period
 #: server/unittools.c:296
 #, c-format
 msgid "Not enough gold. %s disbanded"
@@ -7749,7 +7755,7 @@ msgstr "%sを核攻撃しました。"
 #: server/unittools.c:2028
 #, c-format
 msgid "%s detonated a nuke!"
-msgstr "%sは核を爆発させました。"
+msgstr "%sは核を爆発させました！"
 
 #: server/unittools.c:2051
 #, c-format
@@ -7787,7 +7793,7 @@ msgstr "%sは%sに落下傘降下し消息を絶ちました。"
 #: server/unittools.c:2140
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
-msgstr "%sは落下傘降下目標の敵部隊によって殺されました。"
+msgstr "%sは降下目標地にいた敵部隊によって殺されました。"
 
 #: server/unittools.c:2162
 #, c-format
@@ -9048,7 +9054,7 @@ msgstr "* 生産するには人口%dが必要です。\n"
 
 # clefs
 #: client/helpdata.c:801
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
 msgstr[0] "* 以下のクラスに属する部隊を運搬・給油できます：\n"
@@ -9170,7 +9176,7 @@ msgstr "* 飛行場を作ることができます。\n"
 #: client/helpdata.c:891
 #, c-format
 msgid "* May fortify, granting a 50%% defensive bonus.\n"
-msgstr "* 防御姿勢をとると，50%% 防御力が増加します。\n"
+msgstr "* 防御態勢をとると，50%% 防御力が増加します。\n"
 
 #: client/helpdata.c:895
 #, c-format
@@ -10339,7 +10345,7 @@ msgstr "%dの%sを金%dで売りました"
 #: client/repodlgs_common.c:347
 #, c-format
 msgid "No %s could be sold."
-msgstr "%sを売ることはできません"
+msgstr "%sは全く売却できませんでした。"
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:366
@@ -11765,7 +11771,7 @@ msgstr "見張り番(_S)"
 # yasu
 #: client/gui-gtk-2.0/citydlg.c:2092 client/gui-win32/citydlg.c:1521
 msgid "_Fortify unit"
-msgstr "防御姿勢(_F)"
+msgstr "防御態勢(_F)"
 
 #: client/gui-gtk-2.0/citydlg.c:2109 client/gui-win32/citydlg.c:1525
 msgid "Make new _homecity"
@@ -11992,7 +11998,7 @@ msgstr "最小剰余"
 msgid "Factor"
 msgstr "因子"
 
-#: client/gui-gtk-2.0/cma_fe.c:354 client/gui-mui/citydlg.c:1620
+#: client/gui-gtk-2.0/cma_fe.c:355 client/gui-mui/citydlg.c:1620
 #: client/gui-mui/citydlg.c:1621 client/gui-sdl/cma_fe.c:933
 #: client/gui-win32/cma_fe.c:220 client/gui-xaw/cma_fe.c:179
 #: client/gui-xaw/cma_fe.c:221
@@ -12001,32 +12007,32 @@ msgstr "祝典"
 
 # clefs
 # 「知事執務中」「Governer作動中」
-#: client/gui-gtk-2.0/cma_fe.c:463
+#: client/gui-gtk-2.0/cma_fe.c:464
 msgid "Governor Enabl_ed"
 msgstr "Governor 稼働中(_E)"
 
 # 「Governer停止中」
-#: client/gui-gtk-2.0/cma_fe.c:468
+#: client/gui-gtk-2.0/cma_fe.c:469
 msgid "Governor Disabl_ed"
 msgstr "Governor 停止中(_E)"
 
-#: client/gui-gtk-2.0/cma_fe.c:536 client/gui-sdl/cma_fe.c:236
+#: client/gui-gtk-2.0/cma_fe.c:537 client/gui-sdl/cma_fe.c:236
 #: client/gui-sdl/cma_fe.c:307 client/gui-win32/cma_fe.c:385
 #: client/gui-xaw/cma_fe.c:432
 msgid "new preset"
 msgstr "新しいプリセット"
 
-#: client/gui-gtk-2.0/cma_fe.c:540 client/gui-sdl/cma_fe.c:282
+#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:282
 #: client/gui-win32/cma_fe.c:383
 msgid "Name new preset"
 msgstr "新しいプリセットの名前"
 
-#: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:296
+#: client/gui-gtk-2.0/cma_fe.c:542 client/gui-sdl/cma_fe.c:296
 #: client/gui-win32/cma_fe.c:384
 msgid "What should we name the preset?"
 msgstr "新しいプリセットを何と名づけますか?"
 
-#: client/gui-gtk-2.0/cma_fe.c:648
+#: client/gui-gtk-2.0/cma_fe.c:649
 msgid "Remove this preset?"
 msgstr "このプリセットを削除していいですか?"
 
@@ -13386,6 +13392,7 @@ msgstr "チャット行(_H)"
 msgid "_Worklist Editor"
 msgstr "作業リストエディタ(_W)"
 
+# 原文に問題あり
 #: client/gui-gtk-2.0/menu.c:963 client/gui-win32/menu.c:418
 msgid "Citizen _Management"
 msgstr "市民管理(CMA)(_M)"
@@ -13477,7 +13484,7 @@ msgstr "農地を作る(_I)"
 # yasu
 #: client/gui-gtk-2.0/menu.c:1509
 msgid "_Fortify"
-msgstr "防御姿勢(_F)"
+msgstr "防御態勢(_F)"
 
 #: client/gui-gtk-2.0/menu.c:1515
 msgid "_Paradrop"
@@ -13775,7 +13782,7 @@ msgid "Ready"
 msgstr "準備完了"
 
 # Daniel
-#: client/gui-gtk-2.0/pages.c:1500 data/default/units.ruleset:1808
+#: client/gui-gtk-2.0/pages.c:1500 data/default/units.ruleset:1809
 #: data/nation/slovakian.ruleset:26
 msgid "Leader"
 msgstr "指揮"
@@ -14795,7 +14802,7 @@ msgstr "死の灰を除去する"
 #: client/gui-mui/mapclass.c:2947 client/gui-sdl/menu.c:661
 #: client/gui-win32/menu.c:1240 client/gui-xaw/menu.c:183
 msgid "Fortify"
-msgstr "防御姿勢"
+msgstr "防御態勢"
 
 #: client/gui-mui/gui_main.c:268 client/gui-xaw/menu.c:187
 msgid "Make Homecity"
@@ -15457,7 +15464,7 @@ msgstr "見張り番"
 
 #: client/gui-sdl/citydlg.c:499 data/Freeciv.in:1174
 msgid "Fortify unit"
-msgstr "防御姿勢"
+msgstr "防御態勢"
 
 #: client/gui-sdl/citydlg.c:515 data/Freeciv.in:1178 data/Freeciv.in:1206
 msgid "Disband unit"
@@ -18245,7 +18252,7 @@ msgid ""
 "    (they are no longer involved, please don't mail them!)"
 msgstr ""
 "  原作者:\n"
-"    (彼らはもう参加していません。メールを送らないで下さい。)"
+"    (彼らはもう関与していません。メールを送らないで下さい。)"
 
 #: data/helpdata.txt:49
 msgid "  Present administrators: "
@@ -18275,7 +18282,7 @@ msgid ""
 "website, at:"
 msgstr ""
 "バグレポートの提出に関する詳細は， Freeciv 配布に含まれる BUGS ファイルを見て"
-"下さい。さらなる一般的な情報は， Freeciv ウェブサイトを見て下さい。"
+"下さい。さらに詳しい各種の情報については， Freeciv ウェブサイトを見て下さい。"
 
 #: data/helpdata.txt:80
 msgid "Freeciv is covered by the GPL, which is included here: "
@@ -18305,7 +18312,7 @@ msgstr ""
 "Freeciv は多くの言語をサポートしています。母国語の使用方法は， README ファイ"
 "ルの自国語サポート(Native Language Support)節を見て下さい。\n"
 "\n"
-"もしあなたが自分の言語の地域化(翻訳)の追加をしたければ，\n"
+"もしあなたが自分の言語の地域化(翻訳)を追加したければ，\n"
 "\n"
 "  http://www.freeciv.org/index.php/Localization\n"
 "\n"
@@ -18325,9 +18332,9 @@ msgid ""
 "hostname and port number (5555 by default). If the server is started with "
 "the -m flag, it will report to the metaserver,"
 msgstr ""
-"ゲームを開始する前なら，ホスト名とポート(5555 がデフォルト)を与えることで誰で"
-"もサーバへ接続できます。サーバが -m 付きで実行されていたら，メタサーバへ報告"
-"します。"
+"ゲームを開始する前なら，ホスト名とポート(5555 がデフォルト)を指定することで誰"
+"でもサーバへ接続できます。-m 付きで実行されているサーバは，メタサーバへ報告し"
+"ます。"
 
 #: data/helpdata.txt:412
 msgid ""
@@ -18340,15 +18347,16 @@ msgid ""
 "\n"
 "before starting civclient."
 msgstr ""
-"クライアントもこのページを取ってくることができます。そうするには，接続ダイア"
-"ログでメタサーバボタンを使って下さい。結果が表示されなければ，あなたの WWW ブ"
-"ラウザが HTTP proxy を使っていないか調べてみて下さい。 civclient が同じクライ"
-"アントを使うには， civlient を開始する前に $http_proxy 環境変数を\n"
+"クライアントからもこのページを取得できます。接続ダイアログの「メタサーバ」ボ"
+"タンを使って下さい。結果が表示されなければ，あなたの WWW ブラウザが HTTP "
+"proxy を使っていないか調べてみて下さい。 civclient が同じ proxy を使うには， "
+"civlient を開始する前に $http_proxy 環境変数を\n"
 "\n"
 "  http://proxyhost:proxyportnumber/\n"
 "\n"
 "に設定します。"
 
+# clefs
 #: data/helpdata.txt:421
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
@@ -18358,11 +18366,12 @@ msgid ""
 "for your ruler, not your original nickname!  If the server is reporting on "
 "the metaserver, the player names can be found there."
 msgstr ""
-"ゲームを開始している時，もう接続していないプレイヤー(AI プレイヤーを含む)とし"
-"て誰でも接続できます。AI プレイヤーによる接続は，単に人間がコントロールしてい"
-"ないだけです。サーバの設定に関係ありません。もしあなたがあるゲームの接続を"
-"失って再接続をするなら，オリジナルのニックネームではなく支配者の名前を使いま"
-"す。サーバがメタサーバへ報告しているなら，プレイヤー名はそこに表れます。"
+"ゲームが開始された後でも，まだ接続していないプレイヤー(AIプレイヤーを含む)と"
+"して誰でも接続できます。AIプレイヤーに接続しただけでは，そのプレイヤーは人間"
+"に操作される状態にはなりません。これは接続とは別のサーバの設定なのです。もし"
+"あなたがゲーム中に接続を失って再接続するなら，最初に使っていたニックネームで"
+"はなくあなたの民族の指導者の名前を使います。サーバがメタサーバへ報告している"
+"なら，そこでプレイヤー名を知ることができます。"
 
 # ama, clefs
 # XXX "C: unit (c)onnect" はよくわからない(試しても何も起きない…)
@@ -18633,16 +18642,14 @@ msgstr ""
 "す。サーバはまず 'John' という名前のプレイヤーを探し，いなければ， "
 "('Johnathan' のように) 'John' で始まるユーザ名を探します。"
 
-# efs
+# clefs
 #: data/helpdata.txt:561
 msgid ""
 "  - Messages starting with 'John::' are private messages as above, but will "
 "match only users (not players) named 'John'.  'Johnathan' will still match."
 msgstr ""
-"  - 'foo:' で始まるメッセージは 'foo' という名前のプレイヤーへのプライベート"
-"メッセージです。プレイヤー名は一部省略できます。  - 'John::' で始まるメッセー"
-"ジはやはり私信ですが， 'John' という名前の(プレイヤーではなく)ユーザのみを探"
-"します。 'Johnathan' にもマッチするのは同じです。"
+"- 'John::' で始まるメッセージはやはり私信ですが， 'John' という名前の(プレイ"
+"ヤーではなく)ユーザのみを探します。 'Johnathan' にもマッチするのは同じです。"
 
 # clefs
 #: data/helpdata.txt:565
@@ -18670,10 +18677,13 @@ msgid ""
 "available items. You can also press the Help button to get help on the "
 "selected item. Pressing Help with no item selected will display this page."
 msgstr ""
-"作業リストにアイテムを追加するには，リストの希望するアイテムの上でダブルク"
-"リックします。アイテムを選択してヘルプボタンを押すと，ヘルプを見ることができ"
-"ます。アイテムを選択せずにヘルプを押すと，このページが表示されます。"
+"作業リストにアイテムを追加するには，作成可能アイテムリストの希望するアイテム"
+"の上でダブルクリックします。アイテムを選択してヘルプボタンを押すと，ヘルプを"
+"見ることができます。アイテムを選択せずにヘルプを押すと，このページが表示され"
+"ます。[訳註: 現行のGTKクライアントではアイテムを選択しないとヘルプボタンは無"
+"効です]"
 
+# XXX 原文に問題
 #: data/helpdata.txt:579
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
@@ -18681,8 +18691,10 @@ msgid ""
 msgstr ""
 "作業リストからアイテムを削除するには，削除したいアイテムの上でダブルクリック"
 "します。アイテムを作業リスト内で上下するには，リストの下のボタンを使います。"
+"[訳註: 現行のGTKクライアントではボタンはリストの右にあります]"
 
-# ama, clefs(" = "→"＝")
+# ama, clefs
+# 見やすいのが一番
 #: data/helpdata.txt:582
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
@@ -18691,20 +18703,23 @@ msgid ""
 "items from the available list into the worklist and Delete to delete the "
 "selected item from the worklist."
 msgstr ""
-"キーボード・ショートカット: HOME＝作業リストへフォーカスする, END＝候補リスト"
-"へフォーカスする, Up/Down＝作業リスト/候補リストのアイテムを上下に選択する, "
-"PageUp/Down＝作業リストでアイテムを上下に移動する, Insert＝候補リストから作業"
-"リストへアイテムを挿入する, Delete＝作業リストから選択されているアイテムを削"
-"除する"
+"キーボード・ショートカット:\n"
+"HOME       : 作業リストへフォーカス\n"
+"END        : 候補リストへフォーカス\n"
+"Up/Down    : 作業リスト/候補リストのアイテムを上下に選択\n"
+"PageUp/Down: 作業リストでアイテムを上下に移動\n"
+"Insert     : 候補リストから作業リストへアイテムを挿入\n"
+"Delete     : 作業リストから選択されているアイテムを削除"
 
-# ntaka
+# ntaka, clefs
+# 原文obsolete
 #: data/helpdata.txt:588
 msgid ""
 "If you want to buy the unit that's first on the list, you can do that from "
 "the City Overview window."
 msgstr ""
-"もし作業リストの先頭に載せられている生産物を購入したい場合は，都市ウィンドウ"
-"の概観ページから購入できます。"
+"作業リスト先頭の生産物を購入したい場合は，都市ウィンドウの概観ページから購入"
+"できます。[訳註: 現行のGTKクライアントでは生産物ページからでも可能です]"
 
 # yasu
 #: data/helpdata.txt:594
@@ -18816,7 +18831,7 @@ msgstr ""
 
 # yasu, clefs
 # http://www.freeciv.org/index.php/Combat
-# によると，ここの記載とは違って，都市内で防御姿勢を取るとさらに50%上積み
+# によると，ここの記載とは違って，都市内で防御態勢を取るとさらに50%上積み
 # されるようです。(原文の問題)
 #: data/helpdata.txt:643
 #, no-c-format
@@ -18828,7 +18843,7 @@ msgid ""
 "defensive unit from the above list."
 msgstr ""
 "    政治体制によっては，都市内外にいる軍隊が不幸を減じたり，生じたりすること"
-"に注意してください。また，部隊が都市にいる場合，防御姿勢をとった場合と同様"
+"に注意してください。また，部隊が都市にいる場合，防御態勢をとった場合と同様"
 "に，50% 防御力が増えることにも注意してください。新しい都市ができた場合，上記"
 "リストから作成可能なもので最上の防御用部隊を作成し始めます。"
 
@@ -18943,7 +18958,7 @@ msgstr ""
 "    都市管理の最も重要なルールは，不幸な市民より幸福な市民が少なくならないよ"
 "うにすることです。そのようにできていない都市には稲妻が表示されます。このよう"
 "なことが起こらないように気をつけてください。不幸な都市は何も生産しませんし，"
-"やがて反乱を起こします。"
+"やがて叛乱を起こします。"
 
 # yasu
 #: data/helpdata.txt:705
@@ -19145,10 +19160,10 @@ msgstr ""
 "す。\n"
 "\n"
 "都市からどのような成果を期待するか指定する方法はいくつかあります。都市ウィン"
-"ドウを開いてgovernorタブをクリックしてください。スライダは二種類あります――左"
-"側のスライダは最少限度です。例えば，「金」を3に設定すれば，その都市では最低で"
-"も施設維持費プラス3の金を生み出すようにできます。右側のスライダは因子です。こ"
-"れはある生産が他と比較してどのぐらい値打ちがあるかを評価します。例えば，「科"
+"ドウを開いてgovernorタブをクリックしてください。スライダは2種類あります――左側"
+"のスライダは最少限度です。例えば，「金」を3に設定すれば，その都市では最低でも"
+"施設維持費プラス3の金を生み出すようにできます。右側のスライダは因子です。これ"
+"はある生産が他と比較してどのぐらい値打ちがあるかを評価します。例えば，「科"
 "学」を3にすれば，科学1単位が金・交易などの3単位より高く評価されます。これらの"
 "要素を必要に応じて各項目ごとに設定することができます。\n"
 "\n"
@@ -19184,9 +19199,9 @@ msgid ""
 "every turn.  If you can't afford the upkeep for a building, then it'll be "
 "automatically sold."
 msgstr ""
-"都市建造物は交易収入や科学成果などを向上するために建てられます。ほとんどの建"
-"造物は，ターンごとに維持費を必要とします。維持費を支払えなければ自動的に売却"
-"されます。"
+"都市建造物は交易収入や科学成果などを向上させるために建てられます。ほとんどの"
+"建造物は，ターンごとに維持費を必要とします。維持費を支払えなければ自動的に売"
+"却されます。"
 
 # ama, clefs
 #: data/helpdata.txt:845
@@ -19194,8 +19209,8 @@ msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
 msgstr ""
-"科学の研究は，新しい軍事部隊や都市建造物を開発し，あなたの文明を向上させるの"
-"に必要です。"
+"科学の研究は，あなたの文明の，新しい軍事部隊や都市建造物を開発する能力を向上"
+"させるために不可欠です。"
 
 # clefs
 #: data/helpdata.txt:856
@@ -19224,6 +19239,7 @@ msgstr ""
 "部隊は大まかに4つの種類があります。地上，海，空中，ヘリコプターです。(ヘリコ"
 "プターは他の空中部隊とかなり違うので，部隊の種類を分けて考えます。)"
 
+# 原文一部obsolete
 #: data/helpdata.txt:877
 #, no-c-format
 msgid ""
@@ -19240,14 +19256,16 @@ msgid ""
 "enemy cities."
 msgstr ""
 "地上部隊は地上を移動します。地形の影響を受けて行動が阻まれてしまいますが，道"
-"路や鉄道があるなら逆に有利です。海を移動する方法は，適当な海上部隊で運搬する"
-"ことだけです。海上では，自分で攻撃，防御することはできません。運搬している海"
-"上部隊だけが頼りです。また，四種の部隊のうち，地上部隊だけがゾーンコントロー"
-"ル(ZOC)の影響を受けます。地上において防御姿勢をとることで 50%の防御ボーナスを"
-"得ます。都市内にいる地上部隊は防御姿勢をとっているかによらず，自動的にこの"
-"ボーナスを得ます。地上部隊が城壁なしの都市を攻撃して成功した時，都市の人口は "
-"1減ります。攻撃力が 0の地上部隊は非戦闘部隊です。非戦闘部隊には維持費がかから"
-"ず，不幸への影響を持たず，敵部隊や敵都市へ攻撃できません。"
+"路や鉄道があるなら逆に有利です。輸送力のある海上部隊に積載された場合を除き海"
+"上を移動することはできません。海上では，自分で攻撃，防御することはできませ"
+"ん。運搬している海上部隊だけが頼りです。また，4種の部隊のうち，地上部隊だけが"
+"ゾーンコントロール(ZOC)の影響を受けます。地上において防御態勢をとることで 50%"
+"の防御ボーナスを得ます。都市内にいる地上部隊は防御態勢をとっているかによら"
+"ず，自動的にこのボーナスを得ます。地上部隊が城壁なしの都市を攻撃して成功した"
+"時，都市の人口は 1減ります。攻撃力が 0の地上部隊は非戦闘部隊です。非戦闘部隊"
+"には維持費がかからず，不幸への影響を持たず，敵部隊や敵都市へ攻撃できません。"
+"[訳註1: 実際には都市内で防御態勢を取ると50%のボーナスを二重に得ます][訳註2: "
+"実際には維持費がかからない非戦闘部隊はごく一部だけです]"
 
 #: data/helpdata.txt:890
 msgid ""
@@ -19258,11 +19276,11 @@ msgid ""
 "in coastal cities, but they cannot enter an enemy city to capture it, even "
 "if the city is undefended."
 msgstr ""
-"海上(中)部隊は，海と海の隣にある都市へ移動できます。この種の部隊は，海の隣に"
-"ある都市でだけ生産できます。海上(中)部隊の移動割合は，不思議(大灯台，マゼラン"
-"の探検航海)と原子力技術によって影響を受けます。ほとんどの海上(中)部隊は，沿岸"
-"の部隊や都市を攻撃できますが，都市を占領するためにその中へ入ることはできませ"
-"ん。たとえ都市が防御されていなかったとしてもです。"
+"海上(中)部隊は，海および海に面した都市へ移動できます。この種の部隊は，海の隣"
+"にある都市でのみ生産できます。海上(中)部隊の移動力は，不思議(大灯台，マゼラン"
+"の探検航海)及び原子力技術によって影響を受けます。ほとんどの海上(中)部隊は，沿"
+"岸の部隊や都市を攻撃できますが，都市を占領するためにその中へ入ることはできま"
+"せん。たとえ都市が防御されていなかったとしてもです。"
 
 #: data/helpdata.txt:897
 msgid ""
@@ -19323,7 +19341,7 @@ msgstr ""
 "港湾施設のある都市にいる海上(中)部隊，空港のある都市にいる空中部隊は，その都"
 "市で移動せずに過ごすことで失った体力を完全に回復できます。それ以外の都市で過"
 "ごしたら，部隊の基本体力の1/3回復します。要塞の上で過ごしたら，通常の回復に加"
-"え，基礎体力の1/4回復します。防御姿勢をとっている部隊は，さらに体力1を回復し"
+"え，基礎体力の1/4回復します。防御態勢をとっている部隊は，さらに体力1を回復し"
 "ます。不思議「国際連合」を持っていたら，毎ターンさらに体力2多く回復します。こ"
 "れは移動した部隊でも起こります。他には，都市でターンを終えなかったヘリコプ"
 "ターは，体力2を失います。ダメージを受けている見張り番部隊は，体力が全快すると"
@@ -19346,7 +19364,7 @@ msgid ""
 "---------------------"
 msgstr ""
 "デフォルトの戦闘ルール\n"
-"---------------------"
+"-----------------------"
 
 #: data/helpdata.txt:945
 msgid ""
@@ -19354,9 +19372,9 @@ msgid ""
 "or the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
 msgstr ""
-"ある部隊が他の部隊を攻撃する時，攻撃側が全滅するか防御側が全滅するかのいずれ"
-"かで，両方全滅することはありません(攻撃側がミサイルの場合を除く)。結果は運を"
-"含むさまざまな要素によって決まります。"
+"ある部隊が他の部隊を攻撃すると，攻撃側が全滅するか防御側が全滅するかのいずれ"
+"かになります。両方全滅することはありません(攻撃側がミサイルの場合を除く)。結"
+"果は運を含むさまざまな要素によって決まります。"
 
 #: data/helpdata.txt:950
 msgid "First, the attacker's strength is modified."
@@ -19432,15 +19450,18 @@ msgstr ""
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
-msgstr "- 防御側が要塞にいたら，その部隊の強さを2倍にします。"
+msgstr ""
+"- 防御側が要塞にいたら(かつそこが都市でなければ)，その部隊の強さを2倍にしま"
+"す。"
 
 # yasu
+# 実際には都市内で防御態勢を取るとx1.5x1.5=x2.25になります(原文が古い)
 #: data/helpdata.txt:986
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
 msgstr ""
-" - 最後に，防御側が陸上部隊で防御姿勢をとっているか都市にいる場合，強さが 1.5"
+" - 最後に，防御側が陸上部隊で防御態勢をとっているか都市にいる場合，強さが 1.5"
 "倍になります。"
 
 #: data/helpdata.txt:989
@@ -19510,10 +19531,10 @@ msgid ""
 "War Academy (and if it isn't obsolete), the unit will always become a "
 "veteran.  Otherwise, the chance of becoming a veteran is 50%."
 msgstr ""
-"戦闘に生き残ったまだベテランではない部隊にはどちらにも，ベテランになるチャン"
-"スが与えられます。勝ったほうの文明に孫子の兵学校がある(そしてそれがまだ古く"
-"なってない)場合，部隊は常にベテランになります。その他の場合には，ベテランにな"
-"る確率は 50% です。"
+"戦闘に生き残った方の部隊は，まだベテランでなければ，ベテランになる可能性があ"
+"ります。勝ったほうの文明に孫子の兵学校がある(そしてそれがまだ古くなってない)"
+"場合，部隊は常にベテランになります。その他の場合には，ベテランになる確率は "
+"50% です。"
 
 #: data/helpdata.txt:1025
 msgid ""
@@ -19535,7 +19556,7 @@ msgstr ""
 # clefs
 #: data/helpdata.txt:1035
 msgid " Modifying Combat Rules"
-msgstr "戦闘ルールの変更"
+msgstr " 戦闘ルールの変更"
 
 # clefs
 #: data/helpdata.txt:1036
@@ -19818,7 +19839,7 @@ msgstr "都市からの純益は，都市建造物や不思議だけでなく政
 
 #: data/helpdata.txt:1192
 msgid " Terrain Alterations"
-msgstr "地形の変更"
+msgstr " 地形の変更"
 
 #: data/helpdata.txt:1193
 msgid ""
@@ -19837,8 +19858,9 @@ msgid ""
 msgstr ""
 "ある種の地形には，灌漑が行えます。灌漑するには，近くに水源が必要です。海や"
 "川，もしくは灌漑された土地が水源になります。水源は，東西南北のいずれかの方角"
-"で直接接していなければなりません。灌漑された土地は，各ターンでさらに食料を生"
-"みます。また，技術が進むと二度灌漑を行え，より生産力のある農地にできます。"
+"で直接接していなければなりません。灌漑によってその土地はより多くの食料を毎"
+"ターン産み出すようになります。さらに，必要な技術を得た後でもう一度灌漑を行"
+"い，さらに生産力のある農地にできます。"
 
 #: data/helpdata.txt:1204
 msgid ""
@@ -19856,16 +19878,17 @@ msgid ""
 "the resources produced in cities."
 msgstr ""
 "道路と鉄道は，海を除く全ての土地に作れます(ただし川に作るには，橋梁建設を知ら"
-"なければなりません)。道路と鉄道は部隊の移動を素早くし，都市の資源を増やしま"
-"す。"
+"なければなりません)。道路と鉄道は部隊の移動を素早くし，また都市の資源生産を増"
+"やします。"
 
+# clefs
 #: data/helpdata.txt:1212
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
 msgstr ""
-" - 現在の土地と移動先の土地の両方に道路が通っているなら，部隊移動に要するポイ"
-"ントは通常の 1/3 になります。"
+" - 現在の土地と移動先の土地の両方に道路が通っているなら，部隊は移動に1/3 移動"
+"ポイントしか消費しません。"
 
 #: data/helpdata.txt:1215
 msgid ""
@@ -19875,10 +19898,11 @@ msgstr ""
 " - 鉄道だけを使って移動する時は，移動ポイントは消費しません。鉄道に乗って無限"
 "に移動できます。"
 
+# clefs
 #: data/helpdata.txt:1218
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
-msgstr " - 地形によっては，道路を作ることで交易資源が増えます。"
+msgstr " - 一部の地形では，道路を作ることで交易資源が増えます。"
 
 #: data/helpdata.txt:1221
 msgid ""
@@ -19913,8 +19937,8 @@ msgid ""
 "Settlers/Engineers, doing teamwork."
 msgstr ""
 "以下の表は，完全に動ける開拓者1部隊が必要とするターン数を表わしています。エン"
-"ジニアは半分の時間(切り上げ)で終わります。開拓者やエンジニアを集合させること"
-"でさらに時間を減らせます。"
+"ジニアは半分の時間(端数切り上げ)で終わります。開拓者やエンジニアを集め共同作"
+"業させることでさらに時間を減らせます。"
 
 # clefs
 #: data/helpdata.txt:1241
@@ -20039,9 +20063,9 @@ msgid ""
 "keep them happy.  When conquering other civilizations, it may be helpful to "
 "switch to one of the more militant styles of government."
 msgstr ""
-"ヒント1: 共和政や民主政下での軍事行動は，民衆を幸せにするためにたくさんの余暇"
-"を与えない限り難しいです。他の文明を征服するつもりなら，他の好戦的な政治体制"
-"にしたほうがいいかもしれません。"
+"ヒント1: 共和政や民主主義下での軍事行動は，民衆を幸せにするためにたくさんの余"
+"暇を与えない限り難しいです。他の文明を征服するつもりなら，他の好戦的な政治体"
+"制にしたほうがいいかもしれません。"
 
 #: data/helpdata.txt:1308
 msgid ""
@@ -20050,9 +20074,9 @@ msgid ""
 "switching to the Republic as soon as you can; gaining advanced technology "
 "early in the game puts you at an advantage."
 msgstr ""
-"ヒント2: 科学の発展には多くの交易が必要となります。共和政か民主政だと交易を増"
-"やしやすいです。できるだけ早く共和政に切り変えることを考えて下さい。ゲームの"
-"早い段階で進んだ科学を得ると，それだけ有利になるのです。"
+"ヒント2: 科学の発展には多くの交易が必要となります。共和政か民主主義だと交易を"
+"増やしやすいです。できるだけ早く共和政に切り変えることを考えて下さい。ゲーム"
+"の早い段階で進んだ科学を得ると，それだけ有利になるのです。"
 
 #: data/helpdata.txt:1317
 msgid " Civil War"
@@ -20067,7 +20091,7 @@ msgid ""
 "retain all of your scientific advances."
 msgstr ""
 "内戦は国を荒廃させます。首都(宮殿)を失うことで内戦が引き起こされます。都市の"
-"半数以下が反乱を起こし，新しい(人工知能の)指導者への忠誠を誓います。新しい指"
+"半数以下が叛乱を起こし，新しい(人工知能の)指導者への忠誠を誓います。新しい指"
 "導者は国庫の半分を略奪し，全ての科学の発展をそのまま保持します。"
 
 # clefs
@@ -20121,11 +20145,11 @@ msgid ""
 "cities will celebrate, and your production will increase greatly."
 msgstr ""
 "市民の状態は幸福，普通(=満足)，不幸のいずれかです。市民を幸福(少なくとも普通)"
-"に保つことは，Freecivにおいては最も重要な目標です。市民が不幸になると，都市は"
-"混乱に陥ります(生産が混乱します)。一方，市民が幸福だと，都市は祝典を施行し生"
-"産が大きく増えます。"
+"に保つことは，Freecivにおいて最も重要な目標の一つです。市民が不幸になると，都"
+"市は混乱に陥ります(生産が混乱します)。一方，市民が幸福だと，都市は祝典を行い"
+"生産が大きく増えます。"
 
-# yasu
+# yasu, clefs
 #: data/helpdata.txt:1356
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
@@ -20134,12 +20158,12 @@ msgid ""
 "Diplomats and Spies to incite to revolt. Prolonged disorder under Democracy "
 "can lead to a spontaneous revolution, overthrowing your government."
 msgstr ""
-"もしある都市の不幸な市民が幸福な市民の数より増えたら，その都市は混乱し，何も"
-"作らなくなります。混乱状態の都市は敵の外交官やスパイによる叛乱の煽動が簡単に"
-"なります。民主政でのこの状態が長く続くと，あなたの政府を無視して自然に革命が"
-"起きます。"
+"もしある都市の不幸な市民が幸福な市民より多くなると，その都市は混乱し，何も産"
+"み出さなくなります。混乱状態の都市は敵の外交官やスパイによって叛乱を煽動され"
+"やすくなります。民主主義でこの状態が長く続くと，自然発生的な革命へと到り，あ"
+"なたの政府を転覆させてしまうかもしれません。"
 
-# yasu
+# yasu, clefs
 #: data/helpdata.txt:1363
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
@@ -20148,19 +20172,19 @@ msgid ""
 "is designated by the term \"Rapture\" on the City Report.  The effects of "
 "celebration vary depending on your government type:"
 msgstr ""
-"しかし，3市民以上の都市で幸福な市民が普通の市民以上で不幸な市民がいない場合，"
-"その都市は祝典を始めます。これは都市報告では「歓喜」という言葉で表現されてい"
-"ます。祝典の効果は政治体制によって様々です。"
+"他方，3市民以上の都市で，幸福な市民の数が普通の市民の数と同じか上回り，かつ不"
+"幸な市民が存在しない場合，その都市は祝典を始めます。これは都市報告では「歓"
+"喜」という言葉で表現されています。祝典の効果は政治体制によって様々です。"
 
-# yasu
+# yasu, clefs
 #: data/helpdata.txt:1370
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
 "shields or trade)."
 msgstr ""
-" - 無政府状態や専制政治では，どれかの資源(食料，シールド，交易)を3単位以上生"
-"産している土地の通常の生産制限を受けません。"
+" - 無政府状態や専制政治では，各種資源(食料，シールド，交易)を3単位以上生産し"
+"ている土地に通常課されているペナルティを受けなくなります。"
 
 # yasu
 #: data/helpdata.txt:1374
@@ -20169,9 +20193,9 @@ msgid ""
 "Republican/Democratic governments: 1 bonus trade in any square which already "
 "produces at least 1 trade."
 msgstr ""
-" - 君主政や共産主義では，共和政/民主政と同じ交易ボーナスを受けることができま"
-"す。つまり，すでに少なくとも1単位の交易がある土地から更に1単位の交易を得るこ"
-"とができます。"
+" - 君主政や共産主義では，共和政/民主主義と同じ交易ボーナスを受けることができ"
+"ます。つまり，すでに少なくとも1単位の交易がある土地から更に1単位の交易を得る"
+"ことができます。"
 
 # yasu
 #: data/helpdata.txt:1378
@@ -20180,8 +20204,8 @@ msgid ""
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
-" - 共和政や民主政では，食料の余剰がなくなるか幸福な市民の人数が「歓喜」の条件"
-"を満たさなくなるまで，各ターン毎に人口が1増えます。"
+" - 共和政や民主主義では，食料の余剰がなくなるか幸福な市民の人数が「歓喜」の条"
+"件を満たさなくなるまで，各ターン毎に人口が1増えます。"
 
 # yasu
 #: data/helpdata.txt:1383
@@ -20197,10 +20221,12 @@ msgstr ""
 "は「不幸」になります。4番目(これはデフォルト値でサーバの unhappysize で決める"
 "ことができます)の市民までは「普通」の状態で生まれてきますが，それ以降は「不"
 "幸」の状態で生まれてきます。多くの都市がある場合(その数は政治体制やサーバ・オ"
-"プションの cityfactor で決まっています)，「普通」の市民の数が３人に制限される"
+"プションの cityfactor で決まっています)，「普通」の市民の数が3人に制限される"
 "ことがあります。"
 
-# yasu
+# yasu, clefs
+# 不思議が2度出て来てくどいのは原文の問題
+# "appropriate sections" は英語特有の反復回避なので日本語では補って訳した
 #: data/helpdata.txt:1393
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
@@ -20212,12 +20238,12 @@ msgid ""
 "are converted to happy and/or content.  Some wonders of the world have also "
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
-"不幸を解消するために，不幸な市民を普通の市民にする都市建造物を建設したり(寺"
-"院，コロセウム，大聖堂，政治体制が民主政なら裁判所)，世界の不思議を創ったり，"
-"交易をもっと贅沢にまわしたりすることができます。2単位の贅沢が生成する毎に，1"
-"人の普通の市民が，幸福になります。全ての普通の市民が幸福になった後，不幸な市"
-"民が幸福または普通になります。世界の不思議の中には市民の幸福に効果があるもの"
-"もあります(適切な章に詳細があります)。"
+"不幸を解消するために，不幸な市民を満足させる都市建造物(寺院，コロセウム，大聖"
+"堂，政治体制が民主主義なら裁判所)を建設したり，幸福に関係する世界の不思議を"
+"創ったり，より多くの交易を贅沢にまわしたりすることができます。2単位の贅沢が生"
+"成する毎に，1人の普通の市民が，幸福になります。全ての普通の市民が幸福になった"
+"後，不幸な市民が幸福または普通になります。世界の不思議の中には市民の幸福に効"
+"果があるものもあります(「不思議」の章に詳細があります)。"
 
 # yasu, clefs
 # 原文からしてカッコが多くて読みにくいですね。超訳しちゃった方がいいかも。(clefs)
@@ -20236,15 +20262,15 @@ msgid ""
 "Cathedrals, depending on ruleset), or converting part of your trade into "
 "luxuries."
 msgstr ""
-"多くの政治体制で，都市に軍隊がいることにより戒厳令を適用して普通状態を創るこ"
-"とができます。しかし，共和政や民主政では軍隊は不幸の原因になります(詳細は政治"
-"体制参照)。このような場合，上記のような都市建造物は市民の不幸状態になんの効果"
-"もないということに注意して下さい。この場合の不幸は警察署や，関連した世界の不"
-"思議(J.S.バッハの大聖堂，癌の治療，シェイクスピアの劇場，そしてもちろん婦人参"
-"政権。注: しかし，ミケランジェロの教会はこの場合には効果はありません。ルール"
-"セットにより，全ての都市に大聖堂の効果をもたらすか，または大聖堂の効果を2倍に"
-"するものだからです。)の建設，または交易をより贅沢に使うことにより解消されま"
-"す。"
+"多くの政治体制で，都市に軍隊がいることにより戒厳令を適用して普通状態を作り出"
+"すとができます。しかし逆に，共和政や民主主義では軍隊は不幸の原因になります(詳"
+"細は「政治体制」参照)。このような場合，上記のような都市建造物は市民の不幸状態"
+"になんの効果もないということに注意して下さい。この場合の不幸は警察署や，関連"
+"した世界の不思議(J.S.バッハの大聖堂，癌の治療，シェイクスピアの劇場，そしても"
+"ちろん婦人参政権。注: しかし，ミケランジェロの教会はこの場合には効果はありま"
+"せん。ルールセットにより，全ての都市に大聖堂の効果をもたらすか，または大聖堂"
+"の効果を2倍にするものだからです。)の建設，または交易を贅沢に回すことにより解"
+"消されます。"
 
 # yasu
 #: data/helpdata.txt:1422
@@ -20256,7 +20282,7 @@ msgid ""
 msgstr ""
 "宇宙開発競争は，すべての他の国を滅ぼす以外のゲームの2番目の勝利方法です。も"
 "し，一番最初にアルファケンタウリに着けば，ゲームは終わり勝者になれます。(しか"
-"し，サーバ・オションとしてこのオプションが無効になっている場合もあります。)"
+"し，サーバ・オプションとしてこのオプションが無効になっている場合もあります。)"
 
 # yasu, clefs
 #: data/helpdata.txt:1428
@@ -20274,7 +20300,7 @@ msgstr ""
 "さい。(これらについてのヘルプがない場合，おそらくサーバの宇宙開発競争オプショ"
 "ンが無効になっているということでしょう。)"
 
-# yasu
+# yasu, clefs
 #: data/helpdata.txt:1436
 msgid ""
 "When you have started building your spaceship, you can see it with the "
@@ -20282,19 +20308,19 @@ msgid ""
 "players, select the player in the Players dialog and click \"Spaceship\"."
 msgstr ""
 "宇宙船を作り始めたら，報告メニューの宇宙船コマンドでそれを見ることができま"
-"す。他のプレイヤーの宇宙船を見るには，プレイヤーの欄を開き，「宇宙船」をク"
-"リックしてください。"
+"す。他のプレイヤーの宇宙船を見るには，プレイヤー・ダイアログを開き，「宇宙"
+"船」をクリックしてください。"
 
-# yasu
+# yasu, clefs
 #: data/helpdata.txt:1441
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
 msgstr ""
-"もし，成功確率が 100% 未満の場合，宇宙船の幾ばくかの人達は旅行を生き抜けない"
-"かもしれません。宇宙船から得られるスコアボーナスは減りますが，勝利とみなされ"
-"ます。"
+"もし，成功確率が 100% 未満の場合，宇宙船乗員の一部は旅行を生き抜けないかもし"
+"れません。その場合宇宙船から得られるスコアボーナスは減りますが，それでも勝利"
+"とみなされます。"
 
 # yasu, clefs
 #: data/helpdata.txt:1445
@@ -20449,8 +20475,8 @@ msgid ""
 "Courthouse makes 1 unhappy citizen content.  Also makes the revolt cost of "
 "the city 4 times bigger."
 msgstr ""
-"都市での汚職と浪費を 50% 減らします。民主政下では，不幸市民1を満足させます。"
-"また反乱煽動にかかる費用を4倍にします。"
+"都市での汚職と浪費を 50% 減らします。民主主義下では，不幸市民1を満足させま"
+"す。また叛乱煽動にかかる費用を4倍にします。"
 
 #: data/default/buildings.ruleset:297 data/civ2/buildings.ruleset:276
 #: data/civ1/buildings.ruleset:223
@@ -20547,8 +20573,8 @@ msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
 msgstr ""
-"人口の増加による公害を中和します。この都市での人口の増加は，公害にまったく影"
-"響を与えません。"
+"人口の増加による公害を中和します。この都市での人口の増加は，公害に全く影響を"
+"与えません。"
 
 #: data/default/buildings.ruleset:458 data/civ2/buildings.ruleset:434
 #: data/civ1/buildings.ruleset:358
@@ -20620,7 +20646,7 @@ msgid ""
 "Under Despotism the palace gives you a +75% production bonus, and under "
 "Monarchy a +50% production bonus."
 msgstr ""
-"都市を首都にし，政府の中心になります。政治体制が民主政か共産主義以外の時に"
+"都市を首都にし，政府の中心になります。政治体制が民主主義か共産主義以外の時に"
 "は，他の都市の汚職は，首都からどのくらい離れているかに影響を受けます。同様"
 "に，叛乱の煽動に必要な費用は，(全ての政治体制で)首都からの距離に関係しま"
 "す。\n"
@@ -20640,8 +20666,8 @@ msgid ""
 "Democracy and 1 under Republic.  This improvement has no effect under other "
 "governments."
 msgstr ""
-"都市の外での軍隊による不幸を民主政下では2，共和政下では1減らします。他の政治"
-"体制下では効力がありません。"
+"都市の外での軍隊による不幸を民主主義下では2，共和政下では1減らします。他の政"
+"治体制下では効力がありません。"
 
 # clefs
 #: data/default/buildings.ruleset:593 data/civ2/buildings.ruleset:559
@@ -20653,8 +20679,8 @@ msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
 msgstr ""
-"都市でベテラン海上部隊を作ることができます。また，また傷ついた海上部隊を都市"
-"で移動させずに休ませておくと，1ターンで完治します。"
+"都市でベテラン海上部隊を作ることができます。また，傷ついた海上部隊を都市で移"
+"動させずに休ませておくと，1ターンで完治します。"
 
 #: data/default/buildings.ruleset:615 data/civ2/buildings.ruleset:581
 #: data/civ1/buildings.ruleset:439
@@ -20823,7 +20849,7 @@ msgid ""
 "have been built by any player."
 msgstr ""
 "宇宙船構造物は宇宙船の基礎を形作るものです。他の宇宙船の部品は構造物に接続さ"
-"れて初めて機能します。32個の構造物を造ることができます。\n"
+"れて初めて機能します。最大32個の構造物を造ることができます。\n"
 "\n"
 "宇宙船の部品を作る前には必ず誰かが不思議「アポロ計画」を作っておかなくてはい"
 "けません。"
@@ -21010,7 +21036,8 @@ msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
 msgstr ""
-"王立図書館を建てた文明は，他の二つ以上の文明が持つ科学を得ることができます。"
+"王立図書館を建てた文明は，他の2つ以上の文明が達成した科学を得ることができま"
+"す。"
 
 #: data/default/buildings.ruleset:1114 data/civ2/buildings.ruleset:1100
 #: data/civ1/buildings.ruleset:754
@@ -21174,11 +21201,11 @@ msgstr ""
 #: data/default/buildings.ruleset:1399 data/civ2/buildings.ruleset:1381
 #: data/civ1/buildings.ruleset:981
 msgid "SETI Program"
-msgstr "SETI プログラム"
+msgstr "SETI計画"
 
 #: data/default/buildings.ruleset:1413
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr "研究所のある各都市の研究成果を 50% 増やします。"
+msgstr "研究所のある各都市の研究成果を 100% 増やします。"
 
 #: data/default/buildings.ruleset:1418 data/civ2/buildings.ruleset:1401
 #: data/civ1/buildings.ruleset:1001
@@ -21239,8 +21266,8 @@ msgid ""
 "under Republic.  This wonder has no effect under other governments.)"
 msgstr ""
 "各都市に警察署があるものとみなします。(即ち各都市において，都市の外での軍隊に"
-"よる不幸を民主政下では2，共和政下では1減らします。他の政治体制下では効力があ"
-"りません。)"
+"よる不幸を民主主義下では2，共和政下では1減らします。他の政治体制下では効力が"
+"ありません。)"
 
 # clefs
 # was "貨幣"
@@ -21315,8 +21342,8 @@ msgid ""
 "Courthouse makes 1 unhappy citizen content.  Also halves the effective "
 "distance to the capital, for the purpose of calculating revolt cost."
 msgstr ""
-"都市での汚職と浪費を 50% 減らします。民主政下では，不幸市民1を満足させます。"
-"叛乱コストを計算する際に，首都からの距離による影響を半減します。"
+"都市での汚職と浪費を 50% 減らします。民主主義下では，不幸市民1を満足させま"
+"す。叛乱コストを計算する際に，首都からの距離による影響を半減します。"
 
 #: data/civ2/buildings.ruleset:357 data/civ1/buildings.ruleset:283
 msgid ""
@@ -21374,7 +21401,7 @@ msgid ""
 "plunging into civil war. Losing your current palace also results in losing "
 "whatever spaceship you might have."
 msgstr ""
-"都市を首都にし，政府の中心になります。政治体制が民主政か共産主義以外の時に"
+"都市を首都にし，政府の中心になります。政治体制が民主主義か共産主義以外の時に"
 "は，他の都市の汚職は，首都からどのくらい離れているかに影響を受けます。同様"
 "に，叛乱の煽動に必要な費用は，(全ての政治体制で)首都からの距離に関係しま"
 "す。\n"
@@ -21574,8 +21601,8 @@ msgid ""
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
-"都市での汚職を 50% 減らします。反乱コストを計算するために使われる首都からの距"
-"離による影響を半減します。民主政下では，不幸市民 1を収容します。"
+"都市での汚職を 50% 減らします。叛乱コストを計算するために使われる首都からの距"
+"離による影響を半減します。民主主義下では，不幸市民 1を収容します。"
 
 # yasu
 #: data/civ1/buildings.ruleset:646
@@ -21626,8 +21653,8 @@ msgid ""
 "Democracy, aggressive units cause only 1 unhappy citizen each."
 msgstr ""
 "全ての都市で，全ての部隊の不幸の効果が1減ります。即ち，共和政下では部隊は不幸"
-"を引き起こさず，民主政下では攻撃的な部隊はそれぞれ1しか不幸な市民を作らないと"
-"いうことです。"
+"を引き起こさず，民主主義下では攻撃的な部隊はそれぞれ1しか不幸な市民を作らない"
+"ということです。"
 
 # ntaka 何で太郎?
 # clefs たぶん「プー太郎」
@@ -21659,7 +21686,7 @@ msgstr "?Taxmen:税"
 # clefs
 #: data/default/cities.ruleset:74 data/civ2/cities.ruleset:74
 msgid "?citystyle:European"
-msgstr "ヨーロピア調"
+msgstr "ヨーロッパ調"
 
 # clefs
 #: data/default/cities.ruleset:83 data/civ2/cities.ruleset:83
@@ -21712,7 +21739,7 @@ msgid "Anarchy"
 msgstr "無政府状態"
 
 # clefs
-# 共和政や民主政になろうとしている時はこれじゃ変かな
+# 共和政や民主主義になろうとしている時はこれじゃ変かな
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56
 msgid "Usurper"
@@ -21794,7 +21821,7 @@ msgid ""
 msgstr ""
 "君主政下では，世襲の王もしくは王女が名目上の頭首として治めます。\n"
 "\n"
-"君主政は，共和政と同じ小さな汚職を被ります。"
+"君主政は，共和政と同程度の小さな汚職を被ります。"
 
 #: data/default/governments.ruleset:114 data/civ2/governments.ruleset:112
 #: data/civ1/governments.ruleset:114 data/default/techs.ruleset:175
@@ -21916,9 +21943,9 @@ msgid ""
 "potential for unhappiness.  There is no corruption during Democracy, but "
 "citizens become very upset during wars."
 msgstr ""
-"民主政下では，市民が直接投票によって問題を決めます。交易は最大になりますが，"
-"不幸も引き起こし易くなります。汚職はなくなりますが，市民は戦争を非常に気にす"
-"るようになります。"
+"民主主義下では，市民が直接投票によって問題を決めます。交易は最大になります"
+"が，不幸も引き起こし易くなります。汚職はなくなりますが，市民は戦争を非常に気"
+"にするようになります。"
 
 #: data/civ2/governments.ruleset:57
 msgid ""
@@ -22030,13 +22057,13 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
-"民主政下では，市民が直接投票によって問題を決めます。交易は最大になりますが，"
-"不幸も引き起こし易くなります。汚職や浪費はなくなりますが，市民は戦争を非常に"
-"気にするようになります。\n"
+"民主主義下では，市民が直接投票によって問題を決めます。交易は最大になります"
+"が，不幸も引き起こし易くなります。汚職や浪費はなくなりますが，市民は戦争を非"
+"常に気にするようになります。\n"
 "\n"
-"民主政の(幸福な)市民は政府を強く信じているので，その忠誠心は変わりません。民"
-"主政文明の軍隊は買収されません。敵外交官やスパイは都市の反乱の煽動はできませ"
-"ん。"
+"民主主義の(幸福な)市民は政府を強く信じているので，その忠誠心は変わりません。"
+"民主政文明の軍隊は買収されません。敵外交官やスパイは都市の叛乱の煽動はできま"
+"せん。"
 
 #: data/civ1/governments.ruleset:170
 msgid ""
@@ -22050,13 +22077,13 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
-"民主政下では，市民が直接投票によって問題を決めます。交易は最大になりますが，"
-"不幸も引き起こし易くなります。汚職はなくなりますが，市民は戦争を非常に気にす"
-"るようになります。\n"
+"民主主義下では，市民が直接投票によって問題を決めます。交易は最大になります"
+"が，不幸も引き起こし易くなります。汚職はなくなりますが，市民は戦争を非常に気"
+"にするようになります。\n"
 "\n"
-"民主政の(幸福な)市民は政府を強く信じているので，その忠誠心は変わりません。民"
-"主政文明の軍隊は買収されません。敵外交官やスパイは都市の反乱の煽動はできませ"
-"ん。"
+"民主主義の(幸福な)市民は政府を強く信じているので，その忠誠心は変わりません。"
+"民主政文明の軍隊は買収されません。敵外交官やスパイは都市の叛乱の煽動はできま"
+"せん。"
 
 #: data/default/techs.ruleset:55 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -22528,7 +22555,7 @@ msgstr "砂漠"
 msgid ""
 "Deserts are regions of extreme dryness, making agriculture and trade very "
 "difficult."
-msgstr "砂漠は極端に乾燥した地帯です。農業と交易を行うのは非常に難しいです。"
+msgstr "砂漠は極端に乾燥した地帯です。農業や交易を行うのは非常に難しいです。"
 
 #: data/default/terrain.ruleset:261 data/civ2/terrain.ruleset:231
 #: data/civ1/terrain.ruleset:220
@@ -22538,7 +22565,7 @@ msgstr "森"
 #: data/default/terrain.ruleset:294 data/civ2/terrain.ruleset:259
 #: data/civ1/terrain.ruleset:248
 msgid "Forests are densely wooded, making agriculture somewhat problematic."
-msgstr "森は密集していて，農業を行うには幾分問題があります。"
+msgstr "森には木が密集していて，農業を行うには幾分問題があります。"
 
 #: data/default/terrain.ruleset:300 data/civ2/terrain.ruleset:265
 #: data/civ1/terrain.ruleset:254
@@ -22560,7 +22587,7 @@ msgstr "丘"
 msgid ""
 "In addition to being amenable to agriculture, Hills are frequently rich in "
 "resources."
-msgstr "丘は農業を行える可能性があるだけでなく，豊富な資源があります。"
+msgstr "丘は農業を行えるだけでなく，しばしば資源にも富んでいます。"
 
 #: data/default/terrain.ruleset:377 data/civ2/terrain.ruleset:332
 #: data/civ1/terrain.ruleset:321
@@ -22774,7 +22801,7 @@ msgstr "地上"
 msgid "Sea"
 msgstr "海上"
 
-#: data/default/units.ruleset:97 data/default/units.ruleset:1083
+#: data/default/units.ruleset:97 data/default/units.ruleset:1084
 #: data/civ2/units.ruleset:91 data/civ2/units.ruleset:1028
 msgid "Helicopter"
 msgstr "ヘリコプター"
@@ -22810,11 +22837,10 @@ msgstr ""
 "維持には，食料と生産物が必要です。開拓者を維持している都市が食料不足に陥る"
 "と，開拓者は飢え死にします。\n"
 "\n"
-"開拓者同士，エンジニア同士，もしくは開拓者とエンジニアは，協力し長いプロジェ"
-"クトで要求される時間を減らします。2部隊以上を同じ土地で同じ作業させると，その"
-"効果は両方を加えたものになります。一つの作業に対して多すぎる部隊を割りあてな"
-"いようにしましょう。余分な労力は無駄になりますし，部隊のまとまりは敵の攻撃に"
-"とても無防備です。"
+"開拓者やエンジニアは，協働して時間のかかるプロジェクトの工期を短縮できます。2"
+"部隊以上を同じ土地で同じ作業させると，その効果は両方を加えたものになります。"
+"一つの作業に対して多すぎる部隊を割りあてないようにしましょう。余分な労力は無"
+"駄になりますし，部隊のまとまりは敵の攻撃にとても無防備です。"
 
 # clefs
 # 原文もヘン
@@ -22832,13 +22858,13 @@ msgid ""
 "and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
 "enemy attacks."
 msgstr ""
-"労働者は重要な部隊の一つです。新しい都市の作成，土地を灌漑，道路，鉄道，要"
-"塞，飛行場の作成，資源化の実行，公害，死の灰の除去のために使います。\n"
+"労働者はゲームの鍵を握る部隊の一つです。新しい都市の作成，土地の灌漑，道路，"
+"鉄道，要塞，飛行場の作成，資源化の実行，公害，死の灰の除去に使えます。\n"
 "\n"
-"開拓者，労働者，エンジニアは，協力し長いプロジェクトで要求される時間を減らし"
-"ます。もし二部隊以上を同じ土地で同じ作業させたら，その効果は両方を加えたもの"
-"になります。一つの作業に対して多すぎる部隊を割りあてないようにしましょう。余"
-"分な労力は無駄になりますし，部隊のまとまりは敵の攻撃にとても無防備です。"
+"開拓者，労働者，エンジニアは，協働して時間のかかるプロジェクトの工期を短縮で"
+"きます。2部隊以上を同じ土地で同じ作業させると，その効果は両方を加えたものにな"
+"ります。一つの作業に対して多すぎる部隊を割りあてないようにしましょう。余分な"
+"労力は無駄になりますし，部隊のまとまりは敵の攻撃にとても無防備です。"
 
 #: data/default/units.ruleset:342 data/civ2/units.ruleset:198
 msgid "Engineers"
@@ -22860,8 +22886,7 @@ msgid ""
 "upgraded for free."
 msgstr ""
 "エンジニアは労働者に似ていますが，二倍働き二倍速く動きます。エンジニアはま"
-"た，大幅な地形(例えばツンドラから砂漠)の変更も行えます。大幅な地形の変更は，"
-"労働者では行えません。\n"
+"た，開拓者にはできない大幅な地形の変更(例えばツンドラから砂漠)も行えます。\n"
 "\n"
 "ヒント 1:  できるだけ労働者をエンジニアへアップグレードしましょう。エンジニア"
 "は労働者と同じ資源しか必要としません。\n"
@@ -22909,7 +22934,7 @@ msgid "Partisan"
 msgstr "パルチザン"
 
 # clefs
-#: data/default/units.ruleset:582 data/civ2/units.ruleset:471
+#: data/default/units.ruleset:583 data/civ2/units.ruleset:471
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -22933,30 +22958,31 @@ msgstr ""
 "\n"
 " - 民主主義もしくは共産主義で国を治めている"
 
-#: data/default/units.ruleset:596 data/civ2/units.ruleset:485
+#: data/default/units.ruleset:597 data/civ2/units.ruleset:485
 msgid "Alpine Troops"
 msgstr "高山部隊"
 
-#: data/default/units.ruleset:624 data/civ2/units.ruleset:513
+#: data/default/units.ruleset:625 data/civ2/units.ruleset:513
 #: data/civ1/units.ruleset:316
 msgid "Riflemen"
 msgstr "ライフル銃兵"
 
-#: data/default/units.ruleset:652 data/civ2/units.ruleset:541
+#: data/default/units.ruleset:653 data/civ2/units.ruleset:541
 msgid "Marines"
 msgstr "海兵隊"
 
-#: data/default/units.ruleset:680 data/civ2/units.ruleset:569
+#: data/default/units.ruleset:681 data/civ2/units.ruleset:569
 msgid "Paratroopers"
 msgstr "落下傘兵"
 
-#: data/default/units.ruleset:712 data/civ2/units.ruleset:601
+# alt.「機械化歩兵」
+#: data/default/units.ruleset:713 data/civ2/units.ruleset:601
 #: data/civ1/units.ruleset:344
 msgid "Mech. Inf."
 msgstr "自動化歩兵"
 
 # ama
-#: data/default/units.ruleset:738 data/civ2/units.ruleset:627
+#: data/default/units.ruleset:739 data/civ2/units.ruleset:627
 #: data/civ1/units.ruleset:370
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
@@ -22965,37 +22991,37 @@ msgstr ""
 "この部隊はどの地上部隊よりも強力な防御力を持ちますが，残念ながら技術の最終段"
 "階近くでなければ利用できません。"
 
-#: data/default/units.ruleset:745 data/civ2/units.ruleset:634
+#: data/default/units.ruleset:746 data/civ2/units.ruleset:634
 msgid "Horsemen"
 msgstr "騎手"
 
 # 「二輪戦車」
-#: data/default/units.ruleset:773 data/civ2/units.ruleset:662
+#: data/default/units.ruleset:774 data/civ2/units.ruleset:662
 #: data/civ1/units.ruleset:405
 msgid "Chariot"
 msgstr "チャリオット"
 
-#: data/default/units.ruleset:801 data/civ2/units.ruleset:746
+#: data/default/units.ruleset:802 data/civ2/units.ruleset:746
 #: data/civ1/units.ruleset:433
 msgid "Knights"
 msgstr "騎士"
 
-#: data/default/units.ruleset:830 data/civ2/units.ruleset:775
+#: data/default/units.ruleset:831 data/civ2/units.ruleset:775
 msgid "Dragoons"
 msgstr "竜騎兵"
 
-#: data/default/units.ruleset:859 data/civ2/units.ruleset:804
+#: data/default/units.ruleset:860 data/civ2/units.ruleset:804
 #: data/civ1/units.ruleset:377
 msgid "Cavalry"
 msgstr "騎兵隊"
 
-#: data/default/units.ruleset:887 data/civ2/units.ruleset:832
+#: data/default/units.ruleset:888 data/civ2/units.ruleset:832
 #: data/civ1/units.ruleset:462
 msgid "Armor"
 msgstr "装甲車"
 
 # 「投石機」
-#: data/default/units.ruleset:915 data/civ2/units.ruleset:860
+#: data/default/units.ruleset:916 data/civ2/units.ruleset:860
 #: data/civ1/units.ruleset:490
 msgid "Catapult"
 msgstr "カタパルト"
@@ -23004,26 +23030,26 @@ msgstr "カタパルト"
 # Cannonは文字通りの大筒→「大砲」，
 # Artilleryは集合的な「砲兵隊」なのですが
 # 当面は従来の訳のままにしておきます
-#: data/default/units.ruleset:943 data/civ2/units.ruleset:888
+#: data/default/units.ruleset:944 data/civ2/units.ruleset:888
 #: data/civ1/units.ruleset:518
 msgid "Cannon"
 msgstr "キャノン砲"
 
-#: data/default/units.ruleset:971 data/civ2/units.ruleset:916
+#: data/default/units.ruleset:972 data/civ2/units.ruleset:916
 #: data/civ1/units.ruleset:546
 msgid "Artillery"
 msgstr "大砲"
 
-#: data/default/units.ruleset:999 data/civ2/units.ruleset:944
+#: data/default/units.ruleset:1000 data/civ2/units.ruleset:944
 msgid "Howitzer"
 msgstr "榴弾砲"
 
-#: data/default/units.ruleset:1027 data/civ2/units.ruleset:972
+#: data/default/units.ruleset:1028 data/civ2/units.ruleset:972
 #: data/civ1/units.ruleset:574
 msgid "Fighter"
 msgstr "戦闘機"
 
-#: data/default/units.ruleset:1055 data/civ2/units.ruleset:1000
+#: data/default/units.ruleset:1056 data/civ2/units.ruleset:1000
 #: data/civ1/units.ruleset:602
 msgid "Bomber"
 msgstr "爆撃機"
@@ -23031,7 +23057,7 @@ msgstr "爆撃機"
 # clefs
 # 実際には，国際連合で消耗しなくなるというよりは，
 # 消耗-2，国連+2で差し引きゼロになるという方が正確
-#: data/default/units.ruleset:1109 data/civ2/units.ruleset:1054
+#: data/default/units.ruleset:1110 data/civ2/units.ruleset:1054
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -23042,81 +23068,81 @@ msgstr ""
 "市以外の場所でターンを終えると少しずつ体力を消耗するので注意が必要です。ただ"
 "し，不思議「国際連合」を持っていればこの消耗はありません。"
 
-#: data/default/units.ruleset:1117 data/civ2/units.ruleset:1062
+#: data/default/units.ruleset:1118 data/civ2/units.ruleset:1062
 msgid "Stealth Fighter"
 msgstr "ステルス戦闘機"
 
-#: data/default/units.ruleset:1143 data/civ2/units.ruleset:1088
+#: data/default/units.ruleset:1144 data/civ2/units.ruleset:1088
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr "戦闘機が進化したものです。攻撃力が向上し，飛行半径が広くなりました。"
 
-#: data/default/units.ruleset:1149 data/civ2/units.ruleset:1094
+#: data/default/units.ruleset:1150 data/civ2/units.ruleset:1094
 msgid "Stealth Bomber"
 msgstr "ステルス爆撃機"
 
-#: data/default/units.ruleset:1175 data/civ2/units.ruleset:1120
+#: data/default/units.ruleset:1176 data/civ2/units.ruleset:1120
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr "爆撃機が進化したものです。攻撃力が向上し，飛行半径が広くなりました。"
 
 # "三段櫂船"?
-#: data/default/units.ruleset:1181 data/civ2/units.ruleset:1126
+#: data/default/units.ruleset:1182 data/civ2/units.ruleset:1126
 #: data/civ1/units.ruleset:630
 msgid "Trireme"
 msgstr "トライリーム"
 
-#: data/default/units.ruleset:1210 data/civ2/units.ruleset:1155
+#: data/default/units.ruleset:1211 data/civ2/units.ruleset:1155
 msgid "Caravel"
 msgstr "キャラベル"
 
-#: data/default/units.ruleset:1239 data/civ2/units.ruleset:1184
+#: data/default/units.ruleset:1240 data/civ2/units.ruleset:1184
 msgid "Galleon"
-msgstr "ガリオン船"
+msgstr "ガレオン船"
 
-#: data/default/units.ruleset:1268 data/civ2/units.ruleset:1213
+#: data/default/units.ruleset:1269 data/civ2/units.ruleset:1213
 #: data/civ1/units.ruleset:688
 msgid "Frigate"
 msgstr "フリゲート艦"
 
-#: data/default/units.ruleset:1297 data/civ2/units.ruleset:1242
+#: data/default/units.ruleset:1298 data/civ2/units.ruleset:1242
 #: data/civ1/units.ruleset:717
 msgid "Ironclad"
 msgstr "装甲艦"
 
-#: data/default/units.ruleset:1325 data/civ2/units.ruleset:1270
+#: data/default/units.ruleset:1326 data/civ2/units.ruleset:1270
 msgid "Destroyer"
 msgstr "駆逐艦"
 
-#: data/default/units.ruleset:1351 data/civ2/units.ruleset:1296
+#: data/default/units.ruleset:1352 data/civ2/units.ruleset:1296
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
 msgstr "ヒント: とても速い部隊です。敵の輸送船を追いつめるのに役立ちます。"
 
-#: data/default/units.ruleset:1357 data/civ2/units.ruleset:1302
+#: data/default/units.ruleset:1358 data/civ2/units.ruleset:1302
 #: data/civ1/units.ruleset:745
 msgid "Cruiser"
 msgstr "巡洋艦"
 
-#: data/default/units.ruleset:1385 data/civ2/units.ruleset:1330
+#: data/default/units.ruleset:1386 data/civ2/units.ruleset:1330
 msgid "AEGIS Cruiser"
 msgstr "イージス巡洋艦"
 
-#: data/default/units.ruleset:1413 data/civ2/units.ruleset:1358
+#: data/default/units.ruleset:1414 data/civ2/units.ruleset:1358
 #: data/civ1/units.ruleset:773
 msgid "Battleship"
 msgstr "戦艦"
 
-#: data/default/units.ruleset:1441 data/civ2/units.ruleset:1386
+#: data/default/units.ruleset:1442 data/civ2/units.ruleset:1386
 #: data/civ1/units.ruleset:801
 msgid "Submarine"
 msgstr "潜水艦"
 
-#: data/default/units.ruleset:1469 data/civ2/units.ruleset:1414
+#: data/default/units.ruleset:1470 data/civ2/units.ruleset:1414
 #: data/civ1/units.ruleset:827
 msgid "Submarines have a very high strategic value, but have a weak defence."
 msgstr "潜水艦は戦略上とても重要ですが，防御に関しては弱いです。"
 
-#: data/default/units.ruleset:1475 data/civ2/units.ruleset:1420
+#: data/default/units.ruleset:1476 data/civ2/units.ruleset:1420
 #: data/civ1/units.ruleset:833
 msgid "Carrier"
 msgstr "空母"
@@ -23124,7 +23150,7 @@ msgstr "空母"
 # clefs
 # 海上の艦隊も同じタイルにスタックしていると一度で全滅するという謎仕様なので
 # 戦艦を空母に重ねておいても実はあまり良い防御にはならない
-#: data/default/units.ruleset:1502 data/civ2/units.ruleset:1447
+#: data/default/units.ruleset:1503 data/civ2/units.ruleset:1447
 #: data/civ1/units.ruleset:860
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
@@ -23133,28 +23159,28 @@ msgstr ""
 "ヒント: 高速な艦艇数隻と戦艦で空母を護衛しましょう。航空機を満載した空母を失"
 "うと被害は甚大です。"
 
-#: data/default/units.ruleset:1509 data/civ2/units.ruleset:1454
+#: data/default/units.ruleset:1510 data/civ2/units.ruleset:1454
 #: data/civ1/units.ruleset:867
 msgid "Transport"
 msgstr "輸送船"
 
-#: data/default/units.ruleset:1538 data/civ2/units.ruleset:1483
+#: data/default/units.ruleset:1539 data/civ2/units.ruleset:1483
 msgid "Cruise Missile"
 msgstr "巡航ミサイル"
 
-#: data/default/units.ruleset:1564 data/civ2/units.ruleset:1509
+#: data/default/units.ruleset:1565 data/civ2/units.ruleset:1509
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr "ヒント: 少しの巡航ミサイルで敵の船から自国を守ることができます。"
 
-#: data/default/units.ruleset:1570 data/civ2/units.ruleset:1515
+#: data/default/units.ruleset:1571 data/civ2/units.ruleset:1515
 #: data/civ1/units.ruleset:896
 msgid "Nuclear"
 msgstr "核兵器"
 
 # ama, yasu
-#: data/default/units.ruleset:1596 data/civ2/units.ruleset:1541
+#: data/default/units.ruleset:1597 data/civ2/units.ruleset:1541
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -23175,7 +23201,7 @@ msgstr ""
 "必要な科学を所有しており，かつ誰かが不思議「マンハッタン計画」を完成させてい"
 "れば，核兵器を製造できます。\n"
 "\n"
-"衝突時，爆発によって 3x3 の範囲にいる部隊全てが全滅します。これには友好的な部"
+"着弾時，爆発によって 3x3 の範囲にいる部隊全てが全滅します。これには友好的な部"
 "隊も含まれます。都市に当たった時には大きさは半分になり，まわりの土地には死の"
 "灰が降ります。\n"
 "\n"
@@ -23187,14 +23213,14 @@ msgstr ""
 "り，核爆発と同じターンに死の灰の後始末をする準備をさせます。これにより核の冬"
 "の危険を最小限に食い止めます。地球にやさしい核攻撃!"
 
-#: data/default/units.ruleset:1617 data/civ2/units.ruleset:1562
+#: data/default/units.ruleset:1618 data/civ2/units.ruleset:1562
 #: data/civ1/units.ruleset:943
 msgid "Diplomat"
 msgstr "外交官"
 
 # ama, yasu
 # 原文の`revolution'は`revolt'であってほしいところ (clefs)
-#: data/default/units.ruleset:1643 data/civ2/units.ruleset:1588
+#: data/default/units.ruleset:1644 data/civ2/units.ruleset:1588
 #: data/civ1/units.ruleset:969
 msgid ""
 "- A Diplomat can establish embassies with other civilizations by moving into "
@@ -23222,18 +23248,18 @@ msgstr ""
 "- 外交官は敵の部隊に賄賂を贈ることもできます。(相手部隊のいる土地に，他の部隊"
 "がいない場合に限ります)\n"
 "\n"
-"- 外交官は敵の都市で叛乱を始めることさえできます。(ただしお金があれば。あなた"
-"の政治体制へ変えます。)\n"
+"- 外交官は敵の都市で叛乱を起こし，あなたに帰属させることさえできます。それな"
+"りの資金があればですが。\n"
 "\n"
-"- ある戦略では，敵の大混乱を引き起こすために外交官の群れを使います。外交官が"
-"疑いと怖れの目で見られるのは驚くほどのことではありません!"
+"- ある戦略では，外交官の大群を用いて敵に大損害を与えることもあります。外交官"
+"が疑いと怖れの目で見られるのは驚くほどのことではありません!"
 
-#: data/default/units.ruleset:1663 data/civ2/units.ruleset:1608
+#: data/default/units.ruleset:1664 data/civ2/units.ruleset:1608
 msgid "Spy"
 msgstr "スパイ"
 
 # clefs
-#: data/default/units.ruleset:1689 data/civ2/units.ruleset:1634
+#: data/default/units.ruleset:1690 data/civ2/units.ruleset:1634
 msgid ""
 "A Spy is a full time professional and as such is much more skilled in the "
 "arts of espionage than her Diplomat predecessor.\n"
@@ -23263,18 +23289,18 @@ msgstr ""
 "スパイはまた以下の技能を使えます: 敵都市の水源に毒を混入します(人口を減らしま"
 "す)。技術を盗みます。都市の任意の施設を破壊します(注: 首都の施設や，各都市の"
 "城壁を破壊すればそれだけ占領しやすくなります)。スパイはまた人民を洗脳し，叛乱"
-"を刺激します。\n"
+"を煽ります。\n"
 "\n"
 "スパイはさらに戦場における支援も行います。敵部隊を妨害するだけでなく，賄賂を"
 "贈り寝返らせます."
 
-#: data/default/units.ruleset:1710 data/civ2/units.ruleset:1655
+#: data/default/units.ruleset:1711 data/civ2/units.ruleset:1655
 #: data/civ1/units.ruleset:989
 msgid "Caravan"
 msgstr "キャラバン"
 
 # ama, clefs
-#: data/default/units.ruleset:1736 data/civ2/units.ruleset:1681
+#: data/default/units.ruleset:1737 data/civ2/units.ruleset:1681
 #: data/civ1/units.ruleset:1015
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
@@ -23289,36 +23315,36 @@ msgstr ""
 "ヒント: あらかじめ沢山のキャラバンを備え不思議を建て始めたら移動させること"
 "で，たった1ターンで建築を終えることができます。"
 
-#: data/default/units.ruleset:1746 data/civ2/units.ruleset:1691
+#: data/default/units.ruleset:1747 data/civ2/units.ruleset:1691
 msgid "Freight"
 msgstr "貨物運送車"
 
-#: data/default/units.ruleset:1772 data/civ2/units.ruleset:1717
+#: data/default/units.ruleset:1773 data/civ2/units.ruleset:1717
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "貨物運送車はキャラバンを置き換えます。キャラバンの二倍のスピードで移動できま"
 "す。"
 
-#: data/default/units.ruleset:1777 data/civ2/units.ruleset:1722
+#: data/default/units.ruleset:1778 data/civ2/units.ruleset:1722
 msgid "Explorer"
 msgstr "探索者"
 
-#: data/default/units.ruleset:1803 data/civ2/units.ruleset:1748
+#: data/default/units.ruleset:1804 data/civ2/units.ruleset:1748
 msgid "Explorers are very useful for mapping unknown territory."
 msgstr "探索者は未知の領域の地図作成にとても役立ちます。"
 
 # clefs
-#: data/default/units.ruleset:1836
+#: data/default/units.ruleset:1837
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "これはあなたです。このユニットを失うと，ゲームは負けになります。失くすなよ。"
 
-#: data/default/units.ruleset:1841 data/civ2/units.ruleset:1753
+#: data/default/units.ruleset:1842 data/civ2/units.ruleset:1753
 #: data/civ1/units.ruleset:1025
 msgid "Barbarian Leader"
 msgstr "バーバリアンの指導者"
 
-#: data/default/units.ruleset:1868 data/civ2/units.ruleset:1779
+#: data/default/units.ruleset:1869 data/civ2/units.ruleset:1779
 msgid ""
 "When barbarian leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -23332,18 +23358,18 @@ msgstr ""
 # 「早期警戒管制機」の方が通りは良いらしい
 # →AWACSを知らなくても「早期警戒管制機」なら読んでわかると思ったので
 # やっぱり「早期警戒管制機」にします。航空機なのは絵を見ればわかりますし。
-#: data/default/units.ruleset:1874
+#: data/default/units.ruleset:1875
 msgid "AWACS"
 msgstr "早期警戒管制機"
 
-#: data/default/units.ruleset:1900
+#: data/default/units.ruleset:1901
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
 msgstr ""
 "早期警戒管制機 (Airborne Warning and Control System: AWACS) は，高度なレー"
-"ダーを用いて広範囲(視界5)で敵の位置を把握できる航空機です。"
+"ダーを用いて広範囲で敵の位置を把握できる航空機です。"
 
 #: data/civ2/units.ruleset:180
 msgid ""
@@ -23361,16 +23387,15 @@ msgid ""
 "and a group of Settlers and/or Engineers is highly vulnerable to enemy "
 "attacks."
 msgstr ""
-"開拓者は重要な部隊の一つです。新しい都市の作成，土地の灌漑，道路，鉄道，要"
-"塞，飛行場の作成，資源化の実行，公害，死の灰の除去のために使います。開拓者の"
-"維持には，食料と生産物が必要です。開拓者を維持している都市が食料不足になった"
-"ら，開拓者は飢え死にします。\n"
+"開拓者はゲームの鍵を握る部隊の一つです。新しい都市の作成，土地の灌漑，道路，"
+"鉄道，要塞，飛行場の作成，資源化の実行，公害，死の灰の除去に使えます。開拓者"
+"の維持には，食料と生産物が必要です。開拓者を維持している都市が食料不足になっ"
+"たら，開拓者は飢え死にします。\n"
 "\n"
-"開拓者同士，エンジニア同士，もしくは開拓者とエンジニアは，協力し長いプロジェ"
-"クトで要求される時間を減らします。もし2部隊以上を同じ土地で同じ作業させたら，"
-"その効果は両方を加えたものになります。一つの作業に対して多すぎる部隊を割りあ"
-"てないようにしましょう。余分な労力は無駄になり，部隊のまとまりは敵の攻撃にと"
-"ても無防備です。"
+"開拓者やエンジニアは，協働して時間のかかるプロジェクトの工期を短縮できます。2"
+"部隊以上を同じ土地で同じ作業させると，その効果は両方を加えたものになります。"
+"一つの作業に対して多すぎる部隊を割りあてないようにしましょう。余分な労力は無"
+"駄になりますし，部隊のまとまりは敵の攻撃にとても無防備です。"
 
 #: data/civ2/units.ruleset:224
 msgid ""
@@ -23387,8 +23412,7 @@ msgid ""
 "upgraded for free."
 msgstr ""
 "エンジニアは開拓者に似ていますが，二倍働き二倍速く動きます。エンジニアはま"
-"た，大幅な地形(例えばツンドラから砂漠)の変更も行えます。大幅な地形の変更は，"
-"開拓者では行えません。\n"
+"た，開拓者にはできない大幅な地形の変更(例えばツンドラから砂漠)も行えます。\n"
 "\n"
 "ヒント 1:  できるだけ開拓者をエンジニアへアップグレードしましょう。エンジニア"
 "は開拓者と同じ資源しか必要ありません。\n"
@@ -23432,15 +23456,15 @@ msgid ""
 "though; excess effort can be wasted, and a group of Settlers is highly "
 "vulnerable to enemy attacks."
 msgstr ""
-"開拓者は重要な部隊の一つです。新しい都市の作成，土地を灌漑，道路，鉄道，要塞"
-"の作成，資源化の実行，公害，死の灰の除去のために使います。開拓者の維持には，"
-"食料と生産物が必要です。開拓者を維持している都市が食料不足になったら，開拓者"
-"は飢え死にします。\n"
+"開拓者はゲームの鍵を握る部隊の一つです。新しい都市の作成，土地の灌漑，道路，"
+"鉄道，要塞，資源化の実行，公害，死の灰の除去に使えます。開拓者の維持には，食"
+"料と生産物が必要です。開拓者を維持している都市が食料不足になったら，開拓者は"
+"飢え死にします。\n"
 "\n"
-"開拓者はまた，協力し長いプロジェクトで要求される時間を減らします。もし二部隊"
-"以上の開拓者を同じ土地で同じ作業させたら，その効果は両方を加えたものになりま"
-"す。一つの作業に対して多すぎる部隊を割りあてないようにしましょう。余分な労力"
-"は無駄になり，部隊のまとまりは敵の攻撃にとても無防備です。"
+"開拓者は，協働して時間のかかるプロジェクトの工期を短縮できます。2部隊以上を同"
+"じ土地で同じ作業させると，その効果は両方を加えたものになります。一つの作業に"
+"対して多すぎる部隊を割りあてないようにしましょう。余分な労力は無駄になります"
+"し，部隊のまとまりは敵の攻撃にとても無防備です。"
 
 #: data/civ1/units.ruleset:199
 msgid "Militia"
@@ -23560,7 +23584,7 @@ msgstr "ムラー"
 #: data/nation/dutch.ruleset:21 data/nation/english.ruleset:25
 #: data/nation/finnish.ruleset:20 data/nation/greek.ruleset:20
 #: data/nation/hellenic.ruleset:19 data/nation/israeli.ruleset:21
-#: data/nation/japanese.ruleset:39 data/nation/kampuchean.ruleset:22
+#: data/nation/japanese.ruleset:43 data/nation/kampuchean.ruleset:22
 #: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:26
 #: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:28
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:23
@@ -23577,7 +23601,7 @@ msgstr "首相"
 #: data/nation/dutch.ruleset:21 data/nation/english.ruleset:25
 #: data/nation/finnish.ruleset:20 data/nation/greek.ruleset:20
 #: data/nation/hellenic.ruleset:19 data/nation/israeli.ruleset:21
-#: data/nation/japanese.ruleset:39 data/nation/kampuchean.ruleset:22
+#: data/nation/japanese.ruleset:43 data/nation/kampuchean.ruleset:22
 #: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:26
 #: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:28
 #: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:23
@@ -24576,7 +24600,7 @@ msgstr ""
 # 日本の天皇は「皇帝」以外の何物でもないんですね。
 # そんなわけで「皇帝Hirohito」で我慢してくださいませ。 (clefs)
 #: data/nation/chinese.ruleset:31 data/nation/ethiopian.ruleset:24
-#: data/nation/japanese.ruleset:37 data/nation/manchu.ruleset:21
+#: data/nation/japanese.ruleset:41 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
 msgid "Emperor"
 msgstr "皇帝"
@@ -24875,7 +24899,7 @@ msgstr ""
 "エチオピアはアフリカ最古の国家にして，ヨーロッパの植民地主義の中で独立を保ち"
 "続けた唯一の国です。"
 
-#: data/nation/ethiopian.ruleset:24 data/nation/japanese.ruleset:37
+#: data/nation/ethiopian.ruleset:24 data/nation/japanese.ruleset:41
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
 msgid "Empress"
 msgstr "女王"
@@ -25600,7 +25624,7 @@ msgstr ""
 "日本の伝統的な神話によると，日本は紀元前7世紀に祖先たる神武天皇によって建てら"
 "れたのだそうです。"
 
-#: data/nation/japanese.ruleset:38
+#: data/nation/japanese.ruleset:42
 msgid "Shogun"
 msgstr "将軍"
 
