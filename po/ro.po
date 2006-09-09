@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-08-08 13:37-0400\n"
-"PO-Revision-Date: 2006-08-30 13:52+0300\n"
+"PO-Revision-Date: 2006-09-09 13:12+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <diacritice@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -8619,7 +8619,7 @@ msgstr "Stratul unităţilor"
 
 #: client/options.c:247
 msgid "Enabling this will draw units on the overview."
-msgstr ""
+msgstr "Activdând această opţiune, untităţile vor fi desenate pe privirea generală."
 
 #: client/options.c:250
 msgid "Cities layer"
@@ -8627,37 +8627,37 @@ msgstr "Startul oraşelor"
 
 #: client/options.c:251
 msgid "Enabling this will draw cities on the overview."
-msgstr ""
+msgstr "Activând acestă opţiune, vor fi desenate pe privirea generală oraşele."
 
 #: client/options.c:254
 msgid "Overview fog of war"
-msgstr "Ceaţă pentr privirea generală"
+msgstr "Ceaţă pentru privirea generală"
 
 #: client/options.c:255
 msgid "Enabling this will show fog of war on the overview."
-msgstr ""
+msgstr "Activănd această opţiune va fi desenată ceaţa pe privirea generală."
 
 #: client/options.c:424
 msgid "Cannot find your home directory"
-msgstr ""
+msgstr "Nu se poate găsi diectorul personal (home)"
 
 #: client/options.c:577
 msgid "Save failed, cannot find a filename."
-msgstr ""
+msgstr "Salvarea a eşuat, nu s-a găsit nici un nume de fişier. "
 
 #: client/options.c:635
 msgid "If you add a preset by hand, also update \"number_of_presets\""
-msgstr ""
+msgstr "Dacă adăugaţi o setare manual, actualizaţi şi \"numărul_de_setări\""
 
 #: client/options.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "Save failed, cannot write to file %s"
-msgstr "Nu pot scrie în fişierul %s"
+msgstr "Salvarea a eşuat, nu pot scrie în fişierul %s"
 
 #: client/options.c:649
-#, fuzzy, c-format
+#, c-format
 msgid "Saved settings to file %s"
-msgstr "Fişierul de setări este %s"
+msgstr "S-au salvat setările în fişierul %s"
 
 #: client/packhand.c:198
 #, c-format
@@ -8667,12 +8667,12 @@ msgstr "Aţi fost refuzat de la joc: %s"
 #: client/packhand.c:213
 #, c-format
 msgid "Client capability string: %s"
-msgstr ""
+msgstr "Şirul de capabilităţi al clientului: %s"
 
 #: client/packhand.c:216
 #, c-format
 msgid "Server capability string: %s"
-msgstr ""
+msgstr "Şirul de capabilităţi al serverului: %s"
 
 #: client/packhand.c:820
 #, c-format
@@ -8690,7 +8690,7 @@ msgstr "Activat"
 
 #: client/packhand.c:1535
 msgid "OFF"
-msgstr "Deactivat"
+msgstr "Dezactivat"
 
 #: client/plrdlg_common.c:198
 #: client/gui-mui/plrdlg.c:127
@@ -8701,9 +8701,8 @@ msgid "R.I.P"
 msgstr "Odihneaască-se în pace"
 
 #: client/plrdlg_common.c:202
-#, fuzzy
 msgid "waiting"
-msgstr "Aştept"
+msgstr "în aşteptare"
 
 #: client/plrdlg_common.c:204
 #: client/gui-mui/plrdlg.c:119
@@ -8724,14 +8723,12 @@ msgid "moving"
 msgstr "în mişcare"
 
 #: client/plrdlg_common.c:249
-#, fuzzy
 msgid "?Player:Name"
-msgstr "?city:Nume"
+msgstr "?Player:Nume"
 
 #: client/plrdlg_common.c:250
-#, fuzzy
 msgid "Username"
-msgstr "Redenumeşte"
+msgstr "Nume utilizator"
 
 #: client/plrdlg_common.c:251
 #: client/gui-gtk-2.0/dialogs.c:651
@@ -8752,15 +8749,13 @@ msgid "Nation"
 msgstr "Naţiune"
 
 #: client/plrdlg_common.c:253
-#, fuzzy
 msgid "Border"
-msgstr "bur"
+msgstr "graniţă"
 
 #: client/plrdlg_common.c:254
 #: client/gui-gtk-2.0/repodlgs.c:1316
-#, fuzzy
 msgid "Score"
-msgstr "Condimente"
+msgstr "Scor"
 
 #: client/plrdlg_common.c:255
 #: client/gui-gtk-2.0/pages.c:1510
@@ -8768,9 +8763,8 @@ msgid "Team"
 msgstr "Echipa"
 
 #: client/plrdlg_common.c:257
-#, fuzzy
 msgid "Attitude"
-msgstr "Activează"
+msgstr "Atitudine"
 
 #: client/plrdlg_common.c:258
 #: client/gui-mui/plrdlg.c:168
@@ -8793,9 +8787,8 @@ msgid "Vision"
 msgstr "Vizionare"
 
 #: client/plrdlg_common.c:262
-#, fuzzy
 msgid "?Player_dlg:Host"
-msgstr "Jucători"
+msgstr "?Player_dlg:Gazdă"
 
 #: client/plrdlg_common.c:263
 msgid "?Player_dlg:Idle"
@@ -8806,60 +8799,57 @@ msgid "Ping"
 msgstr "Ping"
 
 #: client/repodlgs_common.c:329
-#, fuzzy
 msgid "You cannot sell improvements."
-msgstr "Sabotează Înbunătăţiri"
+msgstr "Nu puteţi vinde îmbunătăţirile."
 
 #: client/repodlgs_common.c:345
-#, fuzzy, c-format
+#, c-format
 msgid "Sold %d %s for %d gold."
-msgstr "Vândut %d %s pentru %d galbeni"
+msgstr "Aţi vândut %d %s pentru %d galbeni."
 
 #: client/repodlgs_common.c:348
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be sold."
-msgstr "Nici un %s n-a putut fi vândut"
+msgstr "Nici un %s n-a putut fi vândut."
 
 #. TRANS: Obscure observer error.
 #: client/repodlgs_common.c:367
 msgid "You cannot disband units."
-msgstr "Nu poţi dizolva unităţi."
+msgstr "Nu puteţi dizolva unităţi."
 
 #: client/repodlgs_common.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot be disbanded."
-msgstr "Joc: %s nu mai poate întreţine %s. Unitatea a fost dizolvată."
+msgstr "%s nu poate fi dizolvat."
 
 #: client/repodlgs_common.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "Disbanded %d %s."
-msgstr "Joc: %s dizolvat în %s."
+msgstr "Aţi dizolvat %d %s."
 
 #: client/repodlgs_common.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "No %s could be disbanded."
-msgstr "Nici un %s n-a putut fi vândut"
+msgstr "Nici un %s n-a putut fi dizolvat."
 
 #: client/servers.c:345
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "N-am putut deschide \"%s\"."
+msgstr "N-am putut deschide fişierul temporar."
 
 #: client/servers.c:407
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
-msgstr ""
+msgstr "Valoare invalidă pentru $http_proxy sau pentru metaserver, trebuie să înceapă cu 'http://'"
 
 #: client/servers.c:413
 msgid "Failed looking up metaserver's host"
-msgstr ""
+msgstr "Căutarea numelui de gazdă al metaserverului a eşuat."
 
 #: client/text.c:83
 #: client/text.c:84
 #: client/text.c:89
 #: client/gui-sdl/mapview.c:537
-#, fuzzy
 msgid "?nation:Neutral"
-msgstr "?diplomatic_state:Neutral"
+msgstr " ?diplomatic_state:Neutru"
 
 #: client/text.c:83
 #: client/gui-sdl/mapview.c:537
@@ -8887,21 +8877,18 @@ msgstr "?nation:Prietenoasă(echipă)"
 
 #: client/text.c:88
 #: client/gui-sdl/mapview.c:570
-#, fuzzy
 msgid "?city:Neutral"
 msgstr "?city:Nume"
 
 #: client/text.c:88
 #: client/gui-sdl/mapview.c:570
-#, fuzzy
 msgid "?city:Hostile"
 msgstr "?city:Nume"
 
 #: client/text.c:90
 #: client/gui-sdl/mapview.c:571
-#, fuzzy
 msgid "?city:Peaceful"
-msgstr "Linişte"
+msgstr "?city:Paşnic"
 
 #: client/text.c:90
 #: client/gui-sdl/mapview.c:572
@@ -8944,22 +8931,22 @@ msgstr "Teritoriul nostru"
 
 #. TRANS: "Territory of the Polish"
 #: client/text.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of the %s"
-msgstr "%s %slor"
+msgstr "Teritoriul %slor"
 
 #. TRANS: "Polish territory (5 turn cease-fire)"
 #: client/text.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "%s territory (%d turn cease-fire)"
 msgid_plural "%s territory (%d turn cease-fire)"
-msgstr[0] "Unitate: %s(%s%s)"
-msgstr[1] "Unitate: %s(%s%s)"
+msgstr[0] "teritoriu %s (%d rundă de încetarea focului)"
+msgstr[1] "teritoriu %s (%d runde de încetarea focului)"
 
 #: client/text.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of the %s %s"
-msgstr "%s %slor"
+msgstr "teritoriul %s %s"
 
 #: client/text.c:137
 msgid "Unclaimed territory"
@@ -8967,65 +8954,64 @@ msgstr "Teritoriu nerevendicat"
 
 #. TRANS: "City: Warsaw (Polish)"
 #: client/text.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s)"
 msgstr "Oraş: %s(%s)"
 
 #. TRANS:  "City: Warsaw (Polish, 5 turn cease-fire)"
 #: client/text.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s (%s, %d turn cease-fire)"
-msgstr[0] "Unitate: %s(%s%s)"
-msgstr[1] "Unitate: %s(%s%s)"
+msgstr[0] "Oraş: %s (%s, %d rendă de încetarea focului)"
+msgstr[1] "Oraş: %s (%s, %d runde de încetarea focului)"
 
 #. TRANS: "City: Warsaw (Polish,friendly)"
 #: client/text.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s (%s, %s)"
-msgstr "Oraşul: %s(%s) %s"
+msgstr "Oraşul: %s(%s, %s)"
 
 #: client/text.c:176
 #: client/gui-sdl/mapview.c:586
-#, fuzzy
 msgid " with "
-msgstr " (cu "
+msgstr " cu "
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "Trade from %s: %d"
-msgstr "departe de %s"
+msgstr "Negoţ de la %s: %d"
 
 #: client/text.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Infrastructure: %s"
-msgstr "Infrastructură: "
+msgstr "Infrastructură:  %s"
 
 #: client/text.c:203
-#, fuzzy, c-format
+#, c-format
 msgid "Activity: %s"
-msgstr "Activitate: "
+msgstr "Activitate: %s"
 
 #. TRANS: "Unit: Musketeers (Polish/Warsaw)"
 #: client/text.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s%s)"
 msgstr "Unitate: %s(%s%s)"
 
 #. TRANS:  "Unit: Musketeers (Polish, 5 turn cease-fire)"
 #: client/text.c:230
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s (%s, %d turn cease-fire)"
-msgstr[0] "Unitate: %s(%s%s)"
-msgstr[1] "Unitate: %s(%s%s)"
+msgstr[0] "Unitate: %s(%s, %d rundă de încetarea focului)"
+msgstr[1] "Unitate: %s(%s, %d runde de încetarea focului)"
 
 #. TRANS: "Unit: Musketeers (Polish,friendly)"
 #: client/text.c:238
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s (%s, %s)"
-msgstr "Unitate: %s(%s%s)"
+msgstr "Unitate: %s(%s, %s)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:263
@@ -9069,66 +9055,64 @@ msgid "from %s"
 msgstr "de la %s"
 
 #: client/text.c:441
-#, fuzzy
 msgid "Progress: no research"
 msgstr "Viteza de cercetare: zero"
 
 #: client/text.c:445
-#, fuzzy
 msgid "Progress: no research target"
-msgstr "Viteza de cercetare: zero"
+msgstr "Viteza de cercetare: fără ţintă"
 
 #: client/text.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] "Viteza de cercetare: %d rundă/avans"
 msgstr[1] "Viteza de cercetare: %d runde/avans"
 
 #: client/text.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d rundă"
-msgstr[1] "%d runde"
+msgstr[0] "%d bulb/rundă"
+msgstr[1] "%d bulbi/rundă"
 
 #: client/text.c:460
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d bulb/rundă de la echipă"
+msgstr[1] ", %d bulbi/rundă de la echipă"
 
 #: client/text.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "%d/- (never)"
-msgstr "(Niciodată)"
+msgstr "%d/- (niciodată)"
 
 #: client/text.c:499
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
-msgstr[0] "%d/%d %d runde"
-msgstr[1] "%d/%d %d runde"
+msgstr[0] "%d/%d (%d rundă)"
+msgstr[1] "%d/%d (%d runde)"
 
 #: client/text.c:502
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (never)"
-msgstr "(Niciodată)"
+msgstr "%d/%d (niciodată)"
 
 #: client/text.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "%d step"
 msgid_plural "%d steps"
-msgstr[0] "(%d pas)"
-msgstr[1] "(%d paşi)"
+msgstr[0] "%d pas"
+msgstr[1] "%d paşi"
 
 #: client/text.c:541
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d bulb"
+msgstr[1] "%d bulbi"
 
 #: client/text.c:545
 #: client/agents/cma_fec.c:269
@@ -9151,38 +9135,38 @@ msgid "Population: %s"
 msgstr "Populaţia: %s"
 
 #: client/text.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "Year: %s (T%d)"
-msgstr "Anul: %s"
+msgstr "Anul: %s (R%d)"
 
 #: client/text.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%+d)"
-msgstr "Galbeni: %d"
+msgstr "Galbeni: %d (%+d)"
 
 #: client/text.c:575
-#, fuzzy, c-format
+#, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
-msgstr "Imp:%d Lux:%d Sti:%d"
+msgstr "Imp:%d Lux:%d Şti:%d"
 
 #: client/text.c:581
-#, fuzzy, c-format
+#, c-format
 msgid "Moving: %s"
-msgstr "în %s"
+msgstr "în mişcare: %s"
 
 #: client/text.c:583
 msgid "(Click for more info)"
 msgstr "(Apasă pentru informaţii suplimentare)"
 
 #: client/text.c:600
-#, fuzzy, c-format
+#, c-format
 msgid "%s People"
-msgstr "Pop"
+msgstr "%s populaţie"
 
 #: client/text.c:604
-#, fuzzy, c-format
+#, c-format
 msgid "Turn: %d"
-msgstr "Teren: %s"
+msgstr "Runda: %d"
 
 #: client/text.c:606
 #: client/gui-mui/inteldlg.c:141
@@ -9200,14 +9184,14 @@ msgstr "Venit net: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:610
-#, fuzzy, c-format
+#, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "Imp:%d Lux:%d Sti:%d"
+msgstr "Rata taxelor: Galbeni:%d%% Lux:%d%% Ştiinţă:%d%%"
 
 #: client/text.c:614
-#, fuzzy, c-format
+#, c-format
 msgid "Researching %s: %s"
-msgstr "Cercetând %s: %d/%d"
+msgstr "Cercetând %s: %s"
 
 #: client/text.c:621
 #, c-format
@@ -9228,11 +9212,11 @@ msgid "Government: %s"
 msgstr "Guvern: %s"
 
 #: client/text.c:653
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] " unitate"
-msgstr[1] " unitate"
+msgstr[0] "%d unitate"
+msgstr[1] "%d unităţi"
 
 #: client/text.c:686
 #, c-format
@@ -9242,47 +9226,44 @@ msgstr "Runde până la ţintă: %d"
 #: client/text.c:688
 #, c-format
 msgid "Turns to target: %d to %d"
-msgstr "runde până la ţintă: %d la %d"
+msgstr "Runde până la ţintă: %d la %d"
 
 #: client/text.c:694
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
-msgstr[0] "Selectarea unităţi"
-msgstr[1] "Selectarea unităţi"
+msgstr[0] "%d unitate selectată"
+msgstr[1] "%d unităţi selectate"
 
 #: client/text.c:699
-#, fuzzy
 msgid "No units selected."
-msgstr "Joc: Naţiune selectată"
+msgstr "Nu aţi selectat nici o naţiune."
 
 #: client/text.c:772
 #, c-format
 msgid "Others: %d civil; %d military"
-msgstr ""
+msgstr "Alţii: %d civili; %d militari"
 
 #: client/text.c:774
 #, c-format
 msgid "Others: %d civilian"
-msgstr ""
+msgstr "Alţii: %d civili"
 
 #: client/text.c:776
 #, c-format
 msgid "Others: %d military"
-msgstr ""
+msgstr "Alţii: %d militari"
 
 #: client/text.c:807
-#, fuzzy
 msgid "No units to upgrade!"
-msgstr "Joc: Nici o unitate n-a putut fi modernizată."
+msgstr "Nici o unitate pentru modernizare!"
 
 #: client/text.c:832
-#, fuzzy
 msgid "None of these units may be upgraded."
-msgstr "Joc: Nici o unitate n-a putut fi modernizată."
+msgstr "Nici una din unităţi nu poate fi modernizată."
 
 #: client/text.c:838
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
 "Treasury contains %d gold."
@@ -9290,20 +9271,19 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Modernizează %s în %s pentru %d galbeni?\n"
+"Modernizează %d unităţi pentru %d galbeni?\n"
 "Trezoreria conţine %d galbeni."
 msgstr[1] ""
-"Modernizează %s în %s pentru %d galbeni?\n"
+"Modernizează %d unităţi pentru %d galbeni?\n"
 "Trezoreria conţine %d galbeni."
 
 #: client/text.c:859
 msgid "Shows your progress in researching the current technology."
-msgstr ""
+msgstr "Arată progresul în cercetarea tehnologiei curente."
 
 #: client/text.c:863
-#, fuzzy
 msgid "no research target."
-msgstr "_Cercetează"
+msgstr "fără ţintă de cercetare."
 
 #: client/text.c:868
 #, c-format
@@ -9315,9 +9295,9 @@ msgid "Shows the progress of global warming:"
 msgstr "Arată evoluţia încălzirii globale:"
 
 #: client/text.c:889
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Poluare:   %3d"
+msgstr "Rata poluării: %d%%"
 
 #: client/text.c:891
 #, c-format
@@ -9329,9 +9309,9 @@ msgid "Shows the progress of nuclear winter:"
 msgstr "Arată evoluţia iernii nucleare:"
 
 #: client/text.c:908
-#, fuzzy, c-format
+#, c-format
 msgid "Fallout rate: %d%%"
-msgstr "%s rată maximă: %d%%"
+msgstr "Rata împrăştierii nucleare: %d%%"
 
 #: client/text.c:910
 #, c-format
@@ -9339,17 +9319,14 @@ msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Şansa unei ierni catastrofale: %d%%(pe rundă)"
 
 #: client/text.c:925
-#, fuzzy
 msgid "Shows your current government:"
-msgstr ""
-"Arată forma de guvernământ curentă:\n"
-"%s."
+msgstr "Arată forma de guvernământ curentă:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:949
-#, fuzzy, c-format
+#, c-format
 msgid "Population:      %5d"
-msgstr "Populaţia: %s"
+msgstr "Populaţia:       %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:952
@@ -9359,9 +9336,9 @@ msgstr "Suport:          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:956
-#, fuzzy, c-format
+#, c-format
 msgid "Energy:          %5d %%"
-msgstr "Masă:            %5d tonă"
+msgstr "Energie:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:960
@@ -9380,7 +9357,7 @@ msgstr "Durata de zbor: %5.1f ani"
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:970
 msgid "Travel time:        N/A     "
-msgstr "Durata de zbor:     ?       "
+msgstr "Durata de zbor:necunoscută"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:974
@@ -9420,18 +9397,18 @@ msgstr "?dys/hrs:%02dz %02dh"
 
 #: client/text.c:1031
 msgid "?duration:overflow"
-msgstr ""
+msgstr "?durată:depăşire"
 
 #: client/text.c:1052
 #, c-format
 msgid "%6d.%02d ms"
-msgstr ""
+msgstr "%6d.%02d ms"
 
 #. TRANS: "Republic of the Polish"
 #: client/text.c:1095
-#, fuzzy, c-format
+#, c-format
 msgid "%s of the %s"
-msgstr "%s %slor"
+msgstr "%s al %s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1107
@@ -9471,6 +9448,10 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"fişierul %s pare incompatibil:\n"
+"fişierul: \"%s\"\n"
+"opţiunile fişierului: %s\n"
+"opţiunile suportate: %s"
 
 #: client/tilespec.c:737
 #, c-format
@@ -9480,15 +9461,19 @@ msgid ""
 "file options: %s\n"
 "supported options: %s"
 msgstr ""
+"fişierul %s necesită opţiuni pe care clientul nu le suportă:\n"
+"fişierul: \"%s\"\n"
+"opţiunile fişierului: %s\n"
+"opţiunile suportate: %s"
 
 #: client/tilespec.c:858
 msgid "No usable default tileset found, aborting!"
-msgstr ""
+msgstr "Nu s-a găsit nici un set implicit de forme folosibil, se anulează comanda!"
 
 #: client/tilespec.c:862
 #, c-format
 msgid "Trying \"%s\" tileset."
-msgstr ""
+msgstr "Se încearcă setul de formne \"%s\"."
 
 #: client/tilespec.c:1043
 #: client/tilespec.c:1077
@@ -9498,32 +9483,32 @@ msgstr ""
 #: client/gui-sdl/themespec.c:725
 #, c-format
 msgid "Could not open \"%s\"."
-msgstr "N-am putut deschide \"%s\"."
+msgstr "Nu s-a putut deschide \"%s\"."
 
 #: client/tilespec.c:1057
 #: client/gui-sdl/themespec.c:528
 #, c-format
 msgid "Couldn't load gfx file for the spec file %s"
-msgstr ""
+msgstr "Nu s-a putut încărca fişierul gfx pentru fişierul spec %s"
 
 #: client/tilespec.c:1226
 #: client/gui-sdl/themespec.c:695
 #, c-format
 msgid "Couldn't find a supported gfx file extension for %s"
-msgstr ""
+msgstr "Nu s-a găsit un o extensie suportată pentru fişierul gfx %s"
 
 #: client/tilespec.c:1252
-#, fuzzy, c-format
+#, c-format
 msgid "Can't find tileset \"%s\"."
-msgstr "Nu pot găsi fişierul audio %s"
+msgstr "Nu s-a găsit setul de sunete \"%s\"."
 
 #: client/tilespec.c:1301
 msgid "Client does not support isometric tilesets. Using default tileset instead."
-msgstr ""
+msgstr "Clientul nu suportă setul de forme izometrice. Se foloseşte în schimb setul de forme implicit."
 
 #: client/tilespec.c:1310
 msgid "Client does not support overhead view tilesets. Using default tileset instead."
-msgstr ""
+msgstr "Clientul nu suportă seturi de forme cu vedere de deasupra. Sefoloseşte în schimb setul de forme implicit."
 
 #: client/tilespec.c:1367
 msgid "Invalid darkness style set in tileset."
