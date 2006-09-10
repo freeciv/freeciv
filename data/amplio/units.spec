@@ -28,6 +28,7 @@ artists = "
     Oprisan Sorin (Sor)
     Tanelorn (T)
     Vodvakov
+    Eleazar / J. W. Bjerk <www.jwbjerk.com>
 "
 
 [file]
