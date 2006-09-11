@@ -8,7 +8,7 @@ AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility -I$(srcdir)/../common -I$(srcdir)/../ai \
 	-I../intl -I$(top_srcdir)/common/aicore \
 	-I$(srcdir)/generator -I$(srcdir)/scripting \
-	@LIBGGZ_INCLUDES@ @GGZDMOD_INCLUDES@
+	$(LIBGGZ_INCLUDES) $(GGZDMOD_INCLUDES)
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
@@ -92,9 +92,9 @@ civserver_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
       ./generator/libgenerator.a
-civserver_LDFLAGS = @GGZDMOD_LDFLAGS@
+civserver_LDFLAGS = $(GGZDMOD_LDFLAGS)
 civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
-      ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a @INTLLIBS@ \
+      ../ai/libcivai.a ../utility/libcivutility.a ./libcivserver.a $(INTLLIBS) \
       ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
       ../utility/libcivutility.a ./libcivserver.a ../utility/libcivutility.a \
       ../common/aicore/libaicore.a ./generator/libgenerator.a \
@@ -102,7 +102,7 @@ civserver_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/liblua.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
-      $(AUTH_LIBS) $(SERVER_LIBS) @LIB_GGZDMOD@
+      $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD)
 
 
 

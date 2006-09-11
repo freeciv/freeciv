@@ -3,7 +3,7 @@
 SUBDIRS = 
 
 noinst_LIBRARIES = libguiclient.a
-AM_CPPFLAGS = -I. -I$(top_srcdir)/utility -I$(top_srcdir)/utility/ftwl -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/.. -I$(srcdir)/../include -I../../intl @CLIENT_CFLAGS@
+AM_CPPFLAGS = -I. -I$(top_srcdir)/utility -I$(top_srcdir)/utility/ftwl -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/.. -I$(srcdir)/../include -I../../intl $(CLIENT_CFLAGS)
 
 ## Above, note -I../../intl instead of -I$(top_srdir)/intl is deliberate.
 
