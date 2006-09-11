@@ -1272,7 +1272,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     /* ----------- */
   
     create_active_iconlabel(pBuf, pWindow->dst, pStr,
-	    _("Change C.M.A Settings"), cma_callback);
+	    _("Change City Governor settings"), cma_callback);
 	    
     pBuf->data.city = pCity;
     set_wstate(pBuf, FC_WS_NORMAL);

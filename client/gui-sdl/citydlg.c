@@ -3694,7 +3694,7 @@ static void rebuild_citydlg_title_str(struct widget *pWindow,
   }
 
   if (cma_is_city_under_agent(pCity, NULL)) {
-    mystrlcat(cBuf, _(" - under CMA control."), sizeof(cBuf));
+    mystrlcat(cBuf, _(" - under Citizen Governor control."), sizeof(cBuf));
   }
   
   copy_chars_to_string16(pWindow->string16, cBuf);
@@ -3894,7 +3894,7 @@ void popup_city_dialog(struct city *pCity)
   pBuf = create_themeicon(pTheme->CMA_Icon, pWindow->dst,
                         (WF_WIDGET_HAS_INFO_LABEL |
                          WF_RESTORE_BACKGROUND));
-  pBuf->string16 = create_str16_from_char(_("Citizen Management Agent"), adj_font(12));
+  pBuf->string16 = create_str16_from_char(_("Citizen Governor"), adj_font(12));
   pBuf->action = cma_city_dlg_callback;
   pBuf->key = SDLK_a;
   pBuf->size.x = pWindow->size.x + adj_size(10) + (pBuf->size.w + adj_size(2)) * 2;
