@@ -11303,7 +11303,7 @@ msgstr "maksimumi pole, "
 
 #: client/gui-gtk-2.0/happiness.c:306 client/gui-mui/citydlg.c:2253
 #: client/gui-win32/happiness.c:257
-#, c-format
+#, c-format,fuzzy
 msgid "%d unit maximum, "
 msgid_plural "%d units maximum, "
 msgstr[0] "%d üksust maks, "

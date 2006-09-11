@@ -939,14 +939,14 @@ msgid "Couldn't open logfile: %s for appending \"%s\".\n"
 msgstr "לא יכול לפתוח שמירה %s לעריכה.\n"
 
 #: utility/log.c:290 utility/log.c:309
-#, c-format
+#, c-format,fuzzy
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
 msgstr[0] "ההודעה האחרונה חזרה על עצמה %d פעמים"
 msgstr[1] ""
 
 #: utility/log.c:295 utility/log.c:314
-#, c-format
+#, c-format,fuzzy
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] "(סך הכל %d חזר על עצמו)"
