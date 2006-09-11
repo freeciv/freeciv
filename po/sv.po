@@ -7158,7 +7158,7 @@ msgid "%s lost to an attack by %s's %s%s."
 msgstr "Vi förlorade %s under angrepp från %ss %s%s."
 
 #: server/unittools.c:1648
-#, c-format
+#, c-format,fuzzy
 msgid ""
 "Your attacking %s succeeded against %s's %s (and %d other unit)%s and became "
 "more experienced!"
@@ -7173,7 +7173,7 @@ msgstr[1] ""
 "erfaren!"
 
 #: server/unittools.c:1660
-#, c-format
+#, c-format,fuzzy
 msgid "Your attacking %s succeeded against %s's %s (and %d other unit)%s!"
 msgid_plural ""
 "Your attacking %s succeeded against %s's %s (and %d other units)%s!"
