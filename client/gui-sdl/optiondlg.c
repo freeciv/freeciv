@@ -434,6 +434,9 @@ static int change_mode_callback(struct widget *pWidget)
       set_video_mode(640, 480, tmp_flags);
     }
   
+    gui_sdl_screen_width = Main.screen->w;
+    gui_sdl_screen_height = Main.screen->h;
+
     /* change setting label */
     if (Main.screen->flags & SDL_FULLSCREEN) {
       my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\nFullscreen %dx%d"),

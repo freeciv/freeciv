@@ -1011,10 +1011,7 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
   Main.gui = SDL_DisplayFormatAlpha(Main.screen);
   
   clear_surface(Main.gui, NULL);
-
-  gui_sdl_screen_width = Main.screen->w;
-  gui_sdl_screen_height = Main.screen->h;
-  
+ 
   return 0;
 }
 
