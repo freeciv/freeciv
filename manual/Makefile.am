@@ -19,10 +19,10 @@ civmanual_DEPENDENCIES = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
       ../server/generator/libgenerator.a
-civmanual_LDFLAGS = @GGZDMOD_LDFLAGS@
+civmanual_LDFLAGS = $(GGZDMOD_LDFLAGS)
 civmanual_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../ai/libcivai.a ../utility/libcivutility.a ../server/libcivserver.a \
-      @INTLLIBS@ ../client/helpdata.o \
+      $(INTLLIBS) ../client/helpdata.o \
       ../utility/libcivutility.a ../common/libcivcommon.a ../ai/libcivai.a \
       ../utility/libcivutility.a ../server/libcivserver.a \
       ../utility/libcivutility.a ../common/aicore/libaicore.a \
@@ -31,4 +31,4 @@ civmanual_LDADD        = ../utility/libcivutility.a ../common/libcivcommon.a \
       ../dependencies/lua/src/lib/liblualib.a \
       ../dependencies/tolua/libtolua.a \
       ../server/generator/libgenerator.a \
-      $(SERVER_LIBS) $(AUTH_LIBS) @LIB_GGZDMOD@
+      $(SERVER_LIBS) $(AUTH_LIBS) $(LIB_GGZDMOD)

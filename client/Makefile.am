@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 ## Below used to be just 
-##    SUBDIRS = @gui_sources@
+##    SUBDIRS = $(gui_sources)
 ## but that doesn't work properly for "make dist"
 
 if CLIENT_GUI_SDL
@@ -118,7 +118,7 @@ SUBDIRS = $(GUI_SUBDIR) $(CLI_INCLUDE) agents
 
 bin_PROGRAMS = civclient
 
-AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents @SOUND_CFLAGS@ @LIBGGZ_INCLUDES@ @GGZMOD_INCLUDES@ @GGZ_GTK_INCLUDES@
+AM_CPPFLAGS = -I$(top_srcdir)/utility -I$(srcdir)/include -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I../intl -I$(srcdir)/agents $(SOUND_CFLAGS) $(LIBGGZ_INCLUDES) $(GGZMOD_INCLUDES) $(GGZ_GTK_INCLUDES)
 
 ## Above, note -I../intl instead of -I$(top_srdir/intl) is deliberate.
 
@@ -186,16 +186,16 @@ civclient_SOURCES = $(ESD_FILES) $(SDL_FILES) $(ALSA_FILES) $(WINMM_FILES) \
 	audio_none.c    \
 	audio_none.h
 
-civclient_LDFLAGS = @CLIENT_LDFLAGS@ @GGZMOD_LDFLAGS@
+civclient_LDFLAGS = $(CLIENT_LDFLAGS) $(GGZMOD_LDFLAGS)
 fc_civclient_libs =	../utility/libcivutility.a	\
 			$(LIBFTWL)			\
 			../common/libcivcommon.a	\
 			../common/aicore/libaicore.a	\
 			agents/libagents.a		\
-		 	@gui_sources@/libguiclient.a
+		 	$(gui_sources)/libguiclient.a
 civclient_DEPENDENCIES = $(fc_civclient_libs)
 civclient_LDADD        = $(fc_civclient_libs) $(fc_civclient_libs) \
-	@INTLLIBS@ @CLIENT_LIBS@ @SOUND_LIBS@ @LIB_GGZMOD@
+	$(INTLLIBS) $(CLIENT_LIBS) $(SOUND_LIBS) $(LIB_GGZMOD)
 desktopfiledir = $(prefix)/share/applications
 desktopfile_DATA = \
 	freeciv.desktop

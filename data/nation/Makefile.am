@@ -2,7 +2,7 @@
 # Note: After adding a new nation file, 'make Makefile.am'
 
 ## Override automake so that "make install" puts these in proper place:
-pkgdatadir = $(datadir)/@PACKAGE@/nation
+pkgdatadir = $(datadir)/$(PACKAGE)/nation
 
 pkgdata_DATA = \
 		aborigines.ruleset \
