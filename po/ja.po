@@ -9057,7 +9057,7 @@ msgid "Progress: no research"
 msgstr "研究: なし"
 
 #: client/text.c:490
-#, c-format
+#, c-format,fuzzy
 msgid "Progress: %d turn/advance (%d pts/turn)"
 msgid_plural "Progress: %d turns/advance (%d pts/turn)"
 msgstr[0] "研究: %dターン/発見 (%dポイント/ターン)"
