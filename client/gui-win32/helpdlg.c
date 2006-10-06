@@ -52,9 +52,6 @@
 #define ID_HELP_IMPROVEMENT_LINK 112
 #define ID_HELP_WONDER_LINK 113
 
-/* HACK: we use a static string for convenience. */
-static char long_buffer[64000];
-
 extern HINSTANCE freecivhinst;
 extern HWND root_window;
 static HWND helpdlg_win;
@@ -96,7 +93,7 @@ char *help_ulabel_name[5][5] =
 char *help_tlabel_name[4][5] =
 {
     { N_("Move/Defense:"),   NULL, NULL, N_("Food/Res/Trade:"),   NULL },
-    { N_("Sp1 F/R/T:"),      NULL, NULL, N_("Sp2 F/R/T:"),        NULL },
+    { N_("Resources:"),      NULL, NULL, NULL                 ,   NULL },
     { N_("Road Rslt/Time:"), NULL, NULL, N_("Irrig. Rslt/Time:"), NULL },
     { N_("Mine Rslt/Time:"), NULL, NULL, N_("Trans. Rslt/Time:"), NULL }
 };                                 
@@ -431,7 +428,7 @@ void create_help_dialog()
 					   NULL,
 					   JUST_CLEANUP,
 					   NULL);
-  
+
   helpdlg_hbox=fcwin_hbox_new(helpdlg_win,FALSE);
   vbox=fcwin_vbox_new(helpdlg_win,FALSE);
   helpdlg_topic=fcwin_box_add_static(vbox,"",0,SS_LEFT,
@@ -559,8 +556,8 @@ static void help_update_wonder(const struct help_item *pitem,
 static void help_update_terrain(const struct help_item *pitem,
 				char *title, struct terrain *pterrain)
 {
-  char *buf = &long_buffer[0];
-  
+  char buf[64000];
+
   create_help_page(HELP_TERRAIN);
 
   if (pterrain) {
@@ -576,33 +573,18 @@ static void help_update_terrain(const struct help_item *pitem,
 	    pterrain->output[O_TRADE]);
     SetWindowText(help_tlabel[0][4], buf);
 
-    if (*(pterrain->special[0].name)) {
-      sprintf(buf, _("%s F/R/T:"),
-	      pterrain->special[0].name);
-      SetWindowText(help_tlabel[1][0], buf);
-      sprintf(buf, "%d/%d/%d",
-	      pterrain->special[0].output[O_FOOD],
-	      pterrain->special[0].output[O_SHIELD],
-	      pterrain->special[0].output[O_TRADE]);
-      SetWindowText(help_tlabel[1][1], buf);
+    buf[0] = '\0';
+    if (*(pterrain->resources)) {
+      const struct resource **r;
+      for (r = pterrain->resources; *r; r++) {
+       sprintf (buf + strlen (buf), " %s,", _((*r)->name));
+      }
+      buf[strlen (buf) - 1] = '.';
     } else {
-      SetWindowText(help_tlabel[1][0], " ");
-      SetWindowText(help_tlabel[1][1], " ");
+      /* TRANS: (none) as in "Resources: (none)". */
+      sprintf (buf + strlen (buf), _("(none)"));
     }
-
-    if (*(pterrain->special[1].name)) {
-      sprintf(buf, _("%s F/R/T:"),
-	      pterrain->special[1].name);
-      SetWindowText(help_tlabel[1][3], buf);
-      sprintf(buf, "%d/%d/%d",
-	      pterrain->special[1].output[O_FOOD],
-	      pterrain->special[1].output[O_SHIELD],
-	      pterrain->special[1].output[O_TRADE]);
-      SetWindowText(help_tlabel[1][4], buf);
-    } else {
-      SetWindowText(help_tlabel[1][3], " ");
-      SetWindowText(help_tlabel[1][4], " ");
-    }
+    SetWindowText(help_tlabel[1][1], buf);
 
     if (pterrain->road_trade_incr > 0) {
       sprintf(buf, _("+%d Trade / %d"),
@@ -654,7 +636,7 @@ static void help_update_terrain(const struct help_item *pitem,
     SetWindowText(help_tlabel[3][4], buf);
   }
 
-  helptext_terrain(buf, pterrain, pitem->text);
+  helptext_terrain(buf, sizeof(buf), pterrain, pitem->text);
   set_help_text(buf);
 }
 
@@ -701,7 +683,7 @@ static void help_draw_unit(HDC hdc, struct unit_type *utype)
 static void help_update_unit_type(const struct help_item *pitem,
 				  char *title, struct unit_type *utype)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
   create_help_page(HELP_UNIT);
 
   drawn_unit_type = utype;
@@ -720,7 +702,7 @@ static void help_update_unit_type(const struct help_item *pitem,
     sprintf(buf, "%d", utype->hp);
     SetWindowText(help_ulabel[2][4], buf);
     SetWindowText(help_ulabel[3][1], helptext_unit_upkeep_str(utype));
-    sprintf(buf, "%d", utype->vision_range);
+    sprintf(buf, "%d", utype->vision_radius_sq);
     SetWindowText(help_ulabel[3][4], buf);
     if(utype->tech_requirement==A_LAST) {
       SetWindowText(help_ulabel[4][1], _("(Never)"));
@@ -761,7 +743,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 {
   int j;
   struct fcwin_box *hbox;
-  char *buf= &long_buffer[0];
+  char buf[64000];
 
   create_help_page(HELP_TECH);
   if (!is_future_tech(i)) {
@@ -769,7 +751,7 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 	  create_tech_tree(GTK_CTREE(help_tree), i, TECH_TREE_DEPTH,
 	  TECH_TREE_EXPANDED_DEPTH, NULL);
     */
-    helptext_tech(buf, i, pitem->text);
+    helptext_tech(buf, sizeof(i), i, pitem->text);
     wordwrap_string(buf, 68);
     fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
 
@@ -855,12 +837,12 @@ static void help_update_tech(const struct help_item *pitem, char *title, int i)
 static void help_update_government(const struct help_item *pitem,
                                    char *title, struct government *gov)
 {
-  char *buf = &long_buffer[0];
+  char buf[64000];
  
   if (!gov) {
     strcat(buf, pitem->text);
   } else {
-    helptext_government(buf, gov, pitem->text);
+    helptext_government(buf, sizeof(buf), gov, pitem->text);
   }
   create_help_page(HELP_TEXT);
   set_help_text(buf);

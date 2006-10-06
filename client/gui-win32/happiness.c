@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -242,7 +242,7 @@ static void happiness_dialog_update_units(struct happiness_dlg *pdialog)
   struct city *pcity = pdialog->pcity;
   struct government *g = get_gov_pcity(pcity);
   int mlmax = get_city_bonus(pcity, EFT_MARTIAL_LAW_MAX);
-  int uhcfac = g->unit_happy_cost_factor;
+  int uhcfac = get_player_bonus(city_owner(pcity), EFT_UNHAPPY_FACTOR);
 
   my_snprintf(bptr, nleft, _("Units: "));
   bptr = end_of_strn(bptr, &nleft);

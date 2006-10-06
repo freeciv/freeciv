@@ -44,10 +44,11 @@
 #include "inputdlg.h"
 #include "mapview.h"
 #include "menu.h"
+#include "overview_common.h"
 #include "tilespec.h" 
 #include "text.h"
 
-#include "goto.h" 
+#include "goto.h"
 #include "mapctrl.h"
 #include "gui_main.h"
 
@@ -119,7 +120,7 @@ static void popit(int x, int y, struct tile *ptile)
   struct tile **cross_head = cross_list;
   int i;
   struct unit *punit;
-  
+
   if (popit_popup!=NULL) {
     DestroyWindow(popit_popup);
     popit_popup=NULL;

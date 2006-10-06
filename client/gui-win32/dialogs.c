@@ -22,7 +22,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <commctrl.h>
- 
+
 #include "capability.h"
 #include "fcintl.h"
 #include "game.h"
@@ -34,6 +34,7 @@
 #include "player.h"
 #include "rand.h"
 #include "support.h"
+#include "unitlist.h"
  
 #include "civclient.h"
 #include "clinet.h"
@@ -97,7 +98,7 @@ struct message_dialog {
   HWND label;
   HWND main;
   struct fcwin_box *vbox;
-  struct message_dialog_button *firstbutton; 
+  struct message_dialog_button *firstbutton;
 };
 
 static HWND races_dlg;
@@ -118,7 +119,7 @@ static int b_s_num; /* number of basic city styles, i.e. those that you can star
 
 
 
-int diplomat_dialog_open = 0;
+static HWND diplomat_dialog;
 int diplomat_id;
 int diplomat_target_id;
 static LONG APIENTRY msgdialog_proc(HWND hWnd,
@@ -205,7 +206,7 @@ static LONG CALLBACK notify_proc(HWND hWnd,
       break;
     case WM_CLOSE:
       DestroyWindow(hWnd);
-      
+
       break;
     case WM_COMMAND:
       if (LOWORD(wParam)==ID_NOTIFY_CLOSE)
@@ -349,7 +350,7 @@ static void do_select(HWND hWnd)
  
   ComboBox_GetText(GetDlgItem(hWnd,ID_RACESDLG_LEADER),
 		   name,MAX_LEN_NAME);
- 
+
   if (strlen(name) == 0) {
     append_output_window(_("You must type a legal name."));
     return;
@@ -482,7 +483,7 @@ static void populate_nation_listview(struct nation_group* group, HWND listview)
       continue;
     }
 
-    if (group != NULL && !nation_in_group(pnation, group->name)) {
+    if (group != NULL && !is_nation_in_group(pnation, group->name)) {
       continue;
     }
 
@@ -1070,17 +1071,26 @@ popup_caravan_dialog(struct unit *punit,
   
 }
 
-bool caravan_dialog_is_open(void)
+bool caravan_dialog_is_open( int* unit_id, int* city_id)
 {
-  return BOOL_VAL(caravan_dialog);          
+  return BOOL_VAL(caravan_dialog);
 }
+
+/****************************************************************
+  Updates caravan dialog
+****************************************************************/
+void caravan_dialog_update(void)
+{
+  /* PORT ME */
+}
+
 /****************************************************************
 ...
 *****************************************************************/
 static void diplomat_investigate_callback(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
  
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -1096,7 +1106,7 @@ static void diplomat_investigate_callback(HWND w, void * data)
 static void diplomat_steal_callback(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
  
   if(find_unit_by_id(diplomat_id) &&
      find_city_by_id(diplomat_target_id)) {
@@ -1112,7 +1122,7 @@ static void diplomat_steal_callback(HWND w, void * data)
 static void diplomat_sabotage_callback(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
  
   if(find_unit_by_id(diplomat_id) &&
      find_city_by_id(diplomat_target_id)) {
@@ -1126,7 +1136,7 @@ static void diplomat_sabotage_callback(HWND w, void * data)
 static void diplomat_embassy_callback(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
  
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -1153,7 +1163,7 @@ static void spy_sabotage_unit_callback(HWND w, void * data)
 static void spy_poison_callback(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
 
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -1266,7 +1276,7 @@ has happened to the city during latency.  Therefore we must initialize
 pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
   
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
   if(!spy_tech_dialog){
     HWND lb;
     struct fcwin_box *hbox;
@@ -1303,7 +1313,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 static void spy_request_sabotage_list(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
 
   if(find_unit_by_id(diplomat_id) &&
      (find_city_by_id(diplomat_target_id))) {
@@ -1524,7 +1534,7 @@ static void diplomat_incite_no_callback(HWND w, void * data)
 static void diplomat_incite_callback(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open = 0;
+  diplomat_dialog = 0;
 
   if (find_unit_by_id(diplomat_id) && find_city_by_id(diplomat_target_id)) {
     dsend_packet_city_incite_inq(&aconnection, diplomat_target_id);
@@ -1569,7 +1579,7 @@ void popup_incite_dialog(struct city *pcity)
 static void diplomat_cancel_callback(HWND w, void * data)
 {
   destroy_message_dialog(w);
-  diplomat_dialog_open=0;
+  diplomat_dialog=0;
 
   process_diplomat_arrival(NULL, 0);
 }
@@ -1627,7 +1637,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
  		_("Incite a _Revolt"), diplomat_incite_callback, 0,
  		_("_Cancel"), diplomat_cancel_callback, 0,
 		0);
- 
+
       if (!diplomat_can_do_action(punit, DIPLOMAT_EMBASSY, ptile))
        message_dialog_button_set_sensitive(shl,0,FALSE);
       if (!diplomat_can_do_action(punit, DIPLOMAT_INVESTIGATE, ptile))
@@ -1642,13 +1652,13 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
        message_dialog_button_set_sensitive(shl,5,FALSE);
      }
 
-    diplomat_dialog_open=1;
-   }else{ 
+    diplomat_dialog=shl;
+   }else{
      if ((ptunit = unit_list_get(ptile->units, 0))){
-       /* Spy/Diplomat acting against a unit */ 
-       
+       /* Spy/Diplomat acting against a unit */
+
        diplomat_target_id=ptunit->id;
- 
+
        shl=popup_message_dialog(root_window, /*"spybribedialog"*/_("Subvert Enemy Unit"),
                               (!unit_flag(punit, F_SPY))?
  			      _("Sir, the diplomat is waiting for your command"):
@@ -1657,7 +1667,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
  			      _("_Sabotage Enemy Unit"), spy_sabotage_unit_callback, 0,
  			      _("_Cancel"), diplomat_cancel_callback, 0,
  			      0);
-        
+
        if (!diplomat_can_do_action(punit, DIPLOMAT_BRIBE, ptile))
         message_dialog_button_set_sensitive(shl,0,FALSE);
        if (!diplomat_can_do_action(punit, SPY_SABOTAGE_UNIT, ptile))
@@ -1667,13 +1677,26 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
 }
 
 /****************************************************************
-...
+  Returns id of a diplomat currently handled in diplomat dialog
 *****************************************************************/
-bool diplomat_dialog_is_open(void)
+int diplomat_handled_in_diplomat_dialog(void)
 {
-  return diplomat_dialog_open;
+  if (diplomat_dialog == 0) {
+    return -1;
+  }
+  return diplomat_id;
 }
 
+/****************************************************************
+  Closes the diplomat dialog
+****************************************************************/
+void close_diplomat_dialog(void)
+{
+  if (diplomat_dialog != 0) {
+    destroy_message_dialog(diplomat_dialog);
+    diplomat_dialog = 0;
+  }
+}
 
 /**************************************************************************
 

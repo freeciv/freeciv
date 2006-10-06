@@ -30,6 +30,7 @@
 #include "packets.h"
 #include "shared.h"
 #include "support.h"
+#include "unitlist.h"
 
 #include "chatline_common.h"	/* send_chat() */ 
 #include "cityrep.h"
@@ -387,7 +388,7 @@ static LONG CALLBACK economy_proc(HWND hWnd,
 				WPARAM wParam,
 				LPARAM lParam) 
 {
-  
+
   switch(message)
     {
   
@@ -567,7 +568,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 			  ut1->name, ut2->name,
 			  unit_upgrade_price(game.player_ptr, ut1, ut2),
 			  game.player_ptr->economic.gold);    
-	      
+
 	      popup_message_dialog(NULL, 
 				   /*"upgradedialog"*/
 				   _("Upgrade Obsolete Units"), buf,
