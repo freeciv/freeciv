@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-06 11:56+0300\n"
-"PO-Revision-Date: 2006-10-06 13:41+0300\n"
+"PO-Revision-Date: 2006-10-06 15:46+0300\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -488,7 +488,7 @@ msgstr "Ühendumise/lahtiühendumise sõnumid"
 
 #: common/events.c:141
 msgid "AI Debug messages"
-msgstr "Tehisintellekti debug-sõnumid"
+msgstr "Tehisintellekti silumissõnumid"
 
 #: common/player.c:627
 msgid "?attitude:Genocidal"
@@ -2249,15 +2249,15 @@ msgstr ""
 
 #: server/commands.c:124
 msgid "Turn on or off AI debugging of given entity."
-msgstr "Lülita antud isendi tehisintellekti debugistamine sisse või välja."
+msgstr "Lülita antud isendi tehisintellekti silumine sisse või välja."
 
 #: server/commands.c:125
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
 msgstr ""
-"Näita antud isendi tehisintellekti debugistamise infot ja lülita pidev debugistamise "
-"väljund selle isendi kohta sisse või välja."
+"Näita antud isendi tehisintellekti silumisinfot ja lülita pidev silumisväljund "
+"selle isendi kohta sisse või välja."
 
 #: server/commands.c:129
 msgid "set <option-name> <value>"
@@ -2287,17 +2287,19 @@ msgstr ""
 
 #: server/commands.c:142
 msgid "rulesetdir <directory>"
-msgstr ""
+msgstr "rulesetdir <kataloog>"
 
 #: server/commands.c:143
 msgid "Choose new ruleset directory or modpack."
-msgstr ""
+msgstr "Vali uus reeglistik või modifikatsioon."
 
 #: server/commands.c:144
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
 msgstr ""
+"Vali uus reeglistik või modifikatsioon. Selle käivitamine\n"
+" ilma argumentideta näitab praegust reeglistikku."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:150
@@ -2327,6 +2329,9 @@ msgid ""
 "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
 "'metaconnection up' or 'metac u' brings the metaserver connection up."
 msgstr ""
+"'metaconnection ?' näitab metaserverisse ühendumise staatust.\n"
+"'metaconnection down' ehk 'metac d' ühendub metaserverist lahti.\n"
+"'metaconnection up' ehk 'metac up' ühendub metaserverisse."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:169
@@ -2349,11 +2354,11 @@ msgstr "Lülitab mängija AI-oleku."
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:179
 msgid "take [connection-name] <player-name>"
-msgstr ""
+msgstr "take [ühenduse-nimi] <mängija-nimi>"
 
 #: server/commands.c:180
 msgid "Take over a player's place in the game."
-msgstr ""
+msgstr "Võta mängija positsioon mängus endale."
 
 #: server/commands.c:181
 msgid ""
@@ -2363,11 +2368,15 @@ msgid ""
 "the connection does not already control a player, one is created and "
 "assigned to the connection."
 msgstr ""
+"Ainult konsool ja 'hack'-käsutasemega ühendused saavad sundida teisi "
+"ühendusi üle võtma mängijat. Kui sa pole üks neist, on ainult <mängija-nimi> "
+"lubatud argument.  Kui '-' on mängija nimeks antud ja see ühendus ei juhi juba "
+"mängijat, luuakse uus mängija ja antakse tollele ühendusele."
 
 #. TRANS: translate text between [] only
 #: server/commands.c:189
 msgid "observe [connection-name] [player-name]"
-msgstr ""
+msgstr "observe [ühenduse-nimi] [mängija-nimi]"
 
 #: server/commands.c:190
 msgid "Observe a player or the whole game."
@@ -2381,21 +2390,27 @@ msgid ""
 "the connection uses no arguments, then the connection is attached to a "
 "global observer."
 msgstr ""
+"Ainult konsool ja 'hack'-käsutasemega ühendused saavad sundida teisi "
+"ühendusi piiluma kedagi. Kui sa pole üks neist, on ainult [mängija-nimi] "
+"lubatud argument.  Kui konsool ei anna mängija nime või ühendus ei "
+"kasuta argumente, siis ühendus pannakse globaalse vaatleja külge."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:199
 msgid "detach <connection-name>"
-msgstr ""
+msgstr "detach <ühenduse-nimi>"
 
 #: server/commands.c:200
 msgid "detach from a player."
-msgstr ""
+msgstr "ühendub mängijast lahti."
 
 #: server/commands.c:201
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to detach from a player."
 msgstr ""
+"Ainult konsool ja 'hack'-käsutasemega ühendused saavad sundida teisi "
+"ühendusi ühenduma lahti mängijast."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:206
@@ -2416,14 +2431,16 @@ msgid ""
 "away\n"
 "away"
 msgstr ""
+"eemal\n"
+"eemal"
 
 #: server/commands.c:214
 msgid "Set yourself in away mode. The AI will watch your back."
-msgstr ""
+msgstr "Paneb su eemalolekurežiimi. Tehisintellekt hoolitseb su eest seni."
 
 #: server/commands.c:215
 msgid "The AI will govern your nation but do minimal changes."
-msgstr ""
+msgstr "Tehisintellekt võtab valitsuse üle, aga teeb minimaalselt muudatusi."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:219
@@ -2431,10 +2448,12 @@ msgid ""
 "novice\n"
 "novice <player-name>"
 msgstr ""
+"novice\n"
+"novice <mängija-nimi>"
 
 #: server/commands.c:221
 msgid "Set one or all AI players to 'novice'."
-msgstr "Märgib ühe või kõik AI mängijatest lihtsaks."
+msgstr "Märgib ühe või kõik tehisintellekti mängijatest lihtsaks."
 
 #: server/commands.c:222
 msgid ""
@@ -2454,7 +2473,7 @@ msgstr ""
 
 #: server/commands.c:230
 msgid "Set one or all AI players to 'easy'."
-msgstr "Märgib ühe või kõik AI mängijatest lihtsateks."
+msgstr "Märgib ühe või kõik tehisintellekti mängijatest lihtsateks."
 
 #: server/commands.c:231
 msgid ""
@@ -2469,10 +2488,12 @@ msgid ""
 "normal\n"
 "normal <player-name>"
 msgstr ""
+"normal\n"
+"normal <mängija-nimi>"
 
 #: server/commands.c:239
 msgid "Set one or all AI players to 'normal'."
-msgstr ""
+msgstr "Märgib ühe või kõik AI mängijatest normaalseteks."
 
 #: server/commands.c:240
 msgid ""
@@ -2487,10 +2508,12 @@ msgid ""
 "hard\n"
 "hard <player-name>"
 msgstr ""
+"hard\n"
+"hard <mängija-nimi>"
 
 #: server/commands.c:248
 msgid "Set one or all AI players to 'hard'."
-msgstr ""
+msgstr "Märgib ühe või kõik tehisintellekti mängijatest rasketeks."
 
 #: server/commands.c:249
 msgid ""
@@ -2505,10 +2528,12 @@ msgid ""
 "experimental\n"
 "experimental <player-name>"
 msgstr ""
+"experimental\n"
+"experimental <mängija-nimi>"
 
 #: server/commands.c:257
 msgid "Set one or all AI players to 'experimental'."
-msgstr "Märgib ühe või kõik AI mängijatest 'eksperimentaalseks'."
+msgstr "Märgib ühe või kõik AI mängijatest eksperimentaalseks."
 
 #: server/commands.c:258
 msgid ""
@@ -2685,12 +2710,12 @@ msgstr "Tervist, %s"
 #: server/connecthand.c:80
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr "Teretulemast %s serverisse %s port %d."
+msgstr "Tere tulemast %s serverisse %s port %d."
 
 #: server/connecthand.c:84
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr "Teretulemast %s serverisse pordil %d."
+msgstr "Tere tulemast %s serverisse pordil %d."
 
 #: server/connecthand.c:92
 #, c-format
@@ -4225,30 +4250,30 @@ msgid ""
 msgstr ""
 "Sama seeme annab alati sama kaardi. Nullväärtuse (vaikimisi) puhul "
 "valitakse arv olenevalt kellaajast, et tekiks juhuslik kaart. Seeda seadet "
-"kasutatakse tavaliselt ainult vigade otsimisel."
+"kasutatakse tavaliselt ainult silumisel."
 
 #: server/settings.c:373
 msgid "Game random seed"
 msgstr "Mängu juhuslikkuse seeme"
 
 #: server/settings.c:374
-#, fuzzy
 msgid ""
 "For zero (the default) a seed will be chosen based on the time. This setting "
 "is usually only of interest while debugging the game"
-msgstr "Null väärtuse (vaikimisi) korral valitakse seeme sõltuvalt kellaajast."
+msgstr ""
+"Nulli (vaikimisi) korral valitakse seeme kellaaja järgi. Seda seadet kasutatakse "
+"tavaliselt ainult mängu silumisel"
 
 #: server/settings.c:381
 msgid "Amount of \"special\" resource squares"
 msgstr "\"Spetsiaalsete\" resurssidega ruutude arv"
 
 #: server/settings.c:382
-#, fuzzy
 msgid ""
 "Special resources improve the basic terrain type they are on. The server "
 "variable's scale is parts per thousand."
 msgstr ""
-"Spetsiaalsed resurssid parendavad pinnatüüpi, millel nad on.  Serveri "
+"Spetsiaalsed resurssid parendavad pinnatüüpi, millel nad on. Serveri "
 "muutuja skaala ühik on tükki tuhande kohta."
 
 #: server/settings.c:389
@@ -4260,19 +4285,20 @@ msgid ""
 "This setting gives the exact number of huts that will be placed on the "
 "entire map. Huts are small tribal villages that may be investiged by units."
 msgstr ""
+"See säting annab täpse onnide arvu, mis kogu kaardile pannakse. Onnid "
+"on väikesed hõimude külad, mida üksused võivad uurida."
 
 #: server/settings.c:403
 msgid "Minimum number of players"
 msgstr "Minimaalne mängijate arv"
 
 #: server/settings.c:404
-#, fuzzy
 msgid ""
 "There must be at least this many players (connected human players or AI "
 "players) before the game can start."
 msgstr ""
-"Enne mängu algust peab olema vähemalt nii palju ühendatud (või arvuti "
-"juhitud) mängijaid."
+"Mängu alustamiseks peab olema vähemalt nii palju mängijaid (kas siis "
+"ühendunud inimesi või tehisintellekte)."
 
 #: server/settings.c:411
 msgid "Maximum number of players"
@@ -4284,25 +4310,23 @@ msgid ""
 "number of players are connected in the pregame state, any new players who "
 "try to connect will be rejected."
 msgstr ""
+""
 
 #: server/settings.c:420
-#, fuzzy
 msgid "Total number of players (including AI players)"
-msgstr "Mängijaid kokku (täidetakse AI-dega)"
+msgstr "Mängijate koguarv (koos tehisintellektidega)"
 
 #: server/settings.c:421
-#, fuzzy
 msgid ""
 "If set to a positive value, then AI players will be automatically created or "
 "removed to keep the total number of players at this amount."
 msgstr ""
-"Kui mängu alguses on sellest vähem mängijaid luuakse automaatselt AI "
-"mängijaid selle väärtuseni."
+"Kui seatud positiiksele väärtusele, luuakse või eemaldatakse tehismõistusi "
+"parajasti nii palju, et mängijate koguarv oleks see väärtus."
 
 #: server/settings.c:433
-#, fuzzy
 msgid "List of players' initial units"
-msgstr "Kohalolevate nimekiri"
+msgstr "Mängija algüksuste nimekiri"
 
 #: server/settings.c:434
 msgid ""
@@ -4325,9 +4349,8 @@ msgid "Area where initial units are located"
 msgstr "Ala, millel esialgsed üksused paiknevad"
 
 #: server/settings.c:452
-#, fuzzy
 msgid "This is the radius within which the initial units are dispersed."
-msgstr "See on pool ruudu küljepikkusest, millele üksused laiali jaotatakse."
+msgstr "See on raadius, mille piires hajutatakse algüksused."
 
 #: server/settings.c:458
 msgid "Starting gold per player"
@@ -4335,24 +4358,26 @@ msgstr "Kulda mängijale"
 
 #: server/settings.c:459
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr ""
+msgstr "Mängu alguses antakse igale mängijale nii palju kulda."
 
 #: server/settings.c:465
-#, fuzzy
 msgid "Number of initial techs per player"
-msgstr "Alguses antavate asunike hulk mängija kohta"
+msgstr "Algteaduste arv mängija kohta"
 
 #: server/settings.c:466
+#, fuzzy
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
 "The technologies chosen are random for each player. Depending on the value "
 "of tech_cost_style in the ruleset, a big value for techlevel can make the "
 "next techs really expensive."
 msgstr ""
+"Mängu alguses antakse igale mängijale nii mitu tehnoloogiat. "
+"Tehnoloogiad valitakse juhuslikult iga mängija puhul. "
 
 #: server/settings.c:475
 msgid "Technology cost multiplier percentage"
-msgstr ""
+msgstr "Tehnoloogia hinna kordaja protsent"
 
 #: server/settings.c:476
 #, fuzzy
@@ -4437,6 +4462,8 @@ msgid ""
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
 msgstr ""
+"See on toidu baaskogus, mis on vajalik linna kasvatamiseks. See väärtus "
+"korrutatakse läbi teise teguriga, mis tuleb reeglistikust ja sõltub linna suurusest."
 
 #: server/settings.c:536
 msgid "Percentage food lost when need aqueduct"
@@ -4460,10 +4487,12 @@ msgid ""
 "This affects how quickly units and buildings can be produced.  The base "
 "costs are multiplied by this value (as a percentage)."
 msgstr ""
+"See mõjutab üksuste ja ehitiste valmistamise kiirust.  Alushinda korrutatakse "
+"selle väärtusega (kui protsendiga)."
 
 #: server/settings.c:561
 msgid "Minimum city size to get full trade"
-msgstr ""
+msgstr "Linna miinimumsuurus täieliku kaubanduse saamiseks"
 
 #: server/settings.c:562
 msgid ""
@@ -4472,6 +4501,10 @@ msgid ""
 "to 0% (no penalty except the normal corruption) for size=fulltradesize. See "
 "also notradesize."
 msgstr ""
+"Kõik linnade mis on väiksemad kui see, saavad kaubandusetrahvi. Trahv on "
+"100% (polegi mingit kaubandust) kuni suuruseni notradesize ja väheneb "
+"sujuvalt 0%-ni (pole trahvi välja arvatud tavaline korruptsioon) suuruse "
+"fulltradesize korral. Vaata ka notradesize."
 
 #: server/settings.c:572
 msgid "Maximum size of a city without trade"
@@ -4489,13 +4522,12 @@ msgid "City size before people become unhappy"
 msgstr "Linna suurus enne rahvas õnnetuks muutumist"
 
 #: server/settings.c:583
-#, fuzzy
 msgid ""
 "Before other adjustments, the first unhappysize citizens in a city are "
 "content, and subsequent citizens are unhappy. See also cityfactor."
 msgstr ""
-"Enne muid muudatusi on esimesed 'unhappysize' elanikud linnas õnnelikud, "
-"ülejäänud õnnetud.  Vaata ka 'cityfactor'"
+"Enne muid muudatusi on esimesed 'unhappysize' elanikud linnas rahul, "
+"järgmised on õnnetud. Vaata ka 'cityfactor'."
 
 #: server/settings.c:591
 msgid "Number of cities for higher unhappiness"
@@ -4516,7 +4548,7 @@ msgstr ""
 
 #: server/settings.c:601
 msgid "Minimum distance between cities"
-msgstr ""
+msgstr "Minimaalne linnadevaheline kaugus"
 
 #: server/settings.c:602
 msgid ""
@@ -4525,6 +4557,10 @@ msgid ""
 "least two empty fields between two cities in every direction. If set to 0 "
 "(default), the ruleset value will be used."
 msgstr ""
+"Kui mängija asutab uue linna, kontrollitakse, ega muid linnu kaugusel "
+"'citymindist' ei ole. Näiteks, kui 'citymindist' on 3, kahe linna vahel peab "
+"vähemalt 2 tühja ruutu igas suunas olema. Kui see väärtus on 0 (vaikimisi), "
+"kasutatakse reeglistiku väärtust."
 
 #: server/settings.c:613
 msgid "Number of turns between rapture effect"
@@ -4839,8 +4875,9 @@ msgid ""
 "with debugging, a timeout of -1 sets the autogame test mode. Use this with "
 "the command \"timeoutincrease\" to have a dynamic timer."
 msgstr ""
-"Kui kõik mängijad pole vajutanud \"Käik Käidud\" enne kui niipalju sekundeid "
-"on käik kestnud lõpeb too automaatselt.  Null tähendab piiramatut aega."
+"Kui kõik mängijad pole vajutanud \"Käik sooritatud\" enne kui see aeg saab otsa, "
+"siis käik lõpeb automaatselt. Null tähendab ajalimiidi puudumist. Serveritel, mis "
+"kompileeritud silumise toega tähendab ajalimiit -1 "
 
 #: server/settings.c:878
 msgid "Timeout at least n seconds when enemy moved"
@@ -5235,9 +5272,9 @@ msgid "All players are ready; starting game."
 msgstr "Sellise nimega mängija on juba olemas."
 
 #: server/srv_main.c:1447 server/srv_main.c:1451
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as %s level AI-controlled player."
-msgstr "Mäng: %s liitus arvuti juhitud mängijana."
+msgstr "%s liideti kui %s arvuti juhitud mängijana."
 
 #: server/srv_main.c:1578
 #, c-format
@@ -5547,12 +5584,11 @@ msgstr ""
 #: server/stdinhand.c:1391
 #, c-format
 msgid "You already have command access level '%s' or better."
-msgstr ""
+msgstr "Sul on juba käsutase '%s' või parem."
 
 #: server/stdinhand.c:1396
-#, fuzzy
 msgid "Someone else already is game organizer."
-msgstr "Vabandust, keegi teine juba on sellise nimega."
+msgstr "Keegi teine on juba mängujuht."
 
 #: server/stdinhand.c:1401
 #, c-format
@@ -5575,7 +5611,7 @@ msgstr ""
 
 #: server/stdinhand.c:1527 server/stdinhand.c:1530
 msgid "Option:"
-msgstr ""
+msgstr "Valik:"
 
 #: server/stdinhand.c:1540 server/stdinhand.c:3808
 msgid "Description:"
@@ -5881,7 +5917,7 @@ msgstr ""
 #: server/stdinhand.c:2499 server/stdinhand.c:2525
 #, c-format
 msgid "Option: %s has been set to %d."
-msgstr ""
+msgstr "Valik: %s seati %d-ks."
 
 #: server/stdinhand.c:2512
 #, c-format
@@ -5895,7 +5931,7 @@ msgstr ""
 #: server/stdinhand.c:2547
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
-msgstr ""
+msgstr "Valik: %s seati \"%s\"."
 
 #: server/stdinhand.c:2588
 msgid "Sorry, one can't observe globally in this game."
@@ -6269,18 +6305,17 @@ msgid ", nation %s"
 msgstr ", rahvus %s"
 
 #: server/stdinhand.c:4054
-#, fuzzy, c-format
+#, c-format
 msgid ", team %s"
-msgstr " %s lähedal"
+msgstr ", meeskond %s"
 
 #: server/stdinhand.c:4058
-#, fuzzy
 msgid ", ready"
-msgstr ", Surnud"
+msgstr ", valmis"
 
 #: server/stdinhand.c:4060
 msgid ", not ready"
-msgstr ""
+msgstr ", pole valmis"
 
 #: server/stdinhand.c:4068
 #, c-format
@@ -6292,16 +6327,15 @@ msgstr[1] " %d ühendust:"
 #: server/stdinhand.c:4074
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
-msgstr ""
+msgstr " %s %s-ist (käsutase %s), puhver=%dkb"
 
 #: server/stdinhand.c:4079
 msgid " (observer mode)"
-msgstr ""
+msgstr " (vaatlejarežiim)"
 
 #: server/stdinhand.c:4097
-#, fuzzy
 msgid "List of teams:"
-msgstr "Mängijate nimekiri:"
+msgstr "Meeskondade nimekiri:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:4107
@@ -7769,7 +7803,7 @@ msgstr ""
 
 #: client/connectdlg_common.c:495
 msgid "We have control of the server (command access level hack)"
-msgstr ""
+msgstr "Meil on täielik võim serveri üle (käsutaseme häkk)"
 
 #: client/connectdlg_common.c:500
 msgid "We can't take control of server, attempting to kill it."
@@ -8599,9 +8633,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:102
-#, fuzzy
 msgid "Server"
-msgstr "mitte iialgi"
+msgstr "Server"
 
 #: client/options.c:103
 msgid ""
@@ -8610,9 +8643,8 @@ msgid ""
 msgstr ""
 
 #: client/options.c:108
-#, fuzzy
 msgid "Server port"
-msgstr "Teaduse raport"
+msgstr "Serveri port"
 
 #: client/options.c:109
 msgid ""
@@ -8941,12 +8973,12 @@ msgstr ""
 #: client/packhand.c:820
 #, c-format
 msgid "Start of turn %d"
-msgstr ""
+msgstr "Käigu %d algus"
 
 #: client/packhand.c:1534
 #, c-format
 msgid "AI Mode is now %s."
-msgstr ""
+msgstr "Tehisintellekti režiim on nüüd %s"
 
 #: client/packhand.c:1535
 msgid "ON"
@@ -10942,20 +10974,17 @@ msgid "Not _ready"
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1384 client/gui-gtk-2.0/pages.c:1573
-#, fuzzy
 msgid "_Ready"
-msgstr "Pane kõik valmis"
+msgstr "_Valmis"
 
 #: client/gui-gtk-2.0/gui_main.c:1388 client/gui-gtk-2.0/gui_main.c:1394
 #: client/gui-gtk-2.0/pages.c:2095
-#, fuzzy
 msgid "_Start"
-msgstr "Start"
+msgstr "_Alusta"
 
 #: client/gui-gtk-2.0/gui_main.c:1399 client/gui-gtk-2.0/pages.c:1563
-#, fuzzy
 msgid "Pick _Nation"
-msgstr "Politseimaja"
+msgstr "Vali _Rahvus"
 
 #: client/gui-gtk-2.0/gui_main.c:1401
 #, fuzzy
@@ -11001,23 +11030,20 @@ msgid "<Hard AI>"
 msgstr "Tehisintellekt"
 
 #: client/gui-gtk-2.0/gui_main.c:1454 client/gui-win32/dialogs.c:598
-#, fuzzy
 msgid "Random"
-msgstr "Raadio"
+msgstr "Juhuslik"
 
 #: client/gui-gtk-2.0/gui_main.c:1516
-#, fuzzy
 msgid "Observer"
-msgstr " (pealtvaataja)"
+msgstr "Vaatleja"
 
 #: client/gui-gtk-2.0/gui_main.c:1516
-#, fuzzy
 msgid "Detached"
-msgstr ", Surnud"
+msgstr "Lahti ühenduund"
 
 #: client/gui-gtk-2.0/gui_main.c:1786
 msgid "Are you sure you want to quit?"
-msgstr "Ära välju veel, Lähis-Ida jäi tsiviliseerimata!"
+msgstr "Ära välju veel, kogu maailm polegi sinu ideoloogiat täis."
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 #, c-format
@@ -12014,24 +12040,20 @@ msgid "_Toggle AI Mode"
 msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:208
-#, fuzzy
 msgid "Start _New Game"
 msgstr "Alusta uut mängu"
 
 #: client/gui-gtk-2.0/pages.c:214
-#, fuzzy
 msgid "Start _Scenario Game"
-msgstr "Alusta uut mängu"
+msgstr "Alusta uut s_tsenaariumi"
 
 #: client/gui-gtk-2.0/pages.c:220
-#, fuzzy
 msgid "_Load Saved Game"
-msgstr "Salvesta mäng"
+msgstr "_Lae salvestatud mäng"
 
 #: client/gui-gtk-2.0/pages.c:229
-#, fuzzy
 msgid "C_onnect to Network Game"
-msgstr "Ühenda siia"
+msgstr "Ühendu võrgumängu"
 
 #: client/gui-gtk-2.0/pages.c:236
 #, fuzzy
@@ -12181,23 +12203,20 @@ msgid "Put on %s"
 msgstr "Rahvaarv: %s"
 
 #: client/gui-gtk-2.0/pages.c:1410
-#, fuzzy
 msgid "_Number of Players (including AI):"
-msgstr "Arvuti juhitud mängijatega täitmisele kuuluv hulk"
+msgstr "_Mängijate arv (tehisintellekt kaasa arvatud):"
 
 #: client/gui-gtk-2.0/pages.c:1433
 msgid "_AI Skill Level:"
-msgstr ""
+msgstr "_Tehisintellekti tase:"
 
 #: client/gui-gtk-2.0/pages.c:1449
-#, fuzzy
 msgid "_Ruleset:"
-msgstr "_Vabasta linn"
+msgstr "_Reegsitik:"
 
 #: client/gui-gtk-2.0/pages.c:1457
-#, fuzzy
 msgid "More Game _Options..."
-msgstr "Teadete valikud..."
+msgstr "Rohkem mängu_valikuid..."
 
 #: client/gui-gtk-2.0/pages.c:1482
 #, fuzzy
@@ -12230,16 +12249,15 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:1740 client/gui-gtk-2.0/pages.c:1928
 #: client/gui-gtk-2.0/pages.c:2338
 msgid "_Browse..."
-msgstr ""
+msgstr "Lehitse..."
 
 #: client/gui-gtk-2.0/pages.c:1807
-#, fuzzy
 msgid "Choose a Scenario"
-msgstr "Vali enda mängija"
+msgstr "Vali stsenaarium"
 
 #: client/gui-gtk-2.0/pages.c:1889
 msgid "Choose a _Scenario:"
-msgstr ""
+msgstr "Vali _stsenaarium:"
 
 #: client/gui-gtk-2.0/pages.c:2054 client/gui-gtk-2.0/repodlgs.c:632
 #: client/gui-gtk-2.0/wldlg.c:1030 client/gui-mui/citydlg.c:633
@@ -15545,7 +15563,7 @@ msgstr "Kohtvõrk"
 #: client/gui-win32/connectdlg.c:894
 #, fuzzy
 msgid "Welcome to Freeciv"
-msgstr "Klient Freecivile"
+msgstr "Tere tulemast Freecivi"
 
 #: client/gui-win32/connectdlg.c:910
 msgid "Start New Game"
@@ -16184,11 +16202,12 @@ msgid ""
 msgstr ""
 
 #: manual/civmanual.c:211
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "Kirjeldus:"
+msgstr "<p>Kirjeldus:</p>\n"
+"\n"
 
 #: manual/civmanual.c:218
 #, c-format
@@ -16203,43 +16222,36 @@ msgid "Resources"
 msgstr ""
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Move cost"
-msgstr "Käike"
+msgstr "Käigu hind"
 
 #: manual/civmanual.c:222
-#, fuzzy
 msgid "Defense bonus"
-msgstr "Kaitse:"
+msgstr "Kaitseeelis"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "Mining"
-msgstr "viiking"
+msgstr "Kaevandamine"
 
 #: manual/civmanual.c:224
-#, fuzzy
 msgid "turns"
-msgstr "käik"
+msgstr "käiku[TÕLGIMIND]"
 
 #: manual/civmanual.c:226
-#, fuzzy
 msgid "Rail"
-msgstr "Raudtee"
+msgstr "Raudtee[TÕLGIMIND]"
 
 #: manual/civmanual.c:227
-#, fuzzy
 msgid "Clean pollution"
-msgstr "Puhasta reostusest"
+msgstr "Puhasta reostus"
 
 #: manual/civmanual.c:227
-#, fuzzy
 msgid "Clean fallout"
-msgstr "Puhasta reostusest"
+msgstr "Puhasta tuumajäätmed"
 
 #: manual/civmanual.c:259 manual/civmanual.c:268
 msgid "impossible"
-msgstr ""
+msgstr "võimatu"
 
 #: manual/civmanual.c:289
 #, c-format
@@ -16574,9 +16586,8 @@ msgstr ""
 "Kommentaar"
 
 #: data/Freeciv.in:3379
-#, fuzzy
 msgid "Start"
-msgstr "Start"
+msgstr "Alusta"
 
 #: data/helpdata.txt:38
 msgid ""
