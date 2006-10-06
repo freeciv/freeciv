@@ -31,6 +31,7 @@
 #include "rand.h"
 #include "support.h"
 #include "timing.h"
+#include "unitlist.h"
 #include "version.h"
 
 #include "canvas.h"
@@ -193,10 +194,10 @@ update_info_label(void)
 
 **************************************************************************/
 void
-update_unit_info_label(struct unit *punit)
+update_unit_info_label(struct unit_list *punitlist)
 {
-  SetWindowText(unit_info_frame, get_unit_info_label_text1(punit));
-  SetWindowText(unit_info_label, get_unit_info_label_text2(punit));
+  SetWindowText(unit_info_frame, get_unit_info_label_text1(punitlist));
+  SetWindowText(unit_info_label, get_unit_info_label_text2(punitlist));
 
   switch (hover_state) {
     case HOVER_NONE:

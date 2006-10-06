@@ -31,6 +31,7 @@
 #include "movement.h"
 #include "support.h"
 #include "unit.h"
+#include "unitlist.h"
  
 #include "chatline.h"
 #include "cityrep.h"
@@ -685,25 +686,28 @@ void handle_menu(int code)
 
 
     case IDM_ORDERS_BUILD_CITY:
-      if(get_unit_in_focus()) {
-	struct unit *punit = get_unit_in_focus();
-	/* Enable the button for adding to a city in all cases, so we
-	   get an eventual error message from the server if we try. */
-	if (can_unit_add_or_build_city(punit)) {
-	  key_unit_build_city();
-	} else {
-	  key_unit_build_wonder();
-	}
-      }
+      unit_list_iterate(get_units_in_focus(), punit) {
+        /* FIXME: this can provide different actions for different units...
+         * not good! */
+        /* Enable the button for adding to a city in all cases, so we
+         * get an eventual error message from the server if we try. */
+        if (can_unit_add_or_build_city(punit)) {
+          key_unit_build_city();
+        } else {
+          key_unit_build_wonder();
+        }
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_ROAD:
-      if (get_unit_in_focus()) {
-	if (unit_can_est_traderoute_here(get_unit_in_focus())) {
-	  key_unit_traderoute();
-	} else {
-	  key_unit_road();
-	}
-      }
+      unit_list_iterate(get_units_in_focus(), punit) {
+        /* FIXME: this can provide different actions for different units...
+         * not good! */
+        if (unit_can_est_traderoute_here(punit)) {
+          key_unit_traderoute();
+        } else {
+          key_unit_road();
+        }
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_IRRIGATE:
       key_unit_irrigate();
@@ -715,22 +719,29 @@ void handle_menu(int code)
       key_unit_transform();
       break;
     case IDM_ORDERS_FORTRESS:
-      if (get_unit_in_focus()) {
-	if (can_unit_do_activity(get_unit_in_focus(), ACTIVITY_FORTRESS)) {
-	  key_unit_fortress();
-	} else {
-	  key_unit_fortify();
-	}
-      }
+      unit_list_iterate(get_units_in_focus(), punit) {
+        /* FIXME: this can provide different actions for different units...
+         * not good! */
+        if (can_unit_do_activity(punit, ACTIVITY_FORTRESS)) {
+          key_unit_fortress();
+        } else {
+          key_unit_fortify();
+        }
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_AIRBASE:
       key_unit_airbase();
       break;
     case IDM_ORDERS_POLLUTION:
-      if (can_unit_paradrop(get_unit_in_focus()))
-	key_unit_paradrop();
-      else
-	key_unit_pollution();
+      unit_list_iterate(get_units_in_focus(), punit) {
+        /* FIXME: this can provide different actions for different units...
+         * not good! */
+        if (can_unit_paradrop(punit)) {
+          key_unit_paradrop();
+        } else {
+          key_unit_pollution();
+        }
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_FALLOUT:
       key_unit_fallout();
@@ -745,26 +756,22 @@ void handle_menu(int code)
       key_unit_homecity();
       break;
     case IDM_ORDERS_LOAD:
-      request_unit_load(get_unit_in_focus(), NULL);
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_load(punit, NULL);
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_UNLOAD:
-      if (get_unit_in_focus()) {
-	struct unit *punit = get_unit_in_focus();
-	if (can_unit_unload(punit, find_unit_by_id(punit->transported_by))
-	 && can_unit_exist_at_tile(punit, punit->tile)) {
-	  request_unit_unload(punit);
-	} else if (get_transporter_occupancy(punit) > 0) {
-	  key_unit_unload_all();
-	}
-      }
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_unload(punit);
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_WAKEUP_OTHERS:
       key_unit_wakeup_others();
       break;
     case IDM_ORDERS_AUTO_SETTLER:
-      if (get_unit_in_focus()) {
-	request_unit_autosettlers(get_unit_in_focus());
-      }
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_autosettlers(punit);
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_AUTO_EXPLORE:
       key_unit_auto_explore();
@@ -785,14 +792,14 @@ void handle_menu(int code)
       key_unit_goto();
       break;
     case IDM_ORDERS_GOTO_CITY:
-      if(get_unit_in_focus()) {
-	popup_goto_dialog();
+      if (get_num_units_in_focus() > 0) {
+        popup_goto_dialog();
       }
       break;
     case IDM_ORDERS_RETURN:
-      if (get_unit_in_focus()) {
-	request_unit_return(get_unit_in_focus());
-      }
+      unit_list_iterate(get_units_in_focus(), punit) {
+        request_unit_return(punit);
+      } unit_list_iterate_end;
       break;
     case IDM_ORDERS_DISBAND:
       key_unit_disband();
@@ -829,10 +836,10 @@ void handle_menu(int code)
       break;
     case IDM_REPORTS_WONDERS:
       send_report_request(REPORT_WONDERS_OF_THE_WORLD);
-      break;          
+      break;
     case IDM_REPORTS_TOP_CITIES:
       send_report_request(REPORT_TOP_5_CITIES);
-      break;       
+      break;
     case IDM_REPORTS_MESSAGES:
       popup_meswin_dialog(TRUE);
       break;
@@ -1064,7 +1071,7 @@ update_menus(void)
     }
 
 
-    my_enable_menu(menu, IDM_REPORTS_SPACESHIP, 
+    my_enable_menu(menu, IDM_REPORTS_SPACESHIP,
 		   (game.player_ptr->spaceship.state!=SSHIP_NONE));
 
     my_check_menu(menu, IDM_VIEW_MAP_GRID, draw_map_grid);
@@ -1086,7 +1093,7 @@ update_menus(void)
     my_check_menu(menu, IDM_VIEW_CITIES, draw_cities);
     my_check_menu(menu, IDM_VIEW_UNITS, draw_units);
     my_check_menu(menu, IDM_VIEW_FOCUS_UNIT, draw_focus_unit);
-    my_enable_menu(menu, IDM_VIEW_FOCUS_UNIT, !draw_units); 
+    my_enable_menu(menu, IDM_VIEW_FOCUS_UNIT, !draw_units);
     my_check_menu(menu, IDM_VIEW_FOG_OF_WAR, draw_fog_of_war);
 
     /* Remaining part of this function: Update Orders menu */
@@ -1095,7 +1102,7 @@ update_menus(void)
       return;
     }
 
-    if ((punit = get_unit_in_focus())) {
+    if ((punit = unit_list_get(get_units_in_focus(), 0))) {
       const char *irrfmt = _("Change to %s");
       const char *minfmt = _("Change to %s");
       const char *transfmt = _("Transform to %s");
@@ -1106,7 +1113,7 @@ update_menus(void)
       sz_strlcpy(irrtext, N_("Build Irrigation") "\tI");
       sz_strlcpy(mintext, N_("Build Mine") "\tM");
       sz_strlcpy(transtext, N_("Transform Terrain") "\tO");
-      
+
       /* Since the entire menu is disabled by default, enable the
 	 items with no checks. */
       my_enable_menu(menu, IDM_ORDERS_PATROL, TRUE);

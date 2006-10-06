@@ -59,11 +59,13 @@
 #include "gui_main.h"
 
 static enum {
-  LOGIN_TYPE, 
-  NEW_PASSWORD_TYPE, 
+  LOGIN_TYPE,
+  NEW_PASSWORD_TYPE,
   VERIFY_PASSWORD_TYPE,
   ENTER_PASSWORD_TYPE
 } dialog_config;
+
+extern void popup_settable_options_dialog(void);
 
 static HWND connect_dlg;
 static HWND start_dlg;
@@ -78,7 +80,6 @@ static HWND networkdlg_name;
 static HWND server_listview;
 static HWND lan_listview;
 
-static int autoconnect_timer_id;
 struct t_server_button {
   HWND button;
   char *button_string;
@@ -103,6 +104,7 @@ static int get_lanservers(HWND list);
 
 static int num_lanservers_timer = 0;
 
+struct server_scan *lan = NULL, *meta = NULL;
 
 /*************************************************************************
  configure the dialog depending on what type of authentication request the
@@ -343,7 +345,7 @@ static LONG CALLBACK connectdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
   Callback function for network subwindow messages
 **************************************************************************/
 static LONG CALLBACK networkdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
-				     LPARAM lParam)  
+				     LPARAM lParam)
 {
   LPNMHDR nmhdr;
   switch(message)
@@ -395,7 +397,7 @@ static LONG CALLBACK networkdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
     default:
       return DefWindowProc(hWnd, message, wParam, lParam); 
     }
-  return FALSE;  
+  return FALSE;
 }
 
 /**************************************************************************
@@ -498,11 +500,41 @@ static LONG CALLBACK playersdlg_proc(HWND hWnd, UINT message, WPARAM wParam,
 }
 
 /**************************************************************************
+  Callback function for when there's an error in the server scan.
+**************************************************************************/
+static void server_scan_error(struct server_scan *scan,
+			      const char *message)
+{
+  append_output_window(message);
+  freelog(LOG_NORMAL, "%s", message);
+  switch (server_scan_get_type(scan)) {
+  case SERVER_SCAN_LOCAL:
+    server_scan_finish(lan);
+    lan = NULL;
+    break;
+  case SERVER_SCAN_GLOBAL:
+    server_scan_finish(meta);
+    meta = NULL;
+    break;
+  case SERVER_SCAN_LAST:
+    break;
+  }
+}
+
+/**************************************************************************
  This function updates the list of LAN servers every 100 ms for 5 seconds. 
 **************************************************************************/
 static int get_lanservers(HWND list)
 {
-  struct server_list *server_list = get_lan_server_list();
+  struct server_list *server_list = NULL;
+
+  if (lan) {
+    server_list = server_scan_get_servers(lan);
+    if (!server_list) {
+      return -1;
+    }
+  }
+
   char *row[6];
 
   if (server_list != NULL) {
@@ -531,7 +563,7 @@ static int get_lanservers(HWND list)
 
   num_lanservers_timer++;
   if (num_lanservers_timer == 50) {
-    finish_lanserver_scan();
+    server_scan_finish(lan);
     num_lanservers_timer = 0;
     return 0;
   }
@@ -541,13 +573,23 @@ static int get_lanservers(HWND list)
 /**************************************************************************
 
  *************************************************************************/
-static int get_meta_list(HWND list, char *errbuf, int n_errbuf)
+static int get_meta_list(HWND list)
 {
   int i;
   char *row[6];
   char  buf[6][64];
 
-  struct server_list *server_list = create_server_list(errbuf, n_errbuf);
+  struct server_list *server_list = NULL;
+
+  if (meta) {
+    for (i = 0; i < 100; i++) {
+      server_list = server_scan_get_servers(meta);
+      if (server_list) {
+        break;
+      }
+      Sleep(100);
+    }
+  }
 
   if (!server_list) {
     return -1;
@@ -567,15 +609,13 @@ static int get_meta_list(HWND list, char *errbuf, int n_errbuf)
     sz_strlcpy(buf[5], pserver->message);
     fcwin_listview_add_row(list, 0, 6, row);
   } server_list_iterate_end;
-  
+
   ListView_SetColumnWidth(list, 0, LVSCW_AUTOSIZE);
   ListView_SetColumnWidth(list, 1, LVSCW_AUTOSIZE);
   ListView_SetColumnWidth(list, 2, LVSCW_AUTOSIZE);
   ListView_SetColumnWidth(list, 3, LVSCW_AUTOSIZE);
   ListView_SetColumnWidth(list, 4, LVSCW_AUTOSIZE);
   ListView_SetColumnWidth(list, 5, LVSCW_AUTOSIZE);
-
-  delete_server_list(server_list);
 
   return 0;
 }
@@ -624,14 +664,18 @@ static LONG CALLBACK tabs_page_proc(HWND dlg, UINT message, WPARAM wParam,
       break;
     case WM_COMMAND:
       if (LOWORD(wParam)==IDOK) {
-	char errbuf[128];
 	if (TabCtrl_GetCurSel(tab_ctrl) == 2) {
+          if (!lan) {
+            lan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+          }
 	  get_lanservers(lan_listview);
 	} else {
-	  if (get_meta_list(server_listview, errbuf, sizeof(errbuf)) == -1) {
-	    append_output_window(errbuf);
-	  }
-	}
+          if (!meta) {
+            meta = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+          }
+          Sleep(500);
+	  get_meta_list(server_listview);
+      	}
       }
       break;
     case WM_NOTIFY:
@@ -842,6 +886,15 @@ static void cdlg_minsize(POINT *size, void *data)
 **************************************************************************/
 static void cdlg_del(void *data)
 {
+  if (lan) {
+    server_scan_finish(lan);
+    lan = NULL;
+  }
+  if (meta) {
+    server_scan_finish(meta);
+    meta = NULL;
+  }
+
   DestroyWindow(network_dlg);
   DestroyWindow(start_dlg);
   DestroyWindow(players_dlg);
